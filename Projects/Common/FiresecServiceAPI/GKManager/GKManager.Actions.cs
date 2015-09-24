@@ -221,7 +221,7 @@ namespace FiresecClient
 			}
 			zone.OnChanged();
 		}
-		
+
 		/// <summary>
 		/// Adds specified Delay.
 		/// </summary>
@@ -251,17 +251,31 @@ namespace FiresecClient
 			direction.OnChanged();
 			direction.OnRemoved();
 		}
-		
+
 		public static void ChangeLogic(GKDevice device, GKLogic logic)
 		{
-			
+
 			device.Logic = logic;
 			DeviceConfiguration.InvalidateOneLogic(device, device.Logic);
 			device.OnChanged();
 		}
 
-		public static void ChangeDriver(GKDevice device, GKDriver driver)
+		public static bool ChangeDriver(GKDevice device, GKDriver driver)
 		{
+			var kauShleifParent = device.KAUShleifParent;
+			if (kauShleifParent != null)
+			{
+				var maxAddress = 0;
+				if (kauShleifParent.Children.Count > 0)
+				{
+					maxAddress = kauShleifParent.Children.Max(x => x.IntAddress);
+				}
+				if (maxAddress + (driver.GroupDeviceChildrenCount > 0 ? driver.GroupDeviceChildrenCount : 1) - 1 > 255)
+				{
+					return false;
+				}
+			}
+
 			var changeZone = !(device.Driver.HasZone && driver.HasLogic);
 			device.Driver = driver;
 			device.DriverUID = driver.UID;
@@ -272,7 +286,6 @@ namespace FiresecClient
 			if (driver.IsGroupDevice)
 			{
 				var groupDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
-
 				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
 				{
 					var autoDevice = GKManager.AddChild(device, null, groupDriver, (byte)(device.IntAddress + i));
@@ -285,6 +298,7 @@ namespace FiresecClient
 				ChangeLogic(device, new GKLogic());
 			}
 			device.Properties = new List<GKProperty>();
+			return true;
 		}
 
 		public static void RemoveSKDZone(GKSKDZone zone)

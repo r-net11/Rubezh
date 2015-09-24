@@ -225,6 +225,8 @@ namespace GKModule.ViewModels
 					{
 						var pasteDevice = GKManager.CopyDevice(deviceToCopy, isCut);
 						var device = PasteDevice(pasteDevice);
+						if (device == null)
+							break;
 						device.UID = pasteDevice.UID;
 						if (device != null)
 						{
@@ -290,8 +292,13 @@ namespace GKModule.ViewModels
 				if (allChildren.Count > 0)
 					maxAddress = allChildren.Max(x => x.IntAddress);
 
-				if (maxAddress >= 255)
+				var realDevicesCount = device.AllChildrenAndSelf.Count(x => x.IsRealDevice);
+
+				if (maxAddress + realDevicesCount > 255)
+				{
+					MessageBoxService.ShowWarning("Адрес устройства не может превышать 255");
 					return null;
+				}
 
 				if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU_Shleif || SelectedDevice.Device.DriverType == GKDriverType.RSR2_MVP_Part)
 				{

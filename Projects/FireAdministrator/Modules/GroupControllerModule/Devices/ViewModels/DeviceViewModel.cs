@@ -831,7 +831,11 @@ namespace GKModule.ViewModels
 			{
 				if (Device.DriverType != value.DriverType)
 				{
-					GKManager.ChangeDriver(Device, value);
+					if(!GKManager.ChangeDriver(Device, value))
+					{
+						MessageBoxService.ShowWarning("Невозможно сменить тип устройства");
+						return;
+					}
 					Device.OnRemoved();
 					Nodes.Clear();
 					foreach (var childDevice in Device.Children)
