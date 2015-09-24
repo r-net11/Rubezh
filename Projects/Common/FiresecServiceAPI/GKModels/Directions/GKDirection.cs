@@ -50,10 +50,7 @@ namespace FiresecAPI.GK
 
 			Logic.GetObjects().ForEach(x =>
 			{
-				if (!InputDependentElements.Contains(x) && x != this)
-					InputDependentElements.Add(x);
-				if (!x.OutDependentElements.Contains(this) && x != this)
-					x.OutDependentElements.Add(this);
+				AddDependentElement(x);
 			});
 		}
 

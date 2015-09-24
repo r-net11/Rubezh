@@ -55,17 +55,11 @@ namespace FiresecAPI.GK
 				UpdateLogic();
 				Logic.GetObjects().ForEach(x =>
 				{
-					if (!InputDependentElements.Contains(x) && x != this)
-						InputDependentElements.Add(x);
-					if (!x.OutDependentElements.Contains(this) && x != this)
-						x.OutDependentElements.Add(this);
+					AddDependentElement(x);
 				});
 				NSLogic.GetObjects().ForEach(x =>
 				{
-					if (!InputDependentElements.Contains(x) && x != this)
-						InputDependentElements.Add(x);
-					if (!x.OutDependentElements.Contains(this) && x != this)
-						x.OutDependentElements.Add(this);
+					AddDependentElement(x);
 				});
 			}
 			if (Driver.HasZone)
@@ -80,12 +74,9 @@ namespace FiresecAPI.GK
 					{
 						zones.Add(zone);
 						zoneUIDs.Add(zoneUID);
-						if (!zone.OutDependentElements.Contains(this))
-							zone.OutDependentElements.Add(this);
-						if (!InputDependentElements.Contains(zone))
-						{
-							InputDependentElements.Add(zone);
-						}
+						if (!zone.Devices.Contains(this))
+							zone.Devices.Add(this);
+						AddDependentElement(zone);
 					}
 				}
 				Zones = zones;
@@ -103,12 +94,7 @@ namespace FiresecAPI.GK
 					{
 						guardZones.Add(guardZone);
 						guardZoneUIDs.Add(guardZoneUID);
-						if (!guardZone.OutDependentElements.Contains(this))
-							guardZone.OutDependentElements.Add(this);
-						if (!InputDependentElements.Contains(guardZone))
-						{
-							InputDependentElements.Add(guardZone);
-						}
+						AddDependentElement(guardZone);
 					}
 				}
 				GuardZones = guardZones;

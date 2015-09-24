@@ -139,7 +139,7 @@ namespace GKModule.ViewModels
 
 		public bool IsInPumpStation
 		{
-			get { return Device != null && GKManager.PumpStations.Any(x => x.NSDevices.Contains(Device)); }
+			get { return Device != null && GKManager.PumpStations.Any(x => x.NSDeviceUIDs.Contains(Device.UID)); }
 		}
 
 		public string Address

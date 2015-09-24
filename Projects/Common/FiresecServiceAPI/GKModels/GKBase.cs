@@ -138,7 +138,14 @@ namespace FiresecAPI.GK
 				});
 			InputDependentElements = new List<GKBase>();
 			this.Invalidate();
-			//InputDependentElements.ForEach(x => x.OnChanged());
+		}
+
+		public void AddDependentElement(GKBase gkBase)
+		{
+			if (!InputDependentElements.Contains(gkBase) && gkBase != this)
+				InputDependentElements.Add(gkBase);
+			if (!gkBase.OutDependentElements.Contains(this) && gkBase != this)
+				gkBase.OutDependentElements.Add(this);		
 		}
 
 		public virtual string GetGKDescriptorName(GKNameGenerationType gkNameGenerationType)

@@ -62,46 +62,28 @@ namespace FiresecAPI.GK
 		public override void Invalidate()
 		{
 			var nsDevicesUIDs = new List<Guid>();
+			NSDevices = new List<GKDevice>();
 			foreach (var NSDevicesUID in NSDeviceUIDs)
 			{
 				var device = GKManager.Devices.FirstOrDefault(x => x.UID == NSDevicesUID);
 				if (device != null)
 				{
 					nsDevicesUIDs.Add(NSDevicesUID);
-					if (!device.OutDependentElements.Contains(this))
-						device.OutDependentElements.Add(this);
-					if (!InputDependentElements.Contains(device))
-						InputDependentElements.Add(device);
-
+					NSDevices.Add(device);
+					AddDependentElement(device);
 				}
 			}
 
 			NSDeviceUIDs = nsDevicesUIDs;
 
 			UpdateLogic();
-			StartLogic.GetObjects().ForEach(x =>
-			{
-				if (!InputDependentElements.Contains(x) && x != this)
-					InputDependentElements.Add(x);
-				if (!x.OutDependentElements.Contains(this) && x != this)
-					x.OutDependentElements.Add(this);
-			});
 
-			StopLogic.GetObjects().ForEach(x =>
-			{
-				if (!InputDependentElements.Contains(x) && x != this)
-					InputDependentElements.Add(x);
-				if (!x.OutDependentElements.Contains(this) && x != this)
-					x.OutDependentElements.Add(this);
-			});
+			StartLogic.GetObjects().ForEach(x => AddDependentElement(x));
+			
+			StopLogic.GetObjects().ForEach(x => AddDependentElement(x));
 
-			AutomaticOffLogic.GetObjects().ForEach(x =>
-			{
-				if (!InputDependentElements.Contains(x) && x != this)
-					InputDependentElements.Add(x);
-				if (!x.OutDependentElements.Contains(this) && x != this)
-					x.OutDependentElements.Add(this);
-			});
+			AutomaticOffLogic.GetObjects().ForEach(x => AddDependentElement(x));
+			
 		}
 
 		public override void UpdateLogic()

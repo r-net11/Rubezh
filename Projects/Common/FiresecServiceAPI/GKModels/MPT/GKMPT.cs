@@ -45,13 +45,7 @@ namespace FiresecAPI.GK
 				{
 					mptDevice.Device = device;
 					device.IsInMPT = true;
-					if (!device.OutDependentElements.Contains(this))
-						device.OutDependentElements.Add(this);
-
-					if (!InputDependentElements.Contains(device))
-					{
-						InputDependentElements.Add(device);
-					}
+					AddDependentElement(device);
 				}
 			}
 
@@ -59,10 +53,7 @@ namespace FiresecAPI.GK
 
 			MptLogic.GetObjects().ForEach(x =>
 			{
-				if (!InputDependentElements.Contains(x) && x != this)
-					InputDependentElements.Add(x);
-				if (!x.OutDependentElements.Contains(this) && x != this)
-					x.OutDependentElements.Add(this);
+				AddDependentElement(x);
 			});
 		}
 

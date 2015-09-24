@@ -64,27 +64,12 @@ namespace FiresecAPI.GK
 		public override void Invalidate()
 		{
 			UpdateLogic();
-			OpenRegimeLogic.GetObjects().ForEach(x =>
-			{
-				if (!InputDependentElements.Contains(x) && x != this)
-					InputDependentElements.Add(x);
-				if (!x.OutDependentElements.Contains(this) && x != this)
-					x.OutDependentElements.Add(this);
-			});
-			NormRegimeLogic.GetObjects().ForEach(x =>
-			{
-				if (!InputDependentElements.Contains(x) && x != this)
-					InputDependentElements.Add(x);
-				if (!x.OutDependentElements.Contains(this) && x != this)
-					x.OutDependentElements.Add(this);
-			});
-			CloseRegimeLogic.GetObjects().ForEach(x =>
-			{
-				if (!InputDependentElements.Contains(x) && x != this)
-					InputDependentElements.Add(x);
-				if (!x.OutDependentElements.Contains(this) && x != this)
-					x.OutDependentElements.Add(this);
-			});
+			OpenRegimeLogic.GetObjects().ForEach(x => AddDependentElement(x));
+
+			NormRegimeLogic.GetObjects().ForEach(x => AddDependentElement(x));
+		
+			CloseRegimeLogic.GetObjects().ForEach(x => AddDependentElement(x));
+		
 
 			if (EnterDeviceUID != Guid.Empty)
 			{
@@ -94,10 +79,7 @@ namespace FiresecAPI.GK
 				else
 				{
 					EnterDevice.Door = this;
-					if (!EnterDevice.OutDependentElements.Contains(this))
-						EnterDevice.OutDependentElements.Add(this);
-					if (!InputDependentElements.Contains(EnterDevice))
-						InputDependentElements.Add(EnterDevice);
+					AddDependentElement(EnterDevice);
 				}
 			}
 
@@ -109,10 +91,7 @@ namespace FiresecAPI.GK
 				else
 				{
 					ExitDevice.Door = this;
-					if (!ExitDevice.OutDependentElements.Contains(this))
-						ExitDevice.OutDependentElements.Add(this);
-					if (!InputDependentElements.Contains(ExitDevice))
-						InputDependentElements.Add(ExitDevice);
+					AddDependentElement(ExitDevice);
 				}
 			}
 
@@ -126,10 +105,7 @@ namespace FiresecAPI.GK
 					else
 					{
 						EnterButton.Door = this;
-						if (!EnterButton.OutDependentElements.Contains(this))
-							EnterButton.OutDependentElements.Add(this);
-						if (!InputDependentElements.Contains(EnterButton))
-							InputDependentElements.Add(EnterButton);
+						AddDependentElement(EnterButton);
 					}
 				}
 				if (ExitButtonUID != Guid.Empty)
@@ -140,10 +116,7 @@ namespace FiresecAPI.GK
 					else
 					{
 						ExitButton.Door = this;
-						if (!ExitButton.OutDependentElements.Contains(this))
-							ExitButton.OutDependentElements.Add(this);
-						if (!InputDependentElements.Contains(ExitButton))
-							InputDependentElements.Add(ExitButton);
+						AddDependentElement(ExitButton);
 					}
 				}
 				if (LockControlDeviceUID != Guid.Empty)
@@ -154,10 +127,7 @@ namespace FiresecAPI.GK
 					else
 					{
 						LockControlDevice.Door = this;
-						if (!LockControlDevice.OutDependentElements.Contains(this))
-							LockControlDevice.OutDependentElements.Add(this);
-						if (!InputDependentElements.Contains(LockControlDevice))
-							InputDependentElements.Add(LockControlDevice);
+						AddDependentElement(LockControlDevice);
 					}
 				}
 				if (LockControlDeviceExitUID != Guid.Empty)
@@ -168,10 +138,7 @@ namespace FiresecAPI.GK
 					else
 					{
 						LockControlDeviceExit.Door = this;
-						if (!LockControlDeviceExit.OutDependentElements.Contains(this))
-							LockControlDeviceExit.OutDependentElements.Add(this);
-						if (!InputDependentElements.Contains(LockControlDeviceExit))
-							InputDependentElements.Add(LockControlDeviceExit);
+						AddDependentElement(LockControlDeviceExit);
 					}
 				}
 			}
@@ -200,10 +167,7 @@ namespace FiresecAPI.GK
 					else
 					{
 						LockDevice.Door = this;
-						if (!LockDevice.OutDependentElements.Contains(this))
-							LockDevice.OutDependentElements.Add(this);
-						if (!InputDependentElements.Contains(LockDevice))
-							InputDependentElements.Add(LockDevice);
+						AddDependentElement(LockDevice);
 					}
 				}
 				if (LockDeviceExitUID != Guid.Empty)
@@ -214,10 +178,7 @@ namespace FiresecAPI.GK
 					else
 					{
 						LockDeviceExit.Door = this;
-						if (!LockDeviceExit.OutDependentElements.Contains(this))
-							LockDeviceExit.OutDependentElements.Add(this);
-						if (!InputDependentElements.Contains(LockDeviceExit))
-							InputDependentElements.Add(LockDeviceExit);
+						AddDependentElement(LockDeviceExit);
 					}
 				}
 			}
@@ -241,10 +202,7 @@ namespace FiresecAPI.GK
 					else
 					{
 						LockDevice.Door = this;
-						if (!LockDevice.OutDependentElements.Contains(this))
-							LockDevice.OutDependentElements.Add(this);
-						if (!InputDependentElements.Contains(LockDevice))
-							InputDependentElements.Add(LockDevice);
+						AddDependentElement(LockDevice);
 					}
 				}
 
@@ -256,10 +214,7 @@ namespace FiresecAPI.GK
 					else
 					{
 						LockControlDevice.Door = this;
-						if (!LockControlDevice.OutDependentElements.Contains(this))
-							LockControlDevice.OutDependentElements.Add(this);
-						if (!InputDependentElements.Contains(LockControlDevice))
-							InputDependentElements.Add(LockControlDevice);
+						AddDependentElement(LockControlDevice);
 					}
 				}
 			}

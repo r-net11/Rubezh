@@ -35,6 +35,7 @@ namespace GKModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			ZoneDevices = new GuardZoneDevicesViewModel();
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
+			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 
 			Current = this;
 			Menu = new GuardZonesMenuViewModel(this);
@@ -191,6 +192,17 @@ namespace GKModule.ViewModels
 				guardZoneDetailsViewModel.Zone.OutDependentElements.ForEach(x => x.OnChanged());
 				guardZoneDetailsViewModel.Zone.OnChanged();
 				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public RelayCommand ShowDependencyItemsCommand { get; set; }
+
+		void ShowDependencyItems()
+		{
+			if (SelectedZone.Zone != null)
+			{
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedZone.Zone.OutDependentElements);
+				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}
 
