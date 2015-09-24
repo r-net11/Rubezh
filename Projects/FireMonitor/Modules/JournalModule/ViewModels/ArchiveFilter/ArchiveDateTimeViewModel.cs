@@ -23,14 +23,15 @@ namespace JournalModule.ViewModels
 			SelectedArchiveDefaultStateType = ClientSettings.ArchiveDefaultState.ArchiveDefaultStateType;
 			Count = ClientSettings.ArchiveDefaultState.Count;
 			UseDeviceDateTime = ClientSettings.ArchiveDefaultState.UseDeviceDateTime;
+			IsSortAsc = ClientSettings.ArchiveDefaultState.IsSortAsc;
 
 			if (ArchiveFirstDate < ClientSettings.ArchiveDefaultState.StartDate)
-			StartDateTime = new DateTimePairViewModel(ClientSettings.ArchiveDefaultState.StartDate);
+				StartDateTime = new DateTimePairViewModel(ClientSettings.ArchiveDefaultState.StartDate);
 			else
 				StartDateTime = new DateTimePairViewModel(ArchiveFirstDate);
 
 			if (ArchiveFirstDate < ClientSettings.ArchiveDefaultState.EndDate)
-			EndDateTime = new DateTimePairViewModel(ClientSettings.ArchiveDefaultState.EndDate);
+				EndDateTime = new DateTimePairViewModel(ClientSettings.ArchiveDefaultState.EndDate);
 			else
 				EndDateTime = new DateTimePairViewModel(NowDate);
 		}
@@ -75,6 +76,17 @@ namespace JournalModule.ViewModels
 			{
 				useDeviceDateTime = value;
 				OnPropertyChanged(() => UseDeviceDateTime);
+			}
+		}
+
+		bool _IsSortAsc;
+		public bool IsSortAsc
+		{
+			get { return _IsSortAsc; }
+			set
+			{
+				_IsSortAsc = value;
+				OnPropertyChanged(() => IsSortAsc);
 			}
 		}
 
@@ -166,6 +178,7 @@ namespace JournalModule.ViewModels
 			ClientSettings.ArchiveDefaultState.EndDate = EndDateTime.DateTime;
 			ClientSettings.ArchiveDefaultState.Count = Count;
 			ClientSettings.ArchiveDefaultState.UseDeviceDateTime = UseDeviceDateTime;
+			ClientSettings.ArchiveDefaultState.IsSortAsc = IsSortAsc;
 		}
 	}
 }

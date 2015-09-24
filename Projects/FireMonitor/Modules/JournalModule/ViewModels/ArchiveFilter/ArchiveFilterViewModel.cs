@@ -13,8 +13,7 @@ namespace JournalModule.ViewModels
 		public ArchiveDateTimeViewModel ArchiveDateTimeViewModel { get; private set; }
 		public FilterNamesViewModel FilterNamesViewModel { get; private set; }
 		public FilterObjectsViewModel FilterObjectsViewModel { get; private set; }
-		public SortTypeViewModel SortTypeViewModel { get; private set; }
-
+		
 		public ArchiveFilterViewModel(ArchiveFilter filter)
 		{
 			Title = "Настройки фильтра";
@@ -27,7 +26,7 @@ namespace JournalModule.ViewModels
 			ArchiveDateTimeViewModel = new ArchiveDateTimeViewModel();
 			FilterNamesViewModel = new FilterNamesViewModel(filter);
 			FilterObjectsViewModel = new FilterObjectsViewModel(filter);
-			SortTypeViewModel = new SortTypeViewModel(filter);
+			
 		}
 
 		void Initialize(ArchiveFilter filter)
@@ -42,8 +41,6 @@ namespace JournalModule.ViewModels
 			var objectsFilter = FilterObjectsViewModel.GetModel();
 			archiveFilter.JournalObjectTypes = objectsFilter.JournalObjectTypes;
 			archiveFilter.ObjectUIDs = objectsFilter.ObjectUIDs;
-			archiveFilter.SortType = SortTypeViewModel.SelectedSortType;
-			archiveFilter.IsSortAsc = SortTypeViewModel.IsSortAsc;
 			return archiveFilter;
 		}
 

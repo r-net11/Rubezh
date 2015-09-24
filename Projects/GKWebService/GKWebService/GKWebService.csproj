@@ -415,6 +415,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\ArchiveController.cs" />
+    <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HrController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
@@ -426,6 +427,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="JournalItemViewModel.cs" />
+    <Compile Include="Models\EmployeeModel.cs" />
     <Compile Include="Models\PlanElement.cs" />
     <Compile Include="Models\PlanSimpl.cs" />
     <Compile Include="Models\ReportModel.cs" />
@@ -458,6 +460,7 @@
     <Content Include="Views\Hr\AccessTemplates.cshtml" />
     <Content Include="Views\Hr\PassCardTemplates.cshtml" />
     <Content Include="Views\Hr\Organisations.cshtml" />
+    <Content Include="Views\Employees\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
