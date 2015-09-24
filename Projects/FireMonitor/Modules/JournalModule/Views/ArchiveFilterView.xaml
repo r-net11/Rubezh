@@ -54,6 +54,7 @@
 						<DatePicker
 							Width="150" 
 							Focusable="False"
+							DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneWay}"
 							SelectedDate="{Binding StartDateTime.Date}" 
 							Margin="2" />
 						<Controls:TimePicker TimeSpan="{Binding StartDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
@@ -64,6 +65,7 @@
 						<DatePicker
 							Width="150" 
 							Focusable="False"
+							DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneWay}"
 							SelectedDate="{Binding EndDateTime.Date}" 
 							Margin="2" />
 						<Controls:TimePicker TimeSpan="{Binding EndDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
