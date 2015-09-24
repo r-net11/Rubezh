@@ -330,17 +330,17 @@ namespace ChinaSKDDriver
 							break;
 						case ControllerCardItem.ActionTypeEnum.ResetRepeatEnter:
 							var cardInfo = deviceProcessor.Wrapper.GetCardInfo((int) controllerCardItem.Card.Number);
+
+							result = deviceProcessor.Wrapper.ResetRepeatEnter(controllerCardItem.Card.Number.GetValueOrDefault().ToString("X"));
 							if (cardInfo == null)
 							{
 								controllerCardItem.Error = string.Format("Пропуск {0} отсутствует на контроллере {1}",
-									(int) controllerCardItem.Card.Number, deviceProcessor.Device.Name);
-								break;
+									(int)controllerCardItem.Card.Number, deviceProcessor.Device.Name);
 							}
-							result = deviceProcessor.Wrapper.ResetRepeatEnter(controllerCardItem.Card.Number.GetValueOrDefault().ToString("X"));
 							break;
 					}
 
-					if (!result)
+					if (!result && controllerCardItem.ActionType != ControllerCardItem.ActionTypeEnum.ResetRepeatEnter)
 					{
 						var operationName = "";
 						if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.Add)
@@ -349,8 +349,8 @@ namespace ChinaSKDDriver
 							operationName = "редактирования";
 						if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.Delete)
 							operationName = "удаления";
-						if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.ResetRepeatEnter)
-							operationName = "сброса ограничения на повторный проход";
+						//if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.ResetRepeatEnter)
+						//	operationName = "сброса ограничения на повторный проход";
 
 						controllerCardItem.Error = "При операции " + operationName + " пропуска " + controllerCardItem.Card.Number + " на контроллере " + deviceProcessor.Device.Name + " возникла ошибка";
 					}
