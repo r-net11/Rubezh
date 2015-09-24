@@ -16,13 +16,14 @@ BOOL GetConfigFromDevice(int loginID, int nChn, CFG_ACCESS_EVENT_INFO* result)
 	{
 		return FALSE;
 	}
-	CFG_ACCESS_EVENT_INFO stuEventInfo = {0};
+	
 	char szJsonBuf[1024 * 40] = {0};
 	int nerror = 0;
 	BOOL bRet = CLIENT_GetNewDevConfig((LLONG)loginID, CFG_CMD_ACCESS_EVENT, nChn, szJsonBuf, 1024*40, &nerror, 5000);
 
 	if (bRet)
 	{
+		CFG_ACCESS_EVENT_INFO stuEventInfo = {0};
 		DWORD dwRetLen = 0;
 		bRet = CLIENT_ParseData(CFG_CMD_ACCESS_EVENT, szJsonBuf, (void*)&stuEventInfo, sizeof(stuEventInfo), &dwRetLen);
 		if (!bRet)
@@ -41,16 +42,12 @@ BOOL GetConfigFromDevice(int loginID, int nChn, CFG_ACCESS_EVENT_INFO* result)
 BOOL GetNewDevConfig(int loginID, CFG_OPEN_DOOR_ROUTE_INFO* result)
 {
 	int nRetLen = 0;
-
 	char szJsonBuf[1024 * 40] = {0};	
-
-	CFG_OPEN_DOOR_ROUTE_INFO stuInfo = {0};
-	memset(szJsonBuf, 0, 1024*40);
-
 	int nerror = 0;
 	BOOL bRet = CLIENT_GetNewDevConfig((LLONG)loginID, CFG_CMD_OPEN_DOOR_ROUTE, -1, szJsonBuf, 1024*40, &nerror, 5000);
 	if (bRet)
 	{
+		CFG_OPEN_DOOR_ROUTE_INFO stuInfo = {0};
 		DWORD dwRetLen = 0;
 		bRet = CLIENT_ParseData(CFG_CMD_OPEN_DOOR_ROUTE, szJsonBuf, (void*)&stuInfo, sizeof(CFG_OPEN_DOOR_ROUTE_INFO), &dwRetLen);
 		if (bRet)
@@ -77,7 +74,8 @@ BOOL SetConfigToDevice(int loginID, int nChn, CFG_ACCESS_EVENT_INFO* param)
 	}
 
 	char szJsonBuf[1024 * 40] = {0};
-	BOOL bRet = CLIENT_PacketData(CFG_CMD_ACCESS_EVENT, param, sizeof(*param), szJsonBuf, sizeof(szJsonBuf));
+	BOOL bRet = CLIENT_PacketData(CFG_CMD_ACCESS_EVENT, param, sizeof(CFG_ACCESS_EVENT_INFO), szJsonBuf, sizeof(szJsonBuf));
+	
 	if (!bRet)
 	{
 		return FALSE;
@@ -132,13 +130,15 @@ BOOL SDK_CALL_METHOD WRAP_GetAntiPassBackCfg(int loginID, WRAP_AntiPassBackCfg* 
 		cfg.AvailableAntiPassBackModes[ANTIPASSBACK_MODE_R1R3R2R4].bIsAvailable = FALSE;
 		cfg.AvailableAntiPassBackModes[ANTIPASSBACK_MODE_R3R4].bIsAvailable = FALSE;
 	}
-	// Для двухдверника доступны все режимы - R1R2, R1R3R2R4 и R3R4
-	else if (nDoorsCount == 2)
+	// Для остальных доступны все режимы - R1R2, R1R3R2R4 и R3R4
+	else
 	{
 		cfg.AvailableAntiPassBackModes[ANTIPASSBACK_MODE_R1R2].bIsAvailable = TRUE;
 		cfg.AvailableAntiPassBackModes[ANTIPASSBACK_MODE_R1R3R2R4].bIsAvailable = TRUE;
 		cfg.AvailableAntiPassBackModes[ANTIPASSBACK_MODE_R3R4].bIsAvailable = TRUE;
 	}
+
+	cfg.bIsActivated = FALSE;
 
 	CFG_ACCESS_EVENT_INFO stuEventInfo = {0};
 	if (GetConfigFromDevice(loginID, 0, &stuEventInfo) && stuEventInfo.bRepeatEnterAlarm)
@@ -153,7 +153,7 @@ BOOL SDK_CALL_METHOD WRAP_GetAntiPassBackCfg(int loginID, WRAP_AntiPassBackCfg* 
 	if (GetNewDevConfig(loginID, &stuInfo))
 	{
 		CString csInfo; 
-		for(int i = 0; i < stuInfo.nDoorList; i ++)
+		for (int i = 0; i < stuInfo.nDoorList; i++)
 		{
 			CString csInfotp; 
 			csInfotp.Format("%s%s%s%s",  stuInfo.stuDoorList[i].stuDoors[0].szReaderID
@@ -188,7 +188,6 @@ BOOL SDK_CALL_METHOD WRAP_GetAntiPassBackCfg(int loginID, WRAP_AntiPassBackCfg* 
 BOOL SDK_CALL_METHOD WRAP_SetAntiPassBackCfg(int loginID, WRAP_AntiPassBackCfg* cfg)
 {
 	CFG_OPEN_DOOR_ROUTE_INFO stuInfo = {0};
-	CFG_ACCESS_EVENT_INFO stuEventInfo = {0};
 	bool bDoor1Enable = false;
 	bool bDoor2Enable = false;
 	
@@ -222,8 +221,10 @@ BOOL SDK_CALL_METHOD WRAP_SetAntiPassBackCfg(int loginID, WRAP_AntiPassBackCfg* 
 		stuInfo.stuDoorList[1].nDoors = 1; 
 		strncpy(stuInfo.stuDoorList[1].stuDoors[0].szReaderID, "4", MAX_READER_ID_LEN - 1);  
 		bDoor1Enable = false;
-		bDoor2Enable = false; 
+		bDoor2Enable = true; 
 	}
+
+	CFG_ACCESS_EVENT_INFO stuEventInfo = {0};
 
 	if (!cfg->bIsActivated)
 	{
@@ -245,16 +246,13 @@ BOOL SDK_CALL_METHOD WRAP_SetAntiPassBackCfg(int loginID, WRAP_AntiPassBackCfg* 
 	{
 		if (GetConfigFromDevice(loginID, 0, &stuEventInfo))
 		{
-
 			if (bDoor1Enable)
 			{
-
 				stuEventInfo.abRepeatEnterAlarmEnable = true;
 				stuEventInfo.bRepeatEnterAlarm = TRUE;
 			}
 			else
 			{
-
 				stuEventInfo.abRepeatEnterAlarmEnable = false;
 				stuEventInfo.bRepeatEnterAlarm = FALSE;
 			}
@@ -285,11 +283,11 @@ BOOL SDK_CALL_METHOD WRAP_SetAntiPassBackCfg(int loginID, WRAP_AntiPassBackCfg* 
 	{
 		int nerror = 0;
 		int nrestart = 0;
-		CLIENT_SetNewDevConfig(loginID, CFG_CMD_OPEN_DOOR_ROUTE, 0, szJsonBufSet, 
+		bRet &= CLIENT_SetNewDevConfig(loginID, CFG_CMD_OPEN_DOOR_ROUTE, 0, szJsonBufSet, 
 			sizeof(szJsonBufSet), &nerror, &nrestart, SDK_API_WAITTIME);
-		CLIENT_SetNewDevConfig(loginID, CFG_CMD_OPEN_DOOR_ROUTE, 1, szJsonBufSet, 
+		bRet &= CLIENT_SetNewDevConfig(loginID, CFG_CMD_OPEN_DOOR_ROUTE, 1, szJsonBufSet, 
 			sizeof(szJsonBufSet), &nerror, &nrestart, SDK_API_WAITTIME);		
 	}
 
-	return TRUE;
+	return bRet;
 }
