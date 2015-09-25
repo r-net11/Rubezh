@@ -72,6 +72,7 @@ namespace SKDModule.ViewModels
 
 			Organisation = OrganisationHelper.GetSingle(organisation.UID);
 			Card = card;
+
 			if (card == null)
 			{
 				IsNewCard = true;
@@ -87,6 +88,7 @@ namespace SKDModule.ViewModels
 			{
 				Title = string.Format("Свойства пропуска: {0}", card.Number);
 			}
+
 			Card = card;
 			Number = Card.Number;
 			Password = Card.Password;
@@ -399,6 +401,9 @@ namespace SKDModule.ViewModels
 			else
 			{
 				resultCard.Number = Number;
+
+				if (!IsNewCard)
+					resultCard.UID = Card.UID;
 			}
 
 			resultCard.IsHandicappedCard = IsAlternativeLockParams;
