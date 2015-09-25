@@ -4,6 +4,7 @@ using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;
 using ReactiveUI;
+using ReactiveUI.Xaml;
 using SKDModule.Helpers;
 using SKDModule.ViewModels;
 using System;
@@ -273,6 +274,20 @@ namespace SKDModule.Model
 		public DayTimeTrackPart()
 		{
 			_uiChanged = GetUiObserver();
+
+			var cmd = new ReactiveAsyncCommand();
+			cmd.RegisterAsyncAction(i =>
+			{
+				var currentUser = FiresecManager.CurrentUser;
+				var dateTimeNow = DateTime.Now;
+				AdjustmentDate = dateTimeNow;
+				CorrectedDate = dateTimeNow.ToString(CultureInfo.CurrentUICulture);
+				CorrectedBy = currentUser.Name;
+				CorrectedByUID = currentUser.UID;
+			});
+
+			this.WhenAny(x => x.NotTakeInCalculations, x => x.Value)
+				.Subscribe(_ => cmd.Execute(null));
 		}
 
 		#endregion
