@@ -470,13 +470,14 @@ namespace SKDDriver.Translators
 		{
 			var dayTimeTrack = new DayTimeTrack { Date = date };
 
-			foreach (var passJournal in passJournals.Where(x => x.EmployeeUID == employee.UID && x.EnterTime.Date == date.Date).ToList())
+			foreach (var passJournal in passJournals.Where(x => x.EmployeeUID == employee.UID && x.EnterTime.Date == date.Date))
 			{
 				var timeTrackPart = new TimeTrackPart
 				{
 					EnterDateTime = passJournal.EnterTime,
 					ExitDateTime =  passJournal.ExitTime,
 					ZoneUID = passJournal.ZoneUID,
+					IsForURVZone = schedule.ScheduleZones.Any(x => x.ZoneUID == passJournal.ZoneUID),
 					PassJournalUID = passJournal.UID,
 					IsManuallyAdded = passJournal.IsAddedManually,
 					NotTakeInCalculations = passJournal.NotTakeInCalculations,
