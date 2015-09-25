@@ -5,8 +5,8 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 mc:Ignorable="d"
 			 x:Class="StrazhModule.Views.ControllerDoorTypeView"
-			 d:DesignWidth="493" d:DesignHeight="306"
-			 MinWidth="493" MinHeight="300">
+			 d:DesignWidth="500" d:DesignHeight="320"
+			 MinWidth="500" MinHeight="320">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -14,17 +14,18 @@
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</UserControl.Resources>
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-		</Grid.RowDefinitions>
-		<Border Grid.Row="0" Background="{StaticResource BackgroundBrush}">
-			<Grid>
+	<Border Grid.Row="0" Background="{StaticResource BackgroundBrush}">
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+			<Grid Grid.Row="0">
 				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
 				</Grid.RowDefinitions>
 				<Grid Grid.Row="0">
 					<Grid.ColumnDefinitions>
@@ -40,38 +41,78 @@
 						</ComboBox.ItemTemplate>
 					</ComboBox>
 				</Grid>
-				<TextBlock Grid.Row="1" Text="При смене типа точки доступа на контроллере он будет недоступен в течение нескольких секунд"  Foreground="{DynamicResource ForegroundColorLight}" TextWrapping="Wrap" Margin="5"/>
-				<Grid Grid.Row="2">
+				<Grid Grid.Row="1">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					<Image Grid.Column="0" Source="/Controls;component/Images/MessageBox/warning.png" Width="50" Height="50"/>
+					<TextBlock Grid.Column="1" Text="При смене типа точки доступа на контроллере он будет недоступен в течение нескольких секунд. Остальные настройки в этом окне следует производить только после записи этого параметра."  Foreground="{DynamicResource ForegroundColorLight}" TextWrapping="Wrap" Margin="5"/>
+				</Grid>
+				<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 2">
+					<Button Content="Считать" Command="{Binding ReadDoorTypeFromControllerCommand}" Width="100" Margin="2" />
+					<Button Content="Записать" Command="{Binding WriteDoorTypeToControllerCommand}" Width="100" Margin="2" />
+				</StackPanel>
+			</Grid>
+			<Separator Grid.Row="1" Style="{x:Null}" BorderBrush="LightBlue" BorderThickness="5" Margin="10 0"/>
+			<Grid Grid.Row="2">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+				<Grid Grid.Row="0">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto"/>
 						<ColumnDefinition Width="Auto"/>
 					</Grid.ColumnDefinitions>
-					<GroupBox Grid.Column="0" Header="Запрет повторного прохода" Foreground="{DynamicResource ForegroundColorLight}" Margin="5">
-						<StackPanel Margin="5">
-							<CheckBox Content="Активировать" IsChecked="{Binding IsAntiPassBackActivated}" IsEnabled="{Binding IsAntiPassBackEnabled}" Margin="2"/>
-							<RadioButton GroupName="AntipassBackGroup" Content="Считыватель 1-вход, 2-выход" IsChecked="{Binding SelectedAntiPassBackMode, ConverterParameter=R1In_R2Out, Converter={StaticResource EnumToBooleanConverter}}" IsEnabled="{Binding IsAntiPassBackModeR1InR2OutEnabled}" Margin="2"/>
-							<RadioButton GroupName="AntipassBackGroup" Content="Считыватель 3-вход, 4-выход" IsChecked="{Binding SelectedAntiPassBackMode, ConverterParameter=R3In_R4Out, Converter={StaticResource EnumToBooleanConverter}}" IsEnabled="{Binding IsAntiPassBackModeR3InR4OutEnabled}" Margin="2"/>
-							<RadioButton GroupName="AntipassBackGroup" Content="Считыватель 1 и 3-вход, 2 и 4-выход" IsChecked="{Binding SelectedAntiPassBackMode, ConverterParameter=R1R3In_R2R4Out, Converter={StaticResource EnumToBooleanConverter}}" IsEnabled="{Binding IsAntiPassBackModeR1R3InR2R4OutEnabled}" Margin="2"/>
-						</StackPanel>
-					</GroupBox>
-					<GroupBox Grid.Column="1" Header="Блокировка одновременного прохода" Foreground="{DynamicResource ForegroundColorLight}" Margin="5">
-						<StackPanel Margin="5">
-							<CheckBox Content="Активировать" IsChecked="{Binding IsInterlockActivated}" IsEnabled="{Binding IsInterlockEnabled}" Margin="2"/>
-							<RadioButton GroupName="InterlockGroup" Content="Замок 1+2" IsChecked="{Binding SelectedInterlockMode, ConverterParameter=L1L2, Converter={StaticResource EnumToBooleanConverter}}" IsEnabled="{Binding IsInterlockModeL1L2Enabled}" Margin="2"/>
-							<RadioButton GroupName="InterlockGroup" Content="Замок 1+2+3" IsChecked="{Binding SelectedInterlockMode, ConverterParameter=L1L2L3, Converter={StaticResource EnumToBooleanConverter}}" IsEnabled="{Binding IsInterlockModeL1L2L3Enabled}" Margin="2"/>
-							<RadioButton GroupName="InterlockGroup" Content="Замок 1+2+3+4" IsChecked="{Binding SelectedInterlockMode, ConverterParameter=L1L2L3L4, Converter={StaticResource EnumToBooleanConverter}}" IsEnabled="{Binding IsInterlockModeL1L2L3L4Enabled}" Margin="2"/>
-							<RadioButton GroupName="InterlockGroup" Content="Замок 2+3+4" IsChecked="{Binding SelectedInterlockMode, ConverterParameter=L2L3L4, Converter={StaticResource EnumToBooleanConverter}}" IsEnabled="{Binding IsInterlockModeL2L3L4Enabled}" Margin="2"/>
-							<RadioButton GroupName="InterlockGroup" Content="Замок 1+3 и 2+4" IsChecked="{Binding SelectedInterlockMode, ConverterParameter=L1L3_L2L4, Converter={StaticResource EnumToBooleanConverter}}" IsEnabled="{Binding IsInterlockModeL1L3_L2L4Enabled}" Margin="2"/>
-							<RadioButton GroupName="InterlockGroup" Content="Замок 1+4 и 2+3" IsChecked="{Binding SelectedInterlockMode, ConverterParameter=L1L4_L2L3, Converter={StaticResource EnumToBooleanConverter}}" IsEnabled="{Binding IsInterlockModeL1L4_L2L3Enabled}" Margin="2"/>
-							<RadioButton GroupName="InterlockGroup" Content="Замок 3+4" IsChecked="{Binding SelectedInterlockMode, ConverterParameter=L3L4, Converter={StaticResource EnumToBooleanConverter}}" IsEnabled="{Binding IsInterlockModeL3L4Enabled}" Margin="2"/>
-						</StackPanel>
-					</GroupBox>
+					<Grid Grid.Column="0" Margin="5">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+						</Grid.RowDefinitions>
+						<CheckBox Grid.Row="0" Grid.Column="0" IsChecked="{Binding IsAntiPassBackActivated}" IsEnabled="{Binding IsAntiPassBackEnabled}" VerticalAlignment="Center" Margin="2"/>
+						<TextBlock Grid.Row="0" Grid.Column="1" Text="Запрет повторного прохода" Foreground="{DynamicResource ForegroundColorLight}" Margin="2"/>
+						<RadioButton Grid.Row="1" Grid.Column="1" GroupName="AntipassBackGroup" Content="Считыватель 1-вход, 2-выход" IsChecked="{Binding SelectedAntiPassBackMode, ConverterParameter=R1In_R2Out, Converter={StaticResource EnumToBooleanConverter}}" IsEnabled="{Binding IsAntiPassBackModeR1InR2OutEnabled}" Foreground="{DynamicResource ForegroundColorLight}" Margin="2"/>
+						<RadioButton Grid.Row="2" Grid.Column="1" GroupName="AntipassBackGroup" Content="Считыватель 3-вход, 4-выход" IsChecked="{Binding SelectedAntiPassBackMode, ConverterParameter=R3In_R4Out, Converter={StaticResource EnumToBooleanConverter}}" IsEnabled="{Binding IsAntiPassBackModeR3InR4OutEnabled}" Foreground="{DynamicResource ForegroundColorLight}" Margin="2"/>
+						<RadioButton Grid.Row="3" Grid.Column="1" GroupName="AntipassBackGroup" Content="Считыватель 1 и 3-вход, 2 и 4-выход" IsChecked="{Binding SelectedAntiPassBackMode, ConverterParameter=R1R3In_R2R4Out, Converter={StaticResource EnumToBooleanConverter}}" IsEnabled="{Binding IsAntiPassBackModeR1R3InR2R4OutEnabled}" Foreground="{DynamicResource ForegroundColorLight}" Margin="2"/>
+					</Grid>
+					<Grid Grid.Column="1" Margin="5">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+						</Grid.RowDefinitions>
+						<CheckBox Grid.Row="0" Grid.Column="0" IsChecked="{Binding IsInterlockActivated}" IsEnabled="{Binding IsInterlockEnabled}" VerticalAlignment="Center" Margin="2"/>
+						<TextBlock Grid.Row="0" Grid.Column="1" Text="Блокировка одновременного прохода" Foreground="{DynamicResource ForegroundColorLight}" Margin="2"/>
+						<RadioButton Grid.Row="1" Grid.Column="1" GroupName="InterlockGroup" Content="Замок 1+2" IsChecked="{Binding SelectedInterlockMode, ConverterParameter=L1L2, Converter={StaticResource EnumToBooleanConverter}}" IsEnabled="{Binding IsInterlockModeL1L2Enabled}" Foreground="{DynamicResource ForegroundColorLight}" Margin="2"/>
+						<RadioButton Grid.Row="2" Grid.Column="1" GroupName="InterlockGroup" Content="Замок 1+2+3" IsChecked="{Binding SelectedInterlockMode, ConverterParameter=L1L2L3, Converter={StaticResource EnumToBooleanConverter}}" IsEnabled="{Binding IsInterlockModeL1L2L3Enabled}" Foreground="{DynamicResource ForegroundColorLight}" Margin="2"/>
+						<RadioButton Grid.Row="3" Grid.Column="1" GroupName="InterlockGroup" Content="Замок 1+2+3+4" IsChecked="{Binding SelectedInterlockMode, ConverterParameter=L1L2L3L4, Converter={StaticResource EnumToBooleanConverter}}" IsEnabled="{Binding IsInterlockModeL1L2L3L4Enabled}" Foreground="{DynamicResource ForegroundColorLight}" Margin="2"/>
+						<RadioButton Grid.Row="4" Grid.Column="1" GroupName="InterlockGroup" Content="Замок 2+3+4" IsChecked="{Binding SelectedInterlockMode, ConverterParameter=L2L3L4, Converter={StaticResource EnumToBooleanConverter}}" IsEnabled="{Binding IsInterlockModeL2L3L4Enabled}" Foreground="{DynamicResource ForegroundColorLight}" Margin="2"/>
+						<RadioButton Grid.Row="5" Grid.Column="1" GroupName="InterlockGroup" Content="Замок 1+3 и 2+4" IsChecked="{Binding SelectedInterlockMode, ConverterParameter=L1L3_L2L4, Converter={StaticResource EnumToBooleanConverter}}" IsEnabled="{Binding IsInterlockModeL1L3_L2L4Enabled}" Foreground="{DynamicResource ForegroundColorLight}" Margin="2"/>
+						<RadioButton Grid.Row="6" Grid.Column="1" GroupName="InterlockGroup" Content="Замок 1+4 и 2+3" IsChecked="{Binding SelectedInterlockMode, ConverterParameter=L1L4_L2L3, Converter={StaticResource EnumToBooleanConverter}}" IsEnabled="{Binding IsInterlockModeL1L4_L2L3Enabled}" Foreground="{DynamicResource ForegroundColorLight}" Margin="2"/>
+						<RadioButton Grid.Row="7" Grid.Column="1" GroupName="InterlockGroup" Content="Замок 3+4" IsChecked="{Binding SelectedInterlockMode, ConverterParameter=L3L4, Converter={StaticResource EnumToBooleanConverter}}" IsEnabled="{Binding IsInterlockModeL3L4Enabled}" Foreground="{DynamicResource ForegroundColorLight}" Margin="2"/>
+					</Grid>
 				</Grid>
+				<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 2">
+					<Button Content="Считать" Command="{Binding ReadFromControllerCommand}" Width="100" Margin="2" />
+					<Button Content="Записать" Command="{Binding WriteToControllerCommand}" Width="100" Margin="2" />
+				</StackPanel>
 			</Grid>
-		</Border>
-		<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 2">
-			<Button Content="Считать" Command="{Binding ReadFromControllerCommand}" Width="100" Margin="2" />
-			<Button Content="Записать" Command="{Binding WriteToControllerCommand}" Width="100" Margin="2" />
-		</StackPanel>
-	</Grid>
+		</Grid>
+	</Border>
 </UserControl>

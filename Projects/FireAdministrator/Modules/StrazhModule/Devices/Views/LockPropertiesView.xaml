@@ -1,9 +1,12 @@
-﻿<UserControl x:Class="StrazhModule.Views.LockPropertiesView"
+﻿<UserControl
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-			 MinWidth="500" MinHeight="340">
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" x:Class="StrazhModule.Views.LockPropertiesView"
+			 MinWidth="500" MinHeight="364">
 
 	<Grid>
 		<Grid.ColumnDefinitions>
@@ -14,7 +17,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		
+
 		<TabControl Grid.Row="0">
 			<TabItem Header="Замок">
 				<StackPanel>
@@ -57,13 +60,13 @@
 									</DataTemplate>
 								</ComboBox.ItemTemplate>
 							</ComboBox>
-							
+
 							<Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 2 0 10">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="Auto"/>
-									<ColumnDefinition Width="Auto"/>
+									<ColumnDefinition/>
 								</Grid.ColumnDefinitions>
-								<Image Grid.Column="0" Source="/Controls;component/Images/Alarm_main_2_Attention.png" VerticalAlignment="Center"  />
+								<Image Grid.Column="0" Source="/Controls;component/Images/MessageBox/warning.png" Width="50" Height="50"/>
 								<TextBlock Grid.Column="1" Text="Имя графика, назначенного для замка, хранится в конфигурации и не считывается с контроллера" Foreground="{DynamicResource ForegroundColorLight}" VerticalAlignment="Center" TextWrapping="Wrap" Width="400" Margin="5 2"/>
 							</Grid>
 
@@ -179,7 +182,7 @@
 		</TabControl>
 
 		<TextBlock Grid.Row="1"  Text="Альтернативные время удержания и время закрытия используются с пропусками, для которых задействован режим &quot;Использовать альтернативные параметры временных задержек замка&quot;" TextWrapping="Wrap" Foreground="{DynamicResource ForegroundColorLight}" Width="480" Margin="5" />
-		
+
 		<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
 			<Button Content="Считать" Command="{Binding GetDoorConfigurationCommand}" Width="100" Margin="0 4 4 0" />
 			<Button Content="Записать" Command="{Binding SetDoorConfigurationCommand}" Width="100" Margin="0 4 0 0" />
