@@ -37,10 +37,10 @@ namespace StrazhModule.ViewModels
 		protected override bool Save()
 		{
 			var result = Validate();
-			if (!result)
+			if (result)
+				_controllerLocksPasswordViewModel.Password = Password;
+			else
 				MessageBoxService.ShowWarning("Пароль замка должен соответствовать следующим ограничениям:\n\nНе может быть пустым\nМожет состоять только из цифр\nКоличество знаков от 3 до 6\nНе должен начинаться на 0\nНе должен совпадать с уже имеющимся паролем");
-
-			_controllerLocksPasswordViewModel.Password = Password;
 
 			return result;
 		}

@@ -67,9 +67,11 @@ namespace StrazhModule.ViewModels
 			SelectedPassword = Passwords.FirstOrDefault();
 		}
 
-		public bool ValidateIfPasswordAlreadyExists(string password)
+		public bool ValidateIfPasswordAlreadyExists(ControllerLocksPasswordViewModel locksPasswordViewModel, string password)
 		{
-			return Passwords.Any(x => x.Password == password);
+			return Passwords
+				.Where(x => x != locksPasswordViewModel)
+				.Any(y => y.Password == password);
 		}
 
 		public SKDDevice Controller
