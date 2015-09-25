@@ -562,7 +562,7 @@ namespace ChinaSKDDriver
 
 				// Показываем индикатор хода выполнения операции
 				if (doProgress)
-					progressCallback = StartProgress(String.Format("Запись паролей замков на контроллер \"{0}\"", deviceProcessor.Device.Name), null, 2, true, SKDProgressClientType.Administrator);
+					progressCallback = StartProgress(String.Format("Запись паролей замков на контроллер \"{0}\"", deviceProcessor.Device.Name), null, locksPasswords.Count() + 1, true, SKDProgressClientType.Administrator);
 
 				// Сначала удаляем с контроллера все пароли замков, записанные ранее
 				if (!deviceProcessor.Wrapper.RemoveAllPasswords())
@@ -621,15 +621,15 @@ namespace ChinaSKDDriver
 						Doors = doors
 					};
 					deviceProcessor.Wrapper.AddPassword(password);
+
+					// Обновляем индикатор хода выполнения операции
+					if (progressCallback != null)
+						DoProgress(null, progressCallback);
+
+					// Выполнение операции прервано пользователем
+					if (progressCallback != null && progressCallback.IsCanceled)
+						return OperationResult<bool>.FromCancel(String.Format("Операция записи паролей замков на контроллер \"{0}\" отменена", deviceProcessor.Device.Name));
 				}
-
-				// Обновляем индикатор хода выполнения операции
-				if (progressCallback != null)
-					DoProgress(null, progressCallback);
-
-				// Выполнение операции прервано пользователем
-				if (progressCallback != null && progressCallback.IsCanceled)
-					return OperationResult<bool>.FromCancel(String.Format("Операция записи паролей замков на контроллер \"{0}\" отменена", deviceProcessor.Device.Name));
 
 				// Останавливаем индикатор хода выполнения операции
 				if (progressCallback != null)
