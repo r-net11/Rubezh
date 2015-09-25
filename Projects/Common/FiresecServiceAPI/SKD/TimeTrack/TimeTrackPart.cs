@@ -16,6 +16,12 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public bool IsManuallyAdded { get; set; }
 
+		/// <summary>
+		/// Показывает, сделан ли проход в зоне УРВ или нет
+		/// </summary>
+		[DataMember]
+		public bool IsForURVZone { get; set; }
+
 		[DataMember]
 		public bool IsNeedAdjustment { get; set; }
 
