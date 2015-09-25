@@ -573,7 +573,7 @@ namespace SKDModule.ViewModels
 
 			var conflictIntervals = PassJournalHelper.FindConflictIntervals(collection.Select(dayTimeTrackPart => dayTimeTrackPart.ToDTO()).ToList(), ShortEmployee.UID, DayTimeTrack.Date);
 
-			if (conflictIntervals == null)
+			if (conflictIntervals == null || !conflictIntervals.Any())
 			{
 				ResetAdjustmentsNoConflict();
 				return;
