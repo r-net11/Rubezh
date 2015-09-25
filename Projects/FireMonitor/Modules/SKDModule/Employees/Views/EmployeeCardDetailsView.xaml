@@ -42,7 +42,7 @@
 						x:Name="EnableKeyboard"
 						Grid.Column="1"
 						Margin="5"
-						IsChecked="{Binding IsFirstRadioButtonChecked}"
+						IsChecked="{Binding IsFirstRadioButtonChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 						VerticalAlignment="Center"
 						HorizontalAlignment="Center" />
 					<TextBox
@@ -64,6 +64,7 @@
 						Grid.Column="1"
 						Grid.Row="1"
 						Margin="5"
+						IsChecked="{Binding IsEnableFromDeactivationCard, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 						VerticalAlignment="Center"
 						HorizontalAlignment="Center" />
 					<ComboBox
@@ -92,19 +93,20 @@
 						Grid.Column="1"
 						Grid.Row="2"
 						Margin="5"
+						IsChecked="{Binding IsEnableValidationForControlReader, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 						VerticalAlignment="Center"
 						HorizontalAlignment="Center" />
 					<TextBlock
 						Grid.Row="2"
 						Grid.Column="2"
 						Margin="2 4"
-						IsEnabled="{Binding IsChecked, ElementName=EnableReader, UpdateSourceTrigger=PropertyChanged}"
 						VerticalAlignment="Center"
 						TextWrapping="Wrap">
 						<Hyperlink
+							IsEnabled="{Binding IsChecked, ElementName=EnableReader, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 							Command="{Binding ChangeReaderCommand}"
 							Style="{StaticResource HyperlinkStyle}">
-							<TextBlock Text="{Binding ReaderName}" />
+								<TextBlock Text="{Binding ReaderName}" />
 						</Hyperlink>
 					</TextBlock>
 					<TextBlock
@@ -118,6 +120,7 @@
 						Grid.Column="1"
 						Grid.Row="3"
 						Margin="5"
+						IsChecked="{Binding EnableValidationForUSB, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 						VerticalAlignment="Center"
 						HorizontalAlignment="Center" />
 					<TextBox
@@ -156,6 +159,8 @@
 						Margin="5" />
 					<StackPanel
 						Grid.Column="1"
+						Width="225"
+						HorizontalAlignment="Left"
 						Margin="2">
 						<ComboBox
 							ItemsSource="{Binding CardTypes}"
@@ -183,6 +188,9 @@
 						Grid.Row="1"
 						Grid.Column="1"
 						MaxLength="50"
+						Width="225"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
 						Margin="2 4"
 						Text="{Binding Password}" />
 					<TextBlock
@@ -195,6 +203,9 @@
 						Grid.Row="2"
 						Grid.Column="1"
 						IsTodayHighlighted="False"
+						VerticalAlignment="Center"
+						HorizontalAlignment="Left"
+						Width="225"
 						Margin="2 4"
 						SelectedDate="{Binding StartDate}"
 						DisplayDate="{Binding StartDate}"
@@ -209,6 +220,9 @@
 						Grid.Row="3"
 						Grid.Column="1"
 						Margin="2 4"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						Width="225"
 						DisplayDate="{Binding EndDate}"
 						IsEnabled="{Binding CanSelectEndDate}"
 						IsTodayHighlighted="False"

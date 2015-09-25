@@ -353,19 +353,14 @@ namespace FiresecService.Report.Templates
 		{
 			var filter = GetFilter<EmployeeZonesReportFilter>();
 			if (filter.UseCurrentDate)
-				filter.ReportDateTime = DateTime.Now;
+				filter.ReportDateTime = default(DateTime?);
 
 			var dataSet = new EmployeeZonesDataSet();
 
 			if (dataProvider.DatabaseService.PassJournalTranslator == null) return dataSet;
 
 			var employees = dataProvider.GetEmployees(filter);
-			var zoneMap = new Dictionary<Guid, string>();
-
-			foreach (var zone in SKDManager.Zones)
-			{
-				zoneMap.Add(zone.UID, zone.PresentationName);
-			}
+			var zoneMap = SKDManager.Zones.ToDictionary(zone => zone.UID, zone => zone.Name);
 
 			var enterJournal = dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesLastEnterPassJournal(
 				employees.Select(item => item.UID), filter.Zones, filter.ReportDateTime);

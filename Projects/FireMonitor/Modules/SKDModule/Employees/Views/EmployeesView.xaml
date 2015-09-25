@@ -106,7 +106,37 @@
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
-				<StackPanel Grid.Column="0">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition />
+				</Grid.RowDefinitions>
+				<StackPanel Orientation="Horizontal">
+					<ToolBarButton
+						Command="{Binding EmployeeCardsViewModel.AddCardCommand}"
+						ImageSource="Add"
+						ToolTip="Добавить пропуск" />
+					<StackPanel Orientation="Horizontal" IsEnabled="{Binding IsCardSelected}">
+						<StackPanel DataContext="{Binding EmployeeCardsViewModel}" Orientation="Horizontal">
+							<ToolBarButton
+								Command="{Binding SelectedCard.RemoveCommand}"
+								ImageSource="Delete"
+								ToolTip="Удалить пропуск" />
+							<ToolBarButton
+								Command="{Binding SelectedCard.EditCommand}"
+								ImageSource="Edit"
+								ToolTip="Редактировать пропуск" />
+							<ToolBarButton
+								Command="{Binding SelectedCard.PrintCommand}"
+								ImageSource="Print"
+								ToolTip="Печать удостоверения" />
+							<ToolBarButton
+								Command="{Binding SelectedCard.ResetRepeatEnterCommand}"
+								ImageSource="DropAllApb"
+								ToolTip="Сброс ограничения на повторный проход" />
+						</StackPanel>
+					</StackPanel>
+				</StackPanel>
+				<StackPanel Grid.Row="1">
 					<TextBlock>
 						<Hyperlink Command="{Binding EmployeeCardsViewModel.SelectEmployeeCommand}" Style="{StaticResource HyperlinkStyle2}">
 							<StackPanel Orientation="Horizontal">
@@ -178,14 +208,8 @@
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>
 				</StackPanel>
-				<GridSplitter
-					Grid.Column="1"
-					Width="5"
-					HorizontalAlignment="Stretch"
-					VerticalAlignment="Stretch"
-					Background="Transparent"
-					Cursor="SizeWE" />
 				<Border
+					Grid.Row="1"
 					Grid.Column="2"
 					Background="White"
 					CornerRadius="5"
@@ -269,9 +293,12 @@
 							Data="{Binding Photo.Data, UpdateSourceTrigger=PropertyChanged}" />
 					</Grid>
 				</Border>
-				<Grid Grid.Column="2" Visibility="{Binding IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Grid
+					Grid.Row="1"
+					Grid.Column="2"
+					Visibility="{Binding IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 					<Grid DataContext="{Binding EmployeeCardsViewModel.SelectedCard}">
-						<Views:CardDoorsView Grid.Row="1" DataContext="{Binding CardDoorsViewModel}" />
+						<Views:CardDoorsView DataContext="{Binding CardDoorsViewModel}" />
 					</Grid>
 				</Grid>
 			</Grid>

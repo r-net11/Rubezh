@@ -36,7 +36,7 @@ namespace SKDModule.Reports.ViewModels
 			if (placementFilter == null)
 				return;
 			UseCurrentDate = placementFilter.UseCurrentDate;
-			ReportDateTime = placementFilter.ReportDateTime;
+			ReportDateTime = placementFilter.ReportDateTime.GetValueOrDefault();
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{

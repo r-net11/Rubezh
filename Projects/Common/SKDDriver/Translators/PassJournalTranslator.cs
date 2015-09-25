@@ -78,6 +78,53 @@ namespace SKDDriver.Translators
 			return new OperationResult<bool>(false);
 		}
 
+		public OperationResult<List<DayTimeTrackPart>> GetMissedIntervals(DateTime currentDate, ShortEmployee currentEmployee)
+		{
+			var result = Context.PassJournals
+				.Where(x => x.EmployeeUID == currentEmployee.UID)
+				.ToList()
+				.Where(x => x.EnterTime.Date != currentDate.Date && x.ExitTime.GetValueOrDefault().Date != currentDate.Date)
+				.Where(
+					x =>
+						(x.EnterTimeOriginal.HasValue && x.EnterTimeOriginal.Value.Date == currentDate.Date) ||
+						(x.ExitTimeOriginal.HasValue && x.ExitTimeOriginal.Value.Date == currentDate.Date));
+
+			var resultCollection = new List<DayTimeTrackPart>();
+			foreach (var passjournalItem in result)
+			{
+				var timeTrackZone = SKDManager.Zones.FirstOrDefault(x => x.UID == passjournalItem.ZoneUID);
+				resultCollection.Add(new DayTimeTrackPart
+				{
+					AdjustmentDate = passjournalItem.AdjustmentDate,
+					CorrectedByUID = passjournalItem.CorrectedByUID,
+					EnterDateTime = passjournalItem.EnterTime,
+					EnterTime = passjournalItem.EnterTime.TimeOfDay,
+					EnterTimeOriginal = passjournalItem.EnterTimeOriginal,
+					ExitDateTime = passjournalItem.ExitTime,
+					ExitTime = passjournalItem.ExitTime.GetValueOrDefault().TimeOfDay,
+					ExitTimeOriginal = passjournalItem.ExitTimeOriginal,
+					IsForceClosed = passjournalItem.IsForceClosed,
+					IsManuallyAdded = passjournalItem.IsAddedManually,
+					IsNeedAdjustment = passjournalItem.IsNeedAdjustment,
+					IsNeedAdjustmentOriginal = passjournalItem.IsNeedAdjustmentOriginal,
+					IsOpen = passjournalItem.IsOpen,
+					NotTakeInCalculations = passjournalItem.NotTakeInCalculations,
+					UID = passjournalItem.UID,
+					TimeTrackZone = new TimeTrackZone
+					{
+						UID = timeTrackZone != null ? timeTrackZone.UID : Guid.Empty,
+						Description = timeTrackZone != null ? timeTrackZone.Description : string.Empty,
+						Name = timeTrackZone != null ? timeTrackZone.Name : string.Empty,
+						SKDZone = timeTrackZone,
+						No = timeTrackZone != null ? timeTrackZone.No : default(int)
+					}
+
+				});
+			}
+
+			return new OperationResult<List<DayTimeTrackPart>>(resultCollection);
+		}
+
 		public OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>> FindConflictIntervals(List<DayTimeTrackPart> dayTimeTrackParts, Guid employeeGuid, DateTime currentDate)
 		{
 			var minIntervalsDate = dayTimeTrackParts.Where(x => x.EnterTimeOriginal.HasValue).DefaultIfEmpty().Min(x => x.EnterTimeOriginal != null ? x.EnterTimeOriginal.Value.Date : new DateTime()); //if min return false
@@ -538,12 +585,6 @@ namespace SKDDriver.Translators
 							e =>
 								e.EnterTime.Day == dateTime.Value.Day && e.EnterTime.Hour >= dateTime.Value.Hour &&
 								e.EnterTime.Minute >= dateTime.Value.Minute);
-					//		filter =
-					//			filter.And(
-					//				e =>
-					//					e.EnterTime.Day == dateTime.Value.Day && e.EnterTime.Hour >= dateTime.Value.Hour &&
-					//					e.EnterTime.Minute >= dateTime.Value.Minute && !e.ExitTime.HasValue);
-					// !e.ExitTime.HasValue || e.ExitTime > dateTime);
 				}
 				else
 					filter = filter.And(e => !e.ExitTime.HasValue);

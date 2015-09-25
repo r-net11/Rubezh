@@ -190,6 +190,11 @@ namespace FiresecService.Service
 			return SafeContext.Execute(() => FiresecService.CheckForCanForseCloseInterval(openedIntervalGuid));
 		}
 
+		public OperationResult<List<DayTimeTrackPart>> GetMissedIntervals(DateTime currentDate, ShortEmployee currentEmployee)
+		{
+			return SafeContext.Execute(() => FiresecService.GetMissedIntervals(currentDate, currentEmployee));
+		}
+
 		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser, IEnumerable<DayTimeTrackPart> removedDayTimeTrackParts )
 		{
 			return SafeContext.Execute(() => FiresecService.SaveAllTimeTracks(collectionToSave, employee, currentUser, removedDayTimeTrackParts));

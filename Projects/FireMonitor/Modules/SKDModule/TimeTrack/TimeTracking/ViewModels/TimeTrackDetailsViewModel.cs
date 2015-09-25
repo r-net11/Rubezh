@@ -557,6 +557,15 @@ namespace SKDModule.ViewModels
 			if (!ShowResetAdjustmentsWarning()) return;
 
 			ClearIntervalsData(DayTimeTrackParts);
+			var missedIntervals = PassJournalHelper.GetMissedIntervals(DayTimeTrack.Date, ShortEmployee).Select(x => new DayTimeTrackPart(x)).ToList();
+			foreach (var dayTimeTrackPart in missedIntervals)
+			{
+				dayTimeTrackPart.TimeTrackZone =
+					TimeTrackingHelper.GetMergedZones(ShortEmployee).FirstOrDefault(x => x.UID == dayTimeTrackPart.TimeTrackZone.UID);
+
+				DayTimeTrackParts.Add(dayTimeTrackPart);
+			}
+
 			if (!DayTimeTrackParts.Any()) return;
 
 			var resultCollection = DayTimeTrackParts.Where(x => !x.IsManuallyAdded || x.IsForceClosed).ToList();
@@ -681,18 +690,27 @@ namespace SKDModule.ViewModels
 
 		private void ResetAdjustmentsNoConflict()
 		{
-			foreach (var dayTimeTrack in DayTimeTrackParts)
+			foreach (var dayTimeTrack in DayTimeTrackParts.Where(x => !x.IsForceClosed))
 			{
+				dayTimeTrack.AdjustmentDate = null;
+				dayTimeTrack.CorrectedByUID = null;
+				dayTimeTrack.CorrectedBy = null;
+				dayTimeTrack.CorrectedDate = null;
 				dayTimeTrack.EnterDateTime = dayTimeTrack.EnterTimeOriginal;
 				dayTimeTrack.ExitDateTime = dayTimeTrack.ExitTimeOriginal;
 				dayTimeTrack.IsNeedAdjustment = dayTimeTrack.IsNeedAdjustmentOriginal;
+				dayTimeTrack.IsDirty = true;
 			}
 		}
 
 		public void OnForceClosing()
 		{
 			if (!DialogService.ShowModalWindow(new ForceClosingQuestionDialogWindowViewModel())
-			    || !PassJournalHelper.CheckForCanForseCloseInterval(SelectedDayTimeTrackPart.UID)) return;
+			    || !PassJournalHelper.CheckForCanForseCloseInterval(SelectedDayTimeTrackPart.UID))
+			{
+				MessageBoxService.ShowConfirmation(Resources.ForceClosingFailedMessage);
+				return;
+			}
 
 			var nowDateTime = DateTime.Now;
 			SelectedDayTimeTrackPart.ExitDateTime = nowDateTime;

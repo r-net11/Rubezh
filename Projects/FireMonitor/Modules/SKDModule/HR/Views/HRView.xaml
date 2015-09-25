@@ -14,10 +14,10 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<StackPanel Grid.Row="0" Orientation="Horizontal">
+		<StackPanel Orientation="Horizontal">
 			<StackPanel Orientation="Horizontal" Visibility="{Binding IsEmployeesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel DataContext="{Binding EmployeesViewModel}" Orientation="Horizontal">
-					<StackPanel Orientation="Horizontal" Visibility="{Binding SelectedItem.IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+					<StackPanel Orientation="Horizontal">
 						<ToolBarButton
 							Command="{Binding AddCommand}"
 							ImageSource="Add"
@@ -35,30 +35,6 @@
 							ImageSource="Redo"
 							ToolTip="Восстановить"
 							Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
-					</StackPanel>
-					<ToolBarButton
-						Command="{Binding SelectedItem.EmployeeCardsViewModel.AddCardCommand}"
-						ImageSource="Add"
-						ToolTip="Добавить пропуск" />
-					<StackPanel Orientation="Horizontal" Visibility="{Binding SelectedItem.IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-						<StackPanel DataContext="{Binding SelectedItem.EmployeeCardsViewModel}" Orientation="Horizontal">
-							<ToolBarButton
-								Command="{Binding SelectedCard.RemoveCommand}"
-								ImageSource="Delete"
-								ToolTip="Удалить пропуск" />
-							<ToolBarButton
-								Command="{Binding SelectedCard.EditCommand}"
-								ImageSource="Edit"
-								ToolTip="Редактировать пропуск" />
-							<ToolBarButton
-								Command="{Binding SelectedCard.PrintCommand}"
-								ImageSource="Print"
-								ToolTip="Печать удостоверения" />
-							<ToolBarButton
-								Command="{Binding SelectedCard.ResetRepeatEnterCommand}"
-								ImageSource="DropAllApb"
-								ToolTip="Сброс ограничения на повторный проход" />
-						</StackPanel>
 					</StackPanel>
 				</StackPanel>
 			</StackPanel>

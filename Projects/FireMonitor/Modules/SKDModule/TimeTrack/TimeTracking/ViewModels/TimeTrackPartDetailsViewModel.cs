@@ -26,6 +26,8 @@ namespace SKDModule.ViewModels
 
 		#region Properties
 
+		private TimeTrackZone CurrentZone { get; set; }
+
 		public DayTimeTrackPart CurrentTimeTrackPart { get; set; }
 
 		public List<TimeTrackZone> Zones { get; private set; }
@@ -113,6 +115,7 @@ namespace SKDModule.ViewModels
 				CurrentTimeTrackPart.ExitTime = inputTimeTrackPart.ExitTime;
 				NotTakeInCalculations = inputTimeTrackPart.NotTakeInCalculations;
 				CurrentTimeTrackPart.TimeTrackZone = inputTimeTrackPart.TimeTrackZone;
+				CurrentZone = CurrentTimeTrackPart.TimeTrackZone;
 				Title = "Редактировать проход";
 			}
 			else
@@ -128,6 +131,13 @@ namespace SKDModule.ViewModels
 				Title = "Добавить проход";
 				IsNew = true;
 			}
+
+			this.WhenAny(x => x.SelectedZone, x => x.Value)
+				.Subscribe(value =>
+				{
+					if(IsNew)
+						CurrentZone = value;
+				});
 		}
 		#endregion
 
@@ -135,7 +145,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			CurrentTimeTrackPart.TimeTrackZone = SelectedZone;
+			CurrentTimeTrackPart.TimeTrackZone = CurrentZone;
 			CurrentTimeTrackPart.EnterDateTime = CurrentTimeTrackPart.EnterDateTime.GetValueOrDefault().Date + CurrentTimeTrackPart.EnterTime;
 			CurrentTimeTrackPart.ExitDateTime = CurrentTimeTrackPart.ExitDateTime.GetValueOrDefault().Date + CurrentTimeTrackPart.ExitTime;
 			CurrentTimeTrackPart.CorrectedBy = FiresecManager.CurrentUser.Name;
@@ -150,7 +160,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return SelectedZone != null && CurrentTimeTrackPart.IsValid;
+			return CurrentTimeTrackPart.IsValid && CurrentZone != null;
 		}
 
 		#endregion

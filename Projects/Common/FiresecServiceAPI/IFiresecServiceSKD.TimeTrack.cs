@@ -117,6 +117,9 @@ namespace FiresecAPI
 		OperationResult<bool> CheckForCanForseCloseInterval(Guid openedIntervalGuid);
 
 		[OperationContract]
+		OperationResult<List<DayTimeTrackPart>> GetMissedIntervals(DateTime currentDate, ShortEmployee currentEmployee);
+
+		[OperationContract]
 		OperationResult<IEnumerable<DayTimeTrackPart>> GetIntersectionIntervals(DayTimeTrackPart currentDayTimeTrackPart,
 			ShortEmployee currentEmployee);
 

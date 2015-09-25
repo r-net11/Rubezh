@@ -26,6 +26,42 @@ namespace SKDModule.ViewModels
 		public bool IsNewCard { get; private set; }
 		ShortEmployee _employee;
 
+		private bool _isEnableFromDeactivationCard;
+
+		public bool IsEnableFromDeactivationCard
+		{
+			get { return _isEnableFromDeactivationCard; }
+			set
+			{
+				_isEnableFromDeactivationCard = value;
+				OnPropertyChanged(() => IsEnableFromDeactivationCard);
+			}
+		}
+
+		private bool _isEnableValidationForControlReader;
+
+		public bool IsEnableValidationForControlReader
+		{
+			get { return _isEnableValidationForControlReader; }
+			set
+			{
+				_isEnableValidationForControlReader = value;
+				OnPropertyChanged(() => IsEnableValidationForControlReader);
+			}
+		}
+
+		private bool _enableValidationForUSB;
+
+		public bool EnableValidationForUSB
+		{
+			get { return _enableValidationForUSB; }
+			set
+			{
+				_enableValidationForUSB = value;
+				OnPropertyChanged(() => EnableValidationForUSB);
+			}
+		}
+
 		public EmployeeCardDetailsViewModel(Organisation organisation, ShortEmployee employee, SKDCard card = null)
 		{
 			_employee = employee;
@@ -91,8 +127,8 @@ namespace SKDModule.ViewModels
 			SelectedCardType = CardTypes.FirstOrDefault();
 		}
 
-		uint _number;
-		public uint Number
+		uint? _number;
+		public uint? Number
 		{
 			get { return _number; }
 			set
@@ -330,56 +366,64 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			Card.Number = Number;
-			var stopListCard = StopListCards.FirstOrDefault(x => x.Number == Card.Number);
-			if (stopListCard != null)
+			if ((IsFirstRadioButtonChecked || EnableValidationForUSB) && Number == null)
 			{
-				if (MessageBoxService.ShowQuestion("Карта с таким номером была ранее деактивирована. Использовать ее?"))
-				{
-					UseStopList = true;
-					SelectedStopListCard = stopListCard;
-				}
-				else
-				{
-					return false;
-				}
+				MessageBoxService.ShowError("Введите номер карты", "Неверный номер карты");
+				return false;
 			}
 
-			if (UseStopList && SelectedStopListCard != null)
-			{
-				Card.UID = SelectedStopListCard.UID;
-				Card.IsInStopList = false;
-				Card.StopReason = null;
-			}
+			Card = CopyCardData(IsEnableFromDeactivationCard);
 
-			Card.IsHandicappedCard = IsAlternativeLockParams;
-			Card.Password = Password;
-			Card.CardType = SelectedCardType;
-			Card.StartDate = StartDate;
-			Card.EndDate = EndDate;
-			Card.UserTime = UserTime;
-			Card.DeactivationControllerUID = DeactivationControllerUID;
-			Card.DeactivationControllerUID = DeactivationControllerUID;
-			Card.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
-			Card.CardDoors.ForEach(x => x.CardUID = Card.UID);
-			Card.OrganisationUID = Organisation.UID;
-			Card.HolderUID = _employee.UID;
-			Card.EmployeeName = _employee.Name;
-
-			if (SelectedAccessTemplate != null)
-				Card.AccessTemplateUID = SelectedAccessTemplate.UID;
-			if (AvailableAccessTemplates.IndexOf(SelectedAccessTemplate) == 0)
-				Card.AccessTemplateUID = null;
 			if (!Validate())
 				return false;
+
 			var saveResult = IsNewCard ? CardHelper.Add(Card, _employee.Name) : CardHelper.Edit(Card, _employee.Name);
 			if (!saveResult)
 				return false;
+
 			ServiceFactoryBase.Events.GetEvent<NewCardEvent>().Publish(Card);
 			return true;
 		}
 
-		bool Validate()
+		private SKDCard CopyCardData(bool useFromDeactivate)
+		{
+			var resultCard = new SKDCard();
+
+			if (useFromDeactivate)
+			{
+				resultCard.UID = SelectedStopListCard.UID;
+				resultCard.Number = SelectedStopListCard.Number;
+				resultCard.IsInStopList = false;
+				resultCard.StopReason = null;
+			}
+			else
+			{
+				resultCard.Number = Number;
+			}
+
+			resultCard.IsHandicappedCard = IsAlternativeLockParams;
+			resultCard.Password = Password;
+			resultCard.CardType = SelectedCardType;
+			resultCard.StartDate = StartDate;
+			resultCard.EndDate = EndDate;
+			resultCard.UserTime = UserTime;
+			resultCard.DeactivationControllerUID = DeactivationControllerUID;
+			resultCard.DeactivationControllerUID = DeactivationControllerUID;
+			resultCard.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
+			resultCard.CardDoors.ForEach(x => x.CardUID = Card.UID);
+			resultCard.OrganisationUID = Organisation.UID;
+			resultCard.HolderUID = _employee.UID;
+			resultCard.EmployeeName = _employee.Name;
+
+			if (SelectedAccessTemplate != null)
+				resultCard.AccessTemplateUID = SelectedAccessTemplate.UID;
+			if (AvailableAccessTemplates.IndexOf(SelectedAccessTemplate) == 0)
+				resultCard.AccessTemplateUID = null;
+
+			return resultCard;
+		}
+
+		private bool Validate()
 		{
 			if (SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress)
 			{
@@ -396,7 +440,7 @@ namespace SKDModule.ViewModels
 				return false;
 			}
 
-			if (Number <= 0 || Number > Int32.MaxValue)
+			if ((EnableValidationForUSB || IsFirstRadioButtonChecked) && (Number <= 0 || Number > Int32.MaxValue))
 			{
 				MessageBoxService.ShowWarning("Номер карты должен быть задан в пределах 1 ... 2147483647");
 				return false;
