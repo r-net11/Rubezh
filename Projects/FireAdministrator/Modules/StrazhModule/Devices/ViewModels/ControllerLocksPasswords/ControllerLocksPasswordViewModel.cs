@@ -44,7 +44,7 @@ namespace StrazhModule.ViewModels
 
 		public bool ValidateIfPasswordAlreadyExists(string password)
 		{
-			return _locksPasswordsViewModel.ValidateIfPasswordAlreadyExists(password);
+			return _locksPasswordsViewModel.ValidateIfPasswordAlreadyExists(this, password);
 		}
 
 		private string _password;

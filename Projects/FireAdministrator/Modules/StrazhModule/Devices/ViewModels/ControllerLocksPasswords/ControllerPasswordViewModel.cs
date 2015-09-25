@@ -37,10 +37,10 @@ namespace StrazhModule.ViewModels
 		protected override bool Save()
 		{
 			var result = Validate();
-			if (!result)
-				MessageBoxService.ShowWarning("Пароль замка должен соответствовать следующим ограничениям:\n\nНе может быть пустым\nКоличество знаков от 3 до 9\nНе должен начинаться на 0\nНе должен совпадать с уже имеющимся паролем");
-
-			_controllerLocksPasswordViewModel.Password = Password;
+			if (result)
+				_controllerLocksPasswordViewModel.Password = Password;
+			else
+				MessageBoxService.ShowWarning("Пароль замка должен соответствовать следующим ограничениям:\n\nНе может быть пустым\nМожет состоять только из цифр\nКоличество знаков от 3 до 6\nНе должен начинаться на 0\nНе должен совпадать с уже имеющимся паролем");
 
 			return result;
 		}
@@ -52,7 +52,7 @@ namespace StrazhModule.ViewModels
 
 		private bool ValidatePasswordContent()
 		{
-			const string pattern1 = @"^\d{3,9}$"; // Строка из цифр в количестве от 3 до 9 символов
+			const string pattern1 = @"^\d{3,6}$"; // Строка из цифр в количестве от 3 до 6 символов
 			const string pattern2 = @"^[^0]"; // Строка первая цифра которой не начинается на 0
 			var regex = new Regex(pattern1);
 			var matches = regex.Matches(Password);
