@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Threading;
 using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
@@ -18,6 +20,8 @@ namespace StrazhModule.ViewModels
 			Title = "Основные настройки контроллера";
 			DeviceViewModel = deviceViewModel;
 
+			ReadDoorTypeFromControllerCommand = new RelayCommand(OnReadDoorTypeFromController);
+			WriteDoorTypeToControllerCommand = new RelayCommand(OnWriteDoorTypeToController);
 			ReadFromControllerCommand = new RelayCommand(OnReadFromController);
 			WriteToControllerCommand = new RelayCommand(OnWriteToController);
 
@@ -61,7 +65,20 @@ namespace StrazhModule.ViewModels
 			}
 		}
 
-		bool NeedSaveChangesToController { get; set; }
+		private bool NeedSaveDoorTypeToController { get; set; }
+		private bool NeedSaveAntipassbackToController { get; set; }
+		private bool NeedSaveInterlockToController { get; set; }
+
+		bool NeedSaveChangesToController
+		{
+			get { return NeedSaveDoorTypeToController || NeedSaveAntipassbackToController || NeedSaveInterlockToController; }
+			set
+			{
+				NeedSaveDoorTypeToController = value;
+				NeedSaveAntipassbackToController = value;
+				NeedSaveInterlockToController = value;
+			}
+		}
 
 		#endregion </Флаги изменения настроек контроллера>
 		
@@ -87,7 +104,7 @@ namespace StrazhModule.ViewModels
 				UpdateInterlockModesAvailability();
 				
 				SelectedDoorTypeHasChanged = true;
-				NeedSaveChangesToController = true;
+				NeedSaveDoorTypeToController = true;
 			}
 		}
 
@@ -153,7 +170,7 @@ namespace StrazhModule.ViewModels
 				OnPropertyChanged(() => IsAntiPassBackActivated);
 				UpdateAntiPassBackModesAvailability();
 				AntiPassBackHasChanged = true;
-				NeedSaveChangesToController = true;
+				NeedSaveAntipassbackToController = true;
 			}
 		}
 
@@ -167,7 +184,7 @@ namespace StrazhModule.ViewModels
 				_selectedAntiPassBackMode = value;
 				OnPropertyChanged(() => SelectedAntiPassBackMode);
 				AntiPassBackHasChanged = true;
-				NeedSaveChangesToController = true;
+				NeedSaveAntipassbackToController = true;
 			}
 		}
 
@@ -315,7 +332,7 @@ namespace StrazhModule.ViewModels
 				OnPropertyChanged(() => IsInterlockActivated);
 				UpdateInterlockModesAvailability();
 				InterlockHasChanged = true;
-				NeedSaveChangesToController = true;
+				NeedSaveInterlockToController = true;
 			}
 		}
 
@@ -329,7 +346,7 @@ namespace StrazhModule.ViewModels
 				_selectedInterlockMode = value;
 				OnPropertyChanged(() => SelectedInterlockMode);
 				InterlockHasChanged = true;
-				NeedSaveChangesToController = true;
+				NeedSaveInterlockToController = true;
 			}
 		}
 
@@ -471,18 +488,45 @@ namespace StrazhModule.ViewModels
 			return !result.HasError;
 		}
 
+		public RelayCommand ReadDoorTypeFromControllerCommand { get; private set; }
+		private void OnReadDoorTypeFromController()
+		{
+			var status = GetDoorType();
+			if (!status)
+			{
+				MessageBoxService.ShowWarning("Нет связи с устройством");
+				return;
+			}
+			NeedSaveDoorTypeToController = false;
+		}
+
+		public RelayCommand WriteDoorTypeToControllerCommand { get; private set; }
+		private void OnWriteDoorTypeToController()
+		{
+			var status = SetDoorType();
+			if (!status)
+			{
+				MessageBoxService.ShowWarning("Нет связи с устройством");
+				return;
+			}
+			//if (SelectedDoorTypeHasChanged)
+			//	MessageBoxService.Show("Выполняется перезагрузка контроллера. Контроллер будет доступен через несколько секунд");
+
+			NeedSaveDoorTypeToController = false;
+		}
+
 		public RelayCommand ReadFromControllerCommand { get; private set; }
 		void OnReadFromController()
 		{
-			var status = GetDoorType();
-			status &= GetAntiPassBack();
+			var status = GetAntiPassBack();
 			status &= GetInterlock();
 			if (!status)
 			{
 				MessageBoxService.ShowWarning("Нет связи с устройством");
 				return;
 			}
-			NeedSaveChangesToController = false;
+			NeedSaveAntipassbackToController = false;
+			NeedSaveInterlockToController = false;
 		}
 		
 		public RelayCommand WriteToControllerCommand { get; private set; }
@@ -490,17 +534,15 @@ namespace StrazhModule.ViewModels
 		{
 			var status = SetAntiPassBack();
 			status &= SetInterlock();
-			status &= SetDoorType(); // Выполняется последней, т.к. при этой операции происходит перезагрузка контроллера
 			
 			if (!status)
 			{
 				MessageBoxService.ShowWarning("Нет связи с устройством");
 				return;				
 			}
-			//if (SelectedDoorTypeHasChanged)
-			//	MessageBoxService.Show("Выполняется перезагрузка контроллера. Контроллер будет доступен через несколько секунд");
 
-			NeedSaveChangesToController = false;
+			NeedSaveAntipassbackToController = false;
+			NeedSaveInterlockToController = false;
 		}
 
 		protected override bool Save()

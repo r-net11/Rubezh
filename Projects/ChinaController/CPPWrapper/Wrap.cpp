@@ -190,16 +190,16 @@ BOOL CALL_METHOD WRAP_SetCurrentTime(int loginID, int dwYear, int dwMonth, int d
 
 BOOL CALL_METHOD WRAP_GetControllerDirectionType(int loginID, WRAP_ControllerDirectionType* result)
 {
-	CFG_ACCESS_GENERAL_INFO	m_stuInfo;
 	char szJsonBuf[1024 * 40] = {0};
 	int nerror = 0;
 	BOOL bRet = CLIENT_GetNewDevConfig((LLONG)loginID, CFG_CMD_ACCESS_GENERAL, -1, szJsonBuf, 1024*40, &nerror, SDK_API_WAITTIME);
 	
 	if (bRet)
 	{
+		CFG_ACCESS_GENERAL_INFO	stuInfo = {0};
 		DWORD dwRetLen = 0;
-		bRet = CLIENT_ParseData(CFG_CMD_ACCESS_GENERAL, szJsonBuf, (void*)&m_stuInfo, sizeof(m_stuInfo), &dwRetLen);
-		result->emAccessProperty = m_stuInfo.emAccessProperty;
+		bRet = CLIENT_ParseData(CFG_CMD_ACCESS_GENERAL, szJsonBuf, (void*)&stuInfo, sizeof(stuInfo), &dwRetLen);
+		result->emAccessProperty = stuInfo.emAccessProperty;
 		return bRet;
 	}
 	return FALSE;
@@ -207,11 +207,11 @@ BOOL CALL_METHOD WRAP_GetControllerDirectionType(int loginID, WRAP_ControllerDir
 
 BOOL CALL_METHOD WRAP_SetControllerDirectionType(int loginID, CFG_ACCESS_PROPERTY_TYPE emAccessProperty)
 {
-	CFG_ACCESS_GENERAL_INFO	m_stuInfo = {0};
-	m_stuInfo.abAccessProperty = true;
-	m_stuInfo.emAccessProperty = emAccessProperty;
+	CFG_ACCESS_GENERAL_INFO	stuInfo = {0};
+	stuInfo.abAccessProperty = true;
+	stuInfo.emAccessProperty = emAccessProperty;
 	char szJsonBuf[1024 * 40] = {0};
-	BOOL bRet = CLIENT_PacketData(CFG_CMD_ACCESS_GENERAL, &m_stuInfo, sizeof(m_stuInfo), szJsonBuf, sizeof(szJsonBuf));
+	BOOL bRet = CLIENT_PacketData(CFG_CMD_ACCESS_GENERAL, &stuInfo, sizeof(stuInfo), szJsonBuf, sizeof(szJsonBuf));
 	if (!bRet)
 	{
 		return FALSE;
