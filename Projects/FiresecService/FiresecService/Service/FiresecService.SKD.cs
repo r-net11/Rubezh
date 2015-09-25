@@ -1375,7 +1375,7 @@ namespace FiresecService.Service
 					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
 					if (lockDevice != null)
 					{
-						var result = ChinaSKDDriver.Processor.OpenDoor(lockDevice);
+						var result = Processor.OpenDoor(lockDevice);
 						if (result.HasError)
 						{
 							errors.AddRange(result.Errors);
@@ -1386,16 +1386,13 @@ namespace FiresecService.Service
 						return OperationResult<bool>.FromError("Для зоны не найден замок");
 					}
 				}
-				if (errors.Count > 0)
-				{
-					return OperationResult<bool>.FromError(errors);
-				}
+				//if (errors.Count > 0)
+				//{
+				//	return OperationResult<bool>.FromError(errors);
+				//}
 				return new OperationResult<bool>(true);
 			}
-			else
-			{
-				return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
-			}
+			return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
 		}
 
 		public OperationResult<bool> SKDCloseZone(Guid zoneUID)
@@ -1415,7 +1412,7 @@ namespace FiresecService.Service
 					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
 					if (lockDevice != null)
 					{
-						var result = ChinaSKDDriver.Processor.CloseDoor(lockDevice);
+						var result = Processor.CloseDoor(lockDevice);
 						if (result.HasError)
 						{
 							errors.AddRange(result.Errors);
@@ -1426,16 +1423,13 @@ namespace FiresecService.Service
 						return OperationResult<bool>.FromError("Для зоны не найден замок");
 					}
 				}
-				if (errors.Count > 0)
-				{
-					return OperationResult<bool>.FromError(errors);
-				}
+				//if (errors.Count > 0)
+				//{
+				//	return OperationResult<bool>.FromError(errors);
+				//}
 				return new OperationResult<bool>(true);
 			}
-			else
-			{
-				return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
-			}
+			return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
 		}
 
 		public OperationResult<bool> SKDOpenZoneForever(Guid zoneUID)
