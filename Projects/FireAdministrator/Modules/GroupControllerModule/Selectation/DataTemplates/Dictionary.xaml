@@ -48,4 +48,8 @@
 		<Views:PumpStationsSelectationView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:DependencyItemsViewModel}">
+		<Views:DependencyItemsView />
+	</DataTemplate>
+
 </ResourceDictionary>

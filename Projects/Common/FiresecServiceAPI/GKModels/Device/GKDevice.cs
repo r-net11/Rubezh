@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Xml.Serialization;
 using Infrustructure.Plans.Interfaces;
+using FiresecClient;
 
 namespace FiresecAPI.GK
 {
@@ -33,18 +34,66 @@ namespace FiresecAPI.GK
 			Directions = new List<GKDirection>();
         }
 
-		public override void Update(GKDevice device)
+		public override void Invalidate()
 		{
-			Logic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => { y.Devices.Remove(device); y.DeviceUIDs.Remove(device.UID); });
-			UnLinkObject(device);
+			if (Driver.HasLogic)
+			{
+				UpdateLogic();
+				Logic.GetObjects().ForEach(x =>
+				{
+					AddDependentElement(x);
+				});
+				NSLogic.GetObjects().ForEach(x =>
+				{
+					AddDependentElement(x);
+				});
+			}
+			if (Driver.HasZone)
+			{
+				var zoneUIDs = new List<Guid>();
+				var zones = new List<GKZone>();
+
+				foreach (var zoneUID in ZoneUIDs)
+				{
+					var zone = GKManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					if (zone != null)
+					{
+						zones.Add(zone);
+						zoneUIDs.Add(zoneUID);
+						if (!zone.Devices.Contains(this))
+							zone.Devices.Add(this);
+						AddDependentElement(zone);
+					}
+				}
+				Zones = zones;
+				ZoneUIDs = zoneUIDs;
+			}
+			if (Driver.HasGuardZone)
+			{
+				var guardZoneUIDs = new List<Guid>();
+				var guardZones = new List<GKGuardZone>();
+
+				foreach (var guardZoneUID in GuardZoneUIDs)
+				{
+					var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == guardZoneUID);
+					if (guardZone != null)
+					{
+						guardZones.Add(guardZone);
+						guardZoneUIDs.Add(guardZoneUID);
+						AddDependentElement(guardZone);
+					}
+				}
+				GuardZones = guardZones;
+				GuardZoneUIDs = guardZoneUIDs;
+			}
+
 			OnChanged();
 		}
 
-		public override void Update(GKDirection direction)
+		public override void UpdateLogic()
 		{
-			Logic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
-			UnLinkObject(direction);
-			OnChanged();
+			GKManager.DeviceConfiguration.InvalidateOneLogic(this, Logic);
+			GKManager.DeviceConfiguration.InvalidateOneLogic(this, NSLogic);
 		}
 
         [XmlIgnore]
@@ -563,22 +612,6 @@ namespace FiresecAPI.GK
 		{
 			get { return (Parent != null && Parent.Driver.IsGroupDevice); }
 		}
-
-		public void OnRemoved()
-		{
-			var newOutputObjects = new List<GKBase>(OutputObjects);
-			foreach (var outputObject in newOutputObjects)
-			{
-				outputObject.Update(this);
-			}
-		}
-
-		public void OnChanged()
-		{
-			if (Changed != null)
-				Changed();
-		}
-		public event Action Changed;
 
 		public void OnAUParametersChanged()
 		{

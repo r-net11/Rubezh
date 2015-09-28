@@ -55,6 +55,9 @@
     <Compile Include="Drivers\Network1Creator.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User\CashUser.cs" />
+    <Compile Include="User\PermissionType.cs" />
+    <Compile Include="User\User.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
