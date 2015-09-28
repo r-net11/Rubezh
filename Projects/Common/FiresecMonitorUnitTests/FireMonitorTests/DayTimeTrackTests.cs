@@ -13,12 +13,12 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 		private DateTime TIME = DateTime.Now;
 
 		[Test]
-		public void GetTimeTrackTypeNonOfficialOvertimeTimeTrackType()
+		public void GetTimeTrackTypeNonOfficialOvertimeTimeTrackTypeTakeInCalculations()
 		{
 			//Arrange
 			var dayTimeTrack = new DayTimeTrack();
 			var plannedTimeInterval = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(12), TIME.Date + TimeSpan.FromHours(18));
-			var realTimeTrackPart = new TimeTrackPart { EnterDateTime = TIME.Date + TimeSpan.FromHours(9), ExitDateTime = TIME.Date + TimeSpan.FromHours(10) };
+			var realTimeTrackPart = new TimeTrackPart { EnterDateTime = TIME.Date + TimeSpan.FromHours(9), ExitDateTime = TIME.Date + TimeSpan.FromHours(10), IsForURVZone = true};
 			var plannedTimeTrackPart = new TimeTrackPart
 			{
 				EnterDateTime = plannedTimeInterval.StartTime,
@@ -37,13 +37,37 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 		}
 
 		[Test]
+		public void GetTimeTrackTypeNonOfficialOvertimeTimeTrackTypeNotTakeInCalculations()
+		{
+			//Arrange
+			var dayTimeTrack = new DayTimeTrack();
+			var plannedTimeInterval = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(12), TIME.Date + TimeSpan.FromHours(18));
+			var realTimeTrackPart = new TimeTrackPart { EnterDateTime = TIME.Date + TimeSpan.FromHours(9), ExitDateTime = TIME.Date + TimeSpan.FromHours(10), IsForURVZone = true, NotTakeInCalculations = true};
+			var plannedTimeTrackPart = new TimeTrackPart
+			{
+				EnterDateTime = plannedTimeInterval.StartTime,
+				ExitDateTime = plannedTimeInterval.EndTime
+			};
+
+			var realTimeTrackPartsCollection = new List<TimeTrackPart> { realTimeTrackPart };
+			var plannedTimeTrackPartCollection = new List<TimeTrackPart> { plannedTimeTrackPart };
+
+			//Act
+			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection, realTimeTrackPartsCollection, false, plannedTimeInterval,
+				new DayTimeTrack.ScheduleInterval(realTimeTrackPart.EnterDateTime, realTimeTrackPart.ExitDateTime));
+
+			//Assert
+			Assert.IsTrue(type == TimeTrackType.None);
+		}
+
+		[Test]
 		public void GetTimeTrackTypePresentTimeTrackType()
 		{
 			//Arrange
 			var dayTimeTrack = new DayTimeTrack();
 			var plannedTimeInterval = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(12), TIME.Date + TimeSpan.FromHours(18));
 
-			var realTimeTrackPart = new TimeTrackPart { EnterDateTime = TIME.Date + TimeSpan.FromHours(12), ExitDateTime = TIME.Date + TimeSpan.FromHours(13) };
+			var realTimeTrackPart = new TimeTrackPart { EnterDateTime = TIME.Date + TimeSpan.FromHours(12), ExitDateTime = TIME.Date + TimeSpan.FromHours(13), IsForURVZone = true};
 			var plannedTimeTrackPart = new TimeTrackPart
 			{
 				EnterDateTime = plannedTimeInterval.StartTime,
@@ -59,6 +83,31 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 
 			//Assert
 			Assert.IsTrue(type == TimeTrackType.Presence);
+		}
+
+		[Test]
+		public void GetTimeTrackTypePresentTimeTrackTypeNotTakeInCalculation()
+		{
+			//Arrange
+			var dayTimeTrack = new DayTimeTrack();
+			var plannedTimeInterval = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(12), TIME.Date + TimeSpan.FromHours(18));
+
+			var realTimeTrackPart = new TimeTrackPart { EnterDateTime = TIME.Date + TimeSpan.FromHours(12), ExitDateTime = TIME.Date + TimeSpan.FromHours(13), IsForURVZone = true, NotTakeInCalculations = true };
+			var plannedTimeTrackPart = new TimeTrackPart
+			{
+				EnterDateTime = plannedTimeInterval.StartTime,
+				ExitDateTime = plannedTimeInterval.EndTime
+			};
+
+			var realTimeTrackPartsCollection = new List<TimeTrackPart> { realTimeTrackPart };
+			var plannedTimeTrackPartCollection = new List<TimeTrackPart> { plannedTimeTrackPart };
+
+			//Act
+			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection, realTimeTrackPartsCollection, false, plannedTimeInterval,
+				new DayTimeTrack.ScheduleInterval(realTimeTrackPart.EnterDateTime, realTimeTrackPart.ExitDateTime));
+
+			//Assert
+			Assert.IsTrue(type == TimeTrackType.Absence);
 		}
 
 		[Test]
@@ -94,7 +143,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var plannedTimeBeforeLunch = new DayTimeTrack.ScheduleInterval(TIME.Date.Date + TimeSpan.FromHours(6), TIME.Date.Date + TimeSpan.FromHours(12));
 			var plannedTimeAfterLunch = new DayTimeTrack.ScheduleInterval(TIME.Date.Date + TimeSpan.FromHours(13), TIME.Date.Date + TimeSpan.FromHours(18));
 
-			var realTimeTrackPart = new TimeTrackPart { EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(12), ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(13) };
+			var realTimeTrackPart = new TimeTrackPart { EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(12), ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(13), IsForURVZone = true };
 			var plannedTimeTrackPartBeforeLunch = new TimeTrackPart
 			{
 				EnterDateTime = plannedTimeBeforeLunch.StartTime,
