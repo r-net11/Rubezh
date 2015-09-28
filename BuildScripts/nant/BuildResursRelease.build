@@ -1,0 +1,21 @@
+﻿<?xml version="1.0"?>
+<project name="Simple" default="run">
+  <property name="nant.settings.currentframework" value="net-4.0" />
+  <target name="run">
+    <call target="BuildAll" />
+  </target>
+  <target name="BuildAll">
+    <delete dir="..\bin\Resurs" />
+    <msbuild project="..\..\Projects\Resurs\Resurs.sln">
+      <property name="Configuration" value="Release" overwrite="True" />
+    </msbuild>
+		<msbuild project="..\..\Projects\Installers\ResursInstaller\ResursInstaller.sln">
+			<property name="Configuration" value="Release" overwrite="True" />
+		</msbuild>
+    <copy todir="..\bin\Resurs\">
+      <fileset basedir="..\..\Projects\Installers\ResursInstaller\ResursInstaller\bin\Release">
+        <include name="**\*" />
+      </fileset>
+    </copy>
+  </target>
+</project>
