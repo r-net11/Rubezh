@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RubezhResurs.Devices.Collections.ObjectModel
+namespace ResursNetwork.Devices.Collections.ObjectModel
 {
-    public class DevicesCollection: KeyedCollection<UInt32, Device>
+    public class DevicesCollection: KeyedCollection<UInt32, DeviceBase>
     {
-        protected override uint GetKeyForItem(Device item)
+        protected override uint GetKeyForItem(DeviceBase item)
         {
             return item.Address;
         }

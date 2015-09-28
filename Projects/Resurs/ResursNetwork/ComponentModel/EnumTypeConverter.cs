@@ -4,7 +4,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Reflection;
 
-namespace RubezhResurs.ComponentModel
+namespace ResursNetwork.ComponentModel
 {
     /// <summary>
     /// Конвертер для преобразования перечисления. Преобразование члена

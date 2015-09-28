@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RubezhResurs.Devices;
+using ResursNetwork.Devices;
 
-namespace RubezhResurs.Devices.Collections.ObjectModel
+namespace ResursNetwork.Devices.Collections.ObjectModel
 {
     /// <summary>
     /// Коллекция для хранения описания праметров устройства
