@@ -45,11 +45,11 @@ namespace Resurs.ViewModels
 		{
 			var userDetailsViewModel = new UserDetailsViewModel();
 			DialogService.ShowModalWindow(userDetailsViewModel);
-			//{
-			//	var userViewModel = new UserViewModel(userDetailsViewModel.User);
-			//	Users.Add(userViewModel);
-			//	SelectedUser = userViewModel;
-			//}
+			{
+				var userViewModel = new UserViewModel(userDetailsViewModel.User);
+				Users.Add(userViewModel);
+				SelectedUser = userViewModel;
+			}
 
 		}
 
@@ -71,15 +71,21 @@ namespace Resurs.ViewModels
 			var userDetailsViewModel = new UserDetailsViewModel(SelectedUser.User);
 			if (DialogService.ShowModalWindow(userDetailsViewModel))
 			{
-				var userViewModel = new UserViewModel(userDetailsViewModel.User);
-				Users.Add(userViewModel);
-				SelectedUser = userViewModel;
+				CashUser.Users.Remove(SelectedUser.User);
+				CashUser.Users.Add(userDetailsViewModel.User);
+				SelectedUser.User = userDetailsViewModel.User;
 			}
 		}
 
 		public RelayCommand RemoveCommand { get; set; }
 
 		void OnDelete()
-		{ }
+		{
+			if (MessageBoxService.ShowQuestion(string.Format("Вы уверенны, что хотите удалить пользователя \"{0}\" из списка", SelectedUser.User.Name)))
+			{
+				CashUser.Users.Remove(SelectedUser.User);
+				Users.Remove(SelectedUser);
+			}
+		}
 	}
 }
