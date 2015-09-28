@@ -101,12 +101,26 @@
 						Grid.Column="2"
 						Margin="2 4"
 						VerticalAlignment="Center"
+						Focusable="False"
+						FocusVisualStyle="{x:Null}"
 						TextWrapping="Wrap">
 						<Hyperlink
+							Focusable="False"
+							FocusVisualStyle="{x:Null}"
 							IsEnabled="{Binding IsChecked, ElementName=EnableReader, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 							Command="{Binding ChangeReaderCommand}"
 							Style="{StaticResource HyperlinkStyle}">
-								<TextBlock Text="{Binding ReaderName}" />
+								<TextBlock FocusVisualStyle="{x:Null}" Focusable="False" Text="{Binding ReaderName}">
+									<TextBlock.Style>
+										<Style>
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding ElementName=EnableReader, Path=IsChecked}" Value="False">
+													<Setter Property="TextBlock.Foreground" Value="LightGray" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</TextBlock.Style>
+								</TextBlock>
 						</Hyperlink>
 					</TextBlock>
 					<TextBlock
