@@ -129,6 +129,7 @@ namespace StrazhModule.ViewModels
 				{
 					var cancelEventArgs = new CancelEventArgs();
 					ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);
+					return !cancelEventArgs.Cancel;
 				}
 				return false;
 			}

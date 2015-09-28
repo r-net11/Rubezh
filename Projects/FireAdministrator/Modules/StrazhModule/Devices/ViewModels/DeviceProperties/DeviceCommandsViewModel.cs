@@ -151,6 +151,8 @@ namespace StrazhModule.ViewModels
 				return;
 			if (!CheckNeedSave())
 				return;
+			if (!ValidateConfiguration())
+				return;
 				
 			var thread = new Thread(() =>
 			{
@@ -166,7 +168,7 @@ namespace StrazhModule.ViewModels
 				}
 
 				// 2. Записываем пароли
-				if (writeConfigurationInAllControllersViewModel.IsLockPasswords && (result == null || (result != null && !result.IsCanceled)))
+				if (writeConfigurationInAllControllersViewModel.IsLockPasswords && (result == null || !result.IsCanceled))
 				{
 					result = FiresecManager.FiresecService.RewriteControllerLocksPasswordsOnAllControllers();
 					if (result.HasError && result.Result != null)
@@ -174,7 +176,7 @@ namespace StrazhModule.ViewModels
 				}
 
 				// 3. Записываем пропуска
-				if (writeConfigurationInAllControllersViewModel.IsCards && (result == null || (result != null && !result.IsCanceled)))
+				if (writeConfigurationInAllControllersViewModel.IsCards && (result == null || !result.IsCanceled))
 				{
 					result = FiresecManager.FiresecService.RewriteCardsOnAllControllers();
 					if (result.HasError && result.Result != null)
