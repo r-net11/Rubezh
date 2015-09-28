@@ -67,6 +67,7 @@ namespace Resurs.Processor
 							new Apartment() {Name = "Квартира 14"},
 							new Apartment() {Name = "Квартира 15"},
 							new Apartment() {Name = "Квартира 66"},
+							new Apartment() {Name = "Квартира 666"},
 						}
 					}
 				}

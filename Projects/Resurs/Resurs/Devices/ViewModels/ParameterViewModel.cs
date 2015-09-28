@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Resurs.ViewModels
 {
-	public class ParameterViewModel : BaseViewModel
+	public class ParameterViewModel
 	{
 		public Parameter Model { get; private set; }
 		public ParameterViewModel(Parameter model)

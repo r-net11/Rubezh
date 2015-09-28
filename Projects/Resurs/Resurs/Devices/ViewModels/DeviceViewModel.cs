@@ -5,6 +5,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
@@ -14,8 +15,10 @@ namespace Resurs.ViewModels
 	{
 		public DeviceViewModel(Device device)
 		{
-			Device = device;
+			Update(device);
 		}
+
+		public ObservableCollection<ParameterViewModel> Parameters { get; private set; }
 
 		Device _device;
 		public Device Device
@@ -31,6 +34,7 @@ namespace Resurs.ViewModels
 		public void Update(Device device)
 		{
 			Device = device;
+			Parameters = new ObservableCollection<ParameterViewModel>(Device.Parameters.Select(x => new ParameterViewModel(x)));
 		}
 	}
 }

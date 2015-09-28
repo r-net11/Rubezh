@@ -61,7 +61,7 @@ namespace ResursAPI
 		public List<Parameter> Parameters { get; set; }
 		public Tariff Tariff { get; set; }
 		public Bill Bill { get; set; } 
-		public ResursAPI.DriverType DriverType { get; set; }
+		public DriverType DriverType { get; set; }
 		public int Address { get; set; }
 		public bool IsActive { get; set; }
 		[NotMapped]
