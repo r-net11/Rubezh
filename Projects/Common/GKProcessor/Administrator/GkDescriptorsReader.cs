@@ -79,7 +79,7 @@ namespace GKProcessor
 				const byte packNo = 1;
 				var data = new List<byte>(BitConverter.GetBytes(descriptorNo)) { packNo };
 
-				for (int i = 0; i < 10; i++)
+				for (int i = 0; i < 3; i++)
 				{
 					var sendResult = SendManager.Send(gkControllerDevice, 3, 19, ushort.MaxValue, data);
 					var bytes = sendResult.Bytes;
@@ -93,7 +93,7 @@ namespace GKProcessor
 						break;
 					}
 
-					if (i == 9)
+					if (i == 2)
 					{
 						Error = "Возникла ошибка при чтении объекта " + descriptorNo;
 						return;

@@ -100,12 +100,95 @@ namespace GKProcessor
 
 		void SetFormulaBarrier()
 		{
-			if (Door.EnterDevice != null || Door.ExitDevice != null)
+			var lockControlDevice = Door.LockControlDevice;
+			var lockControlDeviceExit = Door.LockControlDeviceExit;
+			var enterDevice = Door.EnterDevice;
+			var exitDevice = Door.ExitDevice;
+			var enterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == Door.EnterZoneUID);
+			var exitZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == Door.ExitZoneUID);
+
+			Formula.AddGetBit(GKStateBit.TurningOff, Door.PimCrossing);
+			Formula.AddGetBit(GKStateBit.On, Door);
+			Formula.Add(FormulaOperationType.AND);
+			Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Door);
+
+			if (lockControlDevice != null && lockControlDeviceExit != null)
 			{
-				if (Door.EnterDevice != null)
-					TurnOnDoorBuilder(true);
-				if (Door.ExitDevice != null)
-					TurnOnDoorBuilder(false);
+				Formula.AddGetBit(GKStateBit.Fire1, lockControlDevice);
+				Formula.AddGetBit(GKStateBit.Fire1, lockControlDeviceExit);
+				Formula.Add(FormulaOperationType.OR);
+				Formula.AddGetBit(GKStateBit.Off, Door);
+				Formula.Add(FormulaOperationType.AND);
+				Formula.Add(FormulaOperationType.BR, 1, 3);
+				Formula.Add(FormulaOperationType.CONST, 0, 1);
+				Formula.AddPutBit(GKStateBit.Fire1, Door);
+				Formula.Add(FormulaOperationType.EXIT);
+			}
+
+			Formula.AddGetBit(GKStateBit.Fire1, Door.PimCrossing);
+			Formula.Add(FormulaOperationType.BR, 1, 5);
+			Formula.AddWithGKBase(FormulaOperationType.GETMEMB, 0, Door);
+			Formula.Add(FormulaOperationType.BR, 1, 0);
+			Formula.Add(FormulaOperationType.CONST, 0, 2);
+			Formula.Add(FormulaOperationType.PUTP);
+			Formula.Add(FormulaOperationType.EXIT);
+
+			Formula.AddGetBit(GKStateBit.Fire2, Door.PimCrossing);
+			Formula.Add(FormulaOperationType.BR, 1, 5);
+			Formula.AddWithGKBase(FormulaOperationType.GETMEMB, 0, Door);
+			Formula.Add(FormulaOperationType.BR, 1, 0);
+			Formula.Add(FormulaOperationType.CONST, 0, 1);
+			Formula.Add(FormulaOperationType.PUTP);
+			Formula.Add(FormulaOperationType.EXIT);
+
+			Formula.AddGetBit(GKStateBit.Attention, enterDevice);
+			Formula.AddGetBit(GKStateBit.Off, Door);
+			Formula.Add(FormulaOperationType.AND);
+			if (!Door.AntipassbackOn || exitZone == null)
+			{
+				Formula.Add(FormulaOperationType.BR, 1, 3);
+				Formula.AddWithGKBase(FormulaOperationType.ACS, (byte)Door.EnterLevel, enterDevice);
+			}
+			else
+			{
+				Formula.Add(FormulaOperationType.BR, 1, 9);
+				Formula.AddWithGKBase(FormulaOperationType.ACSP, (byte)Door.EnterLevel, enterDevice);
+				Formula.Add(FormulaOperationType.BR, 1, 6);
+				Formula.Add(FormulaOperationType.TSTP, 0, (byte)exitZone.No);
+				Formula.Add(FormulaOperationType.BR, 1, 4);
+				Formula.Add(FormulaOperationType.CONST, 0, 0);
+				Formula.AddWithGKBase(FormulaOperationType.PUTMEMB, 0, Door);
+				Formula.Add(FormulaOperationType.CONST, 0, 1);
+			}
+			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door);
+			Formula.Add(FormulaOperationType.EXIT);
+
+
+			Formula.AddGetBit(GKStateBit.Attention, exitDevice);
+			Formula.AddGetBit(GKStateBit.Off, Door);
+			Formula.Add(FormulaOperationType.AND);
+			if (!Door.AntipassbackOn || enterZone == null)
+			{
+				Formula.Add(FormulaOperationType.BR, 1, 3);
+				Formula.AddWithGKBase(FormulaOperationType.ACS, (byte)Door.EnterLevel, exitDevice);
+			}
+			else
+			{
+				Formula.Add(FormulaOperationType.BR, 1, 9);
+				Formula.AddWithGKBase(FormulaOperationType.ACSP, (byte)Door.EnterLevel, exitDevice);
+				Formula.Add(FormulaOperationType.BR, 1, 6);
+				Formula.Add(FormulaOperationType.TSTP, 0, (byte)enterZone.No);
+				Formula.Add(FormulaOperationType.BR, 1, 4);
+				Formula.Add(FormulaOperationType.CONST, 0, 0);
+				Formula.AddWithGKBase(FormulaOperationType.PUTMEMB, 0, Door);
+				Formula.Add(FormulaOperationType.CONST, 0, 1);
+			}
+			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door);
+			Formula.Add(FormulaOperationType.EXIT);
+
+			if (Door.PimCrossing != null)
+			{
+				Door.LinkToDescriptor(Door.PimCrossing);
 			}
 		}
 

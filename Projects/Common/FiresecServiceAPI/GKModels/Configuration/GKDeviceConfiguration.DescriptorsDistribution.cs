@@ -92,6 +92,8 @@ namespace FiresecAPI.GK
 				foreach (var mptDevice in mpt.MPTDevices)
 				{
 					mpt.ChildDescriptors.Add(mptDevice.Device);
+					if (mptDevice.MPTDeviceType != GKMPTDeviceType.HandAutomaticOff && mptDevice.MPTDeviceType != GKMPTDeviceType.HandAutomaticOn &&
+						mptDevice.MPTDeviceType != GKMPTDeviceType.HandStart && mptDevice.MPTDeviceType != GKMPTDeviceType.HandStop)
 					mptDevice.Device.ChildDescriptors.Add(mpt);
 					var codeUIDs = new List<Guid>();
 					codeUIDs.AddRange(mptDevice.CodeReaderSettings.MPTSettings.CodeUIDs);
@@ -120,25 +122,25 @@ namespace FiresecAPI.GK
 				if (door.EnterDevice != null)
 				{
 					door.ChildDescriptors.Add(door.EnterDevice);
-					door.EnterDevice.ChildDescriptors.Add(door);
+					//door.EnterDevice.ChildDescriptors.Add(door);
 				}
 
 				if (door.ExitDevice != null)
 				{
 					door.ChildDescriptors.Add(door.ExitDevice);
-					door.ExitDevice.ChildDescriptors.Add(door);
+					//door.ExitDevice.ChildDescriptors.Add(door);
 				}
 
 				if (door.EnterButton != null)
 				{
 					door.ChildDescriptors.Add(door.EnterButton);
-					door.EnterButton.ChildDescriptors.Add(door);
+					//door.EnterButton.ChildDescriptors.Add(door);
 				}
 
 				if (door.ExitButton != null)
 				{
 					door.ChildDescriptors.Add(door.ExitButton);
-					door.ExitButton.ChildDescriptors.Add(door);
+					//door.ExitButton.ChildDescriptors.Add(door);
 				}
 
 				if (door.LockDevice != null)
@@ -156,13 +158,13 @@ namespace FiresecAPI.GK
 				if (door.LockControlDevice != null)
 				{
 					door.ChildDescriptors.Add(door.LockControlDevice);
-					door.LockControlDevice.ChildDescriptors.Add(door);
+					//door.LockControlDevice.ChildDescriptors.Add(door);
 				}
 
 				if (door.LockControlDeviceExit != null)
 				{
 					door.ChildDescriptors.Add(door.LockControlDeviceExit);
-					door.LockControlDeviceExit.ChildDescriptors.Add(door);
+					//door.LockControlDeviceExit.ChildDescriptors.Add(door);
 				}
 
 				gkBases.Add(door);

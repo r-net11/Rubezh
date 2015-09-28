@@ -144,6 +144,7 @@ namespace GKProcessor
 							case ClauseOperationType.AllMPTs:
 							case ClauseOperationType.AllDelays:
 							case ClauseOperationType.AllDoors:
+							case ClauseOperationType.AllPumpStations:
 								Add(FormulaOperationType.AND, comment: "Объединение объектов по И");
 								break;
 
@@ -154,6 +155,7 @@ namespace GKProcessor
 							case ClauseOperationType.AnyMPT:
 							case ClauseOperationType.AnyDelay:
 							case ClauseOperationType.AnyDoor:
+							case ClauseOperationType.AnyPumpStation:
 								Add(FormulaOperationType.OR, comment: "Объединение объектов по Или");
 								break;
 						}
