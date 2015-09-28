@@ -94,7 +94,7 @@ namespace Resurs.ViewModels
 		private void OnSettings()
 		{
 			var startupSettingsViewModel = new StartupSettingsViewModel();
-			if(DialogService.ShowModalWindow(startupSettingsViewModel))
+			if (DialogService.ShowModalWindow(startupSettingsViewModel))
 			{
 
 			}
