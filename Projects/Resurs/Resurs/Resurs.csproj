@@ -181,6 +181,7 @@
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
     <Compile Include="Apartments\ViewModels\ApartmentViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Devices\ViewModels\ParameterViewModel.cs" />
     <Compile Include="Devices\ViewModels\DriverTypesViewModel.cs" />
     <Compile Include="Main\ViewModels\LoginViewModel.cs" />
     <Compile Include="Main\ViewModels\NotifyIconService.cs" />

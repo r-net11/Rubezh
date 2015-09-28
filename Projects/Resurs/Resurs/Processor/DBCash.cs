@@ -14,37 +14,18 @@ namespace Resurs.Processor
 
 		static DBCash()
 		{
-			RootDevice = new Device()
-			{
-				Name = "Система",
-				DriverType = DriverType.System,
-				Children = new List<Device>()
-				{
-					new Device()
-					{
-						Name = "Сеть 1",
-						DriverType = DriverType.Network1,
-						Children = new List<Device>()
-						{
-							new Device() {Name = "Счетчик 1", DriverType = DriverType.Network1Device1},
-							new Device() {Name = "Счетчик 2", DriverType = DriverType.Network1Device1},
-							new Device() {Name = "Счетчик 3", DriverType = DriverType.Network1Device2},
-						}
-					},
-					new Device()
-					{
-						Name = "Сеть 2",
-						DriverType = DriverType.Network2,
-						Children = new List<Device>()
-						{
-							new Device() {Name = "Счетчик 10", DriverType = DriverType.Network2Device1},
-							new Device() {Name = "Счетчик 20", DriverType = DriverType.Network2Device2},
-							new Device() {Name = "Счетчик 30", DriverType = DriverType.Network2Device3},
-						}
-					}
-				}
-			};
-
+			RootDevice = new Device(DriverType.System);
+			var interface1 = new Device(DriverType.BeregunInterface);
+			interface1.AddChild(DriverType.BeregunCounter);
+			interface1.AddChild(DriverType.BeregunCounter);
+			interface1.AddChild(DriverType.BeregunCounter);
+			RootDevice.AddChild(interface1);
+			var interface2 = new Device(DriverType.MZEP55Interface);
+			interface2.AddChild(DriverType.MZEP55Counter);
+			interface2.AddChild(DriverType.MZEP55Counter);
+			interface2.AddChild(DriverType.MZEP55Counter);
+			RootDevice.AddChild(interface2);
+			
 			RootApartment = new Apartment()
 			{
 				Name = "Жилой комплекс",

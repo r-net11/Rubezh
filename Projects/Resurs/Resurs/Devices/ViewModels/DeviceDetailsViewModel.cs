@@ -53,7 +53,7 @@ namespace Resurs.ViewModels
 
 		protected override bool Save()
 		{
-			Device.Name = Name;
+			//Device.Name = Name;
 			Device.Description = Description;
 			return base.Save();
 		}
