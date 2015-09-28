@@ -11,6 +11,8 @@
 			<Separator />
 			<IconedMenuItem Command="{Binding CopyLogicCommand}" ImageSource="BCopy" Text="Копировать логику" />
 			<IconedMenuItem Command="{Binding PasteLogicCommand}" ImageSource="BPaste" Text="Вставить логику" />
+			<Separator/>
+			<IconedMenuItem Command="{Binding ShowDependencyItemsCommand}" Text="Список зависящих объектов"/>
 		</ContextMenu>
 	</UserControl.Resources>
 	<Grid>
@@ -88,10 +90,5 @@
 				</DataGrid.Columns>
 			</DataGrid>
 		</Grid>
-		<Border Grid.Row="1" Margin="0 4 0 0" Background="White" CornerRadius="5">
-			<Grid Visibility="{Binding SelectedDirection, Converter={StaticResource NullToVisibilityConverter}}">
-				<StackPanel Margin="2" DataContext="{Binding SelectedDirection}" />
-			</Grid>
-		</Border>
 	</Grid>
 </UserControl>

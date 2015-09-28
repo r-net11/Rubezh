@@ -16,7 +16,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
-	public class PumpStationsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class PumpStationsViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public PumpStationsViewModel()
 		{
@@ -27,6 +27,7 @@ namespace GKModule.ViewModels
 			ChangePumpDevicesCommand = new RelayCommand(OnChangePumpDevices, CanChangePumpDevices);
 			DeletePumpDeviceCommand = new RelayCommand(OnDeletePumpDevice, CanDeletePumpDevice);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
+			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 			RegisterShortcuts();
 			SetRibbonItems();
 		}
@@ -95,11 +96,23 @@ namespace GKModule.ViewModels
 				var pumpDevices = new List<GKDevice>(SelectedPumpStation.PumpDevices.Select(x => x.Device));
 				var index = PumpStations.IndexOf(SelectedPumpStation);
 				GKManager.PumpStations.Remove(SelectedPumpStation.PumpStation);
+				SelectedPumpStation.PumpStation.InputDependentElements.ForEach(x =>
+				{
+					x.OutDependentElements.Remove(SelectedPumpStation.PumpStation);
+				});
+
+				SelectedPumpStation.PumpStation.OutDependentElements.ForEach(x =>
+				{
+					x.InputDependentElements.Remove(SelectedPumpStation.PumpStation);
+					x.UpdateLogic();
+					x.OnChanged();
+				});
+
 				PumpStations.Remove(SelectedPumpStation);
 				index = Math.Min(index, PumpStations.Count - 1);
 				if (index > -1)
 					SelectedPumpStation = PumpStations[index];
-				pumpDevices.ForEach(x => x.OnChanged());
+			
 				OnPropertyChanged(() => HasSelectedPumpStation);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -140,6 +153,7 @@ namespace GKModule.ViewModels
 			{
 				SelectedPumpStation.PumpStation = pumpStationDetailsViewModel.PumpStation;
 				SelectedPumpStation.Update();
+				SelectedPumpStation.PumpStation.OutDependentElements.ForEach(x => x.OnChanged());
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -162,6 +176,17 @@ namespace GKModule.ViewModels
 		bool CanDeletePumpDevice()
 		{
 			return SelectedPumpStation != null && SelectedPumpStation.SelectedPumpDevice != null;
+		}
+
+		public RelayCommand ShowDependencyItemsCommand { get; set; }
+
+		void ShowDependencyItems()
+		{
+			if (SelectedPumpStation.PumpStation != null)
+			{
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedPumpStation.PumpStation.OutDependentElements);
+				DialogService.ShowModalWindow(dependencyItemsViewModel);
+			}
 		}
 
 		public void Select(Guid pumpStationUID)

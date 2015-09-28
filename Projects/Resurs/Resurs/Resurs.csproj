@@ -181,6 +181,7 @@
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
     <Compile Include="Apartments\ViewModels\ApartmentViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Devices\ViewModels\ParameterViewModel.cs" />
     <Compile Include="Devices\ViewModels\DriverTypesViewModel.cs" />
     <Compile Include="Main\ViewModels\LoginViewModel.cs" />
     <Compile Include="Main\ViewModels\NotifyIconService.cs" />
@@ -214,6 +215,15 @@
     </Compile>
     <Compile Include="Main\Views\StartupView.xaml.cs">
       <DependentUpon>StartupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Users\ViewModels\UserDetailsViewModel.cs" />
+    <Compile Include="Users\ViewModels\UsersViewModel.cs" />
+    <Compile Include="Users\ViewModels\UserViewModel.cs" />
+    <Compile Include="Users\Views\UserDetailsView.xaml.cs">
+      <DependentUpon>UserDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Users\Views\UsersView.xaml.cs">
+      <DependentUpon>UsersView.xaml</DependentUpon>
     </Compile>
     <Page Include="Apartments\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -264,6 +274,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Main\Views\StartupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Users\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Users\Views\UserDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Users\Views\UsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -376,9 +398,6 @@
     <Folder Include="Reports\DataTemplates\" />
     <Folder Include="Reports\ViewModels\" />
     <Folder Include="Reports\Views\" />
-    <Folder Include="Users\DataTemplates\" />
-    <Folder Include="Users\ViewModels\" />
-    <Folder Include="Users\Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

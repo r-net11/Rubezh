@@ -18,5 +18,5 @@
 	<DataTemplate DataType="{x:Type ViewModels:StartupSettingsViewModel}">
 		<Views:StartupSettingsView />
 	</DataTemplate>
-
+	
 </ResourceDictionary>
