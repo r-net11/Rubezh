@@ -47,7 +47,11 @@ namespace RubezhResurs.Incotex.NetworkControllers
         #region Methods
         #endregion
 
+        #region Network API
+
+        #endregion
+
         #region Events
-        #endregion 
+        #endregion
     }
 }

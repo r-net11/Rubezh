@@ -28,9 +28,9 @@ namespace ResursDAL.DataClasses
 		public Tariff Tariff { get; set; }
 
 		public Guid? BillUID { get; set; }
-		public Bill Bill { get; set; } 
+		public Bill Bill { get; set; }
 
-		public RubezhResurs.Devices.DeviceType Type { get; set; }
+        public ResursAPI.DriverType Type { get; set; }
 
 		public int Address { get; set; }
 	}

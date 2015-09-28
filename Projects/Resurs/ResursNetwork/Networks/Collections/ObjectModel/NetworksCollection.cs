@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RubezhResurs.OSI.ApplicationLayer;
+using ResursNetwork.OSI.ApplicationLayer;
 
-namespace RubezhResurs.Networks.Collections.ObjectModel
+namespace ResursNetwork.Networks.Collections.ObjectModel
 {
     public class NetworksCollection: KeyedCollection<UInt32, INetwrokController>
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
 
-namespace RubezhResurs.Management
+namespace ResursNetwork.Management
 {
     /// <summary>
     /// Интервейс для управления состоянием объектов. Позволяемт запустить, остановить
