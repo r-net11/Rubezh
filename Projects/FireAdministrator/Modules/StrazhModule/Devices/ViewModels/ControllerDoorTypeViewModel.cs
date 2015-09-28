@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
+using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
@@ -431,70 +433,68 @@ namespace StrazhModule.ViewModels
 
 		#endregion </Блокировка одновременного прохода>
 
-		bool GetDoorType()
+		private OperationResult<DoorType> GetDoorType()
 		{
 			var result = FiresecManager.FiresecService.GetControllerDoorType(DeviceViewModel.Device);
-			if (result.HasError)
-				return false;
-			SelectedDoorType = result.Result;
-			return true;
+			if (!result.HasError)
+				SelectedDoorType = result.Result;
+			return result;
 		}
-		bool SetDoorType()
+		private OperationResult<bool> SetDoorType()
 		{
 			//if (!SelectedDoorTypeHasChanged)
 			//	return true;
 
-			var result = FiresecManager.FiresecService.SetControllerDoorType(DeviceViewModel.Device, SelectedDoorType);
-			return !result.HasError;
+			return FiresecManager.FiresecService.SetControllerDoorType(DeviceViewModel.Device, SelectedDoorType);
 		}
 
-		bool GetAntiPassBack()
+		private OperationResult<SKDAntiPassBackConfiguration> GetAntiPassBack()
 		{
 			var result = FiresecManager.FiresecService.SKDGetAntiPassBackConfiguration(DeviceViewModel.Device);
-			if (result.HasError)
-				return false;
-			IsAntiPassBackActivated = result.Result.IsActivated;
-			SelectedAntiPassBackMode = result.Result.CurrentAntiPassBackMode;
-			return true;
+			if (!result.HasError)
+			{
+				IsAntiPassBackActivated = result.Result.IsActivated;
+				SelectedAntiPassBackMode = result.Result.CurrentAntiPassBackMode;
+			}
+			return result;
 		}
-		bool SetAntiPassBack()
+		private OperationResult<bool> SetAntiPassBack()
 		{
 			//if (!AntiPassBackHasChanged)
 			//	return true;
 
-			var result = FiresecManager.FiresecService.SKDSetAntiPassBackConfiguration(
+			return FiresecManager.FiresecService.SKDSetAntiPassBackConfiguration(
 				DeviceViewModel.Device,
 				new SKDAntiPassBackConfiguration() { IsActivated = IsAntiPassBackActivated , CurrentAntiPassBackMode = SelectedAntiPassBackMode });
-			return !result.HasError;
 		}
 
-		bool GetInterlock()
+		private OperationResult<SKDInterlockConfiguration> GetInterlock()
 		{
 			var result = FiresecManager.FiresecService.SKDGetInterlockConfiguration(DeviceViewModel.Device);
-			if (result.HasError)
-				return false;
-			IsInterlockActivated = result.Result.IsActivated;
-			SelectedInterlockMode = result.Result.CurrentInterlockMode;
-			return true;
+			if (!result.HasError)
+			{
+				IsInterlockActivated = result.Result.IsActivated;
+				SelectedInterlockMode = result.Result.CurrentInterlockMode;
+			}
+			return result;
 		}
-		bool SetInterlock()
+		private OperationResult<bool> SetInterlock()
 		{
 			//if (!InterlockHasChanged)
 			//	return true;
 
-			var result = FiresecManager.FiresecService.SKDSetInterlockConfiguration(
+			return FiresecManager.FiresecService.SKDSetInterlockConfiguration(
 				DeviceViewModel.Device,
 				new SKDInterlockConfiguration() { IsActivated = IsInterlockActivated, CurrentInterlockMode = SelectedInterlockMode });
-			return !result.HasError;
 		}
 
 		public RelayCommand ReadDoorTypeFromControllerCommand { get; private set; }
 		private void OnReadDoorTypeFromController()
 		{
-			var status = GetDoorType();
-			if (!status)
+			var result = GetDoorType();
+			if (result.HasError)
 			{
-				MessageBoxService.ShowWarning("Нет связи с устройством");
+				MessageBoxService.ShowWarning(result.Error);
 				return;
 			}
 			NeedSaveDoorTypeToController = false;
@@ -503,10 +503,10 @@ namespace StrazhModule.ViewModels
 		public RelayCommand WriteDoorTypeToControllerCommand { get; private set; }
 		private void OnWriteDoorTypeToController()
 		{
-			var status = SetDoorType();
-			if (!status)
+			var result = SetDoorType();
+			if (result.HasError)
 			{
-				MessageBoxService.ShowWarning("Нет связи с устройством");
+				MessageBoxService.ShowWarning(result.Error);
 				return;
 			}
 			//if (SelectedDoorTypeHasChanged)
@@ -516,29 +516,45 @@ namespace StrazhModule.ViewModels
 		}
 
 		public RelayCommand ReadFromControllerCommand { get; private set; }
-		void OnReadFromController()
+		private void OnReadFromController()
 		{
-			var status = GetAntiPassBack();
-			status &= GetInterlock();
-			if (!status)
+			var errors = new HashSet<string>();
+			
+			var antipassbackResult = GetAntiPassBack();
+			if (antipassbackResult.HasError)
+				antipassbackResult.Errors.ForEach(error => errors.Add(error));
+			
+			var interlockResult = GetInterlock();
+			if (interlockResult.HasError)
+				interlockResult.Errors.ForEach(error => errors.Add(error));
+			
+			if (errors.Count > 0)
 			{
-				MessageBoxService.ShowWarning("Нет связи с устройством");
+				MessageBoxService.ShowWarning(String.Join("\n", errors));
 				return;
 			}
+			
 			NeedSaveAntipassbackToController = false;
 			NeedSaveInterlockToController = false;
 		}
 		
 		public RelayCommand WriteToControllerCommand { get; private set; }
-		void OnWriteToController()
+		private void OnWriteToController()
 		{
-			var status = SetAntiPassBack();
-			status &= SetInterlock();
-			
-			if (!status)
+			var errors = new HashSet<string>();
+
+			var antipassbackResult = SetAntiPassBack();
+			if (antipassbackResult.HasError)
+				antipassbackResult.Errors.ForEach(error => errors.Add(error));
+
+			var interlockResult = SetInterlock();
+			if (interlockResult.HasError)
+				interlockResult.Errors.ForEach(error => errors.Add(error));
+
+			if (errors.Count > 0)
 			{
-				MessageBoxService.ShowWarning("Нет связи с устройством");
-				return;				
+				MessageBoxService.ShowWarning(String.Join("\n", errors));
+				return;
 			}
 
 			NeedSaveAntipassbackToController = false;
