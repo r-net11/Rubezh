@@ -175,7 +175,6 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="Devices\ViewModels\DetailsParameterViewModel.cs" />
-    <Compile Include="Processor\DBCash.cs" />
     <Compile Include="Processor\DeviceProcessor.cs" />
     <Compile Include="Processor\LoginService.cs" />
     <Compile Include="Processor\ResursSettings.cs" />
@@ -222,9 +221,14 @@
     <Compile Include="Main\Views\StartupView.xaml.cs">
       <DependentUpon>StartupView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Users\ViewModels\PermissionsViewModel.cs" />
+    <Compile Include="Users\ViewModels\PermissionViewModel.cs" />
     <Compile Include="Users\ViewModels\UserDetailsViewModel.cs" />
     <Compile Include="Users\ViewModels\UsersViewModel.cs" />
     <Compile Include="Users\ViewModels\UserViewModel.cs" />
+    <Compile Include="Users\Views\PermissionsView.xaml.cs">
+      <DependentUpon>PermissionsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Users\Views\UserDetailsView.xaml.cs">
       <DependentUpon>UserDetailsView.xaml</DependentUpon>
     </Compile>
@@ -284,6 +288,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Users\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Users\Views\PermissionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

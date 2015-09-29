@@ -18,6 +18,7 @@ namespace Resurs.ViewModels
 			Title = "Редактирование устройства " + device.Name;
 			Device = device;
 			Description = device.Description;
+			IsActive = device.IsActive;
 			Parameters = new ObservableCollection<DetailsParameterViewModel>(device.Parameters.Select(x => new DetailsParameterViewModel(x)));
 		}
 
@@ -33,6 +34,17 @@ namespace Resurs.ViewModels
 			}
 		}
 
+		bool _IsActive;
+		public bool IsActive
+		{
+			get { return _IsActive; }
+			set
+			{
+				_IsActive = value;
+				OnPropertyChanged(() => IsActive);
+			}
+		}
+
 		protected override bool Save()
 		{
 			foreach (var item in Parameters)
@@ -40,6 +52,7 @@ namespace Resurs.ViewModels
 				item.Save();
 			}
 			Device.Description = Description;
+			Device.IsActive = IsActive;
 			Device.Parameters = new List<Parameter>(Parameters.Select(x => x.Model));
 			return base.Save();
 		}

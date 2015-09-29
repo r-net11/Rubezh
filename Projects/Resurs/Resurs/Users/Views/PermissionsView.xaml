@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="Resurs.Views.PermissionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DataGrid  ItemsSource="{Binding PermissionViewModels}" SelectedItem="{Binding SelectedPermission}" CanUserSortColumns="True">
+		<DataGrid.Columns>
+			<DataGridTemplateColumn Header="Права" SortMemberPath="PermissionType" Width="*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5 2">
+								<StackPanel Orientation="Horizontal">
+									<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/AccessTemplate.png" />
+									<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding PermissionType,Converter={StaticResource EnumToDescriptionConverter}}" />
+								</StackPanel>
+							</CheckBox>
+						</StackPanel>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+		</DataGrid.Columns>
+	</DataGrid>
+</UserControl>

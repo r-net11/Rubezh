@@ -42,7 +42,7 @@ namespace GKModule.ViewModels
 		bool CreateDevices()
 		{
 			AddedDevices = new List<DeviceViewModel>();
-			var allChildren = RealParentDevice.AllChildren;
+			var allChildren = RealParentDevice.KAUShleifParent.AllChildren;
 			int maxAddressOnShleif = 0;
 			if (allChildren.Count > 0)
 				maxAddressOnShleif = allChildren.Max(x => x.IntAddress);

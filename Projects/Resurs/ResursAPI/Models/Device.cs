@@ -17,12 +17,14 @@ namespace ResursAPI
 			Children = new List<Device>();
 			Parameters = new List<Parameter>(); ;
 		}
-		public Device(ResursAPI.DriverType driverType):this()
+		public Device(ResursAPI.DriverType driverType)
+			: this()
 		{
 			Driver = ResursAPI.DriversConfiguration.GetDriver(driverType);
+			DriverType = driverType;
 			foreach (var item in Driver.DriverParameters)
 			{
-				 Parameters.Add(new Parameter { DriverParameter = item, Device = this } );
+				Parameters.Add(new Parameter { DriverParameter = item, Device = this, Number = item.Number });
 			}
 		}
 
@@ -44,11 +46,21 @@ namespace ResursAPI
 			device.Parent = this;
 			Children.Add(device);
 		}
-		public void SetAddress(Device parent, int number)
+		void SetAddress(Device parent, int number)
 		{
 			if (parent.Children.Any(x => x.Address == number))
 				return;
 			Address = number;
+		}
+
+		public void SetFullAddress()
+		{
+			if (Parent == null)
+				FullAddress = "";
+			else if (Parent.FullAddress.Equals(""))
+				FullAddress = Address.ToString();
+			else
+				FullAddress = Parent.FullAddress + "." + Address.ToString();
 		}
 
 		[Key]
@@ -68,5 +80,7 @@ namespace ResursAPI
 		public string Name { get { return Driver.DriverType.ToDescription(); } }
 		[NotMapped]
 		public Driver Driver { get; set; }
+		[NotMapped]
+		public string FullAddress { get; private set; }
 	}
 }

@@ -2,9 +2,9 @@
 
 namespace Resurs.Views
 {
-	public partial class UserDetailsView : UserControl
+	public partial class PermissionsView : UserControl
 	{
-		public UserDetailsView()
+		public PermissionsView()
 		{
 			InitializeComponent();
 		}
