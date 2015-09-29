@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RubezhResurs.Management;
-using RubezhResurs.Devices;
-using RubezhResurs.Devices.Collections.ObjectModel;
-using RubezhResurs.OSI.DataLinkLayer;
+using ResursNetwork.Management;
+using ResursNetwork.Devices;
+using ResursNetwork.Devices.Collections.ObjectModel;
+using ResursNetwork.OSI.DataLinkLayer;
 
-namespace RubezhResurs.OSI.ApplicationLayer
+namespace ResursNetwork.OSI.ApplicationLayer
 {
-    public interface INetwrokController: IManageable
+    public interface INetwrokController: IManageable, IDisposable
     {
         #region Fields And Properties
         /// <summary>

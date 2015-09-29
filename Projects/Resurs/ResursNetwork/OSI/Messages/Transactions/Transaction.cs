@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Text;
 
-namespace RubezhResurs.OSI.Messages.Transaction
+namespace ResursNetwork.OSI.Messages.Transaction
 {
     /// <summary>
     /// Класс для хранения данных транзакции "Запрос-ответ"
@@ -330,6 +330,19 @@ namespace RubezhResurs.OSI.Messages.Transaction
                 }
             }
             return;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return String.Format(
+                "Transaction: Id={0}; Type={1}; Status={2}; Start={3}; Stop={4}; Error={5}; Request={6}; Answer={7}", 
+                Identifier, TransactionType, Status, StartTime, EndTime, DescriptionError, 
+                Request == null ? String.Empty : Request.ToString(), 
+                Answer == null ? String.Empty : Answer.ToString());
+            //return base.ToString();
         }
         #endregion
 

@@ -321,6 +321,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Clock.js" />
+    <Content Include="Scripts\EmployeeDetails.js" />
     <Content Include="Scripts\HR.js" />
     <Content Include="Scripts\HrEmployees.js" />
     <Content Include="Scripts\d3tip.js" />
@@ -385,6 +386,7 @@
     <Content Include="Content\main.css.map">
       <DependentUpon>main.css</DependentUpon>
     </Content>
+    <Content Include="Content\SaveCancelPopup.less" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -461,6 +463,7 @@
     <Content Include="Views\Hr\PassCardTemplates.cshtml" />
     <Content Include="Views\Hr\Organisations.cshtml" />
     <Content Include="Views\Employees\Index.cshtml" />
+    <Content Include="Views\Employees\EmployeeDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -472,6 +475,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\app\services\" />
     <Folder Include="Views\Archive\" />
+    <Folder Include="Views\Employee\" />
     <Folder Include="Views\Plans\" />
     <Folder Include="Views\Report\" />
   </ItemGroup>

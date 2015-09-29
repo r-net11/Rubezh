@@ -72,6 +72,13 @@ namespace GKImitator.ViewModels
 					if (Regime == Regime.Automatic)
 						OnTurnOffNow();
 					break;
+
+				case GKStateBit.Fire1:
+				case GKStateBit.Fire2:
+				case GKStateBit.Reset:
+					if (Regime == Regime.Automatic)
+						OnResetFire();
+					break;
 			}
 			RecalculateOutputLogic();
 		}

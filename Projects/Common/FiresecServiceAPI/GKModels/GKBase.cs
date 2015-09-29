@@ -21,45 +21,21 @@ namespace FiresecAPI.GK
 			State = new GKState();
 			InputGKBases = new List<GKBase>();
 			OutputGKBases = new List<GKBase>();
+			InputDependentElements = new List<GKBase>();
+			OutDependentElements = new List<GKBase>();
 		}
 
+		public List<GKBase> InputDependentElements { get; set; }
 		[XmlIgnore]
-		public List<GKDevice> ClauseInputDevices { get; set; }
-		[XmlIgnore]
-		public List<GKZone> ClauseInputZones { get; set; }
-		[XmlIgnore]
-		public List<GKGuardZone> ClauseInputGuardZones { get; set; }
-		[XmlIgnore]
-		public List<GKDirection> ClauseInputDirections { get; set; }
-		[XmlIgnore]
-		public List<GKMPT> ClauseInputMPTs { get; set; }
-		[XmlIgnore]
-		public List<GKDelay> ClauseInputDelays { get; set; }
-		[XmlIgnore]
-		public List<GKDoor> ClauseInputDoors { get; set; }
-		[XmlIgnore]
-		public List<GKPumpStation> ClauseInputPumpStations { get; set; }
+		public List<GKBase> OutDependentElements { get; set; }
+
 
 		public void ClearClauseDependencies()
 		{
-			InputObjects = new List<GKBase>();
-			OutputObjects = new List<GKBase>();
 			InputGKBases = new List<GKBase>();
 			OutputGKBases = new List<GKBase>();
-			ClauseInputDevices = new List<GKDevice>();
-			ClauseInputZones = new List<GKZone>();
-			ClauseInputGuardZones = new List<GKGuardZone>();
-			ClauseInputDirections = new List<GKDirection>();
-			ClauseInputMPTs = new List<GKMPT>();
-			ClauseInputDelays = new List<GKDelay>();
-			ClauseInputDoors = new List<GKDoor>();
-			ClauseInputPumpStations = new List<GKPumpStation>();
 		}
 
-		[XmlIgnore]
-		protected List<GKBase> InputObjects { get; set; }
-		[XmlIgnore]
-		protected List<GKBase> OutputObjects { get; set; }
 		[XmlIgnore]
 		public List<GKBase> InputGKBases { get; set; }
 		[XmlIgnore]
@@ -91,28 +67,34 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public ushort KAUDescriptorNo { get; set; }
 
-		public abstract void Update(GKDevice device);
+		//public abstract void Update(GKDevice device);
 
-		public abstract void Update(GKDirection direction);
+		//public abstract void Update(GKDirection direction);
 
-		public void LinkObject(GKBase gkBase)
-		{
-			if (gkBase == null)
-				return;
-			if (!InputObjects.Contains(gkBase))
-				InputObjects.Add(gkBase);
-			if (!gkBase.OutputObjects.Contains(this))
-				gkBase.OutputObjects.Add(this);
+		public virtual void Invalidate()
+		{ 
 		}
 
-		public void UnLinkObject(GKBase gkBase)
+		public virtual void UpdateLogic()
+		{ 
+		}
+
+		public void ChangedLogic()
 		{
-			if (gkBase == null)
-				return;
-			if (InputObjects.Contains(gkBase))
-				InputObjects.Remove(gkBase);
-			if (gkBase.OutputObjects.Contains(this))
-				gkBase.OutputObjects.Remove(this);
+			InputDependentElements.ForEach(x =>
+				{
+					x.OutDependentElements.Remove(this);
+				});
+			InputDependentElements = new List<GKBase>();
+			this.Invalidate();
+		}
+
+		public void AddDependentElement(GKBase gkBase)
+		{
+			if (!InputDependentElements.Contains(gkBase) && gkBase != this)
+				InputDependentElements.Add(gkBase);
+			if (!gkBase.OutDependentElements.Contains(this) && gkBase != this)
+				gkBase.OutDependentElements.Add(this);		
 		}
 
 		public virtual string GetGKDescriptorName(GKNameGenerationType gkNameGenerationType)

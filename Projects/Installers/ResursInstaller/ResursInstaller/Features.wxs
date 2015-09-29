@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include Variables.wxi?>
+  <Fragment>
+    <Feature Id="FiresecFeature" Title="$(var.ProductName)" Display="expand" ConfigurableDirectory="INSTALLLOCATION"
+        AllowAdvertise="no" Absent="allow" InstallDefault="local">
+      <Condition Level="2">INSTALL_RESURS</Condition>
+      <FeatureRef Id="Resurs.Features" />
+
+      <Feature Id="GK.Features" Title="Клиентское приложение" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы борудования Рубеж Глобал">
+        <Condition Level="1">INSTALL_CLIENT</Condition>
+        <ComponentRef Id="Resurs.Files" />
+      </Feature>
+	  <Feature Id="Postgres.Features" 
+						 Title="СУБД Postgres" 
+						 Display="expand" 
+						 AllowAdvertise="no" 
+						 Absent="allow" 
+						 InstallDefault="local" 
+						 Description="Программа установит PostgreSQL" />
+
+      <ComponentRef Id="DesktopFolder" />
+      <ComponentRef Id="ProgramMenuDir" />
+    </Feature>
+  </Fragment>
+</Wix>

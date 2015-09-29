@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include Variables.wxi?>
+  <Fragment>
+    <Feature Id="Resurs.Features" Title="Ресурс" Description="Установка приложения Ресурс" Level="1" Display="hidden"
+						 ConfigurableDirectory="RESURSLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+      <ComponentRef Id="Resurs.Files" />
+      <ComponentRef Id="Resurs.ProgramsMenuShortcut" />
+      <ComponentRef Id="Resurs.DesktopShortcut" />
+			<ComponentRef Id="Resurs.DLL.de" />
+			<ComponentRef Id="Resurs.DLL.es" />
+			<ComponentRef Id="Resurs.DLL.fi" />
+			<ComponentRef Id="Resurs.DLL.fr" />
+			<ComponentRef Id="Resurs.DLL.ja" />
+			<ComponentRef Id="Resurs.DLL.zhCN" />
+    </Feature>
+  </Fragment>
+</Wix>

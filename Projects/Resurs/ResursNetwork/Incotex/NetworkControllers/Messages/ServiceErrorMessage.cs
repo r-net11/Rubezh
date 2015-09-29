@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RubezhResurs.OSI.Messages;
+using ResursNetwork.OSI.Messages;
 
-namespace RubezhResurs.Incotex.NetworkControllers.Messages
+namespace ResursNetwork.Incotex.NetworkControllers.Messages
 {
-    public class ServiceErrorMessage: ServiceErrorMessageBase
+    public class ServiceErrorMessage: ServiceMessageBase
     {
         #region Fields And Properties
         /// <summary>
@@ -15,9 +15,14 @@ namespace RubezhResurs.Incotex.NetworkControllers.Messages
         /// </summary>
         public ErrorCode SpecificErrorCode
         {
-            get { return (ErrorCode)_ErrorCode; }
-            set { _ErrorCode = (int)value; }
+            get { return (ErrorCode)_Code; }
+            set { _Code = (int)value; }
         }
         #endregion
+
+        public ServiceErrorMessage()
+        {
+            _MessageType = MessageType.ServiceErrorMessage;
+        }
     }
 }

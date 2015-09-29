@@ -17,6 +17,11 @@ namespace GKWebService.Controllers
             return View();
         }
 
+        public ActionResult EmployeeDetails()
+        {
+            return View();
+        }
+
         public JsonResult GetOrganisations()
         {
             var employeeModels = new List<EmployeeModel>();

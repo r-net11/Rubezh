@@ -4,13 +4,14 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {
 	public class DelayViewModel : BaseViewModel
 	{
 		public GKDelay Delay { get; set; }
-
 		public DelayViewModel(GKDelay delay)
 		{
 			ShowLogicCommand = new RelayCommand(OnShowLogic);
@@ -64,6 +65,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				Delay.Logic = logicViewModel.GetModel();
+				Delay.ChangedLogic();
 				OnPropertyChanged(() => PresentationLogic);
 				ServiceFactory.SaveService.GKChanged = true;
 			}

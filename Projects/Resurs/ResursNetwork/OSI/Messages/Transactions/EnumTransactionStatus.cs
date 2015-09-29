@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace RubezhResurs.OSI.Messages.Transaction
+namespace ResursNetwork.OSI.Messages.Transaction
 {
     /// <summary>
     /// Состояния транзакции

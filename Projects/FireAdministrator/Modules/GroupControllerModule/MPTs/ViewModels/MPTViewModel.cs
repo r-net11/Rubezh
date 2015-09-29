@@ -66,13 +66,11 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(mptDeviceTypeSelectationViewModel))
 			{
 				var mptDevice = new GKMPTDevice();
+				MPT.MPTDevices.Add(mptDevice);
 				mptDevice.MPTDeviceType = mptDeviceTypeSelectationViewModel.SelectedMPTDeviceType.MPTDeviceType;
-
 				var mptDeviceViewModel = new MPTDeviceViewModel(mptDevice);
 				Devices.Add(mptDeviceViewModel);
 				SelectedDevice = mptDeviceViewModel;
-				MPT.MPTDevices.Add(mptDevice);
-
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -104,7 +102,7 @@ namespace GKModule.ViewModels
 				SelectedDevice.Device = selectedDevice;
 				ChangeIsInMPT(SelectedDevice.MPTDevice.Device, true);
 				SelectedDevice.MPTDevicePropertiesViewModel = new MPTDevicePropertiesViewModel(selectedDevice, false);
-
+				MPT.ChangedLogic();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -119,6 +117,7 @@ namespace GKModule.ViewModels
 			ChangeIsInMPT(SelectedDevice.MPTDevice.Device, false);
 			MPT.MPTDevices.Remove(SelectedDevice.MPTDevice);
 			Devices.Remove(SelectedDevice);
+			MPT.ChangedLogic();
 			SelectedDevice = Devices.FirstOrDefault();
 			ServiceFactory.SaveService.GKChanged = true;
 		}
@@ -187,6 +186,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				MPT.MptLogic = logicViewModel.GetModel();
+				MPT.ChangedLogic();
 				OnPropertyChanged(() => StartPresentationName);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -204,6 +204,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				MPT.MptLogic = logicViewModel.GetModel();
+				MPT.ChangedLogic();
 				OnPropertyChanged(() => StopPresentationName);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -221,6 +222,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				MPT.MptLogic = logicViewModel.GetModel();
+				MPT.ChangedLogic();
 				OnPropertyChanged(() => SuspendPresentationName);
 				ServiceFactory.SaveService.GKChanged = true;
 			}

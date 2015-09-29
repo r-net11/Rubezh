@@ -156,6 +156,10 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit.Extended, Version=1.4.0.2, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
     <Reference Include="Xceed.Wpf.Toolkit">
       <HintPath>..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
@@ -169,6 +173,8 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DetailsParameterViewModel.cs" />
     <Compile Include="Processor\DBCash.cs" />
     <Compile Include="Processor\DeviceProcessor.cs" />
     <Compile Include="Processor\LoginService.cs" />
@@ -181,6 +187,7 @@
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
     <Compile Include="Apartments\ViewModels\ApartmentViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Devices\ViewModels\ParameterViewModel.cs" />
     <Compile Include="Devices\ViewModels\DriverTypesViewModel.cs" />
     <Compile Include="Main\ViewModels\LoginViewModel.cs" />
     <Compile Include="Main\ViewModels\NotifyIconService.cs" />
@@ -214,6 +221,15 @@
     </Compile>
     <Compile Include="Main\Views\StartupView.xaml.cs">
       <DependentUpon>StartupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Users\ViewModels\UserDetailsViewModel.cs" />
+    <Compile Include="Users\ViewModels\UsersViewModel.cs" />
+    <Compile Include="Users\ViewModels\UserViewModel.cs" />
+    <Compile Include="Users\Views\UserDetailsView.xaml.cs">
+      <DependentUpon>UserDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Users\Views\UsersView.xaml.cs">
+      <DependentUpon>UsersView.xaml</DependentUpon>
     </Compile>
     <Page Include="Apartments\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -264,6 +280,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Main\Views\StartupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Users\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Users\Views\UserDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Users\Views\UsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -376,9 +404,6 @@
     <Folder Include="Reports\DataTemplates\" />
     <Folder Include="Reports\ViewModels\" />
     <Folder Include="Reports\Views\" />
-    <Folder Include="Users\DataTemplates\" />
-    <Folder Include="Users\ViewModels\" />
-    <Folder Include="Users\Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

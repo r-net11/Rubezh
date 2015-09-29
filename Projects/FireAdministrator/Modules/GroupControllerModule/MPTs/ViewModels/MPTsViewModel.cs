@@ -32,6 +32,7 @@ namespace GKModule.ViewModels
 			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
 			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
+			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
@@ -119,6 +120,18 @@ namespace GKModule.ViewModels
 				}
 				var index = MPTs.IndexOf(SelectedMPT);
 				GKManager.DeviceConfiguration.MPTs.Remove(SelectedMPT.MPT);
+				SelectedMPT.MPT.InputDependentElements.ForEach(x =>
+				{
+					x.OutDependentElements.Remove(SelectedMPT.MPT);
+				});
+
+				SelectedMPT.MPT.OutDependentElements.ForEach(x =>
+				{
+					x.InputDependentElements.Remove(SelectedMPT.MPT);
+					x.UpdateLogic();
+					x.OnChanged();
+				});
+
 				MPTs.Remove(SelectedMPT);
 				index = Math.Min(index, MPTs.Count - 1);
 				if (index > -1)
@@ -165,6 +178,7 @@ namespace GKModule.ViewModels
 			{
 				SelectedMPT.MPT = mptDetailsViewModel.MPT;
 				SelectedMPT.Update();
+				SelectedMPT.MPT.OutDependentElements.ForEach(x => x.OnChanged());
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -191,6 +205,7 @@ namespace GKModule.ViewModels
 			{
 				SelectedMPT.MPT.MptLogic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, true));
 				SelectedMPT.Update();
+				SelectedMPT.MPT.Invalidate();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -198,6 +213,17 @@ namespace GKModule.ViewModels
 		bool CanPasteLogic()
 		{
 			return SelectedMPT != null && GKManager.LogicToCopy != null;
+		}
+
+		public RelayCommand ShowDependencyItemsCommand { get; set; }
+
+		void ShowDependencyItems()
+		{
+			if (SelectedMPT != null)
+			{
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedMPT.MPT.OutDependentElements);
+				DialogService.ShowModalWindow(dependencyItemsViewModel);
+			}
 		}
 
 		public void CreateMPT(CreateGKMPTEventArg createMPTEventArg)

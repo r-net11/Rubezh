@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+	<?include Variables.wxi?>
+
+	<Product Id="*" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)" Codepage="$(var.Codepage)">
+		<Package InstallerVersion="200" Compressed="yes" Manufacturer="$(var.Manufacturer)" Description="Установка $(var.ProductName)" SummaryCodepage="$(var.Codepage)" />
+		<Media Id="1" Cabinet="Firesec.cab" EmbedCab="yes" />
+
+		<Upgrade Id="$(var.UpgradeCode)">
+			<UpgradeVersion Minimum="0.00.0000" IncludeMinimum="yes"
+			  Maximum="$(var.ProductVersion)" IncludeMaximum="yes" OnlyDetect="no"
+			  MigrateFeatures="yes" IgnoreRemoveFailure="yes" Language="1049"
+			  Property="OLDERVERSIONBEINGUPGRADED" />
+		</Upgrade>
+
+		<PropertyRef Id="NETFRAMEWORK40FULL" />
+		<Condition Message="Не удалось обнаружить Microsoft .NET Framework 4.0. Установите Microsoft .NET Framework 4.0 и запустите установку заново">
+			NETFRAMEWORK40FULL
+		</Condition>
+
+		<Property Id="_BrowseProperty" Value="INSTALLLOCATION" />
+		<Property Id="SHORTCUT_PROGRAMMENU" Value="1" />
+		<Property Id="SHORTCUT_DESKTOP" Value="1" />
+		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
+		<Property Id="INSTALLLEVEL" Value="1" />
+		<Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
+		<Property Id="WixUI_Mode" Value="Mondo" />
+		<Property Id="AgreeToLicense" Value="No" />
+		<Property Id="SETUPCHOICE" Value="Full" />
+		<Property Id="IS_SQLSERVER_USERNAME" Value="sa" />
+		<Property Id="IS_SQLSERVER_AUTHENTICATION" Value="0" />
+		<Property Id="SQLINSTANCE" Value="SQLEXPRESS" />
+		<Property Id="INSTALLMODE" />
+		<Property Id="ALLUSERS" Value="1" Secure="yes" />
+		<Property Id="IS_INSTALL_POSTGRE32" />
+		<Property Id="IS_INSTALL_POSTGRE64" />
+
+		<Property Id="INSTALL_RESURS" Secure="yes" />
+		<Property Id="INSTALL_CLIENT" Value="0" Secure="yes" />
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="SystemFolder"/>
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLLOCATION" Name="Rubezh">
+					<Directory Id="RESURSLOCATION" Name="$(var.ProductName)">
+						<Directory Id="Resurs.DIR.DLL.de" Name="de" />
+						<Directory Id="Resurs.DIR.DLL.es" Name="es" />
+						<Directory Id="Resurs.DIR.DLL.fi" Name="fi" />
+						<Directory Id="Resurs.DIR.DLL.fr" Name="fr" />
+						<Directory Id="Resurs.DIR.DLL.ja" Name="ja" />
+						<Directory Id="Resurs.DIR.DLL.zhCN" Name="zh-CN" />
+					</Directory>
+				</Directory>
+			</Directory>
+			<Directory Id="ProgramMenuFolder">
+				<Directory Id="ProgramMenuDir" Name="$(var.ProductName)">
+				</Directory>
+			</Directory>
+			<Directory Id="DesktopFolder" />
+			<Directory Id="CommonAppDataFolder" Name="CommonAppDataFolder">
+				<Directory Id="AppData.FiresecLocation" Name="Resurs">
+					<Directory Id="AppData.EmptyLocation" Name="Empty" />
+				</Directory>
+			</Directory>
+		</Directory>
+
+		<FeatureRef Id="FiresecFeature" />
+
+		<InstallExecuteSequence>
+			<Custom Action="CheckPostgresInstalled" Sequence="1" />
+			<Custom Action="CloseApplications" Sequence="2" />
+			<RemoveExistingProducts After="InstallInitialize" />
+			<InstallExecute After="RemoveExistingProducts" />
+			<Custom Action="InstallPostgres" After="InstallExecute"><![CDATA[&Postgres.Features=3 AND IS_INSTALL_POSTGRE32 = 1]]></Custom>
+			<Custom Action="InstallPostgres64" After="InstallExecute"><![CDATA[&Postgres.Features=3 AND IS_INSTALL_POSTGRE64 = 1]]></Custom>
+		</InstallExecuteSequence>
+
+		<UI Id="MyWixUI_Wizard">
+			<UIRef Id="WixUI_Wizard" />
+			<UIRef Id="WixUI_ErrorProgressText" />
+		</UI>
+	</Product>
+</Wix>
