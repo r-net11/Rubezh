@@ -139,7 +139,7 @@ namespace StrazhModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var dayIntervalDetailsViewModel = new DoorDayIntervalDetailsViewModel(DayIntervals, SelectedDayInterval.DayInterval);
+			var dayIntervalDetailsViewModel = new DoorDayIntervalDetailsViewModel(DayIntervals.Except(new List<DoorDayIntervalViewModel>() { SelectedDayInterval }), SelectedDayInterval.DayInterval);
 			if (DialogService.ShowModalWindow(dayIntervalDetailsViewModel))
 			{
 				SelectedDayInterval.Update(dayIntervalDetailsViewModel.DayInterval);
