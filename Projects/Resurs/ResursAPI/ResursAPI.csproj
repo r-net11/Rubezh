@@ -68,6 +68,7 @@
     <Compile Include="DriverCreators\MZEP55CounterCreator.cs" />
     <Compile Include="DriverCreators\MZEP55InterfaceCreator.cs" />
     <Compile Include="DriverCreators\SystemCreator.cs" />
+    <Compile Include="User\UserPermission.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

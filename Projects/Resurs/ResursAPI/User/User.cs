@@ -1,6 +1,7 @@
 ﻿using ResursAPI;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
@@ -11,18 +12,15 @@ namespace ResursAPI
 		public User()
 		{
 			UID = Guid.NewGuid();
-			PermissionStrings = new List<string>();
+			UserPermissions = new List<UserPermission>();
 		}
+		[Key]
 		public Guid UID { get; set; }
 		public string Name { get; set;}
 
 		public string Login { get; set; }
 
-		public string Password { get; set; }
-
 		public string PasswordHash { get; set; }
-
-		public List<string> PermissionStrings { get; set; }
 
 		public bool IsViewDevice { get; set; }
 
@@ -36,6 +34,7 @@ namespace ResursAPI
 
 		public bool IsEditUser { get; set; }
 
+		public List<UserPermission> UserPermissions { get; set; }
 
 	}
 }

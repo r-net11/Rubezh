@@ -2,6 +2,7 @@
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
+using ResursDAL;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -63,7 +64,7 @@ namespace Resurs.ViewModels
 		void Build ()
 		{
 			Users = new ObservableCollection<UserViewModel>();
-			CashUser.Users.ForEach(x => Users.Add(new UserViewModel(x)));
+			 DBCash.Users.ForEach(x => Users.Add(new UserViewModel(x)));
 			SelectedUser = Users.FirstOrDefault();
 		}
 
@@ -86,7 +87,8 @@ namespace Resurs.ViewModels
 			if (MessageBoxService.ShowQuestion(string.Format("Вы уверенны, что хотите удалить пользователя \"{0}\" из списка", SelectedUser.User.Name)))
 			{
 				var index = Users.IndexOf(SelectedUser);
-				CashUser.Users.Remove(SelectedUser.User);
+
+				DBCash.DeleteUser(SelectedUser.User);
 				Users.Remove(SelectedUser);
 
 				index = Math.Min(index, Users.Count - 1);

@@ -2,6 +2,7 @@
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
+using ResursDAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace Resurs.ViewModels
 				Title = string.Format("Свойства учетной записи: {0}", user.Name);
 				IsNew = true;
 				IsChangePassword = false;
-				User = user;
+				User = DBCash.GetUser(user.UID);
 			}
 
 			else
@@ -158,6 +159,7 @@ namespace Resurs.ViewModels
 				SaveProperties();
 			else
 				return false;
+			DBCash.SaveUser(User);
 			return base.Save();
 		}
 

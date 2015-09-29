@@ -10,6 +10,7 @@ namespace Resurs.ViewModels
 {
 	public class PermissionsViewModel : BaseViewModel
 	{
+		public ObservableCollection<PermissionViewModel> PermissionViewModels { get; set; }
 		public PermissionsViewModel(User user)
 		{
 			PermissionViewModels = new ObservableCollection<PermissionViewModel>();
@@ -34,17 +35,6 @@ namespace Resurs.ViewModels
 			{
 				_selectedPermission = value;
 				OnPropertyChanged(() => SelectedPermission);
-			}
-		}
-
-		ObservableCollection<PermissionViewModel> _permissionViewModels;
-		public ObservableCollection<PermissionViewModel> PermissionViewModels
-		{
-			get { return _permissionViewModels; }
-			private set
-			{
-				_permissionViewModels = value;
-				OnPropertyChanged(() => PermissionViewModels);
 			}
 		}
 

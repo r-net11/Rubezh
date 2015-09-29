@@ -18,6 +18,8 @@ namespace ResursDAL
 		public DbSet<Parameter> Parameters { get; set; }
 		public DbSet<Tariff> Tariffs { get; set; }
 		public DbSet<TariffPart> TariffParts { get; set; }
+		public DbSet<User> Users { get; set; }
+		public DbSet<UserPermission> UserPermissions { get; set; }
 	
 		public DatabaseContext(DbConnection connection)
 			: base(connection, true)

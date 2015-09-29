@@ -17,7 +17,6 @@ namespace Resurs.ViewModels
 		public PermissionViewModel(PermissionType permissionType, bool flag)
 		{
 			PermissionType = permissionType;
-			Name = permissionType.ToString();
 			IsChecked = flag;
 		}
 

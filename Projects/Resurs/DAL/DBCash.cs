@@ -13,21 +13,24 @@ namespace ResursDAL
 		public static Device RootDevice { get; set; }
 		public static Apartment RootApartment { get; set; }
 
+		public static List<User> Users { get; set; }
+
 		static DBCash()
 		{
-			RootDevice = GetRootDevice();
-			
-			//RootDevice = new Device(DriverType.System);
-			//var interface1 = new Device(DriverType.BeregunInterface);
-			//interface1.AddChild(DriverType.BeregunCounter);
-			//interface1.AddChild(DriverType.BeregunCounter);
-			//interface1.AddChild(DriverType.BeregunCounter);
-			//RootDevice.AddChild(interface1);
-			//var interface2 = new Device(DriverType.MZEP55Interface);
-			//interface2.AddChild(DriverType.MZEP55Counter);
-			//interface2.AddChild(DriverType.MZEP55Counter);
-			//interface2.AddChild(DriverType.MZEP55Counter);
-			//RootDevice.AddChild(interface2);
+			//RootDevice = GetRootDevice();
+			Users = GetAllUsers();
+
+			RootDevice = new Device(DriverType.System);
+			var interface1 = new Device(DriverType.BeregunInterface);
+			interface1.AddChild(DriverType.BeregunCounter);
+			interface1.AddChild(DriverType.BeregunCounter);
+			interface1.AddChild(DriverType.BeregunCounter);
+			RootDevice.AddChild(interface1);
+			var interface2 = new Device(DriverType.MZEP55Interface);
+			interface2.AddChild(DriverType.MZEP55Counter);
+			interface2.AddChild(DriverType.MZEP55Counter);
+			interface2.AddChild(DriverType.MZEP55Counter);
+			RootDevice.AddChild(interface2);
 			//ResursDAL.DatabaseCash.SaveDevice(RootDevice);
 			
 			RootApartment = new Apartment()
@@ -101,7 +104,7 @@ namespace ResursDAL
 
 		static void SetChildren(Device device, List<Device> allDevices)
 		{
-			device.Children = new List<Device>(allDevices.Where(x => x.Parent == device));
+			device.Children = new List<Device>(allDevices.Where(x => x.Parent != null && x.Parent == device));
 			device.SetFullAddress();
 			foreach (var item in device.Children)
 			{
@@ -143,6 +146,72 @@ namespace ResursDAL
 			}
 		}
 
+		public static List<User> GetAllUsers()
+		{
+			using (var context = DatabaseContext.Initialize())
+			{
+				var shortUsers = context.Users.Select(x => new { UID = x.UID, Name = x.Name, Login = x.Login }).ToList();
+				var result = new List<User>();
+				foreach (var item in shortUsers)
+				{
+					 result.Add(new User
+					 {
+						 UID = item.UID, 
+						 Name = item.Name, 
+						 Login = item.Login
+					 });
+				}
+				return result;
+			}
+		}
+
+		public static User GetUser(Guid UID)
+		{
+			using (var context = DatabaseContext.Initialize())
+			{
+				return context.Users.Include(x=>x.UserPermissions).FirstOrDefault(x => x.UID == UID);
+			}
+		}
+
+
+		public static void SaveUser(User user)
+		{
+			using (var context = DatabaseContext.Initialize())
+			{
+				var tableUser = context.Users.FirstOrDefault(x => x.UID == user.UID);
+				if (tableUser != null)
+				{
+					context.UserPermissions.RemoveRange(tableUser.UserPermissions);
+					tableUser.Login = user.Login;
+					tableUser.Name = user.Name;
+					tableUser.PasswordHash = user.PasswordHash;
+					tableUser.UserPermissions = new List<UserPermission>();
+					tableUser.UserPermissions.AddRange(user.UserPermissions.Select(x => new UserPermission { PermissionType = x.PermissionType, User = tableUser }));
+				}
+				else
+					context.Users.Add(user);
+
+				context.SaveChanges();
+
+				if (tableUser == null)
+					Users.Add(user);
+				else
+				{
+					Users.RemoveAll(x => x.UID == user.UID);
+					Users.Add(user);
+				}
+			}
+		}
+
+		public static void DeleteUser(User user)
+		{
+			using (var context = DatabaseContext.Initialize())
+			{
+				context.Users.Remove(user);
+				context.SaveChanges();
+			}
+			Users.Remove(user);
+		}
 		public static List<Device> GetAllChildren(Device device, bool isWithSelf = true)
 		{
 			var result = new List<Device>();
