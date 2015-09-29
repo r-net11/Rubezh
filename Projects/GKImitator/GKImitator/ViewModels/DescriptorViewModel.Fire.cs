@@ -21,6 +21,10 @@ namespace GKImitator.ViewModels
 			SetFireTemperatureGradientCommand = new RelayCommand(OnSetFireTemperatureGradient);
 			SetFireHeandDetectorCommand = new RelayCommand(OnSetFireHeandDetector);
 			ResetFireCommand = new RelayCommand(OnResetFire);
+
+			SetFire1Command = new RelayCommand(OnSetFire1);
+			SetFire2Command = new RelayCommand(OnSetFire2);
+			ResetFire12Command = new RelayCommand(OnResetFire12);
 		}
 
 		public bool HasSetFireSmoke { get; private set; }
@@ -77,5 +81,37 @@ namespace GKImitator.ViewModels
 		}
 
 		public bool HasReset { get; private set; }
+
+		public RelayCommand SetFire1Command { get; private set; }
+		void OnSetFire1()
+		{
+			SetStateBit(GKStateBit.Fire1, true);
+			SetStateBit(GKStateBit.Fire2, false);
+			var journalItem = new ImitatorJournalItem(2, 2, 0, 0);
+			AddJournalItem(journalItem);
+			RecalculateOutputLogic();
+		}
+
+		public RelayCommand SetFire2Command { get; private set; }
+		void OnSetFire2()
+		{
+			SetStateBit(GKStateBit.Fire1, false);
+			SetStateBit(GKStateBit.Fire2, true);
+			var journalItem = new ImitatorJournalItem(2, 3, 0, 0);
+			AddJournalItem(journalItem);
+			RecalculateOutputLogic();
+		}
+
+		public RelayCommand ResetFire12Command { get; private set; }
+		void OnResetFire12()
+		{
+			SetStateBit(GKStateBit.Fire1, false);
+			SetStateBit(GKStateBit.Fire2, false);
+			var journalItem = new ImitatorJournalItem(2, 14, 0, 0);
+			AddJournalItem(journalItem);
+			RecalculateOutputLogic();
+		}
+
+		public bool HasFire12 { get; private set; }
 	}
 }
