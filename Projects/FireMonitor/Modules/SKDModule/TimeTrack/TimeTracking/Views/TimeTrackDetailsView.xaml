@@ -8,6 +8,8 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:models="clr-namespace:SKDModule.Model"
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+	xmlns:cal="http://www.caliburnproject.org"
 	xmlns:viewModels="clr-namespace:SKDModule.ViewModels"
 	Width="1100"
 	Height="600"
@@ -202,8 +204,9 @@
 										<CheckBox
 											HorizontalAlignment="Center"
 											VerticalAlignment="Center"
+											Command="{Binding NotTakeIncalculationsCommand}"
 											IsEnabled="{Binding IsEnabledNotTakeInCalculations}"
-											IsChecked="{Binding NotTakeInCalculations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+											IsChecked="{Binding NotTakeInCalculations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>

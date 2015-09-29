@@ -38,18 +38,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private bool _isEnableValidationForControlReader;
-
-		public bool IsEnableValidationForControlReader
-		{
-			get { return _isEnableValidationForControlReader; }
-			set
-			{
-				_isEnableValidationForControlReader = value;
-				OnPropertyChanged(() => IsEnableValidationForControlReader);
-			}
-		}
-
 		private bool _enableValidationForUSB;
 
 		public bool EnableValidationForUSB
@@ -299,6 +287,18 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		private uint? _numberFromControlReader;
+
+		public uint? NumberFromControlReader
+		{
+			get { return _numberFromControlReader; }
+			set
+			{
+				_numberFromControlReader = value;
+				OnPropertyChanged(() => NumberFromControlReader);
+			}
+		}
+
 		public void OnNewJournal(List<JournalItem> journalItems)
 		{
 			foreach (var journalItem in journalItems)
@@ -311,7 +311,7 @@ namespace SKDModule.ViewModels
 						var cardNoString = journalDetalisationItem.Value;
 						int cardNo;
 						Int32.TryParse(cardNoString, System.Globalization.NumberStyles.HexNumber, null, out cardNo);
-						Number = (uint)cardNo;
+						NumberFromControlReader = (uint)cardNo;
 					}
 				}
 			}
@@ -323,17 +323,27 @@ namespace SKDModule.ViewModels
 			var readerSelectationViewModel = new ReaderSelectationViewModel(ClientSettings.SKDSettings.CardCreatorReaderUID);
 			if (DialogService.ShowModalWindow(readerSelectationViewModel))
 			{
+				IsReaderSelected = true;
 				OnPropertyChanged(() => ReaderName);
+			}
+		}
+
+		private bool _isReaderSelected;
+
+		public bool IsReaderSelected
+		{
+			get { return _isReaderSelected; }
+			set
+			{
+				if (_isReaderSelected == value) return;
+				_isReaderSelected = value;
+				OnPropertyChanged(() => IsReaderSelected);
 			}
 		}
 
 		public string ReaderName
 		{
-			get
-			{
-				var readerDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == ClientSettings.SKDSettings.CardCreatorReaderUID);
-				return readerDevice != null ? readerDevice.Name : "Нажмите для выбора считывателя";
-			}
+			get { return "Нажмите для выбора считывателя"; }
 		}
 
 		public RelayCommand ChangeDeactivationControllerCommand { get; private set; }
@@ -368,7 +378,10 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if ((IsFirstRadioButtonChecked || EnableValidationForUSB) && Number == null)
+			var manualInputValidationCondition = (IsFirstRadioButtonChecked || EnableValidationForUSB) && Number == null;
+			var useReaderValidationCondition = UseReader && NumberFromControlReader == null;
+
+			if (manualInputValidationCondition || useReaderValidationCondition)
 			{
 				MessageBoxService.ShowError("Введите номер карты", "Неверный номер карты");
 				return false;
@@ -397,6 +410,10 @@ namespace SKDModule.ViewModels
 				resultCard.Number = SelectedStopListCard.Number;
 				resultCard.IsInStopList = false;
 				resultCard.StopReason = null;
+			}
+			else if (UseReader)
+			{
+				resultCard.Number = NumberFromControlReader;
 			}
 			else
 			{

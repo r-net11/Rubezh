@@ -1,0 +1,76 @@
+﻿<UserControl
+	x:Class="SKDModule.Views.ControlReaderComponent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	x:Name="_this"
+    mc:Ignorable="d">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/HyperlinkStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+			<InversedBoolToVisibilityConverter x:Key="InversedBoolToVisibilityConverter" />
+			<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<!--<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>-->
+	<StackPanel Orientation="Horizontal">
+		<TextBlock
+			Focusable="False"
+			VerticalAlignment="Center"
+			FocusVisualStyle="{x:Null}"
+			Visibility="{Binding IsReaderSelected, Mode=TwoWay, ElementName=_this, Converter={StaticResource InversedBoolToVisibilityConverter}, FallbackValue=Collapsed}"
+			TextWrapping="Wrap">
+			<Hyperlink
+				x:Name="Link"
+				Focusable="False"
+				FocusVisualStyle="{x:Null}"
+				IsEnabled="{Binding IsLinkEnabled, ElementName=_this}"
+				Command="{Binding ClickCommand, ElementName=_this}"
+				Style="{StaticResource HyperlinkStyle}">
+				<TextBlock
+					FocusVisualStyle="{x:Null}"
+					Focusable="False"
+					Text="{Binding LinkText, FallbackValue=Нажмите для выбора считывателя, ElementName=_this}">
+					<TextBlock.Style>
+						<Style>
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding ElementName=Link, Path=IsEnabled}" Value="False">
+									<Setter Property="TextBlock.Foreground" Value="LightGray" />
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</TextBlock.Style>
+					</TextBlock>
+			</Hyperlink>
+		</TextBlock>
+		<TextBox
+			x:Name="ContentTextBox"
+			Visibility="{Binding IsReaderSelected, Mode=TwoWay, ElementName=_this, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Visible}"
+			VerticalAlignment="Center"
+			Text="{Binding ContentText, ElementName=_this, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+			Width="{Binding TextBoxWidth, ElementName=_this}"
+			MinWidth="50"/>
+		<!--<Button
+			Grid.Column="1"
+			MinWidth="30"
+			VerticalAlignment="Center"
+			Visibility="{Binding IsReaderSelected, Mode=TwoWay, ElementName=_this, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Visible}"
+			Content="F"
+			Click="ButtonBase_OnClick"/>-->
+		<ToolBarButton
+			Command="{Binding ClearCommand, ElementName=_this}"
+			Height="25"
+			Width="30"
+			Visibility="{Binding IsReaderSelected, Mode=TwoWay, ElementName=_this, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Visible}"
+			ImageSource="Close"
+			Margin="5 0 0 0"/>
+	</StackPanel>
+	<!--</Grid>-->
+</UserControl>
