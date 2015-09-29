@@ -8,11 +8,6 @@ namespace GKWebService.Models
 {
     public class EmployeeModel
     {
-        public EmployeeModel()
-        {
-            
-        }
-
         public Guid UID { get; set; }
         public Guid OrganisationUID { get; set; }
         public string Name { get; set; }
