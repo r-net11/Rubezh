@@ -60,14 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseContext.cs" />
-    <Compile Include="DataClasses\Apartment.cs" />
-    <Compile Include="DataClasses\Bill.cs" />
-    <Compile Include="DataClasses\DbModelBase.cs" />
-    <Compile Include="DataClasses\Device.cs" />
-    <Compile Include="DataClasses\Measure.cs" />
-    <Compile Include="DataClasses\Parameter.cs" />
-    <Compile Include="DataClasses\Tariff.cs" />
-    <Compile Include="DataClasses\TariffPart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +67,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ResursAPI\ResursAPI.csproj">
+      <Project>{94c0399f-3eab-4e23-98f9-61eb8daa4974}</Project>
+      <Name>ResursAPI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ResursNetwork\ResursNetwork.csproj">
       <Project>{ff5590ac-bf93-4ce8-af99-f75091becf64}</Project>
       <Name>ResursNetwork</Name>

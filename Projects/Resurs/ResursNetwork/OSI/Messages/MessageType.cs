@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RubezhResurs.OSI.Messages
+namespace ResursNetwork.OSI.Messages
 {
     public enum MessageType
     {

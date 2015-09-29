@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.IO.Ports;
 
-namespace RubezhResurs.Incotex.NetworkControllers.Messages
+namespace ResursNetwork.Incotex.NetworkControllers.Messages
 {
     /// <summary>
     /// Коды ошибок, для передачи в служебных сообщениях

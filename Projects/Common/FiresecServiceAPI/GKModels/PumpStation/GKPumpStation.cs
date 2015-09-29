@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Common;
+using FiresecClient;
+using System.Linq;
 
 namespace FiresecAPI.GK
 {
@@ -36,25 +38,38 @@ namespace FiresecAPI.GK
 			Pim.UID = GuidHelper.CreateOn(UID, 0);
 		}
 
-		public override void Update(GKDevice device)
+		public override void Invalidate()
 		{
-			StartLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => { y.Devices.Remove(device); y.DeviceUIDs.Remove(device.UID); });
-			StopLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => { y.Devices.Remove(device); y.DeviceUIDs.Remove(device.UID); });
-			AutomaticOffLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => { y.Devices.Remove(device); y.DeviceUIDs.Remove(device.UID); });
-			NSDevices.Remove(device);
-			NSDevices.ForEach(d => d.NSLogic.GetAllClauses().FindAll(x => { d.UnLinkObject(device); return x.Devices.Contains(device); }).ForEach(y =>{ y.Devices.Remove(device); y.DeviceUIDs.Remove(device.UID); }));
-			NSDeviceUIDs.Remove(device.UID);
-			UnLinkObject(device);
-			OnChanged();
+			var nsDevicesUIDs = new List<Guid>();
+			NSDevices = new List<GKDevice>();
+			foreach (var NSDevicesUID in NSDeviceUIDs)
+			{
+				var device = GKManager.Devices.FirstOrDefault(x => x.UID == NSDevicesUID);
+				if (device != null)
+				{
+					nsDevicesUIDs.Add(NSDevicesUID);
+					NSDevices.Add(device);
+					AddDependentElement(device);
+				}
+			}
+
+			NSDeviceUIDs = nsDevicesUIDs;
+
+			UpdateLogic();
+
+			StartLogic.GetObjects().ForEach(x => AddDependentElement(x));
+			
+			StopLogic.GetObjects().ForEach(x => AddDependentElement(x));
+
+			AutomaticOffLogic.GetObjects().ForEach(x => AddDependentElement(x));
+			
 		}
 
-		public override void Update(GKDirection direction)
+		public override void UpdateLogic()
 		{
-			StartLogic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
-			StopLogic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
-			AutomaticOffLogic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
-			UnLinkObject(direction);
-			OnChanged();
+			GKManager.DeviceConfiguration.InvalidateInputObjectsBaseLogic(this, StartLogic);
+			GKManager.DeviceConfiguration.InvalidateInputObjectsBaseLogic(this, StopLogic);
+			GKManager.DeviceConfiguration.InvalidateInputObjectsBaseLogic(this, AutomaticOffLogic);
 		}
 
 		[XmlIgnore]

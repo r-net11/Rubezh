@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace RubezhResurs.Modbus
+namespace ResursNetwork.Modbus
 {
     /// <summary>
     /// Для хранения значения CRC16 

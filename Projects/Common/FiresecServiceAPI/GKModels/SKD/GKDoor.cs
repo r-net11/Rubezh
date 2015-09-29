@@ -4,6 +4,9 @@ using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Common;
 using Infrustructure.Plans.Interfaces;
+using FiresecClient;
+using System.Linq;
+using System.Diagnostics;
 
 namespace FiresecAPI.GK
 {
@@ -30,33 +33,172 @@ namespace FiresecAPI.GK
 			PimExit.UID = GuidHelper.CreateOn(UID, 1);
 		}
 
-		public override void Update(GKDevice device)
+		public override void Invalidate()
 		{
-			OpenRegimeLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => y.Devices.Remove(device));
-			NormRegimeLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => y.Devices.Remove(device));
-			CloseRegimeLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => y.Devices.Remove(device));
+			UpdateLogic();
+			OpenRegimeLogic.GetObjects().ForEach(x => AddDependentElement(x));
 
-			EnterDeviceUID = EnterDeviceUID == device.UID ? Guid.Empty : EnterDeviceUID;
-			ExitDeviceUID = ExitDeviceUID == device.UID ? Guid.Empty : ExitDeviceUID;
-			EnterButtonUID = EnterButtonUID == device.UID ? Guid.Empty : EnterButtonUID;
-			ExitButtonUID = ExitButtonUID == device.UID ? Guid.Empty : ExitButtonUID;
-			LockDeviceUID = LockDeviceUID == device.UID ? Guid.Empty : LockDeviceUID;
-			LockDeviceExitUID = LockDeviceExitUID == device.UID ? Guid.Empty : LockDeviceExitUID;
-			LockControlDeviceUID = LockControlDeviceUID == device.UID ? Guid.Empty : LockControlDeviceUID;
-			LockControlDeviceExitUID = LockControlDeviceExitUID == device.UID ? Guid.Empty : LockControlDeviceExitUID;
+			NormRegimeLogic.GetObjects().ForEach(x => AddDependentElement(x));
+		
+			CloseRegimeLogic.GetObjects().ForEach(x => AddDependentElement(x));
+		
 
-			UnLinkObject(device);
-			OnChanged();
+			if (EnterDeviceUID != Guid.Empty)
+			{
+				EnterDevice = GKManager.Devices.Find(x => x.UID == EnterDeviceUID);
+				if (EnterDevice == null)
+					EnterDeviceUID = Guid.Empty;
+				else
+				{
+					EnterDevice.Door = this;
+					AddDependentElement(EnterDevice);
+				}
+			}
+
+			if (ExitDeviceUID != Guid.Empty)
+			{
+				ExitDevice = GKManager.Devices.Find(x => x.UID == ExitDeviceUID);
+				if (ExitDevice == null)
+					ExitDeviceUID = Guid.Empty;
+				else
+				{
+					ExitDevice.Door = this;
+					AddDependentElement(ExitDevice);
+				}
+			}
+
+			if (DoorType == GKDoorType.AirlockBooth)
+			{
+				if (EnterButtonUID != Guid.Empty)
+				{
+					EnterButton = GKManager.Devices.Find(x => x.UID == EnterButtonUID);
+					if (EnterButton == null)
+						EnterButtonUID = Guid.Empty;
+					else
+					{
+						EnterButton.Door = this;
+						AddDependentElement(EnterButton);
+					}
+				}
+				if (ExitButtonUID != Guid.Empty)
+				{
+					ExitButton = GKManager.Devices.Find(x => x.UID == ExitButtonUID);
+					if (ExitButton == null)
+						ExitButtonUID = Guid.Empty;
+					else
+					{
+						ExitButton.Door = this;
+						AddDependentElement(ExitButton);
+					}
+				}
+				if (LockControlDeviceUID != Guid.Empty)
+				{
+					LockControlDevice = GKManager.Devices.Find(x => x.UID == LockControlDeviceUID);
+					if (LockControlDevice == null)
+						LockControlDeviceUID = Guid.Empty;
+					else
+					{
+						LockControlDevice.Door = this;
+						AddDependentElement(LockControlDevice);
+					}
+				}
+				if (LockControlDeviceExitUID != Guid.Empty)
+				{
+					LockControlDeviceExit = GKManager.Devices.Find(x => x.UID == LockControlDeviceExitUID);
+					if (LockControlDeviceExit == null)
+						LockControlDeviceExitUID = Guid.Empty;
+					else
+					{
+						LockControlDeviceExit.Door = this;
+						AddDependentElement(LockControlDeviceExit);
+					}
+				}
+			}
+			if (DoorType == GKDoorType.AirlockBooth || DoorType == GKDoorType.Barrier || DoorType == GKDoorType.Turnstile)
+			{
+				if (DoorType == GKDoorType.Barrier || DoorType == GKDoorType.Turnstile)
+				{
+					EnterButton = null;
+					EnterButtonUID = Guid.Empty;
+					ExitButton = null;
+					ExitButtonUID = Guid.Empty;
+					LockControlDeviceExit = null;
+					LockControlDeviceExitUID = Guid.Empty;
+
+					if (DoorType == GKDoorType.Barrier)
+					{
+						LockControlDevice = null;
+						LockControlDeviceUID = Guid.Empty;
+					}
+				}
+				if (LockDeviceUID != Guid.Empty)
+				{
+					LockDevice = GKManager.Devices.Find(x => x.UID == LockDeviceUID);
+					if (LockDevice == null)
+						LockDeviceUID = Guid.Empty;
+					else
+					{
+						LockDevice.Door = this;
+						AddDependentElement(LockDevice);
+					}
+				}
+				if (LockDeviceExitUID != Guid.Empty)
+				{
+					LockDeviceExit = GKManager.Devices.Find(x => x.UID == LockDeviceExitUID);
+					if (LockDeviceExit == null)
+						LockDeviceExitUID = Guid.Empty;
+					else
+					{
+						LockDeviceExit.Door = this;
+						AddDependentElement(LockDeviceExit);
+					}
+				}
+			}
+
+			if (DoorType == GKDoorType.OneWay || DoorType == GKDoorType.TwoWay)
+			{
+				EnterButton = null;
+				EnterButtonUID = Guid.Empty;
+				ExitButton = null;
+				ExitButtonUID = Guid.Empty;
+				LockControlDeviceExit = null;
+				LockControlDeviceExitUID = Guid.Empty;
+				LockDeviceExit = null;
+				LockDeviceExitUID = Guid.Empty;
+
+				if (LockDeviceUID != Guid.Empty)
+				{
+					LockDevice = GKManager.Devices.Find(x => x.UID == LockDeviceUID);
+					if (LockDevice == null)
+						LockDeviceUID = Guid.Empty;
+					else
+					{
+						LockDevice.Door = this;
+						AddDependentElement(LockDevice);
+					}
+				}
+
+				if (LockControlDeviceUID != Guid.Empty)
+				{
+					LockControlDevice = GKManager.Devices.Find(x => x.UID == LockControlDeviceUID);
+					if (LockControlDevice == null)
+						LockControlDeviceUID = Guid.Empty;
+					else
+					{
+						LockControlDevice.Door = this;
+						AddDependentElement(LockControlDevice);
+					}
+				}
+			}
 		}
 
-		public override void Update(GKDirection direction)
+		public override void UpdateLogic()
 		{
-			OpenRegimeLogic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
-			NormRegimeLogic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
-			CloseRegimeLogic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
-			UnLinkObject(direction);
-			OnChanged();
+			GKManager.DeviceConfiguration.InvalidateInputObjectsBaseLogic(this, OpenRegimeLogic);
+			GKManager.DeviceConfiguration.InvalidateInputObjectsBaseLogic(this, NormRegimeLogic);
+			GKManager.DeviceConfiguration.InvalidateInputObjectsBaseLogic(this, CloseRegimeLogic);
 		}
+		
 
 		[XmlIgnore]
 		public GKPim PimEnter { get; private set; }

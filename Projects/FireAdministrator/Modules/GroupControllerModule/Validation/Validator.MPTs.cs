@@ -124,7 +124,7 @@ namespace GKModule.Validation
 
 		void ValidateMPTSelfLogic(GKMPT mpt)
 		{
-			if (mpt.ClauseInputMPTs.Contains(mpt))
+			if (mpt.MptLogic.GetObjects().Contains(mpt))
 				Errors.Add(new MPTValidationError(mpt, "МПТ зависит от самого себя", ValidationErrorLevel.CannotWrite));
 		}
 

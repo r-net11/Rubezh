@@ -35,6 +35,7 @@ namespace GKModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			ZoneDevices = new GuardZoneDevicesViewModel();
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
+			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 
 			Current = this;
 			Menu = new GuardZonesMenuViewModel(this);
@@ -121,6 +122,18 @@ namespace GKModule.ViewModels
 				var index = Zones.IndexOf(SelectedZone);
 				GKManager.GuardZones.Remove(SelectedZone.Zone);
 				SelectedZone.Zone.OnChanged();
+				SelectedZone.Zone.OutDependentElements.ForEach(x =>
+				{
+					x.InputDependentElements.Remove(SelectedZone.Zone);
+					if (x is GKDevice)
+					{
+						x.Invalidate();
+						x.OnChanged();
+					}
+					x.UpdateLogic();
+					x.OnChanged();
+				});
+
 				Zones.Remove(SelectedZone);
 				index = Math.Min(index, Zones.Count - 1);
 				if (index > -1)
@@ -175,8 +188,21 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(guardZoneDetailsViewModel))
 			{
 				SelectedZone.Update(guardZoneDetailsViewModel.Zone);
+				guardZoneDetailsViewModel.Zone.InputDependentElements.ForEach(x => x.OnChanged());
+				guardZoneDetailsViewModel.Zone.OutDependentElements.ForEach(x => x.OnChanged());
 				guardZoneDetailsViewModel.Zone.OnChanged();
 				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public RelayCommand ShowDependencyItemsCommand { get; set; }
+
+		void ShowDependencyItems()
+		{
+			if (SelectedZone.Zone != null)
+			{
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedZone.Zone.OutDependentElements);
+				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}
 

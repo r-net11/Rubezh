@@ -230,6 +230,7 @@ namespace GKModule.ViewModels
 						{
 							cache.UpdateDeviceBinding(device);
 							SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
+							device.Invalidate();
 						}
 					}
 					if (SelectedDevice.Device.IsConnectedToKAU)
@@ -354,7 +355,7 @@ namespace GKModule.ViewModels
 			if (messageBoxResult)
 			{
 				SelectedDevice.Device.Logic = GKManager.PasteLogic(new GKAdvancedLogic(hasOnClause, hasOnNowClause, hasOffClause, hasOffNowClause, hasStopClause));
-				SelectedDevice.Device.OnChanged();
+				SelectedDevice.Device.Invalidate();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

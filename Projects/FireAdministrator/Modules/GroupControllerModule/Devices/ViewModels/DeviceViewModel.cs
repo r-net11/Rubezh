@@ -46,6 +46,7 @@ namespace GKModule.ViewModels
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 			ShowMPTCommand = new RelayCommand(OnShowMPT, CanShowMPT);
 			ShowDoorCommand = new RelayCommand(OnShowDoor);
+			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 			GenerateZonesCommand = new RelayCommand(GenerateZones);
 			GenerateGuardZonesCommand = new RelayCommand(GenerateGuardZones);
 			GenerateDirectionsCommand = new RelayCommand(GenerateDirections);
@@ -138,7 +139,7 @@ namespace GKModule.ViewModels
 
 		public bool IsInPumpStation
 		{
-			get { return Device != null && GKManager.PumpStations.Any(x => x.NSDevices.Contains(Device)); }
+			get { return Device != null && GKManager.PumpStations.Any(x => x.NSDeviceUIDs.Contains(Device.UID)); }
 		}
 
 		public string Address
@@ -667,6 +668,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				GKManager.ChangeLogic(Device, logicViewModel.GetModel());
+				Device.ChangedLogic();
 				OnPropertyChanged(() => PresentationZone);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -682,7 +684,8 @@ namespace GKModule.ViewModels
 			if (Driver.IsAm)
 			{
 				var anyZonesSelectionViewModel = new AnyZonesSelectionViewModel(Device);
-				DialogService.ShowModalWindow(anyZonesSelectionViewModel);
+				if(DialogService.ShowModalWindow(anyZonesSelectionViewModel))
+					Device.ChangedLogic();
 			}
 			else
 			{
@@ -692,6 +695,7 @@ namespace GKModule.ViewModels
 					if (DialogService.ShowModalWindow(zonesSelectationViewModel))
 					{
 						GKManager.ChangeDeviceZones(Device, zonesSelectationViewModel.Zones);
+						Device.ChangedLogic();
 					}
 				}
 				if (Driver.HasGuardZone)
@@ -700,6 +704,7 @@ namespace GKModule.ViewModels
 					if (DialogService.ShowModalWindow(guardZonesSelectationViewModel))
 					{
 						GKManager.ChangeDeviceGuardZones(Device, guardZonesSelectationViewModel.DeviceGuardZones.Select(x => x.DeviceGuardZone).ToList());
+						Device.ChangedLogic();
 					}
 				}
 			}
@@ -792,6 +797,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				Device.NSLogic = logicViewModel.GetModel();
+				Device.ChangedLogic();
 				OnPropertyChanged("NSPresentationZone");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -832,7 +838,6 @@ namespace GKModule.ViewModels
 				if (Device.DriverType != value.DriverType)
 				{
 					GKManager.ChangeDriver(Device, value);
-					Device.OnRemoved();
 					Nodes.Clear();
 					foreach (var childDevice in Device.Children)
 					{
@@ -847,6 +852,7 @@ namespace GKModule.ViewModels
 					OnPropertyChanged(() => IsFireAndGuard);
 					PropertiesViewModel = new PropertiesViewModel(Device);
 					OnPropertyChanged(() => PropertiesViewModel);
+
 					GKManager.RebuildRSR2Addresses(Device);
 					GKManager.DeviceConfiguration.Update();
 					Update();
@@ -950,6 +956,17 @@ namespace GKModule.ViewModels
 					|| x.LockControlDeviceUID == Device.UID || x.LockControlDeviceExitUID == Device.UID);
 			if (door != null)
 				ServiceFactoryBase.Events.GetEvent<ShowGKDoorEvent>().Publish(door.UID);
+		}
+
+		public RelayCommand ShowDependencyItemsCommand { get; set; }
+
+		void ShowDependencyItems()
+		{
+			if (Device != null)
+			{
+				var dependencyItemsViewModel = new DependencyItemsViewModel(Device.OutDependentElements);
+				DialogService.ShowModalWindow(dependencyItemsViewModel);
+			}
 		}
 
 		public RelayCommand CopyCommand { get { return DevicesViewModel.Current.CopyCommand; } }
