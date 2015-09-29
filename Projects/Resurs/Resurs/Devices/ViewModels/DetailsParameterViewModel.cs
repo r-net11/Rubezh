@@ -14,6 +14,7 @@ namespace Resurs.ViewModels
 		{
 			Model = model;
 			Name = model.DriverParameter.Name;
+			IsNotReadOnly = !model.DriverParameter.IsReadOnly;
 			switch (Model.DriverParameter.ParameterType)
 			{
 				case ParameterType.Enum:
@@ -48,6 +49,8 @@ namespace Resurs.ViewModels
 					break;
 			}
 		}
+
+		public bool IsNotReadOnly { get; private set; }
 
 		public ObservableCollection<ParameterEnumItem> ParameterEnum { get; private set; }
 

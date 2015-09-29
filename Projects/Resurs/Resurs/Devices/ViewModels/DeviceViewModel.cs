@@ -35,6 +35,7 @@ namespace Resurs.ViewModels
 		{
 			Device = device;
 			Parameters = new ObservableCollection<ParameterViewModel>(Device.Parameters.Select(x => new ParameterViewModel(x)));
+			OnPropertyChanged(() => Parameters);
 		}
 	}
 }

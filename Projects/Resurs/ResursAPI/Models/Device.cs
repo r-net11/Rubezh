@@ -17,38 +17,49 @@ namespace ResursAPI
 			Children = new List<Device>();
 			Parameters = new List<Parameter>(); ;
 		}
-		public Device(ResursAPI.DriverType driverType):this()
-		{
-			Driver = ResursAPI.DriversConfiguration.GetDriver(driverType);
-			foreach (var item in Driver.DriverParameters)
-			{
-				 Parameters.Add(new Parameter { DriverParameter = item, Device = this } );
-			}
-		}
+		//public Device(ResursAPI.DriverType driverType):this()
+		//{
+		//	Driver = ResursAPI.DriversConfiguration.GetDriver(driverType);
+		//	DriverType = driverType;
+		//	foreach (var item in Driver.DriverParameters)
+		//	{
+		//		 Parameters.Add(new Parameter { DriverParameter = item, Device = this, Number = item.Number } );
+		//	}
+		//}
 
-		public void AddChild(ResursAPI.DriverType driverType)
-		{
-			if (!Driver.Children.Any(x => x == driverType))
-				return;
-			var device = new Device(driverType);
-			device.SetAddress(this, Children.Count + 1);
-			device.Parent = this;
-			Children.Add(device);
-		}
+		//public void AddChild(ResursAPI.DriverType driverType)
+		//{
+		//	if (!Driver.Children.Any(x => x == driverType))
+		//		return;
+		//	var device = new Device(driverType);
+		//	device.SetAddress(this, Children.Count + 1);
+		//	device.Parent = this;
+		//	Children.Add(device);
+		//}
 
-		public void AddChild(Device device)
-		{
-			if (!Driver.Children.Any(x => x == device.Driver.DriverType))
-				return;
-			device.SetAddress(this, Children.Count + 1);
-			device.Parent = this;
-			Children.Add(device);
-		}
-		public void SetAddress(Device parent, int number)
+		//public void AddChild(Device device)
+		//{
+		//	if (!Driver.Children.Any(x => x == device.Driver.DriverType))
+		//		return;
+		//	device.SetAddress(this, Children.Count + 1);
+		//	device.Parent = this;
+		//	Children.Add(device);
+		//}
+		void SetAddress(Device parent, int number)
 		{
 			if (parent.Children.Any(x => x.Address == number))
 				return;
 			Address = number;
+		}
+
+		public void SetFullAddress()
+		{
+			if (Parent == null)
+				FullAddress = "";
+			else if (Parent.FullAddress.Equals(""))
+				FullAddress = Address.ToString();
+			else
+				FullAddress = Parent.FullAddress + "." + Address.ToString();
 		}
 
 		[Key]
@@ -68,5 +79,7 @@ namespace ResursAPI
 		public string Name { get { return Driver.DriverType.ToDescription(); } }
 		[NotMapped]
 		public Driver Driver { get; set; }
+		[NotMapped]
+		public string FullAddress { get; private set; }
 	}
 }
