@@ -271,12 +271,14 @@ namespace SKDModule.Model
 				timeTrackPart.IsForceClosed);
 		}
 
+		public ReactiveAsyncCommand NotTakeIncalculationsCommand { get; set; }
+
 		public DayTimeTrackPart()
 		{
 			_uiChanged = GetUiObserver();
 
-			var cmd = new ReactiveAsyncCommand();
-			cmd.RegisterAsyncAction(i =>
+			NotTakeIncalculationsCommand = new ReactiveAsyncCommand();
+			NotTakeIncalculationsCommand.RegisterAsyncAction(i =>
 			{
 				var currentUser = FiresecManager.CurrentUser;
 				var dateTimeNow = DateTime.Now;
@@ -285,9 +287,6 @@ namespace SKDModule.Model
 				CorrectedBy = currentUser.Name;
 				CorrectedByUID = currentUser.UID;
 			});
-
-			this.WhenAny(x => x.NotTakeInCalculations, x => x.Value)
-				.Subscribe(_ => cmd.Execute(null));
 		}
 
 		#endregion
