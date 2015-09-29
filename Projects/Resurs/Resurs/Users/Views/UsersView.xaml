@@ -15,6 +15,9 @@
 		</StackPanel>
 		<Grid Grid.Row ="1">
 			<DataGrid  ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" CanUserSortColumns="True">
+				<DataGrid.InputBindings>
+					<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
+				</DataGrid.InputBindings>
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Имя" SortMemberPath="User.Name" Width="*">
 						<DataGridTemplateColumn.CellTemplate>

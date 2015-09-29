@@ -14,7 +14,7 @@ namespace ResursAPI
 			Users = new List<User>();
 			for (int i = 0; i < 50; i++)
 			{
-				Users.Add(new User() { Name = "Name " + i, Login = "login" + i });
+				Users.Add(new User() { Name = "Name " + i, Login = "login" + i, });
 			}
 		}
 

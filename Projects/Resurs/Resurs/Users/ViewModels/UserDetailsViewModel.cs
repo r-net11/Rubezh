@@ -39,7 +39,7 @@ namespace Resurs.ViewModels
 				};
 
 			}
-
+			PermissionsViewModel = new PermissionsViewModel(User);
 			CopyProperty();
 		}
 		void CopyProperty()
@@ -58,7 +58,6 @@ namespace Resurs.ViewModels
 				_login = value;
 				OnPropertyChanged(() => Login);
 			}
-		
 		}
 
 		string _name;
@@ -106,6 +105,17 @@ namespace Resurs.ViewModels
 			}
 		}
 
+		PermissionsViewModel _permissionsViewModel;
+		public PermissionsViewModel PermissionsViewModel
+		{
+			get { return _permissionsViewModel; }
+			set
+			{
+				_permissionsViewModel = value;
+				OnPropertyChanged(() => PermissionsViewModel);
+			}
+		}
+
 		bool CheckLogin()
 		{
 			if (string.IsNullOrWhiteSpace(Login))
@@ -139,6 +149,7 @@ namespace Resurs.ViewModels
 			if (IsChangePassword)
 				User.PasswordHash = HashHelper.GetHashFromString(Password);
 
+			PermissionsViewModel.GetPermissionStrings(User);
 		}
 
 		protected override bool Save()
