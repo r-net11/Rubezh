@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using Common;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.SKD;
 using Infrastructure.Common;
@@ -18,6 +19,8 @@ namespace StrazhModule.ViewModels
 {
 	public class ControllerPropertiesViewModel : SaveCancelDialogViewModel
 	{
+		private EventWaitHandle _configurationChangedWaitHandle;
+
 		public SKDDevice Device { get; private set; }
 		public SKDDeviceInfo DeviceInfo { get; private set; }
 
@@ -31,6 +34,12 @@ namespace StrazhModule.ViewModels
 			RebootCommand = new RelayCommand(OnReboot);
 			RewriteAllCardsCommand = new RelayCommand(OnRewriteAllCards);
 			RewriteConfigurationCommand = new RelayCommand(OnRewriteConfiguration);
+
+#if DEBUG
+			Logger.Info("Подписываемся на событие изменения конфигурации");
+#endif
+			SafeFiresecService.ConfigurationChangedEvent -= SafeFiresecService_ConfigurationChangedEvent;
+			SafeFiresecService.ConfigurationChangedEvent += SafeFiresecService_ConfigurationChangedEvent;
 		}
 
 		public RelayCommand ResetCommand { get; private set; }
@@ -127,7 +136,11 @@ namespace StrazhModule.ViewModels
 			{
 				if (MessageBoxService.ShowQuestion("Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?"))
 				{
+					_configurationChangedWaitHandle = new AutoResetEvent(false);
 					var cancelEventArgs = new CancelEventArgs();
+#if DEBUG
+					Logger.Info("Сигнализируем о том, что необходимо начать процесс сохранения конфигурации");
+#endif
 					ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);
 					return !cancelEventArgs.Cancel;
 				}
@@ -140,9 +153,23 @@ namespace StrazhModule.ViewModels
 		{
 			var thread = new Thread(() =>
 			{
+#if DEBUG
+				Logger.Info("Ожидаем сигнала о возможности продолжить работу треда для записи конфигурации на все контроллеры");
+#endif
+				if (_configurationChangedWaitHandle != null)
+					_configurationChangedWaitHandle.WaitOne();
+				
+				Thread.Sleep(TimeSpan.FromSeconds(2));
+
+#if DEBUG
+				Logger.Info("Записываем графики доступа");
+#endif
 				// 1. Записываем графики доступа на контроллер
 				var result = FiresecManager.FiresecService.SKDWriteTimeSheduleConfiguration(Device);
 
+#if DEBUG
+				Logger.Info("Записываем пароли замков");
+#endif
 				// 2. Записываем пароли замков на контроллер
 				if (!result.IsCanceled)
 					result = FiresecManager.FiresecService.SetControllerLocksPasswords(Device, GetCantrollerLocksPasswords(Device));
@@ -195,6 +222,15 @@ namespace StrazhModule.ViewModels
 				//}
 				return false;
 			}
+		}
+
+		private void SafeFiresecService_ConfigurationChangedEvent()
+		{
+#if DEBUG
+			Logger.Info("Получен сигнал об изменении конфигурации");
+#endif
+			if (_configurationChangedWaitHandle != null)
+				_configurationChangedWaitHandle.Set();
 		}
 
 		protected override bool Save()

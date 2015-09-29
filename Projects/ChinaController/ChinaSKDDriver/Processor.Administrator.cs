@@ -1,4 +1,5 @@
 ﻿using ChinaSKDDriverAPI;
+using Common;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using System;
@@ -131,6 +132,9 @@ namespace ChinaSKDDriver
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (deviceProcessor != null)
 			{
+#if DEBUG
+				Logger.Info(String.Format("Выполняется Processor.SKDWriteTimeSheduleConfiguration для контроллера {0}", deviceProcessor.Device.Name));
+#endif
 				if (!deviceProcessor.IsConnected)
 					return OperationResult<bool>.FromError(String.Format("Нет связи с контроллером \"{0}\". {1}", deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 

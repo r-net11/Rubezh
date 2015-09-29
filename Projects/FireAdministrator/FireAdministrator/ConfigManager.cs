@@ -25,6 +25,9 @@ namespace FireAdministrator
 		{
 			try
 			{
+#if DEBUG
+				Logger.Info("Начата процедура изменения конфигурации");
+#endif
 				ServiceFactory.Events.GetEvent<BeforeConfigurationSerializeEvent>().Publish(null);
 				ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Publish(null);
 
@@ -61,9 +64,15 @@ namespace FireAdministrator
 				}
 
 				if (ServiceFactory.SaveService.HasChanges)
+#if DEBUG
+					Logger.Info("Рассылаем уведомление клиентам об изменении конфигурации");
+#endif
 					FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
 				ServiceFactory.SaveService.Reset();
 				LoadingService.Close();
+#if DEBUG
+				Logger.Info("Закончена процедура изменения конфигурации");
+#endif
 				return true;
 			}
 			catch (Exception e)
