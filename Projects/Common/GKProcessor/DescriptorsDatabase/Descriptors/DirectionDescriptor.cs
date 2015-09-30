@@ -53,7 +53,7 @@ namespace GKProcessor
 				}
 			}
 
-			if (Direction.Logic.OffClausesGroup.GetObjects().Count > 0)
+			if (!Direction.Logic.UseOffCounterLogic && Direction.Logic.OffClausesGroup.Clauses.Count + Direction.Logic.OffClausesGroup.ClauseGroups.Count > 0)
 			{
 				Formula.AddClauseFormula(Direction.Logic.OffClausesGroup);
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Direction);

@@ -264,7 +264,7 @@ namespace GKModule.ViewModels
 
 		public bool HasNotAntipassback
 		{
-			get { return SelectedDoorType == GKDoorType.Barrier || SelectedDoorType == GKDoorType.OneWay; }
+			get { return SelectedDoorType == GKDoorType.OneWay; }
 		}
 
 		public ObservableCollection<string> AvailableNames { get; private set; }

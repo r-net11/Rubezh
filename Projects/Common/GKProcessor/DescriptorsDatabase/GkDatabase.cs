@@ -112,6 +112,10 @@ namespace GKProcessor
 				{
 					Descriptors.Add(doorDescriptor.DoorPimDescriptorExit);
 				}
+				if (doorDescriptor.DoorPimDescriptorCrossing != null)
+				{
+					Descriptors.Add(doorDescriptor.DoorPimDescriptorCrossing);
+				}
 			}
 
 			ushort no = 1;

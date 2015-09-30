@@ -11,6 +11,7 @@ namespace GKProcessor
 		GKDoor Door { get; set; }
 		public DoorPimDescriptorEnter DoorPimDescriptorEnter { get; private set; }
 		public DoorPimDescriptorExit DoorPimDescriptorExit { get; private set; }
+		public DoorPimDescriptorCrossing DoorPimDescriptorCrossing { get; private set; }
 
 		public DoorDescriptor(GKDoor door)
 			: base(door)
@@ -21,6 +22,10 @@ namespace GKProcessor
 			{
 				DoorPimDescriptorEnter = new DoorPimDescriptorEnter(Door);
 				DoorPimDescriptorExit = new DoorPimDescriptorExit(Door);
+			}
+			if (Door.DoorType == GKDoorType.Barrier)
+			{
+				DoorPimDescriptorCrossing = new DoorPimDescriptorCrossing(Door);
 			}
 		}
 

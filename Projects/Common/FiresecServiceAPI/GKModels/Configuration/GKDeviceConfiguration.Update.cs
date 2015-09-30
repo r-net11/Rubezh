@@ -668,16 +668,20 @@ namespace FiresecAPI.GK
 						door.LockControlDeviceUID = Guid.Empty;
 					else
 						door.LockControlDevice.Door = door;
+				}
 
+				if (door.DoorType == GKDoorType.AirlockBooth || door.DoorType == GKDoorType.Barrier)
+				{
 					door.LockControlDeviceExit = Devices.FirstOrDefault(x => x.UID == door.LockControlDeviceExitUID);
 					if (door.LockControlDeviceExit == null)
 						door.LockControlDeviceExitUID = Guid.Empty;
 					else
 						door.LockControlDeviceExit.Door = door;
 				}
+
 				if (door.DoorType == GKDoorType.AirlockBooth || door.DoorType == GKDoorType.Barrier || door.DoorType == GKDoorType.Turnstile)
 				{
-					if (door.DoorType == GKDoorType.Barrier || door.DoorType == GKDoorType.Turnstile)
+					if (door.DoorType == GKDoorType.Turnstile)
 					{
 						door.EnterButton = null;
 						door.EnterButtonUID = Guid.Empty;
@@ -685,12 +689,6 @@ namespace FiresecAPI.GK
 						door.ExitButtonUID = Guid.Empty;
 						door.LockControlDeviceExit = null;
 						door.LockControlDeviceExitUID = Guid.Empty;
-
-						if (door.DoorType == GKDoorType.Barrier)
-						{
-							door.LockControlDevice = null;
-							door.LockControlDeviceUID = Guid.Empty;
-						}
 					}
 					door.LockDevice = Devices.FirstOrDefault(x => x.UID == door.LockDeviceUID);
 					if (door.LockDevice == null)

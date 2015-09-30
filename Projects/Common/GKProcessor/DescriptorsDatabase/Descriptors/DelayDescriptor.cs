@@ -54,7 +54,7 @@ namespace GKProcessor
 				}
 			}
 
-			if (Delay.Logic.OffClausesGroup.GetObjects().Count > 0)
+			if (!Delay.Logic.UseOffCounterLogic && Delay.Logic.OffClausesGroup.Clauses.Count + Delay.Logic.OffClausesGroup.ClauseGroups.Count > 0)
 			{
 				Formula.AddClauseFormula(Delay.Logic.OffClausesGroup);
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Delay);
