@@ -51,7 +51,7 @@
 						HorizontalAlignment="Left"
 						Validation.ErrorTemplate="{x:Null}"
 						IsEnabled="{Binding IsChecked, ElementName=EnableKeyboard, UpdateSourceTrigger=PropertyChanged}"
-						Text="{Binding Number}"/>
+						Text="{Binding Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 					<TextBlock
 						Grid.Row="1"
 						Text="Из деактивированных"
@@ -155,7 +155,7 @@
 						Width="200"
 						Validation.ErrorTemplate="{x:Null}"
 						IsEnabled="{Binding IsChecked, ElementName=EnableUSB, UpdateSourceTrigger=PropertyChanged}"
-						Text="{Binding Number}" />
+						Text="{Binding NumberFromUSB, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 				</Grid>
 				<Separator
 					Margin="20 10"
@@ -256,7 +256,7 @@
 						Grid.Row="4"
 						Grid.Column="1"
 						Margin="2 4"
-						IsChecked="{Binding IsAlternativeLockParams}">
+						IsChecked="{Binding IsAlternativeLockParams, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 						<TextBlock
 							Text="Альтернативные время закрытия и удержания (для карт лиц с ограниченными возможностями)"
 							TextWrapping="Wrap"
