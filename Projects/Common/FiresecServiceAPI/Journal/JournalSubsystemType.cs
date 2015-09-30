@@ -5,12 +5,12 @@ namespace FiresecAPI.Journal
 	public enum JournalSubsystemType
 	{
 		[Description("Система")]
-		System,
+		System = 0,
 
 		[Description("Страж")]
-		SKD,
+		SKD = 2,
 
 		[Description("Видео")]
-		Video
+		Video = 3
 	}
 }

@@ -123,7 +123,7 @@ namespace FiresecAPI.SKD
 			RealTimeTrackParts.AddRange(CrossNightTimeTrackParts);
 			CrossNightTimeTrackParts = CalculateCrossNightTimeTrackParts(RealTimeTrackParts, Date);
 			RealTimeTrackParts = RealTimeTrackParts.OrderBy(x => x.EnterDateTime).ThenBy(x => x.ExitDateTime).ToList();
-			RealTimeTrackPartsForCalculates = GetRealTimeTracksForCalculate(RealTimeTrackParts);
+			RealTimeTrackPartsForCalculates = GetRealTimeTracksForCalculate(RealTimeTrackParts.Where(x => x.ExitDateTime.HasValue && x.IsForURVZone && !x.NotTakeInCalculations));
 			CombinedTimeTrackParts = CalculateCombinedTimeTrackParts(PlannedTimeTrackParts, RealTimeTrackPartsForCalculates,
 																							DocumentTrackParts);
 			RealTimeTrackPartsForCalculates = FillTypesForRealTimeTrackParts(RealTimeTrackPartsForCalculates, PlannedTimeTrackParts);
@@ -132,14 +132,13 @@ namespace FiresecAPI.SKD
 			CalculateLetterCode();
 		}
 
-		private List<TimeTrackPart> GetRealTimeTracksForCalculate(List<TimeTrackPart> realTimeTrackParts)
+		private List<TimeTrackPart> GetRealTimeTracksForCalculate(IEnumerable<TimeTrackPart> realTimeTrackParts)
 		{
 			var resultCollection = new List<TimeTrackPart>();
-			TimeTrackPart timeTrackPartItem;
 
-			foreach (var timeTrackPart in realTimeTrackParts.Where(x => x.ExitDateTime.HasValue))
+			foreach (var timeTrackPart in realTimeTrackParts)
 			{
-				timeTrackPartItem = timeTrackPart;
+				TimeTrackPart timeTrackPartItem = timeTrackPart;
 
 				if (timeTrackPart.EnterDateTime.Date == Date && timeTrackPart.ExitDateTime.Value.Date > Date)
 				{

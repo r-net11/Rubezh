@@ -114,7 +114,8 @@ namespace SKDModule.ViewModels
 			{
 				CardTypes = new ObservableCollection<CardType>(Enum.GetValues(typeof(CardType)).OfType<CardType>());
 			}
-			SelectedCardType = CardTypes.FirstOrDefault();
+
+			SelectedCardType = IsNewCard ? CardTypes.FirstOrDefault() : Card.CardType;
 		}
 
 		uint? _number;
