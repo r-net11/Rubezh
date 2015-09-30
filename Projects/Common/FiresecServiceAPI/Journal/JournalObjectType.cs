@@ -5,18 +5,18 @@ namespace FiresecAPI.Journal
 	public enum JournalObjectType
 	{
 		[DescriptionAttribute("Нет")]
-		None,
+		None = 0,
 
 		[DescriptionAttribute("Устройства Страж")]
-		SKDDevice,
+		SKDDevice = 10,
 
 		[DescriptionAttribute("Зоны Страж")]
-		SKDZone,
+		SKDZone = 11,
 
 		[DescriptionAttribute("Точки доступа Страж")]
-		SKDDoor,
+		SKDDoor = 12,
 
 		[DescriptionAttribute("Видеоустройства")]
-		VideoDevice
+		VideoDevice = 13
 	}
 }
