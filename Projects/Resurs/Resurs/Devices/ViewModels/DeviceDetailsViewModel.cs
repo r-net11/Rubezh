@@ -15,11 +15,21 @@ namespace Resurs.ViewModels
 
 		public DeviceDetailsViewModel(Device device)
 		{
-			Title = "Редактирование устройства " + device.Name;
+			Title = "Редактирование устройства " + device.Name + " " + device.FullAddress;
+			Initialize(device);
+		}
+
+		public DeviceDetailsViewModel(DriverType driverType, Device parent)
+		{
+			Initialize(new Device(driverType, parent));
+		}
+
+		void Initialize(Device device)
+		{
 			Device = device;
 			Description = device.Description;
 			IsActive = device.IsActive;
-			Parameters = new ObservableCollection<DetailsParameterViewModel>(device.Parameters.Select(x => new DetailsParameterViewModel(x)));
+			Parameters = new ObservableCollection<DetailsParameterViewModel>(Device.Parameters.Select(x => new DetailsParameterViewModel(x)));
 		}
 
 
@@ -54,7 +64,9 @@ namespace Resurs.ViewModels
 			Device.Description = Description;
 			Device.IsActive = IsActive;
 			Device.Parameters = new List<Parameter>(Parameters.Select(x => x.Model));
-			return base.Save();
+			if(ResursDAL.DBCash.SaveDevice(Device))
+				return base.Save();
+			return false;
 		}
 	}
 }
