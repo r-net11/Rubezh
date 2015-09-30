@@ -70,7 +70,7 @@ namespace Resurs.ViewModels
 
 		void BuildTree()
 		{
-			RootDevice = AddDeviceInternal(DBCash.RootDevice, null);
+			RootDevice = AddDeviceInternal(ResursDAL.DBCash.RootDevice, null);
 			FillAllDevices();
 		}
 
@@ -148,6 +148,7 @@ namespace Resurs.ViewModels
 			{
 				var deviceViewModel = new DeviceViewModel(deviceDetailsViewModel.Device);
 				SelectedDevice.Update(deviceDetailsViewModel.Device);
+				ResursDAL.DBCash.SaveDevice(SelectedDevice.Device);
 			}
 		}
 		bool CanEdit()

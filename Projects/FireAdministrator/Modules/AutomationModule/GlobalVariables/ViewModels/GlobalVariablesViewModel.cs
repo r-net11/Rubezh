@@ -62,10 +62,9 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var globalVariableDetailsViewModel = new VariableDetailsViewModel(null, "глобальная переменная", "Добавить глобальную переменную");
+			var globalVariableDetailsViewModel = new VariableDetailsViewModel(null, "глобальная переменная", "Добавить глобальную переменную", true);
 			if (DialogService.ShowModalWindow(globalVariableDetailsViewModel))
 			{
-				globalVariableDetailsViewModel.Variable.IsGlobal = true;
 				FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(globalVariableDetailsViewModel.Variable);
 				var globalVariableViewModel = new VariableViewModel(globalVariableDetailsViewModel.Variable);
 				GlobalVariables.Add(globalVariableViewModel);

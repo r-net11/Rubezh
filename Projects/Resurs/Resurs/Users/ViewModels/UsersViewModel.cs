@@ -2,6 +2,8 @@
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
+using ResursDAL;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -47,10 +49,11 @@ namespace Resurs.ViewModels
 			DialogService.ShowModalWindow(userDetailsViewModel);
 			{
 				var userViewModel = new UserViewModel(userDetailsViewModel.User);
+
 				Users.Add(userViewModel);
+				CashUser.Users.Add(userDetailsViewModel.User);
 				SelectedUser = userViewModel;
 			}
-
 		}
 
 		bool CanEdit()
@@ -61,7 +64,7 @@ namespace Resurs.ViewModels
 		void Build ()
 		{
 			Users = new ObservableCollection<UserViewModel>();
-			CashUser.Users.ForEach(x => Users.Add(new UserViewModel(x)));
+			 DBCash.Users.ForEach(x => Users.Add(new UserViewModel(x)));
 			SelectedUser = Users.FirstOrDefault();
 		}
 
@@ -83,8 +86,14 @@ namespace Resurs.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion(string.Format("Вы уверенны, что хотите удалить пользователя \"{0}\" из списка", SelectedUser.User.Name)))
 			{
-				CashUser.Users.Remove(SelectedUser.User);
+				var index = Users.IndexOf(SelectedUser);
+
+				DBCash.DeleteUser(SelectedUser.User);
 				Users.Remove(SelectedUser);
+
+				index = Math.Min(index, Users.Count - 1);
+				if (index > -1)
+					SelectedUser = Users[index];
 			}
 		}
 	}

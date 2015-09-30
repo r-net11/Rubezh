@@ -10,5 +10,9 @@
 	<DataTemplate DataType="{x:Type ViewModels:UserDetailsViewModel}">
 		<Views:UserDetailsView />
 	</DataTemplate>
-	
+
+	<DataTemplate DataType="{x:Type ViewModels:PermissionsViewModel}">
+		<Views:PermissionsView />
+	</DataTemplate>
+
 </ResourceDictionary>

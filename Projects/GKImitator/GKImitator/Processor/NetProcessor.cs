@@ -155,7 +155,11 @@ namespace GKImitator.Processor
 
 				case 13: // Команда управления
 					descriptorNo = BytesHelper.SubstructShort(byteData.ToList(), 5);
-					var commandCode = byteData[7] - 0x80;
+					int commandCode = byteData[7];
+					if(commandCode != 2 && commandCode != 3)
+					{
+						commandCode = commandCode - 0x80;
+					}
 					var stateBit = (GKStateBit)commandCode;
 					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo);
 					if (descriptorViewModel != null)

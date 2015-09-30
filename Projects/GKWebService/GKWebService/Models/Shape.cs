@@ -46,5 +46,13 @@ namespace GKWebService.Models
 
         public string Type { get; set; }
 
-    }
+		public string HingImage	{ get; set; }
+
+		public double HingImageWidth
+		{ get; set; }
+		public double HingImageHeight
+		{ get; set; }
+
+
+	}
 }

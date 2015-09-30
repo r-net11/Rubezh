@@ -5,6 +5,7 @@ using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using SKDDriver.DataClasses;
+using Infrastructure.Automation;
 
 namespace FiresecService.Service
 {
@@ -44,7 +45,7 @@ namespace FiresecService.Service
 				dbService.JournalTranslator.Add(journalItem);
 			}
 			FiresecService.NotifyNewJournalItems(new List<JournalItem>() { journalItem });
-			ProcedureRunner.RunOnJournal(journalItem);
+			AutomationProcessor.RunOnJournal(journalItem);
 		}
 
 		public OperationResult<bool> AddJournalItem(JournalItem journalItem)

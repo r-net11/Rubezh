@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RubezhResurs.Devices.ValueConverters;
+using ResursNetwork.Devices.ValueConverters;
 
-namespace RubezhResurs.Devices
+namespace ResursNetwork.Devices
 {
     /// <summary>
     /// Содержит описание параметра профиля устройства
@@ -53,7 +53,7 @@ namespace RubezhResurs.Devices
             get { return _ValueConverter; }
             set { _ValueConverter = value; }
         }
-        
+
         private Boolean _ReadOnly;
         /// <summary>
         /// Параметр может только читаться из устройства.
@@ -101,9 +101,9 @@ namespace RubezhResurs.Devices
         /// <summary>
         /// Конструктор
         /// </summary>
-        private Parameter()
+        public Parameter()
         {
-            throw new NotSupportedException();
+            //throw new NotSupportedException();
         }
         /// <summary>
         /// 

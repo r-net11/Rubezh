@@ -53,6 +53,7 @@ namespace SettingsModule.ViewModels
 			MonitorAutoConnect = GlobalSettingsHelper.GlobalSettings.MonitorAutoConnect;
 			RunRevisor = GlobalSettingsHelper.GlobalSettings.RunRevisor;
 			Server_EnableRemoteConnections = GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections;
+			Server_RemoteIpAddress = GlobalSettingsHelper.GlobalSettings.Server_RemoteIpAddress;
 		}
 
 		public string ServerAutoLabel { get { return "Сервер приложений Глобал"; } }
@@ -204,7 +205,7 @@ namespace SettingsModule.ViewModels
 		public RelayCommand ResetConfigurationCommand { get; private set; }
 		void OnResetConfiguration()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить по конфигурацию?"))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить конфигурацию?"))
 			{
 				File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "Config.fscp"), AppDataFolderHelper.GetFileInFolder("Server", "Config.fscp"), true);
 			}
@@ -306,6 +307,17 @@ namespace SettingsModule.ViewModels
 			{
 				_server_EnableRemoteConnections = value;
 				OnPropertyChanged(() => Server_EnableRemoteConnections);
+			}
+		}
+
+		string _Server_RemoteIpAddress;
+		public string Server_RemoteIpAddress
+		{
+			get { return _Server_RemoteIpAddress; }
+			set
+			{
+				_Server_RemoteIpAddress = value;
+				OnPropertyChanged(() => Server_RemoteIpAddress);
 			}
 		}
 
@@ -456,6 +468,7 @@ namespace SettingsModule.ViewModels
 			GlobalSettingsHelper.GlobalSettings.MonitorPassword = MonitorPassword;
 			GlobalSettingsHelper.GlobalSettings.MonitorAutoConnect = MonitorAutoConnect;
 			GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections = Server_EnableRemoteConnections;
+			GlobalSettingsHelper.GlobalSettings.Server_RemoteIpAddress = Server_RemoteIpAddress;
 			GlobalSettingsHelper.GlobalSettings.RunRevisor = RunRevisor;
 			ModulesViewModel.Save();
 			DbSettingsViewModel.Save();

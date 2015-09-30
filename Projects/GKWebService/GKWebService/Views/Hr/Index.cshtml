@@ -3,81 +3,81 @@
     Layout = null;
 }
 
-<div class="HrToolbar" data-bind="visible:HR.hrPages.Employees">
-    <div class="icon add"></div>
-    <div class="icon delete"></div>
-    <div class="icon edit"></div>
-    <div class="icon redo"></div>
-    <div class="icon add"></div>
-    <div class="icon delete"></div>
-    <div class="icon edit"></div>
-    <div class="icon print"></div>
-    <div class="icon filter"></div>
-</div>
-<div class="HrToolbar" data-bind="visible:HR.hrPages.Departments">
-    <div class="icon add"></div>
-    <div class="icon delete"></div>
-    <div class="icon edit"></div>
-    <div class="icon copy"></div>
-    <div class="icon paste"></div>
-    <div class="icon redo"></div>
-    <div class="icon filter"></div>
-</div>
-<div class="HrToolbar" data-bind="visible:HR.hrPages.Positions">
-    <div class="icon add"></div>
-    <div class="icon delete"></div>
-    <div class="icon edit"></div>
-    <div class="icon copy"></div>
-    <div class="icon paste"></div>
-    <div class="icon redo"></div>
-    <div class="icon filter"></div>
-</div>
-<div class="HrToolbar" data-bind="visible:HR.hrPages.AdditionalColumnTypes">
-    <div class="icon add"></div>
-    <div class="icon delete"></div>
-    <div class="icon edit"></div>
-    <div class="icon copy"></div>
-    <div class="icon paste"></div>
-    <div class="icon redo"></div>
-    <div class="icon filter"></div>
-</div>
-<div class="HrToolbar" data-bind="visible:HR.hrPages.Cards">
-    <div class="icon delete"></div>
-    <div class="icon filter"></div>
-</div>
-<div class="HrToolbar" data-bind="visible:HR.hrPages.AccessTemplates">
-    <div class="icon add"></div>
-    <div class="icon delete"></div>
-    <div class="icon edit"></div>
-    <div class="icon copy"></div>
-    <div class="icon paste"></div>
-    <div class="icon redo"></div>
-    <div class="icon filter"></div>
-</div>
-<div class="HrToolbar" data-bind="visible:HR.hrPages.PassCardTemplates">
-    <div class="icon add"></div>
-    <div class="icon delete"></div>
-    <div class="icon edit"></div>
-    <div class="icon copy"></div>
-    <div class="icon paste"></div>
-    <div class="icon redo"></div>
-    <div class="icon filter"></div>
-</div>
-<div class="HrToolbar" data-bind="visible:HR.hrPages.Organisations">
-    <div class="icon add"></div>
-    <div class="icon delete"></div>
-    <div class="icon edit"></div>
-    <div class="icon redo"></div>
-    <div class="icon add"></div>
-    <div class="icon delete"></div>
-</div>
-
-<select id="SelectPersonType" data-bind="visible:HR.hrPages.Employees, value: HR.SelectedPersonType">
-    <option value="Employee">Сотрудник</option>
-    <option value="Guest">Посетитель</option>
-</select>
-
 <div id="HR" data-bind="with: HR">
+    <div class="HrToolbar" data-bind="visible:hrPages.Employees">
+        <div class="icon add" data-bind="click: function(data,event) { AddEmployeeClick(data, event, '#employee-details-box'); }"></div>
+        <div class="icon delete"></div>
+        <div class="icon edit"></div>
+        <div class="icon redo"></div>
+        <div class="icon add"></div>
+        <div class="icon delete"></div>
+        <div class="icon edit"></div>
+        <div class="icon print"></div>
+        <div class="icon filter"></div>
+    </div>
+    <div class="HrToolbar" data-bind="visible:hrPages.Departments">
+        <div class="icon add"></div>
+        <div class="icon delete"></div>
+        <div class="icon edit"></div>
+        <div class="icon copy"></div>
+        <div class="icon paste"></div>
+        <div class="icon redo"></div>
+        <div class="icon filter"></div>
+    </div>
+    <div class="HrToolbar" data-bind="visible:hrPages.Positions">
+        <div class="icon add"></div>
+        <div class="icon delete"></div>
+        <div class="icon edit"></div>
+        <div class="icon copy"></div>
+        <div class="icon paste"></div>
+        <div class="icon redo"></div>
+        <div class="icon filter"></div>
+    </div>
+    <div class="HrToolbar" data-bind="visible:hrPages.AdditionalColumnTypes">
+        <div class="icon add"></div>
+        <div class="icon delete"></div>
+        <div class="icon edit"></div>
+        <div class="icon copy"></div>
+        <div class="icon paste"></div>
+        <div class="icon redo"></div>
+        <div class="icon filter"></div>
+    </div>
+    <div class="HrToolbar" data-bind="visible:hrPages.Cards">
+        <div class="icon delete"></div>
+        <div class="icon filter"></div>
+    </div>
+    <div class="HrToolbar" data-bind="visible:hrPages.AccessTemplates">
+        <div class="icon add"></div>
+        <div class="icon delete"></div>
+        <div class="icon edit"></div>
+        <div class="icon copy"></div>
+        <div class="icon paste"></div>
+        <div class="icon redo"></div>
+        <div class="icon filter"></div>
+    </div>
+    <div class="HrToolbar" data-bind="visible:hrPages.PassCardTemplates">
+        <div class="icon add"></div>
+        <div class="icon delete"></div>
+        <div class="icon edit"></div>
+        <div class="icon copy"></div>
+        <div class="icon paste"></div>
+        <div class="icon redo"></div>
+        <div class="icon filter"></div>
+    </div>
+    <div class="HrToolbar" data-bind="visible:hrPages.Organisations">
+        <div class="icon add"></div>
+        <div class="icon delete"></div>
+        <div class="icon edit"></div>
+        <div class="icon redo"></div>
+        <div class="icon add"></div>
+        <div class="icon delete"></div>
+    </div>
+
+    <select id="SelectPersonType" data-bind="visible:hrPages.Employees, value: SelectedPersonType">
+        <option value="Employee">Сотрудник</option>
+        <option value="Guest">Посетитель</option>
+    </select>
+
     <ul class="tab">
         <li class="active"><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'Employees'); }"><span data-bind="text: EmployeesHeader"></span></a></li>
         <li><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'Departments'); }"><span>Подразделения</span></a></li>
@@ -98,3 +98,4 @@
 <div data-bind="visible:HR.hrPages.AccessTemplates">@Html.Action("AccessTemplates")</div>
 <div data-bind="visible:HR.hrPages.PassCardTemplates">@Html.Action("PassCardTemplates")</div>
 <div data-bind="visible:HR.hrPages.Organisations">@Html.Action("Organisations")</div>
+    

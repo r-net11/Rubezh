@@ -19,16 +19,21 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
 			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить (Ctrl+N)" ImageSource="Add" />
 			<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать (Ctrl+E)" ImageSource="Edit" />
 			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete" />
 		</StackPanel>
-		<tree:TreeList Grid.Row="1" Source="{Binding RootDevices}" SelectedTreeNode="{Binding SelectedDevice}" ItemActivatedCommand="{Binding EditCommand}"
+		<tree:TreeList Grid.Row="1" Grid.Column="0" Source="{Binding RootDevices}" SelectedTreeNode="{Binding SelectedDevice}" ItemActivatedCommand="{Binding EditCommand}"
 				Focusable="True" tree:SortBehavior.CanUserSortColumns="True">
 			<tree:TreeList.View>
 				<GridView>
-					<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelNameComparer}">
+					<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="2" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelNameComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -38,15 +43,39 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Описание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDescriptionComparer}">
+					<GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDescriptionComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Device.Description}" />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
+					<GridViewColumn Header="Адрес" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDescriptionComparer}">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Device.FullAddress}" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Header="Активность" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDescriptionComparer}">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Device.IsActive, Converter={StaticResource BoolToYesNoConverter}}" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
 				</GridView>
 			</tree:TreeList.View>
 		</tree:TreeList>
+		<GridSplitter Grid.Row="1" Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
+		<Grid Grid.Row="1" Grid.Column="2" DataContext="{Binding SelectedDevice}" >
+			<DataGrid ItemsSource="{Binding Parameters}">
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="Параметр" Width="*" Binding="{Binding Name}" />
+					<DataGridTextColumn Header="Значение" Width="*" Binding="{Binding Value}" />
+				</DataGrid.Columns>
+			</DataGrid>
+		</Grid>
+		
 	</Grid>
 </UserControl>

@@ -2,6 +2,7 @@
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
+using ResursDAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace Resurs.ViewModels
 				Title = string.Format("Свойства учетной записи: {0}", user.Name);
 				IsNew = true;
 				IsChangePassword = false;
-				User = user;
+				User = DBCash.GetUser(user.UID);
 			}
 
 			else
@@ -39,7 +40,7 @@ namespace Resurs.ViewModels
 				};
 
 			}
-
+			PermissionsViewModel = new PermissionsViewModel(User);
 			CopyProperty();
 		}
 		void CopyProperty()
@@ -58,7 +59,6 @@ namespace Resurs.ViewModels
 				_login = value;
 				OnPropertyChanged(() => Login);
 			}
-		
 		}
 
 		string _name;
@@ -106,6 +106,17 @@ namespace Resurs.ViewModels
 			}
 		}
 
+		PermissionsViewModel _permissionsViewModel;
+		public PermissionsViewModel PermissionsViewModel
+		{
+			get { return _permissionsViewModel; }
+			set
+			{
+				_permissionsViewModel = value;
+				OnPropertyChanged(() => PermissionsViewModel);
+			}
+		}
+
 		bool CheckLogin()
 		{
 			if (string.IsNullOrWhiteSpace(Login))
@@ -139,6 +150,7 @@ namespace Resurs.ViewModels
 			if (IsChangePassword)
 				User.PasswordHash = HashHelper.GetHashFromString(Password);
 
+			PermissionsViewModel.GetPermissionStrings(User);
 		}
 
 		protected override bool Save()
@@ -147,6 +159,7 @@ namespace Resurs.ViewModels
 				SaveProperties();
 			else
 				return false;
+			DBCash.SaveUser(User);
 			return base.Save();
 		}
 

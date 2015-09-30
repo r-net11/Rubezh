@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO.Ports;
 using System.Timers;
-using RubezhResurs.OSI.DataLinkLayer;
-using RubezhResurs.OSI.ApplicationLayer;
-using RubezhResurs.OSI.Messages;
-using RubezhResurs.Incotex.NetworkControllers;
-using RubezhResurs.Incotex.NetworkControllers.Messages;
+using ResursNetwork.OSI.DataLinkLayer;
+using ResursNetwork.OSI.ApplicationLayer;
+using ResursNetwork.OSI.Messages;
+using ResursNetwork.Incotex.NetworkControllers;
+using ResursNetwork.Incotex.NetworkControllers.Messages;
 
-namespace RubezhResurs.Incotex.NetworkControllers.DataLinkLayer
+namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
 {
     /// <summary>
     /// Объет для передачи и приёма сообщений по физическому
@@ -134,7 +134,7 @@ namespace RubezhResurs.Incotex.NetworkControllers.DataLinkLayer
         private void EventHandler_TimerInterFrameDelay_Elapsed(
             object sender, ElapsedEventArgs e)
         {
-            Message message;
+            DataMessage message;
             ServiceErrorMessage errMessage;
             // Если сработал межкадровый таймер, значит сообщение полностью
             // принято.
@@ -171,7 +171,7 @@ namespace RubezhResurs.Incotex.NetworkControllers.DataLinkLayer
             adr |= ((UInt32)list[1] << 8);
             adr |= list[0];
 
-            message = new Message(array) 
+            message = new DataMessage(array) 
             { 
                 MessageType = MessageType.IncomingMessage,
                 Address = adr,

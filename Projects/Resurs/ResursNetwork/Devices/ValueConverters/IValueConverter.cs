@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RubezhResurs.Devices.ValueConverters
+namespace ResursNetwork.Devices.ValueConverters
 {
     /// <summary>
     /// Реализует преобразование массива байт в значение параметра

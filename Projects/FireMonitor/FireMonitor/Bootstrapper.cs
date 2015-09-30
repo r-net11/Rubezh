@@ -17,6 +17,10 @@ using System.Windows.Threading;
 using Infrastructure.Client.Startup;
 using System.Threading;
 using FiresecAPI.Journal;
+using Infrastructure.Automation;
+using FiresecAPI.Automation;
+using FiresecAPI.AutomationCallback;
+using System.Collections.Generic;
 
 namespace FireMonitor
 {
@@ -53,6 +57,31 @@ namespace FireMonitor
 
 					ServiceFactory.StartupService.DoStep("Загрузка конфигурации с сервера");
 					FiresecManager.GetConfiguration("Monitor/Configuration");
+					ProcedureExecutionContext.Initialize(
+						ContextType.Client,
+						FiresecManager.SystemConfiguration,
+						FiresecManager.SecurityConfiguration,
+						SafeFiresecService.ProcessAutomationCallback,
+						FiresecManager.FiresecService.ProcedureCallbackResponse,
+						OnSynchronizeVariable,
+						FiresecManager.FiresecService.AddJournalItem,
+						FiresecManager.FiresecService.ControlGKDevice,
+						FiresecManager.FiresecService.StartRecord,
+						FiresecManager.FiresecService.StopRecord,
+						FiresecManager.FiresecService.Ptz,
+						FiresecManager.FiresecService.RviAlarm,
+						FiresecManager.FiresecService.ControlFireZone,
+						FiresecManager.FiresecService.ControlGuardZone,
+						FiresecManager.FiresecService.ControlDirection,
+						FiresecManager.FiresecService.ControlGKDoor,
+						FiresecManager.FiresecService.ControlDelay,
+						FiresecManager.FiresecService.ExportJournal,
+						FiresecManager.FiresecService.ExportOrganisation,
+						FiresecManager.FiresecService.ExportOrganisationList,
+						FiresecManager.FiresecService.ExportConfiguration,
+						FiresecManager.FiresecService.ImportOrganisation,
+						FiresecManager.FiresecService.ImportOrganisationList
+						);
 
 					GKDriversCreator.Create();
 					BeforeInitialize(true);
@@ -83,8 +112,11 @@ namespace FireMonitor
 					}
 															
                     SafeFiresecService.ReconnectionErrorEvent += x => { ApplicationService.Invoke(OnReconnectionError, x); };
+					SafeFiresecService.NewJournalItemsEvent += OnNewJournalItems;
 
-					//MutexHelper.KeepAlive();
+					ScheduleRunner.Start();
+					
+				//MutexHelper.KeepAlive();
 					if (Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost")
 					{
 						RegistrySettingsHelper.SetBool("isException", true);
@@ -111,6 +143,29 @@ namespace FireMonitor
 				return false;				
 			}
 			return result;
+		}
+
+		private void OnSynchronizeVariable(Variable variable, ContextType targetContextType)
+		{
+			if (targetContextType == ContextType.Client)
+			{
+				var remoteVariable = FiresecManager.FiresecService.GetVariable(variable.Uid);
+				if (remoteVariable != null)
+				{
+					variable.ExplicitValue = remoteVariable.ExplicitValue;
+					variable.ExplicitValues = remoteVariable.ExplicitValues;
+				}
+			}
+			else
+			{
+				FiresecManager.FiresecService.SetVariableValue(variable.Uid, ProcedureExecutionContext.GetValue(variable));
+			}
+		}
+
+		private void OnNewJournalItems(List<JournalItem> journalItems)
+		{
+			foreach (var journalItem in journalItems)
+				AutomationProcessor.RunOnJournal(journalItem);
 		}
 
 		static void ShutDown()

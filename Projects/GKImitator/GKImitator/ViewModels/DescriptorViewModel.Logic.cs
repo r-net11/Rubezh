@@ -269,9 +269,33 @@ namespace GKImitator.ViewModels
 						break;
 
 					case FormulaOperationType.CMPKOD:
+						if (descriptorViewModel != null)
+						{
+							var code = descriptorViewModel.GKBase as GKCode;
+							if (code != null)
+							{
+								var currentStackValue1 = stack.LastOrDefault();
+								stack.RemoveAt(stack.Count - 1);
+
+								var newStackValue = 0;
+								if(formulaOperation.FirstOperand == 1)
+								{
+									newStackValue = (currentStackValue1 == code.Password) ? 1 : 0;
+								}
+								if (formulaOperation.FirstOperand == 2)
+								{
+									newStackValue = (currentStackValue1 != code.Password) ? 1 : 0;
+								}
+								stack.Add(newStackValue);
+							}
+						}
 						break;
 
 					case FormulaOperationType.KOD:
+						if (descriptorViewModel != null)
+						{
+							stack.Add(descriptorViewModel.CurrentCardNo);
+						}
 						break;
 
 					case FormulaOperationType.ACS:
@@ -309,7 +333,7 @@ namespace GKImitator.ViewModels
 
 								var journalItem = new ImitatorJournalItem(0, isAccess ? (byte)13 : (byte)15, 0, 0);
 								journalItem.ObjectDeviceAddress = (short)device.GKDescriptorNo;
-								if(user != null)
+								if (user != null)
 								{
 									journalItem.ObjectFactoryNo = user.GKNo;
 								}
@@ -319,9 +343,6 @@ namespace GKImitator.ViewModels
 
 						stack.Add(isAccess ? 1 : 0);
 
-						break;
-
-					case FormulaOperationType.EXIT:
 						break;
 
 					case FormulaOperationType.BR:
@@ -354,9 +375,6 @@ namespace GKImitator.ViewModels
 							var currentStackValue = stack.LastOrDefault();
 							stack.Add(currentStackValue);
 						}
-						break;
-
-					case FormulaOperationType.END:
 						break;
 
 					case FormulaOperationType.ACSP:
@@ -393,6 +411,7 @@ namespace GKImitator.ViewModels
 			}
 
 			var intState = StatesToInt();
+
 			foreach (var stateBitVale in stateBitVales)
 			{
 				if (stateBitVale.Value)
@@ -425,35 +444,47 @@ namespace GKImitator.ViewModels
 							OnTurnOffNow();
 						}
 					}
+					if (GKBase is GKGuardZone && stateBitVale.Key == GKStateBit.Attention)
+					{
+						if (Regime == Regime.Automatic)
+						{
+							SetGuardAlarm();
+						}
+					}
 				}
 			}
 
 			if (GKBase is GKZone && hasZoneBitsChanged)
 			{
+				var hasChanged = false;
 				foreach (var stateBitVale in stateBitVales)
 				{
-					SetStateBit(stateBitVale.Key, stateBitVale.Value);
+					if (SetStateBit(stateBitVale.Key, stateBitVale.Value))
+						hasChanged = true;
 				}
 
-				if (stateBitVales.ContainsKey(GKStateBit.Attention) && stateBitVales[GKStateBit.Attention])
+				if (hasChanged)
 				{
-					var journalItem = new ImitatorJournalItem(2, 4, 0, 0);
-					AddJournalItem(journalItem);
-				}
-				else if (stateBitVales.ContainsKey(GKStateBit.Fire1) && stateBitVales[GKStateBit.Fire1])
-				{
-					var journalItem = new ImitatorJournalItem(2, 2, 0, 0);
-					AddJournalItem(journalItem);
-				}
-				else if (stateBitVales.ContainsKey(GKStateBit.Fire2) && stateBitVales[GKStateBit.Fire2])
-				{
-					var journalItem = new ImitatorJournalItem(2, 3, 0, 0);
-					AddJournalItem(journalItem);
-				}
-				else
-				{
-					var journalItem = new ImitatorJournalItem(2, 14, 0, 0);
-					AddJournalItem(journalItem);
+					if (stateBitVales.ContainsKey(GKStateBit.Attention) && stateBitVales[GKStateBit.Attention])
+					{
+						var journalItem = new ImitatorJournalItem(2, 4, 0, 0);
+						AddJournalItem(journalItem);
+					}
+					else if (stateBitVales.ContainsKey(GKStateBit.Fire1) && stateBitVales[GKStateBit.Fire1])
+					{
+						var journalItem = new ImitatorJournalItem(2, 2, 0, 0);
+						AddJournalItem(journalItem);
+					}
+					else if (stateBitVales.ContainsKey(GKStateBit.Fire2) && stateBitVales[GKStateBit.Fire2])
+					{
+						var journalItem = new ImitatorJournalItem(2, 3, 0, 0);
+						AddJournalItem(journalItem);
+					}
+					else
+					{
+						var journalItem = new ImitatorJournalItem(2, 14, 0, 0);
+						AddJournalItem(journalItem);
+					}
 				}
 			}
 

@@ -2,6 +2,7 @@
 using ResursAPI;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
@@ -10,35 +11,17 @@ namespace Resurs.ViewModels
 	public class DeviceDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public Device Device { get; private set; }
+		public ObservableCollection<DetailsParameterViewModel> Parameters { get; private set; }
 
-		public DeviceDetailsViewModel(Device device = null)
+		public DeviceDetailsViewModel(Device device)
 		{
-			if (device == null)
-			{
-				device = new Device();
-				Title = "Создание устройства";
-			}
-			else
-			{
-				Title = "Редактирование устройства";
-			}
-
+			Title = "Редактирование устройства " + device.Name;
 			Device = device;
-			Name = device.Name;
 			Description = device.Description;
+			IsActive = device.IsActive;
+			Parameters = new ObservableCollection<DetailsParameterViewModel>(device.Parameters.Select(x => new DetailsParameterViewModel(x)));
 		}
 
-
-		string _name;
-		public string Name
-		{
-			get { return _name; }
-			set
-			{
-				_name = value;
-				OnPropertyChanged(() => Name);
-			}
-		}
 
 		string _description;
 		public string Description
@@ -51,10 +34,26 @@ namespace Resurs.ViewModels
 			}
 		}
 
+		bool _IsActive;
+		public bool IsActive
+		{
+			get { return _IsActive; }
+			set
+			{
+				_IsActive = value;
+				OnPropertyChanged(() => IsActive);
+			}
+		}
+
 		protected override bool Save()
 		{
-			//Device.Name = Name;
+			foreach (var item in Parameters)
+			{
+				item.Save();
+			}
 			Device.Description = Description;
+			Device.IsActive = IsActive;
+			Device.Parameters = new List<Parameter>(Parameters.Select(x => x.Model));
 			return base.Save();
 		}
 	}

@@ -13,6 +13,7 @@ namespace AutomationModule.ViewModels
 		public SoundStepViewModel(StepViewModel stepViewModel): base(stepViewModel)
 		{
 			SoundArguments = stepViewModel.Step.SoundArguments;
+			IsServerContext = Procedure.ContextType == ContextType.Server;
 		}
 
 		public override string Description
@@ -20,6 +21,17 @@ namespace AutomationModule.ViewModels
 			get 
 			{ 
 				return "Звук: " + (SelectedSound != null ? SelectedSound.Name : "<пусто>") ; 
+			}
+		}
+
+		bool _isServerContext;
+		public bool IsServerContext
+		{
+			get { return _isServerContext; }
+			set
+			{
+				_isServerContext = value;
+				OnPropertyChanged(() => IsServerContext);
 			}
 		}
 
@@ -36,6 +48,7 @@ namespace AutomationModule.ViewModels
 			else
 				SelectedSound = null;
 
+			IsServerContext = Procedure.ContextType == ContextType.Server;
 			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(SoundArguments.LayoutFilter);
 			OnPropertyChanged(() => ProcedureLayoutCollectionViewModel);
 			OnPropertyChanged(() => Sounds);

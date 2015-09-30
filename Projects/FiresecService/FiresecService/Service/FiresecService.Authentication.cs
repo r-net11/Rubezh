@@ -32,8 +32,8 @@ namespace FiresecService.Service
 
         bool CheckClientsCount(ClientCredentials clientCredentials)
         {
-			return clientCredentials.ClientType == ClientType.Administrator || !ConnectionSettingsManager.IsRemote
-				|| ClientsManager.ClientInfos.Count(x => x.ClientCredentials.ClientType != ClientType.Administrator) < FiresecLicenseManager.CurrentLicenseInfo.RemoteWorkplacesCount;
+			return clientCredentials.ClientType == ClientType.Administrator || !clientCredentials.IsRemote
+				|| ClientsManager.ClientInfos.Count(x => x.ClientCredentials.ClientType != ClientType.Administrator && x.ClientCredentials.IsRemote) < FiresecLicenseManager.CurrentLicenseInfo.RemoteWorkplacesCount;
         }
 
 		bool CheckRemoteAccessPermissions(ClientCredentials clientCredentials)

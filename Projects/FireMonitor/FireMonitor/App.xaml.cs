@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows;
 using System.Threading;
 using Infrastructure.Client.Startup;
 using System.Globalization;
+using Infrastructure.Automation;
 
 namespace FireMonitor
 {
@@ -119,6 +120,8 @@ namespace FireMonitor
 			if (ApplicationService.Modules != null)
 				foreach (var module in ApplicationService.Modules)
 					module.Dispose();
+			AutomationProcessor.Terminate();
+			ScheduleRunner.Stop();
 			AlarmPlayerHelper.Dispose();
 			ClientSettings.SaveSettings();
 			FiresecManager.Disconnect();

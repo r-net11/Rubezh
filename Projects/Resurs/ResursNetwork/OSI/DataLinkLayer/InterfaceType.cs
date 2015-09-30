@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RubezhResurs.OSI.DataLinkLayer
+namespace ResursNetwork.OSI.DataLinkLayer
 {
     /// <summary>
     /// Типы физических интерфейсов 
