@@ -12,6 +12,7 @@ using ResursNetwork.OSI.Messages.Transaction;
 using ResursNetwork.Devices;
 using ResursNetwork.Devices.Collections.ObjectModel;
 using ResursNetwork.Management;
+using ResursNetwork.Incotex.Model;
 using ResursNetwork.Incotex.NetworkControllers.Messages;
 using Common;
 
@@ -145,7 +146,10 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             set { _DataSyncTimer.Interval = value; }
         }
 
-        private Queue<Transaction> _InputBuffer = new Queue<Transaction>();
+        /// <summary>
+        /// Буфер исходящих сообщений
+        /// </summary>
+        private Queue<Transaction> _OutputBuffer = new Queue<Transaction>();
 
         private static object _SyncRoot = new object(); 
         #endregion
@@ -171,14 +175,40 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Принимает сетевое устройтсво ищет в нём методы с атрибутом 
+        /// PeriodicPollingEnabledAttribute и выполняет их.
+        /// </summary>
+        /// <param name="device"></param>
+        private void ReadDeviceParameters(DeviceBase device)
+        {
+            foreach (var methodInfo in device.GetType().GetMethods())
+            {
+                // Проверяем атрибут PeriodicPollingEnabledAttribute у метода
+                // если присутствует, проверяем аргументы метода и тип возвращаемого значения
+                if ((methodInfo.GetCustomAttributes(typeof(PeriodicReadEnabledAttribute), false).Length > 0) ||
+                    (methodInfo.GetParameters().Length == 0) ||
+                    (methodInfo.ReturnType == typeof(Transaction)))
+                {
+                    // Записываем транзакцию в выходной буфер
+                    Write((Transaction)methodInfo.Invoke(device, new object[0]));
+                }
+            }
+        }
+        /// <summary>
+        /// Обработчик события срабатываения таймера периодического опроса
+        /// сетевых устройтств
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EventHandler_DataSyncTimer_Elapsed(
             object sender, System.Timers.ElapsedEventArgs e)
         {
             // При срабатывании таймера обновляем данные из удалённых устройтств
             // При условии что контроллер в активном состоянии
-            if (Status == Management.Status.Running)
+            foreach(DeviceBase device in _Devices)
             {
-                //....
+                ReadDeviceParameters(device);
             }
         }
         /// <summary>
@@ -211,7 +241,8 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected override void EventHandler_Connection_MessageReceived(object sender, EventArgs e)
+        protected override void EventHandler_Connection_MessageReceived(
+            object sender, EventArgs e)
         {
             IDataLinkPort port = (IDataLinkPort)sender;
             var messages = new List<MessageBase>();
@@ -288,7 +319,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                         
                         if (p.PollingEnabled)
                         {
-                            
+                            // TODO:
                         }
                     }
                 }
@@ -342,13 +373,17 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             }
         }
         
+        /// <summary>
+        /// Записывает исходящее сообщение в выходной буфер
+        /// </summary>
+        /// <param name="transaction">Сетевая транзакция</param>
         public void Write(Transaction transaction)
         {
             if (Status == Management.Status.Running)
             {
                 lock(_SyncRoot)
                 {
-                    _InputBuffer.Enqueue(transaction);
+                    _OutputBuffer.Enqueue(transaction);
                 }
             }
             else

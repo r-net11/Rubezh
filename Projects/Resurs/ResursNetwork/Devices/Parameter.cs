@@ -54,16 +54,6 @@ namespace ResursNetwork.Devices
             set { _ValueConverter = value; }
         }
 
-        private UInt16 _FunctionCode;
-        /// <summary>
-        /// Код функции (сетевой команды)
-        /// </summary>
-        public UInt16 FunctionCode
-        {
-            get { return _FunctionCode; }
-            set { _FunctionCode = value; }
-        }
-
         private Boolean _ReadOnly;
         /// <summary>
         /// Параметр может только читаться из устройства.
@@ -111,9 +101,9 @@ namespace ResursNetwork.Devices
         /// <summary>
         /// Конструктор
         /// </summary>
-        private Parameter()
+        public Parameter()
         {
-            throw new NotSupportedException();
+            //throw new NotSupportedException();
         }
         /// <summary>
         /// 
