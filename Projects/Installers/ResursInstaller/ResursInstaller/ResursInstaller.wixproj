@@ -35,7 +35,6 @@
     <Compile Include="Resurs\Features.wxs" />
     <Compile Include="Resurs\Files.wxs" />
     <Compile Include="Resurs\Shortcuts.wxs" />
-    <Compile Include="Resurs\Uninstall.wxs" />
     <Compile Include="Installer.wxs" />
     <Compile Include="UI\ModulesDialog.wxs" />
     <Compile Include="UI\DestinationFolderDialog.wxs" />
@@ -70,7 +69,6 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\Monitor.ico" />
     <Content Include="Data\Resurs.ico" />
     <Content Include="Data\SetupProgress.ico" />
     <Content Include="Resurs\Variables.wxi" />
@@ -88,14 +86,6 @@
     <Folder Include="UI" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\FiresecWindowsService\FiresecWindowsService\FiresecNTService.csproj">
-      <Name>FiresecNTService</Name>
-      <Project>{c4a49223-5e98-45dd-814c-cfc03a1f7d15}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
     <ProjectReference Include="..\CustomAction\CustomAction.csproj">
       <Name>CustomAction</Name>
       <Project>{db0996cd-bc6b-4783-a61f-25fd1e88e824}</Project>

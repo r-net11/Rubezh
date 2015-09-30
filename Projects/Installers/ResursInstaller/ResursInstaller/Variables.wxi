@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
   <?define ProductName="Ресурс" ?>
-  <?define ProductVersion="1.2.0.0" ?>
-  <?define ProductCode="93FFAF0E-DE92-4F0C-B9B0-A42AB67D75F4" ?>
-  <?define UpgradeCode="4EC7EDC0-351F-42A3-BB9A-5DD8D5131CFD" ?>
+  <?define ProductVersion="1.0.0.0" ?>
+  <?define ProductCode="{EE184C7B-B479-4DA7-B460-E3C9BAA10D84}" ?>
+  <?define UpgradeCode="{DC1DCB36-7B4F-4173-AD3B-2B165920B64A}" ?>
   <?define Manufacturer='Группа компаний "Рубеж"' ?>
   <?define Codepage="1251" ?>
-  <?define BrandName="Глобал"?>
-  <?define ConfigurationFolder="Configuration"?>
+  <?define BrandName="Рубеж Ресурс"?>
 </Include>

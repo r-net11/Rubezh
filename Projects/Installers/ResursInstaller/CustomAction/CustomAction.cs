@@ -9,7 +9,7 @@ namespace CustomAction
 	public class CustomActions
 	{
 		[CustomAction]
-		public static ActionResult CloseApplications(Session session) //--mode unattended --superaccount asd --superpassword 1
+		public static ActionResult CloseApplications(Session session) 
 		{
 			session.Log("Begin Kill terminate processes");
 			Process[] processes = Process.GetProcesses();
@@ -24,7 +24,7 @@ namespace CustomAction
 				}
 				catch(Exception e)
 				{
-					//MessageBox.Show(e.ToString());
+					
 				}
 			}
 			return ActionResult.Success;
@@ -52,6 +52,7 @@ namespace CustomAction
 			}
 			catch (Exception)
 			{
+
 			}
 			return ActionResult.Success;
 		}

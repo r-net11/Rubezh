@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
-     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+		 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
 	<?include Variables.wxi?>
 	<Fragment>
 		<DirectoryRef Id="RESURSLOCATION">
-			<Component Id="Resurs.Files" Guid="F78F2E80-61E7-4AA3-9605-4AD05EF21975">
+			<Component Id="Resurs.Files" Guid="{BD030DB1-2F4D-48CA-875E-1ED05355F52E}">
 				<File Id="Resurs.Resurs.exe.config"																	Name="Resurs.exe.config" Source="$(var.Resurs.TargetDir)" />
 				<File Id="Resurs.EntityFramework.SqlServer.xml"											Name="EntityFramework.SqlServer.xml" Source="$(var.Resurs.TargetDir)" />
 				<File Id="Resurs.EntityFramework.xml"																Name="EntityFramework.xml" Source="$(var.Resurs.TargetDir)" />
@@ -61,37 +61,35 @@
 				<File Id="Resurs.Resurs.exe.manifest"																Name="Resurs.exe.manifest" Source="$(var.Resurs.TargetDir)" />
 			</Component>
 		</DirectoryRef>
-
 		<DirectoryRef Id="Resurs.DIR.DLL.de">
-			<Component Id="Resurs.DLL.de" Guid="{279862DA-A615-41D8-8B85-750E8FFD2AA5}">
+			<Component Id="Resurs.DLL.de" Guid="{5AB0BDF2-EDEF-4D20-81BD-49226BDB617D}">
 				<File Id="Npgsql.resources.dll.de" Name="Npgsql.resources.dll" Source="$(var.Resurs.TargetDir)de\Npgsql.resources.dll" KeyPath="yes" />
 			</Component>
 		</DirectoryRef>
 		<DirectoryRef Id="Resurs.DIR.DLL.es">
-			<Component Id="Resurs.DLL.es" Guid="{A8EBE910-05E2-457F-845D-630355591D03}">
+			<Component Id="Resurs.DLL.es" Guid="{2B0FD44F-A754-4502-AB72-D96962244234}">
 				<File Id="Npgsql.resources.dll.es" Name="Npgsql.resources.dll" Source="$(var.Resurs.TargetDir)es\Npgsql.resources.dll" KeyPath="yes" />
 			</Component>
 		</DirectoryRef>
 		<DirectoryRef Id="Resurs.DIR.DLL.fi">
-			<Component Id="Resurs.DLL.fi" Guid="{5D1B56F7-843A-41C4-8A41-82553B515D2E}">
+			<Component Id="Resurs.DLL.fi" Guid="{DD6B0731-9150-41AC-871B-781FDF9B54FF}">
 				<File Id="Npgsql.resources.dll.fi" Name="Npgsql.resources.dll" Source="$(var.Resurs.TargetDir)fi\Npgsql.resources.dll" KeyPath="yes" />
 			</Component>
 		</DirectoryRef>
 		<DirectoryRef Id="Resurs.DIR.DLL.fr">
-			<Component Id="Resurs.DLL.fr" Guid="{291C3F57-2620-42C7-905F-34889BEE6141}">
+			<Component Id="Resurs.DLL.fr" Guid="{A52018AB-5FD7-4844-A2CE-D8C355BBABBE}">
 				<File Id="Npgsql.resources.dll.fr" Name="Npgsql.resources.dll" Source="$(var.Resurs.TargetDir)fr\Npgsql.resources.dll" KeyPath="yes" />
 			</Component>
 		</DirectoryRef>
 		<DirectoryRef Id="Resurs.DIR.DLL.ja">
-			<Component Id="Resurs.DLL.ja" Guid="{563CDBE4-E81E-44D6-8506-6F0E8D69B35E}">
+			<Component Id="Resurs.DLL.ja" Guid="{63C9CE0D-123E-499C-9C45-30CCE373118F}">
 				<File Id="Npgsql.resources.dll.ja" Name="Npgsql.resources.dll" Source="$(var.Resurs.TargetDir)ja\Npgsql.resources.dll" KeyPath="yes" />
 			</Component>
 		</DirectoryRef>
 		<DirectoryRef Id="Resurs.DIR.DLL.zhCN">
-			<Component Id="Resurs.DLL.zhCN" Guid="{07C27F37-9AA1-45E6-A935-F0AF2E7AE07B}">
+			<Component Id="Resurs.DLL.zhCN" Guid="{3AC0A2CC-5A80-44FB-A960-54C580252133}">
 				<File Id="Npgsql.resources.dll.zhCN" Name="Npgsql.resources.dll" Source="$(var.Resurs.TargetDir)zh-CN\Npgsql.resources.dll" KeyPath="yes" />
 			</Component>
 		</DirectoryRef>
-
 	</Fragment>
 </Wix>
