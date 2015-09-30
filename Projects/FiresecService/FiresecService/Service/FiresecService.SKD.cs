@@ -1229,6 +1229,48 @@ namespace FiresecService.Service
 			}
 		}
 
+		private OperationResult<bool> ChangeLockAccessState(SKDDevice device, AccessState accessState)
+		{
+			var prevAccessState = device.SKDDoorConfiguration.AccessState;
+			
+			// Пытаемся перевести замок в требуемый режим
+			device.SKDDoorConfiguration.AccessState = accessState;
+			var result = Processor.SetDoorConfiguration(device.UID, device.SKDDoorConfiguration);
+			if (result.HasError)
+			{
+				device.SKDDoorConfiguration.AccessState = prevAccessState;
+				return result;
+			}
+
+			// Замок может не перейти в требуемый режим, поэтому запрашиваем результатирующую конфигурацию замка
+			var checkResult = Processor.GetDoorConfiguration(device.UID);
+			if (checkResult.HasError)
+				return OperationResult<bool>.FromError(String.Format("Перевод в режим замка \"{0}\" не подтвержден контроллером", device.Name));
+			//return new OperationResult<bool>(false);
+
+			// Замок не перешел в требуемый режим
+			if (checkResult.Result.AccessState != accessState)
+			{
+				device.SKDDoorConfiguration.AccessState = prevAccessState;
+				return OperationResult<bool>.FromError(String.Format("Нельзя перевести замок \"{0}\" в данный режим", device.Name));
+				//return new OperationResult<bool>(false);
+			}
+
+			// Обновляем состояние доменной модели замка
+			if (device.State != null)
+			{
+				device.State.AccessState = accessState;
+				var skdStates = new SKDStates();
+				skdStates.DeviceStates.Add(device.State);
+
+				//device.Door.State.AccessState = accessState; // TODO: Точка доступа тоже должна хранить состояние
+				//skdStates.DoorStates.Add(device.Door.State);
+
+				Processor.OnStatesChanged(skdStates);
+			}
+			return new OperationResult<bool>(true);
+		}
+
 		/// <summary>
 		/// Переводит замок в режим "Открыто/Закрыто/Норма"
 		/// </summary>
@@ -1247,22 +1289,8 @@ namespace FiresecService.Service
 			
 			// Фиксируем в журнале событий намерение на преревод замка в требуемый режим
 			AddSKDJournalMessage(eventNameType, device);
-			
-			// Переводим замок в требуемый режим
-			device.SKDDoorConfiguration.AccessState = accessState;
-			var result = Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
-			if (!result.HasError && device.State != null)
-			{
-				device.State.AccessState = accessState;
-				var skdStates = new SKDStates();
-				skdStates.DeviceStates.Add(device.State);
 
-				//device.Door.State.AccessState = accessState; // TODO: Точка доступа тоже должна хранить состояние
-				//skdStates.DoorStates.Add(device.Door.State);
-
-				Processor.OnStatesChanged(skdStates);
-			}
-			return result;
+			return ChangeLockAccessState(device, accessState);
 		}
 
 		/// <summary>
@@ -1276,7 +1304,7 @@ namespace FiresecService.Service
 			var result = SKDSetDeviceAccessState(deviceUID, JournalEventNameType.Команда_на_перевод_замка_в_режим_Норма, AccessState.Normal);
 
 			// Фиксируем в журнале событий факт преревода замка в режим "Норма"
-			if (!result.HasError)
+			if (!result.HasError && result.Result)
 				AddSKDJournalMessage(JournalEventNameType.Перевод_замка_в_режим_Норма, SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID));
 
 			return result;
@@ -1293,7 +1321,7 @@ namespace FiresecService.Service
 			var result = SKDSetDeviceAccessState(deviceUID, JournalEventNameType.Команда_на_перевод_замка_в_режим_Закрыто, AccessState.CloseAlways);
 
 			// Фиксируем в журнале событий факт преревода замка в режим "Закрыто"
-			if (!result.HasError)
+			if (!result.HasError && result.Result)
 				AddSKDJournalMessage(JournalEventNameType.Перевод_замка_в_режим_Закрыто, SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID));
 
 			return result;
@@ -1310,7 +1338,7 @@ namespace FiresecService.Service
 			var result = SKDSetDeviceAccessState(deviceUID, JournalEventNameType.Команда_на_перевод_замка_в_режим_Открыто, AccessState.OpenAlways);
 
 			// Фиксируем в журнале событий факт преревода замка в режим "Открыто"
-			if (!result.HasError)
+			if (!result.HasError && result.Result)
 				AddSKDJournalMessage(JournalEventNameType.Перевод_замка_в_режим_Открыто, SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID));
 			
 			return result;
@@ -1552,18 +1580,11 @@ namespace FiresecService.Service
 					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
 					if (lockDevice != null)
 					{
-						lockDevice.SKDDoorConfiguration.AccessState = accessState;
-						var result = Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
+						// Пытаемся перевести замок в требуемый режим
+						var result = ChangeLockAccessState(lockDevice, accessState);
 						if (result.HasError)
 						{
 							errors.AddRange(result.Errors);
-						}
-						else if (device.State != null)
-						{
-							lockDevice.State.AccessState = accessState;
-							var skdStates = new SKDStates();
-							skdStates.DeviceStates.Add(lockDevice.State);
-							Processor.OnStatesChanged(skdStates);
 						}
 					}
 					else
@@ -1870,22 +1891,7 @@ namespace FiresecService.Service
 					}
 					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
 					if (lockDevice != null)
-					{
-						lockDevice.SKDDoorConfiguration.AccessState = accessState;
-						var result = Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
-						if (!result.HasError && lockDevice.State != null)
-						{
-							lockDevice.State.AccessState = accessState;
-							var skdStates = new SKDStates();
-							skdStates.DeviceStates.Add(lockDevice.State);
-
-							//door.State.AccessState = accessState; // TODO: Точка доступа тоже должна хранить состояние
-							//skdStates.DoorStates.Add(door.State);
-
-							Processor.OnStatesChanged(skdStates);
-						}
-						return result;
-					}
+						return ChangeLockAccessState(lockDevice, accessState);
 					return OperationResult<bool>.FromError("Для точки доступа не найден замок");
 				}
 				return OperationResult<bool>.FromError("У точки доступа не указано устройство входа");
