@@ -690,7 +690,7 @@ namespace SKDModule.ViewModels
 
 		private void ResetAdjustmentsNoConflict()
 		{
-			foreach (var dayTimeTrack in DayTimeTrackParts.Where(x => !x.IsForceClosed))
+			foreach (var dayTimeTrack in DayTimeTrackParts)
 			{
 				dayTimeTrack.AdjustmentDate = null;
 				dayTimeTrack.CorrectedByUID = null;
