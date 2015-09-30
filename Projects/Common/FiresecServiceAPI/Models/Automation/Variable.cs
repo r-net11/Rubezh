@@ -21,6 +21,9 @@ namespace FiresecAPI.Automation
 		public bool IsList { get; set; }
 
 		[DataMember]
+		public ContextType ContextType { get; set; }
+
+		[DataMember]
 		public ExplicitType ExplicitType { get; set; }
 
 		[DataMember]

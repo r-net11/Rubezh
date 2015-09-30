@@ -6,6 +6,7 @@ using Infrastructure.Common;
 using Ionic.Zip;
 using System.Threading;
 using System;
+using Infrastructure.Automation;
 
 namespace FiresecService.Service
 {
@@ -121,7 +122,7 @@ namespace FiresecService.Service
 			ConfigurationCashHelper.Update();
 			GKProcessor.SetNewConfig();
 			ScheduleRunner.SetNewConfig();
-			ProcedureRunner.SetNewConfig();
+			AutomationProcessor.SetNewConfig();
 			ServerTaskRunner.SetNewConfig();
 			ServerState = FiresecAPI.ServerState.Ready;
 			NotifyConfigurationChanged();

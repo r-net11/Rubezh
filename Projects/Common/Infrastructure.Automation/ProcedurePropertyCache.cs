@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.AutomationCallback;
 
-namespace FiresecService.Automation
+namespace Infrastructure.Automation
 {
 	public static class ProcedurePropertyCache
 	{

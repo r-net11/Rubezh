@@ -221,6 +221,10 @@
       <Project>{62564D14-0234-4947-8218-2C7D74721023}</Project>
       <Name>GKProcessor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\Infrastructure.Automation\Infrastructure.Automation.csproj">
+      <Project>{ae2102f4-c2b3-4ca3-850f-69c93e23dfb7}</Project>
+      <Name>Infrastructure.Automation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\Infrastructure.Client\Infrastructure.Client.csproj">
       <Project>{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}</Project>
       <Name>Infrastructure.Client</Name>

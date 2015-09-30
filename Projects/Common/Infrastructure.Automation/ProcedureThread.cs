@@ -7,12 +7,13 @@ using FiresecAPI.Automation;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
 
-namespace FiresecService
+namespace Infrastructure.Automation
 {
 	public partial class ProcedureThread
 	{
 		public Guid UID { get; private set; }
 		public Guid? ClientUID { get; private set; }
+		public ContextType ContextType { get; private set; }
 		public DateTime StartTime { get; private set; }
 		public bool IsAlive { get; set; }
 		public User User { get; private set; }
@@ -30,6 +31,7 @@ namespace FiresecService
 		{
 			UID = Guid.NewGuid();
 			ClientUID = clientUID;
+			ContextType = procedure.ContextType;
 			User = user;
 			IsAlive = true;
 			JournalItem = journalItem;
@@ -41,7 +43,7 @@ namespace FiresecService
 			var procedureArguments = Utils.Clone(procedure.Arguments);
 			InitializeArguments(procedureArguments, arguments, callingProcedureVariables);
 			AllVariables.AddRange(procedureArguments);
-			AllVariables.AddRange(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
+			AllVariables.AddRange(ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.GlobalVariables);
 			Thread = new Thread(() => RunInThread(arguments))
 			{
 				Name = string.Format("ProcedureThread [{0}]", UID),
@@ -155,7 +157,7 @@ namespace FiresecService
 						foreach (var explicitValue in listVariable.ExplicitValues)
 						{
 							if (itemVariable != null)
-								SetValue(itemVariable, GetValue<object>(explicitValue, itemVariable.ExplicitType, itemVariable.EnumType));
+								ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(explicitValue, itemVariable.ExplicitType, itemVariable.EnumType));
 							foreach (var childStep in procedureStep.Children[0].Children)
 							{
 								var result = RunStep(childStep);
@@ -206,10 +208,10 @@ namespace FiresecService
 
 				case ProcedureStepType.ProcedureSelection:
 					{
-						var childProcedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.
+						var childProcedure = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.
 								FirstOrDefault(x => x.Uid == procedureStep.ProcedureSelectionArguments.ScheduleProcedure.ProcedureUid);
 						if (childProcedure != null)
-							ProcedureRunner.Run(childProcedure, procedureStep.ProcedureSelectionArguments.ScheduleProcedure.Arguments, AllVariables, User, JournalItem, ClientUID);
+							AutomationProcessor.RunProcedure(childProcedure, procedureStep.ProcedureSelectionArguments.ScheduleProcedure.Arguments, AllVariables, User, JournalItem, ClientUID);
 					}
 					break;
 

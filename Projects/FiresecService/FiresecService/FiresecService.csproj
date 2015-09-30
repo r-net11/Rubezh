@@ -174,15 +174,11 @@
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="Automation\ProcedurePropertyCache.cs" />
-    <Compile Include="Automation\ProcedureThread.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Automation\ScheduleRunner.cs" />
-    <Compile Include="Automation\ProcedureRunner.cs" />
+    <Compile Include="ProcedureHelper.cs" />
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
     <Compile Include="Processor\FiresecLicenseProcessor.cs" />
     <Compile Include="Processor\GKProcessor.cs" />
-    <Compile Include="Automation\ProcedureThread.Steps.cs" />
     <Compile Include="Processor\ServerTaskRunner.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
@@ -242,7 +238,6 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <Compile Include="Automation\ProcedureThread.Callback.cs" />
     <None Include="FiresecService.exe.manifest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -278,6 +273,10 @@
     <ProjectReference Include="..\..\Common\GKProcessor\GKProcessor.csproj">
       <Project>{62564D14-0234-4947-8218-2C7D74721023}</Project>
       <Name>GKProcessor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Infrastructure.Automation\Infrastructure.Automation.csproj">
+      <Project>{ae2102f4-c2b3-4ca3-850f-69c93e23dfb7}</Project>
+      <Name>Infrastructure.Automation</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>

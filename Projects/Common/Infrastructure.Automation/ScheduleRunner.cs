@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using FiresecAPI.Automation;
 
-namespace FiresecService
+namespace Infrastructure.Automation
 {
 	public static class ScheduleRunner
 	{
@@ -57,7 +57,7 @@ namespace FiresecService
 				}
 
 				timeValidator++;
-				foreach (var schedule in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.AutomationSchedules)
+				foreach (var schedule in ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.AutomationSchedules)
 				{
 					if (timeValidator <= TimeDelta)
 					{
@@ -108,9 +108,9 @@ namespace FiresecService
 			if (schedule.IsActive)
 				foreach (var scheduleProcedure in schedule.ScheduleProcedures)
 				{
-					var procedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
-					if (procedure != null && procedure.IsActive)
-						ProcedureRunner.Run(procedure, scheduleProcedure.Arguments, null);
+					var procedure = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
+					if (procedure != null && procedure.IsActive && procedure.ContextType == ProcedureExecutionContext.ContextType)
+						AutomationProcessor.RunProcedure(procedure, scheduleProcedure.Arguments, null);
 				}
 		}
 	}

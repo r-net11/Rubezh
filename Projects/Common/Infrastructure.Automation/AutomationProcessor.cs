@@ -7,19 +7,19 @@ using FiresecAPI.Automation;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
 
-namespace FiresecService
+namespace Infrastructure.Automation
 {
-	public static class ProcedureRunner
+	public static class AutomationProcessor
 	{
-		private static ConcurrentDictionary<Guid, ProcedureThread> _proceduresThreads;
-		private static AutoResetEvent _resetEvent;
-		private static Thread _checkThread;
-		private static object _lock;
+		static ConcurrentDictionary<Guid, ProcedureThread> _procedureThreads;
+		static AutoResetEvent _resetEvent;
+		static Thread _checkThread;
+		//static object _lock;
 
-		static ProcedureRunner()
+		static AutomationProcessor()
 		{
-			_lock = new object();
-			_proceduresThreads = new ConcurrentDictionary<Guid, ProcedureThread>();
+			//_lock = new object();
+			_procedureThreads = new ConcurrentDictionary<Guid, ProcedureThread>();
 			_resetEvent = new AutoResetEvent(false);
 			_checkThread = new Thread(CheckProcedureThread)
 			{
@@ -30,11 +30,11 @@ namespace FiresecService
 
 		public static void RunOnJournal(JournalItem journalItem)
 		{
-			foreach (var procedure in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures)
+			foreach (var procedure in ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures)
 			{
 				foreach (var filtersUID in procedure.FiltersUids)
 				{
-					var filter = ConfigurationCashHelper.SystemConfiguration.JournalFilters.FirstOrDefault(x => x.UID == filtersUID);
+					var filter = ProcedureExecutionContext.SystemConfiguration.JournalFilters.FirstOrDefault(x => x.UID == filtersUID);
 					if (filter != null)
 					{
 						if (filter.JournalSubsystemTypes.Count > 0 && !filter.JournalSubsystemTypes.Contains(journalItem.JournalSubsystemType))
@@ -47,7 +47,7 @@ namespace FiresecService
 							continue;
 						if (filter.ObjectUIDs.Count > 0 && !filter.ObjectUIDs.Contains(journalItem.ObjectUID))
 							continue;
-						Run(procedure, new List<Argument>(), null, null, journalItem);
+						RunProcedure(procedure, new List<Argument>(), null, null, journalItem);
 					}
 				}
 			}
@@ -55,27 +55,27 @@ namespace FiresecService
 
 		public static void RunOnServerRun()
 		{
-			ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => { if (x.StartWithServer) Run(x, new List<Argument>(), null, null); });
+			ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => { if (x.StartWithServer) RunProcedure(x, new List<Argument>(), null, null); });
 		}
 
 		public static void RunOnStateChanged()
 		{
-			foreach (var procedure in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures)
+			foreach (var procedure in ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures)
 			{
 			}
 		}
 
-		public static ProcedureThread Run(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, User user = null, JournalItem journalItem = null, Guid? clientUID = null)
+		public static ProcedureThread RunProcedure(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, User user = null, JournalItem journalItem = null, Guid? clientUID = null)
 		{
 			var procedureThread = new ProcedureThread(procedure, arguments, callingProcedureVariables, journalItem, user, clientUID);
-			_proceduresThreads.TryAdd(procedureThread.UID, procedureThread);
+			_procedureThreads.TryAdd(procedureThread.UID, procedureThread);
 			procedureThread.Start();
 			return procedureThread;
 		}
 
 		public static void Stop()
 		{
-			foreach (var procedureThread in _proceduresThreads.Values)
+			foreach (var procedureThread in _procedureThreads.Values)
 			{
 				procedureThread.IsTimeOut = true;
 			}
@@ -98,12 +98,12 @@ namespace FiresecService
 			{
 				if (_resetEvent.WaitOne(TimeSpan.FromSeconds(1)))
 					return;
-				var oldProcedures = _proceduresThreads.Where(item => !item.Value.IsAlive).Select(item => item.Key).ToArray();
+				var oldProcedures = _procedureThreads.Where(item => !item.Value.IsAlive).Select(item => item.Key).ToArray();
 				ProcedureThread procedure;
 				foreach (var procedureUID in oldProcedures)
-					_proceduresThreads.TryRemove(procedureUID, out procedure);
+					_procedureThreads.TryRemove(procedureUID, out procedure);
 				var timeOut = new TimeSpan();
-				foreach (var procedureThread in _proceduresThreads.Values)
+				foreach (var procedureThread in _procedureThreads.Values)
 				{
 					switch (procedureThread.TimeType)
 					{

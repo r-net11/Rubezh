@@ -24,6 +24,7 @@ namespace AutomationModule.ViewModels
 			ControlPlanArguments = stepViewModel.Step.ControlPlanArguments;
 			ControlElementType = controlElementType;
 			ValueArgument = new ArgumentViewModel(ControlPlanArguments.ValueArgument, stepViewModel.Update, UpdateContent, controlElementType == ControlElementType.Set);
+			IsServerContext = Procedure.ContextType == ContextType.Server;
 			ElementPropertyTypes = new ObservableCollection<ElementPropertyType>();
 			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementsChanged);
 			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementsChanged);
@@ -34,6 +35,17 @@ namespace AutomationModule.ViewModels
 		private void OnElementsChanged(List<ElementBase> elements)
 		{
 			UpdateContent();
+		}
+
+		bool _isServerContext;
+		public bool IsServerContext
+		{
+			get { return _isServerContext; }
+			set
+			{
+				_isServerContext = value;
+				OnPropertyChanged(() => IsServerContext);
+			}
 		}
 
 		public ObservableCollection<PlanViewModel> Plans { get; private set; }
@@ -177,6 +189,7 @@ namespace AutomationModule.ViewModels
 		{
 			Plans = new ObservableCollection<PlanViewModel>(FiresecManager.PlansConfiguration.AllPlans.Select(x => new PlanViewModel(x)));
 			SelectedPlan = Plans.FirstOrDefault(x => x.Plan.UID == ControlPlanArguments.PlanUid);
+			IsServerContext = Procedure.ContextType == ContextType.Server;
 			OnPropertyChanged(() => Plans);
 			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ControlPlanArguments.LayoutFilter);
 			OnPropertyChanged(() => ProcedureLayoutCollectionViewModel);

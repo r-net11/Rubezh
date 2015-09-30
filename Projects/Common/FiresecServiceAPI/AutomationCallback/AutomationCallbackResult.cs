@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FiresecAPI.Automation;
+using System;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI.AutomationCallback
@@ -12,6 +13,9 @@ namespace FiresecAPI.AutomationCallback
 
 		[DataMember]
 		public Guid CallbackUID { get; set; }
+
+		[DataMember]
+		public ContextType ContextType { get; set; }
 
 		[DataMember]
 		public AutomationCallbackType AutomationCallbackType { get; set; }

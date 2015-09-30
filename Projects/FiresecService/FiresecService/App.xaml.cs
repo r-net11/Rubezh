@@ -6,6 +6,7 @@ using FiresecService;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Theme;
+using Infrastructure.Automation;
 
 namespace FiresecServiceRunner
 {
@@ -40,7 +41,7 @@ namespace FiresecServiceRunner
 
 		protected override void OnExit(ExitEventArgs e)
 		{
-			ProcedureRunner.Terminate();
+			AutomationProcessor.Terminate();
 			base.OnExit(e);
 		}
 

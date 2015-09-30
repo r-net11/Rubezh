@@ -4,7 +4,7 @@ using System.Threading;
 using FiresecAPI.Automation;
 using FiresecAPI.AutomationCallback;
 
-namespace FiresecService
+namespace Infrastructure.Automation
 {
 	public partial class ProcedureThread
 	{
@@ -15,6 +15,7 @@ namespace FiresecService
 		private object SendCallback(UIArguments arguments, AutomationCallbackResult callback, bool withResponse = false)
 		{
 			callback.CallbackUID = Guid.NewGuid();
+			callback.ContextType = this.ContextType;
 			if (callback.Data != null)
 				callback.Data.LayoutFilter = GetLayoutFilter(arguments);
 			_callbackResponse = null;
@@ -23,13 +24,13 @@ namespace FiresecService
 				using (_waitHandler = new AutoResetEvent(false))
 				{
 					_proceduresThreads.GetOrAdd(callback.CallbackUID, this);
-					Service.FiresecService.NotifyAutomation(callback, GetClientUID(arguments));
+					ProcedureExecutionContext.SendCallback(callback, GetClientUID(arguments));
 					if (!_waitHandler.WaitOne(TimeSpan.FromMinutes(1)))
 						CallbackResponse(callback.CallbackUID, null);
 				}
 			}
 			else
-				Service.FiresecService.NotifyAutomation(callback, GetClientUID(arguments));
+				ProcedureExecutionContext.SendCallback(callback, GetClientUID(arguments));
 			return _callbackResponse;
 		}
 

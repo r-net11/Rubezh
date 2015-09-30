@@ -14,6 +14,7 @@
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 
@@ -38,19 +39,18 @@
 		<TextBlock Grid.Column="0" Grid.Row="1" Text="Сообщение" Style="{DynamicResource TextBlockDetailsStyle}" />
 		<Views:ArgumentView Grid.Column="1" Grid.Row="1" DataContext="{Binding MessageArgument}" />
 
-		<TextBlock Grid.Column="0" Grid.Row="2" Text="Всем клиентам" Style="{DynamicResource TextBlockDetailsStyle}" />
-		<CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding ForAllClients}" />
+		<TextBlock Grid.Column="0" Grid.Row="2" Text="Подтверждение" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding WithConfirmation}" />
 
-		<TextBlock Grid.Column="0" Grid.Row="3" Text="Подтверждение" Style="{DynamicResource TextBlockDetailsStyle}" />
-		<CheckBox Grid.Column="1" Grid.Row="3" IsChecked="{Binding WithConfirmation}" />
+		<TextBlock Grid.Column="0" Grid.Row="3" Text="Модальное окно" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<CheckBox Grid.Column="1" Grid.Row="3" IsChecked="{Binding IsModalWindow}" />
 
-		<TextBlock Grid.Column="0" Grid.Row="4" Text="Модальное окно" Style="{DynamicResource TextBlockDetailsStyle}" />
-		<CheckBox Grid.Column="1" Grid.Row="4" IsChecked="{Binding IsModalWindow}" />
+		<TextBlock Grid.Column="0" Grid.Row="4" Text="Значение" VerticalAlignment="Top" Name="textBlockValue" Style="{DynamicResource TextBlockDetailsStyle}" Visibility="{Binding WithConfirmation, Converter={StaticResource BoolToVisibilityConverter}}"/>
+		<Views:ArgumentView Grid.Column="1" Grid.Row="4" VerticalAlignment="Top" DataContext="{Binding ConfirmationValueArgument}" Visibility="{Binding ElementName=textBlockValue, Path=Visibility}"/>
 
-		<TextBlock Grid.Column="0" Grid.Row="5" Text="Значение" VerticalAlignment="Top" Name="textBlockValue" Style="{DynamicResource TextBlockDetailsStyle}" Visibility="{Binding WithConfirmation, Converter={StaticResource BoolToVisibilityConverter}}"/>
-		<Views:ArgumentView Grid.Column="1" Grid.Row="5" VerticalAlignment="Top" DataContext="{Binding ConfirmationValueArgument}" Visibility="{Binding ElementName=textBlockValue, Path=Visibility}"/>
-
-		<DataGrid Grid.Column="2" Grid.RowSpan="6" DataContext="{Binding ProcedureLayoutCollectionViewModel}" ItemsSource="{Binding LayoutItems}">
+		<TextBlock Grid.Column="0" Grid.Row="5" Text="Всем клиентам" Style="{DynamicResource TextBlockDetailsStyle}" Visibility="{Binding IsServerContext, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<CheckBox Grid.Column="1" Grid.Row="5" IsChecked="{Binding ForAllClients}" Visibility="{Binding IsServerContext, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<DataGrid Grid.Column="2" Grid.RowSpan="7" DataContext="{Binding ProcedureLayoutCollectionViewModel}" ItemsSource="{Binding LayoutItems}">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Width="*" Header="Наименование макета">
 					<DataGridTemplateColumn.CellTemplate>
