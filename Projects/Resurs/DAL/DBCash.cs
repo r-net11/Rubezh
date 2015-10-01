@@ -144,5 +144,49 @@ namespace ResursDAL
 			return result;
 		}
 
+		#region Tariffs CRUD
+		public static List<Tariff> Tariffs { get; set; } 
+		public static void CreateTariff(Tariff tariff)
+		{
+			using (var context = DatabaseContext.Initialize())
+			{
+				context.Tariffs.Add(tariff);
+				context.SaveChanges();
+			}
+			Tariffs.Add(tariff);
+
+		}
+
+		public static Tariff ReadTariff(Guid id)
+		{
+			using (var context = DatabaseContext.Initialize())
+			{
+				return context.Tariffs.FirstOrDefault(x => x.UID == id);
+			}
+		}
+
+		public static IEnumerable<Tariff> ReadAllTariffs()
+		{
+			using (var context = DatabaseContext.Initialize())
+			{
+				return context.Tariffs.Select(x => new Tariff { UID = x.UID, Name = x.Name }).ToList();
+			}
+		}
+
+		public static void DeleteTariff(Tariff tariff)
+		{
+			using (var context = DatabaseContext.Initialize())
+			{
+				context.Tariffs.Remove(tariff);
+				context.SaveChanges();
+			}
+			Tariffs.Remove(tariff);
+		}
+
+		public static Tariff UpdateTariff(Tariff tariff)
+		{
+			throw new NotImplementedException();
+		} 
+		#endregion
  	}
 }

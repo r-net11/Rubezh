@@ -223,15 +223,15 @@
     </Compile>
     <Compile Include="Users\ViewModels\PermissionsViewModel.cs" />
     <Compile Include="Users\ViewModels\PermissionViewModel.cs" />
-    <Compile Include="Tariff\ViewModels\TariffsViewModel.cs" />
-    <Compile Include="Tariff\ViewModels\TariffDetailsViewModel.cs" />
-    <Compile Include="Tariff\ViewModels\TariffViewModel.cs" />
-    <Compile Include="Tariff\Views\TariffsView.xaml.cs">
+    <Compile Include="Tariffs\ViewModels\TariffsViewModel.cs" />
+    <Compile Include="Tariffs\ViewModels\TariffDetailsViewModel.cs" />
+    <Compile Include="Tariffs\ViewModels\TariffViewModel.cs" />
+    <Compile Include="Tariffs\Views\TariffsView.xaml.cs">
       <DependentUpon>TariffsView.xaml</DependentUpon>
     </Compile>
-		<Compile Include="Tariff\Views\TariffDetailsView.xaml.cs">
-			<DependentUpon>TariffDetailsView.xaml</DependentUpon>
-		</Compile>
+    <Compile Include="Tariffs\Views\TariffDetailsView.xaml.cs">
+      <DependentUpon>TariffDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Users\ViewModels\UserDetailsViewModel.cs" />
     <Compile Include="Users\ViewModels\UsersViewModel.cs" />
     <Compile Include="Users\ViewModels\UserViewModel.cs" />
@@ -296,15 +296,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Tariff\DataTemplates\Dictionary.xaml">
+    <Page Include="Tariffs\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Tariff\Views\TariffsView.xaml">
+    <Page Include="Tariffs\Views\TariffsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Tariff\Views\TariffDetailsView.xaml">
+    <Page Include="Tariffs\Views\TariffDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
