@@ -31,6 +31,7 @@
 function EmployeesViewModel() {
     var self = {};
 
+    self.UID = ko.observable();
     self.Name = ko.observable();
     self.DepartmentName = ko.observable();
 
@@ -38,9 +39,39 @@ function EmployeesViewModel() {
 
         var myGrid = $('#jqGrid');
 
+        self.UID(id);
         self.Name(myGrid.jqGrid('getCell', id, 'Name'));
         self.DepartmentName(myGrid.jqGrid('getCell', id, 'DepartmentName'));
     });
+
+    self.ShowEmployee = function (box) {
+        //Fade in the Popup
+        $(box).fadeIn(300);
+
+        //Set the center alignment padding + border see css style
+        var popMargTop = ($(box).height() + 24) / 2;
+        var popMargLeft = ($(box).width() + 24) / 2;
+
+        $(box).css({
+            'margin-top': -popMargTop,
+            'margin-left': -popMargLeft
+        });
+
+        // Add the mask to body
+        $('body').append('<div id="mask"></div>');
+        $('#mask').fadeIn(300);
+
+        return false;
+    }
+
+    self.AddEmployeeClick = function (data, e, box) {
+        self.ShowEmployee(box);
+    }
+
+    self.EditEmployeeClick = function (data, e, box) {
+
+        self.ShowEmployee(box);
+    }
 
     return self;
 }

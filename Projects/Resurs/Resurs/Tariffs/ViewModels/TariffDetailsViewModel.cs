@@ -9,25 +9,35 @@ namespace Resurs.ViewModels
 {
 	public class TariffDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public Tariff Tariff { get; private set; }
+		public Tariff Tariff;
 
 		public TariffDetailsViewModel(Tariff tariff = null)
 		{
 			if (tariff == null)
 			{
-				tariff = new Tariff();
-				Title = "Создание абонента";
+				tariff = new Tariff
+					{
+						Description = "",
+						Devices = new List<Device>(),
+						Name = "Новый тариф",
+						TariffParts = new List<TariffPart>(),
+					};
+				Title = "Создание нового тарифа";
 			}
 			else
 			{
-				Title = "Редактирование абонента";
+				Title = "Редактирование тарифа";
 			}
 
-			tariff = tariff;
+			Tariff = tariff;
 			Name = tariff.Name;
 			Description = tariff.Description;
-		}
+			
 
+
+		}
+		public IEnumerable<TariffType> TariffType { get { return Enum.GetValues(typeof(TariffType)).Cast<TariffType>(); } }
+		public TariffType SelectedTariffType { get; set; }
 		string _name;
 		public string Name
 		{
@@ -49,7 +59,20 @@ namespace Resurs.ViewModels
 				OnPropertyChanged(() => Description);
 			}
 		}
+		private Guid _UID;
 
+		public Guid UID
+		{
+			get { return _UID; }
+			set { _UID = value; }
+		}
+
+		private int _tariffPartsNumber;
+		public int TariffPartsNumber
+		{
+			get { return _tariffPartsNumber; }
+			set { _tariffPartsNumber = value; }
+		}
 		protected override bool Save()
 		{
 			Tariff.Name = Name;

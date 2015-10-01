@@ -77,7 +77,7 @@ namespace ResursNetwork.Devices
         /// <summary>
         /// Тип данных значения параметра
         /// </summary>
-        private readonly Type ValueType;
+        public readonly Type ValueType;
 
         private ValueType _Value;
         public ValueType Value
@@ -101,9 +101,21 @@ namespace ResursNetwork.Devices
         /// <summary>
         /// Конструктор
         /// </summary>
-        public Parameter()
+        private Parameter()
         {
-            //throw new NotSupportedException();
+            throw new NotSupportedException();
+        }
+        /// <summary>
+        /// Тип значения параметра
+        /// </summary>
+        /// <param name="type"></param>
+        public Parameter(Type type)
+        {
+            if (type.BaseType != typeof(ValueType))
+            {
+                throw new ArgumentException("Тип данных параметра должен быть значимым");
+            }
+            ValueType = type;
         }
         /// <summary>
         /// 
@@ -127,7 +139,7 @@ namespace ResursNetwork.Devices
             _ReadOnly = readOnly;
             _ValueConverter = valueConverter;
 
-            if (type.BaseType != ValueType)
+            if (type.BaseType != typeof(ValueType))
             {
                 throw new ArgumentException("Тип данных параметра должен быть значимым");
             }

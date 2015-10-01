@@ -30,6 +30,14 @@ namespace Resurs.ViewModels
 		}
 	}
 
+	public class ApartmentViewModelAddressComparer : TreeNodeComparer<ApartmentViewModel>
+	{
+		protected override int Compare(ApartmentViewModel x, ApartmentViewModel y)
+		{
+			return string.Compare(x.Apartment.Address, y.Apartment.Address);
+		}
+	}
+
 	public class ApartmentViewModelDescriptionComparer : TreeNodeComparer<ApartmentViewModel>
 	{
 		protected override int Compare(ApartmentViewModel x, ApartmentViewModel y)

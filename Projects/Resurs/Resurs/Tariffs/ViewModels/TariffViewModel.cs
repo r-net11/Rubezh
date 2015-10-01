@@ -26,6 +26,21 @@ namespace Resurs.ViewModels
 			}
 		}
 
+		private string _name;
+
+		public string Name
+		{
+			get { return _name; }
+		}
+
+
+		private int _tariffPartsNumber;
+
+		public int TariffPartsNumber
+		{
+			get { return _tariffPartsNumber; }
+		}
+
 		public void Update(Tariff tariff)
 		{
 			Tariff = tariff;

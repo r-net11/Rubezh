@@ -7,6 +7,7 @@ using ResursNetwork.Management;
 using ResursNetwork.Devices;
 using ResursNetwork.Devices.Collections.ObjectModel;
 using ResursNetwork.OSI.DataLinkLayer;
+using ResursNetwork.OSI.Messages.Transaction;
 
 namespace ResursNetwork.OSI.ApplicationLayer
 {
@@ -31,6 +32,13 @@ namespace ResursNetwork.OSI.ApplicationLayer
         IDataLinkPort Connection { get; }
         #endregion
 
+        #region Methods
+        /// <summary>
+        /// Записывает транзакцию в буфер исходящих сообщений
+        /// </summary>
+        /// <param name="transaction"></param>
+        void Write(Transaction transaction);
+        #endregion
 
     }
 }

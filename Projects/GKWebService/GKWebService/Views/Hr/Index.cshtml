@@ -5,9 +5,9 @@
 
 <div id="HR" data-bind="with: HR">
     <div class="HrToolbar" data-bind="visible:hrPages.Employees">
-        <div class="icon add" data-bind="click: function(data,event) { AddEmployeeClick(data, event, '#employee-details-box'); }"></div>
+        <div class="icon add" data-bind="click: function(data,event) { Employees.AddEmployeeClick(data, event, '#employee-details-box'); }"></div>
         <div class="icon delete"></div>
-        <div class="icon edit"></div>
+        <div class="icon edit" data-bind="click: function(data,event) { Employees.EditEmployeeClick(data, event, '#employee-details-box'); }"></div>
         <div class="icon redo"></div>
         <div class="icon add"></div>
         <div class="icon delete"></div>

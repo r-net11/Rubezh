@@ -57,6 +57,7 @@ namespace ResursNetwork.Devices
         #region Constructors
         protected DeviceBase()
         {
+            _Status = Status.Stopped;
             _Parameters = new ParatemersCollection();
             Initialization();
         }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Resurs.ViewModels
 {
-	public class ApartmentDetailsViewModel : SaveCancelDialogViewModel
+	public partial class ApartmentDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public Apartment Apartment { get; private set; }
 
@@ -25,34 +25,14 @@ namespace Resurs.ViewModels
 
 			Apartment = apartment;
 			Name = apartment.Name;
+			Address = apartment.Address;
 			Description = apartment.Description;
 		}
-
-		string _name;
-		public string Name
-		{
-			get { return _name; }
-			set
-			{
-				_name = value;
-				OnPropertyChanged(() => Name);
-			}
-		}
-
-		string _description;
-		public string Description
-		{
-			get { return _description; }
-			set
-			{
-				_description = value;
-				OnPropertyChanged(() => Description);
-			}
-		}
-
+				
 		protected override bool Save()
 		{
 			Apartment.Name = Name;
+			Apartment.Address = Address;
 			Apartment.Description = Description;
 			return base.Save();
 		}
