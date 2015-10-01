@@ -27,9 +27,9 @@ namespace Infrastructure.Common.Windows
 			ShowErrorExtended(message, title);
 		}
 
-		public static void ShowWarning(string message, string title = null)
+		public static void ShowWarning(string message, string title = null, int width = 350, int height = 120)
 		{
-			ShowWarningExtended(message, title);
+			ShowWarningExtended(message, title, width, height);
 		}
 
 		public static void ShowException(Exception e, string title = null)
@@ -58,9 +58,9 @@ namespace Infrastructure.Common.Windows
 			return ShowWindow(title, message, MessageBoxButton.OK, MessageBoxImage.Error);
 		}
 
-		public static MessageBoxResult ShowWarningExtended(string message, string title = null)
+		public static MessageBoxResult ShowWarningExtended(string message, string title = null, int width = 350, int height = 120)
 		{
-			return ShowWindow(title, message, MessageBoxButton.OK, MessageBoxImage.Warning);
+			return ShowWindow(title, message, MessageBoxButton.OK, MessageBoxImage.Warning, false, true, width, height);
 		}
 
 		public static MessageBoxResult ShowExceptionExtended(Exception e, string title = null)
@@ -80,9 +80,9 @@ namespace Infrastructure.Common.Windows
 
 		private static Action<MessageBoxViewModel, bool> _messageBoxHandler;
 
-		private static MessageBoxResult ShowWindow(string title, string message, MessageBoxButton messageBoxButton, MessageBoxImage messageBoxImage, bool isException = false, bool isModal = true)
+		private static MessageBoxResult ShowWindow(string title, string message, MessageBoxButton messageBoxButton, MessageBoxImage messageBoxImage, bool isException = false, bool isModal = true, int width = 350, int height = 120)
 		{
-			var viewModel = new MessageBoxViewModel(title, message, messageBoxButton, messageBoxImage, isException);
+			var viewModel = new MessageBoxViewModel(title, message, messageBoxButton, messageBoxImage, isException, width, height);
 			if (_messageBoxHandler == null)
 				Show(viewModel, isModal);
 			else
