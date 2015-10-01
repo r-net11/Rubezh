@@ -21,6 +21,9 @@ namespace FiresecAPI
 
 		public static string ToDescription(this Enum value)
 		{
+			if (value == null)
+				return string.Empty;
+
 			if (value is JournalEventNameType)
 				return EventDescriptionAttributeHelper.ToName((JournalEventNameType)value);
 			if (value is JournalEventDescriptionType)
