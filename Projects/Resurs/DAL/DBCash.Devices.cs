@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Data.Entity;
 using System.Runtime.Serialization;
+using Infrastructure.Common.Windows;
 
 
 namespace ResursDAL
@@ -19,9 +20,24 @@ namespace ResursDAL
 			{
 				using (var context = DatabaseContext.Initialize())
 				{
-					var allDevices = context.Devices.Include(x => x.Parent).Include(x => x.Parameters).ToList();
-					allDevices.ForEach(x => SetDeviceDriver(x));
-					var result = allDevices.FirstOrDefault(x => x.Parent == null);
+					var tableItems = context.Devices.Select(x => new 
+						{ 
+							UID = x.UID, 
+							Address = x.Address, 
+							DriverType = x.DriverType, 
+							Description = x.Description,
+							ParentUID = x.ParentUID
+						}).ToList();
+					var allDevices = tableItems.Select(x => new Device
+						{
+							UID = x.UID,
+							Address = x.Address,
+							DriverType = x.DriverType,
+							Description = x.Description,
+							ParentUID = x.ParentUID
+						}).ToList();
+					allDevices.ForEach(x => InitializeDevice(x));
+					var result = allDevices.FirstOrDefault(x => x.ParentUID == null);
 					if(result != null)
 						SetChildren(result, allDevices);
 					return result;
@@ -29,6 +45,7 @@ namespace ResursDAL
 			}
 			catch (Exception e)
 			{
+				MessageBoxService.Show(e.Message);
 				return null;
 			}
 		}
@@ -37,6 +54,15 @@ namespace ResursDAL
 		{
 			try
 			{
+				foreach (var item in device.Parameters)
+				{
+					var validateResult = item.Validate();
+					if (validateResult != null)
+					{
+						MessageBoxService.Show(string.Format("Устройство {0} \n Параметр {1} \n {2}", device.Name, item.DriverParameter.Name, validateResult));
+						return false;
+					}
+				}
 				using (var context = DatabaseContext.Initialize())
 				{
 					var tableDevice = context.Devices.Include(x => x.Parameters).FirstOrDefault(x => x.UID == device.UID);
@@ -66,6 +92,7 @@ namespace ResursDAL
 			}
 			catch (Exception e)
 			{
+				MessageBoxService.Show(e.Message);
 				return false;
 			}
 		}
@@ -104,58 +131,96 @@ namespace ResursDAL
 			}
 			catch (Exception e)
 			{
+				MessageBoxService.Show(e.Message);
 				return false;
 			}
 		}
 
 		public static void CreateSystem()
 		{
-			var devices = new List<Device>();
-			RootDevice = new Device(DriverType.System);
-			devices.Add(RootDevice);
-			
-			//for (int i = 0; i < 5; i++)
-			//{
-			//	var interfaceDevice = new Device(DriverType.BeregunInterface, RootDevice);
-			//	devices.Add(interfaceDevice);
-			//	for (int j = 0; j < 1000; j++)
-			//	{
-			//		var counter = new Device(DriverType.BeregunCounter, interfaceDevice);
-			//		devices.Add(counter);
-			//	}
-			//}
-			//for (int i = 0; i < 5; i++)
-			//{
-			//	var interfaceDevice = new Device(DriverType.MZEP55Interface, RootDevice);
-			//	devices.Add(interfaceDevice);
-			//	for (int j = 0; j < 1000; j++)
-			//	{
-			//		var counter = new Device(DriverType.MZEP55Counter, interfaceDevice);
-			//		devices.Add(counter);
-			//	}
-			//}
-			using (var context = DatabaseContext.Initialize())
+			try
 			{
-				context.Devices.AddRange(devices);
-				context.SaveChanges();
+				var devices = new List<Device>();
+				RootDevice = new Device(DriverType.System);
+				devices.Add(RootDevice);
+#if DEBUG
+				int interfaces = 2;
+				int devicesPerInterface = 10;
+				for (int i = 0; i < interfaces / 2; i++)
+				{
+					var interfaceDevice = new Device(DriverType.BeregunInterface, RootDevice);
+					devices.Add(interfaceDevice);
+					for (int j = 0; j < devicesPerInterface; j++)
+					{
+						var counter = new Device(DriverType.BeregunCounter, interfaceDevice);
+						devices.Add(counter);
+					}
+				}
+				for (int i = 0; i < interfaces / 2; i++)
+				{
+					var interfaceDevice = new Device(DriverType.MZEP55Interface, RootDevice);
+					devices.Add(interfaceDevice);
+					for (int j = 0; j < devicesPerInterface; j++)
+					{
+						var counter = new Device(DriverType.MZEP55Counter, interfaceDevice);
+						devices.Add(counter);
+					}
+				}
+#endif
+				using (var context = DatabaseContext.Initialize())
+				{
+					context.Devices.AddRange(devices);
+					context.SaveChanges();
+				}
+			}
+			catch (Exception e)
+			{
+				MessageBoxService.Show(e.Message);
 			}
 		}
 
-		static void SetDeviceDriver(Device device)
+		public static Device GetDeivce(Guid uid)
+		{
+			try
+			{
+				using (var context = DatabaseContext.Initialize())
+				{
+					var device = context.Devices.Include(x => x.Parent).Include(x => x.Parameters).FirstOrDefault(x => x.UID == uid);
+					device.Parameters = device.Parameters.OrderBy(x => x.Number).ToList();
+					InitializeDevice(device);
+					var parent = GetAllChildren(RootDevice).FirstOrDefault(x => x.UID == device.ParentUID);
+					if (parent != null)
+					{
+						parent.Children.RemoveAll(x => x.UID == device.UID);
+						parent.Children.Add(device);
+					}
+					return device;
+				}
+			}
+			catch (Exception e)
+			{
+				MessageBoxService.Show(e.Message);
+				return null;
+			}
+		}
+
+		static void InitializeDevice(Device device)
 		{
 			device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == device.DriverType);
 			foreach (var item in device.Parameters)
 			{
-				item.DriverParameter = device.Driver.DriverParameters.FirstOrDefault(x => x.Number == item.Number);
+				var driverParameter = device.Driver.DriverParameters.FirstOrDefault(x => x.Number == item.Number);
+				item.Initialize(driverParameter);
 			}
 		}
 
 		static void SetChildren(Device device, List<Device> allDevices)
 		{
-			device.Children = new List<Device>(allDevices.Where(x => x.Parent != null && x.Parent == device));
+			device.Children = new List<Device>(allDevices.Where(x => x.ParentUID != null && x.ParentUID == device.UID).OrderBy(x => x.Address));
 			device.SetFullAddress();
 			foreach (var item in device.Children)
 			{
+				item.Parent = device;
 				SetChildren(item, allDevices);
 			}
 		}

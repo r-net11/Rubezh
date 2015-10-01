@@ -11,32 +11,174 @@ namespace ResursAPI
 		{
 			var driver = new Driver();
 			driver.DriverType = DriverType.MZEP55Counter;
-			driver.AddParameter("Счётчик подключён", ParameterType.Bool, true);
-			driver.AddParameter("Счётчик открыт на чтение", ParameterType.Bool, true);
-			driver.AddParameter("Счётчик открыт на запись", ParameterType.Bool, true);
-			driver.AddParameter("Пароль первого уровня", ParameterType.String);
-			driver.AddParameter("Пароль второго уровня", ParameterType.String);
-			driver.AddParameter("Коэффициент трансформации", ParameterType.Double);
-			driver.AddParameter("Номер квартиры", ParameterType.Int);
-			driver.AddParameter("Почтовый адрес", ParameterType.String);
-			driver.AddParameter("Шаг записи расхода в лог", ParameterType.Int);
-			driver.AddParameter("Время фиксации расхода для дерева пользователей", ParameterType.Int, true);
-			driver.AddParameter("Время фиксации расхода для дерева баланса", ParameterType.Int, true);
-			driver.AddParameter("Параметры режимов индикации", ParameterType.Enum, true, new List<ParameterEnumItem>
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Счётчик подключён",
+				ParameterType = ParameterType.Bool,
+				IsReadOnly = true,
+				Number = 0
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Счётчик открыт на чтение",
+				ParameterType = ParameterType.Bool,
+				IsReadOnly = true,
+				Number = 1
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Счётчик открыт на запись",
+				ParameterType = ParameterType.Bool,
+				IsReadOnly = true,
+				Number = 2
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Пароль первого уровня",
+				ParameterType = ParameterType.Bool,
+				Number = 3
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Пароль второго уровня",
+				ParameterType = ParameterType.Bool,
+				Number = 4
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Коэффициент трансформации",
+				ParameterType = ParameterType.Double,
+				DoubleMinValue = 0.001,
+				DoubleMaxValue = 1000,
+				DoubleDefaultValue = 1,
+				Number = 5
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Номер квартиры",
+				ParameterType = ParameterType.Int,
+				IntMinValue = 1,
+				IntMaxValue = 1000,
+				IntDefaultValue = 1,
+				Number = 6
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Почтовый адрес",
+				ParameterType = ParameterType.String,
+				Number = 7
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Шаг записи расхода в лог",
+				ParameterType = ParameterType.Int,
+				IntMinValue = 1,
+				IntMaxValue = 1000,
+				IntDefaultValue = 5,
+				Number = 8
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Дата фиксации расхода для дерева пользователей",
+				ParameterType = ParameterType.DateTime,
+				IsReadOnly = true,
+				Number = 9
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Дата фиксации расхода для дерева баланса",
+				ParameterType = ParameterType.DateTime,
+				IsReadOnly = true,
+				Number = 10
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Дата фиксации расхода для дерева баланса",
+				ParameterType = ParameterType.DateTime,
+				IsReadOnly = true,
+				Number = 11
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Параметры режимов индикации",
+				ParameterType = ParameterType.Enum,
+				ParameterEnumItems = new List<ParameterEnumItem>
 				{
 					new ParameterEnumItem { Name = "В секундах", Value = 0 },
 					new ParameterEnumItem { Name = "В минутах", Value = 1 }
-				});
-			driver.AddParameter("Дата и время", ParameterType.DateTime);
-			driver.AddParameter("Ток", ParameterType.Double);
-			driver.AddParameter("Напряжение", ParameterType.Double);
-			driver.AddParameter("Активная мощность", ParameterType.Double);
-			driver.AddParameter("Коэффициент мощности", ParameterType.Double);
-			driver.AddParameter("Частота сетевого напряжения", ParameterType.Double);
-			driver.AddParameter("Активная энергия по текщему тарифу", ParameterType.Double);
-			driver.AddParameter("Время наработки", ParameterType.DateTime);
-			driver.AddParameter("Величина ограничения", ParameterType.Double);
-			driver.AddParameter("Отображение тарифов", ParameterType.Int);
+				},
+				EnumDefaultItem = 0,
+				Number = 12
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Ток",
+				ParameterType = ParameterType.Double,
+				DoubleMinValue = 0,
+				DoubleDefaultValue = 0.5,
+				Number = 13
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Напряжение",
+				ParameterType = ParameterType.Double,
+				DoubleMinValue = 0,
+				DoubleDefaultValue = 220,
+				Number = 14
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Активная мощность",
+				ParameterType = ParameterType.Double,
+				DoubleMinValue = 0,
+				DoubleDefaultValue = 1,
+				Number = 15
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Коэффициент мощности",
+				ParameterType = ParameterType.Double,
+				Number = 16
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Частота сетевого напряжения",
+				ParameterType = ParameterType.Double,
+				DoubleMinValue = 0,
+				DoubleDefaultValue = 1,
+				Number = 17
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Активная энергия по текщему тарифу",
+				ParameterType = ParameterType.Double,
+				DoubleMinValue = 0,
+				DoubleDefaultValue = 1,
+				Number = 18
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Время наработки",
+				ParameterType = ParameterType.DateTime,
+				Number = 19
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Величина ограничения",
+				ParameterType = ParameterType.Double,
+				DoubleMinValue = 0,
+				DoubleDefaultValue = 1,
+				Number = 20
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Отображение тарифов",
+				ParameterType = ParameterType.Int,
+				IntMinValue = 0,
+				IntMaxValue = 8,
+				IntDefaultValue = 1,
+				Number = 21
+			});
 			return driver;
 		}
 	}

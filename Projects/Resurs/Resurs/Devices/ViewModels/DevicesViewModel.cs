@@ -6,6 +6,7 @@ using ResursAPI;
 using ResursDAL;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -49,6 +50,7 @@ namespace Resurs.ViewModels
 			set
 			{
 				_selectedDevice = value;
+				_selectedDevice.Update();
 				OnPropertyChanged(() => SelectedDevice);
 			}
 		}

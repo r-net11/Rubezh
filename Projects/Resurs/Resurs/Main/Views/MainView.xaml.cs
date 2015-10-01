@@ -13,7 +13,6 @@ namespace Resurs.Views
 		{
 			InitializeComponent();
 			NotifyIconService.Start(OnShow, OnClose);
-			DatabaseContext.CheckConnection();
 		}
 
 		void OnLoaded(object sender, RoutedEventArgs e)

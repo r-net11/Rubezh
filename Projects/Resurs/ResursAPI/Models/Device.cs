@@ -49,6 +49,7 @@ namespace ResursAPI
 		public Guid UID { get; set; }
 		[MaxLength(200)]
 		public string Description { get; set; }
+		public Guid? ParentUID { get; set; }
 		public Device Parent { get; set; }
 		[InverseProperty("Parent")]
 		public List<Device> Children { get; set; }

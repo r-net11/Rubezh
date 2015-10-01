@@ -14,31 +14,7 @@ namespace Resurs.ViewModels
 		{
 			Model = model;
 			Name = Model.DriverParameter.Name;
-			switch (Model.DriverParameter.ParameterType)
-			{
-				case ParameterType.Enum:
-					var enumItem = Model.DriverParameter.ParameterEnumItems.FirstOrDefault(x => x.Value == Model.IntValue);
-					if (enumItem != null)
-						Value = enumItem.Name;
-					break;
-				case ParameterType.String:
-					Value = Model.StringValue;
-					break;
-				case ParameterType.Int:
-					Value = Model.IntValue != null ? Model.IntValue.Value.ToString() : "NULL";
-					break;
-				case ParameterType.Double:
-					Value = Model.DoubleValue != null ? Model.DoubleValue.Value.ToString() : "NULL";
-					break;
-				case ParameterType.Bool:
-					Value = Model.BoolValue.ToString();
-					break;
-				case ParameterType.DateTime:
-					Value = Model.DateTimeValue != null ? Model.DateTimeValue.Value.ToString() : "NULL";
-					break;
-				default:
-					break;
-			}
+			Value = Model.GetStringValue();
 		}
 
 		public string Name { get; private set; }

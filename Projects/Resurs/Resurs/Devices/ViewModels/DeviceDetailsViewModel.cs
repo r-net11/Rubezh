@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
 using System;
 using System.Collections.Generic;
@@ -64,6 +65,15 @@ namespace Resurs.ViewModels
 			Device.Description = Description;
 			Device.IsActive = IsActive;
 			Device.Parameters = new List<Parameter>(Parameters.Select(x => x.Model));
+			foreach (var item in Device.Parameters)
+			{
+				var validateResult = item.Validate();
+				if (validateResult != null)
+				{
+					MessageBoxService.Show("Ошибка в параметре " + item.DriverParameter.Name + ": " + validateResult);
+					return false;
+				}
+			}
 			if(ResursDAL.DBCash.SaveDevice(Device))
 				return base.Save();
 			return false;
