@@ -172,6 +172,14 @@
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Apartments\ViewModels\ApartmentDetailsViewModel.Common.cs" />
+    <Compile Include="Apartments\ViewModels\ApartmentsFolderDetailsViewModel.cs" />
+    <Compile Include="Apartments\ViewModels\ApartmentDetailsViewModel.cs" />
+    <Compile Include="Apartments\ViewModels\ApartmentsViewModel.cs" />
+    <Compile Include="Apartments\ViewModels\ApartmentViewModel.cs" />
+    <Compile Include="Apartments\Views\ApartmentsFolderDetailsView.xaml.cs">
+      <DependentUpon>ApartmentsFolderDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="Devices\ViewModels\DetailsParameterViewModel.cs" />
@@ -179,12 +187,9 @@
     <Compile Include="Processor\LoginService.cs" />
     <Compile Include="Processor\ResursSettings.cs" />
     <Compile Include="Processor\SettingsManager.cs" />
-    <Compile Include="Apartments\ViewModels\ApartmentDetailsViewModel.cs" />
-    <Compile Include="Apartments\ViewModels\ApartmentsViewModel.cs" />
     <Compile Include="Main\ViewModels\Comparers.cs" />
     <Compile Include="Devices\ViewModels\DeviceDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
-    <Compile Include="Apartments\ViewModels\ApartmentViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\ParameterViewModel.cs" />
     <Compile Include="Devices\ViewModels\DriverTypesViewModel.cs" />
@@ -245,6 +250,10 @@
       <DependentUpon>UsersView.xaml</DependentUpon>
     </Compile>
     <Page Include="Apartments\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Apartments\Views\ApartmentsFolderDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

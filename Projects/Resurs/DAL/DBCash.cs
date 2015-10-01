@@ -24,11 +24,13 @@ namespace ResursDAL
 			RootApartment = new Apartment()
 			{
 				Name = "Жилой комплекс",
+				IsFolder = true,
 				Children = new List<Apartment>()
 				{
 					new Apartment()
 					{
 						Name = "Дом 1",
+						IsFolder = true,
 						Children = new List<Apartment>()
 						{
 							new Apartment() { Name = "Квартира 1" },
@@ -44,6 +46,7 @@ namespace ResursDAL
 					new Apartment()
 					{
 						Name = "Дом 2",
+						IsFolder = true,
 						Children = new List<Apartment>()
 						{
 							new Apartment() { Name = "Квартира 1" },
