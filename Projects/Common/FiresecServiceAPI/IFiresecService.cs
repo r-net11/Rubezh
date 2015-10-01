@@ -9,7 +9,7 @@ using FiresecLicense;
 namespace FiresecAPI
 {
 	[ServiceContract]
-	public interface IFiresecService : IFiresecServiceSKD, IGKService
+	public interface IFiresecService : IFiresecServiceSKD, IGKService, IFiresecServiceAutomation
 	{
 		#region Service
 		[OperationContract]

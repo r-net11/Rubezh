@@ -77,6 +77,15 @@ namespace FiresecClient
 			}
 		}
 
+		public static void ProcessAutomationCallback(AutomationCallbackResult callback, Guid? clientUid = null)
+		{
+			SafeOperationCall(() =>
+			{
+				if (AutomationEvent != null)
+					AutomationEvent(callback);
+			});
+		}
+
 		void ProcessCallbackResult(List<CallbackResult> callbackResults)
 		{
 			if (callbackResults == null || callbackResults.Count == 0)
@@ -145,11 +154,7 @@ namespace FiresecClient
 					case CallbackResultType.AutomationCallbackResult:
 						if (callbackResult.AutomationCallbackResult.Data == null || callbackResult.AutomationCallbackResult.Data.LayoutFilter == null || callbackResult.AutomationCallbackResult.Data.LayoutFilter.LayoutsUIDs.Count == 0 ||
 							ApplicationService.Shell == null || ApplicationService.Shell.Layout == null || callbackResult.AutomationCallbackResult.Data.LayoutFilter.LayoutsUIDs.Contains(ApplicationService.Shell.Layout.UID))
-							SafeOperationCall(() =>
-							{
-								if (AutomationEvent != null)
-									AutomationEvent(callbackResult.AutomationCallbackResult);
-							});
+							ProcessAutomationCallback(callbackResult.AutomationCallbackResult);
 						break;
 
 					case CallbackResultType.NewEvents:

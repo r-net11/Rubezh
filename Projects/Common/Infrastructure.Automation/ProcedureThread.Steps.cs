@@ -4,33 +4,23 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
-using System.Windows.Media;
 using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.AutomationCallback;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
-using FiresecAPI.SKD;
 using FiresecClient;
-using FiresecService.Automation;
-using FiresecService.Service;
-using SKDDriver.DataClasses;
 using Property = FiresecAPI.Automation.Property;
-using Infrastructure.Common.BalloonTrayTip;
 
-namespace FiresecService
+namespace Infrastructure.Automation
 {
 	public partial class ProcedureThread
 	{
 		void AddJournalItem(ProcedureStep procedureStep)
 		{
-			var journalItem = new JournalItem();
-			journalItem.SystemDateTime = DateTime.Now;
-			journalItem.JournalEventNameType = JournalEventNameType.Сообщение_автоматизации;
 			var messageValue = GetValue<object>(procedureStep.JournalArguments.MessageArgument);
-			journalItem.DescriptionText = messageValue.GetType().IsEnum ? ((Enum)messageValue).ToDescription() : messageValue.ToString();
-			Service.FiresecService.AddCommonJournalItem(journalItem);
+			ProcedureExecutionContext.AddJournalItem(GetStringValue(messageValue));
 		}
 
 		bool Compare(ProcedureStep procedureStep)
@@ -340,6 +330,7 @@ namespace FiresecService
 				FindObjectsOr(variable, findObjectArguments.FindObjectConditions);
 			else
 				FindObjectsAnd(variable, findObjectArguments.FindObjectConditions);
+			//ProcedureExecutionContext.SynchronizeVariable(variable, ContextType.Server);
 		}
 
 		void GetObjectProperty(ProcedureStep procedureStep)
@@ -351,7 +342,7 @@ namespace FiresecService
 			if (item == null)
 				return;
 			var propertyValue = GetPropertyValue(getObjectPropertyArguments.Property, item);
-			SetValue(target, propertyValue);
+			ProcedureExecutionContext.SetVariableValue(target, propertyValue);
 		}
 
 		Guid GetObjectUid(object item)
@@ -559,7 +550,7 @@ namespace FiresecService
 			var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
 			var zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == itemUid);
 			var guardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == itemUid);
-			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == itemUid);
+			var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == itemUid);
 			var direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == itemUid);
 			var delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == itemUid);
 			if (device != null)
@@ -669,90 +660,65 @@ namespace FiresecService
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUid);
 			if (device == null)
 				return;
-			FiresecServiceManager.SafeFiresecService.GKExecuteDeviceCommand(device.UID, procedureStep.ControlGKDeviceArguments.Command);
+			ProcedureExecutionContext.ControlGKDevice(device.UID, procedureStep.ControlGKDeviceArguments.Command);
 		}
 
 		public void SetJournalItemGuid(ProcedureStep procedureStep)
 		{
-			var setJournalItemGuidArguments = procedureStep.SetJournalItemGuidArguments;
-			if (JournalItem != null)
-			{
-				using (var dbService = new DbService())
-				{
-					var eventUIDString = GetValue<String>(setJournalItemGuidArguments.ValueArgument);
-					Guid eventUID;
-					if (CheckGuid(eventUIDString))
-					{
-						eventUID = new Guid(eventUIDString);
-					}
-					else
-					{
-						return;
-					}
-					dbService.JournalTranslator.SaveVideoUID(JournalItem.UID, eventUID, Guid.Empty);
-				}
-			}
+			//var setJournalItemGuidArguments = procedureStep.SetJournalItemGuidArguments;
+			//if (JournalItem != null)
+			//{
+			//	using (var dbService = new DbService())
+			//	{
+			//		var eventUIDString = GetValue<String>(setJournalItemGuidArguments.ValueArgument);
+			//		Guid eventUID;
+			//		if (CheckGuid(eventUIDString))
+			//		{
+			//			eventUID = new Guid(eventUIDString);
+			//		}
+			//		else
+			//		{
+			//			return;
+			//		}
+			//		dbService.JournalTranslator.SaveVideoUID(JournalItem.UID, eventUID, Guid.Empty);
+			//	}
+			//}
 		}
 
 		void StartRecord(ProcedureStep procedureStep)
 		{
 			var startRecordArguments = procedureStep.StartRecordArguments;
-			var cameraUID = GetValue<Guid>(startRecordArguments.CameraArgument);
-			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUID);
-			if (camera == null)
-				return;
-			var eventUIDString = GetValue<String>(startRecordArguments.EventUIDArgument);
-			Guid eventUID;
-			if (CheckGuid(eventUIDString))
-			{
-				eventUID = new Guid(eventUIDString);
-			}
-			else
-			{
-				return;
-			}
+			var cameraUid = GetValue<Guid>(startRecordArguments.CameraArgument);
+			var timeout = GetValue<int>(startRecordArguments.TimeoutArgument);
 			if (JournalItem != null)
 			{
-				using (var dbService = new DbService())
-				{
-					dbService.JournalTranslator.SaveVideoUID(JournalItem.UID, eventUID, cameraUID);
-				}
-				JournalItem.VideoUID = eventUID;
-				JournalItem.CameraUID = cameraUID;
-				FiresecService.Service.FiresecService.NotifyNewJournalItems(new List<JournalItem>() { JournalItem });
+				Guid eventUid = Guid.NewGuid();
+				SetValue(startRecordArguments.EventUIDArgument, eventUid);
+				ProcedureExecutionContext.StartRecord(JournalItem.UID, cameraUid, eventUid, timeout);
 			}
-			var timeout = GetValue<int>(startRecordArguments.TimeoutArgument);
-			RviClient.RviClientHelper.VideoRecordStart(ConfigurationCashHelper.SystemConfiguration, camera, eventUID, timeout);
 		}
 
 		private void StopRecord(ProcedureStep procedureStep)
 		{
 			var stopRecordArguments = procedureStep.StopRecordArguments;
 			var cameraUid = GetValue<Guid>(stopRecordArguments.CameraArgument);
-			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
-			if (camera == null)
-				return;
-			var eventUID = GetValue<Guid>(stopRecordArguments.EventUIDArgument);
-			RviClient.RviClientHelper.VideoRecordStop(ConfigurationCashHelper.SystemConfiguration, camera, eventUID);
+			var eventUid = GetValue<Guid>(stopRecordArguments.EventUIDArgument);
+			ProcedureExecutionContext.StopRecord(cameraUid, eventUid);
 		}
 
 		public void Ptz(ProcedureStep procedureStep)
 		{
 			var ptzArguments = procedureStep.PtzArguments;
 			var cameraUid = GetValue<Guid>(ptzArguments.CameraArgument);
-			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
-			if (camera == null)
-				return;
 			var ptzNumber = GetValue<int>(ptzArguments.PtzNumberArgument);
-			//RviClient.RviClientHelper.SetPtzPreset(ConfigurationCashHelper.SystemConfiguration, camera, ptzNumber - 1);
-			RviClient.RviClientHelper.SetPtzPreset(ConfigurationCashHelper.SystemConfiguration, camera, ptzNumber);
+			ProcedureExecutionContext.Ptz(cameraUid, ptzNumber);
 		}
 
 		public void RviAlarm(ProcedureStep procedureStep)
 		{
 			var rviAlarmArguments = procedureStep.RviAlarmArguments;
 			var name = GetValue<string>(rviAlarmArguments.NameArgument);
-			RviClient.RviClientHelper.AlarmRuleExecute(ConfigurationCashHelper.SystemConfiguration, name);
+			ProcedureExecutionContext.RviAlarm(name);
 		}
 
 		public void Now(ProcedureStep procedureStep)
@@ -765,119 +731,35 @@ namespace FiresecService
 		{
 			var zoneUid = GetValue<Guid>(procedureStep.ControlGKFireZoneArguments.GKFireZoneArgument);
 			var zoneCommandType = procedureStep.ControlGKFireZoneArguments.ZoneCommandType;
-			if (zoneCommandType == ZoneCommandType.Ignore)
-				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(zoneUid, GKBaseObjectType.Zone);
-			if (zoneCommandType == ZoneCommandType.ResetIgnore)
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(zoneUid, GKBaseObjectType.Zone);
-			if (zoneCommandType == ZoneCommandType.Reset)
-				FiresecServiceManager.SafeFiresecService.GKReset(zoneUid, GKBaseObjectType.Zone);
+			ProcedureExecutionContext.ControlFireZone(zoneUid, zoneCommandType);
 		}
 
 		void ControlGuardZone(ProcedureStep procedureStep)
 		{
 			var zoneUid = GetValue<Guid>(procedureStep.ControlGKGuardZoneArguments.GKGuardZoneArgument);
 			var guardZoneCommandType = procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType;
-			if (guardZoneCommandType == GuardZoneCommandType.Automatic)
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.Ignore)
-				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.Manual)
-				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.Reset)
-				FiresecServiceManager.SafeFiresecService.GKReset(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.TurnOn)
-				FiresecServiceManager.SafeFiresecService.GKTurnOn(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.TurnOnNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.TurnOff)
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.TurnOffNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffNow(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.TurnOnInAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnInAutomatic(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.TurnOnNowInAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnNowInAutomatic(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.TurnOffInAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffInAutomatic(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.TurnOffNowInAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffNowInAutomatic(zoneUid, GKBaseObjectType.GuardZone);
+			ProcedureExecutionContext.ControlGuardZone(zoneUid, guardZoneCommandType);
 		}
 
 		void ControlDirection(ProcedureStep procedureStep)
 		{
 			var directionUid = GetValue<Guid>(procedureStep.ControlDirectionArguments.DirectionArgument);
 			var directionCommandType = procedureStep.ControlDirectionArguments.DirectionCommandType;
-			if (directionCommandType == DirectionCommandType.Automatic)
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(directionUid, GKBaseObjectType.Direction);
-			if (directionCommandType == DirectionCommandType.ForbidStart)
-				FiresecServiceManager.SafeFiresecService.GKStop(directionUid, GKBaseObjectType.Direction);
-			if (directionCommandType == DirectionCommandType.Ignore)
-				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(directionUid, GKBaseObjectType.Direction);
-			if (directionCommandType == DirectionCommandType.Manual)
-				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(directionUid, GKBaseObjectType.Direction);
-			if (directionCommandType == DirectionCommandType.TurnOff)
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(directionUid, GKBaseObjectType.Direction);
-			if (directionCommandType == DirectionCommandType.TurnOn)
-				FiresecServiceManager.SafeFiresecService.GKTurnOn(directionUid, GKBaseObjectType.Direction);
-			if (directionCommandType == DirectionCommandType.TurnOnNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(directionUid, GKBaseObjectType.Direction);
+			ProcedureExecutionContext.ControlDirection(directionUid, directionCommandType);
 		}
 
 		void ControlGKDoor(ProcedureStep procedureStep)
 		{
 			var doorUid = GetValue<Guid>(procedureStep.ControlGKDoorArguments.DoorArgument);
-			var door = GKManager.Doors.FirstOrDefault(x => x.UID == doorUid);
-			if (door == null)
-				return;
-			if (procedureStep.ControlGKDoorArguments.DoorCommandType == GKDoorCommandType.Open)
-				FiresecServiceManager.SafeFiresecService.GKTurnOn(door.UID, GKBaseObjectType.Door);
-			if (procedureStep.ControlGKDoorArguments.DoorCommandType == GKDoorCommandType.Close)
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(door.UID, GKBaseObjectType.Door);
-			if (procedureStep.ControlGKDoorArguments.DoorCommandType == GKDoorCommandType.OpenInAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnInAutomatic(door.UID, GKBaseObjectType.Door);
-			if (procedureStep.ControlGKDoorArguments.DoorCommandType == GKDoorCommandType.CloseInAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffInAutomatic(door.UID, GKBaseObjectType.Door);
-			if (procedureStep.ControlGKDoorArguments.DoorCommandType == GKDoorCommandType.OpenNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(door.UID, GKBaseObjectType.Door);
-			if (procedureStep.ControlGKDoorArguments.DoorCommandType == GKDoorCommandType.CloseNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffNow(door.UID, GKBaseObjectType.Door);
-			if (procedureStep.ControlGKDoorArguments.DoorCommandType == GKDoorCommandType.OpenNowInAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnNowInAutomatic(door.UID, GKBaseObjectType.Door);
-			if (procedureStep.ControlGKDoorArguments.DoorCommandType == GKDoorCommandType.CloseNowInAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffNowInAutomatic(door.UID, GKBaseObjectType.Door);
-			if (procedureStep.ControlGKDoorArguments.DoorCommandType == GKDoorCommandType.OpenForever)
-			{
-				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(door.UID, GKBaseObjectType.Door);
-				FiresecServiceManager.SafeFiresecService.GKTurnOn(door.UID, GKBaseObjectType.Door);
-			}
-			if (procedureStep.ControlGKDoorArguments.DoorCommandType == GKDoorCommandType.CloseForever)
-			{
-				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(door.UID, GKBaseObjectType.Door);
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(door.UID, GKBaseObjectType.Door);
-			}
-			if (procedureStep.ControlGKDoorArguments.DoorCommandType == GKDoorCommandType.Norm)
-			{
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(door.UID, GKBaseObjectType.Door);
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(door.UID, GKBaseObjectType.Door);
-			}
+			var doorCommandType = procedureStep.ControlGKDoorArguments.DoorCommandType;
+			ProcedureExecutionContext.ControlGKDoor(doorUid, doorCommandType);
 		}
 
 		void ControlDelay(ProcedureStep procedureStep)
 		{
 			var delayUid = GetValue<Guid>(procedureStep.ControlDelayArguments.DelayArgument);
 			var delayCommandType = procedureStep.ControlDelayArguments.DelayCommandType;
-			if (delayCommandType == DelayCommandType.Automatic)
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(delayUid, GKBaseObjectType.Delay);
-			if (delayCommandType == DelayCommandType.Ignore)
-				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(delayUid, GKBaseObjectType.Delay);
-			if (delayCommandType == DelayCommandType.Manual)
-				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(delayUid, GKBaseObjectType.Delay);
-			if (delayCommandType == DelayCommandType.TurnOff)
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(delayUid, GKBaseObjectType.Delay);
-			if (delayCommandType == DelayCommandType.TurnOn)
-				FiresecServiceManager.SafeFiresecService.GKTurnOn(delayUid, GKBaseObjectType.Delay);
-			if (delayCommandType == DelayCommandType.TurnOnNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(delayUid, GKBaseObjectType.Delay);
+			ProcedureExecutionContext.ControlDelay(delayUid, delayCommandType);
 		}
 
 		void Pause(ProcedureStep procedureStep)
@@ -908,8 +790,11 @@ namespace FiresecService
 		{
 			var incrementValueArguments = procedureStep.IncrementValueArguments;
 			var variable = AllVariables.FirstOrDefault(x => x.Uid == incrementValueArguments.ResultArgument.VariableUid);
-			if (variable != null)
-				variable.ExplicitValue.IntValue = incrementValueArguments.IncrementType == IncrementType.Inc ? variable.ExplicitValue.IntValue + 1 : variable.ExplicitValue.IntValue - 1;
+			var value = GetValue<int>(incrementValueArguments.ResultArgument);
+			if (incrementValueArguments.IncrementType == IncrementType.Inc)
+				ProcedureExecutionContext.SetVariableValue(variable, value + 1);
+			else
+				ProcedureExecutionContext.SetVariableValue(variable, value - 1);
 		}
 
 		void GetRandomValue(ProcedureStep procedureStep)
@@ -930,10 +815,11 @@ namespace FiresecService
 			variable.EnumType = changeListArguments.ItemArgument.EnumType;
 			variable.ObjectType = changeListArguments.ItemArgument.ObjectType;
 			var itemValue = GetValue<object>(changeListArguments.ItemArgument);
-			SetValue(variable, itemValue);
+			ProcedureExecutionContext.SetVariableValue(variable, itemValue);
 			var explicitValue = variable.ExplicitValue;
 			if (listVariable != null)
 			{
+				//ProcedureExecutionContext.SynchronizeVariable(listVariable, ContextType.Client);
 				switch (changeListArguments.ChangeType)
 				{
 					case ChangeType.AddLast:
@@ -950,6 +836,7 @@ namespace FiresecService
 								changeListArguments.ListArgument.EnumType)));
 						break;
 				}
+				//ProcedureExecutionContext.SynchronizeVariable(listVariable, ContextType.Server);
 			}
 		}
 
@@ -968,7 +855,10 @@ namespace FiresecService
 			var listVariable = AllVariables.FirstOrDefault(x => x.Uid == getListCountArgument.ListArgument.VariableUid);
 			var countVariable = AllVariables.FirstOrDefault(x => x.Uid == getListCountArgument.CountArgument.VariableUid);
 			if ((countVariable != null) && (listVariable != null))
+			{
+				//ProcedureExecutionContext.SynchronizeVariable(listVariable, ContextType.Client);
 				countVariable.ExplicitValue.IntValue = listVariable.ExplicitValues.Count;
+			}
 		}
 
 		void GetListItem(ProcedureStep procedureStep)
@@ -978,15 +868,16 @@ namespace FiresecService
 			var itemVariable = AllVariables.FirstOrDefault(x => x.Uid == getListItemArgument.ItemArgument.VariableUid);
 			if ((itemVariable != null) && (listVariable != null))
 			{
+				ProcedureExecutionContext.SynchronizeVariable(listVariable, ContextType.Client);
 				if (getListItemArgument.PositionType == PositionType.First)
-					SetValue(itemVariable, GetValue<object>(listVariable.ExplicitValues.FirstOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType));
+					ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues.FirstOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType));
 				if (getListItemArgument.PositionType == PositionType.Last)
-					SetValue(itemVariable, GetValue<object>(listVariable.ExplicitValues.LastOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType));
+					ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues.LastOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType));
 				if (getListItemArgument.PositionType == PositionType.ByIndex)
 				{
 					var indexValue = GetValue<int>(getListItemArgument.IndexArgument);
 					if (listVariable.ExplicitValues.Count > indexValue)
-						SetValue(itemVariable, GetValue<object>(listVariable.ExplicitValues[indexValue], itemVariable.ExplicitType, itemVariable.EnumType));
+						ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues[indexValue], itemVariable.ExplicitType, itemVariable.EnumType));
 				}
 			}
 		}
@@ -1010,7 +901,7 @@ namespace FiresecService
 					value = JournalItem.JournalObjectType;
 				if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalObjectUid)
 					value = JournalItem.ObjectUID.ToString();
-				SetValue(resultVariable, value);
+				ProcedureExecutionContext.SetVariableValue(resultVariable, value);
 			}
 		}
 
@@ -1076,34 +967,16 @@ namespace FiresecService
 			var minDate = GetValue<DateTime>(arguments.MinDateArgument);
 			var maxDate = GetValue<DateTime>(arguments.MaxDateArgument);
 			var path = GetValue<string>(arguments.PathArgument);
-			var result = FiresecServiceManager.SafeFiresecService.ExportJournal(
-				new JournalExportFilter
-				{
-					IsExportJournal = isExportJournal,
-					IsExportPassJournal = isExportPassJournal,
-					MaxDate = maxDate,
-					MinDate = minDate,
-					Path = path
-				});
-			if (result.HasError)
-				BalloonHelper.ShowFromServer("Экспорт журнала " + result.Error);
+			ProcedureExecutionContext.ExportJournal(isExportJournal, isExportPassJournal, minDate, maxDate, path);
 		}
 
 		void ExportOrganisation(ProcedureStep procedureStep)
 		{
 			var arguments = procedureStep.ExportOrganisationArguments;
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
-			var organisationUID = GetValue<Guid>(arguments.Organisation);
+			var organisationUid = GetValue<Guid>(arguments.Organisation);
 			var path = GetValue<string>(arguments.PathArgument);
-			var result = FiresecServiceManager.SafeFiresecService.ExportOrganisation(
-				new ExportFilter
-				{
-					IsWithDeleted = isWithDeleted,
-					OrganisationUID = organisationUID,
-					Path = path
-				});
-			if (result.HasError)
-				BalloonHelper.ShowFromServer(result.Error);
+			ProcedureExecutionContext.ExportOrganisation(isWithDeleted, organisationUid, path);
 		}
 
 		void ExportOrganisationList(ProcedureStep procedureStep)
@@ -1111,14 +984,7 @@ namespace FiresecService
 			var arguments = procedureStep.ImportOrganisationArguments;
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
 			var path = GetValue<string>(arguments.PathArgument);
-			var result = FiresecServiceManager.SafeFiresecService.ExportOrganisationList(
-				new ExportFilter
-				{
-					IsWithDeleted = isWithDeleted,
-					Path = path
-				});
-			if (result.HasError)
-				BalloonHelper.ShowFromServer(result.Error);
+			ProcedureExecutionContext.ExportOrganisationList(isWithDeleted, path);
 		}
 
 		void ExportConfiguration(ProcedureStep procedureStep)
@@ -1128,16 +994,7 @@ namespace FiresecService
 			var isExportDoors = GetValue<bool>(arguments.IsExportDoors);
 			var isExportZones = GetValue<bool>(arguments.IsExportZones);
 			var path = GetValue<string>(arguments.PathArgument);
-			var result = FiresecServiceManager.SafeFiresecService.ExportConfiguration(
-				new ConfigurationExportFilter
-				{
-					IsExportDevices = isExportDevices,
-					IsExportDoors = isExportDoors,
-					IsExportZones = isExportZones,
-					Path = path
-				});
-			if (result.HasError)
-				BalloonHelper.ShowFromServer(result.Error);
+			ProcedureExecutionContext.ExportConfiguration(isExportDevices, isExportDoors, isExportZones, path);
 		}
 
 		void ImportOrganisation(ProcedureStep procedureStep)
@@ -1145,14 +1002,7 @@ namespace FiresecService
 			var arguments = procedureStep.ImportOrganisationArguments;
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
 			var path = GetValue<string>(arguments.PathArgument);
-			var result = FiresecServiceManager.SafeFiresecService.ImportOrganisation(
-				new ImportFilter
-				{
-					IsWithDeleted = isWithDeleted,
-					Path = path
-				});
-			if (result.HasError)
-				BalloonHelper.ShowFromServer(result.Error);
+			ProcedureExecutionContext.ImportOrganisation(isWithDeleted, path);
 		}
 
 		void ImportOrganisationList(ProcedureStep procedureStep)
@@ -1160,70 +1010,19 @@ namespace FiresecService
 			var arguments = procedureStep.ImportOrganisationArguments;
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
 			var path = GetValue<string>(arguments.PathArgument);
-			var result = FiresecServiceManager.SafeFiresecService.ImportOrganisationList(
-				new ImportFilter
-				{
-					IsWithDeleted = isWithDeleted,
-					Path = path
-				});
-			if (result.HasError)
-				BalloonHelper.ShowFromServer(result.Error);
+			ProcedureExecutionContext.ImportOrganisationList(isWithDeleted, path);
 		}
 
 		void SetValue(Argument argument, object propertyValue)
 		{
-			var variable = AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);
-			if (variable != null)
-				SetValue(variable, propertyValue);
+			ProcedureExecutionContext.SetVariableValue(AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid), propertyValue);
 		}
-		void SetValue(Variable target, object propertyValue)
+		
+		T GetValue<T>(Argument argument)
 		{
-			if (target.ExplicitType == ExplicitType.Integer)
-				target.ExplicitValue.IntValue = Convert.ToInt32(propertyValue);
-			if (target.ExplicitType == ExplicitType.String)
-				target.ExplicitValue.StringValue = Convert.ToString(propertyValue);
-			if (target.ExplicitType == ExplicitType.Boolean)
-				target.ExplicitValue.BoolValue = Convert.ToBoolean(propertyValue);
-			if (target.ExplicitType == ExplicitType.DateTime)
-				target.ExplicitValue.DateTimeValue = Convert.ToDateTime(propertyValue);
-			if (target.ExplicitType == ExplicitType.Object)
-				target.ExplicitValue.UidValue = (Guid)propertyValue;
-			if (target.ExplicitType == ExplicitType.Enum)
-			{
-				if (target.EnumType == EnumType.DriverType)
-					target.ExplicitValue.DriverTypeValue = (GKDriverType)propertyValue;
-				if (target.EnumType == EnumType.StateType)
-					target.ExplicitValue.StateTypeValue = (XStateClass)propertyValue;
-				if (target.EnumType == EnumType.PermissionType)
-					target.ExplicitValue.PermissionTypeValue = (PermissionType)propertyValue;
-				if (target.EnumType == EnumType.JournalEventNameType)
-					target.ExplicitValue.JournalEventNameTypeValue = (JournalEventNameType)propertyValue;
-				if (target.EnumType == EnumType.JournalEventDescriptionType)
-					target.ExplicitValue.JournalEventDescriptionTypeValue = (JournalEventDescriptionType)propertyValue;
-				if (target.EnumType == EnumType.JournalObjectType)
-					target.ExplicitValue.JournalObjectTypeValue = (JournalObjectType)propertyValue;
-				if (target.EnumType == EnumType.ColorType)
-					target.ExplicitValue.ColorValue = (Color)propertyValue;
-			}
-		}
-
-		T GetValue<T>(Argument variable)
-		{
-			var variableScope = variable.VariableScope;
-			var explicitType = variable.ExplicitType;
-			var enumType = variable.EnumType;
-			var explicitValue = variable.ExplicitValue;
-			if (variableScope != VariableScope.ExplicitValue)
-			{
-				var argument = AllVariables.FirstOrDefault(x => x.Uid == variable.VariableUid);
-				if (argument != null)
-				{
-					explicitValue = argument.ExplicitValue;
-					explicitType = argument.ExplicitType;
-					enumType = argument.EnumType;
-				}
-			}
-			return (T)GetValue<object>(explicitValue, explicitType, enumType);
+			return argument.VariableScope == VariableScope.ExplicitValue ?
+				(T)ProcedureExecutionContext.GetValue(argument.ExplicitValue, argument.ExplicitType, argument.EnumType) :
+				(T)ProcedureExecutionContext.GetVariableValue(AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid));
 		}
 
 		bool CheckGuid(string guidString)
@@ -1233,39 +1032,6 @@ namespace FiresecService
 			if (!String.IsNullOrEmpty(guidString) && guidRegEx.IsMatch(guidString))
 				return true;
 			return false;
-		}
-
-		T GetValue<T>(ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)
-		{
-			var result = new object();
-			if (explicitType == ExplicitType.Boolean)
-				result = explicitValue.BoolValue;
-			if (explicitType == ExplicitType.DateTime)
-				result = explicitValue.DateTimeValue;
-			if (explicitType == ExplicitType.Integer)
-				result = explicitValue.IntValue;
-			if (explicitType == ExplicitType.String)
-				result = explicitValue.StringValue;
-			if (explicitType == ExplicitType.Object)
-				result = explicitValue.UidValue;
-			if (explicitType == ExplicitType.Enum)
-			{
-				if (enumType == EnumType.DriverType)
-					result = explicitValue.DriverTypeValue;
-				if (enumType == EnumType.StateType)
-					result = explicitValue.StateTypeValue;
-				if (enumType == EnumType.PermissionType)
-					result = explicitValue.PermissionTypeValue;
-				if (enumType == EnumType.JournalEventNameType)
-					result = explicitValue.JournalEventNameTypeValue;
-				if (enumType == EnumType.JournalEventDescriptionType)
-					result = explicitValue.JournalEventDescriptionTypeValue;
-				if (enumType == EnumType.JournalObjectType)
-					result = explicitValue.JournalObjectTypeValue;
-				if (enumType == EnumType.ColorType)
-					result = explicitValue.ColorValue.ToString();
-			}
-			return (T)result;
 		}
 	}
 }

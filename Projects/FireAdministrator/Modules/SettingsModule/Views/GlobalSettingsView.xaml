@@ -56,11 +56,13 @@
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Разрешить удаленные соединения на сервере" VerticalAlignment="Center" />
 				<CheckBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Server_EnableRemoteConnections}" />
-
-				<Views:DbSettingsView Grid.Row="1" Grid.ColumnSpan="2" DataContext="{Binding DbSettingsViewModel}" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="IP-адрес сервера" VerticalAlignment="Center" />
+				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Server_RemoteIpAddress}" />
+				<Views:DbSettingsView Grid.Row="2" Grid.ColumnSpan="2" DataContext="{Binding DbSettingsViewModel}" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Автозапуск">

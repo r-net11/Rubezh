@@ -86,13 +86,13 @@
 					</Grid.RowDefinitions>
 
 					<TextBlock Grid.Row="0" Grid.Column="0" Text="Локальный адрес сервера" Foreground="{DynamicResource ForegroundColorWhite}" VerticalAlignment="Center" Margin="2" />
-					<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding LocalAddress}" Margin="2" />
+					<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding LocalAddress}" IsReadOnly="True" Margin="2" />
 
 					<TextBlock Grid.Row="1" Grid.Column="0" Text="Удаленный адрес сервера" Foreground="{DynamicResource ForegroundColorWhite}" VerticalAlignment="Center" Margin="2" />
-					<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding RemoteAddress}" Margin="2" />
+					<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding RemoteAddress}" IsReadOnly="True" Margin="2" />
 
 					<TextBlock Grid.Row="2" Grid.Column="0" Text="Адрес сервера отчетов" Foreground="{DynamicResource ForegroundColorWhite}" VerticalAlignment="Center" Margin="2" />
-					<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ReportAddress}" Margin="2" />
+					<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ReportAddress}" IsReadOnly="True" Margin="2" />
 				</Grid>
 			</TabItem>
 			<TabItem Header="ГК" DataContext="{Binding ServerTasksViewModel}">

@@ -169,6 +169,7 @@
     <Compile Include="Journal\JournalItemsCollection.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="Models\Automation\Argument.cs" />
+    <Compile Include="Models\Automation\ContextType.cs" />
     <Compile Include="Models\Automation\ElementProperty.cs" />
     <Compile Include="Models\Automation\EnumType.cs" />
     <Compile Include="Models\Automation\OPC\OPCTag.cs" />

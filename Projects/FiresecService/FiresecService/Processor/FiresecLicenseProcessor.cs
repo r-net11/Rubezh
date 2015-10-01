@@ -48,7 +48,12 @@ namespace FiresecService.Processor
 			};
 			var awaiter = new Thread(() =>
 			{
-				if (!waitHandler.WaitOne(TimeSpan.FromHours(2)))
+#if DEBUG
+				if (!waitHandler.WaitOne(TimeSpan.FromMinutes(2)))
+#else
+				//if (!waitHandler.WaitOne(TimeSpan.FromHours(2)))
+				if (!waitHandler.WaitOne(TimeSpan.FromMinutes(2)))
+#endif
 					SetNoLicense();
 			}) { Name = "DemoIntervalAwaiter", IsBackground = true };
 			awaiter.Start();

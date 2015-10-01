@@ -21,6 +21,7 @@ namespace AutomationModule.ViewModels
 		{
 			ControlVisualArguments = stepViewModel.Step.ControlVisualArguments;
 			ControlElementType = controlElementType;
+			IsServerContext = Procedure.ContextType == ContextType.Server;
 			ValueArgument = new ArgumentViewModel(ControlVisualArguments.Argument, stepViewModel.Update, UpdateContent, controlElementType == ControlElementType.Set);
 		}
 
@@ -110,8 +111,19 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		bool _isServerContext;
+		public bool IsServerContext
+		{
+			get { return _isServerContext; }
+			set
+			{
+				_isServerContext = value;
+				OnPropertyChanged(() => IsServerContext);
+			}
+		}
 		public override void UpdateContent()
 		{
+			IsServerContext = Procedure.ContextType == ContextType.Server;
 			Layouts = new ObservableCollection<LayoutViewModel>(FiresecManager.LayoutsConfiguration.Layouts.Select(item => new LayoutViewModel(item)));
 			SelectedLayout = Layouts.FirstOrDefault(x => x.Layout.UID == ControlVisualArguments.Layout);
 			OnPropertyChanged(() => Layouts);

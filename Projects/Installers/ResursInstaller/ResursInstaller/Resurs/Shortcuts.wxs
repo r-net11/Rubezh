@@ -5,7 +5,7 @@
     <Icon Id="Resurs.Icon" SourceFile="Data\Resurs.ico"/>
 
     <DirectoryRef Id="DesktopFolder">
-      <Component Id="Resurs.DesktopShortcut" Guid="FE686634-FADD-430e-9967-18C7D8AC1C81">
+      <Component Id="Resurs.DesktopShortcut" Guid="{1A9B7833-ACE0-4991-B1FD-198780A0FAED}">
         <Shortcut Id="Resurs.DesktopShortcut" Name="$(var.ResursName)" Target="[RESURSLOCATION]Resurs.exe"
 						WorkingDirectory="RESURSLOCATION" Description="$(var.ResursDescription)" Icon="Resurs.Icon"/>
         <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\$(var.ResursName)" Name="Shortcut" Type="integer" Value="1" KeyPath="yes" />
@@ -14,7 +14,7 @@
     </DirectoryRef>
 
     <DirectoryRef Id="ProgramMenuDir">
-      <Component Id="Resurs.ProgramsMenuShortcut" Guid="F2EEC003-B453-4ad1-95C3-037F49968DE4">
+      <Component Id="Resurs.ProgramsMenuShortcut" Guid="{9429541A-EC6C-4B30-9DC7-BC0C60F7D39E}">
         <Shortcut Id="Resurs.ProgramsMenuShortcut" Name="$(var.ResursName)" Target="[RESURSLOCATION]Resurs.exe"
 				    WorkingDirectory="RESURSLOCATION" Description="$(var.ResursDescription)" Icon="Resurs.Icon"/>
         <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\$(var.ResursName)" Name="installed" Type="integer" Value="1" KeyPath="yes" />

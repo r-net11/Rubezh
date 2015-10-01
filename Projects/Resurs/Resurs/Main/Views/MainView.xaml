@@ -43,7 +43,8 @@
 			<TabItem Header="Абоненты" DataContext="{Binding ApartmentsViewModel}">
 				<Views:ApartmentsView />
 			</TabItem>
-			<TabItem Header="Тарифы">
+			<TabItem Header="Тарифы" DataContext="{Binding TariffsViewModel}">
+				<Views:TariffsView />
 			</TabItem>
 			<TabItem Header="Графики">
 			</TabItem>

@@ -56,10 +56,14 @@ namespace Infrastructure.Common
 			try
 			{
 				var hostName = System.Net.Dns.GetHostName();
-				IPHostEntry ipEntry = System.Net.Dns.GetHostEntry(hostName);
-				IPAddress[] addresses = ipEntry.AddressList;
-				var ipV6Address = addresses.FirstOrDefault(x => x.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
-				return ipV6Address.ToString();
+				var ipEntry = System.Net.Dns.GetHostEntry(hostName);
+				var addresses = ipEntry.AddressList.Where(x => x.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
+				var remoteIpAddress = IPAddress.None;
+				var isValid = IPAddress.TryParse(GlobalSettingsHelper.GlobalSettings.Server_RemoteIpAddress, out remoteIpAddress);
+				
+				return isValid && addresses.Any(x => x.Equals(remoteIpAddress)) ?
+					remoteIpAddress.ToString() :
+					Convert.ToString(addresses.FirstOrDefault());
 			}
 			catch (Exception e)
 			{

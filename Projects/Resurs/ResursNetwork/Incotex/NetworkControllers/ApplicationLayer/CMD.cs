@@ -53,6 +53,54 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// <summary>
         /// Установка числа действующих тари-фов
         /// </summary>
-        SetActiveTariffs
+        SetActiveTariffs,
+        /// <summary>
+        /// Чтение группового адреса счетчика
+        /// </summary>
+        ReadGroupAddress = 0x20,
+        /// <summary>
+        /// Чтение внутренних часов и календаря счетчика
+        /// </summary>
+        ReadDateTime = 0x21,
+        /// <summary>
+        /// Чтение лимита мощности
+        /// </summary>
+        ReadPowerLimit = 0x22,
+        /// <summary>
+        /// Чтение лимита энергии за месяц
+        /// </summary>
+        ReadPowerLimitPerMonth = 0x23,
+        /// <summary>
+        /// Чтение флага сезонного времени 
+        /// </summary>
+        ReadPeriodTimeFlag = 0x24,
+        /// <summary>
+        /// Чтение величины коррекции времени 
+        /// </summary>
+        ReadCorrectionTimeValue = 0x25,
+        /// <summary>
+        /// Чтение текущей мощности в нагрузке
+        /// </summary>
+        ReadCurrentPowerLoad = 0x26,
+        /// <summary>
+        /// Чтение содержимого тарифных аккумуляторов
+        /// </summary>
+        ReadTariffAccumulators = 0x27,
+        /// <summary>
+        /// Чтение идентификационных данных счетчика
+        /// </summary>
+        ReadDeviceId = 0x28,
+        /// <summary>
+        /// Чтение напряжения на литиевой батарее
+        /// </summary>
+        ReadBattaryVoltage = 0x29,
+        /// <summary>
+        /// Чтение режима индикации
+        /// </summary>
+        ReadIndicationMode = 0x2A,
+        /// <summary>
+        /// Чтение времени последнего отключения напряжения
+        /// </summary>
+        ReadLastPowerFailure = 0x21
     }
 }
