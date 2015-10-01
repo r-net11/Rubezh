@@ -254,7 +254,7 @@ namespace ResursNetwork.Incotex.Model
             var transaction = new Transaction(TransactionType.UnicastMode, request);
             transaction.TransactionWasEnded += _TransactionHandler;
             _ActiveCommands.Add(new DeviceCommand() { Transaction = transaction });
-            //((IncotexNetworkController)_NetworkController).Write(transaction);
+            ((IncotexNetworkController)_NetworkController).Write(transaction);
             return transaction;
         }
         /// <summary>
@@ -340,6 +340,7 @@ namespace ResursNetwork.Incotex.Model
             var transaction = new Transaction(TransactionType.UnicastMode, request);
             transaction.TransactionWasEnded += _TransactionHandler;
             _ActiveCommands.Add(new DeviceCommand() { Transaction = transaction });
+            ((IncotexNetworkController)_NetworkController).Write(transaction);
             return transaction;
         }
         /// <summary>
@@ -357,6 +358,7 @@ namespace ResursNetwork.Incotex.Model
             var transaction = new Transaction(TransactionType.UnicastMode, request);
             transaction.TransactionWasEnded += _TransactionHandler;
             _ActiveCommands.Add(new DeviceCommand() { Transaction = transaction });
+            ((IncotexNetworkController)_NetworkController).Write(transaction);
             return transaction;
         }
         /// <summary>
@@ -374,6 +376,7 @@ namespace ResursNetwork.Incotex.Model
             var transaction = new Transaction(TransactionType.UnicastMode, request);
             transaction.TransactionWasEnded += _TransactionHandler;
             _ActiveCommands.Add(new DeviceCommand() { Transaction = transaction });
+            ((IncotexNetworkController)_NetworkController).Write(transaction);
             return transaction;
         }
         #endregion

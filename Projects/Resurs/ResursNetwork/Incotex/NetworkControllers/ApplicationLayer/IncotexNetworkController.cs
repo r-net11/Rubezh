@@ -27,6 +27,12 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         private static DeviceType[] _SupportedDevices = new DeviceType[] { DeviceType.Mercury203 };
         private static Type[] _SupportedInterfaces = new Type[] { typeof(Incotex.NetworkControllers.DataLinkLayer.ComPort) }; 
 
+        /// <summary>
+        /// Хранит входящее сообщение от удалённого устройтсва во 
+        /// время действия сетевой транзакции
+        /// </summary>
+        private DataMessage _CurrentIncomingMessage;
+
         private Transaction _CurrentTransaction;
         /// <summary>
         /// Возвращает состояние текущей сетевой транзакции
@@ -42,8 +48,8 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         {
             get
             {
-                return ((Status == Status.Running) || (CurrentTransaction == null) || 
-                    (!CurrentTransaction.IsRunning)) ? true : false;
+                return ((Status == Status.Running) && ((CurrentTransaction == null) || 
+                    (!CurrentTransaction.IsRunning))) ? true : false;
             }
         }
         /// <summary>
@@ -106,12 +112,23 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 
         private int _BroadcastRequestDelay = 2000; // Значение по умолчанию
         /// <summary>
-        /// Выдержка времени после выполнения широковешательного запроса
+        /// Выдержка времени (мсек) после выполнения широковешательного запроса
         /// </summary>
         public int BroadcastRequestDelay
         {
             get { return _BroadcastRequestDelay; }
-            set { _BroadcastRequestDelay = value; }
+            set 
+            {
+                if (value > 0)
+                {
+                    _BroadcastRequestDelay = value;
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("BroadcastRequestDelay", 
+                        "Недопустимое значение параметра");
+                }
+            }
         }
 
         private int _TotalAttempts;
@@ -148,10 +165,6 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         }
 
         private AutoResetEvent _AutoResetEvent;
-        /// <summary>
-        /// Буфер исходящих сообщений
-        /// </summary>
-        private Queue<Transaction> _OutputBuffer;
 
         private static object _SyncRoot = new object(); 
         #endregion
@@ -162,7 +175,6 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// </summary>
         public IncotexNetworkController()
         {
-            _OutputBuffer = new Queue<Transaction>();
             _AutoResetEvent = new AutoResetEvent(false);
 
             _DataSyncTimer = new System.Timers.Timer()
@@ -194,6 +206,17 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                     (methodInfo.ReturnType == typeof(Transaction)))
                 {
                     // Записываем транзакцию в выходной буфер
+                    for (int i = 0; i < 10; i++)
+                    {
+                        if (IsReady)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            Thread.Sleep(100);
+                        }
+                    }
                     Write((Transaction)methodInfo.Invoke(device, new object[0]));
                 }
             }
@@ -297,8 +320,8 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             }
 
             // Обрабатывает сообщение
-            //_AutoResetEvent.Set();
-            _CurrentTransaction.Stop(dataMessages[0]);
+            _AutoResetEvent.Set();
+            _CurrentIncomingMessage = dataMessages[0];
         }
         /// <summary>
         /// 
@@ -326,40 +349,46 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             //            }
             //        }
             //    }
-                while (_OutputBuffer.Count > 0)
-                {
-                    Transaction trn;
 
-                    if (cancel.IsCancellationRequested)
-                    {
-                        break;
-                    }
+                //while (_OutputBuffer.Count > 0)
+                //{
+                //    Transaction trn;
 
-                    lock(_SyncRoot)
-                    {
-                        trn = _OutputBuffer.Dequeue();
-                    }
-                    _Connection.Write(trn.Request);
-                }
+                //    if (cancel.IsCancellationRequested)
+                //    {
+                //        break;
+                //    }
+
+                //    lock(_SyncRoot)
+                //    {
+                //        trn = _OutputBuffer.Dequeue();
+                //    }
+                //    _Connection.Write(trn.Request);
+                //}
                 Thread.Sleep(200);
             }
         }
         /// <summary>
         /// Выполняет сетевую транзакцию 
         /// </summary>
-        /// <param name="trn"></param>
-        private void Execute(Transaction trn)
+        /// <param name="transaction"></param>
+        public override void Write(Transaction transaction)
         {
-            if ((trn.TransactionType != TransactionType.BroadcastMode) ||
-                (trn.TransactionType != TransactionType.UnicastMode))
+            if (!IsReady)
+            {
+                throw new InvalidOperationException("Невозможно выполнить операцию: контроллер занят");
+            }
+
+            if ((transaction.TransactionType != TransactionType.BroadcastMode) &&
+                (transaction.TransactionType != TransactionType.UnicastMode))
             {
                 throw new InvalidOperationException(
-                    String.Format("Попытка запустить сетевую транзакцию с недопустимым типом: {}", 
-                    trn.TransactionType));
+                    String.Format("Попытка запустить сетевую транзакцию с недопустимым типом: {0}",
+                    transaction.TransactionType));
             }
 
             // Устанавливаем транзакцию в качестве текущей
-            _CurrentTransaction = trn;
+            _CurrentTransaction = transaction;
 
             // Отправляем запрос к удалённому устройтву
             _CurrentTransaction.Start();
@@ -377,12 +406,26 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                             // TimeOut!!! Прекращает текущую транзакцию
                             _CurrentTransaction.Abort("Request timeout");
                         }
+                        else
+                        {
+                            // Ответ получен
+                            _CurrentTransaction.Stop(_CurrentIncomingMessage);
+                            _CurrentIncomingMessage = null;
+                        }
                         break;
                     }
                 case TransactionType.BroadcastMode:
                     {
-                        Thread.Sleep(100);
-                        _CurrentTransaction.Stop(null);
+                        if (!_AutoResetEvent.WaitOne(_BroadcastRequestDelay))
+                        {
+                            _CurrentTransaction.Stop(null);
+                        }
+                        else
+                        {
+                            _CurrentIncomingMessage = null;
+                            throw new Exception(
+                                "Принят ответ от удалённого устройтства во время широковещательного запроса");
+                        }
                         break;
                     }
                 default:
@@ -392,28 +435,6 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             }
         }
         
-        /// <summary>
-        /// Записывает исходящее сообщение в выходной буфер
-        /// </summary>
-        /// <param name="transaction">Сетевая транзакция</param>
-        public override void Write(Transaction transaction)
-        {
-            if (Status == Management.Status.Running)
-            {
-                lock(_SyncRoot)
-                {
-                    transaction.Start();
-                    _CurrentTransaction = transaction;
-                    //_OutputBuffer.Enqueue(transaction);
-                    _Connection.Write(transaction.Request);
-                }
-            }
-            else
-            {
-                throw new InvalidOperationException("Контроллер сети не активен");
-            }
-        }
-
         #endregion
 
         #region Events
