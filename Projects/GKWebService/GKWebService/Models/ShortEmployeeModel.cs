@@ -6,7 +6,7 @@ using FiresecAPI.SKD;
 
 namespace GKWebService.Models
 {
-    public class EmployeeModel
+    public class ShortEmployeeModel
     {
         public Guid UID { get; set; }
         public Guid OrganisationUID { get; set; }
@@ -19,16 +19,16 @@ namespace GKWebService.Models
         public bool IsDeleted { get; set; }
         public string RemovalDate { get; set; }
 
-        public static EmployeeModel CreateFromOrganisation(Organisation organisation)
+        public static ShortEmployeeModel CreateFromOrganisation(Organisation organisation)
         {
-            var model = new EmployeeModel();
+            var model = new ShortEmployeeModel();
             model.InitializeOrganisation(organisation);
             return model;
         }
 
-        public static EmployeeModel CreateFromModel(ShortEmployee employee, IEnumerable<EmployeeModel> organisations)
+        public static ShortEmployeeModel CreateFromModel(ShortEmployee employee, IEnumerable<ShortEmployeeModel> organisations)
         {
-            var model = new EmployeeModel();
+            var model = new ShortEmployeeModel();
             model.InitializeModel(employee, organisations);
             return model;
         }
@@ -45,7 +45,7 @@ namespace GKWebService.Models
             IsLeaf = true;
         }
 
-        private void InitializeModel(ShortEmployee employee, IEnumerable<EmployeeModel> organisations)
+        private void InitializeModel(ShortEmployee employee, IEnumerable<ShortEmployeeModel> organisations)
         {
             UID = employee.UID;
             OrganisationUID = employee.OrganisationUID;

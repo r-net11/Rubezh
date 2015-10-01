@@ -24,7 +24,7 @@ namespace GKWebService.Controllers
 
         public JsonResult GetOrganisations()
         {
-            var employeeModels = new List<EmployeeModel>();
+            var employeeModels = new List<ShortEmployeeModel>();
             var organisationFilter = new OrganisationFilter ();
             var organisations = OrganisationHelper.Get(organisationFilter);
             employeeModels.AddRange(InitializeOrganisations(organisations));
@@ -43,14 +43,14 @@ namespace GKWebService.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        private IEnumerable<EmployeeModel> InitializeEmployees(IEnumerable<ShortEmployee> employees, IEnumerable<EmployeeModel> organisations)
+        private IEnumerable<ShortEmployeeModel> InitializeEmployees(IEnumerable<ShortEmployee> employees, IEnumerable<ShortEmployeeModel> organisations)
         {
-            return employees.Select(e => EmployeeModel.CreateFromModel(e, organisations)).ToList();
+            return employees.Select(e => ShortEmployeeModel.CreateFromModel(e, organisations)).ToList();
         }
 
-        private IEnumerable<EmployeeModel> InitializeOrganisations(IEnumerable<Organisation> organisations)
+        private IEnumerable<ShortEmployeeModel> InitializeOrganisations(IEnumerable<Organisation> organisations)
         {
-            return organisations.Select(EmployeeModel.CreateFromOrganisation).ToList();
+            return organisations.Select(ShortEmployeeModel.CreateFromOrganisation).ToList();
         }
     }
 }
