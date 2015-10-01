@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using System.Data.SqlTypes;
+using Common;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using LinqKit;
@@ -260,14 +261,13 @@ namespace SKDDriver.Translators
 
 					passJournalItem.ZoneUID = dayTimeTrackPart.TimeTrackZone.UID;
 					passJournalItem.EnterTime = dayTimeTrackPart.EnterDateTime.GetValueOrDefault();
-					passJournalItem.ExitTime = dayTimeTrackPart.ExitDateTime.GetValueOrDefault();
+					passJournalItem.ExitTime = dayTimeTrackPart.ExitDateTime;
 					passJournalItem.IsNeedAdjustment = dayTimeTrackPart.IsNeedAdjustment;
 					passJournalItem.AdjustmentDate = dayTimeTrackPart.AdjustmentDate;
 					passJournalItem.CorrectedByUID = dayTimeTrackPart.CorrectedByUID;
 					passJournalItem.NotTakeInCalculations = dayTimeTrackPart.NotTakeInCalculations;
 					passJournalItem.IsAddedManually = dayTimeTrackPart.IsManuallyAdded;
-
-					if (passJournalItem.IsOpen)
+					if (dayTimeTrackPart.IsForceClosed)
 					{
 						passJournalItem.ExitTimeOriginal = passJournalItem.ExitTime;
 						passJournalItem.IsOpen = default(bool);
