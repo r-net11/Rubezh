@@ -208,15 +208,28 @@ namespace SKDModule.ViewModels
 				});
 		}
 
+		private List<DayTimeTrackPart> FilterFromDuplicates(IEnumerable<DayTimeTrackPart> firstCollection, IEnumerable<DayTimeTrackPart> secondCollection)
+		{
+			var numerableCollection = firstCollection.Union(secondCollection);
+			var resultCollection = new List<DayTimeTrackPart>();
+			foreach (var dayTimeTrackPart in numerableCollection.Where(dayTimeTrackPart => resultCollection.All(x => x.UID != dayTimeTrackPart.UID)))
+			{
+				resultCollection.Add(dayTimeTrackPart);
+			}
+
+			return resultCollection;
+		}
+
 		public bool Validate()
 		{
 			var intersectionCollectionFromServer = PassJournalHelper.GetIntersectionIntervals(CurrentTimeTrackPart.ToDTO(), _parent.ShortEmployee).Select(x => new DayTimeTrackPart(x));
 			var intersectionCollectionFromUI = GetIntersectionIntervals(_parent);
 
-			if (!intersectionCollectionFromServer.Any() && !intersectionCollectionFromUI.Any()) return true;
+			var resultCollection = FilterFromDuplicates(intersectionCollectionFromServer, intersectionCollectionFromUI);
 
-			DialogService.ShowModalWindow(new WarningIntersectionIntervalDialogWindowViewModel(CurrentTimeTrackPart,
-				intersectionCollectionFromServer.Union(intersectionCollectionFromUI)));
+			if (!resultCollection.Any()) return true;
+
+			DialogService.ShowModalWindow(new WarningIntersectionIntervalDialogWindowViewModel(CurrentTimeTrackPart, resultCollection));
 			return false;
 		}
 

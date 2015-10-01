@@ -200,6 +200,7 @@ namespace SKDDriver.Translators
 
 						resultCollection.Add(new DayTimeTrackPart
 						{
+							UID = linkedInterval.UID,
 							EnterDateTime = linkedInterval.EnterTime,
 							ExitDateTime = linkedInterval.ExitTime,
 							TimeTrackZone = new TimeTrackZone
@@ -214,6 +215,7 @@ namespace SKDDriver.Translators
 				{
 					resultCollection.Add(new DayTimeTrackPart
 					{
+						UID = linkedInterval.UID,
 						EnterDateTime = linkedInterval.EnterTime,
 						ExitDateTime = linkedInterval.ExitTime,
 						TimeTrackZone = new TimeTrackZone { Name = skdZone != null ? skdZone.Name : string.Empty }

@@ -115,7 +115,20 @@ namespace SKDModule.ViewModels
 				CardTypes = new ObservableCollection<CardType>(Enum.GetValues(typeof(CardType)).OfType<CardType>());
 			}
 
+			IsAlternativeLockParams = card.IsHandicappedCard;
 			SelectedCardType = IsNewCard ? CardTypes.FirstOrDefault() : Card.CardType;
+		}
+
+		private uint? _numberFromUSB;
+
+		public uint? NumberFromUSB
+		{
+			get { return _numberFromUSB; }
+			set
+			{
+				_numberFromUSB = value;
+				OnPropertyChanged(() => NumberFromUSB);
+			}
 		}
 
 		uint? _number;
@@ -373,22 +386,23 @@ namespace SKDModule.ViewModels
 			var cardNumberViewModel = new CardNumberViewModel();
 			if (DialogService.ShowModalWindow(cardNumberViewModel))
 			{
-				Number = (uint)cardNumberViewModel.Number;
+				NumberFromUSB = (uint)cardNumberViewModel.Number;
 			}
 		}
 
 		protected override bool Save()
 		{
-			var manualInputValidationCondition = (IsFirstRadioButtonChecked || EnableValidationForUSB) && Number == null;
+			var manualInputValidationCondition = IsFirstRadioButtonChecked && Number == null;
 			var useReaderValidationCondition = UseReader && NumberFromControlReader == null;
+			var USBReaderValidationCondition = EnableValidationForUSB && NumberFromUSB == null;
 
-			if (manualInputValidationCondition || useReaderValidationCondition)
+			if (manualInputValidationCondition || useReaderValidationCondition || USBReaderValidationCondition)
 			{
 				MessageBoxService.ShowError("Введите номер карты", "Неверный номер карты");
 				return false;
 			}
 
-			Card = CopyCardData(IsEnableFromDeactivationCard);
+			Card = CopyCardData(IsEnableFromDeactivationCard, UseReader);
 
 			if (!Validate())
 				return false;
@@ -401,9 +415,19 @@ namespace SKDModule.ViewModels
 			return true;
 		}
 
-		private SKDCard CopyCardData(bool useFromDeactivate)
+		private SKDCard GetCardLogic(bool useFromDeactivate, bool useControlReader)
 		{
 			var resultCard = new SKDCard();
+			var number = new uint?[] {NumberFromControlReader, Number, NumberFromUSB}.FirstOrDefault(x => x != null);
+			var stopListCard = StopListCards.FirstOrDefault(x => x.Number == number);
+			if (stopListCard != null)
+			{
+				if (MessageBoxService.ShowQuestion("Карта с таким номером была ранее деактивирована. Использовать её?"))
+				{
+					SelectedStopListCard = stopListCard;
+					useFromDeactivate = true;
+				}
+			}
 
 			if (useFromDeactivate)
 			{
@@ -412,9 +436,13 @@ namespace SKDModule.ViewModels
 				resultCard.IsInStopList = false;
 				resultCard.StopReason = null;
 			}
-			else if (UseReader)
+			else if (useControlReader)
 			{
 				resultCard.Number = NumberFromControlReader;
+			}
+			else if (EnableValidationForUSB)
+			{
+				resultCard.Number = NumberFromUSB;
 			}
 			else
 			{
@@ -423,6 +451,13 @@ namespace SKDModule.ViewModels
 				if (!IsNewCard)
 					resultCard.UID = Card.UID;
 			}
+
+			return resultCard;
+		}
+
+		private SKDCard CopyCardData(bool useFromDeactivate, bool useControlReader)
+		{
+			var resultCard = GetCardLogic(useFromDeactivate, useControlReader);
 
 			resultCard.IsHandicappedCard = IsAlternativeLockParams;
 			resultCard.Password = Password;

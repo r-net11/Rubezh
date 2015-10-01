@@ -54,6 +54,7 @@
 			x:Name="ContentTextBox"
 			Visibility="{Binding IsReaderSelected, Mode=TwoWay, ElementName=_this, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Visible}"
 			VerticalAlignment="Center"
+			Validation.ErrorTemplate="{x:Null}"
 			Text="{Binding ContentText, ElementName=_this, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
 			Width="{Binding TextBoxWidth, ElementName=_this}"
 			MinWidth="50"/>
