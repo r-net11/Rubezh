@@ -270,10 +270,10 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
         {
             _SerialPort.Close();
         }
-        public override Type GetPortType()
-        {
-            return this.GetType();
-        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return String.Format(
@@ -284,6 +284,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
                 BaudRate, DataBits, StopBits, Parity, SilentInterval);
             //return base.ToString();
         }
+
         #endregion
     }
 }

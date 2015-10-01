@@ -70,7 +70,6 @@ namespace ResursNetwork.OSI.DataLinkLayer
                 return null;
             }
         }
-        public abstract Type GetPortType();
         public override string ToString()
         {
             return String.Format(
@@ -89,6 +88,7 @@ namespace ResursNetwork.OSI.DataLinkLayer
                 MessageReceived(this, new EventArgs());
             }
         }
+
         #endregion
 
         #region Event

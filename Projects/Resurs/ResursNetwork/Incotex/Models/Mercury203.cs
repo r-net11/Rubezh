@@ -63,7 +63,7 @@ namespace ResursNetwork.Incotex.Model
         /// </summary>
         protected override void Initialization()
         {
-            _Parameters.Add(new Parameter()
+            _Parameters.Add(new Parameter(typeof(UInt32))
             {
                 Index = (UInt32)ParameterIndexes.GADDR,
                 Name = "Групповой адрес",
@@ -71,9 +71,9 @@ namespace ResursNetwork.Incotex.Model
                 PollingEnabled = true,
                 ReadOnly = false,
                 ValueConverter = null,
-                Value = 0
+                Value = (UInt32)0
             });
-            _Parameters.Add(new Parameter() 
+            _Parameters.Add(new Parameter(typeof(UInt32)) 
             { 
                 Index = (UInt32)ParameterIndexes.DATETIME, 
                 Name = "Дата и время", 
@@ -81,7 +81,7 @@ namespace ResursNetwork.Incotex.Model
                 PollingEnabled = true, 
                 ReadOnly = false,  
                 ValueConverter = null,
-                Value = 0
+                Value = (UInt32)0
             });
         }
         /// <summary>
@@ -134,6 +134,10 @@ namespace ResursNetwork.Incotex.Model
                 case Mercury203CmdCode.SetNetworkAddress:
                     {
                         GetAnswerNetwokAdderss(transaction); break;
+                    }
+                case Mercury203CmdCode.ReadGroupAddress:
+                    {
+                        GetReadGroupAddress(transaction); break;
                     }
                 default:
                     {
@@ -250,6 +254,7 @@ namespace ResursNetwork.Incotex.Model
             var transaction = new Transaction(TransactionType.UnicastMode, request);
             transaction.TransactionWasEnded += _TransactionHandler;
             _ActiveCommands.Add(new DeviceCommand() { Transaction = transaction });
+            //((IncotexNetworkController)_NetworkController).Write(transaction);
             return transaction;
         }
         /// <summary>

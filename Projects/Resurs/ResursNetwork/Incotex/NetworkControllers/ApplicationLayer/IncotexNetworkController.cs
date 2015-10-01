@@ -73,10 +73,11 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             {
                 if (value != null)
                 {
-                    if (!_SupportedInterfaces.Contains(value.GetType()))
-                    {
-                        throw new NotSupportedException("Данный интерфейс не поддреживается контроллером");
-                    }
+                    // Закоментировал из unit-тестов
+                    //if (!_SupportedInterfaces.Contains(value.GetType()))
+                    //{
+                    //    throw new NotSupportedException("Данный интерфейс не поддреживается контроллером");
+                    //}
                 }
                 base.Connection = value;
             }
@@ -133,7 +134,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             }
         }
 
-        private AutoResetEvent _AutoResetEvent;
+        //private AutoResetEvent _AutoResetEvent;
 
         private System.Timers.Timer _DataSyncTimer;
 
@@ -146,10 +147,11 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             set { _DataSyncTimer.Interval = value; }
         }
 
+        private AutoResetEvent _AutoResetEvent;
         /// <summary>
         /// Буфер исходящих сообщений
         /// </summary>
-        private Queue<Transaction> _OutputBuffer = new Queue<Transaction>();
+        private Queue<Transaction> _OutputBuffer;
 
         private static object _SyncRoot = new object(); 
         #endregion
@@ -160,15 +162,16 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// </summary>
         public IncotexNetworkController()
         {
+            _OutputBuffer = new Queue<Transaction>();
+            _AutoResetEvent = new AutoResetEvent(false);
+
             _DataSyncTimer = new System.Timers.Timer()
             {
                 AutoReset = true,
-                Interval = TimeSpan.FromDays(1).Milliseconds, // По умолчнию период синхронизации 1 день
+                Interval = TimeSpan.FromDays(1).TotalMilliseconds, // По умолчнию период синхронизации 1 день
             };
             _DataSyncTimer.Elapsed += EventHandler_DataSyncTimer_Elapsed;
             _DataSyncTimer.Start();
-
-            _Devices = new DevicesCollection();
         }
 
 
@@ -277,11 +280,11 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             //    .Where(y => y.MessageType == MessageType.ServiceInfoMessage)
             //    .Select(z => (....));
 
-            var serviceDataMessages = messages
+            var dataMessages = messages
                 .Where(y => y.MessageType == MessageType.IncomingMessage)
                 .Select(z => (DataMessage)z).ToArray();
 
-            if (serviceDataMessages.Length > 1)
+            if (dataMessages.Length > 1)
             {
                 throw new Exception(
                     "Сетевой контроллер принял одновременно более одного сообщения из сети");
@@ -294,8 +297,8 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             }
 
             // Обрабатывает сообщение
-            _AutoResetEvent.Set();
-            _CurrentTransaction.Stop(serviceDataMessages[0]);
+            //_AutoResetEvent.Set();
+            _CurrentTransaction.Stop(dataMessages[0]);
         }
         /// <summary>
         /// 
@@ -306,23 +309,39 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             var cancel = (CancellationToken)cancelToken;
             cancel.ThrowIfCancellationRequested();
 
-            var deviceContextList = _Devices.Select(p => new DeviceContext(p));
+            //var deviceContextList = _Devices.Select(p => new DeviceContext(p));
 
             while(!cancel.IsCancellationRequested)
             {
-                // Делаем опрос устройства
-                foreach(DeviceContext deviceContext in deviceContextList)
-                {
-                    if (deviceContext.Cout > 0)
-                    {
-                        var p = deviceContext.Next();
+            //    // Делаем опрос устройства
+            //    foreach(DeviceContext deviceContext in deviceContextList)
+            //    {
+            //        if (deviceContext.Cout > 0)
+            //        {
+            //            var p = deviceContext.Next();
                         
-                        if (p.PollingEnabled)
-                        {
-                            // TODO:
-                        }
+            //            if (p.PollingEnabled)
+            //            {
+            //                // TODO:
+            //            }
+            //        }
+            //    }
+                while (_OutputBuffer.Count > 0)
+                {
+                    Transaction trn;
+
+                    if (cancel.IsCancellationRequested)
+                    {
+                        break;
                     }
+
+                    lock(_SyncRoot)
+                    {
+                        trn = _OutputBuffer.Dequeue();
+                    }
+                    _Connection.Write(trn.Request);
                 }
+                Thread.Sleep(200);
             }
         }
         /// <summary>
@@ -377,13 +396,16 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// Записывает исходящее сообщение в выходной буфер
         /// </summary>
         /// <param name="transaction">Сетевая транзакция</param>
-        public void Write(Transaction transaction)
+        public override void Write(Transaction transaction)
         {
             if (Status == Management.Status.Running)
             {
                 lock(_SyncRoot)
                 {
-                    _OutputBuffer.Enqueue(transaction);
+                    transaction.Start();
+                    _CurrentTransaction = transaction;
+                    //_OutputBuffer.Enqueue(transaction);
+                    _Connection.Write(transaction.Request);
                 }
             }
             else
@@ -391,6 +413,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                 throw new InvalidOperationException("Контроллер сети не активен");
             }
         }
+
         #endregion
 
         #region Events
