@@ -6,7 +6,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 {
 	public class MessageBoxViewModel : DialogViewModel
 	{
-		public MessageBoxViewModel(string title, string message, MessageBoxButton messageBoxButton, MessageBoxImage messageBoxImage, bool isException = false)
+		public MessageBoxViewModel(string title, string message, MessageBoxButton messageBoxButton, MessageBoxImage messageBoxImage, bool isException = false, int width = 350, int height = 120)
 		{
 			OkCommand = new RelayCommand(OnOk);
 			CancelCommand = new RelayCommand(OnCancel);
@@ -26,6 +26,9 @@ namespace Infrastructure.Common.Windows.ViewModels
 
 			Result = MessageBoxResult.None;
 			Sizable = false;
+
+			Width = width;
+			Height = height;
 		}
 
 		private void SetButtonsVisibility(MessageBoxButton messageBoxButton)
@@ -177,5 +180,9 @@ namespace Infrastructure.Common.Windows.ViewModels
 				return messageBoxButton;
 			}
 		}
+
+		public int Width { get; private set; }
+
+		public int Height { get; private set; }
 	}
 }

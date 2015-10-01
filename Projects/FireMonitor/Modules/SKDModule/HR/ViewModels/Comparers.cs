@@ -184,4 +184,12 @@ namespace SKDModule.ViewModels
 			return string.Compare(x.TransitionDate, y.TransitionDate);
 		}
 	}
+
+	public class DepartmentSelectionItemViewModelNameComparer : TreeNodeComparer<DepartmentSelectionItemViewModel>
+	{
+		protected override int Compare(DepartmentSelectionItemViewModel x, DepartmentSelectionItemViewModel y)
+		{
+			return String.Compare(x.Department.Name, y.Department.Name);
+		}
+	}
 }
