@@ -7,6 +7,7 @@ using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using SKDDriver;
+using FiresecService.Report.Model;
 
 namespace FiresecService.Report.Templates
 {
@@ -56,18 +57,44 @@ namespace FiresecService.Report.Templates
 				LogicalDeletationType = filter.UseArchive ? LogicalDeletationType.All : LogicalDeletationType.Active,
 
 			};
-
-			var positions = dataProvider.DbService.PositionTranslator.Get(positionFilter);
+			var positions = GetPosition(dataProvider, filter);
 			var ds = new PositionsDataSet();
-			if (positions.Result != null)
-				positions.Result.ForEach(position =>
+			if (positions != null)
+				positions.ForEach(position =>
 				{
 					var row = ds.Data.NewDataRow();
-					row.Position = position.Name;
-					row.Description = position.Description;
+					row.Organisation = position.Organisation;
+					row.Position = position.Item.Name;
+					row.Description = position.Item.Description;
 					ds.Data.AddDataRow(row);
 				});
 			return ds;
+		}
+		private static IEnumerable<OrganisationBaseObjectInfo<Position>> GetPosition(DataProvider dataProvider, PositionsReportFilter filter)
+		{
+			var organisationUID = Guid.Empty;
+			var organisations = dataProvider.Organisations.Where(org => org.Value.Item.UserUIDs.Any(y => y == filter.UserUID));
+			if (filter.Organisations.IsEmpty())
+			{
+				if (filter.IsDefault)
+					organisationUID = organisations.FirstOrDefault().Key;
+			}
+			else
+			{
+				organisationUID = organisations.FirstOrDefault(org => org.Key == filter.Organisations.FirstOrDefault()).Key;
+			}
+
+			IEnumerable<OrganisationBaseObjectInfo<Position>> positions = null;
+			if (organisationUID != Guid.Empty)
+			{
+				positions = dataProvider.Positions.Values.Where(item => item.OrganisationUID == organisationUID);
+
+				if (!filter.UseArchive)
+					positions = positions.Where(item => !item.IsDeleted);
+				if (!filter.Positions.IsEmpty())
+					positions = positions.Where(item => filter.Positions.Contains(item.UID));
+			}
+			return positions != null ? positions : new List<OrganisationBaseObjectInfo<Position>>();
 		}
 	}
 }

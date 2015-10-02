@@ -411,7 +411,7 @@ namespace FiresecService.Service
 		{
 			switch (objectType)
 			{
-				case GKBaseObjectType.Deivce:
+				case GKBaseObjectType.Device:
 					return GKManager.Devices.FirstOrDefault(x => x.UID == uid);
 				case GKBaseObjectType.Direction:
 					return GKManager.Directions.FirstOrDefault(x => x.UID == uid);

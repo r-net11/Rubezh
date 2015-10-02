@@ -50,8 +50,11 @@
 
 		<ResourceDictionary Source="../XamlImages/Add.xaml" />
 		<ResourceDictionary Source="../XamlImages/AddChild.xaml" />
+		<ResourceDictionary Source="../XamlImages/AddDocument.xaml" />
+		<ResourceDictionary Source="../XamlImages/EditCheckBoxList.xaml" />
 		<ResourceDictionary Source="../XamlImages/AddCondition.xaml" />
-		<ResourceDictionary Source="../XamlImages/AddCycle.xaml" />
+		<ResourceDictionary Source="../XamlImages/AddCycle.xaml" />		
+		<ResourceDictionary Source="../XamlImages/AddFile.xaml" />
 		<ResourceDictionary Source="../XamlImages/AddTime.xaml" />
 		<ResourceDictionary Source="../XamlImages/Alarm.xaml" />
 		<ResourceDictionary Source="../XamlImages/Alarm_Main_0_Fire1.xaml" />
@@ -86,6 +89,8 @@
 		<ResourceDictionary Source="../XamlImages/Delete.xaml" />
 		<ResourceDictionary Source="../XamlImages/DeleteAll.xaml" />
 		<ResourceDictionary Source="../XamlImages/deleteCross.xaml" />
+		<ResourceDictionary Source="../XamlImages/DeleteFile.xaml" />
+		<ResourceDictionary Source="../XamlImages/DeleteDocument.xaml" />
 		<ResourceDictionary Source="../XamlImages/deleteEmpty.xaml" />
 		<ResourceDictionary Source="../XamlImages/DeleteTime.xaml" />
 		<ResourceDictionary Source="../XamlImages/Descriptors.xaml" />
@@ -93,9 +98,12 @@
 		<ResourceDictionary Source="../XamlImages/direction.xaml" />
 		<ResourceDictionary Source="../XamlImages/DirectionPolygon.xaml" />
 		<ResourceDictionary Source="../XamlImages/DirectionRectangle.xaml" />
+		<ResourceDictionary Source="../XamlImages/DocumentSettings.xaml" />
 		<ResourceDictionary Source="../XamlImages/DoorW.xaml" />
 		<ResourceDictionary Source="../XamlImages/download.xaml" />
 		<ResourceDictionary Source="../XamlImages/Edit.xaml" />
+		<ResourceDictionary Source="../XamlImages/EditFile.xaml" />
+		<ResourceDictionary Source="../XamlImages/EditDocument.xaml" />
 		<ResourceDictionary Source="../XamlImages/Ellipse.xaml" />
 		<ResourceDictionary Source="../XamlImages/Faster.xaml" />
 		<ResourceDictionary Source="../XamlImages/FidthToPage.xaml" />
@@ -139,6 +147,7 @@
 		<ResourceDictionary Source="../XamlImages/mute.xaml" />
 		<ResourceDictionary Source="../XamlImages/New.xaml" />
 		<ResourceDictionary Source="../XamlImages/nextDifference.xaml" />
+		<ResourceDictionary Source="../XamlImages/NightSettings.xaml" />
 		<ResourceDictionary Source="../XamlImages/Normalize.xaml" />
 		<ResourceDictionary Source="../XamlImages/ParametersRead.xaml" />
 		<ResourceDictionary Source="../XamlImages/ParametersReadAll.xaml" />

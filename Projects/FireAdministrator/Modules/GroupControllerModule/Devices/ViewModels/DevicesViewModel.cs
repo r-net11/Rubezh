@@ -225,11 +225,14 @@ namespace GKModule.ViewModels
 					{
 						var pasteDevice = GKManager.CopyDevice(deviceToCopy, isCut);
 						var device = PasteDevice(pasteDevice);
+						if (device == null)
+							break;
 						device.UID = pasteDevice.UID;
 						if (device != null)
 						{
 							cache.UpdateDeviceBinding(device);
 							SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
+							device.Invalidate();
 						}
 					}
 					if (SelectedDevice.Device.IsConnectedToKAU)
@@ -290,8 +293,13 @@ namespace GKModule.ViewModels
 				if (allChildren.Count > 0)
 					maxAddress = allChildren.Max(x => x.IntAddress);
 
-				if (maxAddress >= 255)
+				var realDevicesCount = device.AllChildrenAndSelf.Count(x => x.IsRealDevice);
+
+				if (maxAddress + realDevicesCount > 255)
+				{
+					MessageBoxService.ShowWarning("Адрес устройства не может превышать 255");
 					return null;
+				}
 
 				if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU_Shleif || SelectedDevice.Device.DriverType == GKDriverType.RSR2_MVP_Part)
 				{
@@ -307,7 +315,7 @@ namespace GKModule.ViewModels
 					var addedDevice = GKManager.AddChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, maxAddress);
 					GKManager.CopyDevice(device, addedDevice);
 					addedDevice.IntAddress = maxAddress;
-					var addedDeviceViewModel = NewDeviceHelper.InsertDevice(addedDevice, SelectedDevice);
+					var addedDeviceViewModel = NewDeviceHelper.InsertDevice(addedDevice, SelectedDevice,false);
 					AllDevices.Add(addedDeviceViewModel);
 					return addedDevice;
 				}
@@ -354,7 +362,7 @@ namespace GKModule.ViewModels
 			if (messageBoxResult)
 			{
 				SelectedDevice.Device.Logic = GKManager.PasteLogic(new GKAdvancedLogic(hasOnClause, hasOnNowClause, hasOffClause, hasOffNowClause, hasStopClause));
-				SelectedDevice.Device.OnChanged();
+				SelectedDevice.Device.Invalidate();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

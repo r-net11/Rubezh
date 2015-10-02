@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Linq.Expressions;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -134,13 +135,14 @@ namespace AutomationModule.ViewModels
 		public ArgumentViewModel Argument2 { get; set; }
 		Procedure Procedure { get; set; }
 		public Action UpdateDescriptionHandler { get; set; }
+		public EnumType SelectedEnumType { get; set; }
 
 		public ConditionViewModel(Condition condition, Procedure procedure, Action updateDescriptionHandler, Action updateContentHandler)
 		{
 			Condition = condition;
 			Procedure = procedure;
 			UpdateDescriptionHandler = updateDescriptionHandler;
-			ExplicitTypes = ProcedureHelper.GetEnumObs<ExplicitType>();
+			ExplicitTypes = AutomationHelper.GetEnumObs<ExplicitType>();
 			Argument1 = new ArgumentViewModel(Condition.Argument1, updateDescriptionHandler, updateContentHandler, false);
 			Argument1.UpdateVariableHandler += UpdateArgument2;
 			Argument2 = new ArgumentViewModel(Condition.Argument2, updateDescriptionHandler, updateContentHandler);
@@ -154,7 +156,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				Condition.ExplicitType = value;
-				ConditionTypes = new ObservableCollection<ConditionType>(ProcedureHelper.ObjectTypeToConditionTypesList(SelectedExplicitType));
+				ConditionTypes = new ObservableCollection<ConditionType>(AutomationHelper.ObjectTypeToConditionTypesList(SelectedExplicitType));
 				OnPropertyChanged(() => ConditionTypes);
 				UpdateContent();
 				OnPropertyChanged(() => SelectedExplicitType);
@@ -163,15 +165,17 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
+			SelectedEnumType = Argument1.EnumType;
 			Argument1.Update(Procedure, SelectedExplicitType, isList:false);
 			Argument1.ExplicitType = SelectedExplicitType;
+			Argument1.EnumType = SelectedEnumType;
 			UpdateArgument2();
 			SelectedConditionType = ConditionTypes.Contains(Condition.ConditionType) ? Condition.ConditionType : ConditionTypes.FirstOrDefault();
 		}
 
 		void UpdateArgument2()
 		{
-			Argument2.Update(Procedure, SelectedExplicitType, Argument1.EnumType, Argument1.ObjectType, false);
+			Argument2.Update(Procedure, SelectedExplicitType, SelectedEnumType, Argument1.ObjectType, false);
 		}
 
 		public ObservableCollection<ConditionType> ConditionTypes { get; private set; }

@@ -20,8 +20,7 @@ namespace FiresecAPI.Journal
 			ObjectUIDs = new List<Guid>();
 			EmployeeUIDs = new List<Guid>();
             Users = new List<string>();
-			SortType = Journal.ArchiveSortType.SystemDate;
-        }
+		}
 
 		[DataMember]
 		public DateTime StartDate { get; set; }
@@ -57,35 +56,6 @@ namespace FiresecAPI.Journal
 		public int PageSize { get; set; }
 
 		[DataMember]
-		public ArchiveSortType SortType { get; set; }
-
-		[DataMember]
 		public bool IsSortAsc { get; set; }
-	}
-
-	public enum ArchiveSortType
-	{
-		[Description("Дата системы")]
-		SystemDate = 0,
-		[Description("Дата прибора")]
-		DeviceDate = 1,
-		[Description("Сотрудник")]
-		EmployeeUID = 2,
-		[Description("Подсистема")]
-		Subsystem = 3,
-		[Description("Событие")]
-		Name = 4,
-		[Description("Примечание")]
-		Description = 5,
-		[Description("Тип объекта")]
-		ObjectType = 6,
-		[Description("Объект")]
-		ObjectName = 7,
-		[Description("Пользователь")]
-		UserName = 8,
-		[Description("Камера")]
-		CameraUID = 9,
-		[Description("Пропуск")]
-		CardNo = 10
 	}
 }

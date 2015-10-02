@@ -110,12 +110,20 @@ namespace Infrustructure.Plans.Painters
 			{
 				case ResourceType.Drawing:
 					var drawing = _drawingFactory(guid);
-					drawing.Freeze();
-					brush = new DrawingBrush(drawing);
+					if (drawing != null)
+					{
+						drawing.Freeze();
+						brush = new DrawingBrush(drawing);
+					}
+					else brush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
 					break;
 				case ResourceType.Visual:
 					var visual = _visualFactory(guid);
-					brush = new VisualBrush(visual);
+					if (visual != null)
+					{
+						brush = new VisualBrush(visual);
+					}
+					else brush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
 					break;
 				case ResourceType.Image:
 					var bitmap = _imageFactory(guid);

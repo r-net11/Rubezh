@@ -12,6 +12,7 @@ namespace GKProcessor
 		GKPumpStation PumpStation;
 		List<GKDevice> FirePumpDevices = new List<GKDevice>();
 		List<GKDevice> JockeyPumpDevices = new List<GKDevice>();
+		GKDevice JNPumpDevice;
 		List<PumpDelay> PumpDelays = new List<PumpDelay>();
 		DatabaseType DatabaseType;
 
@@ -192,8 +193,7 @@ namespace GKProcessor
 			Database.Descriptors.Add(pimDescriptor);
 
 			pimDescriptor.Formula = new FormulaBuilder();
-			var inputDevices = new List<GKBase>();
-			inputDevices.AddRange(PumpStation.ClauseInputDevices);
+			var inputDevices = new List<GKBase>(PumpStation.InputDependentElements.Where(x => x is GKDevice));
 			foreach (var nsDevice in PumpStation.NSDevices)
 			{
 				if (!inputDevices.Contains(nsDevice))

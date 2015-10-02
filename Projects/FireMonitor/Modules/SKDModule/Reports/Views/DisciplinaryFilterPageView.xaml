@@ -12,9 +12,6 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
 			<RowDefinition />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
@@ -23,17 +20,11 @@
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
-		<RadioButton Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="-10,5,5,5" Foreground="White" VerticalAlignment="Center" Content="Отображать нарушения временных критериев первого входа/последнего выхода" GroupName="main" IsChecked="{Binding ShowAllViolation, Converter={StaticResource InverseBooleanConverter}}" />
-		<RadioButton Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="-10,5,5,5" Foreground="White" VerticalAlignment="Center" Content="Отображать нарушения временных критериев всех рабочих интервалов" GroupName="main" IsChecked="{Binding ShowAllViolation}" />
-
-		<CheckBox Grid.Row="2" Grid.Column="1" Content="Опоздания" IsChecked="{Binding ShowDelay}" />
-		<CheckBox Grid.Row="3" Grid.Column="1" Content="Уход раньше" IsChecked="{Binding ShowEarlуRetirement}" />
-		<CheckBox Grid.Row="4" Grid.Column="1" Content="Допустимое отклонение" IsChecked="{Binding ShowTolerance}" />
-		<CheckBox Grid.Row="5" Grid.Column="1" Content="Отсутствие" IsChecked="{Binding ShowAbsence}" />
-
-		<CheckBox Grid.Row="2" Grid.Column="2" Content="Переработка" IsChecked="{Binding ShowOvertime}" />
-		<CheckBox Grid.Row="3" Grid.Column="2" Content="Недоработка" IsChecked="{Binding ShowMissingtime}" />
-		<CheckBox Grid.Row="4" Grid.Column="2" Content="По оправдательному документу" IsChecked="{Binding ShowConfirmed}" />
-		<CheckBox Grid.Row="5" Grid.Column="2" Content="Не учитывать допустимые отклонения" IsChecked="{Binding ShowWithoutTolerance}" />
+		<CheckBox Grid.Row="0" Grid.Column="1" Content="Опоздания" IsChecked="{Binding ShowDelay}" />
+		<CheckBox Grid.Row="1" Grid.Column="1" Content="Уход раньше" IsChecked="{Binding ShowEarlуRetirement}" />		
+		<CheckBox Grid.Row="2" Grid.Column="1" Content="Переработка" IsChecked="{Binding ShowOvertime}" />
+		<CheckBox Grid.Row="0" Grid.Column="2" Content="Отсутствие" IsChecked="{Binding ShowAbsence}" />
+		<CheckBox Grid.Row="1" Grid.Column="2" Content="По оправдательному документу" IsChecked="{Binding ShowConfirmed}" />
+		<CheckBox Grid.Row="2" Grid.Column="2" Content="Не учитывать допустимые отклонения" IsChecked="{Binding ShowWithoutTolerance}" />
 	</Grid>
 </UserControl>

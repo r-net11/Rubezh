@@ -121,14 +121,14 @@ namespace GKImitator.Processor
 			var descriptorNos = new List<int>();
 			for (int i = 0; i <= 68; i++)
 			{
-				var descriptorNo = BytesHelper.SubstructInt(bytes, 48 + i * 2);
+				var descriptorNo = BytesHelper.SubstructShort(bytes, 48 + i * 2);
 				descriptorNos.Add(descriptorNo);
 			}
 
 			var sheduleNos = new List<int>();
 			for (int i = 0; i <= 68; i++)
 			{
-				var sheduleNo = BytesHelper.SubstructInt(bytes, 184 + i * 2);
+				var sheduleNo = bytes[184 + i];
 				sheduleNos.Add(sheduleNo);
 			}
 

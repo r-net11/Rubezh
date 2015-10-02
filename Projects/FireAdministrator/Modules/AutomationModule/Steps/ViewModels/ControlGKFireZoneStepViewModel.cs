@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
 using FiresecAPI;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -12,7 +13,7 @@ namespace AutomationModule.ViewModels
 		public ControlGKFireZoneStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ControlGKFireZoneArguments = stepViewModel.Step.ControlGKFireZoneArguments;
-			Commands = ProcedureHelper.GetEnumObs<ZoneCommandType>();
+			Commands = AutomationHelper.GetEnumObs<ZoneCommandType>();
 			GKFireZoneArgument = new ArgumentViewModel(ControlGKFireZoneArguments.GKFireZoneArgument, stepViewModel.Update, null);
 			SelectedCommand = ControlGKFireZoneArguments.ZoneCommandType;
 		}

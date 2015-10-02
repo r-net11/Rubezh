@@ -18,6 +18,7 @@ using Infrustructure.Plans.Events;
 using VideoModule.Plans;
 using VideoModule.ViewModels;
 using Vlc.DotNet.Core;
+using FiresecLicense;
 
 namespace VideoModule
 {
@@ -43,9 +44,9 @@ namespace VideoModule
 				//if (!VlcContext.IsInitialized)
 				{
 					//Set libvlc.dll and libvlccore.dll directory path
-					VlcContext.LibVlcDllsPath = FiresecManager.SystemConfiguration.RviSettings.DllsPath;
+					//VlcContext.LibVlcDllsPath = FiresecManager.SystemConfiguration.RviSettings.DllsPath;
 					//Set the vlc plugins directory path
-					VlcContext.LibVlcPluginsPath = FiresecManager.SystemConfiguration.RviSettings.PluginsPath;
+					//VlcContext.LibVlcPluginsPath = FiresecManager.SystemConfiguration.RviSettings.PluginsPath;
 
 					//Set the startup options
 					VlcContext.StartupOptions.IgnoreConfig = true;
@@ -91,7 +92,7 @@ namespace VideoModule
 
 		public override void Initialize()
 		{
-			_videoNavigationItem.IsVisible = LicenseHelper.Video && FiresecManager.SystemConfiguration.Cameras.Count > 0;
+			_videoNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.HasVideo && FiresecManager.SystemConfiguration.Cameras.Count > 0;
 			CamerasViewModel.Initialize();
 			_planPresenter.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);

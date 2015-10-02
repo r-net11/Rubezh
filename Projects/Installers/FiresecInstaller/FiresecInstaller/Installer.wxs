@@ -35,7 +35,9 @@
 		<Property Id="SQLINSTANCE" Value="SQLEXPRESS" />
 		<Property Id="INSTALLMODE" />
 		<Property Id="ALLUSERS" Value="1" Secure="yes" />
-
+		<Property Id="IS_INSTALL_POSTGRE32" />
+		<Property Id="IS_INSTALL_POSTGRE64" />
+		
 		<Property Id="INSTALL_FIRESEC2" Secure="yes" />
 		<Property Id="INSTALL_OPC" Value="0" Secure="yes" />
 		<Property Id="INSTALL_GK" Value="0" Secure="yes" />
@@ -54,11 +56,13 @@
 								<Directory Id="Administrator.Xaml2svgFolder" Name="$(var.xaml2svgFolder)" />
 							</Directory>
 						</Directory>
+						<Directory Id="Administrator.Dll" Name="Dll" />
 					</Directory>
 					<Directory Id="MONITORLOCATION" Name="$(var.MonitorName)">
 						<Directory Id="Monitor.ShellFolder" Name="Shell" />
 						<Directory Id="Monitor.ClientSettingsFolder" Name="ClientSettings" />
 						<Directory Id="Monitor.ru" Name="ru" />
+						<Directory Id="Monitor.Dll" Name="Dll" />
 					</Directory>
 					<Directory Id="GKOPCLOCATION" Name="GKOPC" />
 					<Directory Id="FirmwhareUpdateLOCATION" Name="Актуальные прошивки ГК" />
@@ -91,10 +95,12 @@
 		<FeatureRef Id="FiresecFeature" />
 
 		<InstallExecuteSequence>
-			<Custom Action="CloseApplications" Sequence="1" />
+			<Custom Action="CheckPostgresInstalled" Sequence="1" />
+			<Custom Action="CloseApplications" Sequence="2" />
 			<RemoveExistingProducts After="InstallInitialize" />
 			<InstallExecute After="RemoveExistingProducts" />
-			<!--<Custom Action="InstallPostgres" After="InstallExecute" />-->
+			<Custom Action="InstallPostgres" After="InstallExecute"><![CDATA[&Postgres.Features=3 AND IS_INSTALL_POSTGRE32 = 1]]></Custom>
+			<Custom Action="InstallPostgres64" After="InstallExecute"><![CDATA[&Postgres.Features=3 AND IS_INSTALL_POSTGRE64 = 1]]></Custom>
 		</InstallExecuteSequence>
 
 		<UI Id="MyWixUI_Wizard">

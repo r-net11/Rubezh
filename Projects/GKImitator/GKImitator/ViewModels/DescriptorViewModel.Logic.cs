@@ -24,7 +24,7 @@ namespace GKImitator.ViewModels
 		{
 			KauBaseDescriptor = kauBaseDescriptor;
 			InitializeLogic();
-			
+
 		}
 
 		public void InitializeLogic()
@@ -62,8 +62,12 @@ namespace GKImitator.ViewModels
 			var stack = new List<int>();
 			var stateBitVales = new Dictionary<GKStateBit, bool>();
 
-			foreach (var formulaOperation in FormulaOperations)
+			for (int i = 0; i < FormulaOperations.Count; i++)
 			{
+				var formulaOperation = FormulaOperations[i];
+				if (formulaOperation.FormulaOperationType == FormulaOperationType.END || formulaOperation.FormulaOperationType == FormulaOperationType.EXIT)
+					break;
+
 				var stateBit = (GKStateBit)formulaOperation.FirstOperand;
 				var descriptorNo = formulaOperation.SecondOperand;
 				DescriptorViewModel descriptorViewModel = null;
@@ -77,7 +81,7 @@ namespace GKImitator.ViewModels
 					case FormulaOperationType.GETBIT:
 						if (descriptorViewModel != null)
 						{
-							var bitValue = GetStateBit(stateBit) ? 1 : 0;
+							var bitValue = descriptorViewModel.GetStateBit(stateBit) ? 1 : 0;
 							stack.Add(bitValue);
 						}
 						break;
@@ -265,9 +269,33 @@ namespace GKImitator.ViewModels
 						break;
 
 					case FormulaOperationType.CMPKOD:
+						if (descriptorViewModel != null)
+						{
+							var code = descriptorViewModel.GKBase as GKCode;
+							if (code != null)
+							{
+								var currentStackValue1 = stack.LastOrDefault();
+								stack.RemoveAt(stack.Count - 1);
+
+								var newStackValue = 0;
+								if(formulaOperation.FirstOperand == 1)
+								{
+									newStackValue = (currentStackValue1 == code.Password) ? 1 : 0;
+								}
+								if (formulaOperation.FirstOperand == 2)
+								{
+									newStackValue = (currentStackValue1 != code.Password) ? 1 : 0;
+								}
+								stack.Add(newStackValue);
+							}
+						}
 						break;
 
 					case FormulaOperationType.KOD:
+						if (descriptorViewModel != null)
+						{
+							stack.Add(descriptorViewModel.CurrentCardNo);
+						}
 						break;
 
 					case FormulaOperationType.ACS:
@@ -280,9 +308,10 @@ namespace GKImitator.ViewModels
 							var device = descriptorViewModel.GKBase as GKDevice;
 							if (device != null && (device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader))
 							{
+								ImitatorUser user = null;
 								using (var dbService = new DbService())
 								{
-									var user = dbService.ImitatorUserTraslator.GetByNo(descriptorViewModel.CurrentCardNo);
+									user = dbService.ImitatorUserTraslator.GetByNo(descriptorViewModel.CurrentCardNo);
 									if (user != null)
 									{
 										if (user.Level >= level)
@@ -291,35 +320,53 @@ namespace GKImitator.ViewModels
 												isAccess = true;
 										}
 
-										foreach(var imitatorUserDevice in user.ImitatorUserDevices)
+										foreach (var imitatorUserDevice in user.ImitatorUserDevices)
 										{
-											if(imitatorUserDevice.DescriptorNo == formulaOperation.SecondOperand)
+											if (imitatorUserDevice.DescriptorNo == formulaOperation.SecondOperand)
 											{
-												if(IsInSchedule(dbService, imitatorUserDevice.ScheduleNo))
+												if (IsInSchedule(dbService, imitatorUserDevice.ScheduleNo))
 													isAccess = true;
 											}
 										}
 									}
 								}
+
+								var journalItem = new ImitatorJournalItem(0, isAccess ? (byte)13 : (byte)15, 0, 0);
+								journalItem.ObjectDeviceAddress = (short)device.GKDescriptorNo;
+								if (user != null)
+								{
+									journalItem.ObjectFactoryNo = user.GKNo;
+								}
+								AddJournalItem(journalItem);
 							}
 						}
 
-						if (isAccess)
-						{
-
-						}
-						else
-						{
-
-						}
 						stack.Add(isAccess ? 1 : 0);
 
 						break;
 
-					case FormulaOperationType.EXIT:
-						break;
-
 					case FormulaOperationType.BR:
+						var mustGoTo = false;
+						switch (formulaOperation.FirstOperand)
+						{
+							case 0:
+								mustGoTo = true;
+								break;
+
+							case 1:
+								var currentStackValue = stack.LastOrDefault();
+								mustGoTo = currentStackValue == 0;
+								stack.RemoveAt(stack.Count - 1);
+								break;
+
+							case 2:
+								currentStackValue = stack.LastOrDefault();
+								mustGoTo = currentStackValue != 0;
+								stack.RemoveAt(stack.Count - 1);
+								break;
+						}
+						if (mustGoTo)
+							i += formulaOperation.SecondOperand;
 						break;
 
 					case FormulaOperationType.DUP:
@@ -328,9 +375,6 @@ namespace GKImitator.ViewModels
 							var currentStackValue = stack.LastOrDefault();
 							stack.Add(currentStackValue);
 						}
-						break;
-
-					case FormulaOperationType.END:
 						break;
 
 					case FormulaOperationType.ACSP:
@@ -347,14 +391,29 @@ namespace GKImitator.ViewModels
 			}
 
 			var hasZoneBitsChanged = false;
+			if (GKBase is GKZone)
+			{
+				if (stateBitVales.ContainsKey(GKStateBit.Fire2) && stateBitVales[GKStateBit.Fire2])
+				{
+					stateBitVales[GKStateBit.Fire1] = false;
+					stateBitVales[GKStateBit.Attention] = false;
+					hasZoneBitsChanged = true;
+				}
+				else if (stateBitVales.ContainsKey(GKStateBit.Fire1) && stateBitVales[GKStateBit.Fire1])
+				{
+					stateBitVales[GKStateBit.Attention] = false;
+					hasZoneBitsChanged = true;
+				}
+				else if (stateBitVales.ContainsKey(GKStateBit.Attention) && stateBitVales[GKStateBit.Attention])
+				{
+					hasZoneBitsChanged = true;
+				}
+			}
+
+			var intState = StatesToInt();
 
 			foreach (var stateBitVale in stateBitVales)
 			{
-				if (stateBitVale.Key == GKStateBit.Attention || stateBitVale.Key == GKStateBit.Fire1 || stateBitVale.Key == GKStateBit.Fire2)
-				{
-					hasZoneBitsChanged = SetStateBit(stateBitVale.Key, stateBitVale.Value);
-				}
-
 				if (stateBitVale.Value)
 				{
 					if (stateBitVale.Key == GKStateBit.TurnOn_InAutomatic)
@@ -385,31 +444,54 @@ namespace GKImitator.ViewModels
 							OnTurnOffNow();
 						}
 					}
+					if (GKBase is GKGuardZone && stateBitVale.Key == GKStateBit.Attention)
+					{
+						if (Regime == Regime.Automatic)
+						{
+							SetGuardAlarm();
+						}
+					}
 				}
 			}
 
 			if (GKBase is GKZone && hasZoneBitsChanged)
 			{
-				if (stateBitVales.ContainsKey(GKStateBit.Attention) && stateBitVales[GKStateBit.Attention])
+				var hasChanged = false;
+				foreach (var stateBitVale in stateBitVales)
 				{
-					var journalItem = new ImitatorJournalItem(2, 4, 0, 0);
-					AddJournalItem(journalItem);
+					if (SetStateBit(stateBitVale.Key, stateBitVale.Value))
+						hasChanged = true;
 				}
-				else if (stateBitVales.ContainsKey(GKStateBit.Fire1) && stateBitVales[GKStateBit.Fire1])
+
+				if (hasChanged)
 				{
-					var journalItem = new ImitatorJournalItem(2, 2, 0, 0);
-					AddJournalItem(journalItem);
+					if (stateBitVales.ContainsKey(GKStateBit.Attention) && stateBitVales[GKStateBit.Attention])
+					{
+						var journalItem = new ImitatorJournalItem(2, 4, 0, 0);
+						AddJournalItem(journalItem);
+					}
+					else if (stateBitVales.ContainsKey(GKStateBit.Fire1) && stateBitVales[GKStateBit.Fire1])
+					{
+						var journalItem = new ImitatorJournalItem(2, 2, 0, 0);
+						AddJournalItem(journalItem);
+					}
+					else if (stateBitVales.ContainsKey(GKStateBit.Fire2) && stateBitVales[GKStateBit.Fire2])
+					{
+						var journalItem = new ImitatorJournalItem(2, 3, 0, 0);
+						AddJournalItem(journalItem);
+					}
+					else
+					{
+						var journalItem = new ImitatorJournalItem(2, 14, 0, 0);
+						AddJournalItem(journalItem);
+					}
 				}
-				else if (stateBitVales.ContainsKey(GKStateBit.Fire2) && stateBitVales[GKStateBit.Fire2])
-				{
-					var journalItem = new ImitatorJournalItem(2, 3, 0, 0);
-					AddJournalItem(journalItem);
-				}
-				else
-				{
-					var journalItem = new ImitatorJournalItem(2, 14, 0, 0);
-					AddJournalItem(journalItem);
-				}
+			}
+
+			var newIntState = StatesToInt();
+			if (newIntState != intState)
+			{
+				RecalculateOutputLogic();
 			}
 		}
 
@@ -423,9 +505,8 @@ namespace GKImitator.ViewModels
 			{
 				foreach (var imitatorSheduleInterval in schedule.ImitatorSheduleIntervals)
 				{
-					Trace.WriteLine(imitatorSheduleInterval.UID);
 					var delta = 0;
-					if(schedule.TotalSeconds > 0)
+					if (schedule.TotalSeconds > 0)
 					{
 						var periodsCount = (nowTotalSeconds - imitatorSheduleInterval.StartSeconds) / schedule.TotalSeconds;
 						delta = (int)periodsCount * schedule.TotalSeconds;

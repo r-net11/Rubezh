@@ -24,9 +24,9 @@ namespace FiresecAPI
 
 			Server_EnableRemoteConnections = false;
 
-			DbConnectionString = @"Data Source=.\sqlexpress;Initial Catalog=Rubezh;Integrated Security=True;Language='English'";
-			//DbConnectionString = @"Server=localhost;Database=Rubezh;User Id=asd;Password=1;";
-			DbType = FiresecAPI.DbType.MsSql;
+			//DbConnectionString = @"Data Source=.\sqlexpress;Initial Catalog=Rubezh;Integrated Security=True;Language='English'";
+			DbConnectionString = @"Server=localhost;Database=Rubezh;User Id=asd;Password=1;";
+			DbType = FiresecAPI.DbType.Postgres;
 			
 			ModuleItems = new List<string>();
 
@@ -65,13 +65,13 @@ namespace FiresecAPI
 		public int ReportRemotePort { get; set; }
 
 		[DataMember]
-		public bool DoNotAutoconnectAdm { get; set; }
-
-		[DataMember]
 		public bool RunRevisor { get; set; }
 
 		[DataMember]
 		public bool Server_EnableRemoteConnections { get; set; }
+
+		[DataMember]
+		public string Server_RemoteIpAddress { get; set; }
 
 		[DataMember]
 		public string DbConnectionString { get; set; }

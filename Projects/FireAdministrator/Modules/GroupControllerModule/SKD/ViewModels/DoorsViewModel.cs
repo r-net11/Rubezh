@@ -21,7 +21,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
-	public class DoorsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class DoorsViewModel : MenuViewPartViewModel,ISelectable<Guid>
 	{
 		private bool _lockSelection;
 		public static DoorsViewModel Current { get; private set; }
@@ -34,6 +34,7 @@ namespace GKModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
+			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
 			SubscribeEvents();
@@ -116,6 +117,17 @@ namespace GKModule.ViewModels
 			{
 				var index = Doors.IndexOf(SelectedDoor);
 				GKManager.DeviceConfiguration.Doors.Remove(SelectedDoor.Door);
+				SelectedDoor.Door.InputDependentElements.ForEach(x =>
+				{
+					x.OutDependentElements.Remove(SelectedDoor.Door);
+				});
+
+				SelectedDoor.Door.OutDependentElements.ForEach(x =>
+				{
+					x.InputDependentElements.Remove(SelectedDoor.Door);
+					x.UpdateLogic();
+					x.OnChanged();
+				});
 				SelectedDoor.Door.OnChanged();
 				Doors.Remove(SelectedDoor);
 				index = Math.Min(index, Doors.Count - 1);
@@ -164,10 +176,22 @@ namespace GKModule.ViewModels
 			{
 				SelectedDoor.Update(doorDetailsViewModel.Door);
 				doorDetailsViewModel.Door.OnChanged();
+				doorDetailsViewModel.Door.OutDependentElements.ForEach(x => x.OnChanged());
+				doorDetailsViewModel.Door.InputDependentElements.ForEach(x => x.OnChanged());
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
+		public RelayCommand ShowDependencyItemsCommand { get; set; }
+
+		void ShowDependencyItems()
+		{
+			if (SelectedDoor.Door != null)
+			{
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedDoor.Door.OutDependentElements);
+				DialogService.ShowModalWindow(dependencyItemsViewModel);
+			}
+		}
 		public void CreateDoor(CreateGKDoorEventArg createGKDoorEventArg)
 		{
 			DoorDetailsViewModel result = OnAddResult();

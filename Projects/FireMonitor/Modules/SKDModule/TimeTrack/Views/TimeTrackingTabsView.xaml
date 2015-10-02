@@ -13,8 +13,8 @@
 			<StackPanel Orientation="Horizontal" Visibility="{Binding IsDayIntervalsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel DataContext="{Binding DayIntervalsViewModel}" Orientation="Horizontal">
 					<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить" />
-					<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
 					<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить" />
+					<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
 					<ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy"  ToolTip="Копировать" />
 					<ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste"  ToolTip="Вставить" />
 					<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
@@ -27,7 +27,7 @@
 					<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
 					<ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy"  ToolTip="Копировать" />
 					<ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste"  ToolTip="Вставить" />
-					<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}"/>
+					<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 				</StackPanel>
 			</Grid>
 			<Grid Visibility="{Binding IsHolidaysSelected, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -50,8 +50,8 @@
 			<Grid Visibility="{Binding IsSchedulesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel DataContext="{Binding SchedulesViewModel}" Orientation="Horizontal">
 					<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить" />
-					<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
 					<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить" />
+					<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
 					<ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy"  ToolTip="Копировать" />
 					<ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste"  ToolTip="Вставить" />
 					<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
@@ -63,15 +63,15 @@
 					<ToolBarButton Command="{Binding RefreshCommand}" ImageSource="Refresh"  ToolTip="Обновить" />
 					<ToolBarButton Command="{Binding PrintCommand}" ImageSource="Print"  ToolTip="Печать" />
 					<StackPanel DataContext="{Binding SelectedTimeTrack.DocumentsViewModel}" Orientation="Horizontal">
-						<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить документ" ImageSource="Add"  />
-						<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать документ" ImageSource="Edit" />
-						<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить документ" ImageSource="Delete" />
-						<ToolBarButton Command="{Binding AddFileCommand}" ToolTip="Загрузить файл" ImageSource="Add" />
-						<ToolBarButton Command="{Binding OpenFileCommand}" ToolTip="Открыть файл" ImageSource="Edit" />
-						<ToolBarButton Command="{Binding RemoveFileCommand}" ToolTip="Удалить файл" ImageSource="Delete" />
+						<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить документ" ImageSource="AddDocument" />
+						<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить документ" ImageSource="DeleteDocument" />
+						<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать документ" ImageSource="EditDocument" />
+						<ToolBarButton Command="{Binding AddFileCommand}" ToolTip="Загрузить файл" ImageSource="AddFile" />
+						<ToolBarButton Command="{Binding OpenFileCommand}" ToolTip="Открыть файл" ImageSource="EditFile" />
+						<ToolBarButton Command="{Binding RemoveFileCommand}" ToolTip="Удалить файл" ImageSource="DeleteFile" />
 					</StackPanel>
-					<ToolBarButton Command="{Binding ShowDocumentTypesCommand}" ToolTip="Типы документов" ImageSource="Paste" />
-					<ToolBarButton Command="{Binding ShowNightSettingsCommand}" ToolTip="Настройка ночных интервалов" ImageSource="Settings2" />
+					<ToolBarButton Command="{Binding ShowDocumentTypesCommand}" ToolTip="Типы документов" ImageSource="DocumentSettings" />
+					<ToolBarButton Command="{Binding ShowNightSettingsCommand}" ToolTip="Настройка ночных интервалов" ImageSource="NightSettings" />
 				</StackPanel>
 			</Grid>
 			

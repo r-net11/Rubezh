@@ -141,7 +141,6 @@ namespace FireAdministrator
 					ServiceFactory.ContentService.Invalidate();
 
 					FiresecManager.UpdateConfiguration();
-					GKManager.UpdateConfiguration();
 
 					if (LoadingErrorManager.HasError)
 						MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке конфигурации");

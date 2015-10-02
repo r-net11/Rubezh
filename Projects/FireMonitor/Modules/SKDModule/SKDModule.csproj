@@ -262,7 +262,6 @@
       <DependentUpon>PassCardTextPropertyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Positions\ViewModels\PositionEmployeeListViewModel.cs" />
-    <Compile Include="Reports\Providers\ReflectionReportProvider.cs" />
     <Compile Include="Reports\ViewModels\Base\IOrganisationItemsFilterPage.cs" />
     <Compile Include="Reports\ViewModels\Base\OrganisationChangedSubscriber.cs" />
     <Compile Include="Reports\DeviceListReport.cs" />
@@ -271,7 +270,6 @@
     <Compile Include="Reports\Providers\EmployeeRootReportProvider.cs" />
     <Compile Include="Reports\Providers\EventsReportProvider.cs" />
     <Compile Include="Reports\Providers\WorkingTimeReportProvider.cs" />
-    <Compile Include="Reports\Providers\DoorsReportProvider.cs" />
     <Compile Include="Reports\Providers\DocumentsReportProvider.cs" />
     <Compile Include="Reports\Providers\SchedulesReportProvider.cs" />
     <Compile Include="Reports\Providers\DisciplineReportProvider.cs" />
@@ -283,11 +281,9 @@
     <Compile Include="Reports\Providers\CardsReportProvider.cs" />
     <Compile Include="Reports\T13Report.cs" />
     <Compile Include="Reports\ViewModels\CheckedItemViewModel.cs" />
-    <Compile Include="Reports\ViewModels\ReflectionPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\ReportFilterOrganisationViewModel.cs" />
     <Compile Include="Reports\ViewModels\ReportOrganisationsFilterViewModel.cs" />
     <Compile Include="Reports\ViewModels\ScheduleSchemePageViewModel.cs" />
-    <Compile Include="Reports\ViewModels\DoorPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\DisciplinaryFilterPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\DocumentFilterPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\EventTypePageViewModel.cs" />
@@ -311,14 +307,8 @@
     <Compile Include="Reports\Views\DocumentFilterPageView.xaml.cs">
       <DependentUpon>DocumentFilterPageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reports\Views\DoorPageView.xaml.cs">
-      <DependentUpon>DoorPageView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Reports\Views\EmployeePageView.xaml.cs">
       <DependentUpon>EmployeePageView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\Views\ReflectionPageView.xaml.cs">
-      <DependentUpon>ReflectionPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\Views\ScheduleSchemePageView.xaml.cs">
       <DependentUpon>ScheduleSchemePageView.xaml</DependentUpon>
@@ -605,6 +595,10 @@
       <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
       <Name>FiresecClient</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\FiresecLicense\FiresecLicense.csproj">
+      <Project>{e6d24912-812b-42b4-b6b0-97ca33c0f4af}</Project>
+      <Name>FiresecLicense</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
@@ -800,15 +794,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Reports\Views\DoorPageView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Reports\Views\EmployeePageView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Reports\Views\ReflectionPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

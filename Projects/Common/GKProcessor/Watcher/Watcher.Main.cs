@@ -6,7 +6,7 @@ using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecClient;
 using Infrastructure.Common;
-using FiresecAPI;
+using FiresecLicense;
 
 namespace GKProcessor
 {

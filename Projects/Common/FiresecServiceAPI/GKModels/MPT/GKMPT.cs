@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Infrustructure.Plans.Interfaces;
+using FiresecClient;
+using System.Linq;
 
 namespace FiresecAPI.GK
 {
@@ -21,19 +23,30 @@ namespace FiresecAPI.GK
 			PlanElementUIDs = new List<Guid>();
 		}
 
-		public override void Update(GKDevice device)
+		public override void Invalidate()
 		{
-			MptLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => { y.Devices.Remove(device); y.DeviceUIDs.Remove(device.UID); });
-			MPTDevices.RemoveAll(x => x.Device == device);
-			UnLinkObject(device);
-			OnChanged();
+			foreach (var mptDevice in MPTDevices)
+			{
+				var device = GKManager.Devices.FirstOrDefault(x => x.UID == mptDevice.DeviceUID);
+				if (device != null && GKMPTDevice.GetAvailableMPTDriverTypes(mptDevice.MPTDeviceType).Contains(device.DriverType))
+				{
+					mptDevice.Device = device;
+					device.IsInMPT = true;
+					AddDependentElement(device);
+				}
+			}
+
+			UpdateLogic();
+
+			MptLogic.GetObjects().ForEach(x =>
+			{
+				AddDependentElement(x);
+			});
 		}
 
-		public override void Update(GKDirection direction)
+		public override void UpdateLogic()
 		{
-			MptLogic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
-			UnLinkObject(direction);
-			OnChanged();
+			GKManager.DeviceConfiguration.InvalidateInputObjectsBaseLogic(this, MptLogic);
 		}
 
 		bool _isLogicOnKau;

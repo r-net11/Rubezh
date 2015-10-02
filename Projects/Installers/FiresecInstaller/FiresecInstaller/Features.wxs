@@ -10,16 +10,17 @@
       <FeatureRef Id="Monitor.Features" />
       <FeatureRef Id="OPC.Features" />
 
-      <Feature Id="GK.Features" Title="ГК" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы борудования Рубеж Глобал">
+      <Feature Id="GK.Features" Title="ГК" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компоненты для работы оборудования Рубеж Глобал">
         <Condition Level="1">INSTALL_GK</Condition>
         <ComponentRef Id="Administrator.GK_MODULE" />
         <ComponentRef Id="Monitor.GK_MODULE" />
       </Feature>
-      <Feature Id="Video.Features" Title="Видео" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Видео">
+      <Feature Id="Video.Features" Title="Видео" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компоненты для работы Видео">
         <Condition Level="1">INSTALL_VIDEO</Condition>
-        <ComponentRef Id="Administrator.VIDEO_MODULE" />
+		<ComponentRef Id="Administrator.VIDEO_MODULE" />
         <ComponentRef Id="Monitor.VIDEO_MODULE" />
-      </Feature>
+	  </Feature>
+	  <Feature Id="Postgres.Features" Title="СУБД Postgres" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит PostgreSQL" />
 
       <ComponentRef Id="ProgramMenuDir.Additional" />
       <ComponentRef Id="Administrator.PLANS_MODULE" />

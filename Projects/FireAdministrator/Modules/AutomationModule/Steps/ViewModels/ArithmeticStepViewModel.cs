@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Automation;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -18,15 +19,30 @@ namespace AutomationModule.ViewModels
 			ResultArgument = new ArgumentViewModel(ArithmeticArguments.ResultArgument, stepViewModel.Update, UpdateContent, false);
 			Argument1 = new ArgumentViewModel(ArithmeticArguments.Argument1, stepViewModel.Update, UpdateContent);
 			Argument2 = new ArgumentViewModel(ArithmeticArguments.Argument2, stepViewModel.Update, UpdateContent);
-			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object && x != ExplicitType.Enum));
-			TimeTypes = ProcedureHelper.GetEnumObs<TimeType>();
+			ExplicitTypes = new ObservableCollection<ExplicitType>(AutomationHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object && x != ExplicitType.Enum));
+			TimeTypes = AutomationHelper.GetEnumObs<TimeType>();
 			SelectedExplicitType = ArithmeticArguments.ExplicitType;
 		}
 
 		public override void UpdateContent()
 		{
-			Argument1.Update(Procedure, SelectedExplicitType, isList: false);
-			Argument2.Update(Procedure, (SelectedExplicitType == ExplicitType.DateTime) ? ExplicitType.Integer : SelectedExplicitType, isList: false);
+			switch (SelectedExplicitType)
+			{
+				case ExplicitType.DateTime:
+					Argument1.Update(Procedure, SelectedExplicitType, isList: false);
+					Argument2.Update(Procedure, ExplicitType.Integer, isList: false);
+					break;
+				case ExplicitType.String:
+					Argument1.Update(Procedure, AutomationHelper.GetEnumList<ExplicitType>(), isList: false);
+					Argument1.ExplicitType = ExplicitType.String;
+					Argument2.Update(Procedure, AutomationHelper.GetEnumList<ExplicitType>(), isList: false);
+					Argument2.ExplicitType = ExplicitType.String;
+					break;
+				default:
+					Argument1.Update(Procedure, SelectedExplicitType, isList: false);
+					Argument2.Update(Procedure, SelectedExplicitType, isList: false);
+					break;
+			}
 			ResultArgument.Update(Procedure, SelectedExplicitType, isList: false);
 			SelectedArithmeticOperationType = ArithmeticOperationTypes.Contains(ArithmeticArguments.ArithmeticOperationType) ? ArithmeticArguments.ArithmeticOperationType : ArithmeticOperationTypes.FirstOrDefault();
 		}

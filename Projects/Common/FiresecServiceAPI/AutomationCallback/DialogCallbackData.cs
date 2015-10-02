@@ -28,5 +28,11 @@ namespace FiresecAPI.AutomationCallback
 		public double MinWidth { get; set; }
 		[DataMember]
 		public double MinHeight { get; set; }
+		[DataMember]
+		public bool CustomPosition { get; set; }
+		[DataMember]
+		public double Left { get; set; }
+		[DataMember]
+		public double Top { get; set; }
 	}
 }

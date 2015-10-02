@@ -280,6 +280,8 @@ namespace FiresecService.Report.DataSources {
         public partial class DataDataTable : global::System.Data.TypedTableBase<DataRow> {
             
             private global::System.Data.DataColumn columnEmployee;
+
+			private global::System.Data.DataColumn columnOrganisation;
             
             private global::System.Data.DataColumn columnDepartment;
             
@@ -345,6 +347,16 @@ namespace FiresecService.Report.DataSources {
                     return this.columnEmployee;
                 }
             }
+
+			[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+			[global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+			public global::System.Data.DataColumn OrganisationColumn
+			{
+				get
+				{
+					return this.columnOrganisation;
+				}
+			}
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -536,7 +548,9 @@ namespace FiresecService.Report.DataSources {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             private void InitClass() {
                 this.columnEmployee = new global::System.Data.DataColumn("Employee", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnEmployee);
+				base.Columns.Add(this.columnEmployee);
+				this.columnOrganisation = new global::System.Data.DataColumn("Organisation", typeof(string), null, global::System.Data.MappingType.Element);
+				base.Columns.Add(this.columnOrganisation);
                 this.columnDepartment = new global::System.Data.DataColumn("Department", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDepartment);
                 this.columnPosition = new global::System.Data.DataColumn("Position", typeof(string), null, global::System.Data.MappingType.Element);
@@ -716,6 +730,27 @@ namespace FiresecService.Report.DataSources {
                     this[this.tableData.EmployeeColumn] = value;
                 }
             }
+
+			[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+			[global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+			public string Organisation
+			{
+				get
+				{
+					try
+					{
+						return ((string)(this[this.tableData.OrganisationColumn]));
+					}
+					catch (global::System.InvalidCastException e)
+					{
+						throw new global::System.Data.StrongTypingException("The value for column \'Organisation\' in table \'Data\' is DBNull.", e);
+					}
+				}
+				set
+				{
+					this[this.tableData.OrganisationColumn] = value;
+				}
+			}
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]

@@ -136,7 +136,6 @@ namespace FiresecAPI.Models
 				union.AddRange(ElementRectangleGKSKDZones);
 				union.AddRange(ElementPolygonGKSKDZones);
 				union.AddRange(ElementGKDoors);
-				union.AddRange(ElementExtensions);
 				union.AddRange(ElementPolygonGKDirections);
 				union.AddRange(ElementPolygonGKMPTs);
 				union.AddRange(ElementPolygonGKGuardZones);
@@ -166,6 +165,8 @@ namespace FiresecAPI.Models
 				foreach (var element in ElementPolygons)
 					yield return element;
 				foreach (var element in ElementTextBlocks)
+					yield return element;
+				foreach (var element in ElementExtensions)
 					yield return element;
 			}
 		}

@@ -15,7 +15,6 @@ namespace GKModule.Validation
 	{
 		void ValidateGKObjectsCount()
 		{
-			DescriptorsManager.Create();
 			var databases = new List<CommonDatabase>();
 			databases.AddRange(DescriptorsManager.GkDatabases);
 			databases.AddRange(DescriptorsManager.KauDatabases);

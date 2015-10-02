@@ -45,6 +45,14 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Magick.NET-AnyCPU, Version=7.0.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
+      <HintPath>..\packages\Magick.NET-Q16-AnyCPU.7.0.0.0018\lib\net40-client\Magick.NET-AnyCPU.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Magick.NET.Core, Version=7.0.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
+      <HintPath>..\packages\Magick.NET-Q16-AnyCPU.7.0.0.0018\lib\net40-client\Magick.NET.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
       <Private>True</Private>
@@ -189,6 +197,12 @@
     <Content Include="Content\favicon\mstile-150x150.png" />
     <Content Include="Content\favicon\mstile-310x150.png" />
     <Content Include="Content\favicon\mstile-70x70.png" />
+    <Content Include="Content\Hr.css">
+      <DependentUpon>Hr.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Hr.min.css">
+      <DependentUpon>Hr.css</DependentUpon>
+    </Content>
     <Content Include="Content\Image\Icon\Alarms\attention.png" />
     <Content Include="Content\Image\Icon\Alarms\auto.png" />
     <Content Include="Content\Image\Icon\Alarms\failure.png" />
@@ -215,9 +229,36 @@
     <Content Include="Content\Image\Icon\Header\window-normal.png" />
     <Content Include="Content\Image\Icon\Menu\archive.png" />
     <Content Include="Content\Image\Icon\Menu\Bug.png" />
+    <Content Include="Content\Image\Icon\Menu\edit\Add.png" />
+    <Content Include="Content\Image\Icon\Menu\edit\Copy.png" />
+    <Content Include="Content\Image\Icon\Menu\edit\Delete.png" />
+    <Content Include="Content\Image\Icon\Menu\edit\Edit.png" />
+    <Content Include="Content\Image\Icon\Menu\edit\Filter.png" />
+    <Content Include="Content\Image\Icon\Menu\edit\Paste.png" />
+    <Content Include="Content\Image\Icon\Menu\edit\Redo.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\alarm.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\archive.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\book.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\bug.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\dailySchedule.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\file.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\holidays.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\levels.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\Print.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\skd.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\timeTrack.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\tree.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\weeklySchedule.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\workSchedule.png" />
     <Content Include="Content\Image\Icon\Menu\levels.png" />
     <Content Include="Content\Image\Icon\Menu\tree.png" />
     <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
+    <Content Include="Content\main.css">
+      <DependentUpon>main.less</DependentUpon>
+    </Content>
+    <Content Include="Content\main.min.css">
+      <DependentUpon>main.css</DependentUpon>
+    </Content>
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -266,7 +307,7 @@
     <Content Include="Scripts\app\app.js" />
     <Content Include="Scripts\app\controllers\planCtrl.js" />
     <Content Include="Scripts\app\directives\d3Plan.js" />
-    <Content Include="Scripts\app\signalr\planRTUpdaterHub.js" />
+    <Content Include="Scripts\app\signalr\plansUpdaterHub.js" />
     <Content Include="Scripts\archive.js" />
     <Content Include="Content\header.less" />
     <Content Include="Content\vars.less" />
@@ -280,6 +321,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Clock.js" />
+    <Content Include="Scripts\EmployeeDetails.js" />
     <Content Include="Scripts\HR.js" />
     <Content Include="Scripts\HrEmployees.js" />
     <Content Include="Scripts\d3tip.js" />
@@ -337,6 +379,14 @@
     <Content Include="Scripts\d3\LICENSE" />
     <Content Include="Content\plan.less" />
     <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Content\Hr.less" />
+    <Content Include="Content\Hr.css.map">
+      <DependentUpon>Hr.css</DependentUpon>
+    </Content>
+    <Content Include="Content\main.css.map">
+      <DependentUpon>main.css</DependentUpon>
+    </Content>
+    <Content Include="Content\SaveCancelPopup.less" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -367,16 +417,19 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\ArchiveController.cs" />
+    <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HrController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="DataProviders\PlansDataProvider.cs" />
-    <Compile Include="DataProviders\PlansRTStatusUpdaterHub.cs" />
+    <Compile Include="DataProviders\PlansUpdater.cs" />
+    <Compile Include="DataProviders\PlansUpdaterHub.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="JournalItemViewModel.cs" />
+    <Compile Include="Models\ShortEmployeeModel.cs" />
     <Compile Include="Models\PlanElement.cs" />
     <Compile Include="Models\PlanSimpl.cs" />
     <Compile Include="Models\ReportModel.cs" />
@@ -384,6 +437,7 @@
     <Compile Include="Models\ShapeTypesEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utils\StaTaskScheduler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -401,6 +455,15 @@
     <Content Include="Views\Hr\HrEmployees.cshtml" />
     <Content Include="Scripts\jquery.min.map" />
     <Content Include="Views\Home\Plan.cshtml" />
+    <Content Include="Views\Hr\HrDepartments.cshtml" />
+    <Content Include="Views\Hr\Positions.cshtml" />
+    <Content Include="Views\Hr\AdditionalColumnTypes.cshtml" />
+    <Content Include="Views\Hr\Cards.cshtml" />
+    <Content Include="Views\Hr\AccessTemplates.cshtml" />
+    <Content Include="Views\Hr\PassCardTemplates.cshtml" />
+    <Content Include="Views\Hr\Organisations.cshtml" />
+    <Content Include="Views\Employees\Index.cshtml" />
+    <Content Include="Views\Employees\EmployeeDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -412,6 +475,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\app\services\" />
     <Folder Include="Views\Archive\" />
+    <Folder Include="Views\Employee\" />
     <Folder Include="Views\Plans\" />
     <Folder Include="Views\Report\" />
   </ItemGroup>

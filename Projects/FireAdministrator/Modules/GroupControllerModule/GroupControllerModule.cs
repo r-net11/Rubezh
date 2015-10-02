@@ -239,14 +239,6 @@ namespace GKModule
             CodesViewModel.CreateCode(createGKCodeEventArg);
         }
 
-        public override bool BeforeInitialize(bool firstTime)
-        {
-            LoadingService.DoStep("Загрузка конфигурации ГК");
-            GKDriversCreator.Create();
-            GKManager.UpdateConfiguration();
-            return true;
-        }
-
         public override void AfterInitialize()
         {
             SafeFiresecService.CallbackOperationResultEvent -= new Action<CallbackOperationResult>(OnCallbackOperationResult);
@@ -344,7 +336,7 @@ namespace GKModule
                                     DescriptorsManager.Create();
                                     deviceConfiguration.UpdateConfiguration();
                                     deviceConfiguration.PrepareDescriptors();
-                                    configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, deviceConfiguration, DevicesViewModel.SelectedDevice.Device, true, configFileName);
+                                    configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, deviceConfiguration, DevicesViewModel.SelectedDevice.Device, configFileName);
                                 });
                                 //LoadingService.Close();
                                 if (configurationCompareViewModel.Error != null)

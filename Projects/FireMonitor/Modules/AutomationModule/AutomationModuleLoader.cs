@@ -26,6 +26,7 @@ using Infrastructure.Events;
 using Infrastructure.Models;
 using Infrustructure.Plans.Events;
 using Microsoft.Practices.Prism.Events;
+using Infrastructure.Automation;
 
 namespace AutomationModule
 {
@@ -100,15 +101,16 @@ namespace AutomationModule
 					break;
 				case AutomationCallbackType.Message:
 					var messageArguments = (MessageCallbackData)automationCallbackResult.Data;
+					var message = AutomationHelper.GetStringValue(messageArguments.Message);
 					ApplicationService.Invoke(() =>
 					{
 						if (messageArguments.WithConfirmation)
 						{
-							var confirm = MessageBoxService.ShowConfirmation(messageArguments.Message, "Сообщение");
-							FiresecManager.FiresecService.ProcedureCallbackResponse(automationCallbackResult.CallbackUID, confirm);
+							var confirm = MessageBoxService.ShowConfirmation(message, "Сообщение");
+							ProcedureExecutionContext.CallbackResponse(automationCallbackResult.ContextType, automationCallbackResult.CallbackUID, confirm);
 						}
 						else
-							MessageBoxService.ShowExtended(messageArguments.Message, "Сообщение", messageArguments.IsModalWindow);
+							MessageBoxService.ShowExtended(message, "Сообщение", messageArguments.IsModalWindow);
 					});
 					break;
 				case AutomationCallbackType.Property:

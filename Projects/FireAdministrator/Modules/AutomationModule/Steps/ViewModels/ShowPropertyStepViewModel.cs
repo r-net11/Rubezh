@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -13,12 +14,25 @@ namespace AutomationModule.ViewModels
 		{
 			ShowPropertyArguments = stepViewModel.Step.ShowPropertyArguments;
 			ObjectArgument = new ArgumentViewModel(ShowPropertyArguments.ObjectArgument, stepViewModel.Update, null);
-			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
+			ObjectTypes = AutomationHelper.GetEnumObs<ObjectType>();
+			IsServerContext = Procedure.ContextType == ContextType.Server;
+		}
+
+		bool _isServerContext;
+		public bool IsServerContext
+		{
+			get { return _isServerContext; }
+			set
+			{
+				_isServerContext = value;
+				OnPropertyChanged(() => IsServerContext);
+			}
 		}
 
 		public override void UpdateContent()
 		{
 			ObjectArgument.Update(Procedure, ExplicitType.Object, objectType: ObjectType, isList: false);
+			IsServerContext = Procedure.ContextType == ContextType.Server;
 			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowPropertyArguments.LayoutFilter);
 			OnPropertyChanged(() => ProcedureLayoutCollectionViewModel);
 		}

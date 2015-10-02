@@ -5,7 +5,7 @@ function MenuViewModel() {
 
     self.pages = {
         State: ko.observable(false),
-        Report: ko.observable(false),                
+        Report: ko.observable(false),
         Device: ko.observable(false),
         HR: ko.observable(false),
         Archive: ko.observable(false),
@@ -105,6 +105,8 @@ function AppViewModel() {
     self.Menu.Report = ReportViewModel();
     self.Menu.Archive = ArchiveViewModel();
     self.Menu.HR = HRViewModel();
+    self.Menu.HR.Employees = EmployeesViewModel();
+    self.Menu.HR.EmployeeDetails = EmployeeDetailsViewModel();
 
     return self;
 }

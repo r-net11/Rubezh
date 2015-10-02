@@ -177,7 +177,7 @@ namespace GKModule.Models
 								}
 							}
 
-							configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, result.Result, SelectedDevice.Device, false);
+							configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, result.Result, SelectedDevice.Device);
 						});
 						LoadingService.Close();
 						if (configurationCompareViewModel.Error != null)

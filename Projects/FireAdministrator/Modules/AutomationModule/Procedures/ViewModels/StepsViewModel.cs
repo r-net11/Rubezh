@@ -18,10 +18,10 @@ namespace AutomationModule.ViewModels
 
 		public StepsViewModel(Procedure procedure)
 		{
-			AddStepCommand = new RelayCommand(OnAddStep, CanAdd);
-			DeleteCommand = new RelayCommand(OnDelete, CanDeleted);
-			AddIfCommand = new RelayCommand(OnAddIf, CanAdd);
-			AddForeachCommand = new RelayCommand(OnAddForeach, CanAdd);
+			AddStepCommand = new RelayCommand(OnAddStep);
+			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+			AddIfCommand = new RelayCommand(OnAddIf);
+			AddForeachCommand = new RelayCommand(OnAddForeach);
 			UpCommand = new RelayCommand(OnUp, CanUp);
 			DownCommand = new RelayCommand(OnDown, CanDown);
 			DownIntoCommand = new RelayCommand(OnDownInto, CanDownInto);
@@ -34,7 +34,7 @@ namespace AutomationModule.ViewModels
 			{
 				step.ExpandToThis();
 			}
-			SelectedStep = AllSteps.FirstOrDefault();
+			SelectedStep = RootSteps.FirstOrDefault();
 			OnPropertyChanged(() => RootSteps);
 			OnPropertyChanged(() => SelectedStep);
 		}
@@ -172,7 +172,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{
-			_stepToCopy = Utils.Clone(SelectedStep.Step);
+			_stepToCopy = SelectedStep.Step;
 		}
 
 		public RelayCommand CutCommand { get; private set; }
@@ -184,13 +184,12 @@ namespace AutomationModule.ViewModels
 
 		bool CanCopy()
 		{
-			return SelectedStep != null;
+			return SelectedStep != null && !SelectedStep.IsVirtual;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
 		void OnPaste()
 		{
-			_stepToCopy.UID = new Guid();
 			var stepViewModel = new StepViewModel(this, Utils.Clone(_stepToCopy), Procedure);
 			Add(stepViewModel);
 			foreach (var childStep in stepViewModel.Step.Children)
@@ -254,12 +253,7 @@ namespace AutomationModule.ViewModels
 			SelectedStep = stepViewModel;
 			SelectedStep.ExpandToThis();
 		}
-
-		bool CanAdd()
-		{
-			return true;
-		}
-
+				
 		public RelayCommand AddStepCommand { get; private set; }
 		void OnAddStep()
 		{
@@ -315,7 +309,7 @@ namespace AutomationModule.ViewModels
 			}
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
-		bool CanDeleted()
+		bool CanDelete()
 		{
 			return SelectedStep != null && !SelectedStep.IsVirtual;
 		}

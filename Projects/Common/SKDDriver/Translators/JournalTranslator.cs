@@ -170,36 +170,6 @@ namespace SKDDriver.DataClasses
 			}
 		}
 
-		public OperationResult BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
-		{
-			try
-			{
-				IsAbort = false;
-				var pageSize = archiveFilter.PageSize;
-				var portion = new List<JournalItem>();
-				int itemNo = 0;
-				foreach (var item in BeginGetFilteredArchiveInternal(archiveFilter))
-				{
-					itemNo++;
-					portion.Add(Translate(item));
-					if (itemNo % pageSize == 0)
-					{
-						PublishNewItemsPortion(portion, archivePortionUID);
-						portion = new List<JournalItem>();
-					}
-				}
-				PublishNewItemsPortion(portion, archivePortionUID);
-
-
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "JournalTranslator.GetFilteredJournalItems");
-				return new OperationResult(e.Message);
-			}
-		}
-
 		public OperationResult<List<JournalItem>> GetArchivePage(ArchiveFilter filter, int page)
 		{
 			try
@@ -364,93 +334,25 @@ namespace SKDDriver.DataClasses
 			}
 			if (filter.UseDeviceDateTime)
 			{
-				result = result.Where(x => x.DeviceDate > filter.StartDate && x.DeviceDate < filter.EndDate).OrderByDescending(x => x.DeviceDate);
+				result = result.Where(x => x.DeviceDate > filter.StartDate && x.DeviceDate < filter.EndDate);
 			}
 			else
 			{
-				result = result.Where(x => x.SystemDate > filter.StartDate && x.SystemDate < filter.EndDate).OrderByDescending(x => x.SystemDate);
+				result = result.Where(x => x.SystemDate > filter.StartDate && x.SystemDate < filter.EndDate);
 			}
 			if (filter.IsSortAsc)
 			{
-				switch (filter.SortType)
-				{
-					case ArchiveSortType.SystemDate:
-						result = result.OrderBy(x => x.SystemDate);
-						break;
-					case ArchiveSortType.DeviceDate:
-						result = result.OrderBy(x => x.DeviceDate);
-						break;
-					case ArchiveSortType.EmployeeUID:
-						result = result.OrderBy(x => x.EmployeeUID);
-						break;
-					case ArchiveSortType.Subsystem:
-						result = result.OrderBy(x => x.Subsystem);
-						break;
-					case ArchiveSortType.Name:
-						result = result.OrderBy(x => x.Name);
-						break;
-					case ArchiveSortType.Description:
-						result = result.OrderBy(x => x.Description);
-						break;
-					case ArchiveSortType.ObjectType:
-						result = result.OrderBy(x => x.ObjectType);
-						break;
-					case ArchiveSortType.ObjectName:
-						result = result.OrderBy(x => x.ObjectName);
-						break;
-					case ArchiveSortType.UserName:
-						result = result.OrderBy(x => x.UserName);
-						break;
-					case ArchiveSortType.CameraUID:
-						result = result.OrderBy(x => x.CameraUID);
-						break;
-					case ArchiveSortType.CardNo:
-						result = result.OrderBy(x => x.CardNo);
-						break;
-					default:
-						break;
-				}
+				if (filter.UseDeviceDateTime)
+					result = result.OrderBy(x => x.DeviceDate);
+				else
+					result = result.OrderBy(x => x.SystemDate);
 			}
 			else
 			{
-					switch (filter.SortType)
-				{
-					case ArchiveSortType.SystemDate:
-						result = result.OrderByDescending(x => x.SystemDate);
-						break;
-					case ArchiveSortType.DeviceDate:
-						result = result.OrderByDescending(x => x.DeviceDate);
-						break;
-					case ArchiveSortType.EmployeeUID:
-						result = result.OrderByDescending(x => x.EmployeeUID);
-						break;
-					case ArchiveSortType.Subsystem:
-						result = result.OrderByDescending(x => x.Subsystem);
-						break;
-					case ArchiveSortType.Name:
-						result = result.OrderByDescending(x => x.Name);
-						break;
-					case ArchiveSortType.Description:
-						result = result.OrderByDescending(x => x.Description);
-						break;
-					case ArchiveSortType.ObjectType:
-						result = result.OrderByDescending(x => x.ObjectType);
-						break;
-					case ArchiveSortType.ObjectName:
-						result = result.OrderByDescending(x => x.ObjectName);
-						break;
-					case ArchiveSortType.UserName:
-						result = result.OrderByDescending(x => x.UserName);
-						break;
-					case ArchiveSortType.CameraUID:
-						result = result.OrderByDescending(x => x.CameraUID);
-						break;
-					case ArchiveSortType.CardNo:
-						result = result.OrderByDescending(x => x.CardNo);
-						break;
-					default:
-						break;
-				}
+				if (filter.UseDeviceDateTime)
+					result = result.OrderByDescending(x => x.DeviceDate);
+				else
+					result = result.OrderByDescending(x => x.SystemDate);	
 			}
 			return result;
 		}

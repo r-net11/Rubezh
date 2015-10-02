@@ -8,6 +8,7 @@ using Infrustructure.Plans.Elements;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Events;
 using FiresecAPI;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -23,6 +24,7 @@ namespace AutomationModule.ViewModels
 			ControlPlanArguments = stepViewModel.Step.ControlPlanArguments;
 			ControlElementType = controlElementType;
 			ValueArgument = new ArgumentViewModel(ControlPlanArguments.ValueArgument, stepViewModel.Update, UpdateContent, controlElementType == ControlElementType.Set);
+			IsServerContext = Procedure.ContextType == ContextType.Server;
 			ElementPropertyTypes = new ObservableCollection<ElementPropertyType>();
 			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementsChanged);
 			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementsChanged);
@@ -33,6 +35,17 @@ namespace AutomationModule.ViewModels
 		private void OnElementsChanged(List<ElementBase> elements)
 		{
 			UpdateContent();
+		}
+
+		bool _isServerContext;
+		public bool IsServerContext
+		{
+			get { return _isServerContext; }
+			set
+			{
+				_isServerContext = value;
+				OnPropertyChanged(() => IsServerContext);
+			}
 		}
 
 		public ObservableCollection<PlanViewModel> Plans { get; private set; }
@@ -118,17 +131,43 @@ namespace AutomationModule.ViewModels
 
 		ObservableCollection<ElementPropertyType> GetElemetProperties(ElementViewModel element)
 		{
-			var elementPropertyTypes = new ObservableCollection<ElementPropertyType>();
-			if (element.ElementType == typeof(ElementRectangle) || element.ElementType == typeof(ElementEllipse))
-				elementPropertyTypes = new ObservableCollection<ElementPropertyType> { ElementPropertyType.Height, ElementPropertyType.Width,
-					ElementPropertyType.Color, ElementPropertyType.BackColor, ElementPropertyType.BorderThickness, ElementPropertyType.Left, ElementPropertyType.Top };
+			if (element.ElementType == typeof(ElementRectangle) || element.ElementType == typeof(ElementEllipse) || element.ElementType == typeof(ElementProcedure))
+				return new ObservableCollection<ElementPropertyType> 
+				{ 
+					ElementPropertyType.IsVisible, 
+					ElementPropertyType.IsEnabled,
+					ElementPropertyType.Height, 
+					ElementPropertyType.Width,
+					ElementPropertyType.Color, 
+					ElementPropertyType.BackColor, 
+					ElementPropertyType.BorderThickness, 
+					ElementPropertyType.Left, 
+					ElementPropertyType.Top 
+				};
 			if (element.ElementType == typeof(ElementPolygon))
-				elementPropertyTypes = new ObservableCollection<ElementPropertyType> { ElementPropertyType.Color, ElementPropertyType.BackColor, ElementPropertyType.BorderThickness, ElementPropertyType.Left, ElementPropertyType.Top };
+				return new ObservableCollection<ElementPropertyType> 
+				{ 
+					ElementPropertyType.IsVisible, 
+					ElementPropertyType.IsEnabled, 
+					ElementPropertyType.Color, 
+					ElementPropertyType.BackColor, 
+					ElementPropertyType.BorderThickness, 
+					ElementPropertyType.Left, 
+					ElementPropertyType.Top 
+				};
 			if (element.ElementType == typeof(ElementPolyline))
-				elementPropertyTypes = new ObservableCollection<ElementPropertyType> { ElementPropertyType.Color, ElementPropertyType.BorderThickness, ElementPropertyType.Left, ElementPropertyType.Top };
+				return new ObservableCollection<ElementPropertyType> 
+				{ 
+					ElementPropertyType.IsVisible, 
+					ElementPropertyType.IsEnabled, 
+					ElementPropertyType.Color, 
+					ElementPropertyType.BorderThickness, 
+					ElementPropertyType.Left, 
+					ElementPropertyType.Top 
+				};
 			if (element.ElementType == typeof(ElementTextBlock))
-				elementPropertyTypes = ProcedureHelper.GetEnumObs<ElementPropertyType>();
-			return elementPropertyTypes;
+				return AutomationHelper.GetEnumObs<ElementPropertyType>();
+			return new ObservableCollection<ElementPropertyType>();
 		}
 
 		ExplicitTypeViewModel PropertyTypeToExplicitType(ElementPropertyType elementPropertyType)
@@ -137,7 +176,7 @@ namespace AutomationModule.ViewModels
 				elementPropertyType == ElementPropertyType.FontSize || elementPropertyType == ElementPropertyType.Left || elementPropertyType == ElementPropertyType.Top)
 				return new ExplicitTypeViewModel(ExplicitType.Integer);
 			if (elementPropertyType == ElementPropertyType.FontBold || elementPropertyType == ElementPropertyType.FontItalic || elementPropertyType == ElementPropertyType.Stretch ||
-				elementPropertyType == ElementPropertyType.WordWrap)
+				elementPropertyType == ElementPropertyType.WordWrap || elementPropertyType == ElementPropertyType.IsVisible || elementPropertyType == ElementPropertyType.IsEnabled)
 				return new ExplicitTypeViewModel(ExplicitType.Boolean);
 			if (elementPropertyType == ElementPropertyType.Color || elementPropertyType == ElementPropertyType.BackColor || elementPropertyType == ElementPropertyType.ForegroundColor)
 				return new ExplicitTypeViewModel(EnumType.ColorType);
@@ -150,6 +189,7 @@ namespace AutomationModule.ViewModels
 		{
 			Plans = new ObservableCollection<PlanViewModel>(FiresecManager.PlansConfiguration.AllPlans.Select(x => new PlanViewModel(x)));
 			SelectedPlan = Plans.FirstOrDefault(x => x.Plan.UID == ControlPlanArguments.PlanUid);
+			IsServerContext = Procedure.ContextType == ContextType.Server;
 			OnPropertyChanged(() => Plans);
 			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ControlPlanArguments.LayoutFilter);
 			OnPropertyChanged(() => ProcedureLayoutCollectionViewModel);

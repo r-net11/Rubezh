@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI;
 using FiresecAPI.Automation;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -18,7 +19,7 @@ namespace AutomationModule.ViewModels
 			ListArgument.UpdateVariableHandler += UpdateItemVariable;
 			ItemArgument = new ArgumentViewModel(GetListItemArguments.ItemArgument, stepViewModel.Update, UpdateContent, false);
 			IndexArgument = new ArgumentViewModel(GetListItemArguments.IndexArgument, stepViewModel.Update, UpdateContent);
-			PositionTypes = ProcedureHelper.GetEnumObs<PositionType>();
+			PositionTypes = AutomationHelper.GetEnumObs<PositionType>();
 		}
 
 		public override void UpdateContent()

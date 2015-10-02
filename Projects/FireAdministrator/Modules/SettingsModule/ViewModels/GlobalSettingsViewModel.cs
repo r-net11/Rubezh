@@ -45,12 +45,15 @@ namespace SettingsModule.ViewModels
 			RemoteAddress = GlobalSettingsHelper.GlobalSettings.RemoteAddress;
 			RemotePort = GlobalSettingsHelper.GlobalSettings.RemotePort;
 			ReportRemotePort = GlobalSettingsHelper.GlobalSettings.ReportRemotePort;
-			Login = GlobalSettingsHelper.GlobalSettings.AdminLogin;
-			Password = GlobalSettingsHelper.GlobalSettings.AdminPassword;
-			AutoConnect = GlobalSettingsHelper.GlobalSettings.AdminAutoConnect;
-			DoNotAutoconnectAdm = GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm;
+			AdministratorLogin = GlobalSettingsHelper.GlobalSettings.AdminLogin;
+			AdministratorPassword = GlobalSettingsHelper.GlobalSettings.AdminPassword;
+			AdministratorAutoConnect = GlobalSettingsHelper.GlobalSettings.AdminAutoConnect;
+			MonitorLogin = GlobalSettingsHelper.GlobalSettings.MonitorLogin;
+			MonitorPassword = GlobalSettingsHelper.GlobalSettings.MonitorPassword;
+			MonitorAutoConnect = GlobalSettingsHelper.GlobalSettings.MonitorAutoConnect;
 			RunRevisor = GlobalSettingsHelper.GlobalSettings.RunRevisor;
 			Server_EnableRemoteConnections = GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections;
+			Server_RemoteIpAddress = GlobalSettingsHelper.GlobalSettings.Server_RemoteIpAddress;
 		}
 
 		void GetServerAuto()
@@ -194,7 +197,7 @@ namespace SettingsModule.ViewModels
 		public RelayCommand ResetConfigurationCommand { get; private set; }
 		void OnResetConfiguration()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить по конфигурацию?"))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить конфигурацию?"))
 			{
 				File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "Config.fscp"), AppDataFolderHelper.GetFileInFolder("Server", "Config.fscp"), true);
 			}
@@ -299,6 +302,17 @@ namespace SettingsModule.ViewModels
 			}
 		}
 
+		string _Server_RemoteIpAddress;
+		public string Server_RemoteIpAddress
+		{
+			get { return _Server_RemoteIpAddress; }
+			set
+			{
+				_Server_RemoteIpAddress = value;
+				OnPropertyChanged(() => Server_RemoteIpAddress);
+			}
+		}
+
 		bool _isGKOpcServerAuto;
 		public bool IsGKOpcServerAuto
 		{
@@ -343,49 +357,72 @@ namespace SettingsModule.ViewModels
 			}
 		}
 
-		string _login;
-		public string Login
+		string _monitorLogin;
+		public string MonitorLogin
 		{
-			get { return _login; }
+			get { return _monitorLogin; }
 			set
 			{
-				_login = value;
-				OnPropertyChanged(() => Login);
+				_monitorLogin = value;
+				OnPropertyChanged(() => MonitorLogin);
 			}
 		}
 
-		string _password;
-		public string Password
+
+		string _administratorLogin;
+		public string AdministratorLogin
 		{
-			get { return _password; }
+			get { return _administratorLogin; }
 			set
 			{
-				_password = value;
-				OnPropertyChanged(() => Password);
+				_administratorLogin = value;
+				OnPropertyChanged(() => AdministratorLogin);
 			}
 		}
 
-		bool _autoConnect;
-		public bool AutoConnect
+		string _administratorPassword;
+		public string AdministratorPassword
 		{
-			get { return _autoConnect; }
+			get { return _administratorPassword; }
 			set
 			{
-				_autoConnect = value;
-				OnPropertyChanged(() => AutoConnect);
+				_administratorPassword = value;
+				OnPropertyChanged(() => AdministratorPassword);
+			}
+		}
+		string _monitorPassword;
+		public string MonitorPassword
+		{
+			get { return _monitorPassword; }
+			set
+			{
+				_monitorPassword = value;
+				OnPropertyChanged(() => MonitorPassword);
 			}
 		}
 
-		bool _doNotAutoconnectAdm;
-		public bool DoNotAutoconnectAdm
+		bool _administratorAutoConnect;
+		public bool AdministratorAutoConnect
 		{
-			get { return _doNotAutoconnectAdm; }
+			get { return _administratorAutoConnect; }
 			set
 			{
-				_doNotAutoconnectAdm = value;
-				OnPropertyChanged(() => DoNotAutoconnectAdm);
+				_administratorAutoConnect = value;
+				OnPropertyChanged(() => AdministratorAutoConnect);
 			}
 		}
+
+		bool _monitorAutoConnect;
+		public bool MonitorAutoConnect
+		{
+			get { return _monitorAutoConnect; }
+			set
+			{
+				_monitorAutoConnect = value;
+				OnPropertyChanged(() => MonitorAutoConnect);
+			}
+		}
+
 
 		bool _runRevisor;
 		public bool RunRevisor
@@ -416,11 +453,14 @@ namespace SettingsModule.ViewModels
 			GlobalSettingsHelper.GlobalSettings.RemoteAddress = RemoteAddress;
 			GlobalSettingsHelper.GlobalSettings.RemotePort = RemotePort;
 			GlobalSettingsHelper.GlobalSettings.ReportRemotePort = ReportRemotePort;
-			GlobalSettingsHelper.GlobalSettings.AdminLogin = Login;
-			GlobalSettingsHelper.GlobalSettings.AdminPassword = Password;
-			GlobalSettingsHelper.GlobalSettings.AdminAutoConnect = AutoConnect;
+			GlobalSettingsHelper.GlobalSettings.AdminLogin = AdministratorLogin;
+			GlobalSettingsHelper.GlobalSettings.AdminPassword = AdministratorPassword;
+			GlobalSettingsHelper.GlobalSettings.AdminAutoConnect = AdministratorAutoConnect;
+			GlobalSettingsHelper.GlobalSettings.MonitorLogin = MonitorLogin;
+			GlobalSettingsHelper.GlobalSettings.MonitorPassword = MonitorPassword;
+			GlobalSettingsHelper.GlobalSettings.MonitorAutoConnect = MonitorAutoConnect;
 			GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections = Server_EnableRemoteConnections;
-			GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm = DoNotAutoconnectAdm;
+			GlobalSettingsHelper.GlobalSettings.Server_RemoteIpAddress = Server_RemoteIpAddress;
 			GlobalSettingsHelper.GlobalSettings.RunRevisor = RunRevisor;
 			ModulesViewModel.Save();
 			DbSettingsViewModel.Save();

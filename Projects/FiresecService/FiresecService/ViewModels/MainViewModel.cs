@@ -5,8 +5,7 @@ using System.Windows.Threading;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using FiresecAPI;
+using FiresecLicense;
 using GKProcessor;
 using FiresecAPI.GK;
 
@@ -30,7 +29,7 @@ namespace FiresecService.ViewModels
 			Logs = new ObservableCollection<LogViewModel>();
 			GKLifecycles = new ObservableCollection<GKLifecycleViewModel>();
 			LicenseViewModel = new LicenseViewModel();
-			LicenseHelper.LicenseChanged += LicenseHelper_LicenseChanged;
+			FiresecLicenseManager.LicenseChanged += LicenseHelper_LicenseChanged;
 			GKLifecycleManager.GKLifecycleChangedEvent += On_GKLifecycleChangedEvent;
 			SetTitle();
 		}
@@ -39,7 +38,7 @@ namespace FiresecService.ViewModels
 		{
 			Title = LicenseHelper.LicenseMode == LicenseMode.Demonstration ?
 				"Сервер приложений Глобал [Демонстрационный режим]" :
-				"Сервер приложений Глобал";
+			   "Сервер приложений Глобал";
 		}
 
 		void LicenseHelper_LicenseChanged()
@@ -69,11 +68,6 @@ namespace FiresecService.ViewModels
 				_status = value;
 				OnPropertyChanged(() => Status);
 			}
-		}
-
-		public override int GetPreferedMonitor()
-		{
-			return MonitorHelper.PrimaryMonitor;
 		}
 
 		#region Clients

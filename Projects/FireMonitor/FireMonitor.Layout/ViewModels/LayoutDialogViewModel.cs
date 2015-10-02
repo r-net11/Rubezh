@@ -11,10 +11,13 @@ namespace FireMonitor.Layout.ViewModels
 {
 	public class LayoutDialogViewModel : DialogViewModel
 	{
+		public DialogCallbackData Data { get; private set; }
+
 		public static void Show(DialogCallbackData data)
 		{
 			var windowViewModel = new LayoutDialogViewModel(data.Layout)
 			{
+				Data = data,
 				Title = data.Title,
 				AllowClose = data.AllowClose,
 				AllowMaximize = data.AllowMaximize,
@@ -23,7 +26,7 @@ namespace FireMonitor.Layout.ViewModels
 				Width = data.Width,
 				Height = data.Height,
 				MinWidth = data.MinWidth,
-				MinHeight = data.MinHeight,
+				MinHeight = data.MinHeight
 			};
 			ApplicationService.BeginInvoke(() =>
 			{
@@ -31,6 +34,7 @@ namespace FireMonitor.Layout.ViewModels
 					DialogService.ShowModalWindow(windowViewModel);
 				else
 					DialogService.ShowWindow(windowViewModel);
+
 			});
 		}
 

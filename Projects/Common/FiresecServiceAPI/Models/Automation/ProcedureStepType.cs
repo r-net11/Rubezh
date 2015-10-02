@@ -16,22 +16,22 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Цикл по списку")]
 		Foreach,
 
-		[DescriptionAttribute("Цикл For")]
+		[DescriptionAttribute("Цикл Для")]
 		For,
 
-		[DescriptionAttribute("Цикл While")]
+		[DescriptionAttribute("Цикл Пока")]
 		While,
 
-		[DescriptionAttribute("выйти из цикла")]
+		[DescriptionAttribute("Выйти из цикла")]
 		Break,
 
-		[DescriptionAttribute("продолжить цикл")]
+		[DescriptionAttribute("Продолжить цикл")]
 		Continue,
 
 		[DescriptionAttribute("Тело цикла")]
 		ForeachBody,
 
-		[DescriptionAttribute("Функция выбора процедуры")]
+		[DescriptionAttribute("Вызов процедуры")]
 		ProcedureSelection,
 
 		[DescriptionAttribute("Получить значение свойства объекта")]
@@ -112,16 +112,16 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Установка свойства визуального элемента")]
 		ControlVisualSet,
 
-		[DescriptionAttribute("Чтение свойства элементами плана")]
+		[DescriptionAttribute("Чтение свойства элемента плана")]
 		ControlPlanGet,
 
-		[DescriptionAttribute("Установка свойства элементами плана")]
+		[DescriptionAttribute("Установка свойства элемента плана")]
 		ControlPlanSet,
 
 		[DescriptionAttribute("Показать диалоговую форму")]
 		ShowDialog,
 
-		[DescriptionAttribute("Показать свойство объекта")]
+		[DescriptionAttribute("Показать свойства объекта")]
 		ShowProperty,
 
 		[DescriptionAttribute("Генерировать идентификатор")]
@@ -161,6 +161,9 @@ namespace FiresecAPI.Automation
 		StopRecord,
 
 		[DescriptionAttribute("Вызвать тревогу в RVI Оператор")]
-		RviAlarm
+		RviAlarm,
+
+		[DescriptionAttribute("Получить текущие дату и время")]
+		Now
 	}
 }

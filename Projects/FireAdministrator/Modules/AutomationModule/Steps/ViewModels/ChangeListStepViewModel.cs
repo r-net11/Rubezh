@@ -1,5 +1,6 @@
 ﻿using FiresecAPI;
 using FiresecAPI.Automation;
+using Infrastructure.Automation;
 using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels
@@ -16,7 +17,7 @@ namespace AutomationModule.ViewModels
 			ListArgument = new ArgumentViewModel(ChangeListArguments.ListArgument, stepViewModel.Update, UpdateContent, false);
 			ListArgument.UpdateVariableHandler = UpdateItemArgument;
 			ItemArgument = new ArgumentViewModel(ChangeListArguments.ItemArgument, stepViewModel.Update, UpdateContent);
-			ChangeTypes = ProcedureHelper.GetEnumObs<ChangeType>();
+			ChangeTypes = AutomationHelper.GetEnumObs<ChangeType>();
 		}
 
 		public ObservableCollection<ChangeType> ChangeTypes { get; private set; }

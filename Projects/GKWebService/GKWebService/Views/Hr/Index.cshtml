@@ -4,17 +4,98 @@
 }
 
 <div id="HR" data-bind="with: HR">
+    <div class="HrToolbar" data-bind="visible:hrPages.Employees">
+        <div class="icon add" data-bind="click: function(data,event) { Employees.AddEmployeeClick(data, event, '#employee-details-box'); }"></div>
+        <div class="icon delete"></div>
+        <div class="icon edit" data-bind="click: function(data,event) { Employees.EditEmployeeClick(data, event, '#employee-details-box'); }"></div>
+        <div class="icon redo"></div>
+        <div class="icon add"></div>
+        <div class="icon delete"></div>
+        <div class="icon edit"></div>
+        <div class="icon print"></div>
+        <div class="icon filter"></div>
+    </div>
+    <div class="HrToolbar" data-bind="visible:hrPages.Departments">
+        <div class="icon add"></div>
+        <div class="icon delete"></div>
+        <div class="icon edit"></div>
+        <div class="icon copy"></div>
+        <div class="icon paste"></div>
+        <div class="icon redo"></div>
+        <div class="icon filter"></div>
+    </div>
+    <div class="HrToolbar" data-bind="visible:hrPages.Positions">
+        <div class="icon add"></div>
+        <div class="icon delete"></div>
+        <div class="icon edit"></div>
+        <div class="icon copy"></div>
+        <div class="icon paste"></div>
+        <div class="icon redo"></div>
+        <div class="icon filter"></div>
+    </div>
+    <div class="HrToolbar" data-bind="visible:hrPages.AdditionalColumnTypes">
+        <div class="icon add"></div>
+        <div class="icon delete"></div>
+        <div class="icon edit"></div>
+        <div class="icon copy"></div>
+        <div class="icon paste"></div>
+        <div class="icon redo"></div>
+        <div class="icon filter"></div>
+    </div>
+    <div class="HrToolbar" data-bind="visible:hrPages.Cards">
+        <div class="icon delete"></div>
+        <div class="icon filter"></div>
+    </div>
+    <div class="HrToolbar" data-bind="visible:hrPages.AccessTemplates">
+        <div class="icon add"></div>
+        <div class="icon delete"></div>
+        <div class="icon edit"></div>
+        <div class="icon copy"></div>
+        <div class="icon paste"></div>
+        <div class="icon redo"></div>
+        <div class="icon filter"></div>
+    </div>
+    <div class="HrToolbar" data-bind="visible:hrPages.PassCardTemplates">
+        <div class="icon add"></div>
+        <div class="icon delete"></div>
+        <div class="icon edit"></div>
+        <div class="icon copy"></div>
+        <div class="icon paste"></div>
+        <div class="icon redo"></div>
+        <div class="icon filter"></div>
+    </div>
+    <div class="HrToolbar" data-bind="visible:hrPages.Organisations">
+        <div class="icon add"></div>
+        <div class="icon delete"></div>
+        <div class="icon edit"></div>
+        <div class="icon redo"></div>
+        <div class="icon add"></div>
+        <div class="icon delete"></div>
+    </div>
+
+    <select id="SelectPersonType" data-bind="visible:hrPages.Employees, value: SelectedPersonType">
+        <option value="Employee">Сотрудник</option>
+        <option value="Guest">Посетитель</option>
+    </select>
+
     <ul class="tab">
-        <li class="active"><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'Employees'); }"><span>Сотрудники</span></a></li>
-        <li><a href=""><span>Посетители</span></a></li>
-        <li><a href=""><span>Подразделения</span></a></li>
-        <li><a href=""><span>Должности</span></a></li>
-        <li><a href=""><span>Дополнительные колонки</span></a></li>
-        <li><a href=""><span>Пропуска</span></a></li>
-        <li><a href=""><span>Шаблоны доступа</span></a></li>
-        <li><a href=""><span>Шаблоны пропусков</span></a></li>
-        <li><a href=""><span>Организации</span></a></li>
+        <li class="active"><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'Employees'); }"><span data-bind="text: EmployeesHeader"></span></a></li>
+        <li><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'Departments'); }"><span>Подразделения</span></a></li>
+        <li><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'Positions'); }"><span>Должности</span></a></li>
+        <li><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'AdditionalColumnTypes'); }"><span>Дополнительные колонки</span></a></li>
+        <li><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'Cards'); }"><span>Пропуска</span></a></li>
+        <li><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'AccessTemplates'); }"><span>Шаблоны доступа</span></a></li>
+        <li><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'PassCardTemplates'); }"><span>Шаблоны пропусков</span></a></li>
+        <li><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'Organisations'); }"><span>Организации</span></a></li>
     </ul>
 </div>
 
-<div data-bind="visible:HR.hrPages.Employees">@Html.Action("HrEmployees")</div>
+<div data-bind="visible:HR.hrPages.Employees">@Html.Action("Index", "Employees")</div>
+<div data-bind="visible:HR.hrPages.Departments">@Html.Action("HrDepartments")</div>
+<div data-bind="visible:HR.hrPages.Positions">@Html.Action("Positions")</div>
+<div data-bind="visible:HR.hrPages.AdditionalColumnTypes">@Html.Action("AdditionalColumnTypes")</div>
+<div data-bind="visible:HR.hrPages.Cards">@Html.Action("Cards")</div>
+<div data-bind="visible:HR.hrPages.AccessTemplates">@Html.Action("AccessTemplates")</div>
+<div data-bind="visible:HR.hrPages.PassCardTemplates">@Html.Action("PassCardTemplates")</div>
+<div data-bind="visible:HR.hrPages.Organisations">@Html.Action("Organisations")</div>
+    

@@ -23,7 +23,7 @@ namespace FiresecAPI.SKD.ReportFilters
 				var periodFilter = (IReportFilterPeriod)this;
 				periodFilter.DateTimeFrom = DateTime.Today;
 				periodFilter.DateTimeTo = DateTime.Today.AddDays(1).AddSeconds(-1);
-				periodFilter.PeriodType = ReportPeriodType.Day;
+				periodFilter.PeriodType = ReportPeriodType.Arbitrary;
 			}
 			UserUID = Guid.Empty;
 		}

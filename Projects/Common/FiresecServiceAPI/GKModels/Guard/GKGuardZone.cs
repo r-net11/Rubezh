@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using Common;
 using FiresecClient;
 using Infrustructure.Plans.Interfaces;
+using System.Linq;
 
 namespace FiresecAPI.GK
 {
@@ -28,15 +29,34 @@ namespace FiresecAPI.GK
 			AlarmDelay = 1;
 		}
 
-		public override void Update(GKDevice device)
+		public override void Invalidate()
 		{
-			GKManager.RemoveDeviceFromGuardZone(device, this);
-			UnLinkObject(device);
-		}
+			var guardZoneDevices = new List<GKGuardZoneDevice>();
+			foreach (var guardZoneDevice in GuardZoneDevices)
+			{
+				var device = GKManager.Devices.FirstOrDefault(x => x.UID == guardZoneDevice.DeviceUID);
+				if (device != null)
+				{
+					if (!device.InputDependentElements.Contains(this))
+						device.OutDependentElements.Add(this);
+					if (!OutDependentElements.Contains(device))
+						OutDependentElements.Add(device);
 
-		public override void Update(GKDirection direction)
-		{
-
+					if (device.DriverType == GKDriverType.RSR2_GuardDetector || device.DriverType == GKDriverType.RSR2_GuardDetectorSound || device.DriverType == GKDriverType.RSR2_AM_1 || device.DriverType == GKDriverType.RSR2_MAP4 || device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
+					{
+						guardZoneDevice.Device = device;
+						guardZoneDevices.Add(guardZoneDevice);
+					}
+					if (device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
+					{
+						GKManager.DeviceConfiguration.InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.SetGuardSettings);
+						GKManager.DeviceConfiguration.InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.ResetGuardSettings);
+						GKManager.DeviceConfiguration.InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.ChangeGuardSettings);
+						GKManager.DeviceConfiguration.InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.AlarmSettings);
+					}
+				}
+			}
+			GuardZoneDevices = guardZoneDevices;
 		}
 
 		bool _isLogicOnKau;

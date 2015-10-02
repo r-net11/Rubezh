@@ -11,6 +11,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 {
 	public class ShellViewModel : ApplicationViewModel
 	{
+		public static ShellViewModel Current { get; private set; }
 		private double _splitterDistance;
 		private GridLength _emptyGridColumn;
 		public ShellViewModel(ClientType clientType)
@@ -33,6 +34,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			TextVisibility = !RegistrySettingsHelper.GetBool(ClientType + ".Shell.TextVisibility");
 			RibbonVisible = false;
 			ToolbarVisible = true;
+			Current = this;
 		}
 
 		string logoSource;
@@ -292,17 +294,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 			Width3 = RightPanelVisible ? new GridLength(1, GridUnitType.Star) : _emptyGridColumn;
 		}
 
-		public override int GetPreferedMonitor()
-		{
-			var monitorID = RegistrySettingsHelper.GetInt(ClientType + ".Shell.PreferedMonitor", -1);
-			if (monitorID == -1)
-				monitorID = MonitorHelper.PrimaryMonitor;
-			return monitorID;
-		}
 		public override bool OnClosing(bool isCanceled)
 		{
-			if (ApplicationService.ApplicationWindow != null)
-				RegistrySettingsHelper.SetInt(ClientType + ".Shell.PreferedMonitor", ApplicationService.GetActiveMonitor(true));
 			return base.OnClosing(isCanceled);
 		}
 		public override void OnClosed()

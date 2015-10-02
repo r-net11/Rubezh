@@ -90,8 +90,8 @@ namespace GKModule.Validation
 		void ValidateMPTSameDevicesAndLogic(GKMPT mpt)
 		{
 			var devicesInLogic = new List<GKBase>();
-			devicesInLogic.AddRange(mpt.MptLogic.OnClausesGroup.GetObjects().Where(x => x.ObjectType == GKBaseObjectType.Deivce));
-			devicesInLogic.AddRange(mpt.MptLogic.OnClausesGroup.GetObjects().Where(x => x.ObjectType == GKBaseObjectType.Deivce));
+			devicesInLogic.AddRange(mpt.MptLogic.OnClausesGroup.GetObjects().Where(x => x.ObjectType == GKBaseObjectType.Device));
+			devicesInLogic.AddRange(mpt.MptLogic.OnClausesGroup.GetObjects().Where(x => x.ObjectType == GKBaseObjectType.Device));
 			foreach (var device in GetAllMPTDevices(mpt))
 			{
 				if (devicesInLogic.Any(x => x.UID == device.UID))
@@ -124,7 +124,7 @@ namespace GKModule.Validation
 
 		void ValidateMPTSelfLogic(GKMPT mpt)
 		{
-			if (mpt.ClauseInputMPTs.Contains(mpt))
+			if (mpt.MptLogic.GetObjects().Contains(mpt))
 				Errors.Add(new MPTValidationError(mpt, "МПТ зависит от самого себя", ValidationErrorLevel.CannotWrite));
 		}
 

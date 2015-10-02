@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using FiresecClient;
-using System.Linq;
-using FiresecAPI.SKD;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using Infrastructure;
-using System.Linq.Expressions;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -30,8 +21,8 @@ namespace AutomationModule.ViewModels
 			foreach (var explicitValue in variable.ExplicitValues)
 				ExplicitValues.Add(new ExplicitValueViewModel(explicitValue));
 			OnPropertyChanged(() => ExplicitValues);
-			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
-			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
+			EnumTypes = AutomationHelper.GetEnumObs<EnumType>();
+			ObjectTypes = AutomationHelper.GetEnumObs<ObjectType>();
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<ExplicitValueViewModel>(OnRemove);
 			ChangeCommand = new RelayCommand<ExplicitValueViewModel>(OnChange);
@@ -49,8 +40,8 @@ namespace AutomationModule.ViewModels
 			foreach (var explicitValue in argument.ExplicitValues)
 				ExplicitValues.Add(new ExplicitValueViewModel(explicitValue));
 			OnPropertyChanged(() => ExplicitValues);
-			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
-			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
+			EnumTypes = AutomationHelper.GetEnumObs<EnumType>();
+			ObjectTypes = AutomationHelper.GetEnumObs<ObjectType>();
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<ExplicitValueViewModel>(OnRemove);
 			ChangeCommand = new RelayCommand<ExplicitValueViewModel>(OnChange);

@@ -211,7 +211,7 @@ namespace GKProcessor
 
         public static int GetUsersCount(GKDevice device)
         {
-            int minNo = 1;
+            int minNo = 0;
             int maxNo = 65535;
             int currentNo = 65535 / 2;
             int delta = currentNo / 2;

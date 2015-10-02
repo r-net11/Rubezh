@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			float[] columnsWidth = { 200F };
+			float[] columnsWidth = new float[] { 200F };
 
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DepartmentsReport));
 			this.xrTableRow1 = new DevExpress.XtraReports.UI.XRTableRow();
@@ -38,6 +38,8 @@
 			this.xrTableCell4 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrTableCell5 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.GroupHeader1 = new DevExpress.XtraReports.UI.GroupHeaderBand();
+			this.GroupHeader2 = new DevExpress.XtraReports.UI.GroupHeaderBand();
+			this.OrganisationLabel = new DevExpress.XtraReports.UI.XRLabel();
 			this.xrTableHeader = new DevExpress.XtraReports.UI.XRTable();
 			this.xrTableRow3 = new DevExpress.XtraReports.UI.XRTableRow();
 			this.xrTableCell16 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -123,9 +125,36 @@
 			this.GroupHeader1.Dpi = 254F;
 			this.GroupHeader1.GroupUnion = DevExpress.XtraReports.UI.GroupUnion.WithFirstDetail;
 			this.GroupHeader1.HeightF = 64F;
+			this.GroupHeader1.Level = 1;
 			this.GroupHeader1.Name = "GroupHeader1";
 			this.GroupHeader1.RepeatEveryPage = true;
 			this.GroupHeader1.StylePriority.UseBackColor = false;
+			// 
+			// GroupHeader2
+			// 
+			this.GroupHeader2.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.OrganisationLabel});
+			this.GroupHeader2.Dpi = 254F;
+			this.GroupHeader2.GroupFields.AddRange(new DevExpress.XtraReports.UI.GroupField[] {
+            new DevExpress.XtraReports.UI.GroupField("Organisation", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
+			this.GroupHeader2.GroupUnion = DevExpress.XtraReports.UI.GroupUnion.WithFirstDetail;
+			this.GroupHeader2.HeightF = 84F;
+			this.GroupHeader2.KeepTogether = true;
+			this.GroupHeader2.Level = 2;
+			this.GroupHeader2.Name = "GroupHeader2";
+			// 
+			// OrganisationLabel
+			// 
+			OrganisationLabel.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Organisation", "Организация: {0}")});
+			OrganisationLabel.Dpi = 254F;
+			OrganisationLabel.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
+			OrganisationLabel.Name = "OrganisationLabel";
+			OrganisationLabel.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
+			OrganisationLabel.SizeF = new System.Drawing.SizeF(824.5997F, 50.8F);
+			OrganisationLabel.StylePriority.UseTextAlignment = false;
+			OrganisationLabel.Text = "OrganisationLabel";
+			OrganisationLabel.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
 			// 
 			// xrTableHeader
 			// 
@@ -335,6 +364,7 @@
 			// 
 			this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
             this.GroupHeader1,
+			this.GroupHeader2,
             this.Detail});
 			this.CalculatedFields.AddRange(new DevExpress.XtraReports.UI.CalculatedField[] {
             this.ArchiveLabel});
@@ -348,6 +378,7 @@
 			this.BeforePrint += new System.Drawing.Printing.PrintEventHandler(this.Report415_BeforePrint);
 			this.Controls.SetChildIndex(this.Detail, 0);
 			this.Controls.SetChildIndex(this.GroupHeader1, 0);
+			this.Controls.SetChildIndex(this.GroupHeader2, 0);
 			((System.ComponentModel.ISupportInitialize)(this.xrTableHeader)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.xrTableContent)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this)).EndInit();
@@ -363,6 +394,8 @@
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell4;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell5;
 		private DevExpress.XtraReports.UI.GroupHeaderBand GroupHeader1;
+		private DevExpress.XtraReports.UI.GroupHeaderBand GroupHeader2;
+		private DevExpress.XtraReports.UI.XRLabel OrganisationLabel;
 		private DevExpress.XtraReports.UI.XRTable xrTableHeader;
 		private DevExpress.XtraReports.UI.XRTableRow xrTableRow3;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell11;

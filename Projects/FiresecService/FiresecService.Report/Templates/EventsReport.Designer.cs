@@ -270,7 +270,7 @@
 			// xrLabel1
 			// 
 			this.xrLabel1.Dpi = 254F;
-			this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(25.0F, 5.000018F);
+			this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(25F, 5.000018F);
 			this.xrLabel1.Name = "xrLabel1";
 			this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
 			this.xrLabel1.SizeF = new System.Drawing.SizeF(2525F, 60F);
@@ -281,13 +281,14 @@
 			this.xrSummary1.Func = DevExpress.XtraReports.UI.SummaryFunc.Count;
 			this.xrSummary1.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
 			this.xrLabel1.Summary = this.xrSummary1;
+
 			this.xrLabel1.Text = "Total";
 			this.xrLabel1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
 			// 
 			// EventsReport
 			// 
 			this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
-            this.Detail,
+			this.Detail,
             this.GroupHeader1,
             this.GroupFooter1});
 			this.DataMember = "Data";
@@ -299,7 +300,7 @@
 			this.PageWidth = 2970;
 			this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
             this.xrControlStyle1});
-			this.Version = "14.1";
+			this.Version = "15.1";
 			this.Controls.SetChildIndex(this.GroupFooter1, 0);
 			this.Controls.SetChildIndex(this.GroupHeader1, 0);
 			this.Controls.SetChildIndex(this.Detail, 0);

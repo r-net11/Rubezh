@@ -38,6 +38,7 @@ namespace GKModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
 			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
+			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
@@ -106,6 +107,7 @@ namespace GKModule.ViewModels
 			var logicViewModel = new LogicViewModel(SelectedDirection.Direction, _directionToCopy.Logic, true);
 			directionViewModel.Direction.Logic = logicViewModel.GetModel();
 			directionViewModel.Direction.No = (ushort)(GKManager.Directions.Select(x => x.No).Max() + 1);
+			directionViewModel.Direction.Invalidate();
 			GKManager.Directions.Add(directionViewModel.Direction);
 			Directions.Add(directionViewModel);
 			SelectedDirection = directionViewModel;
@@ -138,6 +140,7 @@ namespace GKModule.ViewModels
 			if (messageBoxResult)
 			{
 				SelectedDirection.Direction.Logic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, true));
+				SelectedDirection.Direction.Invalidate();
 				SelectedDirection.Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -181,6 +184,17 @@ namespace GKModule.ViewModels
 			{
 				var index = Directions.IndexOf(SelectedDirection);
 				GKManager.RemoveDirection(SelectedDirection.Direction);
+				SelectedDirection.Direction.InputDependentElements.ForEach(x =>
+				{
+					x.OutDependentElements.Remove(SelectedDirection.Direction);
+				});
+
+				SelectedDirection.Direction.OutDependentElements.ForEach(x =>
+				{
+					x.InputDependentElements.Remove(SelectedDirection.Direction);
+					x.UpdateLogic();
+					x.OnChanged();
+				});
 				Directions.Remove(SelectedDirection);
 				index = Math.Min(index, Directions.Count - 1);
 				if (index > -1)
@@ -215,6 +229,16 @@ namespace GKModule.ViewModels
 			return Directions.Any(x => !x.Direction.Logic.GetObjects().Any());
 		}
 
+		public RelayCommand ShowDependencyItemsCommand { get; set; }
+
+		void ShowDependencyItems()
+		{
+			if (SelectedDirection != null)
+			{
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedDirection.Direction.OutDependentElements);
+				DialogService.ShowModalWindow(dependencyItemsViewModel);
+			}
+		}
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
@@ -226,6 +250,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(directionDetailsViewModel))
 			{
 				SelectedDirection.Direction = directionDetailsViewModel.Direction;
+				SelectedDirection.Direction.OutDependentElements.ForEach(x => x.OnChanged());
 				SelectedDirection.Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}

@@ -51,13 +51,6 @@ namespace Infrastructure.Client.Startup.ViewModels
 			Surface.SizeToContent = SizeToContent.WidthAndHeight;
 			Surface.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 		}
-		public override int GetPreferedMonitor()
-		{
-			var monitorID = RegistrySettingsHelper.GetInt(_clientType + ".Shell.PreferedMonitor", -1);
-			if (monitorID == -1)
-				monitorID = MonitorHelper.PrimaryMonitor;
-			return monitorID;
-		}
 		public override bool OnClosing(bool isCanceled)
 		{
 			var result = base.OnClosing(isCanceled);
@@ -191,16 +184,15 @@ namespace Infrastructure.Client.Startup.ViewModels
 							break;
 						default:
 							break;
-					}
-					
-					
+					}	
+				
 				}
 				else
 				{
 					_startupLoginViewModel.UserName = Settings.Default.UserName;
 					_startupLoginViewModel.Password = Settings.Default.Password;
 				}
-				if (isAutoconnect && (_startupLoginViewModel.UserName != "adm" || !GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm))
+				if (isAutoconnect)
 					ConnectCommand.Execute();
 			}
 		}

@@ -315,7 +315,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
 			{
 				Devices = devicesSelectationViewModel.DevicesList;
-				Devices.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationDevices);
 			}
 		}
@@ -327,7 +326,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
 			{
 				Zones = zonesSelectationViewModel.Zones;
-				Zones.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationZones);
 			}
 		}
@@ -339,7 +337,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(guardZonesSelectationViewModel))
 			{
 				GuardZones = guardZonesSelectationViewModel.GuardZones;
-				GuardZones.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationGuardZones);
 			}
 		}
@@ -351,7 +348,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(directionsSelectationViewModel))
 			{
 				Directions = directionsSelectationViewModel.Directions;
-				Directions.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationDirections);
 			}
 		}
@@ -363,7 +359,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(mptsSelectationViewModel))
 			{
 				MPTs = mptsSelectationViewModel.MPTs;
-				MPTs.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationMPTs);
 			}
 		}
@@ -375,7 +370,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(delaysSelectationViewModel))
 			{
 				Delays = delaysSelectationViewModel.Delays;
-				Delays.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationDelays);
 			}
 		}
@@ -387,7 +381,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(doorsSelectationViewModel))
 			{
 				Doors = doorsSelectationViewModel.Doors;
-				Doors.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationDoors);
 			}
 		}
@@ -399,7 +392,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(pumpStationsSelectationViewModel))
 			{
 				PumpStations = pumpStationsSelectationViewModel.PumpStations;
-				PumpStations.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationPumpStations);
 			}
 		}

@@ -19,11 +19,7 @@ namespace FiresecService.Report.Templates
 			InitializeComponent();
 		}
 
-		///// <summary>
-		/// Портретная ориентация листа согласно требованиям http://172.16.6.113:26000/pages/viewpage.action?pageId=6948166
-		/// </summary>
-
-		protected override bool IsNotDateBase
+		protected override bool IsNotDataBase
 		{
 			get { return true; }
 		}
@@ -34,7 +30,11 @@ namespace FiresecService.Report.Templates
 			{
 				var mirror = Filter as ReflectionReportFilter;
 				if (mirror != null && mirror.Mirror != Guid.Empty)
-				return "Список отражений для " + GKManager.Devices.FirstOrDefault(x => x.UID == mirror.Mirror).PresentationName;
+				{
+					var device = GKManager.Devices.FirstOrDefault(x => x.UID == mirror.Mirror);
+					if(device != null)
+						return "Список отражений для " + device.PresentationName;
+				}
 				return "Список отражений";
 			}
 		}
@@ -50,15 +50,13 @@ namespace FiresecService.Report.Templates
 			var mirror = Filter as ReflectionReportFilter;
 			if (mirror != null && mirror.Mirror != Guid.Empty)
 			{
-				var mirrorItems = GKManager.Devices.Where(x => x.Parent != null && x.Parent.UID == mirror.Mirror);
-				
-				foreach (var mirrorItem in mirrorItems)
+				foreach (var mirrorItem in GKManager.Devices.Where(x => x.Parent != null && x.Parent.UID == mirror.Mirror))
 				{
 					if (mirrorItem.GKReflectionItem.Zones.Count > 0)
 					{
 						mirrorItem.GKReflectionItem.Zones.ForEach(x =>
 						{
-							SetValue(x, ds, mirrorItem.Address);
+							AddRow(x, ds, mirrorItem.Address);
 						});	
 					}
 
@@ -66,7 +64,7 @@ namespace FiresecService.Report.Templates
 					{
 						mirrorItem.GKReflectionItem.Delays.ForEach(x =>
 						{
-							SetValue(x, ds, mirrorItem.Address);
+							AddRow(x, ds, mirrorItem.Address);
 						});
 					}
 
@@ -74,7 +72,7 @@ namespace FiresecService.Report.Templates
 					{
 						mirrorItem.GKReflectionItem.Devices.ForEach(x =>
 						{
-							SetValue(x, ds, mirrorItem.Address);
+							AddRow(x, ds, mirrorItem.Address);
 						});
 					}
 
@@ -82,7 +80,7 @@ namespace FiresecService.Report.Templates
 					{
 						mirrorItem.GKReflectionItem.Diretions.ForEach(x =>
 						{
-							SetValue(x, ds, mirrorItem.Address);
+							AddRow(x, ds, mirrorItem.Address);
 						});
 					}
 
@@ -90,7 +88,7 @@ namespace FiresecService.Report.Templates
 					{
 						mirrorItem.GKReflectionItem.GuardZones.ForEach(x =>
 						{
-							SetValue(x, ds, mirrorItem.Address);
+							AddRow(x, ds, mirrorItem.Address);
 						});
 					}
 
@@ -98,7 +96,7 @@ namespace FiresecService.Report.Templates
 					{
 						mirrorItem.GKReflectionItem.MPTs.ForEach(x =>
 						{
-							SetValue(x, ds, mirrorItem.Address);
+							AddRow(x, ds, mirrorItem.Address);
 						});
 					}
 
@@ -106,7 +104,7 @@ namespace FiresecService.Report.Templates
 					{
 						mirrorItem.GKReflectionItem.NSs.ForEach(x =>
 						{
-							SetValue(x, ds, mirrorItem.Address);
+							AddRow(x, ds, mirrorItem.Address);
 						});
 					}
 				}
@@ -114,7 +112,7 @@ namespace FiresecService.Report.Templates
 			return ds;
 		}
 
-		private void  SetValue(GKBase obj, ReflectioDataSet ds,string number)
+		private void AddRow(GKBase obj, ReflectioDataSet ds,string number)
 		{
 			var row = ds.Data.NewDataRow();
 			row.NO = number;
@@ -123,4 +121,3 @@ namespace FiresecService.Report.Templates
 		}
 	}
 }
-

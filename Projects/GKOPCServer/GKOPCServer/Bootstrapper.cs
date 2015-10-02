@@ -12,6 +12,7 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Microsoft.Practices.Prism.Events;
 using Infrastructure.Common.BalloonTrayTip;
+using FiresecLicense;
 
 namespace GKOPCServer
 {
@@ -23,35 +24,44 @@ namespace GKOPCServer
 
 		public static void Run()
 		{
-			var resourceService = new ResourceService();
-			resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
-
-			WindowThread = new Thread(new ThreadStart(OnWorkThread));
-			WindowThread.Name = "GK OPC Main Window";
-			WindowThread.Priority = ThreadPriority.Highest;
-			WindowThread.SetApartmentState(ApartmentState.STA);
-			WindowThread.IsBackground = true;
-			WindowThread.Start();
-			MainViewStartedEvent.WaitOne();
-
-			UILogger.Log("Соединение с сервером");
-			for (int i = 1; i <= 10; i++)
+			try
 			{
-				var message = FiresecManager.Connect(ClientType.OPC, ConnectionSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.AdminLogin, GlobalSettingsHelper.GlobalSettings.AdminPassword);
-				if (message == null)
-					break;
-				Thread.Sleep(5000);
-				if (i == 10)
-				{
-					UILogger.Log("Ошибка соединения с сервером: " + message);
-					return;
-				}
-			}
+				var resourceService = new ResourceService();
+				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
+				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
 
-			if (InitializeGK())
-				GKOPCManager.Start();
-			UILogger.Log("Готово");
+				WindowThread = new Thread(new ThreadStart(OnWorkThread));
+				WindowThread.Name = "GK OPC Main Window";
+				WindowThread.Priority = ThreadPriority.Highest;
+				WindowThread.SetApartmentState(ApartmentState.STA);
+				WindowThread.IsBackground = true;
+				WindowThread.Start();
+				MainViewStartedEvent.WaitOne();
+
+				UILogger.Log("Соединение с сервером");
+				for (int i = 1; i <= 10; i++)
+				{
+					var message = FiresecManager.Connect(ClientType.OPC, ConnectionSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.AdminLogin, GlobalSettingsHelper.GlobalSettings.AdminPassword);
+					if (message == null)
+						break;
+					Thread.Sleep(5000);
+					if (i == 10)
+					{
+						UILogger.Log("Ошибка соединения с сервером: " + message);
+						return;
+					}
+				}
+
+				if (InitializeGK())
+					GKOPCManager.Start();
+				UILogger.Log("Готово");
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при вызове Bootstrapper.Run");
+				UILogger.Log("Ошибка при запуске");
+				Close();
+			}
 		}
 
 		static void OnWorkThread()
@@ -88,7 +98,7 @@ namespace GKOPCServer
 
 			UILogger.Log("Загрузка лицензии");
 			FiresecManager.GetLicense();
-			if (!LicenseHelper.OpcServer)
+			if (!FiresecLicenseManager.CurrentLicenseInfo.HasOpcServer)
 			{
 				BalloonHelper.ShowFromServer("Отсутствует лицензия модуля \"GLOBAL OPC Сервер\"");
 				result = false;

@@ -278,6 +278,8 @@ namespace FiresecService.Report.DataSources {
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class DataDataTable : global::System.Data.TypedTableBase<DataRow> {
+
+			private global::System.Data.DataColumn columnOrganisation;
             
             private global::System.Data.DataColumn columnPosition;
             
@@ -315,6 +317,16 @@ namespace FiresecService.Report.DataSources {
                     base(info, context) {
                 this.InitVars();
             }
+
+			[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+			[global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+			public global::System.Data.DataColumn OrganisationColumn
+			{
+				get
+				{
+					return this.columnOrganisation;
+				}
+			}
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -396,6 +408,7 @@ namespace FiresecService.Report.DataSources {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
+				this.columnPosition = base.Columns["Organisation"];
                 this.columnPosition = base.Columns["Position"];
                 this.columnDescription = base.Columns["Description"];
             }
@@ -403,6 +416,8 @@ namespace FiresecService.Report.DataSources {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             private void InitClass() {
+				this.columnOrganisation = new global::System.Data.DataColumn("Organisation", typeof(string), null, global::System.Data.MappingType.Element);
+				base.Columns.Add(this.columnOrganisation);
                 this.columnPosition = new global::System.Data.DataColumn("Position", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPosition);
                 this.columnDescription = new global::System.Data.DataColumn("Description", typeof(string), null, global::System.Data.MappingType.Element);
@@ -546,6 +561,27 @@ namespace FiresecService.Report.DataSources {
                     base(rb) {
                 this.tableData = ((DataDataTable)(this.Table));
             }
+
+			[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+			[global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+			public string Organisation
+			{
+				get
+				{
+					try
+					{
+						return ((string)(this[this.tableData.OrganisationColumn]));
+					}
+					catch (global::System.InvalidCastException e)
+					{
+						throw new global::System.Data.StrongTypingException("The value for column \'Organisation\' in table \'Data\' is DBNull.", e);
+					}
+				}
+				set
+				{
+					this[this.tableData.OrganisationColumn] = value;
+				}
+			}
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -578,6 +614,20 @@ namespace FiresecService.Report.DataSources {
                     this[this.tableData.DescriptionColumn] = value;
                 }
             }
+
+			[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+			[global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+			public bool IsOrganisationNull()
+			{
+				return this.IsNull(this.tableData.OrganisationColumn);
+			}
+
+			[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+			[global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+			public void SetOrganisationNull()
+			{
+				this[this.tableData.OrganisationColumn] = global::System.Convert.DBNull;
+			}
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -639,5 +689,4 @@ namespace FiresecService.Report.DataSources {
         }
     }
 }
-
 #pragma warning restore 1591

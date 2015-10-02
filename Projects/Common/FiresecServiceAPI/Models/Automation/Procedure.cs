@@ -28,6 +28,9 @@ namespace FiresecAPI.Automation
 		public string Description { get; set; }
 
 		[DataMember]
+		public ContextType ContextType { get; set; }
+
+		[DataMember]
 		public List<ProcedureStep> Steps { get; set; }
 
 		[DataMember]

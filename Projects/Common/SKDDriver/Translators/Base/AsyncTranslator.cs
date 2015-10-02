@@ -32,7 +32,6 @@ namespace SKDDriver.DataClasses
 				PortionReady -= portionReady;
 				PortionReady += portionReady;
 			}
-			//DbService.IsAbort = false;
 			var pageSize = 1000;
 			var portion = new List<TApiItem>();
 			int itemNo = 0;

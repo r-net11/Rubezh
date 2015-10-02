@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Common;
 using FiresecClient;
+using System.Diagnostics;
 
 namespace FiresecAPI.GK
 {
@@ -54,19 +55,12 @@ namespace FiresecAPI.GK
 		void Invalidate()
 		{
 			ClearAllReferences();
-			InitializeDevicesInZone();
 			InitializeLogic();
-			InitializeDirections();
-			InitializePumpStations();
-			InitializeMPTs();
-			InitializeDelays();
-			InitializeGuardZones();
 			InitializeCodes();
-			InitializeDoors();
 			InitializeReflection();
 			InitializeOPC();
 			UpdateGKChildrenDescription();
-			LinkObjects();
+			Invalidation();
 		}
 
 		void ClearAllReferences()
@@ -115,106 +109,6 @@ namespace FiresecAPI.GK
 			}
 		}
 
-		void InitializeDevicesInZone()
-		{
-			foreach (var device in Devices)
-			{
-				var zoneUIDs = new List<Guid>();
-				if (device.Driver.HasZone)
-				{
-					foreach (var zoneUID in device.ZoneUIDs)
-					{
-						var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
-						if (zone != null)
-						{
-							zoneUIDs.Add(zoneUID);
-							device.Zones.Add(zone);
-							zone.Devices.Add(device);
-						}
-					}
-				}
-				device.ZoneUIDs = zoneUIDs;
-			}
-		}
-
-		void LinkObjects()
-		{
-			Devices.ForEach(device => device.Logic.GetAllClauses().ForEach(x =>
-			{
-				x.Delays.ForEach(device.LinkObject); x.Devices.ForEach(device.LinkObject); x.Directions.ForEach(device.LinkObject); x.Doors.ForEach(device.LinkObject);
-				x.GuardZones.ForEach(device.LinkObject); x.MPTs.ForEach(device.LinkObject); x.PumpStations.ForEach(device.LinkObject); x.Zones.ForEach(device.LinkObject);
-			}));
-
-			Devices.ForEach(device => device.NSLogic.GetAllClauses().ForEach(x =>
-			{
-				x.Delays.ForEach(device.LinkObject); x.Devices.ForEach(device.LinkObject); x.Directions.ForEach(device.LinkObject); x.Doors.ForEach(device.LinkObject);
-				x.GuardZones.ForEach(device.LinkObject); x.MPTs.ForEach(device.LinkObject); x.PumpStations.ForEach(device.LinkObject); x.Zones.ForEach(device.LinkObject);
-			}));
-
-			Delays.ForEach(delay => delay.Logic.GetAllClauses().ForEach(x =>
-			{
-				x.Delays.ForEach(delay.LinkObject); x.Devices.ForEach(delay.LinkObject); x.Directions.ForEach(delay.LinkObject); x.Doors.ForEach(delay.LinkObject);
-				x.GuardZones.ForEach(delay.LinkObject); x.MPTs.ForEach(delay.LinkObject); x.PumpStations.ForEach(delay.LinkObject); x.Zones.ForEach(delay.LinkObject);
-			}));
-
-			MPTs.ForEach(mpt => mpt.MptLogic.GetAllClauses().ForEach(x =>
-			{
-				x.Delays.ForEach(mpt.LinkObject); x.Devices.ForEach(mpt.LinkObject); x.Directions.ForEach(mpt.LinkObject); x.Doors.ForEach(mpt.LinkObject);
-				x.GuardZones.ForEach(mpt.LinkObject); x.MPTs.ForEach(mpt.LinkObject); x.PumpStations.ForEach(mpt.LinkObject); x.Zones.ForEach(mpt.LinkObject);
-			}));
-
-			MPTs.ForEach(mpt => mpt.MPTDevices.ForEach(x => mpt.LinkObject(x.Device)));
-
-			Doors.ForEach(door => door.OpenRegimeLogic.GetAllClauses().ForEach(x =>
-			{
-				x.Delays.ForEach(door.LinkObject); x.Devices.ForEach(door.LinkObject); x.Directions.ForEach(door.LinkObject); x.Doors.ForEach(door.LinkObject);
-				x.GuardZones.ForEach(door.LinkObject); x.MPTs.ForEach(door.LinkObject); x.PumpStations.ForEach(door.LinkObject); x.Zones.ForEach(door.LinkObject);
-			}));
-
-			Doors.ForEach(door => door.NormRegimeLogic.GetAllClauses().ForEach(x =>
-			{
-				x.Delays.ForEach(door.LinkObject); x.Devices.ForEach(door.LinkObject); x.Directions.ForEach(door.LinkObject); x.Doors.ForEach(door.LinkObject);
-				x.GuardZones.ForEach(door.LinkObject); x.MPTs.ForEach(door.LinkObject); x.PumpStations.ForEach(door.LinkObject); x.Zones.ForEach(door.LinkObject);
-			}));
-
-			Doors.ForEach(door => door.CloseRegimeLogic.GetAllClauses().ForEach(x =>
-			{
-				x.Delays.ForEach(door.LinkObject); x.Devices.ForEach(door.LinkObject); x.Directions.ForEach(door.LinkObject); x.Doors.ForEach(door.LinkObject);
-				x.GuardZones.ForEach(door.LinkObject); x.MPTs.ForEach(door.LinkObject); x.PumpStations.ForEach(door.LinkObject); x.Zones.ForEach(door.LinkObject);
-			}));
-
-			Doors.ForEach(door => door.LinkObject(door.EnterButton));
-			Doors.ForEach(door => door.LinkObject(door.EnterDevice));
-			Doors.ForEach(door => door.LinkObject(door.ExitButton));
-			Doors.ForEach(door => door.LinkObject(door.ExitDevice));
-			Doors.ForEach(door => door.LinkObject(door.LockControlDevice));
-			Doors.ForEach(door => door.LinkObject(door.LockControlDeviceExit));
-			Doors.ForEach(door => door.LinkObject(door.LockDevice));
-			Doors.ForEach(door => door.LinkObject(door.LockDeviceExit));
-
-			PumpStations.ForEach(mpt => mpt.NSDevices.ForEach(mpt.LinkObject));
-
-			PumpStations.ForEach(pumpStation => pumpStation.StartLogic.GetAllClauses().ForEach(x =>
-			{
-				x.Delays.ForEach(pumpStation.LinkObject); x.Devices.ForEach(pumpStation.LinkObject); x.Directions.ForEach(pumpStation.LinkObject); x.Doors.ForEach(pumpStation.LinkObject);
-				x.GuardZones.ForEach(pumpStation.LinkObject); x.MPTs.ForEach(pumpStation.LinkObject); x.PumpStations.ForEach(pumpStation.LinkObject); x.Zones.ForEach(pumpStation.LinkObject);
-			}));
-
-			PumpStations.ForEach(pumpStation => pumpStation.StopLogic.GetAllClauses().ForEach(x =>
-			{
-				x.Delays.ForEach(pumpStation.LinkObject); x.Devices.ForEach(pumpStation.LinkObject); x.Directions.ForEach(pumpStation.LinkObject); x.Doors.ForEach(pumpStation.LinkObject);
-				x.GuardZones.ForEach(pumpStation.LinkObject); x.MPTs.ForEach(pumpStation.LinkObject); x.PumpStations.ForEach(pumpStation.LinkObject); x.Zones.ForEach(pumpStation.LinkObject);
-			}));
-
-			PumpStations.ForEach(pumpStation => pumpStation.AutomaticOffLogic.GetAllClauses().ForEach(x =>
-			{
-				x.Delays.ForEach(pumpStation.LinkObject); x.Devices.ForEach(pumpStation.LinkObject); x.Directions.ForEach(pumpStation.LinkObject); x.Doors.ForEach(pumpStation.LinkObject);
-				x.GuardZones.ForEach(pumpStation.LinkObject); x.MPTs.ForEach(pumpStation.LinkObject); x.PumpStations.ForEach(pumpStation.LinkObject); x.Zones.ForEach(pumpStation.LinkObject);
-			}));
-
-			Zones.ForEach(zone => zone.Devices.ForEach(zone.LinkObject));
-		}
-
 		void InitializeLogic()
 		{
 			foreach (var device in Devices)
@@ -225,6 +119,44 @@ namespace FiresecAPI.GK
 			}
 		}
 
+		void Invalidation()
+		{
+			Stopwatch st = new Stopwatch();
+
+			foreach (var device in Devices)
+			{
+				device.Invalidate();
+			}
+
+			foreach (var mpt in MPTs)
+			{
+				mpt.Invalidate();
+			}
+			st.Start();
+			Doors.ForEach(x => x.Invalidate());
+			st.Stop();
+			foreach (var pump in PumpStations)
+			{
+				pump.Invalidate();
+			}
+			st.Reset();
+			foreach (var guardZone in GuardZones)
+			{
+				guardZone.Invalidate();
+			}
+			st.Stop();
+			foreach (var delay in Delays)
+			{
+				delay.Invalidate();
+			}
+
+			foreach (var directory in Directions)
+			{
+				directory.Invalidate();
+			}
+	
+		}
+		
 		public void InvalidateOneLogic(GKDevice device, GKLogic logic)
 		{
 			InvalidateInputObjectsBaseLogic(device, logic);
@@ -232,7 +164,8 @@ namespace FiresecAPI.GK
 			{
 				foreach (var clauseZone in clause.Zones)
 				{
-					clauseZone.DevicesInLogic.Add(device);
+					if (!clauseZone.DevicesInLogic.Contains(device))
+						clauseZone.DevicesInLogic.Add(device);
 				}
 				foreach (var clauseDirection in clause.Directions)
 				{
@@ -243,7 +176,8 @@ namespace FiresecAPI.GK
 			{
 				foreach (var clauseZone in clause.Zones)
 				{
-					clauseZone.DevicesInLogic.Add(device);
+					if (!clauseZone.DevicesInLogic.Contains(device))
+						clauseZone.DevicesInLogic.Add(device);
 				}
 				foreach (var clauseDirection in clause.Directions)
 				{
@@ -254,7 +188,8 @@ namespace FiresecAPI.GK
 			{
 				foreach (var clauseZone in clause.Zones)
 				{
-					clauseZone.DevicesInLogic.Add(device);
+					if (!clauseZone.DevicesInLogic.Contains(device))
+						clauseZone.DevicesInLogic.Add(device);
 				}
 				foreach (var clauseDirection in clause.Directions)
 				{
@@ -263,65 +198,7 @@ namespace FiresecAPI.GK
 			}
 		}
 
-		void InitializeDirections()
-		{
-			foreach (var direction in Directions)
-			{
-				InvalidateInputObjectsBaseLogic(direction, direction.Logic);
-			}
-		}
-
-		void InitializePumpStations()
-		{
-			foreach (var pumpStation in PumpStations)
-			{
-				var nsDeviceUIDs = new List<Guid>();
-				foreach (var nsDeviceUID in pumpStation.NSDeviceUIDs)
-				{
-					var device = Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
-					if (device != null)
-					{
-						if (device.Driver.DriverType == GKDriverType.RSR2_Bush_Drenazh || device.Driver.DriverType == GKDriverType.RSR2_Bush_Jokey || device.Driver.DriverType == GKDriverType.RSR2_Bush_Fire || device.Driver.DriverType == GKDriverType.RSR2_Bush_Shuv)
-						{
-							nsDeviceUIDs.Add(device.UID);
-							pumpStation.NSDevices.Add(device);
-						}
-					}
-				}
-				pumpStation.NSDeviceUIDs = nsDeviceUIDs;
-				InvalidateInputObjectsBaseLogic(pumpStation, pumpStation.StartLogic);
-				InvalidateInputObjectsBaseLogic(pumpStation, pumpStation.StopLogic);
-				InvalidateInputObjectsBaseLogic(pumpStation, pumpStation.AutomaticOffLogic);
-			}
-		}
-
-		void InitializeMPTs()
-		{
-			foreach (var mpt in MPTs)
-			{
-				InvalidateInputObjectsBaseLogic(mpt, mpt.MptLogic);
-				var mptDevices = new List<GKMPTDevice>();
-				foreach (var mptDevice in mpt.MPTDevices)
-				{
-					var device = Devices.FirstOrDefault(x => x.UID == mptDevice.DeviceUID);
-					if (device != null && GKMPTDevice.GetAvailableMPTDriverTypes(mptDevice.MPTDeviceType).Contains(device.DriverType))
-					{
-						mptDevice.Device = device;
-						mptDevices.Add(mptDevice);
-						device.IsInMPT = true;
-					}
-				}
-				mpt.MPTDevices = mptDevices;
-			}
-		}
-
-		void InitializeDelays()
-		{
-			foreach (var delay in Delays)
-			{
-				InvalidateInputObjectsBaseLogic(delay, delay.Logic);
-			}
-		}
+		
 
 		public void InvalidateInputObjectsBaseLogic(GKBase gkBase, GKLogic logic)
 		{
@@ -332,7 +209,7 @@ namespace FiresecAPI.GK
 			logic.OffNowClausesGroup = InvalidateOneInputObjectsBaseLogic(gkBase, logic.OffNowClausesGroup);
 		}
 
-		public GKClauseGroup InvalidateOneInputObjectsBaseLogic(GKBase gkBase, GKClauseGroup clauseGroup)
+	   public GKClauseGroup InvalidateOneInputObjectsBaseLogic(GKBase gkBase, GKClauseGroup clauseGroup)
 		{
 			var result = new GKClauseGroup();
 			result.ClauseJounOperationType = clauseGroup.ClauseJounOperationType;
@@ -364,8 +241,6 @@ namespace FiresecAPI.GK
 					{
 						deviceUIDs.Add(deviceUID);
 						clause.Devices.Add(clauseDevice);
-						if (!gkBase.ClauseInputDevices.Contains(clauseDevice))
-							gkBase.ClauseInputDevices.Add(clauseDevice);
 					}
 				}
 				clause.DeviceUIDs = deviceUIDs;
@@ -378,8 +253,6 @@ namespace FiresecAPI.GK
 					{
 						zoneUIDs.Add(zoneUID);
 						clause.Zones.Add(zone);
-						if (!gkBase.ClauseInputZones.Contains(zone))
-							gkBase.ClauseInputZones.Add(zone);
 					}
 				}
 				clause.ZoneUIDs = zoneUIDs;
@@ -392,8 +265,6 @@ namespace FiresecAPI.GK
 					{
 						guardZoneUIDs.Add(guardZoneUID);
 						clause.GuardZones.Add(guardZone);
-						if (!gkBase.ClauseInputGuardZones.Contains(guardZone))
-							gkBase.ClauseInputGuardZones.Add(guardZone);
 					}
 				}
 				clause.GuardZoneUIDs = guardZoneUIDs;
@@ -406,8 +277,6 @@ namespace FiresecAPI.GK
 					{
 						directionUIDs.Add(directionUID);
 						clause.Directions.Add(direction);
-						if (!gkBase.ClauseInputDirections.Contains(direction))
-							gkBase.ClauseInputDirections.Add(direction);
 					}
 				}
 				clause.DirectionUIDs = directionUIDs;
@@ -420,8 +289,6 @@ namespace FiresecAPI.GK
 					{
 						mptUIDs.Add(mptUID);
 						clause.MPTs.Add(mpt);
-						if (!gkBase.ClauseInputMPTs.Contains(mpt))
-							gkBase.ClauseInputMPTs.Add(mpt);
 					}
 				}
 				clause.MPTUIDs = mptUIDs;
@@ -434,8 +301,6 @@ namespace FiresecAPI.GK
 					{
 						delayUIDs.Add(delayUID);
 						clause.Delays.Add(delay);
-						if (!gkBase.ClauseInputDelays.Contains(delay))
-							gkBase.ClauseInputDelays.Add(delay);
 					}
 				}
 				clause.DelayUIDs = delayUIDs;
@@ -448,8 +313,6 @@ namespace FiresecAPI.GK
 					{
 						doorUIDs.Add(doorUID);
 						clause.Doors.Add(door);
-						if (!gkBase.ClauseInputDoors.Contains(door))
-							gkBase.ClauseInputDoors.Add(door);
 					}
 				}
 				clause.DoorUIDs = doorUIDs;
@@ -462,8 +325,6 @@ namespace FiresecAPI.GK
 					{
 						pumpStationsUIDs.Add(pumpStationUID);
 						clause.PumpStations.Add(pumpStation);
-						if (!gkBase.ClauseInputPumpStations.Contains(pumpStation))
-							gkBase.ClauseInputPumpStations.Add(pumpStation);
 					}
 				}
 				clause.PumpStationsUIDs = pumpStationsUIDs;
@@ -503,7 +364,7 @@ namespace FiresecAPI.GK
 			}
 		}
 
-		void InvalidateGKCodeReaderSettingsPart(GKCodeReaderSettingsPart codeReaderSettingsPart)
+		public void InvalidateGKCodeReaderSettingsPart(GKCodeReaderSettingsPart codeReaderSettingsPart)
 		{
 			var codeUIDs = new List<Guid>();
 			foreach (var codeUID in codeReaderSettingsPart.CodeUIDs)
@@ -633,112 +494,16 @@ namespace FiresecAPI.GK
 			OPCSettings.DoorUIDs = Doors.Where(x => OPCSettings.DoorUIDs.Contains(x.UID)).Select(x => x.UID).ToList();
 		}			
 
-		void InitializeDoors()
-		{
-			foreach (var door in Doors)
-			{
-				door.EnterDevice = Devices.FirstOrDefault(x => x.UID == door.EnterDeviceUID);
-				if (door.EnterDevice == null)
-					door.EnterDeviceUID = Guid.Empty;
-				else
-					door.EnterDevice.Door = door;
-
-				door.ExitDevice = Devices.FirstOrDefault(x => x.UID == door.ExitDeviceUID);
-				if (door.ExitDevice == null)
-					door.ExitDeviceUID = Guid.Empty;
-				else
-					door.ExitDevice.Door = door;
-
-				if (door.DoorType == GKDoorType.AirlockBooth)
-				{
-					door.EnterButton = Devices.FirstOrDefault(x => x.UID == door.EnterButtonUID);
-					if (door.EnterButton == null)
-						door.EnterButtonUID = Guid.Empty;
-					else
-						door.EnterButton.Door = door;
-
-					door.ExitButton = Devices.FirstOrDefault(x => x.UID == door.ExitButtonUID);
-					if (door.ExitButton == null)
-						door.ExitButtonUID = Guid.Empty;
-					else
-						door.ExitButton.Door = door;
-
-					door.LockControlDevice = Devices.FirstOrDefault(x => x.UID == door.LockControlDeviceUID);
-					if (door.LockControlDevice == null)
-						door.LockControlDeviceUID = Guid.Empty;
-					else
-						door.LockControlDevice.Door = door;
 				}
-
 				if (door.DoorType == GKDoorType.AirlockBooth || door.DoorType == GKDoorType.Barrier)
 				{
-					door.LockControlDeviceExit = Devices.FirstOrDefault(x => x.UID == door.LockControlDeviceExitUID);
-					if (door.LockControlDeviceExit == null)
-						door.LockControlDeviceExitUID = Guid.Empty;
-					else
-						door.LockControlDeviceExit.Door = door;
-				}
 
-				if (door.DoorType == GKDoorType.AirlockBooth || door.DoorType == GKDoorType.Barrier || door.DoorType == GKDoorType.Turnstile)
-				{
-					if (door.DoorType == GKDoorType.Turnstile)
-					{
-						door.EnterButton = null;
-						door.EnterButtonUID = Guid.Empty;
-						door.ExitButton = null;
-						door.ExitButtonUID = Guid.Empty;
-						door.LockControlDeviceExit = null;
-						door.LockControlDeviceExitUID = Guid.Empty;
-					}
-					door.LockDevice = Devices.FirstOrDefault(x => x.UID == door.LockDeviceUID);
-					if (door.LockDevice == null)
-						door.LockDeviceUID = Guid.Empty;
-					else
-						door.LockDevice.Door = door;
-
-					door.LockDeviceExit = Devices.FirstOrDefault(x => x.UID == door.LockDeviceExitUID);
-					if (door.LockDeviceExit == null)
-						door.LockDeviceExitUID = Guid.Empty;
-					else
-						door.LockDeviceExit.Door = door;
 
 					door.LockControlDevice = Devices.FirstOrDefault(x => x.UID == door.LockControlDeviceUID);
 					if (door.LockControlDevice == null)
 						door.LockControlDeviceUID = Guid.Empty;
 					else
 						door.LockControlDevice.Door = door;
-				}
-
-				if (door.DoorType == GKDoorType.OneWay || door.DoorType == GKDoorType.TwoWay)
-				{
-					door.EnterButton = null;
-					door.EnterButtonUID = Guid.Empty;
-					door.ExitButton = null;
-					door.ExitButtonUID = Guid.Empty;
-					door.LockControlDeviceExit = null;
-					door.LockControlDeviceExitUID = Guid.Empty;
-					door.LockDeviceExit = null;
-					door.LockDeviceExitUID = Guid.Empty;
-
-					door.LockDevice = Devices.FirstOrDefault(x => x.UID == door.LockDeviceUID);
-					if (door.LockDevice == null)
-						door.LockDeviceUID = Guid.Empty;
-					else
-						door.LockDevice.Door = door;
-
-					door.LockControlDevice = Devices.FirstOrDefault(x => x.UID == door.LockControlDeviceUID);
-					if (door.LockControlDevice == null)
-						door.LockControlDeviceUID = Guid.Empty;
-					else
-						door.LockControlDevice.Door = door;
-				}
-
-				InvalidateInputObjectsBaseLogic(door, door.OpenRegimeLogic);
-				InvalidateInputObjectsBaseLogic(door, door.NormRegimeLogic);
-				InvalidateInputObjectsBaseLogic(door, door.CloseRegimeLogic);
-			}
-		}
-
 		void UpdateGKChildrenDescription()
 		{
 			foreach (var gkControllerDevice in RootDevice.Children)

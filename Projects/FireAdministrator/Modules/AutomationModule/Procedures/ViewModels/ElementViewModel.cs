@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
+using FiresecAPI.Models;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -19,7 +21,12 @@ namespace AutomationModule.ViewModels
 
 		public string PresentationName
 		{
-			get { return ElementBase.PresentationName; }
+			get 
+			{
+				if (ElementType == typeof(ElementProcedure))
+					return AutomationHelper.GetProcedureName(((ElementProcedure)ElementBase).ProcedureUID);
+				return ElementBase.PresentationName; 
+			}
 		}
 
 		public Guid Uid

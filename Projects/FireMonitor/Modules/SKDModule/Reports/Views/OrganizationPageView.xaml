@@ -1,4 +1,5 @@
-﻿<UserControl x:Class="SKDModule.Reports.Views.OrganizationPageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<UserControl x:Class="SKDModule.Reports.Views.OrganizationPageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			  xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 	<Grid>
 		<Grid.Resources>
 			<FrameworkElement x:Key="ProxyElement" DataContext="{Binding}" />
@@ -7,37 +8,35 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<ContentControl Content="{StaticResource ProxyElement}" Visibility="Collapsed" Grid.Row="0"/>
-		<DataGrid x:Name="Grid" ItemsSource="{Binding Organisations.Items}" Grid.Row="0">
+		<ContentControl Content="{StaticResource ProxyElement}" Visibility="Collapsed" Grid.Row="0" />
+		<DataGrid x:Name="Grid" ItemsSource="{Binding Organisations.Items}" Grid.Row="0" SelectedItem="{Binding Organisations.SelectedOrganisation}"
+				  UIBehavior.ShowSelectionMark="True">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="*" Header="Название" Visibility="{Binding Source={StaticResource ProxyElement}, Path=DataContext.AllowMultiple, Converter={StaticResource BoolToVisibilityConverter}}">
+				<DataGridTemplateColumn Width="*" Header="Название" Visibility="{Binding Source={StaticResource ProxyElement}, Path=DataContext.AllowMultiple, Converter={StaticResource InversedBoolToVisibilityConverter}}" >
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<CheckBox Margin="2 0" VerticalAlignment="Center" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-								<StackPanel Orientation="Horizontal">
-									<Image Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Organisation.png" />
-                                    <TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
-								</StackPanel>
-							</CheckBox>
+							<StackPanel Orientation="Horizontal">
+								<Image Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Organisation.png" />
+								<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
+							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" Header="Название" Visibility="{Binding Source={StaticResource ProxyElement}, Path=DataContext.AllowMultiple, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+				<DataGridTemplateColumn Width="*" Header="Название" Visibility="{Binding Source={StaticResource ProxyElement}, Path=DataContext.AllowMultiple, Converter={StaticResource BoolToVisibilityConverter}}" >
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<RadioButton Margin="2 0" VerticalAlignment="Center" GroupName="Organisation" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-								<StackPanel Orientation="Horizontal">
-									<Image Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Organisation.png" />
-                                    <TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
-								</StackPanel>
-							</RadioButton>
+							<StackPanel Orientation="Horizontal">
+								<CheckBox Margin="2 0 0 0" VerticalAlignment="Center" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+								<Image Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Organisation.png" />
+								<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
+							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn Width="*" Header="Примечание">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Description}" Style="{StaticResource IsDeletedStyle}" />
+							<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Description}" Style="{StaticResource IsDeletedStyle}" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

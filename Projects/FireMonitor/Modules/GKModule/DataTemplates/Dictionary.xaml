@@ -167,4 +167,20 @@
 		<Views:PlotView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:DoorPageViewModel}">
+		<Views:DoorPageView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:OrganizationPageViewModel}">
+		<Views:OrganizationPageView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ZonePageViewModel}">
+		<Views:ZonePageView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ReflectionPageViewModel}">
+		<Views:ReflectionPageView />
+	</DataTemplate>
+
 </ResourceDictionary>
