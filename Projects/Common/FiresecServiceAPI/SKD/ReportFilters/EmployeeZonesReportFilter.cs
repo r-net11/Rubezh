@@ -11,6 +11,7 @@ namespace FiresecAPI.SKD.ReportFilters
 		{
 			UseCurrentDate = true;
 			IsEmployee = true;
+			ReportDateTime = DateTime.Now;
 		}
 
 		#region IReportFilterOrganisation Members
