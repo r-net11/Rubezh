@@ -33,7 +33,15 @@ namespace ResursNetwork.Incotex.Models
             /// <summary>
             /// Дата и время устройства
             /// </summary>
-            DATETIME = 2
+            DateTime = 2,
+            /// <summary>
+            /// Лимит мощности
+            /// </summary>
+            PowerLimit = 3,
+            /// <summary>
+            /// Лимит мощности за месяц
+            /// </summary>
+            PowerLimitPerMonth = 4
         }
         #endregion
 
@@ -68,23 +76,34 @@ namespace ResursNetwork.Incotex.Models
             _Parameters.Add(new Parameter(typeof(UInt32))
             {
                 Index = (UInt32)ParameterIndexes.GADDR,
-                Name = "Групповой адрес",
+                Name = ParameterIndexes.GADDR.ToString(),
                 Description = "Групповой адрес счётчика",
                 PollingEnabled = true,
                 ReadOnly = false,
-                ValueConverter = new BigEndianUint32ValueConverter(),
+                ValueConverter = new BigEndianUInt32ValueConverter(),
                 Value = (UInt32)0
             });
 
             _Parameters.Add(new Parameter(typeof(IncotexDateTime)) 
             { 
-                Index = (UInt32)ParameterIndexes.DATETIME, 
-                Name = "Дата и время", 
+                Index = (UInt32)ParameterIndexes.DateTime, 
+                Name = ParameterIndexes.DateTime.ToString(), 
                 Description = "Текущее значение часов счётчика",
                 PollingEnabled = true, 
                 ReadOnly = false,
                 ValueConverter = new IncotexDataTimeTypeConverter(),
                 Value = new IncotexDateTime()
+            });
+
+            _Parameters.Add(new Parameter(typeof(UInt16)) 
+            {
+                Index = (UInt32)ParameterIndexes.PowerLimit,
+                Name = ParameterIndexes.PowerLimit.ToString(),
+                Description = "Значение лимита мощности",
+                PollingEnabled = true,
+                ReadOnly = false,
+                ValueConverter = new BigEndianUInt16ValueConvertor(),
+                Value = (UInt16)0
             });
         }
         /// <summary>
@@ -223,7 +242,7 @@ namespace ResursNetwork.Incotex.Models
                 }
                 
                 //Всё в порядке выполняем изменение сетевого адреса
-                var converter = new BigEndianUint32ValueConverter();
+                var converter = new BigEndianUInt32ValueConverter();
                 var adr = (UInt32)converter.FromArray(
                     new Byte[] { answerArray[0], answerArray[1], answerArray[2], answerArray[3] });
 

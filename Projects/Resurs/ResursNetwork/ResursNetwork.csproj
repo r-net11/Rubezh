@@ -52,7 +52,8 @@
     <Compile Include="Devices\ErrorOccuredEventArgs.cs" />
     <Compile Include="Devices\IDevice.cs" />
     <Compile Include="Devices\PeriodicReadEnabledAttribute.cs" />
-    <Compile Include="Devices\ValueConverters\BigEndianUint32ValueConverter.cs" />
+    <Compile Include="Devices\ValueConverters\BigEndianUInt16ValueConvertor.cs" />
+    <Compile Include="Devices\ValueConverters\BigEndianUInt32ValueConverter.cs" />
     <Compile Include="Devices\ValueConverters\IncotexDataTimeTypeConverter.cs" />
     <Compile Include="Incotex\Models\IncotexDateTime.cs" />
     <Compile Include="Incotex\Models\Mercury203.cs" />
