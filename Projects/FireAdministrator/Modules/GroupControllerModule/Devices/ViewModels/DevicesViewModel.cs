@@ -233,6 +233,8 @@ namespace GKModule.ViewModels
 							cache.UpdateDeviceBinding(device);
 							SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
 							device.Invalidate();
+							if (isCut)
+								device.OutDependentElements.ForEach(x => x.OnChanged());
 						}
 					}
 					if (SelectedDevice.Device.IsConnectedToKAU)
