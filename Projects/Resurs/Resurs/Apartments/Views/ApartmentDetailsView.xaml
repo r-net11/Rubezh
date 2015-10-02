@@ -13,13 +13,28 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<TextBlock Grid.Row="0" Grid.Column="0" Text="Название" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
 				<TextBlock Grid.Row="1" Grid.Column="0" Text="Адрес" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
-				<TextBlock Grid.Row="2" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
+				<TextBlock Grid.Row="2" Grid.Column="0" Text="Телефон" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
+				<TextBlock Grid.Row="3" Grid.Column="0" Text="Email" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
+				<TextBlock Grid.Row="4" Grid.Column="0" Text="Оповещение по Email" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
+				<TextBlock Grid.Row="5" Grid.Column="0" Text="Логин" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
+				<TextBlock Grid.Row="6" Grid.Column="0" Text="Пароль" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
+				<TextBlock Grid.Row="7" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}" Margin="2" />
 				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Address}" Margin="2" />
-				<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description}" Margin="2" />
+				<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Phone}" Margin="2" />
+				<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Email}" Margin="2" />
+				<CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding IsSendEmail}" Margin="2" />
+				<TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Login}" Margin="2" />
+				<TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Password}" Margin="2" />
+				<TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Description}" Margin="2" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Оборудование">
