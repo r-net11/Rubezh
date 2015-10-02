@@ -1,14 +1,12 @@
-﻿using System.Linq;
-using FiresecAPI;
+﻿using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
-using Microsoft.Practices.EnterpriseLibrary.Data;
 using SKDDriver;
-using SKDDriver.DataAccess;
 using SKDDriver.Translators;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DayInterval = FiresecAPI.SKD.DayInterval;
 using DayIntervalPart = FiresecAPI.SKD.DayIntervalPart;
 using Holiday = FiresecAPI.SKD.Holiday;
