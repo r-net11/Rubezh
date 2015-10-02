@@ -24,7 +24,7 @@ namespace StrazhModule.Plans.Designer
 			: base(presenterItem)
 		{
 			if (Item != null)
-				_doorViewModel = new ViewModels.DoorViewModel(Item);
+				_doorViewModel = new DoorViewModel(Item);
 		}
 
 		protected override SKDDoor CreateItem(PresenterItem presenterItem)
