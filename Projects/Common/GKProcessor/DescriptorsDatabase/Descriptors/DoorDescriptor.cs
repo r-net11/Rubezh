@@ -130,21 +130,27 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.EXIT);
 			}
 
-			Formula.AddGetBit(GKStateBit.Fire1, Door.PimCrossing);
-			Formula.Add(FormulaOperationType.BR, 1, 5);
-			Formula.AddWithGKBase(FormulaOperationType.GETMEMB, 0, Door);
-			Formula.Add(FormulaOperationType.BR, 1, 0);
-			Formula.Add(FormulaOperationType.CONST, 0, 2);
-			Formula.Add(FormulaOperationType.PUTP);
-			Formula.Add(FormulaOperationType.EXIT);
+			if (Door.AntipassbackOn && enterZone != null)
+			{
+				Formula.AddGetBit(GKStateBit.Fire1, Door.PimCrossing);
+				Formula.Add(FormulaOperationType.BR, 1, 5);
+				Formula.AddWithGKBase(FormulaOperationType.GETMEMB, 0, Door);
+				Formula.Add(FormulaOperationType.BR, 1, 0);
+				Formula.Add(FormulaOperationType.CONST, 0, (byte)enterZone.No);
+				Formula.Add(FormulaOperationType.PUTP);
+				Formula.Add(FormulaOperationType.EXIT);
+			}
 
-			Formula.AddGetBit(GKStateBit.Fire2, Door.PimCrossing);
-			Formula.Add(FormulaOperationType.BR, 1, 5);
-			Formula.AddWithGKBase(FormulaOperationType.GETMEMB, 0, Door);
-			Formula.Add(FormulaOperationType.BR, 1, 0);
-			Formula.Add(FormulaOperationType.CONST, 0, 1);
-			Formula.Add(FormulaOperationType.PUTP);
-			Formula.Add(FormulaOperationType.EXIT);
+			if (Door.AntipassbackOn && exitZone != null)
+			{
+				Formula.AddGetBit(GKStateBit.Fire2, Door.PimCrossing);
+				Formula.Add(FormulaOperationType.BR, 1, 5);
+				Formula.AddWithGKBase(FormulaOperationType.GETMEMB, 0, Door);
+				Formula.Add(FormulaOperationType.BR, 1, 0);
+				Formula.Add(FormulaOperationType.CONST, 0, (byte)exitZone.No);
+				Formula.Add(FormulaOperationType.PUTP);
+				Formula.Add(FormulaOperationType.EXIT);
+			}
 
 			Formula.AddGetBit(GKStateBit.Attention, enterDevice);
 			Formula.AddGetBit(GKStateBit.Off, Door);

@@ -56,10 +56,16 @@ namespace GKProcessor
 			Formula.AddGetBit(GKStateBit.Fire1, LockControlDevice);
 			Formula.Add(FormulaOperationType.COM);
 			Formula.Add(FormulaOperationType.AND);
+			Formula.AddGetBit(GKStateBit.Fire2, Pim);
+			Formula.Add(FormulaOperationType.COM);
+			Formula.Add(FormulaOperationType.AND);
 			Formula.AddPutBit(GKStateBit.Fire1, Pim);
 
 			Formula.AddGetBit(GKStateBit.On, Pim);
 			Formula.AddGetBit(GKStateBit.Fire1, LockControlDeviceExit);
+			Formula.Add(FormulaOperationType.COM);
+			Formula.Add(FormulaOperationType.AND);
+			Formula.AddGetBit(GKStateBit.Fire1, Pim);
 			Formula.Add(FormulaOperationType.COM);
 			Formula.Add(FormulaOperationType.AND);
 			Formula.AddPutBit(GKStateBit.Fire2, Pim);

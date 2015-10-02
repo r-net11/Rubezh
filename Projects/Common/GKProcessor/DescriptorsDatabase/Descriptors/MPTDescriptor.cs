@@ -59,7 +59,7 @@ namespace GKProcessor
 				}
 			}
 
-			if (!MPT.MptLogic.UseOffCounterLogic && MPT.MptLogic.OffClausesGroup.Clauses.Count + MPT.MptLogic.OffClausesGroup.ClauseGroups.Count > 0)
+			if (!MPT.MptLogic.UseOffCounterLogic && MPT.MptLogic.OffClausesGroup.GetObjects().Count > 0)
 			{
 				Formula.AddClauseFormula(MPT.MptLogic.OffClausesGroup);
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, MPT);

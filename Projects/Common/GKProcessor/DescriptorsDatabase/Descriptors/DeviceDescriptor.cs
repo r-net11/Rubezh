@@ -54,7 +54,7 @@ namespace GKProcessor
 						Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 					}
 				}
-				if (!Device.Logic.UseOffCounterLogic && Device.Logic.OffClausesGroup.Clauses.Count + Device.Logic.OffClausesGroup.ClauseGroups.Count > 0)
+				if (!Device.Logic.UseOffCounterLogic && Device.Logic.OffClausesGroup.GetObjects().Count > 0)
 				{
 					Formula.AddClauseFormula(Device.Logic.OffClausesGroup);
 					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
@@ -83,23 +83,8 @@ namespace GKProcessor
 				Formula.AddGetBit(GKStateBit.Off, Device.GuardZones.FirstOrDefault());
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 			}
-			if (Device.Door != null && Device.Door.DoorType == GKDoorType.Barrier)
-			{
-				if (Device.Door.LockDeviceUID == Device.UID)
-				{
-					Formula.AddGetBit(GKStateBit.On, Device.Door);
-					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
-				}
 
-				if (Device.Door.LockDeviceExitUID == Device.UID)
-				{
-					Formula.AddGetBit(GKStateBit.TurningOff, Device.Door);
-					Formula.AddGetBit(GKStateBit.Off, Device.Door);
-					Formula.Add(FormulaOperationType.OR);
-					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
-				}
-			}
-			else
+			if (Device.Door != null && Device.Door.DoorType == GKDoorType.AirlockBooth)
 			{
 				if (Device.Door != null && Device.Door.LockDeviceUID == Device.UID)
 				{
@@ -145,6 +130,23 @@ namespace GKProcessor
 					Formula.AddGetBit(GKStateBit.Off, Device.Door);
 					Formula.Add(FormulaOperationType.OR);
 					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
+				}
+			}
+
+			else
+			{
+				if (Device.Door != null && Device.Door.LockDeviceUID == Device.UID)
+				{
+					Formula.AddGetBit(GKStateBit.On, Device.Door);
+					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+				}
+
+				if (Device.Door != null && Device.Door.LockDeviceExitUID == Device.UID)
+				{
+					Formula.AddGetBit(GKStateBit.TurningOff, Device.Door);
+					Formula.AddGetBit(GKStateBit.Off, Device.Door);
+					Formula.Add(FormulaOperationType.OR);
+					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 				}
 			}
 			Formula.Add(FormulaOperationType.END);

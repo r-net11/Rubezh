@@ -185,7 +185,9 @@
 						</TextBlock>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик контроля двери" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}" />
+							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик контроля двери" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.OneWay}}" />
+							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик контроля двери" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.TwoWay}}" />
+							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик контроля двери" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}" />
 							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик проворота" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}" />
 							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик контроля на въезд" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Barrier}}" />
 							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding LockControlDevice.Driver.ImageSource}" Visibility="{Binding LockControlDevice, Converter={StaticResource NullToVisibilityConverter}}" />

@@ -69,8 +69,10 @@ namespace GKProcessor
 			if (sendResult.Bytes.Count == 64)
 			{
 				var journalParser = new JournalParser(GkDatabase.RootDevice, sendResult.Bytes);
+#if !DEBUG
 				if (journalParser.JournalItem.JournalObjectType == JournalObjectType.GKPim)
 					return null;
+#endif
 				return journalParser;
 			}
 			return null;
