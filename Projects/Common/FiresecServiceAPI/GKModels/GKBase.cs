@@ -19,8 +19,8 @@ namespace FiresecAPI.GK
 			ClearDescriptor();
 			ClearClauseDependencies();
 			State = new GKState();
-			InputGKBases = new List<GKBase>();
-			OutputGKBases = new List<GKBase>();
+			InputDescriptors = new List<GKBase>();
+			OutputDescriptors = new List<GKBase>();
 			InputDependentElements = new List<GKBase>();
 			OutDependentElements = new List<GKBase>();
 		}
@@ -32,40 +32,14 @@ namespace FiresecAPI.GK
 
 		public void ClearClauseDependencies()
 		{
-			InputGKBases = new List<GKBase>();
-			OutputGKBases = new List<GKBase>();
+			InputDescriptors = new List<GKBase>();
+			OutputDescriptors = new List<GKBase>();
 		}
 
 		[XmlIgnore]
-		public List<GKBase> InputGKBases { get; set; }
+		public List<GKBase> InputDescriptors { get; set; }
 		[XmlIgnore]
-		public List<GKBase> OutputGKBases { get; set; }
-
-		[XmlIgnore]
-		public GKDevice KauDatabaseParent { get; set; }
-		[XmlIgnore]
-		public GKDevice GkDatabaseParent { get; set; }
-
-		[XmlIgnore]
-		public GKDevice DataBaseParent
-		{
-			get { return KauDatabaseParent ?? GkDatabaseParent; }
-			set
-			{
-				if (value != null && value.DriverType == GKDriverType.GK)
-					GkDatabaseParent = value;
-				if (value != null && value.DriverType == GKDriverType.RSR2_KAU)
-					KauDatabaseParent = value;
-			}
-		}
-
-		[XmlIgnore]
-		public virtual bool IsLogicOnKau { get; set; }
-
-		[XmlIgnore]
-		public ushort GKDescriptorNo { get; set; }
-		[XmlIgnore]
-		public ushort KAUDescriptorNo { get; set; }
+		public List<GKBase> OutputDescriptors { get; set; }
 
 		//public abstract void Update(GKDevice device);
 
@@ -105,191 +79,6 @@ namespace FiresecAPI.GK
 			return result.TrimEnd(' ');
 		}
 
-		public void PrepareInputOutputDependences()
-		{
-			var device = this as GKDevice;
-			if (device != null)
-			{
-				LinkLogic(device, device.Logic.OnClausesGroup);
-				LinkLogic(device, device.Logic.OffClausesGroup);
-				LinkLogic(device, device.Logic.OnNowClausesGroup);
-				LinkLogic(device, device.Logic.OffNowClausesGroup);
-				LinkLogic(device, device.Logic.StopClausesGroup);
-				if (device.IsInMPT)
-				{
-					var deviceMPTs = new List<GKMPT>(GKManager.MPTs.FindAll(x => x.MPTDevices.FindAll(y => y.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard
-						|| y.MPTDeviceType == GKMPTDeviceType.Bomb || y.MPTDeviceType == GKMPTDeviceType.DoNotEnterBoard || y.MPTDeviceType == GKMPTDeviceType.ExitBoard
-						|| y.MPTDeviceType == GKMPTDeviceType.Speaker).Any(z => z.Device == device)));
-					foreach (var deviceMPT in deviceMPTs)
-					{
-						device.LinkGKBases(deviceMPT);
-					}
-				}
-
-				if (!device.Driver.IsAm)
-				{
-					foreach (var deviceGuardZone in device.GuardZones)
-					{
-						device.LinkGKBases(deviceGuardZone);
-					}
-				}
-
-				foreach (var deviceDoor in GKManager.Doors.Where(x => x.LockDevice == device))
-				{
-					device.LinkGKBases(deviceDoor);
-				}
-
-				foreach (var devicePumpStation in GKManager.PumpStations.Where(x => x.NSDevices.Contains(device)))
-				{
-					device.LinkGKBases(devicePumpStation);
-				}
-			}
-
-			var zone = this as GKZone;
-			if (zone != null)
-			{
-				foreach (var zoneDevice in zone.Devices)
-				{
-					zone.LinkGKBases(zoneDevice);
-				}
-				zone.LinkGKBases(zone);
-			}
-
-			var direction = this as GKDirection;
-			if (direction != null)
-			{
-				LinkLogic(direction, direction.Logic.OnClausesGroup);
-				LinkLogic(direction, direction.Logic.OffClausesGroup);
-				LinkLogic(direction, direction.Logic.StopClausesGroup);
-			}
-
-			var pumpStation = this as GKPumpStation;
-			if (pumpStation != null)
-			{
-				LinkLogic(pumpStation, pumpStation.StartLogic.OnClausesGroup);
-				LinkLogic(pumpStation, pumpStation.StopLogic.OnClausesGroup);
-				LinkLogic(pumpStation, pumpStation.AutomaticOffLogic.OnClausesGroup);
-			}
-
-			var mpt = this as GKMPT;
-			if (mpt != null)
-			{
-				LinkLogic(mpt, mpt.MptLogic.OnClausesGroup);
-				LinkLogic(mpt, mpt.MptLogic.OffClausesGroup);
-				LinkLogic(mpt, mpt.MptLogic.StopClausesGroup);
-				foreach (var mptDevice in mpt.MPTDevices.FindAll(x => x.MPTDeviceType == GKMPTDeviceType.HandStart || x.MPTDeviceType == GKMPTDeviceType.HandStop
-					|| x.MPTDeviceType == GKMPTDeviceType.HandAutomaticOn || x.MPTDeviceType == GKMPTDeviceType.HandAutomaticOff || x.MPTDeviceType == GKMPTDeviceType.Bomb))
-				{
-					mpt.LinkGKBases(mptDevice.Device);
-				}
-			}
-
-			var delay = this as GKDelay;
-			if (delay != null)
-			{
-				LinkLogic(delay, delay.Logic.OnClausesGroup);
-				LinkLogic(delay, delay.Logic.OffClausesGroup);
-				LinkLogic(delay, delay.Logic.StopClausesGroup);
-			}
-
-			var guardZone = this as GKGuardZone;
-			if (guardZone != null)
-			{
-				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
-				{
-					if (guardZoneDevice.ActionType != GKGuardZoneDeviceActionType.ChangeGuard)
-					{
-						guardZone.LinkGKBases(guardZoneDevice.Device);
-						if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetector || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
-						{
-							guardZoneDevice.Device.LinkGKBases(guardZone);
-						}
-					}
-				}
-				guardZone.LinkGKBases(guardZone);
-			}
-
-			var door = this as GKDoor;
-			if (door != null)
-			{
-				if (door.EnterDevice != null)
-					door.LinkGKBases(door.EnterDevice);
-				if (door.ExitDevice != null)
-					door.LinkGKBases(door.ExitDevice);
-				if (door.EnterButton != null)
-					door.LinkGKBases(door.EnterButton);
-				if (door.ExitButton != null)
-					door.LinkGKBases(door.ExitButton);
-				if (door.LockDevice != null)
-					door.LockDevice.LinkGKBases(door);
-				if (door.LockDeviceExit != null)
-					door.LockDeviceExit.LinkGKBases(door);
-				if (door.LockControlDevice != null)
-					door.LinkGKBases(door.LockControlDevice);
-				if (door.LockControlDeviceExit != null)
-					door.LinkGKBases(door.LockControlDeviceExit);
-				LinkLogic(door, door.OpenRegimeLogic.OnClausesGroup);
-				LinkLogic(door, door.NormRegimeLogic.OnClausesGroup);
-				LinkLogic(door, door.CloseRegimeLogic.OnClausesGroup);
-				door.LinkGKBases(door);
-			}
-		}
-
-		void LinkLogic(GKBase gkBase, GKClauseGroup clauseGroup)
-		{
-			if (clauseGroup.Clauses != null)
-			{
-				foreach (var clause in clauseGroup.Clauses)
-				{
-					foreach (var clauseDevice in clause.Devices)
-						gkBase.LinkGKBases(clauseDevice);
-					foreach (var zone in clause.Zones)
-						gkBase.LinkGKBases(zone);
-					foreach (var guardZone in clause.GuardZones)
-						gkBase.LinkGKBases(guardZone);
-					foreach (var direction in clause.Directions)
-						gkBase.LinkGKBases(direction);
-					foreach (var mpt in clause.MPTs)
-						gkBase.LinkGKBases(mpt);
-					foreach (var delay in clause.Delays)
-						gkBase.LinkGKBases(delay);
-					foreach (var door in clause.Doors)
-						gkBase.LinkGKBases(door);
-					foreach (var pumpStation in clause.PumpStations)
-						gkBase.LinkGKBases(pumpStation);
-				}
-			}
-			if (clauseGroup.ClauseGroups != null)
-			{
-				foreach (var group in clauseGroup.ClauseGroups)
-				{
-					LinkLogic(gkBase, group);
-				}
-			}
-		}
-
-		public void LinkGKBases(GKBase dependsOn)
-		{
-			AddInputOutputObject(InputGKBases, dependsOn);
-			AddInputOutputObject(dependsOn.OutputGKBases, this);
-		}
-
-		void AddInputOutputObject(List<GKBase> objects, GKBase newObject)
-		{
-			if (objects == null)
-				objects = new List<GKBase>();
-			if (newObject != null)
-				if (objects.All(x => x.UID != newObject.UID))
-					objects.Add(newObject);
-		}
-
-
-		public void ClearDescriptor()
-		{
-			InputGKBases = new List<GKBase>();
-			OutputGKBases = new List<GKBase>();
-		}
-
 		[XmlIgnore]
 		public abstract GKBaseObjectType ObjectType { get; }
 		[XmlIgnore]
@@ -320,94 +109,264 @@ namespace FiresecAPI.GK
 
 		#endregion
 
-		//public GKDevice GetDataBaseParent()
-		//{
-		//	PrepareInputOutputDependences();
-		//	var allDependentObjects = GetFullTree(this);
-		//	var allDependentDoors = allDependentObjects.Where(x => x is GKDoor).Cast<GKDoor>().ToList();
-		//	if (allDependentDoors.Count > 0)
-		//		return allDependentDoors.FirstOrDefault().GkDatabaseParent;
-		//	var allDependentDevices = allDependentObjects.Where(x => x is GKDevice).Cast<GKDevice>().ToList();
-		//	var allDependentGuardZones = allDependentObjects.Where(x => x is GKGuardZone).Cast<GKGuardZone>().ToList();
-		//	allDependentGuardZones.ForEach(x => allDependentDevices.AddRange(GetGuardZoneDependetnDevicesByCodes(x)));
-		//	var kauParents = allDependentDevices.Select(x => x.KAUParent).ToList();
-		//	kauParents = kauParents.Distinct().ToList();
-		//	if (this is GKDevice && allDependentGuardZones.Any(x => x.HasAccessLevel))
-		//		return (this as GKDevice).GKParent;
-		//	if (kauParents.Count == 1 && kauParents.FirstOrDefault() != null)
-		//		return kauParents.FirstOrDefault();
-		//	if (this is GKDevice)
-		//		return (this as GKDevice).GKParent;
-		//	if (allDependentDevices != null && allDependentDevices.Count > 0)
-		//		return allDependentDevices.FirstOrDefault().GKParent;
-		//	return null;
-		//}
+		#region Descriptors
 
-		public void GetDataBaseParent()
+		[XmlIgnore]
+		public HashSet<GKDevice> KauParents { get; set; }
+		[XmlIgnore]
+		public HashSet<GKDevice> GkParents { get; set; }
+
+		[XmlIgnore]
+		public GKDevice KauDatabaseParent { get; set; }
+		[XmlIgnore]
+		public GKDevice GkDatabaseParent { get; set; }
+
+		[XmlIgnore]
+		public GKDevice DataBaseParent
 		{
-			PrepareInputOutputDependences();
-			var dataBaseParent = GetDataBaseParent(this, new List<GKBase>(), new List<GKDevice>());
-			if (dataBaseParent == null)
-				return;
-			IsLogicOnKau = dataBaseParent.Driver.IsKau;
-			if (IsLogicOnKau)
+			get { return KauDatabaseParent ?? GkDatabaseParent; }
+			set
 			{
-				KauDatabaseParent = dataBaseParent;
-				GkDatabaseParent = dataBaseParent.GKParent;
-			}
-			else
-			{
-				GkDatabaseParent = dataBaseParent;
-			}
-			if (this is GKGuardZone && (this as GKGuardZone).HasAccessLevel)
-			{
-				IsLogicOnKau = false;
-				KauDatabaseParent = null;
+				if (value != null && value.DriverType == GKDriverType.GK)
+					GkDatabaseParent = value;
+				if (value != null && value.DriverType == GKDriverType.RSR2_KAU)
+					KauDatabaseParent = value;
 			}
 		}
 
-		public GKDevice GetDataBaseParent(GKBase gkBase, List<GKBase> result, List<GKDevice> dataBaseParents)
+		[XmlIgnore]
+		public bool MagnetToGK { get; set; }
+
+		[XmlIgnore]
+		public virtual bool IsLogicOnKau { get; set; }
+
+		[XmlIgnore]
+		public ushort GKDescriptorNo { get; set; }
+		[XmlIgnore]
+		public ushort KAUDescriptorNo { get; set; }
+
+		public void PrepareInputOutputDependences()
 		{
-			var gkParent = new GKDevice();
-			var kauParents = new List<GKDevice>();
-			if (gkBase.DataBaseParent == null)
+			var device = this as GKDevice;
+			if (device != null)
 			{
-				gkBase.PrepareInputOutputDependences();
+				LinkLogic(device, device.Logic.OnClausesGroup);
+				LinkLogic(device, device.Logic.OffClausesGroup);
+				LinkLogic(device, device.Logic.OnNowClausesGroup);
+				LinkLogic(device, device.Logic.OffNowClausesGroup);
+				LinkLogic(device, device.Logic.StopClausesGroup);
+				if (device.IsInMPT)
+				{
+					var deviceMPTs = new List<GKMPT>(GKManager.MPTs.FindAll(x => x.MPTDevices.FindAll(y => y.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard
+						|| y.MPTDeviceType == GKMPTDeviceType.Bomb || y.MPTDeviceType == GKMPTDeviceType.DoNotEnterBoard || y.MPTDeviceType == GKMPTDeviceType.ExitBoard
+						|| y.MPTDeviceType == GKMPTDeviceType.Speaker).Any(z => z.Device == device)));
+					foreach (var deviceMPT in deviceMPTs)
+					{
+						device.LinkToDescriptor(deviceMPT);
+					}
+				}
+
+				if (!device.Driver.IsAm)
+				{
+					foreach (var deviceGuardZone in device.GuardZones)
+					{
+						device.LinkToDescriptor(deviceGuardZone);
+					}
+				}
+
+				foreach (var deviceDoor in GKManager.Doors.Where(x => x.LockDevice == device))
+				{
+					device.LinkToDescriptor(deviceDoor);
+				}
+
+				foreach (var devicePumpStation in GKManager.PumpStations.Where(x => x.NSDevices.Contains(device)))
+				{
+					device.LinkToDescriptor(devicePumpStation);
+					LinkLogic(device, device.NSLogic.OnClausesGroup);
+				}
 			}
-			else
+
+			var zone = this as GKZone;
+			if (zone != null)
 			{
-				dataBaseParents.Add(gkBase.DataBaseParent);
-				gkParent = dataBaseParents.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
-				if (gkParent != null)
-					return null;
-				kauParents = dataBaseParents.FindAll(x => x.DriverType == GKDriverType.RSR2_KAU).Distinct().ToList();
-				if (kauParents.Count > 1)
-					return null;
+				foreach (var zoneDevice in zone.Devices)
+				{
+					zone.LinkToDescriptor(zoneDevice);
+				}
+				zone.LinkToDescriptor(zone);
 			}
-			var inputObjects = new List<GKBase>(gkBase.InputGKBases);
-			inputObjects.RemoveAll(x => x.UID == gkBase.UID);
-			inputObjects.RemoveAll(result.Contains);
-			foreach (var inputObject in new List<GKBase>(inputObjects))
+
+			var direction = this as GKDirection;
+			if (direction != null)
 			{
-				if (result.Any(x => x.UID == inputObject.UID))
-					continue;
-				if (inputObject is GKGuardZone)
-					result.AddRange(GKManager.GuardZones.FindAll(x => x.GetCodeUids().Intersect((inputObject as GKGuardZone).GetCodeUids()).Any() && !result.Contains(x)));
-				if (!result.Contains(inputObject))
-					result.Add(inputObject);
-				if (!result.Contains(null))
-					GetDataBaseParent(inputObject, result, dataBaseParents);
+				LinkLogic(direction, direction.Logic.OnClausesGroup);
+				LinkLogic(direction, direction.Logic.OffClausesGroup);
+				LinkLogic(direction, direction.Logic.StopClausesGroup);
 			}
-			result.RemoveAll(x => x == null);
-			dataBaseParents.AddRange(result.Distinct().ToList().FindAll(x => x is GKDevice).Select(y => (y as GKDevice).DataBaseParent).ToList());
-			dataBaseParents.RemoveAll(x => x == null);
-			gkParent = dataBaseParents.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
-			if (gkParent != null)
-				return gkParent;
-			kauParents = dataBaseParents.FindAll(x => x.DriverType == GKDriverType.RSR2_KAU).Distinct().ToList();
-			if (kauParents.Count > 1)
-				return kauParents[0].GKParent;
-			return kauParents.Count == 1 ? kauParents[0] : null;
+
+			var pumpStation = this as GKPumpStation;
+			if (pumpStation != null)
+			{
+				LinkLogic(pumpStation, pumpStation.StartLogic.OnClausesGroup);
+				LinkLogic(pumpStation, pumpStation.StopLogic.OnClausesGroup);
+				LinkLogic(pumpStation, pumpStation.AutomaticOffLogic.OnClausesGroup);
+			}
+
+			var mpt = this as GKMPT;
+			if (mpt != null)
+			{
+				LinkLogic(mpt, mpt.MptLogic.OnClausesGroup);
+				LinkLogic(mpt, mpt.MptLogic.OffClausesGroup);
+				LinkLogic(mpt, mpt.MptLogic.StopClausesGroup);
+				foreach (var mptDevice in mpt.MPTDevices.FindAll(x => x.MPTDeviceType == GKMPTDeviceType.HandStart || x.MPTDeviceType == GKMPTDeviceType.HandStop
+					|| x.MPTDeviceType == GKMPTDeviceType.HandAutomaticOn || x.MPTDeviceType == GKMPTDeviceType.HandAutomaticOff || x.MPTDeviceType == GKMPTDeviceType.Bomb))
+				{
+					mpt.LinkToDescriptor(mptDevice.Device);
+				}
+			}
+
+			var delay = this as GKDelay;
+			if (delay != null)
+			{
+				LinkLogic(delay, delay.Logic.OnClausesGroup);
+				LinkLogic(delay, delay.Logic.OffClausesGroup);
+				LinkLogic(delay, delay.Logic.StopClausesGroup);
+			}
+
+			var guardZone = this as GKGuardZone;
+			if (guardZone != null)
+			{
+				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
+				{
+					guardZone.LinkToDescriptor(guardZoneDevice.Device);
+					if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetector || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
+					{
+						guardZoneDevice.Device.LinkToDescriptor(guardZone);
+					}
+				}
+			}
+
+			var door = this as GKDoor;
+			if (door != null)
+			{
+				if (door.EnterDevice != null)
+					door.LinkToDescriptor(door.EnterDevice);
+				if (door.ExitDevice != null)
+					door.LinkToDescriptor(door.ExitDevice);
+				if (door.EnterButton != null)
+					door.LinkToDescriptor(door.EnterButton);
+				if (door.ExitButton != null)
+					door.LinkToDescriptor(door.ExitButton);
+				if (door.LockDevice != null)
+					door.LockDevice.LinkToDescriptor(door);
+				if (door.LockDeviceExit != null)
+					door.LockDeviceExit.LinkToDescriptor(door);
+				if (door.LockControlDevice != null)
+					door.LinkToDescriptor(door.LockControlDevice);
+				if (door.LockControlDeviceExit != null)
+					door.LinkToDescriptor(door.LockControlDeviceExit);
+				LinkLogic(door, door.OpenRegimeLogic.OnClausesGroup);
+				LinkLogic(door, door.NormRegimeLogic.OnClausesGroup);
+				LinkLogic(door, door.CloseRegimeLogic.OnClausesGroup);
+				door.LinkToDescriptor(door);
+			}
 		}
+
+		void LinkLogic(GKBase gkBase, GKClauseGroup clauseGroup)
+		{
+			if (clauseGroup.Clauses != null)
+			{
+				foreach (var clause in clauseGroup.Clauses)
+				{
+					foreach (var clauseDevice in clause.Devices)
+						gkBase.LinkToDescriptor(clauseDevice);
+					foreach (var zone in clause.Zones)
+						gkBase.LinkToDescriptor(zone);
+					foreach (var guardZone in clause.GuardZones)
+						gkBase.LinkToDescriptor(guardZone);
+					foreach (var direction in clause.Directions)
+						gkBase.LinkToDescriptor(direction);
+					foreach (var mpt in clause.MPTs)
+						gkBase.LinkToDescriptor(mpt);
+					foreach (var delay in clause.Delays)
+						gkBase.LinkToDescriptor(delay);
+					foreach (var door in clause.Doors)
+						gkBase.LinkToDescriptor(door);
+					foreach (var pumpStation in clause.PumpStations)
+						gkBase.LinkToDescriptor(pumpStation);
+				}
+			}
+			if (clauseGroup.ClauseGroups != null)
+			{
+				foreach (var group in clauseGroup.ClauseGroups)
+				{
+					LinkLogic(gkBase, group);
+				}
+			}
+		}
+
+		public void LinkToDescriptor(GKBase dependsOn)
+		{
+			AddInputOutputObject(InputDescriptors, dependsOn);
+			AddInputOutputObject(dependsOn.OutputDescriptors, this);
+		}
+
+		void AddInputOutputObject(List<GKBase> objects, GKBase newObject)
+		{
+			if (objects == null)
+				objects = new List<GKBase>();
+			if (newObject != null)
+				if (objects.All(x => x.UID != newObject.UID))
+					objects.Add(newObject);
+		}
+
+
+		public void ClearDescriptor()
+		{
+			InputDescriptors = new List<GKBase>();
+			OutputDescriptors = new List<GKBase>();
+			KauParents = new HashSet<GKDevice>();
+			GkParents = new HashSet<GKDevice>();
+		}
+
+		[XmlIgnore]
+		public List<GKBase> ChildDescriptors = new List<GKBase>();
+
+		[XmlIgnore]
+		public bool IsChildDescriptorsReady { get; set; }
+
+		public void CalculateAllChildDescriptors()
+		{
+			var newChildDescriptors = new List<GKBase>();
+			foreach (var descriptorDependentObject in ChildDescriptors)
+			{
+				descriptorDependentObject.SetAllDescriptorsChildren(newChildDescriptors);
+			}
+			foreach (var newChildDescriptor in newChildDescriptors)
+			{
+				if (!ChildDescriptors.Contains(newChildDescriptor))
+				{
+					ChildDescriptors.Add(newChildDescriptor);
+				}
+			}
+			IsChildDescriptorsReady = true;
+		}
+
+		void SetAllDescriptorsChildren(List<GKBase> allChildren)
+		{
+			foreach (var childDescriptor in ChildDescriptors)
+			{
+				if (!allChildren.Contains(childDescriptor))
+				{
+					allChildren.Add(childDescriptor);
+					if (!IsChildDescriptorsReady)
+					{
+						childDescriptor.SetAllDescriptorsChildren(allChildren);
+					}
+				}
+			}
+		}
+
+		#endregion Descriptors
 	}
 }

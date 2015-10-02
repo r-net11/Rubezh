@@ -17,7 +17,7 @@ namespace ResursAPI
 			Children = new List<Device>();
 			Parameters = new List<Parameter>(); ;
 		}
-		public Device(ResursAPI.DriverType driverType)
+		public Device(ResursAPI.DriverType driverType, Device parent = null)
 			: this()
 		{
 			Driver = ResursAPI.DriversConfiguration.GetDriver(driverType);
@@ -26,31 +26,13 @@ namespace ResursAPI
 			{
 				Parameters.Add(new Parameter { DriverParameter = item, Device = this, Number = item.Number });
 			}
-		}
-
-		public void AddChild(ResursAPI.DriverType driverType)
-		{
-			if (!Driver.Children.Any(x => x == driverType))
-				return;
-			var device = new Device(driverType);
-			device.SetAddress(this, Children.Count + 1);
-			device.Parent = this;
-			Children.Add(device);
-		}
-
-		public void AddChild(Device device)
-		{
-			if (!Driver.Children.Any(x => x == device.Driver.DriverType))
-				return;
-			device.SetAddress(this, Children.Count + 1);
-			device.Parent = this;
-			Children.Add(device);
-		}
-		void SetAddress(Device parent, int number)
-		{
-			if (parent.Children.Any(x => x.Address == number))
-				return;
-			Address = number;
+			if(parent != null)
+			{
+				Parent = parent;
+				Parent.Children.Add(this);
+				Address = Parent.Children.Count;
+			}
+			SetFullAddress();
 		}
 
 		public void SetFullAddress()
@@ -67,6 +49,7 @@ namespace ResursAPI
 		public Guid UID { get; set; }
 		[MaxLength(200)]
 		public string Description { get; set; }
+		public Guid? ParentUID { get; set; }
 		public Device Parent { get; set; }
 		[InverseProperty("Parent")]
 		public List<Device> Children { get; set; }

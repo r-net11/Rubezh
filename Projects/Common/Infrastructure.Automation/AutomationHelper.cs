@@ -7,6 +7,10 @@ using System.Collections.ObjectModel;
 using FiresecAPI;
 using Property = FiresecAPI.Automation.Property;
 using FiresecClient.SKDHelpers;
+using FiresecAPI.GK;
+using FiresecAPI.Models;
+using FiresecAPI.Journal;
+using System.Windows.Media;
 
 namespace Infrastructure.Automation
 {
@@ -14,7 +18,7 @@ namespace Infrastructure.Automation
     {
 		public static List<Variable> GetAllVariables(Procedure procedure)
 		{
-			var allVariables = new List<Variable>(FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables);
+			var allVariables = new List<Variable>(ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.GlobalVariables);
 			allVariables.AddRange(procedure.Variables);
 			allVariables.AddRange(procedure.Arguments);
 			return allVariables;
@@ -170,7 +174,7 @@ namespace Infrastructure.Automation
 			var guardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == uid);
 			if (guardZone != null)
 				return guardZone.PresentationName;
-			var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uid);
+			var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uid);
 			if (camera != null)
 				return camera.PresentationName;
 			var gKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == uid);

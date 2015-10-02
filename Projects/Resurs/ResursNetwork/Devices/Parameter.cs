@@ -54,16 +54,6 @@ namespace ResursNetwork.Devices
             set { _ValueConverter = value; }
         }
 
-        private UInt16 _FunctionCode;
-        /// <summary>
-        /// Код функции (сетевой команды)
-        /// </summary>
-        public UInt16 FunctionCode
-        {
-            get { return _FunctionCode; }
-            set { _FunctionCode = value; }
-        }
-
         private Boolean _ReadOnly;
         /// <summary>
         /// Параметр может только читаться из устройства.
@@ -87,7 +77,7 @@ namespace ResursNetwork.Devices
         /// <summary>
         /// Тип данных значения параметра
         /// </summary>
-        private readonly Type ValueType;
+        public readonly Type ValueType;
 
         private ValueType _Value;
         public ValueType Value
@@ -116,6 +106,18 @@ namespace ResursNetwork.Devices
             throw new NotSupportedException();
         }
         /// <summary>
+        /// Тип значения параметра
+        /// </summary>
+        /// <param name="type"></param>
+        public Parameter(Type type)
+        {
+            if (type.BaseType != typeof(ValueType))
+            {
+                throw new ArgumentException("Тип данных параметра должен быть значимым");
+            }
+            ValueType = type;
+        }
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="index"></param>
@@ -137,7 +139,7 @@ namespace ResursNetwork.Devices
             _ReadOnly = readOnly;
             _ValueConverter = valueConverter;
 
-            if (type.BaseType != ValueType)
+            if (type.BaseType != typeof(ValueType))
             {
                 throw new ArgumentException("Тип данных параметра должен быть значимым");
             }

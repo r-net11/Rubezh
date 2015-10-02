@@ -65,7 +65,10 @@
     <Compile Include="DescriptorsDatabase\DatabaseType.cs" />
     <Compile Include="DescriptorsDatabase\DescriptorsManager.cs" />
     <Compile Include="DescriptorsDatabase\CommonDatabase.cs" />
-    <Compile Include="DescriptorsDatabase\Descriptors\DoorPimDescriptor.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\DoorPims\DoorPimDescriptorCrossing.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\DoorPims\DoorPimDescriptorEnter.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\DoorPims\DoorPimDescriptorExit.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\FormulaHelper.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\PimDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\PumpStationDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\MPTDescriptor.cs" />
@@ -73,7 +76,6 @@
     <Compile Include="DescriptorsDatabase\Descriptors\CodeDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\DoorDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\GuardZonePimDescriptor.cs" />
-    <Compile Include="DescriptorsDatabase\Descriptors\LockControlPimDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\GkDatabase.cs" />
     <Compile Include="DescriptorsDatabase\KauDatabase.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\BaseDescriptor.cs" />
@@ -146,6 +148,7 @@
     <Compile Include="Drivers\RSR2\RSR2_Valve_DU_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_GuardDetectorSound_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_Buz_KV_Helper.cs" />
+    <Compile Include="GKLifecycleManager.cs" />
     <Compile Include="GKProcessorManager.cs" />
     <Compile Include="Administrator\GKScheduleHelper.cs" />
     <Compile Include="Journal\JournalParser.cs" />

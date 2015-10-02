@@ -29,5 +29,15 @@ namespace FiresecAPI.Models
 				return ClientType.ToString() + "." + (ClientIpAddress == null ? "" : ClientIpAddress);
 			}
 		}
+
+		public bool IsRemote
+		{
+			get
+			{
+				if (string.IsNullOrEmpty(ClientIpAddress))
+					return false;
+				return (ClientIpAddress != "localhost" && ClientIpAddress != "127.0.0.1");
+			}
+		}
 	}
 }

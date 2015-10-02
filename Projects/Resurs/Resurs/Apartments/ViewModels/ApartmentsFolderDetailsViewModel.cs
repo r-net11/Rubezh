@@ -7,20 +7,20 @@ using System.Text;
 
 namespace Resurs.ViewModels
 {
-	public class ApartmentDetailsViewModel : SaveCancelDialogViewModel
+	public class ApartmentsFolderDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public Apartment Apartment { get; private set; }
 
-		public ApartmentDetailsViewModel(Apartment apartment = null)
+		public ApartmentsFolderDetailsViewModel(Apartment apartment = null)
 		{
 			if(apartment == null)
 			{
-				apartment = new Apartment();
-				Title = "Создание абонента";
+				apartment = new Apartment() { IsFolder = true };
+				Title = "Создание группы абонентов";
 			}
 			else
 			{
-				Title = "Редактирование абонента";
+				Title = "Редактирование группы абонентов";
 			}
 
 			Apartment = apartment;

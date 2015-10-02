@@ -80,6 +80,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecLicense", "..\Common
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Automation", "..\Common\Infrastructure.Automation\Infrastructure.Automation.csproj", "{AE2102F4-C2B3-4CA3-850F-69C93E23DFB7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GKProcessor.Test", "..\Common\GKProcessor.Test\GKProcessor.Test.csproj", "{43CB4957-C0BD-4495-A75F-7D95C93D6B95}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -460,6 +462,18 @@ Global
 		{AE2102F4-C2B3-4CA3-850F-69C93E23DFB7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{AE2102F4-C2B3-4CA3-850F-69C93E23DFB7}.Release|X64.ActiveCfg = Release|Any CPU
 		{AE2102F4-C2B3-4CA3-850F-69C93E23DFB7}.Release|x86.ActiveCfg = Release|Any CPU
+		{43CB4957-C0BD-4495-A75F-7D95C93D6B95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43CB4957-C0BD-4495-A75F-7D95C93D6B95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43CB4957-C0BD-4495-A75F-7D95C93D6B95}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{43CB4957-C0BD-4495-A75F-7D95C93D6B95}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{43CB4957-C0BD-4495-A75F-7D95C93D6B95}.Debug|X64.ActiveCfg = Debug|Any CPU
+		{43CB4957-C0BD-4495-A75F-7D95C93D6B95}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{43CB4957-C0BD-4495-A75F-7D95C93D6B95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43CB4957-C0BD-4495-A75F-7D95C93D6B95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43CB4957-C0BD-4495-A75F-7D95C93D6B95}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{43CB4957-C0BD-4495-A75F-7D95C93D6B95}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{43CB4957-C0BD-4495-A75F-7D95C93D6B95}.Release|X64.ActiveCfg = Release|Any CPU
+		{43CB4957-C0BD-4495-A75F-7D95C93D6B95}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

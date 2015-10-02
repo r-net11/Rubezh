@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using FiresecAPI.GK;
+using System.Text;
 
 namespace GKProcessor
 {
@@ -15,65 +16,80 @@ namespace GKProcessor
 			FormulaOperations = new List<FormulaOperation>();
 		}
 
-		public void Resolve(DatabaseType dataBaseType)
+		public void Resolve(CommonDatabase commonDatabase)
 		{
 			foreach (var formulaOperation in FormulaOperations)
 			{
 				if (formulaOperation.GKBaseSecondOperand != null)
 				{
-					formulaOperation.SecondOperand = dataBaseType == DatabaseType.Gk ? formulaOperation.GKBaseSecondOperand.GKDescriptorNo : formulaOperation.GKBaseSecondOperand.KAUDescriptorNo;
+					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.GKBase == formulaOperation.GKBaseSecondOperand);
+					if (descriptor != null)
+					{
+						formulaOperation.SecondOperand = (ushort)descriptor.No;
+					}
+					//formulaOperation.SecondOperand = commonDatabase.DatabaseType == DatabaseType.Gk ? formulaOperation.GKBaseSecondOperand.GKDescriptorNo : formulaOperation.GKBaseSecondOperand.KAUDescriptorNo;
 				}
+			}
+			if (FormulaOperations.Count == 0 || FormulaOperations.LastOrDefault().FormulaOperationType != FormulaOperationType.END)
+			{
+				Add(FormulaOperationType.END);
 			}
 		}
 
-		public FormulaOperation Add(FormulaOperationType formulaOperationType, byte firstOperand = 0, ushort secondOperand = 0, GKBase gkBase = null, string comment = null)
+		public FormulaOperation Add(FormulaOperationType formulaOperationType, byte firstOperand = 0, ushort secondOperand = 0, string comment = null)
 		{
 			var formulaOperation = new FormulaOperation()
 			{
 				FormulaOperationType = formulaOperationType,
 				FirstOperand = firstOperand,
 				SecondOperand = secondOperand,
-				GKBaseSecondOperand = gkBase,
 				Comment = comment
 			};
 			FormulaOperations.Add(formulaOperation);
 			return formulaOperation;
 		}
 
-		public void AddGetBitOff(GKStateBit stateBit, GKBase gkBase, DatabaseType dataBaseType)
+		public FormulaOperation AddWithGKBase(FormulaOperationType formulaOperationType, byte firstOperand, GKBase gkBase)
 		{
-			var descriptorNo = dataBaseType == DatabaseType.Gk ? gkBase.GKDescriptorNo : gkBase.KAUDescriptorNo;
-			Add(FormulaOperationType.GETBIT, (byte)stateBit, descriptorNo, gkBase);
+			var formulaOperation = new FormulaOperation()
+			{
+				FormulaOperationType = formulaOperationType,
+				FirstOperand = firstOperand,
+				GKBaseSecondOperand = gkBase,
+			};
+			FormulaOperations.Add(formulaOperation);
+			return formulaOperation;
 		}
 
-		public void AddGetBit(GKStateBit stateBit, GKBase gkBase, DatabaseType dataBaseType)
+		public void AddGetBitOff(GKStateBit stateBit, GKBase gkBase)
 		{
-			var descriptorNo = dataBaseType == DatabaseType.Gk ? gkBase.GKDescriptorNo : gkBase.KAUDescriptorNo;
-			Add(FormulaOperationType.GETBIT, (byte)stateBit, descriptorNo, gkBase);
+			AddWithGKBase(FormulaOperationType.GETBIT, (byte)stateBit, gkBase);
 		}
 
-		public void AddPutBit(GKStateBit stateBit, GKBase gkBase, DatabaseType dataBaseType)
+		public void AddGetBit(GKStateBit stateBit, GKBase gkBase)
 		{
-			var descriptorNo = dataBaseType == DatabaseType.Gk ? gkBase.GKDescriptorNo : gkBase.KAUDescriptorNo;
-			Add(FormulaOperationType.PUTBIT, (byte)stateBit, descriptorNo, gkBase);
+			AddWithGKBase(FormulaOperationType.GETBIT, (byte)stateBit, gkBase);
 		}
 
-		public void AddArgumentPutBit(byte bit, GKBase gkBase, DatabaseType dataBaseType)
+		public void AddPutBit(GKStateBit stateBit, GKBase gkBase)
 		{
-			var descriptorNo = dataBaseType == DatabaseType.Gk ? gkBase.GKDescriptorNo : gkBase.KAUDescriptorNo;
-			Add(FormulaOperationType.PUTBIT, (byte)bit, descriptorNo, gkBase);
+			AddWithGKBase(FormulaOperationType.PUTBIT, (byte)stateBit, gkBase);
 		}
 
-		public void AddStandardTurning(GKBase gkBase, DatabaseType dataBaseType)
+		public void AddArgumentPutBit(byte bit, GKBase gkBase)
 		{
-			var descriptorNo = dataBaseType == DatabaseType.Gk ? gkBase.GKDescriptorNo : gkBase.KAUDescriptorNo;
+			AddWithGKBase(FormulaOperationType.PUTBIT, (byte)bit, gkBase);
+		}
+
+		public void AddStandardTurning(GKBase gkBase)
+		{
 			Add(FormulaOperationType.DUP);
-			AddPutBit(GKStateBit.TurnOn_InAutomatic, gkBase, dataBaseType);
+			AddPutBit(GKStateBit.TurnOn_InAutomatic, gkBase);
 			Add(FormulaOperationType.COM);
-			AddPutBit(GKStateBit.TurnOff_InAutomatic, gkBase, dataBaseType);
+			AddPutBit(GKStateBit.TurnOff_InAutomatic, gkBase);
 		}
 
-		public void AddClauseFormula(GKClauseGroup clauseGroup, DatabaseType dataBaseType)
+		public void AddClauseFormula(GKClauseGroup clauseGroup)
 		{
 			var clauseIndex = 0;
 			foreach (var clause in clauseGroup.Clauses)
@@ -115,7 +131,7 @@ namespace GKProcessor
 				var objectIndex = 0;
 				foreach (var gkBase in gkBases)
 				{
-					AddGetBitOff(clause.StateType, gkBase, dataBaseType);
+					AddGetBitOff(clause.StateType, gkBase);
 
 					if (objectIndex > 0)
 					{
@@ -128,6 +144,7 @@ namespace GKProcessor
 							case ClauseOperationType.AllMPTs:
 							case ClauseOperationType.AllDelays:
 							case ClauseOperationType.AllDoors:
+							case ClauseOperationType.AllPumpStations:
 								Add(FormulaOperationType.AND, comment: "Объединение объектов по И");
 								break;
 
@@ -138,6 +155,7 @@ namespace GKProcessor
 							case ClauseOperationType.AnyMPT:
 							case ClauseOperationType.AnyDelay:
 							case ClauseOperationType.AnyDoor:
+							case ClauseOperationType.AnyPumpStation:
 								Add(FormulaOperationType.OR, comment: "Объединение объектов по Или");
 								break;
 						}
@@ -166,7 +184,7 @@ namespace GKProcessor
 
 			foreach (var group in clauseGroup.ClauseGroups)
 			{
-				AddClauseFormula(group, dataBaseType);
+				AddClauseFormula(group);
 
 				if (clauseIndex > 0)
 				{
@@ -197,111 +215,234 @@ namespace GKProcessor
 			return bytes;
 		}
 
-		public int CalculateStackLevels(List<FormulaOperation> formulaOperations)
+		public bool CheckStackOverflow()
 		{
-			var stackDepth = 0;
-			foreach (var formulaOperation in formulaOperations)
-			{
-				switch (formulaOperation.FormulaOperationType)
-				{
-					case FormulaOperationType.CONST:
-					case FormulaOperationType.DUP:
-					case FormulaOperationType.GETBIT:
-					case FormulaOperationType.GETBYTE:
-					case FormulaOperationType.GETWORD:
-					case FormulaOperationType.ACS:
-					case FormulaOperationType.TSTP:
-						stackDepth += 1;
-						break;
-
-					case FormulaOperationType.KOD:
-					case FormulaOperationType.ACSP:
-					case FormulaOperationType.GETMEMB:
-						stackDepth += 2;
-						break;
-
-					case FormulaOperationType.ADD:
-					case FormulaOperationType.AND:
-					case FormulaOperationType.EQ:
-					case FormulaOperationType.NE:
-					case FormulaOperationType.GE:
-					case FormulaOperationType.GT:
-					case FormulaOperationType.LE:
-					case FormulaOperationType.LT:
-					case FormulaOperationType.MUL:
-					case FormulaOperationType.OR:
-					case FormulaOperationType.PUTBIT:
-					case FormulaOperationType.PUTBYTE:
-					case FormulaOperationType.PUTWORD:
-					case FormulaOperationType.SUB:
-					case FormulaOperationType.XOR:
-					case FormulaOperationType.CMPKOD:
-						stackDepth -= 1;
-						break;
-
-					case FormulaOperationType.BR:
-						if (formulaOperation.FirstOperand == 0)
-							stackDepth += 0;
-						else
-							stackDepth -= 1;
-						break;
-
-					case FormulaOperationType.PUTP:
-					case FormulaOperationType.PUTMEMB:
-						stackDepth -= 2;
-						break;
-
-					case FormulaOperationType.COM:
-					case FormulaOperationType.END:
-					case FormulaOperationType.NEG:
-					case FormulaOperationType.EXIT:
-						stackDepth += 0;
-						break;
-				}
-				formulaOperation.StackLevels.Add(stackDepth);
-			}
-			return stackDepth;
+			return !GetBranches().Any(x => x.StackValues.Count != 0 || x.IsError);
 		}
 
-		public bool CalculateStackLevels()
+		public List<FormulaBranch> GetBranches()
 		{
-			var stackDepths = new List<int>();
-			FormulaOperations.ForEach(x => x.StackLevels = new List<int>());
-			var formulaOperations = new List<FormulaOperation>(FormulaOperations);
-			var unconditionalBrOperations = formulaOperations.FindAll(x => x.FormulaOperationType == FormulaOperationType.BR && x.FirstOperand == 0);
-			foreach (var unconditionalBrOperation in unconditionalBrOperations)
+			var branches = new List<FormulaBranch>();
+			branches.Add(new FormulaBranch());
+
+			for (int i = 0; i < FormulaOperations.Count; i++)
 			{
-				var missFormulaOperations = formulaOperations.FindAll(x => (formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) <= unconditionalBrOperation.SecondOperand) &&
-					(formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) > 0));
-				missFormulaOperations.ForEach(x => x.StackLevels.Add(9999));
-				formulaOperations.RemoveAll(x => (formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) <= unconditionalBrOperation.SecondOperand) &&
-					(formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) > 0));
-			}
-			stackDepths.Add(CalculateStackLevels(formulaOperations));
-			foreach (var formulaOperation in FormulaOperations)
-			{
-				if (formulaOperation.FormulaOperationType == FormulaOperationType.BR && formulaOperation.FirstOperand != 0)
+				var formulaOperation = FormulaOperations[i];
+				var newBranches = new List<FormulaBranch>();
+
+				//var stackValuesHashes = new HashSet<string>();
+				//foreach (var branch in branches.Where(x => x.CurrentFormulaNo == i && !x.IsCompleted))
+				//{
+				//	if (!stackValuesHashes.Add(branch.StackValuesHash))
+				//		branch.IsCompleted = true;
+				//}
+
+				foreach (var branch in branches.Where(x => x.CurrentFormulaNo == i && !x.IsCompleted))
 				{
-					formulaOperations = new List<FormulaOperation>(FormulaOperations);
-					var missFormulaOperations = formulaOperations.FindAll(x => (formulaOperations.IndexOf(x) - formulaOperations.IndexOf(formulaOperation) <= formulaOperation.SecondOperand) &&
-						(formulaOperations.IndexOf(x) - formulaOperations.IndexOf(formulaOperation) > 0));
-					missFormulaOperations.ForEach(x => x.StackLevels.Add(9999));
-					formulaOperations.RemoveAll(x => (formulaOperations.IndexOf(x) - formulaOperations.IndexOf(formulaOperation) <= formulaOperation.SecondOperand) &&
-						(formulaOperations.IndexOf(x) - formulaOperations.IndexOf(formulaOperation) > 0));
-					unconditionalBrOperations = formulaOperations.FindAll(x => x.FormulaOperationType == FormulaOperationType.BR && x.FirstOperand == 0);
-					foreach (var unconditionalBrOperation in unconditionalBrOperations)
+					switch (formulaOperation.FormulaOperationType)
 					{
-						missFormulaOperations = formulaOperations.FindAll(x => (formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) <= unconditionalBrOperation.SecondOperand) &&
-							(formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) > 0));
-						missFormulaOperations.ForEach(x => x.StackLevels.Add(9999));
-						formulaOperations.RemoveAll(x => (formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) <= unconditionalBrOperation.SecondOperand) &&
-							(formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) > 0));
+						case FormulaOperationType.CONST:
+						case FormulaOperationType.DUP:
+						case FormulaOperationType.GETBIT:
+						case FormulaOperationType.GETBYTE:
+						case FormulaOperationType.ACS:
+							branch.StackValues.Add(null);
+							branch.CalculateStackDepth();
+							branch.CurrentFormulaNo += 1;
+							break;
+
+						case FormulaOperationType.GETWORD:
+						case FormulaOperationType.KOD:
+						case FormulaOperationType.GETMEMB:
+							branch.StackValues.Add(null);
+							branch.StackValues.Add(null);
+							branch.CalculateStackDepth();
+							branch.CurrentFormulaNo += 1;
+							break;
+
+						case FormulaOperationType.ADD:
+						case FormulaOperationType.AND:
+						case FormulaOperationType.EQ:
+						case FormulaOperationType.NE:
+						case FormulaOperationType.GE:
+						case FormulaOperationType.GT:
+						case FormulaOperationType.LE:
+						case FormulaOperationType.LT:
+						case FormulaOperationType.MUL:
+						case FormulaOperationType.OR:
+						case FormulaOperationType.PUTBIT:
+						case FormulaOperationType.SUB:
+						case FormulaOperationType.XOR:
+						case FormulaOperationType.CMPKOD:
+							branch.RemoveLast();
+							branch.CalculateStackDepth();
+							branch.CurrentFormulaNo += 1;
+							break;
+
+						case FormulaOperationType.PUTWORD:
+						case FormulaOperationType.PUTP:
+						case FormulaOperationType.PUTMEMB:
+							branch.RemoveLast();
+							branch.RemoveLast();
+							branch.CalculateStackDepth();
+							branch.CurrentFormulaNo += 1;
+							break;
+
+						case FormulaOperationType.COM:
+						case FormulaOperationType.NEG:
+							branch.CalculateStackDepth();
+							branch.CurrentFormulaNo += 1;
+							break;
+
+						case FormulaOperationType.END:
+						case FormulaOperationType.EXIT:
+							branch.IsCompleted = true;
+							branch.CalculateStackDepth();
+							break;
+
+						case FormulaOperationType.ACSP:
+							var newBranch = branch.Clone();
+							newBranches.Add(newBranch);
+
+							branch.StackValues.Add(0);
+							newBranch.StackValues.Add(null);
+							newBranch.StackValues.Add(1);
+
+							branch.CalculateStackDepth();
+							branch.CurrentFormulaNo += 1;
+							newBranch.CalculateStackDepth();
+							newBranch.CurrentFormulaNo += 1;
+							break;
+
+						case FormulaOperationType.TSTP:
+							newBranch = branch.Clone();
+							newBranches.Add(newBranch);
+
+							branch.RemoveLast();
+							branch.StackValues.Add(0);
+							newBranch.RemoveLast();
+							newBranch.StackValues.Add(null);
+							newBranch.StackValues.Add(1);
+
+							branch.CalculateStackDepth();
+							branch.CurrentFormulaNo += 1;
+							newBranch.CalculateStackDepth();
+							newBranch.CurrentFormulaNo += 1;
+							break;
+
+						case FormulaOperationType.BR:
+							if (formulaOperation.FirstOperand == 0)
+							{
+								branch.CalculateStackDepth();
+								branch.CurrentFormulaNo += 1;
+								branch.CurrentFormulaNo += formulaOperation.SecondOperand;
+							}
+							else
+							{
+								var lastStackValue = branch.StackValues.LastOrDefault();
+								if (lastStackValue.HasValue)
+								{
+									if ((formulaOperation.FirstOperand == 1 && lastStackValue.Value == 0) || (formulaOperation.FirstOperand == 2 && lastStackValue.Value != 0))
+									{
+										branch.RemoveLast();
+										branch.CalculateStackDepth();
+										branch.CurrentFormulaNo += 1;
+										branch.CurrentFormulaNo += formulaOperation.SecondOperand;
+									}
+									else
+									{
+										branch.RemoveLast();
+										branch.CalculateStackDepth();
+										branch.CurrentFormulaNo += 1;
+									}
+								}
+								else
+								{
+									branch.RemoveLast();
+									newBranch = branch.Clone();
+
+									branch.CalculateStackDepth();
+									branch.CurrentFormulaNo += 1;
+
+									newBranches.Add(newBranch);
+									newBranch.CalculateStackDepth();
+									newBranch.CurrentFormulaNo += 1;
+									newBranch.CurrentFormulaNo += formulaOperation.SecondOperand;
+								}
+							}
+
+							break;
 					}
-					stackDepths.Add(CalculateStackLevels(formulaOperations));
+				}
+
+				branches.AddRange(newBranches);
+			}
+			return branches;
+		}
+
+		public class FormulaBranch
+		{
+			public FormulaBranch()
+			{
+				StackValues = new List<int?>();
+				CurrentFormulaNo = 0;
+				IsCompleted = false;
+				StackDepthHistory = new List<Tuple<int, int>>();
+			}
+
+			public List<int?> StackValues { get; set; }
+
+			public int CurrentFormulaNo { get; set; }
+
+			public bool IsCompleted { get; set; }
+
+			public bool IsError { get; set; }
+
+			public List<Tuple<int, int>> StackDepthHistory { get; set; }
+
+			public string StackValuesHash
+			{
+				get
+				{
+					var stringBuilder = new StringBuilder();
+					foreach (var stackValue in StackValues)
+					{
+						if (stackValue.HasValue)
+							stringBuilder.Append(stackValue.Value + " ");
+						else
+							stringBuilder.Append("null ");
+					}
+					return stringBuilder.ToString();
 				}
 			}
 
-			return stackDepths.Any(x => x != 0);
+			public void CalculateStackDepth()
+			{
+				StackDepthHistory.Add(new Tuple<int, int>(CurrentFormulaNo, StackValues.Count));
+			}
+
+			public void RemoveLast()
+			{
+				if (StackValues.Count > 0)
+				{
+					StackValues.RemoveAt(StackValues.Count - 1);
+				}
+				else
+				{
+					IsError = true;
+					IsCompleted = true;
+				}
+			}
+
+			public FormulaBranch Clone()
+			{
+				return new FormulaBranch()
+				{
+					StackValues = StackValues.ToList(),
+					CurrentFormulaNo = CurrentFormulaNo,
+					IsCompleted = IsCompleted
+				};
+			}
 		}
 	}
 }

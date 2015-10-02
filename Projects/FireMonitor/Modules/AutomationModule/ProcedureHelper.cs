@@ -6,6 +6,7 @@ using Infrastructure.Common.Windows;
 using AutomationModule.ViewModels;
 using Infrastructure.Common;
 using System.Threading;
+using Infrastructure.Automation;
 
 namespace AutomationModule
 {
@@ -81,7 +82,14 @@ namespace AutomationModule
 				args = new List<Argument>();
 			using (new WaitWrapper())
 			{
-				var thread = new Thread(() => FiresecManager.FiresecService.RunProcedure(procedure.Uid, args))
+				var thread = new Thread(() =>
+					{
+						if (procedure.ContextType == ContextType.Client)
+							AutomationProcessor.RunProcedure(procedure, args, null);
+						else
+							FiresecManager.FiresecService.RunProcedure(procedure.Uid, args);
+					}
+					)
 				{
 					Name = "Run Procedure",
 				};

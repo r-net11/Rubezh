@@ -79,6 +79,52 @@ namespace SKDDriver.DataClasses
 			}
 		}
 
+		public OperationResult AddRange(List<JournalItem> apiItems)
+		{
+			try
+			{
+				if (apiItems.Count == 0)
+					return new OperationResult();
+				var index = 0;
+				while (true)
+				{
+					var portion = apiItems.Skip(1000 * index).Take(1000);
+					index++;
+					if (portion.Count() == 0)
+						break;
+					var query = "INSERT INTO dbo.\"Journals\" (\"UID\", \"EmployeeUID\", \"SystemDate\", \"DeviceDate\", \"Subsystem\", \"Name\", \"Description\", \"DescriptionText\", \"ObjectType\", \"ObjectUID\", \"Detalisation\", \"UserName\", \"VideoUID\", \"CameraUID\", \"ObjectName\", \"CardNo\") VALUES";
+					foreach (var item in portion)
+					{
+						query += string.Format("('{0}', {1}, '{2}', {3}, '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}', '{15}'),",
+							item.UID,
+							item.EmployeeUID.EmptyToNullSqlStr(),
+							item.SystemDateTime.CheckDate().ToString("yyyyMMdd HH:mm:ss"),
+							item.DeviceDateTime.CheckDateSqlStr(),
+							(int)EventDescriptionAttributeHelper.ToSubsystem(item.JournalEventNameType),
+							(int)item.JournalEventNameType,
+							(int)item.JournalEventDescriptionType,
+							item.DescriptionText,
+							(int)item.JournalObjectType,
+							item.ObjectUID,
+							JournalDetalisationItem.ListToString(item.JournalDetalisationItems),
+							item.UserName,
+							item.VideoUID,
+							item.CameraUID,
+							item.ObjectName,
+							item.CardNo);
+					}
+					query = query.TrimEnd(',');
+					Context.Database.ExecuteSqlCommand(query);
+				}
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "JournalTranslator.Add");
+				return new OperationResult(e.Message);
+			}
+		}
+
 		public OperationResult Add(JournalItem apiItem)
 		{
 			try

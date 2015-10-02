@@ -14,6 +14,7 @@ namespace AutomationModule.ViewModels
 			: base(stepViewModel)
 		{
 			ShowDialogArguments = stepViewModel.Step.ShowDialogArguments;
+			IsServerContext = Procedure.ContextType == ContextType.Server;
 		}
 
 		public bool ForAllClients
@@ -176,11 +177,23 @@ namespace AutomationModule.ViewModels
 				return string.Format("Открыть диалог: {0} {1}", SelectedLayout == null ? ArgumentViewModel.EmptyText : SelectedLayout.Name, IsModalWindow ? "(модальный)" : "(не модальный)");
 			}
 		}
+
+		bool _isServerContext;
+		public bool IsServerContext
+		{
+			get { return _isServerContext; }
+			set
+			{
+				_isServerContext = value;
+				OnPropertyChanged(() => IsServerContext);
+			}
+		}
 		public override void UpdateContent()
 		{
 			Layouts = new ObservableCollection<LayoutViewModel>(FiresecManager.LayoutsConfiguration.Layouts.Select(item => new LayoutViewModel(item)));
 			SelectedLayout = Layouts.FirstOrDefault(x => x.Layout.UID == ShowDialogArguments.Layout);
 			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowDialogArguments.LayoutFilter);
+			IsServerContext = Procedure.ContextType == ContextType.Server;
 		}
 	}
 }

@@ -11,7 +11,11 @@ namespace ResursAPI
 		{
 			var driver = new Driver();
 			driver.DriverType = DriverType.BeregunInterface;
-			driver.AddParameter("Скорость интерфейса", ParameterType.Enum, parameterEnumItems: new List<ParameterEnumItem>
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Скорость интерфейса",
+				ParameterType = ParameterType.Enum,
+				ParameterEnumItems = new List<ParameterEnumItem>
 				{
 					new ParameterEnumItem{ Name = "300", Value = 0 },
 					new ParameterEnumItem{ Name = "600", Value = 1 },
@@ -22,8 +26,15 @@ namespace ResursAPI
 					new ParameterEnumItem{ Name = "38400", Value = 6 },
 					new ParameterEnumItem{ Name = "57600", Value = 7 },
 					new ParameterEnumItem{ Name = "115200", Value = 8 },
-				});
-			driver.AddParameter("Таймаут ответа, сек", ParameterType.Enum, parameterEnumItems: new List<ParameterEnumItem>
+				},
+				EnumDefaultItem = 2,
+				Number = 0
+			});
+			driver.DriverParameters.Add(new DriverParameter
+			{
+				Name = "Таймаут ответа, сек",
+				ParameterType = ParameterType.Enum,
+				ParameterEnumItems = new List<ParameterEnumItem>
 				{
 					new ParameterEnumItem{ Name = "1", Value = 0 },
 					new ParameterEnumItem{ Name = "2", Value = 1 },
@@ -31,7 +42,10 @@ namespace ResursAPI
 					new ParameterEnumItem{ Name = "5", Value = 3 },
 					new ParameterEnumItem{ Name = "7", Value = 4 },
 					new ParameterEnumItem{ Name = "10", Value = 5 },
-				});
+				},
+				EnumDefaultItem = 5,
+				Number = 1
+			});
 			driver.Children.Add(DriverType.BeregunCounter);
 			return driver;
 		}

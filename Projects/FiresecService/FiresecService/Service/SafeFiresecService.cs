@@ -418,7 +418,101 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => { return FiresecService.GetProperties(layoutUID); }, "GetProperties");
 		}
+				
+		public void SetVariableValue(Guid variableUid, object value)
+		{
+			SafeOperationCall(() => FiresecService.SetVariableValue(variableUid, value), "SetVariableValue");
+		}
 
+		public Variable GetVariable(Guid variableUid)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetVariable(variableUid); }, "GetVariable");
+		}
+
+		public void AddJournalItemA(string message)
+		{
+			SafeOperationCall(() => FiresecService.AddJournalItemA(message), "AddJournalItem");
+		}
+
+		public void ControlGKDevice(Guid deviceUid, GKStateBit command)
+		{
+			SafeOperationCall(() => FiresecService.ControlGKDevice(deviceUid, command), "ControlGKDevice");
+		}
+
+		public void StartRecord(Guid cameraUid, Guid? journalItemUid, Guid? eventUid, int timeout)
+		{
+			SafeOperationCall(() => FiresecService.StartRecord(cameraUid, journalItemUid, eventUid, timeout), "StartRecord");
+		}
+
+		public void StopRecord(Guid cameraUid, Guid eventUid)
+		{
+			SafeOperationCall(() => FiresecService.StopRecord(cameraUid, eventUid), "StopRecord");
+		}
+
+		public void Ptz(Guid cameraUid, int ptzNumber)
+		{
+			SafeOperationCall(() => FiresecService.Ptz(cameraUid, ptzNumber), "Ptz");
+		}
+
+		public void RviAlarm(string name)
+		{
+			SafeOperationCall(() => FiresecService.RviAlarm(name), "RviAlarm");
+		}
+
+		public void ControlFireZone(Guid uid, ZoneCommandType commandType)
+		{
+			SafeOperationCall(() => FiresecService.ControlFireZone(uid, commandType), "ControlFireZone");
+		}
+
+		public void ControlGuardZone(Guid uid, GuardZoneCommandType commandType)
+		{
+			SafeOperationCall(() => FiresecService.ControlGuardZone(uid, commandType), "ControlGuardZone");
+		}
+
+		public void ControlDirection(Guid uid, DirectionCommandType commandType)
+		{
+			SafeOperationCall(() => FiresecService.ControlDirection(uid, commandType), "ControlDirection");
+		}
+
+		public void ControlGKDoor(Guid uid, GKDoorCommandType commandType)
+		{
+			SafeOperationCall(() => FiresecService.ControlGKDoor(uid, commandType), "ControlGKDoor");
+		}
+
+		public void ControlDelay(Guid uid, DelayCommandType commandType)
+		{
+			SafeOperationCall(() => FiresecService.ControlDelay(uid, commandType), "ControlDelay");
+		}
+
+		public void ExportJournalA(bool isExportJournal, bool isExportPassJournal, DateTime minDate, DateTime maxDate, string path)
+		{
+			SafeOperationCall(() => FiresecService.ExportJournalA(isExportJournal, isExportPassJournal, minDate, maxDate, path), "ExportJournal");
+		}
+
+		public void ExportOrganisationA(bool isWithDeleted, Guid organisationUid, string path)
+		{
+			SafeOperationCall(() => FiresecService.ExportOrganisationA(isWithDeleted, organisationUid, path), "ExportOrganisation");
+		}
+
+		public void ExportOrganisationListA(bool isWithDeleted, string path)
+		{
+			SafeOperationCall(() => FiresecService.ExportOrganisationListA(isWithDeleted, path), "ExportOrganisationList");
+		}
+
+		public void ExportConfigurationA(bool isExportDevices, bool isExportDoors, bool isExportZones, string path)
+		{
+			SafeOperationCall(() => FiresecService.ExportConfigurationA(isExportDevices, isExportDoors, isExportZones, path), "ExportConfiguration");
+		}
+
+		public void ImportOrganisationA(bool isWithDeleted, string path)
+		{
+			SafeOperationCall(() => FiresecService.ImportOrganisationA(isWithDeleted, path), "ImportOrganisation");
+		}
+
+		public void ImportOrganisationListA(bool isWithDeleted, string path)
+		{
+			SafeOperationCall(() => FiresecService.ImportOrganisationListA(isWithDeleted, path), "ImportOrganisationList");
+		}
 		#endregion
 	}
 }

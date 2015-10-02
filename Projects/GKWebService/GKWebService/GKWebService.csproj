@@ -429,7 +429,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="JournalItemViewModel.cs" />
-    <Compile Include="Models\EmployeeModel.cs" />
+    <Compile Include="Models\ShortEmployeeModel.cs" />
     <Compile Include="Models\PlanElement.cs" />
     <Compile Include="Models\PlanSimpl.cs" />
     <Compile Include="Models\ReportModel.cs" />

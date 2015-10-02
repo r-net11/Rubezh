@@ -38,32 +38,41 @@ namespace GKProcessor
 			IsDBMissmatchDuringMonitoring = false;
 			GKProgressCallback progressCallback = GKProcessorManager.StartProgress("Опрос объектов ГК", "", GkDatabase.Descriptors.Count, false, GKProgressClientType.Monitor);
 
-			foreach (var descriptor in GkDatabase.Descriptors)
+			using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Опрос состояний объектов"))
 			{
-				LastUpdateTime = DateTime.Now;
-				GetState(descriptor.GKBase);
-				if (!IsConnected)
+				for (int i = 0; i < GkDatabase.Descriptors.Count; i++)
 				{
-					break;
-				}
-				GKProcessorManager.DoProgress(descriptor.GKBase.DescriptorPresentationName, progressCallback);
+					var descriptor = GkDatabase.Descriptors[i];
+					gkLifecycleManager.Progress(i + 1, GkDatabase.Descriptors.Count);
 
-				WaitIfSuspending();
-				if (IsStopping)
-					return;
+					LastUpdateTime = DateTime.Now;
+					GetState(descriptor.GKBase);
+					if (!IsConnected)
+					{
+						break;
+					}
+					GKProcessorManager.DoProgress(descriptor.GKBase.DescriptorPresentationName, progressCallback);
+
+					WaitIfSuspending();
+					if (IsStopping)
+						return;
+				}
 			}
 			GKProcessorManager.StopProgress(progressCallback);
 
 			CheckTechnologicalRegime();
-			NotifyAllObjectsStateChanged();
-			IsJournalAnyDBMissmatch = IsDBMissmatchDuringMonitoring;
+			using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Передача состояний объектов"))
+			{
+				NotifyAllObjectsStateChanged();
+				IsJournalAnyDBMissmatch = IsDBMissmatchDuringMonitoring;
+			}
 		}
 
 		void CheckDelays()
 		{
 			foreach (var device in GKManager.Devices)
 			{
-				if (!device.Driver.IsGroupDevice && device.AllParents.Any(x => x.DriverType == GKDriverType.RSR2_KAU))
+				if (!device.Driver.IsGroupDevice && device.Driver.IsReal && device.AllParents.Any(x => x.DriverType == GKDriverType.RSR2_KAU))
 				{
 					CheckDelay(device);
 				}
@@ -111,14 +120,7 @@ namespace GKProcessor
 				var holdDelay = gkBase.InternalState.HoldDelay;
 				var offDelay = gkBase.InternalState.OffDelay;
 
-				if (MeasureDeviceInfos.Any(x => x.Device.UID == gkBase.UID))
-				{
-					GetDelays(gkBase);
-				}
-				else
-				{
-					GetState(gkBase, true);
-				}
+				GetDelays(gkBase);
 
 				if (onDelay != gkBase.InternalState.OnDelay || holdDelay != gkBase.InternalState.HoldDelay || offDelay != gkBase.InternalState.OffDelay)
 					OnObjectStateChanged(gkBase);
@@ -132,29 +134,33 @@ namespace GKProcessor
 
 		bool GetDelays(GKBase gkBase)
 		{
+			gkBase.InternalState.LastDateTime = DateTime.Now;
+
 			SendResult sendResult = null;
-			var expectedBytesCount = 68;
 			if (gkBase.KauDatabaseParent != null)
 			{
 				sendResult = SendManager.Send(gkBase.KauDatabaseParent, 2, 12, 32, BytesHelper.ShortToBytes(gkBase.KAUDescriptorNo));
-				expectedBytesCount = 32;
+				if (sendResult.HasError || sendResult.Bytes.Count != 32)
+				{
+					gkBase.InternalState.ZeroHoldDelayCount = 10;
+					return false;
+				}
 			}
 			else
 			{
 				sendResult = SendManager.Send(gkBase.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(gkBase.GKDescriptorNo));
-				expectedBytesCount = 68;
+				if (sendResult.HasError || sendResult.Bytes.Count != 68)
+				{
+					gkBase.InternalState.ZeroHoldDelayCount = 10;
+					ConnectionChanged(false);
+					return false;
+				}
 			}
 
-			if (sendResult.HasError || sendResult.Bytes.Count != expectedBytesCount)
-			{
-				ConnectionChanged(false);
-				return false;
-			}
 			ConnectionChanged(true);
 			var descriptorStateHelper = new DescriptorStateHelper();
 			descriptorStateHelper.Parse(sendResult.Bytes, gkBase);
 
-			gkBase.InternalState.LastDateTime = DateTime.Now;
 			gkBase.InternalState.OnDelay = descriptorStateHelper.OnDelay;
 			gkBase.InternalState.HoldDelay = descriptorStateHelper.HoldDelay;
 			gkBase.InternalState.OffDelay = descriptorStateHelper.OffDelay;
@@ -201,7 +207,7 @@ namespace GKProcessor
 				if (device.Driver.IsDeviceOnShleif)
 					physicalAddress = (ushort)((device.ShleifNo - 1) * 256 + device.IntAddress);
 				if (device.DriverType != GKDriverType.GK && device.DriverType != GKDriverType.RSR2_KAU
-					&& device.Driver.HasAddress && physicalAddress != descriptorStateHelper.PhysicalAddress)
+					&& device.Driver.HasAddress && device.Driver.IsReal && physicalAddress != descriptorStateHelper.PhysicalAddress)
 				{
 					isMissmatch = true;
 					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_физический_адрес_устройства;
@@ -308,24 +314,31 @@ namespace GKProcessor
 		#region TechnologicalRegime
 		bool CheckTechnologicalRegime()
 		{
-			var isInTechnologicalRegime = DeviceBytesHelper.IsInTechnologicalRegime(GkDatabase.RootDevice);
-			foreach (var descriptor in GkDatabase.Descriptors)
+			using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Проверка технологического режима"))
 			{
-				descriptor.GKBase.InternalState.IsInTechnologicalRegime = isInTechnologicalRegime;
-			}
-
-			if (!isInTechnologicalRegime)
-			{
-				foreach (var kauDatabase in GkDatabase.KauDatabases)
+				gkLifecycleManager.AddItem(GkDatabase.RootDevice.PresentationName);
+				var isInTechnologicalRegime = DeviceBytesHelper.IsInTechnologicalRegime(GkDatabase.RootDevice);
+				gkLifecycleManager.AddItem("Обновление состояний технологического режима");
+				foreach (var descriptor in GkDatabase.Descriptors)
 				{
-					var isKAUInTechnologicalRegime = DeviceBytesHelper.IsInTechnologicalRegime(kauDatabase.RootDevice);
-					foreach (var device in kauDatabase.RootDevice.AllChildrenAndSelf)
+					descriptor.GKBase.InternalState.IsInTechnologicalRegime = isInTechnologicalRegime;
+				}
+
+				if (!isInTechnologicalRegime)
+				{
+					foreach (var kauDatabase in GkDatabase.KauDatabases)
 					{
-						device.InternalState.IsInTechnologicalRegime = isKAUInTechnologicalRegime;
+						gkLifecycleManager.AddItem(kauDatabase.RootDevice.PresentationName);
+						var isKAUInTechnologicalRegime = DeviceBytesHelper.IsInTechnologicalRegime(kauDatabase.RootDevice);
+						gkLifecycleManager.AddItem("Обновление состояний технологического режима");
+						foreach (var device in kauDatabase.RootDevice.AllChildrenAndSelf)
+						{
+							device.InternalState.IsInTechnologicalRegime = isKAUInTechnologicalRegime;
+						}
 					}
 				}
+				return isInTechnologicalRegime;
 			}
-			return isInTechnologicalRegime;
 		}
 		#endregion
 
@@ -334,79 +347,51 @@ namespace GKProcessor
 			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == GkDatabase.RootDevice.UID);
 			if (gkControllerDevice != null)
 			{
+				GKCallbackResult.GKStates.DeviceStates.RemoveAll(x => x.Device.GkDatabaseParent == gkControllerDevice);
+
 				foreach (var device in gkControllerDevice.AllChildrenAndSelf)
+				{
+					OnObjectStateChanged(device, false);
+				}
+				foreach (var device in gkControllerDevice.AllChildrenAndSelf.Where(x => x.Driver.IsGroupDevice || x.DriverType == GKDriverType.RSR2_KAU_Shleif))
 				{
 					OnObjectStateChanged(device);
 				}
-				foreach (var device in gkControllerDevice.AllChildrenAndSelf)
+				foreach (var zone in GKManager.Zones.Where(x => x.GkDatabaseParent == gkControllerDevice))
 				{
-					if (device.Driver.IsGroupDevice || device.DriverType == GKDriverType.RSR2_KAU_Shleif)
-					{
-						OnObjectStateChanged(device);
-					}
+					OnObjectStateChanged(zone);
 				}
-				foreach (var zone in GKManager.Zones)
+				foreach (var direction in GKManager.Directions.Where(x => x.GkDatabaseParent == gkControllerDevice))
 				{
-					if (zone.GkDatabaseParent == gkControllerDevice)
-					{
-						OnObjectStateChanged(zone);
-					}
+					OnObjectStateChanged(direction);
 				}
-				foreach (var direction in GKManager.Directions)
+				foreach (var pumpStation in GKManager.PumpStations.Where(x => x.GkDatabaseParent == gkControllerDevice))
 				{
-					if (direction.GkDatabaseParent == gkControllerDevice)
-					{
-						OnObjectStateChanged(direction);
-					}
+					OnObjectStateChanged(pumpStation);
 				}
-				foreach (var pumpStation in GKManager.PumpStations)
+				foreach (var mpt in GKManager.MPTs.Where(x => x.GkDatabaseParent == gkControllerDevice))
 				{
-					if (pumpStation.GkDatabaseParent == gkControllerDevice)
-					{
-						OnObjectStateChanged(pumpStation);
-					}
+					OnObjectStateChanged(mpt);
 				}
-				foreach (var mpt in GKManager.MPTs)
+				foreach (var delay in GKManager.Delays.Where(x => x.GkDatabaseParent == gkControllerDevice))
 				{
-					if (mpt.GkDatabaseParent == gkControllerDevice)
-					{
-						OnObjectStateChanged(mpt);
-					}
+					OnObjectStateChanged(delay);
 				}
-				foreach (var delay in GKManager.Delays)
+				foreach (var delay in GKManager.AutoGeneratedDelays.Where(x => x.GkDatabaseParent == gkControllerDevice))
 				{
-					if (delay.GkDatabaseParent == gkControllerDevice)
-					{
-						OnObjectStateChanged(delay);
-					}
+					OnObjectStateChanged(delay);
 				}
-				foreach (var delay in GKManager.AutoGeneratedDelays)
+				foreach (var pim in GKManager.AutoGeneratedPims.Where(x => x.GkDatabaseParent == gkControllerDevice))
 				{
-					if (delay.GkDatabaseParent == gkControllerDevice)
-					{
-						OnObjectStateChanged(delay);
-					}
+					OnObjectStateChanged(pim);
 				}
-				foreach (var pim in GKManager.AutoGeneratedPims)
+				foreach (var guardZone in GKManager.GuardZones.Where(x => x.GkDatabaseParent == gkControllerDevice))
 				{
-					if (pim.GkDatabaseParent == gkControllerDevice)
-					{
-						OnObjectStateChanged(pim);
-					}
+					OnObjectStateChanged(guardZone);
 				}
-				foreach (var guardZone in GKManager.GuardZones)
+				foreach (var door in GKManager.Doors.Where(x => x.GkDatabaseParent == gkControllerDevice))
 				{
-					if (guardZone.GkDatabaseParent == gkControllerDevice)
-					{
-						OnObjectStateChanged(guardZone);
-					}
-				}
-				foreach (var door in GKManager.Doors)
-				{
-					if (door.GkDatabaseParent == gkControllerDevice)
-					{
-						OnObjectStateChanged(door);
-					}
+					OnObjectStateChanged(door);
 				}
 			}
 		}

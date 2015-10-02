@@ -6,5 +6,8 @@
 	<DataTemplate DataType="{x:Type ViewModels:ApartmentDetailsViewModel}">
 		<Views:ApartmentDetailsView />
 	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ApartmentsFolderDetailsViewModel}">
+		<Views:ApartmentsFolderDetailsView />
+	</DataTemplate>
 
 </ResourceDictionary>

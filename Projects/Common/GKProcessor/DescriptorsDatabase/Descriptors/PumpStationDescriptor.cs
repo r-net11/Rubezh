@@ -8,29 +8,26 @@ namespace GKProcessor
 	{
 		GKPumpStation PumpStation { get; set; }
 
-		public PumpStationDescriptor(CommonDatabase database, GKPumpStation pumpStation, DatabaseType dataBaseType)
-			: base(pumpStation, dataBaseType)
+		public PumpStationDescriptor(CommonDatabase database, GKPumpStation pumpStation)
+			: base(pumpStation)
 		{
 			DescriptorType = DescriptorType.PumpStation;
 			PumpStation = pumpStation;
-			database.AddDelay(pumpStation.MainDelay);
 		}
 
 		public override void Build()
 		{
 			DeviceType = BytesHelper.ShortToBytes((ushort)0x106);
 			SetAddress((ushort)0);
-			SetFormulaBytes();
 			SetPropertiesBytes();
 		}
 
-		void SetFormulaBytes()
+		public override void BuildFormula()
 		{
 			Formula = new FormulaBuilder();
 			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
 			{
 				Formula.Add(FormulaOperationType.END);
-				FormulaBytes = Formula.GetBytes();
 				return;
 			}
 
@@ -39,31 +36,30 @@ namespace GKProcessor
 			var hasStopLogic = PumpStation.StopLogic.OnClausesGroup.Clauses.Count + PumpStation.StopLogic.OnClausesGroup.ClauseGroups.Count > 0;
 			if (hasAutomaticOffLogic)
 			{
-				Formula.AddClauseFormula(PumpStation.AutomaticOffLogic.OnClausesGroup, DatabaseType);
-				Formula.AddPutBit(GKStateBit.SetRegime_Manual, PumpStation, DatabaseType);
+				Formula.AddClauseFormula(PumpStation.AutomaticOffLogic.OnClausesGroup);
+				Formula.AddPutBit(GKStateBit.SetRegime_Manual, PumpStation);
 			}
 
 			if (hasStartLogic)
 			{
-				Formula.AddClauseFormula(PumpStation.StartLogic.OnClausesGroup, DatabaseType);
+				Formula.AddClauseFormula(PumpStation.StartLogic.OnClausesGroup);
 
 				if (hasStopLogic)
 				{
-					Formula.AddClauseFormula(PumpStation.StopLogic.OnClausesGroup, DatabaseType);
+					Formula.AddClauseFormula(PumpStation.StopLogic.OnClausesGroup);
 					Formula.Add(FormulaOperationType.COM);
 					Formula.Add(FormulaOperationType.AND);
 				}
 
-				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, PumpStation, DatabaseType);
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, PumpStation);
 			}
 			if (hasStopLogic)
 			{
-				Formula.AddClauseFormula(PumpStation.StopLogic.OnClausesGroup, DatabaseType);
-				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, PumpStation, DatabaseType);
+				Formula.AddClauseFormula(PumpStation.StopLogic.OnClausesGroup);
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, PumpStation);
 			}
 
 			Formula.Add(FormulaOperationType.END);
-			FormulaBytes = Formula.GetBytes();
 		}
 
 		void SetPropertiesBytes()

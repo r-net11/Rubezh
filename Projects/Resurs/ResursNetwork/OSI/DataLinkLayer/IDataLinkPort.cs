@@ -57,11 +57,7 @@ namespace ResursNetwork.OSI.DataLinkLayer
         /// <param name="message"></param>
         /// <returns>Прочитанное сообщение, null - если буфер пуст</returns>
         IMessage Read();
-        /// <summary>
-        /// Возвращает тип порта
-        /// </summary>
-        /// <returns></returns>
-        Type GetPortType(); 
+
         #endregion
 
         #region Events

@@ -16,19 +16,5 @@ namespace ResursAPI
 		public DriverType DriverType { get; set; }
 		public List<DriverType> Children { get; set; }
 		public List<DriverParameter> DriverParameters { get; set; }
-
-		public void AddParameter(string name, ParameterType parameterType, bool isReadOnly = false, List<ParameterEnumItem> parameterEnumItems = null) 
-		{
-			var driverParameter = new DriverParameter
-			{
-				Name = name,
-				Number = DriverParameters.Count,
-				ParameterType = parameterType,
-				IsReadOnly = isReadOnly,
-			};
-			if (parameterEnumItems != null)
-				driverParameter.ParameterEnumItems = parameterEnumItems;
-			DriverParameters.Add(driverParameter);
-		}
 	}
 }

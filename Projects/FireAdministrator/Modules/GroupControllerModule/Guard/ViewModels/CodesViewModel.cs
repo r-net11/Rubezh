@@ -141,8 +141,7 @@ namespace GKModule.ViewModels
 				var MPTDevices = MPT.MPTDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CardReader);
 				foreach (var code in GKManager.DeviceConfiguration.Codes)
 				{
-					if (MPTDevices.Any(y => y.CodeReaderSettings.AutomaticOnSettings.CodeUIDs.Contains(code.UID) || y.CodeReaderSettings.AutomaticOffSettings.CodeUIDs.Contains(code.UID) ||
-						y.CodeReaderSettings.StartSettings.CodeUIDs.Contains(code.UID) || y.CodeReaderSettings.StopSettings.CodeUIDs.Contains(code.UID)))
+					if (MPTDevices.Any(y => y.CodeReaderSettings.MPTSettings.CodeUIDs.Contains(code.UID)))
 					{
 						codes.Add(code.UID);
 					}

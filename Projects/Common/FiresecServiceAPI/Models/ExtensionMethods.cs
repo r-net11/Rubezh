@@ -48,5 +48,12 @@ namespace FiresecAPI
 				return null;
 			return value;
 		}
+
+		public static string EmptyToNullSqlStr(this Guid value)
+		{
+			if (value == Guid.Empty)
+				return "NULL";
+			return "'"+value.ToString()+"'";
+		}
 	}
 }

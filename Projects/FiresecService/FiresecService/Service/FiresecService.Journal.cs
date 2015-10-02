@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using SKDDriver.DataClasses;
+using System.Diagnostics;
+using Infrastructure.Automation;
 
 namespace FiresecService.Service
 {
@@ -34,17 +37,20 @@ namespace FiresecService.Service
 				journalItem.UserName = UserName;
 			}
 
-			AddCommonJournalItem(journalItem);
+			AddCommonJournalItems(new List<JournalItem>() { journalItem });
 		}
 
-		public static void AddCommonJournalItem(JournalItem journalItem)
+		public static void AddCommonJournalItems(List<JournalItem> journalItems)
 		{
 			using (var dbService = new SKDDriver.DataClasses.DbService())
 			{
-				dbService.JournalTranslator.Add(journalItem);
+				dbService.JournalTranslator.AddRange(journalItems);
 			}
-			FiresecService.NotifyNewJournalItems(new List<JournalItem>() { journalItem });
-			ProcedureRunner.RunOnJournal(journalItem);
+			FiresecService.NotifyNewJournalItems(journalItems);
+			foreach (var journalItem in journalItems)
+			{
+				AutomationProcessor.RunOnJournal(journalItem);
+			}
 		}
 
 		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
@@ -53,7 +59,7 @@ namespace FiresecService.Service
 			{
 				journalItem.UserName = UserName;
 				journalItem.JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalItem.JournalEventNameType);
-				AddCommonJournalItem(journalItem);
+				AddCommonJournalItems(new List<JournalItem>() { journalItem });
 			}
 			catch (Exception e)
 			{

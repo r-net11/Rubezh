@@ -47,7 +47,7 @@ namespace GKImitator.ViewModels
 
 		public void RecalculateOutputLogic()
 		{
-			foreach (var gkBase in LogicDescriptor.GKBase.OutputGKBases)
+			foreach (var gkBase in LogicDescriptor.GKBase.OutputDescriptors)
 			{
 				var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == gkBase.GKDescriptorNo);
 				if (descriptorViewModel != null)

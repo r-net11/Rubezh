@@ -75,7 +75,7 @@
 							</ComboBox>
 
 							<TextBlock Visibility="{Binding CanSelectZones, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
-								<Hyperlink Command="{Binding SelectZonesCommand}" Style="{StaticResource HyperlinkStyle}">
+								<Hyperlink Command="{Binding SelectZonesCommand}" Style="{StaticResource HyperlinkStyle}" IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBlock}}, Path=IsEnabled}">
 									<TextBlock Margin="2">
 										<TextBlock.Style>
 											<Style>
@@ -100,7 +100,7 @@
 							</TextBlock>
 
 							<TextBlock Visibility="{Binding CanSelectDevices, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
-								<Hyperlink Command="{Binding SelectDevicesCommand}" Style="{StaticResource HyperlinkStyle}">
+								<Hyperlink Command="{Binding SelectDevicesCommand}" Style="{StaticResource HyperlinkStyle}" IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBlock}}, Path=IsEnabled}"> 
 									<TextBlock Margin="2">
 										<TextBlock.Style>
 											<Style>
@@ -125,7 +125,7 @@
 							</TextBlock>
 
 							<TextBlock Visibility="{Binding CanSelectDirections, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
-								<Hyperlink Command="{Binding SelectDirectionCommand}" Style="{StaticResource HyperlinkStyle}">
+								<Hyperlink Command="{Binding SelectDirectionCommand}" Style="{StaticResource HyperlinkStyle}" IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBlock}}, Path=IsEnabled}">
 									<TextBlock Margin="2">
 										<TextBlock.Style>
 											<Style>
@@ -150,7 +150,7 @@
 							</TextBlock>
 									
 							<TextBlock Visibility="{Binding CanSelectMPTs, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
-								<Hyperlink Command="{Binding SelectMPTsCommand}" Style="{StaticResource HyperlinkStyle}">
+								<Hyperlink Command="{Binding SelectMPTsCommand}" Style="{StaticResource HyperlinkStyle}" IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBlock}}, Path=IsEnabled}">
 									<TextBlock Margin="2">
 										<TextBlock.Style>
 											<Style>
@@ -175,7 +175,7 @@
 							</TextBlock>
 									
 							<TextBlock Visibility="{Binding CanSelectDelays, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
-								<Hyperlink Command="{Binding SelectDelaysCommand}" Style="{StaticResource HyperlinkStyle}">
+								<Hyperlink Command="{Binding SelectDelaysCommand}" Style="{StaticResource HyperlinkStyle}" IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBlock}}, Path=IsEnabled}">
 									<TextBlock Margin="2">
 										<TextBlock.Style>
 											<Style>
@@ -200,7 +200,7 @@
 							</TextBlock>
 
 							<TextBlock Visibility="{Binding CanSelectGuardZones, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
-								<Hyperlink Command="{Binding SelectGuardZonesCommand}" Style="{StaticResource HyperlinkStyle}">
+								<Hyperlink Command="{Binding SelectGuardZonesCommand}" Style="{StaticResource HyperlinkStyle}" IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBlock}}, Path=IsEnabled}">
 									<TextBlock Margin="2">
 										<TextBlock.Style>
 											<Style>
@@ -225,7 +225,7 @@
 							</TextBlock>
 
 							<TextBlock Visibility="{Binding CanSelectDoors, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
-								<Hyperlink Command="{Binding SelectDoorsCommand}" Style="{StaticResource HyperlinkStyle}">
+								<Hyperlink Command="{Binding SelectDoorsCommand}" Style="{StaticResource HyperlinkStyle}" IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBlock}}, Path=IsEnabled}">
 									<TextBlock Margin="2">
 										<TextBlock.Style>
 											<Style>
@@ -250,7 +250,7 @@
 							</TextBlock>
 							
 							<TextBlock Visibility="{Binding CanSelectPumpStations, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
-								<Hyperlink Command="{Binding SelectPumpStationsCommand}" Style="{StaticResource HyperlinkStyle}">
+								<Hyperlink Command="{Binding SelectPumpStationsCommand}" Style="{StaticResource HyperlinkStyle}" IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBlock}}, Path=IsEnabled}">
 									<TextBlock Margin="2">
 										<TextBlock.Style>
 											<Style>

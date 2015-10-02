@@ -11,6 +11,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Elements;
 using GKProcessor;
+using FiresecAPI.Models.Layouts;
 
 namespace FiresecClient
 {
@@ -49,7 +50,7 @@ namespace FiresecClient
 			}
 			output.Close();
 		}
-        
+
 		public static void GetConfiguration(string configurationFolderName)
 		{
 			try
@@ -341,6 +342,31 @@ namespace FiresecClient
 		private static void UpdateSubPlan(ElementSubPlan elementSubPlan, Plan plan)
 		{
 			elementSubPlan.BackgroundColor = plan == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
+		}
+
+		public static void InvalidateContent()
+		{
+			var uids = new HashSet<Guid?>();
+			foreach (var plan in PlansConfiguration.AllPlans)
+			{
+				uids.Add(plan.BackgroundImageSource);
+				plan.AllElements.ForEach(x => uids.Add(x.BackgroundImageSource));
+			}
+			foreach (var layout in LayoutsConfiguration.Layouts)
+			{
+				foreach (var part in layout.Parts)
+				{
+					if (part.Properties is LayoutPartImageProperties)
+					{
+						var layoutPartImageProperties = part.Properties as LayoutPartImageProperties;
+						uids.Add(layoutPartImageProperties.ReferenceUID);
+					}
+				}
+			}
+
+			uids.Remove(null);
+			uids.Remove(Guid.Empty);
+			ServiceFactoryBase.ContentService.RemoveAllBut(uids.Select(x=>x.Value.ToString()).ToList());
 		}
 	}
 }

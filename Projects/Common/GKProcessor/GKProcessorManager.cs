@@ -532,7 +532,7 @@ namespace GKProcessor
 				return null;
 			var alsMeasure = Watcher.GetKAUMeasure(kauDevice, alsDevice.IntAddress).FirstOrDefault();
 			if (alsMeasure == null)
-				return OperationResult<CurrentConsumption>.FromError("Не получены значения токопотреблений из базы");
+				return OperationResult<CurrentConsumption>.FromError("Не удалось получить значение тока");
 			return new OperationResult<CurrentConsumption>(alsMeasure);
 		}
 

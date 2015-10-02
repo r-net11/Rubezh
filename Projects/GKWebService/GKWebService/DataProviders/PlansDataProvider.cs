@@ -32,7 +32,7 @@ using ImageMagick;
 namespace GKWebService.DataProviders
 {
 	public class PlansDataProvider
-    {
+	{
 		#region props
 
 		private readonly ContentService _contentService;
@@ -52,7 +52,7 @@ namespace GKWebService.DataProviders
 					return _instance;
 				return _instance = new PlansDataProvider();
 			}
-		} 
+		}
 		#endregion
 
 		#region ctor
@@ -130,6 +130,10 @@ namespace GKWebService.DataProviders
 			var polylines = LoadPolyLineElements(plan);
 			planToAdd.Elements.AddRange(polylines);
 
+			//var doors = LoadDoorElements(plan);
+			//planToAdd.Elements.AddRange(doors);
+
+
 			// Конвертим и добавляем устройства
 			foreach (var planElement in plan.ElementGKDevices)
 			{
@@ -141,6 +145,44 @@ namespace GKWebService.DataProviders
 
 			Plans.Add(planToAdd);
 		}
+
+		//private IEnumerable<PlanElement> LoadDoorElements(Plan plan)
+		//{
+		//	var result = new List<PlanElement>();
+		//	foreach (var door in plan.ElementGKDoors)
+		//	{
+		//		var elemToAdd = DoorToShape(door);
+		//		elemToAdd.Hint = GetElementHint(door);
+		//		result.Add(elemToAdd);
+		//	}
+		//	return result;
+		//}
+
+		//private PlanElement DoorToShape(ElementGKDoor item)
+		//{
+		//	GKDoor door =
+		//		GKManager.Doors.FirstOrDefault(d => d.UID == item.DoorUID);
+		//	if (door == null)
+		//		return null;
+
+		//	var bytes = GetDeviceStatePic(device);
+
+		//	// Создаем элемент плана
+		//	// Ширину и высоту задаем 500, т.к. знаем об этом
+		//	var shape = new PlanElement
+		//	{
+		//		Name = item.PresentationName,
+		//		Id = item.DeviceUID,
+		//		Image = Convert.ToBase64String(bytes),
+		//		Hint = GetElementHint(item),
+		//		X = item.Left - 7,
+		//		Y = item.Top - 7,
+		//		Height = 14,
+		//		Width = 14,
+		//		Type = ShapeTypes.GkDevice.ToString()
+		//	};
+		//	return shape;
+		//}
 
 		private IEnumerable<PlanElement> LoadPolygonElements(Plan plan)
 		{
@@ -243,7 +285,7 @@ namespace GKWebService.DataProviders
 						}
 					}
 				}
-				if (element is ElementRectangleGKSKDZone|| element is ElementPolygonGKSKDZone)
+				if (element is ElementRectangleGKSKDZone || element is ElementPolygonGKSKDZone)
 				{
 					var zone = GKManager.SKDZones.FirstOrDefault(z => asZone != null && z.UID == asZone.ZoneUID);
 					if (zone != null)
@@ -253,7 +295,7 @@ namespace GKWebService.DataProviders
 							return zone.PresentationName;
 						}
 					}
-				}			
+				}
 			}
 			if (element is IElementMPT)
 			{
@@ -326,7 +368,7 @@ namespace GKWebService.DataProviders
 		#endregion
 
 		#region type converters, resource loaders
-		
+
 		/// <summary>
 		/// Получает преобразованное в Base64String png-изображение фона плана
 		/// </summary>
@@ -409,7 +451,7 @@ namespace GKWebService.DataProviders
 			return shape;
 		}
 		private PlanElement DeviceToShape(ElementGKDevice item)
-		{ 
+		{
 			// Находим девайс и набор его состояний
 			var device =
 				GKManager.Devices.FirstOrDefault(d => d.UID == item.DeviceUID);
@@ -426,8 +468,8 @@ namespace GKWebService.DataProviders
 				Id = item.DeviceUID,
 				Image = Convert.ToBase64String(bytes),
 				Hint = GetElementHint(item),
-				X = item.Left-7,
-				Y = item.Top-7,
+				X = item.Left - 7,
+				Y = item.Top - 7,
 				Height = 14,
 				Width = 14,
 				Type = ShapeTypes.GkDevice.ToString()
@@ -435,39 +477,84 @@ namespace GKWebService.DataProviders
 			return shape;
 		}
 
-	    private byte[] GetDeviceStatePic(GKDevice device)
-	    {
-		    var deviceConfig =
-			    GKManager.DeviceLibraryConfiguration.GKDevices.FirstOrDefault(d => d.DriverUID == device.DriverUID);
-		    if (deviceConfig == null)
-			    return null;
-		    var stateWithPic =
-			    deviceConfig.States.FirstOrDefault(s => s.StateClass == device.State.StateClass) ??
-			    deviceConfig.States.FirstOrDefault(s => s.StateClass == XStateClass.No);
-		    if (stateWithPic == null)
-			    return null;
+		//private byte[] GetDoorPic(GKDoor device)
+		//{
+		//	var stateWithPic =
+		//		device.States.FirstOrDefault(s => s.StateClass == device.State.StateClass) ??
+		//		deviceConfig.States.FirstOrDefault(s => s.StateClass == XStateClass.No);
+		//	if (stateWithPic == null)
+		//		return null;
 
-		    // Перебираем кадры в состоянии и генерируем gif картинку
-		    byte[] bytes;
-		    using (MagickImageCollection collection = new MagickImageCollection())
-		    {
-			    foreach (var frame in stateWithPic.Frames)
-			    {
-				    var frame1 = frame;
-				    Task<Bitmap> getBitmapTask = Task.Factory.StartNewSta(() =>
-				                                                          {
-					                                                          Canvas surface =
-						                                                          (Canvas) XamlFromString(frame1.Image);
-					                                                          return XamlCanvasToPngBitmap(surface);
-				                                                          });
-				    Task.WaitAll(getBitmapTask);
-				    var pngBitmap = getBitmapTask.Result;
-				    MagickImage img = new MagickImage(pngBitmap)
-				                      {
-					                      AnimationDelay = frame.Duration/10,
-				                      };
-				    collection.Add(img);
-			    }
+		//	// Перебираем кадры в состоянии и генерируем gif картинку
+		//	byte[] bytes;
+		//	using (MagickImageCollection collection = new MagickImageCollection())
+		//	{
+		//		foreach (var frame in stateWithPic.Frames)
+		//		{
+		//			var frame1 = frame;
+		//			Task<Bitmap> getBitmapTask = Task.Factory.StartNewSta(() =>
+		//			{
+		//				Canvas surface =
+		//					(Canvas)XamlFromString(frame1.Image);
+		//				return XamlCanvasToPngBitmap(surface);
+		//			});
+		//			Task.WaitAll(getBitmapTask);
+		//			var pngBitmap = getBitmapTask.Result;
+		//			MagickImage img = new MagickImage(pngBitmap)
+		//			{
+		//				AnimationDelay = frame.Duration / 10,
+		//			};
+		//			collection.Add(img);
+		//		}
+		//		var path = string.Format(@"C:\tmpImage{0}.gif", Guid.NewGuid());
+		//		collection.Write(path);
+		//		using (var fstream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+		//		{
+		//			using (var stream = new MemoryStream())
+		//			{
+		//				fstream.CopyTo(stream);
+		//				bytes = stream.ToArray();
+		//			}
+		//		}
+		//		File.Delete(path);
+		//	}
+		//	return bytes;
+
+		//}
+
+		private byte[] GetDeviceStatePic(GKDevice device)
+		{
+			var deviceConfig =
+				GKManager.DeviceLibraryConfiguration.GKDevices.FirstOrDefault(d => d.DriverUID == device.DriverUID);
+			if (deviceConfig == null)
+				return null;
+			var stateWithPic =
+				deviceConfig.States.FirstOrDefault(s => s.StateClass == device.State.StateClass) ??
+				deviceConfig.States.FirstOrDefault(s => s.StateClass == XStateClass.No);
+			if (stateWithPic == null)
+				return null;
+
+			// Перебираем кадры в состоянии и генерируем gif картинку
+			byte[] bytes;
+			using (MagickImageCollection collection = new MagickImageCollection())
+			{
+				foreach (var frame in stateWithPic.Frames)
+				{
+					var frame1 = frame;
+					Task<Bitmap> getBitmapTask = Task.Factory.StartNewSta(() =>
+																		  {
+																			  Canvas surface =
+																				  (Canvas)XamlFromString(frame1.Image);
+																			  return XamlCanvasToPngBitmap(surface);
+																		  });
+					Task.WaitAll(getBitmapTask);
+					var pngBitmap = getBitmapTask.Result;
+					MagickImage img = new MagickImage(pngBitmap)
+					{
+						AnimationDelay = frame.Duration / 10,
+					};
+					collection.Add(img);
+				}
 				var path = string.Format(@"C:\tmpImage{0}.gif", Guid.NewGuid());
 				collection.Write(path);
 				using (var fstream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -477,45 +564,46 @@ namespace GKWebService.DataProviders
 						fstream.CopyTo(stream);
 						bytes = stream.ToArray();
 					}
-                }
+				}
 				File.Delete(path);
 			}
-		    return bytes;
-	    }
+			return bytes;
+		}
 
-	    private PlanElement GetDeviceHintIcon(ElementGKDevice item)
+		private Tuple<string, Size> GetElementHintIcon(ElementBasePoint item)
 		{
-			var device =
-				GKManager.Devices.FirstOrDefault(d => d.UID == item.DeviceUID);
-			if (device == null)
-				return null;
+			string imagePath = string.Empty;
 
-			var deviceConfig =
-				GKManager.DeviceLibraryConfiguration.GKDevices.FirstOrDefault(d => d.DriverUID == device.DriverUID);
-			if (deviceConfig == null)
-				return null;
+			if (item is ElementGKDevice)
+			{
+				var device =
+				 GKManager.Devices.FirstOrDefault(d => d.UID == (item as ElementGKDevice).DeviceUID);
+				if (device == null)
+					return null;
 
-			var stateWithPic =
-				deviceConfig.States.FirstOrDefault(s => s.StateClass == device.State.StateClass) ??
-				deviceConfig.States.FirstOrDefault(s => s.StateClass == XStateClass.No);
+				var deviceConfig =
+					GKManager.DeviceLibraryConfiguration.GKDevices.FirstOrDefault(d => d.DriverUID == device.DriverUID);
+				if (deviceConfig == null)
+					return null;
 
+				var stateWithPic =
+					deviceConfig.States.FirstOrDefault(s => s.StateClass == device.State.StateClass) ??
+					deviceConfig.States.FirstOrDefault(s => s.StateClass == XStateClass.No);
+				imagePath = device.ImageSource.Replace("/Controls;component/", "");
+			}
+			if (item is ElementGKDoor)
+			{
+				var door =
+				 GKManager.Doors.FirstOrDefault(d => d.UID == (item as ElementGKDoor).DoorUID);
+				if (door == null)
+					return null;
 
-			var imagePath = device.ImageSource.Replace("/Controls;component/", "");
+				imagePath = door.ImageSource.Replace("/Controls;component/", "");
+			}
+			
 			var imageData = GetImageResource(imagePath);
 
-			var shape = new PlanElement
-			{
-				Name = item.PresentationName,
-				Id = item.UID,
-				Image = imageData.Item1,
-				Hint = device.PresentationName,
-				X = item.Left,
-				Y = item.Top,
-				Height = imageData.Item2.Height,
-				Width = imageData.Item2.Width,
-				Type = ShapeTypes.GkDevice.ToString()
-			};
-			return shape;
+			return imageData;
 		}
 
 		/// <summary>
@@ -564,7 +652,7 @@ namespace GKWebService.DataProviders
 			var states = obj.GKStates;
 			foreach (var state in states.DelayStates)
 			{
-				
+
 			}
 			foreach (var state in states.DeviceStates)
 			{
@@ -600,8 +688,8 @@ namespace GKWebService.DataProviders
 			}
 		}
 
-	    private bool UpdateDeviceState(GKState state)
-	    {
+		private bool UpdateDeviceState(GKState state)
+		{
 			if (state.BaseObjectType != GKBaseObjectType.Device)
 			{
 				return false;
@@ -611,10 +699,10 @@ namespace GKWebService.DataProviders
 			var pictureTask = Task.Factory.StartNewSta<byte[]>(() => GetDeviceStatePic(device));
 			Task.WaitAll();
 			var pic = pictureTask.Result;
-		    if (pic == null)
-		    {
-			    return false;
-		    }
+			if (pic == null)
+			{
+				return false;
+			}
 			var statusUpdate = new
 			{
 				Id = state.UID,
@@ -625,8 +713,8 @@ namespace GKWebService.DataProviders
 			};
 			PlansUpdater.Instance.UpdateDeviceState(statusUpdate);
 			return true;
-	    }
-		
+		}
+
 		#endregion
 
 		#region Utils
@@ -719,36 +807,36 @@ namespace GKWebService.DataProviders
 		}
 
 		private string PointsToPath(PointCollection points, bool isClosed)
-        {
-            var enumerable = points.ToArray();
-            if (!enumerable.Any())
-                return string.Empty;
+		{
+			var enumerable = points.ToArray();
+			if (!enumerable.Any())
+				return string.Empty;
 
-            var start = enumerable[0];
-            var segments = new List<LineSegment>();
-            for (var i = 1; i < enumerable.Length; i++)
-                segments.Add(new LineSegment(new Point(enumerable[i].X, enumerable[i].Y), true));
-            var figure = new PathFigure(new Point(start.X, start.Y), segments, isClosed);
-            var geometry = new PathGeometry();
-            geometry.Figures.Add(figure);
-            return geometry.ToString();
-        }
+			var start = enumerable[0];
+			var segments = new List<LineSegment>();
+			for (var i = 1; i < enumerable.Length; i++)
+				segments.Add(new LineSegment(new Point(enumerable[i].X, enumerable[i].Y), true));
+			var figure = new PathFigure(new Point(start.X, start.Y), segments, isClosed);
+			var geometry = new PathGeometry();
+			geometry.Figures.Add(figure);
+			return geometry.ToString();
+		}
 
 		private MemoryStream GenerateStreamFromString(string value)
 		{
 			return new MemoryStream(Encoding.Unicode.GetBytes(value ?? ""));
 		}
 
-	    private object XamlFromString(string source)
-	    {
+		private object XamlFromString(string source)
+		{
 			return XamlServices.Load(GenerateStreamFromString(source));
 		}
 
-	    private System.Drawing.Color ConvertColor(Color source)
-        {
-            return System.Drawing.Color.FromArgb(source.A, source.R, source.G, source.B);
-        }
+		private System.Drawing.Color ConvertColor(Color source)
+		{
+			return System.Drawing.Color.FromArgb(source.A, source.R, source.G, source.B);
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

@@ -30,6 +30,14 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public bool HasZoneOrLogic
+		{
+			get
+			{
+				return !String.IsNullOrEmpty(PresentationZone);
+			}
+		}
+
 		public string DifferenceDiscription { get; set; }
 		public GKDevice Device;
 		public GKZone Zone;

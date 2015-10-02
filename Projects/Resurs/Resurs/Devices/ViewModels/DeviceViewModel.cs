@@ -3,6 +3,7 @@ using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
+using ResursDAL;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,6 +30,13 @@ namespace Resurs.ViewModels
 				_device = value;
 				OnPropertyChanged(() => Device);
 			}
+		}
+
+		public void Update()
+		{
+			var device = DBCash.GetDeivce(Device.UID);
+			if (device != null)
+				Update(device);
 		}
 
 		public void Update(Device device)
