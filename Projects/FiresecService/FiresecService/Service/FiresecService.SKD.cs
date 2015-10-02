@@ -2,7 +2,6 @@
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
-using FiresecAPI.SKD.Device;
 using SKDDriver;
 using SKDDriver.Translators;
 using System;
@@ -1263,8 +1262,24 @@ namespace FiresecService.Service
 				var skdStates = new SKDStates();
 				skdStates.DeviceStates.Add(device.State);
 
-				//device.Door.State.AccessState = accessState; // TODO: Точка доступа тоже должна хранить состояние
-				//skdStates.DoorStates.Add(device.Door.State);
+				// Обновляем состояние доменной модели точки доступа
+				foreach (var door in SKDManager.Doors)
+				{
+					if (door.InDevice != null)
+					{
+						var lockAddress = door.InDevice.IntAddress;
+						if (door.DoorType == DoorType.TwoWay)
+						{
+							lockAddress = door.InDevice.IntAddress / 2;
+						}
+						var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
+						if (lockDevice == device)
+						{
+							door.State.AccessState = accessState;
+							skdStates.DoorStates.Add(door.State);
+						}
+					}
+				}
 
 				Processor.OnStatesChanged(skdStates);
 			}

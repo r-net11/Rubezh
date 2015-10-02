@@ -167,12 +167,17 @@ namespace FiresecService
 					{
 						door.State.StateClasses = stateClasses;
 						door.State.StateClass = door.State.StateClasses.Min();
-						skdStates.DoorStates.Add(door.State);
+						if (!skdStates.DoorStates.Contains(door.State))
+							skdStates.DoorStates.Add(door.State);
+						else
+						{
+							// TODO: Вроде ничего больше не нужно делать
+						}
 					}
 				}
 			}
 
-			FiresecService.Service.FiresecService.NotifySKDObjectStateChanged(skdStates);
+			Service.FiresecService.NotifySKDObjectStateChanged(skdStates);
 			ProcedureRunner.RunOnStateChanged();
 		}
 
