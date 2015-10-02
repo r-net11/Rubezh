@@ -44,6 +44,7 @@
 				<Views:ApartmentsView Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</TabItem>
 			<TabItem Header="Тарифы" Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Views:TariffsView />
 			</TabItem>
 			<TabItem Header="Графики" Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
 			</TabItem>

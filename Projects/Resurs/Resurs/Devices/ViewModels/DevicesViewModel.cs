@@ -6,6 +6,7 @@ using ResursAPI;
 using ResursDAL;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -49,6 +50,7 @@ namespace Resurs.ViewModels
 			set
 			{
 				_selectedDevice = value;
+				_selectedDevice.Update();
 				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
@@ -130,15 +132,15 @@ namespace Resurs.ViewModels
 			var driverTypesViewModel = new DriverTypesViewModel(SelectedDevice.Device.DriverType);
 			if (DialogService.ShowModalWindow(driverTypesViewModel))
 			{
-				var device = new Device()
+				var deviceDetailsViewModel = new DeviceDetailsViewModel(driverTypesViewModel.SelectedDriverType, SelectedDevice.Device);
+				if (DialogService.ShowModalWindow(deviceDetailsViewModel))
 				{
-					DriverType = driverTypesViewModel.SelectedDriverType
-				};
-				var deviceViewModel = new DeviceViewModel(device);
-				SelectedDevice.AddChild(deviceViewModel);
-				SelectedDevice.IsExpanded = true;
-				AllDevices.Add(deviceViewModel);
-				SelectedDevice = deviceViewModel;
+					var deviceViewModel = new DeviceViewModel(deviceDetailsViewModel.Device);
+					SelectedDevice.AddChild(deviceViewModel);
+					SelectedDevice.IsExpanded = true;
+					AllDevices.Add(deviceViewModel);
+					SelectedDevice = deviceViewModel;
+				}
 			}
 		}
 		bool CanAdd()
@@ -154,7 +156,6 @@ namespace Resurs.ViewModels
 			{
 				var deviceViewModel = new DeviceViewModel(deviceDetailsViewModel.Device);
 				SelectedDevice.Update(deviceDetailsViewModel.Device);
-				ResursDAL.DBCash.SaveDevice(SelectedDevice.Device);
 			}
 		}
 		bool CanEdit()
@@ -169,7 +170,7 @@ namespace Resurs.ViewModels
 			{
 				var selectedDevice = SelectedDevice;
 				var parent = selectedDevice.Parent;
-				if (parent != null)
+				if (parent != null && DBCash.DeleteDevice(selectedDevice.Device))
 				{
 					var index = selectedDevice.VisualIndex;
 					parent.Nodes.Remove(selectedDevice);

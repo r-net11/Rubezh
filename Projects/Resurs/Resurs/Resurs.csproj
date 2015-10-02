@@ -172,6 +172,14 @@
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Apartments\ViewModels\ApartmentDetailsViewModel.Common.cs" />
+    <Compile Include="Apartments\ViewModels\ApartmentsFolderDetailsViewModel.cs" />
+    <Compile Include="Apartments\ViewModels\ApartmentDetailsViewModel.cs" />
+    <Compile Include="Apartments\ViewModels\ApartmentsViewModel.cs" />
+    <Compile Include="Apartments\ViewModels\ApartmentViewModel.cs" />
+    <Compile Include="Apartments\Views\ApartmentsFolderDetailsView.xaml.cs">
+      <DependentUpon>ApartmentsFolderDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="Devices\ViewModels\DetailsParameterViewModel.cs" />
@@ -185,12 +193,9 @@
     <Compile Include="Processor\LoginService.cs" />
     <Compile Include="Processor\ResursSettings.cs" />
     <Compile Include="Processor\SettingsManager.cs" />
-    <Compile Include="Apartments\ViewModels\ApartmentDetailsViewModel.cs" />
-    <Compile Include="Apartments\ViewModels\ApartmentsViewModel.cs" />
     <Compile Include="Main\ViewModels\Comparers.cs" />
     <Compile Include="Devices\ViewModels\DeviceDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
-    <Compile Include="Apartments\ViewModels\ApartmentViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\ParameterViewModel.cs" />
     <Compile Include="Devices\ViewModels\DriverTypesViewModel.cs" />
@@ -229,6 +234,15 @@
     </Compile>
     <Compile Include="Users\ViewModels\PermissionsViewModel.cs" />
     <Compile Include="Users\ViewModels\PermissionViewModel.cs" />
+    <Compile Include="Tariffs\ViewModels\TariffsViewModel.cs" />
+    <Compile Include="Tariffs\ViewModels\TariffDetailsViewModel.cs" />
+    <Compile Include="Tariffs\ViewModels\TariffViewModel.cs" />
+    <Compile Include="Tariffs\Views\TariffsView.xaml.cs">
+      <DependentUpon>TariffsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tariffs\Views\TariffDetailsView.xaml.cs">
+      <DependentUpon>TariffDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Users\ViewModels\UserDetailsViewModel.cs" />
     <Compile Include="Users\ViewModels\UsersViewModel.cs" />
     <Compile Include="Users\ViewModels\UserViewModel.cs" />
@@ -252,6 +266,10 @@
     <Page Include="JournalEvents\Views\JournalEventsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Apartments\Views\ApartmentsFolderDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Main\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
@@ -298,6 +316,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Main\Views\StartupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tariffs\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tariffs\Views\TariffsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tariffs\Views\TariffDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -420,9 +450,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Converters\" />
-    <Folder Include="Rates\DataTemplates\" />
-    <Folder Include="Rates\ViewModels\" />
-    <Folder Include="Rates\Views\" />
     <Folder Include="Reports\DataTemplates\" />
     <Folder Include="Reports\ViewModels\" />
     <Folder Include="Reports\Views\" />
@@ -436,10 +463,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>del $(TargetDir)Pictures
-del $(TargetDir)Temp
-if "$(ConfigurationName)" == "Release" xcopy $(SolutionDir)..\Deploy\ConfigurationService $(TargetDir)Configuration\ /e /y
-if "$(ConfigurationName)" == "Release" xcopy $(SolutionDir)..\Deploy\SqlCE $(TargetDir) /e /y
-xcopy $(SolutionDir)..\..\3rdParty\MSSQLCEv35 $(TargetDir) /e /y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Journal\Journal.cs" />
+    <Compile Include="Models\Tariff\TariffType.cs" />
     <Compile Include="Journal\JournalType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User\PermissionType.cs" />
@@ -55,8 +56,8 @@
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\Measure.cs" />
     <Compile Include="Models\Parameter.cs" />
-    <Compile Include="Models\Tariff.cs" />
-    <Compile Include="Models\TariffPart.cs" />
+    <Compile Include="Models\Tariff\Tariff.cs" />
+    <Compile Include="Models\Tariff\TariffPart.cs" />
     <Compile Include="Models\Driver\Driver.cs" />
     <Compile Include="Models\Driver\DriverParameter.cs" />
     <Compile Include="Models\Driver\DriverType.cs" />
