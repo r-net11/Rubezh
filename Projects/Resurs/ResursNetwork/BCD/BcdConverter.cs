@@ -25,7 +25,7 @@ namespace ResursNetwork.BCD
             {
                 return false;
             }
-            return true;
+            return true;    
         }
         /// <summary>
         /// Преобразует значение в формате BCD в байт
@@ -56,9 +56,9 @@ namespace ResursNetwork.BCD
                 throw new InvalidCastException(
                     "Невозможно преобразовать в BCD формат. Значение слишком большое");
             }
-            var high = value / 10;
-            var low = value % 10;
-            return (Byte)((high << 4) | (low));
+            var high = (Byte)(value / 10);
+            var low = (Byte)(value % 10);
+            return (Byte)((high << 4) | low);
         }
         #endregion
     }
