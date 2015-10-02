@@ -398,7 +398,7 @@ namespace SKDModule.ViewModels
 
 			if (manualInputValidationCondition || useReaderValidationCondition || USBReaderValidationCondition)
 			{
-				MessageBoxService.ShowError("Введите номер карты", "Неверный номер карты");
+				MessageBoxService.ShowError("Номер карты должен быть задан в пределах 1 ... 2147483647", "Неверный номер карты");
 				return false;
 			}
 

@@ -55,9 +55,20 @@
 			Visibility="{Binding IsReaderSelected, Mode=TwoWay, ElementName=_this, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Visible}"
 			VerticalAlignment="Center"
 			Validation.ErrorTemplate="{x:Null}"
-			Text="{Binding ContentText, ElementName=_this, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+			IsEnabled="{Binding ElementName=_this, Path=IsEnabled, UpdateSourceTrigger=PropertyChanged}"
 			Width="{Binding TextBoxWidth, ElementName=_this}"
-			MinWidth="50"/>
+			MinWidth="50">
+			<TextBox.Style>
+				<Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type TextBox}">
+					<Setter Property="Text" Value="{Binding Path=ContentText, ElementName=_this, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+					<Style.Triggers>
+						<Trigger Property="IsEnabled" Value="False">
+							<Setter Property="Text" Value="{x:Null}" />
+						</Trigger>
+					</Style.Triggers>
+				</Style>
+			</TextBox.Style>
+		</TextBox>
 		<!--<Button
 			Grid.Column="1"
 			MinWidth="30"
