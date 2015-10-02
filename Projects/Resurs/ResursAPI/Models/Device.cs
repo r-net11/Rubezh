@@ -37,7 +37,7 @@ namespace ResursAPI
 
 		public void SetFullAddress()
 		{
-			if (Parent == null)
+			if (Parent == null || Parent.FullAddress == null)
 				FullAddress = "";
 			else if (Parent.FullAddress.Equals(""))
 				FullAddress = Address.ToString();
@@ -65,5 +65,7 @@ namespace ResursAPI
 		public Driver Driver { get; set; }
 		[NotMapped]
 		public string FullAddress { get; private set; }
+		[NotMapped]
+		public bool IsLoaded { get; set; }
 	}
 }

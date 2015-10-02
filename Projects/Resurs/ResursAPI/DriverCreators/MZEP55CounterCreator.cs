@@ -35,13 +35,13 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Пароль первого уровня",
-				ParameterType = ParameterType.Bool,
+				ParameterType = ParameterType.String,
 				Number = 3
 			});
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Пароль второго уровня",
-				ParameterType = ParameterType.Bool,
+				ParameterType = ParameterType.String,
 				Number = 4
 			});
 			driver.DriverParameters.Add(new DriverParameter

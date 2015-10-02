@@ -22,6 +22,19 @@ namespace Resurs.ViewModels
 		}
 	}
 
+	public class DeviceViewModelAddressComparer : TreeNodeComparer<DeviceViewModel>
+	{
+		protected override int Compare(DeviceViewModel x, DeviceViewModel y)
+		{
+			if (x.Device.Address > y.Device.Address)
+				return 1;
+			if (x.Device.Address < y.Device.Address)
+				return -1;
+			return 0;
+			//return string.Compare(x.Device.FullAddress, y.Device.FullAddress);
+		}
+	}
+
 	public class ApartmentViewModelNameComparer : TreeNodeComparer<ApartmentViewModel>
 	{
 		protected override int Compare(ApartmentViewModel x, ApartmentViewModel y)

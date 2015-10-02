@@ -60,7 +60,9 @@ namespace Resurs.ViewModels
 		{
 			foreach (var item in Parameters)
 			{
-				item.Save();
+				var saveResult = item.Save();
+				if (!saveResult)
+					return false;
 			}
 			Device.Description = Description;
 			Device.IsActive = IsActive;

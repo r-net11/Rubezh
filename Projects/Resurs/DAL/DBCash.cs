@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Data.Entity;
 using System.Runtime.Serialization;
+using System.Diagnostics;
 
 namespace ResursDAL
 {
@@ -16,6 +17,7 @@ namespace ResursDAL
 
 		static DBCash()
 		{
+			
 			RootDevice = GetRootDevice();
 			if (RootDevice == null)
 				CreateSystem();
@@ -71,7 +73,7 @@ namespace ResursDAL
 				}
 			};
 		}
-		
+
 		public static List<User> GetAllUsers()
 		{
 			using (var context = DatabaseContext.Initialize())

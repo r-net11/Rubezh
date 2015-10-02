@@ -6,6 +6,7 @@ using System.Text;
 using System.Data.Entity;
 using System.Runtime.Serialization;
 using Infrastructure.Common.Windows;
+using System.Diagnostics;
 
 
 namespace ResursDAL
@@ -13,6 +14,15 @@ namespace ResursDAL
 	public static partial class DBCash
 	{
 		public static Device RootDevice { get; private set; }
+
+		public class ShortDevice
+		{
+			public Guid UID { get; set; }
+			public int Address { get; set; }
+			public int DriverType { get; set; }
+			public string Description { get; set; }
+			public Guid? ParentUID { get; set; }
+		}
 		
 		public static Device GetRootDevice()
 		{
@@ -20,6 +30,9 @@ namespace ResursDAL
 			{
 				using (var context = DatabaseContext.Initialize())
 				{
+					
+					var stopwatch = new Stopwatch();
+					stopwatch.Start();
 					var tableItems = context.Devices.Select(x => new 
 						{ 
 							UID = x.UID, 
@@ -32,15 +45,19 @@ namespace ResursDAL
 						{
 							UID = x.UID,
 							Address = x.Address,
-							DriverType = x.DriverType,
+							DriverType =(DriverType)x.DriverType,
 							Description = x.Description,
 							ParentUID = x.ParentUID
-						}).ToList();
-					allDevices.ForEach(x => InitializeDevice(x));
+						}).OrderBy(x=>x.Address).ToList();
+					
+					SetChildren(allDevices);
 					var result = allDevices.FirstOrDefault(x => x.ParentUID == null);
-					if(result != null)
-						SetChildren(result, allDevices);
+					if (result != null)
+						SetFullAddress(result);
+					allDevices.ForEach(x => InitializeDevice(x));
+					
 					return result;
+
 				}
 			}
 			catch (Exception e)
@@ -144,8 +161,8 @@ namespace ResursDAL
 				RootDevice = new Device(DriverType.System);
 				devices.Add(RootDevice);
 #if DEBUG
-				int interfaces = 2;
-				int devicesPerInterface = 10;
+				int interfaces = 10;
+				int devicesPerInterface = 1000;
 				for (int i = 0; i < interfaces / 2; i++)
 				{
 					var interfaceDevice = new Device(DriverType.BeregunInterface, RootDevice);
@@ -183,16 +200,23 @@ namespace ResursDAL
 		{
 			try
 			{
+				var cashedDevice = GetAllChildren(RootDevice).FirstOrDefault(x => x.UID == uid);
+				if (cashedDevice != null && cashedDevice.IsLoaded)
+					return cashedDevice;
+
 				using (var context = DatabaseContext.Initialize())
 				{
 					var device = context.Devices.Include(x => x.Parent).Include(x => x.Parameters).FirstOrDefault(x => x.UID == uid);
 					device.Parameters = device.Parameters.OrderBy(x => x.Number).ToList();
 					InitializeDevice(device);
+					device.IsLoaded = true;
 					var parent = GetAllChildren(RootDevice).FirstOrDefault(x => x.UID == device.ParentUID);
 					if (parent != null)
 					{
 						parent.Children.RemoveAll(x => x.UID == device.UID);
 						parent.Children.Add(device);
+						device.Parent = parent;
+						device.SetFullAddress();
 					}
 					return device;
 				}
@@ -214,10 +238,42 @@ namespace ResursDAL
 			}
 		}
 
+		static void SetChildren(List<Device> allDevices)
+		{
+			foreach (var sameParent in allDevices.GroupBy(x => x.ParentUID))
+			{
+				Device parent = null;
+				foreach (var item in allDevices)
+				{
+					if (item.UID == sameParent.Key)
+					{
+						parent = item;
+						break;
+					}
+				}
+				if (parent != null)
+				{
+					foreach (var item in sameParent)
+					{
+						item.Parent = parent;
+						parent.Children.Add(item);
+					}
+				}
+			}
+		}
+		static void SetFullAddress(Device device)
+		{
+			device.SetFullAddress();
+			foreach (var item in device.Children)
+			{
+				SetFullAddress(item);
+				//item.SetFullAddress();
+			}
+		}
+
 		static void SetChildren(Device device, List<Device> allDevices)
 		{
 			device.Children = new List<Device>(allDevices.Where(x => x.ParentUID != null && x.ParentUID == device.UID).OrderBy(x => x.Address));
-			device.SetFullAddress();
 			foreach (var item in device.Children)
 			{
 				item.Parent = device;

@@ -50,7 +50,8 @@ namespace Resurs.ViewModels
 			set
 			{
 				_selectedDevice = value;
-				_selectedDevice.Update();
+				if(_selectedDevice != null)
+					_selectedDevice.Update();
 				OnPropertyChanged(() => SelectedDevice);
 			}
 		}

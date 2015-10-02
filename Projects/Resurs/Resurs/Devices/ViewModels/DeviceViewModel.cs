@@ -19,7 +19,7 @@ namespace Resurs.ViewModels
 			Update(device);
 		}
 
-		public ObservableCollection<ParameterViewModel> Parameters { get; private set; }
+		public List<ParameterViewModel> Parameters { get; private set; }
 
 		Device _device;
 		public Device Device
@@ -42,7 +42,7 @@ namespace Resurs.ViewModels
 		public void Update(Device device)
 		{
 			Device = device;
-			Parameters = new ObservableCollection<ParameterViewModel>(Device.Parameters.Select(x => new ParameterViewModel(x)));
+			Parameters = new List<ParameterViewModel>(Device.Parameters.Select(x => new ParameterViewModel(x)));
 			OnPropertyChanged(() => Parameters);
 		}
 	}

@@ -1,8 +1,10 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -30,11 +32,14 @@ namespace Resurs.ViewModels
 					break;
 				case ParameterType.Int:
 					IsInt = true;
-					IntValue = Model.IntValue != null ? Model.IntValue.Value : -1;
+					IntValue = Model.IntValue != null ? Model.IntValue.Value : Model.DriverParameter.IntDefaultValue;
+					if (Model.DriverParameter.IsReadOnly)
+						StringValue = IntValue.ToString();
 					break;
 				case ParameterType.Double:
 					IsDouble = true;
-					DoubleValue = Model.DoubleValue != null ? Model.DoubleValue.Value : -1.0;
+					var doubleValue = Model.DoubleValue != null ? Model.DoubleValue.Value : Model.DriverParameter.DoubleDefaultValue;
+					StringValue = doubleValue.ToString();
 					break;
 				case ParameterType.Bool:
 					IsBool = true;
@@ -66,7 +71,7 @@ namespace Resurs.ViewModels
 		}
 		public bool IsEnum { get; private set; }
 
-		public void Save()
+		public bool Save()
 		{
 			switch (Model.DriverParameter.ParameterType)
 			{
@@ -80,7 +85,15 @@ namespace Resurs.ViewModels
 					Model.IntValue = IntValue;
 					break;
 				case ParameterType.Double:
-					Model.DoubleValue = DoubleValue;
+					double doubleValue;
+					var stringValue = StringValue.Replace(',', '.');
+					var parseResult = Double.TryParse(stringValue, System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture, out doubleValue);
+					if (!parseResult)
+					{
+						MessageBoxService.Show("Не могу определить значение вещественного параметра " + Name);
+						return false;
+					}
+					Model.DoubleValue = doubleValue;
 					break;
 				case ParameterType.Bool:
 					Model.BoolValue = BoolValue;
@@ -91,6 +104,7 @@ namespace Resurs.ViewModels
 				default:
 					break;
 			}
+			return true;
 		}
 
 		public string Name { get; private set; }
@@ -156,6 +170,6 @@ namespace Resurs.ViewModels
 		}
 		public bool IsDateTime { get; private set; }
 
-		public bool IsShowTextBlock { get { return IsDouble || IsString; } }
+		public bool IsShowTextBlock { get { return IsDouble || IsString || (IsInt && Model.DriverParameter.IsReadOnly); } }
 	}
 }
