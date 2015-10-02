@@ -37,19 +37,10 @@ namespace GKModule.ViewModels
 			{
 				foreach (var descriptor in database.Descriptors)
 				{
-					//#region Test
-
-					//using (var s = new StreamWriter(@"C:\1.txt", true, Encoding.GetEncoding("Windows-1251")))
-					//{
-					//	s.WriteLine(descriptor.GKBase.PresentationName + " " + BitConverter.ToString(descriptor.AllBytes.ToArray()));
-					//}
-
-					//#endregion
-					var isFormulaInvalid = descriptor.Formula.CalculateStackLevels();
-					if (isFormulaInvalid)
+					var isFormulaInvalid = descriptor.Formula.CheckStackOverflow();
+					if (!isFormulaInvalid)
 					{
-						MessageBoxService.ShowError("Ошибка глубины стека дескриптора " + descriptor.GKBase.GKDescriptorNo + " " + descriptor.GKBase.PresentationName);
-						return;
+						MessageBoxService.ShowError("Ошибка проверки стека " + descriptor.GKBase.GKDescriptorNo + " " + descriptor.GKBase.PresentationName);
 					}
 				}
 			}
@@ -86,16 +77,16 @@ namespace GKModule.ViewModels
 			Descriptors = new ObservableCollection<DescriptorViewModel>();
 			foreach (var descriptor in SelectedDatabase.Descriptors)
 			{
-				var binObjectViewModel = new DescriptorViewModel(descriptor, this);
-				Descriptors.Add(binObjectViewModel);
+				var descriptorViewModel = new DescriptorViewModel(descriptor, this);
+				Descriptors.Add(descriptorViewModel);
 			}
 			SelectedDescriptor = Descriptors.FirstOrDefault();
 
 			foreach (var descriptorViewModel in Descriptors)
 			{
 				descriptorViewModel.InputDescriptors = new ObservableCollection<DescriptorViewModel>();
-				if (descriptorViewModel.Descriptor.GKBase.InputGKBases != null)
-				foreach (var inputBase in descriptorViewModel.Descriptor.GKBase.InputGKBases)
+				if (descriptorViewModel.Descriptor.GKBase.InputDescriptors != null)
+				foreach (var inputBase in descriptorViewModel.Descriptor.GKBase.InputDescriptors)
 				{
 					var inputDescriptor = SelectedDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == inputBase.UID);
 					if (inputDescriptor != null)
@@ -104,7 +95,10 @@ namespace GKModule.ViewModels
 						if (inputDescriptorViewModel != null)
 							descriptorViewModel.InputDescriptors.Add(inputDescriptorViewModel);
 						else
+						{
+							descriptorViewModel.IsFormulaInvalid = true;
 							MessageBoxService.ShowError("Отсутствует ссылка на входную зависимость" + descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
+						}
 					}
 				}
 			}
@@ -112,8 +106,8 @@ namespace GKModule.ViewModels
 			foreach (var descriptorViewModel in Descriptors)
 			{
 				descriptorViewModel.OutputDescriptors = new ObservableCollection<DescriptorViewModel>();
-				if (descriptorViewModel.Descriptor.GKBase.InputGKBases != null)
-				foreach (var outputBase in descriptorViewModel.Descriptor.GKBase.OutputGKBases)
+				if (descriptorViewModel.Descriptor.GKBase.InputDescriptors != null)
+				foreach (var outputBase in descriptorViewModel.Descriptor.GKBase.OutputDescriptors)
 				{
 					var outputDescriptor = SelectedDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == outputBase.UID);
 					if (outputDescriptor != null)
@@ -125,7 +119,10 @@ namespace GKModule.ViewModels
 						if (outputDescriptorViewModel != null)
 							descriptorViewModel.OutputDescriptors.Add(outputDescriptorViewModel);
 						else
+						{
+							descriptorViewModel.IsFormulaInvalid = true;
 							MessageBoxService.ShowError("Отсутствует ссылка на выходную зависимость" + descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
+						}
 					}
 				}
 			}
@@ -133,6 +130,20 @@ namespace GKModule.ViewModels
 			foreach (var descriptorViewModel in Descriptors)
 			{
 				descriptorViewModel.InitializeLogic();
+			}
+
+			var stringBuilder = new StringBuilder();
+			foreach (var descriptorViewModel in Descriptors)
+			{
+				if (descriptorViewModel.IsFormulaInvalid)
+				{
+					stringBuilder.AppendLine(descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
+				}
+				descriptorViewModel.InitializeLogic();
+			}
+			if(stringBuilder.Length > 0)
+			{
+				MessageBoxService.ShowWarning(stringBuilder.ToString(), "В результате компиляции возникли ошибки");
 			}
 		}
 

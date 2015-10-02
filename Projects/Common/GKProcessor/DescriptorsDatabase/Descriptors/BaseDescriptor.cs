@@ -9,6 +9,7 @@ namespace GKProcessor
 	public abstract class BaseDescriptor
 	{
 		public DatabaseType DatabaseType { get; set; }
+		public int No { get; set; }
 		public DescriptorType DescriptorType { get; protected set; }
 		public GKBase GKBase { get; private set; }
 
@@ -29,11 +30,11 @@ namespace GKProcessor
 		public List<byte> Parameters { get; protected set; }
 		public List<byte> AllBytes { get; private set; }
 		public FormulaBuilder Formula { get; set; }
+		public bool IsFormulaGeneratedOutside { get; set; }
 
-		public BaseDescriptor(GKBase gkBase, DatabaseType databaseType)
+		public BaseDescriptor(GKBase gkBase)
 		{
 			GKBase = gkBase;
-			DatabaseType = databaseType;
 			Formula = new FormulaBuilder();
 			Parameters = new List<byte>();
 		}
@@ -75,49 +76,21 @@ namespace GKProcessor
 
 			if (DatabaseType == DatabaseType.Gk)
 			{
-				if (GKBase.InputGKBases != null)
+				foreach (var inputGKBase in GKBase.InputDescriptors)
 				{
-					GKBase.InputGKBases = GKBase.InputGKBases.OrderBy(x => x.No).ToList();
-					foreach (var inputGKBase in GKBase.InputGKBases)
-					{
-						var no = inputGKBase.GKDescriptorNo;
-						InputDependenses.AddRange(BitConverter.GetBytes(no));
-					}
+					InputDependenses.AddRange(BitConverter.GetBytes(inputGKBase.GKDescriptorNo));
 				}
-				if (GKBase.OutputGKBases != null)
+				foreach (var outputGKBase in GKBase.OutputDescriptors)
 				{
-					GKBase.OutputGKBases = GKBase.OutputGKBases.OrderBy(x => x.No).ToList();
-					foreach (var outputGKBase in GKBase.OutputGKBases)
-					{
-						var no = outputGKBase.GKDescriptorNo;
-						OutputDependenses.AddRange(BitConverter.GetBytes(no));
-					}
+					OutputDependenses.AddRange(BitConverter.GetBytes(outputGKBase.GKDescriptorNo));
 				}
 			}
 
 			if (DatabaseType == DatabaseType.Kau)
 			{
-				if (GKBase.InputGKBases != null)
+				foreach (var outputGKBase in GKBase.OutputDescriptors.Where(x => x.KauDatabaseParent == GKBase.KauDatabaseParent))
 				{
-					GKBase.InputGKBases = GKBase.InputGKBases.OrderBy(x => x.No).ToList();
-					foreach (var inputGKBase in GKBase.InputGKBases)
-					{
-						if (inputGKBase.KauDatabaseParent != GKBase.KauDatabaseParent)
-							continue;
-						var no = inputGKBase.GKDescriptorNo;
-						InputDependenses.AddRange(BitConverter.GetBytes(no));
-					}
-				}
-				if (GKBase.OutputGKBases != null)
-				{
-					GKBase.OutputGKBases = GKBase.OutputGKBases.OrderBy(x => x.No).ToList();
-					foreach (var outputGKBase in GKBase.OutputGKBases)
-					{
-						if (outputGKBase.KauDatabaseParent != GKBase.KauDatabaseParent)
-							continue;
-						var no = outputGKBase.KAUDescriptorNo;
-						OutputDependenses.AddRange(BitConverter.GetBytes(no));
-					}
+					OutputDependenses.AddRange(BitConverter.GetBytes(outputGKBase.KAUDescriptorNo));
 				}
 			}
 		}
@@ -194,5 +167,7 @@ namespace GKProcessor
 		}
 
 		public abstract void Build();
+
+		public abstract void BuildFormula();
 	}
 }

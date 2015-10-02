@@ -21,7 +21,6 @@ namespace GKImitator
 			GKManager.UpdateConfiguration();
 			GKManager.CreateStates();
 			DescriptorsManager.Create();
-			DescriptorsManager.CreateDynamicObjectsInGKManager();
 			GKManager.UpdateConfiguration();
 		}
 

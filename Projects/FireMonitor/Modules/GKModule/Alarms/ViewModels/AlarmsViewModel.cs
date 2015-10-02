@@ -212,6 +212,28 @@ namespace GKModule.ViewModels
 				}
 			}
 
+			foreach (var delay in GKManager.Delays)
+			{
+				foreach (var stateClass in delay.State.StateClasses)
+				{
+					switch (stateClass)
+					{
+						case XStateClass.On:
+						case XStateClass.TurningOn:
+							alarms.Add(new Alarm(GKAlarmType.Turning, delay));
+							break;
+
+						case XStateClass.Ignore:
+							alarms.Add(new Alarm(GKAlarmType.Ignore, delay));
+							break;
+					}
+				}
+				if (delay.State.StateClasses.Contains(XStateClass.AutoOff))
+				{
+					alarms.Add(new Alarm(GKAlarmType.AutoOff, delay));
+				}
+			}
+
 			alarms = (from Alarm alarm in alarms orderby alarm.AlarmType select alarm).ToList();
 
 			UpdateAlarms();
@@ -247,7 +269,7 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand ResetIgnoreAllCommand { get; private set; }
-		void OnResetIgnoreAll() 
+		void OnResetIgnoreAll()
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
@@ -278,11 +300,27 @@ namespace GKModule.ViewModels
 					}
 				}
 
-				foreach (var direction in GKManager.Directions )
+				foreach (var direction in GKManager.Directions)
 				{
 					if (direction.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Directions_Control))
 					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(direction);
+					}
+				}
+
+				foreach (var mpt in GKManager.MPTs)
+				{
+					if (mpt.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_MPT_Control))
+					{
+						FiresecManager.FiresecService.GKSetAutomaticRegime(mpt);
+					}
+				}
+
+				foreach (var delay in GKManager.Delays)
+				{
+					if (delay.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Delay_Control))
+					{
+						FiresecManager.FiresecService.GKSetAutomaticRegime(delay);
 					}
 				}
 			}
@@ -317,6 +355,18 @@ namespace GKModule.ViewModels
 					if (direction.State.StateClasses.Contains(XStateClass.Ignore))
 						return true;
 				}
+
+				foreach (var mpt in GKManager.MPTs)
+				{
+					if (mpt.State.StateClasses.Contains(XStateClass.Ignore))
+						return true;
+				}
+
+				foreach (var delay in GKManager.Delays)
+				{
+					if (delay.State.StateClasses.Contains(XStateClass.Ignore))
+						return true;
+				}
 				return false;
 			}
 			catch
@@ -348,9 +398,6 @@ namespace GKModule.ViewModels
 						{
 							FiresecManager.FiresecService.GKReset(guardZone);
 						}
-					}
-					foreach (var device in GKManager.Devices)
-					{
 					}
 					foreach (var door in GKManager.Doors)
 					{
@@ -403,7 +450,7 @@ namespace GKModule.ViewModels
 		{
 			foreach (var zone in GKManager.Zones)
 			{
-				if ((zone.State.StateClass == XStateClass.Fire1 || zone.State.StateClass == XStateClass.Fire2)&&FiresecManager.CheckPermission(PermissionType.Oper_Zone_Control))
+				if ((zone.State.StateClass == XStateClass.Fire1 || zone.State.StateClass == XStateClass.Fire2) && FiresecManager.CheckPermission(PermissionType.Oper_Zone_Control))
 				{
 					FiresecManager.FiresecService.GKSetIgnoreRegime(zone);
 				}
@@ -411,9 +458,9 @@ namespace GKModule.ViewModels
 
 			foreach (var device in GKManager.Devices)
 			{
-				if ((device.State.StateClass == XStateClass.Fire1 || device.State.StateClass == XStateClass.Fire2)&& FiresecManager.CheckPermission(PermissionType.Oper_Device_Control))
+				if (device.IsRealDevice)
 				{
-					if (device.IsRealDevice)
+					if ((device.State.StateClass == XStateClass.Fire1 || device.State.StateClass == XStateClass.Fire2) && FiresecManager.CheckPermission(PermissionType.Oper_Device_Control))
 					{
 						FiresecManager.FiresecService.GKSetIgnoreRegime(device);
 					}
@@ -431,7 +478,7 @@ namespace GKModule.ViewModels
 				}
 				if (e.Key == System.Windows.Input.Key.F2 && GlobalSettingsHelper.GlobalSettings.Monitor_F2_Enabled)
 				{
-					if (ServiceFactory.SecurityService.Validate()) 
+					if (ServiceFactory.SecurityService.Validate())
 					{
 						if (CanResetIgnoreAll())
 							OnResetIgnoreAll();
@@ -439,7 +486,7 @@ namespace GKModule.ViewModels
 				}
 				if (e.Key == System.Windows.Input.Key.F3 && GlobalSettingsHelper.GlobalSettings.Monitor_F3_Enabled)
 				{
-					if (ServiceFactory.SecurityService.Validate()) 
+					if (ServiceFactory.SecurityService.Validate())
 					{
 						IgnoreAllZonesAndDevicesInFire();
 					}

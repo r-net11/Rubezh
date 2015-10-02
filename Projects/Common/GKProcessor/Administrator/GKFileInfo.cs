@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using FiresecAPI.GK;
 using Infrastructure.Common;
+using FiresecClient;
 
 namespace GKProcessor
 {
@@ -22,104 +23,87 @@ namespace GKProcessor
 		public List<byte> FileBytes { get; private set; }
 		public List<byte> InfoBlock { get; private set; }
 
-		public void Initialize(GKDeviceConfiguration deviceConfiguration, GKDevice gkControllerDevice)
+		public void Initialize(GKDevice gkControllerDevice)
 		{
 			Date = DateTime.Now;
 			var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkControllerDevice.UID);
-			MinorVersion = (byte)deviceConfiguration.Version.MinorVersion;
-			MajorVersion = (byte)deviceConfiguration.Version.MajorVersion;
+			MinorVersion = (byte)GKManager.DeviceConfiguration.Version.MinorVersion;
+			MajorVersion = (byte)GKManager.DeviceConfiguration.Version.MajorVersion;
 			if (gkDatabase != null)
 				DescriptorsCount = gkDatabase.Descriptors.Count();
-			Hash1 = CreateHash1(deviceConfiguration, gkControllerDevice);
-			InitializeFileBytes(deviceConfiguration);
+			Hash1 = CreateHash1(gkControllerDevice);
+			InitializeFileBytes();
 			InitializeInfoBlock();
 		}
-		public static List<byte> CreateHash1(GKDeviceConfiguration deviceConfiguration, GKDevice gkControllerDevice)
+		public static List<byte> CreateHash1(GKDevice gkControllerDevice)
 		{
-			deviceConfiguration.UpdateConfiguration();
-			deviceConfiguration.PrepareDescriptors();
+			var deviceConfiguration = GKManager.DeviceConfiguration;
 			var stringBuilder = new StringBuilder();
 			stringBuilder.Append("devices:");
-			foreach (var device in deviceConfiguration.Devices)
+
+			foreach (var device in deviceConfiguration.Devices.Where(x => x.IsRealDevice && x.GkDatabaseParent == gkControllerDevice))
 			{
-				if (device.IsRealDevice && device.GKParent == gkControllerDevice)
-					stringBuilder.Append(device.PresentationName).Append("@");
+				stringBuilder.Append(device.PresentationName).Append("@");
 			}
 			stringBuilder.Append("zones:");
-			foreach (var zone in deviceConfiguration.Zones)
+			foreach (var zone in deviceConfiguration.Zones.Where(x => x.GkDatabaseParent == gkControllerDevice))
 			{
-				if (zone.GkDatabaseParent == gkControllerDevice)
-					stringBuilder.Append(zone.PresentationName).Append("@");
+				stringBuilder.Append(zone.PresentationName).Append("@");
 			}
 			stringBuilder.Append("directions:");
-			foreach (var direction in deviceConfiguration.Directions)
+			foreach (var direction in deviceConfiguration.Directions.Where(x => x.GkDatabaseParent == gkControllerDevice))
 			{
-				if (direction.GkDatabaseParent == gkControllerDevice)
-					stringBuilder.Append(direction.PresentationName).Append("@");
+				stringBuilder.Append(direction.PresentationName).Append("@");
 			}
 			stringBuilder.Append("pumpStations:");
-			foreach (var pumpStation in deviceConfiguration.PumpStations)
+			foreach (var pumpStation in deviceConfiguration.PumpStations.Where(x => x.GkDatabaseParent == gkControllerDevice))
 			{
-				if (pumpStation.GkDatabaseParent == gkControllerDevice)
+				stringBuilder.Append(pumpStation.PresentationName).Append("@");
+				if (pumpStation.NSDevices != null)
 				{
-					stringBuilder.Append(pumpStation.PresentationName).Append("@");
-					if (pumpStation.NSDevices != null)
+					stringBuilder.Append("nsDevices:");
+					foreach (var nsDevice in pumpStation.NSDevices.Where(x => x.GKParent == gkControllerDevice))
 					{
-						stringBuilder.Append("nsDevices:");
-						foreach (var nsDevice in pumpStation.NSDevices)
-						{
-							if (nsDevice.GKParent == gkControllerDevice)
-								stringBuilder.Append(nsDevice.PresentationName).Append("@");
-						}
+						stringBuilder.Append(nsDevice.PresentationName).Append("@");
 					}
 				}
 			}
 			stringBuilder.Append("mpts:");
-			foreach (var mpt in deviceConfiguration.MPTs)
+			foreach (var mpt in deviceConfiguration.MPTs.Where(x => x.GkDatabaseParent == gkControllerDevice))
 			{
-				if (mpt.GkDatabaseParent == gkControllerDevice)
+				stringBuilder.Append(mpt.PresentationName).Append("@");
+				if (mpt.MPTDevices != null)
 				{
-					stringBuilder.Append(mpt.PresentationName).Append("@");
-					if (mpt.MPTDevices != null)
+					stringBuilder.Append("nsDevices:");
+					foreach (var mptDevice in mpt.MPTDevices.Where(x => x.Device.GKParent == gkControllerDevice))
 					{
-						stringBuilder.Append("nsDevices:");
-						foreach (var mptDevice in mpt.MPTDevices)
-						{
-							if (mptDevice.Device.GKParent == gkControllerDevice)
-								stringBuilder.Append(mptDevice.Device.PresentationName).Append("@");
-						}
+						stringBuilder.Append(mptDevice.Device.PresentationName).Append("@");
 					}
 				}
 			}
 			stringBuilder.Append("delays:");
-			foreach (var delay in deviceConfiguration.Delays)
+			foreach (var delay in deviceConfiguration.Delays.Where(x => x.GkDatabaseParent == gkControllerDevice))
 			{
-				if (delay.GkDatabaseParent == gkControllerDevice)
-				{
-					stringBuilder.Append(delay.PresentationName).Append("@");
-				}
+				stringBuilder.Append(delay.PresentationName).Append("@");
 			}
 			stringBuilder.Append("guardZones:");
-			foreach (var guardZone in deviceConfiguration.GuardZones)
+			foreach (var guardZone in deviceConfiguration.GuardZones.Where(x => x.GkDatabaseParent == gkControllerDevice))
 			{
-				if (guardZone.GkDatabaseParent == gkControllerDevice)
-					stringBuilder.Append(guardZone.PresentationName).Append("@");
+				stringBuilder.Append(guardZone.PresentationName).Append("@");
 			}
 			stringBuilder.Append("codes:");
-			foreach (var code in deviceConfiguration.Codes)
+			foreach (var code in deviceConfiguration.Codes.Where(x => x.GkDatabaseParent == gkControllerDevice))
 			{
-				if (code.GkDatabaseParent == gkControllerDevice)
-					stringBuilder.Append(code.PresentationName).Append("@");
+				stringBuilder.Append(code.PresentationName).Append("@");
 			}
 			stringBuilder.Append("door:");
-			foreach (var door in deviceConfiguration.Doors)
+			foreach (var door in deviceConfiguration.Doors.Where(x => x.GkDatabaseParent == gkControllerDevice))
 			{
-				if (door.GkDatabaseParent == gkControllerDevice)
-					stringBuilder.Append(door.PresentationName).Append("@");
+				stringBuilder.Append(door.PresentationName).Append("@");
 			}
 			return SHA256.Create().ComputeHash(Encoding.GetEncoding(1251).GetBytes(stringBuilder.ToString())).ToList();
 		}
-		void InitializeFileBytes(GKDeviceConfiguration deviceConfiguration)
+		void InitializeFileBytes()
 		{
 			var fileStream = File.OpenRead(Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp"));
 			FileSize = fileStream.Length;

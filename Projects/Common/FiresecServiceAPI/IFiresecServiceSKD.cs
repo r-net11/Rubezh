@@ -261,8 +261,5 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<List<CurrentConsumption>> GetCurrentConsumption(CurrentConsumptionFilter filter);
 		#endregion
-
-        [OperationContract]
-        OperationResult BeginGetAsync(HRFilter filter);
-    }
+	}
 }

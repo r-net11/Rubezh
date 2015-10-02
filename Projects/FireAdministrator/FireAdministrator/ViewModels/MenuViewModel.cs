@@ -25,6 +25,7 @@ namespace FireAdministrator.ViewModels
 			SetNewConfigCommand = new RelayCommand(OnSetNewConfig, CanSetNewConfig);
 			SetPnanNameToZoneDescriptionsCommand = new RelayCommand(OnSetPnanNameToZoneDescriptions);
 			MergeConfigurationCommand = new RelayCommand(OnMergeConfiguration);
+
 			ServiceFactory.SaveService.Changed += new Action(SaveService_Changed);
 			ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Subscribe(OnSetNewConfiguration);
 			ServiceFactory.Events.GetEvent<LoadFromFileEvent>().Subscribe(x => FileConfigurationHelper.LoadFromFile(x));

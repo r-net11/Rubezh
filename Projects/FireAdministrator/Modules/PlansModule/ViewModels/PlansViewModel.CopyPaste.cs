@@ -84,6 +84,7 @@ namespace PlansModule.ViewModels
 				var parent = selectedPlan.Parent;
 				var plan = SelectedPlan.Plan;
 				var index = Plans.IndexOf(selectedPlan);
+				var oldIndex = selectedPlan.Index;
 				
 				DesignerCanvas.IsLocked = true;
 				DesignerCanvas.RemoveAll();
@@ -98,18 +99,35 @@ namespace PlansModule.ViewModels
 							FiresecManager.PlansConfiguration.Plans.Add(childPlanViewModel.Plan);
 							childPlanViewModel.Plan.Parent = null;
 						}
+					index = Math.Min(index, Plans.Count - 1);
+					if (index > -1)
+						SelectedPlan = Plans[index];
 				}
 				else
 				{
 					parent.RemoveChild(selectedPlan);
 					parent.Plan.Children.Remove(plan);
 					if (!withChild)
+					{
 						foreach (var childPlanViewModel in selectedPlan.Children.ToArray())
 						{
 							parent.AddChild(childPlanViewModel);
 							parent.Plan.Children.Add(childPlanViewModel.Plan);
 							childPlanViewModel.Plan.Parent = parent.Plan;
 						}
+					}
+					if (parent.ChildrenCount == 0)
+					{
+						SelectedPlan = parent;
+					} 
+					else
+					{
+						if (oldIndex == 0)
+						{
+						SelectedPlan = parent.Children.ToArray()[oldIndex];
+						}
+						else SelectedPlan = parent.Children.ToArray()[oldIndex-1];
+					}
 					parent.Update();
 					parent.IsExpanded = true;
 				}
@@ -118,10 +136,6 @@ namespace PlansModule.ViewModels
 				ServiceFactoryBase.Events.GetEvent<PlansConfigurationChangedEvent>().Publish(null);
 				ClearReferences(plan);
 				DesignerCanvas.IsLocked = false;
-				index = Math.Min(index, Plans.Count - 1);
-				if (index > -1)
-					SelectedPlan = Plans[index];
-				//SelectedPlan = parent == null ? Plans.FirstOrDefault() : parent;
 			}
 		}
 		private void RenewPlan(Plan plan)

@@ -493,7 +493,12 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public GKDevice GKParent
 		{
-			get { return AllParents.FirstOrDefault(x => x.DriverType == GKDriverType.GK); }
+			get
+			{
+				var allParents = AllParents;
+				allParents.Add(this);
+				return allParents.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
+			}
 		}
 
 		[XmlIgnore]

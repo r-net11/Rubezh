@@ -74,7 +74,7 @@ namespace FiresecService.Processor
 			else
 				FiresecLicenseManager.CurrentLicenseInfo = licenseInfo;
 		}
-		
+
 		public static bool TryLoadLicense()
 		{
 			var licenseInfo = FiresecLicenseManager.TryLoad(AppDataFolderHelper.GetFile("FiresecService.license"));

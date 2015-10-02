@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.GK;
@@ -40,6 +41,7 @@ namespace GKModule.ViewModels
 			}
 			CopyProperties();
 
+			AvailableDelayRegimeTypes = new ObservableCollection<DelayRegime>(Enum.GetValues(typeof(DelayRegime)).Cast<DelayRegime>());
 			var availableNames = new HashSet<string>();
 			var availableDescription = new HashSet<string>();
 			foreach (var existingPumpStation in GKManager.PumpStations)
@@ -61,12 +63,9 @@ namespace GKModule.ViewModels
 			{
 				Delay = result.Result[0].Value;
 				Hold = result.Result[1].Value;
-				NSDeltaTime = result.Result[2].Value;
-				NSPumpsCount = result.Result[3].Value;
+
 				OnPropertyChanged(() => Delay);
 				OnPropertyChanged(() => Hold);
-				OnPropertyChanged(() => NSDeltaTime);
-				OnPropertyChanged(() => NSPumpsCount);
 			}
 			else
 			{
@@ -83,6 +82,7 @@ namespace GKModule.ViewModels
 			PumpStation.Description = Description;
 			PumpStation.Delay = Delay;
 			PumpStation.Hold = Hold;
+			PumpStation.DelayRegime = DelayRegime;
 			PumpStation.NSDeltaTime = NSDeltaTime;
 			PumpStation.NSPumpsCount = NSPumpsCount;
 
@@ -110,6 +110,7 @@ namespace GKModule.ViewModels
 		{
 			Delay = 0;
 			Hold = 600;
+			DelayRegime = DelayRegime.Off;
 			NSDeltaTime = 5;
 			NSPumpsCount = 1;
 		}
@@ -129,7 +130,8 @@ namespace GKModule.ViewModels
 				return false;
 			}
 
-			var localHash = GKFileInfo.CreateHash1(GKManager.DeviceConfiguration, PumpStation.GkDatabaseParent);
+			GKManager.DeviceConfiguration.PrepareDescriptors();
+			var localHash = GKFileInfo.CreateHash1(PumpStation.GkDatabaseParent);
 			var remoteHash = result.Result;
 			if (GKFileInfo.CompareHashes(localHash, remoteHash))
 				return true;
@@ -143,6 +145,7 @@ namespace GKModule.ViewModels
 			No = PumpStation.No;
 			Delay = PumpStation.Delay;
 			Hold = PumpStation.Hold;
+			DelayRegime = PumpStation.DelayRegime;
 			Description = PumpStation.Description;
 			NSPumpsCount = PumpStation.NSPumpsCount;
 			NSDeltaTime = PumpStation.NSDeltaTime;
@@ -189,6 +192,18 @@ namespace GKModule.ViewModels
 			{
 				_hold = value;
 				OnPropertyChanged(() => Hold);
+			}
+		}
+
+		public ObservableCollection<DelayRegime> AvailableDelayRegimeTypes { get; private set; }
+		DelayRegime _delayRegime;
+		public DelayRegime DelayRegime
+		{
+			get { return _delayRegime; }
+			set
+			{
+				_delayRegime = value;
+				OnPropertyChanged(() => DelayRegime);
 			}
 		}
 

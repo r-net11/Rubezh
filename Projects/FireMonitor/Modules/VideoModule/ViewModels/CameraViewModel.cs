@@ -107,11 +107,8 @@ namespace VideoModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showArchiveEventArgs = new ShowArchiveEventArgs()
-			{
-				Camera = Camera,
-			};
-			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
+			if (Camera != null)
+				ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(new List<Guid> { Camera.UID });
 		}
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
