@@ -12,6 +12,11 @@ namespace ResursAPI
 		{
 			UID = Guid.NewGuid();
 		}
+		public TariffPart(Tariff tariff)
+		{
+			UID = Guid.NewGuid();
+			Tariff = tariff;
+		}
 
 		[Key]
 		public Guid UID { get; set; }

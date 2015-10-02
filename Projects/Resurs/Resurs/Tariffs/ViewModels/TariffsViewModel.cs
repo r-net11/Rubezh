@@ -20,12 +20,16 @@ namespace Resurs.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			Initialize();
+			if (Tariffs.Count==0)
+			{
+				SelectedTariff = null;
+			}
 		}
-
 		private void Initialize()
 		{
 			Tariffs = new ObservableCollection<TariffViewModel>();
-			
+			DBCash.Tariffs.ForEach(x => Tariffs.Add(new TariffViewModel(x)));
+			SelectedTariff = Tariffs.FirstOrDefault();
 		}
 		public bool HasSelectedTariff { get { return SelectedTariff != null; } }
 
@@ -37,6 +41,7 @@ namespace Resurs.ViewModels
 			{
 				_selectedTariff = value;
 				OnPropertyChanged(() => SelectedTariff);
+				OnPropertyChanged(() => HasSelectedTariff);
 			}
 		}
 		private ObservableCollection<TariffViewModel> _tariffs;
@@ -44,13 +49,12 @@ namespace Resurs.ViewModels
 		public ObservableCollection<TariffViewModel> Tariffs
 		{
 			get { return _tariffs; }
-			set 
-			{ 
+			set
+			{
 				_tariffs = value;
 				OnPropertyChanged(() => Tariffs);
 			}
 		}
-
 
 		public RelayCommand AddCommand { get; private set; }
 		bool CanAdd()
@@ -60,11 +64,12 @@ namespace Resurs.ViewModels
 		void OnAdd()
 		{
 			var tariffDetailsViewModel = new TariffDetailsViewModel(null);
-			if(DialogService.ShowModalWindow(tariffDetailsViewModel))
+			if (DialogService.ShowModalWindow(tariffDetailsViewModel))
 			{
 				var tariffViewModel = new TariffViewModel(tariffDetailsViewModel.Tariff);
 				Tariffs.Add(tariffViewModel);
 				SelectedTariff = tariffViewModel;
+				DBCash.CreateTariff(tariffViewModel.Tariff);
 			}
 		}
 
@@ -79,8 +84,9 @@ namespace Resurs.ViewModels
 			if (DialogService.ShowModalWindow(tariffDetailsViewModel))
 			{
 				var tariffViewModel = new TariffViewModel(tariffDetailsViewModel.Tariff);
-				SelectedTariff.Update(tariffDetailsViewModel.Tariff);
+				SelectedTariff.Tariff = tariffDetailsViewModel.Tariff;
 			}
+			DBCash.UpdateTariff(tariffDetailsViewModel.Tariff);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -90,7 +96,13 @@ namespace Resurs.ViewModels
 		}
 		void OnRemove()
 		{
-			
+			var index = Tariffs.IndexOf(SelectedTariff);
+			DBCash.DeleteTariff(SelectedTariff.Tariff);
+			Tariffs.Remove(SelectedTariff);
+			if (Tariffs.FirstOrDefault() == null)
+				SelectedTariff = Tariffs.ElementAt(index - 1);
+			else
+				SelectedTariff = Tariffs.ElementAt(index);
 		}
 
 	}
