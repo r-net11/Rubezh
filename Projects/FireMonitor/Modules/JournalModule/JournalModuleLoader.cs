@@ -51,11 +51,11 @@ namespace JournalModule
 			JournalViewModel.SelectedJournal = JournalViewModel.JournalItems.FirstOrDefault();
 		}
 
-		void OnShowArchive(ShowArchiveEventArgs showArchiveEventArgs)
+		void OnShowArchive(List<Guid> objectUIDs)
 		{
-			if (showArchiveEventArgs != null)
+			if (objectUIDs != null)
 			{
-				ArchiveViewModel.Sort(showArchiveEventArgs);
+				ArchiveViewModel.Sort(objectUIDs);
 			}
 		}
 
@@ -71,7 +71,7 @@ namespace JournalModule
 			return new List<NavigationItem>()
 			{
 				_journalNavigationItem,
-				new NavigationItem<ShowArchiveEvent, ShowArchiveEventArgs>(ArchiveViewModel, "Архив", "Archive")
+				new NavigationItem<ShowArchiveEvent, List<Guid>>(ArchiveViewModel, "Архив", "Archive")
 			};
 		}
 		public override ModuleType ModuleType

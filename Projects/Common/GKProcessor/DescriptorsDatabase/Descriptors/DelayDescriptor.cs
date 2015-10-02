@@ -8,12 +8,11 @@ namespace GKProcessor
 	{
 		GKDelay Delay { get; set; }
 
-		public DelayDescriptor(GKDelay delay, DatabaseType dataBaseType)
-			: base(delay, dataBaseType)
+		public DelayDescriptor(GKDelay delay)
+			: base(delay)
 		{
 			DescriptorType = DescriptorType.Delay;
 			Delay = delay;
-			CreateFormula();
 		}
 		
 		public override void Build()
@@ -21,53 +20,44 @@ namespace GKProcessor
 			DeviceType = BytesHelper.ShortToBytes(0x101);
 			SetAddress(0);
 			SetPropertiesBytes();
-
-			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
-			{
-				Formula = new FormulaBuilder();
-				Formula.Add(FormulaOperationType.END);
-			}
-			Formula.Resolve(DatabaseType);
-			FormulaBytes = Formula.GetBytes();
 		}
 
-		void CreateFormula()
+		public override void BuildFormula()
 		{
 			Formula = new FormulaBuilder();
 			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
 			{
 				Formula.Add(FormulaOperationType.END);
-				FormulaBytes = Formula.GetBytes();
 				return;
 			}
 
 			if (Delay.Logic.StopClausesGroup.GetObjects().Count > 0)
 			{
-				Formula.AddClauseFormula(Delay.Logic.StopClausesGroup, DatabaseType);
+				Formula.AddClauseFormula(Delay.Logic.StopClausesGroup);
 				if (Delay.Logic.OnClausesGroup.GetObjects().Count > 0)
 					Formula.Add(FormulaOperationType.DUP);
-				Formula.AddPutBit(GKStateBit.Stop_InManual, Delay, DatabaseType);
+				Formula.AddPutBit(GKStateBit.Stop_InManual, Delay);
 			}
 			if (Delay.Logic.OnClausesGroup.Clauses.Count + Delay.Logic.OnClausesGroup.ClauseGroups.Count > 0)
 			{
 				if (Delay.Logic.StopClausesGroup.GetObjects().Count > 0)
 					Formula.Add(FormulaOperationType.COM);
-				Formula.AddClauseFormula(Delay.Logic.OnClausesGroup, DatabaseType);
+				Formula.AddClauseFormula(Delay.Logic.OnClausesGroup);
 				if (Delay.Logic.StopClausesGroup.GetObjects().Count > 0)
 					Formula.Add(FormulaOperationType.AND);
-				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Delay, DatabaseType);
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Delay);
 				if (Delay.Logic.UseOffCounterLogic)
 				{
-					Formula.AddClauseFormula(Delay.Logic.OnClausesGroup, DatabaseType);
+					Formula.AddClauseFormula(Delay.Logic.OnClausesGroup);
 					Formula.Add(FormulaOperationType.COM);
-					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Delay, DatabaseType);
+					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Delay);
 				}
 			}
 
-			if (Delay.Logic.OffClausesGroup.GetObjects().Count > 0)
+			if (!Delay.Logic.UseOffCounterLogic && Delay.Logic.OffClausesGroup.GetObjects().Count > 0)
 			{
-				Formula.AddClauseFormula(Delay.Logic.OffClausesGroup, DatabaseType);
-				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Delay, DatabaseType);
+				Formula.AddClauseFormula(Delay.Logic.OffClausesGroup);
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Delay);
 			}
 			Formula.Add(FormulaOperationType.END);
 		}

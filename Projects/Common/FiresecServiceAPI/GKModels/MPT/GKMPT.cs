@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
@@ -107,17 +108,17 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
 
-		public List<Guid> GetCodeUids()
+		public bool HasAccessLevel
 		{
-			var codeUids = new List<Guid>();
-			foreach (var mptDevice in MPTDevices)
+			get
 			{
-				codeUids.AddRange(mptDevice.CodeReaderSettings.AutomaticOnSettings.CodeUIDs);
-				codeUids.AddRange(mptDevice.CodeReaderSettings.AutomaticOffSettings.CodeUIDs);
-				codeUids.AddRange(mptDevice.CodeReaderSettings.StartSettings.CodeUIDs);
-				codeUids.AddRange(mptDevice.CodeReaderSettings.StopSettings.CodeUIDs);
+				foreach (var codeDevice in MPTDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CodeReader || x.Device.DriverType == GKDriverType.RSR2_CardReader))
+				{
+					if (codeDevice.CodeReaderSettings.MPTSettings.AccessLevel > 0)
+						return true;
+				}
+				return false;
 			}
-			return codeUids;
 		}
 	}
 }

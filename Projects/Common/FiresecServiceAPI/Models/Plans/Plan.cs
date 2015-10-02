@@ -144,8 +144,8 @@ namespace FiresecAPI.Models
 				union.AddRange(ElementRectangleGKMPTs);
 				union.AddRange(ElementRectangleGKGuardZones);
 				union.AddRange(ElementRectangleGKZones);
-				union.AddRange(this.ElementRectangleGKDelays);
-				union.AddRange(this.ElementPolygonGKDelays);
+				union.AddRange(ElementRectangleGKDelays);
+				union.AddRange(ElementPolygonGKDelays);
 				union.AddRange(ElementSubPlans);
 				union.AddRange(ElementGKDevices);
 				return union;

@@ -79,7 +79,7 @@ namespace GKModule.ViewModels
 				{
 					var gkIndicatorsGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа индикаторов", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicatorsGroup) });
 					var gkRelaysGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа реле", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKRelaysGroup) });
-					var gkIndicators = new List<DeviceViewModel> (gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKIndicator));
+					var gkIndicators = new List<DeviceViewModel>(gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKIndicator));
 					var gkRelays = new List<DeviceViewModel>(gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKRele));
 					foreach (var gkIndicator in gkIndicators)
 					{

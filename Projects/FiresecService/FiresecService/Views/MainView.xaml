@@ -95,13 +95,32 @@
 					<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ReportAddress}" IsReadOnly="True" Margin="2" />
 				</Grid>
 			</TabItem>
-			<TabItem Header="ГК" DataContext="{Binding ServerTasksViewModel}">
-				<DataGrid ItemsSource="{Binding GKViewModels}" SelectedItem="{Binding SelectedGKViewModel}">
-					<DataGrid.Columns>
-						<DataGridTextColumn Binding="{Binding Name}" Header="Название" Width="*" />
-						<DataGridTextColumn Binding="{Binding State}" Header="Состояние" Width="*" />
-					</DataGrid.Columns>
-				</DataGrid>
+			<TabItem Header="ГК">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="Auto" MaxHeight="100" />
+					</Grid.RowDefinitions>
+					<DataGrid Grid.Row="0" ItemsSource="{Binding GKLifecycles}" SelectedItem="{Binding SelectedGKLifecycle}">
+						<DataGrid.Columns>
+							<DataGridTextColumn Binding="{Binding Time}" Header="Время" Width="50" />
+							<DataGridTextColumn Binding="{Binding Address}" Header="Адрес" Width="Auto" />
+							<DataGridTextColumn Binding="{Binding Name}" Header="Название" Width="*" />
+							<DataGridTextColumn Binding="{Binding Progress}" Header="Прогресс" Width="*" />
+						</DataGrid.Columns>
+					</DataGrid>
+					<ScrollViewer Grid.Row="1" DataContext="{Binding SelectedGKLifecycle}" VerticalScrollBarVisibility="Auto">
+						<ItemsControl ItemsSource="{Binding Items}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<TextBlock Text="{Binding .}" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
+									</StackPanel>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</ScrollViewer>
+				</Grid>
 			</TabItem>
 			<TabItem Header="Операции" DataContext="{Binding ServerTasksViewModel}">
 				<DataGrid ItemsSource="{Binding ServerTasks}" SelectedItem="{Binding SelectedServerTask}">

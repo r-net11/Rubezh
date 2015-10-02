@@ -54,6 +54,8 @@ namespace GKModule.Validation
 
 		void ValidateCodeDifferentGK(GKCode code)
 		{
+			if (code.GkParents.Count > 1)
+				Errors.Add(new CodeValidationError(code, "Код содержится в объектах разных ГК", ValidationErrorLevel.CannotWrite));
 		}	
 	}
 }

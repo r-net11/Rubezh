@@ -6,8 +6,8 @@ namespace GKProcessor
 	{
 		protected GKPim Pim { get; set; }
 
-		public PimDescriptor(GKPim pim, DatabaseType dataBaseType)
-			: base(pim, dataBaseType)
+		public PimDescriptor(GKPim pim)
+			: base(pim)
 		{
 			DescriptorType = DescriptorType.Pim;
 			Pim = pim;
@@ -17,16 +17,14 @@ namespace GKProcessor
 		{
 			DeviceType = BytesHelper.ShortToBytes(0x107);
 			SetAddress(0);
-			SetFormulaBytes();
 		}
 
-		void SetFormulaBytes()
+		public override void BuildFormula()
 		{
-			if (Formula == null)
+			if (Formula == null || Formula.FormulaOperations.Count == 0)
 			{
 				Formula = new FormulaBuilder();
 				Formula.Add(FormulaOperationType.END);
-				FormulaBytes = Formula.GetBytes();
 			}
 		}
 	}

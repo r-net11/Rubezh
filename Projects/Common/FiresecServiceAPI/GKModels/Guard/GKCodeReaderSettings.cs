@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
@@ -16,16 +17,10 @@ namespace FiresecAPI.GK
 			ResetGuardSettings = new GKCodeReaderSettingsPart();
 			ChangeGuardSettings = new GKCodeReaderSettingsPart();
 			AlarmSettings = new GKCodeReaderSettingsPart();
-
-			AutomaticOnSettings = new GKCodeReaderSettingsPart();
-			AutomaticOffSettings = new GKCodeReaderSettingsPart();
-			StartSettings = new GKCodeReaderSettingsPart();
-			StopSettings = new GKCodeReaderSettingsPart();
+			MPTSettings = new GKCodeReaderSettingsPart();
 
 			SetGuardSettings.CodeReaderEnterType = GKCodeReaderEnterType.CodeAndOne;
 			ResetGuardSettings.CodeReaderEnterType = GKCodeReaderEnterType.CodeAndTwo;
-			AutomaticOnSettings.CodeReaderEnterType = GKCodeReaderEnterType.CodeAndOne;
-			AutomaticOffSettings.CodeReaderEnterType = GKCodeReaderEnterType.CodeAndTwo;
 		}
 
 		/// <summary>
@@ -53,28 +48,10 @@ namespace FiresecAPI.GK
 		public GKCodeReaderSettingsPart AlarmSettings { get; set; }
 
 		/// <summary>
-		/// Настройка на постановку в автоматику
+		/// Настройка кодов МПТ
 		/// </summary>
 		[DataMember]
-		public GKCodeReaderSettingsPart AutomaticOnSettings { get; set; }
-
-		/// <summary>
-		/// Настройка на снятие с автоматики
-		/// </summary>
-		[DataMember]
-		public GKCodeReaderSettingsPart AutomaticOffSettings { get; set; }
-
-		/// <summary>
-		/// Настройка на пуск
-		/// </summary>
-		[DataMember]
-		public GKCodeReaderSettingsPart StartSettings { get; set; }
-
-		/// <summary>
-		/// Настройка на останов
-		/// </summary>
-		[DataMember]
-		public GKCodeReaderSettingsPart StopSettings { get; set; }
+		public GKCodeReaderSettingsPart MPTSettings { get; set; }
 	}
 
 	/// <summary>
@@ -106,5 +83,11 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public int AccessLevel { get; set; }
+
+		[XmlIgnore]
+		public bool CanBeUsed
+		{
+			get { return CodeReaderEnterType != GKCodeReaderEnterType.None && (CodeUIDs.Count > 0 || AccessLevel > 0); }
+		}
 	}
 }

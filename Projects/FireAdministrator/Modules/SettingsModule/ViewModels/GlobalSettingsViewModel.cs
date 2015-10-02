@@ -19,7 +19,7 @@ namespace SettingsModule.ViewModels
 	{
 		public static GlobalSettingsViewModel Curent { get; private set; }
 		public ModulesViewModel ModulesViewModel { get; private set; }
-		public DbSettingsViewModel DbSettingsViewModel { get; private set; } 
+		public DbSettingsViewModel DbSettingsViewModel { get; private set; }
 
 		public GlobalSettingsViewModel()
 		{
@@ -35,13 +35,13 @@ namespace SettingsModule.ViewModels
 			LogsFolderPath = AppDataFolderHelper.GetLogsFolder();
 
 			GetServerAuto();
-			SetServerAuto();
+			GetGKOpcServerAuto();
 			Monitor_HidePlansTree = GlobalSettingsHelper.GlobalSettings.Monitor_HidePlansTree;
 			Monitor_F1_Enabled = GlobalSettingsHelper.GlobalSettings.Monitor_F1_Enabled;
 			Monitor_F2_Enabled = GlobalSettingsHelper.GlobalSettings.Monitor_F2_Enabled;
 			Monitor_F3_Enabled = GlobalSettingsHelper.GlobalSettings.Monitor_F3_Enabled;
 			Monitor_F4_Enabled = GlobalSettingsHelper.GlobalSettings.Monitor_F4_Enabled;
-			
+
 			RemoteAddress = GlobalSettingsHelper.GlobalSettings.RemoteAddress;
 			RemotePort = GlobalSettingsHelper.GlobalSettings.RemotePort;
 			ReportRemotePort = GlobalSettingsHelper.GlobalSettings.ReportRemotePort;
@@ -56,61 +56,53 @@ namespace SettingsModule.ViewModels
 			Server_RemoteIpAddress = GlobalSettingsHelper.GlobalSettings.Server_RemoteIpAddress;
 		}
 
-		public string ServerAutoLabel { get { return "Сервер приложений Глобал"; } }
-
 		void GetServerAuto()
 		{
-			var registryKey = Registry.CurrentUser.OpenSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
-			if (registryKey != null)
+			using (var registryKey = Registry.CurrentUser.OpenSubKey(@"software\Microsoft\Windows\CurrentVersion\Run"))
 			{
-				if (registryKey.GetValue("FiresecService") == null)
-					IsServerAuto = false;
-				registryKey.Close();
+				IsServerAuto = registryKey != null && registryKey.GetValue("FiresecService") != null;
 			}
-			IsServerAuto = true;
 		}
 
 		void SetServerAuto()
 		{
-			var registryKey = Registry.CurrentUser.CreateSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
-			if (registryKey != null)
+			using (var registryKey = Registry.CurrentUser.CreateSubKey(@"software\Microsoft\Windows\CurrentVersion\Run"))
 			{
-				if (IsServerAuto)
+				if (registryKey != null)
 				{
-					var path = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\FiresecService\FiresecService.exe");
-					registryKey.SetValue("FiresecService", path);
+					if (IsServerAuto)
+					{
+						var path = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\FiresecService\FiresecService.exe");
+						registryKey.SetValue("FiresecService", path);
+					}
+					else if (registryKey.GetValue("FiresecService") != null)
+						registryKey.DeleteValue("FiresecService");
 				}
-				else if (registryKey.GetValue("FiresecService") != null)
-					registryKey.DeleteValue("FiresecService");
-				registryKey.Close();
 			}
 		}
 
 		void GetGKOpcServerAuto()
 		{
-			var registryKey = Registry.CurrentUser.OpenSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
-			if (registryKey != null)
+			using (var registryKey = Registry.CurrentUser.OpenSubKey(@"software\Microsoft\Windows\CurrentVersion\Run"))
 			{
-				if (registryKey.GetValue("GKOPCServer") == null)
-					IsGKOpcServerAuto = false;
-				registryKey.Close();
+				IsGKOpcServerAuto = registryKey != null && registryKey.GetValue("GKOPCServer") != null;
 			}
-			IsGKOpcServerAuto = true;
 		}
 
 		void SetGKOpcServerAuto()
 		{
-			var registryKey = Registry.CurrentUser.CreateSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
-			if (registryKey != null)
+			using (var registryKey = Registry.CurrentUser.CreateSubKey(@"software\Microsoft\Windows\CurrentVersion\Run"))
 			{
-				if (IsGKOpcServerAuto)
+				if (registryKey != null)
 				{
-					var path = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\GKOPC\GKOPCServer.exe");
-					registryKey.SetValue("GKOPCServer", path);
+					if (IsGKOpcServerAuto)
+					{
+						var path = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\GKOPC\GKOPCServer.exe");
+						registryKey.SetValue("GKOPCServer", path);
+					}
+					else if (registryKey.GetValue("GKOPCServer") != null)
+						registryKey.DeleteValue("GKOPCServer");
 				}
-				else if (registryKey.GetValue("GKOPCServer") != null)
-					registryKey.DeleteValue("GKOPCServer");
-				registryKey.Close();
 			}
 		}
 

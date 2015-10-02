@@ -6,8 +6,8 @@ namespace GKProcessor
 	{
 		GKZone Zone { get; set; }
 
-		public ZoneDescriptor(GKZone zone, DatabaseType dataBaseType)
-			: base(zone, dataBaseType)
+		public ZoneDescriptor(GKZone zone)
+			: base(zone)
 		{
 			DescriptorType = DescriptorType.Zone;
 			Zone = zone;
@@ -17,16 +17,14 @@ namespace GKProcessor
 		{
 			DeviceType = BytesHelper.ShortToBytes((ushort)0x100);
 			SetAddress((ushort)0);
-			SetFormulaBytes();
 		}
 
-		void SetFormulaBytes()
+		public override void BuildFormula()
 		{
 			Formula = new FormulaBuilder();
 			if ((DatabaseType == DatabaseType.Gk && Zone.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !Zone.IsLogicOnKau))
 			{
 				Formula.Add(FormulaOperationType.END);
-				FormulaBytes = Formula.GetBytes();
 				return;
 			}
 
@@ -38,23 +36,22 @@ namespace GKProcessor
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire2Count, comment: "Количество устройств для формирования Пожар2");
 			Formula.Add(FormulaOperationType.GE);
-			Formula.AddGetBit(GKStateBit.Fire2, Zone, DatabaseType);
+			Formula.AddGetBit(GKStateBit.Fire2, Zone);
 			Formula.Add(FormulaOperationType.OR);
-			Formula.AddPutBit(GKStateBit.Fire2, Zone, DatabaseType);
+			Formula.AddPutBit(GKStateBit.Fire2, Zone);
 
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire1Count, comment: "Количество устройств для формирования Пожар1");
 			Formula.Add(FormulaOperationType.GE);
-			Formula.AddGetBit(GKStateBit.Fire1, Zone, DatabaseType);
+			Formula.AddGetBit(GKStateBit.Fire1, Zone);
 			Formula.Add(FormulaOperationType.OR);
-			Formula.AddPutBit(GKStateBit.Fire1, Zone, DatabaseType);
+			Formula.AddPutBit(GKStateBit.Fire1, Zone);
 
 			Formula.Add(FormulaOperationType.CONST, 0, 1, comment: "Количество устройств для формирования Внимание");
 			Formula.Add(FormulaOperationType.GE);
-			Formula.AddPutBit(GKStateBit.Attention, Zone, DatabaseType);
+			Formula.AddPutBit(GKStateBit.Attention, Zone);
 
 			Formula.Add(FormulaOperationType.END);
-			FormulaBytes = Formula.GetBytes();
 		}
 
 		int AddDeviceFire1()
@@ -64,7 +61,7 @@ namespace GKProcessor
 			{
 				if (device.Driver.AvailableStateBits.Contains(GKStateBit.Fire1))
 				{
-					Formula.AddGetBitOff(GKStateBit.Fire1, device, DatabaseType);
+					Formula.AddGetBitOff(GKStateBit.Fire1, device);
 
 					if (count > 0)
 					{
@@ -85,7 +82,7 @@ namespace GKProcessor
 			{
 				if (device.Driver.AvailableStateBits.Contains(GKStateBit.Fire2))
 				{
-					Formula.AddGetBitOff(GKStateBit.Fire2, device, DatabaseType);
+					Formula.AddGetBitOff(GKStateBit.Fire2, device);
 
 					if (count > 0)
 					{

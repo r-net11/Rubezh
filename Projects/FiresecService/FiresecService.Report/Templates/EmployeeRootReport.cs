@@ -421,15 +421,10 @@ namespace FiresecService.Report.Templates
 				if (passJournal != null)
 				{
 					var dayPassJournals = passJournal.Where(item => item.EmployeeUID == employee.UID).GroupBy(x => x.EnterTime.Date);
-					var timeTrackParts = new List<TimeTrackPart>();
-					foreach (var item in dayPassJournals)
+					var timeTrackParts = new List<SKDDriver.DataClasses.PassJournal>();
+					foreach (var dayPassJournal in dayPassJournals)
 					{
-						var timeTrackDayParts = new List<TimeTrackPart>();
-						foreach (var pass in item)
-						{
-							timeTrackDayParts.Add(new TimeTrackPart { StartTime = new TimeSpan(pass.EnterTime.Ticks), EndTime = new TimeSpan(pass.ExitTime.HasValue ? pass.ExitTime.Value.Ticks : 0), PassJournalUID = pass.UID, ZoneUID = pass.ZoneUID });
-						}
-						timeTrackDayParts = DayTimeTrack.NormalizeTimeTrackParts(timeTrackDayParts);
+						var timeTrackDayParts = NormalizePassJournals(dayPassJournal);
 						timeTrackParts.AddRange(timeTrackDayParts);
 					}
 	
@@ -439,27 +434,33 @@ namespace FiresecService.Report.Templates
 						row.EmployeeRow = employeeRow;
 						if (zoneMap.ContainsKey(pass.ZoneUID))
 							row.Zone = zoneMap[pass.ZoneUID];
-						if (filter.DateTimeFrom.Ticks <= pass.StartTime.Ticks && pass.EndTime.Ticks <= filter.DateTimeTo.Ticks)
+						if (filter.DateTimeFrom.Ticks <= pass.EnterTime.Ticks && (!pass.ExitTime.HasValue || pass.ExitTime.Value.Ticks <= filter.DateTimeTo.Ticks))
 						{
-							row.DateTime = new DateTime(pass.StartTime.Ticks);
+							row.DateTime = new DateTime(pass.EnterTime.Ticks);
 							ds.Data.AddDataRow(row);
-						}
-					}
-					if (timeTrackParts != null && timeTrackParts.Count > 0)
-					{
-						var rows = ds.Data.NewDataRow();
-						rows.EmployeeRow = employeeRow;
-						if (zoneMap.ContainsKey(timeTrackParts.Last().ZoneUID))
-							rows.Zone = zoneMap[timeTrackParts.Last().ZoneUID];
-						if (filter.DateTimeFrom.Ticks <= timeTrackParts.Last().StartTime.Ticks && timeTrackParts.Last().EndTime.Ticks <= filter.DateTimeTo.Ticks)
-						{
-							rows.DateTime = new DateTime(timeTrackParts.Last().EndTime.Ticks);
-							ds.Data.AddDataRow(rows);
 						}
 					}
 				}
 			}
 			return ds;
+		}
+
+		public static List<SKDDriver.DataClasses.PassJournal> NormalizePassJournals(IEnumerable<SKDDriver.DataClasses.PassJournal> passJournals)
+		{
+			if (passJournals.Count() == 0)
+				return new List<SKDDriver.DataClasses.PassJournal>();
+
+			var result = passJournals.OrderBy(x => x.EnterTime).ToList();
+
+			for (int i = result.Count - 1; i > 0; i--)
+			{
+				if (result[i].EnterTime == result[i - 1].ExitTime && result[i].ZoneUID == result[i - 1].ZoneUID)
+				{
+					result[i].EnterTime = result[i - 1].ExitTime.Value;
+					result.RemoveAt(i - 1);
+				}
+			}
+			return result;
 		}
 	}
 }

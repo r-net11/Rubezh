@@ -41,47 +41,59 @@ namespace GKProcessor
 
 		public void StartThread()
 		{
-			IsStopping = false;
-			SetDescriptorsSuspending(false);
-			if (RunThread == null)
+			using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Запуск потока мониторинга"))
 			{
-				StopEvent = new AutoResetEvent(false);
-				RunThread = new Thread(OnRunThread);
-				RunThread.Name = "GK Watcher " + GkDatabase.RootDevice.PresentationName;
-				RunThread.Start();
+				IsStopping = false;
+				SetDescriptorsSuspending(false);
+				if (RunThread == null)
+				{
+					StopEvent = new AutoResetEvent(false);
+					RunThread = new Thread(OnRunThread);
+					RunThread.Name = "GK Watcher " + GkDatabase.RootDevice.PresentationName;
+					RunThread.Start();
+				}
 			}
 		}
 
 		public void StopThread()
 		{
-			IsStopping = true;
-			if (StopEvent != null)
+			using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Остановка потока мониторинга"))
 			{
-				StopEvent.Set();
+				IsStopping = true;
+				if (StopEvent != null)
+				{
+					StopEvent.Set();
+				}
+				if (RunThread != null)
+				{
+					RunThread.Join(TimeSpan.FromSeconds(5));
+				}
+				RunThread = null;
+				SetDescriptorsSuspending(true);
 			}
-			if (RunThread != null)
-			{
-				RunThread.Join(TimeSpan.FromSeconds(5));
-			}
-			RunThread = null;
-			SetDescriptorsSuspending(true);
 		}
 
 		public void Suspend()
 		{
-			IsSuspending = true;
-			if (StopEvent != null)
+			using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Приостановка потока мониторинга"))
 			{
-				StopEvent.Set();
+				IsSuspending = true;
+				if (StopEvent != null)
+				{
+					StopEvent.Set();
+				}
+				SetDescriptorsSuspending(true);
 			}
-			SetDescriptorsSuspending(true);
 		}
 
 		public void Resume()
 		{
-			IsSuspending = false;
-			SuspendingEvent.Set();
-			SetDescriptorsSuspending(false);
+			using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Возобновление потока мониторинга"))
+			{
+				IsSuspending = false;
+				SuspendingEvent.Set();
+				SetDescriptorsSuspending(false);
+			}
 		}
 
 		bool ReturnAfterWait(int milliSeconds)
@@ -217,34 +229,38 @@ namespace GKProcessor
 					descriptor.GKBase.InternalState.IsInitialState = true;
 				}
 
-				var deviceInfo = DeviceBytesHelper.GetDeviceInfo(GkDatabase.RootDevice);
-				var result = string.IsNullOrEmpty(deviceInfo);
-				if (IsPingFailure != result)
+				using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Проверка связи"))
 				{
-					GKCallbackResult = new GKCallbackResult();
-					IsPingFailure = result;
-					if (IsPingFailure)
-						AddFailureJournalItem(JournalEventNameType.Нет_связи_с_ГК, JournalEventDescriptionType.Старт_мониторинга);
-					else
-						AddFailureJournalItem(JournalEventNameType.Связь_с_ГК_восстановлена, JournalEventDescriptionType.Старт_мониторинга);
-
-					foreach (var descriptor in GkDatabase.Descriptors)
+					var deviceInfo = DeviceBytesHelper.GetDeviceInfo(GkDatabase.RootDevice);
+					var pingResult = string.IsNullOrEmpty(deviceInfo);
+					if (IsPingFailure != pingResult)
 					{
-						descriptor.GKBase.InternalState.IsConnectionLost = IsPingFailure;
-						descriptor.GKBase.InternalState.IsInitialState = !IsPingFailure;
+						GKCallbackResult = new GKCallbackResult();
+						IsPingFailure = pingResult;
+						if (IsPingFailure)
+							AddFailureJournalItem(JournalEventNameType.Нет_связи_с_ГК, JournalEventDescriptionType.Старт_мониторинга);
+						else
+							AddFailureJournalItem(JournalEventNameType.Связь_с_ГК_восстановлена, JournalEventDescriptionType.Старт_мониторинга);
+
+						foreach (var descriptor in GkDatabase.Descriptors)
+						{
+							descriptor.GKBase.InternalState.IsConnectionLost = IsPingFailure;
+							descriptor.GKBase.InternalState.IsInitialState = !IsPingFailure;
+						}
+						NotifyAllObjectsStateChanged();
+						OnGKCallbackResult(GKCallbackResult);
 					}
-					NotifyAllObjectsStateChanged();
-					OnGKCallbackResult(GKCallbackResult);
+
+					if (IsPingFailure)
+					{
+						gkLifecycleManager.SetError("Ошибка");
+						if (ReturnAfterWait(5000))
+							return false;
+						continue;
+					}
 				}
 
-				if (IsPingFailure)
-				{
-					if (ReturnAfterWait(5000))
-						return false;
-					continue;
-				}
-
-				result = CheckTechnologicalRegime();
+				var result = CheckTechnologicalRegime();
 				if (IsInTechnologicalRegime != result)
 				{
 					GKCallbackResult = new GKCallbackResult();
@@ -260,38 +276,43 @@ namespace GKProcessor
 
 				if (IsInTechnologicalRegime)
 				{
+					GKLifecycleManager.Add(GkDatabase.RootDevice, "Устройство в технологическом режиме");
 					if (ReturnAfterWait(5000))
 						return false;
 					continue;
 				}
 
-				var hashBytes = GKFileInfo.CreateHash1(GKManager.DeviceConfiguration, GkDatabase.RootDevice);
-				var gkFileReaderWriter = new GKFileReaderWriter();
-				var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
-				result = gkFileInfo == null || !GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash1);
-				if (IsHashFailure != result)
+				using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Запрос хэша"))
 				{
-					GKCallbackResult = new GKCallbackResult();
-					IsHashFailure = result;
-					if (IsHashFailure)
-						AddFailureJournalItem(JournalEventNameType.Конфигурация_прибора_не_соответствует_конфигурации_ПК, JournalEventDescriptionType.Не_совпадает_хэш);
-					else
-						AddFailureJournalItem(JournalEventNameType.Конфигурация_прибора_соответствует_конфигурации_ПК, JournalEventDescriptionType.Совпадает_хэш);
-
-					foreach (var descriptor in GkDatabase.Descriptors)
+					var hashBytes = GKFileInfo.CreateHash1(GkDatabase.RootDevice);
+					var gkFileReaderWriter = new GKFileReaderWriter();
+					var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
+					result = gkFileInfo == null || !GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash1);
+					if (IsHashFailure != result)
 					{
-						descriptor.GKBase.InternalState.IsDBMissmatch = IsHashFailure;
-						descriptor.GKBase.InternalState.IsInitialState = false;
-					}
-					NotifyAllObjectsStateChanged();
-					OnGKCallbackResult(GKCallbackResult);
-				}
+						GKCallbackResult = new GKCallbackResult();
+						IsHashFailure = result;
+						if (IsHashFailure)
+							AddFailureJournalItem(JournalEventNameType.Конфигурация_прибора_не_соответствует_конфигурации_ПК, JournalEventDescriptionType.Не_совпадает_хэш);
+						else
+							AddFailureJournalItem(JournalEventNameType.Конфигурация_прибора_соответствует_конфигурации_ПК, JournalEventDescriptionType.Совпадает_хэш);
 
-				if (IsHashFailure)
-				{
-					if (ReturnAfterWait(5000))
-						return false;
-					continue;
+						foreach (var descriptor in GkDatabase.Descriptors)
+						{
+							descriptor.GKBase.InternalState.IsDBMissmatch = IsHashFailure;
+							descriptor.GKBase.InternalState.IsInitialState = false;
+						}
+						NotifyAllObjectsStateChanged();
+						OnGKCallbackResult(GKCallbackResult);
+					}
+
+					if (IsHashFailure)
+					{
+						gkLifecycleManager.SetError(gkFileInfo == null? "Ошибка" : "Не совпадает хэш");
+						if (ReturnAfterWait(5000))
+							return false;
+						continue;
+					}
 				}
 
 				GKCallbackResult = new GKCallbackResult();
@@ -310,22 +331,29 @@ namespace GKProcessor
 					else
 						AddFailureJournalItem(JournalEventNameType.Устранена_ошибка_при_опросе_состояний_компонентов_ГК);
 				}
-				OnGKCallbackResult(GKCallbackResult);
+				using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Передача состояний объектов"))
+				{
+					OnGKCallbackResult(GKCallbackResult);
+				}
 
 				if (IsGetStatesFailure)
 				{
+					GKLifecycleManager.Add(GkDatabase.RootDevice, "Ошибки при опросе состояний объектов");
 					if (ReturnAfterWait(5000))
 						return false;
 					continue;
 				}
 
-				GKCallbackResult = new GKCallbackResult();
-				foreach (var descriptor in GkDatabase.Descriptors)
+				using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Передача состояний объектов"))
 				{
-					descriptor.GKBase.InternalState.IsInitialState = false;
+					GKCallbackResult = new GKCallbackResult();
+					foreach (var descriptor in GkDatabase.Descriptors)
+					{
+						descriptor.GKBase.InternalState.IsInitialState = false;
+					}
+					NotifyAllObjectsStateChanged();
+					OnGKCallbackResult(GKCallbackResult);
 				}
-				NotifyAllObjectsStateChanged();
-				OnGKCallbackResult(GKCallbackResult);
 
 				return true;
 			}
@@ -333,114 +361,123 @@ namespace GKProcessor
 
 		void RunMonitoring()
 		{
-			var hasLicense = FiresecLicenseManager.CurrentLicenseInfo.LicenseMode != LicenseMode.NoLicense;
-			if (HasLicense != hasLicense)
+			using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Цикл мониторинга"))
 			{
-				HasLicense = hasLicense;
-				foreach (var descriptor in GkDatabase.Descriptors)
+				gkLifecycleManager.AddItem("Проверка лицензии");
+				var hasLicense = FiresecLicenseManager.CurrentLicenseInfo.LicenseMode != LicenseMode.NoLicense;
+				if (HasLicense != hasLicense)
 				{
-					descriptor.GKBase.InternalState.IsNoLicense = !HasLicense;
-				}
-				NotifyAllObjectsStateChanged();
-			}
-			if (!hasLicense)
-				return;
-
-			if (WatcherManager.IsConfigurationReloading)
-			{
-				if ((DateTime.Now - WatcherManager.LastConfigurationReloadingTime).TotalSeconds > 100)
-					WatcherManager.IsConfigurationReloading = false;
-			}
-			if (WatcherManager.IsConfigurationReloading)
-				return;
-
-			if (IsDBMissmatchDuringMonitoring)
-			{
-				if ((DateTime.Now - LastMissmatchCheckTime).TotalSeconds > 60)
-				{
-					GetAllStates();
-					LastMissmatchCheckTime = DateTime.Now;
-				}
-				return;
-			}
-
-			try
-			{
-				if (MustCheckTechnologicalRegime)
-				{
-					if ((DateTime.Now - LastTechnologicalRegimeCheckTime).TotalSeconds > 10)
+					HasLicense = hasLicense;
+					foreach (var descriptor in GkDatabase.Descriptors)
 					{
-						LastTechnologicalRegimeCheckTime = DateTime.Now;
-						CheckTechnologicalRegime();
-						NotifyAllObjectsStateChanged();
+						descriptor.GKBase.InternalState.IsNoLicense = !HasLicense;
+					}
+					NotifyAllObjectsStateChanged();
+				}
+				if (!hasLicense)
+					return;
 
-						TechnologicalRegimeCheckCount++;
-						if (TechnologicalRegimeCheckCount >= 10)
-							MustCheckTechnologicalRegime = false;
+				if (WatcherManager.IsConfigurationReloading)
+				{
+					if ((DateTime.Now - WatcherManager.LastConfigurationReloadingTime).TotalSeconds > 100)
+						WatcherManager.IsConfigurationReloading = false;
+				}
+				if (WatcherManager.IsConfigurationReloading)
+					return;
+
+				if (IsDBMissmatchDuringMonitoring)
+				{
+					if ((DateTime.Now - LastMissmatchCheckTime).TotalSeconds > 60)
+					{
+						gkLifecycleManager.AddItem("Ошибка сопоставления конфигурации. Опрос объектов");
+						GetAllStates();
+						LastMissmatchCheckTime = DateTime.Now;
+					}
+					return;
+				}
+
+				try
+				{
+					if (MustCheckTechnologicalRegime)
+					{
+						if ((DateTime.Now - LastTechnologicalRegimeCheckTime).TotalSeconds > 10)
+						{
+							LastTechnologicalRegimeCheckTime = DateTime.Now;
+							CheckTechnologicalRegime();
+							NotifyAllObjectsStateChanged();
+
+							TechnologicalRegimeCheckCount++;
+							if (TechnologicalRegimeCheckCount >= 10)
+								MustCheckTechnologicalRegime = false;
+						}
 					}
 				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Watcher.OnRunThread CheckTechnologicalRegime");
-			}
-
-			try
-			{
-				CheckTasks();
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Watcher.OnRunThread CheckTasks");
-			}
-
-			try
-			{
-				CheckDelays();
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Watcher.OnRunThread CheckDelays");
-			}
-
-			try
-			{
-				PingJournal();
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Watcher.OnRunThread PingJournal");
-			}
-
-			try
-			{
-				PingNextState();
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Watcher.OnRunThread PingNextState");
-			}
-
-			try
-			{
-				CheckMeasure();
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Watcher.OnRunThread CheckMeasure");
-			}
-
-			try
-			{
-				if ((DateTime.Now - LastKAUMeasureTime) > TimeSpan.FromHours(1))
+				catch (Exception e)
 				{
-					LastKAUMeasureTime = DateTime.Now;
-					CheckKAUMeasure();
+					Logger.Error(e, "Watcher.OnRunThread CheckTechnologicalRegime");
 				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Watcher.OnRunThread CheckKAUMeasure");
+
+				try
+				{
+					gkLifecycleManager.AddItem("Проверка задач");
+					CheckTasks();
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "Watcher.OnRunThread CheckTasks");
+				}
+
+				try
+				{
+					gkLifecycleManager.AddItem("Проверка задержек");
+					CheckDelays();
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "Watcher.OnRunThread CheckDelays");
+				}
+
+				try
+				{
+					PingJournal();
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "Watcher.OnRunThread PingJournal");
+				}
+
+				try
+				{
+					PingNextState();
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "Watcher.OnRunThread PingNextState");
+				}
+
+				try
+				{
+					gkLifecycleManager.AddItem("Проверка измерений");
+					CheckMeasure();
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "Watcher.OnRunThread CheckMeasure");
+				}
+
+				try
+				{
+					if ((DateTime.Now - LastKAUMeasureTime) > TimeSpan.FromHours(1))
+					{
+						LastKAUMeasureTime = DateTime.Now;
+						gkLifecycleManager.AddItem("Измерение токопотребления");
+						CheckKAUMeasure();
+					}
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "Watcher.OnRunThread CheckKAUMeasure");
+				}
 			}
 		}
 
@@ -469,20 +506,24 @@ namespace GKProcessor
 				journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkIpAddress.ToString()));
 		}
 
-		void OnObjectStateChanged(GKBase gkBase)
+		void OnObjectStateChanged(GKBase gkBase, bool overrideExistingDeviceStates = true)
 		{
-			AddObjectStateToGKStates(GKCallbackResult.GKStates, gkBase);
+			AddObjectStateToGKStates(GKCallbackResult.GKStates, gkBase, overrideExistingDeviceStates);
 		}
 
-		public static void AddObjectStateToGKStates(GKStates gkStates, GKBase gkBase)
+		public static void AddObjectStateToGKStates(GKStates gkStates, GKBase gkBase, bool overrideExistingDeviceStates = true)
 		{
 			if (gkBase.State != null)
 			{
 				gkBase.InternalState.CopyToGKState(gkBase.State);
 				if (gkBase is GKDevice)
 				{
-					gkStates.DeviceStates.RemoveAll(x => x.UID == gkBase.UID);
+					if (overrideExistingDeviceStates)
+					{
+						gkStates.DeviceStates.RemoveAll(x => x.UID == gkBase.UID);
+					}
 					gkStates.DeviceStates.Add(gkBase.State);
+
 				}
 				if (gkBase is GKZone)
 				{

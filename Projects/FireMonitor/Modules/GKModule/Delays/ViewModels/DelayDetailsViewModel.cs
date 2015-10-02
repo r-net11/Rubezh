@@ -38,7 +38,6 @@ namespace GKModule.ViewModels
 			TurnOnCommand = new RelayCommand(OnTurnOn);
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
-			ForbidStartCommand = new RelayCommand(OnForbidStart);
 		}
 		private void InitializePlans()
 		{
@@ -170,15 +169,6 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand ForbidStartCommand { get; private set; }
-		void OnForbidStart()
-		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				FiresecManager.FiresecService.GKStop(Delay);
-			}
-		}
-
 		public bool HasOnDelay
 		{
 			get { return State.StateClasses.Contains(XStateClass.TurningOn) && State.OnDelay > 0; }
@@ -197,11 +187,8 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showArchiveEventArgs = new ShowArchiveEventArgs()
-			{
-				GKDelay = Delay
-			};
-			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
+			if(Delay != null)
+				ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(new List<Guid> { Delay.UID });
 		}
 
 		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
@@ -215,7 +202,6 @@ namespace GKModule.ViewModels
 			get { return FiresecManager.CheckPermission(PermissionType.Oper_Delay_Control); }
 
 		}
-
 
 		#region IWindowIdentity Members
 		public string Guid

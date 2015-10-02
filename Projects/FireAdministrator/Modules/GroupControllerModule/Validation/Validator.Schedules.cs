@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using FiresecAPI.GK;
-using FiresecClient.SKDHelpers;
-using Infrastructure.Common.Validation;
+﻿using FiresecClient.SKDHelpers;
 
 namespace GKModule.Validation
 {

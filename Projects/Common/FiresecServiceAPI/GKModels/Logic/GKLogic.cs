@@ -83,6 +83,5 @@ namespace FiresecAPI.GK
 			gkClauseGroup.ClauseGroups.ForEach(x => clauses.AddRange(GetAllClausesOfGroup(x)));
 			return clauses;
 		}
-
 	}
 }

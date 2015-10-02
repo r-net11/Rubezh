@@ -12,68 +12,17 @@ namespace GKProcessor
 			DatabaseType = DatabaseType.Kau;
 			RootDevice = kauDevice;
 
-			AllDevices = new List<GKDevice>();
 			AddChild(RootDevice);
-
-			foreach (var device in AllDevices)
-			{
-				device.KauDatabaseParent = RootDevice;
-				Devices.Add(device);
-			}
-
-			foreach (var delay in GKManager.Delays.Where(x => x.KauDatabaseParent == RootDevice))
-			{
-				delay.KauDatabaseParent = RootDevice;
-				Delays.Add(delay);
-			}
-
-			foreach (var zone in GKManager.Zones.Where(x => x.KauDatabaseParent == RootDevice))
-			{
-				zone.KauDatabaseParent = RootDevice;
-				Zones.Add(zone);
-			}
-
-			foreach (var guardZone in GKManager.GuardZones.Where(x => x.KauDatabaseParent == RootDevice && !x.HasAccessLevel))
-			{
-				guardZone.KauDatabaseParent = RootDevice;
-				GuardZones.Add(guardZone);
-			}
-
-			foreach (var direction in GKManager.Directions.Where(x => x.KauDatabaseParent == RootDevice))
-			{
-				direction.KauDatabaseParent = RootDevice;
-				Directions.Add(direction);
-			}
-
-			foreach (var pumpStation in GKManager.PumpStations.Where(x => x.KauDatabaseParent == RootDevice))
-			{
-				pumpStation.KauDatabaseParent = RootDevice;
-				PumpStations.Add(pumpStation);
-			}
-
-			foreach (var mpt in GKManager.DeviceConfiguration.MPTs.Where(x => x.KauDatabaseParent == RootDevice))
-			{
-				mpt.KauDatabaseParent = RootDevice;
-				MPTs.Add(mpt);
-			}
-
-			foreach (var code in GKManager.DeviceConfiguration.Codes)
-			{
-				if (code.KauDatabaseParent == RootDevice)
-				{					
-					Codes.Add(code);
-				}
-			}
+			Devices.ForEach(x => x.KauDatabaseParent = RootDevice);
 		}
 
-		List<GKDevice> AllDevices;
 		void AddChild(GKDevice device)
 		{
 			if (device.IsNotUsed)
 				return;
 
 			if (device.IsRealDevice)
-				AllDevices.Add(device);
+				Devices.Add(device);
 
 			foreach (var child in device.Children)
 			{
@@ -86,75 +35,80 @@ namespace GKProcessor
 			Descriptors = new List<BaseDescriptor>();
 			foreach (var device in Devices)
 			{
-				device.KAUDescriptorNo = NextDescriptorNo;
-				var deviceDescriptor = new DeviceDescriptor(device, DatabaseType);
+				var deviceDescriptor = new DeviceDescriptor(device);
 				Descriptors.Add(deviceDescriptor);
 			}
 
-			foreach (var zone in Zones)
+			foreach (var zone in GKManager.Zones.Where(x => x.KauDatabaseParent == RootDevice))
 			{
-				zone.KAUDescriptorNo = NextDescriptorNo;
-				var zoneDescriptor = new ZoneDescriptor(zone, DatabaseType.Kau);
+				var zoneDescriptor = new ZoneDescriptor(zone);
 				Descriptors.Add(zoneDescriptor);
 			}
 
-			foreach (var guardZone in GuardZones)
+			foreach (var guardZone in GKManager.GuardZones.Where(x => x.KauDatabaseParent == RootDevice && !x.HasAccessLevel))
 			{
-				guardZone.KAUDescriptorNo = NextDescriptorNo;
-				var guardZoneDescriptor = new GuardZoneDescriptor(guardZone, DatabaseType.Kau);
+				var guardZoneDescriptor = new GuardZoneDescriptor(guardZone);
 				Descriptors.Add(guardZoneDescriptor);
 
 				if (guardZoneDescriptor.GuardZonePimDescriptor != null)
 				{
-					AddPim(guardZone.Pim);
 					Descriptors.Add(guardZoneDescriptor.GuardZonePimDescriptor);
 				}
 			}
 
-			foreach (var direction in Directions)
+			foreach (var direction in GKManager.Directions.Where(x => x.KauDatabaseParent == RootDevice))
 			{
-				direction.KAUDescriptorNo = NextDescriptorNo;
-				var directionDescriptor = new DirectionDescriptor(direction, DatabaseType.Kau);
+				var directionDescriptor = new DirectionDescriptor(direction);
 				Descriptors.Add(directionDescriptor);
 			}
 
-			foreach (var delay in Delays)
+			foreach (var delay in GKManager.Delays.Where(x => x.KauDatabaseParent == RootDevice))
 			{
-				delay.KAUDescriptorNo = NextDescriptorNo;
-				var delayDescriptor = new DelayDescriptor(delay, DatabaseType.Kau);
+				var delayDescriptor = new DelayDescriptor(delay);
 				Descriptors.Add(delayDescriptor);
 			}
 
-			foreach (var pumpStation in PumpStations)
+			foreach (var pumpStation in GKManager.PumpStations.Where(x => x.KauDatabaseParent == RootDevice))
 			{
-				pumpStation.KAUDescriptorNo = NextDescriptorNo;
-				var pumpStationDescriptor = new PumpStationDescriptor(this, pumpStation, DatabaseType.Kau);
+				var pumpStationDescriptor = new PumpStationDescriptor(this, pumpStation);
 				Descriptors.Add(pumpStationDescriptor);
 
 				var pumpStationCreator = new PumpStationCreator(this, pumpStation, DatabaseType.Kau);
 				pumpStationCreator.Create();
 			}
 
-			foreach (var mpt in MPTs)
+			foreach (var mpt in GKManager.DeviceConfiguration.MPTs.Where(x => x.KauDatabaseParent == RootDevice))
 			{
-				mpt.KAUDescriptorNo = NextDescriptorNo;
-				var mptDescriptor = new MPTDescriptor(this, mpt, DatabaseType.Kau);
+				var mptDescriptor = new MPTDescriptor(this, mpt);
 				Descriptors.Add(mptDescriptor);
 
 				var mptCreator = new MPTCreator(mpt);
-				mptCreator.SetCrossReferences();
 			}
 
-			foreach (var code in Codes)
+			foreach (var code in GKManager.DeviceConfiguration.Codes.Where(x => x.KauDatabaseParent == RootDevice))
 			{
-				code.KAUDescriptorNo = NextDescriptorNo;
-				var codeDescriptor = new CodeDescriptor(code, DatabaseType.Kau);
+				var codeDescriptor = new CodeDescriptor(code);
 				Descriptors.Add(codeDescriptor);
 			}
 
+			ushort no = 1;
+			foreach (var descriptor in Descriptors)
+			{
+				descriptor.No = descriptor.GKBase.KAUDescriptorNo = no++;
+				descriptor.DatabaseType = DatabaseType.Kau;
+				descriptor.GKBase.KauDatabaseParent = RootDevice; // для автосгенерированных объектов
+			}
 			foreach (var descriptor in Descriptors)
 			{
 				descriptor.Build();
+				if (!descriptor.IsFormulaGeneratedOutside && descriptor.GKBase.IsLogicOnKau)
+				{
+					descriptor.BuildFormula();
+				}
+				descriptor.Formula.Resolve(this);
+				descriptor.FormulaBytes = descriptor.Formula.GetBytes();
+				descriptor.GKBase.InputDescriptors = descriptor.GKBase.InputDescriptors.OrderBy(x => x.No).ToList();
+				descriptor.GKBase.OutputDescriptors = descriptor.GKBase.OutputDescriptors.OrderBy(x => x.No).ToList();
 				descriptor.InitializeAllBytes();
 			}
 		}

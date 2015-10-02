@@ -113,7 +113,7 @@
 					<DataGridTemplateColumn MinWidth="25" Header="Адрес">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding Device.Address}" />
+								<TextBlock Text="{Binding Device.DottedPresentationAddress}" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
