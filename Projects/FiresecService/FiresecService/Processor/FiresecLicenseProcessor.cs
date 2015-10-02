@@ -1,6 +1,4 @@
-﻿using System.Net;
-using System.Net.Sockets;
-using FiresecAPI.Journal;
+﻿using FiresecAPI.Journal;
 using FiresecLicense;
 using GKProcessor;
 using Infrastructure.Common;
@@ -76,19 +74,11 @@ namespace FiresecService.Processor
 			else
 				FiresecLicenseManager.CurrentLicenseInfo = licenseInfo;
 		}
-		
+
 		public static bool TryLoadLicense()
 		{
-
-#if DEBUG
-			var host = Dns.GetHostEntry(Dns.GetHostName());
-			var ip = host.AddressList.FirstOrDefault(x => x.AddressFamily == AddressFamily.InterNetwork);
-			if (ip != null && ip.ToString() == "172.16.5.27")
-			{
-				LicenseHelper.SetLicense(LicenseMode.HasLicense, 10, true, true, true, true, true);
-				return true;
-			}
-#endif
+			var licenseInfo = FiresecLicenseManager.TryLoad(AppDataFolderHelper.GetFile("FiresecService.license"));
+			if (licenseInfo == null)
 				return false;
 			SetLicense(licenseInfo);
 			return true;

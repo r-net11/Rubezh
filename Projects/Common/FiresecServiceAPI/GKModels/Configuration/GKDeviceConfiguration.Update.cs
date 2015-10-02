@@ -494,16 +494,6 @@ namespace FiresecAPI.GK
 			OPCSettings.DoorUIDs = Doors.Where(x => OPCSettings.DoorUIDs.Contains(x.UID)).Select(x => x.UID).ToList();
 		}			
 
-				}
-				if (door.DoorType == GKDoorType.AirlockBooth || door.DoorType == GKDoorType.Barrier)
-				{
-
-
-					door.LockControlDevice = Devices.FirstOrDefault(x => x.UID == door.LockControlDeviceUID);
-					if (door.LockControlDevice == null)
-						door.LockControlDeviceUID = Guid.Empty;
-					else
-						door.LockControlDevice.Door = door;
 		void UpdateGKChildrenDescription()
 		{
 			foreach (var gkControllerDevice in RootDevice.Children)

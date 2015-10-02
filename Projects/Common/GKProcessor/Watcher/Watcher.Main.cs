@@ -364,7 +364,7 @@ namespace GKProcessor
 			using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Цикл мониторинга"))
 			{
 				gkLifecycleManager.AddItem("Проверка лицензии");
-				var hasLicense = LicenseHelper.LicenseMode != LicenseMode.NoLicense;
+				var hasLicense = FiresecLicenseManager.CurrentLicenseInfo.LicenseMode != LicenseMode.NoLicense;
 				if (HasLicense != hasLicense)
 				{
 					HasLicense = hasLicense;

@@ -7,6 +7,7 @@ using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using SKDDriver.DataClasses;
 using System.Diagnostics;
+using Infrastructure.Automation;
 
 namespace FiresecService.Service
 {
@@ -48,7 +49,7 @@ namespace FiresecService.Service
 			FiresecService.NotifyNewJournalItems(journalItems);
 			foreach (var journalItem in journalItems)
 			{
-				ProcedureRunner.RunOnJournal(journalItem);
+				AutomationProcessor.RunOnJournal(journalItem);
 			}
 		}
 

@@ -12,7 +12,6 @@ namespace GKProcessor
 		GKPumpStation PumpStation;
 		List<GKDevice> FirePumpDevices = new List<GKDevice>();
 		List<GKDevice> JockeyPumpDevices = new List<GKDevice>();
-		GKDevice JNPumpDevice;
 		List<PumpDelay> PumpDelays = new List<PumpDelay>();
 		DatabaseType DatabaseType;
 

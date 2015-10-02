@@ -36,7 +36,7 @@ namespace FiresecService.ViewModels
 
 		void SetTitle()
 		{
-			Title = LicenseHelper.LicenseMode == LicenseMode.Demonstration ?
+			Title = FiresecLicenseManager.CurrentLicenseInfo.LicenseMode == LicenseMode.Demonstration ?
 				"Сервер приложений Глобал [Демонстрационный режим]" :
 			   "Сервер приложений Глобал";
 		}

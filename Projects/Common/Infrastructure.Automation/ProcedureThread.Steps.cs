@@ -21,7 +21,6 @@ namespace Infrastructure.Automation
 		{
 			var messageValue = GetValue<object>(procedureStep.JournalArguments.MessageArgument);
 			ProcedureExecutionContext.AddJournalItem(GetStringValue(messageValue));
-			Service.FiresecService.AddCommonJournalItems(new List<JournalItem>() { journalItem });
 		}
 
 		bool Compare(ProcedureStep procedureStep)
@@ -1017,8 +1016,6 @@ namespace Infrastructure.Automation
 		void SetValue(Argument argument, object propertyValue)
 		{
 			ProcedureExecutionContext.SetVariableValue(AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid), propertyValue);
-			if (target.ExplicitType == ExplicitType.Object)
-				target.ExplicitValue.UidValue = (Guid) propertyValue;
 		}
 		
 		T GetValue<T>(Argument argument)

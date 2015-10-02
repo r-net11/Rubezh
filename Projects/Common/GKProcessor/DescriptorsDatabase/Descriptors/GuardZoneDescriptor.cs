@@ -73,7 +73,7 @@ namespace GKProcessor
 				GuardZonePimDescriptor = new GuardZonePimDescriptor(GuardZone);
 			}
 			else
-				GuardZone.LinkObject(GuardZone);
+				GuardZone.LinkToDescriptor(GuardZone);
 		}
 
 		public override void Build()
