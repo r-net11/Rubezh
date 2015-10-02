@@ -8,11 +8,12 @@ using ResursNetwork.Devices.ValueConverters;
 using ResursNetwork.OSI.Messages;
 using ResursNetwork.OSI.Messages.Transaction;
 using ResursNetwork.OSI.ApplicationLayer;
+using ResursNetwork.Incotex.Models.DateTime;
 using ResursNetwork.Incotex.NetworkControllers.Messages;
 using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer;
 using Common;
 
-namespace ResursNetwork.Incotex.Model
+namespace ResursNetwork.Incotex.Models
 {
     /// <summary>
     /// Модель данных счётчика Меркурий M203
@@ -74,15 +75,16 @@ namespace ResursNetwork.Incotex.Model
                 ValueConverter = new BigEndianUint32ValueConverter(),
                 Value = (UInt32)0
             });
-            _Parameters.Add(new Parameter(typeof(UInt32)) 
+
+            _Parameters.Add(new Parameter(typeof(IncotexDateTime)) 
             { 
                 Index = (UInt32)ParameterIndexes.DATETIME, 
                 Name = "Дата и время", 
                 Description = "Текущее значение часов счётчика",
                 PollingEnabled = true, 
                 ReadOnly = false,
-                ValueConverter = new BigEndianUint32ValueConverter(),
-                Value = (UInt32)0
+                ValueConverter = new IncotexDataTimeTypeConverter(),
+                Value = new IncotexDateTime()
             });
         }
         /// <summary>
@@ -221,11 +223,9 @@ namespace ResursNetwork.Incotex.Model
                 }
                 
                 //Всё в порядке выполняем изменение сетевого адреса
-                UInt32 adr = 0;
-                adr = ((UInt32)answerArray[0]) << 24;
-                adr |= ((UInt32)answerArray[1]) << 16;
-                adr |= ((UInt32)answerArray[2]) << 8;
-                adr |= answerArray[3];
+                var converter = new BigEndianUint32ValueConverter();
+                var adr = (UInt32)converter.FromArray(
+                    new Byte[] { answerArray[0], answerArray[1], answerArray[2], answerArray[3] });
 
                 Address = adr;
                 command.Status = Result.OK;

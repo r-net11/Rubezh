@@ -12,7 +12,7 @@ using ResursNetwork.OSI.Messages.Transaction;
 using ResursNetwork.Devices;
 using ResursNetwork.Devices.Collections.ObjectModel;
 using ResursNetwork.Management;
-using ResursNetwork.Incotex.Model;
+using ResursNetwork.Incotex.Models;
 using ResursNetwork.Incotex.NetworkControllers.Messages;
 using Common;
 
