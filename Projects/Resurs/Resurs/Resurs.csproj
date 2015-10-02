@@ -173,8 +173,8 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Apartments\ViewModels\ApartmentDetailsViewModel.Common.cs" />
-    <Compile Include="Apartments\ViewModels\ApartmentsFolderDetailsViewModel.cs" />
     <Compile Include="Apartments\ViewModels\ApartmentDetailsViewModel.cs" />
+    <Compile Include="Apartments\ViewModels\ApartmentsFolderDetailsViewModel.cs" />
     <Compile Include="Apartments\ViewModels\ApartmentsViewModel.cs" />
     <Compile Include="Apartments\ViewModels\ApartmentViewModel.cs" />
     <Compile Include="Apartments\Views\ApartmentsFolderDetailsView.xaml.cs">

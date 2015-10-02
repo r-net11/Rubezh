@@ -14,10 +14,10 @@ namespace ResursAPI
 		}
 		[Key]
 		public Guid UID { get; set; }
-
 		public JournalType JurnalType { get; set; }
-
 		public DateTime DateTime { get; set; }
-
-		public string NameUser { get; set; }	}
+		[MaxLength(100)]
+		public string NameUser { get; set; }
+		public string ObjectName { get; set; }
+	}
 }

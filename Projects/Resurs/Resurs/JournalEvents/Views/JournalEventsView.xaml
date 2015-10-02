@@ -12,7 +12,9 @@
 		</StackPanel>
 		<DataGrid Grid.Row="1" ItemsSource="{Binding Events}" SelectedItem="{Binding SelectedEvent}" CanUserSortColumns="True">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Имя" SortMemberPath="Journal.UserName" Width="*">
+				<DataGridTextColumn Binding="{Binding Journal.DateTime,Converter={StaticResource TimeToStringConverter}}" Width="Auto" Header="Время" />
+				<DataGridTextColumn Binding="{Binding Journal.JurnalType}" Width="*" Header="Событие" />
+				<DataGridTemplateColumn Header="Пользователи" SortMemberPath="Journal.UserName" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -22,8 +24,6 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Binding="{Binding Journal.DateTime,Converter={StaticResource TimeToStringConverter}}" Width="*" Header="Время" />
-				<DataGridTextColumn Binding="{Binding Journal.JurnalType}" Width="*" Header="События" />
 			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>
