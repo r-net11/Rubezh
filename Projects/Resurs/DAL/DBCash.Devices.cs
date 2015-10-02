@@ -6,7 +6,6 @@ using System.Text;
 using System.Data.Entity;
 using System.Runtime.Serialization;
 using Infrastructure.Common.Windows;
-using System.Diagnostics;
 
 
 namespace ResursDAL
@@ -31,8 +30,6 @@ namespace ResursDAL
 				using (var context = DatabaseContext.Initialize())
 				{
 					
-					var stopwatch = new Stopwatch();
-					stopwatch.Start();
 					var tableItems = context.Devices.Select(x => new 
 						{ 
 							UID = x.UID, 
@@ -161,8 +158,8 @@ namespace ResursDAL
 				RootDevice = new Device(DriverType.System);
 				devices.Add(RootDevice);
 #if DEBUG
-				int interfaces = 10;
-				int devicesPerInterface = 1000;
+				int interfaces = 2;
+				int devicesPerInterface = 10;
 				for (int i = 0; i < interfaces / 2; i++)
 				{
 					var interfaceDevice = new Device(DriverType.BeregunInterface, RootDevice);
