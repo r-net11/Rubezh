@@ -2,6 +2,8 @@
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Resurs.Processor;
+using ResursAPI;
+using ResursDAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,7 @@ namespace Resurs.ViewModels
 	{
 		public StartupViewModel()
 		{
+			DBCash.CheckConnection();
 			HeaderCommandViewModel = new StartupHeaderViewModel(this);
 			Title = "Вход в АРМ Ресурс";
 			Sizable = false;
@@ -83,6 +86,7 @@ namespace Resurs.ViewModels
 			{
 				//ApplicationService.DoEvents(Dispatcher);
 				Close(true);
+				DBCash.SaveJournal(JournalType.System);
 			}
 		}
 		public RelayCommand CancelCommand { get; private set; }

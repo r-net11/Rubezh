@@ -12,12 +12,11 @@ namespace Resurs.ViewModels
 	public class PermissionViewModel : BaseViewModel
 	{
 		public PermissionType PermissionType { get; private set; }
-		public string Name { get; private set; }
-
-		public PermissionViewModel(PermissionType permissionType, bool flag)
+		public bool IsNotCurrentUser {get;private set;}
+		public PermissionViewModel(PermissionType permissionType,bool flag = true)
 		{
+			IsNotCurrentUser = flag;
 			PermissionType = permissionType;
-			IsChecked = flag;
 		}
 
 		 bool _isChecked;
@@ -30,6 +29,5 @@ namespace Resurs.ViewModels
 				OnPropertyChanged(() => IsChecked);
 			}
 		}
-
 	}
 }

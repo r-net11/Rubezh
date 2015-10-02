@@ -4,22 +4,46 @@ namespace ResursAPI
 {
 	public enum PermissionType
 	{
-		[DescriptionAttribute("права на вкладку устройства")]
+		[DescriptionAttribute("Вкладка Устройства")]
 		Device,
 
-		[DescriptionAttribute("права на редактирование устройсв")]
+		[DescriptionAttribute("Редактирование вкладки Устройства")]
 		EditDevice,
-	
-		[DescriptionAttribute("Права на вкладку квартиры ")]
+
+		[DescriptionAttribute("Вкладка Абоненты")]
 		Apartment,
 
-		[DescriptionAttribute("Права на редактирование квартир ")]
+		[DescriptionAttribute("Редактирование вкладки Абоненты")]
 		EditApartment,
 
-		[DescriptionAttribute("Права на вкладку пользователь ")]
+		[DescriptionAttribute("Вкладка  Пользователи")]
 		User,
 
-		[DescriptionAttribute("Права на редактирование пользователя ")]
+		[DescriptionAttribute("Редактирование вкладки Пользователи")]
 		EditUser,
+
+		[DescriptionAttribute("Вкладка Тарифы")]
+		Tariff,
+
+		[DescriptionAttribute("Редактирование вкладки Тарифы ")]
+		EditTariff,
+
+		[DescriptionAttribute("Вкладка Отчеты")]
+		Report,
+
+		[DescriptionAttribute("Редактирование вкладки Отчеты")]
+		EditReport,
+
+		[DescriptionAttribute("Вкладка Графики")]
+		Plot,
+
+		[DescriptionAttribute("Редактирование вкладки Графики")]
+		EditPlot,
+
+		[DescriptionAttribute("Вкладка Журнал событий")]
+		Journal,
+
+		[DescriptionAttribute("Редактирование вкладки Журнал событий")]
+		EditJournal,
 	}
 }

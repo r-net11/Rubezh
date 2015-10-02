@@ -37,20 +37,23 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<TabControl Grid.Row="0" Background="{DynamicResource AlternativeBackgroundBrush}">
-			<TabItem Header="Устройства" DataContext="{Binding DevicesViewModel}">
-				<Views:DevicesView />
+			<TabItem Header="Устройства" DataContext="{Binding DevicesViewModel}" Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Views:DevicesView Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}"/>
 			</TabItem>
-			<TabItem Header="Абоненты" DataContext="{Binding ApartmentsViewModel}">
-				<Views:ApartmentsView />
+			<TabItem Header="Абоненты" DataContext="{Binding ApartmentsViewModel}" Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}" IsSelected="{Binding IsVisibility, Mode=OneWay}">
+				<Views:ApartmentsView Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</TabItem>
-			<TabItem Header="Тарифы">
+			<TabItem Header="Тарифы" Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
 			</TabItem>
-			<TabItem Header="Графики">
+			<TabItem Header="Графики" Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
 			</TabItem>
-			<TabItem Header="Отчеты">
+			<TabItem Header="Отчеты" Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
 			</TabItem>
-			<TabItem Header="Пользователи" DataContext="{Binding UsersViewModel}">
-				<Views:UsersView />
+			<TabItem Header="Журнал Событий"  DataContext="{Binding JournalEventsViewModel}" Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Views:JournalEventsView Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}" />
+			</TabItem>
+			<TabItem Header="Пользователи" DataContext="{Binding UsersViewModel }"  Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}" IsSelected="{Binding IsVisibility, Mode=OneWay}">
+				<Views:UsersView Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</TabItem>
 		</TabControl>
 	</Grid>

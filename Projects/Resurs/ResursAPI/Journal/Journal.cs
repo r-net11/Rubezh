@@ -6,15 +6,18 @@ using System.Text;
 
 namespace ResursAPI
 {
-	public class UserPermission
+	public class Journal
 	{
-		public UserPermission()
+		public Journal()
 		{
 			UID = Guid.NewGuid();
 		}
 		[Key]
 		public Guid UID { get; set; }
-		public PermissionType PermissionType { get; set; }
-		public User User { get; set; }
-	}
+
+		public JournalType JurnalType { get; set; }
+
+		public DateTime DateTime { get; set; }
+
+		public string NameUser { get; set; }	}
 }
