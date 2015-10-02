@@ -16,24 +16,12 @@ namespace ResursAPI
 		}
 		[Key]
 		public Guid UID { get; set; }
+		[MaxLength (100)]
 		public string Name { get; set;}
-
+		[MaxLength(100)]
 		public string Login { get; set; }
-
+		[MaxLength(200)]
 		public string PasswordHash { get; set; }
-
-		public bool IsViewDevice { get; set; }
-
-		public bool IsEditDevice { get; set; }
-
-		public bool IsViewApartment { get; set; }
-
-		public bool IsEditApartment { get; set; }
-
-		public bool IsViewUser { get; set; }
-
-		public bool IsEditUser { get; set; }
-
 		public List<UserPermission> UserPermissions { get; set; }
 
 	}

@@ -97,14 +97,8 @@ namespace GKModule.Validation
 
 		void ValidateDifferentGK(GKDevice device)
 		{
-			foreach (var clause in device.Logic.OnClausesGroup.Clauses)
-			{
-				foreach (var clauseDevice in clause.Devices)
-				{
-					if (device.GKParent != null && clauseDevice.GKParent != null && device.GKParent != clauseDevice.GKParent)
-						Errors.Add(new DeviceValidationError(device, "Логика сработки содержит устройства разных ГК", ValidationErrorLevel.CannotWrite));
-				}
-			}
+			if (device.GkParents.Count > 1)
+				Errors.Add(new DeviceValidationError(device, "Логика сработки содержит объекты разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 
 		void ValidateDeviceZone(GKDevice device)
@@ -127,7 +121,7 @@ namespace GKModule.Validation
 
 		void ValidateLogic(GKDevice device)
 		{
-			if(device.IsInMPT)
+			if (device.IsInMPT)
 				return;
 
 			if (device.DriverType == GKDriverType.GKRele)
@@ -144,7 +138,7 @@ namespace GKModule.Validation
 		{
 			if (device.DriverType == GKDriverType.GK)
 			{
-				if (device.Children.Where(x=>x.Driver.IsKau).Count() == 0)
+				if (device.Children.Where(x => x.Driver.IsKau).Count() == 0)
 					Errors.Add(new DeviceValidationError(device, "ГК должен содержать подключенные КАУ", ValidationErrorLevel.CannotWrite));
 			}
 		}
@@ -252,7 +246,7 @@ namespace GKModule.Validation
 			if (device.Driver.IsAm && device.Zones.Count > 0)
 			{
 				if (device.GuardZones.Any(x => x.GuardZoneDevices.Any(y => y.ActionType == GKGuardZoneDeviceActionType.SetAlarm && y.DeviceUID == device.UID)))
-					Errors.Add(new DeviceValidationError(device,string.Format("Тревожный датчик участвует сразу в охранной и пожарной зоне"), ValidationErrorLevel.Warning));
+					Errors.Add(new DeviceValidationError(device, string.Format("Тревожный датчик участвует сразу в охранной и пожарной зоне"), ValidationErrorLevel.Warning));
 			}
 		}
 

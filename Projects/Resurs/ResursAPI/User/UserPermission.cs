@@ -10,7 +10,7 @@ namespace ResursAPI
 	{
 		public UserPermission()
 		{
-			UID = new Guid();
+			UID = Guid.NewGuid();
 		}
 		[Key]
 		public Guid UID { get; set; }

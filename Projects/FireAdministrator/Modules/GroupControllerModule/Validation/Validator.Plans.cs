@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using FiresecAPI.GK;
+﻿using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Plans;
 using Infrastructure.Common.Validation;
 using Infrustructure.Plans.Interfaces;
+using System.Linq;
 
 namespace GKModule.Validation
 {

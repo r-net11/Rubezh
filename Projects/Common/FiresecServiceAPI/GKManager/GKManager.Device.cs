@@ -30,6 +30,8 @@ namespace FiresecClient
 			deviceTo.Description = deviceFrom.Description;
 			deviceTo.ProjectAddress = deviceFrom.ProjectAddress;
 			deviceTo.PredefinedName = deviceFrom.PredefinedName;
+			deviceTo.InputDependentElements = deviceFrom.InputDependentElements;
+			deviceTo.OutDependentElements = deviceFrom.OutDependentElements;
 
 			deviceTo.Properties = new List<GKProperty>();
 			foreach (var property in deviceFrom.Properties)

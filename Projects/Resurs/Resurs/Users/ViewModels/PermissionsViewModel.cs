@@ -11,20 +11,9 @@ namespace Resurs.ViewModels
 	public class PermissionsViewModel : BaseViewModel
 	{
 		public ObservableCollection<PermissionViewModel> PermissionViewModels { get; set; }
-		public PermissionsViewModel(User user)
+		public PermissionsViewModel(User user , bool flag= true)
 		{
-			PermissionViewModels = new ObservableCollection<PermissionViewModel>();
-
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.Device, user.IsViewDevice));
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.EditDevice,  user.IsEditDevice));
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.Apartment, user.IsViewApartment));
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.EditApartment, user.IsEditApartment));
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.User, user.IsViewUser));
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.EditUser, user.IsEditUser));
-
-			OnPropertyChanged(() => PermissionViewModels);
-			SelectedPermission = PermissionViewModels.FirstOrDefault();
-
+			BuildPermissionViewModel(user,flag);
 		}
 
 		PermissionViewModel _selectedPermission;
@@ -38,31 +27,40 @@ namespace Resurs.ViewModels
 			}
 		}
 
+		void BuildPermissionViewModel(User user , bool flag = true)
+		{
+			PermissionViewModels = new ObservableCollection<PermissionViewModel>();
+
+			PermissionViewModels.Add(new PermissionViewModel(PermissionType.Device));
+			PermissionViewModels.Add(new PermissionViewModel(PermissionType.EditDevice));
+			PermissionViewModels.Add(new PermissionViewModel(PermissionType.Apartment));
+			PermissionViewModels.Add(new PermissionViewModel(PermissionType.EditApartment));
+			PermissionViewModels.Add(new PermissionViewModel(PermissionType.Tariff));
+			PermissionViewModels.Add(new PermissionViewModel(PermissionType.EditTariff));
+			PermissionViewModels.Add(new PermissionViewModel(PermissionType.Report));
+			PermissionViewModels.Add(new PermissionViewModel(PermissionType.EditReport));
+			PermissionViewModels.Add(new PermissionViewModel(PermissionType.Plot));
+			PermissionViewModels.Add(new PermissionViewModel(PermissionType.EditPlot));
+			PermissionViewModels.Add(new PermissionViewModel(PermissionType.User,flag));
+			PermissionViewModels.Add(new PermissionViewModel(PermissionType.EditUser,flag));
+			PermissionViewModels.Add(new PermissionViewModel(PermissionType.Journal));
+			PermissionViewModels.Add(new PermissionViewModel(PermissionType.EditJournal));
+
+			foreach (var permissionViewModel in PermissionViewModels)
+			{
+				permissionViewModel.IsChecked = user.UserPermissions.Any(x => x.PermissionType == permissionViewModel.PermissionType);
+			}
+
+			SelectedPermission = PermissionViewModels.FirstOrDefault();
+		}
+
 		public void GetPermissionStrings(User user)
 		{
-			foreach (var permission in PermissionViewModels)
+			user.UserPermissions = new List<UserPermission>();
+			foreach (var permissionViewModel in PermissionViewModels)
 			{
-				switch(permission.PermissionType)
-				{
-					case PermissionType.Device:
-						user.IsViewDevice = permission.IsChecked;
-						break;
-					case PermissionType.EditDevice:
-						user.IsEditDevice = permission.IsChecked;
-						break;
-					case PermissionType.Apartment:
-						user.IsViewApartment = permission.IsChecked;
-						break;
-					case PermissionType.EditApartment:
-						user.IsEditApartment = permission.IsChecked;
-						break;
-					case PermissionType.User:
-						user.IsViewUser = permission.IsChecked;
-						break;
-					case PermissionType.EditUser:
-						user.IsEditUser = permission.IsChecked;
-						break;
-				}
+				if (permissionViewModel.IsChecked)
+					user.UserPermissions.Add(new UserPermission() { PermissionType = permissionViewModel.PermissionType, User = user });
 			}
 		}
 	}

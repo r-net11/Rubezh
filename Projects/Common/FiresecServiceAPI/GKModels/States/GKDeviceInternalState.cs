@@ -49,12 +49,12 @@ namespace FiresecAPI.GK
 					if (!stateClasses.Contains(XStateClass.Service))
 						stateClasses.Add(XStateClass.Service);
 				}
-				if (Device.Driver.IsGroupDevice || Device.DriverType == GKDriverType.RSR2_KAU_Shleif)
+				if (Device.Driver.IsGroupDevice || Device.DriverType == GKDriverType.RSR2_KAU_Shleif || Device.DriverType == GKDriverType.RSR2_MVP_Part)
 				{
 					stateClasses.Clear();
 					if (Device.Children.Count > 0)
 					{
-						foreach (var child in Device.Children)
+						foreach (var child in Device.AllChildren)
 						{
 							if (!stateClasses.Contains(child.InternalState.StateClass))
 								stateClasses.Add(child.InternalState.StateClass);
@@ -63,7 +63,6 @@ namespace FiresecAPI.GK
 							stateClasses.Remove(XStateClass.Norm);
 					}
 				}
-				stateClasses.OrderBy(x => x);
 				return stateClasses;
 			}
 		}

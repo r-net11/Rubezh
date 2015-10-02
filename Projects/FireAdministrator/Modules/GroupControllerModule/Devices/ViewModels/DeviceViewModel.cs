@@ -139,7 +139,7 @@ namespace GKModule.ViewModels
 
 		public bool IsInPumpStation
 		{
-			get { return Device != null && GKManager.PumpStations.Any(x => x.NSDeviceUIDs.Contains(Device.UID)); }
+			get { return Device != null && GKManager.PumpStations.Any(x => x.InputDependentElements.Contains(Device)); }
 		}
 
 		public string Address
@@ -293,6 +293,7 @@ namespace GKModule.ViewModels
 				}
 				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevices.LastOrDefault();
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
+				IsExpanded = true;
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

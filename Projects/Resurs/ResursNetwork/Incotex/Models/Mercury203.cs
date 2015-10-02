@@ -4,14 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ResursNetwork.Devices;
+using ResursNetwork.Devices.ValueConverters;
 using ResursNetwork.OSI.Messages;
 using ResursNetwork.OSI.Messages.Transaction;
 using ResursNetwork.OSI.ApplicationLayer;
+using ResursNetwork.Incotex.Models.DateTime;
 using ResursNetwork.Incotex.NetworkControllers.Messages;
 using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer;
 using Common;
 
-namespace ResursNetwork.Incotex.Model
+namespace ResursNetwork.Incotex.Models
 {
     /// <summary>
     /// Модель данных счётчика Меркурий M203
@@ -31,7 +33,15 @@ namespace ResursNetwork.Incotex.Model
             /// <summary>
             /// Дата и время устройства
             /// </summary>
-            DATETIME = 2
+            DateTime = 2,
+            /// <summary>
+            /// Лимит мощности
+            /// </summary>
+            PowerLimit = 3,
+            /// <summary>
+            /// Лимит мощности за месяц
+            /// </summary>
+            PowerLimitPerMonth = 4
         }
         #endregion
 
@@ -66,22 +76,34 @@ namespace ResursNetwork.Incotex.Model
             _Parameters.Add(new Parameter(typeof(UInt32))
             {
                 Index = (UInt32)ParameterIndexes.GADDR,
-                Name = "Групповой адрес",
+                Name = ParameterIndexes.GADDR.ToString(),
                 Description = "Групповой адрес счётчика",
                 PollingEnabled = true,
                 ReadOnly = false,
-                ValueConverter = null,
+                ValueConverter = new BigEndianUInt32ValueConverter(),
                 Value = (UInt32)0
             });
-            _Parameters.Add(new Parameter(typeof(UInt32)) 
+
+            _Parameters.Add(new Parameter(typeof(IncotexDateTime)) 
             { 
-                Index = (UInt32)ParameterIndexes.DATETIME, 
-                Name = "Дата и время", 
+                Index = (UInt32)ParameterIndexes.DateTime, 
+                Name = ParameterIndexes.DateTime.ToString(), 
                 Description = "Текущее значение часов счётчика",
                 PollingEnabled = true, 
-                ReadOnly = false,  
-                ValueConverter = null,
-                Value = (UInt32)0
+                ReadOnly = false,
+                ValueConverter = new IncotexDataTimeTypeConverter(),
+                Value = new IncotexDateTime()
+            });
+
+            _Parameters.Add(new Parameter(typeof(UInt16)) 
+            {
+                Index = (UInt32)ParameterIndexes.PowerLimit,
+                Name = ParameterIndexes.PowerLimit.ToString(),
+                Description = "Значение лимита мощности",
+                PollingEnabled = true,
+                ReadOnly = false,
+                ValueConverter = new BigEndianUInt16ValueConvertor(),
+                Value = (UInt16)0
             });
         }
         /// <summary>
@@ -220,11 +242,9 @@ namespace ResursNetwork.Incotex.Model
                 }
                 
                 //Всё в порядке выполняем изменение сетевого адреса
-                UInt32 adr = 0;
-                adr = ((UInt32)answerArray[0]) << 24;
-                adr |= ((UInt32)answerArray[1]) << 16;
-                adr |= ((UInt32)answerArray[2]) << 8;
-                adr |= answerArray[3];
+                var converter = new BigEndianUInt32ValueConverter();
+                var adr = (UInt32)converter.FromArray(
+                    new Byte[] { answerArray[0], answerArray[1], answerArray[2], answerArray[3] });
 
                 Address = adr;
                 command.Status = Result.OK;
@@ -303,15 +323,18 @@ namespace ResursNetwork.Incotex.Model
                     _ActiveCommands.Remove(command);
                 }
 
+                // Получаем параметр
                 // Присваиваем новое значение параметру
-                UInt32 gAdr = 0;
-                gAdr = ((UInt32)answer.Data[0]) << 24;
-                gAdr |= ((UInt32)answer.Data[1]) << 16;
-                gAdr |= ((UInt32)answer.Data[2]) << 8;
-                gAdr |= answer.Data[3];
-
                 var parameter = GetParameter(ParameterIndexes.GADDR);
-                parameter.Value = gAdr;
+                parameter.Value = parameter.ValueConverter.FromArray(
+                    new byte[] 
+                    {
+                        answer.Data[0],
+                        answer.Data[1],
+                        answer.Data[2],
+                        answer.Data[3]
+                    });
+
                 command.Status = Result.OK;
                 _ActiveCommands.Remove(command);
             }

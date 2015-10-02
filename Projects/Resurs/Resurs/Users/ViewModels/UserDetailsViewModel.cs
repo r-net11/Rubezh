@@ -40,7 +40,7 @@ namespace Resurs.ViewModels
 				};
 
 			}
-			PermissionsViewModel = new PermissionsViewModel(User);
+			PermissionsViewModel = new PermissionsViewModel(User, !(User.UID == DBCash.CurrentUser.UID));
 			CopyProperty();
 		}
 		void CopyProperty()
@@ -124,7 +124,7 @@ namespace Resurs.ViewModels
 				MessageBoxService.Show("Логин не может быть пустым");
 				return false;
 			}
-			else if (Login != User.Login && CashUser.Users.Any(x=> x.Login == Login))
+			else if (Login != User.Login && DBCash.Users.Any(x => x.Login == Login))
 			{
 				MessageBoxService.Show("Пользователь с таким логином уже существует");
 				return false;

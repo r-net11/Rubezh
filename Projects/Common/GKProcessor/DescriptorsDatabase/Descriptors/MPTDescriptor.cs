@@ -10,8 +10,8 @@ namespace GKProcessor
 	{
 		GKMPT MPT { get; set; }
 
-		public MPTDescriptor(CommonDatabase database, GKMPT mpt, DatabaseType dataBaseType)
-			: base(mpt, dataBaseType)
+		public MPTDescriptor(CommonDatabase database, GKMPT mpt)
+			: base(mpt)
 		{
 			DescriptorType = DescriptorType.MPT;
 			MPT = mpt;
@@ -23,48 +23,46 @@ namespace GKProcessor
 		{
 			DeviceType = BytesHelper.ShortToBytes((ushort)0x106);
 			SetAddress((ushort)0);
-			SetFormulaBytes();
 			SetPropertiesBytes();
 		}
 
-		void SetFormulaBytes()
+		public override void BuildFormula()
 		{
 			Formula = new FormulaBuilder();
 			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
 			{
 				Formula.Add(FormulaOperationType.END);
-				FormulaBytes = Formula.GetBytes();
 				return;
 			}
 
 			if (MPT.MptLogic.StopClausesGroup.GetObjects().Count > 0)
 			{
-				Formula.AddClauseFormula(MPT.MptLogic.StopClausesGroup, DatabaseType);
+				Formula.AddClauseFormula(MPT.MptLogic.StopClausesGroup);
 				if (MPT.MptLogic.OnClausesGroup.GetObjects().Count > 0)
 					Formula.Add(FormulaOperationType.DUP);
-				Formula.AddPutBit(GKStateBit.Stop_InManual, MPT, DatabaseType);
+				Formula.AddPutBit(GKStateBit.Stop_InManual, MPT);
 			}
 
 			if (MPT.MptLogic.OnClausesGroup.GetObjects().Count > 0)
 			{
 				if (MPT.MptLogic.StopClausesGroup.GetObjects().Count > 0)
 					Formula.Add(FormulaOperationType.COM);
-				Formula.AddClauseFormula(MPT.MptLogic.OnClausesGroup, DatabaseType);
+				Formula.AddClauseFormula(MPT.MptLogic.OnClausesGroup);
 				if (MPT.MptLogic.StopClausesGroup.GetObjects().Count > 0)
 					Formula.Add(FormulaOperationType.AND);
-				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, MPT, DatabaseType);
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, MPT);
 				if (MPT.MptLogic.UseOffCounterLogic)
 				{
-					Formula.AddClauseFormula(MPT.MptLogic.OnClausesGroup, DatabaseType);
+					Formula.AddClauseFormula(MPT.MptLogic.OnClausesGroup);
 					Formula.Add(FormulaOperationType.COM);
-					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, MPT, DatabaseType);
+					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, MPT);
 				}
 			}
 
-			if (MPT.MptLogic.OffClausesGroup.GetObjects().Count > 0)
+			if (!MPT.MptLogic.UseOffCounterLogic && MPT.MptLogic.OffClausesGroup.GetObjects().Count > 0)
 			{
-				Formula.AddClauseFormula(MPT.MptLogic.OffClausesGroup, DatabaseType);
-				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, MPT, DatabaseType);
+				Formula.AddClauseFormula(MPT.MptLogic.OffClausesGroup);
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, MPT);
 			}
 
 			SetRegime(GKMPTDeviceType.HandStart, GKStateBit.TurnOn_InManual);
@@ -73,81 +71,38 @@ namespace GKProcessor
 			SetRegime(GKMPTDeviceType.HandAutomaticOff, GKStateBit.SetRegime_Manual);
 
 			Formula.Add(FormulaOperationType.END);
-			FormulaBytes = Formula.GetBytes();
 		}
 
 		void SetRegime(GKMPTDeviceType deviceType, GKStateBit stateBit)
 		{
-			var hasOR = false;
-			var mptDevices = MPT.MPTDevices.FindAll(x => x.MPTDeviceType == deviceType);
-			foreach (var mptDevice in mptDevices)
+			var count = 0;
+			foreach (var mptDevice in MPT.MPTDevices.Where(x => x.MPTDeviceType == deviceType))
 			{
 				if (mptDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || mptDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
 				{
-					GKCodeReaderSettingsPart settingsPart = null;
-					switch (stateBit)
+					if (mptDevice.CodeReaderSettings.MPTSettings.CanBeUsed)
 					{
-						case GKStateBit.TurnOn_InManual:
-							settingsPart = mptDevice.CodeReaderSettings.StartSettings;
-							break;
-
-						case GKStateBit.TurnOff_InManual:
-							settingsPart = mptDevice.CodeReaderSettings.StopSettings;
-							break;
-
-						case GKStateBit.SetRegime_Automatic:
-							settingsPart = mptDevice.CodeReaderSettings.AutomaticOnSettings;
-							break;
-
-						case GKStateBit.SetRegime_Manual:
-							settingsPart = mptDevice.CodeReaderSettings.AutomaticOffSettings;
-							break;
-					}
-					var codeIndex = 0;
-					foreach (var codeUID in settingsPart.CodeUIDs)
-					{
-						var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeUID);
-						Formula.Add(FormulaOperationType.KOD, 0,
-							DatabaseType == DatabaseType.Gk ? mptDevice.Device.GKDescriptorNo : mptDevice.Device.KAUDescriptorNo);
-						Formula.Add(FormulaOperationType.CMPKOD, 1,
-							DatabaseType == DatabaseType.Gk ? code.GKDescriptorNo : code.KAUDescriptorNo);
-						if (codeIndex > 0)
-						{
+						FormulaHelper.AddCodeReaderLogic(Formula, mptDevice.CodeReaderSettings.MPTSettings, mptDevice.Device);
+						if (count > 0)
 							Formula.Add(FormulaOperationType.OR);
-						}
-						codeIndex++;
+						count++;
 					}
-					if (hasOR)
-						Formula.Add(FormulaOperationType.OR);
-					if (codeIndex > 0)
-						hasOR = true;
 				}
 				else
 				{
-					Formula.AddGetBit(GKStateBit.Fire1, mptDevice.Device, DatabaseType);
-					if (hasOR)
+					Formula.AddGetBit(GKStateBit.Fire1, mptDevice.Device);
+					if (count > 0)
 						Formula.Add(FormulaOperationType.OR);
-					hasOR = true;
+					count++;
 				}
 			}
-			if (hasOR)
-				Formula.AddPutBit(stateBit, MPT, DatabaseType);
-		}
-
-		GKStateBit CodeReaderEnterTypeToStateBit(GKCodeReaderEnterType codeReaderEnterType)
-		{
-			switch (codeReaderEnterType)
+			if (count > 0)
 			{
-				case GKCodeReaderEnterType.CodeOnly:
-					return GKStateBit.Attention;
-
-				case GKCodeReaderEnterType.CodeAndOne:
-					return GKStateBit.Fire1;
-
-				case GKCodeReaderEnterType.CodeAndTwo:
-					return GKStateBit.Fire2;
+				Formula.Add(FormulaOperationType.BR, 1, 3);
+				Formula.Add(FormulaOperationType.CONST, 0, 1);
+				Formula.AddPutBit(stateBit, MPT);
+				Formula.Add(FormulaOperationType.EXIT);
 			}
-			return GKStateBit.Fire1;
 		}
 
 		void SetPropertiesBytes()

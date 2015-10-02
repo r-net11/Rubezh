@@ -122,6 +122,11 @@ namespace Resurs.ViewModels
 			}
 		}
 
+		public bool IsVisibility
+		{
+			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.Device); }
+		}
+
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
@@ -156,7 +161,7 @@ namespace Resurs.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedDevice != null;
+			return SelectedDevice != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }

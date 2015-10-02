@@ -17,17 +17,9 @@
 		<Grid Grid.Row ="1">
 			<DataGrid ItemsSource="{Binding Tariffs}" SelectedItem="{Binding SelectedTariff}" CanUserSortColumns="True">
 				<DataGrid.Columns>
-					<DataGridTemplateColumn Header="Название" SortMemberPath="Tariffs.Name" Width="*">
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Tariff.Name}" VerticalAlignment="Center" Margin="2" />
-								</StackPanel>
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
-					<DataGridTextColumn Binding="{Binding Tariff.TariffType}" Width="*" Header="Тип тарифа" />
-					<DataGridTextColumn Binding="{Binding Tariff.TariffPartsNumber}" Width="*" Header="Количество" />
+					<DataGridTextColumn Width="*" Header="Название"		Binding="{Binding Name}" />
+					<DataGridTextColumn Width="*" Header="Тип тарифа"	Binding="{Binding TariffType, Converter={StaticResource EnumToDescriptionConverter}}" />
+					<DataGridTextColumn Width="*" Header="Количество"	Binding="{Binding TariffParts}" />
 				</DataGrid.Columns>
 			</DataGrid>
 		</Grid>
@@ -39,20 +31,12 @@
 						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Название тарифа" />
-						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
+						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Внутренние тарифы" />
+						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding TariffParts}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Название тарифа" />
-						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
-					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Название тарифа" />
-						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
-					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Название тарифа" />
-						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
+						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Описание" />
+						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Description}" />
 					</StackPanel>
 				</StackPanel>
 			</Grid>

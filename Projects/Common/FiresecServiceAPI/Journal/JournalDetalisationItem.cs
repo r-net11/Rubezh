@@ -26,7 +26,7 @@ namespace FiresecAPI.Journal
 
 		public static string ListToString(List<JournalDetalisationItem> detalisations)
 		{
-			string result = "";
+			string result = " ";
 			foreach (var detalisation in detalisations)
 			{
 				result += "$%" + detalisation.Name + "%%" + detalisation.Value + "%$";

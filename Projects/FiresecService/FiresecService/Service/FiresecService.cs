@@ -59,15 +59,6 @@ namespace FiresecService.Service
 			var clientInfo = ClientsManager.GetClientInfo(uid);
 			if (clientInfo != null)
 			{
-				if (clientInfo.ClientCredentials.ClientType == ClientType.Monitor)
-				{
-					if (FiresecService.CurrentThread != null)
-					{
-						//DbService.IsAbort = true;
-						CurrentThread.Join(TimeSpan.FromSeconds(2));
-						CurrentThread = null;
-					}
-				}
 				clientInfo.IsDisconnecting = true;
 				clientInfo.WaitEvent.Set();
 				if (clientInfo.ClientCredentials != null)

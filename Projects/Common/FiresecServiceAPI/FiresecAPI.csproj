@@ -151,6 +151,7 @@
     <Compile Include="AutomationCallback\PropertyCallBackData.cs" />
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
     <Compile Include="CallbackOperationResult.cs" />
+    <Compile Include="GKModels\Configuration\GKDeviceConfiguration.DescriptorsDistribution.cs" />
     <Compile Include="GKModels\Configuration\GKNameGenerationType.cs" />
     <Compile Include="GKModels\CurrentConsumption\CurrentConsumption.cs" />
     <Compile Include="GKModels\OPC\OPCSettings.cs" />
@@ -432,7 +433,6 @@
     <Compile Include="GKManager\GKManager.PresentationZone.cs" />
     <Compile Include="GKManager\GKManager.States.cs" />
     <Compile Include="GKModels\Configuration\GKDeviceConfiguration.Update.cs" />
-    <Compile Include="GKModels\Configuration\GKDeviceConfiguration.Descriptors.cs" />
     <Compile Include="GKModels\Configuration\GKDeviceLibraryConfiguration.cs" />
     <Compile Include="GKModels\Delay\DelayRegime.cs" />
     <Compile Include="GKModels\Delay\GKDelay.cs" />

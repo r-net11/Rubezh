@@ -60,14 +60,11 @@ namespace GKProcessor
 
 		void CheckKAUMeasure()
 		{
-			foreach (var device in GKManager.Devices)
+			foreach (var device in GkDatabase.RootDevice.Children.Where(x => x.DriverType == GKDriverType.RSR2_KAU))
 			{
-				if (device.DriverType == GKDriverType.RSR2_KAU)
+				using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
 				{
-					using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
-					{
-						skdDatabaseService.CurrentConsumptionTranslator.SaveMany(GetKAUMeasure(device));
-					}
+					skdDatabaseService.CurrentConsumptionTranslator.SaveMany(GetKAUMeasure(device));
 				}
 			}
 		}
@@ -141,7 +138,7 @@ namespace GKProcessor
 						}
 						if (measureParameter.Multiplier != null)
 						{
-							var doubleValue = Math.Round( (parameterValue / (double)measureParameter.Multiplier), 3);
+							var doubleValue = Math.Round((parameterValue / (double)measureParameter.Multiplier), 3);
 							stringValue = doubleValue.ToString();
 						}
 						var measureParameterValue = MeasureParameters.FirstOrDefault(x => x.Name == measureParameter.Name);

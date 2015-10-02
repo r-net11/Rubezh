@@ -24,5 +24,12 @@ namespace SKDDriver.DataClasses
 				return null;
 			return value.Value.CheckDate();
 		}
+
+		public static string CheckDateSqlStr(this DateTime? value)
+		{
+			if (value == null)
+				return "NULL";
+			return "'" + value.Value.CheckDate().ToString("yyyyMMdd HH:mm:ss") + "'";
+		}
 	}
 }

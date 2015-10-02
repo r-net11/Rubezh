@@ -171,7 +171,7 @@ namespace Resurs.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedApartment != null;
+			return SelectedApartment != null && DBCash.CurrentUser.UserPermissions.Any(x=> x.PermissionType == PermissionType.EditApartment);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -200,6 +200,12 @@ namespace Resurs.ViewModels
 				}
 			}
 		}
+
+		public bool IsVisibility
+		{
+			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.Apartment); }
+		}
+
 		bool CanRemove()
 		{
 			return SelectedApartment != null && SelectedApartment.Parent != null;

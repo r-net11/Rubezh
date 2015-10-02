@@ -12,10 +12,7 @@ namespace GKProcessor
 		public MPTCreator(GKMPT mpt)
 		{
 			MPT = mpt;
-		}
 
-		public void SetCrossReferences()
-		{
 			foreach (var mptDevice in MPT.MPTDevices)
 			{
 				if (mptDevice.MPTDeviceType == GKMPTDeviceType.HandStart ||
@@ -23,7 +20,7 @@ namespace GKProcessor
 					mptDevice.MPTDeviceType == GKMPTDeviceType.HandAutomaticOn ||
 					mptDevice.MPTDeviceType == GKMPTDeviceType.HandAutomaticOff)
 				{
-					MPT.LinkGKBases(mptDevice.Device);
+					MPT.LinkToDescriptor(mptDevice.Device);
 				}
 
 				if (mptDevice.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard ||
@@ -32,7 +29,7 @@ namespace GKProcessor
 					mptDevice.MPTDeviceType == GKMPTDeviceType.Speaker ||
 					mptDevice.MPTDeviceType == GKMPTDeviceType.Bomb)
 				{
-					mptDevice.Device.LinkGKBases(MPT);
+					mptDevice.Device.LinkToDescriptor(MPT);
 				}
 			}
 		}

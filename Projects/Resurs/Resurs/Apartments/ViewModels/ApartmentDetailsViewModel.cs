@@ -13,7 +13,7 @@ namespace Resurs.ViewModels
 
 		public ApartmentDetailsViewModel(Apartment apartment = null)
 		{
-			if(apartment == null)
+			if (apartment == null)
 			{
 				apartment = new Apartment();
 				Title = "Создание абонента";
@@ -27,13 +27,23 @@ namespace Resurs.ViewModels
 			Name = apartment.Name;
 			Address = apartment.Address;
 			Description = apartment.Description;
+			Phone = apartment.Phone;
+			Email = apartment.Email;
+			Login = apartment.Login;
+			Password = apartment.Password;
+			IsSendEmail = apartment.IsSendEmail;
 		}
-				
+
 		protected override bool Save()
 		{
 			Apartment.Name = Name;
 			Apartment.Address = Address;
 			Apartment.Description = Description;
+			Apartment.Phone = Phone;
+			Apartment.Email = Email;
+			Apartment.Login = Login;
+			Apartment.Password = Password;
+			Apartment.IsSendEmail = IsSendEmail;
 			return base.Save();
 		}
 	}

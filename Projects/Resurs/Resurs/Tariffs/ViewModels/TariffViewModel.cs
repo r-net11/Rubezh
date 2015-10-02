@@ -10,9 +10,13 @@ namespace Resurs.ViewModels
 {
 	public class TariffViewModel : BaseViewModel
 	{
-		public TariffViewModel(Tariff tariff)
+		public TariffViewModel (Tariff tariff)
 		{
+			Description = tariff.Description;
+			Name = tariff.Name;
 			Tariff = tariff;
+			TariffPartsNumber = tariff.TariffParts.Count;
+			TariffType = Tariff.TariffType;
 		}
 
 		Tariff _tariff;
@@ -25,25 +29,46 @@ namespace Resurs.ViewModels
 				OnPropertyChanged(() => Tariff);
 			}
 		}
-
-		private string _name;
-
+		string _name;
 		public string Name
 		{
 			get { return _name; }
+			set
+			{
+				_name = value;
+				OnPropertyChanged(() => Name);
+			}
 		}
 
-
+		string _description;
+		public string Description
+		{
+			get { return _description; }
+			set
+			{
+				_description = value;
+				OnPropertyChanged(() => Description);
+			}
+		}
 		private int _tariffPartsNumber;
-
 		public int TariffPartsNumber
 		{
 			get { return _tariffPartsNumber; }
+			set { _tariffPartsNumber = value; }
 		}
 
-		public void Update(Tariff tariff)
+		private TariffType _tariffType;
+
+		public TariffType TariffType
 		{
-			Tariff = tariff;
+			get { return _tariffType; }
+			set { _tariffType = value;
+			OnPropertyChanged(() => TariffType);
+			}
+		}
+		public ushort TariffParts
+		{
+			get { return (ushort)Tariff.TariffParts.Count; }
 		}
 	}
 }

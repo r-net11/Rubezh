@@ -76,6 +76,8 @@ namespace FireAdministrator
 		{
 			try
 			{
+				FiresecManager.InvalidateContent();
+
 				var tempFolderName = "";
 				if (isLocal)
 				{
@@ -171,6 +173,8 @@ namespace FireAdministrator
 					GKManager.SetEmptyConfiguration();
 					FiresecManager.PlansConfiguration = new PlansConfiguration();
 					FiresecManager.SystemConfiguration.Cameras = new List<Camera>();
+					FiresecManager.SystemConfiguration.Sounds = new List<Sound>();
+					FiresecManager.SystemConfiguration.JournalFilters = new List<JournalFilter>();
 					FiresecManager.SystemConfiguration.AutomationConfiguration = new AutomationConfiguration();
 					FiresecManager.PlansConfiguration.Update();
 					FiresecManager.LayoutsConfiguration = new LayoutsConfiguration();
