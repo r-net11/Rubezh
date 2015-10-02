@@ -64,7 +64,7 @@ namespace SKDModule.ViewModels
 
 		public void UpdateDoors(IEnumerable<Guid> doorUIDs)
 		{
-			var doorsToRemove = Doors.Where(x => !doorUIDs.Any(y => y == x.CardDoor.DoorUID)).ToList();
+			var doorsToRemove = Doors.Where(x => doorUIDs.All(y => y != x.CardDoor.DoorUID)).ToList();
 			doorsToRemove.ForEach(x => Doors.Remove(x));
 		}
 	}
