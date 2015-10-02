@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ResursNetwork.Devices;
+using ResursNetwork.Devices.ValueConverters;
 using ResursNetwork.OSI.Messages;
 using ResursNetwork.OSI.Messages.Transaction;
 using ResursNetwork.OSI.ApplicationLayer;
@@ -70,7 +71,7 @@ namespace ResursNetwork.Incotex.Model
                 Description = "Групповой адрес счётчика",
                 PollingEnabled = true,
                 ReadOnly = false,
-                ValueConverter = null,
+                ValueConverter = new BigEndianUint32ValueConverter(),
                 Value = (UInt32)0
             });
             _Parameters.Add(new Parameter(typeof(UInt32)) 
@@ -79,8 +80,8 @@ namespace ResursNetwork.Incotex.Model
                 Name = "Дата и время", 
                 Description = "Текущее значение часов счётчика",
                 PollingEnabled = true, 
-                ReadOnly = false,  
-                ValueConverter = null,
+                ReadOnly = false,
+                ValueConverter = new BigEndianUint32ValueConverter(),
                 Value = (UInt32)0
             });
         }
@@ -303,15 +304,18 @@ namespace ResursNetwork.Incotex.Model
                     _ActiveCommands.Remove(command);
                 }
 
+                // Получаем параметр
                 // Присваиваем новое значение параметру
-                UInt32 gAdr = 0;
-                gAdr = ((UInt32)answer.Data[0]) << 24;
-                gAdr |= ((UInt32)answer.Data[1]) << 16;
-                gAdr |= ((UInt32)answer.Data[2]) << 8;
-                gAdr |= answer.Data[3];
-
                 var parameter = GetParameter(ParameterIndexes.GADDR);
-                parameter.Value = gAdr;
+                parameter.Value = parameter.ValueConverter.FromArray(
+                    new byte[] 
+                    {
+                        answer.Data[0],
+                        answer.Data[1],
+                        answer.Data[2],
+                        answer.Data[3]
+                    });
+
                 command.Status = Result.OK;
                 _ActiveCommands.Remove(command);
             }
