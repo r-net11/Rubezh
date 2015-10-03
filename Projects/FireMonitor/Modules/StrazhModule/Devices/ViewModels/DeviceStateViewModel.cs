@@ -28,7 +28,7 @@ namespace StrazhModule.ViewModels
 
 		public DeviceStateViewModel(SKDDeviceState deviceState)
 		{
-			ClearPromptWarningCommand = new RelayCommand(OnClearPromptWarning);
+			ClearPromptWarningCommand = new RelayCommand(OnClearPromptWarning, CanClearPromptWarning);
 			State = deviceState;
 			StateClasses = new ObservableCollection<XStateClassViewModel>();
 			State.StateChanged -= new Action(OnStateChanged);
@@ -51,9 +51,14 @@ namespace StrazhModule.ViewModels
 		public ObservableCollection<XStateClassViewModel> StateClasses { get; private set; }
 
 		public RelayCommand ClearPromptWarningCommand { get; private set; }
-		void OnClearPromptWarning()
+		private void OnClearPromptWarning()
 		{
 			DeviceCommander.ClearPromptWarning(State.Device);
+		}
+
+		private bool CanClearPromptWarning()
+		{
+			return DeviceCommander.CanClearPromptWarning(State.Device);
 		}
 	}
 

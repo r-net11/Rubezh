@@ -26,7 +26,7 @@ namespace StrazhModule.ViewModels
 
 		public ZoneDetailsViewModel(SKDZone zone)
 		{
-			ClearPromptWarningCommand = new RelayCommand(OnClearPromptWarning);
+			ClearPromptWarningCommand = new RelayCommand(OnClearPromptWarning, CanClearPromptWarning);
 			ShowCommand = new RelayCommand(OnShow);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			OpenCommand = new RelayCommand(OnOpen, CanOpen);
@@ -95,6 +95,10 @@ namespace StrazhModule.ViewModels
 		private void OnClearPromptWarning()
 		{
 			ZoneCommander.ClearPromptWarning(Zone);
+		}
+		private bool CanClearPromptWarning()
+		{
+			return ZoneCommander.CanClearPromptWarning(Zone);
 		}
 
 		public RelayCommand OpenCommand { get; private set; }
