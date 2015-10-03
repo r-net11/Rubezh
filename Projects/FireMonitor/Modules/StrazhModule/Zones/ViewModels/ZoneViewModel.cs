@@ -34,6 +34,7 @@ namespace StrazhModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+			ClearPromptWarningCommand = new RelayCommand(OnClearPromptWarning, CanClearPromptWarning);
 		}
 
 		void OnStateChanged()
@@ -159,6 +160,16 @@ namespace StrazhModule.ViewModels
 		bool CanZoneAccessStateOpenAlways()
 		{
 			return ZoneCommander.CanSetAccessStateToOpenAlways(Zone);
+		}
+
+		public RelayCommand ClearPromptWarningCommand { get; private set; }
+		private void OnClearPromptWarning()
+		{
+			ZoneCommander.ClearPromptWarning(Zone);
+		}
+		private bool CanClearPromptWarning()
+		{
+			return ZoneCommander.CanClearPromptWarning(Zone);
 		}
 
 		public bool IsBold { get; set; }

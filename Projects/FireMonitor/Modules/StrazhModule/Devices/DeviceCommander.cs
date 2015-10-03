@@ -174,5 +174,15 @@ namespace StrazhModule.Devices
 				}
 			}
 		}
+		/// <summary>
+		/// Проверяет можно ли сбросить статус ВЗЛОМ для замка
+		/// </summary>
+		/// <param name="door">требуемый замок</param>
+		/// <returns>true - если можно сбросить, false - в противном случае</returns>
+		public static bool CanClearPromptWarning(SKDDevice device)
+		{
+			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control)
+				&& device.State.StateClass != XStateClass.ConnectionLost;
+		}
 	}
 }

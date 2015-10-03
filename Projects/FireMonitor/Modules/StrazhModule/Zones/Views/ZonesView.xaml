@@ -33,6 +33,8 @@
 											</Hyperlink>
 											<TextBlock.ContextMenu>
 												<ContextMenu>
+													<IconedMenuItem Text="Сброс тревоги" Command="{Binding ClearPromptWarningCommand}" />
+													<Separator/>
 													<IconedMenuItem Text="Режим Открыто" Command="{Binding ZoneAccessStateOpenAlwaysCommand}" />
 													<IconedMenuItem Text="Режим Норма" Command="{Binding ZoneAccessStateNormalCommand}" />
 													<IconedMenuItem Text="Режим Закрыто" Command="{Binding ZoneAccessStateCloseAlwaysCommand}" />

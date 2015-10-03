@@ -44,6 +44,7 @@ namespace StrazhModule.ViewModels
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 			ShowDoorCommand = new RelayCommand(OnShowDoor, CanShowDoor);
+			ClearPromptWarningCommand = new RelayCommand(OnClearPromptWarning, CanClearPromptWarning);
 
 			if(Device.Zone != null)
 			{
@@ -208,6 +209,16 @@ namespace StrazhModule.ViewModels
 		bool CanDeviceAccessStateOpenAlways()
 		{
 			return DeviceCommander.CanSetAccessStateToOpenAlways(Device);
+		}
+
+		public RelayCommand ClearPromptWarningCommand { get; private set; }
+		private void OnClearPromptWarning()
+		{
+			DeviceCommander.ClearPromptWarning(Device);
+		}
+		private bool CanClearPromptWarning()
+		{
+			return DeviceCommander.CanClearPromptWarning(Device);
 		}
 
 		#region <Door>

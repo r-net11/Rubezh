@@ -161,5 +161,15 @@ namespace StrazhModule.Zones
 				}
 			}
 		}
+		/// <summary>
+		/// Проверяет можно ли сбросить статус ВЗЛОМ для зоны
+		/// </summary>
+		/// <param name="door">требуемая зона</param>
+		/// <returns>true - если можно сбросить, false - в противном случае</returns>
+		public static bool CanClearPromptWarning(SKDZone zone)
+		{
+			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Zones_Control)
+				&& zone.State.StateClass != XStateClass.ConnectionLost;
+		}
 	}
 }

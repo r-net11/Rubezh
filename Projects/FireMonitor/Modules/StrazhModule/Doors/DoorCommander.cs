@@ -173,5 +173,15 @@ namespace StrazhModule.Doors
 				}
 			}
 		}
+		/// <summary>
+		/// Проверяет можно ли сбросить статус ВЗЛОМ для точки доступа
+		/// </summary>
+		/// <param name="door">требуемая точка доступа</param>
+		/// <returns>true - если можно сбросить, false - в противном случае</returns>
+		public static bool CanClearPromptWarning(SKDDoor door)
+		{
+			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Doors_Control)
+				&& door.State.StateClass != XStateClass.ConnectionLost;
+		}
 	}
 }

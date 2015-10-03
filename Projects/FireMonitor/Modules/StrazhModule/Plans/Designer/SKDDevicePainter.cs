@@ -42,6 +42,8 @@ namespace StrazhModule.Plans.Designer
 
 			if (_deviceViewModel.IsLock)
 			{
+				contextMenu.Items.Add(UIHelper.BuildMenuItem("Сброс тревоги", null, _deviceViewModel.ClearPromptWarningCommand));
+				contextMenu.Items.Add(new Separator());
 				contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Открыто", null, _deviceViewModel.DeviceAccessStateOpenAlwaysCommand));
 				contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Норма", null, _deviceViewModel.DeviceAccessStateNormalCommand));
 				contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Закрыто", null, _deviceViewModel.DeviceAccessStateCloseAlwaysCommand));
