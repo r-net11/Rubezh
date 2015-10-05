@@ -57,6 +57,9 @@
 			<TabItem Header="Пользователи" DataContext="{Binding UsersViewModel }"  Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}" IsSelected="{Binding IsVisibility, Mode=OneWay}">
 				<Views:UsersView Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</TabItem>
+			<TabItem Header="Настройки" DataContext="{Binding SettingsViewModel}">
+				<Views:SettingsView />
+			</TabItem>
 		</TabControl>
 	</Grid>
 </Window>
