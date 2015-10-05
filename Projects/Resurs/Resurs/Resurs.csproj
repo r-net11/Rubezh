@@ -280,12 +280,10 @@
     <Compile Include="Apartments\ViewModels\ApartmentDetailsViewModel.cs" />
     <Compile Include="Apartments\ViewModels\ApartmentsFolderDetailsViewModel.cs" />
     <Compile Include="Apartments\ViewModels\ApartmentsViewModel.cs" />
-    <Compile Include="Apartments\ViewModels\ApartmentViewModel.cs" />
     <Compile Include="Apartments\Views\ApartmentsFolderDetailsView.xaml.cs">
       <DependentUpon>ApartmentsFolderDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Processor\DBCash.cs" />
     <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="Devices\ViewModels\DetailsParameterViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\FilterJournalViewModel.cs" />
@@ -298,8 +296,6 @@
     <Compile Include="Processor\LoginService.cs" />
     <Compile Include="Processor\ResursSettings.cs" />
     <Compile Include="Processor\SettingsManager.cs" />
-    <Compile Include="Apartments\ViewModels\ApartmentDetailsViewModel.cs" />
-    <Compile Include="Apartments\ViewModels\ApartmentsViewModel.cs" />
     <Compile Include="Main\ViewModels\Comparers.cs" />
     <Compile Include="Devices\ViewModels\DeviceDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
@@ -345,9 +341,6 @@
     <Compile Include="Tariffs\ViewModels\TariffsViewModel.cs" />
     <Compile Include="Tariffs\ViewModels\TariffDetailsViewModel.cs" />
     <Compile Include="Tariffs\ViewModels\TariffViewModel.cs" />
-    <Compile Include="Tariffs\Views\TariffsView.xaml.cs">
-      <DependentUpon>TariffsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Tariffs\Views\TariffDetailsView.xaml.cs">
       <DependentUpon>TariffDetailsView.xaml</DependentUpon>
     </Compile>
@@ -444,6 +437,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Reports\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Tariffs\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -456,7 +453,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-        <Page Include="Reports\Views\ReportsView.xaml">
+    <Page Include="Reports\Views\ReportsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -464,7 +461,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-        <Page Include="Users\DataTemplates\Dictionary.xaml">
+    <Page Include="Tariffs\Views\TariffsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Users\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -589,12 +590,6 @@
     <Folder Include="Rates\Views\" />
     <Folder Include="Reports\DataSources\" />
     <Folder Include="Reports\Templates\" />
-    <Folder Include="Reports\DataTemplates\" />
-    <Folder Include="Reports\ViewModels\" />
-    <Folder Include="Reports\Views\" />
-    <Folder Include="Users\DataTemplates\" />
-    <Folder Include="Users\ViewModels\" />
-    <Folder Include="Users\Views\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
