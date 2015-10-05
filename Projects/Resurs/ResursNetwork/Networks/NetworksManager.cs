@@ -4,8 +4,10 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 using ResursNetwork.Management;
 using ResursNetwork.Networks.Collections.ObjectModel;
+using ResursNetwork.Devices;
 using ResursNetwork.OSI.ApplicationLayer;
 
 namespace ResursNetwork.Networks
@@ -63,28 +65,91 @@ namespace ResursNetwork.Networks
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Обработчик события изменения списка сетей
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EventHandler_NetworkControllers_CollectionChanged(
-            object sender, CollectionChangedEventArgs e)
+            object sender, NetworksCollectionChangedEventArgs e)
         {
             switch(e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
+                    {
+                        e.Network.StatusChanged += EventHandler_Network_StatusChanged;
+                        
+                        foreach(var device in e.Network.Devices)
+                        {
+                            device.StatusChanged += EventHandler_Device_StatusChanged;
+                            device.PropertyChanged += EventHandler_Device_PropertyChanged;
+                            device.ErrorOccurred += EventHandler_Device_ErrorOccurred;
+                        }
+                        break; 
+                    }
                 case NotifyCollectionChangedAction.Remove:
-                case NotifyCollectionChangedAction.Replace:
-                case NotifyCollectionChangedAction.Move:
-                case NotifyCollectionChangedAction.Reset:
-                    { break; }
-            }
-            foreach(var network in _NetworkControllers)
-            {
-                network.StatusChanged += network_StatusChanged;
+                    {
+                        e.Network.StatusChanged -= EventHandler_Network_StatusChanged;
+
+                        foreach (var device in e.Network.Devices)
+                        {
+                            device.StatusChanged -= EventHandler_Device_StatusChanged;
+                            device.PropertyChanged -= EventHandler_Device_PropertyChanged;
+                            device.ErrorOccurred -= EventHandler_Device_ErrorOccurred;
+                        }
+                        break; 
+                    }
+                default: { throw new NotSupportedException(); }
             }
         }
 
-        private void network_StatusChanged(object sender, EventArgs e)
+        public void EventHandler_Device_ErrorOccurred(object sender, ErrorOccuredEventArgs e)
         {
             throw new NotImplementedException();
         }
+
+        private void EventHandler_Device_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            var device = (IDevice)sender;
+            //device.Parameters[ e.PropertyName
+        }
+
+        private void EventHandler_Device_StatusChanged(object sender, EventArgs e)
+        {
+            var device = (IDevice)sender;
+            //OnDeviceChangedStatus(device.Id, device.Status);
+            OnStatusChanged(device.Id, device.Status);
+        }
+
+        private void EventHandler_Network_StatusChanged(object sender, EventArgs e)
+        {
+            var network = (INetwrokController)sender;
+            //OnNetwokChangedStatus(network.Id, network.Status);
+            OnStatusChanged(network.Id, network.Status);
+        }
+
+        //private void OnNetwokChangedStatus(Guid id, Status newStatus)
+        //{
+        //    var handler = this.NetworkChangedStatus;
+
+        //    if (handler != null)
+        //    {
+        //        var args = new StatusChangedEventArgs { Id = id, Status = newStatus };
+        //        handler(this, args);
+        //    }
+        //}
+
+        //private void OnDeviceChangedStatus(Guid id, Status newStatus)
+        //{
+        //    var handler = this.DeviceChangedStatus;
+
+        //    if (handler != null)
+        //    {
+        //        var args = new StatusChangedEventArgs { Id = id, Status = newStatus };
+        //        handler(this, args);
+        //    }
+        //}
 
         private void OnStatusChanged(Guid id, Status newStatus)
         {
@@ -96,12 +161,20 @@ namespace ResursNetwork.Networks
                 handler(this, args);
             }
         }
-
         #endregion
 
         #region Events
         /// <summary>
+        /// Происходит при изменении статуса состояния сети
+        /// </summary>
+        //public event EventHandler<StatusChangedEventArgs> NetworkChangedStatus;
+        /// <summary>
         /// Происходит при изменении статуса состояния устройтва
+        /// </summary>
+        //public event EventHandler<StatusChangedEventArgs> DeviceChangedStatus;
+        /// <summary>
+        /// Происходит при изменении статуса состояния устройтва или сети
+        /// (объединяет-дублирует события NetworkChangedStatus и DeviceChangedStatus)
         /// </summary>
         public event EventHandler<StatusChangedEventArgs> StatusChanged;
         #endregion

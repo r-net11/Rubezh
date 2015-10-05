@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="BCD\BcdConverter.cs" />
     <Compile Include="ComponentModel\EnumTypeConverter.cs" />
+    <Compile Include="Devices\Collections\ObjectModel\DevicesCollectionChangedEventArgs.cs" />
     <Compile Include="Devices\Collections\ObjectModel\DevicesCollection.cs" />
     <Compile Include="Devices\DeviceBase.cs" />
     <Compile Include="Devices\DeviceCommand.cs" />
@@ -63,7 +64,7 @@
     <Compile Include="Incotex\NetworkControllers\ApplicationLayer\CMD.cs" />
     <Compile Include="Incotex\NetworkControllers\ApplicationLayer\PollingMode.cs" />
     <Compile Include="Incotex\NetworkControllers\DataLinkLayer\ComPort.cs" />
-    <Compile Include="Networks\Collections\ObjectModel\CollectionChangedEventArgs.cs" />
+    <Compile Include="Networks\Collections\ObjectModel\NetworksCollectionChangedEventArgs.cs" />
     <Compile Include="Networks\StatusChangedEventArgs.cs" />
     <Compile Include="OSI\ApplicationLayer\DeviceContext.cs" />
     <Compile Include="Incotex\NetworkControllers\Messages\ErrorCode.cs" />
