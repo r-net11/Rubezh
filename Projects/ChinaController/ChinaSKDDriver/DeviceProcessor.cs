@@ -283,10 +283,13 @@ namespace ChinaSKDDriver
 								device.State.StateClass = XStateClass.Unknown;
 								break;
 						}
+						// Определяем текущую конфигурацию замка
 						var doorConfiguration = Wrapper.GetDoorConfiguration(device.IntAddress);
 						if (doorConfiguration != null)
 						{
 							device.State.OpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
+							
+							// Задаем доменной модели замка текущий режим, соответствующий режиму замка на контроллере
 							device.State.AccessState = (FiresecAPI.SKD.AccessState)doorConfiguration.AccessState;
 						}
 					}

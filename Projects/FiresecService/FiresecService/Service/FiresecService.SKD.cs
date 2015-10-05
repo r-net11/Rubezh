@@ -1,4 +1,5 @@
 ﻿using ChinaSKDDriver;
+using Common;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
@@ -867,9 +868,18 @@ namespace FiresecService.Service
 			{
 				// Пользователь прервал операцию
 				if (progressCallback.IsCanceled)
+				{
+#if DEBUG
+					Logger.Info("Запись графиков доступа на все контроллеры отменена");
+#endif
+					Processor.StopProgress(progressCallback);
 					return OperationResult<List<Guid>>.FromCancel("Запись графиков доступа на все контроллеры отменена");
+				}
 
 				AddSKDJournalMessage(JournalEventNameType.Запись_графиков_доступа, device);
+#if DEBUG
+				Logger.Info(String.Format("Запись графиков доступа на контроллер \"{0}\"", device.Name));
+#endif
 				var result = Processor.SKDWriteTimeSheduleConfiguration(device.UID, false);
 				if (result.HasError)
 				{
@@ -933,12 +943,21 @@ namespace FiresecService.Service
 			{
 				// Пользователь прервал операцию
 				if (progressCallback.IsCanceled)
+				{
+#if DEBUG
+					Logger.Info("Запись пропусков на все контроллеры отменена");
+#endif
+					Processor.StopProgress(progressCallback);
 					return OperationResult<List<Guid>>.FromCancel("Запись пропусков на все контроллеры отменена");
+				}
 
 				OperationResult<bool> result = null;
 				using (var databaseService = new SKDDatabaseService())
 				{
 					AddSKDJournalMessage(JournalEventNameType.Перезапись_всех_карт, device);
+#if DEBUG
+					Logger.Info(String.Format("Запись пропусков на контроллер \"{0}\"", device.Name));
+#endif
 					var cardsResult = databaseService.CardTranslator.Get(new CardFilter());
 					var accessTemplatesResult = databaseService.AccessTemplateTranslator.Get(new AccessTemplateFilter());
 					if (!cardsResult.HasError && !accessTemplatesResult.HasError)
@@ -1130,9 +1149,18 @@ namespace FiresecService.Service
 			{
 				// Пользователь прервал операцию
 				if (progressCallback.IsCanceled)
+				{
+#if DEBUG
+					Logger.Info("Запись паролей замков на все контроллеры отменена");
+#endif
+					Processor.StopProgress(progressCallback);
 					return OperationResult<List<Guid>>.FromCancel("Запись паролей замков на все контроллеры отменена");
+				}
 
 				AddSKDJournalMessage(JournalEventNameType.SetControllerLocksPasswords, device);
+#if DEBUG
+				Logger.Info(String.Format("Запись паролей замков на контроллер \"{0}\"", device.Name));
+#endif
 				var result = Processor.SetControllerLocksPasswords(device.UID, device.ControllerPasswords != null ? device.ControllerPasswords.LocksPasswords : new List<SKDLocksPassword>(), false);
 				if (result.HasError)
 				{
@@ -1261,25 +1289,6 @@ namespace FiresecService.Service
 				device.State.AccessState = accessState;
 				var skdStates = new SKDStates();
 				skdStates.DeviceStates.Add(device.State);
-
-				// Обновляем состояние доменной модели точки доступа
-				foreach (var door in SKDManager.Doors)
-				{
-					if (door.InDevice != null)
-					{
-						var lockAddress = door.InDevice.IntAddress;
-						if (door.DoorType == DoorType.TwoWay)
-						{
-							lockAddress = door.InDevice.IntAddress / 2;
-						}
-						var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
-						if (lockDevice == device)
-						{
-							door.State.AccessState = accessState;
-							skdStates.DoorStates.Add(door.State);
-						}
-					}
-				}
 
 				Processor.OnStatesChanged(skdStates);
 			}

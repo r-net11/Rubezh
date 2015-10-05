@@ -154,7 +154,7 @@ namespace StrazhModule.ViewModels
 			var thread = new Thread(() =>
 			{
 #if DEBUG
-				Logger.Info("Ожидаем сигнала о возможности продолжить работу треда для записи конфигурации на все контроллеры");
+				Logger.Info("Ожидаем сигнала о возможности продолжить работу треда для записи конфигурации на контроллер");
 #endif
 				if (_configurationChangedWaitHandle != null)
 					_configurationChangedWaitHandle.WaitOne();

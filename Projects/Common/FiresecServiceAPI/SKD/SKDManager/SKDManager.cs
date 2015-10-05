@@ -218,5 +218,45 @@ namespace FiresecAPI.SKD
 			//{
 			//}
 		}
+
+		/// <summary>
+		/// Получает точку доступа для замка
+		/// </summary>
+		/// <param name="device">Замок</param>
+		/// <returns>Точка доступа</returns>
+		public static SKDDoor GetDoorForLock(SKDDevice device)
+		{
+			foreach (var door in SKDManager.Doors)
+			{
+				if (door.InDevice != null)
+				{
+					var lockAddress = door.InDevice.IntAddress;
+					if (door.DoorType == DoorType.TwoWay)
+					{
+						lockAddress = door.InDevice.IntAddress / 2;
+					}
+					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
+					if (lockDevice == device)
+					{
+						return door;
+					}
+				}
+			}
+
+			// Точка доступа для замка не задана
+			return null;
+		}
+
+		/// <summary>
+		/// Синхронизирует режим точки доступа согласно режиму замка
+		/// </summary>
+		/// <param name="device">Замок</param>
+		public static SKDDoor SynchronizeDoorAccessStateForLock(SKDDevice device)
+		{
+			var door = GetDoorForLock(device);
+			if (door != null)
+				door.State.AccessState = device.State.AccessState;
+			return door;
+		}
 	}
 }
