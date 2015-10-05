@@ -336,6 +336,11 @@
     <Compile Include="Main\Views\StartupView.xaml.cs">
       <DependentUpon>StartupView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Tariffs\ViewModels\TariffPartsViewModel.cs" />
+    <Compile Include="Tariffs\ViewModels\TariffPartViewModel.cs" />
+    <Compile Include="Tariffs\Views\TariffPartsView.xaml.cs">
+      <DependentUpon>TariffPartsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Users\ViewModels\PermissionsViewModel.cs" />
     <Compile Include="Users\ViewModels\PermissionViewModel.cs" />
     <Compile Include="Tariffs\ViewModels\TariffsViewModel.cs" />
@@ -445,6 +450,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Tariffs\Views\TariffPartsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Reports\Views\ReportDesignerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -502,7 +511,6 @@
     <None Include="Resurs.exe.manifest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
