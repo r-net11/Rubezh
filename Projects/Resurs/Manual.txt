@@ -8,7 +8,7 @@
 	1.1 Для работы с сетями:
 
 	Добавляет новую сеть (сетевой контроллер) на основет переданного типа
-	void AddNetwork(UIDevice.DeviceType);
+	void AddNetwork(ResursAPI.Device device);
 	
 	Удаляет сеть с указанным id из менаджера
 	void RemoveNetwork(Guid id);
@@ -22,7 +22,7 @@
 	1.2 Для работые с устройствами:
 
 	Добавляет новое устройство в сеть с указанным идентификатором
-	void AddDevice(Guid networkId, UIDevice.DeviceType);
+	void AddDevice(Guid networkId, ResursAPI.Device device);
 
 	Удаляет устройтсво с указанным идентификатором из сети
 	void RemoveDevice(Guid deviceId)

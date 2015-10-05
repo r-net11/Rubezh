@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Journal\Journal.cs" />
+    <Compile Include="Models\DeviceType.cs" />
     <Compile Include="Models\Tariff\TariffType.cs" />
     <Compile Include="Journal\JournalType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -65,10 +66,10 @@
     <Compile Include="Models\Driver\ParameterType.cs" />
     <Compile Include="Models\Base\ModelBase.cs" />
     <Compile Include="DriverCreators\BeregunCounterCreator.cs" />
-    <Compile Include="DriverCreators\BeregunInterfaceCreator.cs" />
+    <Compile Include="DriverCreators\BeregunNetworkCreator.cs" />
     <Compile Include="DriverCreators\DriversConfiguration.cs" />
     <Compile Include="DriverCreators\MZEP55CounterCreator.cs" />
-    <Compile Include="DriverCreators\MZEP55InterfaceCreator.cs" />
+    <Compile Include="DriverCreators\MZEP55NetworkCreator.cs" />
     <Compile Include="DriverCreators\SystemCreator.cs" />
     <Compile Include="User\UserPermission.cs" />
   </ItemGroup>
