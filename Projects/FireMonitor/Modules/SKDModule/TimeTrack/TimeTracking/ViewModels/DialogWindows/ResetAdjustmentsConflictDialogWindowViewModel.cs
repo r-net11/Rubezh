@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using DayTimeTrackPart = SKDModule.Model.DayTimeTrackPart;
@@ -112,7 +113,7 @@ namespace SKDModule.ViewModels
 		{
 			Title = "Конфликт интервалов";
 			RoundIntervalCommand = new RelayCommand(OnRoundingInterval);
-			RemoveIntervalCommand = new RelayCommand(OnRemovingInverval);
+			RemoveIntervalCommand = new RelayCommand(OnRemovingInverval, CanRemovingInterval);
 		}
 
 		#endregion
@@ -138,6 +139,11 @@ namespace SKDModule.ViewModels
 			DialogResult = true;
 			if (result)
 				Close(true);
+		}
+
+		public bool CanRemovingInterval()
+		{
+			return ConflictingIntervals.All(x => x.IsManuallyAdded);
 		}
 
 		public void OnRemovingInverval()
