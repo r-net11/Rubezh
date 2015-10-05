@@ -36,6 +36,6 @@
 				<ToolBarButton Command="{Binding OpenReportDesignerCommand}" ImageSource="Edit" ToolTip="Открыть дизайнер отчетов" />
 			</StackPanel>
 		</Grid>
-		<dxp:DocumentPreviewControl Grid.Row="1" DocumentSource="{Binding Model}" CommandBarStyle="None" />
+		<!--<dxp:DocumentPreviewControl Grid.Row="1" DocumentSource="{Binding Model}" CommandBarStyle="None" />-->
 	</Grid>
 </UserControl>
