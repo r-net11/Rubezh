@@ -280,7 +280,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
                 "Type={0}; PortName={1}; ControllerId={2}; BaudRate={3}; " +
                 "DataBits={4}; StopBits={5}; Parity={6}; SilentInterval={7}",
                 this.GetType().ToString(), PortName,
-                _NetworkController == null ? String.Empty : _NetworkController.ControllerId.ToString(),
+                _NetworkController == null ? String.Empty : _NetworkController.Id.ToString(),
                 BaudRate, DataBits, StopBits, Parity, SilentInterval);
             //return base.ToString();
         }

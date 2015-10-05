@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 using ResursNetwork.Devices.Collections.ObjectModel;
 using ResursNetwork.OSI.ApplicationLayer;
 
@@ -11,8 +12,9 @@ namespace ResursNetwork.Devices
     /// <summary>
     /// Реализует базовые компонеты счётчика электроэнергии
     /// </summary>
-    public interface IDevice
+    public interface IDevice: INotifyPropertyChanged
     {
+        Guid Id { get; set; }
         /// <summary>
         /// Возвращает тип устройства (счётчика электро)
         /// </summary>
