@@ -128,6 +128,16 @@ namespace FiresecService
 		{
 			if (skdStates.DeviceStates.Count > 0)
 			{
+				// Синхронизируем режим точки доступа согласно режиму замка
+				foreach (var deviceState in skdStates.DeviceStates)
+				{
+					var door = SKDManager.SynchronizeDoorAccessStateForLock(deviceState.Device);
+					if (door != null)
+					{
+						skdStates.DoorStates.Add(door.State);
+					}
+				}
+
 				foreach (var zone in SKDManager.Zones)
 				{
 					var stateClasses = GetZoneStateClasses(zone);
