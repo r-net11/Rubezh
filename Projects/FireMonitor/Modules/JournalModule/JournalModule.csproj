@@ -173,7 +173,6 @@
     <Compile Include="ViewModels\ArchiveFilter\FilterObjectsViewModel.cs" />
     <Compile Include="ViewModels\ArchiveFilter\FilterObjectViewModel.cs" />
     <Compile Include="ViewModels\ArchiveFilter\DateTimePairViewModel.cs" />
-    <Compile Include="ViewModels\ArchiveFilter\SortTypeViewModel.cs" />
     <Compile Include="ViewModels\ArchiveFilter\ArchiveSettingsViewModel.cs" />
     <Compile Include="ViewModels\ArchiveSettings\JournalColumnTypeViewModel.cs" />
     <Compile Include="ViewModels\ArchiveViewModel.cs" />

@@ -475,7 +475,7 @@ namespace GKProcessor
 				{
 					JournalItem.JournalObjectType = JournalObjectType.GKDevice;
 					JournalItem.ObjectUID = Device.UID;
-					JournalItem.ObjectName = Device.DottedPresentationAddress + Device.ShortName;
+					JournalItem.ObjectName = Device.ShortName + " " + Device.DottedPresentationAddress;
 				}
 				Zone = GKManager.Zones.FirstOrDefault(x => x.GKDescriptorNo == GKObjectNo);
 				if (Zone != null)
@@ -548,7 +548,7 @@ namespace GKProcessor
 
 		void InitializeMAMessage()
 		{
-			if (Device != null && Device.DriverType == GKDriverType.RSR2_AM_1)
+			if (Device != null && ((Device.DriverType == GKDriverType.RSR2_AM_1) || (Device.DriverType == GKDriverType.RSR2_MAP4)))
 			{
 				if (JournalItem.JournalEventNameType == JournalEventNameType.Норма)
 				{

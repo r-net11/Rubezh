@@ -30,8 +30,10 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -258,6 +260,10 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WPFToolkit.Extended, Version=1.4.0.2, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
     <Reference Include="Xceed.Wpf.Toolkit">
       <HintPath>..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
@@ -270,8 +276,24 @@
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Apartments\ViewModels\ApartmentDetailsViewModel.Common.cs" />
+    <Compile Include="Apartments\ViewModels\ApartmentDetailsViewModel.cs" />
+    <Compile Include="Apartments\ViewModels\ApartmentsFolderDetailsViewModel.cs" />
+    <Compile Include="Apartments\ViewModels\ApartmentsViewModel.cs" />
+    <Compile Include="Apartments\ViewModels\ApartmentViewModel.cs" />
+    <Compile Include="Apartments\Views\ApartmentsFolderDetailsView.xaml.cs">
+      <DependentUpon>ApartmentsFolderDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Processor\DBCash.cs" />
+    <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DetailsParameterViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterJournalViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\JournalEventsViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\JournalEventViewModel.cs" />
+    <Compile Include="JournalEvents\Views\JournalEventsView.xaml.cs">
+      <DependentUpon>JournalEventsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Processor\DeviceProcessor.cs" />
     <Compile Include="Processor\LoginService.cs" />
     <Compile Include="Processor\ResursSettings.cs" />
@@ -283,6 +305,7 @@
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
     <Compile Include="Apartments\ViewModels\ApartmentViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Devices\ViewModels\ParameterViewModel.cs" />
     <Compile Include="Devices\ViewModels\DriverTypesViewModel.cs" />
     <Compile Include="Main\ViewModels\LoginViewModel.cs" />
     <Compile Include="Main\ViewModels\NotifyIconService.cs" />
@@ -317,6 +340,17 @@
     <Compile Include="Main\Views\StartupView.xaml.cs">
       <DependentUpon>StartupView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Users\ViewModels\PermissionsViewModel.cs" />
+    <Compile Include="Users\ViewModels\PermissionViewModel.cs" />
+    <Compile Include="Tariffs\ViewModels\TariffsViewModel.cs" />
+    <Compile Include="Tariffs\ViewModels\TariffDetailsViewModel.cs" />
+    <Compile Include="Tariffs\ViewModels\TariffViewModel.cs" />
+    <Compile Include="Tariffs\Views\TariffsView.xaml.cs">
+      <DependentUpon>TariffsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tariffs\Views\TariffDetailsView.xaml.cs">
+      <DependentUpon>TariffDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Reports\ReportHelper.cs" />
     <Compile Include="Reports\IReport.cs" />
     <Compile Include="Reports\ReportType.cs" />
@@ -334,7 +368,31 @@
     <Compile Include="Reports\Views\RepxSelectionView.xaml.cs">
       <DependentUpon>RepxSelectionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Users\ViewModels\UserDetailsViewModel.cs" />
+    <Compile Include="Users\ViewModels\UsersViewModel.cs" />
+    <Compile Include="Users\ViewModels\UserViewModel.cs" />
+    <Compile Include="Users\Views\PermissionsView.xaml.cs">
+      <DependentUpon>PermissionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Users\Views\UserDetailsView.xaml.cs">
+      <DependentUpon>UserDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Users\Views\UsersView.xaml.cs">
+      <DependentUpon>UsersView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Apartments\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="JournalEvents\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JournalEvents\Views\JournalEventsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Apartments\Views\ApartmentsFolderDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -386,7 +444,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Reports\DataTemplates\Dictionary.xaml">
+    <Page Include="Tariffs\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -394,11 +452,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Reports\Views\ReportsView.xaml">
+    <Page Include="Tariffs\Views\TariffDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+        <Page Include="Reports\Views\ReportsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Reports\Views\RepxSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+        <Page Include="Users\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Users\Views\PermissionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Users\Views\UserDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Users\Views\UsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -468,12 +546,12 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4 %28x86 и x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <ProductName>Клиентский профиль .NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -511,6 +589,9 @@
     <Folder Include="Rates\Views\" />
     <Folder Include="Reports\DataSources\" />
     <Folder Include="Reports\Templates\" />
+    <Folder Include="Reports\DataTemplates\" />
+    <Folder Include="Reports\ViewModels\" />
+    <Folder Include="Reports\Views\" />
     <Folder Include="Users\DataTemplates\" />
     <Folder Include="Users\ViewModels\" />
     <Folder Include="Users\Views\" />

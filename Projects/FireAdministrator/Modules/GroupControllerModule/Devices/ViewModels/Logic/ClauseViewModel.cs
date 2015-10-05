@@ -78,31 +78,37 @@ namespace GKModule.ViewModels
 				{
 					case ClauseOperationType.AllDevices:
 					case ClauseOperationType.AnyDevice:
-						StateTypes = new ObservableCollection<StateTypeViewModel>();
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Norm));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire2));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire1));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.On));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Off));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.TurningOn));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.TurningOff));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Failure));
+						StateTypes = new ObservableCollection<StateTypeViewModel>()
+						{
+							new StateTypeViewModel(value, GKStateBit.Norm),
+							new StateTypeViewModel(value, GKStateBit.Fire2),
+							new StateTypeViewModel(value, GKStateBit.Fire1),
+							new StateTypeViewModel(value, GKStateBit.On),
+							new StateTypeViewModel(value, GKStateBit.Off),
+							new StateTypeViewModel(value, GKStateBit.TurningOn),
+							new StateTypeViewModel(value, GKStateBit.TurningOff),
+							new StateTypeViewModel(value, GKStateBit.Failure)
+						};
 						break;
 
 					case ClauseOperationType.AllZones:
 					case ClauseOperationType.AnyZone:
-						StateTypes = new ObservableCollection<StateTypeViewModel>();
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire2));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire1));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Attention));
+						StateTypes = new ObservableCollection<StateTypeViewModel>()
+						{
+							new StateTypeViewModel(value, GKStateBit.Fire2),
+							new StateTypeViewModel(value, GKStateBit.Fire1),
+							new StateTypeViewModel(value, GKStateBit.Attention)
+						};
 						break;
 
 					case ClauseOperationType.AllGuardZones:
 					case ClauseOperationType.AnyGuardZone:
-						StateTypes = new ObservableCollection<StateTypeViewModel>();
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.On));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Off));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire1));
+						StateTypes = new ObservableCollection<StateTypeViewModel>()
+						{
+							new StateTypeViewModel(value, GKStateBit.On),
+							new StateTypeViewModel(value, GKStateBit.Off),
+							new StateTypeViewModel(value, GKStateBit.Fire1)
+						};
 						break;
 
 					case ClauseOperationType.AllDirections:
@@ -153,8 +159,7 @@ namespace GKModule.ViewModels
 						{
 							new StateTypeViewModel(value, GKStateBit.On),
 							new StateTypeViewModel(value, GKStateBit.TurningOn),
-							new StateTypeViewModel(value, GKStateBit.Norm),
-							new StateTypeViewModel(value, GKStateBit.Failure)
+							new StateTypeViewModel(value, GKStateBit.Norm)
 						};
 						break;
 				}
@@ -310,7 +315,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
 			{
 				Devices = devicesSelectationViewModel.DevicesList;
-				Devices.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationDevices);
 			}
 		}
@@ -322,7 +326,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
 			{
 				Zones = zonesSelectationViewModel.Zones;
-				Zones.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationZones);
 			}
 		}
@@ -334,7 +337,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(guardZonesSelectationViewModel))
 			{
 				GuardZones = guardZonesSelectationViewModel.GuardZones;
-				GuardZones.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationGuardZones);
 			}
 		}
@@ -346,7 +348,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(directionsSelectationViewModel))
 			{
 				Directions = directionsSelectationViewModel.Directions;
-				Directions.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationDirections);
 			}
 		}
@@ -358,7 +359,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(mptsSelectationViewModel))
 			{
 				MPTs = mptsSelectationViewModel.MPTs;
-				MPTs.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationMPTs);
 			}
 		}
@@ -370,7 +370,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(delaysSelectationViewModel))
 			{
 				Delays = delaysSelectationViewModel.Delays;
-				Delays.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationDelays);
 			}
 		}
@@ -382,7 +381,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(doorsSelectationViewModel))
 			{
 				Doors = doorsSelectationViewModel.Doors;
-				Doors.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationDoors);
 			}
 		}
@@ -394,7 +392,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(pumpStationsSelectationViewModel))
 			{
 				PumpStations = pumpStationsSelectationViewModel.PumpStations;
-				PumpStations.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationPumpStations);
 			}
 		}

@@ -51,10 +51,10 @@
 		<TextBlock Grid.Column="0" Grid.Row="3" Text="Аргумент" Style="{DynamicResource TextBlockDetailsStyle}" />
 		<Views:ArgumentView Grid.Column="1" Grid.Row="3" DataContext="{Binding ValueArgument}" />
 
-		<TextBlock Grid.Column="0" Grid.Row="4" Text="Всем клиентам" Style="{DynamicResource TextBlockDetailsStyle}" />
-		<CheckBox Grid.Column="1" Grid.Row="4" IsChecked="{Binding ForAllClients}" />
+		<TextBlock Grid.Column="0" Grid.Row="5" Text="Всем клиентам" Style="{DynamicResource TextBlockDetailsStyle}" Visibility="{Binding IsServerContext, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<CheckBox Grid.Column="1" Grid.Row="5" IsChecked="{Binding ForAllClients}" Visibility="{Binding IsServerContext, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-		<TextBlock Grid.Column="0" Grid.Row="5" Text="Восстанавливать" Width="108" Style="{DynamicResource TextBlockDetailsStyle}" Visibility="{Binding Path=ControlElementType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ControlElementType.Set}}" />
-		<CheckBox Grid.Column="1" Grid.Row="5" IsChecked="{Binding StoreOnServer}" IsEnabled="{Binding CanStoreOnServer}" Visibility="{Binding Path=ControlElementType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ControlElementType.Set}}" />
+		<TextBlock Grid.Column="0" Grid.Row="4" Text="Восстанавливать" Width="108" Style="{DynamicResource TextBlockDetailsStyle}" Visibility="{Binding Path=ControlElementType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ControlElementType.Set}}" />
+		<CheckBox Grid.Column="1" Grid.Row="4" IsChecked="{Binding StoreOnServer}" IsEnabled="{Binding CanStoreOnServer}" Visibility="{Binding Path=ControlElementType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ControlElementType.Set}}" />
 	</Grid>
 </UserControl>

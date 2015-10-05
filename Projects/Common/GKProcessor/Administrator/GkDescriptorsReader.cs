@@ -40,43 +40,8 @@ namespace GKProcessor
 				GKProcessorManager.StopProgress(progressCallback);
 				return false;
 			}
-			var gkFileReaderWriter = new GKFileReaderWriter();
-			var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(gkControllerDevice);
-			if (gkFileReaderWriter.Error != null)
-			{
-				Error = gkFileReaderWriter.Error;
-				GKProcessorManager.StopProgress(progressCallback);
-				return false;
-			}
-			progressCallback = GKProcessorManager.StartProgress("Чтение конфигурации " + gkControllerDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true, GKProgressClientType.Administrator);
-			ushort descriptorNo = 0;
 
-			while (true)
-			{
-				if (progressCallback.IsCanceled)
-				{
-					Error = "Операция отменена";
-					break;
-				}
-				descriptorNo++;
-				GKProcessorManager.DoProgress("Чтение базы данных объектов ГК " + descriptorNo, progressCallback);
-				const byte packNo = 1;
-				var data = new List<byte>(BitConverter.GetBytes(descriptorNo)) { packNo };
-				var sendResult = SendManager.Send(gkControllerDevice, 3, 19, ushort.MaxValue, data);
-				var bytes = sendResult.Bytes;
-
-				if (sendResult.HasError || bytes.Count < 5)
-				{
-					Error = "Возникла ошибка при чтении объекта " + descriptorNo;
-					break;
-				}
-
-				if (bytes[3] == 0xff && bytes[4] == 0xff)
-					break;
-
-				if (!Parse(bytes.Skip(3).ToList(), descriptorNo))
-					break;
-			}
+			ReadConfiguration(gkControllerDevice, progressCallback);
 
 			GKProcessorManager.DoProgress("Перевод ГК в рабочий режим", progressCallback);
 			if (!DeviceBytesHelper.GoToWorkingRegime(gkControllerDevice, progressCallback))
@@ -88,6 +53,53 @@ namespace GKProcessor
 				return false;
 			DeviceConfiguration.Update();
 			return true;
+		}
+
+		void ReadConfiguration(GKDevice gkControllerDevice, GKProgressCallback progressCallback)
+		{
+			var gkFileReaderWriter = new GKFileReaderWriter();
+			var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(gkControllerDevice);
+			if (gkFileReaderWriter.Error != null)
+			{
+				Error = gkFileReaderWriter.Error;
+				GKProcessorManager.StopProgress(progressCallback);
+				return;
+			}
+			progressCallback = GKProcessorManager.StartProgress("Чтение конфигурации " + gkControllerDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true, GKProgressClientType.Administrator);
+			ushort descriptorNo = 0;
+			while (true)
+			{
+				if (progressCallback.IsCanceled)
+				{
+					Error = "Операция отменена";
+					break;
+				}
+				descriptorNo++;
+				GKProcessorManager.DoProgress("Чтение базы данных объектов ГК " + descriptorNo, progressCallback);
+				const byte packNo = 1;
+				var data = new List<byte>(BitConverter.GetBytes(descriptorNo)) { packNo };
+
+				for (int i = 0; i < 3; i++)
+				{
+					var sendResult = SendManager.Send(gkControllerDevice, 3, 19, ushort.MaxValue, data);
+					var bytes = sendResult.Bytes;
+
+					if (!sendResult.HasError && bytes.Count >= 5)
+					{
+						if (bytes[3] == 0xff && bytes[4] == 0xff)
+							return;
+						if (!Parse(bytes.Skip(3).ToList(), descriptorNo))
+							return;
+						break;
+					}
+
+					if (i == 2)
+					{
+						Error = "Возникла ошибка при чтении объекта " + descriptorNo;
+						return;
+					}
+				}
+			}
 		}
 
 		bool Parse(List<byte> bytes, int descriptorNo)

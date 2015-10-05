@@ -17,10 +17,12 @@ namespace GKImitator.ViewModels
 		public bool HasOnDelay { get; private set; }
 		public bool HasHoldDelay { get; private set; }
 		public bool HasOffDelay { get; private set; }
+		bool IsSettingGuardAlarm { get; set; }
 
 		ushort OnDelay { get; set; }
 		ushort HoldDelay { get; set; }
 		ushort OffDelay { get; set; }
+		ushort GuardZoneAlarmDelay { get; set; }
 		DelayRegime? DelayRegime { get; set; }
 
 		void InitializeDelays()
@@ -80,6 +82,16 @@ namespace GKImitator.ViewModels
 				HoldDelay = (ushort)door.Hold;
 				DelayRegime = FiresecAPI.GK.DelayRegime.Off;
 			}
+
+
+			var guardZone = GKBase as GKGuardZone;
+			if (guardZone != null)
+			{
+				OnDelay = (ushort)guardZone.SetDelay;
+				OffDelay = (ushort)guardZone.ResetDelay;
+				GuardZoneAlarmDelay = (ushort)guardZone.AlarmDelay;
+				DelayRegime = FiresecAPI.GK.DelayRegime.On;
+			}
 		}
 
 		TurningState TurningState = TurningState.None;
@@ -117,6 +129,17 @@ namespace GKImitator.ViewModels
 			}
 		}
 
+		ushort _currentAlarmDelay;
+		public ushort CurrentAlarmDelay
+		{
+			get { return _currentAlarmDelay; }
+			set
+			{
+				_currentAlarmDelay = value;
+				OnPropertyChanged(() => CurrentAlarmDelay);
+			}
+		}
+
 		public void InitializeTurning()
 		{
 			TurnOnCommand = new RelayCommand(OnTurnOn);
@@ -140,10 +163,10 @@ namespace GKImitator.ViewModels
 				{
 					TurningState = TurningState.None;
 					var changed = false;
-					changed = changed || SetStateBit(GKStateBit.On, true);
-					changed = changed || SetStateBit(GKStateBit.TurningOn, false);
-					changed = changed || SetStateBit(GKStateBit.Off, false);
-					changed = changed || SetStateBit(GKStateBit.TurningOff, false);
+					changed = SetStateBit(GKStateBit.On, true) || changed;
+					changed = SetStateBit(GKStateBit.TurningOn, false) || changed;
+					changed = SetStateBit(GKStateBit.Off, false) || changed;
+					changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
 					if (changed)
 					{
 						RecalculateOutputLogic();
@@ -202,6 +225,21 @@ namespace GKImitator.ViewModels
 				{
 					CurrentOffDelay--;
 					AdditionalShortParameters[2] = CurrentOffDelay;
+				}
+			}
+			if (IsSettingGuardAlarm)
+			{
+				if (CurrentAlarmDelay == 0)
+				{
+					IsSettingGuardAlarm = false;
+					SetStateBit(GKStateBit.Attention, false);
+					SetStateBit(GKStateBit.Fire1, true);
+					var journalItem = new ImitatorJournalItem(2, 2, 0, 0);
+					AddJournalItem(journalItem);
+				}
+				else
+				{
+					CurrentAlarmDelay--;
 				}
 			}
 		}
@@ -276,10 +314,10 @@ namespace GKImitator.ViewModels
 			else
 			{
 				var changed = false;
-				changed = changed || SetStateBit(GKStateBit.On, false);
-				changed = changed || SetStateBit(GKStateBit.TurningOn, true);
-				changed = changed || SetStateBit(GKStateBit.Off, false);
-				changed = changed || SetStateBit(GKStateBit.TurningOff, false);
+				changed = SetStateBit(GKStateBit.On, false) || changed;
+				changed = SetStateBit(GKStateBit.TurningOn, true) || changed;
+				changed = SetStateBit(GKStateBit.Off, false) || changed;
+				changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
 				if (changed)
 				{
 					var journalItem = new ImitatorJournalItem(2, 9, 4, 0);
@@ -295,10 +333,11 @@ namespace GKImitator.ViewModels
 			CurrentHoldDelay = 0;
 			CurrentOffDelay = 0;
 			var changed = false;
-			changed = changed || SetStateBit(GKStateBit.On, true);
-			changed = changed || SetStateBit(GKStateBit.TurningOn, false);
-			changed = changed || SetStateBit(GKStateBit.Off, false);
-			changed = changed || SetStateBit(GKStateBit.TurningOff, false);
+
+			changed = SetStateBit(GKStateBit.On, true) || changed;
+			changed = SetStateBit(GKStateBit.TurningOn, false) || changed;
+			changed = SetStateBit(GKStateBit.Off, false) || changed;
+			changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
 			var journalItem = new ImitatorJournalItem(2, 9, 2, 0);
 			if (changed)
 			{
@@ -316,10 +355,10 @@ namespace GKImitator.ViewModels
 			else
 			{
 				var changed = false;
-				changed = changed || SetStateBit(GKStateBit.On, false);
-				changed = changed || SetStateBit(GKStateBit.TurningOn, false);
-				changed = changed || SetStateBit(GKStateBit.Off, false);
-				changed = changed || SetStateBit(GKStateBit.TurningOff, true);
+				changed = SetStateBit(GKStateBit.On, false) || changed;
+				changed = SetStateBit(GKStateBit.TurningOn, false) || changed;
+				changed = SetStateBit(GKStateBit.Off, false) || changed;
+				changed = SetStateBit(GKStateBit.TurningOff, true) || changed;
 				if (changed)
 				{
 					var journalItem = new ImitatorJournalItem(2, 9, 5, 0);
@@ -335,15 +374,38 @@ namespace GKImitator.ViewModels
 			CurrentHoldDelay = 0;
 			CurrentOffDelay = 0;
 			var changed = false;
-			changed = changed || SetStateBit(GKStateBit.On, false);
-			changed = changed || SetStateBit(GKStateBit.TurningOn, false);
-			changed = changed || SetStateBit(GKStateBit.Off, true);
-			changed = changed || SetStateBit(GKStateBit.TurningOff, false);
+			changed = SetStateBit(GKStateBit.On, false) || changed;
+			changed = SetStateBit(GKStateBit.TurningOn, false) || changed;
+			changed = SetStateBit(GKStateBit.Off, true) || changed;
+			changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
 			if (changed)
 			{
 				var journalItem = new ImitatorJournalItem(2, 9, 3, 3);
 				AddJournalItem(journalItem);
 				RecalculateOutputLogic();
+			}
+		}
+
+		void SetGuardAlarm()
+		{
+			if (GetStateBit(GKStateBit.Attention) || GetStateBit(GKStateBit.Fire1))
+				return;
+
+			if (GuardZoneAlarmDelay > 0)
+			{
+				SetStateBit(GKStateBit.Attention, true);
+				SetStateBit(GKStateBit.Fire1, false);
+				var journalItem = new ImitatorJournalItem(2, 4, 0, 0);
+				AddJournalItem(journalItem);
+				IsSettingGuardAlarm = true;
+				CurrentAlarmDelay = GuardZoneAlarmDelay;
+			}
+			else
+			{
+				SetStateBit(GKStateBit.Attention, false);
+				SetStateBit(GKStateBit.Fire1, true);
+				var journalItem = new ImitatorJournalItem(2, 2, 0, 0);
+				AddJournalItem(journalItem);
 			}
 		}
 	}

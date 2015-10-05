@@ -43,7 +43,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_title = value;
-				OnPropertyChanged("Title");
+				OnPropertyChanged(() => Title);
 			}
 		}
 		private bool _topMost;
@@ -53,7 +53,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_topMost = value;
-				OnPropertyChanged("TopMost");
+				OnPropertyChanged(() => TopMost);
 			}
 		}
 
@@ -64,9 +64,9 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_sizable = value;
-				OnPropertyChanged("Sizable");
+				OnPropertyChanged(() => Sizable);
 				ResizeMode = Sizable ? ResizeMode.CanResize : ResizeMode.CanMinimize;
-				OnPropertyChanged("ResizeMode");
+				OnPropertyChanged(() => ResizeMode);
 			}
 		}
 
@@ -77,7 +77,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_allowClose = value;
-				OnPropertyChanged("AllowClose");
+				OnPropertyChanged(() => AllowClose);
 			}
 		}
 

@@ -26,59 +26,107 @@ namespace GKProcessor
 				var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkControllerDevice.UID);
 				if (gkDatabase != null)
 				{
-					var result = DeviceBytesHelper.Ping(gkDatabase.RootDevice);
-					if (!result)
-					{ Errors.Add("Устройство " + gkDatabase.RootDevice.PresentationName + " недоступно"); return; }
-					//foreach (var kauDatabase in gkDatabase.KauDatabases)
-					//{
-					//	result = DeviceBytesHelper.Ping(kauDatabase.RootDevice);
-					//	if (!result)
-					//	{ Errors.Add("Устройство " + kauDatabase.RootDevice.PresentationName + " недоступно"); return; }
-					//}
+					var kauDatabases = new List<KauDatabase>();
+					var lostKauDatabases = new List<KauDatabase>();
+					using (var gkLifecycleManager = new GKLifecycleManager(gkDatabase.RootDevice, "Проверка связи"))
+					{
+						gkLifecycleManager.AddItem("ГК");
+						var pingResult = DeviceBytesHelper.Ping(gkDatabase.RootDevice);
+						if (!pingResult)
+						{
+							Errors.Add("Устройство " + gkDatabase.RootDevice.PresentationName + " недоступно");
+							return;
+						}
+
+						foreach (var kauDatabase in gkDatabase.KauDatabases)
+						{
+							gkLifecycleManager.AddItem(kauDatabase.RootDevice.PresentationName);
+							pingResult = DeviceBytesHelper.Ping(kauDatabase.RootDevice);
+							if (pingResult)
+							{
+								kauDatabases.Add(kauDatabase);
+							}
+							else
+							{
+								lostKauDatabases.Add(kauDatabase);
+							}
+						}
+					}
+
 					for (int i = 0; i < 3; i++)
 					{
 						Errors = new List<string>();
 
 						var summaryDescriptorsCount = 4 + gkDatabase.Descriptors.Count;
-						gkDatabase.KauDatabases.ForEach(x => { summaryDescriptorsCount += 3 + x.Descriptors.Count; });
+						kauDatabases.ForEach(x => { summaryDescriptorsCount += 3 + x.Descriptors.Count; });
+
 						var title = "Запись конфигурации в " + gkDatabase.RootDevice.PresentationName + (i > 0 ? " Попытка " + (i + 1) : "");
 						progressCallback = GKProcessorManager.StartProgress(title, "", summaryDescriptorsCount, false, GKProgressClientType.Administrator);
-						result = DeviceBytesHelper.GoToTechnologicalRegime(gkDatabase.RootDevice, progressCallback);
+						var result = DeviceBytesHelper.GoToTechnologicalRegime(gkDatabase.RootDevice, progressCallback);
 						if (!result)
 						{
-							Errors.Add("Не удалось перевести " + gkControllerDevice.PresentationName + " в технологический режим\n" +
-								   "Устройство не доступно, либо вашего " +
-								   "IP адреса нет в списке разрешенного адреса ГК"); continue;
+							Errors.Add("Не удалось перевести " + gkControllerDevice.PresentationName + " в технологический режим\nУстройство не доступно, либо вашего IP адреса нет в списке разрешенного адреса ГК");
+							continue;
 						}
+
 						result = DeviceBytesHelper.EraseDatabase(gkDatabase.RootDevice, progressCallback);
 						if (!result)
-						{ Errors.Add("Не удалось стереть базу данных ГК"); continue; }
-						foreach (var kauDatabase in gkDatabase.KauDatabases)
 						{
-							result = DeviceBytesHelper.Ping(kauDatabase.RootDevice);
-							if (!result)
-							{ Errors.Add("Устройство " + kauDatabase.RootDevice.PresentationName + " недоступно"); continue; }
+							Errors.Add("Не удалось стереть базу данных ГК");
+							continue;
+						}
 
+						foreach (var kauDatabase in kauDatabases)
+						{
 							result = DeviceBytesHelper.GoToTechnologicalRegime(kauDatabase.RootDevice, progressCallback);
 							if (!result)
-							{ Errors.Add("Не удалось перевести КАУ в технологический режим"); continue; }
+							{
+								Errors.Add("Не удалось перевести КАУ в технологический режим");
+								continue;
+							}
+
 							if (!DeviceBytesHelper.EraseDatabase(kauDatabase.RootDevice, progressCallback))
-							{ Errors.Add("Не удалось стереть базу данных КАУ"); continue; }
+							{
+								Errors.Add("Не удалось стереть базу данных КАУ");
+								continue;
+							}
+
 							if (!WriteConfigToDevice(kauDatabase, progressCallback))
-							{ Errors.Add("Не удалось записать дескриптор КАУ"); }
+							{
+								Errors.Add("Не удалось записать дескриптор КАУ");
+							}
 						}
+
 						result = WriteConfigToDevice(gkDatabase, progressCallback);
 						if (!result)
-						{ Errors.Add("Не удалось записать дескриптор ГК"); continue; }
+						{
+							Errors.Add("Не удалось записать дескриптор ГК");
+							continue;
+						}
+
+
 						var gkFileReaderWriter = new GKFileReaderWriter();
 						gkFileReaderWriter.WriteFileToGK(gkControllerDevice);
 						if (gkFileReaderWriter.Error != null)
-						{ Errors.Add(gkFileReaderWriter.Error); break; }
-						if (gkDatabase.KauDatabases.Any(x => !DeviceBytesHelper.GoToWorkingRegime(x.RootDevice, progressCallback)))
-						{ Errors.Add("Не удалось перевести КАУ в рабочий режим"); }
+						{
+							Errors.Add(gkFileReaderWriter.Error);
+							break;
+						}
+
+						if (kauDatabases.Any(x => !DeviceBytesHelper.GoToWorkingRegime(x.RootDevice, progressCallback)))
+						{
+							Errors.Add("Не удалось перевести КАУ в рабочий режим");
+						}
 						if (!DeviceBytesHelper.GoToWorkingRegime(gkDatabase.RootDevice, progressCallback, false))
-						{ Errors.Add("Не удалось перевести ГК в рабочий режим"); }
+						{
+							Errors.Add("Не удалось перевести ГК в рабочий режим");
+						}
 						break;
+					}
+
+					foreach (var kauDatabase in lostKauDatabases)
+					{
+						Errors.Add("Устройство " + kauDatabase.RootDevice.PresentationName + " недоступно");
 					}
 				}
 			}
@@ -96,34 +144,39 @@ namespace GKProcessor
 
 		bool WriteConfigToDevice(CommonDatabase commonDatabase, GKProgressCallback progressCallback)
 		{
-			foreach (var descriptor in commonDatabase.Descriptors)
+			using (var gkLifecycleManager = new GKLifecycleManager(commonDatabase.RootDevice, "Запись дескрипторов"))
 			{
-				var progressStage = commonDatabase.RootDevice.PresentationName + ": запись " +
-					descriptor.GKBase.PresentationName + " " + "(" + descriptor.GetDescriptorNo() + ")" +
-					" из " + commonDatabase.Descriptors.Count;
-				GKProcessorManager.DoProgress(progressStage, progressCallback);
-				var packs = CreateDescriptors(descriptor);
-				foreach (var pack in packs)
+				for (int descriptorNo = 0; descriptorNo < commonDatabase.Descriptors.Count; descriptorNo++)
 				{
-					for (int i = 0; i < 10; i++)
+					var descriptor = commonDatabase.Descriptors[descriptorNo];
+					gkLifecycleManager.Progress(descriptorNo + 1, commonDatabase.Descriptors.Count);
+					var progressStage = commonDatabase.RootDevice.PresentationName + ": запись " + descriptor.GKBase.PresentationName + " " + "(" + descriptor.GetDescriptorNo() + ")" + " из " + commonDatabase.Descriptors.Count;
+					GKProcessorManager.DoProgress(progressStage, progressCallback);
+
+					var packs = CreateDescriptors(descriptor);
+					foreach (var pack in packs)
 					{
-						var sendResult = SendManager.Send(commonDatabase.RootDevice, (ushort)(pack.Count), 17, 0, pack);
-						if (sendResult.HasError)
+						for (int i = 0; i < 10; i++)
 						{
-							if (i >= 9)
+							var sendResult = SendManager.Send(commonDatabase.RootDevice, (ushort)(pack.Count), 17, 0, pack);
+							if (sendResult.HasError)
 							{
-								GKProcessorManager.StopProgress(progressCallback);
-								return false;
+								if (i >= 9)
+								{
+									GKProcessorManager.StopProgress(progressCallback);
+									gkLifecycleManager.AddItem("Ошибка");
+									return false;
+								}
 							}
+							else
+								break;
 						}
-						else
-							break;
 					}
 				}
+				GKProcessorManager.DoProgress(commonDatabase.RootDevice.PresentationName + " Запись завершающего дескриптора", progressCallback);
+				WriteEndDescriptor(commonDatabase);
+				return true;
 			}
-			GKProcessorManager.DoProgress(commonDatabase.RootDevice.PresentationName + " Запись завершающего дескриптора", progressCallback);
-			WriteEndDescriptor(commonDatabase);
-			return true;
 		}
 
 		List<List<byte>> CreateDescriptors(BaseDescriptor descriptor)

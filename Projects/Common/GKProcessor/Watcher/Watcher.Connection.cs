@@ -41,7 +41,7 @@ namespace GKProcessor
 					IsConnected = isConnected;
 					if (isConnected)
 					{
-						var hashBytes = GKFileInfo.CreateHash1(GKManager.DeviceConfiguration, GkDatabase.RootDevice);
+						var hashBytes = GKFileInfo.CreateHash1(GkDatabase.RootDevice);
 						var gkFileReaderWriter = new GKFileReaderWriter();
 						var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
 						IsHashFailure = gkFileInfo == null || !GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash1);

@@ -16,7 +16,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Header="Адрес" Binding="{Binding Device.PresentationAddress}" Width="Auto" />
+				<DataGridTextColumn Header="Адрес" Binding="{Binding Device.DottedPresentationAddress}" Width="Auto" />
 				<DataGridTextColumn Header="Задымленность, дБ/м" Binding="{Binding Smokiness}" Width="*" />
 				<DataGridTextColumn Header="Температура, C" Binding="{Binding Temperature}" Width="*" />
 				<DataGridTextColumn Header="Запыленность, дБ/м" Binding="{Binding Dustinness}" Width="*" />

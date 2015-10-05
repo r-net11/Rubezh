@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RubezhResurs.OSI.Messages;
-using RubezhResurs.OSI.ApplicationLayer;
+using ResursNetwork.OSI.Messages;
+using ResursNetwork.OSI.ApplicationLayer;
 
-namespace RubezhResurs.OSI.DataLinkLayer
+namespace ResursNetwork.OSI.DataLinkLayer
 {
     /// <summary>
     /// Определяет объект для передачи и приёма сообщений в сети 
@@ -54,14 +54,10 @@ namespace RubezhResurs.OSI.DataLinkLayer
         /// <summary>
         /// Читает одно сообщение из приёмного буфера
         /// </summary>
-        /// <param name="message">Прочитанное сообщение</param>
-        /// <returns>false-буфер пуст, собщение не прочитано</returns>
-        bool Read(out IMessage message);
-        /// <summary>
-        /// Возвращает тип порта
-        /// </summary>
-        /// <returns></returns>
-        Type GetPortType(); 
+        /// <param name="message"></param>
+        /// <returns>Прочитанное сообщение, null - если буфер пуст</returns>
+        IMessage Read();
+
         #endregion
 
         #region Events

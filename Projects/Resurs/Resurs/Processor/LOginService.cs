@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Common;
+using ResursDAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +11,8 @@ namespace Resurs.Processor
 	{
 		public static string Login(string login, string password)
 		{
-			return null;
+
+			return DBCash.CheckLogin(login,password);
 		}
 	}
 }

@@ -3,8 +3,10 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Resurs.Processor;
 using ResursAPI;
+using ResursDAL;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -48,6 +50,8 @@ namespace Resurs.ViewModels
 			set
 			{
 				_selectedDevice = value;
+				if(_selectedDevice != null)
+					_selectedDevice.Update();
 				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
@@ -70,7 +74,7 @@ namespace Resurs.ViewModels
 
 		void BuildTree()
 		{
-			RootDevice = AddDeviceInternal(DBCash.RootDevice, null);
+			RootDevice = AddDeviceInternal(ResursDAL.DBCash.RootDevice, null);
 			FillAllDevices();
 		}
 
@@ -118,21 +122,26 @@ namespace Resurs.ViewModels
 			}
 		}
 
+		public bool IsVisibility
+		{
+			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.Device); }
+		}
+
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
 			var driverTypesViewModel = new DriverTypesViewModel(SelectedDevice.Device.DriverType);
 			if (DialogService.ShowModalWindow(driverTypesViewModel))
 			{
-				var device = new Device()
+				var deviceDetailsViewModel = new DeviceDetailsViewModel(driverTypesViewModel.SelectedDriverType, SelectedDevice.Device);
+				if (DialogService.ShowModalWindow(deviceDetailsViewModel))
 				{
-					DriverType = driverTypesViewModel.SelectedDriverType
-				};
-				var deviceViewModel = new DeviceViewModel(device);
-				SelectedDevice.AddChild(deviceViewModel);
-				SelectedDevice.IsExpanded = true;
-				AllDevices.Add(deviceViewModel);
-				SelectedDevice = deviceViewModel;
+					var deviceViewModel = new DeviceViewModel(deviceDetailsViewModel.Device);
+					SelectedDevice.AddChild(deviceViewModel);
+					SelectedDevice.IsExpanded = true;
+					AllDevices.Add(deviceViewModel);
+					SelectedDevice = deviceViewModel;
+				}
 			}
 		}
 		bool CanAdd()
@@ -152,7 +161,7 @@ namespace Resurs.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedDevice != null;
+			return SelectedDevice != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -162,7 +171,7 @@ namespace Resurs.ViewModels
 			{
 				var selectedDevice = SelectedDevice;
 				var parent = selectedDevice.Parent;
-				if (parent != null)
+				if (parent != null && DBCash.DeleteDevice(selectedDevice.Device))
 				{
 					var index = selectedDevice.VisualIndex;
 					parent.Nodes.Remove(selectedDevice);

@@ -3,6 +3,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Resurs.Processor;
 using ResursAPI;
+using ResursDAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace Resurs.ViewModels
 		public ApartmentsViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
+			AddFolderCommand = new RelayCommand(OnAddFolder, CanAddFolder);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 
@@ -136,38 +138,74 @@ namespace Resurs.ViewModels
 			return SelectedApartment != null;
 		}
 
+		public RelayCommand AddFolderCommand { get; private set; }
+		void OnAddFolder()
+		{
+			var apartmentsFolderDetailsViewModel = new ApartmentsFolderDetailsViewModel(null);
+			if (DialogService.ShowModalWindow(apartmentsFolderDetailsViewModel))
+			{
+				var apartmentViewModel = new ApartmentViewModel(apartmentsFolderDetailsViewModel.Apartment);
+				SelectedApartment.AddChild(apartmentViewModel);
+				SelectedApartment.IsExpanded = true;
+				AllApartments.Add(apartmentViewModel);
+				SelectedApartment = apartmentViewModel;
+			}
+		}
+		bool CanAddFolder()
+		{
+			return SelectedApartment != null && SelectedApartment.Apartment.IsFolder;
+		}
+
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var apartmentDetailsViewModel = new ApartmentDetailsViewModel(SelectedApartment.Apartment);
+			SaveCancelDialogViewModel apartmentDetailsViewModel = SelectedApartment.Apartment.IsFolder ?
+				(SaveCancelDialogViewModel)new ApartmentsFolderDetailsViewModel(SelectedApartment.Apartment) :
+				(SaveCancelDialogViewModel)new ApartmentDetailsViewModel(SelectedApartment.Apartment);
+
 			if (DialogService.ShowModalWindow(apartmentDetailsViewModel))
 			{
-				var apartmentViewModel = new ApartmentViewModel(apartmentDetailsViewModel.Apartment);
-				SelectedApartment.Update(apartmentDetailsViewModel.Apartment);
+				var apartmentViewModel = new ApartmentViewModel(SelectedApartment.Apartment);
+				SelectedApartment.Update(SelectedApartment.Apartment);
 			}
 		}
 		bool CanEdit()
 		{
-			return SelectedApartment != null;
+			return SelectedApartment != null && DBCash.CurrentUser.UserPermissions.Any(x=> x.PermissionType == PermissionType.EditApartment);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			var selectedApartment = SelectedApartment;
-			var parent = selectedApartment.Parent;
-			if (parent != null)
+			if (SelectedApartment.ChildrenCount > 0)
 			{
-				var index = selectedApartment.VisualIndex;
-				parent.Nodes.Remove(selectedApartment);
-				index = Math.Min(index, parent.ChildrenCount - 1);
-				foreach (var childApartmentViewModel in selectedApartment.GetAllChildren(true))
+				MessageBoxService.Show(string.Format("Группа \"{0}\" содержит абонентов. Удаление невозможно.", SelectedApartment.Apartment.Name));
+				return;
+			}
+
+			if (MessageBoxService.ShowQuestion(string.Format("Вы уверенны, что хотите удалить {0} \"{1}\"?", SelectedApartment.Apartment.IsFolder ? "группу" : "абонента", SelectedApartment.Apartment.Name)))
+			{
+				var selectedApartment = SelectedApartment;
+				var parent = selectedApartment.Parent;
+				if (parent != null)
 				{
-					AllApartments.Remove(childApartmentViewModel);
+					var index = selectedApartment.VisualIndex;
+					parent.Nodes.Remove(selectedApartment);
+					index = Math.Min(index, parent.ChildrenCount - 1);
+					foreach (var childApartmentViewModel in selectedApartment.GetAllChildren(true))
+					{
+						AllApartments.Remove(childApartmentViewModel);
+					}
+					SelectedApartment = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 				}
-				SelectedApartment = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
 		}
+
+		public bool IsVisibility
+		{
+			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.Apartment); }
+		}
+
 		bool CanRemove()
 		{
 			return SelectedApartment != null && SelectedApartment.Parent != null;

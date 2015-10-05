@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using FiresecAPI.GK;
+using System.Collections.ObjectModel;
 
 namespace FiresecClient
 {
@@ -29,6 +30,8 @@ namespace FiresecClient
 			deviceTo.Description = deviceFrom.Description;
 			deviceTo.ProjectAddress = deviceFrom.ProjectAddress;
 			deviceTo.PredefinedName = deviceFrom.PredefinedName;
+			deviceTo.InputDependentElements = deviceFrom.InputDependentElements;
+			deviceTo.OutDependentElements = deviceFrom.OutDependentElements;
 
 			deviceTo.Properties = new List<GKProperty>();
 			foreach (var property in deviceFrom.Properties)
@@ -44,6 +47,8 @@ namespace FiresecClient
 
 			deviceTo.ZoneUIDs = deviceFrom.ZoneUIDs.ToList();
 			deviceTo.Zones = deviceFrom.Zones.ToList();
+			deviceTo.GuardZones = deviceFrom.GuardZones.ToList();
+			deviceTo.GuardZoneUIDs = deviceFrom.GuardZoneUIDs.ToList();
 
 			deviceTo.Logic.OnClausesGroup = deviceFrom.Logic.OnClausesGroup.Clone();
 			deviceTo.Logic.OffClausesGroup = deviceFrom.Logic.OffClausesGroup.Clone();
@@ -62,6 +67,22 @@ namespace FiresecClient
 			deviceTo.PlanElementUIDs = new List<Guid>();
 			foreach (var deviceElementUID in deviceFrom.PlanElementUIDs)
 				deviceTo.PlanElementUIDs.Add(deviceElementUID);
+
+			foreach (var zone in deviceFrom.GuardZones)
+			{
+				var guardZoneDevice = zone.GuardZoneDevices.FirstOrDefault(x => x.DeviceUID == deviceFrom.UID);
+				if (guardZoneDevice != null)
+				{
+					var GuardZoneDevice = new GKGuardZoneDevice()
+					{
+						DeviceUID = deviceTo.UID,
+						Device = deviceTo,
+						ActionType = guardZoneDevice.ActionType,
+						CodeReaderSettings = guardZoneDevice.CodeReaderSettings,
+					};
+					zone.GuardZoneDevices.Add(GuardZoneDevice);
+				}
+			}
 
 			return deviceTo;
 		}

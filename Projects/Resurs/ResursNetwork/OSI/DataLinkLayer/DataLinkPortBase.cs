@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RubezhResurs.OSI.ApplicationLayer;
-using RubezhResurs.OSI.Messages;
+using ResursNetwork.OSI.ApplicationLayer;
+using ResursNetwork.OSI.Messages;
 
-namespace RubezhResurs.OSI.DataLinkLayer
+namespace ResursNetwork.OSI.DataLinkLayer
 {
     /// <summary>
     /// Базовый класс для создания портов физических интерфейсов 
@@ -59,20 +59,17 @@ namespace RubezhResurs.OSI.DataLinkLayer
         public abstract void Open();
         public abstract void Close();
         public abstract void Write(Messages.IMessage message);
-        public bool Read(out Messages.IMessage message)
+        public IMessage Read()
         {
             if (_InputBuffer.Count > 0)
             {
-                message = _InputBuffer.Dequeue();
-                return true;
+                return _InputBuffer.Dequeue();
             }
             else
             {
-                message = null;
-                return false;
+                return null;
             }
         }
-        public abstract Type GetPortType();
         public override string ToString()
         {
             return String.Format(
@@ -91,6 +88,7 @@ namespace RubezhResurs.OSI.DataLinkLayer
                 MessageReceived(this, new EventArgs());
             }
         }
+
         #endregion
 
         #region Event

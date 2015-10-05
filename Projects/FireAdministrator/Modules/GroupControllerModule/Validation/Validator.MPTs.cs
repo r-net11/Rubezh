@@ -43,7 +43,7 @@ namespace GKModule.Validation
 			var deviceUIDs = new HashSet<Guid>();
 			foreach (var mpt in GKManager.DeviceConfiguration.MPTs)
 			{
-				foreach(var mptDevice in mpt.MPTDevices.FindAll(x => x.Device.DriverType != GKDriverType.RSR2_CardReader && x.Device.DriverType != GKDriverType.RSR2_CodeReader))
+				foreach(var mptDevice in mpt.MPTDevices.Where(x => x.Device.DriverType != GKDriverType.RSR2_CardReader && x.Device.DriverType != GKDriverType.RSR2_CodeReader))
 					if (!deviceUIDs.Add(mptDevice.DeviceUID))
 						Errors.Add(new MPTValidationError(mpt, "Устройство " + mptDevice.Device.PresentationName + " входит в состав различных МПТ", ValidationErrorLevel.CannotWrite));
 			}
@@ -59,7 +59,7 @@ namespace GKModule.Validation
 
 		void ValidateMPTDifferentGK(GKMPT mpt)
 		{
-			if (AreDevicesInSameGK(GetAllMPTDevices(mpt)))
+			if (mpt.GkParents.Count > 0)
 				Errors.Add(new MPTValidationError(mpt, "МПТ содержит устройства разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 
@@ -80,7 +80,7 @@ namespace GKModule.Validation
 		void ValidateMPTSameDevices(GKMPT mpt)
 		{
 			var devices = new HashSet<GKDevice>();
-			foreach (var device in GetAllMPTDevices(mpt).FindAll(x => x.DriverType != GKDriverType.RSR2_CardReader && x.DriverType != GKDriverType.RSR2_CodeReader))
+			foreach (var device in GetAllMPTDevices(mpt).Where(x => x.DriverType != GKDriverType.RSR2_CardReader && x.DriverType != GKDriverType.RSR2_CodeReader))
 			{
 				if (!devices.Add(device))
 					Errors.Add(new MPTValidationError(mpt, "Выходные устройства совпадают", ValidationErrorLevel.CannotWrite));
@@ -124,7 +124,7 @@ namespace GKModule.Validation
 
 		void ValidateMPTSelfLogic(GKMPT mpt)
 		{
-			if (mpt.ClauseInputMPTs.Contains(mpt))
+			if (mpt.MptLogic.GetObjects().Contains(mpt))
 				Errors.Add(new MPTValidationError(mpt, "МПТ зависит от самого себя", ValidationErrorLevel.CannotWrite));
 		}
 

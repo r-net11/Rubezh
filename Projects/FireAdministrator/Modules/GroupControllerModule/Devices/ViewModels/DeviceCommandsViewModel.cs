@@ -111,7 +111,7 @@ namespace GKModule.Models
 			{
 				if (ValidateConfiguration())
 				{
-					var result = FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device.DriverType == GKDriverType.GK ? SelectedDevice.Device : SelectedDevice.Device.GKParent);
+					var result = FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device.GKParent);
 					if (result.HasError)
 					{
 						MessageBoxService.ShowWarning(result.Error, "Ошибка при записи конфигурации");
@@ -123,8 +123,7 @@ namespace GKModule.Models
 		bool CanWriteConfig()
 		{
 			return FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig) &&
-				SelectedDevice != null &&
-				SelectedDevice.Device.DriverType != GKDriverType.System;
+				SelectedDevice != null && SelectedDevice.Device.GKParent != null;
 		}
 
 		public RelayCommand ReadConfigurationCommand { get; private set; }

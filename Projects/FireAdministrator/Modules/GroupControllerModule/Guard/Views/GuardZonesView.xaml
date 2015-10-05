@@ -6,9 +6,18 @@
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="3*" MinWidth="200" />
 		</Grid.ColumnDefinitions>
-
-		<XDataGrid CanUserSortColumns="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
-			<DataGrid.Columns>
+		<Grid Grid.Column="0">	
+		<DataGrid CanUserSortColumns="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
+				<DataGrid.ContextMenu>
+					<ContextMenu>
+						<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd"  Text="Добавить (Ctrl+N)" />
+						<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete"  Text="Удалить (Ctrl+Del)" />
+						<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit"  Text="Редактировать (Ctrl+E)" />
+						<Separator />
+						<IconedMenuItem Command ="{Binding ShowDependencyItemsCommand}" Text="Список зависящих объектов" />
+					</ContextMenu>
+				</DataGrid.ContextMenu>
+				<DataGrid.Columns>
 				<DataGridTemplateColumn Width="Auto" CanUserResize="False" Header="№" SortMemberPath="Zone.No">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -31,8 +40,8 @@
 				</DataGridTemplateColumn>
 				<DataGridTextColumn Width="*" Binding="{Binding Zone.Description}" Header="Примечание" />
 			</DataGrid.Columns>
-		</XDataGrid>
-
+		</DataGrid>
+		</Grid>
 		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
 
 		<Grid Grid.Column="2" DataContext="{Binding ZoneDevices}">

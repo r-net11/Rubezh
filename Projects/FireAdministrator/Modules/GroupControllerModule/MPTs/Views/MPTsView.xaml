@@ -11,6 +11,8 @@
 			<Separator />
 			<IconedMenuItem Command="{Binding CopyLogicCommand}" ImageSource="BCopy" Text="Копировать логику" />
 			<IconedMenuItem Command="{Binding PasteLogicCommand}" ImageSource="BPaste" Text="Вставить логику" />
+			<Separator/>
+			<IconedMenuItem Command="{Binding ShowDependencyItemsCommand}" Text="Список зависящих объектов"/>
 		</ContextMenu>
 	</UserControl.Resources>
 	<Grid>
@@ -59,9 +61,9 @@
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 					<StackPanel Grid.Row="0" Orientation="Horizontal">
-						<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="Add"  />
-						<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="Edit"  />
-						<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="Delete"  />
+						<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="Add" />
+						<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="Edit" />
+						<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="Delete" />
 					</StackPanel>
 					<DataGrid Grid.Row="1" Name="dataGrid1" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
 						<DataGrid.Resources>

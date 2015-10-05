@@ -75,6 +75,8 @@ namespace AutomationModule.ViewModels
 		public void Update(Procedure procedure)
 		{
 			Procedure = procedure;
+			if (StepsViewModel.SelectedStep != null)
+				StepsViewModel.SelectedStep.UpdateContent();
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => IsActive);
 		}

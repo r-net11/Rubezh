@@ -29,7 +29,9 @@ namespace AutomationModule.ViewModels
 			IsSync = Procedure.IsSync;
 			TimeOut = Procedure.TimeOut;
 			SelectedTimeType = Procedure.TimeType;
+			SelectedContextType = Procedure.ContextType;
 			TimeTypes = AutomationHelper.GetEnumObs<TimeType>();
+			ContextTypes = AutomationHelper.GetEnumObs<ContextType>();
 		}
 
 		string _name;
@@ -51,6 +53,18 @@ namespace AutomationModule.ViewModels
 			{
 				_description = value;
 				OnPropertyChanged(() => Description);
+			}
+		}
+		
+		public ObservableCollection<ContextType> ContextTypes { get; private set; }
+		ContextType _selectedContextType;
+		public ContextType SelectedContextType
+		{
+			get { return _selectedContextType; }
+			set
+			{
+				_selectedContextType = value;
+				OnPropertyChanged(() => SelectedContextType);
 			}
 		}
 
@@ -124,6 +138,7 @@ namespace AutomationModule.ViewModels
 			Procedure.IsSync = IsSync;
 			Procedure.TimeOut = TimeOut;
 			Procedure.TimeType = SelectedTimeType;
+			Procedure.ContextType = SelectedContextType;
 			return true;
 		}
 	}

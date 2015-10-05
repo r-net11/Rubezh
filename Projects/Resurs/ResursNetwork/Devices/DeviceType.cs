@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RubezhResurs.Devices
+namespace ResursNetwork.Devices
 {
     /// <summary>
     /// Типы счётчиков электроэнергии

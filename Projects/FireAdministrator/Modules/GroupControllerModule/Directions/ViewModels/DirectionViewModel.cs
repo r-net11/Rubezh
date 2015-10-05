@@ -1,9 +1,12 @@
 ﻿using FiresecAPI.GK;
 using FiresecClient;
+using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {
@@ -11,12 +14,14 @@ namespace GKModule.ViewModels
 	{
 		private VisualizationState _visualizetionState;
 		public GKDirection Direction { get; set; }
+		public ObservableCollection<DependencyItemViewModel> DependesItems { get; set; }
 
 		public DirectionViewModel(GKDirection direction)
 		{
 			ShowLogicCommand = new RelayCommand(OnShowLogic);
 			Direction = direction;
 			Direction.Changed += Update;
+			DependesItems = new ObservableCollection<DependencyItemViewModel>();
 			Update();
 		}
 
@@ -26,6 +31,13 @@ namespace GKModule.ViewModels
 			_visualizetionState = Direction.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Direction.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
 			OnPropertyChanged(() => VisualizationState);
 			OnPropertyChanged(() => PresentationLogic);
+			DependesItems.Clear();
+			UpdeteDependesItems();
+		}
+
+		public void UpdeteDependesItems()
+		{
+			Direction.OutDependentElements.ForEach(x => DependesItems.Add(new DependencyItemViewModel(x)));
 		}
 
 		public string PresentationLogic
@@ -61,6 +73,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				Direction.Logic = logicViewModel.GetModel();
+				Direction.ChangedLogic();
 				OnPropertyChanged(() => PresentationLogic);
 				ServiceFactory.SaveService.GKChanged = true;
 			}

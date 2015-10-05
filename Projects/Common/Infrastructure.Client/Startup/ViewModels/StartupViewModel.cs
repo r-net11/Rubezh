@@ -184,9 +184,8 @@ namespace Infrastructure.Client.Startup.ViewModels
 							break;
 						default:
 							break;
-					}
-					
-					
+					}	
+				
 				}
 				else
 				{

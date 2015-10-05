@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+  <?define ResursName="Ресурс" ?>
+  <?define ResursDescription="Запускает Ресурс" ?>
+  <?define ResursInstallLocation="Resurs" ?>
+  <?define Resurs.TargetDir="..\..\..\..\..\Resurs\bin\Release\"?>
+</Include>

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RubezhResurs.Devices.ValueConverters;
+using ResursNetwork.Devices.ValueConverters;
 
-namespace RubezhResurs.Devices
+namespace ResursNetwork.Devices
 {
     /// <summary>
     /// Содержит описание параметра профиля устройства
@@ -53,7 +53,7 @@ namespace RubezhResurs.Devices
             get { return _ValueConverter; }
             set { _ValueConverter = value; }
         }
-        
+
         private Boolean _ReadOnly;
         /// <summary>
         /// Параметр может только читаться из устройства.
@@ -77,7 +77,7 @@ namespace RubezhResurs.Devices
         /// <summary>
         /// Тип данных значения параметра
         /// </summary>
-        private readonly Type ValueType;
+        public readonly Type ValueType;
 
         private ValueType _Value;
         public ValueType Value
@@ -106,6 +106,18 @@ namespace RubezhResurs.Devices
             throw new NotSupportedException();
         }
         /// <summary>
+        /// Тип значения параметра
+        /// </summary>
+        /// <param name="type"></param>
+        public Parameter(Type type)
+        {
+            if (type.BaseType != typeof(ValueType))
+            {
+                throw new ArgumentException("Тип данных параметра должен быть значимым");
+            }
+            ValueType = type;
+        }
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="index"></param>
@@ -127,7 +139,7 @@ namespace RubezhResurs.Devices
             _ReadOnly = readOnly;
             _ValueConverter = valueConverter;
 
-            if (type.BaseType != ValueType)
+            if (type.BaseType != typeof(ValueType))
             {
                 throw new ArgumentException("Тип данных параметра должен быть значимым");
             }

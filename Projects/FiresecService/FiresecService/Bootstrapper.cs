@@ -13,6 +13,9 @@ using Infrastructure.Common.Windows;
 using FiresecAPI;
 using SKDDriver.DataClasses;
 using FiresecService.Processor;
+using Infrastructure.Automation;
+using FiresecAPI.AutomationCallback;
+using FiresecAPI.Automation;
 
 namespace FiresecService
 {
@@ -58,6 +61,33 @@ namespace FiresecService
 
 				UILogger.Log("Загрузка конфигурации");
 				ConfigurationCashHelper.Update();
+
+				ProcedureExecutionContext.Initialize(
+					ContextType.Server,
+					ConfigurationCashHelper.SystemConfiguration,
+					ConfigurationCashHelper.SecurityConfiguration,
+					Service.FiresecService.NotifyAutomation,
+					null,
+					null,
+					ProcedureHelper.AddJournalItem,
+					ProcedureHelper.ControlGKDevice,
+					ProcedureHelper.StartRecord,
+					ProcedureHelper.StopRecord,
+					ProcedureHelper.Ptz,
+					ProcedureHelper.RviAlarm,
+					ProcedureHelper.ControlFireZone,
+					ProcedureHelper.ControlGuardZone,
+					ProcedureHelper.ControlDirection,
+					ProcedureHelper.ControlGKDoor,
+					ProcedureHelper.ControlDelay,
+					ProcedureHelper.ExportJournal,
+					ProcedureHelper.ExportOrganisation,
+					ProcedureHelper.ExportOrganisationList,
+					ProcedureHelper.ExportConfiguration,
+					ProcedureHelper.ImportOrganisation,
+					ProcedureHelper.ImportOrganisationList
+					);
+
 				GKProcessor.Create();
 				UILogger.Log("Запуск ГК");
 				GKProcessor.Start();
@@ -73,10 +103,10 @@ namespace FiresecService
 					UILogger.Log("Ошибка при запуске сервиса отчетов", true);
 					MainViewModel.SetReportAddress("<Ошибка>");
 				}
-
+								
 				ScheduleRunner.Start();
 				ServerTaskRunner.Start();
-				ProcedureRunner.RunOnServerRun();
+				AutomationProcessor.RunOnServerRun();
                 ClientsManager.StartRemoveInactiveClients(TimeSpan.FromMinutes(10));
 				UILogger.Log("Готово");
 				FiresecService.Service.FiresecService.ServerState = ServerState.Ready;
@@ -88,7 +118,7 @@ namespace FiresecService
 				Close();
 			}
 		}
-
+		
 		private static void OnWorkThread()
 		{
 			try

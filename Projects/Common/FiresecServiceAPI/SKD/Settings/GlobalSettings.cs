@@ -71,6 +71,9 @@ namespace FiresecAPI
 		public bool Server_EnableRemoteConnections { get; set; }
 
 		[DataMember]
+		public string Server_RemoteIpAddress { get; set; }
+
+		[DataMember]
 		public string DbConnectionString { get; set; }
 
 		[DataMember]

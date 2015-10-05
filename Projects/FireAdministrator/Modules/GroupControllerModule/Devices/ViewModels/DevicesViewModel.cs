@@ -79,7 +79,7 @@ namespace GKModule.ViewModels
 				{
 					var gkIndicatorsGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа индикаторов", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicatorsGroup) });
 					var gkRelaysGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа реле", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKRelaysGroup) });
-					var gkIndicators = new List<DeviceViewModel> (gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKIndicator));
+					var gkIndicators = new List<DeviceViewModel>(gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKIndicator));
 					var gkRelays = new List<DeviceViewModel>(gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKRele));
 					foreach (var gkIndicator in gkIndicators)
 					{
@@ -225,11 +225,16 @@ namespace GKModule.ViewModels
 					{
 						var pasteDevice = GKManager.CopyDevice(deviceToCopy, isCut);
 						var device = PasteDevice(pasteDevice);
+						if (device == null)
+							break;
 						device.UID = pasteDevice.UID;
 						if (device != null)
 						{
 							cache.UpdateDeviceBinding(device);
 							SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
+							device.Invalidate();
+							if (isCut)
+								device.OutDependentElements.ForEach(x => x.OnChanged());
 						}
 					}
 					if (SelectedDevice.Device.IsConnectedToKAU)
@@ -290,8 +295,13 @@ namespace GKModule.ViewModels
 				if (allChildren.Count > 0)
 					maxAddress = allChildren.Max(x => x.IntAddress);
 
-				if (maxAddress >= 255)
+				var realDevicesCount = device.AllChildrenAndSelf.Count(x => x.IsRealDevice);
+
+				if (maxAddress + realDevicesCount > 255)
+				{
+					MessageBoxService.ShowWarning("Адрес устройства не может превышать 255");
 					return null;
+				}
 
 				if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU_Shleif || SelectedDevice.Device.DriverType == GKDriverType.RSR2_MVP_Part)
 				{
@@ -354,7 +364,7 @@ namespace GKModule.ViewModels
 			if (messageBoxResult)
 			{
 				SelectedDevice.Device.Logic = GKManager.PasteLogic(new GKAdvancedLogic(hasOnClause, hasOnNowClause, hasOffClause, hasOffNowClause, hasStopClause));
-				SelectedDevice.Device.OnChanged();
+				SelectedDevice.Device.Invalidate();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

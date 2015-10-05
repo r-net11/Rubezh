@@ -8,6 +8,7 @@ using FiresecClient;
 using GKProcessor;
 using SKDDriver;
 using System.Collections.Generic;
+using Infrastructure.Automation;
 
 namespace FiresecService
 {
@@ -49,10 +50,10 @@ namespace FiresecService
 
 			if (gkCallbackResult.JournalItems.Count > 0)
 			{
+				FiresecService.Service.FiresecService.AddCommonJournalItems(gkCallbackResult.JournalItems);
 				foreach (var journalItem in gkCallbackResult.JournalItems)
 				{
 					ProcessPassJournal(journalItem);
-					FiresecService.Service.FiresecService.AddCommonJournalItem(journalItem);
 				}
 			}
 
@@ -82,7 +83,7 @@ namespace FiresecService
 			}
 			FiresecService.Service.FiresecService.NotifyGKObjectStateChanged(gkCallbackResult);
 
-			ProcedureRunner.RunOnStateChanged();
+			AutomationProcessor.RunOnStateChanged();
 		}
 
 		static void ProcessPassJournal(JournalItem journalItem)

@@ -12,6 +12,12 @@
         Organisations: ko.observable(false)
     };
 
+    self.SelectedPersonType = ko.observable("Employee");
+
+    self.EmployeesHeader = ko.computed(function () {
+        return self.SelectedPersonType() == "Employee" ? "Сотрудники" : "Посетители";
+    }, self);
+
     self.HrPageClick = function (data, e, page) {
         for (var propertyName in self.hrPages) {
             self.hrPages[propertyName](false);
@@ -24,4 +30,3 @@
 
     return self;
 }
-

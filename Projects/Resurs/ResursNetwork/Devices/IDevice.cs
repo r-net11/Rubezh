@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RubezhResurs.Devices.Collections.ObjectModel;
+using ResursNetwork.Devices.Collections.ObjectModel;
+using ResursNetwork.OSI.ApplicationLayer;
 
-namespace RubezhResurs.Devices
+namespace ResursNetwork.Devices
 {
     /// <summary>
     /// Реализует базовые компонеты счётчика электроэнергии
@@ -21,8 +22,16 @@ namespace RubezhResurs.Devices
         /// </summary>
         UInt32 Address { get; }
         /// <summary>
+        /// Сетевой контроллер, владелец данного устройства
+        /// </summary>
+        INetwrokController Network { get; }
+        /// <summary>
         /// Возвращает коллекцию описания параметров устройства
         /// </summary>
         ParatemersCollection Parameters { get; }
+        /// <summary>
+        /// Возникает при ошибках в устройтве
+        /// </summary>
+        event EventHandler<ErrorOccuredEventArgs> ErrorOccurred;
     }
 }

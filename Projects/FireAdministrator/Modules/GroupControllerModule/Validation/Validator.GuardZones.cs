@@ -54,12 +54,7 @@ namespace GKModule.Validation
 
 		void ValidateDifferentGK(GKGuardZone guardZone)
 		{
-			var devices = new List<GKDevice>();
-			foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
-			{
-				devices.Add(guardZoneDevice.Device);
-			}
-			if (AreDevicesInSameGK(devices))
+			if (guardZone.GkParents.Count > 0)
 				Errors.Add(new GuardZoneValidationError(guardZone, "Зона содержит устройства разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 

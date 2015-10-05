@@ -16,22 +16,19 @@ namespace GKModule.ViewModels
 			Title = "Настройка кодонаборника";
 			MPTDeviceType = mptDeviceType;
 			CodeReaderSettings = codeReaderSettings;
+			CodeReaderSettingsPart = codeReaderSettings.MPTSettings;
 			switch (mptDeviceType)
 			{
 				case GKMPTDeviceType.HandAutomaticOn:
-					CodeReaderSettingsPart = codeReaderSettings.AutomaticOnSettings;
 					CodeName = "Действие для постановки на автоматику";
 					break;
 				case GKMPTDeviceType.HandAutomaticOff:
-					CodeReaderSettingsPart = codeReaderSettings.AutomaticOffSettings;
 					CodeName = "Действие для снятия с автоматики";
 					break;
 				case GKMPTDeviceType.HandStart:
-					CodeReaderSettingsPart = codeReaderSettings.StartSettings;
 					CodeName = "Действие для пуска";
 					break;
 				case GKMPTDeviceType.HandStop:
-					CodeReaderSettingsPart = codeReaderSettings.StopSettings;
 					CodeName = "Действие для останова";
 					break;
 			}
@@ -41,21 +38,7 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			switch (MPTDeviceType)
-			{
-				case GKMPTDeviceType.HandAutomaticOn:
-					CodeReaderSettings.AutomaticOnSettings = CodeReaderSettingsViewModel.GetCodeReaderSettingsPart();
-					break;
-				case GKMPTDeviceType.HandAutomaticOff:
-					CodeReaderSettings.AutomaticOffSettings = CodeReaderSettingsViewModel.GetCodeReaderSettingsPart();
-					break;
-				case GKMPTDeviceType.HandStart:
-					CodeReaderSettings.StartSettings = CodeReaderSettingsViewModel.GetCodeReaderSettingsPart();
-					break;
-				case GKMPTDeviceType.HandStop:
-					CodeReaderSettings.StopSettings = CodeReaderSettingsViewModel.GetCodeReaderSettingsPart();
-					break;
-			}
+			CodeReaderSettings.MPTSettings = CodeReaderSettingsViewModel.GetCodeReaderSettingsPart();
 			return base.Save();
 		}
 	}

@@ -29,8 +29,8 @@
 		<TextBlock Grid.Column="0" Grid.Row="1" Text="Объект" Style="{DynamicResource TextBlockDetailsStyle}" />
 		<Views:ArgumentView Grid.Column="1" Grid.Row="1" DataContext="{Binding ObjectArgument}" />
 
-		<TextBlock Grid.Column="0" Grid.Row="2" Text="Всем клиентам" VerticalAlignment="Top" Style="{DynamicResource TextBlockDetailsStyle}" />
-		<CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding ForAllClients}" />
+		<TextBlock Grid.Column="0" Grid.Row="2" Text="Всем клиентам" VerticalAlignment="Top" Style="{DynamicResource TextBlockDetailsStyle}" Visibility="{Binding IsServerContext, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding ForAllClients}" Visibility="{Binding IsServerContext, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 		<DataGrid Grid.Column="2" Grid.RowSpan="3" DataContext="{Binding ProcedureLayoutCollectionViewModel}" ItemsSource="{Binding LayoutItems}">
 			<DataGrid.Columns>

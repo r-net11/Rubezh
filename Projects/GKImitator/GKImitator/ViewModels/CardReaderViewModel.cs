@@ -51,9 +51,32 @@ namespace GKImitator.ViewModels
 		public RelayCommand EnterCommand { get; private set; }
 		void OnEnter()
 		{
-			DescriptorViewModel.SetStateBit(GKStateBit.Attention, true);
-			var journalItem = new ImitatorJournalItem(2, 4, 0, 0);
-			DescriptorViewModel.AddJournalItem(journalItem);
+			switch (SelectedEnterType)
+			{
+				case GKCodeReaderEnterType.CodeOnly:
+					DescriptorViewModel.SetStateBit(GKStateBit.Attention, true);
+					DescriptorViewModel.SetStateBit(GKStateBit.Fire1, false);
+					DescriptorViewModel.SetStateBit(GKStateBit.Fire2, false);
+					var journalItem = new ImitatorJournalItem(2, 4, 0, 0);
+					DescriptorViewModel.AddJournalItem(journalItem);
+					break;
+
+				case GKCodeReaderEnterType.CodeAndOne:
+					DescriptorViewModel.SetStateBit(GKStateBit.Attention, false);
+					DescriptorViewModel.SetStateBit(GKStateBit.Fire1, true);
+					DescriptorViewModel.SetStateBit(GKStateBit.Fire2, false);
+					journalItem = new ImitatorJournalItem(2, 2, 0, 0);
+					DescriptorViewModel.AddJournalItem(journalItem);
+					break;
+
+				case GKCodeReaderEnterType.CodeAndTwo:
+					DescriptorViewModel.SetStateBit(GKStateBit.Attention, false);
+					DescriptorViewModel.SetStateBit(GKStateBit.Fire1, false);
+					DescriptorViewModel.SetStateBit(GKStateBit.Fire2, true);
+					journalItem = new ImitatorJournalItem(2, 3, 0, 0);
+					DescriptorViewModel.AddJournalItem(journalItem);
+					break;
+			}
 			DescriptorViewModel.CurrentCardNo = CardNo;
 			DescriptorViewModel.RecalculateOutputLogic();
 
@@ -66,6 +89,8 @@ namespace GKImitator.ViewModels
 		{
 			Thread.Sleep(TimeSpan.FromSeconds(3));
 			DescriptorViewModel.SetStateBit(GKStateBit.Attention, false);
+			DescriptorViewModel.SetStateBit(GKStateBit.Fire1, false);
+			DescriptorViewModel.SetStateBit(GKStateBit.Fire2, false);
 			var journalItem = new ImitatorJournalItem(2, 14, 0, 0);
 			DescriptorViewModel.AddJournalItem(journalItem);
 			DescriptorViewModel.CurrentCardNo = 0;

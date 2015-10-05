@@ -23,13 +23,13 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Service);
 
-			GKDriversHelper.AddIntProprety(driver, 0, "Порог срабатывания по температуре, C", 70, 0, 100);
-			GKDriversHelper.AddIntProprety(driver, 1, "Порог срабатывания по градиенту температуры, C/мин", 5, 1, 50);
+			GKDriversHelper.AddIntProprety(driver, 0, "Порог срабатывания по температуре, °C", 70, 0, 100);
+			GKDriversHelper.AddIntProprety(driver, 1, "Порог срабатывания по градиенту температуры, °C/мин", 5, 1, 50).Multiplier = 10;
 			GKDriversHelper.AddIntProprety(driver, 2, "Порог срабатывания по дыму, дБ/м", 180, 50, 200).Multiplier = 1000;
 			GKDriversHelper.AddIntProprety(driver, 3, "Порог запыленности, дБ/м", 200, 0, 500).Multiplier = 1000;
 
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Температура, C", InternalName = "Temperature", HasNegativeValue = true });
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 2, Name = "Градиент температуры, C/мин", InternalName = "TemperatureDelta", HasNegativeValue = true });
+			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Температура, °C", InternalName = "Temperature", HasNegativeValue = true });
+			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 2, Name = "Градиент температуры, °C/мин", InternalName = "TemperatureDelta", HasNegativeValue = true });
 			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 3, Name = "Задымленность, дБ/м", InternalName = "Smokiness", Multiplier = 1000 });
 			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 4, Name = "Запыленность, дБ/м", InternalName = "Dustinness", Multiplier = 1000 });
 

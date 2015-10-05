@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RubezhResurs.Devices.ValueConverters
+namespace ResursNetwork.Devices.ValueConverters
 {
     /// <summary>
     /// Реализует преобразование массива байт в значение параметра
@@ -17,11 +17,12 @@ namespace RubezhResurs.Devices.ValueConverters
         /// </summary>
         /// <param name="array"></param>
         /// <returns></returns>
-        Object FromArray(Byte[] array);
+        ValueType FromArray(Byte[] array);
         /// <summary>
         /// Преобразует значение параметра в массив байт
         /// </summary>
+        /// <param name="value"></param>
         /// <returns></returns>
-        Byte[] ToArray();
+        Byte[] ToArray(ValueType value);
     }
 }

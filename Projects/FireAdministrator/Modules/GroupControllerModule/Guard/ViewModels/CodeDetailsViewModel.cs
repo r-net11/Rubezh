@@ -150,7 +150,8 @@ namespace GKModule.ViewModels
 				return false;
 			}
 
-			var localHash = GKFileInfo.CreateHash1(GKManager.DeviceConfiguration, Code.GkDatabaseParent);
+			GKManager.DeviceConfiguration.PrepareDescriptors();
+			var localHash = GKFileInfo.CreateHash1(Code.GkDatabaseParent);
 			var remoteHash = result.Result;
 			if (GKFileInfo.CompareHashes(localHash, remoteHash))
 				return true;

@@ -13,6 +13,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrastructure.Services;
+using FiresecAPI.Automation;
+using Infrastructure.Automation;
 
 namespace FireAdministrator
 {
@@ -43,6 +45,11 @@ namespace FireAdministrator
 
 					ServiceFactory.StartupService.DoStep("Загрузка конфигурации с сервера");
 					FiresecManager.GetConfiguration("Administrator/Configuration");
+					ProcedureExecutionContext.Initialize(
+						ContextType.Client,
+						FiresecManager.SystemConfiguration,
+						FiresecManager.SecurityConfiguration
+						);
 
 					GKDriversCreator.Create();
 					BeforeInitialize(true);

@@ -48,11 +48,8 @@ namespace GKModule.Validation
 
 		void ValidateDifferentGK(GKZone zone)
 		{
-			if (AreDevicesInSameGK(zone.Devices))
+			if (zone.GkParents.Count > 0)
 				Errors.Add(new ZoneValidationError(zone, "Зона содержит устройства разных ГК", ValidationErrorLevel.CannotWrite));
-
-			if (AreDevicesInSameGK(zone.DevicesInLogic))
-				Errors.Add(new ZoneValidationError(zone, "Зона участвует в логике устройств разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 
 		void ValidateZoneHasNoDevices(GKZone zone)

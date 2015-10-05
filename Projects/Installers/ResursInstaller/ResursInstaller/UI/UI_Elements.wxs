@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<UI Id="UIElements">
+			<RadioButtonGroup Property="AgreeToLicense">
+				<RadioButton Height="15" Text="Я &amp;не принимаю условия лицензионного соглашения " Value="No" Width="295" X="0" Y="15" />
+				<RadioButton Height="15" Text="Я &amp;принимаю условия лицензионного соглашения " Value="Yes" Width="295" X="0" Y="0" />
+			</RadioButtonGroup>
+		</UI>
+	</Fragment>
+</Wix>

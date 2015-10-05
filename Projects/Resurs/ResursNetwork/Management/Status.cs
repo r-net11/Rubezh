@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
-using RubezhResurs.ComponentModel;
+using ResursNetwork.ComponentModel;
 
-namespace RubezhResurs.Management
+namespace ResursNetwork.Management
 {
     /// <summary>
     /// Состояния которые может принимать управляемый объект 

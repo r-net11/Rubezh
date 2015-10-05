@@ -14,6 +14,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -52,8 +53,8 @@ namespace GKModule.ViewModels
 			ServiceFactory.Events.GetEvent<GKObjectsPropertyChangedEvent>().Subscribe(OnGKObjectsPropertyChanged);
 		}
 		public string DescriptorName
-		{ 
-			get { return Device.GetGKDescriptorName(GKNameGenerationType.Description); } 
+		{
+			get { return Device.GetGKDescriptorName(GKManager.DeviceConfiguration.GKNameGenerationType); }
 		}
 		void OnStateChanged()
 		{
@@ -122,7 +123,7 @@ namespace GKModule.ViewModels
 		void StartMeasureParametersMonitoring()
 		{
 			MeasureParameters = new ObservableCollection<MeasureParameterViewModel>();
-			foreach (var measureParameter in Device.Driver.MeasureParameters.FindAll(x => !x.IsNotVisible))
+			foreach (var measureParameter in Device.Driver.MeasureParameters.Where(x => !x.IsNotVisible))
 			{
 				var measureParameterViewModel = new MeasureParameterViewModel()
 				{
@@ -235,11 +236,8 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showArchiveEventArgs = new ShowArchiveEventArgs()
-			{
-				GKDevice = Device
-			};
-			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
+			if (Device != null)
+				ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(new List<Guid> { Device.UID });
 		}
 
 		public bool CanNotControl

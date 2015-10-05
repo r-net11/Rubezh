@@ -16,11 +16,13 @@ namespace AutomationModule.ViewModels
 		public Variable Variable { get; private set; }
 		public bool IsEditMode { get; set; }
 
-		public VariableDetailsViewModel(Variable variable, string defaultName = "", string title = "")
+		public VariableDetailsViewModel(Variable variable, string defaultName = "", string title = "", bool isGlobal = false)
 		{
 			automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			Title = title;
 			Name = defaultName;
+			IsGlobal = isGlobal;
+			ContextTypes = AutomationHelper.GetEnumObs<ContextType>();
 			ExplicitValuesViewModel = new ExplicitValuesViewModel();
 			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ProcedureHelper.BuildExplicitTypes(AutomationHelper.GetEnumList<ExplicitType>(),
 				AutomationHelper.GetEnumList<EnumType>(), AutomationHelper.GetEnumList<ObjectType>()));
@@ -43,6 +45,31 @@ namespace AutomationModule.ViewModels
 			Name = variable.Name;
 			IsEditMode = true;
 			IsReference = variable.IsReference;
+			IsGlobal = variable.IsGlobal;
+			SelectedContextType = variable.ContextType;
+		}
+
+		bool _isGlobal;
+		public bool IsGlobal
+		{
+			get { return _isGlobal; }
+			set
+			{
+				_isGlobal = value;
+				OnPropertyChanged(() => IsGlobal);
+			}
+		}
+
+		public ObservableCollection<ContextType> ContextTypes { get; private set; }
+		ContextType _selectedContextType;
+		public ContextType SelectedContextType
+		{
+			get { return _selectedContextType; }
+			set
+			{
+				_selectedContextType = value;
+				OnPropertyChanged(() => SelectedContextType);
+			}
 		}
 
 		public ObservableCollection<ExplicitTypeViewModel> ExplicitTypes { get; set; }
@@ -111,6 +138,8 @@ namespace AutomationModule.ViewModels
 			Variable = new Variable();
 			Variable.Name = Name;
 			Variable.IsList = IsList;
+			Variable.IsGlobal = IsGlobal;
+			Variable.ContextType = SelectedContextType;
 			Variable.IsReference = IsReference;
 			Variable.ExplicitType = SelectedExplicitType.ExplicitType;
 			Variable.EnumType = SelectedExplicitType.EnumType;

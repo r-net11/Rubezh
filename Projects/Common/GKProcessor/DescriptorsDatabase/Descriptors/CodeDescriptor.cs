@@ -8,8 +8,8 @@ namespace GKProcessor
 	{
 		GKCode Code { get; set; }
 
-		public CodeDescriptor(GKCode code, DatabaseType databaseType)
-			: base(code, databaseType)
+		public CodeDescriptor(GKCode code)
+			: base(code)
 		{
 			DescriptorType = DescriptorType.Code;
 			Code = code;
@@ -19,15 +19,13 @@ namespace GKProcessor
 		{
 			DeviceType = BytesHelper.ShortToBytes((ushort)0x109);
 			SetAddress((ushort)0);
-			SetFormulaBytes();
 			SetPropertiesBytes();
 		}
 
-		void SetFormulaBytes()
+		public override void BuildFormula()
 		{
 			Formula = new FormulaBuilder();
 			Formula.Add(FormulaOperationType.END);
-			FormulaBytes = Formula.GetBytes();
 		}
 
 		void SetPropertiesBytes()

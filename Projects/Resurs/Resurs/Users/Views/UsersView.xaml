@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="Resurs.Views.UsersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:viewModel="clr-namespace:Resurs.ViewModels">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<StackPanel Grid.Row="0" Orientation="Horizontal">
+			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить (Ctrl+N)" ImageSource="Add" />
+			<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать (Ctrl+E)" ImageSource="Edit" />
+			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete" />
+		</StackPanel>
+		<Grid Grid.Row ="1">
+			<DataGrid  ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" CanUserSortColumns="True">
+				<DataGrid.InputBindings>
+					<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
+				</DataGrid.InputBindings>
+				<DataGrid.Columns>
+					<DataGridTemplateColumn Header="Имя" SortMemberPath="User.Name" Width="*">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Employee.png" Width="16" />
+									<TextBlock Text="{Binding User.Name}" VerticalAlignment="Center" Margin="2" />
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTextColumn Binding="{Binding User.Login}" Width="*" Header="Логин" />
+				</DataGrid.Columns>
+			</DataGrid>
+		</Grid>
+	</Grid>
+</UserControl>

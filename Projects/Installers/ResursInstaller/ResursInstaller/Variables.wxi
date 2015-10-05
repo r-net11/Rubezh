@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+  <?define ProductName="Ресурс" ?>
+  <?define ProductVersion="1.0.0.0" ?>
+  <?define ProductCode="{EE184C7B-B479-4DA7-B460-E3C9BAA10D84}" ?>
+  <?define UpgradeCode="{DC1DCB36-7B4F-4173-AD3B-2B165920B64A}" ?>
+  <?define Manufacturer='Группа компаний "Рубеж"' ?>
+  <?define Codepage="1251" ?>
+  <?define BrandName="Рубеж Ресурс"?>
+</Include>

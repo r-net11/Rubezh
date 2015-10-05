@@ -5,7 +5,8 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 using System.Data.Common;
-using ResursDAL.DataClasses;
+using ResursAPI;
+using Common;
 
 namespace ResursDAL
 {
@@ -18,6 +19,9 @@ namespace ResursDAL
 		public DbSet<Parameter> Parameters { get; set; }
 		public DbSet<Tariff> Tariffs { get; set; }
 		public DbSet<TariffPart> TariffParts { get; set; }
+		public DbSet<User> Users { get; set; }
+		public DbSet<UserPermission> UserPermissions { get; set; }
+		public DbSet<Journal> Journal { get; set; }
 	
 		public DatabaseContext(DbConnection connection)
 			: base(connection, true)
@@ -25,22 +29,7 @@ namespace ResursDAL
 			Database.SetInitializer<DatabaseContext>(new MigrateDatabaseToLatestVersion<DatabaseContext, Configuration>(true));
 		}
 
-		public static bool CheckConnection()
-		{
-			try
-			{
-				using (var databaseContext = DatabaseContext.Initialize())
-				{
-					databaseContext.Measures.FirstOrDefault();
-					return true;
-				}
-			}
-			catch (Exception e)
-			{
-				return false;
-			}
-		}
-
+		
 		public static DatabaseContext Initialize()
 		{
 			var connectionFactory = new SqlConnectionFactory();
@@ -53,6 +42,7 @@ namespace ResursDAL
 			modelBuilder.Entity<Tariff>().HasMany(x => x.TariffParts).WithRequired(x => x.Tariff).WillCascadeOnDelete();
 			modelBuilder.Entity<Apartment>().HasMany(x => x.Bills).WithRequired(x => x.Apartment).WillCascadeOnDelete();
 			modelBuilder.Entity<Device>().HasMany(x => x.Parameters).WithRequired(x => x.Device).WillCascadeOnDelete();
+			modelBuilder.Entity<User>().HasMany(x => x.UserPermissions).WithRequired(x => x.User).WillCascadeOnDelete();
 		}
 
 		void IDisposable.Dispose()
@@ -67,6 +57,26 @@ namespace ResursDAL
 		{
 			AutomaticMigrationsEnabled = true;
 			AutomaticMigrationDataLossAllowed = true;
+		}
+
+		protected override void Seed(DatabaseContext context)
+		{
+			if (!context.Users.Any())
+			{
+				var userpermissions = new List<UserPermission>();
+				User user = new User() { Name = "Adm", Login = "Adm", PasswordHash = HashHelper.GetHashFromString("") };
+				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Apartment });
+				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Device });
+				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditApartment });
+				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditDevice });
+				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditUser });
+				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.User });
+				user.UserPermissions = userpermissions;
+				context.Users.Add(user);
+				DBCash.Users = new List<User>();
+				DBCash.Users.Add(user);
+			}
+			base.Seed(context);
 		}
 	}
 }
