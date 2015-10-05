@@ -17,18 +17,8 @@ namespace StrazhModule.ViewModels
 	{
 		public SKDDeviceState State { get; private set; }
 
-		public bool IsPromptWarning
-		{
-			get
-			{
-				//return StateClasses.Any(x => x.StateClass == XStateClass.Attention);
-				return State.Device.DriverType == SKDDriverType.Lock;
-			}
-		}
-
 		public DeviceStateViewModel(SKDDeviceState deviceState)
 		{
-			ClearPromptWarningCommand = new RelayCommand(OnClearPromptWarning, CanClearPromptWarning);
 			State = deviceState;
 			StateClasses = new ObservableCollection<XStateClassViewModel>();
 			State.StateChanged -= new Action(OnStateChanged);
@@ -45,21 +35,9 @@ namespace StrazhModule.ViewModels
 			{
 				StateClasses.Add(new XStateClassViewModel(State.Device, stateClass));
 			}
-			OnPropertyChanged(() => IsPromptWarning);
 		}
 
 		public ObservableCollection<XStateClassViewModel> StateClasses { get; private set; }
-
-		public RelayCommand ClearPromptWarningCommand { get; private set; }
-		private void OnClearPromptWarning()
-		{
-			DeviceCommander.ClearPromptWarning(State.Device);
-		}
-
-		private bool CanClearPromptWarning()
-		{
-			return DeviceCommander.CanClearPromptWarning(State.Device);
-		}
 	}
 
 	public class XStateClassViewModel : BaseViewModel
