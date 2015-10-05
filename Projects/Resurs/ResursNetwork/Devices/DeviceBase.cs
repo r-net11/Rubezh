@@ -13,7 +13,7 @@ namespace ResursNetwork.Devices
     /// <summary>
     /// Сетевое устройство
     /// </summary>
-    public abstract class DeviceBase: IDevice, IManageable
+    public abstract class DeviceBase: IDevice
     {
         #region Fields And Properties
         private Guid _Id;
