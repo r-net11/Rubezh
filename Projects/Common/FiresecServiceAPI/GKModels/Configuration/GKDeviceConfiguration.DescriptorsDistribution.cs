@@ -64,6 +64,9 @@ namespace FiresecAPI.GK
 							}
 						}
 					}
+					if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetector || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetectorSound
+						|| guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
+						guardZoneDevice.Device.ChildDescriptors.Add(guardZone);
 				}
 				gkBases.Add(guardZone);
 			}
