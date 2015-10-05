@@ -15,7 +15,6 @@ namespace Resurs.ViewModels
 			Description = tariff.Description;
 			Name = tariff.Name;
 			Tariff = tariff;
-			TariffPartsNumber = tariff.TariffParts.Count;
 			TariffType = Tariff.TariffType;
 		}
 
@@ -50,13 +49,6 @@ namespace Resurs.ViewModels
 				OnPropertyChanged(() => Description);
 			}
 		}
-		private int _tariffPartsNumber;
-		public int TariffPartsNumber
-		{
-			get { return _tariffPartsNumber; }
-			set { _tariffPartsNumber = value; }
-		}
-
 		private TariffType _tariffType;
 
 		public TariffType TariffType

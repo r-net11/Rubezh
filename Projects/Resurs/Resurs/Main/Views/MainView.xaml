@@ -48,7 +48,8 @@
 			</TabItem>
 			<TabItem Header="Графики" Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
 			</TabItem>
-			<TabItem Header="Отчеты" Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+			<TabItem Header="Отчеты" DataContext="{Binding ReportsViewModel}" Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Views:ReportsView />
 			</TabItem>
 			<TabItem Header="Журнал Событий"  DataContext="{Binding JournalEventsViewModel}" Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:JournalEventsView Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}" />

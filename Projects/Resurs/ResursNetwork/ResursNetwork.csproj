@@ -52,6 +52,7 @@
     <Compile Include="Devices\ErrorOccuredEventArgs.cs" />
     <Compile Include="Devices\IDevice.cs" />
     <Compile Include="Devices\PeriodicReadEnabledAttribute.cs" />
+    <Compile Include="Devices\ValueConverters\BigEndianBcdUInt16ToFloatValueConvertor.cs" />
     <Compile Include="Devices\ValueConverters\BigEndianUInt16ValueConvertor.cs" />
     <Compile Include="Devices\ValueConverters\BigEndianUInt32ValueConverter.cs" />
     <Compile Include="Devices\ValueConverters\IncotexDataTimeTypeConverter.cs" />
@@ -62,6 +63,8 @@
     <Compile Include="Incotex\NetworkControllers\ApplicationLayer\CMD.cs" />
     <Compile Include="Incotex\NetworkControllers\ApplicationLayer\PollingMode.cs" />
     <Compile Include="Incotex\NetworkControllers\DataLinkLayer\ComPort.cs" />
+    <Compile Include="Networks\Collections\ObjectModel\CollectionChangedEventArgs.cs" />
+    <Compile Include="Networks\StatusChangedEventArgs.cs" />
     <Compile Include="OSI\ApplicationLayer\DeviceContext.cs" />
     <Compile Include="Incotex\NetworkControllers\Messages\ErrorCode.cs" />
     <Compile Include="Incotex\NetworkControllers\Messages\DataMessage.cs" />
@@ -73,7 +76,7 @@
     <Compile Include="Management\Status.cs" />
     <Compile Include="Modbus\CRC16.cs" />
     <Compile Include="Networks\Collections\ObjectModel\NetworksCollection.cs" />
-    <Compile Include="Networks\NetworkManager.cs" />
+    <Compile Include="Networks\NetworksManager.cs" />
     <Compile Include="OSI\ApplicationLayer\INetwrokController.cs" />
     <Compile Include="OSI\DataLinkLayer\DataLinkPortBase.cs" />
     <Compile Include="OSI\DataLinkLayer\IDataLinkPort.cs" />
