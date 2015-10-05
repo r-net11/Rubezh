@@ -38,8 +38,8 @@
 			<TextBlock
 				Text="Восстановление интервала пребывания в зоне"
 				Foreground="White" />
-			<TextBlock 
-				Foreground="White" 
+			<TextBlock
+				Foreground="White"
 				TextTrimming="CharacterEllipsis"
 				behaviours:TextBlockAutoToolTipBehaviour.AutoTooltip="True">
 				<Run Text="{Binding ResetedDayTimeTrackPart.TimeTrackZone.Name, FallbackValue=Неизвестная Зона}" />
