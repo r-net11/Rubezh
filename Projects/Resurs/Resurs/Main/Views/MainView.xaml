@@ -47,7 +47,8 @@
 			</TabItem>
 			<TabItem Header="Графики">
 			</TabItem>
-			<TabItem Header="Отчеты">
+			<TabItem Header="Отчеты" DataContext="{Binding ReportsViewModel}">
+				<Views:ReportsView />
 			</TabItem>
 			<TabItem Header="Пользователи">
 			</TabItem>

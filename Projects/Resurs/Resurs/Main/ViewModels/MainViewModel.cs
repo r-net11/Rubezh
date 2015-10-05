@@ -13,9 +13,11 @@ namespace Resurs.ViewModels
 		{
 			DevicesViewModel = new DevicesViewModel();
 			ApartmentsViewModel = new ApartmentsViewModel();
+			ReportsViewModel = new ReportsViewModel();
 		}
 
 		public DevicesViewModel DevicesViewModel { get; private set; }
 		public ApartmentsViewModel ApartmentsViewModel { get; private set; }
+		public ReportsViewModel ReportsViewModel { get; private set; }
     }
 }
