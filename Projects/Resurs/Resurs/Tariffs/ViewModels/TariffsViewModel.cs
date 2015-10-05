@@ -45,7 +45,6 @@ namespace Resurs.ViewModels
 			}
 		}
 		private ObservableCollection<TariffViewModel> _tariffs;
-
 		public ObservableCollection<TariffViewModel> Tariffs
 		{
 			get { return _tariffs; }
@@ -55,7 +54,6 @@ namespace Resurs.ViewModels
 				OnPropertyChanged(() => Tariffs);
 			}
 		}
-
 		public RelayCommand AddCommand { get; private set; }
 		bool CanAdd()
 		{
@@ -87,6 +85,7 @@ namespace Resurs.ViewModels
 				SelectedTariff.Tariff = tariffDetailsViewModel.Tariff;
 			}
 			DBCash.UpdateTariff(tariffDetailsViewModel.Tariff);
+			OnPropertyChanged(() => Tariffs);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -100,9 +99,15 @@ namespace Resurs.ViewModels
 			DBCash.DeleteTariff(SelectedTariff.Tariff);
 			Tariffs.Remove(SelectedTariff);
 			if (Tariffs.FirstOrDefault() == null)
-				SelectedTariff = Tariffs.ElementAt(index - 1);
-			else
+				SelectedTariff = null;
+			else if (Tariffs.ElementAtOrDefault(index) != null)
+			{
 				SelectedTariff = Tariffs.ElementAt(index);
+			}
+			else 
+			{
+				SelectedTariff = Tariffs.ElementAt(index - 1);
+			}
 		}
 
 	}

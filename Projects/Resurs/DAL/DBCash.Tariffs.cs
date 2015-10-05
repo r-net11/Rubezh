@@ -18,7 +18,7 @@ namespace ResursDAL
 			{
 				foreach (var item in tariff.TariffParts)
 				{
-					if(true)
+					if (true)
 					{
 						item.StartTime = (DateTime)SqlDateTime.MinValue;
 					}
@@ -62,15 +62,25 @@ namespace ResursDAL
 		}
 		public static void UpdateTariff(Tariff tariff)
 		{
-			//if (tableUser != null)
-			//{
-			//	context.UserPermissions.RemoveRange(tableUser.UserPermissions);
-			//	tableUser.Login = user.Login;
-			//	tableUser.Name = user.Name;
-			//	tableUser.PasswordHash = user.PasswordHash;
-			//	tableUser.UserPermissions = new List<UserPermission>();
-			//	tableUser.UserPermissions.AddRange(user.UserPermissions.Select(x => new UserPermission { PermissionType = x.PermissionType, User = tableUser }));
-			//}
+			using (var context = DatabaseContext.Initialize())
+			{
+				var tariffEntity = context.Tariffs.FirstOrDefault(x => x.UID == tariff.UID);
+				if (tariffEntity != null)
+				{
+					context.TariffParts.RemoveRange(tariffEntity.TariffParts);
+					tariffEntity.Description = tariff.Description;
+					tariffEntity.Name = tariff.Name;
+					tariffEntity.TariffType = tariff.TariffType;
+					tariffEntity.UID = tariff.UID;
+					tariffEntity.Devices = new List<Device>();
+					tariffEntity.Devices = tariff.Devices;
+					tariffEntity.TariffParts = new List<TariffPart>();
+					tariffEntity.TariffParts.AddRange(tariff.TariffParts.Select(x => new TariffPart { Discount = x.Discount, Price=x.Price, StartTime=x.StartTime, Tariff=tariff, UID = x.UID, Threshhold = x.Threshhold }));
+					context.SaveChanges();
+				}
+			}
+			Tariffs.RemoveAll(x => x.UID == tariff.UID);
+			Tariffs.Add(tariff);
 		}
 
 		public static void DeleteTariff(Tariff tariff)
