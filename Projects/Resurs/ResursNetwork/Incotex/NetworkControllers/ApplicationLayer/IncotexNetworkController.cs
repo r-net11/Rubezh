@@ -289,7 +289,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             {
                 //запись в лог ошибок
                 Logger.Error(String.Format("Controller Id={0} | Ошибка Code={1} | Description={2}",
-                    _ControllerId, msg.Code, msg.Description));
+                    _Id, msg.Code, msg.Description));
 
                 //TODO: Сделать обработчик ошибок, если потребуется
                 //switch (msg.SpecificErrorCode)

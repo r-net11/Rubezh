@@ -37,6 +37,6 @@ namespace ResursNetwork.Management
         /// Событие происходит при изменении состояния объекта
         /// </summary>
         [Description("Событие при изменении состояния упавляемого объекта")]
-        event EventHandler StatusWasChanged;
+        event EventHandler StatusChanged;
     }
 }

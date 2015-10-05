@@ -75,7 +75,7 @@ namespace ResursNetwork.OSI.DataLinkLayer
             return String.Format(
                 "Type={0}; PortName={1}; ControllerId={2};",
                 this.GetType().ToString(), PortName, 
-                _NetworkController == null ? String.Empty : _NetworkController.ControllerId.ToString());
+                _NetworkController == null ? String.Empty : _NetworkController.Id.ToString());
             //return base.ToString();
         }
         /// <summary>

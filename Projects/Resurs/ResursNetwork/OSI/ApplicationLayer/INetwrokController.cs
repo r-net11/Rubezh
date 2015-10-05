@@ -17,7 +17,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// <summary>
         /// Уникальный идентификатор контроллера
         /// </summary>
-        UInt32 ControllerId { get; set; }
+        Guid Id { get; set; }
         /// <summary>
         /// Список поддерживаемых данным контроллером типов устройств 
         /// </summary>
