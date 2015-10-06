@@ -51,7 +51,7 @@ namespace ResursNetwork.Incotex.Models
         {
             _Parameters.Add(new Parameter(typeof(UInt32))
             {
-                Index = (UInt32)ParameterNamesMercury203.GADDR,
+                Index = (Int32)ParameterNamesMercury203.GADDR,
                 Name = ParameterNamesMercury203.GADDR.ToString(),
                 Description = "Групповой адрес счётчика",
                 PollingEnabled = true,
@@ -62,7 +62,7 @@ namespace ResursNetwork.Incotex.Models
 
             _Parameters.Add(new Parameter(typeof(IncotexDateTime)) 
             {
-                Index = (UInt32)ParameterNamesMercury203.DateTime,
+                Index = (Int32)ParameterNamesMercury203.DateTime,
                 Name = ParameterNamesMercury203.DateTime.ToString(), 
                 Description = "Текущее значение часов счётчика",
                 PollingEnabled = true, 
@@ -73,7 +73,7 @@ namespace ResursNetwork.Incotex.Models
 
             _Parameters.Add(new Parameter(typeof(UInt16)) 
             {
-                Index = (UInt32)ParameterNamesMercury203.PowerLimit,
+                Index = (Int32)ParameterNamesMercury203.PowerLimit,
                 Name = ParameterNamesMercury203.PowerLimit.ToString(),
                 Description = "Значение лимита мощности",
                 PollingEnabled = true,

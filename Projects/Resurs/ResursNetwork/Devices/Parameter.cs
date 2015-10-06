@@ -14,11 +14,11 @@ namespace ResursNetwork.Devices
     {
         #region Fields And Properties
 
-        private UInt32 _Index;
+        private Int32 _Index;
         /// <summary>
         /// Уникальный индекс параметра
         /// </summary>
-        public UInt32 Index
+        public Int32 Index
         {
             get { return _Index; }
             set { _Index = value; }
@@ -128,7 +128,7 @@ namespace ResursNetwork.Devices
         /// <param name="valueConverter"></param>
         /// <param name="type"></param>
         /// <param name="value"></param>
-        public Parameter(UInt32 index, string name, string description, 
+        public Parameter(Int32 index, string name, string description, 
             bool pollingEnabled, bool readOnly, IValueConverter valueConverter, 
             Type type, ValueType value)
         {
