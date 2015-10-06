@@ -1,25 +1,29 @@
 ﻿<UserControl x:Class="Resurs.Views.TariffsView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-			 xmlns:viewModel="clr-namespace:Resurs.ViewModels">
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:viewModel="clr-namespace:Resurs.ViewModels"
+			 xmlns:Converter="clr-namespace:Resurs.Converters">
 	<Grid>
+		<Grid.Resources>
+			<Converter:DiscountToTextConverter x:Key="DiscountToTextConverter" />
+		</Grid.Resources>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="0.25*" />
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
-			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить (Ctrl+N)" ImageSource="Add" />
-			<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать (Ctrl+E)" ImageSource="Edit" />
-			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete" />
+			<ToolBarButton Command="{Binding AddCommand}"		ToolTip="Добавить (Ctrl+N)" ImageSource="Add" />
+			<ToolBarButton Command="{Binding EditCommand}"		ToolTip="Редактировать (Ctrl+E)" ImageSource="Edit" />
+			<ToolBarButton Command="{Binding RemoveCommand}"	ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete" />
 		</StackPanel>
 		<Grid Grid.Row ="1">
 			<DataGrid ItemsSource="{Binding Tariffs}" SelectedItem="{Binding SelectedTariff}" CanUserSortColumns="True">
 				<DataGrid.Columns>
-					<DataGridTextColumn Width="*" Header="Название"		Binding="{Binding Name}" />
-					<DataGridTextColumn Width="*" Header="Тип тарифа"	Binding="{Binding TariffType, Converter={StaticResource EnumToDescriptionConverter}}" />
-					<DataGridTextColumn Width="*" Header="Количество"	Binding="{Binding TariffParts}" />
+					<DataGridTextColumn Width="*" Header="Название"				Binding="{Binding Name}" />
+					<DataGridTextColumn Width="*" Header="Тип тарифа"			Binding="{Binding TariffType, Converter={StaticResource EnumToDescriptionConverter}}" />
+					<DataGridTextColumn Width="*" Header="Тарифные интервалы"	Binding="{Binding TariffParts}" />
 				</DataGrid.Columns>
 			</DataGrid>
 		</Grid>
@@ -31,12 +35,16 @@
 						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Внутренние тарифы" />
+						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Количество тарифных интервалов" />
 						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding TariffParts}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Описание" />
 						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Description}" />
+					</StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Тип тарифа" />
+						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding IsDiscount, Converter={StaticResource DiscountToTextConverter}}" />
 					</StackPanel>
 				</StackPanel>
 			</Grid>

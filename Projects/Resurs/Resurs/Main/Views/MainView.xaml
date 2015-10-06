@@ -43,7 +43,7 @@
 			<TabItem Header="Абоненты" DataContext="{Binding ApartmentsViewModel}" Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}" IsSelected="{Binding IsVisibility, Mode=OneWay}">
 				<Views:ApartmentsView Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</TabItem>
-			<TabItem Header="Тарифы" Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+			<TabItem Header="Тарифы" DataContext="{Binding TariffsViewModel}" Visibility="{Binding IsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:TariffsView />
 			</TabItem>
 			<TabItem Header="Графики" Visibility="{Binding IsVisibility, Converter={StaticResource BoolToVisibilityConverter}}">

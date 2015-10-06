@@ -340,10 +340,10 @@
     <Compile Include="Settings\Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Tariffs\ViewModels\TariffPartsViewModel.cs" />
+    <Compile Include="Tariffs\DiscountToTextConverter.cs" />
     <Compile Include="Tariffs\ViewModels\TariffPartViewModel.cs" />
-    <Compile Include="Tariffs\Views\TariffPartsView.xaml.cs">
-      <DependentUpon>TariffPartsView.xaml</DependentUpon>
+    <Compile Include="Tariffs\Views\TariffsView.xaml.cs">
+      <DependentUpon>TariffsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Users\ViewModels\PermissionsViewModel.cs" />
     <Compile Include="Users\ViewModels\PermissionViewModel.cs" />
@@ -459,10 +459,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Tariffs\DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Tariffs\Views\TariffPartsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

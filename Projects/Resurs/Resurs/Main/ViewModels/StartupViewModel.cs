@@ -33,6 +33,10 @@ namespace Resurs.ViewModels
 			ConnectCommand = new RelayCommand(OnConnect);
 			CancelCommand = new RelayCommand(OnCancel);
 			SettingsCommand = new RelayCommand(OnSettings);
+
+#if DEBUG
+			Login = "adm";
+#endif
 		}
 
 		public override void OnLoad()
