@@ -12,6 +12,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
+using StrazhModule.Devices;
 
 namespace StrazhModule.ViewModels
 {
@@ -33,6 +34,7 @@ namespace StrazhModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand<Plan>(OnShowOnPlan);
 			ShowZoneCommand = new RelayCommand(OnShowZone);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
+			ClearPromptWarningCommand = new RelayCommand(OnClearPromptWarning, CanClearPromptWarning);
 
 			Device = device;
 			Title = Device.Name;
@@ -135,6 +137,25 @@ namespace StrazhModule.ViewModels
 				SKDDevice = Device
 			};
 			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
+		}
+
+		public bool CanShowClearPromptWarning
+		{
+			get
+			{
+				//return StateClasses.Any(x => x.StateClass == XStateClass.Attention);
+				return Device.DriverType == SKDDriverType.Lock;
+			}
+		}
+
+		public RelayCommand ClearPromptWarningCommand { get; private set; }
+		private void OnClearPromptWarning()
+		{
+			DeviceCommander.ClearPromptWarning(Device);
+		}
+		private bool CanClearPromptWarning()
+		{
+			return DeviceCommander.CanClearPromptWarning(Device);
 		}
 
 		#region IWindowIdentity Members

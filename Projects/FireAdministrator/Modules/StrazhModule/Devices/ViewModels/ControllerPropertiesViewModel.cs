@@ -97,11 +97,16 @@ namespace StrazhModule.ViewModels
 		public RelayCommand RewriteConfigurationCommand { get; private set; }
 		void OnRewriteConfiguration()
 		{
-			if (!CheckNeedSave())
-				return;
+			//if (!CheckNeedSave())
+			//	return;
 
-			if (!ValidateConfiguration())
+			//if (!ValidateConfiguration())
+			//	return;
+			if (ServiceFactory.SaveService.SKDChanged)
+			{
+				MessageBoxService.ShowWarning("Перед выполнением операции необходимо применить конфигурацию.");
 				return;
+			}
 
 			WriteConfiguration();
 		}
@@ -153,13 +158,15 @@ namespace StrazhModule.ViewModels
 		{
 			var thread = new Thread(() =>
 			{
-#if DEBUG
-				Logger.Info("Ожидаем сигнала о возможности продолжить работу треда для записи конфигурации на контроллер");
-#endif
 				if (_configurationChangedWaitHandle != null)
+				{
+#if DEBUG
+					Logger.Info("Ожидаем сигнала о возможности продолжить работу треда для записи конфигурации на контроллер");
+#endif
 					_configurationChangedWaitHandle.WaitOne();
+				}
 				
-				Thread.Sleep(TimeSpan.FromSeconds(2));
+				//Thread.Sleep(TimeSpan.FromSeconds(2));
 
 #if DEBUG
 				Logger.Info("Записываем графики доступа");

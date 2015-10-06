@@ -16,7 +16,10 @@
 			</Grid.ColumnDefinitions>
 			<StackPanel Grid.Column="0" Orientation="Horizontal">
 				<Border Width="50" Height="50" Margin="0, 0, 0, 5" Background="{Binding DevicePicture}" BorderThickness="0" />
-				<Views:DeviceStateView Margin="5 0 0 0" TextElement.Foreground="White" />
+				<StackPanel>
+					<Views:DeviceStateView Margin="5 0 0 0" TextElement.Foreground="White" />
+					<Button Content="Сброс тревоги" Command="{Binding ClearPromptWarningCommand}" Visibility="{Binding CanShowClearPromptWarning, Converter={StaticResource BoolToVisibilityConverter}}" Width="100" Margin="5" />
+				</StackPanel>
 			</StackPanel>
 		</Grid>
 		<TabControl Grid.Row="1">

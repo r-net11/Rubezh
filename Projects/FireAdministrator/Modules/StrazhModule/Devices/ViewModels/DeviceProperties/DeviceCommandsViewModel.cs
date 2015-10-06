@@ -151,17 +151,24 @@ namespace StrazhModule.ViewModels
 		public RelayCommand ShowWriteConfigurationInAllControllersCommand { get; private set; }
 		void OnShowWriteConfigurationInAllControllers()
 		{
+			if (ServiceFactory.SaveService.SKDChanged)
+			{
+				MessageBoxService.ShowWarning("Перед выполнением операции необходимо применить конфигурацию.");
+				return;
+			}
+
 			var writeConfigurationInAllControllersViewModel = new WriteConfigurationInAllControllersViewModel();
 			if (!DialogService.ShowModalWindow(writeConfigurationInAllControllersViewModel))
 				return;
 			if (writeConfigurationInAllControllersViewModel.IsCards
 				&& !MessageBoxService.ShowQuestion("Процесс записи пропусков на все контроллеры может занять несколько минут. В это время приложение будет недоступно.\nПродолжить?"))
 				return;
-			if (!CheckNeedSave())
-				return;
-			if (!ValidateConfiguration())
-				return;
-				
+			
+			//if (!CheckNeedSave())
+			//	return;
+			//if (!ValidateConfiguration())
+			//	return;
+
 			var thread = new Thread(() =>
 			{
 #if DEBUG
@@ -172,7 +179,7 @@ namespace StrazhModule.ViewModels
 #if DEBUG
 				Logger.Info("Получен сигнал о возможности продолжить работу треда для записи конфигурации на все контроллеры");
 #endif
-				Thread.Sleep(TimeSpan.FromSeconds(2));
+				//Thread.Sleep(TimeSpan.FromSeconds(2));
 
 				var failedDevicesUids = new HashSet<Guid>();
 				OperationResult<List<Guid>> result = null;
