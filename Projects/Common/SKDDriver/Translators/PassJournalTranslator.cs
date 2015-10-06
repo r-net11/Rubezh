@@ -162,6 +162,7 @@ namespace SKDDriver.Translators
 							EnterTime = b.EnterTime.TimeOfDay,
 							EnterTimeOriginal = b.EnterTimeOriginal,
 							ExitDateTime = b.ExitTime,
+							IsManuallyAdded = b.IsAddedManually,
 							ExitTime = b.ExitTime.GetValueOrDefault().TimeOfDay,
 							ExitTimeOriginal = b.ExitTimeOriginal,
 							IsNeedAdjustmentOriginal = b.IsNeedAdjustmentOriginal,
