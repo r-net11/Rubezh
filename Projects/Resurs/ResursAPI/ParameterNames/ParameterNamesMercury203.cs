@@ -13,18 +13,18 @@ namespace ResursAPI.ParameterNames
         /// <summary>
         /// Групповой адрес устройтсва
         /// </summary>
-        public static string GADDR = "GADDR";
+        public const string GADDR = "GADDR";
         /// <summary>
         /// Дата и время устройства
         /// </summary>
-        public static string DateTime = "DateTime";
+        public const string DateTime = "DateTime";
         /// <summary>
         /// Лимит мощности
         /// </summary>
-        public static string PowerLimit = "PowerLimit";
+        public const string PowerLimit = "PowerLimit";
         /// <summary>
         /// Лимит мощности за месяц
         /// </summary>
-        public static string PowerLimitPerMonth = "PowerLimitPerMonth";
+        public const string PowerLimitPerMonth = "PowerLimitPerMonth";
     }
 }

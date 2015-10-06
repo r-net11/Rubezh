@@ -10,10 +10,10 @@ namespace ResursAPI.ParameterNames
         /// <summary>
         /// Идентификатор устройтсва
         /// </summary>
-        public static string Id = "Id";
+        public const string Id = "Id";
         /// <summary>
         /// Сетевой адрес устройтсва
         /// </summary>
-        public static string Address = "Address";
+        public const string Address = "Address";
     }
 }
