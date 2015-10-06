@@ -1,14 +1,10 @@
 ﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Resurs.Processor;
 using ResursAPI;
 using ResursDAL;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 
 namespace Resurs.ViewModels
 {
@@ -85,7 +81,6 @@ namespace Resurs.ViewModels
 				SelectedTariff.Tariff = tariffDetailsViewModel.Tariff;
 			}
 			DBCash.UpdateTariff(tariffDetailsViewModel.Tariff);
-			OnPropertyChanged(() => Tariffs);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -109,6 +104,9 @@ namespace Resurs.ViewModels
 				SelectedTariff = Tariffs.ElementAt(index - 1);
 			}
 		}
-
+		public bool IsVisible
+		{
+			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.Tariff); }
+		}
 	}
 }

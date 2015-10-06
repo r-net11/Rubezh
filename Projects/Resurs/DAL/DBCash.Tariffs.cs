@@ -20,7 +20,7 @@ namespace ResursDAL
 				{
 					if (true)
 					{
-						item.StartTime = (DateTime)SqlDateTime.MinValue;
+						item.StartTime = new TimeSpan(0, 0, 0);
 					}
 				}
 
@@ -75,7 +75,7 @@ namespace ResursDAL
 					tariffEntity.Devices = new List<Device>();
 					tariffEntity.Devices = tariff.Devices;
 					tariffEntity.TariffParts = new List<TariffPart>();
-					tariffEntity.TariffParts.AddRange(tariff.TariffParts.Select(x => new TariffPart { Discount = x.Discount, Price=x.Price, StartTime=x.StartTime, Tariff=tariff, UID = x.UID, Threshhold = x.Threshhold }));
+					tariffEntity.TariffParts.AddRange(tariff.TariffParts.Select(x => new TariffPart { Discount = x.Discount, Price=x.Price, StartTime=x.StartTime, Tariff=tariff, UID = x.UID, Threshold = x.Threshold }));
 					context.SaveChanges();
 				}
 			}
