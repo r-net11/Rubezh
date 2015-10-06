@@ -25,6 +25,7 @@ namespace FiresecAPI.GK
 			OutDependentElements = new List<GKBase>();
 		}
 
+		[XmlIgnore]
 		public List<GKBase> InputDependentElements { get; set; }
 		[XmlIgnore]
 		public List<GKBase> OutDependentElements { get; set; }
@@ -65,9 +66,9 @@ namespace FiresecAPI.GK
 
 		public void AddDependentElement(GKBase gkBase)
 		{
-			if (!InputDependentElements.Contains(gkBase) && gkBase != this)
+			if (InputDependentElements.All(x => x.UID != gkBase.UID) && gkBase.UID != UID)
 				InputDependentElements.Add(gkBase);
-			if (!gkBase.OutDependentElements.Contains(this) && gkBase != this)
+			if (gkBase.OutDependentElements.All(x => x.UID != UID) && gkBase.UID != UID)
 				gkBase.OutDependentElements.Add(this);		
 		}
 

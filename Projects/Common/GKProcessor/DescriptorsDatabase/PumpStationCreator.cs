@@ -193,11 +193,6 @@ namespace GKProcessor
 
 			pimDescriptor.Formula = new FormulaBuilder();
 			var inputDevices = new List<GKBase>(PumpStation.InputDependentElements.Where(x => x is GKDevice));
-			foreach (var nsDevice in PumpStation.NSDevices)
-			{
-				if (!inputDevices.Contains(nsDevice))
-					inputDevices.Add(nsDevice);
-			}
 			foreach (var inputDevice in inputDevices)
 			{
 				PumpStation.Pim.LinkToDescriptor(inputDevice);
