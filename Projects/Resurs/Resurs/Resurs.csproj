@@ -18,6 +18,8 @@
     <WarningLevel>4</WarningLevel>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -30,10 +32,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -336,6 +336,33 @@
     <Compile Include="Main\Views\StartupView.xaml.cs">
       <DependentUpon>StartupView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Reports\DataSources\CounterDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CounterDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\DataSources\DebtorsDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DebtorsDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ReportFilter.cs" />
+    <Compile Include="Reports\Templates\ChangeFlowReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\Templates\ChangeFlowReport.Designer.cs">
+      <DependentUpon>ChangeFlowReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Templates\DebtorsReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\Templates\DebtorsReport.Designer.cs">
+      <DependentUpon>DebtorsReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ViewModels\ReportFilterViewModel.cs" />
+    <Compile Include="Reports\Views\ReportFilterView.xaml.cs">
+      <DependentUpon>ReportFilterView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Users\ViewModels\PermissionsViewModel.cs" />
     <Compile Include="Users\ViewModels\PermissionViewModel.cs" />
     <Compile Include="Tariffs\ViewModels\TariffsViewModel.cs" />
@@ -441,6 +468,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Reports\Views\ReportFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Tariffs\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -496,12 +527,41 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Reports\Templates\ChangeFlowReport.resx">
+      <DependentUpon>ChangeFlowReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Templates\DebtorsReport.resx">
+      <DependentUpon>DebtorsReport.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="Reports\DataSources\CounterDataSet.xsc">
+      <DependentUpon>CounterDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Reports\DataSources\CounterDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CounterDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Reports\DataSources\CounterDataSet.xss">
+      <DependentUpon>CounterDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Reports\DataSources\DebtorsDataSet.xsc">
+      <DependentUpon>DebtorsDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Reports\DataSources\DebtorsDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DebtorsDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Reports\DataSources\DebtorsDataSet.xss">
+      <DependentUpon>DebtorsDataSet.xsd</DependentUpon>
     </None>
     <None Include="Resurs.exe.manifest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -546,12 +606,12 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4 %28x86 и x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
-      <ProductName>Клиентский профиль .NET Framework 3.5 SP1</ProductName>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -587,8 +647,6 @@
     <Folder Include="Rates\DataTemplates\" />
     <Folder Include="Rates\ViewModels\" />
     <Folder Include="Rates\Views\" />
-    <Folder Include="Reports\DataSources\" />
-    <Folder Include="Reports\Templates\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
