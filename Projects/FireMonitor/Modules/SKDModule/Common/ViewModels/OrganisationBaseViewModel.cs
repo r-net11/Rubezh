@@ -375,7 +375,7 @@ namespace SKDModule.ViewModels
 			if (!restoreResult)
 				return;
 			SelectedItem.IsDeleted = false;
-			SelectedItem.RemovalDate = "";
+			SelectedItem.RemovalDate = null;
 			AfterRestore(SelectedItem.Model);
 		}
 		bool CanRestore()

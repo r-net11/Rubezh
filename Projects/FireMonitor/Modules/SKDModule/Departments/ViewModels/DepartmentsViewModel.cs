@@ -5,6 +5,7 @@ using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using SKDModule.Events;
 
@@ -19,7 +20,7 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<NewDepartmentEvent>().Unsubscribe(OnNewDepartment);
 			ServiceFactory.Events.GetEvent<NewDepartmentEvent>().Subscribe(OnNewDepartment);
 		}
-		
+
 		protected override void InitializeModels(IEnumerable<ShortDepartment> models)
 		{
 			foreach (var organisation in Organisations)
@@ -133,7 +134,7 @@ namespace SKDModule.ViewModels
 			department.ChildDepartmentUIDs = item.ChildDepartments.Select(x => x.Key).ToList();
 			return DepartmentHelper.Save(department, true);
 		}
-		 
+
 		protected override void OnPaste()
 		{
 			Guid? parentDepartmentUID = null;
@@ -173,7 +174,7 @@ namespace SKDModule.ViewModels
 			base.OnCopy();
 			_clipboardChildren = CopyChildren(_clipboard, SelectedItem.Children.Select(x => x.Model));
 		}
-		
+
 		protected override ShortDepartment CopyModel(ShortDepartment source)
 		{
 			var copy = base.CopyModel(source);
@@ -224,12 +225,12 @@ namespace SKDModule.ViewModels
 			foreach (var child in SelectedItem.GetAllParents().Where(x => x.IsDeleted))
 			{
 				child.IsDeleted = false;
-				SelectedItem.RemovalDate = "";
+				child.RemovalDate = null;
 			}
 			var employeeUIDs = DepartmentHelper.GetParentEmployeeUIDs(SelectedItem.UID);
 			foreach (var uid in employeeUIDs)
 			{
-				ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(uid);
+				ServiceFactoryBase.Events.GetEvent<EditEmployeeEvent>().Publish(uid);
 			}
 		}
 
