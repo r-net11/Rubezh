@@ -8,28 +8,23 @@ namespace ResursAPI.ParameterNames
     /// <summary>
     /// Иднексы праметров устройтсва Инкотекс Меркурий 203
     /// </summary>
-    public enum ParameterNamesMercury203 : int
+    public class ParameterNamesMercury203 : ParameterNamesBase
     {
-        Id = 1,
-        /// <summary>
-        /// Сетевой адрес устройтсва
-        /// </summary>
-        Address = 2,
         /// <summary>
         /// Групповой адрес устройтсва
         /// </summary>
-        GADDR = 3,
+        public static string GADDR = "GADDR";
         /// <summary>
         /// Дата и время устройства
         /// </summary>
-        DateTime = 4,
+        public static string DateTime = "DateTime";
         /// <summary>
         /// Лимит мощности
         /// </summary>
-        PowerLimit = 5,
+        public static string PowerLimit = "PowerLimit";
         /// <summary>
         /// Лимит мощности за месяц
         /// </summary>
-        PowerLimitPerMonth = 6
+        public static string PowerLimitPerMonth = "PowerLimitPerMonth";
     }
 }

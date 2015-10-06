@@ -40,14 +40,14 @@ namespace ResursNetwork.Devices
 
         public UInt32 Address
         {
-            get { return (UInt32)_Parameters[ParameterNamesMercury203.Address.ToString()].Value; }
+            get { return (UInt32)_Parameters[ParameterNamesMercury203.Address].Value; }
             set 
             {
-                var address = (UInt32)_Parameters[ParameterNamesMercury203.Address.ToString()].Value;
+                var address = (UInt32)_Parameters[ParameterNamesMercury203.Address].Value;
                 
                 if (address != value)
                 {
-                    _Parameters[ParameterNamesMercury203.Address.ToString()].Value = value;
+                    _Parameters[ParameterNamesMercury203.Address].Value = value;
                     OnPropertyChanged("Address");
                 }
             }
@@ -103,8 +103,7 @@ namespace ResursNetwork.Devices
 
             _Parameters.Add(new Parameter(typeof(Guid))
             {
-                Index = (int)ParameterNamesMercury203.Id,
-                Name = ParameterNamesMercury203.Id.ToString(),
+                Name = ParameterNamesMercury203.Id,
                 Description = "Сетевой адрес устройства",
                 PollingEnabled = false,
                 ReadOnly = false,
@@ -114,8 +113,7 @@ namespace ResursNetwork.Devices
 
             _Parameters.Add(new Parameter(typeof(UInt32))
             {
-                Index = (int)ParameterNamesMercury203.Address,
-                Name = ParameterNamesMercury203.Address.ToString(),
+                Name = ParameterNamesMercury203.Address,
                 Description = "Сетевой адрес устройтсва",
                 PollingEnabled = false,
                 ReadOnly = false,

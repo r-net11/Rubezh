@@ -51,8 +51,7 @@ namespace ResursNetwork.Incotex.Models
         {
             _Parameters.Add(new Parameter(typeof(UInt32))
             {
-                Index = (Int32)ParameterNamesMercury203.GADDR,
-                Name = ParameterNamesMercury203.GADDR.ToString(),
+                Name = ParameterNamesMercury203.GADDR,
                 Description = "Групповой адрес счётчика",
                 PollingEnabled = true,
                 ReadOnly = false,
@@ -62,8 +61,7 @@ namespace ResursNetwork.Incotex.Models
 
             _Parameters.Add(new Parameter(typeof(IncotexDateTime)) 
             {
-                Index = (Int32)ParameterNamesMercury203.DateTime,
-                Name = ParameterNamesMercury203.DateTime.ToString(), 
+                Name = ParameterNamesMercury203.DateTime, 
                 Description = "Текущее значение часов счётчика",
                 PollingEnabled = true, 
                 ReadOnly = false,
@@ -73,23 +71,13 @@ namespace ResursNetwork.Incotex.Models
 
             _Parameters.Add(new Parameter(typeof(UInt16)) 
             {
-                Index = (Int32)ParameterNamesMercury203.PowerLimit,
-                Name = ParameterNamesMercury203.PowerLimit.ToString(),
+                Name = ParameterNamesMercury203.PowerLimit,
                 Description = "Значение лимита мощности",
                 PollingEnabled = true,
                 ReadOnly = false,
                 ValueConverter = new BigEndianUInt16ValueConvertor(),
                 Value = (UInt16)0
             });
-        }
-        /// <summary>
-        /// Возвращает параметр по индексу
-        /// </summary>
-        /// <param name="index">Индекс параметра</param>
-        /// <returns>null - если праметр не найден</returns>
-        private Parameter GetParameter(ParameterNamesMercury203 index)
-        {
-            return _Parameters.FirstOrDefault(p => p.Index == (UInt32)index);
         }
         /// <summary>
         /// Обработчик завершения сетевой транзакции
@@ -301,7 +289,7 @@ namespace ResursNetwork.Incotex.Models
 
                 // Получаем параметр
                 // Присваиваем новое значение параметру
-                var parameter = GetParameter(ParameterNamesMercury203.GADDR);
+                var parameter = _Parameters[ParameterNamesMercury203.GADDR];
                 parameter.Value = parameter.ValueConverter.FromArray(
                     new byte[] 
                     {

@@ -41,6 +41,10 @@
 	Блокирует вызывающий поток до окончания сетевой транзакции
 	Result WriteParameter(Guid deviceId, string parameterName, ValueType value)
 
+	Устанавливает дату и время у всех устройтсв в сети
+	(Широковещательная команда)
+	void SyncDateTime()
+
 2. События NetworksManager:
 	Генерируется при возникновении ошибок в устройтсве или при работе 
 	DeviceHasError(Guid deviceId, Error error)
