@@ -429,16 +429,6 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.SKDCloseDevice(deviceUID); }, "SKDCloseDevice");
 		}
 
-		public OperationResult<bool> SKDOpenDeviceForever(Guid deviceUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.SKDOpenDeviceForever(deviceUID); }, "SKDOpenDeviceForever");
-		}
-
-		public OperationResult<bool> SKDCloseDeviceForever(Guid deviceUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.SKDCloseDeviceForever(deviceUID); }, "SKDCloseDeviceForever");
-		}
-
 		public OperationResult<bool> SKDDeviceAccessStateNormal(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDDeviceAccessStateNormal(deviceUID); }, "SKDDeviceAccessStateNormal");
@@ -469,16 +459,6 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.SKDCloseZone(zoneUID); }, "SKDCloseZone");
 		}
 
-		public OperationResult<bool> SKDOpenZoneForever(Guid zoneUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.SKDOpenZoneForever(zoneUID); }, "SKDOpenZoneForever");
-		}
-
-		public OperationResult<bool> SKDCloseZoneForever(Guid zoneUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.SKDCloseZoneForever(zoneUID); }, "SKDCloseZoneForever");
-		}
-
 		public OperationResult<bool> SKDZoneAccessStateNormal(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDZoneAccessStateNormal(deviceUID); }, "SKDZoneAccessStateNormal");
@@ -507,16 +487,6 @@ namespace FiresecService.Service
 		public OperationResult<bool> SKDCloseDoor(Guid doorUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDCloseDoor(doorUID); }, "SKDCloseDoor");
-		}
-
-		public OperationResult<bool> SKDOpenDoorForever(Guid doorUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.SKDOpenDoorForever(doorUID); }, "SKDOpenDoorForever");
-		}
-
-		public OperationResult<bool> SKDCloseDoorForever(Guid doorUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.SKDCloseDoorForever(doorUID); }, "SKDCloseDoorForever");
 		}
 
 		public OperationResult<bool> SKDDoorAccessStateNormal(Guid deviceUID)

@@ -393,16 +393,6 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.SKDCloseDevice(device.UID); }, "SKDCloseDevice");
 		}
 
-		public OperationResult<bool> SKDOpenDeviceForever(SKDDevice device)
-		{
-			return SafeOperationCall(() => { return FiresecService.SKDOpenDeviceForever(device.UID); }, "SKDOpenDeviceForever");
-		}
-
-		public OperationResult<bool> SKDCloseDeviceForever(SKDDevice device)
-		{
-			return SafeOperationCall(() => { return FiresecService.SKDCloseDeviceForever(device.UID); }, "SKDCloseDeviceForever");
-		}
-
 		public OperationResult<bool> SKDDeviceAccessStateNormal(SKDDevice device)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDDeviceAccessStateNormal(device.UID); }, "SKDDeviceAccessStateNormal");
@@ -431,16 +421,6 @@ namespace FiresecClient
 		public OperationResult<bool> SKDCloseZone(SKDZone zone)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDCloseZone(zone.UID); }, "SKDCloseZone");
-		}
-
-		public OperationResult<bool> SKDOpenZoneForever(SKDZone zone)
-		{
-			return SafeOperationCall(() => { return FiresecService.SKDOpenZoneForever(zone.UID); }, "SKDOpenZoneForever");
-		}
-
-		public OperationResult<bool> SKDCloseZoneForever(SKDZone zone)
-		{
-			return SafeOperationCall(() => { return FiresecService.SKDCloseZoneForever(zone.UID); }, "SKDCloseZoneForever");
 		}
 
 		public OperationResult<bool> SKDZoneAccessStateNormal(SKDZone zone)
@@ -476,16 +456,6 @@ namespace FiresecClient
 		public OperationResult<bool> SKDCloseDoor(SKDDoor door)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDCloseDoor(door.UID); }, "SKDCloseDoor");
-		}
-
-		public OperationResult<bool> SKDOpenDoorForever(SKDDoor door)
-		{
-			return SafeOperationCall(() => { return FiresecService.SKDOpenDoorForever(door.UID); }, "SKDOpenDoorForever");
-		}
-
-		public OperationResult<bool> SKDCloseDoorForever(SKDDoor door)
-		{
-			return SafeOperationCall(() => { return FiresecService.SKDCloseDoorForever(door.UID); }, "SKDCloseDoorForever");
 		}
 
 		public OperationResult<bool> SKDDoorAccessStateNormal(SKDDoor door)

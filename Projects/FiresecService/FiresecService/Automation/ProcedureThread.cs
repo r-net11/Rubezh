@@ -255,6 +255,10 @@ namespace FiresecService
 					FindObjects(procedureStep);
 					break;
 
+				case ProcedureStepType.ControlSKDDevice:
+					ControlSKDDevice(procedureStep);
+					break;
+
 				case ProcedureStepType.ControlDoor:
 					ControlDoor(procedureStep);
 					break;

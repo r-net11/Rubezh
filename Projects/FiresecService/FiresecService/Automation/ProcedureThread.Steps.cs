@@ -572,36 +572,82 @@ namespace FiresecService
 			RviClient.RviClientHelper.AlarmRuleExecute(ConfigurationCashHelper.SystemConfiguration, name);
 		}
 
+		private void ControlSKDDevice(ProcedureStep procedureStep)
+		{
+			var deviceUid = GetValue<Guid>(procedureStep.ControlSKDDeviceArguments.SKDDeviceArgument);
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUid);
+			if (device == null)
+				return;
+			// Открыть замок
+			if (procedureStep.ControlSKDDeviceArguments.Command == SKDDeviceCommandType.Open)
+				FiresecServiceManager.SafeFiresecService.SKDOpenDevice(device.UID);
+			// Закрыть замок
+			if (procedureStep.ControlSKDDeviceArguments.Command == SKDDeviceCommandType.Close)
+				FiresecServiceManager.SafeFiresecService.SKDCloseDevice(device.UID);
+			// Перевести замок в режим "Открыто"
+			if (procedureStep.ControlSKDDeviceArguments.Command == SKDDeviceCommandType.AccessStateOpenAlways)
+				FiresecServiceManager.SafeFiresecService.SKDDeviceAccessStateOpenAlways(device.UID);
+			// Перевести замок в режим "Норма"
+			if (procedureStep.ControlSKDDeviceArguments.Command == SKDDeviceCommandType.AccessStateNormal)
+				FiresecServiceManager.SafeFiresecService.SKDDeviceAccessStateNormal(device.UID);
+			// Перевести замок в режим "Закрыто"
+			if (procedureStep.ControlSKDDeviceArguments.Command == SKDDeviceCommandType.AccessStateCloseAlways)
+				FiresecServiceManager.SafeFiresecService.SKDDeviceAccessStateCloseAlways(device.UID);
+			// Сброс тревоги
+			if (procedureStep.ControlSKDDeviceArguments.Command == SKDDeviceCommandType.ClearPromptWarning)
+				FiresecServiceManager.SafeFiresecService.SKDClearDevicePromptWarning(device.UID);
+		}
+
 		private void ControlDoor(ProcedureStep procedureStep)
 		{
 			var doorUid = GetValue<Guid>(procedureStep.ControlDoorArguments.DoorArgument);
 			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUid);
 			if (door == null)
 				return;
+			// Открыть точку доступа
 			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.Open)
 				FiresecServiceManager.SafeFiresecService.SKDOpenDoor(door.UID);
+			// Закрыть точку доступа
 			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.Close)
 				FiresecServiceManager.SafeFiresecService.SKDCloseDoor(door.UID);
-			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.OpenForever)
-				FiresecServiceManager.SafeFiresecService.SKDOpenDoorForever(door.UID);
-			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.CloseForever)
-				FiresecServiceManager.SafeFiresecService.SKDCloseDoorForever(door.UID);
+			// Перевести точку доступа в режим "Открыто"
+			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.AccessStateOpenAlways)
+				FiresecServiceManager.SafeFiresecService.SKDDoorAccessStateOpenAlways(door.UID);
+			// Перевести точку доступа в режим "Норма"
+			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.AccessStateNormal)
+				FiresecServiceManager.SafeFiresecService.SKDDoorAccessStateNormal(door.UID);
+			// Перевести точку доступа в режим "Закрыто"
+			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.AccessStateCloseAlways)
+				FiresecServiceManager.SafeFiresecService.SKDDoorAccessStateCloseAlways(door.UID);
+			// Сброс тревоги
+			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.ClearPromptWarning)
+				FiresecServiceManager.SafeFiresecService.SKDClearDoorPromptWarning(door.UID);
 		}
 
 		private void ControlSKDZone(ProcedureStep procedureStep)
 		{
-			var sKDZoneUid = GetValue<Guid>(procedureStep.ControlSKDZoneArguments.SKDZoneArgument);
-			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == sKDZoneUid);
-			if (sKDZone == null)
+			var zoneUid = GetValue<Guid>(procedureStep.ControlSKDZoneArguments.SKDZoneArgument);
+			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUid);
+			if (zone == null)
 				return;
+			// Открыть зону
 			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.Open)
-				FiresecServiceManager.SafeFiresecService.SKDOpenZone(sKDZone.UID);
+				FiresecServiceManager.SafeFiresecService.SKDOpenZone(zone.UID);
+			// Закрыть зону
 			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.Close)
-				FiresecServiceManager.SafeFiresecService.SKDCloseZone(sKDZone.UID);
-			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.OpenForever)
-				FiresecServiceManager.SafeFiresecService.SKDOpenZoneForever(sKDZone.UID);
-			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.CloseForever)
-				FiresecServiceManager.SafeFiresecService.SKDCloseZoneForever(sKDZone.UID);
+				FiresecServiceManager.SafeFiresecService.SKDCloseZone(zone.UID);
+			// Перевести зону в режим "Открыто"
+			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.AccessStateOpenAlways)
+				FiresecServiceManager.SafeFiresecService.SKDZoneAccessStateOpenAlways(zone.UID);
+			// Перевести зону в режим "Норма"
+			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.AccessStateNormal)
+				FiresecServiceManager.SafeFiresecService.SKDZoneAccessStateNormal(zone.UID);
+			// Перевести зону в режим "Закрыто"
+			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.AccessStateCloseAlways)
+				FiresecServiceManager.SafeFiresecService.SKDZoneAccessStateCloseAlways(zone.UID);
+			// Сброс тревоги
+			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.ClearPromptWarning)
+				FiresecServiceManager.SafeFiresecService.SKDClearZonePromptWarning(zone.UID);
 		}
 
 		private void Pause(ProcedureStep procedureStep)
