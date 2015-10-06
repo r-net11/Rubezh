@@ -11,8 +11,8 @@ namespace ResursAPI
 		{
 			var driver = new Driver();
 			driver.DriverType = DriverType.System;
-			driver.Children.Add(DriverType.BeregunNetwork);
-			driver.Children.Add(DriverType.MZEP55Network);
+			driver.Children.Add(DriverType.BeregunInterface);
+			driver.Children.Add(DriverType.MZEP55Interface);
 			return driver;
 		}
 	}

@@ -17,7 +17,6 @@ namespace Resurs.ViewModels
 			UsersViewModel = new UsersViewModel();
 			JournalEventsViewModel = new JournalEventsViewModel();
 			TariffsViewModel = new TariffsViewModel();
-			SettingsViewModel = new SettingsViewModel();
 		}
 
 		public DevicesViewModel DevicesViewModel { get; private set; }
@@ -26,7 +25,5 @@ namespace Resurs.ViewModels
 		public UsersViewModel UsersViewModel { get; private set; }
 		public JournalEventsViewModel JournalEventsViewModel { get; private set; }
 		public TariffsViewModel TariffsViewModel { get; private set; }
-
-		public SettingsViewModel SettingsViewModel { get; private set; }
     }
 }

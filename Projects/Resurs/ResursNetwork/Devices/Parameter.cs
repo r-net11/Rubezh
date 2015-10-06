@@ -13,14 +13,18 @@ namespace ResursNetwork.Devices
     public sealed class Parameter
     {
         #region Fields And Properties
-        
-        private String _Name;
-        private String _Description;
-        private IValueConverter _ValueConverter;
-        private Boolean _ReadOnly;
-        private Boolean _PollingEnabled;
-        private ValueType _Value;
 
+        private UInt32 _Index;
+        /// <summary>
+        /// Уникальный индекс параметра
+        /// </summary>
+        public UInt32 Index
+        {
+            get { return _Index; }
+            set { _Index = value; }
+        }
+
+        private String _Name;
         /// <summary>
         /// Наименование параметра
         /// </summary>
@@ -30,6 +34,7 @@ namespace ResursNetwork.Devices
             set { _Name = value; }
         }
 
+        private String _Description;
         /// <summary>
         /// Описание параметра
         /// </summary>
@@ -39,6 +44,7 @@ namespace ResursNetwork.Devices
             set { _Description = value; }
         }
 
+        private IValueConverter _ValueConverter;
         /// <summary>
         /// Конвертор значения параметра
         /// </summary>
@@ -48,6 +54,7 @@ namespace ResursNetwork.Devices
             set { _ValueConverter = value; }
         }
 
+        private Boolean _ReadOnly;
         /// <summary>
         /// Параметр может только читаться из устройства.
         /// </summary>
@@ -57,6 +64,7 @@ namespace ResursNetwork.Devices
             set { _ReadOnly = value; }
         }
 
+        private Boolean _PollingEnabled;
         /// <summary>
         /// Разрешает/запрещает циклический опрос данного параметра
         /// из удалённого устройства
@@ -66,12 +74,12 @@ namespace ResursNetwork.Devices
             get { return _PollingEnabled; }
             set { _PollingEnabled = value; }
         }
-
         /// <summary>
         /// Тип данных значения параметра
         /// </summary>
         public readonly Type ValueType;
 
+        private ValueType _Value;
         public ValueType Value
         {
             get { return _Value; }
@@ -120,11 +128,11 @@ namespace ResursNetwork.Devices
         /// <param name="valueConverter"></param>
         /// <param name="type"></param>
         /// <param name="value"></param>
-        public Parameter(Int32 index, string name, string description, 
+        public Parameter(UInt32 index, string name, string description, 
             bool pollingEnabled, bool readOnly, IValueConverter valueConverter, 
             Type type, ValueType value)
         {
-            //_Index = index;
+            _Index = index;
             _Name = name == null ? String.Empty : name;
             _Description = description == null ? String.Empty : description;
             _PollingEnabled = pollingEnabled;

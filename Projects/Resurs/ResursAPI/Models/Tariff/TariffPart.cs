@@ -16,15 +16,14 @@ namespace ResursAPI
 		{
 			UID = Guid.NewGuid();
 			Tariff = tariff;
-
 		}
 
 		[Key]
 		public Guid UID { get; set; }
+		public int Number { get; set; }
 		public double Price { get; set; }
 		public double Discount { get; set; }
-		public TimeSpan StartTime { get; set; }
-		public double Threshold { get; set; }
+		public DateTime StartTime { get; set; }
 		public Tariff Tariff { get; set; } 
 	}
 }

@@ -18,6 +18,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
     public abstract class NetworkControllerBase: INetwrokController
     {
         #region Fields And Properties
+        //private static List<UInt32> RegisteredControllerIds = new List<uint>();
 
         protected Guid _Id;
         /// <summary>
@@ -201,7 +202,6 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// </summary>
         public NetworkControllerBase()
         {
-            _Id = Guid.NewGuid();
             _MessageReceived = new EventHandler(EventHandler_Connection_MessageReceived);
             _Devices = new DevicesCollection(this);
         }

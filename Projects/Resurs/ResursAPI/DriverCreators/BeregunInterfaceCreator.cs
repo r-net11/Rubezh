@@ -5,14 +5,12 @@ using System.Text;
 
 namespace ResursAPI
 {
-	public class BeregunNetworkCreator
+	public class BeregunInterfaceCreator
 	{
 		public static Driver Create()
 		{
 			var driver = new Driver();
-			driver.DriverType = DriverType.BeregunNetwork;
-			driver.DeviceType = DeviceType.Network;
-			driver.Children.Add(DriverType.BeregunCounter);
+			driver.DriverType = DriverType.BeregunInterface;
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Скорость интерфейса",
@@ -48,6 +46,7 @@ namespace ResursAPI
 				EnumDefaultItem = 5,
 				Number = 1
 			});
+			driver.Children.Add(DriverType.BeregunCounter);
 			return driver;
 		}
 	}

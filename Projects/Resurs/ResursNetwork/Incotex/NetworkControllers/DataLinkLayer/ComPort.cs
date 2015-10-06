@@ -110,7 +110,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
         {
             _SerialPort = new SerialPort();
             _SerialPort.DataBits = 8;
-            _SerialPort.Parity = Parity.None;
+            _SerialPort.Parity = Parity.Even;
             _SerialPort.StopBits = StopBits.One;
             _SerialPort.BaudRate = 19200;
             _SerialPort.DataReceived += EventHandler_SerialPort_DataReceived;

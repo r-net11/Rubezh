@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
-using ResursNetwork.Devices;
+using ResursNetwork.OSI.ApplicationLayer;
 
-namespace ResursNetwork.Devices.Collections.ObjectModel
+namespace ResursNetwork.Networks.Collections.ObjectModel
 {
-    public class DevicesCollectionChangedEventArgs: EventArgs
+    public class CollectionChangedEventArgs: EventArgs
     {
         #region Fields And Properties
 
-        private IDevice _Device;
+        private INetwrokController[] _Networks;
         private NotifyCollectionChangedAction _Action;
 
-        public IDevice Device
+        public INetwrokController[] Networks
         {
-            get { return _Device; }
-            set { _Device = value; }
+            get { return _Networks; }
+            set { _Networks = value; }
         }
 
         public NotifyCollectionChangedAction Action
@@ -25,6 +25,7 @@ namespace ResursNetwork.Devices.Collections.ObjectModel
             get { return _Action; }
             set { _Action = value; }
         }
+
         #endregion
     }
 }

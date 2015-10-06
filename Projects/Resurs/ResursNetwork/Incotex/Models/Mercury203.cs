@@ -11,7 +11,6 @@ using ResursNetwork.OSI.ApplicationLayer;
 using ResursNetwork.Incotex.Models.DateTime;
 using ResursNetwork.Incotex.NetworkControllers.Messages;
 using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer;
-using ResursAPI.ParameterNames;
 using Common;
 
 namespace ResursNetwork.Incotex.Models
@@ -21,6 +20,31 @@ namespace ResursNetwork.Incotex.Models
     /// </summary>
     public class Mercury203: DeviceBase
     {
+        #region List of Parameter indexes
+        /// <summary>
+        /// Индексы параметров устройства
+        /// </summary>
+        public enum ParameterIndexes: uint
+        {
+            /// <summary>
+            /// Групповой адрес устройтсва
+            /// </summary>
+            GADDR = 1,
+            /// <summary>
+            /// Дата и время устройства
+            /// </summary>
+            DateTime = 2,
+            /// <summary>
+            /// Лимит мощности
+            /// </summary>
+            PowerLimit = 3,
+            /// <summary>
+            /// Лимит мощности за месяц
+            /// </summary>
+            PowerLimitPerMonth = 4
+        }
+        #endregion
+
         #region Fields And Properties
         public override DeviceType DeviceType
         {
@@ -51,7 +75,8 @@ namespace ResursNetwork.Incotex.Models
         {
             _Parameters.Add(new Parameter(typeof(UInt32))
             {
-                Name = ParameterNamesMercury203.GADDR,
+                Index = (UInt32)ParameterIndexes.GADDR,
+                Name = ParameterIndexes.GADDR.ToString(),
                 Description = "Групповой адрес счётчика",
                 PollingEnabled = true,
                 ReadOnly = false,
@@ -60,8 +85,9 @@ namespace ResursNetwork.Incotex.Models
             });
 
             _Parameters.Add(new Parameter(typeof(IncotexDateTime)) 
-            {
-                Name = ParameterNamesMercury203.DateTime, 
+            { 
+                Index = (UInt32)ParameterIndexes.DateTime, 
+                Name = ParameterIndexes.DateTime.ToString(), 
                 Description = "Текущее значение часов счётчика",
                 PollingEnabled = true, 
                 ReadOnly = false,
@@ -71,13 +97,23 @@ namespace ResursNetwork.Incotex.Models
 
             _Parameters.Add(new Parameter(typeof(UInt16)) 
             {
-                Name = ParameterNamesMercury203.PowerLimit,
+                Index = (UInt32)ParameterIndexes.PowerLimit,
+                Name = ParameterIndexes.PowerLimit.ToString(),
                 Description = "Значение лимита мощности",
                 PollingEnabled = true,
                 ReadOnly = false,
                 ValueConverter = new BigEndianUInt16ValueConvertor(),
                 Value = (UInt16)0
             });
+        }
+        /// <summary>
+        /// Возвращает параметр по индексу
+        /// </summary>
+        /// <param name="index">Индекс параметра</param>
+        /// <returns>null - если праметр не найден</returns>
+        private Parameter GetParameter(ParameterIndexes index)
+        {
+            return _Parameters.FirstOrDefault(p => p.Index == (UInt32)index);
         }
         /// <summary>
         /// Обработчик завершения сетевой транзакции
@@ -289,7 +325,7 @@ namespace ResursNetwork.Incotex.Models
 
                 // Получаем параметр
                 // Присваиваем новое значение параметру
-                var parameter = _Parameters[ParameterNamesMercury203.GADDR];
+                var parameter = GetParameter(ParameterIndexes.GADDR);
                 parameter.Value = parameter.ValueConverter.FromArray(
                     new byte[] 
                     {

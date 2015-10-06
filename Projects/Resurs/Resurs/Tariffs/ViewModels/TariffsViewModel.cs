@@ -1,10 +1,14 @@
 ﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Resurs.Processor;
 using ResursAPI;
 using ResursDAL;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 
 namespace Resurs.ViewModels
 {
@@ -41,6 +45,7 @@ namespace Resurs.ViewModels
 			}
 		}
 		private ObservableCollection<TariffViewModel> _tariffs;
+
 		public ObservableCollection<TariffViewModel> Tariffs
 		{
 			get { return _tariffs; }
@@ -50,6 +55,7 @@ namespace Resurs.ViewModels
 				OnPropertyChanged(() => Tariffs);
 			}
 		}
+
 		public RelayCommand AddCommand { get; private set; }
 		bool CanAdd()
 		{
@@ -94,19 +100,10 @@ namespace Resurs.ViewModels
 			DBCash.DeleteTariff(SelectedTariff.Tariff);
 			Tariffs.Remove(SelectedTariff);
 			if (Tariffs.FirstOrDefault() == null)
-				SelectedTariff = null;
-			else if (Tariffs.ElementAtOrDefault(index) != null)
-			{
-				SelectedTariff = Tariffs.ElementAt(index);
-			}
-			else 
-			{
 				SelectedTariff = Tariffs.ElementAt(index - 1);
-			}
+			else
+				SelectedTariff = Tariffs.ElementAt(index);
 		}
-		public bool IsVisible
-		{
-			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.Tariff); }
-		}
+
 	}
 }

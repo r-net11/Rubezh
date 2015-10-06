@@ -239,7 +239,7 @@ namespace FiresecAPI.GK
 				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
 				{
 					guardZone.LinkToDescriptor(guardZoneDevice.Device);
-					if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetector || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetectorSound || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
+					if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetector || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
 					{
 						guardZoneDevice.Device.LinkToDescriptor(guardZone);
 					}

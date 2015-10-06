@@ -28,16 +28,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UinitTestResursNetwork", "UinitTestResursNetwork\UinitTestResursNetwork.csproj", "{812709F5-109B-46B4-8212-D459EB1BFE74}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{E7788D76-E567-42C3-B1C2-F14CF7C25D98}"
+	ProjectSection(SolutionItems) = preProject
+		Manual.txt = Manual.txt
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Network protocols", "Network protocols", "{AF489ADB-308A-4E59-8BF6-B7E5E4FE236B}"
-	ProjectSection(SolutionItems) = preProject
-		Documents\Manual.txt = Documents\Manual.txt
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Incotex", "Incotex", "{DB2F5808-20FE-400B-86DF-416D71B94E8D}"
 	ProjectSection(SolutionItems) = preProject
-		Documents\Network protocols\Incotex\M203-система команд.pdf = Documents\Network protocols\Incotex\M203-система команд.pdf
-		Documents\Network protocols\Incotex\СИСТЕМА200_425.pdf = Documents\Network protocols\Incotex\СИСТЕМА200_425.pdf
+		C:\Users\petrovdy\AppData\Local\Temp\7zECC7184CB\M203-система команд.DOC = C:\Users\petrovdy\AppData\Local\Temp\7zECC7184CB\M203-система команд.DOC
+		C:\Users\petrovdy\AppData\Local\Temp\7zE8C86C45C\СИСТЕМА200_425.DOC = C:\Users\petrovdy\AppData\Local\Temp\7zE8C86C45C\СИСТЕМА200_425.DOC
 	EndProjectSection
 EndProject
 Global

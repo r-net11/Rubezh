@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using ResursNetwork.Devices.Collections.ObjectModel;
 using ResursNetwork.OSI.ApplicationLayer;
-using ResursNetwork.Management;
 
 namespace ResursNetwork.Devices
 {
     /// <summary>
     /// Реализует базовые компонеты счётчика электроэнергии
     /// </summary>
-    public interface IDevice: IManageable, INotifyPropertyChanged
+    public interface IDevice: INotifyPropertyChanged
     {
         Guid Id { get; set; }
         /// <summary>

@@ -11,11 +11,11 @@ namespace ResursNetwork.Devices.Collections.ObjectModel
     /// <summary>
     /// Коллекция для хранения описания праметров устройства
     /// </summary>
-    public class ParatemersCollection: KeyedCollection<string, Parameter>
+    public class ParatemersCollection: KeyedCollection<UInt32, Parameter>
     {
-        protected override string GetKeyForItem(Parameter item)
+        protected override uint GetKeyForItem(Parameter item)
         {
-            return item.Name;
+            return item.Index;
         }
     }
 }

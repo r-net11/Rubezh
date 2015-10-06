@@ -11,7 +11,6 @@ namespace ResursAPI
 		{
 			var driver = new Driver();
 			driver.DriverType = DriverType.BeregunCounter;
-			driver.DeviceType = DeviceType.Counter;
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Счётчик подключён", 

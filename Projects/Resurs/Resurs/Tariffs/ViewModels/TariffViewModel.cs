@@ -1,5 +1,10 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Resurs.ViewModels
 {
@@ -7,7 +12,10 @@ namespace Resurs.ViewModels
 	{
 		public TariffViewModel (Tariff tariff)
 		{
+			Description = tariff.Description;
+			Name = tariff.Name;
 			Tariff = tariff;
+			TariffPartsNumber = tariff.TariffParts.Count;
 			TariffType = Tariff.TariffType;
 		}
 
@@ -19,48 +27,48 @@ namespace Resurs.ViewModels
 			{
 				_tariff = value;
 				OnPropertyChanged(() => Tariff);
-				OnPropertyChanged(() => Name);
-				OnPropertyChanged(() => Description);
-				OnPropertyChanged(() => TariffType);
-				OnPropertyChanged(() => IsDiscount);
 			}
 		}
+		string _name;
 		public string Name
 		{
-			get { return Tariff.Name; }
+			get { return _name; }
 			set
 			{
-				Tariff.Name = value;
+				_name = value;
+				OnPropertyChanged(() => Name);
 			}
 		}
-		private bool _isDiscount;
 
-		public bool IsDiscount
-		{
-			get { return Tariff.IsDiscount; }
-			set { Tariff.IsDiscount = value; }
-		}
-
+		string _description;
 		public string Description
 		{
-			get { return Tariff.Description; }
+			get { return _description; }
 			set
 			{
-				Tariff.Description = value;
+				_description = value;
+				OnPropertyChanged(() => Description);
 			}
 		}
+		private int _tariffPartsNumber;
+		public int TariffPartsNumber
+		{
+			get { return _tariffPartsNumber; }
+			set { _tariffPartsNumber = value; }
+		}
+
+		private TariffType _tariffType;
 
 		public TariffType TariffType
 		{
-			get { return Tariff.TariffType; }
-			set 
-			{
-				Tariff.TariffType = value;
+			get { return _tariffType; }
+			set { _tariffType = value;
+			OnPropertyChanged(() => TariffType);
 			}
 		}
-		public byte TariffParts
+		public ushort TariffParts
 		{
-			get { return (byte)Tariff.TariffParts.Count; }
+			get { return (ushort)Tariff.TariffParts.Count; }
 		}
 	}
 }

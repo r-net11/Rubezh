@@ -17,6 +17,5 @@ namespace ResursAPI
 		public List<Device> Devices { get; set; }
 		public List<TariffPart> TariffParts { get; set; }
 		public TariffType TariffType { get; set; }
-		public bool IsDiscount { get; set; }
 	}
 }

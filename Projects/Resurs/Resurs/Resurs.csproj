@@ -477,6 +477,11 @@
 			<Generator>MSBuild:Compile</Generator>
 			<SubType>Designer</SubType>
 		</Page>
+    <Page Include="Settings\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Settings\Views\SettingsView.xaml">
 		<Page Include="Settings\DataTemplates\Dictionary.xaml">
 			<Generator>MSBuild:Compile</Generator>
 			<SubType>Designer</SubType>

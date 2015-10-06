@@ -7,47 +7,37 @@ using System.ComponentModel;
 using ResursNetwork.Devices.Collections.ObjectModel;
 using ResursNetwork.OSI.ApplicationLayer;
 using ResursNetwork.Management;
-using ResursAPI.ParameterNames;
 
 namespace ResursNetwork.Devices
 {
     /// <summary>
     /// Сетевое устройство
     /// </summary>
-    public abstract class DeviceBase: IDevice
+    public abstract class DeviceBase: IDevice, IManageable
     {
         #region Fields And Properties
+        private Guid _Id;
+        private UInt32 _Address;
         private Status _Status;
         protected INetwrokController _NetworkController;
         protected ParatemersCollection _Parameters;
 
         public Guid Id
         {
-            get { return (Guid)_Parameters[ParameterNamesMercury203.Id.ToString()].Value; }
-            set 
-            {
-                var id = (Guid)_Parameters[ParameterNamesMercury203.Id.ToString()].Value;
-
-                if (id != value)
-                {
-                    _Parameters[ParameterNamesMercury203.Id.ToString()].Value = value;
-                    OnPropertyChanged("Id");
-                }
-            }
+            get { return _Id; }
+            set { _Id = value; }
         }
 
         public abstract DeviceType DeviceType { get; }
 
         public UInt32 Address
         {
-            get { return (UInt32)_Parameters[ParameterNamesMercury203.Address].Value; }
+            get { return _Address; }
             set 
             {
-                var address = (UInt32)_Parameters[ParameterNamesMercury203.Address].Value;
-                
-                if (address != value)
+                if (_Address != value)
                 {
-                    _Parameters[ParameterNamesMercury203.Address].Value = value;
+                    _Address = value;
                     OnPropertyChanged("Address");
                 }
             }
@@ -98,29 +88,9 @@ namespace ResursNetwork.Devices
 
         protected DeviceBase()
         {
+            _Id = Guid.NewGuid();
             _Status = Status.Stopped;
             _Parameters = new ParatemersCollection();
-
-            _Parameters.Add(new Parameter(typeof(Guid))
-            {
-                Name = ParameterNamesMercury203.Id,
-                Description = "Сетевой адрес устройства",
-                PollingEnabled = false,
-                ReadOnly = false,
-                ValueConverter = null,
-                Value = Guid.NewGuid()
-            });
-
-            _Parameters.Add(new Parameter(typeof(UInt32))
-            {
-                Name = ParameterNamesMercury203.Address,
-                Description = "Сетевой адрес устройтсва",
-                PollingEnabled = false,
-                ReadOnly = false,
-                ValueConverter = null,
-                Value = 1
-            });
-
             Initialization();
         }
 

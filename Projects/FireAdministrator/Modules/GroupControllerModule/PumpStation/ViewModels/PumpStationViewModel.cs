@@ -109,7 +109,6 @@ namespace GKModule.ViewModels
 			{
 				var device = SelectedPumpDevice.Device;
 				PumpStation.NSDeviceUIDs.Remove(SelectedPumpDevice.Device.UID);
-				PumpStation.InputDependentElements.Remove(SelectedPumpDevice.Device);
 				Update();
 				device.NSLogic = new GKLogic();
 				device.OnChanged();
