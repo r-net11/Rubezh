@@ -159,7 +159,6 @@ namespace SKDModule.ViewModels
 			CurrentTimeTrackPart.ExitDateTime = CurrentTimeTrackPart.ExitDateTime.GetValueOrDefault().Date + CurrentTimeTrackPart.ExitTime;
 			CurrentTimeTrackPart.CorrectedBy = FiresecManager.CurrentUser.Name;
 			CurrentTimeTrackPart.AdjustmentDate = DateTime.Now;
-			CurrentTimeTrackPart.CorrectedDate = CurrentTimeTrackPart.AdjustmentDate.Value.ToString(CultureInfo.CurrentUICulture);
 			CurrentTimeTrackPart.CorrectedByUID = FiresecManager.CurrentUser.UID;
 			CurrentTimeTrackPart.NotTakeInCalculations = NotTakeInCalculations;
 			CurrentTimeTrackPart.IsNeedAdjustment = default(bool);
@@ -175,7 +174,6 @@ namespace SKDModule.ViewModels
 			                                CurrentTimeTrackPart.ExitTime;
 			DayTimeTrackPart.CorrectedBy = FiresecManager.CurrentUser.Name;
 			DayTimeTrackPart.AdjustmentDate = DateTime.Now;
-			DayTimeTrackPart.CorrectedDate = CurrentTimeTrackPart.AdjustmentDate.Value.ToString(CultureInfo.CurrentUICulture);
 			DayTimeTrackPart.CorrectedByUID = FiresecManager.CurrentUser.UID;
 			DayTimeTrackPart.NotTakeInCalculations = NotTakeInCalculations;
 

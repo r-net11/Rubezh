@@ -638,7 +638,6 @@ namespace SKDModule.ViewModels
 																dayTimeTrackPart.AdjustmentDate = null;
 																dayTimeTrackPart.CorrectedBy = null;
 																dayTimeTrackPart.CorrectedByUID = null;
-																dayTimeTrackPart.CorrectedDate = null;
 																dayTimeTrackPart.IsNew = default(bool);
 																return dayTimeTrackPart;
 															})
@@ -681,7 +680,6 @@ namespace SKDModule.ViewModels
 					IsDirty = true;
 					dayTimeTrackPart.IsDirty = true;
 					dayTimeTrackPart.AdjustmentDate = null;
-					dayTimeTrackPart.CorrectedDate = null;
 					dayTimeTrackPart.CorrectedBy = null;
 					dayTimeTrackPart.CorrectedByUID = null;
 				}
@@ -695,7 +693,6 @@ namespace SKDModule.ViewModels
 				dayTimeTrack.AdjustmentDate = null;
 				dayTimeTrack.CorrectedByUID = null;
 				dayTimeTrack.CorrectedBy = null;
-				dayTimeTrack.CorrectedDate = null;
 				dayTimeTrack.EnterDateTime = dayTimeTrack.EnterTimeOriginal;
 				dayTimeTrack.ExitDateTime = dayTimeTrack.ExitTimeOriginal;
 				dayTimeTrack.IsNeedAdjustment = dayTimeTrack.IsNeedAdjustmentOriginal;
@@ -715,7 +712,6 @@ namespace SKDModule.ViewModels
 			var nowDateTime = DateTime.Now;
 			SelectedDayTimeTrackPart.ExitDateTime = nowDateTime;
 			SelectedDayTimeTrackPart.AdjustmentDate = nowDateTime;
-			SelectedDayTimeTrackPart.CorrectedDate = nowDateTime.ToString(CultureInfo.CurrentUICulture);
 			SelectedDayTimeTrackPart.CorrectedBy = FiresecManager.CurrentUser.Name;
 			SelectedDayTimeTrackPart.CorrectedByUID = FiresecManager.CurrentUser.UID;
 			SelectedDayTimeTrackPart.NotTakeInCalculations = !SelectedDayTimeTrackPart.TimeTrackZone.IsURV;
