@@ -133,6 +133,7 @@ namespace SKDModule.Model
 		}
 
 		private string _correctedDate;
+
 		public string CorrectedDate
 		{
 			get { return _correctedDate; }
@@ -250,8 +251,8 @@ namespace SKDModule.Model
 			UID = timeTrackPart.PassJournalUID;
 			var user = timeTrackPart.IsManuallyAdded || timeTrackPart.AdjustmentDate != null
 				? (FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.UID == timeTrackPart.CorrectedByUID)
-					??
-					new User {Name = "<Нет в конфигурации>"})
+				   ??
+				   new User {Name = "<Нет в конфигурации>"})
 				: new User {Name = string.Empty};
 
 			Update(

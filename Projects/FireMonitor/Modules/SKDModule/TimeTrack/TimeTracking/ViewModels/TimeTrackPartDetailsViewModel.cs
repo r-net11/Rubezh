@@ -26,6 +26,8 @@ namespace SKDModule.ViewModels
 
 		#region Properties
 
+		public DayTimeTrackPart DayTimeTrackPart { get; set; }
+
 		private TimeTrackZone CurrentZone { get; set; }
 
 		public DayTimeTrackPart CurrentTimeTrackPart { get; set; }
@@ -107,14 +109,21 @@ namespace SKDModule.ViewModels
 			Zones = new List<TimeTrackZone>(TimeTrackingHelper.GetMergedZones(employee));
 
 			BuidObservables();
+			DayTimeTrackPart = inputTimeTrackPart;
 
 			if (inputTimeTrackPart != null)
 			{
-				CurrentTimeTrackPart = inputTimeTrackPart;
-				CurrentTimeTrackPart.EnterTime = inputTimeTrackPart.EnterTime;
-				CurrentTimeTrackPart.ExitTime = inputTimeTrackPart.ExitTime;
+				CurrentTimeTrackPart = new DayTimeTrackPart
+				{
+					UID = inputTimeTrackPart.UID,
+					EnterDateTime = inputTimeTrackPart.EnterDateTime.GetValueOrDefault().Date,
+					ExitDateTime = inputTimeTrackPart.ExitDateTime.GetValueOrDefault().Date,
+					EnterTime = inputTimeTrackPart.EnterTime,
+					ExitTime = inputTimeTrackPart.ExitTime,
+					TimeTrackZone = inputTimeTrackPart.TimeTrackZone
+				};
+
 				NotTakeInCalculations = inputTimeTrackPart.NotTakeInCalculations;
-				CurrentTimeTrackPart.TimeTrackZone = inputTimeTrackPart.TimeTrackZone;
 				CurrentZone = CurrentTimeTrackPart.TimeTrackZone;
 				Title = "Редактировать проход";
 			}
@@ -155,7 +164,22 @@ namespace SKDModule.ViewModels
 			CurrentTimeTrackPart.NotTakeInCalculations = NotTakeInCalculations;
 			CurrentTimeTrackPart.IsNeedAdjustment = default(bool);
 
-			return Validate();
+			if (!Validate()) return false;
+
+			if (IsNew) return true;
+
+			DayTimeTrackPart.TimeTrackZone = CurrentZone;
+			DayTimeTrackPart.EnterDateTime = CurrentTimeTrackPart.EnterDateTime.GetValueOrDefault().Date +
+			                                 CurrentTimeTrackPart.EnterTime;
+			DayTimeTrackPart.ExitDateTime = CurrentTimeTrackPart.ExitDateTime.GetValueOrDefault().Date +
+			                                CurrentTimeTrackPart.ExitTime;
+			DayTimeTrackPart.CorrectedBy = FiresecManager.CurrentUser.Name;
+			DayTimeTrackPart.AdjustmentDate = DateTime.Now;
+			DayTimeTrackPart.CorrectedDate = CurrentTimeTrackPart.AdjustmentDate.Value.ToString(CultureInfo.CurrentUICulture);
+			DayTimeTrackPart.CorrectedByUID = FiresecManager.CurrentUser.UID;
+			DayTimeTrackPart.NotTakeInCalculations = NotTakeInCalculations;
+
+			return true;
 		}
 
 		protected override bool CanSave()

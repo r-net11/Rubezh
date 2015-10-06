@@ -416,7 +416,7 @@ namespace SKDModule.ViewModels
 
 			if (DialogService.ShowModalWindow(timeTrackPartDetailsViewModel))
 			{
-				SelectedTimeTrackPartDetailsViewModel = timeTrackPartDetailsViewModel.CurrentTimeTrackPart;
+				SelectedTimeTrackPartDetailsViewModel = timeTrackPartDetailsViewModel.DayTimeTrackPart; //timeTrackPartDetailsViewModel.CurrentTimeTrackPart;
 
 				timeTrackPartDetailsViewModel.CurrentTimeTrackPart.IsNew = default(bool);
 
