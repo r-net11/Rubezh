@@ -51,6 +51,7 @@
     <Compile Include="Models\ParameterStringContainer.cs" />
     <Compile Include="Models\Tariff\TariffType.cs" />
     <Compile Include="Journal\JournalType.cs" />
+    <Compile Include="ParameterNames\ParameterNamesMercury203.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User\PermissionType.cs" />
     <Compile Include="User\User.cs" />
