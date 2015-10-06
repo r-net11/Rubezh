@@ -23,6 +23,7 @@ namespace ResursAPI
 		public int Number { get; set; }
 		public bool IsReadOnly { get; set; }
 		public bool IsWriteToDevice { get; set; }
+		public bool IsPollingEnabled { get; set; }
 		public ParameterType ParameterType { get; set; }
 		public List<ParameterEnumItem> ParameterEnumItems { get; set; }
 		public int? IntMinValue { get; set; }

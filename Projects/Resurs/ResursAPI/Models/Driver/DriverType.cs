@@ -24,6 +24,9 @@ namespace ResursAPI
 		BeregunCounter = 4,
 
         [Description("[RS-485] Меркурий 203")]
-        Mercury203Counter = 5
+        Mercury203Counter = 5,
+
+		[Description("Сеть Инкотекс")]
+		IncotextNetwork = 6
 	}
 }

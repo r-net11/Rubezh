@@ -16,6 +16,7 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Скорость интерфейса",
+				Description = "Скорость интерфейса",
 				ParameterType = ParameterType.Enum,
 				ParameterEnumItems = new List<ParameterEnumItem>
 				{
@@ -35,6 +36,7 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Таймаут ответа, сек",
+				Description = "Таймаут ответа, сек",
 				ParameterType = ParameterType.Enum,
 				ParameterEnumItems = new List<ParameterEnumItem>
 				{

@@ -47,7 +47,6 @@ namespace ResursAPI
 					break;
 			}
 		}
-
 		public string Validate()
 		{
 			if(DriverParameter == null)
@@ -100,7 +99,6 @@ namespace ResursAPI
 		public Device Device { get; set; }
 		[NotMapped]
 		public DriverParameter DriverParameter { get; set; }
-		public bool IsPollingEnabled { get; set; }
 		public int Number { get; set; }
 		public int? IntValue { get; set; }
 		public double? DoubleValue { get; set; }
@@ -108,7 +106,6 @@ namespace ResursAPI
 		[MaxLength(4000)]
 		public string StringValue { get; set; }
 		public DateTime? DateTimeValue { get; set; }
-
 		public string GetStringValue()
 		{
 			switch (DriverParameter.ParameterType)
@@ -138,6 +135,41 @@ namespace ResursAPI
 					return DateTimeValue.Value.ToString();
 				default:
 					return "";
+			}
+		}
+		[NotMapped]
+		public ValueType ValueType
+		{
+			get
+			{
+				switch (DriverParameter.ParameterType)
+				{
+					case ParameterType.Enum:
+						if (IntValue != null)
+							return IntValue.Value;
+						break;
+					case ParameterType.String:
+						return new ParameterStringContainer 
+						{ 
+							Value = StringValue, 
+							RegEx = DriverParameter.RegEx 
+						};
+					case ParameterType.Int:
+						if (IntValue != null)
+							return IntValue.Value;
+						break;
+					case ParameterType.Double:
+						if (DoubleValue != null)
+							return DoubleValue.Value;
+						break;
+					case ParameterType.Bool:
+						return BoolValue;
+					case ParameterType.DateTime:
+						if (DateTimeValue != null)
+							return DateTimeValue.Value;
+						break;
+				}
+				throw new ArgumentNullException("Не найдено значение параметра");
 			}
 		}
 	}

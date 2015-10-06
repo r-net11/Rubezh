@@ -15,7 +15,7 @@ namespace Resurs.ViewModels
 		public DetailsParameterViewModel(Parameter model)
 		{
 			Model = model;
-			Name = model.DriverParameter.Name;
+			Name = model.DriverParameter.Description;
 			IsNotReadOnly = !model.DriverParameter.IsReadOnly;
 			switch (Model.DriverParameter.ParameterType)
 			{
@@ -170,6 +170,6 @@ namespace Resurs.ViewModels
 		}
 		public bool IsDateTime { get; private set; }
 
-		public bool IsShowTextBlock { get { return IsDouble || IsString || (IsInt && Model.DriverParameter.IsReadOnly); } }
+		public bool IsShowTextBlock { get { return IsDouble || IsString; } }
 	}
 }

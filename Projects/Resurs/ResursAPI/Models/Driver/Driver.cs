@@ -12,7 +12,6 @@ namespace ResursAPI
 			Children = new List<DriverType>();
 			DriverParameters = new List<DriverParameter>();
 		}
-
 		public DriverType DriverType { get; set; }
 		public DeviceType DeviceType { get; set; }
 		public List<DriverType> Children { get; set; }

@@ -15,8 +15,6 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
-			<TextBlock Grid.Row="0" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
-			<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Description}" Margin="2" />
 			<TextBlock Grid.Row="1" Grid.Column="0" Text="Устройство активно" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
 			<CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsActive}" Margin="2" />
 			<ItemsControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Parameters}" Margin="2">

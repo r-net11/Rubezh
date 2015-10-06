@@ -13,6 +13,7 @@ namespace Resurs.ViewModels
 	{
 		public Device Device { get; private set; }
 		Device _OldDevice;
+		bool _IsNew;
 		public ObservableCollection<DetailsParameterViewModel> Parameters { get; private set; }
 
 		public DeviceDetailsViewModel(Device device)
@@ -23,6 +24,7 @@ namespace Resurs.ViewModels
 
 		public DeviceDetailsViewModel(DriverType driverType, Device parent)
 		{
+			_IsNew = true;
 			Initialize(new Device(driverType, parent));
 		}
 
@@ -78,46 +80,53 @@ namespace Resurs.ViewModels
 				}
 			}
 			Device.IsActive = IsActive;
-			if (Device.IsActive != _OldDevice.IsActive)
-				SetStatus(Device.UID, Device.IsActive);
-			var isDbMissmatch = false;
-			if(Device.IsActive)
+			if (!_IsNew)
 			{
-				foreach (var newParameter in Device.Parameters.Where(x => x.DriverParameter.IsWriteToDevice))
+				if (Device.IsActive != _OldDevice.IsActive)
+					SetStatus(Device.UID, Device.IsActive);
+				var isDbMissmatch = false;
+				if (Device.IsActive)
 				{
-					var oldParameter = _OldDevice.Parameters.FirstOrDefault(x => x.UID == newParameter.UID);
-					switch (oldParameter.DriverParameter.ParameterType)
+					foreach (var newParameter in Device.Parameters.Where(x => x.DriverParameter.IsWriteToDevice))
 					{
-						case ParameterType.Enum:
-							if (oldParameter.IntValue != newParameter.IntValue)
-								isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, intValue: newParameter.IntValue);
-							break;
-						case ParameterType.String:
-							if (oldParameter.StringValue != newParameter.StringValue)
-								isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, stringValue: newParameter.StringValue);
-							break;
-						case ParameterType.Int:
-							if (oldParameter.IntValue != newParameter.IntValue)
-								isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, intValue: newParameter.IntValue);
-							break;
-						case ParameterType.Double:
-							if (oldParameter.DoubleValue != newParameter.DoubleValue)
-								isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, doubleValue: newParameter.DoubleValue);
-							break;
-						case ParameterType.Bool:
-							if (oldParameter.BoolValue != newParameter.BoolValue)
-								isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, boolValue: newParameter.BoolValue);
-							break;
-						case ParameterType.DateTime:
-							if (oldParameter.DateTimeValue != newParameter.DateTimeValue)
-								isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, dateTimeValue: newParameter.DateTimeValue);
-							break;
-						default:
-							break;
+						var oldParameter = _OldDevice.Parameters.FirstOrDefault(x => x.UID == newParameter.UID);
+						switch (oldParameter.DriverParameter.ParameterType)
+						{
+							case ParameterType.Enum:
+								if (oldParameter.IntValue != newParameter.IntValue)
+									isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, intValue: newParameter.IntValue);
+								break;
+							case ParameterType.String:
+								if (oldParameter.StringValue != newParameter.StringValue)
+									isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, stringValue: newParameter.StringValue);
+								break;
+							case ParameterType.Int:
+								if (oldParameter.IntValue != newParameter.IntValue)
+									isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, intValue: newParameter.IntValue);
+								break;
+							case ParameterType.Double:
+								if (oldParameter.DoubleValue != newParameter.DoubleValue)
+									isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, doubleValue: newParameter.DoubleValue);
+								break;
+							case ParameterType.Bool:
+								if (oldParameter.BoolValue != newParameter.BoolValue)
+									isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, boolValue: newParameter.BoolValue);
+								break;
+							case ParameterType.DateTime:
+								if (oldParameter.DateTimeValue != newParameter.DateTimeValue)
+									isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, dateTimeValue: newParameter.DateTimeValue);
+								break;
+							default:
+								break;
+						}
 					}
 				}
+				Device.IsDbMissmatch = isDbMissmatch;
 			}
-			Device.IsDbMissmatch = isDbMissmatch;
+			else
+			{
+				AddDevice(Device);
+			}
 			if(ResursDAL.DBCash.SaveDevice(Device))
 				return base.Save();
 			return false;
@@ -138,6 +147,11 @@ namespace Resurs.ViewModels
 		{ 
 			return true; 
 		}
-	
+		
+		public bool AddDevice(Device device)
+		{
+			return true;
+		}
+
 	}
 }

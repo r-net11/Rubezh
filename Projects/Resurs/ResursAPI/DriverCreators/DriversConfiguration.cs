@@ -15,6 +15,8 @@ namespace ResursAPI
 			Drivers.Add(BeregunCounterCreator.Create());
 			Drivers.Add(MZEP55CounterCreator.Create());
 			Drivers.Add(MZEP55NetworkCreator.Create());
+			Drivers.Add(IncotexNetworkCreator.Create());
+			Drivers.Add(Mercury203CounterCreator.Create());
 		}
 
 		public static List<Driver> Drivers { get; private set; }
