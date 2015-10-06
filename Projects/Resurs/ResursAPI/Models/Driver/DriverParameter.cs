@@ -16,10 +16,12 @@ namespace ResursAPI
 			DateTimeMaxValue = new DateTime(9000, 1, 1);
 			DateTimeDefaultValue = new DateTime(1900, 1, 1);
 			EnumDefaultItem = 0;
+			IsWriteToDevice = true;
 		}
 		public string Name { get; set; }
 		public int Number { get; set; }
 		public bool IsReadOnly { get; set; }
+		public bool IsWriteToDevice { get; set; }
 		public ParameterType ParameterType { get; set; }
 		public List<ParameterEnumItem> ParameterEnumItems { get; set; }
 		public int? IntMinValue { get; set; }

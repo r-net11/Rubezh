@@ -12,6 +12,7 @@ namespace Resurs.ViewModels
 	public class DeviceDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public Device Device { get; private set; }
+		Device _OldDevice;
 		public ObservableCollection<DetailsParameterViewModel> Parameters { get; private set; }
 
 		public DeviceDetailsViewModel(Device device)
@@ -28,6 +29,7 @@ namespace Resurs.ViewModels
 		void Initialize(Device device)
 		{
 			Device = device;
+			_OldDevice = device;
 			Description = device.Description;
 			IsActive = device.IsActive;
 			Parameters = new ObservableCollection<DetailsParameterViewModel>(Device.Parameters.Select(x => new DetailsParameterViewModel(x)));
@@ -65,7 +67,6 @@ namespace Resurs.ViewModels
 					return false;
 			}
 			Device.Description = Description;
-			Device.IsActive = IsActive;
 			Device.Parameters = new List<Parameter>(Parameters.Select(x => x.Model));
 			foreach (var item in Device.Parameters)
 			{
@@ -76,9 +77,67 @@ namespace Resurs.ViewModels
 					return false;
 				}
 			}
+			Device.IsActive = IsActive;
+			if (Device.IsActive != _OldDevice.IsActive)
+				SetStatus(Device.UID, Device.IsActive);
+			var isDbMissmatch = false;
+			if(Device.IsActive)
+			{
+				foreach (var newParameter in Device.Parameters.Where(x => x.DriverParameter.IsWriteToDevice))
+				{
+					var oldParameter = _OldDevice.Parameters.FirstOrDefault(x => x.UID == newParameter.UID);
+					switch (oldParameter.DriverParameter.ParameterType)
+					{
+						case ParameterType.Enum:
+							if (oldParameter.IntValue != newParameter.IntValue)
+								isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, intValue: newParameter.IntValue);
+							break;
+						case ParameterType.String:
+							if (oldParameter.StringValue != newParameter.StringValue)
+								isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, stringValue: newParameter.StringValue);
+							break;
+						case ParameterType.Int:
+							if (oldParameter.IntValue != newParameter.IntValue)
+								isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, intValue: newParameter.IntValue);
+							break;
+						case ParameterType.Double:
+							if (oldParameter.DoubleValue != newParameter.DoubleValue)
+								isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, doubleValue: newParameter.DoubleValue);
+							break;
+						case ParameterType.Bool:
+							if (oldParameter.BoolValue != newParameter.BoolValue)
+								isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, boolValue: newParameter.BoolValue);
+							break;
+						case ParameterType.DateTime:
+							if (oldParameter.DateTimeValue != newParameter.DateTimeValue)
+								isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, dateTimeValue: newParameter.DateTimeValue);
+							break;
+						default:
+							break;
+					}
+				}
+			}
+			Device.IsDbMissmatch = isDbMissmatch;
 			if(ResursDAL.DBCash.SaveDevice(Device))
 				return base.Save();
 			return false;
 		}
+
+		public bool SetStatus(Guid deviceUID, bool isActive)
+		{
+			return true;
+		}
+
+		public bool WriteParameter(Guid deviceUID, 
+			string parameterName, 
+			string stringValue = null, 
+			int? intValue = null, 
+			double? doubleValue = null, bool? 
+			boolValue = null, 
+			DateTime? dateTimeValue = null) 
+		{ 
+			return true; 
+		}
+	
 	}
 }

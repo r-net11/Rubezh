@@ -22,21 +22,28 @@ namespace ResursNetwork.Networks.Collections.ObjectModel
         {
             base.InsertItem(index, item);
             OnCollectionChanged(
-                new CollectionChangedEventArgs 
+                new NetworksCollectionChangedEventArgs 
                 {
-                    Networks = new INetwrokController[] { item }, 
-                    Action = NotifyCollectionChangedAction.Add 
+                    Action = NotifyCollectionChangedAction.Add,
+                    Network = item
                 });
         }
 
         protected override void SetItem(int index, INetwrokController item)
         {
+            var removedItem = this[index];
             base.SetItem(index, item);
             OnCollectionChanged(
-                new CollectionChangedEventArgs
+                new NetworksCollectionChangedEventArgs
                 {
-                    Networks = new INetwrokController[] { item },
-                    Action = NotifyCollectionChangedAction.Replace
+                    Action = NotifyCollectionChangedAction.Remove,
+                    Network = removedItem,
+                });
+            OnCollectionChanged(
+                new NetworksCollectionChangedEventArgs
+                {
+                    Action = NotifyCollectionChangedAction.Add,
+                    Network = item,
                 });
         }
 
@@ -45,25 +52,29 @@ namespace ResursNetwork.Networks.Collections.ObjectModel
             var item = this[index];
             base.RemoveItem(index);
             OnCollectionChanged(
-                new CollectionChangedEventArgs
+                new NetworksCollectionChangedEventArgs
                     {
-                        Networks = new INetwrokController[] { item },
+                        Network = item,
                         Action = NotifyCollectionChangedAction.Remove
                     });
         }
 
         protected override void ClearItems()
         {
+            var items = Items;
             base.ClearItems();
-            OnCollectionChanged(
-                new CollectionChangedEventArgs
-                {
-                    Networks = Items.ToArray(),
-                    Action = NotifyCollectionChangedAction.Reset
-                });
+            foreach (var item in items)
+            {
+                OnCollectionChanged(
+                    new NetworksCollectionChangedEventArgs
+                    {
+                        Network = item,
+                        Action = NotifyCollectionChangedAction.Remove
+                    });
+            }
         }
 
-        private void OnCollectionChanged(CollectionChangedEventArgs e) 
+        private void OnCollectionChanged(NetworksCollectionChangedEventArgs e) 
         {
             var handler = this.CollectionChanged;
             
@@ -77,7 +88,7 @@ namespace ResursNetwork.Networks.Collections.ObjectModel
 
         #region Events
 
-        public event EventHandler<CollectionChangedEventArgs> CollectionChanged;
+        public event EventHandler<NetworksCollectionChangedEventArgs> CollectionChanged;
 
         #endregion
     }

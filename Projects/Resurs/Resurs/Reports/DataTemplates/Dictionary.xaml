@@ -14,4 +14,8 @@
 	<DataTemplate DataType="{x:Type ViewModels:RepxSelectionViewModel}">
 		<Views:RepxSelectionView />
 	</DataTemplate>
+	
+	<DataTemplate DataType="{x:Type ViewModels:ReportFilterViewModel}">
+		<Views:ReportFilterView />
+	</DataTemplate>
 </ResourceDictionary>
