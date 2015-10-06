@@ -32,7 +32,7 @@
 			this.xrTable1 = new DevExpress.XtraReports.UI.XRTable();
 			this.xrTableRow1 = new DevExpress.XtraReports.UI.XRTableRow();
 			this.xrTableCell1 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.debtorsDataSet1 = new Resurs.Reports.DataSources.DebtorsDataSet();
+			this.debtorsDataSet1 = new Resurs.Reports.DebtorsDataSet();
 			this.xrTableCell2 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrTableCell3 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.TopMargin = new DevExpress.XtraReports.UI.TopMarginBand();
@@ -196,7 +196,7 @@
 		private DevExpress.XtraReports.UI.XRTable xrTable1;
 		private DevExpress.XtraReports.UI.XRTableRow xrTableRow1;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell1;
-		private DataSources.DebtorsDataSet debtorsDataSet1;
+		private DebtorsDataSet debtorsDataSet1;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell2;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell3;
 	}

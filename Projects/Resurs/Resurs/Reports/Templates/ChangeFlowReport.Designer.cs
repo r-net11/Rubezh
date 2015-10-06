@@ -1,5 +1,4 @@
-﻿using Resurs.Reports.DataSources;
-using System.Data;
+﻿using System.Data;
 namespace Resurs.Reports.Templates
 {
 	partial class ChangeFlowReport
@@ -88,26 +87,23 @@ namespace Resurs.Reports.Templates
 			// xrTableCell1
 			// 
 			this.xrTableCell1.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.CounterValue")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.DateTime")});
 			this.xrTableCell1.Name = "xrTableCell1";
-			this.xrTableCell1.Text = "xrTableCell1";
-			this.xrTableCell1.Weight = 0.2857142857142857D;
+			this.xrTableCell1.Weight = 0.32692311716603706D;
 			// 
 			// xrTableCell2
 			// 
 			this.xrTableCell2.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.DateTime")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Tariff")});
 			this.xrTableCell2.Name = "xrTableCell2";
-			this.xrTableCell2.Text = "xrTableCell2";
-			this.xrTableCell2.Weight = 0.2857142857142857D;
+			this.xrTableCell2.Weight = 0.20054935664921017D;
 			// 
 			// xrTableCell3
 			// 
 			this.xrTableCell3.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Tariff")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.CounterValue")});
 			this.xrTableCell3.Name = "xrTableCell3";
-			this.xrTableCell3.Text = "xrTableCell3";
-			this.xrTableCell3.Weight = 0.2857142857142857D;
+			this.xrTableCell3.Weight = 0.32967038332760989D;
 			// 
 			// TopMargin
 			// 

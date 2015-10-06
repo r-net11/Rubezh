@@ -10,7 +10,7 @@
 
 #pragma warning disable 1591
 
-namespace Resurs.Reports.DataSources {
+namespace Resurs.Reports {
     
     
     /// <summary>

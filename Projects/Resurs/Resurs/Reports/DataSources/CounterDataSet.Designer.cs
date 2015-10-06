@@ -379,7 +379,7 @@ namespace Resurs.Reports {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DataRow AddDataRow(System.DateTime DateTime, int Tariff, int CounterValue) {
+            public DataRow AddDataRow(System.DateTime DateTime, int Tariff, double CounterValue) {
                 DataRow rowDataRow = ((DataRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         DateTime,
@@ -419,7 +419,7 @@ namespace Resurs.Reports {
                 base.Columns.Add(this.columnDateTime);
                 this.columnTariff = new global::System.Data.DataColumn("Tariff", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTariff);
-                this.columnCounterValue = new global::System.Data.DataColumn("CounterValue", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnCounterValue = new global::System.Data.DataColumn("CounterValue", typeof(double), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCounterValue);
             }
             
@@ -595,10 +595,10 @@ namespace Resurs.Reports {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int CounterValue {
+            public double CounterValue {
                 get {
                     try {
-                        return ((int)(this[this.tableData.CounterValueColumn]));
+                        return ((double)(this[this.tableData.CounterValueColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'CounterValue\' in table \'Data\' is DBNull.", e);
