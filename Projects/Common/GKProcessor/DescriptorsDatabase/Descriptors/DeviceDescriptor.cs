@@ -125,7 +125,7 @@ namespace GKProcessor
 							Formula.AddGetBit(GKStateBit.TurningOff, Device.Door);
 							Formula.AddGetBit(GKStateBit.Off, Device.Door);
 							Formula.Add(FormulaOperationType.OR);
-							Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+							Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 						}
 						break;
 
@@ -135,7 +135,7 @@ namespace GKProcessor
 						Formula.AddGetBit(GKStateBit.TurningOff, Device.Door);
 						Formula.AddGetBit(GKStateBit.Off, Device.Door);
 						Formula.Add(FormulaOperationType.OR);
-						Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+						Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 						break;
 				}
 				Formula.Add(FormulaOperationType.END);
