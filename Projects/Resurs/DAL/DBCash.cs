@@ -14,9 +14,9 @@ namespace ResursDAL
 		public static Apartment RootApartment { get; set; }
 		public static List<User> Users { get; set; }
 		public static User CurrentUser { get; set; }
+
 		static DBCash()
 		{
-			
 			RootDevice = GetRootDevice();
 			if (RootDevice == null)
 				CreateSystem();

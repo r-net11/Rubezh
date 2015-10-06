@@ -19,6 +19,7 @@ namespace ResursAPI
 			IsWriteToDevice = true;
 		}
 		public string Name { get; set; }
+		public string Description { get; set; }
 		public int Number { get; set; }
 		public bool IsReadOnly { get; set; }
 		public bool IsWriteToDevice { get; set; }
@@ -35,8 +36,7 @@ namespace ResursAPI
 		public DateTime DateTimeDefaultValue { get; set; }
 		public bool BoolDefaultValue { get; set;}
 		public string StringDefaultValue { get; set; }
+		public string RegEx { get; set; }
 		public int EnumDefaultItem { get; set; }
-
-
 	}
 }

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ResursAPI
@@ -60,6 +61,8 @@ namespace ResursAPI
 						return "Недопустимое значение параметра";
 					break;
 				case ParameterType.String:
+					if (StringValue != null && DriverParameter.RegEx != null && !Regex.IsMatch(StringValue, DriverParameter.RegEx))
+						return "Недопустимое значение параметра";
 					break;
 				case ParameterType.Int:
 					if (IntValue == null)

@@ -44,9 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DriverCreators\Mercury203CounterCreator.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Journal\Journal.cs" />
     <Compile Include="Models\DeviceType.cs" />
+    <Compile Include="Models\ParameterStringContainer.cs" />
     <Compile Include="Models\Tariff\TariffType.cs" />
     <Compile Include="Journal\JournalType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
