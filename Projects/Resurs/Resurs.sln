@@ -36,8 +36,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Network protocols", "Networ
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Incotex", "Incotex", "{DB2F5808-20FE-400B-86DF-416D71B94E8D}"
 	ProjectSection(SolutionItems) = preProject
-		Documents\Network protocols\Incotex\M203-система команд.DOC = Documents\Network protocols\Incotex\M203-система команд.DOC
-		Documents\Network protocols\Incotex\СИСТЕМА200_425.DOC = Documents\Network protocols\Incotex\СИСТЕМА200_425.DOC
+		Documents\Network protocols\Incotex\M203-система команд.pdf = Documents\Network protocols\Incotex\M203-система команд.pdf
+		Documents\Network protocols\Incotex\СИСТЕМА200_425.pdf = Documents\Network protocols\Incotex\СИСТЕМА200_425.pdf
 	EndProjectSection
 EndProject
 Global
