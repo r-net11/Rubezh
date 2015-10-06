@@ -345,6 +345,15 @@
     <Compile Include="Reports\DataSources\DebtorsDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+    <Compile Include="Settings\ViewModels\SettingsViewModel.cs" />
+    <Compile Include="Settings\Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tariffs\DiscountToTextConverter.cs" />
+    <Compile Include="Tariffs\ViewModels\TariffPartViewModel.cs" />
+    <Compile Include="Tariffs\Views\TariffsView.xaml.cs">
+      <DependentUpon>TariffsView.xaml</DependentUpon>
+    </Compile>
       <DependentUpon>DebtorsDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="Reports\ReportFilter.cs" />
@@ -478,6 +487,14 @@
     <Page Include="Reports\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Settings\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Settings\Views\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
 <<<<<<< HEAD
     <Page Include="Reports\Views\ReportFilterView.xaml">
