@@ -22,5 +22,8 @@ namespace ResursAPI
 
 		[Description("Берегун 1-2")]
 		BeregunCounter = 4,
+
+        [Description("[RS-485] Меркурий 203")]
+        Mercury203Counter = 5
 	}
 }

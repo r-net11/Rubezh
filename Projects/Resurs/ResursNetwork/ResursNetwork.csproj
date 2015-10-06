@@ -96,6 +96,10 @@
       <Project>{fe37b6d4-73e5-40f2-a770-a974561430b8}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ResursAPI\ResursAPI.csproj">
+      <Project>{94c0399f-3eab-4e23-98f9-61eb8daa4974}</Project>
+      <Name>ResursAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -9,6 +9,9 @@ using ResursNetwork.Management;
 using ResursNetwork.Networks.Collections.ObjectModel;
 using ResursNetwork.Devices;
 using ResursNetwork.OSI.ApplicationLayer;
+using ResursNetwork.OSI.DataLinkLayer;
+using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer;
+using ResursNetwork.Incotex.NetworkControllers.DataLinkLayer;
 
 namespace ResursNetwork.Networks
 {
@@ -65,6 +68,113 @@ namespace ResursNetwork.Networks
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Создаёт сеть
+        /// </summary>
+        /// <param name="device">Объект сети из БД</param>
+        public void AddNetwork(ResursAPI.Device device)
+        {
+            INetwrokController network;
+
+            switch (device.DeviceType)
+            {
+                case ResursAPI.DeviceType.Network:
+                    {
+                        switch(device.DriverType)
+                        {
+                            case ResursAPI.DriverType.Mercury203Counter:
+                                {
+                                    var incotexPort = new Incotex.NetworkControllers.DataLinkLayer.ComPort
+                                    {
+                                        BaudRate = 9600,
+                                    };
+
+                                    var incotexController = new IncotexNetworkController
+                                    {
+                                        Connection = (IDataLinkPort)incotexPort
+                                    };
+
+                                    network = (INetwrokController)incotexController;
+                                    break; 
+                                }
+                            default:
+                                {
+                                    throw new NotSupportedException(String.Format(
+                                        "Устройтсво с DriverType={0} не поддерживается", 
+                                        device.DriverType.ToString()));
+                                }
+                        }
+                        _NetworkControllers.Add(network);
+                        break; 
+                    }
+                case ResursAPI.DeviceType.Counter:
+                    { 
+                        throw new InvalidCastException(
+                            "Попытка приветсти счётчик эл энергии к контроллеру сети"); 
+                    }
+                default:
+                    {
+                        throw new InvalidCastException(String.Format(
+                          "Неудалось привести типы. Устройтсво с DeviceType={0} не поддерживается",
+                          device.DeviceType.ToString()));
+                    }
+            }
+        }
+
+        /// <summary>
+        /// Удаляет сеть
+        /// </summary>
+        /// <param name="id">Идентификатор удаляемой сети</param>
+        public void RemoveNetwork(Guid id)
+        {
+            Networks.Remove(id);
+        }
+
+        /// <summary>
+        /// Удаляет указанное устройтсво из сети 
+        /// </summary>
+        /// <param name="id">Идентификатор удаляемого устройтсва</param>
+        public void RemoveDevice(Guid id)
+        {
+            foreach(var network in Networks)
+            {
+                var device = network.Devices.FirstOrDefault(p => p.Id == id);
+
+                if (device != null)
+                {
+                    network.Devices.Remove(device);
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Устанавливает новое состояние сети/устройтсву
+        /// </summary>
+        /// <param name="id">Идентификатор сетевого контроллера или устройства</param>
+        /// <param name="status">Новое состояние: false - выкл. true-вкл.</param>
+        public void SetSatus(Guid id, bool status)
+        {
+            var network = Networks.FirstOrDefault(p => p.Id == id);
+            
+            if (network != null)
+            {
+                network.Status = status ? Status.Running : Status.Stopped;
+                return;
+            }
+
+            var list = from n in Networks
+                    from d in n.Devices
+                    where d.Id == id
+                    select d;
+            var device = list.FirstOrDefault();
+            
+            if (device != null)
+            {
+                device.Status = status ? Status.Running : Status.Stopped;
+            }
+
+        }
 
         /// <summary>
         /// Обработчик события изменения списка сетей
