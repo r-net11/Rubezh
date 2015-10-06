@@ -2,25 +2,27 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 MinWidth="400" MinHeight="200">
-	<StackPanel>
+	<StackPanel Orientation="Vertical">
 		<Grid>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="150" />
+				<ColumnDefinition Width="210" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
-				<RowDefinition Height="auto" />
-				<RowDefinition Height="auto" />
-				<RowDefinition Height="auto" />
-				<RowDefinition Height="auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
-			<TextBlock Grid.Column="0" Grid.Row="0" Text="Название тарифа" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<TextBlock Grid.Column="0" Grid.Row="1" Text="Количество тарифов" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<TextBlock Grid.Column="0" Grid.Row="2" Text="Описание" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<TextBlock Grid.Column="0" Grid.Row="3" Text="Тип ресурса" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" />
-			
+			<TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Text="Название тарифа" />
+			<TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Text="Описание" />
+			<TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Text="Тип ресурса" />
+			<TextBlock Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Text="Льготный тариф" />
+			<TextBlock Grid.Column="0" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Text="Количество тарифных интервалов" />
+
 			<TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name}" VerticalAlignment="Center" MaxLength="100" Margin="5" />
-			<TextBox Grid.Column="1" Grid.Row="1" Text="{Binding DesiredTariffParts}" VerticalAlignment="Center" MaxLength="100" Margin="5" />
 			<TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Description}" VerticalAlignment="Center" MaxLength="100" Margin="5" />
 			<ComboBox Grid.Column="1" Grid.Row="3" ItemsSource="{Binding TariffType}"  SelectedItem="{Binding SelectedTariffType}" VerticalAlignment="Center" Margin="5" >
 				<ComboBox.ItemTemplate>
@@ -29,7 +31,54 @@
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
-
+			<CheckBox Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" IsChecked="{Binding IsDiscount}" />
+			<ComboBox Grid.Column="1" Grid.Row="5" ItemsSource="{Binding TariffPartsNumberEnum}" SelectedItem="{Binding SelectedTariffPartsNumber}" VerticalAlignment="Center" Margin="5" />
 		</Grid>
+		<ScrollViewer>
+			<StackPanel>
+				<ItemsControl ItemsSource="{Binding TariffParts}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+								</Grid.RowDefinitions>
+								<TextBlock Grid.Column="0" Grid.Row="0" Margin="5" Text="Цена за единицу ресурса" />
+								<TextBlock Grid.Column="0" Grid.Row="1" Margin="5" Text="Льготный порог" Visibility="{Binding IsDiscount, Converter={StaticResource BoolToVisibilityConverter}}" />
+								<TextBlock Grid.Column="0" Grid.Row="2" Margin="5" Text="Цена до исчерпания льготного порога" Visibility="{Binding IsDiscount, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+								<TextBlock Grid.Column="0" Grid.Row="3" Margin="5" Text="Время действия интервала" />
+
+								<TextBlock Grid.Column="0" Grid.Row="4" Margin="5" Text="Начало" />
+								<TextBlock Grid.Column="0" Grid.Row="5" Margin="5" Text="Конец" />
+
+								<TextBox Grid.Column="1" Grid.Row="0" Margin="5" Text="{Binding rice}" />
+								<TextBox Grid.Column="1" Grid.Row="1" Margin="5" Text="{Binding iscount}" Visibility="{Binding IsDiscount, Converter={StaticResource BoolToVisibilityConverter}}" />
+								<TextBox Grid.Column="1" Grid.Row="2" Margin="5" Text="{Binding reshhold}" Visibility="{Binding IsDiscount, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+								<TimePicker Grid.Column="1" Grid.Row="4" Margin="5" TimeSpan="{Binding tartTime}" />
+								<TimePicker Grid.Column="1" Grid.Row="5" Margin="5" TimeSpan="{Binding ndTime}" />
+							</Grid>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</StackPanel>
+		</ScrollViewer>
+		<StackPanel>
+			<TextBlock Margin="5">
+				<Hyperlink Command="{Binding EditDevicesCommand}" Style="{StaticResource HyperlinkStyle}">
+					<TextBlock Text="Привязать устройства" />
+				</Hyperlink>
+			</TextBlock>
+		</StackPanel>
 	</StackPanel>
 </UserControl>

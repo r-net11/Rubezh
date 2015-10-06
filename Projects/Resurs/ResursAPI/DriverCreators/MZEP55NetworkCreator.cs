@@ -5,12 +5,14 @@ using System.Text;
 
 namespace ResursAPI
 {
-	public static class MZEP55InterfaceCreator
+	public static class MZEP55NetworkCreator
 	{
 		public static Driver Create()
 		{
 			var driver = new Driver();
-			driver.DriverType = DriverType.MZEP55Interface;
+			driver.DriverType = DriverType.MZEP55Network;
+			driver.DeviceType = DeviceType.Network;
+			driver.Children.Add(DriverType.MZEP55Counter);
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Скорость интерфейса",
@@ -33,7 +35,6 @@ namespace ResursAPI
 				IntDefaultValue = 1,
 				Number = 1
 			});
-			driver.Children.Add(DriverType.MZEP55Counter);
 			return driver;
 		}
 	}

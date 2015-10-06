@@ -45,7 +45,7 @@ namespace ResursDAL
 							DriverType =(DriverType)x.DriverType,
 							Description = x.Description,
 							ParentUID = x.ParentUID
-						}).OrderBy(x=>x.Address).ToList();
+						}).OrderBy(x => x.Address).ToList();
 					
 					SetChildren(allDevices);
 					var result = allDevices.FirstOrDefault(x => x.ParentUID == null);
@@ -162,7 +162,7 @@ namespace ResursDAL
 				int devicesPerInterface = 10;
 				for (int i = 0; i < interfaces / 2; i++)
 				{
-					var interfaceDevice = new Device(DriverType.BeregunInterface, RootDevice);
+					var interfaceDevice = new Device(DriverType.BeregunNetwork, RootDevice);
 					devices.Add(interfaceDevice);
 					for (int j = 0; j < devicesPerInterface; j++)
 					{
@@ -172,7 +172,7 @@ namespace ResursDAL
 				}
 				for (int i = 0; i < interfaces / 2; i++)
 				{
-					var interfaceDevice = new Device(DriverType.MZEP55Interface, RootDevice);
+					var interfaceDevice = new Device(DriverType.MZEP55Network, RootDevice);
 					devices.Add(interfaceDevice);
 					for (int j = 0; j < devicesPerInterface; j++)
 					{
@@ -264,7 +264,6 @@ namespace ResursDAL
 			foreach (var item in device.Children)
 			{
 				SetFullAddress(item);
-				//item.SetFullAddress();
 			}
 		}
 
@@ -287,6 +286,7 @@ namespace ResursDAL
 			tableDevice.Tariff = device.Tariff != null ? context.Tariffs.FirstOrDefault(x => x.UID == device.Tariff.UID) : null;
 			tableDevice.Parent = device.Parent != null ? context.Devices.FirstOrDefault(x => x.UID == device.Parent.UID) : null;
 			tableDevice.DriverType = device.DriverType;
+			tableDevice.IsDbMissmatch = device.IsDbMissmatch;
 			tableDevice.Parameters = device.Parameters.Select(x => new Parameter
 			{
 				BoolValue = x.BoolValue,

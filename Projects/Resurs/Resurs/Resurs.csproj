@@ -336,6 +336,7 @@
     <Compile Include="Main\Views\StartupView.xaml.cs">
       <DependentUpon>StartupView.xaml</DependentUpon>
     </Compile>
+<<<<<<< HEAD
     <Compile Include="Reports\DataSources\CounterDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -362,6 +363,16 @@
     <Compile Include="Reports\ViewModels\ReportFilterViewModel.cs" />
     <Compile Include="Reports\Views\ReportFilterView.xaml.cs">
       <DependentUpon>ReportFilterView.xaml</DependentUpon>
+=======
+    <Compile Include="Settings\ViewModels\SettingsViewModel.cs" />
+    <Compile Include="Settings\Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tariffs\DiscountToTextConverter.cs" />
+    <Compile Include="Tariffs\ViewModels\TariffPartViewModel.cs" />
+    <Compile Include="Tariffs\Views\TariffsView.xaml.cs">
+      <DependentUpon>TariffsView.xaml</DependentUpon>
+>>>>>>> fb5859180a8cd39c0d3d32e720ae2851152d5a2b
     </Compile>
     <Compile Include="Users\ViewModels\PermissionsViewModel.cs" />
     <Compile Include="Users\ViewModels\PermissionViewModel.cs" />
@@ -468,7 +479,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+<<<<<<< HEAD
     <Page Include="Reports\Views\ReportFilterView.xaml">
+=======
+    <Page Include="Settings\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Settings\Views\SettingsView.xaml">
+>>>>>>> fb5859180a8cd39c0d3d32e720ae2851152d5a2b
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -21,7 +21,7 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
 			 Width="1100" Height="600" MinWidth="750" MinHeight="400">
-	<!--<UserControl.Resources>
+	<UserControl.Resources>
 		<DataTemplate x:Key="ReportDesignerRibbonTemplate">
 			<dxr:RibbonControl RibbonStyle="TabletOffice"  
 							   AllowCustomization="False"
@@ -121,9 +121,9 @@
 				</dxr:RibbonDefaultPageCategory>
 			</dxr:RibbonControl>
 		</DataTemplate>
-	</UserControl.Resources>-->
+	</UserControl.Resources>
 	<Grid>
-		<!--<designer:ReportDesigner RibbonTemplate="{StaticResource ReportDesignerRibbonTemplate}"
-								 SingleDocumentSource="{Binding Report}" />-->
+		<designer:ReportDesigner RibbonTemplate="{StaticResource ReportDesignerRibbonTemplate}"
+								 SingleDocumentSource="{Binding Report}" />
 	</Grid>
 </UserControl>

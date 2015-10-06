@@ -1,8 +1,6 @@
 ﻿using DevExpress.XtraReports.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Resurs.Reports.Templates;
+using Resurs.ViewModels;
 
 namespace Resurs.Reports
 {
@@ -13,6 +11,10 @@ namespace Resurs.Reports
 			XtraReport defaultReport = null;
 			switch (reportType)
 			{
+				case ReportType.ChangeFlow:
+					defaultReport = new ChangeFlowReport(ReportsViewModel.Filter); break;
+				case ReportType.Debtors:
+					defaultReport = new DebtorsReport(); break;
 			}
 			return defaultReport;
 		}
