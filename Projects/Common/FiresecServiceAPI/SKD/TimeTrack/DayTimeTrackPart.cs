@@ -36,8 +36,7 @@ namespace FiresecAPI.SKD
 		public DateTime? ExitDateTime { get; set; }
 		[DataMember]
 		public TimeSpan ExitTime { get; set; }
-		[DataMember]
-		public string CorrectedDate { get; set; }
+
 		[DataMember]
 		public string CorrectedBy { get; set; }
 		[DataMember]

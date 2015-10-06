@@ -17,7 +17,6 @@
 		</Grid.RowDefinitions>
 		<tree:TreeList
 			Name="_treeList"
-			Grid.Row="0"
 			Focusable="True"
 			Source="{Binding Organisations,
 		                                Mode=OneWay}"

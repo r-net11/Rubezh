@@ -225,7 +225,7 @@
 							<DataGridTemplateColumn Width="*" Header="Дата корректировки">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
-										<TextBlock Margin="4 2" Text="{Binding CorrectedDate}">
+										<TextBlock Language="RU-ru" Margin="4 2" Text="{Binding AdjustmentDate}">
 											<TextBlock.Style>
 												<Style TargetType="{x:Type TextBlock}">
 													<Style.Triggers>

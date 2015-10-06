@@ -132,13 +132,6 @@ namespace SKDModule.Model
 			}
 		}
 
-		private string _correctedDate;
-		public string CorrectedDate
-		{
-			get { return _correctedDate; }
-			set { this.RaiseAndSetIfChanged(ref _correctedDate, value); }
-		}
-
 		private string _correctedBy;
 
 		public string CorrectedBy
@@ -207,7 +200,7 @@ namespace SKDModule.Model
 			AdjustmentDate = dayTimeTrackPart.AdjustmentDate;
 			CorrectedBy = dayTimeTrackPart.CorrectedBy;
 			CorrectedByUID = dayTimeTrackPart.CorrectedByUID;
-			CorrectedDate = dayTimeTrackPart.AdjustmentDate.ToString();
+			//CorrectedDate = dayTimeTrackPart.AdjustmentDate.ToString();
 			EnterDateTime = dayTimeTrackPart.EnterDateTime;
 			EnterTime = dayTimeTrackPart.EnterTime;
 			EnterTimeOriginal = dayTimeTrackPart.EnterTimeOriginal;
@@ -250,8 +243,8 @@ namespace SKDModule.Model
 			UID = timeTrackPart.PassJournalUID;
 			var user = timeTrackPart.IsManuallyAdded || timeTrackPart.AdjustmentDate != null
 				? (FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.UID == timeTrackPart.CorrectedByUID)
-					??
-					new User {Name = "<Нет в конфигурации>"})
+				   ??
+				   new User {Name = "<Нет в конфигурации>"})
 				: new User {Name = string.Empty};
 
 			Update(
@@ -283,7 +276,6 @@ namespace SKDModule.Model
 				var currentUser = FiresecManager.CurrentUser;
 				var dateTimeNow = DateTime.Now;
 				AdjustmentDate = dateTimeNow;
-				CorrectedDate = dateTimeNow.ToString(CultureInfo.CurrentUICulture);
 				CorrectedBy = currentUser.Name;
 				CorrectedByUID = currentUser.UID;
 			});
@@ -307,7 +299,6 @@ namespace SKDModule.Model
 			IsManuallyAdded = isManuallyAdded;
 			IsNeedAdjustmentOriginal = isNeedAdjustmentOriginal;
 			IsNeedAdjustment = isNeedAdjustment;
-			CorrectedDate = adjustmentDate.HasValue ? adjustmentDate.Value.ToString(CultureInfo.CurrentUICulture) : string.Empty;
 			CorrectedBy = correctedBy;
 			CorrectedByUID = correctedByUID;
 			IsOpen = isOpen;
@@ -321,8 +312,7 @@ namespace SKDModule.Model
 			return new Lazy<IObservable<object>>(() =>
 				Observable.Merge<object>(
 					this.ObservableForProperty(x => x.CorrectedBy)
-					, this.ObservableForProperty(x => x.CorrectedDate)
-					, this.ObservableForProperty(x => x.EnterDateTime)
+					,this.ObservableForProperty(x => x.EnterDateTime)
 					, this.ObservableForProperty(x => x.EnterTime)
 					, this.ObservableForProperty(x => x.ExitDateTime)
 					, this.ObservableForProperty(x => x.ExitTime)
@@ -344,7 +334,6 @@ namespace SKDModule.Model
 				AdjustmentDate = AdjustmentDate,
 				CorrectedBy = CorrectedBy,
 				CorrectedByUID = CorrectedByUID,
-				CorrectedDate = CorrectedDate,
 				EnterDateTime = EnterDateTime,
 				EnterTime = EnterTime,
 				EnterTimeOriginal = EnterTimeOriginal,
