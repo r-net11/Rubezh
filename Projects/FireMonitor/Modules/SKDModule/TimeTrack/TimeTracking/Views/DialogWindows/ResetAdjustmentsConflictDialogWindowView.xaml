@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
     mc:Ignorable="d"
-    d:DesignHeight="350"
+    d:DesignHeight="320"
 	d:DesignWidth="600"
 	Height="270"
 	Width="600">
@@ -26,19 +26,26 @@
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<StackPanel
 			Background="{StaticResource Help}"
 			Margin="10"/>
-		<StackPanel Margin="5 10" Grid.Column="1">
+		<Grid Margin="5 10" Grid.Column="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" MinHeight="80" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
 			<TextBlock
 				Text="Восстановление интервала пребывания в зоне"
 				Foreground="White" />
 			<TextBlock
+				Grid.Row="1"
 				Foreground="White"
 				TextTrimming="CharacterEllipsis"
 				behaviours:TextBlockAutoToolTipBehaviour.AutoTooltip="True">
@@ -49,47 +56,56 @@
 				<Run Text="{Binding ResetedDayTimeTrackPart.ExitTimeOriginal, FallbackValue=00.00.00}" />
 			</TextBlock>
 			<TextBlock
+				Grid.Row="2"
 				Foreground="White"
 				Text="невозможно по причине пересечения с интервалами:" />
-			<ItemsControl
-				Language="ru-RU"
-				ItemsSource="{Binding ConflictingIntervals}">
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Foreground="White">
-								<Run Text="с" />
-								<Run Text="{Binding EnterDateTime}" />
-								<Run Text="по" />
-								<Run Text="{Binding ExitDateTime}" />
-								<Run Text="(зона" />
-								<Run>
-									<Run.Text>
-										<MultiBinding StringFormat="{}{0})">
-											<Binding Path="TimeTrackZone.Name" />
-										</MultiBinding>
-									</Run.Text>
-								</Run>
-							</TextBlock>
-						</StackPanel>
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-			</ItemsControl>
+			<ScrollViewer
+				Grid.Row="3"
+				Margin="0 5"
+				VerticalScrollBarVisibility="Auto">
+				<ItemsControl
+					Language="ru-RU"
+					ItemsSource="{Binding ConflictingIntervals}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Foreground="White">
+									<Run Text="с" />
+									<Run Text="{Binding EnterDateTime}" />
+									<Run Text="по" />
+									<Run Text="{Binding ExitDateTime}" />
+									<Run Text="(зона" />
+									<Run>
+										<Run.Text>
+											<MultiBinding StringFormat="{}{0})">
+												<Binding Path="TimeTrackZone.Name" />
+											</MultiBinding>
+										</Run.Text>
+									</Run>
+								</TextBlock>
+							</StackPanel>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</ScrollViewer>
+		</Grid>
+		<StackPanel
+			Grid.Column="1"
+				Grid.Row="1">
 			<TextBlock
-				Margin="0 10 0 0"
+				Margin="0 0 0 5"
 				Foreground="White">
 				<Run Text="Применить границы интервала, исключив пересечение с границами других интервалов" />
 				<LineBreak />
 				<Run Text="или удалить корректировки пересекающихся интервалов?" />
 			</TextBlock>
+			<CheckBox
+				Margin="5 20"
+				VerticalAlignment="Center"
+				IsChecked="{Binding ApplyToAll, UpdateSourceTrigger=PropertyChanged}"
+				Content="Применить выбранное решение во всех аналогичных ситуациях" Foreground="White" />
 		</StackPanel>
-		<CheckBox
-			Margin="5 10"
-			Grid.Column="1"
-			Grid.Row="1"
-			VerticalAlignment="Center"
-			IsChecked="{Binding ApplyToAll, UpdateSourceTrigger=PropertyChanged}"
-			Content="Применить выбранное решение во всех аналогичных ситуациях" Foreground="White" />
+
 		<UniformGrid
 			Grid.Column="1"
 			Grid.Row="3"
