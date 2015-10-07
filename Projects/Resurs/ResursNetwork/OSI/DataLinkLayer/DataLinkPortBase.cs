@@ -15,11 +15,11 @@ namespace ResursNetwork.OSI.DataLinkLayer
     {
         #region Fields And Properties
         
-        private int _PortId;
-        public int PortId
+        protected Guid _Id;
+        public Guid Id
         {
-            get { return _PortId; }
-            set { _PortId = value; }
+            get { return _Id; }
+            set { _Id = value; }
         }
         public abstract string PortName { get; set; }
         public abstract bool IsOpen { get; }
@@ -36,6 +36,15 @@ namespace ResursNetwork.OSI.DataLinkLayer
         public INetwrokController NetworkController
         {
             get { return _NetworkController; }
+        }
+
+        #endregion
+
+        #region Constructors
+
+        protected DataLinkPortBase()
+        {
+            _Id = Guid.NewGuid();
         }
 
         #endregion
