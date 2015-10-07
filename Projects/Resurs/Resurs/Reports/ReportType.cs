@@ -9,5 +9,11 @@ namespace Resurs.Reports
 
 		[Description("Должники")]
 		Debtors,
+
+		[Description("Квитанции абонентов")]
+		Receipts,
+
+		[Description("Изменение расхода")]
+		ChangeValue
 	}
 }

@@ -32,9 +32,9 @@
 			this.xrTable1 = new DevExpress.XtraReports.UI.XRTable();
 			this.xrTableRow1 = new DevExpress.XtraReports.UI.XRTableRow();
 			this.xrTableCell1 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.debtorsDataSet1 = new Resurs.Reports.DebtorsDataSet();
 			this.xrTableCell2 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrTableCell3 = new DevExpress.XtraReports.UI.XRTableCell();
+			this.debtorsDataSet1 = new Resurs.Reports.DataSources.DebtorsDataSet();
 			this.TopMargin = new DevExpress.XtraReports.UI.TopMarginBand();
 			this.xrLabel13 = new DevExpress.XtraReports.UI.XRLabel();
 			this.xrLabel14 = new DevExpress.XtraReports.UI.XRLabel();
@@ -79,11 +79,6 @@
 			this.xrTableCell1.Name = "xrTableCell1";
 			this.xrTableCell1.Weight = 0.32692307692307693D;
 			// 
-			// debtorsDataSet1
-			// 
-			this.debtorsDataSet1.DataSetName = "DebtorsDataSet";
-			this.debtorsDataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-			// 
 			// xrTableCell2
 			// 
 			this.xrTableCell2.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
@@ -98,6 +93,11 @@
 			this.xrTableCell3.Name = "xrTableCell3";
 			this.xrTableCell3.Text = "xrTableCell3";
 			this.xrTableCell3.Weight = 0.2857142857142857D;
+			// 
+			// debtorsDataSet1
+			// 
+			this.debtorsDataSet1.DataSetName = "DebtorsDataSet";
+			this.debtorsDataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
 			// 
 			// TopMargin
 			// 
@@ -151,7 +151,7 @@
 			// xrLabel1
 			// 
 			this.xrLabel1.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold);
-			this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(189.5833F, 22.91667F);
+			this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(190.625F, 10.00001F);
 			this.xrLabel1.Name = "xrLabel1";
 			this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
 			this.xrLabel1.SizeF = new System.Drawing.SizeF(306.25F, 28.12501F);
@@ -196,7 +196,7 @@
 		private DevExpress.XtraReports.UI.XRTable xrTable1;
 		private DevExpress.XtraReports.UI.XRTableRow xrTableRow1;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell1;
-		private DebtorsDataSet debtorsDataSet1;
+		private Resurs.Reports.DataSources.DebtorsDataSet debtorsDataSet1;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell2;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell3;
 	}
