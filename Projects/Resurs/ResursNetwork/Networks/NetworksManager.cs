@@ -10,6 +10,7 @@ using ResursNetwork.Networks.Collections.ObjectModel;
 using ResursNetwork.Devices;
 using ResursNetwork.OSI.ApplicationLayer;
 using ResursNetwork.OSI.DataLinkLayer;
+using ResursNetwork.Incotex.Models;
 using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer;
 using ResursNetwork.Incotex.NetworkControllers.DataLinkLayer;
 using ResursAPI;
@@ -72,57 +73,126 @@ namespace ResursNetwork.Networks
         #region Methods
 
         /// <summary>
-        /// Создаёт сеть
+        /// Создаёт сеть на основе типа и добавляет в коллекцию
         /// </summary>
-        /// <param name="device">Объект сети из БД</param>
-        public void AddNetwork(ResursAPI.Device device)
+        /// <param name="network">Объект сети из БД</param>
+        public void AddNetwork(ResursAPI.Device network)
         {
-            INetwrokController network;
-
-            switch (device.DeviceType)
+            switch (network.DeviceType)
             {
                 case ResursAPI.DeviceType.Network:
                     {
-                        switch(device.DriverType)
+                        switch(network.DriverType)
                         {
                             case ResursAPI.DriverType.IncotextNetwork:
                                 {
                                     var incotexPort = new Incotex.NetworkControllers.DataLinkLayer.ComPort
                                     {
-                                        BaudRate = (int)device.GetParameter(
+                                        BaudRate = (int)network.GetParameter(
                                             ParameterNamesIncotexNetwork.BautRate),
-                                        PortName = ((ParameterStringContainer)device.GetParameter(
+                                        PortName = ((ParameterStringContainer)network.GetParameter(
                                             ParameterNamesIncotexNetwork.PortName)).GetValue()
                                     };
 
                                     var incotexController = new IncotexNetworkController
                                     {
-                                        Id = (Guid)device.GetParameter(ParameterNamesIncotexNetwork.Id),
+                                        Id = (Guid)network.GetParameter(ParameterNamesIncotexNetwork.Id),
                                         Connection = (IDataLinkPort)incotexPort,
-                                        BroadcastRequestDelay = (int)device.GetParameter(
+                                        BroadcastRequestDelay = (int)network.GetParameter(
                                             ParameterNamesIncotexNetwork.BroadcastDelay),
-                                        RequestTimeout = (int)device.GetParameter(
+                                        RequestTimeout = (int)network.GetParameter(
                                             ParameterNamesIncotexNetwork.Timeout)
                                     };
 
-                                    network = (INetwrokController)incotexController;
+                                    _NetworkControllers.Add((INetwrokController)incotexController);
+
+                                    if (network.IsActive)
+                                    { 
+                                        incotexController.Start(); 
+                                    }
+                                    else
+                                    {
+                                        incotexController.Stop(); 
+                                    }
                                     break; 
                                 }
                             default:
                                 {
                                     throw new NotSupportedException(String.Format(
                                         "Устройтсво с DriverType={0} не поддерживается", 
-                                        device.DriverType.ToString()));
+                                        network.DriverType.ToString()));
                                 }
                         }
-
-                        _NetworkControllers.Add(network);
                         break; 
                     }
                 case ResursAPI.DeviceType.Counter:
                     { 
                         throw new InvalidCastException(
                             "Попытка приветсти счётчик эл энергии к контроллеру сети"); 
+                    }
+                default:
+                    {
+                        throw new InvalidCastException(String.Format(
+                          "Неудалось привести типы. Устройтсво с DeviceType={0} не поддерживается",
+                          network.DeviceType.ToString()));
+                    }
+            }
+        }
+
+        /// <summary>
+        /// Создаёт устройтсво на основе типа и добавляет в коллекцию
+        /// </summary>
+        public void AddDevice(ResursAPI.Device device)
+        {
+            switch (device.DeviceType)
+            {
+                case ResursAPI.DeviceType.Network:
+                    {
+                        throw new InvalidCastException(
+                            "Попытка приветсти к контроллер сети к устройтсву");
+                    }
+                case ResursAPI.DeviceType.Counter:
+                    {
+                        switch (device.DriverType)
+                        {
+                            case ResursAPI.DriverType.Mercury203Counter:
+                                {
+                                    var mercury203 = new Mercury203
+                                    {
+                                        Id = (Guid)device.GetParameter(ParameterNamesMercury203.Id),
+                                        Address = (UInt32)device.GetParameter(ParameterNamesMercury203.Address),
+                                        //Status = device.GetParameter(ParameterNamesMercury203.
+                                    };
+
+                                    mercury203.Parameters[ParameterNamesMercury203.GADDR].Value =
+                                        device.GetParameter(ParameterNamesMercury203.GADDR);
+                                    mercury203.Parameters[ParameterNamesMercury203.PowerLimit].Value =
+                                        device.GetParameter(ParameterNamesMercury203.PowerLimit);
+                                    mercury203.Parameters[ParameterNamesMercury203.PowerLimitPerMonth].Value =
+                                        device.GetParameter(ParameterNamesMercury203.PowerLimitPerMonth);
+                                    //TODO: Сделать таблицу параметров доконца
+
+                                    var owner = device.Parent;
+                                    
+                                    if ((owner == null) || 
+                                        (owner.DriverType != DriverType.IncotextNetwork))
+                                    {
+                                        throw new InvalidOperationException(
+                                            "Невозможно добавить устройтсво. Владельцем устройства не является IncotextNetwork");
+                                    }
+
+                                    _NetworkControllers[(Guid)owner.GetParameter(ParameterNamesBase.Id)]
+                                        .Devices.Add(mercury203);
+                                    break;
+                                }
+                            default:
+                                {
+                                    throw new NotSupportedException(String.Format(
+                                        "Устройтсво с DriverType={0} не поддерживается",
+                                        device.DriverType.ToString()));
+                                }
+                        }
+                        break;
                     }
                 default:
                     {
@@ -139,7 +209,7 @@ namespace ResursNetwork.Networks
         /// <param name="id">Идентификатор удаляемой сети</param>
         public void RemoveNetwork(Guid id)
         {
-            Networks.Remove(id);
+            _NetworkControllers.Remove(id);
         }
 
         /// <summary>

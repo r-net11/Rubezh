@@ -79,8 +79,8 @@ namespace Resurs.ViewModels
 			{
 				var tariffViewModel = new TariffViewModel(tariffDetailsViewModel.Tariff);
 				SelectedTariff.Tariff = tariffDetailsViewModel.Tariff;
+				DBCash.UpdateTariff(tariffDetailsViewModel.Tariff);
 			}
-			DBCash.UpdateTariff(tariffDetailsViewModel.Tariff);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
