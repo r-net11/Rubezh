@@ -105,6 +105,15 @@ namespace ResursNetwork.Networks
                                     };
 
                                     _NetworkControllers.Add((INetwrokController)incotexController);
+
+                                    if (network.IsActive)
+                                    { 
+                                        incotexController.Start(); 
+                                    }
+                                    else
+                                    {
+                                        incotexController.Stop(); 
+                                    }
                                     break; 
                                 }
                             default:

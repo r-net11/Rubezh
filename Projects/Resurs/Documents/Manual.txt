@@ -22,7 +22,9 @@
 	1.2 ƒл€ работые с устройствами:
 
 	ƒобавл€ет новое устройство в сеть с указанным идентификатором
-	void AddDevice(Guid networkId, ResursAPI.Device device);
+	!!! —етевой контроллер должен существовать в NetworksManager перед
+	добавлением устройтсва.
+	void AddDevice(ResursAPI.Device device);
 
 	”дал€ет устройтсво с указанным идентификатором из сети
 	void RemoveDevice(Guid deviceId)
