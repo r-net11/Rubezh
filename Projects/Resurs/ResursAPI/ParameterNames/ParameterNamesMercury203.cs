@@ -15,10 +15,6 @@ namespace ResursAPI.ParameterNames
         /// </summary>
         public const string GADDR = "GADDR";
         /// <summary>
-        /// Дата и время устройства
-        /// </summary>
-        public const string DateTime = "DateTime";
-        /// <summary>
         /// Лимит мощности
         /// </summary>
         public const string PowerLimit = "PowerLimit";

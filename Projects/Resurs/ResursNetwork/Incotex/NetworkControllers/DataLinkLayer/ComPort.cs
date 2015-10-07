@@ -103,10 +103,11 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
         #endregion
 
         #region Constuctors
+
         /// <summary>
         /// Конструктор
         /// </summary>
-        public ComPort()
+        public ComPort(): base()
         {
             _SerialPort = new SerialPort();
             _SerialPort.DataBits = 8;

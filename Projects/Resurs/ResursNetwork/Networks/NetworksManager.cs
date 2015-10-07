@@ -12,6 +12,8 @@ using ResursNetwork.OSI.ApplicationLayer;
 using ResursNetwork.OSI.DataLinkLayer;
 using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer;
 using ResursNetwork.Incotex.NetworkControllers.DataLinkLayer;
+using ResursAPI;
+using ResursAPI.ParameterNames;
 
 namespace ResursNetwork.Networks
 {
@@ -83,16 +85,24 @@ namespace ResursNetwork.Networks
                     {
                         switch(device.DriverType)
                         {
-                            case ResursAPI.DriverType.Mercury203Counter:
+                            case ResursAPI.DriverType.IncotextNetwork:
                                 {
                                     var incotexPort = new Incotex.NetworkControllers.DataLinkLayer.ComPort
                                     {
-                                        BaudRate = 9600,
+                                        BaudRate = (int)device.GetParameter(
+                                            ParameterNamesIncotexNetwork.BautRate),
+                                        PortName = ((ParameterStringContainer)device.GetParameter(
+                                            ParameterNamesIncotexNetwork.PortName)).GetValue()
                                     };
 
                                     var incotexController = new IncotexNetworkController
                                     {
-                                        Connection = (IDataLinkPort)incotexPort
+                                        Id = (Guid)device.GetParameter(ParameterNamesIncotexNetwork.Id),
+                                        Connection = (IDataLinkPort)incotexPort,
+                                        BroadcastRequestDelay = (int)device.GetParameter(
+                                            ParameterNamesIncotexNetwork.BroadcastDelay),
+                                        RequestTimeout = (int)device.GetParameter(
+                                            ParameterNamesIncotexNetwork.Timeout)
                                     };
 
                                     network = (INetwrokController)incotexController;
@@ -105,6 +115,7 @@ namespace ResursNetwork.Networks
                                         device.DriverType.ToString()));
                                 }
                         }
+
                         _NetworkControllers.Add(network);
                         break; 
                     }
