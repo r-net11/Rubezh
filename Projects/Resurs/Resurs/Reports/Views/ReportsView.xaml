@@ -24,7 +24,6 @@
 			</Grid.ColumnDefinitions>
 			<StackPanel Grid.Column="0" Orientation="Horizontal">
 				<ToolBarButton Command="{Binding ChangeFilterCommand}" ImageSource="Filter" ToolTip="Задать фильтр" />
-				<ToolBarButton Command="{Binding RefreshReportCommand}" ImageSource="Refresh" ToolTip="Обновить отчет" />
 				<ComboBox ItemsSource="{Binding ReportTypes}" SelectedItem="{Binding SelectedReportType}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
@@ -36,6 +35,6 @@
 				<ToolBarButton Command="{Binding OpenReportDesignerCommand}" ImageSource="Edit" ToolTip="Открыть дизайнер отчетов" />
 			</StackPanel>
 		</Grid>
-		<!--<dxp:DocumentPreviewControl Grid.Row="1" DocumentSource="{Binding Model}" CommandBarStyle="None" />-->
+		<!--<dxp:DocumentPreviewControl Grid.Row="1" DocumentSource="{Binding Model}" CommandBarStyle="None" AutoShowParametersPanel="False" />-->
 	</Grid>
 </UserControl>

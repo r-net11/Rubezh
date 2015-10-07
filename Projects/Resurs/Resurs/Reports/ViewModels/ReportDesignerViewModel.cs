@@ -11,15 +11,13 @@ using System.Windows.Markup;
 
 namespace Resurs.ViewModels
 {
-	class ReportDesignerViewModel : DialogViewModel
+	public class ReportDesignerViewModel : DialogViewModel
 	{
 		public XtraReport Report { get; set; }
 		public ReportDesignerViewModel(XtraReport report)
 		{
 			Title = "Дизайнер отчетов";
 			Report = report;
-			ReportDesigner r = new ReportDesigner();
-
 		}
 	}
 }

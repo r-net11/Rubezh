@@ -18,6 +18,7 @@ namespace ResursAPI
 		public Guid UID { get; set; }
 		public Guid DeviceUID { get; set; }
 		public Guid TariffUID { get; set; }
+		public int TariffPartNo { get; set; }
 		public double Value { get; set; }
 		public DateTime DateTime { get; set; }
 	}

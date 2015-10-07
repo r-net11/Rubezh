@@ -98,8 +98,6 @@ namespace FiresecAPI.GK
 			{
 				pumpStation.ClearClauseDependencies();
 				pumpStation.NSDevices = new List<GKDevice>();
-				if (pumpStation.Pim != null)
-					pumpStation.Pim.ClearClauseDependencies();
 			}
 			foreach (var mpt in MPTs)
 			{
