@@ -14,8 +14,7 @@ namespace Resurs.Reports.Templates
 			DeviceName.Value = filter.Device.Name;
 			Address.Value = filter.Device.Address;
 			AbonentName.Value = "Лавров Генадий Павлович";
-			var id = Guid.Parse("7E5006B1-800E-4284-953B-EAF04B387034");
-			var measures = DBCash.GetMeasures(id, filter.StartDate, filter.EndDate);
+			var measures = DBCash.GetMeasures(filter.Device.UID, filter.StartDate, filter.EndDate);
 			var dataSet = new CounterDataSet();
 			foreach (var measure in measures)
 			{

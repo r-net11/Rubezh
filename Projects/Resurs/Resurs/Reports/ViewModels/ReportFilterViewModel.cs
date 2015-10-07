@@ -4,6 +4,7 @@ using ResursAPI;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using ResursDAL;
 
 namespace Resurs.ViewModels
 {
@@ -25,7 +26,7 @@ namespace Resurs.ViewModels
 			Title = "Настройки отчета";
 			StartDate = DateTime.Today;
 			EndDate = DateTime.Today;
-			Devices = ResursDAL.DBCash.RootDevice.Children;
+			Devices = DBCash.GetAllChildren(DBCash.RootDevice).Where(x => x.DeviceType == DeviceType.Counter).ToList();
 			SelectedDevice = Devices.FirstOrDefault();
 		}
 		private DateTime _startDate;

@@ -112,7 +112,7 @@ namespace Resurs.ViewModels
 			{
 				case ReportType.ChangeFlow:
 					{
-						if (Filter.Device == null || Filter.Device.Children.Count == 0)
+						if (Filter.Device == null)
 						{
 							MessageBoxService.ShowError("В системе нет счетчиков.");
 							return false;
