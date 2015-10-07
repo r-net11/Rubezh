@@ -66,6 +66,19 @@ namespace SKDDriver.DataClasses
 				Photo = tableItem.Photo != null ? new API.Photo { UID = tableItem.Photo.UID, Data = tableItem.Photo.Data } : null,
 			});
 		}
+
+		public OperationResult<List<Guid>> GetEmployeeUIDs(Guid positionUID)
+		{
+			try
+			{
+				var result = Context.Employees.Where(x => x.PositionUID == positionUID).Select(x => x.UID).ToList();
+				return new OperationResult<List<Guid>>(result);
+			}
+			catch (Exception e)
+			{
+				return OperationResult<List<Guid>>.FromError(e.Message);
+			}
+		}
 	}
 
 	public class PositionShortTranslator : OrganisationShortTranslatorBase<Position, API.ShortPosition, API.Position, API.PositionFilter>

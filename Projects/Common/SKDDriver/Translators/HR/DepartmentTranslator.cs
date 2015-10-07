@@ -46,7 +46,8 @@ namespace SKDDriver.DataClasses
 				Photo = tableItem.Photo != null ? new API.Photo { UID = tableItem.Photo.UID, Data = tableItem.Photo.Data } : null,
 				ParentDepartmentUID = tableItem.ParentDepartmentUID != null ? tableItem.ParentDepartmentUID.Value : Guid.Empty,
 				ChildDepartmentUIDs = tableItem.ChildDepartments.Select(x => x.UID).ToList(),
-				Phone = tableItem.Phone
+				Phone = tableItem.Phone,
+				ChiefUID = tableItem.ChiefUID != null ? tableItem.ChiefUID.Value : Guid.Empty
 			});
 		}
 

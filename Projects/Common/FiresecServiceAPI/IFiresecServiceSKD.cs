@@ -70,6 +70,9 @@ namespace FiresecAPI
 		OperationResult<List<ShortPosition>> GetPositionList(PositionFilter filter);
 
 		[OperationContract]
+		OperationResult<List<Guid>> GetPositionEmployees(Guid uid);
+
+		[OperationContract]
 		OperationResult<Position> GetPositionDetails(Guid uid);
 
 		[OperationContract]

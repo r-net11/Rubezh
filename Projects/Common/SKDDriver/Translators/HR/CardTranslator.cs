@@ -275,6 +275,7 @@ namespace SKDDriver.DataClasses
 			tableItem.IsInStopList = apiItem.IsInStopList;
 			tableItem.StopReason = apiItem.StopReason;
 			tableItem.GKLevel = apiItem.GKLevel;
+			tableItem.GKLevelSchedule = apiItem.GKLevelSchedule;
 			tableItem.GKControllerUIDs = apiItem.GKControllerUIDs.Select(x => new CardGKControllerUID
 			{
 				UID = Guid.NewGuid(),

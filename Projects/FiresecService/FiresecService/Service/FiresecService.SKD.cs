@@ -206,6 +206,13 @@ namespace FiresecService.Service
 			}
 			return result;
 		}
+		public OperationResult<List<Guid>> GetPositionEmployees(Guid uid)
+		{
+			using(var databaseService = new SKDDriver.DataClasses.DbService())
+			{
+				return databaseService.PositionTranslator.GetEmployeeUIDs(uid);
+			}
+		}
 		public OperationResult<Position> GetPositionDetails(Guid uid)
 		{
 			using (var databaseService = new SKDDriver.DataClasses.DbService())

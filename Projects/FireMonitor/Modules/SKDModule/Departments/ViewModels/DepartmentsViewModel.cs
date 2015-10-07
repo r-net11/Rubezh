@@ -128,6 +128,7 @@ namespace SKDModule.ViewModels
 			department.UID = item.UID;
 			department.Name = item.Name;
 			department.Description = item.Description;
+			department.Phone = item.Phone;
 			department.ParentDepartmentUID = item.ParentDepartmentUID;
 			department.OrganisationUID = item.OrganisationUID;
 			department.ChildDepartmentUIDs = item.ChildDepartments.Select(x => x.UID).ToList();
@@ -165,7 +166,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanPaste()
 		{
-			return SelectedItem != null && _clipboard != null && ParentOrganisation != null;
+			return SelectedItem != null && _clipboard != null && ParentOrganisation != null && !SelectedItem.IsDeleted;
 		}
 
 		protected override void OnCopy()
@@ -177,6 +178,7 @@ namespace SKDModule.ViewModels
 		protected override ShortDepartment CopyModel(ShortDepartment source)
 		{
 			var copy = base.CopyModel(source);
+			copy.Phone = source.Phone;
 			if (SelectedItem.Model != null)
 				copy.ParentDepartmentUID = SelectedItem.Model.UID;
 			return copy;
@@ -253,14 +255,10 @@ namespace SKDModule.ViewModels
 		protected override void UpdateSelected()
 		{
 			base.UpdateSelected();
-			if (EmployeeListViewModel == null)
-				EmployeeListViewModel = new DepartmentEmployeeListViewModel(SelectedItem, IsWithDeleted);
 			if (IsShowEmployeeList)
-				EmployeeListViewModel.Initialize(SelectedItem, IsWithDeleted);
+				SelectedItem.InitializeEmployeeList();
 			OnPropertyChanged(() => IsShowEmployeeList);
 		}
-
-		public DepartmentEmployeeListViewModel EmployeeListViewModel { get; private set; }
 
 		public bool IsShowEmployeeList
 		{
