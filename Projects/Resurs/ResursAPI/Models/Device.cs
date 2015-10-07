@@ -45,6 +45,15 @@ namespace ResursAPI
 				FullAddress = Parent.FullAddress + "." + Address.ToString();
 		}
 
+		public ValueType GetParameter(string name)
+		{
+			if (name == ParameterNames.ParameterNamesBase.Id)
+				return UID;
+			if (name == ParameterNames.ParameterNamesBase.Address)
+				return Address;
+			return Parameters.FirstOrDefault(x => x.DriverParameter.Name == name).ValueType;
+		}
+
 		[Key]
 		public Guid UID { get; set; }
 		[MaxLength(200)]

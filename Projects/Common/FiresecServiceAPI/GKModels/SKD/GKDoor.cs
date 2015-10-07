@@ -117,7 +117,6 @@ namespace FiresecAPI.GK
 			GKManager.DeviceConfiguration.InvalidateInputObjectsBaseLogic(this, NormRegimeLogic);
 			GKManager.DeviceConfiguration.InvalidateInputObjectsBaseLogic(this, CloseRegimeLogic);
 		}
-		
 
 		[XmlIgnore]
 		public GKPim PimEnter { get; private set; }

@@ -13,6 +13,7 @@ namespace ResursAPI
 			driver.DriverType = DriverType.System;
 			driver.Children.Add(DriverType.BeregunNetwork);
 			driver.Children.Add(DriverType.MZEP55Network);
+			driver.Children.Add(DriverType.IncotextNetwork);
 			return driver;
 		}
 	}

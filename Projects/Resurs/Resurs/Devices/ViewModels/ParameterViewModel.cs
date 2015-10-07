@@ -13,7 +13,7 @@ namespace Resurs.ViewModels
 		public ParameterViewModel(Parameter model)
 		{
 			Model = model;
-			Name = Model.DriverParameter.Name;
+			Name = Model.DriverParameter.Description;
 			Value = Model.GetStringValue();
 		}
 

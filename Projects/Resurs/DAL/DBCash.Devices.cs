@@ -294,7 +294,6 @@ namespace ResursDAL
 				Device = tableDevice,
 				DoubleValue = x.DoubleValue,
 				IntValue = x.IntValue,
-				IsPollingEnabled = x.IsPollingEnabled,
 				Number = x.Number,
 				StringValue = x.StringValue,
 			}).ToList();
