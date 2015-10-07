@@ -47,6 +47,10 @@ namespace ResursAPI
 
 		public ValueType GetParameter(string name)
 		{
+			if (name == ParameterNames.ParameterNamesBase.Id)
+				return UID;
+			if (name == ParameterNames.ParameterNamesBase.Address)
+				return Address;
 			return Parameters.FirstOrDefault(x => x.DriverParameter.Name == name).ValueType;
 		}
 
