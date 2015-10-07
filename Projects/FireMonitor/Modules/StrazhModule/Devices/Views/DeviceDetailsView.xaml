@@ -18,7 +18,7 @@
 				<Border Width="50" Height="50" Margin="0, 0, 0, 5" Background="{Binding DevicePicture}" BorderThickness="0" />
 				<StackPanel>
 					<Views:DeviceStateView Margin="5 0 0 0" TextElement.Foreground="White" />
-					<Button Content="Сброс тревоги" Command="{Binding ClearPromptWarningCommand}" Visibility="{Binding CanShowClearPromptWarning, Converter={StaticResource BoolToVisibilityConverter}}" Width="100" Margin="5" />
+					<Button Content="Сброс состояния &#34;Взлом&#34;" Command="{Binding ClearPromptWarningCommand}" Visibility="{Binding CanShowClearPromptWarning, Converter={StaticResource BoolToVisibilityConverter}}" Width="160" Margin="5" />
 				</StackPanel>
 			</StackPanel>
 		</Grid>

@@ -41,7 +41,7 @@ namespace StrazhModule.Plans.Designer
 			var contextMenu = new ContextMenu();
 			if (Item != null)
 			{
-				contextMenu.Items.Add(UIHelper.BuildMenuItem("Сброс тревоги", null, _zoneViewModel.ClearPromptWarningCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem("Сброс состояния \"Взлом\"", null, _zoneViewModel.ClearPromptWarningCommand));
 				contextMenu.Items.Add(new Separator());
 				contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Открыто", null, _zoneViewModel.ZoneAccessStateOpenAlwaysCommand));
 				contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Норма", null, _zoneViewModel.ZoneAccessStateNormalCommand));

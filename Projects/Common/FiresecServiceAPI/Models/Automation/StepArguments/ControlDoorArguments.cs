@@ -35,7 +35,7 @@ namespace FiresecAPI.Automation
 		[Description("Установить режим \"Закрыто\"")]
 		AccessStateCloseAlways,
 
-		[Description("Сброс тревоги")]
+		[Description("Сброс состояния \"Взлом\"")]
 		ClearPromptWarning
 	}
 }

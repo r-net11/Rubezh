@@ -20,8 +20,6 @@ namespace Controls.Converters
 					return "Закрывается";
 				case XStateClass.Fire1:
 					return "Тревога";
-				case XStateClass.Attention:
-					return "Взлом";
 			}
 			return stateClass.ToDescription();
 		}
