@@ -23,15 +23,10 @@ namespace Resurs.ViewModels
 			BuildTree();
 			if (RootApartment != null)
 			{
-				RootApartment.IsExpanded = true;
 				SelectedApartment = RootApartment;
+				RootApartment.IsExpanded = true;
 				foreach (var child in RootApartment.Children)
-				{
-					if (true)
-					{
-						child.IsExpanded = true;
-					}
-				}
+					child.IsExpanded = true;
 			}
 
 			foreach (var apartment in AllApartments)
@@ -50,6 +45,8 @@ namespace Resurs.ViewModels
 			set
 			{
 				_selectedApartment = value;
+				if (_selectedApartment != null)
+					_selectedApartment.Update();
 				OnPropertyChanged(() => SelectedApartment);
 			}
 		}
@@ -123,9 +120,11 @@ namespace Resurs.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var apartmentDetailsViewModel = new ApartmentDetailsViewModel(null);
+			var apartmentDetailsViewModel = new ApartmentDetailsViewModel(null, SelectedApartment.Apartment);
 			if (DialogService.ShowModalWindow(apartmentDetailsViewModel))
 			{
+				DBCash.SaveApartment(apartmentDetailsViewModel.Apartment);
+
 				var apartmentViewModel = new ApartmentViewModel(apartmentDetailsViewModel.Apartment);
 				SelectedApartment.AddChild(apartmentViewModel);
 				SelectedApartment.IsExpanded = true;
@@ -141,9 +140,11 @@ namespace Resurs.ViewModels
 		public RelayCommand AddFolderCommand { get; private set; }
 		void OnAddFolder()
 		{
-			var apartmentsFolderDetailsViewModel = new ApartmentsFolderDetailsViewModel(null);
+			var apartmentsFolderDetailsViewModel = new ApartmentsFolderDetailsViewModel(null, SelectedApartment.Apartment);
 			if (DialogService.ShowModalWindow(apartmentsFolderDetailsViewModel))
 			{
+				DBCash.SaveApartment(apartmentsFolderDetailsViewModel.Apartment);
+
 				var apartmentViewModel = new ApartmentViewModel(apartmentsFolderDetailsViewModel.Apartment);
 				SelectedApartment.AddChild(apartmentViewModel);
 				SelectedApartment.IsExpanded = true;
@@ -166,7 +167,7 @@ namespace Resurs.ViewModels
 			if (DialogService.ShowModalWindow(apartmentDetailsViewModel))
 			{
 				var apartmentViewModel = new ApartmentViewModel(SelectedApartment.Apartment);
-				SelectedApartment.Update(SelectedApartment.Apartment);
+				SelectedApartment.Update(apartmentViewModel.Apartment);
 			}
 		}
 		bool CanEdit()
@@ -189,13 +190,15 @@ namespace Resurs.ViewModels
 				var parent = selectedApartment.Parent;
 				if (parent != null)
 				{
+					DBCash.DeleteApartment(selectedApartment.Apartment);
+
 					var index = selectedApartment.VisualIndex;
 					parent.Nodes.Remove(selectedApartment);
 					index = Math.Min(index, parent.ChildrenCount - 1);
-					foreach (var childApartmentViewModel in selectedApartment.GetAllChildren(true))
-					{
-						AllApartments.Remove(childApartmentViewModel);
-					}
+					//foreach (var childApartmentViewModel in selectedApartment.GetAllChildren(true))
+					//{
+					//	AllApartments.Remove(childApartmentViewModel);
+					//}
 					SelectedApartment = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 				}
 			}

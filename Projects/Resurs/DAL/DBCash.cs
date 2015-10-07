@@ -21,55 +21,7 @@ namespace ResursDAL
 			if (RootDevice == null)
 				CreateSystem();
 			Users = GetAllUsers();
-			RootApartment = new Apartment()
-			{
-				Name = "Жилой комплекс",
-				IsFolder = true,
-				Children = new List<Apartment>()
-				{
-					new Apartment()
-					{
-						Name = "Дом 1",
-						IsFolder = true,
-						Children = new List<Apartment>()
-						{
-							new Apartment() { Name = "Квартира 1" },
-							new Apartment() { Name = "Квартира 2" },
-							new Apartment() { Name = "Квартира 3" },
-							new Apartment() { Name = "Квартира 4" },
-							new Apartment() { Name = "Квартира 5" },
-							new Apartment() { Name = "Квартира 6" },
-							new Apartment() { Name = "Квартира 7" },
-							new Apartment() { Name = "Квартира 8" },
-						}
-					},
-					new Apartment()
-					{
-						Name = "Дом 2",
-						IsFolder = true,
-						Children = new List<Apartment>()
-						{
-							new Apartment() { Name = "Квартира 1" },
-							new Apartment() { Name = "Квартира 2" },
-							new Apartment() { Name = "Квартира 3" },
-							new Apartment() { Name = "Квартира 4" },
-							new Apartment() { Name = "Квартира 5" },
-							new Apartment() { Name = "Квартира 6" },
-							new Apartment() { Name = "Квартира 7" }, 
-							new Apartment() { Name = "Квартира 8" },
-							new Apartment() { Name = "Квартира 9" },
-							new Apartment() { Name = "Квартира 10" },
-							new Apartment() { Name = "Квартира 11" },
-							new Apartment() { Name = "Квартира 12" },
-							new Apartment() { Name = "Квартира 13" },
-							new Apartment() { Name = "Квартира 14" },
-							new Apartment() { Name = "Квартира 15" },
-							new Apartment() { Name = "Квартира 66" },
-							new Apartment() { Name = "Квартира 666" },
-						}
-					}
-				}
-			};
+			RootApartment = GetRootApartment();
 			Tariffs = ReadAllTariffs();
 		}
 

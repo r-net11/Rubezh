@@ -1,9 +1,6 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using ResursDAL;
 
 namespace Resurs.ViewModels
 {
@@ -11,11 +8,11 @@ namespace Resurs.ViewModels
 	{
 		public Apartment Apartment { get; private set; }
 
-		public ApartmentDetailsViewModel(Apartment apartment = null)
+		public ApartmentDetailsViewModel(Apartment apartment = null, Apartment parent = null)
 		{
 			if (apartment == null)
 			{
-				apartment = new Apartment();
+				apartment = new Apartment() { Parent = parent };
 				Title = "Создание абонента";
 			}
 			else
@@ -44,6 +41,9 @@ namespace Resurs.ViewModels
 			Apartment.Login = Login;
 			Apartment.Password = Password;
 			Apartment.IsSendEmail = IsSendEmail;
+
+			DBCash.SaveApartment(Apartment);
+
 			return base.Save();
 		}
 	}

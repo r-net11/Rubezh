@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
+using ResursDAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,11 @@ namespace Resurs.ViewModels
 	{
 		public Apartment Apartment { get; private set; }
 
-		public ApartmentsFolderDetailsViewModel(Apartment apartment = null)
+		public ApartmentsFolderDetailsViewModel(Apartment apartment = null, Apartment parent = null)
 		{
 			if(apartment == null)
 			{
-				apartment = new Apartment() { IsFolder = true };
+				apartment = new Apartment() { IsFolder = true, Parent = parent };
 				Title = "Создание группы абонентов";
 			}
 			else
@@ -54,6 +55,9 @@ namespace Resurs.ViewModels
 		{
 			Apartment.Name = Name;
 			Apartment.Description = Description;
+
+			DBCash.SaveApartment(Apartment);
+
 			return base.Save();
 		}
 	}

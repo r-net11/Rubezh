@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
+using ResursDAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,9 +35,20 @@ namespace Resurs.ViewModels
 			}
 		}
 
+		public bool IsContentLoaded { get; set; }
+
 		public void Update(Apartment apartment)
 		{
 			Apartment = apartment;
+		}
+
+		public void Update()
+		{
+			if (Apartment != null && !IsContentLoaded)
+			{
+				Apartment = DBCash.GetApartment(Apartment.UID, true);
+				IsContentLoaded = true;
+			}
 		}
 	}
 }
