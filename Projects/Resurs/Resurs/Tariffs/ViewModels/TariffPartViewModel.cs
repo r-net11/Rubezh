@@ -6,18 +6,25 @@ namespace Resurs.ViewModels
 {
 	public class TariffPartViewModel : BaseViewModel
 	{
-		TariffPart _tariffPart;
-		public TariffPart TariffPart { 
-			get { return _tariffPart; }
-			set { _tariffPart = value; }
+		public TariffPart TariffPart { get; set; }
+		public TariffPartViewModel()
+		{
+			TariffPart = new ResursAPI.TariffPart();
+			Price = 0;
+			StartTime = new TimeSpan();
+			EndTime = new TimeSpan();
+			
+			Discount = 0;
+			Threshold = 0;
 		}
+
 		public TariffPartViewModel(TariffPart tariffPart)
 		{
 			TariffPart = tariffPart;
-			Price = 0;
-			BeginTime = new DateTime();
-			EndTime = new DateTime();
-			
+			Price = tariffPart.Price;
+			StartTime = tariffPart.StartTime;
+			EndTime = tariffPart.EndTime;
+
 			Discount = 0;
 			Threshold = 0;
 		}
@@ -34,10 +41,10 @@ namespace Resurs.ViewModels
 
 		public double Price
 		{
-			get { return Price; }
+			get { return _price; }
 			set 
 			{ 
-				Price = value;
+				_price = value;
 				OnPropertyChanged(() => Price);
 			}
 		}
@@ -53,19 +60,25 @@ namespace Resurs.ViewModels
 			}
 		}
 
-		private DateTime _beginTime;
+		private TimeSpan _startTime;
 
-		public DateTime BeginTime
+		public TimeSpan StartTime
 		{
-			get { return _beginTime; }
-			set { _beginTime = value; }
+			get { return _startTime; }
+			set 
+			{ 
+				_startTime = value;
+				OnPropertyChanged(() => StartTime);
+			}
 		}
-		private DateTime _endTime;
+		private TimeSpan _endTime;
 
-		public DateTime EndTime
+		public TimeSpan EndTime
 		{
 			get { return _endTime; }
-			set { _endTime = value; }
+			set { _endTime = value;
+			OnPropertyChanged(() => EndTime);
+			}
 		}
 
 		private TimeSpan _partDuration;
@@ -74,9 +87,9 @@ namespace Resurs.ViewModels
 		{
 			get 
 			{
-				if (BeginTime.CompareTo(EndTime) <= 0)
+				if (StartTime.CompareTo(EndTime) <= 0)
 				{
-					return BeginTime.Subtract(EndTime);
+					return StartTime.Subtract(EndTime);
 				}
 				else throw new Exception("Указано начальное время позже конечного.");
 			}

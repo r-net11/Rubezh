@@ -29,14 +29,16 @@ namespace Resurs.ViewModels
 						Name = "Новый тариф",
 						TariffParts = new List<TariffPart>(),
 					};
+				Tariff = tariff;
 				Title = "Создание нового тарифа";
+				SelectedTariffPartsNumber = 1;
 			}
 			else
 			{
+				Tariff = tariff;
 				Title = "Редактирование тарифа";
+				SelectedTariffPartsNumber = (byte)tariff.TariffParts.Count;
 			}
-			Tariff = tariff;
-			SelectedTariffPartsNumber = 1;
 		}
 		
 		public RelayCommand EditDevicesCommand { get; set; }
@@ -157,7 +159,16 @@ namespace Resurs.ViewModels
 			Tariff.TariffParts.Clear();
 			foreach (var item in TariffParts)
 			{
-				Tariff.TariffParts.Add(item.TariffPart);
+				Tariff.TariffParts.Add(new TariffPart
+				{
+					Discount = item.Discount,
+					EndTime = item.EndTime,
+					Price = item.Price,
+					StartTime = item.StartTime,
+					Tariff = Tariff,
+					Threshold = item.Threshold,
+					UID = item.TariffPart.UID
+				});
 			}
 			return base.Save();
 		}
