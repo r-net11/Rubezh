@@ -20,9 +20,9 @@ namespace Resurs.Reports.DataSources {
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
     [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedDataSetSchema")]
-    [global::System.Xml.Serialization.XmlRootAttribute("CounterDataSet")]
+    [global::System.Xml.Serialization.XmlRootAttribute("ChangeValueDataSet")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
-    public partial class CounterDataSet : global::System.Data.DataSet {
+    public partial class ChangeValueDataSet : global::System.Data.DataSet {
         
         private DataDataTable tableData;
         
@@ -30,7 +30,7 @@ namespace Resurs.Reports.DataSources {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public CounterDataSet() {
+        public ChangeValueDataSet() {
             this.BeginInit();
             this.InitClass();
             global::System.ComponentModel.CollectionChangeEventHandler schemaChangedHandler = new global::System.ComponentModel.CollectionChangeEventHandler(this.SchemaChanged);
@@ -41,7 +41,7 @@ namespace Resurs.Reports.DataSources {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected CounterDataSet(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+        protected ChangeValueDataSet(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
                 this.InitVars(false);
@@ -127,7 +127,7 @@ namespace Resurs.Reports.DataSources {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public override global::System.Data.DataSet Clone() {
-            CounterDataSet cln = ((CounterDataSet)(base.Clone()));
+            ChangeValueDataSet cln = ((ChangeValueDataSet)(base.Clone()));
             cln.InitVars();
             cln.SchemaSerializationMode = this.SchemaSerializationMode;
             return cln;
@@ -199,9 +199,9 @@ namespace Resurs.Reports.DataSources {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitClass() {
-            this.DataSetName = "CounterDataSet";
+            this.DataSetName = "ChangeValueDataSet";
             this.Prefix = "";
-            this.Namespace = "http://tempuri.org/CounterDataSet.xsd";
+            this.Namespace = "http://tempuri.org/ChangeValueDataSet.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
             this.tableData = new DataDataTable();
@@ -225,7 +225,7 @@ namespace Resurs.Reports.DataSources {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedDataSetSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-            CounterDataSet ds = new CounterDataSet();
+            ChangeValueDataSet ds = new ChangeValueDataSet();
             global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
             global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
             global::System.Xml.Schema.XmlSchemaAny any = new global::System.Xml.Schema.XmlSchemaAny();
@@ -279,11 +279,17 @@ namespace Resurs.Reports.DataSources {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class DataDataTable : global::System.Data.TypedTableBase<DataRow> {
             
-            private global::System.Data.DataColumn columnDateTime;
+            private global::System.Data.DataColumn columnName;
+            
+            private global::System.Data.DataColumn columnId;
             
             private global::System.Data.DataColumn columnTariff;
             
-            private global::System.Data.DataColumn columnCounterValue;
+            private global::System.Data.DataColumn columnOldValue;
+            
+            private global::System.Data.DataColumn columnNewValue;
+            
+            private global::System.Data.DataColumn columnChangeValue;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -320,9 +326,17 @@ namespace Resurs.Reports.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn DateTimeColumn {
+            public global::System.Data.DataColumn NameColumn {
                 get {
-                    return this.columnDateTime;
+                    return this.columnName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn IdColumn {
+                get {
+                    return this.columnId;
                 }
             }
             
@@ -336,9 +350,25 @@ namespace Resurs.Reports.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn CounterValueColumn {
+            public global::System.Data.DataColumn OldValueColumn {
                 get {
-                    return this.columnCounterValue;
+                    return this.columnOldValue;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn NewValueColumn {
+                get {
+                    return this.columnNewValue;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ChangeValueColumn {
+                get {
+                    return this.columnChangeValue;
                 }
             }
             
@@ -379,12 +409,15 @@ namespace Resurs.Reports.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DataRow AddDataRow(System.DateTime DateTime, int Tariff, double CounterValue) {
+            public DataRow AddDataRow(string Name, int Id, string Tariff, double OldValue, double NewValue, double ChangeValue) {
                 DataRow rowDataRow = ((DataRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        DateTime,
+                        Name,
+                        Id,
                         Tariff,
-                        CounterValue};
+                        OldValue,
+                        NewValue,
+                        ChangeValue};
                 rowDataRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDataRow);
                 return rowDataRow;
@@ -407,20 +440,29 @@ namespace Resurs.Reports.DataSources {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
-                this.columnDateTime = base.Columns["DateTime"];
+                this.columnName = base.Columns["Name"];
+                this.columnId = base.Columns["Id"];
                 this.columnTariff = base.Columns["Tariff"];
-                this.columnCounterValue = base.Columns["CounterValue"];
+                this.columnOldValue = base.Columns["OldValue"];
+                this.columnNewValue = base.Columns["NewValue"];
+                this.columnChangeValue = base.Columns["ChangeValue"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             private void InitClass() {
-                this.columnDateTime = new global::System.Data.DataColumn("DateTime", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDateTime);
-                this.columnTariff = new global::System.Data.DataColumn("Tariff", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnName = new global::System.Data.DataColumn("Name", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnName);
+                this.columnId = new global::System.Data.DataColumn("Id", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnId);
+                this.columnTariff = new global::System.Data.DataColumn("Tariff", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTariff);
-                this.columnCounterValue = new global::System.Data.DataColumn("CounterValue", typeof(double), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCounterValue);
+                this.columnOldValue = new global::System.Data.DataColumn("OldValue", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnOldValue);
+                this.columnNewValue = new global::System.Data.DataColumn("NewValue", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNewValue);
+                this.columnChangeValue = new global::System.Data.DataColumn("ChangeValue", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnChangeValue);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -488,7 +530,7 @@ namespace Resurs.Reports.DataSources {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                CounterDataSet ds = new CounterDataSet();
+                ChangeValueDataSet ds = new ChangeValueDataSet();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -563,26 +605,42 @@ namespace Resurs.Reports.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public System.DateTime DateTime {
+            public string Name {
                 get {
                     try {
-                        return ((global::System.DateTime)(this[this.tableData.DateTimeColumn]));
+                        return ((string)(this[this.tableData.NameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'DateTime\' in table \'Data\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Name\' in table \'Data\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableData.DateTimeColumn] = value;
+                    this[this.tableData.NameColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int Tariff {
+            public int Id {
                 get {
                     try {
-                        return ((int)(this[this.tableData.TariffColumn]));
+                        return ((int)(this[this.tableData.IdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Id\' in table \'Data\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableData.IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Tariff {
+                get {
+                    try {
+                        return ((string)(this[this.tableData.TariffColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'Tariff\' in table \'Data\' is DBNull.", e);
@@ -595,30 +653,74 @@ namespace Resurs.Reports.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public double CounterValue {
+            public double OldValue {
                 get {
                     try {
-                        return ((double)(this[this.tableData.CounterValueColumn]));
+                        return ((double)(this[this.tableData.OldValueColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'CounterValue\' in table \'Data\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'OldValue\' in table \'Data\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableData.CounterValueColumn] = value;
+                    this[this.tableData.OldValueColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsDateTimeNull() {
-                return this.IsNull(this.tableData.DateTimeColumn);
+            public double NewValue {
+                get {
+                    try {
+                        return ((double)(this[this.tableData.NewValueColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NewValue\' in table \'Data\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableData.NewValueColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetDateTimeNull() {
-                this[this.tableData.DateTimeColumn] = global::System.Convert.DBNull;
+            public double ChangeValue {
+                get {
+                    try {
+                        return ((double)(this[this.tableData.ChangeValueColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ChangeValue\' in table \'Data\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableData.ChangeValueColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsNameNull() {
+                return this.IsNull(this.tableData.NameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetNameNull() {
+                this[this.tableData.NameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsIdNull() {
+                return this.IsNull(this.tableData.IdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetIdNull() {
+                this[this.tableData.IdColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -635,14 +737,38 @@ namespace Resurs.Reports.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsCounterValueNull() {
-                return this.IsNull(this.tableData.CounterValueColumn);
+            public bool IsOldValueNull() {
+                return this.IsNull(this.tableData.OldValueColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetCounterValueNull() {
-                this[this.tableData.CounterValueColumn] = global::System.Convert.DBNull;
+            public void SetOldValueNull() {
+                this[this.tableData.OldValueColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsNewValueNull() {
+                return this.IsNull(this.tableData.NewValueColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetNewValueNull() {
+                this[this.tableData.NewValueColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsChangeValueNull() {
+                return this.IsNull(this.tableData.ChangeValueColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetChangeValueNull() {
+                this[this.tableData.ChangeValueColumn] = global::System.Convert.DBNull;
             }
         }
         

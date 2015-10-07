@@ -340,6 +340,11 @@
     <Compile Include="Main\Views\StartupView.xaml.cs">
       <DependentUpon>StartupView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Reports\DataSources\ChangeValueDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChangeValueDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Reports\DataSources\CounterDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -349,6 +354,23 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DebtorsDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\DataSources\ReceiptsDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReceiptsDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Templates\ChangeValueReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\Templates\ChangeValueReport.Designer.cs">
+      <DependentUpon>ChangeValueReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Templates\ReceiptsReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\Templates\ReceiptsReport.Designer.cs">
+      <DependentUpon>ReceiptsReport.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings\ViewModels\SettingsViewModel.cs" />
     <Compile Include="Settings\Views\SettingsView.xaml.cs">
@@ -551,11 +573,28 @@
     <EmbeddedResource Include="Reports\Templates\ChangeFlowReport.resx">
       <DependentUpon>ChangeFlowReport.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Templates\ChangeValueReport.resx">
+      <DependentUpon>ChangeValueReport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\Templates\DebtorsReport.resx">
       <DependentUpon>DebtorsReport.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Templates\ReceiptsReport.resx">
+      <DependentUpon>ReceiptsReport.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="Reports\DataSources\ChangeValueDataSet.xsc">
+      <DependentUpon>ChangeValueDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Reports\DataSources\ChangeValueDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ChangeValueDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Reports\DataSources\ChangeValueDataSet.xss">
+      <DependentUpon>ChangeValueDataSet.xsd</DependentUpon>
     </None>
     <None Include="Reports\DataSources\CounterDataSet.xsc">
       <DependentUpon>CounterDataSet.xsd</DependentUpon>
@@ -578,6 +617,17 @@
     </None>
     <None Include="Reports\DataSources\DebtorsDataSet.xss">
       <DependentUpon>DebtorsDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Reports\DataSources\ReceiptsDataSet.xsc">
+      <DependentUpon>ReceiptsDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Reports\DataSources\ReceiptsDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ReceiptsDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Reports\DataSources\ReceiptsDataSet.xss">
+      <DependentUpon>ReceiptsDataSet.xsd</DependentUpon>
     </None>
     <None Include="Resurs.exe.manifest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -63,8 +63,6 @@ namespace Resurs.ViewModels
 			set
 			{
 				_selectedReportType = value;
-				if (Model != null)
-					Model.ClosePreview();
 				ShowPreviewReportCommand.Execute();
 				OnPropertyChanged(() => SelectedReportType);
 			}
@@ -80,7 +78,7 @@ namespace Resurs.ViewModels
 		}
 		private bool CanChangeFilter()
 		{
-			return SelectedReportType != null && SelectedReportType != ReportType.Debtors;
+			return SelectedReportType != null && SelectedReportType != ReportType.Debtors && SelectedReportType !=ReportType.Receipts;
 		}
 		public RelayCommand OpenReportDesignerCommand { get; private set; }
 		private void OnOpenReportDesigner()

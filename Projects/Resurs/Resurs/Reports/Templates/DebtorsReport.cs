@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraReports.UI;
+using Resurs.Reports.DataSources;
 
 namespace Resurs.Reports.Templates
 {

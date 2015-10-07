@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraReports.UI;
+using Resurs.Reports.DataSources;
 using ResursDAL;
 using System;
 
@@ -24,14 +25,6 @@ namespace Resurs.Reports.Templates
 				dataRow.CounterValue = measure.Value;
 				dataSet.Data.Rows.Add(dataRow);
 			}
-			//for (int i = 0; i < 1000; i++)
-			//{
-			//	var dataRow = dataSet.Data.NewDataRow();
-			//	dataRow.DateTime = DateTime.Now.AddDays(i);
-			//	dataRow.Tariff = 3;
-			//	dataRow.CounterValue = 1434 + 32 * i;
-			//	dataSet.Data.Rows.Add(dataRow);
-			//}
 			DataSource = dataSet;
 		}
 		public ReportType ReportType

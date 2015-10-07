@@ -20,9 +20,9 @@ namespace Resurs.Reports.DataSources {
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
     [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedDataSetSchema")]
-    [global::System.Xml.Serialization.XmlRootAttribute("CounterDataSet")]
+    [global::System.Xml.Serialization.XmlRootAttribute("ReceiptsDataSet")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
-    public partial class CounterDataSet : global::System.Data.DataSet {
+    public partial class ReceiptsDataSet : global::System.Data.DataSet {
         
         private DataDataTable tableData;
         
@@ -30,7 +30,7 @@ namespace Resurs.Reports.DataSources {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public CounterDataSet() {
+        public ReceiptsDataSet() {
             this.BeginInit();
             this.InitClass();
             global::System.ComponentModel.CollectionChangeEventHandler schemaChangedHandler = new global::System.ComponentModel.CollectionChangeEventHandler(this.SchemaChanged);
@@ -41,7 +41,7 @@ namespace Resurs.Reports.DataSources {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected CounterDataSet(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+        protected ReceiptsDataSet(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
                 this.InitVars(false);
@@ -127,7 +127,7 @@ namespace Resurs.Reports.DataSources {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public override global::System.Data.DataSet Clone() {
-            CounterDataSet cln = ((CounterDataSet)(base.Clone()));
+            ReceiptsDataSet cln = ((ReceiptsDataSet)(base.Clone()));
             cln.InitVars();
             cln.SchemaSerializationMode = this.SchemaSerializationMode;
             return cln;
@@ -199,9 +199,9 @@ namespace Resurs.Reports.DataSources {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitClass() {
-            this.DataSetName = "CounterDataSet";
+            this.DataSetName = "ReceiptsDataSet";
             this.Prefix = "";
-            this.Namespace = "http://tempuri.org/CounterDataSet.xsd";
+            this.Namespace = "http://tempuri.org/ReceiptsDataSet.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
             this.tableData = new DataDataTable();
@@ -225,7 +225,7 @@ namespace Resurs.Reports.DataSources {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedDataSetSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-            CounterDataSet ds = new CounterDataSet();
+            ReceiptsDataSet ds = new ReceiptsDataSet();
             global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
             global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
             global::System.Xml.Schema.XmlSchemaAny any = new global::System.Xml.Schema.XmlSchemaAny();
@@ -281,9 +281,15 @@ namespace Resurs.Reports.DataSources {
             
             private global::System.Data.DataColumn columnDateTime;
             
-            private global::System.Data.DataColumn columnTariff;
+            private global::System.Data.DataColumn columnNumber;
             
-            private global::System.Data.DataColumn columnCounterValue;
+            private global::System.Data.DataColumn columnPrice;
+            
+            private global::System.Data.DataColumn columnPaid;
+            
+            private global::System.Data.DataColumn columnCondition;
+            
+            private global::System.Data.DataColumn columnAbonentName;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -328,17 +334,41 @@ namespace Resurs.Reports.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn TariffColumn {
+            public global::System.Data.DataColumn NumberColumn {
                 get {
-                    return this.columnTariff;
+                    return this.columnNumber;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn CounterValueColumn {
+            public global::System.Data.DataColumn PriceColumn {
                 get {
-                    return this.columnCounterValue;
+                    return this.columnPrice;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn PaidColumn {
+                get {
+                    return this.columnPaid;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ConditionColumn {
+                get {
+                    return this.columnCondition;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn AbonentNameColumn {
+                get {
+                    return this.columnAbonentName;
                 }
             }
             
@@ -379,12 +409,15 @@ namespace Resurs.Reports.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DataRow AddDataRow(System.DateTime DateTime, int Tariff, double CounterValue) {
+            public DataRow AddDataRow(System.DateTime DateTime, int Number, double Price, double Paid, string Condition, string AbonentName) {
                 DataRow rowDataRow = ((DataRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         DateTime,
-                        Tariff,
-                        CounterValue};
+                        Number,
+                        Price,
+                        Paid,
+                        Condition,
+                        AbonentName};
                 rowDataRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDataRow);
                 return rowDataRow;
@@ -408,8 +441,11 @@ namespace Resurs.Reports.DataSources {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
                 this.columnDateTime = base.Columns["DateTime"];
-                this.columnTariff = base.Columns["Tariff"];
-                this.columnCounterValue = base.Columns["CounterValue"];
+                this.columnNumber = base.Columns["Number"];
+                this.columnPrice = base.Columns["Price"];
+                this.columnPaid = base.Columns["Paid"];
+                this.columnCondition = base.Columns["Condition"];
+                this.columnAbonentName = base.Columns["AbonentName"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -417,10 +453,16 @@ namespace Resurs.Reports.DataSources {
             private void InitClass() {
                 this.columnDateTime = new global::System.Data.DataColumn("DateTime", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDateTime);
-                this.columnTariff = new global::System.Data.DataColumn("Tariff", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTariff);
-                this.columnCounterValue = new global::System.Data.DataColumn("CounterValue", typeof(double), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCounterValue);
+                this.columnNumber = new global::System.Data.DataColumn("Number", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNumber);
+                this.columnPrice = new global::System.Data.DataColumn("Price", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPrice);
+                this.columnPaid = new global::System.Data.DataColumn("Paid", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPaid);
+                this.columnCondition = new global::System.Data.DataColumn("Condition", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCondition);
+                this.columnAbonentName = new global::System.Data.DataColumn("AbonentName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAbonentName);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -488,7 +530,7 @@ namespace Resurs.Reports.DataSources {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                CounterDataSet ds = new CounterDataSet();
+                ReceiptsDataSet ds = new ReceiptsDataSet();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -579,33 +621,81 @@ namespace Resurs.Reports.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int Tariff {
+            public int Number {
                 get {
                     try {
-                        return ((int)(this[this.tableData.TariffColumn]));
+                        return ((int)(this[this.tableData.NumberColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Tariff\' in table \'Data\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Number\' in table \'Data\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableData.TariffColumn] = value;
+                    this[this.tableData.NumberColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public double CounterValue {
+            public double Price {
                 get {
                     try {
-                        return ((double)(this[this.tableData.CounterValueColumn]));
+                        return ((double)(this[this.tableData.PriceColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'CounterValue\' in table \'Data\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Price\' in table \'Data\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableData.CounterValueColumn] = value;
+                    this[this.tableData.PriceColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public double Paid {
+                get {
+                    try {
+                        return ((double)(this[this.tableData.PaidColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Paid\' in table \'Data\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableData.PaidColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Condition {
+                get {
+                    try {
+                        return ((string)(this[this.tableData.ConditionColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Condition\' in table \'Data\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableData.ConditionColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string AbonentName {
+                get {
+                    try {
+                        return ((string)(this[this.tableData.AbonentNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AbonentName\' in table \'Data\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableData.AbonentNameColumn] = value;
                 }
             }
             
@@ -623,26 +713,62 @@ namespace Resurs.Reports.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsTariffNull() {
-                return this.IsNull(this.tableData.TariffColumn);
+            public bool IsNumberNull() {
+                return this.IsNull(this.tableData.NumberColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetTariffNull() {
-                this[this.tableData.TariffColumn] = global::System.Convert.DBNull;
+            public void SetNumberNull() {
+                this[this.tableData.NumberColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsCounterValueNull() {
-                return this.IsNull(this.tableData.CounterValueColumn);
+            public bool IsPriceNull() {
+                return this.IsNull(this.tableData.PriceColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetCounterValueNull() {
-                this[this.tableData.CounterValueColumn] = global::System.Convert.DBNull;
+            public void SetPriceNull() {
+                this[this.tableData.PriceColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsPaidNull() {
+                return this.IsNull(this.tableData.PaidColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetPaidNull() {
+                this[this.tableData.PaidColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsConditionNull() {
+                return this.IsNull(this.tableData.ConditionColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetConditionNull() {
+                this[this.tableData.ConditionColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsAbonentNameNull() {
+                return this.IsNull(this.tableData.AbonentNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetAbonentNameNull() {
+                this[this.tableData.AbonentNameColumn] = global::System.Convert.DBNull;
             }
         }
         
