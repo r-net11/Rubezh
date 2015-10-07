@@ -6,6 +6,7 @@
 });
 
 function EmployeeDetailsViewModel() {
+    var self = this;
 
     self.employeeDetailsPages = {
         General: ko.observable(true),
@@ -13,26 +14,18 @@ function EmployeeDetailsViewModel() {
         Photo: ko.observable(false),
     };
 
-    self.EmployeeDetailsModel = {
-        LastName: ko.observable(""),
-        FirstName: ko.observable(""),
-        SecondName: ko.observable(""),
-        Description: ko.observable(""),
-        CredentialsStartDateString: ko.observable(""),
-        TabelNo: ko.observable(""),
-        Phone: ko.observable(""),
-        IsOrganisationChief: ko.observable(""),
-        IsOrganisationHRChief: ko.observable(""),
-        DocumentNumber: ko.observable(""),
-        BirthPlace: ko.observable(""),
-        BirthDateString: ko.observable(""),
-        GivenBy: ko.observable(""),
-        GivenDateString: ko.observable(""),
-        ValidToString: ko.observable(""),
-        Citizenship: ko.observable(""),
-        Gender: ko.observable(""),
-        DocumentType: ko.observable(""),
-    };
+    $.ajax({
+        dataType: "json",
+        url: "Employees/GetEmployeeDetails",
+        async: false,
+        data: null,
+        success: function (data) {
+            ko.mapping.fromJS(data, {}, self);
+        }
+    });
+
+    $('#employee-details-box').on('fadeInComplete', function () {
+    });
 
     self.SaveError = ko.observable("");
 
@@ -55,6 +48,15 @@ function EmployeeDetailsViewModel() {
     }
 
     self.SaveEmployee = function () {
+        $.ajax({
+            url: location.href,
+            type: "post",
+            contentType: "application/json",
+            data: ko.mapping.toJSON(self),
+            success: function (response) {
+                alert(response.Status);
+            }
+        });
         EmployeeDetailsClose();
     }
 

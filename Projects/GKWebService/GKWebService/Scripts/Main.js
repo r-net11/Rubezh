@@ -106,7 +106,7 @@ function AppViewModel() {
     self.Menu.Archive = ArchiveViewModel();
     self.Menu.HR = HRViewModel();
     self.Menu.HR.Employees = EmployeesViewModel();
-    self.Menu.HR.EmployeeDetails = EmployeeDetailsViewModel();
+    self.Menu.HR.Employees.EmployeeDetails = EmployeeDetailsViewModel();
 
     return self;
 }
