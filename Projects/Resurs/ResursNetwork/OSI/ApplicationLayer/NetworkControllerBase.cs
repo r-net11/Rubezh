@@ -18,16 +18,15 @@ namespace ResursNetwork.OSI.ApplicationLayer
     public abstract class NetworkControllerBase: INetwrokController
     {
         #region Fields And Properties
-        //private static List<UInt32> RegisteredControllerIds = new List<uint>();
 
-        protected uint _ControllerId;
+        protected Guid _Id;
         /// <summary>
         /// Id контроллера
         /// </summary>
-        public uint ControllerId
+        public Guid Id
         {
-            get { return _ControllerId; }
-            set { _ControllerId = value; }
+            get { return _Id; }
+            set { _Id = value; }
         }
         /// <summary>
         /// Возвращает список типов устройств с которыми может работать данный контроллер
@@ -202,6 +201,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// </summary>
         public NetworkControllerBase()
         {
+            _Id = Guid.NewGuid();
             _MessageReceived = new EventHandler(EventHandler_Connection_MessageReceived);
             _Devices = new DevicesCollection(this);
         }
@@ -234,9 +234,9 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// </summary>
         protected virtual void OnStatusWasChanged()
         {
-            if (StatusWasChanged != null)
+            if (StatusChanged != null)
             {
-                StatusWasChanged(this, new EventArgs());
+                StatusChanged(this, new EventArgs());
             }
         }
         /// <summary>
@@ -264,7 +264,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
         #endregion
 
         #region Events
-        public event EventHandler StatusWasChanged;
+        public event EventHandler StatusChanged;
         #endregion
     }
 }

@@ -54,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BCDTest\BcdTests.cs" />
     <Compile Include="IncotexNetworkControllerTest\IncotexNetworkControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

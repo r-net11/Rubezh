@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="Resurs.Views.ReportsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 xmlns:dxp="http://schemas.devexpress.com/winfx/2008/xaml/printing"
+			 xmlns:dxreport="http://schemas.devexpress.com/winfx/2008/xaml/reports/userdesigner"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+	<UserControl.Resources>
+		<dxp:DisabledCommand x:Key="disabledCommand" />
+	</UserControl.Resources>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid Grid.Row="0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+			<StackPanel Grid.Column="0" Orientation="Horizontal">
+				<ToolBarButton Command="{Binding ChangeFilterCommand}" ImageSource="Filter" ToolTip="Задать фильтр" />
+				<ComboBox ItemsSource="{Binding ReportTypes}" SelectedItem="{Binding SelectedReportType}">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+				<ToolBarButton Command="{Binding ShowPreviewReportCommand}" ImageSource="Refresh" ToolTip="Показать отчет" />
+				<ToolBarButton Command="{Binding OpenReportDesignerCommand}" ImageSource="Edit" ToolTip="Открыть дизайнер отчетов" />
+			</StackPanel>
+		</Grid>
+		<!--<dxp:DocumentPreviewControl Grid.Row="1" DocumentSource="{Binding Model}" CommandBarStyle="None" AutoShowParametersPanel="False" />-->
+	</Grid>
+</UserControl>

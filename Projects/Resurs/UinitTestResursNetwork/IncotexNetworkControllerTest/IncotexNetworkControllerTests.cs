@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer;
 using ResursNetwork.Incotex.NetworkControllers.DataLinkLayer;
 using ResursNetwork.Incotex.NetworkControllers.Messages;
-using ResursNetwork.Incotex.Model;
+using ResursNetwork.Incotex.Models;
 using ResursNetwork.OSI.DataLinkLayer;
 using ResursNetwork.OSI.Messages;
 using ResursNetwork.OSI.Messages.Transaction;

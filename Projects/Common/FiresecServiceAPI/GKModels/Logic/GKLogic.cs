@@ -59,30 +59,12 @@ namespace FiresecAPI.GK
 		{
 			var result = new List<GKBase>();
 			result.AddRange(OnClausesGroup.GetObjects());
-			result.AddRange(OffClausesGroup.GetObjects());
+			if (!UseOffCounterLogic)
+				result.AddRange(OffClausesGroup.GetObjects());
 			result.AddRange(OnNowClausesGroup.GetObjects());
 			result.AddRange(OffNowClausesGroup.GetObjects());
 			result.AddRange(StopClausesGroup.GetObjects());
 			return result;
 		}
-
-		public List<GKClause> GetAllClauses()
-		{
-			var allClauses = new List<GKClause>();
-			allClauses.AddRange(GetAllClausesOfGroup(OffClausesGroup));
-			allClauses.AddRange(GetAllClausesOfGroup(OffNowClausesGroup));
-			allClauses.AddRange(GetAllClausesOfGroup(OnClausesGroup));
-			allClauses.AddRange(GetAllClausesOfGroup(OnNowClausesGroup));
-			allClauses.AddRange(GetAllClausesOfGroup(StopClausesGroup));
-			return allClauses;
-		}
-
-		List<GKClause> GetAllClausesOfGroup(GKClauseGroup gkClauseGroup)
-		{
-			var clauses = new List<GKClause>(gkClauseGroup.Clauses);
-			gkClauseGroup.ClauseGroups.ForEach(x => clauses.AddRange(GetAllClausesOfGroup(x)));
-			return clauses;
-		}
-
 	}
 }

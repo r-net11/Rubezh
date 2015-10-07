@@ -57,18 +57,29 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseContext.cs" />
     <Compile Include="DBCash.cs" />
     <Compile Include="DBCash.Devices.cs" />
+    <Compile Include="DBCash.Measure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Compile Include="DBCash.Tariffs.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common\Common.csproj">
+      <Project>{fe37b6d4-73e5-40f2-a770-a974561430b8}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{d57cb190-a30e-4a3d-a674-f1766ce1cc72}</Project>
+      <Name>Infrastructure.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ResursAPI\ResursAPI.csproj">
       <Project>{94c0399f-3eab-4e23-98f9-61eb8daa4974}</Project>
       <Name>ResursAPI</Name>

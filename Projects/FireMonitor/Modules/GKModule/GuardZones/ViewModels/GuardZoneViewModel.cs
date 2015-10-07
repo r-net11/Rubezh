@@ -7,6 +7,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecClient;
 using Infrastructure.Events;
+using System;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -156,11 +158,8 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showArchiveEventArgs = new ShowArchiveEventArgs()
-			{
-				GKGuardZone = GuardZone
-			};
-			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
+			if (GuardZone != null)
+				ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(new List<Guid> { GuardZone.UID });
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

@@ -13,7 +13,7 @@ namespace Resurs.ViewModels
 	{
 		public UsersViewModel()
 		{
-			RemoveCommand = new RelayCommand(OnDelete);
+			RemoveCommand = new RelayCommand(OnDelete, CanDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			AddCommand = new RelayCommand(OnAdd);
 			Build();
@@ -46,19 +46,18 @@ namespace Resurs.ViewModels
 		void OnAdd()
 		{
 			var userDetailsViewModel = new UserDetailsViewModel();
-			DialogService.ShowModalWindow(userDetailsViewModel);
+			if(DialogService.ShowModalWindow(userDetailsViewModel))
 			{
 				var userViewModel = new UserViewModel(userDetailsViewModel.User);
 
 				Users.Add(userViewModel);
-				CashUser.Users.Add(userDetailsViewModel.User);
 				SelectedUser = userViewModel;
 			}
 		}
 
 		bool CanEdit()
 		{
-			return SelectedUser != null;
+			return SelectedUser != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditUser);
 		}
 
 		void Build ()
@@ -74,14 +73,21 @@ namespace Resurs.ViewModels
 			var userDetailsViewModel = new UserDetailsViewModel(SelectedUser.User);
 			if (DialogService.ShowModalWindow(userDetailsViewModel))
 			{
-				CashUser.Users.Remove(SelectedUser.User);
-				CashUser.Users.Add(userDetailsViewModel.User);
 				SelectedUser.User = userDetailsViewModel.User;
 			}
 		}
 
+		public bool IsVisibility
+		{
+			get {return DBCash.CurrentUser.UserPermissions.Any(x=> x.PermissionType == PermissionType.User);}
+		}
+
 		public RelayCommand RemoveCommand { get; set; }
 
+		bool CanDelete()
+		{
+			return  SelectedUser!= null && SelectedUser.User.UID!= DBCash.CurrentUser.UID;
+		}
 		void OnDelete()
 		{
 			if (MessageBoxService.ShowQuestion(string.Format("Вы уверенны, что хотите удалить пользователя \"{0}\" из списка", SelectedUser.User.Name)))

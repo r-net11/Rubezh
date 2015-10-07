@@ -81,21 +81,24 @@ namespace GKProcessor
 
 		public static bool GoToTechnologicalRegime(GKDevice device, GKProgressCallback progressCallback)
 		{
-			if (IsInTechnologicalRegime(device))
-				return true;
-
-			GKProcessorManager.DoProgress(device.PresentationName + " Переход в технологический режим", progressCallback);
-			SendManager.Send(device, 0, 14, 0, null, device.DriverType == GKDriverType.GK);
-			for (int i = 0; i < 10; i++)
+			using (var gkLifecycleManager = new GKLifecycleManager(device, "Переход в технологический режим"))
 			{
-				if (progressCallback.IsCanceled)
-					return false;
 				if (IsInTechnologicalRegime(device))
 					return true;
-				Thread.Sleep(TimeSpan.FromSeconds(1));
-			}
 
-			return false;
+				GKProcessorManager.DoProgress(device.PresentationName + " Переход в технологический режим", progressCallback);
+				SendManager.Send(device, 0, 14, 0, null, device.DriverType == GKDriverType.GK);
+				for (int i = 0; i < 10; i++)
+				{
+					if (progressCallback.IsCanceled)
+						return false;
+					if (IsInTechnologicalRegime(device))
+						return true;
+					Thread.Sleep(TimeSpan.FromSeconds(1));
+				}
+
+				return false;
+			}
 		}
 
 		public static bool IsInTechnologicalRegime(GKDevice device)
@@ -117,57 +120,63 @@ namespace GKProcessor
 
 		public static bool EraseDatabase(GKDevice device, GKProgressCallback progressCallback)
 		{
-			GKProcessorManager.DoProgress(device.PresentationName + " Стирание базы данных", progressCallback);
-			for (int i = 0; i < 3; i++)
+			using (var gkLifecycleManager = new GKLifecycleManager(device, "Стирание базы данных"))
 			{
-				if (progressCallback.IsCanceled)
-					return false;
-				var sendResult = SendManager.Send(device, 0, 15, 0, null, true, false, 10000);
-				if (!sendResult.HasError)
+				GKProcessorManager.DoProgress(device.PresentationName + " Стирание базы данных", progressCallback);
+				for (int i = 0; i < 3; i++)
 				{
-					return true;
+					if (progressCallback.IsCanceled)
+						return false;
+					var sendResult = SendManager.Send(device, 0, 15, 0, null, true, false, 10000);
+					if (!sendResult.HasError)
+					{
+						return true;
+					}
+					else
+					{
+						Thread.Sleep(TimeSpan.FromSeconds(1));
+					}
 				}
-				else
-				{
-					Thread.Sleep(TimeSpan.FromSeconds(1));
-				}
+				return false;
 			}
-			return false;
 		}
 
 		public static bool GoToWorkingRegime(GKDevice device, GKProgressCallback progressCallback, bool waitUntillStart = true)
 		{
-			progressCallback.IsCanceled = false;
-			GKProcessorManager.DoProgress(device.PresentationName + " Переход в рабочий режим", progressCallback);
-			if (progressCallback.IsCanceled)
-				return true;
-			SendManager.Send(device, 0, 11, 0, null, device.DriverType == GKDriverType.GK);
-
-			if (waitUntillStart)
+			using (var gkLifecycleManager = new GKLifecycleManager(device, "Переход в рабочий режим"))
 			{
-				for (int i = 0; i < 20; i++)
+				progressCallback.IsCanceled = false;
+				GKProcessorManager.DoProgress(device.PresentationName + " Переход в рабочий режим", progressCallback);
+				if (progressCallback.IsCanceled)
+					return true;
+				SendManager.Send(device, 0, 11, 0, null, device.DriverType == GKDriverType.GK);
+
+				if (waitUntillStart)
 				{
-					if (progressCallback.IsCanceled)
-						return true;
-					var sendResult = SendManager.Send(device, 0, 1, 1);
-					if (!sendResult.HasError)
+					for (int i = 0; i < 20; i++)
 					{
-						if (sendResult.Bytes.Count > 0)
+						if (progressCallback.IsCanceled)
+							return true;
+						var sendResult = SendManager.Send(device, 0, 1, 1);
+						if (!sendResult.HasError)
 						{
-							var version = sendResult.Bytes[0];
-							if (version <= 127)
+							if (sendResult.Bytes.Count > 0)
 							{
-								return true;
+								var version = sendResult.Bytes[0];
+								if (version <= 127)
+								{
+									return true;
+								}
 							}
 						}
+						Thread.Sleep(TimeSpan.FromSeconds(1));
 					}
-					Thread.Sleep(TimeSpan.FromSeconds(1));
+					return false;
 				}
-				return false;
-			}
-			else
-			{
-				return true;
+				else
+				{
+					return true;
+				}
 			}
 		}
 

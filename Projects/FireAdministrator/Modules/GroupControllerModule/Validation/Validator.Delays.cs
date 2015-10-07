@@ -14,15 +14,9 @@ namespace GKModule.Validation
 			foreach (var delay in GKManager.Delays)
 			{
 				ValidateDelay(delay);
+				if (IsManyGK)
+					ValidateDelayDifferentGK(delay);
 				ValidateEmpty(delay);
-			}
-		}
-
-		void ValidateEmpty(GKDelay delay)
-		{
-			if (delay.DataBaseParent == null)
-			{
-				Errors.Add(new DelayValidationError(delay, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
@@ -40,6 +34,20 @@ namespace GKModule.Validation
 		{
 			if (string.IsNullOrEmpty(delay.Name))
 				Errors.Add(new DelayValidationError(delay, "Пустое название", ValidationErrorLevel.CannotWrite));
+		}
+
+		void ValidateEmpty(GKDelay delay)
+		{
+			if (delay.DataBaseParent == null)
+			{
+				Errors.Add(new DelayValidationError(delay, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
+			}
+		}
+
+		void ValidateDelayDifferentGK(GKDelay delay)
+		{
+			if (delay.GkParents.Count > 0)
+				Errors.Add(new DelayValidationError(delay, "Задержка содержит объекты разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 	}
 }

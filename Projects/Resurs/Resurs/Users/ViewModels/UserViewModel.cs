@@ -13,8 +13,8 @@ namespace Resurs.ViewModels
 		{
 			User = user;
 		}
-		User _user;
 
+		User _user;
 		public User User
 		{
 			get { return _user; }

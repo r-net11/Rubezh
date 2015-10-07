@@ -20,7 +20,6 @@ namespace GKModule
 			GKManager.UpdateConfiguration();
 			GKManager.CreateStates();
 			DescriptorsManager.Create();
-			DescriptorsManager.CreateDynamicObjectsInGKManager();
 			InitializeStates();
 		}
 

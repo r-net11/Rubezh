@@ -26,6 +26,14 @@ namespace Resurs.ViewModels
 			}
 		}
 
+		public string ImageSource 
+		{ 
+			get
+			{
+				return _apartment != null && _apartment.IsFolder ? "/Controls;component/Images/CFolder.png" : "/Controls;component/Images/AccessTemplate.png";
+			}
+		}
+
 		public void Update(Apartment apartment)
 		{
 			Apartment = apartment;

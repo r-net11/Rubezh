@@ -11,7 +11,7 @@ namespace GKProcessor
 		CommonDatabase Database;
 		GKPumpStation PumpStation;
 		List<GKDevice> FirePumpDevices = new List<GKDevice>();
-		GKDevice JNPumpDevice;
+		List<GKDevice> JockeyPumpDevices = new List<GKDevice>();
 		List<PumpDelay> PumpDelays = new List<PumpDelay>();
 		DatabaseType DatabaseType;
 
@@ -26,50 +26,18 @@ namespace GKProcessor
 				if (nsDevice.DriverType == GKDriverType.RSR2_Bush_Fire)
 					FirePumpDevices.Add(nsDevice);
 				if (nsDevice.DriverType == GKDriverType.RSR2_Bush_Jokey)
-					JNPumpDevice = nsDevice;
+					JockeyPumpDevices.Add(nsDevice);
 			}
 		}
 
 		public void Create()
 		{
-			CreateMainDelay();
 			CreateDelays();
 			SetCrossReferences();
 			CreateDelaysLogic();
 			SetFirePumpDevicesLogic();
-			//SetJokeyPumpLogic();
+			SetJockeyPumpLogic();
 			CreatePim();
-		}
-
-		void CreateMainDelay()
-		{
-			var delayDescriptor = new DelayDescriptor(PumpStation.MainDelay, DatabaseType);
-			Database.Descriptors.Add(delayDescriptor);
-			PumpStation.LinkGKBases(PumpStation.MainDelay);
-			PumpStation.MainDelay.LinkGKBases(PumpStation);
-
-			var formula = new FormulaBuilder();
-			if ((DatabaseType == DatabaseType.Gk && delayDescriptor.GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !delayDescriptor.GKBase.IsLogicOnKau))
-			{
-				formula.Add(FormulaOperationType.END);
-				delayDescriptor.FormulaBytes = formula.GetBytes();
-				return;
-			}
-
-			formula.AddGetBit(GKStateBit.On, PumpStation, delayDescriptor.DatabaseType);
-			formula.Add(FormulaOperationType.DUP);
-			formula.AddGetBit(GKStateBit.TurningOn, PumpStation.MainDelay, delayDescriptor.DatabaseType);
-			formula.AddGetBit(GKStateBit.On, PumpStation.MainDelay, delayDescriptor.DatabaseType);
-			formula.Add(FormulaOperationType.OR);
-			formula.Add(FormulaOperationType.COM);
-			formula.Add(FormulaOperationType.AND);
-			formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, PumpStation.MainDelay, delayDescriptor.DatabaseType);
-			formula.Add(FormulaOperationType.COM);
-			formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, PumpStation.MainDelay, delayDescriptor.DatabaseType);
-
-			formula.Add(FormulaOperationType.END);
-			delayDescriptor.Formula = formula;
-			delayDescriptor.FormulaBytes = formula.GetBytes();
 		}
 
 		void CreateDelays()
@@ -95,8 +63,7 @@ namespace GKProcessor
 				};
 				PumpDelays.Add(pumpDelay);
 
-				Database.AddDelay(delay);
-				var delayDescriptor = new DelayDescriptor(delay, DatabaseType);
+				var delayDescriptor = new DelayDescriptor(delay);
 				Database.Descriptors.Add(delayDescriptor);
 			}
 		}
@@ -110,32 +77,24 @@ namespace GKProcessor
 				if (delayDescriptor == null)
 					return;
 
-				if ((DatabaseType == DatabaseType.Gk && delayDescriptor.GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !delayDescriptor.GKBase.IsLogicOnKau))
-				{
-					delayDescriptor.Formula.Add(FormulaOperationType.END);
-					delayDescriptor.FormulaBytes = delayDescriptor.Formula.GetBytes();
-					return;
-				}
-
-				var formula = new FormulaBuilder();
-				AddCountFirePumpDevicesFormula(formula, delayDescriptor.DatabaseType);
+				delayDescriptor.Formula = new FormulaBuilder();
+				AddCountFirePumpDevicesFormula(delayDescriptor.Formula);
 				if (i > 0)
 				{
 					var prevDelay = PumpDelays[i - 1];
-					formula.AddGetBit(GKStateBit.On, prevDelay.Delay, delayDescriptor.DatabaseType);
-					formula.Add(FormulaOperationType.AND);
+					delayDescriptor.Formula.AddGetBit(GKStateBit.On, prevDelay.Delay);
+					delayDescriptor.Formula.Add(FormulaOperationType.AND);
 				}
 
-				formula.AddGetBit(GKStateBit.On, PumpStation, delayDescriptor.DatabaseType);
-				formula.Add(FormulaOperationType.AND);
-				formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, pumpDelay.Delay, delayDescriptor.DatabaseType);
+				delayDescriptor.Formula.AddGetBit(GKStateBit.On, PumpStation);
+				delayDescriptor.Formula.Add(FormulaOperationType.AND);
+				delayDescriptor.Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, pumpDelay.Delay);
 
-				formula.AddGetBit(GKStateBit.Off, PumpStation, delayDescriptor.DatabaseType);
-				formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, pumpDelay.Delay, delayDescriptor.DatabaseType);
+				delayDescriptor.Formula.AddGetBit(GKStateBit.Off, PumpStation);
+				delayDescriptor.Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, pumpDelay.Delay);
 
-				formula.Add(FormulaOperationType.END);
-				delayDescriptor.Formula = formula;
-				delayDescriptor.FormulaBytes = formula.GetBytes();
+				delayDescriptor.Formula.Add(FormulaOperationType.END);
+				delayDescriptor.IsFormulaGeneratedOutside = true;
 			}
 		}
 
@@ -147,50 +106,73 @@ namespace GKProcessor
 				var pumpDescriptor = Database.Descriptors.FirstOrDefault(x => x.DescriptorType == DescriptorType.Device && x.GKBase.UID == pumpDevice.UID);
 				if (pumpDescriptor != null)
 				{
-					var formula = new FormulaBuilder();
-					AddCountFirePumpDevicesFormula(formula, pumpDescriptor.DatabaseType);
+					pumpDescriptor.Formula = new FormulaBuilder();
+					AddCountFirePumpDevicesFormula(pumpDescriptor.Formula);
 					if (i > 0)
 					{
 						var pumpDelay = PumpDelays.FirstOrDefault(x => x.Device.UID == pumpDevice.UID);
-						formula.AddGetBit(GKStateBit.On, pumpDelay.Delay, pumpDescriptor.DatabaseType);
-						formula.Add(FormulaOperationType.AND);
+						pumpDescriptor.Formula.AddGetBit(GKStateBit.On, pumpDelay.Delay);
+						pumpDescriptor.Formula.Add(FormulaOperationType.AND);
 					}
 
 					if (pumpDevice.NSLogic.OnClausesGroup.Clauses.Count > 0)
 					{
-						formula.AddClauseFormula(pumpDevice.NSLogic.OnClausesGroup, pumpDescriptor.DatabaseType);
-						formula.Add(FormulaOperationType.AND);
+						pumpDescriptor.Formula.AddClauseFormula(pumpDevice.NSLogic.OnClausesGroup);
+						pumpDescriptor.Formula.Add(FormulaOperationType.AND);
 					}
 
-					formula.AddGetBit(GKStateBit.On, pumpDevice, pumpDescriptor.DatabaseType);
-					formula.AddGetBit(GKStateBit.TurningOn, pumpDevice, pumpDescriptor.DatabaseType);
-					formula.Add(FormulaOperationType.OR);
-					formula.AddGetBit(GKStateBit.Failure, pumpDevice, pumpDescriptor.DatabaseType);
-					formula.Add(FormulaOperationType.OR);
-					formula.Add(FormulaOperationType.COM);
-					formula.Add(FormulaOperationType.AND, comment: "Запрет на включение, если насос включен и не включается");
+					pumpDescriptor.Formula.AddGetBit(GKStateBit.On, pumpDevice);
+					pumpDescriptor.Formula.AddGetBit(GKStateBit.TurningOn, pumpDevice);
+					pumpDescriptor.Formula.Add(FormulaOperationType.OR);
+					pumpDescriptor.Formula.AddGetBit(GKStateBit.Failure, pumpDevice);
+					pumpDescriptor.Formula.Add(FormulaOperationType.OR);
+					pumpDescriptor.Formula.Add(FormulaOperationType.COM);
+					pumpDescriptor.Formula.Add(FormulaOperationType.AND, comment: "Запрет на включение, если насос включен и не включается");
 
-					formula.AddGetBit(GKStateBit.On, PumpStation, pumpDescriptor.DatabaseType);
-					formula.Add(FormulaOperationType.AND);
-					formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, pumpDevice, pumpDescriptor.DatabaseType);
+					pumpDescriptor.Formula.AddGetBit(GKStateBit.On, PumpStation);
+					pumpDescriptor.Formula.Add(FormulaOperationType.AND);
+					pumpDescriptor.Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, pumpDevice);
 
-					formula.AddGetBit(GKStateBit.Off, PumpStation, pumpDescriptor.DatabaseType);
-					formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, pumpDevice, pumpDescriptor.DatabaseType);
+					pumpDescriptor.Formula.AddGetBit(GKStateBit.Off, PumpStation);
+					pumpDescriptor.Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, pumpDevice);
 
-					formula.Add(FormulaOperationType.END);
-					pumpDescriptor.Formula = formula;
-					pumpDescriptor.FormulaBytes = formula.GetBytes();
+					pumpDescriptor.Formula.Add(FormulaOperationType.END);
+					pumpDescriptor.IsFormulaGeneratedOutside = true;
 				}
 			}
 		}
 
-		void AddCountFirePumpDevicesFormula(FormulaBuilder formula, DatabaseType databaseType)
+		void SetJockeyPumpLogic()
+		{
+			if (JockeyPumpDevices.Count > 0)
+			{
+				foreach (var jockeyPumpDevice in JockeyPumpDevices)
+				{
+
+					var jnDescriptor = Database.Descriptors.FirstOrDefault(x => x.DescriptorType == DescriptorType.Device && x.GKBase.UID == jockeyPumpDevice.UID);
+					if (jnDescriptor != null)
+					{
+						jnDescriptor.Formula = new FormulaBuilder();
+						jnDescriptor.Formula.AddGetBit(GKStateBit.On, PumpStation);
+						jnDescriptor.Formula.AddGetBit(GKStateBit.TurningOn, PumpStation);
+						jnDescriptor.Formula.Add(FormulaOperationType.OR);
+						jnDescriptor.Formula.Add(FormulaOperationType.DUP);
+						jnDescriptor.Formula.AddPutBit(GKStateBit.SetRegime_Manual, jockeyPumpDevice);
+						jnDescriptor.Formula.AddPutBit(GKStateBit.TurnOff_InManual, jockeyPumpDevice);
+						jnDescriptor.Formula.Add(FormulaOperationType.END);
+						jnDescriptor.IsFormulaGeneratedOutside = true;
+					}
+				}
+			}
+		}
+
+		void AddCountFirePumpDevicesFormula(FormulaBuilder formula)
 		{
 			var inputPumpsCount = 0;
 			foreach (var firePumpDevice in FirePumpDevices)
 			{
-				formula.AddGetBit(GKStateBit.TurningOn, firePumpDevice, databaseType);
-				formula.AddGetBit(GKStateBit.On, firePumpDevice, databaseType);
+				formula.AddGetBit(GKStateBit.TurningOn, firePumpDevice);
+				formula.AddGetBit(GKStateBit.On, firePumpDevice);
 				formula.Add(FormulaOperationType.OR);
 				if (inputPumpsCount > 0)
 				{
@@ -202,77 +184,47 @@ namespace GKProcessor
 			formula.Add(FormulaOperationType.LT);
 		}
 
-		void SetJokeyPumpLogic()
-		{
-			if (JNPumpDevice != null)
-			{
-				var jnDescriptor = Database.Descriptors.FirstOrDefault(x => x.DescriptorType == DescriptorType.Device && x.GKBase.UID == JNPumpDevice.UID);
-				if (jnDescriptor != null)
-				{
-					var formula = new FormulaBuilder();
-					formula.AddGetBit(GKStateBit.On, PumpStation, jnDescriptor.DatabaseType);
-					//formula.AddGetBit(GKStateBit.ForbidStart_InAutomatic, JNPumpDevice);
-					formula.Add(FormulaOperationType.END);
-					jnDescriptor.Formula = formula;
-					jnDescriptor.FormulaBytes = formula.GetBytes();
-				}
-				jnDescriptor.GKBase.LinkGKBases(PumpStation);
-			}
-		}
-
 		void CreatePim()
 		{
-			PumpStation.Pim.GetDataBaseParent();
-			Database.AddPim(PumpStation.Pim);
-			var pimDescriptor = new PimDescriptor(PumpStation.Pim, DatabaseType);
+			//PumpStation.Pim.GetDataBaseParent();
+			PumpStation.Pim.IsLogicOnKau = PumpStation.IsLogicOnKau;
+			var pimDescriptor = new PimDescriptor(PumpStation.Pim);
 			Database.Descriptors.Add(pimDescriptor);
 
-			var formula = new FormulaBuilder();
-			if ((DatabaseType == DatabaseType.Gk && pimDescriptor.GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !pimDescriptor.GKBase.IsLogicOnKau))
-			{
-				formula.Add(FormulaOperationType.END);
-				pimDescriptor.FormulaBytes = formula.GetBytes();
-				return;
-			}
+			pimDescriptor.Formula = new FormulaBuilder();
 			var inputDevices = new List<GKBase>(PumpStation.InputDependentElements.Where(x => x is GKDevice));
-			foreach (var nsDevice in PumpStation.NSDevices)
-			{
-				if (!inputDevices.Contains(nsDevice))
-					inputDevices.Add(nsDevice);
-			}
 			foreach (var inputDevice in inputDevices)
 			{
-				PumpStation.Pim.LinkGKBases(inputDevice);
+				PumpStation.Pim.LinkToDescriptor(inputDevice);
 			}
 			for (int i = 0; i < inputDevices.Count; i++)
 			{
 				var nsDevice = inputDevices[i];
-				formula.AddGetBit(GKStateBit.Failure, nsDevice, pimDescriptor.DatabaseType);
+				pimDescriptor.Formula.AddGetBit(GKStateBit.Failure, nsDevice);
 				if (i > 0)
 				{
-					formula.Add(FormulaOperationType.OR);
+					pimDescriptor.Formula.Add(FormulaOperationType.OR);
 				}
 			}
-			formula.AddPutBit(GKStateBit.Failure, PumpStation.Pim, pimDescriptor.DatabaseType);
+			pimDescriptor.Formula.AddPutBit(GKStateBit.Failure, PumpStation.Pim);
 
-			formula.Add(FormulaOperationType.END);
-			pimDescriptor.Formula = formula;
-			pimDescriptor.FormulaBytes = formula.GetBytes();
+			pimDescriptor.Formula.Add(FormulaOperationType.END);
+			pimDescriptor.IsFormulaGeneratedOutside = true;
 		}
 
 		void SetCrossReferences()
 		{
 			foreach (var nsDevice in PumpStation.NSDevices)
 			{
-				nsDevice.LinkGKBases(PumpStation);
+				nsDevice.LinkToDescriptor(PumpStation);
 			}
 
 			foreach (var pumpDelay in PumpDelays)
 			{
-				pumpDelay.Delay.LinkGKBases(PumpStation);
+				pumpDelay.Delay.LinkToDescriptor(PumpStation);
 				foreach (var pumpDevice in FirePumpDevices)
 				{
-					pumpDelay.Delay.LinkGKBases(pumpDevice);
+					pumpDelay.Delay.LinkToDescriptor(pumpDevice);
 				}
 			}
 
@@ -282,7 +234,7 @@ namespace GKProcessor
 				{
 					if (pumpDelay.Device.UID == nsDevice.UID)
 					{
-						nsDevice.LinkGKBases(pumpDelay.Delay);
+						nsDevice.LinkToDescriptor(pumpDelay.Delay);
 					}
 				}
 			}
@@ -298,20 +250,26 @@ namespace GKProcessor
 					nextDelay = PumpDelays[i + 1].Delay;
 
 				if (prevDelay != null)
-					currentDelay.InputGKBases.Add(prevDelay);
+					currentDelay.InputDescriptors.Add(prevDelay);
 				if (nextDelay != null)
-					currentDelay.OutputGKBases.Add(nextDelay);
+					currentDelay.OutputDescriptors.Add(nextDelay);
 			}
 
 			foreach (var firePumpDevice in FirePumpDevices)
 			{
 				foreach (var otherFirePumpDevice in FirePumpDevices)
 				{
-					firePumpDevice.LinkGKBases(otherFirePumpDevice);
+					firePumpDevice.LinkToDescriptor(otherFirePumpDevice);
 				}
 			}
 
-			PumpDelays.ForEach(x => x.Delay.GetDataBaseParent());
+			foreach (var jockeyPumpDevice in JockeyPumpDevices)
+			{
+				foreach (var otherJockeyPumpDevice in JockeyPumpDevices)
+				{
+					jockeyPumpDevice.LinkToDescriptor(otherJockeyPumpDevice);
+				}
+			}
 		}
 	}
 

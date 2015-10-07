@@ -11,13 +11,8 @@ namespace Resurs.Processor
 	{
 		public static string Login(string login, string password)
 		{
-			//using(var context = DatabaseContext.Initialize())
-			//{
-			//	var check = context.Users.Any(x=> x.PasswordHash == HashHelper.GetHashFromString(password) && x.Login == login);
-			//	if (!check)
-			//		return "неверный логин или пароль";
-			//}
-			return null;
+
+			return DBCash.CheckLogin(login,password);
 		}
 	}
 }

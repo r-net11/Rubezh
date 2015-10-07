@@ -1,0 +1,21 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:ViewModels="clr-namespace:Resurs.ViewModels"
+					xmlns:Views="clr-namespace:Resurs.Views">
+
+	<DataTemplate DataType="{x:Type ViewModels:ReportsViewModel}">
+		<Views:ReportsView />
+	</DataTemplate>
+	
+	<DataTemplate DataType="{x:Type ViewModels:ReportDesignerViewModel}">
+		<Views:ReportDesignerView />
+	</DataTemplate>
+	
+	<DataTemplate DataType="{x:Type ViewModels:RepxSelectionViewModel}">
+		<Views:RepxSelectionView />
+	</DataTemplate>
+	
+	<DataTemplate DataType="{x:Type ViewModels:ReportFilterViewModel}">
+		<Views:ReportFilterView />
+	</DataTemplate>
+</ResourceDictionary>

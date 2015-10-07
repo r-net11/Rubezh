@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Data.Entity;
 using System.Runtime.Serialization;
+using Infrastructure.Common.Windows;
 
 
 namespace ResursDAL
@@ -12,6 +13,15 @@ namespace ResursDAL
 	public static partial class DBCash
 	{
 		public static Device RootDevice { get; private set; }
+
+		public class ShortDevice
+		{
+			public Guid UID { get; set; }
+			public int Address { get; set; }
+			public int DriverType { get; set; }
+			public string Description { get; set; }
+			public Guid? ParentUID { get; set; }
+		}
 		
 		public static Device GetRootDevice()
 		{
@@ -19,16 +29,37 @@ namespace ResursDAL
 			{
 				using (var context = DatabaseContext.Initialize())
 				{
-					var allDevices = context.Devices.Include(x => x.Parent).Include(x => x.Parameters).ToList();
-					allDevices.ForEach(x => SetDeviceDriver(x));
-					var result = allDevices.FirstOrDefault(x => x.Parent == null);
-					if(result != null)
-						SetChildren(result, allDevices);
+					
+					var tableItems = context.Devices.Select(x => new 
+						{ 
+							UID = x.UID, 
+							Address = x.Address, 
+							DriverType = x.DriverType, 
+							Description = x.Description,
+							ParentUID = x.ParentUID
+						}).ToList();
+					var allDevices = tableItems.Select(x => new Device
+						{
+							UID = x.UID,
+							Address = x.Address,
+							DriverType =(DriverType)x.DriverType,
+							Description = x.Description,
+							ParentUID = x.ParentUID
+						}).OrderBy(x => x.Address).ToList();
+					
+					SetChildren(allDevices);
+					var result = allDevices.FirstOrDefault(x => x.ParentUID == null);
+					if (result != null)
+						SetFullAddress(result);
+					allDevices.ForEach(x => InitializeDevice(x));
+					
 					return result;
+
 				}
 			}
 			catch (Exception e)
 			{
+				MessageBoxService.Show(e.Message);
 				return null;
 			}
 		}
@@ -37,6 +68,15 @@ namespace ResursDAL
 		{
 			try
 			{
+				foreach (var item in device.Parameters)
+				{
+					var validateResult = item.Validate();
+					if (validateResult != null)
+					{
+						MessageBoxService.Show(string.Format("Устройство {0} \n Параметр {1} \n {2}", device.Name, item.DriverParameter.Name, validateResult));
+						return false;
+					}
+				}
 				using (var context = DatabaseContext.Initialize())
 				{
 					var tableDevice = context.Devices.Include(x => x.Parameters).FirstOrDefault(x => x.UID == device.UID);
@@ -66,6 +106,7 @@ namespace ResursDAL
 			}
 			catch (Exception e)
 			{
+				MessageBoxService.Show(e.Message);
 				return false;
 			}
 		}
@@ -104,58 +145,134 @@ namespace ResursDAL
 			}
 			catch (Exception e)
 			{
+				MessageBoxService.Show(e.Message);
 				return false;
 			}
 		}
 
 		public static void CreateSystem()
 		{
-			var devices = new List<Device>();
-			RootDevice = new Device(DriverType.System);
-			devices.Add(RootDevice);
-			
-			//for (int i = 0; i < 5; i++)
-			//{
-			//	var interfaceDevice = new Device(DriverType.BeregunInterface, RootDevice);
-			//	devices.Add(interfaceDevice);
-			//	for (int j = 0; j < 1000; j++)
-			//	{
-			//		var counter = new Device(DriverType.BeregunCounter, interfaceDevice);
-			//		devices.Add(counter);
-			//	}
-			//}
-			//for (int i = 0; i < 5; i++)
-			//{
-			//	var interfaceDevice = new Device(DriverType.MZEP55Interface, RootDevice);
-			//	devices.Add(interfaceDevice);
-			//	for (int j = 0; j < 1000; j++)
-			//	{
-			//		var counter = new Device(DriverType.MZEP55Counter, interfaceDevice);
-			//		devices.Add(counter);
-			//	}
-			//}
-			using (var context = DatabaseContext.Initialize())
+			try
 			{
-				context.Devices.AddRange(devices);
-				context.SaveChanges();
+				var devices = new List<Device>();
+				RootDevice = new Device(DriverType.System);
+				devices.Add(RootDevice);
+#if DEBUG
+				int interfaces = 2;
+				int devicesPerInterface = 10;
+				for (int i = 0; i < interfaces / 2; i++)
+				{
+					var interfaceDevice = new Device(DriverType.BeregunNetwork, RootDevice);
+					devices.Add(interfaceDevice);
+					for (int j = 0; j < devicesPerInterface; j++)
+					{
+						var counter = new Device(DriverType.BeregunCounter, interfaceDevice);
+						devices.Add(counter);
+					}
+				}
+				for (int i = 0; i < interfaces / 2; i++)
+				{
+					var interfaceDevice = new Device(DriverType.MZEP55Network, RootDevice);
+					devices.Add(interfaceDevice);
+					for (int j = 0; j < devicesPerInterface; j++)
+					{
+						var counter = new Device(DriverType.MZEP55Counter, interfaceDevice);
+						devices.Add(counter);
+					}
+				}
+#endif
+				using (var context = DatabaseContext.Initialize())
+				{
+					context.Devices.AddRange(devices);
+					context.SaveChanges();
+				}
+			}
+			catch (Exception e)
+			{
+				MessageBoxService.Show(e.Message);
 			}
 		}
 
-		static void SetDeviceDriver(Device device)
+		public static Device GetDeivce(Guid uid)
+		{
+			try
+			{
+				var cashedDevice = GetAllChildren(RootDevice).FirstOrDefault(x => x.UID == uid);
+				if (cashedDevice != null && cashedDevice.IsLoaded)
+					return cashedDevice;
+
+				using (var context = DatabaseContext.Initialize())
+				{
+					var device = context.Devices.Include(x => x.Parent).Include(x => x.Parameters).FirstOrDefault(x => x.UID == uid);
+					device.Parameters = device.Parameters.OrderBy(x => x.Number).ToList();
+					InitializeDevice(device);
+					device.IsLoaded = true;
+					var parent = GetAllChildren(RootDevice).FirstOrDefault(x => x.UID == device.ParentUID);
+					if (parent != null)
+					{
+						parent.Children.RemoveAll(x => x.UID == device.UID);
+						parent.Children.Add(device);
+						device.Parent = parent;
+						device.SetFullAddress();
+					}
+					return device;
+				}
+			}
+			catch (Exception e)
+			{
+				MessageBoxService.Show(e.Message);
+				return null;
+			}
+		}
+
+		static void InitializeDevice(Device device)
 		{
 			device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == device.DriverType);
 			foreach (var item in device.Parameters)
 			{
-				item.DriverParameter = device.Driver.DriverParameters.FirstOrDefault(x => x.Number == item.Number);
+				var driverParameter = device.Driver.DriverParameters.FirstOrDefault(x => x.Number == item.Number);
+				item.Initialize(driverParameter);
+			}
+		}
+
+		static void SetChildren(List<Device> allDevices)
+		{
+			foreach (var sameParent in allDevices.GroupBy(x => x.ParentUID))
+			{
+				Device parent = null;
+				foreach (var item in allDevices)
+				{
+					if (item.UID == sameParent.Key)
+					{
+						parent = item;
+						break;
+					}
+				}
+				if (parent != null)
+				{
+					foreach (var item in sameParent)
+					{
+						item.Parent = parent;
+						parent.Children.Add(item);
+					}
+				}
+			}
+		}
+		static void SetFullAddress(Device device)
+		{
+			device.SetFullAddress();
+			foreach (var item in device.Children)
+			{
+				SetFullAddress(item);
 			}
 		}
 
 		static void SetChildren(Device device, List<Device> allDevices)
 		{
-			device.Children = new List<Device>(allDevices.Where(x => x.Parent != null && x.Parent == device));
-			device.SetFullAddress();
+			device.Children = new List<Device>(allDevices.Where(x => x.ParentUID != null && x.ParentUID == device.UID).OrderBy(x => x.Address));
 			foreach (var item in device.Children)
 			{
+				item.Parent = device;
 				SetChildren(item, allDevices);
 			}
 		}
@@ -169,6 +286,7 @@ namespace ResursDAL
 			tableDevice.Tariff = device.Tariff != null ? context.Tariffs.FirstOrDefault(x => x.UID == device.Tariff.UID) : null;
 			tableDevice.Parent = device.Parent != null ? context.Devices.FirstOrDefault(x => x.UID == device.Parent.UID) : null;
 			tableDevice.DriverType = device.DriverType;
+			tableDevice.IsDbMissmatch = device.IsDbMissmatch;
 			tableDevice.Parameters = device.Parameters.Select(x => new Parameter
 			{
 				BoolValue = x.BoolValue,
@@ -176,7 +294,6 @@ namespace ResursDAL
 				Device = tableDevice,
 				DoubleValue = x.DoubleValue,
 				IntValue = x.IntValue,
-				IsPollingEnabled = x.IsPollingEnabled,
 				Number = x.Number,
 				StringValue = x.StringValue,
 			}).ToList();

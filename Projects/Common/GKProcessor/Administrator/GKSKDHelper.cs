@@ -55,7 +55,6 @@ namespace GKProcessor
 				var cardSchedules = controllerCardSchedule.CardSchedules.Skip(startCardScheduleNo).Take(cardScheduleCount).ToList();
 				if (cardSchedules.Count == 0)
 					break;
-
 				foreach (var cardSchedule in cardSchedules)
 				{
 					bytes.AddRange(BytesHelper.ShortToBytes(cardSchedule.Device.GKDescriptorNo));

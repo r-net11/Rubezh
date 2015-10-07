@@ -11,10 +11,12 @@ namespace ResursAPI
 		{
 			Drivers = new List<Driver>();
 			Drivers.Add(SystemCreator.Create());
-			Drivers.Add(BeregunInterfaceCreator.Create());
+			Drivers.Add(BeregunNetworkCreator.Create());
 			Drivers.Add(BeregunCounterCreator.Create());
 			Drivers.Add(MZEP55CounterCreator.Create());
-			Drivers.Add(MZEP55InterfaceCreator.Create());
+			Drivers.Add(MZEP55NetworkCreator.Create());
+			Drivers.Add(IncotexNetworkCreator.Create());
+			Drivers.Add(Mercury203CounterCreator.Create());
 		}
 
 		public static List<Driver> Drivers { get; private set; }

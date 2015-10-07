@@ -39,7 +39,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Data.v14.1.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Data.v14.1.resources">
+    <Reference Include="DevExpress.Data.v14.1.resources, Version=14.1.0.0, Culture=ru, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\ru\DevExpress.Data.v14.1.resources.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Mvvm.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
@@ -50,7 +51,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Printing.v14.1.Core.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Printing.v14.1.Core.resources">
+    <Reference Include="DevExpress.Printing.v14.1.Core.resources, Version=14.1.0.0, Culture=ru, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\ru\DevExpress.Printing.v14.1.Core.resources.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Xpf.Core.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">

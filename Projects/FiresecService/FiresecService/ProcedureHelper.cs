@@ -24,7 +24,7 @@ namespace FiresecService
 				JournalEventNameType = JournalEventNameType.Сообщение_автоматизации,
 				DescriptionText = message
 			};
-			Service.FiresecService.AddCommonJournalItem(journalItem);
+			Service.FiresecService.AddCommonJournalItems(new List<JournalItem>() { journalItem });
 		}
 
 		public static void ControlGKDevice(Guid deviceUid, GKStateBit command)
