@@ -64,7 +64,7 @@
     <Compile Include="DBCash.cs" />
     <Compile Include="DBCash.Devices.cs" />
     <Compile Include="DBCash.Measure.cs" />
-    <Compile Include="DBCash.Apartments.cs" />
+    <Compile Include="DBCash.Consumers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

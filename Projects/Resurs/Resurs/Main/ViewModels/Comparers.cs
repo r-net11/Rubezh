@@ -35,27 +35,27 @@ namespace Resurs.ViewModels
 		}
 	}
 
-	public class ApartmentViewModelNameComparer : TreeNodeComparer<ApartmentViewModel>
+	public class ConsumerViewModelNameComparer : TreeNodeComparer<ConsumerViewModel>
 	{
-		protected override int Compare(ApartmentViewModel x, ApartmentViewModel y)
+		protected override int Compare(ConsumerViewModel x, ConsumerViewModel y)
 		{
-			return string.Compare(x.Apartment.Name, y.Apartment.Name);
+			return string.Compare(x.Consumer.Name, y.Consumer.Name);
 		}
 	}
 
-	public class ApartmentViewModelAddressComparer : TreeNodeComparer<ApartmentViewModel>
+	public class ConsumerViewModelAddressComparer : TreeNodeComparer<ConsumerViewModel>
 	{
-		protected override int Compare(ApartmentViewModel x, ApartmentViewModel y)
+		protected override int Compare(ConsumerViewModel x, ConsumerViewModel y)
 		{
-			return string.Compare(x.Apartment.Address, y.Apartment.Address);
+			return string.Compare(x.Consumer.Address, y.Consumer.Address);
 		}
 	}
 
-	public class ApartmentViewModelDescriptionComparer : TreeNodeComparer<ApartmentViewModel>
+	public class ConsumerViewModelDescriptionComparer : TreeNodeComparer<ConsumerViewModel>
 	{
-		protected override int Compare(ApartmentViewModel x, ApartmentViewModel y)
+		protected override int Compare(ConsumerViewModel x, ConsumerViewModel y)
 		{
-			return string.Compare(x.Apartment.Description, y.Apartment.Description);
+			return string.Compare(x.Consumer.Description, y.Consumer.Description);
 		}
 	}
 }

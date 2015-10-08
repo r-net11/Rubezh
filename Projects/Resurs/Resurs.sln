@@ -40,6 +40,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Incotex", "Incotex", "{DB2F
 		Documents\Network protocols\Incotex\СИСТЕМА200_425.pdf = Documents\Network protocols\Incotex\СИСТЕМА200_425.pdf
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResursIncotexTerminal", "ResursIncotexTerminal\ResursIncotexTerminal.csproj", "{4241FD98-341F-4F40-ABDF-EE3837E9523F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -224,6 +226,20 @@ Global
 		{812709F5-109B-46B4-8212-D459EB1BFE74}.Release|Win32.ActiveCfg = Release|Any CPU
 		{812709F5-109B-46B4-8212-D459EB1BFE74}.Release|x64.ActiveCfg = Release|Any CPU
 		{812709F5-109B-46B4-8212-D459EB1BFE74}.Release|x86.ActiveCfg = Release|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Release|Win32.ActiveCfg = Release|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Release|x64.ActiveCfg = Release|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
