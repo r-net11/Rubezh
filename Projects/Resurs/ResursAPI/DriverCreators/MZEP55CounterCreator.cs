@@ -11,6 +11,7 @@ namespace ResursAPI
 		{
 			var driver = new Driver();
 			driver.DriverType = DriverType.MZEP55Counter;
+			driver.DeviceType = DeviceType.Counter;
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Счётчик подключён",
@@ -35,13 +36,13 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Пароль первого уровня",
-				ParameterType = ParameterType.Bool,
+				ParameterType = ParameterType.String,
 				Number = 3
 			});
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Пароль второго уровня",
-				ParameterType = ParameterType.Bool,
+				ParameterType = ParameterType.String,
 				Number = 4
 			});
 			driver.DriverParameters.Add(new DriverParameter
@@ -60,13 +61,15 @@ namespace ResursAPI
 				IntMinValue = 1,
 				IntMaxValue = 1000,
 				IntDefaultValue = 1,
-				Number = 6
+				Number = 6,
+				IsWriteToDevice = false
 			});
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Почтовый адрес",
 				ParameterType = ParameterType.String,
-				Number = 7
+				Number = 7,
+				IsWriteToDevice = false
 			});
 			driver.DriverParameters.Add(new DriverParameter
 			{

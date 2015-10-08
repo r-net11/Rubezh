@@ -190,6 +190,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Принимает сетевое устройтсво ищет в нём методы с атрибутом 
         /// PeriodicPollingEnabledAttribute и выполняет их.
@@ -221,6 +222,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                 }
             }
         }
+
         /// <summary>
         /// Обработчик события срабатываения таймера периодического опроса
         /// сетевых устройтств
@@ -237,6 +239,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                 ReadDeviceParameters(device);
             }
         }
+
         /// <summary>
         /// Переводит контроллер в режим монопольного опроса указанного
         /// устройства (мониторинг параметров устройства в режиме рельного времени)
@@ -255,6 +258,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                     "Устройтво не принадлежит данному контроллеру", "device");
             }
         }
+
         /// <summary>
         /// Прекращает монопольный доступ к устройтву 
         /// </summary>
@@ -262,6 +266,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         {
             _DeviceForExclusiveMode = null;
         }
+
         /// <summary>
         /// Обработчик приёма сообщения из сети
         /// </summary>
@@ -289,7 +294,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             {
                 //запись в лог ошибок
                 Logger.Error(String.Format("Controller Id={0} | Ошибка Code={1} | Description={2}",
-                    _ControllerId, msg.Code, msg.Description));
+                    _Id, msg.Code, msg.Description));
 
                 //TODO: Сделать обработчик ошибок, если потребуется
                 //switch (msg.SpecificErrorCode)
@@ -323,6 +328,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             _AutoResetEvent.Set();
             _CurrentIncomingMessage = dataMessages[0];
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -368,6 +374,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                 Thread.Sleep(200);
             }
         }
+
         /// <summary>
         /// Выполняет сетевую транзакцию 
         /// </summary>
@@ -434,7 +441,12 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                     }
             }
         }
-        
+
+        public override void SyncDateTime()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region Events

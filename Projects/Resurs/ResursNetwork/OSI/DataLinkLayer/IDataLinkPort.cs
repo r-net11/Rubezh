@@ -17,7 +17,7 @@ namespace ResursNetwork.OSI.DataLinkLayer
         /// <summary>
         /// Уникальный идентификатор порта
         /// </summary>
-        Int32 PortId { get; set; }
+        Guid Id { get; set; }
         String PortName { get; set; }
         /// <summary>
         /// Возвращает состояние порта

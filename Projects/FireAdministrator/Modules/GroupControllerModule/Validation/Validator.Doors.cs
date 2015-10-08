@@ -135,7 +135,7 @@ namespace GKModule.Validation
 			{
 				Errors.Add(new DoorValidationError(door, "К точке доступа не подключено устройство на вход", ValidationErrorLevel.CannotWrite));
 			}
-			if (door.DoorType == GKDoorType.TwoWay && door.ExitDevice == null)
+			if (door.ExitDevice == null)
 			{
 				Errors.Add(new DoorValidationError(door, "К точке доступа не подключено устройство на выход", ValidationErrorLevel.CannotWrite));
 			}

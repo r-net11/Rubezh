@@ -19,13 +19,13 @@ namespace SKDModule.ViewModels
 		protected abstract EmployeeFilter EmptyFilter { get; }
 		public virtual bool CanEditDepartment { get { return false; } }
 		public virtual bool CanEditPosition { get { return false; } }
-		protected IOrganisationElementViewModel _parent;
+		protected IEmployeeListParent _parent;
 		protected bool _isWithDeleted;
 		protected bool _isOrganisationDeleted;
 		
 		public bool IsDeleted { get { return _parent.IsDeleted; } }
 		
-		public EmployeeListBaseViewModel(IOrganisationElementViewModel parent, bool isWithDeleted)
+		public EmployeeListBaseViewModel(IEmployeeListParent parent)
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
@@ -36,13 +36,13 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Subscribe(OnEditEmployee);
 			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Unsubscribe(OnEditEmployee);
 			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Subscribe(OnEditEmployee);
-			Initialize(parent, isWithDeleted);
+			Initialize(parent);
 		}
 
-		public void Initialize(IOrganisationElementViewModel parent, bool isWithDeleted)
+		void Initialize(IEmployeeListParent parent)
 		{
 			_parent = parent;
-			_isWithDeleted = isWithDeleted;
+			_isWithDeleted = parent.IsWithDeleted;
 			_isOrganisationDeleted = _parent.IsOrganisationDeleted;
 			var employeeModels = EmployeeHelper.Get(Filter);
 			if (employeeModels == null)

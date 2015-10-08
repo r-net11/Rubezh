@@ -25,6 +25,7 @@ namespace FiresecAPI.GK
 			OutDependentElements = new List<GKBase>();
 		}
 
+		[XmlIgnore]
 		public List<GKBase> InputDependentElements { get; set; }
 		[XmlIgnore]
 		public List<GKBase> OutDependentElements { get; set; }
@@ -65,9 +66,9 @@ namespace FiresecAPI.GK
 
 		public void AddDependentElement(GKBase gkBase)
 		{
-			if (!InputDependentElements.Contains(gkBase) && gkBase != this)
+			if (InputDependentElements.All(x => x.UID != gkBase.UID) && gkBase.UID != UID)
 				InputDependentElements.Add(gkBase);
-			if (!gkBase.OutDependentElements.Contains(this) && gkBase != this)
+			if (gkBase.OutDependentElements.All(x => x.UID != UID) && gkBase.UID != UID)
 				gkBase.OutDependentElements.Add(this);		
 		}
 
@@ -151,7 +152,8 @@ namespace FiresecAPI.GK
 			if (device != null)
 			{
 				LinkLogic(device, device.Logic.OnClausesGroup);
-				LinkLogic(device, device.Logic.OffClausesGroup);
+				if (!device.Logic.UseOffCounterLogic)
+					LinkLogic(device, device.Logic.OffClausesGroup);
 				LinkLogic(device, device.Logic.OnNowClausesGroup);
 				LinkLogic(device, device.Logic.OffNowClausesGroup);
 				LinkLogic(device, device.Logic.StopClausesGroup);
@@ -200,7 +202,8 @@ namespace FiresecAPI.GK
 			if (direction != null)
 			{
 				LinkLogic(direction, direction.Logic.OnClausesGroup);
-				LinkLogic(direction, direction.Logic.OffClausesGroup);
+				if (!direction.Logic.UseOffCounterLogic)
+					LinkLogic(direction, direction.Logic.OffClausesGroup);
 				LinkLogic(direction, direction.Logic.StopClausesGroup);
 			}
 
@@ -216,7 +219,8 @@ namespace FiresecAPI.GK
 			if (mpt != null)
 			{
 				LinkLogic(mpt, mpt.MptLogic.OnClausesGroup);
-				LinkLogic(mpt, mpt.MptLogic.OffClausesGroup);
+				if (!mpt.MptLogic.UseOffCounterLogic)
+					LinkLogic(mpt, mpt.MptLogic.OffClausesGroup);
 				LinkLogic(mpt, mpt.MptLogic.StopClausesGroup);
 				foreach (var mptDevice in mpt.MPTDevices.FindAll(x => x.MPTDeviceType == GKMPTDeviceType.HandStart || x.MPTDeviceType == GKMPTDeviceType.HandStop
 					|| x.MPTDeviceType == GKMPTDeviceType.HandAutomaticOn || x.MPTDeviceType == GKMPTDeviceType.HandAutomaticOff || x.MPTDeviceType == GKMPTDeviceType.Bomb))
@@ -229,7 +233,8 @@ namespace FiresecAPI.GK
 			if (delay != null)
 			{
 				LinkLogic(delay, delay.Logic.OnClausesGroup);
-				LinkLogic(delay, delay.Logic.OffClausesGroup);
+				if (!delay.Logic.UseOffCounterLogic)
+					LinkLogic(delay, delay.Logic.OffClausesGroup);
 				LinkLogic(delay, delay.Logic.StopClausesGroup);
 			}
 

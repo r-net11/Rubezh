@@ -805,7 +805,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowNSLogic()
 		{
-			return Driver.IsPump;
+			return Device.DriverType == GKDriverType.RSR2_Bush_Fire;
 		}
 
 		public bool IsNSLogic

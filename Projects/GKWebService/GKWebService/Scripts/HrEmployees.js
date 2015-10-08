@@ -46,7 +46,9 @@ function EmployeesViewModel() {
 
     self.ShowEmployee = function (box) {
         //Fade in the Popup
-        $(box).fadeIn(300);
+        $(box).fadeIn(300, function() {
+            $(this).trigger("fadeInComplete");
+        });
 
         //Set the center alignment padding + border see css style
         var popMargTop = ($(box).height() + 24) / 2;
@@ -69,8 +71,10 @@ function EmployeesViewModel() {
     }
 
     self.EditEmployeeClick = function (data, e, box) {
-
-        self.ShowEmployee(box);
+        $.getJSON("/Employees/GetEmployeeDetails/" + self.UID(), function (allData) {
+            ko.mapping.fromJS(allData, {}, self.EmployeeDetails);
+            self.ShowEmployee(box);
+        });
     }
 
     return self;

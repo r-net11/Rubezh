@@ -7,7 +7,7 @@ namespace SKDModule.ViewModels
 {
 	public class PositionEmployeeListViewModel : EmployeeListBaseViewModel<EmployeeListItemViewModel>
 	{
-		public PositionEmployeeListViewModel(PositionViewModel parent, bool isWithDeleted) : base(parent, isWithDeleted) { }
+		public PositionEmployeeListViewModel(PositionViewModel parent) : base(parent) { }
 
 		protected override bool AddToParent(ShortEmployee employee)
 		{

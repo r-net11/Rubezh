@@ -17,10 +17,10 @@ namespace ResursAPI
 		EditDevice = 3,
 
 		[DescriptionAttribute("Вкладка Абоненты")]
-		Apartment = 4,
+		Consumer,
 
 		[DescriptionAttribute("Редактирование вкладки Абоненты")]
-		EditApartment = 5,
+		EditConsumer,
 
 		[DescriptionAttribute("Вкладка Тарифы")]
 		Tariff = 6,

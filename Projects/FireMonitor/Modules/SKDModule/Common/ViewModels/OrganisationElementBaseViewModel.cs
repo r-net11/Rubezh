@@ -5,7 +5,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class OrganisationElementViewModel<T, ModelT> : TreeNodeViewModel<T>, IOrganisationElementViewModel
+	public class OrganisationElementViewModel<T, ModelT> : TreeNodeViewModel<T>
 		where T : TreeNodeViewModel<T>
 		where ModelT : class, IOrganisationElement, new()
 	{
@@ -139,17 +139,6 @@ namespace SKDModule.ViewModels
 		}
 
 		public bool IsWithDeleted { get { return (ParentViewModel as IOrganisationBaseViewModel).IsWithDeleted; } }
-	}
-
-	public interface IOrganisationElementViewModel
-	{
-		bool IsDeleted { get; set; }
-		bool IsOrganisationDeleted { get; set; }
-		bool IsWithDeleted { get; }
-		Guid UID { get; }
-		Guid OrganisationUID { get; }
-		string Name { get; }
-		string Description { get; }
 	}
 
 	public interface IOrganisationBaseViewModel

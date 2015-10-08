@@ -16,15 +16,6 @@ namespace ResursDAL
 		{
 			using (var context = DatabaseContext.Initialize())
 			{
-				foreach (var item in tariff.TariffParts)
-				{
-					if(true)
-					{
-						item.StartTime = (DateTime)SqlDateTime.MinValue;
-					}
-				}
-
-
 				context.Tariffs.Add(tariff);
 				context.SaveChanges();
 			}
@@ -43,18 +34,19 @@ namespace ResursDAL
 		{
 			using (var context = DatabaseContext.Initialize())
 			{
-				var list = context.Tariffs.Select(x => new { UID = x.UID, Name = x.Name, Devices = x.Devices, Description = x.Description, TariffParts = x.TariffParts, TariffType = x.TariffType }).ToList();
+				var list = context.Tariffs.Select(x => new { UID = x.UID, Name = x.Name, Devices = x.Devices, Description = x.Description, TariffParts = x.TariffParts, TariffType = x.TariffType, IsDiscount = x.IsDiscount }).ToList();
 				List<Tariff> result = new List<Tariff>();
 				foreach (var item in list)
 				{
 					result.Add(new Tariff
 					{
-						Description = item.Description,
-						Devices = item.Devices,
-						Name = item.Name,
-						TariffParts = item.TariffParts,
-						TariffType = item.TariffType,
 						UID = item.UID,
+						Name = item.Name,
+						Description = item.Description,
+						IsDiscount = item.IsDiscount,
+						TariffType = item.TariffType,
+						Devices = item.Devices,
+						TariffParts = item.TariffParts,
 					});
 				}
 				return result;
@@ -62,15 +54,35 @@ namespace ResursDAL
 		}
 		public static void UpdateTariff(Tariff tariff)
 		{
-			//if (tableUser != null)
-			//{
-			//	context.UserPermissions.RemoveRange(tableUser.UserPermissions);
-			//	tableUser.Login = user.Login;
-			//	tableUser.Name = user.Name;
-			//	tableUser.PasswordHash = user.PasswordHash;
-			//	tableUser.UserPermissions = new List<UserPermission>();
-			//	tableUser.UserPermissions.AddRange(user.UserPermissions.Select(x => new UserPermission { PermissionType = x.PermissionType, User = tableUser }));
-			//}
+			using (var context = DatabaseContext.Initialize())
+			{
+				var tariffTableLink = context.Tariffs.Include(x => x.TariffParts).FirstOrDefault(x => x.UID == tariff.UID);
+				var tariffEntity = context.Tariffs.FirstOrDefault(x => x.UID == tariff.UID);
+				if (tariffEntity != null)
+				{
+					context.TariffParts.RemoveRange(tariffEntity.TariffParts);
+					tariffEntity.UID = tariff.UID;
+					tariffEntity.Name = tariff.Name;
+					tariffEntity.Description = tariff.Description;
+					tariffEntity.TariffType = tariff.TariffType;
+					tariffEntity.IsDiscount = tariff.IsDiscount;
+					tariffEntity.Devices = new List<Device>();
+					//tariffEntity.Devices = tariff.Devices;
+					tariffEntity.TariffParts = new List<TariffPart>();
+					tariffEntity.TariffParts.AddRange(tariff.TariffParts
+						.Select(x => new TariffPart { 
+							UID = x.UID, 
+							Price = x.Price, 
+							Threshold = x.Threshold,
+							Discount = x.Discount, 
+							StartTime = x.StartTime,
+							Tariff = tariffTableLink, 
+						}));
+					context.SaveChanges();
+				}
+			}
+			Tariffs.RemoveAll(x => x.UID == tariff.UID);
+			Tariffs.Add(tariff);
 		}
 
 		public static void DeleteTariff(Tariff tariff)

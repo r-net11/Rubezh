@@ -18,23 +18,30 @@ namespace ResursNetwork.OSI.ApplicationLayer
     public abstract class NetworkControllerBase: INetwrokController
     {
         #region Fields And Properties
-        //private static List<UInt32> RegisteredControllerIds = new List<uint>();
 
-        protected uint _ControllerId;
+        protected Guid _Id;
+        protected DevicesCollection _Devices;
+        protected CancellationTokenSource _CancellationTokenSource;
+        protected Task _NetworkPollingTask;
+        protected Status _Status = Status.Stopped;
+        protected EventHandler _MessageReceived;
+        protected IDataLinkPort _Connection;
+        private int _TotalAttempts;
+
         /// <summary>
         /// Id контроллера
         /// </summary>
-        public uint ControllerId
+        public Guid Id
         {
-            get { return _ControllerId; }
-            set { _ControllerId = value; }
+            get { return _Id; }
+            set { _Id = value; }
         }
+
         /// <summary>
         /// Возвращает список типов устройств с которыми может работать данный контроллер
         /// </summary>
         public abstract IEnumerable<Devices.DeviceType> SuppotedDevices { get; }
 
-        protected DevicesCollection _Devices;
         /// <summary>
         /// Возвращает список устройств
         /// </summary>
@@ -43,9 +50,6 @@ namespace ResursNetwork.OSI.ApplicationLayer
             get { return _Devices; }
         }
 
-        protected CancellationTokenSource _CancellationTokenSource;
-        protected Task _NetworkPollingTask;
-        protected Status _Status = Status.Stopped;
         /// <summary>
         /// Возвращает или устанавливает статус контроллера
         /// </summary>
@@ -149,9 +153,6 @@ namespace ResursNetwork.OSI.ApplicationLayer
             }
         }
 
-        protected EventHandler _MessageReceived;
-
-        protected IDataLinkPort _Connection;
         /// <summary>
         /// Объетк для соединения с физическим интерфейсом
         /// </summary>
@@ -194,6 +195,16 @@ namespace ResursNetwork.OSI.ApplicationLayer
             }
         }
 
+        /// <summary>
+        /// Кол-во попыток доступа к устройтсву прежде
+        /// чем устройство переводится в ошибка соединения 
+        /// </summary>
+        public int TotalAttempts
+        {
+            get { return _TotalAttempts; }
+            set { _TotalAttempts = value; }
+        }
+
         #endregion
         
         #region Constructors
@@ -202,12 +213,15 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// </summary>
         public NetworkControllerBase()
         {
+            _Id = Guid.NewGuid();
+            _TotalAttempts = 1;
             _MessageReceived = new EventHandler(EventHandler_Connection_MessageReceived);
             _Devices = new DevicesCollection(this);
         }
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Запускает опрос удалённых устройств 
         /// </summary>
@@ -215,6 +229,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
         {
             Status = Status.Running;
         }
+
         /// <summary>
         /// Останавливает опрос удалённых устройств)
         /// </summary>
@@ -222,6 +237,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
         {
             Status = Status.Stopped;
         }
+
         /// <summary>
         /// Приостанавливает опрос удалённых устройств
         /// </summary>
@@ -229,16 +245,18 @@ namespace ResursNetwork.OSI.ApplicationLayer
         {
             Status = Status.Paused;
         }
+
         /// <summary>
         /// Генерирует событие изменения состояния контроллера
         /// </summary>
         protected virtual void OnStatusWasChanged()
         {
-            if (StatusWasChanged != null)
+            if (StatusChanged != null)
             {
-                StatusWasChanged(this, new EventArgs());
+                StatusChanged(this, new EventArgs());
             }
         }
+
         /// <summary>
         /// Член IDisposable
         /// </summary>
@@ -246,25 +264,34 @@ namespace ResursNetwork.OSI.ApplicationLayer
         {
             Stop();
         }
+
         /// <summary>
         /// Обработчик приёма сообщения
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected abstract void EventHandler_Connection_MessageReceived(object sender, EventArgs e);
+
         /// <summary>
         /// Метод выполняет сетевой опрос устройств
         /// </summary>
         protected abstract void NetwokPollingAction(Object cancelToken);
+
         /// <summary>
         /// Записывает транзакцию в буфер исходящих сообщений
         /// </summary>
         /// <param name="transaction"></param>
         public abstract void Write(Transaction transaction);
+
+        /// <summary>
+        /// Синхронизирует время в сети
+        /// </summary>
+        public abstract void SyncDateTime();
+
         #endregion
 
         #region Events
-        public event EventHandler StatusWasChanged;
+        public event EventHandler StatusChanged;
         #endregion
     }
 }

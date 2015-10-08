@@ -37,12 +37,21 @@ namespace ResursAPI
 
 		public void SetFullAddress()
 		{
-			if (Parent == null)
+			if (Parent == null || Parent.FullAddress == null)
 				FullAddress = "";
 			else if (Parent.FullAddress.Equals(""))
 				FullAddress = Address.ToString();
 			else
 				FullAddress = Parent.FullAddress + "." + Address.ToString();
+		}
+
+		public ValueType GetParameter(string name)
+		{
+			if (name == ParameterNames.ParameterNamesBase.Id)
+				return UID;
+			if (name == ParameterNames.ParameterNamesBase.Address)
+				return Address;
+			return Parameters.FirstOrDefault(x => x.DriverParameter.Name == name).ValueType;
 		}
 
 		[Key]
@@ -59,11 +68,16 @@ namespace ResursAPI
 		public DriverType DriverType { get; set; }
 		public int Address { get; set; }
 		public bool IsActive { get; set; }
+		public bool IsDbMissmatch { get; set; }
 		[NotMapped]
 		public string Name { get { return Driver.DriverType.ToDescription(); } }
 		[NotMapped]
 		public Driver Driver { get; set; }
 		[NotMapped]
+		public DeviceType DeviceType { get { return Driver.DeviceType; } }
+		[NotMapped]
 		public string FullAddress { get; private set; }
+		[NotMapped]
+		public bool IsLoaded { get; set; }
 	}
 }

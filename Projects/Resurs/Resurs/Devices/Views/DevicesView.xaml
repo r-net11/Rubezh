@@ -6,6 +6,7 @@
 	<UserControl.Resources>
 		<viewModel:DeviceViewModelNameComparer x:Key="DeviceViewModelNameComparer" />
 		<viewModel:DeviceViewModelDescriptionComparer x:Key="DeviceViewModelDescriptionComparer" />
+		<viewModel:DeviceViewModelAddressComparer x:Key="DeviceViewModelAddressComparer" />
 	</UserControl.Resources>
 
 	<Grid>
@@ -20,7 +21,7 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="2*" />
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
@@ -50,7 +51,7 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Адрес" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDescriptionComparer}">
+					<GridViewColumn Header="Адрес" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelAddressComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Device.FullAddress}" />
@@ -69,13 +70,14 @@
 		</tree:TreeList>
 		<GridSplitter Grid.Row="1" Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
 		<Grid Grid.Row="1" Grid.Column="2" DataContext="{Binding SelectedDevice}" >
-			<DataGrid ItemsSource="{Binding Parameters}">
-				<DataGrid.Columns>
-					<DataGridTextColumn Header="Параметр" Width="*" Binding="{Binding Name}" />
-					<DataGridTextColumn Header="Значение" Width="*" Binding="{Binding Value}" />
-				</DataGrid.Columns>
-			</DataGrid>
+			<ListView ItemsSource="{Binding Parameters, Mode=OneWay}">
+				<ListView.View>
+					<GridView>
+						<GridViewColumn Header="Параметр" DisplayMemberBinding="{Binding Name}" />
+						<GridViewColumn Header="Значение" DisplayMemberBinding="{Binding Value}" />
+					</GridView>
+				</ListView.View>
+			</ListView>
 		</Grid>
-		
 	</Grid>
 </UserControl>

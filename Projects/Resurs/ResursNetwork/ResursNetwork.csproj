@@ -44,25 +44,28 @@
   <ItemGroup>
     <Compile Include="BCD\BcdConverter.cs" />
     <Compile Include="ComponentModel\EnumTypeConverter.cs" />
-    <Compile Include="Devices\Collections\ObjectModel\DevicesCollection.cs" />
-    <Compile Include="Devices\DeviceBase.cs" />
-    <Compile Include="Devices\DeviceCommand.cs" />
-    <Compile Include="Devices\DeviceType.cs" />
-    <Compile Include="Devices\Collections\ObjectModel\ParatemersCollection.cs" />
-    <Compile Include="Devices\ErrorOccuredEventArgs.cs" />
-    <Compile Include="Devices\IDevice.cs" />
-    <Compile Include="Devices\PeriodicReadEnabledAttribute.cs" />
-    <Compile Include="Devices\ValueConverters\BigEndianUInt16ValueConvertor.cs" />
-    <Compile Include="Devices\ValueConverters\BigEndianUInt32ValueConverter.cs" />
-    <Compile Include="Devices\ValueConverters\IncotexDataTimeTypeConverter.cs" />
+    <Compile Include="OSI\ApplicationLayer\Devices\Collections\ObjectModel\DevicesCollectionChangedEventArgs.cs" />
+    <Compile Include="OSI\ApplicationLayer\Devices\Collections\ObjectModel\DevicesCollection.cs" />
+    <Compile Include="OSI\ApplicationLayer\Devices\DeviceBase.cs" />
+    <Compile Include="OSI\ApplicationLayer\Devices\DeviceCommand.cs" />
+    <Compile Include="OSI\ApplicationLayer\Devices\DeviceType.cs" />
+    <Compile Include="OSI\ApplicationLayer\Devices\Collections\ObjectModel\ParatemersCollection.cs" />
+    <Compile Include="OSI\ApplicationLayer\Devices\ErrorOccuredEventArgs.cs" />
+    <Compile Include="OSI\ApplicationLayer\Devices\IDevice.cs" />
+    <Compile Include="OSI\ApplicationLayer\Devices\PeriodicReadEnabledAttribute.cs" />
+    <Compile Include="OSI\ApplicationLayer\Devices\ValueConverters\BigEndianBcdUInt16ToFloatValueConvertor.cs" />
+    <Compile Include="OSI\ApplicationLayer\Devices\ValueConverters\BigEndianUInt16ValueConvertor.cs" />
+    <Compile Include="OSI\ApplicationLayer\Devices\ValueConverters\BigEndianUInt32ValueConverter.cs" />
+    <Compile Include="OSI\ApplicationLayer\Devices\ValueConverters\IncotexDataTimeTypeConverter.cs" />
     <Compile Include="Incotex\Models\IncotexDateTime.cs" />
     <Compile Include="Incotex\Models\Mercury203.cs" />
-    <Compile Include="Devices\Parameter.cs" />
-    <Compile Include="Devices\ValueConverters\IValueConverter.cs" />
+    <Compile Include="OSI\ApplicationLayer\Devices\Parameter.cs" />
+    <Compile Include="OSI\ApplicationLayer\Devices\ValueConverters\IValueConverter.cs" />
     <Compile Include="Incotex\NetworkControllers\ApplicationLayer\CMD.cs" />
     <Compile Include="Incotex\NetworkControllers\ApplicationLayer\PollingMode.cs" />
     <Compile Include="Incotex\NetworkControllers\DataLinkLayer\ComPort.cs" />
-    <Compile Include="OSI\ApplicationLayer\DeviceContext.cs" />
+    <Compile Include="Networks\Collections\ObjectModel\NetworksCollectionChangedEventArgs.cs" />
+    <Compile Include="Networks\StatusChangedEventArgs.cs" />
     <Compile Include="Incotex\NetworkControllers\Messages\ErrorCode.cs" />
     <Compile Include="Incotex\NetworkControllers\Messages\DataMessage.cs" />
     <Compile Include="Incotex\NetworkControllers\ApplicationLayer\IncotexNetworkController.cs" />
@@ -73,7 +76,7 @@
     <Compile Include="Management\Status.cs" />
     <Compile Include="Modbus\CRC16.cs" />
     <Compile Include="Networks\Collections\ObjectModel\NetworksCollection.cs" />
-    <Compile Include="Networks\NetworkManager.cs" />
+    <Compile Include="Networks\NetworksManager.cs" />
     <Compile Include="OSI\ApplicationLayer\INetwrokController.cs" />
     <Compile Include="OSI\DataLinkLayer\DataLinkPortBase.cs" />
     <Compile Include="OSI\DataLinkLayer\IDataLinkPort.cs" />
@@ -91,6 +94,10 @@
     <ProjectReference Include="..\..\Common\Common\Common.csproj">
       <Project>{fe37b6d4-73e5-40f2-a770-a974561430b8}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ResursAPI\ResursAPI.csproj">
+      <Project>{94c0399f-3eab-4e23-98f9-61eb8daa4974}</Project>
+      <Name>ResursAPI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -12,67 +12,20 @@ namespace ResursDAL
 {
 	public static partial class DBCash
 	{
-		public static Apartment RootApartment { get; set; }
+		public static Consumer RootConsumer { get; set; }
 		public static List<User> Users { get; set; }
 		public static User CurrentUser { get; set; }
+
 		static DBCash()
 		{
 			RootDevice = GetRootDevice();
 			if (RootDevice == null)
 				CreateSystem();
 			Users = GetAllUsers();
-			RootApartment = new Apartment()
-			{
-				Name = "Жилой комплекс",
-				IsFolder = true,
-				Children = new List<Apartment>()
-				{
-					new Apartment()
-					{
-						Name = "Дом 1",
-						IsFolder = true,
-						Children = new List<Apartment>()
-						{
-							new Apartment() { Name = "Квартира 1" },
-							new Apartment() { Name = "Квартира 2" },
-							new Apartment() { Name = "Квартира 3" },
-							new Apartment() { Name = "Квартира 4" },
-							new Apartment() { Name = "Квартира 5" },
-							new Apartment() { Name = "Квартира 6" },
-							new Apartment() { Name = "Квартира 7" },
-							new Apartment() { Name = "Квартира 8" },
-						}
-					},
-					new Apartment()
-					{
-						Name = "Дом 2",
-						IsFolder = true,
-						Children = new List<Apartment>()
-						{
-							new Apartment() { Name = "Квартира 1" },
-							new Apartment() { Name = "Квартира 2" },
-							new Apartment() { Name = "Квартира 3" },
-							new Apartment() { Name = "Квартира 4" },
-							new Apartment() { Name = "Квартира 5" },
-							new Apartment() { Name = "Квартира 6" },
-							new Apartment() { Name = "Квартира 7" }, 
-							new Apartment() { Name = "Квартира 8" },
-							new Apartment() { Name = "Квартира 9" },
-							new Apartment() { Name = "Квартира 10" },
-							new Apartment() { Name = "Квартира 11" },
-							new Apartment() { Name = "Квартира 12" },
-							new Apartment() { Name = "Квартира 13" },
-							new Apartment() { Name = "Квартира 14" },
-							new Apartment() { Name = "Квартира 15" },
-							new Apartment() { Name = "Квартира 66" },
-							new Apartment() { Name = "Квартира 666" },
-						}
-					}
-				}
-			};
+			RootConsumer = GetRootConsumer();
 			Tariffs = ReadAllTariffs();
 		}
-		
+
 		public static List<User> GetAllUsers()
 		{
 			using (var context = DatabaseContext.Initialize())
@@ -92,9 +45,9 @@ namespace ResursDAL
 				{
 					var userpermissions = new List<UserPermission>();
 					User user = new User() { Name = "Adm", Login = "Adm", PasswordHash = HashHelper.GetHashFromString("")};
-					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Apartment });
+					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Consumer });
 					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Device });
-					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditApartment });
+					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditConsumer });
 					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditDevice });
 					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditUser });
 					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.User });

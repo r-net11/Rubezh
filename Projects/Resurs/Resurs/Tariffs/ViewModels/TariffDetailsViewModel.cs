@@ -1,132 +1,175 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 
 namespace Resurs.ViewModels
 {
 	public class TariffDetailsViewModel : SaveCancelDialogViewModel
 	{
+		public bool IsNew { get; set; }
+
 		public Tariff Tariff;
-		private string _viewModel;
 
-		public string ViewModel
+		public TariffDetailsViewModel()
 		{
-			get { return _viewModel; }
-			set
-			{
-				_viewModel = value;
-				OnPropertyChanged(() => ViewModel);
-			}
-		}
-
-		public TariffDetailsViewModel(Tariff tariff = null)
-		{
+			EditDevicesCommand = new RelayCommand(OnEditDevicesCommand);
 			TariffType = new ObservableCollection<TariffType>(Enum.GetValues(typeof(TariffType)).Cast<TariffType>());
-			SelectedTariffType = ResursAPI.TariffType.ColdWater;
-			if (tariff == null)
-			{
-				tariff = new Tariff
-					{
-						Description = "",
-						Devices = new List<Device>(),
-						Name = "Новый тариф",
-						TariffParts = new List<TariffPart>(),
-					};
-				Tariff = tariff;
-				
-				Title = "Создание нового тарифа";
-				TariffParts = 1;
-			}
-			else
-			{
-				Title = "Редактирование тарифа";
-			}
-
-			Name = tariff.Name;
-			Description = tariff.Description;
+			TariffParts = new ObservableCollection<TariffPartViewModel>();
+			IsNew = true;
+			Tariff = new Tariff
+				{
+					Description = "",
+					Devices = new List<Device>(),
+					Name = "Новый тариф",
+					TariffParts = new List<TariffPart>(),
+				};
+			Title = "Создание нового тарифа";
+			SelectedTariffPartsNumber = 1;
 		}
+
+		public TariffDetailsViewModel(Tariff tariff)
+		{
+			EditDevicesCommand = new RelayCommand(OnEditDevicesCommand);
+			TariffType = new ObservableCollection<TariffType>(Enum.GetValues(typeof(TariffType)).Cast<TariffType>());
+			TariffParts = new ObservableCollection<TariffPartViewModel>();
+			IsNew = false;
+			Tariff = tariff;
+			Title = "Редактирование тарифа";
+			SelectedTariffPartsNumber = (byte)tariff.TariffParts.Count;
+		}
+
+		public RelayCommand EditDevicesCommand { get; set; }
+
+		void OnEditDevicesCommand()
+		{
+			var tariffDevicesViewModel = new TariffDevicesViewModel(this);
+			if(DialogService.ShowModalWindow(tariffDevicesViewModel))
+			{
+
+			}
+		}
+
 		public ObservableCollection<TariffType> TariffType { get; set; }
-		public TariffType SelectedTariffType 
-		{ 
-			get 
-			{
-				return _selectedTariffType;
-			} 
+
+		public bool IsDiscount
+		{
+			get { return Tariff.IsDiscount; }
 			set
-			{ 
-				_selectedTariffType = value; 
-				OnPropertyChanged(() => SelectedTariffType); 
+			{
+				Tariff.IsDiscount = value;
+				OnPropertyChanged(() => IsDiscount);
 			}
 		}
 
-		TariffType _selectedTariffType;
+		public TariffType SelectedTariffType
+		{
+			get { return Tariff.TariffType; }
+			set
+			{
+				Tariff.TariffType = value;
+				OnPropertyChanged(() => SelectedTariffType);
+			}
+		}
 
-		string _name;
 		public string Name
 		{
-			get { return _name; }
+			get { return Tariff.Name; }
 			set
 			{
-				_name = value;
+				Tariff.Name = value;
 				OnPropertyChanged(() => Name);
 			}
 		}
 
-		string _description;
 		public string Description
 		{
-			get { return _description; }
+			get { return Tariff.Description; }
 			set
 			{
-				_description = value;
+				Tariff.Description = value;
 				OnPropertyChanged(() => Description);
 			}
 		}
-		private Guid _UID;
 
-		public Guid UID
-		{
-			get { return _UID; }
-			set { _UID = value; }
-		}
+		private ObservableCollection<TariffPartViewModel> _tariffParts;
 
-
-		private ushort _desiredTariffParts;
-
-		public ushort DesiredTariffParts
-		{
-			get { return _desiredTariffParts; }
-			set 
-			{ 
-				_desiredTariffParts = value;
-				OnPropertyChanged(() => DesiredTariffParts); 
-			}
-		}
-
-
-		private ushort _tariffParts;
-
-		public ushort TariffParts
+		public ObservableCollection<TariffPartViewModel> TariffParts
 		{
 			get { return _tariffParts; }
-			set 
-			{ 
-				_tariffParts = (ushort)Tariff.TariffParts.Count; 
-				OnPropertyChanged(() => TariffParts); 
+			set { _tariffParts = value; }
+		}
+
+		public byte[] TariffPartsNumberEnum
+		{
+			get { return new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 }; }
+		}
+
+		public byte SelectedTariffPartsNumber
+		{
+			get { return (byte)TariffParts.Count; }
+			set
+			{
+				if ((TariffParts.Count == 0) && IsNew)
+				{
+					TariffParts.Add(new TariffPartViewModel(new TariffPart(Tariff)));
+					Tariff.TariffParts.Add(new TariffPart(Tariff));
+				}
+				else
+				{
+					//if add tariff intervals
+					if (Tariff.TariffParts.Count < value)
+					{
+						for (int i = Tariff.TariffParts.Count; i < value; i++)
+						{
+							TariffParts.Add(new TariffPartViewModel(new TariffPart(Tariff)));
+							Tariff.TariffParts.Add(new TariffPart(Tariff));
+						}
+					}
+					//if remove tariff intervals
+					else
+					{
+						for (var i = 0; i < value; i++)
+						{
+							if (TariffParts.ElementAtOrDefault(i) != null)
+							{
+								Tariff.TariffParts.Add(TariffParts.ElementAt(i).TariffPart);
+							}
+						}
+						TariffParts.Clear();
+						for (int i = 0; i < value; i++)
+						{
+							TariffParts.Add(new TariffPartViewModel(Tariff.TariffParts.ElementAt(i)));
+						}
+					}
+				}
+				OnPropertyChanged(() => SelectedTariffPartsNumber);
 			}
 		}
+
 		protected override bool Save()
 		{
 			Tariff.Name = Name;
 			Tariff.Description = Description;
 			Tariff.TariffType = SelectedTariffType;
-			for (int i = 0; i < DesiredTariffParts; i++)
+			Tariff.IsDiscount = IsDiscount;
+			Tariff.TariffParts.Clear();
+			foreach (var item in TariffParts)
 			{
-				Tariff.TariffParts.Add(new TariffPart(Tariff));
+				Tariff.TariffParts.Add(new TariffPart
+				{
+					UID = item.TariffPart.UID,
+					Price = item.Price,
+					Discount = item.Discount,
+					Threshold = item.Threshold,
+					EndTime = item.EndTime,
+					StartTime = item.StartTime,
+					Tariff = Tariff,
+				});
 			}
 			return base.Save();
 		}

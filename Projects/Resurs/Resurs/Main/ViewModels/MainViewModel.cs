@@ -12,16 +12,21 @@ namespace Resurs.ViewModels
 		public MainViewModel()
 		{
 			DevicesViewModel = new DevicesViewModel();
-			ApartmentsViewModel = new ApartmentsViewModel();
+			ConsumersViewModel = new ConsumersViewModel();
+			ReportsViewModel = new ReportsViewModel();
 			UsersViewModel = new UsersViewModel();
 			JournalEventsViewModel = new JournalEventsViewModel();
 			TariffsViewModel = new TariffsViewModel();
+			SettingsViewModel = new SettingsViewModel();
 		}
 
 		public DevicesViewModel DevicesViewModel { get; private set; }
-		public ApartmentsViewModel ApartmentsViewModel { get; private set; }
+		public ConsumersViewModel ConsumersViewModel { get; private set; }
+		public ReportsViewModel ReportsViewModel { get; private set; }
 		public UsersViewModel UsersViewModel { get; private set; }
 		public JournalEventsViewModel JournalEventsViewModel { get; private set; }
 		public TariffsViewModel TariffsViewModel { get; private set; }
+
+		public SettingsViewModel SettingsViewModel { get; private set; }
     }
 }

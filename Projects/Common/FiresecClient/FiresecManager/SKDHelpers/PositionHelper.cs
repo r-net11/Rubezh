@@ -70,5 +70,11 @@ namespace FiresecClient.SKDHelpers
 			var operationResult = FiresecManager.FiresecService.GetPositionList(filter);
 			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
 		}
+
+		public static List<Guid> GetEmployeeUIDs(Guid uid)
+		{
+			var operationResult = FiresecManager.FiresecService.GetPositionEmployees(uid);
+			return Common.ShowErrorIfExists(operationResult);
+		}
 	}
 }

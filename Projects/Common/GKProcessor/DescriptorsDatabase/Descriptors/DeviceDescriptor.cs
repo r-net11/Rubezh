@@ -31,7 +31,8 @@ namespace GKProcessor
 		public override void BuildFormula()
 		{
 			Formula = new FormulaBuilder();
-			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
+			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) ||
+			    (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
 			{
 				Formula.Add(FormulaOperationType.END);
 				return;
@@ -76,7 +77,10 @@ namespace GKProcessor
 				}
 			}
 
-			if ((Device.DriverType == GKDriverType.RSR2_CodeReader || Device.DriverType == GKDriverType.RSR2_CardReader || Device.DriverType == GKDriverType.RSR2_GuardDetector || Device.DriverType == GKDriverType.RSR2_GuardDetectorSound) && Device.GuardZones != null && Device.GuardZones.Count > 0)
+			if ((Device.DriverType == GKDriverType.RSR2_CodeReader || Device.DriverType == GKDriverType.RSR2_CardReader ||
+			     Device.DriverType == GKDriverType.RSR2_GuardDetector ||
+			     Device.DriverType == GKDriverType.RSR2_GuardDetectorSound) && Device.GuardZones != null &&
+			    Device.GuardZones.Count > 0)
 			{
 				Formula.AddGetBit(GKStateBit.On, Device.GuardZones.FirstOrDefault());
 				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
@@ -84,72 +88,61 @@ namespace GKProcessor
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 			}
 
-			if (Device.Door != null && Device.Door.DoorType == GKDoorType.AirlockBooth)
+			if (Device.Door != null && (Device.Door.LockDeviceUID == Device.UID || Device.Door.LockDeviceExitUID == Device.UID))
 			{
-				if (Device.Door != null && Device.Door.LockDeviceUID == Device.UID)
+				switch (Device.Door.DoorType)
 				{
-					var exitDevice = Device.Door.ExitDevice;
-					var enterButton = Device.Door.EnterButton;
-					if (exitDevice != null)
-					{
-						Formula.AddGetBit(GKStateBit.Attention, exitDevice);
-						if (enterButton != null)
+					case GKDoorType.AirlockBooth:
+						var device = Device.Door.LockDeviceUID == Device.UID ? Device.Door.ExitDevice : Device.Door.EnterDevice;
+						var button = Device.Door.LockDeviceUID == Device.UID ? Device.Door.EnterButton : Device.Door.ExitButton;
+						if (device != null)
 						{
-							Formula.Add(FormulaOperationType.BR, 2, 8);
-							Formula.AddGetBit(GKStateBit.Fire1, enterButton);
+							Formula.AddGetBit(GKStateBit.Attention, device);
+							if (button != null)
+							{
+								Formula.Add(FormulaOperationType.BR, 2, 8);
+								Formula.AddGetBit(GKStateBit.Fire1, button);
+							}
+							Formula.Add(FormulaOperationType.BR, 2, 6);
 						}
-						Formula.Add(FormulaOperationType.BR, 2, 6);
-					}
 
-					Formula.AddGetBit(GKStateBit.On, Device.Door);
-					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
-					Formula.AddGetBit(GKStateBit.TurningOff, Device.Door);
-					Formula.AddGetBit(GKStateBit.Off, Device.Door);
-					Formula.Add(FormulaOperationType.OR);
-					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
-				}
+						Formula.AddGetBit(GKStateBit.On, Device.Door);
+						Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+						Formula.AddGetBit(GKStateBit.TurningOff, Device.Door);
+						Formula.AddGetBit(GKStateBit.Off, Device.Door);
+						Formula.Add(FormulaOperationType.OR);
+						Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
+						break;
 
-				if (Device.Door != null && Device.Door.LockDeviceExitUID == Device.UID)
-				{
-					var enterDevice = Device.Door.EnterDevice;
-					var exitButton = Device.Door.ExitButton;
-					if (enterDevice != null)
-					{
-						Formula.AddGetBit(GKStateBit.Attention, enterDevice);
-						if (exitButton != null)
+					case GKDoorType.Barrier:
+						if (Device.Door.LockDeviceUID == Device.UID)
 						{
-							Formula.Add(FormulaOperationType.BR, 2, 8);
-							Formula.AddGetBit(GKStateBit.Fire1, exitButton);
+							Formula.AddGetBit(GKStateBit.On, Device.Door);
+							Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 						}
-						Formula.Add(FormulaOperationType.BR, 2, 6);
-					}
+						else
+						{
+							Formula.AddGetBit(GKStateBit.Fire1, Device.Door.LockControlDevice);
+							Formula.AddGetBit(GKStateBit.Fire1, Device.Door.LockControlDeviceExit);
+							Formula.Add(FormulaOperationType.OR);
+							Formula.Add(FormulaOperationType.COM);
+							Formula.AddGetBit(GKStateBit.Off, Device.Door);
+							Formula.Add(FormulaOperationType.AND);
+							Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+						}
+						break;
 
-					Formula.AddGetBit(GKStateBit.On, Device.Door);
-					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
-					Formula.AddGetBit(GKStateBit.TurningOff, Device.Door);
-					Formula.AddGetBit(GKStateBit.Off, Device.Door);
-					Formula.Add(FormulaOperationType.OR);
-					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
+					default:
+						Formula.AddGetBit(GKStateBit.On, Device.Door);
+						Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+						Formula.AddGetBit(GKStateBit.TurningOff, Device.Door);
+						Formula.AddGetBit(GKStateBit.Off, Device.Door);
+						Formula.Add(FormulaOperationType.OR);
+						Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
+						break;
 				}
+				Formula.Add(FormulaOperationType.END);
 			}
-
-			else
-			{
-				if (Device.Door != null && Device.Door.LockDeviceUID == Device.UID)
-				{
-					Formula.AddGetBit(GKStateBit.On, Device.Door);
-					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
-				}
-
-				if (Device.Door != null && Device.Door.LockDeviceExitUID == Device.UID)
-				{
-					Formula.AddGetBit(GKStateBit.TurningOff, Device.Door);
-					Formula.AddGetBit(GKStateBit.Off, Device.Door);
-					Formula.Add(FormulaOperationType.OR);
-					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
-				}
-			}
-			Formula.Add(FormulaOperationType.END);
 		}
 
 		void SetPropertiesBytes()
