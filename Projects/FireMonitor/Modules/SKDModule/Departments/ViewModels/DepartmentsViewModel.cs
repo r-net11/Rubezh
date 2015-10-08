@@ -65,8 +65,6 @@ namespace SKDModule.ViewModels
 
 		protected override DepartmentViewModel GetParentItem(ShortDepartment model)
 		{
-			//if (SelectedItem.IsOrganisation)
-			//	return SelectedItem;
 			return GetParentItemInternal(model);
 		}
 
@@ -142,13 +140,15 @@ namespace SKDModule.ViewModels
 				parentDepartmentUID = SelectedItem.Parent.Model.UID;
 			_clipboard.ParentDepartmentUID = parentDepartmentUID;
 			var newItem = CopyModel(_clipboard);
-			var newItemChildren = CopyChildren(newItem, _clipboardChildren);
-			if (Add(newItem) && SaveMany(newItemChildren))
+			var allDevices = new List<ShortDepartment>(_clipboardChildren);
+			allDevices.AddRange(Organisations.SelectMany(x => x.GetAllChildren(false)).Select(x => x.Model));
+			CopyChildren(_clipboard,  newItem, allDevices, true);
+			if (Add(newItem) && SaveMany(_clipboardChildren))
 			{
 				var itemViewModel = new DepartmentViewModel();
 				itemViewModel.InitializeModel(SelectedItem.Organisation, newItem, this);
 				SelectedItem.AddChild(itemViewModel);
-				AddChildren(itemViewModel, newItemChildren);
+				AddChildren(itemViewModel, _clipboardChildren);
 				SelectedItem = itemViewModel;
 			}
 		}
@@ -172,7 +172,7 @@ namespace SKDModule.ViewModels
 		protected override void OnCopy()
 		{
 			base.OnCopy();
-			_clipboardChildren = CopyChildren(_clipboard, SelectedItem.Children.Select(x => x.Model));
+			CopyChildren(SelectedItem.Model,  _clipboard, Organisations.SelectMany(x => x.GetAllChildren(false)).Select(x => x.Model).ToList(), true);
 		}
 		
 		protected override ShortDepartment CopyModel(ShortDepartment source)
@@ -184,18 +184,19 @@ namespace SKDModule.ViewModels
 			return copy;
 		}
 
-		List<ShortDepartment> CopyChildren(ShortDepartment parent, IEnumerable<ShortDepartment> children)
+		void CopyChildren(ShortDepartment parent, ShortDepartment newParent, List<ShortDepartment> allDevices, bool isClear = false)
 		{
-			var result = new List<ShortDepartment>();
-			parent.ChildDepartments = new List<TinyDepartment>();
-			foreach (var item in children)
+			if (isClear)
+				_clipboardChildren = new List<ShortDepartment>();
+			var children = allDevices.Where(x => x.ParentDepartmentUID == parent.UID); 
+			foreach (var child in children)
 			{
-				var shortDepartment = base.CopyModel(item);
-				shortDepartment.ParentDepartmentUID = parent.UID;
-				result.Add(shortDepartment);
-				parent.ChildDepartments.Add(new TinyDepartment{ UID = shortDepartment.UID, Name = shortDepartment.Name});
+				var newChild = base.CopyModel(child);
+				newChild.ParentDepartmentUID = newParent.UID;
+				_clipboardChildren.Add(newChild);
+				newParent.ChildDepartments.Add(new TinyDepartment { UID = newChild.UID, Name = newChild.Name });
+				CopyChildren(child, newChild, allDevices);
 			}
-			return result;
 		}
 
 		protected override void Remove()
