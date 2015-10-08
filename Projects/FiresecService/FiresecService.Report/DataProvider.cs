@@ -153,7 +153,7 @@ namespace FiresecService.Report
 			if (employeeFilter.OrganisationUIDs.Count == 1 && isDefault)
 			{
 				var organisation = Organisations.FirstOrDefault(x => x.Key == employeeFilter.OrganisationUIDs.FirstOrDefault()).Value.Item;
-				if (organisation == null || !organisation.UserUIDs.Any(x => x == employeeFilter.UserUID))
+				if (organisation == null || organisation.UserUIDs.All(x => x != employeeFilter.UserUID))
 					employeeFilter.OrganisationUIDs = new List<Guid>();
 			}
 		}
@@ -169,7 +169,7 @@ namespace FiresecService.Report
 		public EmployeeFilter GetEmployeeFilter(SKDReportFilter filter)
 		{
 			var employeeFilter = new EmployeeFilter();
-			var withDeleted = filter is IReportFilterArchive ? ((IReportFilterArchive)filter).UseArchive : false;
+			var withDeleted = filter is IReportFilterArchive && ((IReportFilterArchive)filter).UseArchive;
 			employeeFilter.LogicalDeletationType = withDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active;
 			employeeFilter.WithDeletedDepartments = withDeleted;
 			employeeFilter.WithDeletedPositions = withDeleted;
