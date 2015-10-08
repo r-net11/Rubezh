@@ -122,7 +122,12 @@ namespace GKProcessor
 						}
 						else
 						{
+							Formula.AddGetBit(GKStateBit.Fire1, Device.Door.LockControlDevice);
+							Formula.AddGetBit(GKStateBit.Fire1, Device.Door.LockControlDeviceExit);
+							Formula.Add(FormulaOperationType.OR);
+							Formula.Add(FormulaOperationType.COM);
 							Formula.AddGetBit(GKStateBit.Off, Device.Door);
+							Formula.Add(FormulaOperationType.AND);
 							Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 						}
 						break;

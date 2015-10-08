@@ -69,10 +69,10 @@ namespace SKDModule.ViewModels
 
 		protected override void Remove()
 		{
-			if (EmployeeListViewModel.Employees.Count == 0 ||
+			var employeeUIDs = PositionHelper.GetEmployeeUIDs(SelectedItem.Model.UID);
+			if(employeeUIDs == null || employeeUIDs.Count == 0 ||
 				MessageBoxService.ShowQuestion("Существуют привязанные к должности сотрудники. Продожить?"))
 			{
-				var employeeUIDs = EmployeeListViewModel.Employees.Select(x => x.Employee.UID);
 				base.Remove();
 				foreach (var uid in employeeUIDs)
 				{
@@ -84,7 +84,12 @@ namespace SKDModule.ViewModels
 		protected override void Restore()
 		{
 			base.Restore();
-			var employeeUIDs = EmployeeListViewModel.Employees.Select(x => x.Employee.UID);
+		}
+
+		protected override void AfterRestore(ShortPosition model)
+		{
+			base.AfterRestore(model);
+			var employeeUIDs = PositionHelper.GetEmployeeUIDs(SelectedItem.Model.UID);
 			foreach (var uid in employeeUIDs)
 			{
 				ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(uid);
@@ -104,14 +109,10 @@ namespace SKDModule.ViewModels
 		protected override void UpdateSelected()
 		{
 			base.UpdateSelected();
-			if (EmployeeListViewModel == null)
-				EmployeeListViewModel = new PositionEmployeeListViewModel(SelectedItem, IsWithDeleted); 
-			else
-				EmployeeListViewModel.Initialize(SelectedItem, IsWithDeleted);
+			if (IsShowEmployeeList)
+				SelectedItem.InitializeEmployeeList();
 			OnPropertyChanged(() => IsShowEmployeeList);
 		}
-
-		public PositionEmployeeListViewModel EmployeeListViewModel { get; private set; }
 
 		public bool IsShowEmployeeList
 		{

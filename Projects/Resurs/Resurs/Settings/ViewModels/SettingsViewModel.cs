@@ -21,7 +21,7 @@ namespace Resurs.ViewModels
 		{
 			DropDB();
 			CreateDevices();
-			CreateApartments();
+			CreateConsumers();
 			CreateUsers();
 			CreateMeasures();
 			
@@ -37,7 +37,7 @@ namespace Resurs.ViewModels
 
 		}
 
-		void CreateApartments()
+		void CreateConsumers()
 		{
 
 		}

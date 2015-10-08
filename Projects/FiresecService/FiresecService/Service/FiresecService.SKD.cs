@@ -206,6 +206,13 @@ namespace FiresecService.Service
 			}
 			return result;
 		}
+		public OperationResult<List<Guid>> GetPositionEmployees(Guid uid)
+		{
+			using(var databaseService = new SKDDriver.DataClasses.DbService())
+			{
+				return databaseService.PositionTranslator.GetEmployeeUIDs(uid);
+			}
+		}
 		public OperationResult<Position> GetPositionDetails(Guid uid)
 		{
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
@@ -246,14 +253,10 @@ namespace FiresecService.Service
 		public OperationResult<List<SKDCard>> GetCards(CardFilter filter)
 		{
 			var result = new OperationResult<List<SKDCard>>();
-			var stopwatch = new Stopwatch();
-			stopwatch.Start();
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				result = databaseService.CardTranslator.Get(filter);
 			}
-			stopwatch.Stop();
-			Trace.WriteLine("GetCards " + stopwatch.Elapsed);
 			return result;
 		}
 		public OperationResult<SKDCard> GetSingleCard(Guid uid)

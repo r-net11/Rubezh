@@ -22,6 +22,7 @@ namespace ResursNetwork.Incotex.Models
     public class Mercury203: DeviceBase
     {
         #region Fields And Properties
+
         public override DeviceType DeviceType
         {
             get { return Devices.DeviceType.Mercury203; }
@@ -36,11 +37,13 @@ namespace ResursNetwork.Incotex.Models
         #endregion
 
         #region Constructors
+
         public Mercury203(): base()
         {
             _TransactionHandler = 
                 new EventHandler(EventHandler_TransactionWasEnded);
         }
+
         #endregion
 
         #region Methods
@@ -79,6 +82,7 @@ namespace ResursNetwork.Incotex.Models
                 Value = (UInt16)0
             });
         }
+
         /// <summary>
         /// Обработчик завершения сетевой транзакции
         /// </summary>
@@ -109,6 +113,7 @@ namespace ResursNetwork.Incotex.Models
                     }
             }
         }
+
         private void GetAnswer(Transaction transaction)
         {
             var request = (DataMessage)transaction.Request;
@@ -133,6 +138,7 @@ namespace ResursNetwork.Incotex.Models
                     }
             }
         }
+
         #endregion
 
         #region Network API

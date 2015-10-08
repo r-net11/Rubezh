@@ -91,6 +91,12 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult<List<ShortPosition>>>(() => FiresecService.GetPositionList(filter));
 		}
+
+		public OperationResult<List<Guid>> GetPositionEmployees(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult<List<Guid>>>(() => FiresecService.GetPositionEmployees(uid));
+		}
+		
 		public OperationResult<Position> GetPositionDetails(Guid uid)
 		{
 			return SafeContext.Execute<OperationResult<Position>>(() => FiresecService.GetPositionDetails(uid));

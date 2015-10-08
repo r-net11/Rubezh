@@ -125,6 +125,7 @@
     <Compile Include="Common\UpdateOrganisationDoorsEventSubscriber.cs" />
     <Compile Include="Common\ViewModels\ChiefViewModel.cs" />
     <Compile Include="Common\ViewModels\EmployeeListViewModel.cs" />
+    <Compile Include="Common\ViewModels\IEmployeeListParent.cs" />
     <Compile Include="Common\ViewModels\OrganisationBaseViewModel.cs" />
     <Compile Include="Common\ViewModels\OrganisationElementBaseViewModel.cs" />
     <Compile Include="Common\ViewModels\DateSelectionViewModel.cs" />

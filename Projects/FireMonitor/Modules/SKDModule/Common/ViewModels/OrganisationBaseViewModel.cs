@@ -390,12 +390,18 @@ namespace SKDModule.ViewModels
 		{
 			if (!SelectedItem.IsDeleted)
 				return;
+			if (Organisations.FirstOrDefault(x => x.OrganisationUID == SelectedItem.OrganisationUID).GetAllChildren().Any(x => x.Name == SelectedItem.Name && !x.IsDeleted))
+			{
+				MessageBoxService.Show("Существует неудалённый элемент с таким именем");
+				return;
+			}
 			var restoreResult = Restore(SelectedItem.Model);
 			if (!restoreResult)
 				return;
 			SelectedItem.IsDeleted = false;
 			SelectedItem.RemovalDate = "";
 			AfterRestore(SelectedItem.Model);
+
 		}
 		bool CanRestore()
 		{

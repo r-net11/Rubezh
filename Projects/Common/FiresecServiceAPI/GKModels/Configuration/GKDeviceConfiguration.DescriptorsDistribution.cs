@@ -10,6 +10,7 @@ namespace FiresecAPI.GK
 	{
 		public void PrepareDescriptors()
 		{
+			Codes.ForEach(x => x.ChildDescriptors = new List<GKBase>());
 			var gkBases = new List<GKBase>();
 			foreach (var device in Devices)
 			{

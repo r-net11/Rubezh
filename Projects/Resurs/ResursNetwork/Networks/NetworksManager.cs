@@ -161,7 +161,7 @@ namespace ResursNetwork.Networks
                                     {
                                         Id = (Guid)device.GetParameter(ParameterNamesMercury203.Id),
                                         Address = (UInt32)device.GetParameter(ParameterNamesMercury203.Address),
-                                        //Status = device.GetParameter(ParameterNamesMercury203.
+                                        Status = device.IsActive ? Status.Running : Status.Stopped
                                     };
 
                                     mercury203.Parameters[ParameterNamesMercury203.GADDR].Value =
@@ -255,6 +255,15 @@ namespace ResursNetwork.Networks
                 device.Status = status ? Status.Running : Status.Stopped;
             }
 
+        }
+
+        /// <summary>
+        /// Синхронизирует дату и время устройтсв в указанной сети
+        /// </summary>
+        /// <param name="networkId"></param>
+        public void SyncDateTime(Guid networkId)
+        {
+            _NetworkControllers[networkId].SyncDateTime();
         }
 
         /// <summary>

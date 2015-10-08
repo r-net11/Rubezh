@@ -159,7 +159,8 @@ namespace SKDModule.ViewModels
 					ParentDepartmentUID = Department.ParentDepartmentUID,
 					ChildDepartments = _childDepartments,
 					Phone = Department.Phone, 
-					OrganisationUID = OrganisationUID
+					OrganisationUID = OrganisationUID,
+					ChiefUID = ChiefViewModel.SelectedEmployeeUID
 				};
 			}
 		}
