@@ -360,6 +360,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ReceiptsDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Reports\ReportPreviewModel.cs" />
     <Compile Include="Reports\Templates\ChangeValueReport.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -411,7 +412,6 @@
     <Compile Include="Reports\ReportType.cs" />
     <Compile Include="Reports\ViewModels\ReportDesignerViewModel.cs" />
     <Compile Include="Reports\ViewModels\ReportsViewModel.cs" />
-    <Compile Include="Reports\ViewModels\ReportViewModel.cs" />
     <Compile Include="Reports\ViewModels\RepxSelectionViewModel.cs" />
     <Compile Include="Reports\ViewModels\RepxViewModel.cs" />
     <Compile Include="Reports\Views\ReportDesignerView.xaml.cs">
@@ -570,6 +570,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Reports\Templates\ChangeFlowReport.resx">
       <DependentUpon>ChangeFlowReport.cs</DependentUpon>
     </EmbeddedResource>
