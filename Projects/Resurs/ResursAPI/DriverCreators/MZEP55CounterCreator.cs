@@ -15,6 +15,7 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Счётчик подключён",
+				Description = "Счётчик подключён",
 				ParameterType = ParameterType.Bool,
 				IsReadOnly = true,
 				Number = 0
@@ -22,6 +23,7 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Счётчик открыт на чтение",
+				Description = "Счётчик открыт на чтение",
 				ParameterType = ParameterType.Bool,
 				IsReadOnly = true,
 				Number = 1
@@ -29,6 +31,7 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Счётчик открыт на запись",
+				Description = "Счётчик открыт на запись",
 				ParameterType = ParameterType.Bool,
 				IsReadOnly = true,
 				Number = 2
@@ -36,18 +39,21 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Пароль первого уровня",
+				Description = "Пароль первого уровня",
 				ParameterType = ParameterType.String,
 				Number = 3
 			});
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Пароль второго уровня",
+				Description = "Пароль второго уровня",
 				ParameterType = ParameterType.String,
 				Number = 4
 			});
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Коэффициент трансформации",
+				Description = "Коэффициент трансформации",
 				ParameterType = ParameterType.Double,
 				DoubleMinValue = 0.001,
 				DoubleMaxValue = 1000,
@@ -57,6 +63,7 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Номер квартиры",
+				Description = "Номер квартиры",
 				ParameterType = ParameterType.Int,
 				IntMinValue = 1,
 				IntMaxValue = 1000,
@@ -67,6 +74,7 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Почтовый адрес",
+				Description = "Почтовый адрес",
 				ParameterType = ParameterType.String,
 				Number = 7,
 				IsWriteToDevice = false
@@ -74,6 +82,7 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Шаг записи расхода в лог",
+				Description = "Шаг записи расхода в лог",
 				ParameterType = ParameterType.Int,
 				IntMinValue = 1,
 				IntMaxValue = 1000,
@@ -83,6 +92,7 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Дата фиксации расхода для дерева пользователей",
+				Description = "Дата фиксации расхода для дерева пользователей",
 				ParameterType = ParameterType.DateTime,
 				IsReadOnly = true,
 				Number = 9
@@ -90,6 +100,7 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Дата фиксации расхода для дерева баланса",
+				Description = "Дата фиксации расхода для дерева баланса",
 				ParameterType = ParameterType.DateTime,
 				IsReadOnly = true,
 				Number = 10
@@ -97,6 +108,7 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Дата фиксации расхода для дерева баланса",
+				Description = "Дата фиксации расхода для дерева баланса",
 				ParameterType = ParameterType.DateTime,
 				IsReadOnly = true,
 				Number = 11
@@ -104,6 +116,7 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Параметры режимов индикации",
+				Description = "Параметры режимов индикации",
 				ParameterType = ParameterType.Enum,
 				ParameterEnumItems = new List<ParameterEnumItem>
 				{
@@ -116,6 +129,7 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Ток",
+				Description = "Ток",
 				ParameterType = ParameterType.Double,
 				DoubleMinValue = 0,
 				DoubleDefaultValue = 0.5,
@@ -124,6 +138,7 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Напряжение",
+				Description = "Напряжение",
 				ParameterType = ParameterType.Double,
 				DoubleMinValue = 0,
 				DoubleDefaultValue = 220,
@@ -132,6 +147,7 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Активная мощность",
+				Description = "Активная мощность",
 				ParameterType = ParameterType.Double,
 				DoubleMinValue = 0,
 				DoubleDefaultValue = 1,
@@ -140,12 +156,14 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Коэффициент мощности",
+				Description = "Коэффициент мощности",
 				ParameterType = ParameterType.Double,
 				Number = 16
 			});
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Частота сетевого напряжения",
+				Description = "Частота сетевого напряжения",
 				ParameterType = ParameterType.Double,
 				DoubleMinValue = 0,
 				DoubleDefaultValue = 1,
@@ -154,6 +172,7 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Активная энергия по текщему тарифу",
+				Description = "Активная энергия по текщему тарифу",
 				ParameterType = ParameterType.Double,
 				DoubleMinValue = 0,
 				DoubleDefaultValue = 1,
@@ -162,12 +181,14 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Время наработки",
+				Description = "Время наработки",
 				ParameterType = ParameterType.DateTime,
 				Number = 19
 			});
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Величина ограничения",
+				Description = "Величина ограничения",
 				ParameterType = ParameterType.Double,
 				DoubleMinValue = 0,
 				DoubleDefaultValue = 1,
@@ -176,6 +197,7 @@ namespace ResursAPI
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Отображение тарифов",
+				Description = "Отображение тарифов",
 				ParameterType = ParameterType.Int,
 				IntMinValue = 0,
 				IntMaxValue = 8,

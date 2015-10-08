@@ -17,43 +17,49 @@ namespace Resurs.ViewModels
 			Model = model;
 			Name = model.DriverParameter.Description;
 			IsNotReadOnly = !model.DriverParameter.IsReadOnly;
-			switch (Model.DriverParameter.ParameterType)
-			{
-				case ParameterType.Enum:
-					IsEnum = true;
-					ParameterEnum = new ObservableCollection<ParameterEnumItem>(Model.DriverParameter.ParameterEnumItems);
-					SelectedEnumItem = ParameterEnum.FirstOrDefault(x => x.Value == model.IntValue);
-					if (SelectedEnumItem == null)
-						SelectedEnumItem = ParameterEnum.FirstOrDefault();
-					break;
-				case ParameterType.String:
-					IsString = true;
-					StringValue = Model.StringValue;
-					break;
-				case ParameterType.Int:
-					IsInt = true;
-					IntValue = Model.IntValue != null ? Model.IntValue.Value : Model.DriverParameter.IntDefaultValue;
-					if (Model.DriverParameter.IsReadOnly)
-						StringValue = IntValue.ToString();
-					break;
-				case ParameterType.Double:
-					IsDouble = true;
-					var doubleValue = Model.DoubleValue != null ? Model.DoubleValue.Value : Model.DriverParameter.DoubleDefaultValue;
-					StringValue = doubleValue.ToString();
-					break;
-				case ParameterType.Bool:
-					IsBool = true;
-					BoolValue = Model.BoolValue;
-					break;
-				case ParameterType.DateTime:
-					IsDateTime = true;
-					var dateTime = Model.DateTimeValue != null ? Model.DateTimeValue.Value : DateTime.Now;
-					DateTimeValue = new DateTimePairViewModel(dateTime);
-					break;
-				default:
-					break;
-			}
+			if (IsNotReadOnly)
+				switch (Model.DriverParameter.ParameterType)
+				{
+					case ParameterType.Enum:
+						IsEnum = true;
+						ParameterEnum = new ObservableCollection<ParameterEnumItem>(Model.DriverParameter.ParameterEnumItems);
+						SelectedEnumItem = ParameterEnum.FirstOrDefault(x => x.Value == model.IntValue);
+						if (SelectedEnumItem == null)
+							SelectedEnumItem = ParameterEnum.FirstOrDefault();
+						break;
+					case ParameterType.String:
+						IsString = true;
+						StringValue = Model.StringValue;
+						break;
+					case ParameterType.Int:
+						IsInt = true;
+						IntValue = Model.IntValue != null ? Model.IntValue.Value : Model.DriverParameter.IntDefaultValue;
+						if (Model.DriverParameter.IsReadOnly)
+							StringValue = IntValue.ToString();
+						break;
+					case ParameterType.Double:
+						IsDouble = true;
+						var doubleValue = Model.DoubleValue != null ? Model.DoubleValue.Value : Model.DriverParameter.DoubleDefaultValue;
+						StringValue = doubleValue.ToString();
+						break;
+					case ParameterType.Bool:
+						IsBool = true;
+						BoolValue = Model.BoolValue;
+						break;
+					case ParameterType.DateTime:
+						IsDateTime = true;
+						var dateTime = Model.DateTimeValue != null ? Model.DateTimeValue.Value : DateTime.Now;
+						DateTimeValue = new DateTimePairViewModel(dateTime);
+						TimeSpan = dateTime.TimeOfDay;
+						break;
+					default:
+						break;
+				}
+			else
+				ReadOnlyValue = model.GetStringValue();
 		}
+
+		public string ReadOnlyValue { get; private set; }
 
 		public bool IsNotReadOnly { get; private set; }
 
@@ -73,37 +79,38 @@ namespace Resurs.ViewModels
 
 		public bool Save()
 		{
-			switch (Model.DriverParameter.ParameterType)
-			{
-				case ParameterType.Enum:
-					Model.IntValue = SelectedEnumItem.Value;
-					break;
-				case ParameterType.String:
-					Model.StringValue = StringValue;
-					break;
-				case ParameterType.Int:
-					Model.IntValue = IntValue;
-					break;
-				case ParameterType.Double:
-					double doubleValue;
-					var stringValue = StringValue.Replace(',', '.');
-					var parseResult = Double.TryParse(stringValue, System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture, out doubleValue);
-					if (!parseResult)
-					{
-						MessageBoxService.Show("Не могу определить значение вещественного параметра " + Name);
-						return false;
-					}
-					Model.DoubleValue = doubleValue;
-					break;
-				case ParameterType.Bool:
-					Model.BoolValue = BoolValue;
-					break;
-				case ParameterType.DateTime:
-					Model.DateTimeValue = DateTimeValue.DateTime;
-					break;
-				default:
-					break;
-			}
+			if(IsNotReadOnly)
+				switch (Model.DriverParameter.ParameterType)
+				{
+					case ParameterType.Enum:
+						Model.IntValue = SelectedEnumItem.Value;
+						break;
+					case ParameterType.String:
+						Model.StringValue = StringValue;
+						break;
+					case ParameterType.Int:
+						Model.IntValue = IntValue;
+						break;
+					case ParameterType.Double:
+						double doubleValue;
+						var stringValue = StringValue.Replace(',', '.');
+						var parseResult = Double.TryParse(stringValue, System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture, out doubleValue);
+						if (!parseResult)
+						{
+							MessageBoxService.Show("Не могу определить значение вещественного параметра " + Name);
+							return false;
+						}
+						Model.DoubleValue = doubleValue;
+						break;
+					case ParameterType.Bool:
+						Model.BoolValue = BoolValue;
+						break;
+					case ParameterType.DateTime:
+						Model.DateTimeValue = DateTimeValue.DateTime;
+						break;
+					default:
+						break;
+				}
 			return true;
 		}
 
@@ -168,6 +175,18 @@ namespace Resurs.ViewModels
 				OnPropertyChanged(() => DateTimeValue);
 			}
 		}
+
+		TimeSpan _TimeSpan;
+		public TimeSpan TimeSpan
+		{
+			get { return _TimeSpan; }
+			set
+			{
+				_TimeSpan = value;
+				OnPropertyChanged(() => TimeSpan);
+			}
+		}
+
 		public bool IsDateTime { get; private set; }
 
 		public bool IsShowTextBlock { get { return IsDouble || IsString; } }

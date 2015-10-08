@@ -72,11 +72,14 @@ namespace Resurs.ViewModels
 			Device.Parameters = new List<Parameter>(Parameters.Select(x => x.Model));
 			foreach (var item in Device.Parameters)
 			{
-				var validateResult = item.Validate();
-				if (validateResult != null)
+				if (!item.DriverParameter.IsReadOnly)
 				{
-					MessageBoxService.Show("Ошибка в параметре " + item.DriverParameter.Name + ": " + validateResult);
-					return false;
+					var validateResult = item.Validate();
+					if (validateResult != null)
+					{
+						MessageBoxService.Show("Ошибка в параметре " + item.DriverParameter.Name + ": " + validateResult);
+						return false;
+					}
 				}
 			}
 			Device.IsActive = IsActive;

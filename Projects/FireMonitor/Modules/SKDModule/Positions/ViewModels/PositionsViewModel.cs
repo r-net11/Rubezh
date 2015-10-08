@@ -84,6 +84,11 @@ namespace SKDModule.ViewModels
 		protected override void Restore()
 		{
 			base.Restore();
+		}
+
+		protected override void AfterRestore(ShortPosition model)
+		{
+			base.AfterRestore(model);
 			var employeeUIDs = PositionHelper.GetEmployeeUIDs(SelectedItem.Model.UID);
 			foreach (var uid in employeeUIDs)
 			{
