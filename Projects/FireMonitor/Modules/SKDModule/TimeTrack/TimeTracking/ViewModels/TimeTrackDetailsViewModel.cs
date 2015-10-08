@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Reactive.Linq;
 using Common;
+using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -568,14 +569,13 @@ namespace SKDModule.ViewModels
 
 			if (!DayTimeTrackParts.Any()) return;
 
-			var resultCollection = DayTimeTrackParts.Where(x => !x.IsManuallyAdded || x.IsForceClosed).ToList();
 			List<DayTimeTrackPart> collection = DayTimeTrackParts.Where(x => !x.IsForceClosed).ToList();
 
 			var conflictIntervals = PassJournalHelper.FindConflictIntervals(collection.Select(dayTimeTrackPart => dayTimeTrackPart.ToDTO()).ToList(), ShortEmployee.UID, DayTimeTrack.Date);
 
-			if (conflictIntervals == null || !conflictIntervals.Any())
+			if (!conflictIntervals.IsNotNullOrEmpty())
 			{
-				ResetAdjustmentsNoConflict();
+				DayTimeTrackParts.Where(x => !x.IsForceClosed).ForEach(ResetInputInterval);
 				return;
 			}
 
@@ -584,86 +584,56 @@ namespace SKDModule.ViewModels
 													dayTimeTrackPart => dayTimeTrackPart.Value.Select(timeTrackPart => new DayTimeTrackPart(timeTrackPart)).ToList()
 							);
 
-			var conflictViewModel = new ResetAdjustmentsConflictDialogWindowViewModel();
-			var resolvedConflictCollection = new List<DayTimeTrackPart>();
-			foreach (KeyValuePair<DayTimeTrackPart, List<DayTimeTrackPart>> el in clienDictionary)
+			foreach (var dayTimeTrackPart in DayTimeTrackParts.Where(x => !x.IsForceClosed))
 			{
-				conflictViewModel.SetValues(el);
+				DayTimeTrackPart part = dayTimeTrackPart;
+				var conflictedIntervals = clienDictionary.FirstOrDefault(x => x.Key.UID == part.UID);
 
-				if (conflictViewModel.IsCheckedSave)
+				if (conflictedIntervals.Key == null)
 				{
-					resolvedConflictCollection.AddRange(resultCollection
-														.Where(dayTimeTrackPart => dayTimeTrackPart.UID == el.Key.UID)
-														.Select(dayTimeTrackPart => TimeTrackingHelper.ResolveConflictWithSettingBorders(dayTimeTrackPart, el.Value)));
-					continue;
-				}
-
-				if (conflictViewModel.IsCheckedCancel)
-				{
-					resolvedConflictCollection.AddRange(resultCollection
-														.Where(dayTimeTrackPart => dayTimeTrackPart.UID == el.Key.UID)
-														.Select(
-															dayTimeTrackPart =>
-															{
-																dayTimeTrackPart.IsRemoveAllIntersections = true;
-																dayTimeTrackPart.EnterDateTime = dayTimeTrackPart.EnterTimeOriginal;
-																dayTimeTrackPart.ExitDateTime = dayTimeTrackPart.ExitTimeOriginal;
-																dayTimeTrackPart.IsNeedAdjustment = dayTimeTrackPart.IsNeedAdjustmentOriginal;
-																dayTimeTrackPart.IsNew = default(bool);
-																return dayTimeTrackPart;
-															})
-														);
-					continue;
-				}
-
-				var dialogResult = DialogService.ShowModalWindow(conflictViewModel);
-
-				if (conflictViewModel.DialogResult == true)
-				{
-					resolvedConflictCollection.AddRange(resultCollection
-														.Where(dayTimeTrackPart => dayTimeTrackPart.UID == el.Key.UID)
-														.Select(dayTimeTrackPart => TimeTrackingHelper.ResolveConflictWithSettingBorders(dayTimeTrackPart, el.Value)));
-				}
-				else if (conflictViewModel.DialogResult == false)
-				{
-					resolvedConflictCollection.AddRange(resultCollection
-														.Where(dayTimeTrackPart => dayTimeTrackPart.UID == el.Key.UID)
-														.Select(
-															dayTimeTrackPart =>
-															{
-																dayTimeTrackPart.IsRemoveAllIntersections = true;
-																dayTimeTrackPart.EnterDateTime = dayTimeTrackPart.EnterTimeOriginal;
-																dayTimeTrackPart.ExitDateTime = dayTimeTrackPart.ExitTimeOriginal;
-																dayTimeTrackPart.IsNeedAdjustment = dayTimeTrackPart.IsNeedAdjustmentOriginal;
-																dayTimeTrackPart.AdjustmentDate = null;
-																dayTimeTrackPart.CorrectedBy = null;
-																dayTimeTrackPart.CorrectedByUID = null;
-																dayTimeTrackPart.IsNew = default(bool);
-																return dayTimeTrackPart;
-															})
-														);
+					ResetInputInterval(dayTimeTrackPart);
 				}
 				else
 				{
-					break;
+					ResolveConflicts(conflictedIntervals, dayTimeTrackPart);
 				}
 			}
+		}
 
-			var hyperResultCollection = new List<DayTimeTrackPart>();
-			foreach (var dayTimeTrackPart in DayTimeTrackParts)
+		private static void ResolveConflicts(KeyValuePair<DayTimeTrackPart, List<DayTimeTrackPart>> conflictedIntervals, DayTimeTrackPart originalDayTimeTrackPart)
+		{
+			var conflictViewModel = new ResetAdjustmentsConflictDialogWindowViewModel();
+			conflictViewModel.SetValues(conflictedIntervals);
+
+			DialogService.ShowModalWindow(conflictViewModel);
+
+			switch (conflictViewModel.DialogResult)
 			{
-				var tmp = resolvedConflictCollection.FirstOrDefault(x => x.UID == dayTimeTrackPart.UID);
-				if (tmp != null)
-				{
-					dayTimeTrackPart.EnterDateTime = tmp.EnterDateTime;
-					dayTimeTrackPart.ExitDateTime = tmp.ExitDateTime;
-					dayTimeTrackPart.IsDirty = true;
-				}
-
-				hyperResultCollection.Add(dayTimeTrackPart);
+				case true:
+					TimeTrackingHelper.ResolveConflictWithSettingBorders(originalDayTimeTrackPart, conflictedIntervals.Value);
+					break;
+				case false:
+					originalDayTimeTrackPart.IsRemoveAllIntersections = true;
+					originalDayTimeTrackPart.EnterDateTime = originalDayTimeTrackPart.EnterTimeOriginal;
+					originalDayTimeTrackPart.ExitDateTime = originalDayTimeTrackPart.ExitTimeOriginal;
+					originalDayTimeTrackPart.IsNeedAdjustment = originalDayTimeTrackPart.IsNeedAdjustmentOriginal;
+					originalDayTimeTrackPart.AdjustmentDate = null;
+					originalDayTimeTrackPart.CorrectedBy = null;
+					originalDayTimeTrackPart.CorrectedByUID = null;
+					originalDayTimeTrackPart.IsNew = default(bool);
+					break;
 			}
+		}
 
-			DayTimeTrackParts = new ObservableCollection<DayTimeTrackPart>(hyperResultCollection);
+		private void ResetInputInterval(DayTimeTrackPart inputInterval)
+		{
+			inputInterval.AdjustmentDate = null;
+			inputInterval.CorrectedByUID = null;
+			inputInterval.CorrectedBy = null;
+			inputInterval.EnterDateTime = inputInterval.EnterTimeOriginal;
+			inputInterval.ExitDateTime = inputInterval.ExitTimeOriginal;
+			inputInterval.IsNeedAdjustment = inputInterval.IsNeedAdjustmentOriginal;
+			inputInterval.IsDirty = true;
 		}
 
 		private void ClearIntervalsData(ObservableCollection<DayTimeTrackPart> dayTimeTrackParts)
@@ -712,6 +682,7 @@ namespace SKDModule.ViewModels
 			var nowDateTime = DateTime.Now;
 			SelectedDayTimeTrackPart.ExitDateTime = nowDateTime;
 			SelectedDayTimeTrackPart.AdjustmentDate = nowDateTime;
+			SelectedDayTimeTrackPart.IsForceClosed = true;
 			SelectedDayTimeTrackPart.CorrectedBy = FiresecManager.CurrentUser.Name;
 			SelectedDayTimeTrackPart.CorrectedByUID = FiresecManager.CurrentUser.UID;
 			SelectedDayTimeTrackPart.NotTakeInCalculations = !SelectedDayTimeTrackPart.TimeTrackZone.IsURV;

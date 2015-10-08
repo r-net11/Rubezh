@@ -126,6 +126,54 @@ namespace SKDDriver.Translators
 			return new OperationResult<List<DayTimeTrackPart>>(resultCollection);
 		}
 
+		private List<DayTimeTrackPart> TrySetOriginalValuesToTimeTracks(List<DayTimeTrackPart> dayTimeTimeTrackParts)
+		{
+			var resultCollection = new List<DayTimeTrackPart>();
+			foreach (var dayTimeTrack in dayTimeTimeTrackParts)
+			{
+				dayTimeTrack.EnterDateTime = dayTimeTrack.EnterTimeOriginal;
+				dayTimeTrack.ExitDateTime = dayTimeTrack.ExitTimeOriginal;
+				resultCollection.Add(dayTimeTrack);
+			}
+			return resultCollection;
+		}
+
+		private Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>> GetIntervalsWithConflicts(
+			List<DayTimeTrackPart> originalCollection, List<PassJournal> linkedIntervalsCollection)
+		{
+			var resultDictionary = new Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>();
+			var tmpCollection = new List<DayTimeTrackPart>();
+			foreach (var el in originalCollection)
+			{
+				var conflictedCollection = linkedIntervalsCollection
+					.Where(x => (x.UID != el.UID) && (el.EnterTimeOriginal.HasValue && el.ExitTimeOriginal.HasValue))
+					.Where(x => el.ExitTimeOriginal >= x.ExitTime && el.EnterTimeOriginal <= x.EnterTime).ToList();
+
+				if (conflictedCollection.Any())
+				{
+					tmpCollection.AddRange(conflictedCollection.Select(item => new DayTimeTrackPart
+					{
+						UID = item.UID,
+						EnterDateTime = item.EnterTime,
+						EnterTime = item.EnterTime.TimeOfDay,
+						EnterTimeOriginal = item.EnterTimeOriginal,
+						ExitDateTime = item.ExitTime,
+						IsManuallyAdded = item.IsAddedManually,
+						ExitTime = item.ExitTime.GetValueOrDefault().TimeOfDay,
+						ExitTimeOriginal = item.ExitTimeOriginal,
+						IsNeedAdjustmentOriginal = item.IsNeedAdjustmentOriginal,
+						TimeTrackZone = new TimeTrackZone
+						{
+							UID = item.ZoneUID, Name = SKDManager.Zones.FirstOrDefault(x => x.UID == item.ZoneUID) != null ? SKDManager.Zones.FirstOrDefault(x => x.UID == item.ZoneUID).Name : string.Empty
+						}
+					}));
+					resultDictionary.Add(el, tmpCollection);
+				}
+			}
+
+			return resultDictionary;
+		}
+
 		public OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>> FindConflictIntervals(List<DayTimeTrackPart> dayTimeTrackParts, Guid employeeGuid, DateTime currentDate)
 		{
 			var minIntervalsDate = dayTimeTrackParts.Where(x => x.EnterTimeOriginal.HasValue).DefaultIfEmpty().Min(x => x.EnterTimeOriginal != null ? x.EnterTimeOriginal.Value.Date : new DateTime()); //if min return false
@@ -134,48 +182,15 @@ namespace SKDDriver.Translators
 			if(minIntervalsDate.Date == currentDate.Date && maxIntervalDate.Date == currentDate.Date)
 				return new OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>>();
 
+			//var originalIntervalsCollection = TrySetOriginalValuesToTimeTracks(new List<DayTimeTrackPart>(dayTimeTrackParts));
+
 			List<PassJournal> linkedIntervals = Context.PassJournals.Where(x => x.EnterTimeOriginal.HasValue && x.ExitTimeOriginal.HasValue)
 														.Where(
 														x => x.EmployeeUID == employeeGuid &&
 														x.EnterTimeOriginal.Value.Date >= minIntervalsDate.Date &&
 														x.ExitTimeOriginal.Value.Date <= maxIntervalDate).ToList();
-			var conflictedIntervals = new Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>();
-			var tempCollection = new List<DayTimeTrackPart>();
-			foreach (var el in dayTimeTrackParts)
-			{
-				var tmp = el;
-				List<PassJournal> tmpCollection = linkedIntervals
-					.Where(x => (x.UID != el.UID) && (tmp.EnterTimeOriginal.HasValue && tmp.ExitTimeOriginal.HasValue))
-					.Where(x => (tmp.ExitTimeOriginal.Value.Date >= x.ExitTime.Value.Date && tmp.EnterTimeOriginal.Value.Date <= x.EnterTime.Date) &&
-								(tmp.ExitTimeOriginal > x.EnterTime && tmp.EnterTimeOriginal < x.ExitTime))
-					.Where(x => x.ExitTime >= tmp.EnterTimeOriginal)
-					.ToList();
+			var conflictedIntervals = GetIntervalsWithConflicts(dayTimeTrackParts, linkedIntervals);
 
-				if (tmpCollection.Any())
-				{
-					foreach (var b in tmpCollection)
-					{
-						tempCollection.Add(new DayTimeTrackPart
-						{
-							UID = b.UID,
-							EnterDateTime = b.EnterTime,
-							EnterTime = b.EnterTime.TimeOfDay,
-							EnterTimeOriginal = b.EnterTimeOriginal,
-							ExitDateTime = b.ExitTime,
-							IsManuallyAdded = b.IsAddedManually,
-							ExitTime = b.ExitTime.GetValueOrDefault().TimeOfDay,
-							ExitTimeOriginal = b.ExitTimeOriginal,
-							IsNeedAdjustmentOriginal = b.IsNeedAdjustmentOriginal,
-							TimeTrackZone = new TimeTrackZone
-							{
-								UID = b.ZoneUID,
-								Name = SKDManager.Zones.FirstOrDefault(x => x.UID == b.ZoneUID) != null ? SKDManager.Zones.FirstOrDefault(x => x.UID == b.ZoneUID).Name : string.Empty
-							}
-						});
-					}
-					conflictedIntervals.Add(el, tempCollection);
-				}
-			}
 			return new OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>>(conflictedIntervals);
 		}
 

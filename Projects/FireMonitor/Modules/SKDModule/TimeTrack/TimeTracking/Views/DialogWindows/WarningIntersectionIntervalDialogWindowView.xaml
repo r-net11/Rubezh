@@ -10,7 +10,7 @@
     d:DesignHeight="300"
 	d:DesignWidth="300"
 	Width="450"
-	Height="200">
+	Height="220">
 	<UserControl.Resources>
 		<Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 		<Converters:InversedBoolToVisibilityConverter x:Key="InversedBoolToVisibilityConverter" />
@@ -52,26 +52,44 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Border Margin="5" CornerRadius="5" Background="{DynamicResource BackgroundBrush}">
-			<StackPanel Margin="10">
-				<TextBlock Foreground="White" Text="Границы редактируемого интервала:" />
-				<TextBlock Foreground="White">
-					<Run Text="с" />
-					<Run Text="{Binding CurrentDayTimeTrackPart.EnterDateTime}" />
-					<Run Text="по" />
-					<Run Text="{Binding CurrentDayTimeTrackPart.ExitDateTime}" />
-					<Run Text="(зона" />
-					<Run>
-						<Run.Text>
-							<MultiBinding StringFormat='"{0}")'>
-								<Binding Path="CurrentDayTimeTrackPart.TimeTrackZone.Name" />
-							</MultiBinding>
-						</Run.Text>
-					</Run>
-				</TextBlock>
-				<TextBlock Foreground="White" Text="пересекаются с границами других интервалов:" />
-				<ItemsControl ItemsSource="{Binding IntersectionPartsCollection}" ItemTemplateSelector="{StaticResource IsOpenedIntervalTemplateSelector}" />
-				<TextBlock Foreground="White" Margin="0 15" Text="Для добавления интервала укажите другие границы." />
-			</StackPanel>
+			<Grid Margin="10">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition MinHeight="30" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<StackPanel>
+					<TextBlock Foreground="White" Text="Границы редактируемого интервала:" />
+					<TextBlock Foreground="White">
+						<Run Text="с" />
+						<Run Text="{Binding CurrentDayTimeTrackPart.EnterDateTime}" />
+						<Run Text="по" />
+						<Run Text="{Binding CurrentDayTimeTrackPart.ExitDateTime}" />
+						<Run Text="(зона" />
+						<Run>
+							<Run.Text>
+								<MultiBinding StringFormat='"{0}")'>
+									<Binding Path="CurrentDayTimeTrackPart.TimeTrackZone.Name" />
+								</MultiBinding>
+							</Run.Text>
+						</Run>
+					</TextBlock>
+					<TextBlock Foreground="White" Text="пересекаются с границами других интервалов:" />
+				</StackPanel>
+				<ScrollViewer
+					Grid.Row="1" 
+					VerticalScrollBarVisibility="Auto"
+					Margin="0 5">
+					<ItemsControl
+						ItemsSource="{Binding IntersectionPartsCollection}"
+						ItemTemplateSelector="{StaticResource IsOpenedIntervalTemplateSelector}" />
+				</ScrollViewer>
+				<TextBlock
+					Grid.Row="2" 
+					Foreground="White" 
+					Margin="0 15"
+					Text="Для добавления интервала укажите другие границы." />
+			</Grid>
 		</Border>
 		<Button
 			Grid.Row="1"
