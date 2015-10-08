@@ -45,7 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="Journal\Filter.cs" />
     <Compile Include="Journal\Journal.cs" />
+    <Compile Include="Journal\StateType.cs" />
     <Compile Include="Models\Tariff\TariffType.cs" />
     <Compile Include="Journal\JournalType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

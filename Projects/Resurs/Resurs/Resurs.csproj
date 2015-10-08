@@ -183,9 +183,18 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="Devices\ViewModels\DetailsParameterViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\DateTimePairViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\DateTimeViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterApartmentsViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterApartmentViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterEventsViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterEventViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\FilterJournalViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\JournalEventsViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\JournalEventViewModel.cs" />
+    <Compile Include="JournalEvents\Views\FilterJournalView.xaml.cs">
+      <DependentUpon>FilterJournalView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="JournalEvents\Views\JournalEventsView.xaml.cs">
       <DependentUpon>JournalEventsView.xaml</DependentUpon>
     </Compile>
@@ -260,6 +269,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="JournalEvents\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JournalEvents\Views\FilterJournalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

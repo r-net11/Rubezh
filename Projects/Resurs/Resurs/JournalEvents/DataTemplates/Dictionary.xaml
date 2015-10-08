@@ -6,5 +6,9 @@
 	<DataTemplate DataType="{x:Type ViewModels:JournalEventsViewModel}">
 		<Views:JournalEventsView/>
 	</DataTemplate>
-	
+
+	<DataTemplate DataType="{x:Type ViewModels:FilterJournalViewModel}">
+		<Views:FilterJournalView/>
+	</DataTemplate>
+
 </ResourceDictionary>

@@ -6,6 +6,7 @@ using System.Text;
 using System.Data.Entity;
 using System.Runtime.Serialization;
 using Common;
+using Infrastructure.Common.Windows;
 
 namespace ResursDAL
 {
@@ -178,21 +179,76 @@ namespace ResursDAL
 			return null;
 		}
 
-		public static List<Journal> GetJournal()
+		public static int? GetJournalCount(Filter filter)
 		{
-			using (var context = DatabaseContext.Initialize())
+			try
 			{
-				return context.Journal.ToList();
+				using (var context = DatabaseContext.Initialize())
+				{
+					return GetFiltered(filter, context).Count();
+				}
+			}
+
+			catch (Exception e)
+			{
+				MessageBoxService.ShowException(e);
+				return null;
 			}
 		}
 
-		public static void SaveJournal(JournalType journalType)
+		public static List<Journal> GetJournalPage(Filter  filter, int page)
 		{
-			var journalEvent = new Journal() { NameUser = CurrentUser.Name, DateTime = DateTime.Now, JurnalType = journalType };
-			using (var context = DatabaseContext.Initialize())
+			try
 			{
-				context.Journal.Add(journalEvent);
-				context.SaveChanges();
+
+				using (var context = DatabaseContext.Initialize())
+				{
+					var journalItems = GetFiltered(filter, context);
+					return journalItems.Skip((page - 1) * filter.PageSize).Take(filter.PageSize).ToList();
+				}
+			}
+			catch(Exception e)
+			{
+				return null;
+			}
+		}
+
+		static IQueryable<Journal> GetFiltered(Filter filter, DatabaseContext context)
+		{
+				IQueryable<Journal> result = context.Journal;
+				if (filter.JournalTypes.Any())
+				{
+					var names = filter.JournalTypes.Select(x => x).ToList();
+					result = result.Where(x => names.Contains(x.JournalType));
+				}
+				
+					result = result.Where(x => x.DateTime > filter.StartDate && x.DateTime < filter.EndDate);
+				
+				if (filter.IsSortAsc)
+				{
+						result = result.OrderBy(x => x.DateTime);
+				}
+				else
+				{
+						result = result.OrderByDescending(x => x.DateTime);
+				}
+				return result;
+		}
+
+		public static void AddJournal(JournalType journalType, Guid? objectUID , string UserName = null , string ObjectName = null )
+		{
+			var journalEvent = new Journal() { UserName = UserName, DateTime = DateTime.Now, JournalType = journalType, ObjectUID = objectUID };
+			try
+			{
+				using (var context = DatabaseContext.Initialize())
+				{
+					context.Journal.Add(journalEvent);
+					context.SaveChanges();
+				}
+			}
+			catch (Exception e)
+			{
+				MessageBoxService.ShowException(e);
 			}
 		}
 

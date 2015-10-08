@@ -1,60 +1,50 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Common;
+using ResursDAL;
 
 namespace Resurs.ViewModels
 {
 	public class PermissionsViewModel : BaseViewModel
 	{
 		public ObservableCollection<PermissionViewModel> PermissionViewModels { get; set; }
-		public PermissionsViewModel(User user , bool flag= true)
+		public PermissionsViewModel(User user)
 		{
-			BuildPermissionViewModel(user,flag);
-		}
+			CheckAllCommand = new RelayCommand(OnCheckAll);
+			UnCheckAllCommand = new RelayCommand(OffCheckAll);
 
-		PermissionViewModel _selectedPermission;
-		public PermissionViewModel SelectedPermission
-		{
-			get { return _selectedPermission; }
-			set
-			{
-				_selectedPermission = value;
-				OnPropertyChanged(() => SelectedPermission);
-			}
-		}
-
-		void BuildPermissionViewModel(User user , bool flag = true)
-		{
-			PermissionViewModels = new ObservableCollection<PermissionViewModel>();
-
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.Device));
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.EditDevice));
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.Apartment));
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.EditApartment));
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.Tariff));
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.EditTariff));
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.Report));
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.EditReport));
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.Plot));
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.EditPlot));
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.User,flag));
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.EditUser,flag));
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.Journal));
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.EditJournal));
+			PermissionViewModels = new ObservableCollection<PermissionViewModel>(Enum.GetValues(typeof(PermissionType)).Cast<PermissionType>().Select(x => new PermissionViewModel(x)));
 
 			foreach (var permissionViewModel in PermissionViewModels)
 			{
+				permissionViewModel.IsEnabled = !(user.UID == DBCash.CurrentUser.UID && (permissionViewModel.PermissionType == PermissionType.User || permissionViewModel.PermissionType == PermissionType.EditUser));
 				permissionViewModel.IsChecked = user.UserPermissions.Any(x => x.PermissionType == permissionViewModel.PermissionType);
 			}
-
-			SelectedPermission = PermissionViewModels.FirstOrDefault();
 		}
 
-		public void GetPermissionStrings(User user)
+		public RelayCommand CheckAllCommand { get; set; }
+		void OnCheckAll()
+		{
+			PermissionViewModels.ForEach(x => x.IsChecked = true);
+		}
+
+		public RelayCommand UnCheckAllCommand { get; set; }
+		void OffCheckAll()
+		{
+			PermissionViewModels.ForEach(x =>
+			{
+				if (x.IsEnabled)
+					x.IsChecked = false;
+			});
+		}
+
+		public void SavePermissions(User user)
 		{
 			user.UserPermissions = new List<UserPermission>();
 			foreach (var permissionViewModel in PermissionViewModels)
