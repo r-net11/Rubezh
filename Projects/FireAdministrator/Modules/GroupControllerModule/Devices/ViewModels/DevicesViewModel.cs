@@ -232,15 +232,14 @@ namespace GKModule.ViewModels
 						{
 							cache.UpdateDeviceBinding(device);
 							SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
-							device.Invalidate();
-							if (isCut)
-								device.OutDependentElements.ForEach(x => x.OnChanged());
 						}
 					}
 					if (SelectedDevice.Device.IsConnectedToKAU)
 					{
 						GKManager.RebuildRSR2Addresses(SelectedDevice.Device);
 						GKManager.UpdateConfiguration();
+						if (isCut)
+							SelectedDevice.Device.OutDependentElements.ForEach(x => x.OnChanged());
 					}
 				}
 				GKManager.DeviceConfiguration.Update();
