@@ -158,7 +158,6 @@ namespace StrazhModule
 					{
 						device.State.StateClasses = remoteDeviceState.StateClasses.ToList();
 						device.State.StateClass = remoteDeviceState.StateClass;
-						device.State.OpenAlwaysTimeIndex = remoteDeviceState.OpenAlwaysTimeIndex;
 						device.State.AccessState = remoteDeviceState.AccessState;
 						device.State.OnStateChanged();
 					}

@@ -25,7 +25,7 @@ namespace FiresecAPI.GK
 		[DescriptionAttribute("Пожар 1")]
 		Fire1 = 5,
 
-		[DescriptionAttribute("Внимание")]
+		[DescriptionAttribute("Тревога")]
 		Attention = 6,
 
 		[DescriptionAttribute("Отключено")]

@@ -16,7 +16,7 @@
 					<Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center"  Margin="5 0 0 0" />
 					<TextBlock Text="{Binding State.StateClass, Converter={StaticResource XStateClassToSKDStringConverter2}}" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
 				</StackPanel>
-				<Button Content="Сброс тревоги" Command="{Binding ClearPromptWarningCommand}" Visibility="{Binding IsPromptWarning, Converter={StaticResource BoolToVisibilityConverter}}" Width="100" Margin="2" />
+				<Button Content="Сброс состояния &#34;Взлом&#34;" Command="{Binding ClearPromptWarningCommand}" Visibility="{Binding IsPromptWarning, Converter={StaticResource BoolToVisibilityConverter}}" Width="160" Margin="2" />
 			</StackPanel>
 		</StackPanel>
 		<TabControl Grid.Row="1">

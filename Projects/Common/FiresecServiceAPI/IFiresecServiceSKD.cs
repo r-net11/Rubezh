@@ -286,14 +286,6 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<bool> SKDCloseDevice(Guid deviceUID);
 
-		[Obsolete("SKDOpenDeviceForever is deprecated, use SKDDeviceAccessStateNormal, SKDDeviceAccessStateCloseAlways or SKDDeviceAccessStateOpenAlways instead")]
-		[OperationContract]
-		OperationResult<bool> SKDOpenDeviceForever(Guid deviceUID);
-
-		[Obsolete("SKDCloseDeviceForever is deprecated, use SKDDeviceAccessStateNormal, SKDDeviceAccessStateCloseAlways or SKDDeviceAccessStateOpenAlways instead")]
-		[OperationContract]
-		OperationResult<bool> SKDCloseDeviceForever(Guid deviceUID);
-
 		[OperationContract]
 		OperationResult<bool> SKDDeviceAccessStateNormal(Guid deviceUID);
 
@@ -316,14 +308,6 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<bool> SKDCloseZone(Guid zoneUID);
 
-		[Obsolete("SKDOpenZoneForever is deprecated, use SKDZoneAccessStateNormal, SKDZoneAccessStateCloseAlways or SKDZoneAccessStateOpenAlways instead")]
-		[OperationContract]
-		OperationResult<bool> SKDOpenZoneForever(Guid zoneUID);
-
-		[Obsolete("SKDCloseZoneForever is deprecated, use SKDZoneAccessStateNormal, SKDZoneAccessStateCloseAlways or SKDZoneAccessStateOpenAlways instead")]
-		[OperationContract]
-		OperationResult<bool> SKDCloseZoneForever(Guid zoneUID);
-
 		[OperationContract]
 		OperationResult<bool> SKDZoneAccessStateNormal(Guid zoneUID);
 
@@ -345,14 +329,6 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult<bool> SKDCloseDoor(Guid doorUID);
-
-		[Obsolete("SKDOpenDoorForever is deprecated, use SKDDoorAccessStateNormal, SKDDoorAccessStateCloseAlways or SKDDoorAccessStateOpenAlways instead")]
-		[OperationContract]
-		OperationResult<bool> SKDOpenDoorForever(Guid doorUID);
-
-		[Obsolete("SKDCloseDoorForever is deprecated, use SKDDoorAccessStateNormal, SKDDoorAccessStateCloseAlways or SKDDoorAccessStateOpenAlways instead")]
-		[OperationContract]
-		OperationResult<bool> SKDCloseDoorForever(Guid doorUID);
 
 		[OperationContract]
 		OperationResult<bool> SKDDoorAccessStateNormal(Guid doorUID);

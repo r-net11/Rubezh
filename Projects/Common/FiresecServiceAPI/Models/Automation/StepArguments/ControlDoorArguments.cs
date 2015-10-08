@@ -26,10 +26,16 @@ namespace FiresecAPI.Automation
 		[Description("Закрыть дверь")]
 		Close,
 
-		[Description("Установить режим ОТКРЫТО")]
-		OpenForever,
+		[Description("Установить режим \"Открыто\"")]
+		AccessStateOpenAlways,
 
-		[Description("Установить режим НОРМА")]
-		CloseForever
+		[Description("Установить режим \"Норма\"")]
+		AccessStateNormal,
+
+		[Description("Установить режим \"Закрыто\"")]
+		AccessStateCloseAlways,
+
+		[Description("Сброс состояния \"Взлом\"")]
+		ClearPromptWarning
 	}
 }

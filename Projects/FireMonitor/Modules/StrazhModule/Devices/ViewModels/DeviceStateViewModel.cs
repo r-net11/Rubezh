@@ -61,9 +61,6 @@ namespace StrazhModule.ViewModels
 
 		public static string GetStateName(XStateClass stateClass, SKDDevice device)
 		{
-			if (stateClass == XStateClass.Attention)
-				return "Взлом";
-
 			if (device.DriverType == SKDDriverType.Lock)
 			{
 				switch(stateClass)
@@ -74,7 +71,6 @@ namespace StrazhModule.ViewModels
 					case XStateClass.On:
 						return "Открыто";
 				}
-				return stateClass.ToDescription();
 			}
 
 			return stateClass.ToDescription();

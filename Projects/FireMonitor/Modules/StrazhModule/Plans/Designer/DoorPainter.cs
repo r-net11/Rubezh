@@ -41,7 +41,7 @@ namespace StrazhModule.Plans.Designer
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 
 			var contextMenu = new ContextMenu();
-			contextMenu.Items.Add(UIHelper.BuildMenuItem("Сброс тревоги", null, _doorViewModel.ClearPromptWarningCommand));
+			contextMenu.Items.Add(UIHelper.BuildMenuItem("Сброс состояния \"Взлом\"", null, _doorViewModel.ClearPromptWarningCommand));
 			contextMenu.Items.Add(new Separator());
 			contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Открыто", null, _doorViewModel.DoorAccessStateOpenAlwaysCommand));
 			contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Норма", null, _doorViewModel.DoorAccessStateNormalCommand));

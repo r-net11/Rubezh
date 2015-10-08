@@ -19,7 +19,7 @@
 			</Hyperlink>
 			<TextBlock.ContextMenu>
 				<ContextMenu>
-					<IconedMenuItem Text="Сброс тревоги" Command="{Binding ClearPromptWarningCommand}" Visibility="{Binding IsLock, Converter={StaticResource BoolToVisibilityConverter}}" />
+					<IconedMenuItem Text="Сброс состояния &#34;Взлом&#34;" Command="{Binding ClearPromptWarningCommand}" Visibility="{Binding IsLock, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<Separator Visibility="{Binding IsLock, Converter={StaticResource BoolToVisibilityConverter}}"/>
 					<IconedMenuItem Text="Режим Открыто" Command="{Binding DeviceAccessStateOpenAlwaysCommand}" Visibility="{Binding IsLock, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<IconedMenuItem Text="Режим Норма" Command="{Binding DeviceAccessStateNormalCommand}" Visibility="{Binding IsLock, Converter={StaticResource BoolToVisibilityConverter}}" />

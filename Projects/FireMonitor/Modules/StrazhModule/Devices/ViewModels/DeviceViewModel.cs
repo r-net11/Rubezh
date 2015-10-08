@@ -34,8 +34,6 @@ namespace StrazhModule.ViewModels
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(Device);
 			OpenCommand = new RelayCommand(OnOpen, CanOpen);
 			CloseCommand = new RelayCommand(OnClose, CanClose);
-			OpenForeverCommand = new RelayCommand(OnOpenForever, CanOpenForever);
-			CloseForeverCommand = new RelayCommand(OnCloseForever, CanCloseForever);
 			DeviceAccessStateNormalCommand = new RelayCommand(OnDeviceAccessStateNormal, CanDeviceAccessStateNormal);
 			DeviceAccessStateCloseAlwaysCommand = new RelayCommand(OnDeviceAccessStateCloseAlways, CanDeviceAccessStateCloseAlways);
 			DeviceAccessStateOpenAlwaysCommand = new RelayCommand(OnDeviceAccessStateOpenAlways, CanDeviceAccessStateOpenAlways);
@@ -145,40 +143,6 @@ namespace StrazhModule.ViewModels
 		bool CanClose()
 		{
 			return DeviceCommander.CanClose(Device);
-		}
-
-		public RelayCommand OpenForeverCommand { get; private set; }
-		void OnOpenForever()
-		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				var result = FiresecManager.FiresecService.SKDOpenDeviceForever(Device);
-				if (result.HasError)
-				{
-					MessageBoxService.ShowWarning(result.Error);
-				}
-			}
-		}
-		bool CanOpenForever()
-		{
-			return Device.DriverType == SKDDriverType.Lock && FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control) && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
-		}
-
-		public RelayCommand CloseForeverCommand { get; private set; }
-		void OnCloseForever()
-		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				var result = FiresecManager.FiresecService.SKDCloseDeviceForever(Device);
-				if (result.HasError)
-				{
-					MessageBoxService.ShowWarning(result.Error);
-				}
-			}
-		}
-		bool CanCloseForever()
-		{
-			return Device.DriverType == SKDDriverType.Lock && FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control) && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
 		}
 
 		public RelayCommand DeviceAccessStateNormalCommand { get; private set; }
