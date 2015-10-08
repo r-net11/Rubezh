@@ -65,7 +65,7 @@ namespace ResursDAL
 								break;
 							}
 						if (parent != null)
-							foreach (var item in sameParent)
+							foreach (var item in sameParent.OrderByDescending(x => x.IsFolder).ThenBy(x => x.Name))
 							{
 								item.Parent = parent;
 								parent.Children.Add(item);
