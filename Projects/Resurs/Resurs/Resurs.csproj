@@ -381,7 +381,11 @@
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Tariffs\DiscountToTextConverter.cs" />
+    <Compile Include="Tariffs\ViewModels\TariffDevicesViewModel.cs" />
     <Compile Include="Tariffs\ViewModels\TariffPartViewModel.cs" />
+    <Compile Include="Tariffs\Views\TariffDevicesView.xaml.cs">
+      <DependentUpon>TariffDevicesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tariffs\Views\TariffsView.xaml.cs">
       <DependentUpon>TariffsView.xaml</DependentUpon>
     </Compile>
@@ -540,6 +544,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Reports\Views\RepxSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tariffs\Views\TariffDevicesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

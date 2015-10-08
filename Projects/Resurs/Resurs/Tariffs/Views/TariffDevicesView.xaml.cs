@@ -2,9 +2,9 @@
 
 namespace Resurs.Views
 {
-	public partial class TariffDetailsView : UserControl
+	public partial class TariffDevicesView : UserControl
 	{
-		public TariffDetailsView()
+		public TariffDevicesView()
 		{
 			InitializeComponent();
 		}

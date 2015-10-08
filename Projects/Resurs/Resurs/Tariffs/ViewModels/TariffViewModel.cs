@@ -23,6 +23,7 @@ namespace Resurs.ViewModels
 				OnPropertyChanged(() => Description);
 				OnPropertyChanged(() => TariffType);
 				OnPropertyChanged(() => IsDiscount);
+				OnPropertyChanged(() => TariffParts);
 			}
 		}
 		public string Name
