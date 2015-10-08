@@ -3,11 +3,11 @@
 					xmlns:ViewModels="clr-namespace:Resurs.ViewModels"
 					xmlns:Views="clr-namespace:Resurs.Views">
 
-	<DataTemplate DataType="{x:Type ViewModels:ApartmentDetailsViewModel}">
-		<Views:ApartmentDetailsView />
+	<DataTemplate DataType="{x:Type ViewModels:ConsumerDetailsViewModel}">
+		<Views:ConsumerDetailsView />
 	</DataTemplate>
-	<DataTemplate DataType="{x:Type ViewModels:ApartmentsFolderDetailsViewModel}">
-		<Views:ApartmentsFolderDetailsView />
+	<DataTemplate DataType="{x:Type ViewModels:ConsumersFolderDetailsViewModel}">
+		<Views:ConsumersFolderDetailsView />
 	</DataTemplate>
 	<DataTemplate DataType="{x:Type ViewModels:ChangeParentViewModel}">
 		<Views:ChangeParentView />

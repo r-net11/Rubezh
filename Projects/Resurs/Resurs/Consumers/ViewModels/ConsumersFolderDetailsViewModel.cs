@@ -8,27 +8,27 @@ using System.Text;
 
 namespace Resurs.ViewModels
 {
-	public class ApartmentsFolderDetailsViewModel : SaveCancelDialogViewModel
+	public class ConsumersFolderDetailsViewModel : SaveCancelDialogViewModel
 	{
-		Apartment _apartment;
-		public Apartment Apartment
+		Consumer _consumer;
+		public Consumer Consumer
 		{
-			get { return _apartment; }
+			get { return _consumer; }
 			set
 			{
-				_apartment = value;
-				if (_apartment != null)
+				_consumer = value;
+				if (_consumer != null)
 				{
-					Name = _apartment.Name;
-					Description = _apartment.Description;
+					Name = _consumer.Name;
+					Description = _consumer.Description;
 				}
 			}
 		}
 
-		public ApartmentsFolderDetailsViewModel(Apartment apartment, bool isNew = false, bool isReadOnly = false)
+		public ConsumersFolderDetailsViewModel(Consumer consumer, bool isNew = false, bool isReadOnly = false)
 		{
 			Title = isNew ? "Создание группы абонентов" : "Редактирование группы абонентов";
-			Apartment = apartment;
+			Consumer = consumer;
 			IsReadOnly = isReadOnly;
 		}
 
@@ -67,10 +67,10 @@ namespace Resurs.ViewModels
 
 		protected override bool Save()
 		{
-			Apartment.Name = Name;
-			Apartment.Description = Description;
+			Consumer.Name = Name;
+			Consumer.Description = Description;
 
-			DBCash.SaveApartment(Apartment);
+			DBCash.SaveConsumer(Consumer);
 
 			return base.Save();
 		}

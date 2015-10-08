@@ -1,13 +1,13 @@
-﻿<UserControl x:Class="Resurs.Views.ApartmentsView"
+﻿<UserControl x:Class="Resurs.Views.ConsumersView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:viewModel="clr-namespace:Resurs.ViewModels"
 			  xmlns:views="clr-namespace:Resurs.Views" >
 	<UserControl.Resources>
-		<viewModel:ApartmentViewModelNameComparer x:Key="ApartmentViewModelNameComparer" />
-		<viewModel:ApartmentViewModelAddressComparer x:Key="ApartmentViewModelAddressComparer" />
-		<viewModel:ApartmentViewModelDescriptionComparer x:Key="ApartmentViewModelDescriptionComparer" />
+		<viewModel:ConsumerViewModelNameComparer x:Key="ConsumerViewModelNameComparer" />
+		<viewModel:ConsumerViewModelAddressComparer x:Key="ConsumerViewModelAddressComparer" />
+		<viewModel:ConsumerViewModelDescriptionComparer x:Key="ConsumerViewModelDescriptionComparer" />
 	</UserControl.Resources>
 
 
@@ -36,31 +36,31 @@
 			<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать (Ctrl+E)" ImageSource="Edit" />
 			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete" />
 		</StackPanel>
-		<tree:TreeList Grid.Row="1" Source="{Binding RootApartments}" SelectedTreeNode="{Binding SelectedApartment}" ItemActivatedCommand="{Binding EditCommand}"
+		<tree:TreeList Grid.Row="1" Source="{Binding RootConsumers}" SelectedTreeNode="{Binding SelectedConsumer}" ItemActivatedCommand="{Binding EditCommand}"
 					   Focusable="True" tree:SortBehavior.CanUserSortColumns="True">
 			<tree:TreeList.View>
 				<GridView>
-					<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource ApartmentViewModelNameComparer}">
+					<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource ConsumerViewModelNameComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="{Binding ImageSource}" />
-									<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Apartment.Name}" />
+									<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Consumer.Name}" />
 								</StackPanel>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Адрес" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource ApartmentViewModelAddressComparer}">
+					<GridViewColumn Header="Адрес" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource ConsumerViewModelAddressComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Apartment.Address}" />
+								<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Consumer.Address}" />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource ApartmentViewModelDescriptionComparer}">
+					<GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource ConsumerViewModelDescriptionComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Apartment.Description}" />
+								<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Consumer.Description}" />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
@@ -68,7 +68,7 @@
 			</tree:TreeList.View>
 		</tree:TreeList>
 		<GridSplitter Grid.Column="1" Grid.Row="1" Width="4" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext"/>
-		<views:ApartmentDetailsView Grid.Column="2" Grid.Row="1" DataContext="{Binding SelectedApartment.ApartmentDetails}" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" Margin="5 0 0 0" />
-		<views:ApartmentsFolderDetailsView Grid.Column="2" Grid.Row="1" DataContext="{Binding SelectedApartment.ApartmentsFolderDetails}" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" Margin="5 0 0 0" />
+		<views:ConsumerDetailsView Grid.Column="2" Grid.Row="1" DataContext="{Binding SelectedConsumer.ConsumerDetails}" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" Margin="5 0 0 0" />
+		<views:ConsumersFolderDetailsView Grid.Column="2" Grid.Row="1" DataContext="{Binding SelectedConsumer.ConsumersFolderDetails}" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" Margin="5 0 0 0" />
 	</Grid>
 </UserControl>

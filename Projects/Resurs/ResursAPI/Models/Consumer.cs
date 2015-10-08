@@ -7,18 +7,18 @@ using System.Text;
 
 namespace ResursAPI
 {
-	public class Apartment : ModelBase
+	public class Consumer : ModelBase
 	{
-		public Apartment():base()
+		public Consumer():base()
 		{
-			Children = new List<Apartment>();
+			Children = new List<Consumer>();
 			Bills = new List<Bill>();
 		}
 
 		public Guid? ParentUID { get; set; }
-		public Apartment Parent { get; set; }
+		public Consumer Parent { get; set; }
 		[InverseProperty("Parent")]
-		public List<Apartment> Children { get; set; }
+		public List<Consumer> Children { get; set; }
 		public List<Bill> Bills { get; set; }
 		public bool IsFolder { get; set; }
 		[MaxLength(100)]

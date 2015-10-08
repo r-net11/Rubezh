@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 namespace Resurs.Views
 {
 	/// <summary>
-	/// Interaction logic for ApartmentsFoldersView.xaml
+	/// Interaction logic for ConsumersFoldersView.xaml
 	/// </summary>
 	public partial class ChangeParentView : UserControl
 	{

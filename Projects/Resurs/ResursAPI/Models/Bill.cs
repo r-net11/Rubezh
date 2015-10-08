@@ -12,7 +12,7 @@ namespace ResursAPI
 		{
 			Devices = new List<Device>();
 		}
-		public Apartment Apartment { get; set; }
+		public Consumer Consumer { get; set; }
 		public List<Device> Devices { get; set; }
 		public int Balance { get; set; }
 		[MaxLength(4000)]
