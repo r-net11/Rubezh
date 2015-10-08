@@ -45,8 +45,6 @@ namespace Resurs.ViewModels
 			set
 			{
 				_selectedApartment = value;
-				if (_selectedApartment != null)
-					_selectedApartment.Update();
 				OnPropertyChanged(() => SelectedApartment);
 			}
 		}
@@ -120,7 +118,7 @@ namespace Resurs.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var apartmentDetailsViewModel = new ApartmentDetailsViewModel(null, SelectedApartment.Apartment);
+			var apartmentDetailsViewModel = new ApartmentDetailsViewModel(new Apartment() { Parent = SelectedApartment.Apartment }, true);
 			if (DialogService.ShowModalWindow(apartmentDetailsViewModel))
 			{
 				DBCash.SaveApartment(apartmentDetailsViewModel.Apartment);
@@ -140,7 +138,7 @@ namespace Resurs.ViewModels
 		public RelayCommand AddFolderCommand { get; private set; }
 		void OnAddFolder()
 		{
-			var apartmentsFolderDetailsViewModel = new ApartmentsFolderDetailsViewModel(null, SelectedApartment.Apartment);
+			var apartmentsFolderDetailsViewModel = new ApartmentsFolderDetailsViewModel(new Apartment() { IsFolder = true, Parent = SelectedApartment.Apartment });
 			if (DialogService.ShowModalWindow(apartmentsFolderDetailsViewModel))
 			{
 				DBCash.SaveApartment(apartmentsFolderDetailsViewModel.Apartment);
@@ -160,14 +158,15 @@ namespace Resurs.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			SaveCancelDialogViewModel apartmentDetailsViewModel = SelectedApartment.Apartment.IsFolder ?
-				(SaveCancelDialogViewModel)new ApartmentsFolderDetailsViewModel(SelectedApartment.Apartment) :
-				(SaveCancelDialogViewModel)new ApartmentDetailsViewModel(SelectedApartment.Apartment);
-
-			if (DialogService.ShowModalWindow(apartmentDetailsViewModel))
+			var apartment = SelectedApartment.Apartment.IsFolder ? 
+				SelectedApartment.ApartmentsFolderDetails.Apartment : 
+				SelectedApartment.ApartmentDetails.Apartment;
+			var dialogViewModel = SelectedApartment.Apartment.IsFolder ?
+				(SaveCancelDialogViewModel)new ApartmentsFolderDetailsViewModel(apartment) :
+				new ApartmentDetailsViewModel(apartment);
+			if (DialogService.ShowModalWindow(dialogViewModel))
 			{
-				var apartmentViewModel = new ApartmentViewModel(SelectedApartment.Apartment);
-				SelectedApartment.Update(apartmentViewModel.Apartment);
+				SelectedApartment.Update(apartment);
 			}
 		}
 		bool CanEdit()

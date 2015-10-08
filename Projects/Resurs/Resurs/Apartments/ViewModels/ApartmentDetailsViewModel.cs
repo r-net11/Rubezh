@@ -6,29 +6,43 @@ namespace Resurs.ViewModels
 {
 	public partial class ApartmentDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public Apartment Apartment { get; private set; }
+		Apartment _apartment;
+		public Apartment Apartment 
+		{ 
+			get { return _apartment; }
+			set
+			{
+				_apartment = value;
+				if (_apartment != null)
+				{
+					Name = _apartment.Name;
+					Address = _apartment.Address;
+					Description = _apartment.Description;
+					Phone = _apartment.Phone;
+					Email = _apartment.Email;
+					Login = _apartment.Login;
+					Password = _apartment.Password;
+					IsSendEmail = _apartment.IsSendEmail;
+				}
+			}
+		}
 
-		public ApartmentDetailsViewModel(Apartment apartment = null, Apartment parent = null)
+		public ApartmentDetailsViewModel(Apartment apartment, bool isNew = false, bool isReadOnly = false)
 		{
-			if (apartment == null)
-			{
-				apartment = new Apartment() { Parent = parent };
-				Title = "Создание абонента";
-			}
-			else
-			{
-				Title = "Редактирование абонента";
-			}
-
+			Title = isNew ? "Создание абонента" : "Редактирование абонента";
 			Apartment = apartment;
-			Name = apartment.Name;
-			Address = apartment.Address;
-			Description = apartment.Description;
-			Phone = apartment.Phone;
-			Email = apartment.Email;
-			Login = apartment.Login;
-			Password = apartment.Password;
-			IsSendEmail = apartment.IsSendEmail;
+			IsReadOnly = isReadOnly;
+		}
+
+		bool _isReadOnly;
+		public bool IsReadOnly
+		{
+			get { return _isReadOnly; }
+			set
+			{
+				_isReadOnly = value;
+				OnPropertyChanged(() => IsReadOnly);
+			}
 		}
 
 		protected override bool Save()
