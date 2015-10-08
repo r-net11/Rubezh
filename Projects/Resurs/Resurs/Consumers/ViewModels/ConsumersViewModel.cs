@@ -208,14 +208,14 @@ namespace Resurs.ViewModels
 		public RelayCommand ChangeParentCommand { get; private set; }
 		void OnChangeParent()
 		{
-			var consumersFoldersViewModel = new ChangeParentViewModel(SelectedConsumer.Consumer.UID);
-			if (DialogService.ShowModalWindow(consumersFoldersViewModel) && consumersFoldersViewModel.SelectedConsumer != null)
+			var consumersChangeParentViewModel = new ConsumerChangeParentViewModel(SelectedConsumer.Consumer.UID);
+			if (DialogService.ShowModalWindow(consumersChangeParentViewModel) && consumersChangeParentViewModel.SelectedConsumer != null)
 			{
-				var parentConsumerViewModel = AllConsumers.FirstOrDefault(x => x.Consumer.UID == consumersFoldersViewModel.SelectedConsumer.Consumer.UID);
+				var parentConsumerViewModel = AllConsumers.FirstOrDefault(x => x.Consumer.UID == consumersChangeParentViewModel.SelectedConsumer.Consumer.UID);
 				if (parentConsumerViewModel != null)
 				{
 					SelectedConsumer.Consumer.Parent.Children.RemoveAll(x => x.UID == SelectedConsumer.Consumer.UID);
-					SelectedConsumer.Consumer.Parent = consumersFoldersViewModel.SelectedConsumer.Consumer;
+					SelectedConsumer.Consumer.Parent = consumersChangeParentViewModel.SelectedConsumer.Consumer;
 					SelectedConsumer.Consumer.Parent.Children.Add(SelectedConsumer.Consumer);
 
 					DBCash.SaveConsumer(SelectedConsumer.Consumer);

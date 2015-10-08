@@ -283,13 +283,13 @@
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.Common.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumersFolderDetailsViewModel.cs" />
-    <Compile Include="Consumers\ViewModels\ChangeParentViewModel.cs" />
+    <Compile Include="Consumers\ViewModels\ConsumerChangeParentViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumersViewModel.cs" />
     <Compile Include="Consumers\Views\ConsumersFolderDetailsView.xaml.cs">
       <DependentUpon>ConsumersFolderDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consumers\Views\ChangeParentView.xaml.cs">
-      <DependentUpon>ChangeParentView.xaml</DependentUpon>
+    <Compile Include="Consumers\Views\ConsumerChangeParentView.xaml.cs">
+      <DependentUpon>ConsumerChangeParentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
@@ -443,7 +443,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Consumers\Views\ChangeParentView.xaml">
+    <Page Include="Consumers\Views\ConsumerChangeParentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

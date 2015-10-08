@@ -9,8 +9,8 @@
 	<DataTemplate DataType="{x:Type ViewModels:ConsumersFolderDetailsViewModel}">
 		<Views:ConsumersFolderDetailsView />
 	</DataTemplate>
-	<DataTemplate DataType="{x:Type ViewModels:ChangeParentViewModel}">
-		<Views:ChangeParentView />
+	<DataTemplate DataType="{x:Type ViewModels:ConsumerChangeParentViewModel}">
+		<Views:ConsumerChangeParentView />
 	</DataTemplate>
 
 </ResourceDictionary>

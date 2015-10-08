@@ -11,9 +11,9 @@ using System.Text;
 
 namespace Resurs.ViewModels
 {
-	public class ChangeParentViewModel : SaveCancelDialogViewModel
+	public class ConsumerChangeParentViewModel : SaveCancelDialogViewModel
 	{
-		public ChangeParentViewModel(Guid exceptConsumerUid)
+		public ConsumerChangeParentViewModel(Guid exceptConsumerUid)
 		{
 			Title = "Выбор группы для перемещения";
 			BuildTree(exceptConsumerUid);

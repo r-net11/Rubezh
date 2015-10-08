@@ -17,9 +17,9 @@ namespace Resurs.Views
 	/// <summary>
 	/// Interaction logic for ConsumersFoldersView.xaml
 	/// </summary>
-	public partial class ChangeParentView : UserControl
+	public partial class ConsumerChangeParentView : UserControl
 	{
-		public ChangeParentView()
+		public ConsumerChangeParentView()
 		{
 			InitializeComponent();
 		}
