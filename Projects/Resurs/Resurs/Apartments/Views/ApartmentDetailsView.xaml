@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="Resurs.Views.ApartmentDetailsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 MinWidth="800" MinHeight="600">
+			 MinWidth="600" MinHeight="600">
 	<TabControl>
 		<TabItem Header="Общие">
 			<Grid>
@@ -27,14 +27,14 @@
 				<TextBlock Grid.Row="5" Grid.Column="0" Text="Логин" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
 				<TextBlock Grid.Row="6" Grid.Column="0" Text="Пароль" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
 				<TextBlock Grid.Row="7" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
-				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}" Margin="2" />
-				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Address}" Margin="2" />
-				<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Phone}" Margin="2" />
-				<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Email}" Margin="2" />
-				<CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding IsSendEmail}" Margin="2" />
-				<TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Login}" Margin="2" />
-				<TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Password}" Margin="2" />
-				<TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Description}" Margin="2" />
+				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}" IsReadOnly="{Binding IsReadOnly}" Margin="2" />
+				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Address}" IsReadOnly="{Binding IsReadOnly}" Margin="2" />
+				<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Phone}" IsReadOnly="{Binding IsReadOnly}" Margin="2" />
+				<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Email}" IsReadOnly="{Binding IsReadOnly}" Margin="2" />
+				<CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding IsSendEmail}" IsEnabled="{Binding IsReadOnly, Converter={StaticResource InverseBooleanConverter}}" Margin="2" />
+				<TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Login}" IsReadOnly="{Binding IsReadOnly}" Margin="2" />
+				<TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Password}" IsReadOnly="{Binding IsReadOnly}" Margin="2" />
+				<TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Description}" IsReadOnly="{Binding IsReadOnly}" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" Margin="2,2,3,2" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Оборудование">

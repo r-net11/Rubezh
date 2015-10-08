@@ -13,7 +13,7 @@
 		</Grid.RowDefinitions>
 		<TextBlock Grid.Row="0" Grid.Column="0" Text="Название" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
 		<TextBlock Grid.Row="1" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
-		<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}" Margin="2" />
-		<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description}" Margin="2" />
+		<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}" IsReadOnly="{Binding IsReadOnly}" Margin="2" />
+		<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description}" IsReadOnly="{Binding IsReadOnly}" Margin="2" />
 	</Grid>
 </UserControl>

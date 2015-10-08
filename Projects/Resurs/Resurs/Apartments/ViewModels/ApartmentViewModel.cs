@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
+using ResursDAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,9 +35,45 @@ namespace Resurs.ViewModels
 			}
 		}
 
+		ApartmentDetailsViewModel _apartmentDetails;
+		public ApartmentDetailsViewModel ApartmentDetails
+		{
+			get
+			{
+				if (_apartmentDetails == null && Apartment != null && !Apartment.IsFolder)
+				{
+					var apartment = DBCash.GetApartment(Apartment.UID, true);
+					if (apartment == null)
+						return null;
+					_apartmentDetails = new ApartmentDetailsViewModel(apartment, false, true);
+				}
+				return _apartmentDetails;
+			}
+		}
+
+		ApartmentsFolderDetailsViewModel _apartmentsFolderDetails;
+		public ApartmentsFolderDetailsViewModel ApartmentsFolderDetails
+		{
+			get
+			{
+				if (_apartmentsFolderDetails == null && Apartment != null && Apartment.IsFolder)
+				{
+					var apartment = DBCash.GetApartment(Apartment.UID, true);
+					if (apartment == null)
+						return null;
+					_apartmentsFolderDetails = new ApartmentsFolderDetailsViewModel(apartment, false, true);
+				}
+				return _apartmentsFolderDetails;
+			}
+		}
+
 		public void Update(Apartment apartment)
 		{
 			Apartment = apartment;
+			if (_apartmentDetails != null)
+				_apartmentDetails.Apartment = apartment;
+			if (_apartmentsFolderDetails != null)
+				_apartmentsFolderDetails.Apartment = apartment;
 		}
 	}
 }

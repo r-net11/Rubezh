@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
+using ResursDAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,23 +10,37 @@ namespace Resurs.ViewModels
 {
 	public class ApartmentsFolderDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public Apartment Apartment { get; private set; }
-
-		public ApartmentsFolderDetailsViewModel(Apartment apartment = null)
+		Apartment _apartment;
+		public Apartment Apartment
 		{
-			if(apartment == null)
+			get { return _apartment; }
+			set
 			{
-				apartment = new Apartment() { IsFolder = true };
-				Title = "Создание группы абонентов";
+				_apartment = value;
+				if (_apartment != null)
+				{
+					Name = _apartment.Name;
+					Description = _apartment.Description;
+				}
 			}
-			else
-			{
-				Title = "Редактирование группы абонентов";
-			}
+		}
 
+		public ApartmentsFolderDetailsViewModel(Apartment apartment, bool isNew = false, bool isReadOnly = false)
+		{
+			Title = isNew ? "Создание группы абонентов" : "Редактирование группы абонентов";
 			Apartment = apartment;
-			Name = apartment.Name;
-			Description = apartment.Description;
+			IsReadOnly = isReadOnly;
+		}
+
+		bool _isReadOnly;
+		public bool IsReadOnly
+		{
+			get { return _isReadOnly; }
+			set
+			{
+				_isReadOnly = value;
+				OnPropertyChanged(() => IsReadOnly);
+			}
 		}
 
 		string _name;
@@ -54,6 +69,9 @@ namespace Resurs.ViewModels
 		{
 			Apartment.Name = Name;
 			Apartment.Description = Description;
+
+			DBCash.SaveApartment(Apartment);
+
 			return base.Save();
 		}
 	}
