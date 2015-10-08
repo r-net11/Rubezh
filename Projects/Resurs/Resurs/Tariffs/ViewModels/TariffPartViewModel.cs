@@ -11,8 +11,8 @@ namespace Resurs.ViewModels
 		{
 			TariffPart = new ResursAPI.TariffPart();
 			Price = 0;
-			StartTime = new TimeSpan();
-			EndTime = new TimeSpan();
+			StartTime = new TimeSpan(0,0,0);
+			EndTime = new TimeSpan(0,0,0);
 			
 			Discount = 0;
 			Threshold = 0;
@@ -24,9 +24,8 @@ namespace Resurs.ViewModels
 			Price = tariffPart.Price;
 			StartTime = tariffPart.StartTime;
 			EndTime = tariffPart.EndTime;
-
-			Discount = 0;
-			Threshold = 0;
+			Discount = tariffPart.Discount;
+			Threshold = tariffPart.Threshold;
 		}
 
 		private double _threshold;
@@ -78,20 +77,6 @@ namespace Resurs.ViewModels
 			get { return _endTime; }
 			set { _endTime = value;
 			OnPropertyChanged(() => EndTime);
-			}
-		}
-
-		private TimeSpan _partDuration;
-
-		public TimeSpan PartDuration
-		{
-			get 
-			{
-				if (StartTime.CompareTo(EndTime) <= 0)
-				{
-					return StartTime.Subtract(EndTime);
-				}
-				else throw new Exception("Указано начальное время позже конечного.");
 			}
 		}
 	}
