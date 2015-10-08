@@ -12,7 +12,7 @@ namespace ResursDAL
 {
 	public class DatabaseContext : DbContext, IDisposable
 	{
-		public DbSet<Apartment> Apartments { get; set; }
+		public DbSet<Consumer> Consumers { get; set; }
 		public DbSet<Bill> Bills { get; set; }
 		public DbSet<Device> Devices { get; set; }
 		public DbSet<Measure> Measures { get; set; }
@@ -40,7 +40,7 @@ namespace ResursDAL
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<Tariff>().HasMany(x => x.TariffParts).WithRequired(x => x.Tariff).WillCascadeOnDelete();
-			modelBuilder.Entity<Apartment>().HasMany(x => x.Bills).WithRequired(x => x.Apartment).WillCascadeOnDelete();
+			modelBuilder.Entity<Consumer>().HasMany(x => x.Bills).WithRequired(x => x.Consumer).WillCascadeOnDelete();
 			modelBuilder.Entity<Device>().HasMany(x => x.Parameters).WithRequired(x => x.Device).WillCascadeOnDelete();
 			modelBuilder.Entity<User>().HasMany(x => x.UserPermissions).WithRequired(x => x.User).WillCascadeOnDelete();
 		}
@@ -65,9 +65,9 @@ namespace ResursDAL
 			{
 				var userpermissions = new List<UserPermission>();
 				User user = new User() { Name = "Adm", Login = "Adm", PasswordHash = HashHelper.GetHashFromString("") };
-				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Apartment });
+				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Consumer });
 				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Device });
-				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditApartment });
+				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditConsumer });
 				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditDevice });
 				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditUser });
 				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.User });

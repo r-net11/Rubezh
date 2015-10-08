@@ -2,9 +2,9 @@
 
 namespace Resurs.Views
 {
-	public partial class ApartmentDetailsView : UserControl
+	public partial class ConsumersFolderDetailsView : UserControl
 	{
-		public ApartmentDetailsView()
+		public ConsumersFolderDetailsView()
 		{
 			InitializeComponent();
 		}

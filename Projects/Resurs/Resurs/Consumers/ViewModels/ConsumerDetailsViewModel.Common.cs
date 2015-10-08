@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Resurs.ViewModels
 {
-	public partial class ApartmentDetailsViewModel
+	public partial class ConsumerDetailsViewModel
 	{
 		string _name;
 		public string Name

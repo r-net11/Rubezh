@@ -280,12 +280,16 @@
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="Apartments\ViewModels\ApartmentDetailsViewModel.Common.cs" />
-    <Compile Include="Apartments\ViewModels\ApartmentDetailsViewModel.cs" />
-    <Compile Include="Apartments\ViewModels\ApartmentsFolderDetailsViewModel.cs" />
-    <Compile Include="Apartments\ViewModels\ApartmentsViewModel.cs" />
-    <Compile Include="Apartments\Views\ApartmentsFolderDetailsView.xaml.cs">
-      <DependentUpon>ApartmentsFolderDetailsView.xaml</DependentUpon>
+    <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.Common.cs" />
+    <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.cs" />
+    <Compile Include="Consumers\ViewModels\ConsumersFolderDetailsViewModel.cs" />
+    <Compile Include="Consumers\ViewModels\ConsumerChangeParentViewModel.cs" />
+    <Compile Include="Consumers\ViewModels\ConsumersViewModel.cs" />
+    <Compile Include="Consumers\Views\ConsumersFolderDetailsView.xaml.cs">
+      <DependentUpon>ConsumersFolderDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Consumers\Views\ConsumerChangeParentView.xaml.cs">
+      <DependentUpon>ConsumerChangeParentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
@@ -303,7 +307,7 @@
     <Compile Include="Main\ViewModels\Comparers.cs" />
     <Compile Include="Devices\ViewModels\DeviceDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
-    <Compile Include="Apartments\ViewModels\ApartmentViewModel.cs" />
+    <Compile Include="Consumers\ViewModels\ConsumerViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\ParameterViewModel.cs" />
     <Compile Include="Devices\ViewModels\DriverTypesViewModel.cs" />
@@ -313,11 +317,11 @@
     <Compile Include="Main\ViewModels\StartupHeaderViewModel.cs" />
     <Compile Include="Main\ViewModels\StartupSettingsViewModel.cs" />
     <Compile Include="Main\ViewModels\StartupViewModel.cs" />
-    <Compile Include="Apartments\Views\ApartmentDetailsView.xaml.cs">
-      <DependentUpon>ApartmentDetailsView.xaml</DependentUpon>
+    <Compile Include="Consumers\Views\ConsumerDetailsView.xaml.cs">
+      <DependentUpon>ConsumerDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Apartments\Views\ApartmentsView.xaml.cs">
-      <DependentUpon>ApartmentsView.xaml</DependentUpon>
+    <Compile Include="Consumers\Views\ConsumersView.xaml.cs">
+      <DependentUpon>ConsumersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\DeviceDetailsView.xaml.cs">
       <DependentUpon>DeviceDetailsView.xaml</DependentUpon>
@@ -435,9 +439,13 @@
     <Compile Include="Users\Views\UsersView.xaml.cs">
       <DependentUpon>UsersView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Apartments\DataTemplates\Dictionary.xaml">
+    <Page Include="Consumers\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Consumers\Views\ConsumerChangeParentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="JournalEvents\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
@@ -447,7 +455,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Apartments\Views\ApartmentsFolderDetailsView.xaml">
+    <Page Include="Consumers\Views\ConsumersFolderDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -459,11 +467,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Apartments\Views\ApartmentDetailsView.xaml">
+    <Page Include="Consumers\Views\ConsumerDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Apartments\Views\ApartmentsView.xaml">
+    <Page Include="Consumers\Views\ConsumersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

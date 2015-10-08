@@ -11,7 +11,7 @@ namespace ResursDAL
 {
 	public static partial class DBCash
 	{
-		public static Apartment RootApartment { get; set; }
+		public static Consumer RootConsumer { get; set; }
 		public static List<User> Users { get; set; }
 		public static User CurrentUser { get; set; }
 
@@ -21,7 +21,7 @@ namespace ResursDAL
 			if (RootDevice == null)
 				CreateSystem();
 			Users = GetAllUsers();
-			RootApartment = GetRootApartment();
+			RootConsumer = GetRootConsumer();
 			Tariffs = ReadAllTariffs();
 		}
 
@@ -44,9 +44,9 @@ namespace ResursDAL
 				{
 					var userpermissions = new List<UserPermission>();
 					User user = new User() { Name = "Adm", Login = "Adm", PasswordHash = HashHelper.GetHashFromString("")};
-					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Apartment });
+					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Consumer });
 					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Device });
-					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditApartment });
+					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditConsumer });
 					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditDevice });
 					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditUser });
 					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.User });
