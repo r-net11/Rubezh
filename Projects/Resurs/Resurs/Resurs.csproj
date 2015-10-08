@@ -283,9 +283,13 @@
     <Compile Include="Apartments\ViewModels\ApartmentDetailsViewModel.Common.cs" />
     <Compile Include="Apartments\ViewModels\ApartmentDetailsViewModel.cs" />
     <Compile Include="Apartments\ViewModels\ApartmentsFolderDetailsViewModel.cs" />
+    <Compile Include="Apartments\ViewModels\ChangeParentViewModel.cs" />
     <Compile Include="Apartments\ViewModels\ApartmentsViewModel.cs" />
     <Compile Include="Apartments\Views\ApartmentsFolderDetailsView.xaml.cs">
       <DependentUpon>ApartmentsFolderDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Apartments\Views\ChangeParentView.xaml.cs">
+      <DependentUpon>ChangeParentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
@@ -438,6 +442,10 @@
     <Page Include="Apartments\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Apartments\Views\ChangeParentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="JournalEvents\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>

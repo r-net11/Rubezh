@@ -9,5 +9,8 @@
 	<DataTemplate DataType="{x:Type ViewModels:ApartmentsFolderDetailsViewModel}">
 		<Views:ApartmentsFolderDetailsView />
 	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ChangeParentViewModel}">
+		<Views:ChangeParentView />
+	</DataTemplate>
 
 </ResourceDictionary>

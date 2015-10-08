@@ -19,6 +19,7 @@ namespace Resurs.ViewModels
 			AddFolderCommand = new RelayCommand(OnAddFolder, CanAddFolder);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+			ChangeParentCommand = new RelayCommand(OnChangeParent, CanChangeParent);
 
 			BuildTree();
 			if (RootApartment != null)
@@ -194,23 +195,50 @@ namespace Resurs.ViewModels
 					var index = selectedApartment.VisualIndex;
 					parent.Nodes.Remove(selectedApartment);
 					index = Math.Min(index, parent.ChildrenCount - 1);
-					//foreach (var childApartmentViewModel in selectedApartment.GetAllChildren(true))
-					//{
-					//	AllApartments.Remove(childApartmentViewModel);
-					//}
 					SelectedApartment = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 				}
 			}
+		}
+		
+		bool CanRemove()
+		{
+			return SelectedApartment != null && SelectedApartment.Parent != null;
+		}
+
+		public RelayCommand ChangeParentCommand { get; private set; }
+		void OnChangeParent()
+		{
+			var apartmentsFoldersViewModel = new ChangeParentViewModel(SelectedApartment.Apartment.UID);
+			if (DialogService.ShowModalWindow(apartmentsFoldersViewModel) && apartmentsFoldersViewModel.SelectedApartment != null)
+			{
+				var parentApartmentViewModel = AllApartments.FirstOrDefault(x => x.Apartment.UID == apartmentsFoldersViewModel.SelectedApartment.Apartment.UID);
+				if (parentApartmentViewModel != null)
+				{
+					SelectedApartment.Apartment.Parent.Children.RemoveAll(x => x.UID == SelectedApartment.Apartment.UID);
+					SelectedApartment.Apartment.Parent = apartmentsFoldersViewModel.SelectedApartment.Apartment;
+					SelectedApartment.Apartment.Parent.Children.Add(SelectedApartment.Apartment);
+
+					DBCash.SaveApartment(SelectedApartment.Apartment);
+
+					var apartmentViewModel = SelectedApartment;
+					SelectedApartment.Parent.RemoveChild(SelectedApartment);
+
+					parentApartmentViewModel.AddChild(apartmentViewModel);
+					apartmentViewModel.ExpandToThis();
+
+					SelectedApartment = apartmentViewModel;
+				}
+			}
+		}
+
+		bool CanChangeParent()
+		{
+			return SelectedApartment != null && SelectedApartment.Parent != null;
 		}
 
 		public bool IsVisibility
 		{
 			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.Apartment); }
-		}
-
-		bool CanRemove()
-		{
-			return SelectedApartment != null && SelectedApartment.Parent != null;
 		}
 	}
 }

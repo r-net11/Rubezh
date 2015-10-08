@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="Resurs.Views.ChangeParentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+			 xmlns:viewModel="clr-namespace:Resurs.ViewModels"
+			 MinWidth="600" MinHeight="600" >
+	<UserControl.Resources>
+		<viewModel:ApartmentViewModelNameComparer x:Key="ApartmentViewModelNameComparer" />
+		<viewModel:ApartmentViewModelDescriptionComparer x:Key="ApartmentViewModelDescriptionComparer" />
+	</UserControl.Resources>
+	<tree:TreeList Grid.Row="1" Source="{Binding RootApartments}" SelectedTreeNode="{Binding SelectedApartment}" ItemActivatedCommand="{Binding SaveCommand}"
+					   Focusable="True" tree:SortBehavior.CanUserSortColumns="True">
+		<tree:TreeList.View>
+			<GridView>
+				<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource ApartmentViewModelNameComparer}">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="{Binding ImageSource}" />
+								<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Apartment.Name}" />
+							</StackPanel>
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
+				<GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource ApartmentViewModelDescriptionComparer}">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Apartment.Description}" />
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
+			</GridView>
+		</tree:TreeList.View>
+	</tree:TreeList>
+</UserControl>

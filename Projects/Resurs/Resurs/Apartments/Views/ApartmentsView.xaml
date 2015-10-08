@@ -16,6 +16,8 @@
 			<KeyBinding Modifiers="Control" Key="N" Command="{Binding AddCommand}" />
 			<KeyBinding Modifiers="Control" Key="E" Command="{Binding EditCommand}" />
 			<KeyBinding Modifiers="Control" Key="Del" Command="{Binding RemoveCommand}" />
+			<KeyBinding Modifiers="Control" Key="G" Command="{Binding AddFolderCommand}" />
+			<KeyBinding Modifiers="Control" Key="M" Command="{Binding ChangeParentCommand}" />
 		</Grid.InputBindings>
 
 		<Grid.ColumnDefinitions>
