@@ -24,7 +24,37 @@ namespace Resurs.ViewModels
 			CreateConsumers();
 			CreateUsers();
 			CreateMeasures();
-			
+			CreateTariffs();
+		}
+
+		void CreateTariffs()
+		{
+			var random = new Random();
+			var tariffs = new List<Tariff>();
+			for (int i = 0; i < 50; i++)
+			{
+				tariffs.Add(new Tariff
+				{
+					Description = "" + random.Next(0, 1000),
+					//not clear
+					Devices = new List<Device>(),
+					IsDiscount = random.Next(0, 1) == 1 ? true : false,
+					Name = "Тестовый тариф" + random.Next(0, 1000),
+					TariffParts = new List<TariffPart>(),
+					TariffType = TariffType.Electricity,
+				});
+				tariffs[i].TariffParts.Add(new TariffPart
+				{
+					Discount = random.Next(0, 1000),
+					EndTime = new TimeSpan(random.Next(0, 23), random.Next(0, 59), random.Next(0, 59)),
+					StartTime = new TimeSpan(random.Next(0, 23), random.Next(0, 59), random.Next(0, 59)),
+					Price = random.Next(0, 1000),
+					Tariff = tariffs[i],
+					Threshold = random.Next(0, 1000),
+				});
+			}
+			DBCash.CreateTariffs(tariffs);
+
 		}
 
 		void DropDB()

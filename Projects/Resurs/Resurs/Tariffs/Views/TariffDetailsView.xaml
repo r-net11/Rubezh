@@ -50,46 +50,46 @@
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<Border CornerRadius="3" Background="#7bb2d8" Margin="1">
-						<Grid>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="Auto" />
-							</Grid.ColumnDefinitions>
-							<Grid.RowDefinitions>
-								<RowDefinition Height="Auto" />
-							</Grid.RowDefinitions>
-							<Grid Grid.Column="0" Grid.Row="0">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="160" />
-									<ColumnDefinition Width="70" />
-								</Grid.ColumnDefinitions>
-								<Grid.RowDefinitions>
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-								</Grid.RowDefinitions>
-								<TextBlock Grid.Column="0" Grid.Row="0" Margin="5 5 5 2" Text="Цена за единицу ресурса" Style="{DynamicResource TextBlockDetailsStyle}" />
-								<TextBlock Grid.Column="0" Grid.Row="1" Margin="5 2 5 2" Text="Начало" Style="{DynamicResource TextBlockDetailsStyle}" />
-								<TextBlock Grid.Column="0" Grid.Row="2" Margin="5 2 5 5" Text="Конец" Style="{DynamicResource TextBlockDetailsStyle}" />
-								<TextBox	Grid.Column="1" Grid.Row="0" Margin="5 5 5 2" Text="{Binding Price}" Width="60" MinWidth="60" />
-									<TimePicker Grid.Column="1" Grid.Row="1" Margin="5 2 5 2" TimeSpan="{Binding StartTime, RelativeSource={RelativeSource TemplatedParent}}" IsFullDay="True" Height="25" Width="60" />
-									<TimePicker Grid.Column="1" Grid.Row="2" Margin="5 2 5 5" TimeSpan="{Binding DataContext.EndTime}" IsFullDay="True" Height="25" Width="60" />
-							</Grid>
-							<Grid Grid.Column="1" Grid.Row="0" Visibility="{Binding ElementName=meControl, Path=DataContext.IsDiscount, Converter={StaticResource BoolToVisibilityConverter}}">
+							<Grid>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="Auto" />
 									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
 								<Grid.RowDefinitions>
 									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
 								</Grid.RowDefinitions>
-								<TextBlock Grid.Column="0" Grid.Row="0" Margin="4" Text="Цена до исчерпания льготного порога" Style="{DynamicResource TextBlockDetailsStyle}" />
-								<TextBlock Grid.Column="0" Grid.Row="1" Margin="4" Text="Льготный порог" Style="{DynamicResource TextBlockDetailsStyle}" />
-								<TextBox Grid.Column="1" Grid.Row="0" Margin="4" Text="{Binding Discount}" Width="60" MinWidth="60" />
-								<TextBox Grid.Column="1" Grid.Row="1" Margin="4" Text="{Binding Threshold}" Width="60" MinWidth="60" />
+								<Grid Grid.Column="0" Grid.Row="0">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="160" />
+										<ColumnDefinition Width="70" />
+									</Grid.ColumnDefinitions>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+									</Grid.RowDefinitions>
+									<TextBlock Grid.Column="0" Grid.Row="0" Margin="5 5 5 2" Text="Цена за единицу ресурса" Style="{DynamicResource TextBlockDetailsStyle}" />
+									<TextBlock Grid.Column="0" Grid.Row="1" Margin="5 2 5 2" Text="Начало" Style="{DynamicResource TextBlockDetailsStyle}" />
+									<TextBlock Grid.Column="0" Grid.Row="2" Margin="5 2 5 5" Text="Конец" Style="{DynamicResource TextBlockDetailsStyle}" />
+									<TextBox Grid.Column="1" Grid.Row="0" Margin="5 5 5 2" Text="{Binding Price}" Width="60" MinWidth="60" />
+									<DatePickerTextBox Grid.Column="1" Grid.Row="1" Margin="5 2 5 2" Text="{Binding StartTime}" />
+									<DatePickerTextBox Grid.Column="1" Grid.Row="2" Margin="5 2 5 5" Text="{Binding EndTime}" />
+								</Grid>
+								<Grid Grid.Column="1" Grid.Row="0" Visibility="{Binding ElementName=meControl, Path=DataContext.IsDiscount, Converter={StaticResource BoolToVisibilityConverter}}">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="Auto" />
+									</Grid.ColumnDefinitions>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+									</Grid.RowDefinitions>
+									<TextBlock Grid.Column="0" Grid.Row="0" Margin="4" Text="Цена до исчерпания льготного порога" Style="{DynamicResource TextBlockDetailsStyle}" />
+									<TextBlock Grid.Column="0" Grid.Row="1" Margin="4" Text="Льготный порог" Style="{DynamicResource TextBlockDetailsStyle}" />
+									<TextBox Grid.Column="1" Grid.Row="0" Margin="4" Text="{Binding Discount}" Width="60" MinWidth="60" />
+									<TextBox Grid.Column="1" Grid.Row="1" Margin="4" Text="{Binding Threshold}" Width="60" MinWidth="60" />
+								</Grid>
 							</Grid>
-						</Grid>
 						</Border>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
