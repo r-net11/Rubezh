@@ -46,6 +46,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => IsControlRegime);
 			OnPropertyChanged(() => State);
 			OnPropertyChanged(() => HasOnDelay);
+			OnPropertyChanged(() => HasHoldDelay);
 			CommandManager.InvalidateRequerySuggested();
 		}
 
@@ -156,6 +157,10 @@ namespace GKModule.ViewModels
 		public bool HasOnDelay
 		{
 			get { return State.StateClasses.Contains(XStateClass.TurningOn) && State.OnDelay > 0; }
+		}
+		public bool HasHoldDelay
+		{
+			get { return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0; }
 		}
 
 		public RelayCommand ShowCommand { get; private set; }

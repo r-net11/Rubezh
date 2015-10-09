@@ -40,6 +40,13 @@
 						<TextBlock Text="Сек" FontSize="24" Margin="2" />
 					</StackPanel>
 				</StackPanel>
+				<StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}">
+					<TextBlock Text="Удержание" Margin="2" />
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="{Binding State.HoldDelay}" FontSize="24" Margin="2" />
+						<TextBlock Text="Сек" FontSize="24" Margin="2" />
+					</StackPanel>
+				</StackPanel>
 			</StackPanel>
 		</Grid>
 		<TabControl Grid.Row="1">
