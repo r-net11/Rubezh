@@ -15,7 +15,7 @@ namespace Resurs.Reports.Templates
 			StartTime.Value = filter.StartDate;
 			EndTime.Value = filter.EndDate;
 			DeviceName.Value = filter.Device.Name;
-			Address.Value = filter.Device.Address;
+			Address.Value = filter.Device.FullAddress;
 			AbonentName.Value = "Лавров Генадий Павлович";
 			var measures = DBCash.GetMeasures(filter.Device.UID, filter.StartDate, filter.EndDate);
 			var dataSet = new CounterDataSet();
@@ -24,7 +24,7 @@ namespace Resurs.Reports.Templates
 				var dataRow = dataSet.Data.NewDataRow();
 				dataRow.DateTime = measure.DateTime;
 				dataRow.Tariff = measure.TariffPartNo;
-				dataRow.CounterValue = measure.Value;
+				dataRow.CounterValue = Math.Round(measure.Value,2);
 				dataSet.Data.Rows.Add(dataRow);
 			}
 			DataSource = dataSet;

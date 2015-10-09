@@ -453,6 +453,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ReceiptsDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Reports\ReportPeriodType.cs" />
     <Compile Include="Reports\ReportPreviewModel.cs" />
     <Compile Include="Reports\Templates\ChangeValueReport.cs">
       <SubType>Component</SubType>

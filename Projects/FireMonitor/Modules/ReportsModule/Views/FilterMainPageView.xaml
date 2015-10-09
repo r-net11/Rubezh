@@ -63,7 +63,7 @@
 				Margin="2"
 				VerticalContentAlignment="Center"
 				VerticalAlignment="Center"
-				Width="150"/>
+				Width="150" />
 			
 			<DatePicker
 				DisplayDateStart="{Binding MinDate, Mode=OneWay}"
@@ -76,7 +76,7 @@
 				HorizontalAlignment="Left" 
 				VerticalAlignment="Center" 
 				Margin="2"
-				Width="150"/>
+				Width="150" />
 		</Grid>
 		<CheckBox Grid.Row="2" VerticalAlignment="Center" Content="Отображать архивные сведения" Foreground="White" IsChecked="{Binding UseArchive}" Visibility="{Binding HasArchive, Converter={StaticResource BoolToVisibilityConverter}}" />
 		<ContentPresenter Grid.Row="3" Content="{Binding MainViewModel, Mode=OneTime}" />

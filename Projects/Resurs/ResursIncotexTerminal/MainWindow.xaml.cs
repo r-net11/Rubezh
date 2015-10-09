@@ -20,9 +20,30 @@ namespace ResursIncotexTerminal
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region Constructors
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        #endregion
+
+        #region Event Handlers
+
+        private void EventhHandler_MenuFileExit_Click(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+            Application.Current.Shutdown();
+        }
+
+        #endregion
+
+        private void EventhHandler_CommandBinding_New(object sender, ExecutedRoutedEventArgs e)
+        {
+            e.Handled = true;
+            MessageBox.Show("Команда запущена из " + e.Source.ToString(), 
+                "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

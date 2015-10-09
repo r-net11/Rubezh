@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ResursNetwork.Devices.ValueConverters;
+using ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters;
 
-namespace ResursNetwork.Devices
+namespace ResursNetwork.OSI.ApplicationLayer.Devices
 {
     /// <summary>
     /// Содержит описание параметра профиля устройства
