@@ -78,8 +78,7 @@ namespace GKProcessor
 			}
 
 			if ((Device.DriverType == GKDriverType.RSR2_CodeReader || Device.DriverType == GKDriverType.RSR2_CardReader ||
-			     Device.DriverType == GKDriverType.RSR2_GuardDetector ||
-			     Device.DriverType == GKDriverType.RSR2_GuardDetectorSound) && Device.GuardZones != null &&
+			     Device.DriverType == GKDriverType.RSR2_GuardDetector ||Device.DriverType == GKDriverType.RSR2_GuardDetectorSound) && Device.GuardZones != null &&
 			    Device.GuardZones.Count > 0)
 			{
 				Formula.AddGetBit(GKStateBit.On, Device.GuardZones.FirstOrDefault());
