@@ -86,7 +86,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (Device.DriverType == GKDriverType.RSR2_MDU24 || Device.DriverType == GKDriverType.RSR2_MDU)
+				if (Device.DriverType == GKDriverType.RSR2_MDU24 || Device.DriverType == GKDriverType.RSR2_MDU || Device.DriverType == GKDriverType.RSR2_Buz_KV || Device.DriverType == GKDriverType.RSR2_Buz_KVMV || Device.DriverType == GKDriverType.RSR2_Buz_KVDU)
 					return (State.StateClasses.Contains(XStateClass.TurningOn) || State.StateClasses.Contains(XStateClass.TurningOff)) && State.HoldDelay > 0;
 				return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0;
 			}
@@ -100,7 +100,7 @@ namespace GKModule.ViewModels
 		}
 		public bool HasRunTime
 		{
-			get { return Device.DriverType == GKDriverType.RSR2_MDU || Device.DriverType == GKDriverType.RSR2_MDU24; }
+			get { return Device.DriverType == GKDriverType.RSR2_MDU || Device.DriverType == GKDriverType.RSR2_MDU24 || Device.DriverType == GKDriverType.RSR2_Buz_KV || Device.DriverType == GKDriverType.RSR2_Buz_KVMV || Device.DriverType == GKDriverType.RSR2_Buz_KVDU; }
 		}
 
 		#region Measure Parameters
