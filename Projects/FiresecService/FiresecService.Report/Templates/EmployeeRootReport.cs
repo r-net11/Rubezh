@@ -421,7 +421,7 @@ namespace FiresecService.Report.Templates
 				if (passJournal != null)
 				{
 					var dayPassJournals = passJournal.Where(item => item.EmployeeUID == employee.UID).GroupBy(x => x.EnterTime.Date);
-					var timeTrackParts = new List<SKDDriver.DataClasses.PassJournal>();
+					var timeTrackParts = new List<RubezhDAL.DataClasses.PassJournal>();
 					foreach (var dayPassJournal in dayPassJournals)
 					{
 						var timeTrackDayParts = NormalizePassJournals(dayPassJournal);
@@ -445,10 +445,10 @@ namespace FiresecService.Report.Templates
 			return ds;
 		}
 
-		public static List<SKDDriver.DataClasses.PassJournal> NormalizePassJournals(IEnumerable<SKDDriver.DataClasses.PassJournal> passJournals)
+		public static List<RubezhDAL.DataClasses.PassJournal> NormalizePassJournals(IEnumerable<RubezhDAL.DataClasses.PassJournal> passJournals)
 		{
 			if (passJournals.Count() == 0)
-				return new List<SKDDriver.DataClasses.PassJournal>();
+				return new List<RubezhDAL.DataClasses.PassJournal>();
 
 			var result = passJournals.OrderBy(x => x.EnterTime).ToList();
 

@@ -7,11 +7,11 @@ using System.Xml.Serialization;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
-using SKDDriver.DataClasses;
+using RubezhDAL.DataClasses;
 using System.Data.Entity;
 
 
-namespace SKDDriver
+namespace RubezhDAL
 {
 	public class JounalSynchroniser: IDisposable
 	{

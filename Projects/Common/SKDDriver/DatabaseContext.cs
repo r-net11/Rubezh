@@ -6,7 +6,7 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 using System.Data.Common;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	public class DatabaseContext : DbContext
 	{

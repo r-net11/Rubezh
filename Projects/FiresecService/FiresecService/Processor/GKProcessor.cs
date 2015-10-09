@@ -6,7 +6,7 @@ using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using FiresecClient;
 using GKProcessor;
-using SKDDriver;
+using RubezhDAL;
 using System.Collections.Generic;
 using Infrastructure.Automation;
 
@@ -106,9 +106,9 @@ namespace FiresecService
 
 				if (zoneUID.HasValue)
 				{
-					using (var dbService = new SKDDriver.DataClasses.DbService())
+					using (var databaseService = new RubezhDAL.DataClasses.DbService())
 					{
-						dbService.PassJournalTranslator.AddPassJournal(journalItem.EmployeeUID, zoneUID.Value);
+						databaseService.PassJournalTranslator.AddPassJournal(journalItem.EmployeeUID, zoneUID.Value);
 					}
 				}
 			}
@@ -122,7 +122,7 @@ namespace FiresecService
 				{
 					var device = GKManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 					{
-						using (var databaseService = new SKDDriver.DataClasses.DbService())
+						using (var databaseService = new RubezhDAL.DataClasses.DbService())
 						{
 							if (device != null)
 							{

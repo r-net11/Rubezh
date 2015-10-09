@@ -6,9 +6,9 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecClient;
-using SKDDriver.DataClasses;
+using RubezhDAL.DataClasses;
 
-namespace SKDDriver
+namespace RubezhDAL
 {
 	public static class ConfigurationSynchroniser
 	{

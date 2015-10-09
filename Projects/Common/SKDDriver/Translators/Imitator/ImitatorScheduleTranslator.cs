@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data.Entity;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	public class ImitatorScheduleTranslator
 	{

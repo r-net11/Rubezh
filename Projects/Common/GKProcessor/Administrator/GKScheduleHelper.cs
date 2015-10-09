@@ -23,7 +23,7 @@ namespace GKProcessor
 				return OperationResult<bool>.FromError(removeResult.Errors);
 
 			var schedules = new List<GKSchedule>();
-			using (var databaseService = new SKDDriver.DataClasses.DbService())
+			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				var schedulesResult = databaseService.GKScheduleTranslator.Get();
 				if (schedulesResult.HasError)
@@ -87,7 +87,7 @@ namespace GKProcessor
 		{
 			var count = 0;
 			var daySchedules = new List<GKDaySchedule>();
-			using (var databaseService = new SKDDriver.DataClasses.DbService())
+			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				var schedulesResult = databaseService.GKDayScheduleTranslator.Get();
 				if (schedulesResult.HasError)

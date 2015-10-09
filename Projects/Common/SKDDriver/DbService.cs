@@ -3,7 +3,7 @@ using Infrastructure.Common;
 using System;
 using System.Linq;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	public class DbService : IDisposable
 	{

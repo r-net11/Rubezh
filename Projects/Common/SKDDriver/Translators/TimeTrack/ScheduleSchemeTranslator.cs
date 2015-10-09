@@ -5,7 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using API = FiresecAPI.SKD;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	public class ScheduleSchemeTranslator : OrganisationItemTranslatorBase<ScheduleScheme, API.ScheduleScheme, API.ScheduleSchemeFilter>
 	{

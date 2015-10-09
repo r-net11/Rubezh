@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	public interface IOrganisationItem
 	{

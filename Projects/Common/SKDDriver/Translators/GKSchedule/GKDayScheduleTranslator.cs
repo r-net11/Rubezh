@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using FiresecAPI;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	public class GKDayScheduleTranslator
 	{

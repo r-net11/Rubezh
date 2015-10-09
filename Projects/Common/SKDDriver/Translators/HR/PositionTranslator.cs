@@ -6,7 +6,7 @@ using API = FiresecAPI.SKD;
 using System.Linq;
 using System;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	public class PositionTranslator : OrganisationItemTranslatorBase<Position, API.Position, API.PositionFilter>
 	{

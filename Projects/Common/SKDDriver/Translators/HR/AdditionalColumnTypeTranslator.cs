@@ -7,7 +7,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using API = FiresecAPI.SKD;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	public class AdditionalColumnTypeTranslator : OrganisationItemTranslatorBase<AdditionalColumnType, API.AdditionalColumnType, API.AdditionalColumnTypeFilter>
 	{

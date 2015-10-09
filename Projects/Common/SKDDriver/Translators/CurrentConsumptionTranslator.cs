@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using API = FiresecAPI.GK;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {   
     public class CurrentConsumptionTranslator
     {

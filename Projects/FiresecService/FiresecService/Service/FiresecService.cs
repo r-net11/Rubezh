@@ -5,7 +5,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
-using SKDDriver.DataClasses;
+using RubezhDAL.DataClasses;
 using FiresecLicense;
 
 namespace FiresecService.Service
@@ -76,9 +76,9 @@ namespace FiresecService.Service
 
 		public string Test(string arg)
 		{
-			using (var dbService = new SKDDriver.DataClasses.DbService())
+			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
-				dbService.PassJournalTranslator.InsertPassJournalTestData();
+				databaseService.PassJournalTranslator.InsertPassJournalTestData();
 			}
 			return "Test";
 		}
@@ -107,9 +107,9 @@ namespace FiresecService.Service
 
 		public OperationResult ResetDB()
 		{
-			using (var dbService = new SKDDriver.DataClasses.DbService())
+			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
-				return dbService.ResetDB();
+				return databaseService.ResetDB();
 			}
 		}
         

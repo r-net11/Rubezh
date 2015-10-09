@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using API = FiresecAPI.SKD;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	public class TimeTrackDocumentTranslator
 	{

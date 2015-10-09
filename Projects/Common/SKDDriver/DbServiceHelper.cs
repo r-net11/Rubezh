@@ -4,7 +4,7 @@ using System.Data.Common;
 using System.Data.Entity.Infrastructure;
 using Infrastructure.Common;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	public static class DbServiceHelper
 	{

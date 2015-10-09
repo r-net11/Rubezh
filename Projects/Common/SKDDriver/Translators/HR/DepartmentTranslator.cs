@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using FiresecAPI;
 using API = FiresecAPI.SKD;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	public class DepartmentTranslator : OrganisationItemTranslatorBase<Department, API.Department, API.DepartmentFilter>
 	{

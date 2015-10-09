@@ -6,7 +6,7 @@ using FiresecAPI;
 using API = FiresecAPI.SKD;
 using System.Diagnostics;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	public class OrganisationTranslator
 	{

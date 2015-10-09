@@ -4,11 +4,11 @@ using System.Linq.Expressions;
 using FiresecAPI;
 //using FiresecAPI.SKD;
 using LinqKit;
-using SKDDriver.DataClasses;
+using RubezhDAL.DataClasses;
 using System.Data.Entity;
 using System.Linq;
 
-namespace SKDDriver
+namespace RubezhDAL
 {
 	public class OrganisationSynchroniser : Synchroniser<FiresecAPI.SKD.ExportOrganisation, Organisation>
 	{

@@ -8,7 +8,7 @@ using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using FiresecClient;
 using GKProcessor;
-using SKDDriver;
+using RubezhDAL;
 using System.Diagnostics;
 using System.Threading;
 
@@ -232,7 +232,7 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> GKRewriteAllSchedules(Guid deviceUID)
 		{
-			if (SKDDriver.DataClasses.DbService.ConnectionOperationResult.HasError)
+			if (RubezhDAL.DataClasses.DbService.ConnectionOperationResult.HasError)
 				return OperationResult<bool>.FromError("Отсутствует подключение к БД");
 			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (gkControllerDevice != null)
@@ -518,7 +518,7 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> GKRewriteUsers(Guid deviceUID)
 		{
-			if (SKDDriver.DataClasses.DbService.ConnectionOperationResult.HasError)
+			if (RubezhDAL.DataClasses.DbService.ConnectionOperationResult.HasError)
 				return OperationResult<bool>.FromError("Отсутствует подключение к БД");
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -528,7 +528,7 @@ namespace FiresecService.Service
 					{
 						progressCallback = GKProcessorManager.StartProgress("Удаление пользователей прибора " + device.PresentationName, "", 65535, false, GKProgressClientType.Administrator);
 
-						using (var databaseService = new SKDDriver.DataClasses.DbService())
+						using (var databaseService = new RubezhDAL.DataClasses.DbService())
 						{
 							databaseService.CardTranslator.DeleteAllPendingCards(device.UID);
 						}
@@ -547,7 +547,7 @@ namespace FiresecService.Service
 
 							int currentUserNo = 1;
 
-							using (var databaseService = new SKDDriver.DataClasses.DbService())
+							using (var databaseService = new RubezhDAL.DataClasses.DbService())
 							{
 								var cardsResult = databaseService.CardTranslator.Get(new CardFilter() { DeactivationType = LogicalDeletationType.Active });
 								if (!cardsResult.HasError)

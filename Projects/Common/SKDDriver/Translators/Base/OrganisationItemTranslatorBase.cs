@@ -5,7 +5,7 @@ using System.Linq;
 using FiresecAPI;
 using API = FiresecAPI.SKD;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	public abstract class OrganisationItemTranslatorBase<TTableItem, TApiItem, TFilter> : ITranslatorGet<TTableItem, TApiItem, TFilter>
 		where TTableItem : class, IOrganisationItem, new()

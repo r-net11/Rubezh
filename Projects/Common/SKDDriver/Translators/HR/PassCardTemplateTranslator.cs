@@ -7,7 +7,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using API = FiresecAPI.SKD;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	/// <summary>
 	/// Методы Get и GetSingle не реализованы, вместо GetSingle - GetPassCardTemplate

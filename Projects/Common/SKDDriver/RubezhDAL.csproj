@@ -8,8 +8,8 @@
     <ProjectGuid>{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SKDDriver</RootNamespace>
-    <AssemblyName>SKDDriver</AssemblyName>
+    <RootNamespace>RubezhDAL</RootNamespace>
+    <AssemblyName>RubezhDAL</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

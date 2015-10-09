@@ -5,7 +5,7 @@ using FiresecAPI;
 using API = FiresecAPI.SKD;
 using System.Collections.Generic;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	public class AccessTemplateTranslator : OrganisationItemTranslatorBase<AccessTemplate, API.AccessTemplate, API.AccessTemplateFilter>
 	{

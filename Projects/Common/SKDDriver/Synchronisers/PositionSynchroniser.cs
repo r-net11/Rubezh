@@ -6,7 +6,7 @@ using LinqKit;
 using System.Data.Entity;
 using System.Linq;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	public class PositionSynchroniser : Synchroniser<ExportPosition, Position>
 	{

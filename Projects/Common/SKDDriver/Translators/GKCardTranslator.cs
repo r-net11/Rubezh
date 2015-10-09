@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
     public class GKCardTranslator
     {

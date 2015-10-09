@@ -6,7 +6,7 @@ using FiresecAPI;
 using API = FiresecAPI.SKD;
 using System.Threading;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	public abstract class AsyncTranslator<TTableItem, TApiItem, TFilter>
 		where TTableItem : class, new()

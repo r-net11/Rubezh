@@ -5,7 +5,7 @@ using LinqKit;
 using System.Data.Entity;
 using System.Linq;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
     public class EmployeeSynchroniser : Synchroniser<FiresecAPI.SKD.ExportEmployee, Employee>
 	{

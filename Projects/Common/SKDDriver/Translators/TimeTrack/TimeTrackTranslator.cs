@@ -8,12 +8,12 @@ using FiresecAPI.SKD;
 using Infrastructure.Common;
 using System.Data.Entity;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	public class TimeTrackTranslator
 	{
-		
-        public TimeTrackTranslator(SKDDriver.DataClasses.DbService databaseService)
+
+		public TimeTrackTranslator(RubezhDAL.DataClasses.DbService databaseService)
 		{
 			Context = databaseService.Context;
             DbService = databaseService;

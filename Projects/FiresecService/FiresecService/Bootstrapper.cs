@@ -11,7 +11,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
 using FiresecAPI;
-using SKDDriver.DataClasses;
+using RubezhDAL.DataClasses;
 using FiresecService.Processor;
 using Infrastructure.Automation;
 using FiresecAPI.AutomationCallback;

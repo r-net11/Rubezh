@@ -5,7 +5,7 @@ using System.Text;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecClient;
-using SKDDriver;
+using RubezhDAL;
 
 namespace GKProcessor
 {
@@ -141,7 +141,7 @@ namespace GKProcessor
 								}
 							}
 
-							using (var databaseService = new SKDDriver.DataClasses.DbService())
+							using (var databaseService = new RubezhDAL.DataClasses.DbService())
 							{
 								var cardNo = databaseService.GKCardTranslator.GetCardNoByGKNo(gkControllerDevice.GetGKIpAddress(), (int)gkCardNo);
 								var operationResult = databaseService.CardTranslator.GetEmployeeByCardNo(cardNo);
@@ -196,7 +196,7 @@ namespace GKProcessor
 								}
 							}
 
-                            using (var databaseService = new SKDDriver.DataClasses.DbService())
+                            using (var databaseService = new RubezhDAL.DataClasses.DbService())
 							{
 								var cardNo = databaseService.GKCardTranslator.GetCardNoByGKNo(gkControllerDevice.GetGKIpAddress(), (int)gkCardNo);
 								var operationResult = databaseService.CardTranslator.GetEmployeeByCardNo(cardNo);

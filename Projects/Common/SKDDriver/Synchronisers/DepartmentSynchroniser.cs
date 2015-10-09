@@ -5,10 +5,10 @@ using System.Linq;
 using System.Linq.Expressions;
 
 using LinqKit;
-using SKDDriver.DataClasses;
+using RubezhDAL.DataClasses;
 using System.Data.Entity;
 
-namespace SKDDriver
+namespace RubezhDAL
 {
     public class DepartmentSynchroniser : Synchroniser<FiresecAPI.SKD.ExportDepartment, Department>
 	{

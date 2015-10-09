@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 using EntityFramework.BulkInsert.Providers;
 using Infrastructure.Common;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
     public class TestDataGenerator
     {

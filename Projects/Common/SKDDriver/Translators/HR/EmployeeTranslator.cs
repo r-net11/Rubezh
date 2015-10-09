@@ -8,7 +8,7 @@ using API = FiresecAPI.SKD;
 using System.Runtime.Serialization;
 using System.Diagnostics;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	public class EmployeeTranslator : OrganisationItemTranslatorBase<Employee, API.Employee, API.EmployeeFilter>
 	{

@@ -10,7 +10,7 @@ using FiresecAPI.SKD;
 using LinqKit;
 using System.Data.Entity;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	public abstract class Synchroniser<TExportItem, TTableItem>
 		where TTableItem : class, IExternalKey, new()

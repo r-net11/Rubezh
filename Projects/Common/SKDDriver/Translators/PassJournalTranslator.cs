@@ -8,7 +8,7 @@ using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecClient;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	public class PassJournalTranslator
 	{

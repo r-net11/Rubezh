@@ -6,7 +6,7 @@ using FiresecClient;
 using FiresecService.Service;
 using Infrastructure.Automation;
 using Infrastructure.Common.BalloonTrayTip;
-using SKDDriver.DataClasses;
+using RubezhDAL.DataClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;

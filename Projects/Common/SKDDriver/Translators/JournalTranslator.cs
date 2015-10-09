@@ -6,7 +6,7 @@ using FiresecAPI;
 using FiresecAPI.Journal;
 using System.Diagnostics;
 
-namespace SKDDriver.DataClasses
+namespace RubezhDAL.DataClasses
 {
 	public class JournalTranslator
 	{

@@ -6,7 +6,7 @@ using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.Model;
-using SKDDriver;
+using RubezhDAL;
 
 namespace FiresecService.Report
 {
@@ -14,11 +14,11 @@ namespace FiresecService.Report
 	{
 		public DataProvider()
 		{
-			DbService = new SKDDriver.DataClasses.DbService();
+			DbService = new RubezhDAL.DataClasses.DbService();
 			IsCacheLoaded = false;
 		}
 
-		public SKDDriver.DataClasses.DbService DbService { get; private set; }
+		public RubezhDAL.DataClasses.DbService DbService { get; private set; }
 		public bool IsCacheLoaded { get; private set; }
 
 		public Dictionary<Guid, DeletableObjectInfo<Organisation>> Organisations { get; private set; }
