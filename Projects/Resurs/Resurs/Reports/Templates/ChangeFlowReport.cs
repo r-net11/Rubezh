@@ -1,5 +1,6 @@
 ﻿using DevExpress.XtraReports.UI;
 using Resurs.Reports.DataSources;
+using Resurs.ViewModels;
 using ResursDAL;
 using System;
 
@@ -7,9 +8,10 @@ namespace Resurs.Reports.Templates
 {
 	public partial class ChangeFlowReport : XtraReport, IReport
 	{
-		public ChangeFlowReport(ReportFilter filter)
+		public ChangeFlowReport()
 		{
 			InitializeComponent();
+			var filter = ReportsViewModel.Filter;
 			StartTime.Value = filter.StartDate;
 			EndTime.Value = filter.EndDate;
 			DeviceName.Value = filter.Device.Name;

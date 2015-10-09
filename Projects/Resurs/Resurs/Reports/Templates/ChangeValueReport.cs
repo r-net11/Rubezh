@@ -2,14 +2,17 @@
 using ResursAPI;
 using Resurs.Reports.DataSources;
 using System.Linq;
+using DevExpress.XtraReports.UI;
+using Resurs.ViewModels;
 
 namespace Resurs.Reports.Templates
 {
-	public partial class ChangeValueReport : DevExpress.XtraReports.UI.XtraReport
+	public partial class ChangeValueReport : XtraReport
 	{
-		public ChangeValueReport(ReportFilter filter)
+		public ChangeValueReport()
 		{
 			InitializeComponent();
+			var filter = ReportsViewModel.Filter; 
 			var counters = DBCash.GetAllChildren(DBCash.RootDevice).Where(x => x.DeviceType == DeviceType.Counter).ToList();
 			var dataSet = new ChangeValueDataSet();
 			foreach (var counter in counters)

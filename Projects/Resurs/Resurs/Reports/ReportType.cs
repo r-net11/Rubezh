@@ -7,7 +7,7 @@ namespace Resurs.Reports
 		[Description("Изменение расхода счетчика")]
 		ChangeFlow,
 
-		[Description("Данные по дложникам")]
+		[Description("Данные по должникам")]
 		Debtors,
 
 		[Description("Отчет по квитанциям")]

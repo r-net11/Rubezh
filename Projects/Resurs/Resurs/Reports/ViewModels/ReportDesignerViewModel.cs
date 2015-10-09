@@ -13,7 +13,7 @@ namespace Resurs.ViewModels
 {
 	public class ReportDesignerViewModel : DialogViewModel
 	{
-		public XtraReport Report { get; set; }
+		public static XtraReport Report { get; set; }
 		public ReportDesignerViewModel(XtraReport report)
 		{
 			Title = "Дизайнер отчетов";
