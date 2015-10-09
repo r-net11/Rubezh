@@ -511,10 +511,6 @@
       <Project>{da2a8431-7328-4ae8-926f-e191700577a1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\SKDDriver\SKDDriver.csproj">
-      <Project>{e1d3cda0-1de6-47d3-8d2f-c56b297e8007}</Project>
-      <Name>SKDDriver</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

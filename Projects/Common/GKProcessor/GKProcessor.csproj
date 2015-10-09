@@ -197,9 +197,9 @@
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SKDDriver\SKDDriver.csproj">
+    <ProjectReference Include="..\RubezhDAL\RubezhDAL.csproj">
       <Project>{e1d3cda0-1de6-47d3-8d2f-c56b297e8007}</Project>
-      <Name>SKDDriver</Name>
+      <Name>RubezhDAL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
