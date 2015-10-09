@@ -24,7 +24,9 @@ namespace ResursAPI
 			DriverType = driverType;
 			foreach (var item in Driver.DriverParameters)
 			{
-				Parameters.Add(new Parameter { DriverParameter = item, Device = this, Number = item.Number });
+				var parameter = new Parameter { Device = this };
+				parameter.Initialize(item);
+				Parameters.Add(parameter);
 			}
 			if(parent != null)
 			{

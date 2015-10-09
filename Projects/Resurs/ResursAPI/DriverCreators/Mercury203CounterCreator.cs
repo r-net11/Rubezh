@@ -33,7 +33,7 @@ namespace ResursAPI
 			{
 				Name = ParameterNamesMercury203.PowerLimit,
 				Description = "Лимит мощности",
-				ParameterType = ParameterType.DateTime,
+				ParameterType = ParameterType.Double,
 				IsReadOnly = true,
 				Number = 2
 			});

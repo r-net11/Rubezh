@@ -240,21 +240,6 @@ namespace GKModule.Validation
 				{
 					case GKDriverType.RSR2_RM_1:
 					case GKDriverType.RSR2_MVK8:
-					case GKDriverType.RSR2_CodeReader:
-					case GKDriverType.RSR2_CardReader:
-						if (door.LockDevice.Properties.FirstOrDefault(x => x.Name == "Состояние контакта для режима Выключено").Value != 0)
-							Errors.Add(new DeviceValidationError(door.LockDevice, "Парамер 'Состояние контакта для режима Выключено' устройства, участвующего в ТД, должен быть 'Контакт НР'", ValidationErrorLevel.CannotWrite));
-						if (door.LockDevice.Properties.FirstOrDefault(x => x.Name == "Состояние контакта для режима Удержания").Value != 4)
-							Errors.Add(new DeviceValidationError(door.LockDevice, "Парамер 'Состояние контакта для режима Удержания' устройства, участвующего в ТД, должен быть 'Контакт НЗ'", ValidationErrorLevel.CannotWrite));
-						if (door.LockDevice.Properties.FirstOrDefault(x => x.Name == "Состояние контакта для режима Включено").Value != 16)
-							Errors.Add(new DeviceValidationError(door.LockDevice, "Парамер 'Состояние контакта для режима Включено' устройства, участвующего в ТД, должен быть 'Контакт НЗ'", ValidationErrorLevel.CannotWrite));
-						break;
-				}
-
-				switch (door.LockDevice.DriverType)
-				{
-					case GKDriverType.RSR2_RM_1:
-					case GKDriverType.RSR2_MVK8:
 						if (door.LockDevice.Properties.FirstOrDefault(x => x.Name == "Задержка на включение, с").Value != 0)
 							Errors.Add(new DeviceValidationError(door.LockDevice, "Парамер 'Задержка на включение, с' устройства, участвующего в ТД, должен быть '0'", ValidationErrorLevel.CannotWrite));
 						break;

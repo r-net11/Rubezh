@@ -54,6 +54,8 @@ namespace Resurs.Reports.Templates
 			this.StartTime = new DevExpress.XtraReports.Parameters.Parameter();
 			this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
 			this.counterDataSet1 = new Resurs.Reports.DataSources.CounterDataSet();
+			this.xrPageInfo1 = new DevExpress.XtraReports.UI.XRPageInfo();
+			this.xrPageInfo2 = new DevExpress.XtraReports.UI.XRPageInfo();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.counterDataSet1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
@@ -122,6 +124,7 @@ namespace Resurs.Reports.Templates
 			this.TopMargin.HeightF = 234.3334F;
 			this.TopMargin.Name = "TopMargin";
 			this.TopMargin.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
+			this.TopMargin.StylePriority.UseTextAlignment = false;
 			this.TopMargin.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
 			// 
 			// xrLine1
@@ -174,6 +177,7 @@ namespace Resurs.Reports.Templates
 			// 
 			// xrLabel11
 			// 
+			this.xrLabel11.CanGrow = false;
 			this.xrLabel11.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding(this.AbonentName, "Text", "Имя пользователя счетчика: {0}")});
 			this.xrLabel11.LocationFloat = new DevExpress.Utils.PointFloat(10.0001F, 136.2916F);
@@ -189,6 +193,7 @@ namespace Resurs.Reports.Templates
 			// 
 			// xrLabel10
 			// 
+			this.xrLabel10.CanGrow = false;
 			this.xrLabel10.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding(this.Address, "Text", "Адрес счетчика: {0}")});
 			this.xrLabel10.LocationFloat = new DevExpress.Utils.PointFloat(10.0001F, 113.2916F);
@@ -206,6 +211,7 @@ namespace Resurs.Reports.Templates
 			// 
 			// xrLabel9
 			// 
+			this.xrLabel9.CanGrow = false;
 			this.xrLabel9.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding(this.DeviceName, "Text", "Название счетчика: {0}")});
 			this.xrLabel9.LocationFloat = new DevExpress.Utils.PointFloat(10.0001F, 44.29169F);
@@ -220,6 +226,7 @@ namespace Resurs.Reports.Templates
 			// 
 			// xrLabel8
 			// 
+			this.xrLabel8.CanGrow = false;
 			this.xrLabel8.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding(this.EndTime, "Text", "Время окончания: {0}")});
 			this.xrLabel8.LocationFloat = new DevExpress.Utils.PointFloat(10.0001F, 90.29169F);
@@ -249,6 +256,7 @@ namespace Resurs.Reports.Templates
 			// 
 			// xrLabel7
 			// 
+			this.xrLabel7.CanGrow = false;
 			this.xrLabel7.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding(this.StartTime, "Text", "Время начала: {0}")});
 			this.xrLabel7.LocationFloat = new DevExpress.Utils.PointFloat(10.0001F, 67.2917F);
@@ -266,7 +274,10 @@ namespace Resurs.Reports.Templates
 			// 
 			// BottomMargin
 			// 
-			this.BottomMargin.HeightF = 100F;
+			this.BottomMargin.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrPageInfo1,
+            this.xrPageInfo2});
+			this.BottomMargin.HeightF = 98.95834F;
 			this.BottomMargin.Name = "BottomMargin";
 			this.BottomMargin.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
 			this.BottomMargin.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
@@ -276,6 +287,24 @@ namespace Resurs.Reports.Templates
 			this.counterDataSet1.DataSetName = "CounterDataSet";
 			this.counterDataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
 			// 
+			// xrPageInfo1
+			// 
+			this.xrPageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(550F, 27.41667F);
+			this.xrPageInfo1.Name = "xrPageInfo1";
+			this.xrPageInfo1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+			this.xrPageInfo1.SizeF = new System.Drawing.SizeF(100F, 23F);
+			this.xrPageInfo1.StylePriority.UseTextAlignment = false;
+			this.xrPageInfo1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+			// 
+			// xrPageInfo2
+			// 
+			this.xrPageInfo2.Format = "{0:d MMMM yyyy \'г.\'}";
+			this.xrPageInfo2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 27.41667F);
+			this.xrPageInfo2.Name = "xrPageInfo2";
+			this.xrPageInfo2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+			this.xrPageInfo2.PageInfo = DevExpress.XtraPrinting.PageInfo.DateTime;
+			this.xrPageInfo2.SizeF = new System.Drawing.SizeF(120.8333F, 23F);
+			// 
 			// ChangeFlowReport
 			// 
 			this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
@@ -284,7 +313,7 @@ namespace Resurs.Reports.Templates
             this.BottomMargin});
 			this.DataMember = "Data";
 			this.DataSource = this.counterDataSet1;
-			this.Margins = new System.Drawing.Printing.Margins(100, 100, 234, 100);
+			this.Margins = new System.Drawing.Printing.Margins(100, 100, 234, 99);
 			this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
             this.StartTime,
             this.EndTime,
@@ -326,5 +355,7 @@ namespace Resurs.Reports.Templates
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell1;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell2;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell3;
+		private DevExpress.XtraReports.UI.XRPageInfo xrPageInfo1;
+		private DevExpress.XtraReports.UI.XRPageInfo xrPageInfo2;
 	}
 }

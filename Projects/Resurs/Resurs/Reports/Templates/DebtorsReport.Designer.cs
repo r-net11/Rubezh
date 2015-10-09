@@ -42,6 +42,8 @@
 			this.xrLine1 = new DevExpress.XtraReports.UI.XRLine();
 			this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
 			this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
+			this.xrPageInfo1 = new DevExpress.XtraReports.UI.XRPageInfo();
+			this.xrPageInfo2 = new DevExpress.XtraReports.UI.XRPageInfo();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.debtorsDataSet1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
@@ -162,10 +164,31 @@
 			// 
 			// BottomMargin
 			// 
+			this.BottomMargin.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrPageInfo1,
+            this.xrPageInfo2});
 			this.BottomMargin.HeightF = 100F;
 			this.BottomMargin.Name = "BottomMargin";
 			this.BottomMargin.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
 			this.BottomMargin.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
+			// 
+			// xrPageInfo1
+			// 
+			this.xrPageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(550F, 25.99999F);
+			this.xrPageInfo1.Name = "xrPageInfo1";
+			this.xrPageInfo1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+			this.xrPageInfo1.SizeF = new System.Drawing.SizeF(100F, 23F);
+			this.xrPageInfo1.StylePriority.UseTextAlignment = false;
+			this.xrPageInfo1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+			// 
+			// xrPageInfo2
+			// 
+			this.xrPageInfo2.Format = "{0:d MMMM yyyy \'г.\'}";
+			this.xrPageInfo2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 25.99999F);
+			this.xrPageInfo2.Name = "xrPageInfo2";
+			this.xrPageInfo2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+			this.xrPageInfo2.PageInfo = DevExpress.XtraPrinting.PageInfo.DateTime;
+			this.xrPageInfo2.SizeF = new System.Drawing.SizeF(120.8333F, 23F);
 			// 
 			// DebtorsReport
 			// 
@@ -199,5 +222,7 @@
 		private Resurs.Reports.DataSources.DebtorsDataSet debtorsDataSet1;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell2;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell3;
+		private DevExpress.XtraReports.UI.XRPageInfo xrPageInfo1;
+		private DevExpress.XtraReports.UI.XRPageInfo xrPageInfo2;
 	}
 }

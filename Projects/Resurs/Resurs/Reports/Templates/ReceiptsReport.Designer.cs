@@ -48,6 +48,8 @@
 			this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
 			this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
 			this.receiptsDataSet1 = new Resurs.Reports.DataSources.ReceiptsDataSet();
+			this.xrPageInfo1 = new DevExpress.XtraReports.UI.XRPageInfo();
+			this.xrPageInfo2 = new DevExpress.XtraReports.UI.XRPageInfo();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.receiptsDataSet1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
@@ -208,7 +210,7 @@
 			// xrLabel1
 			// 
 			this.xrLabel1.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold);
-			this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(195.8333F, 22.50001F);
+			this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(200F, 10.00001F);
 			this.xrLabel1.Name = "xrLabel1";
 			this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
 			this.xrLabel1.SizeF = new System.Drawing.SizeF(286.4583F, 26.04167F);
@@ -219,7 +221,10 @@
 			// 
 			// BottomMargin
 			// 
-			this.BottomMargin.HeightF = 100F;
+			this.BottomMargin.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrPageInfo2,
+            this.xrPageInfo1});
+			this.BottomMargin.HeightF = 98.95834F;
 			this.BottomMargin.Name = "BottomMargin";
 			this.BottomMargin.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
 			this.BottomMargin.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
@@ -229,6 +234,24 @@
 			this.receiptsDataSet1.DataSetName = "ReceiptsDataSet";
 			this.receiptsDataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
 			// 
+			// xrPageInfo1
+			// 
+			this.xrPageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(550F, 26.66667F);
+			this.xrPageInfo1.Name = "xrPageInfo1";
+			this.xrPageInfo1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
+			this.xrPageInfo1.SizeF = new System.Drawing.SizeF(100F, 23F);
+			this.xrPageInfo1.StylePriority.UseTextAlignment = false;
+			this.xrPageInfo1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+			// 
+			// xrPageInfo2
+			// 
+			this.xrPageInfo2.Format = "{0:d MMMM yyyy \'г.\'}";
+			this.xrPageInfo2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 26.66667F);
+			this.xrPageInfo2.Name = "xrPageInfo2";
+			this.xrPageInfo2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
+			this.xrPageInfo2.PageInfo = DevExpress.XtraPrinting.PageInfo.DateTime;
+			this.xrPageInfo2.SizeF = new System.Drawing.SizeF(120.8333F, 23F);
+			// 
 			// ReceiptsReport
 			// 
 			this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
@@ -237,6 +260,7 @@
             this.BottomMargin});
 			this.DataMember = "Data";
 			this.DataSource = this.receiptsDataSet1;
+			this.Margins = new System.Drawing.Printing.Margins(100, 100, 100, 99);
 			this.Version = "15.1";
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.receiptsDataSet1)).EndInit();
@@ -266,5 +290,7 @@
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell5;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell6;
 		private Resurs.Reports.DataSources.ReceiptsDataSet receiptsDataSet1;
+		private DevExpress.XtraReports.UI.XRPageInfo xrPageInfo2;
+		private DevExpress.XtraReports.UI.XRPageInfo xrPageInfo1;
 	}
 }

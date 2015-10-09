@@ -1,5 +1,9 @@
-﻿using Resurs.ViewModels;
+﻿using Common;
+using DevExpress.Xpf.Printing.Native;
+using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Resurs.Views
 {
@@ -11,6 +15,37 @@ namespace Resurs.Views
 		public ReportsView()
 		{
 			InitializeComponent();
+			Loaded += new RoutedEventHandler(ReportsView_Loaded);
+			currentPage.PreviewTextInput += new TextCompositionEventHandler(PreviewTextInputHandler);
+			DataObject.AddPastingHandler(currentPage, PastingHandler);
+		}
+		private void ReportsView_Loaded(object sender, RoutedEventArgs e)
+		{
+			var surface = VisualHelper.FindVisualChild<PreviewSurface>(viewer);
+			if (surface != null)
+			{
+				var border = VisualHelper.FindVisualChild<Border>(surface);
+				border.BorderThickness = new Thickness(0);
+			}
+		}
+		private bool IsTextAllowed(string text)
+		{
+			return Array.TrueForAll<char>(text.ToCharArray(), (c) => char.IsDigit(c) || char.IsControl(c));
+		}
+		private void PreviewTextInputHandler(object sender, TextCompositionEventArgs e)
+		{
+			e.Handled = !IsTextAllowed(e.Text);
+		}
+		private void PastingHandler(object sender, DataObjectPastingEventArgs e)
+		{
+			if (e.DataObject.GetDataPresent(typeof(string)))
+			{
+				string text = (string)e.DataObject.GetData(typeof(string));
+				if (!IsTextAllowed(text))
+					e.CancelCommand();
+			}
+			else
+				e.CancelCommand();
 		}
 	}
 }

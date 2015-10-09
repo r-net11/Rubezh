@@ -130,15 +130,31 @@ namespace Resurs.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var driverTypesViewModel = new DriverTypesViewModel(SelectedDevice.Device.DriverType);
-			if (DialogService.ShowModalWindow(driverTypesViewModel))
+			var parent = SelectedDevice;
+			if (parent.Device.Driver.Children.Count == 0)
+				parent = SelectedDevice.Parent;
+			bool isCreateDevice = true;
+			var driverType = new DriverType();
+			if (parent.Device.Driver.Children.Count > 1)
 			{
-				var deviceDetailsViewModel = new DeviceDetailsViewModel(driverTypesViewModel.SelectedDriverType, SelectedDevice.Device);
+				var driverTypesViewModel = new DriverTypesViewModel(parent.Device.DriverType);
+				if (DialogService.ShowModalWindow(driverTypesViewModel))
+				{
+					driverType = driverTypesViewModel.SelectedDriverType;
+				}
+				else
+					isCreateDevice = false;
+			}
+			else
+				driverType = parent.Device.Driver.Children.FirstOrDefault();
+			if(isCreateDevice)
+			{
+				var deviceDetailsViewModel = new DeviceDetailsViewModel(driverType, parent.Device);
 				if (DialogService.ShowModalWindow(deviceDetailsViewModel))
 				{
 					var deviceViewModel = new DeviceViewModel(deviceDetailsViewModel.Device);
-					SelectedDevice.AddChild(deviceViewModel);
-					SelectedDevice.IsExpanded = true;
+					parent.AddChild(deviceViewModel);
+					parent.IsExpanded = true;
 					AllDevices.Add(deviceViewModel);
 					SelectedDevice = deviceViewModel;
 				}
