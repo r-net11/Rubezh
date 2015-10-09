@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ResursAPI.Models;
 
-namespace ResursNetwork.Devices
+namespace ResursNetwork.OSI.ApplicationLayer.Devices
 {
     public class ErrorOccuredEventArgs: EventArgs
     {
-        private string _DescriptionError = String.Empty;
+        private DeviceErrors _Errors;
+
         /// <summary>
-        /// Описание ошибки
+        /// Структура с флагами ошибок устройтсва
         /// </summary>
-        public string DescriptionError
+        public DeviceErrors Errors
         {
-            get { return _DescriptionError; }
-            set { _DescriptionError = value; }
+            get { return _Errors; }
+            set { _Errors = value; }
         }
     }
 }

@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ResursNetwork.Devices;
+using ResursNetwork.OSI.ApplicationLayer.Devices;
 
-namespace ResursNetwork.Devices.Collections.ObjectModel
+namespace ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel
 {
     /// <summary>
     /// Коллекция для хранения описания праметров устройства
