@@ -15,7 +15,7 @@ namespace Resurs.Reports.Templates
 			StartTime.Value = filter.StartDate;
 			EndTime.Value = filter.EndDate;
 			DeviceName.Value = filter.Device.Name;
-			Address.Value = filter.Device.Address;
+			Address.Value = filter.Device.FullAddress;
 			AbonentName.Value = "Лавров Генадий Павлович";
 			var measures = DBCash.GetMeasures(filter.Device.UID, filter.StartDate, filter.EndDate);
 			var dataSet = new CounterDataSet();

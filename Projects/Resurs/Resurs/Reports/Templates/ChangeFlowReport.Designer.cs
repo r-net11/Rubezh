@@ -206,8 +206,6 @@ namespace Resurs.Reports.Templates
 			// 
 			this.Address.Description = "Address";
 			this.Address.Name = "Address";
-			this.Address.Type = typeof(int);
-			this.Address.ValueInfo = "0";
 			// 
 			// xrLabel9
 			// 
