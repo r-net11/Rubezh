@@ -21,12 +21,12 @@ namespace Resurs.Views
 		}
 		private void ReportsView_Loaded(object sender, RoutedEventArgs e)
 		{
-			//var surface = VisualHelper.FindVisualChild<PreviewSurface>(viewer);
-			//if (surface != null)
-			//{
-			//	var border = VisualHelper.FindVisualChild<Border>(surface);
-			//	border.BorderThickness = new Thickness(0);
-			//}
+			var surface = VisualHelper.FindVisualChild<PreviewSurface>(viewer);
+			if (surface != null)
+			{
+				var border = VisualHelper.FindVisualChild<Border>(surface);
+				border.BorderThickness = new Thickness(0);
+			}
 		}
 		private bool IsTextAllowed(string text)
 		{

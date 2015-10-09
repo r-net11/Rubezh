@@ -108,7 +108,6 @@
 				</Popup>
 			</StackPanel>
 		</Grid>
-		<!--<dxp:DocumentPreviewControl x:Name="viewer" Grid.Row="1" DocumentSource="{Binding Model}" AutoShowParametersPanel="False" />-->
-		<!--<dxp:DocumentViewer x:Name="viewer" Grid.Row="1" Model="{Binding Model}" />-->
+		<dxp:DocumentViewer x:Name="viewer" Grid.Row="1" Model="{Binding Model}" />
 	</Grid>
 </UserControl>

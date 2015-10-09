@@ -123,6 +123,6 @@
 		</DataTemplate>
 	</UserControl.Resources>
 	<Grid>
-		<!--<designer:ReportDesigner Name="designer" RibbonTemplate="{StaticResource ReportDesignerRibbonTemplate}" />-->
+		<designer:ReportDesigner Name="designer" RibbonTemplate="{StaticResource ReportDesignerRibbonTemplate}" />
 	</Grid>
 </UserControl>

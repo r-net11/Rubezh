@@ -17,7 +17,7 @@ namespace Resurs.Views
 		}
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			//designer.OpenDocument(ReportDesignerViewModel.Report);
+			designer.OpenDocument(ReportDesignerViewModel.Report);
 		}
 	}
 }
