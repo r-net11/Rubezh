@@ -206,219 +206,219 @@ namespace FiresecAPI.Journal
 		Редактирование_праздничного_дня = 158,
 
 		[EventName(JournalSubsystemType.SKD, "Редактирование шаблона пропуска", XStateClass.Info)]
-		Редактирование_шаблона_пропуска = 160,
+		Редактирование_шаблона_пропуска = 159,
 
 		[EventName(JournalSubsystemType.SKD, "Добавление нового сотрудника", XStateClass.Info)]
-		Добавление_нового_сотрудника = 161,
+		Добавление_нового_сотрудника = 160,
 
 		[EventName(JournalSubsystemType.SKD, "Добавление нового подразделения", XStateClass.Info)]
-		Добавление_нового_отдела = 162,
+		Добавление_нового_отдела = 161,
 
 		[EventName(JournalSubsystemType.SKD, "Добавление новой должности", XStateClass.Info)]
-		Добавление_новой_должности = 163,
+		Добавление_новой_должности = 162,
 
 		[EventName(JournalSubsystemType.SKD, "Добавление нового шаблона доступа", XStateClass.Info)]
-		Добавление_нового_шаблона_доступа = 164,
+		Добавление_нового_шаблона_доступа = 163,
 
 		[EventName(JournalSubsystemType.SKD, "Добавление новой организации", XStateClass.Info)]
-		Добавление_новой_организации = 165,
+		Добавление_новой_организации = 164,
 
 		[EventName(JournalSubsystemType.SKD, "Добавление новой дополнительной колонки", XStateClass.Info)]
-		Добавление_новой_дополнительной_колонки = 166,
+		Добавление_новой_дополнительной_колонки = 165,
 
 		[EventName(JournalSubsystemType.SKD, "Добавление нового дневного графика", XStateClass.Info)]
-		Добавление_нового_дневного_графика = 167,
+		Добавление_нового_дневного_графика = 166,
 
 		[EventName(JournalSubsystemType.SKD, "Добавление нового графика работы", XStateClass.Info)]
-		Добавление_нового_графика_работы = 168,
+		Добавление_нового_графика_работы = 167,
 
 		[EventName(JournalSubsystemType.SKD, "Добавление нового графика работы сотрудника", XStateClass.Info)]
-		Добавление_нового_графика_работы_сотрудника = 169,
+		Добавление_нового_графика_работы_сотрудника = 168,
 
 		[EventName(JournalSubsystemType.SKD, "Добавление нового сокращённого дня", XStateClass.Info)]
-		Добавление_нового_праздничного_дня = 170,
+		Добавление_нового_праздничного_дня = 169,
 
 		[EventName(JournalSubsystemType.SKD, "Добавление нового шаблона пропуска", XStateClass.Info)]
-		Добавление_нового_шаблона_пропуска = 171,
+		Добавление_нового_шаблона_пропуска = 170,
 
 		[EventName(JournalSubsystemType.SKD, "Внесение оправдательного документа", XStateClass.Info)]
-		Внесение_оправдательного_документа = 172,
+		Внесение_оправдательного_документа = 171,
 
 		[EventName(JournalSubsystemType.SKD, "Удаление сотрудника", XStateClass.Info)]
-		Удаление_сотрудника = 184,
+		Удаление_сотрудника = 183,
 
 		[EventName(JournalSubsystemType.SKD, "Удаление подразделения", XStateClass.Info)]
-		Удаление_отдела = 185,
+		Удаление_отдела = 184,
 
 		[EventName(JournalSubsystemType.SKD, "Удаление должности", XStateClass.Info)]
-		Удаление_должности = 186,
+		Удаление_должности = 185,
 
 		[EventName(JournalSubsystemType.SKD, "Удаление шаблона доступа", XStateClass.Info)]
-		Удаление_шаблона_доступа = 187,
+		Удаление_шаблона_доступа = 186,
 
 		[EventName(JournalSubsystemType.SKD, "Удаление организации", XStateClass.Info)]
-		Удаление_организации = 188,
+		Удаление_организации = 187,
 
 		[EventName(JournalSubsystemType.SKD, "Удаление дополнительной колонки", XStateClass.Info)]
-		Удаление_дополнительной_колонки = 189,
+		Удаление_дополнительной_колонки = 188,
 
 		[EventName(JournalSubsystemType.SKD, "Удаление дневного графика", XStateClass.Info)]
-		Удаление_дневного_графика = 190,
+		Удаление_дневного_графика = 189,
 
 		[EventName(JournalSubsystemType.SKD, "Удаление графика работы", XStateClass.Info)]
-		Удаление_графика_работы = 191,
+		Удаление_графика_работы = 190,
 
 		[EventName(JournalSubsystemType.SKD, "Удаление графика работы сотрудника", XStateClass.Info)]
-		Удаление_графика_работы_сотрудника = 192,
+		Удаление_графика_работы_сотрудника = 191,
 
 		[EventName(JournalSubsystemType.SKD, "Удаление сокращённого дня", XStateClass.Info)]
-		Удаление_праздничного_дня = 193,
+		Удаление_праздничного_дня = 192,
 
 		[EventName(JournalSubsystemType.SKD, "Удаление шаблона пропуска", XStateClass.Info)]
-		Удаление_шаблона_пропуска = 194,
+		Удаление_шаблона_пропуска = 193,
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление сотрудника", XStateClass.Info)]
-		Восстановление_сотрудника = 195,
+		Восстановление_сотрудника = 194,
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление подразделения", XStateClass.Info)]
-		Восстановление_отдела = 196,
+		Восстановление_отдела = 195,
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление должности", XStateClass.Info)]
-		Восстановление_должности = 197,
+		Восстановление_должности = 196,
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление шаблона доступа", XStateClass.Info)]
-		Восстановление_шаблона_доступа = 198,
+		Восстановление_шаблона_доступа = 197,
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление организации", XStateClass.Info)]
-		Восстановление_организации = 199,
+		Восстановление_организации = 198,
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление дополнительной колонки", XStateClass.Info)]
-		Восстановление_дополнительной_колонки = 200,
+		Восстановление_дополнительной_колонки = 199,
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление дневного графика", XStateClass.Info)]
-		Восстановление_дневного_графика = 201,
+		Восстановление_дневного_графика = 200,
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление графика работы", XStateClass.Info)]
-		Восстановление_графика_работы = 202,
+		Восстановление_графика_работы = 201,
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление графика работы сотрудника", XStateClass.Info)]
-		Восстановление_графика_работы_сотрудника = 203,
+		Восстановление_графика_работы_сотрудника = 202,
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление сокращённого дня", XStateClass.Info)]
-		Восстановление_праздничного_дня = 204,
+		Восстановление_праздничного_дня = 203,
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление шаблона пропуска", XStateClass.Info)]
-		Восстановление_шаблона_пропуска = 205,
+		Восстановление_шаблона_пропуска = 204,
 
 		[EventName(JournalSubsystemType.Video, "Перевод в предустановку", XStateClass.On)]
-		Перевод_в_предустановку = 209,
+		Перевод_в_предустановку = 208,
 
 		[EventName(JournalSubsystemType.SKD, "Открытие замка", XStateClass.On)]
-		Открытие_замка_двери = 210,
+		Открытие_замка_двери = 209,
 
 		[EventName(JournalSubsystemType.SKD, "Закрытие замка", XStateClass.Off)]
-		Закрытие_замка_двери = 211,
+		Закрытие_замка_двери = 210,
 
 		[EventName(JournalSubsystemType.SKD, "Неизвестный статус замка двери", XStateClass.Unknown)]
-		Неизвестный_статус_замка_двери = 212,
+		Неизвестный_статус_замка_двери = 211,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на перевод в режим \"Норма\"", XStateClass.Norm, "Команда на перевод точки доступа в режим \"Норма\"")]
-		Команда_на_перевод_точки_доступа_в_режим_Норма = 213,
+		Команда_на_перевод_точки_доступа_в_режим_Норма = 212,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на перевод в режим \"Норма\"", XStateClass.Norm, "Команда на перевод зоны в режим \"Норма\"")]
-		Команда_на_перевод_зоны_в_режим_Норма = 214,
+		Команда_на_перевод_зоны_в_режим_Норма = 213,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на перевод в режим \"Норма\"", XStateClass.Norm, "Команда на перевод замка в режим \"Норма\"")]
-		Команда_на_перевод_замка_в_режим_Норма = 215,
+		Команда_на_перевод_замка_в_режим_Норма = 214,
 
 		[EventName(JournalSubsystemType.SKD, "Запрос настроек запрета повторного прохода", XStateClass.TechnologicalRegime)]
-		Запрос_antipassback_настройки_контроллера = 216,
+		Запрос_antipassback_настройки_контроллера = 215,
 
 		[EventName(JournalSubsystemType.SKD, "Запись настроек запрета повторного прохода", XStateClass.TechnologicalRegime)]
-		Запись_antipassback_настройки_контроллера = 217,
+		Запись_antipassback_настройки_контроллера = 216,
 
 		[EventName(JournalSubsystemType.SKD, "Запрос настроек блокировки одновременного прохода", XStateClass.TechnologicalRegime)]
-		Запрос_interlock_настройки_контроллера = 218,
+		Запрос_interlock_настройки_контроллера = 217,
 
 		[EventName(JournalSubsystemType.SKD, "Запись настроек блокировки одновременного прохода", XStateClass.TechnologicalRegime)]
-		Запись_interlock_настройки_контроллера = 219,
+		Запись_interlock_настройки_контроллера = 218,
 
 		[EventName(JournalSubsystemType.SKD, "Подтверждение тревоги", XStateClass.Fire1)]
-		Подтверждение_тревоги = 220,
+		Подтверждение_тревоги = 219,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на сброс состояния \"Взлом\"", XStateClass.Info, "Команда на сброс состояния замка \"Взлом\"")]
-		Команда_на_сброс_состояния_взлом_замка = 221,
+		Команда_на_сброс_состояния_взлом_замка = 220,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на сброс состояния \"Взлом\"", XStateClass.Info, "Команда на сброс состояния точки доступа \"Взлом\"")]
-		Команда_на_сброс_состояния_взлом_точки_доступа = 222,
+		Команда_на_сброс_состояния_взлом_точки_доступа = 221,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на сброс состояния \"Взлом\"", XStateClass.Info, "Команда на сброс состояния зоны \"Взлом\"")]
-		Команда_на_сброс_состояния_взлом_зоны = 223,
+		Команда_на_сброс_состояния_взлом_зоны = 222,
 
 		[EventName(JournalSubsystemType.SKD, "Запрос паролей замков", XStateClass.TechnologicalRegime)]
-		GetControllerLocksPasswords = 224,
+		GetControllerLocksPasswords = 223,
 
 		[EventName(JournalSubsystemType.SKD, "Запись паролей замков", XStateClass.TechnologicalRegime)]
-		SetControllerLocksPasswords = 225,
+		SetControllerLocksPasswords = 224,
 
 		[EventName(JournalSubsystemType.SKD, "Перевод в режим \"Открыто\"", XStateClass.On, "Перевод замка в режим \"Открыто\"")]
-		Перевод_замка_в_режим_Открыто = 226,
+		Перевод_замка_в_режим_Открыто = 225,
 
 		[EventName(JournalSubsystemType.SKD, "Перевод в режим \"Закрыто\"", XStateClass.Off, "Перевод замка в режим \"Закрыто\"")]
-		Перевод_замка_в_режим_Закрыто = 227,
+		Перевод_замка_в_режим_Закрыто = 226,
 
 		[EventName(JournalSubsystemType.SKD, "Перевод в режим \"Норма\"", XStateClass.Norm, "Перевод замка в режим \"Норма\"")]
-		Перевод_замка_в_режим_Норма = 228,
+		Перевод_замка_в_режим_Норма = 227,
 
 		[EventName(JournalSubsystemType.SKD, "Перевод в режим \"Открыто\"", XStateClass.On, "Перевод точки доступа в режим \"Открыто\"")]
-		Перевод_точки_доступа_в_режим_Открыто = 229,
+		Перевод_точки_доступа_в_режим_Открыто = 228,
 
 		[EventName(JournalSubsystemType.SKD, "Перевод в режим \"Закрыто\"", XStateClass.Off, "Перевод точки доступа в режим \"Закрыто\"")]
-		Перевод_точки_доступа_в_режим_Закрыто = 230,
+		Перевод_точки_доступа_в_режим_Закрыто = 229,
 
 		[EventName(JournalSubsystemType.SKD, "Перевод в режим \"Норма\"", XStateClass.Norm, "Перевод точки доступа в режим \"Норма\"")]
-		Перевод_точки_доступа_в_режим_Норма = 231,
+		Перевод_точки_доступа_в_режим_Норма = 230,
 
 		[EventName(JournalSubsystemType.SKD, "Перевод в режим \"Открыто\"", XStateClass.On, "Перевод зоны в режим \"Открыто\"")]
-		Перевод_зоны_в_режим_Открыто = 232,
+		Перевод_зоны_в_режим_Открыто = 231,
 
 		[EventName(JournalSubsystemType.SKD, "Перевод в режим \"Закрыто\"", XStateClass.Off, "Перевод зоны в режим \"Закрыто\"")]
-		Перевод_зоны_в_режим_Закрыто = 233,
+		Перевод_зоны_в_режим_Закрыто = 232,
 
 		[EventName(JournalSubsystemType.SKD, "Перевод в режим \"Норма\"", XStateClass.Norm, "Перевод зоны в режим \"Норма\"")]
-		Перевод_зоны_в_режим_Норма = 234,
+		Перевод_зоны_в_режим_Норма = 233,
 
 		[EventName(JournalSubsystemType.SKD, "Сброс состояния \"Взлом\"", XStateClass.Info, "Сброс состояния замка \"Взлом\"")]
-		Сброс_состояния_взлом_замка = 235,
+		Сброс_состояния_взлом_замка = 234,
 
 		[EventName(JournalSubsystemType.SKD, "Сброс состояния \"Взлом\"", XStateClass.Info, "Сброс состояния точки доступа \"Взлом\"")]
-		Сброс_состояния_взлом_точки_доступа = 236,
+		Сброс_состояния_взлом_точки_доступа = 235,
 
 		[EventName(JournalSubsystemType.SKD, "Сброс состояния \"Взлом\"", XStateClass.Info, "Сброс состояния зоны \"Взлом\"")]
-		Сброс_состояния_взлом_зоны = 237,
+		Сброс_состояния_взлом_зоны = 236,
 
 		[EventName(JournalSubsystemType.System, "Сброс ограничения на повторный проход", XStateClass.Info)]
-		Сброс_антипессбэка_для_выбранной_ТД = 238,
+		Сброс_антипессбэка_для_выбранной_ТД = 237,
 
 		[EventName(JournalSubsystemType.System, "Сброс ограничения на повторный проход для ВСЕХ пропусков", XStateClass.Info)]
-		Сброс_антипессбэка_для_всех_пропусков = 239,
+		Сброс_антипессбэка_для_всех_пропусков = 238,
 
 		[EventName(JournalSubsystemType.SKD, "Добавление интервала", XStateClass.Info)]
-		Добавление_интервала = 240,
+		Добавление_интервала = 239,
 
 		[EventName(JournalSubsystemType.SKD, "Изменение границ интервала", XStateClass.Info)]
-		Изменение_границы_интервала = 241,
+		Изменение_границы_интервала = 240,
 
 		[EventName(JournalSubsystemType.SKD, "Удаление интервала", XStateClass.Info)]
-		Удаление_интервала = 242,
+		Удаление_интервала = 241,
 
 		[EventName(JournalSubsystemType.SKD, "Принудительное закрытие интервала", XStateClass.Info)]
-		Закрытие_интервала = 243,
+		Закрытие_интервала = 242,
 
 		[EventName(JournalSubsystemType.SKD, "Установка признака \"Не учитывать в расчетах\"", XStateClass.Info)]
-		Установка_неУчитывать_в_расчетах = 244,
+		Установка_неУчитывать_в_расчетах = 243,
 
 		[EventName(JournalSubsystemType.SKD, "Снятие признака \"Не учитывать в расчетах\"", XStateClass.Info)]
-		Снятие_неУчитывать_в_расчетах = 245,
+		Снятие_неУчитывать_в_расчетах = 244,
 	}
 }
