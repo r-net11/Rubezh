@@ -15,23 +15,9 @@ namespace VideoModule.ViewModels
 {
 	class CameraDetailsViewModel : SaveCancelDialogViewModel
 	{
-		#region <Поля>
-
-		private bool _canPlay;
-
-		#endregion </Поля>
-
-		public CameraDetailsViewModel(Camera camera = null)
-		{
-			Title = camera == null ? "Создание нового видеоустройства" : "Свойства камеры";
-			Camera = camera ?? new Camera();
-			CanPlay = true;
-		}
-
-		#region <Свойства>
-
 		public Camera Camera { get; private set; }
 
+		private bool _canPlay;
 		public bool CanPlay
 		{
 			get { return _canPlay; }
@@ -44,6 +30,11 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		#endregion </Свойства>
+		public CameraDetailsViewModel(Camera camera = null)
+		{
+			Title = "Свойства камеры";
+			Camera = camera ?? new Camera();
+			CanPlay = true;
+		}
 	}
 }
