@@ -91,7 +91,9 @@ namespace Resurs.ViewModels
 				parentDeviceViewModel.AddChild(deviceViewModel);
 
 			foreach (var childDevice in device.Children)
+			{
 				AddDeviceInternal(childDevice, deviceViewModel);
+			}
 			return deviceViewModel;
 		}
 
@@ -177,7 +179,7 @@ namespace Resurs.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedDevice != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);;
+			return SelectedDevice != null && SelectedDevice.Parent != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }

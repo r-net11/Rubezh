@@ -33,7 +33,7 @@ namespace ResursDAL
 		public static DatabaseContext Initialize()
 		{
 			var connectionFactory = new SqlConnectionFactory();
-			var connection = connectionFactory.CreateConnection(@"Data Source=.\sqlexpress;Initial Catalog=RubezhResurs;Integrated Security=True");
+			var connection = connectionFactory.CreateConnection(SettingsManager.ResursSettings.ConnectionString);
 			return new DatabaseContext(connection);
 		}
 

@@ -8,6 +8,7 @@ namespace ResursAPI
 	public enum DeviceType
 	{
 		Network,
-		Counter
+		Counter,
+		System
 	}
 }

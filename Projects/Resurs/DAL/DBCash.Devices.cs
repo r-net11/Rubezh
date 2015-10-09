@@ -36,7 +36,8 @@ namespace ResursDAL
 							Address = x.Address, 
 							DriverType = x.DriverType, 
 							Description = x.Description,
-							ParentUID = x.ParentUID
+							ParentUID = x.ParentUID, 
+							IsActive = x.IsActive
 						}).ToList();
 					var allDevices = tableItems.Select(x => new Device
 						{
@@ -44,13 +45,17 @@ namespace ResursDAL
 							Address = x.Address,
 							DriverType =(DriverType)x.DriverType,
 							Description = x.Description,
-							ParentUID = x.ParentUID
+							ParentUID = x.ParentUID,
+							IsActive = x.IsActive
 						}).OrderBy(x => x.Address).ToList();
 					
 					SetChildren(allDevices);
 					var result = allDevices.FirstOrDefault(x => x.ParentUID == null);
 					if (result != null)
+					{
 						SetFullAddress(result);
+						result.IsActive = true;
+					}
 					allDevices.ForEach(x => InitializeDevice(x));
 					
 					return result;
