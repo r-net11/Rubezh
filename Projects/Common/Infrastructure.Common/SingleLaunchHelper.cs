@@ -1,5 +1,4 @@
 ﻿using Common;
-using Infrastructure.Common.Properties;
 using Infrastructure.Common.Windows;
 using System;
 using System.Diagnostics;
@@ -72,42 +71,56 @@ namespace Infrastructure.Common
 
 	public class DoubleLaunchLocker : IDisposable
 	{
-		private const int TIMEOUT = 3000;
-
 		public string SignalId { get; private set; }
-
 		public string WaitId { get; private set; }
+		private const int TIMEOUT = 3000;
 
 		private EventWaitHandle _signalHandler;
 		private EventWaitHandle _waitHandler;
 		private bool _force = false;
+		private Action ShuttingDown;
 
-		public DoubleLaunchLocker(string signalId, string waitId, bool force = false, bool isEnable = true)
+
+		public DoubleLaunchLocker(string signalId, string waitId, bool force = false, Action shuttingDown = null)
 		{
-			if (!isEnable) return;
-
-			_force = force;
 			SignalId = signalId;
 			WaitId = waitId;
+			_force = force;
+			ShuttingDown = shuttingDown;
+
 			bool isNew;
 			_signalHandler = new EventWaitHandle(false, EventResetMode.AutoReset, signalId, out isNew);
 			if (!isNew)
 			{
 				Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-
-				MessageBoxService.ShowWarningExtended(Resources.SecondInstanceMessage);
-
-				TryShutdown();
-				ForceShutdown();
+				bool terminate = false;
+				if (!force && !RequestConfirmation())
+					terminate = true;
+				if (!terminate)
+				{
+					_waitHandler = new EventWaitHandle(false, EventResetMode.AutoReset, waitId);
+					_signalHandler.Dispose();
+					_signalHandler = new EventWaitHandle(false, EventResetMode.ManualReset, signalId, out isNew);
+					if (!isNew)
+					{
+						_signalHandler.Set();
+						terminate = !_waitHandler.WaitOne(TIMEOUT);
+					}
+				}
+				if (terminate)
+				{
+					TryShutdown();
+					ForceShutdown();
+				}
+				else
+					Application.Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
 			}
 			ThreadPool.QueueUserWorkItem(WaitingHandler, waitId);
 		}
-
 		private bool RequestConfirmation()
 		{
 			return MessageBoxService.ShowConfirmation("Другой экземпляр программы уже запущен. Завершить?");
 		}
-
 		private void WaitingHandler(object startInfo)
 		{
 			try
@@ -127,16 +140,17 @@ namespace Infrastructure.Common
 				ForceShutdown();
 			}
 		}
-
 		private void TryShutdown()
 		{
+			if (ShuttingDown != null)
+				ShuttingDown();
+
 			if (!_force && Application.Current != null)
 			{
 				Application.Current.Dispatcher.InvokeShutdown();
-				//ApplicationService.DoEvents();
+				ApplicationService.DoEvents();
 			}
 		}
-
 		private void ForceShutdown()
 		{
 			if (Application.Current == null || !Application.Current.Dispatcher.HasShutdownFinished)
@@ -159,6 +173,6 @@ namespace Infrastructure.Common
 			}
 		}
 
-		#endregion IDisposable Members
+		#endregion
 	}
 }
