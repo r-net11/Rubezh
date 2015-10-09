@@ -23,6 +23,7 @@ namespace VideoModule.ViewModels
 
 		public CameraDetailsViewModel(Camera camera = null)
 		{
+			Title = camera == null ? "Создание нового видеоустройства" : "Свойства камеры";
 			Camera = camera ?? new Camera();
 			CanPlay = true;
 		}
