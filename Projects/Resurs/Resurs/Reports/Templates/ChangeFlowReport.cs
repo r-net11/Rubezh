@@ -24,7 +24,7 @@ namespace Resurs.Reports.Templates
 				var dataRow = dataSet.Data.NewDataRow();
 				dataRow.DateTime = measure.DateTime;
 				dataRow.Tariff = measure.TariffPartNo;
-				dataRow.CounterValue = measure.Value;
+				dataRow.CounterValue = Math.Round(measure.Value,2);
 				dataSet.Data.Rows.Add(dataRow);
 			}
 			DataSource = dataSet;
