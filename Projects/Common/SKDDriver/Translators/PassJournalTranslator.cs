@@ -488,7 +488,18 @@ namespace SKDDriver.Translators
 		{
 			var dayTimeTrack = new DayTimeTrack { Date = date };
 
-			foreach (var passJournal in passJournals.Where(x => x.EmployeeUID == employee.UID && x.EnterTime.Date == date.Date))
+			var intervalsCollection = new List<PassJournal>();
+
+			var firstdayOfCurrentMonth = new DateTime(date.Year, date.Month, 1);
+			if(date.Date == firstdayOfCurrentMonth)
+				intervalsCollection = passJournals
+					.Where(x => x.EmployeeUID == employee.UID)
+					.Where(x => (x.EnterTime < date.Date && !x.ExitTime.HasValue) || (x.EnterTime < date.Date && x.ExitTime.HasValue && x.ExitTime.Value.Date >= date.Date))
+					.ToList();
+
+			intervalsCollection.AddRange(passJournals.Where(x => x.EmployeeUID == employee.UID && x.EnterTime.Date == date.Date));
+
+			foreach (var passJournal in intervalsCollection)
 			{
 				var timeTrackPart = new TimeTrackPart
 				{
