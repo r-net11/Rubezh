@@ -87,6 +87,7 @@
     <Compile Include="OSI\Messages\MessageType.cs" />
     <Compile Include="OSI\Messages\Transactions\EnumTransactionStatus.cs" />
     <Compile Include="OSI\Messages\Transactions\EnumTransactionType.cs" />
+    <Compile Include="OSI\Messages\Transactions\NetworkRequest.cs" />
     <Compile Include="OSI\Messages\Transactions\Transaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -99,6 +100,9 @@
       <Project>{94c0399f-3eab-4e23-98f9-61eb8daa4974}</Project>
       <Name>ResursAPI</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Energomera\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

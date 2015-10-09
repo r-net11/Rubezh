@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ResursNetwork.OSI.Messages.Transaction;
+using ResursNetwork.OSI.Messages.Transactions;
 
-namespace ResursNetwork.Devices
+namespace ResursNetwork.OSI.ApplicationLayer.Devices
 {
     public enum Result
     {
@@ -17,22 +17,24 @@ namespace ResursNetwork.Devices
     }
     public class DeviceCommand
     {
+        #region Fields And Properties
+
         private Guid _Id;
+        private NetworkRequest _NetworkRequest;
+        private Result _Status;
+        private string _ErrorDescription = String.Empty;
 
         public Guid Id
         {
             get { return _Id; }
         }
 
-        private Transaction _Transaction;
-
-        public Transaction Transaction
+        public NetworkRequest NetworkRequest
         {
-            get { return _Transaction; }
-            set { _Transaction = value; }
+            get { return _NetworkRequest; }
+            set { _NetworkRequest = value; }
         }
 
-        private Result _Status;
         /// <summary>
         /// Состояние выполнения транзакции
         /// </summary>
@@ -42,7 +44,6 @@ namespace ResursNetwork.Devices
             set { _Status = value; }
         }
 
-        private string _ErrorDescription = String.Empty;
         /// <summary>
         /// Описание ошибки при выполении транзакции
         /// </summary>
@@ -52,12 +53,16 @@ namespace ResursNetwork.Devices
             set { _ErrorDescription = value; }
         }
 
+        #endregion
+
         #region Constructors
+
         public DeviceCommand()
         {
             _Status = Result.Active;
             _Id = Guid.NewGuid();
         }
+
         #endregion
 
         #region Methods
@@ -70,8 +75,8 @@ namespace ResursNetwork.Devices
             sb.Append("Ошибка=");
             sb.Append(ErrorDescription);
             sb.Append("; ");
-            sb.Append("Транзакция = ");
-            sb.Append(Transaction.ToString());
+            sb.Append("Запрос = ");
+            sb.Append(NetworkRequest.ToString());
 
             return sb.ToString();
         }

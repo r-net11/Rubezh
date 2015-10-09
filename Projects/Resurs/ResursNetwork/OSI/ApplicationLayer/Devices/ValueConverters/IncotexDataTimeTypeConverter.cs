@@ -5,7 +5,7 @@ using System.Text;
 using ResursNetwork.Incotex.Models.DateTime;
 using ResursNetwork.BCD;
 
-namespace ResursNetwork.Devices.ValueConverters
+namespace ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters
 {
     /// <summary>
     /// Конвертер типа DateTime в формат времени и данты счётчкика 
