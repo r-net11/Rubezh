@@ -93,6 +93,7 @@ namespace GKProcessor
 				switch (Device.Door.DoorType)
 				{
 					case GKDoorType.AirlockBooth:
+					case GKDoorType.Turnstile:
 						var device = Device.Door.LockDeviceUID == Device.UID ? Device.Door.ExitDevice : Device.Door.EnterDevice;
 						var button = Device.Door.LockDeviceUID == Device.UID ? Device.Door.EnterButton : Device.Door.ExitButton;
 						if (device != null)
