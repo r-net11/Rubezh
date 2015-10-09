@@ -321,7 +321,7 @@ namespace GKProcessor
 						enterCardSchedule.Device = door.EnterDevice;
 						enterCardSchedule.ScheduleNo = cardDoor.EnterScheduleNo;
 					}
-					if (door.DoorType == GKDoorType.TwoWay && door.ExitDevice != null)
+					if (door.DoorType != GKDoorType.OneWay && door.ExitDevice != null)
 					{
 						var exitCardSchedule = cardSchedules.FirstOrDefault(x => x.Device.UID == door.ExitDevice.UID);
 						if (exitCardSchedule == null)
