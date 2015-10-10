@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ResursNetwork.OSI.ApplicationLayer;
 
-namespace ResursNetwork.Devices.Collections.ObjectModel
+namespace ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel
 {
     public class DevicesCollection: KeyedCollection<UInt32, DeviceBase>
     {

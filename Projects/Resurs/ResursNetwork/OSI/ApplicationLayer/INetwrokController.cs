@@ -4,13 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ResursNetwork.Management;
-using ResursNetwork.Devices;
-using ResursNetwork.Devices.Collections.ObjectModel;
+using ResursNetwork.OSI.ApplicationLayer.Devices;
+using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
 using ResursNetwork.OSI.DataLinkLayer;
-using ResursNetwork.OSI.Messages.Transaction;
+using ResursNetwork.OSI.Messages.Transactions;
 
 namespace ResursNetwork.OSI.ApplicationLayer
 {
+    public class NetworkRequestCompletedArgs : EventArgs
+    {
+        /// <summary>
+        /// Завершённый сетевой запрос
+        /// </summary>
+        public NetworkRequest NetworkRequest;
+    }
+
     public interface INetwrokController: IManageable, IDisposable
     {
         #region Fields And Properties
@@ -42,8 +50,8 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// <summary>
         /// Записывает транзакцию в буфер исходящих сообщений
         /// </summary>
-        /// <param name="transaction"></param>
-        void Write(Transaction transaction);
+        /// <param name="request"></param>
+        void Write(NetworkRequest request);
 
         /// <summary>
         /// Отсылает в сеть широковещательную команду 
@@ -51,6 +59,10 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// </summary>
         void SyncDateTime();
 
+        #endregion
+
+        #region
+        event EventHandler<NetworkRequestCompletedArgs> NetwrokRequestCompleted;
         #endregion
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using ResursNetwork.Management;
 using ResursNetwork.Networks.Collections.ObjectModel;
-using ResursNetwork.Devices;
+using ResursNetwork.OSI.ApplicationLayer.Devices;
 using ResursNetwork.OSI.ApplicationLayer;
 using ResursNetwork.OSI.DataLinkLayer;
 using ResursNetwork.Incotex.Models;

@@ -380,8 +380,11 @@
       <DependentUpon>ConsumerChangeParentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Converters\DeviceStateToIconConverter.cs" />
+    <Compile Include="Converters\DeviceTypeToIconConverter.cs" />
     <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="Devices\ViewModels\DetailsParameterViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceState.cs" />
     <Compile Include="JournalEvents\ViewModels\FilterJournalViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\JournalEventsViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\JournalEventViewModel.cs" />
@@ -390,8 +393,6 @@
     </Compile>
     <Compile Include="Processor\DeviceProcessor.cs" />
     <Compile Include="Processor\LoginService.cs" />
-    <Compile Include="Processor\ResursSettings.cs" />
-    <Compile Include="Processor\SettingsManager.cs" />
     <Compile Include="Main\ViewModels\Comparers.cs" />
     <Compile Include="Devices\ViewModels\DeviceDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
@@ -452,6 +453,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ReceiptsDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Reports\ReportPeriodType.cs" />
     <Compile Include="Reports\ReportPreviewModel.cs" />
     <Compile Include="Reports\Templates\ChangeValueReport.cs">
       <SubType>Component</SubType>
@@ -817,7 +819,6 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Converters\" />
     <Folder Include="Rates\DataTemplates\" />
     <Folder Include="Rates\ViewModels\" />
     <Folder Include="Rates\Views\" />

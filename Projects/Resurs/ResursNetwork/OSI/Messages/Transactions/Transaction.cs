@@ -1,8 +1,9 @@
 using System;
 using System.Diagnostics;
 using System.Text;
+using ResursNetwork.OSI.ApplicationLayer.Devices;
 
-namespace ResursNetwork.OSI.Messages.Transaction
+namespace ResursNetwork.OSI.Messages.Transactions
 {
     /// <summary>
     /// Класс для хранения данных транзакции "Запрос-ответ"
@@ -10,10 +11,49 @@ namespace ResursNetwork.OSI.Messages.Transaction
     public class Transaction
     {
         #region Fields And Properties
+        
         /// <summary>
         /// Тип modbus-транзацкии "запрос-ответ"
         /// </summary>
         private TransactionType _Type;
+
+        /// <summary>
+        /// Устройтво отправитель транзакции
+        /// </summary>
+        private IDevice _Sender;
+        
+        /// <summary>
+        /// Состояние транзакции
+        /// </summary>
+        private TransactionStatus _Status;
+        
+        /// <summary>
+        /// Время начала транзакции, мсек
+        /// </summary>
+        /// <remarks>Количество мсек от старта системы</remarks>
+        private DateTime _StartTime;
+        
+        /// <summary>
+        /// Время окончания транзакции, мсек
+        /// </summary>
+        /// <remarks>Количество мсек от старта системы</remarks>
+        private DateTime _EndTime;
+        
+        /// <summary>
+        /// Запрос от мастера сети
+        /// </summary>
+        private IMessage _Request;
+        
+        /// <summary>
+        /// Ответ от ведомого устройства
+        /// </summary>
+        private IMessage _Answer;
+        
+        /// <summary>
+        /// Описание причины звершения транзакции при вызове метода Abort()
+        /// </summary>
+        private String _DescriptionError;
+
         /// <summary>
         /// Возвращает тип текущей транзакции
         /// </summary>
@@ -21,10 +61,16 @@ namespace ResursNetwork.OSI.Messages.Transaction
         {
             get { return this._Type; }
         }
+
         /// <summary>
-        /// Состояние транзакции
+        /// Устройтво отправитель транзакции
         /// </summary>
-        private TransactionStatus _Status;
+        public IDevice Sender
+        {
+            get { return _Sender; }
+            set { _Sender = value; }
+        }
+
         /// <summary>
         /// Состояние транзакции
         /// </summary>
@@ -32,6 +78,7 @@ namespace ResursNetwork.OSI.Messages.Transaction
         {
             get { return _Status; }
         }
+
         /// <summary>
         /// Возвращает состояние транзакции
         /// </summary>
@@ -67,11 +114,7 @@ namespace ResursNetwork.OSI.Messages.Transaction
                 return result;
             }
         }
-        /// <summary>
-        /// Время начала транзакции, мсек
-        /// </summary>
-        /// <remarks>Количество мсек от старта системы</remarks>
-        private DateTime _StartTime;
+                
         /// <summary>
         /// Возвращает время начала транзакции, мсек
         /// </summary>
@@ -80,11 +123,7 @@ namespace ResursNetwork.OSI.Messages.Transaction
         {
             get { return _StartTime; }
         }
-        /// <summary>
-        /// Время окончания транзакции, мсек
-        /// </summary>
-        /// <remarks>Количество мсек от старта системы</remarks>
-        private DateTime _EndTime;
+                
         /// <summary>
         /// Возвращает время окончания транзакции, мсек
         /// </summary>
@@ -93,6 +132,7 @@ namespace ResursNetwork.OSI.Messages.Transaction
         {
             get { return _EndTime; }
         }
+        
         /// <summary>
         /// Длительность транзакции, мсек
         /// </summary>
@@ -110,10 +150,7 @@ namespace ResursNetwork.OSI.Messages.Transaction
                 }
             }
         }
-        /// <summary>
-        /// Запрос от мастера сети
-        /// </summary>
-        private IMessage _Request;
+                
         /// <summary>
         /// Запрос от мастера сети
         /// </summary>
@@ -121,10 +158,7 @@ namespace ResursNetwork.OSI.Messages.Transaction
         {
             get { return _Request; }
         }
-        /// <summary>
-        /// Ответ от ведомого устройства
-        /// </summary>
-        private IMessage _Answer;
+                
         /// <summary>
         /// Ответ от ведомого устройства
         /// </summary>
@@ -133,6 +167,7 @@ namespace ResursNetwork.OSI.Messages.Transaction
             get { return _Answer; }
             set { _Answer = value; }
         }
+        
         /// <summary>
         /// Идентификатор транзакции
         /// </summary>
@@ -143,10 +178,7 @@ namespace ResursNetwork.OSI.Messages.Transaction
                 return _Request == null ? Guid.Empty : _Request.MessageId;
             }
         }
-        /// <summary>
-        /// Описание причины звершения транзакции при вызове метода Abort()
-        /// </summary>
-        private String _DescriptionError;
+                
         /// <summary>
         /// Возвращает описание причины звершения транзакции при вызове метода Abort()
         /// </summary>
@@ -154,6 +186,8 @@ namespace ResursNetwork.OSI.Messages.Transaction
         {
             get { return _DescriptionError; }
         }        
+        
+
         #endregion
 
         #region Constructors
@@ -163,6 +197,7 @@ namespace ResursNetwork.OSI.Messages.Transaction
         public Transaction() 
         {
             _Answer = null;
+            _Sender = null;
             _Request = null;
             _Status = TransactionStatus.NotInitialized;
             _EndTime = DateTime.Now;
@@ -172,12 +207,14 @@ namespace ResursNetwork.OSI.Messages.Transaction
         /// <summary>
         /// Конструктор
         /// </summary>
+        /// <param name="sender">Отпрвитель запроса</param>
         /// <param name="type">Тип modbus транзации</param>
         /// <param name="request">Запрос от мастера сети</param>
-        public Transaction(TransactionType type, 
+        public Transaction(IDevice sender, TransactionType type, 
             IMessage request)
         {            
             _Type = type;
+            _Sender = sender;
             _Answer = null;
             _Request = request;
             _Status = TransactionStatus.NotInitialized;
@@ -202,6 +239,7 @@ namespace ResursNetwork.OSI.Messages.Transaction
             {
                 _Status = TransactionStatus.Running;
                 _StartTime = DateTime.Now;
+                OnTransactionWasStarted();
 
                 //Debug.WriteLine(String.Format(
                 //    "Transaction ID: {0} - Начало транзакции: {1} мсек",
@@ -298,6 +336,7 @@ namespace ResursNetwork.OSI.Messages.Transaction
             }
             return;
         }
+        
         /// <summary>
         /// Метод гененрирует событие завершения транзакции
         /// </summary>
@@ -331,6 +370,18 @@ namespace ResursNetwork.OSI.Messages.Transaction
             }
             return;
         }
+        
+        /// <summary>
+        /// Генерирует событие запуска транзакции
+        /// </summary>
+        public void OnTransactionWasStarted()
+        {
+            if (TransactionWasStarted != null)
+            {
+                TransactionWasStarted(this, new EventArgs());
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -344,13 +395,21 @@ namespace ResursNetwork.OSI.Messages.Transaction
                 Answer == null ? String.Empty : Answer.ToString());
             //return base.ToString();
         }
+        
         #endregion
 
         #region Events
+
+        /// <summary>
+        /// Событие возникает после запуска транзакции
+        /// </summary>
+        public event EventHandler TransactionWasStarted;
+        
         /// <summary>
         /// Событие возникает после завершения транзакции;
         /// </summary>
-        public event EventHandler TransactionWasEnded; 
+        public event EventHandler TransactionWasEnded;
+        
         #endregion
     }
 }

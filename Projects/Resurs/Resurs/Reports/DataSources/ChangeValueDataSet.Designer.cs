@@ -281,8 +281,6 @@ namespace Resurs.Reports.DataSources {
             
             private global::System.Data.DataColumn columnName;
             
-            private global::System.Data.DataColumn columnId;
-            
             private global::System.Data.DataColumn columnTariff;
             
             private global::System.Data.DataColumn columnOldValue;
@@ -329,14 +327,6 @@ namespace Resurs.Reports.DataSources {
             public global::System.Data.DataColumn NameColumn {
                 get {
                     return this.columnName;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn IdColumn {
-                get {
-                    return this.columnId;
                 }
             }
             
@@ -409,11 +399,10 @@ namespace Resurs.Reports.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DataRow AddDataRow(string Name, int Id, string Tariff, double OldValue, double NewValue, double ChangeValue) {
+            public DataRow AddDataRow(string Name, string Tariff, double OldValue, double NewValue, double ChangeValue) {
                 DataRow rowDataRow = ((DataRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Name,
-                        Id,
                         Tariff,
                         OldValue,
                         NewValue,
@@ -441,7 +430,6 @@ namespace Resurs.Reports.DataSources {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
                 this.columnName = base.Columns["Name"];
-                this.columnId = base.Columns["Id"];
                 this.columnTariff = base.Columns["Tariff"];
                 this.columnOldValue = base.Columns["OldValue"];
                 this.columnNewValue = base.Columns["NewValue"];
@@ -453,8 +441,6 @@ namespace Resurs.Reports.DataSources {
             private void InitClass() {
                 this.columnName = new global::System.Data.DataColumn("Name", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnName);
-                this.columnId = new global::System.Data.DataColumn("Id", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnId);
                 this.columnTariff = new global::System.Data.DataColumn("Tariff", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTariff);
                 this.columnOldValue = new global::System.Data.DataColumn("OldValue", typeof(double), null, global::System.Data.MappingType.Element);
@@ -621,22 +607,6 @@ namespace Resurs.Reports.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int Id {
-                get {
-                    try {
-                        return ((int)(this[this.tableData.IdColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Id\' in table \'Data\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableData.IdColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Tariff {
                 get {
                     try {
@@ -709,18 +679,6 @@ namespace Resurs.Reports.DataSources {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetNameNull() {
                 this[this.tableData.NameColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsIdNull() {
-                return this.IsNull(this.tableData.IdColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetIdNull() {
-                this[this.tableData.IdColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
