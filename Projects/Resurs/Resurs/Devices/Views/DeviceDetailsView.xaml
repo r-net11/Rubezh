@@ -14,9 +14,24 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
-			<TextBlock Grid.Row="1" Grid.Column="0" Text="Устройство активно" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
-			<CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsActive}" Margin="2" />
+			<TextBlock Grid.Row="0" Grid.Column="0" Text="Устройство активно" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
+			<CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsActive}" Margin="2" />
+			
+			<TextBlock Grid.Row="1" Grid.Column="0" Text="Тип ресурса" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" 
+					   Visibility="{Binding HasTariffType, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding TariffTypes}" SelectedItem="{Binding TariffType}" Margin="2" 
+					  Visibility="{Binding CanEditTariffType, Converter={StaticResource BoolToVisibilityConverter}}" >
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" Margin="1" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+			<TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2"  
+					   Text="{Binding TariffType, Converter={StaticResource EnumToDescriptionConverter}}" Visibility="{Binding HasReadOnlyTariffType, Converter={StaticResource BoolToVisibilityConverter}}" />
+			
 			<ItemsControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Parameters}" Margin="2">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
@@ -52,6 +67,6 @@
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
-		</Grid>
+		</Grid> 
 	</ScrollViewer>
 </UserControl>
