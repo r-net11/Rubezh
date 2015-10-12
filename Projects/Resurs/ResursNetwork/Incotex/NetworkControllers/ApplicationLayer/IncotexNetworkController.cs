@@ -23,6 +23,83 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
     /// </summary>
     public class IncotexNetworkController: NetworkControllerBase
     {
+        /// <summary>
+        /// Класс буфера исходящих запросов к удалённым устройтсвам
+        /// </summary>
+        internal class OutputBuffer
+        {
+            #region Fields And Properties
+
+            /// <summary>
+            /// Буфер исходящих запросов, для внешних вызовов
+            /// (со стороны UI интерфейса и т.п.) Данные запросы
+            /// имеют приоритет над внутренними вызовами 
+            /// </summary>
+            private Queue<NetworkRequest> _OutputBufferExternalCalls = 
+                new Queue<NetworkRequest>();
+
+            /// <summary>
+            /// Буфер исходящих запросов, для внутренних вызовов
+            /// (переодический автоматизированный опрос удалённых устройств)
+            /// </summary>
+            private Queue<NetworkRequest> _OutputBufferInternalCalls = 
+                new Queue<NetworkRequest>();
+            
+            /// <summary>
+            /// Возвращает состояние исходящего буфера (наличие в нём запросов)
+            /// </summary>
+            internal bool IsEmpty
+            {
+                get { return ((_OutputBufferExternalCalls.Count == 0) && 
+                    (_OutputBufferInternalCalls.Count == 0)) ? true : false; }
+            }
+
+            internal int Count
+            {
+                get { return _OutputBufferExternalCalls.Count + _OutputBufferInternalCalls.Count; }
+            }
+            #endregion
+
+            /// <summary>
+            /// Записывает запрос в выходной буфер 
+            /// </summary>
+            /// <param name="request">Сетевой запрос</param>
+            /// <param name="isExternalCall">Признак внешнего вызова</param>
+            internal void Enqueue(NetworkRequest request, bool isExternalCall) 
+            { 
+                if (isExternalCall)
+                {
+                    _OutputBufferExternalCalls.Enqueue(request);
+                }
+                else
+                {
+                    _OutputBufferInternalCalls.Enqueue(request);
+                }
+            }
+
+            /// <summary>
+            /// Читает запрос из выходного буфера
+            /// </summary>
+            /// <returns>null- если буфер пуст</returns>
+            internal NetworkRequest Dequeue()
+            {
+                // Вынешние вызовы имеют приоритет перед внутренними. Поэтому,
+                // выбираем сообщение сначала из буфера внешних вызовов и только,
+                // затем, если этот буфер пуст, выбирает из буфера внутренних вызовов 
+                if (_OutputBufferExternalCalls.Count != 0)
+                {
+                    return _OutputBufferExternalCalls.Dequeue();
+                }
+                
+                if ( _OutputBufferInternalCalls.Count != 0)
+                {
+                    return _OutputBufferInternalCalls.Dequeue();
+                }
+
+                return null;
+            }
+        }
+
         #region Fields And Properties
 
         private static DeviceType[] _SupportedDevices = new DeviceType[] { DeviceType.Mercury203 };
@@ -31,18 +108,15 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         private int _RequestTimeout = 2000; // Значение по умолчанию
         private int _BroadcastRequestDelay = 2000; // Значение по умолчанию
         private System.Timers.Timer _DataSyncTimer;
-        private int _TotalAttempts = 2;
+        private int _TotalAttempts = 1;
         private AutoResetEvent _AutoResetEvent;
         private static object _SyncRoot = new object(); 
+        private OutputBuffer _OutputBuffer;
 
-        /// <summary>
-        /// Буфер исходящих сообщений
-        /// </summary>
-        private Queue<NetworkRequest> _OutputBuffer;
         /// <summary>
         /// Хранит устройтво для работы в монопольном режиме доступа к устройству
         /// </summary>
-        private DeviceBase _DeviceForExclusiveMode; 
+        //private DeviceBase _DeviceForExclusiveMode; 
 
         /// <summary>
         /// Хранит входящее сообщение от удалённого устройтсва во 
@@ -56,16 +130,6 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         public NetworkRequest CurrentNetworkRequest
         {
             get { return _CurrentNetworkRequest; }
-        }
-
-        /// <summary>
-        /// Возвращает режим опроса сетевых устройств:
-        /// true - опрос единственног устройства в монопольном режиме (режим рельного времени)
-        /// false - опрос всех устройтсв в назначенное время (общий режим работы)
-        /// </summary>
-        public Boolean PollingExclusiveMode
-        {
-            get { return _DeviceForExclusiveMode == null ? false : true; }
         }
 
         public override IEnumerable<DeviceType> SuppotedDevices
@@ -169,7 +233,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// </summary>
         public IncotexNetworkController()
         {
-            _OutputBuffer = new Queue<NetworkRequest>();
+            _OutputBuffer = new OutputBuffer();
             _AutoResetEvent = new AutoResetEvent(false);
 
             _DataSyncTimer = new System.Timers.Timer()
@@ -222,33 +286,6 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             {
                 ReadDeviceParameters(device);
             }
-        }
-
-        /// <summary>
-        /// Переводит контроллер в режим монопольного опроса указанного
-        /// устройства (мониторинг параметров устройства в режиме рельного времени)
-        /// </summary>
-        /// <param name="device"></param>
-        public void PollingExclusiveModeEnable(DeviceBase device)
-        {
-            // Проверяем устройство на пренадлежность данному контроллеру
-            if (_Devices.Contains(device))
-            {
-                _DeviceForExclusiveMode = device;
-            }
-            else
-            {
-                throw new ArgumentException(
-                    "Устройтво не принадлежит данному контроллеру", "device");
-            }
-        }
-
-        /// <summary>
-        /// Прекращает монопольный доступ к устройтву 
-        /// </summary>
-        public void PollingExclusiveModeDisable()
-        {
-            _DeviceForExclusiveMode = null;
         }
 
         /// <summary>
@@ -351,14 +388,15 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             }
         }
 
-        public override void Write(NetworkRequest networkRequest)
+        public override IAsyncRequestResult Write(NetworkRequest networkRequest, bool isExternalCall = true)
         {
             lock (_SyncRoot)
             {
                 if (Status == Status.Running)
                 {
                     networkRequest.TotalAttempts = TotalAttempts;
-                    _OutputBuffer.Enqueue(networkRequest);
+                    _OutputBuffer.Enqueue(networkRequest, isExternalCall);
+                    return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
                 }
                 else
                 {
@@ -392,6 +430,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 
             // Устанавливаем транзакцию в качестве текущей
             _CurrentNetworkRequest = networkRequest;
+            var result = _CurrentNetworkRequest.AsyncRequestResult;
 
             // Если запрос адресованный, то ждём ответа
             // Если запрос широковещательный выдерживаем установленную паузу
@@ -451,6 +490,8 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                         OnNetwrokRequestCompleted(
                             new NetworkRequestCompletedArgs { NetworkRequest = _CurrentNetworkRequest });
 
+                        result.SetCompleted(_CurrentNetworkRequest.TransactionsStack);
+
                         break;
                     }
                 case TransactionType.BroadcastMode:
@@ -469,10 +510,14 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                             throw new Exception(
                                 "Принят ответ от удалённого устройтства во время широковещательного запроса");
                         }
+
+                        result.SetCompleted();
+
                         break;
                     }
                 default:
                     {
+                        result.SetCompleted();
                         throw new NotSupportedException();
                     }
             }

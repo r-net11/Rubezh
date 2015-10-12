@@ -82,9 +82,10 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
             get { return _NetworkController; }
             internal set 
             {
+
                 if (_NetworkController != value)
                 {
-                    if (_NetworkController == null)
+                    if (_NetworkController != null)
                     {
                         _NetworkController.NetwrokRequestCompleted -=
                             EventHandler_NetworkController_NetwrokRequestCompleted;
