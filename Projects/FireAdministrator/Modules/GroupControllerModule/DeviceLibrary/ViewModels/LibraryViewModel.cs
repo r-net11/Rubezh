@@ -5,7 +5,7 @@ using System.Windows.Media;
 using Common;
 using DeviceControls;
 using FiresecAPI.GK;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;

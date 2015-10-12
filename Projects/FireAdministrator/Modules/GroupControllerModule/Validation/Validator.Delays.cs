@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.GK;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common.Validation;
 
 namespace GKModule.Validation

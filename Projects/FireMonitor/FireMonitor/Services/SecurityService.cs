@@ -1,5 +1,5 @@
 ﻿using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common.Services;
 
@@ -9,7 +9,7 @@ namespace FireMonitor
 	{
 		public bool Validate()
 		{
-			if (FiresecManager.CheckPermission(PermissionType.Oper_MayNotConfirmCommands))
+			if (ClientManager.CheckPermission(PermissionType.Oper_MayNotConfirmCommands))
 				return true;
 			return ServiceFactory.LoginService.ExecuteValidate();
 		}

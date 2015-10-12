@@ -6,7 +6,7 @@ using FiresecAPI.GK;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Journal;
 using Infrastructure;
-using FiresecClient;
+using RubezhClient;
 
 namespace GKSDK
 {

@@ -2,8 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -67,14 +67,14 @@ namespace SKDModule.ViewModels
 				_selectedYear = value;
 				OnPropertyChanged(() => SelectedYear);
 
-				var filter = new HolidayFilter() { UserUID = FiresecManager.CurrentUser.UID, Year = value, LogicalDeletationType = LogicalDeletationType };
+				var filter = new HolidayFilter() { UserUID = ClientManager.CurrentUser.UID, Year = value, LogicalDeletationType = LogicalDeletationType };
 				Initialize(filter);
 			}
 		}
 
 		public void Initialize()
 		{
-			var filter = new HolidayFilter() { UserUID = FiresecManager.CurrentUser.UID, Year = SelectedYear, LogicalDeletationType = LogicalDeletationType };
+			var filter = new HolidayFilter() { UserUID = ClientManager.CurrentUser.UID, Year = SelectedYear, LogicalDeletationType = LogicalDeletationType };
 			Initialize(filter);
 		}
 

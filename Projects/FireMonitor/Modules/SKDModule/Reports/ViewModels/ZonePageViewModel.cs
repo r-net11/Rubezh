@@ -10,7 +10,7 @@ using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Common;
 using FiresecAPI.GK;
-using FiresecClient;
+using RubezhClient;
 
 namespace SKDModule.Reports.ViewModels
 {

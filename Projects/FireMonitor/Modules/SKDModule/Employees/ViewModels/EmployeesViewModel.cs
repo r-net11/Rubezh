@@ -4,11 +4,11 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using SKDModule.Events;
-using FiresecClient;
+using RubezhClient;
 using FiresecAPI;
 
 namespace SKDModule.ViewModels

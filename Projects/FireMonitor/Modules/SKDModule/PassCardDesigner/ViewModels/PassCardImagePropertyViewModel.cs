@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Media;
 using FiresecAPI;
 using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
+using RubezhClient.SKDHelpers;
 using Infrastructure.Designer.ElementProperties.ViewModels;
 
 namespace SKDModule.PassCardDesigner.ViewModels

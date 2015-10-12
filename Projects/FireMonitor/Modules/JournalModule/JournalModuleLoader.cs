@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Journal;
 using FiresecAPI.Models.Layouts;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
@@ -100,7 +100,7 @@ namespace JournalModule
 			SafeFiresecService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredArchiveCompletedEvent);
 
 			var journalFilter = new JournalFilter();
-			var result = FiresecManager.FiresecService.GetFilteredJournalItems(journalFilter);
+			var result = ClientManager.FiresecService.GetFilteredJournalItems(journalFilter);
 			if (!result.HasError)
 			{
 				JournalViewModel.SetJournalItems(result.Result);
@@ -139,13 +139,13 @@ namespace JournalModule
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Journal, "Журнал событий", "Book.png", (p) =>
 			{
 				var layoutPartJournalProperties = p as LayoutPartReferenceProperties;
-				var filter = FiresecManager.SystemConfiguration.JournalFilters.FirstOrDefault(x => x.UID == layoutPartJournalProperties.ReferenceUID);
+				var filter = ClientManager.SystemConfiguration.JournalFilters.FirstOrDefault(x => x.UID == layoutPartJournalProperties.ReferenceUID);
 				if(filter == null)
 					filter = new JournalFilter();
 
 				var journalViewModel = new JournalViewModel(filter);
 				journalViewModel.Initialize();
-				var result = FiresecManager.FiresecService.GetFilteredJournalItems(filter);
+				var result = ClientManager.FiresecService.GetFilteredJournalItems(filter);
 				if (!result.HasError)
 				{
 					journalViewModel.SetJournalItems(result.Result);

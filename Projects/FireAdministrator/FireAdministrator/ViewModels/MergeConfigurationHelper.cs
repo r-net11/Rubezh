@@ -7,7 +7,7 @@ using Common;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -41,7 +41,7 @@ namespace FireAdministrator.ViewModels
 				LoadFromZipFile(configFileName);
 				ServiceFactory.ContentService.Invalidate();
 
-				FiresecManager.UpdateConfiguration();
+				ClientManager.UpdateConfiguration();
 				GKManager.UpdateConfiguration();
 
 				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
@@ -204,11 +204,11 @@ namespace FireAdministrator.ViewModels
 
 			foreach (var plan in PlansConfiguration.Plans)
 			{
-				FiresecManager.PlansConfiguration.Plans.Add(plan);
+				ClientManager.PlansConfiguration.Plans.Add(plan);
 			}
 
 			GKManager.UpdateConfiguration();
-			FiresecManager.UpdateConfiguration();
+			ClientManager.UpdateConfiguration();
 
 			var errorsString = errors.ToString();
 			if (!string.IsNullOrEmpty(errorsString))

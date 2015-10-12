@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;

@@ -7,6 +7,7 @@ using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhClient;
 
 namespace FiltersModule.ViewModels
 {
@@ -97,14 +98,14 @@ namespace FiltersModule.ViewModels
 			RootObjects.Add(gkViewModel);
 			var gkDevicesViewModel = new ObjectViewModel(JournalObjectType.GKDevice);
 			AddChild(gkViewModel, gkDevicesViewModel);
-			foreach (var childDevice in FiresecClient.GKManager.DeviceConfiguration.RootDevice.Children)
+			foreach (var childDevice in GKManager.DeviceConfiguration.RootDevice.Children)
 			{
 				AddGKDeviceInternal(childDevice, gkDevicesViewModel);
 			}
 
 			var gkZonesViewModel = new ObjectViewModel(JournalObjectType.GKZone);
 			AddChild(gkViewModel, gkZonesViewModel);
-			foreach (var zone in FiresecClient.GKManager.Zones)
+			foreach (var zone in GKManager.Zones)
 			{
 				var objectViewModel = new ObjectViewModel(zone);
 				AddChild(gkZonesViewModel, objectViewModel);
@@ -112,7 +113,7 @@ namespace FiltersModule.ViewModels
 
 			var gkDirectionsViewModel = new ObjectViewModel(JournalObjectType.GKDirection);
 			AddChild(gkViewModel, gkDirectionsViewModel);
-			foreach (var direction in FiresecClient.GKManager.Directions)
+			foreach (var direction in GKManager.Directions)
 			{
 				var objectViewModel = new ObjectViewModel(direction);
 				AddChild(gkDirectionsViewModel, objectViewModel);
@@ -120,7 +121,7 @@ namespace FiltersModule.ViewModels
 
 			var gkMPTsViewModel = new ObjectViewModel(JournalObjectType.GKMPT);
 			AddChild(gkViewModel, gkMPTsViewModel);
-			foreach (var mpt in FiresecClient.GKManager.MPTs)
+			foreach (var mpt in GKManager.MPTs)
 			{
 				var objectViewModel = new ObjectViewModel(mpt);
 				AddChild(gkMPTsViewModel, objectViewModel);
@@ -128,7 +129,7 @@ namespace FiltersModule.ViewModels
 
 			var gkPumpStationsViewModel = new ObjectViewModel(JournalObjectType.GKPumpStation);
 			AddChild(gkViewModel, gkPumpStationsViewModel);
-			foreach (var pumpStation in FiresecClient.GKManager.PumpStations)
+			foreach (var pumpStation in GKManager.PumpStations)
 			{
 				var objectViewModel = new ObjectViewModel(pumpStation);
 				AddChild(gkPumpStationsViewModel, objectViewModel);
@@ -136,7 +137,7 @@ namespace FiltersModule.ViewModels
 
 			var gkDelaysViewModel = new ObjectViewModel(JournalObjectType.GKDelay);
 			AddChild(gkViewModel, gkDelaysViewModel);
-			foreach (var delay in FiresecClient.GKManager.Delays)
+			foreach (var delay in GKManager.Delays)
 			{
 				var objectViewModel = new ObjectViewModel(delay);
 				AddChild(gkDelaysViewModel, objectViewModel);
@@ -144,7 +145,7 @@ namespace FiltersModule.ViewModels
 
 			var gkGuardZonesViewModel = new ObjectViewModel(JournalObjectType.GKGuardZone);
 			AddChild(gkViewModel, gkGuardZonesViewModel);
-			foreach (var guardZone in FiresecClient.GKManager.GuardZones)
+			foreach (var guardZone in GKManager.GuardZones)
 			{
 				var objectViewModel = new ObjectViewModel(guardZone);
 				AddChild(gkGuardZonesViewModel, objectViewModel);
@@ -152,7 +153,7 @@ namespace FiltersModule.ViewModels
 
 			var gkDoorsViewModel = new ObjectViewModel(JournalObjectType.GKDoor);
 			AddChild(gkViewModel, gkDoorsViewModel);
-			foreach (var door in FiresecClient.GKManager.Doors)
+			foreach (var door in GKManager.Doors)
 			{
 				var doorViewModel = new ObjectViewModel(door);
 				AddChild(gkDoorsViewModel, doorViewModel);
@@ -160,7 +161,7 @@ namespace FiltersModule.ViewModels
 
 			var gkSKDZonesViewModel = new ObjectViewModel(JournalObjectType.GKSKDZone);
 			AddChild(gkViewModel, gkSKDZonesViewModel);
-			foreach (var skdZone in FiresecClient.GKManager.SKDZones)
+			foreach (var skdZone in GKManager.SKDZones)
 			{
 				var filterObjectViewModel = new ObjectViewModel(skdZone);
 				AddChild(gkSKDZonesViewModel, filterObjectViewModel);
@@ -172,7 +173,7 @@ namespace FiltersModule.ViewModels
 
 			var videoDevicesViewModel = new ObjectViewModel(JournalObjectType.VideoDevice);
 			AddChild(videoViewModel, videoDevicesViewModel);
-			foreach (var camera in FiresecClient.FiresecManager.SystemConfiguration.Cameras)
+			foreach (var camera in ClientManager.SystemConfiguration.Cameras)
 			{
 				var objectViewModel = new ObjectViewModel(camera);
 				AddChild(videoDevicesViewModel, objectViewModel);

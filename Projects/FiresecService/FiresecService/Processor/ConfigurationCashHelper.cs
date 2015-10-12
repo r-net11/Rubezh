@@ -6,7 +6,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhClient;
 using GKProcessor;
 using Infrastructure.Common;
 using Ionic.Zip;

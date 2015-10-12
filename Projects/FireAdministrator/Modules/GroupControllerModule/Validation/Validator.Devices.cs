@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using FiresecAPI.GK;
-using FiresecClient;
+using RubezhClient;
 using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Validation;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Automation;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
 
@@ -15,9 +15,9 @@ namespace AutomationModule.ViewModels
 		{
 			Title = "Выбор процедуры";
 			Procedures = new ObservableCollection<ProcedureViewModel>();
-			if (FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures == null)
-				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures = new List<Procedure>();
-			foreach (var procedure in FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures)
+			if (ClientManager.SystemConfiguration.AutomationConfiguration.Procedures == null)
+				ClientManager.SystemConfiguration.AutomationConfiguration.Procedures = new List<Procedure>();
+			foreach (var procedure in ClientManager.SystemConfiguration.AutomationConfiguration.Procedures)
 			{
 				var procedureViewModel = new ProcedureViewModel(procedure);
 				Procedures.Add(procedureViewModel);
@@ -29,9 +29,9 @@ namespace AutomationModule.ViewModels
 		{
 			Title = "Выбор процедуры";
 			Procedures = new ObservableCollection<ProcedureViewModel>();
-			if (FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures == null)
-				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures = new List<Procedure>();
-			foreach (var procedure in FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.FindAll(x => x.Uid != procedureUid))
+			if (ClientManager.SystemConfiguration.AutomationConfiguration.Procedures == null)
+				ClientManager.SystemConfiguration.AutomationConfiguration.Procedures = new List<Procedure>();
+			foreach (var procedure in ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.FindAll(x => x.Uid != procedureUid))
 			{
 				var procedureViewModel = new ProcedureViewModel(procedure);
 				Procedures.Add(procedureViewModel);

@@ -12,7 +12,7 @@ using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhClient;
 using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Client;
@@ -49,7 +49,7 @@ namespace AutomationModule
 
 		public override void Initialize()
 		{
-			_proceduresNavigationItem.IsVisible = FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Count > 0;
+			_proceduresNavigationItem.IsVisible = ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.Count > 0;
 			ProceduresViewModel.Initialize();
 			_planPresenter.Initialize();
 			ServiceFactoryBase.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
@@ -90,7 +90,7 @@ namespace AutomationModule
 				case AutomationCallbackType.Sound:
 					var soundArguments = (SoundCallbackData)automationCallbackResult.Data;
 					var sound =
-						FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.FirstOrDefault(
+						ClientManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.FirstOrDefault(
 							x => x.Uid == soundArguments.SoundUID);
 					if (sound != null)
 						ApplicationService.Invoke(
@@ -150,7 +150,7 @@ namespace AutomationModule
 							break;
 
 						case ObjectType.VideoDevice:
-							var videoDevice = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							var videoDevice = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
 							if (videoDevice != null)
 								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowCameraDetailsEvent>();
 							break;

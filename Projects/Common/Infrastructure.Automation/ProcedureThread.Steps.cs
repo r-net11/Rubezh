@@ -10,7 +10,7 @@ using FiresecAPI.AutomationCallback;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Property = FiresecAPI.Automation.Property;
 
 namespace Infrastructure.Automation

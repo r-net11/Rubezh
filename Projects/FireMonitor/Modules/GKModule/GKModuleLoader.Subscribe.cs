@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.GK;
-using FiresecClient;
+using RubezhClient;
 using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
@@ -45,7 +45,7 @@ namespace GKModule
 
 		void InitializeStates()
 		{
-			var gkStates = FiresecManager.FiresecService.GKGetStates();
+			var gkStates = ClientManager.FiresecService.GKGetStates();
 			CopyGKStates(gkStates);
 		}
 
@@ -67,7 +67,7 @@ namespace GKModule
 						{
 							LoadingService.DoStep(gkProgressCallback.Text, gkProgressCallback.Title, gkProgressCallback.StepCount, gkProgressCallback.CurrentStep, gkProgressCallback.CanCancel);
 							if (LoadingService.IsCanceled)
-								FiresecManager.FiresecService.CancelGKProgress(gkProgressCallback.UID, FiresecManager.CurrentUser.Name);
+								ClientManager.FiresecService.CancelGKProgress(gkProgressCallback.UID, ClientManager.CurrentUser.Name);
 						}
 						return;
 

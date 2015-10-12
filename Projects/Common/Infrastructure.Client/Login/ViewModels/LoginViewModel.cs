@@ -2,7 +2,7 @@
 using System.Reflection;
 using Common;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Client.Properties;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -32,7 +32,7 @@ namespace Infrastructure.Client.Login.ViewModels
 					CanEditUserName = true;
 					break;
 				case PasswordViewType.Validate:
-					UserName = FiresecManager.CurrentUser.Login;
+					UserName = ClientManager.CurrentUser.Login;
 					Settings.Default.SavePassword = false;
 					CanEditUserName = false;
 					break;
@@ -129,11 +129,11 @@ namespace Infrastructure.Client.Login.ViewModels
 				case PasswordViewType.Connect:
 					var preLoadWindow = new ConnectionViewModel();
 					DialogService.ShowWindow(preLoadWindow);
-					Message = FiresecManager.Connect(ClientType, ConnectionSettingsManager.ServerAddress, UserName, Password);
+					Message = ClientManager.Connect(ClientType, ConnectionSettingsManager.ServerAddress, UserName, Password);
 					preLoadWindow.ForceClose();
 					break;
 				case PasswordViewType.Validate:
-					Message = HashHelper.CheckPass(Password, FiresecManager.CurrentUser.PasswordHash) ? null : "Неверный пароль";
+					Message = HashHelper.CheckPass(Password, ClientManager.CurrentUser.PasswordHash) ? null : "Неверный пароль";
 					break;
 			}
 			IsConnected = string.IsNullOrEmpty(Message);

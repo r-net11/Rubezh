@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 using Common;
 using FiresecAPI;
 using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhClient;
 
 namespace RubezhDAL.DataClasses
 {

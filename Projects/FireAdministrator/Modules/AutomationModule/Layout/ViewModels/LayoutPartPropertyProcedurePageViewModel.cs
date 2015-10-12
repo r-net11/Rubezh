@@ -5,7 +5,7 @@ using System.Text;
 using Infrastructure.Common.Services.Layout;
 using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
-using FiresecClient;
+using RubezhClient;
 using FiresecAPI.Models.Layouts;
 
 namespace AutomationModule.Layout.ViewModels
@@ -17,7 +17,7 @@ namespace AutomationModule.Layout.ViewModels
 		public LayoutPartPropertyProcedurePageViewModel(LayoutPartProcedureViewModel layoutPartViewModel)
 		{
 			_layoutPartViewModel = layoutPartViewModel;
-			Procedures = new ObservableCollection<Procedure>(FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures);
+			Procedures = new ObservableCollection<Procedure>(ClientManager.SystemConfiguration.AutomationConfiguration.Procedures);
 		}
 
 		private ObservableCollection<Procedure> _procedures;

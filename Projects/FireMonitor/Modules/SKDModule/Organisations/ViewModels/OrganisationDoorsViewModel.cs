@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhClient;
 
 namespace SKDModule.ViewModels
 {

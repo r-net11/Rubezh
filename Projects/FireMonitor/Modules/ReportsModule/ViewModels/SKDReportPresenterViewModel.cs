@@ -6,7 +6,7 @@ using Common;
 using DevExpress.DocumentServices.ServiceModel.Client;
 using DevExpress.Xpf.Printing;
 using FiresecAPI.SKD.ReportFilters;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows;
@@ -142,7 +142,7 @@ namespace ReportsModule.ViewModels
 						var filter = ReportProvider is IFilteredSKDReportProvider ? ((IFilteredSKDReportProvider)ReportProvider).GetFilter() : null;
 						FilterName = filter == null ? null : filter.Name;
 						if (filter != null)
-							filter.UserUID = FiresecManager.CurrentUser.UID;
+							filter.UserUID = ClientManager.CurrentUser.UID;
 						var filterPeriod = filter as IReportFilterPeriod;
 						IsPeriodReport = filterPeriod != null;
 						if (IsPeriodReport)

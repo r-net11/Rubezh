@@ -3,8 +3,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 

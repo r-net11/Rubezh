@@ -7,8 +7,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure;
 using SKDModule.Events;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {

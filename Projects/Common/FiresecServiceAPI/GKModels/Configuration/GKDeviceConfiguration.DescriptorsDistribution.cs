@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using FiresecClient;
+using RubezhClient;
 using System;
 
 namespace FiresecAPI.GK

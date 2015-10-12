@@ -5,7 +5,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using System.IO;
 
-namespace FiresecClient
+namespace RubezhClient
 {
 	public partial class GKManager
 	{

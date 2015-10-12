@@ -4,7 +4,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using Infrastructure.Common.Reports;
 using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhClient;
 
 namespace SKDModule.Reports
 {

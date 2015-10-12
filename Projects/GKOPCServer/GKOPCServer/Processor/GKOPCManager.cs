@@ -6,7 +6,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Common;
 using FiresecAPI.GK;
-using FiresecClient;
+using RubezhClient;
 using Graybox.OPC.ServerToolkit.CLRWrapper;
 
 namespace GKOPCServer

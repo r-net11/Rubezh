@@ -8,6 +8,7 @@ using Common;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.ViewModels;
+using RubezhClient;
 
 namespace SoundsModule.ViewModels
 {
@@ -43,9 +44,9 @@ namespace SoundsModule.ViewModels
 			{
 				var newSound = new Sound() { StateClass = stateClass };
 
-				var sound = FiresecClient.FiresecManager.SystemConfiguration.Sounds.FirstOrDefault(x => x.StateClass == stateClass);
+				var sound = ClientManager.SystemConfiguration.Sounds.FirstOrDefault(x => x.StateClass == stateClass);
 				if (sound == null)
-					FiresecClient.FiresecManager.SystemConfiguration.Sounds.Add(newSound);
+					ClientManager.SystemConfiguration.Sounds.Add(newSound);
 				else
 					newSound = sound;
 
@@ -55,7 +56,7 @@ namespace SoundsModule.ViewModels
 			Sounds.Sort(x => EnumHelper.GetEnumDescription(x.StateClass));
 			SelectedSound = Sounds.FirstOrDefault();
 
-			if (FiresecClient.FiresecManager.SystemConfiguration.Sounds.RemoveAll(x => !Sounds.Any(y => y.StateClass == x.StateClass)) > 0)
+			if (ClientManager.SystemConfiguration.Sounds.RemoveAll(x => !Sounds.Any(y => y.StateClass == x.StateClass)) > 0)
 				ServiceFactory.SaveService.SoundsChanged = true;
 		}
 
@@ -105,7 +106,7 @@ namespace SoundsModule.ViewModels
 		{
 			if (IsNowPlaying == false)
 			{
-				AlarmPlayerHelper.Play(FiresecClient.FileHelper.GetSoundFilePath(SelectedSound.SoundName), SelectedSound.BeeperType, SelectedSound.IsContinious);
+				AlarmPlayerHelper.Play(RubezhClient.FileHelper.GetSoundFilePath(SelectedSound.SoundName), SelectedSound.BeeperType, SelectedSound.IsContinious);
 				IsNowPlaying = SelectedSound.IsContinious;
 			}
 			else

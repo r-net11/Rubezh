@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Common;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
@@ -139,7 +139,7 @@ namespace PlansModule.ViewModels
 
 		public bool HasPermissionsToScale
 		{
-			get { return FiresecManager.CheckPermission(PermissionType.Oper_ChangeView); }
+			get { return ClientManager.CheckPermission(PermissionType.Oper_ChangeView); }
 		}
 		public bool AlwaysShowScroll
 		{

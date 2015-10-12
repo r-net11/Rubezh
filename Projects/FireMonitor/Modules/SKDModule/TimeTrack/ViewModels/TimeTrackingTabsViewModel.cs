@@ -1,6 +1,6 @@
 ﻿using FiresecAPI.Models;
 using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -47,25 +47,25 @@ namespace SKDModule.ViewModels
 		{
 			DayIntervalsViewModel.Initialize(new DayIntervalFilter 
 			{ 
-				UserUID = FiresecManager.CurrentUser.UID, 
+				UserUID = ClientManager.CurrentUser.UID, 
 				LogicalDeletationType = Filter.LogicalDeletationType, 
 				OrganisationUIDs = Filter.OrganisationUIDs
 			});
 			ScheduleSchemesViewModel.Initialize(new ScheduleSchemeFilter
 			{
-				UserUID = FiresecManager.CurrentUser.UID,
+				UserUID = ClientManager.CurrentUser.UID,
 				LogicalDeletationType = Filter.LogicalDeletationType,
 				OrganisationUIDs = Filter.OrganisationUIDs
 			});
 			HolidaysViewModel.Initialize(new HolidayFilter
 			{
-				UserUID = FiresecManager.CurrentUser.UID,
+				UserUID = ClientManager.CurrentUser.UID,
 				LogicalDeletationType = Filter.LogicalDeletationType,
 				OrganisationUIDs = Filter.OrganisationUIDs
 			});
 			SchedulesViewModel.Initialize(new ScheduleFilter
 			{
-				UserUID = FiresecManager.CurrentUser.UID,
+				UserUID = ClientManager.CurrentUser.UID,
 				LogicalDeletationType = Filter.LogicalDeletationType,
 				OrganisationUIDs = Filter.OrganisationUIDs
 			});
@@ -126,11 +126,11 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public bool CanSelectDayIntervals { get { return FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_TimeTrack_DaySchedules_View); } }
-		public bool CanSelectScheduleSchemes { get { return FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_View); } }
-		public bool CanSelectHolidays { get { return FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_TimeTrack_Holidays_View); } }
-		public bool CanSelectSchedules { get { return FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_TimeTrack_Schedules_View); } }
-		public bool CanSelectTimeTracking { get { return FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_TimeTrack_Report_View); } }
+		public bool CanSelectDayIntervals { get { return ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_TimeTrack_DaySchedules_View); } }
+		public bool CanSelectScheduleSchemes { get { return ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_View); } }
+		public bool CanSelectHolidays { get { return ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_TimeTrack_Holidays_View); } }
+		public bool CanSelectSchedules { get { return ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_TimeTrack_Schedules_View); } }
+		public bool CanSelectTimeTracking { get { return ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_TimeTrack_Report_View); } }
 
 		public string FilterImageSource { get { return Filter.EmployeeFilter.IsNotEmpty ? "archive" : "filter"; } }
 

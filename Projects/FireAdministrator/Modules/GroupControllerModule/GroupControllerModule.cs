@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using GKModule.Events;
 using GKModule.Plans;
 using GKModule.Validation;
@@ -297,7 +297,7 @@ namespace GKModule
                     {
                         if (!callbackOperationResult.HasError)
                         {
-                            var stream = FiresecManager.FiresecService.GetServerFile(callbackOperationResult.FileName);
+                            var stream = ClientManager.FiresecService.GetServerFile(callbackOperationResult.FileName);
 
                             if (stream != Stream.Null)
                             {
@@ -308,7 +308,7 @@ namespace GKModule
                                 Directory.CreateDirectory(folderName);
 
                                 var configFileStream = File.Create(configFileName);
-                                FiresecManager.CopyStream(stream, configFileStream);
+                                ClientManager.CopyStream(stream, configFileStream);
                                 configFileStream.Close();
 
                                 if (new FileInfo(configFileName).Length == 0)

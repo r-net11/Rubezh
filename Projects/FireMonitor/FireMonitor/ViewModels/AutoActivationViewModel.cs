@@ -5,7 +5,7 @@ using Infrastructure;
 using FiresecAPI.Journal;
 using System.Collections.Generic;
 using System.ComponentModel;
-using FiresecClient;
+using RubezhClient;
 using FiresecAPI.Models;
 using FiresecAPI;
 
@@ -21,7 +21,7 @@ namespace FireMonitor.ViewModels
 
 		public bool HasPermission
 		{
-			get { return FiresecManager.CheckPermission(PermissionType.Oper_ChangeView); }
+			get { return ClientManager.CheckPermission(PermissionType.Oper_ChangeView); }
 		}
 		public bool IsAutoActivation
 		{

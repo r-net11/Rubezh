@@ -1,5 +1,5 @@
 ﻿using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -24,7 +24,7 @@ namespace SettingsModule.ViewModels
 		public RelayCommand ShowSettingsCommand { get; private set; }
 		void OnShowSettings()
 		{
-			if (FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
+			if (ClientManager.CheckPermission(PermissionType.Adm_SetNewConfig))
 			{
 				var gloobalSettingsViewModel = new GlobalSettingsViewModel();
 				DialogService.ShowModalWindow(gloobalSettingsViewModel);

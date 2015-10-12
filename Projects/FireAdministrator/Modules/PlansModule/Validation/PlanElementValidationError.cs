@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
@@ -38,7 +38,7 @@ namespace PlansModule.Validation
 		{
 			get
 			{
-				var plan = PlanUID.HasValue ? FiresecManager.PlansConfiguration[PlanUID.Value] : null;
+				var plan = PlanUID.HasValue ? ClientManager.PlansConfiguration[PlanUID.Value] : null;
 				return plan == null ? null : plan.Caption;
 			}
 		}

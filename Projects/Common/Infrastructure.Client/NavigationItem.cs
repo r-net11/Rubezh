@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
@@ -33,7 +33,7 @@ namespace Infrastructure.Client
 				Subscribe();
 
 			if(permission.HasValue)
-				IsVisible = FiresecManager.CheckPermission(permission.Value);
+				IsVisible = ClientManager.CheckPermission(permission.Value);
 			IsSelectionAllowed = true;
 		}
 		public override void Execute()

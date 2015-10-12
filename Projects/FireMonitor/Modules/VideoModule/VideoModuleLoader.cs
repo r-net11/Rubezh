@@ -5,7 +5,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
@@ -44,9 +44,9 @@ namespace VideoModule
 				//if (!VlcContext.IsInitialized)
 				{
 					//Set libvlc.dll and libvlccore.dll directory path
-					//VlcContext.LibVlcDllsPath = FiresecManager.SystemConfiguration.RviSettings.DllsPath;
+					//VlcContext.LibVlcDllsPath = ClientManager.SystemConfiguration.RviSettings.DllsPath;
 					//Set the vlc plugins directory path
-					//VlcContext.LibVlcPluginsPath = FiresecManager.SystemConfiguration.RviSettings.PluginsPath;
+					//VlcContext.LibVlcPluginsPath = ClientManager.SystemConfiguration.RviSettings.PluginsPath;
 
 					//Set the startup options
 					VlcContext.StartupOptions.IgnoreConfig = true;
@@ -82,7 +82,7 @@ namespace VideoModule
 
 		void OnShowDeviceDetails(Guid videoUID)
 		{
-			var videoDevice = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == videoUID);
+			var videoDevice = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == videoUID);
 			if (videoDevice != null)
 			{
 				DialogService.ShowWindow(new CameraDetailsViewModel(videoDevice));
@@ -92,7 +92,7 @@ namespace VideoModule
 
 		public override void Initialize()
 		{
-			_videoNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.HasVideo && FiresecManager.SystemConfiguration.Cameras.Count > 0;
+			_videoNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.HasVideo && ClientManager.SystemConfiguration.Cameras.Count > 0;
 			CamerasViewModel.Initialize();
 			_planPresenter.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);

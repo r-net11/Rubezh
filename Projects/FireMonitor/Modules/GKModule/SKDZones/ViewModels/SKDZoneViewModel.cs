@@ -5,7 +5,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Events;
 using System.Collections.ObjectModel;
 using FiresecAPI.Models;
@@ -109,7 +109,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKOpenSKDZone(SKDZone);
+				ClientManager.FiresecService.GKOpenSKDZone(SKDZone);
 			}
 		}
 
@@ -118,7 +118,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKCloseSKDZone(SKDZone);
+				ClientManager.FiresecService.GKCloseSKDZone(SKDZone);
 			}
 		}
 
@@ -137,7 +137,7 @@ namespace GKModule.ViewModels
 
 		bool CanControl ()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ZonesSKD);
+			return ClientManager.CheckPermission(PermissionType.Oper_ZonesSKD);
 		}
 	}
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using FiresecAPI.GK;
-using FiresecClient;
+using RubezhClient;
 using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
@@ -378,7 +378,7 @@ namespace GKModule.ViewModels
 					break;
 				i++;
 				LoadingService.DoStep("Запрос параметров объекта " + i);
-				var result = FiresecManager.FiresecService.GKGetSingleParameter(device);
+				var result = ClientManager.FiresecService.GKGetSingleParameter(device);
 				if (!result.HasError)
 				{
 					foreach (var property in result.Result)
@@ -423,7 +423,7 @@ namespace GKModule.ViewModels
 				var baseDescriptor = ParametersHelper.GetBaseDescriptor(device);
 				if (baseDescriptor != null)
 				{
-					var result = FiresecManager.FiresecService.GKSetSingleParameter(device, baseDescriptor.Parameters, device.Properties);
+					var result = ClientManager.FiresecService.GKSetSingleParameter(device, baseDescriptor.Parameters, device.Properties);
 					if (result.HasError)
 						errorLog += "\n" + device.PresentationName + ". " + result.Error;
 				}
@@ -486,7 +486,7 @@ namespace GKModule.ViewModels
 			if (gkParent.DriverType != GKDriverType.GK)
 				gkParent = DevicesViewModel.Current.SelectedDevice.Device.GKParent;
 
-			var result = FiresecManager.FiresecService.GKGKHash(gkParent);
+			var result = ClientManager.FiresecService.GKGKHash(gkParent);
 			if (result.HasError)
 			{
 				MessageBoxService.ShowError(result.Error + ". Операция запрещена");

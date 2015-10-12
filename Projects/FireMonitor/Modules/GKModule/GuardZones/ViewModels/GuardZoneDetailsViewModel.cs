@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
@@ -71,7 +71,7 @@ namespace GKModule.ViewModels
 		void InitializePlans()
 		{
 			Plans = new ObservableCollection<PlanLinkViewModel>();
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 			{
 				ElementBase elementBase;
 				elementBase = plan.ElementRectangleGKGuardZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
@@ -130,7 +130,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetAutomaticRegime(Zone);
+				ClientManager.FiresecService.GKSetAutomaticRegime(Zone);
 			}
 		}
 		bool CanSetAutomaticState()
@@ -143,7 +143,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetManualRegime(Zone);
+				ClientManager.FiresecService.GKSetManualRegime(Zone);
 			}
 		}
 		bool CanSetManualState()
@@ -156,7 +156,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetIgnoreRegime(Zone);
+				ClientManager.FiresecService.GKSetIgnoreRegime(Zone);
 			}
 		}
 		bool CanSetIgnoreState()
@@ -169,7 +169,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOn(Zone);
+				ClientManager.FiresecService.GKTurnOn(Zone);
 			}
 		}
 
@@ -178,7 +178,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOnNow(Zone);
+				ClientManager.FiresecService.GKTurnOnNow(Zone);
 			}
 		}
 
@@ -187,7 +187,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOff(Zone);
+				ClientManager.FiresecService.GKTurnOff(Zone);
 			}
 		}
 
@@ -196,7 +196,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKReset(Zone);
+				ClientManager.FiresecService.GKReset(Zone);
 			}
 		}
 		bool CanReset()
@@ -221,11 +221,11 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (Zone.IsExtraProtected && FiresecManager.CheckPermission(PermissionType.Oper_ExtraGuardZone))
+				if (Zone.IsExtraProtected && ClientManager.CheckPermission(PermissionType.Oper_ExtraGuardZone))
 				{
-					return FiresecManager.CheckPermission(PermissionType.Oper_ExtraGuardZone);
+					return ClientManager.CheckPermission(PermissionType.Oper_ExtraGuardZone);
 				}
-				return !Zone.IsExtraProtected && FiresecManager.CheckPermission(PermissionType.Oper_GuardZone_Control);
+				return !Zone.IsExtraProtected && ClientManager.CheckPermission(PermissionType.Oper_GuardZone_Control);
 			}
 		}
 

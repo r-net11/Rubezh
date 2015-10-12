@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 
 namespace GKModule.Plans.Designer
 {
@@ -13,7 +13,7 @@ namespace GKModule.Plans.Designer
 		public ElementDeviceUpdater()
 		{
 			_map = new Dictionary<Guid, ElementGKDevice>();
-			BuildMap(FiresecManager.PlansConfiguration.Plans);
+			BuildMap(ClientManager.PlansConfiguration.Plans);
 		}
 		private void BuildMap(List<Plan> plans)
 		{

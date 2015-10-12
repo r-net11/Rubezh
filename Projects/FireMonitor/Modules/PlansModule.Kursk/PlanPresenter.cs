@@ -4,7 +4,7 @@ using System.Linq;
 using Common;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;

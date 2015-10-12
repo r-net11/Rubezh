@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -59,7 +59,7 @@ namespace FireAdministrator.ViewModels
 							return true;
 					}
 				}
-				FiresecManager.Disconnect();
+				ClientManager.Disconnect();
 				return base.OnClosing(isCanceled);
 			}
 			finally

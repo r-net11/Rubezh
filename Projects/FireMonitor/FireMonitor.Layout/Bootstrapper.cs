@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using FireMonitor.Layout.ViewModels;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -74,9 +74,9 @@ namespace FireMonitor.Layout
 		private bool GetLayout()
 		{
 			_layout = null;
-			var ip = ConnectionSettingsManager.IsRemote ? FiresecManager.GetIP() : null;
-			var layouts = FiresecManager.LayoutsConfiguration.Layouts.Where(layout => 
-				layout.Users.Contains(FiresecManager.CurrentUser.UID) && 
+			var ip = ConnectionSettingsManager.IsRemote ? ClientManager.GetIP() : null;
+			var layouts = ClientManager.LayoutsConfiguration.Layouts.Where(layout => 
+				layout.Users.Contains(ClientManager.CurrentUser.UID) && 
 				(ip == null || layout.HostNameOrAddressList.Count == 0 || layout.HostNameOrAddressList.Contains(ip)) &&
 				CheckLicense(layout)).ToList();
 			if (layouts.Count > 0)

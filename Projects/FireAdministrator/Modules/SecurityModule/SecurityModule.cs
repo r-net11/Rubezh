@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
@@ -28,7 +28,7 @@ namespace SecurityModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			if (!FiresecManager.CheckPermission(PermissionType.Adm_Security))
+			if (!ClientManager.CheckPermission(PermissionType.Adm_Security))
 				return null;
 
 			return new List<NavigationItem>()

@@ -9,7 +9,7 @@ using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecAPI.Models;
 using FiresecAPI.Automation;
-using FiresecClient;
+using RubezhClient;
 using System.Collections.ObjectModel;
 using Infrastructure.Common;
 using Infrastructure.Automation;
@@ -46,7 +46,7 @@ namespace AutomationModule.ViewModels
 			Device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == uidValue);
 			Zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == uidValue);
 			GuardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == uidValue);
-			Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uidValue);
+			Camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uidValue);
 			Direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uidValue);
 			Delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == uidValue);
 			base.OnPropertyChanged(() => PresentationName);

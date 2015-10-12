@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Automation;
-using FiresecClient;
+using RubezhClient;
 using System.Collections.ObjectModel;
 using FiresecAPI;
 using Property = FiresecAPI.Automation.Property;
-using FiresecClient.SKDHelpers;
+using RubezhClient.SKDHelpers;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.Journal;
@@ -99,7 +99,7 @@ namespace Infrastructure.Automation
 
 		public static string GetProcedureName(Guid procedureUid)
 		{
-			var procedure = FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == procedureUid);
+			var procedure = ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == procedureUid);
 			return procedure == null ? "" : procedure.Name;
 		}
 

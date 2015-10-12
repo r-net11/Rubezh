@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
-using FiresecClient;
+using RubezhClient;
 using RubezhDAL;
 
 namespace GKProcessor

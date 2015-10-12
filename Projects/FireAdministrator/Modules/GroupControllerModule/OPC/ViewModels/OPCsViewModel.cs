@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Infrastructure.Common;

@@ -6,7 +6,7 @@ using System.Windows.Input;
 using Common;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -278,49 +278,49 @@ namespace GKModule.ViewModels
 					if (!device.Driver.IsDeviceOnShleif)
 						continue;
 
-					if (device.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Device_Control))
+					if (device.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Device_Control))
 					{
-						FiresecManager.FiresecService.GKSetAutomaticRegime(device);
+						ClientManager.FiresecService.GKSetAutomaticRegime(device);
 					}
 				}
 
 				foreach (var zone in GKManager.Zones)
 				{
-					if (zone.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Zone_Control))
+					if (zone.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Zone_Control))
 					{
-						FiresecManager.FiresecService.GKSetAutomaticRegime(zone);
+						ClientManager.FiresecService.GKSetAutomaticRegime(zone);
 					}
 				}
 
 				foreach (var guardZones in GKManager.GuardZones)
 				{
-					if (guardZones.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_GuardZone_Control))
+					if (guardZones.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_GuardZone_Control))
 					{
-						FiresecManager.FiresecService.GKSetAutomaticRegime(guardZones);
+						ClientManager.FiresecService.GKSetAutomaticRegime(guardZones);
 					}
 				}
 
 				foreach (var direction in GKManager.Directions)
 				{
-					if (direction.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Directions_Control))
+					if (direction.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Directions_Control))
 					{
-						FiresecManager.FiresecService.GKSetAutomaticRegime(direction);
+						ClientManager.FiresecService.GKSetAutomaticRegime(direction);
 					}
 				}
 
 				foreach (var mpt in GKManager.MPTs)
 				{
-					if (mpt.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_MPT_Control))
+					if (mpt.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_MPT_Control))
 					{
-						FiresecManager.FiresecService.GKSetAutomaticRegime(mpt);
+						ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
 					}
 				}
 
 				foreach (var delay in GKManager.Delays)
 				{
-					if (delay.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Delay_Control))
+					if (delay.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Delay_Control))
 					{
-						FiresecManager.FiresecService.GKSetAutomaticRegime(delay);
+						ClientManager.FiresecService.GKSetAutomaticRegime(delay);
 					}
 				}
 			}
@@ -385,25 +385,25 @@ namespace GKModule.ViewModels
 					{
 						if (zone.State.StateClasses.Contains(XStateClass.Fire1))
 						{
-							FiresecManager.FiresecService.GKResetFire1(zone);
+							ClientManager.FiresecService.GKResetFire1(zone);
 						}
 						if (zone.State.StateClasses.Contains(XStateClass.Fire2))
 						{
-							FiresecManager.FiresecService.GKResetFire2(zone);
+							ClientManager.FiresecService.GKResetFire2(zone);
 						}
 					}
 					foreach (var guardZone in GKManager.GuardZones)
 					{
 						if (guardZone.State.StateClasses.Contains(XStateClass.Fire1))
 						{
-							FiresecManager.FiresecService.GKReset(guardZone);
+							ClientManager.FiresecService.GKReset(guardZone);
 						}
 					}
 					foreach (var door in GKManager.Doors)
 					{
 						if (door.State.StateClasses.Contains(XStateClass.Fire1))
 						{
-							FiresecManager.FiresecService.GKReset(door);
+							ClientManager.FiresecService.GKReset(door);
 						}
 					}
 				}
@@ -450,9 +450,9 @@ namespace GKModule.ViewModels
 		{
 			foreach (var zone in GKManager.Zones)
 			{
-				if ((zone.State.StateClass == XStateClass.Fire1 || zone.State.StateClass == XStateClass.Fire2) && FiresecManager.CheckPermission(PermissionType.Oper_Zone_Control))
+				if ((zone.State.StateClass == XStateClass.Fire1 || zone.State.StateClass == XStateClass.Fire2) && ClientManager.CheckPermission(PermissionType.Oper_Zone_Control))
 				{
-					FiresecManager.FiresecService.GKSetIgnoreRegime(zone);
+					ClientManager.FiresecService.GKSetIgnoreRegime(zone);
 				}
 			}
 
@@ -460,9 +460,9 @@ namespace GKModule.ViewModels
 			{
 				if (device.IsRealDevice)
 				{
-					if ((device.State.StateClass == XStateClass.Fire1 || device.State.StateClass == XStateClass.Fire2) && FiresecManager.CheckPermission(PermissionType.Oper_Device_Control))
+					if ((device.State.StateClass == XStateClass.Fire1 || device.State.StateClass == XStateClass.Fire2) && ClientManager.CheckPermission(PermissionType.Oper_Device_Control))
 					{
-						FiresecManager.FiresecService.GKSetIgnoreRegime(device);
+						ClientManager.FiresecService.GKSetIgnoreRegime(device);
 					}
 				}
 			}

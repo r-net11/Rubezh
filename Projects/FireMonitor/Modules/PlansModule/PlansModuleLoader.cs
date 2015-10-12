@@ -4,7 +4,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
@@ -51,20 +51,20 @@ namespace PlansModule
 		}
 		public override void Initialize()
 		{
-			FiresecManager.UpdatePlansConfiguration();
-			FiresecManager.PlansConfiguration.Update();
+			ClientManager.UpdatePlansConfiguration();
+			ClientManager.PlansConfiguration.Update();
 			using (new TimeCounter("PlansModuleLoader.Initialize: {0}"))
 			{
 				using (new TimeCounter("\tPlansModuleLoader.CacheBrushes: {0}"))
-					foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+					foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 					{
 						PainterCache.CacheBrush(plan);
 						foreach (var elementBase in PlanEnumerator.Enumerate(plan))
 							PainterCache.CacheBrush(elementBase);
 					}
-				FiresecManager.InvalidatePlans();
+				ClientManager.InvalidatePlans();
 			}
-			_planNavigationItem.IsVisible = FiresecManager.PlansConfiguration.Plans.Count > 0;
+			_planNavigationItem.IsVisible = ClientManager.PlansConfiguration.Plans.Count > 0;
 			_plansViewModel.Initialize();
 			_plansViewModels.ForEach(item => item.Initialize());
 		}

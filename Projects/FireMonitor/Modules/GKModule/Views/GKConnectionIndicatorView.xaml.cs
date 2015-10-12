@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using FiresecAPI.GK;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Events;

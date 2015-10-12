@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.GK;

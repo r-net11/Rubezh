@@ -1,5 +1,5 @@
 ﻿using FiresecAPI.GK;
-using FiresecClient;
+using RubezhClient;
 using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;

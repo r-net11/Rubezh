@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -62,7 +62,7 @@ namespace SecurityModule.ViewModels
 				MessageBoxService.Show("Сначала введите название шаблона прав");
 				return false;
 			}
-			else if (Name != Role.Name && FiresecManager.SecurityConfiguration.UserRoles.Any(role => role.Name == Name))
+			else if (Name != Role.Name && ClientManager.SecurityConfiguration.UserRoles.Any(role => role.Name == Name))
 			{
 				MessageBoxService.Show("Шаблон прав с таким названием уже существует");
 				return false;

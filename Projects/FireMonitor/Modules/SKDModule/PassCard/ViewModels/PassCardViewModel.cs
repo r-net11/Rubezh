@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using Common;
 using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;

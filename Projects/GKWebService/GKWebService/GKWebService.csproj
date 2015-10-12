@@ -491,7 +491,7 @@
       <Project>{0f0ace8e-e606-4fca-b6b2-2f1fd86121de}</Project>
       <Name>Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\FiresecClient\FiresecClient.csproj">
+    <ProjectReference Include="..\..\Common\RubezhClient\RubezhClient.csproj">
       <Project>{f46953e0-ca12-4659-ae8c-88241b541f6c}</Project>
       <Name>FiresecClient</Name>
     </ProjectReference>

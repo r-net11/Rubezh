@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
 using FiresecAPI.GK;
-using FiresecClient;
+using RubezhClient;
 using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using Microsoft.Research.DynamicDataDisplay;
@@ -62,7 +62,7 @@ namespace GKModule.Views
 			if (plotViewModel == null)
 				return;
 
-			var measuresResult = FiresecManager.FiresecService.GetAlsMeasure(plotViewModel.DeviceUid);
+			var measuresResult = ClientManager.FiresecService.GetAlsMeasure(plotViewModel.DeviceUid);
 			if (measuresResult != null && !measuresResult.HasError)
 			{
 				RingCurrentConsumptions.Add(measuresResult.Result);

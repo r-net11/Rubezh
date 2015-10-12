@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using GKModule.Events;
 using GKModule.Plans;
 using Infrastructure;

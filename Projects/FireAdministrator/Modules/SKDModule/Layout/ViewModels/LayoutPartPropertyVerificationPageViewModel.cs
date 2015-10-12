@@ -5,7 +5,7 @@ using FiresecAPI.SKD;
 using Infrastructure.Common.Services.Layout;
 using System;
 using FiresecAPI.GK;
-using FiresecClient;
+using RubezhClient;
 
 namespace SKDModule.ViewModels
 {

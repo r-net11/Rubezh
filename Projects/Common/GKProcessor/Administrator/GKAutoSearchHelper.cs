@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using Common;
 using FiresecAPI;
 using FiresecAPI.GK;
-using FiresecClient;
+using RubezhClient;
 
 namespace GKProcessor
 {

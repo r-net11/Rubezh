@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Windows;
 using Common;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -32,7 +32,7 @@ namespace FireMonitor.ViewModels
 
 		void UptateOnChangeViewPermission()
 		{
-			var hasPermission = !ShellIntegrationHelper.IsIntegrated && FiresecManager.CheckPermission(PermissionType.Oper_ChangeView);
+			var hasPermission = !ShellIntegrationHelper.IsIntegrated && ClientManager.CheckPermission(PermissionType.Oper_ChangeView);
 			AllowMaximize = hasPermission;
 			AllowMinimize = hasPermission;
 			Sizable = hasPermission;
@@ -50,7 +50,7 @@ namespace FireMonitor.ViewModels
 				Process.GetCurrentProcess().Kill();
 				return false;
 			}
-			if (!FiresecManager.CheckPermission(PermissionType.Oper_Logout))
+			if (!ClientManager.CheckPermission(PermissionType.Oper_Logout))
 			{
 				MessageBoxService.Show("Нет прав для выхода из программы");
 				return true;
@@ -60,7 +60,7 @@ namespace FireMonitor.ViewModels
 				if (!MessageBoxService.ShowConfirmation("Вы действительно хотите выйти из программы?"))
 					return true;
 			}
-			if (FiresecManager.CheckPermission(PermissionType.Oper_LogoutWithoutPassword))
+			if (ClientManager.CheckPermission(PermissionType.Oper_LogoutWithoutPassword))
 			{
 				try
 				{

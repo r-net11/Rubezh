@@ -5,7 +5,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Events;
 using System;
 using System.Collections.Generic;
@@ -72,7 +72,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOn(GuardZone);
+				ClientManager.FiresecService.GKTurnOn(GuardZone);
 			}
 		}
 
@@ -81,7 +81,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOnNow(GuardZone);
+				ClientManager.FiresecService.GKTurnOnNow(GuardZone);
 			}
 		}
 
@@ -91,9 +91,9 @@ namespace GKModule.ViewModels
 			if (ServiceFactory.SecurityService.Validate())
 			{
 				if (!State.StateClasses.Contains(XStateClass.AutoOff))
-					FiresecManager.FiresecService.GKTurnOnInAutomatic(GuardZone);
+					ClientManager.FiresecService.GKTurnOnInAutomatic(GuardZone);
 				else
-					FiresecManager.FiresecService.GKTurnOn(GuardZone);
+					ClientManager.FiresecService.GKTurnOn(GuardZone);
 			}
 		}
 
@@ -103,9 +103,9 @@ namespace GKModule.ViewModels
 			if (ServiceFactory.SecurityService.Validate())
 			{
 				if (!State.StateClasses.Contains(XStateClass.AutoOff))
-					FiresecManager.FiresecService.GKTurnOnNowInAutomatic(GuardZone);
+					ClientManager.FiresecService.GKTurnOnNowInAutomatic(GuardZone);
 				else
-					FiresecManager.FiresecService.GKTurnOnNow(GuardZone);
+					ClientManager.FiresecService.GKTurnOnNow(GuardZone);
 			}
 		}
 
@@ -114,7 +114,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOff(GuardZone);
+				ClientManager.FiresecService.GKTurnOff(GuardZone);
 			}
 		}
 
@@ -124,9 +124,9 @@ namespace GKModule.ViewModels
 			if (ServiceFactory.SecurityService.Validate())
 			{
 				if (!State.StateClasses.Contains(XStateClass.AutoOff))
-					FiresecManager.FiresecService.GKTurnOffInAutomatic(GuardZone);
+					ClientManager.FiresecService.GKTurnOffInAutomatic(GuardZone);
 				else
-					FiresecManager.FiresecService.GKTurnOff(GuardZone);
+					ClientManager.FiresecService.GKTurnOff(GuardZone);
 			}
 		}
 
@@ -136,9 +136,9 @@ namespace GKModule.ViewModels
 			if (ServiceFactory.SecurityService.Validate())
 			{
 				if (!State.StateClasses.Contains(XStateClass.AutoOff))
-					FiresecManager.FiresecService.GKTurnOffNowInAutomatic(GuardZone);
+					ClientManager.FiresecService.GKTurnOffNowInAutomatic(GuardZone);
 				else
-					FiresecManager.FiresecService.GKTurnOffNow(GuardZone);
+					ClientManager.FiresecService.GKTurnOffNow(GuardZone);
 			}
 		}
 
@@ -147,7 +147,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKReset(GuardZone);
+				ClientManager.FiresecService.GKReset(GuardZone);
 			}
 		}
 		bool CanReset()
@@ -172,11 +172,11 @@ namespace GKModule.ViewModels
 		{
 			if (State != null && !State.StateClasses.Contains(XStateClass.Ignore))
 			{
-				if (GuardZone.IsExtraProtected && FiresecManager.CheckPermission(PermissionType.Oper_ExtraGuardZone))
+				if (GuardZone.IsExtraProtected && ClientManager.CheckPermission(PermissionType.Oper_ExtraGuardZone))
 				{
-					return FiresecManager.CheckPermission(PermissionType.Oper_ExtraGuardZone);
+					return ClientManager.CheckPermission(PermissionType.Oper_ExtraGuardZone);
 				}
-				return !GuardZone.IsExtraProtected && FiresecManager.CheckPermission(PermissionType.Oper_GuardZone_Control);
+				return !GuardZone.IsExtraProtected && ClientManager.CheckPermission(PermissionType.Oper_GuardZone_Control);
 			}
 			return false;
 

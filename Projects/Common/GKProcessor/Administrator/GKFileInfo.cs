@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using FiresecAPI.GK;
 using Infrastructure.Common;
-using FiresecClient;
+using RubezhClient;
 
 namespace GKProcessor
 {

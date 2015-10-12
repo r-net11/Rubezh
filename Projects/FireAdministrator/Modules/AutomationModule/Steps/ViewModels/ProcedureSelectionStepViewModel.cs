@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Automation;
-using FiresecClient;
+using RubezhClient;
 
 namespace AutomationModule.ViewModels
 {
@@ -17,7 +17,7 @@ namespace AutomationModule.ViewModels
 		public override void UpdateContent()
 		{			
 			ScheduleProcedures = new ObservableCollection<ScheduleProcedureViewModel>();
-			foreach (var procedure in FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.FindAll(x => x.Uid != Procedure.Uid))
+			foreach (var procedure in ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.FindAll(x => x.Uid != Procedure.Uid))
 			{
 				var scheduleProcedure = new ScheduleProcedure { ProcedureUid = procedure.Uid };
 				if (procedure.Uid == ProcedureSelectionArguments.ScheduleProcedure.ProcedureUid)

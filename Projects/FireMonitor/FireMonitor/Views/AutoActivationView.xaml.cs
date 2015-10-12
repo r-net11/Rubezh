@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Controls;
 using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;

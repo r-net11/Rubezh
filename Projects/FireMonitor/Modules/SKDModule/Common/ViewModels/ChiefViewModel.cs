@@ -1,6 +1,6 @@
 ﻿using System;
 using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
+using RubezhClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;

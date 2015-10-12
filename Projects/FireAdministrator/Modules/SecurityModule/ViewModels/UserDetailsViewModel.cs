@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Common;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -122,7 +122,7 @@ namespace SecurityModule.ViewModels
 
 		public bool CanChangeLogin
 		{
-			get { return User != FiresecManager.CurrentUser; }
+			get { return User != ClientManager.CurrentUser; }
 		}
 
 		bool CheckLogin()
@@ -132,7 +132,7 @@ namespace SecurityModule.ViewModels
 				MessageBoxService.Show("Логин не может быть пустым");
 				return false;
 			}
-			else if (Login != User.Login && FiresecManager.SecurityConfiguration.Users.Any(user => user.Login == Login))
+			else if (Login != User.Login && ClientManager.SecurityConfiguration.Users.Any(user => user.Login == Login))
 			{
 				MessageBoxService.Show("Пользователь с таким логином уже существует");
 				return false;
@@ -152,7 +152,7 @@ namespace SecurityModule.ViewModels
 
 		void PreventAdminPermissions()
 		{
-			if (FiresecManager.CurrentUser.UID == User.UID && FiresecManager.CurrentUser.PermissionStrings.Contains(PermissionType.Adm_Security.ToString()))
+			if (ClientManager.CurrentUser.UID == User.UID && ClientManager.CurrentUser.PermissionStrings.Contains(PermissionType.Adm_Security.ToString()))
 			{
 				var Adm_SecurityPermission = PermissionsViewModel.AllPermissions.FirstOrDefault(x => x.Name == PermissionType.Adm_Security.ToString());
 				if (Adm_SecurityPermission != null)

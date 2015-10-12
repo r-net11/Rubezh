@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Automation;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -31,7 +31,7 @@ namespace AutomationModule.ViewModels
 			ScheduleProcedures = new ObservableCollection<ScheduleProcedureViewModel>();
 			foreach (var scheduleProcedure in Schedule.ScheduleProcedures)
 			{
-				var procedure = FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
+				var procedure = ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
 				if (procedure != null)
 				{
 					var scheduleProcedureViewModel = new ScheduleProcedureViewModel(scheduleProcedure);

@@ -2,7 +2,7 @@
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Automation;
 using System.Collections.ObjectModel;
-using FiresecClient;
+using RubezhClient;
 using LayoutModel = FiresecAPI.Models.Layouts.Layout;
 
 namespace AutomationModule.ViewModels
@@ -16,7 +16,7 @@ namespace AutomationModule.ViewModels
 			ProcedureLayoutCollection = procedureLayoutCollection;
 			LayoutItems = new ObservableCollection<ProcedureLayoutItemViewModel>();
 
-			foreach (var layout in FiresecManager.LayoutsConfiguration.Layouts)
+			foreach (var layout in ClientManager.LayoutsConfiguration.Layouts)
 			{
 				var procedureLayoutItems = new ProcedureLayoutItemViewModel(ProcedureLayoutCollection, layout);
 				LayoutItems.Add(procedureLayoutItems);

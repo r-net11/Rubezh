@@ -4,7 +4,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhClient;
 using GKProcessor;
 using RubezhDAL;
 using System.Collections.Generic;

@@ -2,7 +2,7 @@
 using System.Linq;
 using FiresecAPI.Automation;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using System.Collections.Generic;
 using Infrustructure.Plans.Elements;
 using Infrastructure.Common.Services;
@@ -187,7 +187,7 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			Plans = new ObservableCollection<PlanViewModel>(FiresecManager.PlansConfiguration.AllPlans.Select(x => new PlanViewModel(x)));
+			Plans = new ObservableCollection<PlanViewModel>(ClientManager.PlansConfiguration.AllPlans.Select(x => new PlanViewModel(x)));
 			SelectedPlan = Plans.FirstOrDefault(x => x.Plan.UID == ControlPlanArguments.PlanUid);
 			IsServerContext = Procedure.ContextType == ContextType.Server;
 			OnPropertyChanged(() => Plans);

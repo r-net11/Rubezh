@@ -5,7 +5,7 @@ using Common;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
-using FiresecClient.SKDHelpers;
+using RubezhClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;
 

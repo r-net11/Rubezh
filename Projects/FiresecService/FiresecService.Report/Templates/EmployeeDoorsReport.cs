@@ -8,7 +8,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
-using FiresecClient;
+using RubezhClient;
 using FiresecService.Report.DataSources;
 using Infrastructure.Common;
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
@@ -12,7 +12,7 @@ namespace AutomationModule.ViewModels
 		{
 			Title = "Выбор видеоустройства";
 			Cameras = new ObservableCollection<CameraViewModel>();
-			foreach (var cam in FiresecManager.SystemConfiguration.Cameras)
+			foreach (var cam in ClientManager.SystemConfiguration.Cameras)
 			{
 				var cameraViewModel = new CameraViewModel(cam);
 				Cameras.Add(cameraViewModel);

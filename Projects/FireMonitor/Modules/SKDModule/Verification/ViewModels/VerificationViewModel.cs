@@ -4,8 +4,8 @@ using System.Linq;
 using FiresecAPI.Journal;
 using FiresecAPI.Models.Layouts;
 using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
@@ -40,7 +40,7 @@ namespace SKDModule.ViewModels
 
 							if (journalItem.EmployeeUID != Guid.Empty)
 							{
-								var operationResult = FiresecManager.FiresecService.GetEmployeeDetails(journalItem.EmployeeUID);
+								var operationResult = ClientManager.FiresecService.GetEmployeeDetails(journalItem.EmployeeUID);
 								if (!operationResult.HasError && operationResult.Result != null)
 								{
 									Employee = operationResult.Result;

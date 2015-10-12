@@ -8,7 +8,7 @@ using SKDModule.ViewModels;
 using System.Collections.ObjectModel;
 using Infrastructure.Common;
 using Common;
-using FiresecClient.SKDHelpers;
+using RubezhClient.SKDHelpers;
 using FiresecAPI.SKD;
 using Infrastructure.Common.TreeList;
 

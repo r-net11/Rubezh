@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common.Validation;
-using FiresecClient;
+using RubezhClient;
 using FiresecAPI.Models.Layouts;
 using Infrastructure.Client.Layout;
 
@@ -15,9 +15,9 @@ namespace LayoutModule.Validation
 
 		public IEnumerable<IValidationError> Validate()
 		{
-			FiresecManager.LayoutsConfiguration.Update();
+			ClientManager.LayoutsConfiguration.Update();
 			Errors = new List<IValidationError>();
-			foreach (var layout in FiresecManager.LayoutsConfiguration.Layouts)
+			foreach (var layout in ClientManager.LayoutsConfiguration.Layouts)
 				Errors.AddRange(ValidateLayout(layout));
 			ValidateLicense();
 			return Errors;

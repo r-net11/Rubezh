@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
@@ -84,7 +84,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetAutomaticRegime(PumpStation);
+				ClientManager.FiresecService.GKSetAutomaticRegime(PumpStation);
 			}
 		}
 		bool CanSetAutomaticState()
@@ -97,7 +97,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetManualRegime(PumpStation);
+				ClientManager.FiresecService.GKSetManualRegime(PumpStation);
 			}
 		}
 		bool CanSetManualState()
@@ -110,7 +110,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetIgnoreRegime(PumpStation);
+				ClientManager.FiresecService.GKSetIgnoreRegime(PumpStation);
 			}
 		}
 		bool CanSetIgnoreState()
@@ -123,7 +123,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOn(PumpStation);
+				ClientManager.FiresecService.GKTurnOn(PumpStation);
 			}
 		}
 
@@ -132,7 +132,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOnNow(PumpStation);
+				ClientManager.FiresecService.GKTurnOnNow(PumpStation);
 			}
 		}
 
@@ -141,7 +141,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOff(PumpStation);
+				ClientManager.FiresecService.GKTurnOff(PumpStation);
 			}
 		}
 
@@ -150,7 +150,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKStop(PumpStation);
+				ClientManager.FiresecService.GKStop(PumpStation);
 			}
 		}
 
@@ -189,7 +189,7 @@ namespace GKModule.ViewModels
 
 		public bool CanControl
 		{
-			get { return FiresecManager.CheckPermission(PermissionType.Oper_NS_Control); }
+			get { return ClientManager.CheckPermission(PermissionType.Oper_NS_Control); }
 		}
 
 		#region IWindowIdentity Members

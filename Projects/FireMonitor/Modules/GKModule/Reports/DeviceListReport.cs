@@ -2,7 +2,7 @@
 using CodeReason.Reports;
 using FiresecAPI;
 using FiresecAPI.GK;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common.Reports;
 
 namespace GKModule.Reports

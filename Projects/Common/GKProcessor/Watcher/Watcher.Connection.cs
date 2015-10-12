@@ -1,6 +1,6 @@
 ﻿using System;
 using FiresecAPI.Journal;
-using FiresecClient;
+using RubezhClient;
 
 namespace GKProcessor
 {

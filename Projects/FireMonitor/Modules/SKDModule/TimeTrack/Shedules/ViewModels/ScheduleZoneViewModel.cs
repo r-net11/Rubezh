@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient;
+using RubezhClient;
 
 namespace SKDModule.ViewModels
 {

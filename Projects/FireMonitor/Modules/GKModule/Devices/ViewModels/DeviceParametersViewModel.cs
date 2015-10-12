@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.GK;
 
@@ -62,7 +62,7 @@ namespace GKModule.ViewModels
 						continue;
 					}
 
-					FiresecManager.FiresecService.GKStartMeasureMonitoring(deviceParameterViewModel.Device);
+					ClientManager.FiresecService.GKStartMeasureMonitoring(deviceParameterViewModel.Device);
 				}
 
 				Thread.Sleep(TimeSpan.FromSeconds(1));
@@ -85,7 +85,7 @@ namespace GKModule.ViewModels
 			CancelBackgroundWorker = true;
 			foreach (var deviceParameterViewModel in Devices)
 			{
-				FiresecManager.FiresecService.GKStopMeasureMonitoring(deviceParameterViewModel.Device);
+				ClientManager.FiresecService.GKStopMeasureMonitoring(deviceParameterViewModel.Device);
 			}
 		}
 	}

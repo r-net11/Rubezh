@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Microsoft.Win32;
+using RubezhClient;
 
 namespace AutomationModule.ViewModels
 {
@@ -31,9 +32,9 @@ namespace AutomationModule.ViewModels
 		public void Initialize()
 		{
 			Sounds = new ObservableCollection<SoundViewModel>();
-			if (FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds == null)
-				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds = new List<AutomationSound>();
-			foreach (var sound in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds)
+			if (ClientManager.SystemConfiguration.AutomationConfiguration.AutomationSounds == null)
+				ClientManager.SystemConfiguration.AutomationConfiguration.AutomationSounds = new List<AutomationSound>();
+			foreach (var sound in ClientManager.SystemConfiguration.AutomationConfiguration.AutomationSounds)
 			{
 				var soundViewModel = new SoundViewModel(sound);
 				Sounds.Add(soundViewModel);
@@ -79,7 +80,7 @@ namespace AutomationModule.ViewModels
 		{
 			if (IsNowPlaying == false)
 			{
-				AlarmPlayerHelper.Play(FiresecClient.FileHelper.GetSoundFilePath(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, SelectedSound.Sound.Uid.ToString())), BeeperType.None, false);
+				AlarmPlayerHelper.Play(RubezhClient.FileHelper.GetSoundFilePath(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, SelectedSound.Sound.Uid.ToString())), BeeperType.None, false);
 				IsNowPlaying = false;
 			}
 			else
@@ -105,7 +106,7 @@ namespace AutomationModule.ViewModels
 					sound.Name = Path.GetFileNameWithoutExtension(openFileDialog.SafeFileName);
 					sound.Uid = ServiceFactoryBase.ContentService.AddContent(openFileDialog.FileName);
 				}
-				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.Add(sound);
+				ClientManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.Add(sound);
 				ServiceFactory.SaveService.AutomationChanged = true;
 				var soundViewModel = new SoundViewModel(sound);
 				Sounds.Add(soundViewModel);
@@ -122,7 +123,7 @@ namespace AutomationModule.ViewModels
 		void OnDelete()
 		{
 			var index = Sounds.IndexOf(SelectedSound);
-			FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.Remove(SelectedSound.Sound);
+			ClientManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.Remove(SelectedSound.Sound);
 			Sounds.Remove(SelectedSound);
 			index = Math.Min(index, Sounds.Count - 1);
 			if (index > -1)

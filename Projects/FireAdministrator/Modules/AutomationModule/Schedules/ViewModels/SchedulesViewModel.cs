@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Common;
+using RubezhClient;
 
 namespace AutomationModule.ViewModels
 {
@@ -25,9 +26,9 @@ namespace AutomationModule.ViewModels
 		public void Initialize()
 		{
 			Schedules = new SortableObservableCollection<ScheduleViewModel>();
-			if (FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules == null)
-				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules = new List<AutomationSchedule>();
-			foreach (var schedule in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules)
+			if (ClientManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules == null)
+				ClientManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules = new List<AutomationSchedule>();
+			foreach (var schedule in ClientManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules)
 			{
 				var scheduleViewModel = new ScheduleViewModel(schedule);
 				Schedules.Add(scheduleViewModel);
@@ -56,7 +57,7 @@ namespace AutomationModule.ViewModels
 			var scheduleDetailsViewModel = new ScheduleDetailsViewModel();
 			if (DialogService.ShowModalWindow(scheduleDetailsViewModel))
 			{
-				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules.Add(scheduleDetailsViewModel.Schedule);
+				ClientManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules.Add(scheduleDetailsViewModel.Schedule);
 				var scheduleViewModel = new ScheduleViewModel(scheduleDetailsViewModel.Schedule);
 				Schedules.Add(scheduleViewModel);
 				SelectedSchedule = scheduleViewModel;
@@ -73,7 +74,7 @@ namespace AutomationModule.ViewModels
 		void OnDelete()
 		{
 			var index = Schedules.IndexOf(SelectedSchedule);
-			FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules.Remove(SelectedSchedule.Schedule);
+			ClientManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules.Remove(SelectedSchedule.Schedule);
 			Schedules.Remove(SelectedSchedule);
 			index = Math.Min(index, Schedules.Count - 1);
 			if (index > -1)

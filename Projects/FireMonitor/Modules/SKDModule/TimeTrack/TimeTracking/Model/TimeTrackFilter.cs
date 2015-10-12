@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhClient;
 
 namespace SKDModule.Model
 {
@@ -13,8 +13,8 @@ namespace SKDModule.Model
 			: base()
 		{
 			EmployeeFilter = new EmployeeFilter();
-			var hasEmployeePermission = FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees_View);
-			var hasGuestPermission = FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Guests_View);
+			var hasEmployeePermission = ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees_View);
+			var hasGuestPermission = ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Guests_View);
 			EmployeeFilter.PersonType = hasGuestPermission && !hasEmployeePermission ? PersonType.Guest : PersonType.Employee;
 			Period = TimeTrackingPeriod.CurrentMonth;
 			TotalTimeTrackTypeFilters = new List<TimeTrackType>();

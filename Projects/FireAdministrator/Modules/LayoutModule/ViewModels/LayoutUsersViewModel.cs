@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace LayoutModule.ViewModels
@@ -47,8 +47,8 @@ namespace LayoutModule.ViewModels
 			_locked = true;
 			var roles = new Dictionary<Guid, UserRole>();
 			_map = new Dictionary<Guid, LayoutUserViewModel>();
-			FiresecManager.SecurityConfiguration.UserRoles.ForEach(item => roles.Add(item.UID, item));
-			FiresecManager.SecurityConfiguration.Users.ForEach(item => _map.Add(item.UID, new LayoutUserViewModel(item, IsActiveChanged)));
+			ClientManager.SecurityConfiguration.UserRoles.ForEach(item => roles.Add(item.UID, item));
+			ClientManager.SecurityConfiguration.Users.ForEach(item => _map.Add(item.UID, new LayoutUserViewModel(item, IsActiveChanged)));
 			var list = _map.Values.ToList();
 			list.Sort(Comparison);
 			Users = new ObservableCollection<LayoutUserViewModel>(list);

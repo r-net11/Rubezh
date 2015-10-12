@@ -3,7 +3,7 @@ using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
 using FiresecAPI.GK;
-using FiresecClient;
+using RubezhClient;
 
 namespace GKModule.ViewModels
 {

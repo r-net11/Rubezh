@@ -4,7 +4,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using FiresecAPI.GK;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -66,7 +66,7 @@ namespace GKModule.ViewModels
 
 		public void Update(object sender, EventArgs e)
 		{
-			var measuresResult = FiresecManager.FiresecService.GetAlsMeasure(DeviceUid);
+			var measuresResult = ClientManager.FiresecService.GetAlsMeasure(DeviceUid);
 			if (measuresResult == null)
 				return;
 			if (measuresResult.HasError)
@@ -81,7 +81,7 @@ namespace GKModule.ViewModels
 		void GetKauMesures(DateTime startDateTime, DateTime endDateTime)
 		{
 			CurrentConsumptions = new List<CurrentConsumption>();
-			var measuresResult = FiresecManager.FiresecService.GetCurrentConsumption(new CurrentConsumptionFilter
+			var measuresResult = ClientManager.FiresecService.GetCurrentConsumption(new CurrentConsumptionFilter
 			{
 				AlsUID = DeviceUid,
 				StartDateTime = startDateTime,

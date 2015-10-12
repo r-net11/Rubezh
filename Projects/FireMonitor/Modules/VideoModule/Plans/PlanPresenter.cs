@@ -4,7 +4,7 @@ using System.Linq;
 using Common;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Events;
 using Infrustructure.Plans;
@@ -23,7 +23,7 @@ namespace VideoModule.Plans
 		public PlanPresenter()
 		{
 			Cache = new MapSource();
-			Cache.Add(() => FiresecManager.SystemConfiguration.Cameras);
+			Cache.Add(() => ClientManager.SystemConfiguration.Cameras);
 			Cache.BuildAll();
 			ServiceFactory.Events.GetEvent<ShowCameraOnPlanEvent>().Subscribe(OnShowCameraOnPlan);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
@@ -76,7 +76,7 @@ namespace VideoModule.Plans
 
 		private void OnShowCameraOnPlan(Camera camera)
 		{
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 				foreach (var element in plan.ElementExtensions.OfType<ElementCamera>())
 					if (element.CameraUID == camera.UID)
 					{

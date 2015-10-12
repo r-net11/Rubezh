@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Xml.Serialization;
 using Infrustructure.Plans.Interfaces;
-using FiresecClient;
+using RubezhClient;
 
 namespace FiresecAPI.GK
 {
@@ -242,7 +242,7 @@ namespace FiresecAPI.GK
 
 				if (DriverType == GKDriverType.RSR2_KAU)
 				{
-					ushort lineNo = FiresecClient.GKManager.GetKauLine(this);
+					ushort lineNo = GKManager.GetKauLine(this);
 					if (lineNo > 0)
 						return "РЛС " + IntAddress.ToString();
 					return IntAddress.ToString();

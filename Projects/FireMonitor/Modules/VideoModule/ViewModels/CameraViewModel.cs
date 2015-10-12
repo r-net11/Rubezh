@@ -9,7 +9,7 @@ using DeviceControls;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using Infrustructure.Plans.Painters;

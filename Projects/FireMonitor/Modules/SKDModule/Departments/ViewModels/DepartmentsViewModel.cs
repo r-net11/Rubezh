@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using SKDModule.Events;
@@ -263,7 +263,7 @@ namespace SKDModule.ViewModels
 
 		public bool IsShowEmployeeList
 		{
-			get { return SelectedItem != null && !SelectedItem.IsOrganisation && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_View); }
+			get { return SelectedItem != null && !SelectedItem.IsOrganisation && ClientManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_View); }
 		}
 
 		protected override List<ShortDepartment> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)

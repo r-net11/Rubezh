@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Infrustructure.Plans.Interfaces;
-using FiresecClient;
+using RubezhClient;
 using System.Linq;
 
 namespace FiresecAPI.GK

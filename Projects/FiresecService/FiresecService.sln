@@ -32,7 +32,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecService.LicenseEdito
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Automation", "..\Common\Infrastructure.Automation\Infrastructure.Automation.csproj", "{AE2102F4-C2B3-4CA3-850F-69C93E23DFB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecClient", "..\Common\FiresecClient\FiresecClient.csproj", "{F46953E0-CA12-4659-AE8C-88241B541F6C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubezhClient", "..\Common\RubezhClient\RubezhClient.csproj", "{F46953E0-CA12-4659-AE8C-88241B541F6C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubezhDAL", "..\Common\RubezhDAL\RubezhDAL.csproj", "{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}"
 EndProject

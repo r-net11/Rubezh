@@ -4,7 +4,7 @@ using Common;
 using FireAdministrator.ViewModels;
 using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using GKProcessor;
 using Infrastructure;
 using Infrastructure.Client;
@@ -32,7 +32,7 @@ namespace FireAdministrator
 				try
 				{
                     ServiceFactory.StartupService.DoStep("Загрузка лицензии");
-                    FiresecManager.GetLicense();
+                    ClientManager.GetLicense();
 
 					ServiceFactory.StartupService.ShowLoading("Загрузка модулей", 5);
 					CreateModules();
@@ -41,24 +41,24 @@ namespace FireAdministrator
 					ServiceFactory.StartupService.AddCount(GetModuleCount() + 6);
 
 					ServiceFactory.StartupService.DoStep("Синхронизация файлов");
-					FiresecManager.UpdateFiles();
+					ClientManager.UpdateFiles();
 
 					ServiceFactory.StartupService.DoStep("Загрузка конфигурации с сервера");
-					FiresecManager.GetConfiguration("Administrator/Configuration");
+					ClientManager.GetConfiguration("Administrator/Configuration");
 					ProcedureExecutionContext.Initialize(
 						ContextType.Client,
-						FiresecManager.SystemConfiguration,
-						FiresecManager.SecurityConfiguration
+						ClientManager.SystemConfiguration,
+						ClientManager.SecurityConfiguration
 						);
 
 					GKDriversCreator.Create();
 					BeforeInitialize(true);
 
 					ServiceFactory.StartupService.DoStep("Проверка прав пользователя");
-					if (FiresecManager.CheckPermission(PermissionType.Adm_ViewConfig) == false)
+					if (ClientManager.CheckPermission(PermissionType.Adm_ViewConfig) == false)
 					{
 						MessageBoxService.Show("Нет прав на работу с программой");
-						FiresecManager.Disconnect();
+						ClientManager.Disconnect();
 					}
 					else if (Application.Current != null)
 					{
@@ -70,7 +70,7 @@ namespace FireAdministrator
 					ServiceFactory.StartupService.Close();
 
 					AterInitialize();
-					FiresecManager.StartPoll();
+					ClientManager.StartPoll();
 
 					SafeFiresecService.GKProgressCallbackEvent -= new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
 					SafeFiresecService.GKProgressCallbackEvent += new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
@@ -105,7 +105,7 @@ namespace FireAdministrator
 
 		void OnConfigurationChanged()
 		{
-			FiresecManager.GetLicense();
+			ClientManager.GetLicense();
 		}
 		void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
 		{
@@ -126,7 +126,7 @@ namespace FireAdministrator
 							LoadingService.DoStep(gkProgressCallback.Text, gkProgressCallback.Title, gkProgressCallback.StepCount, gkProgressCallback.CurrentStep, gkProgressCallback.CanCancel);
 							if (LoadingService.IsCanceled)
 							{
-								FiresecManager.FiresecService.CancelGKProgress(gkProgressCallback.UID, FiresecManager.CurrentUser.Name);
+								ClientManager.FiresecService.CancelGKProgress(gkProgressCallback.UID, ClientManager.CurrentUser.Name);
 							}
 						}
 						return;

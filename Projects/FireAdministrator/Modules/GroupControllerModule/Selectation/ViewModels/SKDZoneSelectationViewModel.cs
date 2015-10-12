@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.GK;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient;
+using RubezhClient;
 
 namespace GKModule.ViewModels
 {

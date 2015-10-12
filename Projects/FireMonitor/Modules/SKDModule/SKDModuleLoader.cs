@@ -12,7 +12,7 @@ using SKDModule.Events;
 using SKDModule.Reports;
 using SKDModule.Reports.Providers;
 using SKDModule.ViewModels;
-using FiresecClient;
+using RubezhClient;
 using FiresecLicense;
 
 namespace SKDModule
@@ -115,8 +115,8 @@ public class SKDTabItems
 	public TimeTrackingTabsViewModel TimeTrackingTabsViewModel { get; set; }
 	public SKDTabItems()
 	{
-		var userUID = FiresecManager.CurrentUser.UID;
-		Filter = new HRFilter() { UserUID = FiresecManager.CurrentUser.UID };
+		var userUID = ClientManager.CurrentUser.UID;
+		Filter = new HRFilter() { UserUID = ClientManager.CurrentUser.UID };
 		Filter.EmployeeFilter.UserUID = userUID;
 		HRViewModel = new HRViewModel(this);
 		TimeTrackingTabsViewModel = new TimeTrackingTabsViewModel(this);

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
+using RubezhClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels

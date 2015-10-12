@@ -7,7 +7,7 @@ using DeviceControls;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;

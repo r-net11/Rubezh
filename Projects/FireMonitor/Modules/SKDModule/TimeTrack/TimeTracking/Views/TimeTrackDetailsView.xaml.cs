@@ -9,7 +9,7 @@ using FiresecAPI;
 using FiresecAPI.SKD;
 using SKDModule.ViewModels;
 using SKDModule.Converters;
-using FiresecClient;
+using RubezhClient;
 
 namespace SKDModule.Views
 {

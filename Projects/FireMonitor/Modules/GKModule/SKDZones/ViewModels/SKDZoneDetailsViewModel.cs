@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
@@ -61,7 +61,7 @@ namespace GKModule.ViewModels
 		void InitializePlans()
 		{
 			Plans = new ObservableCollection<PlanLinkViewModel>();
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 			{
 				ElementBase elementBase;
 				elementBase = plan.ElementRectangleGKSKDZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
@@ -88,7 +88,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKOpenSKDZone(Zone);
+				ClientManager.FiresecService.GKOpenSKDZone(Zone);
 			}
 		}
 
@@ -97,7 +97,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKCloseSKDZone(Zone);
+				ClientManager.FiresecService.GKCloseSKDZone(Zone);
 			}
 		}
 
@@ -115,7 +115,7 @@ namespace GKModule.ViewModels
 		}
 		public bool CanControl
 		{
-			get { return FiresecManager.CheckPermission(PermissionType.Oper_ZonesSKD); }
+			get { return ClientManager.CheckPermission(PermissionType.Oper_ZonesSKD); }
 		}
 		#region IWindowIdentity Members
 		public string Guid

@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 using Common;
 using Entities.DeviceOriented;
 using Infrustructure.Plans.Interfaces;
-using FiresecClient;
+using RubezhClient;
 using System.Linq;
 using System.Diagnostics;
 

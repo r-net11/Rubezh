@@ -8,7 +8,7 @@ using DeviceControls;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using GKModule.Events;
 using GKModule.Plans.Designer;
 using GKModule.Plans.InstrumentAdorners;
@@ -478,7 +478,7 @@ namespace GKModule.Plans
 		{
 			List<ElementError> errors = new List<ElementError>();
 			if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.NotBoundedElements))
-				FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
+				ClientManager.PlansConfiguration.AllPlans.ForEach(plan =>
 				{
 					errors.AddRange(FindUnbindedErrors<ElementGKDevice, ShowGKDeviceEvent, Guid>(plan.ElementGKDevices, plan.UID, "Несвязанное устройство", "/Controls;component/GKIcons/RM_1.png", Guid.Empty));
 					errors.AddRange(FindUnbindedErrors<ElementRectangleGKZone, ShowGKZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKZones, plan.UID, "Несвязанная зона", "/Controls;component/Images/Zone.png", Guid.Empty));

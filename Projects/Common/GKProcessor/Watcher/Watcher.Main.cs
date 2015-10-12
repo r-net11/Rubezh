@@ -4,7 +4,7 @@ using System.Threading;
 using Common;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common;
 using FiresecLicense;
 

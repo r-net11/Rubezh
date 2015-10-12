@@ -7,7 +7,7 @@ using System.Windows.Input;
 using Common;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using GKModule.Models;
 using GKModule.Plans;
 using GKModule.Plans.Designer;

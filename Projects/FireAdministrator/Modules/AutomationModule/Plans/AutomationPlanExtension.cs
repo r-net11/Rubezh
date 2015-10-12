@@ -8,7 +8,7 @@ using AutomationModule.ViewModels;
 using Infrastructure;
 using Infrustructure.Plans.Events;
 using FiresecAPI.Automation;
-using FiresecClient;
+using RubezhClient;
 using Common;
 using FiresecAPI.Models;
 using Infrustructure.Plans.Elements;
@@ -40,7 +40,7 @@ namespace AutomationModule.Plans
 
 			_proceduresViewModel = proceduresViewModel;
 			_instruments = null;
-			Cache.Add<Procedure>(() => FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures);
+			Cache.Add<Procedure>(() => ClientManager.SystemConfiguration.AutomationConfiguration.Procedures);
 		}
 
 		#region IPlanExtension Members
@@ -127,7 +127,7 @@ namespace AutomationModule.Plans
 		{
 			List<ElementError> errors = new List<ElementError>();
 			if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.NotBoundedElements))
-				FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
+				ClientManager.PlansConfiguration.AllPlans.ForEach(plan =>
 					errors.AddRange(FindUnbindedErrors<ElementProcedure, ShowProceduresEvent, Guid>(plan.ElementExtensions.OfType<ElementProcedure>(), plan.UID, "Несвязанная процедура", "/Controls;component/Images/ProcedureYellow.png", Guid.Empty)));
 			return errors;
 		}

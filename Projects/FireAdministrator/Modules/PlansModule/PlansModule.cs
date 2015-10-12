@@ -16,7 +16,7 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.ViewModels;
-using FiresecClient;
+using RubezhClient;
 
 namespace PlansModule
 {
@@ -91,7 +91,7 @@ namespace PlansModule
 
 		public IEnumerable<IValidationError> Validate()
 		{
-			FiresecManager.PlansConfiguration.Update();
+			ClientManager.PlansConfiguration.Update();
 			return _plansViewModel.Validate();
 		}
 

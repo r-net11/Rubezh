@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using FiresecAPI.GK;
-using FiresecClient;
+using RubezhClient;
 
 namespace GKProcessor
 {

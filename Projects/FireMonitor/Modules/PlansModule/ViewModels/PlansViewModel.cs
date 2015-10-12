@@ -9,7 +9,7 @@ using FiresecAPI.AutomationCallback;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -97,7 +97,7 @@ namespace PlansModule.ViewModels
 					PlanDesignerViewModel.SelectPlan(PlanTreeViewModel.SelectedPlan);
 				else if (_properties != null && _properties.Plans.Count > 0)
 				{
-					var plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(item => item.UID == _properties.Plans[0]);
+					var plan = ClientManager.PlansConfiguration.AllPlans.FirstOrDefault(item => item.UID == _properties.Plans[0]);
 					if (plan != null)
 					{
 						var planViewModel = new PlanViewModel(this, plan);
@@ -333,7 +333,7 @@ namespace PlansModule.ViewModels
 						break;
 				}
 			}
-			FiresecManager.FiresecService.ProcedureCallbackResponse(callbackUID, value);
+			ClientManager.FiresecService.ProcedureCallbackResponse(callbackUID, value);
 		}
 		private ElementBase GetElement(PlanCallbackData data)
 		{

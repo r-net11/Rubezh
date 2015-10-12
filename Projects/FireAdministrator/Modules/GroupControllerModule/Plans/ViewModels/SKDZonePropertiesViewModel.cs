@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.GK;
-using FiresecClient;
+using RubezhClient;
 using GKModule.Events;
 using GKModule.ViewModels;
 using Infrastructure;

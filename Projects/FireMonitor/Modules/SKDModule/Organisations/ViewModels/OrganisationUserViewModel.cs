@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;

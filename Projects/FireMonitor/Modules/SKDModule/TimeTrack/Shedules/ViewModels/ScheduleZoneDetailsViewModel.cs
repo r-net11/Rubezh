@@ -5,9 +5,10 @@ using System.Linq;
 using Common;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
+using RubezhClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhClient;
 
 namespace SKDModule.ViewModels
 {
@@ -25,19 +26,19 @@ namespace SKDModule.ViewModels
 			var organisationResult = OrganisationHelper.GetSingle(organisation.UID);
 			_doorUIDs = organisationResult != null ? organisationResult.DoorUIDs : new List<Guid>();
 
-			var gkDoors = FiresecClient.GKManager.Doors.Where(x => _doorUIDs.Any(y => y == x.UID));
+			var gkDoors = GKManager.Doors.Where(x => _doorUIDs.Any(y => y == x.UID));
 			foreach (var door in gkDoors)
 			{
 				if (door.EnterZoneUID != Guid.Empty)
 				{
-					var enterZone = FiresecClient.GKManager.SKDZones.FirstOrDefault(x => x.UID == door.EnterZoneUID);
+					var enterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.EnterZoneUID);
 					if (enterZone != null && !Zones.Any(x => x.ZoneUID == enterZone.UID))
 						Zones.Add(new SelectationScheduleZoneViewModel(enterZone, schedule, door.UID));
 				}
 
 				if (door.ExitZoneUID != Guid.Empty)
 				{
-					var exitZone = FiresecClient.GKManager.SKDZones.FirstOrDefault(x => x.UID == door.ExitZoneUID);
+					var exitZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.ExitZoneUID);
 					if (exitZone != null && !Zones.Any(x => x.ZoneUID == exitZone.UID))
 						Zones.Add(new SelectationScheduleZoneViewModel(exitZone, schedule, door.UID));
 				}

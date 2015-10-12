@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.GK;
 
-namespace FiresecClient
+namespace RubezhClient
 {
 	public partial class GKManager
 	{

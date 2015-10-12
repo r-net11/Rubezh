@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
+using RubezhClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 using Organisation = FiresecAPI.SKD.Organisation;
 

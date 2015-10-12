@@ -5,7 +5,7 @@ using System.Linq;
 using Common;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common.Services.Layout;
 
 namespace PlansModule.ViewModels
@@ -21,7 +21,7 @@ namespace PlansModule.ViewModels
 			_map = new Dictionary<Guid, PlanViewModel>();
 			Types = new ObservableCollection<LayoutPartPlansType>(Enum.GetValues(typeof(LayoutPartPlansType)).Cast<LayoutPartPlansType>());
 			Plans = new ObservableCollection<PlanViewModel>();
-			foreach (var plan in FiresecManager.PlansConfiguration.Plans)
+			foreach (var plan in ClientManager.PlansConfiguration.Plans)
 				AddPlan(plan, null);
 			Plans.ForEach(item => item.IsChecked = false);
 		}

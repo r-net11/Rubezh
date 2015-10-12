@@ -5,7 +5,7 @@ using Common;
 using DeviceControls;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using GKModule.Plans.Designer;
 using Infrastructure;
 using Infrastructure.Events;
@@ -123,7 +123,7 @@ namespace GKModule.Plans
 
 		private void OnShowGKDeviceOnPlan(GKDevice device)
 		{
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 				foreach (var element in plan.ElementGKDevices)
 					if (element.DeviceUID == device.UID)
 					{
@@ -133,7 +133,7 @@ namespace GKModule.Plans
 		}
 		private void OnShowGKZoneOnPlan(GKZone zone)
 		{
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 			{
 				foreach (var element in plan.ElementRectangleGKZones)
 					if (element.ZoneUID == zone.UID)
@@ -151,7 +151,7 @@ namespace GKModule.Plans
 		}
 		private void OnShowGKGuardZoneOnPlan(GKGuardZone zone)
 		{
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 			{
 				foreach (var element in plan.ElementRectangleGKGuardZones)
 					if (element.ZoneUID == zone.UID)
@@ -169,7 +169,7 @@ namespace GKModule.Plans
 		}
 		private void OnShowGKSKDZoneOnPlan(GKSKDZone zone)
 		{
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 			{
 				foreach (var element in plan.ElementRectangleGKSKDZones)
 					if (element.ZoneUID == zone.UID)
@@ -187,7 +187,7 @@ namespace GKModule.Plans
 		}
 		private void OnShowGKDelayOnPlan(GKDelay delay)
 		{
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 			{
 				foreach (var element in plan.ElementRectangleGKDelays)
 				{
@@ -209,7 +209,7 @@ namespace GKModule.Plans
 		}
 		private void OnShowGKDirectionOnPlan(GKDirection direction)
 		{
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 			{
 				foreach (var element in plan.ElementRectangleGKDirections)
 					if (element.DirectionUID == direction.UID)
@@ -227,7 +227,7 @@ namespace GKModule.Plans
 		}
 		private void OnShowGKMPTOnPlan(GKMPT mpt)
 		{
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 			{
 				foreach (var element in plan.ElementRectangleGKMPTs)
 					if (element.MPTUID == mpt.UID)
@@ -245,7 +245,7 @@ namespace GKModule.Plans
 		}
 		private void OnShowGKDoorOnPlan(GKDoor door)
 		{
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 				foreach (var element in plan.ElementGKDoors)
 					if (element.DoorUID == door.UID)
 					{

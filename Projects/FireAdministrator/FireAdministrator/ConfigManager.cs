@@ -8,7 +8,7 @@ using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -42,7 +42,7 @@ namespace FireAdministrator
 
 				WaitHelper.Execute(() =>
 				{
-					FiresecManager.FiresecService.GKAddMessage(JournalEventNameType.Применение_конфигурации, "");
+					ClientManager.FiresecService.GKAddMessage(JournalEventNameType.Применение_конфигурации, "");
 					LoadingService.Show("Применение конфигурации", "Применение конфигурации", 10);
 
 					if (ConnectionSettingsManager.IsRemote)
@@ -50,14 +50,14 @@ namespace FireAdministrator
 						var tempFileName = SaveConfigToFile(false);
 						using (var fileStream = new FileStream(tempFileName, FileMode.Open))
 						{
-							FiresecManager.FiresecService.SetRemoteConfig(fileStream);
+							ClientManager.FiresecService.SetRemoteConfig(fileStream);
 						}
 						File.Delete(tempFileName);
 					}
 					else
 					{
 					    SaveConfigToFile(true);
-					    FiresecManager.FiresecService.SetLocalConfig();
+					    ClientManager.FiresecService.SetLocalConfig();
 					}
 				});
 				LoadingService.Close();
@@ -76,7 +76,7 @@ namespace FireAdministrator
 		{
 			try
 			{
-				FiresecManager.InvalidateContent();
+				ClientManager.InvalidateContent();
 
 				var tempFolderName = "";
 				if (isLocal)
@@ -94,17 +94,17 @@ namespace FireAdministrator
 				TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
 				if (ServiceFactory.SaveService.PlansChanged)
-					AddConfiguration(tempFolderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1, true);
+					AddConfiguration(tempFolderName, "PlansConfiguration.xml", ClientManager.PlansConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.SoundsChanged || ServiceFactory.SaveService.FilterChanged || ServiceFactory.SaveService.CamerasChanged || ServiceFactory.SaveService.EmailsChanged || ServiceFactory.SaveService.AutomationChanged)
-					AddConfiguration(tempFolderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1, true);
+					AddConfiguration(tempFolderName, "SystemConfiguration.xml", ClientManager.SystemConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.GKChanged)
 					AddConfiguration(tempFolderName, "GKDeviceConfiguration.xml", GKManager.DeviceConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.SecurityChanged)
-					AddConfiguration(tempFolderName, "SecurityConfiguration.xml", FiresecManager.SecurityConfiguration, 1, 1, true);
+					AddConfiguration(tempFolderName, "SecurityConfiguration.xml", ClientManager.SecurityConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.GKLibraryChanged)
 					AddConfiguration(tempFolderName, "GKDeviceLibraryConfiguration.xml", GKManager.DeviceLibraryConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.LayoutsChanged)
-					AddConfiguration(tempFolderName, "LayoutsConfiguration.xml", FiresecManager.LayoutsConfiguration, 1, 1, false);
+					AddConfiguration(tempFolderName, "LayoutsConfiguration.xml", ClientManager.LayoutsConfiguration, 1, 1, false);
 
 				if (!isLocal)
 				{
@@ -171,13 +171,13 @@ namespace FireAdministrator
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
 					ServiceFactory.ContentService.Clear();
 					GKManager.SetEmptyConfiguration();
-					FiresecManager.PlansConfiguration = new PlansConfiguration();
-					FiresecManager.SystemConfiguration.Cameras = new List<Camera>();
-					FiresecManager.SystemConfiguration.Sounds = new List<Sound>();
-					FiresecManager.SystemConfiguration.JournalFilters = new List<JournalFilter>();
-					FiresecManager.SystemConfiguration.AutomationConfiguration = new AutomationConfiguration();
-					FiresecManager.PlansConfiguration.Update();
-					FiresecManager.LayoutsConfiguration = new LayoutsConfiguration();
+					ClientManager.PlansConfiguration = new PlansConfiguration();
+					ClientManager.SystemConfiguration.Cameras = new List<Camera>();
+					ClientManager.SystemConfiguration.Sounds = new List<Sound>();
+					ClientManager.SystemConfiguration.JournalFilters = new List<JournalFilter>();
+					ClientManager.SystemConfiguration.AutomationConfiguration = new AutomationConfiguration();
+					ClientManager.PlansConfiguration.Update();
+					ClientManager.LayoutsConfiguration = new LayoutsConfiguration();
 
 					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -46,7 +46,7 @@ namespace FireAdministrator.ViewModels
 
 		void OnSetNewConfiguration(CancelEventArgs e)
 		{
-			if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
+			if (!ClientManager.CheckPermission(PermissionType.Adm_SetNewConfig))
 			{
 				MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
 				e.Cancel = true;
@@ -68,7 +68,7 @@ namespace FireAdministrator.ViewModels
 
 		public bool SetNewConfig()
 		{
-			if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
+			if (!ClientManager.CheckPermission(PermissionType.Adm_SetNewConfig))
 			{
 				MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
 				return false;
@@ -144,7 +144,7 @@ namespace FireAdministrator.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите перезаписать текущую конфигурацию?"))
 			{
-				if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
+				if (!ClientManager.CheckPermission(PermissionType.Adm_SetNewConfig))
 				{
 					MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
 					return;

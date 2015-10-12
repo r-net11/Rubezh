@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common.Validation;
 
 namespace AutomationModule.Validation
@@ -9,7 +9,7 @@ namespace AutomationModule.Validation
 		private void ValidateGlobalVariableName()
 		{
 			var nameList = new List<string>();
-			foreach (var globalVariable in FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
+			foreach (var globalVariable in ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 			{
 				if (nameList.Contains(globalVariable.Name))
 					Errors.Add(new VariableValidationError(globalVariable, "Глобальная переменная с таким именем уже существует " + globalVariable.Name, ValidationErrorLevel.CannotSave));

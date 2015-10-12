@@ -1,6 +1,6 @@
 ﻿using Common;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -50,7 +50,7 @@ namespace FireMonitor.ViewModels
 		}
 		protected override bool Save()
 		{
-			var user = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == Login);
+			var user = ClientManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == Login);
 			if (user != null)
 			{
 				if (!HashHelper.CheckPass(Password, user.PasswordHash))
@@ -65,7 +65,7 @@ namespace FireMonitor.ViewModels
 					return false;
 				}
 				
-					FiresecManager.Disconnect();
+					ClientManager.Disconnect();
 					var processStartInfo = new ProcessStartInfo()
 					{
 						FileName = Application.ResourceAssembly.Location,

@@ -4,8 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
 using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -38,7 +38,7 @@ namespace SKDModule.ViewModels
 			{
 				var dayIntervals = DayIntervalHelper.Get(new DayIntervalFilter()
 				{
-					UserUID = FiresecManager.CurrentUser.UID,
+					UserUID = ClientManager.CurrentUser.UID,
 					OrganisationUIDs = Organisations.Select(item => item.Organisation.UID).ToList(),
 				});
 				_dayIntervals = new Dictionary<Guid, ObservableCollection<DayInterval>>();

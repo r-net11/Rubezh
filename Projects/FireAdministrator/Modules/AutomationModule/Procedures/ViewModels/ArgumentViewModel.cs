@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI.Automation;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -142,7 +142,7 @@ namespace AutomationModule.ViewModels
 				else
 				{
 					variableDetailsViewModel.Variable.IsGlobal = true;
-					FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(variableDetailsViewModel.Variable);
+					ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(variableDetailsViewModel.Variable);
 					GlobalVariablesViewModel.Current.GlobalVariables.Add(new VariableViewModel(variableDetailsViewModel.Variable));
 				}
 

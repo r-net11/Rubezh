@@ -4,8 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -63,7 +63,7 @@ namespace SKDModule.ViewModels
 		protected abstract bool Restore(TModel model);
 		protected abstract List<TModel> GetFromCallbackResult(DbCallbackResult dbCallbackResult);
 		protected abstract PermissionType Permission { get; }
-		bool IsEditAllowed { get { return FiresecManager.CheckPermission(Permission); } }
+		bool IsEditAllowed { get { return ClientManager.CheckPermission(Permission); } }
 		public TFilter Filter { get { return _filter; } }
 		public Guid DbCallbackResultUID;
 
@@ -145,7 +145,7 @@ namespace SKDModule.ViewModels
 
 		protected virtual bool InitializeOrganisations(TFilter filter)
 		{
-			var organisationFilter = new OrganisationFilter { UIDs = filter.OrganisationUIDs, UserUID = FiresecManager.CurrentUser.UID, LogicalDeletationType = filter.LogicalDeletationType };
+			var organisationFilter = new OrganisationFilter { UIDs = filter.OrganisationUIDs, UserUID = ClientManager.CurrentUser.UID, LogicalDeletationType = filter.LogicalDeletationType };
 			var organisations = OrganisationHelper.Get(organisationFilter);
 			if (organisations == null)
 				return false;
@@ -172,7 +172,7 @@ namespace SKDModule.ViewModels
 
 		protected virtual void OnOrganisationUsersChanged(Organisation newOrganisation)
 		{
-			if (newOrganisation.UserUIDs.Any(x => x == FiresecManager.CurrentUser.UID))
+			if (newOrganisation.UserUIDs.Any(x => x == ClientManager.CurrentUser.UID))
 			{
 				if (!Organisations.Any(x => x.Organisation.UID == newOrganisation.UID))
 				{

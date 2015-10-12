@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using FiresecAPI.GK;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -78,7 +78,7 @@ namespace GKSDK
         public RelayCommand SetAutomaticStateCommand { get; private set; }
         void OnSetAutomaticState()
         {
-                FiresecManager.FiresecService.GKSetAutomaticRegime(Direction);
+			ClientManager.FiresecService.GKSetAutomaticRegime(Direction);
         }
         bool CanSetAutomaticState()
         {
@@ -87,7 +87,7 @@ namespace GKSDK
         public RelayCommand SetManualStateCommand { get; private set; }
         void OnSetManualState()
         {
-                FiresecManager.FiresecService.GKSetManualRegime(Direction);
+			ClientManager.FiresecService.GKSetManualRegime(Direction);
         }
         bool CanSetManualState()
         {
@@ -96,7 +96,7 @@ namespace GKSDK
         public RelayCommand SetIgnoreStateCommand { get; private set; }
         void OnSetIgnoreState()
         {
-                FiresecManager.FiresecService.GKSetIgnoreRegime(Direction);
+			ClientManager.FiresecService.GKSetIgnoreRegime(Direction);
         }
         bool CanSetIgnoreState()
         {
@@ -105,23 +105,22 @@ namespace GKSDK
         public RelayCommand TurnOnCommand { get; private set; }
         void OnTurnOn()
         {
-                FiresecManager.FiresecService.GKTurnOn(Direction);
+			ClientManager.FiresecService.GKTurnOn(Direction);
         }
         public RelayCommand TurnOnNowCommand { get; private set; }
         void OnTurnOnNow()
         {
-                FiresecManager.FiresecService.GKTurnOnNow(Direction);
+			ClientManager.FiresecService.GKTurnOnNow(Direction);
         }
         public RelayCommand TurnOffCommand { get; private set; }
         void OnTurnOff()
         {
-                FiresecManager.FiresecService.GKTurnOff(Direction);
+			ClientManager.FiresecService.GKTurnOff(Direction);
         }
         public RelayCommand ForbidStartCommand { get; private set; }
         void OnForbidStart()
         {
-                FiresecManager.FiresecService.GKStop(Direction);
+			ClientManager.FiresecService.GKStop(Direction);
         }
-
 	}
 }

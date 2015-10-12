@@ -12,9 +12,9 @@ using Infrustructure.Plans.Events;
 using GKModule.Events;
 using FiresecAPI.GK;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient;
+using RubezhClient;
 using System.Collections.ObjectModel;
-using FiresecClient.SKDHelpers;
+using RubezhClient.SKDHelpers;
 
 namespace GKModule.ViewModels
 {

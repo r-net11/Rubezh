@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.CheckBoxList;
@@ -55,7 +55,7 @@ namespace GKModule.ViewModels
 		void CreateItemList(bool isWithDeleted = false)
 		{
 			Organisations = new ReportOrganisationsItemList { IsSingleSelection = !AllowMultiple };
-			var filter = new OrganisationFilter() { UserUID = FiresecManager.CurrentUser.UID };
+			var filter = new OrganisationFilter() { UserUID = ClientManager.CurrentUser.UID };
 			if (isWithDeleted)
 				filter.LogicalDeletationType = LogicalDeletationType.All;
 			var organisations = OrganisationHelper.Get(filter);

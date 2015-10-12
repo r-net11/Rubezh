@@ -1,5 +1,5 @@
 ﻿using FiresecAPI;
-using FiresecClient;
+using RubezhClient;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

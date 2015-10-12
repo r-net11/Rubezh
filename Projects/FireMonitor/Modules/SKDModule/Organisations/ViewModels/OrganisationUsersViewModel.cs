@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhClient;
 
 namespace SKDModule.ViewModels
 {
@@ -9,7 +9,7 @@ namespace SKDModule.ViewModels
 		public OrganisationUsersViewModel(Organisation organisation):base(organisation)
 		{
 			Items = new ObservableCollection<OrganisationUserViewModel>();
-			foreach (var user in FiresecManager.SecurityConfiguration.Users)
+			foreach (var user in ClientManager.SecurityConfiguration.Users)
 			{
 				var userViewModel = new OrganisationUserViewModel(organisation, user);
 				Items.Add(userViewModel);

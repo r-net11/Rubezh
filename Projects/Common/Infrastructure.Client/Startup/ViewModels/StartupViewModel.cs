@@ -5,7 +5,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Client.Properties;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -207,12 +207,12 @@ namespace Infrastructure.Client.Startup.ViewModels
 			OnPropertyChanged(() => Content);
 			ApplicationService.DoEvents(Dispatcher);
 
-			var result = FiresecManager.Connect(_clientType, ConnectionSettingsManager.ServerAddress, _startupLoginViewModel.UserName, _startupLoginViewModel.Password);
+			var result = ClientManager.Connect(_clientType, ConnectionSettingsManager.ServerAddress, _startupLoginViewModel.UserName, _startupLoginViewModel.Password);
 			if (string.IsNullOrEmpty(result))
 			{
 				for (int i = 1; i < 100; i++)
 				{
-					var serverState = FiresecManager.FiresecService.GetServerState();
+					var serverState = ClientManager.FiresecService.GetServerState();
 					if (!serverState.HasError)
 					{
 						switch (serverState.Result)

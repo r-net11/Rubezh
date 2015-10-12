@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -107,7 +107,7 @@ namespace SKDModule.ViewModels
 		{
 			var filter = new ScheduleFilter()
 			{
-				UserUID = FiresecManager.CurrentUser.UID,
+				UserUID = ClientManager.CurrentUser.UID,
 				LogicalDeletationType = hrFilter.LogicalDeletationType,
 				EmployeeUIDs = hrFilter.EmplooyeeUIDs
 			};

@@ -5,7 +5,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -52,7 +52,7 @@ namespace FireAdministrator
 
 		public static void SaveToZipFile(string fileName)
 		{
-			FiresecManager.InvalidateContent();
+			ClientManager.InvalidateContent();
 
 			var folderName = AppDataFolderHelper.GetTempFolder();
 			if (!Directory.Exists(folderName))
@@ -63,10 +63,10 @@ namespace FireAdministrator
 
 			TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
-			AddConfiguration(folderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1, true);
-			AddConfiguration(folderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1, true);
+			AddConfiguration(folderName, "PlansConfiguration.xml", ClientManager.PlansConfiguration, 1, 1, true);
+			AddConfiguration(folderName, "SystemConfiguration.xml", ClientManager.SystemConfiguration, 1, 1, true);
 			AddConfiguration(folderName, "GKDeviceConfiguration.xml", GKManager.DeviceConfiguration, 1, 1, true);
-			AddConfiguration(folderName, "LayoutsConfiguration.xml", FiresecManager.LayoutsConfiguration, 1, 1, false);
+			AddConfiguration(folderName, "LayoutsConfiguration.xml", ClientManager.LayoutsConfiguration, 1, 1, false);
 			AddConfiguration(folderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1, true);
 
 			var destinationImagesDirectory = AppDataFolderHelper.GetFolder(Path.Combine(folderName, "Content"));
@@ -137,10 +137,10 @@ namespace FireAdministrator
 						Directory.Delete(folderName, true);
 					Directory.CreateDirectory(folderName);
 					File.Copy(fileName, configFileName);
-					FiresecManager.LoadFromZipFile(configFileName);
+					ClientManager.LoadFromZipFile(configFileName);
 					ServiceFactory.ContentService.Invalidate();
 
-					FiresecManager.UpdateConfiguration();
+					ClientManager.UpdateConfiguration();
 
 					if (LoadingErrorManager.HasError)
 						MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке конфигурации");

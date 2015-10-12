@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using FiresecAPI.GK;
 using System.Collections.ObjectModel;
 
-namespace FiresecClient
+namespace RubezhClient
 {
 	public partial class GKManager
 	{

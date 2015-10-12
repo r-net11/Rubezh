@@ -62,7 +62,7 @@ namespace SoundsModule.ViewModels
 			{
 				var listSounds = new List<string>();
 				listSounds.Add(string.Empty);
-				listSounds.AddRange(FiresecClient.FileHelper.SoundsList);
+				listSounds.AddRange(RubezhClient.FileHelper.SoundsList);
 				return listSounds;
 			}
 		}

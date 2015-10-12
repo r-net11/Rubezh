@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.ServiceModel;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using RviClient.RVIServiceReference;
@@ -23,7 +23,7 @@ namespace VideoModule.ViewModels
 			List<Device> devices = null;
 			try
 			{
-				devices = RviClientHelper.GetDevices(FiresecManager.SystemConfiguration);
+				devices = RviClientHelper.GetDevices(ClientManager.SystemConfiguration);
 			}
 			catch
 			{
@@ -36,7 +36,7 @@ namespace VideoModule.ViewModels
 				{
 					foreach (var stream in channel.Streams)
 					{
-						var existingCamera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.RviDeviceUID == device.Guid && x.RviChannelNo == channel.Number && x.StreamNo == stream.Number);
+						var existingCamera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.RviDeviceUID == device.Guid && x.RviChannelNo == channel.Number && x.StreamNo == stream.Number);
 						var deviceViewModel = new DeviceViewModel(device, channel, stream.Number, existingCamera == null);
 						Devices.Add(deviceViewModel);
 					}

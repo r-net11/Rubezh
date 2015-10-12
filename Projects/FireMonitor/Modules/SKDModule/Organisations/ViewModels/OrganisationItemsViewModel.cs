@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -16,7 +16,7 @@ namespace SKDModule.ViewModels
 		public OrganisationItemsViewModel(Organisation organisation)
 		{
 			Organisation = organisation;
-			CanSelect = !organisation.IsDeleted && FiresecManager.CheckPermission(Permission);
+			CanSelect = !organisation.IsDeleted && ClientManager.CheckPermission(Permission);
 			SelectAllCommand = new RelayCommand(OnSelectAll, () => CanSelect);
 			SelectNoneCommand = new RelayCommand(OnSelectNone, () => CanSelect);
 		}

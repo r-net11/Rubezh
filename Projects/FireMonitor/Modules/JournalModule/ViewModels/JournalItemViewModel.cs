@@ -4,13 +4,13 @@ using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Events;
-using FiresecClient.SKDHelpers;
+using RubezhClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 
 namespace JournalModule.ViewModels
@@ -230,7 +230,7 @@ namespace JournalModule.ViewModels
 					break;
 
 				case JournalObjectType.VideoDevice:
-					Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					Camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 					if (Camera != null)
 					{
 						ObjectName = Camera.Name;

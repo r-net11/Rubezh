@@ -5,7 +5,7 @@ using System.Text;
 using Infrastructure.Common.Services.Layout;
 using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
-using FiresecClient;
+using RubezhClient;
 using FiresecAPI.Models.Layouts;
 using System.Windows.Media;
 using System.Windows.Controls;

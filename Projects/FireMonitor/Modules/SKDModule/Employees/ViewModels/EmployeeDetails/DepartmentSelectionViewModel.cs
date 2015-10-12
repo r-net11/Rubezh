@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -115,7 +115,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit);
+			return ClientManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit);
 		}
 
 		public RelayCommand ClearCommand { get; private set; }

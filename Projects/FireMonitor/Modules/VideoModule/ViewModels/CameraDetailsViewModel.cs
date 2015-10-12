@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -47,7 +47,7 @@ namespace VideoModule.ViewModels
 		{
 			get
 			{
-				var planes = FiresecManager.PlansConfiguration.AllPlans.Where(item => item.ElementExtensions.OfType<ElementCamera>().Any(element => element.CameraUID == Camera.UID));
+				var planes = ClientManager.PlansConfiguration.AllPlans.Where(item => item.ElementExtensions.OfType<ElementCamera>().Any(element => element.CameraUID == Camera.UID));
 				var planViewModels = new ObservableCollection<PlanViewModel>();
 				foreach (var plan in planes)
 				{
@@ -80,8 +80,8 @@ namespace VideoModule.ViewModels
 		{
 			try
 			{
-				//RviClient.RviClientHelper.SetPtzPreset(FiresecManager.SystemConfiguration, Camera, SelectedPreset - 1);
-				RviClient.RviClientHelper.SetPtzPreset(FiresecManager.SystemConfiguration, Camera, SelectedPreset);
+				//RviClient.RviClientHelper.SetPtzPreset(ClientManager.SystemConfiguration, Camera, SelectedPreset - 1);
+				RviClient.RviClientHelper.SetPtzPreset(ClientManager.SystemConfiguration, Camera, SelectedPreset);
 
 				var journalItem = new JournalItem()
 				{
@@ -94,7 +94,7 @@ namespace VideoModule.ViewModels
 					ObjectUID = Camera.UID,
 					ObjectName = Camera.Name,
 				};
-				FiresecManager.FiresecService.AddJournalItem(journalItem);
+				ClientManager.FiresecService.AddJournalItem(journalItem);
 			}
 			catch
 			{

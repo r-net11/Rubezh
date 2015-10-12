@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-using FiresecClient;
+using RubezhClient;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
@@ -61,25 +61,25 @@ namespace GKSDK
         public RelayCommand SetIgnoreCommand { get; private set; }
         void OnSetIgnore()
         {
-                FiresecManager.FiresecService.GKSetIgnoreRegime(Zone);
+			ClientManager.FiresecService.GKSetIgnoreRegime(Zone);
         }
         bool CanSetIgnore()
         {
-                return !State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Zone_Control);
+			return !State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Zone_Control);
         }
         public RelayCommand ResetIgnoreCommand { get; private set; }
         void OnResetIgnore()
         {
-                FiresecManager.FiresecService.GKSetAutomaticRegime(Zone);
+			ClientManager.FiresecService.GKSetAutomaticRegime(Zone);
         }
         bool CanResetIgnore()
         {
-                return State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Zone_Control);
+			return State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Zone_Control);
         }
         public RelayCommand ResetFireCommand { get; private set; }
         void OnResetFire()
         {
-                FiresecManager.FiresecService.GKReset(Zone);
+			ClientManager.FiresecService.GKReset(Zone);
         }
         bool CanResetFire()
         {

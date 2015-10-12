@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
@@ -84,7 +84,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetAutomaticRegime(MPT);
+				ClientManager.FiresecService.GKSetAutomaticRegime(MPT);
 			}
 		}
 		bool CanSetAutomaticState()
@@ -97,7 +97,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetManualRegime(MPT);
+				ClientManager.FiresecService.GKSetManualRegime(MPT);
 			}
 		}
 		bool CanSetManualState()
@@ -110,7 +110,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetIgnoreRegime(MPT);
+				ClientManager.FiresecService.GKSetIgnoreRegime(MPT);
 			}
 		}
 		bool CanSetIgnoreState()
@@ -123,7 +123,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOn(MPT);
+				ClientManager.FiresecService.GKTurnOn(MPT);
 			}
 		}
 
@@ -132,7 +132,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOnNow(MPT);
+				ClientManager.FiresecService.GKTurnOnNow(MPT);
 			}
 		}
 
@@ -141,7 +141,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOff(MPT);
+				ClientManager.FiresecService.GKTurnOff(MPT);
 			}
 		}
 
@@ -150,7 +150,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKStop(MPT);
+				ClientManager.FiresecService.GKStop(MPT);
 			}
 		}
 
@@ -189,7 +189,7 @@ namespace GKModule.ViewModels
 
 		public bool CanControl
 		{
-			get { return  FiresecManager.CheckPermission(PermissionType.Oper_MPT_Control); }
+			get { return  ClientManager.CheckPermission(PermissionType.Oper_MPT_Control); }
 		}
 
 		#region IWindowIdentity Members

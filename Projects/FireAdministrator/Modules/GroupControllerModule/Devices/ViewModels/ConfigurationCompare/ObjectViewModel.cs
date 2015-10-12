@@ -1,6 +1,6 @@
 ﻿using System;
 using FiresecAPI.GK;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels

@@ -6,8 +6,8 @@ using System.Threading;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -61,7 +61,7 @@ namespace SKDModule.ViewModels
 				StopListCards.Add(item);
 			SelectedStopListCard = StopListCards.FirstOrDefault();
 
-			CanChangeCardType = _employee.Type == PersonType.Employee && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit_CardType);
+			CanChangeCardType = _employee.Type == PersonType.Employee && ClientManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit_CardType);
 			GKCardTypes = new ObservableCollection<GKCardType>(Enum.GetValues(typeof(GKCardType)).OfType<GKCardType>());
 			SelectedGKCardType = Card.GKCardType;
 
@@ -272,7 +272,7 @@ namespace SKDModule.ViewModels
 			{
 				while (IsThreadPolling)
 				{
-					var operationResult = FiresecManager.FiresecService.GKGetReaderCode(readerDevice);
+					var operationResult = ClientManager.FiresecService.GKGetReaderCode(readerDevice);
 					if (!operationResult.HasError && operationResult.Result > 0)
 					{
 						Number = operationResult.Result;

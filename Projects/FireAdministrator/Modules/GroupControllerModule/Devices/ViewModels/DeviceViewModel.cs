@@ -8,7 +8,7 @@ using Common;
 using DeviceControls;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 using GKModule.Events;
 using GKModule.Plans;
 using Infrastructure;

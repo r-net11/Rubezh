@@ -4,7 +4,7 @@ using System.Linq;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhClient;
 using RubezhDAL;
 using System.Diagnostics;
 

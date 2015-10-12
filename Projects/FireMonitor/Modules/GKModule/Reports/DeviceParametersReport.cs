@@ -2,7 +2,7 @@
 using System.Linq;
 using CodeReason.Reports;
 using FiresecAPI;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common.Reports;
 
 namespace GKModule.Reports

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows.Media;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
-using FiresecClient;
+using RubezhClient;
 
 namespace PlansModule.Kursk.Designer
 {

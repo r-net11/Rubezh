@@ -5,7 +5,7 @@ using FiresecAPI;
 using FiresecAPI.Models.Layouts;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Services.Layout;
-using FiresecClient;
+using RubezhClient;
 using FiresecAPI.Journal;
 
 namespace FiltersModule.ViewModels
@@ -17,7 +17,7 @@ namespace FiltersModule.ViewModels
 		public LayoutPartPropertyJournalPageViewModel(LayoutPartJournalViewModel layoutPartFilterViewModel)
 		{
 			_layoutPartJournalViewModel = layoutPartFilterViewModel;
-			Filters = new ObservableCollection<JournalFilter>(FiresecManager.SystemConfiguration.JournalFilters);
+			Filters = new ObservableCollection<JournalFilter>(ClientManager.SystemConfiguration.JournalFilters);
 		}
 
 		ObservableCollection<JournalFilter> _filters;
@@ -49,7 +49,7 @@ namespace FiltersModule.ViewModels
 		public override void CopyProperties()
 		{
 			var properties = (LayoutPartReferenceProperties)_layoutPartJournalViewModel.Properties;
-			SelectedFilter = FiresecManager.SystemConfiguration.JournalFilters.FirstOrDefault(item => item.UID == properties.ReferenceUID);
+			SelectedFilter = ClientManager.SystemConfiguration.JournalFilters.FirstOrDefault(item => item.UID == properties.ReferenceUID);
 		}
 		public override bool CanSave()
 		{

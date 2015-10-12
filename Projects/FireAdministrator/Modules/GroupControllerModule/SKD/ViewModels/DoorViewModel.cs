@@ -6,7 +6,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
-using FiresecClient;
+using RubezhClient;
 using System.Windows;
 using DeviceControls;
 using Infrustructure.Plans.Events;

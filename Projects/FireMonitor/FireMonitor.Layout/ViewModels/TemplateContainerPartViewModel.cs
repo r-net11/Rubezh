@@ -13,7 +13,7 @@ using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using LayoutModel = FiresecAPI.Models.Layouts.Layout;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
-using FiresecClient;
+using RubezhClient;
 using Common;
 
 namespace FireMonitor.Layout.ViewModels
@@ -22,7 +22,7 @@ namespace FireMonitor.Layout.ViewModels
 	{
 		public TemplateContainerPartViewModel(LayoutPartReferenceProperties properties)
 		{
-			var layout = FiresecManager.LayoutsConfiguration.Layouts.FirstOrDefault(item => item.UID == properties.ReferenceUID);
+			var layout = ClientManager.LayoutsConfiguration.Layouts.FirstOrDefault(item => item.UID == properties.ReferenceUID);
 			LayoutContainer = new LayoutContainer(this, layout);
 		}
 

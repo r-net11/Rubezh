@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -78,7 +78,7 @@ namespace FireMonitor.Layout.ViewModels
 		}
 		private void LoadLayoutProperties()
 		{
-			var properties = FiresecManager.FiresecService.GetProperties(Layout.UID);
+			var properties = ClientManager.FiresecService.GetProperties(Layout.UID);
 			if (properties != null)
 			{
 				if (properties.VisualProperties!=null)

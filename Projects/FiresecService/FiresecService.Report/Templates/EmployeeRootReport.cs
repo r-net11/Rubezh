@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
-using FiresecClient;
+using RubezhClient;
 using FiresecService.Report.DataSources;
 
 namespace FiresecService.Report.Templates

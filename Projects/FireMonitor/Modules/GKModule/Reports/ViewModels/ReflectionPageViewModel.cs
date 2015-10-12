@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Common;
-using FiresecClient;
+using RubezhClient;
 using FiresecAPI.GK;
 
 namespace GKModule.ViewModels
