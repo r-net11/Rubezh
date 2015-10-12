@@ -1,6 +1,6 @@
-﻿using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+﻿using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using GKModule.Plans;
 using Infrastructure.Common.Validation;
 using Infrustructure.Plans.Interfaces;
@@ -12,7 +12,7 @@ namespace GKModule.Validation
 	{
 		private void ValidatePlans()
 		{
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 				ValidatePlanZones(plan);
 		}
 		private void ValidatePlanZones(Plan plan)

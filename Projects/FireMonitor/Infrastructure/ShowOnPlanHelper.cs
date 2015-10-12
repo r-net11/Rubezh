@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.SKD;
+using RubezhClient;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 
@@ -22,7 +22,7 @@ namespace Infrastructure
 		public static bool CanShowDevice(GKDevice device)
 		{
 			if (device != null)
-				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 					if (plan.ElementGKDevices.Any(x => x.DeviceUID == device.UID))
 						return true;
 			return false;
@@ -35,7 +35,7 @@ namespace Infrastructure
 		public static bool CanShowZone(GKZone zone)
 		{
 			if (zone != null)
-				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 				{
 					if (plan.ElementPolygonGKZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
 						return true;
@@ -52,7 +52,7 @@ namespace Infrastructure
 		public static bool CanShowGuardZone(GKGuardZone zone)
 		{
 			if (zone != null)
-				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 				{
 					if (plan.ElementPolygonGKGuardZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
 						return true;
@@ -69,7 +69,7 @@ namespace Infrastructure
 		public static bool CanShowGKSKDZone(GKSKDZone zone)
 		{
 			if (zone != null)
-				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 				{
 					if (plan.ElementPolygonGKSKDZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
 						return true;
@@ -87,7 +87,7 @@ namespace Infrastructure
 		{
 			if (delay != null)
 			{
-				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 				{
 					if (plan.ElementRectangleGKDelays.Any(x => x.DelayUID == delay.UID))
 						return true;
@@ -105,7 +105,7 @@ namespace Infrastructure
 		public static bool CanShowDirection(GKDirection direction)
 		{
 			if (direction != null)
-				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 				{
 					if (plan.ElementRectangleGKDirections.Any(x => x.DirectionUID == direction.UID))
 						return true;
@@ -122,7 +122,7 @@ namespace Infrastructure
 		public static bool CanShowMPT(GKMPT mpt)
 		{
 			if (mpt != null)
-				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 				{
 					if (plan.ElementRectangleGKMPTs.Any(x => x.MPTUID == mpt.UID))
 						return true;
@@ -139,7 +139,7 @@ namespace Infrastructure
 		public static bool CanShowDoor(GKDoor door)
 		{
 			if (door != null)
-				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 					if (plan.ElementGKDoors.Any(x => x.DoorUID != Guid.Empty && x.DoorUID == door.UID))
 						return true;
 			return false;
@@ -152,7 +152,7 @@ namespace Infrastructure
 		public static bool CanShowCamera(Camera camera)
 		{
 			if (camera != null)
-				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 				{
 					foreach (var element in plan.ElementExtensions)
 						if (element is ElementCamera && ((ElementCamera)element).CameraUID == camera.UID)

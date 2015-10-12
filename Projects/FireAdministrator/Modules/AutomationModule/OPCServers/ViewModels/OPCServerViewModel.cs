@@ -1,5 +1,5 @@
-﻿using FiresecAPI.Automation;
-using FiresecAPI.Models;
+﻿using RubezhAPI.Automation;
+using RubezhAPI.Models;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 

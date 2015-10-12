@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using System.Security.Cryptography;
 
 namespace GKImitator.Processor

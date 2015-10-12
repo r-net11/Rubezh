@@ -62,9 +62,9 @@
       <Project>{fe37b6d4-73e5-40f2-a770-a974561430b8}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
+    <ProjectReference Include="..\RubezhAPI\RubezhAPI.csproj">
       <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
-      <Name>FiresecAPI</Name>
+      <Name>RubezhAPI</Name>
     </ProjectReference>
     <ProjectReference Include="..\GKProcessor\GKProcessor.csproj">
       <Project>{62564d14-0234-4947-8218-2c7d74721023}</Project>

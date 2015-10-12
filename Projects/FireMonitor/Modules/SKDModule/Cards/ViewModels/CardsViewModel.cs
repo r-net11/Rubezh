@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.SKD;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
-using FiresecAPI;
+using RubezhAPI;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -130,7 +130,7 @@ namespace SKDModule.ViewModels
 
 		void OnOrganisationUsersChanged(Organisation newOrganisation)
 		{
-			if (newOrganisation.UserUIDs.Any(x => x == FiresecManager.CurrentUser.UID))
+			if (newOrganisation.UserUIDs.Any(x => x == ClientManager.CurrentUser.UID))
 			{
 				if (!RootItems.Any(x => x.IsOrganisation && x.Organisation.UID == newOrganisation.UID))
 				{
@@ -252,7 +252,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedCard != null && SelectedCard.IsCard && SelectedCard.Card.IsInStopList && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_Etit);
+			return SelectedCard != null && SelectedCard.IsCard && SelectedCard.Card.IsInStopList && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Cards_Etit);
 		}
 
 		void OnDeleteCard(Guid uid)

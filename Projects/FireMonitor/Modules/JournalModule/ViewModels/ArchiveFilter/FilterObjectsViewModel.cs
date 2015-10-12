@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
+using RubezhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
+using RubezhClient;
 
 namespace JournalModule.ViewModels
 {
@@ -98,14 +99,14 @@ namespace JournalModule.ViewModels
 
 			var gkDevicesViewModel = new FilterObjectViewModel(JournalObjectType.GKDevice);
 			AddChild(gkViewModel, gkDevicesViewModel);
-			foreach (var childDevice in FiresecClient.GKManager.DeviceConfiguration.RootDevice.Children)
+			foreach (var childDevice in GKManager.DeviceConfiguration.RootDevice.Children)
 			{
 				AddGKDeviceInternal(childDevice, gkDevicesViewModel);
 			}
 
 			var gkZonesViewModel = new FilterObjectViewModel(JournalObjectType.GKZone);
 			AddChild(gkViewModel, gkZonesViewModel);
-			foreach (var zone in FiresecClient.GKManager.Zones)
+			foreach (var zone in GKManager.Zones)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(zone);
 				AddChild(gkZonesViewModel, filterObjectViewModel);
@@ -113,7 +114,7 @@ namespace JournalModule.ViewModels
 
 			var gkDirectionsViewModel = new FilterObjectViewModel(JournalObjectType.GKDirection);
 			AddChild(gkViewModel, gkDirectionsViewModel);
-			foreach (var direction in FiresecClient.GKManager.Directions)
+			foreach (var direction in GKManager.Directions)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(direction);
 				AddChild(gkDirectionsViewModel, filterObjectViewModel);
@@ -121,7 +122,7 @@ namespace JournalModule.ViewModels
 
 			var gkMPTsViewModel = new FilterObjectViewModel(JournalObjectType.GKMPT);
 			AddChild(gkViewModel, gkMPTsViewModel);
-			foreach (var mpt in FiresecClient.GKManager.MPTs)
+			foreach (var mpt in GKManager.MPTs)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(mpt);
 				AddChild(gkMPTsViewModel, filterObjectViewModel);
@@ -129,7 +130,7 @@ namespace JournalModule.ViewModels
 
 			var gkPumpStationsViewModel = new FilterObjectViewModel(JournalObjectType.GKPumpStation);
 			AddChild(gkViewModel, gkPumpStationsViewModel);
-			foreach (var pumpStation in FiresecClient.GKManager.PumpStations)
+			foreach (var pumpStation in GKManager.PumpStations)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(pumpStation);
 				AddChild(gkPumpStationsViewModel, filterObjectViewModel);
@@ -137,7 +138,7 @@ namespace JournalModule.ViewModels
 
 			var gkDelaysViewModel = new FilterObjectViewModel(JournalObjectType.GKDelay);
 			AddChild(gkViewModel, gkDelaysViewModel);
-			foreach (var delay in FiresecClient.GKManager.Delays)
+			foreach (var delay in GKManager.Delays)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(delay);
 				AddChild(gkDelaysViewModel, filterObjectViewModel);
@@ -145,7 +146,7 @@ namespace JournalModule.ViewModels
 
 			var gkGuardZonesViewModel = new FilterObjectViewModel(JournalObjectType.GKGuardZone);
 			AddChild(gkViewModel, gkGuardZonesViewModel);
-			foreach (var guardZone in FiresecClient.GKManager.GuardZones)
+			foreach (var guardZone in GKManager.GuardZones)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(guardZone);
 				AddChild(gkGuardZonesViewModel, filterObjectViewModel);
@@ -153,7 +154,7 @@ namespace JournalModule.ViewModels
 
 			var gkSKDZonesViewModel = new FilterObjectViewModel(JournalObjectType.GKSKDZone);
 			AddChild(gkViewModel, gkSKDZonesViewModel);
-			foreach (var skdZone in FiresecClient.GKManager.SKDZones)
+			foreach (var skdZone in GKManager.SKDZones)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(skdZone);
 				AddChild(gkSKDZonesViewModel, filterObjectViewModel);
@@ -161,7 +162,7 @@ namespace JournalModule.ViewModels
 
 			var gkDoorsViewModel = new FilterObjectViewModel(JournalObjectType.GKDoor);
 			AddChild(gkViewModel, gkDoorsViewModel);
-			foreach (var door in FiresecClient.GKManager.Doors)
+			foreach (var door in GKManager.Doors)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(door);
 				AddChild(gkDoorsViewModel, filterObjectViewModel);
@@ -173,7 +174,7 @@ namespace JournalModule.ViewModels
 
 			var videoDevicesViewModel = new FilterObjectViewModel(JournalObjectType.VideoDevice);
 			AddChild(videoViewModel, videoDevicesViewModel);
-			foreach (var camera in FiresecClient.FiresecManager.SystemConfiguration.Cameras)
+			foreach (var camera in ClientManager.SystemConfiguration.Cameras)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(camera);
 				AddChild(videoDevicesViewModel, filterObjectViewModel);

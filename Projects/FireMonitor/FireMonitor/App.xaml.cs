@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using Common;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Theme;
@@ -124,7 +124,7 @@ namespace FireMonitor
 			ScheduleRunner.Stop();
 			AlarmPlayerHelper.Dispose();
 			ClientSettings.SaveSettings();
-			FiresecManager.Disconnect();
+			ClientManager.Disconnect();
 			if (ShellIntegrationHelper.IsIntegrated && !IsClosingOnException)
 				ShellIntegrationHelper.ShutDown();
 			RegistrySettingsHelper.SetBool("FireMonitor.IsRunning", false);

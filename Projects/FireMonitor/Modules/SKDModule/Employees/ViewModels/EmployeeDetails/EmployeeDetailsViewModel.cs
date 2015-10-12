@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
+using RubezhAPI;
+using RubezhAPI.SKD;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;

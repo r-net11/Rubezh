@@ -4,13 +4,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using Common;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common.Windows;
 
 namespace AutomationModule.ViewModels
@@ -37,10 +37,10 @@ namespace AutomationModule.ViewModels
 		public void Initialize()
 		{
 			Procedures = new SortableObservableCollection<ProcedureViewModel>();
-			if (FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures == null)
-				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures = new List<Procedure>();
+			if (ClientManager.SystemConfiguration.AutomationConfiguration.Procedures == null)
+				ClientManager.SystemConfiguration.AutomationConfiguration.Procedures = new List<Procedure>();
 
-			foreach (var procedure in FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures)
+			foreach (var procedure in ClientManager.SystemConfiguration.AutomationConfiguration.Procedures)
 			{
 				var procedureViewModel = new ProcedureViewModel(procedure);
 				Procedures.Add(procedureViewModel);
@@ -300,7 +300,7 @@ namespace AutomationModule.ViewModels
 				ReplaceStepUids(step, dictionary);
 
 			var procedureViewModel = new ProcedureViewModel(clone);
-			FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Add(procedureViewModel.Procedure);
+			ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.Add(procedureViewModel.Procedure);
 			Procedures.Add(procedureViewModel);
 			SelectedProcedure = procedureViewModel;
 			ServiceFactory.SaveService.AutomationChanged = true;
@@ -317,7 +317,7 @@ namespace AutomationModule.ViewModels
 			var procedureDetailsViewModel = new ProcedureDetailsViewModel();
 			if (DialogService.ShowModalWindow(procedureDetailsViewModel))
 			{
-				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Add(procedureDetailsViewModel.Procedure);
+				ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.Add(procedureDetailsViewModel.Procedure);
 				var procedureViewModel = new ProcedureViewModel(procedureDetailsViewModel.Procedure);
 				Procedures.Add(procedureViewModel);
 				SelectedProcedure = procedureViewModel;
@@ -344,7 +344,7 @@ namespace AutomationModule.ViewModels
 		void OnDelete()
 		{
 			var index = Procedures.IndexOf(SelectedProcedure);
-			FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Remove(SelectedProcedure.Procedure);
+			ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.Remove(SelectedProcedure.Procedure);
 			Procedures.Remove(SelectedProcedure);
 			index = Math.Min(index, Procedures.Count - 1);
 			if (index > -1)

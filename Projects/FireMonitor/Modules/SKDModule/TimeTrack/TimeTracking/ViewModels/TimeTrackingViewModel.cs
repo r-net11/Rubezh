@@ -6,8 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using Common;
-using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhAPI.SKD;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -15,8 +15,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using SKDModule.Events;
 using SKDModule.Model;
-using FiresecClient.SKDHelpers;
-using FiresecAPI.Models;
+using RubezhClient.SKDHelpers;
+using RubezhAPI.Models;
 
 namespace SKDModule.ViewModels
 {
@@ -44,7 +44,7 @@ namespace SKDModule.ViewModels
 			TimeTrackFilter = new TimeTrackFilter();
 			TimeTrackFilter.EmployeeFilter = new EmployeeFilter()
 			{
-				UserUID = FiresecClient.FiresecManager.CurrentUser.UID,
+				UserUID = ClientManager.CurrentUser.UID,
 			};
 
 			TimeTrackFilter.Period = TimeTrackingPeriod.CurrentMonth;
@@ -164,7 +164,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanPrint()
 		{
-			return ApplicationService.IsReportEnabled && FiresecManager.CheckPermission(PermissionType.Oper_Reports_T13);
+			return ApplicationService.IsReportEnabled && ClientManager.CheckPermission(PermissionType.Oper_Reports_T13);
 		}
 
 		void UpdateGrid()
@@ -182,7 +182,7 @@ namespace SKDModule.ViewModels
 				FirstDay = TimeTrackFilter.StartDate;
 
 				TimeTracks = new SortableObservableCollection<TimeTrackViewModel>();
-				var stream = FiresecManager.FiresecService.GetTimeTracksStream(TimeTrackFilter.EmployeeFilter, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
+				var stream = ClientManager.FiresecService.GetTimeTracksStream(TimeTrackFilter.EmployeeFilter, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
 				var folderName = AppDataFolderHelper.GetFolder("TempServer");
 				var resultFileName = Path.Combine(folderName, "ClientTimeTrackResult.xml");
 				var resultFileStream = File.Create(resultFileName);
@@ -243,7 +243,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanShowNightSettings()
 		{
-			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_NightSettings_Edit);
+			return ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_NightSettings_Edit);
 		}
 
 		public void OnInitializeLeadUIDs(TimeTrackFilterViewModel filterViewModel)

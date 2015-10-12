@@ -1,5 +1,5 @@
-﻿using FiresecAPI.Models;
-using FiresecAPI.SKD;
+﻿using RubezhAPI.Models;
+using RubezhAPI.SKD;
 using Infrastructure;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;

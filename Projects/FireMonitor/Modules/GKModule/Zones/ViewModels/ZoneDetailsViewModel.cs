@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
@@ -55,7 +55,7 @@ namespace GKModule.ViewModels
 		void InitializePlans()
 		{
 			Plans = new ObservableCollection<PlanLinkViewModel>();
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 			{
 				ElementBase elementBase;
 				elementBase = plan.ElementRectangleGKZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
@@ -82,7 +82,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKReset(Zone);
+				ClientManager.FiresecService.GKReset(Zone);
 			}
 		}
 		bool CanResetFire()
@@ -95,12 +95,12 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetIgnoreRegime(Zone);
+				ClientManager.FiresecService.GKSetIgnoreRegime(Zone);
 			}
 		}
 		bool CanSetIgnore()
 		{
-			return !State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Zone_Control);
+			return !State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Zone_Control);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
@@ -108,12 +108,12 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetAutomaticRegime(Zone);
+				ClientManager.FiresecService.GKSetAutomaticRegime(Zone);
 			}
 		}
 		bool CanResetIgnore()
 		{
-			return State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Zone_Control);
+			return State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Zone_Control);
 		}
 
 		public RelayCommand ShowCommand { get; private set; }
@@ -131,7 +131,7 @@ namespace GKModule.ViewModels
 
 		public bool CanControl
 		{
-			get { return FiresecManager.CheckPermission(PermissionType.Oper_Zone_Control); }
+			get { return ClientManager.CheckPermission(PermissionType.Oper_Zone_Control); }
 		}
 
 		#region IWindowIdentity Members

@@ -1,4 +1,4 @@
-﻿using FiresecClient;
+﻿using RubezhClient;
 using Infrastructure.Common.Validation;
 using FiresecLicense;
 

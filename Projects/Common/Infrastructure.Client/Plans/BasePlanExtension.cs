@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;

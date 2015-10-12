@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.Models;
+using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Designer;
 
@@ -20,7 +20,7 @@ namespace PlansModule.ViewModels
 		private void Initialize()
 		{
 			Plans = new ObservableCollection<PlanViewModel>();
-			foreach (var plan in FiresecManager.PlansConfiguration.Plans)
+			foreach (var plan in ClientManager.PlansConfiguration.Plans)
 				AddPlan(plan, null);
 
 			for (int i = 0; i < Plans.Count; i++)

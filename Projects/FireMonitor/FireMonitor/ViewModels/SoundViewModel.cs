@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 
 namespace FireMonitor.ViewModels
 {
@@ -38,7 +38,7 @@ namespace FireMonitor.ViewModels
 
 		List<Sound> Sounds
 		{
-			get { return FiresecClient.FiresecManager.SystemConfiguration.Sounds; }
+			get { return ClientManager.SystemConfiguration.Sounds; }
 		}
 
 		public void OnStateChanged(object obj)
@@ -101,7 +101,7 @@ namespace FireMonitor.ViewModels
 			}
 			if (minSound != null)
 			{
-				AlarmPlayerHelper.Play(FiresecClient.FileHelper.GetSoundFilePath(minSound.SoundName), minSound.BeeperType, minSound.IsContinious);
+				AlarmPlayerHelper.Play(RubezhClient.FileHelper.GetSoundFilePath(minSound.SoundName), minSound.BeeperType, minSound.IsContinious);
 			}
 		}
 

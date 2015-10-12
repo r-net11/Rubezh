@@ -1,4 +1,4 @@
-﻿using FiresecAPI.SKD.ReportFilters;
+﻿using RubezhAPI.SKD.ReportFilters;
 using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;
 

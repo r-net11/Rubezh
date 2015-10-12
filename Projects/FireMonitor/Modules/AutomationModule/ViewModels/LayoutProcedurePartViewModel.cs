@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Models.Layouts;
-using FiresecAPI.Automation;
-using FiresecClient;
+using RubezhAPI.Models.Layouts;
+using RubezhAPI.Automation;
+using RubezhClient;
 using Infrastructure.Common;
 using System.Windows.Media;
 using System.Windows;
@@ -16,7 +16,7 @@ namespace AutomationModule.ViewModels
 	{
 		public LayoutProcedurePartViewModel(LayoutPartProcedureProperties properties)
 		{
-			Procedure = FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(item => item.Uid == properties.ReferenceUID);
+			Procedure = ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(item => item.Uid == properties.ReferenceUID);
 			if (Procedure != null)
 				Text = Procedure.Name;
 			RunProcedureCommand = new RelayCommand(OnRunProcedure, CanRunProcedure);

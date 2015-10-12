@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
-using FiresecAPI;
+using RubezhAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Ionic.Zip;

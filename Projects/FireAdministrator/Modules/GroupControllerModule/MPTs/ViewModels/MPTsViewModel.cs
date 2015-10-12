@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -13,9 +13,9 @@ using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Elements;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using GKModule.Events;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace GKModule.ViewModels
 {

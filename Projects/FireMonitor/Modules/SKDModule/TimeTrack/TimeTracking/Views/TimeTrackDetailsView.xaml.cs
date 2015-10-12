@@ -5,11 +5,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using RubezhAPI;
+using RubezhAPI.SKD;
 using SKDModule.ViewModels;
 using SKDModule.Converters;
-using FiresecClient;
+using RubezhClient;
 
 namespace SKDModule.Views
 {

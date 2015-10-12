@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Common;
-using FiresecAPI.SKD.ReportFilters;
+using RubezhAPI.SKD.ReportFilters;
 using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows.ViewModels;

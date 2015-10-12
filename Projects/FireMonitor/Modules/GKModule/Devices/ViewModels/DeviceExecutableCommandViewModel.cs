@@ -1,6 +1,6 @@
-﻿using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecClient;
+﻿using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -44,7 +44,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKExecuteDeviceCommand(Device, StateBit);
+				ClientManager.FiresecService.GKExecuteDeviceCommand(Device, StateBit);
 			}
 		}
 	}

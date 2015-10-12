@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.SKD;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -67,14 +67,14 @@ namespace SKDModule.ViewModels
 				_selectedYear = value;
 				OnPropertyChanged(() => SelectedYear);
 
-				var filter = new HolidayFilter() { UserUID = FiresecManager.CurrentUser.UID, Year = value, LogicalDeletationType = LogicalDeletationType };
+				var filter = new HolidayFilter() { UserUID = ClientManager.CurrentUser.UID, Year = value, LogicalDeletationType = LogicalDeletationType };
 				Initialize(filter);
 			}
 		}
 
 		public void Initialize()
 		{
-			var filter = new HolidayFilter() { UserUID = FiresecManager.CurrentUser.UID, Year = SelectedYear, LogicalDeletationType = LogicalDeletationType };
+			var filter = new HolidayFilter() { UserUID = ClientManager.CurrentUser.UID, Year = SelectedYear, LogicalDeletationType = LogicalDeletationType };
 			Initialize(filter);
 		}
 
@@ -109,9 +109,9 @@ namespace SKDModule.ViewModels
 		}
 
 
-		protected override FiresecAPI.Models.PermissionType Permission
+		protected override RubezhAPI.Models.PermissionType Permission
 		{
-			get { return FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Holidays_Edit; }
+			get { return RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Holidays_Edit; }
 		}
 
 		protected override bool IsAddViewModel(Holiday model)
@@ -119,7 +119,7 @@ namespace SKDModule.ViewModels
 			return model.Date.Year == SelectedYear && base.IsAddViewModel(model);
 		}
 
-		protected override System.Collections.Generic.List<Holiday> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		protected override System.Collections.Generic.List<Holiday> GetFromCallbackResult(RubezhAPI.DbCallbackResult dbCallbackResult)
 		{
 			return dbCallbackResult.Holidays;
 		}

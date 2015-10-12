@@ -4,10 +4,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.SKD;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using GKWebService.Models;
+using GKWebService.Utils;
 
 namespace GKWebService.Controllers
 {
@@ -24,9 +25,9 @@ namespace GKWebService.Controllers
         }
 
         [HttpPost]
-        public ActionResult EmployeeDetails(Employee employee)
+        public ActionResult EmployeeDetails( Employee employee)
         {
-            var operationResult = FiresecManager.FiresecService.SaveEmployee(employee, employee.UID == Guid.Empty);
+			var operationResult = ClientManager.FiresecService.SaveEmployee(employee, employee.UID == Guid.Empty);
 
             return Json(new { Status = operationResult });
         }
@@ -35,10 +36,10 @@ namespace GKWebService.Controllers
         {
             var employeeModels = new List<ShortEmployeeModel>();
             var organisationFilter = new OrganisationFilter ();
-            var organisations = FiresecManager.FiresecService.GetOrganisations(organisationFilter).Result;
+			var organisations = ClientManager.FiresecService.GetOrganisations(organisationFilter).Result;
             employeeModels.AddRange(InitializeOrganisations(organisations));
             var employeeFilter = new EmployeeFilter();
-            var employees = FiresecManager.FiresecService.GetEmployeeList(employeeFilter).Result;
+			var employees = ClientManager.FiresecService.GetEmployeeList(employeeFilter).Result;
             employeeModels.AddRange(InitializeEmployees(employees, employeeModels));
 
             dynamic result = new
@@ -52,12 +53,12 @@ namespace GKWebService.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetEmployeeDetails(Guid? id)
+        public JsonNetResult GetEmployeeDetails(Guid? id)
         {
             Employee employee = (id.HasValue ? EmployeeHelper.GetDetails(id) : new Employee());
             employee.Photo = null;
             employee.AdditionalColumns.ForEach(c => c.Photo = null);
-            return Json(employee, JsonRequestBehavior.AllowGet);
+            return new JsonNetResult {Data = employee};
         }
 
         private IEnumerable<ShortEmployeeModel> InitializeEmployees(IEnumerable<ShortEmployee> employees, IEnumerable<ShortEmployeeModel> organisations)

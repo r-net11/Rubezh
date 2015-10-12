@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common.SKDReports;
-using FiresecAPI.SKD.ReportFilters;
+using RubezhAPI.SKD.ReportFilters;
 using SKDModule.ViewModels;
 using System.Collections.ObjectModel;
 using Infrastructure.Common;
 using Common;
-using FiresecClient.SKDHelpers;
-using FiresecAPI.SKD;
+using RubezhClient.SKDHelpers;
+using RubezhAPI.SKD;
 using Infrastructure.Common.TreeList;
 
 namespace SKDModule.Reports.ViewModels

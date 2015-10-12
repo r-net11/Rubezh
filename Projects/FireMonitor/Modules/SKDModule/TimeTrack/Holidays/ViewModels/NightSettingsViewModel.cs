@@ -1,9 +1,9 @@
 ﻿using System;
-using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.SKD;
+using RubezhClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
-using FiresecClient;
+using RubezhClient;
 
 namespace SKDModule.ViewModels
 {
@@ -16,7 +16,7 @@ namespace SKDModule.ViewModels
 		{
 			Title = "Настройки ночных интервалов";
 			Organisations = new List<FilterOrganisationViewModel>();
-			var filter = new OrganisationFilter() { UserUID = FiresecManager.CurrentUser.UID };
+			var filter = new OrganisationFilter() { UserUID = ClientManager.CurrentUser.UID };
 			var organisations = OrganisationHelper.Get(filter);
 			if (organisations != null)
 			{

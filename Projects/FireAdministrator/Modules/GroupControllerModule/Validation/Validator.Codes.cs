@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using Infrastructure.Common.Validation;
 using System.Linq;
 using System;

@@ -1,4 +1,4 @@
-﻿using FiresecAPI.GK;
+﻿using RubezhAPI.GK;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 

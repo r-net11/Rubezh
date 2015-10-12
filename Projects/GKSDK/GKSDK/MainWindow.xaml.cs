@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using FiresecClient;
+using RubezhClient;
 using GKProcessor;
 
 namespace GKSDK
@@ -16,7 +16,7 @@ namespace GKSDK
         private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
 			GKProcessorManager.Stop();
-            FiresecManager.Disconnect();
+            ClientManager.Disconnect();
 			//System.Environment.Exit(1);
         }
 	}

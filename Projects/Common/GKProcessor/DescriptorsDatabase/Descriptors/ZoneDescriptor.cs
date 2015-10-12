@@ -1,4 +1,4 @@
-﻿using FiresecAPI.GK;
+﻿using RubezhAPI.GK;
 
 namespace GKProcessor
 {

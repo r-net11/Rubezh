@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections.ObjectModel;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 
 namespace AutomationModule.ViewModels
 {

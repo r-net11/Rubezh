@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Linq;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
+using RubezhAPI.SKD;
+using RubezhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using System;
 

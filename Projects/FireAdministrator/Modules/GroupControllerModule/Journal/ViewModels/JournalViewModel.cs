@@ -3,15 +3,15 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
 using System.Xml.Serialization;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 using System.Collections.Generic;
 
 namespace GKModule.ViewModels
@@ -35,7 +35,7 @@ namespace GKModule.ViewModels
 
 		public bool Initialize()
 		{
-			var result = FiresecManager.FiresecService.GKGetJournalItemsCount(Device);
+			var result = ClientManager.FiresecService.GKGetJournalItemsCount(Device);
 			if (result.HasError)
 			{
 				MessageBoxService.Show(result.Error);
@@ -141,7 +141,7 @@ namespace GKModule.ViewModels
 					if (LoadingService.IsCanceled)
 						break;
 					LoadingService.DoStep("Чтение записи " + i);
-					var result = FiresecManager.FiresecService.GKReadJournalItem(Device, i);
+					var result = ClientManager.FiresecService.GKReadJournalItem(Device, i);
 					if (result.HasError)
 					{
 						MessageBoxService.Show(result.Error);

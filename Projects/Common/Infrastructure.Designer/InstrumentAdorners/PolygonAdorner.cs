@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 using System.Windows.Shapes;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.InstrumentAdorners;
 

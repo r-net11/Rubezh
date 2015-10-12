@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using System.Windows.Media;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace PlansModule.Converters
 {

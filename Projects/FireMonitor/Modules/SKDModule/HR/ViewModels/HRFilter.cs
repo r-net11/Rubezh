@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhAPI.Models;
+using RubezhAPI.SKD;
+using RubezhClient;
 
 namespace SKDModule.ViewModels
 {
@@ -13,8 +13,8 @@ namespace SKDModule.ViewModels
 			: base()
 		{
 			EmployeeFilter = new EmployeeFilter();
-			var hasEmployeePermission = FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees_View);
-			var hasGuestPermission = FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Guests_View);
+			var hasEmployeePermission = ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees_View);
+			var hasGuestPermission = ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Guests_View);
 			EmployeeFilter.PersonType = hasGuestPermission && !hasEmployeePermission ? PersonType.Guest : PersonType.Employee;
 		}
 

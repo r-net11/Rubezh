@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SecurityModule.ViewModels

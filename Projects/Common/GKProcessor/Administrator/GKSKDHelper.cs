@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.SKD;
-using FiresecClient;
-using SKDDriver;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.SKD;
+using RubezhClient;
+using RubezhDAL;
 using System.Diagnostics;
 
 namespace GKProcessor
 {
 	public static class GKSKDHelper
 	{
-		public static OperationResult<bool> AddOrEditCard(GKControllerCardSchedule controllerCardSchedule, SKDCard card, string employeeName, int gkCardNo = 0, bool isNew = true, SKDDriver.DataClasses.DbService dbService = null)
+		public static OperationResult<bool> AddOrEditCard(GKControllerCardSchedule controllerCardSchedule, SKDCard card, string employeeName, int gkCardNo = 0, bool isNew = true, RubezhDAL.DataClasses.DbService dbService = null)
 		{
 			if (gkCardNo == 0)
 			{
 				if (dbService == null)
 				{
-					using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
+					using (var skdDatabaseService = new RubezhDAL.DataClasses.DbService())
 					{
 						gkCardNo = skdDatabaseService.GKCardTranslator.GetFreeGKNo(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), card.Number, out isNew);
 					}
@@ -115,7 +115,7 @@ namespace GKProcessor
 				}
 			}
 
-			using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
+			using (var skdDatabaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				skdDatabaseService.GKCardTranslator.AddOrEdit(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), gkCardNo, card.Number, employeeName);
 			}
@@ -123,12 +123,12 @@ namespace GKProcessor
 			return new OperationResult<bool>(true);
 		}
 
-		public static OperationResult<bool> RemoveCard(GKDevice device, SKDCard card, SKDDriver.DataClasses.DbService dbService = null)
+		public static OperationResult<bool> RemoveCard(GKDevice device, SKDCard card, RubezhDAL.DataClasses.DbService dbService = null)
 		{
 			var no = 1;
 			if (dbService == null)
 			{
-				using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
+				using (var skdDatabaseService = new RubezhDAL.DataClasses.DbService())
 				{
 					no = skdDatabaseService.GKCardTranslator.GetGKNoByCardNo(device.GetGKIpAddress(), card.Number);
 				}
@@ -162,7 +162,7 @@ namespace GKProcessor
 				return OperationResult<bool>.FromError(sendResult.Error);
 			}
 
-			using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
+			using (var skdDatabaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				skdDatabaseService.GKCardTranslator.Remove(device.GetGKIpAddress(), no, card.Number);
 			}
@@ -289,7 +289,7 @@ namespace GKProcessor
 				cardsCount++;
 				GKProcessorManager.DoProgress("Пользователь " + no, progressCallback);
 			}
-			using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
+			using (var skdDatabaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				GKProcessorManager.DoProgress("Удаление пользователей прибора из БД", progressCallback);
 				skdDatabaseService.GKCardTranslator.RemoveAll(device.GetGKIpAddress(), cardsCount);

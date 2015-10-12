@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Automation;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.Automation;
+using RubezhAPI.GK;
+using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Softing.Opc.Ua.Toolkit.Client;

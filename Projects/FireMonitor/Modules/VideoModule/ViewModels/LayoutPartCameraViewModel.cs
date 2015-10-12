@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Models;
-using FiresecAPI.Models.Layouts;
-using FiresecClient;
+using RubezhAPI.Models;
+using RubezhAPI.Models.Layouts;
+using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace VideoModule.ViewModels
@@ -16,7 +16,7 @@ namespace VideoModule.ViewModels
 		{
 			if (properties != null)
 			{
-				Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(item => item.UID == properties.ReferenceUID);
+				Camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(item => item.UID == properties.ReferenceUID);
 				if (Camera != null)
 					RviRTSP = Camera.RviRTSP;
 			}

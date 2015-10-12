@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Xml.Serialization;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace Infrastructure.Common
 {

@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Painters;
 

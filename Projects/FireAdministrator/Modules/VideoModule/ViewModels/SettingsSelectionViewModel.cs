@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Models;
+﻿using RubezhAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace VideoModule.ViewModels

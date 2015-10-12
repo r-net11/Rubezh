@@ -1,5 +1,5 @@
 ﻿using System.Windows.Controls;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;

@@ -3,9 +3,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using FiresecAPI.Automation;
-using FiresecAPI.Journal;
-using FiresecAPI.Models;
+using RubezhAPI.Automation;
+using RubezhAPI.Journal;
+using RubezhAPI.Models;
 
 namespace Infrastructure.Automation
 {

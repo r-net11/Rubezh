@@ -2,12 +2,12 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Threading;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecLicense;
 using GKProcessor;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace FiresecService.ViewModels
 {

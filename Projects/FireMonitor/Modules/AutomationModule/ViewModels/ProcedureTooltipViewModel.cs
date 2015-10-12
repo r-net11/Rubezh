@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Automation;
+﻿using RubezhAPI.Automation;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels

@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Validation;
 using Infrastructure.Events;

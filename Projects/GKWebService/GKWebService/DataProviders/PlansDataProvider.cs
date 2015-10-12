@@ -12,9 +12,9 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using GKWebService.Models;
 using Infrastructure.Common.Services.Content;
 using Infrustructure.Plans.Elements;
@@ -69,7 +69,7 @@ namespace GKWebService.DataProviders
 
 		public void LoadPlans()
 		{
-			var plans = FiresecManager.PlansConfiguration.Plans;
+			var plans = ClientManager.PlansConfiguration.Plans;
 
 			Plans = new List<PlanSimpl>();
 

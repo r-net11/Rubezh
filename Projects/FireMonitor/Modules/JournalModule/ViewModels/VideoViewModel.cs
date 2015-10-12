@@ -1,7 +1,7 @@
 ﻿using System;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient;
+using RubezhClient;
 using System.IO;
 
 namespace JournalModule.ViewModels
@@ -18,7 +18,7 @@ namespace JournalModule.ViewModels
 			VideoPath = AppDataFolderHelper.GetTempFileName() + ".avi";
 			Title = "Видеофрагмент, связанный с событием";
 			string errorInformation;
-			HasVideo = RviClient.RviClientHelper.GetVideoFile(FiresecManager.SystemConfiguration, eventUID, cameraUID, VideoPath, out errorInformation);
+			HasVideo = RviClient.RviClientHelper.GetVideoFile(ClientManager.SystemConfiguration, eventUID, cameraUID, VideoPath, out errorInformation);
 			ErrorInformation = errorInformation;
 		}
 		public override bool OnClosing(bool isCanceled)

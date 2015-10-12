@@ -2,9 +2,9 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using GKModule.ViewModels;
 using Infrastructure.Client.Plans;
 using Infrastructure.Client.Plans.Presenter;

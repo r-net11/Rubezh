@@ -1,6 +1,6 @@
-﻿using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+﻿using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
@@ -66,7 +66,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKReset(Zone);
+				ClientManager.FiresecService.GKReset(Zone);
 			}
 		}
 		bool CanResetFire()
@@ -80,12 +80,12 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetIgnoreRegime(Zone);
+				ClientManager.FiresecService.GKSetIgnoreRegime(Zone);
 			}
 		}
 		bool CanSetIgnore()
 		{
-			return !State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Zone_Control);
+			return !State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Zone_Control);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
@@ -93,12 +93,12 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetAutomaticRegime(Zone);
+				ClientManager.FiresecService.GKSetAutomaticRegime(Zone);
 			}
 		}
 		bool CanResetIgnore()
 		{
-			return State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Zone_Control);
+			return State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Zone_Control);
 		}
 		#endregion
 
@@ -112,14 +112,14 @@ namespace GKModule.ViewModels
 				{
 					if (!device.State.StateClasses.Contains(XStateClass.Ignore))
 					{
-						FiresecManager.FiresecService.GKSetIgnoreRegime(device);
+						ClientManager.FiresecService.GKSetIgnoreRegime(device);
 					}
 				}
 			}
 		}
 		bool CanSetIgnoreAll()
 		{
-			if (!FiresecManager.CheckPermission(PermissionType.Oper_Zone_Control))
+			if (!ClientManager.CheckPermission(PermissionType.Oper_Zone_Control))
 				return false;
 			foreach (var device in Zone.Devices)
 			{
@@ -138,14 +138,14 @@ namespace GKModule.ViewModels
 				{
 					if (device.State.StateClasses.Contains(XStateClass.Ignore))
 					{
-						FiresecManager.FiresecService.GKSetAutomaticRegime(device);
+						ClientManager.FiresecService.GKSetAutomaticRegime(device);
 					}
 				}
 			}
 		}
 		bool CanResetIgnoreAll()
 		{
-			if (!FiresecManager.CheckPermission(PermissionType.Oper_Zone_Control))
+			if (!ClientManager.CheckPermission(PermissionType.Oper_Zone_Control))
 				return false;
 			foreach (var device in Zone.Devices)
 			{

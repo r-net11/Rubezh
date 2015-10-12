@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
+using RubezhAPI.SKD;
+using RubezhAPI.SKD.ReportFilters;
+using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;
 
@@ -85,7 +85,7 @@ namespace SKDModule.Reports.ViewModels
 
 			var gkVideoDevicesViewModel = new SKDObjectViewModel(JournalObjectType.VideoDevice);
 			video.AddChild(gkVideoDevicesViewModel);
-			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
+			foreach (var camera in ClientManager.SystemConfiguration.Cameras)
 				gkVideoDevicesViewModel.AddChild(new SKDObjectViewModel(camera));
 
 		}

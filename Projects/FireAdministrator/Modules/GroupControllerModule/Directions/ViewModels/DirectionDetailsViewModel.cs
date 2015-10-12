@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
@@ -167,7 +167,7 @@ namespace GKModule.ViewModels
 			if (!CompareLocalWithRemoteHashes())
 				return;
 
-			var result = FiresecManager.FiresecService.GKGetSingleParameter(Direction);
+			var result = ClientManager.FiresecService.GKGetSingleParameter(Direction);
 			if (!result.HasError && result.Result != null && result.Result.Count == 3)
 			{
 				Delay = result.Result[0].Value;
@@ -201,7 +201,7 @@ namespace GKModule.ViewModels
 			var baseDescriptor = ParametersHelper.GetBaseDescriptor(Direction);
 			if (baseDescriptor != null)
 			{
-				var result = FiresecManager.FiresecService.GKSetSingleParameter(Direction, baseDescriptor.Parameters);
+				var result = ClientManager.FiresecService.GKSetSingleParameter(Direction, baseDescriptor.Parameters);
 				if (result.HasError)
 				{
 					MessageBoxService.ShowError(result.Error);
@@ -229,7 +229,7 @@ namespace GKModule.ViewModels
 				return false;
 			}
 
-			var result = FiresecManager.FiresecService.GKGKHash(Direction.GkDatabaseParent);
+			var result = ClientManager.FiresecService.GKGKHash(Direction.GkDatabaseParent);
 			if (result.HasError)
 			{
 				MessageBoxService.ShowError("Ошибка при сравнении конфигураций. Операция запрещена");
