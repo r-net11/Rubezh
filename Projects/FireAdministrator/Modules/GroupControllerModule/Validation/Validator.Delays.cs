@@ -46,7 +46,7 @@ namespace GKModule.Validation
 
 		void ValidateDelayDifferentGK(GKDelay delay)
 		{
-			if (delay.GkParents.Count > 0)
+			if (delay.GkParents.Count > 1)
 				Errors.Add(new DelayValidationError(delay, "Задержка содержит объекты разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 	}

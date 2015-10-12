@@ -78,7 +78,7 @@ namespace RubezhAPI.GK
 		{
 			get
 			{
-				return DriverType == GKDriverType.RSR2_Bush_Drenazh || DriverType == GKDriverType.RSR2_Bush_Jokey || DriverType == GKDriverType.RSR2_Bush_Fire || DriverType == GKDriverType.RSR2_Bush_Shuv;
+				return DriverType == GKDriverType.RSR2_Bush_Drenazh || DriverType == GKDriverType.RSR2_Bush_Jokey || DriverType == GKDriverType.RSR2_Bush_Fire;
 			}
 		}
 

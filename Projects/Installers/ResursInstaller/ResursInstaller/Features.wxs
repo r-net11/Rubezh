@@ -7,7 +7,7 @@
       <Condition Level="2">INSTALL_RESURS</Condition>
       <FeatureRef Id="Resurs.Features" />
 
-      <Feature Id="GK.Features" Title="Клиентское приложение" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы борудования Рубеж Глобал">
+      <Feature Id="GK.Features" Title="Клиентское приложение" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты Рубеж Ресурс">
         <Condition Level="1">INSTALL_CLIENT</Condition>
         <ComponentRef Id="Resurs.Files" />
       </Feature>
