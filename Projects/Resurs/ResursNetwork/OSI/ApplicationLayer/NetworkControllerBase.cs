@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
 using ResursNetwork.Management;
 using ResursNetwork.OSI.DataLinkLayer;
+using ResursNetwork.OSI.Messages;
 using ResursNetwork.OSI.Messages.Transactions;
 using Common;
 
@@ -290,8 +291,9 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// <summary>
         /// Записывает транзакцию в буфер исходящих сообщений
         /// </summary>
-        /// <param name="transaction"></param>
-        public abstract void Write(NetworkRequest request);
+        /// <param name="request"></param>
+        /// <param name="isExternalCall"></param>
+        public abstract IAsyncRequestResult Write(NetworkRequest request, bool isExternalCall);
 
         /// <summary>
         /// Синхронизирует время в сети

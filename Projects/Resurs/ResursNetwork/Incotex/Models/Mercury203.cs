@@ -104,6 +104,7 @@ namespace ResursNetwork.Incotex.Models
                             request.CmdCode));
                     }
             }
+
         }
 
         public override void EventHandler_NetworkController_NetwrokRequestCompleted(
@@ -159,7 +160,7 @@ namespace ResursNetwork.Incotex.Models
         /// <param name="addr">Текущий сетевой адрес счётчика</param>
         /// <param name="newaddr">Новый сетевой адрес счётчика</param>
         /// <returns></returns>
-        public Transaction SetNewAddress(UInt32 addr, UInt32 newaddr)
+        public IAsyncRequestResult SetNewAddress(UInt32 addr, UInt32 newaddr, bool isExternalCall = true)
         {
             var request = new DataMessage()
             {
@@ -168,18 +169,19 @@ namespace ResursNetwork.Incotex.Models
             };
             var transaction = new Transaction(this, TransactionType.UnicastMode, request);
             var networkRequest = new NetworkRequest(transaction);
-
+ 
             if (_NetworkController == null)
             {
                 transaction.Start();
                 transaction.Abort("Невозможно выполенить запрос. Не установлен контроллер сети");
+                networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
             }
             else
             {
                 _ActiveRequests.Add(networkRequest);
-                _NetworkController.Write(networkRequest);
+                _NetworkController.Write(networkRequest, isExternalCall);
             }
-            return transaction;
+            return (IAsyncRequestResult)networkRequest.AsyncRequestResult; 
         }
 
         /// <summary>
@@ -261,7 +263,7 @@ namespace ResursNetwork.Incotex.Models
         /// Чтение группового адреса счетчика (CMD=20h)
         /// </summary>
         [PeriodicReadEnabled]
-        public Transaction ReadGroupAddress()
+        public IAsyncRequestResult ReadGroupAddress(bool isExternalCall = true)
         {
             var request = new DataMessage()
             {
@@ -275,13 +277,14 @@ namespace ResursNetwork.Incotex.Models
             {
                 transaction.Start();
                 transaction.Abort("Невозможно выполенить запрос. Не установлен контроллер сети");
+                networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
             }
             else
             {
                 _ActiveRequests.Add(networkRequest);
-                _NetworkController.Write(networkRequest);
+                _NetworkController.Write(networkRequest, isExternalCall);
             }
-            return transaction;
+            return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
         }
 
         /// <summary>
@@ -365,7 +368,7 @@ namespace ResursNetwork.Incotex.Models
         /// </summary>
         /// <returns></returns>
         [PeriodicReadEnabled]
-        public Transaction ReadDateTime()
+        public IAsyncRequestResult ReadDateTime(bool isExternalCall = true)
         {
             var request = new DataMessage()
             {
@@ -379,13 +382,14 @@ namespace ResursNetwork.Incotex.Models
             {
                 transaction.Start();
                 transaction.Abort("Невозможно выполенить запрос. Не установлен контроллер сети");
+                networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
             }
             else
             {
                 _ActiveRequests.Add(networkRequest);
-                _NetworkController.Write(networkRequest);
+                _NetworkController.Write(networkRequest, isExternalCall);
             }
-            return transaction;
+            return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
         }
 
         /// <summary>
@@ -393,7 +397,7 @@ namespace ResursNetwork.Incotex.Models
         /// </summary>
         /// <returns></returns>
         [PeriodicReadEnabled]
-        public Transaction ReadPowerLimit()
+        public IAsyncRequestResult ReadPowerLimit(bool isExternalCall = true)
         {
             var request = new DataMessage()
             {
@@ -407,13 +411,14 @@ namespace ResursNetwork.Incotex.Models
             {
                 transaction.Start();
                 transaction.Abort("Невозможно выполенить запрос. Не установлен контроллер сети");
+                networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
             }
             else
             {
                 _ActiveRequests.Add(networkRequest);
-                _NetworkController.Write(networkRequest);
+                _NetworkController.Write(networkRequest, isExternalCall);
             }
-            return transaction;
+            return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
         }
 
         /// <summary>
@@ -421,7 +426,7 @@ namespace ResursNetwork.Incotex.Models
         /// </summary>
         /// <returns></returns>
         [PeriodicReadEnabled]
-        public Transaction ReadPowerLimitPerMonth()
+        public IAsyncRequestResult ReadPowerLimitPerMonth(bool isExternalCall = true)
         {
             var request = new DataMessage()
             {
@@ -435,13 +440,14 @@ namespace ResursNetwork.Incotex.Models
             {
                 transaction.Start();
                 transaction.Abort("Невозможно выполенить запрос. Не установлен контроллер сети");
+                networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
             }
             else
             {
                 _ActiveRequests.Add(networkRequest);
-                _NetworkController.Write(networkRequest);
+                _NetworkController.Write(networkRequest, isExternalCall);
             }
-            return transaction;
+            return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
         }
 
         #endregion

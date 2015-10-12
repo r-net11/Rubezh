@@ -7,6 +7,7 @@ using ResursNetwork.Management;
 using ResursNetwork.OSI.ApplicationLayer.Devices;
 using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
 using ResursNetwork.OSI.DataLinkLayer;
+using ResursNetwork.OSI.Messages;
 using ResursNetwork.OSI.Messages.Transactions;
 
 namespace ResursNetwork.OSI.ApplicationLayer
@@ -51,7 +52,11 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// Записывает транзакцию в буфер исходящих сообщений
         /// </summary>
         /// <param name="request"></param>
-        void Write(NetworkRequest request);
+        /// <param name="isExternalCall">
+        /// Признак, что вызов записи в буфер контроллера проиходит
+        /// из внешнего источника (например GUI)
+        /// </param>
+        IAsyncRequestResult Write(NetworkRequest request, bool isExternalCall);
 
         /// <summary>
         /// Отсылает в сеть широковещательную команду 

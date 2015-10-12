@@ -111,17 +111,16 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
             controller.Devices.Add(device);
 
             // Act
-            var trans = device.ReadGroupAddress();
+            var result = device.ReadGroupAddress();
             //controller.Write(trans);
             do
             {
                 // Ждём выполения комманды
             }
-            while ((trans.Status == TransactionStatus.Running) || 
-                (trans.Status == TransactionStatus.NotInitialized));
+            while (!result.IsCompleted);
 
             // Assert
-            Assert.AreEqual(TransactionStatus.Completed, trans.Status, "Success");
+            Assert.AreEqual(TransactionStatus.Completed, result.Stack[result.Stack.Length - 1].Status, "Success");
         }
 
         /// <summary>
@@ -149,6 +148,7 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
             var controller = new IncotexNetworkController();
             controller.Connection = comPort.Object;
             controller.Start();
+            controller.TotalAttempts = 2;
             //controller.Stop();
 
             var device = new Mercury203()
@@ -159,17 +159,16 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
             controller.Devices.Add(device);
 
             // Act
-            var trans = device.ReadGroupAddress();
-            //controller.Write(trans);
+            var result = device.ReadGroupAddress();
+
             do
             {
                 // Ждём выполения комманды
             }
-            while ((trans.Status == TransactionStatus.Running) ||
-                (trans.Status == TransactionStatus.NotInitialized));
+            while (!result.IsCompleted);
 
             // Assert
-            Assert.AreEqual(TransactionStatus.Aborted, trans.Status, "TimeOut");
+            Assert.AreEqual(TransactionStatus.Aborted, result.Stack[result.Stack.Length - 1].Status, "TimeOut");
         }
 
         /// <summary>
@@ -208,8 +207,7 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
             controller.Devices.Add(device);
 
             // Act
-            var trans = device.ReadGroupAddress();
-            //controller.Write(trans);
+            var result = device.ReadGroupAddress();
 
             // Assert
             while(true)
@@ -232,10 +230,12 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
             };
 
             // Act
-            var trans = device.ReadGroupAddress();
+            var result = device.ReadGroupAddress();
+            do {}
+            while(!result.IsCompleted);
 
             // Assert
-            Assert.AreEqual(TransactionStatus.Aborted, trans.Status);
+            Assert.AreEqual(TransactionStatus.Aborted, result.Stack[result.Stack.Length - 1].Status);
         }
     }
 }
