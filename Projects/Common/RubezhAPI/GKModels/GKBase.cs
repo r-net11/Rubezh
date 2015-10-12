@@ -42,10 +42,6 @@ namespace RubezhAPI.GK
 		[XmlIgnore]
 		public List<GKBase> OutputDescriptors { get; set; }
 
-		//public abstract void Update(GKDevice device);
-
-		//public abstract void Update(GKDirection direction);
-
 		public virtual void Invalidate()
 		{ 
 		}

@@ -48,7 +48,7 @@ namespace GKModule.Validation
 
 		void ValidateDifferentGK(GKZone zone)
 		{
-			if (zone.GkParents.Count > 0)
+			if (zone.GkParents.Count > 1)
 				Errors.Add(new ZoneValidationError(zone, "Зона содержит устройства разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 

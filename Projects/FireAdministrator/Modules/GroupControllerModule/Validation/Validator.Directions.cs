@@ -20,14 +20,6 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateEmpty(GKDirection direction)
-		{
-			if (direction.DataBaseParent == null)
-			{
-				Errors.Add(new DirectionValidationError(direction, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
-			}
-		}
-
 		void ValidateDirectionNoEquality()
 		{
 			var directionNos = new HashSet<int>();
@@ -38,9 +30,17 @@ namespace GKModule.Validation
 			}
 		}
 
+		void ValidateEmpty(GKDirection direction)
+		{
+			if (direction.DataBaseParent == null)
+			{
+				Errors.Add(new DirectionValidationError(direction, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
+			}
+		}
+
 		void ValidateDifferentGK(GKDirection direction)
 		{
-			if (direction.GkParents.Count > 0)
+			if (direction.GkParents.Count > 1)
 				Errors.Add(new DirectionValidationError(direction, "Направление содержит объекты разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 	}

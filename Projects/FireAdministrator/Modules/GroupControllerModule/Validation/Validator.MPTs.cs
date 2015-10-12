@@ -59,7 +59,7 @@ namespace GKModule.Validation
 
 		void ValidateMPTDifferentGK(GKMPT mpt)
 		{
-			if (mpt.GkParents.Count > 0)
+			if (mpt.GkParents.Count > 1)
 				Errors.Add(new MPTValidationError(mpt, "МПТ содержит устройства разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 

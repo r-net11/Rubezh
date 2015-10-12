@@ -43,7 +43,6 @@ namespace GKModule.Validation
 		}
 		void ValidateCodePasswordEquality()
 		{
-
 			var codePassowrds = new HashSet<int>();
 			foreach (var code in GKManager.DeviceConfiguration.Codes)
 			{
