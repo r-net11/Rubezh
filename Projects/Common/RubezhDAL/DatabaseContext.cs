@@ -67,10 +67,12 @@ namespace RubezhDAL.DataClasses
 		{
 			AutomaticMigrationsEnabled = true;
 			AutomaticMigrationDataLossAllowed = true;
+			ContextKey = "SKDDriver.DataClasses.Configuration";
 		}
 
 		protected override void Seed(DatabaseContext context)
 		{
+
 			if(context.Organisations.Count() == 0)
 			{
 				var organisation = new Organisation
