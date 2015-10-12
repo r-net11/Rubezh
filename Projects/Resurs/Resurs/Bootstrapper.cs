@@ -9,7 +9,6 @@ using Resurs.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
-using FiresecAPI;
 using Infrastructure.Common.Theme;
 using System.Windows.Forms;
 using ResursRunner;

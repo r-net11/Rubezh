@@ -141,7 +141,7 @@
       <Project>{e6d24912-812b-42b4-b6b0-97ca33c0f4af}</Project>
       <Name>FiresecLicense</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
+    <ProjectReference Include="..\..\Common\RubezhAPI\RubezhAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
     </ProjectReference>

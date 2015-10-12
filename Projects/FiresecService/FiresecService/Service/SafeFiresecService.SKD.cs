@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using Common;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.SKD;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.SKD;
 
 namespace FiresecService.Service
 {

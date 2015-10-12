@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
+using RubezhAPI;
+using RubezhAPI.Journal;
+using RubezhAPI.SKD;
 using System.Threading;
 
 namespace FiresecService.Service

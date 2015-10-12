@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using Common;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using RubezhClient;
 
 namespace GKProcessor

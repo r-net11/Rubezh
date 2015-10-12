@@ -24,7 +24,7 @@
 				<File Id="Monitor.FireMonitor.Layout.exe.config" Name="FireMonitor.Layout.exe.config" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.FireMonitor.Layout.exe.manifest" Name="FireMonitor.Layout.exe.manifest" Source="$(var.Monitor.TargetDir)" />
 
-				<File Id="Monitor.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Common.TargetDir)" />
+				<File Id="Monitor.RubezhAPI.dll" Name="RubezhAPI.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.RubezhClient.dll" Name="RubezhClient.dll" Source="$(var.Common.TargetDir)" />
 
 				<File Id="Monitor.JournalModule.dll" Name="JournalModule.dll" Source="$(var.Monitor.TargetDir)" />

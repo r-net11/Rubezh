@@ -1,6 +1,6 @@
 ﻿using Controls;
 using System.Linq;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;

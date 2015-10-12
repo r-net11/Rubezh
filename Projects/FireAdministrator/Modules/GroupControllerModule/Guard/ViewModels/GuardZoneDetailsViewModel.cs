@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Security;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using RubezhClient;
 using GKProcessor;
 using Infrastructure.Common;

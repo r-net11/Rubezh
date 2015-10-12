@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Services.Layout;
 using System.Collections.ObjectModel;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using RubezhClient;
-using FiresecAPI.Models.Layouts;
+using RubezhAPI.Models.Layouts;
 
 namespace AutomationModule.Layout.ViewModels
 {

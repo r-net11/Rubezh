@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
-using FiresecAPI;
-using API = FiresecAPI.SKD;
+using RubezhAPI;
+using API = RubezhAPI.SKD;
 using System.Collections.Generic;
 
 namespace RubezhDAL.DataClasses
@@ -36,7 +36,7 @@ namespace RubezhDAL.DataClasses
 			return base.GetFilteredTableItems(filter, tableItems).Where(x => filter.Year == 0 || x.Date.Year == filter.Year);
 		}
 
-		protected override FiresecAPI.OperationResult<bool> CanSave(API.Holiday item)
+		protected override RubezhAPI.OperationResult<bool> CanSave(API.Holiday item)
 		{
 			if (item == null)
 				return OperationResult<bool>.FromError("Попытка сохранить пустую запись");

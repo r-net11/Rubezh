@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
+using RubezhAPI.SKD;
 using GKProcessor;
 using RubezhDAL;
 using System.Diagnostics;

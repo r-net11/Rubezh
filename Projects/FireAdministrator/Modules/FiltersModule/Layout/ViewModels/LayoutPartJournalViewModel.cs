@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.Models.Layouts;
-using FiresecAPI.SKD;
+using RubezhAPI;
+using RubezhAPI.Models.Layouts;
+using RubezhAPI.SKD;
 using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common.Services.Layout;
 using RubezhClient;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 
 namespace FiltersModule.ViewModels
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using RubezhClient;
 using Infrastructure;
 using Infrastructure.Client.Plans;

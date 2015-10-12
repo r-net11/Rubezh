@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 
 namespace RubezhClient.SKDHelpers
 {

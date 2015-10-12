@@ -4,14 +4,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
-using FiresecAPI;
-using FiresecAPI.Automation;
-using FiresecAPI.AutomationCallback;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.Models;
+using RubezhAPI;
+using RubezhAPI.Automation;
+using RubezhAPI.AutomationCallback;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
+using RubezhAPI.Models;
 using RubezhClient;
-using Property = FiresecAPI.Automation.Property;
+using Property = RubezhAPI.Automation.Property;
 
 namespace Infrastructure.Automation
 {
@@ -365,8 +365,8 @@ namespace Infrastructure.Automation
 			if (item is GKGuardZone)
 				return (item as GKGuardZone).UID;
 
-			if (item is FiresecAPI.SKD.Organisation)
-				return (item as FiresecAPI.SKD.Organisation).UID;
+			if (item is RubezhAPI.SKD.Organisation)
+				return (item as RubezhAPI.SKD.Organisation).UID;
 
 			//TODO: what is VideoDevice?
 			//if (item is VideoDevice)

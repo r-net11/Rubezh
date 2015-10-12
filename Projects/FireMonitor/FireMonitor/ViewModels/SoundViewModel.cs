@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 
 namespace FireMonitor.ViewModels
 {

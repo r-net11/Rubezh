@@ -1,4 +1,4 @@
-﻿using FiresecAPI.GK;
+﻿using RubezhAPI.GK;
 using Infrastructure.Common.CheckBoxList;
 using Infrastructure.Common.TreeList;
 

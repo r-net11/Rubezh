@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GKWebService", "GKWebServic
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{97F3E9DE-7590-4B16-9806-78E52F88FAF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecAPI", "..\Common\FiresecServiceAPI\FiresecAPI.csproj", "{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubezhAPI", "..\Common\RubezhAPI\RubezhAPI.csproj", "{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubezhClient", "..\Common\RubezhClient\RubezhClient.csproj", "{F46953E0-CA12-4659-AE8C-88241B541F6C}"
 EndProject

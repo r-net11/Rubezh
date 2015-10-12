@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 using Infrastructure;
 using RubezhClient;
 

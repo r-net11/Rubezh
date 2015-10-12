@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using RubezhAPI;
+using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhClient.SKDHelpers;
 using Infrastructure.Common;
@@ -90,7 +90,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return IsSlide && !IsDeleted && ClientManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit);
+			return IsSlide && !IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit);
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -108,7 +108,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			return IsSlide && SelectedSheduleDayInterval != null && SheduleDayIntervals.Count > 1 && !IsDeleted && ClientManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit);
+			return IsSlide && SelectedSheduleDayInterval != null && SheduleDayIntervals.Count > 1 && !IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit);
 		}
 
 		void Sort()

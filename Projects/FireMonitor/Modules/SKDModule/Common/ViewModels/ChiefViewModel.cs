@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 using RubezhClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;

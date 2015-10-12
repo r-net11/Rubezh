@@ -1,4 +1,4 @@
-﻿using FiresecAPI;
+﻿using RubezhAPI;
 using RubezhClient;
 using System;
 using System.Collections.Generic;
@@ -291,21 +291,21 @@ namespace RubezhDAL.DataClasses
                         var scheduleScheme = schedule.ScheduleScheme;
                         if (scheduleScheme != null)
                         {
-                            var scheduleSchemeType = (FiresecAPI.SKD.ScheduleSchemeType)scheduleScheme.Type;
+                            var scheduleSchemeType = (RubezhAPI.SKD.ScheduleSchemeType)scheduleScheme.Type;
                             int dayNo = -1;
                             switch (scheduleSchemeType)
                             {
-                                case FiresecAPI.SKD.ScheduleSchemeType.Week:
+                                case RubezhAPI.SKD.ScheduleSchemeType.Week:
                                     dayNo = (int)employeeDay.Date.DayOfWeek - 1;
                                     if (dayNo == -1)
                                         dayNo = 6;
                                     break;
-                                case FiresecAPI.SKD.ScheduleSchemeType.SlideDay:
+                                case RubezhAPI.SKD.ScheduleSchemeType.SlideDay:
                                     var ticksDelta = new TimeSpan(employeeDay.Date.Ticks - employee.ScheduleStartDate.Date.Ticks);
                                     var daysDelta = Math.Abs((int)ticksDelta.TotalDays);
                                     dayNo = daysDelta % schedule.ScheduleScheme.DaysCount;
                                     break;
-                                case FiresecAPI.SKD.ScheduleSchemeType.Month:
+                                case RubezhAPI.SKD.ScheduleSchemeType.Month:
                                     dayNo = (int)employeeDay.Date.Day - 1;
                                     break;
                             }

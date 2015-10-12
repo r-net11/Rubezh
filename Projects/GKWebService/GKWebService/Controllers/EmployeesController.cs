@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhClient.SKDHelpers;
 using GKWebService.Models;

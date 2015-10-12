@@ -2,8 +2,8 @@
 using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 
 namespace GKSDK
 {

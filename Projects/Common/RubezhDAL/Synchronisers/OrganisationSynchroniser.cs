@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Data.Linq;
 using System.Linq.Expressions;
-using FiresecAPI;
-//using FiresecAPI.SKD;
+using RubezhAPI;
+//using RubezhAPI.SKD;
 using LinqKit;
 using RubezhDAL.DataClasses;
 using System.Data.Entity;
@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace RubezhDAL
 {
-	public class OrganisationSynchroniser : Synchroniser<FiresecAPI.SKD.ExportOrganisation, Organisation>
+	public class OrganisationSynchroniser : Synchroniser<RubezhAPI.SKD.ExportOrganisation, Organisation>
 	{
 		public OrganisationSynchroniser(DbSet<Organisation> table, DbService databaseService) : base(table, databaseService) { }
 
@@ -19,9 +19,9 @@ namespace RubezhDAL
 			ListSynchroniser = new OrgansiationListSynchroniser(_Table, _DatabaseService);
 		}
 
-        public override FiresecAPI.SKD.ExportOrganisation Translate(Organisation item)
+        public override RubezhAPI.SKD.ExportOrganisation Translate(Organisation item)
 		{
-            return new FiresecAPI.SKD.ExportOrganisation
+            return new RubezhAPI.SKD.ExportOrganisation
 			{
 				Name = item.Name,
 				Description = item.Description,
@@ -34,7 +34,7 @@ namespace RubezhDAL
 			};
 		}
 
-        protected override IQueryable<Organisation> GetFilteredItems(FiresecAPI.SKD.ExportFilter filter)
+        protected override IQueryable<Organisation> GetFilteredItems(RubezhAPI.SKD.ExportFilter filter)
 		{
 			return base.GetFilteredItems(filter).Where(x => x.UID == filter.OrganisationUID);
 		}
@@ -46,7 +46,7 @@ namespace RubezhDAL
 
 		public OrgansiationListSynchroniser ListSynchroniser;
 
-        public override OperationResult Export(FiresecAPI.SKD.ExportFilter filter)
+        public override OperationResult Export(RubezhAPI.SKD.ExportFilter filter)
 		{
 			try
 			{
@@ -70,7 +70,7 @@ namespace RubezhDAL
 			}
 		}
 
-        public override OperationResult Import(FiresecAPI.SKD.ImportFilter filter)
+        public override OperationResult Import(RubezhAPI.SKD.ImportFilter filter)
 		{
 			try
 			{
@@ -95,13 +95,13 @@ namespace RubezhDAL
 				return new OperationResult(e.Message);
 			}
 		}
-		protected override void UpdateForignKeys(FiresecAPI.SKD.ExportOrganisation exportItem, Organisation tableItem, OrganisationHRCash hrCash)
+		protected override void UpdateForignKeys(RubezhAPI.SKD.ExportOrganisation exportItem, Organisation tableItem, OrganisationHRCash hrCash)
 		{
 			tableItem.ChiefUID = GetUIDbyExternalKey(exportItem.ChiefExternalKey, hrCash.Employees);
 			tableItem.HRChiefUID = GetUIDbyExternalKey(exportItem.HRChiefExternalKey, hrCash.Employees);
 		}
 
-        public override void TranslateBack(FiresecAPI.SKD.ExportOrganisation exportItem, Organisation tableItem)
+        public override void TranslateBack(RubezhAPI.SKD.ExportOrganisation exportItem, Organisation tableItem)
 		{
 			tableItem.Name = exportItem.Name;
 			tableItem.Description = exportItem.Description;
@@ -119,19 +119,19 @@ namespace RubezhDAL
 		{
 			get { return "Organisations"; }
 		}
-		protected override void BeforeSave(System.Collections.Generic.List<FiresecAPI.SKD.ExportOrganisation> exportItems)
+		protected override void BeforeSave(System.Collections.Generic.List<RubezhAPI.SKD.ExportOrganisation> exportItems)
 		{
 			base.BeforeSave(exportItems);
 			OrganisationUID = exportItems.FirstOrDefault().UID;
 		}
 
 		#region ExportList
-		protected virtual OperationResult ExportList(FiresecAPI.SKD.ExportFilter filter)
+		protected virtual OperationResult ExportList(RubezhAPI.SKD.ExportFilter filter)
 		{
 			return base.Export(filter);
 		}
 
-        protected virtual OperationResult ImportList(FiresecAPI.SKD.ImportFilter filter)
+        protected virtual OperationResult ImportList(RubezhAPI.SKD.ImportFilter filter)
 		{
 			return base.Import(filter);
 		}
@@ -142,12 +142,12 @@ namespace RubezhDAL
 	{
 		public OrgansiationListSynchroniser(DbSet<Organisation> table, DbService databaseService) : base(table, databaseService) { }
 
-        public override OperationResult Export(FiresecAPI.SKD.ExportFilter filter)
+        public override OperationResult Export(RubezhAPI.SKD.ExportFilter filter)
 		{
 			return base.ExportList(filter);
 		}
 
-        public override OperationResult Import(FiresecAPI.SKD.ImportFilter filter)
+        public override OperationResult Import(RubezhAPI.SKD.ImportFilter filter)
 		{
 			return base.ImportList(filter);
 		}

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using RubezhClient;
 
 namespace AutomationModule.ViewModels

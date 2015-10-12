@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using RubezhClient;
 using Infrastructure.Common.Windows;
 

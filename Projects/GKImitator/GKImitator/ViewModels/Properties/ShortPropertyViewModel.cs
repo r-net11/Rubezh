@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace GKImitator.ViewModels
 {

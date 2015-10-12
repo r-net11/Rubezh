@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using Infrastructure.Client.Plans.Presenter;
 
 namespace PlansModule.Kursk

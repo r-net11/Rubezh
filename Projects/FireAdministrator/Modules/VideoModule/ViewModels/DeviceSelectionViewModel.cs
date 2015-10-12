@@ -9,7 +9,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using RviClient.RVIServiceReference;
 using RviClient;
 using Infrastructure.Common.Windows;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 
 namespace VideoModule.ViewModels
 {

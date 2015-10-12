@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
 using GKProcessor;
 using Infrastructure.Common;
 using System.IO;

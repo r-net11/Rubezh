@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using SKDModule.Events;
 using RubezhClient;
-using FiresecAPI;
+using RubezhAPI;
 
 namespace SKDModule.ViewModels
 {
@@ -155,7 +155,7 @@ namespace SKDModule.ViewModels
 		{
 			get 
 			{ 
-				if(PersonType == FiresecAPI.SKD.PersonType.Employee)
+				if(PersonType == RubezhAPI.SKD.PersonType.Employee)
 					return "сотрудника"; 
 				else
 					return "посетителя"; 
@@ -179,7 +179,7 @@ namespace SKDModule.ViewModels
 
 		public string TabItemHeader
 		{
-			get { return PersonType == FiresecAPI.SKD.PersonType.Employee ? "Сотрудники" : "Посетители"; }
+			get { return PersonType == RubezhAPI.SKD.PersonType.Employee ? "Сотрудники" : "Посетители"; }
 		}
 
 		protected override bool Add(ShortEmployee item)
@@ -211,9 +211,9 @@ namespace SKDModule.ViewModels
 			InitializeAdditionalColumns();
 		}
 
-		protected override FiresecAPI.Models.PermissionType Permission
+		protected override RubezhAPI.Models.PermissionType Permission
 		{
-			get { return FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit; }
+			get { return RubezhAPI.Models.PermissionType.Oper_SKD_Employees_Edit; }
 		}
 
 		protected override List<ShortEmployee> GetFromCallbackResult(DbCallbackResult dbCallbackResult)

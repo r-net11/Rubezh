@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.SKD;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhDAL.DataClasses;
 

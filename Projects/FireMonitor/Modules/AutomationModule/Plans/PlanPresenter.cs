@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using RubezhClient;
 using Infrastructure;
 using Infrastructure.Events;
@@ -11,7 +11,7 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using AutomationModule.Plans.Designer;
 
 namespace AutomationModule.Plans

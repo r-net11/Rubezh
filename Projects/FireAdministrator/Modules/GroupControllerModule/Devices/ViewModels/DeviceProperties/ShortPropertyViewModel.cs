@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using System.Globalization;
 
 namespace GKModule.ViewModels

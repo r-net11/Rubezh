@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhClient.SKDHelpers;
 using Infrastructure;
@@ -118,7 +118,7 @@ namespace SKDModule.ViewModels
 
 		bool CanEditDelete()
 		{
-			return ClientManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_Etit);
+			return ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Cards_Etit);
 		}
 
 		public RelayCommand PrintCommand { get; private set; }

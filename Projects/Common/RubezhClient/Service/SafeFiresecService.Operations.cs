@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using FiresecAPI;
-using FiresecAPI.Models;
+using RubezhAPI;
+using RubezhAPI.Models;
 
 namespace RubezhClient
 {

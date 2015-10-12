@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.SKD;
-using API = FiresecAPI.SKD;
+using RubezhAPI;
+using RubezhAPI.SKD;
+using API = RubezhAPI.SKD;
 using System.Runtime.Serialization;
 using System.Diagnostics;
 

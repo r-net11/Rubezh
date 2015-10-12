@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Common;
-using FiresecAPI.Models.Layouts;
+using RubezhAPI.Models.Layouts;
 
 namespace Infrastructure.Common.Services.Layout
 {

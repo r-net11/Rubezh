@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -8,7 +8,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using RubezhClient;
 using Infrastructure.Events;
 using System.Collections.ObjectModel;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using System;
 
 namespace GKModule.ViewModels

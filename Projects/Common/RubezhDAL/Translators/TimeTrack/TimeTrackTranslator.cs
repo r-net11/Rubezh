@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using RubezhAPI;
+using RubezhAPI.SKD;
 using Infrastructure.Common;
 using System.Data.Entity;
 

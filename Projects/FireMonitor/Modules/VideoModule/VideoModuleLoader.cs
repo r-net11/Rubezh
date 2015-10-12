@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecAPI.Models.Layouts;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.Models.Layouts;
 using RubezhClient;
 using Infrastructure;
 using Infrastructure.Client;

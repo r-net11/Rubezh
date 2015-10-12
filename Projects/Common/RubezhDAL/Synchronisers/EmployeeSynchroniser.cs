@@ -7,13 +7,13 @@ using System.Linq;
 
 namespace RubezhDAL.DataClasses
 {
-    public class EmployeeSynchroniser : Synchroniser<FiresecAPI.SKD.ExportEmployee, Employee>
+    public class EmployeeSynchroniser : Synchroniser<RubezhAPI.SKD.ExportEmployee, Employee>
 	{
 		public EmployeeSynchroniser(DbSet<Employee> table, DbService databaseService) : base(table, databaseService) { }
 
-        public override FiresecAPI.SKD.ExportEmployee Translate(Employee item)
+        public override RubezhAPI.SKD.ExportEmployee Translate(Employee item)
 		{
-            return new FiresecAPI.SKD.ExportEmployee 
+            return new RubezhAPI.SKD.ExportEmployee 
 			{ 
 				FirstName = item.FirstName, 
 				SecondName = item.SecondName,
@@ -44,7 +44,7 @@ namespace RubezhDAL.DataClasses
 			};
 		}
 
-        protected override void UpdateForignKeys(FiresecAPI.SKD.ExportEmployee exportItem, Employee tableItem, OrganisationHRCash hrCash)
+        protected override void UpdateForignKeys(RubezhAPI.SKD.ExportEmployee exportItem, Employee tableItem, OrganisationHRCash hrCash)
 		{
 			tableItem.OrganisationUID = hrCash.OrganisationUID;
 			tableItem.PositionUID = GetUIDbyExternalKey(exportItem.PositionExternalKey, hrCash.Positions);
@@ -52,12 +52,12 @@ namespace RubezhDAL.DataClasses
 			tableItem.EscortUID = GetUIDbyExternalKey(exportItem.EscortExternalKey, hrCash.Employees);
 		}
 
-		protected override IQueryable<Employee> GetFilteredItems(FiresecAPI.SKD.ExportFilter filter)
+		protected override IQueryable<Employee> GetFilteredItems(RubezhAPI.SKD.ExportFilter filter)
 		{
 			return base.GetFilteredItems(filter).Where(x => x.OrganisationUID == filter.OrganisationUID);
 		}
 		
-        public override void TranslateBack(FiresecAPI.SKD.ExportEmployee exportItem, Employee tableItem)
+        public override void TranslateBack(RubezhAPI.SKD.ExportEmployee exportItem, Employee tableItem)
 		{
 			tableItem.FirstName = exportItem.FirstName;
 			tableItem.SecondName = exportItem.SecondName;

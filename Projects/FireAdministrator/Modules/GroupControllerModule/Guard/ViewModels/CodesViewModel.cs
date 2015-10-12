@@ -12,7 +12,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace GKModule.ViewModels
 {

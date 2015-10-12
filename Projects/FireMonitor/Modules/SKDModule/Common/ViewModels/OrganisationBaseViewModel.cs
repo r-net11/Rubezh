@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using RubezhAPI.Models;
+using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhClient.SKDHelpers;
 using Infrastructure;
@@ -12,7 +12,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Common;
 using SKDModule.Events;
-using FiresecAPI;
+using RubezhAPI;
 
 namespace SKDModule.ViewModels
 {

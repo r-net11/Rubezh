@@ -1,8 +1,8 @@
-﻿using FiresecAPI.SKD;
+﻿using RubezhAPI.SKD;
 using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using RubezhClient;
 
 namespace GKModule.ViewModels

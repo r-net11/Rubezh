@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using FiresecAPI;
+using RubezhAPI;
 using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;

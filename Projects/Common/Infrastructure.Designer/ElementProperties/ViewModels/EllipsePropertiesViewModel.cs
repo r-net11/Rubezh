@@ -1,5 +1,5 @@
 ﻿using System.Windows.Media;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Designer.ElementProperties.ViewModels

@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using DevExpress.XtraReports.Service.Extensions;
 using DevExpress.XtraReports.UI;
-using FiresecAPI.SKD.ReportFilters;
+using RubezhAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report
 {

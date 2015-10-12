@@ -1,7 +1,7 @@
-﻿using FiresecAPI.Automation;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
+﻿using RubezhAPI.Automation;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
+using RubezhAPI.SKD;
 using RubezhClient;
 using FiresecService.Service;
 using Infrastructure.Automation;

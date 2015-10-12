@@ -1,9 +1,9 @@
 ﻿using System.Data;
 using System.Drawing.Printing;
 using DevExpress.XtraReports.UI;
-using FiresecAPI;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
+using RubezhAPI;
+using RubezhAPI.SKD;
+using RubezhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using System.Linq;
 

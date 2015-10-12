@@ -13,9 +13,9 @@ using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Elements;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using GKModule.Events;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace GKModule.ViewModels
 {

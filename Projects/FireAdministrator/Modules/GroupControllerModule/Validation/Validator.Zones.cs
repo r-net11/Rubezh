@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using RubezhClient;
 using Infrastructure.Common.Validation;
 using Infrastructure.Common;
-using FiresecAPI;
+using RubezhAPI;
 
 namespace GKModule.Validation
 {

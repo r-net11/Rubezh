@@ -1,4 +1,4 @@
-﻿using FiresecAPI;
+﻿using RubezhAPI;
 using Infrastructure.Common;
 using System;
 using System.Linq;
@@ -71,7 +71,7 @@ namespace RubezhDAL.DataClasses
 			ImitatorJournalTranslator = new ImitatorJournalTranslator(this);
 		}
         
-        public void BeginGet(FiresecAPI.SKD.HRFilter filter, Action<DbCallbackResult> portionReady)
+        public void BeginGet(RubezhAPI.SKD.HRFilter filter, Action<DbCallbackResult> portionReady)
         {
             EmployeeTranslator.AsyncTranslator.BeginGet(filter.EmployeeFilter, portionReady);
             CardTranslator.AsyncTranslator.BeginGet(filter.CardFilter, portionReady);

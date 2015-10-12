@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Journal;
-using FiresecAPI.Models.Layouts;
+using RubezhAPI.Journal;
+using RubezhAPI.Models.Layouts;
 using RubezhClient;
 using Infrastructure;
 using Infrastructure.Client;

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using FiresecAPI;
-using FiresecAPI.Models.Layouts;
+using RubezhAPI;
+using RubezhAPI.Models.Layouts;
 using RubezhClient;
 using Infrastructure;
 using Infrastructure.Client;
@@ -15,7 +15,7 @@ using LayoutModule.ViewModels;
 using Infrastructure.Common.Validation;
 using LayoutModule.Validation;
 using LayoutModule.LayoutParts.ViewModels;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 
 namespace LayoutModule
 {

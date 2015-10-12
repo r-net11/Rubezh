@@ -2,8 +2,8 @@
 using System.Windows;
 using Common;
 using FireAdministrator.ViewModels;
-using FiresecAPI;
-using FiresecAPI.Models;
+using RubezhAPI;
+using RubezhAPI.Models;
 using RubezhClient;
 using GKProcessor;
 using Infrastructure;
@@ -13,7 +13,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrastructure.Services;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using Infrastructure.Automation;
 
 namespace FireAdministrator
@@ -72,8 +72,8 @@ namespace FireAdministrator
 					AterInitialize();
 					ClientManager.StartPoll();
 
-					SafeFiresecService.GKProgressCallbackEvent -= new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
-					SafeFiresecService.GKProgressCallbackEvent += new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
+					SafeFiresecService.GKProgressCallbackEvent -= new Action<RubezhAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
+					SafeFiresecService.GKProgressCallbackEvent += new Action<RubezhAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
 
 					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(OnConfigurationClosed);

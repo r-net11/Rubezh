@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhClient.SKDHelpers;
 using Infrastructure;
@@ -105,7 +105,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAddPart()
 		{
-			return ClientManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit);
+			return ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit);
 		}
 
 		public RelayCommand RemovePartCommand { get; private set; }
@@ -122,7 +122,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEditRemovePart()
 		{
-			return SelectedDayTimeTrackPart != null && ClientManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit);
+			return SelectedDayTimeTrackPart != null && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit);
 		}
 
 		public RelayCommand EditPartCommand { get; private set; }
@@ -166,7 +166,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return ClientManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
+			return ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -188,7 +188,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedDocument != null && SelectedDocument.Document.StartDateTime.Date == DayTimeTrack.Date.Date && ClientManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
+			return SelectedDocument != null && SelectedDocument.Document.StartDateTime.Date == DayTimeTrack.Date.Date && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -211,7 +211,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedDocument != null && ClientManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
+			return SelectedDocument != null && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
 		public RelayCommand AddFileCommand { get; private set; }

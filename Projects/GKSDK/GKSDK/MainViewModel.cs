@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using RubezhClient;
 using GKProcessor;
 using Infrastructure.Common;
@@ -11,7 +11,7 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Practices.Prism.Events;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 using System.Collections.Generic;
 
 namespace GKSDK

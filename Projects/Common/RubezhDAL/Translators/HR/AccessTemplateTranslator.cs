@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
-using FiresecAPI;
-using API = FiresecAPI.SKD;
+using RubezhAPI;
+using API = RubezhAPI.SKD;
 using System.Collections.Generic;
 
 namespace RubezhDAL.DataClasses
@@ -55,7 +55,7 @@ namespace RubezhDAL.DataClasses
 				IsDeleted = tableItem.IsDeleted,
 				RemovalDate = tableItem.RemovalDate != null ? tableItem.RemovalDate.Value : new DateTime(),
 				OrganisationUID = tableItem.OrganisationUID != null ? tableItem.OrganisationUID.Value : Guid.Empty,
-				CardDoors = tableItem.CardDoors.Select(x => new FiresecAPI.SKD.CardDoor
+				CardDoors = tableItem.CardDoors.Select(x => new RubezhAPI.SKD.CardDoor
 				{
 					UID = x.UID,
 					CardUID = x.CardUID,

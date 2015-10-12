@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Models.Layouts;
+﻿using RubezhAPI.Models.Layouts;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace LayoutModule.ViewModels

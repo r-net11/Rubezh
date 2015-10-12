@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhClient.SKDHelpers;
 using Infrastructure;
@@ -123,12 +123,12 @@ namespace SKDModule.ViewModels
 			get { return "дневной график"; }
 		}
 
-		protected override FiresecAPI.Models.PermissionType Permission
+		protected override RubezhAPI.Models.PermissionType Permission
 		{
-			get { return FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit; }
+			get { return RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit; }
 		}
 
-		protected override List<DayInterval> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		protected override List<DayInterval> GetFromCallbackResult(RubezhAPI.DbCallbackResult dbCallbackResult)
 		{
 			return dbCallbackResult.DayIntervals;
 		}

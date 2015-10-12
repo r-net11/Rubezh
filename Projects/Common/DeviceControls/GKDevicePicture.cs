@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Media;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using RubezhClient;
 using Infrustructure.Plans.Devices;
 

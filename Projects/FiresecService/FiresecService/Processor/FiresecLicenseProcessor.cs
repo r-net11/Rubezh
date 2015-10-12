@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Journal;
+﻿using RubezhAPI.Journal;
 using FiresecLicense;
 using GKProcessor;
 using Infrastructure.Common;

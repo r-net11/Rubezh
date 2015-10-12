@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.Models.Layouts;
+using RubezhAPI.Models.Layouts;
 
 namespace Infrastructure.Common.Services.Layout
 {

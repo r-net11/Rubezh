@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;

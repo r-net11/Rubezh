@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using FiresecAPI;
-using FiresecAPI.Models;
+using RubezhAPI;
+using RubezhAPI.Models;
 using RubezhClient;
 using GKModule.Events;
 using GKModule.Plans;
@@ -23,7 +23,7 @@ using Infrastructure.Common.Services;
 using System.IO;
 using Ionic.Zip;
 using System.Text;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace GKModule
 {

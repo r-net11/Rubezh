@@ -1,4 +1,4 @@
-﻿using FiresecAPI.GK;
+﻿using RubezhAPI.GK;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

@@ -1,5 +1,5 @@
-﻿using FiresecAPI.GK;
-using FiresecAPI.Models;
+﻿using RubezhAPI.GK;
+using RubezhAPI.Models;
 using RubezhClient;
 using GKModule.Plans;
 using Infrastructure.Common.Validation;

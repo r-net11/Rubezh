@@ -4,7 +4,7 @@ using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using Infrastructure.Common;
 
 namespace AutomationModule.ViewModels

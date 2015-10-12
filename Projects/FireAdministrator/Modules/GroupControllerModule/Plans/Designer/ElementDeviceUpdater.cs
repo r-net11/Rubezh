@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using RubezhClient;
 
 namespace GKModule.Plans.Designer

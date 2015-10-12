@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading;
 using Common;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using RubezhClient;
 using GKOPCServer.ViewModels;
 using GKProcessor;

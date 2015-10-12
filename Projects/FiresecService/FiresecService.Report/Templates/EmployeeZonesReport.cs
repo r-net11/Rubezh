@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
+using RubezhAPI.SKD;
+using RubezhAPI.SKD.ReportFilters;
 using RubezhClient;
 using FiresecService.Report.DataSources;
 

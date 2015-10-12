@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Models;
+﻿using RubezhAPI.Models;
 using Infrastructure.Common.Windows;
 using Infrastructure.Designer.ElementProperties.ViewModels;
 using Infrustructure.Plans.Elements;

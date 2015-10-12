@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Media;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using RubezhClient;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;

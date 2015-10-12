@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using RubezhClient;
 using Infrastructure.Common.Windows;
 using AutomationModule.ViewModels;

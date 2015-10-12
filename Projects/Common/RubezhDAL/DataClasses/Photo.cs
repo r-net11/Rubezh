@@ -7,14 +7,14 @@ namespace RubezhDAL.DataClasses
 	{
 		public Photo() { }
 
-		public static Photo Create(FiresecAPI.SKD.Photo photo) 
+		public static Photo Create(RubezhAPI.SKD.Photo photo) 
 		{ 
 			if (photo == null) 
 				return null; 
 			return new Photo { UID = Guid.NewGuid(), Data = photo.Data }; 
 		}
 		
-		public FiresecAPI.SKD.Photo Translate() { return new FiresecAPI.SKD.Photo { UID = UID, Data = Data }; }
+		public RubezhAPI.SKD.Photo Translate() { return new RubezhAPI.SKD.Photo { UID = UID, Data = Data }; }
 		
 		[Key]
 		public Guid UID { get; set; }

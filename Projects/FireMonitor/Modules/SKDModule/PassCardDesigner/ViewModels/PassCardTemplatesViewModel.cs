@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 using RubezhClient.SKDHelpers;
 using SKDModule.ViewModels;
 using Infrastructure;
@@ -48,12 +48,12 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			get { return "шаблон пропуска"; }
 		}
 
-		protected override FiresecAPI.Models.PermissionType Permission
+		protected override RubezhAPI.Models.PermissionType Permission
 		{
-			get { return FiresecAPI.Models.PermissionType.Oper_SKD_PassCards_Etit; }
+			get { return RubezhAPI.Models.PermissionType.Oper_SKD_PassCards_Etit; }
 		}
 
-		protected override List<ShortPassCardTemplate> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		protected override List<ShortPassCardTemplate> GetFromCallbackResult(RubezhAPI.DbCallbackResult dbCallbackResult)
 		{
 			return dbCallbackResult.PassCardTemplates;
 		}

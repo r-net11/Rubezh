@@ -2,9 +2,9 @@
 using System.IO;
 using System.Windows;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using RubezhAPI;
+using RubezhAPI.Models;
+using RubezhAPI.SKD;
 using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;

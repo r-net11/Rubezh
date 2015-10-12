@@ -5,8 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using Common;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using RubezhClient;
 using GKModule.Models;
 using GKModule.Plans;
@@ -23,7 +23,7 @@ using Infrustructure.Plans.Events;
 using Microsoft.Win32;
 using KeyboardKey = System.Windows.Input.Key;
 using System.Xml.Serialization;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 
 namespace GKModule.ViewModels
 {

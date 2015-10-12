@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using FiresecAPI;
+using RubezhAPI;
 using Infrastructure.Common.Navigation;
 
 namespace Infrastructure.Common

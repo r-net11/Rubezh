@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 
 namespace Infrastructure.Common.Services.Layout
 {

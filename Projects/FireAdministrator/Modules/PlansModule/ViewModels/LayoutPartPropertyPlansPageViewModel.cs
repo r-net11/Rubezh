@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
-using FiresecAPI.Models;
-using FiresecAPI.Models.Layouts;
+using RubezhAPI.Models;
+using RubezhAPI.Models.Layouts;
 using RubezhClient;
 using Infrastructure.Common.Services.Layout;
 

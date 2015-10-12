@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using RubezhAPI.Models;
+using RubezhAPI.SKD;
 using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;

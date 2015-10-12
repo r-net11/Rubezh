@@ -1,5 +1,5 @@
-﻿using FiresecAPI;
-using FiresecAPI.GK;
+﻿using RubezhAPI;
+using RubezhAPI.GK;
 using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;

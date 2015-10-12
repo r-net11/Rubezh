@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using RubezhAPI.Models;
+using RubezhAPI.SKD;
 using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using RubezhAPI.Models;
+using RubezhAPI.SKD;
 using RubezhClient;
 
 namespace SKDModule.Model

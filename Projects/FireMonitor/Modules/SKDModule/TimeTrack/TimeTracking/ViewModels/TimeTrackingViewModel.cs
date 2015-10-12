@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using Common;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -16,7 +16,7 @@ using Infrastructure.Events;
 using SKDModule.Events;
 using SKDModule.Model;
 using RubezhClient.SKDHelpers;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 
 namespace SKDModule.ViewModels
 {
@@ -243,7 +243,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanShowNightSettings()
 		{
-			return ClientManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_NightSettings_Edit);
+			return ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_NightSettings_Edit);
 		}
 
 		public void OnInitializeLeadUIDs(TimeTrackFilterViewModel filterViewModel)

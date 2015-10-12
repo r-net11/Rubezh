@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Linq.Expressions;
-using FiresecAPI;
-using FiresecAPI.GK;
+using RubezhAPI;
+using RubezhAPI.GK;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Automation;

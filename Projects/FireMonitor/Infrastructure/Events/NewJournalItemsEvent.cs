@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using Microsoft.Practices.Prism.Events;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 
 namespace Infrastructure.Events
 {

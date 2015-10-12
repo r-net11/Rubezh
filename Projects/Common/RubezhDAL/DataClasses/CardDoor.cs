@@ -10,7 +10,7 @@ namespace RubezhDAL.DataClasses
 	{
 		public CardDoor() { }
 
-		public CardDoor(FiresecAPI.SKD.CardDoor apiItem)
+		public CardDoor(RubezhAPI.SKD.CardDoor apiItem)
 		{
 			UID = apiItem.UID;
 			TranslateBack(apiItem);
@@ -31,9 +31,9 @@ namespace RubezhDAL.DataClasses
 
 		public int ExitScheduleNo { get; set; }
 
-		public FiresecAPI.SKD.CardDoor Translate()
+		public RubezhAPI.SKD.CardDoor Translate()
 		{
-			return new FiresecAPI.SKD.CardDoor
+			return new RubezhAPI.SKD.CardDoor
 			{
 				UID = UID,
 				CardUID = CardUID,
@@ -44,9 +44,9 @@ namespace RubezhDAL.DataClasses
 			};
 		}
 
-		public static IEnumerable<FiresecAPI.SKD.CardDoor> GetAPIItems(ICollection<CardDoor> tableItems)
+		public static IEnumerable<RubezhAPI.SKD.CardDoor> GetAPIItems(ICollection<CardDoor> tableItems)
 		{
-			return tableItems.Select(x => new FiresecAPI.SKD.CardDoor
+			return tableItems.Select(x => new RubezhAPI.SKD.CardDoor
 			{
 				UID = x.UID,
 				CardUID = x.CardUID,
@@ -57,7 +57,7 @@ namespace RubezhDAL.DataClasses
 			});
 		}
 
-		public void TranslateBack(FiresecAPI.SKD.CardDoor apiItem)
+		public void TranslateBack(RubezhAPI.SKD.CardDoor apiItem)
 		{
 			CardUID = apiItem.CardUID;
 			DoorUID = apiItem.DoorUID;

@@ -1,5 +1,5 @@
 ﻿using Common;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;

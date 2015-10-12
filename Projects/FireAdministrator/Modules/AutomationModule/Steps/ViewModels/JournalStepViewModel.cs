@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Automation;
+﻿using RubezhAPI.Automation;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using Infrastructure.Automation;

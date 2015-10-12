@@ -1,9 +1,9 @@
 ﻿//using System;
 //using System.Collections.ObjectModel;
 //using System.Linq;
-//using FiresecAPI;
+//using RubezhAPI;
 //using Infrastructure.Common.TreeList;
-//using FiresecAPI.GK;
+//using RubezhAPI.GK;
 
 //namespace SKDModule.ViewModels
 //{

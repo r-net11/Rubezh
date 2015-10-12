@@ -1,6 +1,6 @@
 ﻿using System;
 using FiltersModule.Events;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 using Infrastructure.Common;
 using Infrastructure.Common.Validation;
 

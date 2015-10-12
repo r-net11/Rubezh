@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using Common;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;

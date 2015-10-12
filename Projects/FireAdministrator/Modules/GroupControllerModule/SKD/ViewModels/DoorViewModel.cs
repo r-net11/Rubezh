@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -13,7 +13,7 @@ using Infrustructure.Plans.Events;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Painters;
 using System.Windows.Shapes;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 
 namespace GKModule.ViewModels
 {

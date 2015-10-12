@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using RubezhClient;
 using GKModule.DeviceProperties;
 using Infrastructure.Common.TreeList;

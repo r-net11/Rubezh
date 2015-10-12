@@ -2,15 +2,15 @@
 using System.Linq;
 using System.Threading;
 using Common;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using RubezhClient;
 using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using System.Diagnostics;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 
 namespace GKWebService
 {

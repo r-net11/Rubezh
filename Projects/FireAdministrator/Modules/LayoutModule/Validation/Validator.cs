@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Validation;
 using RubezhClient;
-using FiresecAPI.Models.Layouts;
+using RubezhAPI.Models.Layouts;
 using Infrastructure.Client.Layout;
 
 namespace LayoutModule.Validation

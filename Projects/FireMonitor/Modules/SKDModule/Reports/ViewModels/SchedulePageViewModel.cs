@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
-using FiresecAPI.GK;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
+using RubezhAPI.GK;
+using RubezhAPI.SKD;
+using RubezhAPI.SKD.ReportFilters;
 using RubezhClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;

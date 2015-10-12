@@ -2,8 +2,8 @@
 using System.ServiceModel;
 using System.Windows.Threading;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Models;
+using RubezhAPI;
+using RubezhAPI.Models;
 using Infrastructure.Common;
 using FiresecLicense;
 

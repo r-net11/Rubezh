@@ -4,17 +4,17 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Automation;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using RubezhAPI;
+using RubezhAPI.Automation;
+using RubezhAPI.Models;
+using RubezhAPI.SKD;
 using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Ionic.Zip;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 
 namespace FireAdministrator
 {

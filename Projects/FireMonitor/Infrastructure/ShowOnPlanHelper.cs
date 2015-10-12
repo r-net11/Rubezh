@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.SKD;
 using RubezhClient;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;

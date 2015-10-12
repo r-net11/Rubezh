@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 using RubezhClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -10,7 +10,7 @@ namespace SKDModule.ViewModels
 {
 	public class ScheduleDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<Schedule>
 	{
-		FiresecAPI.SKD.Organisation Organisation;
+		RubezhAPI.SKD.Organisation Organisation;
 		IEnumerable<ScheduleScheme> _schemes;
 		public Schedule Model { get; private set; }
 		bool _isNew;

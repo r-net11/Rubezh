@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using Common;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using RubezhAPI;
+using RubezhAPI.SKD;
 using RubezhClient;
 
 namespace RubezhDAL.DataClasses
@@ -246,7 +246,7 @@ namespace RubezhDAL.DataClasses
 			return dayTimeTrack;
 		}
 
-		public OperationResult SaveEmployeeDays(List<FiresecAPI.SKD.EmployeeDay> employeeDays)
+		public OperationResult SaveEmployeeDays(List<RubezhAPI.SKD.EmployeeDay> employeeDays)
 		{
 			try
 			{

@@ -19,7 +19,7 @@
         <File Id="OPC.Common.dll" Name="Common.dll" Source="$(var.Common.TargetDir)" />
         <File Id="OPC.GKProcessor.dll" Name="GKProcessor.dll" Source="$(var.Common.TargetDir)" />
         <File Id="OPC.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
-        <File Id="OPC.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="OPC.RubezhAPI.dll" Name="RubezhAPI.dll" Source="$(var.Common.TargetDir)" />
         <File Id="OPC.RubezhClient.dll" Name="RubezhClient.dll" Source="$(var.Common.TargetDir)" />
         <File Id="OPC.NLog.dll" Name="NLog.dll" Source="$(var.Common.TargetDir)" />
         <File Id="OPC.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Common.TargetDir)" />

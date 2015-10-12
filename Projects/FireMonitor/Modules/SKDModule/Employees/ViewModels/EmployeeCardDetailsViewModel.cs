@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
+using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhClient.SKDHelpers;
 using Infrastructure;
@@ -61,7 +61,7 @@ namespace SKDModule.ViewModels
 				StopListCards.Add(item);
 			SelectedStopListCard = StopListCards.FirstOrDefault();
 
-			CanChangeCardType = _employee.Type == PersonType.Employee && ClientManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit_CardType);
+			CanChangeCardType = _employee.Type == PersonType.Employee && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_Edit_CardType);
 			GKCardTypes = new ObservableCollection<GKCardType>(Enum.GetValues(typeof(GKCardType)).OfType<GKCardType>());
 			SelectedGKCardType = Card.GKCardType;
 

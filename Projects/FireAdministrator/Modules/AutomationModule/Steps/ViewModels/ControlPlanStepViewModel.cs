@@ -1,13 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Automation;
-using FiresecAPI.Models;
+using RubezhAPI.Automation;
+using RubezhAPI.Models;
 using RubezhClient;
 using System.Collections.Generic;
 using Infrustructure.Plans.Elements;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Events;
-using FiresecAPI;
+using RubezhAPI;
 using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using GKModule.ViewModels;
 using Infrastructure.Client.Plans;
 using Infrastructure.Client.Plans.Presenter;

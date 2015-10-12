@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using FiresecAPI;
+using RubezhAPI;
 
 namespace RubezhDAL.DataClasses
 {
@@ -17,26 +17,26 @@ namespace RubezhDAL.DataClasses
 			Context = DbService.Context;
 		}
 
-		public OperationResult<List<FiresecAPI.GK.GKDaySchedule>> Get()
+		public OperationResult<List<RubezhAPI.GK.GKDaySchedule>> Get()
 		{
 			try
 			{
 				var result = GetTableItems().ToList().Select(x => Translate(x)).ToList();
-				return new OperationResult<List<FiresecAPI.GK.GKDaySchedule>>(result);
+				return new OperationResult<List<RubezhAPI.GK.GKDaySchedule>>(result);
 			}
 			catch (Exception e)
 			{
-				return OperationResult<List<FiresecAPI.GK.GKDaySchedule>>.FromError(e.Message);
+				return OperationResult<List<RubezhAPI.GK.GKDaySchedule>>.FromError(e.Message);
 			}
 		}
 
-		public FiresecAPI.GK.GKDaySchedule Translate(GKDaySchedule tableItem)
+		public RubezhAPI.GK.GKDaySchedule Translate(GKDaySchedule tableItem)
 		{
-			var result = new FiresecAPI.GK.GKDaySchedule();
+			var result = new RubezhAPI.GK.GKDaySchedule();
 			result.UID = tableItem.UID;
 			result.No = tableItem.No;
 			result.Name = tableItem.Name;
-			result.DayScheduleParts = tableItem.GKDayScheduleParts.Select(x => new FiresecAPI.GK.GKDaySchedulePart
+			result.DayScheduleParts = tableItem.GKDayScheduleParts.Select(x => new RubezhAPI.GK.GKDaySchedulePart
 			{
 				StartMilliseconds = x.StartMilliseconds,
 				EndMilliseconds = x.EndMilliseconds,
@@ -44,7 +44,7 @@ namespace RubezhDAL.DataClasses
 			return result;
 		}
 
-		public OperationResult Save(FiresecAPI.GK.GKDaySchedule item)
+		public OperationResult Save(RubezhAPI.GK.GKDaySchedule item)
 		{
 			try
 			{
@@ -77,7 +77,7 @@ namespace RubezhDAL.DataClasses
 			}
 		}
 
-		public OperationResult Delete(FiresecAPI.GK.GKDaySchedule item)
+		public OperationResult Delete(RubezhAPI.GK.GKDaySchedule item)
 		{
 
 			try

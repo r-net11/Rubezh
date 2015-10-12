@@ -8,7 +8,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using FireMonitor.ViewModels;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -16,8 +16,8 @@ using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
-using LayoutModel = FiresecAPI.Models.Layouts.Layout;
-using FiresecAPI.AutomationCallback;
+using LayoutModel = RubezhAPI.Models.Layouts.Layout;
+using RubezhAPI.AutomationCallback;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireMonitor.Layout.ViewModels
@@ -27,7 +27,7 @@ namespace FireMonitor.Layout.ViewModels
 		private AutoActivationViewModel _autoActivationViewModel;
 		private SoundViewModel _soundViewModel;
 
-		public MonitorLayoutShellViewModel(FiresecAPI.Models.Layouts.Layout layout)
+		public MonitorLayoutShellViewModel(RubezhAPI.Models.Layouts.Layout layout)
 			: base()
 		{
 			Layout = layout;

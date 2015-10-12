@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using RubezhClient;
 using System.Collections.ObjectModel;
-using FiresecAPI;
-using Property = FiresecAPI.Automation.Property;
+using RubezhAPI;
+using Property = RubezhAPI.Automation.Property;
 using RubezhClient.SKDHelpers;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecAPI.Journal;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.Journal;
 using System.Windows.Media;
 
 namespace Infrastructure.Automation

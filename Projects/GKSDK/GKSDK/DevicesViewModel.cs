@@ -2,7 +2,7 @@
 using System.Linq;
 using RubezhClient;
 using Infrastructure.Common;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKSDK

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;

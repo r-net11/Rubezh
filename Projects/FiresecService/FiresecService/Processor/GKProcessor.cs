@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
+using RubezhAPI.SKD;
 using RubezhClient;
 using GKProcessor;
 using RubezhDAL;

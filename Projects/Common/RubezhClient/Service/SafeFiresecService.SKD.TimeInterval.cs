@@ -1,123 +1,123 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using RubezhAPI;
+using RubezhAPI.SKD;
 
 namespace RubezhClient
 {
 	public partial class SafeFiresecService
 	{
-		public FiresecAPI.OperationResult<List<DayInterval>> GetDayIntervals(DayIntervalFilter filter)
+		public RubezhAPI.OperationResult<List<DayInterval>> GetDayIntervals(DayIntervalFilter filter)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<List<DayInterval>>>(() => FiresecService.GetDayIntervals(filter));
+			return SafeContext.Execute<RubezhAPI.OperationResult<List<DayInterval>>>(() => FiresecService.GetDayIntervals(filter));
 		}
-		public FiresecAPI.OperationResult<bool> SaveDayInterval(DayInterval item, bool isNew)
+		public RubezhAPI.OperationResult<bool> SaveDayInterval(DayInterval item, bool isNew)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<bool>>(() => FiresecService.SaveDayInterval(item, isNew));
+			return SafeContext.Execute<RubezhAPI.OperationResult<bool>>(() => FiresecService.SaveDayInterval(item, isNew));
 		}
-		public FiresecAPI.OperationResult MarkDeletedDayInterval(Guid uid, string name)
+		public RubezhAPI.OperationResult MarkDeletedDayInterval(Guid uid, string name)
 		{
 			return SafeContext.Execute(() => FiresecService.MarkDeletedDayInterval(uid, name));
 		}
-		public FiresecAPI.OperationResult RestoreDayInterval(Guid uid, string name)
+		public RubezhAPI.OperationResult RestoreDayInterval(Guid uid, string name)
 		{
 			return SafeContext.Execute(() => FiresecService.RestoreDayInterval(uid, name));
 		}
 	
-		//public FiresecAPI.OperationResult<IEnumerable<DayIntervalPart>> GetDayIntervalParts(DayIntervalPartFilter filter)
+		//public RubezhAPI.OperationResult<IEnumerable<DayIntervalPart>> GetDayIntervalParts(DayIntervalPartFilter filter)
 		//{
-		//    return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<DayIntervalPart>>>(() => FiresecService.GetDayIntervalParts(filter));
+		//    return SafeContext.Execute<RubezhAPI.OperationResult<IEnumerable<DayIntervalPart>>>(() => FiresecService.GetDayIntervalParts(filter));
 		//}
-		//public FiresecAPI.OperationResult SaveDayIntervalPart(DayIntervalPart item, string name)
+		//public RubezhAPI.OperationResult SaveDayIntervalPart(DayIntervalPart item, string name)
 		//{
-		//    return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveDayIntervalPart(item, name));
+		//    return SafeContext.Execute<RubezhAPI.OperationResult>(() => FiresecService.SaveDayIntervalPart(item, name));
 		//}
-		//public FiresecAPI.OperationResult RemoveDayIntervalPart(DayIntervalPart item, string name)
+		//public RubezhAPI.OperationResult RemoveDayIntervalPart(DayIntervalPart item, string name)
 		//{
 		//    return SafeContext.Execute(() => FiresecService.RemoveDayIntervalPart(item.UID, name));
 		//}
 
-		public FiresecAPI.OperationResult<List<Holiday>> GetHolidays(HolidayFilter filter)
+		public RubezhAPI.OperationResult<List<Holiday>> GetHolidays(HolidayFilter filter)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<List<Holiday>>>(() => FiresecService.GetHolidays(filter));
+			return SafeContext.Execute<RubezhAPI.OperationResult<List<Holiday>>>(() => FiresecService.GetHolidays(filter));
 		}
-		public FiresecAPI.OperationResult<bool> SaveHoliday(Holiday item, bool isNew)
+		public RubezhAPI.OperationResult<bool> SaveHoliday(Holiday item, bool isNew)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<bool>>(() => FiresecService.SaveHoliday(item, isNew));
+			return SafeContext.Execute<RubezhAPI.OperationResult<bool>>(() => FiresecService.SaveHoliday(item, isNew));
 		}
-		public FiresecAPI.OperationResult MarkDeletedHoliday(Guid uid, string name)
+		public RubezhAPI.OperationResult MarkDeletedHoliday(Guid uid, string name)
 		{
 			return SafeContext.Execute(() => FiresecService.MarkDeletedHoliday(uid, name));
 		}
-		public FiresecAPI.OperationResult RestoreHoliday(Guid uid, string name)
+		public RubezhAPI.OperationResult RestoreHoliday(Guid uid, string name)
 		{
 			return SafeContext.Execute(() => FiresecService.RestoreHoliday(uid, name));
 		}
 
-		public FiresecAPI.OperationResult<List<ScheduleScheme>> GetScheduleSchemes(ScheduleSchemeFilter filter)
+		public RubezhAPI.OperationResult<List<ScheduleScheme>> GetScheduleSchemes(ScheduleSchemeFilter filter)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<List<ScheduleScheme>>>(() => FiresecService.GetScheduleSchemes(filter));
+			return SafeContext.Execute<RubezhAPI.OperationResult<List<ScheduleScheme>>>(() => FiresecService.GetScheduleSchemes(filter));
 		}
-		public FiresecAPI.OperationResult<bool> SaveScheduleScheme(ScheduleScheme item, bool isNew)
+		public RubezhAPI.OperationResult<bool> SaveScheduleScheme(ScheduleScheme item, bool isNew)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<bool>>(() => FiresecService.SaveScheduleScheme(item, isNew));
+			return SafeContext.Execute<RubezhAPI.OperationResult<bool>>(() => FiresecService.SaveScheduleScheme(item, isNew));
 		}
-		public FiresecAPI.OperationResult MarkDeletedScheduleScheme(Guid uid, string name)
+		public RubezhAPI.OperationResult MarkDeletedScheduleScheme(Guid uid, string name)
 		{
 			return SafeContext.Execute(() => FiresecService.MarkDeletedScheduleScheme(uid, name));
 		}
-		public FiresecAPI.OperationResult RestoreScheduleScheme(Guid uid, string name)
+		public RubezhAPI.OperationResult RestoreScheduleScheme(Guid uid, string name)
 		{
 			return SafeContext.Execute(() => FiresecService.RestoreScheduleScheme(uid, name));
 		}
 
-		//public FiresecAPI.OperationResult<IEnumerable<ScheduleDayInterval>> GetSheduleDayIntervals(ScheduleDayIntervalFilter filter)
+		//public RubezhAPI.OperationResult<IEnumerable<ScheduleDayInterval>> GetSheduleDayIntervals(ScheduleDayIntervalFilter filter)
 		//{
-		//    return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<ScheduleDayInterval>>>(() => FiresecService.GetSheduleDayIntervals(filter));
+		//    return SafeContext.Execute<RubezhAPI.OperationResult<IEnumerable<ScheduleDayInterval>>>(() => FiresecService.GetSheduleDayIntervals(filter));
 		//}
-		//public FiresecAPI.OperationResult SaveSheduleDayInterval(ScheduleDayInterval item, string name)
+		//public RubezhAPI.OperationResult SaveSheduleDayInterval(ScheduleDayInterval item, string name)
 		//{
-		//    return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveSheduleDayInterval(item, name));
+		//    return SafeContext.Execute<RubezhAPI.OperationResult>(() => FiresecService.SaveSheduleDayInterval(item, name));
 		//}
-		//public FiresecAPI.OperationResult RemoveSheduleDayInterval(ScheduleDayInterval item, string name)
+		//public RubezhAPI.OperationResult RemoveSheduleDayInterval(ScheduleDayInterval item, string name)
 		//{
 		//    return SafeContext.Execute(() => FiresecService.RemoveSheduleDayInterval(item.UID, name));
 		//}
 
-		public FiresecAPI.OperationResult<List<Schedule>> GetSchedules(ScheduleFilter filter)
+		public RubezhAPI.OperationResult<List<Schedule>> GetSchedules(ScheduleFilter filter)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<List<Schedule>>>(() => FiresecService.GetSchedules(filter));
+			return SafeContext.Execute<RubezhAPI.OperationResult<List<Schedule>>>(() => FiresecService.GetSchedules(filter));
 		}
-		public FiresecAPI.OperationResult<bool> SaveSchedule(Schedule item, bool isNew)
+		public RubezhAPI.OperationResult<bool> SaveSchedule(Schedule item, bool isNew)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<bool>>(() => FiresecService.SaveSchedule(item, isNew));
+			return SafeContext.Execute<RubezhAPI.OperationResult<bool>>(() => FiresecService.SaveSchedule(item, isNew));
 		}
-		public FiresecAPI.OperationResult MarkDeletedSchedule(Guid uid, string name)
+		public RubezhAPI.OperationResult MarkDeletedSchedule(Guid uid, string name)
 		{
 			return SafeContext.Execute(() => FiresecService.MarkDeletedSchedule(uid, name));
 		}
-		public FiresecAPI.OperationResult RestoreSchedule(Guid uid, string name)
+		public RubezhAPI.OperationResult RestoreSchedule(Guid uid, string name)
 		{
 			return SafeContext.Execute(() => FiresecService.RestoreSchedule(uid, name));
 		}
 
-		//public FiresecAPI.OperationResult<IEnumerable<ScheduleZone>> GetScheduleZones(ScheduleZoneFilter filter)
+		//public RubezhAPI.OperationResult<IEnumerable<ScheduleZone>> GetScheduleZones(ScheduleZoneFilter filter)
 		//{
-		//    return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<ScheduleZone>>>(() => FiresecService.GetScheduleZones(filter));
+		//    return SafeContext.Execute<RubezhAPI.OperationResult<IEnumerable<ScheduleZone>>>(() => FiresecService.GetScheduleZones(filter));
 		//}
-		//public FiresecAPI.OperationResult SaveScheduleZone(ScheduleZone item, string name)
+		//public RubezhAPI.OperationResult SaveScheduleZone(ScheduleZone item, string name)
 		//{
-		//    return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveScheduleZone(item, name));
+		//    return SafeContext.Execute<RubezhAPI.OperationResult>(() => FiresecService.SaveScheduleZone(item, name));
 		//}
-		//public FiresecAPI.OperationResult MarkDeletedScheduleZone(ScheduleZone item, string name)
+		//public RubezhAPI.OperationResult MarkDeletedScheduleZone(ScheduleZone item, string name)
 		//{
 		//    return SafeContext.Execute(() => FiresecService.MarkDeletedScheduleZone(item.UID, name));
 		//}
 
-		public FiresecAPI.OperationResult<List<TimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
+		public RubezhAPI.OperationResult<List<TimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<List<TimeTrackDocument>>>(() => FiresecService.GetTimeTrackDocument(employeeUID, startDateTime, endDateTime));
+			return SafeContext.Execute<RubezhAPI.OperationResult<List<TimeTrackDocument>>>(() => FiresecService.GetTimeTrackDocument(employeeUID, startDateTime, endDateTime));
 		}
 		public OperationResult AddTimeTrackDocument(TimeTrackDocument timeTrackDocument)
 		{

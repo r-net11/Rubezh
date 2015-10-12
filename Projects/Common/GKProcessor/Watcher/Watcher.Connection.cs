@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 using RubezhClient;
 
 namespace GKProcessor

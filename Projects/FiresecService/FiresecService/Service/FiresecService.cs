@@ -2,9 +2,9 @@
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Journal;
-using FiresecAPI.Models;
+using RubezhAPI;
+using RubezhAPI.Journal;
+using RubezhAPI.Models;
 using RubezhDAL.DataClasses;
 using FiresecLicense;
 

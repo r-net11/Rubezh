@@ -2,8 +2,8 @@
 using System.Windows.Controls;
 using System.Windows.Data;
 using Controls.Converters;
-using FiresecAPI;
-using FiresecAPI.Models;
+using RubezhAPI;
+using RubezhAPI.Models;
 using RubezhClient;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;

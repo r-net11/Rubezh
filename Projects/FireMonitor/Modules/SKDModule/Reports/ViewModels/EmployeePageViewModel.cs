@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
+using RubezhAPI.SKD;
+using RubezhAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
 using SKDModule.ViewModels;
 
@@ -35,7 +35,7 @@ namespace SKDModule.Reports.ViewModels
 				_isEmployee = value;
 				OnPropertyChanged(() => IsEmployee);
 				if (AllowVisitor)
-					Filter.Initialize(new List<Guid>(), FiresecAPI.SKD.LogicalDeletationType.Active, IsEmployee ? PersonType.Employee : PersonType.Guest);
+					Filter.Initialize(new List<Guid>(), RubezhAPI.SKD.LogicalDeletationType.Active, IsEmployee ? PersonType.Employee : PersonType.Guest);
 				Title = value ? "Сотрудники" : "Посетители";
 			}
 		}

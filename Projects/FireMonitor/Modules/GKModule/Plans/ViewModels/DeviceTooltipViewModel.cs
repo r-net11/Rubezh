@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using Infrastructure.Client.Plans.Presenter;
 
 namespace GKModule.ViewModels

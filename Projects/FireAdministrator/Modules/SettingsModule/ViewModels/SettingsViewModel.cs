@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Models;
+﻿using RubezhAPI.Models;
 using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;

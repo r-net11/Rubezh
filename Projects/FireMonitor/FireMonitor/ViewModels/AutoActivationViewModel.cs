@@ -2,12 +2,12 @@
 using Infrastructure.Common;
 using Infrastructure.Events;
 using Infrastructure;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 using System.Collections.Generic;
 using System.ComponentModel;
 using RubezhClient;
-using FiresecAPI.Models;
-using FiresecAPI;
+using RubezhAPI.Models;
+using RubezhAPI;
 
 namespace FireMonitor.ViewModels
 {

@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Text;
 using Common;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.SKD;
 using Infrastructure.Common;
 using Ionic.Zip;
 

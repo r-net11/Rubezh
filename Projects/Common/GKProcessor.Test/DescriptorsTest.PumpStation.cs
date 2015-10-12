@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RubezhClient;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace GKProcessor.Test
 {

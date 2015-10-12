@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using RubezhClient;
 using GKModule.ViewModels;
 using Infrastructure.Common.Windows.ViewModels;

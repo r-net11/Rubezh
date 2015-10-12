@@ -1,6 +1,6 @@
 ﻿using System.Data;
 using CodeReason.Reports;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using RubezhClient;
 using Infrastructure.Common.Reports;
 

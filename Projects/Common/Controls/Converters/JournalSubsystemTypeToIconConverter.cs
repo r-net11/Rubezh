@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 
 namespace Controls.Converters
 {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;

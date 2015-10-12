@@ -5,8 +5,8 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Controls;
 using Common;
-using FiresecAPI;
-using FiresecAPI.GK;
+using RubezhAPI;
+using RubezhAPI.GK;
 using RubezhClient;
 
 namespace GKProcessor

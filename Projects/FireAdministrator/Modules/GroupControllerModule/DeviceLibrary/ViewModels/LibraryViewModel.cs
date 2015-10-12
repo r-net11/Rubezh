@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Media;
 using Common;
 using DeviceControls;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;

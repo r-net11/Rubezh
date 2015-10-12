@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
 using Common;
-using FiresecAPI.Models.Layouts;
+using RubezhAPI.Models.Layouts;
 using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;

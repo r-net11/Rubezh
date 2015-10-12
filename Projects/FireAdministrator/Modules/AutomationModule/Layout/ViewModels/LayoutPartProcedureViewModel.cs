@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using Infrastructure.Client.Layout.ViewModels;
-using FiresecAPI.Models.Layouts;
+using RubezhAPI.Models.Layouts;
 using Infrastructure.Common.Services.Layout;
 using RubezhClient;
 namespace AutomationModule.Layout.ViewModels

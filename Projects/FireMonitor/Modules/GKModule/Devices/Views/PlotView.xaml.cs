@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using RubezhClient;
 using GKModule.ViewModels;
 using Infrastructure.Common.Windows;

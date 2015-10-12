@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.GK;
+using RubezhAPI;
+using RubezhAPI.GK;
 namespace RubezhDAL.DataClasses
 {
 	public class GKScheduleTranslator
@@ -17,28 +17,28 @@ namespace RubezhDAL.DataClasses
 			Context = DbService.Context;
 		}
 
-		public OperationResult<List<FiresecAPI.GK.GKSchedule>> Get()
+		public OperationResult<List<RubezhAPI.GK.GKSchedule>> Get()
 		{
 			try
 			{
 				var result = GetTableItems().ToList().Select(x => Translate(x)).ToList();
-				return new OperationResult<List<FiresecAPI.GK.GKSchedule>>(result);
+				return new OperationResult<List<RubezhAPI.GK.GKSchedule>>(result);
 			}
 			catch (Exception e)
 			{
-				return OperationResult<List<FiresecAPI.GK.GKSchedule>>.FromError(e.Message);
+				return OperationResult<List<RubezhAPI.GK.GKSchedule>>.FromError(e.Message);
 			}
 		}
 
-		public FiresecAPI.GK.GKSchedule Translate(GKSchedule tableItem)
+		public RubezhAPI.GK.GKSchedule Translate(GKSchedule tableItem)
 		{
-			var result = new FiresecAPI.GK.GKSchedule();
+			var result = new RubezhAPI.GK.GKSchedule();
 			result.UID = tableItem.UID;
 			result.No = tableItem.No;
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
-			result.ScheduleType = (FiresecAPI.GK.GKScheduleType)tableItem.Type;
-			result.SchedulePeriodType = (FiresecAPI.GK.GKSchedulePeriodType)tableItem.PeriodType;
+			result.ScheduleType = (RubezhAPI.GK.GKScheduleType)tableItem.Type;
+			result.SchedulePeriodType = (RubezhAPI.GK.GKSchedulePeriodType)tableItem.PeriodType;
 			result.StartDateTime = tableItem.StartDateTime;
 			result.HoursPeriod = tableItem.HoursPeriod;
 			result.HolidayScheduleNo = tableItem.HolidayScheduleNo;
@@ -50,7 +50,7 @@ namespace RubezhDAL.DataClasses
 			return result;
 		}
 
-		public OperationResult Save(FiresecAPI.GK.GKSchedule item)
+		public OperationResult Save(RubezhAPI.GK.GKSchedule item)
 		{
 			try
 			{
@@ -100,7 +100,7 @@ namespace RubezhDAL.DataClasses
 			}
 		}
 
-		public OperationResult Delete(FiresecAPI.GK.GKSchedule item)
+		public OperationResult Delete(RubezhAPI.GK.GKSchedule item)
 		{
 			try
 			{

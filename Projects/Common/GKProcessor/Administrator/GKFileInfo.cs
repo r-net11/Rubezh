@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using Infrastructure.Common;
 using RubezhClient;
 

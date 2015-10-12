@@ -3,8 +3,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using FiresecAPI;
-using API = FiresecAPI.SKD;
+using RubezhAPI;
+using API = RubezhAPI.SKD;
 using System.Threading;
 using System.Diagnostics;
 
@@ -232,16 +232,16 @@ namespace RubezhDAL.DataClasses
 			}
 		}
 
-		IEnumerable<FiresecAPI.SKD.SKDCard> GetAPIItems(IQueryable<Card> tableItems)
+		IEnumerable<RubezhAPI.SKD.SKDCard> GetAPIItems(IQueryable<Card> tableItems)
 		{
 			return tableItems.Select(tableItem =>
-				new FiresecAPI.SKD.SKDCard
+				new RubezhAPI.SKD.SKDCard
 				{
 					UID = tableItem.UID,
 					NumberInt = tableItem.Number,
 					EmployeeUID = tableItem.EmployeeUID,
 					EndDate = tableItem.EndDate,
-					CardDoors = tableItem.CardDoors.Select(x => new FiresecAPI.SKD.CardDoor
+					CardDoors = tableItem.CardDoors.Select(x => new RubezhAPI.SKD.CardDoor
 						{
 							UID = x.UID,
 							CardUID = x.CardUID,
@@ -252,7 +252,7 @@ namespace RubezhDAL.DataClasses
 						}).ToList(),
 					PassCardTemplateUID = tableItem.PassCardTemplateUID,
 					AccessTemplateUID = tableItem.AccessTemplateUID,
-					GKCardType = (FiresecAPI.GK.GKCardType)tableItem.GKCardType,
+					GKCardType = (RubezhAPI.GK.GKCardType)tableItem.GKCardType,
 					IsInStopList = tableItem.IsInStopList,
 					StopReason = tableItem.StopReason,
 					EmployeeName = tableItem.Employee != null ? tableItem.Employee.LastName + " " + tableItem.Employee.FirstName + " " + tableItem.Employee.SecondName : null,
@@ -263,7 +263,7 @@ namespace RubezhDAL.DataClasses
 				});
 		}
 
-		public void TranslateBack(FiresecAPI.SKD.SKDCard apiItem, Card tableItem)
+		public void TranslateBack(RubezhAPI.SKD.SKDCard apiItem, Card tableItem)
 		{
 			tableItem.Number = (int)apiItem.Number;
 			tableItem.EmployeeUID = apiItem.EmployeeUID;
@@ -335,7 +335,7 @@ namespace RubezhDAL.DataClasses
 					.Select(tableItem => new API.CardAccessTemplateDoors
 						{
 							CardUID = tableItem.UID,
-							CardDoors = tableItem.AccessTemplate.CardDoors.Select(x => new FiresecAPI.SKD.CardDoor
+							CardDoors = tableItem.AccessTemplate.CardDoors.Select(x => new RubezhAPI.SKD.CardDoor
 								{
 									UID = x.UID,
 									CardUID = x.CardUID,

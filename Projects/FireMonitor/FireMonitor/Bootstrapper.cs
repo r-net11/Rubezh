@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using Common;
 using FireMonitor.ViewModels;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using RubezhClient;
 using GKProcessor;
 using Infrastructure;
@@ -16,10 +16,10 @@ using Infrastructure.Events;
 using System.Windows.Threading;
 using Infrastructure.Client.Startup;
 using System.Threading;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 using Infrastructure.Automation;
-using FiresecAPI.Automation;
-using FiresecAPI.AutomationCallback;
+using RubezhAPI.Automation;
+using RubezhAPI.AutomationCallback;
 using System.Collections.Generic;
 
 namespace FireMonitor

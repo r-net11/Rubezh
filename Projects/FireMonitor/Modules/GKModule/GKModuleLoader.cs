@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using RubezhClient;
 using GKModule.Events;
 using GKModule.Plans;

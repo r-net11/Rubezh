@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
@@ -109,9 +109,9 @@ namespace SKDModule.ViewModels
 		}
 
 
-		protected override FiresecAPI.Models.PermissionType Permission
+		protected override RubezhAPI.Models.PermissionType Permission
 		{
-			get { return FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Holidays_Edit; }
+			get { return RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Holidays_Edit; }
 		}
 
 		protected override bool IsAddViewModel(Holiday model)
@@ -119,7 +119,7 @@ namespace SKDModule.ViewModels
 			return model.Date.Year == SelectedYear && base.IsAddViewModel(model);
 		}
 
-		protected override System.Collections.Generic.List<Holiday> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		protected override System.Collections.Generic.List<Holiday> GetFromCallbackResult(RubezhAPI.DbCallbackResult dbCallbackResult)
 		{
 			return dbCallbackResult.Holidays;
 		}

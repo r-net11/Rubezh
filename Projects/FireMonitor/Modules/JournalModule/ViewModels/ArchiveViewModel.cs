@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using Common;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;

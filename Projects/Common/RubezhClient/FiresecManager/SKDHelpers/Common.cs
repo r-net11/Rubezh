@@ -1,4 +1,4 @@
-﻿using FiresecAPI;
+﻿using RubezhAPI;
 using Infrastructure.Common.Windows;
 
 namespace RubezhClient.SKDHelpers

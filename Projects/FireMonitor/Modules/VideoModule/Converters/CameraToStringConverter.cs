@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Data;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using RubezhClient;
 
 namespace VideoModule.Converters

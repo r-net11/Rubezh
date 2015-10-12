@@ -1,11 +1,11 @@
-﻿using FiresecAPI;
+﻿using RubezhAPI;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using API = FiresecAPI.SKD;
+using API = RubezhAPI.SKD;
 
 namespace RubezhDAL.DataClasses
 {

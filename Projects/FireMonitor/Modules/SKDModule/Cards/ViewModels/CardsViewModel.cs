@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhClient.SKDHelpers;
 using Infrastructure;
@@ -9,7 +9,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
-using FiresecAPI;
+using RubezhAPI;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -252,7 +252,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedCard != null && SelectedCard.IsCard && SelectedCard.Card.IsInStopList && ClientManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_Etit);
+			return SelectedCard != null && SelectedCard.IsCard && SelectedCard.Card.IsInStopList && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Cards_Etit);
 		}
 
 		void OnDeleteCard(Guid uid)

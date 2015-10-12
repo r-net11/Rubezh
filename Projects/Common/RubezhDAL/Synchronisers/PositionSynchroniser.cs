@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.Linq;
 using System.Linq.Expressions;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 using LinqKit;
 using System.Data.Entity;
 using System.Linq;
@@ -24,7 +24,7 @@ namespace RubezhDAL.DataClasses
 			};
 		}
 
-		protected override IQueryable<Position> GetFilteredItems(FiresecAPI.SKD.ExportFilter filter)
+		protected override IQueryable<Position> GetFilteredItems(RubezhAPI.SKD.ExportFilter filter)
 		{
 			return base.GetFilteredItems(filter).Where(x => x.OrganisationUID == filter.OrganisationUID);
 		}

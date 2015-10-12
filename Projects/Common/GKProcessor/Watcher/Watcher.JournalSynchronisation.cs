@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI;
+using RubezhAPI;
 using RubezhClient;
 using RubezhDAL;
 

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Journal;
+using RubezhAPI;
+using RubezhAPI.Journal;
 using System.Diagnostics;
 
 namespace RubezhDAL.DataClasses

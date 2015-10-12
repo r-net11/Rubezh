@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Automation;
-using FiresecAPI.AutomationCallback;
-using FiresecAPI.GK;
+using RubezhAPI;
+using RubezhAPI.Automation;
+using RubezhAPI.AutomationCallback;
+using RubezhAPI.GK;
 
 namespace RubezhClient
 {

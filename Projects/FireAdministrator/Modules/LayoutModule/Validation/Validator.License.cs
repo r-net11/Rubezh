@@ -1,7 +1,7 @@
 ﻿using RubezhClient;
 using Infrastructure.Common.Validation;
 using Infrastructure.Client.Layout;
-using FiresecAPI.Models.Layouts;
+using RubezhAPI.Models.Layouts;
 using System.Linq;
 using FiresecLicense;
 using System.Collections.Generic;

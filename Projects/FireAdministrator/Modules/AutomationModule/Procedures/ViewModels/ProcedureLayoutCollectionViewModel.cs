@@ -1,9 +1,9 @@
 ﻿using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using System.Collections.ObjectModel;
 using RubezhClient;
-using LayoutModel = FiresecAPI.Models.Layouts.Layout;
+using LayoutModel = RubezhAPI.Models.Layouts.Layout;
 
 namespace AutomationModule.ViewModels
 {

@@ -1,6 +1,6 @@
 using Common;
 using Controls.Menu.ViewModels;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 using RubezhClient.SKDHelpers;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;

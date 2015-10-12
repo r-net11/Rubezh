@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using Infrastructure.Common.Windows;
 using AutomationModule.ViewModels;
 using System.Collections.ObjectModel;
 using Infrustructure.Plans.Elements;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 
 namespace AutomationModule
 {

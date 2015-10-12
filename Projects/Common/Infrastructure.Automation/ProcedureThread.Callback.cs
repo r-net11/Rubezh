@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading;
-using FiresecAPI.Automation;
-using FiresecAPI.AutomationCallback;
+using RubezhAPI.Automation;
+using RubezhAPI.AutomationCallback;
 
 namespace Infrastructure.Automation
 {

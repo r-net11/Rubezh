@@ -3,11 +3,11 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
 using Common;
-using FiresecAPI;
-using FiresecAPI.AutomationCallback;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
+using RubezhAPI;
+using RubezhAPI.AutomationCallback;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
+using RubezhAPI.SKD;
 using Infrastructure.Common.Windows;
 
 namespace RubezhClient

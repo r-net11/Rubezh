@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Documents;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace GKProcessor
 {

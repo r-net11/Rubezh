@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using RubezhClient;
 
 namespace GKModule.ViewModels 

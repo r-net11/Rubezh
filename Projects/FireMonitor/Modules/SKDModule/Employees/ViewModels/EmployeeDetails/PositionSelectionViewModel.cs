@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhClient.SKDHelpers;
 using Infrastructure;
@@ -66,7 +66,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return ClientManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Positions_Etit);
+			return ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Positions_Etit);
 		}
 
 		public RelayCommand ClearCommand { get; private set; }

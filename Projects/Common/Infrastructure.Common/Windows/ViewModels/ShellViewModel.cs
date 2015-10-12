@@ -2,8 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using Common;
-using FiresecAPI.Models;
-using FiresecAPI.Models.Layouts;
+using RubezhAPI.Models;
+using RubezhAPI.Models.Layouts;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Ribbon;
 

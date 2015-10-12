@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Journal;
-using FiresecAPI.Models.Layouts;
-using FiresecAPI.SKD;
+using RubezhAPI.Journal;
+using RubezhAPI.Models.Layouts;
+using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhClient.SKDHelpers;
 using Infrastructure;

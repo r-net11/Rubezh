@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Models;
+using RubezhAPI;
+using RubezhAPI.Models;
 using FiresecLicense;
 
 namespace RubezhClient
