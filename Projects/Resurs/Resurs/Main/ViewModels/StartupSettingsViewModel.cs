@@ -157,6 +157,7 @@ namespace Resurs.ViewModels
 			else
 				SettingsManager.ResursSettings.ConnectionString = ConnectionString;
 			SettingsManager.Save();
+			LoginService.RestartApplication();
 			return base.Save();
 		}
 
