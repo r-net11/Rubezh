@@ -3,8 +3,16 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	Width="580"
-	Height="270">
-	<Grid>
+	Height="370">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/GroupBoxStyle.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<Grid IsSharedSizeScope="True" Background="{StaticResource BaseWindowBackgroundBrush}"> <!-- Remove it -->
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="1.3*" />
@@ -15,12 +23,10 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-
 		<TextBlock
-			Margin="5"
+			Margin="20 5"
 			VerticalAlignment="Center"
 			Foreground="White"
 			Text="Название" />
@@ -29,15 +35,13 @@
 			Margin="5"
 			MaxLength="50"
 			VerticalAlignment="Center"
-			Text="{Binding Name,
-		                        UpdateSourceTrigger=PropertyChanged}" />
-
+			Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
 		<TextBlock
 			Grid.Row="1"
-			Margin="5"
+			Margin="20 5"
 			VerticalAlignment="Center"
 			Foreground="White"
-			Text="График работы" />
+			Text="Тип графика работы" />
 		<ComboBox
 			Grid.Row="1"
 			Grid.Column="1"
@@ -45,8 +49,7 @@
 			VerticalAlignment="Center"
 			VerticalContentAlignment="Center"
 			ItemsSource="{Binding AvailableScheduleTypes}"
-			SelectedItem="{Binding SelectedScheduleType,
-		                                 UpdateSourceTrigger=PropertyChanged}">
+			SelectedItem="{Binding SelectedScheduleType, UpdateSourceTrigger=PropertyChanged}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Foreground="Black" Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -60,15 +63,13 @@
 			VerticalAlignment="Center"
 			VerticalContentAlignment="Center"
 			ItemsSource="{Binding AvailableScheduleSchemes}"
-			SelectedItem="{Binding SelectedScheduleScheme,
-		                                 UpdateSourceTrigger=PropertyChanged}">
+			SelectedItem="{Binding SelectedScheduleScheme, UpdateSourceTrigger=PropertyChanged}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Foreground="Black" Text="{Binding Name}" />
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-
 		<CheckBox
 			Grid.Row="3"
 			Grid.Column="1"
@@ -76,8 +77,7 @@
 			VerticalAlignment="Center"
 			Content="Не учитывать сокращённые дни"
 			Foreground="White"
-			IsChecked="{Binding IsIgnoreHoliday,
-		                              UpdateSourceTrigger=PropertyChanged}" />
+			IsChecked="{Binding IsIgnoreHoliday, UpdateSourceTrigger=PropertyChanged}" />
 		<CheckBox
 			Grid.Row="4"
 			Grid.Column="1"
@@ -85,37 +85,75 @@
 			VerticalAlignment="Center"
 			Content="Учитывать только первый вход последний выход"
 			Foreground="White"
-			IsChecked="{Binding IsOnlyFirstEnter,
-		                              UpdateSourceTrigger=PropertyChanged}" />
-
-		<TextBlock
+			IsChecked="{Binding IsOnlyFirstEnter, UpdateSourceTrigger=PropertyChanged}" />
+		<Grid
 			Grid.Row="5"
-			Margin="5"
-			VerticalAlignment="Center"
-			Foreground="White"
-			Text="Разрешить опоздания не более чем на"
-			TextWrapping="Wrap" />
-		<TimePicker
-			Grid.Row="5"
-			Grid.Column="1"
-			Margin="5"
-			VerticalAlignment="Center"
-			TimeSpan="{Binding AllowedLate,
-		                               UpdateSourceTrigger=PropertyChanged}" />
+			Grid.ColumnSpan="2"
+			Margin="10">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition />
+					<RowDefinition />
+					<RowDefinition />
+					<RowDefinition />
+				</Grid.RowDefinitions>
+				<CheckBox
+					Grid.Column="1"
+					VerticalAlignment="Center"
+					Foreground="White">
+					<TextBlock Margin="0 -1 0 0" Text="Не учитывать опаздания меньше" TextWrapping="Wrap" />
+				</CheckBox>
+				<TimePicker
+					Grid.Column="2"
+					Margin="5"
+					VerticalAlignment="Center"
+					TimeSpan="{Binding AllowedLate, UpdateSourceTrigger=PropertyChanged}" />
+				<CheckBox
+					Grid.Row="1"
+					Grid.Column="1"
+					VerticalAlignment="Center"
+					Foreground="White">
+						<TextBlock Margin="0 -1 0 0" Text="Разрешить отсутствия меньше" TextWrapping="Wrap" />
+				</CheckBox>
+				<TimePicker
+					Grid.Row="1"
+					Grid.Column="2"
+					Margin="5"
+					VerticalAlignment="Center"
+					TimeSpan="{Binding AllowedAbsentLowThan, UpdateSourceTrigger=PropertyChanged}" />
+				<CheckBox
+					Grid.Row="2"
+					Grid.Column="1"
+					VerticalAlignment="Center"
+					Foreground="White">
+					<TextBlock Margin="0 -1 0 0" Text="Не учитывать уходы раньше меньше" TextWrapping="Wrap" />
+				</CheckBox>
+				<TimePicker
+					Grid.Row="2"
+					Grid.Column="2"
+					Margin="5"
+					VerticalAlignment="Center"
+					TimeSpan="{Binding AllowedEarlyLeave, UpdateSourceTrigger=PropertyChanged}" />
+				<CheckBox
+					Grid.Row="3"
+					Grid.Column="1"
+					VerticalAlignment="Center"
+					Foreground="White">
+					<TextBlock Margin="0 -1 0 0" Text="Не учитывать переработки меньше" TextWrapping="Wrap" />
+				</CheckBox>
+				<TimePicker
+					Grid.Row="3"
+					Grid.Column="2"
+					Margin="5"
+					VerticalAlignment="Center"
+					TimeSpan="{Binding NotAllowOvertimeLowerThan, UpdateSourceTrigger=PropertyChanged}" />
+			</Grid>
+		</Grid>
 
-		<TextBlock
-			Grid.Row="6"
-			Margin="5"
-			VerticalAlignment="Center"
-			Foreground="White"
-			Text="Разрешить уходы раньше не более чем на"
-			TextWrapping="Wrap" />
-		<TimePicker
-			Grid.Row="6"
-			Grid.Column="1"
-			Margin="5"
-			VerticalAlignment="Center"
-			TimeSpan="{Binding AllowedEarlyLeave,
-		                               UpdateSourceTrigger=PropertyChanged}" />
 	</Grid>
 </UserControl>
