@@ -140,7 +140,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
                                     _CancellationTokenSource.Dispose();
 #if !DEBUG
                                     Logger.Info(String.Format("Controller Id={0} | {Изменил состояние на новое {0}}",
-                                        _ControllerId, Status.Stopped));
+                                        _Id, Status.Stopped));
 #endif
                                     _Connection.Close();
                                     OnStatusWasChanged();

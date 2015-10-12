@@ -245,7 +245,6 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             _DataSyncTimer.Start();
         }
 
-
         #endregion
 
         #region Methods
@@ -266,7 +265,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                     (methodInfo.ReturnType == typeof(Transaction)))
                 {
                     // Записываем транзакцию в выходной буфер
-                    methodInfo.Invoke(device, new object[0]);
+                    methodInfo.Invoke(device, new object[] { false });
                 }
             }
         }
