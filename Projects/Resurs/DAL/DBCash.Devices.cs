@@ -14,15 +14,6 @@ namespace ResursDAL
 	{
 		public static Device RootDevice { get; private set; }
 
-		public class ShortDevice
-		{
-			public Guid UID { get; set; }
-			public int Address { get; set; }
-			public int DriverType { get; set; }
-			public string Description { get; set; }
-			public Guid? ParentUID { get; set; }
-		}
-		
 		public static Device GetRootDevice()
 		{
 			try
@@ -37,7 +28,8 @@ namespace ResursDAL
 							DriverType = x.DriverType, 
 							Description = x.Description,
 							ParentUID = x.ParentUID, 
-							IsActive = x.IsActive
+							IsActive = x.IsActive,
+							TariffType = x.TariffType
 						}).ToList();
 					var allDevices = tableItems.Select(x => new Device
 						{
@@ -46,7 +38,8 @@ namespace ResursDAL
 							DriverType =(DriverType)x.DriverType,
 							Description = x.Description,
 							ParentUID = x.ParentUID,
-							IsActive = x.IsActive
+							IsActive = x.IsActive,
+							TariffType = x.TariffType
 						}).OrderBy(x => x.Address).ToList();
 					
 					SetChildren(allDevices);
@@ -238,6 +231,8 @@ namespace ResursDAL
 				var driverParameter = device.Driver.DriverParameters.FirstOrDefault(x => x.Number == item.Number);
 				item.Initialize(driverParameter);
 			}
+			if (!device.Driver.CanEditTariffType)
+				device.TariffType = device.Driver.DefaultTariffType;
 		}
 
 		static void SetChildren(List<Device> allDevices)
@@ -289,6 +284,7 @@ namespace ResursDAL
 			tableDevice.Description = device.Description;
 			tableDevice.IsActive = device.IsActive;
 			tableDevice.Tariff = device.Tariff != null ? context.Tariffs.FirstOrDefault(x => x.UID == device.Tariff.UID) : null;
+			tableDevice.TariffType = device.TariffType;
 			tableDevice.Parent = device.Parent != null ? context.Devices.FirstOrDefault(x => x.UID == device.Parent.UID) : null;
 			tableDevice.DriverType = device.DriverType;
 			tableDevice.IsDbMissmatch = device.IsDbMissmatch;

@@ -12,6 +12,8 @@ namespace ResursAPI
 			var driver = new Driver();
 			driver.DriverType = DriverType.MZEP55Counter;
 			driver.DeviceType = DeviceType.Counter;
+			driver.CanEditTariffType = false;
+			driver.DefaultTariffType = TariffType.Heat;
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = "Счётчик подключён",

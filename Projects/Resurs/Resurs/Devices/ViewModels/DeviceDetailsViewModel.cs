@@ -15,7 +15,7 @@ namespace Resurs.ViewModels
 		Device _OldDevice;
 		bool _IsNew;
 		public ObservableCollection<DetailsParameterViewModel> Parameters { get; private set; }
-
+		
 		public DeviceDetailsViewModel(Device device)
 		{
 			Title = "Редактирование устройства " + device.Name + " " + device.FullAddress;
@@ -35,8 +35,33 @@ namespace Resurs.ViewModels
 			Description = device.Description;
 			IsActive = device.IsActive;
 			Parameters = new ObservableCollection<DetailsParameterViewModel>(Device.Parameters.Select(x => new DetailsParameterViewModel(x)));
+			TariffTypes = new ObservableCollection<TariffType>();
+			foreach (TariffType item in Enum.GetValues(typeof(TariffType)))
+			{
+				TariffTypes.Add(item);
+			}
+			TariffType = device.TariffType;
+			HasTariffType = device.DeviceType == DeviceType.Counter;
+			CanEditTariffType = device.Driver.CanEditTariffType && HasTariffType;
+			HasReadOnlyTariffType = !device.Driver.CanEditTariffType && HasTariffType;
 		}
 
+		public bool CanEditTariffType { get; private set; }
+		public bool HasReadOnlyTariffType { get; private set; }
+		public bool HasTariffType { get; private set; }
+		
+		public ObservableCollection<TariffType> TariffTypes { get; private set; }
+
+		TariffType _TariffType;
+		public TariffType TariffType
+		{
+			get { return _TariffType; }
+			set
+			{
+				_TariffType = value;
+				OnPropertyChanged(() => TariffType);
+			}
+		}
 
 		string _description;
 		public string Description
@@ -69,6 +94,8 @@ namespace Resurs.ViewModels
 					return false;
 			}
 			Device.Description = Description;
+			if (CanEditTariffType)
+				Device.TariffType = TariffType;
 			Device.Parameters = new List<Parameter>(Parameters.Select(x => x.Model));
 			foreach (var item in Device.Parameters)
 			{
