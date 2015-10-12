@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="BCD\BcdConverter.cs" />
     <Compile Include="ComponentModel\EnumTypeConverter.cs" />
+    <Compile Include="OSI\Messages\AsyncRequestResult.cs" />
     <Compile Include="OSI\ApplicationLayer\Devices\Collections\ObjectModel\DevicesCollectionChangedEventArgs.cs" />
     <Compile Include="OSI\ApplicationLayer\Devices\Collections\ObjectModel\DevicesCollection.cs" />
     <Compile Include="OSI\ApplicationLayer\Devices\DeviceBase.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Incotex\NetworkControllers\Messages\DataMessage.cs" />
     <Compile Include="Incotex\NetworkControllers\ApplicationLayer\IncotexNetworkController.cs" />
     <Compile Include="Incotex\NetworkControllers\Messages\ServiceErrorMessage.cs" />
+    <Compile Include="OSI\Messages\IAsyncRequestResult.cs" />
     <Compile Include="OSI\ApplicationLayer\NetworkControllerBase.cs" />
     <Compile Include="OSI\Messages\ServiceMessageBase.cs" />
     <Compile Include="Management\IManageable.cs" />

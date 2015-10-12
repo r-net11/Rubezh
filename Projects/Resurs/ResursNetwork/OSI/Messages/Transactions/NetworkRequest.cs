@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ResursNetwork.OSI.ApplicationLayer;
 
 namespace ResursNetwork.OSI.Messages.Transactions
 {
@@ -19,18 +20,19 @@ namespace ResursNetwork.OSI.Messages.Transactions
 
     /// <summary>
     /// Сетевой запрос. Предназначен для последовательного повторения выполения транзакции
-    /// до её успешного завершения или исчерпания кол-ва попыток
+    /// до её успешного завершения или исчерпания количества установленных попыток
     /// </summary>
     public class NetworkRequest
     {
         #region Fields And Propeties
-        private Guid _Id;
+        private Guid _Id = Guid.NewGuid();
         private List<Transaction> _Transactions = new List<Transaction>();
         private int _TotalAttempts = 1;
+        private AsyncRequestResult _AsyncRequestResult = new AsyncRequestResult();
 
         public Guid Id
         {
-            get { return Id; }
+            get { return _Id; }
         }
 
         public Transaction Request
@@ -106,6 +108,14 @@ namespace ResursNetwork.OSI.Messages.Transactions
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Возвращает объект слежения за выполнением операции
+        /// </summary>
+        public AsyncRequestResult AsyncRequestResult
+        {
+            get { return _AsyncRequestResult; }
         }
 
         #endregion
