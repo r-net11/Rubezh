@@ -75,10 +75,13 @@ int CALL_METHOD WRAP_GetAll_Accesses(int finderID, AccessesCollection* result)
 	
 	if (CLIENT_FindNextRecord(&stuIn, &stuOut, SDK_API_WAITTIME) >= 0)
     {
-		for (i = 0; i < __min(stuOut.nMaxRecordNum, stuOut.nRetRecordNum); i++)
+		int itemsCount = __min(stuOut.nMaxRecordNum, stuOut.nRetRecordNum);
+		for (i = 0; i < itemsCount; i++)
 		{
 			memcpy(&accessesCollection.Accesses[i], &pstuAccess[i], sizeof(NET_RECORDSET_ACCESS_CTL_CARDREC));
+			accessesCollection.Count = itemsCount;
 		}
+
 	}
 
 	delete[] pstuAccess;

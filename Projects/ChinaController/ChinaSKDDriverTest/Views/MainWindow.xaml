@@ -28,11 +28,11 @@
 			</TabItem>
 			<TabItem Header="Offline журнал">
 				<TabControl>
-					<TabItem Header="Проходы" DataContext="{Binding AccessesViewModel}">
-						<Views:AccessesView />
+					<TabItem Header="Проходы" DataContext="{Binding AccessLogItemsViewModel}">
+						<Views:AccessLogItemsView />
 					</TabItem>
-					<TabItem Header="Тревоги" DataContext="{Binding LogItemsViewModel}">
-						<Views:LogItemsView />
+					<TabItem Header="Тревоги" DataContext="{Binding AlarmLogItemsViewModel}">
+						<Views:AlarmLogItemsView />
 					</TabItem>
 				</TabControl>
 			</TabItem>

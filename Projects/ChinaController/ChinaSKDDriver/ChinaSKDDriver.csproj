@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,7 +47,7 @@
   <ItemGroup>
     <Compile Include="API\AntiPassBackConfiguration.cs" />
     <Compile Include="API\Card.cs" />
-    <Compile Include="API\Access.cs" />
+    <Compile Include="API\AccessLogItem.cs" />
     <Compile Include="API\DeviceSearchInfo.cs" />
     <Compile Include="API\ErrorCode.cs" />
     <Compile Include="API\InterlockConfiguration.cs" />
@@ -51,7 +55,7 @@
     <Compile Include="API\DeviceSoftwareInfo.cs" />
     <Compile Include="API\DoorConfiguration.cs" />
     <Compile Include="API\Holiday.cs" />
-    <Compile Include="API\LogItem.cs" />
+    <Compile Include="API\AlarmLogItem.cs" />
     <Compile Include="API\Password.cs" />
     <Compile Include="API\SKDJournalItem.cs" />
     <Compile Include="API\TimeInterval.cs" />
@@ -65,7 +69,7 @@
     <Compile Include="SDK\Wrapper.Interlock.cs" />
     <Compile Include="SDK\Wrapper.SearchDevices.cs" />
     <Compile Include="SDK\Wrapper.AntiPassBack.cs" />
-    <Compile Include="SDK\Wrapper.Accesses.cs" />
+    <Compile Include="SDK\Wrapper.AccessLog.cs" />
     <Compile Include="SDK\Wrapper.Cards.cs" />
     <Compile Include="SDK\Wrapper.Holidys.cs" />
     <Compile Include="SDK\Wrapper.Passwords.cs" />
@@ -75,7 +79,7 @@
     <Compile Include="SDK\Wrapper.Watcher.cs" />
     <Compile Include="SDK\Wrapper.Control.cs" />
     <Compile Include="Processor.Monitor.cs" />
-    <Compile Include="SDK\Wrapper.Logs.cs" />
+    <Compile Include="SDK\Wrapper.AlarmLog.cs" />
     <Compile Include="SDK\Wrapper.Native.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +95,9 @@
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

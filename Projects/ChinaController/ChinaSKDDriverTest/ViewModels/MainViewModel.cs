@@ -20,8 +20,8 @@ namespace ControllerSDK.ViewModels
 		public DoorConfigurationViewModel DoorConfigurationViewModel { get; private set; }
 		public AntiPassBackViewModel AntiPassBackViewModel { get; private set; }
 		public InterlockViewModel InterlockViewModel { get; private set; }
-		public LogItemsViewModel LogItemsViewModel { get; private set; }
-		public AccessesViewModel AccessesViewModel { get; private set; }
+		public AlarmLogItemsViewModel AlarmLogItemsViewModel { get; private set; }
+		public AccessLogItemsViewModel AccessLogItemsViewModel { get; private set; }
 		public CustomDataViewModel CustomDataViewModel { get; private set; }
 		public SearchDevicesViewModel SearchDevicesViewModel { get; private set; }
 
@@ -41,8 +41,8 @@ namespace ControllerSDK.ViewModels
 			DoorConfigurationViewModel = new DoorConfigurationViewModel();
 			AntiPassBackViewModel = new AntiPassBackViewModel();
 			InterlockViewModel = new InterlockViewModel();
-			LogItemsViewModel = new LogItemsViewModel();
-			AccessesViewModel = new AccessesViewModel();
+			AlarmLogItemsViewModel = new AlarmLogItemsViewModel();
+			AccessLogItemsViewModel = new AccessLogItemsViewModel();
 			CustomDataViewModel = new CustomDataViewModel();
 			SearchDevicesViewModel = new SearchDevicesViewModel();
 		}

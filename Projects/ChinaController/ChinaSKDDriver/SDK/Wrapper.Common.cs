@@ -212,13 +212,6 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
-		public int GetLogsCount()
-		{
-			NativeWrapper.QUERY_DEVICE_LOG_PARAM logParam = new NativeWrapper.QUERY_DEVICE_LOG_PARAM();
-			var result = NativeWrapper.WRAP_GetLogCount(LoginID, ref logParam);
-			return result;
-		}
-
 		/// <summary>
 		/// Получает конфигурацию двери
 		/// </summary>
@@ -240,13 +233,13 @@ namespace ChinaSKDDriver
 
 			var doorConfiguration = new DoorConfiguration();
 
-			// Access chanel name
+			// AccessLogItem chanel name
 			doorConfiguration.ChannelName = outResult.szChannelName;
-			// Access status
+			// AccessLogItem status
 			doorConfiguration.AccessState = (ChinaSKDDriverAPI.AccessState)outResult.emState;
-			// Access mode
+			// AccessLogItem mode
 			doorConfiguration.AccessMode = (AccessMode)outResult.emMode;
-			// Access enable mode
+			// AccessLogItem enable mode
 			doorConfiguration.EnableMode = outResult.nEnableMode;
 			// Event linkage capture enabled
 			doorConfiguration.IsSnapshotEnable = outResult.bSnapshotEnable;
@@ -349,13 +342,13 @@ namespace ChinaSKDDriver
 		{
 			var info = new NativeWrapper.CFG_ACCESS_EVENT_INFO();
 
-			// Access chanel name
+			// AccessLogItem chanel name
 			info.szChannelName = doorConfiguration.ChannelName;
-			// Access status
+			// AccessLogItem status
 			info.emState = (NativeWrapper.CFG_ACCESS_STATE)doorConfiguration.AccessState;
-			// Access mode
+			// AccessLogItem mode
 			info.emMode = (NativeWrapper.CFG_ACCESS_MODE)doorConfiguration.AccessMode;
-			// Access enable mode
+			// AccessLogItem enable mode
 			info.nEnableMode = doorConfiguration.EnableMode;
 			// Event linkage capture enabled
 			info.bSnapshotEnable = doorConfiguration.IsSnapshotEnable;

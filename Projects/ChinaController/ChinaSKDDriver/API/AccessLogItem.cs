@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace ChinaSKDDriverAPI
 {
-	public class Access
+	public class AccessLogItem
 	{
 		public int RecordNo { get; set; }
 

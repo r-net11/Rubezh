@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="ControllerSDK.Views.AccessLogItemsView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<StackPanel Grid.Row="0">
+			<StackPanel Orientation="Horizontal">
+				<Button Content="Получить количество записей" Command="{Binding GetCountCommand}" Width="200" Margin="2" />
+				<Button Content="Считать все записи" Command="{Binding GetAllCommand}" Width="200" Margin="2" />
+			</StackPanel>
+		</StackPanel>
+		<DataGrid Grid.Row="1" ItemsSource="{Binding AccessLogItems}" SelectedItem="{Binding SelectedAccessLogItem}" AutoGenerateColumns="False">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="RecordNo" Binding="{Binding AccessLogItem.RecordNo}" Width="Auto" />
+				<DataGridTextColumn Header="CardNo" Binding="{Binding AccessLogItem.CardNo}" Width="Auto" />
+				<DataGridTextColumn Header="Password" Binding="{Binding AccessLogItem.Password}" Width="Auto" />
+				<DataGridTextColumn Header="Time" Binding="{Binding AccessLogItem.Time}" Width="Auto" />
+				<DataGridTextColumn Header="Status" Binding="{Binding AccessLogItem.Status}" Width="Auto" />
+				<DataGridTextColumn Header="MethodType" Binding="{Binding AccessLogItem.MethodType, Converter={StaticResource EnumToDescriptionConverter}}" Width="Auto" />
+				<DataGridTextColumn Header="ReaderID" Binding="{Binding AccessLogItem.ReaderID}" Width="Auto" />
+				<DataGridTextColumn Header="DoorNo" Binding="{Binding AccessLogItem.DoorNo}" Width="*" />
+			</DataGrid.Columns>
+		</DataGrid>
+	</Grid>
+</UserControl>

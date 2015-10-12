@@ -1,9 +1,12 @@
 ﻿using System;
+using ChinaSKDDriver;
 
 namespace ChinaSKDDriverAPI
 {
-	public class LogItem
+	public class AlarmLogItem
 	{
+		public int LogNo { get; set; }
+
 		public DateTime DateTime { get; set; }
 
 		public string UserName { get; set; }
@@ -14,8 +17,8 @@ namespace ChinaSKDDriverAPI
 
 		public string CardId { get; set; }
 
-		public string DoorNo { get; set; }
+		public int DoorNo { get; set; }
 
-		public string Type { get; set; }
+		public AlarmType AlarmType { get; set; }
 	}
 }

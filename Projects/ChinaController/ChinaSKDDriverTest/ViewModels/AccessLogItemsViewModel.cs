@@ -9,19 +9,13 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace ControllerSDK.ViewModels
 {
-	public class AccessesViewModel : BaseViewModel
+	public class AccessLogItemsViewModel : BaseViewModel
 	{
-		public AccessesViewModel()
+		public AccessLogItemsViewModel()
 		{
-			//AddCommand = new RelayCommand(OnAdd);
-			//EditCommand = new RelayCommand(OnEdit);
-			//RemoveCommand = new RelayCommand(OnRemove);
-			//RemoveAllCommand = new RelayCommand(OnRemoveAll);
-			//GetInfoCommand = new RelayCommand(OnGetInfo);
 			GetCountCommand = new RelayCommand(OnGetCount);
 			GetAllCommand = new RelayCommand(OnGetAll);
-			//AddManyCommand = new RelayCommand(OnAddMany);
-			Accesses = new ObservableCollection<AccessViewModel>();
+			AccessLogItems = new ObservableCollection<AccessLogItemViewModel>();
 
 			CardNo = "";
 			Password = "";
@@ -48,37 +42,37 @@ namespace ControllerSDK.ViewModels
 	        };
 	    }
 
-	    public void Initialize(List<Access> accesses)
+	    public void Initialize(List<AccessLogItem> accesses)
 		{
-			Accesses.Clear();
+			AccessLogItems.Clear();
 			foreach (var access in accesses)
 			{
-				var accessViewModel = new AccessViewModel(access);
-				Accesses.Add(accessViewModel);
+				var accessViewModel = new AccessLogItemViewModel(access);
+				AccessLogItems.Add(accessViewModel);
 			}
 		}
 
 		public RelayCommand GetCountCommand { get; private set; }
 		void OnGetCount()
 		{
-			MessageBox.Show("Всего проходов: " + MainViewModel.Wrapper.GetAccessesCount());
+			MessageBox.Show("Всего проходов: " + MainViewModel.Wrapper.GetAccessLogItemsCount());
 		}
 
 		public RelayCommand GetAllCommand { get; private set; }
 		void OnGetAll()
 		{
-			var accesses = MainViewModel.Wrapper.GetAllAccesses();
+			var accesses = MainViewModel.Wrapper.GetAllAccessLogItems();
 
-			Accesses.Clear();
+			AccessLogItems.Clear();
 			foreach (var access in accesses)
 			{
-				Accesses.Add(new AccessViewModel(access));
+				AccessLogItems.Add(new AccessLogItemViewModel(access));
 			}
 		}
 
-		Access GetModel()
+		AccessLogItem GetModel()
 		{
-			var access = new Access
+			var access = new AccessLogItem
 			{
 				CardNo = CardNo,
 				Password = Password,
@@ -91,16 +85,16 @@ namespace ControllerSDK.ViewModels
 			return access;
 		}
 
-		public ObservableCollection<AccessViewModel> Accesses { get; private set; }
+		public ObservableCollection<AccessLogItemViewModel> AccessLogItems { get; private set; }
 
-		AccessViewModel _selectedAccess;
-		public AccessViewModel SelectedAccess
+		AccessLogItemViewModel _selectedAccessLogItem;
+		public AccessLogItemViewModel SelectedAccessLogItem
 		{
-			get { return _selectedAccess; }
+			get { return _selectedAccessLogItem; }
 			set
 			{
-				_selectedAccess = value;
-				OnPropertyChanged(() => SelectedAccess);
+				_selectedAccessLogItem = value;
+				OnPropertyChanged(() => SelectedAccessLogItem);
 			}
 		}
 

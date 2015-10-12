@@ -53,6 +53,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
@@ -76,12 +80,13 @@
     </ApplicationDefinition>
     <Compile Include="ConnectionSettingsHelper.cs" />
     <Compile Include="Converters\DeviceTypeEnumToAttributeValueConverter.cs" />
+    <Compile Include="ViewModels\AlarmLogItemViewModel.cs" />
     <Compile Include="ViewModels\AntiPassBackViewModel.cs" />
     <Compile Include="ViewModels\CommonViewModel.cs" />
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="ViewModels\ControlViewModel.cs" />
-    <Compile Include="ViewModels\AccessesViewModel.cs" />
-    <Compile Include="ViewModels\AccessViewModel.cs" />
+    <Compile Include="ViewModels\AccessLogItemsViewModel.cs" />
+    <Compile Include="ViewModels\AccessLogItemViewModel.cs" />
     <Compile Include="ViewModels\SearchDeviceViewModel.cs" />
     <Compile Include="ViewModels\SearchDevicesViewModel.cs" />
     <Compile Include="ViewModels\CustomDataViewModel.cs" />
@@ -90,7 +95,7 @@
     <Compile Include="ViewModels\DoorItemViewModel.cs" />
     <Compile Include="ViewModels\JournalItemViewModel.cs" />
     <Compile Include="ViewModels\NativeJournalViewModel.cs" />
-    <Compile Include="ViewModels\LogItemsViewModel.cs" />
+    <Compile Include="ViewModels\AlarmLogItemsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PasswordsViewModel.cs" />
     <Compile Include="ViewModels\PasswordViewModel.cs" />
@@ -116,8 +121,8 @@
     <Compile Include="Views\ControlView.xaml.cs">
       <DependentUpon>ControlView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AccessesView.xaml.cs">
-      <DependentUpon>AccessesView.xaml</DependentUpon>
+    <Compile Include="Views\AccessLogItemsView.xaml.cs">
+      <DependentUpon>AccessLogItemsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CustomDataView.xaml.cs">
       <DependentUpon>CustomDataView.xaml</DependentUpon>
@@ -134,8 +139,8 @@
     <Compile Include="Views\JournalView.xaml.cs">
       <DependentUpon>JournalView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LogItemsView.xaml.cs">
-      <DependentUpon>LogItemsView.xaml</DependentUpon>
+    <Compile Include="Views\AlarmLogItemsView.xaml.cs">
+      <DependentUpon>AlarmLogItemsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PasswordsView.xaml.cs">
       <DependentUpon>PasswordsView.xaml</DependentUpon>
@@ -169,7 +174,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AccessesView.xaml">
+    <Page Include="Views\AccessLogItemsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -193,7 +198,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LogItemsView.xaml">
+    <Page Include="Views\AlarmLogItemsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -244,6 +249,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

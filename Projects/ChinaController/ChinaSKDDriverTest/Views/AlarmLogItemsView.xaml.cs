@@ -2,9 +2,9 @@
 
 namespace ControllerSDK.Views
 {
-	public partial class LogItemsView : UserControl
+	public partial class AlarmLogItemsView : UserControl
 	{
-		public LogItemsView()
+		public AlarmLogItemsView()
 		{
 			InitializeComponent();
 		}
