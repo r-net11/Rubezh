@@ -116,8 +116,8 @@
 
 						IsLinkEnabled="{Binding IsChecked, ElementName=EnableReader, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 						ClickCommand="{Binding ChangeReaderCommand}"
-						LinkText="{Binding ReaderName}"
-						ContentText="{Binding NumberFromControlReader}">
+						LinkText="{Binding ReaderName, UpdateSourceTrigger=PropertyChanged}"
+						ContentText="{Binding NumberFromControlReader, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 						<Views:ControlReaderComponent.Style>
 							<Style TargetType="{x:Type Views:ControlReaderComponent}">
 								<Setter Property="IsReaderSelected" Value="{Binding IsReaderSelected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
