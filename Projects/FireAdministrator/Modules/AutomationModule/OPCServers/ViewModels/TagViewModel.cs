@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using FiresecAPI.GK;
-using FiresecAPI.SKD;
+using RubezhAPI.GK;
+using RubezhAPI.SKD;
 using Infrastructure.Common.TreeList;
 using Softing.Opc.Ua.Toolkit;
 

@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SecurityModule.ViewModels
@@ -12,7 +12,7 @@ namespace SecurityModule.ViewModels
 			Title = "Выбор шаблона прав";
 
 			Roles = new ObservableCollection<RoleViewModel>();
-			foreach (var role in FiresecManager.SecurityConfiguration.UserRoles)
+			foreach (var role in ClientManager.SecurityConfiguration.UserRoles)
 				Roles.Add(new RoleViewModel(role));
 			SelectedRole = Roles.FirstOrDefault();
 		}

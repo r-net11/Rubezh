@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace Controls.Converters
 {

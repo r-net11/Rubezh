@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKSDK

@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhAPI.SKD;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -59,7 +59,7 @@ namespace SKDModule.ViewModels
 			{
 				_fileName = value;
 				Document.FileName = _fileName;
-				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(Document);
+				var operationResult = ClientManager.FiresecService.EditTimeTrackDocument(Document);
 				if (operationResult.HasError)
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);

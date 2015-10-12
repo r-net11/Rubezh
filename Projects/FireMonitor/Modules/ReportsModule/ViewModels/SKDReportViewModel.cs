@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.SKDReports;
 using DevExpress.Xpf.Printing;
-using FiresecAPI.SKD.ReportFilters;
+using RubezhAPI.SKD.ReportFilters;
 
 namespace ReportsModule.ViewModels
 {

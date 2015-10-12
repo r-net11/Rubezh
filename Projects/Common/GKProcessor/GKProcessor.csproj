@@ -185,9 +185,9 @@
       <Project>{e6d24912-812b-42b4-b6b0-97ca33c0f4af}</Project>
       <Name>FiresecLicense</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
+    <ProjectReference Include="..\RubezhAPI\RubezhAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
-      <Name>FiresecAPI</Name>
+      <Name>RubezhAPI</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
@@ -197,9 +197,9 @@
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SKDDriver\SKDDriver.csproj">
+    <ProjectReference Include="..\RubezhDAL\RubezhDAL.csproj">
       <Project>{e1d3cda0-1de6-47d3-8d2f-c56b297e8007}</Project>
-      <Name>SKDDriver</Name>
+      <Name>RubezhDAL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

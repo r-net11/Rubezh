@@ -1,6 +1,6 @@
 ﻿using System;
-using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.SKD;
+using RubezhClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure;
 using SKDModule.Events;
@@ -9,7 +9,7 @@ namespace SKDModule.ViewModels
 {
 	public class DayIntervalDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<DayInterval>
 	{
-		FiresecAPI.SKD.Organisation Organisation;
+		RubezhAPI.SKD.Organisation Organisation;
 		public DayInterval Model { get; private set; }
 		bool _isNew;
 

@@ -10,6 +10,7 @@ namespace ResursAPI
 		public static Driver Create()
 		{
 			var driver = new Driver();
+			driver.DeviceType = DeviceType.System;
 			driver.DriverType = DriverType.System;
 			driver.Children.Add(DriverType.BeregunNetwork);
 			driver.Children.Add(DriverType.MZEP55Network);

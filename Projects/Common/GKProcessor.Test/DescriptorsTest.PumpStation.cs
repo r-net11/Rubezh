@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FiresecClient;
-using FiresecAPI.GK;
+using RubezhClient;
+using RubezhAPI.GK;
 
 namespace GKProcessor.Test
 {

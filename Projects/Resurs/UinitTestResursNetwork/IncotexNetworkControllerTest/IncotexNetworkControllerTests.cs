@@ -7,7 +7,7 @@ using ResursNetwork.Incotex.NetworkControllers.Messages;
 using ResursNetwork.Incotex.Models;
 using ResursNetwork.OSI.DataLinkLayer;
 using ResursNetwork.OSI.Messages;
-using ResursNetwork.OSI.Messages.Transaction;
+using ResursNetwork.OSI.Messages.Transactions;
 using ResursNetwork.Management;
 using Moq;
 
@@ -21,7 +21,7 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
         /// типе 
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException), "")]
+        //[ExpectedException(typeof(InvalidOperationException), "")]
         public void TestWriteByWrongReqeustType()
         {
             // Arrange
@@ -49,13 +49,25 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
                 Address = 0x1,
                 CmdCode = Convert.ToByte(Mercury203CmdCode.ReadGroupAddress)
             };
-            var wrongTrans = new Transaction(TransactionType.Undefined, request); // Ошибка !!!
+            var wrongTrans = new Transaction(null, TransactionType.Undefined, request); // Ошибка !!!
+            var networkRequest = new NetworkRequest(wrongTrans);
 
             // Act
-            controller.Write(wrongTrans);
+            try
+            {
+                controller.Write(networkRequest);
+
+                while (wrongTrans.Status != TransactionStatus.Aborted)
+                {
+                    // Ждём, должно быть исключение
+                }
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(typeof(InvalidOperationException), ex.GetType());
+            }
 
             // Assert
-            // Должно быть исключение
         }
 
         /// <summary>
@@ -105,7 +117,8 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
             {
                 // Ждём выполения комманды
             }
-            while (trans.Status == TransactionStatus.Running);
+            while ((trans.Status == TransactionStatus.Running) || 
+                (trans.Status == TransactionStatus.NotInitialized));
 
             // Assert
             Assert.AreEqual(TransactionStatus.Completed, trans.Status, "Success");
@@ -152,7 +165,8 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
             {
                 // Ждём выполения комманды
             }
-            while (trans.Status == TransactionStatus.Running);
+            while ((trans.Status == TransactionStatus.Running) ||
+                (trans.Status == TransactionStatus.NotInitialized));
 
             // Assert
             Assert.AreEqual(TransactionStatus.Aborted, trans.Status, "TimeOut");
@@ -198,6 +212,10 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
             //controller.Write(trans);
 
             // Assert
+            while(true)
+            {
+                // Ждём должно быть исключение
+            }
         }
 
         /// <summary>
@@ -205,7 +223,6 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
         /// контроллера
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
         public void TestReadGroupAddressByIsNotController()
         {
             // Arrange
@@ -218,7 +235,7 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
             var trans = device.ReadGroupAddress();
 
             // Assert
-            // Должно быть исключение
+            Assert.AreEqual(TransactionStatus.Aborted, trans.Status);
         }
     }
 }

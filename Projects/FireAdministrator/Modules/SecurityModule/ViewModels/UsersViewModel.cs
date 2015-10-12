@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -29,9 +29,9 @@ namespace SecurityModule.ViewModels
 		public void Initialize()
 		{
 			Users = new ObservableCollection<UserViewModel>();
-			if (FiresecManager.SecurityConfiguration.Users != null)
+			if (ClientManager.SecurityConfiguration.Users != null)
 			{
-				foreach (var user in FiresecManager.SecurityConfiguration.Users)
+				foreach (var user in ClientManager.SecurityConfiguration.Users)
 					Users.Add(new UserViewModel(user));
 			}
 			SelectedUser = Users.FirstOrDefault();
@@ -65,7 +65,7 @@ namespace SecurityModule.ViewModels
 			var userDetailsViewModel = new UserDetailsViewModel();
 			if (DialogService.ShowModalWindow(userDetailsViewModel))
 			{
-				FiresecManager.SecurityConfiguration.Users.Add(userDetailsViewModel.User);
+				ClientManager.SecurityConfiguration.Users.Add(userDetailsViewModel.User);
 				var userViewModel = new UserViewModel(userDetailsViewModel.User);
 				Users.Add(userViewModel);
 				SelectedUser = userViewModel;
@@ -78,7 +78,7 @@ namespace SecurityModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion(string.Format("Вы уверенны, что хотите удалить пользователя \"{0}\" из списка", SelectedUser.User.Name)))
 			{
-				FiresecManager.SecurityConfiguration.Users.Remove(SelectedUser.User);
+				ClientManager.SecurityConfiguration.Users.Remove(SelectedUser.User);
 				Users.Remove(SelectedUser);
 
 				ServiceFactory.SaveService.SecurityChanged = true;
@@ -86,7 +86,7 @@ namespace SecurityModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			return SelectedUser != null && SelectedUser.User != FiresecManager.CurrentUser;
+			return SelectedUser != null && SelectedUser.User != ClientManager.CurrentUser;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -95,9 +95,9 @@ namespace SecurityModule.ViewModels
 			var userDetailsViewModel = new UserDetailsViewModel(SelectedUser.User);
 			if (DialogService.ShowModalWindow(userDetailsViewModel))
 			{
-				FiresecManager.SecurityConfiguration.Users.Remove(SelectedUser.User);
+				ClientManager.SecurityConfiguration.Users.Remove(SelectedUser.User);
 				SelectedUser.User = userDetailsViewModel.User;
-				FiresecManager.SecurityConfiguration.Users.Add(SelectedUser.User);
+				ClientManager.SecurityConfiguration.Users.Add(SelectedUser.User);
 
 				ServiceFactory.SaveService.SecurityChanged = true;
 			}

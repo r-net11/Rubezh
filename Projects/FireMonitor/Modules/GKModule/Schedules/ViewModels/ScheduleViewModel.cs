@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
-using FiresecAPI.GK;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.GK;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -73,7 +73,7 @@ namespace GKModule.ViewModels
 		public RelayCommand WriteCommand { get; private set; }
 		void OnWrite()
 		{
-			var result = FiresecManager.FiresecService.GKSetSchedule(Schedule);
+			var result = ClientManager.FiresecService.GKSetSchedule(Schedule);
 			if (result.HasError)
 			{
 				MessageBoxService.ShowError(result.Error);

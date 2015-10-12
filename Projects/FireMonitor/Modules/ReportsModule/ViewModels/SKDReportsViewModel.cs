@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -49,7 +49,7 @@ namespace ReportsModule.ViewModels
 		}
 		private bool CheckPermission(ISKDReportProvider provider)
 		{
-			return !provider.Permission.HasValue || FiresecManager.CheckPermission(provider.Permission.Value);
+			return !provider.Permission.HasValue || ClientManager.CheckPermission(provider.Permission.Value);
 		}
 		private void RegisterReportProvider(ISKDReportProvider provider)
 		{

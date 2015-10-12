@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using DiagnosticsModule.ViewModels;
-using FiresecAPI;
+using RubezhAPI;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;

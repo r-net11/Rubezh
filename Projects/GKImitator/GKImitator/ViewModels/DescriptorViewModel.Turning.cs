@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using GKImitator.Processor;
 using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Journal;
-using SKDDriver.DataClasses;
+using RubezhAPI.Journal;
+using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels
 {
@@ -80,7 +80,7 @@ namespace GKImitator.ViewModels
 			{
 				OnDelay = (ushort)door.Delay;
 				HoldDelay = (ushort)door.Hold;
-				DelayRegime = FiresecAPI.GK.DelayRegime.Off;
+				DelayRegime = RubezhAPI.GK.DelayRegime.Off;
 			}
 
 
@@ -90,7 +90,7 @@ namespace GKImitator.ViewModels
 				OnDelay = (ushort)guardZone.SetDelay;
 				OffDelay = (ushort)guardZone.ResetDelay;
 				GuardZoneAlarmDelay = (ushort)guardZone.AlarmDelay;
-				DelayRegime = FiresecAPI.GK.DelayRegime.On;
+				DelayRegime = RubezhAPI.GK.DelayRegime.On;
 			}
 		}
 
@@ -193,7 +193,7 @@ namespace GKImitator.ViewModels
 					TurningState = TurningState.None;
 					if (DelayRegime != null)
 					{
-						if (DelayRegime.Value == FiresecAPI.GK.DelayRegime.Off)
+						if (DelayRegime.Value == RubezhAPI.GK.DelayRegime.Off)
 						{
 							TurnOffNow();
 						}

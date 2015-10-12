@@ -4,11 +4,11 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
-using FiresecClient;
+using RubezhAPI;
+using RubezhAPI.Journal;
+using RubezhAPI.SKD;
+using RubezhAPI.SKD.ReportFilters;
+using RubezhClient;
 using FiresecService.Report.DataSources;
 using Infrastructure.Common;
 

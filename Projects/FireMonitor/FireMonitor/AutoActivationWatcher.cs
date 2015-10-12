@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Text;
 using Infrastructure;
 using Infrastructure.Events;
-using FiresecAPI.Journal;
-using FiresecAPI.GK;
+using RubezhAPI.Journal;
+using RubezhAPI.GK;
 using System.Windows;
-using FiresecClient;
-using FiresecAPI.SKD;
+using RubezhClient;
+using RubezhAPI.SKD;
 using Infrastructure.Common.Windows;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
@@ -65,7 +65,7 @@ namespace FireMonitor
 									ShowOnPlanHelper.ShowMPT(mpt);
 								break;
 							case JournalObjectType.VideoDevice:
-								var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+								var camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (ShowOnPlanHelper.CanShowCamera(camera))
 									ShowOnPlanHelper.ShowCamera(camera);
 								break;

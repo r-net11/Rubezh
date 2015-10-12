@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 using GKImitator.Processor;
-using FiresecAPI.GK;
-using SKDDriver.DataClasses;
+using RubezhAPI.GK;
+using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels
 {

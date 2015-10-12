@@ -1,8 +1,8 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
 using DeviceControls;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using GKModule.Events;
 using GKModule.ViewModels;
 using Infrastructure;

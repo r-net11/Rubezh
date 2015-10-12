@@ -1,6 +1,6 @@
 ﻿using System;
-using FiresecAPI.Models;
-using FiresecAPI.SKD.ReportFilters;
+using RubezhAPI.Models;
+using RubezhAPI.SKD.ReportFilters;
 using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Common.SKDReports

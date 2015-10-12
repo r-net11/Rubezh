@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using FireMonitor.Layout.ViewModels;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -17,7 +17,7 @@ namespace FireMonitor.Layout
 	internal class Bootstrapper : Shell.Bootstrapper
 	{
 		private Guid? _layoutID;
-		private FiresecAPI.Models.Layouts.Layout _layout;
+		private RubezhAPI.Models.Layouts.Layout _layout;
 		private MonitorLayoutShellViewModel _monitorLayoutShellViewModel;
 
 		public Bootstrapper()
@@ -38,7 +38,7 @@ namespace FireMonitor.Layout
 			return _layout == null ? base.CreateShell() : _monitorLayoutShellViewModel;
 		}
 
-		private FiresecAPI.Models.Layouts.Layout SelectLayout(List<FiresecAPI.Models.Layouts.Layout> layouts)
+		private RubezhAPI.Models.Layouts.Layout SelectLayout(List<RubezhAPI.Models.Layouts.Layout> layouts)
 		{
 			layouts.Sort((x, y) => string.Compare(x.Caption, y.Caption));
 			Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -74,9 +74,9 @@ namespace FireMonitor.Layout
 		private bool GetLayout()
 		{
 			_layout = null;
-			var ip = ConnectionSettingsManager.IsRemote ? FiresecManager.GetIP() : null;
-			var layouts = FiresecManager.LayoutsConfiguration.Layouts.Where(layout => 
-				layout.Users.Contains(FiresecManager.CurrentUser.UID) && 
+			var ip = ConnectionSettingsManager.IsRemote ? ClientManager.GetIP() : null;
+			var layouts = ClientManager.LayoutsConfiguration.Layouts.Where(layout => 
+				layout.Users.Contains(ClientManager.CurrentUser.UID) && 
 				(ip == null || layout.HostNameOrAddressList.Count == 0 || layout.HostNameOrAddressList.Contains(ip)) &&
 				CheckLicense(layout)).ToList();
 			if (layouts.Count > 0)
@@ -104,7 +104,7 @@ namespace FireMonitor.Layout
 			return true;
 		}
 
-		public static bool CheckLicense(FiresecAPI.Models.Layouts.Layout layout)
+		public static bool CheckLicense(RubezhAPI.Models.Layouts.Layout layout)
 		{
 			return !layout.Parts.Any(x=>
 				!FiresecLicenseManager.CurrentLicenseInfo.HasFirefighting && (

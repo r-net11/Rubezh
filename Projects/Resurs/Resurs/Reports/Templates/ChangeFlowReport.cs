@@ -1,4 +1,6 @@
 ﻿using DevExpress.XtraReports.UI;
+using Resurs.Reports.DataSources;
+using Resurs.ViewModels;
 using ResursDAL;
 using System;
 
@@ -6,13 +8,14 @@ namespace Resurs.Reports.Templates
 {
 	public partial class ChangeFlowReport : XtraReport, IReport
 	{
-		public ChangeFlowReport(ReportFilter filter)
+		public ChangeFlowReport()
 		{
 			InitializeComponent();
+			var filter = ReportsViewModel.Filter;
 			StartTime.Value = filter.StartDate;
 			EndTime.Value = filter.EndDate;
 			DeviceName.Value = filter.Device.Name;
-			Address.Value = filter.Device.Address;
+			Address.Value = filter.Device.FullAddress;
 			AbonentName.Value = "Лавров Генадий Павлович";
 			var measures = DBCash.GetMeasures(filter.Device.UID, filter.StartDate, filter.EndDate);
 			var dataSet = new CounterDataSet();
@@ -21,17 +24,9 @@ namespace Resurs.Reports.Templates
 				var dataRow = dataSet.Data.NewDataRow();
 				dataRow.DateTime = measure.DateTime;
 				dataRow.Tariff = measure.TariffPartNo;
-				dataRow.CounterValue = measure.Value;
+				dataRow.CounterValue = Math.Round(measure.Value,2);
 				dataSet.Data.Rows.Add(dataRow);
 			}
-			//for (int i = 0; i < 1000; i++)
-			//{
-			//	var dataRow = dataSet.Data.NewDataRow();
-			//	dataRow.DateTime = DateTime.Now.AddDays(i);
-			//	dataRow.Tariff = 3;
-			//	dataRow.CounterValue = 1434 + 32 * i;
-			//	dataSet.Data.Rows.Add(dataRow);
-			//}
 			DataSource = dataSet;
 		}
 		public ReportType ReportType

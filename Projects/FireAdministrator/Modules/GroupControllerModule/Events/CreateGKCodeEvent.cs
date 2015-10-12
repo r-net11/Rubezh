@@ -1,5 +1,5 @@
 ﻿using Microsoft.Practices.Prism.Events;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace GKModule.Events
 {

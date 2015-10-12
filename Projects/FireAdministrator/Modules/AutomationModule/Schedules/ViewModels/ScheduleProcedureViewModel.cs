@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Automation;
-using FiresecClient;
+using RubezhAPI.Automation;
+using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Automation;
 
@@ -18,7 +18,7 @@ namespace AutomationModule.ViewModels
 		{
 			CallingProcedure = callingProcedure;
 			ScheduleProcedure = scheduleProcedure;
-			Procedure = FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
+			Procedure = ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
 			if (Procedure != null)
 				UpdateArguments();
 		}
@@ -95,7 +95,7 @@ namespace AutomationModule.ViewModels
 			if (CallingProcedure != null)
 				allVariables = AutomationHelper.GetAllVariables(CallingProcedure);
 			else
-				allVariables = new List<Variable>(FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables);
+				allVariables = new List<Variable>(ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables);
 			allVariables = allVariables.FindAll(x => x.ExplicitType == argument.ExplicitType && x.IsList == argument.IsList);
 			if (argument.ExplicitType == ExplicitType.Object)
 				allVariables = allVariables.FindAll(x => x.ObjectType == argument.ObjectType);

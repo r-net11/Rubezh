@@ -1,8 +1,8 @@
 ﻿using System;
 using AutomationModule.Events;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using Infrastructure.Common.Validation;
-using FiresecAPI;
+using RubezhAPI;
 using Infrastructure.Common;
 
 namespace AutomationModule.Validation

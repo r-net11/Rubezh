@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.SKD;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using SKDModule.Events;
@@ -65,8 +65,6 @@ namespace SKDModule.ViewModels
 
 		protected override DepartmentViewModel GetParentItem(ShortDepartment model)
 		{
-			//if (SelectedItem.IsOrganisation)
-			//	return SelectedItem;
 			return GetParentItemInternal(model);
 		}
 
@@ -128,6 +126,7 @@ namespace SKDModule.ViewModels
 			department.UID = item.UID;
 			department.Name = item.Name;
 			department.Description = item.Description;
+			department.Phone = item.Phone;
 			department.ParentDepartmentUID = item.ParentDepartmentUID;
 			department.OrganisationUID = item.OrganisationUID;
 			department.ChildDepartmentUIDs = item.ChildDepartments.Select(x => x.UID).ToList();
@@ -141,13 +140,15 @@ namespace SKDModule.ViewModels
 				parentDepartmentUID = SelectedItem.Parent.Model.UID;
 			_clipboard.ParentDepartmentUID = parentDepartmentUID;
 			var newItem = CopyModel(_clipboard);
-			var newItemChildren = CopyChildren(newItem, _clipboardChildren);
-			if (Add(newItem) && SaveMany(newItemChildren))
+			var allDevices = new List<ShortDepartment>(_clipboardChildren);
+			allDevices.AddRange(Organisations.SelectMany(x => x.GetAllChildren(false)).Select(x => x.Model));
+			CopyChildren(_clipboard,  newItem, allDevices, true);
+			if (Add(newItem) && SaveMany(_clipboardChildren))
 			{
 				var itemViewModel = new DepartmentViewModel();
 				itemViewModel.InitializeModel(SelectedItem.Organisation, newItem, this);
 				SelectedItem.AddChild(itemViewModel);
-				AddChildren(itemViewModel, newItemChildren);
+				AddChildren(itemViewModel, _clipboardChildren);
 				SelectedItem = itemViewModel;
 			}
 		}
@@ -165,35 +166,37 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanPaste()
 		{
-			return SelectedItem != null && _clipboard != null && ParentOrganisation != null;
+			return SelectedItem != null && _clipboard != null && ParentOrganisation != null && !SelectedItem.IsDeleted;
 		}
 
 		protected override void OnCopy()
 		{
 			base.OnCopy();
-			_clipboardChildren = CopyChildren(_clipboard, SelectedItem.Children.Select(x => x.Model));
+			CopyChildren(SelectedItem.Model,  _clipboard, Organisations.SelectMany(x => x.GetAllChildren(false)).Select(x => x.Model).ToList(), true);
 		}
 		
 		protected override ShortDepartment CopyModel(ShortDepartment source)
 		{
 			var copy = base.CopyModel(source);
+			copy.Phone = source.Phone;
 			if (SelectedItem.Model != null)
 				copy.ParentDepartmentUID = SelectedItem.Model.UID;
 			return copy;
 		}
 
-		List<ShortDepartment> CopyChildren(ShortDepartment parent, IEnumerable<ShortDepartment> children)
+		void CopyChildren(ShortDepartment parent, ShortDepartment newParent, List<ShortDepartment> allDevices, bool isClear = false)
 		{
-			var result = new List<ShortDepartment>();
-			parent.ChildDepartments = new List<TinyDepartment>();
-			foreach (var item in children)
+			if (isClear)
+				_clipboardChildren = new List<ShortDepartment>();
+			var children = allDevices.Where(x => x.ParentDepartmentUID == parent.UID); 
+			foreach (var child in children)
 			{
-				var shortDepartment = base.CopyModel(item);
-				shortDepartment.ParentDepartmentUID = parent.UID;
-				result.Add(shortDepartment);
-				parent.ChildDepartments.Add(new TinyDepartment{ UID = shortDepartment.UID, Name = shortDepartment.Name});
+				var newChild = base.CopyModel(child);
+				newChild.ParentDepartmentUID = newParent.UID;
+				_clipboardChildren.Add(newChild);
+				newParent.ChildDepartments.Add(new TinyDepartment { UID = newChild.UID, Name = newChild.Name });
+				CopyChildren(child, newChild, allDevices);
 			}
-			return result;
 		}
 
 		protected override void Remove()
@@ -239,9 +242,9 @@ namespace SKDModule.ViewModels
 		}
 
 
-		protected override FiresecAPI.Models.PermissionType Permission
+		protected override RubezhAPI.Models.PermissionType Permission
 		{
-			get { return FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit; }
+			get { return RubezhAPI.Models.PermissionType.Oper_SKD_Departments_Etit; }
 		}
 
 		protected override void SetIsDeletedByOrganisation(DepartmentViewModel organisationViewModel)
@@ -253,21 +256,17 @@ namespace SKDModule.ViewModels
 		protected override void UpdateSelected()
 		{
 			base.UpdateSelected();
-			if (EmployeeListViewModel == null)
-				EmployeeListViewModel = new DepartmentEmployeeListViewModel(SelectedItem, IsWithDeleted);
 			if (IsShowEmployeeList)
-				EmployeeListViewModel.Initialize(SelectedItem, IsWithDeleted);
+				SelectedItem.InitializeEmployeeList();
 			OnPropertyChanged(() => IsShowEmployeeList);
 		}
 
-		public DepartmentEmployeeListViewModel EmployeeListViewModel { get; private set; }
-
 		public bool IsShowEmployeeList
 		{
-			get { return SelectedItem != null && !SelectedItem.IsOrganisation && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_View); }
+			get { return SelectedItem != null && !SelectedItem.IsOrganisation && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_View); }
 		}
 
-		protected override List<ShortDepartment> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		protected override List<ShortDepartment> GetFromCallbackResult(RubezhAPI.DbCallbackResult dbCallbackResult)
 		{
 			return dbCallbackResult.Departments;
 		}

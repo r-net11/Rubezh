@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
 using Common;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 
 namespace GKModule.ViewModels
 {

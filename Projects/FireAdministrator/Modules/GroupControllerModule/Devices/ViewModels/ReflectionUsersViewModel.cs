@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FiresecClient;
-using FiresecAPI.GK;
+using RubezhClient;
+using RubezhAPI.GK;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure;
@@ -102,7 +102,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadCommand { get; private set; }
 		void Read()
 		{
-			var operationResult = FiresecManager.FiresecService.GKReadMirrorUsers(Device);
+			var operationResult = ClientManager.FiresecService.GKReadMirrorUsers(Device);
 			if (operationResult.HasError)
 				MessageBoxService.ShowWarning(operationResult.Error);
 			else
@@ -120,7 +120,7 @@ namespace GKModule.ViewModels
 		public RelayCommand WriteCommand { get; private set; }
 		void Write()
 		{
-			var operationResult = FiresecManager.FiresecService.GKWriteMirrorUsers(Device, Device.GKReflectionItem.MirrorUsers);
+			var operationResult = ClientManager.FiresecService.GKWriteMirrorUsers(Device, Device.GKReflectionItem.MirrorUsers);
 			if(operationResult.HasError)
 				MessageBoxService.ShowWarning(operationResult.Error);
 		}

@@ -18,6 +18,7 @@ namespace ResursAPI
 		public void Initialize(DriverParameter driverParameter)
 		{
 			DriverParameter = driverParameter;
+			Number = driverParameter.Number;
 			switch (driverParameter.ParameterType)
 			{
 				case ParameterType.Enum:

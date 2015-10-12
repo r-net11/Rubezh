@@ -2,9 +2,9 @@
 using System.Windows.Controls;
 using System.Windows.Data;
 using Controls.Converters;
-using FiresecAPI;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI;
+using RubezhAPI.Models;
+using RubezhClient;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Validation;
@@ -56,7 +56,7 @@ namespace PlansModule.ViewModels
 		public IEnumerable<IValidationError> Validate()
 		{
 			if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.NotBoundedElements))
-				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 					foreach (var element in BasePlanExtension.FindUnbinded<ElementSubPlan>(plan.ElementSubPlans))
 						yield return new PlanElementValidationError(new ElementError()
 						{

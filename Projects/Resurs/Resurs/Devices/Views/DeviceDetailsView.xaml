@@ -26,9 +26,12 @@
 								<ColumnDefinition Width="*" />
 							</Grid.ColumnDefinitions>
 							<TextBlock Grid.Column="0" Text="{Binding Name}" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-							<TextBox Grid.Column="1" Margin="2" IsEnabled="{Binding IsNotReadOnly}"
+							
+							<TextBlock Grid.Column="1" Style="{DynamicResource TextBlockDetailsStyle}" 
+									   Text="{Binding ReadOnlyValue, Mode=OneWay}" Visibility="{Binding IsNotReadOnly, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+							<TextBox Grid.Column="1" Margin="2"
 									 Visibility="{Binding IsShowTextBlock, Converter={StaticResource BoolToVisibilityConverter}}" Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}" />
-							<ComboBox Grid.Column="1" ItemsSource="{Binding ParameterEnum}"  Margin="2" IsEnabled="{Binding IsNotReadOnly}"
+							<ComboBox Grid.Column="1" ItemsSource="{Binding ParameterEnum}"  Margin="2"
 									  SelectedItem="{Binding SelectedEnumItem}" Visibility="{Binding IsEnum, Converter={StaticResource BoolToVisibilityConverter}}" >
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
@@ -36,14 +39,14 @@
 									</DataTemplate>
 								</ComboBox.ItemTemplate>
 							</ComboBox>
-							<ExtToolkit:IntegerUpDown Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsEnabled="{Binding IsNotReadOnly}" 
+							<ExtToolkit:IntegerUpDown Grid.Column="1" Margin="2" HorizontalAlignment="Left"
 													  Value="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsInt, Converter={StaticResource BoolToVisibilityConverter}}" />
-							<CheckBox Grid.Column="1" Margin="2" VerticalAlignment="Center" IsEnabled="{Binding IsNotReadOnly}" 
+							<CheckBox Grid.Column="1" Margin="2" VerticalAlignment="Center"
 									  Visibility="{Binding IsBool, Converter={StaticResource BoolToVisibilityConverter}}"
 									  IsChecked="{Binding BoolValue}" />
 							<StackPanel Grid.Column="1" Orientation="Horizontal" Visibility="{Binding IsDateTime, Converter={StaticResource BoolToVisibilityConverter}}">
-								<DatePicker VerticalAlignment="Center" Width="150" Focusable="False" Margin="2" SelectedDate="{Binding DateTimeValue.Date}"  IsEnabled="{Binding IsNotReadOnly}" />
-								<Controls:TimePicker Margin="2"  TimeSpan="{Binding DateTimeValue.Time}"  IsEnabled="{Binding IsNotReadOnly}" />
+								<DatePicker VerticalAlignment="Center" Width="150" Focusable="False" Margin="2" SelectedDate="{Binding DateTimeValue.Date}" Visibility="{Binding IsNotReadOnly, Converter={StaticResource BoolToVisibilityConverter}}" />
+								<Controls:TimePicker Margin="2"  TimeSpan="{Binding DateTimeValue.Time}"  Visibility="{Binding IsNotReadOnly, Converter={StaticResource BoolToVisibilityConverter}}" />
 							</StackPanel>
 						</Grid>
 					</DataTemplate>

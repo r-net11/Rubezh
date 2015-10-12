@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.GK;
+using RubezhAPI;
+using RubezhAPI.GK;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels

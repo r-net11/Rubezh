@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using AutomationModule.Plans.Designer;
 
 namespace AutomationModule.Plans
@@ -23,7 +23,7 @@ namespace AutomationModule.Plans
 		public PlanPresenter()
 		{
 			Cache = new MapSource();
-			Cache.Add(() => FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures);
+			Cache.Add(() => ClientManager.SystemConfiguration.AutomationConfiguration.Procedures);
 			Cache.BuildAll();
 			ServiceFactory.Events.GetEvent<ShowProcedureOnPlanEvent>().Subscribe(OnShowProcedureOnPlan);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
@@ -70,7 +70,7 @@ namespace AutomationModule.Plans
 
 		private void OnShowProcedureOnPlan(Procedure procedure)
 		{
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 				foreach (var element in plan.ElementExtensions.OfType<ElementProcedure>())
 					if (element.ProcedureUID == procedure.Uid)
 					{

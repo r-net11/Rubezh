@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using GKModule.Events;
 using GKModule.Plans;
 using GKModule.Reports;
@@ -269,7 +269,7 @@ namespace GKModule
 							{
 								new NavigationItem<ShowGKDaySchedulesEvent, Guid>(DaySchedulesViewModel, "Дневные графики", "ShedulesDaylyW", null, null, Guid.Empty),
 								new NavigationItem<ShowGKScheduleEvent, Guid>(SchedulesViewModel, "Графики", "ShedulesW", null, null, Guid.Empty),
-							}){IsVisible = FiresecManager.CheckPermission(PermissionType.Oper_ScheduleSKD) && FiresecLicenseManager.CurrentLicenseInfo.HasSKD},
+							}){IsVisible = ClientManager.CheckPermission(PermissionType.Oper_ScheduleSKD) && FiresecLicenseManager.CurrentLicenseInfo.HasSKD},
 					})
 			};
 		}

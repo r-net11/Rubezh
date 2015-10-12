@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Automation;
-using FiresecAPI.AutomationCallback;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.Models;
+using RubezhAPI;
+using RubezhAPI.Automation;
+using RubezhAPI.AutomationCallback;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
+using RubezhAPI.Models;
 using FiresecLicense;
 
 namespace FiresecService.Service

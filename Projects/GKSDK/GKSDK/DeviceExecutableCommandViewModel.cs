@@ -1,6 +1,6 @@
-﻿using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecClient;
+﻿using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -41,7 +41,7 @@ namespace GKSDK
 		public RelayCommand ExecuteControlCommand { get; private set; }
 		void OnExecuteControl()
 		{
-				FiresecManager.FiresecService.GKExecuteDeviceCommand(Device, StateBit);
+			ClientManager.FiresecService.GKExecuteDeviceCommand(Device, StateBit);
 		}
 	}
 }

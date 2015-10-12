@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using FiresecAPI;
-using FiresecAPI.Models;
+using RubezhAPI;
+using RubezhAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -10,11 +10,11 @@ using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Events;
 using GKModule.Events;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient;
+using RubezhClient;
 using System.Collections.ObjectModel;
-using FiresecClient.SKDHelpers;
+using RubezhClient.SKDHelpers;
 
 namespace GKModule.ViewModels
 {

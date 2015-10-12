@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.SKD;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -159,7 +159,8 @@ namespace SKDModule.ViewModels
 					ParentDepartmentUID = Department.ParentDepartmentUID,
 					ChildDepartments = _childDepartments,
 					Phone = Department.Phone, 
-					OrganisationUID = OrganisationUID
+					OrganisationUID = OrganisationUID,
+					ChiefUID = ChiefViewModel.SelectedEmployeeUID
 				};
 			}
 		}

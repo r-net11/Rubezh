@@ -4,10 +4,16 @@ namespace Resurs.Reports
 {
 	public enum ReportType
 	{
-		[Description("История расхода счетчика")]
+		[Description("Изменение расхода счетчика")]
 		ChangeFlow,
 
-		[Description("Должники")]
+		[Description("Данные по должникам")]
 		Debtors,
+
+		[Description("Отчет по квитанциям")]
+		Receipts,
+
+		[Description("Изменение расхода счетчиков")]
+		ChangeValue
 	}
 }

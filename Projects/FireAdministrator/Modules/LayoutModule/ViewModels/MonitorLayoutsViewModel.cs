@@ -5,8 +5,8 @@ using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
 using Common;
-using FiresecAPI.Models.Layouts;
-using FiresecClient;
+using RubezhAPI.Models.Layouts;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -54,7 +54,7 @@ namespace LayoutModule.ViewModels
 				Layouts = new ObservableCollection<LayoutViewModel>();
 				ListCollectionView view = (ListCollectionView)CollectionViewSource.GetDefaultView(Layouts);
 				view.CustomSort = new LayoutViewModelComparer();
-				foreach (var layout in FiresecManager.LayoutsConfiguration.Layouts)
+				foreach (var layout in ClientManager.LayoutsConfiguration.Layouts)
 					Layouts.Add(new LayoutViewModel(layout));
 				view.MoveCurrentToFirst();
 				SelectedLayout = (LayoutViewModel)view.CurrentItem;
@@ -107,7 +107,7 @@ namespace LayoutModule.ViewModels
 		private void OnAdd()
 		{
 			var layout = new Layout();
-			var adminUser = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == "adm");
+			var adminUser = ClientManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == "adm");
 			if (adminUser != null)
 			{
 				layout.Users.Add(adminUser.UID);
@@ -171,10 +171,10 @@ namespace LayoutModule.ViewModels
 					RenewLayout(layout);
 				}
 				var viewModel = new LayoutViewModel(layout);
-				FiresecManager.LayoutsConfiguration.Layouts.Add(layout);
+				ClientManager.LayoutsConfiguration.Layouts.Add(layout);
 				Layouts.Add(viewModel);
 				SelectedLayout = viewModel;
-				FiresecManager.LayoutsConfiguration.Update();
+				ClientManager.LayoutsConfiguration.Update();
 				ServiceFactory.SaveService.LayoutsChanged = true;
 			}
 		}
@@ -186,8 +186,8 @@ namespace LayoutModule.ViewModels
 				var selectedLayout = SelectedLayout;
 				var index = collection.IndexOf(SelectedLayout);
 				Layouts.Remove(selectedLayout);
-				FiresecManager.LayoutsConfiguration.Layouts.Remove(selectedLayout.Layout);
-				FiresecManager.LayoutsConfiguration.Update();
+				ClientManager.LayoutsConfiguration.Layouts.Remove(selectedLayout.Layout);
+				ClientManager.LayoutsConfiguration.Update();
 				ServiceFactory.SaveService.LayoutsChanged = true;
 				if (collection.Count > 0)
 					SelectedLayout = (LayoutViewModel)collection.GetItemAt(index >= collection.Count ? collection.Count - 1 : index);

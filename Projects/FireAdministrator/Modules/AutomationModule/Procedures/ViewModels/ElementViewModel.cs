@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels

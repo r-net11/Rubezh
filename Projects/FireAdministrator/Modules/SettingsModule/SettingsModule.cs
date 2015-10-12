@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
+using RubezhAPI;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;

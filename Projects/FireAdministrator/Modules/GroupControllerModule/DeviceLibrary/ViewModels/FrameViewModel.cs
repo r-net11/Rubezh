@@ -1,4 +1,4 @@
-﻿using FiresecAPI.GK;
+﻿using RubezhAPI.GK;
 using Infrastructure;
 using Infrastructure.Client.Library;
 

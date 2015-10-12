@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using GKImitator.Processor;
 using GKProcessor;
 using Infrastructure.Common.Windows.ViewModels;

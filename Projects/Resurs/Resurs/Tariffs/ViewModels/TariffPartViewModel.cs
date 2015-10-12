@@ -6,20 +6,26 @@ namespace Resurs.ViewModels
 {
 	public class TariffPartViewModel : BaseViewModel
 	{
-		TariffPart _tariffPart;
-		public TariffPart TariffPart { 
-			get { return _tariffPart; }
-			set { _tariffPart = value; }
-		}
-		public TariffPartViewModel(TariffPart tariffPart)
+		public TariffPart TariffPart { get; set; }
+		public TariffPartViewModel()
 		{
-			TariffPart = tariffPart;
+			TariffPart = new ResursAPI.TariffPart();
 			Price = 0;
-			BeginTime = new DateTime();
-			EndTime = new DateTime();
+			StartTime = new TimeSpan(0,0,0);
+			EndTime = new TimeSpan(0,0,0);
 			
 			Discount = 0;
 			Threshold = 0;
+		}
+
+		public TariffPartViewModel(TariffPart tariffPart)
+		{
+			TariffPart = tariffPart;
+			Price = tariffPart.Price;
+			StartTime = tariffPart.StartTime;
+			EndTime = tariffPart.EndTime;
+			Discount = tariffPart.Discount;
+			Threshold = tariffPart.Threshold;
 		}
 
 		private double _threshold;
@@ -34,10 +40,10 @@ namespace Resurs.ViewModels
 
 		public double Price
 		{
-			get { return Price; }
+			get { return _price; }
 			set 
 			{ 
-				Price = value;
+				_price = value;
 				OnPropertyChanged(() => Price);
 			}
 		}
@@ -53,32 +59,24 @@ namespace Resurs.ViewModels
 			}
 		}
 
-		private DateTime _beginTime;
+		private TimeSpan _startTime;
 
-		public DateTime BeginTime
+		public TimeSpan StartTime
 		{
-			get { return _beginTime; }
-			set { _beginTime = value; }
+			get { return _startTime; }
+			set 
+			{ 
+				_startTime = value;
+				OnPropertyChanged(() => StartTime);
+			}
 		}
-		private DateTime _endTime;
+		private TimeSpan _endTime;
 
-		public DateTime EndTime
+		public TimeSpan EndTime
 		{
 			get { return _endTime; }
-			set { _endTime = value; }
-		}
-
-		private TimeSpan _partDuration;
-
-		public TimeSpan PartDuration
-		{
-			get 
-			{
-				if (BeginTime.CompareTo(EndTime) <= 0)
-				{
-					return BeginTime.Subtract(EndTime);
-				}
-				else throw new Exception("Указано начальное время позже конечного.");
+			set { _endTime = value;
+			OnPropertyChanged(() => EndTime);
 			}
 		}
 	}

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FiresecAPI;
+using RubezhAPI;
 using Infrastructure.Common.SKDReports;
 using System.Collections.Specialized;
 

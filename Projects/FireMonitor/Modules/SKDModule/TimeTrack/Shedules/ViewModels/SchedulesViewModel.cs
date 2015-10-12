@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.SKD;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -98,16 +98,16 @@ namespace SKDModule.ViewModels
 			get { return "график работы"; }
 		}
 
-		protected override FiresecAPI.Models.PermissionType Permission
+		protected override RubezhAPI.Models.PermissionType Permission
 		{
-			get { return FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit; }
+			get { return RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit; }
 		}
 
 		void OnUpdateFilter(HRFilter hrFilter)
 		{
 			var filter = new ScheduleFilter()
 			{
-				UserUID = FiresecManager.CurrentUser.UID,
+				UserUID = ClientManager.CurrentUser.UID,
 				LogicalDeletationType = hrFilter.LogicalDeletationType,
 				EmployeeUIDs = hrFilter.EmplooyeeUIDs
 			};
@@ -118,7 +118,7 @@ namespace SKDModule.ViewModels
 			get { return Organisations.SelectMany(x => x.Children).ToList(); }
 		}
 
-		protected override List<Schedule> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		protected override List<Schedule> GetFromCallbackResult(RubezhAPI.DbCallbackResult dbCallbackResult)
 		{
 			return dbCallbackResult.Schedules;
 		}

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure.Events

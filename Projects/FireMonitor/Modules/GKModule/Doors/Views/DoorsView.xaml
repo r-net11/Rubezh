@@ -1,5 +1,5 @@
 <UserControl x:Class="GKModule.Views.DoorsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:viewModel="clr-namespace:GKModule.ViewModels" xmlns:Views="clr-namespace:GKModule.Views"
-			 xmlns:gk="clr-namespace:FiresecAPI.GK;assembly=FiresecAPI">
+			 xmlns:gk="clr-namespace:RubezhAPI.GK;assembly=RubezhAPI">
 
 	<Grid>
 		<Grid.RowDefinitions>

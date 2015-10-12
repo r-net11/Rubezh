@@ -6,7 +6,7 @@ using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using DevExpress.XtraReports.UI;
-using FiresecAPI.SKD.ReportFilters;
+using RubezhAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report.Templates
 {

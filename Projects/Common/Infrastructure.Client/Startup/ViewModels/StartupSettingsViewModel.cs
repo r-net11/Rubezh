@@ -2,7 +2,7 @@
 using System.Windows;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 
 namespace Infrastructure.Client.Startup.ViewModels
 {

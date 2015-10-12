@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using Common;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.SKD;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.SKD;
 
 namespace FiresecService.Service
 {
@@ -90,6 +90,10 @@ namespace FiresecService.Service
 		public OperationResult<List<ShortPosition>> GetPositionList(PositionFilter filter)
 		{
 			return SafeContext.Execute<OperationResult<List<ShortPosition>>>(() => FiresecService.GetPositionList(filter));
+		}
+		public OperationResult<List<Guid>> GetPositionEmployees(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult<List<Guid>>>(() => FiresecService.GetPositionEmployees(uid));
 		}
 		public OperationResult<Position> GetPositionDetails(Guid uid)
 		{

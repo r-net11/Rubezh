@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
-using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.SKD;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -38,7 +38,7 @@ namespace SKDModule.ViewModels
 			{
 				var dayIntervals = DayIntervalHelper.Get(new DayIntervalFilter()
 				{
-					UserUID = FiresecManager.CurrentUser.UID,
+					UserUID = ClientManager.CurrentUser.UID,
 					OrganisationUIDs = Organisations.Select(item => item.Organisation.UID).ToList(),
 				});
 				_dayIntervals = new Dictionary<Guid, ObservableCollection<DayInterval>>();
@@ -116,9 +116,9 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		protected override FiresecAPI.Models.PermissionType Permission
+		protected override RubezhAPI.Models.PermissionType Permission
 		{
-			get { return FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit; }
+			get { return RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit; }
 		}
 
 		void OnEditDayInterval(Guid dayInternalUID)
@@ -127,7 +127,7 @@ namespace SKDModule.ViewModels
 			SelectedItem = Organisations.FirstOrDefault();
 		}
 
-		protected override List<ScheduleScheme> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		protected override List<ScheduleScheme> GetFromCallbackResult(RubezhAPI.DbCallbackResult dbCallbackResult)
 		{
 			return dbCallbackResult.ScheduleSchemes;
 		}

@@ -16,10 +16,6 @@ namespace Resurs.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			Initialize();
-			if (Tariffs.Count==0)
-			{
-				SelectedTariff = null;
-			}
 		}
 		private void Initialize()
 		{
@@ -57,7 +53,7 @@ namespace Resurs.ViewModels
 		}
 		void OnAdd()
 		{
-			var tariffDetailsViewModel = new TariffDetailsViewModel(null);
+			var tariffDetailsViewModel = new TariffDetailsViewModel();
 			if (DialogService.ShowModalWindow(tariffDetailsViewModel))
 			{
 				var tariffViewModel = new TariffViewModel(tariffDetailsViewModel.Tariff);
@@ -79,8 +75,8 @@ namespace Resurs.ViewModels
 			{
 				var tariffViewModel = new TariffViewModel(tariffDetailsViewModel.Tariff);
 				SelectedTariff.Tariff = tariffDetailsViewModel.Tariff;
+				DBCash.UpdateTariff(tariffDetailsViewModel.Tariff);
 			}
-			DBCash.UpdateTariff(tariffDetailsViewModel.Tariff);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }

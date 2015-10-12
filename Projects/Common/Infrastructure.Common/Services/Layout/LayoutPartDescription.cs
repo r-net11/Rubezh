@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
-using FiresecAPI.Automation;
-using FiresecAPI.Models.Layouts;
+using RubezhAPI.Automation;
+using RubezhAPI.Models.Layouts;
 
 namespace Infrastructure.Common.Services.Layout
 {

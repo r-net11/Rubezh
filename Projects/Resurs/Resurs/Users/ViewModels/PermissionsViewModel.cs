@@ -33,8 +33,8 @@ namespace Resurs.ViewModels
 
 			PermissionViewModels.Add(new PermissionViewModel(PermissionType.Device));
 			PermissionViewModels.Add(new PermissionViewModel(PermissionType.EditDevice));
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.Apartment));
-			PermissionViewModels.Add(new PermissionViewModel(PermissionType.EditApartment));
+			PermissionViewModels.Add(new PermissionViewModel(PermissionType.Consumer));
+			PermissionViewModels.Add(new PermissionViewModel(PermissionType.EditConsumer));
 			PermissionViewModels.Add(new PermissionViewModel(PermissionType.Tariff));
 			PermissionViewModels.Add(new PermissionViewModel(PermissionType.EditTariff));
 			PermissionViewModels.Add(new PermissionViewModel(PermissionType.Report));

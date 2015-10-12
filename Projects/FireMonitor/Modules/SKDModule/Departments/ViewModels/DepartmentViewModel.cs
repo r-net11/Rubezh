@@ -1,8 +1,8 @@
-﻿using FiresecAPI.SKD;
+﻿using RubezhAPI.SKD;
 
 namespace SKDModule.ViewModels
 {
-	public class DepartmentViewModel : OrganisationElementViewModel<DepartmentViewModel, ShortDepartment>
+	public class DepartmentViewModel : OrganisationElementViewModel<DepartmentViewModel, ShortDepartment>, IEmployeeListParent
 	{
 		public override void InitializeModel(Organisation organisation, ShortDepartment model, Infrastructure.Common.Windows.ViewModels.ViewPartViewModel parentViewModel)
 		{
@@ -19,6 +19,16 @@ namespace SKDModule.ViewModels
 					return Model.Phone;
 			}
 		}
+
+		public void InitializeEmployeeList()
+		{
+			if (EmployeeListViewModel == null)
+			{
+				EmployeeListViewModel = new DepartmentEmployeeListViewModel(this);
+			}
+		}
+
+		public DepartmentEmployeeListViewModel EmployeeListViewModel { get; private set; }
 
 		public override void Update()
 		{

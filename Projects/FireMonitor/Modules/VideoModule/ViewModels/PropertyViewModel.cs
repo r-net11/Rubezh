@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI;
+using RubezhAPI.Models;
+using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace VideoModule.ViewModels
@@ -17,7 +17,7 @@ namespace VideoModule.ViewModels
 		{
 			CellName = cellName;
 			PresentationCellName = presentationCellName;
-			Cameras = new ObservableCollection<Camera>(FiresecManager.SystemConfiguration.Cameras);
+			Cameras = new ObservableCollection<Camera>(ClientManager.SystemConfiguration.Cameras);
 			Cameras.Insert(0, new Camera{UID = new Guid()});
 			SelectedCamera = Cameras.FirstOrDefault(x => x.UID == cameraUid);
 		}

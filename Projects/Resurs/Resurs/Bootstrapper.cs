@@ -9,7 +9,6 @@ using Resurs.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
-using FiresecAPI;
 using Infrastructure.Common.Theme;
 using System.Windows.Forms;
 using ResursRunner;
@@ -30,7 +29,7 @@ namespace Resurs
 				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Main/DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Devices/DataTemplates/Dictionary.xaml"));
-				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Apartments/DataTemplates/Dictionary.xaml"));
+				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Consumers/DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Reports/DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Users/DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "JournalEvents/DataTemplates/Dictionary.xaml"));

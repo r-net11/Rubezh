@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using Infrastructure.Common.Validation;
 using System;
 using Infrastructure.Common;
-using FiresecAPI;
+using RubezhAPI;
 
 namespace GKModule.Validation
 {
@@ -236,21 +236,6 @@ namespace GKModule.Validation
 		{
 			if (door.LockDevice != null)
 			{
-				switch (door.LockDevice.DriverType)
-				{
-					case GKDriverType.RSR2_RM_1:
-					case GKDriverType.RSR2_MVK8:
-					case GKDriverType.RSR2_CodeReader:
-					case GKDriverType.RSR2_CardReader:
-						if (door.LockDevice.Properties.FirstOrDefault(x => x.Name == "Состояние контакта для режима Выключено").Value != 0)
-							Errors.Add(new DeviceValidationError(door.LockDevice, "Парамер 'Состояние контакта для режима Выключено' устройства, участвующего в ТД, должен быть 'Контакт НР'", ValidationErrorLevel.CannotWrite));
-						if (door.LockDevice.Properties.FirstOrDefault(x => x.Name == "Состояние контакта для режима Удержания").Value != 4)
-							Errors.Add(new DeviceValidationError(door.LockDevice, "Парамер 'Состояние контакта для режима Удержания' устройства, участвующего в ТД, должен быть 'Контакт НЗ'", ValidationErrorLevel.CannotWrite));
-						if (door.LockDevice.Properties.FirstOrDefault(x => x.Name == "Состояние контакта для режима Включено").Value != 16)
-							Errors.Add(new DeviceValidationError(door.LockDevice, "Парамер 'Состояние контакта для режима Включено' устройства, участвующего в ТД, должен быть 'Контакт НЗ'", ValidationErrorLevel.CannotWrite));
-						break;
-				}
-
 				switch (door.LockDevice.DriverType)
 				{
 					case GKDriverType.RSR2_RM_1:

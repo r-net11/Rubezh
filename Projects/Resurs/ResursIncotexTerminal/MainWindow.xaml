@@ -1,0 +1,17 @@
+﻿<Window x:Class="ResursIncotexTerminal.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.New" 
+                        Executed="EventhHandler_CommandBinding_New"/>
+    </Window.CommandBindings>
+    <Grid>
+        <Menu Name="MenuMain" Height="22" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+            <MenuItem Name="MenuFile" Header="_File">
+                <MenuItem Name="MenuFileExit" Header="Exit" Height="20" Click="EventhHandler_MenuFileExit_Click"/>
+                <MenuItem Name="MenuFileText" Header="TextCommand" Height="20" Command="ApplicationCommands.New"/>
+            </MenuItem>
+        </Menu> 
+    </Grid>
+</Window>

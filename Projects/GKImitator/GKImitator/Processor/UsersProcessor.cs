@@ -1,6 +1,6 @@
-﻿using FiresecAPI.GK;
+﻿using RubezhAPI.GK;
 using GKProcessor;
-using SKDDriver.DataClasses;
+using RubezhDAL.DataClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;

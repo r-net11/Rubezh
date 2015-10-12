@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 using ResursNetwork.OSI.ApplicationLayer;
 using ResursNetwork.OSI.DataLinkLayer;
 using ResursNetwork.OSI.Messages;
-using ResursNetwork.OSI.Messages.Transaction;
-using ResursNetwork.Devices;
-using ResursNetwork.Devices.Collections.ObjectModel;
+using ResursNetwork.OSI.Messages.Transactions;
+using ResursNetwork.OSI.ApplicationLayer.Devices;
+using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
 using ResursNetwork.Management;
 using ResursNetwork.Incotex.Models;
 using ResursNetwork.Incotex.NetworkControllers.Messages;
@@ -24,8 +24,25 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
     public class IncotexNetworkController: NetworkControllerBase
     {
         #region Fields And Properties
+
         private static DeviceType[] _SupportedDevices = new DeviceType[] { DeviceType.Mercury203 };
-        private static Type[] _SupportedInterfaces = new Type[] { typeof(Incotex.NetworkControllers.DataLinkLayer.ComPort) }; 
+        private static Type[] _SupportedInterfaces = new Type[] { typeof(Incotex.NetworkControllers.DataLinkLayer.ComPort) };
+        private NetworkRequest _CurrentNetworkRequest;
+        private int _RequestTimeout = 2000; // Значение по умолчанию
+        private int _BroadcastRequestDelay = 2000; // Значение по умолчанию
+        private System.Timers.Timer _DataSyncTimer;
+        private int _TotalAttempts = 2;
+        private AutoResetEvent _AutoResetEvent;
+        private static object _SyncRoot = new object(); 
+
+        /// <summary>
+        /// Буфер исходящих сообщений
+        /// </summary>
+        private Queue<NetworkRequest> _OutputBuffer;
+        /// <summary>
+        /// Хранит устройтво для работы в монопольном режиме доступа к устройству
+        /// </summary>
+        private DeviceBase _DeviceForExclusiveMode; 
 
         /// <summary>
         /// Хранит входящее сообщение от удалённого устройтсва во 
@@ -33,29 +50,14 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// </summary>
         private DataMessage _CurrentIncomingMessage;
 
-        private Transaction _CurrentTransaction;
         /// <summary>
         /// Возвращает состояние текущей сетевой транзакции
         /// </summary>
-        public Transaction CurrentTransaction
+        public NetworkRequest CurrentNetworkRequest
         {
-            get { return _CurrentTransaction; }
+            get { return _CurrentNetworkRequest; }
         }
-        /// <summary>
-        /// Готовность котроллера выполнить сетевую транзакцию.
-        /// </summary>
-        public Boolean IsReady
-        {
-            get
-            {
-                return ((Status == Status.Running) && ((CurrentTransaction == null) || 
-                    (!CurrentTransaction.IsRunning))) ? true : false;
-            }
-        }
-        /// <summary>
-        /// Хранит устройтво для работы в монопольном режиме доступа к устройству
-        /// </summary>
-        private DeviceBase _DeviceForExclusiveMode; 
+
         /// <summary>
         /// Возвращает режим опроса сетевых устройств:
         /// true - опрос единственног устройства в монопольном режиме (режим рельного времени)
@@ -65,10 +67,12 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         {
             get { return _DeviceForExclusiveMode == null ? false : true; }
         }
+
         public override IEnumerable<DeviceType> SuppotedDevices
         {
             get { return _SupportedDevices; }
         }
+
         public override IDataLinkPort Connection
         {
             get
@@ -89,7 +93,6 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             }
         }
 
-        private int _RequestTimeout = 1000; // Значение по умолчанию
         /// <summary>
         /// Время (мсек), в течении которого удалённое 
         /// должно ответить на запрос
@@ -110,7 +113,6 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             }
         }
 
-        private int _BroadcastRequestDelay = 2000; // Значение по умолчанию
         /// <summary>
         /// Выдержка времени (мсек) после выполнения широковешательного запроса
         /// </summary>
@@ -131,7 +133,6 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             }
         }
 
-        private int _TotalAttempts;
         /// <summary>
         /// Количество попыток доспупа к устройтву
         /// </summary>
@@ -151,10 +152,6 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             }
         }
 
-        //private AutoResetEvent _AutoResetEvent;
-
-        private System.Timers.Timer _DataSyncTimer;
-
         /// <summary>
         /// Период (мсек) получения данных от удалённых устройтв
         /// </summary>
@@ -164,9 +161,6 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             set { _DataSyncTimer.Interval = value; }
         }
 
-        private AutoResetEvent _AutoResetEvent;
-
-        private static object _SyncRoot = new object(); 
         #endregion
 
         #region Constructors
@@ -175,6 +169,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// </summary>
         public IncotexNetworkController()
         {
+            _OutputBuffer = new Queue<NetworkRequest>();
             _AutoResetEvent = new AutoResetEvent(false);
 
             _DataSyncTimer = new System.Timers.Timer()
@@ -190,6 +185,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Принимает сетевое устройтсво ищет в нём методы с атрибутом 
         /// PeriodicPollingEnabledAttribute и выполняет их.
@@ -206,21 +202,11 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                     (methodInfo.ReturnType == typeof(Transaction)))
                 {
                     // Записываем транзакцию в выходной буфер
-                    for (int i = 0; i < 10; i++)
-                    {
-                        if (IsReady)
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            Thread.Sleep(100);
-                        }
-                    }
-                    Write((Transaction)methodInfo.Invoke(device, new object[0]));
+                    methodInfo.Invoke(device, new object[0]);
                 }
             }
         }
+
         /// <summary>
         /// Обработчик события срабатываения таймера периодического опроса
         /// сетевых устройтств
@@ -237,6 +223,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                 ReadDeviceParameters(device);
             }
         }
+
         /// <summary>
         /// Переводит контроллер в режим монопольного опроса указанного
         /// устройства (мониторинг параметров устройства в режиме рельного времени)
@@ -255,6 +242,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                     "Устройтво не принадлежит данному контроллеру", "device");
             }
         }
+
         /// <summary>
         /// Прекращает монопольный доступ к устройтву 
         /// </summary>
@@ -262,6 +250,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         {
             _DeviceForExclusiveMode = null;
         }
+
         /// <summary>
         /// Обработчик приёма сообщения из сети
         /// </summary>
@@ -313,8 +302,8 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                     "Сетевой контроллер принял одновременно более одного сообщения из сети");
             }
 
-            if ((_CurrentTransaction == null) || 
-                (_CurrentTransaction.Status != TransactionStatus.Running))
+            if ((_CurrentNetworkRequest == null) || 
+                (_CurrentNetworkRequest.Status != NetworkRequestStatus.Running))
             {
                 throw new Exception("Принято сообщение в отсутствии запроса");
             }
@@ -323,102 +312,156 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             _AutoResetEvent.Set();
             _CurrentIncomingMessage = dataMessages[0];
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="cancelToken"></param>
         protected override void NetwokPollingAction(object cancelToken)
         {
+            NetworkRequest networkRequest;
+
             var cancel = (CancellationToken)cancelToken;
             cancel.ThrowIfCancellationRequested();
 
-            //var deviceContextList = _Devices.Select(p => new DeviceContext(p));
-
-            while(!cancel.IsCancellationRequested)
+            while (!cancel.IsCancellationRequested)
             {
-            //    // Делаем опрос устройства
-            //    foreach(DeviceContext deviceContext in deviceContextList)
-            //    {
-            //        if (deviceContext.Cout > 0)
-            //        {
-            //            var p = deviceContext.Next();
-                        
-            //            if (p.PollingEnabled)
-            //            {
-            //                // TODO:
-            //            }
-            //        }
-            //    }
+                while (_OutputBuffer.Count > 0)
+                {
+                    lock (_SyncRoot)
+                    {
+                        networkRequest = _OutputBuffer.Dequeue();
 
-                //while (_OutputBuffer.Count > 0)
-                //{
-                //    Transaction trn;
+                        if (Status != Status.Running)
+                        {
+                            networkRequest.CurrentTransaction.Start();
+                            networkRequest.CurrentTransaction.Abort("Невозможно выполнить запрос, контроллер сети остановлен");
+                            continue;
+                        }
+                    }
+                    if (cancel.IsCancellationRequested)
+                    {
+                        networkRequest.CurrentTransaction.Start();
+                        networkRequest.CurrentTransaction.Abort("Выполнение запроса прервано по требованию");
+                    }
+                    ExecuteTransaction(networkRequest);
 
-                //    if (cancel.IsCancellationRequested)
-                //    {
-                //        break;
-                //    }
-
-                //    lock(_SyncRoot)
-                //    {
-                //        trn = _OutputBuffer.Dequeue();
-                //    }
-                //    _Connection.Write(trn.Request);
-                //}
+                }
                 Thread.Sleep(200);
             }
         }
+
+        public override void Write(NetworkRequest networkRequest)
+        {
+            lock (_SyncRoot)
+            {
+                if (Status == Status.Running)
+                {
+                    networkRequest.TotalAttempts = TotalAttempts;
+                    _OutputBuffer.Enqueue(networkRequest);
+                }
+                else
+                {
+                    throw new InvalidOperationException("Невозможно выполнить операцию. Контроллер остановлен");
+                }
+            }
+        }
+
         /// <summary>
         /// Выполняет сетевую транзакцию 
         /// </summary>
-        /// <param name="transaction"></param>
-        public override void Write(Transaction transaction)
+        /// <param name="networkRequest"></param>
+        public void ExecuteTransaction(NetworkRequest networkRequest)
         {
-            if (!IsReady)
-            {
-                throw new InvalidOperationException("Невозможно выполнить операцию: контроллер занят");
-            }
-
-            if ((transaction.TransactionType != TransactionType.BroadcastMode) &&
-                (transaction.TransactionType != TransactionType.UnicastMode))
+            if ((CurrentNetworkRequest != null) &&
+                (CurrentNetworkRequest.Status == NetworkRequestStatus.Running))
             {
                 throw new InvalidOperationException(
+                    "Попытка выполнить транзакцию во время действия другой");
+            }
+
+            if ((networkRequest.CurrentTransaction.TransactionType != TransactionType.BroadcastMode) &&
+                (networkRequest.CurrentTransaction.TransactionType != TransactionType.UnicastMode))
+            {
+                networkRequest.CurrentTransaction.Start();
+                networkRequest.CurrentTransaction.Abort("Попытка запустить сетевую транзакцию с недопустимым типом");
+                throw new InvalidOperationException(
                     String.Format("Попытка запустить сетевую транзакцию с недопустимым типом: {0}",
-                    transaction.TransactionType));
+                    networkRequest.CurrentTransaction.TransactionType));
             }
 
             // Устанавливаем транзакцию в качестве текущей
-            _CurrentTransaction = transaction;
-
-            // Отправляем запрос к удалённому устройтву
-            _CurrentTransaction.Start();
-            _Connection.Write(_CurrentTransaction.Request);
+            _CurrentNetworkRequest = networkRequest;
 
             // Если запрос адресованный, то ждём ответа
             // Если запрос широковещательный выдерживаем установленную паузу
-            switch (_CurrentTransaction.TransactionType)
+            switch (_CurrentNetworkRequest.CurrentTransaction.TransactionType)
             {
                 case TransactionType.UnicastMode:
                     {
-                        // Ждём ответа от удалённого устройтва или тайм аут
-                        if (!_AutoResetEvent.WaitOne(_RequestTimeout))
+                        var disconnected = false;
+
+                        for (int i = 0; i < TotalAttempts; i++)
                         {
-                            // TimeOut!!! Прекращает текущую транзакцию
-                            _CurrentTransaction.Abort("Request timeout");
+                            // Отправляем запрос к удалённому устройтву
+                            _CurrentNetworkRequest.CurrentTransaction.Start();
+                            _Connection.Write(_CurrentNetworkRequest.CurrentTransaction.Request);
+
+                            // Ждём ответа от удалённого устройтва или тайм аут
+                            if (!_AutoResetEvent.WaitOne(_RequestTimeout))
+                            {
+                                // TimeOut!!! Прекращает текущую транзакцию
+                                _CurrentNetworkRequest.CurrentTransaction.Abort("Request timeout");
+                                
+                                Transaction trn;
+                                // Повторяем запрос
+                                _CurrentNetworkRequest.NextAttempt(out trn);
+                                disconnected = true;
+                                continue;                               
+                            }
+                            else
+                            {
+                                // Ответ получен
+                                _CurrentNetworkRequest.CurrentTransaction.Stop(_CurrentIncomingMessage);
+                                _CurrentIncomingMessage = null;
+                                disconnected = false;
+                                break;
+                            }
+                        }
+                        
+                        // Кол-во попыток доступа к устройтсву исчерпано
+                        if (disconnected)
+                        {
+
+                            //var errors = ((DeviceBase)_CurrentNetworkRequest.CurrentTransaction.Sender).Errors;
+                            //errors.CommunicationError = true;
+                            //((DeviceBase)_CurrentNetworkRequest.CurrentTransaction.Sender).SetError(errors);
                         }
                         else
                         {
-                            // Ответ получен
-                            _CurrentTransaction.Stop(_CurrentIncomingMessage);
-                            _CurrentIncomingMessage = null;
+                            // Если ранее была установлена ошибка связи, то сбрасываем её
+                            //var errors = ((DeviceBase)_CurrentNetworkRequest.CurrentTransaction.Sender).Errors;
+                            //if (errors.CommunicationError == true)
+                            //{
+                            //    errors.CommunicationError = false;
+                            //    ((DeviceBase)_CurrentNetworkRequest.CurrentTransaction.Sender).SetError(errors);
+                            //}
                         }
+
+                        OnNetwrokRequestCompleted(
+                            new NetworkRequestCompletedArgs { NetworkRequest = _CurrentNetworkRequest });
+
                         break;
                     }
                 case TransactionType.BroadcastMode:
                     {
+                        // Отправляем запрос к удалённому устройтву
+                        _CurrentNetworkRequest.CurrentTransaction.Start();
+                        _Connection.Write(_CurrentNetworkRequest.CurrentTransaction.Request);
+
                         if (!_AutoResetEvent.WaitOne(_BroadcastRequestDelay))
                         {
-                            _CurrentTransaction.Stop(null);
+                            _CurrentNetworkRequest.CurrentTransaction.Stop(null);
                         }
                         else
                         {
@@ -434,7 +477,12 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                     }
             }
         }
-        
+
+        public override void SyncDateTime()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region Events

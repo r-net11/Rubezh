@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using FiresecAPI;
+using RubezhAPI;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;

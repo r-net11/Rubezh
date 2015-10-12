@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using Infrastructure.Common;
 
 namespace AutomationModule.ViewModels
@@ -23,7 +23,7 @@ namespace AutomationModule.ViewModels
 		void Initialize()
 		{
 			Filters = new ObservableCollection<FilterViewModel>();
-			foreach (var filter in FiresecManager.SystemConfiguration.JournalFilters)
+			foreach (var filter in ClientManager.SystemConfiguration.JournalFilters)
 			{
 				if (Procedure.FiltersUids.Contains(filter.UID))
 				{

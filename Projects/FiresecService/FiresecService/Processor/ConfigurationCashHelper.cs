@@ -2,11 +2,11 @@
 using System.IO;
 using System.Xml.Serialization;
 using Common;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.SKD;
+using RubezhClient;
 using GKProcessor;
 using Infrastructure.Common;
 using Ionic.Zip;

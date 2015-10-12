@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
@@ -86,7 +86,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetAutomaticRegime(Direction);
+				ClientManager.FiresecService.GKSetAutomaticRegime(Direction);
 			}
 		}
 		bool CanSetAutomaticState()
@@ -99,7 +99,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetManualRegime(Direction);
+				ClientManager.FiresecService.GKSetManualRegime(Direction);
 			}
 		}
 		bool CanSetManualState()
@@ -112,7 +112,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetIgnoreRegime(Direction);
+				ClientManager.FiresecService.GKSetIgnoreRegime(Direction);
 			}
 		}
 		bool CanSetIgnoreState()
@@ -125,7 +125,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOn(Direction);
+				ClientManager.FiresecService.GKTurnOn(Direction);
 			}
 		}
 
@@ -134,7 +134,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOnNow(Direction);
+				ClientManager.FiresecService.GKTurnOnNow(Direction);
 			}
 		}
 
@@ -143,7 +143,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOff(Direction);
+				ClientManager.FiresecService.GKTurnOff(Direction);
 			}
 		}
 
@@ -152,7 +152,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKStop(Direction);
+				ClientManager.FiresecService.GKStop(Direction);
 			}
 		}
 
@@ -187,7 +187,7 @@ namespace GKModule.ViewModels
 		void InitializePlans()
 		{
 			Plans = new ObservableCollection<PlanLinkViewModel>();
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 			{
 				ElementBase elementBase = plan.ElementRectangleGKDirections.FirstOrDefault(x => x.DirectionUID == Direction.UID);
 				if (elementBase != null)
@@ -210,7 +210,7 @@ namespace GKModule.ViewModels
 
 		public bool CanControl
 		{
-			get { return FiresecManager.CheckPermission(PermissionType.Oper_Directions_Control); }
+			get { return ClientManager.CheckPermission(PermissionType.Oper_Directions_Control); }
 		}
 
 		#region IWindowIdentity Members

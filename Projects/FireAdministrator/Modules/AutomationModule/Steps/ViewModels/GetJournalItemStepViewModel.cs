@@ -1,5 +1,5 @@
-﻿using FiresecAPI;
-using FiresecAPI.Automation;
+﻿using RubezhAPI;
+using RubezhAPI.Automation;
 using Infrastructure.Automation;
 using System.Collections.ObjectModel;
 

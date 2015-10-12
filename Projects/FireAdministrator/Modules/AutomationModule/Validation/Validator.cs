@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common.Validation;
 
 namespace AutomationModule.Validation
@@ -10,7 +10,7 @@ namespace AutomationModule.Validation
 
 		public IEnumerable<IValidationError> Validate()
 		{
-			FiresecManager.SystemConfiguration.AutomationConfiguration.UpdateConfiguration();
+			ClientManager.SystemConfiguration.AutomationConfiguration.UpdateConfiguration();
 			Errors = new List<IValidationError>();
 			ValidateGlobalVariableName();
 			ValidateProcedure();

@@ -3,9 +3,9 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -93,7 +93,7 @@ namespace GKSDK
 		public RelayCommand SetAutomaticStateCommand { get; private set; }
 		void OnSetAutomaticState()
 		{
-			FiresecManager.FiresecService.GKSetAutomaticRegime(Device);
+			ClientManager.FiresecService.GKSetAutomaticRegime(Device);
 		}
 		bool CanSetAutomaticState()
 		{
@@ -102,7 +102,7 @@ namespace GKSDK
 		public RelayCommand SetManualStateCommand { get; private set; }
 		void OnSetManualState()
 		{
-			FiresecManager.FiresecService.GKSetManualRegime(Device);
+			ClientManager.FiresecService.GKSetManualRegime(Device);
 		}
 		bool CanSetManualState()
 		{
@@ -111,7 +111,7 @@ namespace GKSDK
 		public RelayCommand SetIgnoreStateCommand { get; private set; }
 		void OnSetIgnoreState()
 		{
-			FiresecManager.FiresecService.GKSetIgnoreRegime(Device);
+			ClientManager.FiresecService.GKSetIgnoreRegime(Device);
 		}
 		bool CanSetIgnoreState()
 		{
@@ -119,11 +119,11 @@ namespace GKSDK
 		}
 		public bool IsTriStateControl
 		{
-			get { return Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_Device_Control); }
+			get { return Device.Driver.IsControlDevice && ClientManager.CheckPermission(PermissionType.Oper_Device_Control); }
 		}
 		public bool IsBiStateControl
 		{
-			get { return Device.Driver.IsDeviceOnShleif && !Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_Device_Control); }
+			get { return Device.Driver.IsDeviceOnShleif && !Device.Driver.IsControlDevice && ClientManager.CheckPermission(PermissionType.Oper_Device_Control); }
 		}
 	}
 }

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.SKD;
+using RubezhClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
 	public class PositionEmployeeListViewModel : EmployeeListBaseViewModel<EmployeeListItemViewModel>
 	{
-		public PositionEmployeeListViewModel(PositionViewModel parent, bool isWithDeleted) : base(parent, isWithDeleted) { }
+		public PositionEmployeeListViewModel(PositionViewModel parent) : base(parent) { }
 
 		protected override bool AddToParent(ShortEmployee employee)
 		{

@@ -5,7 +5,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using Common;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Models;
@@ -79,7 +79,7 @@ namespace VideoModule.Views
 			foreach (var vlcControlView in VlcControlViews)
 			{
 				var cameraUid = ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == vlcControlView.Name).Value;
-				var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
+				var camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
 				if (camera != null)
 				{
 					var vlcControlViewModel = VlcControlHelper.VlcControlViewModels.FirstOrDefault(x => x.RviRTSP == camera.RviRTSP);

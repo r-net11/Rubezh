@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Automation;
-using FiresecClient;
+using RubezhAPI.Automation;
+using RubezhClient;
 
 namespace AutomationModule.ViewModels
 {
@@ -190,7 +190,7 @@ namespace AutomationModule.ViewModels
 		}
 		public override void UpdateContent()
 		{
-			Layouts = new ObservableCollection<LayoutViewModel>(FiresecManager.LayoutsConfiguration.Layouts.Select(item => new LayoutViewModel(item)));
+			Layouts = new ObservableCollection<LayoutViewModel>(ClientManager.LayoutsConfiguration.Layouts.Select(item => new LayoutViewModel(item)));
 			SelectedLayout = Layouts.FirstOrDefault(x => x.Layout.UID == ShowDialogArguments.Layout);
 			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowDialogArguments.LayoutFilter);
 			IsServerContext = Procedure.ContextType == ContextType.Server;

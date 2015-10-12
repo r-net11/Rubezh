@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
-using FiresecClient;
+using RubezhClient;
 
 namespace GKModule.ViewModels
 {

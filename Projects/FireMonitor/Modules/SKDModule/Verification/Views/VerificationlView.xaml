@@ -39,12 +39,12 @@
 
 				<StackPanel Orientation="Horizontal">
 					<TextBlock Width="100" Margin="2" Text="Подразделение" />
-					<TextBlock Margin="2" Text="{Binding Employee.Department.Name}" />
+					<TextBlock Margin="2" Text="{Binding Employee.DepartmentName}" />
 				</StackPanel>
 
 				<StackPanel Orientation="Horizontal">
 					<TextBlock Width="100" Margin="2" Text="Должность" />
-					<TextBlock Margin="2" Text="{Binding Employee.Position.Name}" />
+					<TextBlock Margin="2" Text="{Binding Employee.PositionName}" />
 				</StackPanel>
 
 				<StackPanel Orientation="Horizontal">

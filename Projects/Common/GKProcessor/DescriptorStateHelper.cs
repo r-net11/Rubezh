@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
+using System.Diagnostics;
 
 namespace GKProcessor
 {
@@ -190,10 +191,19 @@ namespace GKProcessor
 				{
 					case GKDriverType.RSR2_MDU:
 					case GKDriverType.RSR2_MDU24:
+					case GKDriverType.RSR2_Buz_KV:
+					case GKDriverType.RSR2_Buz_KVMV:
+					case GKDriverType.RSR2_Buz_KVDU:
 						if (additionalShortParameters[1] == 1)
+						{
 							OnDelay = additionalShortParameters[0];
+							HoldDelay = 0;
+						}
 						if (additionalShortParameters[1] == 2)
+						{
 							HoldDelay = additionalShortParameters[0];
+							OnDelay = 0;
+						}
 						break;
 					case GKDriverType.RSR2_MVK8:
 					case GKDriverType.RSR2_RM_1:

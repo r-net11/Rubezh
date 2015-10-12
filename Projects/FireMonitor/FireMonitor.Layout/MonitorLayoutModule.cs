@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using FireMonitor.Layout.ViewModels;
 using FireMonitor.ViewModels;
-using FiresecAPI.Models.Layouts;
+using RubezhAPI.Models.Layouts;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;

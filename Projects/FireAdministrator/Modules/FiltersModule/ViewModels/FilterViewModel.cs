@@ -6,8 +6,8 @@ using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Ink;
-using FiresecAPI;
-using FiresecAPI.Journal;
+using RubezhAPI;
+using RubezhAPI.Journal;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Practices.Prism;
 

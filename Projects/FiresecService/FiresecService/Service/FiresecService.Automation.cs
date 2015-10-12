@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.Automation;
-using FiresecAPI.AutomationCallback;
+using RubezhAPI;
+using RubezhAPI.Automation;
+using RubezhAPI.AutomationCallback;
 using Infrastructure.Automation;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace FiresecService.Service
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 

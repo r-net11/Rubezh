@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using FiresecAPI;
-using FiresecAPI.Models.Layouts;
-using FiresecClient;
+using RubezhAPI;
+using RubezhAPI.Models.Layouts;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
@@ -15,7 +15,7 @@ using LayoutModule.ViewModels;
 using Infrastructure.Common.Validation;
 using LayoutModule.Validation;
 using LayoutModule.LayoutParts.ViewModels;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 
 namespace LayoutModule
 {
@@ -53,7 +53,7 @@ namespace LayoutModule
 		public override bool BeforeInitialize(bool firstTime)
 		{
 			LoadingService.DoStep("Загрузка конфигурации макетов ОЗ");
-			FiresecManager.LayoutsConfiguration.Update();
+			ClientManager.LayoutsConfiguration.Update();
 			return true;
 		}
 

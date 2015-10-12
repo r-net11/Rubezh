@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using RubezhAPI;
+using RubezhAPI.SKD;
 
 namespace FiresecService.Service
 {

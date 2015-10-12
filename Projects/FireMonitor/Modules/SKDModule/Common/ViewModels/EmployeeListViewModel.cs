@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.SKD;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -19,13 +19,13 @@ namespace SKDModule.ViewModels
 		protected abstract EmployeeFilter EmptyFilter { get; }
 		public virtual bool CanEditDepartment { get { return false; } }
 		public virtual bool CanEditPosition { get { return false; } }
-		protected IOrganisationElementViewModel _parent;
+		protected IEmployeeListParent _parent;
 		protected bool _isWithDeleted;
 		protected bool _isOrganisationDeleted;
 		
 		public bool IsDeleted { get { return _parent.IsDeleted; } }
 		
-		public EmployeeListBaseViewModel(IOrganisationElementViewModel parent, bool isWithDeleted)
+		public EmployeeListBaseViewModel(IEmployeeListParent parent)
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
@@ -36,13 +36,13 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Subscribe(OnEditEmployee);
 			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Unsubscribe(OnEditEmployee);
 			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Subscribe(OnEditEmployee);
-			Initialize(parent, isWithDeleted);
+			Initialize(parent);
 		}
 
-		public void Initialize(IOrganisationElementViewModel parent, bool isWithDeleted)
+		void Initialize(IEmployeeListParent parent)
 		{
 			_parent = parent;
-			_isWithDeleted = isWithDeleted;
+			_isWithDeleted = parent.IsWithDeleted;
 			_isOrganisationDeleted = _parent.IsOrganisationDeleted;
 			var employeeModels = EmployeeHelper.Get(Filter);
 			if (employeeModels == null)
@@ -104,7 +104,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return !_parent.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
+			return !_parent.IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -122,7 +122,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return !_parent.IsDeleted && SelectedEmployee != null && !SelectedEmployee.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
+			return !_parent.IsDeleted && SelectedEmployee != null && !SelectedEmployee.IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -138,7 +138,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return !_parent.IsDeleted && SelectedEmployee != null && !SelectedEmployee.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
+			return !_parent.IsDeleted && SelectedEmployee != null && !SelectedEmployee.IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
 		}
 
 		protected abstract bool AddToParent(ShortEmployee employee);

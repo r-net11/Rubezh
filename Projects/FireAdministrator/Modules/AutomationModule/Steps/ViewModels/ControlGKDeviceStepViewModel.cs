@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.Automation;
-using FiresecAPI.GK;
+using RubezhAPI;
+using RubezhAPI.Automation;
+using RubezhAPI.GK;
 using System.ComponentModel;
 using Infrastructure.Automation;
 

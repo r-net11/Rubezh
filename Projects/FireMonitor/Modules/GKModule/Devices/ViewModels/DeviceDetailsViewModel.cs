@@ -6,9 +6,9 @@ using System.Threading;
 using System.Windows.Input;
 using System.Windows.Media;
 using DeviceControls;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -86,7 +86,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (Device.DriverType == GKDriverType.RSR2_MDU24 || Device.DriverType == GKDriverType.RSR2_MDU)
+				if (Device.DriverType == GKDriverType.RSR2_MDU24 || Device.DriverType == GKDriverType.RSR2_MDU || Device.DriverType == GKDriverType.RSR2_Buz_KV || Device.DriverType == GKDriverType.RSR2_Buz_KVMV || Device.DriverType == GKDriverType.RSR2_Buz_KVDU)
 					return (State.StateClasses.Contains(XStateClass.TurningOn) || State.StateClasses.Contains(XStateClass.TurningOff)) && State.HoldDelay > 0;
 				return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0;
 			}
@@ -100,7 +100,7 @@ namespace GKModule.ViewModels
 		}
 		public bool HasRunTime
 		{
-			get { return Device.DriverType == GKDriverType.RSR2_MDU || Device.DriverType == GKDriverType.RSR2_MDU24; }
+			get { return Device.DriverType == GKDriverType.RSR2_MDU || Device.DriverType == GKDriverType.RSR2_MDU24 || Device.DriverType == GKDriverType.RSR2_Buz_KV || Device.DriverType == GKDriverType.RSR2_Buz_KVMV || Device.DriverType == GKDriverType.RSR2_Buz_KVDU; }
 		}
 
 		#region Measure Parameters
@@ -144,10 +144,10 @@ namespace GKModule.ViewModels
 			{
 				if (CancelBackgroundWorker)
 					break;
-				FiresecManager.FiresecService.GKStartMeasureMonitoring(Device);
+				ClientManager.FiresecService.GKStartMeasureMonitoring(Device);
 				Thread.Sleep(TimeSpan.FromSeconds(10));
 			}
-			FiresecManager.FiresecService.GKStopMeasureMonitoring(Device);
+			ClientManager.FiresecService.GKStopMeasureMonitoring(Device);
 		}
 
 		void OnMeasureParametersChanged()
@@ -192,7 +192,7 @@ namespace GKModule.ViewModels
 		void InitializePlans()
 		{
 			Plans = new ObservableCollection<PlanLinkViewModel>();
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 			{
 				ElementBase elementBase = plan.ElementGKDevices.FirstOrDefault(x => x.DeviceUID == Device.UID);
 				if (elementBase != null)
@@ -208,7 +208,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var planes = FiresecManager.PlansConfiguration.AllPlans.Where(item => item.ElementGKDevices.Any(element => element.DeviceUID == Device.UID));
+				var planes = ClientManager.PlansConfiguration.AllPlans.Where(item => item.ElementGKDevices.Any(element => element.DeviceUID == Device.UID));
 				var planViewModels = new ObservableCollection<PlanViewModel>();
 				foreach (var plan in planes)
 				{
@@ -242,7 +242,7 @@ namespace GKModule.ViewModels
 
 		public bool CanNotControl
 		{
-			get { return !(Device.Driver.IsControlDevice || (Device.Driver.IsDeviceOnShleif && !Device.Driver.IsControlDevice)) || !FiresecManager.CheckPermission(PermissionType.Oper_Device_Control); }
+			get { return !(Device.Driver.IsControlDevice || (Device.Driver.IsDeviceOnShleif && !Device.Driver.IsControlDevice)) || !ClientManager.CheckPermission(PermissionType.Oper_Device_Control); }
 		}
 
 		void OnGKObjectsPropertyChanged(GKPropertyChangedCallback gkPropertyChangedCallback)

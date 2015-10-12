@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using ResursNetwork.Management;
 using ResursNetwork.Networks.Collections.ObjectModel;
-using ResursNetwork.Devices;
+using ResursNetwork.OSI.ApplicationLayer.Devices;
 using ResursNetwork.OSI.ApplicationLayer;
 using ResursNetwork.OSI.DataLinkLayer;
 using ResursNetwork.Incotex.Models;
@@ -105,6 +105,15 @@ namespace ResursNetwork.Networks
                                     };
 
                                     _NetworkControllers.Add((INetwrokController)incotexController);
+
+                                    if (network.IsActive)
+                                    { 
+                                        incotexController.Start(); 
+                                    }
+                                    else
+                                    {
+                                        incotexController.Stop(); 
+                                    }
                                     break; 
                                 }
                             default:
@@ -152,7 +161,7 @@ namespace ResursNetwork.Networks
                                     {
                                         Id = (Guid)device.GetParameter(ParameterNamesMercury203.Id),
                                         Address = (UInt32)device.GetParameter(ParameterNamesMercury203.Address),
-                                        //Status = device.GetParameter(ParameterNamesMercury203.
+                                        Status = device.IsActive ? Status.Running : Status.Stopped
                                     };
 
                                     mercury203.Parameters[ParameterNamesMercury203.GADDR].Value =
@@ -246,6 +255,15 @@ namespace ResursNetwork.Networks
                 device.Status = status ? Status.Running : Status.Stopped;
             }
 
+        }
+
+        /// <summary>
+        /// Синхронизирует дату и время устройтсв в указанной сети
+        /// </summary>
+        /// <param name="networkId"></param>
+        public void SyncDateTime(Guid networkId)
+        {
+            _NetworkControllers[networkId].SyncDateTime();
         }
 
         /// <summary>

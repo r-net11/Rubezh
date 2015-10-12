@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.SKD;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
 using SKDModule.Events;
@@ -12,8 +12,8 @@ namespace SKDModule.ViewModels
 {
 	public class DepartmentEmployeeListViewModel : EmployeeListBaseViewModel<DepartmentEmployeeListItemViewModel>
 	{
-		public DepartmentEmployeeListViewModel(DepartmentViewModel parent, bool isWithDeleted)
-			: base(parent, isWithDeleted)
+		public DepartmentEmployeeListViewModel(DepartmentViewModel parent)
+			: base(parent)
 		{
 			var chief = Employees.FirstOrDefault(x => x.Employee.UID == parent.Model.ChiefUID);
 			if (chief != null)
@@ -30,7 +30,7 @@ namespace SKDModule.ViewModels
         {
             base.AfterInitialize();
             var departmentViewModel = _parent as DepartmentViewModel;
-            var chief = Employees.FirstOrDefault(x => x.Employee.UID == departmentViewModel.Model.ChiefUID);
+			var chief = Employees.FirstOrDefault(x => x.Employee.UID == departmentViewModel.Model.ChiefUID);
             if (chief != null)
             {
                 chief.IsChief = true;
@@ -103,7 +103,7 @@ namespace SKDModule.ViewModels
                 return SelectedEmployee != null && 
                     !SelectedEmployee.IsDeleted && 
                     !SelectedEmployee.IsChief && 
-                    FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit) && 
+                    ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Departments_Etit) && 
                     !_parent.IsDeleted; }
 		}
 
@@ -121,7 +121,7 @@ namespace SKDModule.ViewModels
             {   return SelectedEmployee != null && 
                     !SelectedEmployee.IsDeleted && 
                     SelectedEmployee.IsChief && 
-                    FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit) &&
+                    ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Departments_Etit) &&
                     !_parent.IsDeleted; 
             }
 		}

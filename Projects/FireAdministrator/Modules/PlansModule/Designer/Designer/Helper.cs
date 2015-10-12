@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Media;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.Models;
+using RubezhClient;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 
@@ -19,7 +19,7 @@ namespace PlansModule.Designer
 		
 		public static Plan GetPlan(ElementSubPlan element)
 		{
-			return FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == element.PlanUID);
+			return ClientManager.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == element.PlanUID);
 		}
 		public static string GetSubPlanTitle(ElementSubPlan element)
 		{

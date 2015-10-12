@@ -11,10 +11,10 @@ namespace ResursAPI
 		EditDevice,
 
 		[DescriptionAttribute("Вкладка Абоненты")]
-		Apartment,
+		Consumer,
 
 		[DescriptionAttribute("Редактирование вкладки Абоненты")]
-		EditApartment,
+		EditConsumer,
 
 		[DescriptionAttribute("Вкладка  Пользователи")]
 		User,

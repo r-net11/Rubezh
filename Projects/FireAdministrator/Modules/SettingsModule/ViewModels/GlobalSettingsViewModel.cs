@@ -3,8 +3,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using FiresecAPI;
-using FiresecClient;
+using RubezhAPI;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -188,7 +188,7 @@ namespace SettingsModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить базу данных?"))
 			{
-				var result = FiresecManager.FiresecService.ResetDB();
+				var result = ClientManager.FiresecService.ResetDB();
 				if (result.HasError)
 					MessageBoxService.Show(result.Error);
 			}

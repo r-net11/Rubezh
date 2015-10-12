@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.SKD.ReportFilters;
+using RubezhAPI.SKD.ReportFilters;
 
 namespace Infrastructure.Common.SKDReports
 {

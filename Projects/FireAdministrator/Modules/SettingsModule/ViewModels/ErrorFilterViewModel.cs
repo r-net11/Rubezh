@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI;
+using RubezhAPI;
 using Infrastructure.Common;
 
 namespace SettingsModule.ViewModels

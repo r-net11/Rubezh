@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FiresecAPI.AutomationCallback;
+using RubezhAPI.AutomationCallback;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient;
+using RubezhClient;
 
 namespace FireMonitor.Layout.ViewModels
 {
@@ -40,7 +40,7 @@ namespace FireMonitor.Layout.ViewModels
 
 		public LayoutDialogViewModel(Guid layoutUID)
 		{
-			var layout = FiresecManager.LayoutsConfiguration.Layouts.FirstOrDefault(item => item.UID == layoutUID);
+			var layout = ClientManager.LayoutsConfiguration.Layouts.FirstOrDefault(item => item.UID == layoutUID);
 			LayoutContainer = new LayoutContainer(this, layout);
 		}
 

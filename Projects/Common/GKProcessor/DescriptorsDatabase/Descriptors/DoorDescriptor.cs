@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 
 namespace GKProcessor
 {
@@ -287,12 +287,13 @@ namespace GKProcessor
 					Formula.Add(FormulaOperationType.CONST, 0, (byte)exitZone.No);
 					Formula.Add(FormulaOperationType.PUTP);
 					Formula.Add(FormulaOperationType.CONST, 0, 1);
-					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door);
 				}
 				else
 				{
-					Formula.Add(FormulaOperationType.BR, 1, 1);
+					Formula.Add(FormulaOperationType.BR, 1, 3);
+					Formula.Add(FormulaOperationType.CONST, 0, 1);
 				}
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door);
 				Formula.Add(FormulaOperationType.EXIT);
 			}
 
@@ -309,12 +310,13 @@ namespace GKProcessor
 					Formula.Add(FormulaOperationType.CONST, 0, (byte)enterZone.No);
 					Formula.Add(FormulaOperationType.PUTP);
 					Formula.Add(FormulaOperationType.CONST, 0, 1);
-					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door);
 				}
 				else
 				{
-					Formula.Add(FormulaOperationType.BR, 1, 1);
+					Formula.Add(FormulaOperationType.BR, 1, 3);
+					Formula.Add(FormulaOperationType.CONST, 0, 1);
 				}
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door);
 				Formula.Add(FormulaOperationType.EXIT);
 			}
 			Formula.AddGetBit(GKStateBit.Attention, enterDevice);

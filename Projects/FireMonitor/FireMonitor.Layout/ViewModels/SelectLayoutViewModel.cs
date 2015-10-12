@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Models.Layouts;
+using RubezhAPI.Models.Layouts;
 using Infrastructure.Client.Startup;
 using Infrastructure.Common.Windows;
 
@@ -8,7 +8,7 @@ namespace FireMonitor.Layout.ViewModels
 {
 	public class SelectLayoutViewModel : SaveCancelDialogViewModel
 	{
-		public SelectLayoutViewModel(List<FiresecAPI.Models.Layouts.Layout> layouts)
+		public SelectLayoutViewModel(List<RubezhAPI.Models.Layouts.Layout> layouts)
 		{
 			Layouts = layouts;
 			TopMost = true;
@@ -18,10 +18,10 @@ namespace FireMonitor.Layout.ViewModels
 			CancelCaption = "Выйти";
 		}
 
-		public List<FiresecAPI.Models.Layouts.Layout> Layouts { get; private set; }
+		public List<RubezhAPI.Models.Layouts.Layout> Layouts { get; private set; }
 
-		FiresecAPI.Models.Layouts.Layout _selectedLayout;
-		public FiresecAPI.Models.Layouts.Layout SelectedLayout
+		RubezhAPI.Models.Layouts.Layout _selectedLayout;
+		public RubezhAPI.Models.Layouts.Layout SelectedLayout
 		{
 			get { return _selectedLayout; }
 			set
