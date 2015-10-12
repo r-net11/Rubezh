@@ -48,11 +48,12 @@ function EmployeeDetailsViewModel() {
     }
 
     self.SaveEmployee = function () {
+        var data = ko.mapping.toJSON(self);
         $.ajax({
             url: location.href,
             type: "post",
             contentType: "application/json",
-            data: ko.mapping.toJSON(self),
+            data: data,
             success: function (response) {
                 alert(response.Status);
             }
