@@ -15,7 +15,11 @@
 		<Views:RepxSelectionView />
 	</DataTemplate>
 	
-	<DataTemplate DataType="{x:Type ViewModels:ReportFilterViewModel}">
-		<Views:ReportFilterView />
+	<DataTemplate DataType="{x:Type ViewModels:ChangeFlowFilterViewModel}">
+		<Views:ChangeFlowFilterView />
+	</DataTemplate>
+	
+	<DataTemplate DataType="{x:Type ViewModels:DebtorsFilterViewModel}">
+		<Views:DebtorsFilterView />
 	</DataTemplate>
 </ResourceDictionary>

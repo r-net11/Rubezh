@@ -467,6 +467,14 @@
     <Compile Include="Reports\Templates\ReceiptsReport.Designer.cs">
       <DependentUpon>ReceiptsReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="Reports\ViewModels\ChangeFlowFilterViewModel.cs" />
+    <Compile Include="Reports\ViewModels\DebtorsFilterViewModel.cs" />
+    <Compile Include="Reports\Views\ChangeFlowFilterView.xaml.cs">
+      <DependentUpon>ChangeFlowFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\DebtorsFilterView.xaml.cs">
+      <DependentUpon>DebtorsFilterView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Settings\ViewModels\SettingsViewModel.cs" />
     <Compile Include="Settings\Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -494,9 +502,6 @@
       <DependentUpon>DebtorsReport.cs</DependentUpon>
     </Compile>
     <Compile Include="Reports\ViewModels\ReportFilterViewModel.cs" />
-    <Compile Include="Reports\Views\ReportFilterView.xaml.cs">
-      <DependentUpon>ReportFilterView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Users\ViewModels\PermissionsViewModel.cs" />
     <Compile Include="Users\ViewModels\PermissionViewModel.cs" />
     <Compile Include="Tariffs\ViewModels\TariffsViewModel.cs" />
@@ -605,15 +610,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Reports\Views\ChangeFlowFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\DebtorsFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Settings\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Settings\Views\SettingsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Reports\Views\ReportFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

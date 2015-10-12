@@ -22,9 +22,7 @@ namespace Resurs.ViewModels
 			OpenReportDesignerCommand = new RelayCommand(OnOpenReportDesigner, CanOpenReportDesigner);
 			ShowPreviewReportCommand = new RelayCommand(OnShowPreviewReport, CanShowPreviewReport);
 			FitPageSizeCommand = new RelayCommand<ZoomFitMode>(OnFitPageSize, CanFitPageSize);
-			ReportFilterViewModel = new ReportFilterViewModel();
 			ReportTypes = new List<ReportType>(Enum.GetValues(typeof(ReportType)).Cast<ReportType>());
-			Filter = ReportFilterViewModel.Filter;
 			//var path = @"C:\";
 			//foreach (var filePath in Directory.EnumerateFiles(path, "*.repx"))
 			//{
@@ -54,6 +52,16 @@ namespace Resurs.ViewModels
 			set
 			{
 				_selectedReportType = value;
+				switch (_selectedReportType)
+				{
+					case ReportType.ChangeFlow:
+						ReportFilterViewModel = new ChangeFlowFilterViewModel();
+						break;
+					case ReportType.Debtors:
+						ReportFilterViewModel = new DebtorsFilterViewModel();
+						break;
+				}						
+				Filter = ReportFilterViewModel.Filter;
 				ShowPreviewReportCommand.Execute();
 				OnPropertyChanged(() => SelectedReportType);
 			}
@@ -69,7 +77,7 @@ namespace Resurs.ViewModels
 		}
 		private bool CanChangeFilter()
 		{
-			return SelectedReportType != null && SelectedReportType != ReportType.Debtors && SelectedReportType !=ReportType.Receipts;
+			return SelectedReportType != null && SelectedReportType !=ReportType.Receipts;
 		}
 		public RelayCommand OpenReportDesignerCommand { get; private set; }
 		private void OnOpenReportDesigner()
@@ -88,7 +96,7 @@ namespace Resurs.ViewModels
 		}
 		private bool CanShowPreviewReport()
 		{
-			return SelectedReportType != null && IsFilterValidate();
+			return SelectedReportType != null;
 		}
 		public RelayCommand<ZoomFitMode> FitPageSizeCommand { get; private set; }
 		private void OnFitPageSize(ZoomFitMode fitMode)
@@ -109,22 +117,6 @@ namespace Resurs.ViewModels
 		{
 			Model = CreateModel(SelectedReportType);
 			Model.Report.CreateDocument();
-		}
-		private bool IsFilterValidate()
-		{
-			switch (SelectedReportType)
-			{
-				case ReportType.ChangeFlow:
-					{
-						if (Filter.Device == null)
-						{
-							MessageBoxService.ShowError("В системе нет счетчиков.");
-							return false;
-						}
-						break;
-					}
-			}
-			return true;
 		}
 		private ReportPreviewModel CreateModel(ReportType? reportType)
 		{
