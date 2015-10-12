@@ -5738,6 +5738,10 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<System.Guid> _OrganisationUID;
 		
+		private int _AllowedAbsentLowThan;
+		
+		private int _NotAllowOvertimeLowerThan;
+		
 		private EntitySet<ScheduleZone> _ScheduleZones;
 		
 		private EntitySet<Employee> _Employees;
@@ -5770,6 +5774,10 @@ namespace SKDDriver.DataAccess
     partial void OnRemovalDateChanged();
     partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
     partial void OnOrganisationUIDChanged();
+    partial void OnAllowedAbsentLowThanChanging(int value);
+    partial void OnAllowedAbsentLowThanChanged();
+    partial void OnNotAllowOvertimeLowerThanChanging(int value);
+    partial void OnNotAllowOvertimeLowerThanChanged();
     #endregion
 		
 		public Schedule()
@@ -5985,6 +5993,46 @@ namespace SKDDriver.DataAccess
 					this._OrganisationUID = value;
 					this.SendPropertyChanged("OrganisationUID");
 					this.OnOrganisationUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AllowedAbsentLowThan", DbType="Int NOT NULL")]
+		public int AllowedAbsentLowThan
+		{
+			get
+			{
+				return this._AllowedAbsentLowThan;
+			}
+			set
+			{
+				if ((this._AllowedAbsentLowThan != value))
+				{
+					this.OnAllowedAbsentLowThanChanging(value);
+					this.SendPropertyChanging();
+					this._AllowedAbsentLowThan = value;
+					this.SendPropertyChanged("AllowedAbsentLowThan");
+					this.OnAllowedAbsentLowThanChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NotAllowOvertimeLowerThan", DbType="Int NOT NULL")]
+		public int NotAllowOvertimeLowerThan
+		{
+			get
+			{
+				return this._NotAllowOvertimeLowerThan;
+			}
+			set
+			{
+				if ((this._NotAllowOvertimeLowerThan != value))
+				{
+					this.OnNotAllowOvertimeLowerThanChanging(value);
+					this.SendPropertyChanging();
+					this._NotAllowOvertimeLowerThan = value;
+					this.SendPropertyChanged("NotAllowOvertimeLowerThan");
+					this.OnNotAllowOvertimeLowerThanChanged();
 				}
 			}
 		}

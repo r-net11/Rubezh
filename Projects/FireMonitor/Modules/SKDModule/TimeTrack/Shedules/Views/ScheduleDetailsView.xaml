@@ -56,6 +56,12 @@
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
+		<TextBlock
+			Grid.Row="2"
+			Text="График"
+			Margin="20 0"
+			Foreground="White"
+			VerticalAlignment="Center"/>
 		<ComboBox
 			Grid.Row="2"
 			Grid.Column="1"
@@ -105,19 +111,21 @@
 				<CheckBox
 					Grid.Column="1"
 					VerticalAlignment="Center"
-					Foreground="White">
+					Foreground="White"
+					IsChecked="{Binding IsEnabledAllowLate, UpdateSourceTrigger=PropertyChanged}">
 					<TextBlock Margin="0 -1 0 0" Text="Не учитывать опаздания меньше" TextWrapping="Wrap" />
 				</CheckBox>
 				<TimePicker
 					Grid.Column="2"
 					Margin="5"
 					VerticalAlignment="Center"
-					TimeSpan="{Binding AllowedLate, UpdateSourceTrigger=PropertyChanged}" />
+					TimeSpan="{Binding AllowedLate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 				<CheckBox
 					Grid.Row="1"
 					Grid.Column="1"
 					VerticalAlignment="Center"
-					Foreground="White">
+					Foreground="White"
+					IsChecked="{Binding IsAllowAbsent, UpdateSourceTrigger=PropertyChanged}">
 						<TextBlock Margin="0 -1 0 0" Text="Разрешить отсутствия меньше" TextWrapping="Wrap" />
 				</CheckBox>
 				<TimePicker
@@ -125,12 +133,13 @@
 					Grid.Column="2"
 					Margin="5"
 					VerticalAlignment="Center"
-					TimeSpan="{Binding AllowedAbsentLowThan, UpdateSourceTrigger=PropertyChanged}" />
+					TimeSpan="{Binding AllowedAbsentLowThan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 				<CheckBox
 					Grid.Row="2"
 					Grid.Column="1"
 					VerticalAlignment="Center"
-					Foreground="White">
+					Foreground="White"
+					IsChecked="{Binding IsEnabledAllowEarlyLeave, UpdateSourceTrigger=PropertyChanged}">
 					<TextBlock Margin="0 -1 0 0" Text="Не учитывать уходы раньше меньше" TextWrapping="Wrap" />
 				</CheckBox>
 				<TimePicker
@@ -138,12 +147,13 @@
 					Grid.Column="2"
 					Margin="5"
 					VerticalAlignment="Center"
-					TimeSpan="{Binding AllowedEarlyLeave, UpdateSourceTrigger=PropertyChanged}" />
+					TimeSpan="{Binding AllowedEarlyLeave, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 				<CheckBox
 					Grid.Row="3"
 					Grid.Column="1"
 					VerticalAlignment="Center"
-					Foreground="White">
+					Foreground="White"
+					IsChecked="{Binding IsEnabledOvertime, UpdateSourceTrigger=PropertyChanged}">
 					<TextBlock Margin="0 -1 0 0" Text="Не учитывать переработки меньше" TextWrapping="Wrap" />
 				</CheckBox>
 				<TimePicker
@@ -151,9 +161,8 @@
 					Grid.Column="2"
 					Margin="5"
 					VerticalAlignment="Center"
-					TimeSpan="{Binding NotAllowOvertimeLowerThan, UpdateSourceTrigger=PropertyChanged}" />
+					TimeSpan="{Binding NotAllowOvertimeLowerThan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 			</Grid>
 		</Grid>
-
 	</Grid>
 </UserControl>

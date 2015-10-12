@@ -1616,3 +1616,13 @@ BEGIN
 ALTER TABLE [Card] ADD [IsHandicappedCard] bit NOT NULL DEFAULT 0
 INSERT INTO Patches (Id) VALUES ('AddIsHandicappedCardColumn')
 END
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddAllowedAbsentLowThan')
+BEGIN
+ALTER TABLE [Schedule] ADD [AllowedAbsentLowThan] int NOT NULL DEFAULT 0
+INSERT INTO Patches (Id) VALUES ('AddAllowedAbsentLowThan')
+END
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddNotAllowOvertimeLowerThan')
+BEGIN
+ALTER TABLE [Schedule] ADD [NotAllowOvertimeLowerThan] int NOT NULL DEFAULT 0
+INSERT INTO Patches (Id) VALUES ('AddNotAllowOvertimeLowerThan')
+END

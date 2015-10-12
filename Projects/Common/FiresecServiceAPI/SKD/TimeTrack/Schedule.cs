@@ -28,6 +28,12 @@ namespace FiresecAPI.SKD
 		public TimeSpan AllowedLate { get; set; }
 
 		[DataMember]
+		public TimeSpan AllowedAbsentLowThan { get; set; }
+
+		[DataMember]
+		public TimeSpan NotAllowOvertimeLowerThan { get; set; }
+
+		[DataMember]
 		public TimeSpan AllowedEarlyLeave { get; set; }
 
 		[DataMember]

@@ -1,5 +1,4 @@
-﻿using System.Data.SqlTypes;
-using Common;
+﻿using Common;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using LinqKit;

@@ -10,70 +10,28 @@ namespace SKDModule.ViewModels
 {
 	public class ScheduleDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<Schedule>
 	{
-		FiresecAPI.SKD.Organisation Organisation;
+		#region Fields
+		private readonly TimeSpan DefaultMinutesValue = new TimeSpan(0, 5, 0);
+		Organisation Organisation;
 		IEnumerable<ScheduleScheme> _schemes;
-		public Schedule Model { get; private set; }
 		bool _isNew;
-		public ScheduleDetailsViewModel() { }
+		#endregion
 
-		string _name;
-		public string Name
-		{
-			get { return _name; }
-			set
-			{
-				_name = value;
-				OnPropertyChanged(() => Name);
-			}
-		}
-
-		bool _isIgnoreHoliday;
-		public bool IsIgnoreHoliday
-		{
-			get { return _isIgnoreHoliday; }
-			set
-			{
-				_isIgnoreHoliday = value;
-				OnPropertyChanged(() => IsIgnoreHoliday);
-			}
-		}
-
-		bool _isOnlyFirstEnter;
-		public bool IsOnlyFirstEnter
-		{
-			get { return _isOnlyFirstEnter; }
-			set
-			{
-				_isOnlyFirstEnter = value;
-				OnPropertyChanged(() => IsOnlyFirstEnter);
-			}
-		}
-
-		TimeSpan _allowedLate;
-		public TimeSpan AllowedLate
-		{
-			get { return _allowedLate; }
-			set
-			{
-				_allowedLate = value;
-				OnPropertyChanged(() => AllowedLate);
-			}
-		}
-
-		TimeSpan _allowedEarlyLeave;
-		public TimeSpan AllowedEarlyLeave
-		{
-			get { return _allowedEarlyLeave; }
-			set
-			{
-				_allowedEarlyLeave = value;
-				OnPropertyChanged(() => AllowedEarlyLeave);
-			}
-		}
-
+		#region Properties
 		public ObservableCollection<ScheduleSchemeType> AvailableScheduleTypes { get; private set; }
 
-		ScheduleSchemeType _selectedScheduleType;
+		private ScheduleScheme _selectedScheduleScheme;
+		public ScheduleScheme SelectedScheduleScheme
+		{
+			get { return _selectedScheduleScheme; }
+			set
+			{
+				_selectedScheduleScheme = value;
+				OnPropertyChanged(() => SelectedScheduleScheme);
+			}
+		}
+
+		private ScheduleSchemeType _selectedScheduleType;
 		public ScheduleSchemeType SelectedScheduleType
 		{
 			get { return _selectedScheduleType; }
@@ -87,7 +45,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		ObservableCollection<ScheduleScheme> _availableScheduleSchemes;
+		private ObservableCollection<ScheduleScheme> _availableScheduleSchemes;
 		public ObservableCollection<ScheduleScheme> AvailableScheduleSchemes
 		{
 			get { return _availableScheduleSchemes; }
@@ -98,16 +56,136 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		ScheduleScheme _selectedScheduleScheme;
-		public ScheduleScheme SelectedScheduleScheme
+		public Schedule Model { get; private set; }
+
+		private string _name;
+		public string Name
 		{
-			get { return _selectedScheduleScheme; }
+			get { return _name; }
 			set
 			{
-				_selectedScheduleScheme = value;
-				OnPropertyChanged(() => SelectedScheduleScheme);
+				_name = value;
+				OnPropertyChanged(() => Name);
 			}
 		}
+
+		private bool _isIgnoreHoliday;
+		public bool IsIgnoreHoliday
+		{
+			get { return _isIgnoreHoliday; }
+			set
+			{
+				_isIgnoreHoliday = value;
+				OnPropertyChanged(() => IsIgnoreHoliday);
+			}
+		}
+
+		private bool _isOnlyFirstEnter;
+		public bool IsOnlyFirstEnter
+		{
+			get { return _isOnlyFirstEnter; }
+			set
+			{
+				_isOnlyFirstEnter = value;
+				OnPropertyChanged(() => IsOnlyFirstEnter);
+			}
+		}
+
+		private bool _isEnabledAllowLate;
+
+		public bool IsEnabledAllowLate
+		{
+			get { return _isEnabledAllowLate; }
+			set
+			{
+				_isEnabledAllowLate = value;
+				OnPropertyChanged(() => IsEnabledAllowLate);
+			}
+		}
+
+		private bool _isAllowAbsent;
+
+		public bool IsAllowAbsent
+		{
+			get { return _isAllowAbsent; }
+			set
+			{
+				_isAllowAbsent = value;
+				OnPropertyChanged(() => IsAllowAbsent);
+			}
+		}
+
+		private bool _isEnabledAllowEarlyLeave;
+
+		public bool IsEnabledAllowEarlyLeave
+		{
+			get { return _isEnabledAllowEarlyLeave; }
+			set
+			{
+				_isEnabledAllowEarlyLeave = value;
+				OnPropertyChanged(() => IsEnabledAllowEarlyLeave);
+			}
+		}
+
+		private bool _isEnabledOvertime;
+
+		public bool IsEnabledOvertime
+		{
+			get { return _isEnabledOvertime; }
+			set
+			{
+				_isEnabledOvertime = value;
+				OnPropertyChanged(() => IsEnabledOvertime);
+			}
+		}
+
+		private TimeSpan _notAllowOvertimeLowerThan;
+
+		public TimeSpan NotAllowOvertimeLowerThan
+		{
+			get { return _notAllowOvertimeLowerThan; }
+			set
+			{
+				_notAllowOvertimeLowerThan = value;
+				OnPropertyChanged(() => NotAllowOvertimeLowerThan);
+			}
+		}
+
+		private TimeSpan _allowedEarlyLeave;
+		public TimeSpan AllowedEarlyLeave
+		{
+			get { return _allowedEarlyLeave; }
+			set
+			{
+				_allowedEarlyLeave = value;
+				OnPropertyChanged(() => AllowedEarlyLeave);
+			}
+		}
+
+		private TimeSpan _allowedAbsentLowThan;
+
+		public TimeSpan AllowedAbsentLowThan
+		{
+			get { return _allowedAbsentLowThan; }
+			set
+			{
+				_allowedAbsentLowThan = value;
+				OnPropertyChanged(() => AllowedAbsentLowThan);
+			}
+		}
+
+		private TimeSpan _allowedLate;
+		public TimeSpan AllowedLate
+		{
+			get { return _allowedLate; }
+			set
+			{
+				_allowedLate = value;
+				OnPropertyChanged(() => AllowedLate);
+			}
+		}
+
+		#endregion
 
 		protected override bool CanSave()
 		{
@@ -118,11 +196,44 @@ namespace SKDModule.ViewModels
 			Model.Name = Name;
 			Model.IsIgnoreHoliday = IsIgnoreHoliday;
 			Model.IsOnlyFirstEnter = IsOnlyFirstEnter;
-			Model.AllowedLate = AllowedLate;
-			Model.AllowedEarlyLeave = AllowedEarlyLeave;
 			Model.ScheduleSchemeUID = SelectedScheduleScheme == null ? Guid.Empty : SelectedScheduleScheme.UID;
 
+			Model.AllowedLate = IsEnabledAllowLate ? AllowedLate : default(TimeSpan);
+			Model.AllowedEarlyLeave = IsEnabledAllowEarlyLeave ? AllowedEarlyLeave : default(TimeSpan);
+			Model.AllowedAbsentLowThan = IsAllowAbsent ? AllowedAbsentLowThan : default(TimeSpan);
+			Model.NotAllowOvertimeLowerThan = IsEnabledOvertime ? NotAllowOvertimeLowerThan : default(TimeSpan);
+
 			return ScheduleHelper.Save(Model, _isNew);
+		}
+
+		private void InitializeForNewSchedule()
+		{
+			Title = "Новый график";
+			Model = new Schedule
+			{
+				Name = "Новый график работы",
+				OrganisationUID = Organisation.UID,
+			};
+
+			AllowedLate = DefaultMinutesValue;
+			AllowedAbsentLowThan = DefaultMinutesValue;
+			AllowedEarlyLeave = DefaultMinutesValue;
+			NotAllowOvertimeLowerThan = DefaultMinutesValue;
+		}
+
+		private void InitializeForEditSchedule(Schedule model)
+		{
+			Title = "Редактирование графика работы";
+			Model = ScheduleHelper.GetSingle(model.UID);
+			AllowedLate = Model.AllowedLate;
+			AllowedAbsentLowThan = Model.AllowedAbsentLowThan;
+			AllowedEarlyLeave = Model.AllowedEarlyLeave;
+			NotAllowOvertimeLowerThan = Model.NotAllowOvertimeLowerThan;
+
+			IsEnabledAllowLate = AllowedLate != DefaultMinutesValue;
+			IsEnabledAllowEarlyLeave = AllowedEarlyLeave != DefaultMinutesValue;
+			IsAllowAbsent = AllowedAbsentLowThan != DefaultMinutesValue;
+			IsEnabledOvertime = NotAllowOvertimeLowerThan != DefaultMinutesValue;
 		}
 
 		public bool Initialize(Organisation organisation, Schedule model, ViewPartViewModel parentViewModel)
@@ -131,27 +242,19 @@ namespace SKDModule.ViewModels
 			_isNew = model == null;
 			if (_isNew)
 			{
-				Title = "Новый график";
-				Model = new Schedule()
-				{
-					Name = "Новый график работы",
-					OrganisationUID = Organisation.UID,
-				};
+				InitializeForNewSchedule();
 			}
 			else
 			{
-				Title = "Редактирование графика работы";
-				Model = ScheduleHelper.GetSingle(model.UID);
+				InitializeForEditSchedule(model);
 			}
 			Name = Model.Name;
 			IsIgnoreHoliday = Model.IsIgnoreHoliday;
 			IsOnlyFirstEnter = Model.IsOnlyFirstEnter;
-			AllowedLate = Model.AllowedLate;
-			AllowedEarlyLeave = Model.AllowedEarlyLeave;
 			AvailableScheduleTypes = new ObservableCollection<ScheduleSchemeType>(Enum.GetValues(typeof(ScheduleSchemeType)).OfType<ScheduleSchemeType>());
-			_schemes = ScheduleSchemeHelper.Get(new ScheduleSchemeFilter()
+			_schemes = ScheduleSchemeHelper.Get(new ScheduleSchemeFilter
 			{
-				OrganisationUIDs = new List<Guid>() { Organisation.UID },
+				OrganisationUIDs = new List<Guid> { Organisation.UID },
 				Type = ScheduleSchemeType.Month | ScheduleSchemeType.SlideDay | ScheduleSchemeType.Week,
 				WithDays = false,
 			});
