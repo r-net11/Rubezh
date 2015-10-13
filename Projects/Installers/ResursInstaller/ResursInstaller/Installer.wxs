@@ -48,6 +48,7 @@
 						<Directory Id="Resurs.DIR.DLL.fr" Name="fr" />
 						<Directory Id="Resurs.DIR.DLL.ja" Name="ja" />
 						<Directory Id="Resurs.DIR.DLL.zhCN" Name="zh-CN" />
+						<Directory Id="Resurs.DIR.DLL.ru" Name="ru" />
 					</Directory>
 				</Directory>
 			</Directory>
