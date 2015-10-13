@@ -157,7 +157,7 @@ namespace Resurs.ViewModels
 		}
 		bool CanAddFolder()
 		{
-			return SelectedConsumer != null && SelectedConsumer.Consumer.IsFolder;
+			return SelectedConsumer != null && SelectedConsumer.Consumer.IsFolder && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditConsumer);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -209,7 +209,7 @@ namespace Resurs.ViewModels
 		
 		bool CanRemove()
 		{
-			return SelectedConsumer != null && SelectedConsumer.Parent != null;
+			return SelectedConsumer != null && SelectedConsumer.Parent != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditConsumer);
 		}
 
 		public RelayCommand ChangeParentCommand { get; private set; }
@@ -240,7 +240,7 @@ namespace Resurs.ViewModels
 
 		bool CanChangeParent()
 		{
-			return SelectedConsumer != null && SelectedConsumer.Parent != null;
+			return SelectedConsumer != null && SelectedConsumer.Parent != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditConsumer);
 		}
 
 		public bool IsVisibility

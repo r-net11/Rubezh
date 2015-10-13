@@ -15,7 +15,7 @@ namespace Resurs.ViewModels
 		{
 			RemoveCommand = new RelayCommand(OnDelete, CanDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			AddCommand = new RelayCommand(OnAdd);
+			AddCommand = new RelayCommand(OnAdd,CanAdd);
 			Build();
 		}
 
@@ -51,11 +51,12 @@ namespace Resurs.ViewModels
 				var userViewModel = new UserViewModel(userDetailsViewModel.User);
 
 				Users.Add(userViewModel);
+				DBCash.AddJournal(JournalType.AddUser, DBCash.CurrentUser.UID, userDetailsViewModel.User.UID, DBCash.CurrentUser.Name, userDetailsViewModel.User.Name);
 				SelectedUser = userViewModel;
 			}
 		}
 
-		bool CanEdit()
+		bool CanAdd()
 		{
 			return SelectedUser != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditUser);
 		}
@@ -74,7 +75,14 @@ namespace Resurs.ViewModels
 			if (DialogService.ShowModalWindow(userDetailsViewModel))
 			{
 				SelectedUser.User = userDetailsViewModel.User;
+				if (userDetailsViewModel.IsChange)
+					DBCash.AddJournal(JournalType.EditUser, DBCash.CurrentUser.UID, SelectedUser.User.UID, DBCash.CurrentUser.Name, SelectedUser.User.Name);
 			}
+		}
+
+		bool CanEdit()
+		{
+			return SelectedUser != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditUser);
 		}
 
 		public bool IsVisibility
@@ -83,17 +91,12 @@ namespace Resurs.ViewModels
 		}
 
 		public RelayCommand RemoveCommand { get; set; }
-
-		bool CanDelete()
-		{
-			return  SelectedUser!= null && SelectedUser.User.UID!= DBCash.CurrentUser.UID;
-		}
 		void OnDelete()
 		{
 			if (MessageBoxService.ShowQuestion(string.Format("Вы уверенны, что хотите удалить пользователя \"{0}\" из списка", SelectedUser.User.Name)))
 			{
 				var index = Users.IndexOf(SelectedUser);
-
+				DBCash.AddJournal(JournalType.DeleteUser, DBCash.CurrentUser.UID, SelectedUser.User.UID, DBCash.CurrentUser.Name, SelectedUser.User.Name);
 				DBCash.DeleteUser(SelectedUser.User);
 				Users.Remove(SelectedUser);
 
@@ -101,6 +104,11 @@ namespace Resurs.ViewModels
 				if (index > -1)
 					SelectedUser = Users[index];
 			}
+		}
+
+		bool CanDelete()
+		{
+			return SelectedUser != null && SelectedUser.User.UID != DBCash.CurrentUser.UID;
 		}
 	}
 }

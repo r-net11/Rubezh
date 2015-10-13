@@ -164,7 +164,7 @@ namespace Resurs.ViewModels
 		}
 		bool CanAdd()
 		{
-			return SelectedDevice != null;
+			return SelectedDevice != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -204,7 +204,7 @@ namespace Resurs.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedDevice != null && SelectedDevice.Parent != null;
+			return SelectedDevice != null && SelectedDevice.Parent != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);
 		}
 	}
 }

@@ -19,6 +19,9 @@ namespace GKModule.ViewModels
 			GuardZonesWithFuncSelectationViewModel = new GuardZonesWithFuncSelectationViewModel(device, true);
 		}
 
+		public bool IsSelectedZone { get { return Device.Zones.Count > 0; } }
+		public bool IsSelectedGuardZone { get { return Device.GuardZones.Count > 0; } }
+
 		protected override bool Save()
 		{
 			GKManager.ChangeDeviceZones(Device, ZonesSelectationViewModel.TargetZones.ToList());

@@ -54,6 +54,7 @@ namespace GKModule.Validation
 				ValidateRSR2AddressFollowing(device);
 				ValidateKAUAddressFollowing(device);
 				ValidateGuardDevice(device);
+				ValidateDeviceIfInMPTAndDoor(device);
 			}
 		}
 
@@ -212,6 +213,18 @@ namespace GKModule.Validation
 							}
 						}
 					}
+				}
+			}
+		}
+
+		void ValidateDeviceIfInMPTAndDoor(GKDevice device)
+		{
+			if (device.IsInMPT && device.Door != null)
+			{
+				var mpt = GKManager.MPTs.FirstOrDefault(x => x.MPTDevices.Any(y => y.DeviceUID == device.UID && (y.MPTDeviceType == GKMPTDeviceType.Bomb || y.MPTDeviceType == GKMPTDeviceType.DoNotEnterBoard || y.MPTDeviceType == GKMPTDeviceType.ExitBoard || y.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard)));
+				 if(mpt!= null && (device.Door.LockDeviceUID == device.UID || device.Door.LockDeviceExitUID == device.UID ))
+				{
+					Errors.Add(new DeviceValidationError(device, string.Format("Устройство {0} не может учавствовать одновременно в {1} в качестве замка и в {2} в качестве {3}",device.PresentationName,device.Door.PresentationName, mpt.PresentationName , mpt.MPTDevices.FirstOrDefault(x=> x.DeviceUID == device.UID).MPTDeviceType.ToDescription()), ValidationErrorLevel.CannotWrite));
 				}
 			}
 		}
