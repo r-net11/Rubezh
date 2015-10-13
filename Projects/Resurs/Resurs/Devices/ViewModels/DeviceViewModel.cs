@@ -29,7 +29,7 @@ namespace Resurs.ViewModels
 		public void Load()
 		{
 			var children = Device.Children;
-			var device = DBCash.GetDeivce(Device.UID);
+			var device = DBCash.GetDevice(Device.UID);
 			if (device != null)
 				Update(device);
 			Device.Children = children;
