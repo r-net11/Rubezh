@@ -159,7 +159,7 @@ namespace RubezhDAL.DataClasses
 		{
 			try
 			{
-				var tableItems = BeginGetFilteredArchiveInternal(filter).ToList();
+				var tableItems = GetFilteredArchiveInternal(filter).ToList();
 				var result = new List<JournalItem>(tableItems.Select(x => Translate(x)));
 				return new OperationResult<List<JournalItem>>(result);
 			}
@@ -174,7 +174,7 @@ namespace RubezhDAL.DataClasses
 		{
 			try
 			{
-				var query = BeginGetFilteredArchiveInternal(filter);
+				var query = GetFilteredArchiveInternal(filter);
 				query = query.Skip((page - 1) * filter.PageSize).Take(filter.PageSize);
 				var journalItems = query.ToList().Select(x => Translate(x)).ToList();
 				return new OperationResult<List<JournalItem>>(journalItems);
@@ -189,7 +189,7 @@ namespace RubezhDAL.DataClasses
 		{
 			try
 			{
-				var query = BeginGetFilteredArchiveInternal(filter);
+				var query = GetFilteredArchiveInternal(filter);
 				var result = query.Count();
 				return new OperationResult<int>(result);
 			}
@@ -300,7 +300,7 @@ namespace RubezhDAL.DataClasses
 			return result;
 		}
 
-		IQueryable<Journal> BeginGetFilteredArchiveInternal(ArchiveFilter filter)
+		IQueryable<Journal> GetFilteredArchiveInternal(ArchiveFilter filter)
 		{
 			IQueryable<Journal> result = Context.Journals;
 			if (filter.JournalEventNameTypes.Count > 0)

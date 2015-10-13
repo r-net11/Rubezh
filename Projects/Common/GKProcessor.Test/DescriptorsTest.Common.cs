@@ -44,7 +44,8 @@ namespace GKProcessor.Test
 			Assert.IsNotNull(Kau1Database);
 			Kau2Database = DescriptorsManager.KauDatabases.FirstOrDefault(x => x.RootDevice == kauDevice2);
 			Assert.IsNotNull(Kau2Database);
-			Assert.IsTrue(DescriptorsManager.Check().Count() == 0);
+			var descriptorErrors = DescriptorsManager.Check().ToList();
+			Assert.IsTrue(descriptorErrors.Count() == 0);
 		}
 
 		void CheckDeviceLogicOnGK(GKDevice device)

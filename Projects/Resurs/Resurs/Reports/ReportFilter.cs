@@ -8,5 +8,6 @@ namespace Resurs.Reports
 		public DateTime StartDate {get; set;}
 		public DateTime EndDate { get; set; }
 		public Device Device { get; set; }
+		public double MinDebt { get; set; }
 	}
 }

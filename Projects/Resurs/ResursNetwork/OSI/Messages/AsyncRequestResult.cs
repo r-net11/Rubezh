@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ResursNetwork.OSI.Messages.Transactions;
+using ResursNetwork.OSI.ApplicationLayer.Devices;
 
 namespace ResursNetwork.OSI.Messages
 {
@@ -21,9 +22,55 @@ namespace ResursNetwork.OSI.Messages
             get { return _Stack; }
         }
 
+        /// <summary>
+        /// Возвращает статус сетевой операции
+        /// </summary>
         public bool IsCompleted
         {
             get { return _Status; }
+        }
+
+        /// <summary>
+        /// Возвращает успешно или не успешно проведена
+        /// сетевая операция
+        /// </summary>
+        public bool HasError
+        {
+            get 
+            {
+                if (!IsCompleted)
+                {
+                    return false;
+                }
+                else
+                {
+                    // Если операция завершена
+                    switch(LastTransaction.Status)
+                    {
+                        case TransactionStatus.Aborted: { return true; }
+                        case TransactionStatus.Completed:
+                        case TransactionStatus.NotInitialized:
+                        case TransactionStatus.Running: { return false; }
+                        default: { throw new NotSupportedException(); }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Возвращает последнею выполненную сетевую транзакцию
+        /// </summary>
+        public Transaction LastTransaction
+        {
+            get { return _Stack.Length == 0 ? null : _Stack[Stack.Length - 1]; }
+        }
+
+        /// <summary>
+        /// Устройство инициатор сетевого запроса
+        /// </summary>
+        public IDevice Sender 
+        { 
+            get { return _Stack.Length == 0 ? null : _Stack[0].Sender; } 
         }
 
         #endregion
@@ -40,10 +87,16 @@ namespace ResursNetwork.OSI.Messages
         /// Вызывается при завершении сетевой операции
         /// </summary>
         /// <param name="stack"></param>
-        public void SetCompleted(Transaction[] stack = null)
+        public void SetCompleted(Transaction[] stack)
         {
+            if (stack == null)
+            {
+                throw new ArgumentNullException("stack", 
+                    "В стеке транзакций сетевой операции должно быть хотябы одна транзакция");
+            }
+
             _Status = true;
-            _Stack = stack == null ? new Transaction[0] : stack;
+            _Stack = stack;
         }
 
         #endregion

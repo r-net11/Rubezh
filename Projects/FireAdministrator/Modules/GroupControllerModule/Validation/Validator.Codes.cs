@@ -4,6 +4,7 @@ using RubezhClient;
 using Infrastructure.Common.Validation;
 using System.Linq;
 using System;
+using GKModule.Events;
 
 namespace GKModule.Validation
 {
@@ -11,51 +12,26 @@ namespace GKModule.Validation
 	{
 		void ValidateCodes()
 		{
-			ValidateCodeNoEquality();
-			ValidateCodeNameEquality();
-			ValidateCodePasswordEquality();
+			ValidateCommon(GKManager.DeviceConfiguration.Codes);
+			ValidateCodePropertiesEquality();
+		}
+
+		/// <summary>
+		/// Валидация уникальности названий и паролей кодов
+		/// </summary>
+		void ValidateCodePropertiesEquality()
+		{
+			var names = new HashSet<string>();
+			var passwords = new HashSet<int>();
 
 			foreach (var code in GKManager.DeviceConfiguration.Codes)
 			{
-				if (IsManyGK)
-					ValidateCodeDifferentGK(code);
+				if (!names.Add(code.Name))
+					AddError(code, "Дублируется название кода", ValidationErrorLevel.CannotWrite);
+
+				if (!passwords.Add(code.Password))
+					AddError(code, "Дублируется пароль кода", ValidationErrorLevel.CannotWrite);
 			}
 		}
-
-		void ValidateCodeNoEquality()
-		{
-			var codeNos = new HashSet<int>();
-			foreach (var code in GKManager.DeviceConfiguration.Codes)
-			{
-				if (!codeNos.Add(code.No))
-					Errors.Add(new CodeValidationError(code, "Дублируется номер", ValidationErrorLevel.CannotWrite));
-			}
-		}
-
-		void ValidateCodeNameEquality()
-		{
-			var codeNames = new HashSet<string>();
-			foreach (var code in GKManager.DeviceConfiguration.Codes)
-			{
-				if (!codeNames.Add(code.Name))
-					Errors.Add(new CodeValidationError(code, "Дублируется название кода", ValidationErrorLevel.CannotWrite));
-			}
-		}
-		void ValidateCodePasswordEquality()
-		{
-
-			var codePassowrds = new HashSet<int>();
-			foreach (var code in GKManager.DeviceConfiguration.Codes)
-			{
-				if (!codePassowrds.Add(code.Password))
-					Errors.Add(new CodeValidationError(code, "Дублируется пароль кода", ValidationErrorLevel.CannotWrite));
-			}
-		}
-
-		void ValidateCodeDifferentGK(GKCode code)
-		{
-			if (code.GkParents.Count > 1)
-				Errors.Add(new CodeValidationError(code, "Код содержится в объектах разных ГК", ValidationErrorLevel.CannotWrite));
-		}	
 	}
 }

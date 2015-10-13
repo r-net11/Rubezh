@@ -52,7 +52,9 @@
     <Compile Include="DriverCreators\VirtualMZEP55CounterCreator.cs" />
     <Compile Include="DriverCreators\VirtualMZEP55NetworkCreator.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="Journal\Filter.cs" />
     <Compile Include="Journal\Journal.cs" />
+    <Compile Include="Journal\StateType.cs" />
     <Compile Include="Models\DeviceErrors.cs" />
     <Compile Include="Models\DeviceType.cs" />
     <Compile Include="Models\ParameterStringContainer.cs" />

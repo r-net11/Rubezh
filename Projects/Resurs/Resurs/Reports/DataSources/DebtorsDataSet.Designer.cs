@@ -379,7 +379,7 @@ namespace Resurs.Reports.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DataRow AddDataRow(string AbonentName, int AbonentID, double Debt) {
+            public DataRow AddDataRow(string AbonentName, string AbonentID, double Debt) {
                 DataRow rowDataRow = ((DataRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         AbonentName,
@@ -417,7 +417,7 @@ namespace Resurs.Reports.DataSources {
             private void InitClass() {
                 this.columnAbonentName = new global::System.Data.DataColumn("AbonentName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnAbonentName);
-                this.columnAbonentID = new global::System.Data.DataColumn("AbonentID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnAbonentID = new global::System.Data.DataColumn("AbonentID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnAbonentID);
                 this.columnDebt = new global::System.Data.DataColumn("Debt", typeof(double), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDebt);
@@ -579,10 +579,10 @@ namespace Resurs.Reports.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int AbonentID {
+            public string AbonentID {
                 get {
                     try {
-                        return ((int)(this[this.tableData.AbonentIDColumn]));
+                        return ((string)(this[this.tableData.AbonentIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'AbonentID\' in table \'Data\' is DBNull.", e);

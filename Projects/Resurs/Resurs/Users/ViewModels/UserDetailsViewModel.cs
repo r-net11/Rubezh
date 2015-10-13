@@ -1,4 +1,5 @@
 ﻿using Common;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
@@ -40,7 +41,7 @@ namespace Resurs.ViewModels
 				};
 
 			}
-			PermissionsViewModel = new PermissionsViewModel(User, !(User.UID == DBCash.CurrentUser.UID));
+			PermissionsViewModel = new PermissionsViewModel(User);
 			CopyProperty();
 		}
 		void CopyProperty()
@@ -142,15 +143,18 @@ namespace Resurs.ViewModels
 			return true;
 		}
 
+		public bool IsChange { get; private set; }
+
 		void SaveProperties()
 		{
+			IsChange = User.Login.CompareTo(Login) != 0 || User.Name.CompareTo(Name) != 0 || User.PasswordHash.CompareTo(HashHelper.GetHashFromString(Password)) != 0;
 			User.Login = Login;
 			User.Name = Name;
 
 			if (IsChangePassword)
 				User.PasswordHash = HashHelper.GetHashFromString(Password);
 
-			PermissionsViewModel.GetPermissionStrings(User);
+			PermissionsViewModel.SavePermissions(User);
 		}
 
 		protected override bool Save()

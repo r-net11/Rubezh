@@ -125,7 +125,7 @@ namespace GKModule.ViewModels
 			HashSet<Guid> codes = new HashSet<Guid>();
 			foreach (var guardZone in GKManager.DeviceConfiguration.GuardZones)
 			{
-				var guardZoneDevices = guardZone.GuardZoneDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CardReader || x.Device.DriverType == GKDriverType.RSR2_CodeReader);
+				var guardZoneDevices = guardZone.GuardZoneDevices.Where(x => x.Device.Driver.IsCardReaderOrCodeReader);
 				foreach (var code in GKManager.DeviceConfiguration.Codes)
 				{
 					if (guardZoneDevices.Any(y => y.CodeReaderSettings.AlarmSettings.CodeUIDs.Contains(code.UID) || y.CodeReaderSettings.ChangeGuardSettings.CodeUIDs.Contains(code.UID) ||
@@ -138,7 +138,7 @@ namespace GKModule.ViewModels
 
 			foreach (var MPT in GKManager.DeviceConfiguration.MPTs)
 			{
-				var MPTDevices = MPT.MPTDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CardReader);
+				var MPTDevices = MPT.MPTDevices.Where(x => x.Device.Driver.IsCardReaderOrCodeReader);
 				foreach (var code in GKManager.DeviceConfiguration.Codes)
 				{
 					if (MPTDevices.Any(y => y.CodeReaderSettings.MPTSettings.CodeUIDs.Contains(code.UID)))

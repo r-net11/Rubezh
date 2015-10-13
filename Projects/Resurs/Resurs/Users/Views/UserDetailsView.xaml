@@ -19,10 +19,8 @@
 					</Grid.RowDefinitions>
 					<TextBlock Grid.Column="0" Grid.Row="0" Text="Имя пользователя" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" />
 					<TextBlock Grid.Column="0" Grid.Row="1" Text="Логин" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" />
-
 					<TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name}" VerticalAlignment="Center" MaxLength="100" Margin="5" />
 					<TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Login}" IsEnabled="{Binding CanChangeLogin}" VerticalAlignment="Center" MaxLength="100" Margin="5" />
-
 					<CheckBox Grid.Column="1" Grid.Row="2" Content="Сменить пароль" Foreground="{DynamicResource ForegroundColorLight}"
 						Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}"
 						IsChecked="{Binding IsChangePassword}" />

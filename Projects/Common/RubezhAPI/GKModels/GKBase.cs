@@ -35,16 +35,14 @@ namespace RubezhAPI.GK
 		{
 			InputDescriptors = new List<GKBase>();
 			OutputDescriptors = new List<GKBase>();
+			InputDependentElements = new List<GKBase>();
+			OutDependentElements = new List<GKBase>();
 		}
 
 		[XmlIgnore]
 		public List<GKBase> InputDescriptors { get; set; }
 		[XmlIgnore]
 		public List<GKBase> OutputDescriptors { get; set; }
-
-		//public abstract void Update(GKDevice device);
-
-		//public abstract void Update(GKDirection direction);
 
 		public virtual void Invalidate()
 		{ 
@@ -328,6 +326,8 @@ namespace RubezhAPI.GK
 
 		public void ClearDescriptor()
 		{
+			InputDependentElements = new List<GKBase>();
+			OutDependentElements = new List<GKBase>();
 			InputDescriptors = new List<GKBase>();
 			OutputDescriptors = new List<GKBase>();
 			KauParents = new HashSet<GKDevice>();

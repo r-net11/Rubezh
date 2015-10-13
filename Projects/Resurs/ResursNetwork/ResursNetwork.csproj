@@ -91,6 +91,8 @@
     <Compile Include="OSI\Messages\Transactions\EnumTransactionType.cs" />
     <Compile Include="OSI\Messages\Transactions\NetworkRequest.cs" />
     <Compile Include="OSI\Messages\Transactions\Transaction.cs" />
+    <Compile Include="OSI\Messages\Transactions\TransactionErrorCodes.cs" />
+    <Compile Include="OSI\Messages\Transactions\TransactionError.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

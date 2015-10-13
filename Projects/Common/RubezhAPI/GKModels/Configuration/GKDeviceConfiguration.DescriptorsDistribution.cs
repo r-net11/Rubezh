@@ -50,7 +50,7 @@ namespace RubezhAPI.GK
 					if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetector || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetectorSound
 						|| guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
 						guardZoneDevice.Device.ChildDescriptors.Add(guardZone);
-					if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
+					if (guardZoneDevice.Device.Driver.IsCardReaderOrCodeReader)
 					{
 						var codeUIDs = new List<Guid>();
 						codeUIDs.AddRange(guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs);
