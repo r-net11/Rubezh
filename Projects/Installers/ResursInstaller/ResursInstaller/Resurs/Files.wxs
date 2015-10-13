@@ -18,7 +18,6 @@
 				<File Id="Resurs.Common.dll"																				Name="Common.dll" Source="$(var.Resurs.TargetDir)" />
 				<File Id="Resurs.Controls.dll"																			Name="Controls.dll" Source="$(var.Resurs.TargetDir)" />
 				<File Id="Resurs.DAL.dll"																						Name="DAL.dll" Source="$(var.Resurs.TargetDir)" />
-				<File Id="Resurs.devices.dll"																				Name="devices.dll" Source="$(var.Resurs.TargetDir)" />
 				<File Id="Resurs.EntityFramework.dll"																Name="EntityFramework.dll" Source="$(var.Resurs.TargetDir)" />
 				<File Id="Resurs.EntityFramework.MappingAPI.dll"										Name="EntityFramework.MappingAPI.dll" Source="$(var.Resurs.TargetDir)" />
 				<File Id="Resurs.EntityFramework.SqlServer.dll"											Name="EntityFramework.SqlServer.dll" Source="$(var.Resurs.TargetDir)" />

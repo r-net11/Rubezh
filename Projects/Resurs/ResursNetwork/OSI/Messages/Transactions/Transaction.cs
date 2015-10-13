@@ -48,11 +48,12 @@ namespace ResursNetwork.OSI.Messages.Transactions
         /// Ответ от ведомого устройства
         /// </summary>
         private IMessage _Answer;
-        
-        /// <summary>
-        /// Описание причины звершения транзакции при вызове метода Abort()
-        /// </summary>
-        private String _DescriptionError;
+
+        private TransactionError _Error = new TransactionError 
+            { 
+                Description = String.Empty, 
+                ErrorCode = TransactionErrorCodes.NoError 
+            };
 
         /// <summary>
         /// Возвращает тип текущей транзакции
@@ -182,9 +183,9 @@ namespace ResursNetwork.OSI.Messages.Transactions
         /// <summary>
         /// Возвращает описание причины звершения транзакции при вызове метода Abort()
         /// </summary>
-        public String DescriptionError
+        public TransactionError Error
         {
-            get { return _DescriptionError; }
+            get { return _Error; }
         }        
         
 
@@ -310,8 +311,8 @@ namespace ResursNetwork.OSI.Messages.Transactions
         /// <summary>
         /// Прерывает текущую транзакцию
         /// </summary>
-        /// <param name="description">Описывает ситуацию отмены текущей транзакции</param>
-        public void Abort(String description)
+        /// <param name="error">Описывает ситуацию отмены текущей транзакции</param>
+        public void Abort(TransactionError error)
         {
             if (!IsRunning)
             {
@@ -322,14 +323,7 @@ namespace ResursNetwork.OSI.Messages.Transactions
             else
             {
                 _EndTime = DateTime.Now;
-                if (description != null)
-                {
-                    _DescriptionError = description;
-                }
-                else
-                {
-                    _DescriptionError = String.Empty;
-                }
+                _Error = error;
                 _Status = TransactionStatus.Aborted;
                 // Генерируем событие
                 OnTransactionWasEnded();
@@ -390,7 +384,7 @@ namespace ResursNetwork.OSI.Messages.Transactions
         {
             return String.Format(
                 "Transaction: Id={0}; Type={1}; Status={2}; Start={3}; Stop={4}; Error={5}; Request={6}; Answer={7}", 
-                Identifier, TransactionType, Status, StartTime, EndTime, DescriptionError, 
+                Identifier, TransactionType, Status, StartTime, EndTime, Error, 
                 Request == null ? String.Empty : Request.ToString(), 
                 Answer == null ? String.Empty : Answer.ToString());
             //return base.ToString();

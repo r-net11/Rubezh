@@ -27,7 +27,7 @@ namespace Resurs.ViewModels
 
 		public void Update()
 		{
-			var device = DBCash.GetDeivce(Device.UID);
+			var device = DBCash.GetDevice(Device.UID);
 			if (device != null)
 				Update(device);
 		}

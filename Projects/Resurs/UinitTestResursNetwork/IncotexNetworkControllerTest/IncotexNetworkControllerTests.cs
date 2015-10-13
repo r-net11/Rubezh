@@ -42,6 +42,8 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
 
             var controller = new IncotexNetworkController();
             controller.Connection = comPort.Object;
+            var device = new Mercury203();
+            controller.Devices.Add(device);
             controller.Start();
 
             var request = new DataMessage()
@@ -49,7 +51,7 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
                 Address = 0x1,
                 CmdCode = Convert.ToByte(Mercury203CmdCode.ReadGroupAddress)
             };
-            var wrongTrans = new Transaction(null, TransactionType.Undefined, request); // Ошибка !!!
+            var wrongTrans = new Transaction(null, TransactionType.Undefined, request) { Sender = device }; // Ошибка !!!
             var networkRequest = new NetworkRequest(wrongTrans);
 
             // Act
@@ -57,24 +59,22 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
             {
                 controller.Write(networkRequest);
 
-                while (wrongTrans.Status != TransactionStatus.Aborted)
+                while (networkRequest.Status != NetworkRequestStatus.Failed)
                 {
                     // Ждём, должно быть исключение
                 }
             }
             catch (Exception ex)
             {
+                // Assert
                 Assert.AreEqual(typeof(InvalidOperationException), ex.GetType());
             }
-
-            // Assert
         }
 
         /// <summary>
         /// Проверяет выполение запроса при успешном ответе
         /// </summary>
         [TestMethod]
-        //[ExpectedException]
         public void TestReadGroupAddressSuccess()
         {
             // Arrange
@@ -176,7 +176,7 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
         /// остановленном контроллере сети
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException), "")]
+        //[ExpectedException(typeof(InvalidOperationException), "")]
         public void TestReadGroupAddressByControllerIsStopped()
         {
             // Arrange
@@ -206,14 +206,26 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
 
             controller.Devices.Add(device);
 
+            Type type = null;
+
             // Act
-            var result = device.ReadGroupAddress();
+            try
+            {
+                var result = device.ReadGroupAddress();
+            }
+            catch (Exception ex)
+            {
+                type = ex.GetType();
+            }
 
             // Assert
-            while(true)
-            {
+            Assert.AreEqual(typeof(InvalidOperationException), type);
+
+            // Assert
+            //while(true)
+            //{
                 // Ждём должно быть исключение
-            }
+            //}
         }
 
         /// <summary>
