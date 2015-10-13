@@ -146,7 +146,11 @@ namespace ResursDAL
 					dbConsumer.Phone = consumer.Phone;
 
 					var devicesToUpdate = new Dictionary<Guid, bool>();
-					var billsToDelete = context.Bills.Include(x => x.Consumer).ToList().Where(x => !consumer.Bills.Any(y => x.UID == y.UID) && x.Consumer.UID == dbConsumer.UID).ToList();
+					var billsToDelete = context.Bills
+						.Where(x => x.Consumer.UID == dbConsumer.UID)
+						.ToList()
+						.Where(x => !consumer.Bills.Any(y => x.UID == y.UID))
+						.ToList();
 					foreach (var billToDelete in billsToDelete)
 					{
 						context.Devices.Where(x => x.BillUID == billToDelete.UID).ToList().ForEach(x => devicesToUpdate.Add(x.UID, false));
