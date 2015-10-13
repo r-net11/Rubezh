@@ -5,10 +5,10 @@
 		MinHeight="450" MinWidth="810">
 	<Grid>
 		 <TabControl>
-			 <TabItem Header="Пожарные">
+			<TabItem Header="Пожарные" IsSelected="{Binding IsSelectedZone, Mode=OneWay}">
 				<views:ZonesSelectationView DataContext="{Binding ZonesSelectationViewModel}" />
 			 </TabItem>
-			<TabItem Header="Охранные">
+			<TabItem Header="Охранные" IsSelected="{Binding IsSelectedGuardZone, Mode=OneWay}">
 				<views:GuardZonesWithFuncSelectationView DataContext="{Binding GuardZonesWithFuncSelectationViewModel}" />
 			</TabItem>
 		</TabControl>   
