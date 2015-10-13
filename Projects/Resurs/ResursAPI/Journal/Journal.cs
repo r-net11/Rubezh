@@ -18,9 +18,11 @@ namespace ResursAPI
 		public DateTime DateTime { get; set; }
 		[MaxLength(100)]
 		public string UserName { get; set; }
+		[MaxLength(200)]
 		public string ObjectName { get; set; }
+		[MaxLength(500)]
 		public string Description { get; set; }
 		public Guid? ObjectUID { get; set; }
-
+		public Guid? UserUID { get; set; }
 	}
 }

@@ -15,5 +15,10 @@ namespace Resurs.ViewModels
 		public Journal Journal { get; set; }
 
 		public bool IsUser { get { return Journal.UserName != null; } }
+
+		void OnShow()
+		{ 
+		
+		}
 	}
 }

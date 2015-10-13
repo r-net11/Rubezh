@@ -5,6 +5,7 @@ using ResursAPI;
 using ResursDAL;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
@@ -40,16 +41,20 @@ namespace Resurs.ViewModels
 		void OnShowFilter()
 		{
 			var filterJournalViewModel = new FilterJournalViewModel(Filter);
-			DialogService.ShowModalWindow(filterJournalViewModel);
+			if(DialogService.ShowModalWindow(filterJournalViewModel))
 			{
 				Filter = new Filter();
 				Filter.JournalTypes = filterJournalViewModel.FilterEventsViewModel.GetJournalTypes();
+				Filter.ConsumerUIDs = filterJournalViewModel.FilterConsumersViewModel.GetConsumerUIDs();
+				Filter.DeviceUIDs = filterJournalViewModel.FilterDevicesViewModel.GetDeviceUIDs();
+				Filter.TariffUIDs = filterJournalViewModel.FilterTariffsViewModel.GetTariffUIDs();
+				Filter.UserUIDs = filterJournalViewModel.FilterUsersViewModel.GetUserUIDs();
 				filterJournalViewModel.DateTimeViewModel.Save(Filter);
 				Update();
 			}
 		}
 
-		public ObservableRangeCollection <JournalEventViewModel> Events { get; set; }
+		public ObservableCollection <JournalEventViewModel> Events { get; set; }
 
 		JournalEventViewModel _selectedEvent;
 		public JournalEventViewModel SelectedEvent 
@@ -59,7 +64,6 @@ namespace Resurs.ViewModels
 			{
 				_selectedEvent = value;
 				OnPropertyChanged(() => SelectedEvent);
-
 			}
 		}
 
@@ -154,7 +158,7 @@ namespace Resurs.ViewModels
 			var journalItemsResult = DBCash.GetJournalPage(Filter, CurrentPageNumber);
 			if (journalItemsResult != null)
 			{
-				Events = new ObservableRangeCollection<JournalEventViewModel>();
+				Events = new ObservableCollection<JournalEventViewModel>();
 				foreach (var item in journalItemsResult)
 				{
 					Events.Add(new JournalEventViewModel(item));
