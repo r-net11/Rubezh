@@ -39,7 +39,7 @@ namespace GKModule.Validation
 			{
 				if (device.IsNotUsed)
 					continue;
-				ValidateDifferentGK(device);
+				ValidateObjectOnlyOnOneGK(device);
 				ValidateIPAddress(device);
 				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.DeviceNotConnected))
 				{
@@ -62,9 +62,14 @@ namespace GKModule.Validation
 		/// </summary>
 		void ValidateAddressEquality()
 		{
+			var uids = new HashSet<Guid>();
 			var deviceAddresses = new HashSet<string>();
+
 			foreach (var device in GKManager.Devices)
 			{
+				if (!uids.Add(device.UID))
+					Errors.Add(new DeviceValidationError(device, "Дублируется идентификатор", ValidationErrorLevel.CannotSave));
+
 				if (device.IsDisabled && device.Children.Count > 0)
 				{
 					Errors.Add(new DeviceValidationError(device, "При кольцевой АЛС" + (device.IntAddress - 1) + "-" + device.IntAddress + " есть подключенные устройства на АЛС" + device.IntAddress, ValidationErrorLevel.CannotWrite));
@@ -94,12 +99,6 @@ namespace GKModule.Validation
 			{
 				Errors.Add(new DeviceValidationError(device, "Не верно задан IP адрес", ValidationErrorLevel.CannotWrite));
 			}
-		}
-
-		void ValidateDifferentGK(GKDevice device)
-		{
-			if (device.GkParents.Count > 1)
-				Errors.Add(new DeviceValidationError(device, "Логика сработки содержит объекты разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 
 		void ValidateDeviceZone(GKDevice device)

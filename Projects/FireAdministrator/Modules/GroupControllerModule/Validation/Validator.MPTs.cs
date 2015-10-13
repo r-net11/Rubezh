@@ -11,33 +11,17 @@ namespace GKModule.Validation
 	{
 		void ValidateMPTs()
 		{
-			ValidateMPTNameEquality();
+			ValidateCommon(GKManager.MPTs);
 			ValidateMPTSameDevices();
 
-			foreach (var mpt in GKManager.DeviceConfiguration.MPTs)
+			foreach (var mpt in GKManager.MPTs)
 			{
-				if (ValidateMPTOnlyOnOneGK(mpt))
-				{
-					ValidateMPTHasNoDevices(mpt);
-					ValidateMPTHasNoLogic(mpt);
-					ValidateMPTSameDevices(mpt);
-					ValidateMPTSameDevicesAndLogic(mpt);
-					ValidateMPTDeviceParameters(mpt);
-					ValidateMPTSelfLogic(mpt);
-				}
-			}
-		}
-
-		/// <summary>
-		/// Валидация уникальности номеров МПТ
-		/// </summary>
-		void ValidateMPTNameEquality()
-		{
-			var nos = new HashSet<int>();
-			foreach (var mpt in GKManager.DeviceConfiguration.MPTs)
-			{
-				if (!nos.Add(mpt.No))
-					Errors.Add(new MPTValidationError(mpt, "Дублируется номер", ValidationErrorLevel.CannotWrite));
+				ValidateMPTHasNoDevices(mpt);
+				ValidateMPTHasNoLogic(mpt);
+				ValidateMPTSameDevices(mpt);
+				ValidateMPTSameDevicesAndLogic(mpt);
+				ValidateMPTDeviceParameters(mpt);
+				ValidateMPTSelfLogic(mpt);
 			}
 		}
 
@@ -53,26 +37,6 @@ namespace GKModule.Validation
 					if (!deviceUIDs.Add(mptDevice.DeviceUID))
 						Errors.Add(new MPTValidationError(mpt, "Устройство " + mptDevice.Device.PresentationName + " входит в состав различных МПТ", ValidationErrorLevel.CannotWrite));
 			}
-		}
-
-		/// <summary>
-		/// МПТ должен зависеть от объектов, присутствующие на одном и только на одном ГК
-		/// </summary>
-		/// <param name="code"></param>
-		bool ValidateMPTOnlyOnOneGK(GKMPT mpt)
-		{
-			if (mpt.GkParents.Count == 0)
-			{
-				Errors.Add(new MPTValidationError(mpt, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
-				return false;
-			}
-
-			if (mpt.GkParents.Count > 1)
-			{
-				Errors.Add(new MPTValidationError(mpt, "МПТ содержит объекты разных ГК", ValidationErrorLevel.CannotWrite));
-				return false;
-			}
-			return true;
 		}
 
 		/// <summary>

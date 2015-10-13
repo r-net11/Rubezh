@@ -12,31 +12,15 @@ namespace GKModule.Validation
 	{
 		void ValidateGuardZones()
 		{
-			ValidateGuardZoneNoEquality();
+			ValidateCommon(GKManager.GuardZones);
 			ValidateGuardZoneSameDevices();
 			ValidateCodeForZones();
 
 			foreach (var guardZone in GKManager.GuardZones)
 			{
-				if (ValidateGuardZoneOnlyOnOneGK(guardZone))
-				{
-					ValidateGuardZoneHasNoDevices(guardZone);
-					ValidateGuardZoneCodesCount(guardZone);
-					ValidateGuardZoneSameCodeReaderEnterTypes(guardZone);
-				}
-			}
-		}
-
-		/// <summary>
-		/// Валидация уникальности номеров охранных зон
-		/// </summary>
-		void ValidateGuardZoneNoEquality()
-		{
-			var nos = new HashSet<int>();
-			foreach (var guardZone in GKManager.GuardZones)
-			{
-				if (!nos.Add(guardZone.No))
-					Errors.Add(new GuardZoneValidationError(guardZone, "Дублируется номер", ValidationErrorLevel.CannotWrite));
+				ValidateGuardZoneHasNoDevices(guardZone);
+				ValidateGuardZoneCodesCount(guardZone);
+				ValidateGuardZoneSameCodeReaderEnterTypes(guardZone);
 			}
 		}
 
@@ -91,26 +75,6 @@ namespace GKModule.Validation
 					}
 				}
 			}
-		}
-
-		/// <summary>
-		/// Охранная зона зависеть от объектов, присутствующие на одном и только на одном ГК
-		/// </summary>
-		/// <param name="code"></param>
-		bool ValidateGuardZoneOnlyOnOneGK(GKGuardZone guardZone)
-		{
-			if (guardZone.GkParents.Count == 0)
-			{
-				Errors.Add(new GuardZoneValidationError(guardZone, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
-				return false;
-			}
-
-			if (guardZone.GkParents.Count > 1)
-			{
-				Errors.Add(new GuardZoneValidationError(guardZone, "Охранная зона содержит объекты разных ГК", ValidationErrorLevel.CannotWrite));
-				return false;
-			}
-			return true;
 		}
 
 		/// <summary>

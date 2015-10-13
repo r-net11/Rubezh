@@ -13,29 +13,16 @@ namespace GKModule.Validation
 	{
 		void ValidateDoors()
 		{
-			ValidateDoorNoEquality();
+			ValidateCommon(GKManager.Doors);
 			ValidateDoorSameDevices();
 
-			foreach (var door in GKManager.DeviceConfiguration.Doors)
+			foreach (var door in GKManager.Doors)
 			{
 				ValidateDoorHasNoDevices(door);
 				ValidateDoorHasWrongDevices(door);
 				ValidateLockControlDevice(door);
 				ValidateLockProperties(door);
 				ValidateLockLogic(door);
-			}
-		}
-
-		/// <summary>
-		/// Валидация уникальности номеров ТД
-		/// </summary>
-		void ValidateDoorNoEquality()
-		{
-			var nos = new HashSet<int>();
-			foreach (var door in GKManager.DeviceConfiguration.Doors)
-			{
-				if (!nos.Add(door.No))
-					Errors.Add(new DoorValidationError(door, "Дублируется номер", ValidationErrorLevel.CannotWrite));
 			}
 		}
 

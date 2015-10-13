@@ -12,53 +12,16 @@ namespace GKModule.Validation
 	{
 		void ValidateZones()
 		{
-			ValidateZoneNoEquality();
+			ValidateCommon(GKManager.Zones);
 
 			foreach (var zone in GKManager.Zones)
 			{
-				if (ValidateCodeStationOnlyOnOneGK(zone))
+				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.ZoneSensorQuantity))
 				{
-					//ValidateZoneHasNoDevices(zone);
-					if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.ZoneSensorQuantity))
-					{
-						ValidateZoneDetectorCount(zone);
-						ValidateZoneFire1Fire2Count(zone);
-					}
+					ValidateZoneDetectorCount(zone);
+					ValidateZoneFire1Fire2Count(zone);
 				}
 			}
-		}
-
-		/// <summary>
-		/// Валидация уникальности номеров зон
-		/// </summary>
-		void ValidateZoneNoEquality()
-		{
-			var nos = new HashSet<int>();
-			foreach (var zone in GKManager.Zones)
-			{
-				if (!nos.Add(zone.No))
-					Errors.Add(new ZoneValidationError(zone, "Дублируется номер", ValidationErrorLevel.CannotWrite));
-			}
-		}
-
-		/// <summary>
-		/// Зона должна зависеть от объектов, присутствующих на одном и только на одном ГК
-		/// </summary>
-		/// <param name="code"></param>
-		bool ValidateCodeStationOnlyOnOneGK(GKZone zone)
-		{
-			if (zone.GkParents.Count == 0)
-			{
-				Errors.Add(new ZoneValidationError(zone, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
-				return false;
-			}
-
-			if (zone.GkParents.Count > 1)
-			{
-				Errors.Add(new ZoneValidationError(zone, "Зона содержит объекты разных ГК", ValidationErrorLevel.CannotWrite));
-				return false;
-			}
-			return true;
 		}
 
 		/// <summary>
