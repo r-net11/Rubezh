@@ -358,6 +358,7 @@ namespace FiresecClient
 			if (changeZone)
 			{
 				RemoveDeviceFromZone(device, null);
+				device.Zones.ForEach(x => x.Devices.Remove(device));
 				ChangeLogic(device, new GKLogic());
 			}
 
@@ -379,10 +380,13 @@ namespace FiresecClient
 				x.UpdateLogic();
 				x.OnChanged();
 			});
-
+			device.Zones = new List<GKZone>();
+			device.ZoneUIDs = new List<Guid>();
+			device.GuardZones = new List<GKGuardZone>();
+			device.GuardZoneUIDs = new List<Guid>();
 			device.InputDependentElements = new List<GKBase>();
 			device.OutDependentElements = new List<GKBase>();
-
+		
 			return true;
 		}
 
