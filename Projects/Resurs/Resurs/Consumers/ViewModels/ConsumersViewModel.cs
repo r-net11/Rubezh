@@ -119,32 +119,36 @@ namespace Resurs.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var consumerDetailsViewModel = new ConsumerDetailsViewModel(new Consumer() { Parent = SelectedConsumer.Consumer }, true);
+			var consumerDetailsViewModel = new ConsumerDetailsViewModel(new Consumer() { ParentUID = SelectedConsumer.Consumer.IsFolder ? SelectedConsumer.Consumer.UID : SelectedConsumer.Consumer.ParentUID }, false, true);
 			if (DialogService.ShowModalWindow(consumerDetailsViewModel))
 			{
-				DBCash.SaveConsumer(consumerDetailsViewModel.Consumer);
-
-				var consumerViewModel = new ConsumerViewModel(consumerDetailsViewModel.Consumer);
-				SelectedConsumer.AddChild(consumerViewModel);
-				SelectedConsumer.IsExpanded = true;
+				var consumerViewModel = new ConsumerViewModel(consumerDetailsViewModel.GetConsumer());
+				if (SelectedConsumer.Consumer.IsFolder)
+				{
+					SelectedConsumer.AddChild(consumerViewModel);
+					SelectedConsumer.IsExpanded = true;
+				}
+				else
+				{
+					SelectedConsumer.Parent.AddChild(consumerViewModel);
+					SelectedConsumer.Parent.IsExpanded = true;
+				}
 				AllConsumers.Add(consumerViewModel);
 				SelectedConsumer = consumerViewModel;
 			}
 		}
 		bool CanAdd()
 		{
-			return SelectedConsumer != null;
+			return SelectedConsumer != null;// && SelectedConsumer.Consumer.IsFolder;
 		}
 
 		public RelayCommand AddFolderCommand { get; private set; }
 		void OnAddFolder()
 		{
-			var consumersFolderDetailsViewModel = new ConsumersFolderDetailsViewModel(new Consumer() { IsFolder = true, Parent = SelectedConsumer.Consumer });
+			var consumersFolderDetailsViewModel = new ConsumersFolderDetailsViewModel(new Consumer() { IsFolder = true, Parent = SelectedConsumer.Consumer }, false, true);
 			if (DialogService.ShowModalWindow(consumersFolderDetailsViewModel))
 			{
-				DBCash.SaveConsumer(consumersFolderDetailsViewModel.Consumer);
-
-				var consumerViewModel = new ConsumerViewModel(consumersFolderDetailsViewModel.Consumer);
+				var consumerViewModel = new ConsumerViewModel(consumersFolderDetailsViewModel.GetConsumer());
 				SelectedConsumer.AddChild(consumerViewModel);
 				SelectedConsumer.IsExpanded = true;
 				AllConsumers.Add(consumerViewModel);
@@ -159,14 +163,17 @@ namespace Resurs.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var consumer = SelectedConsumer.Consumer.IsFolder ? 
-				SelectedConsumer.ConsumersFolderDetails.Consumer : 
-				SelectedConsumer.ConsumerDetails.Consumer;
-			var dialogViewModel = SelectedConsumer.Consumer.IsFolder ?
-				(SaveCancelDialogViewModel)new ConsumersFolderDetailsViewModel(consumer) :
-				new ConsumerDetailsViewModel(consumer);
+			var consumer = SelectedConsumer.Consumer.IsFolder ?
+				SelectedConsumer.ConsumersFolderDetails.GetConsumer() :
+				SelectedConsumer.ConsumerDetails.GetConsumer();
+			var dialogViewModel = SelectedConsumer.Consumer.IsFolder ? (SaveCancelDialogViewModel)
+				new ConsumersFolderDetailsViewModel(consumer, false) :
+				new ConsumerDetailsViewModel(consumer, false);
 			if (DialogService.ShowModalWindow(dialogViewModel))
 			{
+				consumer = SelectedConsumer.Consumer.IsFolder ?
+				((ConsumersFolderDetailsViewModel)dialogViewModel).GetConsumer() :
+				((ConsumerDetailsViewModel)dialogViewModel).GetConsumer();
 				SelectedConsumer.Update(consumer);
 			}
 		}
