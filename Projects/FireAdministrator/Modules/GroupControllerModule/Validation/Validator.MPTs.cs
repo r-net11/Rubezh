@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using Infrastructure.Common.Validation;
 using System;
 
@@ -59,7 +59,7 @@ namespace GKModule.Validation
 
 		void ValidateMPTDifferentGK(GKMPT mpt)
 		{
-			if (mpt.GkParents.Count > 0)
+			if (mpt.GkParents.Count > 1)
 				Errors.Add(new MPTValidationError(mpt, "МПТ содержит устройства разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 

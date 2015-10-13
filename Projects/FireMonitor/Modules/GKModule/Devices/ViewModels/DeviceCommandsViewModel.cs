@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
@@ -45,12 +45,12 @@ namespace GKModule.ViewModels
 
 		public bool IsTriStateControl
 		{
-			get { return Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_Device_Control); }
+			get { return Device.Driver.IsControlDevice && ClientManager.CheckPermission(PermissionType.Oper_Device_Control); }
 		}
 
 		public bool IsBiStateControl
 		{
-			get { return Device.Driver.IsDeviceOnShleif && !Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_Device_Control); }
+			get { return Device.Driver.IsDeviceOnShleif && !Device.Driver.IsControlDevice && ClientManager.CheckPermission(PermissionType.Oper_Device_Control); }
 		}
 
 		public DeviceControlRegime ControlRegime
@@ -89,7 +89,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetAutomaticRegime(Device);
+				ClientManager.FiresecService.GKSetAutomaticRegime(Device);
 			}
 		}
 		bool CanSetAutomaticState()
@@ -102,7 +102,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetManualRegime(Device);
+				ClientManager.FiresecService.GKSetManualRegime(Device);
 			}
 		}
 		bool CanSetManualState()
@@ -115,7 +115,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetIgnoreRegime(Device);
+				ClientManager.FiresecService.GKSetIgnoreRegime(Device);
 			}
 		}
 		bool CanSetIgnoreState()
@@ -141,7 +141,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKReset(Device);
+				ClientManager.FiresecService.GKReset(Device);
 			}
 		}
 		bool CanReset()

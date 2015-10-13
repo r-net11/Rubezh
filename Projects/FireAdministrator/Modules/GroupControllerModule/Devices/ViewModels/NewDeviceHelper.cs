@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 
 namespace GKModule.ViewModels
 {

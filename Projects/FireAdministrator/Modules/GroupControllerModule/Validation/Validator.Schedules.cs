@@ -1,4 +1,4 @@
-﻿using FiresecClient.SKDHelpers;
+﻿using RubezhClient.SKDHelpers;
 
 namespace GKModule.Validation
 {

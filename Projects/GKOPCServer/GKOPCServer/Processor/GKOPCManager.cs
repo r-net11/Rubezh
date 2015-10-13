@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Common;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using Graybox.OPC.ServerToolkit.CLRWrapper;
 
 namespace GKOPCServer

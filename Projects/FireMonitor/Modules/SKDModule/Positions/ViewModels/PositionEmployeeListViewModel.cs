@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.SKD;
+using RubezhClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {

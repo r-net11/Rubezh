@@ -67,7 +67,10 @@ function EmployeesViewModel() {
     }
 
     self.AddEmployeeClick = function (data, e, box) {
-        self.ShowEmployee(box);
+        $.getJSON("/Employees/GetEmployeeDetails/", function (allData) {
+            ko.mapping.fromJS(allData, {}, self.EmployeeDetails);
+            self.ShowEmployee(box);
+        });
     }
 
     self.EditEmployeeClick = function (data, e, box) {

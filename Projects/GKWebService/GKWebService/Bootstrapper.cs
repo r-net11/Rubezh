@@ -2,15 +2,15 @@
 using System.Linq;
 using System.Threading;
 using Common;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using System.Diagnostics;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 
 namespace GKWebService
 {
@@ -22,7 +22,7 @@ namespace GKWebService
 		{
 			for (int i = 1; i <= 10; i++)
 			{
-				var message = FiresecManager.Connect(ClientType.WebService, ConnectionSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.AdminLogin, "");
+				var message = ClientManager.Connect(ClientType.WebService, ConnectionSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.AdminLogin, "");
 				if (message == null)
 					break;
 				Thread.Sleep(5000);
@@ -34,18 +34,17 @@ namespace GKWebService
 			}
 
 			InitializeGK();
-			FiresecManager.StartPoll();
+			ClientManager.StartPoll();
 		}
 
 		static void InitializeGK()
 		{
-			FiresecManager.GetConfiguration("GKOPC/Configuration");
+			ClientManager.GetConfiguration("GKOPC/Configuration");
             
 			GKDriversCreator.Create();
 			GKManager.UpdateConfiguration();
 			GKManager.CreateStates();
 			DescriptorsManager.Create();
-			DescriptorsManager.CreateDynamicObjectsInGKManager();
 			InitializeStates();
 
 			SafeFiresecService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
@@ -59,7 +58,7 @@ namespace GKWebService
 
 		static void InitializeStates()
 		{
-			var gkStates = FiresecManager.FiresecService.GKGetStates();
+			var gkStates = ClientManager.FiresecService.GKGetStates();
 			CopyGKStates(gkStates);
 		}
 

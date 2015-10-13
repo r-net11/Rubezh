@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
@@ -42,7 +42,7 @@ namespace GKModule.ViewModels
 		private void InitializePlans()
 		{
 			this.Plans = new ObservableCollection<PlanLinkViewModel>();
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 			{
 				ElementBase elementBase = plan.ElementRectangleGKDelays.FirstOrDefault(x => x.DelayUID == this.Delay.UID);
 				if (elementBase != null)
@@ -108,7 +108,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetAutomaticRegime(Delay);
+				ClientManager.FiresecService.GKSetAutomaticRegime(Delay);
 			}
 		}
 		bool CanSetAutomaticState()
@@ -121,7 +121,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetManualRegime(Delay);
+				ClientManager.FiresecService.GKSetManualRegime(Delay);
 			}
 		}
 		bool CanSetManualState()
@@ -134,7 +134,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetIgnoreRegime(Delay);
+				ClientManager.FiresecService.GKSetIgnoreRegime(Delay);
 			}
 		}
 		bool CanSetIgnoreState()
@@ -147,7 +147,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOn(Delay);
+				ClientManager.FiresecService.GKTurnOn(Delay);
 			}
 		}
 
@@ -156,7 +156,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOnNow(Delay);
+				ClientManager.FiresecService.GKTurnOnNow(Delay);
 			}
 		}
 
@@ -165,7 +165,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOff(Delay);
+				ClientManager.FiresecService.GKTurnOff(Delay);
 			}
 		}
 
@@ -199,7 +199,7 @@ namespace GKModule.ViewModels
 
 		public bool CanControl
 		{
-			get { return FiresecManager.CheckPermission(PermissionType.Oper_Delay_Control); }
+			get { return ClientManager.CheckPermission(PermissionType.Oper_Delay_Control); }
 
 		}
 

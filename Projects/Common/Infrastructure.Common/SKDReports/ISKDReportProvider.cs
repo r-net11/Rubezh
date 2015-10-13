@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Models;
+﻿using RubezhAPI.Models;
 
 namespace Infrastructure.Common.SKDReports
 {

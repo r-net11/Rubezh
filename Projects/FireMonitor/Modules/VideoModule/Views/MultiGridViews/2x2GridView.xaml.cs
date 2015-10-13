@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 
 namespace VideoModule.Views
 {

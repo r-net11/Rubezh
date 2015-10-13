@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="SKDModule.Reports.Views.PassCardMainPageView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:API="clr-namespace:FiresecAPI.SKD.ReportFilters;assembly=FiresecAPI"
+			 xmlns:API="clr-namespace:RubezhAPI.SKD.ReportFilters;assembly=RubezhAPI"
 			 xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors">
 	<Grid Grid.Row="0">
 		<Grid.ColumnDefinitions>

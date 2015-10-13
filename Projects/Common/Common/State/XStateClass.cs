@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.GK
+namespace RubezhAPI.GK
 {
 	/// <summary>
 	/// Класс состояния

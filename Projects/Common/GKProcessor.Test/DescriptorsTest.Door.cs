@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FiresecClient;
-using FiresecAPI.GK;
+using RubezhClient;
+using RubezhAPI.GK;
 
 namespace GKProcessor.Test
 {
@@ -94,6 +94,8 @@ namespace GKProcessor.Test
 			var cardReader2 = AddDevice(kauDevice1, GKDriverType.RSR2_CardReader);
 			var rm1 = AddDevice(kauDevice1, GKDriverType.RSR2_RM_1);
 			var rm2 = AddDevice(kauDevice1, GKDriverType.RSR2_RM_1);
+			var am1 = AddDevice(kauDevice1, GKDriverType.RSR2_AM_1);
+			var am2 = AddDevice(kauDevice1, GKDriverType.RSR2_AM_1);
 			var door = new GKDoor()
 			{
 				DoorType = GKDoorType.Barrier,
@@ -101,6 +103,8 @@ namespace GKProcessor.Test
 				ExitDeviceUID = cardReader2.UID,
 				LockDeviceUID = rm1.UID,
 				LockDeviceExitUID = rm2.UID,
+				LockControlDeviceUID = am1.UID,
+				LockControlDeviceExitUID = am2.UID
 			};
 			GKManager.Doors.Add(door);
 			Compile();

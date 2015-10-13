@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Models.Layouts;
-using FiresecAPI.SKD;
+using RubezhAPI.Models.Layouts;
+using RubezhAPI.SKD;
 using Infrastructure.Common.Services.Layout;
 using System;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 
 namespace SKDModule.ViewModels
 {

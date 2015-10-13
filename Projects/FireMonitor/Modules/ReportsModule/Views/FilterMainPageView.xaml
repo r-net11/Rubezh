@@ -1,7 +1,7 @@
 <UserControl x:Class="ReportsModule.Views.FilterMainPageView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:API="clr-namespace:FiresecAPI.SKD.ReportFilters;assembly=FiresecAPI"
+			 xmlns:API="clr-namespace:RubezhAPI.SKD.ReportFilters;assembly=RubezhAPI"
 			 xmlns:Converters="clr-namespace:ReportsModule.Converters">
 	<UserControl.Resources>
 		<IfConverter x:Key="AdditionalLinkText" FalseValue="Показать настройки отображения отчёта" TrueValue="Скрыть настройки отображения отчёта" />

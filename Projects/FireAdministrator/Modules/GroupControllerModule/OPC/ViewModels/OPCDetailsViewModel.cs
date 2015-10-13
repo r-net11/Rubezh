@@ -1,4 +1,4 @@
-﻿using FiresecClient;
+﻿using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Collections.Generic;

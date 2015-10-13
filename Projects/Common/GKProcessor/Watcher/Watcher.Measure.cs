@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
-using SKDDriver;
+using RubezhAPI.GK;
+using RubezhClient;
+using RubezhDAL;
 
 namespace GKProcessor
 {
@@ -62,7 +62,7 @@ namespace GKProcessor
 		{
 			foreach (var device in GkDatabase.RootDevice.Children.Where(x => x.DriverType == GKDriverType.RSR2_KAU))
 			{
-				using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
+				using (var skdDatabaseService = new RubezhDAL.DataClasses.DbService())
 				{
 					skdDatabaseService.CurrentConsumptionTranslator.SaveMany(GetKAUMeasure(device));
 				}

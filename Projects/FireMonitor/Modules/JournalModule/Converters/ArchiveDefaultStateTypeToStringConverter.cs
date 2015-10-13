@@ -1,5 +1,5 @@
 ﻿using System.Windows.Data;
-using FiresecAPI;
+using RubezhAPI;
 using Infrastructure.Models;
 
 namespace JournalModule.Converters

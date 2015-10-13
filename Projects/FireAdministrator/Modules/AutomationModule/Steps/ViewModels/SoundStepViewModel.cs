@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Automation;
-using FiresecClient;
+using RubezhAPI.Automation;
+using RubezhClient;
 
 namespace AutomationModule.ViewModels
 {
@@ -38,12 +38,12 @@ namespace AutomationModule.ViewModels
 		public override void UpdateContent()
 		{
 			Sounds = new ObservableCollection<SoundViewModel>();
-			foreach (var sound in FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds)
+			foreach (var sound in ClientManager.SystemConfiguration.AutomationConfiguration.AutomationSounds)
 			{
 				var soundViewModel = new SoundViewModel(sound);
 				Sounds.Add(soundViewModel);
 			}
-			if (FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.Any(x => x.Uid == SoundArguments.SoundUid))
+			if (ClientManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.Any(x => x.Uid == SoundArguments.SoundUid))
 				SelectedSound = Sounds.FirstOrDefault(x => x.Sound.Uid == SoundArguments.SoundUid);
 			else
 				SelectedSound = null;

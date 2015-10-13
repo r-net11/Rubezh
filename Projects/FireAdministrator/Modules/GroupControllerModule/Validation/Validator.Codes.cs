@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using Infrastructure.Common.Validation;
 using System.Linq;
 using System;
@@ -43,7 +43,6 @@ namespace GKModule.Validation
 		}
 		void ValidateCodePasswordEquality()
 		{
-
 			var codePassowrds = new HashSet<int>();
 			foreach (var code in GKManager.DeviceConfiguration.Codes)
 			{

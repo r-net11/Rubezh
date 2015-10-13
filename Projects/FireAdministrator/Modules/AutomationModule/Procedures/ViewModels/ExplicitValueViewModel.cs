@@ -3,13 +3,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Windows.Media;
-using FiresecAPI.Automation;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.Automation;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
+using RubezhAPI.Models;
+using RubezhAPI.SKD;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Automation;
@@ -70,7 +70,7 @@ namespace AutomationModule.ViewModels
 				(Device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == uidValue)) == null ||
 				(Zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == uidValue)) == null ||
 				(GuardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == uidValue)) == null ||
-				(Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uidValue)) == null ||
+				(Camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uidValue)) == null ||
 				(GKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == uidValue)) == null ||
 				(Direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uidValue)) == null ||
 				(Delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == uidValue)) == null ||

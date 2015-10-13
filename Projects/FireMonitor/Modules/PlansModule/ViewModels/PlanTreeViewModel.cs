@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans;
 namespace PlansModule.ViewModels
@@ -30,7 +30,7 @@ namespace PlansModule.ViewModels
 			SelectedPlan = null;
 			AllPlans = new List<PlanViewModel>();
 			Plans = new ObservableCollection<PlanViewModel>();
-			foreach (var plan in FiresecManager.PlansConfiguration.Plans)
+			foreach (var plan in ClientManager.PlansConfiguration.Plans)
 				AddPlan(plan, null);
 			if (SelectedPlan != null)
 				SelectedPlan.ExpandToThis();

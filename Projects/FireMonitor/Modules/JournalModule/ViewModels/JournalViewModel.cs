@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
+using RubezhAPI.Models;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -105,7 +105,7 @@ namespace JournalModule.ViewModels
 				if (JournalItems.Count > JournalFilter.LastItemsCount)
 					JournalItems.RemoveAt(JournalFilter.LastItemsCount);
 
-				if (FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
+				if (ClientManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
 				{
 					if (((journalItem.JournalObjectType == JournalObjectType.GKZone || journalItem.JournalObjectType == JournalObjectType.GKDirection) &&
 						(journalItemViewModel.StateClass == XStateClass.Fire1 || journalItemViewModel.StateClass == XStateClass.Fire2 || journalItemViewModel.StateClass == XStateClass.Attention)) ||

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrustructure.Plans.Designer;

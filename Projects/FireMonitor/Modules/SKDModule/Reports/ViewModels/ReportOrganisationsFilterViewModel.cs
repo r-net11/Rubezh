@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.SKD;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure.Common.CheckBoxList;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -17,7 +17,7 @@ namespace SKDModule.ViewModels
 		public ReportOrganisationsFilterViewModel(bool isWithDeleted = false)
 		{
 			Organisations = new CheckBoxItemList<ReportFilterOrganisationViewModel>();
-			var filter = new OrganisationFilter() { UserUID = FiresecManager.CurrentUser.UID };
+			var filter = new OrganisationFilter() { UserUID = ClientManager.CurrentUser.UID };
 			if (isWithDeleted)
 				filter.LogicalDeletationType = LogicalDeletationType.All;
 			var organisations = OrganisationHelper.Get(filter);

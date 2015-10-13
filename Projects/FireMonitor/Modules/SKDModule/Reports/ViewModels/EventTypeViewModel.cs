@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Reflection;
 using Controls.Converters;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
 using Infrastructure.Common.TreeList;
 
 namespace SKDModule.Reports.ViewModels

@@ -33,22 +33,22 @@ namespace Resurs.ViewModels
 						break;
 					case ParameterType.Int:
 						IsInt = true;
-						IntValue = Model.IntValue != null ? Model.IntValue.Value : Model.DriverParameter.IntDefaultValue;
+						IntValue = Model.IntValue ?? Model.DriverParameter.IntDefaultValue;
 						if (Model.DriverParameter.IsReadOnly)
 							StringValue = IntValue.ToString();
 						break;
 					case ParameterType.Double:
 						IsDouble = true;
-						var doubleValue = Model.DoubleValue != null ? Model.DoubleValue.Value : Model.DriverParameter.DoubleDefaultValue;
+						var doubleValue = Model.DoubleValue ?? Model.DriverParameter.DoubleDefaultValue;
 						StringValue = doubleValue.ToString();
 						break;
 					case ParameterType.Bool:
 						IsBool = true;
-						BoolValue = Model.BoolValue;
+						BoolValue = Model.BoolValue ?? Model.DriverParameter.BoolDefaultValue;
 						break;
 					case ParameterType.DateTime:
 						IsDateTime = true;
-						var dateTime = Model.DateTimeValue != null ? Model.DateTimeValue.Value : DateTime.Now;
+						var dateTime = Model.DateTimeValue ?? DateTime.Now;
 						DateTimeValue = new DateTimePairViewModel(dateTime);
 						TimeSpan = dateTime.TimeOfDay;
 						break;

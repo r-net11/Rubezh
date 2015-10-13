@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.SKD;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -32,7 +32,7 @@ namespace SKDModule.ViewModels
 			_logicalDeletationType = logicalDeletationType;
 			OnPropertyChanged(() => IsWithDeleted);
 			Organisations = new ObservableCollection<OrganisationViewModel>();
-			var organisations = OrganisationHelper.Get(new OrganisationFilter { UserUID = FiresecManager.CurrentUser.UID, LogicalDeletationType = _logicalDeletationType });
+			var organisations = OrganisationHelper.Get(new OrganisationFilter { UserUID = ClientManager.CurrentUser.UID, LogicalDeletationType = _logicalDeletationType });
 			if (organisations != null)
 			{
 				foreach (var organisation in organisations)
@@ -122,7 +122,7 @@ namespace SKDModule.ViewModels
 				var organisationViewModel = new OrganisationViewModel(organisation);
 				Organisations.Add(organisationViewModel);
 				SelectedOrganisation = organisationViewModel;
-				var currentUserViewModel = OrganisationUsersViewModel.Items.FirstOrDefault(x => x.User.UID == FiresecManager.CurrentUser.UID);
+				var currentUserViewModel = OrganisationUsersViewModel.Items.FirstOrDefault(x => x.User.UID == ClientManager.CurrentUser.UID);
 				if (currentUserViewModel.User != null)
 				{
 					currentUserViewModel.SetWithoutSave(true);
@@ -132,7 +132,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Organisations_AddRemove);
+			return ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_AddRemove);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -164,7 +164,7 @@ namespace SKDModule.ViewModels
 
 		bool CanRemove()
 		{
-			return SelectedOrganisation != null && !SelectedOrganisation.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Organisations_AddRemove);
+			return SelectedOrganisation != null && !SelectedOrganisation.IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_AddRemove);
 		}
 		
 		public RelayCommand RestoreCommand { get; private set; }
@@ -182,7 +182,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRestore()
 		{
-			return SelectedOrganisation != null && SelectedOrganisation.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Organisations_AddRemove);
+			return SelectedOrganisation != null && SelectedOrganisation.IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_AddRemove);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -199,7 +199,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedOrganisation != null && !SelectedOrganisation.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Organisations_Edit);
+			return SelectedOrganisation != null && !SelectedOrganisation.IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_Edit);
 		}
 
 		void SetItemsCanSelect(bool canSelect)

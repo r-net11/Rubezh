@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
-using FiresecAPI;
-using FiresecAPI.Automation;
+using RubezhAPI;
+using RubezhAPI.Automation;
 
 namespace Controls.Converters
 {

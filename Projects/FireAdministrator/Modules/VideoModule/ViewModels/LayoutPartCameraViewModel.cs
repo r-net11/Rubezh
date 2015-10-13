@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Models;
-using FiresecAPI.Models.Layouts;
-using FiresecClient;
+using RubezhAPI.Models;
+using RubezhAPI.Models.Layouts;
+using RubezhClient;
 using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common.Services.Layout;
 
@@ -18,7 +18,7 @@ namespace VideoModule.ViewModels
 			IconSource = LayoutPartDescription.IconPath + "BVideo.png";
 			_сameraTitle = null;
 			_properties = properties ?? new LayoutPartReferenceProperties();
-			var selectedCamera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(item => item.UID == _properties.ReferenceUID);
+			var selectedCamera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(item => item.UID == _properties.ReferenceUID);
 			UpdateLayoutPart(selectedCamera);
 		}
 

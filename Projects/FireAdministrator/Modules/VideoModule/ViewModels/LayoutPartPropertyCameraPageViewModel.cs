@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Models.Layouts;
-using FiresecClient;
+using RubezhAPI.Models.Layouts;
+using RubezhClient;
 using Infrastructure.Common.Services.Layout;
 
 namespace VideoModule.ViewModels
@@ -20,7 +20,7 @@ namespace VideoModule.ViewModels
 		public void Initialize()
 		{
 			Cameras = new ObservableCollection<CameraViewModel>();
-			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
+			foreach (var camera in ClientManager.SystemConfiguration.Cameras)
 			{
 				var cameraViewModel = new CameraViewModel(CamerasViewModel.Current, camera);
 				Cameras.Add(cameraViewModel);
@@ -57,7 +57,7 @@ namespace VideoModule.ViewModels
 		public override void CopyProperties()
 		{
 			var properties = (LayoutPartReferenceProperties)_layoutPartCameraViewModel.Properties;
-			var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(item => item.UID == properties.ReferenceUID); 
+			var camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(item => item.UID == properties.ReferenceUID); 
 			SelectedCamera = new CameraViewModel(CamerasViewModel.Current, camera);
 		}
 		public override bool CanSave()

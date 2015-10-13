@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.SKD;
+using RubezhClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels

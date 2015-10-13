@@ -64,7 +64,7 @@ namespace Resurs.ViewModels
 
 		void CreateDevices()
 		{
-
+			DBCash.CreateSystem();
 		}
 
 		void CreateConsumers()

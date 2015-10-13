@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
@@ -80,7 +80,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetAutomaticRegime(Pim);
+				ClientManager.FiresecService.GKSetAutomaticRegime(Pim);
 			}
 		}
 		bool CanSetAutomaticState()
@@ -93,7 +93,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetManualRegime(Pim);
+				ClientManager.FiresecService.GKSetManualRegime(Pim);
 			}
 		}
 		bool CanSetManualState()
@@ -106,7 +106,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetIgnoreRegime(Pim);
+				ClientManager.FiresecService.GKSetIgnoreRegime(Pim);
 			}
 		}
 		bool CanSetIgnoreState()
@@ -119,7 +119,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOn(Pim);
+				ClientManager.FiresecService.GKTurnOn(Pim);
 			}
 		}
 
@@ -128,7 +128,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOnNow(Pim);
+				ClientManager.FiresecService.GKTurnOnNow(Pim);
 			}
 		}
 
@@ -137,7 +137,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOff(Pim);
+				ClientManager.FiresecService.GKTurnOff(Pim);
 			}
 		}
 
@@ -162,7 +162,7 @@ namespace GKModule.ViewModels
 
 		public bool CanControl
 		{
-			get { return FiresecManager.CheckPermission(PermissionType.Oper_PIM_Control); }
+			get { return ClientManager.CheckPermission(PermissionType.Oper_PIM_Control); }
 		}
 
 		#region IWindowIdentity Members

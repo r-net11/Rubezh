@@ -1,13 +1,13 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecAPI;
+using RubezhAPI;
 using System.Linq;
-using FiresecAPI.Automation;
-using FiresecClient;
+using RubezhAPI.Automation;
+using RubezhClient;
 using System;
 using System.Collections.Generic;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Services.Layout;
-using FiresecAPI.Models.Layouts;
+using RubezhAPI.Models.Layouts;
 
 namespace AutomationModule.ViewModels
 {
@@ -124,7 +124,7 @@ namespace AutomationModule.ViewModels
 		public override void UpdateContent()
 		{
 			IsServerContext = Procedure.ContextType == ContextType.Server;
-			Layouts = new ObservableCollection<LayoutViewModel>(FiresecManager.LayoutsConfiguration.Layouts.Select(item => new LayoutViewModel(item)));
+			Layouts = new ObservableCollection<LayoutViewModel>(ClientManager.LayoutsConfiguration.Layouts.Select(item => new LayoutViewModel(item)));
 			SelectedLayout = Layouts.FirstOrDefault(x => x.Layout.UID == ControlVisualArguments.Layout);
 			OnPropertyChanged(() => Layouts);
 		}

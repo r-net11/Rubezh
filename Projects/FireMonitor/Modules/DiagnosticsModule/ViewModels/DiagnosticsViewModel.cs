@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -43,7 +43,7 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
-			FiresecManager.FiresecService.Test("");
+			ClientManager.FiresecService.Test("");
 			return;
 
 			var thread = new Thread(new ThreadStart(() =>
@@ -58,27 +58,25 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand SKDDataCommand { get; private set; }
 		void OnSKDData()
 		{
-			FiresecManager.FiresecService.GenerateTestData(false);
+			ClientManager.FiresecService.GenerateTestData(false);
 		}
 
         public RelayCommand JournalCommand { get; private set; }
         void OnJournal()
         {
-            FiresecManager.FiresecService.GenerateJournal();
+			ClientManager.FiresecService.GenerateJournal();
         }
 		
 		public RelayCommand SKDDataAscCommand { get; private set; }
 		void OnSKDDataAsc()
 		{
-			FiresecManager.FiresecService.GenerateTestData(true);
+			ClientManager.FiresecService.GenerateTestData(true);
 		}
 
 		public RelayCommand GenerateEmployeeDaysCommand { get; private set; }
 		void OnGenerateEmployeeDays()
 		{
-			FiresecManager.FiresecService.GenerateEmployeeDays();
+			ClientManager.FiresecService.GenerateEmployeeDays();
 		}
-
-
 	}
 }

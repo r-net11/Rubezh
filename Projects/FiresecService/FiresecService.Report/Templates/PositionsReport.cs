@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Common;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
+using RubezhAPI.SKD;
+using RubezhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
-using SKDDriver;
+using RubezhDAL;
 using FiresecService.Report.Model;
 
 namespace FiresecService.Report.Templates
@@ -33,7 +33,7 @@ namespace FiresecService.Report.Templates
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<PositionsReportFilter>();
-            var databaseService = new SKDDriver.DataClasses.DbService();
+            var databaseService = new RubezhDAL.DataClasses.DbService();
 			dataProvider.LoadCache();
 			Guid organisationUID = Guid.Empty;
 			var organisations = dataProvider.Organisations.Where(org => org.Value.Item.UserUIDs.Any(y => y == filter.UserUID));

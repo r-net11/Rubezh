@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.SKD;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -72,7 +72,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAddCard()
 		{
-			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_Etit) && !_employeeViewModel.IsOrganisation && !_employeeViewModel.IsDeleted;
+			return ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Cards_Etit) && !_employeeViewModel.IsOrganisation && !_employeeViewModel.IsDeleted;
 		}
 
 		public RelayCommand SelectEmployeeCommand { get; private set; }

@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 

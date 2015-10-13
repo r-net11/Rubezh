@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;

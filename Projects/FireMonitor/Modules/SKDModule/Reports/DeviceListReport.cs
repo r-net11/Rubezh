@@ -1,10 +1,10 @@
 ﻿using System.Data;
 using CodeReason.Reports;
-using FiresecAPI;
-using FiresecAPI.GK;
+using RubezhAPI;
+using RubezhAPI.GK;
 using Infrastructure.Common.Reports;
-using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhAPI.SKD;
+using RubezhClient;
 
 namespace SKDModule.Reports
 {

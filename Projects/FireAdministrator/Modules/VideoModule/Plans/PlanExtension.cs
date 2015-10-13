@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.Models;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrustructure.Plans.Designer;
@@ -32,7 +32,7 @@ namespace VideoModule.Plans
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
 
 			_camerasViewModel = camerasViewModel;
-			Cache.Add<Camera>(() => FiresecManager.SystemConfiguration.Cameras);
+			Cache.Add<Camera>(() => ClientManager.SystemConfiguration.Cameras);
 		}
 
 		#region IPlanExtension Members
@@ -106,7 +106,7 @@ namespace VideoModule.Plans
 		public override IEnumerable<ElementError> Validate()
 		{
 			List<ElementError> errors = new List<ElementError>();
-			FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
+			ClientManager.PlansConfiguration.AllPlans.ForEach(plan =>
 				errors.AddRange(FindUnbindedErrors<ElementCamera, ShowVideoEvent, Guid>(plan.ElementExtensions.OfType<ElementCamera>(), plan.UID, "Несвязанная камера", "/Controls;component/Images/Camera.png", Guid.Empty)));
 			return errors;
 		}

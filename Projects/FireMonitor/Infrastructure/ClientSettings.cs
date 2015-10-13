@@ -6,7 +6,7 @@ using Common;
 using Infrastructure.Common;
 using Infrastructure.Models;
 using System.Xml.Serialization;
-using FiresecAPI.SKD.ReportFilters;
+using RubezhAPI.SKD.ReportFilters;
 
 namespace Infrastructure
 {

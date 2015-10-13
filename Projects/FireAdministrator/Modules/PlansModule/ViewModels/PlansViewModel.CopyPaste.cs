@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.Models;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrustructure.Plans.Elements;
@@ -63,7 +63,7 @@ namespace PlansModule.ViewModels
 			{
 				var planViewModel = AddPlan(plan, isRoot ? null : SelectedPlan);
 				if (isRoot)
-					FiresecManager.PlansConfiguration.Plans.Add(plan);
+					ClientManager.PlansConfiguration.Plans.Add(plan);
 				else
 				{
 					SelectedPlan.Plan.Children.Add(plan);
@@ -71,7 +71,7 @@ namespace PlansModule.ViewModels
 				}
 				planViewModel.ExpandChildren();
 				SelectedPlan = planViewModel;
-				FiresecManager.PlansConfiguration.Update();
+				ClientManager.PlansConfiguration.Update();
 				ServiceFactory.SaveService.PlansChanged = true;
 				ServiceFactoryBase.Events.GetEvent<PlansConfigurationChangedEvent>().Publish(null);
 			}
@@ -91,12 +91,12 @@ namespace PlansModule.ViewModels
 				if (parent == null)
 				{
 					Plans.Remove(selectedPlan);
-					FiresecManager.PlansConfiguration.Plans.Remove(plan);
+					ClientManager.PlansConfiguration.Plans.Remove(plan);
 					if (!withChild)
 						foreach (var childPlanViewModel in selectedPlan.Children.ToArray())
 						{
 							Plans.Add(childPlanViewModel);
-							FiresecManager.PlansConfiguration.Plans.Add(childPlanViewModel.Plan);
+							ClientManager.PlansConfiguration.Plans.Add(childPlanViewModel.Plan);
 							childPlanViewModel.Plan.Parent = null;
 						}
 					index = Math.Min(index, Plans.Count - 1);
@@ -131,7 +131,7 @@ namespace PlansModule.ViewModels
 					parent.Update();
 					parent.IsExpanded = true;
 				}
-				FiresecManager.PlansConfiguration.Update();
+				ClientManager.PlansConfiguration.Update();
 				ServiceFactory.SaveService.PlansChanged = true;
 				ServiceFactoryBase.Events.GetEvent<PlansConfigurationChangedEvent>().Publish(null);
 				ClearReferences(plan);

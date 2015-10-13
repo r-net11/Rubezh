@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Controls.Converters;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using GKProcessor;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;

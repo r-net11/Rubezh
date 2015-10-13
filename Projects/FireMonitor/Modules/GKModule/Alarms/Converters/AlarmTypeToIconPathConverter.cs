@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using Controls.Converters;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace GKModule.Converters
 {

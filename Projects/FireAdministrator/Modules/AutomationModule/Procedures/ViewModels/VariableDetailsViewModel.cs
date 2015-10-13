@@ -2,7 +2,7 @@
 using System.Linq;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using System.Collections.ObjectModel;
 using Infrastructure;
 using Infrastructure.Automation;

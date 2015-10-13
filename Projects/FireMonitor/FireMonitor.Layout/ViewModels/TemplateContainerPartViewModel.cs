@@ -6,14 +6,14 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using FiresecAPI.Models.Layouts;
+using RubezhAPI.Models.Layouts;
 using Infrastructure.Common.Windows.ViewModels;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
-using LayoutModel = FiresecAPI.Models.Layouts.Layout;
+using LayoutModel = RubezhAPI.Models.Layouts.Layout;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
-using FiresecClient;
+using RubezhClient;
 using Common;
 
 namespace FireMonitor.Layout.ViewModels
@@ -22,7 +22,7 @@ namespace FireMonitor.Layout.ViewModels
 	{
 		public TemplateContainerPartViewModel(LayoutPartReferenceProperties properties)
 		{
-			var layout = FiresecManager.LayoutsConfiguration.Layouts.FirstOrDefault(item => item.UID == properties.ReferenceUID);
+			var layout = ClientManager.LayoutsConfiguration.Layouts.FirstOrDefault(item => item.UID == properties.ReferenceUID);
 			LayoutContainer = new LayoutContainer(this, layout);
 		}
 

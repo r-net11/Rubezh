@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.SKD;
+using RubezhAPI.GK;
+using RubezhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels

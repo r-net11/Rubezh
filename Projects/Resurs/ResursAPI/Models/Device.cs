@@ -22,6 +22,7 @@ namespace ResursAPI
 		{
 			Driver = ResursAPI.DriversConfiguration.GetDriver(driverType);
 			DriverType = driverType;
+			TariffType = Driver.DefaultTariffType;
 			foreach (var item in Driver.DriverParameters)
 			{
 				var parameter = new Parameter { Device = this };
@@ -71,6 +72,7 @@ namespace ResursAPI
 		public int Address { get; set; }
 		public bool IsActive { get; set; }
 		public bool IsDbMissmatch { get; set; }
+		public TariffType TariffType { get; set; }
 		[NotMapped]
 		public string Name { get { return Driver.DriverType.ToDescription(); } }
 		[NotMapped]

@@ -4,8 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using Common;
-using FiresecAPI.Journal;
-using FiresecClient;
+using RubezhAPI.Journal;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -43,7 +43,7 @@ namespace JournalModule.ViewModels
 
 		public void Initialize()
 		{
-			var result = FiresecManager.FiresecService.GetMinJournalDateTime();
+			var result = ClientManager.FiresecService.GetMinJournalDateTime();
 			if (!result.HasError)
 			{
 				ArchiveFirstDate = result.Result;
@@ -244,7 +244,7 @@ namespace JournalModule.ViewModels
 						break;
 				}
 
-				var countResult = FiresecManager.FiresecService.GetArchiveCount(ArchiveFilter);
+				var countResult = ClientManager.FiresecService.GetArchiveCount(ArchiveFilter);
 				if(!countResult.HasError)
 				{
 					TotalPageNumber = countResult.Result / ArchiveFilter.PageSize + 1;
@@ -260,7 +260,7 @@ namespace JournalModule.ViewModels
 
 		void GetJournalItems()
 		{
-			var journalItemsResult = FiresecManager.FiresecService.GetArchivePage(ArchiveFilter, CurrentPageNumber);
+			var journalItemsResult = ClientManager.FiresecService.GetArchivePage(ArchiveFilter, CurrentPageNumber);
 			if (!journalItemsResult.HasError)
 			{
 				JournalItems = new ObservableRangeCollection<JournalItemViewModel>();

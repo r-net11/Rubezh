@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Common;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
+using RubezhAPI.SKD;
+using RubezhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
-using FiresecAPI.GK;
-using FiresecClient;
-using FiresecAPI;
+using RubezhAPI.GK;
+using RubezhClient;
+using RubezhAPI;
 
 namespace FiresecService.Report.Templates
 {

@@ -1,12 +1,12 @@
-﻿using FiresecAPI.GK;
-using FiresecAPI.Models;
+﻿using RubezhAPI.GK;
+using RubezhAPI.Models;
 using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using FiresecClient;
+using RubezhClient;
 using System.Collections.Generic;
 using System;
 

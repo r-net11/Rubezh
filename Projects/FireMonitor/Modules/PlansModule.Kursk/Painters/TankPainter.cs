@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 
