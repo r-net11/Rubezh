@@ -188,7 +188,7 @@ namespace GKModule.Validation
 		{
 			if (door.EnterDevice != null && door.ExitDevice != null && door.LockDevice != null)
 			{
-				if (door.LockDevice.DriverType == GKDriverType.RSR2_CardReader || door.LockDevice.DriverType == GKDriverType.RSR2_CodeReader)
+				if (door.LockDevice.Driver.IsCardReaderOrCodeReader)
 				{
 					if (door.EnterDevice.UID != door.LockDevice.UID && door.ExitDevice.UID != door.LockDevice.UID)
 						Errors.Add(new DoorValidationError(door, "Устройство Замок должно совпадать с устройством на вход или выход", ValidationErrorLevel.CannotWrite));

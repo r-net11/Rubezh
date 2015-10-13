@@ -50,7 +50,7 @@ namespace GKModule.Validation
 			{
 				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
 				{
-					if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader)
+					if (guardZoneDevice.Device.Driver.IsCardReaderOrCodeReader)
 					{
 						if (!deviceUIDs.Add(guardZoneDevice.Device.UID))
 							Errors.Add(new GuardZoneValidationError(guardZone, "Устройство " + guardZoneDevice.Device.PresentationName + " уже участвует в другой охранной зоне", ValidationErrorLevel.CannotWrite));
@@ -67,7 +67,7 @@ namespace GKModule.Validation
 			var guardDevices = new HashSet<Tuple<Guid, GKCodeReaderEnterType>>();
 			foreach (var guardZone in GKManager.DeviceConfiguration.GuardZones)
 			{
-				foreach (var guard in guardZone.GuardZoneDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CardReader || x.Device.DriverType == GKDriverType.RSR2_CodeReader))
+				foreach (var guard in guardZone.GuardZoneDevices.Where(x => x.Device.Driver.IsCardReaderOrCodeReader))
 				{
 					ValidationGuardSettings(guard.CodeReaderSettings.AlarmSettings, guardDevices, guardZone, guard.Device.PresentationName);
 					ValidationGuardSettings(guard.CodeReaderSettings.ChangeGuardSettings, guardDevices, guardZone, guard.Device.PresentationName);
@@ -133,7 +133,7 @@ namespace GKModule.Validation
 		{
 			foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
 			{
-				if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader)
+				if (guardZoneDevice.Device.Driver.IsCardReaderOrCodeReader)
 				{
 					if (guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs.Count > 100)
 						Errors.Add(new GuardZoneValidationError(guardZone, "Количество кодов для постановки у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite));
@@ -155,7 +155,7 @@ namespace GKModule.Validation
 		{
 			foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
 			{
-				if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader)
+				if (guardZoneDevice.Device.Driver.IsCardReaderOrCodeReader)
 				{
 					var enterTypes = new HashSet<GKCodeReaderEnterType>();
 

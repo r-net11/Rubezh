@@ -78,7 +78,7 @@ namespace GKProcessor
 			var count = 0;
 			foreach (var mptDevice in MPT.MPTDevices.Where(x => x.MPTDeviceType == deviceType))
 			{
-				if (mptDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || mptDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
+				if (mptDevice.Device.Driver.IsCardReaderOrCodeReader)
 				{
 					if (mptDevice.CodeReaderSettings.MPTSettings.CanBeUsed)
 					{

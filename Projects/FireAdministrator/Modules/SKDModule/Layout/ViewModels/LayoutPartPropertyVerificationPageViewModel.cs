@@ -20,7 +20,7 @@ namespace SKDModule.ViewModels
 			Devices = new ObservableCollection<DeviceViewModel>();
 			foreach (var device in GKManager.Devices)
 			{
-				if (device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
+				if (device.Driver.IsCardReaderOrCodeReader)
 				{
 					var deviceViewModel = new DeviceViewModel(device);
 					Devices.Add(deviceViewModel);
