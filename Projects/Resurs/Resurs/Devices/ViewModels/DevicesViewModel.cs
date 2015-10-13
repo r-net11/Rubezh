@@ -51,7 +51,7 @@ namespace Resurs.ViewModels
 			{
 				_selectedDevice = value;
 				if(_selectedDevice != null)
-					_selectedDevice.Update();
+					_selectedDevice.Load();
 				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
@@ -175,6 +175,11 @@ namespace Resurs.ViewModels
 			{
 				var deviceViewModel = new DeviceViewModel(deviceDetailsViewModel.Device);
 				SelectedDevice.Update(deviceDetailsViewModel.Device);
+				foreach (var child in SelectedDevice.Children)
+				{
+					child.Update();
+				}
+
 			}
 		}
 		bool CanEdit()

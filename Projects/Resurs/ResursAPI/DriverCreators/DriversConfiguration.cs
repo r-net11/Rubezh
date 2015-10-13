@@ -17,6 +17,10 @@ namespace ResursAPI
 			Drivers.Add(MZEP55NetworkCreator.Create());
 			Drivers.Add(IncotexNetworkCreator.Create());
 			Drivers.Add(Mercury203CounterCreator.Create());
+			Drivers.Add(VirtualIncotextNetworkCreator.Create());
+			Drivers.Add(VirtualMercury203CounterCreator.Create());
+			Drivers.Add(VirtualMZEP55CounterCreator.Create());
+			Drivers.Add(VirtualMZEP55NetworkCreator.Create());
 		}
 
 		public static List<Driver> Drivers { get; private set; }

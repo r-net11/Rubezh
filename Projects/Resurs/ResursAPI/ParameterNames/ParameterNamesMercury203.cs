@@ -11,15 +11,18 @@ namespace ResursAPI.ParameterNames
     public class ParameterNamesMercury203 : ParameterNamesBase
     {
         /// <summary>
-        /// Групповой адрес устройтсва
+        /// Групповой адрес устройтсва,
+		/// тип в БД - int, только для чтения
         /// </summary>
         public const string GADDR = "GADDR";
         /// <summary>
-        /// Лимит мощности
+        /// Лимит мощности,
+		/// тип в БД - Double, только для чтения
         /// </summary>
         public const string PowerLimit = "PowerLimit";
         /// <summary>
-        /// Лимит мощности за месяц
+		/// Лимит мощности за месяц,
+		/// тип в БД - Double, только для чтения
         /// </summary>
         public const string PowerLimitPerMonth = "PowerLimitPerMonth";
     }

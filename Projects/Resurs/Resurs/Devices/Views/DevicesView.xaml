@@ -65,7 +65,7 @@
 					<GridViewColumn Header="Адрес" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelAddressComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Device.FullAddress}" Style="{StaticResource DeviceTextBlockStyle}"  />
+								<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding FullAddress}" Style="{StaticResource DeviceTextBlockStyle}"  />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>

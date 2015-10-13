@@ -10,7 +10,7 @@ using Common;
 
 namespace ResursDAL
 {
-	public class DatabaseContext : DbContext, IDisposable
+	public class DatabaseContext : DbContext
 	{
 		public DbSet<Consumer> Consumers { get; set; }
 		public DbSet<Bill> Bills { get; set; }
@@ -43,11 +43,6 @@ namespace ResursDAL
 			modelBuilder.Entity<Consumer>().HasMany(x => x.Bills).WithRequired(x => x.Consumer).WillCascadeOnDelete();
 			modelBuilder.Entity<Device>().HasMany(x => x.Parameters).WithRequired(x => x.Device).WillCascadeOnDelete();
 			modelBuilder.Entity<User>().HasMany(x => x.UserPermissions).WithRequired(x => x.User).WillCascadeOnDelete();
-		}
-
-		void IDisposable.Dispose()
-		{
-			Dispose();
 		}
 	}
 
