@@ -16,7 +16,7 @@ namespace GKModule.Validation
 
 			foreach (var pumpStation in GKManager.PumpStations)
 			{
-				if (ValidateObjectsOnlyOnOneGK(pumpStation))
+				if (ValidatePumpStationOnlyOnOneGK(pumpStation))
 				{
 					ValidatePumpStationHasValidDriverTypes(pumpStation);
 					ValidatePumpStationEmptyStartLogic(pumpStation);
@@ -26,7 +26,7 @@ namespace GKModule.Validation
 		}
 
 		/// <summary>
-		/// Валидация наличия НС с одинаковыми номерами
+		/// Валидация уникальности номеров насосных станций
 		/// </summary>
 		void ValidatePumpStationNoEquality()
 		{
@@ -55,11 +55,11 @@ namespace GKModule.Validation
 		}
 
 		/// <summary>
-		/// НС должна содержать объекты, присутствующие на одном и только на одном ГК
+		/// НС должна зависеть от объектов, присутствующие на одном и только на одном ГК
 		/// </summary>
 		/// <param name="pumpStation"></param>
 		/// <returns></returns>
-		bool ValidateObjectsOnlyOnOneGK(GKPumpStation pumpStation)
+		bool ValidatePumpStationOnlyOnOneGK(GKPumpStation pumpStation)
 		{
 			if (pumpStation.GkParents.Count == 0)
 			{

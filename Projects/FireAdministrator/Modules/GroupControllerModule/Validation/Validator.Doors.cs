@@ -20,44 +20,30 @@ namespace GKModule.Validation
 			{
 				ValidateDoorHasNoDevices(door);
 				ValidateDoorHasWrongDevices(door);
-				ValidateLockProperties(door);
 				ValidateLockControlDevice(door);
+				ValidateLockProperties(door);
+				ValidateLockLogic(door);
 			}
 		}
 
-		void ValidateLockControlDevice(GKDoor door)
-		{
-			if (door.AntipassbackOn && door.DoorType != GKDoorType.Barrier)
-			{
-				if (door.LockControlDevice == null)
-				{
-					if (door.DoorType == GKDoorType.Turnstile)
-						Errors.Add(new DoorValidationError(door, "При включенном Antipassback, отсутствует датчик проворота", ValidationErrorLevel.CannotWrite));
-					else
-						Errors.Add(new DoorValidationError(door, "При включенном Antipassback, отсутствует датчик контроля двери", ValidationErrorLevel.CannotWrite));
-				}
-				if (door.LockControlDeviceExit == null)
-				{
-					if (door.DoorType == GKDoorType.AirlockBooth)
-						Errors.Add(new DoorValidationError(door, "При включенном Antipassback, отсутствует датчик контроля двери на выход", ValidationErrorLevel.CannotWrite));
-				}
-				if (door.EnterZoneUID == Guid.Empty)
-					Errors.Add(new DoorValidationError(door, "При включенном Antipassback, отсутствует зона на вход", ValidationErrorLevel.CannotWrite));
-				if (door.DoorType != GKDoorType.OneWay && door.ExitZoneUID == Guid.Empty)
-					Errors.Add(new DoorValidationError(door, "При включенном Antipassback, отсутствует зона на выход", ValidationErrorLevel.CannotWrite));
-			}
-		}
-
+		/// <summary>
+		/// Валидация уникальности номеров ТД
+		/// </summary>
 		void ValidateDoorNoEquality()
 		{
-			var doorNos = new HashSet<int>();
+			var nos = new HashSet<int>();
 			foreach (var door in GKManager.DeviceConfiguration.Doors)
 			{
-				if (!doorNos.Add(door.No))
+				if (!nos.Add(door.No))
 					Errors.Add(new DoorValidationError(door, "Дублируется номер", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
+		/// <summary>
+		/// Валидация того, что в рамках каждой ТД не может быть повторяющихся устройства
+		/// Исключение делается для замка на вход и замка на выход. Устройства для замков могут совпадать с устройствами на вход или выход
+		/// Также устройства, уже учавствующие в ТД, не могут учавствовать в других ТД
+		/// </summary>
 		void ValidateDoorSameDevices()
 		{
 			var deviceUIDs = new HashSet<Guid>();
@@ -89,32 +75,24 @@ namespace GKModule.Validation
 				if (door.EnterButton != null)
 				{
 					if (!doorDeviceUIDs.Add(door.EnterButtonUID))
-					{
 						Errors.Add(new DoorValidationError(door, "Устройство " + door.EnterButton.PresentationName + " уже участвует в точке доступа", ValidationErrorLevel.CannotWrite));
-					}
 				}
 				if (door.ExitButton != null)
 				{
 					if (!doorDeviceUIDs.Add(door.ExitButtonUID))
-					{
 						Errors.Add(new DoorValidationError(door, "Устройство " + door.ExitButton.PresentationName + " уже участвует в точке доступа", ValidationErrorLevel.CannotWrite));
-					}
 				}
 				if (door.LockControlDeviceExit != null)
 				{
 					if (!doorDeviceUIDs.Add(door.LockControlDeviceExitUID))
-					{
 						Errors.Add(new DoorValidationError(door, "Устройство " + door.LockControlDeviceExit.PresentationName + " уже участвует в точке доступа", ValidationErrorLevel.CannotWrite));
-					}
 				}
 				if (door.LockControlDevice != null)
 				{
 					if (!doorDeviceUIDs.Add(door.LockControlDevice.UID))
-					{
 						Errors.Add(new DoorValidationError(door, "Устройство " + door.LockControlDevice.PresentationName + " уже участвует в точке доступа", ValidationErrorLevel.CannotWrite));
-					}
 				}
-				
+
 				foreach (var doorDeviceUID in doorDeviceUIDs)
 				{
 					if (!deviceUIDs.Add(doorDeviceUID))
@@ -129,6 +107,33 @@ namespace GKModule.Validation
 			}
 		}
 
+		void ValidateLockControlDevice(GKDoor door)
+		{
+			if (door.AntipassbackOn && door.DoorType != GKDoorType.Barrier)
+			{
+				if (door.LockControlDevice == null)
+				{
+					if (door.DoorType == GKDoorType.Turnstile)
+						Errors.Add(new DoorValidationError(door, "При включенном Antipassback, отсутствует датчик проворота", ValidationErrorLevel.CannotWrite));
+					else
+						Errors.Add(new DoorValidationError(door, "При включенном Antipassback, отсутствует датчик контроля двери", ValidationErrorLevel.CannotWrite));
+				}
+				if (door.LockControlDeviceExit == null)
+				{
+					if (door.DoorType == GKDoorType.AirlockBooth)
+						Errors.Add(new DoorValidationError(door, "При включенном Antipassback, отсутствует датчик контроля двери на выход", ValidationErrorLevel.CannotWrite));
+				}
+				if (door.EnterZoneUID == Guid.Empty)
+					Errors.Add(new DoorValidationError(door, "При включенном Antipassback, отсутствует зона на вход", ValidationErrorLevel.CannotWrite));
+				if (door.DoorType != GKDoorType.OneWay && door.ExitZoneUID == Guid.Empty)
+					Errors.Add(new DoorValidationError(door, "При включенном Antipassback, отсутствует зона на выход", ValidationErrorLevel.CannotWrite));
+			}
+		}
+
+		/// <summary>
+		/// Валидация того, что ТД данного типа подключены все необходимые устройства
+		/// </summary>
+		/// <param name="door"></param>
 		void ValidateDoorHasNoDevices(GKDoor door)
 		{
 			if (door.EnterDevice == null)
@@ -183,7 +188,7 @@ namespace GKModule.Validation
 		{
 			if (door.EnterDevice != null && door.ExitDevice != null && door.LockDevice != null)
 			{
-				if (door.LockDevice.DriverType == GKDriverType.RSR2_CardReader || door.LockDevice.DriverType == GKDriverType.RSR2_CardReader)
+				if (door.LockDevice.DriverType == GKDriverType.RSR2_CardReader || door.LockDevice.DriverType == GKDriverType.RSR2_CodeReader)
 				{
 					if (door.EnterDevice.UID != door.LockDevice.UID && door.ExitDevice.UID != door.LockDevice.UID)
 						Errors.Add(new DoorValidationError(door, "Устройство Замок должно совпадать с устройством на вход или выход", ValidationErrorLevel.CannotWrite));
@@ -193,7 +198,7 @@ namespace GKModule.Validation
 
 		void ValidateDoorHasWrongDevices(GKDoor door)
 		{
-			if (door.EnterDevice != null && door.EnterDevice.DriverType != GKDriverType.RSR2_CodeReader && door.EnterDevice.DriverType != GKDriverType.RSR2_CardReader)
+			if (door.EnterDevice != null && door.EnterDevice.DriverType != GKDriverType.RSR2_CardReader && door.EnterDevice.DriverType != GKDriverType.RSR2_CodeReader)
 			{
 				Errors.Add(new DoorValidationError(door, "К точке доступа подключено неверное устройство на вход", ValidationErrorLevel.CannotWrite));
 			}
@@ -204,13 +209,13 @@ namespace GKModule.Validation
 				{
 					Errors.Add(new DoorValidationError(door, "К точке доступа подключено неверное устройство на выход", ValidationErrorLevel.CannotWrite));
 				}
-				if (door.DoorType == GKDoorType.TwoWay && door.ExitDevice.DriverType != GKDriverType.RSR2_CodeReader && door.ExitDevice.DriverType != GKDriverType.RSR2_CardReader)
+				if (door.DoorType == GKDoorType.TwoWay && door.ExitDevice.DriverType != GKDriverType.RSR2_CardReader && door.ExitDevice.DriverType != GKDriverType.RSR2_CodeReader)
 				{
 					Errors.Add(new DoorValidationError(door, "К точке доступа подключено неверное устройство на выход", ValidationErrorLevel.CannotWrite));
 				}
 			}
 
-			if (door.LockDevice != null && door.LockDevice.DriverType != GKDriverType.RSR2_RM_1 && door.LockDevice.DriverType != GKDriverType.RSR2_MVK8 && door.LockDevice.DriverType != GKDriverType.RSR2_CodeReader && door.LockDevice.DriverType != GKDriverType.RSR2_CardReader)
+			if (door.LockDevice != null && door.LockDevice.DriverType != GKDriverType.RSR2_RM_1 && door.LockDevice.DriverType != GKDriverType.RSR2_MVK8 && door.LockDevice.DriverType != GKDriverType.RSR2_CardReader && door.LockDevice.DriverType != GKDriverType.RSR2_CodeReader)
 			{
 				Errors.Add(new DoorValidationError(door, "К точке доступа подключено неверное устройство на замок", ValidationErrorLevel.CannotWrite));
 			}
@@ -221,17 +226,10 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateLockLogic(GKDoor door)
-		{
-			if (door.LockDevice != null)
-			{
-				if (door.LockDevice.Logic.GetObjects().Count > 0)
-				{
-					Errors.Add(new DoorValidationError(door, "Устройство Замок не должно иметь настроенную логику срабатывания", ValidationErrorLevel.CannotWrite));
-				}
-			}
-		}
-
+		/// <summary>
+		/// Валидация того, что устройства, учавствующие в ТД, имеют правильно заданные параметры
+		/// </summary>
+		/// <param name="door"></param>
 		void ValidateLockProperties(GKDoor door)
 		{
 			if (door.LockDevice != null)
@@ -258,6 +256,21 @@ namespace GKModule.Validation
 						if (door.LockDevice.Properties.FirstOrDefault(x => x.Name == "Наличие реле").Value != 2)
 							Errors.Add(new DeviceValidationError(door.LockDevice, "Парамер 'Наличие реле' устройства, участвующего в ТД, должен быть 'Есть'", ValidationErrorLevel.CannotWrite));
 						break;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Валидация того, что устройство замок не должно иметь настроенной логики срабатывания
+		/// </summary>
+		/// <param name="door"></param>
+		void ValidateLockLogic(GKDoor door)
+		{
+			if (door.LockDevice != null)
+			{
+				if (door.LockDevice.Logic.GetObjects().Count > 0)
+				{
+					Errors.Add(new DoorValidationError(door, "Устройство Замок не должно иметь настроенную логику срабатывания", ValidationErrorLevel.CannotWrite));
 				}
 			}
 		}

@@ -13,6 +13,9 @@ namespace GKModule.Validation
 {
 	public partial class Validator
 	{
+		/// <summary>
+		/// Валидация количества дескрипторов на каждом ГК и на каждом КАУ
+		/// </summary>
 		void ValidateGKObjectsCount()
 		{
 			var databases = new List<CommonDatabase>();
@@ -36,8 +39,7 @@ namespace GKModule.Validation
 			{
 				if (device.IsNotUsed)
 					continue;
-				if (IsManyGK)
-					ValidateDifferentGK(device);
+				ValidateDifferentGK(device);
 				ValidateIPAddress(device);
 				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.DeviceNotConnected))
 				{
@@ -55,6 +57,9 @@ namespace GKModule.Validation
 			}
 		}
 
+		/// <summary>
+		/// Валидация уникальности адресов и выхода за пределы допустимогог диапазона адреса
+		/// </summary>
 		void ValidateAddressEquality()
 		{
 			var deviceAddresses = new HashSet<string>();
@@ -79,20 +84,16 @@ namespace GKModule.Validation
 			}
 		}
 
+		/// <summary>
+		/// Валидация того, что для ГК верно задан IP-адрес
+		/// </summary>
+		/// <param name="device"></param>
 		void ValidateIPAddress(GKDevice device)
 		{
 			if (!GKManager.IsValidIpAddress(device))
 			{
 				Errors.Add(new DeviceValidationError(device, "Не верно задан IP адрес", ValidationErrorLevel.CannotWrite));
 			}
-		}
-
-		bool CheckIpAddress(string ipAddress)
-		{
-			if (String.IsNullOrEmpty(ipAddress))
-				return false;
-			IPAddress address;
-			return IPAddress.TryParse(ipAddress, out address);
 		}
 
 		void ValidateDifferentGK(GKDevice device)

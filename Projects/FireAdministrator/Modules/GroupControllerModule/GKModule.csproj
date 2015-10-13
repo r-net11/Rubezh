@@ -509,7 +509,6 @@
     <Compile Include="Validation\Validator.GuardZones.cs" />
     <Compile Include="Validation\Validator.Doors.cs" />
     <Compile Include="Validation\DoorValidationError.cs" />
-    <Compile Include="Validation\Validator.Schedules.cs" />
     <Compile Include="Validation\SKDZoneValidationError.cs" />
     <Compile Include="Validation\Validator.SKDZones.cs" />
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />

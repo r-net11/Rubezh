@@ -14,34 +14,41 @@ namespace GKModule.Validation
 
 			foreach (var direction in GKManager.Directions)
 			{
-				if (IsManyGK)
-					ValidateDifferentGK(direction);
-				ValidateEmpty(direction);
+				ValidateDirectionOnlyOnOneGK(direction);
 			}
 		}
 
+		/// <summary>
+		/// Валидация уникальности номеров направлений
+		/// </summary>
 		void ValidateDirectionNoEquality()
 		{
-			var directionNos = new HashSet<int>();
+			var nos = new HashSet<int>();
 			foreach (var direction in GKManager.Directions)
 			{
-				if (!directionNos.Add(direction.No))
+				if (!nos.Add(direction.No))
 					Errors.Add(new DirectionValidationError(direction, "Дублируется номер", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
-		void ValidateEmpty(GKDirection direction)
+		/// <summary>
+		/// Направление должно зависеть от объектов, присутствующие на одном и только на одном ГК
+		/// </summary>
+		/// <param name="code"></param>
+		bool ValidateDirectionOnlyOnOneGK(GKDirection direction)
 		{
-			if (direction.DataBaseParent == null)
+			if (direction.GkParents.Count == 0)
 			{
 				Errors.Add(new DirectionValidationError(direction, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
+				return false;
 			}
-		}
 
-		void ValidateDifferentGK(GKDirection direction)
-		{
 			if (direction.GkParents.Count > 1)
+			{
 				Errors.Add(new DirectionValidationError(direction, "Направление содержит объекты разных ГК", ValidationErrorLevel.CannotWrite));
+				return false;
+			}
+			return true;
 		}
 	}
 }

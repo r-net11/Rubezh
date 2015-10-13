@@ -11,50 +11,54 @@ namespace GKModule.Validation
 	{
 		void ValidateCodes()
 		{
-			ValidateCodeNoEquality();
-			ValidateCodeNameEquality();
-			ValidateCodePasswordEquality();
+			ValidateCodePropertiesEquality();
 
 			foreach (var code in GKManager.DeviceConfiguration.Codes)
 			{
-				if (IsManyGK)
-					ValidateCodeDifferentGK(code);
+				ValidateCodeStationOnlyOnOneGK(code);
 			}
 		}
 
-		void ValidateCodeNoEquality()
+		/// <summary>
+		/// Валидация уникальности номеров, названий и паролей кодов
+		/// </summary>
+		void ValidateCodePropertiesEquality()
 		{
-			var codeNos = new HashSet<int>();
+			var nos = new HashSet<int>();
+			var names = new HashSet<string>();
+			var passwords = new HashSet<int>();
+
 			foreach (var code in GKManager.DeviceConfiguration.Codes)
 			{
-				if (!codeNos.Add(code.No))
+				if (!nos.Add(code.No))
 					Errors.Add(new CodeValidationError(code, "Дублируется номер", ValidationErrorLevel.CannotWrite));
-			}
-		}
 
-		void ValidateCodeNameEquality()
-		{
-			var codeNames = new HashSet<string>();
-			foreach (var code in GKManager.DeviceConfiguration.Codes)
-			{
-				if (!codeNames.Add(code.Name))
+				if (!names.Add(code.Name))
 					Errors.Add(new CodeValidationError(code, "Дублируется название кода", ValidationErrorLevel.CannotWrite));
-			}
-		}
-		void ValidateCodePasswordEquality()
-		{
-			var codePassowrds = new HashSet<int>();
-			foreach (var code in GKManager.DeviceConfiguration.Codes)
-			{
-				if (!codePassowrds.Add(code.Password))
+
+				if (!passwords.Add(code.Password))
 					Errors.Add(new CodeValidationError(code, "Дублируется пароль кода", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
-		void ValidateCodeDifferentGK(GKCode code)
+		/// <summary>
+		/// Код должен зависеть от объектов, присутствующие на одном и только на одном ГК
+		/// </summary>
+		/// <param name="code"></param>
+		bool ValidateCodeStationOnlyOnOneGK(GKCode code)
 		{
+			if (code.GkParents.Count == 0)
+			{
+				Errors.Add(new CodeValidationError(code, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
+				return false;
+			}
+
 			if (code.GkParents.Count > 1)
-				Errors.Add(new CodeValidationError(code, "Код содержится в объектах разных ГК", ValidationErrorLevel.CannotWrite));
-		}	
+			{
+				Errors.Add(new CodeValidationError(code, "Код содержит объекты разных ГК", ValidationErrorLevel.CannotWrite));
+				return false;
+			}
+			return true;
+		}
 	}
 }

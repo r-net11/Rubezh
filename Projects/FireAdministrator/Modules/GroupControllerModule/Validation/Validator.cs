@@ -14,7 +14,6 @@ namespace GKModule.Validation
 
 		public List<IValidationError> Validate()
 		{
-			IsManyGK = GKManager.Devices.Count(x => x.DriverType == GKDriverType.GK) > 1;
 			DescriptorsManager.Create();
 			Errors = new List<IValidationError>();
 			ValidateGKObjectsCount();
@@ -29,25 +28,14 @@ namespace GKModule.Validation
 			ValidateDoors();
 			ValidateSKDZones();
 			ValidatePlans();
-			ValidateTypesCorrectness();
 			ValidateDescriptors();
 			ValidateLicense();
 			return Errors;
 		}
 
-		void ValidateTypesCorrectness()
-		{
-			foreach (var mpt in GKManager.MPTs)
-			{
-				foreach (var mptDevice in mpt.MPTDevices)
-				{
-					//mptDevice.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard
-				}
-			}
-		}
-
-		bool IsManyGK { get; set; }
-
+		/// <summary>
+		/// Проверка отсутствия ошибок при компиляции дескрипторов
+		/// </summary>
 		void ValidateDescriptors()
 		{
 			foreach(var descriptorError in DescriptorsManager.Check())
