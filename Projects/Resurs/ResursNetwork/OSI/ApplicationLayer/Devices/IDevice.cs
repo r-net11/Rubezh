@@ -44,12 +44,25 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         /// Регистр состояния (ошибок) устройства
         /// </summary>
         DeviceErrors Errors { get; }
-        
+
+        bool CommunicationError { get; set; }
+
+        bool ConfigurationError { get; set; }
+
+        bool RTCError { get; set; }
+                    
         #endregion
+
+        #region Methods
+        #endregion
+
+        #region Events
 
         /// <summary>
         /// Возникает при ошибках в устройтве
         /// </summary>
         event EventHandler<ErrorOccuredEventArgs> ErrorOccurred;
+
+        #endregion
     }
 }

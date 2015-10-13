@@ -167,13 +167,20 @@ namespace ResursNetwork.Incotex.Models
                 Address = addr,
                 CmdCode = Convert.ToByte(Mercury203CmdCode.SetNetworkAddress)
             };
-            var transaction = new Transaction(this, TransactionType.UnicastMode, request);
+            var transaction = new Transaction(this, TransactionType.UnicastMode, request) 
+            { 
+                Sender = this 
+            };
             var networkRequest = new NetworkRequest(transaction);
  
             if (_NetworkController == null)
             {
                 transaction.Start();
-                transaction.Abort("Невозможно выполенить запрос. Не установлен контроллер сети");
+                transaction.Abort(new TransactionError 
+                { 
+                    ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+                    Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+                });
                 networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
             }
             else
@@ -270,13 +277,21 @@ namespace ResursNetwork.Incotex.Models
                 Address = Address,
                 CmdCode = Convert.ToByte(Mercury203CmdCode.ReadGroupAddress)
             };
-            var transaction = new Transaction(this, TransactionType.UnicastMode, request);
+            var transaction = new Transaction(this, TransactionType.UnicastMode, request)
+            { 
+                Sender = this 
+            };
+
             var networkRequest = new NetworkRequest(transaction);
 
             if (_NetworkController == null)
             {
                 transaction.Start();
-                transaction.Abort("Невозможно выполенить запрос. Не установлен контроллер сети");
+                transaction.Abort(new TransactionError
+                {
+                    ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+                    Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+                });
                 networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
             }
             else
@@ -375,13 +390,21 @@ namespace ResursNetwork.Incotex.Models
                 Address = Address,
                 CmdCode = Convert.ToByte(Mercury203CmdCode.ReadGroupAddress)
             };
-            var transaction = new Transaction(this, TransactionType.UnicastMode, request);
+            var transaction = new Transaction(this, TransactionType.UnicastMode, request)
+            {
+                Sender = this
+            };
+
             var networkRequest = new NetworkRequest(transaction);
 
             if (_NetworkController == null)
             {
                 transaction.Start();
-                transaction.Abort("Невозможно выполенить запрос. Не установлен контроллер сети");
+                transaction.Abort(new TransactionError
+                {
+                    ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+                    Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+                });
                 networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
             }
             else
@@ -404,13 +427,21 @@ namespace ResursNetwork.Incotex.Models
                 Address = Address,
                 CmdCode = Convert.ToByte(Mercury203CmdCode.ReadPowerLimit)
             };
-            var transaction = new Transaction(this, TransactionType.UnicastMode, request);
+            var transaction = new Transaction(this, TransactionType.UnicastMode, request)
+            {
+                Sender = this
+            };
+
             var networkRequest = new NetworkRequest(transaction);
 
             if (_NetworkController == null)
             {
                 transaction.Start();
-                transaction.Abort("Невозможно выполенить запрос. Не установлен контроллер сети");
+                transaction.Abort(new TransactionError
+                {
+                    ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+                    Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+                });
                 networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
             }
             else
@@ -433,13 +464,21 @@ namespace ResursNetwork.Incotex.Models
                 Address = Address,
                 CmdCode = Convert.ToByte(Mercury203CmdCode.ReadPowerLimitPerMonth)
             };
-            var transaction = new Transaction(this, TransactionType.UnicastMode, request);
+            var transaction = new Transaction(this, TransactionType.UnicastMode, request)
+            {
+                Sender = this
+            };
+
             var networkRequest = new NetworkRequest(transaction);
 
             if (_NetworkController == null)
             {
                 transaction.Start();
-                transaction.Abort("Невозможно выполенить запрос. Не установлен контроллер сети");
+                transaction.Abort(new TransactionError
+                {
+                    ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+                    Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+                });
                 networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
             }
             else
