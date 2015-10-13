@@ -37,7 +37,7 @@ namespace GKModule.Validation
 					if (guardZoneDevice.Device.Driver.IsCardReaderOrCodeReader)
 					{
 						if (!deviceUIDs.Add(guardZoneDevice.Device.UID))
-							Errors.Add(new GuardZoneValidationError(guardZone, "Устройство " + guardZoneDevice.Device.PresentationName + " уже участвует в другой охранной зоне", ValidationErrorLevel.CannotWrite));
+							AddError(guardZone, "Устройство " + guardZoneDevice.Device.PresentationName + " уже участвует в другой охранной зоне", ValidationErrorLevel.CannotWrite);
 					}
 				}
 			}
@@ -71,7 +71,7 @@ namespace GKModule.Validation
 					{
 						var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeUID);
 						if (code != null)
-							Errors.Add(new GuardZoneValidationError(guardZone, "Дублируется комманда " + codeReaderSettingsPart.CodeReaderEnterType.ToDescription() + " в устройстве " + name + " для кода " + code.PresentationName, ValidationErrorLevel.CannotWrite));
+							AddError(guardZone, "Дублируется комманда " + codeReaderSettingsPart.CodeReaderEnterType.ToDescription() + " в устройстве " + name + " для кода " + code.PresentationName, ValidationErrorLevel.CannotWrite);
 					}
 				}
 			}
@@ -85,7 +85,7 @@ namespace GKModule.Validation
 		{
 			if (guardZone.GuardZoneDevices.Count == 0)
 			{
-				Errors.Add(new GuardZoneValidationError(guardZone, "К зоне не подключено ни одного устройства", ValidationErrorLevel.CannotWrite));
+				AddError(guardZone, "К зоне не подключено ни одного устройства", ValidationErrorLevel.CannotWrite);
 			}
 		}
 
@@ -100,13 +100,13 @@ namespace GKModule.Validation
 				if (guardZoneDevice.Device.Driver.IsCardReaderOrCodeReader)
 				{
 					if (guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs.Count > 100)
-						Errors.Add(new GuardZoneValidationError(guardZone, "Количество кодов для постановки у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite));
+						AddError(guardZone, "Количество кодов для постановки у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite);
 					if (guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs.Count > 100)
-						Errors.Add(new GuardZoneValidationError(guardZone, "Количество кодов для снятия с охраны у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite));
+						AddError(guardZone, "Количество кодов для снятия с охраны у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite);
 					if (guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeUIDs.Count > 100)
-						Errors.Add(new GuardZoneValidationError(guardZone, "Количество кодов для изменения состояни у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite));
+						AddError(guardZone, "Количество кодов для изменения состояни у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite);
 					if (guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs.Count > 100)
-						Errors.Add(new GuardZoneValidationError(guardZone, "Количество кодов на вызов тревоги у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite));
+						AddError(guardZone, "Количество кодов на вызов тревоги у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite);
 				}
 			}
 		}
@@ -125,7 +125,7 @@ namespace GKModule.Validation
 
 					if (guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeReaderEnterType != GKCodeReaderEnterType.None)
 						if (!enterTypes.Add(guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeReaderEnterType))
-							Errors.Add(new GuardZoneValidationError(guardZone, "Дублируется метод ввода у кодонаборника " + guardZoneDevice.Device.PredefinedName, ValidationErrorLevel.CannotWrite));
+							AddError(guardZone, "Дублируется метод ввода у кодонаборника " + guardZoneDevice.Device.PredefinedName, ValidationErrorLevel.CannotWrite);
 				}
 			}
 		}

@@ -29,7 +29,7 @@ namespace GKModule.Validation
 			foreach (var zone in GKManager.SKDZones)
 			{
 				if (!nos.Add(zone.No))
-					Errors.Add(new SKDZoneValidationError(zone, "Дублируется номер", ValidationErrorLevel.CannotWrite));
+					AddError(zone, "Дублируется номер", ValidationErrorLevel.CannotWrite);
 			}
 		}
 
@@ -40,7 +40,7 @@ namespace GKModule.Validation
 		void ValidateSKDZoneMaxNo(GKSKDZone zone)
 		{
 			if (zone.No > 255)
-				Errors.Add(new SKDZoneValidationError(zone, "Номер зоны не должен превышать 255", ValidationErrorLevel.CannotWrite));
+				AddError(zone, "Номер зоны не должен превышать 255", ValidationErrorLevel.CannotWrite);
 		}
 	}
 }

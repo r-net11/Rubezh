@@ -27,10 +27,10 @@ namespace GKModule.Validation
 			foreach (var code in GKManager.DeviceConfiguration.Codes)
 			{
 				if (!names.Add(code.Name))
-					Errors.Add(new CodeValidationError(code, "Дублируется название кода", ValidationErrorLevel.CannotWrite));
+					AddError(code, "Дублируется название кода", ValidationErrorLevel.CannotWrite);
 
 				if (!passwords.Add(code.Password))
-					Errors.Add(new CodeValidationError(code, "Дублируется пароль кода", ValidationErrorLevel.CannotWrite));
+					AddError(code, "Дублируется пароль кода", ValidationErrorLevel.CannotWrite);
 			}
 		}
 	}

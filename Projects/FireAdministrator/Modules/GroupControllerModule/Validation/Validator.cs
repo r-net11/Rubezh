@@ -41,7 +41,7 @@ namespace GKModule.Validation
 		{
 			foreach(var descriptorError in DescriptorsManager.Check())
 			{
-				Errors.Add(new DeviceValidationError(descriptorError.BaseDescriptor.GKBase.DataBaseParent, "Ошибка дескриптора " + descriptorError.BaseDescriptor.GKBase.PresentationName + ": " + descriptorError.Error, ValidationErrorLevel.CannotWrite));
+				AddError(descriptorError.BaseDescriptor.GKBase.DataBaseParent, "Ошибка дескриптора " + descriptorError.BaseDescriptor.GKBase.PresentationName + ": " + descriptorError.Error, ValidationErrorLevel.CannotWrite);
 			}
 		}
 
@@ -106,10 +106,6 @@ namespace GKModule.Validation
 			{
 				Errors.Add(new ZoneValidationError(gkBase as GKZone, error, level));
 			}
-			if (gkBase is GKSKDZone)
-			{
-				Errors.Add(new SKDZoneValidationError(gkBase as GKSKDZone, error, level));
-			}
 			if (gkBase is GKGuardZone)
 			{
 				Errors.Add(new GuardZoneValidationError(gkBase as GKGuardZone, error, level));
@@ -133,6 +129,10 @@ namespace GKModule.Validation
 			if (gkBase is GKDoor)
 			{
 				Errors.Add(new DoorValidationError(gkBase as GKDoor, error, level));
+			}
+			if (gkBase is GKSKDZone)
+			{
+				Errors.Add(new SKDZoneValidationError(gkBase as GKSKDZone, error, level));
 			}
 			if (gkBase is GKCode)
 			{

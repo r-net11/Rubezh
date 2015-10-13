@@ -35,7 +35,7 @@ namespace GKModule.Validation
 			{
 				foreach (var mptDevice in mpt.MPTDevices.Where(x => !x.Device.Driver.IsCardReaderOrCodeReader))
 					if (!deviceUIDs.Add(mptDevice.DeviceUID))
-						Errors.Add(new MPTValidationError(mpt, "Устройство " + mptDevice.Device.PresentationName + " входит в состав различных МПТ", ValidationErrorLevel.CannotWrite));
+						AddError(mpt, "Устройство " + mptDevice.Device.PresentationName + " входит в состав различных МПТ", ValidationErrorLevel.CannotWrite);
 			}
 		}
 
@@ -47,7 +47,7 @@ namespace GKModule.Validation
 		{
 			if (mpt.MPTDevices.Count == 0)
 			{
-				Errors.Add(new MPTValidationError(mpt, "К МПТ не подключены устройства", ValidationErrorLevel.CannotWrite));
+				AddError(mpt, "К МПТ не подключены устройства", ValidationErrorLevel.CannotWrite);
 			}
 		}
 
@@ -58,7 +58,7 @@ namespace GKModule.Validation
 		void ValidateMPTHasNoLogic(GKMPT mpt)
 		{
 			if (mpt.MptLogic.OnClausesGroup.GetObjects().Count == 0)
-				Errors.Add(new MPTValidationError(mpt, "Отсутствует логика включения", ValidationErrorLevel.CannotWrite));
+				AddError(mpt, "Отсутствует логика включения", ValidationErrorLevel.CannotWrite);
 		}
 
 		/// <summary>
@@ -72,7 +72,7 @@ namespace GKModule.Validation
 			foreach (var device in GetAllMPTDevices(mpt).Where(x => !x.Driver.IsCardReaderOrCodeReader))
 			{
 				if (!devices.Add(device))
-					Errors.Add(new MPTValidationError(mpt, "Выходные устройства совпадают", ValidationErrorLevel.CannotWrite));
+					AddError(mpt, "Выходные устройства совпадают", ValidationErrorLevel.CannotWrite);
 			}
 		}
 
@@ -88,7 +88,7 @@ namespace GKModule.Validation
 			foreach (var device in GetAllMPTDevices(mpt))
 			{
 				if (devicesInLogic.Any(x => x.UID == device.UID))
-					Errors.Add(new MPTValidationError(mpt, "Совпадают устройства условий включения или выключения с устройствами из состава МПТ", ValidationErrorLevel.CannotWrite));
+					AddError(mpt, "Совпадают устройства условий включения или выключения с устройствами из состава МПТ", ValidationErrorLevel.CannotWrite);
 			}
 		}
 
@@ -106,14 +106,14 @@ namespace GKModule.Validation
 					if (delayProperty != null)
 					{
 						if (delayProperty.Value < 0 || delayProperty.Value > 10)
-							Errors.Add(new MPTValidationError(mpt, "Задержка МПТ для устройства " + mptDevice.Device.PresentationName + " должна быть в диапазоне от 0 до 10", ValidationErrorLevel.CannotWrite));
+							AddError(mpt, "Задержка МПТ для устройства " + mptDevice.Device.PresentationName + " должна быть в диапазоне от 0 до 10", ValidationErrorLevel.CannotWrite);
 					}
 
 					var holdProperty = mptDevice.Device.Properties.FirstOrDefault(x => x.Name == "Время удержания, с");
 					if (holdProperty != null)
 					{
 						if (holdProperty.Value < 0 || holdProperty.Value > 10)
-							Errors.Add(new MPTValidationError(mpt, "Удержание МПТ для устройства " + mptDevice.Device.PresentationName + " должно быть в диапазоне от 0 до 10", ValidationErrorLevel.CannotWrite));
+							AddError(mpt, "Удержание МПТ для устройства " + mptDevice.Device.PresentationName + " должно быть в диапазоне от 0 до 10", ValidationErrorLevel.CannotWrite);
 					}
 				}
 			}
@@ -126,7 +126,7 @@ namespace GKModule.Validation
 		void ValidateMPTSelfLogic(GKMPT mpt)
 		{
 			if (mpt.MptLogic.GetObjects().Contains(mpt))
-				Errors.Add(new MPTValidationError(mpt, "МПТ зависит от самого себя", ValidationErrorLevel.CannotWrite));
+				AddError(mpt, "МПТ зависит от самого себя", ValidationErrorLevel.CannotWrite);
 		}
 
 		/// <summary>
