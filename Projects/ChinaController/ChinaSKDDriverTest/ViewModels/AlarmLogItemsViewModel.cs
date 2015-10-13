@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ControllerSDK.Events;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
 using System.Windows;
@@ -17,6 +18,7 @@ namespace ControllerSDK.ViewModels
 		{
 			GetLogsCountCommand = new RelayCommand(OnGetLogsCount);
 			GetAllLogsCommand = new RelayCommand(OnGetAllLogs);
+			GenerateJournalItemCommand = new RelayCommand(OnGenerateJournalItem, CanGenerateJournalItem);
 		}
 
 		public RelayCommand GetLogsCountCommand { get; private set; }
@@ -57,6 +59,20 @@ namespace ControllerSDK.ViewModels
 			{
 				AlarmLogItems.Add(new AlarmLogItemViewModel(alarmLogItem));
 			}
+		}
+
+		public RelayCommand GenerateJournalItemCommand { get; private set; }
+		private void OnGenerateJournalItem()
+		{
+			if (SelectedAlarmLogItem == null)
+				return;
+
+			var journalItem = SelectedAlarmLogItem.TransformToJournalItem();
+			ServiceFactory.Instance.Events.GetEvent<JournalItemEvent>().Publish(journalItem);
+		}
+		private bool CanGenerateJournalItem()
+		{
+			return SelectedAlarmLogItem != null;
 		}
 	}
 }

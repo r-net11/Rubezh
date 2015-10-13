@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Windows;
 using ChinaSKDDriver;
 using ChinaSKDDriverAPI;
+using ControllerSDK.Events;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using ChinaSKDDriverNativeApi;
@@ -19,16 +20,24 @@ namespace ControllerSDK.ViewModels
 		public NativeJournalViewModel()
 		{
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
-			Wrapper.NewJournalItem += new Action<SKDJournalItem>(AddJournalItem);
+			Wrapper.NewJournalItem += AddOnlineJournalItem;
+			ServiceFactory.Instance.Events.GetEvent<JournalItemEvent>().Subscribe(AddOfflineJournalItem);
 		}
 
-		void AddJournalItem(SKDJournalItem journalItem)
+		private void AddJournalItem(SKDJournalItem journalItem, JournalItemType journalItemType)
 		{
-			var journalItemViewModel = new JournalItemViewModel(journalItem);
-			ApplicationService.BeginInvoke(new Action(() =>
-			{
-				JournalItems.Add(journalItemViewModel);
-			}));
+			var journalItemViewModel = new JournalItemViewModel(journalItem, journalItemType);
+			ApplicationService.BeginInvoke(() => JournalItems.Add(journalItemViewModel));
+		}
+
+		private void AddOnlineJournalItem(SKDJournalItem journalItem)
+		{
+			AddJournalItem(journalItem, JournalItemType.Online);
+		}
+
+		private void AddOfflineJournalItem(SKDJournalItem journalItem)
+		{
+			AddJournalItem(journalItem, JournalItemType.Offline);
 		}
 
 		public ObservableCollection<JournalItemViewModel> JournalItems { get; private set; }

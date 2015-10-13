@@ -7,9 +7,18 @@ namespace ControllerSDK.ViewModels
 	{
 		public SKDJournalItem JournalItem { get; private set; }
 
-		public JournalItemViewModel(SKDJournalItem journalItem)
+		public JournalItemType JournalItemType { get; private set; }
+
+		public JournalItemViewModel(SKDJournalItem journalItem, JournalItemType journalItemType = JournalItemType.Online)
 		{
 			JournalItem = journalItem;
+			JournalItemType = journalItemType;
 		}
+	}
+
+	public enum JournalItemType
+	{
+		Online = 0,
+		Offline = 1
 	}
 }

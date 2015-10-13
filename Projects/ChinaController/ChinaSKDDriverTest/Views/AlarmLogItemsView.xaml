@@ -10,17 +10,18 @@
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
 			<Button Content="Получить количество записей" Command="{Binding GetLogsCountCommand}" Width="200" Margin="2" />
 			<Button Content="Считать все записи" Command="{Binding GetAllLogsCommand}" Width="200" Margin="2" />
+			<Button Content="Сгенерировать событие" Command="{Binding GenerateJournalItemCommand}" Width="200" Margin="2" />
 		</StackPanel>
-		<DataGrid Grid.Row="1" ItemsSource="{Binding AlarmLogItems}" AutoGenerateColumns="False" Margin="2">
+		<DataGrid Grid.Row="1" ItemsSource="{Binding AlarmLogItems}" SelectedItem="{Binding SelectedAlarmLogItem}" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" Margin="2">
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="LogNo" Binding="{Binding AlarmLogItem.LogNo}" Width="Auto" />
-				<DataGridTextColumn Header="DateTime" Binding="{Binding AlarmLogItem.DateTime}" Width="Auto" />
-				<DataGridTextColumn Header="UserName" Binding="{Binding AlarmLogItem.UserName}" Width="Auto" />
-				<DataGridTextColumn Header="LogType" Binding="{Binding AlarmLogItem.LogType}" Width="Auto" />
-				<DataGridTextColumn Header="CardId" Binding="{Binding AlarmLogItem.CardId}" Width="Auto" />
-				<DataGridTextColumn Header="DoorNo" Binding="{Binding AlarmLogItem.DoorNo}" Width="Auto" />
-				<DataGridTextColumn Header="AlarmType" Binding="{Binding AlarmLogItem.AlarmType}" Width="Auto" />
-				<DataGridTextColumn Header="LogMessage" Binding="{Binding AlarmLogItem.LogMessage}" Width="*" />
+				<DataGridTextColumn Header="LogNo" Binding="{Binding LogNo}" Width="Auto" />
+				<DataGridTextColumn Header="DateTime" Binding="{Binding DateTime}" Width="Auto" />
+				<DataGridTextColumn Header="UserName" Binding="{Binding UserName}" Width="Auto" />
+				<DataGridTextColumn Header="LogType" Binding="{Binding LogType}" Width="Auto" />
+				<DataGridTextColumn Header="CardId" Binding="{Binding CardId}" Width="Auto" />
+				<DataGridTextColumn Header="DoorNo" Binding="{Binding DoorNo}" Width="Auto" />
+				<DataGridTextColumn Header="AlarmType" Binding="{Binding AlarmType}" Width="Auto" />
+				<DataGridTextColumn Header="LogMessage" Binding="{Binding LogMessage}" Width="*" />
 			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>

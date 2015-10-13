@@ -1,6 +1,10 @@
 ﻿<UserControl x:Class="ControllerSDK.Views.NativeJournalView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:converters="clr-namespace:ControllerSDK.Converters">
+	<UserControl.Resources>
+		<converters:JournalItemTypeToColorConverter x:Key="JournalItemTypeToColorConverter"/>
+	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -8,13 +12,23 @@
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
 		</StackPanel>
-		<DataGrid Grid.Row="1" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournalItem}" AutoGenerateColumns="False" Margin="2">
+		<DataGrid Grid.Row="1" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournalItem}" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" Margin="2">
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="SystemDateTime" Binding="{Binding JournalItem.SystemDateTime}" Width="Auto" />
-				<DataGridTextColumn Header="DeviceDateTime" Binding="{Binding JournalItem.DeviceDateTime}" Width="Auto" />
-				<DataGridTextColumn Header="EventNameType" Binding="{Binding JournalItem.JournalEventNameType, Converter={StaticResource EnumToDescriptionConverter}}" Width="*" />
-				<DataGridTextColumn Header="Description" Binding="{Binding JournalItem.Description}" Width="*" />
-                <DataGridTextColumn Header="ErrorCode" Binding="{Binding JournalItem.ErrorCode, Converter={StaticResource EnumToDescriptionConverter}}" Width="*" />
+				<DataGridTemplateColumn>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<Ellipse Width="10" Height="10" Fill="{Binding JournalItemType, Converter={StaticResource JournalItemTypeToColorConverter}}"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTextColumn Header="Сессия" Binding="{Binding JournalItem.LoginID}" Width="Auto" />
+				<DataGridTextColumn Header="Системное время" Binding="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" Width="Auto" />
+				<DataGridTextColumn Header="Время на устройстве" Binding="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" Width="Auto" />
+				<DataGridTextColumn Header="Событие" Binding="{Binding JournalItem.JournalEventNameType, Converter={StaticResource EnumToDescriptionConverter}}" Width="Auto" />
+				<DataGridTextColumn Header="Description" Binding="{Binding JournalItem.Description}" Width="Auto" />
+				<DataGridTextColumn Header="Карта" Binding="{Binding JournalItem.CardNo}" Width="Auto" />
+				<DataGridTextColumn Header="Замок" Binding="{Binding JournalItem.DoorNo}" Width="Auto" />
+				<DataGridTextColumn Header="Код ошибки" Binding="{Binding JournalItem.ErrorCode, Converter={StaticResource EnumToDescriptionConverter}}" Width="*" />
             </DataGrid.Columns>
 		</DataGrid>
 	</Grid>
