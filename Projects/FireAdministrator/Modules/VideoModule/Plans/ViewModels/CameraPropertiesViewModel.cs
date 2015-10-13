@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.Models;
+using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 using VideoModule.ViewModels;
 using System;

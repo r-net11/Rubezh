@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
-using FiresecClient;
+using RubezhAPI.SKD;
+using RubezhAPI.SKD.ReportFilters;
+using RubezhClient;
 using FiresecService.Report.DataSources;
 
 namespace FiresecService.Report.Templates
@@ -372,7 +372,7 @@ namespace FiresecService.Report.Templates
 			return dataSet;
 		}
 
-		private void AddRecord(DataProvider dataProvider, EmployeeZonesDataSet ds, SKDDriver.DataClasses.PassJournal record, EmployeeZonesReportFilter filter, bool isEnter, Dictionary<Guid, string> zoneMap)
+		private void AddRecord(DataProvider dataProvider, EmployeeZonesDataSet ds, RubezhDAL.DataClasses.PassJournal record, EmployeeZonesReportFilter filter, bool isEnter, Dictionary<Guid, string> zoneMap)
 		{
 			if (record.EmployeeUID == null)
 				return;

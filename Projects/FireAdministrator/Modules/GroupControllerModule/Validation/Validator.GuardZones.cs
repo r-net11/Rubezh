@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using Infrastructure.Common.Validation;
 using System;
-using FiresecAPI;
+using RubezhAPI;
 
 namespace GKModule.Validation
 {
@@ -54,7 +54,7 @@ namespace GKModule.Validation
 
 		void ValidateDifferentGK(GKGuardZone guardZone)
 		{
-			if (guardZone.GkParents.Count > 0)
+			if (guardZone.GkParents.Count > 1)
 				Errors.Add(new GuardZoneValidationError(guardZone, "Зона содержит устройства разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 

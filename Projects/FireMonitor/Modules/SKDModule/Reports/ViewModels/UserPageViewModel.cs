@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
-using FiresecClient;
+using RubezhAPI.SKD;
+using RubezhAPI.SKD.ReportFilters;
+using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 
 namespace SKDModule.Reports.ViewModels
 {
@@ -17,7 +17,7 @@ namespace SKDModule.Reports.ViewModels
 		public UserPageViewModel()
 		{
 			Title = "Пользователи";
-			Users = new ObservableCollection<CheckedItemViewModel<User>>(FiresecManager.SecurityConfiguration.Users.Select(item => new CheckedItemViewModel<User>(item)));
+			Users = new ObservableCollection<CheckedItemViewModel<User>>(ClientManager.SecurityConfiguration.Users.Select(item => new CheckedItemViewModel<User>(item)));
 			SelectAllCommand = new RelayCommand(() => Users.ForEach(item => item.IsChecked = true));
 			SelectNoneCommand = new RelayCommand(() => Users.ForEach(item => item.IsChecked = false));
 		}

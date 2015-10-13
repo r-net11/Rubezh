@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.Models.Layouts;
-using FiresecAPI.SKD;
+using RubezhAPI;
+using RubezhAPI.Models.Layouts;
+using RubezhAPI.SKD;
 using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common.Services.Layout;
-using FiresecClient;
-using FiresecAPI.Journal;
+using RubezhClient;
+using RubezhAPI.Journal;
 
 namespace FiltersModule.ViewModels
 {
@@ -19,7 +19,7 @@ namespace FiltersModule.ViewModels
 			Title = "Журнал событий";
 			IconSource = LayoutPartDescription.IconPath + "BLevels.png";
 			_properties = properties ?? new LayoutPartReferenceProperties();
-			var journalFilter = FiresecManager.SystemConfiguration.JournalFilters.FirstOrDefault(item => item.UID == _properties.ReferenceUID);
+			var journalFilter = ClientManager.SystemConfiguration.JournalFilters.FirstOrDefault(item => item.UID == _properties.ReferenceUID);
 			UpdateLayoutPart(journalFilter);
 		}
 

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Xml.Serialization;
 using Common;
-using FiresecAPI;
+using RubezhAPI;
 
 namespace Infrastructure.Common
 {

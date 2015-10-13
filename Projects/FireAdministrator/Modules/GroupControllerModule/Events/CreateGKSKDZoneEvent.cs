@@ -1,6 +1,6 @@
-﻿using FiresecAPI.SKD;
+﻿using RubezhAPI.SKD;
 using Microsoft.Practices.Prism.Events;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using System;
 
 namespace GKModule.Events

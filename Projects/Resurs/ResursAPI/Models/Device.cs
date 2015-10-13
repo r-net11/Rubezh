@@ -22,9 +22,12 @@ namespace ResursAPI
 		{
 			Driver = ResursAPI.DriversConfiguration.GetDriver(driverType);
 			DriverType = driverType;
+			TariffType = Driver.DefaultTariffType;
 			foreach (var item in Driver.DriverParameters)
 			{
-				Parameters.Add(new Parameter { DriverParameter = item, Device = this, Number = item.Number });
+				var parameter = new Parameter { Device = this };
+				parameter.Initialize(item);
+				Parameters.Add(parameter);
 			}
 			if(parent != null)
 			{
@@ -64,11 +67,13 @@ namespace ResursAPI
 		public List<Device> Children { get; set; }
 		public List<Parameter> Parameters { get; set; }
 		public Tariff Tariff { get; set; }
+		public Guid? BillUID { get; set; }
 		public Bill Bill { get; set; } 
 		public DriverType DriverType { get; set; }
 		public int Address { get; set; }
 		public bool IsActive { get; set; }
 		public bool IsDbMissmatch { get; set; }
+		public TariffType TariffType { get; set; }
 		[NotMapped]
 		public string Name { get { return Driver.DriverType.ToDescription(); } }
 		[NotMapped]

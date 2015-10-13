@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -62,7 +62,7 @@ namespace GKModule.ViewModels
 		void InitializePlans()
 		{
 			Plans = new ObservableCollection<PlanLinkViewModel>();
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 			{
 				ElementBase elementBase;
 				elementBase = plan.ElementGKDoors.FirstOrDefault(x => x.DoorUID == Door.UID);
@@ -100,7 +100,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetAutomaticRegime(Door);
+				ClientManager.FiresecService.GKSetAutomaticRegime(Door);
 			}
 		}
 		bool CanSetAutomaticState()
@@ -113,7 +113,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetManualRegime(Door);
+				ClientManager.FiresecService.GKSetManualRegime(Door);
 			}
 		}
 		bool CanSetManualState()
@@ -126,7 +126,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetIgnoreRegime(Door);
+				ClientManager.FiresecService.GKSetIgnoreRegime(Door);
 			}
 		}
 		bool CanSetIgnoreState()
@@ -139,7 +139,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOn(Door);
+				ClientManager.FiresecService.GKTurnOn(Door);
 			}
 		}
 
@@ -148,7 +148,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOnNow(Door);
+				ClientManager.FiresecService.GKTurnOnNow(Door);
 			}
 		}
 
@@ -157,7 +157,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOff(Door);
+				ClientManager.FiresecService.GKTurnOff(Door);
 			}
 		}
 
@@ -166,7 +166,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKReset(Door);
+				ClientManager.FiresecService.GKReset(Door);
 			}
 		}
 
@@ -176,8 +176,8 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetAutomaticRegime(Door);
-				FiresecManager.FiresecService.GKTurnOffInAutomatic(Door);
+				ClientManager.FiresecService.GKSetAutomaticRegime(Door);
+				ClientManager.FiresecService.GKTurnOffInAutomatic(Door);
 			}
 		}
 
@@ -187,8 +187,8 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetManualRegime(Door);
-				FiresecManager.FiresecService.GKTurnOn(Door);
+				ClientManager.FiresecService.GKSetManualRegime(Door);
+				ClientManager.FiresecService.GKTurnOn(Door);
 			}
 		}
 
@@ -198,8 +198,8 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetManualRegime(Door);
-				FiresecManager.FiresecService.GKTurnOff(Door);
+				ClientManager.FiresecService.GKSetManualRegime(Door);
+				ClientManager.FiresecService.GKTurnOff(Door);
 			}
 		}
 
@@ -218,12 +218,12 @@ namespace GKModule.ViewModels
 
 		public bool CanControl
 		{
-			get { return FiresecManager.CheckPermission(PermissionType.Oper_Door_Control); }
+			get { return ClientManager.CheckPermission(PermissionType.Oper_Door_Control); }
 		}
 
 		public bool FullCanControl
 		{
-			get { return FiresecManager.CheckPermission(PermissionType.Oper_Full_Door_Control); }
+			get { return ClientManager.CheckPermission(PermissionType.Oper_Full_Door_Control); }
 		}
 
 		#region IWindowIdentity Members

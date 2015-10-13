@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Models;
+﻿using RubezhAPI.Models;
 using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure.Events

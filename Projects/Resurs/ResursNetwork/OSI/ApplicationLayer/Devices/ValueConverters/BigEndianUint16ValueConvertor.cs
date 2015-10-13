@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ResursNetwork.Devices.ValueConverters
+namespace ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters
 {
     /// <summary>
     /// Конвертер значения типа UInt16 в массив из 2 байт

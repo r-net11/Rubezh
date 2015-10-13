@@ -1,6 +1,6 @@
 ﻿using System;
-using FiresecAPI.Journal;
-using FiresecClient;
+using RubezhAPI.Journal;
+using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -32,7 +32,7 @@ namespace JournalModule.ViewModels
 			journalItem.DeviceDateTime = DateTime.Now;
 			journalItem.JournalEventNameType = JournalEventNameType.Подтверждение_тревоги;
 			journalItem.DescriptionText = JournalItemViewModel.Name + " " + JournalItemViewModel.Description + " (время реакции " + deltaSeconds.ToString() + " сек)";
-			FiresecManager.FiresecService.AddJournalItem(journalItem);
+			ClientManager.FiresecService.AddJournalItem(journalItem);
 		}
 	}
 }

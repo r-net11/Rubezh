@@ -1,7 +1,7 @@
-﻿using FiresecClient;
+﻿using RubezhClient;
 using Infrastructure.Common.Validation;
 using Infrastructure.Client.Layout;
-using FiresecAPI.Models.Layouts;
+using RubezhAPI.Models.Layouts;
 using System.Linq;
 using FiresecLicense;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ namespace LayoutModule.Validation
 	{
 		void ValidateLicense()
 		{
-			foreach (var layout in FiresecManager.LayoutsConfiguration.Layouts)
+			foreach (var layout in ClientManager.LayoutsConfiguration.Layouts)
 			{
 				var layoutLicenses = GetLayoutLicenses(layout);
 				if (layoutLicenses.Any())

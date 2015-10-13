@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.ServiceModel;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using RviClient.RVIServiceReference;
 using RviClient.RVIStreamingServiceReference;
 using Common;

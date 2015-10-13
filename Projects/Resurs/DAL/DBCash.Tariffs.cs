@@ -22,6 +22,16 @@ namespace ResursDAL
 			Tariffs.Add(tariff);
 		}
 
+		public static void CreateTariffs(IEnumerable<Tariff> tariff)
+		{
+			using (var context = DatabaseContext.Initialize())
+			{
+				context.Tariffs.AddRange(tariff);
+				context.SaveChanges();
+			}
+			Tariffs.AddRange(tariff);
+		}
+
 		public static Tariff ReadTariff(Guid id)
 		{
 			using (var context = DatabaseContext.Initialize())

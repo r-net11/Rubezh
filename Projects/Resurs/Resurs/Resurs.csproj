@@ -74,6 +74,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.DataAccess.v15.1.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.DataAccess.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.DataAccess.v15.1.resources.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.Mvvm.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Mvvm.v15.1.dll</HintPath>
@@ -82,53 +86,105 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Office.v15.1.Core.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Office.v15.1.Core.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Office.v15.1.Core.resources.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.PivotGrid.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.PivotGrid.v15.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.PivotGrid.v15.1.Core.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.PivotGrid.v15.1.Core.resources.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Printing.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Printing.v15.1.Core.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Printing.v15.1.Core.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Printing.v15.1.Core.resources.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.RichEdit.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.RichEdit.v15.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v15.1.Core.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.RichEdit.v15.1.Core.resources.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Sparkline.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Sparkline.v15.1.Core.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Sparkline.v15.1.Core.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Sparkline.v15.1.Core.resources.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.Utils.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Utils.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Utils.v15.1.resources.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Utils.v15.1.UI, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Utils.v15.1.UI.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Utils.v15.1.UI.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Utils.v15.1.UI.resources.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.Xpf.Core.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Xpf.Core.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Core.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Xpf.Core.v15.1.resources.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Xpf.Docking.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Xpf.Docking.v15.1.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Xpf.Docking.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Xpf.Docking.v15.1.resources.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.Xpf.DocumentViewer.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Xpf.DocumentViewer.v15.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.DocumentViewer.v15.1.Core.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Xpf.DocumentViewer.v15.1.Core.resources.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Xpf.Printing.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Xpf.Printing.v15.1.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Xpf.Printing.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Xpf.Printing.v15.1.resources.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.Xpf.ReportDesigner.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Xpf.ReportDesigner.v15.1.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Xpf.ReportDesigner.v15.1.resources, Version=15.1.0.0, Culture=ru, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Xpf.ReportDesigner.v15.1.resources.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.Xpf.Ribbon.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Xpf.Ribbon.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Ribbon.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Xpf.Ribbon.v15.1.resources.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Xpf.WpfReportDesigner.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -138,21 +194,41 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.XtraCharts.v15.1.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.XtraCharts.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.XtraCharts.v15.1.resources.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.XtraEditors.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.XtraEditors.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.XtraEditors.v15.1.resources.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraGauges.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.XtraGauges.v15.1.Core.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.XtraGauges.v15.1.Core.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.XtraGauges.v15.1.Core.resources.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.XtraPivotGrid.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.XtraPivotGrid.v15.1.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.XtraPivotGrid.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.XtraPivotGrid.v15.1.resources.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.XtraPrinting.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.XtraPrinting.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.XtraPrinting.v15.1.resources.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraReports.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -162,9 +238,21 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.XtraReports.v15.1.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.XtraReports.v15.1.Extensions.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.XtraReports.v15.1.Extensions.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.XtraReports.v15.1.resources.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.XtraRichEdit.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.XtraRichEdit.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraRichEdit.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.XtraRichEdit.v15.1.resources.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>
@@ -280,6 +368,15 @@
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Bills\ViewModels\BillsViewModel.cs" />
+    <Compile Include="Bills\ViewModels\BillViewModel.cs" />
+    <Compile Include="Bills\Views\BillsView.xaml.cs">
+      <DependentUpon>BillsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Bills\Views\BillView.xaml.cs">
+      <DependentUpon>BillView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.Bills.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.Common.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumersFolderDetailsViewModel.cs" />
@@ -292,9 +389,12 @@
       <DependentUpon>ConsumerChangeParentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Converters\DeviceStateToIconConverter.cs" />
+    <Compile Include="Converters\DeviceTypeToIconConverter.cs" />
     <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="Devices\ViewModels\DetailsParameterViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\DateTimePairViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceState.cs" />
     <Compile Include="JournalEvents\ViewModels\DateTimeViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\FilterConsumersViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\FilterConsumerViewModel.cs" />
@@ -317,8 +417,6 @@
     </Compile>
     <Compile Include="Processor\DeviceProcessor.cs" />
     <Compile Include="Processor\LoginService.cs" />
-    <Compile Include="Processor\ResursSettings.cs" />
-    <Compile Include="Processor\SettingsManager.cs" />
     <Compile Include="Main\ViewModels\Comparers.cs" />
     <Compile Include="Devices\ViewModels\DeviceDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
@@ -379,6 +477,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ReceiptsDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Reports\ReportPeriodType.cs" />
+    <Compile Include="Reports\ReportPreviewModel.cs" />
     <Compile Include="Reports\Templates\ChangeValueReport.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -390,6 +490,14 @@
     </Compile>
     <Compile Include="Reports\Templates\ReceiptsReport.Designer.cs">
       <DependentUpon>ReceiptsReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ViewModels\ChangeFlowFilterViewModel.cs" />
+    <Compile Include="Reports\ViewModels\DebtorsFilterViewModel.cs" />
+    <Compile Include="Reports\Views\ChangeFlowFilterView.xaml.cs">
+      <DependentUpon>ChangeFlowFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\DebtorsFilterView.xaml.cs">
+      <DependentUpon>DebtorsFilterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\ViewModels\SettingsViewModel.cs" />
     <Compile Include="Settings\Views\SettingsView.xaml.cs">
@@ -418,9 +526,6 @@
       <DependentUpon>DebtorsReport.cs</DependentUpon>
     </Compile>
     <Compile Include="Reports\ViewModels\ReportFilterViewModel.cs" />
-    <Compile Include="Reports\Views\ReportFilterView.xaml.cs">
-      <DependentUpon>ReportFilterView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Users\ViewModels\PermissionsViewModel.cs" />
     <Compile Include="Users\ViewModels\PermissionViewModel.cs" />
     <Compile Include="Tariffs\ViewModels\TariffsViewModel.cs" />
@@ -434,7 +539,6 @@
     <Compile Include="Reports\ReportType.cs" />
     <Compile Include="Reports\ViewModels\ReportDesignerViewModel.cs" />
     <Compile Include="Reports\ViewModels\ReportsViewModel.cs" />
-    <Compile Include="Reports\ViewModels\ReportViewModel.cs" />
     <Compile Include="Reports\ViewModels\RepxSelectionViewModel.cs" />
     <Compile Include="Reports\ViewModels\RepxViewModel.cs" />
     <Compile Include="Reports\Views\ReportDesignerView.xaml.cs">
@@ -458,6 +562,18 @@
     <Compile Include="Users\Views\UsersView.xaml.cs">
       <DependentUpon>UsersView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Bills\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Bills\Views\BillsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Bills\Views\BillView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Consumers\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -534,15 +650,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Reports\Views\ChangeFlowFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\DebtorsFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Settings\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Settings\Views\SettingsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Reports\Views\ReportFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -748,7 +868,6 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Converters\" />
     <Folder Include="Rates\DataTemplates\" />
     <Folder Include="Rates\ViewModels\" />
     <Folder Include="Rates\Views\" />

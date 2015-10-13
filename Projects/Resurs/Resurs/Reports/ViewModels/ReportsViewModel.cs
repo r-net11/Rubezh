@@ -9,6 +9,8 @@ using System;
 using System.Linq;
 using DevExpress.XtraReports.Localization;
 using Resurs.ViewModels;
+using DevExpress.Xpf.Printing;
+using DevExpress.Xpf.Printing.Parameters.Models;
 
 namespace Resurs.ViewModels
 {
@@ -19,9 +21,8 @@ namespace Resurs.ViewModels
 			ChangeFilterCommand = new RelayCommand(OnChangeFilter, CanChangeFilter);
 			OpenReportDesignerCommand = new RelayCommand(OnOpenReportDesigner, CanOpenReportDesigner);
 			ShowPreviewReportCommand = new RelayCommand(OnShowPreviewReport, CanShowPreviewReport);
-			ReportFilterViewModel = new ReportFilterViewModel();
+			FitPageSizeCommand = new RelayCommand<ZoomFitMode>(OnFitPageSize, CanFitPageSize);
 			ReportTypes = new List<ReportType>(Enum.GetValues(typeof(ReportType)).Cast<ReportType>());
-			Filter = ReportFilterViewModel.Filter;
 			//var path = @"C:\";
 			//foreach (var filePath in Directory.EnumerateFiles(path, "*.repx"))
 			//{
@@ -33,26 +34,14 @@ namespace Resurs.ViewModels
 		}
 		public ReportFilterViewModel ReportFilterViewModel { get; set; }
 		public static ReportFilter Filter { get; set; }
-		private XtraReport _model;
-		public XtraReport Model
+		private ReportPreviewModel _model;
+		public ReportPreviewModel Model
 		{
 			get { return _model; }
 			set
 			{
 				_model = value;
 				OnPropertyChanged(() => Model);
-			}
-		}
-		private ReportViewModel _selectedReport;
-		public ReportViewModel SelectedReport
-		{
-			get { return _selectedReport; }
-			set
-			{
-				_selectedReport = value;
-				if (value != null)
-					Model = value.Model;
-				OnPropertyChanged(() => SelectedReport);
 			}
 		}
 		public List<ReportType> ReportTypes { get; private set; }
@@ -63,6 +52,16 @@ namespace Resurs.ViewModels
 			set
 			{
 				_selectedReportType = value;
+				switch (_selectedReportType)
+				{
+					case ReportType.ChangeFlow:
+						ReportFilterViewModel = new ChangeFlowFilterViewModel();
+						break;
+					case ReportType.Debtors:
+						ReportFilterViewModel = new DebtorsFilterViewModel();
+						break;
+				}						
+				Filter = ReportFilterViewModel.Filter;
 				ShowPreviewReportCommand.Execute();
 				OnPropertyChanged(() => SelectedReportType);
 			}
@@ -70,7 +69,7 @@ namespace Resurs.ViewModels
 		public RelayCommand ChangeFilterCommand { get; private set; }
 		private void OnChangeFilter()
 		{
-			if (DialogService.ShowModalWindow(ReportFilterViewModel))
+			if (Infrastructure.Common.Windows.DialogService.ShowModalWindow(ReportFilterViewModel))
 			{
 				Filter = ReportFilterViewModel.Filter;
 				BuildReport();
@@ -78,13 +77,13 @@ namespace Resurs.ViewModels
 		}
 		private bool CanChangeFilter()
 		{
-			return SelectedReportType != null && SelectedReportType != ReportType.Debtors && SelectedReportType !=ReportType.Receipts;
+			return SelectedReportType != null && SelectedReportType !=ReportType.Receipts;
 		}
 		public RelayCommand OpenReportDesignerCommand { get; private set; }
 		private void OnOpenReportDesigner()
 		{
-			var reportDesignerViewModel = new ReportDesignerViewModel(Model);
-			DialogService.ShowModalWindow(reportDesignerViewModel);
+			var reportDesignerViewModel = new ReportDesignerViewModel((XtraReport)Model.Report);
+			Infrastructure.Common.Windows.DialogService.ShowModalWindow(reportDesignerViewModel);
 		}
 		private bool CanOpenReportDesigner()
 		{
@@ -97,28 +96,37 @@ namespace Resurs.ViewModels
 		}
 		private bool CanShowPreviewReport()
 		{
-			return SelectedReportType != null && IsFilterValidate();
+			return SelectedReportType != null;
+		}
+		public RelayCommand<ZoomFitMode> FitPageSizeCommand { get; private set; }
+		private void OnFitPageSize(ZoomFitMode fitMode)
+		{ 
+			if (fitMode == ZoomFitMode.WholePage)
+			{
+				Model.ZoomMode = null;
+				Model.SetZoom(100);
+				return;
+			}
+			Model.ZoomMode = new ZoomFitModeItem(fitMode);
+		}
+		private bool CanFitPageSize(ZoomFitMode fitMode)
+		{
+			return Model != null && Model.PrintCommand.CanExecute(null);
 		}
 		private void BuildReport()
 		{
-			Model = ReportHelper.GetDefaultReport(SelectedReportType.Value);
-			Model.CreateDocument();
+			Model = CreateModel(SelectedReportType);
+			Model.Report.CreateDocument();
 		}
-		private bool IsFilterValidate()
+		private ReportPreviewModel CreateModel(ReportType? reportType)
 		{
-			switch (SelectedReportType)
+			var report = ReportHelper.GetDefaultReport(reportType.Value);
+			return new ReportPreviewModel(report)
 			{
-				case ReportType.ChangeFlow:
-					{
-						if (Filter.Device == null)
-						{
-							MessageBoxService.ShowError("В системе нет счетчиков.");
-							return false;
-						}
-						break;
-					}
-			}
-			return true;
+				AutoShowParametersPanel = false,
+				IsParametersPanelVisible = false,
+				IsDocumentMapVisible = false
+			};
 		}
 	}
 }

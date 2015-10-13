@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
 
 namespace GKProcessor
 {

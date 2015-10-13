@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Collections.Generic;
 using Infrastructure.Client.Layout.ViewModels;
-using FiresecAPI.Models.Layouts;
+using RubezhAPI.Models.Layouts;
 using Infrastructure.Common.Services.Layout;
-using FiresecClient;
+using RubezhClient;
 namespace AutomationModule.Layout.ViewModels
 {
 	public class LayoutPartProcedureViewModel : LayoutPartTitleViewModel
@@ -34,7 +34,7 @@ namespace AutomationModule.Layout.ViewModels
 
 		public void UpdateLayoutPart()
 		{
-			ProcedureTitle = FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Where(item => item.Uid == _properties.ReferenceUID).Select(item => item.Name).FirstOrDefault() ?? "Процедура";
+			ProcedureTitle = ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.Where(item => item.Uid == _properties.ReferenceUID).Select(item => item.Name).FirstOrDefault() ?? "Процедура";
 			OnPropertyChanged(() => ProcedureTitle);
 		}
 	}

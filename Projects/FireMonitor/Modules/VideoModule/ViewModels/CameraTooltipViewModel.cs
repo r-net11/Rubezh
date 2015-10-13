@@ -1,5 +1,5 @@
-﻿using FiresecAPI.GK;
-using FiresecAPI.Models;
+﻿using RubezhAPI.GK;
+using RubezhAPI.Models;
 using Infrastructure.Client.Plans.Presenter;
 
 namespace VideoModule.ViewModels

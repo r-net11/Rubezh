@@ -14,15 +14,6 @@ namespace ResursDAL
 	{
 		public static Device RootDevice { get; private set; }
 
-		public class ShortDevice
-		{
-			public Guid UID { get; set; }
-			public int Address { get; set; }
-			public int DriverType { get; set; }
-			public string Description { get; set; }
-			public Guid? ParentUID { get; set; }
-		}
-		
 		public static Device GetRootDevice()
 		{
 			try
@@ -36,7 +27,9 @@ namespace ResursDAL
 							Address = x.Address, 
 							DriverType = x.DriverType, 
 							Description = x.Description,
-							ParentUID = x.ParentUID
+							ParentUID = x.ParentUID, 
+							IsActive = x.IsActive,
+							TariffType = x.TariffType
 						}).ToList();
 					var allDevices = tableItems.Select(x => new Device
 						{
@@ -44,13 +37,18 @@ namespace ResursDAL
 							Address = x.Address,
 							DriverType =(DriverType)x.DriverType,
 							Description = x.Description,
-							ParentUID = x.ParentUID
+							ParentUID = x.ParentUID,
+							IsActive = x.IsActive,
+							TariffType = x.TariffType
 						}).OrderBy(x => x.Address).ToList();
 					
 					SetChildren(allDevices);
 					var result = allDevices.FirstOrDefault(x => x.ParentUID == null);
 					if (result != null)
+					{
 						SetFullAddress(result);
+						result.IsActive = true;
+					}
 					allDevices.ForEach(x => InitializeDevice(x));
 					
 					return result;
@@ -155,6 +153,7 @@ namespace ResursDAL
 			try
 			{
 				var devices = new List<Device>();
+				Random random = new Random();
 				RootDevice = new Device(DriverType.System);
 				devices.Add(RootDevice);
 #if DEBUG
@@ -163,10 +162,12 @@ namespace ResursDAL
 				for (int i = 0; i < interfaces / 2; i++)
 				{
 					var interfaceDevice = new Device(DriverType.BeregunNetwork, RootDevice);
+					InitializeTestDevice(interfaceDevice, random);
 					devices.Add(interfaceDevice);
 					for (int j = 0; j < devicesPerInterface; j++)
 					{
 						var counter = new Device(DriverType.BeregunCounter, interfaceDevice);
+						InitializeTestDevice(counter, random);
 						devices.Add(counter);
 					}
 				}
@@ -174,17 +175,22 @@ namespace ResursDAL
 				{
 					var interfaceDevice = new Device(DriverType.MZEP55Network, RootDevice);
 					devices.Add(interfaceDevice);
+					InitializeTestDevice(interfaceDevice, random);
 					for (int j = 0; j < devicesPerInterface; j++)
 					{
 						var counter = new Device(DriverType.MZEP55Counter, interfaceDevice);
+						InitializeTestDevice(counter, random);
 						devices.Add(counter);
 					}
 				}
+				var dateTimes = devices.SelectMany(x => x.Parameters).Select(x => x.DateTimeValue).Distinct();
 #endif
 				using (var context = DatabaseContext.Initialize())
 				{
+					context.Devices.RemoveRange(context.Devices);
 					context.Devices.AddRange(devices);
 					context.SaveChanges();
+					var tableDateTimes = context.Devices.SelectMany(x => x.Parameters).Select(x => x.DateTimeValue).Distinct();
 				}
 			}
 			catch (Exception e)
@@ -193,7 +199,51 @@ namespace ResursDAL
 			}
 		}
 
-		public static Device GetDeivce(Guid uid)
+		static void InitializeTestDevice(Device device, Random random)
+		{
+			device.Description = device.Name + " " + device.FullAddress;
+			if(device.DeviceType == DeviceType.Counter && device.Driver.CanEditTariffType)
+			{
+				device.TariffType = (TariffType)random.Next(4);
+			}
+			foreach (var item in device.Parameters)
+			{
+				switch (item.DriverParameter.ParameterType)
+				{
+					case ParameterType.Enum:
+						var maxValue = item.DriverParameter.ParameterEnumItems.Max(x => x.Value);
+						item.IntValue = random.Next(maxValue + 1);
+						break;
+					case ParameterType.String:
+						item.StringValue = Guid.NewGuid().ToString();
+						break;
+					case ParameterType.Int:
+						var intMinValue = item.DriverParameter.IntMinValue ?? 0;
+						var intMaxValue = item.DriverParameter.IntMaxValue ?? 10000;
+						item.IntValue = random.Next(intMinValue, intMaxValue);
+						break;
+					case ParameterType.Double:
+						var doubleMinValue = item.DriverParameter.DoubleMinValue ?? 0;
+						var doubleMaxValue = item.DriverParameter.DoubleMaxValue ?? 10000;
+						item.DoubleValue = Math.Truncate(doubleMinValue + random.NextDouble() * doubleMaxValue * 100) / 100;
+						break;
+					case ParameterType.Bool:
+						item.BoolValue = random.Next(2) > 0;
+						break;
+					case ParameterType.DateTime:
+						var minDateTime = item.DriverParameter.DateTimeMinValue ?? new DateTime(2000, 1, 1);
+						var maxDateTime = item.DriverParameter.DateTimeMaxValue != null && item.DriverParameter.DateTimeMaxValue.Value < DateTime.Now ? item.DriverParameter.DateTimeMaxValue.Value : DateTime.Now;
+						var delta = (maxDateTime - minDateTime).TotalSeconds;
+						var randomDelta = TimeSpan.FromSeconds(random.NextDouble() * delta);
+						item.DateTimeValue = minDateTime + randomDelta;
+						break;
+					default:
+						break;
+				}
+			}
+		}
+
+		public static Device GetDevice(Guid uid)
 		{
 			try
 			{
@@ -233,6 +283,8 @@ namespace ResursDAL
 				var driverParameter = device.Driver.DriverParameters.FirstOrDefault(x => x.Number == item.Number);
 				item.Initialize(driverParameter);
 			}
+			if (!device.Driver.CanEditTariffType)
+				device.TariffType = device.Driver.DefaultTariffType;
 		}
 
 		static void SetChildren(List<Device> allDevices)
@@ -284,6 +336,7 @@ namespace ResursDAL
 			tableDevice.Description = device.Description;
 			tableDevice.IsActive = device.IsActive;
 			tableDevice.Tariff = device.Tariff != null ? context.Tariffs.FirstOrDefault(x => x.UID == device.Tariff.UID) : null;
+			tableDevice.TariffType = device.TariffType;
 			tableDevice.Parent = device.Parent != null ? context.Devices.FirstOrDefault(x => x.UID == device.Parent.UID) : null;
 			tableDevice.DriverType = device.DriverType;
 			tableDevice.IsDbMissmatch = device.IsDbMissmatch;

@@ -2,8 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using AutomationModule.ViewModels;
-using FiresecAPI.Automation;
-using FiresecAPI.Models;
+using RubezhAPI.Automation;
+using RubezhAPI.Models;
 using Infrastructure.Designer.ElementProperties.ViewModels;
 
 namespace AutomationModule.Plans.ViewModels

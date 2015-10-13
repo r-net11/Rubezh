@@ -1,7 +1,7 @@
-﻿using FiresecAPI.GK;
+﻿using RubezhAPI.GK;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using SKDDriver.DataClasses;
+using RubezhDAL.DataClasses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

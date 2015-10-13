@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using GKModule.ViewModels;
 using GKProcessor;
 using Infrastructure;
@@ -50,7 +50,7 @@ namespace GKModule.Models
 		public RelayCommand ShowInfoCommand { get; private set; }
 		void OnShowInfo()
 		{
-			var result = FiresecManager.FiresecService.GKGetDeviceInfo(SelectedDevice.Device);
+			var result = ClientManager.FiresecService.GKGetDeviceInfo(SelectedDevice.Device);
 			if (result.HasError)
 			{
 				MessageBoxService.ShowWarning(result.Error);
@@ -72,7 +72,7 @@ namespace GKModule.Models
 		public RelayCommand SynchroniseTimeCommand { get; private set; }
 		void OnSynchroniseTime()
 		{
-			var result = FiresecManager.FiresecService.GKSyncronyseTime(SelectedDevice.Device);
+			var result = ClientManager.FiresecService.GKSyncronyseTime(SelectedDevice.Device);
 			if (result.HasError)
 			{
 				MessageBoxService.ShowWarning(result.Error);
@@ -111,7 +111,7 @@ namespace GKModule.Models
 			{
 				if (ValidateConfiguration())
 				{
-					var result = FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device.GKParent);
+					var result = ClientManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device.GKParent);
 					if (result.HasError)
 					{
 						MessageBoxService.ShowWarning(result.Error, "Ошибка при записи конфигурации");
@@ -122,7 +122,7 @@ namespace GKModule.Models
 
 		bool CanWriteConfig()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig) &&
+			return ClientManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig) &&
 				SelectedDevice != null && SelectedDevice.Device.GKParent != null;
 		}
 
@@ -132,7 +132,7 @@ namespace GKModule.Models
 			var thread = new Thread(() =>
 			{
 				DescriptorsManager.Create();
-				var result = FiresecManager.FiresecService.GKReadConfiguration(SelectedDevice.Device);
+				var result = ClientManager.FiresecService.GKReadConfiguration(SelectedDevice.Device);
 
 				ApplicationService.Invoke(new Action(() =>
 				{
@@ -202,7 +202,7 @@ namespace GKModule.Models
 		public RelayCommand ReadConfigFileCommand { get; private set; }
 		void OnReadConfigFile()
 		{
-			var result = FiresecManager.FiresecService.GKReadConfigurationFromGKFile(SelectedDevice.Device);
+			var result = ClientManager.FiresecService.GKReadConfigurationFromGKFile(SelectedDevice.Device);
 			if (result.HasError)
 			{
 				MessageBoxService.ShowWarning(result.Error, "Ошибка при чтении конфигурации");
@@ -240,7 +240,7 @@ namespace GKModule.Models
 							var hxcFileInfo = HXCFileInfoHelper.Load(openDialog.FileName);
 							var devices = new List<GKDevice>();
 							firmWareUpdateViewModel.UpdatedDevices.FindAll(x => x.IsChecked).ForEach(x => devices.Add(x.Device));
-							var result = FiresecManager.FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, devices);
+							var result = ClientManager.FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, devices);
 
 							ApplicationService.Invoke(new Action(() =>
 							{
@@ -267,7 +267,7 @@ namespace GKModule.Models
 				{
 					var thread = new Thread(() =>
 					{
-						var result = FiresecManager.FiresecService.GKUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
+						var result = ClientManager.FiresecService.GKUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
 
 						ApplicationService.Invoke(() =>
 						{
@@ -287,7 +287,7 @@ namespace GKModule.Models
 
 		bool CanUpdateFirmwhare()
 		{
-			return (SelectedDevice != null && (SelectedDevice.Driver.IsKau || SelectedDevice.Driver.DriverType == GKDriverType.GK || SelectedDevice.Driver.DriverType == GKDriverType.System) && FiresecManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
+			return (SelectedDevice != null && (SelectedDevice.Driver.IsKau || SelectedDevice.Driver.DriverType == GKDriverType.GK || SelectedDevice.Driver.DriverType == GKDriverType.System) && ClientManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
 		}
 
 		bool ValidateConfiguration()
@@ -309,7 +309,7 @@ namespace GKModule.Models
 		{
 			var thread = new Thread(() =>
 			{
-				var result = FiresecManager.FiresecService.GKAutoSearch(SelectedDevice.Device);
+				var result = ClientManager.FiresecService.GKAutoSearch(SelectedDevice.Device);
 
 				ApplicationService.Invoke(() =>
 				{
@@ -342,7 +342,7 @@ namespace GKModule.Models
 		public RelayCommand GetUsersCommand { get; private set; }
 		void OnGetUsers()
 		{
-			var result = FiresecManager.FiresecService.GKGetUsers(SelectedDevice.Device);
+			var result = ClientManager.FiresecService.GKGetUsers(SelectedDevice.Device);
 			if (result.HasError)
 			{
 				MessageBoxService.ShowWarning(result.Error, "Ошибка при получении пользователей");
@@ -357,7 +357,7 @@ namespace GKModule.Models
 		public RelayCommand RewriteUsersCommand { get; private set; }
 		void OnRewriteUsers()
 		{
-			var result = FiresecManager.FiresecService.GKRewriteUsers(SelectedDevice.Device);
+			var result = ClientManager.FiresecService.GKRewriteUsers(SelectedDevice.Device);
 			if (result.HasError)
 			{
 				MessageBoxService.ShowWarning(result.Error, "Ошибка при перезаписи пользователей");
@@ -374,7 +374,7 @@ namespace GKModule.Models
 		{
 			var thread = new Thread(() =>
 			{
-				var result = FiresecManager.FiresecService.GKRewriteAllSchedules(SelectedDevice.Device);
+				var result = ClientManager.FiresecService.GKRewriteAllSchedules(SelectedDevice.Device);
 
 				ApplicationService.Invoke(() =>
 				{

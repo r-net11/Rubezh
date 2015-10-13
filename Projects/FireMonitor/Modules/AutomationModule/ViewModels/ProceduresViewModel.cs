@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Automation;
-using FiresecClient;
+using RubezhAPI.Automation;
+using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
@@ -17,9 +17,9 @@ namespace AutomationModule.ViewModels
 		public void Initialize()
 		{
 			Procedures = new ObservableCollection<ProcedureViewModel>();
-			if (FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures == null)
-				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures = new List<Procedure>();
-			foreach (var procedure in FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures)
+			if (ClientManager.SystemConfiguration.AutomationConfiguration.Procedures == null)
+				ClientManager.SystemConfiguration.AutomationConfiguration.Procedures = new List<Procedure>();
+			foreach (var procedure in ClientManager.SystemConfiguration.AutomationConfiguration.Procedures)
 			{
 				var procedureViewModel = new ProcedureViewModel(procedure);
 				Procedures.Add(procedureViewModel);

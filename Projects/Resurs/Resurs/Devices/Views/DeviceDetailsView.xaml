@@ -14,9 +14,24 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
-			<TextBlock Grid.Row="1" Grid.Column="0" Text="Устройство активно" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
-			<CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsActive}" Margin="2" />
+			<TextBlock Grid.Row="0" Grid.Column="0" Text="Устройство активно" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
+			<CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsActive}" Margin="2" />
+			
+			<TextBlock Grid.Row="1" Grid.Column="0" Text="Тип ресурса" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" 
+					   Visibility="{Binding HasTariffType, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding TariffTypes}" SelectedItem="{Binding TariffType}" Margin="2" 
+					  Visibility="{Binding CanEditTariffType, Converter={StaticResource BoolToVisibilityConverter}}" >
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" Margin="1" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+			<TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2"  
+					   Text="{Binding TariffType, Converter={StaticResource EnumToDescriptionConverter}}" Visibility="{Binding HasReadOnlyTariffType, Converter={StaticResource BoolToVisibilityConverter}}" />
+			
 			<ItemsControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Parameters}" Margin="2">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
@@ -26,9 +41,12 @@
 								<ColumnDefinition Width="*" />
 							</Grid.ColumnDefinitions>
 							<TextBlock Grid.Column="0" Text="{Binding Name}" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-							<TextBox Grid.Column="1" Margin="2" IsEnabled="{Binding IsNotReadOnly}"
+							
+							<TextBlock Grid.Column="1" Style="{DynamicResource TextBlockDetailsStyle}" 
+									   Text="{Binding ReadOnlyValue, Mode=OneWay}" Visibility="{Binding IsNotReadOnly, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+							<TextBox Grid.Column="1" Margin="2"
 									 Visibility="{Binding IsShowTextBlock, Converter={StaticResource BoolToVisibilityConverter}}" Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}" />
-							<ComboBox Grid.Column="1" ItemsSource="{Binding ParameterEnum}"  Margin="2" IsEnabled="{Binding IsNotReadOnly}"
+							<ComboBox Grid.Column="1" ItemsSource="{Binding ParameterEnum}"  Margin="2"
 									  SelectedItem="{Binding SelectedEnumItem}" Visibility="{Binding IsEnum, Converter={StaticResource BoolToVisibilityConverter}}" >
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
@@ -36,19 +54,19 @@
 									</DataTemplate>
 								</ComboBox.ItemTemplate>
 							</ComboBox>
-							<ExtToolkit:IntegerUpDown Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsEnabled="{Binding IsNotReadOnly}" 
+							<ExtToolkit:IntegerUpDown Grid.Column="1" Margin="2" HorizontalAlignment="Left"
 													  Value="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsInt, Converter={StaticResource BoolToVisibilityConverter}}" />
-							<CheckBox Grid.Column="1" Margin="2" VerticalAlignment="Center" IsEnabled="{Binding IsNotReadOnly}" 
+							<CheckBox Grid.Column="1" Margin="2" VerticalAlignment="Center"
 									  Visibility="{Binding IsBool, Converter={StaticResource BoolToVisibilityConverter}}"
 									  IsChecked="{Binding BoolValue}" />
 							<StackPanel Grid.Column="1" Orientation="Horizontal" Visibility="{Binding IsDateTime, Converter={StaticResource BoolToVisibilityConverter}}">
-								<DatePicker VerticalAlignment="Center" Width="150" Focusable="False" Margin="2" SelectedDate="{Binding DateTimeValue.Date}"  IsEnabled="{Binding IsNotReadOnly}" />
-								<Controls:TimePicker Margin="2"  TimeSpan="{Binding DateTimeValue.Time}"  IsEnabled="{Binding IsNotReadOnly}" />
+								<DatePicker VerticalAlignment="Center" Width="150" Focusable="False" Margin="2" SelectedDate="{Binding DateTimeValue.Date}" Visibility="{Binding IsNotReadOnly, Converter={StaticResource BoolToVisibilityConverter}}" />
+								<Controls:TimePicker Margin="2"  TimeSpan="{Binding DateTimeValue.Time}"  Visibility="{Binding IsNotReadOnly, Converter={StaticResource BoolToVisibilityConverter}}" />
 							</StackPanel>
 						</Grid>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
-		</Grid>
+		</Grid> 
 	</ScrollViewer>
 </UserControl>

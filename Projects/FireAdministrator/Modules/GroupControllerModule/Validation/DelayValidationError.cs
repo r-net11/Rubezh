@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using GKModule.Events;
 using Infrastructure.Common.Validation;
 using Infrastructure.Common;

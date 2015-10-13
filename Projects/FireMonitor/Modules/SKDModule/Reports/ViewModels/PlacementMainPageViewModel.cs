@@ -1,6 +1,6 @@
 ﻿using System;
 using Infrastructure.Common.SKDReports;
-using FiresecAPI.SKD.ReportFilters;
+using RubezhAPI.SKD.ReportFilters;
 
 namespace SKDModule.Reports.ViewModels
 {

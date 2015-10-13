@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
+using RubezhAPI.Models;
+using RubezhAPI.SKD;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient.SKDHelpers;
+using RubezhClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 
 namespace GKWebService
@@ -191,7 +191,7 @@ namespace GKWebService
 					break;
 
 				case JournalObjectType.VideoDevice:
-					Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					Camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 					if (Camera != null)
 					{
 						ObjectName = Camera.Name;

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 
 namespace Controls.Converters
 {

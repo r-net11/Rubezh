@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Models.Layouts;
-using FiresecClient;
+using RubezhAPI.Models.Layouts;
+using RubezhClient;
 using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common.Services.Layout;
 
@@ -51,9 +51,9 @@ namespace PlansModule.ViewModels
 		}
 		private List<string> GetPlanNames()
 		{
-			FiresecManager.PlansConfiguration.Update();
+			ClientManager.PlansConfiguration.Update();
 			var map = new Dictionary<Guid, string>();
-			FiresecManager.PlansConfiguration.AllPlans.ForEach(item => map.Add(item.UID, item.Caption));
+			ClientManager.PlansConfiguration.AllPlans.ForEach(item => map.Add(item.UID, item.Caption));
 			return _properties.Plans.Select(item => map[item]).ToList();
 		}
 	}

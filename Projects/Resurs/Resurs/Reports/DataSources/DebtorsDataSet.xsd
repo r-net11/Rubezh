@@ -12,11 +12,11 @@
   <xs:element name="DebtorsDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DebtorsDataSet" msprop:Generator_UserDSName="DebtorsDataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="Data" msprop:Generator_TableClassName="DataDataTable" msprop:Generator_TableVarName="tableData" msprop:Generator_RowChangedName="DataRowChanged" msprop:Generator_TablePropName="Data" msprop:Generator_RowDeletingName="DataRowDeleting" msprop:Generator_RowChangingName="DataRowChanging" msprop:Generator_RowEvHandlerName="DataRowChangeEventHandler" msprop:Generator_RowDeletedName="DataRowDeleted" msprop:Generator_RowClassName="DataRow" msprop:Generator_UserTableName="Data" msprop:Generator_RowEvArgName="DataRowChangeEvent">
+        <xs:element name="Data" msprop:Generator_TableClassName="DataDataTable" msprop:Generator_TableVarName="tableData" msprop:Generator_TablePropName="Data" msprop:Generator_RowDeletingName="DataRowDeleting" msprop:Generator_RowChangingName="DataRowChanging" msprop:Generator_RowEvHandlerName="DataRowChangeEventHandler" msprop:Generator_RowDeletedName="DataRowDeleted" msprop:Generator_UserTableName="Data" msprop:Generator_RowChangedName="DataRowChanged" msprop:Generator_RowEvArgName="DataRowChangeEvent" msprop:Generator_RowClassName="DataRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="AbonentName" msprop:Generator_ColumnVarNameInTable="columnAbonentName" msprop:Generator_ColumnPropNameInRow="AbonentName" msprop:Generator_ColumnPropNameInTable="AbonentNameColumn" msprop:Generator_UserColumnName="AbonentName" type="xs:string" minOccurs="0" />
-              <xs:element name="AbonentID" msprop:Generator_ColumnVarNameInTable="columnAbonentID" msprop:Generator_ColumnPropNameInRow="AbonentID" msprop:Generator_ColumnPropNameInTable="AbonentIDColumn" msprop:Generator_UserColumnName="AbonentID" type="xs:int" minOccurs="0" />
+              <xs:element name="AbonentID" msprop:Generator_ColumnVarNameInTable="columnAbonentID" msprop:Generator_ColumnPropNameInRow="AbonentID" msprop:Generator_ColumnPropNameInTable="AbonentIDColumn" msprop:Generator_UserColumnName="AbonentID" type="xs:string" minOccurs="0" />
               <xs:element name="Debt" msprop:Generator_ColumnVarNameInTable="columnDebt" msprop:Generator_ColumnPropNameInRow="Debt" msprop:Generator_ColumnPropNameInTable="DebtColumn" msprop:Generator_UserColumnName="Debt" type="xs:double" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>

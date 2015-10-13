@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Models;
+﻿using RubezhAPI.Models;
 using Infrastructure.Client.Login.ViewModels;
 
 namespace Infrastructure.Client.Startup.ViewModels

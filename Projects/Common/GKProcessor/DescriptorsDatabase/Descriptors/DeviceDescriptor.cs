@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 
 namespace GKProcessor
 {
@@ -78,8 +78,7 @@ namespace GKProcessor
 			}
 
 			if ((Device.DriverType == GKDriverType.RSR2_CodeReader || Device.DriverType == GKDriverType.RSR2_CardReader ||
-			     Device.DriverType == GKDriverType.RSR2_GuardDetector ||
-			     Device.DriverType == GKDriverType.RSR2_GuardDetectorSound) && Device.GuardZones != null &&
+			     Device.DriverType == GKDriverType.RSR2_GuardDetector ||Device.DriverType == GKDriverType.RSR2_GuardDetectorSound) && Device.GuardZones != null &&
 			    Device.GuardZones.Count > 0)
 			{
 				Formula.AddGetBit(GKStateBit.On, Device.GuardZones.FirstOrDefault());
@@ -93,6 +92,7 @@ namespace GKProcessor
 				switch (Device.Door.DoorType)
 				{
 					case GKDoorType.AirlockBooth:
+					case GKDoorType.Turnstile:
 						var device = Device.Door.LockDeviceUID == Device.UID ? Device.Door.ExitDevice : Device.Door.EnterDevice;
 						var button = Device.Door.LockDeviceUID == Device.UID ? Device.Door.EnterButton : Device.Door.ExitButton;
 						if (device != null)
@@ -119,6 +119,8 @@ namespace GKProcessor
 						{
 							Formula.AddGetBit(GKStateBit.On, Device.Door);
 							Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+							Formula.AddGetBit(GKStateBit.Off, Device.Door);
+							Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 						}
 						else
 						{
@@ -129,6 +131,8 @@ namespace GKProcessor
 							Formula.AddGetBit(GKStateBit.Off, Device.Door);
 							Formula.Add(FormulaOperationType.AND);
 							Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+							Formula.AddGetBit(GKStateBit.On, Device.Door);
+							Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 						}
 						break;
 

@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace LayoutModule.ViewModels

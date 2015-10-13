@@ -1,10 +1,10 @@
-﻿using FiresecAPI.Models;
-using FiresecAPI.SKD;
+﻿using RubezhAPI.Models;
+using RubezhAPI.SKD;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.InstrumentAdorners;
 using AutomationModule.ViewModels;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using Infrustructure.Plans.Elements;
 using AutomationModule.Plans.ViewModels;
 

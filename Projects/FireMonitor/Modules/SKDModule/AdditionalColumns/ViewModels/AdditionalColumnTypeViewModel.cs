@@ -1,5 +1,5 @@
-﻿using FiresecAPI;
-using FiresecAPI.SKD;
+﻿using RubezhAPI;
+using RubezhAPI.SKD;
 
 namespace SKDModule.ViewModels
 {

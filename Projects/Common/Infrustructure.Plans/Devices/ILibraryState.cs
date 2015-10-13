@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace Infrustructure.Plans.Devices
 {

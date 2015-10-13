@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;

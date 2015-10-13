@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.Models;
+using RubezhAPI.SKD;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Common;
 using SKDModule.Events;
-using FiresecAPI;
+using RubezhAPI;
 
 namespace SKDModule.ViewModels
 {
@@ -63,7 +63,7 @@ namespace SKDModule.ViewModels
 		protected abstract bool Restore(TModel model);
 		protected abstract List<TModel> GetFromCallbackResult(DbCallbackResult dbCallbackResult);
 		protected abstract PermissionType Permission { get; }
-		bool IsEditAllowed { get { return FiresecManager.CheckPermission(Permission); } }
+		bool IsEditAllowed { get { return ClientManager.CheckPermission(Permission); } }
 		public TFilter Filter { get { return _filter; } }
 		public Guid DbCallbackResultUID;
 
@@ -145,7 +145,7 @@ namespace SKDModule.ViewModels
 
 		protected virtual bool InitializeOrganisations(TFilter filter)
 		{
-			var organisationFilter = new OrganisationFilter { UIDs = filter.OrganisationUIDs, UserUID = FiresecManager.CurrentUser.UID, LogicalDeletationType = filter.LogicalDeletationType };
+			var organisationFilter = new OrganisationFilter { UIDs = filter.OrganisationUIDs, UserUID = ClientManager.CurrentUser.UID, LogicalDeletationType = filter.LogicalDeletationType };
 			var organisations = OrganisationHelper.Get(organisationFilter);
 			if (organisations == null)
 				return false;
@@ -172,7 +172,7 @@ namespace SKDModule.ViewModels
 
 		protected virtual void OnOrganisationUsersChanged(Organisation newOrganisation)
 		{
-			if (newOrganisation.UserUIDs.Any(x => x == FiresecManager.CurrentUser.UID))
+			if (newOrganisation.UserUIDs.Any(x => x == ClientManager.CurrentUser.UID))
 			{
 				if (!Organisations.Any(x => x.Organisation.UID == newOrganisation.UID))
 				{
@@ -390,12 +390,18 @@ namespace SKDModule.ViewModels
 		{
 			if (!SelectedItem.IsDeleted)
 				return;
+			if (Organisations.FirstOrDefault(x => x.OrganisationUID == SelectedItem.OrganisationUID).GetAllChildren().Any(x => x.Name == SelectedItem.Name && !x.IsDeleted))
+			{
+				MessageBoxService.Show("Существует неудалённый элемент с таким именем");
+				return;
+			}
 			var restoreResult = Restore(SelectedItem.Model);
 			if (!restoreResult)
 				return;
 			SelectedItem.IsDeleted = false;
 			SelectedItem.RemovalDate = "";
 			AfterRestore(SelectedItem.Model);
+
 		}
 		bool CanRestore()
 		{

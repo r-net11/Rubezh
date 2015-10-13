@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 
 namespace AutomationModule.ViewModels
 {

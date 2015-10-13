@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ResursNetwork.Devices.ValueConverters
+namespace ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters
 {
     /// <summary>
     /// Преобразует значение (в формате BCD) из массива двух байт 

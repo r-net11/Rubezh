@@ -42,6 +42,10 @@
 			this.xrLine1 = new DevExpress.XtraReports.UI.XRLine();
 			this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
 			this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
+			this.xrPageInfo1 = new DevExpress.XtraReports.UI.XRPageInfo();
+			this.xrPageInfo2 = new DevExpress.XtraReports.UI.XRPageInfo();
+			this.MinDebt = new DevExpress.XtraReports.Parameters.Parameter();
+			this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.debtorsDataSet1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
@@ -102,12 +106,13 @@
 			// TopMargin
 			// 
 			this.TopMargin.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrLabel2,
             this.xrLabel13,
             this.xrLabel14,
             this.xrLabel15,
             this.xrLine1,
             this.xrLabel1});
-			this.TopMargin.HeightF = 105.6249F;
+			this.TopMargin.HeightF = 155.5416F;
 			this.TopMargin.Name = "TopMargin";
 			this.TopMargin.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
 			this.TopMargin.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
@@ -115,7 +120,7 @@
 			// xrLabel13
 			// 
 			this.xrLabel13.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Bold);
-			this.xrLabel13.LocationFloat = new DevExpress.Utils.PointFloat(0F, 76.87492F);
+			this.xrLabel13.LocationFloat = new DevExpress.Utils.PointFloat(0F, 129.8333F);
 			this.xrLabel13.Name = "xrLabel13";
 			this.xrLabel13.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
 			this.xrLabel13.SizeF = new System.Drawing.SizeF(61.45833F, 23F);
@@ -125,7 +130,7 @@
 			// xrLabel14
 			// 
 			this.xrLabel14.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Bold);
-			this.xrLabel14.LocationFloat = new DevExpress.Utils.PointFloat(247.9167F, 76.87492F);
+			this.xrLabel14.LocationFloat = new DevExpress.Utils.PointFloat(247.9167F, 129.8333F);
 			this.xrLabel14.Name = "xrLabel14";
 			this.xrLabel14.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
 			this.xrLabel14.SizeF = new System.Drawing.SizeF(100F, 23F);
@@ -135,7 +140,7 @@
 			// xrLabel15
 			// 
 			this.xrLabel15.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Bold);
-			this.xrLabel15.LocationFloat = new DevExpress.Utils.PointFloat(433.3333F, 76.87492F);
+			this.xrLabel15.LocationFloat = new DevExpress.Utils.PointFloat(433.3333F, 129.8333F);
 			this.xrLabel15.Name = "xrLabel15";
 			this.xrLabel15.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
 			this.xrLabel15.SizeF = new System.Drawing.SizeF(154.1667F, 23F);
@@ -144,14 +149,14 @@
 			// 
 			// xrLine1
 			// 
-			this.xrLine1.LocationFloat = new DevExpress.Utils.PointFloat(1.041687F, 99.87492F);
+			this.xrLine1.LocationFloat = new DevExpress.Utils.PointFloat(1.041667F, 152.8332F);
 			this.xrLine1.Name = "xrLine1";
 			this.xrLine1.SizeF = new System.Drawing.SizeF(648.9583F, 2F);
 			// 
 			// xrLabel1
 			// 
 			this.xrLabel1.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold);
-			this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(190.625F, 10.00001F);
+			this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(185.4167F, 36.04167F);
 			this.xrLabel1.Name = "xrLabel1";
 			this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
 			this.xrLabel1.SizeF = new System.Drawing.SizeF(306.25F, 28.12501F);
@@ -162,10 +167,48 @@
 			// 
 			// BottomMargin
 			// 
+			this.BottomMargin.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrPageInfo1,
+            this.xrPageInfo2});
 			this.BottomMargin.HeightF = 100F;
 			this.BottomMargin.Name = "BottomMargin";
 			this.BottomMargin.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
 			this.BottomMargin.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
+			// 
+			// xrPageInfo1
+			// 
+			this.xrPageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(550F, 25.99999F);
+			this.xrPageInfo1.Name = "xrPageInfo1";
+			this.xrPageInfo1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+			this.xrPageInfo1.SizeF = new System.Drawing.SizeF(100F, 23F);
+			this.xrPageInfo1.StylePriority.UseTextAlignment = false;
+			this.xrPageInfo1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+			// 
+			// xrPageInfo2
+			// 
+			this.xrPageInfo2.Format = "{0:d MMMM yyyy \'г.\'}";
+			this.xrPageInfo2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 25.99999F);
+			this.xrPageInfo2.Name = "xrPageInfo2";
+			this.xrPageInfo2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+			this.xrPageInfo2.PageInfo = DevExpress.XtraPrinting.PageInfo.DateTime;
+			this.xrPageInfo2.SizeF = new System.Drawing.SizeF(120.8333F, 23F);
+			// 
+			// MinDebt
+			// 
+			this.MinDebt.Description = "MinDebt";
+			this.MinDebt.Name = "MinDebt";
+			this.MinDebt.Type = typeof(float);
+			this.MinDebt.ValueInfo = "0";
+			// 
+			// xrLabel2
+			// 
+			this.xrLabel2.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+            new DevExpress.XtraReports.UI.XRBinding(this.MinDebt, "Text", "Минимальная задолженность: {0}")});
+			this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 86.41667F);
+			this.xrLabel2.Name = "xrLabel2";
+			this.xrLabel2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
+			this.xrLabel2.SizeF = new System.Drawing.SizeF(261.4583F, 23.00001F);
+			this.xrLabel2.Text = "xrLabel2";
 			// 
 			// DebtorsReport
 			// 
@@ -175,7 +218,10 @@
             this.BottomMargin});
 			this.DataMember = "Data";
 			this.DataSource = this.debtorsDataSet1;
-			this.Margins = new System.Drawing.Printing.Margins(100, 100, 106, 100);
+			this.Margins = new System.Drawing.Printing.Margins(100, 100, 156, 100);
+			this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
+            this.MinDebt});
+			this.RequestParameters = false;
 			this.Version = "15.1";
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.debtorsDataSet1)).EndInit();
@@ -199,5 +245,9 @@
 		private Resurs.Reports.DataSources.DebtorsDataSet debtorsDataSet1;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell2;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell3;
+		private DevExpress.XtraReports.UI.XRPageInfo xrPageInfo1;
+		private DevExpress.XtraReports.UI.XRPageInfo xrPageInfo2;
+		private DevExpress.XtraReports.Parameters.Parameter MinDebt;
+		private DevExpress.XtraReports.UI.XRLabel xrLabel2;
 	}
 }

@@ -33,7 +33,7 @@ namespace ResursDAL
 		public static DatabaseContext Initialize()
 		{
 			var connectionFactory = new SqlConnectionFactory();
-			var connection = connectionFactory.CreateConnection(@"Data Source=.\sqlexpress;Initial Catalog=RubezhResurs;Integrated Security=True");
+			var connection = connectionFactory.CreateConnection(SettingsManager.ResursSettings.ConnectionString);
 			return new DatabaseContext(connection);
 		}
 
@@ -42,6 +42,7 @@ namespace ResursDAL
 			modelBuilder.Entity<Tariff>().HasMany(x => x.TariffParts).WithRequired(x => x.Tariff).WillCascadeOnDelete();
 			modelBuilder.Entity<Consumer>().HasMany(x => x.Bills).WithRequired(x => x.Consumer).WillCascadeOnDelete();
 			modelBuilder.Entity<Device>().HasMany(x => x.Parameters).WithRequired(x => x.Device).WillCascadeOnDelete();
+			modelBuilder.Entity<Device>().HasOptional(x => x.Bill);
 			modelBuilder.Entity<User>().HasMany(x => x.UserPermissions).WithRequired(x => x.User).WillCascadeOnDelete();
 		}
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Common;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 
 namespace GKProcessor
 {

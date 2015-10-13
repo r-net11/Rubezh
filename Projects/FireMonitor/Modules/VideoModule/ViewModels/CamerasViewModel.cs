@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
@@ -22,7 +22,7 @@ namespace VideoModule.ViewModels
 		public void Initialize()
 		{
 			Cameras = new ObservableCollection<CameraViewModel>();
-			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
+			foreach (var camera in ClientManager.SystemConfiguration.Cameras)
 			{
 				var cameraViewModel = new CameraViewModel(camera);
 				Cameras.Add(cameraViewModel);

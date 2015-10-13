@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 using DeviceControls;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using Infrastructure.Client.Plans.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Painters;

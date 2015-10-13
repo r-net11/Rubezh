@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.Models;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -38,7 +38,7 @@ namespace VideoModule.ViewModels
 		public void Initialize()
 		{
 			Cameras = new ObservableCollection<CameraViewModel>();
-			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
+			foreach (var camera in ClientManager.SystemConfiguration.Cameras)
 			{
 				var cameraViewModel = new CameraViewModel(this, camera);
 				Cameras.Add(cameraViewModel);
@@ -77,7 +77,7 @@ namespace VideoModule.ViewModels
 				foreach (var camera in devicesViewModel.GetCameras())
 				{
 					camera.OnChanged();
-					FiresecManager.SystemConfiguration.Cameras.Add(camera);
+					ClientManager.SystemConfiguration.Cameras.Add(camera);
 					Cameras.Add(new CameraViewModel(this, camera));
 				}
 				ServiceFactory.SaveService.CamerasChanged = true;
@@ -90,7 +90,7 @@ namespace VideoModule.ViewModels
 		{
 			var camera = SelectedCamera.Camera;
 			Cameras.Remove(SelectedCamera);
-			FiresecManager.SystemConfiguration.Cameras.Remove(camera);
+			ClientManager.SystemConfiguration.Cameras.Remove(camera);
 			camera.OnChanged();
 			ServiceFactory.SaveService.CamerasChanged = true;
 			SelectedCamera = Cameras.FirstOrDefault();
@@ -117,10 +117,10 @@ namespace VideoModule.ViewModels
 		public RelayCommand SettingsCommand { get; private set; }
 		void OnSettings()
 		{
-			var settingsSelectionViewModel = new SettingsSelectionViewModel(FiresecManager.SystemConfiguration.RviSettings);
+			var settingsSelectionViewModel = new SettingsSelectionViewModel(ClientManager.SystemConfiguration.RviSettings);
 			if (DialogService.ShowModalWindow(settingsSelectionViewModel))
 			{
-				FiresecManager.SystemConfiguration.RviSettings = settingsSelectionViewModel.RviSettings;
+				ClientManager.SystemConfiguration.RviSettings = settingsSelectionViewModel.RviSettings;
 				ServiceFactory.SaveService.CamerasChanged = true;
 			}
 		}

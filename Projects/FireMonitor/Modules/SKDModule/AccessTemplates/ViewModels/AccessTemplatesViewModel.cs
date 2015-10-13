@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.SKD;
+using RubezhClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -64,9 +64,9 @@ namespace SKDModule.ViewModels
 			get { return "шаблон доступа"; }
 		}
 
-		protected override FiresecAPI.Models.PermissionType Permission
+		protected override RubezhAPI.Models.PermissionType Permission
 		{
-			get { return FiresecAPI.Models.PermissionType.Oper_SKD_AccessTemplates_Etit; }
+			get { return RubezhAPI.Models.PermissionType.Oper_SKD_AccessTemplates_Etit; }
 		}
 
 		public List<AccessTemplateViewModel> DoorsParents
@@ -86,7 +86,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		protected override List<AccessTemplate> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		protected override List<AccessTemplate> GetFromCallbackResult(RubezhAPI.DbCallbackResult dbCallbackResult)
 		{
 			return dbCallbackResult.AccessTemplates;
 		}

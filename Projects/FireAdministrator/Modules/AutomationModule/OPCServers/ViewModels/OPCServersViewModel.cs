@@ -5,8 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
-using FiresecAPI.Automation;
-using FiresecAPI.Models;
+using RubezhAPI.Automation;
+using RubezhAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -17,6 +17,7 @@ using Microsoft.Win32;
 using Softing.Opc.Ua.Toolkit;
 using Softing.Opc.Ua.Toolkit.Client;
 using System.Diagnostics;
+using RubezhClient;
 
 namespace AutomationModule.ViewModels
 {
@@ -57,7 +58,7 @@ namespace AutomationModule.ViewModels
         {
             OPCServers = new ObservableCollection<OPCServerViewModel>();
             OPCTags = new ObservableCollection<OPCTagViewModel>();
-            foreach (var opcServer in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.OPCServers)
+            foreach (var opcServer in ClientManager.SystemConfiguration.AutomationConfiguration.OPCServers)
             {
                 var opcServerViewModel = new OPCServerViewModel(opcServer);
                 OPCServers.Add(opcServerViewModel);
@@ -112,7 +113,7 @@ namespace AutomationModule.ViewModels
             if (DialogService.ShowModalWindow(opcServerDetailsViewModel))
             {
                 var opcServerViewModel = new OPCServerViewModel(opcServerDetailsViewModel.OPCServer);
-				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.OPCServers.Add(opcServerDetailsViewModel.OPCServer);
+				ClientManager.SystemConfiguration.AutomationConfiguration.OPCServers.Add(opcServerDetailsViewModel.OPCServer);
                 OPCServers.Add(opcServerViewModel);
                 SelectedOPCServer = OPCServers.FirstOrDefault();
                 ServiceFactory.SaveService.AutomationChanged = true;
@@ -127,7 +128,7 @@ namespace AutomationModule.ViewModels
             if (DialogService.ShowModalWindow(opcServerDetailsViewModel))
             {
                 var opcServerViewModel = new OPCServerViewModel(opcServerDetailsViewModel.OPCServer);
-                FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.OPCServers.Add(opcServerDetailsViewModel.OPCServer);
+                ClientManager.SystemConfiguration.AutomationConfiguration.OPCServers.Add(opcServerDetailsViewModel.OPCServer);
                 OPCServers.Add(opcServerViewModel);
                 SelectedOPCServer = OPCServers.FirstOrDefault();
                 ServiceFactory.SaveService.AutomationChanged = true;
@@ -139,7 +140,7 @@ namespace AutomationModule.ViewModels
         private void OnDelete()
         {
             var index = OPCServers.IndexOf(SelectedOPCServer);
-            FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.OPCServers.Remove(SelectedOPCServer.OPCServer);
+            ClientManager.SystemConfiguration.AutomationConfiguration.OPCServers.Remove(SelectedOPCServer.OPCServer);
             OPCServers.Remove(SelectedOPCServer);
             index = Math.Min(index, OPCServers.Count - 1);
             if (index > -1)

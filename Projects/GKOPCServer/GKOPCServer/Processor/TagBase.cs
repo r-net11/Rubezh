@@ -1,4 +1,4 @@
-﻿using FiresecAPI.GK;
+﻿using RubezhAPI.GK;
 using Graybox.OPC.ServerToolkit.CLRWrapper;
 
 namespace GKOPCServer

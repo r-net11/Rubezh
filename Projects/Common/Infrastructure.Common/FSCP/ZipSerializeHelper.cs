@@ -3,7 +3,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Common;
-using FiresecAPI;
+using RubezhAPI;
 
 namespace Infrastructure.Common
 {

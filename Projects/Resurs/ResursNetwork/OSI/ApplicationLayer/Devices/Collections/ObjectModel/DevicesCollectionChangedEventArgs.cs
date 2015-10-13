@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
-using ResursNetwork.Devices;
+using ResursNetwork.OSI.ApplicationLayer.Devices;
 
-namespace ResursNetwork.Devices.Collections.ObjectModel
+namespace ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel
 {
     public class DevicesCollectionChangedEventArgs: EventArgs
     {

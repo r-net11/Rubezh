@@ -21,20 +21,13 @@ namespace Resurs.ViewModels
 
 		public List<ParameterViewModel> Parameters { get; private set; }
 
-		Device _device;
-		public Device Device
-		{
-			get { return _device; }
-			set
-			{
-				_device = value;
-				OnPropertyChanged(() => Device);
-			}
-		}
+		public Device Device { get; private set;}
+		public DeviceState State { get; private set; }
+		public bool IsActive { get; private set; }
 
 		public void Update()
 		{
-			var device = DBCash.GetDeivce(Device.UID);
+			var device = DBCash.GetDevice(Device.UID);
 			if (device != null)
 				Update(device);
 		}
@@ -42,8 +35,16 @@ namespace Resurs.ViewModels
 		public void Update(Device device)
 		{
 			Device = device;
+			OnPropertyChanged(() => Device);
 			Parameters = new List<ParameterViewModel>(Device.Parameters.Select(x => new ParameterViewModel(x)));
 			OnPropertyChanged(() => Parameters);
+			IsActive = device.IsActive || device.Parent == null;
+			if (IsActive)
+				State = DeviceState.Norm;
+			else
+				State = DeviceState.Disabled;
+			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => IsActive);
 		}
 	}
 }

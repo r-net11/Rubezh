@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using FiresecAPI;
-using FiresecAPI.Models;
-using FiresecAPI.Models.Layouts;
+using RubezhAPI;
+using RubezhAPI.Models;
+using RubezhAPI.Models.Layouts;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
@@ -13,7 +13,7 @@ using Infrastructure.Common.Validation;
 using Infrustructure.Plans.Events;
 using SKDModule.Validation;
 using SKDModule.ViewModels;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 
 namespace SKDModule
 {

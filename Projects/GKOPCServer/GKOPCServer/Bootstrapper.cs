@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Threading;
 using Common;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using GKOPCServer.ViewModels;
 using GKProcessor;
 using Infrastructure.Common;
@@ -41,7 +41,7 @@ namespace GKOPCServer
 				UILogger.Log("Соединение с сервером");
 				for (int i = 1; i <= 10; i++)
 				{
-					var message = FiresecManager.Connect(ClientType.OPC, ConnectionSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.AdminLogin, GlobalSettingsHelper.GlobalSettings.AdminPassword);
+					var message = ClientManager.Connect(ClientType.OPC, ConnectionSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.AdminLogin, GlobalSettingsHelper.GlobalSettings.AdminPassword);
 					if (message == null)
 						break;
 					Thread.Sleep(5000);
@@ -81,7 +81,7 @@ namespace GKOPCServer
 
 		public static void Close()
 		{
-			FiresecManager.Disconnect();
+			ClientManager.Disconnect();
 			if (WindowThread != null)
 			{
 				WindowThread.Interrupt();
@@ -97,7 +97,7 @@ namespace GKOPCServer
 			ServiceFactoryBase.Events = new EventAggregator();
 
 			UILogger.Log("Загрузка лицензии");
-			FiresecManager.GetLicense();
+			ClientManager.GetLicense();
 			if (!FiresecLicenseManager.CurrentLicenseInfo.HasOpcServer)
 			{
 				BalloonHelper.ShowFromServer("Отсутствует лицензия модуля \"GLOBAL OPC Сервер\"");
@@ -105,7 +105,7 @@ namespace GKOPCServer
 			}
 
 			UILogger.Log("Загрузка конфигурации с сервера");
-			FiresecManager.GetConfiguration("GKOPC/Configuration");
+			ClientManager.GetConfiguration("GKOPC/Configuration");
 
 			UILogger.Log("Создание драйверов");
 			GKDriversCreator.Create();
@@ -120,13 +120,13 @@ namespace GKOPCServer
 			SafeFiresecService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
 			SafeFiresecService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
 
-			FiresecManager.StartPoll();
+			ClientManager.StartPoll();
 			return result;
 		}
 
 		static void InitializeStates()
 		{
-			var gkStates = FiresecManager.FiresecService.GKGetStates();
+			var gkStates = ClientManager.FiresecService.GKGetStates();
 			CopyGKStates(gkStates);
 		}
 

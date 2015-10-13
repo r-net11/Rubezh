@@ -1,9 +1,9 @@
-﻿using FiresecAPI.AutomationCallback;
-using FiresecAPI.Models;
-using FiresecAPI.Automation;
+﻿using RubezhAPI.AutomationCallback;
+using RubezhAPI.Models;
+using RubezhAPI.Automation;
 using System;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
 using System.Windows.Media;
 using System.Linq;
 using System.Collections.Generic;

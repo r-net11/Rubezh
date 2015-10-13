@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace GKModule.Converters
 {

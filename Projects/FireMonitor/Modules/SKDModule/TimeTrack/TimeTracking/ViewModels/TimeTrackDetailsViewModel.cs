@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.SKD;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -105,7 +105,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAddPart()
 		{
-			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit);
+			return ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit);
 		}
 
 		public RelayCommand RemovePartCommand { get; private set; }
@@ -122,7 +122,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEditRemovePart()
 		{
-			return SelectedDayTimeTrackPart != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit);
+			return SelectedDayTimeTrackPart != null && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit);
 		}
 
 		public RelayCommand EditPartCommand { get; private set; }
@@ -149,7 +149,7 @@ namespace SKDModule.ViewModels
 			{
 				var document = documentDetailsViewModel.TimeTrackDocument;
 				document.EmployeeUID = ShortEmployee.UID;
-				var operationResult = FiresecManager.FiresecService.AddTimeTrackDocument(document);
+				var operationResult = ClientManager.FiresecService.AddTimeTrackDocument(document);
 				if (operationResult.HasError)
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);
@@ -166,7 +166,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
+			return ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -176,7 +176,7 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
 				var document = documentDetailsViewModel.TimeTrackDocument;
-				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(document);
+				var operationResult = ClientManager.FiresecService.EditTimeTrackDocument(document);
 				if (operationResult.HasError)
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);
@@ -188,7 +188,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedDocument != null && SelectedDocument.Document.StartDateTime.Date == DayTimeTrack.Date.Date && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
+			return SelectedDocument != null && SelectedDocument.Document.StartDateTime.Date == DayTimeTrack.Date.Date && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -196,7 +196,7 @@ namespace SKDModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить документ?"))
 			{
-				var operationResult = FiresecManager.FiresecService.RemoveTimeTrackDocument(SelectedDocument.Document.UID);
+				var operationResult = ClientManager.FiresecService.RemoveTimeTrackDocument(SelectedDocument.Document.UID);
 				if (operationResult.HasError)
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);
@@ -211,7 +211,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedDocument != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
+			return SelectedDocument != null && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
 		public RelayCommand AddFileCommand { get; private set; }

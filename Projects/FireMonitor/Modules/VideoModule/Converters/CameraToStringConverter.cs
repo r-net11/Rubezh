@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Data;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.Models;
+using RubezhClient;
 
 namespace VideoModule.Converters
 {
@@ -11,7 +11,7 @@ namespace VideoModule.Converters
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			var camera = value as Camera;
-			if (camera != null && FiresecManager.SystemConfiguration.Cameras.Any(x => x.Ip == camera.Ip))
+			if (camera != null && ClientManager.SystemConfiguration.Cameras.Any(x => x.Ip == camera.Ip))
 				return camera.Ip + " (" + (camera.ChannelNumber + 1) + " канал)";
 			return "<нет>";
 		}

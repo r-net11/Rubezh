@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using GKModule.Events;
 using Infrastructure.Common.Validation;
 using Infrastructure.Common;
@@ -34,7 +34,7 @@ namespace GKModule.Validation
 
 		public override string ImageSource
 		{
-			get { return "/Controls;component/Images/Blue_Direction.png"; }
+			get { return "/Controls;component/Images/BPumpStation.png"; }
 		}
 	}
 }

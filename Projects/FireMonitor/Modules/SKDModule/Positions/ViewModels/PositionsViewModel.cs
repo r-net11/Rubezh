@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.SKD;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using SKDModule.Events;
@@ -84,6 +84,11 @@ namespace SKDModule.ViewModels
 		protected override void Restore()
 		{
 			base.Restore();
+		}
+
+		protected override void AfterRestore(ShortPosition model)
+		{
+			base.AfterRestore(model);
 			var employeeUIDs = PositionHelper.GetEmployeeUIDs(SelectedItem.Model.UID);
 			foreach (var uid in employeeUIDs)
 			{
@@ -96,9 +101,9 @@ namespace SKDModule.ViewModels
 			base.OnOrganisationUsersChanged(newOrganisation);
 		}
 
-		protected override FiresecAPI.Models.PermissionType Permission
+		protected override RubezhAPI.Models.PermissionType Permission
 		{
-			get { return FiresecAPI.Models.PermissionType.Oper_SKD_Positions_Etit; }
+			get { return RubezhAPI.Models.PermissionType.Oper_SKD_Positions_Etit; }
 		}
 
 		protected override void UpdateSelected()
@@ -111,10 +116,10 @@ namespace SKDModule.ViewModels
 
 		public bool IsShowEmployeeList
 		{
-			get { return SelectedItem != null && !SelectedItem.IsOrganisation && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_View); }
+			get { return SelectedItem != null && !SelectedItem.IsOrganisation && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_View); }
 		}
 
-		protected override List<ShortPosition> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		protected override List<ShortPosition> GetFromCallbackResult(RubezhAPI.DbCallbackResult dbCallbackResult)
 		{
 			return dbCallbackResult.Positions;
 		}

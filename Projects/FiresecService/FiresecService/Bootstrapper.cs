@@ -10,12 +10,12 @@ using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
-using FiresecAPI;
-using SKDDriver.DataClasses;
+using RubezhAPI;
+using RubezhDAL.DataClasses;
 using FiresecService.Processor;
 using Infrastructure.Automation;
-using FiresecAPI.AutomationCallback;
-using FiresecAPI.Automation;
+using RubezhAPI.AutomationCallback;
+using RubezhAPI.Automation;
 
 namespace FiresecService
 {

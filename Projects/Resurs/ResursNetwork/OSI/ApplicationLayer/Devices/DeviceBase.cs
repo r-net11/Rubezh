@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
-using ResursNetwork.Devices.Collections.ObjectModel;
+using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
 using ResursNetwork.OSI.ApplicationLayer;
 using ResursNetwork.Management;
 using ResursAPI.ParameterNames;
+using ResursAPI.Models;
 
-namespace ResursNetwork.Devices
+namespace ResursNetwork.OSI.ApplicationLayer.Devices
 {
     /// <summary>
     /// Сетевое устройство
@@ -20,6 +21,7 @@ namespace ResursNetwork.Devices
         private Status _Status;
         protected INetwrokController _NetworkController;
         protected ParatemersCollection _Parameters;
+        protected DeviceErrors _Errors;
 
         public Guid Id
         {
@@ -80,9 +82,23 @@ namespace ResursNetwork.Devices
             get { return _NetworkController; }
             internal set 
             {
+
                 if (_NetworkController != value)
                 {
+                    if (_NetworkController != null)
+                    {
+                        _NetworkController.NetwrokRequestCompleted -=
+                            EventHandler_NetworkController_NetwrokRequestCompleted;
+                    }
+                    
                     _NetworkController = value;
+                    
+                    if (_NetworkController != null)
+                    {
+                        _NetworkController.NetwrokRequestCompleted +=
+                            EventHandler_NetworkController_NetwrokRequestCompleted;
+                    }
+
                     OnPropertyChanged("Network");
                 }
             }
@@ -92,6 +108,63 @@ namespace ResursNetwork.Devices
         {
             get { return _Parameters; }
         }
+
+        public DeviceErrors Errors
+        {
+            get { return _Errors; }
+        }
+
+        public bool CommunicationError
+        {
+            get { return _Errors.CommunicationError; }
+            set 
+            { 
+                if (_Errors.CommunicationError != value)
+                {
+                    _Errors.CommunicationError = value;
+
+                    OnErrorOccurred(new ErrorOccuredEventArgs
+                    {
+                        Errors = _Errors
+                    });
+                }
+            }
+        }
+
+        public bool ConfigurationError
+        {
+            get { return _Errors.ConfigurationError; }
+            set
+            {
+                if (_Errors.ConfigurationError != value)
+                {
+                    _Errors.ConfigurationError = value;
+
+                    OnErrorOccurred(new ErrorOccuredEventArgs
+                    {
+                        Errors = _Errors
+                    });
+                }
+            }
+        }
+
+        public bool RTCError
+        {
+            get { return _Errors.RTCError; }
+            set
+            {
+                if (_Errors.RTCError != value)
+                {
+                    _Errors.RTCError = value;
+
+                    OnErrorOccurred(new ErrorOccuredEventArgs
+                    {
+                        Errors = _Errors
+                    });
+                }
+            }
+        }
+
         #endregion
 
         #region Constructors
@@ -99,6 +172,7 @@ namespace ResursNetwork.Devices
         protected DeviceBase()
         {
             _Status = Status.Stopped;
+            _Errors.Reset();
             _Parameters = new ParatemersCollection();
 
             _Parameters.Add(new Parameter(typeof(Guid))
@@ -118,7 +192,7 @@ namespace ResursNetwork.Devices
                 PollingEnabled = false,
                 ReadOnly = false,
                 ValueConverter = null,
-                Value = 1
+                Value = (UInt32)1
             });
 
             Initialization();
@@ -181,6 +255,29 @@ namespace ResursNetwork.Devices
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+        
+        /// <summary>
+        /// Устанавливает или сбрасывает соответсвующие флаги ошибок устройтсва
+        /// </summary>
+        /// <param name="errors"></param>
+        //internal void SetError(DeviceErrors errors)
+        //{
+        //    if (errors != _Errors)
+        //    {
+        //        _Errors = errors;                
+        //        OnErrorOccurred(new ErrorOccuredEventArgs { Errors = errors });
+        //    }
+        //}
+
+        /// <summary>
+        /// Обработчик события завершения обработки сетевого запроса от контроллера сети 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public virtual void EventHandler_NetworkController_NetwrokRequestCompleted(
+            object sender, NetworkRequestCompletedArgs e)
+        {
         }
 
         #endregion

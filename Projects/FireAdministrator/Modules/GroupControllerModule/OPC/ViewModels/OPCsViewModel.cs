@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using System;
 using Infrastructure;
 using Infrastructure.Events;
