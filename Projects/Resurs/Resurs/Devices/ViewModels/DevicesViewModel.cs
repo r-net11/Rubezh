@@ -51,7 +51,7 @@ namespace Resurs.ViewModels
 			{
 				_selectedDevice = value;
 				if(_selectedDevice != null)
-					_selectedDevice.Update();
+					_selectedDevice.Load();
 				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
@@ -164,7 +164,7 @@ namespace Resurs.ViewModels
 		}
 		bool CanAdd()
 		{
-			return SelectedDevice != null;
+			return SelectedDevice != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -175,6 +175,11 @@ namespace Resurs.ViewModels
 			{
 				var deviceViewModel = new DeviceViewModel(deviceDetailsViewModel.Device);
 				SelectedDevice.Update(deviceDetailsViewModel.Device);
+				foreach (var child in SelectedDevice.Children)
+				{
+					child.Update();
+				}
+
 			}
 		}
 		bool CanEdit()
@@ -204,7 +209,7 @@ namespace Resurs.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedDevice != null && SelectedDevice.Parent != null;
+			return SelectedDevice != null && SelectedDevice.Parent != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);
 		}
 	}
 }

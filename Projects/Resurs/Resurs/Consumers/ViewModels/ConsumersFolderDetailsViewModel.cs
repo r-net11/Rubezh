@@ -10,25 +10,10 @@ namespace Resurs.ViewModels
 {
 	public class ConsumersFolderDetailsViewModel : SaveCancelDialogViewModel
 	{
-		Consumer _consumer;
-		public Consumer Consumer
-		{
-			get { return _consumer; }
-			set
-			{
-				_consumer = value;
-				if (_consumer != null)
-				{
-					Name = _consumer.Name;
-					Description = _consumer.Description;
-				}
-			}
-		}
-
-		public ConsumersFolderDetailsViewModel(Consumer consumer, bool isNew = false, bool isReadOnly = false)
+		public ConsumersFolderDetailsViewModel(Consumer consumer, bool isReadOnly, bool isNew = false)
 		{
 			Title = isNew ? "Создание группы абонентов" : "Редактирование группы абонентов";
-			Consumer = consumer;
+			Update(consumer);
 			IsReadOnly = isReadOnly;
 		}
 
@@ -42,6 +27,9 @@ namespace Resurs.ViewModels
 				OnPropertyChanged(() => IsReadOnly);
 			}
 		}
+
+		public Guid Uid { get; private set; }
+		public Guid? ParentUid { get; private set; }
 
 		string _name;
 		public string Name
@@ -65,13 +53,29 @@ namespace Resurs.ViewModels
 			}
 		}
 
+		public void Update(Consumer consumer)
+		{
+			Uid = consumer.UID;
+			ParentUid = consumer.ParentUID;
+			Name = consumer.Name;
+			Description = consumer.Description;
+		}
+
+		public Consumer GetConsumer()
+		{
+			return new Consumer
+			{
+				Description = this.Description,
+				IsFolder = true,
+				Name = this.Name,
+				ParentUID = this.ParentUid,
+				UID = this.Uid
+			};
+		}
+		
 		protected override bool Save()
 		{
-			Consumer.Name = Name;
-			Consumer.Description = Description;
-
-			DBCash.SaveConsumer(Consumer);
-
+			DBCash.SaveConsumer(GetConsumer());
 			return base.Save();
 		}
 	}

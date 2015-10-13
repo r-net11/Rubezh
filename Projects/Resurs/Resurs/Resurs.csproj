@@ -369,6 +369,15 @@
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Bills\ViewModels\BillsViewModel.cs" />
+    <Compile Include="Bills\ViewModels\BillViewModel.cs" />
+    <Compile Include="Bills\Views\BillsView.xaml.cs">
+      <DependentUpon>BillsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Bills\Views\BillView.xaml.cs">
+      <DependentUpon>BillView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.Bills.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.Common.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumersFolderDetailsViewModel.cs" />
@@ -389,10 +398,25 @@
     <Compile Include="Converters\DeviceTypeToIconConverter.cs" />
     <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="Devices\ViewModels\DetailsParameterViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceState.cs" />
+    <Compile Include="JournalEvents\ViewModels\DateTimeViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterConsumersViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterConsumerViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterDevicesViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterDeviceViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterEventsViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterEventViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\FilterJournalViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterTariffsViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterTariffViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterUsersViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterUserViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\JournalEventsViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\JournalEventViewModel.cs" />
+    <Compile Include="JournalEvents\Views\FilterJournalView.xaml.cs">
+      <DependentUpon>FilterJournalView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="JournalEvents\Views\JournalEventsView.xaml.cs">
       <DependentUpon>JournalEventsView.xaml</DependentUpon>
     </Compile>
@@ -549,6 +573,18 @@
     <Compile Include="Users\Views\UsersView.xaml.cs">
       <DependentUpon>UsersView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Bills\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Bills\Views\BillsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Bills\Views\BillView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Consumers\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -562,6 +598,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="JournalEvents\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JournalEvents\Views\FilterJournalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

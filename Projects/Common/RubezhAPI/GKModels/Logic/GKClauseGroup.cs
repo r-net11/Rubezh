@@ -86,7 +86,6 @@ namespace RubezhAPI.GK
 				clause.Delays.ForEach(result.Add);
 				clause.Doors.ForEach(result.Add);
 				clause.MPTs.ForEach(result.Add);
-				clause.Devices.ForEach(result.Add);
 				clause.PumpStations.ForEach(result.Add);
 			}
 			foreach (var clauseGroup in ClauseGroups)

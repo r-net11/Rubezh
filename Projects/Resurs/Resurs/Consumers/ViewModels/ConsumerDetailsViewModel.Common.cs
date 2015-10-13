@@ -42,16 +42,16 @@ namespace Resurs.ViewModels
 			}
 		}
 
-		//string _fio;
-		//public string FIO
-		//{
-		//	get { return _fio; }
-		//	set
-		//	{
-		//		_fio = value;
-		//		OnPropertyChanged(() => FIO);
-		//	}
-		//}
+		string _fio;
+		public string FIO
+		{
+			get { return _fio; }
+			set
+			{
+				_fio = value;
+				OnPropertyChanged(() => FIO);
+			}
+		}
 
 		string _phone;
 		public string Phone

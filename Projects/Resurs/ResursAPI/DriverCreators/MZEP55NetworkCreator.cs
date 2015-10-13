@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ResursAPI.ParameterNames;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,8 @@ namespace ResursAPI
 			driver.Children.Add(DriverType.MZEP55Counter);
 			driver.DriverParameters.Add(new DriverParameter
 			{
-				Name = "Скорость интерфейса",
+				Name = ParameterNamesMZEP55Network.BautRate,
+				Description = "Скорость интерфейса",
 				ParameterType = ParameterType.Enum,
 				ParameterEnumItems = new List<ParameterEnumItem>
 				{
@@ -29,7 +31,8 @@ namespace ResursAPI
 			});
 			driver.DriverParameters.Add(new DriverParameter
 			{
-				Name = "Таймаут ответа, мс",
+				Name = ParameterNamesMZEP55Network.Timeout,
+				Description = "Таймаут ответа, мс",
 				ParameterType = ParameterType.Int,
 				IntMinValue = 0,
 				IntDefaultValue = 1,

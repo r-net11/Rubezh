@@ -395,7 +395,7 @@ namespace GKProcessor
 		void TurnOnDoorBuilder(bool enterDevice)
 		{
 			var device = enterDevice ? Door.EnterDevice : Door.ExitDevice;
-			if (device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
+			if (device.Driver.IsCardReaderOrCodeReader)
 			{
 				int operationCount = 4;
 				var zone1 = GKManager.SKDZones.FirstOrDefault(x => x.UID == (enterDevice ? Door.ExitZoneUID : Door.EnterZoneUID));

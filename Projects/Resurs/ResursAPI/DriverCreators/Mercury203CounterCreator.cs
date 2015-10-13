@@ -13,6 +13,8 @@ namespace ResursAPI
 			var driver = new Driver();
 			driver.DriverType = DriverType.Mercury203Counter;
 			driver.DeviceType = DeviceType.Counter;
+			driver.CanEditTariffType = false;
+			driver.DefaultTariffType = TariffType.Electricity;
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = ParameterNamesMercury203.GADDR,

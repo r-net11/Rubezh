@@ -17,7 +17,7 @@ namespace Resurs
 {
 	public static class Bootstrapper
 	{
-		static MainViewModel MainViewModel;
+		public static MainViewModel MainViewModel;
 
 		public static void Run(bool showWindow)
 		{
@@ -43,8 +43,8 @@ namespace Resurs
 						return;
 
 					var mainView = new Resurs.Views.MainView();
-					var mainViewModel = new MainViewModel();
-					mainView.DataContext = mainViewModel;
+					var MainViewModel = new MainViewModel();
+					mainView.DataContext = MainViewModel;
 					if (showWindow)
 					{
 						mainView.Show();

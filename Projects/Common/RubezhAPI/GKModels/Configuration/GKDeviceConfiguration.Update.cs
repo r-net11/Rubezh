@@ -351,7 +351,7 @@ namespace RubezhAPI.GK
 							guardZoneDevices.Add(guardZoneDevice);
 							device.GuardZones.Add(guardZone);
 						}
-						if (device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
+						if (device.Driver.IsCardReaderOrCodeReader)
 						{
 							InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.SetGuardSettings);
 							InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.ResetGuardSettings);

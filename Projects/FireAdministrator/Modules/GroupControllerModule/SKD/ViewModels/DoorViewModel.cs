@@ -147,7 +147,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeEnterDeviceCommand { get; private set; }
 		void OnChangeEnterDevice()
 		{
-			var devices = GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_CodeReader || x.DriverType == GKDriverType.RSR2_CardReader).ToList();
+			var devices = GKManager.Devices.Where(x => x.Driver.IsCardReaderOrCodeReader).ToList();
 			var deviceSelectationViewModel = new DeviceSelectationViewModel(EnterDevice, devices);
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
@@ -186,7 +186,7 @@ namespace GKModule.ViewModels
 			if (Door.DoorType == GKDoorType.OneWay)
 				devices = GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_AM_1).ToList();
 			else
-				devices = GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_CodeReader || x.DriverType == GKDriverType.RSR2_CardReader).ToList();
+				devices = GKManager.Devices.Where(x => x.Driver.IsCardReaderOrCodeReader).ToList();
 			var deviceSelectationViewModel = new DeviceSelectationViewModel(ExitDevice, devices);
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{

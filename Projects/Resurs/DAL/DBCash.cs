@@ -6,6 +6,7 @@ using System.Text;
 using System.Data.Entity;
 using System.Runtime.Serialization;
 using Common;
+using Infrastructure.Common.Windows;
 
 namespace ResursDAL
 {
@@ -82,26 +83,31 @@ namespace ResursDAL
 						tableUser.PasswordHash = user.PasswordHash;
 						tableUser.UserPermissions = new List<UserPermission>();
 						tableUser.UserPermissions.AddRange(user.UserPermissions.Select(x => new UserPermission { PermissionType = x.PermissionType, User = tableUser }));
-					}
-					else
-						context.Users.Add(user);
 
-					context.SaveChanges();
-
-					if (tableUser == null)
-						Users.Add(user);
-					else
-					{
 						Users.RemoveAll(x => x.UID == user.UID);
 						Users.Add(user);
 					}
+					else
+					{
+						context.Users.Add(user);
+						Users.Add(user);
+					}
+
+					context.SaveChanges();
+
+					//if (tableUser == null)
+					//	Users.Add(user);
+					//else
+					//{
+					//	Users.RemoveAll(x => x.UID == user.UID);
+					//	Users.Add(user);
+					//}
 				}
 			}
 
 			catch(Exception e)
 			{
-
-				
+				MessageBoxService.ShowException(e);
 			}
 		}
 
@@ -121,31 +127,112 @@ namespace ResursDAL
 			if (password == null)
 				password = "";
 			var _password = HashHelper.GetHashFromString(password);
-			using (var context = DatabaseContext.Initialize())
+			try
 			{
-				var user = context.Users.Include(x=>x.UserPermissions).FirstOrDefault(x => x.PasswordHash == _password && x.Login == login);
-				if (user== null)
-					return "неверный логин или пароль";
-				DBCash.CurrentUser = user;
+				using (var context = DatabaseContext.Initialize())
+				{
+					var user = context.Users.Include(x => x.UserPermissions).FirstOrDefault(x => x.PasswordHash == _password && x.Login == login);
+					if (user == null)
+						return "неверный логин или пароль";
+					DBCash.CurrentUser = user;
+				}
+				return null;
 			}
-			return null;
+			catch (Exception e)
+			{
+				MessageBoxService.ShowException(e);
+				return e.ToString();
+			}
 		}
 
-		public static List<Journal> GetJournal()
+		public static int? GetJournalCount(Filter filter)
 		{
-			using (var context = DatabaseContext.Initialize())
+			try
 			{
-				return context.Journal.ToList();
+				using (var context = DatabaseContext.Initialize())
+				{
+					return GetFiltered(filter, context).Count();
+				}
+			}
+
+			catch (Exception e)
+			{
+				MessageBoxService.ShowException(e);
+				return null;
 			}
 		}
 
-		public static void SaveJournal(JournalType journalType)
+		public static List<Journal> GetJournalPage(Filter  filter, int page)
 		{
-			var journalEvent = new Journal() { NameUser = CurrentUser.Name, DateTime = DateTime.Now, JurnalType = journalType };
-			using (var context = DatabaseContext.Initialize())
+			try
 			{
-				context.Journal.Add(journalEvent);
-				context.SaveChanges();
+				using (var context = DatabaseContext.Initialize())
+				{
+					var journalItems = GetFiltered(filter, context);
+					return journalItems.Skip((page - 1) * filter.PageSize).Take(filter.PageSize).ToList();
+				}
+			}
+
+			catch(Exception e)
+			{
+				MessageBoxService.ShowException(e);
+				return null;
+			}
+		}
+
+		static IQueryable<Journal> GetFiltered(Filter filter, DatabaseContext context)
+		{
+				IQueryable<Journal> result = context.Journal;
+				if (filter.JournalTypes.Any())
+					result = result.Where(x => filter.JournalTypes.Contains(x.JournalType));
+
+				if (filter.ConsumerUIDs.Any())
+					result = result.Where(x => filter.ConsumerUIDs.Contains(x.ObjectUID));
+			
+				if (filter.DeviceUIDs.Any())
+					result = result.Where(x => filter.DeviceUIDs.Contains(x.ObjectUID));
+
+				if (filter.UserUIDs.Any())
+					result = result.Where(x => filter.UserUIDs.Contains(x.UserUID));
+
+				if (filter.TariffUIDs.Any())
+					result = result.Where(x => filter.TariffUIDs.Contains(x.ObjectUID));
+
+					result = result.Where(x => x.DateTime > filter.StartDate && x.DateTime < filter.EndDate);
+				
+				if (filter.IsSortAsc)
+					result = result.OrderBy(x => x.DateTime);
+				else
+					result = result.OrderByDescending(x => x.DateTime);
+
+				return result;
+		}
+
+		public static void AddJournal(JournalType journalType, Guid? userUID, Guid? objectUID , string UserName = null , string ObjectName = null , string Description = null)
+		{
+			var journalEvent = new Journal()
+			{
+				UserName = UserName,
+				DateTime = DateTime.Now,
+				JournalType = journalType,
+				UserUID = userUID,
+				ObjectUID = objectUID,
+				ObjectName = ObjectName,
+				Description = Description
+			};
+
+			try
+			{
+				using (var context = DatabaseContext.Initialize())
+				{
+					context.Journal.Add(journalEvent);
+					context.SaveChanges();
+				}
+			}
+
+			catch (Exception e)
+			{
+				MessageBoxService.ShowException(e);
 			}
 		}
 

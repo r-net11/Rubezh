@@ -114,6 +114,57 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
             get { return _Errors; }
         }
 
+        public bool CommunicationError
+        {
+            get { return _Errors.CommunicationError; }
+            set 
+            { 
+                if (_Errors.CommunicationError != value)
+                {
+                    _Errors.CommunicationError = value;
+
+                    OnErrorOccurred(new ErrorOccuredEventArgs
+                    {
+                        Errors = _Errors
+                    });
+                }
+            }
+        }
+
+        public bool ConfigurationError
+        {
+            get { return _Errors.ConfigurationError; }
+            set
+            {
+                if (_Errors.ConfigurationError != value)
+                {
+                    _Errors.ConfigurationError = value;
+
+                    OnErrorOccurred(new ErrorOccuredEventArgs
+                    {
+                        Errors = _Errors
+                    });
+                }
+            }
+        }
+
+        public bool RTCError
+        {
+            get { return _Errors.RTCError; }
+            set
+            {
+                if (_Errors.RTCError != value)
+                {
+                    _Errors.RTCError = value;
+
+                    OnErrorOccurred(new ErrorOccuredEventArgs
+                    {
+                        Errors = _Errors
+                    });
+                }
+            }
+        }
+
         #endregion
 
         #region Constructors

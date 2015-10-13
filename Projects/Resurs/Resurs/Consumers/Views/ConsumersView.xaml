@@ -68,8 +68,8 @@
 				</GridView>
 			</tree:TreeList.View>
 		</tree:TreeList>
-		<GridSplitter Grid.Column="1" Grid.Row="1" Width="4" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext"/>
-		<views:ConsumerDetailsView Grid.Column="2" Grid.Row="1" DataContext="{Binding SelectedConsumer.ConsumerDetails}" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" Margin="5 0 0 0" />
-		<views:ConsumersFolderDetailsView Grid.Column="2" Grid.Row="1" DataContext="{Binding SelectedConsumer.ConsumersFolderDetails}" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" Margin="5 0 0 0" />
+		<GridSplitter Grid.Column="1" Grid.Row="1" Width="5" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext"  Background="Transparent" />
+		<views:ConsumerDetailsView Grid.Column="2" Grid.Row="1" DataContext="{Binding SelectedConsumer.ConsumerDetails}" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" />
+		<views:ConsumersFolderDetailsView Grid.Column="2" Grid.Row="1" DataContext="{Binding SelectedConsumer.ConsumersFolderDetails}" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" />
 	</Grid>
 </UserControl>

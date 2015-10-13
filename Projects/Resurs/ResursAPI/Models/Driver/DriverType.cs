@@ -27,6 +27,18 @@ namespace ResursAPI
         Mercury203Counter = 5,
 
 		[Description("Сеть Инкотекс")]
-		IncotextNetwork = 6
+		IncotextNetwork = 6,
+
+		[Description("Виртуальная cеть Инкотекс")]
+		VirtualIncotextNetwork = 7,
+
+		[Description("Виртуальный [RS-485] Меркурий 203")]
+		VirtualMercury203Counter = 8,
+
+		[Description("Виртуальная cеть [RS-485] МЗЭП СОЭ 55-215/415")]
+		VirtualMZEP55Network = 9,
+
+		[Description("Виртуальный МЗЭП СОЭ 55-215/415")]
+		VirtualMZEP55Counter = 10,
 	}
 }

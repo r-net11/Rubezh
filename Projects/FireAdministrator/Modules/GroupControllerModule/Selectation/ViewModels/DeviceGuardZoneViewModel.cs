@@ -20,7 +20,7 @@ namespace GKModule.ViewModels
 		{
 			DeviceGuardZone = deviceGuardZone;
 			if (device != null)
-				IsCodeReader = device.DriverType == GKDriverType.RSR2_CardReader || device.DriverType == GKDriverType.RSR2_CodeReader;
+				IsCodeReader = device.Driver.IsCardReaderOrCodeReader;
 			No = deviceGuardZone.GuardZone.No;
 			Name = deviceGuardZone.GuardZone.Name;
 			Description = deviceGuardZone.GuardZone.Description;

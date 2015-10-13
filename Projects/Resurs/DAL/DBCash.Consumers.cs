@@ -4,18 +4,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
 using Infrastructure.Common.Windows;
+using System.Diagnostics;
+using System.Data.Objects;
+using System.Data.Entity.Infrastructure;
 
 namespace ResursDAL
 {
 	public static partial class DBCash
 	{
-		public static Consumer GetConsumer(Guid consumerUid, bool withContent = false)
+		public static Consumer GetConsumer(Guid consumerUid)
 		{
 			using (var context = DatabaseContext.Initialize())
 			{
-				return withContent ? 
-					context.Consumers.Where(x => x.UID == consumerUid).Include(x => x.Bills).FirstOrDefault() : 
-					context.Consumers.FirstOrDefault(x => x.UID == consumerUid);
+				var consumer = context.Consumers.Where(x => x.UID == consumerUid).Include(x => x.Bills).FirstOrDefault();
+				if (consumer != null)
+				{
+					foreach (var bill in consumer.Bills)
+						bill.Devices.AddRange(context.Devices.Where(x => x.BillUID == bill.UID).ToList().Select(x => DBCash.GetDevice(x.UID)));
+				}
+				return consumer;
 			}
 		}
 
@@ -78,7 +85,7 @@ namespace ResursDAL
 					{
 						root = context.Consumers.Add(new Consumer() { Name = "Абоненты", IsFolder = true });
 #if DEBUG
-						for (int x = 1; x <= 50; x++)
+						for (int x = 1; x <= 5; x++)
 						{
 							var a = new Consumer() { Parent = root, IsFolder = true, Name = "ДОМ №" + x, Description = "description !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" };
 							context.Consumers.Add(a);
@@ -111,12 +118,18 @@ namespace ResursDAL
 		{
 			using (var context = DatabaseContext.Initialize())
 			{
-				consumer.Parent = consumer.Parent == null ? null : context.Consumers.FirstOrDefault(x => x.UID == consumer.Parent.UID);
-				var dbConsumer = context.Consumers.FirstOrDefault(x => x.UID == consumer.UID);
+				var dbConsumer = context.Consumers.Where(x => x.UID == consumer.UID).Include(x => x.Bills).FirstOrDefault();//GetConsumer(consumer.UID);//
+
 				if (dbConsumer == null)
 				{
-
 					dbConsumer = context.Consumers.Add(consumer);
+					foreach (var bill in consumer.Bills)
+						foreach ( var device in bill.Devices)
+						{
+							var dbDevice = context.Devices.FirstOrDefault(x => x.UID == device.UID);
+							if (dbDevice != null)
+								dbDevice.BillUID = bill.UID;
+						}
 				}
 				else
 				{
@@ -131,8 +144,85 @@ namespace ResursDAL
 					dbConsumer.Parent = consumer.Parent;
 					dbConsumer.Password = consumer.Password;
 					dbConsumer.Phone = consumer.Phone;
+
+					var devicesToUpdate = new Dictionary<Guid, bool>();
+					var billsToDelete = context.Bills
+						.Where(x => x.Consumer.UID == dbConsumer.UID)
+						.ToList()
+						.Where(x => !consumer.Bills.Any(y => x.UID == y.UID))
+						.ToList();
+					foreach (var billToDelete in billsToDelete)
+					{
+						context.Devices.Where(x => x.BillUID == billToDelete.UID).ToList().ForEach(x => devicesToUpdate.Add(x.UID, false));
+						context.Bills.Remove(billToDelete);
+					}
+
+					foreach (var sourceBill in consumer.Bills)
+					{
+						var targetBill = context.Bills.FirstOrDefault(x => x.UID == sourceBill.UID);
+						if (targetBill == null)
+						{
+							context.Bills.Add(sourceBill);
+							dbConsumer.Bills.Add(sourceBill);
+						}
+						else
+						{
+							targetBill.Balance = sourceBill.Balance;
+							targetBill.Description = sourceBill.Description;
+							targetBill.Name = sourceBill.Name;
+							targetBill.TemplatePath = sourceBill.TemplatePath;
+						}
+					}
+
+					foreach (var dbBill in dbConsumer.Bills)
+					{
+						dbBill.Consumer = dbConsumer;
+
+						var bill = consumer.Bills.FirstOrDefault(x => x.UID == dbBill.UID);
+						if (bill != null)
+							foreach (var device in bill.Devices)
+								if (devicesToUpdate.ContainsKey(device.UID))
+									devicesToUpdate[device.UID] = true;
+								else
+									devicesToUpdate.Add(device.UID, true);
+
+						foreach (var device in dbBill.Devices.Where(x => !bill.Devices.Any(y => x.UID == y.UID)).ToList())
+							if (devicesToUpdate.ContainsKey(device.UID))
+								devicesToUpdate[device.UID] = false;
+							else
+								devicesToUpdate.Add(device.UID, false);
+
+						foreach (var update in devicesToUpdate)
+						{
+							var dbDevice = context.Devices.FirstOrDefault(x => x.UID == update.Key);
+							if (dbDevice != null)
+								dbDevice.BillUID = update.Value ? (Guid?)dbBill.UID : null;
+						}
+					}
 				}
+				dbConsumer.Parent = dbConsumer.ParentUID == null ? null : context.Consumers.FirstOrDefault(x => x.UID == dbConsumer.ParentUID);
 				context.SaveChanges();
+			}
+		}
+
+		static void MergeBills(List<Bill> source, List<Bill> target, DatabaseContext context)
+		{
+			target.RemoveAll(x => !source.Any(y => x.UID == y.UID));
+
+			foreach (var sourceBill in source)
+			{
+				var targetBill = target.FirstOrDefault(x => x.UID == sourceBill.UID);
+				if (targetBill == null)
+				{
+					target.Add(sourceBill);
+				}
+				else
+				{
+					targetBill.Balance = sourceBill.Balance;
+					targetBill.Description = sourceBill.Description;
+					targetBill.Name = sourceBill.Name;
+					targetBill.TemplatePath = sourceBill.TemplatePath;
+				}
 			}
 		}
 
@@ -140,7 +230,13 @@ namespace ResursDAL
 		{
 			using (var context = DatabaseContext.Initialize())
 			{
-				context.Consumers.Remove(context.Consumers.FirstOrDefault(x => x.UID == consumer.UID));
+				var dbConsumer = context.Consumers.Where(x => x.UID == consumer.UID).Include(x => x.Bills).FirstOrDefault();
+				if (dbConsumer != null)
+				{
+					foreach (var dbBill in dbConsumer.Bills)
+						context.Devices.Where(x => x.BillUID == dbBill.UID).ToList().ForEach(x => x.BillUID = null);
+					context.Consumers.Remove(dbConsumer);
+				}
 				context.SaveChanges();
 			}
 		}
