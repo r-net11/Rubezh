@@ -2,6 +2,7 @@
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Resurs.Processor;
+using Resurs.Reports.Templates;
 using ResursAPI;
 using ResursDAL;
 using System;
@@ -20,6 +21,7 @@ namespace Resurs.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			ChangeParentCommand = new RelayCommand(OnChangeParent, CanChangeParent);
+			OpenReceiptCommand = new RelayCommand(OnOpenReceipt, CanOpenReceipt);
 
 			BuildTree();
 			if (RootConsumer != null)
@@ -234,6 +236,16 @@ namespace Resurs.ViewModels
 		bool CanChangeParent()
 		{
 			return SelectedConsumer != null && SelectedConsumer.Parent != null;
+		}
+		public RelayCommand OpenReceiptCommand { get; private set; }
+		void OnOpenReceipt()
+		{
+			//Infrastructure.Common.Windows.DialogService.ShowModalWindow(new ReceiptViewModel(SelectedConsumer.Consumer));
+			Infrastructure.Common.Windows.DialogService.ShowModalWindow(new ReportDesignerViewModel(new ReceiptTemplate()));
+		}
+		bool CanOpenReceipt()
+		{
+			return SelectedConsumer != null && !SelectedConsumer.Consumer.IsFolder;
 		}
 
 		public bool IsVisibility

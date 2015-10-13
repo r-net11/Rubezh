@@ -12,5 +12,8 @@
 	<DataTemplate DataType="{x:Type ViewModels:ConsumerChangeParentViewModel}">
 		<Views:ConsumerChangeParentView />
 	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ReceiptViewModel}">
+		<Views:ReceiptView />
+	</DataTemplate>
 
 </ResourceDictionary>

@@ -190,6 +190,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Xpf.WpfReportDesigner.v15.1.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.XtraBars.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraCharts.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.XtraCharts.v15.1.dll</HintPath>
@@ -373,6 +374,7 @@
     <Compile Include="Consumers\ViewModels\ConsumersFolderDetailsViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerChangeParentViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumersViewModel.cs" />
+    <Compile Include="Consumers\ViewModels\ReceiptViewModel.cs" />
     <Compile Include="Consumers\Views\ConsumersFolderDetailsView.xaml.cs">
       <DependentUpon>ConsumersFolderDetailsView.xaml</DependentUpon>
     </Compile>
@@ -380,6 +382,9 @@
       <DependentUpon>ConsumerChangeParentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Consumers\Views\ReceiptView.xaml.cs">
+      <DependentUpon>ReceiptView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\DeviceStateToIconConverter.cs" />
     <Compile Include="Converters\DeviceTypeToIconConverter.cs" />
     <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
@@ -467,6 +472,12 @@
     <Compile Include="Reports\Templates\ReceiptsReport.Designer.cs">
       <DependentUpon>ReceiptsReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="Reports\Templates\ReceiptTemplate.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\Templates\ReceiptTemplate.designer.cs">
+      <DependentUpon>ReceiptTemplate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Reports\ViewModels\ChangeFlowFilterViewModel.cs" />
     <Compile Include="Reports\ViewModels\DebtorsFilterViewModel.cs" />
     <Compile Include="Reports\Views\ChangeFlowFilterView.xaml.cs">
@@ -543,6 +554,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Consumers\Views\ConsumerChangeParentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Consumers\Views\ReceiptView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -696,6 +711,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\Templates\ReceiptsReport.resx">
       <DependentUpon>ReceiptsReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Templates\ReceiptTemplate.resx">
+      <DependentUpon>ReceiptTemplate.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config">
       <SubType>Designer</SubType>
