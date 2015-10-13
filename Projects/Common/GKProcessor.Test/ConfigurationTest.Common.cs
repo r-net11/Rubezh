@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GKProcessor.Test
@@ -32,8 +32,8 @@ namespace GKProcessor.Test
 			kauDevice22 = GKManager.AddChild(gkDevice2, null, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU), 2);
 
 			GKManager.UpdateConfiguration();
-			FiresecManager.PlansConfiguration = new PlansConfiguration();
-			FiresecManager.PlansConfiguration.AllPlans = new List<Plan>();
+			ClientManager.PlansConfiguration = new PlansConfiguration();
+			ClientManager.PlansConfiguration.AllPlans = new List<Plan>();
 		}
 
 		GKDevice AddDevice(GKDevice device, GKDriverType driverType)
