@@ -20,9 +20,17 @@ namespace ResursDAL
 				if (consumer != null)
 				{
 					foreach (var bill in consumer.Bills)
-						bill.Devices.AddRange(context.Devices.Where(x => x.BillUID == bill.UID).ToList().Select(x => DBCash.GetDeivce(x.UID)));
+						bill.Devices.AddRange(context.Devices.Where(x => x.BillUID == bill.UID).ToList().Select(x => DBCash.GetDevice(x.UID)));
 				}
 				return consumer;
+			}
+		}
+
+		public static List<Consumer> GetAllConsumers()
+		{
+			using (var context = DatabaseContext.Initialize())
+			{
+				return context.Consumers.ToList();
 			}
 		}
 

@@ -243,7 +243,7 @@ namespace ResursDAL
 			}
 		}
 
-		public static Device GetDeivce(Guid uid)
+		public static Device GetDevice(Guid uid)
 		{
 			try
 			{
