@@ -133,7 +133,7 @@ namespace ResursDAL
 								ParentUID = b.UID,
 								Name = "Квартира №" + z,
 								Address = string.Format("410012, г. Саратов, ул. Московская, д. {0}, кв. {1}", x, z),
-								Phone = "(8452) " + string.Format("{0:00-00-00}", random.Next(200000, 799999)),
+								Phone = string.Format("(8452) {0:00-00-00}", random.Next(200000, 799999)),
 								Password = "password" + x + y + z,
 								Login = "login" + x + y + z,
 								FIO = "Иванов Петр Сидорович",
