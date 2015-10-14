@@ -43,7 +43,7 @@ namespace Resurs
 						return;
 
 					var mainView = new Resurs.Views.MainView();
-					var MainViewModel = new MainViewModel();
+					MainViewModel = new MainViewModel();
 					mainView.DataContext = MainViewModel;
 					if (showWindow)
 					{

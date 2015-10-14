@@ -28,20 +28,12 @@ namespace Resurs.ViewModels
 
 			AddDeviceCommand = new RelayCommand(OnAddDevice);
 			RemoveDeviceCommand = new RelayCommand<DeviceViewModel>(OnRemoveDevice);
+			SelectDeviceCommand = new RelayCommand<Guid>(OnSelectDevice);
 
 			Devices = new ObservableCollection<DeviceViewModel>(bill.Devices.Select(x => new DeviceViewModel(x)));
 		}
 
-		bool _isReadOnly;
-		public bool IsReadOnly
-		{
-			get { return _isReadOnly; }
-			set
-			{
-				_isReadOnly = value;
-				OnPropertyChanged(() => IsReadOnly);
-			}
-		}
+		public bool IsReadOnly { get; private set; }
 
 		public Guid Uid { get; private set; }
 
@@ -111,6 +103,12 @@ namespace Resurs.ViewModels
 		void OnRemoveDevice(DeviceViewModel device)
 		{
 			Devices.Remove(device);
+		}
+
+		public RelayCommand<Guid> SelectDeviceCommand { get; private set; }
+		void OnSelectDevice(Guid deviceUid)
+		{
+			Bootstrapper.MainViewModel.DevicesViewModel.Select(deviceUid);
 		}
 
 		public Bill GetBill()
