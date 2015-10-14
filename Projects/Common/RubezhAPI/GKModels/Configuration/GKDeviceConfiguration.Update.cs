@@ -70,7 +70,6 @@ namespace RubezhAPI.GK
 				device.ClearClauseDependencies();
 				device.Zones = new List<GKZone>();
 				device.GuardZones = new List<GKGuardZone>();
-				device.Directions = new List<GKDirection>();
 				if (device.GKReflectionItem != null)
 				{
 					device.GKReflectionItem.Delays = new List<GKDelay>();
@@ -87,8 +86,6 @@ namespace RubezhAPI.GK
 			{
 				zone.ClearClauseDependencies();
 				zone.Devices = new List<GKDevice>();
-				zone.Directions = new List<GKDirection>();
-				zone.DevicesInLogic = new List<GKDevice>();
 			}
 			foreach (var direction in Directions)
 			{
@@ -160,45 +157,7 @@ namespace RubezhAPI.GK
 		public void InvalidateOneLogic(GKDevice device, GKLogic logic)
 		{
 			InvalidateInputObjectsBaseLogic(device, logic);
-			foreach (var clause in logic.OnClausesGroup.Clauses)
-			{
-				foreach (var clauseZone in clause.Zones)
-				{
-					if (!clauseZone.DevicesInLogic.Contains(device))
-						clauseZone.DevicesInLogic.Add(device);
-				}
-				foreach (var clauseDirection in clause.Directions)
-				{
-					device.Directions.Add(clauseDirection);
-				}
-			}
-			foreach (var clause in device.Logic.OffClausesGroup.Clauses)
-			{
-				foreach (var clauseZone in clause.Zones)
-				{
-					if (!clauseZone.DevicesInLogic.Contains(device))
-						clauseZone.DevicesInLogic.Add(device);
-				}
-				foreach (var clauseDirection in clause.Directions)
-				{
-					device.Directions.Add(clauseDirection);
-				}
-			}
-			foreach (var clause in device.Logic.StopClausesGroup.Clauses)
-			{
-				foreach (var clauseZone in clause.Zones)
-				{
-					if (!clauseZone.DevicesInLogic.Contains(device))
-						clauseZone.DevicesInLogic.Add(device);
-				}
-				foreach (var clauseDirection in clause.Directions)
-				{
-					device.Directions.Add(clauseDirection);
-				}
-			}
 		}
-
-		
 
 		public void InvalidateInputObjectsBaseLogic(GKBase gkBase, GKLogic logic)
 		{

@@ -41,7 +41,7 @@ namespace GKModule.Validation
 		{
 			foreach(var descriptorError in DescriptorsManager.Check())
 			{
-				AddError(descriptorError.BaseDescriptor.GKBase.DataBaseParent, "Ошибка дескриптора " + descriptorError.BaseDescriptor.GKBase.PresentationName + ": " + descriptorError.Error, ValidationErrorLevel.CannotWrite);
+				AddError(descriptorError.BaseDescriptor.GKBase.GkDatabaseParent, "Ошибка дескриптора " + descriptorError.BaseDescriptor.GKBase.PresentationName + ": " + descriptorError.Error, ValidationErrorLevel.CannotWrite);
 			}
 		}
 
