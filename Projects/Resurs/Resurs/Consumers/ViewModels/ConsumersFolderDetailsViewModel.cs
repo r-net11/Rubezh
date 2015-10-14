@@ -17,16 +17,7 @@ namespace Resurs.ViewModels
 			IsReadOnly = isReadOnly;
 		}
 
-		bool _isReadOnly;
-		public bool IsReadOnly
-		{
-			get { return _isReadOnly; }
-			set
-			{
-				_isReadOnly = value;
-				OnPropertyChanged(() => IsReadOnly);
-			}
-		}
+		public bool IsReadOnly { get; private set; }
 
 		public Guid Uid { get; private set; }
 		public Guid? ParentUid { get; private set; }

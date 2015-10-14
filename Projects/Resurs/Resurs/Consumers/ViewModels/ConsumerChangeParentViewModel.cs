@@ -25,12 +25,6 @@ namespace Resurs.ViewModels
 					child.IsExpanded = true;
 			}
 
-			foreach (var consumerViewModel in AllConsumers)
-			{
-				if (true)
-					consumerViewModel.ExpandToThis();
-			}
-
 			OnPropertyChanged(() => RootConsumers);
 		}
 
@@ -64,7 +58,6 @@ namespace Resurs.ViewModels
 		void BuildTree(Guid exceptConsumerUid)
 		{
 			RootConsumer = AddConsumerInternal(DBCash.RootConsumer, null, exceptConsumerUid);
-			FillAllConsumers();
 		}
 
 		private ConsumerViewModel AddConsumerInternal(Consumer consumer, ConsumerViewModel parentConsumerViewModel, Guid exceptConsumerUid)
@@ -76,33 +69,6 @@ namespace Resurs.ViewModels
 			foreach (var childConsumer in consumer.Children.Where(x => x.IsFolder && x.UID != exceptConsumerUid))
 				AddConsumerInternal(childConsumer, consumerViewModel, exceptConsumerUid);
 			return consumerViewModel;
-		}
-
-		public List<ConsumerViewModel> AllConsumers;
-
-		public void FillAllConsumers()
-		{
-			AllConsumers = new List<ConsumerViewModel>();
-			AddChildPlainConsumers(RootConsumer);
-		}
-
-		void AddChildPlainConsumers(ConsumerViewModel parentViewModel)
-		{
-			AllConsumers.Add(parentViewModel);
-			foreach (var childViewModel in parentViewModel.Children)
-				AddChildPlainConsumers(childViewModel);
-		}
-
-		public void Select(Guid consumerUID)
-		{
-			if (consumerUID != Guid.Empty)
-			{
-				FillAllConsumers();
-				var consumerViewModel = AllConsumers.FirstOrDefault(x => x.Consumer.UID == consumerUID);
-				if (consumerViewModel != null)
-					consumerViewModel.ExpandToThis();
-				SelectedConsumer = consumerViewModel;
-			}
 		}
 	}
 }
