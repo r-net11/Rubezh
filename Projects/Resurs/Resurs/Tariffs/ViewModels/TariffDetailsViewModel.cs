@@ -2,6 +2,7 @@
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
+using ResursDAL;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -50,7 +51,12 @@ namespace Resurs.ViewModels
 			var tariffDevicesViewModel = new TariffDevicesViewModel(this);
 			if(DialogService.ShowModalWindow(tariffDevicesViewModel))
 			{
-
+				Tariff.Devices.Clear();
+				foreach (var item in tariffDevicesViewModel.SelectedDevices)
+				{
+					Tariff.Devices.Add(item.Device);
+					DBCash.GetDevice(item.Device.UID).TariffUID = Tariff.UID;
+				}
 			}
 		}
 

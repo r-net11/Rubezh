@@ -30,7 +30,8 @@ namespace ResursDAL
 							ParentUID = x.ParentUID, 
 							IsActive = x.IsActive,
 							TariffType = x.TariffType,
-							ComPort = x.ComPort
+							ComPort = x.ComPort,
+							TariffUID = x.TariffUID,
 						}).ToList();
 					var allDevices = tableItems.Select(x => new Device
 						{
@@ -41,7 +42,8 @@ namespace ResursDAL
 							ParentUID = x.ParentUID,
 							IsActive = x.IsActive,
 							TariffType = x.TariffType,
-							ComPort = x.ComPort
+							ComPort = x.ComPort,
+							TariffUID = x.TariffUID,
 						}).OrderBy(x => x.Address).ToList();
 					
 					SetChildren(allDevices);
@@ -345,6 +347,7 @@ namespace ResursDAL
 			tableDevice.Parent = device.Parent != null ? context.Devices.FirstOrDefault(x => x.UID == device.Parent.UID) : null;
 			tableDevice.DriverType = device.DriverType;
 			tableDevice.IsDbMissmatch = device.IsDbMissmatch;
+			tableDevice.TariffUID = device.TariffUID;
 			if (device.DeviceType == DeviceType.Network)
 				tableDevice.ComPort = device.ComPort;
 			tableDevice.Parameters = device.Parameters.Select(x => new Parameter

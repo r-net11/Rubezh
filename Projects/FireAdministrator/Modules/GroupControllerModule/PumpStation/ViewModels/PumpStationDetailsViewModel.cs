@@ -17,14 +17,13 @@ namespace GKModule.ViewModels
 		public GKPumpStation PumpStation { get; private set; }
 		public bool IsEdit { get; private set; }
 
-		public PumpStationDetailsViewModel(GKPumpStation pumpStation = null, bool isEdit = false)
+		public PumpStationDetailsViewModel(GKPumpStation pumpStation = null)
 		{
 			ReadPropertiesCommand = new RelayCommand(OnReadProperties);
 			WritePropertiesCommand = new RelayCommand(OnWriteProperties);
 			ResetPropertiesCommand = new RelayCommand(OnResetProperties);
 
-			IsEdit = isEdit;
-			OnPropertyChanged(() => IsEdit);
+			IsEdit = pumpStation != null;
 			if (pumpStation == null)
 			{
 				Title = "Создание новой насосоной станции";

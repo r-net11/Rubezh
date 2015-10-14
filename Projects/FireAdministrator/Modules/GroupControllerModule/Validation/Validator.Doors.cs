@@ -96,29 +96,40 @@ namespace GKModule.Validation
 
 		void ValidateLockControlDevice(GKDoor door)
 		{
-			if (door.AntipassbackOn && door.DoorType != GKDoorType.Barrier)
+			if (door.AntipassbackOn)
 			{
-				if (door.LockControlDevice == null)
+				if (door.DoorType != GKDoorType.Barrier)
 				{
-					if (door.DoorType == GKDoorType.Turnstile)
-						AddError(door, "При включенном Antipassback, отсутствует датчик проворота", ValidationErrorLevel.CannotWrite);
-					else
-						AddError(door, "При включенном Antipassback, отсутствует датчик контроля двери", ValidationErrorLevel.CannotWrite);
-				}
-				if (door.LockControlDeviceExit == null)
-				{
-					if (door.DoorType == GKDoorType.AirlockBooth)
-						AddError(door, "При включенном Antipassback, отсутствует датчик контроля двери на выход", ValidationErrorLevel.CannotWrite);
+					if (door.LockControlDevice == null)
+					{
+						if (door.DoorType == GKDoorType.Turnstile)
+							AddError(door, "При включенном Antipassback, отсутствует датчик проворота", ValidationErrorLevel.CannotWrite);
+						else
+							AddError(door, "При включенном Antipassback, отсутствует датчик контроля двери", ValidationErrorLevel.CannotWrite);
+					}
+					if (door.LockControlDeviceExit == null)
+					{
+						if (door.DoorType == GKDoorType.AirlockBooth)
+							AddError(door, "При включенном Antipassback, отсутствует датчик контроля двери на выход",
+								ValidationErrorLevel.CannotWrite);
+					}
 				}
 				if (door.EnterZoneUID == Guid.Empty)
 					AddError(door, "При включенном Antipassback, отсутствует зона на вход", ValidationErrorLevel.CannotWrite);
 				if (door.DoorType != GKDoorType.OneWay && door.ExitZoneUID == Guid.Empty)
 					AddError(door, "При включенном Antipassback, отсутствует зона на выход", ValidationErrorLevel.CannotWrite);
 			}
-			else if (door.DoorType == GKDoorType.Barrier)
+
+			if (door.DoorType == GKDoorType.Barrier)
 			{
-				AddError(door, "Для шлагбаума должен быть задан датчик контроля на въезд", ValidationErrorLevel.CannotWrite);
-				AddError(door, "Для шлагбаума должен быть задан датчик контроля на выезд", ValidationErrorLevel.CannotWrite);
+				if (door.LockControlDevice == null)
+				{
+					AddError(door, "Для шлагбаума должен быть задан датчик контроля на въезд", ValidationErrorLevel.CannotWrite);
+				}
+				if (door.LockControlDeviceExit == null)
+				{
+					AddError(door, "Для шлагбаума должен быть задан датчик контроля на выезд", ValidationErrorLevel.CannotWrite);
+				}
 			}
 		}
 
