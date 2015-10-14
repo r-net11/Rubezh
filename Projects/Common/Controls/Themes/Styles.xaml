@@ -15,7 +15,6 @@
 		<ResourceDictionary Source="DateTimePickerStyle.xaml" />
 		<ResourceDictionary Source="FeaturedComboBoxStyle.xaml" />
 		<ResourceDictionary Source="DataGridStyle.xaml" />
-		<ResourceDictionary Source="GroupBoxStyle.xaml" />
 		<ResourceDictionary Source="TimePickerStyle.xaml" />
 		<ResourceDictionary Source="TreeExpanderStyle.xaml" />
 		<ResourceDictionary Source="OutlookTabControlStyle.xaml" />

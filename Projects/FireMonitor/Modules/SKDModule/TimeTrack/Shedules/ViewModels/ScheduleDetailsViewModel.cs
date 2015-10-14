@@ -5,6 +5,7 @@ using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
+using ReactiveUI;
 
 namespace SKDModule.ViewModels
 {
@@ -28,6 +29,18 @@ namespace SKDModule.ViewModels
 			{
 				_selectedScheduleScheme = value;
 				OnPropertyChanged(() => SelectedScheduleScheme);
+			}
+		}
+
+		private bool _isIgnoreHolidayEnabled;
+		public bool IsIgnoreHolydayEnabled
+		{
+			get { return _isIgnoreHolidayEnabled; }
+			set
+			{
+				if (value == _isIgnoreHolidayEnabled) return;
+				_isIgnoreHolidayEnabled = value;
+				OnPropertyChanged(() => IsIgnoreHolydayEnabled);
 			}
 		}
 
@@ -186,6 +199,24 @@ namespace SKDModule.ViewModels
 		}
 
 		#endregion
+
+		public ScheduleDetailsViewModel()
+		{
+			this.WhenAny(x => x.SelectedScheduleType, x => x.Value)
+				.Subscribe(value =>
+				{
+					if (value != ScheduleSchemeType.Week)
+					{
+						IsIgnoreHolydayEnabled = false;
+						IsIgnoreHoliday = true;
+					}
+					else
+					{
+						IsIgnoreHolydayEnabled = true;
+						IsIgnoreHoliday = Model.IsIgnoreHoliday;
+					}
+				});
+		}
 
 		protected override bool CanSave()
 		{

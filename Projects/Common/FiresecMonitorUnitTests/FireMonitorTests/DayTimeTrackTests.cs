@@ -783,5 +783,103 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 		}
 
 		#endregion
+
+		#region IsOnlyFirstEnter Tests
+
+		[Test]
+		public void IsOnlyFirstEnterTrueTest()
+		{
+			var timeTrackPart = new TimeTrackPart
+			{
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(11),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(15)
+			};
+
+			var combinedTimeTrackPart = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(11),
+				TIME.Date + TimeSpan.FromHours(15));
+
+			var plannedTimeTrackParts = new List<TimeTrackPart>
+			{
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+					ExitDateTime = TIME.Date + TimeSpan.FromHours(17)
+				}
+			};
+
+			var realTimeTrackParts = new List<TimeTrackPart>
+			{
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+					ExitDateTime = TIME.Date + TimeSpan.FromHours(10)
+				},
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date + TimeSpan.FromHours(15),
+					ExitDateTime = TIME.Date + TimeSpan.FromHours(17)
+				}
+			};
+
+			DayTimeTrack.ScheduleInterval schedulePlannedInterval = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(8), TIME.Date + TimeSpan.FromHours(17));
+			DayTimeTrack.ScheduleInterval combinedInterval = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(8), TIME.Date + TimeSpan.FromHours(17));
+
+
+			bool isOnlyFirstEnter = true; //Check it
+
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetTimeTrackType(timeTrackPart, plannedTimeTrackParts, realTimeTrackParts, isOnlyFirstEnter,
+				schedulePlannedInterval, combinedTimeTrackPart);
+			Assert.AreEqual(result, TimeTrackType.AbsenceInsidePlan);
+		}
+
+		[Test]
+		public void IsOnlyFirstEnterFalseTest()
+		{
+			var timeTrackPart = new TimeTrackPart
+			{
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(11),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(15)
+			};
+
+			var combinedTimeTrackPart = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(11),
+				TIME.Date + TimeSpan.FromHours(15));
+
+			var plannedTimeTrackParts = new List<TimeTrackPart>
+			{
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+					ExitDateTime = TIME.Date + TimeSpan.FromHours(17)
+				}
+			};
+
+			var realTimeTrackParts = new List<TimeTrackPart>
+			{
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+					ExitDateTime = TIME.Date + TimeSpan.FromHours(10)
+				},
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date + TimeSpan.FromHours(15),
+					ExitDateTime = TIME.Date + TimeSpan.FromHours(17)
+				}
+			};
+
+			DayTimeTrack.ScheduleInterval schedulePlannedInterval = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(8), TIME.Date + TimeSpan.FromHours(17));
+			DayTimeTrack.ScheduleInterval combinedInterval = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(8), TIME.Date + TimeSpan.FromHours(17));
+
+
+			bool isOnlyFirstEnter = false;
+
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetTimeTrackType(timeTrackPart, plannedTimeTrackParts, realTimeTrackParts, isOnlyFirstEnter,
+				schedulePlannedInterval, combinedTimeTrackPart);
+			Assert.AreEqual(result, TimeTrackType.Absence);
+		}
+
+		#endregion
 	}
 }
