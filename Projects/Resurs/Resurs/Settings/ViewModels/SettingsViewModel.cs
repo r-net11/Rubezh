@@ -69,7 +69,7 @@ namespace Resurs.ViewModels
 
 		void CreateConsumers()
 		{
-
+			DBCash.CreateConsumers();
 		}
 
 		void CreateUsers()

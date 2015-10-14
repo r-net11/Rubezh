@@ -84,23 +84,6 @@ namespace ResursDAL
 					if (root == null)
 					{
 						root = context.Consumers.Add(new Consumer() { Name = "Абоненты", IsFolder = true });
-#if DEBUG
-						for (int x = 1; x <= 5; x++)
-						{
-							var a = new Consumer() { Parent = root, IsFolder = true, Name = "ДОМ №" + x, Description = "description !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" };
-							context.Consumers.Add(a);
-							for (int y = 1; y <= 4; y++)
-							{
-								var b = new Consumer() { Parent = a, IsFolder = true, Name = "Подъезд №" + y, Description = "description !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" };
-								context.Consumers.Add(b);
-								for (int z = 1; z <= 50; z++)
-								{
-									var c = new Consumer() { Parent = b, Name = "Квартира №" + z, Address = "address !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", Phone = "phone !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", Password = "password !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", Login = "login !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", FIO = "fio !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", Email = "email !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", Description = "description !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" };
-									context.Consumers.Add(c);
-								}
-							}
-						}
-#endif
 						context.SaveChanges();
 					}
 
@@ -112,6 +95,72 @@ namespace ResursDAL
 				MessageBoxService.Show(e.Message);
 				return null;
 			}
+		}
+
+		public static void CreateConsumers()
+		{
+			if (RootConsumer == null)
+				RootConsumer = GetRootConsumer();
+			using (var context = DatabaseContext.Initialize())
+			{
+				context.Configuration.AutoDetectChangesEnabled = false;
+				Random random = new Random();
+				for (int x = 1; x <= 10; x++)
+				{
+					var a = new Consumer
+					{ 
+						ParentUID = RootConsumer.UID, 
+						IsFolder = true, 
+						Name = "ДОМ №" + x, 
+						Description = 
+						"Описание дома №" + x 
+					};
+					context.Consumers.Add(a);
+					for (int y = 1; y <= 4; y++)
+					{
+						var b = new Consumer 
+						{ 
+							ParentUID = a.UID, 
+							IsFolder = true, 
+							Name = "Подъезд №" + y, 
+							Description = "Описание подъезда №" + y
+						};
+						context.Consumers.Add(b);
+						for (int z = 1; z <= 50; z++)
+						{
+							var c = new Consumer
+							{
+								ParentUID = b.UID,
+								Name = "Квартира №" + z,
+								Address = string.Format("410012, г. Саратов, ул. Московская, д. {0}, кв. {1}", x, z),
+								Phone = "(8452) " + string.Format("{0:00-00-00}", random.Next(200000, 799999)),
+								Password = "password" + x + y + z,
+								Login = "login" + x + y + z,
+								FIO = "Иванов Петр Сидорович",
+								Email = "consumer" + x + y + z + "@gmail.com",
+								IsSendEmail = random.Next(2) == 1,
+								Description = "Описание квартриры №" + z,
+							};
+							for (int i = 0; i < random.Next(1, 3); i++)
+							{
+								string billName =  string.Format("{0:00000000}", random.Next(99999999));
+								c.Bills.Add(new Bill
+								{
+									Balance = (decimal)random.Next(-500000, 2000000) / 100,
+									Consumer = c,
+									Name = billName,
+									Description = "Счет " + billName,
+									TemplatePath = "D:\\RubezhResurs\\Templates\\Template01.xml"
+								});
+							}
+							context.Consumers.Add(c);
+						}
+					}
+				}
+				context.ChangeTracker.DetectChanges();
+				context.SaveChanges();
+			}
+
 		}
 
 		public static void SaveConsumer(Consumer consumer)
