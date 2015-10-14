@@ -103,7 +103,7 @@ namespace GKModule.ViewModels
 			var guardZoneDetailsViewModel = new GuardZoneDetailsViewModel();
 			if (DialogService.ShowModalWindow(guardZoneDetailsViewModel))
 			{
-				GKManager.DeviceConfiguration.GuardZones.Add(guardZoneDetailsViewModel.Zone);
+				GKManager.AddGuardZone(guardZoneDetailsViewModel.Zone);
 				var zoneViewModel = new GuardZoneViewModel(guardZoneDetailsViewModel.Zone);
 				Zones.Add(zoneViewModel);
 				SelectedZone = zoneViewModel;
@@ -120,19 +120,7 @@ namespace GKModule.ViewModels
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить охранную зону " + SelectedZone.Zone.PresentationName))
 			{
 				var index = Zones.IndexOf(SelectedZone);
-				GKManager.GuardZones.Remove(SelectedZone.Zone);
-				SelectedZone.Zone.OnChanged();
-				SelectedZone.Zone.OutDependentElements.ForEach(x =>
-				{
-					x.InputDependentElements.Remove(SelectedZone.Zone);
-					if (x is GKDevice)
-					{
-						x.Invalidate();
-						x.OnChanged();
-					}
-					x.UpdateLogic();
-					x.OnChanged();
-				});
+				GKManager.RemoveGuardZone(SelectedZone.Zone);
 
 				Zones.Remove(SelectedZone);
 				index = Math.Min(index, Zones.Count - 1);
@@ -154,7 +142,7 @@ namespace GKModule.ViewModels
 				{
 					for (var i = emptyZones.Count() - 1; i >= 0; i--)
 					{
-						GKManager.GuardZones.Remove(emptyZones.ElementAt(i).Zone);
+						GKManager.RemoveGuardZone(emptyZones.ElementAt(i).Zone);
 						Zones.Remove(emptyZones.ElementAt(i));
 					}
 					SelectedZone = Zones.FirstOrDefault();

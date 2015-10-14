@@ -79,7 +79,7 @@ namespace GKModule.ViewModels
 			var pumpStationDetailsViewModel = new PumpStationDetailsViewModel();
 			if (DialogService.ShowModalWindow(pumpStationDetailsViewModel))
 			{
-				GKManager.PumpStations.Add(pumpStationDetailsViewModel.PumpStation);
+				GKManager.AddPumpStation(pumpStationDetailsViewModel.PumpStation);
 				var pumpStationViewModel = new PumpStationViewModel(pumpStationDetailsViewModel.PumpStation);
 				PumpStations.Add(pumpStationViewModel);
 				SelectedPumpStation = pumpStationViewModel;
@@ -95,19 +95,7 @@ namespace GKModule.ViewModels
 			{
 				var pumpDevices = new List<GKDevice>(SelectedPumpStation.PumpDevices.Select(x => x.Device));
 				var index = PumpStations.IndexOf(SelectedPumpStation);
-				GKManager.PumpStations.Remove(SelectedPumpStation.PumpStation);
-				SelectedPumpStation.PumpStation.InputDependentElements.ForEach(x =>
-				{
-					x.OutDependentElements.Remove(SelectedPumpStation.PumpStation);
-				});
-
-				SelectedPumpStation.PumpStation.OutDependentElements.ForEach(x =>
-				{
-					x.InputDependentElements.Remove(SelectedPumpStation.PumpStation);
-					x.UpdateLogic();
-					x.OnChanged();
-				});
-
+				GKManager.RemovePumpStation(SelectedPumpStation.PumpStation);
 				PumpStations.Remove(SelectedPumpStation);
 				index = Math.Min(index, PumpStations.Count - 1);
 				if (index > -1)
@@ -130,7 +118,7 @@ namespace GKModule.ViewModels
 					
 					for (var i = emptyPumpStations.Count()-1; i >= 0; i--)
 					{
-						GKManager.PumpStations.Remove(emptyPumpStations.ElementAt(i).PumpStation);
+						GKManager.RemovePumpStation(emptyPumpStations.ElementAt(i).PumpStation);
 						PumpStations.Remove(emptyPumpStations.ElementAt(i));
 					}
 

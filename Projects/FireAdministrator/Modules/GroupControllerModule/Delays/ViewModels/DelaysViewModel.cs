@@ -203,19 +203,7 @@ namespace GKModule.ViewModels
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить задержку " + SelectedDelay.Delay.Name))
 			{
 				var index = Delays.IndexOf(SelectedDelay);
-				GKManager.Delays.Remove(SelectedDelay.Delay);
-				SelectedDelay.Delay.InputDependentElements.ForEach(x => 
-				{
-					x.OutDependentElements.Remove(SelectedDelay.Delay);
-				});
-
-				SelectedDelay.Delay.OutDependentElements.ForEach(x =>
-				{
-					x.InputDependentElements.Remove(SelectedDelay.Delay);
-					x.UpdateLogic();
-					x.OnChanged();
-				});
-
+				GKManager.RemoveDelay(SelectedDelay.Delay);
 				Delays.Remove(SelectedDelay);
 				index = Math.Min(index, Delays.Count - 1);
 				if (index > -1)
@@ -236,7 +224,7 @@ namespace GKModule.ViewModels
 				{
 					for (var i = emptyDelays.Count() - 1; i >= 0; i--)
 					{
-						GKManager.Delays.Remove(emptyDelays.ElementAt(i).Delay);
+						GKManager.RemoveDelay(emptyDelays.ElementAt(i).Delay);
 						Delays.Remove(emptyDelays.ElementAt(i));
 					}
 
