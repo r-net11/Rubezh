@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace GKProcessor.Test
 {
 	[TestClass]
-	public partial class ConfigurationTest
+	public partial class ValidationTest
 	{
 		GKDevice gkDevice1;
 		GKDevice kauDevice11;

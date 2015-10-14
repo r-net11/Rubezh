@@ -115,6 +115,11 @@ namespace GKModule.Validation
 				if (door.DoorType != GKDoorType.OneWay && door.ExitZoneUID == Guid.Empty)
 					AddError(door, "При включенном Antipassback, отсутствует зона на выход", ValidationErrorLevel.CannotWrite);
 			}
+			else if (door.DoorType == GKDoorType.Barrier)
+			{
+				AddError(door, "Для шлагбаума должен быть задан датчик контроля на въезд", ValidationErrorLevel.CannotWrite);
+				AddError(door, "Для шлагбаума должен быть задан датчик контроля на выезд", ValidationErrorLevel.CannotWrite);
+			}
 		}
 
 		/// <summary>
@@ -135,9 +140,10 @@ namespace GKModule.Validation
 			{
 				if (door.DoorType == GKDoorType.AirlockBooth || door.DoorType == GKDoorType.Turnstile)
 					AddError(door, "К точке доступа не подключено реле на вход", ValidationErrorLevel.CannotWrite);
-				if (door.DoorType == GKDoorType.Barrier)
+				else if (door.DoorType == GKDoorType.Barrier)
 					AddError(door, "К точке доступа не подключено реле на открытие", ValidationErrorLevel.CannotWrite);
-				AddError(door, "К точке доступа не подключен замок", ValidationErrorLevel.CannotWrite);
+				else
+					AddError(door, "К точке доступа не подключен замок", ValidationErrorLevel.CannotWrite);
 			}
 			if (door.LockDeviceExit == null)
 			{

@@ -50,8 +50,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ConfigurationTest.Common.cs" />
-    <Compile Include="ConfigurationTest.MultiGk.cs" />
+    <Compile Include="ValidationTest.Common.cs" />
+    <Compile Include="ValidationTest.Door.cs" />
+    <Compile Include="ValidationTest.MultiGk.cs" />
     <Compile Include="DescriptorsTest.Common.cs" />
     <Compile Include="DescriptorsTest.Door.cs" />
     <Compile Include="DescriptorsTest.GuardZone.cs" />

@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GKProcessor.Test
 {
-	public partial class ConfigurationTest
+	public partial class ValidationTest
 	{
 		[TestMethod]
 		public void TestFireZoneInMultiGk()
@@ -20,12 +20,9 @@ namespace GKProcessor.Test
 			GKManager.Zones.Add(zone);
 			device1.ZoneUIDs.Add(zone.UID);
 			device2.ZoneUIDs.Add(zone.UID);
-
 			var validator = new Validator();
 			var errors = validator.Validate();
-
-			Assert.IsTrue(
-				errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Содержится в нескольких ГК"));
+			Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Содержится в нескольких ГК"));
 		}
 
 		[TestMethod]
@@ -43,8 +40,7 @@ namespace GKProcessor.Test
 			GKManager.AddDeviceToGuardZone(device2, guardZone);
 			var validator = new Validator();
 			var errors = validator.Validate();
-			Assert.IsTrue(
-				errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Содержится в нескольких ГК"));
+			Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Содержится в нескольких ГК"));
 		}
 
 		[TestMethod]
