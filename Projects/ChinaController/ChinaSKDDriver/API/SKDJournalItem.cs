@@ -20,14 +20,14 @@ namespace ChinaSKDDriverAPI
 
 		public int DoorNo { get; set; }
 
-		public NativeWrapper.NET_ACCESS_CTL_EVENT_TYPE emEventType;
-		public bool bStatus;
-		public NativeWrapper.NET_ACCESSCTLCARD_TYPE emCardType;
-		public NativeWrapper.NET_ACCESS_DOOROPEN_METHOD emOpenMethod;
-		public string szPwd;
+		public NativeWrapper.NET_ACCESS_CTL_EVENT_TYPE emEventType; // Направление прохода (вход/выход)
+		public bool bStatus; // Проход разрешен/запрещен
+		public NativeWrapper.NET_ACCESSCTLCARD_TYPE emCardType; // Тип пропуска
+		public NativeWrapper.NET_ACCESS_DOOROPEN_METHOD emOpenMethod; // Метод открытия замка
+		public string szPwd; // Пароль для метода открытия замка через ввод пароля
 		public int nAction;
 		public NativeWrapper.NET_ACCESS_CTL_STATUS_TYPE emStatus;
-		public string szReaderID;
+		public string szReaderID; // Номер считывателя (начиная с 1)
 		public string szDoorName;
 
 		public ErrorCode ErrorCode { get; set; }

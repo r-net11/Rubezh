@@ -21,15 +21,23 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Header="Сессия" Binding="{Binding JournalItem.LoginID}" Width="Auto" />
-				<DataGridTextColumn Header="Системное время" Binding="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" Width="Auto" />
-				<DataGridTextColumn Header="Время на устройстве" Binding="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" Width="Auto" />
-				<DataGridTextColumn Header="Событие" Binding="{Binding JournalItem.JournalEventNameType, Converter={StaticResource EnumToDescriptionConverter}}" Width="Auto" />
-				<DataGridTextColumn Header="Description" Binding="{Binding JournalItem.Description}" Width="Auto" />
-				<DataGridTextColumn Header="Карта" Binding="{Binding JournalItem.CardNo}" Width="Auto" />
-				<DataGridTextColumn Header="Замок" Binding="{Binding JournalItem.DoorNo}" Width="Auto" />
-				<DataGridTextColumn Header="Код ошибки" Binding="{Binding JournalItem.ErrorCode, Converter={StaticResource EnumToDescriptionConverter}}" Width="*" />
-            </DataGrid.Columns>
+				<DataGridTextColumn Header="Сессия" Binding="{Binding LoginID}" Width="Auto" />
+				<DataGridTextColumn Header="Системное время" Binding="{Binding SystemDateTime, Converter={StaticResource TimeToStringConverter}}" Width="Auto" />
+				<DataGridTextColumn Header="Время на устройстве" Binding="{Binding DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" Width="Auto" />
+				<DataGridTextColumn Header="Событие" Binding="{Binding JournalEventNameType, Converter={StaticResource EnumToDescriptionConverter}}" Width="Auto" />
+				<DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="Auto" />
+				<DataGridTextColumn Header="Пропуск" Binding="{Binding CardNo}" Width="Auto" />
+				<DataGridTextColumn Header="Замок" Binding="{Binding DoorNo}" Width="Auto" />
+				<DataGridTextColumn Header="Код ошибки" Binding="{Binding ErrorCode, Converter={StaticResource EnumToDescriptionConverter}}" Width="Auto" />
+				<DataGridTextColumn Header="Направление прохода" Binding="{Binding EventType, Converter={StaticResource EnumToDescriptionConverter}}" Width="Auto" />
+				<DataGridTextColumn Header="Разрешено/запрещено" Binding="{Binding Status}" Width="Auto" />
+				<DataGridTextColumn Header="Тип пропуска" Binding="{Binding CardType}" Width="Auto" />
+				<DataGridTextColumn Header="Метод открытия" Binding="{Binding OpenMethod}" Width="Auto" />
+				<DataGridTextColumn Header="Пароль" Binding="{Binding Pwd}" Width="Auto" />
+				<DataGridTextColumn Header="StatusType" Binding="{Binding StatusType}" Width="Auto" />
+				<DataGridTextColumn Header="Считыватель" Binding="{Binding ReaderID}" Width="Auto" />
+				<DataGridTextColumn Header="DoorName" Binding="{Binding DoorName}" Width="Auto" />
+			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>
 </UserControl>

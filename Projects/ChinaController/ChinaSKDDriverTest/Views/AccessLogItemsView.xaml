@@ -11,18 +11,19 @@
 			<StackPanel Orientation="Horizontal">
 				<Button Content="Получить количество записей" Command="{Binding GetCountCommand}" Width="200" Margin="2" />
 				<Button Content="Считать все записи" Command="{Binding GetAllCommand}" Width="200" Margin="2" />
+				<Button Content="Сгенерировать событие" Command="{Binding GenerateJournalItemCommand}" Width="200" Margin="2" />
 			</StackPanel>
 		</StackPanel>
 		<DataGrid Grid.Row="1" ItemsSource="{Binding AccessLogItems}" SelectedItem="{Binding SelectedAccessLogItem}" AutoGenerateColumns="False">
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="RecordNo" Binding="{Binding AccessLogItem.RecordNo}" Width="Auto" />
-				<DataGridTextColumn Header="CardNo" Binding="{Binding AccessLogItem.CardNo}" Width="Auto" />
-				<DataGridTextColumn Header="Password" Binding="{Binding AccessLogItem.Password}" Width="Auto" />
-				<DataGridTextColumn Header="Time" Binding="{Binding AccessLogItem.Time}" Width="Auto" />
-				<DataGridTextColumn Header="Status" Binding="{Binding AccessLogItem.Status}" Width="Auto" />
-				<DataGridTextColumn Header="MethodType" Binding="{Binding AccessLogItem.MethodType, Converter={StaticResource EnumToDescriptionConverter}}" Width="Auto" />
-				<DataGridTextColumn Header="ReaderID" Binding="{Binding AccessLogItem.ReaderID}" Width="Auto" />
-				<DataGridTextColumn Header="DoorNo" Binding="{Binding AccessLogItem.DoorNo}" Width="*" />
+				<DataGridTextColumn Header="RecordNo" Binding="{Binding RecordNo}" Width="Auto" />
+				<DataGridTextColumn Header="CardNo" Binding="{Binding CardNo}" Width="Auto" />
+				<DataGridTextColumn Header="Password" Binding="{Binding Password}" Width="Auto" />
+				<DataGridTextColumn Header="Time" Binding="{Binding Time, Converter={StaticResource TimeToStringConverter}}" Width="Auto" />
+				<DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="Auto" />
+				<DataGridTextColumn Header="MethodType" Binding="{Binding MethodType, Converter={StaticResource EnumToDescriptionConverter}}" Width="Auto" />
+				<DataGridTextColumn Header="ReaderID" Binding="{Binding ReaderID}" Width="Auto" />
+				<DataGridTextColumn Header="DoorNo" Binding="{Binding DoorNo}" Width="*" />
 			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>

@@ -10,10 +10,10 @@
 		</StackPanel>
 		<DataGrid Grid.Row="1" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournalItem}" AutoGenerateColumns="False" Margin="2">
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="SystemDateTime" Binding="{Binding JournalItem.SystemDateTime}" Width="Auto" />
-				<DataGridTextColumn Header="DeviceDateTime" Binding="{Binding JournalItem.DeviceDateTime}" Width="Auto" />
-				<DataGridTextColumn Header="EventNameType" Binding="{Binding JournalItem.JournalEventNameType}" Width="*" />
-				<DataGridTextColumn Header="Description" Binding="{Binding JournalItem.Description}" Width="*" />
+				<DataGridTextColumn Header="SystemDateTime" Binding="{Binding SystemDateTime}" Width="Auto" />
+				<DataGridTextColumn Header="DeviceDateTime" Binding="{Binding DeviceDateTime}" Width="Auto" />
+				<DataGridTextColumn Header="EventNameType" Binding="{Binding JournalEventNameType}" Width="Auto" />
+				<DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*" />
 			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>

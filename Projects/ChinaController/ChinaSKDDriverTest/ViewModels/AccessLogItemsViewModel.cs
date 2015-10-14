@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows;
 using ChinaSKDDriverAPI;
+using ControllerSDK.Events;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -15,6 +16,7 @@ namespace ControllerSDK.ViewModels
 		{
 			GetCountCommand = new RelayCommand(OnGetCount);
 			GetAllCommand = new RelayCommand(OnGetAll);
+			GenerateJournalItemCommand = new RelayCommand(OnGenerateJournalItem, CanGenerateJournalItem);
 			AccessLogItems = new ObservableCollection<AccessLogItemViewModel>();
 
 			CardNo = "";
@@ -68,6 +70,22 @@ namespace ControllerSDK.ViewModels
 			{
 				AccessLogItems.Add(new AccessLogItemViewModel(access));
 			}
+		}
+
+		public RelayCommand GenerateJournalItemCommand { get; private set; }
+
+		private void OnGenerateJournalItem()
+		{
+			if (SelectedAccessLogItem == null)
+				return;
+
+			var journalItem = SelectedAccessLogItem.TransformToJournalItem();
+			ServiceFactory.Instance.Events.GetEvent<JournalItemEvent>().Publish(journalItem);
+		}
+
+		private bool CanGenerateJournalItem()
+		{
+			return SelectedAccessLogItem != null;
 		}
 
 		AccessLogItem GetModel()
