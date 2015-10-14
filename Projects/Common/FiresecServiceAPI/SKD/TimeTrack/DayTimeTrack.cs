@@ -457,11 +457,7 @@ namespace FiresecAPI.SKD
 			//или, если он попадает в график работ, то "Явка в перерыве"
 			if (hasRealTimeTrack)
 			{
-				var type = TimeTrackType.Overtime;
-				if (timeTrackPart.EnterDateTime.TimeOfDay > schedulePlannedInterval.StartTime.TimeOfDay &&
-					timeTrackPart.ExitDateTime.GetValueOrDefault().TimeOfDay < schedulePlannedInterval.EndTime.GetValueOrDefault().TimeOfDay)
-					type = TimeTrackType.PresenceInBrerak;
-				return type;
+				return TimeTrackType.Overtime;
 			}
 
 			//Если нет интервала прохода сотрудника, но есть интервал рабочего графика

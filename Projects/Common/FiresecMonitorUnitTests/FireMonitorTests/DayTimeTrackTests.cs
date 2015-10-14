@@ -136,39 +136,6 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 		}
 
 		[Test]
-		public void GetTimeTrackTypePresenceInBrerakTimeTrackType()
-		{
-			//Arrange
-			var dayTimeTrack = new DayTimeTrack();
-			var plannedTimeBeforeLunch = new DayTimeTrack.ScheduleInterval(TIME.Date.Date + TimeSpan.FromHours(6), TIME.Date.Date + TimeSpan.FromHours(12));
-			var plannedTimeAfterLunch = new DayTimeTrack.ScheduleInterval(TIME.Date.Date + TimeSpan.FromHours(13), TIME.Date.Date + TimeSpan.FromHours(18));
-
-			var realTimeTrackPart = new TimeTrackPart { EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(12), ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(13), IsForURVZone = true };
-			var plannedTimeTrackPartBeforeLunch = new TimeTrackPart
-			{
-				EnterDateTime = plannedTimeBeforeLunch.StartTime,
-				ExitDateTime = plannedTimeBeforeLunch.EndTime
-			};
-			var plannedTimeTrackPartAfterLunch = new TimeTrackPart
-			{
-				EnterDateTime = plannedTimeAfterLunch.StartTime,
-				ExitDateTime = plannedTimeAfterLunch.EndTime
-			};
-
-			var realTimeTrackPartsCollection = new List<TimeTrackPart> {realTimeTrackPart};
-			var plannedTimeTrackPartCollection = new List<TimeTrackPart> { plannedTimeTrackPartBeforeLunch, plannedTimeTrackPartAfterLunch};
-
-			//Act
-			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection,
-															realTimeTrackPartsCollection, false,
-															dayTimeTrack.GetPlannedScheduleInterval(plannedTimeTrackPartCollection),
-															new DayTimeTrack.ScheduleInterval(realTimeTrackPart.EnterDateTime, realTimeTrackPart.ExitDateTime));
-
-			//Assert
-			Assert.IsTrue(type == TimeTrackType.PresenceInBrerak);
-		}
-
-		[Test]
 		public void GetTimeTrackTypeAbsenceTimeTrackType()
 		{
 			//Arrange
@@ -333,46 +300,6 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.AbsenceInsidePlan,
-				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
-				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
-			};
-			const bool isHoliday = true;
-
-			//Act
-			var dayTimeTrack = new DayTimeTrack();
-			var result = dayTimeTrack.GetDeltaForTimeTrack(timeTrackPart, isHoliday);
-
-			//Assert
-			Assert.AreEqual(result.Hours, 10);
-		}
-
-		[Test]
-		public void GetDeltaForPresenceInBrerakTimeTrackType()
-		{
-			//Arrange
-			var timeTrackPart = new TimeTrackPart
-			{
-				TimeTrackPartType = TimeTrackType.PresenceInBrerak,
-				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
-				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
-			};
-			const bool isHoliday = default(bool);
-
-			//Act
-			var dayTimeTrack = new DayTimeTrack();
-			var result = dayTimeTrack.GetDeltaForTimeTrack(timeTrackPart, isHoliday);
-
-			//Assert
-			Assert.AreEqual(result.Hours, 10);
-		}
-
-		[Test]
-		public void GetDeltaForPresenceInBrerakHolidayTimeTrackType()
-		{
-			//Arrange
-			var timeTrackPart = new TimeTrackPart
-			{
-				TimeTrackPartType = TimeTrackType.PresenceInBrerak,
 				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
 				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
 			};
@@ -600,27 +527,6 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.AbsenceInsidePlan,
-				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
-				ExitDateTime = TIME.Date + TimeSpan.FromHours(15)
-			};
-
-			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
-
-			//Act
-			var dayTimeTrack = new DayTimeTrack();
-			var result = dayTimeTrack.GetBalance(timeTrackPart, slideTimeSeconds);
-
-			//Assert
-			Assert.AreEqual(result, TimeSpan.Zero);
-		}
-
-		[Test]
-		public void GetBalanceForPresenceInBrerakTimeTrackType()
-		{
-			//Arrange
-			var timeTrackPart = new TimeTrackPart
-			{
-				TimeTrackPartType = TimeTrackType.PresenceInBrerak,
 				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
 				ExitDateTime = TIME.Date + TimeSpan.FromHours(15)
 			};
