@@ -15,13 +15,16 @@ namespace GKModule.ViewModels
 	public class PumpStationDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public GKPumpStation PumpStation { get; private set; }
+		public bool IsEdit { get; private set; }
 
-		public PumpStationDetailsViewModel(GKPumpStation pumpStation = null)
+		public PumpStationDetailsViewModel(GKPumpStation pumpStation = null, bool isEdit = false)
 		{
 			ReadPropertiesCommand = new RelayCommand(OnReadProperties);
 			WritePropertiesCommand = new RelayCommand(OnWriteProperties);
 			ResetPropertiesCommand = new RelayCommand(OnResetProperties);
 
+			IsEdit = isEdit;
+			OnPropertyChanged(() => IsEdit);
 			if (pumpStation == null)
 			{
 				Title = "Создание новой насосоной станции";

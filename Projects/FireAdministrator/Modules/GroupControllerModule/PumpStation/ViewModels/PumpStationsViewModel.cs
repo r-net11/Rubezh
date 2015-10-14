@@ -148,7 +148,7 @@ namespace GKModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var pumpStationDetailsViewModel = new PumpStationDetailsViewModel(SelectedPumpStation.PumpStation);
+			var pumpStationDetailsViewModel = new PumpStationDetailsViewModel(SelectedPumpStation.PumpStation, true);
 			if (DialogService.ShowModalWindow(pumpStationDetailsViewModel))
 			{
 				SelectedPumpStation.PumpStation = pumpStationDetailsViewModel.PumpStation;
