@@ -1,8 +1,11 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
 using ResursDAL;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Resurs.ViewModels
 {
@@ -10,35 +13,62 @@ namespace Resurs.ViewModels
 	{
 		public TariffDevicesViewModel(TariffDetailsViewModel tariff)
 		{
+			_tariff = tariff.Tariff;
 			Title = "Выбор счётчиков для привязки";
-			RootDevice = AddDeviceInternal(ResursDAL.DBCash.RootDevice, null);
-			Devices = new ObservableCollection<DeviceViewModel>();
-			AddChildPlainDevices(RootDevice);
-		}
+			Devices = new ObservableCollection<TariffDeviceViewModel>();
+			GetAllDevices(ResursDAL.DBCash.RootDevice);
+			SelectedDevices = new ObservableCollection<TariffDeviceViewModel>();
 
-		public DeviceViewModel RootDevice { get; set; }
-		private DeviceViewModel AddDeviceInternal(Device device, DeviceViewModel parentDeviceViewModel)
+			if (tariff.Tariff.Devices.Count != 0)
+			{
+				foreach (var device in Devices)
+				{
+					if (device.Device.TariffUID != null)
+					{
+						if (device.Device.TariffUID == _tariff.UID)
+						{
+							device.IsChecked = true;
+						}
+					}
+				}
+			}
+		}
+		Tariff _tariff;
+		public ObservableCollection<TariffDeviceViewModel> Devices { get; set; }
+
+		public ObservableCollection<TariffDeviceViewModel> SelectedDevices { get; set; }
+
+		void GetAllDevices(Device parent)
 		{
-			var deviceViewModel = new DeviceViewModel(device);
-			if (parentDeviceViewModel != null)
-				parentDeviceViewModel.AddChild(deviceViewModel);
-
-			foreach (var childDevice in device.Children)
-				AddDeviceInternal(childDevice, deviceViewModel);
-			return deviceViewModel;
+			foreach (var child in parent.Children)
+			{
+				if (child.DeviceType == DeviceType.Counter)
+				{
+					if (child.TariffType==_tariff.TariffType)
+					{
+						Devices.Add(new TariffDeviceViewModel(child));
+					}
+				}
+				else
+				{
+					GetAllDevices(child);
+				}
+			}
 		}
-		void AddChildPlainDevices(DeviceViewModel parentViewModel)
-		{
-			Devices.Add(parentViewModel);
-			foreach (var childViewModel in parentViewModel.Children)
-				AddChildPlainDevices(childViewModel);
-		}
 
-		public ObservableCollection<DeviceViewModel> Devices;
-		public ObservableCollection<DeviceViewModel> SelectedDevices;
-		
 		protected override bool Save()
 		{
+			foreach (var item in Devices)
+			{
+				if (item.Device.TariffUID==_tariff.UID)
+				{
+					item.Device.TariffUID = null;
+				}
+				if (item.IsChecked)
+				{
+					SelectedDevices.Add(item);
+				}
+			}
 			return base.Save();
 		}
 	}
