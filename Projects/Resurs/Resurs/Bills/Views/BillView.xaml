@@ -23,8 +23,15 @@
 			<TextBox Text="{Binding Balance}" IsReadOnly="True" MinWidth="120" Margin="2" />
 		</StackPanel>
 		<StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
-			<TextBlock Text="Путь к шаблону" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
-			<TextBox Text="{Binding TemplatePath}" IsReadOnly="{Binding IsReadOnly}" MinWidth="280" Margin="2" />
+			<TextBlock Text="Шаблон квитанции" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
+			<ComboBox ItemsSource="{Binding Receipts}" SelectedItem="{Binding SelectedReceipt}" IsReadOnly="{Binding IsReadOnly}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Name}" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+			<Button Content="Квитанция" Command="{Binding ShowReceiptCommand}" Margin="2" />
 		</StackPanel>
 		<StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
 			<TextBlock Text="Примечание" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />

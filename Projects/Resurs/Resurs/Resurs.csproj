@@ -377,6 +377,7 @@
     <Compile Include="Bills\Views\BillView.xaml.cs">
       <DependentUpon>BillView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Consumers\ReceiptHelper.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.Bills.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.Common.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.cs" />
@@ -485,6 +486,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ReceiptsDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\DataSources\ReceiptTemplateDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReceiptTemplateDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="Reports\ReportPeriodType.cs" />
     <Compile Include="Reports\ReportPreviewModel.cs" />
@@ -809,6 +815,17 @@
     </None>
     <None Include="Reports\DataSources\ReceiptsDataSet.xss">
       <DependentUpon>ReceiptsDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Reports\DataSources\ReceiptTemplateDataSet.xsc">
+      <DependentUpon>ReceiptTemplateDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Reports\DataSources\ReceiptTemplateDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ReceiptTemplateDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Reports\DataSources\ReceiptTemplateDataSet.xss">
+      <DependentUpon>ReceiptTemplateDataSet.xsd</DependentUpon>
     </None>
     <None Include="Resurs.exe.manifest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
