@@ -78,28 +78,6 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public string Name
-		{
-			get { return Direction.Name; }
-			set
-			{
-				Direction.Name = value;
-				Direction.OnChanged();
-				OnPropertyChanged(() => Name);
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-		public string Description
-		{
-			get { return Direction.Description; }
-			set
-			{
-				Direction.Description = value;
-				Direction.OnChanged();
-				OnPropertyChanged(() => Description);
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
 		public VisualizationState VisualizationState
 		{
 			get { return _visualizetionState; }
@@ -108,8 +86,6 @@ namespace GKModule.ViewModels
 		{
 			Direction = direction;
 			OnPropertyChanged(() => Direction);
-			OnPropertyChanged(() => Name);
-			OnPropertyChanged(() => Description);
 			Update();
 		}
 
