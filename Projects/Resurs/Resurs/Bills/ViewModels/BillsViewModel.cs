@@ -44,7 +44,7 @@ namespace Resurs.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			Bills.Add(new BillViewModel(new Bill(), IsReadOnly));
+			Bills.Add(new BillViewModel(new Bill(), this, IsReadOnly));
 		}
 
 		public RelayCommand<BillViewModel> RemoveCommand { get; private set; }
@@ -55,7 +55,7 @@ namespace Resurs.ViewModels
 
 		public void Update(List<Bill> bills)
 		{
-			Bills = new ObservableCollection<BillViewModel>(bills.Select(x => new BillViewModel(x, IsReadOnly)));
+			Bills = new ObservableCollection<BillViewModel>(bills.Select(x => new BillViewModel(x, this, IsReadOnly)));
 		}
 
 		public List<Bill> GetBills()

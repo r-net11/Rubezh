@@ -60,7 +60,17 @@ namespace Resurs.ViewModels
 
 		protected override bool Save()
 		{
-			DBCash.SaveConsumer(GetConsumer());
+			var consumer = GetConsumer();
+			DBCash.SaveConsumer(consumer);
+			
+			foreach (var bill in consumer.Bills)
+				foreach (var device in bill.Devices)
+				{
+					var dbDevice = DBCash.GetDevice(device.UID);
+					dbDevice.Bill = bill;
+					dbDevice.BillUID = bill.UID;
+				}
+
 			return base.Save();
 		}
 	}

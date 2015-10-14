@@ -141,7 +141,7 @@ namespace Resurs.ViewModels
 		}
 		bool CanAdd()
 		{
-			return SelectedConsumer != null;// && SelectedConsumer.Consumer.IsFolder;
+			return SelectedConsumer != null;
 		}
 
 		public RelayCommand AddFolderCommand { get; private set; }
@@ -223,9 +223,8 @@ namespace Resurs.ViewModels
 				var parentConsumerViewModel = AllConsumers.FirstOrDefault(x => x.Consumer.UID == consumersChangeParentViewModel.SelectedConsumer.Consumer.UID);
 				if (parentConsumerViewModel != null)
 				{
-					SelectedConsumer.Consumer.Parent.Children.RemoveAll(x => x.UID == SelectedConsumer.Consumer.UID);
-					SelectedConsumer.Consumer.Parent = consumersChangeParentViewModel.SelectedConsumer.Consumer;
-					SelectedConsumer.Consumer.Parent.Children.Add(SelectedConsumer.Consumer);
+					SelectedConsumer.Consumer = DBCash.GetConsumer(SelectedConsumer.Consumer.UID);
+					SelectedConsumer.Consumer.ParentUID = consumersChangeParentViewModel.SelectedConsumer.Consumer.UID;
 
 					DBCash.SaveConsumer(SelectedConsumer.Consumer);
 

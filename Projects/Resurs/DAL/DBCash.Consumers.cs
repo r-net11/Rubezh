@@ -144,6 +144,7 @@ namespace ResursDAL
 					dbConsumer.Parent = consumer.Parent;
 					dbConsumer.Password = consumer.Password;
 					dbConsumer.Phone = consumer.Phone;
+					dbConsumer.ParentUID = consumer.ParentUID;
 
 					var devicesToUpdate = new Dictionary<Guid, bool>();
 					var billsToDelete = context.Bills

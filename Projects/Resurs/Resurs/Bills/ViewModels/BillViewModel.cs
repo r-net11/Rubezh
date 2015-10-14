@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
 using ResursDAL;
@@ -12,8 +13,11 @@ namespace Resurs.ViewModels
 {
 	public class BillViewModel : BaseViewModel
 	{
-		public BillViewModel(Bill bill, bool isReadOnly)
+		public BillsViewModel BillsViewModel { get; private set; }
+		public BillViewModel(Bill bill, BillsViewModel billsViewModel, bool isReadOnly)
 		{
+			BillsViewModel = billsViewModel;
+
 			Uid = bill.UID;
 			Consumer = bill.Consumer;
 			Name = bill.Name;
@@ -92,8 +96,15 @@ namespace Resurs.ViewModels
 		public RelayCommand AddDeviceCommand { get; private set; }
 		void OnAddDevice()
 		{
-			var device = DBCash.GetRootDevice();
-			Devices.Add(new DeviceViewModel(device));
+			var exceptDeviceUids = new List<Guid>();
+			foreach (var billViewModel in BillsViewModel.Bills)
+				exceptDeviceUids.AddRange(billViewModel.Devices.Select(x => x.Device.UID));
+			exceptDeviceUids.AddRange(DBCash.GetAllChildren(DBCash.RootDevice).Where(x => x.BillUID != null).Select(x => x.UID));
+			var selectDeviceViewModel = new SelectDeviceViewModel(exceptDeviceUids);
+			if (DialogService.ShowModalWindow(selectDeviceViewModel) && selectDeviceViewModel.SelectedDevice != null)
+			{
+				Devices.Add(new DeviceViewModel(selectDeviceViewModel.SelectedDevice.Device));	
+			}
 		}
 
 		public RelayCommand<DeviceViewModel> RemoveDeviceCommand { get; private set; }

@@ -404,6 +404,10 @@
     <Compile Include="JournalEvents\ViewModels\FilterConsumersViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\FilterConsumerViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\FilterDevicesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\SelectDeviceViewModel.cs" />
+    <Compile Include="Devices\Views\SelectDeviceView.xaml.cs">
+      <DependentUpon>SelectDeviceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="JournalEvents\ViewModels\FilterDeviceViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\FilterEventsViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\FilterEventViewModel.cs" />
@@ -592,6 +596,10 @@
     <Page Include="Consumers\Views\ConsumerChangeParentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\SelectDeviceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Consumers\Views\ReceiptView.xaml">
       <SubType>Designer</SubType>
