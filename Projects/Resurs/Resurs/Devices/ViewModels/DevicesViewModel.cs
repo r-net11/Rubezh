@@ -120,14 +120,41 @@ namespace Resurs.ViewModels
 				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 				if (deviceViewModel != null)
 					deviceViewModel.ExpandToThis();
-				Bootstrapper.MainViewModel.SelectedTabIndex = 0;
 				SelectedDevice = deviceViewModel;
+				Bootstrapper.MainViewModel.SelectedTabIndex = 0;
 			}
 		}
 
 		public bool IsVisibility
 		{
 			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.ViewDevice); }
+		}
+
+		void UpdateBillViewModels(Device device, Bill oldBill = null)
+		{
+			var newBill = device.Bill;
+			if (oldBill == newBill)
+				return;
+			if (oldBill != null)
+			{
+				var billViewModel = Bootstrapper.MainViewModel.ConsumersViewModel.FindBillViewModel(oldBill.UID);
+				if (billViewModel != null)
+				{
+					var deviceViewModel = billViewModel.Devices.FirstOrDefault(x => x.Device.UID == device.UID);
+					if (deviceViewModel != null)
+						billViewModel.Devices.Remove(deviceViewModel);
+				}
+			}
+			if (newBill != null)
+			{
+				var billViewModel = Bootstrapper.MainViewModel.ConsumersViewModel.FindBillViewModel(newBill.UID);
+				if (billViewModel != null)
+				{
+					var deviceViewModel = billViewModel.Devices.FirstOrDefault(x => x.Device.UID == device.UID);
+					if (deviceViewModel == null)
+						billViewModel.Devices.Add(new DeviceViewModel(device));
+				}
+			}
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -160,6 +187,7 @@ namespace Resurs.ViewModels
 					parent.IsExpanded = true;
 					AllDevices.Add(deviceViewModel);
 					SelectedDevice = deviceViewModel;
+					UpdateBillViewModels(SelectedDevice.Device);
 				}
 			}
 		}
@@ -171,6 +199,7 @@ namespace Resurs.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
+			var oldBill = SelectedDevice.Device.Bill;
 			var deviceDetailsViewModel = new DeviceDetailsViewModel(SelectedDevice.Device);
 			if (DialogService.ShowModalWindow(deviceDetailsViewModel))
 			{
@@ -180,12 +209,12 @@ namespace Resurs.ViewModels
 				{
 					child.Update();
 				}
-
+				UpdateBillViewModels(SelectedDevice.Device, oldBill);
 			}
 		}
 		bool CanEdit()
 		{
-			return SelectedDevice != null && SelectedDevice.Parent != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);;
+			return SelectedDevice != null && SelectedDevice.Parent != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -204,6 +233,7 @@ namespace Resurs.ViewModels
 					{
 						AllDevices.Remove(childDeviceViewModel);
 					}
+					UpdateBillViewModels(SelectedDevice.Device, SelectedDevice.Device.Bill);
 					SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 				}
 			}

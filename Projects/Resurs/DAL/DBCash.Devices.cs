@@ -259,7 +259,7 @@ namespace ResursDAL
 
 				using (var context = DatabaseContext.Initialize())
 				{
-					var device = context.Devices.Include(x => x.Parent).Include(x => x.Parameters).FirstOrDefault(x => x.UID == uid);
+					var device = context.Devices.Include(x => x.Parent).Include(x => x.Parameters).Include(x => x.Bill).FirstOrDefault(x => x.UID == uid);
 					device.Parameters = device.Parameters.OrderBy(x => x.Number).ToList();
 					InitializeDevice(device);
 					device.IsLoaded = true;
@@ -339,6 +339,7 @@ namespace ResursDAL
 		static void CopyDevice(Device device, Device tableDevice, DatabaseContext context)
 		{
 			tableDevice.Address = device.Address;
+			tableDevice.BillUID = device.BillUID;
 			tableDevice.Bill = device.Bill != null ? context.Bills.FirstOrDefault(x => x.UID == device.Bill.UID) : null;
 			tableDevice.Description = device.Description;
 			tableDevice.IsActive = device.IsActive;

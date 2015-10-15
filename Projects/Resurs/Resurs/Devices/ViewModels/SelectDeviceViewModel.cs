@@ -11,6 +11,7 @@ namespace Resurs.ViewModels
 	{
 		public SelectDeviceViewModel(List<Guid> exceptDeviceUids)
 		{
+			Title = "Выбор устройства";
 			BuildTree(exceptDeviceUids);
 			if (RootDevice != null)
 			{
@@ -68,6 +69,11 @@ namespace Resurs.ViewModels
 			if (parentDeviceViewModel != null && (deviceViewModel.ChildrenCount > 0 || device.Children.Count == 0))
 				parentDeviceViewModel.AddChild(deviceViewModel);
 			return deviceViewModel;
+		}
+
+		protected override bool CanSave()
+		{
+			return SelectedDevice != null && SelectedDevice.Device.DeviceType == DeviceType.Counter;
 		}
 
 		public bool IsVisibility

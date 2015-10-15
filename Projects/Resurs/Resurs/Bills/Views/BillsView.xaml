@@ -10,6 +10,8 @@
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
+							<RadioButton GroupName="bills" IsChecked="{Binding IsChecked}" 
+										 Visibility="{Binding BillsViewModel.IsSelectionMode, Converter={StaticResource BoolToVisibilityConverter}}" />
 							<view:BillView />
 							<ToolBarButton ToolTip="Удалить счет" Height="28" Width="28" Background="DarkGray" ImageSource="DeleteCross"
 										   Visibility="{Binding IsReadOnly, Converter={StaticResource InversedBoolToVisibilityConverter}}" 

@@ -41,12 +41,12 @@ namespace GKModule.Validation
 				if (door.EnterDevice != null)
 				{
 					if (!doorDeviceUIDs.Add(door.EnterDevice.UID))
-						AddError(door, "Устройство " + door.EnterDevice.PresentationName + " может учасвствовать только в устройстве на вход или в устройстве на выход ", ValidationErrorLevel.CannotWrite);
+						AddError(door, "Устройство " + door.EnterDevice.PresentationName + " может учасвствовать только в устройстве на вход или в устройстве на выход", ValidationErrorLevel.CannotWrite);
 				}
 				if (door.ExitDevice != null)
 				{
 					if (!doorDeviceUIDs.Add(door.ExitDevice.UID))
-						AddError(door, "Устройство " + door.ExitDevice.PresentationName + " не может быть одновременно устройством на вход и устройством на выход ", ValidationErrorLevel.CannotWrite);
+						AddError(door, "Устройство " + door.ExitDevice.PresentationName + " не может быть одновременно устройством на вход и устройством на выход", ValidationErrorLevel.CannotWrite);
 				}
 				if (door.LockDevice != null)
 				{
@@ -57,7 +57,10 @@ namespace GKModule.Validation
 				{
 					doorDeviceUIDs.Add(door.LockDeviceExit.UID);
 					if (door.LockDevice != null && door.LockDeviceExit.UID.Equals(door.LockDevice.UID))
-						AddError(door, "Устройство " + door.LockDeviceExit.PresentationName + " не может быть одновременно реле на вход и реле на выход", ValidationErrorLevel.CannotWrite);
+						if (door.DoorType == GKDoorType.Barrier)
+							AddError(door, "Устройство " + door.LockDeviceExit.PresentationName + " не может быть одновременно реле на открытие и реле на закрытие", ValidationErrorLevel.CannotWrite);
+						else
+							AddError(door, "Устройство " + door.LockDeviceExit.PresentationName + " не может быть одновременно реле на вход и реле на выход", ValidationErrorLevel.CannotWrite);
 				}
 				if (door.EnterButton != null)
 				{

@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace Resurs.Views
 {
 	/// <summary>
-	/// Interaction logic for ConsumerChangeParentView.xaml
+	/// Interaction logic for ConsumerListView.xaml
 	/// </summary>
-	public partial class ConsumerChangeParentView : UserControl
+	public partial class ConsumerListView : UserControl
 	{
-		public ConsumerChangeParentView()
+		public ConsumerListView()
 		{
 			InitializeComponent();
 		}
