@@ -120,7 +120,6 @@ namespace GKModule.ViewModels
 			var mptDetailsViewModel = new MPTDetailsViewModel(mpt);
 			if (DialogService.ShowModalWindow(mptDetailsViewModel))
 			{
-				SelectedMPT.MPT = mptDetailsViewModel.MPT;
 				SelectedMPT.Update();
 				SelectedMPT.MPT.OutDependentElements.ForEach(x => x.OnChanged());
 				ServiceFactory.SaveService.GKChanged = true;

@@ -120,7 +120,7 @@ namespace GKModule.ViewModels
 			var doorDetailsViewModel = new DoorDetailsViewModel(door);
 			if (DialogService.ShowModalWindow(doorDetailsViewModel))
 			{
-				SelectedDoor.Update(doorDetailsViewModel.Door);
+				SelectedDoor.Update();
 				doorDetailsViewModel.Door.OnChanged();
 				doorDetailsViewModel.Door.OutDependentElements.ForEach(x => x.OnChanged());
 				doorDetailsViewModel.Door.InputDependentElements.ForEach(x => x.OnChanged());

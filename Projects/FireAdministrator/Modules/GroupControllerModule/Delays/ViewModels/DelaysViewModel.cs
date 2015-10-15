@@ -29,15 +29,15 @@ namespace GKModule.ViewModels
 			Current = this;
 			Menu = new DelaysMenuViewModel(this);
 			AddCommand = new RelayCommand(() => OnAdd());
-			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
-			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
+			EditCommand = new RelayCommand(() => OnEdit(SelectedDelay.Delay), () => HasSelectedDelay);
+			DeleteCommand = new RelayCommand(OnDelete, () => HasSelectedDelay);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
-			CopyCommand = new RelayCommand(OnCopy, CanCopy);
+			CopyCommand = new RelayCommand(OnCopy, () => HasSelectedDelay);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
-			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
+			CopyLogicCommand = new RelayCommand(OnCopyLogic, () => HasSelectedDelay);
 			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
 			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
-			
+
 			RegisterShortcuts();
 			SetRibbonItems();
 		}
@@ -78,11 +78,6 @@ namespace GKModule.ViewModels
 			get { return SelectedDelay != null; }
 		}
 
-		bool CanEditDelete()
-		{
-			return SelectedDelay != null;
-		}
-
 		public RelayCommand AddCommand { get; private set; }
 		private DelayDetailsViewModel OnAdd()
 		{
@@ -101,21 +96,11 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		private void OnEdit()
-		{
-			this.OnEdit(this.SelectedDelay.Delay);
-		}
-
-		/// <summary>
-		/// Handles editing a Delay.
-		/// </summary>
-		/// <param name="delay">Delay to be edited.</param>
 		private void OnEdit(GKDelay delay)
 		{
 			var delayDetailsViewModel = new DelayDetailsViewModel(delay);
 			if (DialogService.ShowModalWindow(delayDetailsViewModel))
 			{
-				SelectedDelay.Delay = delayDetailsViewModel.Delay;
 				SelectedDelay.Update();
 				SelectedDelay.Delay.OutDependentElements.ForEach(x => x.OnChanged());
 				ServiceFactory.SaveService.GKChanged = true;
@@ -161,7 +146,7 @@ namespace GKModule.ViewModels
 
 		bool CanDeleteAllEmpty()
 		{
-			return Delays.Any(x => !x.Delay.Logic.GetObjects().Any()); 
+			return Delays.Any(x => !x.Delay.Logic.GetObjects().Any());
 		}
 
 		GKDelay _delayToCopy;
@@ -171,11 +156,6 @@ namespace GKModule.ViewModels
 			_delayToCopy = SelectedDelay.Delay.Clone();
 			var logicViewModel = new LogicViewModel(SelectedDelay.Delay, SelectedDelay.Delay.Logic, true);
 			_delayToCopy.Logic = logicViewModel.GetModel();
-		}
-
-		bool CanCopy()
-		{
-			return SelectedDelay != null;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
@@ -202,11 +182,6 @@ namespace GKModule.ViewModels
 		void OnCopyLogic()
 		{
 			GKManager.CopyLogic(SelectedDelay.Delay.Logic, true, false, true, false, true);
-		}
-
-		bool CanCopyLogic()
-		{
-			return SelectedDelay != null;
 		}
 
 		public RelayCommand PasteLogicCommand { get; private set; }

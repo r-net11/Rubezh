@@ -82,7 +82,7 @@ namespace GKModule.ViewModels
 			var codeDetailsViewModel = new CodeDetailsViewModel(SelectedCode.Code);
 			if (DialogService.ShowModalWindow(codeDetailsViewModel))
 			{
-				SelectedCode.Code = codeDetailsViewModel.Code;
+				SelectedCode.Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

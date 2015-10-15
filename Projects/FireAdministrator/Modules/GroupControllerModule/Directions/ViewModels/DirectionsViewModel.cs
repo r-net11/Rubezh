@@ -116,7 +116,6 @@ namespace GKModule.ViewModels
 			var directionDetailsViewModel = new DirectionDetailsViewModel(direction);
 			if (DialogService.ShowModalWindow(directionDetailsViewModel))
 			{
-				SelectedDirection.Direction = directionDetailsViewModel.Direction;
 				SelectedDirection.Direction.OutDependentElements.ForEach(x => x.OnChanged());
 				SelectedDirection.Update();
 				ServiceFactory.SaveService.GKChanged = true;

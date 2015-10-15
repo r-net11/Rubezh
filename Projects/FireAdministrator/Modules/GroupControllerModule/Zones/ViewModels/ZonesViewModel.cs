@@ -122,7 +122,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
 				GKManager.EditZone(SelectedZone.Zone);
-				SelectedZone.Update(zoneDetailsViewModel.Zone);
+				SelectedZone.Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
