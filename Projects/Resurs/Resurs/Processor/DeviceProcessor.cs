@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Infrastructure.Common.Windows;
+using ResursAPI;
+using ResursNetwork.Networks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -54,6 +57,65 @@ namespace Resurs.Processor
 		void RunMonitoring()
 		{
 
+		}
+
+		public static bool AddToMonitoring(Device device)
+		{
+			try
+			{
+				if (device.CanMonitor)
+				{
+					if (device.DeviceType == DeviceType.Network)
+						NetworksManager.Instance.AddNetwork(device);
+					else if (device.DeviceType == DeviceType.Counter)
+						NetworksManager.Instance.AddDevice(device);
+				}
+				return true;
+			}
+			catch (Exception e)
+			{
+				MessageBoxService.Show(e.Message);
+				return false;
+			}
+		}
+
+		public static bool DeleteFromMonitoring(Device device)
+		{
+			try
+			{
+				if (device.CanMonitor)
+				{
+					if (device.DeviceType == DeviceType.Network)
+						NetworksManager.Instance.RemoveNetwork(device.UID);
+					else if (device.DeviceType == DeviceType.Counter)
+						NetworksManager.Instance.RemoveDevice(device.UID);
+				}
+				return true;
+			}
+			catch (Exception e)
+			{
+				MessageBoxService.Show(e.Message);
+				return false;
+			}
+		}
+
+		public static bool SetStatus(Device device)
+		{
+			try
+			{
+				NetworksManager.Instance.SetSatus(device.UID, device.IsActive);
+				return true;
+			}
+			catch(Exception e)
+			{
+				MessageBoxService.Show(e.Message);
+				return false;
+			}
+		}
+
+		public static bool WriteParameters(Device device)
+		{
+			return true;
 		}
 	}
 }

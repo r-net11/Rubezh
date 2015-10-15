@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ResursAPI
 {
-	public class Device
+	public class Device: ModelBase
 	{
 		public Device()
 		{
@@ -21,6 +21,7 @@ namespace ResursAPI
 		public Device(ResursAPI.DriverType driverType, Device parent = null)
 			: this()
 		{
+			Name = driverType.ToDescription();
 			Driver = ResursAPI.DriversConfiguration.GetDriver(driverType);
 			DriverType = driverType;
 			TariffType = Driver.DefaultTariffType;
@@ -64,14 +65,20 @@ namespace ResursAPI
 			if (name == ParameterNames.ParameterNamesBase.Address)
 				return Address;
 			if (name == ParameterNames.ParameterNamesBase.PortName)
+			{
+				if(DeviceType != ResursAPI.DeviceType.Network)
+					throw new Exception("Для данного типа устройства значение PortName не задано");
 				return new ParameterStringContainer { Value = ComPort };
+			}
+			if (name == ParameterNames.ParameterNamesBase.DateTime)
+			{
+				if(DeviceType != ResursAPI.DeviceType.Counter)
+					throw new Exception("Для данного типа устройства значение DateTime не задано");
+				return DateTime;
+			}
 			return Parameters.FirstOrDefault(x => x.DriverParameter.Name == name).ValueType;
 		}
 
-		[Key]
-		public Guid UID { get; set; }
-		[MaxLength(200)]
-		public string Description { get; set; }
 		public Guid? ParentUID { get; set; }
 		public Device Parent { get; set; }
 		[InverseProperty("Parent")]
@@ -86,10 +93,9 @@ namespace ResursAPI
 		public bool IsActive { get; set; }
 		public bool IsDbMissmatch { get; set; }
 		public TariffType TariffType { get; set; }
+		public DateTime DateTime { get; set;}
 		[MaxLength(10)]
 		public string ComPort { get; set; }
-		[NotMapped]
-		public string Name { get { return Driver.DriverType.ToDescription(); } }
 		[NotMapped]
 		public Driver Driver { get; set; }
 		[NotMapped]
@@ -98,5 +104,19 @@ namespace ResursAPI
 		public string FullAddress { get; private set; }
 		[NotMapped]
 		public bool IsLoaded { get; set; }
+		[NotMapped]
+		public bool CanMonitor 
+		{ 
+			get 
+			{
+				return DriverType == DriverType.IncotextNetwork ||
+					DriverType == DriverType.Mercury203Counter ||
+					DriverType == ResursAPI.DriverType.VirtualIncotextNetwork ||
+					DriverType == ResursAPI.DriverType.VirtualMercury203Counter ||
+					DriverType == ResursAPI.DriverType.VirtualMZEP55Counter ||
+					DriverType == ResursAPI.DriverType.VirtualMZEP55Network;
+			} 
+		}
+
 	}
 }

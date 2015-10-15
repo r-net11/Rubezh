@@ -11,6 +11,7 @@ namespace Resurs.ViewModels
 	{
 		public SelectDeviceViewModel(List<Guid> exceptDeviceUids)
 		{
+			Title = "Выбор устройства";
 			BuildTree(exceptDeviceUids);
 			if (RootDevice != null)
 			{
@@ -70,9 +71,14 @@ namespace Resurs.ViewModels
 			return deviceViewModel;
 		}
 
+		protected override bool CanSave()
+		{
+			return SelectedDevice != null && SelectedDevice.Device.DeviceType == DeviceType.Counter;
+		}
+
 		public bool IsVisibility
 		{
-			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.Device); }
+			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.ViewDevice); }
 		}
 	}
 }

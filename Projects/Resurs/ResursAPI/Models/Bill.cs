@@ -13,6 +13,7 @@ namespace ResursAPI
 		{
 			Devices = new List<Device>();
 		}
+		public Guid ConsumerUID { get; set; }
 		public Consumer Consumer { get; set; }
 		[NotMapped]
 		public List<Device> Devices { get; set; }

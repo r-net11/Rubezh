@@ -4,6 +4,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
 using ResursDAL;
+using ResursNetwork.Networks;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,7 +24,6 @@ namespace Resurs.ViewModels
 
 		public Device Device { get; private set;}
 		public DeviceState State { get; private set; }
-		public string FullAddress { get; private set; }
 		public bool IsActive { get; private set; }
 
 		public void Load()
@@ -46,15 +46,11 @@ namespace Resurs.ViewModels
 			OnPropertyChanged(() => State);
 			OnPropertyChanged(() => IsActive);
 			OnPropertyChanged(() => Parameters);
-			FullAddress = Device.FullAddress;
-			OnPropertyChanged(() => FullAddress);
 		}
 
 		public void Update(Device device)
 		{
 			Device = device;
-			FullAddress = device.FullAddress;
-			OnPropertyChanged(() => FullAddress);
 			OnPropertyChanged(() => Device);
 			Parameters = new List<ParameterViewModel>(Device.Parameters.Select(x => new ParameterViewModel(x)));
 			OnPropertyChanged(() => Parameters);
@@ -65,7 +61,6 @@ namespace Resurs.ViewModels
 				State = DeviceState.Disabled;
 			OnPropertyChanged(() => State);
 			OnPropertyChanged(() => IsActive);
-			
 		}
 	}
 }

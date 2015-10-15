@@ -37,6 +37,8 @@ namespace Resurs.ViewModels
 			set
 			{
 				_selectedUser = value;
+				if (SelectedUser != null)
+					SelectedUser.User = DBCash.GetUser(SelectedUser.User.UID);
 				OnPropertyChanged(() => SelectedUser);
 			}
 		}
@@ -51,7 +53,7 @@ namespace Resurs.ViewModels
 				var userViewModel = new UserViewModel(userDetailsViewModel.User);
 
 				Users.Add(userViewModel);
-				DBCash.AddJournal(JournalType.AddUser, DBCash.CurrentUser.UID, userDetailsViewModel.User.UID, DBCash.CurrentUser.Name, userDetailsViewModel.User.Name);
+				DBCash.AddJournalForUser(JournalType.AddUser, userDetailsViewModel.User);
 				SelectedUser = userViewModel;
 			}
 		}
@@ -66,6 +68,7 @@ namespace Resurs.ViewModels
 			Users = new ObservableCollection<UserViewModel>();
 			 DBCash.Users.ForEach(x => Users.Add(new UserViewModel(x)));
 			SelectedUser = Users.FirstOrDefault();
+			SelectedUser.User = DBCash.GetUser(SelectedUser.User.UID);
 		}
 
 		public RelayCommand EditCommand { get; set; }
@@ -76,7 +79,7 @@ namespace Resurs.ViewModels
 			{
 				SelectedUser.User = userDetailsViewModel.User;
 				if (userDetailsViewModel.IsChange)
-					DBCash.AddJournal(JournalType.EditUser, DBCash.CurrentUser.UID, SelectedUser.User.UID, DBCash.CurrentUser.Name, SelectedUser.User.Name);
+					DBCash.AddJournalForUser(JournalType.EditUser, SelectedUser.User);
 			}
 		}
 
@@ -87,7 +90,7 @@ namespace Resurs.ViewModels
 
 		public bool IsVisibility
 		{
-			get {return DBCash.CurrentUser.UserPermissions.Any(x=> x.PermissionType == PermissionType.User);}
+			get {return DBCash.CurrentUser.UserPermissions.Any(x=> x.PermissionType == PermissionType.ViewUser);}
 		}
 
 		public RelayCommand RemoveCommand { get; set; }
@@ -96,7 +99,7 @@ namespace Resurs.ViewModels
 			if (MessageBoxService.ShowQuestion(string.Format("Вы уверенны, что хотите удалить пользователя \"{0}\" из списка", SelectedUser.User.Name)))
 			{
 				var index = Users.IndexOf(SelectedUser);
-				DBCash.AddJournal(JournalType.DeleteUser, DBCash.CurrentUser.UID, SelectedUser.User.UID, DBCash.CurrentUser.Name, SelectedUser.User.Name);
+				DBCash.AddJournalForUser(JournalType.DeleteUser, SelectedUser.User);
 				DBCash.DeleteUser(SelectedUser.User);
 				Users.Remove(SelectedUser);
 
@@ -109,6 +112,19 @@ namespace Resurs.ViewModels
 		bool CanDelete()
 		{
 			return SelectedUser != null && SelectedUser.User.UID != DBCash.CurrentUser.UID;
+		}
+
+		public void Select(Guid userUID)
+		{
+			if (userUID != Guid.Empty)
+			{
+				var userViewModel = Users.FirstOrDefault(x => x.User.UID == userUID);
+				if (userViewModel != null)
+				{
+					Bootstrapper.MainViewModel.SelectedTabIndex = 6;
+					SelectedUser = userViewModel;
+				}
+			}
 		}
 	}
 }

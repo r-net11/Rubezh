@@ -15,6 +15,7 @@ namespace ResursAPI
 		[Key]
 		public Guid UID { get; set; }
 		public JournalType JournalType { get; set; }
+		public ClassType ClassType { get; set; }
 		public DateTime DateTime { get; set; }
 		[MaxLength(100)]
 		public string UserName { get; set; }

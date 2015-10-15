@@ -21,7 +21,8 @@ namespace ResursAPI
 				Description = "Групповой адрес",
 				ParameterType = ParameterType.Int,
 				IsReadOnly = true,
-				Number = 0
+				Number = 0,
+				IntMinValue = 1
 			});
 			driver.DriverParameters.Add(new DriverParameter
 			{
@@ -37,7 +38,8 @@ namespace ResursAPI
 				Description = "Лимит мощности",
 				ParameterType = ParameterType.Double,
 				IsReadOnly = true,
-				Number = 2
+				Number = 2,
+				DoubleMinValue = 0.001
 			});
 			driver.DriverParameters.Add(new DriverParameter
 			{
@@ -45,7 +47,8 @@ namespace ResursAPI
 				Description = "Месячный лимит мощности",
 				ParameterType = ParameterType.Double,
 				IsReadOnly = true,
-				Number = 3
+				Number = 3,
+				DoubleMinValue = 0.001
 			});
 			return driver;
 		}

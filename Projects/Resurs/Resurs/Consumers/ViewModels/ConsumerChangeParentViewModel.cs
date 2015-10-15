@@ -1,13 +1,5 @@
-﻿using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using Resurs.Processor;
-using ResursAPI;
-using ResursDAL;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Resurs.ViewModels
 {
@@ -16,59 +8,17 @@ namespace Resurs.ViewModels
 		public ConsumerChangeParentViewModel(Guid exceptConsumerUid)
 		{
 			Title = "Выбор группы для перемещения";
-			BuildTree(exceptConsumerUid);
-			if (RootConsumer != null)
-			{
-				SelectedConsumer = RootConsumer;
-				RootConsumer.IsExpanded = true;
-				foreach (var child in RootConsumer.Children)
-					child.IsExpanded = true;
-			}
-
-			OnPropertyChanged(() => RootConsumers);
+			ConsumerListViewModel = new ConsumerListViewModel(exceptConsumerUid, true);
+			ConsumerListViewModel.OnItemActivated += ConsumerListViewModel_OnItemActivated;
 		}
 
-		ConsumerViewModel _selectedConsumer;
-		public ConsumerViewModel SelectedConsumer
-		{
-			get { return _selectedConsumer; }
-			set
-			{
-				_selectedConsumer = value;
-				OnPropertyChanged(() => SelectedConsumer);
-			}
-		}
+		public ConsumerListViewModel ConsumerListViewModel { get; private set; }
+		public ConsumerViewModel SelectedConsumer {	get; private set; }
 
-		ConsumerViewModel _rootConsumer;
-		public ConsumerViewModel RootConsumer
+		void ConsumerListViewModel_OnItemActivated(ConsumerViewModel consumer)
 		{
-			get { return _rootConsumer; }
-			private set
-			{
-				_rootConsumer = value;
-				OnPropertyChanged(() => RootConsumer);
-			}
-		}
-
-		public ConsumerViewModel[] RootConsumers
-		{
-			get { return new[] { RootConsumer }; }
-		}
-
-		void BuildTree(Guid exceptConsumerUid)
-		{
-			RootConsumer = AddConsumerInternal(DBCash.RootConsumer, null, exceptConsumerUid);
-		}
-
-		private ConsumerViewModel AddConsumerInternal(Consumer consumer, ConsumerViewModel parentConsumerViewModel, Guid exceptConsumerUid)
-		{
-			var consumerViewModel = new ConsumerViewModel(consumer);
-			if (parentConsumerViewModel != null)
-				parentConsumerViewModel.AddChild(consumerViewModel);
-
-			foreach (var childConsumer in consumer.Children.Where(x => x.IsFolder && x.UID != exceptConsumerUid))
-				AddConsumerInternal(childConsumer, consumerViewModel, exceptConsumerUid);
-			return consumerViewModel;
+			SelectedConsumer = consumer;
+			Close(true);
 		}
 	}
 }

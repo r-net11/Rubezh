@@ -42,6 +42,17 @@ namespace Resurs.ViewModels
 
 		public bool IsReadOnly { get; private set; }
 
+		bool _isChecked;
+		public bool IsChecked
+		{
+			get { return _isChecked; }
+			set
+			{
+				_isChecked = value;
+				OnPropertyChanged(() => IsChecked);
+			}
+		}
+
 		public Guid Uid { get; private set; }
 
 		public Consumer Consumer { get; private set; }
@@ -124,6 +135,7 @@ namespace Resurs.ViewModels
 			{
 				Balance = this.Balance,
 				Consumer = this.Consumer,
+				ConsumerUID = this.Consumer == null ? Guid.Empty : this.Consumer.UID,
 				Description = this.Description,
 				Name = this.Name,
 				UID = this.Uid,

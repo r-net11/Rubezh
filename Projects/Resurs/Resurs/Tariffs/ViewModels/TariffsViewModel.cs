@@ -102,7 +102,7 @@ namespace Resurs.ViewModels
 		}
 		public bool IsVisible
 		{
-			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.Tariff); }
+			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.ViewTariff); }
 		}
 	}
 }

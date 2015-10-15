@@ -26,21 +26,26 @@ namespace ResursAPI
 					new ParameterEnumItem { Name = "57600", Value = 57600 },
 					new ParameterEnumItem { Name = "115200", Value = 115200 }
 				},
-				Number = 0
+				Number = 0,
+				EnumDefaultItem = 9600
 			});
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = ParameterNamesIncotexNetwork.Timeout ,
 				Description = "Таймаут ответа",
 				ParameterType = ParameterType.Int,
-				Number = 1
+				Number = 1,
+				IntDefaultValue = 10,
+				IntMinValue = 1
 			});
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = ParameterNamesIncotexNetwork.BroadcastDelay,
 				Description = "Задержка широковещательной команды",
 				ParameterType = ParameterType.Int,
-				Number = 2
+				Number = 2,
+				IntDefaultValue = 10,
+				IntMinValue = 1
 			});
 			return driver;
 		}

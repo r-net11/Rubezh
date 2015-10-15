@@ -31,7 +31,8 @@ namespace ResursAPI
 					new ParameterEnumItem{ Name = "115200", Value = 8 },
 				},
 				EnumDefaultItem = 2,
-				Number = 0
+				Number = 0,
+				CanWriteInActive = false
 			});
 			driver.DriverParameters.Add(new DriverParameter
 			{
@@ -48,7 +49,8 @@ namespace ResursAPI
 					new ParameterEnumItem{ Name = "10", Value = 5 },
 				},
 				EnumDefaultItem = 5,
-				Number = 1
+				Number = 1,
+				CanWriteInActive = false
 			});
 			return driver;
 		}

@@ -378,13 +378,18 @@
       <DependentUpon>BillView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Consumers\ReceiptHelper.cs" />
+    <Compile Include="Consumers\ViewModels\ConsumerListViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.Bills.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.Common.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumersFolderDetailsViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerChangeParentViewModel.cs" />
+    <Compile Include="Consumers\ViewModels\SelectBillViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumersViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ReceiptViewModel.cs" />
+    <Compile Include="Consumers\Views\ConsumerListView.xaml.cs">
+      <DependentUpon>ConsumerListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Consumers\Views\ConsumersFolderDetailsView.xaml.cs">
       <DependentUpon>ConsumersFolderDetailsView.xaml</DependentUpon>
     </Compile>
@@ -392,11 +397,16 @@
       <DependentUpon>ConsumerChangeParentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Converters\ClassTypeToIconConverter.cs" />
+    <Compile Include="Consumers\Views\SelectBillView.xaml.cs">
+      <DependentUpon>SelectBillView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Consumers\Views\ReceiptView.xaml.cs">
       <DependentUpon>ReceiptView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\DeviceStateToIconConverter.cs" />
     <Compile Include="Converters\DeviceTypeToIconConverter.cs" />
+    <Compile Include="Converters\JournalTypeToIconConverter.cs" />
     <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="Devices\ViewModels\DetailsParameterViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\DateTimePairViewModel.cs" />
@@ -600,9 +610,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Consumers\Views\ConsumerListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Consumers\Views\ConsumerChangeParentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Consumers\Views\SelectBillView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Devices\Views\SelectDeviceView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -867,6 +885,10 @@
     <ProjectReference Include="..\ResursAPI\ResursAPI.csproj">
       <Project>{94c0399f-3eab-4e23-98f9-61eb8daa4974}</Project>
       <Name>ResursAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ResursNetwork\ResursNetwork.csproj">
+      <Project>{ff5590ac-bf93-4ce8-af99-f75091becf64}</Project>
+      <Name>ResursNetwork</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

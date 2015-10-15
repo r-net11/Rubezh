@@ -11,25 +11,18 @@ namespace Resurs.ViewModels
 {
 	public class BillsViewModel : BaseViewModel
 	{
-		public BillsViewModel(List<Bill> bills, bool isReadOnly)
+		public BillsViewModel(List<Bill> bills, bool isReadOnly, bool isSelectionMode = false)
 		{
 			IsReadOnly = isReadOnly;
+			IsSelectionMode = isSelectionMode;
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<BillViewModel>(OnRemove);
 			Update(bills);
 		}
 
-		bool _isReadOnly;
-		public bool IsReadOnly
-		{
-			get { return _isReadOnly; }
-			set
-			{
-				_isReadOnly = value;
-				OnPropertyChanged(() => IsReadOnly);
-			}
-		}
-
+		public bool IsReadOnly { get; private set; }
+		public bool IsSelectionMode { get; private set; }
+		
 		ObservableCollection<BillViewModel> _bills;
 		public ObservableCollection<BillViewModel> Bills
 		{
@@ -61,6 +54,11 @@ namespace Resurs.ViewModels
 		public List<Bill> GetBills()
 		{
 			return Bills.Select(x => x.GetBill()).ToList();
+		}
+
+		public BillViewModel GetCheckedBill()
+		{
+			return Bills.FirstOrDefault(x => x.IsChecked);
 		}
 	}
 }

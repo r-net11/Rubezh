@@ -52,6 +52,7 @@
     <Compile Include="DriverCreators\VirtualMZEP55CounterCreator.cs" />
     <Compile Include="DriverCreators\VirtualMZEP55NetworkCreator.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="Journal\ClassType.cs" />
     <Compile Include="Journal\Filter.cs" />
     <Compile Include="Journal\Journal.cs" />
     <Compile Include="Journal\StateType.cs" />

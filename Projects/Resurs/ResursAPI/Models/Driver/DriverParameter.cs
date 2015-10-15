@@ -17,6 +17,7 @@ namespace ResursAPI
 			DateTimeDefaultValue = new DateTime(1900, 1, 1);
 			EnumDefaultItem = 0;
 			IsWriteToDevice = true;
+			CanWriteInActive = true;
 		}
 		public string Name { get; set; }
 		public string Description { get; set; }
@@ -24,6 +25,7 @@ namespace ResursAPI
 		public bool IsReadOnly { get; set; }
 		public bool IsWriteToDevice { get; set; }
 		public bool IsPollingEnabled { get; set; }
+		public bool CanWriteInActive { get; set; }
 		public ParameterType ParameterType { get; set; }
 		public List<ParameterEnumItem> ParameterEnumItems { get; set; }
 		public int? IntMinValue { get; set; }

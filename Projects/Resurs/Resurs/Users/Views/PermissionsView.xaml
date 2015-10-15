@@ -6,16 +6,20 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<ListView Grid.Row="0" Focusable="True" ItemsSource="{Binding PermissionViewModels}" SortBehavior.CanUserSortColumns="True">
+		<ListView Grid.Row="0" Focusable="True" ItemsSource="{Binding PermissionViewModels}">
 			<ListView.View>
 				<GridView >
 					<GridViewColumn Header="Права" >
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<StackPanel Orientation="Horizontal" >
-									<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/AccessTemplate.png" />
-									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5 2" IsEnabled="{Binding IsEnabled}" Content="{Binding PermissionType,Converter={StaticResource EnumToDescriptionConverter}}" />
-								</StackPanel>
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="*" />
+									</Grid.ColumnDefinitions>
+									<Image  Grid.Column="0" VerticalAlignment="Center" Source="/Controls;component/Images/AccessTemplate.png"  Margin="2" />
+									<CheckBox Grid.Column="1" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" IsEnabled="{Binding IsEnabled}" Content="{Binding PermissionType,Converter={StaticResource EnumToDescriptionConverter}}" />
+								</Grid>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>

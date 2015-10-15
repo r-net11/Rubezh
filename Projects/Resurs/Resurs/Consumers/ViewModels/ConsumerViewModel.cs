@@ -50,6 +50,10 @@ namespace Resurs.ViewModels
 				return _consumerDetails;
 			}
 		}
+		public ConsumerDetailsViewModel GetConsumerDetails()
+		{
+			return _consumerDetails;
+		}
 
 		ConsumersFolderDetailsViewModel _consumersFolderDetails;
 		public ConsumersFolderDetailsViewModel ConsumersFolderDetails
@@ -65,6 +69,10 @@ namespace Resurs.ViewModels
 				}
 				return _consumersFolderDetails;
 			}
+		}
+		public ConsumersFolderDetailsViewModel GetConsumersFolderDetails()
+		{
+			return _consumersFolderDetails;
 		}
 
 		public void Update(Consumer consumer)
