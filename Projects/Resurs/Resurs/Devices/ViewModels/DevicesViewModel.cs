@@ -120,6 +120,7 @@ namespace Resurs.ViewModels
 				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 				if (deviceViewModel != null)
 					deviceViewModel.ExpandToThis();
+				Bootstrapper.MainViewModel.SelectedTabIndex = 0;
 				SelectedDevice = deviceViewModel;
 			}
 		}

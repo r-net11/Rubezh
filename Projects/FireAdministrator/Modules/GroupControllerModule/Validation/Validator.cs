@@ -41,7 +41,7 @@ namespace GKModule.Validation
 		{
 			foreach(var descriptorError in DescriptorsManager.Check())
 			{
-				AddError(descriptorError.BaseDescriptor.GKBase.DataBaseParent, "Ошибка дескриптора " + descriptorError.BaseDescriptor.GKBase.PresentationName + ": " + descriptorError.Error, ValidationErrorLevel.CannotWrite);
+				AddError(descriptorError.BaseDescriptor.GKBase.GkDatabaseParent, "Ошибка дескриптора " + descriptorError.BaseDescriptor.GKBase.PresentationName + ": " + descriptorError.Error, ValidationErrorLevel.CannotWrite);
 			}
 		}
 
@@ -76,6 +76,8 @@ namespace GKModule.Validation
 		/// <param name="code"></param>
 		bool ValidateObjectOnlyOnOneGK(GKBase gkBase)
 		{
+			if (gkBase is GKDevice && (gkBase as GKDevice).DriverType == GKDriverType.System)
+				return true;
 			if (gkBase.GkParents.Count == 0)
 			{
 				AddError(gkBase, "Не содержится ни в одном ГК", ValidationErrorLevel.CannotWrite);

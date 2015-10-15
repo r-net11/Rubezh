@@ -49,7 +49,7 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<TextBlock VerticalAlignment="Center" MinWidth="150">
-									<Hyperlink Command="{Binding SelectDeviceCommand}" Style="{StaticResource HyperlinkStyle}">
+									<Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.SelectDeviceCommand}" CommandParameter="{Binding Device.UID}" Style="{StaticResource HyperlinkStyle}">
 										<TextBlock VerticalAlignment="Center" Text="{Binding Device.Name}" />
 									</Hyperlink>
 								</TextBlock>

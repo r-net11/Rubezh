@@ -93,6 +93,11 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
+			if (GKManager.SKDZones.Count >= 255)
+			{
+				MessageBoxService.ShowWarning("Невозможно добавить больше 255 зон");
+				return;
+			}
 			OnAddResult();
 		}
 		SKDZoneDetailsViewModel OnAddResult()

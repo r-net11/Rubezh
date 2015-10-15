@@ -99,7 +99,7 @@ namespace GKModule.ViewModels
 			var mptDetailsViewModel = new MPTDetailsViewModel();
 			if (DialogService.ShowModalWindow(mptDetailsViewModel))
 			{
-				GKManager.DeviceConfiguration.MPTs.Add(mptDetailsViewModel.MPT);
+				GKManager.AddMPT(mptDetailsViewModel.MPT);
 				var mptViewModel = new MPTViewModel(mptDetailsViewModel.MPT);
 				MPTs.Add(mptViewModel);
 				SelectedMPT = mptViewModel;
@@ -119,19 +119,7 @@ namespace GKModule.ViewModels
 					MPTViewModel.ChangeIsInMPT(mptDevice.Device, false);
 				}
 				var index = MPTs.IndexOf(SelectedMPT);
-				GKManager.DeviceConfiguration.MPTs.Remove(SelectedMPT.MPT);
-				SelectedMPT.MPT.InputDependentElements.ForEach(x =>
-				{
-					x.OutDependentElements.Remove(SelectedMPT.MPT);
-				});
-
-				SelectedMPT.MPT.OutDependentElements.ForEach(x =>
-				{
-					x.InputDependentElements.Remove(SelectedMPT.MPT);
-					x.UpdateLogic();
-					x.OnChanged();
-				});
-
+				GKManager.RemoveMPT(SelectedMPT.MPT);
 				MPTs.Remove(SelectedMPT);
 				index = Math.Min(index, MPTs.Count - 1);
 				if (index > -1)
@@ -152,7 +140,7 @@ namespace GKModule.ViewModels
 				{
 					for (var i = emptyMPTs.Count() - 1; i >= 0; i--)
 					{
-						GKManager.MPTs.Remove(emptyMPTs.ElementAt(i).MPT);
+						GKManager.RemoveMPT(emptyMPTs.ElementAt(i).MPT);
 						MPTs.Remove(emptyMPTs.ElementAt(i));
 					}
 					SelectedMPT = MPTs.FirstOrDefault();

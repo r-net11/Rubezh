@@ -65,9 +65,9 @@ namespace RubezhAPI.GK
 
 		public override void UpdateLogic()
 		{
-			GKManager.DeviceConfiguration.InvalidateInputObjectsBaseLogic(this, StartLogic);
-			GKManager.DeviceConfiguration.InvalidateInputObjectsBaseLogic(this, StopLogic);
-			GKManager.DeviceConfiguration.InvalidateInputObjectsBaseLogic(this, AutomaticOffLogic);
+			GKManager.DeviceConfiguration.InvalidateOneLogic(this, StartLogic);
+			GKManager.DeviceConfiguration.InvalidateOneLogic(this, StopLogic);
+			GKManager.DeviceConfiguration.InvalidateOneLogic(this, AutomaticOffLogic);
 		}
 
 		[XmlIgnore]

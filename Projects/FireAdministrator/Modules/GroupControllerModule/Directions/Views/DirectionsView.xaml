@@ -3,11 +3,11 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<UserControl.Resources>
 		<ContextMenu x:Key="DirectionContextMenu">
-			<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd"  Text="Добавить (Ctrl+N)" />
-			<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete"  Text="Удалить (Ctrl+Del)" />
-			<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit"  Text="Редактировать (Ctrl+E)" />
-			<IconedMenuItem Command="{Binding CopyCommand}" ImageSource="BCopy"  Text="Копировать (Ctrl+C)" />
-			<IconedMenuItem Command="{Binding PasteCommand}" ImageSource="BPaste"  Text="Вставить (Ctrl+V)" />
+			<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить (Ctrl+N)" />
+			<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete" Text="Удалить (Ctrl+Del)" />
+			<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit" Text="Редактировать (Ctrl+E)" />
+			<IconedMenuItem Command="{Binding CopyCommand}" ImageSource="BCopy" Text="Копировать (Ctrl+C)" />
+			<IconedMenuItem Command="{Binding PasteCommand}" ImageSource="BPaste" Text="Вставить (Ctrl+V)" />
 			<Separator />
 			<IconedMenuItem Command="{Binding CopyLogicCommand}" ImageSource="BCopy" Text="Копировать логику" />
 			<IconedMenuItem Command="{Binding PasteLogicCommand}" ImageSource="BPaste" Text="Вставить логику" />

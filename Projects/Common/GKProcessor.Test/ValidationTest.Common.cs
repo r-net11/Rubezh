@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using GKModule.Validation;
+using Infrastructure.Common.Validation;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhClient;
@@ -8,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace GKProcessor.Test
 {
 	[TestClass]
-	public partial class ConfigurationTest
+	public partial class ValidationTest
 	{
 		GKDevice gkDevice1;
 		GKDevice kauDevice11;
@@ -39,6 +41,12 @@ namespace GKProcessor.Test
 		GKDevice AddDevice(GKDevice device, GKDriverType driverType)
 		{
 			return GKManager.AddChild(device.Children[1], null, GKManager.Drivers.FirstOrDefault(x => x.DriverType == driverType), 0);
+		}
+
+		List<IValidationError> Validate()
+		{
+			var validator = new Validator();
+			return validator.Validate();
 		}
 	}
 }
