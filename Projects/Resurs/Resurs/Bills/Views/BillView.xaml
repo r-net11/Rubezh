@@ -28,20 +28,20 @@
 		</StackPanel>
 		<StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
 			<TextBlock Text="Шаблон квитанции" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
-			<ComboBox ItemsSource="{Binding Receipts}" SelectedItem="{Binding SelectedReceipt}" IsReadOnly="{Binding IsReadOnly}">
+			<ComboBox ItemsSource="{Binding Receipts}" SelectedItem="{Binding SelectedReceipt}" IsEnabled="{Binding IsReadOnly, Converter={StaticResource InverseBooleanConverter}}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding Name}" />
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
-			<Button Content="Квитанция" Command="{Binding ShowReceiptCommand}" Margin="2" />
+			<Button Content="Квитанция" Command="{Binding ShowReceiptCommand}" Margin="2" Visibility="{Binding BillsViewModel.IsSelectionMode, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 		</StackPanel>
 		<StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
 			<TextBlock Text="Примечание" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
 			<TextBox Text="{Binding Description}" IsReadOnly="{Binding IsReadOnly}" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" MinWidth="300" Margin="2" />
 		</StackPanel>
-		<StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
+		<StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" Visibility="{Binding BillsViewModel.IsSelectionMode, Converter={StaticResource InversedBoolToVisibilityConverter}}" >
 			<Button Content="Пополнить" MinWidth="100" Margin="2" />
 			<Button Content="История" MinWidth="100" Margin="2" />
 		</StackPanel>
