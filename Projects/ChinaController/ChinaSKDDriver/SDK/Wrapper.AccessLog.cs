@@ -26,24 +26,18 @@ namespace ChinaSKDDriver
 					var intPtr = Marshal.AllocCoTaskMem(structSize);
 
 					var result = NativeWrapper.WRAP_GetAll_Accesses(finderID, intPtr);
+					if (result == 0)
+						break;
 
 					var accessesCollection = (NativeWrapper.AccessesCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.AccessesCollection)));
 					Marshal.FreeCoTaskMem(intPtr);
 					intPtr = IntPtr.Zero;
 
-					var accesses = new List<AccessLogItem>();
 					for (var i = 0; i < Math.Min(accessesCollection.Count, 10); i++)
 					{
-						var nativeAccess = accessesCollection.Accesses[i];
-						//if (nativeAccess.nRecNo > 0)
-						//{
-						var access = NativeAccessToAccessLogItem(nativeAccess);
-						accesses.Add(access);
-						//}
+						var access = NativeAccessToAccessLogItem(accessesCollection.Accesses[i]);
+						resultAccesses.Add(access);
 					}
-					if (result == 0)
-						break;
-					resultAccesses.AddRange(accesses);
 				}
 
 				NativeWrapper.WRAP_EndGetAll(finderID);
@@ -88,6 +82,53 @@ namespace ChinaSKDDriver
 			};
 
 			return access;
+		}
+
+
+		/// <summary>
+		/// Получает список событий доступа, записанных на контроллер, возраст которых превышает указанную дату
+		/// </summary>
+		/// <param name="dateTime">Дата</param>
+		/// <returns>Список событий доступа</returns>
+		public List<AccessLogItem> GetAccessLogItemsOlderThan(DateTime dateTime)
+		{
+			var resultAccesses = new List<AccessLogItem>();
+			var finderID = 0;
+			NativeWrapper.WRAP_BeginGetAll_Accesses(LoginID, ref finderID);
+
+			if (finderID > 0)
+			{
+				var continueSearch = true;
+				while (continueSearch)
+				{
+					var structSize = Marshal.SizeOf(typeof(NativeWrapper.AccessesCollection));
+					var intPtr = Marshal.AllocCoTaskMem(structSize);
+
+					var result = NativeWrapper.WRAP_GetAll_Accesses(finderID, intPtr);
+					if (result == 0)
+						break;
+
+					var accessesCollection = (NativeWrapper.AccessesCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.AccessesCollection)));
+					Marshal.FreeCoTaskMem(intPtr);
+					intPtr = IntPtr.Zero;
+
+					for (var i = 0; i < Math.Min(accessesCollection.Count, 10); i++)
+					{
+						var access = NativeAccessToAccessLogItem(accessesCollection.Accesses[i]);
+						if (access.Time > dateTime)
+							resultAccesses.Add(access);
+						else
+						{
+							continueSearch = false;
+							break;
+						}
+					}
+				}
+
+				NativeWrapper.WRAP_EndGetAll(finderID);
+			}
+
+			return resultAccesses;
 		}
 	}
 }

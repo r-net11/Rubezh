@@ -14,11 +14,27 @@ namespace ControllerSDK.ViewModels
 {
 	public class AlarmLogItemsViewModel : BaseViewModel
 	{
+		private DateTime _logDeepDateTime;
+		public DateTime LogDeepDateTime
+		{
+			get { return _logDeepDateTime; }
+			set
+			{
+				if (_logDeepDateTime == value)
+					return;
+				_logDeepDateTime = value;
+				OnPropertyChanged(() => LogDeepDateTime);
+			}
+		}
+
 		public AlarmLogItemsViewModel()
 		{
+			LogDeepDateTime = DateTime.Now;
 			GetLogsCountCommand = new RelayCommand(OnGetLogsCount);
 			GetAllLogsCommand = new RelayCommand(OnGetAllLogs);
 			GenerateJournalItemCommand = new RelayCommand(OnGenerateJournalItem, CanGenerateJournalItem);
+			GetLogItemsUsingLogDeepCommand = new RelayCommand(OnGetLogItemsUsingLogDeep);
+			AlarmLogItems = new ObservableCollection<AlarmLogItemViewModel>();
 		}
 
 		public RelayCommand GetLogsCountCommand { get; private set; }
@@ -27,16 +43,15 @@ namespace ControllerSDK.ViewModels
 			MessageBox.Show("Всего тревог: " + MainViewModel.Wrapper.GetAlarmLogItemsCount());
 		}
 
-		ObservableCollection<AlarmLogItemViewModel> _alarmLogItems;
-		public ObservableCollection<AlarmLogItemViewModel> AlarmLogItems
+		public RelayCommand GetLogItemsUsingLogDeepCommand { get; private set; }
+		private void OnGetLogItemsUsingLogDeep()
 		{
-			get { return _alarmLogItems; }
-			set
-			{
-				_alarmLogItems = value;
-				OnPropertyChanged(() => AlarmLogItems);
-			}
+			var alarms = MainViewModel.Wrapper.GetAlarmLogItemsOlderThan(LogDeepDateTime);
+
+			FillAlarmLogItems(alarms);
 		}
+
+		public ObservableCollection<AlarmLogItemViewModel> AlarmLogItems { get; private set; }
 
 		private AlarmLogItemViewModel _selectedAlarmLogItem;
 		public AlarmLogItemViewModel SelectedAlarmLogItem {
@@ -53,8 +68,14 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetAllLogsCommand { get; private set; }
 		void OnGetAllLogs()
 		{
-			AlarmLogItems = new ObservableCollection<AlarmLogItemViewModel>();
 			var alarmLogItems = MainViewModel.Wrapper.GetAllAlarmLogItems();
+
+			FillAlarmLogItems(alarmLogItems);
+		}
+
+		private void FillAlarmLogItems(IEnumerable<AlarmLogItem> alarmLogItems)
+		{
+			AlarmLogItems.Clear();
 			foreach (var alarmLogItem in alarmLogItems)
 			{
 				AlarmLogItems.Add(new AlarmLogItemViewModel(alarmLogItem));

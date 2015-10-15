@@ -50,6 +50,43 @@ namespace ChinaSKDDriver
 			return logs;
 		}
 
+		public List<AlarmLogItem> GetAlarmLogItemsOlderThan(DateTime dateTime)
+		{
+			var resultAlarms = new List<AlarmLogItem>();
+
+			NativeWrapper.WRAP_QueryStart(LoginID);
+
+			var continueSearch = true;
+			while (continueSearch)
+			{
+				var structSize = Marshal.SizeOf(typeof(NativeWrapper.WRAP_Dev_QueryLogList_Result));
+				var intPtr = Marshal.AllocCoTaskMem(structSize);
+
+				var result = NativeWrapper.WRAP_QueryNext(intPtr);
+				if (result == 0)
+					break;
+
+				var nativeLogs = (NativeWrapper.WRAP_Dev_QueryLogList_Result)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.WRAP_Dev_QueryLogList_Result)));
+				Marshal.FreeCoTaskMem(intPtr);
+				intPtr = IntPtr.Zero;
+
+				for (var i = 0; i < result; i++)
+				{
+					var logItem = NativeLogToAlarmLogItem(nativeLogs.Logs[i]);
+					if (logItem.DateTime > dateTime)
+						resultAlarms.Add(logItem);
+					else
+					{
+						continueSearch = false;
+						break;
+					}
+				}
+			}
+
+			NativeWrapper.WRAP_QueryStop();
+			return resultAlarms;
+		}
+
 		private AlarmLogItem NativeLogToAlarmLogItem(NativeWrapper.WRAP_NET_LOG_INFO nativeLogItem)
 		{
 			var logItem = new AlarmLogItem();

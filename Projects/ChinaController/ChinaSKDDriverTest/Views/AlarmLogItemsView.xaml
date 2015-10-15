@@ -1,21 +1,29 @@
-﻿<UserControl x:Class="ControllerSDK.Views.AlarmLogItemsView"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<UserControl
+	x:Class="ControllerSDK.Views.AlarmLogItemsView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
 
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<StackPanel Grid.Row="0" Orientation="Horizontal">
-			<Button Content="Получить количество записей" Command="{Binding GetLogsCountCommand}" Width="200" Margin="2" />
-			<Button Content="Считать все записи" Command="{Binding GetAllLogsCommand}" Width="200" Margin="2" />
-			<Button Content="Сгенерировать событие" Command="{Binding GenerateJournalItemCommand}" Width="200" Margin="2" />
+		<StackPanel Grid.Row="0">
+			<StackPanel Orientation="Horizontal">
+				<Button Content="Получить количество записей" Command="{Binding GetLogsCountCommand}" Width="200" Margin="2" />
+				<Button Content="Считать все записи" Command="{Binding GetAllLogsCommand}" Width="200" Margin="2" />
+				<Button Content="Сгенерировать событие" Command="{Binding GenerateJournalItemCommand}" Width="200" Margin="2" />
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<Button Content="Считать записи до" Command="{Binding GetLogItemsUsingLogDeepCommand}" Width="200" Margin="2" />
+				<xctk:DateTimePicker Value="{Binding LogDeepDateTime}" Width="154" Margin="2" Format="Custom" FormatString="dd.MM.yyyy HH:mm:ss"/>
+			</StackPanel>
 		</StackPanel>
 		<DataGrid Grid.Row="1" ItemsSource="{Binding AlarmLogItems}" SelectedItem="{Binding SelectedAlarmLogItem}" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" Margin="2">
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="LogNo" Binding="{Binding LogNo}" Width="Auto" />
-				<DataGridTextColumn Header="DateTime" Binding="{Binding DateTime}" Width="Auto" />
+				<DataGridTextColumn Header="DateTime" Binding="{Binding DateTime, Converter={StaticResource TimeToStringConverter}}" Width="Auto" />
 				<DataGridTextColumn Header="UserName" Binding="{Binding UserName}" Width="Auto" />
 				<DataGridTextColumn Header="LogType" Binding="{Binding LogType}" Width="Auto" />
 				<DataGridTextColumn Header="CardId" Binding="{Binding CardId}" Width="Auto" />
