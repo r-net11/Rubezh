@@ -26,6 +26,7 @@ namespace ResursDAL
 							UID = x.UID, 
 							Address = x.Address, 
 							DriverType = x.DriverType, 
+							Name = x.Name,
 							Description = x.Description,
 							ParentUID = x.ParentUID, 
 							IsActive = x.IsActive,
@@ -37,6 +38,7 @@ namespace ResursDAL
 							UID = x.UID,
 							Address = x.Address,
 							DriverType =(DriverType)x.DriverType,
+							Name = x.Name,
 							Description = x.Description,
 							ParentUID = x.ParentUID,
 							IsActive = x.IsActive,
@@ -68,12 +70,13 @@ namespace ResursDAL
 		{
 			try
 			{
+				bool isNew = false;
 				foreach (var item in device.Parameters)
 				{
 					var validateResult = item.Validate();
 					if (validateResult != null)
 					{
-						MessageBoxService.Show(string.Format("Устройство {0} \n Параметр {1} \n {2}", device.Name, item.DriverParameter.Name, validateResult));
+						MessageBoxService.Show(string.Format("Устройство {0} \n Параметр {1} \n {2}", device.Name, item.DriverParameter.Description, validateResult));
 						return false;
 					}
 				}
@@ -90,6 +93,7 @@ namespace ResursDAL
 					}
 					else
 					{
+						isNew = true;
 						tableDevice = new Device { UID = device.UID };
 						CopyDevice(device, tableDevice, context);
 						context.Devices.Add(tableDevice);
@@ -101,6 +105,7 @@ namespace ResursDAL
 						}
 					}
 					context.SaveChanges();
+					AddJournal(isNew ? JournalType.AddDevice : JournalType.EditDevice, device.UID, device.Name);
 				}
 				return true;
 			}
@@ -115,11 +120,15 @@ namespace ResursDAL
 		{
 			try
 			{
+				Guid deviceUID;
+				string deviceName;
 				using (var context = DatabaseContext.Initialize())
 				{
 					var tableItem = context.Devices.FirstOrDefault(x => x.UID == device.UID);
 					if (tableItem == null)
 						return false;
+					deviceUID = tableItem.UID;
+					deviceName = tableItem.Name;
 					var items = new List<Device>();
 					var currentItems = context.Devices.Where(x => x.Parent.UID == device.UID).ToList();
 					items.AddRange(currentItems);
@@ -141,6 +150,7 @@ namespace ResursDAL
 					var parent = GetAllChildren(RootDevice).FirstOrDefault(x => x.UID == device.Parent.UID);
 					parent.Children.RemoveAll(x => x.UID == device.UID);
 				}
+				AddJournal(JournalType.DeleteDevice, deviceUID, deviceName);
 				return true;
 			}
 			catch (Exception e)
@@ -338,6 +348,7 @@ namespace ResursDAL
 		{
 			tableDevice.Address = device.Address;
 			tableDevice.Bill = device.Bill != null ? context.Bills.FirstOrDefault(x => x.UID == device.Bill.UID) : null;
+			tableDevice.Name = device.Name;
 			tableDevice.Description = device.Description;
 			tableDevice.IsActive = device.IsActive;
 			tableDevice.Tariff = device.Tariff != null ? context.Tariffs.FirstOrDefault(x => x.UID == device.Tariff.UID) : null;

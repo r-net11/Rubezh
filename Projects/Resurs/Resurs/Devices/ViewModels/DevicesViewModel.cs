@@ -4,6 +4,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Resurs.Processor;
 using ResursAPI;
 using ResursDAL;
+using ResursNetwork.Networks;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,7 +20,9 @@ namespace Resurs.ViewModels
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-
+			SetActiveCommand = new RelayCommand(OnSetActive, CanSetActive);
+			UnSetActiveCommand = new RelayCommand(OnUnSetActive, CanUnSetActive);
+			
 			BuildTree();
 			if (RootDevice != null)
 			{
@@ -34,12 +37,13 @@ namespace Resurs.ViewModels
 				}
 			}
 
-			foreach (var device in AllDevices)
-			{
-				if (true)
-					device.ExpandToThis();
-			}
-
+			//foreach (var device in AllDevices)
+			//{
+			//	if (true)
+			//		device.ExpandToThis();
+			//	DeviceProcessor.AddToMonitoring(device.Device);
+			//}
+			
 			OnPropertyChanged(() => RootDevices);
 		}
 
@@ -160,6 +164,7 @@ namespace Resurs.ViewModels
 					parent.IsExpanded = true;
 					AllDevices.Add(deviceViewModel);
 					SelectedDevice = deviceViewModel;
+					DeviceProcessor.AddToMonitoring(deviceViewModel.Device);
 				}
 			}
 		}
@@ -198,6 +203,7 @@ namespace Resurs.ViewModels
 				if (parent != null && DBCash.DeleteDevice(selectedDevice.Device))
 				{
 					var index = selectedDevice.VisualIndex;
+					DeviceProcessor.DeleteFromMonitoring(selectedDevice.Device);
 					parent.Nodes.Remove(selectedDevice);
 					index = Math.Min(index, parent.ChildrenCount - 1);
 					foreach (var childDeviceViewModel in selectedDevice.GetAllChildren(true))
@@ -211,6 +217,51 @@ namespace Resurs.ViewModels
 		bool CanRemove()
 		{
 			return SelectedDevice != null && SelectedDevice.Parent != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);
+		}
+
+		public RelayCommand SetActiveCommand { get; private set; }
+		void OnSetActive()
+		{
+			SelectedDevice.Device.IsActive = true;
+			if (DeviceProcessor.WriteParameters(SelectedDevice.Device) &&
+				DeviceProcessor.SetStatus(SelectedDevice.Device))
+			{
+				DBCash.SaveDevice(SelectedDevice.Device);
+			}
+			else
+			{
+				SelectedDevice.Device.IsActive = false;
+			}
+			SelectedDevice.Update();
+		}
+		bool CanSetActive()
+		{
+			return SelectedDevice != null && 
+				SelectedDevice.Parent != null &&
+				!SelectedDevice.IsActive && 
+				DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);
+		}
+
+		public RelayCommand UnSetActiveCommand { get; private set; }
+		void OnUnSetActive()
+		{
+			SelectedDevice.Device.IsActive = false;
+			if (DeviceProcessor.SetStatus(SelectedDevice.Device))
+			{
+				DBCash.SaveDevice(SelectedDevice.Device);
+			}
+			else
+			{
+				SelectedDevice.Device.IsActive = true;
+			}
+			SelectedDevice.Update();
+		}
+		bool CanUnSetActive()
+		{
+			return SelectedDevice != null &&
+				SelectedDevice.Parent != null &&
+				SelectedDevice.IsActive && 
+				DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);
 		}
 	}
 }

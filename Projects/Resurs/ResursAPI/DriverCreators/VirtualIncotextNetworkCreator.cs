@@ -22,7 +22,8 @@ namespace ResursAPI
 				Name = ParameterNamesVirtualIncotexNetwork.PollInterval,
 				Description = "Интервал опроса",
 				ParameterType = ParameterType.Int,
-				Number = index++
+				Number = index++,
+				IntMinValue = 1
 			});
 			return driver;
 		}

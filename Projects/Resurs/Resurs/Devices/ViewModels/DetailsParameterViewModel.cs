@@ -12,11 +12,13 @@ namespace Resurs.ViewModels
 {
 	public class DetailsParameterViewModel : BaseViewModel
 	{
-		public DetailsParameterViewModel(Parameter model)
+		public DetailsParameterViewModel(Parameter model, DeviceDetailsViewModel parent)
 		{
 			Model = model;
 			Name = model.DriverParameter.Description;
-			IsNotReadOnly = !model.DriverParameter.IsReadOnly;
+			_parent = parent;
+			IsNotReadOnly = !model.DriverParameter.IsReadOnly && (model.DriverParameter.CanWriteInActive || !parent.IsActive);
+
 			if (IsNotReadOnly)
 				switch (Model.DriverParameter.ParameterType)
 				{
@@ -58,6 +60,8 @@ namespace Resurs.ViewModels
 			else
 				ReadOnlyValue = model.GetStringValue();
 		}
+
+		DeviceDetailsViewModel _parent;
 
 		public string ReadOnlyValue { get; private set; }
 

@@ -40,15 +40,24 @@ namespace Resurs.ViewModels
 		{
 			Device = device;
 			_OldDevice = device;
+			Name = device.Name;
 			Description = device.Description;
-			IsActive = device.IsActive;
-			Parameters = new ObservableCollection<DetailsParameterViewModel>(Device.Parameters.Select(x => new DetailsParameterViewModel(x)));
-			IsNetwork = device.DeviceType == DeviceType.Network;
-			if(IsNetwork)
+			IsActive = Device.IsActive;
+			if (!IsActive)
 			{
-				ComPorts = new ObservableCollection<string>(GetComPorts());
-				ComPort = ComPorts.FirstOrDefault(x => x == device.ComPort);
+				IsEditComPort = device.DeviceType == DeviceType.Network;
+				if (IsEditComPort)
+				{
+					ComPorts = new ObservableCollection<string>(GetComPorts());
+					ComPort = ComPorts.FirstOrDefault(x => x == device.ComPort);
+				}
+				IsEditAddress = !IsEditComPort;
 			}
+			else
+			{
+				AddressString = device.DeviceType == DeviceType.Network ? device.ComPort : device.Address.ToString();
+			}
+			Parameters = new ObservableCollection<DetailsParameterViewModel>(Device.Parameters.Select(x => new DetailsParameterViewModel(x, this)));
 			TariffTypes = new ObservableCollection<TariffType>();
 			foreach (TariffType item in Enum.GetValues(typeof(TariffType)))
 			{
@@ -88,7 +97,9 @@ namespace Resurs.ViewModels
 			}
 		}
 
-		public bool IsNetwork { get; private set; }
+		public bool IsEditComPort { get; private set; }
+		public bool IsEditAddress { get; private set; }
+		public string AddressString { get; private set; }
 		public ObservableCollection<string> ComPorts { get; private set; }
 		string _ComPort;
 		public string ComPort
@@ -98,6 +109,17 @@ namespace Resurs.ViewModels
 			{
 				_ComPort = value;
 				OnPropertyChanged(() => ComPort);
+			}
+		}
+
+		string _Name;
+		public string Name
+		{
+			get { return _Name; }
+			set
+			{
+				_Name = value;
+				OnPropertyChanged(() => Name);
 			}
 		}
 
@@ -112,21 +134,17 @@ namespace Resurs.ViewModels
 			}
 		}
 
-		bool _IsActive;
-		public bool IsActive
-		{
-			get { return _IsActive; }
-			set
-			{
-				_IsActive = value;
-				OnPropertyChanged(() => IsActive);
-			}
-		}
-
+		public bool IsActive { get; private set; }
+		
 		protected override bool Save()
 		{
-			if(IsNetwork)
+			if(IsEditComPort)
 			{
+				if(ComPort == null)
+				{
+					MessageBoxService.Show("Не задан адрес COM порта");
+					return false;
+				}
 				if (_Parent.Children.Any(x => x.ComPort == ComPort && x.UID != Device.UID))
 				{
 					MessageBoxService.Show("Невозможно добавить устройство с повторяющимся адресом");
@@ -149,7 +167,13 @@ namespace Resurs.ViewModels
 				item.Parent = Device;
 				item.SetFullAddress();
 			}
-			
+
+			foreach (var item in Parameters)
+			{
+				var saveResult = item.Save();
+				if (!saveResult)
+					return false;
+			}
 			Device.Parameters = new List<Parameter>(Parameters.Select(x => x.Model));
 			foreach (var item in Device.Parameters)
 			{
@@ -158,60 +182,55 @@ namespace Resurs.ViewModels
 					var validateResult = item.Validate();
 					if (validateResult != null)
 					{
-						MessageBoxService.Show("Ошибка в параметре " + item.DriverParameter.Name + ": " + validateResult);
+						MessageBoxService.Show("Ошибка в параметре " + item.DriverParameter.Description + ": " + validateResult);
 						return false;
 					}
 				}
 			}
-			foreach (var item in Parameters)
-			{
-				var saveResult = item.Save();
-				if (!saveResult)
-					return false;
-			}
+			Device.Name = Name;
 			Device.Description = Description;
 			if (CanEditTariffType)
 				Device.TariffType = TariffType;
-			Device.IsActive = IsActive;
-			if (!_IsNew)
+			var isDbMissmatch = false;
+			if (IsActive)
 			{
-				if (Device.IsActive != _OldDevice.IsActive)
-					SetStatus(Device.UID, Device.IsActive);
-				var isDbMissmatch = false;
-				if (Device.IsActive)
+				foreach (var newParameter in Device.Parameters.Where(x => x.DriverParameter.IsWriteToDevice && x.DriverParameter.CanWriteInActive))
 				{
-					foreach (var newParameter in Device.Parameters.Where(x => x.DriverParameter.IsWriteToDevice))
+					var oldParameter = _OldDevice.Parameters.FirstOrDefault(x => x.UID == newParameter.UID);
+					switch (oldParameter.DriverParameter.ParameterType)
 					{
-						var oldParameter = _OldDevice.Parameters.FirstOrDefault(x => x.UID == newParameter.UID);
-						switch (oldParameter.DriverParameter.ParameterType)
-						{
-							case ParameterType.Enum:
-								if (oldParameter.IntValue != newParameter.IntValue)
-									isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, intValue: newParameter.IntValue);
-								break;
-							case ParameterType.String:
-								if (oldParameter.StringValue != newParameter.StringValue)
-									isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, stringValue: newParameter.StringValue);
-								break;
-							case ParameterType.Int:
-								if (oldParameter.IntValue != newParameter.IntValue)
-									isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, intValue: newParameter.IntValue);
-								break;
-							case ParameterType.Double:
-								if (oldParameter.DoubleValue != newParameter.DoubleValue)
-									isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, doubleValue: newParameter.DoubleValue);
-								break;
-							case ParameterType.Bool:
-								if (oldParameter.BoolValue != newParameter.BoolValue)
-									isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, boolValue: newParameter.BoolValue);
-								break;
-							case ParameterType.DateTime:
-								if (oldParameter.DateTimeValue != newParameter.DateTimeValue)
-									isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, dateTimeValue: newParameter.DateTimeValue);
-								break;
-							default:
-								break;
-						}
+						case ParameterType.Enum:
+							if (oldParameter.IntValue != newParameter.IntValue)
+								isDbMissmatch = isDbMissmatch || 
+									!WriteParameter(Device.UID, newParameter.DriverParameter.Name, intValue: newParameter.IntValue);
+							break;
+						case ParameterType.String:
+							if (oldParameter.StringValue != newParameter.StringValue)
+								isDbMissmatch = isDbMissmatch || 
+									!WriteParameter(Device.UID, newParameter.DriverParameter.Name, stringValue: newParameter.StringValue);
+							break;
+						case ParameterType.Int:
+							if (oldParameter.IntValue != newParameter.IntValue)
+								isDbMissmatch = isDbMissmatch || 
+									!WriteParameter(Device.UID, newParameter.DriverParameter.Name, intValue: newParameter.IntValue);
+							break;
+						case ParameterType.Double:
+							if (oldParameter.DoubleValue != newParameter.DoubleValue)
+								isDbMissmatch = isDbMissmatch || 
+									!WriteParameter(Device.UID, newParameter.DriverParameter.Name, doubleValue: newParameter.DoubleValue);
+							break;
+						case ParameterType.Bool:
+							if (oldParameter.BoolValue != newParameter.BoolValue)
+								isDbMissmatch = isDbMissmatch || 
+									!WriteParameter(Device.UID, newParameter.DriverParameter.Name, boolValue: newParameter.BoolValue);
+							break;
+						case ParameterType.DateTime:
+							if (oldParameter.DateTimeValue != newParameter.DateTimeValue)
+								isDbMissmatch = isDbMissmatch || 
+									!WriteParameter(Device.UID, newParameter.DriverParameter.Name, dateTimeValue: newParameter.DateTimeValue);
+							break;
+						default:
+							break;
 					}
 				}
 				Device.IsDbMissmatch = isDbMissmatch;
@@ -219,7 +238,6 @@ namespace Resurs.ViewModels
 			else
 			{
 				Device.SetParent(_Parent, Address);
-				AddDevice(Device);
 			}
 			if(ResursDAL.DBCash.SaveDevice(Device))
 				return base.Save();
@@ -251,11 +269,5 @@ namespace Resurs.ViewModels
 		{ 
 			return true; 
 		}
-		
-		public bool AddDevice(Device device)
-		{
-			return true;
-		}
-
 	}
 }

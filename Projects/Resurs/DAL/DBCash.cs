@@ -236,6 +236,11 @@ namespace ResursDAL
 			}
 		}
 
+		public static void AddJournal(JournalType journalType, Guid? objectUID, string ObjectName = null, string Description = null)
+		{
+			AddJournal(journalType, CurrentUser.UID, objectUID, CurrentUser.Name, ObjectName, Description);
+		}
+
 
 		public static List<Device> GetAllChildren(Device device, bool isWithSelf = true)
 		{
