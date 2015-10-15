@@ -75,7 +75,7 @@ namespace Resurs.ViewModels
 
 		public bool IsVisibility
 		{
-			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.Journal); }
+			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.ViewJournal); }
 		}
 
 		public bool HasPages

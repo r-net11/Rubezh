@@ -23,7 +23,7 @@ namespace Resurs.ViewModels
 
 			foreach (var permissionViewModel in PermissionViewModels)
 			{
-				permissionViewModel.IsEnabled = !(user.UID == DBCash.CurrentUser.UID && (permissionViewModel.PermissionType == PermissionType.User || permissionViewModel.PermissionType == PermissionType.EditUser));
+				permissionViewModel.IsEnabled = !(user.UID == DBCash.CurrentUser.UID && (permissionViewModel.PermissionType == PermissionType.ViewUser || permissionViewModel.PermissionType == PermissionType.EditUser));
 				permissionViewModel.IsChecked = user.UserPermissions.Any(x => x.PermissionType == permissionViewModel.PermissionType);
 			}
 		}

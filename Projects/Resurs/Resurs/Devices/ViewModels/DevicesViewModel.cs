@@ -127,7 +127,7 @@ namespace Resurs.ViewModels
 
 		public bool IsVisibility
 		{
-			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.Device); }
+			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.ViewDevice); }
 		}
 
 		public RelayCommand AddCommand { get; private set; }

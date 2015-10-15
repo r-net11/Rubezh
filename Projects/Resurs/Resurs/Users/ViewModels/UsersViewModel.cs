@@ -37,6 +37,8 @@ namespace Resurs.ViewModels
 			set
 			{
 				_selectedUser = value;
+				if (SelectedUser != null)
+					SelectedUser.User = DBCash.GetUser(SelectedUser.User.UID);
 				OnPropertyChanged(() => SelectedUser);
 			}
 		}
@@ -66,6 +68,7 @@ namespace Resurs.ViewModels
 			Users = new ObservableCollection<UserViewModel>();
 			 DBCash.Users.ForEach(x => Users.Add(new UserViewModel(x)));
 			SelectedUser = Users.FirstOrDefault();
+			SelectedUser.User = DBCash.GetUser(SelectedUser.User.UID);
 		}
 
 		public RelayCommand EditCommand { get; set; }
@@ -87,7 +90,7 @@ namespace Resurs.ViewModels
 
 		public bool IsVisibility
 		{
-			get {return DBCash.CurrentUser.UserPermissions.Any(x=> x.PermissionType == PermissionType.User);}
+			get {return DBCash.CurrentUser.UserPermissions.Any(x=> x.PermissionType == PermissionType.ViewUser);}
 		}
 
 		public RelayCommand RemoveCommand { get; set; }
@@ -109,6 +112,19 @@ namespace Resurs.ViewModels
 		bool CanDelete()
 		{
 			return SelectedUser != null && SelectedUser.User.UID != DBCash.CurrentUser.UID;
+		}
+
+		public void Select(Guid userUID)
+		{
+			if (userUID != Guid.Empty)
+			{
+				var userViewModel = Users.FirstOrDefault(x => x.User.UID == userUID);
+				if (userViewModel != null)
+				{
+					Bootstrapper.MainViewModel.SelectedTabIndex = 6;
+					SelectedUser = userViewModel;
+				}
+			}
 		}
 	}
 }

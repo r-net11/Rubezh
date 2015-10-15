@@ -31,6 +31,10 @@ namespace Resurs.ViewModels
 					if (Journal.ObjectUID.HasValue)
 						Bootstrapper.MainViewModel.ConsumersViewModel.Select(Journal.ObjectUID.Value);
 					break;
+				case ClassType.IsUser:
+					if (Journal.ObjectUID.HasValue)
+						Bootstrapper.MainViewModel.UsersViewModel.Select(Journal.ObjectUID.Value);
+					break;
 			}
 		}
 	}

@@ -5,37 +5,37 @@ namespace ResursAPI
 	public enum PermissionType
 	{
 		[DescriptionAttribute("Просмотр Пользователей")]
-		User = 0,
+		ViewUser = 0,
 
 		[DescriptionAttribute("Редактирование Пользователя")]
 		EditUser = 1,
 
 		[DescriptionAttribute("Просмотр Устройств")]
-		Device = 2,
+		ViewDevice = 2,
 
 		[DescriptionAttribute("Редактирование Устройства")]
 		EditDevice = 3,
 
 		[DescriptionAttribute("Просмотр Абонентов")]
-		Consumer,
+		ViewConsumer,
 
 		[DescriptionAttribute("Редактирование Абонента")]
 		EditConsumer,
 
 		[DescriptionAttribute("Просмотр Тарифов")]
-		Tariff = 6,
+		ViewTariff = 6,
 
 		[DescriptionAttribute("Редактирование Тарифа ")]
 		EditTariff = 7,
 
 		[DescriptionAttribute("Просмотр Отчетов")]
-		Report = 8,
+		ViewReport = 8,
 
 		[DescriptionAttribute("Просмотр Графиков")]
-		Plot = 9,
+		ViewPlot = 9,
 
 		[DescriptionAttribute("Просмотр Журнала событий")]
-		Journal = 10,
+		ViewJournal = 10,
 
 	}
 }

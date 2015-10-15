@@ -114,6 +114,7 @@ namespace Resurs.ViewModels
 				var consumerViewModel = AllConsumers.FirstOrDefault(x => x.Consumer.UID == consumerUID);
 				if (consumerViewModel != null)
 					consumerViewModel.ExpandToThis();
+				Bootstrapper.MainViewModel.SelectedTabIndex = 1;
 				SelectedConsumer = consumerViewModel;
 			}
 		}
@@ -256,7 +257,7 @@ namespace Resurs.ViewModels
 
 		public bool IsVisibility
 		{
-			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.Consumer); }
+			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.ViewConsumer); }
 		}
 	}
 }
