@@ -10,11 +10,13 @@ namespace Resurs.ViewModels
 	public class ReceiptViewModel : DialogViewModel
 	{
 		public ReceiptTemplate Receipt { get; private set;}
+		public Bill Bill { get; private set; }
 		public ReportPreviewModel Model { get; set; }
-		public ReceiptViewModel(ReceiptTemplate receipt)
+		public ReceiptViewModel(ReceiptTemplate receipt, Bill bill)
 		{			
 			FitPageSizeCommand = new RelayCommand<ZoomFitMode>(OnFitPageSize, CanFitPageSize);
 
+			Bill = bill;
 			Receipt = receipt;
 			Model = CreateModel();
 		}
@@ -35,6 +37,7 @@ namespace Resurs.ViewModels
 		}
 		ReportPreviewModel CreateModel()
 		{
+			Receipt.Bill = Bill;
 			Receipt.CreateDocument();
 			return new ReportPreviewModel(Receipt)
 			{

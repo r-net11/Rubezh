@@ -291,6 +291,8 @@ namespace Resurs.Reports.DataSources {
             
             private global::System.Data.DataColumn columnК_оплате;
             
+            private global::System.Data.DataColumn columnСчет;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public DataDataTable() {
@@ -374,6 +376,14 @@ namespace Resurs.Reports.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn СчетColumn {
+                get {
+                    return this.columnСчет;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -409,7 +419,7 @@ namespace Resurs.Reports.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DataRow AddDataRow(string Счетчик, double Тариф_1, double Тариф_2, double Тариф_3, double Тариф_4, double К_оплате) {
+            public DataRow AddDataRow(string Счетчик, double Тариф_1, double Тариф_2, double Тариф_3, double Тариф_4, double К_оплате, string Счет) {
                 DataRow rowDataRow = ((DataRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Счетчик,
@@ -417,7 +427,8 @@ namespace Resurs.Reports.DataSources {
                         Тариф_2,
                         Тариф_3,
                         Тариф_4,
-                        К_оплате};
+                        К_оплате,
+                        Счет};
                 rowDataRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDataRow);
                 return rowDataRow;
@@ -446,6 +457,7 @@ namespace Resurs.Reports.DataSources {
                 this.columnТариф_3 = base.Columns["Тариф 3"];
                 this.columnТариф_4 = base.Columns["Тариф 4"];
                 this.columnК_оплате = base.Columns["К оплате"];
+                this.columnСчет = base.Columns["Счет"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -463,6 +475,8 @@ namespace Resurs.Reports.DataSources {
                 base.Columns.Add(this.columnТариф_4);
                 this.columnК_оплате = new global::System.Data.DataColumn("К оплате", typeof(double), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnК_оплате);
+                this.columnСчет = new global::System.Data.DataColumn("Счет", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnСчет);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -701,6 +715,22 @@ namespace Resurs.Reports.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Счет {
+                get {
+                    try {
+                        return ((string)(this[this.tableData.СчетColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Счет\' in table \'Data\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableData.СчетColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsСчетчикNull() {
                 return this.IsNull(this.tableData.СчетчикColumn);
             }
@@ -769,6 +799,18 @@ namespace Resurs.Reports.DataSources {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetК_оплатеNull() {
                 this[this.tableData.К_оплатеColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsСчетNull() {
+                return this.IsNull(this.tableData.СчетColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetСчетNull() {
+                this[this.tableData.СчетColumn] = global::System.Convert.DBNull;
             }
         }
         

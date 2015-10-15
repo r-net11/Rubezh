@@ -16,7 +16,7 @@ namespace Resurs.ViewModels
 	public class BillViewModel : BaseViewModel
 	{
 		public BillsViewModel BillsViewModel { get; private set; }
-		public static Bill Bill { get; private set; }
+		public Bill Bill { get; private set; }
 		public BillViewModel(Bill bill, BillsViewModel billsViewModel, bool isReadOnly)
 		{
 			ShowReceiptCommand = new RelayCommand(OnShowReceipt, CanShowReceipt);
@@ -135,7 +135,7 @@ namespace Resurs.ViewModels
 		public RelayCommand ShowReceiptCommand { get; private set; }
 		void OnShowReceipt()
 		{
-			var receiptViewModel = new ReceiptViewModel(SelectedReceipt);
+			var receiptViewModel = new ReceiptViewModel(SelectedReceipt, Bill);
 			Infrastructure.Common.Windows.DialogService.ShowModalWindow(receiptViewModel);
 		}
 		bool CanShowReceipt()

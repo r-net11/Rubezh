@@ -12,7 +12,7 @@
   <xs:element name="ReceiptTemplateDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="ReceiptTemplateDataSet" msprop:Generator_UserDSName="ReceiptTemplateDataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="Data" msprop:Generator_TableClassName="DataDataTable" msprop:Generator_TableVarName="tableData" msprop:Generator_RowChangedName="DataRowChanged" msprop:Generator_TablePropName="Data" msprop:Generator_RowDeletingName="DataRowDeleting" msprop:Generator_RowChangingName="DataRowChanging" msprop:Generator_RowEvHandlerName="DataRowChangeEventHandler" msprop:Generator_RowDeletedName="DataRowDeleted" msprop:Generator_RowClassName="DataRow" msprop:Generator_UserTableName="Data" msprop:Generator_RowEvArgName="DataRowChangeEvent">
+        <xs:element name="Data" msprop:Generator_TableClassName="DataDataTable" msprop:Generator_TableVarName="tableData" msprop:Generator_TablePropName="Data" msprop:Generator_RowDeletingName="DataRowDeleting" msprop:Generator_RowChangingName="DataRowChanging" msprop:Generator_RowEvHandlerName="DataRowChangeEventHandler" msprop:Generator_RowDeletedName="DataRowDeleted" msprop:Generator_UserTableName="Data" msprop:Generator_RowChangedName="DataRowChanged" msprop:Generator_RowEvArgName="DataRowChangeEvent" msprop:Generator_RowClassName="DataRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Счетчик" msprop:Generator_ColumnVarNameInTable="columnСчетчик" msprop:Generator_ColumnPropNameInRow="Счетчик" msprop:Generator_ColumnPropNameInTable="СчетчикColumn" msprop:Generator_UserColumnName="Счетчик" type="xs:string" minOccurs="0" />
@@ -21,6 +21,7 @@
               <xs:element name="Тариф_x0020_3" msprop:Generator_ColumnVarNameInTable="columnТариф_3" msprop:Generator_ColumnPropNameInRow="Тариф_3" msprop:Generator_ColumnPropNameInTable="Тариф_3Column" msprop:Generator_UserColumnName="Тариф 3" type="xs:double" minOccurs="0" />
               <xs:element name="Тариф_x0020_4" msprop:Generator_ColumnVarNameInTable="columnТариф_4" msprop:Generator_ColumnPropNameInRow="Тариф_4" msprop:Generator_ColumnPropNameInTable="Тариф_4Column" msprop:Generator_UserColumnName="Тариф 4" type="xs:double" minOccurs="0" />
               <xs:element name="К_x0020_оплате" msprop:Generator_ColumnVarNameInTable="columnК_оплате" msprop:Generator_ColumnPropNameInRow="К_оплате" msprop:Generator_ColumnPropNameInTable="К_оплатеColumn" msprop:Generator_UserColumnName="К оплате" type="xs:double" minOccurs="0" />
+              <xs:element name="Счет" msprop:Generator_ColumnVarNameInTable="columnСчет" msprop:Generator_ColumnPropNameInRow="Счет" msprop:Generator_ColumnPropNameInTable="СчетColumn" msprop:Generator_UserColumnName="Счет" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
