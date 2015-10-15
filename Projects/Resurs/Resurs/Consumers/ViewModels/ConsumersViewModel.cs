@@ -96,7 +96,11 @@ namespace Resurs.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var consumerDetailsViewModel = new ConsumerDetailsViewModel(new Consumer() { ParentUID = SelectedConsumer.Consumer.IsFolder ? SelectedConsumer.Consumer.UID : SelectedConsumer.Consumer.ParentUID }, false, true);
+			var consumerDetailsViewModel = new ConsumerDetailsViewModel(new Consumer 
+			{ 
+				ParentUID = SelectedConsumer.Consumer.IsFolder ? SelectedConsumer.Consumer.UID : SelectedConsumer.Consumer.ParentUID,
+				Bills = new List<Bill> { new Bill() }
+			}, false, true);
 			if (DialogService.ShowModalWindow(consumerDetailsViewModel))
 			{
 				var consumerViewModel = new ConsumerViewModel(consumerDetailsViewModel.GetConsumer());
