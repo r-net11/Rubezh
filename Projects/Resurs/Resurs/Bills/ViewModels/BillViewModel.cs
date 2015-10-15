@@ -1,5 +1,8 @@
 ﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Resurs.Consumers;
+using Resurs.Reports.Templates;
 using ResursAPI;
 using ResursDAL;
 using System;
@@ -12,32 +15,32 @@ namespace Resurs.ViewModels
 {
 	public class BillViewModel : BaseViewModel
 	{
-		public BillViewModel(Bill bill, bool isReadOnly)
+		public BillsViewModel BillsViewModel { get; private set; }
+		public Bill Bill { get; private set; }
+		public BillViewModel(Bill bill, BillsViewModel billsViewModel, bool isReadOnly)
 		{
+			ShowReceiptCommand = new RelayCommand(OnShowReceipt, CanShowReceipt);
+
+			BillsViewModel = billsViewModel;
+			Bill = bill;
+
 			Uid = bill.UID;
 			Consumer = bill.Consumer;
 			Name = bill.Name;
 			Description = bill.Description;
 			Balance = bill.Balance;
-			TemplatePath = bill.TemplatePath;
 			IsReadOnly = isReadOnly;
 
+			Receipts = ReceiptHelper.GetAllTemplate();
+			SelectedReceipt = Receipts.FirstOrDefault();
 			AddDeviceCommand = new RelayCommand(OnAddDevice);
 			RemoveDeviceCommand = new RelayCommand<DeviceViewModel>(OnRemoveDevice);
+			SelectDeviceCommand = new RelayCommand<Guid>(OnSelectDevice);
 
 			Devices = new ObservableCollection<DeviceViewModel>(bill.Devices.Select(x => new DeviceViewModel(x)));
 		}
 
-		bool _isReadOnly;
-		public bool IsReadOnly
-		{
-			get { return _isReadOnly; }
-			set
-			{
-				_isReadOnly = value;
-				OnPropertyChanged(() => IsReadOnly);
-			}
-		}
+		public bool IsReadOnly { get; private set; }
 
 		public Guid Uid { get; private set; }
 
@@ -77,29 +80,42 @@ namespace Resurs.ViewModels
 				OnPropertyChanged(() => Balance);
 			}
 		}
-
-		string _templatePath;
-		public string TemplatePath
+		public List<ReceiptTemplate> Receipts { get; private set; }
+		ReceiptTemplate _selectedReceipt;
+ 		public ReceiptTemplate SelectedReceipt
 		{
-			get { return _templatePath; }
+			get { return _selectedReceipt; }
 			set
 			{
-				_templatePath = value;
-				OnPropertyChanged(() => TemplatePath);
+				_selectedReceipt = value;
+				OnPropertyChanged(() => SelectedReceipt);
 			}
 		}
 
 		public RelayCommand AddDeviceCommand { get; private set; }
 		void OnAddDevice()
 		{
-			var device = DBCash.GetRootDevice();
-			Devices.Add(new DeviceViewModel(device));
+			var exceptDeviceUids = new List<Guid>();
+			foreach (var billViewModel in BillsViewModel.Bills)
+				exceptDeviceUids.AddRange(billViewModel.Devices.Select(x => x.Device.UID));
+			exceptDeviceUids.AddRange(DBCash.GetAllChildren(DBCash.RootDevice).Where(x => x.BillUID != null).Select(x => x.UID));
+			var selectDeviceViewModel = new SelectDeviceViewModel(exceptDeviceUids);
+			if (DialogService.ShowModalWindow(selectDeviceViewModel) && selectDeviceViewModel.SelectedDevice != null)
+			{
+				Devices.Add(new DeviceViewModel(selectDeviceViewModel.SelectedDevice.Device));	
+			}
 		}
 
 		public RelayCommand<DeviceViewModel> RemoveDeviceCommand { get; private set; }
 		void OnRemoveDevice(DeviceViewModel device)
 		{
 			Devices.Remove(device);
+		}
+
+		public RelayCommand<Guid> SelectDeviceCommand { get; private set; }
+		void OnSelectDevice(Guid deviceUid)
+		{
+			Bootstrapper.MainViewModel.DevicesViewModel.Select(deviceUid);
 		}
 
 		public Bill GetBill()
@@ -110,10 +126,19 @@ namespace Resurs.ViewModels
 				Consumer = this.Consumer,
 				Description = this.Description,
 				Name = this.Name,
-				TemplatePath = this.TemplatePath,
 				UID = this.Uid,
 				Devices = this.Devices.Select(x => x.Device).ToList()
 			};
+		}
+		public RelayCommand ShowReceiptCommand { get; private set; }
+		void OnShowReceipt()
+		{
+			var receiptViewModel = new ReceiptViewModel(SelectedReceipt, Bill);
+			Infrastructure.Common.Windows.DialogService.ShowModalWindow(receiptViewModel);
+		}
+		bool CanShowReceipt()
+		{
+			return SelectedReceipt != null;
 		}
 	}
 }

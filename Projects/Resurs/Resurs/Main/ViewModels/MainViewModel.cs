@@ -27,5 +27,16 @@ namespace Resurs.ViewModels
 		public JournalEventsViewModel JournalEventsViewModel { get; private set; }
 		public TariffsViewModel TariffsViewModel { get; private set; }
 		public SettingsViewModel SettingsViewModel { get; private set; }
+
+		int _selectedTabIndex;
+		public int SelectedTabIndex
+		{
+			get { return _selectedTabIndex; }
+			set
+			{
+				_selectedTabIndex = value;
+				OnPropertyChanged(() => SelectedTabIndex);
+			}
+		}
     }
 }

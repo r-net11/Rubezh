@@ -29,7 +29,9 @@ namespace ResursDAL
 							Description = x.Description,
 							ParentUID = x.ParentUID, 
 							IsActive = x.IsActive,
-							TariffType = x.TariffType
+							TariffType = x.TariffType,
+							ComPort = x.ComPort,
+							TariffUID = x.TariffUID,
 						}).ToList();
 					var allDevices = tableItems.Select(x => new Device
 						{
@@ -39,7 +41,9 @@ namespace ResursDAL
 							Description = x.Description,
 							ParentUID = x.ParentUID,
 							IsActive = x.IsActive,
-							TariffType = x.TariffType
+							TariffType = x.TariffType,
+							ComPort = x.ComPort,
+							TariffUID = x.TariffUID,
 						}).OrderBy(x => x.Address).ToList();
 					
 					SetChildren(allDevices);
@@ -158,10 +162,11 @@ namespace ResursDAL
 				devices.Add(RootDevice);
 #if DEBUG
 				int interfaces = 2;
-				int devicesPerInterface = 10;
+				int devicesPerInterface = 2;
 				for (int i = 0; i < interfaces / 2; i++)
 				{
 					var interfaceDevice = new Device(DriverType.BeregunNetwork, RootDevice);
+					interfaceDevice.ComPort = "COM" + (i + 1);
 					InitializeTestDevice(interfaceDevice, random);
 					devices.Add(interfaceDevice);
 					for (int j = 0; j < devicesPerInterface; j++)
@@ -174,6 +179,7 @@ namespace ResursDAL
 				for (int i = 0; i < interfaces / 2; i++)
 				{
 					var interfaceDevice = new Device(DriverType.MZEP55Network, RootDevice);
+					interfaceDevice.ComPort = "COM" + (interfaces / 2 + i + 1);
 					devices.Add(interfaceDevice);
 					InitializeTestDevice(interfaceDevice, random);
 					for (int j = 0; j < devicesPerInterface; j++)
@@ -300,6 +306,7 @@ namespace ResursDAL
 						break;
 					}
 				}
+
 				if (parent != null)
 				{
 					foreach (var item in sameParent)
@@ -340,6 +347,9 @@ namespace ResursDAL
 			tableDevice.Parent = device.Parent != null ? context.Devices.FirstOrDefault(x => x.UID == device.Parent.UID) : null;
 			tableDevice.DriverType = device.DriverType;
 			tableDevice.IsDbMissmatch = device.IsDbMissmatch;
+			tableDevice.TariffUID = device.TariffUID;
+			if (device.DeviceType == DeviceType.Network)
+				tableDevice.ComPort = device.ComPort;
 			tableDevice.Parameters = device.Parameters.Select(x => new Parameter
 			{
 				BoolValue = x.BoolValue,

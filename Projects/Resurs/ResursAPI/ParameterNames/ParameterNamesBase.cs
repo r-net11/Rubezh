@@ -19,5 +19,10 @@ namespace ResursAPI.ParameterNames
         /// Дата и время устройства
         /// </summary>
         public const string DateTime = "DateTime";
+		/// <summary>
+		/// Наименование Comport,
+		/// тип в БД - string
+		/// </summary>
+		public const string PortName = "PortName";
     }
 }

@@ -4,6 +4,7 @@ using ResursAPI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 
@@ -13,19 +14,26 @@ namespace Resurs.ViewModels
 	{
 		public Device Device { get; private set; }
 		Device _OldDevice;
+		Device _Parent;
 		bool _IsNew;
 		public ObservableCollection<DetailsParameterViewModel> Parameters { get; private set; }
 		
 		public DeviceDetailsViewModel(Device device)
 		{
 			Title = "Редактирование устройства " + device.Name + " " + device.FullAddress;
+			_Parent = device.Parent;
+			Address = device.Address;
 			Initialize(device);
 		}
 
 		public DeviceDetailsViewModel(DriverType driverType, Device parent)
 		{
 			_IsNew = true;
-			Initialize(new Device(driverType, parent));
+			_Parent = parent;
+			Address = parent.Children.Count + 1;
+			var device = new Device(driverType);
+			Title = "Создание устройства " + device.Name;
+			Initialize(device);
 		}
 
 		void Initialize(Device device)
@@ -35,6 +43,12 @@ namespace Resurs.ViewModels
 			Description = device.Description;
 			IsActive = device.IsActive;
 			Parameters = new ObservableCollection<DetailsParameterViewModel>(Device.Parameters.Select(x => new DetailsParameterViewModel(x)));
+			IsNetwork = device.DeviceType == DeviceType.Network;
+			if(IsNetwork)
+			{
+				ComPorts = new ObservableCollection<string>(GetComPorts());
+				ComPort = ComPorts.FirstOrDefault(x => x == device.ComPort);
+			}
 			TariffTypes = new ObservableCollection<TariffType>();
 			foreach (TariffType item in Enum.GetValues(typeof(TariffType)))
 			{
@@ -63,6 +77,30 @@ namespace Resurs.ViewModels
 			}
 		}
 
+		int _Address;
+		public int Address
+		{
+			get { return _Address; }
+			set
+			{
+				_Address = value;
+				OnPropertyChanged(() => Address);
+			}
+		}
+
+		public bool IsNetwork { get; private set; }
+		public ObservableCollection<string> ComPorts { get; private set; }
+		string _ComPort;
+		public string ComPort
+		{
+			get { return _ComPort; }
+			set
+			{
+				_ComPort = value;
+				OnPropertyChanged(() => ComPort);
+			}
+		}
+
 		string _description;
 		public string Description
 		{
@@ -87,15 +125,31 @@ namespace Resurs.ViewModels
 
 		protected override bool Save()
 		{
-			foreach (var item in Parameters)
+			if(IsNetwork)
 			{
-				var saveResult = item.Save();
-				if (!saveResult)
+				if (_Parent.Children.Any(x => x.ComPort == ComPort && x.UID != Device.UID))
+				{
+					MessageBoxService.Show("Невозможно добавить устройство с повторяющимся адресом");
 					return false;
+				}
+				else
+					Address = int.Parse(ComPort.Substring(3));
+					Device.ComPort = ComPort;
 			}
-			Device.Description = Description;
-			if (CanEditTariffType)
-				Device.TariffType = TariffType;
+			if (_Parent.Children.Any(x => x.Address == Address && x.UID != Device.UID))
+			{
+				MessageBoxService.Show("Невозможно добавить устройство с повторяющимся адресом");
+				return false;
+			}
+			else
+				Device.Address = Address;
+			Device.SetFullAddress();
+			foreach (var item in Device.Children)
+			{
+				item.Parent = Device;
+				item.SetFullAddress();
+			}
+			
 			Device.Parameters = new List<Parameter>(Parameters.Select(x => x.Model));
 			foreach (var item in Device.Parameters)
 			{
@@ -109,6 +163,15 @@ namespace Resurs.ViewModels
 					}
 				}
 			}
+			foreach (var item in Parameters)
+			{
+				var saveResult = item.Save();
+				if (!saveResult)
+					return false;
+			}
+			Device.Description = Description;
+			if (CanEditTariffType)
+				Device.TariffType = TariffType;
 			Device.IsActive = IsActive;
 			if (!_IsNew)
 			{
@@ -155,11 +218,22 @@ namespace Resurs.ViewModels
 			}
 			else
 			{
+				Device.SetParent(_Parent, Address);
 				AddDevice(Device);
 			}
 			if(ResursDAL.DBCash.SaveDevice(Device))
 				return base.Save();
 			return false;
+		}
+
+		IEnumerable<string> GetComPorts()
+		{
+#if DEBUG
+			var allPorts = new List<string> { "COM1", "COM2", "COM3", "COM4", "COM5" };
+#else
+			var allPorts = SerialPort.GetPortNames();
+#endif
+			return allPorts.Except(_Parent.Children.Where(x => x.UID != Device.UID).Select(x => x.ComPort));
 		}
 
 		public bool SetStatus(Guid deviceUID, bool isActive)

@@ -82,6 +82,13 @@ namespace RubezhAPI.GK
 			}
 		}
 
+		public bool IsCardReaderOrCodeReader
+		{
+			get
+			{
+				return DriverType == GKDriverType.RSR2_CardReader || DriverType == GKDriverType.RSR2_CodeReader;
+			}
+		}
 
 		public string ImageSource
 		{

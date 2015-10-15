@@ -30,7 +30,7 @@ namespace GKModule.ViewModels
 				_device = value;
 				if (_device != null)
 				{
-					IsCodeReader = _device.DriverType == GKDriverType.RSR2_CodeReader || _device.DriverType == GKDriverType.RSR2_CardReader;
+					IsCodeReader = _device.Driver.IsCardReaderOrCodeReader;
 				}
 				OnPropertyChanged(() => IsCodeReader);
 				OnPropertyChanged(() => Device);

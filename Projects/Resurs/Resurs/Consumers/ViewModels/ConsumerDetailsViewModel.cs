@@ -17,16 +17,7 @@ namespace Resurs.ViewModels
 			BillsViewModel = new BillsViewModel(consumer.Bills.ToList(), isReadOnly);
 		}
 
-		bool _isReadOnly;
-		public bool IsReadOnly
-		{
-			get { return _isReadOnly; }
-			set
-			{
-				_isReadOnly = value;
-				OnPropertyChanged(() => IsReadOnly);
-			}
-		}
+		public bool IsReadOnly { get; private set; }
 
 		public Guid Uid { get; private set; }
 		public Guid? ParentUid { get; private set; } 
@@ -69,7 +60,17 @@ namespace Resurs.ViewModels
 
 		protected override bool Save()
 		{
-			DBCash.SaveConsumer(GetConsumer());
+			var consumer = GetConsumer();
+			DBCash.SaveConsumer(consumer);
+			
+			foreach (var bill in consumer.Bills)
+				foreach (var device in bill.Devices)
+				{
+					var dbDevice = DBCash.GetDevice(device.UID);
+					dbDevice.Bill = bill;
+					dbDevice.BillUID = bill.UID;
+				}
+
 			return base.Save();
 		}
 	}

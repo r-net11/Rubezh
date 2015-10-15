@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="Resurs.Views.SelectDeviceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+			 xmlns:viewModel="clr-namespace:Resurs.ViewModels"
+			 xmlns:Converters="clr-namespace:Resurs.Converters"
+			 MinWidth="600" MinHeight="600">
+	<UserControl.Resources>
+		<viewModel:DeviceViewModelNameComparer x:Key="DeviceViewModelNameComparer" />
+		<viewModel:DeviceViewModelDescriptionComparer x:Key="DeviceViewModelDescriptionComparer" />
+		<viewModel:DeviceViewModelAddressComparer x:Key="DeviceViewModelAddressComparer" />
+		<Converters:DeviceStateToIconConverter x:Key="DeviceStateToIconConverter" />
+		<Converters:DeviceTypeToIconConverter x:Key="DeviceTypeToIconConverter" />
+		<Style TargetType="TextBlock" x:Key="DeviceTextBlockStyle">
+			<Style.Triggers>
+				<DataTrigger Binding="{Binding IsActive, UpdateSourceTrigger=PropertyChanged}" Value="False">
+					<Setter Property="Foreground" Value="Gray" />
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
+	</UserControl.Resources>
+
+	<tree:TreeList Grid.Row="1" Grid.Column="0" Source="{Binding RootDevices}" SelectedTreeNode="{Binding SelectedDevice}" ItemActivatedCommand="{Binding SaveCommand}"
+				Focusable="True" tree:SortBehavior.CanUserSortColumns="True">
+		<tree:TreeList.View>
+			<GridView>
+				<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="2" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelNameComparer}">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="{Binding State, Converter={StaticResource DeviceStateToIconConverter}}" />
+								<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="{Binding Device.DeviceType, Converter={StaticResource DeviceTypeToIconConverter}}" />
+								<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Device.Name}" Style="{StaticResource DeviceTextBlockStyle}" />
+							</StackPanel>
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
+				<GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDescriptionComparer}">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Device.Description}" Style="{StaticResource DeviceTextBlockStyle}"  />
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
+				<GridViewColumn Header="Адрес" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelAddressComparer}">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Device.FullAddress}" Style="{StaticResource DeviceTextBlockStyle}"  />
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
+			</GridView>
+		</tree:TreeList.View>
+	</tree:TreeList>
+
+</UserControl>

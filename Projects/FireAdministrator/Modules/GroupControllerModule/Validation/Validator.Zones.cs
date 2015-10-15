@@ -12,14 +12,10 @@ namespace GKModule.Validation
 	{
 		void ValidateZones()
 		{
-			ValidateZoneNoEquality();
+			ValidateCommon(GKManager.Zones);
 
 			foreach (var zone in GKManager.Zones)
 			{
-				if (IsManyGK)
-					ValidateDifferentGK(zone);
-				//ValidateZoneHasNoDevices(zone);
-				ValidateEmpty(zone);
 				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.ZoneSensorQuantity))
 				{
 					ValidateZoneDetectorCount(zone);
@@ -28,58 +24,34 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateEmpty(GKZone zone)
-		{
-			if (zone.DataBaseParent == null)
-			{
-				Errors.Add(new ZoneValidationError(zone, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
-			}
-		}
-
-		void ValidateZoneNoEquality()
-		{
-			var zoneNos = new HashSet<int>();
-			foreach (var zone in GKManager.Zones)
-			{
-				if (!zoneNos.Add(zone.No))
-					Errors.Add(new ZoneValidationError(zone, "Дублируется номер", ValidationErrorLevel.CannotWrite));
-			}
-		}
-
-		void ValidateDifferentGK(GKZone zone)
-		{
-			if (zone.GkParents.Count > 1)
-				Errors.Add(new ZoneValidationError(zone, "Зона содержит устройства разных ГК", ValidationErrorLevel.CannotWrite));
-		}
-
-		void ValidateZoneHasNoDevices(GKZone zone)
-		{
-			if (zone.Devices.Count == 0)
-			{
-				Errors.Add(new ZoneValidationError(zone, "К зоне не подключено ни одного устройства", ValidationErrorLevel.CannotWrite));
-			}
-		}
-
+		/// <summary>
+		/// Валидация того, что количество подключенных к зоне датчиков для перехода в соответствующее состояние меньше заданного в настройке зоны
+		/// </summary>
+		/// <param name="zone"></param>
 		void ValidateZoneDetectorCount(GKZone zone)
 		{
 			var fire1Count = zone.Devices.Count(x => x.Driver.AvailableStateBits.Contains(GKStateBit.Fire1));
 			var fire2Count = zone.Devices.Count(x => x.Driver.AvailableStateBits.Contains(GKStateBit.Fire2));
 			if (fire2Count == 0 && fire1Count < zone.Fire1Count)
 			{
-				Errors.Add(new ZoneValidationError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки Пожар 1", ValidationErrorLevel.CannotWrite));
+				AddError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки Пожар 1", ValidationErrorLevel.CannotWrite);
 				return;
 			}
 			if (fire2Count == 0 && fire1Count < zone.Fire2Count)
 			{
-				Errors.Add(new ZoneValidationError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки Пожар 2", ValidationErrorLevel.CannotWrite));
+				AddError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки Пожар 2", ValidationErrorLevel.CannotWrite);
 			}
 		}
 
+		/// <summary>
+		/// Валидация того, что настройка количество датчиков для перехода в Пожар-1 больше, чем для перехода в Пожар-2
+		/// </summary>
+		/// <param name="zone"></param>
 		void ValidateZoneFire1Fire2Count(GKZone zone)
 		{
 			if (zone.Fire1Count >= zone.Fire2Count)
 			{
-				Errors.Add(new ZoneValidationError(zone, "Количество датчиков для сработки Пожар 1 должно быть меньше количества датчиков для сработки Пожар 2", ValidationErrorLevel.CannotWrite));
+				AddError(zone, "Количество датчиков для сработки Пожар 1 должно быть меньше количества датчиков для сработки Пожар 2", ValidationErrorLevel.CannotWrite);
 			}
 		}
 	}

@@ -4,4 +4,5 @@
   <?define ResursDescription="Запускает Ресурс" ?>
   <?define ResursInstallLocation="Resurs" ?>
   <?define Resurs.TargetDir="..\..\..\..\..\Resurs\bin\Release\"?>
+	<?define Resurs.DevExpress.TargetDir="..\..\..\..\..\..\3rdParty\DevExpress\DevExpress 15.1\"?>
 </Include>

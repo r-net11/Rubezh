@@ -13,6 +13,9 @@ namespace GKModule.Validation
 {
 	public partial class Validator
 	{
+		/// <summary>
+		/// Валидация количества дескрипторов на каждом ГК и на каждом КАУ
+		/// </summary>
 		void ValidateGKObjectsCount()
 		{
 			var databases = new List<CommonDatabase>();
@@ -22,9 +25,9 @@ namespace GKModule.Validation
 			foreach (var database in databases)
 			{
 				if (database is GkDatabase && database.Descriptors.Count > 65535)
-					Errors.Add(new DeviceValidationError(database.RootDevice, "Количество объектов на ГК превышает 65535", ValidationErrorLevel.CannotWrite));
+					AddError(database.RootDevice, "Количество объектов на ГК превышает 65535", ValidationErrorLevel.CannotWrite);
 				if (database is KauDatabase && database.Descriptors.Count > 2047)
-					Errors.Add(new DeviceValidationError(database.RootDevice, "Количество объектов на КАУ превышает 2047", ValidationErrorLevel.CannotWrite));
+					AddError(database.RootDevice, "Количество объектов на КАУ превышает 2047", ValidationErrorLevel.CannotWrite);
 			}
 		}
 
@@ -36,8 +39,7 @@ namespace GKModule.Validation
 			{
 				if (device.IsNotUsed)
 					continue;
-				if (IsManyGK)
-					ValidateDifferentGK(device);
+				ValidateObjectOnlyOnOneGK(device);
 				ValidateIPAddress(device);
 				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.DeviceNotConnected))
 				{
@@ -56,14 +58,22 @@ namespace GKModule.Validation
 			}
 		}
 
+		/// <summary>
+		/// Валидация уникальности адресов и выхода за пределы допустимогог диапазона адреса
+		/// </summary>
 		void ValidateAddressEquality()
 		{
+			var uids = new HashSet<Guid>();
 			var deviceAddresses = new HashSet<string>();
+
 			foreach (var device in GKManager.Devices)
 			{
+				if (!uids.Add(device.UID))
+					AddError(device, "Дублируется идентификатор", ValidationErrorLevel.CannotSave);
+
 				if (device.IsDisabled && device.Children.Count > 0)
 				{
-					Errors.Add(new DeviceValidationError(device, "При кольцевой АЛС" + (device.IntAddress - 1) + "-" + device.IntAddress + " есть подключенные устройства на АЛС" + device.IntAddress, ValidationErrorLevel.CannotWrite));
+					AddError(device, "При кольцевой АЛС" + (device.IntAddress - 1) + "-" + device.IntAddress + " есть подключенные устройства на АЛС" + device.IntAddress, ValidationErrorLevel.CannotWrite);
 				}
 
 				if (device.DriverType == GKDriverType.System || device.DriverType == GKDriverType.GK || !device.Driver.HasAddress || device.Driver.IsAutoCreate || device.Driver.IsGroupDevice)
@@ -71,35 +81,25 @@ namespace GKModule.Validation
 
 				if (!deviceAddresses.Add(device.DottedAddress))
 				{
-					Errors.Add(new DeviceValidationError(device, "Дублируется адрес устройства", ValidationErrorLevel.CannotWrite));
+					AddError(device, "Дублируется адрес устройства", ValidationErrorLevel.CannotWrite);
 				}
 				if ((device.Driver.MaxAddress > 0 && device.Driver.MinAddress > 0) && (device.IntAddress > device.Driver.MaxAddress || device.IntAddress < device.Driver.MinAddress))
 				{
-					Errors.Add(new DeviceValidationError(device, "Неверно задан адрес. Диапазон допустимых значений от " + device.Driver.MinAddress.ToString() + " до " + device.Driver.MaxAddress.ToString(), ValidationErrorLevel.CannotWrite));
+					AddError(device, "Неверно задан адрес. Диапазон допустимых значений от " + device.Driver.MinAddress.ToString() + " до " + device.Driver.MaxAddress.ToString(), ValidationErrorLevel.CannotWrite);
 				}
 			}
 		}
 
+		/// <summary>
+		/// Валидация того, что для ГК верно задан IP-адрес
+		/// </summary>
+		/// <param name="device"></param>
 		void ValidateIPAddress(GKDevice device)
 		{
 			if (!GKManager.IsValidIpAddress(device))
 			{
-				Errors.Add(new DeviceValidationError(device, "Не верно задан IP адрес", ValidationErrorLevel.CannotWrite));
+				AddError(device, "Не верно задан IP адрес", ValidationErrorLevel.CannotWrite);
 			}
-		}
-
-		bool CheckIpAddress(string ipAddress)
-		{
-			if (String.IsNullOrEmpty(ipAddress))
-				return false;
-			IPAddress address;
-			return IPAddress.TryParse(ipAddress, out address);
-		}
-
-		void ValidateDifferentGK(GKDevice device)
-		{
-			if (device.GkParents.Count > 1)
-				Errors.Add(new DeviceValidationError(device, "Логика сработки содержит объекты разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 
 		void ValidateDeviceZone(GKDevice device)
@@ -116,7 +116,7 @@ namespace GKModule.Validation
 			if (device.Driver.HasZone)
 			{
 				if (device.Zones.Count == 0)
-					Errors.Add(new DeviceValidationError(device, "Устройство не подключено к зоне", ValidationErrorLevel.Warning));
+					AddError(device, "Устройство не подключено к зоне", ValidationErrorLevel.Warning);
 			}
 		}
 
@@ -131,7 +131,7 @@ namespace GKModule.Validation
 			if (device.Driver.HasLogic && !device.Driver.IgnoreHasLogic)
 			{
 				if (device.Logic.OnClausesGroup.Clauses.Count == 0)
-					Errors.Add(new DeviceValidationError(device, "Отсутствует логика срабатывания исполнительного устройства", ValidationErrorLevel.Warning));
+					AddError(device, "Отсутствует логика срабатывания исполнительного устройства", ValidationErrorLevel.Warning);
 			}
 		}
 
@@ -140,7 +140,7 @@ namespace GKModule.Validation
 			if (device.DriverType == GKDriverType.GK)
 			{
 				if (device.Children.Where(x => x.Driver.IsKau).Count() == 0)
-					Errors.Add(new DeviceValidationError(device, "ГК должен содержать подключенные КАУ", ValidationErrorLevel.CannotWrite));
+					AddError(device, "ГК должен содержать подключенные КАУ", ValidationErrorLevel.CannotWrite);
 			}
 		}
 
@@ -163,11 +163,11 @@ namespace GKModule.Validation
 					}
 					if (driverProperty.Min != 0)
 						if (property.Value < driverProperty.Min)
-							Errors.Add(new DeviceValidationError(device, "Параметр " + driverProperty.Caption + " должен быть больше " + minValue.ToString(), ValidationErrorLevel.CannotWrite));
+							AddError(device, "Параметр " + driverProperty.Caption + " должен быть больше " + minValue.ToString(), ValidationErrorLevel.CannotWrite);
 
 					if (driverProperty.Max != 0)
 						if (property.Value > driverProperty.Max)
-							Errors.Add(new DeviceValidationError(device, "Параметр " + driverProperty.Caption + " должен быть меньше " + maxValue.ToString(), ValidationErrorLevel.CannotWrite));
+							AddError(device, "Параметр " + driverProperty.Caption + " должен быть меньше " + maxValue.ToString(), ValidationErrorLevel.CannotWrite);
 				}
 			}
 		}
@@ -179,7 +179,7 @@ namespace GKModule.Validation
 				foreach (var clauseDevices in clause.Devices)
 				{
 					if (clauseDevices.IsNotUsed)
-						Errors.Add(new DeviceValidationError(device, "В логике задействованы неиспользуемые устройства", ValidationErrorLevel.CannotSave));
+						AddError(device, "В логике задействованы неиспользуемые устройства", ValidationErrorLevel.CannotSave);
 				}
 			}
 		}
@@ -189,7 +189,7 @@ namespace GKModule.Validation
 			if (device.Driver.IsGroupDevice)
 			{
 				if (device.Children.Any(x => x.IntAddress < device.IntAddress || (x.IntAddress - device.IntAddress) > device.Driver.GroupDeviceChildrenCount))
-					Errors.Add(new DeviceValidationError(device, string.Format("Для всех подключенных устройтв необходимо выбрать адрес из диапазона: {0}", device.PresentationAddress), ValidationErrorLevel.Warning));
+					AddError(device, string.Format("Для всех подключенных устройтв необходимо выбрать адрес из диапазона: {0}", device.PresentationAddress), ValidationErrorLevel.Warning);
 			}
 		}
 
@@ -208,7 +208,7 @@ namespace GKModule.Validation
 							var realDevice = realChildren[i];
 							if (realDevice.IntAddress != i + 1)
 							{
-								Errors.Add(new DeviceValidationError(realDevice, string.Format("Последовательность адресов АЛС " + shleifDevice.IntAddress + " должна быть неразрывна начиная с 1"), ValidationErrorLevel.CannotWrite));
+								AddError(realDevice, string.Format("Последовательность адресов АЛС " + shleifDevice.IntAddress + " должна быть неразрывна начиная с 1"), ValidationErrorLevel.CannotWrite);
 								break;
 							}
 						}
@@ -248,7 +248,7 @@ namespace GKModule.Validation
 				var kauDevice = kauChildren[i];
 				if (kauDevice.IntAddress != i + 1)
 				{
-					Errors.Add(new DeviceValidationError(kauDevice, string.Format("Последовательность адресов КАУ, подключенных к ГК, должна быть неразрывна начиная с 1"), ValidationErrorLevel.CannotWrite));
+					AddError(kauDevice, string.Format("Последовательность адресов КАУ, подключенных к ГК, должна быть неразрывна начиная с 1"), ValidationErrorLevel.CannotWrite);
 					break;
 				}
 			}
@@ -259,7 +259,7 @@ namespace GKModule.Validation
 			if (device.Driver.IsAm && device.Zones.Count > 0)
 			{
 				if (device.GuardZones.Any(x => x.GuardZoneDevices.Any(y => y.ActionType == GKGuardZoneDeviceActionType.SetAlarm && y.DeviceUID == device.UID)))
-					Errors.Add(new DeviceValidationError(device, string.Format("Тревожный датчик участвует сразу в охранной и пожарной зоне"), ValidationErrorLevel.Warning));
+					AddError(device, string.Format("Тревожный датчик участвует сразу в охранной и пожарной зоне"), ValidationErrorLevel.Warning);
 			}
 		}
 
@@ -269,7 +269,7 @@ namespace GKModule.Validation
 			{
 				if (device.GuardZones == null || device.GuardZones.Count == 0)
 				{
-					Errors.Add(new DeviceValidationError(device, string.Format("Охранное устройство не участвует в охранной зоне"), ValidationErrorLevel.Warning));
+					AddError(device, string.Format("Охранное устройство не участвует в охранной зоне"), ValidationErrorLevel.Warning);
 				}
 			}
 		}

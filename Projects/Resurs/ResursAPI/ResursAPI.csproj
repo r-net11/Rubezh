@@ -47,6 +47,10 @@
   <ItemGroup>
     <Compile Include="DriverCreators\IncotexNetworkCreator.cs" />
     <Compile Include="DriverCreators\Mercury203CounterCreator.cs" />
+    <Compile Include="DriverCreators\VirtualMercury203CounterCreator.cs" />
+    <Compile Include="DriverCreators\VirtualIncotextNetworkCreator.cs" />
+    <Compile Include="DriverCreators\VirtualMZEP55CounterCreator.cs" />
+    <Compile Include="DriverCreators\VirtualMZEP55NetworkCreator.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Journal\ClassType.cs" />
     <Compile Include="Journal\Filter.cs" />
@@ -60,6 +64,12 @@
     <Compile Include="ParameterNames\ParameterNamesIncotexNetwork.cs" />
     <Compile Include="ParameterNames\ParameterNamesMercury203.cs" />
     <Compile Include="ParameterNames\ParameterNamesBase.cs" />
+    <Compile Include="ParameterNames\ParameterNamesMZEP55Counter.cs" />
+    <Compile Include="ParameterNames\ParameterNamesMZEP55Network.cs" />
+    <Compile Include="ParameterNames\ParameterNamesVirtualIncotexNetwork.cs" />
+    <Compile Include="ParameterNames\ParameterNamesVirtualMercury203.cs" />
+    <Compile Include="ParameterNames\ParameterNamesVirtualMZEP55Counter.cs" />
+    <Compile Include="ParameterNames\ParameterNamesVirtualMZEP55Network.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResursSettings.cs" />
     <Compile Include="SettingsManager.cs" />

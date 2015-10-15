@@ -47,7 +47,7 @@ namespace RubezhAPI.GK
 						guardZoneDevice.Device = device;
 						guardZoneDevices.Add(guardZoneDevice);
 					}
-					if (device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
+					if (device.Driver.IsCardReaderOrCodeReader)
 					{
 						GKManager.DeviceConfiguration.InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.SetGuardSettings);
 						GKManager.DeviceConfiguration.InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.ResetGuardSettings);
@@ -133,7 +133,7 @@ namespace RubezhAPI.GK
 		{
 			get
 			{
-				foreach (var codeDevice in GuardZoneDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CodeReader || x.Device.DriverType == GKDriverType.RSR2_CardReader))
+				foreach (var codeDevice in GuardZoneDevices.Where(x => x.Device.Driver.IsCardReaderOrCodeReader))
 				{
 					if (codeDevice.CodeReaderSettings.AlarmSettings.AccessLevel > 0)
 						return true;

@@ -11,30 +11,14 @@ namespace GKModule.Validation
 	{
 		void ValidatePumpStations()
 		{
-			ValidatePumpStationNoEquality();
+			ValidateCommon(GKManager.PumpStations);
 			ValidatePumpsInDifferentNS();
 
 			foreach (var pumpStation in GKManager.PumpStations)
 			{
-				if (ValidateObjectsOnlyOnOneGK(pumpStation))
-				{
-					ValidatePumpStationHasValidDriverTypes(pumpStation);
-					ValidatePumpStationEmptyStartLogic(pumpStation);
-					ValidatePumpStationPumpsCount(pumpStation);
-				}
-			}
-		}
-
-		/// <summary>
-		/// Валидация наличия НС с одинаковыми номерами
-		/// </summary>
-		void ValidatePumpStationNoEquality()
-		{
-			var pumpStationNos = new HashSet<int>();
-			foreach (var pumpStation in GKManager.PumpStations)
-			{
-				if (!pumpStationNos.Add(pumpStation.No))
-					Errors.Add(new PumpStationValidationError(pumpStation, "Дублируется номер", ValidationErrorLevel.CannotWrite));
+				ValidatePumpStationHasValidDriverTypes(pumpStation);
+				ValidatePumpStationEmptyStartLogic(pumpStation);
+				ValidatePumpStationPumpsCount(pumpStation);
 			}
 		}
 
@@ -49,30 +33,9 @@ namespace GKModule.Validation
 				foreach (var device in pumpStation.NSDevices)
 				{
 					if (!devices.Add(device.UID))
-						Errors.Add(new DeviceValidationError(device, "Устройство присутствует в разных НС (" + pumpStation.PresentationName + ")", ValidationErrorLevel.CannotWrite));
+						AddError(device, "Устройство присутствует в разных НС (" + pumpStation.PresentationName + ")", ValidationErrorLevel.CannotWrite);
 				}
 			}
-		}
-
-		/// <summary>
-		/// НС должна содержать объекты, присутствующие на одном и только на одном ГК
-		/// </summary>
-		/// <param name="pumpStation"></param>
-		/// <returns></returns>
-		bool ValidateObjectsOnlyOnOneGK(GKPumpStation pumpStation)
-		{
-			if (pumpStation.GkParents.Count == 0)
-			{
-				Errors.Add(new PumpStationValidationError(pumpStation, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
-				return false;
-			}
-
-			if (pumpStation.GkParents.Count > 1)
-			{
-				Errors.Add(new PumpStationValidationError(pumpStation, "НС содержит объекты разных ГК", ValidationErrorLevel.CannotWrite));
-				return false;
-			}
-			return true;
 		}
 
 		/// <summary>
@@ -84,7 +47,7 @@ namespace GKModule.Validation
 		{
 			if (pumpStation.NSDevices.Any(x => !x.Driver.IsPump))
 			{
-				Errors.Add(new PumpStationValidationError(pumpStation, "В НС отсутствуют насосы", ValidationErrorLevel.CannotWrite));
+				AddError(pumpStation, "В НС отсутствуют насосы", ValidationErrorLevel.CannotWrite);
 			}
 		}
 
@@ -95,7 +58,7 @@ namespace GKModule.Validation
 		void ValidatePumpStationEmptyStartLogic(GKPumpStation pumpStation)
 		{
 			if (pumpStation.StartLogic.GetObjects().Count == 0)
-				Errors.Add(new PumpStationValidationError(pumpStation, "В НС отсутствует условие для запуска", ValidationErrorLevel.CannotWrite));
+				AddError(pumpStation, "В НС отсутствует условие для запуска", ValidationErrorLevel.CannotWrite);
 		}
 
 		/// <summary>
@@ -106,7 +69,7 @@ namespace GKModule.Validation
 		void ValidatePumpStationPumpsCount(GKPumpStation pumpStation)
 		{
 			if (pumpStation.NSPumpsCount > pumpStation.NSDevices.Count)
-				Errors.Add(new PumpStationValidationError(pumpStation, "В НС основных насосов меньше реально располагаемых", ValidationErrorLevel.CannotWrite));
+				AddError(pumpStation, "В НС основных насосов меньше реально располагаемых", ValidationErrorLevel.CannotWrite);
 		}
 	}
 }

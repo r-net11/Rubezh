@@ -23,18 +23,38 @@ namespace Resurs.ViewModels
 
 		public Device Device { get; private set;}
 		public DeviceState State { get; private set; }
+		public string FullAddress { get; private set; }
 		public bool IsActive { get; private set; }
 
-		public void Update()
+		public void Load()
 		{
+			var children = Device.Children;
 			var device = DBCash.GetDevice(Device.UID);
 			if (device != null)
 				Update(device);
+			Device.Children = children;
+		}
+
+		public void Update()
+		{
+			OnPropertyChanged(() => Device);
+			IsActive = Device.IsActive || Device.Parent == null;
+			if (IsActive)
+				State = DeviceState.Norm;
+			else
+				State = DeviceState.Disabled;
+			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => IsActive);
+			OnPropertyChanged(() => Parameters);
+			FullAddress = Device.FullAddress;
+			OnPropertyChanged(() => FullAddress);
 		}
 
 		public void Update(Device device)
 		{
 			Device = device;
+			FullAddress = device.FullAddress;
+			OnPropertyChanged(() => FullAddress);
 			OnPropertyChanged(() => Device);
 			Parameters = new List<ParameterViewModel>(Device.Parameters.Select(x => new ParameterViewModel(x)));
 			OnPropertyChanged(() => Parameters);
@@ -45,6 +65,7 @@ namespace Resurs.ViewModels
 				State = DeviceState.Disabled;
 			OnPropertyChanged(() => State);
 			OnPropertyChanged(() => IsActive);
+			
 		}
 	}
 }

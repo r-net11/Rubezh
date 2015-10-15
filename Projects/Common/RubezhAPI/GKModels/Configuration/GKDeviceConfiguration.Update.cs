@@ -70,7 +70,6 @@ namespace RubezhAPI.GK
 				device.ClearClauseDependencies();
 				device.Zones = new List<GKZone>();
 				device.GuardZones = new List<GKGuardZone>();
-				device.Directions = new List<GKDirection>();
 				if (device.GKReflectionItem != null)
 				{
 					device.GKReflectionItem.Delays = new List<GKDelay>();
@@ -87,8 +86,6 @@ namespace RubezhAPI.GK
 			{
 				zone.ClearClauseDependencies();
 				zone.Devices = new List<GKDevice>();
-				zone.Directions = new List<GKDirection>();
-				zone.DevicesInLogic = new List<GKDevice>();
 			}
 			foreach (var direction in Directions)
 			{
@@ -121,8 +118,6 @@ namespace RubezhAPI.GK
 
 		void Invalidation()
 		{
-			Stopwatch st = new Stopwatch();
-
 			foreach (var device in Devices)
 			{
 				device.Invalidate();
@@ -132,19 +127,15 @@ namespace RubezhAPI.GK
 			{
 				mpt.Invalidate();
 			}
-			st.Start();
 			Doors.ForEach(x => x.Invalidate());
-			st.Stop();
 			foreach (var pump in PumpStations)
 			{
 				pump.Invalidate();
 			}
-			st.Reset();
 			foreach (var guardZone in GuardZones)
 			{
 				guardZone.Invalidate();
 			}
-			st.Stop();
 			foreach (var delay in Delays)
 			{
 				delay.Invalidate();
@@ -154,69 +145,25 @@ namespace RubezhAPI.GK
 			{
 				directory.Invalidate();
 			}
-	
 		}
-		
-		public void InvalidateOneLogic(GKDevice device, GKLogic logic)
+
+		public void InvalidateOneLogic(GKBase gkBase, GKLogic logic)
 		{
-			InvalidateInputObjectsBaseLogic(device, logic);
-			foreach (var clause in logic.OnClausesGroup.Clauses)
-			{
-				foreach (var clauseZone in clause.Zones)
-				{
-					if (!clauseZone.DevicesInLogic.Contains(device))
-						clauseZone.DevicesInLogic.Add(device);
-				}
-				foreach (var clauseDirection in clause.Directions)
-				{
-					device.Directions.Add(clauseDirection);
-				}
-			}
-			foreach (var clause in device.Logic.OffClausesGroup.Clauses)
-			{
-				foreach (var clauseZone in clause.Zones)
-				{
-					if (!clauseZone.DevicesInLogic.Contains(device))
-						clauseZone.DevicesInLogic.Add(device);
-				}
-				foreach (var clauseDirection in clause.Directions)
-				{
-					device.Directions.Add(clauseDirection);
-				}
-			}
-			foreach (var clause in device.Logic.StopClausesGroup.Clauses)
-			{
-				foreach (var clauseZone in clause.Zones)
-				{
-					if (!clauseZone.DevicesInLogic.Contains(device))
-						clauseZone.DevicesInLogic.Add(device);
-				}
-				foreach (var clauseDirection in clause.Directions)
-				{
-					device.Directions.Add(clauseDirection);
-				}
-			}
+			logic.OnClausesGroup = InvalidateOneClauseGroup(gkBase, logic.OnClausesGroup);
+			logic.OffClausesGroup = InvalidateOneClauseGroup(gkBase, logic.OffClausesGroup);
+			logic.StopClausesGroup = InvalidateOneClauseGroup(gkBase, logic.StopClausesGroup);
+			logic.OnNowClausesGroup = InvalidateOneClauseGroup(gkBase, logic.OnNowClausesGroup);
+			logic.OffNowClausesGroup = InvalidateOneClauseGroup(gkBase, logic.OffNowClausesGroup);
 		}
 
-		
-
-		public void InvalidateInputObjectsBaseLogic(GKBase gkBase, GKLogic logic)
-		{
-			logic.OnClausesGroup = InvalidateOneInputObjectsBaseLogic(gkBase, logic.OnClausesGroup);
-			logic.OffClausesGroup = InvalidateOneInputObjectsBaseLogic(gkBase, logic.OffClausesGroup);
-			logic.StopClausesGroup = InvalidateOneInputObjectsBaseLogic(gkBase, logic.StopClausesGroup);
-			logic.OnNowClausesGroup = InvalidateOneInputObjectsBaseLogic(gkBase, logic.OnNowClausesGroup);
-			logic.OffNowClausesGroup = InvalidateOneInputObjectsBaseLogic(gkBase, logic.OffNowClausesGroup);
-		}
-
-	   public GKClauseGroup InvalidateOneInputObjectsBaseLogic(GKBase gkBase, GKClauseGroup clauseGroup)
+	   public GKClauseGroup InvalidateOneClauseGroup(GKBase gkBase, GKClauseGroup clauseGroup)
 		{
 			var result = new GKClauseGroup();
 			result.ClauseJounOperationType = clauseGroup.ClauseJounOperationType;
 			var groups = new List<GKClauseGroup>();
 			foreach (var group in clauseGroup.ClauseGroups)
 			{
-				var _clauseGroup = InvalidateOneInputObjectsBaseLogic(gkBase, group);
+				var _clauseGroup = InvalidateOneClauseGroup(gkBase, group);
 				if (_clauseGroup.Clauses.Count + _clauseGroup.ClauseGroups.Count > 0)
 					groups.Add(_clauseGroup);
 			}
@@ -236,11 +183,11 @@ namespace RubezhAPI.GK
 				var deviceUIDs = new List<Guid>();
 				foreach (var deviceUID in clause.DeviceUIDs)
 				{
-					var clauseDevice = Devices.FirstOrDefault(x => x.UID == deviceUID);
-					if (clauseDevice != null && !clauseDevice.IsNotUsed)
+					var device = Devices.FirstOrDefault(x => x.UID == deviceUID);
+					if (device != null && !device.IsNotUsed)
 					{
 						deviceUIDs.Add(deviceUID);
-						clause.Devices.Add(clauseDevice);
+						clause.Devices.Add(device);
 					}
 				}
 				clause.DeviceUIDs = deviceUIDs;
@@ -333,35 +280,6 @@ namespace RubezhAPI.GK
 					result.Clauses.Add(clause);
 			}
 			return result;
-		}
-
-		void InitializeGuardZones()
-		{
-			foreach (var guardZone in GuardZones)
-			{
-				var guardZoneDevices = new List<GKGuardZoneDevice>();
-				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
-				{
-					var device = Devices.FirstOrDefault(x => x.UID == guardZoneDevice.DeviceUID);
-					if (device != null)
-					{
-						if (device.DriverType == GKDriverType.RSR2_GuardDetector || device.DriverType == GKDriverType.RSR2_GuardDetectorSound || device.DriverType == GKDriverType.RSR2_AM_1 || device.DriverType == GKDriverType.RSR2_MAP4 || device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
-						{
-							guardZoneDevice.Device = device;
-							guardZoneDevices.Add(guardZoneDevice);
-							device.GuardZones.Add(guardZone);
-						}
-						if (device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
-						{
-							InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.SetGuardSettings);
-							InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.ResetGuardSettings);
-							InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.ChangeGuardSettings);
-							InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.AlarmSettings);
-						}
-					}
-				}
-				guardZone.GuardZoneDevices = guardZoneDevices;
-			}
 		}
 
 		public void InvalidateGKCodeReaderSettingsPart(GKCodeReaderSettingsPart codeReaderSettingsPart)

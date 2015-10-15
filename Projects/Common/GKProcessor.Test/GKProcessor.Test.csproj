@@ -50,8 +50,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ConfigurationTest.Common.cs" />
-    <Compile Include="ConfigurationTest.MultiGk.cs" />
+    <Compile Include="ValidationTest.Common.cs" />
+    <Compile Include="ValidationTest.Door.cs" />
+    <Compile Include="ValidationTest.MultiGk.cs" />
     <Compile Include="DescriptorsTest.Common.cs" />
     <Compile Include="DescriptorsTest.Door.cs" />
     <Compile Include="DescriptorsTest.GuardZone.cs" />
@@ -68,15 +69,7 @@
       <Project>{fe37b6d4-73e5-40f2-a770-a974561430b8}</Project>
       <Name>Common</Name>
     </ProjectReference>
-<<<<<<< HEAD
     <ProjectReference Include="..\RubezhAPI\RubezhAPI.csproj">
-=======
-    <ProjectReference Include="..\FiresecClient\FiresecClient.csproj">
-      <Project>{f46953e0-ca12-4659-ae8c-88241b541f6c}</Project>
-      <Name>FiresecClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
->>>>>>> unit tests
       <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
       <Name>RubezhAPI</Name>
     </ProjectReference>
@@ -91,6 +84,10 @@
     <ProjectReference Include="..\Infrustructure.Plans\Infrustructure.Plans.csproj">
       <Project>{da2a8431-7328-4ae8-926f-e191700577a1}</Project>
       <Name>Infrustructure.Plans</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RubezhClient\RubezhClient.csproj">
+      <Project>{f46953e0-ca12-4659-ae8c-88241b541f6c}</Project>
+      <Name>RubezhClient</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

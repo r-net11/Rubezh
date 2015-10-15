@@ -16,13 +16,6 @@ namespace ResursAPI
 			driver.Children.Add(DriverType.Mercury203Counter);
 			driver.DriverParameters.Add(new DriverParameter
 			{
-				Name = ParameterNamesIncotexNetwork.PortName,
-				Description = "СОМ Порт",
-				ParameterType = ParameterType.String,
-				Number = 0
-			});
-			driver.DriverParameters.Add(new DriverParameter
-			{
 				Name = ParameterNamesIncotexNetwork.BautRate,
 				Description = "Скорость обмена",
 				ParameterType = ParameterType.Enum,
@@ -33,21 +26,21 @@ namespace ResursAPI
 					new ParameterEnumItem { Name = "57600", Value = 57600 },
 					new ParameterEnumItem { Name = "115200", Value = 115200 }
 				},
-				Number = 1
+				Number = 0
 			});
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = ParameterNamesIncotexNetwork.Timeout ,
 				Description = "Таймаут ответа",
 				ParameterType = ParameterType.Int,
-				Number = 2
+				Number = 1
 			});
 			driver.DriverParameters.Add(new DriverParameter
 			{
 				Name = ParameterNamesIncotexNetwork.BroadcastDelay,
 				Description = "Задержка широковещательной команды",
 				ParameterType = ParameterType.Int,
-				Number = 3
+				Number = 2
 			});
 			return driver;
 		}

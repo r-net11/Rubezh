@@ -46,7 +46,7 @@ namespace RubezhAPI.GK
 
 		public override void UpdateLogic()
 		{
-			GKManager.DeviceConfiguration.InvalidateInputObjectsBaseLogic(this, MptLogic);
+			GKManager.DeviceConfiguration.InvalidateOneLogic(this, MptLogic);
 		}
 
 		bool _isLogicOnKau;
@@ -112,7 +112,7 @@ namespace RubezhAPI.GK
 		{
 			get
 			{
-				foreach (var codeDevice in MPTDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CodeReader || x.Device.DriverType == GKDriverType.RSR2_CardReader))
+				foreach (var codeDevice in MPTDevices.Where(x => x.Device.Driver.IsCardReaderOrCodeReader))
 				{
 					if (codeDevice.CodeReaderSettings.MPTSettings.AccessLevel > 0)
 						return true;

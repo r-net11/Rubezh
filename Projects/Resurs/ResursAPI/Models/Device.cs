@@ -15,7 +15,8 @@ namespace ResursAPI
 		{
 			UID = Guid.NewGuid();
 			Children = new List<Device>();
-			Parameters = new List<Parameter>(); ;
+			Parameters = new List<Parameter>();
+			FullAddress = "";
 		}
 		public Device(ResursAPI.DriverType driverType, Device parent = null)
 			: this()
@@ -29,12 +30,20 @@ namespace ResursAPI
 				parameter.Initialize(item);
 				Parameters.Add(parameter);
 			}
-			if(parent != null)
-			{
-				Parent = parent;
-				Parent.Children.Add(this);
+
+			SetParent(parent);
+		}
+
+		public void SetParent(Device parent, int? address = null)
+		{
+			if (parent == null)
+				return;
+			Parent = parent;
+			Parent.Children.Add(this);
+			if (address != null)
+				Address = address.Value;
+			else
 				Address = Parent.Children.Count;
-			}
 			SetFullAddress();
 		}
 
@@ -54,6 +63,8 @@ namespace ResursAPI
 				return UID;
 			if (name == ParameterNames.ParameterNamesBase.Address)
 				return Address;
+			if (name == ParameterNames.ParameterNamesBase.PortName)
+				return new ParameterStringContainer { Value = ComPort };
 			return Parameters.FirstOrDefault(x => x.DriverParameter.Name == name).ValueType;
 		}
 
@@ -66,6 +77,7 @@ namespace ResursAPI
 		[InverseProperty("Parent")]
 		public List<Device> Children { get; set; }
 		public List<Parameter> Parameters { get; set; }
+		public Guid? TariffUID { get; set; }
 		public Tariff Tariff { get; set; }
 		public Guid? BillUID { get; set; }
 		public Bill Bill { get; set; } 
@@ -74,6 +86,8 @@ namespace ResursAPI
 		public bool IsActive { get; set; }
 		public bool IsDbMissmatch { get; set; }
 		public TariffType TariffType { get; set; }
+		[MaxLength(10)]
+		public string ComPort { get; set; }
 		[NotMapped]
 		public string Name { get { return Driver.DriverType.ToDescription(); } }
 		[NotMapped]

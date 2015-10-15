@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using GKModule.Validation;
+using Infrastructure.Common.Validation;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GKProcessor.Test
 {
 	[TestClass]
-	public partial class ConfigurationTest
+	public partial class ValidationTest
 	{
 		GKDevice gkDevice1;
 		GKDevice kauDevice11;
@@ -32,13 +34,19 @@ namespace GKProcessor.Test
 			kauDevice22 = GKManager.AddChild(gkDevice2, null, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU), 2);
 
 			GKManager.UpdateConfiguration();
-			FiresecManager.PlansConfiguration = new PlansConfiguration();
-			FiresecManager.PlansConfiguration.AllPlans = new List<Plan>();
+			ClientManager.PlansConfiguration = new PlansConfiguration();
+			ClientManager.PlansConfiguration.AllPlans = new List<Plan>();
 		}
 
 		GKDevice AddDevice(GKDevice device, GKDriverType driverType)
 		{
 			return GKManager.AddChild(device.Children[1], null, GKManager.Drivers.FirstOrDefault(x => x.DriverType == driverType), 0);
+		}
+
+		List<IValidationError> Validate()
+		{
+			var validator = new Validator();
+			return validator.Validate();
 		}
 	}
 }

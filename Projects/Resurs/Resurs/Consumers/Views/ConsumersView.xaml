@@ -35,6 +35,7 @@
 			<ToolBarButton Command="{Binding ChangeParentCommand}" ToolTip="Переместить в группу (Ctrl+M)" ImageSource="ArrowInto" />
 			<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать (Ctrl+E)" ImageSource="Edit" />
 			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete" />
+			<ToolBarButton Command="{Binding OpenReceiptCommand}" ToolTip="Показать квитанцию" ImageSource="EditDocument" />
 		</StackPanel>
 		<tree:TreeList Grid.Row="1" Source="{Binding RootConsumers}" SelectedTreeNode="{Binding SelectedConsumer}" ItemActivatedCommand="{Binding EditCommand}"
 					   Focusable="True" tree:SortBehavior.CanUserSortColumns="True">

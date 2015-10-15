@@ -25,8 +25,15 @@ namespace RubezhAPI.GK
 			OutDependentElements = new List<GKBase>();
 		}
 
+		/// <summary>
+		/// Коллекция объектов от которых данный объекто зависит. Например, объекты в логике
+		/// </summary>
 		[XmlIgnore]
 		public List<GKBase> InputDependentElements { get; set; }
+
+		/// <summary>
+		/// Коллекция объектов, которые зависят от данного объекта. Например, объекты, в логике которых участвует данный объект
+		/// </summary>
 		[XmlIgnore]
 		public List<GKBase> OutDependentElements { get; set; }
 
@@ -35,6 +42,8 @@ namespace RubezhAPI.GK
 		{
 			InputDescriptors = new List<GKBase>();
 			OutputDescriptors = new List<GKBase>();
+			InputDependentElements = new List<GKBase>();
+			OutDependentElements = new List<GKBase>();
 		}
 
 		[XmlIgnore]
@@ -117,19 +126,6 @@ namespace RubezhAPI.GK
 		public GKDevice KauDatabaseParent { get; set; }
 		[XmlIgnore]
 		public GKDevice GkDatabaseParent { get; set; }
-
-		[XmlIgnore]
-		public GKDevice DataBaseParent
-		{
-			get { return KauDatabaseParent ?? GkDatabaseParent; }
-			set
-			{
-				if (value != null && value.DriverType == GKDriverType.GK)
-					GkDatabaseParent = value;
-				if (value != null && value.DriverType == GKDriverType.RSR2_KAU)
-					KauDatabaseParent = value;
-			}
-		}
 
 		[XmlIgnore]
 		public bool MagnetToGK { get; set; }
@@ -324,6 +320,8 @@ namespace RubezhAPI.GK
 
 		public void ClearDescriptor()
 		{
+			InputDependentElements = new List<GKBase>();
+			OutDependentElements = new List<GKBase>();
 			InputDescriptors = new List<GKBase>();
 			OutputDescriptors = new List<GKBase>();
 			KauParents = new HashSet<GKDevice>();

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using GKModule.Validation;
 using Infrastructure.Common.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GKProcessor.Test
 {
-	public partial class ConfigurationTest
+	public partial class ValidationTest
 	{
 		[TestMethod]
 		public void TestFireZoneInMultiGk()
@@ -20,12 +20,9 @@ namespace GKProcessor.Test
 			GKManager.Zones.Add(zone);
 			device1.ZoneUIDs.Add(zone.UID);
 			device2.ZoneUIDs.Add(zone.UID);
-
 			var validator = new Validator();
 			var errors = validator.Validate();
-
-			Assert.IsTrue(
-				errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Зона содержит устройства разных ГК"));
+			Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Содержится в нескольких ГК"));
 		}
 
 		[TestMethod]
@@ -34,7 +31,7 @@ namespace GKProcessor.Test
 			var device1 = AddDevice(kauDevice11, GKDriverType.RSR2_GuardDetector);
 			var device2 = AddDevice(kauDevice21, GKDriverType.RSR2_GuardDetector);
 			var guardZoneDevice1 = new GKGuardZoneDevice {Device = device1, DeviceUID = device1.UID};
-			var guardZoneDevice2 = new GKGuardZoneDevice {Device = device2, DeviceUID = device1.UID};
+			var guardZoneDevice2 = new GKGuardZoneDevice {Device = device2, DeviceUID = device2.UID};
 			var guardZone = new GKGuardZone();
 			GKManager.GuardZones.Add(guardZone);
 			guardZone.GuardZoneDevices.Add(guardZoneDevice1);
@@ -43,8 +40,7 @@ namespace GKProcessor.Test
 			GKManager.AddDeviceToGuardZone(device2, guardZone);
 			var validator = new Validator();
 			var errors = validator.Validate();
-			Assert.IsTrue(
-				errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Зона содержит устройства разных ГК"));
+			Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Содержится в нескольких ГК"));
 		}
 
 		[TestMethod]
@@ -65,7 +61,7 @@ namespace GKProcessor.Test
 			var errors = validator.Validate();
 			Assert.IsTrue(
 				errors.Any(
-					x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Направление содержит объекты разных ГК"));
+					x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Содержится в нескольких ГК"));
 		}
 
 		[TestMethod]
@@ -84,7 +80,7 @@ namespace GKProcessor.Test
 			delay.Logic.OnClausesGroup.Clauses.Add(clause);
 			var validator = new Validator();
 			var errors = validator.Validate();
-			Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Задержка содержит объекты разных ГК"));
+			Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Содержится в нескольких ГК"));
 		}
 
 		[TestMethod]
@@ -102,7 +98,7 @@ namespace GKProcessor.Test
 			device.Logic.OnClausesGroup.Clauses.Add(clause);
 			var validator = new Validator();
 			var errors = validator.Validate();
-			Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Логика сработки содержит объекты разных ГК"));
+			Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Содержится в нескольких ГК"));
 		}
 
 		[TestMethod]
@@ -121,7 +117,7 @@ namespace GKProcessor.Test
 			mpt.MptLogic.OnClausesGroup.Clauses.Add(clause);
 			var validator = new Validator();
 			var errors = validator.Validate();
-			Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "МПТ содержит устройства разных ГК"));
+			Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Содержится в нескольких ГК"));
 
 			mpt.MptLogic = new GKLogic();
 			clause = new GKClause
@@ -139,7 +135,7 @@ namespace GKProcessor.Test
 				mpt.MPTDevices.Add(mptDevice);
 				validator = new Validator();
 				errors = validator.Validate();
-				Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "МПТ содержит устройства разных ГК"));
+				Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Содержится в нескольких ГК"));
 			}
 
 		}
