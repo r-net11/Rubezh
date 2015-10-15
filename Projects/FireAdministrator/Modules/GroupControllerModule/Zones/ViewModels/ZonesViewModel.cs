@@ -23,23 +23,21 @@ namespace GKModule.ViewModels
 	public class ZonesViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		private bool _lockSelection;
-		public static ZonesViewModel Current { get; private set; }
 		public ZoneDevicesViewModel ZoneDevices { get; set; }
 
 		public ZonesViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd);
+			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
-			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
 			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 
-			Current = this;
 			Menu = new ZonesMenuViewModel(this);
 			ZoneDevices = new ZoneDevicesViewModel();
-			RegisterShortcuts();
 			IsRightPanelEnabled = true;
+			RegisterShortcuts();
 			SubscribeEvents();
 			SetRibbonItems();
 		}
@@ -113,6 +111,22 @@ namespace GKModule.ViewModels
 			return null;
 		}
 
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
+		{
+			OnEdit(SelectedZone.Zone);
+		}
+		void OnEdit(GKZone zone)
+		{
+			var zoneDetailsViewModel = new ZoneDetailsViewModel(zone);
+			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
+			{
+				GKManager.EditZone(SelectedZone.Zone);
+				SelectedZone.Update(zoneDetailsViewModel.Zone);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
@@ -163,22 +177,6 @@ namespace GKModule.ViewModels
 				ZoneDevices.Initialize(SelectedZone.Zone);
 		}
 
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			OnEdit(SelectedZone.Zone);
-		}
-		void OnEdit(GKZone zone)
-		{
-			var zoneDetailsViewModel = new ZoneDetailsViewModel(zone);
-			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
-			{
-				GKManager.EditZone(SelectedZone.Zone);
-				SelectedZone.Update(zoneDetailsViewModel.Zone);
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-
 		public RelayCommand ShowDependencyItemsCommand { get; set; }
 
 		void ShowDependencyItems()
@@ -218,11 +216,6 @@ namespace GKModule.ViewModels
 			SelectedZone = SelectedZone;
 		}
 
-		public override void OnHide()
-		{
-			base.OnHide();
-		}
-
 		#region ISelectable<Guid> Members
 
 		public void Select(Guid zoneUID)
@@ -233,17 +226,18 @@ namespace GKModule.ViewModels
 
 		#endregion
 
-		private void RegisterShortcuts()
-		{
-			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-		}
 		public void LockedSelect(Guid zoneUID)
 		{
 			_lockSelection = true;
 			Select(zoneUID);
 			_lockSelection = false;
+		}
+
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
 		}
 
 		private void SubscribeEvents()
@@ -257,6 +251,20 @@ namespace GKModule.ViewModels
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+		}
+
+		private void SetRibbonItems()
+		{
+			RibbonItems = new List<RibbonMenuItemViewModel>()
+			{
+					new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				{
+					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
+					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
+					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
+					new RibbonMenuItemViewModel("Удалить все пустые зоны", DeleteAllEmptyCommand, "BDeleteEmpty"),
+				}, "BEdit") { Order = 2 }
+			};
 		}
 
 		private void OnZoneChanged(Guid zoneUID)
@@ -305,20 +313,6 @@ namespace GKModule.ViewModels
 			if (elementZone == null)
 				elementZone = element as ElementPolygonGKZone;
 			return elementZone;
-		}
-
-		private void SetRibbonItems()
-		{
-			RibbonItems = new List<RibbonMenuItemViewModel>()
-			{
-					new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
-				{
-					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
-					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
-					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
-					new RibbonMenuItemViewModel("Удалить все пустые зоны", DeleteAllEmptyCommand, "BDeleteEmpty"),
-				}, "BEdit") { Order = 2 }
-			};
 		}
 	}
 }

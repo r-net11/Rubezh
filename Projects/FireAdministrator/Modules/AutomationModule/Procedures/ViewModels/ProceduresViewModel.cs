@@ -21,13 +21,14 @@ namespace AutomationModule.ViewModels
 		public ProceduresViewModel()
 		{
 			Current = this;
-			Menu = new ProceduresMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			CutCommand = new RelayCommand(OnCut, CanCopy);
+
+			Menu = new ProceduresMenuViewModel(this);
 			RegisterShortcuts();
 			SetRibbonItems();
 			IsRightPanelEnabled = true;
@@ -457,11 +458,6 @@ namespace AutomationModule.ViewModels
 					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
 				}, "BEdit") { Order = 2 }
 			};
-		}
-
-		public override void OnHide()
-		{
-			base.OnHide();
 		}
 	}
 }
