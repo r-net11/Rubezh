@@ -287,7 +287,7 @@ namespace GKModule.ViewModels
 			_lockSelection = true;
 			elements.ForEach(element =>
 			{
-				var elementZone = GetElementXGuardZone(element);
+				var elementZone = GetElementGuardZone(element);
 				if (elementZone != null)
 				{
 					OnZoneChanged(elementZone.ZoneUID);
@@ -297,7 +297,7 @@ namespace GKModule.ViewModels
 		}
 		private void OnElementSelected(ElementBase element)
 		{
-			var elementZone = GetElementXGuardZone(element);
+			var elementZone = GetElementGuardZone(element);
 			if (elementZone != null)
 			{
 				_lockSelection = true;
@@ -305,7 +305,7 @@ namespace GKModule.ViewModels
 				_lockSelection = false;
 			}
 		}
-		private IElementZone GetElementXGuardZone(ElementBase element)
+		private IElementZone GetElementGuardZone(ElementBase element)
 		{
 			IElementZone elementZone = element as ElementRectangleGKGuardZone;
 			if (elementZone == null)
