@@ -22,7 +22,7 @@ namespace GKModule.ViewModels
 {
 	public class ZonesViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
-		private bool _lockSelection;
+		bool _lockSelection = false;
 		public ZoneDevicesViewModel ZoneDevices { get; set; }
 
 		public ZonesViewModel()
@@ -60,7 +60,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_zones = value;
-				OnPropertyChanged(()=>Zones);
+				OnPropertyChanged(() => Zones);
 			}
 		}
 

@@ -23,7 +23,7 @@ namespace GKModule.ViewModels
 {
 	public class DoorsViewModel : MenuViewPartViewModel,ISelectable<Guid>
 	{
-		private bool _lockSelection;
+		bool _lockSelection = false;
 		public static DoorsViewModel Current { get; private set; }
 
 		public DoorsViewModel()

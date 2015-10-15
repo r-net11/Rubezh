@@ -31,7 +31,7 @@ namespace GKModule.ViewModels
 	{
 		public static DevicesViewModel Current { get; private set; }
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
-		private bool _lockSelection;
+		bool _lockSelection = false;
 
 		public DevicesViewModel()
 		{
@@ -44,7 +44,6 @@ namespace GKModule.ViewModels
 			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
 			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
 
-			_lockSelection = false;
 			Menu = new DevicesMenuViewModel(this);
 			Current = this;
 			RegisterShortcuts();

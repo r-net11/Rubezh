@@ -24,7 +24,7 @@ namespace GKModule.ViewModels
 	public class DirectionsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public static DirectionsViewModel Current { get; private set; }
-		bool _lockSelection;
+		bool _lockSelection = false;
 
 		public DirectionsViewModel()
 		{

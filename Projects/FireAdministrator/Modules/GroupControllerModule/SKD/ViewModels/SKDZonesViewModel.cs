@@ -22,11 +22,10 @@ namespace GKModule.ViewModels
 {
 	public class SKDZonesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
-		bool _lockSelection;
+		bool _lockSelection = false;
 
 		public SKDZonesViewModel()
 		{
-			_lockSelection = false;
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditRemove);

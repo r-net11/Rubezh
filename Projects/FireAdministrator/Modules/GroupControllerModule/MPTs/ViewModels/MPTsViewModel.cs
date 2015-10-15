@@ -21,7 +21,7 @@ namespace GKModule.ViewModels
 {
 	public class MPTsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
-		bool _lockSelection;
+		bool _lockSelection = false;
 
 		public MPTsViewModel()
 		{

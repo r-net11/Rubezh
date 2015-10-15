@@ -23,7 +23,7 @@ namespace GKModule.ViewModels
 {
 	public class GuardZonesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
-		private bool _lockSelection;
+		bool _lockSelection = false;
 		public GuardZoneDevicesViewModel ZoneDevices { get; set; }
 
 		public GuardZonesViewModel()
