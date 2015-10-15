@@ -164,6 +164,7 @@ namespace FiresecAPI.SKD
 						EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
 						ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
 						NotTakeInCalculations = timeTrackPart.NotTakeInCalculations,
+						IsForURVZone = timeTrackPart.IsForURVZone,
 						IsManuallyAdded = timeTrackPart.IsManuallyAdded,
 						IsForceClosed = timeTrackPart.IsForceClosed
 					};
@@ -186,6 +187,7 @@ namespace FiresecAPI.SKD
 						EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
 						ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
 						NotTakeInCalculations = timeTrackPart.NotTakeInCalculations,
+						IsForURVZone = timeTrackPart.IsForURVZone,
 						IsManuallyAdded = timeTrackPart.IsManuallyAdded,
 						IsForceClosed = timeTrackPart.IsForceClosed
 					};
@@ -206,6 +208,7 @@ namespace FiresecAPI.SKD
 						AdjustmentDate = timeTrackPart.AdjustmentDate,
 						CorrectedByUID = timeTrackPart.CorrectedByUID,
 						EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
+						IsForURVZone = timeTrackPart.IsForURVZone,
 						ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
 						NotTakeInCalculations = timeTrackPart.NotTakeInCalculations,
 						IsManuallyAdded = timeTrackPart.IsManuallyAdded,
@@ -358,7 +361,7 @@ namespace FiresecAPI.SKD
 
 				if(!combinedInterval.EndTime.HasValue) continue;
 
-				var realTimeTrackPart = realTimeTrackParts.FirstOrDefault(x => x.EnterDateTime == combinedInterval.StartTime && x.ExitDateTime == combinedInterval.EndTime);
+				var realTimeTrackPart = realTimeTrackParts.FirstOrDefault(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.GetValueOrDefault().TimeOfDay >= combinedInterval.EndTime.GetValueOrDefault().TimeOfDay);
 				var timeTrackPart = new TimeTrackPart
 				{
 					EnterDateTime = combinedInterval.StartTime,
@@ -369,8 +372,8 @@ namespace FiresecAPI.SKD
 
 				combinedTimeTrackParts.Add(timeTrackPart);
 
-				var hasRealTimeTrack = realTimeTrackParts.Where(x => x.ExitDateTime.HasValue && !x.NotTakeInCalculations && x.IsForURVZone).Any(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay
-																&& x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay);
+				var hasRealTimeTrack = realTimeTrackParts.Where(x => x.ExitDateTime.HasValue && !x.NotTakeInCalculations && x.IsForURVZone)
+					.Any(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay);
 
 				var hasPlannedTimeTrack = plannedTimeTrackParts.Where(x => x.ExitDateTime.HasValue).Any(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay
 																		&& x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay);
