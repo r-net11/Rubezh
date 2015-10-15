@@ -107,7 +107,7 @@ namespace ResursDAL
 						}
 					}
 					context.SaveChanges();
-					AddJournal(isNew ? JournalType.AddDevice : JournalType.EditDevice, device.UID, device.Name);
+					AddJournalForUser(isNew ? JournalType.AddDevice : JournalType.EditDevice, device);
 				}
 				return true;
 			}
@@ -152,7 +152,7 @@ namespace ResursDAL
 					var parent = GetAllChildren(RootDevice).FirstOrDefault(x => x.UID == device.Parent.UID);
 					parent.Children.RemoveAll(x => x.UID == device.UID);
 				}
-				AddJournal(JournalType.DeleteDevice, deviceUID, deviceName);
+				AddJournalForUser(JournalType.DeleteDevice, device);
 				return true;
 			}
 			catch (Exception e)

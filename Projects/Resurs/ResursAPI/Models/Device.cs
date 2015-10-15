@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ResursAPI
 {
-	public class Device
+	public class Device: ModelBase
 	{
 		public Device()
 		{
@@ -79,12 +79,6 @@ namespace ResursAPI
 			return Parameters.FirstOrDefault(x => x.DriverParameter.Name == name).ValueType;
 		}
 
-		[Key]
-		public Guid UID { get; set; }
-		[MaxLength(50)]
-		public string Name { get; set; }
-		[MaxLength(200)]
-		public string Description { get; set; }
 		public Guid? ParentUID { get; set; }
 		public Device Parent { get; set; }
 		[InverseProperty("Parent")]
