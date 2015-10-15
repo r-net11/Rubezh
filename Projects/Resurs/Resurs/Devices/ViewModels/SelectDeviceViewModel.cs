@@ -71,6 +71,11 @@ namespace Resurs.ViewModels
 			return deviceViewModel;
 		}
 
+		protected override bool CanSave()
+		{
+			return SelectedDevice != null && SelectedDevice.Device.DeviceType == DeviceType.Counter;
+		}
+
 		public bool IsVisibility
 		{
 			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.Device); }

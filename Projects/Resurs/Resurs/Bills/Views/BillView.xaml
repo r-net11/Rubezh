@@ -50,7 +50,7 @@
 				<ItemsControl ItemsSource="{Binding Devices}">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
+							<StackPanel Orientation="Horizontal" MinHeight="24" MaxHeight="24" >
 								<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="{Binding State, Converter={StaticResource DeviceStateToIconConverter}}" />
 								<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="{Binding Device.DeviceType, Converter={StaticResource DeviceTypeToIconConverter}}" />
 								<TextBlock VerticalAlignment="Center" MinWidth="150">
