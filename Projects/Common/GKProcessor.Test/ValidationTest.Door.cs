@@ -327,6 +327,83 @@ namespace GKProcessor.Test
 		}
 
 		[TestMethod]
+		public void TestDoorHasSameEnterAndExitDevices()
+		{
+			var device = AddDevice(kauDevice11, GKDriverType.RSR2_CardReader);
+			var door = new GKDoor
+			{
+				DoorType = GKDoorType.AirlockBooth,
+				EnterDeviceUID = device.UID,
+				ExitDeviceUID = device.UID
+			};
+			GKManager.Doors.Clear();
+			GKManager.Doors.Add(door);
+
+			var errors = Validate();
+			Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Устройство " + device.PresentationName + " не может быть одновременно устройством на вход и устройством на выход"));
+		}
+
+		[TestMethod]
+		public void TestDoorHasSameEnterAndExitLockDevices()
+		{
+			var device = AddDevice(kauDevice11, GKDriverType.RSR2_CardReader);
+			var door = new GKDoor
+			{
+				DoorType = GKDoorType.AirlockBooth,
+				LockDeviceUID = device.UID,
+				LockDeviceExitUID = device.UID
+			};
+			GKManager.Doors.Clear();
+			GKManager.Doors.Add(door);
+
+			var errors = Validate();
+			Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Устройство " + device.PresentationName + " не может быть одновременно реле на вход и реле на выход"));
+			door.DoorType = GKDoorType.Barrier;
+			errors = Validate();
+			Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Устройство " + device.PresentationName + " не может быть одновременно реле на открытие и реле на закрытие"));
+		}
+
+		[TestMethod]
+		public void TestDoorHasSameEnterAndExitButtonDevices()
+		{
+			var device = AddDevice(kauDevice11, GKDriverType.RSR2_AM_1);
+			var door = new GKDoor
+			{
+				DoorType = GKDoorType.AirlockBooth,
+				EnterButtonUID = device.UID,
+				ExitButtonUID = device.UID
+			};
+			GKManager.Doors.Clear();
+			GKManager.Doors.Add(door);
+
+			var errors = Validate();
+			Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Устройство " + device.PresentationName + " уже участвует в точке доступа"));
+		}
+
+		[TestMethod]
+		public void TestDoorsHaveSameDevices()
+		{
+			var device = AddDevice(kauDevice11, GKDriverType.RSR2_CardReader);
+			var door1 = new GKDoor
+			{
+				DoorType = GKDoorType.AirlockBooth,
+				EnterDeviceUID = device.UID,
+			};
+			GKManager.Doors.Clear();
+			GKManager.Doors.Add(door1);
+
+			var door2 = new GKDoor
+			{
+				DoorType = GKDoorType.AirlockBooth,
+				EnterDeviceUID = device.UID,
+			};
+			GKManager.Doors.Add(door2);
+
+			var errors = Validate();
+			Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Устройство " + device.PresentationName + " уже участвует в другой точке доступа"));
+		}
+
+		[TestMethod]
 		public void TestDoorHasNoDevices()
 		{
 			foreach (var doorType in new List<GKDoorType>(Enum.GetValues(typeof(GKDoorType)).Cast<GKDoorType>()))
