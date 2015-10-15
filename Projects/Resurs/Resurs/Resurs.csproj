@@ -389,8 +389,10 @@
       <DependentUpon>ConsumerChangeParentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Converters\ClassTypeToIconConverter.cs" />
     <Compile Include="Converters\DeviceStateToIconConverter.cs" />
     <Compile Include="Converters\DeviceTypeToIconConverter.cs" />
+    <Compile Include="Converters\JournalTypeToIconConverter.cs" />
     <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="Devices\ViewModels\DetailsParameterViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\DateTimePairViewModel.cs" />

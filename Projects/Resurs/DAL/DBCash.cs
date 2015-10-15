@@ -45,12 +45,17 @@ namespace ResursDAL
 				{
 					var userpermissions = new List<UserPermission>();
 					User user = new User() { Name = "Adm", Login = "Adm", PasswordHash = HashHelper.GetHashFromString("")};
-					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Consumer });
-					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Device });
-					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditConsumer });
-					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditDevice });
-					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditUser });
-					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.User });
+					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Consumer});
+					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Device});
+					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditConsumer});
+					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditDevice});
+					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditUser});
+					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.User});
+					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Journal});
+					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Plot});
+					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Report});
+					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Tariff});
+					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditTariff});
 					user.UserPermissions = userpermissions;
 					context.Users.Add(user);
 					context.SaveChanges();
@@ -208,18 +213,60 @@ namespace ResursDAL
 				return result;
 		}
 
-		public static void AddJournal(JournalType journalType, Guid? userUID, Guid? objectUID , string UserName = null , string ObjectName = null , string Description = null)
+		public static void AddJournal(JournalType journalType, string Description = null)
 		{
 			var journalEvent = new Journal()
 			{
-				UserName = UserName,
 				DateTime = DateTime.Now,
 				JournalType = journalType,
-				UserUID = userUID,
-				ObjectUID = objectUID,
-				ObjectName = ObjectName,
 				Description = Description
 			};
+
+			try
+			{
+				using (var context = DatabaseContext.Initialize())
+				{
+					context.Journal.Add(journalEvent);
+					context.SaveChanges();
+				}
+			}
+
+			catch (Exception e)
+			{
+				MessageBoxService.ShowException(e);
+			}
+		}
+
+		public static void AddJournalForUser(JournalType journalType, ModelBase modelBase = null, string Description = null)
+		{
+			var journalEvent = new Journal();
+			if (modelBase != null)
+			{
+				if (modelBase is User)
+					journalEvent.ClassType = ClassType.IsUser;
+				if (modelBase is Consumer)
+					journalEvent.ClassType = ClassType.IsConsumer;
+				if (modelBase is Tariff)
+					journalEvent.ClassType = ClassType.IsTariff;
+				if (modelBase is Device)
+					journalEvent.ClassType = ClassType.IsDevice;
+
+					journalEvent.UserName = CurrentUser.Name;
+					journalEvent.UserUID = CurrentUser.UID;
+					journalEvent.DateTime = DateTime.Now;
+					journalEvent.JournalType = journalType;
+					journalEvent.ObjectUID = modelBase.UID;
+					journalEvent.ObjectName = modelBase.Name;
+					journalEvent.Description = Description;
+			}
+			else 
+			{
+				journalEvent.UserName = CurrentUser.Name;
+				journalEvent.UserUID = CurrentUser.UID;
+				journalEvent.DateTime = DateTime.Now;
+				journalEvent.JournalType = journalType;
+				journalEvent.Description = Description;
+			}
 
 			try
 			{

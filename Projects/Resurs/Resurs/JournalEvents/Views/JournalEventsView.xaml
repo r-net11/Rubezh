@@ -3,8 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 			  xmlns:Views="clr-namespace:Resurs.Views"
-			  xmlns:Controls="clr-namespace:Controls;assembly=Controls">
-    <Grid>
+			  xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+			 xmlns:Converters="clr-namespace:Resurs.Converters">
+	<UserControl.Resources>
+		<Converters:JournalTypeToIconConverter x:Key="JournalTypeToIconConverter" />
+		<Converters:ClassTypeToIconConverter x:Key="ClassTypeToIconConverter" />
+	</UserControl.Resources>
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
@@ -35,10 +40,34 @@
 		<DataGrid  ItemsSource="{Binding Events}" SelectedItem="{Binding SelectedEvent}" CanUserSortColumns="True">
 			<DataGrid.Columns>
 				<DataGridTextColumn Binding="{Binding Journal.DateTime,Converter={StaticResource TimeToStringConverter}}" Width="Auto" Header="Время" />
-				<DataGridTextColumn Binding="{Binding Journal.JournalType , Converter={StaticResource EnumToDescriptionConverter}}" Width="*" Header="Событие" />
-				<DataGridTextColumn Binding="{Binding Journal.ObjectName}" Width="*" Header="Объект" />
-					<DataGridTextColumn Binding="{Binding Journal.Description}" Width="*" Header="Уточнение" />
-					<DataGridTemplateColumn Header="Пользователь" SortMemberPath="Journal.UserName" Width="*">
+				<DataGridTemplateColumn Header="Событие"  Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image Width="16" VerticalAlignment="Center" Source="{Binding Journal.JournalType , Converter= {StaticResource JournalTypeToIconConverter}}" Margin="2" />
+								<TextBlock VerticalAlignment="Center" Text="{Binding Journal.JournalType , Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="Объект"  Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock VerticalAlignment="Center">
+									<Hyperlink  Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
+										<StackPanel Orientation="Horizontal">
+											<Image Width="16" VerticalAlignment="Center" Source="{Binding Journal.ClassType , Converter= {StaticResource ClassTypeToIconConverter}}" Margin="2" />
+											<TextBlock VerticalAlignment="Center" Text="{Binding Journal.ObjectName}" Margin="2" />
+										</StackPanel>
+									</Hyperlink>
+								</TextBlock>
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTextColumn Binding="{Binding Journal.Description}" Width="*" Header="Уточнение" />
+				<DataGridTemplateColumn Header="Пользователь" SortMemberPath="Journal.UserName" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">

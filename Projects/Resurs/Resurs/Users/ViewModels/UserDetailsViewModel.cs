@@ -130,6 +130,12 @@ namespace Resurs.ViewModels
 				MessageBoxService.Show("Пользователь с таким логином уже существует");
 				return false;
 			}
+
+			if (string.IsNullOrWhiteSpace(Name))
+			{
+				MessageBoxService.Show("Имя не может быть пустым");
+				return false;
+			}
 			return true;
 		}
 
@@ -147,7 +153,7 @@ namespace Resurs.ViewModels
 
 		void SaveProperties()
 		{
-			IsChange = User.Login.CompareTo(Login) != 0 || User.Name.CompareTo(Name) != 0 || User.PasswordHash.CompareTo(HashHelper.GetHashFromString(Password)) != 0;
+			IsChange = User.Login.CompareTo(Login) != 0 || User.Name.CompareTo(Name) != 0 || User.PasswordHash.CompareTo(HashHelper.GetHashFromString(Password)) != 0 || !PermissionsViewModel.PermissionViewModels.Where(x => x.IsChecked == true).All(x => User.UserPermissions.Any(y => y.PermissionType == x.PermissionType));
 			User.Login = Login;
 			User.Name = Name;
 

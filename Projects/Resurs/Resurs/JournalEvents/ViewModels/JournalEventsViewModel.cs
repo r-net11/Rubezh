@@ -29,6 +29,12 @@ namespace Resurs.ViewModels
 		{
 			if (Filter == null)
 				Filter = new Filter();
+			if (Filter.StateType == StateType.LastDays)
+			{
+				Filter.EndDate = DateTime.Now;
+				Filter.StartDate = DateTime.Now.AddDays(-1);
+			}
+
 			var count = DBCash.GetJournalCount(Filter);
 			if (count.HasValue)
 			{

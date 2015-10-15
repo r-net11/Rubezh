@@ -51,7 +51,7 @@ namespace Resurs.ViewModels
 				var userViewModel = new UserViewModel(userDetailsViewModel.User);
 
 				Users.Add(userViewModel);
-				DBCash.AddJournal(JournalType.AddUser, DBCash.CurrentUser.UID, userDetailsViewModel.User.UID, DBCash.CurrentUser.Name, userDetailsViewModel.User.Name);
+				DBCash.AddJournalForUser(JournalType.AddUser, userDetailsViewModel.User);
 				SelectedUser = userViewModel;
 			}
 		}
@@ -76,7 +76,7 @@ namespace Resurs.ViewModels
 			{
 				SelectedUser.User = userDetailsViewModel.User;
 				if (userDetailsViewModel.IsChange)
-					DBCash.AddJournal(JournalType.EditUser, DBCash.CurrentUser.UID, SelectedUser.User.UID, DBCash.CurrentUser.Name, SelectedUser.User.Name);
+					DBCash.AddJournalForUser(JournalType.EditUser, SelectedUser.User);
 			}
 		}
 
@@ -96,7 +96,7 @@ namespace Resurs.ViewModels
 			if (MessageBoxService.ShowQuestion(string.Format("Вы уверенны, что хотите удалить пользователя \"{0}\" из списка", SelectedUser.User.Name)))
 			{
 				var index = Users.IndexOf(SelectedUser);
-				DBCash.AddJournal(JournalType.DeleteUser, DBCash.CurrentUser.UID, SelectedUser.User.UID, DBCash.CurrentUser.Name, SelectedUser.User.Name);
+				DBCash.AddJournalForUser(JournalType.DeleteUser, SelectedUser.User);
 				DBCash.DeleteUser(SelectedUser.User);
 				Users.Remove(SelectedUser);
 

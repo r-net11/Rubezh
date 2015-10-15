@@ -72,6 +72,11 @@ namespace ResursDAL
 				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditDevice });
 				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditUser });
 				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.User });
+				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Journal });
+				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Plot });
+				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Report });
+				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Tariff });
+				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditTariff });
 				user.UserPermissions = userpermissions;
 				context.Users.Add(user);
 				DBCash.Users = new List<User>();

@@ -7,6 +7,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
 			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить (Ctrl+N)" ImageSource="Add" />
@@ -33,5 +34,18 @@
 				</DataGrid.Columns>
 			</DataGrid>
 		</Grid>
-	</Grid>
+		<ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+			<Border DataContext="{Binding SelectedUser}" TextElement.Foreground="White" Background="{DynamicResource BackgroundBrush}" MaxHeight="150" BorderThickness="0" CornerRadius="5" Padding="5" Margin="0 5 0 0">
+				<Grid>
+					<ItemsControl ItemsSource="{Binding User.UserPermissions}" Margin="2">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding PermissionType , Converter= {StaticResource EnumToDescriptionConverter}}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="1000" />
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</Grid>
+			</Border>
+		</ScrollViewer>	
+	</Grid>	
 </UserControl>

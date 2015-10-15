@@ -48,6 +48,7 @@
     <Compile Include="DriverCreators\IncotexNetworkCreator.cs" />
     <Compile Include="DriverCreators\Mercury203CounterCreator.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="Journal\ClassType.cs" />
     <Compile Include="Journal\Filter.cs" />
     <Compile Include="Journal\Journal.cs" />
     <Compile Include="Journal\StateType.cs" />

@@ -1,4 +1,5 @@
-﻿using ResursAPI;
+﻿using Infrastructure.Common;
+using ResursAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +11,27 @@ namespace Resurs.ViewModels
 	{
 		public JournalEventViewModel(Journal journal)
 		{
+			ShowCommand = new RelayCommand(OnShow);
 			Journal = journal;
 		}
 		public Journal Journal { get; set; }
 
 		public bool IsUser { get { return Journal.UserName != null; } }
 
+		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
-		{ 
-		
+		{
+			switch (Journal.ClassType)
+			{ 
+				case ClassType.IsDevice:
+					if (Journal.ObjectUID.HasValue)
+					Bootstrapper.MainViewModel.DevicesViewModel.Select(Journal.ObjectUID.Value);
+					break;
+				case ClassType.IsConsumer:
+					if (Journal.ObjectUID.HasValue)
+						Bootstrapper.MainViewModel.ConsumersViewModel.Select(Journal.ObjectUID.Value);
+					break;
+			}
 		}
 	}
 }
