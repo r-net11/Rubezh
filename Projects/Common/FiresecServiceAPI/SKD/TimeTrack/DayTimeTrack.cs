@@ -484,10 +484,10 @@ namespace FiresecAPI.SKD
 					return TimeTrackType.Absence;
 				}
 
-				if (timeTrackPart.Delta > AllowedLate)
-				{
+				//if (timeTrackPart.Delta > AllowedLate)
+				//{
 					return TimeTrackType.Late;
-				}
+				//}
 			}
 
 			if (plannedTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay == timeTrackPart.EnterDateTime.TimeOfDay) ||		//TODO: describe it
@@ -635,13 +635,20 @@ namespace FiresecAPI.SKD
 				case TimeTrackType.Presence:
 					return timeTrack.Delta;
 
-				case TimeTrackType.Absence:
 				case TimeTrackType.Late:
-				case TimeTrackType.EarlyLeave:
-					if (Math.Abs(slideTimeSecods) < tolerance)
+					if (timeTrack.Delta >= AllowedLate)
 					{
-						return (-timeTrack.Delta);
+						break;
 					}
+					return timeTrack.Delta;
+
+				case TimeTrackType.Absence:
+				//case TimeTrackType.Late:
+				case TimeTrackType.EarlyLeave:
+					//if (Math.Abs(slideTimeSecods) < tolerance)
+					//{
+					//	return (-timeTrack.Delta);
+					//}
 					break;
 
 				case TimeTrackType.DocumentAbsence:
@@ -660,7 +667,17 @@ namespace FiresecAPI.SKD
 		/// <returns>Баланс, вычисленный на основе скользящего графика</returns>
 		private TimeSpan GetBalanceForSlideTime(TimeSpan slideTimeTotalSeconds, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts)
 		{
-			if (slideTimeTotalSeconds.TotalSeconds <= 0) return default(TimeSpan);
+			if (slideTimeTotalSeconds.TotalSeconds <= 0 && plannedTimeTrackParts.Any())
+			{
+				TimeSpan result = new TimeSpan();
+				foreach (var plannedTimeTrackPart in plannedTimeTrackParts)
+				{
+					result -= plannedTimeTrackPart.Delta;
+				}
+				return result;
+			}
+			if (slideTimeTotalSeconds.TotalSeconds <= 0)
+				return default(TimeSpan);
 
 			var balanceTimeSpan = new TimeSpan();
 
