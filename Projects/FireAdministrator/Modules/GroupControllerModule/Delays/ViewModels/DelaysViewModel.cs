@@ -101,8 +101,8 @@ namespace GKModule.ViewModels
 			var delayDetailsViewModel = new DelayDetailsViewModel(delay);
 			if (DialogService.ShowModalWindow(delayDetailsViewModel))
 			{
+				GKManager.EditDelay(SelectedDelay.Delay);
 				SelectedDelay.Update();
-				SelectedDelay.Delay.OutDependentElements.ForEach(x => x.OnChanged());
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

@@ -36,5 +36,14 @@ namespace RubezhClient
 				x.OnChanged();
 			});
 		}
+
+		/// <summary>
+		/// Изменение МПТ
+		/// </summary>
+		/// <param name="mpt"></param>
+		public static void EditMPT(GKMPT mpt)
+		{
+			mpt.OutDependentElements.ForEach(x => x.OnChanged());
+		}
 	}
 }

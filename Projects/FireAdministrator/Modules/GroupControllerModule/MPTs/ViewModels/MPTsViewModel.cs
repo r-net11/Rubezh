@@ -121,7 +121,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(mptDetailsViewModel))
 			{
 				SelectedMPT.Update();
-				SelectedMPT.MPT.OutDependentElements.ForEach(x => x.OnChanged());
+				GKManager.EditMPT(SelectedMPT.MPT);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

@@ -121,9 +121,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(doorDetailsViewModel))
 			{
 				SelectedDoor.Update();
-				doorDetailsViewModel.Door.OnChanged();
-				doorDetailsViewModel.Door.OutDependentElements.ForEach(x => x.OnChanged());
-				doorDetailsViewModel.Door.InputDependentElements.ForEach(x => x.OnChanged());
+				GKManager.EditDoor(doorDetailsViewModel.Door);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

@@ -95,8 +95,8 @@ namespace GKModule.ViewModels
 			var pumpStationDetailsViewModel = new PumpStationDetailsViewModel(SelectedPumpStation.PumpStation);
 			if (DialogService.ShowModalWindow(pumpStationDetailsViewModel))
 			{
+				GKManager.EditPumpStation(SelectedPumpStation.PumpStation);
 				SelectedPumpStation.Update();
-				SelectedPumpStation.PumpStation.OutDependentElements.ForEach(x => x.OnChanged());
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

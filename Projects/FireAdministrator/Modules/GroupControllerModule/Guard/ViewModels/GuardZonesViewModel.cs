@@ -122,10 +122,8 @@ namespace GKModule.ViewModels
 			var guardZoneDetailsViewModel = new GuardZoneDetailsViewModel(zone);
 			if (DialogService.ShowModalWindow(guardZoneDetailsViewModel))
 			{
+				GKManager.EditGuardZone(guardZoneDetailsViewModel.Zone);
 				SelectedZone.Update();
-				guardZoneDetailsViewModel.Zone.InputDependentElements.ForEach(x => x.OnChanged());
-				guardZoneDetailsViewModel.Zone.OutDependentElements.ForEach(x => x.OnChanged());
-				guardZoneDetailsViewModel.Zone.OnChanged();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
