@@ -126,7 +126,7 @@ namespace ResursDAL
 							Description = "Описание подъезда №" + y
 						};
 						context.Consumers.Add(b);
-						for (int z = 1; z <= 50; z++)
+						for (int z = (y - 1) * 50 + 1; z <= y * 50; z++)
 						{
 							var c = new Consumer
 							{

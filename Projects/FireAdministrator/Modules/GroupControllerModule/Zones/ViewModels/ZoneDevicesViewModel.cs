@@ -32,7 +32,6 @@ namespace GKModule.ViewModels
 
 			foreach (var device in GKManager.Devices)
 			{
-
 				if (device.Driver.HasLogic)
 				{
 					foreach (var objectLogic in device.Logic.GetObjects())

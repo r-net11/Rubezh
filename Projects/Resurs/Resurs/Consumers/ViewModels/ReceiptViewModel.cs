@@ -9,15 +9,16 @@ namespace Resurs.ViewModels
 {
 	public class ReceiptViewModel : DialogViewModel
 	{
-		public Consumer Consumer {get; private set;}
-		public ReportPreviewModel Model { get; private set; }
-		public ReceiptViewModel(Consumer consumer)
+		public ReceiptTemplate Receipt { get; private set;}
+		public Bill Bill { get; private set; }
+		public ReportPreviewModel Model { get; set; }
+		public ReceiptViewModel(ReceiptTemplate receipt, Bill bill)
 		{			
 			FitPageSizeCommand = new RelayCommand<ZoomFitMode>(OnFitPageSize, CanFitPageSize);
 
-			Consumer = consumer;
+			Bill = bill;
+			Receipt = receipt;
 			Model = CreateModel();
-			BuildReceipt();
 		}
 		public RelayCommand<ZoomFitMode> FitPageSizeCommand { get; private set; }
 		private void OnFitPageSize(ZoomFitMode fitMode)
@@ -36,18 +37,14 @@ namespace Resurs.ViewModels
 		}
 		ReportPreviewModel CreateModel()
 		{
-			var receipt = new ReceiptTemplate();
-			return new ReportPreviewModel(receipt)
+			Receipt.Bill = Bill;
+			Receipt.CreateDocument();
+			return new ReportPreviewModel(Receipt)
 			{
 				AutoShowParametersPanel = false,
 				IsParametersPanelVisible = false,
 				IsDocumentMapVisible = false
 			};
 		}
-		void BuildReceipt()
-		{
-			Model.Report.CreateDocument();
-		}
-
 	}
 }

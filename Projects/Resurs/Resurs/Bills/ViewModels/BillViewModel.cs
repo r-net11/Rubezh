@@ -1,6 +1,8 @@
 ﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Resurs.Consumers;
+using Resurs.Reports.Templates;
 using ResursAPI;
 using ResursDAL;
 using System;
@@ -14,18 +16,23 @@ namespace Resurs.ViewModels
 	public class BillViewModel : BaseViewModel
 	{
 		public BillsViewModel BillsViewModel { get; private set; }
+		public Bill Bill { get; private set; }
 		public BillViewModel(Bill bill, BillsViewModel billsViewModel, bool isReadOnly)
 		{
+			ShowReceiptCommand = new RelayCommand(OnShowReceipt, CanShowReceipt);
+
 			BillsViewModel = billsViewModel;
+			Bill = bill;
 
 			Uid = bill.UID;
 			Consumer = bill.Consumer;
 			Name = bill.Name;
 			Description = bill.Description;
 			Balance = bill.Balance;
-			TemplatePath = bill.TemplatePath;
 			IsReadOnly = isReadOnly;
 
+			Receipts = ReceiptHelper.GetAllTemplate();
+			SelectedReceipt = Receipts.FirstOrDefault();
 			AddDeviceCommand = new RelayCommand(OnAddDevice);
 			RemoveDeviceCommand = new RelayCommand<DeviceViewModel>(OnRemoveDevice);
 			SelectDeviceCommand = new RelayCommand<Guid>(OnSelectDevice);
@@ -34,6 +41,17 @@ namespace Resurs.ViewModels
 		}
 
 		public bool IsReadOnly { get; private set; }
+
+		bool _isChecked;
+		public bool IsChecked
+		{
+			get { return _isChecked; }
+			set
+			{
+				_isChecked = value;
+				OnPropertyChanged(() => IsChecked);
+			}
+		}
 
 		public Guid Uid { get; private set; }
 
@@ -73,15 +91,15 @@ namespace Resurs.ViewModels
 				OnPropertyChanged(() => Balance);
 			}
 		}
-
-		string _templatePath;
-		public string TemplatePath
+		public List<ReceiptTemplate> Receipts { get; private set; }
+		ReceiptTemplate _selectedReceipt;
+ 		public ReceiptTemplate SelectedReceipt
 		{
-			get { return _templatePath; }
+			get { return _selectedReceipt; }
 			set
 			{
-				_templatePath = value;
-				OnPropertyChanged(() => TemplatePath);
+				_selectedReceipt = value;
+				OnPropertyChanged(() => SelectedReceipt);
 			}
 		}
 
@@ -117,12 +135,22 @@ namespace Resurs.ViewModels
 			{
 				Balance = this.Balance,
 				Consumer = this.Consumer,
+				ConsumerUID = this.Consumer == null ? Guid.Empty : this.Consumer.UID,
 				Description = this.Description,
 				Name = this.Name,
-				TemplatePath = this.TemplatePath,
 				UID = this.Uid,
 				Devices = this.Devices.Select(x => x.Device).ToList()
 			};
+		}
+		public RelayCommand ShowReceiptCommand { get; private set; }
+		void OnShowReceipt()
+		{
+			var receiptViewModel = new ReceiptViewModel(SelectedReceipt, Bill);
+			Infrastructure.Common.Windows.DialogService.ShowModalWindow(receiptViewModel);
+		}
+		bool CanShowReceipt()
+		{
+			return SelectedReceipt != null;
 		}
 	}
 }

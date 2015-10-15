@@ -2,7 +2,9 @@
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
+using ResursDAL;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -48,9 +50,19 @@ namespace Resurs.ViewModels
 		void OnEditDevicesCommand()
 		{
 			var tariffDevicesViewModel = new TariffDevicesViewModel(this);
-			if(DialogService.ShowModalWindow(tariffDevicesViewModel))
+			if (DialogService.ShowModalWindow(tariffDevicesViewModel))
 			{
-
+				foreach (var device in Tariff.Devices)
+				{
+					DBCash.GetDevice(device.UID).TariffUID = null;
+				}
+				Tariff.Devices.Clear();
+				foreach (var item in tariffDevicesViewModel.SelectedDevices)
+				{
+					Tariff.Devices.Add(item.Device);
+					DBCash.GetDevice(item.Device.UID).TariffUID = Tariff.UID;
+				}
+				CanSave();
 			}
 		}
 
@@ -104,9 +116,12 @@ namespace Resurs.ViewModels
 			set { _tariffParts = value; }
 		}
 
-		public byte[] TariffPartsNumberEnum
+		public IEnumerable TariffPartsNumberEnum
 		{
-			get { return new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 }; }
+			get
+			{
+				return Enumerable.Range(1, 8).Select(x => (byte)x);
+			}
 		}
 
 		public byte SelectedTariffPartsNumber
@@ -151,27 +166,52 @@ namespace Resurs.ViewModels
 			}
 		}
 
+		private bool ValidateTariff()
+		{
+			foreach (var device in Tariff.Devices)
+			{
+				if (device.TariffType != Tariff.TariffType)
+					return false;
+			}
+			return true;
+		}
+
+		public bool IsTariffValid { get { return !ValidateTariff(); } }
+
+		protected override bool CanSave()
+		{
+			var result = ValidateTariff();
+			OnPropertyChanged(() => IsTariffValid);
+			AllowSave = true;
+			return result;
+		}
+
 		protected override bool Save()
 		{
-			Tariff.Name = Name;
-			Tariff.Description = Description;
-			Tariff.TariffType = SelectedTariffType;
-			Tariff.IsDiscount = IsDiscount;
-			Tariff.TariffParts.Clear();
-			foreach (var item in TariffParts)
+			if (ValidateTariff())
 			{
-				Tariff.TariffParts.Add(new TariffPart
+				Tariff.Name = Name;
+				Tariff.Description = Description;
+				Tariff.TariffType = SelectedTariffType;
+				Tariff.IsDiscount = IsDiscount;
+				Tariff.TariffParts.Clear();
+				foreach (var item in TariffParts)
 				{
-					UID = item.TariffPart.UID,
-					Price = item.Price,
-					Discount = item.Discount,
-					Threshold = item.Threshold,
-					EndTime = item.EndTime,
-					StartTime = item.StartTime,
-					Tariff = Tariff,
-				});
+					Tariff.TariffParts.Add(new TariffPart
+					{
+						UID = item.TariffPart.UID,
+						Price = item.Price,
+						Discount = item.Discount,
+						Threshold = item.Threshold,
+						EndTime = item.EndTime,
+						StartTime = item.StartTime,
+						Tariff = Tariff,
+					});
+				}
+				return base.Save(); 
 			}
-			return base.Save();
+			MessageBoxService.ShowWarning("Имеются ошибки конфигурации. Изменения не сохранены.");
+			return false;
 		}
 	}
 }

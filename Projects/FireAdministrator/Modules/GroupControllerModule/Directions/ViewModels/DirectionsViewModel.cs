@@ -108,7 +108,7 @@ namespace GKModule.ViewModels
 			directionViewModel.Direction.Logic = logicViewModel.GetModel();
 			directionViewModel.Direction.No = (ushort)(GKManager.Directions.Select(x => x.No).Max() + 1);
 			directionViewModel.Direction.Invalidate();
-			GKManager.Directions.Add(directionViewModel.Direction);
+			GKManager.AddDirection(directionViewModel.Direction);
 			Directions.Add(directionViewModel);
 			SelectedDirection = directionViewModel;
 			ServiceFactory.SaveService.GKChanged = true;
@@ -184,17 +184,6 @@ namespace GKModule.ViewModels
 			{
 				var index = Directions.IndexOf(SelectedDirection);
 				GKManager.RemoveDirection(SelectedDirection.Direction);
-				SelectedDirection.Direction.InputDependentElements.ForEach(x =>
-				{
-					x.OutDependentElements.Remove(SelectedDirection.Direction);
-				});
-
-				SelectedDirection.Direction.OutDependentElements.ForEach(x =>
-				{
-					x.InputDependentElements.Remove(SelectedDirection.Direction);
-					x.UpdateLogic();
-					x.OnChanged();
-				});
 				Directions.Remove(SelectedDirection);
 				index = Math.Min(index, Directions.Count - 1);
 				if (index > -1)
@@ -215,7 +204,7 @@ namespace GKModule.ViewModels
 				{
 					for (var i = emptyDirections.Count() - 1; i >= 0; i--)
 					{
-						GKManager.Directions.Remove(emptyDirections.ElementAt(i).Direction);
+						GKManager.RemoveDirection(emptyDirections.ElementAt(i).Direction);
 						Directions.Remove(emptyDirections.ElementAt(i));
 					}
 					SelectedDirection = Directions.FirstOrDefault();
@@ -341,7 +330,7 @@ namespace GKModule.ViewModels
 			_lockSelection = true;
 			elements.ForEach(element =>
 			{
-				var elementDirection = GetElementXDirection(element);
+				var elementDirection = GetElementDirection(element);
 				if (elementDirection != null)
 				{
 					OnDirectionChanged(elementDirection.DirectionUID);
@@ -351,7 +340,7 @@ namespace GKModule.ViewModels
 		}
 		private void OnElementSelected(ElementBase element)
 		{
-			var elementDirection = GetElementXDirection(element);
+			var elementDirection = GetElementDirection(element);
 			if (elementDirection != null)
 			{
 				_lockSelection = true;
@@ -359,7 +348,7 @@ namespace GKModule.ViewModels
 				_lockSelection = false;
 			}
 		}
-		private IElementDirection GetElementXDirection(ElementBase element)
+		private IElementDirection GetElementDirection(ElementBase element)
 		{
 			IElementDirection elementDirection = element as ElementRectangleGKDirection;
 			if (elementDirection == null)

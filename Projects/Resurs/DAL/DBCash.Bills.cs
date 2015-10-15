@@ -16,7 +16,14 @@ namespace ResursDAL
 				return context.Bills.FirstOrDefault(x => x.UID == billUid); 
 			}
 		}
-				
+
+		public static List<Bill> GetAllBills()
+		{
+			using (var context = DatabaseContext.Initialize())
+			{
+				return context.Bills.ToList(); 
+			}
+		}	
 		public static void SaveBill(Bill bill)
 		{
 			using (var context = DatabaseContext.Initialize())

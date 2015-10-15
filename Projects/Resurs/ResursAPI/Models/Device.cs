@@ -90,6 +90,7 @@ namespace ResursAPI
 		[InverseProperty("Parent")]
 		public List<Device> Children { get; set; }
 		public List<Parameter> Parameters { get; set; }
+		public Guid? TariffUID { get; set; }
 		public Tariff Tariff { get; set; }
 		public Guid? BillUID { get; set; }
 		public Bill Bill { get; set; } 

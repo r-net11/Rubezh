@@ -90,7 +90,7 @@ namespace Resurs.ViewModels
 			{
 				//ApplicationService.DoEvents(Dispatcher);
 				Close(true);
-				DBCash.AddJournal(JournalType.System, DBCash.CurrentUser.UID, null, DBCash.CurrentUser.Name);
+				DBCash.AddJournalForUser(JournalType.System);
 			}
 		}
 		public RelayCommand CancelCommand { get; private set; }

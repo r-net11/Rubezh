@@ -377,13 +377,19 @@
     <Compile Include="Bills\Views\BillView.xaml.cs">
       <DependentUpon>BillView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Consumers\ReceiptHelper.cs" />
+    <Compile Include="Consumers\ViewModels\ConsumerListViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.Bills.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.Common.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumersFolderDetailsViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerChangeParentViewModel.cs" />
+    <Compile Include="Consumers\ViewModels\SelectBillViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumersViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ReceiptViewModel.cs" />
+    <Compile Include="Consumers\Views\ConsumerListView.xaml.cs">
+      <DependentUpon>ConsumerListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Consumers\Views\ConsumersFolderDetailsView.xaml.cs">
       <DependentUpon>ConsumersFolderDetailsView.xaml</DependentUpon>
     </Compile>
@@ -391,11 +397,16 @@
       <DependentUpon>ConsumerChangeParentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Converters\ClassTypeToIconConverter.cs" />
+    <Compile Include="Consumers\Views\SelectBillView.xaml.cs">
+      <DependentUpon>SelectBillView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Consumers\Views\ReceiptView.xaml.cs">
       <DependentUpon>ReceiptView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\DeviceStateToIconConverter.cs" />
     <Compile Include="Converters\DeviceTypeToIconConverter.cs" />
+    <Compile Include="Converters\JournalTypeToIconConverter.cs" />
     <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="Devices\ViewModels\DetailsParameterViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\DateTimePairViewModel.cs" />
@@ -486,6 +497,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ReceiptsDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Reports\DataSources\ReceiptTemplateDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReceiptTemplateDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Reports\ReportPeriodType.cs" />
     <Compile Include="Reports\ReportPreviewModel.cs" />
     <Compile Include="Reports\Templates\ChangeValueReport.cs">
@@ -520,6 +536,7 @@
     </Compile>
     <Compile Include="Tariffs\DiscountToTextConverter.cs" />
     <Compile Include="Tariffs\ViewModels\TariffDevicesViewModel.cs" />
+    <Compile Include="Tariffs\ViewModels\TariffDeviceViewModel.cs" />
     <Compile Include="Tariffs\ViewModels\TariffPartViewModel.cs" />
     <Compile Include="Tariffs\Views\TariffDevicesView.xaml.cs">
       <DependentUpon>TariffDevicesView.xaml</DependentUpon>
@@ -593,9 +610,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Consumers\Views\ConsumerListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Consumers\Views\ConsumerChangeParentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Consumers\Views\SelectBillView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Devices\Views\SelectDeviceView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -809,6 +834,17 @@
     </None>
     <None Include="Reports\DataSources\ReceiptsDataSet.xss">
       <DependentUpon>ReceiptsDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Reports\DataSources\ReceiptTemplateDataSet.xsc">
+      <DependentUpon>ReceiptTemplateDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Reports\DataSources\ReceiptTemplateDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ReceiptTemplateDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Reports\DataSources\ReceiptTemplateDataSet.xss">
+      <DependentUpon>ReceiptTemplateDataSet.xsd</DependentUpon>
     </None>
     <None Include="Resurs.exe.manifest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

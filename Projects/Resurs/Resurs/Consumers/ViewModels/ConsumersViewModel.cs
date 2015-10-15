@@ -23,80 +23,42 @@ namespace Resurs.ViewModels
 			ChangeParentCommand = new RelayCommand(OnChangeParent, CanChangeParent);
 			OpenReceiptCommand = new RelayCommand(OnOpenReceipt, CanOpenReceipt);
 
-			BuildTree();
-			if (RootConsumer != null)
-			{
-				SelectedConsumer = RootConsumer;
-				RootConsumer.IsExpanded = true;
-				foreach (var child in RootConsumer.Children)
-					child.IsExpanded = true;
-			}
+			ConsumerListViewModel = new ConsumerListViewModel();
+			ConsumerListViewModel.OnSelectedConsumerChanged += ConsumerListViewModel_OnSelectedConsumerChanged;
+			ConsumerListViewModel.OnItemActivated += ConsumerListViewModel_OnItemActivated;
 
-			foreach (var consumer in AllConsumers)
-			{
-				if (true)
-					consumer.ExpandToThis();
-			}
-
-			OnPropertyChanged(() => RootConsumers);
+			FillAllConsumers();
 		}
 
-		ConsumerViewModel _selectedConsumer;
+		void ConsumerListViewModel_OnItemActivated(ConsumerViewModel obj)
+		{
+			EditCommand.Execute();
+		}
+
+		void ConsumerListViewModel_OnSelectedConsumerChanged(ConsumerViewModel consumer)
+		{
+			SelectedConsumer = consumer;
+		}
+
+		public ConsumerListViewModel ConsumerListViewModel { get; private set; }
+
 		public ConsumerViewModel SelectedConsumer
 		{
-			get { return _selectedConsumer; }
+			get { return ConsumerListViewModel.SelectedConsumer; }
 			set
 			{
-				_selectedConsumer = value;
+				if (ConsumerListViewModel.SelectedConsumer != value)
+					ConsumerListViewModel.SelectedConsumer = value;
 				OnPropertyChanged(() => SelectedConsumer);
 			}
 		}
-
-		ConsumerViewModel _rootConsumer;
-		public ConsumerViewModel RootConsumer
-		{
-			get { return _rootConsumer; }
-			private set
-			{
-				_rootConsumer = value;
-				OnPropertyChanged(() => RootConsumer);
-			}
-		}
-
-		public ConsumerViewModel[] RootConsumers
-		{
-			get { return new[] { RootConsumer }; }
-		}
-
-		void BuildTree()
-		{
-			RootConsumer = AddConsumerInternal(DBCash.RootConsumer, null);
-			FillAllConsumers();
-		}
-
-		public ConsumerViewModel AddConsumer(Consumer consumer, ConsumerViewModel parentConsumerViewModel)
-		{
-			var consumerViewModel = AddConsumerInternal(consumer, parentConsumerViewModel);
-			FillAllConsumers();
-			return consumerViewModel;
-		}
-		private ConsumerViewModel AddConsumerInternal(Consumer consumer, ConsumerViewModel parentConsumerViewModel)
-		{
-			var consumerViewModel = new ConsumerViewModel(consumer);
-			if (parentConsumerViewModel != null)
-				parentConsumerViewModel.AddChild(consumerViewModel);
-
-			foreach (var childConsumer in consumer.Children)
-				AddConsumerInternal(childConsumer, consumerViewModel);
-			return consumerViewModel;
-		}
-
+				
 		public List<ConsumerViewModel> AllConsumers;
 
 		public void FillAllConsumers()
 		{
 			AllConsumers = new List<ConsumerViewModel>();
-			AddChildPlainConsumers(RootConsumer);
+			AddChildPlainConsumers(ConsumerListViewModel.RootConsumer);
 		}
 
 		void AddChildPlainConsumers(ConsumerViewModel parentViewModel)
@@ -114,14 +76,32 @@ namespace Resurs.ViewModels
 				var consumerViewModel = AllConsumers.FirstOrDefault(x => x.Consumer.UID == consumerUID);
 				if (consumerViewModel != null)
 					consumerViewModel.ExpandToThis();
+				Bootstrapper.MainViewModel.SelectedTabIndex = 1;
 				SelectedConsumer = consumerViewModel;
+				if (SelectedConsumer.ConsumerDetails != null)
+					SelectedConsumer.ConsumerDetails.SelectedTabIndex = 1;
+				Bootstrapper.MainViewModel.SelectedTabIndex = 1;
 			}
+		}
+
+		public BillViewModel FindBillViewModel(Guid billUid)
+		{
+			foreach (var consumer in AllConsumers)
+				if (consumer.GetConsumerDetails() != null && consumer.GetConsumerDetails().BillsViewModel != null)
+					foreach (var bill in consumer.GetConsumerDetails().BillsViewModel.Bills)
+						if (bill.Uid == billUid)
+							return bill;
+			return null;
 		}
 
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var consumerDetailsViewModel = new ConsumerDetailsViewModel(new Consumer() { ParentUID = SelectedConsumer.Consumer.IsFolder ? SelectedConsumer.Consumer.UID : SelectedConsumer.Consumer.ParentUID }, false, true);
+			var consumerDetailsViewModel = new ConsumerDetailsViewModel(new Consumer 
+			{ 
+				ParentUID = SelectedConsumer.Consumer.IsFolder ? SelectedConsumer.Consumer.UID : SelectedConsumer.Consumer.ParentUID,
+				Bills = new List<Bill> { new Bill() }
+			}, false, true);
 			if (DialogService.ShowModalWindow(consumerDetailsViewModel))
 			{
 				var consumerViewModel = new ConsumerViewModel(consumerDetailsViewModel.GetConsumer());
@@ -217,14 +197,14 @@ namespace Resurs.ViewModels
 		public RelayCommand ChangeParentCommand { get; private set; }
 		void OnChangeParent()
 		{
-			var consumersChangeParentViewModel = new ConsumerChangeParentViewModel(SelectedConsumer.Consumer.UID);
-			if (DialogService.ShowModalWindow(consumersChangeParentViewModel) && consumersChangeParentViewModel.SelectedConsumer != null)
+			var consumerChangeParentViewModel = new ConsumerChangeParentViewModel(SelectedConsumer.Consumer.UID);
+			if (DialogService.ShowModalWindow(consumerChangeParentViewModel) && consumerChangeParentViewModel.SelectedConsumer != null)
 			{
-				var parentConsumerViewModel = AllConsumers.FirstOrDefault(x => x.Consumer.UID == consumersChangeParentViewModel.SelectedConsumer.Consumer.UID);
+				var parentConsumerViewModel = AllConsumers.FirstOrDefault(x => x.Consumer.UID == consumerChangeParentViewModel.SelectedConsumer.Consumer.UID);
 				if (parentConsumerViewModel != null)
 				{
 					SelectedConsumer.Consumer = DBCash.GetConsumer(SelectedConsumer.Consumer.UID);
-					SelectedConsumer.Consumer.ParentUID = consumersChangeParentViewModel.SelectedConsumer.Consumer.UID;
+					SelectedConsumer.Consumer.ParentUID = consumerChangeParentViewModel.SelectedConsumer.Consumer.UID;
 
 					DBCash.SaveConsumer(SelectedConsumer.Consumer);
 
@@ -256,7 +236,7 @@ namespace Resurs.ViewModels
 
 		public bool IsVisibility
 		{
-			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.Consumer); }
+			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.ViewConsumer); }
 		}
 	}
 }

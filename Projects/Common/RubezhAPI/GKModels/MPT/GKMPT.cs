@@ -46,7 +46,7 @@ namespace RubezhAPI.GK
 
 		public override void UpdateLogic()
 		{
-			GKManager.DeviceConfiguration.InvalidateInputObjectsBaseLogic(this, MptLogic);
+			GKManager.DeviceConfiguration.InvalidateOneLogic(this, MptLogic);
 		}
 
 		bool _isLogicOnKau;

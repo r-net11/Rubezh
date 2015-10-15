@@ -113,9 +113,9 @@ namespace RubezhAPI.GK
 
 		public override void UpdateLogic()
 		{
-			GKManager.DeviceConfiguration.InvalidateInputObjectsBaseLogic(this, OpenRegimeLogic);
-			GKManager.DeviceConfiguration.InvalidateInputObjectsBaseLogic(this, NormRegimeLogic);
-			GKManager.DeviceConfiguration.InvalidateInputObjectsBaseLogic(this, CloseRegimeLogic);
+			GKManager.DeviceConfiguration.InvalidateOneLogic(this, OpenRegimeLogic);
+			GKManager.DeviceConfiguration.InvalidateOneLogic(this, NormRegimeLogic);
+			GKManager.DeviceConfiguration.InvalidateOneLogic(this, CloseRegimeLogic);
 		}
 
 		[XmlIgnore]

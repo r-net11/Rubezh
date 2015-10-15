@@ -22,7 +22,6 @@ namespace Resurs.ViewModels
 		}
 		protected override bool Save()
 		{
-			Infrastructure.Common.Windows.DialogService.ShowModalWindow(new ReceiptViewModel(new Consumer()));
 			return base.Save();
 		}
 	}

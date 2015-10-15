@@ -31,17 +31,18 @@ namespace Resurs.ViewModels
 		{
 			var random = new Random();
 			var tariffs = new List<Tariff>();
-			for (int i = 0; i < 50; i++)
+			Array TariffType = Enum.GetValues(typeof(TariffType));
+
+			for (int i = 0; i < 150; i++)
 			{
 				tariffs.Add(new Tariff
 				{
-					Description = "" + random.Next(0, 1000),
-					//not clear
+					Description = "Описание тарифа " + i.ToString(),
 					Devices = new List<Device>(),
-					IsDiscount = random.Next(0, 1) == 1 ? true : false,
-					Name = "Тестовый тариф" + random.Next(0, 1000),
+					IsDiscount = random.NextDouble() > 0.9,
+					Name = "Тестовый тариф" + i.ToString(),
 					TariffParts = new List<TariffPart>(),
-					TariffType = TariffType.Electricity,
+					TariffType = (TariffType)TariffType.GetValue(random.Next(TariffType.Length)),
 				});
 				tariffs[i].TariffParts.Add(new TariffPart
 				{

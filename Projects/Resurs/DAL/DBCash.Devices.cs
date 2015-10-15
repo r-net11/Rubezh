@@ -31,7 +31,8 @@ namespace ResursDAL
 							ParentUID = x.ParentUID, 
 							IsActive = x.IsActive,
 							TariffType = x.TariffType,
-							ComPort = x.ComPort
+							ComPort = x.ComPort,
+							TariffUID = x.TariffUID,
 						}).ToList();
 					var allDevices = tableItems.Select(x => new Device
 						{
@@ -43,7 +44,8 @@ namespace ResursDAL
 							ParentUID = x.ParentUID,
 							IsActive = x.IsActive,
 							TariffType = x.TariffType,
-							ComPort = x.ComPort
+							ComPort = x.ComPort,
+							TariffUID = x.TariffUID,
 						}).OrderBy(x => x.Address).ToList();
 					
 					SetChildren(allDevices);
@@ -267,7 +269,7 @@ namespace ResursDAL
 
 				using (var context = DatabaseContext.Initialize())
 				{
-					var device = context.Devices.Include(x => x.Parent).Include(x => x.Parameters).FirstOrDefault(x => x.UID == uid);
+					var device = context.Devices.Include(x => x.Parent).Include(x => x.Parameters).Include(x => x.Bill).FirstOrDefault(x => x.UID == uid);
 					device.Parameters = device.Parameters.OrderBy(x => x.Number).ToList();
 					InitializeDevice(device);
 					device.IsLoaded = true;
@@ -347,6 +349,7 @@ namespace ResursDAL
 		static void CopyDevice(Device device, Device tableDevice, DatabaseContext context)
 		{
 			tableDevice.Address = device.Address;
+			tableDevice.BillUID = device.BillUID;
 			tableDevice.Bill = device.Bill != null ? context.Bills.FirstOrDefault(x => x.UID == device.Bill.UID) : null;
 			tableDevice.Name = device.Name;
 			tableDevice.Description = device.Description;
@@ -356,6 +359,7 @@ namespace ResursDAL
 			tableDevice.Parent = device.Parent != null ? context.Devices.FirstOrDefault(x => x.UID == device.Parent.UID) : null;
 			tableDevice.DriverType = device.DriverType;
 			tableDevice.IsDbMissmatch = device.IsDbMissmatch;
+			tableDevice.TariffUID = device.TariffUID;
 			if (device.DeviceType == DeviceType.Network)
 				tableDevice.ComPort = device.ComPort;
 			tableDevice.Parameters = device.Parameters.Select(x => new Parameter

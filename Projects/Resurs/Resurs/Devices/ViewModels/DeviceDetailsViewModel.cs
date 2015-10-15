@@ -1,6 +1,8 @@
-﻿using Infrastructure.Common.Windows;
+﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
+using ResursDAL;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,6 +26,8 @@ namespace Resurs.ViewModels
 			_Parent = device.Parent;
 			Address = device.Address;
 			Initialize(device);
+			SelectBillCommand = new RelayCommand<Guid?>(OnSelectBill);
+			RemoveBillLinkCommand = new RelayCommand(OnRemoveBillLink);
 		}
 
 		public DeviceDetailsViewModel(DriverType driverType, Device parent)
@@ -43,6 +47,7 @@ namespace Resurs.ViewModels
 			Name = device.Name;
 			Description = device.Description;
 			IsActive = Device.IsActive;
+			Bill = device.Bill;
 			if (!IsActive)
 			{
 				IsEditComPort = device.DeviceType == DeviceType.Network;
@@ -136,6 +141,49 @@ namespace Resurs.ViewModels
 
 		public bool IsActive { get; private set; }
 		
+		Bill _Bill;
+		public Bill Bill
+		{
+			get { return _Bill; }
+			set
+			{
+				_Bill = value;
+				OnPropertyChanged(() => Bill);
+				OnPropertyChanged(() => BillLinkName);
+			}
+		}
+
+		public string BillLinkName
+		{
+			get 
+			{
+				return Bill == null ? "Нажмите для привязки счета" : Bill.Name;
+			}
+		}
+
+		public RelayCommand<Guid?> SelectBillCommand { get; private set; }
+		void OnSelectBill(Guid? billUid)
+		{
+			if (billUid.HasValue)
+				Bootstrapper.MainViewModel.ConsumersViewModel.Select(billUid.Value);
+			else
+			{
+				var selectBillViewModel = new SelectBillViewModel();
+				if (DialogService.ShowModalWindow(selectBillViewModel))
+				{
+					var bill = selectBillViewModel.Bills.GetCheckedBill();
+					if (bill != null)
+						Bill = bill.GetBill();
+				}
+			}
+		}
+
+		public RelayCommand RemoveBillLinkCommand { get; private set; }
+		void OnRemoveBillLink()
+		{
+			Bill = null;
+		}
+
 		protected override bool Save()
 		{
 			if(IsEditComPort)
@@ -191,6 +239,8 @@ namespace Resurs.ViewModels
 			Device.Description = Description;
 			if (CanEditTariffType)
 				Device.TariffType = TariffType;
+			Device.Bill = Bill;
+			Device.BillUID = Bill == null ? null : (Guid?)Bill.UID;
 			var isDbMissmatch = false;
 			if (IsActive)
 			{

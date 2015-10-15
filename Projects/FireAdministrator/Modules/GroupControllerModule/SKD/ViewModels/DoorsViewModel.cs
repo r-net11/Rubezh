@@ -99,7 +99,7 @@ namespace GKModule.ViewModels
 			var doorDetailsViewModel = new DoorDetailsViewModel();
 			if (DialogService.ShowModalWindow(doorDetailsViewModel))
 			{
-				GKManager.DeviceConfiguration.Doors.Add(doorDetailsViewModel.Door);
+				GKManager.AddDoor(doorDetailsViewModel.Door);
 				var doorViewModel = new DoorViewModel(doorDetailsViewModel.Door);
 				Doors.Add(doorViewModel);
 				SelectedDoor = doorViewModel;
@@ -116,19 +116,7 @@ namespace GKModule.ViewModels
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить точку доступа " + SelectedDoor.Door.PresentationName))
 			{
 				var index = Doors.IndexOf(SelectedDoor);
-				GKManager.DeviceConfiguration.Doors.Remove(SelectedDoor.Door);
-				SelectedDoor.Door.InputDependentElements.ForEach(x =>
-				{
-					x.OutDependentElements.Remove(SelectedDoor.Door);
-				});
-
-				SelectedDoor.Door.OutDependentElements.ForEach(x =>
-				{
-					x.InputDependentElements.Remove(SelectedDoor.Door);
-					x.UpdateLogic();
-					x.OnChanged();
-				});
-				SelectedDoor.Door.OnChanged();
+				GKManager.RemoveDoor(SelectedDoor.Door);
 				Doors.Remove(SelectedDoor);
 				index = Math.Min(index, Doors.Count - 1);
 				if (index > -1)
@@ -149,7 +137,7 @@ namespace GKModule.ViewModels
 				{
 					for (var i = emptyDoors.Count() - 1; i >= 0; i--)
 					{
-						GKManager.Doors.Remove(emptyDoors.ElementAt(i).Door);
+						GKManager.RemoveDoor(emptyDoors.ElementAt(i).Door);
 						Doors.Remove(emptyDoors.ElementAt(i));
 					}
 					SelectedDoor = Doors.FirstOrDefault();

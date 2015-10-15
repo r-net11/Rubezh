@@ -20,8 +20,6 @@ namespace RubezhAPI.GK
 			Fire2Count = 3;
 			PlanElementUIDs = new List<Guid>();
 			Devices = new List<GKDevice>();
-			Directions = new List<GKDirection>();
-			DevicesInLogic = new List<GKDevice>();
 		}
 
 		[XmlIgnore]
@@ -29,10 +27,6 @@ namespace RubezhAPI.GK
 
 		[XmlIgnore]
 		public List<GKDevice> Devices { get; set; }
-		[XmlIgnore]
-		public List<GKDirection> Directions { get; set; }
-		[XmlIgnore]
-		public List<GKDevice> DevicesInLogic { get; set; }
 
 		/// <summary>
 		/// Количество устройств в сработке-1 для перевода зоны в состояние Пожар-1

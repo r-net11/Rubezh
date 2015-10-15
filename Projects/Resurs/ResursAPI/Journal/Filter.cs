@@ -10,8 +10,8 @@ namespace ResursAPI
 	{
 		public Filter()
 		{
-			StartDate = DateTime.Now.AddDays(-1);
-			EndDate = DateTime.Now;
+			//StartDate = DateTime.Now.AddDays(-1);
+			//EndDate = DateTime.Now;
 			Count = 1;
 			PageSize = 100;
 			StateType = StateType.LastDays;
