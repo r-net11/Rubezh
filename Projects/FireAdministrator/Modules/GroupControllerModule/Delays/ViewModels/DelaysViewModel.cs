@@ -161,16 +161,17 @@ namespace GKModule.ViewModels
 		public RelayCommand PasteCommand { get; private set; }
 		void OnPaste()
 		{
-			_delayToCopy.UID = Guid.NewGuid();
-			var delayViewModel = new DelayViewModel(_delayToCopy.Clone());
 			var logicViewModel = new LogicViewModel(SelectedDelay.Delay, _delayToCopy.Logic, true);
-			delayViewModel.Delay.Logic = logicViewModel.GetModel();
-			delayViewModel.Delay.No = (ushort)(GKManager.Delays.Select(x => x.No).Max() + 1);
-			delayViewModel.Delay.Invalidate();
+			_delayToCopy.UID = Guid.NewGuid();
+			var delay = _delayToCopy.Clone();
+			delay.Logic = logicViewModel.GetModel();
+			delay.No = (ushort)(GKManager.Delays.Select(x => x.No).Max() + 1);
+			delay.Invalidate();
+			var delayViewModel = new DelayViewModel(delay);
 			GKManager.Delays.Add(delayViewModel.Delay);
 			Delays.Add(delayViewModel);
 			SelectedDelay = delayViewModel;
-			ServiceFactory.SaveService.AutomationChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		bool CanPaste()
