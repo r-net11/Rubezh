@@ -1,6 +1,8 @@
-﻿using Infrastructure.Common.Windows;
+﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
+using ResursDAL;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,6 +26,8 @@ namespace Resurs.ViewModels
 			_Parent = device.Parent;
 			Address = device.Address;
 			Initialize(device);
+			SelectBillCommand = new RelayCommand<Guid?>(OnSelectBill);
+			RemoveBillLinkCommand = new RelayCommand(OnRemoveBillLink);
 		}
 
 		public DeviceDetailsViewModel(DriverType driverType, Device parent)
@@ -42,6 +46,7 @@ namespace Resurs.ViewModels
 			_OldDevice = device;
 			Description = device.Description;
 			IsActive = device.IsActive;
+			Bill = device.Bill;
 			Parameters = new ObservableCollection<DetailsParameterViewModel>(Device.Parameters.Select(x => new DetailsParameterViewModel(x)));
 			IsNetwork = device.DeviceType == DeviceType.Network;
 			if(IsNetwork)
@@ -123,6 +128,49 @@ namespace Resurs.ViewModels
 			}
 		}
 
+		Bill _Bill;
+		public Bill Bill
+		{
+			get { return _Bill; }
+			set
+			{
+				_Bill = value;
+				OnPropertyChanged(() => Bill);
+				OnPropertyChanged(() => BillLinkName);
+			}
+		}
+
+		public string BillLinkName
+		{
+			get 
+			{
+				return Bill == null ? "Нажмите для привязки счета" : Bill.Name;
+			}
+		}
+
+		public RelayCommand<Guid?> SelectBillCommand { get; private set; }
+		void OnSelectBill(Guid? billUid)
+		{
+			if (billUid.HasValue)
+				Bootstrapper.MainViewModel.ConsumersViewModel.Select(billUid.Value);
+			else
+			{
+				var selectBillViewModel = new SelectBillViewModel();
+				if (DialogService.ShowModalWindow(selectBillViewModel))
+				{
+					var bill = selectBillViewModel.Bills.GetCheckedBill();
+					if (bill != null)
+						Bill = bill.GetBill();
+				}
+			}
+		}
+
+		public RelayCommand RemoveBillLinkCommand { get; private set; }
+		void OnRemoveBillLink()
+		{
+			Bill = null;
+		}
+
 		protected override bool Save()
 		{
 			if(IsNetwork)
@@ -173,6 +221,8 @@ namespace Resurs.ViewModels
 			if (CanEditTariffType)
 				Device.TariffType = TariffType;
 			Device.IsActive = IsActive;
+			Device.Bill = Bill;
+			Device.BillUID = Bill == null ? null : (Guid?)Bill.UID;
 			if (!_IsNew)
 			{
 				if (Device.IsActive != _OldDevice.IsActive)

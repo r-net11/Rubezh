@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 MinWidth="600" MinHeight="600"
 			 xmlns:view="clr-namespace:Resurs.Views">
-	<TabControl>
+	<TabControl SelectedIndex="{Binding SelectedTabIndex}">
 		<TabItem Header="Общие">
 			<Grid>
 				<Grid.ColumnDefinitions>

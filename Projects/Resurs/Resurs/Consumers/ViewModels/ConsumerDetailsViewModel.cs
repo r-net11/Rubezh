@@ -20,7 +20,18 @@ namespace Resurs.ViewModels
 		public bool IsReadOnly { get; private set; }
 
 		public Guid Uid { get; private set; }
-		public Guid? ParentUid { get; private set; } 
+		public Guid? ParentUid { get; private set; }
+
+		int _selectedTabIndex;
+		public int SelectedTabIndex
+		{
+			get { return _selectedTabIndex; }
+			set
+			{
+				_selectedTabIndex = value;
+				OnPropertyChanged(() => SelectedTabIndex);
+			}
+		}
 
 		public void Update(Consumer consumer)
 		{

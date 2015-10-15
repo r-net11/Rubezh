@@ -16,6 +16,7 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 			<TextBlock Grid.Row="0" Grid.Column="0" Text="Устройство активно" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
 			<CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsActive}" Margin="2" />
@@ -44,8 +45,18 @@
 			</ComboBox>
 			<TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2"  
 					   Text="{Binding TariffType, Converter={StaticResource EnumToDescriptionConverter}}" Visibility="{Binding HasReadOnlyTariffType, Converter={StaticResource BoolToVisibilityConverter}}" />
-			
-			<ItemsControl Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Parameters}" Margin="2">
+			<TextBlock Grid.Row="3" Grid.Column="0" Text="Счет" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
+			<StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+				<TextBlock VerticalAlignment="Center">
+					<Hyperlink Command="{Binding SelectBillCommand}" CommandParameter="{Binding Bill.ConsumerUID}" Style="{StaticResource HyperlinkStyle}">
+						<TextBlock VerticalAlignment="Center" Text="{Binding BillLinkName}" />
+					</Hyperlink>
+				</TextBlock>
+				<ToolBarButton ToolTip="Удалить привязку счета" Height="28" Width="28" Background="DarkGray" ImageSource="DeleteCross" 
+							   Command="{Binding RemoveBillLinkCommand}" Visibility="{Binding Bill, Converter={StaticResource NullToVisibilityConverter}}" />
+			</StackPanel>
+
+			<ItemsControl Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Parameters}" Margin="2">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<Grid>

@@ -11,6 +11,7 @@ namespace Resurs.ViewModels
 	{
 		public SelectDeviceViewModel(List<Guid> exceptDeviceUids)
 		{
+			Title = "Выбор устройства";
 			BuildTree(exceptDeviceUids);
 			if (RootDevice != null)
 			{
