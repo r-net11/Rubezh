@@ -61,4 +61,8 @@
 	<SolidColorBrush Color="#000000" x:Key="ForegroundColorDark" />
 	<SolidColorBrush Color="#FFFFFF" x:Key="ForegroundColorWhite" />
 
+	<!--new props-->
+	<SolidColorBrush Color="#FF0000" x:Key="WarningText" />
+
+
 </ResourceDictionary>
