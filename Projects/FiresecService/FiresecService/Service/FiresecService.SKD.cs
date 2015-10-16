@@ -33,18 +33,28 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> SaveEmployee(Employee item, bool isNew)
 		{
-			if(isNew)
-				AddJournalMessage(JournalEventNameType.Добавление_нового_сотрудника, item.Name, uid: item.UID);
+			if (isNew)
+			{
+				if (item.Type == PersonType.Employee)
+					AddJournalMessage(JournalEventNameType.Добавление_нового_сотрудника, item.Name, uid: item.UID);
+				else if (item.Type == PersonType.Guest)
+					AddJournalMessage(JournalEventNameType.Добавление_нового_посетителя, item.Name, uid: item.UID);
+			}
 			else
-				AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
+			{
+				if (item.Type == PersonType.Employee)
+					AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
+				else if (item.Type == PersonType.Guest)
+					AddJournalMessage(JournalEventNameType.Редактирование_посетителя, item.Name, uid: item.UID);
+			}
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.EmployeeTranslator.Save(item);
 			}
 		}
-		public OperationResult MarkDeletedEmployee(Guid uid, string name)
+		public OperationResult MarkDeletedEmployee(Guid uid, string name, bool isEmployee)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_сотрудника, name, JournalEventDescriptionType.Удаление, uid: uid);
+			AddJournalMessage(isEmployee ? JournalEventNameType.Удаление_сотрудника : JournalEventNameType.Удаление_посетителя, name, JournalEventDescriptionType.Удаление, uid: uid);
 			var errors = new List<string>();
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -107,9 +117,9 @@ namespace FiresecService.Service
 				return databaseService.EmployeeTranslator.SavePosition(uid, PositionUid);
 			}
 		}
-		public OperationResult RestoreEmployee(Guid uid, string name)
+		public OperationResult RestoreEmployee(Guid uid, string name, bool isEmployee)
 		{
-			AddJournalMessage(JournalEventNameType.Восстановление_сотрудника, name, uid: uid);
+			AddJournalMessage(isEmployee ? JournalEventNameType.Восстановление_сотрудника : JournalEventNameType.Восстановление_посетителя, name, uid: uid);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.EmployeeTranslator.Restore(uid);

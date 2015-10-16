@@ -25,7 +25,7 @@ namespace ResursDAL
 						{ 
 							UID = x.UID, 
 							Address = x.Address, 
-							DriverType = x.DriverType, 
+							DriverUID = x.DriverUID, 
 							Name = x.Name,
 							Description = x.Description,
 							ParentUID = x.ParentUID, 
@@ -38,7 +38,7 @@ namespace ResursDAL
 						{
 							UID = x.UID,
 							Address = x.Address,
-							DriverType =(DriverType)x.DriverType,
+							DriverUID = x.DriverUID,
 							Name = x.Name,
 							Description = x.Description,
 							ParentUID = x.ParentUID,
@@ -204,6 +204,10 @@ namespace ResursDAL
 				using (var context = DatabaseContext.Initialize())
 				{
 					context.Devices.RemoveRange(context.Devices);
+					foreach (var item in devices)
+					{
+						item.DateTime = item.DateTime.CheckDate();
+					}
 					context.Devices.AddRange(devices);
 					context.SaveChanges();
 					var tableDateTimes = context.Devices.SelectMany(x => x.Parameters).Select(x => x.DateTimeValue).Distinct();
@@ -270,8 +274,8 @@ namespace ResursDAL
 				using (var context = DatabaseContext.Initialize())
 				{
 					var device = context.Devices.Include(x => x.Parent).Include(x => x.Parameters).Include(x => x.Bill).FirstOrDefault(x => x.UID == uid);
-					device.Parameters = device.Parameters.OrderBy(x => x.Number).ToList();
 					InitializeDevice(device);
+					device.Parameters = device.Parameters.OrderBy(x => x.DriverParameter.Number).ToList();
 					device.IsLoaded = true;
 					var parent = GetAllChildren(RootDevice).FirstOrDefault(x => x.UID == device.ParentUID);
 					if (parent != null)
@@ -293,10 +297,10 @@ namespace ResursDAL
 
 		static void InitializeDevice(Device device)
 		{
-			device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == device.DriverType);
+			device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 			foreach (var item in device.Parameters)
 			{
-				var driverParameter = device.Driver.DriverParameters.FirstOrDefault(x => x.Number == item.Number);
+				var driverParameter = device.Driver.DriverParameters.FirstOrDefault(x => x.UID == item.DriverParameterUID);
 				item.Initialize(driverParameter);
 			}
 			if (!device.Driver.CanEditTariffType)
@@ -357,9 +361,10 @@ namespace ResursDAL
 			tableDevice.Tariff = device.Tariff != null ? context.Tariffs.FirstOrDefault(x => x.UID == device.Tariff.UID) : null;
 			tableDevice.TariffType = device.TariffType;
 			tableDevice.Parent = device.Parent != null ? context.Devices.FirstOrDefault(x => x.UID == device.Parent.UID) : null;
-			tableDevice.DriverType = device.DriverType;
+			tableDevice.DriverUID = device.DriverUID;
 			tableDevice.IsDbMissmatch = device.IsDbMissmatch;
 			tableDevice.TariffUID = device.TariffUID;
+			tableDevice.DateTime = device.DateTime.CheckDate();
 			if (device.DeviceType == DeviceType.Network)
 				tableDevice.ComPort = device.ComPort;
 			tableDevice.Parameters = device.Parameters.Select(x => new Parameter
@@ -369,9 +374,34 @@ namespace ResursDAL
 				Device = tableDevice,
 				DoubleValue = x.DoubleValue,
 				IntValue = x.IntValue,
-				Number = x.Number,
+				DriverParameterUID = x.DriverParameterUID,
 				StringValue = x.StringValue,
 			}).ToList();
+		}
+
+		static readonly DateTime MinYear = new DateTime(1900, 1, 1);
+		static readonly DateTime MaxYear = new DateTime(9000, 1, 1);
+		static DateTime CheckDate(this DateTime value)
+		{
+			if (value < MinYear)
+				return MinYear;
+			if (value > MaxYear)
+				return MaxYear;
+			return value;
+		}
+
+		static DateTime? CheckDate(this DateTime? value)
+		{
+			if (value == null)
+				return null;
+			return value.Value.CheckDate();
+		}
+
+		static string CheckDateSqlStr(this DateTime? value)
+		{
+			if (value == null)
+				return "NULL";
+			return "'" + value.Value.CheckDate().ToString("yyyyMMdd HH:mm:ss") + "'";
 		}
 	}
 }

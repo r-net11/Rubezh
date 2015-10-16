@@ -24,9 +24,9 @@ namespace RubezhClient
 		{
 			return SafeContext.Execute(() => FiresecService.SaveEmployee(item, isNew));
 		}
-		public OperationResult MarkDeletedEmployee(Guid uid, string name)
+		public OperationResult MarkDeletedEmployee(Guid uid, string name, bool isEmployee)
 		{
-			return SafeContext.Execute(() => FiresecService.MarkDeletedEmployee(uid, name));
+			return SafeContext.Execute(() => FiresecService.MarkDeletedEmployee(uid, name, isEmployee));
 		}
 		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
@@ -45,9 +45,9 @@ namespace RubezhClient
 		{
 			return SafeContext.Execute(() => FiresecService.SaveEmployeePosition(uid, positionUid, name));
 		}
-		public OperationResult RestoreEmployee(Guid uid, string name)
+		public OperationResult RestoreEmployee(Guid uid, string name, bool isEmployee)
 		{
-			return SafeContext.Execute(() => FiresecService.RestoreEmployee(uid, name));
+			return SafeContext.Execute(() => FiresecService.RestoreEmployee(uid, name, isEmployee));
 		}
 		#endregion
 

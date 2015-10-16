@@ -10,11 +10,11 @@ namespace ResursAPI
 	{
 		public static Driver Create()
 		{
-			var driver = new Driver();
+			var driver = new Driver(new Guid("483CD536-D40B-41B0-8E03-4F519B48DEA7"));
 			driver.DriverType = DriverType.IncotextNetwork;
 			driver.DeviceType = DeviceType.Network;
 			driver.Children.Add(DriverType.Mercury203Counter);
-			driver.DriverParameters.Add(new DriverParameter
+			driver.DriverParameters.Add(new DriverParameter(new Guid("E428194B-DBDA-4B44-B59A-5AB7438AD972"))
 			{
 				Name = ParameterNamesIncotexNetwork.BautRate,
 				Description = "Скорость обмена",
@@ -29,7 +29,7 @@ namespace ResursAPI
 				Number = 0,
 				EnumDefaultItem = 9600
 			});
-			driver.DriverParameters.Add(new DriverParameter
+			driver.DriverParameters.Add(new DriverParameter(new Guid("966542E0-1960-4463-A709-7B3B60ECD43D"))
 			{
 				Name = ParameterNamesIncotexNetwork.Timeout ,
 				Description = "Таймаут ответа",
@@ -38,7 +38,7 @@ namespace ResursAPI
 				IntDefaultValue = 10,
 				IntMinValue = 1
 			});
-			driver.DriverParameters.Add(new DriverParameter
+			driver.DriverParameters.Add(new DriverParameter(new Guid("C924C4B9-FB45-4668-A064-44E4CF1300E4"))
 			{
 				Name = ParameterNamesIncotexNetwork.BroadcastDelay,
 				Description = "Задержка широковещательной команды",

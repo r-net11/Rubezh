@@ -10,14 +10,14 @@ namespace ResursAPI
 	{
 		public static Driver Create()
 		{
-			var driver = new Driver();
+			var driver = new Driver(new Guid("6EB76465-1C8E-4B39-90EC-641B9EFF0717"));
 			driver.DriverType = DriverType.VirtualIncotextNetwork;
 			driver.DeviceType = DeviceType.Network;
 			driver.Children.Add(DriverType.VirtualMercury203Counter);
 			var realDriver = DriversConfiguration.GetDriver(DriverType.IncotextNetwork);
 			driver.DriverParameters.AddRange(realDriver.DriverParameters);
 			var index = realDriver.DriverParameters.Max(x => x.Number) + 1;
-			driver.DriverParameters.Add(new DriverParameter
+			driver.DriverParameters.Add(new DriverParameter(new Guid("32EB321F-F39C-4144-A65C-44BEB850E7C7"))
 			{
 				Name = ParameterNamesIncotexNetworkVirtual.PollInterval,
 				Description = "Интервал опроса",

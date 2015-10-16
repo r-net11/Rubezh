@@ -64,7 +64,7 @@ namespace GKModule.Plans.ViewModels
 		void OnEdit()
 		{
 			ServiceFactory.Events.GetEvent<EditGKDoorEvent>().Publish(SelectedGKDoor.Door.UID);
-			SelectedGKDoor.Update(SelectedGKDoor.Door);
+			SelectedGKDoor.Update();
 		}
 		bool CanEdit()
 		{

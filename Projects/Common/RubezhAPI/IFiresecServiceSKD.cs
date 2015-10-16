@@ -21,7 +21,7 @@ namespace RubezhAPI
 		OperationResult<bool> SaveEmployee(Employee item, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedEmployee(Guid uid, string name);
+		OperationResult MarkDeletedEmployee(Guid uid, string name, bool isEmployee);
 
 		[OperationContract]
 		OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate);
@@ -36,7 +36,7 @@ namespace RubezhAPI
 		OperationResult SaveEmployeePosition(Guid uid, Guid? positionUid, string name);
 
 		[OperationContract]
-		OperationResult RestoreEmployee(Guid uid, string name);
+		OperationResult RestoreEmployee(Guid uid, string name, bool isEmployee);
 		#endregion
 
 		#region Department

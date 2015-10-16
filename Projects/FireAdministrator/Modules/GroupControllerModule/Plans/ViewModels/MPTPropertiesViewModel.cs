@@ -66,7 +66,7 @@ namespace GKModule.Plans.ViewModels
 		private void OnEdit()
 		{
 			ServiceFactory.Events.GetEvent<EditGKMPTEvent>().Publish(SelectedMPT.MPT.UID);
-			SelectedMPT.Update(SelectedMPT.MPT);
+			SelectedMPT.Update();
 		}
 		private bool CanEdit()
 		{

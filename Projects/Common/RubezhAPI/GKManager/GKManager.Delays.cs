@@ -38,6 +38,15 @@ namespace RubezhClient
 		}
 
 		/// <summary>
+		/// Изменение задержки
+		/// </summary>
+		/// <param name="delay"></param>
+		public static void EditDelay(GKDelay delay)
+		{
+			delay.OutDependentElements.ForEach(x => x.OnChanged());
+		}
+
+		/// <summary>
 		/// Изменение логики задержки
 		/// </summary>
 		/// <param name="delay"></param>

@@ -37,5 +37,16 @@ namespace RubezhClient
 			});
 			door.OnChanged();
 		}
+
+		/// <summary>
+		/// Изменение ТД
+		/// </summary>
+		/// <param name="door"></param>
+		public static void EditDoor(GKDoor door)
+		{
+			door.OnChanged();
+			door.OutDependentElements.ForEach(x => x.OnChanged());
+			door.InputDependentElements.ForEach(x => x.OnChanged());
+		}
 	}
 }

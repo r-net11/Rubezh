@@ -28,14 +28,26 @@ namespace ResursDAL
 			Tariffs.Add(tariff);
 		}
 
-		public static void CreateTariffs(IEnumerable<Tariff> tariff)
+		public static void CreateTariffs(IEnumerable<Tariff> tariffs)
 		{
 			using (var context = DatabaseContext.Initialize())
 			{
-				context.Tariffs.AddRange(tariff);
+				foreach (var tariff in tariffs)
+				{
+					var devicesToUpdate = tariff.Devices;
+					tariff.Devices = new List<Device>();
+					var tariffEntity = context.Tariffs.Add(tariff);
+
+					foreach (var device in devicesToUpdate)
+					{
+						var dbDevice = context.Devices.FirstOrDefault(x => x.UID == device.UID);
+						if (dbDevice != null)
+							dbDevice.TariffUID = tariff.UID;
+					}
+				}
 				context.SaveChanges();
 			}
-			Tariffs.AddRange(tariff);
+			Tariffs.AddRange(tariffs);
 		}
 
 		public static Tariff ReadTariff(Guid id)

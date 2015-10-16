@@ -18,7 +18,7 @@ namespace ResursAPI
 		public void Initialize(DriverParameter driverParameter)
 		{
 			DriverParameter = driverParameter;
-			Number = driverParameter.Number;
+			DriverParameterUID = driverParameter.UID;
 			switch (driverParameter.ParameterType)
 			{
 				case ParameterType.Enum:
@@ -101,7 +101,7 @@ namespace ResursAPI
 		public Device Device { get; set; }
 		[NotMapped]
 		public DriverParameter DriverParameter { get; set; }
-		public int Number { get; set; }
+		public Guid DriverParameterUID { get; set; }
 		public int? IntValue { get; set; }
 		public double? DoubleValue { get; set; }
 		public bool? BoolValue { get; set; }

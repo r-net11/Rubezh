@@ -39,6 +39,15 @@ namespace RubezhClient
 		}
 
 		/// <summary>
+		/// Изменение направления
+		/// </summary>
+		/// <param name="direction"></param>
+		public static void EditDirection(GKDirection direction)
+		{
+			direction.OutDependentElements.ForEach(x => x.OnChanged());
+		}
+
+		/// <summary>
 		/// Изменение логики направления
 		/// </summary>
 		/// <param name="direction"></param>

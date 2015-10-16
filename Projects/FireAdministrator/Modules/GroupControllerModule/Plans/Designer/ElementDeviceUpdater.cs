@@ -45,8 +45,8 @@ namespace GKModule.Plans.Designer
 				foreach (var planElementUID in device.PlanElementUIDs)
 					if (_map.ContainsKey(planElementUID))
 					{
-						var elementXDevice = _map[planElementUID];
-						elementXDevice.DeviceUID = Guid.Empty;
+						var elementDevice = _map[planElementUID];
+						elementDevice.DeviceUID = Guid.Empty;
 					}
 		}
 

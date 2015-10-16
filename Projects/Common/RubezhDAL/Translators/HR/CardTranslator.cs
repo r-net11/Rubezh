@@ -44,6 +44,7 @@ namespace RubezhDAL.DataClasses
 		{
 			if (filter.EmployeeFilter != null)
 			{
+				filter.EmployeeFilter.IsAllPersonTypes = true;
 				var employees = DbService.EmployeeTranslator.ShortTranslator.GetFilteredTableItems(filter.EmployeeFilter);
 				tableItems = tableItems.Where(x => employees.Contains(x.Employee) || x.IsInStopList);
 			}

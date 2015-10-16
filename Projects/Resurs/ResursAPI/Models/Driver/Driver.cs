@@ -7,13 +7,15 @@ namespace ResursAPI
 {
 	public class Driver
 	{
-		public Driver()
+		public Driver(Guid uid)
 		{
+			UID = uid;
 			Children = new List<DriverType>();
 			DriverParameters = new List<DriverParameter>();
 			DefaultTariffType = TariffType.Electricity;
 			CanEditTariffType = true;
 		}
+		public Guid UID { get; set; }
 		public DriverType DriverType { get; set; }
 		public DeviceType DeviceType { get; set; }
 		public List<DriverType> Children { get; set; }
