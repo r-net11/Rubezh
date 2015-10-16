@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ResursAPI.ParameterNames
 {
-	public class ParameterNamesVirtualIncotexNetwork : ParameterNamesIncotexNetwork
+	public class ParameterNamesIncotexNetworkVirtual : ParameterNamesIncotexNetwork
 	{
 		/// <summary>
 		/// Интервал опроса

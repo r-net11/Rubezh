@@ -25,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -38,6 +39,9 @@
     <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.2.1507.0118\lib\net40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="resursnetwork.Fakes">
+      <HintPath>FakesAssemblies\resursnetwork.Fakes.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
@@ -57,14 +61,21 @@
     <Compile Include="BCDTest\BcdTests.cs" />
     <Compile Include="IncotexNetworkControllerTest\IncotexNetworkControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VirtualIncotexNetworkController\IncotexNetworkControllerVirtualTests.cs" />
+    <Compile Include="VirtualIncotexNetworkController\Mercury203VirtualTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ResursAPI\ResursAPI.csproj">
+      <Project>{94c0399f-3eab-4e23-98f9-61eb8daa4974}</Project>
+      <Name>ResursAPI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ResursNetwork\ResursNetwork.csproj">
       <Project>{ff5590ac-bf93-4ce8-af99-f75091becf64}</Project>
       <Name>ResursNetwork</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Fakes Include="Fakes\resursnetwork.fakes" />
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>

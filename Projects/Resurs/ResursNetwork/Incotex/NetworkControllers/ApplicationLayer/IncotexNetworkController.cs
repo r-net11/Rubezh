@@ -103,23 +103,19 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 
         #region Fields And Properties
 
-        private static DeviceType[] _SupportedDevices = new DeviceType[] { DeviceType.Mercury203 };
-        private static Type[] _SupportedInterfaces = new Type[] { typeof(Incotex.NetworkControllers.DataLinkLayer.ComPort) };
+        private static DeviceType[] _SupportedDevices = 
+            new DeviceType[] { DeviceType.Mercury203 };
+        private static Type[] _SupportedInterfaces = 
+            new Type[] { typeof(Incotex.NetworkControllers.DataLinkLayer.ComPort) };
         private NetworkRequest _CurrentNetworkRequest;
         private int _RequestTimeout = 2000; // Значение по умолчанию
         private int _BroadcastRequestDelay = 2000; // Значение по умолчанию
-        private int _TotalAttempts = 1;
         private AutoResetEvent _AutoResetEventRequest = new AutoResetEvent(false);
         private AutoResetEvent _AutoResetEventWorker = new AutoResetEvent(false);
         private static object _SyncRoot = new object(); 
         private OutputBuffer _OutputBuffer = new OutputBuffer();
         private int _DataSyncPeriod = 
             Convert.ToInt32(TimeSpan.FromDays(1).TotalMilliseconds); // По умолчнию период синхронизации 1 день;
-
-        /// <summary>
-        /// Хранит устройтво для работы в монопольном режиме доступа к устройству
-        /// </summary>
-        //private DeviceBase _DeviceForExclusiveMode; 
 
         /// <summary>
         /// Хранит входящее сообщение от удалённого устройтсва во 
@@ -196,25 +192,6 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                 {
                     throw new ArgumentOutOfRangeException("BroadcastRequestDelay", 
                         "Недопустимое значение параметра");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Количество попыток доспупа к устройтву
-        /// </summary>
-        public int TotalAttempts
-        {
-            get { return _TotalAttempts; }
-            set 
-            {
-                if (value > 0)
-                {
-                    _TotalAttempts = value;
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException();
                 }
             }
         }
@@ -337,14 +314,14 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cancelToken"></param>
-        protected override void NetwokPollingAction(object cancelToken)
+        /// <param name="cancellationToken"></param>
+        protected override void NetwokPollingAction(object cancellationToken)
         {
             //DateTime lastUpdate;
             List<IDevice> faultyDevices = new List<IDevice>();
             NetworkRequest networkRequest;
 
-            var cancel = (CancellationToken)cancelToken;
+            var cancel = (CancellationToken)cancellationToken;
             cancel.ThrowIfCancellationRequested();
 
             while(!cancel.IsCancellationRequested)

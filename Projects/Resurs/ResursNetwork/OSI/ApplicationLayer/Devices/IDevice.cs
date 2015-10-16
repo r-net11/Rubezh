@@ -28,12 +28,12 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         /// <summary>
         /// Сетевой адрес устройства
         /// </summary>
-        UInt32 Address { get; }
+		UInt32 Address { get; set; }
         
         /// <summary>
         /// Сетевой контроллер, владелец данного устройства
         /// </summary>
-        INetwrokController Network { get; }
+		INetwrokController Network { get; set; }
         
         /// <summary>
         /// Возвращает коллекцию описания параметров устройства
@@ -50,10 +50,16 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         bool ConfigurationError { get; set; }
 
         bool RTCError { get; set; }
-                    
+
+        /// <summary>
+        /// Дата и время в удалённом устройтсве 
+        /// </summary>
+        DateTime RTC { get; set; }
+
         #endregion
 
         #region Methods
+
         #endregion
 
         #region Events

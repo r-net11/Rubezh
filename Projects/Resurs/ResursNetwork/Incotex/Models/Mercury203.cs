@@ -34,6 +34,36 @@ namespace ResursNetwork.Incotex.Models
             get { return DeviceType.Mercury203; }
         }
 
+		public override uint Address
+		{
+			get { return base.Address; }
+			set
+			{
+				if (value != 0)
+				{
+					base.Address = value;
+				}
+				else
+				{
+					throw new ArgumentOutOfRangeException(
+						"Попытка установить недопустимый адрес равеный 0");
+				}
+			}
+		}
+
+		public override System.DateTime RTC
+		{
+			get
+			{
+				return (System.DateTime)_Parameters[ParameterNamesMercury203.DateTime].Value;
+			}
+			set
+			{
+				//TODO: записать команду в сеть
+				throw new NotImplementedException();
+			}
+		}
+
         #endregion
 
         #region Constructors
@@ -45,11 +75,14 @@ namespace ResursNetwork.Incotex.Models
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Инициализирует список свойств для конкретного устройства
         /// </summary>
         protected override void Initialization()
         {
+			base.Initialization();
+
             _Parameters.Add(new Parameter(typeof(UInt32))
             {
                 Name = ParameterNamesMercury203.GADDR,
@@ -79,6 +112,46 @@ namespace ResursNetwork.Incotex.Models
                 ValueConverter = new BigEndianUInt16ValueConvertor(),
                 Value = (UInt16)0
             });
+
+			_Parameters.Add(new Parameter(typeof(UInt32))
+			{
+				Name = ParameterNamesMercury203.CounterTarif1,
+				Description = "Счётчик тарифа 1",
+				PollingEnabled = true,
+				ReadOnly = true,
+				ValueConverter = null,
+				Value = (UInt32)0
+			});
+
+			_Parameters.Add(new Parameter(typeof(UInt32))
+			{
+				Name = ParameterNamesMercury203.CounterTarif2,
+				Description = "Счётчик тарифа 2",
+				PollingEnabled = true,
+				ReadOnly = true,
+				ValueConverter = null,
+				Value = (UInt32)0
+			});
+
+			_Parameters.Add(new Parameter(typeof(UInt32))
+			{
+				Name = ParameterNamesMercury203.CounterTarif3,
+				Description = "Счётчик тарифа 3",
+				PollingEnabled = true,
+				ReadOnly = true,
+				ValueConverter = null,
+				Value = (UInt32)0
+			});
+
+			_Parameters.Add(new Parameter(typeof(UInt32))
+			{
+				Name = ParameterNamesMercury203.CounterTarif4,
+				Description = "Счётчик тарифа 3",
+				PollingEnabled = true,
+				ReadOnly = true,
+				ValueConverter = null,
+				Value = (UInt32)0
+			});
         }
 
         private void GetAnswer(NetworkRequest networkRequest)

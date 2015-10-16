@@ -42,7 +42,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// <summary>
         /// Возвращает объет для работы с физическим интерфейсом
         /// </summary>
-        IDataLinkPort Connection { get; }
+        IDataLinkPort Connection { get; set; }
         
         #endregion
 
@@ -67,7 +67,9 @@ namespace ResursNetwork.OSI.ApplicationLayer
         #endregion
 
         #region
+
         event EventHandler<NetworkRequestCompletedArgs> NetwrokRequestCompleted;
+        
         #endregion
     }
 }

@@ -162,7 +162,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
             get { return _Connection; }
             set
             {
-                if ((Status == Status.Running) || (Status == Status.Paused))
+                if (Status == Status.Running)
                 {
                     throw new InvalidOperationException(
                         "Невозможно выполенить установку порта, контроллер в активном состоянии");
@@ -203,7 +203,17 @@ namespace ResursNetwork.OSI.ApplicationLayer
         public int TotalAttempts
         {
             get { return _TotalAttempts; }
-            set { _TotalAttempts = value; }
+            set
+            {
+                if (value > 0)
+                {
+                    _TotalAttempts = value;
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+            }
         }
 
         #endregion
@@ -239,14 +249,6 @@ namespace ResursNetwork.OSI.ApplicationLayer
         public virtual void Stop()
         {
             Status = Status.Stopped;
-        }
-
-        /// <summary>
-        /// Приостанавливает опрос удалённых устройств
-        /// </summary>
-        public virtual void Suspend()
-        {
-            Status = Status.Paused;
         }
 
         /// <summary>
@@ -286,7 +288,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// <summary>
         /// Метод выполняет сетевой опрос устройств
         /// </summary>
-        protected abstract void NetwokPollingAction(Object cancelToken);
+        protected abstract void NetwokPollingAction(Object cancellationToken);
 
         /// <summary>
         /// Записывает транзакцию в буфер исходящих сообщений

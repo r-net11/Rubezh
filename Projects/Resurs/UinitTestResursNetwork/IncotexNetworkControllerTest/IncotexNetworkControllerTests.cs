@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.QualityTools.Testing.Fakes;
 using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer;
 using ResursNetwork.Incotex.NetworkControllers.DataLinkLayer;
 using ResursNetwork.Incotex.NetworkControllers.Messages;
@@ -10,6 +11,10 @@ using ResursNetwork.OSI.Messages;
 using ResursNetwork.OSI.Messages.Transactions;
 using ResursNetwork.Management;
 using Moq;
+//using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes;
+//using ResursNetwork.Incotex.NetworkControllers.DataLinkLayer.Fakes;
+//using ResursNetwork.OSI.DataLinkLayer.Fakes;
+
 
 namespace UinitTestResursNetwork.IncotexNetworkControllerTest
 {
@@ -93,7 +98,7 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
             comPort.Setup(p => p.MessagesToRead)
                 .Returns(() => amount)
                 .Callback(() => amount--);
-            
+
             comPort.Setup(p => p.Write(It.IsAny<IMessage>()))
                 .Raises(m => m.MessageReceived += null, new EventArgs());
             comPort.Setup(p => p.Read()).Returns(msg);

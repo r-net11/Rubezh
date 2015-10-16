@@ -19,7 +19,7 @@ namespace ResursAPI
 			var index = realDriver.DriverParameters.Max(x => x.Number) + 1;
 			driver.DriverParameters.Add(new DriverParameter
 			{
-				Name = ParameterNamesVirtualIncotexNetwork.PollInterval,
+				Name = ParameterNamesIncotexNetworkVirtual.PollInterval,
 				Description = "Интервал опроса",
 				ParameterType = ParameterType.Int,
 				Number = index++,

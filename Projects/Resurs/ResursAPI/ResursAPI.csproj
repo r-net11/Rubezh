@@ -66,8 +66,8 @@
     <Compile Include="ParameterNames\ParameterNamesBase.cs" />
     <Compile Include="ParameterNames\ParameterNamesMZEP55Counter.cs" />
     <Compile Include="ParameterNames\ParameterNamesMZEP55Network.cs" />
-    <Compile Include="ParameterNames\ParameterNamesVirtualIncotexNetwork.cs" />
-    <Compile Include="ParameterNames\ParameterNamesVirtualMercury203.cs" />
+    <Compile Include="ParameterNames\ParameterNamesIncotexNetworkVirtual.cs" />
+    <Compile Include="ParameterNames\ParameterNamesMercury203Virtual.cs" />
     <Compile Include="ParameterNames\ParameterNamesVirtualMZEP55Counter.cs" />
     <Compile Include="ParameterNames\ParameterNamesVirtualMZEP55Network.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
