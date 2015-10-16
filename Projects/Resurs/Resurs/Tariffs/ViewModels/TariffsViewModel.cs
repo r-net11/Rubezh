@@ -49,7 +49,7 @@ namespace Resurs.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		bool CanAdd()
 		{
-			return true;
+			return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditTariff);
 		}
 		void OnAdd()
 		{
@@ -60,13 +60,14 @@ namespace Resurs.ViewModels
 				Tariffs.Add(tariffViewModel);
 				SelectedTariff = tariffViewModel;
 				DBCash.CreateTariff(tariffViewModel.Tariff);
+				DBCash.AddJournalForUser(JournalType.AddTariff, SelectedTariff.Tariff);
 			}
 		}
 
 		public RelayCommand EditCommand { get; private set; }
 		bool CanEdit()
 		{
-			return SelectedTariff != null;
+			return SelectedTariff != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditTariff);
 		}
 		void OnEdit()
 		{
@@ -76,18 +77,20 @@ namespace Resurs.ViewModels
 				var tariffViewModel = new TariffViewModel(tariffDetailsViewModel.Tariff);
 				SelectedTariff.Tariff = tariffDetailsViewModel.Tariff;
 				DBCash.UpdateTariff(tariffDetailsViewModel.Tariff);
+				DBCash.AddJournalForUser(JournalType.EditTariff, SelectedTariff.Tariff);
 			}
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
 		bool CanRemove()
 		{
-			return SelectedTariff != null;
+			return SelectedTariff != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditTariff);
 		}
 		void OnRemove()
 		{
 			var index = Tariffs.IndexOf(SelectedTariff);
 			DBCash.DeleteTariff(SelectedTariff.Tariff);
+			DBCash.AddJournalForUser(JournalType.DeleteTariff, SelectedTariff.Tariff);
 			Tariffs.Remove(SelectedTariff);
 			if (Tariffs.FirstOrDefault() == null)
 				SelectedTariff = null;
