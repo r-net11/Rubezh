@@ -13,10 +13,6 @@ namespace Resurs.ViewModels
 {
 	public class TariffDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public bool IsNew { get; set; }
-
-		public Tariff Tariff;
-
 		public TariffDetailsViewModel()
 		{
 			EditDevicesCommand = new RelayCommand(OnEditDevicesCommand);
@@ -44,6 +40,9 @@ namespace Resurs.ViewModels
 			Title = "Редактирование тарифа";
 			SelectedTariffPartsNumber = (byte)tariff.TariffParts.Count;
 		}
+		public bool IsNew { get; set; }
+
+		public Tariff Tariff;
 
 		public RelayCommand EditDevicesCommand { get; set; }
 
