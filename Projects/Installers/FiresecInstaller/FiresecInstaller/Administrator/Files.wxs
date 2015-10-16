@@ -35,7 +35,7 @@
 				<File Id="Administrator.XamlTune.dll" Name="XamlTune.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Administrator.TargetDir)" />
-				<File Id="Administrator.NLog.dll" Name="NLog.dll" Source="$(var.Administrator.TargetDir)" />
+				<File Id="Administrator.NLog.dll" Name="NLog.dll" Source="..\..\..\..\..\..\3rdParty\NLog.2.0.1.2\" />
 				<File Id="Administrator.Loya.Dameer.dll" Name="Loya.Dameer.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.RviClient.dll" Name="RviClient.dll" Source="$(var.Administrator.TargetDir)" />
 			</Component>
