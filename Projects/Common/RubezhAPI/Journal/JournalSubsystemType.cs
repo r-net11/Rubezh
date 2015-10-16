@@ -2,18 +2,21 @@
 
 namespace RubezhAPI.Journal
 {
+	/// <summary>
+	/// Тип подсистемы
+	/// </summary>
 	public enum JournalSubsystemType
 	{
 		[Description("Система")]
-		System,
+		System = 0,
 
 		[Description("ГК")]
-		GK,
+		GK = 1,
 
 		[Description("СКД")]
-		SKD,
+		SKD = 2,
 
 		[Description("Видео")]
-		Video
+		Video = 3
 	}
 }

@@ -4,6 +4,10 @@ using System.Runtime.Serialization;
 
 namespace RubezhAPI
 {
+	/// <summary>
+	/// Результат операции
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	[DataContract]
 	[Serializable]
 	public class OperationResult<T>
@@ -22,16 +26,25 @@ namespace RubezhAPI
 		[DataMember]
 		public T Result { get; set; }
 
+		/// <summary>
+		/// Признак того, что есть ошибка
+		/// </summary>
 		public bool HasError
 		{
 			get { return Errors.Count > 0; }
 		}
 
+		/// <summary>
+		/// Строка с ошибками
+		/// </summary>
 		public string Error
 		{
 			get { return String.Join("\n", Errors); }
 		}
 
+		/// <summary>
+		/// Список строк с ошибками
+		/// </summary>
 		[DataMember]
 		public List<string> Errors { get; set; }
 
