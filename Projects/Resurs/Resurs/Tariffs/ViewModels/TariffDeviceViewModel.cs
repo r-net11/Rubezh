@@ -36,5 +36,17 @@ namespace Resurs.ViewModels
 				_device = value;
 			}
 		}
+
+		private bool _hasTariff;
+
+		public bool HasTariff
+		{
+			get { return _hasTariff; }
+			set { 
+				_hasTariff = value;
+				OnPropertyChanged(() => HasTariff);
+			}
+		}
+
 	}
 }

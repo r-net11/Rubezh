@@ -6,7 +6,7 @@
 	<Grid>
 		<DataGrid ItemsSource="{Binding Devices}" Focusable="True">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Название">
+				<DataGridTemplateColumn Header="Название" >
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -48,8 +48,16 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-
 			</DataGrid.Columns>
+			<DataGrid.RowStyle>
+				<Style TargetType="DataGridRow">
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding HasTariff}" Value="true">
+							<Setter Property="Background" Value="AntiqueWhite" />
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</DataGrid.RowStyle>
 		</DataGrid>
 	</Grid>
 </UserControl>
