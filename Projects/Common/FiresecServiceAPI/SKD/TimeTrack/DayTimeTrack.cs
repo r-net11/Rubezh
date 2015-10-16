@@ -135,10 +135,87 @@ namespace FiresecAPI.SKD
 			RealTimeTrackPartsForCalculates = GetRealTimeTracksForCalculate(RealTimeTrackParts.Where(x => x.ExitDateTime.HasValue && x.IsForURVZone && !x.NotTakeInCalculations));
 			CombinedTimeTrackParts = CalculateCombinedTimeTrackParts(PlannedTimeTrackParts, RealTimeTrackPartsForCalculates,
 																							DocumentTrackParts);
+			if (SlideTime != default(TimeSpan) && RealTimeTrackPartsForCalculates.Any())
+			{
+				CombinedTimeTrackParts = AdjustmentCombinedTimeTracks(CombinedTimeTrackParts, PlannedTimeTrackParts, SlideTime);
+			}
 			RealTimeTrackPartsForCalculates = FillTypesForRealTimeTrackParts(RealTimeTrackPartsForCalculates, PlannedTimeTrackParts);
 			Totals = CalculateTotal(SlideTime, PlannedTimeTrackParts, RealTimeTrackPartsForCalculates, CombinedTimeTrackParts, IsHoliday);
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
 			CalculateLetterCode();
+		}
+
+		private TimeSpan GetSummOfPlannedTimeTrackParts(List<TimeTrackPart> plannedTimeTrackParts)
+		{
+			var result = new TimeSpan();
+			foreach (var plannedTimeTrackPart in plannedTimeTrackParts)
+			{
+				result += plannedTimeTrackPart.Delta;
+			}
+			return result;
+		}
+
+		private TimeSpan GetSummOfPresence(List<TimeTrackPart> combinedTimeTrackParts)
+		{
+			var result = new TimeSpan();
+			foreach (var combinedTimeTrackPart in combinedTimeTrackParts)
+			{
+				if (combinedTimeTrackPart.TimeTrackPartType == TimeTrackType.Night
+				    || combinedTimeTrackPart.TimeTrackPartType == TimeTrackType.Overtime
+				    || combinedTimeTrackPart.TimeTrackPartType == TimeTrackType.Presence)
+					result += combinedTimeTrackPart.Delta;
+			}
+
+			return result;
+		}
+
+		private List<TimeTrackPart> AdjustmentCombinedTimeTracks(List<TimeTrackPart> combinedTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts, TimeSpan slideTime)
+		{
+			var sumPlannedTime = GetSummOfPlannedTimeTrackParts(plannedTimeTrackParts);
+			var summPresentIntervals = GetSummOfPresence(combinedTimeTrackParts);
+			var differWithPlannedTime = sumPlannedTime - slideTime; //Показывает доступноt время неявки
+			const double TOLERANCE = 0.000001;
+
+			var resultedCombinedCollection = new List<TimeTrackPart>();
+
+			foreach (var el in combinedTimeTrackParts)
+			{
+				var isInPlannedTime =
+					plannedTimeTrackParts.Any(
+						x =>
+							x.EnterDateTime.TimeOfDay <= el.EnterDateTime.TimeOfDay &&
+							x.ExitDateTime.GetValueOrDefault().TimeOfDay >= el.ExitDateTime.GetValueOrDefault().TimeOfDay);
+
+				if (isInPlannedTime)
+				{
+					if (el.TimeTrackPartType == TimeTrackType.Absence
+						|| el.TimeTrackPartType == TimeTrackType.EarlyLeave
+						|| el.TimeTrackPartType == TimeTrackType.Late) //Если интервал с типом неявки
+					{
+						if (Math.Abs(differWithPlannedTime.TotalSeconds) < TOLERANCE)
+						{
+							resultedCombinedCollection.Add(el);
+							continue;
+						}
+
+						differWithPlannedTime -= el.Delta;
+
+						if (differWithPlannedTime.TotalSeconds < 0)
+						{
+							el.EnterDateTime -= differWithPlannedTime;
+							//el.ExitDateTime += differWithPlannedTime;
+							differWithPlannedTime = default(TimeSpan);
+							resultedCombinedCollection.Add(el);
+						}
+
+						continue;
+					}
+				}
+
+				resultedCombinedCollection.Add(el);
+			}
+
+			return resultedCombinedCollection;
 		}
 
 		private List<TimeTrackPart> GetRealTimeTracksForCalculate(IEnumerable<TimeTrackPart> realTimeTrackParts)
