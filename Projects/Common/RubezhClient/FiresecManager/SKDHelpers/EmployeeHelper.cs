@@ -15,25 +15,25 @@ namespace RubezhClient.SKDHelpers
 
 		public static bool MarkDeleted(ShortEmployee item)
 		{
-			return MarkDeleted(item.UID, item.Name);
+			return MarkDeleted(item.UID, item.Name, item.Type == PersonType.Employee);
 		}
 
 		public static bool Restore(ShortEmployee item)
 		{
-			return Restore(item.UID, item.Name);
+			return Restore(item.UID, item.Name, item.Type == PersonType.Employee);
 		}
 
-		public static bool MarkDeleted(Guid uid, string name)
+		public static bool MarkDeleted(Guid uid, string name, bool isEmployee)
 		{
-			var operationResult = ClientManager.FiresecService.MarkDeletedEmployee(uid, name);
+			var operationResult = ClientManager.FiresecService.MarkDeletedEmployee(uid, name, isEmployee);
 			if (operationResult != null && operationResult.HasError &&!operationResult.Error.Contains("Ошибка БД"))
 				return true;
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool Restore(Guid uid, string name)
+		public static bool Restore(Guid uid, string name, bool isEmployee)
 		{
-			var operationResult = ClientManager.FiresecService.RestoreEmployee(uid, name);
+			var operationResult = ClientManager.FiresecService.RestoreEmployee(uid, name, isEmployee);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

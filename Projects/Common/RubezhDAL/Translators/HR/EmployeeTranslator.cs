@@ -43,25 +43,26 @@ namespace RubezhDAL.DataClasses
 
 		public override IQueryable<Employee> GetFilteredTableItems(API.EmployeeFilter filter, IQueryable<Employee> tableItems)
 		{
-			return base.GetFilteredTableItems(filter, tableItems).Where(x =>
-				(filter.DepartmentUIDs.Count() == 0 ||
-					(x.DepartmentUID != null && filter.DepartmentUIDs.Contains(x.DepartmentUID.Value))) &&
-				(!filter.IsEmptyDepartment ||
-					x.DepartmentUID == null || x.Department.IsDeleted) &&
-				(filter.PositionUIDs.Count() == 0 ||
-					(x.PositionUID != null && filter.PositionUIDs.Contains(x.PositionUID.Value))) &&
-				(!filter.IsEmptyPosition ||
-					x.PositionUID == null || x.Position.IsDeleted) &&
-				(filter.ScheduleUIDs.Count() == 0 ||
-					(x.ScheduleUID != null && filter.ScheduleUIDs.Contains(x.ScheduleUID.Value))) &&
-				(string.IsNullOrEmpty(filter.FirstName) ||
-					(x.FirstName.Contains(filter.FirstName))) &&
-				(string.IsNullOrEmpty(filter.SecondName) ||
-					(x.SecondName.Contains(filter.SecondName))) &&
-				(string.IsNullOrEmpty(filter.LastName) ||
-					(x.LastName.Contains(filter.LastName))) &&
-				x.Type == (int)filter.PersonType
-				);
+			tableItems = base.GetFilteredTableItems(filter, tableItems);
+			if(filter.DepartmentUIDs.Count() != 0)
+				tableItems = tableItems.Where(x => x.DepartmentUID != null && filter.DepartmentUIDs.Contains(x.DepartmentUID.Value));
+			if(filter.IsEmptyDepartment)
+				tableItems = tableItems.Where(x => x.DepartmentUID == null || x.Department.IsDeleted);
+			if(filter.PositionUIDs.Count() != 0)
+				tableItems = tableItems.Where(x => x.PositionUID != null && filter.PositionUIDs.Contains(x.PositionUID.Value));
+			if(filter.IsEmptyPosition)
+				tableItems = tableItems.Where(x => x.PositionUID == null || x.Position.IsDeleted);
+			if (filter.ScheduleUIDs.Count() != 0)
+				tableItems = tableItems.Where(x => x.ScheduleUID != null && filter.ScheduleUIDs.Contains(x.ScheduleUID.Value));
+			if(!string.IsNullOrEmpty(filter.FirstName))
+				tableItems = tableItems.Where(x => x.FirstName.Contains(filter.FirstName));
+			if(!string.IsNullOrEmpty(filter.SecondName))
+				tableItems = tableItems.Where(x => x.SecondName.Contains(filter.SecondName));
+			if(!string.IsNullOrEmpty(filter.LastName))
+				tableItems = tableItems.Where(x => x.LastName.Contains(filter.LastName));
+			if (!filter.IsAllPersonTypes)
+				tableItems = tableItems.Where(x => x.Type == (int)filter.PersonType);
+			return tableItems;
 		}
 
 		protected override IEnumerable<API.Employee> GetAPIItems(IQueryable<Employee> tableItems)

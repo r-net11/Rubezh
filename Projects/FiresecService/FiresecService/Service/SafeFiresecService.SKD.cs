@@ -23,9 +23,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SaveEmployee(item, isNew));
 		}
-		public OperationResult MarkDeletedEmployee(Guid uid, string name)
+		public OperationResult MarkDeletedEmployee(Guid uid, string name, bool isEmployee)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedEmployee(uid, name));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedEmployee(uid, name, isEmployee));
 		}
 		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
@@ -45,9 +45,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployeePosition(uid, positionUid, name));
 		}
-		public OperationResult RestoreEmployee(Guid uid, string name)
+		public OperationResult RestoreEmployee(Guid uid, string name, bool isEmployee)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreEmployee(uid, name));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreEmployee(uid, name, isEmployee));
 		}
         #endregion
 

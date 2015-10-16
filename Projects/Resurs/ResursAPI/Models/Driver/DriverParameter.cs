@@ -7,8 +7,9 @@ namespace ResursAPI
 {
 	public class DriverParameter
 	{
-		public DriverParameter()
+		public DriverParameter(Guid uid)
 		{
+			UID = uid;
 			ParameterEnumItems = new List<ParameterEnumItem>();
 			IntDefaultValue = -1;
 			DoubleDefaultValue = -1;
@@ -19,6 +20,7 @@ namespace ResursAPI
 			IsWriteToDevice = true;
 			CanWriteInActive = true;
 		}
+		public Guid UID { get; set; }
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public int Number { get; set; }

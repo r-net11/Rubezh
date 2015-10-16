@@ -23,7 +23,7 @@ namespace ResursAPI
 		{
 			Name = driverType.ToDescription();
 			Driver = ResursAPI.DriversConfiguration.GetDriver(driverType);
-			DriverType = driverType;
+			DriverUID = Driver.UID;
 			TariffType = Driver.DefaultTariffType;
 			foreach (var item in Driver.DriverParameters)
 			{
@@ -87,8 +87,9 @@ namespace ResursAPI
 		public Guid? TariffUID { get; set; }
 		public Tariff Tariff { get; set; }
 		public Guid? BillUID { get; set; }
-		public Bill Bill { get; set; } 
-		public DriverType DriverType { get; set; }
+		public Bill Bill { get; set; }
+		public Guid DriverUID { get; set; }
+		public DriverType DriverType { get { return Driver.DriverType; } }
 		public int Address { get; set; }
 		public bool IsActive { get; set; }
 		public bool IsDbMissmatch { get; set; }
