@@ -87,7 +87,7 @@ namespace ChinaSKDDriver
 			return resultAlarms;
 		}
 
-		private AlarmLogItem NativeLogToAlarmLogItem(NativeWrapper.WRAP_NET_LOG_INFO nativeLogItem)
+		private static AlarmLogItem NativeLogToAlarmLogItem(NativeWrapper.WRAP_NET_LOG_INFO nativeLogItem)
 		{
 			var logItem = new AlarmLogItem();
 			logItem.DateTime = Wrapper.NET_TIMEToDateTime(nativeLogItem.stuTime);
@@ -102,6 +102,40 @@ namespace ChinaSKDDriver
 			logItem.LogNo = Convert.ToInt32(alarmLogMessage.LogNo);
 
 			return logItem;
+		}
+
+		public SKDJournalItem AlarmLogItemToJournalItem(AlarmLogItem alarmLogItem)
+		{
+			var journalItem = new SKDJournalItem();
+
+			journalItem.LoginID = LoginID;
+			journalItem.SystemDateTime = DateTime.Now;
+			journalItem.DeviceDateTime = alarmLogItem.DateTime;
+			switch (alarmLogItem.AlarmType)
+			{
+				case AlarmType.BreakIn:
+					journalItem.JournalEventNameType = JournalEventNameType.Взлом;
+					break;
+				case AlarmType.Duress:
+					journalItem.JournalEventNameType = JournalEventNameType.Принуждение;
+					break;
+				case AlarmType.AlarmLocal:
+					journalItem.JournalEventNameType = JournalEventNameType.Местная_тревога;
+					break;
+				case AlarmType.DoorNotClose:
+					journalItem.JournalEventNameType = JournalEventNameType.Дверь_не_закрыта;
+					break;
+				case AlarmType.ReaderChassisIntruded:
+					journalItem.JournalEventNameType = JournalEventNameType.Вскрытие_контроллера;
+					break;
+				case AlarmType.Repeatenter:
+					journalItem.JournalEventNameType = JournalEventNameType.Повторный_проход;
+					break;
+			}
+			journalItem.CardNo = alarmLogItem.CardId;
+			journalItem.DoorNo = alarmLogItem.DoorNo;
+
+			return journalItem;
 		}
 	}
 

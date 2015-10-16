@@ -97,6 +97,8 @@
     <Compile Include="ViewModels\ControlViewModel.cs" />
     <Compile Include="ViewModels\AccessLogItemsViewModel.cs" />
     <Compile Include="ViewModels\AccessLogItemViewModel.cs" />
+    <Compile Include="ViewModels\OfflineLogItemsViewModel.cs" />
+    <Compile Include="ViewModels\OfflineLogItemViewModel.cs" />
     <Compile Include="ViewModels\SearchDeviceViewModel.cs" />
     <Compile Include="ViewModels\SearchDevicesViewModel.cs" />
     <Compile Include="ViewModels\CustomDataViewModel.cs" />
@@ -114,6 +116,9 @@
     <Compile Include="ViewModels\TimeShedulesViewModel.cs" />
     <Compile Include="ViewModels\TimeSheduleViewModel.cs" />
     <Compile Include="ViewModels\JournalViewModel.cs" />
+    <Compile Include="Views\OfflineLogItemsView.xaml.cs">
+      <DependentUpon>OfflineLogItemsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AntiPassBackView.xaml.cs">
       <DependentUpon>AntiPassBackView.xaml</DependentUpon>
     </Compile>
@@ -164,6 +169,10 @@
     <Compile Include="Views\NativeJournalView.xaml.cs">
       <DependentUpon>NativeJournalView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\OfflineLogItemsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\AntiPassBackView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

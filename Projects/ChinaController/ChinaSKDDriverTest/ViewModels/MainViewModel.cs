@@ -24,6 +24,7 @@ namespace ControllerSDK.ViewModels
 		public AccessLogItemsViewModel AccessLogItemsViewModel { get; private set; }
 		public CustomDataViewModel CustomDataViewModel { get; private set; }
 		public SearchDevicesViewModel SearchDevicesViewModel { get; private set; }
+		public OfflineLogItemsViewModel OfflineLogItemsViewModel { get; private set; }
 
 		public MainViewModel()
 		{
@@ -45,6 +46,7 @@ namespace ControllerSDK.ViewModels
 			AccessLogItemsViewModel = new AccessLogItemsViewModel();
 			CustomDataViewModel = new CustomDataViewModel();
 			SearchDevicesViewModel = new SearchDevicesViewModel();
+			OfflineLogItemsViewModel = new OfflineLogItemsViewModel();
 		}
 	}
 }

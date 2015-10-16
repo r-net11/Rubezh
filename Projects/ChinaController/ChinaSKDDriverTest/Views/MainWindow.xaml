@@ -34,6 +34,9 @@
 					<TabItem Header="Тревоги" DataContext="{Binding AlarmLogItemsViewModel}">
 						<Views:AlarmLogItemsView />
 					</TabItem>
+					<TabItem Header="Все записи" DataContext="{Binding OfflineLogItemsViewModel}">
+						<Views:OfflineLogItemsView />
+					</TabItem>
 				</TabControl>
 			</TabItem>
 			<TabItem Header="Графики работ" DataContext="{Binding TimeShedulesViewModel}">

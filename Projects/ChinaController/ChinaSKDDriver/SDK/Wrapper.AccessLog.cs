@@ -3,6 +3,7 @@ using ChinaSKDDriverNativeApi;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using FiresecAPI.Journal;
 
 namespace ChinaSKDDriver
 {
@@ -67,7 +68,7 @@ namespace ChinaSKDDriver
 		/// </summary>
 		/// <param name="nativeAccess">структура NET_RECORDSET_ACCESS_CTL_CARDREC</param>
 		/// <returns>объект типа AccessLogItem</returns>
-		private AccessLogItem NativeAccessToAccessLogItem(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC nativeAccess)
+		private static AccessLogItem NativeAccessToAccessLogItem(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC nativeAccess)
 		{
 			var access = new AccessLogItem
 			{
@@ -129,6 +130,25 @@ namespace ChinaSKDDriver
 			}
 
 			return resultAccesses;
+		}
+
+		public SKDJournalItem AccessLogItemToJournalItem(AccessLogItem accessLogItem)
+		{
+			var journalItem = new SKDJournalItem();
+
+			journalItem.LoginID = LoginID;
+			journalItem.SystemDateTime = DateTime.Now;
+			journalItem.DeviceDateTime = accessLogItem.Time;
+			journalItem.JournalEventNameType = accessLogItem.Status
+				? JournalEventNameType.Проход_разрешен
+				: JournalEventNameType.Проход_запрещен;
+			journalItem.CardNo = accessLogItem.CardNo;
+			journalItem.DoorNo = accessLogItem.DoorNo;
+			journalItem.bStatus = accessLogItem.Status;
+			journalItem.emOpenMethod = (NativeWrapper.NET_ACCESS_DOOROPEN_METHOD)accessLogItem.MethodType;
+			journalItem.szReaderID = (accessLogItem.ReaderID + 1).ToString();
+
+			return journalItem;
 		}
 	}
 }
