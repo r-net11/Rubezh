@@ -204,6 +204,10 @@ namespace ResursDAL
 				using (var context = DatabaseContext.Initialize())
 				{
 					context.Devices.RemoveRange(context.Devices);
+					foreach (var item in devices)
+					{
+						item.DateTime = item.DateTime.CheckDate();
+					}
 					context.Devices.AddRange(devices);
 					context.SaveChanges();
 					var tableDateTimes = context.Devices.SelectMany(x => x.Parameters).Select(x => x.DateTimeValue).Distinct();
@@ -360,6 +364,7 @@ namespace ResursDAL
 			tableDevice.DriverType = device.DriverType;
 			tableDevice.IsDbMissmatch = device.IsDbMissmatch;
 			tableDevice.TariffUID = device.TariffUID;
+			tableDevice.DateTime = device.DateTime.CheckDate();
 			if (device.DeviceType == DeviceType.Network)
 				tableDevice.ComPort = device.ComPort;
 			tableDevice.Parameters = device.Parameters.Select(x => new Parameter
@@ -372,6 +377,31 @@ namespace ResursDAL
 				Number = x.Number,
 				StringValue = x.StringValue,
 			}).ToList();
+		}
+
+		static readonly DateTime MinYear = new DateTime(1900, 1, 1);
+		static readonly DateTime MaxYear = new DateTime(9000, 1, 1);
+		static DateTime CheckDate(this DateTime value)
+		{
+			if (value < MinYear)
+				return MinYear;
+			if (value > MaxYear)
+				return MaxYear;
+			return value;
+		}
+
+		static DateTime? CheckDate(this DateTime? value)
+		{
+			if (value == null)
+				return null;
+			return value.Value.CheckDate();
+		}
+
+		static string CheckDateSqlStr(this DateTime? value)
+		{
+			if (value == null)
+				return "NULL";
+			return "'" + value.Value.CheckDate().ToString("yyyyMMdd HH:mm:ss") + "'";
 		}
 	}
 }
