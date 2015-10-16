@@ -49,7 +49,7 @@ namespace Resurs.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		bool CanAdd()
 		{
-			return true;
+			return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditTariff);
 		}
 		void OnAdd()
 		{
@@ -67,7 +67,7 @@ namespace Resurs.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		bool CanEdit()
 		{
-			return SelectedTariff != null;
+			return SelectedTariff != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditTariff);
 		}
 		void OnEdit()
 		{
@@ -84,7 +84,7 @@ namespace Resurs.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		bool CanRemove()
 		{
-			return SelectedTariff != null;
+			return SelectedTariff != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditTariff);
 		}
 		void OnRemove()
 		{
