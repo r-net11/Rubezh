@@ -28,5 +28,11 @@ namespace ResursAPI
 		AddApartment,
 		[Description("Удаления абонента")]
 		DeleteApartment,
+		[Description("Редактирования тарифа")]
+		EditTariff,
+		[Description("Добавления тарифа")]
+		AddTariff,
+		[Description("Удаления тарифа")]
+		DeleteTariff,
 	}
 }

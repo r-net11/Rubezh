@@ -933,11 +933,7 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Rates\DataTemplates\" />
-    <Folder Include="Rates\ViewModels\" />
-    <Folder Include="Rates\Views\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>

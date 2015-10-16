@@ -60,6 +60,7 @@ namespace Resurs.ViewModels
 				Tariffs.Add(tariffViewModel);
 				SelectedTariff = tariffViewModel;
 				DBCash.CreateTariff(tariffViewModel.Tariff);
+				DBCash.AddJournalForUser(JournalType.AddTariff, SelectedTariff.Tariff);
 			}
 		}
 
@@ -76,6 +77,7 @@ namespace Resurs.ViewModels
 				var tariffViewModel = new TariffViewModel(tariffDetailsViewModel.Tariff);
 				SelectedTariff.Tariff = tariffDetailsViewModel.Tariff;
 				DBCash.UpdateTariff(tariffDetailsViewModel.Tariff);
+				DBCash.AddJournalForUser(JournalType.EditTariff, SelectedTariff.Tariff);
 			}
 		}
 
@@ -88,6 +90,7 @@ namespace Resurs.ViewModels
 		{
 			var index = Tariffs.IndexOf(SelectedTariff);
 			DBCash.DeleteTariff(SelectedTariff.Tariff);
+			DBCash.AddJournalForUser(JournalType.DeleteTariff, SelectedTariff.Tariff);
 			Tariffs.Remove(SelectedTariff);
 			if (Tariffs.FirstOrDefault() == null)
 				SelectedTariff = null;

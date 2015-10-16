@@ -230,7 +230,6 @@ namespace ResursDAL
 					context.SaveChanges();
 				}
 			}
-
 			catch (Exception e)
 			{
 				MessageBoxService.ShowException(e);
