@@ -73,6 +73,9 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public TimeSpan NotAllowOvertimeLowerThan { get; set; }
 
+		/// <summary>
+		/// Разрешить отсутствие меньше чем
+		/// </summary>
 		[DataMember]
 		public TimeSpan AllowedAbsentLowThan { get; set; }
 
@@ -500,7 +503,7 @@ namespace FiresecAPI.SKD
 				return TimeTrackType.Absence;
 			}
 
-			return timeTrackPart.Delta > AllowedEarlyLeave ? TimeTrackType.EarlyLeave : TimeTrackType.Absence;
+			return TimeTrackType.EarlyLeave;
 		}
 
 		private List<DateTime?> GetCombinedDateTimes(List<TimeTrackPart> realTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> documentTimeTrackParts)
@@ -643,13 +646,18 @@ namespace FiresecAPI.SKD
 					return timeTrack.Delta;
 
 				case TimeTrackType.Absence:
-				//case TimeTrackType.Late:
+					if (timeTrack.Delta >= AllowedAbsentLowThan)
+					{
+						break;
+					}
+					return timeTrack.Delta;
+					//case TimeTrackType.Late:
 				case TimeTrackType.EarlyLeave:
-					//if (Math.Abs(slideTimeSecods) < tolerance)
-					//{
-					//	return (-timeTrack.Delta);
-					//}
-					break;
+					if (timeTrack.Delta >= AllowedEarlyLeave)
+					{
+						break;
+					}
+					return timeTrack.Delta;
 
 				case TimeTrackType.DocumentAbsence:
 					return (-timeTrack.Delta);

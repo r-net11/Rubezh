@@ -135,7 +135,7 @@
 					VerticalAlignment="Center"
 					Foreground="White"
 					IsChecked="{Binding IsAllowAbsent, UpdateSourceTrigger=PropertyChanged}">
-						<TextBlock Margin="0 -1 0 0" Text="Разрешить отсутствия меньше" TextWrapping="Wrap" />
+						<TextBlock Margin="0 -1 0 0" Text="Не учитывать отсутствие меньше" TextWrapping="Wrap" />
 				</CheckBox>
 				<TimePicker
 					Grid.Row="1"
