@@ -37,5 +37,16 @@ namespace RubezhClient
 				x.OnChanged();
 			});
 		}
+
+		/// <summary>
+		/// Изменение охранной зоны
+		/// </summary>
+		/// <param name="guardZone"></param>
+		public static void EditGuardZone(GKGuardZone guardZone)
+		{
+			guardZone.InputDependentElements.ForEach(x => x.OnChanged());
+			guardZone.OutDependentElements.ForEach(x => x.OnChanged());
+			guardZone.OnChanged();
+		}
 	}
 }

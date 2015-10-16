@@ -11,25 +11,18 @@ namespace GKModule.ViewModels
 {
 	public class DelayViewModel : BaseViewModel
 	{
-		public GKDelay Delay { get; set; }
+		public GKDelay Delay { get; private set; }
 		public DelayViewModel(GKDelay delay)
 		{
 			ShowLogicCommand = new RelayCommand(OnShowLogic);
 			Delay = delay;
 			Delay.Changed += Update;
-			Update();
 		}
 
 		public void Update()
 		{
 			OnPropertyChanged(() => Delay);
 			OnPropertyChanged(() => PresentationLogic);
-		}
-
-		public void Update(GKDelay delay)
-		{
-			this.Delay = delay;
-			this.Update();
 		}
 
 		public string PresentationLogic

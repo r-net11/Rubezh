@@ -202,8 +202,6 @@ namespace RubezhAPI.GK
 		[DataMember]
 		public GKReflectionItem GKReflectionItem { get; set; }
 
-		[DataMember]
-		public bool IsOPCUsed { get; set; }
 
 		[XmlIgnore]
 		public byte ShleifNo

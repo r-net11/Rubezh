@@ -19,7 +19,7 @@ namespace GKModule.ViewModels
 {
 	public class DoorViewModel : BaseViewModel
 	{
-		public GKDoor Door { get; set; }
+		public GKDoor Door { get; private set; }
 
 		public DoorViewModel(GKDoor door)
 		{
@@ -40,43 +40,12 @@ namespace GKModule.ViewModels
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
 			Update();
-			door.Changed += () => Update(Door);			
+			door.Changed += () => Update();
 		}
 
-		public string Name
-		{
-			get { return Door.Name; }
-			set
-			{
-				Door.Name = value;
-				Door.OnChanged();
-				OnPropertyChanged(() => Name);
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-
-		public string Description
-		{
-			get { return Door.Description; }
-			set
-			{
-				Door.Description = value;
-				Door.OnChanged();
-				OnPropertyChanged(() => Description);
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-
-		public void Update(GKDoor door)
-		{
-			Door = door;
-			OnPropertyChanged(() => Door);
-			OnPropertyChanged(() => Name);
-			OnPropertyChanged(() => Description);
-			Update();
-		}
 		public void Update()
 		{
+			OnPropertyChanged(() => Door);
 			UpdateDoorDevices();
 			EnterDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.EnterDeviceUID);
 			ExitDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.ExitDeviceUID);

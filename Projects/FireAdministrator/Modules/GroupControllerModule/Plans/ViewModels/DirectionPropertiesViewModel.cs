@@ -92,7 +92,7 @@ namespace GKModule.Plans.ViewModels
 		void OnEdit()
 		{
 			ServiceFactory.Events.GetEvent<EditGKDirectionEvent>().Publish(SelectedDirection.Direction.UID);
-			SelectedDirection.Update(SelectedDirection.Direction);
+			SelectedDirection.Update();
 		}
 		bool CanEdit()
 		{

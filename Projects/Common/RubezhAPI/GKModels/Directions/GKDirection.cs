@@ -61,9 +61,6 @@ namespace RubezhAPI.GK
 		public GKLogic Logic { get; set; }
 
 		[DataMember]
-		public bool IsOPCUsed { get; set; }
-
-		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
 
 		[XmlIgnore]

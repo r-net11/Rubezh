@@ -22,8 +22,8 @@ namespace GKModule.ViewModels
 		{
 			Menu = new GuardMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
-			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
 			RegisterShortcuts();
 			SetRibbonItems();
@@ -74,6 +74,22 @@ namespace GKModule.ViewModels
 				SelectedCode = codeViewModel;
 				ServiceFactory.SaveService.GKChanged = true;
 			}
+		}
+
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
+		{
+			var codeDetailsViewModel = new CodeDetailsViewModel(SelectedCode.Code);
+			if (DialogService.ShowModalWindow(codeDetailsViewModel))
+			{
+				SelectedCode.Update();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		bool CanEditDelete()
+		{
+			return (SelectedCode != null);
 		}
 
 		public void CreateCode(CreateGKCodeEventArg createGKCodeEventArg)
@@ -149,22 +165,6 @@ namespace GKModule.ViewModels
 			}
 
 			return codes;
-		}
-
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			var codeDetailsViewModel = new CodeDetailsViewModel(SelectedCode.Code);
-			if (DialogService.ShowModalWindow(codeDetailsViewModel))
-			{
-				SelectedCode.Code = codeDetailsViewModel.Code;
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-
-		bool CanEditDelete()
-		{
-			return (SelectedCode != null);
 		}
 
 		void RegisterShortcuts()

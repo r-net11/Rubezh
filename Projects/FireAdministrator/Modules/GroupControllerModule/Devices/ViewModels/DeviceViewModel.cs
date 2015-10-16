@@ -979,25 +979,5 @@ namespace GKModule.ViewModels
 		public RelayCommand PasteCommand { get { return DevicesViewModel.Current.PasteCommand; } }
 		public RelayCommand CopyLogicCommand { get { return DevicesViewModel.Current.CopyLogicCommand; } }
 		public RelayCommand PasteLogicCommand { get { return DevicesViewModel.Current.PasteLogicCommand; } }
-
-		#region OPC
-		public bool CanOPCUsed
-		{
-			get { return Device.Driver.IsPlaceable; }
-		}
-
-		public bool IsOPCUsed
-		{
-			get { return Device.IsOPCUsed; }
-			set
-			{
-				Device.IsOPCUsed = value;
-				OnPropertyChanged(() => IsOPCUsed);
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-
-
-		#endregion
 	}
 }

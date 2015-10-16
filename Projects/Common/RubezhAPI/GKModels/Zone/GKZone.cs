@@ -40,8 +40,6 @@ namespace RubezhAPI.GK
 		[DataMember]
 		public int Fire2Count { get; set; }
 
-		[DataMember]
-		public bool IsOPCUsed { get; set; }
 
 		[XmlIgnore]
 		public List<Guid> PlanElementUIDs { get; set; }

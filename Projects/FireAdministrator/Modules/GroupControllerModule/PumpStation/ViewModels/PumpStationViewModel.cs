@@ -13,7 +13,7 @@ namespace GKModule.ViewModels
 {
 	public class PumpStationViewModel : BaseViewModel
 	{
-		public GKPumpStation PumpStation { get; set; }
+		public GKPumpStation PumpStation { get; private set; }
 
 		public PumpStationViewModel(GKPumpStation pumpStation)
 		{

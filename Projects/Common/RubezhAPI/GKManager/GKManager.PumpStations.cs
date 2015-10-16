@@ -36,5 +36,14 @@ namespace RubezhClient
 				x.OnChanged();
 			});
 		}
+
+		/// <summary>
+		/// Изменение НС
+		/// </summary>
+		/// <param name="pumpStation"></param>
+		public static void EditPumpStation(GKPumpStation pumpStation)
+		{
+			pumpStation.OutDependentElements.ForEach(x => x.OnChanged());
+		}
 	}
 }
