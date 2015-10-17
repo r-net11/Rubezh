@@ -31,10 +31,10 @@
 				<DataGridTextColumn Header="Код ошибки" Binding="{Binding ErrorCode, Converter={StaticResource EnumToDescriptionConverter}}" Width="Auto" />
 				<DataGridTextColumn Header="Направление прохода" Binding="{Binding EventType, Converter={StaticResource EnumToDescriptionConverter}}" Width="Auto" />
 				<DataGridTextColumn Header="Разрешено/запрещено" Binding="{Binding Status}" Width="Auto" />
-				<DataGridTextColumn Header="Тип пропуска" Binding="{Binding CardType}" Width="Auto" />
-				<DataGridTextColumn Header="Метод открытия" Binding="{Binding OpenMethod}" Width="Auto" />
+				<DataGridTextColumn Header="Тип пропуска" Binding="{Binding CardType, Converter={StaticResource EnumToDescriptionConverter}}" Width="Auto" />
+				<DataGridTextColumn Header="Метод открытия" Binding="{Binding OpenMethod, Converter={StaticResource EnumToDescriptionConverter}}" Width="Auto" />
 				<DataGridTextColumn Header="Пароль" Binding="{Binding Pwd}" Width="Auto" />
-				<DataGridTextColumn Header="StatusType" Binding="{Binding StatusType}" Width="Auto" />
+				<DataGridTextColumn Header="StatusType" Binding="{Binding StatusType, Converter={StaticResource EnumToDescriptionConverter}}" Width="Auto" />
 				<DataGridTextColumn Header="Считыватель" Binding="{Binding ReaderID}" Width="Auto" />
 				<DataGridTextColumn Header="DoorName" Binding="{Binding DoorName}" Width="Auto" />
 			</DataGrid.Columns>

@@ -79,7 +79,9 @@ namespace ChinaSKDDriver
 				MethodType = (AccessMethodType) nativeAccess.emMethod,
 				Status = nativeAccess.bStatus,
 				ReaderID = nativeAccess.nReaderID,
-				DoorNo = nativeAccess.nDoor
+				DoorNo = nativeAccess.nDoor,
+				CardType = (CardType)nativeAccess.emCardType,
+				ErrorCode = (ErrorCode)nativeAccess.nErrorCode
 			};
 
 			return access;
@@ -145,8 +147,14 @@ namespace ChinaSKDDriver
 			journalItem.CardNo = accessLogItem.CardNo;
 			journalItem.DoorNo = accessLogItem.DoorNo;
 			journalItem.bStatus = accessLogItem.Status;
+			journalItem.emCardType = (NativeWrapper.NET_ACCESSCTLCARD_TYPE)accessLogItem.CardType;
 			journalItem.emOpenMethod = (NativeWrapper.NET_ACCESS_DOOROPEN_METHOD)accessLogItem.MethodType;
+			journalItem.szPwd = accessLogItem.Password;
+			//journalItem.nAction = 
+			//journalItem.emStatus = 
 			journalItem.szReaderID = (accessLogItem.ReaderID + 1).ToString();
+			//journalItem.szDoorName = 
+			journalItem.ErrorCode = accessLogItem.ErrorCode;
 
 			return journalItem;
 		}

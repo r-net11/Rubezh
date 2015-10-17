@@ -22,14 +22,16 @@
 		</StackPanel>
 		<DataGrid Grid.Row="1" ItemsSource="{Binding AccessLogItems}" SelectedItem="{Binding SelectedAccessLogItem}" AutoGenerateColumns="False">
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="RecordNo" Binding="{Binding RecordNo}" Width="Auto" />
-				<DataGridTextColumn Header="CardNo" Binding="{Binding CardNo}" Width="Auto" />
-				<DataGridTextColumn Header="Password" Binding="{Binding Password}" Width="Auto" />
-				<DataGridTextColumn Header="Time" Binding="{Binding Time, Converter={StaticResource TimeToStringConverter}}" Width="Auto" />
+				<DataGridTextColumn Header="" Binding="{Binding RecordNo}" Width="Auto" />
+				<DataGridTextColumn Header="Пропуск" Binding="{Binding CardNo}" Width="Auto" />
+				<DataGridTextColumn Header="Пароль" Binding="{Binding Password}" Width="Auto" />
+				<DataGridTextColumn Header="Время" Binding="{Binding Time, Converter={StaticResource TimeToStringConverter}}" Width="Auto" />
 				<DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="Auto" />
 				<DataGridTextColumn Header="MethodType" Binding="{Binding MethodType, Converter={StaticResource EnumToDescriptionConverter}}" Width="Auto" />
-				<DataGridTextColumn Header="ReaderID" Binding="{Binding ReaderID}" Width="Auto" />
-				<DataGridTextColumn Header="DoorNo" Binding="{Binding DoorNo}" Width="*" />
+				<DataGridTextColumn Header="Считыватель" Binding="{Binding ReaderID}" Width="Auto" />
+				<DataGridTextColumn Header="Замок" Binding="{Binding DoorNo}" Width="Auto" />
+				<DataGridTextColumn Header="Тип пропуска" Binding="{Binding CardType, Converter={StaticResource EnumToDescriptionConverter}}" Width="Auto" />
+				<DataGridTextColumn Header="Код ошибки" Binding="{Binding ErrorCode, Converter={StaticResource EnumToDescriptionConverter}}" Width="*" />
 			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>

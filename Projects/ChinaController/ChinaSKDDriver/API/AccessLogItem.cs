@@ -20,6 +20,10 @@ namespace ChinaSKDDriverAPI
 		public int ReaderID { get; set; }
 
 		public int DoorNo { get; set; }
+
+		public CardType CardType { get; set; }
+
+		public ErrorCode ErrorCode { get; set; }
 	}
 
 	public enum AccessMethodType

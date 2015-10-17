@@ -59,7 +59,7 @@ namespace ChinaSKDDriverAPI
 		[Description("Заблокирована")]
 		NET_ACCESSCTLCARD_TYPE_BLACKLIST,
 
-		[Description("Corce")]
+		[Description("Принуждение")]
 		NET_ACCESSCTLCARD_TYPE_CORCE,
 
 		[Description("Сервисная")]
