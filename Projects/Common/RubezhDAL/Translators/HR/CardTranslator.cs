@@ -446,21 +446,5 @@ namespace RubezhDAL.DataClasses
 			
 		}
 		#endregion
-
-		void PublishNewItemsPortion(List<API.SKDCard> journalItems, Guid uid, bool isLastPortion)
-		{
-			if (PortionReady != null)
-			{
-				var result = new DbCallbackResult
-				{
-					ClientUID = uid,
-					Cards = journalItems,
-					IsLastPortion = isLastPortion
-				};
-				PortionReady(result);
-			}
-		}
-
-		public event Action<DbCallbackResult> PortionReady;
 	}
 }
