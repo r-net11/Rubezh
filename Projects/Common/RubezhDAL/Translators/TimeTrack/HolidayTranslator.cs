@@ -10,13 +10,8 @@ namespace RubezhDAL.DataClasses
 	public class HolidayTranslator : OrganisationItemTranslatorBase<Holiday, API.Holiday, API.HolidayFilter>
 	{
 		public HolidayTranslator(DbService context)
-			: base(context)
-		{
-			AsyncTranslator = new HolidayAsyncTranslator(this);
-		}
-
-		public HolidayAsyncTranslator AsyncTranslator { get; private set; }
-
+			: base(context) { }
+			
 		public override DbSet<Holiday> Table
 		{
 			get { return Context.Holidays; }
@@ -78,15 +73,6 @@ namespace RubezhDAL.DataClasses
 				Type = (API.HolidayType)tableItem.Type,
 				Reduction = tableItem.ReductionTimeSpan
 			});
-		}
-	}
-
-	public class HolidayAsyncTranslator : AsyncTranslator<Holiday, API.Holiday, API.HolidayFilter>
-	{
-		public HolidayAsyncTranslator(HolidayTranslator translator) : base(translator as ITranslatorGet<Holiday, API.Holiday, API.HolidayFilter>) { }
-		public override List<API.Holiday> GetCollection(DbCallbackResult callbackResult)
-		{
-			return callbackResult.Holidays;
 		}
 	}
 }

@@ -13,14 +13,12 @@ namespace RubezhDAL.DataClasses
 	public class EmployeeTranslator : OrganisationItemTranslatorBase<Employee, API.Employee, API.EmployeeFilter>
 	{
 		public EmployeeShortTranslator ShortTranslator { get; private set; }
-		public EmployeeAsyncTranslator AsyncTranslator { get; private set; }
 		public EmployeeSynchroniser Synchroniser { get; private set; }
 
 		public EmployeeTranslator(DbService dbService)
 			: base(dbService)
 		{
 			ShortTranslator = new EmployeeShortTranslator(this);
-			AsyncTranslator = new EmployeeAsyncTranslator(ShortTranslator);
 			Synchroniser = new EmployeeSynchroniser(Table, DbService);
 		}
 
@@ -260,15 +258,6 @@ namespace RubezhDAL.DataClasses
 		public ShortEmployee Translate(Employee employee)
 		{
 			return GetAPIItems(new List<Employee> { employee }.AsQueryable()).FirstOrDefault();
-		}
-	}
-
-	public class EmployeeAsyncTranslator : AsyncTranslator<Employee, API.ShortEmployee, EmployeeFilter>
-	{
-		public EmployeeAsyncTranslator(EmployeeShortTranslator translator) : base(translator as ITranslatorGet<Employee, API.ShortEmployee, EmployeeFilter>) { }
-		public override List<ShortEmployee> GetCollection(DbCallbackResult callbackResult)
-		{
-			return callbackResult.Employees;
 		}
 	}
 }

@@ -22,8 +22,7 @@ namespace RubezhClient
 		public static event Action ConfigurationChangedEvent;
 		public static event Action<List<JournalItem>> NewJournalItemsEvent;
 		public static event Action<IEnumerable<JournalItem>, Guid> GetFilteredArchiveCompletedEvent;
-		public static event Action<DbCallbackResult> DbCallbackResultEvent;
-
+		
 		bool isConnected = true;
 		public bool SuspendPoll = false;
 		Thread PollThread;
@@ -90,30 +89,6 @@ namespace RubezhClient
 		{
 			if (callbackResults == null || callbackResults.Count == 0)
 				return;
-
-			var dbCallbackResultGroups = callbackResults.Where(x => x.CallbackResultType == CallbackResultType.QueryDb).Select(x => x.DbCallbackResult).GroupBy(x => x.ClientUID);
-			foreach (var group in dbCallbackResultGroups)
-			{
-				var dbCallBackResult = new DbCallbackResult();
-				dbCallBackResult.ClientUID = group.Key;
-				dbCallBackResult.IsLastPortion = group.Any(x => x.IsLastPortion);
-				foreach (var item in group)
-				{
-					dbCallBackResult.AccessTemplates.AddRange(item.AccessTemplates);
-					dbCallBackResult.AdditionalColumnTypes.AddRange(item.AdditionalColumnTypes);
-					dbCallBackResult.Cards.AddRange(item.Cards);
-					dbCallBackResult.DayIntervals.AddRange(item.DayIntervals);
-					dbCallBackResult.Departments.AddRange(item.Departments);
-					dbCallBackResult.Employees.AddRange(item.Employees);
-					dbCallBackResult.Holidays.AddRange(item.Holidays);
-					dbCallBackResult.PassCardTemplates.AddRange(item.PassCardTemplates);
-					dbCallBackResult.Positions.AddRange(item.Positions);
-					dbCallBackResult.Schedules.AddRange(item.Schedules);
-					dbCallBackResult.ScheduleSchemes.AddRange(item.ScheduleSchemes);
-				}
-				if (DbCallbackResultEvent != null)
-					DbCallbackResultEvent(dbCallBackResult);
-			}
 
 			foreach (var callbackResult in callbackResults)
 			{

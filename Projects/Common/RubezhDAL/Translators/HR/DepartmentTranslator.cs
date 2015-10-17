@@ -12,14 +12,12 @@ namespace RubezhDAL.DataClasses
 	{
 		DataContractSerializer _serializer;
 		public DepartmentShortTranslator ShortTranslator { get; private set; }
-		public DepartmentAsyncTranslator AsyncTranslator { get; private set; }
 		public DepartmentSynchroniser Synchroniser { get; private set; }
 		public DepartmentTranslator(DbService context)
 			: base(context)
 		{
 			_serializer = new DataContractSerializer(typeof(API.Department));
 			ShortTranslator = new DepartmentShortTranslator(this);
-			AsyncTranslator = new DepartmentAsyncTranslator(ShortTranslator);
 			Synchroniser = new DepartmentSynchroniser(Table, DbService);
 		}
 
@@ -235,15 +233,6 @@ namespace RubezhDAL.DataClasses
 					ParentDepartmentUID = tableItem.ParentDepartmentUID != null ? tableItem.ParentDepartmentUID.Value : Guid.Empty,
 					ChildDepartments = tableItem.ChildDepartments.Select(x => new API.TinyDepartment { UID = x.UID, Name = x.Name }).ToList()
 				});
-		}
-	}
-
-	public class DepartmentAsyncTranslator : AsyncTranslator<Department, API.ShortDepartment, API.DepartmentFilter>
-	{
-		public DepartmentAsyncTranslator(DepartmentShortTranslator translator) : base(translator as ITranslatorGet<Department, API.ShortDepartment, API.DepartmentFilter>) { }
-		public override List<API.ShortDepartment> GetCollection(DbCallbackResult callbackResult)
-		{
-			return callbackResult.Departments;
 		}
 	}
 }

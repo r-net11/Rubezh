@@ -48,8 +48,7 @@ namespace RubezhAPI
 		ArchiveCompleted,
 		AutomationCallbackResult,
 		ConfigurationChanged,
-	    QueryDb,
-		Disconnecting,
+	    Disconnecting,
 		OperationResult
 	}
 

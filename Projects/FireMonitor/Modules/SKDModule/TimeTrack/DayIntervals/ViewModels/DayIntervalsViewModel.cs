@@ -128,11 +128,7 @@ namespace SKDModule.ViewModels
 			get { return RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit; }
 		}
 
-		protected override List<DayInterval> GetFromCallbackResult(RubezhAPI.DbCallbackResult dbCallbackResult)
-		{
-			return dbCallbackResult.DayIntervals;
-		}
-        protected override bool CanEdit()
+		protected override bool CanEdit()
         {
             return base.CanEdit() && SelectedItem.Name != "Выходной";
         }

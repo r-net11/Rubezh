@@ -15,15 +15,15 @@ namespace Resurs.ViewModels
 	public class DeviceDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public Device Device { get; private set; }
-		Device _OldDevice;
-		Device _Parent;
-		bool _IsNew;
+		Device _oldDevice;
+		Device _parent;
+		bool _isSaved;
 		public ObservableCollection<DetailsParameterViewModel> Parameters { get; private set; }
 		
 		public DeviceDetailsViewModel(Device device)
 		{
 			Title = "Редактирование устройства " + device.Name + " " + device.FullAddress;
-			_Parent = device.Parent;
+			_parent = device.Parent;
 			Address = device.Address;
 			Initialize(device);
 			SelectBillCommand = new RelayCommand<Guid?>(OnSelectBill);
@@ -32,8 +32,7 @@ namespace Resurs.ViewModels
 
 		public DeviceDetailsViewModel(DriverType driverType, Device parent)
 		{
-			_IsNew = true;
-			_Parent = parent;
+			_parent = parent;
 			Address = parent.Children.Count + 1;
 			var device = new Device(driverType);
 			Title = "Создание устройства " + device.Name;
@@ -43,7 +42,7 @@ namespace Resurs.ViewModels
 		void Initialize(Device device)
 		{
 			Device = device;
-			_OldDevice = device;
+			_oldDevice = device;
 			Name = device.Name;
 			Description = device.Description;
 			IsActive = Device.IsActive;
@@ -80,24 +79,24 @@ namespace Resurs.ViewModels
 		
 		public ObservableCollection<TariffType> TariffTypes { get; private set; }
 
-		TariffType _TariffType;
+		TariffType _tariffType;
 		public TariffType TariffType
 		{
-			get { return _TariffType; }
+			get { return _tariffType; }
 			set
 			{
-				_TariffType = value;
+				_tariffType = value;
 				OnPropertyChanged(() => TariffType);
 			}
 		}
 
-		int _Address;
+		int _address;
 		public int Address
 		{
-			get { return _Address; }
+			get { return _address; }
 			set
 			{
-				_Address = value;
+				_address = value;
 				OnPropertyChanged(() => Address);
 			}
 		}
@@ -106,24 +105,25 @@ namespace Resurs.ViewModels
 		public bool IsEditAddress { get; private set; }
 		public string AddressString { get; private set; }
 		public ObservableCollection<string> ComPorts { get; private set; }
-		string _ComPort;
+
+		string _comPort;
 		public string ComPort
 		{
-			get { return _ComPort; }
+			get { return _comPort; }
 			set
 			{
-				_ComPort = value;
+				_comPort = value;
 				OnPropertyChanged(() => ComPort);
 			}
 		}
 
-		string _Name;
+		string _name;
 		public string Name
 		{
-			get { return _Name; }
+			get { return _name; }
 			set
 			{
-				_Name = value;
+				_name = value;
 				OnPropertyChanged(() => Name);
 			}
 		}
@@ -141,13 +141,13 @@ namespace Resurs.ViewModels
 
 		public bool IsActive { get; private set; }
 		
-		Bill _Bill;
+		Bill _bill;
 		public Bill Bill
 		{
-			get { return _Bill; }
+			get { return _bill; }
 			set
 			{
-				_Bill = value;
+				_bill = value;
 				OnPropertyChanged(() => Bill);
 				OnPropertyChanged(() => BillLinkName);
 			}
@@ -193,7 +193,7 @@ namespace Resurs.ViewModels
 					MessageBoxService.Show("Не задан адрес COM порта");
 					return false;
 				}
-				if (_Parent.Children.Any(x => x.ComPort == ComPort && x.UID != Device.UID))
+				if (_parent.Children.Any(x => x.ComPort == ComPort && x.UID != Device.UID))
 				{
 					MessageBoxService.Show("Невозможно добавить устройство с повторяющимся адресом");
 					return false;
@@ -202,7 +202,7 @@ namespace Resurs.ViewModels
 					Address = int.Parse(ComPort.Substring(3));
 					Device.ComPort = ComPort;
 			}
-			if (_Parent.Children.Any(x => x.Address == Address && x.UID != Device.UID))
+			if (_parent.Children.Any(x => x.Address == Address && x.UID != Device.UID))
 			{
 				MessageBoxService.Show("Невозможно добавить устройство с повторяющимся адресом");
 				return false;
@@ -246,7 +246,7 @@ namespace Resurs.ViewModels
 			{
 				foreach (var newParameter in Device.Parameters.Where(x => x.DriverParameter.IsWriteToDevice && x.DriverParameter.CanWriteInActive))
 				{
-					var oldParameter = _OldDevice.Parameters.FirstOrDefault(x => x.UID == newParameter.UID);
+					var oldParameter = _oldDevice.Parameters.FirstOrDefault(x => x.UID == newParameter.UID);
 					switch (oldParameter.DriverParameter.ParameterType)
 					{
 						case ParameterType.Enum:
@@ -287,11 +287,24 @@ namespace Resurs.ViewModels
 			}
 			else
 			{
-				Device.SetParent(_Parent, Address);
+				Device.SetParent(_parent, Address);
 			}
-			if(ResursDAL.DBCash.SaveDevice(Device))
+			if (ResursDAL.DBCash.SaveDevice(Device))
+			{
+				_isSaved = true;
 				return base.Save();
+			}
 			return false;
+		}
+
+		public override bool OnClosing(bool isCanceled)
+		{
+			if(_isSaved)
+				return base.OnClosing(isCanceled);
+			var isConfirmed = MessageBoxService.ShowConfirmation("Вы уверены, что хотите закрыть окно без сохранения инменений?");
+			if (!isConfirmed)
+				return true;
+			return base.OnClosing(isCanceled);
 		}
 
 		IEnumerable<string> GetComPorts()
@@ -301,7 +314,7 @@ namespace Resurs.ViewModels
 #else
 			var allPorts = SerialPort.GetPortNames();
 #endif
-			return allPorts.Except(_Parent.Children.Where(x => x.UID != Device.UID).Select(x => x.ComPort));
+			return allPorts.Except(_parent.Children.Where(x => x.UID != Device.UID).Select(x => x.ComPort));
 		}
 
 		public bool SetStatus(Guid deviceUID, bool isActive)

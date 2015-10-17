@@ -165,10 +165,5 @@ namespace SKDModule.ViewModels
 		}
 
 		public List<Guid> UIDs { get { return Organisations.SelectMany(x => x.Children).Where(x => x.IsChecked).Select(x => x.Model.UID).ToList(); } }
-
-		protected override List<ShortEmployee> GetFromCallbackResult(RubezhAPI.DbCallbackResult dbCallbackResult)
-		{
-			return dbCallbackResult.Employees;
-		}
 	}
 }

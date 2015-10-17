@@ -11,7 +11,7 @@ namespace ResursAPI
 {
 	public static class SettingsManager
 	{
-		static string FileName = AppDataFolderHelper.GetResursGlobalSettingsFileName();
+		static string FileName = FolderHelper.GlobalSettingsFileName;
 		public static ResursSettings ResursSettings { get; private set; }
 
 		static SettingsManager()
