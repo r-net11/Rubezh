@@ -73,17 +73,6 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifyArchiveCompleted(List<JournalItem> journallItems, Guid archivePortionUID)
-		{
-			var callbackResult = new CallbackResult()
-			{
-				ArchivePortionUID = archivePortionUID,
-				CallbackResultType = CallbackResultType.ArchiveCompleted,
-				JournalItems = journallItems,
-			};
-			CallbackManager.Add(callbackResult);
-		}
-
         public static void NotifyConfigurationChanged()
 		{
 			var callbackResult = new CallbackResult()

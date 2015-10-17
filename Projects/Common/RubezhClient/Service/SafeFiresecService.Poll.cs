@@ -21,7 +21,6 @@ namespace RubezhClient
 		public static event Action<AutomationCallbackResult> AutomationEvent;
 		public static event Action ConfigurationChangedEvent;
 		public static event Action<List<JournalItem>> NewJournalItemsEvent;
-		public static event Action<IEnumerable<JournalItem>, Guid> GetFilteredArchiveCompletedEvent;
 		
 		bool isConnected = true;
 		public bool SuspendPoll = false;
@@ -67,7 +66,6 @@ namespace RubezhClient
 					}
 
 					var callbackResults = Poll(FiresecServiceFactory.UID);
-					ProcessCallbackResult(callbackResults);
 				}
 				catch (Exception e)
 				{
@@ -83,81 +81,6 @@ namespace RubezhClient
 				if (AutomationEvent != null)
 					AutomationEvent(callback);
 			});
-		}
-
-		void ProcessCallbackResult(List<CallbackResult> callbackResults)
-		{
-			if (callbackResults == null || callbackResults.Count == 0)
-				return;
-
-			foreach (var callbackResult in callbackResults)
-			{
-				switch (callbackResult.CallbackResultType)
-				{
-					case CallbackResultType.GKProgress:
-						SafeOperationCall(() =>
-						{
-							if (GKProgressCallbackEvent != null)
-								GKProgressCallbackEvent(callbackResult.GKProgressCallback);
-						});
-						break;
-
-					case CallbackResultType.GKObjectStateChanged:
-						SafeOperationCall(() =>
-						{
-							if (GKCallbackResultEvent != null)
-								GKCallbackResultEvent(callbackResult.GKCallbackResult);
-						});
-						break;
-
-					case CallbackResultType.GKPropertyChanged:
-						SafeOperationCall(() =>
-						{
-							if (GKPropertyChangedEvent != null)
-								GKPropertyChangedEvent(callbackResult.GKPropertyChangedCallback);
-						});
-						break;
-
-					case CallbackResultType.OperationResult:
-						SafeOperationCall(() =>
-						{
-							if (CallbackOperationResultEvent != null)
-								CallbackOperationResultEvent(callbackResult.CallbackOperationResult);
-						});
-						break;
-
-					case CallbackResultType.AutomationCallbackResult:
-						if (callbackResult.AutomationCallbackResult.Data == null || callbackResult.AutomationCallbackResult.Data.LayoutFilter == null || callbackResult.AutomationCallbackResult.Data.LayoutFilter.LayoutsUIDs.Count == 0 ||
-							ApplicationService.Shell == null || ApplicationService.Shell.Layout == null || callbackResult.AutomationCallbackResult.Data.LayoutFilter.LayoutsUIDs.Contains(ApplicationService.Shell.Layout.UID))
-							ProcessAutomationCallback(callbackResult.AutomationCallbackResult);
-						break;
-
-					case CallbackResultType.NewEvents:
-						SafeOperationCall(() =>
-						{
-							if (NewJournalItemsEvent != null)
-								NewJournalItemsEvent(callbackResult.JournalItems);
-
-						});
-						break;
-
-					case CallbackResultType.ArchiveCompleted:
-						SafeOperationCall(() =>
-						{
-							if (GetFilteredArchiveCompletedEvent != null)
-								GetFilteredArchiveCompletedEvent(callbackResult.JournalItems, callbackResult.ArchivePortionUID);
-						});
-						break;
-
-					case CallbackResultType.ConfigurationChanged:
-						SafeOperationCall(() =>
-						{
-							if (ConfigurationChangedEvent != null)
-								ConfigurationChangedEvent();
-						});
-						break;
-				}
-			}
 		}
 	}
 }
