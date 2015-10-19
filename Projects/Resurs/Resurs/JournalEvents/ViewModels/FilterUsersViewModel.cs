@@ -14,12 +14,15 @@ namespace Resurs.ViewModels
 		public FilterUsersViewModel(Filter filter)
 		{
 			FilterUserViewModel = new ObservableCollection<FilterUserViewModel>();
-			DBCash.GetAllUsers().ForEach(x => FilterUserViewModel.Add(new FilterUserViewModel(x)));
-			FilterUserViewModel.ForEach(x =>
-				{
-					if (filter.UserUIDs.Contains(x.User.UID))
-						x.IsChecked = true;
-				});
+			if (DBCash.GetAllUsers() != null)
+			{
+				DBCash.GetAllUsers().ForEach(x => FilterUserViewModel.Add(new FilterUserViewModel(x)));
+				FilterUserViewModel.ForEach(x =>
+					{
+						if (filter.UserUIDs.Contains(x.User.UID))
+							x.IsChecked = true;
+					});
+			}
 		}
 		public ObservableCollection<FilterUserViewModel> FilterUserViewModel { get; set; }
 
