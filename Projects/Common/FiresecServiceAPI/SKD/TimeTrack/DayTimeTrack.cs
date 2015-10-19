@@ -135,14 +135,80 @@ namespace FiresecAPI.SKD
 			RealTimeTrackPartsForCalculates = GetRealTimeTracksForCalculate(RealTimeTrackParts.Where(x => x.ExitDateTime.HasValue && x.IsForURVZone && !x.NotTakeInCalculations));
 			CombinedTimeTrackParts = CalculateCombinedTimeTrackParts(PlannedTimeTrackParts, RealTimeTrackPartsForCalculates,
 																							DocumentTrackParts);
-			if (SlideTime != default(TimeSpan) && RealTimeTrackPartsForCalculates.Any())
+			if (SlideTime != default(TimeSpan))
 			{
-				CombinedTimeTrackParts = AdjustmentCombinedTimeTracks(CombinedTimeTrackParts, PlannedTimeTrackParts, SlideTime);
+				CombinedTimeTrackParts = AdjustmentCombinedTimeTracks(CombinedTimeTrackParts, PlannedTimeTrackParts, RealTimeTrackParts, SlideTime);
+				CombinedTimeTrackParts = TransferPresentToOvertime(CombinedTimeTrackParts, SlideTime);
 			}
+
+			//CombinedTimeTrackParts = TransferNightSettings(CombinedTimeTrackParts, NightSettings);
 			RealTimeTrackPartsForCalculates = FillTypesForRealTimeTrackParts(RealTimeTrackPartsForCalculates, PlannedTimeTrackParts);
 			Totals = CalculateTotal(SlideTime, PlannedTimeTrackParts, RealTimeTrackPartsForCalculates, CombinedTimeTrackParts, IsHoliday);
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
 			CalculateLetterCode();
+		}
+
+		//private List<TimeTrackPart> TransferNightSettings(List<TimeTrackPart> combinedTimeTrackParts,
+		//	NightSettings nightSettings)
+		//{
+		//	if (nightSettings == null) return combinedTimeTrackParts;
+
+		//	var resultCollection = new List<TimeTrackPart>();
+
+		//	foreach (var el in combinedTimeTrackParts)
+		//	{
+		//		if (el.TimeTrackPartType == TimeTrackType.Presence
+		//			&& el.EnterDateTime.TimeOfDay <= nightSettings.NightStartTime
+		//			&& el.ExitDateTime.GetValueOrDefault().TimeOfDay >= NightSettings.NightEndTime)
+		//		{
+		//			el.TimeTrackPartType = TimeTrackType.Night;
+		//		}
+
+		//		resultCollection.Add(el);
+		//	}
+
+		//	return resultCollection;
+		//}
+
+		private List<TimeTrackPart> TransferPresentToOvertime(List<TimeTrackPart> combinedTimeTrackParts, TimeSpan slideTime)
+		{
+			var totalPresentTime = - slideTime;
+
+			var resultCollection = new List<TimeTrackPart>();
+
+			foreach (var el in combinedTimeTrackParts)
+			{
+				if (el.TimeTrackPartType == TimeTrackType.Presence)
+				{
+					if (totalPresentTime == default(TimeSpan))
+					{
+						resultCollection.Add(el);
+						continue;
+					}
+
+					totalPresentTime += el.Delta;
+
+					if (totalPresentTime > default(TimeSpan))
+					{
+						var tmpExitTime = el.ExitDateTime;
+						el.ExitDateTime = tmpExitTime - totalPresentTime;
+						var overtimeTrackPart = new TimeTrackPart
+						{
+							EnterDateTime = el.ExitDateTime.GetValueOrDefault(),
+							ExitDateTime = tmpExitTime,
+							TimeTrackPartType = TimeTrackType.Overtime
+						};
+						resultCollection.Add(el);
+						resultCollection.Add(overtimeTrackPart);
+						totalPresentTime = default(TimeSpan);
+						continue;
+					}
+				}
+
+				resultCollection.Add(el);
+			}
+
+			return resultCollection;
 		}
 
 		private TimeSpan GetSummOfPlannedTimeTrackParts(List<TimeTrackPart> plannedTimeTrackParts)
@@ -155,25 +221,10 @@ namespace FiresecAPI.SKD
 			return result;
 		}
 
-		private TimeSpan GetSummOfPresence(List<TimeTrackPart> combinedTimeTrackParts)
+		private List<TimeTrackPart> AdjustmentCombinedTimeTracks(List<TimeTrackPart> combinedTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts, TimeSpan slideTime)
 		{
-			var result = new TimeSpan();
-			foreach (var combinedTimeTrackPart in combinedTimeTrackParts)
-			{
-				if (combinedTimeTrackPart.TimeTrackPartType == TimeTrackType.Night
-				    || combinedTimeTrackPart.TimeTrackPartType == TimeTrackType.Overtime
-				    || combinedTimeTrackPart.TimeTrackPartType == TimeTrackType.Presence)
-					result += combinedTimeTrackPart.Delta;
-			}
-
-			return result;
-		}
-
-		private List<TimeTrackPart> AdjustmentCombinedTimeTracks(List<TimeTrackPart> combinedTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts, TimeSpan slideTime)
-		{
-			var sumPlannedTime = GetSummOfPlannedTimeTrackParts(plannedTimeTrackParts);
-			var summPresentIntervals = GetSummOfPresence(combinedTimeTrackParts);
-			var differWithPlannedTime = sumPlannedTime - slideTime; //Показывает доступноt время неявки
+			var sumPlannedTime = GetSummOfPlannedTimeTrackParts(plannedTimeTrackParts); //Суммарное время графика
+			var differWithPlannedTime = sumPlannedTime - slideTime; //Показывает доступное время неявки
 			const double TOLERANCE = 0.000001;
 
 			var resultedCombinedCollection = new List<TimeTrackPart>();
@@ -200,10 +251,21 @@ namespace FiresecAPI.SKD
 
 						differWithPlannedTime -= el.Delta;
 
-						if (differWithPlannedTime.TotalSeconds < 0)
+						if (differWithPlannedTime.TotalSeconds < 0 && el.TimeTrackPartType == TimeTrackType.EarlyLeave)
 						{
-							el.EnterDateTime -= differWithPlannedTime;
-							//el.ExitDateTime += differWithPlannedTime;
+							el.ExitDateTime += differWithPlannedTime;
+							differWithPlannedTime = default(TimeSpan);
+							resultedCombinedCollection.Add(el);
+						}
+						else if (differWithPlannedTime.TotalSeconds < 0 && el.TimeTrackPartType == TimeTrackType.Absence)
+						{
+							el.EnterDateTime = el.ExitDateTime.GetValueOrDefault() + differWithPlannedTime;
+							differWithPlannedTime = default(TimeSpan);
+							resultedCombinedCollection.Add(el);
+						}
+						else if (differWithPlannedTime.TotalSeconds < 0 && el.TimeTrackPartType == TimeTrackType.Late)
+						{
+							el.EnterDateTime = el.ExitDateTime.GetValueOrDefault() + differWithPlannedTime;
 							differWithPlannedTime = default(TimeSpan);
 							resultedCombinedCollection.Add(el);
 						}
@@ -547,9 +609,9 @@ namespace FiresecAPI.SKD
 			timeTrackPart.TimeTrackPartType = TimeTrackType.Absence; //Отсутствие
 
 			//Если учитывается первый вход-последний выход и проход в рамках графика, то "Отсутствие в рамках графика"
-			if (realTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay >= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay) && isOnlyFirstEnter)
-				//TODO: WTF??: the first expression is equal hasRealTimeTrack.
-				//TODO: It must be smth like this: realTimeTrackParts.Any(x => x.StartTime >= combinedInterval.StartTime && x.EndTime >= combinedInterval.EndTime) && isOnlyFirstEnter
+			if (realTimeTrackParts
+				.Any(x => x.EnterDateTime.TimeOfDay >= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay)
+				&& isOnlyFirstEnter)
 			{
 				return TimeTrackType.AbsenceInsidePlan;
 			}
@@ -564,10 +626,9 @@ namespace FiresecAPI.SKD
 					return TimeTrackType.Absence;
 				}
 
-				//if (timeTrackPart.Delta > AllowedLate)
-				//{
+				var firstPlannedInterval = plannedTimeTrackParts.FirstOrDefault();
+				if (firstPlannedInterval != null && firstPlannedInterval.EnterDateTime.TimeOfDay == timeTrackPart.EnterDateTime.TimeOfDay) //Если расчитываемый интервал - первый, то возможен тип опоздание
 					return TimeTrackType.Late;
-				//}
 			}
 
 			if (plannedTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay == timeTrackPart.EnterDateTime.TimeOfDay) ||		//TODO: describe it
