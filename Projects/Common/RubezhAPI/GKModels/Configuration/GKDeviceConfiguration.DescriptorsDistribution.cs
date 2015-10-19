@@ -94,20 +94,23 @@ namespace RubezhAPI.GK
 				mpt.ChildDescriptors.AddRange(mpt.MptLogic.GetObjects());
 				foreach (var mptDevice in mpt.MPTDevices)
 				{
-					mpt.ChildDescriptors.Add(mptDevice.Device);
-					if (mptDevice.MPTDeviceType != GKMPTDeviceType.HandAutomaticOff && mptDevice.MPTDeviceType != GKMPTDeviceType.HandAutomaticOn &&
-						mptDevice.MPTDeviceType != GKMPTDeviceType.HandStart && mptDevice.MPTDeviceType != GKMPTDeviceType.HandStop)
-					mptDevice.Device.ChildDescriptors.Add(mpt);
-					var codeUIDs = new List<Guid>();
-					codeUIDs.AddRange(mptDevice.CodeReaderSettings.MPTSettings.CodeUIDs);
-
-					foreach (var codeUID in codeUIDs)
+					if (mptDevice.Device != null)
 					{
-						var code = Codes.FirstOrDefault(x => x.UID == codeUID);
-						if (code != null)
+						mpt.ChildDescriptors.Add(mptDevice.Device);
+						if (mptDevice.MPTDeviceType != GKMPTDeviceType.HandAutomaticOff && mptDevice.MPTDeviceType != GKMPTDeviceType.HandAutomaticOn &&
+							mptDevice.MPTDeviceType != GKMPTDeviceType.HandStart && mptDevice.MPTDeviceType != GKMPTDeviceType.HandStop)
+							mptDevice.Device.ChildDescriptors.Add(mpt);
+						var codeUIDs = new List<Guid>();
+						codeUIDs.AddRange(mptDevice.CodeReaderSettings.MPTSettings.CodeUIDs);
+
+						foreach (var codeUID in codeUIDs)
 						{
-							mpt.ChildDescriptors.Add(code);
-							code.ChildDescriptors.Add(mpt);
+							var code = Codes.FirstOrDefault(x => x.UID == codeUID);
+							if (code != null)
+							{
+								mpt.ChildDescriptors.Add(code);
+								code.ChildDescriptors.Add(mpt);
+							}
 						}
 					}
 				}

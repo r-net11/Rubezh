@@ -28,9 +28,9 @@ namespace RubezhAPI.GK
 			foreach (var mptDevice in MPTDevices)
 			{
 				var device = GKManager.Devices.FirstOrDefault(x => x.UID == mptDevice.DeviceUID);
-				if (device != null && GKMPTDevice.GetAvailableMPTDriverTypes(mptDevice.MPTDeviceType).Contains(device.DriverType))
+				mptDevice.Device = device;
+				if (device != null)
 				{
-					mptDevice.Device = device;
 					device.IsInMPT = true;
 					AddDependentElement(device);
 				}
@@ -112,7 +112,7 @@ namespace RubezhAPI.GK
 		{
 			get
 			{
-				foreach (var codeDevice in MPTDevices.Where(x => x.Device.Driver.IsCardReaderOrCodeReader))
+				foreach (var codeDevice in MPTDevices.Where(x => x.Device != null && x.Device.Driver.IsCardReaderOrCodeReader))
 				{
 					if (codeDevice.CodeReaderSettings.MPTSettings.AccessLevel > 0)
 						return true;
