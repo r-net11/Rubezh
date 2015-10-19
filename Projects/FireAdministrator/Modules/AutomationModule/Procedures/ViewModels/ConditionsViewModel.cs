@@ -46,6 +46,12 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public void UpdateContent()
+		{
+			foreach (var filter in Filters.Where(x => !ClientManager.SystemConfiguration.JournalFilters.Any(y => y.UID == x.Filter.UID)).ToList())
+				Filters.Remove(filter);
+		}
+
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
