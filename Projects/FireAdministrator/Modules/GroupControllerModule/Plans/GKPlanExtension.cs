@@ -110,7 +110,7 @@ namespace GKModule.Plans
 						new InstrumentViewModel()
 						{
 							ImageSource="ZoneRectangle",
-							ToolTip="Зона",
+							ToolTip="Пожарная зона",
 							Adorner = new ZoneRectangleAdorner(DesignerCanvas, _zonesViewModel),
 							Index = 200,
 							Autostart = true,
@@ -119,7 +119,7 @@ namespace GKModule.Plans
 						new InstrumentViewModel()
 						{
 							ImageSource="ZonePolygon",
-							ToolTip="Зона",
+							ToolTip="Пожарная зона",
 							Adorner = new ZonePolygonAdorner(DesignerCanvas, _zonesViewModel),
 							Index = 201,
 							Autostart = true,
@@ -394,7 +394,7 @@ namespace GKModule.Plans
 			else if (designerItem.Element is ElementRectangleGKGuardZone || designerItem.Element is ElementPolygonGKGuardZone)
 				RegisterDesignerItem<GKGuardZone>(designerItem, "GKGuardZone", "/Controls;component/Images/GuardZone.png");
 			else if (designerItem.Element is ElementRectangleGKDelay || designerItem.Element is ElementPolygonGKDelay)
-				RegisterDesignerItem<GKDelay>(designerItem, "GKDelay", "/Controls;component/Images/Zone.png");
+				RegisterDesignerItem<GKDelay>(designerItem, "GKDelay", "/Controls;component/Images/Delay.png");
 			else if (designerItem.Element is ElementRectangleGKSKDZone || designerItem.Element is ElementPolygonGKSKDZone)
 				RegisterDesignerItem<GKSKDZone>(designerItem, "GKSKDZone", "/Controls;component/Images/SKDZone.png");
 			else if (designerItem.Element is ElementGKDoor)
@@ -483,8 +483,8 @@ namespace GKModule.Plans
 					errors.AddRange(FindUnbindedErrors<ElementGKDevice, ShowGKDeviceEvent, Guid>(plan.ElementGKDevices, plan.UID, "Несвязанное устройство", "/Controls;component/GKIcons/RM_1.png", Guid.Empty));
 					errors.AddRange(FindUnbindedErrors<ElementRectangleGKZone, ShowGKZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKZones, plan.UID, "Несвязанная зона", "/Controls;component/Images/Zone.png", Guid.Empty));
 					errors.AddRange(FindUnbindedErrors<ElementPolygonGKZone, ShowGKZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonGKZones, plan.UID, "Несвязанная зона", "/Controls;component/Images/Zone.png", Guid.Empty));
-					errors.AddRange(FindUnbindedErrors<ElementRectangleGKDelay, ShowGKDelayEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKDelays, plan.UID, "Несвязанная задержка", "/Controls;component/Images/Zone.png", Guid.Empty));
-					errors.AddRange(FindUnbindedErrors<ElementPolygonGKDelay, ShowGKDelayEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonGKDelays, plan.UID, "Несвязанная задержка", "/Controls;component/Images/Zone.png", Guid.Empty));
+					errors.AddRange(FindUnbindedErrors<ElementRectangleGKDelay, ShowGKDelayEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKDelays, plan.UID, "Несвязанная задержка", "/Controls;component/Images/Delay.png", Guid.Empty));
+					errors.AddRange(FindUnbindedErrors<ElementPolygonGKDelay, ShowGKDelayEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonGKDelays, plan.UID, "Несвязанная задержка", "/Controls;component/Images/Delay.png", Guid.Empty));
 					errors.AddRange(FindUnbindedErrors<ElementRectangleGKGuardZone, ShowGKGuardZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKGuardZones, plan.UID, "Несвязанная охранная зона", "/Controls;component/Images/GuardZone.png", Guid.Empty));
 					errors.AddRange(FindUnbindedErrors<ElementPolygonGKGuardZone, ShowGKGuardZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonGKGuardZones, plan.UID, "Несвязанная охранная зона", "/Controls;component/Images/GuardZone.png", Guid.Empty));
 					errors.AddRange(FindUnbindedErrors<ElementRectangleGKSKDZone, ShowGKSKDZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKSKDZones, plan.UID, "Несвязанная зона СКД", "/Controls;component/Images/SKDZone.png", Guid.Empty));
