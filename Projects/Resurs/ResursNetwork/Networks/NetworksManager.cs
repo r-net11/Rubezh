@@ -114,6 +114,7 @@ namespace ResursNetwork.Networks
                                     {
                                         incotexController.Stop(); 
                                     }
+
                                     break; 
                                 }
                             default:
@@ -138,6 +139,15 @@ namespace ResursNetwork.Networks
                     }
             }
         }
+
+		/// <summary>
+		/// Удаляет сеть
+		/// </summary>
+		/// <param name="id">Идентификатор удаляемой сети</param>
+		public void RemoveNetwork(Guid id)
+		{
+			_NetworkControllers.Remove(id);
+		}
 
         /// <summary>
         /// Создаёт устройтсво на основе типа и добавляет в коллекцию
@@ -201,15 +211,6 @@ namespace ResursNetwork.Networks
                           device.DeviceType.ToString()));
                     }
             }
-        }
-
-        /// <summary>
-        /// Удаляет сеть
-        /// </summary>
-        /// <param name="id">Идентификатор удаляемой сети</param>
-        public void RemoveNetwork(Guid id)
-        {
-            _NetworkControllers.Remove(id);
         }
 
         /// <summary>
@@ -279,6 +280,7 @@ namespace ResursNetwork.Networks
                 case NotifyCollectionChangedAction.Add:
                     {
                         e.Network.StatusChanged += EventHandler_Network_StatusChanged;
+						e.Network.ParameterChanged += EventHandler_Network_ParameterChanged;
                         
                         foreach(var device in e.Network.Devices)
                         {
@@ -291,6 +293,7 @@ namespace ResursNetwork.Networks
                 case NotifyCollectionChangedAction.Remove:
                     {
                         e.Network.StatusChanged -= EventHandler_Network_StatusChanged;
+						e.Network.ParameterChanged -= EventHandler_Network_ParameterChanged;
 
                         foreach (var device in e.Network.Devices)
                         {
@@ -304,7 +307,13 @@ namespace ResursNetwork.Networks
             }
         }
 
-        public void EventHandler_Device_ErrorOccurred(object sender, ErrorOccuredEventArgs e)
+		private void EventHandler_Network_ParameterChanged(object sender, ParameterChangedArgs e)
+		{
+			// Прокидываем событие дальше
+			OnParameterChanged(e);
+		}
+
+        private void EventHandler_Device_ErrorOccurred(object sender, ErrorOccuredEventArgs e)
         {
             throw new NotImplementedException();
         }
@@ -361,6 +370,15 @@ namespace ResursNetwork.Networks
                 handler(this, args);
             }
         }
+
+		private void OnParameterChanged(ParameterChangedArgs args)
+		{
+ 			if (ParameterChanged != null)
+			{
+				ParameterChanged(this, args);
+			}
+		}
+
         #endregion
 
         #region Events
@@ -377,6 +395,7 @@ namespace ResursNetwork.Networks
         /// (объединяет-дублирует события NetworkChangedStatus и DeviceChangedStatus)
         /// </summary>
         public event EventHandler<StatusChangedEventArgs> StatusChanged;
+		public event EventHandler<ParameterChangedArgs> ParameterChanged;
         #endregion
     }
 }

@@ -6,8 +6,15 @@
 	<UserControl.Resources>
 		<Converter:TariffTypeToResourceTypeConverter x:Key="TariffTypeToResourceTypeConverter" />
 	</UserControl.Resources>
-	<StackPanel Orientation="Horizontal">
-		<Grid x:Name="myControl">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<Grid x:Name="myControl" Grid.Column="0" Grid.Row="0">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="205" />
 				<ColumnDefinition Width="150" />
@@ -21,24 +28,24 @@
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 			<TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" 
-						   Style="{DynamicResource TextBlockDetailsStyle}" 
-						   Text="Название тарифа" />
+					   Style="{DynamicResource TextBlockDetailsStyle}" 
+					   Text="Название тарифа" />
 			<TextBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" MaxLength="100" Margin="5" 
-						 Text="{Binding Name}" />
+					 Text="{Binding Name}" />
 
 			<TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" 
-						   Style="{DynamicResource TextBlockDetailsStyle}" 
-						   Text="Описание" />
+					   Style="{DynamicResource TextBlockDetailsStyle}" 
+					   Text="Примечание" />
 			<TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Description}" VerticalAlignment="Center" MaxLength="100" Margin="5" />
 
 			<TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" 
-						   Style="{DynamicResource TextBlockDetailsStyle}" 
-						   Text="Тип ресурса" 
-						   Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}" />
+					   Style="{DynamicResource TextBlockDetailsStyle}" 
+					   Text="Тип ресурса" 
+					   Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}" />
 			<ComboBox Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="5"
-						  ItemsSource="{Binding TariffType}" 
-						  SelectedItem="{Binding SelectedTariffType}" 
-						  Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}" >
+					  ItemsSource="{Binding TariffType}" 
+					  SelectedItem="{Binding SelectedTariffType}" 
+					  Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}" >
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" Margin="1" />
@@ -47,19 +54,19 @@
 			</ComboBox>
 
 			<TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" 
-						   Style="{DynamicResource TextBlockDetailsStyle}" 
-						   Text="Льготный тариф" 
-						   Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}" />
-			<CheckBox Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" 
-						  IsChecked="{Binding IsDiscount}" 
-						  Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}" />
+					   Style="{DynamicResource TextBlockDetailsStyle}" 
+					   Text="Льготный тариф" 
+					   Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<CheckBox Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Margin="5" 
+					  IsChecked="{Binding IsDiscount}" 
+					  Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 			<TextBlock Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center" 
-						   Style="{DynamicResource TextBlockDetailsStyle}" 
-						   Text="Количество тарифных интервалов" />
+					   Style="{DynamicResource TextBlockDetailsStyle}" 
+					   Text="Количество тарифных интервалов" />
 			<ComboBox Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Margin="5" 
-						  ItemsSource="{Binding TariffPartsNumberEnum}" 
-						  SelectedItem="{Binding SelectedTariffPartsNumber}" />
+					  ItemsSource="{Binding TariffPartsNumberEnum}" 
+					  SelectedItem="{Binding SelectedTariffPartsNumber}" />
 
 			<StackPanel Grid.Column="0" Grid.Row="5" Margin="5">
 				<TextBlock Margin="5">
@@ -69,7 +76,7 @@
 				</TextBlock>
 			</StackPanel>
 		</Grid>
-		<ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
+		<ScrollViewer VerticalAlignment="Top" HorizontalAlignment="Left" VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="0" Margin="5">
 			<ItemsControl ItemsSource="{Binding TariffParts}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
@@ -109,7 +116,7 @@
 									<DatePickerTextBox Grid.Column="1" Grid.Row="2" Margin="5 2 5 5" Text="{Binding EndTime}" />
 								</Grid>
 								<Grid Grid.Column="1" Grid.Row="0" 
-										  Visibility="{Binding ElementName=myControl, Path=DataContext.IsDiscount, Converter={StaticResource BoolToVisibilityConverter}}">
+									  Visibility="{Binding ElementName=myControl, Path=DataContext.IsDiscount, Converter={StaticResource BoolToVisibilityConverter}}">
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="Auto" />
 										<ColumnDefinition Width="Auto" />
@@ -134,7 +141,7 @@
 										<TextBlock Text="руб" Margin="5 0 0 0" Style="{DynamicResource TextBlockDetailsStyle}" />
 									</StackPanel>
 									<TextBox Grid.Column="1" Grid.Row="1" Margin="4" Width="65" MinWidth="65" HorizontalAlignment="Left"
-												 Text="{Binding Threshold}" />
+											 Text="{Binding Threshold}" />
 								</Grid>
 							</Grid>
 						</Border>
@@ -142,5 +149,5 @@
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
 		</ScrollViewer>
-	</StackPanel>
+	</Grid>
 </UserControl>

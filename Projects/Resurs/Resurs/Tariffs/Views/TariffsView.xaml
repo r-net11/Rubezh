@@ -19,12 +19,17 @@
 			<ToolBarButton Command="{Binding RemoveCommand}"	ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete" />
 		</StackPanel>
 		<Grid Grid.Row ="1">
-			<DataGrid ItemsSource="{Binding Tariffs}" SelectedItem="{Binding SelectedTariff}" CanUserSortColumns="True">
+			<DataGrid ItemsSource="{Binding Tariffs}" 
+					  SelectedItem="{Binding SelectedTariff}" 
+					  CanUserSortColumns="True">
+				<DataGrid.InputBindings>
+					<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
+				</DataGrid.InputBindings>
 				<DataGrid.Columns>
 					<DataGridTextColumn Width="*" Header="Название"				Binding="{Binding Name}" />
 					<DataGridTextColumn Width="*" Header="Тип тарифа"			Binding="{Binding TariffType, Converter={StaticResource EnumToDescriptionConverter}}" />
 					<DataGridTextColumn Width="*" Header="Тарифные интервалы"	Binding="{Binding TariffParts}" />
-					<DataGridTextColumn Width="*" Header="Описание"				Binding="{Binding Description}" />
+					<DataGridTextColumn Width="*" Header="Примечание"			Binding="{Binding Description}" />
 				</DataGrid.Columns>
 			</DataGrid>
 		</Grid>
@@ -40,7 +45,7 @@
 						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding TariffParts}" Style="{DynamicResource TextBlockDetailsStyle}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Описание" Style="{DynamicResource TextBlockDetailsStyle}" />
+						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Примечание" Style="{DynamicResource TextBlockDetailsStyle}" />
 						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Description}" Style="{DynamicResource TextBlockDetailsStyle}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">

@@ -28,7 +28,7 @@ namespace ResursNetwork.Incotex.Models
         {
             get
             {
-				return (Guid)_Parameters[ParameterNamesMercury203.Address].Value;
+				return (Guid)_Parameters[ParameterNamesMercury203.Id].Value;
             }
             set
             {
@@ -83,11 +83,15 @@ namespace ResursNetwork.Incotex.Models
         {
             get
             {
-                throw new NotImplementedException();
+                return _Status;
             }
             set
             {
-                throw new NotImplementedException();
+				if (_Status != value)
+				{
+					_Status = value;
+					OnStatusChanged();
+				}
             }
         }
 
@@ -136,12 +140,13 @@ namespace ResursNetwork.Incotex.Models
 		{
 			get 
 			{ 
-				return (System.DateTime)_Parameters[ParameterNamesMercury203Virtual
-				.DateTime].Value; 
+				return ((IncotexDateTime)_Parameters[ParameterNamesMercury203Virtual
+				.DateTime].Value).ToDateTime(); 
 			}
 			set
 			{
-				_Parameters[ParameterNamesMercury203Virtual.DateTime].Value = value;
+				_Parameters[ParameterNamesMercury203Virtual.DateTime].Value = 
+					IncotexDateTime.FromDateTime(value);
 			}
 		}
 		
@@ -267,6 +272,14 @@ namespace ResursNetwork.Incotex.Models
         {
             Status = Status.Stopped;
         }
+
+		private void OnStatusChanged()
+		{
+			if (StatusChanged != null)
+			{
+				StatusChanged(this, new EventArgs());
+			}
+		}
 
         #endregion
 
