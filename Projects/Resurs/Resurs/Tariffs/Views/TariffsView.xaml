@@ -24,6 +24,7 @@
 					<DataGridTextColumn Width="*" Header="Название"				Binding="{Binding Name}" />
 					<DataGridTextColumn Width="*" Header="Тип тарифа"			Binding="{Binding TariffType, Converter={StaticResource EnumToDescriptionConverter}}" />
 					<DataGridTextColumn Width="*" Header="Тарифные интервалы"	Binding="{Binding TariffParts}" />
+					<DataGridTextColumn Width="*" Header="Описание"				Binding="{Binding Description}" />
 				</DataGrid.Columns>
 			</DataGrid>
 		</Grid>
@@ -31,20 +32,20 @@
 			<Grid Visibility="{Binding HasSelectedTariff, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel DataContext="{Binding SelectedTariff}">
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Название тарифа" />
-						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
+						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Название тарифа" Style="{DynamicResource TextBlockDetailsStyle}" />
+						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" Style="{DynamicResource TextBlockDetailsStyle}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Количество тарифных интервалов" />
-						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding TariffParts}" />
+						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Количество тарифных интервалов" Style="{DynamicResource TextBlockDetailsStyle}" />
+						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding TariffParts}" Style="{DynamicResource TextBlockDetailsStyle}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Описание" />
-						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Description}" />
+						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Описание" Style="{DynamicResource TextBlockDetailsStyle}" />
+						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Description}" Style="{DynamicResource TextBlockDetailsStyle}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Тип тарифа" />
-						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding IsDiscount, Converter={StaticResource DiscountToTextConverter}}" />
+						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Тип тарифа" Style="{DynamicResource TextBlockDetailsStyle}" />
+						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding IsDiscount, Converter={StaticResource DiscountToTextConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
 					</StackPanel>
 				</StackPanel>
 			</Grid>
