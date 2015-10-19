@@ -117,10 +117,5 @@ namespace SKDModule.ViewModels
 		{
 			get { return Organisations.SelectMany(x => x.Children).ToList(); }
 		}
-
-		protected override List<Schedule> GetFromCallbackResult(RubezhAPI.DbCallbackResult dbCallbackResult)
-		{
-			return dbCallbackResult.Schedules;
-		}
 	}
 }

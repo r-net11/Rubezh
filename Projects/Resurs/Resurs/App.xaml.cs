@@ -27,7 +27,7 @@ namespace ResursRunner
 			var showWindow = true;
 			if(e.Args.Length > 0)
 			{
-				showWindow = e.Args[0] != "-hide";
+				showWindow = e.Args[0].ToLower() != "-hide";
 			}
 
 			using (new DoubleLaunchLocker(SignalId, WaitId, true, OnShuttingDown))

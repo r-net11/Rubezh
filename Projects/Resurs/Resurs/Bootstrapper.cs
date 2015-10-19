@@ -41,9 +41,12 @@ namespace Resurs
 				{
 					App.Current.ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown;
 
-					var startupViewModel = new StartupViewModel();
-					if (!DialogService.ShowModalWindow(startupViewModel))
-						return;
+					if (showWindow)
+					{
+						var startupViewModel = new StartupViewModel();
+						if (!DialogService.ShowModalWindow(startupViewModel))
+							return;
+					}
 
 					var mainView = new Resurs.Views.MainView();
 					MainViewModel = new MainViewModel();

@@ -524,17 +524,22 @@
     </Compile>
     <Compile Include="Reports\ViewModels\ChangeFlowFilterViewModel.cs" />
     <Compile Include="Reports\ViewModels\DebtorsFilterViewModel.cs" />
+    <Compile Include="Receipts\ViewModels\ReceiptEditorViewModel.cs" />
     <Compile Include="Reports\Views\ChangeFlowFilterView.xaml.cs">
       <DependentUpon>ChangeFlowFilterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\Views\DebtorsFilterView.xaml.cs">
       <DependentUpon>DebtorsFilterView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Receipts\Views\ReceiptEditorView.xaml.cs">
+      <DependentUpon>ReceiptEditorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Settings\ViewModels\SettingsViewModel.cs" />
     <Compile Include="Settings\Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Tariffs\DiscountToTextConverter.cs" />
+    <Compile Include="Converters\DiscountToTextConverter.cs" />
+    <Compile Include="Converters\TariffTypeToResourceTypeConverter.cs" />
     <Compile Include="Tariffs\ViewModels\TariffDevicesViewModel.cs" />
     <Compile Include="Tariffs\ViewModels\TariffDeviceViewModel.cs" />
     <Compile Include="Tariffs\ViewModels\TariffPartViewModel.cs" />
@@ -694,6 +699,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Receipts\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Reports\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -703,6 +712,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Reports\Views\DebtorsFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Receipts\Views\ReceiptEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
