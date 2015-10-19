@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Resurs.Consumers;
+using Resurs.Receipts;
 using Resurs.Reports.Templates;
 using ResursAPI;
 using ResursDAL;

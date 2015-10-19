@@ -33,11 +33,11 @@ namespace ResursDAL
 				context.SaveChanges();
 			}
 		}
-		public static void DeleteReceipt(Receipt receipt)
+		public static void DeleteReceiptByUid(Guid receiptUid)
 		{
 			using (var context = DatabaseContext.Initialize())
 			{
-				var dbReceipt = context.Receipts.Where(x => x.UID == receipt.UID).FirstOrDefault();
+				var dbReceipt = context.Receipts.Where(x => x.UID == receiptUid).FirstOrDefault();
 				if (dbReceipt != null)
 				{
 					context.Receipts.Remove(dbReceipt);
