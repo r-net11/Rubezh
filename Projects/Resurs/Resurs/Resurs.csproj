@@ -538,8 +538,8 @@
     <Compile Include="Settings\Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Tariffs\DiscountToTextConverter.cs" />
-    <Compile Include="Tariffs\TariffTypeToResourceTypeConverter.cs" />
+    <Compile Include="Converters\DiscountToTextConverter.cs" />
+    <Compile Include="Converters\TariffTypeToResourceTypeConverter.cs" />
     <Compile Include="Tariffs\ViewModels\TariffDevicesViewModel.cs" />
     <Compile Include="Tariffs\ViewModels\TariffDeviceViewModel.cs" />
     <Compile Include="Tariffs\ViewModels\TariffPartViewModel.cs" />
