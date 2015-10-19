@@ -114,6 +114,8 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<int> _ErrorCode;
 		
+		private System.Nullable<System.Guid> _ControllerUID;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -152,6 +154,8 @@ namespace SKDDriver.DataAccess
     partial void OnCameraUIDChanged();
     partial void OnErrorCodeChanging(System.Nullable<int> value);
     partial void OnErrorCodeChanged();
+    partial void OnControllerUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnControllerUIDChanged();
     #endregion
 		
 		public Journal()
@@ -495,6 +499,26 @@ namespace SKDDriver.DataAccess
 					this._ErrorCode = value;
 					this.SendPropertyChanged("ErrorCode");
 					this.OnErrorCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ControllerUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> ControllerUID
+		{
+			get
+			{
+				return this._ControllerUID;
+			}
+			set
+			{
+				if ((this._ControllerUID != value))
+				{
+					this.OnControllerUIDChanging(value);
+					this.SendPropertyChanging();
+					this._ControllerUID = value;
+					this.SendPropertyChanged("ControllerUID");
+					this.OnControllerUIDChanged();
 				}
 			}
 		}

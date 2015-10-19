@@ -226,6 +226,9 @@ namespace ChinaSKDDriver
 						break;
 				}
 
+				// Фиксируем GUID контроллера, событие которого регистрируем
+				journalItem.ControllerUID = Device.UID;
+
 				if (NewJournalItem != null)
 					NewJournalItem(journalItem);
 			}

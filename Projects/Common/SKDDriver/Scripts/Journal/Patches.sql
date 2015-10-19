@@ -17,3 +17,8 @@ BEGIN
 	ALTER TABLE Journal ADD ErrorCode int NULL
 	INSERT INTO Patches (Id) VALUES ('ErrorCode')
 END
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'ControllerUID')
+BEGIN
+	ALTER TABLE Journal ADD ControllerUID uniqueidentifier NULL
+	INSERT INTO Patches (Id) VALUES ('ControllerUID')
+END

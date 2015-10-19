@@ -62,6 +62,9 @@ namespace FiresecAPI.Journal
 		public JournalErrorCode ErrorCode { get; set; }
 
 		[DataMember]
+		public Guid ControllerUID { get; set; }
+
+		[DataMember]
 		public List<JournalDetalisationItem> JournalDetalisationItems { get; set; }
 	}
 }
