@@ -12,6 +12,7 @@ using ResursNetwork.OSI.Messages;
 using ResursNetwork.OSI.Messages.Transactions;
 using ResursNetwork.Management;
 using ResursNetwork.Incotex.Models;
+using ResursNetwork.Incotex.Models.DateTime;
 using ResursAPI.ParameterNames;
 
 namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
@@ -20,35 +21,39 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
     {
         #region Fields And Properties
 
-        private Guid _Id = Guid.NewGuid();
-        private static DeviceType[] _SuppotedDevices = 
-            new DeviceType[] { DeviceType.VirtualMercury203 };
-        private DevicesCollection _Devices;
-        private Status _Status = Status.Stopped;
-        private IDataLinkPort _Connection;
-		private CancellationTokenSource _CancellationTokenSource = new CancellationTokenSource();
-		private Task _NetworkPollingTask;
+		const int MIN_POLLING_PERIOD = 1000;
+
+		static DeviceType[] _suppotedDevices =
+			new DeviceType[] { DeviceType.VirtualMercury203 };
+
+        Guid _id = Guid.NewGuid();
+        DevicesCollection _devices;
+        Status _status = Status.Stopped;
+        IDataLinkPort _connection;
+		CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+		Task _networkPollingTask;
+		int _pollingPeriod;
 
         public Guid Id
         {
             get
             {
-                return _Id;
+                return _id;
             }
             set
             {
-                _Id = value;
+                _id = value;
             }
         }
 
         public IEnumerable<DeviceType> SuppotedDevices
         {
-            get { return _SuppotedDevices; }
+            get { return _suppotedDevices; }
         }
 
         public DevicesCollection Devices
         {
-            get { return _Devices; }
+            get { return _devices; }
         }
 
         public IDataLinkPort Connection
@@ -62,21 +67,21 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                         "Невозможно установить порт, контроллер в активном состоянии");
                 }
 
-                if (_Connection != null)
+                if (_connection != null)
                 {
-                    if (_Connection.IsOpen)
+                    if (_connection.IsOpen)
                     {
                         throw new InvalidOperationException(
                             "Невозможно установить порт, порт в активном состоянии");
                     }
                     else
                     {
-                        _Connection = value;
+                        _connection = value;
                     }
                 }
                 else
                 {
-                    _Connection = value;                    
+                    _connection = value;                    
                 }
             }
         }
@@ -85,29 +90,29 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         {
             get
             {
-                return _Status;
+                return _status;
             }
             set
             {
-                if (_Status != value)
+                if (_status != value)
                 {
-                    _Status = value;
+                    _status = value;
 
-					if (_Status == Status.Running)
+					if (_status == Status.Running)
 					{
-						_NetworkPollingTask =
-							Task.Factory.StartNew(NetwokPollingAction, _CancellationTokenSource.Token);
+						_networkPollingTask =
+							Task.Factory.StartNew(NetwokPollingAction, _cancellationTokenSource.Token);
 					}
 					else
 					{
 						try
 						{
-							_CancellationTokenSource.Cancel();
-							_NetworkPollingTask.Wait();
+							_cancellationTokenSource.Cancel();
+							_networkPollingTask.Wait();
 						}
 						catch (AggregateException)
 						{
-							if (!_NetworkPollingTask.IsCanceled) throw;
+							if (!_networkPollingTask.IsCanceled) throw;
 						}
 					}
 
@@ -116,35 +121,46 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             }
         }
 
+		/// <summary>
+        /// Период (мсек) получения данных от удалённых устройтв
+        /// </summary>
+		public int PollingPeriod
+		{
+			get { return _pollingPeriod; }
+			set 
+			{
+				if (value > MIN_POLLING_PERIOD)
+				{
+					_pollingPeriod = value;
+				}
+				else
+				{
+					throw new ArgumentOutOfRangeException("DataSyncPeriod", String.Empty);
+				}
+			}
+		}
         #endregion
 
         #region Constructors
         
         public IncotexNetworkControllerVirtual()
         {
-            _Devices = new DevicesCollection(this);
-
-			Initialization();
+            _devices = new DevicesCollection(this);
         }
 
         #endregion
 
         #region Methods
 
-		public void Initialization()
+		public IAsyncRequestResult Write(
+			NetworkRequest request, bool isExternalCall)
 		{
- 
+			throw new NotImplementedException();
 		}
-
-        public IAsyncRequestResult Write(
-            NetworkRequest request, bool isExternalCall)
-        {
-            throw new NotImplementedException();
-        }
 
         public void SyncDateTime()
         {
-			foreach (var device in _Devices)
+			foreach (var device in _devices)
 			{
 				device.RTC = DateTime.Now;
 			}
@@ -173,6 +189,14 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             }
         }
 
+		private void OnParameterChanged(ParameterChangedArgs args)
+		{
+			if (ParameterChanged != null)
+			{
+				ParameterChanged(this, args);
+			}
+		}
+
 		private void NetwokPollingAction(Object cancellationToken)
 		{
 			var nextPolling = DateTime.Now;
@@ -188,7 +212,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 					Thread.Sleep(300);
 				}
 
-				foreach (var device in _Devices)
+				foreach (var device in _devices)
 				{
 					if (cancel.IsCancellationRequested)
 					{
@@ -196,29 +220,59 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 					}
 
 					var x = (UInt32)device.Parameters[ParameterNamesMercury203.CounterTarif1].Value;
-					device.Parameters[ParameterNamesMercury203.CounterTarif1].Value = x + 1;
+					var newValue  = x + 1;
+					device.Parameters[ParameterNamesMercury203.CounterTarif1].Value = newValue;
+					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203.CounterTarif1,
+						newValue));
+
+					if (cancel.IsCancellationRequested)
+					{
+						break;
+					}
 
 					x = (UInt32)device.Parameters[ParameterNamesMercury203.CounterTarif2].Value;
-					device.Parameters[ParameterNamesMercury203.CounterTarif2].Value = x + 1;
+					newValue = x + 1;
+					device.Parameters[ParameterNamesMercury203.CounterTarif2].Value = newValue;
+					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203.CounterTarif1,
+						newValue));
+
+					if (cancel.IsCancellationRequested)
+					{
+						break;
+					}
 
 					x = (UInt32)device.Parameters[ParameterNamesMercury203.CounterTarif3].Value;
-					device.Parameters[ParameterNamesMercury203.CounterTarif3].Value = x + 1;
+					newValue = x + 1;
+					device.Parameters[ParameterNamesMercury203.CounterTarif3].Value = newValue;
+					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203.CounterTarif1,
+						newValue));
+
+					if (cancel.IsCancellationRequested)
+					{
+						break;
+					}
 
 					x = (UInt32)device.Parameters[ParameterNamesMercury203.CounterTarif4].Value;
-					device.Parameters[ParameterNamesMercury203.CounterTarif4].Value = x + 1;
+					newValue = x + 1;
+					device.Parameters[ParameterNamesMercury203.CounterTarif4].Value = newValue;
+					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203.CounterTarif1,
+						newValue));
 				}
 
-				nextPolling = DateTime.Now.AddSeconds(10);
+				nextPolling = DateTime.Now.AddMilliseconds(_pollingPeriod);
 			}
 		}
 
         #endregion
 
         #region Events
-        
-        public event EventHandler StatusChanged;
-        public event EventHandler<NetworkRequestCompletedArgs> NetwrokRequestCompleted;
 
-        #endregion
-    }
+		public event EventHandler StatusChanged;
+		public event EventHandler<NetworkRequestCompletedArgs> NetwrokRequestCompleted;
+		public event EventHandler<ParameterChangedArgs> ParameterChanged;
+
+		#endregion
+
+
+	}
 }

@@ -385,6 +385,9 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.NetworkSetINetwrokController">
             <summary>Sets the shim of Mercury203Virtual.set_Network(INetwrokController value)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.OnStatusChanged">
+            <summary>Sets the shim of Mercury203Virtual.OnStatusChanged()</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.ParametersGet">
             <summary>Sets the shim of Mercury203Virtual.get_Parameters()</summary>
         </member>
@@ -471,6 +474,9 @@
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.NetworkSetINetwrokController">
             <summary>Sets the shim of Mercury203Virtual.set_Network(INetwrokController value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.OnStatusChanged">
+            <summary>Sets the shim of Mercury203Virtual.OnStatusChanged()</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.ParametersGet">
             <summary>Sets the shim of Mercury203Virtual.get_Parameters()</summary>
@@ -652,12 +658,6 @@
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.CurrentNetworkRequestGet">
             <summary>Sets the shim of IncotexNetworkController.get_CurrentNetworkRequest()</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.DataSyncPeriodGet">
-            <summary>Sets the shim of IncotexNetworkController.get_DataSyncPeriod()</summary>
-        </member>
-        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.DataSyncPeriodSetInt32">
-            <summary>Sets the shim of IncotexNetworkController.set_DataSyncPeriod(Int32 value)</summary>
-        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.EventHandler_Connection_MessageReceivedObjectEventArgs">
             <summary>Sets the shim of IncotexNetworkController.EventHandler_Connection_MessageReceived(Object sender, EventArgs e)</summary>
         </member>
@@ -666,6 +666,12 @@
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.NetwokPollingActionObject">
             <summary>Sets the shim of IncotexNetworkController.NetwokPollingAction(Object cancellationToken)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.PollingPeriodGet">
+            <summary>Sets the shim of IncotexNetworkController.get_PollingPeriod()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.PollingPeriodSetInt32">
+            <summary>Sets the shim of IncotexNetworkController.set_PollingPeriod(Int32 value)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.ReadDeviceParametersDeviceBase">
             <summary>Sets the shim of IncotexNetworkController.ReadDeviceParameters(DeviceBase device)</summary>
@@ -718,12 +724,6 @@
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.AllInstances.CurrentNetworkRequestGet">
             <summary>Sets the shim of IncotexNetworkController.get_CurrentNetworkRequest()</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.AllInstances.DataSyncPeriodGet">
-            <summary>Sets the shim of IncotexNetworkController.get_DataSyncPeriod()</summary>
-        </member>
-        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.AllInstances.DataSyncPeriodSetInt32">
-            <summary>Sets the shim of IncotexNetworkController.set_DataSyncPeriod(Int32 value)</summary>
-        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.AllInstances.EventHandler_Connection_MessageReceivedObjectEventArgs">
             <summary>Sets the shim of IncotexNetworkController.EventHandler_Connection_MessageReceived(Object sender, EventArgs e)</summary>
         </member>
@@ -732,6 +732,12 @@
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.AllInstances.NetwokPollingActionObject">
             <summary>Sets the shim of IncotexNetworkController.NetwokPollingAction(Object cancellationToken)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.AllInstances.PollingPeriodGet">
+            <summary>Sets the shim of IncotexNetworkController.get_PollingPeriod()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.AllInstances.PollingPeriodSetInt32">
+            <summary>Sets the shim of IncotexNetworkController.set_PollingPeriod(Int32 value)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.AllInstances.ReadDeviceParametersDeviceBase">
             <summary>Sets the shim of IncotexNetworkController.ReadDeviceParameters(DeviceBase device)</summary>
@@ -799,9 +805,6 @@
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.IdSetGuid">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.set_Id(Guid value)</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.Initialization">
-            <summary>Sets the shim of IncotexNetworkControllerVirtual.Initialization()</summary>
-        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.NetwokPollingActionObject">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.NetwokPollingAction(Object cancellationToken)</summary>
         </member>
@@ -811,8 +814,23 @@
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.NetwrokRequestCompletedRemoveEventHandlerOfNetworkRequestCompletedArgs">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.remove_NetwrokRequestCompleted(EventHandler`1&lt;NetworkRequestCompletedArgs&gt; value)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.OnParameterChangedParameterChangedArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.OnParameterChanged(ParameterChangedArgs args)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.OnStatusChanged">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.OnStatusChanged()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.ParameterChangedAddEventHandlerOfParameterChangedArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.add_ParameterChanged(EventHandler`1&lt;ParameterChangedArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.ParameterChangedRemoveEventHandlerOfParameterChangedArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.remove_ParameterChanged(EventHandler`1&lt;ParameterChangedArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.PollingPeriodGet">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.get_PollingPeriod()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.PollingPeriodSetInt32">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.set_PollingPeriod(Int32 value)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.Start">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.Start()</summary>
@@ -865,9 +883,6 @@
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.IdSetGuid">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.set_Id(Guid value)</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.Initialization">
-            <summary>Sets the shim of IncotexNetworkControllerVirtual.Initialization()</summary>
-        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.NetwokPollingActionObject">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.NetwokPollingAction(Object cancellationToken)</summary>
         </member>
@@ -877,8 +892,23 @@
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.NetwrokRequestCompletedRemoveEventHandlerOfNetworkRequestCompletedArgs">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.remove_NetwrokRequestCompleted(EventHandler`1&lt;NetworkRequestCompletedArgs&gt; value)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.OnParameterChangedParameterChangedArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.OnParameterChanged(ParameterChangedArgs args)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.OnStatusChanged">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.OnStatusChanged()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.ParameterChangedAddEventHandlerOfParameterChangedArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.add_ParameterChanged(EventHandler`1&lt;ParameterChangedArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.ParameterChangedRemoveEventHandlerOfParameterChangedArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.remove_ParameterChanged(EventHandler`1&lt;ParameterChangedArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.PollingPeriodGet">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.get_PollingPeriod()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.PollingPeriodSetInt32">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.set_PollingPeriod(Int32 value)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.Start">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.Start()</summary>
@@ -915,6 +945,9 @@
         </member>
         <member name="M:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.AttachBackingFieldToConnection">
             <summary>Attaches delegates to emulate StubIncotexNetworkController.Connection as a property with a backing field.</summary>
+        </member>
+        <member name="M:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.AttachBackingFieldToPollingPeriod">
+            <summary>Attaches delegates to emulate StubIncotexNetworkController.PollingPeriod as a property with a backing field.</summary>
         </member>
         <member name="F:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.ConnectionGet">
             <summary>Sets the stub of IncotexNetworkController.get_Connection()</summary>
@@ -955,6 +988,12 @@
         <member name="F:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.OnStatusWasChanged01">
             <summary>Sets the stub of NetworkControllerBase.OnStatusWasChanged()</summary>
         </member>
+        <member name="F:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.PollingPeriodGet">
+            <summary>Sets the stub of IncotexNetworkController.get_PollingPeriod()</summary>
+        </member>
+        <member name="F:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.PollingPeriodSetInt32">
+            <summary>Sets the stub of IncotexNetworkController.set_PollingPeriod(Int32 value)</summary>
+        </member>
         <member name="M:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.Start">
             <summary>Sets the stub of NetworkControllerBase.Start()</summary>
         </member>
@@ -993,6 +1032,9 @@
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.InstanceObserver">
             <summary>Gets or sets the instance observer.</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.PollingPeriod">
+            <summary>Sets the stub of IncotexNetworkController.get_PollingPeriod()</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.SuppotedDevices">
             <summary>Sets the stub of IncotexNetworkController.get_SuppotedDevices()</summary>
@@ -1717,6 +1759,9 @@
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.EventHandler_NetworkControllers_CollectionChangedObjectNetworksCollectionChangedEventArgs">
             <summary>Sets the shim of NetworksManager.EventHandler_NetworkControllers_CollectionChanged(Object sender, NetworksCollectionChangedEventArgs e)</summary>
         </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.EventHandler_Network_ParameterChangedObjectParameterChangedArgs">
+            <summary>Sets the shim of NetworksManager.EventHandler_Network_ParameterChanged(Object sender, ParameterChangedArgs e)</summary>
+        </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.EventHandler_Network_StatusChangedObjectEventArgs">
             <summary>Sets the shim of NetworksManager.EventHandler_Network_StatusChanged(Object sender, EventArgs e)</summary>
         </member>
@@ -1726,8 +1771,17 @@
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.NetworksGet">
             <summary>Sets the shim of NetworksManager.get_Networks()</summary>
         </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.OnParameterChangedParameterChangedArgs">
+            <summary>Sets the shim of NetworksManager.OnParameterChanged(ParameterChangedArgs args)</summary>
+        </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.OnStatusChangedGuidStatus">
             <summary>Sets the shim of NetworksManager.OnStatusChanged(Guid id, Status newStatus)</summary>
+        </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.ParameterChangedAddEventHandlerOfParameterChangedArgs">
+            <summary>Sets the shim of NetworksManager.add_ParameterChanged(EventHandler`1&lt;ParameterChangedArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.ParameterChangedRemoveEventHandlerOfParameterChangedArgs">
+            <summary>Sets the shim of NetworksManager.remove_ParameterChanged(EventHandler`1&lt;ParameterChangedArgs&gt; value)</summary>
         </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.RemoveDeviceGuid">
             <summary>Sets the shim of NetworksManager.RemoveDevice(Guid id)</summary>
@@ -1774,14 +1828,26 @@
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.EventHandler_NetworkControllers_CollectionChangedObjectNetworksCollectionChangedEventArgs">
             <summary>Sets the shim of NetworksManager.EventHandler_NetworkControllers_CollectionChanged(Object sender, NetworksCollectionChangedEventArgs e)</summary>
         </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.EventHandler_Network_ParameterChangedObjectParameterChangedArgs">
+            <summary>Sets the shim of NetworksManager.EventHandler_Network_ParameterChanged(Object sender, ParameterChangedArgs e)</summary>
+        </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.EventHandler_Network_StatusChangedObjectEventArgs">
             <summary>Sets the shim of NetworksManager.EventHandler_Network_StatusChanged(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.NetworksGet">
             <summary>Sets the shim of NetworksManager.get_Networks()</summary>
         </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.OnParameterChangedParameterChangedArgs">
+            <summary>Sets the shim of NetworksManager.OnParameterChanged(ParameterChangedArgs args)</summary>
+        </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.OnStatusChangedGuidStatus">
             <summary>Sets the shim of NetworksManager.OnStatusChanged(Guid id, Status newStatus)</summary>
+        </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.ParameterChangedAddEventHandlerOfParameterChangedArgs">
+            <summary>Sets the shim of NetworksManager.add_ParameterChanged(EventHandler`1&lt;ParameterChangedArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.ParameterChangedRemoveEventHandlerOfParameterChangedArgs">
+            <summary>Sets the shim of NetworksManager.remove_ParameterChanged(EventHandler`1&lt;ParameterChangedArgs&gt; value)</summary>
         </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.RemoveDeviceGuid">
             <summary>Sets the shim of NetworksManager.RemoveDevice(Guid id)</summary>
@@ -3241,8 +3307,23 @@
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.OnNetwrokRequestCompletedNetworkRequestCompletedArgs">
             <summary>Sets the shim of NetworkControllerBase.OnNetwrokRequestCompleted(NetworkRequestCompletedArgs args)</summary>
         </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.OnParameterChangedParameterChangedArgs">
+            <summary>Sets the shim of NetworkControllerBase.OnParameterChanged(ParameterChangedArgs args)</summary>
+        </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.OnStatusWasChanged">
             <summary>Sets the shim of NetworkControllerBase.OnStatusWasChanged()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.ParameterChangedAddEventHandlerOfParameterChangedArgs">
+            <summary>Sets the shim of NetworkControllerBase.add_ParameterChanged(EventHandler`1&lt;ParameterChangedArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.ParameterChangedRemoveEventHandlerOfParameterChangedArgs">
+            <summary>Sets the shim of NetworkControllerBase.remove_ParameterChanged(EventHandler`1&lt;ParameterChangedArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.PollingPeriodGet">
+            <summary>Sets the shim of NetworkControllerBase.get_PollingPeriod()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.PollingPeriodSetInt32">
+            <summary>Sets the shim of NetworkControllerBase.set_PollingPeriod(Int32 value)</summary>
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.Start">
             <summary>Sets the shim of NetworkControllerBase.Start()</summary>
@@ -3298,8 +3379,23 @@
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.OnNetwrokRequestCompletedNetworkRequestCompletedArgs">
             <summary>Sets the shim of NetworkControllerBase.OnNetwrokRequestCompleted(NetworkRequestCompletedArgs args)</summary>
         </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.OnParameterChangedParameterChangedArgs">
+            <summary>Sets the shim of NetworkControllerBase.OnParameterChanged(ParameterChangedArgs args)</summary>
+        </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.OnStatusWasChanged">
             <summary>Sets the shim of NetworkControllerBase.OnStatusWasChanged()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.ParameterChangedAddEventHandlerOfParameterChangedArgs">
+            <summary>Sets the shim of NetworkControllerBase.add_ParameterChanged(EventHandler`1&lt;ParameterChangedArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.ParameterChangedRemoveEventHandlerOfParameterChangedArgs">
+            <summary>Sets the shim of NetworkControllerBase.remove_ParameterChanged(EventHandler`1&lt;ParameterChangedArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.PollingPeriodGet">
+            <summary>Sets the shim of NetworkControllerBase.get_PollingPeriod()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.PollingPeriodSetInt32">
+            <summary>Sets the shim of NetworkControllerBase.set_PollingPeriod(Int32 value)</summary>
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.Start">
             <summary>Sets the shim of NetworkControllerBase.Start()</summary>
@@ -3346,8 +3442,80 @@
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkRequestCompletedArgs.Constructor">
             <summary>Sets the shim of NetworkRequestCompletedArgs.NetworkRequestCompletedArgs()</summary>
         </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkRequestCompletedArgs.NetworkRequestGet">
+            <summary>Sets the shim of NetworkRequestCompletedArgs.get_NetworkRequest()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkRequestCompletedArgs.NetworkRequestSetNetworkRequest">
+            <summary>Sets the shim of NetworkRequestCompletedArgs.set_NetworkRequest(NetworkRequest value)</summary>
+        </member>
         <member name="T:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkRequestCompletedArgs.AllInstances">
             <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkRequestCompletedArgs.AllInstances.NetworkRequestGet">
+            <summary>Sets the shim of NetworkRequestCompletedArgs.get_NetworkRequest()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkRequestCompletedArgs.AllInstances.NetworkRequestSetNetworkRequest">
+            <summary>Sets the shim of NetworkRequestCompletedArgs.set_NetworkRequest(NetworkRequest value)</summary>
+        </member>
+        <member name="T:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs">
+            <summary>Shim type of ResursNetwork.OSI.ApplicationLayer.ParameterChangedArgs</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs.#ctor(ResursNetwork.OSI.ApplicationLayer.ParameterChangedArgs)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs.ConstructorGuidStringValueType">
+            <summary>Sets the shim of ParameterChangedArgs.ParameterChangedArgs(Guid deviceId, String parameterName, ValueType newValue)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs.DeviceIdGet">
+            <summary>Sets the shim of ParameterChangedArgs.get_DeviceId()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs.DeviceIdSetGuid">
+            <summary>Sets the shim of ParameterChangedArgs.set_DeviceId(Guid value)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs.NewValueGet">
+            <summary>Sets the shim of ParameterChangedArgs.get_NewValue()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs.NewValueSetValueType">
+            <summary>Sets the shim of ParameterChangedArgs.set_NewValue(ValueType value)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs.ParameterNameGet">
+            <summary>Sets the shim of ParameterChangedArgs.get_ParameterName()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs.ParameterNameSetString">
+            <summary>Sets the shim of ParameterChangedArgs.set_ParameterName(String value)</summary>
+        </member>
+        <member name="T:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs.AllInstances.DeviceIdGet">
+            <summary>Sets the shim of ParameterChangedArgs.get_DeviceId()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs.AllInstances.DeviceIdSetGuid">
+            <summary>Sets the shim of ParameterChangedArgs.set_DeviceId(Guid value)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs.AllInstances.NewValueGet">
+            <summary>Sets the shim of ParameterChangedArgs.get_NewValue()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs.AllInstances.NewValueSetValueType">
+            <summary>Sets the shim of ParameterChangedArgs.set_NewValue(ValueType value)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs.AllInstances.ParameterNameGet">
+            <summary>Sets the shim of ParameterChangedArgs.get_ParameterName()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs.AllInstances.ParameterNameSetString">
+            <summary>Sets the shim of ParameterChangedArgs.set_ParameterName(String value)</summary>
         </member>
         <member name="T:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController">
             <summary>Stub type of ResursNetwork.OSI.ApplicationLayer.INetwrokController</summary>
@@ -3360,6 +3528,9 @@
         </member>
         <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.AttachBackingFieldToId">
             <summary>Attaches delegates to emulate StubINetwrokController.Id as a property with a backing field.</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.AttachBackingFieldToPollingPeriod">
+            <summary>Attaches delegates to emulate StubINetwrokController.PollingPeriod as a property with a backing field.</summary>
         </member>
         <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.AttachBackingFieldToStatus">
             <summary>Attaches delegates to emulate StubINetwrokController.Status as a property with a backing field.</summary>
@@ -3381,6 +3552,12 @@
         </member>
         <member name="F:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.IdSetGuid">
             <summary>Sets the stub of INetwrokController.set_Id(Guid value)</summary>
+        </member>
+        <member name="F:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.PollingPeriodGet">
+            <summary>Sets the stub of INetwrokController.get_PollingPeriod()</summary>
+        </member>
+        <member name="F:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.PollingPeriodSetInt32">
+            <summary>Sets the stub of INetwrokController.set_PollingPeriod(Int32 value)</summary>
         </member>
         <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.r::ResursNetwork#Management#IManageable#Start">
             <summary>Sets the stub of IManageable.Start()</summary>
@@ -3427,6 +3604,9 @@
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.r::ResursNetwork#OSI#ApplicationLayer#INetwrokController#Id">
             <summary>Sets the stub of INetwrokController.get_Id()</summary>
         </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.r::ResursNetwork#OSI#ApplicationLayer#INetwrokController#PollingPeriod">
+            <summary>Sets the stub of INetwrokController.get_PollingPeriod()</summary>
+        </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.r::ResursNetwork#Management#IManageable#Status">
             <summary>Sets the stub of IManageable.get_Status()</summary>
         </member>
@@ -3441,6 +3621,9 @@
         </member>
         <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.AttachBackingFieldToConnection">
             <summary>Attaches delegates to emulate StubNetworkControllerBase.Connection as a property with a backing field.</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.AttachBackingFieldToPollingPeriod">
+            <summary>Attaches delegates to emulate StubNetworkControllerBase.PollingPeriod as a property with a backing field.</summary>
         </member>
         <member name="F:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.ConnectionGet">
             <summary>Sets the stub of NetworkControllerBase.get_Connection()</summary>
@@ -3481,6 +3664,12 @@
         <member name="F:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.OnStatusWasChanged01">
             <summary>Sets the stub of NetworkControllerBase.OnStatusWasChanged()</summary>
         </member>
+        <member name="F:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.PollingPeriodGet">
+            <summary>Sets the stub of NetworkControllerBase.get_PollingPeriod()</summary>
+        </member>
+        <member name="F:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.PollingPeriodSetInt32">
+            <summary>Sets the stub of NetworkControllerBase.set_PollingPeriod(Int32 value)</summary>
+        </member>
         <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.Start">
             <summary>Sets the stub of NetworkControllerBase.Start()</summary>
         </member>
@@ -3520,6 +3709,9 @@
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.InstanceObserver">
             <summary>Gets or sets the instance observer.</summary>
         </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.PollingPeriod">
+            <summary>Sets the stub of NetworkControllerBase.get_PollingPeriod()</summary>
+        </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.SuppotedDevices">
             <summary>Sets the stub of NetworkControllerBase.get_SuppotedDevices()</summary>
         </member>
@@ -3539,6 +3731,24 @@
             <summary>Gets or sets the instance behavior.</summary>
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkRequestCompletedArgs.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
+        </member>
+        <member name="T:ResursNetwork.OSI.ApplicationLayer.Fakes.StubParameterChangedArgs">
+            <summary>Stub type of ResursNetwork.OSI.ApplicationLayer.ParameterChangedArgs</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubParameterChangedArgs.#ctor(System.Guid,System.String,System.ValueType)">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubParameterChangedArgs.InitializeStub">
+            <summary>Initializes a new instance of type StubParameterChangedArgs</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.StubParameterChangedArgs.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.StubParameterChangedArgs.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.StubParameterChangedArgs.InstanceObserver">
             <summary>Gets or sets the instance observer.</summary>
         </member>
         <member name="T:ResursNetwork.OSI.DataLinkLayer.Fakes.ShimDataLinkPortBase">

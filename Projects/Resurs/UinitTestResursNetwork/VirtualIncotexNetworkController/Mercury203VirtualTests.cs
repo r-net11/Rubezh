@@ -48,7 +48,7 @@ namespace UinitTestResursNetwork.VirtualIncotexNetworkControllerVirtualTests
 
 			// act
 			controller.Start();
-			//Thread.Sleep(5000);
+			Thread.Sleep(5000);
 
 			// assert
 			Assert.IsTrue(tarif1 < (UInt32)device.Parameters[ParameterNamesMercury203Virtual.CounterTarif1].Value, 

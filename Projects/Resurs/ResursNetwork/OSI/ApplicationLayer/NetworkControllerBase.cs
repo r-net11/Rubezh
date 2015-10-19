@@ -27,7 +27,9 @@ namespace ResursNetwork.OSI.ApplicationLayer
         protected Status _Status = Status.Stopped;
         protected EventHandler _MessageReceived;
         protected IDataLinkPort _Connection;
-        private int _TotalAttempts;
+        protected int _TotalAttempts;
+		protected int _pollingPeriod =
+			Convert.ToInt32(TimeSpan.FromDays(1).TotalMilliseconds); // По умолчнию период синхронизации 1 день;
 
         /// <summary>
         /// Id контроллера
@@ -216,6 +218,18 @@ namespace ResursNetwork.OSI.ApplicationLayer
             }
         }
 
+		/// <summary>
+		/// Период (мсек) получения данных от удалённых устройтв
+		/// </summary>
+		public virtual int PollingPeriod
+		{
+			get { return _pollingPeriod; }
+			set
+			{
+				_pollingPeriod = value;
+			}
+		}
+
         #endregion
         
         #region Constructors
@@ -270,6 +284,13 @@ namespace ResursNetwork.OSI.ApplicationLayer
             }
         }
 
+		protected void OnParameterChanged(ParameterChangedArgs args)
+		{
+			if (ParameterChanged != null)
+			{
+				ParameterChanged(this, args);
+			}
+		}
         /// <summary>
         /// Член IDisposable
         /// </summary>
@@ -305,8 +326,14 @@ namespace ResursNetwork.OSI.ApplicationLayer
         #endregion
 
         #region Events
-        public event EventHandler StatusChanged;
+
+		public event EventHandler StatusChanged;
         public event EventHandler<NetworkRequestCompletedArgs> NetwrokRequestCompleted;
-        #endregion
-    }
+		public event EventHandler<ParameterChangedArgs> ParameterChanged;
+
+		#endregion
+
+
+
+	}
 }
