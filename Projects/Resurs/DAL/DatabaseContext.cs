@@ -22,6 +22,7 @@ namespace ResursDAL
 		public DbSet<User> Users { get; set; }
 		public DbSet<UserPermission> UserPermissions { get; set; }
 		public DbSet<Journal> Journal { get; set; }
+		public DbSet<Receipt> Receipts { get; set; }
 	
 		public DatabaseContext(DbConnection connection)
 			: base(connection, true)
