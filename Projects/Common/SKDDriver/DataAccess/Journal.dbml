@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Journal_1" Class="JournalDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=.\firesecinstance;Initial Catalog=Journal_1;Integrated Security=True" SettingsObjectName="SKDDriver.Properties.Settings" SettingsPropertyName="Journal_1ConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost\sqlexpress;Initial Catalog=Journal_1;Integrated Security=True" SettingsObjectName="SKDDriver.Properties.Settings" SettingsPropertyName="Journal_1ConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Journal" Member="Journals">
-    <Type Name="Journal">
+    <Type Name="Journal" Id="ID1">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="SystemDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="DeviceDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
@@ -22,4 +22,8 @@
       <Column Name="ControllerUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
     </Type>
   </Table>
+  <Function Name="dbo.GetLastJournalItemProducedByController" Method="GetLastJournalItemProducedByController">
+    <Parameter Name="contollerUid" Type="System.Guid" DbType="UniqueIdentifier" />
+    <ElementType IdRef="ID1" />
+  </Function>
 </Database>

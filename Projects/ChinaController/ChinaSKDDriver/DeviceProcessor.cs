@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using SKDDriver.Translators;
 
 namespace ChinaSKDDriver
 {
@@ -311,6 +312,15 @@ namespace ChinaSKDDriver
 
 			if (IsConnected)
 			{
+				//using (var journalTranslator = new JournalTranslator())
+				//{
+				//	var timeOperationResult = journalTranslator.GetLastJournalItemTimeProducedByController(Device.UID);
+				//	if (!timeOperationResult.HasError)
+				//	{
+				//		var offlineLogItems = Wrapper.GetOfflineLogItems(timeOperationResult.Result);
+				//	}
+				//}
+
 				if (ConnectionAppeared != null)
 					ConnectionAppeared(this);
 			}

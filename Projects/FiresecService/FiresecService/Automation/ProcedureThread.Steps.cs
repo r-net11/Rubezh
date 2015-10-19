@@ -494,7 +494,7 @@ namespace FiresecService
 			var setJournalItemGuidArguments = procedureStep.SetJournalItemGuidArguments;
 			if (JournalItem != null)
 			{
-				using (var journalTranslator = new JounalTranslator())
+				using (var journalTranslator = new JournalTranslator())
 				{
 					var eventUIDString = GetValue<String>(setJournalItemGuidArguments.ValueArgument);
 					Guid eventUID;
@@ -530,7 +530,7 @@ namespace FiresecService
 			}
 			if (JournalItem != null)
 			{
-				using (var journalTranslator = new JounalTranslator())
+				using (var journalTranslator = new JournalTranslator())
 				{
 					journalTranslator.SaveVideoUID(JournalItem.UID, eventUID, cameraUID);
 				}

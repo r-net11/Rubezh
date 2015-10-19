@@ -1928,7 +1928,7 @@ namespace FiresecService.Service
 
 		public OperationResult SaveJournalVideoUID(Guid journalItemUID, Guid videoUID, Guid cameraUID)
 		{
-			using (var journalTranslator = new JounalTranslator())
+			using (var journalTranslator = new JournalTranslator())
 			{
 				return journalTranslator.SaveVideoUID(journalItemUID, videoUID, cameraUID);
 			}
@@ -1936,7 +1936,7 @@ namespace FiresecService.Service
 
 		public OperationResult SaveJournalCameraUID(Guid journalItemUID, Guid CameraUID)
 		{
-			using (var journalTranslator = new JounalTranslator())
+			using (var journalTranslator = new JournalTranslator())
 			{
 				return journalTranslator.SaveCameraUID(journalItemUID, CameraUID);
 			}

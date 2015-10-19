@@ -443,7 +443,7 @@ namespace FiresecService.Service
 
 		public OperationResult<DateTime> GetJournalMinDate()
 		{
-			using (var journalTranslator = new JounalTranslator())
+			using (var journalTranslator = new JournalTranslator())
 			{
 				return journalTranslator.GetMinDate();
 			}

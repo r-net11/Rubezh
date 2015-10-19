@@ -2,10 +2,11 @@
 using System;
 using System.Data.Linq;
 using System.Linq;
+using FiresecAPI.Journal;
 
 namespace SKDDriver.Translators
 {
-	public class JounalTranslator : IDisposable
+	public class JournalTranslator : IDisposable
 	{
 		private Table<DataAccess.Journal> _Table;
 
@@ -17,7 +18,7 @@ namespace SKDDriver.Translators
 
 		private DataAccess.JournalDataContext Context;
 
-		public JounalTranslator()
+		public JournalTranslator()
 		{
 			Context = new DataAccess.JournalDataContext(ConnectionString);
 			_Table = Context.Journals;
@@ -71,6 +72,30 @@ namespace SKDDriver.Translators
 			{
 				return OperationResult<DateTime>.FromError(e.Message);
 			}
+		}
+
+		public OperationResult<DateTime> GetLastJournalItemTimeProducedByController(Guid controllerUid)
+		{
+			try
+			{
+				var journalResult = Context.GetLastJournalItemProducedByController(controllerUid);
+				var journalResultItems = journalResult.ToArray();
+				
+				if (journalResultItems.Length != 1)
+					return OperationResult<DateTime>.FromError("Нет зарегистрированных событий");
+				
+				var deviceDate = journalResultItems[0].DeviceDate;
+				
+				if  (!deviceDate.HasValue)
+					return OperationResult<DateTime>.FromError("Для зарегистрированного события не зафиксировано время на устройстве");
+				
+				return new OperationResult<DateTime>(journalResultItems[0].DeviceDate.Value);
+			}
+			catch (Exception e)
+			{
+				return OperationResult<DateTime>.FromError(e.Message);
+			}
+
 		}
 
 		public void Dispose()

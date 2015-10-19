@@ -72,6 +72,13 @@ namespace SKDDriver.DataAccess
 				return this.GetTable<Journal>();
 			}
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetLastJournalItemProducedByController")]
+		public ISingleResult<Journal> GetLastJournalItemProducedByController([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="UniqueIdentifier")] System.Nullable<System.Guid> contollerUid)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), contollerUid);
+			return ((ISingleResult<Journal>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Journal")]
