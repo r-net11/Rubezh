@@ -32,14 +32,16 @@ function EmployeesViewModel() {
     var self = {};
 
     self.UID = ko.observable();
+    self.OrganisationUID = ko.observable();
     self.Name = ko.observable();
     self.DepartmentName = ko.observable();
 
     $('#jqGridEmployees').on('jqGridSelectRow', function (event, id, selected) {
 
-        var myGrid = $('#jqGrid');
+        var myGrid = $('#jqGridEmployees');
 
         self.UID(id);
+        self.OrganisationUID(myGrid.jqGrid('getCell', id, 'OrganisationUID'));
         self.Name(myGrid.jqGrid('getCell', id, 'Name'));
         self.DepartmentName(myGrid.jqGrid('getCell', id, 'DepartmentName'));
     });
@@ -67,16 +69,24 @@ function EmployeesViewModel() {
     }
 
     self.AddEmployeeClick = function (data, e, box) {
-        $.getJSON("/Employees/GetEmployeeDetails/", function (allData) {
-            ko.mapping.fromJS(allData, {}, self.EmployeeDetails);
-            self.ShowEmployee(box);
+        $.getJSON("/Employees/GetEmployeeDetails/", function (emp) {
+            ko.mapping.fromJS(emp, {}, self.EmployeeDetails);
+            $.getJSON("/Employees/GetOrganisation/" + self.OrganisationUID(), function (org) {
+                ko.mapping.fromJS(org, {}, self.EmployeeDetails.Organisation);
+                self.EmployeeDetails.Init(true);
+                self.ShowEmployee(box);
+            });
         });
     }
 
     self.EditEmployeeClick = function (data, e, box) {
-        $.getJSON("/Employees/GetEmployeeDetails/" + self.UID(), function (allData) {
-            ko.mapping.fromJS(allData, {}, self.EmployeeDetails);
-            self.ShowEmployee(box);
+        $.getJSON("/Employees/GetEmployeeDetails/" + self.UID(), function (emp) {
+            ko.mapping.fromJS(emp, {}, self.EmployeeDetails);
+            $.getJSON("/Employees/GetOrganisation/" + self.OrganisationUID(), function (org) {
+                self.EmployeeDetails.Organisation = org;
+                self.EmployeeDetails.Init(false);
+                self.ShowEmployee(box);
+            });
         });
     }
 
