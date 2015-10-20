@@ -409,6 +409,10 @@
     <Compile Include="Converters\JournalTypeToIconConverter.cs" />
     <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="Devices\ViewModels\DetailsParameterViewModel.cs" />
+    <Compile Include="Devices\ViewModels\TariffSelectionViewModel.cs" />
+    <Compile Include="Devices\Views\TariffSelectionView.xaml.cs">
+      <DependentUpon>TariffSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="JournalEvents\ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceState.cs" />
     <Compile Include="JournalEvents\ViewModels\DateTimeViewModel.cs" />
@@ -632,6 +636,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Consumers\Views\ReceiptView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\TariffSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

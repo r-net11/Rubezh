@@ -15,6 +15,7 @@ namespace ResursAPI
 			driver.DeviceType = DeviceType.Counter;
 			driver.CanEditTariffType = false;
 			driver.DefaultTariffType = TariffType.Electricity;
+			driver.MaxTariffParts = 4;
 			driver.DriverParameters.Add(new DriverParameter(new Guid("9A05706F-F8A7-4539-8D39-DEC383831274"))
 			{
 				Name = ParameterNamesMercury203.GADDR,
@@ -49,6 +50,16 @@ namespace ResursAPI
 				IsReadOnly = true,
 				Number = 3,
 				DoubleMinValue = 0.001
+			});
+			driver.Commands.Add(new DeviceCommand(new Guid("F4CBA9CC-1117-4562-BCA7-4B11C2A2FB45"))
+			{
+				Name = CommandNames.CommandNamesMercury203.SwitchReleOn,
+				Description = "Включить реле",
+			});
+			driver.Commands.Add(new DeviceCommand(new Guid("102D1DA3-28E9-4FB1-B3CB-9A3072FC8207"))
+			{
+				Name = CommandNames.CommandNamesMercury203.SwitchReleOn,
+				Description = "Выключить реле",
 			});
 			return driver;
 		}

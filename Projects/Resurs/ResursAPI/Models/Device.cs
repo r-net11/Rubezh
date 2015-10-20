@@ -118,6 +118,10 @@ namespace ResursAPI
 					DriverType == ResursAPI.DriverType.VirtualMZEP55Network;
 			} 
 		}
+		[NotMapped]
+		public int MaxTatiffParts { get { return Driver.MaxTariffParts; } }
+		[NotMapped]
+		public List<DeviceCommand> Commands { get { return Driver.Commands; } }
 
 	}
 }

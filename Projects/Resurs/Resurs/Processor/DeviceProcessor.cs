@@ -117,5 +117,15 @@ namespace Resurs.Processor
 		{
 			return true;
 		}
+
+		public static bool WriteParameter(Guid deviceUID, string parameterName, ValueType parameterValue) 
+		{ 
+			return true; 
+		}
+
+		public static bool SendCommand(Guid guid, string p)
+		{
+			return true;
+		}
 	}
 }
