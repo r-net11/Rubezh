@@ -22,11 +22,17 @@
         <member name="P:ResursNetwork.BCD.Fakes.ShimBcdConverter.IsValidByte">
             <summary>Sets the shim of BcdConverter.IsValid(Byte bcdValue)</summary>
         </member>
+        <member name="P:ResursNetwork.BCD.Fakes.ShimBcdConverter.IsValidUInt32">
+            <summary>Sets the shim of BcdConverter.IsValid(UInt32 bcdValue)</summary>
+        </member>
         <member name="P:ResursNetwork.BCD.Fakes.ShimBcdConverter.ToBcdByteByte">
             <summary>Sets the shim of BcdConverter.ToBcdByte(Byte value)</summary>
         </member>
         <member name="P:ResursNetwork.BCD.Fakes.ShimBcdConverter.ToByteByte">
             <summary>Sets the shim of BcdConverter.ToByte(Byte bcdValue)</summary>
+        </member>
+        <member name="P:ResursNetwork.BCD.Fakes.ShimBcdConverter.ToUInt32UInt32">
+            <summary>Sets the shim of BcdConverter.ToUInt32(UInt32 bcdValue)</summary>
         </member>
         <member name="T:ResursNetwork.ComponentModel.Fakes.ShimEnumTypeConverter">
             <summary>Shim type of ResursNetwork.ComponentModel.EnumTypeConverter</summary>
@@ -166,25 +172,28 @@
         <member name="P:ResursNetwork.ComponentModel.Fakes.StubEnumTypeConverter.InstanceObserver">
             <summary>Gets or sets the instance observer.</summary>
         </member>
-        <member name="T:ResursNetwork.Incotex.Models.DateTime.Fakes.ShimIncotexDateTime">
-            <summary>Shim type of ResursNetwork.Incotex.Models.DateTime.IncotexDateTime</summary>
+        <member name="T:ResursNetwork.Incotex.Models.Fakes.ShimIncotexDateTime">
+            <summary>Shim type of ResursNetwork.Incotex.Models.IncotexDateTime</summary>
         </member>
-        <member name="M:ResursNetwork.Incotex.Models.DateTime.Fakes.ShimIncotexDateTime.#ctor">
+        <member name="M:ResursNetwork.Incotex.Models.Fakes.ShimIncotexDateTime.#ctor">
             <summary>Initializes a new shim instance</summary>
         </member>
-        <member name="M:ResursNetwork.Incotex.Models.DateTime.Fakes.ShimIncotexDateTime.BehaveAsCurrent">
+        <member name="M:ResursNetwork.Incotex.Models.Fakes.ShimIncotexDateTime.BehaveAsCurrent">
             <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
         </member>
-        <member name="M:ResursNetwork.Incotex.Models.DateTime.Fakes.ShimIncotexDateTime.BehaveAsNotImplemented">
+        <member name="M:ResursNetwork.Incotex.Models.Fakes.ShimIncotexDateTime.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.DateTime.Fakes.ShimIncotexDateTime.Behavior">
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimIncotexDateTime.Behavior">
             <summary>Assigns the behavior for all methods of the shimmed type</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.DateTime.Fakes.ShimIncotexDateTime.FromDateTimeDateTime">
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimIncotexDateTime.FromDateTimeDateTime">
             <summary>Sets the shim of IncotexDateTime.FromDateTime(DateTime datetime)</summary>
         </member>
-        <member name="T:ResursNetwork.Incotex.Models.DateTime.Fakes.ShimIncotexDateTime.AllInstances">
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimIncotexDateTime.FromIncotexDateTimeIncotexDateTime">
+            <summary>Sets the shim of IncotexDateTime.FromIncotexDateTime(IncotexDateTime datetime)</summary>
+        </member>
+        <member name="T:ResursNetwork.Incotex.Models.Fakes.ShimIncotexDateTime.AllInstances">
             <summary>Define shims for all instances members</summary>
         </member>
         <member name="T:ResursNetwork.Incotex.Models.Fakes.ShimMercury203">
@@ -370,6 +379,9 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.ErrorsGet">
             <summary>Sets the shim of Mercury203Virtual.get_Errors()</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.ExecuteCommandGuidString">
+            <summary>Sets the shim of Mercury203Virtual.ExecuteCommand(Guid deviceId, String commandName)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.IdGet">
             <summary>Sets the shim of Mercury203Virtual.get_Id()</summary>
         </member>
@@ -408,6 +420,24 @@
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.RTCSetDateTime">
             <summary>Sets the shim of Mercury203Virtual.set_RTC(DateTime value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.ReadConsumedPower">
+            <summary>Sets the shim of Mercury203Virtual.ReadConsumedPower()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.ReadDateTime">
+            <summary>Sets the shim of Mercury203Virtual.ReadDateTime()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.ReadGroupAddress">
+            <summary>Sets the shim of Mercury203Virtual.ReadGroupAddress()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.ReadPowerLimit">
+            <summary>Sets the shim of Mercury203Virtual.ReadPowerLimit()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.ReadPowerLimitPerMonth">
+            <summary>Sets the shim of Mercury203Virtual.ReadPowerLimitPerMonth()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.SetNewAddressUInt32UInt32">
+            <summary>Sets the shim of Mercury203Virtual.SetNewAddress(UInt32 addr, UInt32 newaddr)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.Start">
             <summary>Sets the shim of Mercury203Virtual.Start()</summary>
@@ -499,6 +529,24 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.RTCSetDateTime">
             <summary>Sets the shim of Mercury203Virtual.set_RTC(DateTime value)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.ReadConsumedPower">
+            <summary>Sets the shim of Mercury203Virtual.ReadConsumedPower()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.ReadDateTime">
+            <summary>Sets the shim of Mercury203Virtual.ReadDateTime()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.ReadGroupAddress">
+            <summary>Sets the shim of Mercury203Virtual.ReadGroupAddress()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.ReadPowerLimit">
+            <summary>Sets the shim of Mercury203Virtual.ReadPowerLimit()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.ReadPowerLimitPerMonth">
+            <summary>Sets the shim of Mercury203Virtual.ReadPowerLimitPerMonth()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.SetNewAddressUInt32UInt32">
+            <summary>Sets the shim of Mercury203Virtual.SetNewAddress(UInt32 addr, UInt32 newaddr)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.Start">
             <summary>Sets the shim of Mercury203Virtual.Start()</summary>
         </member>
@@ -516,6 +564,30 @@
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.Stop">
             <summary>Sets the shim of Mercury203Virtual.Stop()</summary>
+        </member>
+        <member name="T:ResursNetwork.Incotex.Models.Fakes.ShimPowerCounters">
+            <summary>Shim type of ResursNetwork.Incotex.Models.PowerCounters</summary>
+        </member>
+        <member name="M:ResursNetwork.Incotex.Models.Fakes.ShimPowerCounters.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:ResursNetwork.Incotex.Models.Fakes.ShimPowerCounters.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:ResursNetwork.Incotex.Models.Fakes.ShimPowerCounters.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimPowerCounters.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimPowerCounters.FromArrayUInt32Array">
+            <summary>Sets the shim of PowerCounters.FromArray(UInt32[] array)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimPowerCounters.ToFloatUInt32">
+            <summary>Sets the shim of PowerCounters.ToFloat(UInt32 bcdValue)</summary>
+        </member>
+        <member name="T:ResursNetwork.Incotex.Models.Fakes.ShimPowerCounters.AllInstances">
+            <summary>Define shims for all instances members</summary>
         </member>
         <member name="T:ResursNetwork.Incotex.Models.Fakes.StubMercury203">
             <summary>Stub type of ResursNetwork.Incotex.Models.Mercury203</summary>

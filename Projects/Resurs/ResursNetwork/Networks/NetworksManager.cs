@@ -117,6 +117,28 @@ namespace ResursNetwork.Networks
 
                                     break; 
                                 }
+							case DriverType.VirtualIncotextNetwork:
+								{
+									var controller = new IncotexNetworkControllerVirtual
+									{
+										Id = (Guid)network.GetParameter(ParameterNamesIncotexNetworkVirtual.Id),
+										PollingPeriod = (int)network.GetParameter(ParameterNamesIncotexNetworkVirtual.PollInterval)
+									};
+
+									_NetworkControllers.Add((INetwrokController)controller);
+
+									if (network.IsActive)
+									{
+										controller.Start();
+									}
+									else
+									{
+										controller.Stop();
+									}
+
+									break; 
+
+								}
                             default:
                                 {
                                     throw new NotSupportedException(String.Format(
