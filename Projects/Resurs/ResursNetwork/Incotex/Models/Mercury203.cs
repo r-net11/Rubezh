@@ -198,7 +198,11 @@ namespace ResursNetwork.Incotex.Models
                         if (Errors.CommunicationError)
                         {
                             _Errors.CommunicationError = true;
-                            OnErrorOccurred(new ErrorOccuredEventArgs { Errors = _Errors });
+                            OnErrorOccurred(new ErrorOccuredEventArgs 
+							{
+ 								Id = this.Id,
+								Errors = _Errors 
+							});
                         }
                         // Разбираем транзакцию
                         GetAnswer(e.NetworkRequest);
@@ -209,7 +213,11 @@ namespace ResursNetwork.Incotex.Models
                         if (!Errors.CommunicationError)
                         {
                             _Errors.CommunicationError = true;
-                            OnErrorOccurred(new ErrorOccuredEventArgs { Errors = _Errors });
+                            OnErrorOccurred(new ErrorOccuredEventArgs 
+							{ 
+								Id = this.Id,
+								Errors = _Errors 
+							});
                         }
                         // Записываем в журнал причину
                         //TODO: Logger.Error(transaction.ToString());
