@@ -29,10 +29,8 @@
                 <label for="CredentialsStartDate"><span>Учётные данные действуют с</span><input type="text" id="CredentialsStartDate" name="CredentialsStartDate" data-bind="datepicker: CredentialsStartDate, datepickerOptions: { dateFormat: 'dd.mm.yy' }" value="" /></label>
                 <label for="TabelNo"><span>Табельный номер</span><input type="text" name="TabelNo" data-bind="value: TabelNo" value="" /></label>
                 <label for="Phone"><span>Телефон</span><input type="text" name="Phone" data-bind="value: Phone" value="" /></label>
-@*
-                <label><span>Руководитель организации</span><input type="checkbox" name="IsOrganisationChief" data-bind="value: IsOrganisationChief" value=""></label><br>
-                <label><span>Руководитель отдела кадров</span><input type="checkbox" name="IsOrganisationHRChief" data-bind="value: IsOrganisationHRChief" value="" /></label><br>
-*@
+                <label><span>Руководитель организации</span><input type="checkbox" name="IsOrganisationChief" data-bind="checked: IsOrganisationChief" value=""></label><br>
+                <label><span>Руководитель отдела кадров</span><input type="checkbox" name="IsOrganisationHRChief" data-bind="checked: IsOrganisationHRChief" value="" /></label><br>
             </div>
             <div class="data-input" data-bind="visible:employeeDetailsPages.Document">
                 <label for="DocumentNumber"><span>Номер</span><input type="text" name="DocumentNumber" data-bind="value: DocumentNumber" value="" /></label>

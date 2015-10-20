@@ -36,6 +36,7 @@ namespace GKWebService.Models
         private void InitializeOrganisation(Organisation organisation)
         {
             UID = organisation.UID;
+	        OrganisationUID = organisation.UID;
             Name = organisation.Name;
             IsOrganisation = true;
             IsExpanded = true;

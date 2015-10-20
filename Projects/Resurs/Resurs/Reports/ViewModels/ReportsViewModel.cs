@@ -23,14 +23,6 @@ namespace Resurs.ViewModels
 			ShowPreviewReportCommand = new RelayCommand(OnShowPreviewReport, CanShowPreviewReport);
 			FitPageSizeCommand = new RelayCommand<ZoomFitMode>(OnFitPageSize, CanFitPageSize);
 			ReportTypes = new List<ReportType>(Enum.GetValues(typeof(ReportType)).Cast<ReportType>());
-			//var path = @"C:\";
-			//foreach (var filePath in Directory.EnumerateFiles(path, "*.repx"))
-			//{
-			//	Reports.Add(new ReportViewModel(XtraReport.FromFile(filePath, true)));
-			//}
-			//Reports.Add(new ReportViewModel(new CustomerReport()));
-			//Reports.Add(new ReportViewModel(new EmployeeReport()));
-			//Reports.Add(new ReportViewModel(new ProductReport()));
 		}
 		public ReportFilterViewModel ReportFilterViewModel { get; set; }
 		public static ReportFilter Filter { get; set; }
@@ -77,7 +69,7 @@ namespace Resurs.ViewModels
 		}
 		private bool CanChangeFilter()
 		{
-			return SelectedReportType != null && SelectedReportType !=ReportType.Receipts;
+			return SelectedReportType != null && SelectedReportType != ReportType.Receipts && SelectedReportType != ReportType.ChangeValue;
 		}
 		public RelayCommand OpenReportDesignerCommand { get; private set; }
 		private void OnOpenReportDesigner()
