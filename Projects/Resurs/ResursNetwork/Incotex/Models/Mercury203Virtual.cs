@@ -7,7 +7,6 @@ using ResursNetwork.OSI.ApplicationLayer.Devices;
 using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
 using ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters;
 using ResursNetwork.Incotex.Models;
-using ResursNetwork.Incotex.Models.DateTime;
 using ResursNetwork.Management;
 using ResursAPI.Models;
 using ResursAPI.ParameterNames;
@@ -283,9 +282,71 @@ namespace ResursNetwork.Incotex.Models
 
         #endregion
 
-        #region Events
+		#region Network API
 
-        public event EventHandler StatusChanged;
+		public static void ExecuteCommand(Guid deviceId, string commandName) { }
+
+		/// <summary>
+		/// Установка нового сетевого адреса счетчика 
+		/// </summary>
+		/// <param name="addr">Текущий сетевой адрес счётчика</param>
+		/// <param name="newaddr">Новый сетевой адрес счётчика</param>
+		public void SetNewAddress(uint addr, uint newaddr)
+		{
+			_Parameters[ParameterNamesMercury203Virtual.Address].Value = newaddr;
+		}
+		
+		/// <summary>
+		/// Чтение группового адреса счетчика (CMD=20h)
+		/// </summary>
+		public uint ReadGroupAddress()
+		{
+			return (uint)_Parameters[ParameterNamesMercury203Virtual.GADDR].Value;
+		}
+		
+		/// <summary>
+		/// Чтение внутренних часов и календаря счетчика (CMD=21h)
+		/// </summary>
+		/// <returns></returns>
+		public System.DateTime ReadDateTime()
+		{
+			return ((IncotexDateTime)_Parameters[ParameterNamesMercury203Virtual.DateTime].Value)
+				.ToDateTime();
+		}
+
+		/// <summary>
+		/// Чтение лимита мощности (CMD=22h)
+		/// </summary>
+		/// <returns></returns>
+		public ushort ReadPowerLimit()
+		{
+			return (ushort)_Parameters[ParameterNamesMercury203Virtual.PowerLimit].Value;
+		}
+
+		/// <summary>
+		/// Чтение лимита энергии за месяц
+		/// </summary>
+		/// <returns></returns>
+		public uint ReadPowerLimitPerMonth()
+		{
+			throw new NotImplementedException();
+			//return (ushort)_Parameters[ParameterNamesMercury203Virtual.PowerLimitPerMonth].Value;
+		}
+
+		/// <summary>
+		/// Чтение содержимого тарифных аккумуляторов (CMD=27H)
+		/// </summary>
+		/// <returns></returns>
+		public PowerCounters ReadConsumedPower()
+		{
+			throw new NotImplementedException();
+		}
+
+		#endregion
+
+		#region Events
+
+		public event EventHandler StatusChanged;
         public event EventHandler<ErrorOccuredEventArgs> ErrorOccurred;
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 

@@ -12,7 +12,6 @@ using ResursNetwork.OSI.Messages;
 using ResursNetwork.OSI.Messages.Transactions;
 using ResursNetwork.Management;
 using ResursNetwork.Incotex.Models;
-using ResursNetwork.Incotex.Models.DateTime;
 using ResursAPI.ParameterNames;
 
 namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
@@ -202,6 +201,12 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 			var nextPolling = DateTime.Now;
 			// Симулируем работу счётчика: инкрементируем счётчики тарифов
 			var cancel = (CancellationToken)cancellationToken;
+			
+			if (cancel.IsCancellationRequested)
+			{
+				return;
+			}
+			
 			cancel.ThrowIfCancellationRequested();
 
 

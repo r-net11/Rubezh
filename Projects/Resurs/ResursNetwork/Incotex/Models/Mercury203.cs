@@ -8,7 +8,7 @@ using ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters;
 using ResursNetwork.OSI.Messages;
 using ResursNetwork.OSI.Messages.Transactions;
 using ResursNetwork.OSI.ApplicationLayer;
-using ResursNetwork.Incotex.Models.DateTime;
+using ResursNetwork.Incotex.Models;
 using ResursNetwork.Incotex.NetworkControllers.Messages;
 using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer;
 using ResursNetwork.Management;
