@@ -12,7 +12,8 @@ namespace SKDModule.ViewModels
 	public class ScheduleDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<Schedule>
 	{
 		#region Fields
-		private readonly TimeSpan DefaultMinutesValue = new TimeSpan(0, 5, 0);
+
+		private const int DefaultMinutesValue = 5;
 		Organisation Organisation;
 		IEnumerable<ScheduleScheme> _schemes;
 		bool _isNew;
@@ -152,9 +153,9 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private TimeSpan _notAllowOvertimeLowerThan;
+		private int _notAllowOvertimeLowerThan;
 
-		public TimeSpan NotAllowOvertimeLowerThan
+		public int NotAllowOvertimeLowerThan
 		{
 			get { return _notAllowOvertimeLowerThan; }
 			set
@@ -164,8 +165,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private TimeSpan _allowedEarlyLeave;
-		public TimeSpan AllowedEarlyLeave
+		private int _allowedEarlyLeave;
+		public int AllowedEarlyLeave
 		{
 			get { return _allowedEarlyLeave; }
 			set
@@ -175,9 +176,9 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private TimeSpan _allowedAbsentLowThan;
+		private int _allowedAbsentLowThan;
 
-		public TimeSpan AllowedAbsentLowThan
+		public int AllowedAbsentLowThan
 		{
 			get { return _allowedAbsentLowThan; }
 			set
@@ -187,8 +188,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private TimeSpan _allowedLate;
-		public TimeSpan AllowedLate
+		private int _allowedLate;
+		public int AllowedLate
 		{
 			get { return _allowedLate; }
 			set
@@ -229,10 +230,14 @@ namespace SKDModule.ViewModels
 			Model.IsOnlyFirstEnter = IsOnlyFirstEnter;
 			Model.ScheduleSchemeUID = SelectedScheduleScheme == null ? Guid.Empty : SelectedScheduleScheme.UID;
 
-			Model.AllowedLate = IsEnabledAllowLate ? AllowedLate : default(TimeSpan);
-			Model.AllowedEarlyLeave = IsEnabledAllowEarlyLeave ? AllowedEarlyLeave : default(TimeSpan);
-			Model.AllowedAbsentLowThan = IsAllowAbsent ? AllowedAbsentLowThan : default(TimeSpan);
-			Model.NotAllowOvertimeLowerThan = IsEnabledOvertime ? NotAllowOvertimeLowerThan : default(TimeSpan);
+			Model.AllowedLate = IsEnabledAllowLate ? AllowedLate : default(int);
+			Model.AllowedEarlyLeave = IsEnabledAllowEarlyLeave ? AllowedEarlyLeave : default(int);
+			Model.AllowedAbsentLowThan = IsAllowAbsent ? AllowedAbsentLowThan : default(int);
+			Model.NotAllowOvertimeLowerThan = IsEnabledOvertime ? NotAllowOvertimeLowerThan : default(int);
+			Model.IsEnabledAllowLate = IsEnabledAllowLate;
+			Model.IsEnabledAllowEarlyLeave = IsEnabledAllowEarlyLeave;
+			Model.IsAllowAbsent = IsAllowAbsent;
+			Model.IsEnabledOvertime = IsEnabledOvertime;
 
 			return ScheduleHelper.Save(Model, _isNew);
 		}
@@ -256,15 +261,15 @@ namespace SKDModule.ViewModels
 		{
 			Title = "Редактирование графика работы";
 			Model = ScheduleHelper.GetSingle(model.UID);
-			AllowedLate = Model.AllowedLate;
-			AllowedAbsentLowThan = Model.AllowedAbsentLowThan;
-			AllowedEarlyLeave = Model.AllowedEarlyLeave;
-			NotAllowOvertimeLowerThan = Model.NotAllowOvertimeLowerThan;
+			AllowedLate = Model.IsEnabledAllowLate ? Model.AllowedLate : DefaultMinutesValue;
+			AllowedAbsentLowThan = Model.IsAllowAbsent ? Model.AllowedAbsentLowThan : DefaultMinutesValue;
+			AllowedEarlyLeave = Model.IsEnabledAllowEarlyLeave ? Model.AllowedEarlyLeave : DefaultMinutesValue;
+			NotAllowOvertimeLowerThan = Model.IsEnabledOvertime ? Model.NotAllowOvertimeLowerThan : DefaultMinutesValue;
 
-			IsEnabledAllowLate = AllowedLate != DefaultMinutesValue;
-			IsEnabledAllowEarlyLeave = AllowedEarlyLeave != DefaultMinutesValue;
-			IsAllowAbsent = AllowedAbsentLowThan != DefaultMinutesValue;
-			IsEnabledOvertime = NotAllowOvertimeLowerThan != DefaultMinutesValue;
+			IsEnabledAllowLate = Model.IsEnabledAllowLate;
+			IsEnabledAllowEarlyLeave = Model.IsEnabledAllowEarlyLeave;
+			IsAllowAbsent = Model.IsAllowAbsent;
+			IsEnabledOvertime = Model.IsEnabledOvertime;
 		}
 
 		public bool Initialize(Organisation organisation, Schedule model, ViewPartViewModel parentViewModel)

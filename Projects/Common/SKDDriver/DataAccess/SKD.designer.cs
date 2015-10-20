@@ -5742,6 +5742,14 @@ namespace SKDDriver.DataAccess
 		
 		private int _NotAllowOvertimeLowerThan;
 		
+		private bool _IsEnabledAllowLate;
+		
+		private bool _IsEnabledAllowEarlyLeave;
+		
+		private bool _IsAllowAbsent;
+		
+		private bool _IsEnabledOvertime;
+		
 		private EntitySet<ScheduleZone> _ScheduleZones;
 		
 		private EntitySet<Employee> _Employees;
@@ -5778,6 +5786,14 @@ namespace SKDDriver.DataAccess
     partial void OnAllowedAbsentLowThanChanged();
     partial void OnNotAllowOvertimeLowerThanChanging(int value);
     partial void OnNotAllowOvertimeLowerThanChanged();
+    partial void OnIsEnabledAllowLateChanging(bool value);
+    partial void OnIsEnabledAllowLateChanged();
+    partial void OnIsEnabledAllowEarlyLeaveChanging(bool value);
+    partial void OnIsEnabledAllowEarlyLeaveChanged();
+    partial void OnIsAllowAbsentChanging(bool value);
+    partial void OnIsAllowAbsentChanged();
+    partial void OnIsEnabledOvertimeChanging(bool value);
+    partial void OnIsEnabledOvertimeChanged();
     #endregion
 		
 		public Schedule()
@@ -6033,6 +6049,86 @@ namespace SKDDriver.DataAccess
 					this._NotAllowOvertimeLowerThan = value;
 					this.SendPropertyChanged("NotAllowOvertimeLowerThan");
 					this.OnNotAllowOvertimeLowerThanChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsEnabledAllowLate", DbType="Bit NOT NULL")]
+		public bool IsEnabledAllowLate
+		{
+			get
+			{
+				return this._IsEnabledAllowLate;
+			}
+			set
+			{
+				if ((this._IsEnabledAllowLate != value))
+				{
+					this.OnIsEnabledAllowLateChanging(value);
+					this.SendPropertyChanging();
+					this._IsEnabledAllowLate = value;
+					this.SendPropertyChanged("IsEnabledAllowLate");
+					this.OnIsEnabledAllowLateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsEnabledAllowEarlyLeave", DbType="Bit NOT NULL")]
+		public bool IsEnabledAllowEarlyLeave
+		{
+			get
+			{
+				return this._IsEnabledAllowEarlyLeave;
+			}
+			set
+			{
+				if ((this._IsEnabledAllowEarlyLeave != value))
+				{
+					this.OnIsEnabledAllowEarlyLeaveChanging(value);
+					this.SendPropertyChanging();
+					this._IsEnabledAllowEarlyLeave = value;
+					this.SendPropertyChanged("IsEnabledAllowEarlyLeave");
+					this.OnIsEnabledAllowEarlyLeaveChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsAllowAbsent", DbType="Bit NOT NULL")]
+		public bool IsAllowAbsent
+		{
+			get
+			{
+				return this._IsAllowAbsent;
+			}
+			set
+			{
+				if ((this._IsAllowAbsent != value))
+				{
+					this.OnIsAllowAbsentChanging(value);
+					this.SendPropertyChanging();
+					this._IsAllowAbsent = value;
+					this.SendPropertyChanged("IsAllowAbsent");
+					this.OnIsAllowAbsentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsEnabledOvertime", DbType="Bit NOT NULL")]
+		public bool IsEnabledOvertime
+		{
+			get
+			{
+				return this._IsEnabledOvertime;
+			}
+			set
+			{
+				if ((this._IsEnabledOvertime != value))
+				{
+					this.OnIsEnabledOvertimeChanging(value);
+					this.SendPropertyChanging();
+					this._IsEnabledOvertime = value;
+					this.SendPropertyChanged("IsEnabledOvertime");
+					this.OnIsEnabledOvertimeChanged();
 				}
 			}
 		}

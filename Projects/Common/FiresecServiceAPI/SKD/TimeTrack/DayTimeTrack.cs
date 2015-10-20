@@ -65,19 +65,19 @@ namespace FiresecAPI.SKD
 		public bool IsOnlyFirstEnter { get; set; }
 
 		[DataMember]
-		public TimeSpan AllowedLate { get; set; }
+		public int AllowedLate { get; set; }
 
 		[DataMember]
-		public TimeSpan AllowedEarlyLeave { get; set; }
+		public int AllowedEarlyLeave { get; set; }
 
 		[DataMember]
-		public TimeSpan NotAllowOvertimeLowerThan { get; set; }
+		public int NotAllowOvertimeLowerThan { get; set; }
 
 		/// <summary>
 		/// Разрешить отсутствие меньше чем
 		/// </summary>
 		[DataMember]
-		public TimeSpan AllowedAbsentLowThan { get; set; }
+		public int AllowedAbsentLowThan { get; set; }
 
 		[DataMember]
 		public TimeSpan SlideTime { get; set; }
@@ -777,21 +777,20 @@ namespace FiresecAPI.SKD
 					return timeTrack.Delta;
 
 				case TimeTrackType.Late:
-					if (timeTrack.Delta >= AllowedLate)
+					if (timeTrack.Delta.TotalMinutes >= AllowedLate)
 					{
 						break;
 					}
 					return timeTrack.Delta;
 
 				case TimeTrackType.Absence:
-					if (timeTrack.Delta >= AllowedAbsentLowThan)
+					if (timeTrack.Delta.TotalMinutes >= AllowedAbsentLowThan)
 					{
 						break;
 					}
 					return timeTrack.Delta;
-					//case TimeTrackType.Late:
 				case TimeTrackType.EarlyLeave:
-					if (timeTrack.Delta >= AllowedEarlyLeave)
+					if (timeTrack.Delta.TotalMinutes >= AllowedEarlyLeave)
 					{
 						break;
 					}

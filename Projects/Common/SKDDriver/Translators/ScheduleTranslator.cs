@@ -44,10 +44,14 @@ namespace SKDDriver.Translators
 			result.ScheduleSchemeUID = tableItem.ScheduleSchemeUID.HasValue ? tableItem.ScheduleSchemeUID.Value : Guid.Empty;
 			result.IsIgnoreHoliday = tableItem.IsIgnoreHoliday;
 			result.IsOnlyFirstEnter = tableItem.IsOnlyFirstEnter;
-			result.AllowedLate = TimeSpan.FromSeconds(tableItem.AllowedLate);
-			result.AllowedEarlyLeave = TimeSpan.FromSeconds(tableItem.AllowedEarlyLeave);
-			result.AllowedAbsentLowThan = TimeSpan.FromSeconds(tableItem.AllowedAbsentLowThan);
-			result.NotAllowOvertimeLowerThan = TimeSpan.FromSeconds(tableItem.NotAllowOvertimeLowerThan);
+			result.AllowedLate = tableItem.AllowedLate;
+			result.IsEnabledAllowLate = tableItem.IsEnabledAllowLate;
+			result.AllowedEarlyLeave = tableItem.AllowedEarlyLeave;
+			result.IsEnabledAllowEarlyLeave = tableItem.IsEnabledAllowEarlyLeave;
+			result.AllowedAbsentLowThan = tableItem.AllowedAbsentLowThan;
+			result.IsAllowAbsent = tableItem.IsAllowAbsent;
+			result.NotAllowOvertimeLowerThan = tableItem.NotAllowOvertimeLowerThan;
+			result.IsEnabledOvertime = tableItem.IsEnabledOvertime;
 			result.Zones = DatabaseService.ScheduleZoneTranslator.TranslateAll(tableItem.ScheduleZones);
 			return result;
 		}
@@ -66,10 +70,14 @@ namespace SKDDriver.Translators
 			tableItem.Name = apiItem.Name;
 			tableItem.IsIgnoreHoliday = apiItem.IsIgnoreHoliday;
 			tableItem.IsOnlyFirstEnter = apiItem.IsOnlyFirstEnter;
-			tableItem.AllowedLate = (int) apiItem.AllowedLate.TotalSeconds;
-			tableItem.AllowedEarlyLeave = (int) apiItem.AllowedEarlyLeave.TotalSeconds;
-			tableItem.AllowedAbsentLowThan = (int) apiItem.AllowedAbsentLowThan.TotalSeconds;
-			tableItem.NotAllowOvertimeLowerThan = (int) apiItem.NotAllowOvertimeLowerThan.TotalSeconds;
+			tableItem.AllowedLate = apiItem.AllowedLate;
+			tableItem.IsEnabledAllowLate = apiItem.IsEnabledAllowLate;
+			tableItem.AllowedEarlyLeave = apiItem.AllowedEarlyLeave;
+			tableItem.IsEnabledAllowEarlyLeave = apiItem.IsEnabledAllowEarlyLeave;
+			tableItem.AllowedAbsentLowThan = apiItem.AllowedAbsentLowThan;
+			tableItem.IsAllowAbsent = apiItem.IsAllowAbsent;
+			tableItem.NotAllowOvertimeLowerThan = apiItem.NotAllowOvertimeLowerThan;
+			tableItem.IsEnabledOvertime = apiItem.IsEnabledOvertime;
 			if (scheduleScheme == null && apiItem.ScheduleSchemeUID != Guid.Empty)
 				tableItem.ScheduleSchemeUID = apiItem.ScheduleSchemeUID;
 			else

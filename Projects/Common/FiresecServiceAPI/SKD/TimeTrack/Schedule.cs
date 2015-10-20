@@ -25,16 +25,28 @@ namespace FiresecAPI.SKD
 		public bool IsOnlyFirstEnter { get; set; }
 
 		[DataMember]
-		public TimeSpan AllowedLate { get; set; }
+		public int AllowedLate { get; set; }
 
 		[DataMember]
-		public TimeSpan AllowedAbsentLowThan { get; set; }
+		public bool IsEnabledAllowLate { get; set; }
 
 		[DataMember]
-		public TimeSpan NotAllowOvertimeLowerThan { get; set; }
+		public int AllowedAbsentLowThan { get; set; }
 
 		[DataMember]
-		public TimeSpan AllowedEarlyLeave { get; set; }
+		public bool IsAllowAbsent { get; set; }
+
+		[DataMember]
+		public int NotAllowOvertimeLowerThan { get; set; }
+
+		[DataMember]
+		public bool IsEnabledOvertime { get; set; }
+
+		[DataMember]
+		public int AllowedEarlyLeave { get; set; }
+
+		[DataMember]
+		public bool IsEnabledAllowEarlyLeave { get; set; }
 
 		[DataMember]
 		public List<ScheduleZone> Zones { get; set; }

@@ -181,10 +181,10 @@ namespace SKDDriver.Translators
 				dayTimeTrack.NightSettings = nightSettings;
 				dayTimeTrack.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
 				dayTimeTrack.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
-				dayTimeTrack.AllowedLate = TimeSpan.FromSeconds(schedule.AllowedLate);
-				dayTimeTrack.AllowedEarlyLeave = TimeSpan.FromSeconds(schedule.AllowedEarlyLeave);
-				dayTimeTrack.AllowedAbsentLowThan = TimeSpan.FromSeconds(schedule.AllowedAbsentLowThan);
-				dayTimeTrack.NotAllowOvertimeLowerThan = TimeSpan.FromSeconds(schedule.NotAllowOvertimeLowerThan);
+				dayTimeTrack.AllowedLate = schedule.AllowedLate;
+				dayTimeTrack.AllowedEarlyLeave = schedule.AllowedEarlyLeave;
+				dayTimeTrack.AllowedAbsentLowThan = schedule.AllowedAbsentLowThan;
+				dayTimeTrack.NotAllowOvertimeLowerThan = schedule.NotAllowOvertimeLowerThan;
 
 				var realDate = date;
 				var ignoreHolidays = false;
