@@ -189,7 +189,7 @@ namespace ResursNetwork.Networks
                         {
                             case ResursAPI.DriverType.Mercury203Counter:
                                 {
-                                    var mercury203 = new Mercury203
+                                    var mercury203 = new Mercury203Virtual
                                     {
                                         Id = (Guid)device.GetParameter(ParameterNamesMercury203.Id),
                                         Address = (UInt32)device.GetParameter(ParameterNamesMercury203.Address),
@@ -217,6 +217,36 @@ namespace ResursNetwork.Networks
                                         .Devices.Add(mercury203);
                                     break;
                                 }
+							case DriverType.VirtualMercury203Counter:
+								{
+									var mercury203 = new Mercury203
+									{
+										Id = (Guid)device.GetParameter(ParameterNamesMercury203.Id),
+										Address = (UInt32)device.GetParameter(ParameterNamesMercury203.Address),
+										Status = device.IsActive ? Status.Running : Status.Stopped
+									};
+
+									mercury203.Parameters[ParameterNamesMercury203.GADDR].Value =
+										device.GetParameter(ParameterNamesMercury203.GADDR);
+									mercury203.Parameters[ParameterNamesMercury203.PowerLimit].Value =
+										device.GetParameter(ParameterNamesMercury203.PowerLimit);
+									mercury203.Parameters[ParameterNamesMercury203.PowerLimitPerMonth].Value =
+										device.GetParameter(ParameterNamesMercury203.PowerLimitPerMonth);
+									//TODO: Сделать таблицу параметров доконца
+
+									var owner = device.Parent;
+
+									if ((owner == null) ||
+										(owner.DriverType != DriverType.IncotextNetwork))
+									{
+										throw new InvalidOperationException(
+											"Невозможно добавить устройтсво. Владельцем устройства не является IncotextNetwork");
+									}
+
+									_NetworkControllers[(Guid)owner.GetParameter(ParameterNamesBase.Id)]
+										.Devices.Add(mercury203);
+									break;
+								}
                             default:
                                 {
                                     throw new NotSupportedException(String.Format(
