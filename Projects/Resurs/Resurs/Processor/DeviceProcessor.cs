@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Common.Windows;
 using ResursAPI;
 using ResursNetwork.Networks;
+using ResursNetwork.OSI.ApplicationLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,12 @@ namespace Resurs.Processor
 		AutoResetEvent StopEvent;
 		Thread RunThread;
 
+
+		public DeviceProcessor()
+		{
+			NetworksManager.Instance.StatusChanged += OnNetworksManagerStatusChanged;
+			NetworksManager.Instance.ParameterChanged += OnNetworksManagerParameterChanged;
+		}
 		public void Start()
 		{
 			if (RunThread == null)
@@ -126,6 +133,16 @@ namespace Resurs.Processor
 		public static bool SendCommand(Guid guid, string p)
 		{
 			return true;
+		}
+
+		public void OnNetworksManagerParameterChanged(object sender, ParameterChangedArgs parameterChangedArgs)
+		{
+			;
+		}
+
+		public void OnNetworksManagerStatusChanged(object sender, StatusChangedEventArgs parameterChangedArgs)
+		{
+			;
 		}
 	}
 }

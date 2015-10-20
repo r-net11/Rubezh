@@ -167,11 +167,15 @@ namespace ResursNetwork.Networks
                         {
                             case ResursAPI.DriverType.Mercury203Counter:
                                 {
-                                    var mercury203 = new Mercury203
+                                    var id = (Guid)device.GetParameter(ParameterNamesMercury203.Id);
+									var addressParameter = device.GetParameter(ParameterNamesMercury203.Address);
+									var address = Convert.ToUInt32(addressParameter);
+									var status = device.IsActive ? Status.Running : Status.Stopped;
+									var mercury203 = new Mercury203
                                     {
-                                        Id = (Guid)device.GetParameter(ParameterNamesMercury203.Id),
-                                        Address = (UInt32)device.GetParameter(ParameterNamesMercury203.Address),
-                                        Status = device.IsActive ? Status.Running : Status.Stopped
+                                        Id = id,
+                                        Address = address,
+                                        Status = status
                                     };
 
                                     mercury203.Parameters[ParameterNamesMercury203.GADDR].Value =

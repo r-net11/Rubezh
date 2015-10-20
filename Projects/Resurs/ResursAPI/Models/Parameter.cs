@@ -31,11 +31,11 @@ namespace ResursAPI
 					break;
 				case ParameterType.Int:
 					if (IntValue == null)
-						IntValue = driverParameter.IntDefaultValue;
+						IntValue = driverParameter.IntDefaultValue > driverParameter.IntMinValue ? driverParameter.IntDefaultValue : driverParameter.IntMinValue;
 					break;
 				case ParameterType.Double:
 					if (DoubleValue == null)
-						DoubleValue = driverParameter.DoubleDefaultValue;
+						DoubleValue = driverParameter.DoubleDefaultValue > driverParameter.DoubleMinValue ? driverParameter.DoubleDefaultValue : driverParameter.DoubleMinValue;
 					break;
 				case ParameterType.Bool:
 					if(BoolValue == null)
@@ -43,7 +43,7 @@ namespace ResursAPI
 					break;
 				case ParameterType.DateTime:
 					if (DateTimeValue == null)
-						DateTimeValue = driverParameter.DateTimeDefaultValue;
+						DateTimeValue = driverParameter.DateTimeDefaultValue > driverParameter.DateTimeMinValue ? driverParameter.DateTimeDefaultValue : driverParameter.DateTimeMinValue;
 					break;
 				default:
 					break;

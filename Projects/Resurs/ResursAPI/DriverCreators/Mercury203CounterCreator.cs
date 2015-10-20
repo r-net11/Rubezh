@@ -23,7 +23,8 @@ namespace ResursAPI
 				ParameterType = ParameterType.Int,
 				IsReadOnly = true,
 				Number = 0,
-				IntMinValue = 1
+				IntMinValue = 1,
+				IntDefaultValue = 1
 			});
 			driver.DriverParameters.Add(new DriverParameter(new Guid("22566EA7-7A66-4C43-B615-AEBDF211DA16"))
 			{
@@ -40,7 +41,8 @@ namespace ResursAPI
 				ParameterType = ParameterType.Double,
 				IsReadOnly = true,
 				Number = 2,
-				DoubleMinValue = 0.001
+				DoubleMinValue = 0.001,
+				DoubleDefaultValue = 0.001
 			});
 			driver.DriverParameters.Add(new DriverParameter(new Guid("77C3C079-FD03-419E-B80F-4D101E855358"))
 			{
@@ -49,7 +51,8 @@ namespace ResursAPI
 				ParameterType = ParameterType.Double,
 				IsReadOnly = true,
 				Number = 3,
-				DoubleMinValue = 0.001
+				DoubleMinValue = 0.001,
+				DoubleDefaultValue = 0.001
 			});
 			driver.Commands.Add(new DeviceCommand(new Guid("F4CBA9CC-1117-4562-BCA7-4B11C2A2FB45"))
 			{

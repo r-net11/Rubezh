@@ -171,35 +171,35 @@ namespace ResursDAL
 				RootDevice = new Device(DriverType.System);
 				devices.Add(RootDevice);
 #if DEBUG
-				int interfaces = 2;
-				int devicesPerInterface = 2;
-				for (int i = 0; i < interfaces / 2; i++)
-				{
-					var interfaceDevice = new Device(DriverType.BeregunNetwork, RootDevice);
-					interfaceDevice.ComPort = "COM" + (i + 1);
-					InitializeTestDevice(interfaceDevice, random);
-					devices.Add(interfaceDevice);
-					for (int j = 0; j < devicesPerInterface; j++)
-					{
-						var counter = new Device(DriverType.BeregunCounter, interfaceDevice);
-						InitializeTestDevice(counter, random);
-						devices.Add(counter);
-					}
-				}
-				for (int i = 0; i < interfaces / 2; i++)
-				{
-					var interfaceDevice = new Device(DriverType.MZEP55Network, RootDevice);
-					interfaceDevice.ComPort = "COM" + (interfaces / 2 + i + 1);
-					devices.Add(interfaceDevice);
-					InitializeTestDevice(interfaceDevice, random);
-					for (int j = 0; j < devicesPerInterface; j++)
-					{
-						var counter = new Device(DriverType.MZEP55Counter, interfaceDevice);
-						InitializeTestDevice(counter, random);
-						devices.Add(counter);
-					}
-				}
-				var dateTimes = devices.SelectMany(x => x.Parameters).Select(x => x.DateTimeValue).Distinct();
+				//int interfaces = 2;
+				//int devicesPerInterface = 2;
+				//for (int i = 0; i < interfaces / 2; i++)
+				//{
+				//	var interfaceDevice = new Device(DriverType.BeregunNetwork, RootDevice);
+				//	interfaceDevice.ComPort = "COM" + (i + 1);
+				//	InitializeTestDevice(interfaceDevice, random);
+				//	devices.Add(interfaceDevice);
+				//	for (int j = 0; j < devicesPerInterface; j++)
+				//	{
+				//		var counter = new Device(DriverType.BeregunCounter, interfaceDevice);
+				//		InitializeTestDevice(counter, random);
+				//		devices.Add(counter);
+				//	}
+				//}
+				//for (int i = 0; i < interfaces / 2; i++)
+				//{
+				//	var interfaceDevice = new Device(DriverType.MZEP55Network, RootDevice);
+				//	interfaceDevice.ComPort = "COM" + (interfaces / 2 + i + 1);
+				//	devices.Add(interfaceDevice);
+				//	InitializeTestDevice(interfaceDevice, random);
+				//	for (int j = 0; j < devicesPerInterface; j++)
+				//	{
+				//		var counter = new Device(DriverType.MZEP55Counter, interfaceDevice);
+				//		InitializeTestDevice(counter, random);
+				//		devices.Add(counter);
+				//	}
+				//}
+				//var dateTimes = devices.SelectMany(x => x.Parameters).Select(x => x.DateTimeValue).Distinct();
 #endif
 				using (var context = DatabaseContext.Initialize())
 				{
