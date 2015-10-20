@@ -13,12 +13,15 @@ using Infrastructure.Common.Theme;
 using System.Windows.Forms;
 using ResursRunner;
 using Microsoft.Win32;
+using Resurs.Views;
+using ResursDAL;
 
 namespace Resurs
 {
 	public static class Bootstrapper
 	{
 		public static MainViewModel MainViewModel;
+		public static MainView MainView;
 
 		public static void Run(bool showWindow)
 		{
@@ -40,21 +43,7 @@ namespace Resurs
 				try
 				{
 					App.Current.ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown;
-
-					if (showWindow)
-					{
-						var startupViewModel = new StartupViewModel();
-						if (!DialogService.ShowModalWindow(startupViewModel))
-							return;
-					}
-
-					var mainView = new Resurs.Views.MainView();
-					MainViewModel = new MainViewModel();
-					mainView.DataContext = MainViewModel;
-					if (showWindow)
-					{
-						mainView.Show();
-					}
+					Activate(showWindow);
 				}
 				catch (Exception e)
 				{
@@ -66,6 +55,38 @@ namespace Resurs
 			{
 				Logger.Error(e, "Исключение при вызове Bootstrapper.Run");
 				Close();
+			}
+		}
+
+		public static void Activate()
+		{
+			Activate(true);
+		}
+		public static void Activate(bool showWindow)
+		{
+			if (showWindow && DBCash.CurrentUser == null)
+			{
+				var startupViewModel = new StartupViewModel();
+				if (!DialogService.ShowModalWindow(startupViewModel))
+					return;
+			}
+			
+			if (MainViewModel == null)
+				MainViewModel = new MainViewModel();
+			
+			if (MainView == null)
+			{
+				MainView = new MainView();
+				MainView.DataContext = MainViewModel;
+			}
+
+			if (showWindow)
+			{
+				MainViewModel.UpdateTabsIsVisible();
+				MainView.WindowState = System.Windows.WindowState.Normal;
+				MainView.Show();
+				MainView.Activate();
+				MainView.ShowInTaskbar = true;
 			}
 		}
 

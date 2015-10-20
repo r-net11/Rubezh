@@ -131,7 +131,7 @@ namespace Resurs.ViewModels
 
 		public bool IsVisible
 		{
-			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.ViewDevice); }
+			get { return DBCash.CheckPermission(PermissionType.ViewDevice); }
 		}
 
 		void UpdateBillViewModels(Device device, Bill oldBill = null)
