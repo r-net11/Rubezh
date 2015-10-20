@@ -13,6 +13,7 @@ namespace Resurs.Receipts
 {
 	public static class ReceiptHelper
 	{
+		private const string DefaultTemplateUid = "4129D35B-CE2A-4769-877E-AAFDFB95A73D";
 		static string DirectoryPath
 		{
 			get
@@ -23,7 +24,6 @@ namespace Resurs.Receipts
 				return directoryPath;
 			}	
 		}
-		static DataContractSerializer _serializer = new DataContractSerializer(typeof(ReceiptTemplate));
 		public static List<ReceiptTemplate> GetAllTemplate()
 		{
 			var templates = new List<ReceiptTemplate>();
@@ -33,7 +33,11 @@ namespace Resurs.Receipts
 		}
 		public static ReceiptTemplate GetDefaultTemplate()
 		{
-			var template = new ReceiptTemplate() { Name = "По умолчанию" };
+			var template = new ReceiptTemplate() 
+			{ 
+				Name = "По умолчанию",
+ 				Uid = Guid.Parse(DefaultTemplateUid)
+			};
 			return template;
 		}
 		public static void SaveReceipt(ReceiptTemplate receipt)
@@ -60,6 +64,8 @@ namespace Resurs.Receipts
 					File.WriteAllBytes(filePath, receipt.Template);
 				var template = (ReceiptTemplate)XtraReport.FromFile(filePath, true);
 				template.Name = receipt.Name;
+				template.Uid = receipt.UID;
+				template.Description = receipt.Description;
 				templates.Add(template);
 			}
 			return templates;
@@ -70,6 +76,24 @@ namespace Resurs.Receipts
 			if (File.Exists(filePath))
 				File.Delete(filePath);
 			DBCash.DeleteReceiptByUid(receipt.Uid);
+		}
+		public static ReceiptTemplate GetTemplateByUid(Guid receiptUid)
+		{
+			var filePath = Path.Combine(DirectoryPath, receiptUid.ToString());
+			var receipt = DBCash.GetReceiptByUid(receiptUid);
+			if (receipt != null)
+			{
+				if (!File.Exists(filePath))
+				{
+					File.WriteAllBytes(filePath, receipt.Template);
+				}
+				var template = (ReceiptTemplate)XtraReport.FromFile(filePath, true);
+				template.Name = receipt.Name;
+				template.Uid = receipt.UID;
+				template.Description = receipt.Description;
+				return template;
+			}
+			return null;
 		}
 	}
 }

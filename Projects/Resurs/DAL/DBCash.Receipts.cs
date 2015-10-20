@@ -44,7 +44,14 @@ namespace ResursDAL
 				}
 				context.SaveChanges();
 			}
-			
+		}
+		public static Receipt GetReceiptByUid(Guid receiptUid)
+		{
+			using (var context = DatabaseContext.Initialize())
+			{
+				var dbReceipt = context.Receipts.Where(x => x.UID == receiptUid).FirstOrDefault();			
+				return dbReceipt;
+			}
 		}
 	}
 }

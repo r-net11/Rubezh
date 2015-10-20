@@ -116,8 +116,6 @@ namespace Resurs.ViewModels
 				Uid = Guid.NewGuid()
 			};
 			SelectedReceipt = newReceipt;
-			Receipts.Add(newReceipt);
-			Receipts = RewriteReceipts(Receipts);
 			isNewReceipt = true;
 		}
 		bool CanAddReceipt()
@@ -144,15 +142,18 @@ namespace Resurs.ViewModels
 		public RelayCommand SaveReceiptCommand { get; private set; }
 		void OnSaveReceipt()
 		{
+			var selectedReceipt = ReceiptEditorView.GetFirstReceiptTemplate();
+			selectedReceipt.Name = Name;
+			selectedReceipt.Uid = SelectedReceipt.Uid;
+			ReceiptHelper.SaveReceipt(selectedReceipt);
 			if (isNewReceipt)
 			{
-				Receipts.Add(SelectedReceipt);
+				Receipts.Add(selectedReceipt);
 				Receipts = RewriteReceipts(Receipts);
 				isNewReceipt = false;
 			}
-			var selectedReceipt = ReceiptEditorView.GetFirstReceiptTemplate();
-			ReceiptHelper.SaveReceipt(selectedReceipt);
 			isSaved = true;
+			SelectedReceipt = selectedReceipt;
 		}
 		bool CanSaveReceipt()
 		{
