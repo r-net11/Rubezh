@@ -73,15 +73,17 @@ namespace Resurs.ViewModels
 		{
 			var consumer = GetConsumer();
 			DBCash.SaveConsumer(consumer);
-			
+
 			foreach (var bill in consumer.Bills)
+			{
+				DBCash.SaveBill(bill);
 				foreach (var device in bill.Devices)
 				{
 					var dbDevice = DBCash.GetDevice(device.UID);
 					dbDevice.Bill = bill;
 					dbDevice.BillUID = bill.UID;
 				}
-
+			}
 			return base.Save();
 		}
 	}

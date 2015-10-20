@@ -175,4 +175,73 @@ namespace Infrastructure.Common
 
 		#endregion
 	}
+
+	public class SingleLaunchActivator : IDisposable
+	{
+		public string SignalId { get; private set; }
+		public string WaitId { get; private set; }
+
+		EventWaitHandle _signalHandler;
+		Action ShuttingDown;
+		Action Activation;
+
+
+		public SingleLaunchActivator(string signalId, string waitId, Action shuttingDown = null, Action activation = null)
+		{
+			SignalId = signalId;
+			WaitId = waitId;
+			ShuttingDown = shuttingDown;
+			Activation = activation;
+
+			bool isNew;
+			_signalHandler = new EventWaitHandle(false, EventResetMode.AutoReset, signalId, out isNew);
+			if (!isNew)
+			{
+				Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+				_signalHandler.Set();
+				TryShutdown();
+				ForceShutdown();
+			}
+			ThreadPool.QueueUserWorkItem(WaitingHandler, waitId);
+		}
+		private void WaitingHandler(object startInfo)
+		{
+			while (true)
+			{
+				_signalHandler.WaitOne();
+				if (Activation != null)
+					Activation();
+				_signalHandler = new EventWaitHandle(false, EventResetMode.AutoReset, SignalId);
+			}
+		}
+		private void TryShutdown()
+		{
+			if (ShuttingDown != null)
+				ShuttingDown();
+
+			if (Application.Current != null)
+			{
+				Application.Current.Dispatcher.InvokeShutdown();
+				ApplicationService.DoEvents();
+			}
+		}
+		private void ForceShutdown()
+		{
+			if (Application.Current == null || !Application.Current.Dispatcher.HasShutdownFinished)
+				Environment.Exit(0);
+		}
+
+		#region IDisposable Members
+
+		public void Dispose()
+		{
+			if (_signalHandler != null)
+			{
+				_signalHandler.Close();
+				_signalHandler.Dispose();
+			}
+		}
+
+		#endregion
+	}
 }

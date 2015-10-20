@@ -221,6 +221,7 @@ namespace ResursDAL
 							targetBill.Description = sourceBill.Description;
 							targetBill.Name = sourceBill.Name;
 							targetBill.TemplatePath = sourceBill.TemplatePath;
+							targetBill.ReceiptUid = sourceBill.ReceiptUid;
 						}
 					}
 
@@ -272,6 +273,7 @@ namespace ResursDAL
 					targetBill.Description = sourceBill.Description;
 					targetBill.Name = sourceBill.Name;
 					targetBill.TemplatePath = sourceBill.TemplatePath;
+					targetBill.ReceiptUid = sourceBill.ReceiptUid;
 				}
 			}
 		}

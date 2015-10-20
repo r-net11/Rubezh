@@ -2,7 +2,7 @@
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Resurs.Consumers;
+using Resurs.Receipts;
 using Resurs.Reports.Templates;
 using Resurs.Views;
 using ResursAPI;
@@ -20,29 +20,16 @@ namespace Resurs.ViewModels
 	public class ReceiptEditorViewModel : BaseViewModel
 	{
 		bool isNewReceipt;
-		string directoryPath;
-		bool IsNotSavedReceipt
+		bool isSaved;
+		bool IsShowNotSavedMessage
 		{
 			get
 			{
-				if (SelectedReceiptTemplate == null)
+				if (SelectedReceipt == null || isSaved)
 					return false;
-				return isNewReceipt 
+				return isNewReceipt
 					|| ReceiptEditorView.HasChangesFirstReceiptTemplate
-					|| SelectedReceiptTemplate.Name != Name;
-			}
-		}
-		string FilePath 
-		{
-			get
-			{
-				if (SelectedReceipt != null)
-				{
-					var fileName = string.Format("{0}", SelectedReceipt.UID);
-					return Path.Combine(directoryPath ,fileName);
-				}
-					
-				return string.Empty;
+					|| SelectedReceipt.Name != Name;
 			}
 		}
 		public ReceiptEditorViewModel()
@@ -51,12 +38,7 @@ namespace Resurs.ViewModels
 			DeleteReceiptCommand = new RelayCommand(OnDeleteReceipt, CanDeleteReceipt);
 			SaveReceiptCommand = new RelayCommand(OnSaveReceipt, CanSaveReceipt);
 
-			var folderName = FolderHelper.FolderName;
-			directoryPath = Path.Combine(folderName, "Шаблоны квитанций");
-			if (!Directory.Exists(directoryPath))
-				Directory.CreateDirectory(directoryPath);
-	
-			Receipts = DBCash.GetAllReceipts();
+			Receipts = ReceiptHelper.GetEditableTemplates();
 		}
 		string _name;
 		public string Name
@@ -68,8 +50,8 @@ namespace Resurs.ViewModels
 				OnPropertyChanged(() => Name);
 			}
 		}
-		List<Receipt> _receipts;
-		public List<Receipt> Receipts 
+		List<ReceiptTemplate> _receipts;
+		public List<ReceiptTemplate> Receipts 
 		{
 			get { return _receipts; }
 			set
@@ -78,13 +60,13 @@ namespace Resurs.ViewModels
 				OnPropertyChanged(() => Receipts);
 			}
 		}
-		Receipt _selectedReceipt;
-		public Receipt SelectedReceipt
+		ReceiptTemplate _selectedReceipt;
+		public ReceiptTemplate SelectedReceipt
 		{
 			get { return _selectedReceipt; }
 			set
 			{
-				if (IsNotSavedReceipt)
+				if (IsShowNotSavedMessage)
 				{
 					var messageBoxResult = MessageBoxService.ShowQuestionExtended(string.Format("Не сохранены изменения в шаблоне \"{0}\".\nСохранить изменения?", SelectedReceipt.Name));
 					switch (messageBoxResult)
@@ -111,33 +93,29 @@ namespace Resurs.ViewModels
 				}
 				_selectedReceipt = value;
 				OnPropertyChanged(() => SelectedReceipt);
+				isNewReceipt = false;
+				isSaved = false;
 				if (_selectedReceipt != null)
 				{
-					Name = _selectedReceipt.Name;
-					if (_selectedReceipt.Template == null)
-						SelectedReceiptTemplate = new ReceiptTemplate { Name = "Новый шаблон" };
-					else
-					{
-						if (!File.Exists(FilePath))
-						{
-							File.WriteAllBytes(FilePath, _selectedReceipt.Template);
-						}
-						SelectedReceiptTemplate = (ReceiptTemplate)XtraReport.FromFile(FilePath, true);
-						SelectedReceiptTemplate.Name = value.Name;
-					}
+					Name = SelectedReceipt.Name;
 					ReceiptEditorView.CloseAllDocuments();
-					ReceiptEditorView.OpenDocument(SelectedReceiptTemplate);
-					isNewReceipt = false;
+					ReceiptEditorView.OpenDocument(SelectedReceipt);
+				}
+				else
+				{
+					Name = "";
 				}
 			}
 		}
-		public ReceiptTemplate SelectedReceiptTemplate { get; private set; }
 		public RelayCommand AddReceiptCommand { get; private set; }
 		void OnAddReceipt()
 		{
-			SelectedReceipt = new Receipt();
-			Receipts.Add(SelectedReceipt);
-			Receipts = RewriteReceipts(Receipts);
+			var newReceipt = new ReceiptTemplate
+			{
+				Name = "Новый шаблон",
+				Uid = Guid.NewGuid()
+			};
+			SelectedReceipt = newReceipt;
 			isNewReceipt = true;
 		}
 		bool CanAddReceipt()
@@ -149,9 +127,7 @@ namespace Resurs.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion(string.Format("Вы уверены что хотите удалить шаблон \"{0}\"?", SelectedReceipt.Name)))
 			{
-				DBCash.DeleteReceipt(SelectedReceipt);
-				if (File.Exists(FilePath))
-					File.Delete(FilePath);
+				ReceiptHelper.DeleteReceipt(SelectedReceipt);
 				Receipts.Remove(SelectedReceipt);
 				Receipts = RewriteReceipts(Receipts);
 				ReceiptEditorView.CloseAllDocuments();
@@ -166,26 +142,26 @@ namespace Resurs.ViewModels
 		public RelayCommand SaveReceiptCommand { get; private set; }
 		void OnSaveReceipt()
 		{
+			var selectedReceipt = ReceiptEditorView.GetFirstReceiptTemplate();
+			selectedReceipt.Name = Name;
+			selectedReceipt.Uid = SelectedReceipt.Uid;
+			ReceiptHelper.SaveReceipt(selectedReceipt);
 			if (isNewReceipt)
 			{
-				Receipts.Add(SelectedReceipt);
+				Receipts.Add(selectedReceipt);
 				Receipts = RewriteReceipts(Receipts);
 				isNewReceipt = false;
 			}
-			SelectedReceiptTemplate = ReceiptEditorView.GetFirstReceiptTemplate();
-			SelectedReceiptTemplate.SaveLayout(FilePath);
-			var template = File.ReadAllBytes(FilePath);
-			SelectedReceipt.Template = template;
-			SelectedReceipt.Name = Name;
-			DBCash.SaveReceipt(SelectedReceipt);
+			isSaved = true;
+			SelectedReceipt = selectedReceipt;
 		}
 		bool CanSaveReceipt()
 		{
-			return SelectedReceiptTemplate != null;
+			return SelectedReceipt != null;
 		}
-		List<Receipt> RewriteReceipts(List<Receipt> receipts)
+		List<ReceiptTemplate> RewriteReceipts(List<ReceiptTemplate> receipts)
 		{
-			var newReceipts = new List<Receipt>();
+			var newReceipts = new List<ReceiptTemplate>();
 			newReceipts.AddRange(receipts);
 			return newReceipts;
 		}

@@ -13,6 +13,8 @@ namespace Resurs.Reports.Templates
 {
 	public partial class ReceiptTemplate : DevExpress.XtraReports.UI.XtraReport
 	{
+		public string Description { get; set; }
+		public Guid Uid { get; set; }
 		public Bill Bill { get; set; }
 		public ReceiptTemplate()
 		{

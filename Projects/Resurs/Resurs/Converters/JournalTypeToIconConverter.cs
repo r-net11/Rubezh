@@ -12,6 +12,8 @@ namespace Resurs.Converters
 			{
 				case JournalType.System:
 					return "/Controls;component/StateClassIcons/info.png";
+				case JournalType.EditUser:
+					return "/Controls;component/StateClassIcons/info.png";
 				default:
 					return null;
 			}

@@ -129,9 +129,9 @@ namespace Resurs.ViewModels
 			}
 		}
 
-		public bool IsVisibility
+		public bool IsVisible
 		{
-			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.ViewDevice); }
+			get { return DBCash.CheckPermission(PermissionType.ViewDevice); }
 		}
 
 		void UpdateBillViewModels(Device device, Bill oldBill = null)
@@ -198,7 +198,7 @@ namespace Resurs.ViewModels
 		}
 		bool CanAdd()
 		{
-			return SelectedDevice != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);
+			return SelectedDevice != null && DBCash.CheckPermission(PermissionType.EditDevice);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -219,7 +219,7 @@ namespace Resurs.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedDevice != null && SelectedDevice.Parent != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);
+			return SelectedDevice != null && SelectedDevice.Parent != null && DBCash.CheckPermission(PermissionType.EditDevice);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -246,7 +246,7 @@ namespace Resurs.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedDevice != null && SelectedDevice.Parent != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);
+			return SelectedDevice != null && SelectedDevice.Parent != null && DBCash.CheckPermission(PermissionType.EditDevice);
 		}
 
 		public RelayCommand SetActiveCommand { get; private set; }

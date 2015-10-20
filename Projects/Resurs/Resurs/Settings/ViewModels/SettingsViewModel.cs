@@ -105,7 +105,7 @@ namespace Resurs.ViewModels
 
 		void CreateUsers()
 		{
-
+			DBCash.CreateUsers();
 		}
 
 		void CreateMeasures()

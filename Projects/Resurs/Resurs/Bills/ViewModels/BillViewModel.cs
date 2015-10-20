@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Resurs.Consumers;
+using Resurs.Receipts;
 using Resurs.Reports.Templates;
 using ResursAPI;
 using ResursDAL;
@@ -30,9 +30,21 @@ namespace Resurs.ViewModels
 			Description = bill.Description;
 			Balance = bill.Balance;
 			IsReadOnly = isReadOnly;
+			var selectedReceipt = ReceiptHelper.GetTemplateByUid(bill.ReceiptUid);
+			var defaultReceipt = ReceiptHelper.GetDefaultTemplate();
+			if (isReadOnly)
+			{
+				Receipts = new List<ReceiptTemplate> { defaultReceipt };
+				if (selectedReceipt != null)
+					Receipts.Add(selectedReceipt);
+			}
+			else
+			{
+				Receipts = ReceiptHelper.GetAllTemplate();
+			}
+			SelectedReceipt = selectedReceipt == null ? Receipts.FirstOrDefault(x => x.Uid == defaultReceipt.Uid)
+				: Receipts.FirstOrDefault(x => x.Uid == selectedReceipt.Uid);
 
-			Receipts = ReceiptHelper.GetAllTemplate();
-			SelectedReceipt = Receipts.FirstOrDefault();
 			AddDeviceCommand = new RelayCommand(OnAddDevice);
 			RemoveDeviceCommand = new RelayCommand<DeviceViewModel>(OnRemoveDevice);
 			SelectDeviceCommand = new RelayCommand<Guid>(OnSelectDevice);
@@ -139,6 +151,7 @@ namespace Resurs.ViewModels
 				Description = this.Description,
 				Name = this.Name,
 				UID = this.Uid,
+				ReceiptUid = SelectedReceipt.Uid,
 				Devices = this.Devices.Select(x => x.Device).ToList()
 			};
 		}
