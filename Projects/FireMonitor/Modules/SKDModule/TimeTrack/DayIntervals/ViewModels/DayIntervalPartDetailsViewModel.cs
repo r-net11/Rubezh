@@ -72,8 +72,9 @@ namespace SKDModule.ViewModels
 		{
 			if (!Validate())
 				return false;
-			DayIntervalPart.BeginTime = BeginTime;
-			DayIntervalPart.EndTime = EndTime;
+
+			DayIntervalPart.BeginTime = BeginTime > EndTime ? EndTime : BeginTime;
+			DayIntervalPart.EndTime = BeginTime > EndTime ? BeginTime : EndTime;
 			DayIntervalPart.TransitionType = BeginTime < EndTime ? DayIntervalPartTransitionType.Day : DayIntervalPartTransitionType.Night;
 			return true;
 		}
