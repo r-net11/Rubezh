@@ -1,8 +1,9 @@
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.BCD.BcdConverter: type is sealed.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.Incotex.Models.PowerCounters: type is a value type.
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.OSI.ApplicationLayer.Devices.Result: type is a value type.
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.OSI.ApplicationLayer.Devices.DeviceType: type is a value type.
-D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.Incotex.Models.DateTime.DayOfWeek: type is a value type.
-D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.Incotex.Models.DateTime.IncotexDateTime: type is a value type.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.Incotex.Models.DayOfWeek: type is a value type.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.Incotex.Models.IncotexDateTime: type is a value type.
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.OSI.ApplicationLayer.Devices.Parameter: type is sealed.
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Mercury203CmdCode: type is a value type.
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.PollingMode: type is a value type.
@@ -24,7 +25,7 @@ D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : war
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.ApplicationLayer.Devices.Result: type is an enum.
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.ApplicationLayer.Devices.DeviceType: type is an enum.
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters.IValueConverter: type is an interface.
-D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.Incotex.Models.DateTime.DayOfWeek: type is an enum.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.Incotex.Models.DayOfWeek: type is an enum.
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.Incotex.Models.Mercury203+<>c__DisplayClass13: type is not supported because of internal limitations.
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.Incotex.Models.Mercury203+<>c__DisplayClass1c: type is not supported because of internal limitations.
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.Incotex.Models.Mercury203+<>c__DisplayClassa: type is not supported because of internal limitations.

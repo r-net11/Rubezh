@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ResursNetwork.Incotex.Models.DateTime;
+using ResursNetwork.Incotex.Models;
 using ResursNetwork.BCD;
 
 namespace ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters
@@ -33,7 +33,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters
                     "Невозможно преобразовать массив в IncotexDateTime. Длина массива не равна 7");
             }
 
-            if (!Enum.IsDefined(typeof(Incotex.Models.DateTime.DayOfWeek), array[0]))
+            if (!Enum.IsDefined(typeof(Incotex.Models.DayOfWeek), array[0]))
             {
                 throw new InvalidCastException(
                     "Невозможно привести значение к типу Incotex.Models.DateTime.DayOfWeek");
@@ -41,7 +41,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters
             
             return new IncotexDateTime
             {
-                DayOfWeek = (Incotex.Models.DateTime.DayOfWeek)array[0],
+				DayOfWeek = (Incotex.Models.DayOfWeek)array[0],
                 Hours = array[1],
                 Minutes = array[2],
                 Seconds = array[3],
