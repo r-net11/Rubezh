@@ -20,7 +20,14 @@
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
 				<TextBlock Grid.Row="1" Grid.Column="0" Text="Наименование" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<TextBox Name="nameTextBox" Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				<TextBox Name="nameTextBox" Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" >
+					<TextBox.Style>
+						<Style TargetType="TextBox">
+							<Setter Property="MaxLength" Value="20" />
+							<Setter Property="ContextMenu" Value="{x:Null}" />
+						</Style>
+					</TextBox.Style>
+				</TextBox>
 
 				<TextBlock Grid.Row="2" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
