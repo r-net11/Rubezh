@@ -2,13 +2,16 @@
 
 namespace FiresecLicense
 {
+	/// <summary>
+	/// Тип лицензии
+	/// </summary>
 	public enum LicenseMode
 	{
 		[Description("Лицензия отсутствует")]
-		NoLicense,
+		NoLicense = 0,
 		[Description("Лицензия получена")]
-		HasLicense,
+		HasLicense = 1,
 		[Description("Демонстрационный режим")]
-		Demonstration
+		Demonstration = 2
 	}
 }

@@ -42,13 +42,17 @@ namespace Resurs.ViewModels
 			{
 				if (_consumerDetails == null && Consumer != null && !Consumer.IsFolder)
 				{
-					var consumer = DBCash.GetConsumer(Consumer.UID, true);
+					var consumer = DBCash.GetConsumer(Consumer.UID);
 					if (consumer == null)
 						return null;
-					_consumerDetails = new ConsumerDetailsViewModel(consumer, false, true);
+					_consumerDetails = new ConsumerDetailsViewModel(consumer, true);
 				}
 				return _consumerDetails;
 			}
+		}
+		public ConsumerDetailsViewModel GetConsumerDetails()
+		{
+			return _consumerDetails;
 		}
 
 		ConsumersFolderDetailsViewModel _consumersFolderDetails;
@@ -58,22 +62,26 @@ namespace Resurs.ViewModels
 			{
 				if (_consumersFolderDetails == null && Consumer != null && Consumer.IsFolder)
 				{
-					var consumer = DBCash.GetConsumer(Consumer.UID, true);
+					var consumer = DBCash.GetConsumer(Consumer.UID);
 					if (consumer == null)
 						return null;
-					_consumersFolderDetails = new ConsumersFolderDetailsViewModel(consumer, false, true);
+					_consumersFolderDetails = new ConsumersFolderDetailsViewModel(consumer, true);
 				}
 				return _consumersFolderDetails;
 			}
+		}
+		public ConsumersFolderDetailsViewModel GetConsumersFolderDetails()
+		{
+			return _consumersFolderDetails;
 		}
 
 		public void Update(Consumer consumer)
 		{
 			Consumer = consumer;
 			if (_consumerDetails != null)
-				_consumerDetails.Consumer = consumer;
+				_consumerDetails.Update(consumer);
 			if (_consumersFolderDetails != null)
-				_consumersFolderDetails.Consumer = consumer;
+				_consumersFolderDetails.Update(consumer);
 		}
 	}
 }

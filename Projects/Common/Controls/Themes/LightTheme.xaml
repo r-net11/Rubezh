@@ -62,4 +62,7 @@
 	<SolidColorBrush Color="#FF0000" x:Key="ButtonBackgroundColorRed" />
 	<SolidColorBrush Color="#FFFFFF" x:Key="PressedForegroungBrush" />
 
+	<!--new props-->
+	<SolidColorBrush Color="#FF0000" x:Key="WarningText" />
+
 </ResourceDictionary>

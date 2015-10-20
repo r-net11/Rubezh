@@ -1,4 +1,5 @@
 ﻿using Common;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
@@ -23,7 +24,7 @@ namespace Resurs.ViewModels
 				Title = string.Format("Свойства учетной записи: {0}", user.Name);
 				IsNew = true;
 				IsChangePassword = false;
-				User = DBCash.GetUser(user.UID);
+				User = user;
 			}
 
 			else
@@ -40,7 +41,7 @@ namespace Resurs.ViewModels
 				};
 
 			}
-			PermissionsViewModel = new PermissionsViewModel(User, !(User.UID == DBCash.CurrentUser.UID));
+			PermissionsViewModel = new PermissionsViewModel(User);
 			CopyProperty();
 		}
 		void CopyProperty()
@@ -50,7 +51,6 @@ namespace Resurs.ViewModels
 		}
 
 		string _login;
-
 		public string Login
 		{
 			get { return _login; }
@@ -62,7 +62,6 @@ namespace Resurs.ViewModels
 		}
 
 		string _name;
-
 		public string Name
 		{
 			get { return _name; }
@@ -129,6 +128,12 @@ namespace Resurs.ViewModels
 				MessageBoxService.Show("Пользователь с таким логином уже существует");
 				return false;
 			}
+
+			if (string.IsNullOrWhiteSpace(Name))
+			{
+				MessageBoxService.Show("Имя не может быть пустым");
+				return false;
+			}
 			return true;
 		}
 
@@ -142,15 +147,18 @@ namespace Resurs.ViewModels
 			return true;
 		}
 
+		public bool IsChange { get; private set; }
+
 		void SaveProperties()
 		{
+			IsChange = User.Login.CompareTo(Login) != 0 || User.Name.CompareTo(Name) != 0 || User.PasswordHash.CompareTo(HashHelper.GetHashFromString(Password)) != 0 || PermissionsViewModel.PermissionViewModels.Where(x => x.IsChecked == true && (User.UserPermissions.Any(y => y.PermissionType == x.PermissionType) || User.UserPermissions.Where(z=> z.PermissionType != x.PermissionType).Any())).Count()!=User.UserPermissions.Count();
 			User.Login = Login;
 			User.Name = Name;
 
 			if (IsChangePassword)
 				User.PasswordHash = HashHelper.GetHashFromString(Password);
 
-			PermissionsViewModel.GetPermissionStrings(User);
+			PermissionsViewModel.SavePermissions(User);
 		}
 
 		protected override bool Save()
@@ -162,6 +170,5 @@ namespace Resurs.ViewModels
 			DBCash.SaveUser(User);
 			return base.Save();
 		}
-
 	}
 }

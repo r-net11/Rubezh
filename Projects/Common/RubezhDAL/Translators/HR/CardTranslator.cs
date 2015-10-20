@@ -15,12 +15,9 @@ namespace RubezhDAL.DataClasses
 		DatabaseContext Context { get { return DbService.Context; } }
 		public DbSet<Card> Table { get { return Context.Cards; } }
 		public DbService DbService { get; private set; }
-		public CardAsyncTranslator AsyncTranslator { get; private set; }
-		public static Thread CurrentThread;
 		public CardTranslator(DbService dbService)
 		{
 			DbService = dbService;
-			AsyncTranslator = new CardAsyncTranslator(this);
 		}
 		OperationResult<bool> CanSave(API.SKDCard item)
 		{
@@ -44,6 +41,7 @@ namespace RubezhDAL.DataClasses
 		{
 			if (filter.EmployeeFilter != null)
 			{
+				filter.EmployeeFilter.IsAllPersonTypes = true;
 				var employees = DbService.EmployeeTranslator.ShortTranslator.GetFilteredTableItems(filter.EmployeeFilter);
 				tableItems = tableItems.Where(x => employees.Contains(x.Employee) || x.IsInStopList);
 			}
@@ -448,49 +446,5 @@ namespace RubezhDAL.DataClasses
 			
 		}
 		#endregion
-
-		void PublishNewItemsPortion(List<API.SKDCard> journalItems, Guid uid, bool isLastPortion)
-		{
-			if (PortionReady != null)
-			{
-				var result = new DbCallbackResult
-				{
-					ClientUID = uid,
-					Cards = journalItems,
-					IsLastPortion = isLastPortion
-				};
-				PortionReady(result);
-			}
-		}
-
-		public event Action<DbCallbackResult> PortionReady;
-
-		//public void BeginGet(API.CardFilter filter, Guid uid)
-		//{
-		//	DbService.IsAbort = false;
-		//	var pageSize = 1000;
-		//	var portion = new List<API.SKDCard>();
-		//	int itemNo = 0;
-		//	foreach (var item in GetFilteredTableItems(filter, GetTableItems()))
-		//	{
-		//		itemNo++;
-		//		portion.Add(Translate(item));
-		//		if (itemNo % pageSize == 0)
-		//		{
-		//			PublishNewItemsPortion(portion, uid, false);
-		//			portion = new List<API.SKDCard>();
-		//		}
-		//	}
-		//	PublishNewItemsPortion(portion, uid, true);
-		//}
-	}
-
-	public class CardAsyncTranslator : AsyncTranslator<Card, API.SKDCard, API.CardFilter>
-	{
-		public CardAsyncTranslator(CardTranslator translator) : base(translator as ITranslatorGet<Card, API.SKDCard, API.CardFilter>) { }
-		public override List<API.SKDCard> GetCollection(DbCallbackResult callbackResult)
-		{
-			return callbackResult.Cards;
-		}
 	}
 }

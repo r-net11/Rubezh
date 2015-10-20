@@ -17,10 +17,7 @@ namespace RubezhDAL.DataClasses
 			: base(context)
 		{
 			_serializer = new DataContractSerializer(typeof(API.AdditionalColumnType));
-			AsyncTranslator = new AdditionalColumnTypeAsyncTranslator(this);
 		}
-
-		public AdditionalColumnTypeAsyncTranslator AsyncTranslator { get; private set; }
 
 		public override DbSet<AdditionalColumnType> Table
 		{
@@ -63,15 +60,6 @@ namespace RubezhDAL.DataClasses
 				PersonType = (API.PersonType)tableItem.PersonType,
 				IsInGrid = tableItem.IsInGrid
 			});
-		}
-	}
-
-	public class AdditionalColumnTypeAsyncTranslator : AsyncTranslator<AdditionalColumnType, API.AdditionalColumnType, API.AdditionalColumnTypeFilter>
-	{
-		public AdditionalColumnTypeAsyncTranslator(AdditionalColumnTypeTranslator translator) : base(translator as ITranslatorGet<AdditionalColumnType, API.AdditionalColumnType, API.AdditionalColumnTypeFilter>) { }
-		public override List<API.AdditionalColumnType> GetCollection(DbCallbackResult callbackResult)
-		{
-			return callbackResult.AdditionalColumnTypes;
 		}
 	}
 }

@@ -18,6 +18,7 @@ namespace Resurs.ViewModels
 			JournalEventsViewModel = new JournalEventsViewModel();
 			TariffsViewModel = new TariffsViewModel();
 			SettingsViewModel = new SettingsViewModel();
+			ReceiptEditorViewModel = new ReceiptEditorViewModel();
 		}
 
 		public DevicesViewModel DevicesViewModel { get; private set; }
@@ -26,7 +27,27 @@ namespace Resurs.ViewModels
 		public UsersViewModel UsersViewModel { get; private set; }
 		public JournalEventsViewModel JournalEventsViewModel { get; private set; }
 		public TariffsViewModel TariffsViewModel { get; private set; }
-
 		public SettingsViewModel SettingsViewModel { get; private set; }
+		public ReceiptEditorViewModel ReceiptEditorViewModel { get; private set; }
+
+		int _selectedTabIndex;
+		public int SelectedTabIndex
+		{
+			get { return _selectedTabIndex; }
+			set
+			{
+				_selectedTabIndex = value;
+				OnPropertyChanged(() => SelectedTabIndex);
+			}
+		}
+
+		public void UpdateTabsIsVisible()
+		{
+			DevicesViewModel.OnPropertyChanged(() => DevicesViewModel.IsVisible);
+			ConsumersViewModel.OnPropertyChanged(() => ConsumersViewModel.IsVisible);
+			UsersViewModel.OnPropertyChanged(() => UsersViewModel.IsVisible);
+			JournalEventsViewModel.OnPropertyChanged(() => JournalEventsViewModel.IsVisible);
+			TariffsViewModel.OnPropertyChanged(() => TariffsViewModel.IsVisible);
+		}
     }
 }

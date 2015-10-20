@@ -7,18 +7,11 @@ using ResursNetwork.Management;
 using ResursNetwork.OSI.ApplicationLayer.Devices;
 using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
 using ResursNetwork.OSI.DataLinkLayer;
+using ResursNetwork.OSI.Messages;
 using ResursNetwork.OSI.Messages.Transactions;
 
 namespace ResursNetwork.OSI.ApplicationLayer
 {
-    public class NetworkRequestCompletedArgs : EventArgs
-    {
-        /// <summary>
-        /// Завершённый сетевой запрос
-        /// </summary>
-        public NetworkRequest NetworkRequest;
-    }
-
     public interface INetwrokController: IManageable, IDisposable
     {
         #region Fields And Properties
@@ -38,10 +31,15 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// </summary>
         DevicesCollection Devices { get; }
 
+		/// <summary>
+        /// Период (мсек) опроса и получения данных от удалённых устройств
+        /// </summary>
+		int PollingPeriod { get; set; }
+
         /// <summary>
         /// Возвращает объет для работы с физическим интерфейсом
         /// </summary>
-        IDataLinkPort Connection { get; }
+        IDataLinkPort Connection { get; set; }
         
         #endregion
 
@@ -51,7 +49,11 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// Записывает транзакцию в буфер исходящих сообщений
         /// </summary>
         /// <param name="request"></param>
-        void Write(NetworkRequest request);
+        /// <param name="isExternalCall">
+        /// Признак, что вызов записи в буфер контроллера проиходит
+        /// из внешнего источника (например GUI)
+        /// </param>
+        IAsyncRequestResult Write(NetworkRequest request, bool isExternalCall);
 
         /// <summary>
         /// Отсылает в сеть широковещательную команду 
@@ -62,7 +64,10 @@ namespace ResursNetwork.OSI.ApplicationLayer
         #endregion
 
         #region
-        event EventHandler<NetworkRequestCompletedArgs> NetwrokRequestCompleted;
+
+		event EventHandler<NetworkRequestCompletedArgs> NetwrokRequestCompleted;
+		event EventHandler<ParameterChangedArgs> ParameterChanged;
+        
         #endregion
     }
 }

@@ -6,149 +6,24 @@ using System.Text;
 using System.Data.Entity;
 using System.Runtime.Serialization;
 using Common;
+using Infrastructure.Common.Windows;
 
 namespace ResursDAL
 {
 	public static partial class DBCash
 	{
 		public static Consumer RootConsumer { get; set; }
-		public static List<User> Users { get; set; }
-		public static User CurrentUser { get; set; }
 
 		static DBCash()
 		{
 			RootDevice = GetRootDevice();
 			if (RootDevice == null)
 				CreateSystem();
+			if(GetAllUsers()!= null)
 			Users = GetAllUsers();
 			RootConsumer = GetRootConsumer();
 			Tariffs = ReadAllTariffs();
 		}
-
-		public static List<User> GetAllUsers()
-		{
-			using (var context = DatabaseContext.Initialize())
-			{
-				var result = new List<User>();
-				foreach (var item in context.Users.Select(x => new { UID = x.UID, Name = x.Name, Login = x.Login }))
-				{
-					 result.Add(new User
-					 {
-						 UID = item.UID, 
-						 Name = item.Name, 
-						 Login = item.Login
-					 });
-				}
-
-				if (!result.Any())
-				{
-					var userpermissions = new List<UserPermission>();
-					User user = new User() { Name = "Adm", Login = "Adm", PasswordHash = HashHelper.GetHashFromString("")};
-					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Consumer });
-					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Device });
-					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditConsumer });
-					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditDevice });
-					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditUser });
-					userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.User });
-					user.UserPermissions = userpermissions;
-					context.Users.Add(user);
-					context.SaveChanges();
-					result.Add(user);
-				}
-				return result;
-			}
-		}
-
-		public static User GetUser(Guid UID)
-		{
-			using (var context = DatabaseContext.Initialize())
-			{
-				return context.Users.Include(x=>x.UserPermissions).FirstOrDefault(x => x.UID == UID);
-			}
-		}
-
-		public static void SaveUser(User user)
-		{
-			try
-			{
-				using (var context = DatabaseContext.Initialize())
-				{
-					var tableUser = context.Users.Include(x => x.UserPermissions).FirstOrDefault(x => x.UID == user.UID);
-					if (tableUser != null)
-					{
-						context.UserPermissions.RemoveRange(tableUser.UserPermissions);
-						tableUser.Login = user.Login;
-						tableUser.Name = user.Name;
-						tableUser.PasswordHash = user.PasswordHash;
-						tableUser.UserPermissions = new List<UserPermission>();
-						tableUser.UserPermissions.AddRange(user.UserPermissions.Select(x => new UserPermission { PermissionType = x.PermissionType, User = tableUser }));
-					}
-					else
-						context.Users.Add(user);
-
-					context.SaveChanges();
-
-					if (tableUser == null)
-						Users.Add(user);
-					else
-					{
-						Users.RemoveAll(x => x.UID == user.UID);
-						Users.Add(user);
-					}
-				}
-			}
-
-			catch(Exception e)
-			{
-
-				
-			}
-		}
-
-		public static void DeleteUser(User user)
-		{
-			using (var context = DatabaseContext.Initialize())
-			{
-				var _user = context.Users.FirstOrDefault(x => x.UID == user.UID);
-				context.Users.Remove(_user);
-				context.SaveChanges();
-				Users.Remove(user);
-			}
-		}
-
-		public static string CheckLogin(string login, string password)
-		{ 
-			if (password == null)
-				password = "";
-			var _password = HashHelper.GetHashFromString(password);
-			using (var context = DatabaseContext.Initialize())
-			{
-				var user = context.Users.Include(x=>x.UserPermissions).FirstOrDefault(x => x.PasswordHash == _password && x.Login == login);
-				if (user== null)
-					return "неверный логин или пароль";
-				DBCash.CurrentUser = user;
-			}
-			return null;
-		}
-
-		public static List<Journal> GetJournal()
-		{
-			using (var context = DatabaseContext.Initialize())
-			{
-				return context.Journal.ToList();
-			}
-		}
-
-		public static void SaveJournal(JournalType journalType)
-		{
-			var journalEvent = new Journal() { NameUser = CurrentUser.Name, DateTime = DateTime.Now, JurnalType = journalType };
-			using (var context = DatabaseContext.Initialize())
-			{
-				context.Journal.Add(journalEvent);
-				context.SaveChanges();
-			}
-		}
-
 
 		public static List<Device> GetAllChildren(Device device, bool isWithSelf = true)
 		{

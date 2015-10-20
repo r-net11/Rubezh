@@ -9,7 +9,7 @@ using ResursNetwork.OSI.ApplicationLayer;
 
 namespace ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel
 {
-    public class DevicesCollection: KeyedCollection<UInt32, DeviceBase>
+    public class DevicesCollection: KeyedCollection<UInt32, IDevice>
     {
         #region Fields And Properties
 
@@ -32,7 +32,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel
 
         #region Methods
 
-        protected override uint GetKeyForItem(DeviceBase item)
+        protected override uint GetKeyForItem(IDevice item)
         {
             return item.Address;
         }
@@ -71,7 +71,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel
                 });
         }
 
-        protected override void InsertItem(int index, DeviceBase item)
+        protected override void InsertItem(int index, IDevice item)
         {
             if (item.Network != null)
             {
@@ -92,7 +92,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel
                 });
         }
 
-        protected override void SetItem(int index, DeviceBase item)
+        protected override void SetItem(int index, IDevice item)
         {
             var removedItem = this[index];
 

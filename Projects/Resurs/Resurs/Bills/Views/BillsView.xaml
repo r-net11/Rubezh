@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="Resurs.Views.BillsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 MinWidth="500" MinHeight="200"
+			 xmlns:view="clr-namespace:Resurs.Views">
+
+	<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+		<StackPanel>
+			<ItemsControl ItemsSource="{Binding Bills}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<RadioButton GroupName="bills" IsChecked="{Binding IsChecked}" 
+										 Visibility="{Binding BillsViewModel.IsSelectionMode, Converter={StaticResource BoolToVisibilityConverter}}" />
+							<view:BillView />
+							<ToolBarButton ToolTip="Удалить счет" Height="28" Width="28" Background="DarkGray" ImageSource="DeleteCross"
+										   Visibility="{Binding IsReadOnly, Converter={StaticResource InversedBoolToVisibilityConverter}}" 
+										   Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" />
+						</StackPanel>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+			<!--<TextBlock VerticalAlignment="Center" Visibility="{Binding IsReadOnly, Converter={StaticResource InversedBoolToVisibilityConverter}}" >
+				<Hyperlink Command="{Binding AddCommand}" Style="{StaticResource HyperlinkStyle}">
+					<TextBlock VerticalAlignment="Center" Text="Добавить счет" />
+				</Hyperlink>
+			</TextBlock>-->
+			<Button Content="Добавить счет" Command="{Binding AddCommand}" Visibility="{Binding IsReadOnly, Converter={StaticResource InversedBoolToVisibilityConverter}}" Background="DarkGray" Margin="2" />
+		</StackPanel>
+	</ScrollViewer>
+</UserControl>

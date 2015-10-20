@@ -43,7 +43,7 @@ namespace ResursDAL
 		{
 			using (var context = DatabaseContext.Initialize())
 			{
-				return context.Measures.Where(x => x.DeviceUID == deviceUID && x.DateTime>=startDate && x.DateTime <= endDate).OrderBy(x=>x.DateTime).ToList();
+				return context.Measures.Where(x => x.DeviceUID == deviceUID && x.DateTime >=startDate && x.DateTime <= endDate).OrderBy(x=>x.DateTime).ToList();
 			}
 		}
 	}

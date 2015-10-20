@@ -127,11 +127,6 @@ namespace SKDModule.ViewModels
 			SelectedItem = Organisations.FirstOrDefault();
 		}
 
-		protected override List<ScheduleScheme> GetFromCallbackResult(RubezhAPI.DbCallbackResult dbCallbackResult)
-		{
-			return dbCallbackResult.ScheduleSchemes;
-		}
-
 		protected override void OnOrganisationUsersChanged(Organisation newOrganisation)
 		{
 			base.OnOrganisationUsersChanged(newOrganisation);

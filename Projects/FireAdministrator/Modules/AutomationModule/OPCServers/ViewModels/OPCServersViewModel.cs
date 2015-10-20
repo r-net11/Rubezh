@@ -23,19 +23,17 @@ namespace AutomationModule.ViewModels
 {
     public class OPCServersViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
     {
-        public static OPCServersViewModel Current { get; private set; }
         public OPCUAClient client;
 
         public OPCServersViewModel()
         {
-            Current = this;
-            Menu = new OPCServersMenuViewModel(this);
             AddCommand = new RelayCommand(OnAdd);
             DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
             MonitoringCommand = new RelayCommand(OnMonitoring, CanEditDelete);
             CheckTagsCommand = new RelayCommand(OnCheckTags, CanEditDelete);
             PrintTreeCommand = new RelayCommand(OnPrintTreeCommand, CanEditDelete);
+			Menu = new OPCServersMenuViewModel(this);
 
             client = new OPCUAClient();
             ConnectionString = "opc.tcp://localhost:51510/UA/DemoServer";
@@ -51,7 +49,6 @@ namespace AutomationModule.ViewModels
             AddSubscriptionCommand = new RelayCommand(OnAddSubscription);
             DeleteSubscriptionCommand = new RelayCommand(OnDeleteSubscription);
             GetSubscriptionListCommand = new RelayCommand(OnGetSubscriptionList);
-
         }
 
         public void Initialize()

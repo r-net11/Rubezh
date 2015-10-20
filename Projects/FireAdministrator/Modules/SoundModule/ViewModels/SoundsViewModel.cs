@@ -116,11 +116,6 @@ namespace SoundsModule.ViewModels
 			}
 		}
 
-		public override void OnShow()
-		{
-			base.OnShow();
-		}
-
 		public override void OnHide()
 		{
 			base.OnHide();

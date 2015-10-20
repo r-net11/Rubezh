@@ -215,10 +215,5 @@ namespace SKDModule.ViewModels
 		{
 			get { return RubezhAPI.Models.PermissionType.Oper_SKD_Employees_Edit; }
 		}
-
-		protected override List<ShortEmployee> GetFromCallbackResult(DbCallbackResult dbCallbackResult)
-		{
-			return dbCallbackResult.Employees;
-		}
 	}
 }

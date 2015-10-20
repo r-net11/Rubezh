@@ -96,9 +96,6 @@ namespace JournalModule
 			SafeFiresecService.NewJournalItemsEvent -= new Action<List<JournalItem>>(OnNewJournalItems);
 			SafeFiresecService.NewJournalItemsEvent += new Action<List<JournalItem>>(OnNewJournalItems);
 
-			SafeFiresecService.GetFilteredArchiveCompletedEvent -= new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredArchiveCompletedEvent);
-			SafeFiresecService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredArchiveCompletedEvent);
-
 			var journalFilter = new JournalFilter();
 			var result = ClientManager.FiresecService.GetFilteredJournalItems(journalFilter);
 			if (!result.HasError)
@@ -116,19 +113,6 @@ namespace JournalModule
 					UnreadJournalCount += journalItems.Count;
 
 				ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Publish(journalItems);
-			});
-		}
-
-		void OnGetFilteredArchiveCompletedEvent(IEnumerable<JournalItem> journalItems, Guid archivePortionUID)
-		{
-			ApplicationService.Invoke(() =>
-			{
-				var archiveResult = new ArchiveResult()
-				{
-					ArchivePortionUID = archivePortionUID,
-					JournalItems = journalItems
-				};
-				ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Publish(archiveResult);
 			});
 		}
 

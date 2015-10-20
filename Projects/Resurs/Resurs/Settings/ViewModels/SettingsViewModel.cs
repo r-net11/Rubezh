@@ -27,34 +27,65 @@ namespace Resurs.ViewModels
 			CreateTariffs();
 		}
 
+		List<Device> avaliableDevices = new List<Device>();
+		void GetAllDevices(Device device)
+		{
+			foreach (var child in device.Children)
+			{
+				if (child.DeviceType == DeviceType.Counter)
+				{
+					avaliableDevices.Add(child);
+				}
+				else
+				{
+					GetAllDevices(child);
+				}
+			}
+		}
 		void CreateTariffs()
 		{
 			var random = new Random();
 			var tariffs = new List<Tariff>();
-			for (int i = 0; i < 50; i++)
+			Array TariffType = Enum.GetValues(typeof(TariffType));
+			GetAllDevices(DBCash.GetRootDevice());
+			for (int i = 0; i < 25; i++)
 			{
+				var tariffParts = new List<TariffPart>();
 				tariffs.Add(new Tariff
 				{
-					Description = "" + random.Next(0, 1000),
-					//not clear
+					Description = "Описание тарифа " + i.ToString(),
 					Devices = new List<Device>(),
-					IsDiscount = random.Next(0, 1) == 1 ? true : false,
-					Name = "Тестовый тариф" + random.Next(0, 1000),
+					IsDiscount = random.NextDouble() > 0.9,
+					Name = "Тестовый тариф" + i.ToString(),
 					TariffParts = new List<TariffPart>(),
-					TariffType = TariffType.Electricity,
+					TariffType = (TariffType)TariffType.GetValue(random.Next(TariffType.Length)),
 				});
-				tariffs[i].TariffParts.Add(new TariffPart
+				int tariffPartsNumber = random.Next(1, 8);
+				for (int j = 0; j < tariffPartsNumber; j++)
 				{
-					Discount = random.Next(0, 1000),
-					EndTime = new TimeSpan(random.Next(0, 23), random.Next(0, 59), random.Next(0, 59)),
-					StartTime = new TimeSpan(random.Next(0, 23), random.Next(0, 59), random.Next(0, 59)),
-					Price = random.Next(0, 1000),
-					Tariff = tariffs[i],
-					Threshold = random.Next(0, 1000),
-				});
+					tariffParts.Add(new TariffPart
+					{
+						Discount = random.Next(0, 1000),
+						EndTime = new TimeSpan(random.Next(0, 23), random.Next(0, 59), random.Next(0, 59)),
+						StartTime = new TimeSpan(random.Next(0, 23), random.Next(0, 59), random.Next(0, 59)),
+						Price = random.Next(0, 1000),
+						Tariff = tariffs[i],
+						Threshold = random.Next(0, 1000),
+					});
+				}
+				tariffs[i].TariffParts = tariffParts;
+				
+				foreach (var device in avaliableDevices)
+				{
+					if (device.TariffType == tariffs[i].TariffType)
+					{
+						tariffs[i].Devices.Add(device);
+						avaliableDevices.Remove(device);
+						break;
+					}
+				}
 			}
 			DBCash.CreateTariffs(tariffs);
-
 		}
 
 		void DropDB()
@@ -64,24 +95,24 @@ namespace Resurs.ViewModels
 
 		void CreateDevices()
 		{
-
+			DBCash.CreateSystem();
 		}
 
 		void CreateConsumers()
 		{
-
+			DBCash.CreateConsumers();
 		}
 
 		void CreateUsers()
 		{
-
+			DBCash.CreateUsers();
 		}
 
 		void CreateMeasures()
 		{
 			var counters = DBCash.GetAllChildren(DBCash.RootDevice).Where(x => x.DeviceType == DeviceType.Counter);
 			var measures = new List<Measure>();
-			var nowDate= DateTime.Now;
+			var nowDate = DateTime.Now;
 			var startDate = nowDate.AddDays(-7);
 			foreach (var counter in counters)
 			{

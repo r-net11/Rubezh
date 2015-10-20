@@ -1,0 +1,48 @@
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.BCD.BcdConverter: type is sealed.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.Incotex.Models.PowerCounters: type is a value type.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.OSI.ApplicationLayer.Devices.Result: type is a value type.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.OSI.ApplicationLayer.Devices.DeviceType: type is a value type.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.Incotex.Models.DayOfWeek: type is a value type.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.Incotex.Models.IncotexDateTime: type is a value type.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.OSI.ApplicationLayer.Devices.Parameter: type is sealed.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Mercury203CmdCode: type is a value type.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.PollingMode: type is a value type.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.Incotex.NetworkControllers.Messages.ErrorCode: type is a value type.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.Management.Status: type is a value type.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.Modbus.CRC16: type is a value type.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.OSI.DataLinkLayer.InterfaceType: type is a value type.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.OSI.Messages.MessageType: type is a value type.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.OSI.Messages.Transactions.TransactionStatus: type is a value type.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.OSI.Messages.Transactions.TransactionType: type is a value type.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.OSI.Messages.Transactions.NetworkRequestStatus: type is a value type.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.OSI.Messages.Transactions.TransactionErrorCodes: type is a value type.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.OSI.Messages.Transactions.TransactionError: type is a value type.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for <>f__AnonymousType0`2: type is sealed.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.Management.IManageable: type is an interface.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.ApplicationLayer.Devices.IDevice: type is an interface.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.ApplicationLayer.INetwrokController: type is an interface.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.Messages.IAsyncRequestResult: type is an interface.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.ApplicationLayer.Devices.Result: type is an enum.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.ApplicationLayer.Devices.DeviceType: type is an enum.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters.IValueConverter: type is an interface.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.Incotex.Models.DayOfWeek: type is an enum.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.Incotex.Models.Mercury203+<>c__DisplayClass13: type is not supported because of internal limitations.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.Incotex.Models.Mercury203+<>c__DisplayClass1c: type is not supported because of internal limitations.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.Incotex.Models.Mercury203+<>c__DisplayClassa: type is not supported because of internal limitations.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Mercury203CmdCode: type is an enum.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.PollingMode: type is an enum.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.DataLinkLayer.IDataLinkPort: type is an interface.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.Incotex.NetworkControllers.Messages.ErrorCode: type is an enum.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.Messages.IMessage: type is an interface.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.IncotexNetworkController+OutputBuffer: type is not visible to exported or assembly(resursnetwork.Fakes).
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.Messages.IServiceMessage: type is an interface.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.Management.Status: type is an enum.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.Networks.NetworksManager+<>c__DisplayClass11: type is not supported because of internal limitations.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.Networks.NetworksManager+<>c__DisplayClass6: type is not supported because of internal limitations.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.DataLinkLayer.InterfaceType: type is an enum.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.Messages.MessageType: type is an enum.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.Messages.Transactions.TransactionStatus: type is an enum.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.Messages.Transactions.TransactionType: type is an enum.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.Messages.Transactions.NetworkRequestStatus: type is an enum.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.Messages.Transactions.TransactionErrorCodes: type is an enum.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for <>f__AnonymousType0`2: type is not supported because of internal limitations.

@@ -71,13 +71,7 @@ namespace RubezhDAL.DataClasses
 			ImitatorJournalTranslator = new ImitatorJournalTranslator(this);
 		}
         
-        public void BeginGet(RubezhAPI.SKD.HRFilter filter, Action<DbCallbackResult> portionReady)
-        {
-            EmployeeTranslator.AsyncTranslator.BeginGet(filter.EmployeeFilter, portionReady);
-            CardTranslator.AsyncTranslator.BeginGet(filter.CardFilter, portionReady);
-        }
-
-		public OperationResult ResetDB()
+        public OperationResult ResetDB()
 		{
 			try
 			{

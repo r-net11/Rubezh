@@ -119,11 +119,6 @@ namespace SKDModule.ViewModels
 			get { return SelectedItem != null && !SelectedItem.IsOrganisation && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_View); }
 		}
 
-		protected override List<ShortPosition> GetFromCallbackResult(RubezhAPI.DbCallbackResult dbCallbackResult)
-		{
-			return dbCallbackResult.Positions;
-		}
-
 		public override void Initialize(PositionFilter filter)
 		{
 			base.Initialize(filter);

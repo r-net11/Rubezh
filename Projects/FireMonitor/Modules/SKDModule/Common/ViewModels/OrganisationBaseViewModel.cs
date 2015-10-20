@@ -38,10 +38,7 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Subscribe(OnRemoveOrganisation);
 			ServiceFactory.Events.GetEvent<RestoreOrganisationEvent>().Unsubscribe(OnRestoreOrganisation);
 			ServiceFactory.Events.GetEvent<RestoreOrganisationEvent>().Subscribe(OnRestoreOrganisation);
-			//SafeFiresecService.DbCallbackResultEvent -= new Action<DbCallbackResult>(OnDbCallbackResultEvent);
-			//SafeFiresecService.DbCallbackResultEvent += new Action<DbCallbackResult>(OnDbCallbackResultEvent);
 			Organisations = new ObservableCollection<TViewModel>();
-			DbCallbackResultUID = Guid.NewGuid();
 			_filter = new TFilter();
 		}
 
@@ -61,25 +58,10 @@ namespace SKDModule.ViewModels
 		protected abstract bool MarkDeleted(TModel model);
 		protected abstract bool Add(TModel item);
 		protected abstract bool Restore(TModel model);
-		protected abstract List<TModel> GetFromCallbackResult(DbCallbackResult dbCallbackResult);
 		protected abstract PermissionType Permission { get; }
 		bool IsEditAllowed { get { return ClientManager.CheckPermission(Permission); } }
 		public TFilter Filter { get { return _filter; } }
-		public Guid DbCallbackResultUID;
-
-		//void OnDbCallbackResultEvent(DbCallbackResult dbCallbackResult)
-		//{
-		//	if (dbCallbackResult.ClientUID == DbCallbackResultUID)
-		//	{
-		//		InitializeModels(GetFromCallbackResult(dbCallbackResult));
-		//		OnPropertyChanged(() => Organisations);
-		//		IsLoading = !dbCallbackResult.IsLastPortion;
-		//		//InitializeAdditionalColumns();
-		//		//ItemsCount = Organisations.Select(x => x.Children.Count()).Sum();
-		//		//    SelectedItem = Organisations.FirstOrDefault();
-		//	}
-		//}
-
+		
 		protected virtual void InitializeModels(IEnumerable<TModel> models)
 		{
 			foreach (var organisation in Organisations)
@@ -106,14 +88,6 @@ namespace SKDModule.ViewModels
 				return null;
 			return result;
 		}
-
-		//public virtual void BeginInitialize(TFilter filter)
-		//{
-		//	_filter = filter;
-		//	IsWithDeleted = filter.LogicalDeletationType == LogicalDeletationType.All;
-		//	InitializeOrganisations(_filter);
-		//	IsLoading = true;
-		//}
 
 		public virtual void Initialize(TFilter filter)
 		{
@@ -158,8 +132,6 @@ namespace SKDModule.ViewModels
 			}
 			return true;
 		}
-
-
 
 		protected virtual void OnEditOrganisation(Organisation newOrganisation)
 		{

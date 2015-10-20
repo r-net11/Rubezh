@@ -37,6 +37,13 @@ namespace Infrastructure.Automation
 					var filter = ProcedureExecutionContext.SystemConfiguration.JournalFilters.FirstOrDefault(x => x.UID == filtersUID);
 					if (filter != null)
 					{
+						if (filter.JournalSubsystemTypes.Count +
+							filter.JournalEventNameTypes.Count +
+							filter.JournalEventDescriptionTypes.Count +
+							filter.JournalObjectTypes.Count +
+							filter.ObjectUIDs.Count == 0)
+							continue;
+
 						if (filter.JournalSubsystemTypes.Count > 0 && !filter.JournalSubsystemTypes.Contains(journalItem.JournalSubsystemType))
 							continue;
 						if (filter.JournalEventNameTypes.Count > 0 && !filter.JournalEventNameTypes.Contains(journalItem.JournalEventNameType))

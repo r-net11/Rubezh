@@ -12,5 +12,14 @@
 	<DataTemplate DataType="{x:Type ViewModels:ConsumerChangeParentViewModel}">
 		<Views:ConsumerChangeParentView />
 	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ConsumerListViewModel}">
+		<Views:ConsumerListView />
+	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:SelectBillViewModel}">
+		<Views:SelectBillView />
+	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ReceiptViewModel}">
+		<Views:ReceiptView />
+	</DataTemplate>
 
 </ResourceDictionary>

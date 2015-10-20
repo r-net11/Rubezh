@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ResursNetwork.BCD;
 
-namespace ResursNetwork.Incotex.Models.DateTime
+namespace ResursNetwork.Incotex.Models
 {
     public enum DayOfWeek : byte
     {
@@ -159,24 +159,36 @@ namespace ResursNetwork.Incotex.Models.DateTime
                 BcdConverter.ToByte(Month), BcdConverter.ToByte(DayOfMonth), BcdConverter.ToByte(Hours),
                 BcdConverter.ToByte(Minutes), BcdConverter.ToByte(Seconds));
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="datetime"></param>
-        /// <returns></returns>
-        public static IncotexDateTime FromDateTime(System.DateTime datetime)
-        {
-                return new IncotexDateTime
-                {
-                    Year = BcdConverter.ToBcdByte(Convert.ToByte(datetime.Year - 2000)),
-                    DayOfMonth = BcdConverter.ToBcdByte(Convert.ToByte(datetime.Day)),
-                    DayOfWeek = (Incotex.Models.DateTime.DayOfWeek)Convert.ToByte(datetime.DayOfWeek),
-                    Hours = BcdConverter.ToBcdByte(Convert.ToByte(datetime.Hour)),
-                    Minutes = BcdConverter.ToBcdByte(Convert.ToByte(datetime.Minute)),
-                    Seconds = BcdConverter.ToBcdByte(Convert.ToByte(datetime.Second)),
-                    Month = BcdConverter.ToBcdByte(Convert.ToByte(datetime.Month))
-                };
-        }
-        #endregion
-    }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="datetime"></param>
+		/// <returns></returns>
+		public static IncotexDateTime FromDateTime(System.DateTime datetime)
+		{
+			return new IncotexDateTime
+				{
+					Year = BcdConverter.ToBcdByte(Convert.ToByte(datetime.Year - 2000)),
+					DayOfMonth = BcdConverter.ToBcdByte(Convert.ToByte(datetime.Day)),
+					DayOfWeek = (Incotex.Models.DayOfWeek)Convert.ToByte(datetime.DayOfWeek),
+					Hours = BcdConverter.ToBcdByte(Convert.ToByte(datetime.Hour)),
+					Minutes = BcdConverter.ToBcdByte(Convert.ToByte(datetime.Minute)),
+					Seconds = BcdConverter.ToBcdByte(Convert.ToByte(datetime.Second)),
+					Month = BcdConverter.ToBcdByte(Convert.ToByte(datetime.Month))
+				};
+		}
+
+		public static System.DateTime FromIncotexDateTime(IncotexDateTime datetime)
+		{
+ 			return new System.DateTime((2000 + BcdConverter.ToByte(datetime.Year)),
+				BcdConverter.ToByte(datetime.Month), 
+				BcdConverter.ToByte(datetime.DayOfMonth), 
+				BcdConverter.ToByte(datetime.Hours),
+				BcdConverter.ToByte(datetime.Minutes),
+				BcdConverter.ToByte(datetime.Seconds));
+		}
+		
+		#endregion
+	}
 }

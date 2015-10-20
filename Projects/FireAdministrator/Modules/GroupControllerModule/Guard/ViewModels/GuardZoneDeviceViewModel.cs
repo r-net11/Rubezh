@@ -38,7 +38,7 @@ namespace GKModule.ViewModels
 			if (!ActionTypes.Contains(SelectedActionType))
 				GuardZoneDevice.ActionType = ActionTypes.FirstOrDefault();
 
-			IsCodeReader = guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader;
+			IsCodeReader = guardZoneDevice.Device.Driver.IsCardReaderOrCodeReader;
 		}
 
 		public string PresentationZone

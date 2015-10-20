@@ -31,7 +31,6 @@ namespace RubezhAPI.GK
 
 			Zones = new List<GKZone>();
 			GuardZones = new List<GKGuardZone>();
-			Directions = new List<GKDirection>();
         }
 
 		public override void Invalidate()
@@ -114,13 +113,7 @@ namespace RubezhAPI.GK
 		[XmlIgnore]
 		public List<GKGuardZone> GuardZones { get; set; }
 		[XmlIgnore]
-		public List<GKDirection> Directions { get; set; }
-		[XmlIgnore]
 		public GKDoor Door { get; set; }
-		[XmlIgnore]
-		public bool HasDifferences { get; set; }
-		[XmlIgnore]
-		public bool HasMissingDifferences { get; set; }
 		[XmlIgnore]
 		public bool IsInMPT { get; set; }
 		public object Clone()
@@ -209,8 +202,6 @@ namespace RubezhAPI.GK
 		[DataMember]
 		public GKReflectionItem GKReflectionItem { get; set; }
 
-		[DataMember]
-		public bool IsOPCUsed { get; set; }
 
 		[XmlIgnore]
 		public byte ShleifNo
@@ -615,7 +606,7 @@ namespace RubezhAPI.GK
 		[XmlIgnore]
 		public bool CanBeNotUsed
 		{
-			get { return (Parent != null && Parent.Driver.IsGroupDevice); }
+			get { return Parent != null && Parent.Driver.IsGroupDevice; }
 		}
 
 		public void OnAUParametersChanged()

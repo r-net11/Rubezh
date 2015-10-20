@@ -49,7 +49,7 @@ namespace GKModule.Plans.ViewModels
 		private void OnEdit()
 		{
 			ServiceFactory.Events.GetEvent<EditGKDelayEvent>().Publish(this.SelectedDelay.Delay.UID);
-			this.SelectedDelay.Update(this.SelectedDelay.Delay);
+			SelectedDelay.Update();
 		}
 
 		private bool CanEdit()

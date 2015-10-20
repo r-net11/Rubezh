@@ -6,13 +6,11 @@ namespace Infrastructure.Common
 	public class AppDataFolderHelper
 	{
 		static string AppDataFolderName;
-		static string RubezhResursFolderName;
-
+		
 		static AppDataFolderHelper()
 		{
 			var appDataFolderName = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
 			AppDataFolderName = Path.Combine(appDataFolderName, "Firesec2");
-			RubezhResursFolderName = Path.Combine(appDataFolderName, "RubezhResurs");
 		}
 
 		public static string GetLocalFolder(string folderName)
@@ -76,11 +74,6 @@ namespace Infrastructure.Common
 		public static string GetGlobalSettingsFileName()
 		{
 			return Path.Combine(AppDataFolderName, "GlobalSettings.xml");
-		}
-
-		public static string GetResursGlobalSettingsFileName()
-		{
-			return Path.Combine(RubezhResursFolderName, "GlobalSettings.xml");
 		}
 
 		public static string GetFileInFolder(string folderName, string fileName)

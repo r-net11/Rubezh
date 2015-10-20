@@ -50,7 +50,7 @@ namespace RubezhAPI.GK
 					if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetector || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetectorSound
 						|| guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
 						guardZoneDevice.Device.ChildDescriptors.Add(guardZone);
-					if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
+					if (guardZoneDevice.Device.Driver.IsCardReaderOrCodeReader)
 					{
 						var codeUIDs = new List<Guid>();
 						codeUIDs.AddRange(guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs);
@@ -111,7 +111,6 @@ namespace RubezhAPI.GK
 						}
 					}
 				}
-
 				gkBases.Add(mpt);
 			}
 
@@ -250,6 +249,26 @@ namespace RubezhAPI.GK
 					if (device.GKParent != null)
 					{
 						gkBase.GkParents.Add(device.GKParent);
+					}
+				}
+
+				if (gkBase is GKMPT)
+				{
+					var mpt = gkBase as GKMPT;
+					if (mpt.HasAccessLevel)
+					{
+						gkBase.KauParents.Clear();
+						gkBase.MagnetToGK = true;
+					}
+				}
+
+				if (gkBase is GKGuardZone)
+				{
+					var guardZone = gkBase as GKGuardZone;
+					if (guardZone.HasAccessLevel)
+					{
+						gkBase.KauParents.Clear();
+						gkBase.MagnetToGK = true;
 					}
 				}
 

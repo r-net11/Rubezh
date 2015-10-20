@@ -16,6 +16,8 @@ using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using SKDModule.PassCard.Designer;
+using System.Reflection;
+using System.ComponentModel;
 
 namespace SKDModule.PassCard.ViewModels
 {
@@ -137,6 +139,7 @@ namespace SKDModule.PassCard.ViewModels
 
 		private void ResolveTextProperty(ElementPassCardTextProperty elementTextProperty)
 		{
+			elementTextProperty.PresentationName = GetEnumDescription(elementTextProperty.PropertyType);
 			switch (elementTextProperty.PropertyType)
 			{
 				case PassCardTextPropertyType.Birthday:
@@ -179,9 +182,19 @@ namespace SKDModule.PassCard.ViewModels
 		}
 		private void ResolveImageProperty(ElementPassCardImageProperty elementImageProperty)
 		{
+			elementImageProperty.PresentationName = GetEnumDescription(elementImageProperty.PropertyType);
 			//elementImageProperty.BackgroundColor = Colors.Transparent;
 			//elementImageProperty.BackgroundSourceName = null;
 			//elementImageProperty.BackgroundImageSource = null;
+		}
+
+		private string GetEnumDescription(Enum value)
+		{
+			FieldInfo fi = value.GetType().GetField(value.ToString());
+			DescriptionAttribute[] attributes =
+			  (DescriptionAttribute[])fi.GetCustomAttributes
+			  (typeof(DescriptionAttribute), false);
+			return (attributes.Length > 0) ? attributes[0].Description : value.ToString();
 		}
 
 		#region IPlanDesignerViewModel Members

@@ -4,6 +4,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
 using ResursDAL;
+using ResursNetwork.Networks;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,11 +26,26 @@ namespace Resurs.ViewModels
 		public DeviceState State { get; private set; }
 		public bool IsActive { get; private set; }
 
-		public void Update()
+		public void Load()
 		{
-			var device = DBCash.GetDeivce(Device.UID);
+			var children = Device.Children;
+			var device = DBCash.GetDevice(Device.UID);
 			if (device != null)
 				Update(device);
+			Device.Children = children;
+		}
+
+		public void Update()
+		{
+			OnPropertyChanged(() => Device);
+			IsActive = Device.IsActive || Device.Parent == null;
+			if (IsActive)
+				State = DeviceState.Norm;
+			else
+				State = DeviceState.Disabled;
+			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => IsActive);
+			OnPropertyChanged(() => Parameters);
 		}
 
 		public void Update(Device device)

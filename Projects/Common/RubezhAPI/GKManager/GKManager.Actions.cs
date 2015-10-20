@@ -205,82 +205,6 @@ namespace RubezhClient
 		}
 		#endregion
 
-		public static void AddZone(GKZone zone)
-		{
-			Zones.Add(zone);
-		}
-
-		public static void RemoveZone(GKZone zone)
-		{
-			Zones.Remove(zone);
-			zone.OutDependentElements.ForEach(x =>
-			{
-				x.InputDependentElements.Remove(zone);
-				if (x is GKDevice)
-				{
-					x.Invalidate();
-					x.OnChanged();
-				}
-				    x.UpdateLogic();
-					x.OnChanged();
-			});
-
-			foreach (var device in zone.Devices)
-			{
-				device.Zones.Remove(zone);
-				device.ZoneUIDs.Remove(zone.UID);
-				device.OnChanged();
-			}
-				
-			zone.OnChanged();
-		}
-
-		public static void EditZone(GKZone zone)
-		{
-			zone.OnChanged();
-			zone.OutDependentElements.ForEach(x => x.OnChanged());
-		}
-
-		/// <summary>
-		/// Adds specified Delay.
-		/// </summary>
-		/// <param name="delay">Delay to add.</param>
-		public static void AddDelay(GKDelay delay)
-		{
-			Delays.Add(delay);
-		}
-
-		/// <summary>
-		/// Removes specified Delay.
-		/// </summary>
-		/// <param name="delay">Delay to remove.</param>
-		public static void RemoveDelay(GKDelay delay)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static void AddDirection(GKDirection direction)
-		{
-			Directions.Add(direction);
-		}
-
-		public static void RemoveDirection(GKDirection direction)
-		{
-			Directions.Remove(direction);
-			direction.InputDependentElements.ForEach(x =>
-			{
-				x.OutDependentElements.Remove(direction);
-				x.OnChanged();
-			});
-
-			direction.OutDependentElements.ForEach(x =>
-			{
-				x.InputDependentElements.Remove(direction);
-				x.OnChanged();
-			});
-			direction.OnChanged();
-		}
-
 		public static void ChangeLogic(GKDevice device, GKLogic logic)
 		{
 
@@ -358,6 +282,7 @@ namespace RubezhClient
 			if (changeZone)
 			{
 				RemoveDeviceFromZone(device, null);
+				device.Zones.ForEach(x => x.Devices.Remove(device));
 				ChangeLogic(device, new GKLogic());
 			}
 
@@ -379,10 +304,13 @@ namespace RubezhClient
 				x.UpdateLogic();
 				x.OnChanged();
 			});
-
+			device.Zones = new List<GKZone>();
+			device.ZoneUIDs = new List<Guid>();
+			device.GuardZones = new List<GKGuardZone>();
+			device.GuardZoneUIDs = new List<Guid>();
 			device.InputDependentElements = new List<GKBase>();
 			device.OutDependentElements = new List<GKBase>();
-
+		
 			return true;
 		}
 

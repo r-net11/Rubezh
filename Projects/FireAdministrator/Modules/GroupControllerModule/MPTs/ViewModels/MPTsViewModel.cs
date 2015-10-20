@@ -21,21 +21,21 @@ namespace GKModule.ViewModels
 {
 	public class MPTsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
-		bool _lockSelection;
+		bool _lockSelection = false;
 
 		public MPTsViewModel()
 		{
-			Menu = new MPTsMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
-			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
 			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
 			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 
-			RegisterShortcuts();
+			Menu = new MPTsMenuViewModel(this);
 			IsRightPanelEnabled = true;
+			RegisterShortcuts();
 			SubscribeEvents();
 			SetRibbonItems();
 		}
@@ -99,7 +99,7 @@ namespace GKModule.ViewModels
 			var mptDetailsViewModel = new MPTDetailsViewModel();
 			if (DialogService.ShowModalWindow(mptDetailsViewModel))
 			{
-				GKManager.DeviceConfiguration.MPTs.Add(mptDetailsViewModel.MPT);
+				GKManager.AddMPT(mptDetailsViewModel.MPT);
 				var mptViewModel = new MPTViewModel(mptDetailsViewModel.MPT);
 				MPTs.Add(mptViewModel);
 				SelectedMPT = mptViewModel;
@@ -107,6 +107,23 @@ namespace GKModule.ViewModels
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 			return mptDetailsViewModel;
+		}
+
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
+		{
+			OnEdit(SelectedMPT.MPT);
+		}
+
+		void OnEdit(GKMPT mpt)
+		{
+			var mptDetailsViewModel = new MPTDetailsViewModel(mpt);
+			if (DialogService.ShowModalWindow(mptDetailsViewModel))
+			{
+				SelectedMPT.Update();
+				GKManager.EditMPT(SelectedMPT.MPT);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -119,19 +136,7 @@ namespace GKModule.ViewModels
 					MPTViewModel.ChangeIsInMPT(mptDevice.Device, false);
 				}
 				var index = MPTs.IndexOf(SelectedMPT);
-				GKManager.DeviceConfiguration.MPTs.Remove(SelectedMPT.MPT);
-				SelectedMPT.MPT.InputDependentElements.ForEach(x =>
-				{
-					x.OutDependentElements.Remove(SelectedMPT.MPT);
-				});
-
-				SelectedMPT.MPT.OutDependentElements.ForEach(x =>
-				{
-					x.InputDependentElements.Remove(SelectedMPT.MPT);
-					x.UpdateLogic();
-					x.OnChanged();
-				});
-
+				GKManager.RemoveMPT(SelectedMPT.MPT);
 				MPTs.Remove(SelectedMPT);
 				index = Math.Min(index, MPTs.Count - 1);
 				if (index > -1)
@@ -152,7 +157,7 @@ namespace GKModule.ViewModels
 				{
 					for (var i = emptyMPTs.Count() - 1; i >= 0; i--)
 					{
-						GKManager.MPTs.Remove(emptyMPTs.ElementAt(i).MPT);
+						GKManager.RemoveMPT(emptyMPTs.ElementAt(i).MPT);
 						MPTs.Remove(emptyMPTs.ElementAt(i));
 					}
 					SelectedMPT = MPTs.FirstOrDefault();
@@ -164,23 +169,6 @@ namespace GKModule.ViewModels
 		bool CanDeleteAllEmpty()
 		{
 			return MPTs.Any(x => !x.MPT.MPTDevices.Any() && !x.MPT.MptLogic.GetObjects().Any());
-		}
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			OnEdit(SelectedMPT.MPT);
-		}
-
-		void OnEdit(GKMPT mpt)
-		{
-			var mptDetailsViewModel = new MPTDetailsViewModel(mpt);
-			if (DialogService.ShowModalWindow(mptDetailsViewModel))
-			{
-				SelectedMPT.MPT = mptDetailsViewModel.MPT;
-				SelectedMPT.Update();
-				SelectedMPT.MPT.OutDependentElements.ForEach(x => x.OnChanged());
-				ServiceFactory.SaveService.GKChanged = true;
-			}
 		}
 
 		public RelayCommand CopyLogicCommand { get; private set; }
@@ -260,9 +248,11 @@ namespace GKModule.ViewModels
 			SelectedMPT = SelectedMPT;
 		}
 
-		public override void OnHide()
+		public void LockedSelect(Guid zoneUID)
 		{
-			base.OnHide();
+			_lockSelection = true;
+			Select(zoneUID);
+			_lockSelection = false;
 		}
 
 		private void RegisterShortcuts()
@@ -270,13 +260,6 @@ namespace GKModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-		}
-
-		public void LockedSelect(Guid zoneUID)
-		{
-			_lockSelection = true;
-			Select(zoneUID);
-			_lockSelection = false;
 		}
 
 		void SubscribeEvents()
@@ -291,6 +274,21 @@ namespace GKModule.ViewModels
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
+
+		private void SetRibbonItems()
+		{
+			RibbonItems = new List<RibbonMenuItemViewModel>()
+			{
+				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				{
+					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
+					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
+					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
+					new RibbonMenuItemViewModel("Удалить все пустые МПТ", DeleteAllEmptyCommand, "BDeleteEmpty"),
+				}, "BEdit") { Order = 2 }
+			};
+		}
+
 		private void OnMPTChanged(Guid mptUID)
 		{
 			var mpt = MPTs.FirstOrDefault(x => x.MPT.UID == mptUID);
@@ -332,20 +330,6 @@ namespace GKModule.ViewModels
 			if (elementMPT == null)
 				elementMPT = element as ElementPolygonGKMPT;
 			return elementMPT;
-		}
-
-		private void SetRibbonItems()
-		{
-			RibbonItems = new List<RibbonMenuItemViewModel>()
-			{
-				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
-				{
-					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
-					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
-					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
-					new RibbonMenuItemViewModel("Удалить все пустые МПТ", DeleteAllEmptyCommand, "BDeleteEmpty"),
-				}, "BEdit") { Order = 2 }
-			};
 		}
 	}
 }

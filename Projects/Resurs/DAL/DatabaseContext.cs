@@ -10,7 +10,7 @@ using Common;
 
 namespace ResursDAL
 {
-	public class DatabaseContext : DbContext, IDisposable
+	public class DatabaseContext : DbContext
 	{
 		public DbSet<Consumer> Consumers { get; set; }
 		public DbSet<Bill> Bills { get; set; }
@@ -22,6 +22,7 @@ namespace ResursDAL
 		public DbSet<User> Users { get; set; }
 		public DbSet<UserPermission> UserPermissions { get; set; }
 		public DbSet<Journal> Journal { get; set; }
+		public DbSet<Receipt> Receipts { get; set; }
 	
 		public DatabaseContext(DbConnection connection)
 			: base(connection, true)
@@ -44,11 +45,6 @@ namespace ResursDAL
 			modelBuilder.Entity<Device>().HasMany(x => x.Parameters).WithRequired(x => x.Device).WillCascadeOnDelete();
 			modelBuilder.Entity<User>().HasMany(x => x.UserPermissions).WithRequired(x => x.User).WillCascadeOnDelete();
 		}
-
-		void IDisposable.Dispose()
-		{
-			Dispose();
-		}
 	}
 
 	internal sealed class Configuration : DbMigrationsConfiguration<DatabaseContext>
@@ -65,12 +61,17 @@ namespace ResursDAL
 			{
 				var userpermissions = new List<UserPermission>();
 				User user = new User() { Name = "Adm", Login = "Adm", PasswordHash = HashHelper.GetHashFromString("") };
-				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Consumer });
-				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.Device });
+				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.ViewConsumer });
+				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.ViewDevice });
 				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditConsumer });
 				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditDevice });
 				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditUser });
-				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.User });
+				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.ViewUser });
+				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.ViewJournal });
+				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.ViewPlot });
+				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.ViewReport });
+				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.ViewTariff });
+				userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditTariff });
 				user.UserPermissions = userpermissions;
 				context.Users.Add(user);
 				DBCash.Users = new List<User>();

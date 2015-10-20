@@ -114,8 +114,31 @@ namespace ResursNetwork.Networks
                                     {
                                         incotexController.Stop(); 
                                     }
+
                                     break; 
                                 }
+							case DriverType.VirtualIncotextNetwork:
+								{
+									var controller = new IncotexNetworkControllerVirtual
+									{
+										Id = (Guid)network.GetParameter(ParameterNamesIncotexNetworkVirtual.Id),
+										PollingPeriod = (int)network.GetParameter(ParameterNamesIncotexNetworkVirtual.PollInterval)
+									};
+
+									_NetworkControllers.Add((INetwrokController)controller);
+
+									if (network.IsActive)
+									{
+										controller.Start();
+									}
+									else
+									{
+										controller.Stop();
+									}
+
+									break; 
+
+								}
                             default:
                                 {
                                     throw new NotSupportedException(String.Format(
@@ -139,6 +162,15 @@ namespace ResursNetwork.Networks
             }
         }
 
+		/// <summary>
+		/// Удаляет сеть
+		/// </summary>
+		/// <param name="id">Идентификатор удаляемой сети</param>
+		public void RemoveNetwork(Guid id)
+		{
+			_NetworkControllers.Remove(id);
+		}
+
         /// <summary>
         /// Создаёт устройтсво на основе типа и добавляет в коллекцию
         /// </summary>
@@ -157,7 +189,7 @@ namespace ResursNetwork.Networks
                         {
                             case ResursAPI.DriverType.Mercury203Counter:
                                 {
-                                    var mercury203 = new Mercury203
+                                    var mercury203 = new Mercury203Virtual
                                     {
                                         Id = (Guid)device.GetParameter(ParameterNamesMercury203.Id),
                                         Address = (UInt32)device.GetParameter(ParameterNamesMercury203.Address),
@@ -185,6 +217,36 @@ namespace ResursNetwork.Networks
                                         .Devices.Add(mercury203);
                                     break;
                                 }
+							case DriverType.VirtualMercury203Counter:
+								{
+									var mercury203 = new Mercury203
+									{
+										Id = (Guid)device.GetParameter(ParameterNamesMercury203.Id),
+										Address = (UInt32)device.GetParameter(ParameterNamesMercury203.Address),
+										Status = device.IsActive ? Status.Running : Status.Stopped
+									};
+
+									mercury203.Parameters[ParameterNamesMercury203.GADDR].Value =
+										device.GetParameter(ParameterNamesMercury203.GADDR);
+									mercury203.Parameters[ParameterNamesMercury203.PowerLimit].Value =
+										device.GetParameter(ParameterNamesMercury203.PowerLimit);
+									mercury203.Parameters[ParameterNamesMercury203.PowerLimitPerMonth].Value =
+										device.GetParameter(ParameterNamesMercury203.PowerLimitPerMonth);
+									//TODO: Сделать таблицу параметров доконца
+
+									var owner = device.Parent;
+
+									if ((owner == null) ||
+										(owner.DriverType != DriverType.IncotextNetwork))
+									{
+										throw new InvalidOperationException(
+											"Невозможно добавить устройтсво. Владельцем устройства не является IncotextNetwork");
+									}
+
+									_NetworkControllers[(Guid)owner.GetParameter(ParameterNamesBase.Id)]
+										.Devices.Add(mercury203);
+									break;
+								}
                             default:
                                 {
                                     throw new NotSupportedException(String.Format(
@@ -201,15 +263,6 @@ namespace ResursNetwork.Networks
                           device.DeviceType.ToString()));
                     }
             }
-        }
-
-        /// <summary>
-        /// Удаляет сеть
-        /// </summary>
-        /// <param name="id">Идентификатор удаляемой сети</param>
-        public void RemoveNetwork(Guid id)
-        {
-            _NetworkControllers.Remove(id);
         }
 
         /// <summary>
@@ -279,6 +332,7 @@ namespace ResursNetwork.Networks
                 case NotifyCollectionChangedAction.Add:
                     {
                         e.Network.StatusChanged += EventHandler_Network_StatusChanged;
+						e.Network.ParameterChanged += EventHandler_Network_ParameterChanged;
                         
                         foreach(var device in e.Network.Devices)
                         {
@@ -291,6 +345,7 @@ namespace ResursNetwork.Networks
                 case NotifyCollectionChangedAction.Remove:
                     {
                         e.Network.StatusChanged -= EventHandler_Network_StatusChanged;
+						e.Network.ParameterChanged -= EventHandler_Network_ParameterChanged;
 
                         foreach (var device in e.Network.Devices)
                         {
@@ -304,7 +359,13 @@ namespace ResursNetwork.Networks
             }
         }
 
-        public void EventHandler_Device_ErrorOccurred(object sender, ErrorOccuredEventArgs e)
+		private void EventHandler_Network_ParameterChanged(object sender, ParameterChangedArgs e)
+		{
+			// Прокидываем событие дальше
+			OnParameterChanged(e);
+		}
+
+        private void EventHandler_Device_ErrorOccurred(object sender, ErrorOccuredEventArgs e)
         {
             throw new NotImplementedException();
         }
@@ -361,6 +422,15 @@ namespace ResursNetwork.Networks
                 handler(this, args);
             }
         }
+
+		private void OnParameterChanged(ParameterChangedArgs args)
+		{
+ 			if (ParameterChanged != null)
+			{
+				ParameterChanged(this, args);
+			}
+		}
+
         #endregion
 
         #region Events
@@ -377,6 +447,7 @@ namespace ResursNetwork.Networks
         /// (объединяет-дублирует события NetworkChangedStatus и DeviceChangedStatus)
         /// </summary>
         public event EventHandler<StatusChangedEventArgs> StatusChanged;
+		public event EventHandler<ParameterChangedArgs> ParameterChanged;
         #endregion
     }
 }

@@ -13,6 +13,7 @@
 			<ComponentRef Id="Resurs.DLL.fr" />
 			<ComponentRef Id="Resurs.DLL.ja" />
 			<ComponentRef Id="Resurs.DLL.zhCN" />
+			<ComponentRef	Id="Resurs.DLL.ru" />
     </Feature>
   </Fragment>
 </Wix>

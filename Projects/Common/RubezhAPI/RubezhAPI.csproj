@@ -151,6 +151,13 @@
     <Compile Include="AutomationCallback\PropertyCallBackData.cs" />
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
     <Compile Include="CallbackOperationResult.cs" />
+    <Compile Include="GKManager\GKManager.Delays.cs" />
+    <Compile Include="GKManager\GKManager.PumpStations.cs" />
+    <Compile Include="GKManager\GKManager.MPTs.cs" />
+    <Compile Include="GKManager\GKManager.GuardZones.cs" />
+    <Compile Include="GKManager\GKManager.Doors.cs" />
+    <Compile Include="GKManager\GKManager.Zones.cs" />
+    <Compile Include="GKManager\GKManager.Directions.cs" />
     <Compile Include="GKModels\Configuration\GKDeviceConfiguration.DescriptorsDistribution.cs" />
     <Compile Include="GKModels\Configuration\GKNameGenerationType.cs" />
     <Compile Include="GKModels\CurrentConsumption\CurrentConsumption.cs" />
@@ -262,7 +269,6 @@
     <Compile Include="AutomationCallback\SoundCallbackData.cs" />
     <Compile Include="Models\Video\CameraState.cs" />
     <Compile Include="Models\Video\RviSettings.cs" />
-    <Compile Include="SKD\IAsyncTranslator.cs" />
     <Compile Include="ServerState.cs" />
     <Compile Include="SKD\Organisation\ExportOrganisation.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterReflection.cs" />

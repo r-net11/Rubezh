@@ -8,7 +8,7 @@ using ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters;
 using ResursNetwork.OSI.Messages;
 using ResursNetwork.OSI.Messages.Transactions;
 using ResursNetwork.OSI.ApplicationLayer;
-using ResursNetwork.Incotex.Models.DateTime;
+using ResursNetwork.Incotex.Models;
 using ResursNetwork.Incotex.NetworkControllers.Messages;
 using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer;
 using ResursNetwork.Management;
@@ -34,6 +34,36 @@ namespace ResursNetwork.Incotex.Models
             get { return DeviceType.Mercury203; }
         }
 
+		public override uint Address
+		{
+			get { return base.Address; }
+			set
+			{
+				if (value != 0)
+				{
+					base.Address = value;
+				}
+				else
+				{
+					throw new ArgumentOutOfRangeException(
+						"Попытка установить недопустимый адрес равеный 0");
+				}
+			}
+		}
+
+		public override System.DateTime RTC
+		{
+			get
+			{
+				return (System.DateTime)_Parameters[ParameterNamesMercury203.DateTime].Value;
+			}
+			set
+			{
+				//TODO: записать команду в сеть
+				throw new NotImplementedException();
+			}
+		}
+
         #endregion
 
         #region Constructors
@@ -45,11 +75,14 @@ namespace ResursNetwork.Incotex.Models
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Инициализирует список свойств для конкретного устройства
         /// </summary>
         protected override void Initialization()
         {
+			base.Initialization();
+
             _Parameters.Add(new Parameter(typeof(UInt32))
             {
                 Name = ParameterNamesMercury203.GADDR,
@@ -79,6 +112,46 @@ namespace ResursNetwork.Incotex.Models
                 ValueConverter = new BigEndianUInt16ValueConvertor(),
                 Value = (UInt16)0
             });
+
+			_Parameters.Add(new Parameter(typeof(UInt32))
+			{
+				Name = ParameterNamesMercury203.CounterTarif1,
+				Description = "Счётчик тарифа 1",
+				PollingEnabled = true,
+				ReadOnly = true,
+				ValueConverter = null,
+				Value = (UInt32)0
+			});
+
+			_Parameters.Add(new Parameter(typeof(UInt32))
+			{
+				Name = ParameterNamesMercury203.CounterTarif2,
+				Description = "Счётчик тарифа 2",
+				PollingEnabled = true,
+				ReadOnly = true,
+				ValueConverter = null,
+				Value = (UInt32)0
+			});
+
+			_Parameters.Add(new Parameter(typeof(UInt32))
+			{
+				Name = ParameterNamesMercury203.CounterTarif3,
+				Description = "Счётчик тарифа 3",
+				PollingEnabled = true,
+				ReadOnly = true,
+				ValueConverter = null,
+				Value = (UInt32)0
+			});
+
+			_Parameters.Add(new Parameter(typeof(UInt32))
+			{
+				Name = ParameterNamesMercury203.CounterTarif4,
+				Description = "Счётчик тарифа 3",
+				PollingEnabled = true,
+				ReadOnly = true,
+				ValueConverter = null,
+				Value = (UInt32)0
+			});
         }
 
         private void GetAnswer(NetworkRequest networkRequest)
@@ -104,6 +177,7 @@ namespace ResursNetwork.Incotex.Models
                             request.CmdCode));
                     }
             }
+
         }
 
         public override void EventHandler_NetworkController_NetwrokRequestCompleted(
@@ -159,27 +233,35 @@ namespace ResursNetwork.Incotex.Models
         /// <param name="addr">Текущий сетевой адрес счётчика</param>
         /// <param name="newaddr">Новый сетевой адрес счётчика</param>
         /// <returns></returns>
-        public Transaction SetNewAddress(UInt32 addr, UInt32 newaddr)
+        public IAsyncRequestResult SetNewAddress(UInt32 addr, UInt32 newaddr, bool isExternalCall = true)
         {
             var request = new DataMessage()
             {
                 Address = addr,
                 CmdCode = Convert.ToByte(Mercury203CmdCode.SetNetworkAddress)
             };
-            var transaction = new Transaction(this, TransactionType.UnicastMode, request);
+            var transaction = new Transaction(this, TransactionType.UnicastMode, request) 
+            { 
+                Sender = this 
+            };
             var networkRequest = new NetworkRequest(transaction);
-
+ 
             if (_NetworkController == null)
             {
                 transaction.Start();
-                transaction.Abort("Невозможно выполенить запрос. Не установлен контроллер сети");
+                transaction.Abort(new TransactionError 
+                { 
+                    ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+                    Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+                });
+                networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
             }
             else
             {
                 _ActiveRequests.Add(networkRequest);
-                _NetworkController.Write(networkRequest);
+                _NetworkController.Write(networkRequest, isExternalCall);
             }
-            return transaction;
+            return (IAsyncRequestResult)networkRequest.AsyncRequestResult; 
         }
 
         /// <summary>
@@ -261,27 +343,36 @@ namespace ResursNetwork.Incotex.Models
         /// Чтение группового адреса счетчика (CMD=20h)
         /// </summary>
         [PeriodicReadEnabled]
-        public Transaction ReadGroupAddress()
+        public IAsyncRequestResult ReadGroupAddress(bool isExternalCall = true)
         {
             var request = new DataMessage()
             {
                 Address = Address,
                 CmdCode = Convert.ToByte(Mercury203CmdCode.ReadGroupAddress)
             };
-            var transaction = new Transaction(this, TransactionType.UnicastMode, request);
+            var transaction = new Transaction(this, TransactionType.UnicastMode, request)
+            { 
+                Sender = this 
+            };
+
             var networkRequest = new NetworkRequest(transaction);
 
             if (_NetworkController == null)
             {
                 transaction.Start();
-                transaction.Abort("Невозможно выполенить запрос. Не установлен контроллер сети");
+                transaction.Abort(new TransactionError
+                {
+                    ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+                    Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+                });
+                networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
             }
             else
             {
                 _ActiveRequests.Add(networkRequest);
-                _NetworkController.Write(networkRequest);
+                _NetworkController.Write(networkRequest, isExternalCall);
             }
-            return transaction;
+            return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
         }
 
         /// <summary>
@@ -365,27 +456,36 @@ namespace ResursNetwork.Incotex.Models
         /// </summary>
         /// <returns></returns>
         [PeriodicReadEnabled]
-        public Transaction ReadDateTime()
+        public IAsyncRequestResult ReadDateTime(bool isExternalCall = true)
         {
             var request = new DataMessage()
             {
                 Address = Address,
                 CmdCode = Convert.ToByte(Mercury203CmdCode.ReadGroupAddress)
             };
-            var transaction = new Transaction(this, TransactionType.UnicastMode, request);
+            var transaction = new Transaction(this, TransactionType.UnicastMode, request)
+            {
+                Sender = this
+            };
+
             var networkRequest = new NetworkRequest(transaction);
 
             if (_NetworkController == null)
             {
                 transaction.Start();
-                transaction.Abort("Невозможно выполенить запрос. Не установлен контроллер сети");
+                transaction.Abort(new TransactionError
+                {
+                    ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+                    Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+                });
+                networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
             }
             else
             {
                 _ActiveRequests.Add(networkRequest);
-                _NetworkController.Write(networkRequest);
+                _NetworkController.Write(networkRequest, isExternalCall);
             }
-            return transaction;
+            return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
         }
 
         /// <summary>
@@ -393,27 +493,36 @@ namespace ResursNetwork.Incotex.Models
         /// </summary>
         /// <returns></returns>
         [PeriodicReadEnabled]
-        public Transaction ReadPowerLimit()
+        public IAsyncRequestResult ReadPowerLimit(bool isExternalCall = true)
         {
             var request = new DataMessage()
             {
                 Address = Address,
                 CmdCode = Convert.ToByte(Mercury203CmdCode.ReadPowerLimit)
             };
-            var transaction = new Transaction(this, TransactionType.UnicastMode, request);
+            var transaction = new Transaction(this, TransactionType.UnicastMode, request)
+            {
+                Sender = this
+            };
+
             var networkRequest = new NetworkRequest(transaction);
 
             if (_NetworkController == null)
             {
                 transaction.Start();
-                transaction.Abort("Невозможно выполенить запрос. Не установлен контроллер сети");
+                transaction.Abort(new TransactionError
+                {
+                    ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+                    Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+                });
+                networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
             }
             else
             {
                 _ActiveRequests.Add(networkRequest);
-                _NetworkController.Write(networkRequest);
+                _NetworkController.Write(networkRequest, isExternalCall);
             }
-            return transaction;
+            return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
         }
 
         /// <summary>
@@ -421,27 +530,36 @@ namespace ResursNetwork.Incotex.Models
         /// </summary>
         /// <returns></returns>
         [PeriodicReadEnabled]
-        public Transaction ReadPowerLimitPerMonth()
+        public IAsyncRequestResult ReadPowerLimitPerMonth(bool isExternalCall = true)
         {
             var request = new DataMessage()
             {
                 Address = Address,
                 CmdCode = Convert.ToByte(Mercury203CmdCode.ReadPowerLimitPerMonth)
             };
-            var transaction = new Transaction(this, TransactionType.UnicastMode, request);
+            var transaction = new Transaction(this, TransactionType.UnicastMode, request)
+            {
+                Sender = this
+            };
+
             var networkRequest = new NetworkRequest(transaction);
 
             if (_NetworkController == null)
             {
                 transaction.Start();
-                transaction.Abort("Невозможно выполенить запрос. Не установлен контроллер сети");
+                transaction.Abort(new TransactionError
+                {
+                    ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+                    Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+                });
+                networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
             }
             else
             {
                 _ActiveRequests.Add(networkRequest);
-                _NetworkController.Write(networkRequest);
+                _NetworkController.Write(networkRequest, isExternalCall);
             }
-            return transaction;
+            return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
         }
 
         #endregion

@@ -105,7 +105,6 @@
     <Compile Include="Events\ShowSKDReportsEvent.cs" />
     <Compile Include="Events\Reports\PrintReportPreviewEvent.cs" />
     <Compile Include="Events\Reports\PrintReportEvent.cs" />
-    <Compile Include="Events\GetFilteredArchiveCompletedEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowGKDoorDetailsEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowGKGuardZoneDetailsEvent.cs" />
     <Compile Include="Events\ShowObject\ShowGKDoorEvent.cs" />

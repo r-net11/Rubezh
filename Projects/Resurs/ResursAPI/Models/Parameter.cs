@@ -18,7 +18,7 @@ namespace ResursAPI
 		public void Initialize(DriverParameter driverParameter)
 		{
 			DriverParameter = driverParameter;
-			Number = driverParameter.Number;
+			DriverParameterUID = driverParameter.UID;
 			switch (driverParameter.ParameterType)
 			{
 				case ParameterType.Enum:
@@ -38,7 +38,8 @@ namespace ResursAPI
 						DoubleValue = driverParameter.DoubleDefaultValue;
 					break;
 				case ParameterType.Bool:
-					BoolValue = driverParameter.BoolDefaultValue;
+					if(BoolValue == null)
+						BoolValue = driverParameter.BoolDefaultValue;
 					break;
 				case ParameterType.DateTime:
 					if (DateTimeValue == null)
@@ -100,10 +101,10 @@ namespace ResursAPI
 		public Device Device { get; set; }
 		[NotMapped]
 		public DriverParameter DriverParameter { get; set; }
-		public int Number { get; set; }
+		public Guid DriverParameterUID { get; set; }
 		public int? IntValue { get; set; }
 		public double? DoubleValue { get; set; }
-		public bool BoolValue { get; set; }
+		public bool? BoolValue { get; set; }
 		[MaxLength(4000)]
 		public string StringValue { get; set; }
 		public DateTime? DateTimeValue { get; set; }
@@ -129,7 +130,9 @@ namespace ResursAPI
 						return "";
 					return DoubleValue.Value.ToString();
 				case ParameterType.Bool:
-					return BoolValue ? "Да" : "Нет";
+					if (BoolValue == null)
+						return "";
+					return BoolValue.Value ? "Да" : "Нет";
 				case ParameterType.DateTime:
 					if (DateTimeValue == null)
 						return "";

@@ -18,7 +18,6 @@
 				<File Id="Resurs.Common.dll"																				Name="Common.dll" Source="$(var.Resurs.TargetDir)" />
 				<File Id="Resurs.Controls.dll"																			Name="Controls.dll" Source="$(var.Resurs.TargetDir)" />
 				<File Id="Resurs.DAL.dll"																						Name="DAL.dll" Source="$(var.Resurs.TargetDir)" />
-				<File Id="Resurs.devices.dll"																				Name="devices.dll" Source="$(var.Resurs.TargetDir)" />
 				<File Id="Resurs.EntityFramework.dll"																Name="EntityFramework.dll" Source="$(var.Resurs.TargetDir)" />
 				<File Id="Resurs.EntityFramework.MappingAPI.dll"										Name="EntityFramework.MappingAPI.dll" Source="$(var.Resurs.TargetDir)" />
 				<File Id="Resurs.EntityFramework.SqlServer.dll"											Name="EntityFramework.SqlServer.dll" Source="$(var.Resurs.TargetDir)" />
@@ -59,6 +58,32 @@
 				<File Id="Resurs.Xceed.Wpf.AvalonDock.dll"													Name="Xceed.Wpf.AvalonDock.dll" Source="$(var.Resurs.TargetDir)" />
 				<File Id="Resurs.Xceed.Wpf.Toolkit.dll"															Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Resurs.TargetDir)" />
 				<File Id="Resurs.Resurs.exe.manifest"																Name="Resurs.exe.manifest" Source="$(var.Resurs.TargetDir)" />
+				<File Id="Resurs.DevExpress.Charts.v15.1.Core.dll"									Name="DevExpress.Charts.v15.1.Core.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.Data.v15.1.dll"													Name="DevExpress.Data.v15.1.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.DataAccess.v15.1.dll"										Name="DevExpress.DataAccess.v15.1.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.Mvvm.v15.1.dll"													Name="DevExpress.Mvvm.v15.1.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.Office.v15.1.Core.dll"									Name="DevExpress.Office.v15.1.Core.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.PivotGrid.v15.1.Core.dll"								Name="DevExpress.PivotGrid.v15.1.Core.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.Printing.v15.1.Core.dll"								Name="DevExpress.Printing.v15.1.Core.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.RichEdit.v15.1.Core.dll"								Name="DevExpress.RichEdit.v15.1.Core.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.Sparkline.v15.1.Core.dll"								Name="DevExpress.Sparkline.v15.1.Core.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.Utils.v15.1.dll"												Name="DevExpress.Utils.v15.1.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.Utils.v15.1.UI.dll"											Name="DevExpress.Utils.v15.1.UI.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.Xpf.Core.v15.1.dll"											Name="DevExpress.Xpf.Core.v15.1.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.Xpf.Docking.v15.1.dll"									Name="DevExpress.Xpf.Docking.v15.1.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.Xpf.DocumentViewer.v15.1.Core.dll"			Name="DevExpress.Xpf.DocumentViewer.v15.1.Core.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.Xpf.Printing.v15.1.dll"									Name="DevExpress.Xpf.Printing.v15.1.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.Xpf.ReportDesigner.v15.1.dll"						Name="DevExpress.Xpf.ReportDesigner.v15.1.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.Xpf.Ribbon.v15.1.dll"										Name="DevExpress.Xpf.Ribbon.v15.1.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.Xpf.WpfReportDesigner.v15.1.dll"				Name="DevExpress.Xpf.WpfReportDesigner.v15.1.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.XtraCharts.v15.1.dll"										Name="DevExpress.XtraCharts.v15.1.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.XtraEditors.v15.1.dll"									Name="DevExpress.XtraEditors.v15.1.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.XtraGauges.v15.1.Core.dll"							Name="DevExpress.XtraGauges.v15.1.Core.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.XtraPivotGrid.v15.1.dll"								Name="DevExpress.XtraPivotGrid.v15.1.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.XtraPrinting.v15.1.dll"									Name="DevExpress.XtraPrinting.v15.1.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.XtraReports.v15.1.dll"									Name="DevExpress.XtraReports.v15.1.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.XtraReports.v15.1.Extensions.dll"				Name="DevExpress.XtraReports.v15.1.Extensions.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
+				<File Id="Resurs.DevExpress.XtraRichEdit.v15.1.dll"									Name="DevExpress.XtraRichEdit.v15.1.dll" Source="$(var.Resurs.DevExpress.TargetDir)" />
 			</Component>
 		</DirectoryRef>
 		<DirectoryRef Id="Resurs.DIR.DLL.de">
@@ -89,6 +114,32 @@
 		<DirectoryRef Id="Resurs.DIR.DLL.zhCN">
 			<Component Id="Resurs.DLL.zhCN" Guid="{3AC0A2CC-5A80-44FB-A960-54C580252133}">
 				<File Id="Npgsql.resources.dll.zhCN" Name="Npgsql.resources.dll" Source="$(var.Resurs.TargetDir)zh-CN\Npgsql.resources.dll" KeyPath="yes" />
+			</Component>
+		</DirectoryRef>
+		<DirectoryRef Id="Resurs.DIR.DLL.ru">
+			<Component Id="Resurs.DLL.ru" Guid="{44B37CDE-CB06-4C76-BD19-A29C0029A755}">
+				<File Id="Resurs.DevExpress.DataAccess.v15.1.resources.dll"								Name="DevExpress.DataAccess.v15.1.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
+				<File Id="Resurs.DevExpress.Office.v15.1.Core.resources.dll"							Name="DevExpress.Office.v15.1.Core.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
+				<File Id="Resurs.DevExpress.PivotGrid.v15.1.Core.resources.dll"						Name="DevExpress.PivotGrid.v15.1.Core.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
+				<File Id="Resurs.DevExpress.Printing.v15.1.Core.resources.dll"						Name="DevExpress.Printing.v15.1.Core.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
+				<File Id="Resurs.DevExpress.RichEdit.v15.1.Core.resources.dll"						Name="DevExpress.RichEdit.v15.1.Core.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
+				<File Id="Resurs.DevExpress.Sparkline.v15.1.Core.resources.dll"						Name="DevExpress.Sparkline.v15.1.Core.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
+				<File Id="Resurs.DevExpress.Utils.v15.1.resources.dll"										Name="DevExpress.Utils.v15.1.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
+				<File Id="Resurs.DevExpress.Utils.v15.1.UI.resources.dll"									Name="DevExpress.Utils.v15.1.UI.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
+				<File Id="Resurs.DevExpress.Xpf.Core.v15.1.resources.dll"									Name="DevExpress.Xpf.Core.v15.1.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
+				<File Id="Resurs.DevExpress.Xpf.Docking.v15.1.resources.dll"							Name="DevExpress.Xpf.Docking.v15.1.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
+				<File Id="Resurs.DevExpress.Xpf.DocumentViewer.v15.1.Core.resources.dll"	Name="DevExpress.Xpf.DocumentViewer.v15.1.Core.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
+				<File Id="Resurs.DevExpress.Xpf.Printing.v15.1.resources.dll"							Name="DevExpress.Xpf.Printing.v15.1.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
+				<File Id="Resurs.DevExpress.Xpf.ReportDesigner.v15.1.resources.dll"				Name="DevExpress.Xpf.ReportDesigner.v15.1.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
+				<File Id="Resurs.DevExpress.Xpf.Ribbon.v15.1.resources.dll"								Name="DevExpress.Xpf.Ribbon.v15.1.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
+				<File Id="Resurs.DevExpress.XtraCharts.v15.1.resources.dll"								Name="DevExpress.XtraCharts.v15.1.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
+				<File Id="Resurs.DevExpress.XtraEditors.v15.1.resources.dll"							Name="DevExpress.XtraEditors.v15.1.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
+				<File Id="Resurs.DevExpress.XtraGauges.v15.1.Core.resources.dll"					Name="DevExpress.XtraGauges.v15.1.Core.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
+				<File Id="Resurs.DevExpress.XtraPivotGrid.v15.1.resources.dll"						Name="DevExpress.XtraPivotGrid.v15.1.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
+				<File Id="Resurs.DevExpress.XtraPrinting.v15.1.resources.dll"							Name="DevExpress.XtraPrinting.v15.1.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
+				<File Id="Resurs.DevExpress.XtraReports.v15.1.resources.dll"							Name="DevExpress.XtraReports.v15.1.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
+				<File Id="Resurs.DevExpress.XtraReports.v15.1.Extensions.resources.dll"		Name="DevExpress.XtraReports.v15.1.Extensions.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
+				<File Id="Resurs.DevExpress.XtraRichEdit.v15.1.resources.dll"							Name="DevExpress.XtraRichEdit.v15.1.resources.dll" Source="$(var.Resurs.DevExpress.TargetDir)ru\" />
 			</Component>
 		</DirectoryRef>
 	</Fragment>

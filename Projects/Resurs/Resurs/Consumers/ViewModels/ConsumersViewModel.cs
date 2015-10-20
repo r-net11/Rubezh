@@ -2,6 +2,7 @@
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Resurs.Processor;
+using Resurs.Reports.Templates;
 using ResursAPI;
 using ResursDAL;
 using System;
@@ -20,81 +21,44 @@ namespace Resurs.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			ChangeParentCommand = new RelayCommand(OnChangeParent, CanChangeParent);
+			OpenReceiptCommand = new RelayCommand(OnOpenReceipt, CanOpenReceipt);
 
-			BuildTree();
-			if (RootConsumer != null)
-			{
-				SelectedConsumer = RootConsumer;
-				RootConsumer.IsExpanded = true;
-				foreach (var child in RootConsumer.Children)
-					child.IsExpanded = true;
-			}
+			ConsumerListViewModel = new ConsumerListViewModel();
+			ConsumerListViewModel.OnSelectedConsumerChanged += ConsumerListViewModel_OnSelectedConsumerChanged;
+			ConsumerListViewModel.OnItemActivated += ConsumerListViewModel_OnItemActivated;
 
-			foreach (var consumer in AllConsumers)
-			{
-				if (true)
-					consumer.ExpandToThis();
-			}
-
-			OnPropertyChanged(() => RootConsumers);
+			FillAllConsumers();
 		}
 
-		ConsumerViewModel _selectedConsumer;
+		void ConsumerListViewModel_OnItemActivated(ConsumerViewModel obj)
+		{
+			EditCommand.Execute();
+		}
+
+		void ConsumerListViewModel_OnSelectedConsumerChanged(ConsumerViewModel consumer)
+		{
+			SelectedConsumer = consumer;
+		}
+
+		public ConsumerListViewModel ConsumerListViewModel { get; private set; }
+
 		public ConsumerViewModel SelectedConsumer
 		{
-			get { return _selectedConsumer; }
+			get { return ConsumerListViewModel.SelectedConsumer; }
 			set
 			{
-				_selectedConsumer = value;
+				if (ConsumerListViewModel.SelectedConsumer != value)
+					ConsumerListViewModel.SelectedConsumer = value;
 				OnPropertyChanged(() => SelectedConsumer);
 			}
 		}
-
-		ConsumerViewModel _rootConsumer;
-		public ConsumerViewModel RootConsumer
-		{
-			get { return _rootConsumer; }
-			private set
-			{
-				_rootConsumer = value;
-				OnPropertyChanged(() => RootConsumer);
-			}
-		}
-
-		public ConsumerViewModel[] RootConsumers
-		{
-			get { return new[] { RootConsumer }; }
-		}
-
-		void BuildTree()
-		{
-			RootConsumer = AddConsumerInternal(DBCash.RootConsumer, null);
-			FillAllConsumers();
-		}
-
-		public ConsumerViewModel AddConsumer(Consumer consumer, ConsumerViewModel parentConsumerViewModel)
-		{
-			var consumerViewModel = AddConsumerInternal(consumer, parentConsumerViewModel);
-			FillAllConsumers();
-			return consumerViewModel;
-		}
-		private ConsumerViewModel AddConsumerInternal(Consumer consumer, ConsumerViewModel parentConsumerViewModel)
-		{
-			var consumerViewModel = new ConsumerViewModel(consumer);
-			if (parentConsumerViewModel != null)
-				parentConsumerViewModel.AddChild(consumerViewModel);
-
-			foreach (var childConsumer in consumer.Children)
-				AddConsumerInternal(childConsumer, consumerViewModel);
-			return consumerViewModel;
-		}
-
+				
 		public List<ConsumerViewModel> AllConsumers;
 
 		public void FillAllConsumers()
 		{
 			AllConsumers = new List<ConsumerViewModel>();
-			AddChildPlainConsumers(RootConsumer);
+			AddChildPlainConsumers(ConsumerListViewModel.RootConsumer);
 		}
 
 		void AddChildPlainConsumers(ConsumerViewModel parentViewModel)
@@ -112,39 +76,61 @@ namespace Resurs.ViewModels
 				var consumerViewModel = AllConsumers.FirstOrDefault(x => x.Consumer.UID == consumerUID);
 				if (consumerViewModel != null)
 					consumerViewModel.ExpandToThis();
+				Bootstrapper.MainViewModel.SelectedTabIndex = 1;
 				SelectedConsumer = consumerViewModel;
+				if (SelectedConsumer.ConsumerDetails != null)
+					SelectedConsumer.ConsumerDetails.SelectedTabIndex = 1;
+				Bootstrapper.MainViewModel.SelectedTabIndex = 1;
 			}
+		}
+
+		public BillViewModel FindBillViewModel(Guid billUid)
+		{
+			foreach (var consumer in AllConsumers)
+				if (consumer.GetConsumerDetails() != null && consumer.GetConsumerDetails().BillsViewModel != null)
+					foreach (var bill in consumer.GetConsumerDetails().BillsViewModel.Bills)
+						if (bill.Uid == billUid)
+							return bill;
+			return null;
 		}
 
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var consumerDetailsViewModel = new ConsumerDetailsViewModel(new Consumer() { Parent = SelectedConsumer.Consumer }, true);
+			var consumerDetailsViewModel = new ConsumerDetailsViewModel(new Consumer 
+			{ 
+				ParentUID = SelectedConsumer.Consumer.IsFolder ? SelectedConsumer.Consumer.UID : SelectedConsumer.Consumer.ParentUID,
+				Bills = new List<Bill> { new Bill() }
+			}, false, true);
 			if (DialogService.ShowModalWindow(consumerDetailsViewModel))
 			{
-				DBCash.SaveConsumer(consumerDetailsViewModel.Consumer);
-
-				var consumerViewModel = new ConsumerViewModel(consumerDetailsViewModel.Consumer);
-				SelectedConsumer.AddChild(consumerViewModel);
-				SelectedConsumer.IsExpanded = true;
+				var consumerViewModel = new ConsumerViewModel(consumerDetailsViewModel.GetConsumer());
+				if (SelectedConsumer.Consumer.IsFolder)
+				{
+					SelectedConsumer.AddChild(consumerViewModel);
+					SelectedConsumer.IsExpanded = true;
+				}
+				else
+				{
+					SelectedConsumer.Parent.AddChild(consumerViewModel);
+					SelectedConsumer.Parent.IsExpanded = true;
+				}
 				AllConsumers.Add(consumerViewModel);
 				SelectedConsumer = consumerViewModel;
 			}
 		}
 		bool CanAdd()
 		{
-			return SelectedConsumer != null;
+			return SelectedConsumer != null && DBCash.CheckPermission(PermissionType.EditConsumer);
 		}
 
 		public RelayCommand AddFolderCommand { get; private set; }
 		void OnAddFolder()
 		{
-			var consumersFolderDetailsViewModel = new ConsumersFolderDetailsViewModel(new Consumer() { IsFolder = true, Parent = SelectedConsumer.Consumer });
+			var consumersFolderDetailsViewModel = new ConsumersFolderDetailsViewModel(new Consumer() { IsFolder = true, Parent = SelectedConsumer.Consumer }, false, true);
 			if (DialogService.ShowModalWindow(consumersFolderDetailsViewModel))
 			{
-				DBCash.SaveConsumer(consumersFolderDetailsViewModel.Consumer);
-
-				var consumerViewModel = new ConsumerViewModel(consumersFolderDetailsViewModel.Consumer);
+				var consumerViewModel = new ConsumerViewModel(consumersFolderDetailsViewModel.GetConsumer());
 				SelectedConsumer.AddChild(consumerViewModel);
 				SelectedConsumer.IsExpanded = true;
 				AllConsumers.Add(consumerViewModel);
@@ -153,26 +139,29 @@ namespace Resurs.ViewModels
 		}
 		bool CanAddFolder()
 		{
-			return SelectedConsumer != null && SelectedConsumer.Consumer.IsFolder;
+			return SelectedConsumer != null && SelectedConsumer.Consumer.IsFolder && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditConsumer);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var consumer = SelectedConsumer.Consumer.IsFolder ? 
-				SelectedConsumer.ConsumersFolderDetails.Consumer : 
-				SelectedConsumer.ConsumerDetails.Consumer;
-			var dialogViewModel = SelectedConsumer.Consumer.IsFolder ?
-				(SaveCancelDialogViewModel)new ConsumersFolderDetailsViewModel(consumer) :
-				new ConsumerDetailsViewModel(consumer);
+			var consumer = SelectedConsumer.Consumer.IsFolder ?
+				SelectedConsumer.ConsumersFolderDetails.GetConsumer() :
+				SelectedConsumer.ConsumerDetails.GetConsumer();
+			var dialogViewModel = SelectedConsumer.Consumer.IsFolder ? (SaveCancelDialogViewModel)
+				new ConsumersFolderDetailsViewModel(consumer, false) :
+				new ConsumerDetailsViewModel(consumer, false);
 			if (DialogService.ShowModalWindow(dialogViewModel))
 			{
+				consumer = SelectedConsumer.Consumer.IsFolder ?
+				((ConsumersFolderDetailsViewModel)dialogViewModel).GetConsumer() :
+				((ConsumerDetailsViewModel)dialogViewModel).GetConsumer();
 				SelectedConsumer.Update(consumer);
 			}
 		}
 		bool CanEdit()
 		{
-			return SelectedConsumer != null && DBCash.CurrentUser.UserPermissions.Any(x=> x.PermissionType == PermissionType.EditConsumer);
+			return SelectedConsumer != null && DBCash.CheckPermission(PermissionType.EditConsumer);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -202,21 +191,20 @@ namespace Resurs.ViewModels
 		
 		bool CanRemove()
 		{
-			return SelectedConsumer != null && SelectedConsumer.Parent != null;
+			return SelectedConsumer != null && SelectedConsumer.Parent != null && DBCash.CheckPermission(PermissionType.EditConsumer);
 		}
 
 		public RelayCommand ChangeParentCommand { get; private set; }
 		void OnChangeParent()
 		{
-			var consumersChangeParentViewModel = new ConsumerChangeParentViewModel(SelectedConsumer.Consumer.UID);
-			if (DialogService.ShowModalWindow(consumersChangeParentViewModel) && consumersChangeParentViewModel.SelectedConsumer != null)
+			var consumerChangeParentViewModel = new ConsumerChangeParentViewModel(SelectedConsumer.Consumer.UID);
+			if (DialogService.ShowModalWindow(consumerChangeParentViewModel) && consumerChangeParentViewModel.SelectedConsumer != null)
 			{
-				var parentConsumerViewModel = AllConsumers.FirstOrDefault(x => x.Consumer.UID == consumersChangeParentViewModel.SelectedConsumer.Consumer.UID);
+				var parentConsumerViewModel = AllConsumers.FirstOrDefault(x => x.Consumer.UID == consumerChangeParentViewModel.SelectedConsumer.Consumer.UID);
 				if (parentConsumerViewModel != null)
 				{
-					SelectedConsumer.Consumer.Parent.Children.RemoveAll(x => x.UID == SelectedConsumer.Consumer.UID);
-					SelectedConsumer.Consumer.Parent = consumersChangeParentViewModel.SelectedConsumer.Consumer;
-					SelectedConsumer.Consumer.Parent.Children.Add(SelectedConsumer.Consumer);
+					SelectedConsumer.Consumer = DBCash.GetConsumer(SelectedConsumer.Consumer.UID);
+					SelectedConsumer.Consumer.ParentUID = consumerChangeParentViewModel.SelectedConsumer.Consumer.UID;
 
 					DBCash.SaveConsumer(SelectedConsumer.Consumer);
 
@@ -233,12 +221,22 @@ namespace Resurs.ViewModels
 
 		bool CanChangeParent()
 		{
-			return SelectedConsumer != null && SelectedConsumer.Parent != null;
+			return SelectedConsumer != null && SelectedConsumer.Parent != null && DBCash.CheckPermission(PermissionType.EditConsumer);
+		}
+		public RelayCommand OpenReceiptCommand { get; private set; }
+		void OnOpenReceipt()
+		{
+			//Infrastructure.Common.Windows.DialogService.ShowModalWindow(new ReceiptViewModel(SelectedConsumer.Consumer));
+			Infrastructure.Common.Windows.DialogService.ShowModalWindow(new ReportDesignerViewModel(new ReceiptTemplate()));
+		}
+		bool CanOpenReceipt()
+		{
+			return SelectedConsumer != null && !SelectedConsumer.Consumer.IsFolder;
 		}
 
-		public bool IsVisibility
+		public bool IsVisible
 		{
-			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.Consumer); }
+			get { return DBCash.CheckPermission(PermissionType.ViewConsumer); }
 		}
 	}
 }
