@@ -29,10 +29,7 @@ namespace Resurs.Views
 
 		void OnShow(object sender, EventArgs e)
 		{
-			WindowState = WindowState.Normal;
-			Show();
-			Activate();
-			ShowInTaskbar = true;
+			Bootstrapper.Activate();
 		}
 		void OnClose(object sender, EventArgs e)
 		{

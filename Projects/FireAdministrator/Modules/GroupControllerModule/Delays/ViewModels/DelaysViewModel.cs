@@ -38,6 +38,7 @@ namespace GKModule.ViewModels
 			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
 			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 
+			IsRightPanelEnabled = true;
 			RegisterShortcuts();
 			SetRibbonItems();
 		}

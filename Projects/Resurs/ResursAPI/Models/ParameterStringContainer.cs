@@ -10,7 +10,7 @@ namespace ResursAPI
 	{
 		public string Value;
 		public string RegEx;
-
+	
         /// <summary>
         /// Возвращает соответствует ли строка регулярному выражению
         /// </summary>

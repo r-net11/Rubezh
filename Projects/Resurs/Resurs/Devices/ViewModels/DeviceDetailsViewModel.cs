@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Resurs.Processor;
 using ResursAPI;
 using ResursDAL;
 using System;
@@ -18,7 +19,9 @@ namespace Resurs.ViewModels
 		Device _oldDevice;
 		Device _parent;
 		bool _isSaved;
+		bool _isCancelClosing;
 		public ObservableCollection<DetailsParameterViewModel> Parameters { get; private set; }
+		public bool IsNetwork { get; private set; }
 		
 		public DeviceDetailsViewModel(Device device)
 		{
@@ -28,6 +31,8 @@ namespace Resurs.ViewModels
 			Initialize(device);
 			SelectBillCommand = new RelayCommand<Guid?>(OnSelectBill);
 			RemoveBillLinkCommand = new RelayCommand(OnRemoveBillLink);
+			SelectTariffCommand = new RelayCommand(OnSelectTariff);
+			RemoveTariffCommand = new RelayCommand(OnRemoveTariff);
 		}
 
 		public DeviceDetailsViewModel(DriverType driverType, Device parent)
@@ -47,9 +52,10 @@ namespace Resurs.ViewModels
 			Description = device.Description;
 			IsActive = Device.IsActive;
 			Bill = device.Bill;
+			IsNetwork = device.DeviceType == DeviceType.Network;
 			if (!IsActive)
 			{
-				IsEditComPort = device.DeviceType == DeviceType.Network;
+				IsEditComPort = IsNetwork;
 				if (IsEditComPort)
 				{
 					ComPorts = new ObservableCollection<string>(GetComPorts());
@@ -59,14 +65,16 @@ namespace Resurs.ViewModels
 			}
 			else
 			{
-				AddressString = device.DeviceType == DeviceType.Network ? device.ComPort : device.Address.ToString();
+				AddressString = IsNetwork ? device.ComPort : device.Address.ToString();
 			}
 			Parameters = new ObservableCollection<DetailsParameterViewModel>(Device.Parameters.Select(x => new DetailsParameterViewModel(x, this)));
+			Commands = new ObservableCollection<CommandViewModel>(Device.Commands.Select(x => new CommandViewModel(Device, x)));
 			TariffTypes = new ObservableCollection<TariffType>();
 			foreach (TariffType item in Enum.GetValues(typeof(TariffType)))
 			{
 				TariffTypes.Add(item);
 			}
+			Tariff = device.Tariff;
 			TariffType = device.TariffType;
 			HasTariffType = device.DeviceType == DeviceType.Counter;
 			CanEditTariffType = device.Driver.CanEditTariffType && HasTariffType;
@@ -76,7 +84,6 @@ namespace Resurs.ViewModels
 		public bool CanEditTariffType { get; private set; }
 		public bool HasReadOnlyTariffType { get; private set; }
 		public bool HasTariffType { get; private set; }
-		
 		public ObservableCollection<TariffType> TariffTypes { get; private set; }
 
 		TariffType _tariffType;
@@ -184,6 +191,41 @@ namespace Resurs.ViewModels
 			Bill = null;
 		}
 
+		#region Tariff
+		Tariff _tariff;
+		public Tariff Tariff
+		{
+			get { return _tariff; }
+			set
+			{
+				_tariff = value;
+				OnPropertyChanged(() => Tariff);
+				OnPropertyChanged(() => HasTariff);
+			}
+		}
+
+		public bool HasTariff { get { return Tariff != null; } }
+		
+		public RelayCommand SelectTariffCommand { get; private set; }
+		void OnSelectTariff()
+		{
+			var tariffSelectionViewModel = new TariffSelectionViewModel(this);
+			if(DialogService.ShowModalWindow(tariffSelectionViewModel))
+			{
+				Tariff = tariffSelectionViewModel.Tariff;
+			}
+		}
+
+		public RelayCommand RemoveTariffCommand { get; private set; }
+		void OnRemoveTariff()
+		{
+			Tariff = null;
+		}
+		#endregion
+
+		public ObservableCollection<CommandViewModel> Commands { get; private set; }
+		public bool HasCommands { get { return Commands.IsNotNullOrEmpty(); } }
+		
 		protected override bool Save()
 		{
 			if(IsEditComPort)
@@ -241,47 +283,19 @@ namespace Resurs.ViewModels
 				Device.TariffType = TariffType;
 			Device.Bill = Bill;
 			Device.BillUID = Bill == null ? null : (Guid?)Bill.UID;
+			Device.Tariff = Tariff;
+			Device.TariffUID = Tariff == null ? null : (Guid?)Tariff.UID;
 			var isDbMissmatch = false;
 			if (IsActive)
 			{
 				foreach (var newParameter in Device.Parameters.Where(x => x.DriverParameter.IsWriteToDevice && x.DriverParameter.CanWriteInActive))
 				{
 					var oldParameter = _oldDevice.Parameters.FirstOrDefault(x => x.UID == newParameter.UID);
-					switch (oldParameter.DriverParameter.ParameterType)
+					if (oldParameter.ValueType != newParameter.ValueType)
 					{
-						case ParameterType.Enum:
-							if (oldParameter.IntValue != newParameter.IntValue)
-								isDbMissmatch = isDbMissmatch || 
-									!WriteParameter(Device.UID, newParameter.DriverParameter.Name, intValue: newParameter.IntValue);
-							break;
-						case ParameterType.String:
-							if (oldParameter.StringValue != newParameter.StringValue)
-								isDbMissmatch = isDbMissmatch || 
-									!WriteParameter(Device.UID, newParameter.DriverParameter.Name, stringValue: newParameter.StringValue);
-							break;
-						case ParameterType.Int:
-							if (oldParameter.IntValue != newParameter.IntValue)
-								isDbMissmatch = isDbMissmatch || 
-									!WriteParameter(Device.UID, newParameter.DriverParameter.Name, intValue: newParameter.IntValue);
-							break;
-						case ParameterType.Double:
-							if (oldParameter.DoubleValue != newParameter.DoubleValue)
-								isDbMissmatch = isDbMissmatch || 
-									!WriteParameter(Device.UID, newParameter.DriverParameter.Name, doubleValue: newParameter.DoubleValue);
-							break;
-						case ParameterType.Bool:
-							if (oldParameter.BoolValue != newParameter.BoolValue)
-								isDbMissmatch = isDbMissmatch || 
-									!WriteParameter(Device.UID, newParameter.DriverParameter.Name, boolValue: newParameter.BoolValue);
-							break;
-						case ParameterType.DateTime:
-							if (oldParameter.DateTimeValue != newParameter.DateTimeValue)
-								isDbMissmatch = isDbMissmatch || 
-									!WriteParameter(Device.UID, newParameter.DriverParameter.Name, dateTimeValue: newParameter.DateTimeValue);
-							break;
-						default:
-							break;
+						isDbMissmatch = isDbMissmatch || !DeviceProcessor.WriteParameter(Device.UID, newParameter.DriverParameter.Name, newParameter.ValueType);
 					}
+					
 				}
 				Device.IsDbMissmatch = isDbMissmatch;
 			}
@@ -301,9 +315,20 @@ namespace Resurs.ViewModels
 		{
 			if(_isSaved)
 				return base.OnClosing(isCanceled);
-			var isConfirmed = MessageBoxService.ShowConfirmation("Вы уверены, что хотите закрыть окно без сохранения инменений?");
-			if (!isConfirmed)
+			if (!_isCancelClosing)
+			{
+				var isConfirmed = MessageBoxService.ShowConfirmation("Вы уверены, что хотите закрыть окно без сохранения изменений?");
+				if (!isConfirmed)
+				{
+					_isCancelClosing = true;
+					return true;
+				}
+			}
+			else
+			{
+				_isCancelClosing = false;
 				return true;
+			}
 			return base.OnClosing(isCanceled);
 		}
 
@@ -331,6 +356,27 @@ namespace Resurs.ViewModels
 			DateTime? dateTimeValue = null) 
 		{ 
 			return true; 
+		}
+	}
+
+	public class CommandViewModel
+	{
+		public Device _device;
+		public DeviceCommand Model { get; private set; }
+
+		public CommandViewModel(Device device, DeviceCommand model)
+		{
+			_device = device;
+			Model = model;
+		}
+
+		public RelayCommand SendCommand 
+		{ 
+			get 
+			{ 
+				return new RelayCommand(() => 
+					DeviceProcessor.SendCommand(_device.UID, Model.Name)); 
+			} 
 		}
 	}
 }

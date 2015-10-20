@@ -37,7 +37,7 @@ namespace Resurs.ViewModels
 			set
 			{
 				_selectedUser = value;
-				if (SelectedUser != null)
+				if (SelectedUser != null && DBCash.GetUser(SelectedUser.User.UID)!=null)
 					SelectedUser.User = DBCash.GetUser(SelectedUser.User.UID);
 				OnPropertyChanged(() => SelectedUser);
 			}
@@ -60,15 +60,7 @@ namespace Resurs.ViewModels
 
 		bool CanAdd()
 		{
-			return SelectedUser != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditUser);
-		}
-
-		void Build ()
-		{
-			Users = new ObservableCollection<UserViewModel>();
-			 DBCash.Users.ForEach(x => Users.Add(new UserViewModel(x)));
-			SelectedUser = Users.FirstOrDefault();
-			SelectedUser.User = DBCash.GetUser(SelectedUser.User.UID);
+			return SelectedUser != null && DBCash.CheckPermission(PermissionType.EditUser);
 		}
 
 		public RelayCommand EditCommand { get; set; }
@@ -78,6 +70,9 @@ namespace Resurs.ViewModels
 			if (DialogService.ShowModalWindow(userDetailsViewModel))
 			{
 				SelectedUser.User = userDetailsViewModel.User;
+				if (DBCash.CurrentUser != null && DBCash.CurrentUser.UID == userDetailsViewModel.User.UID)
+					DBCash.CurrentUser = userDetailsViewModel.User;
+				Bootstrapper.MainViewModel.UpdateTabsIsVisible();
 				if (userDetailsViewModel.IsChange)
 					DBCash.AddJournalForUser(JournalType.EditUser, SelectedUser.User);
 			}
@@ -85,12 +80,12 @@ namespace Resurs.ViewModels
 
 		bool CanEdit()
 		{
-			return SelectedUser != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditUser);
+			return SelectedUser != null && DBCash.CheckPermission( PermissionType.EditUser);
 		}
 
-		public bool IsVisibility
+		public bool IsVisible
 		{
-			get {return DBCash.CurrentUser.UserPermissions.Any(x=> x.PermissionType == PermissionType.ViewUser);}
+			get { return DBCash.CheckPermission(PermissionType.ViewUser); }
 		}
 
 		public RelayCommand RemoveCommand { get; set; }
@@ -111,12 +106,21 @@ namespace Resurs.ViewModels
 
 		bool CanDelete()
 		{
-			return SelectedUser != null && SelectedUser.User.UID != DBCash.CurrentUser.UID;
+			return SelectedUser != null && DBCash.CurrentUser != null && SelectedUser.User.UID != DBCash.CurrentUser.UID && DBCash.CheckPermission(PermissionType.EditUser);
+		}
+
+		void Build()
+		{
+			Users = new ObservableCollection<UserViewModel>();
+			DBCash.Users.ForEach(x => Users.Add(new UserViewModel(x)));
+			SelectedUser = Users.FirstOrDefault();
+			if (DBCash.GetUser(SelectedUser.User.UID)!=null)
+			SelectedUser.User = DBCash.GetUser(SelectedUser.User.UID);
 		}
 
 		public void Select(Guid userUID)
 		{
-			if (userUID != Guid.Empty)
+			if (userUID != Guid.Empty && IsVisible)
 			{
 				var userViewModel = Users.FirstOrDefault(x => x.User.UID == userUID);
 				if (userViewModel != null)

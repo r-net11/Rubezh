@@ -17,6 +17,7 @@ namespace ResursAPI
 			driver.DefaultTariffType = TariffType.Electricity;
 			var realDriver = DriversConfiguration.GetDriver(DriverType.Mercury203Counter);
 			driver.DriverParameters.AddRange(realDriver.DriverParameters);
+			driver.Commands.AddRange(realDriver.Commands);
 			return driver;
 		}
 	}

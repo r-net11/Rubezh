@@ -273,7 +273,7 @@ namespace ResursDAL
 
 				using (var context = DatabaseContext.Initialize())
 				{
-					var device = context.Devices.Include(x => x.Parent).Include(x => x.Parameters).Include(x => x.Bill).FirstOrDefault(x => x.UID == uid);
+					var device = context.Devices.Include(x => x.Parent).Include(x => x.Parameters).Include(x => x.Bill).Include(x => x.Tariff).FirstOrDefault(x => x.UID == uid);
 					InitializeDevice(device);
 					device.Parameters = device.Parameters.OrderBy(x => x.DriverParameter.Number).ToList();
 					device.IsLoaded = true;
@@ -358,7 +358,7 @@ namespace ResursDAL
 			tableDevice.Name = device.Name;
 			tableDevice.Description = device.Description;
 			tableDevice.IsActive = device.IsActive;
-			tableDevice.Tariff = device.Tariff != null ? context.Tariffs.FirstOrDefault(x => x.UID == device.Tariff.UID) : null;
+			tableDevice.TariffUID = device.Tariff != null ? (Guid?)device.Tariff.UID : null;
 			tableDevice.TariffType = device.TariffType;
 			tableDevice.Parent = device.Parent != null ? context.Devices.FirstOrDefault(x => x.UID == device.Parent.UID) : null;
 			tableDevice.DriverUID = device.DriverUID;

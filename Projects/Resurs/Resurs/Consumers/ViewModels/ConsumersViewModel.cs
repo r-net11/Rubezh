@@ -121,7 +121,7 @@ namespace Resurs.ViewModels
 		}
 		bool CanAdd()
 		{
-			return SelectedConsumer != null;
+			return SelectedConsumer != null && DBCash.CheckPermission(PermissionType.EditConsumer);
 		}
 
 		public RelayCommand AddFolderCommand { get; private set; }
@@ -161,7 +161,7 @@ namespace Resurs.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedConsumer != null && DBCash.CurrentUser.UserPermissions.Any(x=> x.PermissionType == PermissionType.EditConsumer);
+			return SelectedConsumer != null && DBCash.CheckPermission(PermissionType.EditConsumer);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -191,7 +191,7 @@ namespace Resurs.ViewModels
 		
 		bool CanRemove()
 		{
-			return SelectedConsumer != null && SelectedConsumer.Parent != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditConsumer);
+			return SelectedConsumer != null && SelectedConsumer.Parent != null && DBCash.CheckPermission(PermissionType.EditConsumer);
 		}
 
 		public RelayCommand ChangeParentCommand { get; private set; }
@@ -221,7 +221,7 @@ namespace Resurs.ViewModels
 
 		bool CanChangeParent()
 		{
-			return SelectedConsumer != null && SelectedConsumer.Parent != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditConsumer);
+			return SelectedConsumer != null && SelectedConsumer.Parent != null && DBCash.CheckPermission(PermissionType.EditConsumer);
 		}
 		public RelayCommand OpenReceiptCommand { get; private set; }
 		void OnOpenReceipt()
@@ -234,9 +234,9 @@ namespace Resurs.ViewModels
 			return SelectedConsumer != null && !SelectedConsumer.Consumer.IsFolder;
 		}
 
-		public bool IsVisibility
+		public bool IsVisible
 		{
-			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.ViewConsumer); }
+			get { return DBCash.CheckPermission(PermissionType.ViewConsumer); }
 		}
 	}
 }

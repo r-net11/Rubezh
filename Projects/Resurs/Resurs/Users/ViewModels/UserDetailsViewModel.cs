@@ -51,7 +51,6 @@ namespace Resurs.ViewModels
 		}
 
 		string _login;
-
 		public string Login
 		{
 			get { return _login; }
@@ -63,7 +62,6 @@ namespace Resurs.ViewModels
 		}
 
 		string _name;
-
 		public string Name
 		{
 			get { return _name; }
@@ -153,7 +151,7 @@ namespace Resurs.ViewModels
 
 		void SaveProperties()
 		{
-			IsChange = User.Login.CompareTo(Login) != 0 || User.Name.CompareTo(Name) != 0 || User.PasswordHash.CompareTo(HashHelper.GetHashFromString(Password)) != 0 || PermissionsViewModel.PermissionViewModels.Where(x => x.IsChecked == true && !User.UserPermissions.Any(y => y.PermissionType == x.PermissionType) && User.UserPermissions.Where(z=> z.PermissionType!=x.PermissionType).Count()!=0 ).Any();
+			IsChange = User.Login.CompareTo(Login) != 0 || User.Name.CompareTo(Name) != 0 || User.PasswordHash.CompareTo(HashHelper.GetHashFromString(Password)) != 0 || PermissionsViewModel.PermissionViewModels.Where(x => x.IsChecked == true && (User.UserPermissions.Any(y => y.PermissionType == x.PermissionType) || User.UserPermissions.Where(z=> z.PermissionType != x.PermissionType).Any())).Count()!=User.UserPermissions.Count();
 			User.Login = Login;
 			User.Name = Name;
 
