@@ -40,10 +40,10 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
 
         public abstract DeviceType DeviceType { get; }
 
-        public UInt32 Address
+        public virtual UInt32 Address
         {
             get { return (UInt32)_Parameters[ParameterNamesMercury203.Address].Value; }
-            set 
+            set  
             {
                 var address = (UInt32)_Parameters[ParameterNamesMercury203.Address].Value;
                 
@@ -80,7 +80,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         public INetwrokController Network
         {
             get { return _NetworkController; }
-            internal set 
+            set 
             {
 
                 if (_NetworkController != value)
@@ -165,6 +165,8 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
             }
         }
 
+		public abstract DateTime RTC { get; set; }
+
         #endregion
 
         #region Constructors
@@ -173,28 +175,6 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         {
             _Status = Status.Stopped;
             _Errors.Reset();
-            _Parameters = new ParatemersCollection();
-
-            _Parameters.Add(new Parameter(typeof(Guid))
-            {
-                Name = ParameterNamesMercury203.Id,
-                Description = "Сетевой адрес устройства",
-                PollingEnabled = false,
-                ReadOnly = false,
-                ValueConverter = null,
-                Value = Guid.NewGuid()
-            });
-
-            _Parameters.Add(new Parameter(typeof(UInt32))
-            {
-                Name = ParameterNamesMercury203.Address,
-                Description = "Сетевой адрес устройтсва",
-                PollingEnabled = false,
-                ReadOnly = false,
-                ValueConverter = null,
-                Value = (UInt32)1
-            });
-
             Initialization();
         }
 
@@ -213,7 +193,30 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         /// <summary>
         /// Инициализирует структуру устройства
         /// </summary>
-        protected abstract void Initialization();
+		protected virtual void Initialization()
+		{
+			_Parameters = new ParatemersCollection();
+
+			_Parameters.Add(new Parameter(typeof(Guid))
+			{
+				Name = ParameterNamesBase.Id,
+				Description = "Сетевой адрес устройства",
+				PollingEnabled = false,
+				ReadOnly = false,
+				ValueConverter = null,
+				Value = Guid.NewGuid()
+			});
+
+			_Parameters.Add(new Parameter(typeof(UInt32))
+			{
+				Name = ParameterNamesBase.Address,
+				Description = "Сетевой адрес устройтсва",
+				PollingEnabled = false,
+				ReadOnly = false,
+				ValueConverter = null,
+				Value = (UInt32)1
+			});
+		}
 
         public void Start()
         {
@@ -223,11 +226,6 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         public void Stop()
         {
             _Status = Status.Stopped;
-        }
-
-        public void Suspend()
-        {
-            throw new NotSupportedException();
         }
 
         protected virtual void OnStatusChanged()

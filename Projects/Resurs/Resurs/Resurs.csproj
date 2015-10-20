@@ -409,6 +409,10 @@
     <Compile Include="Converters\JournalTypeToIconConverter.cs" />
     <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="Devices\ViewModels\DetailsParameterViewModel.cs" />
+    <Compile Include="Devices\ViewModels\TariffSelectionViewModel.cs" />
+    <Compile Include="Devices\Views\TariffSelectionView.xaml.cs">
+      <DependentUpon>TariffSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="JournalEvents\ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceState.cs" />
     <Compile Include="JournalEvents\ViewModels\DateTimeViewModel.cs" />
@@ -524,17 +528,22 @@
     </Compile>
     <Compile Include="Reports\ViewModels\ChangeFlowFilterViewModel.cs" />
     <Compile Include="Reports\ViewModels\DebtorsFilterViewModel.cs" />
+    <Compile Include="Receipts\ViewModels\ReceiptEditorViewModel.cs" />
     <Compile Include="Reports\Views\ChangeFlowFilterView.xaml.cs">
       <DependentUpon>ChangeFlowFilterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\Views\DebtorsFilterView.xaml.cs">
       <DependentUpon>DebtorsFilterView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Receipts\Views\ReceiptEditorView.xaml.cs">
+      <DependentUpon>ReceiptEditorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Settings\ViewModels\SettingsViewModel.cs" />
     <Compile Include="Settings\Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Tariffs\DiscountToTextConverter.cs" />
+    <Compile Include="Converters\DiscountToTextConverter.cs" />
+    <Compile Include="Converters\TariffTypeToResourceTypeConverter.cs" />
     <Compile Include="Tariffs\ViewModels\TariffDevicesViewModel.cs" />
     <Compile Include="Tariffs\ViewModels\TariffDeviceViewModel.cs" />
     <Compile Include="Tariffs\ViewModels\TariffPartViewModel.cs" />
@@ -630,6 +639,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Devices\Views\TariffSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="JournalEvents\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -694,6 +707,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Receipts\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Reports\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -703,6 +720,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Reports\Views\DebtorsFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Receipts\Views\ReceiptEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -886,6 +907,10 @@
       <Project>{94c0399f-3eab-4e23-98f9-61eb8daa4974}</Project>
       <Name>ResursAPI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ResursNetwork\ResursNetwork.csproj">
+      <Project>{ff5590ac-bf93-4ce8-af99-f75091becf64}</Project>
+      <Name>ResursNetwork</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
@@ -929,11 +954,7 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Rates\DataTemplates\" />
-    <Folder Include="Rates\ViewModels\" />
-    <Folder Include="Rates\Views\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>

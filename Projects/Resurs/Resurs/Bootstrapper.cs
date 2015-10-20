@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Theme;
 using System.Windows.Forms;
 using ResursRunner;
+using Microsoft.Win32;
 
 namespace Resurs
 {
@@ -23,6 +24,7 @@ namespace Resurs
 		{
 			try
 			{
+				AddToAutorun();
 				ThemeHelper.LoadThemeFromRegister();
 				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 				var resourceService = new ResourceService();
@@ -34,13 +36,17 @@ namespace Resurs
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Users/DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "JournalEvents/DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Tariffs/DataTemplates/Dictionary.xaml"));
+				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Bills/DataTemplates/Dictionary.xaml"));
 				try
 				{
 					App.Current.ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown;
 
-					var startupViewModel = new StartupViewModel();
-					if (!DialogService.ShowModalWindow(startupViewModel))
-						return;
+					if (showWindow)
+					{
+						var startupViewModel = new StartupViewModel();
+						if (!DialogService.ShowModalWindow(startupViewModel))
+							return;
+					}
 
 					var mainView = new Resurs.Views.MainView();
 					MainViewModel = new MainViewModel();
@@ -61,6 +67,23 @@ namespace Resurs
 				Logger.Error(e, "Исключение при вызове Bootstrapper.Run");
 				Close();
 			}
+		}
+
+		static void AddToAutorun()
+		{
+			try
+			{
+				using (var registryKey = Registry.CurrentUser.CreateSubKey(@"software\Microsoft\Windows\CurrentVersion\Run"))
+				{
+					if (registryKey != null)
+						registryKey.SetValue("Resurs", string.Format("\"{0}\" -hide", Application.ExecutablePath));
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при попытке добавления программы в автозагрузку");
+			}
+			
 		}
 
 		public static void Close()

@@ -25,11 +25,6 @@ namespace ResursNetwork.Management
         /// <summary>
         /// Приостанавливает работу
         /// </summary>
-        [Description("Приостановить выполение")]
-        void Suspend();
-        /// <summary>
-        /// Возвращает/устанавливает новое состояние объекта (старт, стоп, пауза)
-        /// </summary>
         [Description("Текущее состояние")]
         Status Status
         { get; set; }

@@ -271,8 +271,6 @@ namespace SKDModule.ViewModels
 			{ 
 				OrganisationUIDs = Filter.OrganisationUIDs, 
 				EmployeeFilter = Filter.EmployeeFilter, 
-				ClientUID = CardsViewModel.DbCallbackResultUID, 
-				IsLoad = true 
 			};
 			AccessTemplateFilter = new AccessTemplateFilter() 
 			{ 
@@ -302,8 +300,6 @@ namespace SKDModule.ViewModels
 			EmployeeFilter.UIDs = Filter.EmplooyeeUIDs;
 			EmployeeFilter.PersonType = SelectedPersonType;
 			EmployeeFilter.LogicalDeletationType = Filter.LogicalDeletationType;
-			EmployeeFilter.ClientUID = EmployeesViewModel.DbCallbackResultUID; 
-			EmployeeFilter.IsLoad = true;
-        }
+		}
 	}
 }

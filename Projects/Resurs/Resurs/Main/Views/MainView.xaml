@@ -60,6 +60,9 @@
 			<TabItem Header="Настройки" DataContext="{Binding SettingsViewModel}">
 				<Views:SettingsView />
 			</TabItem>
+			<TabItem Header="Квитанции" DataContext="{Binding ReceiptEditorViewModel}">
+				<Views:ReceiptEditorView />
+			</TabItem>
 		</TabControl>
 	</Grid>
 </Window>

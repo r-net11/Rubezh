@@ -138,6 +138,13 @@ namespace VideoModule.ViewModels
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
 
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+		}
+
 		private void OnCameraChanged(Guid cameraUID)
 		{
 			var camera = Cameras.FirstOrDefault(x => x.Camera.UID == cameraUID);
@@ -178,13 +185,6 @@ namespace VideoModule.ViewModels
 			{
 				SelectedCamera = Cameras.FirstOrDefault(item => item.Camera.UID == cameraUID);
 			}
-		}
-
-		private void RegisterShortcuts()
-		{
-			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
 		}
 	}
 }

@@ -23,10 +23,5 @@ namespace ResursNetwork.Management
         /// </summary>
         [Description("Остановлено")]
         Stopped,
-        /// <summary>
-        /// Объект приостановил свою работу
-        /// </summary>
-        [Description("Приостановлено")]
-        Paused
     }
 }

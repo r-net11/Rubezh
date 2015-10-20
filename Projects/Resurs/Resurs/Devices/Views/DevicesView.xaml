@@ -39,6 +39,10 @@
 			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить (Ctrl+N)" ImageSource="Add" />
 			<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать (Ctrl+E)" ImageSource="Edit" />
 			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete" />
+			<ToolBarButton ToolTip="Включить" ImageSource="Play" 
+						   Command="{Binding SetActiveCommand}" Visibility="{Binding SelectedDevice.IsActive, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+			<ToolBarButton ToolTip="Выключить" ImageSource="Pause" 
+						   Command="{Binding UnSetActiveCommand}" Visibility="{Binding SelectedDevice.IsActive, Converter={StaticResource BoolToVisibilityConverter}}" />
 		</StackPanel>
 		<tree:TreeList Grid.Row="1" Grid.Column="0" Source="{Binding RootDevices}" SelectedTreeNode="{Binding SelectedDevice}" ItemActivatedCommand="{Binding EditCommand}"
 				Focusable="True" tree:SortBehavior.CanUserSortColumns="True">
@@ -65,7 +69,7 @@
 					<GridViewColumn Header="Адрес" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelAddressComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding FullAddress}" Style="{StaticResource DeviceTextBlockStyle}"  />
+								<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Device.FullAddress}" Style="{StaticResource DeviceTextBlockStyle}"  />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>

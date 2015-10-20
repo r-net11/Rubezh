@@ -13,8 +13,7 @@ namespace GKModule.ViewModels
 {
 	public class MPTViewModel : BaseViewModel
 	{
-		private VisualizationState _visualizetionState;
-		public GKMPT MPT { get; set; }
+		public GKMPT MPT { get; private set; }
 
 		public MPTViewModel(GKMPT mpt)
 		{
@@ -23,8 +22,8 @@ namespace GKModule.ViewModels
 			ChangeStopLogicCommand = new RelayCommand(OnChangeStopLogic);
 			ChangeSuspendLogicCommand = new RelayCommand(OnChangeSuspendLogic);
 			AddCommand = new RelayCommand(OnAdd);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+			EditCommand = new RelayCommand(OnEdit, () => SelectedDevice != null);
+			DeleteCommand = new RelayCommand(OnDelete, () => SelectedDevice != null);
 			EditPropertiesCommand = new RelayCommand(OnEditProperties, CanEditProperties);
 
 			MPT.Changed += Update;
@@ -106,10 +105,6 @@ namespace GKModule.ViewModels
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
-		bool CanEdit()
-		{
-			return SelectedDevice != null;
-		}
 
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
@@ -120,10 +115,6 @@ namespace GKModule.ViewModels
 			MPT.ChangedLogic();
 			SelectedDevice = Devices.FirstOrDefault();
 			ServiceFactory.SaveService.GKChanged = true;
-		}
-		bool CanDelete()
-		{
-			return SelectedDevice != null;
 		}
 
 		public RelayCommand EditPropertiesCommand { get; private set; }
@@ -171,12 +162,6 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => StartPresentationName);
 			OnPropertyChanged(() => StopPresentationName);
 			OnPropertyChanged(() => SuspendPresentationName);
-		}
-
-		public void Update(GKMPT mpt)
-		{
-			MPT = mpt;
-			Update();
 		}
 
 		public RelayCommand ChangeStartLogicCommand { get; private set; }
@@ -244,6 +229,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		private VisualizationState _visualizetionState;
 		public VisualizationState VisualizationState
 		{
 			get { return _visualizetionState; }

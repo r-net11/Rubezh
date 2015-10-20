@@ -12,13 +12,7 @@ namespace RubezhDAL.DataClasses
 		TimeSpan _daySeconds = new TimeSpan(0, 23, 59, 59, 59);// 86400;
 
 		public DayIntervalTranslator(DbService context)
-			: base(context)
-		{
-			AsyncTranslator = new DayIntervalAsyncTranslator(this);
-		}
-
-		public DayIntervalAsyncTranslator AsyncTranslator { get; private set; }
-
+			: base(context) { }
 		public override DbSet<DayInterval> Table
 		{
 			get { return Context.DayIntervals; }
@@ -112,15 +106,6 @@ namespace RubezhDAL.DataClasses
 					EndTime = x.EndTimeSpan
 				}).OrderBy(x => x.Number).ToList()
 			});
-		}
-	}
-
-	public class DayIntervalAsyncTranslator : AsyncTranslator<DayInterval, API.DayInterval, API.DayIntervalFilter>
-	{
-		public DayIntervalAsyncTranslator(DayIntervalTranslator translator) : base(translator as ITranslatorGet<DayInterval, API.DayInterval, API.DayIntervalFilter>) { }
-		public override List<API.DayInterval> GetCollection(DbCallbackResult callbackResult)
-		{
-			return callbackResult.DayIntervals;
 		}
 	}
 }

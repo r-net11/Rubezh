@@ -332,7 +332,7 @@
 							<TextBlock VerticalAlignment="Center">
 								<Hyperlink Command="{Binding ShowGuardZoneCommand}" Style="{StaticResource HyperlinkStyle}">
 									<StackPanel Orientation="Horizontal">
-										<Image Width="16" Margin="2 2 5 2" Source="/Controls;component/Images/Zone.png" />
+										<Image Width="16" Margin="2 2 5 2" Source="/Controls;component/Images/GuardZone.png" />
 										<TextBlock Text="{Binding GuardPresentationZone}" TextWrapping="Wrap" Margin="2" />
 									</StackPanel>
 								</Hyperlink>

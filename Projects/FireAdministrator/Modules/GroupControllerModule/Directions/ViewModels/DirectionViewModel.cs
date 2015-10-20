@@ -12,16 +12,13 @@ namespace GKModule.ViewModels
 {
 	public class DirectionViewModel : BaseViewModel
 	{
-		private VisualizationState _visualizetionState;
-		public GKDirection Direction { get; set; }
-		public ObservableCollection<DependencyItemViewModel> DependesItems { get; set; }
+		public GKDirection Direction { get; private set; }
 
 		public DirectionViewModel(GKDirection direction)
 		{
 			ShowLogicCommand = new RelayCommand(OnShowLogic);
 			Direction = direction;
 			Direction.Changed += Update;
-			DependesItems = new ObservableCollection<DependencyItemViewModel>();
 			Update();
 		}
 
@@ -31,13 +28,6 @@ namespace GKModule.ViewModels
 			_visualizetionState = Direction.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Direction.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
 			OnPropertyChanged(() => VisualizationState);
 			OnPropertyChanged(() => PresentationLogic);
-			DependesItems.Clear();
-			UpdeteDependesItems();
-		}
-
-		public void UpdeteDependesItems()
-		{
-			Direction.OutDependentElements.ForEach(x => DependesItems.Add(new DependencyItemViewModel(x)));
 		}
 
 		public string PresentationLogic
@@ -78,28 +68,10 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		VisualizationState _visualizetionState;
 		public VisualizationState VisualizationState
 		{
 			get { return _visualizetionState; }
 		}
-		public void Update(GKDirection direction)
-		{
-			Direction = direction;
-			OnPropertyChanged(() => Direction);
-			Update();
-		}
-
-		#region OPC
-		public bool IsOPCUsed
-		{
-			get { return Direction.IsOPCUsed; }
-			set
-			{
-				Direction.IsOPCUsed = value;
-				OnPropertyChanged("IsOPCUsed");
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-		#endregion
 	}
 }

@@ -22,10 +22,7 @@ namespace RubezhDAL.DataClasses
 		{
 			_serializer = new DataContractSerializer(typeof(API.PassCardTemplate));
 			ShortTranslator = new PassCardTemplateShortTranslator(this);
-			AsyncTranslator = new PassCardTemplateAsyncTranslator(ShortTranslator);
 		}
-
-		public PassCardTemplateAsyncTranslator AsyncTranslator { get; private set; }
 
 		public override DbSet<PassCardTemplate> Table
 		{
@@ -92,15 +89,6 @@ namespace RubezhDAL.DataClasses
 				RemovalDate = tableItem.RemovalDate != null ? tableItem.RemovalDate.Value : new DateTime(),
 				OrganisationUID = tableItem.OrganisationUID != null ? tableItem.OrganisationUID.Value : Guid.Empty
 			});
-		}
-	}
-
-	public class PassCardTemplateAsyncTranslator : AsyncTranslator<PassCardTemplate, API.ShortPassCardTemplate, API.PassCardTemplateFilter>
-	{
-		public PassCardTemplateAsyncTranslator(PassCardTemplateShortTranslator translator) : base(translator as ITranslatorGet<PassCardTemplate, API.ShortPassCardTemplate, API.PassCardTemplateFilter>) { }
-		public override List<API.ShortPassCardTemplate> GetCollection(DbCallbackResult callbackResult)
-		{
-			return callbackResult.PassCardTemplates;
 		}
 	}
 }

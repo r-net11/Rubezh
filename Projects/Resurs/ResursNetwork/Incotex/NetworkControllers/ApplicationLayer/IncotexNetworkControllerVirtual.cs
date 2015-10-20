@@ -1,0 +1,278 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using ResursNetwork.OSI.ApplicationLayer;
+using ResursNetwork.OSI.ApplicationLayer.Devices;
+using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
+using ResursNetwork.OSI.DataLinkLayer;
+using ResursNetwork.OSI.Messages;
+using ResursNetwork.OSI.Messages.Transactions;
+using ResursNetwork.Management;
+using ResursNetwork.Incotex.Models;
+using ResursNetwork.Incotex.Models.DateTime;
+using ResursAPI.ParameterNames;
+
+namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
+{
+    public class IncotexNetworkControllerVirtual : INetwrokController
+    {
+        #region Fields And Properties
+
+		const int MIN_POLLING_PERIOD = 1000;
+
+		static DeviceType[] _suppotedDevices =
+			new DeviceType[] { DeviceType.VirtualMercury203 };
+
+        Guid _id = Guid.NewGuid();
+        DevicesCollection _devices;
+        Status _status = Status.Stopped;
+        IDataLinkPort _connection;
+		CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+		Task _networkPollingTask;
+		int _pollingPeriod;
+
+        public Guid Id
+        {
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                _id = value;
+            }
+        }
+
+        public IEnumerable<DeviceType> SuppotedDevices
+        {
+            get { return _suppotedDevices; }
+        }
+
+        public DevicesCollection Devices
+        {
+            get { return _devices; }
+        }
+
+        public IDataLinkPort Connection
+        {
+            get { throw new NotImplementedException(); }
+            set 
+            {                
+                if (Status == Status.Running)
+                {
+                    throw new InvalidOperationException(
+                        "Невозможно установить порт, контроллер в активном состоянии");
+                }
+
+                if (_connection != null)
+                {
+                    if (_connection.IsOpen)
+                    {
+                        throw new InvalidOperationException(
+                            "Невозможно установить порт, порт в активном состоянии");
+                    }
+                    else
+                    {
+                        _connection = value;
+                    }
+                }
+                else
+                {
+                    _connection = value;                    
+                }
+            }
+        }
+
+        public Status Status
+        {
+            get
+            {
+                return _status;
+            }
+            set
+            {
+                if (_status != value)
+                {
+                    _status = value;
+
+					if (_status == Status.Running)
+					{
+						_networkPollingTask =
+							Task.Factory.StartNew(NetwokPollingAction, _cancellationTokenSource.Token);
+					}
+					else
+					{
+						try
+						{
+							_cancellationTokenSource.Cancel();
+							_networkPollingTask.Wait();
+						}
+						catch (AggregateException)
+						{
+							if (!_networkPollingTask.IsCanceled) throw;
+						}
+					}
+
+					OnStatusChanged();
+                }
+            }
+        }
+
+		/// <summary>
+        /// Период (мсек) получения данных от удалённых устройтв
+        /// </summary>
+		public int PollingPeriod
+		{
+			get { return _pollingPeriod; }
+			set 
+			{
+				if (value > MIN_POLLING_PERIOD)
+				{
+					_pollingPeriod = value;
+				}
+				else
+				{
+					throw new ArgumentOutOfRangeException("DataSyncPeriod", String.Empty);
+				}
+			}
+		}
+        #endregion
+
+        #region Constructors
+        
+        public IncotexNetworkControllerVirtual()
+        {
+            _devices = new DevicesCollection(this);
+        }
+
+        #endregion
+
+        #region Methods
+
+		public IAsyncRequestResult Write(
+			NetworkRequest request, bool isExternalCall)
+		{
+			throw new NotImplementedException();
+		}
+
+        public void SyncDateTime()
+        {
+			foreach (var device in _devices)
+			{
+				device.RTC = DateTime.Now;
+			}
+        }
+
+        public void Start()
+        {
+            Status = Status.Running;
+        }
+
+        public void Stop()
+        {
+            Status = Status.Stopped;
+        }
+
+		public void Dispose()
+		{
+			Stop();
+		}
+
+        private void OnStatusChanged()
+        {
+            if (StatusChanged != null)
+            {
+                StatusChanged(this, new EventArgs());
+            }
+        }
+
+		private void OnParameterChanged(ParameterChangedArgs args)
+		{
+			if (ParameterChanged != null)
+			{
+				ParameterChanged(this, args);
+			}
+		}
+
+		private void NetwokPollingAction(Object cancellationToken)
+		{
+			var nextPolling = DateTime.Now;
+			// Симулируем работу счётчика: инкрементируем счётчики тарифов
+			var cancel = (CancellationToken)cancellationToken;
+			cancel.ThrowIfCancellationRequested();
+
+
+			while(!cancel.IsCancellationRequested)
+			{
+				while (nextPolling > DateTime.Now)
+				{
+					Thread.Sleep(300);
+				}
+
+				foreach (var device in _devices)
+				{
+					if (cancel.IsCancellationRequested)
+					{
+						break;
+					}
+
+					var x = (UInt32)device.Parameters[ParameterNamesMercury203.CounterTarif1].Value;
+					var newValue  = x + 1;
+					device.Parameters[ParameterNamesMercury203.CounterTarif1].Value = newValue;
+					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203.CounterTarif1,
+						newValue));
+
+					if (cancel.IsCancellationRequested)
+					{
+						break;
+					}
+
+					x = (UInt32)device.Parameters[ParameterNamesMercury203.CounterTarif2].Value;
+					newValue = x + 1;
+					device.Parameters[ParameterNamesMercury203.CounterTarif2].Value = newValue;
+					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203.CounterTarif1,
+						newValue));
+
+					if (cancel.IsCancellationRequested)
+					{
+						break;
+					}
+
+					x = (UInt32)device.Parameters[ParameterNamesMercury203.CounterTarif3].Value;
+					newValue = x + 1;
+					device.Parameters[ParameterNamesMercury203.CounterTarif3].Value = newValue;
+					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203.CounterTarif1,
+						newValue));
+
+					if (cancel.IsCancellationRequested)
+					{
+						break;
+					}
+
+					x = (UInt32)device.Parameters[ParameterNamesMercury203.CounterTarif4].Value;
+					newValue = x + 1;
+					device.Parameters[ParameterNamesMercury203.CounterTarif4].Value = newValue;
+					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203.CounterTarif1,
+						newValue));
+				}
+
+				nextPolling = DateTime.Now.AddMilliseconds(_pollingPeriod);
+			}
+		}
+
+        #endregion
+
+        #region Events
+
+		public event EventHandler StatusChanged;
+		public event EventHandler<NetworkRequestCompletedArgs> NetwrokRequestCompleted;
+		public event EventHandler<ParameterChangedArgs> ParameterChanged;
+
+		#endregion
+
+
+	}
+}

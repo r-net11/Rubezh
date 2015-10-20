@@ -134,10 +134,5 @@ namespace SKDModule.ViewModels
 		{
 			get { return RubezhAPI.Models.PermissionType.Oper_SKD_Departments_Etit; }
 		}
-
-		protected override List<ShortDepartment> GetFromCallbackResult(RubezhAPI.DbCallbackResult dbCallbackResult)
-		{
-			return dbCallbackResult.Departments;
-		}
 	}
 }

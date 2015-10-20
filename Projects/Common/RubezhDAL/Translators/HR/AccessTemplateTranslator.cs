@@ -10,12 +10,7 @@ namespace RubezhDAL.DataClasses
 	public class AccessTemplateTranslator : OrganisationItemTranslatorBase<AccessTemplate, API.AccessTemplate, API.AccessTemplateFilter>
 	{
 		public AccessTemplateTranslator(DbService context)
-			: base(context)
-		{
-			AsyncTranslator = new AccessTemplateAsyncTranslator(this);
-		}
-
-		public AccessTemplateAsyncTranslator AsyncTranslator { get; private set; }
+			: base(context) { }
 
 		public override DbSet<AccessTemplate> Table
 		{
@@ -65,15 +60,6 @@ namespace RubezhDAL.DataClasses
 					ExitScheduleNo = x.EnterScheduleNo
 				}).ToList()
 			});
-		}
-	}
-
-	public class AccessTemplateAsyncTranslator : AsyncTranslator<AccessTemplate, API.AccessTemplate, API.AccessTemplateFilter>
-	{
-		public AccessTemplateAsyncTranslator(AccessTemplateTranslator translator) : base(translator as ITranslatorGet<AccessTemplate, API.AccessTemplate, API.AccessTemplateFilter>) { }
-		public override List<API.AccessTemplate> GetCollection(DbCallbackResult callbackResult)
-		{
-			return callbackResult.AccessTemplates;
 		}
 	}
 }

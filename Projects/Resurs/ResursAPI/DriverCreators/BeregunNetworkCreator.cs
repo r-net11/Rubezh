@@ -9,11 +9,11 @@ namespace ResursAPI
 	{
 		public static Driver Create()
 		{
-			var driver = new Driver();
+			var driver = new Driver(new Guid("B86CEDA6-1560-4892-8F9A-586C346026AF"));
 			driver.DriverType = DriverType.BeregunNetwork;
 			driver.DeviceType = DeviceType.Network;
 			driver.Children.Add(DriverType.BeregunCounter);
-			driver.DriverParameters.Add(new DriverParameter
+			driver.DriverParameters.Add(new DriverParameter(new Guid("0DE0B86E-D1B9-4569-9998-5DC7DC079AE2"))
 			{
 				Name = "Скорость интерфейса",
 				Description = "Скорость интерфейса",
@@ -31,9 +31,10 @@ namespace ResursAPI
 					new ParameterEnumItem{ Name = "115200", Value = 8 },
 				},
 				EnumDefaultItem = 2,
-				Number = 0
+				Number = 0,
+				CanWriteInActive = false
 			});
-			driver.DriverParameters.Add(new DriverParameter
+			driver.DriverParameters.Add(new DriverParameter(new Guid("D356BF86-24F8-4A72-A0FE-43A34ADB5425"))
 			{
 				Name = "Таймаут ответа, сек",
 				Description = "Таймаут ответа, сек",
@@ -48,7 +49,8 @@ namespace ResursAPI
 					new ParameterEnumItem{ Name = "10", Value = 5 },
 				},
 				EnumDefaultItem = 5,
-				Number = 1
+				Number = 1,
+				CanWriteInActive = false
 			});
 			return driver;
 		}

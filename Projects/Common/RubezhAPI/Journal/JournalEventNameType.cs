@@ -321,6 +321,9 @@ namespace RubezhAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Редактирование сотрудника", XStateClass.Info)]
         Редактирование_сотрудника = 150,
 
+		[EventName(JournalSubsystemType.SKD, "Редактирование посетителя", XStateClass.Info)]
+		Редактирование_посетителя = 218,
+
 		[EventName(JournalSubsystemType.SKD, "Редактирование подразделения", XStateClass.Info)]
         Редактирование_отдела = 151,
 
@@ -359,6 +362,9 @@ namespace RubezhAPI.Journal
 
 		[EventName(JournalSubsystemType.SKD, "Добавление нового сотрудника", XStateClass.Info)]
         Добавление_нового_сотрудника = 163,
+
+		[EventName(JournalSubsystemType.SKD, "Добавление нового посетителя", XStateClass.Info)]
+		Добавление_нового_посетителя = 217,
 
 		[EventName(JournalSubsystemType.SKD, "Добавление нового подразделения", XStateClass.Info)]
         Добавление_нового_отдела = 164,
@@ -434,6 +440,9 @@ namespace RubezhAPI.Journal
 
 		[EventName(JournalSubsystemType.SKD, "Удаление сотрудника", XStateClass.Info)]
         Удаление_сотрудника = 188,
+
+		[EventName(JournalSubsystemType.SKD, "Удаление посетителя", XStateClass.Info)]
+		Удаление_посетителя = 219,
 		
 		[EventName(JournalSubsystemType.SKD, "Удаление подразделения", XStateClass.Info)]
         Удаление_отдела = 189,
@@ -473,6 +482,9 @@ namespace RubezhAPI.Journal
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление сотрудника", XStateClass.Info)]
         Восстановление_сотрудника = 201,
+
+		[EventName(JournalSubsystemType.SKD, "Восстановление посетителя", XStateClass.Info)]
+		Восстановление_посетителя = 201,
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление подразделения", XStateClass.Info)]
         Восстановление_отдела = 202,

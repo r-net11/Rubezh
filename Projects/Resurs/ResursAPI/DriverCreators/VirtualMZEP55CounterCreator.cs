@@ -9,7 +9,7 @@ namespace ResursAPI
 	{
 		public static Driver Create()
 		{
-			var driver = new Driver();
+			var driver = new Driver(new Guid("5449277A-C174-4BC2-913F-E6B9BDB5DF88"));
 			driver.DriverType = DriverType.VirtualMZEP55Counter;
 			driver.DeviceType = DeviceType.Counter;
 			driver.CanEditTariffType = false;

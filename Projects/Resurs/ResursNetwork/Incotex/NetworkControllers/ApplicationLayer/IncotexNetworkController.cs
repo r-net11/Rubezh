@@ -103,23 +103,19 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 
         #region Fields And Properties
 
-        private static DeviceType[] _SupportedDevices = new DeviceType[] { DeviceType.Mercury203 };
-        private static Type[] _SupportedInterfaces = new Type[] { typeof(Incotex.NetworkControllers.DataLinkLayer.ComPort) };
-        private NetworkRequest _CurrentNetworkRequest;
-        private int _RequestTimeout = 2000; // Значение по умолчанию
-        private int _BroadcastRequestDelay = 2000; // Значение по умолчанию
-        private int _TotalAttempts = 1;
-        private AutoResetEvent _AutoResetEventRequest = new AutoResetEvent(false);
-        private AutoResetEvent _AutoResetEventWorker = new AutoResetEvent(false);
-        private static object _SyncRoot = new object(); 
-        private OutputBuffer _OutputBuffer = new OutputBuffer();
-        private int _DataSyncPeriod = 
-            Convert.ToInt32(TimeSpan.FromDays(1).TotalMilliseconds); // По умолчнию период синхронизации 1 день;
-
-        /// <summary>
-        /// Хранит устройтво для работы в монопольном режиме доступа к устройству
-        /// </summary>
-        //private DeviceBase _DeviceForExclusiveMode; 
+		const int MIN_POLLING_PERIOD = 1000;
+		
+		static DeviceType[] _supportedDevices = 
+			new DeviceType[] { DeviceType.Mercury203 };
+		static Type[] _supportedInterfaces = 
+			new Type[] { typeof(Incotex.NetworkControllers.DataLinkLayer.ComPort) };
+		static object _syncRoot = new object(); 
+		NetworkRequest _currentNetworkRequest;
+		int _requestTimeout = 2000; // Значение по умолчанию
+		int _broadcastRequestDelay = 2000; // Значение по умолчанию
+		AutoResetEvent _autoResetEventRequest = new AutoResetEvent(false);
+		AutoResetEvent _autoResetEventWorker = new AutoResetEvent(false);
+		OutputBuffer _outputBuffer = new OutputBuffer();
 
         /// <summary>
         /// Хранит входящее сообщение от удалённого устройтсва во 
@@ -132,12 +128,12 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// </summary>
         public NetworkRequest CurrentNetworkRequest
         {
-            get { return _CurrentNetworkRequest; }
+            get { return _currentNetworkRequest; }
         }
 
         public override IEnumerable<DeviceType> SuppotedDevices
         {
-            get { return _SupportedDevices; }
+            get { return _supportedDevices; }
         }
 
         public override IDataLinkPort Connection
@@ -166,12 +162,12 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// </summary>
         public int RequestTimeout
         {
-            get { return _RequestTimeout; }
+            get { return _requestTimeout; }
             set 
             {
                 if (value > 0)
                 {
-                    _RequestTimeout = value;
+                    _requestTimeout = value;
                 }
                 else
                 {
@@ -185,12 +181,12 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// </summary>
         public int BroadcastRequestDelay
         {
-            get { return _BroadcastRequestDelay; }
+            get { return _broadcastRequestDelay; }
             set 
             {
                 if (value > 0)
                 {
-                    _BroadcastRequestDelay = value;
+                    _broadcastRequestDelay = value;
                 }
                 else
                 {
@@ -201,41 +197,24 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         }
 
         /// <summary>
-        /// Количество попыток доспупа к устройтву
-        /// </summary>
-        public int TotalAttempts
-        {
-            get { return _TotalAttempts; }
-            set 
-            {
-                if (value > 0)
-                {
-                    _TotalAttempts = value;
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-            }
-        }
-
-        /// <summary>
         /// Период (мсек) получения данных от удалённых устройтв
         /// </summary>
-        public int DataSyncPeriod
-        {
-            get { return _DataSyncPeriod; }
-            set 
-            {
-                if (value < 1)
-                {
-                    throw new ArgumentOutOfRangeException(
-                        "DataSyncPeriod", "Значение не должно быть меньше 1");
-                }
-
-                _DataSyncPeriod = value; 
-            }
-        }
+		public override int PollingPeriod
+		{
+			get
+			{
+				return base.PollingPeriod;
+			}
+			set
+			{
+				if (value < MIN_POLLING_PERIOD)
+				{
+					throw new ArgumentOutOfRangeException("PollingPeriod",
+						String.Format("Значение не должно быть меньше {0}", MIN_POLLING_PERIOD));
+				}
+				base.PollingPeriod = value;
+			}
+		}
 
         #endregion
 
@@ -245,6 +224,8 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// </summary>
         public IncotexNetworkController()
         {
+			// По умолчнию период синхронизации 1 день;
+			_pollingPeriod = Convert.ToInt32(TimeSpan.FromDays(1).TotalMilliseconds); 
         }
 
         #endregion
@@ -323,33 +304,33 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                     "Сетевой контроллер принял одновременно более одного сообщения из сети");
             }
 
-            if ((_CurrentNetworkRequest == null) || 
-                (_CurrentNetworkRequest.Status != NetworkRequestStatus.Running))
+            if ((_currentNetworkRequest == null) || 
+                (_currentNetworkRequest.Status != NetworkRequestStatus.Running))
             {
                 throw new Exception("Принято сообщение в отсутствии запроса");
             }
 
             // Обрабатывает сообщение
-            _AutoResetEventRequest.Set();
+            _autoResetEventRequest.Set();
             _CurrentIncomingMessage = dataMessages[0];
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cancelToken"></param>
-        protected override void NetwokPollingAction(object cancelToken)
+        /// <param name="cancellationToken"></param>
+        protected override void NetwokPollingAction(object cancellationToken)
         {
             //DateTime lastUpdate;
             List<IDevice> faultyDevices = new List<IDevice>();
             NetworkRequest networkRequest;
 
-            var cancel = (CancellationToken)cancelToken;
+            var cancel = (CancellationToken)cancellationToken;
             cancel.ThrowIfCancellationRequested();
 
             while(!cancel.IsCancellationRequested)
             {
-                if (!_AutoResetEventWorker.WaitOne(Convert.ToInt32(DataSyncPeriod)))
+                if (!_autoResetEventWorker.WaitOne(Convert.ToInt32(PollingPeriod)))
                 {
                     // При срабатывании по таймауту обновляем данные из удалённых устройтств
                     // При условии что контроллер в активном состоянии
@@ -360,11 +341,11 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                 }
 
                 // Выполняем все запросы в буфере
-                while (_OutputBuffer.Count > 0)
+                while (_outputBuffer.Count > 0)
                 {
-                    lock (_SyncRoot)
+                    lock (_syncRoot)
                     {
-                        networkRequest = _OutputBuffer.Dequeue();
+                        networkRequest = _outputBuffer.Dequeue();
 
                         if (Status != Status.Running)
                         {
@@ -451,13 +432,13 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         public override IAsyncRequestResult Write(
             NetworkRequest networkRequest, bool isExternalCall = true)
         {
-            lock (_SyncRoot)
+            lock (_syncRoot)
             {
                 if (Status == Status.Running)
                 {
                     networkRequest.TotalAttempts = TotalAttempts;
-                    _OutputBuffer.Enqueue(networkRequest, isExternalCall);
-                    _AutoResetEventWorker.Set();
+                    _outputBuffer.Enqueue(networkRequest, isExternalCall);
+                    _autoResetEventWorker.Set();
                     return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
                 }
                 else
@@ -496,12 +477,12 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             }
 
             // Устанавливаем транзакцию в качестве текущей
-            _CurrentNetworkRequest = networkRequest;
-            var result = _CurrentNetworkRequest.AsyncRequestResult;
+            _currentNetworkRequest = networkRequest;
+            var result = _currentNetworkRequest.AsyncRequestResult;
 
             // Если запрос адресованный, то ждём ответа
             // Если запрос широковещательный выдерживаем установленную паузу
-            switch (_CurrentNetworkRequest.CurrentTransaction.TransactionType)
+            switch (_currentNetworkRequest.CurrentTransaction.TransactionType)
             {
                 case TransactionType.UnicastMode:
                     {
@@ -510,14 +491,14 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                         for (int i = 0; i < TotalAttempts; i++)
                         {
                             // Отправляем запрос к удалённому устройтву
-                            _CurrentNetworkRequest.CurrentTransaction.Start();
-                            _Connection.Write(_CurrentNetworkRequest.CurrentTransaction.Request);
+                            _currentNetworkRequest.CurrentTransaction.Start();
+                            _Connection.Write(_currentNetworkRequest.CurrentTransaction.Request);
 
                             // Ждём ответа от удалённого устройтва или тайм аут
-                            if (!_AutoResetEventRequest.WaitOne(_RequestTimeout))
+                            if (!_autoResetEventRequest.WaitOne(_requestTimeout))
                             {
                                 // TimeOut!!! Прекращает текущую транзакцию
-                                _CurrentNetworkRequest.CurrentTransaction.Abort(new TransactionError
+                                _currentNetworkRequest.CurrentTransaction.Abort(new TransactionError
                                 {
                                     ErrorCode = TransactionErrorCodes.RequestTimeout,
                                     Description = "Request timeout"
@@ -525,14 +506,14 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                                 
                                 Transaction trn;
                                 // Повторяем запрос
-                                _CurrentNetworkRequest.NextAttempt(out trn);
+                                _currentNetworkRequest.NextAttempt(out trn);
                                 disconnected = true;
                                 continue;                               
                             }
                             else
                             {
                                 // Ответ получен
-                                _CurrentNetworkRequest.CurrentTransaction.Stop(_CurrentIncomingMessage);
+                                _currentNetworkRequest.CurrentTransaction.Stop(_CurrentIncomingMessage);
                                 _CurrentIncomingMessage = null;
                                 disconnected = false;
                                 break;
@@ -559,21 +540,21 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                         }
 
                         OnNetwrokRequestCompleted(
-                            new NetworkRequestCompletedArgs { NetworkRequest = _CurrentNetworkRequest });
+                            new NetworkRequestCompletedArgs { NetworkRequest = _currentNetworkRequest });
 
-                        result.SetCompleted(_CurrentNetworkRequest.TransactionsStack);
+                        result.SetCompleted(_currentNetworkRequest.TransactionsStack);
 
                         break;
                     }
                 case TransactionType.BroadcastMode:
                     {
                         // Отправляем запрос к удалённому устройтву
-                        _CurrentNetworkRequest.CurrentTransaction.Start();
-                        _Connection.Write(_CurrentNetworkRequest.CurrentTransaction.Request);
+                        _currentNetworkRequest.CurrentTransaction.Start();
+                        _Connection.Write(_currentNetworkRequest.CurrentTransaction.Request);
 
-                        if (!_AutoResetEventRequest.WaitOne(_BroadcastRequestDelay))
+                        if (!_autoResetEventRequest.WaitOne(_broadcastRequestDelay))
                         {
-                            _CurrentNetworkRequest.CurrentTransaction.Stop(null);
+                            _currentNetworkRequest.CurrentTransaction.Stop(null);
                         }
                         else
                         {
@@ -582,13 +563,13 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                                 "Принят ответ от удалённого устройтства во время широковещательного запроса");
                         }
 
-                        result.SetCompleted(_CurrentNetworkRequest.TransactionsStack);
+                        result.SetCompleted(_currentNetworkRequest.TransactionsStack);
 
                         break;
                     }
                 default:
                     {
-                        result.SetCompleted(_CurrentNetworkRequest.TransactionsStack);
+                        result.SetCompleted(_currentNetworkRequest.TransactionsStack);
                         throw new NotSupportedException();
                     }
             }

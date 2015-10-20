@@ -18,15 +18,13 @@ namespace AutomationModule.ViewModels
 {
 	public class SoundsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
-		public static SoundsViewModel Current { get; private set; }
 		public SoundsViewModel()
 		{
-			Current = this;
-			Menu = new SoundsMenuViewModel(this);
 			PlaySoundCommand = new RelayCommand(OnPlaySound);
-			AddCommand = new RelayCommand(OnAdd, CanAdd);
+			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			Menu = new SoundsMenuViewModel(this);
 		}
 
 		public void Initialize()
@@ -114,11 +112,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		bool CanAdd()
-		{
-			return true;
-		}
-
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
@@ -154,16 +147,6 @@ namespace AutomationModule.ViewModels
 			{
 				SelectedSound = Sounds.FirstOrDefault(item => item.Sound.Uid == soundUid);
 			}
-		}
-
-		public override void OnShow()
-		{
-			base.OnShow();
-		}
-
-		public override void OnHide()
-		{
-			base.OnHide();
 		}
 	}
 }

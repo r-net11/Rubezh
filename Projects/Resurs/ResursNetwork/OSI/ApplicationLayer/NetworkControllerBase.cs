@@ -27,7 +27,9 @@ namespace ResursNetwork.OSI.ApplicationLayer
         protected Status _Status = Status.Stopped;
         protected EventHandler _MessageReceived;
         protected IDataLinkPort _Connection;
-        private int _TotalAttempts;
+        protected int _TotalAttempts;
+		protected int _pollingPeriod =
+			Convert.ToInt32(TimeSpan.FromDays(1).TotalMilliseconds); // По умолчнию период синхронизации 1 день;
 
         /// <summary>
         /// Id контроллера
@@ -162,7 +164,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
             get { return _Connection; }
             set
             {
-                if ((Status == Status.Running) || (Status == Status.Paused))
+                if (Status == Status.Running)
                 {
                     throw new InvalidOperationException(
                         "Невозможно выполенить установку порта, контроллер в активном состоянии");
@@ -203,8 +205,30 @@ namespace ResursNetwork.OSI.ApplicationLayer
         public int TotalAttempts
         {
             get { return _TotalAttempts; }
-            set { _TotalAttempts = value; }
+            set
+            {
+                if (value > 0)
+                {
+                    _TotalAttempts = value;
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+            }
         }
+
+		/// <summary>
+		/// Период (мсек) получения данных от удалённых устройтв
+		/// </summary>
+		public virtual int PollingPeriod
+		{
+			get { return _pollingPeriod; }
+			set
+			{
+				_pollingPeriod = value;
+			}
+		}
 
         #endregion
         
@@ -242,14 +266,6 @@ namespace ResursNetwork.OSI.ApplicationLayer
         }
 
         /// <summary>
-        /// Приостанавливает опрос удалённых устройств
-        /// </summary>
-        public virtual void Suspend()
-        {
-            Status = Status.Paused;
-        }
-
-        /// <summary>
         /// Генерирует событие изменения состояния контроллера
         /// </summary>
         protected virtual void OnStatusWasChanged()
@@ -268,6 +284,13 @@ namespace ResursNetwork.OSI.ApplicationLayer
             }
         }
 
+		protected void OnParameterChanged(ParameterChangedArgs args)
+		{
+			if (ParameterChanged != null)
+			{
+				ParameterChanged(this, args);
+			}
+		}
         /// <summary>
         /// Член IDisposable
         /// </summary>
@@ -286,7 +309,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// <summary>
         /// Метод выполняет сетевой опрос устройств
         /// </summary>
-        protected abstract void NetwokPollingAction(Object cancelToken);
+        protected abstract void NetwokPollingAction(Object cancellationToken);
 
         /// <summary>
         /// Записывает транзакцию в буфер исходящих сообщений
@@ -303,8 +326,14 @@ namespace ResursNetwork.OSI.ApplicationLayer
         #endregion
 
         #region Events
-        public event EventHandler StatusChanged;
+
+		public event EventHandler StatusChanged;
         public event EventHandler<NetworkRequestCompletedArgs> NetwrokRequestCompleted;
-        #endregion
-    }
+		public event EventHandler<ParameterChangedArgs> ParameterChanged;
+
+		#endregion
+
+
+
+	}
 }

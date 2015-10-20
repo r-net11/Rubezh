@@ -127,7 +127,6 @@
     <Compile Include="TestDataGenerator.cs" />
     <Compile Include="Translators\HR\AccessTemplateTranslator.cs" />
     <Compile Include="Translators\HR\AdditionalColumnTypeTranslator.cs" />
-    <Compile Include="Translators\Base\AsyncTranslator.cs" />
     <Compile Include="Translators\Base\ITranslatorGet.cs" />
     <Compile Include="Translators\Base\OrganisationShortTranslatorBase.cs" />
     <Compile Include="Translators\Base\ShortTranslatorBase.cs" />

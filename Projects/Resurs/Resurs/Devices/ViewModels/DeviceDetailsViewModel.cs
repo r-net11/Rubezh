@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Resurs.Processor;
 using ResursAPI;
 using ResursDAL;
 using System;
@@ -15,25 +16,28 @@ namespace Resurs.ViewModels
 	public class DeviceDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public Device Device { get; private set; }
-		Device _OldDevice;
-		Device _Parent;
-		bool _IsNew;
+		Device _oldDevice;
+		Device _parent;
+		bool _isSaved;
+		bool _isCancelClosing;
 		public ObservableCollection<DetailsParameterViewModel> Parameters { get; private set; }
+		public bool IsNetwork { get; private set; }
 		
 		public DeviceDetailsViewModel(Device device)
 		{
 			Title = "Редактирование устройства " + device.Name + " " + device.FullAddress;
-			_Parent = device.Parent;
+			_parent = device.Parent;
 			Address = device.Address;
 			Initialize(device);
 			SelectBillCommand = new RelayCommand<Guid?>(OnSelectBill);
 			RemoveBillLinkCommand = new RelayCommand(OnRemoveBillLink);
+			SelectTariffCommand = new RelayCommand(OnSelectTariff);
+			RemoveTariffCommand = new RelayCommand(OnRemoveTariff);
 		}
 
 		public DeviceDetailsViewModel(DriverType driverType, Device parent)
 		{
-			_IsNew = true;
-			_Parent = parent;
+			_parent = parent;
 			Address = parent.Children.Count + 1;
 			var device = new Device(driverType);
 			Title = "Создание устройства " + device.Name;
@@ -43,22 +47,34 @@ namespace Resurs.ViewModels
 		void Initialize(Device device)
 		{
 			Device = device;
-			_OldDevice = device;
+			_oldDevice = device;
+			Name = device.Name;
 			Description = device.Description;
-			IsActive = device.IsActive;
+			IsActive = Device.IsActive;
 			Bill = device.Bill;
-			Parameters = new ObservableCollection<DetailsParameterViewModel>(Device.Parameters.Select(x => new DetailsParameterViewModel(x)));
 			IsNetwork = device.DeviceType == DeviceType.Network;
-			if(IsNetwork)
+			if (!IsActive)
 			{
-				ComPorts = new ObservableCollection<string>(GetComPorts());
-				ComPort = ComPorts.FirstOrDefault(x => x == device.ComPort);
+				IsEditComPort = IsNetwork;
+				if (IsEditComPort)
+				{
+					ComPorts = new ObservableCollection<string>(GetComPorts());
+					ComPort = ComPorts.FirstOrDefault(x => x == device.ComPort);
+				}
+				IsEditAddress = !IsEditComPort;
 			}
+			else
+			{
+				AddressString = IsNetwork ? device.ComPort : device.Address.ToString();
+			}
+			Parameters = new ObservableCollection<DetailsParameterViewModel>(Device.Parameters.Select(x => new DetailsParameterViewModel(x, this)));
+			Commands = new ObservableCollection<CommandViewModel>(Device.Commands.Select(x => new CommandViewModel(Device, x)));
 			TariffTypes = new ObservableCollection<TariffType>();
 			foreach (TariffType item in Enum.GetValues(typeof(TariffType)))
 			{
 				TariffTypes.Add(item);
 			}
+			Tariff = device.Tariff;
 			TariffType = device.TariffType;
 			HasTariffType = device.DeviceType == DeviceType.Counter;
 			CanEditTariffType = device.Driver.CanEditTariffType && HasTariffType;
@@ -68,41 +84,54 @@ namespace Resurs.ViewModels
 		public bool CanEditTariffType { get; private set; }
 		public bool HasReadOnlyTariffType { get; private set; }
 		public bool HasTariffType { get; private set; }
-		
 		public ObservableCollection<TariffType> TariffTypes { get; private set; }
 
-		TariffType _TariffType;
+		TariffType _tariffType;
 		public TariffType TariffType
 		{
-			get { return _TariffType; }
+			get { return _tariffType; }
 			set
 			{
-				_TariffType = value;
+				_tariffType = value;
 				OnPropertyChanged(() => TariffType);
 			}
 		}
 
-		int _Address;
+		int _address;
 		public int Address
 		{
-			get { return _Address; }
+			get { return _address; }
 			set
 			{
-				_Address = value;
+				_address = value;
 				OnPropertyChanged(() => Address);
 			}
 		}
 
-		public bool IsNetwork { get; private set; }
+		public bool IsEditComPort { get; private set; }
+		public bool IsEditAddress { get; private set; }
+		public string AddressString { get; private set; }
 		public ObservableCollection<string> ComPorts { get; private set; }
-		string _ComPort;
+
+		string _comPort;
 		public string ComPort
 		{
-			get { return _ComPort; }
+			get { return _comPort; }
 			set
 			{
-				_ComPort = value;
+				_comPort = value;
 				OnPropertyChanged(() => ComPort);
+			}
+		}
+
+		string _name;
+		public string Name
+		{
+			get { return _name; }
+			set
+			{
+				_name = value;
+				OnPropertyChanged(() => Name);
 			}
 		}
 
@@ -117,24 +146,15 @@ namespace Resurs.ViewModels
 			}
 		}
 
-		bool _IsActive;
-		public bool IsActive
-		{
-			get { return _IsActive; }
-			set
-			{
-				_IsActive = value;
-				OnPropertyChanged(() => IsActive);
-			}
-		}
-
-		Bill _Bill;
+		public bool IsActive { get; private set; }
+		
+		Bill _bill;
 		public Bill Bill
 		{
-			get { return _Bill; }
+			get { return _bill; }
 			set
 			{
-				_Bill = value;
+				_bill = value;
 				OnPropertyChanged(() => Bill);
 				OnPropertyChanged(() => BillLinkName);
 			}
@@ -171,11 +191,51 @@ namespace Resurs.ViewModels
 			Bill = null;
 		}
 
+		#region Tariff
+		Tariff _tariff;
+		public Tariff Tariff
+		{
+			get { return _tariff; }
+			set
+			{
+				_tariff = value;
+				OnPropertyChanged(() => Tariff);
+				OnPropertyChanged(() => HasTariff);
+			}
+		}
+
+		public bool HasTariff { get { return Tariff != null; } }
+		
+		public RelayCommand SelectTariffCommand { get; private set; }
+		void OnSelectTariff()
+		{
+			var tariffSelectionViewModel = new TariffSelectionViewModel(this);
+			if(DialogService.ShowModalWindow(tariffSelectionViewModel))
+			{
+				Tariff = tariffSelectionViewModel.Tariff;
+			}
+		}
+
+		public RelayCommand RemoveTariffCommand { get; private set; }
+		void OnRemoveTariff()
+		{
+			Tariff = null;
+		}
+		#endregion
+
+		public ObservableCollection<CommandViewModel> Commands { get; private set; }
+		public bool HasCommands { get { return Commands.IsNotNullOrEmpty(); } }
+		
 		protected override bool Save()
 		{
-			if(IsNetwork)
+			if(IsEditComPort)
 			{
-				if (_Parent.Children.Any(x => x.ComPort == ComPort && x.UID != Device.UID))
+				if(ComPort == null)
+				{
+					MessageBoxService.Show("Не задан адрес COM порта");
+					return false;
+				}
+				if (_parent.Children.Any(x => x.ComPort == ComPort && x.UID != Device.UID))
 				{
 					MessageBoxService.Show("Невозможно добавить устройство с повторяющимся адресом");
 					return false;
@@ -184,7 +244,7 @@ namespace Resurs.ViewModels
 					Address = int.Parse(ComPort.Substring(3));
 					Device.ComPort = ComPort;
 			}
-			if (_Parent.Children.Any(x => x.Address == Address && x.UID != Device.UID))
+			if (_parent.Children.Any(x => x.Address == Address && x.UID != Device.UID))
 			{
 				MessageBoxService.Show("Невозможно добавить устройство с повторяющимся адресом");
 				return false;
@@ -197,7 +257,13 @@ namespace Resurs.ViewModels
 				item.Parent = Device;
 				item.SetFullAddress();
 			}
-			
+
+			foreach (var item in Parameters)
+			{
+				var saveResult = item.Save();
+				if (!saveResult)
+					return false;
+			}
 			Device.Parameters = new List<Parameter>(Parameters.Select(x => x.Model));
 			foreach (var item in Device.Parameters)
 			{
@@ -206,74 +272,64 @@ namespace Resurs.ViewModels
 					var validateResult = item.Validate();
 					if (validateResult != null)
 					{
-						MessageBoxService.Show("Ошибка в параметре " + item.DriverParameter.Name + ": " + validateResult);
+						MessageBoxService.Show("Ошибка в параметре " + item.DriverParameter.Description + ": " + validateResult);
 						return false;
 					}
 				}
 			}
-			foreach (var item in Parameters)
-			{
-				var saveResult = item.Save();
-				if (!saveResult)
-					return false;
-			}
+			Device.Name = Name;
 			Device.Description = Description;
 			if (CanEditTariffType)
 				Device.TariffType = TariffType;
-			Device.IsActive = IsActive;
 			Device.Bill = Bill;
 			Device.BillUID = Bill == null ? null : (Guid?)Bill.UID;
-			if (!_IsNew)
+			Device.Tariff = Tariff;
+			Device.TariffUID = Tariff == null ? null : (Guid?)Tariff.UID;
+			var isDbMissmatch = false;
+			if (IsActive)
 			{
-				if (Device.IsActive != _OldDevice.IsActive)
-					SetStatus(Device.UID, Device.IsActive);
-				var isDbMissmatch = false;
-				if (Device.IsActive)
+				foreach (var newParameter in Device.Parameters.Where(x => x.DriverParameter.IsWriteToDevice && x.DriverParameter.CanWriteInActive))
 				{
-					foreach (var newParameter in Device.Parameters.Where(x => x.DriverParameter.IsWriteToDevice))
+					var oldParameter = _oldDevice.Parameters.FirstOrDefault(x => x.UID == newParameter.UID);
+					if (oldParameter.ValueType != newParameter.ValueType)
 					{
-						var oldParameter = _OldDevice.Parameters.FirstOrDefault(x => x.UID == newParameter.UID);
-						switch (oldParameter.DriverParameter.ParameterType)
-						{
-							case ParameterType.Enum:
-								if (oldParameter.IntValue != newParameter.IntValue)
-									isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, intValue: newParameter.IntValue);
-								break;
-							case ParameterType.String:
-								if (oldParameter.StringValue != newParameter.StringValue)
-									isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, stringValue: newParameter.StringValue);
-								break;
-							case ParameterType.Int:
-								if (oldParameter.IntValue != newParameter.IntValue)
-									isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, intValue: newParameter.IntValue);
-								break;
-							case ParameterType.Double:
-								if (oldParameter.DoubleValue != newParameter.DoubleValue)
-									isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, doubleValue: newParameter.DoubleValue);
-								break;
-							case ParameterType.Bool:
-								if (oldParameter.BoolValue != newParameter.BoolValue)
-									isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, boolValue: newParameter.BoolValue);
-								break;
-							case ParameterType.DateTime:
-								if (oldParameter.DateTimeValue != newParameter.DateTimeValue)
-									isDbMissmatch = isDbMissmatch || !WriteParameter(Device.UID, newParameter.DriverParameter.Name, dateTimeValue: newParameter.DateTimeValue);
-								break;
-							default:
-								break;
-						}
+						isDbMissmatch = isDbMissmatch || !DeviceProcessor.WriteParameter(Device.UID, newParameter.DriverParameter.Name, newParameter.ValueType);
 					}
+					
 				}
 				Device.IsDbMissmatch = isDbMissmatch;
 			}
 			else
 			{
-				Device.SetParent(_Parent, Address);
-				AddDevice(Device);
+				Device.SetParent(_parent, Address);
 			}
-			if(ResursDAL.DBCash.SaveDevice(Device))
+			if (ResursDAL.DBCash.SaveDevice(Device))
+			{
+				_isSaved = true;
 				return base.Save();
+			}
 			return false;
+		}
+
+		public override bool OnClosing(bool isCanceled)
+		{
+			if(_isSaved)
+				return base.OnClosing(isCanceled);
+			if (!_isCancelClosing)
+			{
+				var isConfirmed = MessageBoxService.ShowConfirmation("Вы уверены, что хотите закрыть окно без сохранения изменений?");
+				if (!isConfirmed)
+				{
+					_isCancelClosing = true;
+					return true;
+				}
+			}
+			else
+			{
+				_isCancelClosing = false;
+				return true;
+			}
+			return base.OnClosing(isCanceled);
 		}
 
 		IEnumerable<string> GetComPorts()
@@ -283,7 +339,7 @@ namespace Resurs.ViewModels
 #else
 			var allPorts = SerialPort.GetPortNames();
 #endif
-			return allPorts.Except(_Parent.Children.Where(x => x.UID != Device.UID).Select(x => x.ComPort));
+			return allPorts.Except(_parent.Children.Where(x => x.UID != Device.UID).Select(x => x.ComPort));
 		}
 
 		public bool SetStatus(Guid deviceUID, bool isActive)
@@ -301,11 +357,26 @@ namespace Resurs.ViewModels
 		{ 
 			return true; 
 		}
-		
-		public bool AddDevice(Device device)
+	}
+
+	public class CommandViewModel
+	{
+		public Device _device;
+		public DeviceCommand Model { get; private set; }
+
+		public CommandViewModel(Device device, DeviceCommand model)
 		{
-			return true;
+			_device = device;
+			Model = model;
 		}
 
+		public RelayCommand SendCommand 
+		{ 
+			get 
+			{ 
+				return new RelayCommand(() => 
+					DeviceProcessor.SendCommand(_device.UID, Model.Name)); 
+			} 
+		}
 	}
 }

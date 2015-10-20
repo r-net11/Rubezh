@@ -19,10 +19,10 @@ namespace AutomationModule.ViewModels
 		public GlobalVariablesViewModel()
 		{
 			Current = this;
-			Menu = new GlobalVariablesMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			Menu = new GlobalVariablesMenuViewModel(this);
 			RegisterShortcuts();
 		}
 

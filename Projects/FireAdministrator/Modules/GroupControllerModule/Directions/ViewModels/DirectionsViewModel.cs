@@ -24,24 +24,24 @@ namespace GKModule.ViewModels
 	public class DirectionsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public static DirectionsViewModel Current { get; private set; }
-		bool _lockSelection;
+		bool _lockSelection = false;
 
 		public DirectionsViewModel()
 		{
 			Current = this;
 			Menu = new DirectionsMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
+			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
-			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
 			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
 			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 
-			RegisterShortcuts();
 			IsRightPanelEnabled = true;
+			RegisterShortcuts();
 			SubscribeEvents();
 			SetRibbonItems();
 		}
@@ -83,6 +83,84 @@ namespace GKModule.ViewModels
 				if (!_lockSelection && _selectedDirection != null && _selectedDirection.Direction.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDirection.Direction.PlanElementUIDs);
 			}
+		}
+
+		public RelayCommand AddCommand { get; private set; }
+		void OnAdd()
+		{
+			OnAddResult();
+		}
+		private DirectionDetailsViewModel OnAddResult()
+		{
+			var directionDetailsViewModel = new DirectionDetailsViewModel();
+			if (DialogService.ShowModalWindow(directionDetailsViewModel))
+			{
+				GKManager.AddDirection(directionDetailsViewModel.Direction);
+				var directionViewModel = new DirectionViewModel(directionDetailsViewModel.Direction);
+				Directions.Add(directionViewModel);
+				SelectedDirection = directionViewModel;
+				ServiceFactory.SaveService.GKChanged = true;
+				GKPlanExtension.Instance.Cache.BuildSafe<GKDirection>();
+				return directionDetailsViewModel;
+			}
+			return null;
+		}
+
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
+		{
+			OnEdit(SelectedDirection.Direction);
+		}
+		void OnEdit(GKDirection direction)
+		{
+			var directionDetailsViewModel = new DirectionDetailsViewModel(direction);
+			if (DialogService.ShowModalWindow(directionDetailsViewModel))
+			{
+				GKManager.EditDirection(SelectedDirection.Direction);
+				SelectedDirection.Update();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+		
+		public RelayCommand DeleteCommand { get; private set; }
+		void OnDelete()
+		{
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить направление " + SelectedDirection.Direction.PresentationName))
+			{
+				var index = Directions.IndexOf(SelectedDirection);
+				GKManager.RemoveDirection(SelectedDirection.Direction);
+				Directions.Remove(SelectedDirection);
+				index = Math.Min(index, Directions.Count - 1);
+				if (index > -1)
+					SelectedDirection = Directions[index];
+				ServiceFactory.SaveService.GKChanged = true;
+				GKPlanExtension.Instance.Cache.BuildSafe<GKDirection>();
+			}
+		}
+
+		public RelayCommand DeleteAllEmptyCommand { get; private set; }
+		void OnDeleteAllEmpty()
+		{
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые направления ?"))
+			{
+				var emptyDirections = Directions.Where(x => !x.Direction.Logic.GetObjects().Any());
+
+				if (emptyDirections.Any())
+				{
+					for (var i = emptyDirections.Count() - 1; i >= 0; i--)
+					{
+						GKManager.RemoveDirection(emptyDirections.ElementAt(i).Direction);
+						Directions.Remove(emptyDirections.ElementAt(i));
+					}
+					SelectedDirection = Directions.FirstOrDefault();
+					ServiceFactory.SaveService.GKChanged = true;
+				}
+			}
+		}
+
+		bool CanDeleteAllEmpty()
+		{
+			return Directions.Any(x => !x.Direction.Logic.GetObjects().Any());
 		}
 
 		GKDirection _directionToCopy;
@@ -156,68 +234,6 @@ namespace GKModule.ViewModels
 			return SelectedDirection != null;
 		}
 
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
-		{
-			OnAddResult();
-		}
-		private DirectionDetailsViewModel OnAddResult()
-		{
-			var directionDetailsViewModel = new DirectionDetailsViewModel();
-			if (DialogService.ShowModalWindow(directionDetailsViewModel))
-			{
-				GKManager.AddDirection(directionDetailsViewModel.Direction);
-				var directionViewModel = new DirectionViewModel(directionDetailsViewModel.Direction);
-				Directions.Add(directionViewModel);
-				SelectedDirection = directionViewModel;
-				ServiceFactory.SaveService.GKChanged = true;
-				GKPlanExtension.Instance.Cache.BuildSafe<GKDirection>();
-				return directionDetailsViewModel;
-			}
-			return null;
-		}
-		
-		public RelayCommand DeleteCommand { get; private set; }
-		void OnDelete()
-		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить направление " + SelectedDirection.Direction.PresentationName))
-			{
-				var index = Directions.IndexOf(SelectedDirection);
-				GKManager.RemoveDirection(SelectedDirection.Direction);
-				Directions.Remove(SelectedDirection);
-				index = Math.Min(index, Directions.Count - 1);
-				if (index > -1)
-					SelectedDirection = Directions[index];
-				ServiceFactory.SaveService.GKChanged = true;
-				GKPlanExtension.Instance.Cache.BuildSafe<GKDirection>();
-			}
-		}
-
-		public RelayCommand DeleteAllEmptyCommand { get; private set; }
-		void OnDeleteAllEmpty()
-		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые направления ?"))
-			{
-				var emptyDirections = Directions.Where(x => !x.Direction.Logic.GetObjects().Any());
-
-				if (emptyDirections.Any())
-				{
-					for (var i = emptyDirections.Count() - 1; i >= 0; i--)
-					{
-						GKManager.RemoveDirection(emptyDirections.ElementAt(i).Direction);
-						Directions.Remove(emptyDirections.ElementAt(i));
-					}
-					SelectedDirection = Directions.FirstOrDefault();
-					ServiceFactory.SaveService.GKChanged = true;
-				}
-			}
-		}
-
-		bool CanDeleteAllEmpty()
-		{
-			return Directions.Any(x => !x.Direction.Logic.GetObjects().Any());
-		}
-
 		public RelayCommand ShowDependencyItemsCommand { get; set; }
 
 		void ShowDependencyItems()
@@ -226,22 +242,6 @@ namespace GKModule.ViewModels
 			{
 				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedDirection.Direction.OutDependentElements);
 				DialogService.ShowModalWindow(dependencyItemsViewModel);
-			}
-		}
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			OnEdit(SelectedDirection.Direction);
-		}
-		void OnEdit(GKDirection direction)
-		{
-			var directionDetailsViewModel = new DirectionDetailsViewModel(direction);
-			if (DialogService.ShowModalWindow(directionDetailsViewModel))
-			{
-				SelectedDirection.Direction = directionDetailsViewModel.Direction;
-				SelectedDirection.Direction.OutDependentElements.ForEach(x => x.OnChanged());
-				SelectedDirection.Update();
-				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
@@ -267,52 +267,6 @@ namespace GKModule.ViewModels
 				OnEdit(directionViewModel.Direction);
 		}
 
-		public override void OnShow()
-		{
-			base.OnShow();
-			SelectedDirection = SelectedDirection;
-		}
-		public override void OnHide()
-		{
-			base.OnHide();
-		}
-
-		#region ISelectable<Guid> Members
-		public void Select(Guid directionUID)
-		{
-			if (directionUID != Guid.Empty)
-				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
-		}
-		#endregion
-
-		void RegisterShortcuts()
-		{
-			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.C, ModifierKeys.Control), CopyCommand);
-			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.V, ModifierKeys.Control), PasteCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-		}
-
-		public void LockedSelect(Guid zoneUID)
-		{
-			_lockSelection = true;
-			Select(zoneUID);
-			_lockSelection = false;
-		}
-
-		void SubscribeEvents()
-		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
-
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
-		}
 		private void OnDirectionChanged(Guid directionUID)
 		{
 			var direction = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
@@ -354,6 +308,49 @@ namespace GKModule.ViewModels
 			if (elementDirection == null)
 				elementDirection = element as ElementPolygonGKDirection;
 			return elementDirection;
+		}
+
+		public void LockedSelect(Guid zoneUID)
+		{
+			_lockSelection = true;
+			Select(zoneUID);
+			_lockSelection = false;
+		}
+
+		public override void OnShow()
+		{
+			base.OnShow();
+			SelectedDirection = SelectedDirection;
+		}
+
+		#region ISelectable<Guid> Members
+		public void Select(Guid directionUID)
+		{
+			if (directionUID != Guid.Empty)
+				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
+		}
+		#endregion
+
+		void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.C, ModifierKeys.Control), CopyCommand);
+			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.V, ModifierKeys.Control), PasteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+		}
+
+		void SubscribeEvents()
+		{
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
 
 		private void SetRibbonItems()

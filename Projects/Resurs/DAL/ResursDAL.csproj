@@ -69,6 +69,7 @@
     <Compile Include="DBCash.Measure.cs" />
     <Compile Include="DBCash.Consumers.cs" />
     <Compile Include="DBCash.User.cs" />
+    <Compile Include="DBCash.Receipts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

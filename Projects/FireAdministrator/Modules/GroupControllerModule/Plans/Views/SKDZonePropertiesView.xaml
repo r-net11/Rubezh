@@ -4,10 +4,18 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<DataGrid Grid.Row="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionChanged="OnSelectionChanged" UIBehavior.ShowSelectionMark="True">
+		<DataGrid Grid.Row="0" 
+				  ItemsSource="{Binding Zones}"
+				  SelectedItem="{Binding SelectedZone}"
+				  SelectionChanged="OnSelectionChanged"
+				  UIBehavior.ShowSelectionMark="True"
+				  VirtualizingStackPanel.IsVirtualizing="True"
+				  VirtualizingStackPanel.VirtualizationMode="Standard"
+				  UIBehavior.IsActiveSelectionMark="True">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
-					<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
+					<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"
+								  MouseAction="LeftDoubleClick" />
 				</InputBindingCollection>
 			</DataGrid.Resources>
 			<DataGrid.ItemContainerStyle>

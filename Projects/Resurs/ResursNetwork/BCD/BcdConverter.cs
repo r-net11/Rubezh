@@ -8,6 +8,7 @@ namespace ResursNetwork.BCD
     public static class BcdConverter
     {
         #region Methods
+
         /// <summary>
         /// Проверяет число на соответствие BCD-формату
         /// </summary>
@@ -27,6 +28,7 @@ namespace ResursNetwork.BCD
             }
             return true;    
         }
+
         /// <summary>
         /// Преобразует значение в формате BCD в байт
         /// </summary>
@@ -44,6 +46,7 @@ namespace ResursNetwork.BCD
                     "Аргумент не соответствует BCD-формату", "bcdValue");
             }
         }
+
         /// <summary>
         /// Преобразует значение в значение в формате BCD
         /// </summary>
@@ -60,6 +63,7 @@ namespace ResursNetwork.BCD
             var low = (Byte)(value % 10);
             return (Byte)((high << 4) | low);
         }
+
         #endregion
     }
 }

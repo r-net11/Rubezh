@@ -10,20 +10,11 @@ namespace GKModule.ViewModels
 {
 	public class CodeViewModel : BaseViewModel
 	{
+		public GKCode Code { get; private set; }
+
 		public CodeViewModel(GKCode code)
 		{
 			Code = code;
-		}
-
-		GKCode _code;
-		public GKCode Code
-		{
-			get { return _code; }
-			set
-			{
-				_code = value;
-				OnPropertyChanged(() => Code);
-			}
 		}
 
 		public void Update()

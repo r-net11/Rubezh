@@ -18,6 +18,10 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         /// <summary>
         /// Счётчик электрической энергии Меркурий 203
         /// </summary>
-        Mercury203
+        Mercury203,
+        /// <summary>
+        /// Виртуальный счётчик электрической энергии Меркурий 203
+        /// </summary>
+        VirtualMercury203
     }
 }

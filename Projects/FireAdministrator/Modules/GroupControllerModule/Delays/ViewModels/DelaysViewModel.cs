@@ -29,15 +29,16 @@ namespace GKModule.ViewModels
 			Current = this;
 			Menu = new DelaysMenuViewModel(this);
 			AddCommand = new RelayCommand(() => OnAdd());
-			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
-			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
-			CopyCommand = new RelayCommand(OnCopy, CanCopy);
-			PasteCommand = new RelayCommand(OnPaste, CanPaste);
-			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
-			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
+			EditCommand = new RelayCommand(() => OnEdit(SelectedDelay.Delay), () => HasSelectedDelay);
+			DeleteCommand = new RelayCommand(OnDelete, () => HasSelectedDelay);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
+			CopyCommand = new RelayCommand(OnCopy, () => HasSelectedDelay);
+			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			CopyLogicCommand = new RelayCommand(OnCopyLogic, () => HasSelectedDelay);
+			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
 			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
-			
+
+			IsRightPanelEnabled = true;
 			RegisterShortcuts();
 			SetRibbonItems();
 		}
@@ -49,37 +50,6 @@ namespace GKModule.ViewModels
 				orderby delay.No
 				select new DelayViewModel(delay));
 			SelectedDelay = Delays.FirstOrDefault();
-		}
-
-		/// <summary>
-		/// Creates new Delay.
-		/// </summary>
-		/// <param name="createDelayEventArg">Argument for Delay Creation.</param>
-		public void CreateDelay(CreateGKDelayEventArgs createDelayEventArg)
-		{
-			DelayDetailsViewModel result = this.OnAdd();
-			if (result == null)
-			{
-				createDelayEventArg.Cancel = true;
-				createDelayEventArg.DelayUID = Guid.Empty;
-			}
-			else
-			{
-				createDelayEventArg.Cancel = false;
-				createDelayEventArg.DelayUID = result.Delay.UID;
-				createDelayEventArg.Delay = result.Delay;
-			}
-		}
-
-		/// <summary>
-		/// Edits specified Delay.
-		/// </summary>
-		/// <param name="delayUID">UID of the Delay to edit.</param>
-		public void EditDelay(Guid delayUID)
-		{
-			var delayViewModel = delayUID == Guid.Empty ? null : this.Delays.FirstOrDefault(x => x.Delay.UID == delayUID);
-			if (delayViewModel != null)
-				this.OnEdit(delayViewModel.Delay);
 		}
 
 		ObservableCollection<DelayViewModel> _delays;
@@ -104,80 +74,9 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		GKDelay _delayToCopy;
-		public RelayCommand CopyCommand { get; private set; }
-		void OnCopy()
-		{
-			_delayToCopy = SelectedDelay.Delay.Clone();
-			var logicViewModel = new LogicViewModel(SelectedDelay.Delay, SelectedDelay.Delay.Logic, true);
-			_delayToCopy.Logic = logicViewModel.GetModel();
-		}
-
-		bool CanCopy()
-		{
-			return SelectedDelay != null;
-		}
-
-		public RelayCommand PasteCommand { get; private set; }
-		void OnPaste()
-		{
-			_delayToCopy.UID = Guid.NewGuid();
-			var delayViewModel = new DelayViewModel(_delayToCopy.Clone());
-			var logicViewModel = new LogicViewModel(SelectedDelay.Delay, _delayToCopy.Logic, true);
-			delayViewModel.Delay.Logic = logicViewModel.GetModel();
-			delayViewModel.Delay.No = (ushort)(GKManager.Delays.Select(x => x.No).Max() + 1);
-			delayViewModel.Delay.Invalidate();
-			GKManager.Delays.Add(delayViewModel.Delay);
-			Delays.Add(delayViewModel);
-			SelectedDelay = delayViewModel;
-			ServiceFactory.SaveService.AutomationChanged = true;
-		}
-
-		bool CanPaste()
-		{
-			return _delayToCopy != null;
-		}
-
-		public RelayCommand CopyLogicCommand { get; private set; }
-		void OnCopyLogic()
-		{
-			GKManager.CopyLogic(SelectedDelay.Delay.Logic, true, false, true, false, true);
-		}
-
-		bool CanCopyLogic()
-		{
-			return SelectedDelay != null;
-		}
-
-		public RelayCommand PasteLogicCommand { get; private set; }
-		void OnPasteLogic()
-		{
-			var result = GKManager.CompareLogic(new GKAdvancedLogic(true, false, true, false, true));
-			var messageBoxResult = true;
-			if (!String.IsNullOrEmpty(result))
-				messageBoxResult = MessageBoxService.ShowConfirmation(result, "Копировать логику?");
-			if (messageBoxResult)
-			{
-				SelectedDelay.Delay.Logic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, true));
-				SelectedDelay.Update();
-				SelectedDelay.Delay.Invalidate();
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-
-		bool CanPasteLogic()
-		{
-			return SelectedDelay != null && GKManager.LogicToCopy != null;
-		}
-
 		public bool HasSelectedDelay
 		{
 			get { return SelectedDelay != null; }
-		}
-
-		bool CanEditDelete()
-		{
-			return SelectedDelay != null;
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -195,6 +94,18 @@ namespace GKModule.ViewModels
 				return delayDetailsViewModel;
 			}
 			return null;
+		}
+
+		public RelayCommand EditCommand { get; private set; }
+		private void OnEdit(GKDelay delay)
+		{
+			var delayDetailsViewModel = new DelayDetailsViewModel(delay);
+			if (DialogService.ShowModalWindow(delayDetailsViewModel))
+			{
+				GKManager.EditDelay(SelectedDelay.Delay);
+				SelectedDelay.Update();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -236,7 +147,64 @@ namespace GKModule.ViewModels
 
 		bool CanDeleteAllEmpty()
 		{
-			return Delays.Any(x => !x.Delay.Logic.GetObjects().Any()); 
+			return Delays.Any(x => !x.Delay.Logic.GetObjects().Any());
+		}
+
+		GKDelay _delayToCopy;
+		public RelayCommand CopyCommand { get; private set; }
+		void OnCopy()
+		{
+			_delayToCopy = SelectedDelay.Delay.Clone();
+			var logicViewModel = new LogicViewModel(SelectedDelay.Delay, SelectedDelay.Delay.Logic, true);
+			_delayToCopy.Logic = logicViewModel.GetModel();
+		}
+
+		public RelayCommand PasteCommand { get; private set; }
+		void OnPaste()
+		{
+			var logicViewModel = new LogicViewModel(SelectedDelay.Delay, _delayToCopy.Logic, true);
+			_delayToCopy.UID = Guid.NewGuid();
+			var delay = _delayToCopy.Clone();
+			delay.Logic = logicViewModel.GetModel();
+			delay.No = (ushort)(GKManager.Delays.Select(x => x.No).Max() + 1);
+			delay.Invalidate();
+			var delayViewModel = new DelayViewModel(delay);
+			GKManager.Delays.Add(delayViewModel.Delay);
+			Delays.Add(delayViewModel);
+			SelectedDelay = delayViewModel;
+			ServiceFactory.SaveService.GKChanged = true;
+		}
+
+		bool CanPaste()
+		{
+			return _delayToCopy != null;
+		}
+
+		public RelayCommand CopyLogicCommand { get; private set; }
+		void OnCopyLogic()
+		{
+			GKManager.CopyLogic(SelectedDelay.Delay.Logic, true, false, true, false, true);
+		}
+
+		public RelayCommand PasteLogicCommand { get; private set; }
+		void OnPasteLogic()
+		{
+			var result = GKManager.CompareLogic(new GKAdvancedLogic(true, false, true, false, true));
+			var messageBoxResult = true;
+			if (!String.IsNullOrEmpty(result))
+				messageBoxResult = MessageBoxService.ShowConfirmation(result, "Копировать логику?");
+			if (messageBoxResult)
+			{
+				SelectedDelay.Delay.Logic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, true));
+				SelectedDelay.Update();
+				SelectedDelay.Delay.Invalidate();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		bool CanPasteLogic()
+		{
+			return SelectedDelay != null && GKManager.LogicToCopy != null;
 		}
 
 		public RelayCommand ShowDependencyItemsCommand { get; set; }
@@ -250,26 +218,35 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand EditCommand { get; private set; }
-		private void OnEdit()
+		/// <summary>
+		/// Creates new Delay.
+		/// </summary>
+		/// <param name="createDelayEventArg">Argument for Delay Creation.</param>
+		public void CreateDelay(CreateGKDelayEventArgs createDelayEventArg)
 		{
-			this.OnEdit(this.SelectedDelay.Delay);
+			DelayDetailsViewModel result = this.OnAdd();
+			if (result == null)
+			{
+				createDelayEventArg.Cancel = true;
+				createDelayEventArg.DelayUID = Guid.Empty;
+			}
+			else
+			{
+				createDelayEventArg.Cancel = false;
+				createDelayEventArg.DelayUID = result.Delay.UID;
+				createDelayEventArg.Delay = result.Delay;
+			}
 		}
 
 		/// <summary>
-		/// Handles editing a Delay.
+		/// Edits specified Delay.
 		/// </summary>
-		/// <param name="delay">Delay to be edited.</param>
-		private void OnEdit(GKDelay delay)
+		/// <param name="delayUID">UID of the Delay to edit.</param>
+		public void EditDelay(Guid delayUID)
 		{
-			var delayDetailsViewModel = new DelayDetailsViewModel(delay);
-			if (DialogService.ShowModalWindow(delayDetailsViewModel))
-			{
-				SelectedDelay.Delay = delayDetailsViewModel.Delay;
-				SelectedDelay.Update();
-				SelectedDelay.Delay.OutDependentElements.ForEach(x => x.OnChanged());
-				ServiceFactory.SaveService.GKChanged = true;
-			}
+			var delayViewModel = delayUID == Guid.Empty ? null : this.Delays.FirstOrDefault(x => x.Delay.UID == delayUID);
+			if (delayViewModel != null)
+				this.OnEdit(delayViewModel.Delay);
 		}
 
 		public void Select(Guid delayUID)
@@ -284,11 +261,6 @@ namespace GKModule.ViewModels
 			SelectedDelay = SelectedDelay;
 		}
 
-		public override void OnHide()
-		{
-			base.OnHide();
-		}
-
 		private void RegisterShortcuts()
 		{
 			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
@@ -296,19 +268,6 @@ namespace GKModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-		}
-
-		public void LockedSelect(Guid zoneUID)
-		{
-			try
-			{
-				this._lockSelection = true;
-				Select(zoneUID);
-			}
-			finally
-			{
-				this._lockSelection = false;
-			}
 		}
 
 		private void SetRibbonItems()
@@ -327,9 +286,18 @@ namespace GKModule.ViewModels
 			};
 		}
 
-		#region Fields
 		private bool _lockSelection = false;
-
-		#endregion
+		public void LockedSelect(Guid zoneUID)
+		{
+			try
+			{
+				this._lockSelection = true;
+				Select(zoneUID);
+			}
+			finally
+			{
+				this._lockSelection = false;
+			}
+		}
 	}
 }

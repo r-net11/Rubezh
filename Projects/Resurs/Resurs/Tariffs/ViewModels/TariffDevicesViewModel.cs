@@ -19,16 +19,17 @@ namespace Resurs.ViewModels
 			GetAllDevices(ResursDAL.DBCash.RootDevice);
 			SelectedDevices = new ObservableCollection<TariffDeviceViewModel>();
 
-			if (tariff.Tariff.Devices.Count != 0)
+			foreach (var device in Devices)
 			{
-				foreach (var device in Devices)
+				if (device.Device.TariffUID != null)
 				{
-					if (device.Device.TariffUID != null)
+					if (device.Device.TariffUID == _tariff.UID)
 					{
-						if (device.Device.TariffUID == _tariff.UID)
-						{
-							device.IsChecked = true;
-						}
+						device.IsChecked = true;
+					}
+					else
+					{
+						device.HasTariff = true;
 					}
 				}
 			}
@@ -44,7 +45,7 @@ namespace Resurs.ViewModels
 			{
 				if (child.DeviceType == DeviceType.Counter)
 				{
-					if (child.TariffType==_tariff.TariffType)
+					if (child.TariffType == _tariff.TariffType)
 					{
 						Devices.Add(new TariffDeviceViewModel(child));
 					}
@@ -60,7 +61,7 @@ namespace Resurs.ViewModels
 		{
 			foreach (var item in Devices)
 			{
-				if (item.Device.TariffUID==_tariff.UID)
+				if (item.Device.TariffUID == _tariff.UID)
 				{
 					item.Device.TariffUID = null;
 				}
