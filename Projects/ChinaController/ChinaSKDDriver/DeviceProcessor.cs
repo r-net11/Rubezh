@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Infrastructure.Common;
 using SKDDriver.Translators;
 
 namespace ChinaSKDDriver
@@ -33,6 +34,8 @@ namespace ChinaSKDDriver
 		public event Action<JournalItem> NewJournalItem;
 
 		public event Action<DeviceProcessor> ConnectionAppeared;
+
+		private bool _isOfflineLogEnabled;
 
 		public DeviceProcessor(SKDDevice device)
 		{
@@ -322,28 +325,32 @@ namespace ChinaSKDDriver
 
 			if (IsConnected)
 			{
-				var getLastJournalItemTimeProducedByControllerEvent = new AutoResetEvent(false);
-#if DEBUG
-				Logger.Info(String.Format("Контроллер \"{0}\" стал доступным по сети. Запускаем задачу чтения оффлайн логов.", Device.Name));
-#endif
-				Task.Factory.StartNew(() =>
+				if (_isOfflineLogEnabled)
 				{
-					using (var journalTranslator = new JournalTranslator())
-					{
-						var timeOperationResult = journalTranslator.GetLastJournalItemTimeProducedByController(Device.UID);
-						getLastJournalItemTimeProducedByControllerEvent.Set();
-						if (!timeOperationResult.HasError)
-						{
-							var offlineLogItems = Wrapper.GetOfflineLogItems(timeOperationResult.Result);
-							offlineLogItems.ForEach(Wrapper_NewJournalItem);
-						}
-					}
+					var getLastJournalItemTimeProducedByControllerEvent = new AutoResetEvent(false);
 #if DEBUG
-					Logger.Info(String.Format("Задача чтения оффлайн логов для контроллера \"{0}\" завершилась.", Device.Name));
+					Logger.Info(String.Format("Контроллер \"{0}\" стал доступным по сети. Запускаем задачу чтения оффлайн логов.", Device.Name));
 #endif
-				});
+					Task.Factory.StartNew(() =>
+					{
+						using (var journalTranslator = new JournalTranslator())
+						{
+							var timeOperationResult = journalTranslator.GetLastJournalItemTimeProducedByController(Device.UID);
+							getLastJournalItemTimeProducedByControllerEvent.Set();
+							if (!timeOperationResult.HasError)
+							{
+								var offlineLogItems = Wrapper.GetOfflineLogItems(timeOperationResult.Result);
+								offlineLogItems.ForEach(Wrapper_NewJournalItem);
+							}
+						}
+#if DEBUG
+						Logger.Info(String.Format("Задача чтения оффлайн логов для контроллера \"{0}\" завершилась.", Device.Name));
+#endif
+					});
 
-				getLastJournalItemTimeProducedByControllerEvent.WaitOne();
+					getLastJournalItemTimeProducedByControllerEvent.WaitOne();
+				}
+
 				if (ConnectionAppeared != null)
 					ConnectionAppeared(this);
 			}
@@ -351,6 +358,9 @@ namespace ChinaSKDDriver
 
 		public void Start()
 		{
+			// Загружать ли оффлайн лог в случае восстановления соединения с контроллером задается в конфигурационном файле для Сервера приложений
+			_isOfflineLogEnabled = AppServerSettingsHelper.AppServerSettings.EnableOfflineLog;
+
 			Device.State.StateClass = XStateClass.Unknown;
 			Device.State.StateClasses = new List<XStateClass>() { Device.State.StateClass };
 			foreach (var child in Device.Children)
