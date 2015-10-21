@@ -29,8 +29,10 @@
     });
 });
 
-function EmployeesViewModel() {
+function EmployeesViewModel(parentViewModel) {
     var self = {};
+
+    self.ParentViewModel = parentViewModel;
 
     self.UID = ko.observable();
     self.OrganisationUID = ko.observable();
@@ -74,7 +76,7 @@ function EmployeesViewModel() {
             ko.mapping.fromJS(emp, {}, self.EmployeeDetails);
             $.getJSON("/Employees/GetOrganisation/" + self.OrganisationUID(), function (org) {
                 self.EmployeeDetails.Organisation = org;
-                self.EmployeeDetails.Init(true);
+                self.EmployeeDetails.Init(true, self.ParentViewModel.SelectedPersonType());
                 self.ShowEmployee(box);
             });
         });
@@ -85,7 +87,7 @@ function EmployeesViewModel() {
             ko.mapping.fromJS(emp, {}, self.EmployeeDetails);
             $.getJSON("/Employees/GetOrganisation/" + self.OrganisationUID(), function (org) {
                 self.EmployeeDetails.Organisation = org;
-                self.EmployeeDetails.Init(false);
+                self.EmployeeDetails.Init(false, self.ParentViewModel.SelectedPersonType());
                 self.ShowEmployee(box);
             });
         });
