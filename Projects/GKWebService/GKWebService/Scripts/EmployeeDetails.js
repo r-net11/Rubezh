@@ -30,10 +30,13 @@ function EmployeeDetailsViewModel() {
     $('#employee-details-box').on('fadeInComplete', function () {
     });
 
-    self.Init = function(isNew) {
-        self.IsOrganisationChief(false);
-        self.IsOrganisationHRChief(false);
-        if (!isNew) {
+    self.Init = function (isNew) {
+        self.IsNew = isNew;
+        if (isNew) {
+            self.OrganisationUID(self.Organisation.UID);
+            self.IsOrganisationChief(false);
+            self.IsOrganisationHRChief(false);
+        } else {
             self.IsOrganisationChief(self.Organisation.ChiefUID == UID());
             self.IsOrganisationHRChief(self.Organisation.HRChiefUID == UID());
         }
@@ -65,7 +68,7 @@ function EmployeeDetailsViewModel() {
             url: "Employees/EmployeeDetails",
             type: "post",
             contentType: "application/json",
-            data: data,
+            data: "{'employee':" + data + ",'isNew': '" + self.IsNew + "'}",
             success: function (response) {
                 self.SaveChief(self.IsOrganisationChief(), self.Organisation.ChiefUID, "Employees/SaveChief");
                 self.SaveChief(self.IsOrganisationHRChief(), self.Organisation.HRChiefUID, "Employees/SaveHRChief");
