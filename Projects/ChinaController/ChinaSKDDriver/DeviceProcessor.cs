@@ -64,11 +64,13 @@ namespace ChinaSKDDriver
 				switch (skdJournalItem.JournalEventNameType)
 				{
 					case JournalEventNameType.Потеря_связи:
-						OnConnectionChanged(false);
+						if (journalItem.JournalItemType == JournalItemType.Online)
+							OnConnectionChanged(false);
 						return;
 
 					case JournalEventNameType.Восстановление_связи:
-						OnConnectionChanged(true);
+						if (journalItem.JournalItemType == JournalItemType.Online)
+							OnConnectionChanged(true);
 						return;
 
 					case JournalEventNameType.Проход_разрешен:
@@ -133,7 +135,7 @@ namespace ChinaSKDDriver
 						}
 						if (skdJournalItem.emOpenMethod == NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY)
 						{
-							journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Пароль", skdJournalItem.szPwd.ToString()));
+							journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Пароль", skdJournalItem.szPwd));
 							journalItem.CardNo = 0;
 						}
 						break;
@@ -185,11 +187,15 @@ namespace ChinaSKDDriver
 							journalItem.ObjectUID = device.UID;
 							journalItem.ObjectName = device.Name;
 
-							device.State.StateClass = EventDescriptionAttributeHelper.ToStateClass(skdJournalItem.JournalEventNameType);
-							device.State.StateClasses = new List<XStateClass>() { device.State.StateClass };
-							var skdStates = new SKDStates();
-							skdStates.DeviceStates.Add(device.State);
-							Processor.OnStatesChanged(skdStates);
+							// Меняем состояние доменной модели объектов СКД
+							if (journalItem.JournalItemType == JournalItemType.Online)
+							{
+								device.State.StateClass = EventDescriptionAttributeHelper.ToStateClass(skdJournalItem.JournalEventNameType);
+								device.State.StateClasses = new List<XStateClass>() { device.State.StateClass };
+								var skdStates = new SKDStates();
+								skdStates.DeviceStates.Add(device.State);
+								Processor.OnStatesChanged(skdStates);
+							}
 						}
 						else
 						{
@@ -221,11 +227,15 @@ namespace ChinaSKDDriver
 					case JournalEventNameType.Неизвестный_статус_двери:
 						if (device != null)
 						{
-							device.State.StateClass = EventDescriptionAttributeHelper.ToStateClass(skdJournalItem.JournalEventNameType);
-							device.State.StateClasses = new List<XStateClass>() { device.State.StateClass };
-							var skdStates = new SKDStates();
-							skdStates.DeviceStates.Add(device.State);
-							Processor.OnStatesChanged(skdStates);
+							// Меняем состояние доменной модели объектов СКД
+							if (journalItem.JournalItemType == JournalItemType.Online)
+							{
+								device.State.StateClass = EventDescriptionAttributeHelper.ToStateClass(skdJournalItem.JournalEventNameType);
+								device.State.StateClasses = new List<XStateClass>() { device.State.StateClass };
+								var skdStates = new SKDStates();
+								skdStates.DeviceStates.Add(device.State);
+								Processor.OnStatesChanged(skdStates);
+							}
 						}
 						break;
 				}
@@ -245,10 +255,7 @@ namespace ChinaSKDDriver
 			{
 				var journalItem = new JournalItem();
 				journalItem.SystemDateTime = DateTime.Now;
-				if (isConnected)
-					journalItem.JournalEventNameType = JournalEventNameType.Восстановление_связи;
-				else
-					journalItem.JournalEventNameType = JournalEventNameType.Потеря_связи;
+				journalItem.JournalEventNameType = isConnected ? JournalEventNameType.Восстановление_связи : JournalEventNameType.Потеря_связи;
 				journalItem.JournalObjectType = JournalObjectType.SKDDevice;
 				journalItem.ObjectUID = Device.UID;
 				journalItem.ObjectName = Device.Name;
