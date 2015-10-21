@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -141,34 +140,85 @@ namespace FiresecAPI.SKD
 				CombinedTimeTrackParts = TransferPresentToOvertime(CombinedTimeTrackParts, SlideTime);
 			}
 
-			//CombinedTimeTrackParts = TransferNightSettings(CombinedTimeTrackParts, NightSettings);
+			CombinedTimeTrackParts = TransferNightSettings(CombinedTimeTrackParts, NightSettings);
 			RealTimeTrackPartsForCalculates = FillTypesForRealTimeTrackParts(RealTimeTrackPartsForCalculates, PlannedTimeTrackParts);
 			Totals = CalculateTotal(SlideTime, PlannedTimeTrackParts, RealTimeTrackPartsForCalculates, CombinedTimeTrackParts, IsHoliday);
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
 			CalculateLetterCode();
 		}
 
-		//private List<TimeTrackPart> TransferNightSettings(List<TimeTrackPart> combinedTimeTrackParts,
-		//	NightSettings nightSettings)
-		//{
-		//	if (nightSettings == null) return combinedTimeTrackParts;
+		private List<TimeTrackPart> TransferNightSettings(List<TimeTrackPart> combinedTimeTrackParts,
+			NightSettings nightSettings)
+		{
+			if (nightSettings == null) return combinedTimeTrackParts;
 
-		//	var resultCollection = new List<TimeTrackPart>();
+			var resultCollection = new List<TimeTrackPart>();
 
-		//	foreach (var el in combinedTimeTrackParts)
-		//	{
-		//		if (el.TimeTrackPartType == TimeTrackType.Presence
-		//			&& el.EnterDateTime.TimeOfDay <= nightSettings.NightStartTime
-		//			&& el.ExitDateTime.GetValueOrDefault().TimeOfDay >= NightSettings.NightEndTime)
-		//		{
-		//			el.TimeTrackPartType = TimeTrackType.Night;
-		//		}
+			foreach (var el in combinedTimeTrackParts)
+			{
+				if (el.TimeTrackPartType == TimeTrackType.Presence
+					&& el.EnterDateTime.TimeOfDay <= nightSettings.NightEndTime
+					&& el.ExitDateTime.GetValueOrDefault().TimeOfDay >= NightSettings.NightStartTime)
+				{
+					var night = new TimeTrackPart {TimeTrackPartType = TimeTrackType.Night};
+					//Вычисляем время входа нового интервала ночного времени
+					if (el.EnterDateTime.TimeOfDay <= nightSettings.NightStartTime)
+					{
+						night.EnterDateTime = el.EnterDateTime.Date + nightSettings.NightStartTime;
+					}
+					else if (el.EnterDateTime.TimeOfDay > nightSettings.NightStartTime)
+					{
+						night.EnterDateTime = el.EnterDateTime;
+					}
 
-		//		resultCollection.Add(el);
-		//	}
+					//Вычисляем время выхода нового интервала ночного времени
+					if (el.ExitDateTime.GetValueOrDefault().TimeOfDay >= nightSettings.NightEndTime)
+					{
+						night.ExitDateTime = el.ExitDateTime.GetValueOrDefault().Date + nightSettings.NightEndTime;
+					}
+					else if (el.ExitDateTime.GetValueOrDefault().TimeOfDay < nightSettings.NightEndTime)
+					{
+						night.ExitDateTime = el.ExitDateTime;
+					}
 
-		//	return resultCollection;
-		//}
+					//Вычисляем как и в какую сторону смещать интервал явки
+					if (el.EnterDateTime.TimeOfDay < night.EnterDateTime.TimeOfDay
+					    && el.ExitDateTime.GetValueOrDefault().TimeOfDay <= night.ExitDateTime.GetValueOrDefault().TimeOfDay)
+					{
+						el.ExitDateTime = night.EnterDateTime;
+					}
+					else if (el.EnterDateTime.TimeOfDay >= night.EnterDateTime.TimeOfDay
+					         && el.ExitDateTime.GetValueOrDefault().TimeOfDay > night.ExitDateTime.GetValueOrDefault().TimeOfDay)
+					{
+						el.EnterDateTime = night.ExitDateTime.GetValueOrDefault();
+					}
+					else if (el.EnterDateTime.TimeOfDay < night.EnterDateTime.TimeOfDay
+					         && el.ExitDateTime.GetValueOrDefault().TimeOfDay > night.ExitDateTime.GetValueOrDefault().TimeOfDay)
+					{
+						var tmpExitTime = el.ExitDateTime;
+						el.ExitDateTime = night.EnterDateTime;
+						var newIntervalsOfPresent = new TimeTrackPart
+						{
+							TimeTrackPartType = TimeTrackType.Presence,
+							EnterDateTime = night.ExitDateTime.GetValueOrDefault(),
+							ExitDateTime = tmpExitTime
+						};
+						resultCollection.Add(newIntervalsOfPresent);
+					}
+					else
+					{
+						el.TimeTrackPartType = TimeTrackType.Night;
+					}
+
+					if(el.TimeTrackPartType != TimeTrackType.Night)
+						resultCollection.Add(night);
+				}
+
+				resultCollection.Add(el);
+			}
+			resultCollection = resultCollection.OrderBy(x => x.EnterDateTime.TimeOfDay).ThenBy(x => x.ExitDateTime.GetValueOrDefault().TimeOfDay).ToList();
+			return resultCollection;
+		}
 
 		private List<TimeTrackPart> TransferPresentToOvertime(List<TimeTrackPart> combinedTimeTrackParts, TimeSpan slideTime)
 		{
@@ -234,8 +284,8 @@ namespace FiresecAPI.SKD
 				var isInPlannedTime =
 					plannedTimeTrackParts.Any(
 						x =>
-							x.EnterDateTime.TimeOfDay <= el.EnterDateTime.TimeOfDay &&
-							x.ExitDateTime.GetValueOrDefault().TimeOfDay >= el.ExitDateTime.GetValueOrDefault().TimeOfDay);
+							x.EnterDateTime.TimeOfDay <= el.ExitDateTime.GetValueOrDefault().TimeOfDay &&
+							x.ExitDateTime.GetValueOrDefault().TimeOfDay >= el.EnterDateTime.TimeOfDay);
 
 				if (isInPlannedTime)
 				{
