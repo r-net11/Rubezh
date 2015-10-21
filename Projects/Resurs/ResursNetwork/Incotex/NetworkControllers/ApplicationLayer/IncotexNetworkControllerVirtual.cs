@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using ResursNetwork.OSI.ApplicationLayer;
 using ResursNetwork.OSI.ApplicationLayer.Devices;
 using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
@@ -29,7 +30,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         DevicesCollection _devices;
         Status _status = Status.Stopped;
         IDataLinkPort _connection;
-		CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+		CancellationTokenSource _cancellationTokenSource;
 		Task _networkPollingTask;
 		int _pollingPeriod;
 
@@ -99,6 +100,10 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 
 					if (_status == Status.Running)
 					{
+						if (_cancellationTokenSource == null)
+						{
+							_cancellationTokenSource = new CancellationTokenSource();
+						}
 						_networkPollingTask =
 							Task.Factory.StartNew(NetwokPollingAction, _cancellationTokenSource.Token);
 					}
@@ -112,6 +117,11 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 						catch (AggregateException)
 						{
 							if (!_networkPollingTask.IsCanceled) throw;
+						}
+						finally
+						{
+							_cancellationTokenSource.Dispose();
+							_cancellationTokenSource = null;
 						}
 					}
 
@@ -198,6 +208,8 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 
 		private void NetwokPollingAction(Object cancellationToken)
 		{
+			Debug.WriteLine("Поток на обработку запущен");
+
 			var nextPolling = DateTime.Now;
 			// Симулируем работу счётчика: инкрементируем счётчики тарифов
 			var cancel = (CancellationToken)cancellationToken;
@@ -271,6 +283,8 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 
 				nextPolling = DateTime.Now.AddMilliseconds(_pollingPeriod);
 			}
+
+			Debug.WriteLine("Поток на обработку остановлен");
 		}
 
         #endregion
