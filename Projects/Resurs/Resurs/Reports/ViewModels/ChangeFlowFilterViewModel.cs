@@ -9,6 +9,7 @@ namespace Resurs.ViewModels
 {
 	public class ChangeFlowFilterViewModel : ReportFilterViewModel
 	{
+		
 		public DateTime MinDate { get { return new DateTime(1900, 1, 1); } }
 		public DateTime MaxDate { get { return DateTime.Today.AddDays(1).AddSeconds(-1); } }
 		public bool IsDatePickerEnabled { get { return SelectedReportPeriod == ReportPeriodType.Arbitrary; } }
@@ -20,6 +21,16 @@ namespace Resurs.ViewModels
 			StartDate = DateTime.Today;
 			EndDate = DateTime.Today.AddDays(1).AddSeconds(-1);
 			SelectedReportPeriod = ReportPeriodType.Arbitrary;
+		}
+		bool _isNotShowCounters;
+		public bool IsNotShowCounters 
+		{
+			get { return _isNotShowCounters; }
+			set
+			{
+				_isNotShowCounters = value;
+				OnPropertyChanged(() => IsNotShowCounters);
+			}
 		}
 		DateTime _startDate;
 		public DateTime StartDate

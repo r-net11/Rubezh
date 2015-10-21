@@ -36,6 +36,8 @@
 			this.xrTableCell3 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.debtorsDataSet1 = new Resurs.Reports.DataSources.DebtorsDataSet();
 			this.TopMargin = new DevExpress.XtraReports.UI.TopMarginBand();
+			this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
+			this.MinDebt = new DevExpress.XtraReports.Parameters.Parameter();
 			this.xrLabel13 = new DevExpress.XtraReports.UI.XRLabel();
 			this.xrLabel14 = new DevExpress.XtraReports.UI.XRLabel();
 			this.xrLabel15 = new DevExpress.XtraReports.UI.XRLabel();
@@ -44,8 +46,6 @@
 			this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
 			this.xrPageInfo1 = new DevExpress.XtraReports.UI.XRPageInfo();
 			this.xrPageInfo2 = new DevExpress.XtraReports.UI.XRPageInfo();
-			this.MinDebt = new DevExpress.XtraReports.Parameters.Parameter();
-			this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.debtorsDataSet1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
@@ -95,7 +95,9 @@
 			this.xrTableCell3.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Debt")});
 			this.xrTableCell3.Name = "xrTableCell3";
+			this.xrTableCell3.StylePriority.UseTextAlignment = false;
 			this.xrTableCell3.Text = "xrTableCell3";
+			this.xrTableCell3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
 			this.xrTableCell3.Weight = 0.2857142857142857D;
 			// 
 			// debtorsDataSet1
@@ -117,6 +119,23 @@
 			this.TopMargin.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
 			this.TopMargin.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
 			// 
+			// xrLabel2
+			// 
+			this.xrLabel2.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+            new DevExpress.XtraReports.UI.XRBinding(this.MinDebt, "Text", "Минимальная задолженность: {0}")});
+			this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 86.41667F);
+			this.xrLabel2.Name = "xrLabel2";
+			this.xrLabel2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+			this.xrLabel2.SizeF = new System.Drawing.SizeF(261.4583F, 23.00001F);
+			this.xrLabel2.Text = "xrLabel2";
+			// 
+			// MinDebt
+			// 
+			this.MinDebt.Description = "MinDebt";
+			this.MinDebt.Name = "MinDebt";
+			this.MinDebt.Type = typeof(float);
+			this.MinDebt.ValueInfo = "0";
+			// 
 			// xrLabel13
 			// 
 			this.xrLabel13.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Bold);
@@ -125,7 +144,7 @@
 			this.xrLabel13.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
 			this.xrLabel13.SizeF = new System.Drawing.SizeF(61.45833F, 23F);
 			this.xrLabel13.StylePriority.UseFont = false;
-			this.xrLabel13.Text = "Клиент";
+			this.xrLabel13.Text = "Абонент";
 			// 
 			// xrLabel14
 			// 
@@ -140,10 +159,10 @@
 			// xrLabel15
 			// 
 			this.xrLabel15.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Bold);
-			this.xrLabel15.LocationFloat = new DevExpress.Utils.PointFloat(433.3333F, 129.8333F);
+			this.xrLabel15.LocationFloat = new DevExpress.Utils.PointFloat(504.1667F, 129.8332F);
 			this.xrLabel15.Name = "xrLabel15";
 			this.xrLabel15.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-			this.xrLabel15.SizeF = new System.Drawing.SizeF(154.1667F, 23F);
+			this.xrLabel15.SizeF = new System.Drawing.SizeF(145.8335F, 23F);
 			this.xrLabel15.StylePriority.UseFont = false;
 			this.xrLabel15.Text = "Задолженность";
 			// 
@@ -192,23 +211,6 @@
 			this.xrPageInfo2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
 			this.xrPageInfo2.PageInfo = DevExpress.XtraPrinting.PageInfo.DateTime;
 			this.xrPageInfo2.SizeF = new System.Drawing.SizeF(120.8333F, 23F);
-			// 
-			// MinDebt
-			// 
-			this.MinDebt.Description = "MinDebt";
-			this.MinDebt.Name = "MinDebt";
-			this.MinDebt.Type = typeof(float);
-			this.MinDebt.ValueInfo = "0";
-			// 
-			// xrLabel2
-			// 
-			this.xrLabel2.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding(this.MinDebt, "Text", "Минимальная задолженность: {0}")});
-			this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 86.41667F);
-			this.xrLabel2.Name = "xrLabel2";
-			this.xrLabel2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
-			this.xrLabel2.SizeF = new System.Drawing.SizeF(261.4583F, 23.00001F);
-			this.xrLabel2.Text = "xrLabel2";
 			// 
 			// DebtorsReport
 			// 
