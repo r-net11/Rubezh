@@ -5,6 +5,7 @@
         datatype: "json",
         colModel: [
             { label: 'UID', name: 'UID', key: true, hidden: true, sortable: false },
+            { label: 'ParentUID', name: 'ParentUID', hidden: true, sortable: false },
             { label: 'OrganisationUID', name: 'OrganisationUID', hidden: true, sortable: false },
             { label: 'ФИО', name: 'Name', width: 100, sortable: false },
             { label: 'Подразделение', name: 'DepartmentName', width: 100, sortable: false }
@@ -20,7 +21,7 @@
         treeGridModel: "adjacency",
         loadonce: true,
         treeReader: {
-            parent_id_field: "OrganisationUID",
+            parent_id_field: "ParentUID",
             level_field: "Level",
             leaf_field: "IsLeaf",
             expanded_field: "IsExpanded"
@@ -72,7 +73,7 @@ function EmployeesViewModel() {
         $.getJSON("/Employees/GetEmployeeDetails/", function (emp) {
             ko.mapping.fromJS(emp, {}, self.EmployeeDetails);
             $.getJSON("/Employees/GetOrganisation/" + self.OrganisationUID(), function (org) {
-                ko.mapping.fromJS(org, {}, self.EmployeeDetails.Organisation);
+                self.EmployeeDetails.Organisation = org;
                 self.EmployeeDetails.Init(true);
                 self.ShowEmployee(box);
             });

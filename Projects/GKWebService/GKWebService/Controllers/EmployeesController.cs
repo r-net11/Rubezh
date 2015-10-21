@@ -25,9 +25,9 @@ namespace GKWebService.Controllers
         }
 
         [HttpPost]
-		public JsonNetResult EmployeeDetails(Employee employee)
+		public JsonNetResult EmployeeDetails(Employee employee, bool isNew)
         {
-			var operationResult = ClientManager.FiresecService.SaveEmployee(employee, employee.UID == Guid.Empty);
+			var operationResult = ClientManager.FiresecService.SaveEmployee(employee, isNew);
 
 			return new JsonNetResult { Data = operationResult.Result };
         }
@@ -51,12 +51,20 @@ namespace GKWebService.Controllers
         public JsonResult GetOrganisations()
         {
             var employeeModels = new List<ShortEmployeeModel>();
-            var organisationFilter = new OrganisationFilter ();
+    
+			var organisationFilter = new OrganisationFilter ();
 			var organisations = ClientManager.FiresecService.GetOrganisations(organisationFilter).Result;
-            employeeModels.AddRange(InitializeOrganisations(organisations));
-            var employeeFilter = new EmployeeFilter();
+			var initializedOrganisations = InitializeOrganisations(organisations);
+
+			var employeeFilter = new EmployeeFilter();
 			var employees = ClientManager.FiresecService.GetEmployeeList(employeeFilter).Result;
-            employeeModels.AddRange(InitializeEmployees(employees, employeeModels));
+			var initializedEmployees = InitializeEmployees(employees, initializedOrganisations);
+			
+	        foreach (var organisation in initializedOrganisations)
+	        {
+				employeeModels.Add(organisation);
+		        employeeModels.AddRange(initializedEmployees.Where(e => e.OrganisationUID == organisation.UID));
+			}
 
             dynamic result = new
             {
@@ -99,12 +107,12 @@ namespace GKWebService.Controllers
 			return new JsonNetResult { Data = operationResult.Result.FirstOrDefault() };
         }
 
-        private IEnumerable<ShortEmployeeModel> InitializeEmployees(IEnumerable<ShortEmployee> employees, IEnumerable<ShortEmployeeModel> organisations)
+        private List<ShortEmployeeModel> InitializeEmployees(IEnumerable<ShortEmployee> employees, IEnumerable<ShortEmployeeModel> organisations)
         {
             return employees.Select(e => ShortEmployeeModel.CreateFromModel(e, organisations)).ToList();
         }
 
-        private IEnumerable<ShortEmployeeModel> InitializeOrganisations(IEnumerable<Organisation> organisations)
+        private List<ShortEmployeeModel> InitializeOrganisations(IEnumerable<Organisation> organisations)
         {
             return organisations.Select(ShortEmployeeModel.CreateFromOrganisation).ToList();
         }
