@@ -319,6 +319,16 @@ namespace ResursNetwork.Networks
             _NetworkControllers[networkId].SyncDateTime();
         }
 
+		public void SendCommand(Guid deviceId, string commandName)
+		{
+			var list = from n in Networks
+					   from d in n.Devices
+					   where d.Id == deviceId
+					   select d;
+			var device = list.FirstOrDefault();
+			device.ExecuteCommand(commandName);
+		}
+
         /// <summary>
         /// Обработчик события изменения списка сетей
         /// </summary>

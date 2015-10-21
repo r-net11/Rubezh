@@ -161,7 +161,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         {
 			foreach (var device in _devices)
 			{
-				device.RTC = DateTime.Now;
+				device.Rtc = DateTime.Now;
 			}
         }
 

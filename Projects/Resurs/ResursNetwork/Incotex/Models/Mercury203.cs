@@ -51,7 +51,7 @@ namespace ResursNetwork.Incotex.Models
 			}
 		}
 
-		public override System.DateTime RTC
+		public override System.DateTime Rtc
 		{
 			get
 			{
@@ -180,6 +180,11 @@ namespace ResursNetwork.Incotex.Models
 
         }
 
+		public override void ExecuteCommand(string commandName)
+		{
+			throw new NotImplementedException();
+		}
+
         public override void EventHandler_NetworkController_NetwrokRequestCompleted(
             object sender, NetworkRequestCompletedArgs e)
         {
@@ -231,6 +236,7 @@ namespace ResursNetwork.Incotex.Models
             }
 
         }
+
         #endregion
 
         #region Network API

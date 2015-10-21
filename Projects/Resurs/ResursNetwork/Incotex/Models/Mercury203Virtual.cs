@@ -140,7 +140,7 @@ namespace ResursNetwork.Incotex.Models
 			}
         }
 
-        public bool RTCError
+        public bool RtcError
         {
             get
             {
@@ -160,7 +160,7 @@ namespace ResursNetwork.Incotex.Models
 			}
         }
 
-		public System.DateTime RTC
+		public System.DateTime Rtc
 		{
 			get 
 			{ 
@@ -322,30 +322,33 @@ namespace ResursNetwork.Incotex.Models
 
 		#region Network API
 
-		public static void ExecuteCommand(Mercury203Virtual device, string commandName) 
+		public void ExecuteCommand(string commandName)
 		{
-			switch (commandName)
+			if (Status == Management.Status.Running)
 			{
-				case CommandNamesMercury203Virtual.SetCommunicationError:
-					{ device.CommunicationError = true; break; }
-				case CommandNamesMercury203Virtual.ResetCommunicationError:
-					{ device.CommunicationError = false; break; }
-				case CommandNamesMercury203Virtual.SetConfigurationError:
-					{ device.ConfigurationError = true; break; }
-				case CommandNamesMercury203Virtual.ResetConfigurationError:
-					{ device.ConfigurationError = false; break; }
-				case CommandNamesMercury203Virtual.SetRtcError:
-					{ device.RTCError = true; break; }
-				case CommandNamesMercury203Virtual.ResetRtcError:
-					{ device.RTCError = false; break; }
-				case CommandNamesMercury203Virtual.SwitchReleOn:
-				case CommandNamesMercury203Virtual.SwitchReleOff:
-				default:
-					{
- 						throw new NotSupportedException(String.Format(
-							"Попытка выполнить устройтсвом Id={} неизвестную команду cmd={0}", 
-							device.Id, commandName));
-					}
+				switch (commandName)
+				{
+					case CommandNamesMercury203Virtual.SetCommunicationError:
+						{ CommunicationError = true; break; }
+					case CommandNamesMercury203Virtual.ResetCommunicationError:
+						{ CommunicationError = false; break; }
+					case CommandNamesMercury203Virtual.SetConfigurationError:
+						{ ConfigurationError = true; break; }
+					case CommandNamesMercury203Virtual.ResetConfigurationError:
+						{ ConfigurationError = false; break; }
+					case CommandNamesMercury203Virtual.SetRtcError:
+						{ RtcError = true; break; }
+					case CommandNamesMercury203Virtual.ResetRtcError:
+						{ RtcError = false; break; }
+					case CommandNamesMercury203Virtual.SwitchReleOn:
+					case CommandNamesMercury203Virtual.SwitchReleOff:
+					default:
+						{
+							throw new NotSupportedException(String.Format(
+								"Попытка выполнить устройством Id={} неизвестную команду cmd={0}",
+								Id, commandName));
+						}
+				}
 			}
 		}
 
@@ -414,5 +417,5 @@ namespace ResursNetwork.Incotex.Models
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
         #endregion
-    }
+	}
 }
