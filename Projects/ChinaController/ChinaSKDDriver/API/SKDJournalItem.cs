@@ -6,6 +6,8 @@ namespace ChinaSKDDriverAPI
 {
 	public class SKDJournalItem
 	{
+		public JournalItemType JournalItemType { get; set; }
+
 		public int LoginID { get; set; }
 
 		public DateTime SystemDateTime { get; set; }

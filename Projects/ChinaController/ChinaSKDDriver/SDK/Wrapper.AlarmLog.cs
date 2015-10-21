@@ -108,6 +108,7 @@ namespace ChinaSKDDriver
 		{
 			var journalItem = new SKDJournalItem();
 
+			journalItem.JournalItemType = JournalItemType.Offline;
 			journalItem.LoginID = LoginID;
 			journalItem.SystemDateTime = DateTime.Now;
 			journalItem.DeviceDateTime = alarmLogItem.DateTime;

@@ -1,5 +1,7 @@
-﻿using ChinaSKDDriverAPI;
+﻿using System.Threading.Tasks;
+using ChinaSKDDriverAPI;
 using ChinaSKDDriverNativeApi;
+using Common;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
@@ -45,6 +47,7 @@ namespace ChinaSKDDriver
 			if (skdJournalItem.LoginID == LoginID)
 			{
 				var journalItem = new JournalItem();
+				journalItem.JournalItemType = skdJournalItem.JournalItemType;
 				journalItem.SystemDateTime = skdJournalItem.SystemDateTime;
 				journalItem.DeviceDateTime = skdJournalItem.DeviceDateTime;
 				journalItem.JournalEventNameType = skdJournalItem.JournalEventNameType;
@@ -312,15 +315,28 @@ namespace ChinaSKDDriver
 
 			if (IsConnected)
 			{
-				//using (var journalTranslator = new JournalTranslator())
-				//{
-				//	var timeOperationResult = journalTranslator.GetLastJournalItemTimeProducedByController(Device.UID);
-				//	if (!timeOperationResult.HasError)
-				//	{
-				//		var offlineLogItems = Wrapper.GetOfflineLogItems(timeOperationResult.Result);
-				//	}
-				//}
+				var getLastJournalItemTimeProducedByControllerEvent = new AutoResetEvent(false);
+#if DEBUG
+				Logger.Info(String.Format("Контроллер \"{0}\" стал доступным по сети. Запускаем задачу чтения оффлайн логов.", Device.Name));
+#endif
+				Task.Factory.StartNew(() =>
+				{
+					using (var journalTranslator = new JournalTranslator())
+					{
+						var timeOperationResult = journalTranslator.GetLastJournalItemTimeProducedByController(Device.UID);
+						getLastJournalItemTimeProducedByControllerEvent.Set();
+						if (!timeOperationResult.HasError)
+						{
+							var offlineLogItems = Wrapper.GetOfflineLogItems(timeOperationResult.Result);
+							offlineLogItems.ForEach(Wrapper_NewJournalItem);
+						}
+					}
+#if DEBUG
+					Logger.Info(String.Format("Задача чтения оффлайн логов для контроллера \"{0}\" завершилась.", Device.Name));
+#endif
+				});
 
+				getLastJournalItemTimeProducedByControllerEvent.WaitOne();
 				if (ConnectionAppeared != null)
 					ConnectionAppeared(this);
 			}

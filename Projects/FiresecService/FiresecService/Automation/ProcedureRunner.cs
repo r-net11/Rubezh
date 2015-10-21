@@ -30,6 +30,10 @@ namespace FiresecService
 
 		public static void RunOnJournal(JournalItem journalItem)
 		{
+			// Оффлайн события не обрабатываем
+			if (journalItem.JournalItemType == JournalItemType.Offline)
+				return;
+
 			foreach (var procedure in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures)
 			{
 				foreach (var filtersUID in procedure.FiltersUids)
