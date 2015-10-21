@@ -148,7 +148,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
             }
         }
 
-        public bool RTCError
+        public bool RtcError
         {
             get { return _Errors.RTCError; }
             set
@@ -165,7 +165,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
             }
         }
 
-		public abstract DateTime RTC { get; set; }
+		public abstract DateTime Rtc { get; set; }
 
         #endregion
 
@@ -181,6 +181,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Создаёт устройство на основе типа
         /// </summary>
@@ -190,6 +191,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         {
             throw new NotImplementedException();
         }
+
         /// <summary>
         /// Инициализирует структуру устройства
         /// </summary>
@@ -227,6 +229,8 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         {
             _Status = Status.Stopped;
         }
+
+		public abstract void ExecuteCommand(string commandName);
 
         protected virtual void OnStatusChanged()
         {
@@ -287,5 +291,5 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         public event PropertyChangedEventHandler PropertyChanged;
         
         #endregion
-    }
+	}
 }
