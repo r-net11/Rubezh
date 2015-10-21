@@ -1,6 +1,5 @@
 ﻿using DevExpress.XtraReports.UI;
 using Resurs.Reports.Templates;
-using Resurs.ViewModels;
 
 namespace Resurs.Reports
 {

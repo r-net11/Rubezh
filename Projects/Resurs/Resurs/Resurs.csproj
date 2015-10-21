@@ -580,16 +580,11 @@
     <Compile Include="Reports\ReportType.cs" />
     <Compile Include="Reports\ViewModels\ReportDesignerViewModel.cs" />
     <Compile Include="Reports\ViewModels\ReportsViewModel.cs" />
-    <Compile Include="Reports\ViewModels\RepxSelectionViewModel.cs" />
-    <Compile Include="Reports\ViewModels\RepxViewModel.cs" />
     <Compile Include="Reports\Views\ReportDesignerView.xaml.cs">
       <DependentUpon>ReportDesignerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\Views\ReportsView.xaml.cs">
       <DependentUpon>ReportsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\Views\RepxSelectionView.xaml.cs">
-      <DependentUpon>RepxSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Users\ViewModels\UserDetailsViewModel.cs" />
     <Compile Include="Users\ViewModels\UsersViewModel.cs" />
@@ -748,10 +743,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Reports\Views\ReportsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Reports\Views\RepxSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
