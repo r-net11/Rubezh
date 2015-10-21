@@ -5,7 +5,9 @@ using ResursNetwork.Networks;
 using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer;
 using ResursNetwork.Incotex.Models;
 using ResursNetwork.OSI.ApplicationLayer;
+using ResursNetwork.OSI.ApplicationLayer.Devices;
 using ResursNetwork.Management;
+using ResursAPI.CommandNames;
 
 namespace UinitTestResursNetwork.NetworksManagerTests
 {
@@ -17,6 +19,7 @@ namespace UinitTestResursNetwork.NetworksManagerTests
 			NetworksManager _manager;
 			ParameterChangedArgs _paramChangedArgs = null;
 			StatusChangedEventArgs _statusChangedArgs = null;
+			ErrorOccuredEventArgs _errorOccuredEArgs = null;
 
 			public ParameterChangedArgs ParamChangedArgs
 			{
@@ -38,6 +41,11 @@ namespace UinitTestResursNetwork.NetworksManagerTests
 				get { return _statusChangedArgs == null ? false : true; }
 			}
 
+			public bool IsEventRaisedErrorOccured
+			{
+				get { return _errorOccuredEArgs == null ? false : true; }
+			}
+
 			public NetworksManager Manager
 			{
 				get { return _manager; }
@@ -46,10 +54,18 @@ namespace UinitTestResursNetwork.NetworksManagerTests
 					_manager = value;
 					_manager.ParameterChanged += EventHandler_manager_ParameterChanged;
 					_manager.StatusChanged += EventHandler_StatusChanged;
+					_manager.DeviceHasError += EventHandler_manager_DeviceHasError;
 				}
 			}
 
-			public void EventHandler_StatusChanged(object sender, StatusChangedEventArgs e)
+			private void EventHandler_manager_DeviceHasError(
+				object sender, ErrorOccuredEventArgs e)
+			{
+				_errorOccuredEArgs = e;
+			}
+
+			private void EventHandler_StatusChanged(
+				object sender, StatusChangedEventArgs e)
 			{
 				_statusChangedArgs = e;
 			}
@@ -60,6 +76,15 @@ namespace UinitTestResursNetwork.NetworksManagerTests
 				_paramChangedArgs = e;
 			}
 
+			/// <summary>
+			/// Сбрасывает все наступившие события
+			/// </summary>
+			public void ResetEventsFlags()
+			{
+				_errorOccuredEArgs = null;
+				_paramChangedArgs = null;
+				_statusChangedArgs = null;
+			}
 		}
 
 		/// <summary>
@@ -162,6 +187,72 @@ namespace UinitTestResursNetwork.NetworksManagerTests
 			Assert.AreEqual(Status.Stopped, controller.Status);
 			Assert.AreEqual(controller.Id, testCntr.StatusChangedArgs.Id);
 			Assert.AreEqual(controller.Status, testCntr.StatusChangedArgs.Status);
+		}
+
+		/// <summary>
+		/// Проверяем работу события StatusChanged на вирутальном контроллере
+		/// и виртуальном устройстве
+		/// </summary>
+		[TestMethod]
+		public void RaiseEventDeviceHasErrorTest()
+		{
+			// Arrange
+			var testCntr = new TestContener();
+			testCntr.Manager = NetworksManager.Instance;
+			var controller = new IncotexNetworkControllerVirtual();
+			var device = new Mercury203Virtual();
+
+			controller.Devices.Add(device);
+			testCntr.Manager.Networks.Add(controller);
+			device.Start();
+			controller.Start();
+
+			// Act
+			testCntr.Manager.SendCommand(device.Id, CommandNamesMercury203Virtual.SetCommunicationError);
+
+			// Assert
+			Assert.IsTrue(testCntr.IsEventRaisedErrorOccured);
+			Assert.AreEqual(true, device.CommunicationError);
+
+			// Act
+			testCntr.ResetEventsFlags();
+			testCntr.Manager.SendCommand(device.Id, CommandNamesMercury203Virtual.ResetCommunicationError);
+
+			// Assert
+			Assert.IsTrue(testCntr.IsEventRaisedErrorOccured);
+			Assert.AreEqual(false, device.CommunicationError);
+
+			// Act
+			testCntr.ResetEventsFlags();
+			testCntr.Manager.SendCommand(device.Id, CommandNamesMercury203Virtual.SetConfigurationError);
+
+			// Assert
+			Assert.IsTrue(testCntr.IsEventRaisedErrorOccured);
+			Assert.AreEqual(true, device.ConfigurationError);
+
+			// Act
+			testCntr.ResetEventsFlags();
+			testCntr.Manager.SendCommand(device.Id, CommandNamesMercury203Virtual.ResetConfigurationError);
+
+			// Assert
+			Assert.IsTrue(testCntr.IsEventRaisedErrorOccured);
+			Assert.AreEqual(false, device.ConfigurationError);
+
+			// Act
+			testCntr.ResetEventsFlags();
+			testCntr.Manager.SendCommand(device.Id, CommandNamesMercury203Virtual.SetRtcError);
+
+			// Assert
+			Assert.IsTrue(testCntr.IsEventRaisedErrorOccured);
+			Assert.AreEqual(true, device.RtcError);
+
+			// Act
+			testCntr.ResetEventsFlags();
+			testCntr.Manager.SendCommand(device.Id, CommandNamesMercury203Virtual.ResetRtcError);
+
+			// Assert
+			Assert.IsTrue(testCntr.IsEventRaisedErrorOccured);
+			Assert.AreEqual(false, device.RtcError);
 		}
 	}
 }

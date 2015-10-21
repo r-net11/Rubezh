@@ -51,7 +51,7 @@ namespace ResursNetwork.Incotex.Models
 			}
 		}
 
-		public override System.DateTime RTC
+		public override System.DateTime Rtc
 		{
 			get
 			{
@@ -180,6 +180,11 @@ namespace ResursNetwork.Incotex.Models
 
         }
 
+		public override void ExecuteCommand(string commandName)
+		{
+			throw new NotImplementedException();
+		}
+
         public override void EventHandler_NetworkController_NetwrokRequestCompleted(
             object sender, NetworkRequestCompletedArgs e)
         {
@@ -198,7 +203,11 @@ namespace ResursNetwork.Incotex.Models
                         if (Errors.CommunicationError)
                         {
                             _Errors.CommunicationError = true;
-                            OnErrorOccurred(new ErrorOccuredEventArgs { Errors = _Errors });
+                            OnErrorOccurred(new ErrorOccuredEventArgs 
+							{
+ 								Id = this.Id,
+								Errors = _Errors 
+							});
                         }
                         // Разбираем транзакцию
                         GetAnswer(e.NetworkRequest);
@@ -209,7 +218,11 @@ namespace ResursNetwork.Incotex.Models
                         if (!Errors.CommunicationError)
                         {
                             _Errors.CommunicationError = true;
-                            OnErrorOccurred(new ErrorOccuredEventArgs { Errors = _Errors });
+                            OnErrorOccurred(new ErrorOccuredEventArgs 
+							{ 
+								Id = this.Id,
+								Errors = _Errors 
+							});
                         }
                         // Записываем в журнал причину
                         //TODO: Logger.Error(transaction.ToString());
@@ -223,6 +236,7 @@ namespace ResursNetwork.Incotex.Models
             }
 
         }
+
         #endregion
 
         #region Network API

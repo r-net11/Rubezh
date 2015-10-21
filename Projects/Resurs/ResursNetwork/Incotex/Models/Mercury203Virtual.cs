@@ -10,12 +10,13 @@ using ResursNetwork.Incotex.Models;
 using ResursNetwork.Management;
 using ResursAPI.Models;
 using ResursAPI.ParameterNames;
+using ResursAPI.CommandNames;
 
 namespace ResursNetwork.Incotex.Models
 {
-    public class Mercury203Virtual: IDevice
-    {
-        #region Fields And Properties
+	public class Mercury203Virtual: IDevice
+	{
+		#region Fields And Properties
 
 		private ParatemersCollection _Parameters = new ParatemersCollection();
 		private Status _Status = Status.Stopped;
@@ -107,7 +108,15 @@ namespace ResursNetwork.Incotex.Models
             }
             set
             {
-                _Errors.CommunicationError = value;
+				if (_Errors.CommunicationError != value)
+				{
+					_Errors.CommunicationError = value;
+					OnErrorOccurred(new ErrorOccuredEventArgs 
+					{
+ 						Id = this.Id,
+						Errors = this.Errors 
+					});
+				}
             }
         }
 
@@ -117,25 +126,41 @@ namespace ResursNetwork.Incotex.Models
             {
                 return _Errors.ConfigurationError;
             }
-            set
-            {
-                _Errors.ConfigurationError = value;
-            }
+			set
+			{
+				if (_Errors.ConfigurationError != value)
+				{
+					_Errors.ConfigurationError = value;
+					OnErrorOccurred(new ErrorOccuredEventArgs 
+					{
+ 						Id = this.Id,
+						Errors = this.Errors 
+					});
+				}
+			}
         }
 
-        public bool RTCError
+        public bool RtcError
         {
             get
             {
                 return _Errors.RTCError;
             }
-            set
-            {
-                _Errors.RTCError = value;
-            }
+			set
+			{
+				if (_Errors.RTCError != value)
+				{
+					_Errors.RTCError = value;
+					OnErrorOccurred(new ErrorOccuredEventArgs 
+					{
+ 						Id = this.Id,
+						Errors = this.Errors 
+					});
+				}
+			}
         }
 
-		public System.DateTime RTC
+		public System.DateTime Rtc
 		{
 			get 
 			{ 
@@ -262,12 +287,12 @@ namespace ResursNetwork.Incotex.Models
 			});
 		}
 
-        public void Start()
+		public void Start()
         {
 			Status = Status.Running;
         }
 
-        public void Stop()
+		public void Stop()
         {
             Status = Status.Stopped;
         }
@@ -280,11 +305,52 @@ namespace ResursNetwork.Incotex.Models
 			}
 		}
 
+		private void OnErrorOccurred(ErrorOccuredEventArgs args)
+		{
+			if (args == null)
+			{
+				throw new ArgumentNullException();
+			}
+
+			if (ErrorOccurred != null)
+			{
+				ErrorOccurred(this, args);
+			}
+		}
+
         #endregion
 
 		#region Network API
 
-		public static void ExecuteCommand(Guid deviceId, string commandName) { }
+		public void ExecuteCommand(string commandName)
+		{
+			if (Status == Management.Status.Running)
+			{
+				switch (commandName)
+				{
+					case CommandNamesMercury203Virtual.SetCommunicationError:
+						{ CommunicationError = true; break; }
+					case CommandNamesMercury203Virtual.ResetCommunicationError:
+						{ CommunicationError = false; break; }
+					case CommandNamesMercury203Virtual.SetConfigurationError:
+						{ ConfigurationError = true; break; }
+					case CommandNamesMercury203Virtual.ResetConfigurationError:
+						{ ConfigurationError = false; break; }
+					case CommandNamesMercury203Virtual.SetRtcError:
+						{ RtcError = true; break; }
+					case CommandNamesMercury203Virtual.ResetRtcError:
+						{ RtcError = false; break; }
+					case CommandNamesMercury203Virtual.SwitchReleOn:
+					case CommandNamesMercury203Virtual.SwitchReleOff:
+					default:
+						{
+							throw new NotSupportedException(String.Format(
+								"Попытка выполнить устройством Id={} неизвестную команду cmd={0}",
+								Id, commandName));
+						}
+				}
+			}
+		}
 
 		/// <summary>
 		/// Установка нового сетевого адреса счетчика 
@@ -351,5 +417,5 @@ namespace ResursNetwork.Incotex.Models
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
         #endregion
-    }
+	}
 }

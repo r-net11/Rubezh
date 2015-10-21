@@ -25,12 +25,28 @@ namespace GKWebService.Controllers
         }
 
         [HttpPost]
-        public ActionResult EmployeeDetails( Employee employee)
+		public JsonNetResult EmployeeDetails(Employee employee)
         {
 			var operationResult = ClientManager.FiresecService.SaveEmployee(employee, employee.UID == Guid.Empty);
 
-            return Json(new { Status = operationResult });
+			return new JsonNetResult { Data = operationResult.Result };
         }
+
+        [HttpPost]
+		public JsonNetResult SaveChief(SaveChiefParams @params)
+        {
+			var result = ClientManager.FiresecService.SaveOrganisationChief(@params.OrganisationUID, @params.EmployeeUID, @params.OrganisationName);
+
+			return new JsonNetResult { Data = !result.HasError };
+        }
+
+        [HttpPost]
+		public JsonNetResult SaveHRChief(SaveChiefParams @params)
+        {
+			var result = ClientManager.FiresecService.SaveOrganisationHRChief(@params.OrganisationUID, @params.EmployeeUID, @params.OrganisationName);
+
+			return new JsonNetResult { Data = !result.HasError };
+		}
 
         public JsonResult GetOrganisations()
         {
@@ -55,10 +71,32 @@ namespace GKWebService.Controllers
 
         public JsonNetResult GetEmployeeDetails(Guid? id)
         {
-            Employee employee = (id.HasValue ? EmployeeHelper.GetDetails(id) : new Employee());
-            employee.Photo = null;
+            Employee employee;
+	        if (id.HasValue)
+	        {
+		        employee = EmployeeHelper.GetDetails(id);
+	        }
+	        else
+	        {
+		        employee = new Employee();
+				employee.BirthDate = DateTime.Now;
+				employee.CredentialsStartDate = DateTime.Now;
+				employee.DocumentGivenDate = DateTime.Now;
+				employee.DocumentValidTo = DateTime.Now;
+				employee.RemovalDate = DateTime.Now;
+				employee.ScheduleStartDate = DateTime.Now;
+			}
+	        employee.Photo = null;
             employee.AdditionalColumns.ForEach(c => c.Photo = null);
             return new JsonNetResult {Data = employee};
+        }
+
+        public JsonNetResult GetOrganisation(Guid? id)
+        {
+			var filter = new OrganisationFilter();
+			filter.UIDs.Add(id.Value);
+			var operationResult = ClientManager.FiresecService.GetOrganisations(filter);
+			return new JsonNetResult { Data = operationResult.Result.FirstOrDefault() };
         }
 
         private IEnumerable<ShortEmployeeModel> InitializeEmployees(IEnumerable<ShortEmployee> employees, IEnumerable<ShortEmployeeModel> organisations)
@@ -71,4 +109,11 @@ namespace GKWebService.Controllers
             return organisations.Select(ShortEmployeeModel.CreateFromOrganisation).ToList();
         }
     }
+
+	public class SaveChiefParams
+	{
+		public Guid OrganisationUID { get; set; }
+		public Guid? EmployeeUID { get; set; }
+		public string OrganisationName { get; set; }
+	}
 }
