@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using ResursNetwork.OSI.ApplicationLayer;
 using ResursNetwork.OSI.ApplicationLayer.Devices;
 using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
@@ -29,7 +30,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         DevicesCollection _devices;
         Status _status = Status.Stopped;
         IDataLinkPort _connection;
-		CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+		CancellationTokenSource _cancellationTokenSource;
 		Task _networkPollingTask;
 		int _pollingPeriod;
 
@@ -99,6 +100,10 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 
 					if (_status == Status.Running)
 					{
+						if (_cancellationTokenSource == null)
+						{
+							_cancellationTokenSource = new CancellationTokenSource();
+						}
 						_networkPollingTask =
 							Task.Factory.StartNew(NetwokPollingAction, _cancellationTokenSource.Token);
 					}
@@ -112,6 +117,11 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 						catch (AggregateException)
 						{
 							if (!_networkPollingTask.IsCanceled) throw;
+						}
+						finally
+						{
+							_cancellationTokenSource.Dispose();
+							_cancellationTokenSource = null;
 						}
 					}
 
@@ -198,6 +208,8 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 
 		private void NetwokPollingAction(Object cancellationToken)
 		{
+			Debug.WriteLine("Поток на обработку запущен");
+
 			var nextPolling = DateTime.Now;
 			// Симулируем работу счётчика: инкрементируем счётчики тарифов
 			var cancel = (CancellationToken)cancellationToken;
@@ -224,10 +236,15 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 						break;
 					}
 
-					var x = (UInt32)device.Parameters[ParameterNamesMercury203.CounterTarif1].Value;
+					if (device.Status == Management.Status.Stopped)
+					{
+						continue;
+					}
+
+					var x = (float)device.Parameters[ParameterNamesMercury203Virtual.CounterTarif1].Value;
 					var newValue  = x + 1;
-					device.Parameters[ParameterNamesMercury203.CounterTarif1].Value = newValue;
-					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203.CounterTarif1,
+					device.Parameters[ParameterNamesMercury203Virtual.CounterTarif1].Value = newValue;
+					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203Virtual.CounterTarif1,
 						newValue));
 
 					if (cancel.IsCancellationRequested)
@@ -235,10 +252,10 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 						break;
 					}
 
-					x = (UInt32)device.Parameters[ParameterNamesMercury203.CounterTarif2].Value;
+					x = (float)device.Parameters[ParameterNamesMercury203Virtual.CounterTarif2].Value;
 					newValue = x + 1;
-					device.Parameters[ParameterNamesMercury203.CounterTarif2].Value = newValue;
-					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203.CounterTarif1,
+					device.Parameters[ParameterNamesMercury203Virtual.CounterTarif2].Value = newValue;
+					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203Virtual.CounterTarif2,
 						newValue));
 
 					if (cancel.IsCancellationRequested)
@@ -246,10 +263,10 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 						break;
 					}
 
-					x = (UInt32)device.Parameters[ParameterNamesMercury203.CounterTarif3].Value;
+					x = (float)device.Parameters[ParameterNamesMercury203Virtual.CounterTarif3].Value;
 					newValue = x + 1;
-					device.Parameters[ParameterNamesMercury203.CounterTarif3].Value = newValue;
-					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203.CounterTarif1,
+					device.Parameters[ParameterNamesMercury203Virtual.CounterTarif3].Value = newValue;
+					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203Virtual.CounterTarif3,
 						newValue));
 
 					if (cancel.IsCancellationRequested)
@@ -257,15 +274,17 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 						break;
 					}
 
-					x = (UInt32)device.Parameters[ParameterNamesMercury203.CounterTarif4].Value;
+					x = (float)device.Parameters[ParameterNamesMercury203Virtual.CounterTarif4].Value;
 					newValue = x + 1;
-					device.Parameters[ParameterNamesMercury203.CounterTarif4].Value = newValue;
-					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203.CounterTarif1,
+					device.Parameters[ParameterNamesMercury203Virtual.CounterTarif4].Value = newValue;
+					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203Virtual.CounterTarif3,
 						newValue));
 				}
 
 				nextPolling = DateTime.Now.AddMilliseconds(_pollingPeriod);
 			}
+
+			Debug.WriteLine("Поток на обработку остановлен");
 		}
 
         #endregion

@@ -246,44 +246,44 @@ namespace ResursNetwork.Incotex.Models
 				Value = (UInt16)0
 			});
 
-			_Parameters.Add(new Parameter(typeof(UInt32))
+			_Parameters.Add(new Parameter(typeof(float))
 			{
 				Name = ParameterNamesMercury203Virtual.CounterTarif1,
 				Description = "Счётчик тарифа 1",
 				PollingEnabled = true,
 				ReadOnly = false,
 				ValueConverter = null,
-				Value = (UInt32)0
+				Value = (float)0
 			});
 
-			_Parameters.Add(new Parameter(typeof(UInt32))
+			_Parameters.Add(new Parameter(typeof(float))
 			{
 				Name = ParameterNamesMercury203Virtual.CounterTarif2,
 				Description = "Счётчик тарифа 2",
 				PollingEnabled = true,
 				ReadOnly = false,
 				ValueConverter = null,
-				Value = (UInt32)0
+				Value = (float)0
 			});
 
-			_Parameters.Add(new Parameter(typeof(UInt32))
+			_Parameters.Add(new Parameter(typeof(float))
 			{
-				Name = ParameterNamesMercury203.CounterTarif3,
+				Name = ParameterNamesMercury203Virtual.CounterTarif3,
 				Description = "Счётчик тарифа 3",
 				PollingEnabled = true,
 				ReadOnly = false,
 				ValueConverter = null,
-				Value = (UInt32)0
+				Value = (float)0
 			});
 
-			_Parameters.Add(new Parameter(typeof(UInt32))
+			_Parameters.Add(new Parameter(typeof(float))
 			{
-				Name = ParameterNamesMercury203.CounterTarif4,
-				Description = "Счётчик тарифа 3",
+				Name = ParameterNamesMercury203Virtual.CounterTarif4,
+				Description = "Счётчик тарифа 4",
 				PollingEnabled = true,
 				ReadOnly = false,
 				ValueConverter = null,
-				Value = (UInt32)0
+				Value = (float)0
 			});
 		}
 

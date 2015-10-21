@@ -187,6 +187,15 @@ namespace UinitTestResursNetwork.NetworksManagerTests
 			Assert.AreEqual(Status.Stopped, controller.Status);
 			Assert.AreEqual(controller.Id, testCntr.StatusChangedArgs.Id);
 			Assert.AreEqual(controller.Status, testCntr.StatusChangedArgs.Status);
+
+			testCntr.Manager.SetSatus(controller.Id, true);
+			Thread.Sleep(1000);
+			testCntr.Manager.SetSatus(controller.Id, false);
+			Thread.Sleep(1000);
+			testCntr.Manager.SetSatus(controller.Id, true);
+			Thread.Sleep(1000);
+			testCntr.Manager.SetSatus(controller.Id, false);
+			Thread.Sleep(1000);
 		}
 
 		/// <summary>

@@ -1,6 +1,4 @@
-﻿using DevExpress.XtraReports.UI;
-using Resurs.Reports.Templates;
-using Resurs.ViewModels;
+﻿using Resurs.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -15,7 +13,7 @@ namespace Resurs.Views
 		{
 			InitializeComponent();
 		}
-		private void Window_Loaded(object sender, RoutedEventArgs e)
+		void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			designer.OpenDocument(ReportDesignerViewModel.Report);
 		}
