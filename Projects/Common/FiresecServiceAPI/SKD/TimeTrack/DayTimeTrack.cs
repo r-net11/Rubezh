@@ -141,10 +141,36 @@ namespace FiresecAPI.SKD
 			}
 
 			CombinedTimeTrackParts = TransferNightSettings(CombinedTimeTrackParts, NightSettings);
+			CombinedTimeTrackParts = ApplyDeviationPolitics(CombinedTimeTrackParts, AllowedAbsentLowThan, AllowedEarlyLeave, AllowedLate, NotAllowOvertimeLowerThan);
 			RealTimeTrackPartsForCalculates = FillTypesForRealTimeTrackParts(RealTimeTrackPartsForCalculates, PlannedTimeTrackParts);
 			Totals = CalculateTotal(SlideTime, PlannedTimeTrackParts, RealTimeTrackPartsForCalculates, CombinedTimeTrackParts, IsHoliday);
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
 			CalculateLetterCode();
+		}
+
+		private List<TimeTrackPart> ApplyDeviationPolitics(IEnumerable<TimeTrackPart> combinedTimeTrackParts, int allowedAbsent,
+			int allowedEarlyLeave, int allowedLate, int notAllowedOvertime)
+		{
+			var resultCollection = new List<TimeTrackPart>();
+			foreach (var combinedTimeTrackPart in combinedTimeTrackParts)
+			{
+				if (CanApplyDeviationPolitics(combinedTimeTrackPart, allowedAbsent, allowedEarlyLeave, allowedLate, notAllowedOvertime))
+					combinedTimeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
+
+				resultCollection.Add(combinedTimeTrackPart);
+			}
+
+			return resultCollection;
+		}
+
+		private bool CanApplyDeviationPolitics(TimeTrackPart timeTrackPart, int allowedAbsent, int allowedEarlyLeave, int allowedLate, int notAllowedOvertime)
+		{
+			var isApplyForAbsence = timeTrackPart.TimeTrackPartType == TimeTrackType.Absence && timeTrackPart.Delta.TotalMinutes <= allowedAbsent && allowedAbsent != default (int);
+			var isApplyForEarlyLeave = timeTrackPart.TimeTrackPartType == TimeTrackType.EarlyLeave && timeTrackPart.Delta.TotalMinutes <= allowedEarlyLeave && allowedEarlyLeave != default(int);
+			var isApplyForLate = timeTrackPart.TimeTrackPartType == TimeTrackType.Late && timeTrackPart.Delta.TotalMinutes <= allowedLate && allowedLate != default(int);
+			var isApplyForOverTime = timeTrackPart.TimeTrackPartType == TimeTrackType.Overtime && timeTrackPart.Delta.TotalMinutes <= notAllowedOvertime && notAllowedOvertime != default(int);
+
+			return isApplyForAbsence || isApplyForEarlyLeave || isApplyForLate || isApplyForOverTime;
 		}
 
 		private List<TimeTrackPart> TransferNightSettings(List<TimeTrackPart> combinedTimeTrackParts,
@@ -816,8 +842,6 @@ namespace FiresecAPI.SKD
 		public TimeSpan GetBalance(TimeTrackPart timeTrack, double slideTimeSecods)
 		{
 			if (timeTrack.NotTakeInCalculations) return TimeSpan.Zero;
-
-			const double tolerance = 0.0001;
 
 			switch (timeTrack.TimeTrackPartType)
 			{
