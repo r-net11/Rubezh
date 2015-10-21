@@ -224,6 +224,11 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 						break;
 					}
 
+					if (device.Status == Management.Status.Stopped)
+					{
+						continue;
+					}
+
 					var x = (UInt32)device.Parameters[ParameterNamesMercury203.CounterTarif1].Value;
 					var newValue  = x + 1;
 					device.Parameters[ParameterNamesMercury203.CounterTarif1].Value = newValue;
