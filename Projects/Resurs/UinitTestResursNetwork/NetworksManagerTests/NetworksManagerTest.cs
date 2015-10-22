@@ -218,6 +218,26 @@ namespace UinitTestResursNetwork.NetworksManagerTests
 			Assert.AreEqual(device.Id, testCntr.StatusChangedArgs.Id);
 			Assert.AreEqual(device.Status, testCntr.StatusChangedArgs.Status);
 
+			// Arrange
+			device = new Mercury203Virtual
+			{
+				Address = 2
+			};
+			controller.Devices.Add(device);
+
+			// Act
+			testCntr.ResetEventsFlags();
+			testCntr.Manager.SetSatus(device.Id, true);
+
+			// Assert
+			Assert.IsTrue(testCntr.IsEventRaisedStatusChanged);
+			Assert.AreEqual(Status.Running, device.Status);
+			Assert.AreEqual(device.Id, testCntr.StatusChangedArgs.Id);
+			Assert.AreEqual(device.Status, testCntr.StatusChangedArgs.Status);
+
+			// Act
+			testCntr.Manager.RemoveDevice(device.Id);
+
 		}
 
 		/// <summary>
