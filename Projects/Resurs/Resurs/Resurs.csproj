@@ -406,6 +406,7 @@
     </Compile>
     <Compile Include="Converters\DeviceStateToIconConverter.cs" />
     <Compile Include="Converters\DeviceTypeToIconConverter.cs" />
+    <Compile Include="Converters\JournalTypeToColorConverter.cs" />
     <Compile Include="Converters\JournalTypeToIconConverter.cs" />
     <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="Devices\ViewModels\DetailsParameterViewModel.cs" />

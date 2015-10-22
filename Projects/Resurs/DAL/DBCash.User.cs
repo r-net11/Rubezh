@@ -119,8 +119,8 @@ namespace ResursDAL
 			{
 				using (var context = DatabaseContext.Initialize())
 				{
-					var _user = context.Users.FirstOrDefault(x => x.UID == user.UID);
-					context.Users.Remove(_user);
+					var tableUser = context.Users.FirstOrDefault(x => x.UID == user.UID);
+					context.Users.Remove(tableUser);
 					context.SaveChanges();
 					Users.Remove(user);
 				}
@@ -134,12 +134,12 @@ namespace ResursDAL
 		{
 			if (password == null)
 				password = "";
-			var _password = HashHelper.GetHashFromString(password);
+			var passwordHash = HashHelper.GetHashFromString(password);
 			try
 			{
 				using (var context = DatabaseContext.Initialize())
 				{
-					var user = context.Users.Include(x => x.UserPermissions).FirstOrDefault(x => x.PasswordHash == _password && x.Login == login);
+					var user = context.Users.Include(x => x.UserPermissions).FirstOrDefault(x => x.PasswordHash == passwordHash && x.Login == login);
 					if (user == null)
 						return "неверный логин или пароль";
 					DBCash.CurrentUser = user;

@@ -118,7 +118,7 @@ namespace Resurs.ViewModels
 
 		public void Select(Guid deviceUID)
 		{
-			if (deviceUID != Guid.Empty)
+			if (deviceUID != Guid.Empty && IsVisible)
 			{
 				FillAllDevices();
 				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
@@ -131,7 +131,7 @@ namespace Resurs.ViewModels
 
 		public bool IsVisible
 		{
-			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.ViewDevice); }
+			get { return DBCash.CheckPermission(PermissionType.ViewDevice); }
 		}
 
 		void UpdateBillViewModels(Device device, Bill oldBill = null)
@@ -269,7 +269,7 @@ namespace Resurs.ViewModels
 			return SelectedDevice != null && 
 				SelectedDevice.Parent != null &&
 				!SelectedDevice.IsActive && 
-				DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);
+				DBCash.CheckPermission(PermissionType.EditDevice);
 		}
 
 		public RelayCommand UnSetActiveCommand { get; private set; }

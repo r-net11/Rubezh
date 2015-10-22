@@ -35,7 +35,6 @@ namespace ResursAPI
 		ViewPlot = 9,
 
 		[DescriptionAttribute("Просмотр Журнала событий")]
-		ViewJournal = 10,
-
+		ViewJournal = 10
 	}
 }

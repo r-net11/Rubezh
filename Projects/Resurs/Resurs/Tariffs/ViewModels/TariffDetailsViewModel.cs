@@ -178,6 +178,8 @@ namespace Resurs.ViewModels
 
 		public bool IsTariffValid { get { return !ValidateTariff(); } }
 
+		public bool IsEnable { get { return DBCash.CheckPermission(PermissionType.ViewDevice); } }
+
 		protected override bool CanSave()
 		{
 			var result = ValidateTariff();

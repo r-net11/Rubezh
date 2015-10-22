@@ -139,7 +139,7 @@ namespace Resurs.ViewModels
 		}
 		bool CanAddFolder()
 		{
-			return SelectedConsumer != null && SelectedConsumer.Consumer.IsFolder && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditConsumer);
+			return SelectedConsumer != null && SelectedConsumer.Consumer.IsFolder && DBCash.CheckPermission(PermissionType.EditConsumer);
 		}
 
 		public RelayCommand EditCommand { get; private set; }

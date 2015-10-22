@@ -70,13 +70,13 @@ namespace ResursDAL
 			return result;
 		}
 
-		public static void AddJournal(JournalType journalType, string Description = null)
+		public static void AddJournal(JournalType journalType, string description = null)
 		{
 			var journalEvent = new Journal()
 			{
 				DateTime = DateTime.Now,
 				JournalType = journalType,
-				Description = Description
+				Description = description
 			};
 
 			try

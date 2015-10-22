@@ -16,8 +16,7 @@ namespace Resurs.ViewModels
 			FilterEventViewModels = new ObservableCollection<FilterEventViewModel>(Enum.GetValues(typeof(JournalType)).Cast<JournalType>().Select(x => new FilterEventViewModel(x)));
 			FilterEventViewModels.ForEach(x =>
 				{
-					if (filter.JournalTypes.Any(y => y == x.JournalType))
-						x.IsChecked = true;
+					x.IsChecked = filter.JournalTypes.Any(y => y == x.JournalType);
 				});
 		}
 
@@ -25,7 +24,7 @@ namespace Resurs.ViewModels
 
 		public List<JournalType> GetJournalTypes()
 		{
-			List<JournalType> journalType = new List<JournalType>();
+			var journalType = new List<JournalType>();
 			FilterEventViewModels.ForEach(x=> 
 			{
 				if (x.IsChecked)
