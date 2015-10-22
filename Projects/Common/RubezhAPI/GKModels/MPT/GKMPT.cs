@@ -29,6 +29,8 @@ namespace RubezhAPI.GK
 			{
 				var device = GKManager.Devices.FirstOrDefault(x => x.UID == mptDevice.DeviceUID);
 				mptDevice.Device = device;
+				if (device == null)
+					mptDevice.DeviceUID = Guid.Empty;
 				if (device != null)
 				{
 					device.IsInMPT = true;
