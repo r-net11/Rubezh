@@ -34,8 +34,8 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Width="*" Binding="{Binding Zone.Name}" Header="Наименование" />
-				<DataGridTextColumn Binding="{Binding Zone.Description}" Header="Примечание" />
+				<DataGridTextColumn Width="Auto" Binding="{Binding Zone.Name}" Header="Наименование" />
+				<DataGridTextColumn Width="*" Binding="{Binding Zone.Description}" Header="Примечание" />
 			</DataGrid.Columns>
 			<DataGrid.ContextMenu>
 				<ContextMenu>

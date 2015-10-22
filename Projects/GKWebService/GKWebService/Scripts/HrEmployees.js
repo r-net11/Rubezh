@@ -5,6 +5,7 @@
         datatype: "json",
         colModel: [
             { label: 'UID', name: 'UID', key: true, hidden: true, sortable: false },
+            { label: 'ParentUID', name: 'ParentUID', hidden: true, sortable: false },
             { label: 'OrganisationUID', name: 'OrganisationUID', hidden: true, sortable: false },
             { label: 'ФИО', name: 'Name', width: 100, sortable: false },
             { label: 'Подразделение', name: 'DepartmentName', width: 100, sortable: false }
@@ -20,7 +21,7 @@
         treeGridModel: "adjacency",
         loadonce: true,
         treeReader: {
-            parent_id_field: "OrganisationUID",
+            parent_id_field: "ParentUID",
             level_field: "Level",
             leaf_field: "IsLeaf",
             expanded_field: "IsExpanded"
@@ -28,18 +29,22 @@
     });
 });
 
-function EmployeesViewModel() {
+function EmployeesViewModel(parentViewModel) {
     var self = {};
 
+    self.ParentViewModel = parentViewModel;
+
     self.UID = ko.observable();
+    self.OrganisationUID = ko.observable();
     self.Name = ko.observable();
     self.DepartmentName = ko.observable();
 
     $('#jqGridEmployees').on('jqGridSelectRow', function (event, id, selected) {
 
-        var myGrid = $('#jqGrid');
+        var myGrid = $('#jqGridEmployees');
 
         self.UID(id);
+        self.OrganisationUID(myGrid.jqGrid('getCell', id, 'OrganisationUID'));
         self.Name(myGrid.jqGrid('getCell', id, 'Name'));
         self.DepartmentName(myGrid.jqGrid('getCell', id, 'DepartmentName'));
     });
@@ -67,16 +72,24 @@ function EmployeesViewModel() {
     }
 
     self.AddEmployeeClick = function (data, e, box) {
-        $.getJSON("/Employees/GetEmployeeDetails/", function (allData) {
-            ko.mapping.fromJS(allData, {}, self.EmployeeDetails);
-            self.ShowEmployee(box);
+        $.getJSON("/Employees/GetEmployeeDetails/", function (emp) {
+            ko.mapping.fromJS(emp, {}, self.EmployeeDetails);
+            $.getJSON("/Employees/GetOrganisation/" + self.OrganisationUID(), function (org) {
+                self.EmployeeDetails.Organisation = org;
+                self.EmployeeDetails.Init(true, self.ParentViewModel.SelectedPersonType());
+                self.ShowEmployee(box);
+            });
         });
     }
 
     self.EditEmployeeClick = function (data, e, box) {
-        $.getJSON("/Employees/GetEmployeeDetails/" + self.UID(), function (allData) {
-            ko.mapping.fromJS(allData, {}, self.EmployeeDetails);
-            self.ShowEmployee(box);
+        $.getJSON("/Employees/GetEmployeeDetails/" + self.UID(), function (emp) {
+            ko.mapping.fromJS(emp, {}, self.EmployeeDetails);
+            $.getJSON("/Employees/GetOrganisation/" + self.OrganisationUID(), function (org) {
+                self.EmployeeDetails.Organisation = org;
+                self.EmployeeDetails.Init(false, self.ParentViewModel.SelectedPersonType());
+                self.ShowEmployee(box);
+            });
         });
     }
 

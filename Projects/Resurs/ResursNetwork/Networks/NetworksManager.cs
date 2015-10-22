@@ -319,6 +319,16 @@ namespace ResursNetwork.Networks
             _NetworkControllers[networkId].SyncDateTime();
         }
 
+		public void SendCommand(Guid deviceId, string commandName)
+		{
+			var list = from n in Networks
+					   from d in n.Devices
+					   where d.Id == deviceId
+					   select d;
+			var device = list.FirstOrDefault();
+			device.ExecuteCommand(commandName);
+		}
+
         /// <summary>
         /// Обработчик события изменения списка сетей
         /// </summary>
@@ -367,7 +377,7 @@ namespace ResursNetwork.Networks
 
         private void EventHandler_Device_ErrorOccurred(object sender, ErrorOccuredEventArgs e)
         {
-            throw new NotImplementedException();
+			OnDeviceHasError(e);
         }
 
         private void EventHandler_Device_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -431,23 +441,41 @@ namespace ResursNetwork.Networks
 			}
 		}
 
+		private void OnDeviceHasError(ErrorOccuredEventArgs args)
+		{
+			if (args == null)
+			{
+				throw new ArgumentNullException();
+			}
+
+			if (DeviceHasError != null)
+			{
+				DeviceHasError(this, args);
+			}
+		}
+
         #endregion
 
         #region Events
-        /// <summary>
+        
+			/// <summary>
         /// Происходит при изменении статуса состояния сети
         /// </summary>
         //public event EventHandler<StatusChangedEventArgs> NetworkChangedStatus;
-        /// <summary>
+        
+		/// <summary>
         /// Происходит при изменении статуса состояния устройтва
         /// </summary>
         //public event EventHandler<StatusChangedEventArgs> DeviceChangedStatus;
-        /// <summary>
+        
+		/// <summary>
         /// Происходит при изменении статуса состояния устройтва или сети
         /// (объединяет-дублирует события NetworkChangedStatus и DeviceChangedStatus)
         /// </summary>
-        public event EventHandler<StatusChangedEventArgs> StatusChanged;
+		public event EventHandler<StatusChangedEventArgs> StatusChanged;
 		public event EventHandler<ParameterChangedArgs> ParameterChanged;
-        #endregion
+		public event EventHandler<ErrorOccuredEventArgs> DeviceHasError;
+
+		#endregion
     }
 }

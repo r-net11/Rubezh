@@ -8,7 +8,14 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
 {
     public class ErrorOccuredEventArgs: EventArgs
     {
+		private Guid _Id;
         private DeviceErrors _Errors;
+
+		public Guid Id
+		{
+			get { return _Id; }
+			set { _Id = value; }
+		}
 
         /// <summary>
         /// Структура с флагами ошибок устройтсва

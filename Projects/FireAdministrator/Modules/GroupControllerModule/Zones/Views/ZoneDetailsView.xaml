@@ -11,7 +11,7 @@
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
-					<RowDefinition Height="*" />
+					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
@@ -33,7 +33,10 @@
 				</controls:XAutoCompleteBox>
 
 				<TextBlock Grid.Row="2" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<controls:XAutoCompleteBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableDescription}" IsTextCompletionEnabled="True" Margin="2" />
+				<controls:XAutoCompleteBox Grid.Row="2" Grid.Column="1" Margin="2"
+										   Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+										   ItemsSource="{Binding AvailableDescription}"
+										   IsTextCompletionEnabled="True" />
 
 				<TextBlock Grid.Row="3" Grid.Column="0" Text="Число датчиков для формирования сигнала Пожар1" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Fire1Count}" Minimum="1" Maximum="10" Margin="2" />

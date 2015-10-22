@@ -49,16 +49,22 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
 
         bool ConfigurationError { get; set; }
 
-        bool RTCError { get; set; }
+        bool RtcError { get; set; }
 
         /// <summary>
         /// Дата и время в удалённом устройтсве 
         /// </summary>
-        DateTime RTC { get; set; }
+        DateTime Rtc { get; set; }
 
         #endregion
 
         #region Methods
+		
+		/// <summary>
+		/// Выполняет комманду 
+		/// </summary>
+		/// <param name="commandName">Команда</param>
+		void ExecuteCommand(string commandName);
 
         #endregion
 
