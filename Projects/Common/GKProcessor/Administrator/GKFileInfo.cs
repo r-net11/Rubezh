@@ -75,7 +75,7 @@ namespace GKProcessor
 				if (mpt.MPTDevices != null)
 				{
 					stringBuilder.Append("nsDevices:");
-					foreach (var mptDevice in mpt.MPTDevices.Where(x => x.Device.GKParent == gkControllerDevice))
+					foreach (var mptDevice in mpt.MPTDevices.Where(x => x.Device != null && x.Device.GKParent == gkControllerDevice))
 					{
 						stringBuilder.Append(mptDevice.Device.PresentationName).Append("@");
 					}

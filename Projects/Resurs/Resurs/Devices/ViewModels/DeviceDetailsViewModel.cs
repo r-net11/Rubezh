@@ -29,8 +29,8 @@ namespace Resurs.ViewModels
 			_parent = device.Parent;
 			Address = device.Address;
 			Initialize(device);
-			SelectBillCommand = new RelayCommand<Guid?>(OnSelectBill);
-			RemoveBillLinkCommand = new RelayCommand(OnRemoveBillLink);
+			SelectConsumerCommand = new RelayCommand<Guid?>(OnSelectConsumer);
+			RemoveConsumerLinkCommand = new RelayCommand(OnRemoveConsumerLink);
 			SelectTariffCommand = new RelayCommand(OnSelectTariff);
 			RemoveTariffCommand = new RelayCommand(OnRemoveTariff);
 		}
@@ -51,7 +51,7 @@ namespace Resurs.ViewModels
 			Name = device.Name;
 			Description = device.Description;
 			IsActive = Device.IsActive;
-			Bill = device.Bill;
+			Consumer = device.Consumer;
 			IsNetwork = device.DeviceType == DeviceType.Network;
 			if (!IsActive)
 			{
@@ -147,49 +147,47 @@ namespace Resurs.ViewModels
 		}
 
 		public bool IsActive { get; private set; }
-		
-		Bill _bill;
-		public Bill Bill
+
+		#region Consumer
+		Consumer _consumer;
+		public Consumer Consumer
 		{
-			get { return _bill; }
+			get { return _consumer; }
 			set
 			{
-				_bill = value;
-				OnPropertyChanged(() => Bill);
-				OnPropertyChanged(() => BillLinkName);
+				_consumer = value;
+				OnPropertyChanged(() => Consumer);
+				OnPropertyChanged(() => ConsumerLinkName);
 			}
 		}
 
-		public string BillLinkName
+		public string ConsumerLinkName
 		{
-			get 
+			get
 			{
-				return Bill == null ? "Нажмите для привязки счета" : Bill.Name;
+				return Consumer == null ? "Нажмите для привязки счета" : "[" + Consumer.Number + "] " + Consumer.Name;
 			}
 		}
 
-		public RelayCommand<Guid?> SelectBillCommand { get; private set; }
-		void OnSelectBill(Guid? billUid)
+		public RelayCommand<Guid?> SelectConsumerCommand { get; private set; }
+		void OnSelectConsumer(Guid? consumerUid)
 		{
-			if (billUid.HasValue)
-				Bootstrapper.MainViewModel.ConsumersViewModel.Select(billUid.Value);
+			if (consumerUid.HasValue)
+				Bootstrapper.MainViewModel.ConsumersViewModel.Select(consumerUid.Value);
 			else
 			{
-				var selectBillViewModel = new SelectBillViewModel();
-				if (DialogService.ShowModalWindow(selectBillViewModel))
-				{
-					var bill = selectBillViewModel.Bills.GetCheckedBill();
-					if (bill != null)
-						Bill = bill.GetBill();
-				}
+				var selectConsumerViewModel = new SelectConsumerViewModel("Выбор лицевого счета для привязки");
+				if (DialogService.ShowModalWindow(selectConsumerViewModel))
+					Consumer = selectConsumerViewModel.SelectedConsumer.Consumer;
 			}
 		}
 
-		public RelayCommand RemoveBillLinkCommand { get; private set; }
-		void OnRemoveBillLink()
+		public RelayCommand RemoveConsumerLinkCommand { get; private set; }
+		void OnRemoveConsumerLink()
 		{
-			Bill = null;
+			Consumer = null;
 		}
+		#endregion
 
 		#region Tariff
 		Tariff _tariff;
@@ -281,8 +279,8 @@ namespace Resurs.ViewModels
 			Device.Description = Description;
 			if (CanEditTariffType)
 				Device.TariffType = TariffType;
-			Device.Bill = Bill;
-			Device.BillUID = Bill == null ? null : (Guid?)Bill.UID;
+			Device.Consumer = Consumer;
+			Device.ConsumerUID = Consumer == null ? null : (Guid?)Consumer.UID;
 			Device.Tariff = Tariff;
 			Device.TariffUID = Tariff == null ? null : (Guid?)Tariff.UID;
 			var isDbMissmatch = false;
@@ -293,7 +291,7 @@ namespace Resurs.ViewModels
 					var oldParameter = _oldDevice.Parameters.FirstOrDefault(x => x.UID == newParameter.UID);
 					if (oldParameter.ValueType != newParameter.ValueType)
 					{
-						isDbMissmatch = isDbMissmatch || !DeviceProcessor.WriteParameter(Device.UID, newParameter.DriverParameter.Name, newParameter.ValueType);
+						isDbMissmatch = isDbMissmatch || !DeviceProcessor.Instance.WriteParameter(Device.UID, newParameter.DriverParameter.Name, newParameter.ValueType);
 					}
 					
 				}
@@ -375,7 +373,7 @@ namespace Resurs.ViewModels
 			get 
 			{ 
 				return new RelayCommand(() => 
-					DeviceProcessor.SendCommand(_device.UID, Model.Name)); 
+					DeviceProcessor.Instance.SendCommand(_device.UID, Model.Name)); 
 			} 
 		}
 	}

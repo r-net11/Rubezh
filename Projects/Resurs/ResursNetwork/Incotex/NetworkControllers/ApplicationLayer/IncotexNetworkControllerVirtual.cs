@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Collections.Specialized;
 using ResursNetwork.OSI.ApplicationLayer;
 using ResursNetwork.OSI.ApplicationLayer.Devices;
 using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
@@ -12,6 +14,7 @@ using ResursNetwork.OSI.Messages;
 using ResursNetwork.OSI.Messages.Transactions;
 using ResursNetwork.Management;
 using ResursNetwork.Incotex.Models;
+using ResursNetwork.Networks;
 using ResursAPI.ParameterNames;
 
 namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
@@ -29,7 +32,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         DevicesCollection _devices;
         Status _status = Status.Stopped;
         IDataLinkPort _connection;
-		CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+		CancellationTokenSource _cancellationTokenSource;
 		Task _networkPollingTask;
 		int _pollingPeriod;
 
@@ -99,6 +102,10 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 
 					if (_status == Status.Running)
 					{
+						if (_cancellationTokenSource == null)
+						{
+							_cancellationTokenSource = new CancellationTokenSource();
+						}
 						_networkPollingTask =
 							Task.Factory.StartNew(NetwokPollingAction, _cancellationTokenSource.Token);
 					}
@@ -112,6 +119,11 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 						catch (AggregateException)
 						{
 							if (!_networkPollingTask.IsCanceled) throw;
+						}
+						finally
+						{
+							_cancellationTokenSource.Dispose();
+							_cancellationTokenSource = null;
 						}
 					}
 
@@ -128,7 +140,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 			get { return _pollingPeriod; }
 			set 
 			{
-				if (value > MIN_POLLING_PERIOD)
+				if (value >= MIN_POLLING_PERIOD)
 				{
 					_pollingPeriod = value;
 				}
@@ -145,11 +157,45 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         public IncotexNetworkControllerVirtual()
         {
             _devices = new DevicesCollection(this);
+			_devices.CollectionChanged += 
+				EventHandler_devices_CollectionChanged;
         }
 
         #endregion
 
         #region Methods
+
+		private void EventHandler_devices_CollectionChanged(
+			object sender, DevicesCollectionChangedEventArgs e)
+		{
+			switch (e.Action)
+			{
+				case NotifyCollectionChangedAction.Add:
+					{
+						OnConfigurationChanged(
+							new ConfigurationChangedEventArgs
+							{
+								Id = e.Device.Id,
+								Action = ConfigurationChangedAction.DeviceAdded
+							});
+						break;
+					}
+				case NotifyCollectionChangedAction.Remove:
+					{
+						OnConfigurationChanged(
+							new ConfigurationChangedEventArgs
+							{
+								Id = e.Device.Id,
+								Action = ConfigurationChangedAction.DeviceRemoved
+							});
+						break;
+					}
+				default:
+					{
+						throw new NotImplementedException();
+					}
+			}
+		}
 
 		public IAsyncRequestResult Write(
 			NetworkRequest request, bool isExternalCall)
@@ -190,14 +236,34 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 
 		private void OnParameterChanged(ParameterChangedArgs args)
 		{
+			if (args == null)
+			{
+				throw new ArgumentNullException("args", "");
+			}
+
 			if (ParameterChanged != null)
 			{
 				ParameterChanged(this, args);
 			}
 		}
 
+		private void OnConfigurationChanged(ConfigurationChangedEventArgs args)
+		{
+			if (args == null)
+			{
+				throw new ArgumentNullException("args", "");
+			}
+
+			if (ConfigurationChanged != null)
+			{
+				ConfigurationChanged(this, args);
+			}
+		}
+
 		private void NetwokPollingAction(Object cancellationToken)
 		{
+			Debug.WriteLine("Поток на обработку запущен");
+
 			var nextPolling = DateTime.Now;
 			// Симулируем работу счётчика: инкрементируем счётчики тарифов
 			var cancel = (CancellationToken)cancellationToken;
@@ -224,10 +290,15 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 						break;
 					}
 
-					var x = (UInt32)device.Parameters[ParameterNamesMercury203.CounterTarif1].Value;
+					if (device.Status == Management.Status.Stopped)
+					{
+						continue;
+					}
+
+					var x = (float)device.Parameters[ParameterNamesMercury203Virtual.CounterTarif1].Value;
 					var newValue  = x + 1;
-					device.Parameters[ParameterNamesMercury203.CounterTarif1].Value = newValue;
-					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203.CounterTarif1,
+					device.Parameters[ParameterNamesMercury203Virtual.CounterTarif1].Value = newValue;
+					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203Virtual.CounterTarif1,
 						newValue));
 
 					if (cancel.IsCancellationRequested)
@@ -235,10 +306,10 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 						break;
 					}
 
-					x = (UInt32)device.Parameters[ParameterNamesMercury203.CounterTarif2].Value;
+					x = (float)device.Parameters[ParameterNamesMercury203Virtual.CounterTarif2].Value;
 					newValue = x + 1;
-					device.Parameters[ParameterNamesMercury203.CounterTarif2].Value = newValue;
-					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203.CounterTarif1,
+					device.Parameters[ParameterNamesMercury203Virtual.CounterTarif2].Value = newValue;
+					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203Virtual.CounterTarif2,
 						newValue));
 
 					if (cancel.IsCancellationRequested)
@@ -246,10 +317,10 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 						break;
 					}
 
-					x = (UInt32)device.Parameters[ParameterNamesMercury203.CounterTarif3].Value;
+					x = (float)device.Parameters[ParameterNamesMercury203Virtual.CounterTarif3].Value;
 					newValue = x + 1;
-					device.Parameters[ParameterNamesMercury203.CounterTarif3].Value = newValue;
-					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203.CounterTarif1,
+					device.Parameters[ParameterNamesMercury203Virtual.CounterTarif3].Value = newValue;
+					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203Virtual.CounterTarif3,
 						newValue));
 
 					if (cancel.IsCancellationRequested)
@@ -257,15 +328,17 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 						break;
 					}
 
-					x = (UInt32)device.Parameters[ParameterNamesMercury203.CounterTarif4].Value;
+					x = (float)device.Parameters[ParameterNamesMercury203Virtual.CounterTarif4].Value;
 					newValue = x + 1;
-					device.Parameters[ParameterNamesMercury203.CounterTarif4].Value = newValue;
-					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203.CounterTarif1,
+					device.Parameters[ParameterNamesMercury203Virtual.CounterTarif4].Value = newValue;
+					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203Virtual.CounterTarif3,
 						newValue));
 				}
 
 				nextPolling = DateTime.Now.AddMilliseconds(_pollingPeriod);
 			}
+
+			Debug.WriteLine("Поток на обработку остановлен");
 		}
 
         #endregion
@@ -275,6 +348,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 		public event EventHandler StatusChanged;
 		public event EventHandler<NetworkRequestCompletedArgs> NetwrokRequestCompleted;
 		public event EventHandler<ParameterChangedArgs> ParameterChanged;
+		public event EventHandler<ConfigurationChangedEventArgs> ConfigurationChanged;
 
 		#endregion
 

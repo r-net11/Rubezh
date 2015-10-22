@@ -3,6 +3,7 @@ using ResursAPI;
 using ResursDAL;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Resurs.ViewModels
@@ -13,8 +14,8 @@ namespace Resurs.ViewModels
 		{
 			Title = isNew ? "Создание абонента" : "Редактирование абонента";
 			Update(consumer);
+			InitializeBill(consumer);
 			IsReadOnly = isReadOnly;
-			BillsViewModel = new BillsViewModel(consumer.Bills.ToList(), isReadOnly);
 		}
 
 		public bool IsReadOnly { get; private set; }
@@ -45,8 +46,9 @@ namespace Resurs.ViewModels
 			Login = consumer.Login;
 			Password = consumer.Password;
 			IsSendEmail = consumer.IsSendEmail;
-			if (BillsViewModel != null)
-				BillsViewModel.Update(consumer.Bills.ToList());
+			Number = consumer.Number;
+			Balance = consumer.Balance;
+			Devices = new ObservableCollection<DeviceViewModel>(consumer.Devices.Select(x => new DeviceViewModel(x)));
 		}
 
 		public Consumer GetConsumer()
@@ -54,10 +56,8 @@ namespace Resurs.ViewModels
 			return new Consumer
 			{
 				Address = this.Address,
-				Bills = BillsViewModel == null ? null : BillsViewModel.GetBills(),
 				Description = this.Description,
 				Email = this.Email,
-				FIO = this.FIO,
 				IsFolder = false,
 				IsSendEmail = this.IsSendEmail,
 				Login = this.Login,
@@ -65,7 +65,10 @@ namespace Resurs.ViewModels
 				ParentUID = this.ParentUid,
 				Password = this.Password,
 				Phone = this.Phone,
-				UID = this.Uid
+				UID = this.Uid,
+				Number = this.Number,
+				Balance = this.Balance,
+				Devices = this.Devices.Select(x => x.Device).ToList()
 			};
 		}
 
@@ -74,16 +77,16 @@ namespace Resurs.ViewModels
 			var consumer = GetConsumer();
 			DBCash.SaveConsumer(consumer);
 
-			foreach (var bill in consumer.Bills)
+			foreach (var device in consumer.Devices)
 			{
-				DBCash.SaveBill(bill);
-				foreach (var device in bill.Devices)
+				var deviceViewModel = Bootstrapper.MainViewModel.DevicesViewModel.AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
+				if (deviceViewModel != null)
 				{
-					var dbDevice = DBCash.GetDevice(device.UID);
-					dbDevice.Bill = bill;
-					dbDevice.BillUID = bill.UID;
+					deviceViewModel.Device.Consumer = consumer;
+					deviceViewModel.Device.ConsumerUID = consumer.UID;
 				}
 			}
+
 			return base.Save();
 		}
 	}

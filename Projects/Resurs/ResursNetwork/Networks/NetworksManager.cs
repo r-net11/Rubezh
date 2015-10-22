@@ -189,7 +189,7 @@ namespace ResursNetwork.Networks
                         {
                             case ResursAPI.DriverType.Mercury203Counter:
                                 {
-                                    var mercury203 = new Mercury203Virtual
+                                    var mercury203 = new Mercury203
                                     {
                                         Id = (Guid)device.GetParameter(ParameterNamesMercury203.Id),
                                         Address = (UInt32)device.GetParameter(ParameterNamesMercury203.Address),
@@ -219,7 +219,7 @@ namespace ResursNetwork.Networks
                                 }
 							case DriverType.VirtualMercury203Counter:
 								{
-									var mercury203 = new Mercury203
+									var mercury203 = new Mercury203Virtual
 									{
 										Id = (Guid)device.GetParameter(ParameterNamesMercury203.Id),
 										Address = (UInt32)device.GetParameter(ParameterNamesMercury203.Address),
@@ -230,17 +230,17 @@ namespace ResursNetwork.Networks
 										device.GetParameter(ParameterNamesMercury203.GADDR);
 									mercury203.Parameters[ParameterNamesMercury203.PowerLimit].Value =
 										device.GetParameter(ParameterNamesMercury203.PowerLimit);
-									mercury203.Parameters[ParameterNamesMercury203.PowerLimitPerMonth].Value =
-										device.GetParameter(ParameterNamesMercury203.PowerLimitPerMonth);
+									//mercury203.Parameters[ParameterNamesMercury203.PowerLimitPerMonth].Value =
+									//	device.GetParameter(ParameterNamesMercury203.PowerLimitPerMonth);
 									//TODO: Сделать таблицу параметров доконца
 
 									var owner = device.Parent;
 
 									if ((owner == null) ||
-										(owner.DriverType != DriverType.IncotextNetwork))
+										(owner.DriverType != DriverType.VirtualIncotextNetwork))
 									{
 										throw new InvalidOperationException(
-											"Невозможно добавить устройтсво. Владельцем устройства не является IncotextNetwork");
+											"Невозможно добавить устройтсво. Владельцем устройства не является VirtualIncotextNetwork");
 									}
 
 									_NetworkControllers[(Guid)owner.GetParameter(ParameterNamesBase.Id)]
@@ -343,6 +343,7 @@ namespace ResursNetwork.Networks
                     {
                         e.Network.StatusChanged += EventHandler_Network_StatusChanged;
 						e.Network.ParameterChanged += EventHandler_Network_ParameterChanged;
+						e.Network.ConfigurationChanged += EventHandler_Network_ConfigurationChanged;
                         
                         foreach(var device in e.Network.Devices)
                         {
@@ -356,6 +357,7 @@ namespace ResursNetwork.Networks
                     {
                         e.Network.StatusChanged -= EventHandler_Network_StatusChanged;
 						e.Network.ParameterChanged -= EventHandler_Network_ParameterChanged;
+						e.Network.ConfigurationChanged -= EventHandler_Network_ConfigurationChanged;
 
                         foreach (var device in e.Network.Devices)
                         {
@@ -368,6 +370,46 @@ namespace ResursNetwork.Networks
                 default: { throw new NotSupportedException(); }
             }
         }
+
+		private void EventHandler_Network_ConfigurationChanged(
+			object sender, ConfigurationChangedEventArgs e)
+		{
+			switch (e.Action)
+			{
+				case ConfigurationChangedAction.DeviceAdded:
+					{
+						var device = (from n in Networks
+									  from d in n.Devices
+									  where d.Id == e.Id
+									  select d).FirstOrDefault();
+
+						if (device != null)
+						{
+							device.StatusChanged += EventHandler_Device_StatusChanged;
+							device.PropertyChanged += EventHandler_Device_PropertyChanged;
+							device.ErrorOccurred += EventHandler_Device_ErrorOccurred;
+						}
+						break; 
+					}
+				case ConfigurationChangedAction.DeviceRemoved:
+					{
+						var device = (from n in Networks
+									  from d in n.Devices
+									  where d.Id == e.Id
+									  select d).FirstOrDefault();
+
+						if (device != null)
+						{
+							device.StatusChanged -= EventHandler_Device_StatusChanged;
+							device.PropertyChanged -= EventHandler_Device_PropertyChanged;
+							device.ErrorOccurred -= EventHandler_Device_ErrorOccurred;
+						}
+						break; 
+					}
+				default:
+					{ throw new NotImplementedException(); }
+			}
+		}
 
 		private void EventHandler_Network_ParameterChanged(object sender, ParameterChangedArgs e)
 		{

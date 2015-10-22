@@ -13,6 +13,7 @@ using ResursNetwork.Incotex.NetworkControllers.Messages;
 using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer;
 using ResursNetwork.Management;
 using ResursAPI.ParameterNames;
+using ResursAPI.CommandNames;
 using Common;
 
 namespace ResursNetwork.Incotex.Models
@@ -182,7 +183,20 @@ namespace ResursNetwork.Incotex.Models
 
 		public override void ExecuteCommand(string commandName)
 		{
-			throw new NotImplementedException();
+			if (Status == Management.Status.Running)
+			{
+				switch (commandName)
+				{
+					case CommandNamesMercury203Virtual.SwitchReleOn:
+					case CommandNamesMercury203Virtual.SwitchReleOff:
+					default:
+						{
+							throw new NotSupportedException(String.Format(
+								"Попытка выполнить устройством Id={} неизвестную команду cmd={0}",
+								Id, commandName));
+						}
+				}
+			}
 		}
 
         public override void EventHandler_NetworkController_NetwrokRequestCompleted(

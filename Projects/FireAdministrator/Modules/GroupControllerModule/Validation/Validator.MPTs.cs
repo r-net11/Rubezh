@@ -18,6 +18,8 @@ namespace GKModule.Validation
 			{
 				ValidateMPTHasNoDevices(mpt);
 				ValidateMPTHasNoLogic(mpt);
+				ValidateMPTDeviceHasNoDevice(mpt);
+				ValidateMPTDeviceHasWrongDevice(mpt);
 				ValidateMPTSameDevices(mpt);
 				ValidateMPTSameDevicesAndLogic(mpt);
 				ValidateMPTDeviceParameters(mpt);
@@ -33,7 +35,7 @@ namespace GKModule.Validation
 			var deviceUIDs = new HashSet<Guid>();
 			foreach (var mpt in GKManager.DeviceConfiguration.MPTs)
 			{
-				foreach (var mptDevice in mpt.MPTDevices.Where(x => !x.Device.Driver.IsCardReaderOrCodeReader))
+				foreach (var mptDevice in mpt.MPTDevices.Where(x => x.Device != null && !x.Device.Driver.IsCardReaderOrCodeReader))
 					if (!deviceUIDs.Add(mptDevice.DeviceUID))
 						AddError(mpt, "Устройство " + mptDevice.Device.PresentationName + " входит в состав различных МПТ", ValidationErrorLevel.CannotWrite);
 			}
@@ -62,17 +64,45 @@ namespace GKModule.Validation
 		}
 
 		/// <summary>
+		/// Валидация того, что устройства МПТ содержат устройства
+		/// </summary>
+		/// <param name="mpt"></param>
+		void ValidateMPTDeviceHasNoDevice(GKMPT mpt)
+		{
+			foreach (var mptDevice in mpt.MPTDevices)
+			{
+				if (mptDevice.Device == null)
+					AddError(mpt, "Не настроено устройство МПТ", ValidationErrorLevel.CannotWrite);
+			}
+		}
+
+		/// <summary>
+		/// Валидация того, что устройства МПТ содержат устройства правильного типа
+		/// </summary>
+		/// <param name="mpt"></param>
+		void ValidateMPTDeviceHasWrongDevice(GKMPT mpt)
+		{
+			foreach (var mptDevice in mpt.MPTDevices)
+			{
+				if (mptDevice.Device != null)
+				{
+					if (!GKMPTDevice.GetAvailableMPTDriverTypes(mptDevice.MPTDeviceType).Contains(mptDevice.Device.DriverType))
+						AddError(mpt, "МПТ содержит устройство неверного типа", ValidationErrorLevel.CannotWrite);
+				}
+			}
+		}
+
+		/// <summary>
 		/// Валидация того, что устройства МПТ совпадают
-		/// Почему только контроллеры Wiegand и кодонаборники?
 		/// </summary>
 		/// <param name="mpt"></param>
 		void ValidateMPTSameDevices(GKMPT mpt)
 		{
 			var devices = new HashSet<GKDevice>();
-			foreach (var device in GetAllMPTDevices(mpt).Where(x => !x.Driver.IsCardReaderOrCodeReader))
+			foreach (var device in GetAllMPTDevices(mpt))
 			{
 				if (!devices.Add(device))
-					AddError(mpt, "Выходные устройства совпадают", ValidationErrorLevel.CannotWrite);
+					AddError(mpt, "Дублируются устройства, входящие в МПТ", ValidationErrorLevel.CannotWrite);
 			}
 		}
 
@@ -139,7 +169,8 @@ namespace GKModule.Validation
 			var result = new List<GKDevice>();
 			foreach (var mptDevice in mpt.MPTDevices)
 			{
-				result.Add(mptDevice.Device);
+				if (mptDevice.Device != null)
+					result.Add(mptDevice.Device);
 			}
 			return result;
 		}

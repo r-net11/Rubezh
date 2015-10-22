@@ -180,6 +180,7 @@ namespace UinitTestResursNetwork.NetworksManagerTests
 			Assert.AreEqual(controller.Status, testCntr.StatusChangedArgs.Status);
 
 			// Act
+			testCntr.ResetEventsFlags();
 			testCntr.Manager.SetSatus(controller.Id, false);
 
 			// Assert
@@ -187,6 +188,56 @@ namespace UinitTestResursNetwork.NetworksManagerTests
 			Assert.AreEqual(Status.Stopped, controller.Status);
 			Assert.AreEqual(controller.Id, testCntr.StatusChangedArgs.Id);
 			Assert.AreEqual(controller.Status, testCntr.StatusChangedArgs.Status);
+
+			testCntr.Manager.SetSatus(controller.Id, true);
+			Thread.Sleep(1000);
+			testCntr.Manager.SetSatus(controller.Id, false);
+			Thread.Sleep(1000);
+			testCntr.Manager.SetSatus(controller.Id, true);
+			Thread.Sleep(1000);
+			testCntr.Manager.SetSatus(controller.Id, false);
+			Thread.Sleep(1000);
+
+			// Act
+			testCntr.ResetEventsFlags();
+			testCntr.Manager.SetSatus(device.Id, true);
+
+			// Assert
+			Assert.IsTrue(testCntr.IsEventRaisedStatusChanged);
+			Assert.AreEqual(Status.Running, device.Status);
+			Assert.AreEqual(device.Id, testCntr.StatusChangedArgs.Id);
+			Assert.AreEqual(device.Status, testCntr.StatusChangedArgs.Status);
+
+			// Act
+			testCntr.ResetEventsFlags();
+			testCntr.Manager.SetSatus(device.Id, false);
+
+			// Assert
+			Assert.IsTrue(testCntr.IsEventRaisedStatusChanged);
+			Assert.AreEqual(Status.Stopped, device.Status);
+			Assert.AreEqual(device.Id, testCntr.StatusChangedArgs.Id);
+			Assert.AreEqual(device.Status, testCntr.StatusChangedArgs.Status);
+
+			// Arrange
+			device = new Mercury203Virtual
+			{
+				Address = 2
+			};
+			controller.Devices.Add(device);
+
+			// Act
+			testCntr.ResetEventsFlags();
+			testCntr.Manager.SetSatus(device.Id, true);
+
+			// Assert
+			Assert.IsTrue(testCntr.IsEventRaisedStatusChanged);
+			Assert.AreEqual(Status.Running, device.Status);
+			Assert.AreEqual(device.Id, testCntr.StatusChangedArgs.Id);
+			Assert.AreEqual(device.Status, testCntr.StatusChangedArgs.Status);
+
+			// Act
+			testCntr.Manager.RemoveDevice(device.Id);
+
 		}
 
 		/// <summary>
