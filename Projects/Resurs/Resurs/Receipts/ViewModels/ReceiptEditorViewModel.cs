@@ -1,24 +1,26 @@
-﻿using DevExpress.XtraReports.UI;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Resurs.Receipts;
 using Resurs.Reports.Templates;
 using Resurs.Views;
-using ResursAPI;
-using ResursDAL;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.ComponentModel;
 using System.Windows;
-using System.Runtime.Serialization;
-using System.Text;
 
 namespace Resurs.ViewModels
 {
 	public class ReceiptEditorViewModel : BaseViewModel
 	{
+		string SaveQuestion
+		{
+			get
+			{
+				var saveMessage = SelectedReceipt != null ? string.Format("Не сохранены изменения в шаблоне \"{0}\".\nСохранить изменения?", SelectedReceipt.Name) : string.Empty;
+				return saveMessage;
+			}
+		}
 		bool isNewReceipt;
 		bool isSaved;
 		bool IsShowNotSavedMessage
@@ -32,12 +34,15 @@ namespace Resurs.ViewModels
 					|| SelectedReceipt.Name != Name;
 			}
 		}
+		public static CancelEventHandler CancelEventHandler { get; private set; }
+
 		public ReceiptEditorViewModel()
 		{
 			AddReceiptCommand = new RelayCommand(OnAddReceipt, CanAddReceipt);
 			DeleteReceiptCommand = new RelayCommand(OnDeleteReceipt, CanDeleteReceipt);
 			SaveReceiptCommand = new RelayCommand(OnSaveReceipt, CanSaveReceipt);
 
+			CancelEventHandler = Save;
 			Receipts = ReceiptHelper.GetEditableTemplates();
 		}
 		string _name;
@@ -51,7 +56,7 @@ namespace Resurs.ViewModels
 			}
 		}
 		List<ReceiptTemplate> _receipts;
-		public List<ReceiptTemplate> Receipts 
+		public List<ReceiptTemplate> Receipts
 		{
 			get { return _receipts; }
 			set
@@ -68,7 +73,7 @@ namespace Resurs.ViewModels
 			{
 				if (IsShowNotSavedMessage)
 				{
-					var messageBoxResult = MessageBoxService.ShowQuestionExtended(string.Format("Не сохранены изменения в шаблоне \"{0}\".\nСохранить изменения?", SelectedReceipt.Name));
+					var messageBoxResult = MessageBoxService.ShowQuestionExtended(SaveQuestion);
 					switch (messageBoxResult)
 					{
 						case MessageBoxResult.Yes:
@@ -87,7 +92,7 @@ namespace Resurs.ViewModels
 							}
 							break;
 						case MessageBoxResult.Cancel:
-							value = _selectedReceipt; 
+							value = _selectedReceipt;
 							break;
 					}
 				}
@@ -164,6 +169,13 @@ namespace Resurs.ViewModels
 			var newReceipts = new List<ReceiptTemplate>();
 			newReceipts.AddRange(receipts);
 			return newReceipts;
+		}
+		void Save(object sender, CancelEventArgs e)
+		{
+			if (IsShowNotSavedMessage && MessageBoxService.ShowQuestion(SaveQuestion))
+			{
+				SaveReceiptCommand.Execute();
+			}
 		}
 	}
 }

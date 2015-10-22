@@ -51,6 +51,9 @@
 			<TabItem Header="Отчеты" DataContext="{Binding ReportsViewModel}" Visibility="{Binding IsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:ReportsView />
 			</TabItem>
+			<TabItem Header="Квитанции" DataContext="{Binding ReceiptEditorViewModel}">
+				<Views:ReceiptEditorView />
+			</TabItem>
 			<TabItem Header="Журнал Событий"  DataContext="{Binding JournalEventsViewModel}" Visibility="{Binding IsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:JournalEventsView Visibility="{Binding IsVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</TabItem>
@@ -60,9 +63,7 @@
 			<TabItem Header="Настройки" DataContext="{Binding SettingsViewModel}">
 				<Views:SettingsView />
 			</TabItem>
-			<TabItem Header="Квитанции" DataContext="{Binding ReceiptEditorViewModel}">
-				<Views:ReceiptEditorView />
-			</TabItem>
+			
 		</TabControl>
 	</Grid>
 </Window>

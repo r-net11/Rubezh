@@ -31,8 +31,7 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>	
 				<ToolBarButton Command="{Binding ChangeFilterCommand}" ImageSource="Filter" ToolTip="Задать фильтр" />
-				<ToolBarButton Command="{Binding ShowPreviewReportCommand}" ImageSource="Refresh" ToolTip="Показать отчет" />
-				<ToolBarButton Command="{Binding OpenReportDesignerCommand}" ImageSource="Edit" ToolTip="Открыть дизайнер отчетов" />
+				<ToolBarButton Command="{Binding RefreshPreviewReportCommand}" ImageSource="Refresh" ToolTip="Показать отчет" />
 				<ToolBarButton Command="{Binding Model.FirstPageCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" ImageSource="leftLeft"  ToolTip="Начальная страница" />
 				<ToolBarButton Command="{Binding Model.PreviousPageCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" ImageSource="left"  ToolTip="Предыдущая страница" />
 				<TextBox x:Name="currentPage" ContextMenu="{x:Null}"  Height="30" MinWidth="25" MinHeight="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontSize="20" MaxWidth="120" 

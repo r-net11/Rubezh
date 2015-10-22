@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using Infrastructure.Common.Windows;
 using Resurs.Service;
 using ResursDAL;
+using Resurs.ViewModels;
 
 namespace Resurs.Views
 {
@@ -11,6 +12,7 @@ namespace Resurs.Views
 	{
 		public MainView()
 		{
+			this.Closing += ReceiptEditorViewModel.CancelEventHandler;
 			InitializeComponent();
 			NotifyIconService.Start(OnShow, OnClose);
 		}

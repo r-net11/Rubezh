@@ -11,13 +11,14 @@ namespace Resurs.ViewModels
 {
 	public class ReportsViewModel : BaseViewModel
 	{		
-		public ReportFilterViewModel ReportFilterViewModel { get; set; }
+		public ReportFilterViewModel ReportFilterViewModel { get; private set; }
+		public ChangeFlowFilterViewModel SavedChangedFlowFilterViewModel { get; private set; }
+		public DebtorsFilterViewModel SavedDebtorsFilterViewModel { get; private set; }
 		public static ReportFilter Filter { get; set; }
 		public ReportsViewModel()
 		{
 			ChangeFilterCommand = new RelayCommand(OnChangeFilter, CanChangeFilter);
-			OpenReportDesignerCommand = new RelayCommand(OnOpenReportDesigner, CanOpenReportDesigner);
-			ShowPreviewReportCommand = new RelayCommand(OnShowPreviewReport, CanShowPreviewReport);
+			RefreshPreviewReportCommand = new RelayCommand(OnRefreshPreviewReport, CanRefreshPreviewReport);
 			FitPageSizeCommand = new RelayCommand<ZoomFitMode>(OnFitPageSize, CanFitPageSize);
 
 			ReportTypes = new List<ReportType>(Enum.GetValues(typeof(ReportType)).Cast<ReportType>());
@@ -34,23 +35,51 @@ namespace Resurs.ViewModels
 		}
 		public List<ReportType> ReportTypes { get; private set; }
 		ReportType? _selectedReportType;
- 		public ReportType? SelectedReportType
+		public ReportType? SelectedReportType
 		{
-			get { return _selectedReportType;}
+			get { return _selectedReportType; }
 			set
 			{
-				_selectedReportType = value;
 				switch (_selectedReportType)
 				{
 					case ReportType.ChangeFlow:
-						ReportFilterViewModel = new ChangeFlowFilterViewModel();
+					case ReportType.ChangeValue:
+						SavedChangedFlowFilterViewModel = (ChangeFlowFilterViewModel)ReportFilterViewModel;
 						break;
 					case ReportType.Debtors:
-						ReportFilterViewModel = new DebtorsFilterViewModel();
+						SavedDebtorsFilterViewModel = (DebtorsFilterViewModel)ReportFilterViewModel;
 						break;
-				}						
-				Filter = ReportFilterViewModel.Filter;
-				ShowPreviewReportCommand.Execute();
+				}
+
+				_selectedReportType = value;
+
+				switch (_selectedReportType)
+				{
+					case ReportType.ChangeFlow:
+						if (SavedChangedFlowFilterViewModel != null)
+						{
+							SavedChangedFlowFilterViewModel.IsNotShowCounters = false;
+							ReportFilterViewModel = SavedChangedFlowFilterViewModel;
+						}
+						else
+							ReportFilterViewModel = new ChangeFlowFilterViewModel { IsNotShowCounters = false };
+						break;
+					case ReportType.Debtors:
+						ReportFilterViewModel = SavedDebtorsFilterViewModel ?? new DebtorsFilterViewModel();
+						break;
+					case ReportType.ChangeValue:
+						if (SavedChangedFlowFilterViewModel != null)
+						{
+							SavedChangedFlowFilterViewModel.IsNotShowCounters = true;
+							ReportFilterViewModel = SavedChangedFlowFilterViewModel;
+						}
+						else
+							ReportFilterViewModel = new ChangeFlowFilterViewModel { IsNotShowCounters = true };
+						break;
+				}
+
+				Filter = ReportFilterViewModel != null ? ReportFilterViewModel.Filter : null;
+				RefreshPreviewReportCommand.Execute();
 				OnPropertyChanged(() => SelectedReportType);
 			}
 		}
@@ -65,24 +94,14 @@ namespace Resurs.ViewModels
 		}
 		bool CanChangeFilter()
 		{
-			return SelectedReportType != null && SelectedReportType != ReportType.Receipts && SelectedReportType != ReportType.ChangeValue;
-		}
-		public RelayCommand OpenReportDesignerCommand { get; private set; }
-		void OnOpenReportDesigner()
-		{
-			var reportDesignerViewModel = new ReportDesignerViewModel((XtraReport)Model.Report);
-			Infrastructure.Common.Windows.DialogService.ShowModalWindow(reportDesignerViewModel);
-		}
-		bool CanOpenReportDesigner()
-		{
 			return SelectedReportType != null;
 		}
-		public RelayCommand ShowPreviewReportCommand { get; private set; }
-		void OnShowPreviewReport()
+		public RelayCommand RefreshPreviewReportCommand { get; private set; }
+		void OnRefreshPreviewReport()
 		{
 			BuildReport();
 		}
-		bool CanShowPreviewReport()
+		bool CanRefreshPreviewReport()
 		{
 			return SelectedReportType != null;
 		}
