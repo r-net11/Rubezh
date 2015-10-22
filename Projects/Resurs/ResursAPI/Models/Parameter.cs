@@ -150,7 +150,24 @@ namespace ResursAPI
 				{
 					case ParameterType.Enum:
 						if (IntValue != null)
-							return IntValue.Value;
+						{
+							switch (DriverParameter.IntType)
+							{
+								case IntType.Int:
+									return IntValue.Value;
+								case IntType.Int16:
+									return Convert.ToInt16(IntValue.Value);
+								case IntType.Int32:
+									return Convert.ToInt32(IntValue.Value);
+								case IntType.UInt32:
+									return Convert.ToUInt32(IntValue.Value);
+								case IntType.UInt16:
+									return Convert.ToUInt16(IntValue.Value);
+								default:
+									break;
+							}
+
+						}
 						break;
 					case ParameterType.String:
 						return new ParameterStringContainer 
@@ -160,7 +177,23 @@ namespace ResursAPI
 						};
 					case ParameterType.Int:
 						if (IntValue != null)
-							return IntValue.Value;
+						{
+							switch (DriverParameter.IntType)
+							{
+								case IntType.Int:
+									return IntValue.Value;
+								case IntType.Int16:
+									return Convert.ToInt16(IntValue.Value);
+								case IntType.Int32:
+									return Convert.ToInt32(IntValue.Value);
+								case IntType.UInt32:
+									return Convert.ToUInt32(IntValue.Value);
+								case IntType.UInt16:
+									return Convert.ToUInt16(IntValue.Value);
+								default:
+									break;
+							}
+						}
 						break;
 					case ParameterType.Double:
 						if (DoubleValue != null)

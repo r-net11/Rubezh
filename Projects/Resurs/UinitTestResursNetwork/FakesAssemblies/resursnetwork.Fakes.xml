@@ -1876,8 +1876,8 @@
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.SyncDateTimeGuid">
             <summary>Sets the shim of NetworksManager.SyncDateTime(Guid networkId)</summary>
         </member>
-        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager._SetSatusb__aINetwrokController">
-            <summary>Sets the shim of NetworksManager.&lt;SetSatus&gt;b__a(INetwrokController n)</summary>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager._SetSatusb__cINetwrokController">
+            <summary>Sets the shim of NetworksManager.&lt;SetSatus&gt;b__c(INetwrokController n)</summary>
         </member>
         <member name="T:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances">
             <summary>Define shims for all instances members</summary>

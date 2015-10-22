@@ -19,6 +19,7 @@ namespace ResursAPI
 			EnumDefaultItem = 0;
 			IsWriteToDevice = true;
 			CanWriteInActive = true;
+			IntType = IntType.Int;
 		}
 		public Guid UID { get; set; }
 		public string Name { get; set; }
@@ -43,5 +44,16 @@ namespace ResursAPI
 		public string StringDefaultValue { get; set; }
 		public string RegEx { get; set; }
 		public int EnumDefaultItem { get; set; }
+		public IntType IntType { get; set; }
+	}
+
+
+	public enum IntType
+	{
+		Int,
+		Int16,
+		Int32,
+		UInt32,
+		UInt16
 	}
 }

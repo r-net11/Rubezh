@@ -116,22 +116,22 @@ namespace Resurs.ViewModels
 			var startDate = nowDate.AddDays(-7);
 			foreach (var counter in counters)
 			{
-				double val0 = 0;
-				double val1 = 0;
-				double val2 = 0;
-				double val3 = 0;
+				float val0 = 0;
+				float val1 = 0;
+				float val2 = 0;
+				float val3 = 0;
 				var random = new Random();
 				for (int i = 0; i < 7; i++)
 				{
 					var date = startDate.AddDays(i);
-					val0 += random.NextDouble() * 10;
-					val1 += random.NextDouble() * 10;
-					val2 += random.NextDouble() * 10;
-					val3 += random.NextDouble() * 10;
-					measures.Add(DBCash.CreateMeasure(counter.UID, 0, val0, date));
-					measures.Add(DBCash.CreateMeasure(counter.UID, 1, val1, date));
-					measures.Add(DBCash.CreateMeasure(counter.UID, 2, val2, date));
-					measures.Add(DBCash.CreateMeasure(counter.UID, 3, val3, date));
+					val0 += (float)(random.NextDouble() * 10);
+					val1 += (float)(random.NextDouble() * 10);
+					val2 += (float)(random.NextDouble() * 10);
+					val3 += (float)(random.NextDouble() * 10);
+					measures.Add(DBCash.CreateMeasure(counter.UID, 0, val0, val0, date));
+					measures.Add(DBCash.CreateMeasure(counter.UID, 1, val1, val1, date));
+					measures.Add(DBCash.CreateMeasure(counter.UID, 2, val2, val2, date));
+					measures.Add(DBCash.CreateMeasure(counter.UID, 3, val3, val3, date));
 				} 
 			}
 			DBCash.AddRangeMeasures(measures);

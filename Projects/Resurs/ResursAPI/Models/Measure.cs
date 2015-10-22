@@ -17,9 +17,15 @@ namespace ResursAPI
 		[Key]
 		public Guid UID { get; set; }
 		public Guid DeviceUID { get; set; }
-		public Guid TariffUID { get; set; }
 		public int TariffPartNo { get; set; }
-		public double Value { get; set; }
+		/// <summary>
+		/// Количество потреблённого ресурса в единицах ресурса
+		/// </summary>
+		public float Value { get; set; }
+		/// <summary>
+		/// Количество потреблённого ресурса в деньгах, NULL, если тариф не указан
+		/// </summary>
+		public double? MoneyValue { get; set; }
 		public DateTime DateTime { get; set; }
 	}
 }
