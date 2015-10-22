@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using GKModule.Validation;
-using Infrastructure.Common.Validation;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhClient;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace GKProcessor.Test
 {
-	[TestClass]
-	public partial class ValidationTest
+	public class GKManagerTest
 	{
 		GKDevice gkDevice1;
 		GKDevice kauDevice11;
@@ -44,10 +44,10 @@ namespace GKProcessor.Test
 			return GKManager.AddChild(device.Children[1], null, GKManager.Drivers.FirstOrDefault(x => x.DriverType == driverType), 0);
 		}
 
-		List<IValidationError> Validate()
+		//[TestMethod]
+		public void RemoveDeviceTest()
 		{
-			var validator = new Validator();
-			return validator.Validate();
+			var enterDevice = AddDevice(kauDevice11, GKDriverType.RSR2_RM_1);
 		}
 	}
 }

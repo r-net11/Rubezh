@@ -231,7 +231,7 @@ namespace ResursDAL
 						item.Description,
 						item.ParentUID.ToSqlStr(),
 						item.TariffUID.ToSqlStr(),
-						item.BillUID.ToSqlStr(),
+						item.ConsumerUID.ToSqlStr(),
 						item.DriverUID,
 						item.Address,
 						item.IsActive,
@@ -336,7 +336,7 @@ namespace ResursDAL
 					var device = context.Devices
 						.Include(x => x.Parent)
 						.Include(x => x.Parameters)
-						.Include(x => x.Bill)
+						.Include(x => x.Consumer)
 						.Include(x => x.Tariff)
 						.Include(x => x.Tariff.TariffParts)
 						.FirstOrDefault(x => x.UID == uid);
@@ -419,8 +419,8 @@ namespace ResursDAL
 		static void CopyDevice(Device device, Device tableDevice, DatabaseContext context)
 		{
 			tableDevice.Address = device.Address;
-			tableDevice.BillUID = device.BillUID;
-			tableDevice.Bill = device.Bill != null ? context.Bills.FirstOrDefault(x => x.UID == device.Bill.UID) : null;
+			tableDevice.ConsumerUID = device.ConsumerUID;
+			tableDevice.Consumer = device.Consumer != null ? context.Consumers.FirstOrDefault(x => x.UID == device.Consumer.UID) : null;
 			tableDevice.Name = device.Name;
 			tableDevice.Description = device.Description;
 			tableDevice.IsActive = device.IsActive;

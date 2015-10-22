@@ -75,24 +75,24 @@ namespace Resurs.Receipts
 			var filePath = Path.Combine(DirectoryPath, receipt.Uid.ToString());
 			if (File.Exists(filePath))
 				File.Delete(filePath);
-			DBCash.DeleteReceiptByUid(receipt.Uid);
+			//DBCash.DeleteReceiptByUid(receipt.Uid);
 		}
 		public static ReceiptTemplate GetTemplateByUid(Guid receiptUid)
 		{
-			var filePath = Path.Combine(DirectoryPath, receiptUid.ToString());
-			var receipt = DBCash.GetReceiptByUid(receiptUid);
-			if (receipt != null)
-			{
-				if (!File.Exists(filePath))
-				{
-					File.WriteAllBytes(filePath, receipt.Template);
-				}
-				var template = (ReceiptTemplate)XtraReport.FromFile(filePath, true);
-				template.Name = receipt.Name;
-				template.Uid = receipt.UID;
-				template.Description = receipt.Description;
-				return template;
-			}
+			//var filePath = Path.Combine(DirectoryPath, receiptUid.ToString());
+			//var receipt = DBCash.GetReceiptByUid(receiptUid);
+			//if (receipt != null)
+			//{
+			//	if (!File.Exists(filePath))
+			//	{
+			//		File.WriteAllBytes(filePath, receipt.Template);
+			//	}
+			//	var template = (ReceiptTemplate)XtraReport.FromFile(filePath, true);
+			//	template.Name = receipt.Name;
+			//	template.Uid = receipt.UID;
+			//	template.Description = receipt.Description;
+			//	return template;
+			//}
 			return null;
 		}
 	}

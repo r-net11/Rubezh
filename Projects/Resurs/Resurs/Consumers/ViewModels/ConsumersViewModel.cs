@@ -83,14 +83,9 @@ namespace Resurs.ViewModels
 			}
 		}
 
-		public BillViewModel FindBillViewModel(Guid billUid)
+		public ConsumerDetailsViewModel FindConsumerDetailsViewModel(Guid consumerUID)
 		{
-			foreach (var consumer in AllConsumers)
-				if (consumer.GetConsumerDetails() != null && consumer.GetConsumerDetails().BillsViewModel != null)
-					foreach (var bill in consumer.GetConsumerDetails().BillsViewModel.Bills)
-						if (bill.Uid == billUid)
-							return bill;
-			return null;
+			return AllConsumers.Where(x => x.Consumer.UID == consumerUID).Select(x => x.GetConsumerDetails()).FirstOrDefault();
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -99,7 +94,6 @@ namespace Resurs.ViewModels
 			var consumerDetailsViewModel = new ConsumerDetailsViewModel(new Consumer 
 			{ 
 				ParentUID = SelectedConsumer.Consumer.IsFolder ? SelectedConsumer.Consumer.UID : SelectedConsumer.Consumer.ParentUID,
-				Bills = new List<Bill> { new Bill() }
 			}, false, true);
 			if (DialogService.ShowModalWindow(consumerDetailsViewModel))
 			{
@@ -196,14 +190,14 @@ namespace Resurs.ViewModels
 		public RelayCommand ChangeParentCommand { get; private set; }
 		void OnChangeParent()
 		{
-			var consumerChangeParentViewModel = new ConsumerChangeParentViewModel(SelectedConsumer.Consumer.UID);
-			if (DialogService.ShowModalWindow(consumerChangeParentViewModel) && consumerChangeParentViewModel.SelectedConsumer != null)
+			var selectConsumerViewModel = new SelectConsumerViewModel("Выбор группы для перемещения", SelectedConsumer.Consumer.UID, true);
+			if (DialogService.ShowModalWindow(selectConsumerViewModel) && selectConsumerViewModel.SelectedConsumer != null)
 			{
-				var parentConsumerViewModel = AllConsumers.FirstOrDefault(x => x.Consumer.UID == consumerChangeParentViewModel.SelectedConsumer.Consumer.UID);
+				var parentConsumerViewModel = AllConsumers.FirstOrDefault(x => x.Consumer.UID == selectConsumerViewModel.SelectedConsumer.Consumer.UID);
 				if (parentConsumerViewModel != null)
 				{
 					SelectedConsumer.Consumer = DBCash.GetConsumer(SelectedConsumer.Consumer.UID);
-					SelectedConsumer.Consumer.ParentUID = consumerChangeParentViewModel.SelectedConsumer.Consumer.UID;
+					SelectedConsumer.Consumer.ParentUID = selectConsumerViewModel.SelectedConsumer.Consumer.UID;
 
 					DBCash.SaveConsumer(SelectedConsumer.Consumer);
 
