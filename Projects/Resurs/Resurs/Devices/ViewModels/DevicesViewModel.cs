@@ -46,6 +46,9 @@ namespace Resurs.ViewModels
 
 			DeviceProcessor.Instance.IsActiveChanged -= OnIsActiveChanged;
 			DeviceProcessor.Instance.IsActiveChanged += OnIsActiveChanged;
+
+			DeviceProcessor.Instance.ErrorsChanged -= OnErrorsChanged;
+			DeviceProcessor.Instance.ErrorsChanged += OnErrorsChanged;
 		}
 
 		DeviceViewModel _selectedDevice;
@@ -283,6 +286,16 @@ namespace Resurs.ViewModels
 			{
 				SelectedDevice.Device.IsActive = args.IsActive;
 				DBCash.SaveDevice(SelectedDevice.Device);
+				SelectedDevice.Update();
+			}
+		}
+
+		void OnErrorsChanged(object sender, ErrorsChangedEventArgs args)
+		{
+			var device = RootDevice.GetAllChildren().FirstOrDefault(x => x.Device.UID == args.DeviceUID);
+			if (device != null)
+			{
+				device.Errors = args.Errors;
 				SelectedDevice.Update();
 			}
 		}
