@@ -35,9 +35,14 @@ namespace Resurs.Processor
 		public DeviceProcessor()
 		{
 			_networksManager = ResursNetwork.Networks.NetworksManager.Instance;
+			_networksManager.StatusChanged -= OnNetworksManagerStatusChanged;
 			_networksManager.StatusChanged += OnNetworksManagerStatusChanged;
+			_networksManager.ParameterChanged -= OnNetworksManagerParameterChanged;
 			_networksManager.ParameterChanged += OnNetworksManagerParameterChanged;
+			_networksManager.DeviceHasError -= OnNetworksManagerDeviceHasError;
+			_networksManager.DeviceHasError += OnNetworksManagerDeviceHasError;
 		}
+
 		public void Start()
 		{
 			if (RunThread == null)
@@ -149,15 +154,25 @@ namespace Resurs.Processor
 
 		public bool SendCommand(Guid guid, string p)
 		{
-			return true;
+			try
+			{
+				_networksManager.SendCommand(guid, p);
+				return true;
+			}
+			catch(Exception e)
+			{
+				MessageBoxService.Show(e.Message);
+				return false;
+			}
 		}
 
+		#region EventHandlers
 		public void OnNetworksManagerParameterChanged(object sender, ParameterChangedArgs args)
 		{
 			var device = DBCash.Devices.FirstOrDefault(x => x.UID == args.DeviceId);
 			switch (args.ParameterName)
 			{
-				case(ResursAPI.ParameterNames.ParameterNamesBase.CounterTarif1):
+				case (ResursAPI.ParameterNames.ParameterNamesBase.CounterTarif1):
 					DBCash.AddMeasure(CreateMeasure(device, args, 0));
 					break;
 				case (ResursAPI.ParameterNames.ParameterNamesBase.CounterTarif2):
@@ -197,15 +212,24 @@ namespace Resurs.Processor
 			}
 		}
 
-		public event EventHandler<IsActiveChangedEventArgs> IsActiveChanged;
+		void OnNetworksManagerDeviceHasError(object sender, ResursNetwork.OSI.ApplicationLayer.Devices.ErrorOccuredEventArgs args)
+		{
+			var handler = ErrorsChanged;
+
+			if (handler != null)
+			{
+				var isActiveChangedEventArgs = new ErrorsChangedEventArgs(args);
+				handler(this, isActiveChangedEventArgs);
+			}
+		}
 
 		Measure CreateMeasure(Device device, ParameterChangedArgs args, int tariffPartNo)
 		{
 			//TODO
 			//Probably need to store discounted value separate from main
 			float currentValue = Convert.ToSingle(args.NewValue);
-			float previousValue = DBCash.GetLastMeasure(device.UID).Value;
-			float split = currentValue - previousValue;
+			//float previousValue = DBCash.GetLastMeasure(device.UID).Value;
+			float split = currentValue;// -previousValue;
 			float thresholdOverflow = 0;
 
 			double? moneyValue = null;
@@ -243,6 +267,12 @@ namespace Resurs.Processor
 				Split = split,
 			};
 		}
+		#endregion
+
+		#region Events
+		public event EventHandler<IsActiveChangedEventArgs> IsActiveChanged;
+		public event EventHandler<ErrorsChangedEventArgs> ErrorsChanged;
+		#endregion
 	}
 
 	public class IsActiveChangedEventArgs : EventArgs
@@ -256,6 +286,29 @@ namespace Resurs.Processor
 		{
 			DeviceUID = args.Id;
 			IsActive = args.Status == ResursNetwork.Management.Status.Running;
+		}
+	}
+
+	public class ErrorsChangedEventArgs : EventArgs
+	{
+		public Guid DeviceUID { get; set; }
+		public List<DeviceError> Errors { get; set; }
+
+		public ErrorsChangedEventArgs() 
+		{ 
+			Errors = new List<DeviceError>(); 
+		}
+
+		public ErrorsChangedEventArgs(ResursNetwork.OSI.ApplicationLayer.Devices.ErrorOccuredEventArgs args)
+			: this()
+		{
+			DeviceUID = args.Id;
+			if (args.Errors.CommunicationError)
+				Errors.Add(DeviceError.CommunicationError);
+			if (args.Errors.ConfigurationError)
+				Errors.Add(DeviceError.ConfigurationError);
+			if (args.Errors.RTCError)
+				Errors.Add(DeviceError.RTCError);
 		}
 	}
 }

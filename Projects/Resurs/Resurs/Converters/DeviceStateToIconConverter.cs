@@ -17,9 +17,9 @@ namespace Resurs.Converters
 				case DeviceState.ConnectionLost:
 					return "/Controls;component/StateClassIcons/ConnectionLost.png";
 				case DeviceState.Disabled:
-					return "/Controls;component/StateClassIcons/Unknown.png";
+					return "/Controls;component/StateClassIcons/TechnologicalRegime.png";
 				case DeviceState.Error:
-					return "/Controls;component/StateClassIcons/Manual.png";
+					return "/Controls;component/StateClassIcons/Failure.png";
 				case DeviceState.Norm:
 					return "/Controls;component/Images/Blank.png";
 			}

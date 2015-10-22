@@ -78,7 +78,22 @@
 		</tree:TreeList>
 		<GridSplitter Grid.Row="1" Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
 		<Grid Grid.Row="1" Grid.Column="2" DataContext="{Binding SelectedDevice}" >
-			<ListView ItemsSource="{Binding Parameters, Mode=OneWay}">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			<ItemsControl Grid.Row="0" ItemsSource="{Binding Errors}" Margin="2">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<Image Width="16" Source="/Controls;component/StateClassIcons/Failure.png" VerticalAlignment="Center" Margin="2" />
+							<TextBlock Margin="2" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" 
+									   Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+						</StackPanel>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+			<ListView Grid.Row="1" ItemsSource="{Binding Parameters, Mode=OneWay}">
 				<ListView.View>
 					<GridView>
 						<GridViewColumn Header="Параметр" DisplayMemberBinding="{Binding Name}" />
