@@ -81,7 +81,6 @@
     <Compile Include="User\PermissionType.cs" />
     <Compile Include="User\User.cs" />
     <Compile Include="Models\Consumer.cs" />
-    <Compile Include="Models\Bill.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\Measure.cs" />
     <Compile Include="Models\Parameter.cs" />

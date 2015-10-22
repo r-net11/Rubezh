@@ -87,8 +87,8 @@ namespace ResursAPI
 		public List<Parameter> Parameters { get; set; }
 		public Guid? TariffUID { get; set; }
 		public Tariff Tariff { get; set; }
-		public Guid? BillUID { get; set; }
-		public Bill Bill { get; set; }
+		public Guid? ConsumerUID { get; set; }
+		public Consumer Consumer { get; set; }
 		public Guid DriverUID { get; set; }
 		public DriverType DriverType { get { return Driver.DriverType; } }
 		public int Address { get; set; }

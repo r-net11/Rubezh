@@ -54,7 +54,7 @@ namespace Resurs.ViewModels
 			OnPropertyChanged(() => Device);
 			Parameters = new List<ParameterViewModel>(Device.Parameters.Select(x => new ParameterViewModel(x)));
 			OnPropertyChanged(() => Parameters);
-			IsActive = device.IsActive || device.Parent == null;
+			IsActive = device.IsActive || device.ParentUID == null;
 			if (IsActive)
 				State = DeviceState.Norm;
 			else

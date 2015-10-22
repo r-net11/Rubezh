@@ -82,8 +82,6 @@ namespace FiresecService
 				}
 			}
 			FiresecService.Service.FiresecService.NotifyGKObjectStateChanged(gkCallbackResult);
-
-			AutomationProcessor.RunOnStateChanged();
 		}
 
 		static void ProcessPassJournal(JournalItem journalItem)
