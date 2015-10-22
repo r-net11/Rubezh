@@ -89,16 +89,16 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		private int _doorNo;
-		public int DoorNo
+		private int _channel;
+		public int Channel
 		{
-			get { return _doorNo; }
+			get { return _channel; }
 			set
 			{
-				if (_doorNo == value)
+				if (_channel == value)
 					return;
-				_doorNo = value;
-				OnPropertyChanged(() => DoorNo);
+				_channel = value;
+				OnPropertyChanged(() => Channel);
 			}
 		}
 
@@ -123,7 +123,7 @@ namespace ControllerSDK.ViewModels
 			LogType = alarmLogItem.LogType;
 			LogMessage = alarmLogItem.LogMessage;
 			CardId = alarmLogItem.CardId;
-			DoorNo = alarmLogItem.DoorNo;
+			Channel = alarmLogItem.Channel;
 			AlarmType = alarmLogItem.AlarmType;
 		}
 
@@ -166,7 +166,7 @@ namespace ControllerSDK.ViewModels
 				LogType = LogType,
 				LogMessage = LogMessage,
 				CardId = CardId,
-				DoorNo = DoorNo,
+				Channel = Channel,
 				AlarmType = AlarmType
 			});
 

@@ -97,7 +97,7 @@ namespace ChinaSKDDriver
 
 			var alarmLogMessage = JsonConvert.DeserializeObject<AlarmLogMessage>(logItem.LogMessage);
 			logItem.AlarmType = alarmLogMessage.AlarmType;
-			logItem.DoorNo = alarmLogMessage.Channel;
+			logItem.Channel = alarmLogMessage.Channel;
 			logItem.CardId = alarmLogMessage.CardId;
 			logItem.LogNo = Convert.ToInt32(alarmLogMessage.LogNo);
 
@@ -116,25 +116,32 @@ namespace ChinaSKDDriver
 			{
 				case AlarmType.BreakIn:
 					journalItem.JournalEventNameType = JournalEventNameType.Взлом;
+					journalItem.DoorNo = alarmLogItem.Channel;
 					break;
 				case AlarmType.Duress:
 					journalItem.JournalEventNameType = JournalEventNameType.Принуждение;
+					journalItem.DoorNo = alarmLogItem.Channel;
 					break;
 				case AlarmType.AlarmLocal:
 					journalItem.JournalEventNameType = JournalEventNameType.Местная_тревога;
+					journalItem.DoorNo = alarmLogItem.Channel;
 					break;
 				case AlarmType.DoorNotClose:
+				{
 					journalItem.JournalEventNameType = JournalEventNameType.Дверь_не_закрыта;
+					journalItem.DoorNo = alarmLogItem.Channel;
 					break;
+				}
 				case AlarmType.ReaderChassisIntruded:
 					journalItem.JournalEventNameType = JournalEventNameType.Вскрытие_контроллера;
+					journalItem.szReaderID = (alarmLogItem.Channel + 1).ToString();
 					break;
 				case AlarmType.Repeatenter:
 					journalItem.JournalEventNameType = JournalEventNameType.Повторный_проход;
+					journalItem.DoorNo = alarmLogItem.Channel;
 					break;
 			}
 			journalItem.CardNo = alarmLogItem.CardId;
-			journalItem.DoorNo = alarmLogItem.DoorNo;
 
 			return journalItem;
 		}
