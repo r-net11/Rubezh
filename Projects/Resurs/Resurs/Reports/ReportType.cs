@@ -10,8 +10,8 @@ namespace Resurs.Reports
 		[Description("Данные по должникам")]
 		Debtors,
 
-		[Description("Отчет по квитанциям")]
-		Receipts,
+		//[Description("Отчет по квитанциям")]
+		//Receipts,
 
 		[Description("Изменение расхода счетчиков")]
 		ChangeValue

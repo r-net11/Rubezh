@@ -40,12 +40,12 @@
 				<File Id="Server.EntityFramework.dll" Name="EntityFramework.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.EntityFramework.SqlServer.dll" Name="EntityFramework.SqlServer.dll" Source="$(var.Server.TargetDir)" />
 
-				<File Id="Server.DevExpress.Data.v14.1.dll" Name="DevExpress.Data.v14.1.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.DevExpress.Printing.v14.1.Core.dll" Name="DevExpress.Printing.v14.1.Core.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.DevExpress.Xpf.Printing.v14.1.Service.dll" Name="DevExpress.Xpf.Printing.v14.1.Service.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.DevExpress.XtraReports.v14.1.dll" Name="DevExpress.XtraReports.v14.1.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.DevExpress.XtraReports.v14.1.Service.dll" Name="DevExpress.XtraReports.v14.1.Service.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.DevExpress.Xpo.v14.1.dll" Name="DevExpress.Xpo.v14.1.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.DevExpress.Data.v15.1.dll"										Name="DevExpress.Data.v15.1.dll" Source="$(var.Server.DevExpress.TargetDir)" />
+				<File Id="Server.DevExpress.Printing.v15.1.Core.dll"					Name="DevExpress.Printing.v15.1.Core.dll" Source="$(var.Server.DevExpress.TargetDir)" />
+				<File Id="Server.DevExpress.Xpf.Printing.v15.1.Service.dll"		Name="DevExpress.Xpf.Printing.v15.1.Service.dll" Source="$(var.Server.DevExpress.TargetDir)" />
+				<File Id="Server.DevExpress.XtraReports.v15.1.dll"						Name="DevExpress.XtraReports.v15.1.dll" Source="$(var.Server.DevExpress.TargetDir)" />
+				<File Id="Server.DevExpress.XtraReports.v15.1.Service.dll"		Name="DevExpress.XtraReports.v15.1.Service.dll" Source="$(var.Server.DevExpress.TargetDir)" />
+				<File Id="Server.DevExpress.Xpo.v15.1.dll"										Name="DevExpress.Xpo.v15.1.dll" Source="$(var.Server.DevExpress.TargetDir)" />
 
 				<File Id="Server.Npgsql.dll" Name="Npgsql.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Npgsql.EntityFramework.dll" Name="Npgsql.EntityFramework.dll" Source="$(var.Server.TargetDir)" />

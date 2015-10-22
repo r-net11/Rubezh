@@ -1,6 +1,6 @@
 ﻿namespace Resurs.ViewModels
 {
-	class DebtorsFilterViewModel : ReportFilterViewModel
+	public class DebtorsFilterViewModel : ReportFilterViewModel
 	{
 		double _minDebt;
 		public double MinDebt

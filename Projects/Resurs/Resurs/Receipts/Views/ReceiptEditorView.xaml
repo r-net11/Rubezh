@@ -146,7 +146,7 @@
 				<ToolBarButton Command="{Binding SaveReceiptCommand}" ImageSource="Save" ToolTip="Сохранить изменения" />
 				<StackPanel Orientation="Horizontal">
 					<TextBlock Text="Назавние шаблона" Foreground="{DynamicResource ForegroundColorWhite}" Margin="20 10 0 0" />
-					<TextBox Text="{Binding Name}" Width="120" Margin="7" HorizontalAlignment="Center" MaxLines="1" />
+					<TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="120" Margin="7" HorizontalAlignment="Center" MaxLines="1" />
 				</StackPanel>
 			</StackPanel>
 		</Grid>
