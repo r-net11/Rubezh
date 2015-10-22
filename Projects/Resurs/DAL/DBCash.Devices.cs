@@ -23,33 +23,6 @@ namespace ResursDAL
 				using (var context = DatabaseContext.Initialize())
 				{
 					var allDevices = context.Devices.Include(x => x.Parameters).Include(x => x.Tariff).Include(x => x.Tariff.TariffParts).OrderBy(x => x.Address).ToList();
-					//var tableItems = context.Devices.Select(x => new 
-					//	{ 
-					//		UID = x.UID, 
-					//		Address = x.Address, 
-					//		DriverUID = x.DriverUID, 
-					//		Name = x.Name,
-					//		Description = x.Description,
-					//		ParentUID = x.ParentUID, 
-					//		IsActive = x.IsActive,
-					//		TariffType = x.TariffType,
-					//		ComPort = x.ComPort,
-					//		TariffUID = x.TariffUID,
-					//	}).ToList();
-					//var allDevices = tableItems.Select(x => new Device
-					//	{
-					//		UID = x.UID,
-					//		Address = x.Address,
-					//		DriverUID = x.DriverUID,
-					//		Name = x.Name,
-					//		Description = x.Description,
-					//		ParentUID = x.ParentUID,
-					//		IsActive = x.IsActive,
-					//		TariffType = x.TariffType,
-					//		ComPort = x.ComPort,
-					//		TariffUID = x.TariffUID,
-					//	}).OrderBy(x => x.Address).ToList();
-					//SetChildren(allDevices);
 					var result = allDevices.FirstOrDefault(x => x.ParentUID == null);
 					if (result != null)
 					{
@@ -167,6 +140,29 @@ namespace ResursDAL
 		{
 			try
 			{
+				using (var context = DatabaseContext.Initialize())
+				{
+					RootDevice = new Device(DriverType.System);
+					RootDevice.DateTime = RootDevice.DateTime.CheckDate();
+					context.Devices.Add(RootDevice);
+					context.SaveChanges();
+				}
+			}
+			catch (Exception e)
+			{
+				MessageBoxService.Show(e.Message);
+			}
+		}
+
+		public static void GenerateTestDevices()
+		{
+			try
+			{
+				using (var context = DatabaseContext.Initialize())
+				{
+					context.Devices.RemoveRange(context.Devices);
+					context.SaveChanges();
+				}
 				var devices = new List<Device>();
 				Random random = new Random();
 				RootDevice = new Device(DriverType.System);
@@ -202,12 +198,10 @@ namespace ResursDAL
 				}
 				var dateTimes = devices.SelectMany(x => x.Parameters).Select(x => x.DateTimeValue).Distinct();
 #endif
+
+				AddRangeDevicesQuery(devices);
+				AddRangeParametersQuery(devices.SelectMany(x => x.Parameters));
 				
-				using (var context = DatabaseContext.Initialize())
-				{
-					AddRangeDevicesQuery(devices, context);
-					AddRangeParametersQuery(devices.SelectMany(x => x.Parameters), context);
-				}
 			}
 			catch (Exception e)
 			{
@@ -215,7 +209,8 @@ namespace ResursDAL
 			}
 		}
 
-		static void AddRangeDevicesQuery(IEnumerable<Device> devices, DatabaseContext context)
+
+		static void AddRangeDevicesQuery(IEnumerable<Device> devices)
 		{
 
 			if (devices.Count() == 0)
@@ -245,14 +240,14 @@ namespace ResursDAL
 						item.DateTime.CheckDate());
 				}
 				query = query.TrimEnd(',');
-				lock (locker)
+				using (var context = DatabaseContext.Initialize())
+				{
 					context.Database.ExecuteSqlCommand(query);
+				}
 			}
 		}
 
-		static object locker = new object();
-
-		static void AddRangeParametersQuery(IEnumerable<Parameter> parameters, DatabaseContext context)
+		static void AddRangeParametersQuery(IEnumerable<Parameter> parameters)
 		{
 			if (parameters.Count() == 0)
 				return;
@@ -277,8 +272,10 @@ namespace ResursDAL
 						item.DateTimeValue);
 				}
 				query = query.TrimEnd(',');
-				lock(locker)
+				using (var context = DatabaseContext.Initialize())
+				{
 					context.Database.ExecuteSqlCommand(query);
+				}
 			}
 		}
 

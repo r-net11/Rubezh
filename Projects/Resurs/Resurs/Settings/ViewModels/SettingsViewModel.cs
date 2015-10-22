@@ -95,7 +95,7 @@ namespace Resurs.ViewModels
 
 		void CreateDevices()
 		{
-			DBCash.CreateSystem();
+			DBCash.GenerateTestDevices();
 		}
 
 		void CreateConsumers()
