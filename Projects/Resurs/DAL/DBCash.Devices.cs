@@ -236,7 +236,7 @@ namespace ResursDAL
 						item.Description,
 						item.ParentUID.ToSqlStr(),
 						item.TariffUID.ToSqlStr(),
-						item.BillUID.ToSqlStr(),
+						item.ConsumerUID.ToSqlStr(),
 						item.DriverUID,
 						item.Address,
 						item.IsActive,
@@ -339,7 +339,7 @@ namespace ResursDAL
 					var device = context.Devices
 						.Include(x => x.Parent)
 						.Include(x => x.Parameters)
-						.Include(x => x.Bill)
+						.Include(x => x.Consumer)
 						.Include(x => x.Tariff)
 						.Include(x => x.Tariff.TariffParts)
 						.FirstOrDefault(x => x.UID == uid);

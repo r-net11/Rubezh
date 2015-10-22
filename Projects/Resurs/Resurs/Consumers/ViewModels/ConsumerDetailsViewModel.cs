@@ -77,6 +77,16 @@ namespace Resurs.ViewModels
 			var consumer = GetConsumer();
 			DBCash.SaveConsumer(consumer);
 
+			foreach (var device in consumer.Devices)
+			{
+				var deviceViewModel = Bootstrapper.MainViewModel.DevicesViewModel.AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
+				if (deviceViewModel != null)
+				{
+					deviceViewModel.Device.Consumer = consumer;
+					deviceViewModel.Device.ConsumerUID = consumer.UID;
+				}
+			}
+
 			return base.Save();
 		}
 	}

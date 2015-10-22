@@ -184,7 +184,6 @@ namespace ResursDAL
 					dbConsumer.ParentUID = consumer.ParentUID;
 
 					dbConsumer.Devices.Except(consumer.Devices).ToList().ForEach(x => x.ConsumerUID = null);
-							targetBill.ReceiptUid = sourceBill.ReceiptUid;
 					
 					foreach (var device in consumer.Devices.Except(dbConsumer.Devices).ToList())
 					{
@@ -199,7 +198,6 @@ namespace ResursDAL
 			}
 		}
 		
-					targetBill.ReceiptUid = sourceBill.ReceiptUid;
 		public static void DeleteConsumer(Consumer consumer)
 		{
 			using (var context = DatabaseContext.Initialize())
