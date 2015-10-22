@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Collections.Specialized;
 using ResursNetwork.OSI.ApplicationLayer;
 using ResursNetwork.OSI.ApplicationLayer.Devices;
 using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
@@ -13,6 +14,7 @@ using ResursNetwork.OSI.Messages;
 using ResursNetwork.OSI.Messages.Transactions;
 using ResursNetwork.Management;
 using ResursNetwork.Incotex.Models;
+using ResursNetwork.Networks;
 using ResursAPI.ParameterNames;
 
 namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
@@ -155,11 +157,45 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         public IncotexNetworkControllerVirtual()
         {
             _devices = new DevicesCollection(this);
+			_devices.CollectionChanged += 
+				EventHandler_devices_CollectionChanged;
         }
 
         #endregion
 
         #region Methods
+
+		private void EventHandler_devices_CollectionChanged(
+			object sender, DevicesCollectionChangedEventArgs e)
+		{
+			switch (e.Action)
+			{
+				case NotifyCollectionChangedAction.Add:
+					{
+						OnConfigurationChanged(
+							new ConfigurationChangedEventArgs
+							{
+								Id = e.Device.Id,
+								Action = ConfigurationChangedAction.DeviceAdded
+							});
+						break;
+					}
+				case NotifyCollectionChangedAction.Remove:
+					{
+						OnConfigurationChanged(
+							new ConfigurationChangedEventArgs
+							{
+								Id = e.Device.Id,
+								Action = ConfigurationChangedAction.DeviceRemoved
+							});
+						break;
+					}
+				default:
+					{
+						throw new NotImplementedException();
+					}
+			}
+		}
 
 		public IAsyncRequestResult Write(
 			NetworkRequest request, bool isExternalCall)
@@ -200,9 +236,27 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 
 		private void OnParameterChanged(ParameterChangedArgs args)
 		{
+			if (args == null)
+			{
+				throw new ArgumentNullException("args", "");
+			}
+
 			if (ParameterChanged != null)
 			{
 				ParameterChanged(this, args);
+			}
+		}
+
+		private void OnConfigurationChanged(ConfigurationChangedEventArgs args)
+		{
+			if (args == null)
+			{
+				throw new ArgumentNullException("args", "");
+			}
+
+			if (ConfigurationChanged != null)
+			{
+				ConfigurationChanged(this, args);
 			}
 		}
 
@@ -294,6 +348,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 		public event EventHandler StatusChanged;
 		public event EventHandler<NetworkRequestCompletedArgs> NetwrokRequestCompleted;
 		public event EventHandler<ParameterChangedArgs> ParameterChanged;
+		public event EventHandler<ConfigurationChangedEventArgs> ConfigurationChanged;
 
 		#endregion
 

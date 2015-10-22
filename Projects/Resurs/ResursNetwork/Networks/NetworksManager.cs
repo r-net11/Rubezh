@@ -343,6 +343,7 @@ namespace ResursNetwork.Networks
                     {
                         e.Network.StatusChanged += EventHandler_Network_StatusChanged;
 						e.Network.ParameterChanged += EventHandler_Network_ParameterChanged;
+						e.Network.ConfigurationChanged += EventHandler_Network_ConfigurationChanged;
                         
                         foreach(var device in e.Network.Devices)
                         {
@@ -356,6 +357,7 @@ namespace ResursNetwork.Networks
                     {
                         e.Network.StatusChanged -= EventHandler_Network_StatusChanged;
 						e.Network.ParameterChanged -= EventHandler_Network_ParameterChanged;
+						e.Network.ConfigurationChanged -= EventHandler_Network_ConfigurationChanged;
 
                         foreach (var device in e.Network.Devices)
                         {
@@ -368,6 +370,46 @@ namespace ResursNetwork.Networks
                 default: { throw new NotSupportedException(); }
             }
         }
+
+		private void EventHandler_Network_ConfigurationChanged(
+			object sender, ConfigurationChangedEventArgs e)
+		{
+			switch (e.Action)
+			{
+				case ConfigurationChangedAction.DeviceAdded:
+					{
+						var device = (from n in Networks
+									  from d in n.Devices
+									  where d.Id == e.Id
+									  select d).FirstOrDefault();
+
+						if (device != null)
+						{
+							device.StatusChanged += EventHandler_Device_StatusChanged;
+							device.PropertyChanged += EventHandler_Device_PropertyChanged;
+							device.ErrorOccurred += EventHandler_Device_ErrorOccurred;
+						}
+						break; 
+					}
+				case ConfigurationChangedAction.DeviceRemoved:
+					{
+						var device = (from n in Networks
+									  from d in n.Devices
+									  where d.Id == e.Id
+									  select d).FirstOrDefault();
+
+						if (device != null)
+						{
+							device.StatusChanged -= EventHandler_Device_StatusChanged;
+							device.PropertyChanged -= EventHandler_Device_PropertyChanged;
+							device.ErrorOccurred -= EventHandler_Device_ErrorOccurred;
+						}
+						break; 
+					}
+				default:
+					{ throw new NotImplementedException(); }
+			}
+		}
 
 		private void EventHandler_Network_ParameterChanged(object sender, ParameterChangedArgs e)
 		{

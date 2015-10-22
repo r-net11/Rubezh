@@ -47,6 +47,7 @@
     <Compile Include="Incotex\Models\Mercury203Virtual.cs" />
     <Compile Include="Incotex\Models\PowerCounters.cs" />
     <Compile Include="Incotex\NetworkControllers\ApplicationLayer\IncotexNetworkControllerVirtual.cs" />
+    <Compile Include="OSI\ApplicationLayer\ConfigurationChangedEventArgs.cs" />
     <Compile Include="OSI\ApplicationLayer\NetworkRequestCompletedArgs.cs" />
     <Compile Include="OSI\ApplicationLayer\ParameterChangedArgs.cs" />
     <Compile Include="OSI\Messages\AsyncRequestResult.cs" />
