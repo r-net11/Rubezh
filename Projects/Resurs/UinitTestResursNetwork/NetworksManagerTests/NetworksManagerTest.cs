@@ -180,6 +180,7 @@ namespace UinitTestResursNetwork.NetworksManagerTests
 			Assert.AreEqual(controller.Status, testCntr.StatusChangedArgs.Status);
 
 			// Act
+			testCntr.ResetEventsFlags();
 			testCntr.Manager.SetSatus(controller.Id, false);
 
 			// Assert
@@ -196,6 +197,27 @@ namespace UinitTestResursNetwork.NetworksManagerTests
 			Thread.Sleep(1000);
 			testCntr.Manager.SetSatus(controller.Id, false);
 			Thread.Sleep(1000);
+
+			// Act
+			testCntr.ResetEventsFlags();
+			testCntr.Manager.SetSatus(device.Id, true);
+
+			// Assert
+			Assert.IsTrue(testCntr.IsEventRaisedStatusChanged);
+			Assert.AreEqual(Status.Running, device.Status);
+			Assert.AreEqual(device.Id, testCntr.StatusChangedArgs.Id);
+			Assert.AreEqual(device.Status, testCntr.StatusChangedArgs.Status);
+
+			// Act
+			testCntr.ResetEventsFlags();
+			testCntr.Manager.SetSatus(device.Id, false);
+
+			// Assert
+			Assert.IsTrue(testCntr.IsEventRaisedStatusChanged);
+			Assert.AreEqual(Status.Stopped, device.Status);
+			Assert.AreEqual(device.Id, testCntr.StatusChangedArgs.Id);
+			Assert.AreEqual(device.Status, testCntr.StatusChangedArgs.Status);
+
 		}
 
 		/// <summary>
