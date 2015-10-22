@@ -219,7 +219,7 @@ namespace ResursNetwork.Networks
                                 }
 							case DriverType.VirtualMercury203Counter:
 								{
-									var mercury203 = new Mercury203Virtual()
+									var mercury203 = new Mercury203Virtual
 									{
 										Id = (Guid)device.GetParameter(ParameterNamesMercury203.Id),
 										Address = (UInt32)device.GetParameter(ParameterNamesMercury203.Address),
