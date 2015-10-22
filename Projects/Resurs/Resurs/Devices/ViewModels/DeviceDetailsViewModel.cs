@@ -23,19 +23,25 @@ namespace Resurs.ViewModels
 		public ObservableCollection<DetailsParameterViewModel> Parameters { get; private set; }
 		public bool IsNetwork { get; private set; }
 		
-		public DeviceDetailsViewModel(Device device)
+		DeviceDetailsViewModel()
 		{
-			Title = "Редактирование устройства " + device.Name + " " + device.FullAddress;
-			_parent = device.Parent;
-			Address = device.Address;
-			Initialize(device);
 			SelectConsumerCommand = new RelayCommand<Guid?>(OnSelectConsumer);
 			RemoveConsumerLinkCommand = new RelayCommand(OnRemoveConsumerLink);
 			SelectTariffCommand = new RelayCommand(OnSelectTariff);
 			RemoveTariffCommand = new RelayCommand(OnRemoveTariff);
 		}
+		
+		public DeviceDetailsViewModel(Device device)
+			: this()
+		{
+			Title = "Редактирование устройства " + device.Name + " " + device.FullAddress;
+			_parent = device.Parent;
+			Address = device.Address;
+			Initialize(device);
+		}
 
 		public DeviceDetailsViewModel(DriverType driverType, Device parent)
+			: this()
 		{
 			_parent = parent;
 			Address = parent.Children.Count + 1;
