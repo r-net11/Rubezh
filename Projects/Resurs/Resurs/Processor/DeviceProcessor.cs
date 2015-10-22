@@ -201,12 +201,37 @@ namespace Resurs.Processor
 
 		Measure CreateMeasure(Device device, ParameterChangedArgs args, int tariffPartNo)
 		{
+			//TODO
+			//Probably need to store discounted value separate from main
+			float currentValue = Convert.ToSingle(args.NewValue);
+			float previousValue = DBCash.GetLastMeasure(device.UID).Value;
+			float split = currentValue - previousValue;
+			float thresholdOverflow = 0;
+
 			double? moneyValue = null;
 			if (device.Tariff != null)
 			{
 				var tariffParts = device.Tariff.TariffParts;
+				// Тарифные интервалы не отсортированы по StartTime в Tariff. .OrderBy(x => x.StartTime) - Вероятно, лишнее.
 				var tariffPart = device.Tariff.TariffParts.OrderBy(x => x.StartTime).ElementAt(tariffPartNo);
-				moneyValue = Convert.ToSingle(args.NewValue) * tariffPart.Price;
+				
+				//Проверяем льготный порог
+				if (tariffPart.Threshold > 0)
+				{
+					//Если льготный порог больше или равен количеству потреблённого ресурса
+					if (tariffPart.Threshold >= split)
+					{
+						moneyValue = split * tariffPart.Discount;
+						tariffPart.Discount -= split;
+					} 
+					else
+					{
+						thresholdOverflow = (float)((double)split - tariffPart.Threshold);
+						moneyValue += tariffPart.Threshold * tariffPart.Discount;
+						tariffPart.Threshold = 0;
+						moneyValue += thresholdOverflow * tariffPart.Price;
+					}
+				}
 			}
 			return new Measure
 			{
@@ -214,7 +239,8 @@ namespace Resurs.Processor
 				DeviceUID = device.UID,
 				MoneyValue = moneyValue,
 				TariffPartNo = tariffPartNo,
-				Value = Convert.ToSingle(args.NewValue)
+				Value = currentValue,
+				Split = split,
 			};
 		}
 	}

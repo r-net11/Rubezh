@@ -19,9 +19,13 @@ namespace ResursAPI
 		public Guid DeviceUID { get; set; }
 		public int TariffPartNo { get; set; }
 		/// <summary>
-		/// Количество потреблённого ресурса в единицах ресурса
+		/// Количество потреблённого ресурса в единицах ресурса (Нарастающий ток)
 		/// </summary>
 		public float Value { get; set; }
+		/// <summary>
+		/// Количество потреблённого ресурса с предыдущего опроса (Дельта)
+		/// </summary>
+		public float Split { get; set; }
 		/// <summary>
 		/// Количество потреблённого ресурса в деньгах, NULL, если тариф не указан
 		/// </summary>
