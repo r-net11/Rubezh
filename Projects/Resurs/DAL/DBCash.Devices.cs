@@ -422,8 +422,8 @@ namespace ResursDAL
 		static void CopyDevice(Device device, Device tableDevice, DatabaseContext context)
 		{
 			tableDevice.Address = device.Address;
-			tableDevice.BillUID = device.BillUID;
-			tableDevice.Bill = device.Bill != null ? context.Bills.FirstOrDefault(x => x.UID == device.Bill.UID) : null;
+			tableDevice.ConsumerUID = device.ConsumerUID;
+			tableDevice.Consumer = device.Consumer != null ? context.Consumers.FirstOrDefault(x => x.UID == device.Consumer.UID) : null;
 			tableDevice.Name = device.Name;
 			tableDevice.Description = device.Description;
 			tableDevice.IsActive = device.IsActive;

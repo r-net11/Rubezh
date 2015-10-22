@@ -135,29 +135,29 @@ namespace Resurs.ViewModels
 			get { return DBCash.CheckPermission(PermissionType.ViewDevice); }
 		}
 
-		void UpdateBillViewModels(Device device, Bill oldBill = null)
+		void UpdateConsumerDetailsViewModels(Device device, Consumer oldConsumer = null)
 		{
-			var newBill = device.Bill;
-			if (oldBill == newBill)
+			var newConsumer = device.Consumer;
+			if (oldConsumer == newConsumer)
 				return;
-			if (oldBill != null)
+			if (oldConsumer != null)
 			{
-				var billViewModel = Bootstrapper.MainViewModel.ConsumersViewModel.FindBillViewModel(oldBill.UID);
-				if (billViewModel != null)
+				var consumerDetailsViewModel = Bootstrapper.MainViewModel.ConsumersViewModel.FindConsumerDetailsViewModel(oldConsumer.UID);
+				if (consumerDetailsViewModel != null)
 				{
-					var deviceViewModel = billViewModel.Devices.FirstOrDefault(x => x.Device.UID == device.UID);
+					var deviceViewModel = consumerDetailsViewModel.Devices.FirstOrDefault(x => x.Device.UID == device.UID);
 					if (deviceViewModel != null)
-						billViewModel.Devices.Remove(deviceViewModel);
+						consumerDetailsViewModel.Devices.Remove(deviceViewModel);
 				}
 			}
-			if (newBill != null)
+			if (newConsumer != null)
 			{
-				var billViewModel = Bootstrapper.MainViewModel.ConsumersViewModel.FindBillViewModel(newBill.UID);
-				if (billViewModel != null)
+				var consumerDetailsViewModel = Bootstrapper.MainViewModel.ConsumersViewModel.FindConsumerDetailsViewModel(newConsumer.UID);
+				if (consumerDetailsViewModel != null)
 				{
-					var deviceViewModel = billViewModel.Devices.FirstOrDefault(x => x.Device.UID == device.UID);
+					var deviceViewModel = consumerDetailsViewModel.Devices.FirstOrDefault(x => x.Device.UID == device.UID);
 					if (deviceViewModel == null)
-						billViewModel.Devices.Add(new DeviceViewModel(device));
+						consumerDetailsViewModel.Devices.Add(new DeviceViewModel(device));
 				}
 			}
 		}
@@ -193,7 +193,7 @@ namespace Resurs.ViewModels
 					AllDevices.Add(deviceViewModel);
 					SelectedDevice = deviceViewModel;
 					DeviceProcessor.Instance.AddToMonitoring(deviceViewModel.Device);
-					UpdateBillViewModels(SelectedDevice.Device);
+					UpdateConsumerDetailsViewModels(SelectedDevice.Device);
 				}
 			}
 		}
@@ -205,17 +205,14 @@ namespace Resurs.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var oldBill = SelectedDevice.Device.Bill;
+			var oldConsumer = SelectedDevice.Device.Consumer;
 			var deviceDetailsViewModel = new DeviceDetailsViewModel(SelectedDevice.Device);
 			if (DialogService.ShowModalWindow(deviceDetailsViewModel))
 			{
-				var deviceViewModel = new DeviceViewModel(deviceDetailsViewModel.Device);
 				SelectedDevice.Update(deviceDetailsViewModel.Device);
 				foreach (var child in SelectedDevice.Children)
-				{
 					child.Update();
-				}
-				UpdateBillViewModels(SelectedDevice.Device, oldBill);
+				UpdateConsumerDetailsViewModels(SelectedDevice.Device, oldConsumer);
 			}
 		}
 		bool CanEdit()
@@ -240,7 +237,7 @@ namespace Resurs.ViewModels
 					{
 						AllDevices.Remove(childDeviceViewModel);
 					}
-					UpdateBillViewModels(SelectedDevice.Device, SelectedDevice.Device.Bill);
+					UpdateConsumerDetailsViewModels(SelectedDevice.Device, SelectedDevice.Device.Consumer);
 					SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 				}
 			}
