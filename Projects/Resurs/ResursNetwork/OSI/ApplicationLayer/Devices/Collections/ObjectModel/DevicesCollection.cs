@@ -63,6 +63,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel
             var removedItem = this[index];
             this[index].Network = null;
             base.RemoveItem(index);
+
             OnCollectionChanged(
                 new DevicesCollectionChangedEventArgs
                 {
@@ -122,13 +123,18 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel
                 });
         }
 
-        private void OnCollectionChanged(DevicesCollectionChangedEventArgs e)
+        private void OnCollectionChanged(DevicesCollectionChangedEventArgs args)
         {
             var handler = this.CollectionChanged;
 
+			if (args == null)
+			{
+				throw new ArgumentNullException();
+			}
+
             if (handler != null)
             {
-                handler(this, e);
+                handler(this, args);
             }
         }
 

@@ -297,11 +297,7 @@ namespace ResursNetwork.Networks
                 return;
             }
 
-            var list = from n in Networks
-                    from d in n.Devices
-                    where d.Id == id
-                    select d;
-            var device = list.FirstOrDefault();
+			var device = FindDevice(id);
             
             if (device != null)
             {
@@ -321,12 +317,21 @@ namespace ResursNetwork.Networks
 
 		public void SendCommand(Guid deviceId, string commandName)
 		{
-			var list = from n in Networks
-					   from d in n.Devices
-					   where d.Id == deviceId
-					   select d;
-			var device = list.FirstOrDefault();
+			var device = FindDevice(deviceId);
 			device.ExecuteCommand(commandName);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns>Если устройство не найдено - null</returns>
+		private IDevice FindDevice(Guid id)
+		{
+			return (from n in Networks
+					from d in n.Devices
+					where d.Id == id
+					select d).FirstOrDefault();
 		}
 
         /// <summary>
@@ -378,31 +383,21 @@ namespace ResursNetwork.Networks
 			{
 				case ConfigurationChangedAction.DeviceAdded:
 					{
-						var device = (from n in Networks
-									  from d in n.Devices
-									  where d.Id == e.Id
-									  select d).FirstOrDefault();
-
-						if (device != null)
+						if (e.Device != null)
 						{
-							device.StatusChanged += EventHandler_Device_StatusChanged;
-							device.PropertyChanged += EventHandler_Device_PropertyChanged;
-							device.ErrorOccurred += EventHandler_Device_ErrorOccurred;
+							e.Device.StatusChanged += EventHandler_Device_StatusChanged;
+							e.Device.PropertyChanged += EventHandler_Device_PropertyChanged;
+							e.Device.ErrorOccurred += EventHandler_Device_ErrorOccurred;
 						}
 						break; 
 					}
 				case ConfigurationChangedAction.DeviceRemoved:
 					{
-						var device = (from n in Networks
-									  from d in n.Devices
-									  where d.Id == e.Id
-									  select d).FirstOrDefault();
-
-						if (device != null)
+						if (e.Device != null)
 						{
-							device.StatusChanged -= EventHandler_Device_StatusChanged;
-							device.PropertyChanged -= EventHandler_Device_PropertyChanged;
-							device.ErrorOccurred -= EventHandler_Device_ErrorOccurred;
+							e.Device.StatusChanged -= EventHandler_Device_StatusChanged;
+							e.Device.PropertyChanged -= EventHandler_Device_PropertyChanged;
+							e.Device.ErrorOccurred -= EventHandler_Device_ErrorOccurred;
 						}
 						break; 
 					}
