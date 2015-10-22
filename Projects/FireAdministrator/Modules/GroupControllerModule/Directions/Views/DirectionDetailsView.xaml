@@ -28,7 +28,17 @@
 				<TextBlock Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Text="Режим по окончанию удержания" Style="{DynamicResource TextBlockDetailsStyle}" />
 
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" />
-				<XAutoCompleteBox x:Name="nameTextBox" Grid.Row="1" Grid.Column="1" Margin="2" ContextMenu="{x:Null}" IsTextCompletionEnabled="True" ItemsSource="{Binding AvailableNames}" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+				<XAutoCompleteBox Grid.Row="1" Grid.Column="1" Margin="2"
+								  IsTextCompletionEnabled="True"
+								  ItemsSource="{Binding AvailableNames}"
+								  Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" >
+					<XAutoCompleteBox.TextBoxStyle>
+						<Style TargetType="TextBox">
+							<Setter Property="MaxLength" Value="20" />
+							<Setter Property="ContextMenu" Value="{x:Null}" />
+						</Style>
+					</XAutoCompleteBox.TextBoxStyle>
+				</XAutoCompleteBox>
 				<XAutoCompleteBox Grid.Row="2" Grid.Column="1" Margin="2" IsTextCompletionEnabled="True" ItemsSource="{Binding AvailableDescription}" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Margin="2" Value="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="65535" />
 				<extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Margin="2" Value="{Binding Hold, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="65535" />
