@@ -15,4 +15,8 @@
 		<Views:SelectDeviceView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:TariffSelectionViewModel}">
+		<Views:TariffSelectionView />
+	</DataTemplate>
+
 </ResourceDictionary>

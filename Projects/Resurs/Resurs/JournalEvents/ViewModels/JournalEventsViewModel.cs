@@ -29,10 +29,20 @@ namespace Resurs.ViewModels
 		{
 			if (Filter == null)
 				Filter = new Filter();
-			if (Filter.StateType == StateType.LastDays)
+			else
 			{
-				Filter.EndDate = DateTime.Now;
-				Filter.StartDate = DateTime.Now.AddDays(-1);
+				switch (Filter.StateType)
+				{
+					case StateType.LastHours:
+						Filter.EndDate = DateTime.Now;
+						Filter.StartDate = DateTime.Now.AddHours(-Filter.Count);
+						break;
+
+					case StateType.LastDays:
+						Filter.EndDate = DateTime.Now;
+						Filter.StartDate = DateTime.Now.AddDays(-Filter.Count);
+						break;
+				}
 			}
 
 			var count = DBCash.GetJournalCount(Filter);
@@ -73,9 +83,9 @@ namespace Resurs.ViewModels
 			}
 		}
 
-		public bool IsVisibility
+		public bool IsVisible
 		{
-			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.ViewJournal); }
+			get { return DBCash.CheckPermission(PermissionType.ViewJournal); }
 		}
 
 		public bool HasPages

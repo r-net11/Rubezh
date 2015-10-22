@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace RubezhAPI.SKD
 {
 	[DataContract]
-    public abstract class OrganisationFilterBase : IsDeletedFilter, IAsyncFilter
+    public abstract class OrganisationFilterBase : IsDeletedFilter
 	{
 		[DataMember]
 		public List<Guid> OrganisationUIDs { get; set; }
@@ -18,19 +18,5 @@ namespace RubezhAPI.SKD
 		{
 			OrganisationUIDs = new List<Guid>();
         }
-
-        #region IAsyncFilterMembers
-        [DataMember]
-        public bool IsLoad { get; set; }
-
-        [DataMember]
-        public Guid ClientUID { get; set; }
-        #endregion
-    }
-
-    public interface IAsyncFilter
-    {
-        bool IsLoad{ get; }
-        Guid ClientUID { get; }
-    }
+	}
 }

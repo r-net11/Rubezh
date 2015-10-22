@@ -73,7 +73,7 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifyConfigurationChanged()
+        public static void NotifyConfigurationChanged()
 		{
 			var callbackResult = new CallbackResult()
 			{

@@ -23,7 +23,9 @@ namespace ResursAPI
 				Description = "Интервал опроса",
 				ParameterType = ParameterType.Int,
 				Number = index++,
-				IntMinValue = 1
+				IntMinValue = 1000,
+				IntDefaultValue = 1000,
+				CanWriteInActive = false
 			});
 			return driver;
 		}

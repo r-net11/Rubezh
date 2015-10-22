@@ -21,8 +21,7 @@ namespace RubezhClient
 		public static event Action<AutomationCallbackResult> AutomationEvent;
 		public static event Action ConfigurationChangedEvent;
 		public static event Action<List<JournalItem>> NewJournalItemsEvent;
-		public static event Action<DbCallbackResult> DbCallbackResultEvent;
-
+		
 		bool isConnected = true;
 		public bool SuspendPoll = false;
 		Thread PollThread;

@@ -39,6 +39,7 @@ namespace ResursDAL
 					dbBill.Description = bill.Description;
 					dbBill.Balance = bill.Balance;
 					dbBill.TemplatePath = bill.TemplatePath;
+					dbBill.ReceiptUid = bill.ReceiptUid;
 				}
 				context.SaveChanges();
 			}

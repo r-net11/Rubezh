@@ -12,12 +12,10 @@ namespace RubezhDAL.DataClasses
 	{
 		public PositionShortTranslator ShortTranslator { get; private set; }
 		public PositionSynchroniser Synchroniser { get; private set; }
-		public PositionAsyncTranslator AsyncTranslator { get; private set; }
 		public PositionTranslator(DbService context)
 			: base(context)
 		{
 			ShortTranslator = new PositionShortTranslator(this);
-			AsyncTranslator = new PositionAsyncTranslator(ShortTranslator);
 			Synchroniser = new PositionSynchroniser(Table, DbService);
 		}
 
@@ -111,15 +109,6 @@ namespace RubezhDAL.DataClasses
 				RemovalDate = tableItem.RemovalDate != null ? tableItem.RemovalDate.Value : new DateTime(),
 				OrganisationUID = tableItem.OrganisationUID != null ? tableItem.OrganisationUID.Value : Guid.Empty
 			});
-		}
-	}
-
-	public class PositionAsyncTranslator : AsyncTranslator<Position, API.ShortPosition, API.PositionFilter>
-	{
-		public PositionAsyncTranslator(PositionShortTranslator translator) : base(translator as ITranslatorGet<Position, API.ShortPosition, API.PositionFilter>) { }
-		public override List<API.ShortPosition> GetCollection(DbCallbackResult callbackResult)
-		{
-			return callbackResult.Positions;
 		}
 	}
 }

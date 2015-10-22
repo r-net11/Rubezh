@@ -53,10 +53,6 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			get { return RubezhAPI.Models.PermissionType.Oper_SKD_PassCards_Etit; }
 		}
 
-		protected override List<ShortPassCardTemplate> GetFromCallbackResult(RubezhAPI.DbCallbackResult dbCallbackResult)
-		{
-			return dbCallbackResult.PassCardTemplates;
-		}
 		public void RemoveAdditionalColumn(AdditionalColumnType column)
 		{
 			var filter = new PassCardTemplateFilter();

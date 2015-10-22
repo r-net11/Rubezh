@@ -7,16 +7,16 @@ using ResursNetwork.OSI.ApplicationLayer.Devices;
 using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
 using ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters;
 using ResursNetwork.Incotex.Models;
-using ResursNetwork.Incotex.Models.DateTime;
 using ResursNetwork.Management;
 using ResursAPI.Models;
 using ResursAPI.ParameterNames;
+using ResursAPI.CommandNames;
 
 namespace ResursNetwork.Incotex.Models
 {
-    public class Mercury203Virtual: IDevice
-    {
-        #region Fields And Properties
+	public class Mercury203Virtual: IDevice
+	{
+		#region Fields And Properties
 
 		private ParatemersCollection _Parameters = new ParatemersCollection();
 		private Status _Status = Status.Stopped;
@@ -28,7 +28,7 @@ namespace ResursNetwork.Incotex.Models
         {
             get
             {
-				return (Guid)_Parameters[ParameterNamesMercury203.Address].Value;
+				return (Guid)_Parameters[ParameterNamesMercury203.Id].Value;
             }
             set
             {
@@ -83,11 +83,15 @@ namespace ResursNetwork.Incotex.Models
         {
             get
             {
-                throw new NotImplementedException();
+                return _Status;
             }
             set
             {
-                throw new NotImplementedException();
+				if (_Status != value)
+				{
+					_Status = value;
+					OnStatusChanged();
+				}
             }
         }
 
@@ -104,7 +108,15 @@ namespace ResursNetwork.Incotex.Models
             }
             set
             {
-                _Errors.CommunicationError = value;
+				if (_Errors.CommunicationError != value)
+				{
+					_Errors.CommunicationError = value;
+					OnErrorOccurred(new ErrorOccuredEventArgs 
+					{
+ 						Id = this.Id,
+						Errors = this.Errors 
+					});
+				}
             }
         }
 
@@ -114,34 +126,51 @@ namespace ResursNetwork.Incotex.Models
             {
                 return _Errors.ConfigurationError;
             }
-            set
-            {
-                _Errors.ConfigurationError = value;
-            }
+			set
+			{
+				if (_Errors.ConfigurationError != value)
+				{
+					_Errors.ConfigurationError = value;
+					OnErrorOccurred(new ErrorOccuredEventArgs 
+					{
+ 						Id = this.Id,
+						Errors = this.Errors 
+					});
+				}
+			}
         }
 
-        public bool RTCError
+        public bool RtcError
         {
             get
             {
                 return _Errors.RTCError;
             }
-            set
-            {
-                _Errors.RTCError = value;
-            }
+			set
+			{
+				if (_Errors.RTCError != value)
+				{
+					_Errors.RTCError = value;
+					OnErrorOccurred(new ErrorOccuredEventArgs 
+					{
+ 						Id = this.Id,
+						Errors = this.Errors 
+					});
+				}
+			}
         }
 
-		public System.DateTime RTC
+		public System.DateTime Rtc
 		{
 			get 
 			{ 
-				return (System.DateTime)_Parameters[ParameterNamesMercury203Virtual
-				.DateTime].Value; 
+				return ((IncotexDateTime)_Parameters[ParameterNamesMercury203Virtual
+				.DateTime].Value).ToDateTime(); 
 			}
 			set
 			{
-				_Parameters[ParameterNamesMercury203Virtual.DateTime].Value = value;
+				_Parameters[ParameterNamesMercury203Virtual.DateTime].Value = 
+					IncotexDateTime.FromDateTime(value);
 			}
 		}
 		
@@ -217,65 +246,176 @@ namespace ResursNetwork.Incotex.Models
 				Value = (UInt16)0
 			});
 
-			_Parameters.Add(new Parameter(typeof(UInt32))
+			_Parameters.Add(new Parameter(typeof(float))
 			{
 				Name = ParameterNamesMercury203Virtual.CounterTarif1,
 				Description = "Счётчик тарифа 1",
 				PollingEnabled = true,
 				ReadOnly = false,
 				ValueConverter = null,
-				Value = (UInt32)0
+				Value = (float)0
 			});
 
-			_Parameters.Add(new Parameter(typeof(UInt32))
+			_Parameters.Add(new Parameter(typeof(float))
 			{
 				Name = ParameterNamesMercury203Virtual.CounterTarif2,
 				Description = "Счётчик тарифа 2",
 				PollingEnabled = true,
 				ReadOnly = false,
 				ValueConverter = null,
-				Value = (UInt32)0
+				Value = (float)0
 			});
 
-			_Parameters.Add(new Parameter(typeof(UInt32))
+			_Parameters.Add(new Parameter(typeof(float))
 			{
-				Name = ParameterNamesMercury203.CounterTarif3,
+				Name = ParameterNamesMercury203Virtual.CounterTarif3,
 				Description = "Счётчик тарифа 3",
 				PollingEnabled = true,
 				ReadOnly = false,
 				ValueConverter = null,
-				Value = (UInt32)0
+				Value = (float)0
 			});
 
-			_Parameters.Add(new Parameter(typeof(UInt32))
+			_Parameters.Add(new Parameter(typeof(float))
 			{
-				Name = ParameterNamesMercury203.CounterTarif4,
-				Description = "Счётчик тарифа 3",
+				Name = ParameterNamesMercury203Virtual.CounterTarif4,
+				Description = "Счётчик тарифа 4",
 				PollingEnabled = true,
 				ReadOnly = false,
 				ValueConverter = null,
-				Value = (UInt32)0
+				Value = (float)0
 			});
 		}
 
-        public void Start()
+		public void Start()
         {
 			Status = Status.Running;
         }
 
-        public void Stop()
+		public void Stop()
         {
             Status = Status.Stopped;
         }
 
+		private void OnStatusChanged()
+		{
+			if (StatusChanged != null)
+			{
+				StatusChanged(this, new EventArgs());
+			}
+		}
+
+		private void OnErrorOccurred(ErrorOccuredEventArgs args)
+		{
+			if (args == null)
+			{
+				throw new ArgumentNullException();
+			}
+
+			if (ErrorOccurred != null)
+			{
+				ErrorOccurred(this, args);
+			}
+		}
+
         #endregion
 
-        #region Events
+		#region Network API
 
-        public event EventHandler StatusChanged;
+		public void ExecuteCommand(string commandName)
+		{
+			if (Status == Management.Status.Running)
+			{
+				switch (commandName)
+				{
+					case CommandNamesMercury203Virtual.SetCommunicationError:
+						{ CommunicationError = true; break; }
+					case CommandNamesMercury203Virtual.ResetCommunicationError:
+						{ CommunicationError = false; break; }
+					case CommandNamesMercury203Virtual.SetConfigurationError:
+						{ ConfigurationError = true; break; }
+					case CommandNamesMercury203Virtual.ResetConfigurationError:
+						{ ConfigurationError = false; break; }
+					case CommandNamesMercury203Virtual.SetRtcError:
+						{ RtcError = true; break; }
+					case CommandNamesMercury203Virtual.ResetRtcError:
+						{ RtcError = false; break; }
+					case CommandNamesMercury203Virtual.SwitchReleOn:
+					case CommandNamesMercury203Virtual.SwitchReleOff:
+					default:
+						{
+							throw new NotSupportedException(String.Format(
+								"Попытка выполнить устройством Id={} неизвестную команду cmd={0}",
+								Id, commandName));
+						}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Установка нового сетевого адреса счетчика 
+		/// </summary>
+		/// <param name="addr">Текущий сетевой адрес счётчика</param>
+		/// <param name="newaddr">Новый сетевой адрес счётчика</param>
+		public void SetNewAddress(uint addr, uint newaddr)
+		{
+			_Parameters[ParameterNamesMercury203Virtual.Address].Value = newaddr;
+		}
+		
+		/// <summary>
+		/// Чтение группового адреса счетчика (CMD=20h)
+		/// </summary>
+		public uint ReadGroupAddress()
+		{
+			return (uint)_Parameters[ParameterNamesMercury203Virtual.GADDR].Value;
+		}
+		
+		/// <summary>
+		/// Чтение внутренних часов и календаря счетчика (CMD=21h)
+		/// </summary>
+		/// <returns></returns>
+		public System.DateTime ReadDateTime()
+		{
+			return ((IncotexDateTime)_Parameters[ParameterNamesMercury203Virtual.DateTime].Value)
+				.ToDateTime();
+		}
+
+		/// <summary>
+		/// Чтение лимита мощности (CMD=22h)
+		/// </summary>
+		/// <returns></returns>
+		public ushort ReadPowerLimit()
+		{
+			return (ushort)_Parameters[ParameterNamesMercury203Virtual.PowerLimit].Value;
+		}
+
+		/// <summary>
+		/// Чтение лимита энергии за месяц
+		/// </summary>
+		/// <returns></returns>
+		public uint ReadPowerLimitPerMonth()
+		{
+			throw new NotImplementedException();
+			//return (ushort)_Parameters[ParameterNamesMercury203Virtual.PowerLimitPerMonth].Value;
+		}
+
+		/// <summary>
+		/// Чтение содержимого тарифных аккумуляторов (CMD=27H)
+		/// </summary>
+		/// <returns></returns>
+		public PowerCounters ReadConsumedPower()
+		{
+			throw new NotImplementedException();
+		}
+
+		#endregion
+
+		#region Events
+
+		public event EventHandler StatusChanged;
         public event EventHandler<ErrorOccuredEventArgs> ErrorOccurred;
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
         #endregion
-    }
+	}
 }

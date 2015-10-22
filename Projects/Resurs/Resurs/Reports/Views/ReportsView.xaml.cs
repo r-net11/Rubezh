@@ -19,7 +19,7 @@ namespace Resurs.Views
 			currentPage.PreviewTextInput += new TextCompositionEventHandler(PreviewTextInputHandler);
 			DataObject.AddPastingHandler(currentPage, PastingHandler);
 		}
-		private void ReportsView_Loaded(object sender, RoutedEventArgs e)
+		void ReportsView_Loaded(object sender, RoutedEventArgs e)
 		{
 			var surface = VisualHelper.FindVisualChild<PreviewSurface>(viewer);
 			if (surface != null)
@@ -28,15 +28,15 @@ namespace Resurs.Views
 				border.BorderThickness = new Thickness(0);
 			}
 		}
-		private bool IsTextAllowed(string text)
+		bool IsTextAllowed(string text)
 		{
 			return Array.TrueForAll<char>(text.ToCharArray(), (c) => char.IsDigit(c) || char.IsControl(c));
 		}
-		private void PreviewTextInputHandler(object sender, TextCompositionEventArgs e)
+		void PreviewTextInputHandler(object sender, TextCompositionEventArgs e)
 		{
 			e.Handled = !IsTextAllowed(e.Text);
 		}
-		private void PastingHandler(object sender, DataObjectPastingEventArgs e)
+		void PastingHandler(object sender, DataObjectPastingEventArgs e)
 		{
 			if (e.DataObject.GetDataPresent(typeof(string)))
 			{

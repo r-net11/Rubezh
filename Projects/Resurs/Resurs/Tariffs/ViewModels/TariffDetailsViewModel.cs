@@ -37,8 +37,9 @@ namespace Resurs.ViewModels
 			TariffParts = new ObservableCollection<TariffPartViewModel>();
 			IsNew = false;
 			Tariff = tariff;
-			Title = "Редактирование тарифа";
+			Title = "Редактирование тарифа: " + tariff.TariffType.ToDescription();
 			SelectedTariffPartsNumber = (byte)tariff.TariffParts.Count;
+			SelectedTariffType = tariff.TariffType;
 		}
 		public bool IsNew { get; set; }
 

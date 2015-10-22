@@ -3,6 +3,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
 using ResursDAL;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -103,9 +104,22 @@ namespace Resurs.ViewModels
 				SelectedTariff = Tariffs.ElementAt(index - 1);
 			}
 		}
+
+		public void Select(Guid tariffUID)
+		{
+			if (tariffUID != Guid.Empty && IsVisible)
+			{
+				var _tariffViewModel = Tariffs.FirstOrDefault(x => x.Tariff.UID == tariffUID);
+				if (_tariffViewModel != null)
+				{
+					Bootstrapper.MainViewModel.SelectedTabIndex = 6;
+					SelectedTariff = _tariffViewModel;
+				}
+			}
+		}
 		public bool IsVisible
 		{
-			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.ViewTariff); }
+			get { return DBCash.CheckPermission(PermissionType.ViewTariff); }
 		}
 	}
 }

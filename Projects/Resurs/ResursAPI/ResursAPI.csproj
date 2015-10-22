@@ -52,13 +52,18 @@
     <Compile Include="DriverCreators\VirtualMZEP55CounterCreator.cs" />
     <Compile Include="DriverCreators\VirtualMZEP55NetworkCreator.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="FolderHelper.cs" />
     <Compile Include="Journal\ClassType.cs" />
     <Compile Include="Journal\Filter.cs" />
     <Compile Include="Journal\Journal.cs" />
     <Compile Include="Journal\StateType.cs" />
+    <Compile Include="Models\CommandNames\CommandNamesMercury203.cs" />
+    <Compile Include="Models\CommandNames\CommandNamesMercury203Virtual.cs" />
     <Compile Include="Models\DeviceErrors.cs" />
     <Compile Include="Models\DeviceType.cs" />
+    <Compile Include="Models\Driver\DeviceCommand.cs" />
     <Compile Include="Models\ParameterStringContainer.cs" />
+    <Compile Include="Models\Receipt.cs" />
     <Compile Include="Models\Tariff\TariffType.cs" />
     <Compile Include="Journal\JournalType.cs" />
     <Compile Include="ParameterNames\ParameterNamesIncotexNetwork.cs" />
@@ -76,7 +81,6 @@
     <Compile Include="User\PermissionType.cs" />
     <Compile Include="User\User.cs" />
     <Compile Include="Models\Consumer.cs" />
-    <Compile Include="Models\Bill.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\Measure.cs" />
     <Compile Include="Models\Parameter.cs" />

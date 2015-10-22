@@ -369,22 +369,13 @@
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="Bills\ViewModels\BillsViewModel.cs" />
-    <Compile Include="Bills\ViewModels\BillViewModel.cs" />
-    <Compile Include="Bills\Views\BillsView.xaml.cs">
-      <DependentUpon>BillsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Bills\Views\BillView.xaml.cs">
-      <DependentUpon>BillView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Consumers\ReceiptHelper.cs" />
+    <Compile Include="Receipts\ReceiptHelper.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerListViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.Bills.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.Common.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumersFolderDetailsViewModel.cs" />
-    <Compile Include="Consumers\ViewModels\ConsumerChangeParentViewModel.cs" />
-    <Compile Include="Consumers\ViewModels\SelectBillViewModel.cs" />
+    <Compile Include="Consumers\ViewModels\SelectConsumerViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumersViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ReceiptViewModel.cs" />
     <Compile Include="Consumers\Views\ConsumerListView.xaml.cs">
@@ -393,13 +384,10 @@
     <Compile Include="Consumers\Views\ConsumersFolderDetailsView.xaml.cs">
       <DependentUpon>ConsumersFolderDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consumers\Views\ConsumerChangeParentView.xaml.cs">
-      <DependentUpon>ConsumerChangeParentView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Converters\ClassTypeToIconConverter.cs" />
-    <Compile Include="Consumers\Views\SelectBillView.xaml.cs">
-      <DependentUpon>SelectBillView.xaml</DependentUpon>
+    <Compile Include="Consumers\Views\SelectConsumerView.xaml.cs">
+      <DependentUpon>SelectConsumerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Consumers\Views\ReceiptView.xaml.cs">
       <DependentUpon>ReceiptView.xaml</DependentUpon>
@@ -409,6 +397,10 @@
     <Compile Include="Converters\JournalTypeToIconConverter.cs" />
     <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="Devices\ViewModels\DetailsParameterViewModel.cs" />
+    <Compile Include="Devices\ViewModels\TariffSelectionViewModel.cs" />
+    <Compile Include="Devices\Views\TariffSelectionView.xaml.cs">
+      <DependentUpon>TariffSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="JournalEvents\ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceState.cs" />
     <Compile Include="JournalEvents\ViewModels\DateTimeViewModel.cs" />
@@ -524,17 +516,22 @@
     </Compile>
     <Compile Include="Reports\ViewModels\ChangeFlowFilterViewModel.cs" />
     <Compile Include="Reports\ViewModels\DebtorsFilterViewModel.cs" />
+    <Compile Include="Receipts\ViewModels\ReceiptEditorViewModel.cs" />
     <Compile Include="Reports\Views\ChangeFlowFilterView.xaml.cs">
       <DependentUpon>ChangeFlowFilterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\Views\DebtorsFilterView.xaml.cs">
       <DependentUpon>DebtorsFilterView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Receipts\Views\ReceiptEditorView.xaml.cs">
+      <DependentUpon>ReceiptEditorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Settings\ViewModels\SettingsViewModel.cs" />
     <Compile Include="Settings\Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Tariffs\DiscountToTextConverter.cs" />
+    <Compile Include="Converters\DiscountToTextConverter.cs" />
+    <Compile Include="Converters\TariffTypeToResourceTypeConverter.cs" />
     <Compile Include="Tariffs\ViewModels\TariffDevicesViewModel.cs" />
     <Compile Include="Tariffs\ViewModels\TariffDeviceViewModel.cs" />
     <Compile Include="Tariffs\ViewModels\TariffPartViewModel.cs" />
@@ -571,16 +568,11 @@
     <Compile Include="Reports\ReportType.cs" />
     <Compile Include="Reports\ViewModels\ReportDesignerViewModel.cs" />
     <Compile Include="Reports\ViewModels\ReportsViewModel.cs" />
-    <Compile Include="Reports\ViewModels\RepxSelectionViewModel.cs" />
-    <Compile Include="Reports\ViewModels\RepxViewModel.cs" />
     <Compile Include="Reports\Views\ReportDesignerView.xaml.cs">
       <DependentUpon>ReportDesignerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\Views\ReportsView.xaml.cs">
       <DependentUpon>ReportsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\Views\RepxSelectionView.xaml.cs">
-      <DependentUpon>RepxSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Users\ViewModels\UserDetailsViewModel.cs" />
     <Compile Include="Users\ViewModels\UsersViewModel.cs" />
@@ -594,18 +586,6 @@
     <Compile Include="Users\Views\UsersView.xaml.cs">
       <DependentUpon>UsersView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Bills\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Bills\Views\BillsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Bills\Views\BillView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Consumers\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -614,11 +594,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Consumers\Views\ConsumerChangeParentView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Consumers\Views\SelectBillView.xaml">
+    <Page Include="Consumers\Views\SelectConsumerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -627,6 +603,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Consumers\Views\ReceiptView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\TariffSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -694,6 +674,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Receipts\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Reports\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -703,6 +687,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Reports\Views\DebtorsFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Receipts\Views\ReceiptEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -727,10 +715,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Reports\Views\ReportsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Reports\Views\RepxSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

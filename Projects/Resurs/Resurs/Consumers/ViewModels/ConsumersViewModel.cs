@@ -21,7 +21,6 @@ namespace Resurs.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			ChangeParentCommand = new RelayCommand(OnChangeParent, CanChangeParent);
-			OpenReceiptCommand = new RelayCommand(OnOpenReceipt, CanOpenReceipt);
 
 			ConsumerListViewModel = new ConsumerListViewModel();
 			ConsumerListViewModel.OnSelectedConsumerChanged += ConsumerListViewModel_OnSelectedConsumerChanged;
@@ -84,14 +83,9 @@ namespace Resurs.ViewModels
 			}
 		}
 
-		public BillViewModel FindBillViewModel(Guid billUid)
+		public ConsumerDetailsViewModel FindConsumerDetailsViewModel(Guid consumerUID)
 		{
-			foreach (var consumer in AllConsumers)
-				if (consumer.GetConsumerDetails() != null && consumer.GetConsumerDetails().BillsViewModel != null)
-					foreach (var bill in consumer.GetConsumerDetails().BillsViewModel.Bills)
-						if (bill.Uid == billUid)
-							return bill;
-			return null;
+			return AllConsumers.Where(x => x.Consumer.UID == consumerUID).Select(x => x.GetConsumerDetails()).FirstOrDefault();
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -100,7 +94,6 @@ namespace Resurs.ViewModels
 			var consumerDetailsViewModel = new ConsumerDetailsViewModel(new Consumer 
 			{ 
 				ParentUID = SelectedConsumer.Consumer.IsFolder ? SelectedConsumer.Consumer.UID : SelectedConsumer.Consumer.ParentUID,
-				Bills = new List<Bill> { new Bill() }
 			}, false, true);
 			if (DialogService.ShowModalWindow(consumerDetailsViewModel))
 			{
@@ -121,7 +114,7 @@ namespace Resurs.ViewModels
 		}
 		bool CanAdd()
 		{
-			return SelectedConsumer != null;
+			return SelectedConsumer != null && DBCash.CheckPermission(PermissionType.EditConsumer);
 		}
 
 		public RelayCommand AddFolderCommand { get; private set; }
@@ -161,7 +154,7 @@ namespace Resurs.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedConsumer != null && DBCash.CurrentUser.UserPermissions.Any(x=> x.PermissionType == PermissionType.EditConsumer);
+			return SelectedConsumer != null && DBCash.CheckPermission(PermissionType.EditConsumer);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -191,20 +184,20 @@ namespace Resurs.ViewModels
 		
 		bool CanRemove()
 		{
-			return SelectedConsumer != null && SelectedConsumer.Parent != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditConsumer);
+			return SelectedConsumer != null && SelectedConsumer.Parent != null && DBCash.CheckPermission(PermissionType.EditConsumer);
 		}
 
 		public RelayCommand ChangeParentCommand { get; private set; }
 		void OnChangeParent()
 		{
-			var consumerChangeParentViewModel = new ConsumerChangeParentViewModel(SelectedConsumer.Consumer.UID);
-			if (DialogService.ShowModalWindow(consumerChangeParentViewModel) && consumerChangeParentViewModel.SelectedConsumer != null)
+			var selectConsumerViewModel = new SelectConsumerViewModel("Выбор группы для перемещения", SelectedConsumer.Consumer.UID, true);
+			if (DialogService.ShowModalWindow(selectConsumerViewModel) && selectConsumerViewModel.SelectedConsumer != null)
 			{
-				var parentConsumerViewModel = AllConsumers.FirstOrDefault(x => x.Consumer.UID == consumerChangeParentViewModel.SelectedConsumer.Consumer.UID);
+				var parentConsumerViewModel = AllConsumers.FirstOrDefault(x => x.Consumer.UID == selectConsumerViewModel.SelectedConsumer.Consumer.UID);
 				if (parentConsumerViewModel != null)
 				{
 					SelectedConsumer.Consumer = DBCash.GetConsumer(SelectedConsumer.Consumer.UID);
-					SelectedConsumer.Consumer.ParentUID = consumerChangeParentViewModel.SelectedConsumer.Consumer.UID;
+					SelectedConsumer.Consumer.ParentUID = selectConsumerViewModel.SelectedConsumer.Consumer.UID;
 
 					DBCash.SaveConsumer(SelectedConsumer.Consumer);
 
@@ -221,22 +214,11 @@ namespace Resurs.ViewModels
 
 		bool CanChangeParent()
 		{
-			return SelectedConsumer != null && SelectedConsumer.Parent != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditConsumer);
+			return SelectedConsumer != null && SelectedConsumer.Parent != null && DBCash.CheckPermission(PermissionType.EditConsumer);
 		}
-		public RelayCommand OpenReceiptCommand { get; private set; }
-		void OnOpenReceipt()
+		public bool IsVisible
 		{
-			//Infrastructure.Common.Windows.DialogService.ShowModalWindow(new ReceiptViewModel(SelectedConsumer.Consumer));
-			Infrastructure.Common.Windows.DialogService.ShowModalWindow(new ReportDesignerViewModel(new ReceiptTemplate()));
-		}
-		bool CanOpenReceipt()
-		{
-			return SelectedConsumer != null && !SelectedConsumer.Consumer.IsFolder;
-		}
-
-		public bool IsVisibility
-		{
-			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.ViewConsumer); }
+			get { return DBCash.CheckPermission(PermissionType.ViewConsumer); }
 		}
 	}
 }

@@ -18,6 +18,7 @@
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 					<TextBlock Grid.Row="0" Grid.Column="0" Text="Название" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
 					<TextBox Grid.Row="0" Grid.Column="1" Margin="2"
@@ -29,7 +30,7 @@
 
 					<TextBlock Grid.Row="2" Grid.Column="0" Text="Адрес" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
 					<ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding ComPorts}" SelectedItem="{Binding ComPort}" Margin="2" 
-					  Visibility="{Binding IsEditComPort, Converter={StaticResource BoolToVisibilityConverter}}" >
+							  Visibility="{Binding IsEditComPort, Converter={StaticResource BoolToVisibilityConverter}}" >
 						<ComboBox.ItemTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding .}" Margin="1" />
@@ -37,14 +38,14 @@
 						</ComboBox.ItemTemplate>
 					</ComboBox>
 					<ExtToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Margin="2" HorizontalAlignment="Left" Minimum="0"
-				Value="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsEditAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
+											  Value="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsEditAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2"  
-					   Text="{Binding AddressString}" Visibility="{Binding IsActive, Converter={StaticResource BoolToVisibilityConverter}}" />
+							   Text="{Binding AddressString}" Visibility="{Binding IsActive, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 					<TextBlock Grid.Row="3" Grid.Column="0" Text="Тип ресурса" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" 
-					   Visibility="{Binding HasTariffType, Converter={StaticResource BoolToVisibilityConverter}}" />
+							   Visibility="{Binding HasTariffType, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding TariffTypes}" SelectedItem="{Binding TariffType}" Margin="2" 
-					  Visibility="{Binding CanEditTariffType, Converter={StaticResource BoolToVisibilityConverter}}" >
+							  Visibility="{Binding CanEditTariffType, Converter={StaticResource BoolToVisibilityConverter}}" >
 						<ComboBox.ItemTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" Margin="1" />
@@ -52,17 +53,31 @@
 						</ComboBox.ItemTemplate>
 					</ComboBox>
 					<TextBlock Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2"  
-					   Text="{Binding TariffType, Converter={StaticResource EnumToDescriptionConverter}}" Visibility="{Binding HasReadOnlyTariffType, Converter={StaticResource BoolToVisibilityConverter}}" />
+							   Text="{Binding TariffType, Converter={StaticResource EnumToDescriptionConverter}}" Visibility="{Binding HasReadOnlyTariffType, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-					<TextBlock Grid.Row="4" Grid.Column="0" Text="Счет" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
+					<TextBlock Grid.Row="4" Grid.Column="0" Text="Лицевой счет" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
 					<StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1">
 						<TextBlock VerticalAlignment="Center">
-							<Hyperlink Command="{Binding SelectBillCommand}" CommandParameter="{Binding Bill.ConsumerUID}" Style="{StaticResource HyperlinkStyle}">
-								<TextBlock VerticalAlignment="Center" Text="{Binding BillLinkName}" />
+							<Hyperlink Command="{Binding SelectConsumerCommand}" CommandParameter="{Binding Consumer.UID}" Style="{StaticResource HyperlinkStyle}">
+								<TextBlock VerticalAlignment="Center" TextDecorations="Underline" Text="{Binding ConsumerLinkName}" />
 							</Hyperlink>
 						</TextBlock>
-						<ToolBarButton ToolTip="Удалить привязку счета" Height="28" Width="28" Background="DarkGray" ImageSource="DeleteCross" 
-							   Command="{Binding RemoveBillLinkCommand}" Visibility="{Binding Bill, Converter={StaticResource NullToVisibilityConverter}}" />
+						<ToolBarButton ToolTip="Удалить привязку лицевого счета" Height="28" Width="28" Background="DarkGray" ImageSource="DeleteCross" 
+							   Command="{Binding RemoveConsumerLinkCommand}" Visibility="{Binding Consumer, Converter={StaticResource NullToVisibilityConverter}}" />
+					</StackPanel>
+
+					<TextBlock Grid.Row="5" Grid.Column="0" Text="Тариф" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}"  
+							   Visibility="{Binding IsNetwork, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+					<StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
+								Visibility="{Binding IsNetwork, Converter={StaticResource InversedBoolToVisibilityConverter}}" >
+						<TextBlock VerticalAlignment="Center">
+							<Hyperlink Command="{Binding SelectTariffCommand}" Style="{StaticResource HyperlinkStyle}">
+								<TextBlock Text="{Binding Tariff.Name}" TextDecorations="Underline" Visibility="{Binding HasTariff, Converter={StaticResource BoolToVisibilityConverter}}" />
+								<TextBlock Text="Нажмите для выбора графика работы" Visibility="{Binding HasTariff, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+							</Hyperlink>
+						</TextBlock>
+						<ToolBarButton ToolTip="Открепить от тарифа" Height="28" Width="28" ImageSource="DeleteCross" 
+							   Command="{Binding RemoveTariffCommand}" Visibility="{Binding HasTariff, Converter={StaticResource BoolToVisibilityConverter}}" />
 					</StackPanel>
 				</Grid>
 			</TabItem>
@@ -102,6 +117,17 @@
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
+			</TabItem>
+			<TabItem Header="Управление" Visibility="{Binding HasCommands, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Grid Background="{StaticResource WindowBackgroundBrush}" >
+					<ItemsControl ItemsSource="{Binding Commands}" Margin="2">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Button Command="{Binding SendCommand}" Content="{Binding Model.Description}" Width="200" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center" />
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</Grid>
 			</TabItem>
 		</TabControl>
 		

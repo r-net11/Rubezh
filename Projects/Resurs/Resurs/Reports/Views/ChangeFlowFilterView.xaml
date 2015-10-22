@@ -4,11 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 			 xmlns:Reports="clr-namespace:Resurs.Reports"
+			 xmlns:Converters="clr-namespace:Resurs.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
 			 Width="500" Height="400" 
 			 MinWidth="500" MinHeight="400">
 	<UserControl.Resources>
+		<Converters:DeviceTypeToIconConverter x:Key="DeviceTypeToIconConverter" />
 		<Style x:Key="label" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
 			<Setter Property="HorizontalAlignment" Value="Right" />
 			<Setter Property="Foreground" Value="White" />
@@ -73,7 +75,10 @@
 						<DataGridTemplateColumn Width="*" Header="Название">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
-									<TextBlock Text="{Binding Name}" />
+									<StackPanel Orientation="Horizontal">
+										<Image  VerticalAlignment="Center" Source="{Binding DeviceType, Converter={StaticResource DeviceTypeToIconConverter}}" Margin="2" />
+										<TextBlock Text="{Binding Name}" Margin="2" />
+									</StackPanel>
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
@@ -83,7 +88,6 @@
 									<TextBlock Text="{Binding FullAddress}" />
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
-						
 						</DataGridTemplateColumn>
 					</DataGrid.Columns>
 				</DataGrid>

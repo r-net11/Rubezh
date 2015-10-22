@@ -56,7 +56,15 @@
 								<TextBlock VerticalAlignment="Center">
 									<Hyperlink  Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
 										<StackPanel Orientation="Horizontal">
-											<Image Width="16" VerticalAlignment="Center" Source="{Binding Journal.ClassType , Converter= {StaticResource ClassTypeToIconConverter}}" Margin="2" />
+											<Image Width="16" VerticalAlignment="Center" Margin="2">
+												<Image.Source>
+													<MultiBinding Converter="{StaticResource ClassTypeToIconConverter}" >
+														<Binding Path="Journal.ClassType" />
+														<Binding Path="Journal.JournalType" />
+													</MultiBinding>
+												</Image.Source>
+											</Image>
+											<!--<Image Width="16" VerticalAlignment="Center" Source="{Binding Journal.ClassType , Converter= {StaticResource ClassTypeToIconConverter}}" Margin="2" />-->
 											<TextBlock VerticalAlignment="Center" Text="{Binding Journal.ObjectName}" Margin="2" />
 										</StackPanel>
 									</Hyperlink>
@@ -70,7 +78,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-									<Image Margin="1 0 0 0" Width="16" Height="16" VerticalAlignment="Center" Source="/Controls;component/Images/Employee.png"  Visibility ="{Binding IsUser, Converter={StaticResource BoolToVisibilityConverter}}" />
+								<Image Margin="1 0 0 0" Width="16" Height="16" VerticalAlignment="Center" Source="/Controls;component/Images/Employee.png"  Visibility ="{Binding IsUser, Converter={StaticResource BoolToVisibilityConverter}}" />
 								<TextBlock Text="{Binding Journal.UserName}" VerticalAlignment="Center" Margin="2" />
 							</StackPanel>
 						</DataTemplate>
@@ -90,18 +98,24 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<TextBlock Grid.Row="0" Grid.Column="0" Text="Время" Margin="2" />
-				<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Journal.DateTime,Converter={StaticResource TimeToStringConverter}}" Margin="2" />
+				<TextBlock Grid.Row="0" Grid.Column="0" Text="Подсистема" Margin="2" />
+				<StackPanel  Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="2">
+				<Image  Source ="{Binding Journal.ClassType, Converter= {StaticResource ClassTypeToIconConverter}}" HorizontalAlignment="Left" Margin="2" />
+				<TextBlock 	Text="{Binding Journal.ClassType , Converter={StaticResource EnumToDescriptionConverter}}" />
+				</StackPanel>
+				<TextBlock Grid.Row="1" Grid.Column="0" Text="Время" Margin="2" />
+				<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Journal.DateTime,Converter={StaticResource TimeToStringConverter}}" Margin="2" />
 
-				<TextBlock Grid.Row="1" Grid.Column="0" Text="Событие" Margin="2" />
-				<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Journal.JournalType , Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
+				<TextBlock Grid.Row="2" Grid.Column="0" Text="Событие" Margin="2" />
+				<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Journal.JournalType , Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
 				
-				<TextBlock Grid.Row="2" Grid.Column="0" Text="Объект" Margin="2" />
-				<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Journal.ObjectName}" Margin="2" />
+				<TextBlock Grid.Row="3" Grid.Column="0" Text="Объект" Margin="2" />
+				<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Journal.ObjectName}" Margin="2" />
 
-				<TextBlock Grid.Row="3" Grid.Column="0" Text="Уточнение" Margin="2" />
-				<TextBlock Grid.Row="3" Grid.Column="0" Text="{Binding Journal.Description}" Margin="2" />
+				<TextBlock Grid.Row="4" Grid.Column="0" Text="Уточнение" Margin="2" />
+				<TextBlock Grid.Row="4" Grid.Column="0" Text="{Binding Journal.Description}" Margin="2" />
 			</Grid>
 		</Border>
 	</Grid>		

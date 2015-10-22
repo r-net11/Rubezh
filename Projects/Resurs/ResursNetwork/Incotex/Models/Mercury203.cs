@@ -8,11 +8,12 @@ using ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters;
 using ResursNetwork.OSI.Messages;
 using ResursNetwork.OSI.Messages.Transactions;
 using ResursNetwork.OSI.ApplicationLayer;
-using ResursNetwork.Incotex.Models.DateTime;
+using ResursNetwork.Incotex.Models;
 using ResursNetwork.Incotex.NetworkControllers.Messages;
 using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer;
 using ResursNetwork.Management;
 using ResursAPI.ParameterNames;
+using ResursAPI.CommandNames;
 using Common;
 
 namespace ResursNetwork.Incotex.Models
@@ -51,7 +52,7 @@ namespace ResursNetwork.Incotex.Models
 			}
 		}
 
-		public override System.DateTime RTC
+		public override System.DateTime Rtc
 		{
 			get
 			{
@@ -180,6 +181,24 @@ namespace ResursNetwork.Incotex.Models
 
         }
 
+		public override void ExecuteCommand(string commandName)
+		{
+			if (Status == Management.Status.Running)
+			{
+				switch (commandName)
+				{
+					case CommandNamesMercury203Virtual.SwitchReleOn:
+					case CommandNamesMercury203Virtual.SwitchReleOff:
+					default:
+						{
+							throw new NotSupportedException(String.Format(
+								"Попытка выполнить устройством Id={} неизвестную команду cmd={0}",
+								Id, commandName));
+						}
+				}
+			}
+		}
+
         public override void EventHandler_NetworkController_NetwrokRequestCompleted(
             object sender, NetworkRequestCompletedArgs e)
         {
@@ -198,7 +217,11 @@ namespace ResursNetwork.Incotex.Models
                         if (Errors.CommunicationError)
                         {
                             _Errors.CommunicationError = true;
-                            OnErrorOccurred(new ErrorOccuredEventArgs { Errors = _Errors });
+                            OnErrorOccurred(new ErrorOccuredEventArgs 
+							{
+ 								Id = this.Id,
+								Errors = _Errors 
+							});
                         }
                         // Разбираем транзакцию
                         GetAnswer(e.NetworkRequest);
@@ -209,7 +232,11 @@ namespace ResursNetwork.Incotex.Models
                         if (!Errors.CommunicationError)
                         {
                             _Errors.CommunicationError = true;
-                            OnErrorOccurred(new ErrorOccuredEventArgs { Errors = _Errors });
+                            OnErrorOccurred(new ErrorOccuredEventArgs 
+							{ 
+								Id = this.Id,
+								Errors = _Errors 
+							});
                         }
                         // Записываем в журнал причину
                         //TODO: Logger.Error(transaction.ToString());
@@ -223,6 +250,7 @@ namespace ResursNetwork.Incotex.Models
             }
 
         }
+
         #endregion
 
         #region Network API

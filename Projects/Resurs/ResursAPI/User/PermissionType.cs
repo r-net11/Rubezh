@@ -17,10 +17,10 @@ namespace ResursAPI
 		EditDevice = 3,
 
 		[DescriptionAttribute("Просмотр Абонентов")]
-		ViewConsumer,
+		ViewConsumer = 4,
 
 		[DescriptionAttribute("Редактирование Абонента")]
-		EditConsumer,
+		EditConsumer = 5,
 
 		[DescriptionAttribute("Просмотр Тарифов")]
 		ViewTariff = 6,

@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace Resurs.Views
 {
 	/// <summary>
-	/// Interaction logic for ConsumerChangeParentView.xaml
+	/// Interaction logic for TariffSelectionView.xaml
 	/// </summary>
-	public partial class ConsumerChangeParentView : UserControl
+	public partial class TariffSelectionView : UserControl
 	{
-		public ConsumerChangeParentView()
+		public TariffSelectionView()
 		{
 			InitializeComponent();
 		}

@@ -27,14 +27,19 @@ namespace ResursAPI
 
 		static void CheckUIDs()
 		{
-			Dictionary<Guid, string> dictionary = new Dictionary<Guid, string>();
+			var dictionary = new Dictionary<Guid, string>();
 			foreach (var driver in Drivers)
 			{
 				dictionary.Add(driver.UID, driver.DriverType.ToDescription());
-				Dictionary<Guid, string> parameterDictionary = new Dictionary<Guid, string>();
+				var parameterDictionary = new Dictionary<Guid, string>();
 				foreach (var parameter in driver.DriverParameters)
 				{
 					parameterDictionary.Add(parameter.UID, parameter.Name);
+				}
+				var commandDictionary = new Dictionary<Guid, string>();
+				foreach (var parameter in driver.Commands)
+				{
+					commandDictionary.Add(parameter.UID, parameter.Name);
 				}
 			}
 		}

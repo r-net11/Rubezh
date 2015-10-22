@@ -12,14 +12,6 @@ using ResursNetwork.OSI.Messages.Transactions;
 
 namespace ResursNetwork.OSI.ApplicationLayer
 {
-    public class NetworkRequestCompletedArgs : EventArgs
-    {
-        /// <summary>
-        /// Завершённый сетевой запрос
-        /// </summary>
-        public NetworkRequest NetworkRequest;
-    }
-
     public interface INetwrokController: IManageable, IDisposable
     {
         #region Fields And Properties
@@ -38,6 +30,11 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// Список устройств в сети.
         /// </summary>
         DevicesCollection Devices { get; }
+
+		/// <summary>
+        /// Период (мсек) опроса и получения данных от удалённых устройств
+        /// </summary>
+		int PollingPeriod { get; set; }
 
         /// <summary>
         /// Возвращает объет для работы с физическим интерфейсом
@@ -68,7 +65,8 @@ namespace ResursNetwork.OSI.ApplicationLayer
 
         #region
 
-        event EventHandler<NetworkRequestCompletedArgs> NetwrokRequestCompleted;
+		event EventHandler<NetworkRequestCompletedArgs> NetwrokRequestCompleted;
+		event EventHandler<ParameterChangedArgs> ParameterChanged;
         
         #endregion
     }

@@ -34,17 +34,18 @@ namespace Resurs.ViewModels
 					{
 						child.IsExpanded = true;
 					}
+					DeviceProcessor.Instance.AddToMonitoring(child.Device);
+					foreach (var counter in child.Children)
+					{
+						DeviceProcessor.Instance.AddToMonitoring(counter.Device);
+					}
 				}
 			}
 
-			//foreach (var device in AllDevices)
-			//{
-			//	if (true)
-			//		device.ExpandToThis();
-			//	DeviceProcessor.AddToMonitoring(device.Device);
-			//}
-			
 			OnPropertyChanged(() => RootDevices);
+
+			DeviceProcessor.Instance.IsActiveChanged -= OnIsActiveChanged;
+			DeviceProcessor.Instance.IsActiveChanged += OnIsActiveChanged;
 		}
 
 		DeviceViewModel _selectedDevice;
@@ -129,34 +130,34 @@ namespace Resurs.ViewModels
 			}
 		}
 
-		public bool IsVisibility
+		public bool IsVisible
 		{
-			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.ViewDevice); }
+			get { return DBCash.CheckPermission(PermissionType.ViewDevice); }
 		}
 
-		void UpdateBillViewModels(Device device, Bill oldBill = null)
+		void UpdateConsumerDetailsViewModels(Device device, Consumer oldConsumer = null)
 		{
-			var newBill = device.Bill;
-			if (oldBill == newBill)
+			var newConsumer = device.Consumer;
+			if (oldConsumer == newConsumer)
 				return;
-			if (oldBill != null)
+			if (oldConsumer != null)
 			{
-				var billViewModel = Bootstrapper.MainViewModel.ConsumersViewModel.FindBillViewModel(oldBill.UID);
-				if (billViewModel != null)
+				var consumerDetailsViewModel = Bootstrapper.MainViewModel.ConsumersViewModel.FindConsumerDetailsViewModel(oldConsumer.UID);
+				if (consumerDetailsViewModel != null)
 				{
-					var deviceViewModel = billViewModel.Devices.FirstOrDefault(x => x.Device.UID == device.UID);
+					var deviceViewModel = consumerDetailsViewModel.Devices.FirstOrDefault(x => x.Device.UID == device.UID);
 					if (deviceViewModel != null)
-						billViewModel.Devices.Remove(deviceViewModel);
+						consumerDetailsViewModel.Devices.Remove(deviceViewModel);
 				}
 			}
-			if (newBill != null)
+			if (newConsumer != null)
 			{
-				var billViewModel = Bootstrapper.MainViewModel.ConsumersViewModel.FindBillViewModel(newBill.UID);
-				if (billViewModel != null)
+				var consumerDetailsViewModel = Bootstrapper.MainViewModel.ConsumersViewModel.FindConsumerDetailsViewModel(newConsumer.UID);
+				if (consumerDetailsViewModel != null)
 				{
-					var deviceViewModel = billViewModel.Devices.FirstOrDefault(x => x.Device.UID == device.UID);
+					var deviceViewModel = consumerDetailsViewModel.Devices.FirstOrDefault(x => x.Device.UID == device.UID);
 					if (deviceViewModel == null)
-						billViewModel.Devices.Add(new DeviceViewModel(device));
+						consumerDetailsViewModel.Devices.Add(new DeviceViewModel(device));
 				}
 			}
 		}
@@ -191,35 +192,32 @@ namespace Resurs.ViewModels
 					parent.IsExpanded = true;
 					AllDevices.Add(deviceViewModel);
 					SelectedDevice = deviceViewModel;
-					DeviceProcessor.AddToMonitoring(deviceViewModel.Device);
-					UpdateBillViewModels(SelectedDevice.Device);
+					DeviceProcessor.Instance.AddToMonitoring(deviceViewModel.Device);
+					UpdateConsumerDetailsViewModels(SelectedDevice.Device);
 				}
 			}
 		}
 		bool CanAdd()
 		{
-			return SelectedDevice != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);
+			return SelectedDevice != null && DBCash.CheckPermission(PermissionType.EditDevice);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var oldBill = SelectedDevice.Device.Bill;
+			var oldConsumer = SelectedDevice.Device.Consumer;
 			var deviceDetailsViewModel = new DeviceDetailsViewModel(SelectedDevice.Device);
 			if (DialogService.ShowModalWindow(deviceDetailsViewModel))
 			{
-				var deviceViewModel = new DeviceViewModel(deviceDetailsViewModel.Device);
 				SelectedDevice.Update(deviceDetailsViewModel.Device);
 				foreach (var child in SelectedDevice.Children)
-				{
 					child.Update();
-				}
-				UpdateBillViewModels(SelectedDevice.Device, oldBill);
+				UpdateConsumerDetailsViewModels(SelectedDevice.Device, oldConsumer);
 			}
 		}
 		bool CanEdit()
 		{
-			return SelectedDevice != null && SelectedDevice.Parent != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);
+			return SelectedDevice != null && SelectedDevice.Parent != null && DBCash.CheckPermission(PermissionType.EditDevice);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -232,37 +230,30 @@ namespace Resurs.ViewModels
 				if (parent != null && DBCash.DeleteDevice(selectedDevice.Device))
 				{
 					var index = selectedDevice.VisualIndex;
-					DeviceProcessor.DeleteFromMonitoring(selectedDevice.Device);
+					DeviceProcessor.Instance.DeleteFromMonitoring(selectedDevice.Device);
 					parent.Nodes.Remove(selectedDevice);
 					index = Math.Min(index, parent.ChildrenCount - 1);
 					foreach (var childDeviceViewModel in selectedDevice.GetAllChildren(true))
 					{
 						AllDevices.Remove(childDeviceViewModel);
 					}
-					UpdateBillViewModels(SelectedDevice.Device, SelectedDevice.Device.Bill);
+					UpdateConsumerDetailsViewModels(SelectedDevice.Device, SelectedDevice.Device.Consumer);
 					SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 				}
 			}
 		}
 		bool CanRemove()
 		{
-			return SelectedDevice != null && SelectedDevice.Parent != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);
+			return SelectedDevice != null && SelectedDevice.Parent != null && DBCash.CheckPermission(PermissionType.EditDevice);
 		}
 
 		public RelayCommand SetActiveCommand { get; private set; }
 		void OnSetActive()
 		{
-			SelectedDevice.Device.IsActive = true;
-			if (DeviceProcessor.WriteParameters(SelectedDevice.Device) &&
-				DeviceProcessor.SetStatus(SelectedDevice.Device))
+			if (DeviceProcessor.Instance.WriteParameters(SelectedDevice.Device))
 			{
-				DBCash.SaveDevice(SelectedDevice.Device);
+				DeviceProcessor.Instance.SetStatus(SelectedDevice.Device, true);
 			}
-			else
-			{
-				SelectedDevice.Device.IsActive = false;
-			}
-			SelectedDevice.Update();
 		}
 		bool CanSetActive()
 		{
@@ -275,16 +266,7 @@ namespace Resurs.ViewModels
 		public RelayCommand UnSetActiveCommand { get; private set; }
 		void OnUnSetActive()
 		{
-			SelectedDevice.Device.IsActive = false;
-			if (DeviceProcessor.SetStatus(SelectedDevice.Device))
-			{
-				DBCash.SaveDevice(SelectedDevice.Device);
-			}
-			else
-			{
-				SelectedDevice.Device.IsActive = true;
-			}
-			SelectedDevice.Update();
+			DeviceProcessor.Instance.SetStatus(SelectedDevice.Device, false);
 		}
 		bool CanUnSetActive()
 		{
@@ -292,6 +274,17 @@ namespace Resurs.ViewModels
 				SelectedDevice.Parent != null &&
 				SelectedDevice.IsActive && 
 				DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);
+		}
+
+		void OnIsActiveChanged(object sender, IsActiveChangedEventArgs args)
+		{
+			var device = RootDevice.GetAllChildren().FirstOrDefault(x => x.Device.UID == args.DeviceUID);
+			if(device != null)
+			{
+				SelectedDevice.Device.IsActive = args.IsActive;
+				DBCash.SaveDevice(SelectedDevice.Device);
+				SelectedDevice.Update();
+			}
 		}
 	}
 }

@@ -35,6 +35,10 @@ namespace Resurs.ViewModels
 					if (Journal.ObjectUID.HasValue)
 						Bootstrapper.MainViewModel.UsersViewModel.Select(Journal.ObjectUID.Value);
 					break;
+				case ClassType.IsTariff:
+					if (Journal.ObjectUID.HasValue)
+						Bootstrapper.MainViewModel.TariffsViewModel.Select(Journal.ObjectUID.Value);
+					break;
 			}
 		}
 	}

@@ -32,7 +32,7 @@ namespace ReportsModule.ViewModels
 
 		public void Build(object args)
 		{
-			CreateDocument(args);
+			CreateDocumentInternal(args);
 		}
 
 		public string SelectedPage

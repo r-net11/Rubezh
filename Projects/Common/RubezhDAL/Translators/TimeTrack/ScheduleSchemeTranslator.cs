@@ -10,13 +10,7 @@ namespace RubezhDAL.DataClasses
 	public class ScheduleSchemeTranslator : OrganisationItemTranslatorBase<ScheduleScheme, API.ScheduleScheme, API.ScheduleSchemeFilter>
 	{
 		public ScheduleSchemeTranslator(DbService context)
-			: base(context)
-		{
-			AsyncTranslator = new ScheduleSchemeAsyncTranslator(this);
-		}
-
-		public ScheduleSchemeAsyncTranslator AsyncTranslator { get; private set; }
-
+			: base(context) { }
 		public override DbSet<ScheduleScheme> Table
 		{
 			get { return Context.ScheduleSchemes; }
@@ -66,15 +60,6 @@ namespace RubezhDAL.DataClasses
 				Number = x.Number,
 				UID = x.UID
 			}).ToList();
-		}
-	}
-
-	public class ScheduleSchemeAsyncTranslator : AsyncTranslator<ScheduleScheme, API.ScheduleScheme, API.ScheduleSchemeFilter>
-	{
-		public ScheduleSchemeAsyncTranslator(ScheduleSchemeTranslator translator) : base(translator as ITranslatorGet<ScheduleScheme, API.ScheduleScheme, API.ScheduleSchemeFilter>) { }
-		public override List<API.ScheduleScheme> GetCollection(DbCallbackResult callbackResult)
-		{
-			return callbackResult.ScheduleSchemes;
 		}
 	}
 }
