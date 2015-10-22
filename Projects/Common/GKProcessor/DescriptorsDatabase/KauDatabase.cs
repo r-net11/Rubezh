@@ -35,8 +35,10 @@ namespace GKProcessor
 			Descriptors = new List<BaseDescriptor>();
 			foreach (var device in Devices)
 			{
-				var deviceDescriptor = new DeviceDescriptor(device);
-				Descriptors.Add(deviceDescriptor);
+				if (device.DriverType == GKDriverType.RSR2_GKMirrorDetectorsDevice)
+					Descriptors.Add(new DetectorDevicesMirrorDescriptor(device));
+				else
+					Descriptors.Add(new DeviceDescriptor(device));
 			}
 
 			foreach (var zone in GKManager.Zones.Where(x => x.KauDatabaseParent == RootDevice))

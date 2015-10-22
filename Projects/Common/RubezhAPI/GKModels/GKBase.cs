@@ -80,6 +80,8 @@ namespace RubezhAPI.GK
 		public virtual string GetGKDescriptorName(GKNameGenerationType gkNameGenerationType)
 		{
 			var result = PresentationName;
+			if (result == null)
+				return "";
 			if (result.Length > 32)
 				result = result.Substring(0, 32);
 			return result.TrimEnd(' ');
