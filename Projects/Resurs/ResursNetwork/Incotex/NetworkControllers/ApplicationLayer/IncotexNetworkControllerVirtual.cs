@@ -175,7 +175,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 						OnConfigurationChanged(
 							new ConfigurationChangedEventArgs
 							{
-								Id = e.Device.Id,
+								Device = e.Device,
 								Action = ConfigurationChangedAction.DeviceAdded
 							});
 						break;
@@ -185,7 +185,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 						OnConfigurationChanged(
 							new ConfigurationChangedEventArgs
 							{
-								Id = e.Device.Id,
+								Device = e.Device,
 								Action = ConfigurationChangedAction.DeviceRemoved
 							});
 						break;

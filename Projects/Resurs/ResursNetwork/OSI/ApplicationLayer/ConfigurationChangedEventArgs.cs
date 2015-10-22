@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ResursNetwork.OSI.ApplicationLayer.Devices;
 
 namespace ResursNetwork.OSI.ApplicationLayer
 {
@@ -14,7 +15,11 @@ namespace ResursNetwork.OSI.ApplicationLayer
 		/// <summary>
 		/// Устройтство удалено
 		/// </summary>
-		DeviceRemoved
+		DeviceRemoved,
+		/// <summary>
+		/// Устройство собираются удалить
+		/// </summary>
+		DeviceRemoving
 	}
 
 	/// <summary>
@@ -24,16 +29,16 @@ namespace ResursNetwork.OSI.ApplicationLayer
 	{
 		#region Fields And Properties
 
-		Guid _id;
+		IDevice _device;
 		ConfigurationChangedAction _action;
 
 		/// <summary>
-		/// Идентификатор элемента конфигурации
+		/// Устройство
 		/// </summary>
-		public Guid Id
+		public IDevice Device
 		{
-			get { return _id; }
-			set { _id = value; }
+			get { return _device; }
+			set { _device = value; }
 		}
 
 		/// <summary>
