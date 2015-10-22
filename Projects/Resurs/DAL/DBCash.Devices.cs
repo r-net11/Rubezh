@@ -6,6 +6,7 @@ using System.Text;
 using System.Data.Entity;
 using System.Runtime.Serialization;
 using Infrastructure.Common.Windows;
+using System.Diagnostics;
 
 
 namespace ResursDAL
@@ -13,6 +14,7 @@ namespace ResursDAL
 	public static partial class DBCash
 	{
 		public static Device RootDevice { get; private set; }
+		public static List<Device> Devices { get { return GetAllChildren(RootDevice); } }
 
 		public static Device GetRootDevice()
 		{
@@ -20,35 +22,34 @@ namespace ResursDAL
 			{
 				using (var context = DatabaseContext.Initialize())
 				{
-					
-					var tableItems = context.Devices.Select(x => new 
-						{ 
-							UID = x.UID, 
-							Address = x.Address, 
-							DriverUID = x.DriverUID, 
-							Name = x.Name,
-							Description = x.Description,
-							ParentUID = x.ParentUID, 
-							IsActive = x.IsActive,
-							TariffType = x.TariffType,
-							ComPort = x.ComPort,
-							TariffUID = x.TariffUID,
-						}).ToList();
-					var allDevices = tableItems.Select(x => new Device
-						{
-							UID = x.UID,
-							Address = x.Address,
-							DriverUID = x.DriverUID,
-							Name = x.Name,
-							Description = x.Description,
-							ParentUID = x.ParentUID,
-							IsActive = x.IsActive,
-							TariffType = x.TariffType,
-							ComPort = x.ComPort,
-							TariffUID = x.TariffUID,
-						}).OrderBy(x => x.Address).ToList();
-					
-					SetChildren(allDevices);
+					var allDevices = context.Devices.Include(x => x.Parameters).Include(x => x.Tariff).Include(x => x.Tariff.TariffParts).OrderBy(x => x.Address).ToList();
+					//var tableItems = context.Devices.Select(x => new 
+					//	{ 
+					//		UID = x.UID, 
+					//		Address = x.Address, 
+					//		DriverUID = x.DriverUID, 
+					//		Name = x.Name,
+					//		Description = x.Description,
+					//		ParentUID = x.ParentUID, 
+					//		IsActive = x.IsActive,
+					//		TariffType = x.TariffType,
+					//		ComPort = x.ComPort,
+					//		TariffUID = x.TariffUID,
+					//	}).ToList();
+					//var allDevices = tableItems.Select(x => new Device
+					//	{
+					//		UID = x.UID,
+					//		Address = x.Address,
+					//		DriverUID = x.DriverUID,
+					//		Name = x.Name,
+					//		Description = x.Description,
+					//		ParentUID = x.ParentUID,
+					//		IsActive = x.IsActive,
+					//		TariffType = x.TariffType,
+					//		ComPort = x.ComPort,
+					//		TariffUID = x.TariffUID,
+					//	}).OrderBy(x => x.Address).ToList();
+					//SetChildren(allDevices);
 					var result = allDevices.FirstOrDefault(x => x.ParentUID == null);
 					if (result != null)
 					{
@@ -171,8 +172,8 @@ namespace ResursDAL
 				RootDevice = new Device(DriverType.System);
 				devices.Add(RootDevice);
 #if DEBUG
-				int interfaces = 2;
-				int devicesPerInterface = 2;
+				int interfaces = 10;
+				int devicesPerInterface = 100;
 				for (int i = 0; i < interfaces / 2; i++)
 				{
 					var interfaceDevice = new Device(DriverType.BeregunNetwork, RootDevice);
@@ -201,21 +202,83 @@ namespace ResursDAL
 				}
 				var dateTimes = devices.SelectMany(x => x.Parameters).Select(x => x.DateTimeValue).Distinct();
 #endif
+				
 				using (var context = DatabaseContext.Initialize())
 				{
-					context.Devices.RemoveRange(context.Devices);
-					foreach (var item in devices)
-					{
-						item.DateTime = item.DateTime.CheckDate();
-					}
-					context.Devices.AddRange(devices);
-					context.SaveChanges();
-					var tableDateTimes = context.Devices.SelectMany(x => x.Parameters).Select(x => x.DateTimeValue).Distinct();
+					AddRangeDevicesQuery(devices, context);
+					AddRangeParametersQuery(devices.SelectMany(x => x.Parameters), context);
 				}
 			}
 			catch (Exception e)
 			{
 				MessageBoxService.Show(e.Message);
+			}
+		}
+
+		static void AddRangeDevicesQuery(IEnumerable<Device> devices, DatabaseContext context)
+		{
+
+			if (devices.Count() == 0)
+				return;
+			var index = 0;
+			while (true)
+			{
+				var portion = devices.Skip(1000 * index).Take(1000);
+				index++;
+				if (portion.Count() == 0)
+					break;
+				var query = "INSERT INTO dbo.\"Devices\" (\"UID\", \"Name\", \"Description\", \"ParentUID\", \"TariffUID\", \"BillUID\", \"DriverUID\", \"Address\", \"IsActive\", \"IsDbMissmatch\", \"TariffType\", \"DateTime\") VALUES";
+				foreach (var item in portion)
+				{
+					query += string.Format("('{0}', '{1}', '{2}', {3}, {4}, {5}, '{6}', '{7}', '{8}', '{9}', '{10}', '{11}'),",
+						item.UID,
+						item.Name,
+						item.Description,
+						item.ParentUID.ToSqlStr(),
+						item.TariffUID.ToSqlStr(),
+						item.BillUID.ToSqlStr(),
+						item.DriverUID,
+						item.Address,
+						item.IsActive,
+						item.IsDbMissmatch,
+						(int)item.TariffType,
+						item.DateTime.CheckDate());
+				}
+				query = query.TrimEnd(',');
+				lock (locker)
+					context.Database.ExecuteSqlCommand(query);
+			}
+		}
+
+		static object locker = new object();
+
+		static void AddRangeParametersQuery(IEnumerable<Parameter> parameters, DatabaseContext context)
+		{
+			if (parameters.Count() == 0)
+				return;
+			var index = 0;
+			while (true)
+			{
+				var portion = parameters.Skip(1000 * index).Take(1000);
+				index++;
+				if (portion.Count() == 0)
+					break;
+				var query = "INSERT INTO dbo.\"Parameters\" (\"UID\", \"Device_UID\", \"DriverParameterUID\", \"IntValue\", \"DoubleValue\", \"BoolValue\", \"StringValue\", \"DateTimeValue\") VALUES";
+				foreach (var item in portion)
+				{
+					query += string.Format("('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}'),",
+						item.UID,
+						item.Device.UID,
+						item.DriverParameterUID,
+						item.IntValue,
+						item.DoubleValue != null ? item.DoubleValue.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : item.DoubleValue.ToString(),
+						item.BoolValue,
+						item.StringValue,
+						item.DateTimeValue);
+				}
+				query = query.TrimEnd(',');
+				lock(locker)
+					context.Database.ExecuteSqlCommand(query);
 			}
 		}
 
@@ -273,7 +336,13 @@ namespace ResursDAL
 
 				using (var context = DatabaseContext.Initialize())
 				{
-					var device = context.Devices.Include(x => x.Parent).Include(x => x.Parameters).Include(x => x.Bill).Include(x => x.Tariff).FirstOrDefault(x => x.UID == uid);
+					var device = context.Devices
+						.Include(x => x.Parent)
+						.Include(x => x.Parameters)
+						.Include(x => x.Bill)
+						.Include(x => x.Tariff)
+						.Include(x => x.Tariff.TariffParts)
+						.FirstOrDefault(x => x.UID == uid);
 					InitializeDevice(device);
 					device.Parameters = device.Parameters.OrderBy(x => x.DriverParameter.Number).ToList();
 					device.IsLoaded = true;
@@ -402,6 +471,18 @@ namespace ResursDAL
 			if (value == null)
 				return "NULL";
 			return "'" + value.Value.CheckDate().ToString("yyyyMMdd HH:mm:ss") + "'";
+		}
+
+		static string ToSqlStr(this Guid? value)
+		{
+			if (value == null)
+				return "NULL";
+			return value.Value.ToSqlStr();
+		}
+
+		static string ToSqlStr(this Guid value)
+		{
+			return "'" + value.ToString() + "'";
 		}
 	}
 }

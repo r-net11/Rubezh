@@ -230,17 +230,17 @@ namespace ResursNetwork.Networks
 										device.GetParameter(ParameterNamesMercury203.GADDR);
 									mercury203.Parameters[ParameterNamesMercury203.PowerLimit].Value =
 										device.GetParameter(ParameterNamesMercury203.PowerLimit);
-									mercury203.Parameters[ParameterNamesMercury203.PowerLimitPerMonth].Value =
-										device.GetParameter(ParameterNamesMercury203.PowerLimitPerMonth);
+									//mercury203.Parameters[ParameterNamesMercury203.PowerLimitPerMonth].Value =
+									//	device.GetParameter(ParameterNamesMercury203.PowerLimitPerMonth);
 									//TODO: Сделать таблицу параметров доконца
 
 									var owner = device.Parent;
 
 									if ((owner == null) ||
-										(owner.DriverType != DriverType.IncotextNetwork))
+										(owner.DriverType != DriverType.VirtualIncotextNetwork))
 									{
 										throw new InvalidOperationException(
-											"Невозможно добавить устройтсво. Владельцем устройства не является IncotextNetwork");
+											"Невозможно добавить устройтсво. Владельцем устройства не является VirtualIncotextNetwork");
 									}
 
 									_NetworkControllers[(Guid)owner.GetParameter(ParameterNamesBase.Id)]

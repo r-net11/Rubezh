@@ -34,17 +34,18 @@ namespace Resurs.ViewModels
 					{
 						child.IsExpanded = true;
 					}
+					DeviceProcessor.Instance.AddToMonitoring(child.Device);
+					foreach (var counter in child.Children)
+					{
+						DeviceProcessor.Instance.AddToMonitoring(counter.Device);
+					}
 				}
 			}
 
-			//foreach (var device in AllDevices)
-			//{
-			//	if (true)
-			//		device.ExpandToThis();
-			//	DeviceProcessor.AddToMonitoring(device.Device);
-			//}
-			
 			OnPropertyChanged(() => RootDevices);
+
+			DeviceProcessor.Instance.IsActiveChanged -= OnIsActiveChanged;
+			DeviceProcessor.Instance.IsActiveChanged += OnIsActiveChanged;
 		}
 
 		DeviceViewModel _selectedDevice;
@@ -191,7 +192,7 @@ namespace Resurs.ViewModels
 					parent.IsExpanded = true;
 					AllDevices.Add(deviceViewModel);
 					SelectedDevice = deviceViewModel;
-					DeviceProcessor.AddToMonitoring(deviceViewModel.Device);
+					DeviceProcessor.Instance.AddToMonitoring(deviceViewModel.Device);
 					UpdateBillViewModels(SelectedDevice.Device);
 				}
 			}
@@ -232,7 +233,7 @@ namespace Resurs.ViewModels
 				if (parent != null && DBCash.DeleteDevice(selectedDevice.Device))
 				{
 					var index = selectedDevice.VisualIndex;
-					DeviceProcessor.DeleteFromMonitoring(selectedDevice.Device);
+					DeviceProcessor.Instance.DeleteFromMonitoring(selectedDevice.Device);
 					parent.Nodes.Remove(selectedDevice);
 					index = Math.Min(index, parent.ChildrenCount - 1);
 					foreach (var childDeviceViewModel in selectedDevice.GetAllChildren(true))
@@ -252,17 +253,10 @@ namespace Resurs.ViewModels
 		public RelayCommand SetActiveCommand { get; private set; }
 		void OnSetActive()
 		{
-			SelectedDevice.Device.IsActive = true;
-			if (DeviceProcessor.WriteParameters(SelectedDevice.Device) &&
-				DeviceProcessor.SetStatus(SelectedDevice.Device))
+			if (DeviceProcessor.Instance.WriteParameters(SelectedDevice.Device))
 			{
-				DBCash.SaveDevice(SelectedDevice.Device);
+				DeviceProcessor.Instance.SetStatus(SelectedDevice.Device, true);
 			}
-			else
-			{
-				SelectedDevice.Device.IsActive = false;
-			}
-			SelectedDevice.Update();
 		}
 		bool CanSetActive()
 		{
@@ -275,16 +269,7 @@ namespace Resurs.ViewModels
 		public RelayCommand UnSetActiveCommand { get; private set; }
 		void OnUnSetActive()
 		{
-			SelectedDevice.Device.IsActive = false;
-			if (DeviceProcessor.SetStatus(SelectedDevice.Device))
-			{
-				DBCash.SaveDevice(SelectedDevice.Device);
-			}
-			else
-			{
-				SelectedDevice.Device.IsActive = true;
-			}
-			SelectedDevice.Update();
+			DeviceProcessor.Instance.SetStatus(SelectedDevice.Device, false);
 		}
 		bool CanUnSetActive()
 		{
@@ -292,6 +277,17 @@ namespace Resurs.ViewModels
 				SelectedDevice.Parent != null &&
 				SelectedDevice.IsActive && 
 				DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);
+		}
+
+		void OnIsActiveChanged(object sender, IsActiveChangedEventArgs args)
+		{
+			var device = RootDevice.GetAllChildren().FirstOrDefault(x => x.Device.UID == args.DeviceUID);
+			if(device != null)
+			{
+				SelectedDevice.Device.IsActive = args.IsActive;
+				DBCash.SaveDevice(SelectedDevice.Device);
+				SelectedDevice.Update();
+			}
 		}
 	}
 }

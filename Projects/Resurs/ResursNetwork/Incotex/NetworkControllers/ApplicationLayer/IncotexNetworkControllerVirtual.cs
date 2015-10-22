@@ -138,7 +138,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 			get { return _pollingPeriod; }
 			set 
 			{
-				if (value > MIN_POLLING_PERIOD)
+				if (value >= MIN_POLLING_PERIOD)
 				{
 					_pollingPeriod = value;
 				}

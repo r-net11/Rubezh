@@ -105,7 +105,7 @@ function AppViewModel() {
     self.Menu.Report = ReportViewModel();
     self.Menu.Archive = ArchiveViewModel();
     self.Menu.HR = HRViewModel();
-    self.Menu.HR.Employees = EmployeesViewModel();
+    self.Menu.HR.Employees = EmployeesViewModel(self.Menu.HR);
     self.Menu.HR.Employees.EmployeeDetails = EmployeeDetailsViewModel();
 
     return self;
@@ -137,4 +137,12 @@ ko.bindingHandlers.datepicker = {
         }
     }
 };
+
+$.datepicker.setDefaults(
+  $.extend(
+    { 'dateFormat': 'dd.mm.yy' },
+    $.datepicker.regional['ru']
+  )
+);
+
 ko.applyBindings(new AppViewModel());

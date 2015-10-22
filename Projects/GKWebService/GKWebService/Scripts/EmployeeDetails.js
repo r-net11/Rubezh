@@ -8,6 +8,8 @@
 function EmployeeDetailsViewModel() {
     var self = this;
 
+    self.Title = ko.observable();
+
     self.employeeDetailsPages = {
         General: ko.observable(true),
         Document: ko.observable(false),
@@ -30,13 +32,21 @@ function EmployeeDetailsViewModel() {
     $('#employee-details-box').on('fadeInComplete', function () {
     });
 
-    self.Init = function (isNew) {
+    self.FIO = function () {
+        var names = [self.LastName(), self.FirstName(), self.SecondName()];
+        return names.join(" ");
+    };
+
+    self.Init = function (isNew, personType) {
         self.IsNew = isNew;
+        self.PersonType = personType;
         if (isNew) {
+            self.Title(self.PersonType === "Employee" ? "Добавить сотрудника" : "Добавить посетителя");
             self.OrganisationUID(self.Organisation.UID);
             self.IsOrganisationChief(false);
             self.IsOrganisationHRChief(false);
         } else {
+            self.Title((self.PersonType === "Employee" ? "Свойства сотрудника: " : "Свойства посетителя: ") + self.FIO());
             self.IsOrganisationChief(self.Organisation.ChiefUID == UID());
             self.IsOrganisationHRChief(self.Organisation.HRChiefUID == UID());
         }

@@ -293,7 +293,7 @@ namespace Resurs.ViewModels
 					var oldParameter = _oldDevice.Parameters.FirstOrDefault(x => x.UID == newParameter.UID);
 					if (oldParameter.ValueType != newParameter.ValueType)
 					{
-						isDbMissmatch = isDbMissmatch || !DeviceProcessor.WriteParameter(Device.UID, newParameter.DriverParameter.Name, newParameter.ValueType);
+						isDbMissmatch = isDbMissmatch || !DeviceProcessor.Instance.WriteParameter(Device.UID, newParameter.DriverParameter.Name, newParameter.ValueType);
 					}
 					
 				}
@@ -375,7 +375,7 @@ namespace Resurs.ViewModels
 			get 
 			{ 
 				return new RelayCommand(() => 
-					DeviceProcessor.SendCommand(_device.UID, Model.Name)); 
+					DeviceProcessor.Instance.SendCommand(_device.UID, Model.Name)); 
 			} 
 		}
 	}
