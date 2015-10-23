@@ -88,7 +88,6 @@
     <Compile Include="DescriptorsDatabase\Descriptors\DirectionDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\FormulaBuilder.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\ZoneDescriptor.cs" />
-    <Compile Include="DescriptorsDatabase\MirrorDatabase.cs" />
     <Compile Include="DescriptorsDatabase\PumpStationCreator.cs" />
     <Compile Include="DescriptorsDatabase\MPTCreator.cs" />
     <Compile Include="DescriptorStateHelper.cs" />
