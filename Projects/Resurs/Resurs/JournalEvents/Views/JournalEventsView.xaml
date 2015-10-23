@@ -8,6 +8,7 @@
 	<UserControl.Resources>
 		<Converters:JournalTypeToIconConverter x:Key="JournalTypeToIconConverter" />
 		<Converters:ClassTypeToIconConverter x:Key="ClassTypeToIconConverter" />
+		<Converters:JournalTypeToColorConverter x:Key="JournalTypeToColorConverter" />
 	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -36,9 +37,15 @@
 				</StackPanel>
 			</Grid>
 		</Border>
-		<DataGrid Grid.Row="1" ItemsSource="{Binding Events}" SelectedItem="{Binding SelectedEvent}" CanUserSortColumns="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+		<DataGrid Grid.Row="1" ItemsSource="{Binding Events}" SelectedItem="{Binding SelectedEvent}">
 			<DataGrid.Columns>
-				<DataGridTextColumn Binding="{Binding Journal.DateTime,Converter={StaticResource TimeToStringConverter}}" Width="Auto" Header="Время" />
+				<DataGridTemplateColumn Header="Время"  Width="Auto">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock VerticalAlignment="Center" Text= "{Binding Journal.DateTime,Converter={StaticResource TimeToStringConverter}}" Margin="2" />
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
 				<DataGridTemplateColumn Header="Событие"  Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -49,6 +56,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<DataGridTextColumn Binding="{Binding Journal.Description}" Width="*" Header="Уточнение" />
 				<DataGridTemplateColumn Header="Объект"  Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -64,7 +72,6 @@
 													</MultiBinding>
 												</Image.Source>
 											</Image>
-											<!--<Image Width="16" VerticalAlignment="Center" Source="{Binding Journal.ClassType , Converter= {StaticResource ClassTypeToIconConverter}}" Margin="2" />-->
 											<TextBlock VerticalAlignment="Center" Text="{Binding Journal.ObjectName}" Margin="2" />
 										</StackPanel>
 									</Hyperlink>
@@ -73,7 +80,6 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Binding="{Binding Journal.Description}" Width="*" Header="Уточнение" />
 				<DataGridTemplateColumn Header="Пользователь" SortMemberPath="Journal.UserName" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -85,6 +91,28 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
+			<DataGrid.CellStyle>
+				<Style TargetType="{x:Type DataGridCell}">
+					<Style.Setters>
+						<Setter Property="Template">
+							<Setter.Value>
+								<ControlTemplate TargetType="{x:Type DataGridCell}">
+									<Border Background="{TemplateBinding Background}" BorderThickness="0">
+										<ContentPresenter VerticalAlignment="Center" />
+									</Border>
+								</ControlTemplate>
+							</Setter.Value>
+						</Setter>
+						<Setter Property="Background" Value="{Binding Journal.JournalType, Converter={StaticResource JournalTypeToColorConverter}}" />
+					</Style.Setters>
+					<Style.Triggers>
+						<Trigger Property="IsSelected" Value="True">
+							<Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+							<Setter Property="Foreground" Value="White" />
+						</Trigger>
+					</Style.Triggers>
+				</Style>
+			</DataGrid.CellStyle>
 		</DataGrid>
 		<Border Grid.Row="2" DataContext="{Binding SelectedEvent}" TextElement.Foreground="White" Background="{DynamicResource BackgroundBrush}" BorderThickness="0" CornerRadius="5" Padding="5" Margin="0 5 0 0">
 			<Grid>
@@ -102,7 +130,7 @@
 				</Grid.RowDefinitions>
 				<TextBlock Grid.Row="0" Grid.Column="0" Text="Подсистема" Margin="2" />
 				<StackPanel  Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="2">
-				<Image  Source ="{Binding Journal.ClassType, Converter= {StaticResource ClassTypeToIconConverter}}" HorizontalAlignment="Left" Margin="2" />
+					<Image Width="16" Height="16" Source ="{Binding Journal.ClassType, Converter= {StaticResource ClassTypeToIconConverter}}" HorizontalAlignment="Left" Margin="2" />
 				<TextBlock 	Text="{Binding Journal.ClassType , Converter={StaticResource EnumToDescriptionConverter}}" />
 				</StackPanel>
 				<TextBlock Grid.Row="1" Grid.Column="0" Text="Время" Margin="2" />

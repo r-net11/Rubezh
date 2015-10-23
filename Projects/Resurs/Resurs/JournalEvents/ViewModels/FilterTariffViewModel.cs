@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Resurs.ViewModels
 {
-	public class FilterTariffViewModel:BaseViewModel
+	public class FilterTariffViewModel : BaseViewModel
 	{
 		public Tariff Tariff { get; set; }
 		public FilterTariffViewModel(Tariff tariff)

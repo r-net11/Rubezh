@@ -15,20 +15,16 @@ namespace Resurs.ViewModels
 		{
 			RemoveCommand = new RelayCommand(OnDelete, CanDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			AddCommand = new RelayCommand(OnAdd,CanAdd);
-			Build();
+			AddCommand = new RelayCommand(OnAdd);
+
+			Users = new ObservableCollection<UserViewModel>();
+			DBCash.Users.ForEach(x => Users.Add(new UserViewModel(x)));
+			SelectedUser = Users.FirstOrDefault();
+			if (DBCash.GetUser(SelectedUser.User.UID) != null)
+				SelectedUser.User = DBCash.GetUser(SelectedUser.User.UID);
 		}
 
-		ObservableCollection<UserViewModel> _users;
-		public ObservableCollection<UserViewModel> Users
-		{
-			get { return _users; }
-			set
-			{
-				_users = value;
-				OnPropertyChanged(() => Users);
-			}
-		}
+		public ObservableCollection<UserViewModel> Users { get; private set; }
 
 		UserViewModel _selectedUser;
 		public UserViewModel SelectedUser
@@ -37,30 +33,24 @@ namespace Resurs.ViewModels
 			set
 			{
 				_selectedUser = value;
-				if (SelectedUser != null && DBCash.GetUser(SelectedUser.User.UID)!=null)
-					SelectedUser.User = DBCash.GetUser(SelectedUser.User.UID);
+				if (_selectedUser != null)
+					_selectedUser.User = DBCash.GetUser(SelectedUser.User.UID);
 				OnPropertyChanged(() => SelectedUser);
 			}
 		}
 
 		public RelayCommand AddCommand { get; set; }
-
 		void OnAdd()
 		{
 			var userDetailsViewModel = new UserDetailsViewModel();
-			if(DialogService.ShowModalWindow(userDetailsViewModel))
+			if (DialogService.ShowModalWindow(userDetailsViewModel))
 			{
-				var userViewModel = new UserViewModel(userDetailsViewModel.User);
-
-				Users.Add(userViewModel);
 				DBCash.AddJournalForUser(JournalType.AddUser, userDetailsViewModel.User);
+
+				var userViewModel = new UserViewModel(userDetailsViewModel.User);
+				Users.Add(userViewModel);
 				SelectedUser = userViewModel;
 			}
-		}
-
-		bool CanAdd()
-		{
-			return SelectedUser != null && DBCash.CheckPermission(PermissionType.EditUser);
 		}
 
 		public RelayCommand EditCommand { get; set; }
@@ -80,13 +70,15 @@ namespace Resurs.ViewModels
 
 		bool CanEdit()
 		{
-			return SelectedUser != null && DBCash.CheckPermission( PermissionType.EditUser);
+			return SelectedUser != null ;
 		}
 
 		public bool IsVisible
 		{
 			get { return DBCash.CheckPermission(PermissionType.ViewUser); }
 		}
+
+		public bool IsEdit { get { return DBCash.CheckPermission(PermissionType.EditUser); } }
 
 		public RelayCommand RemoveCommand { get; set; }
 		void OnDelete()
@@ -106,16 +98,7 @@ namespace Resurs.ViewModels
 
 		bool CanDelete()
 		{
-			return SelectedUser != null && DBCash.CurrentUser != null && SelectedUser.User.UID != DBCash.CurrentUser.UID && DBCash.CheckPermission(PermissionType.EditUser);
-		}
-
-		void Build()
-		{
-			Users = new ObservableCollection<UserViewModel>();
-			DBCash.Users.ForEach(x => Users.Add(new UserViewModel(x)));
-			SelectedUser = Users.FirstOrDefault();
-			if (DBCash.GetUser(SelectedUser.User.UID)!=null)
-			SelectedUser.User = DBCash.GetUser(SelectedUser.User.UID);
+			return SelectedUser != null && DBCash.CurrentUser != null && SelectedUser.User.UID != DBCash.CurrentUser.UID;
 		}
 
 		public void Select(Guid userUID)

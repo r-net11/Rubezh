@@ -112,7 +112,7 @@ namespace Resurs.ViewModels
 				var _tariffViewModel = Tariffs.FirstOrDefault(x => x.Tariff.UID == tariffUID);
 				if (_tariffViewModel != null)
 				{
-					Bootstrapper.MainViewModel.SelectedTabIndex = 6;
+					Bootstrapper.MainViewModel.SelectedTabIndex = 2;
 					SelectedTariff = _tariffViewModel;
 				}
 			}

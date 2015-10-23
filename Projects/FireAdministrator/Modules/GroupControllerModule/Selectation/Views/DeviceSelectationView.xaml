@@ -34,7 +34,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTextColumn Binding="{Binding DottedAddress}" Header="Адрес" Width="Auto" />
+			<DataGridTextColumn Binding="{Binding DottedPresentationAddress}" Header="Адрес" Width="Auto" />
 			<DataGridTemplateColumn Header="Примечание" Width="*" >
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>

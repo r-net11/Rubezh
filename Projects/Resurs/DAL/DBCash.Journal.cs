@@ -70,13 +70,12 @@ namespace ResursDAL
 			return result;
 		}
 
-		public static void AddJournal(JournalType journalType, string Description = null)
+		public static void AddJournal(JournalType journalType, string description = null)
 		{
 			var journalEvent = new Journal()
 			{
-				DateTime = DateTime.Now,
 				JournalType = journalType,
-				Description = Description
+				Description = description
 			};
 
 			try
@@ -108,22 +107,17 @@ namespace ResursDAL
 				if (modelBase is Device)
 					journalEvent.ClassType = ClassType.IsDevice;
 
-				journalEvent.UserName = CurrentUser.Name;
-				journalEvent.UserUID = CurrentUser.UID;
-				journalEvent.DateTime = DateTime.Now;
-				journalEvent.JournalType = journalType;
 				journalEvent.ObjectUID = modelBase.UID;
 				journalEvent.ObjectName = modelBase.Name;
-				journalEvent.Description = Description;
 			}
 			else
 			{
-				journalEvent.UserName = CurrentUser.Name;
-				journalEvent.UserUID = CurrentUser.UID;
-				journalEvent.DateTime = DateTime.Now;
-				journalEvent.JournalType = journalType;
-				journalEvent.Description = Description;
+				journalEvent.ClassType = ClassType.IsSystem;
 			}
+			journalEvent.UserName = CurrentUser.Name;
+			journalEvent.UserUID = CurrentUser.UID;
+			journalEvent.JournalType = journalType;
+			journalEvent.Description = Description;
 
 			try
 			{

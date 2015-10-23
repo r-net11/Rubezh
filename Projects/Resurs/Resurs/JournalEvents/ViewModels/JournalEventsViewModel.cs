@@ -70,7 +70,7 @@ namespace Resurs.ViewModels
 			}
 		}
 
-		public ObservableCollection <JournalEventViewModel> Events { get; set; }
+		public ObservableCollection <JournalEventViewModel> Events { get; private set; }
 
 		JournalEventViewModel _selectedEvent;
 		public JournalEventViewModel SelectedEvent 
@@ -92,8 +92,6 @@ namespace Resurs.ViewModels
 		{
 			get { return TotalPageNumber > 0; }
 		}
-
-
 
 		public RelayCommand RefreshCommand { get; private set; }
 		void OnRefresh()

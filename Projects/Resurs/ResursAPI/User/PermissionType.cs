@@ -37,5 +37,7 @@ namespace ResursAPI
 		[DescriptionAttribute("Просмотр Журнала событий")]
 		ViewJournal = 10,
 
+		[DescriptionAttribute("Редактирование Квитанции ")]
+		EditReceipt = 11,
 	}
 }

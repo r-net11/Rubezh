@@ -123,7 +123,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
                 {
                     _Errors.CommunicationError = value;
 
-                    OnErrorOccurred(new ErrorOccuredEventArgs
+                    OnErrorOccurred(new DeviceErrorOccuredEventArgs
                     {
                         Errors = _Errors
                     });
@@ -140,7 +140,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
                 {
                     _Errors.ConfigurationError = value;
 
-                    OnErrorOccurred(new ErrorOccuredEventArgs
+                    OnErrorOccurred(new DeviceErrorOccuredEventArgs
                     {
                         Errors = _Errors
                     });
@@ -157,7 +157,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
                 {
                     _Errors.RTCError = value;
 
-                    OnErrorOccurred(new ErrorOccuredEventArgs
+                    OnErrorOccurred(new DeviceErrorOccuredEventArgs
                     {
                         Errors = _Errors
                     });
@@ -240,12 +240,12 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
             }
         }
 
-        protected virtual void OnErrorOccurred(ErrorOccuredEventArgs args)
+        protected virtual void OnErrorOccurred(DeviceErrorOccuredEventArgs args)
         {
             if (ErrorOccurred != null)
             {
                 ErrorOccurred(this, 
-                    args == null ? new ErrorOccuredEventArgs() : args);
+                    args == null ? new DeviceErrorOccuredEventArgs() : args);
             }
         }
 
@@ -287,7 +287,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         #region Events
 
         public event EventHandler StatusChanged;
-        public event EventHandler<ErrorOccuredEventArgs> ErrorOccurred;
+        public event EventHandler<DeviceErrorOccuredEventArgs> ErrorOccurred;
         public event PropertyChangedEventHandler PropertyChanged;
         
         #endregion

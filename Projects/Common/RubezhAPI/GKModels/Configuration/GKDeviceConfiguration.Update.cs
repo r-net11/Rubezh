@@ -70,15 +70,15 @@ namespace RubezhAPI.GK
 				device.ClearClauseDependencies();
 				device.Zones = new List<GKZone>();
 				device.GuardZones = new List<GKGuardZone>();
-				if (device.GKReflectionItem != null)
+				if (device.GKMirrorItem != null)
 				{
-					device.GKReflectionItem.Delays = new List<GKDelay>();
-					device.GKReflectionItem.Devices = new List<GKDevice>();
-					device.GKReflectionItem.Diretions = new List<GKDirection>();
-					device.GKReflectionItem.GuardZones = new List<GKGuardZone>();
-					device.GKReflectionItem.NSs = new List<GKPumpStation>();
-					device.GKReflectionItem.Zones = new List<GKZone>();
-					device.GKReflectionItem.MPTs = new List<GKMPT>();
+					device.GKMirrorItem.Delays = new List<GKDelay>();
+					device.GKMirrorItem.Devices = new List<GKDevice>();
+					device.GKMirrorItem.Diretions = new List<GKDirection>();
+					device.GKMirrorItem.GuardZones = new List<GKGuardZone>();
+					device.GKMirrorItem.NSs = new List<GKPumpStation>();
+					device.GKMirrorItem.Zones = new List<GKZone>();
+					device.GKMirrorItem.MPTs = new List<GKMPT>();
 					device.Door = null;
 				}
 			}
@@ -309,7 +309,7 @@ namespace RubezhAPI.GK
 			{
 				if (device.Driver.HasMirror)
 				{
-					if (device.GKReflectionItem != null)
+					if (device.GKMirrorItem != null)
 					{
 						var zoneUIDs = new List<Guid>();
 						var guardzoneUIDs = new List<Guid>();
@@ -319,82 +319,82 @@ namespace RubezhAPI.GK
 						var MPTUIDs = new List<Guid>();
 						var directionUIDs = new List<Guid>();
 
-						foreach (var guardzoneUID in device.GKReflectionItem.GuardZoneUIDs)
+						foreach (var guardzoneUID in device.GKMirrorItem.GuardZoneUIDs)
 						{
 							var zone = GuardZones.FirstOrDefault(x => x.UID == guardzoneUID);
 							if (zone != null)
 							{
 								guardzoneUIDs.Add(guardzoneUID);
-								device.GKReflectionItem.GuardZones.Add(zone);
+								device.GKMirrorItem.GuardZones.Add(zone);
 							}
 						}
-						device.GKReflectionItem.GuardZoneUIDs = guardzoneUIDs;
+						device.GKMirrorItem.GuardZoneUIDs = guardzoneUIDs;
 
-						foreach (var zoneUID in device.GKReflectionItem.ZoneUIDs)
+						foreach (var zoneUID in device.GKMirrorItem.ZoneUIDs)
 						{
 							var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
 							if (zone != null)
 							{
 								zoneUIDs.Add(zoneUID);
-								device.GKReflectionItem.Zones.Add(zone);
+								device.GKMirrorItem.Zones.Add(zone);
 							}
 						}
-						device.GKReflectionItem.ZoneUIDs = zoneUIDs;
+						device.GKMirrorItem.ZoneUIDs = zoneUIDs;
 
-						foreach (var delayUID in device.GKReflectionItem.DelayUIDs)
+						foreach (var delayUID in device.GKMirrorItem.DelayUIDs)
 						{
 							var delay = Delays.FirstOrDefault(x => x.UID == delayUID);
 							if (delay != null)
 							{
 								delayUIDs.Add(delayUID);
-								device.GKReflectionItem.Delays.Add(delay);
+								device.GKMirrorItem.Delays.Add(delay);
 							}
 						}
-						device.GKReflectionItem.DelayUIDs = delayUIDs;
+						device.GKMirrorItem.DelayUIDs = delayUIDs;
 
-						foreach (var deviceUID in device.GKReflectionItem.DeviceUIDs)
+						foreach (var deviceUID in device.GKMirrorItem.DeviceUIDs)
 						{
 							var _delice = Devices.FirstOrDefault(x => x.UID == deviceUID);
 							if (_delice != null)
 							{
 								deviceUIDs.Add(deviceUID);
-								device.GKReflectionItem.Devices.Add(_delice);
+								device.GKMirrorItem.Devices.Add(_delice);
 							}
 						}
-						device.GKReflectionItem.DeviceUIDs = deviceUIDs;
+						device.GKMirrorItem.DeviceUIDs = deviceUIDs;
 
-						foreach (var pumpUID in device.GKReflectionItem.NSUIDs)
+						foreach (var pumpUID in device.GKMirrorItem.NSUIDs)
 						{
 							var pumps = PumpStations.FirstOrDefault(x => x.UID == pumpUID);
 							if (pumps != null)
 							{
 								pumpUIDs.Add(pumpUID);
-								device.GKReflectionItem.NSs.Add(pumps);
+								device.GKMirrorItem.NSs.Add(pumps);
 							}
 						}
-						device.GKReflectionItem.NSUIDs = pumpUIDs;
+						device.GKMirrorItem.NSUIDs = pumpUIDs;
 
-						foreach (var mptUID in device.GKReflectionItem.MPTUIDs)
+						foreach (var mptUID in device.GKMirrorItem.MPTUIDs)
 						{
 							var mpts = MPTs.FirstOrDefault(x => x.UID == mptUID);
 							if (mpts != null)
 							{
 								MPTUIDs.Add(mptUID);
-								device.GKReflectionItem.MPTs.Add(mpts);
+								device.GKMirrorItem.MPTs.Add(mpts);
 							}
 						}
-						device.GKReflectionItem.MPTUIDs = MPTUIDs;
+						device.GKMirrorItem.MPTUIDs = MPTUIDs;
 
-						foreach (var directionUID in device.GKReflectionItem.DiretionUIDs)
+						foreach (var directionUID in device.GKMirrorItem.DiretionUIDs)
 						{
 							var directions = Directions.FirstOrDefault(x => x.UID == directionUID);
 							if (directions != null)
 							{
 								directionUIDs.Add(directionUID);
-								device.GKReflectionItem.Diretions.Add(directions);
+								device.GKMirrorItem.Diretions.Add(directions);
 							}
 						}
-						device.GKReflectionItem.DiretionUIDs = directionUIDs;
+						device.GKMirrorItem.DiretionUIDs = directionUIDs;
 					}
 				}
 			}

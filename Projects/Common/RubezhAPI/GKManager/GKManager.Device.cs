@@ -9,16 +9,23 @@ namespace RubezhClient
 {
 	public partial class GKManager
 	{
-		public static GKDevice CopyDevice(GKDevice device, bool fullCopy)
+		public static GKDevice CopyDevice(GKDevice device, bool fullCopy , bool Paste = false)
 		{
 			var newDevice = new GKDevice();
-			CopyDevice(device, newDevice);
-
 			if (fullCopy)
 			{
 				newDevice.UID = device.UID;
 			}
-
+			CopyDevice(device, newDevice);
+			if (Paste)
+			{
+				foreach (var guardZone in GKManager.GuardZones)
+				{
+					var guardZones = newDevice.GuardZones.FirstOrDefault(x => x.UID == guardZone.UID);
+					if (guardZones != null)
+						guardZone.GuardZoneDevices.AddRange(guardZones.GuardZoneDevices);
+				}
+			}
 			return newDevice;
 		}
 
@@ -68,11 +75,13 @@ namespace RubezhClient
 			foreach (var deviceElementUID in deviceFrom.PlanElementUIDs)
 				deviceTo.PlanElementUIDs.Add(deviceElementUID);
 
-			foreach (var zone in deviceFrom.GuardZones)
+			var newGuardZone = new List<GKGuardZone>();
+			foreach (var zone in deviceTo.GuardZones)
 			{
 				var guardZoneDevice = zone.GuardZoneDevices.FirstOrDefault(x => x.DeviceUID == deviceFrom.UID);
 				if (guardZoneDevice != null)
 				{
+					var newZone = new GKGuardZone {UID = zone.UID };
 					var GuardZoneDevice = new GKGuardZoneDevice()
 					{
 						DeviceUID = deviceTo.UID,
@@ -80,10 +89,11 @@ namespace RubezhClient
 						ActionType = guardZoneDevice.ActionType,
 						CodeReaderSettings = guardZoneDevice.CodeReaderSettings,
 					};
-					zone.GuardZoneDevices.Add(GuardZoneDevice);
+					newZone.GuardZoneDevices.Add(GuardZoneDevice);
+					newGuardZone.Add(newZone);
 				}
 			}
-
+			deviceTo.GuardZones = new List<GKGuardZone>(newGuardZone);
 			return deviceTo;
 		}
 

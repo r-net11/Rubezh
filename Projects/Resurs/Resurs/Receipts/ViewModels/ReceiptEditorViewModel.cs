@@ -4,6 +4,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Resurs.Receipts;
 using Resurs.Reports.Templates;
 using Resurs.Views;
+using ResursAPI;
+using ResursDAL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -144,6 +146,10 @@ namespace Resurs.ViewModels
 				isSaved =true;
 				SelectedReceipt = null;
 			}
+		}
+		public bool IsVisible
+		{
+			get { return DBCash.CheckPermission(PermissionType.EditReceipt); }
 		}
 		bool CanDeleteReceipt()
 		{

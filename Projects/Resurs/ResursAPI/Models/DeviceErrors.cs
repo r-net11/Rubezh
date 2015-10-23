@@ -20,17 +20,17 @@ namespace ResursAPI.Models
         /// <summary>
         /// Ошибка связи
         /// </summary>
-        public bool CommunicationError;
+        public bool CommunicationError { get; set; }
 
         /// <summary>
         /// Ошибка конфигурации
         /// </summary>
-        public bool ConfigurationError;
+		public bool ConfigurationError { get; set; }
 
         /// <summary>
         /// Часы не исправны
         /// </summary>
-        public bool RTCError;
+		public bool RTCError { get; set; }
 
         #endregion
 
