@@ -289,11 +289,11 @@ namespace GKModule.ViewModels
 					foreach (var childDeviceViewModel in addedDevice.Children)
 					{
 						DevicesViewModel.Current.AllDevices.Add(childDeviceViewModel);
+						addedDevice.IsExpanded = true;
 					}
 				}
 				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevices.LastOrDefault();
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
-				IsExpanded = true;
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
