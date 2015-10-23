@@ -68,5 +68,14 @@ namespace FireAdministrator.Properties {
                 return ResourceManager.GetString("CreateNewConfigurationMessage", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Нельзя выполнить операцию из-за ограничения демо-версии. Максимальное количество контроллеров в конфигурации - 2.
+        /// </summary>
+        internal static string DemoLimitControllersCountMessage {
+            get {
+                return ResourceManager.GetString("DemoLimitControllersCountMessage", resourceCulture);
+            }
+        }
     }
 }

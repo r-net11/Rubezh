@@ -123,6 +123,9 @@
   <data name="DeleteEmployeeFailed" xml:space="preserve">
     <value>Произошла ошибка - удалить запись о сотруднике не удалось!</value>
   </data>
+  <data name="DemoLimitControllersCountMessage" xml:space="preserve">
+    <value>Нельзя выполнить операцию из-за ограничения демо-версии. Максимальное количество контроллеров в конфигурации - 2</value>
+  </data>
   <data name="EmployeeCardIndexFilterTitle" xml:space="preserve">
     <value>Фильтр</value>
   </data>

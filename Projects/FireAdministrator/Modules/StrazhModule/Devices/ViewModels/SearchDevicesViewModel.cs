@@ -8,14 +8,17 @@ using FiresecAPI.SKD.Device;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using StrazhModule.Events;
+using StrazhModule.Properties;
 
 namespace StrazhModule.ViewModels
 {
 	public class SearchDevicesViewModel : SaveCancelDialogViewModel
 	{
 		private readonly SKDDevice _parentDevice;
+
 		public SearchDevicesViewModel(DeviceViewModel parentDeviceViewModel)
 		{
 			Title = "Автопоиск устройств";
@@ -191,6 +194,13 @@ namespace StrazhModule.ViewModels
 
 		protected override bool Save()
 		{
+			// Ограничение в Демо версии - 2 контроллера
+			if (_parentDevice.Children.Count + Devices.Count(x => x.IsEnabled && x.IsSelected) > 2)
+			{
+				MessageBoxService.ShowWarning(Resources.DemoLimitControllersCountMessage);
+				return false;
+			}
+
 			// Добавляем в конфигурацию все выбранные устройства
 			foreach (var device in Devices.Where(x => x.IsEnabled && x.IsSelected))
 			{

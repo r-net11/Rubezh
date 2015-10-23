@@ -14,6 +14,7 @@ using Infrustructure.Plans.Painters;
 using StrazhModule.Events;
 using StrazhModule.Plans;
 using FiresecClient;
+using StrazhModule.Properties;
 
 namespace StrazhModule.ViewModels
 {
@@ -126,6 +127,13 @@ namespace StrazhModule.ViewModels
 		void OnAdd()
 		{
 			var rootDeviceViewModel = DevicesViewModel.Current.RootDevice;
+
+			// Ограничение в Демо версии - 2 контроллера
+			if (rootDeviceViewModel.Device.Children.Count >= 2)
+			{
+				MessageBoxService.ShowWarning(Resources.DemoLimitControllersCountMessage);
+				return;
+			}
 
 			var newDeviceViewModel = new NewDeviceViewModel(rootDeviceViewModel);
 			var result = false;
