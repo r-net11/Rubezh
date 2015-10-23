@@ -124,16 +124,25 @@ namespace SKDModule.ViewModels
 			var organisationDetailsViewModel = new OrganisationDetailsViewModel(this);
 			if (DialogService.ShowModalWindow(organisationDetailsViewModel))
 			{
-				var organisation = organisationDetailsViewModel.Organisation;
-				var organisationViewModel = new OrganisationViewModel(organisation);
-				Organisations.Add(organisationViewModel);
-				SelectedOrganisation = organisationViewModel;
-				var currentUserViewModel = OrganisationUsersViewModel.Items.FirstOrDefault(x => x.User.UID == FiresecManager.CurrentUser.UID);
-				if (currentUserViewModel.User != null)
+				var orgs = OrganisationHelper.Get(new OrganisationFilter());
+				if (Organisations.Count <= 2 && orgs.Count(x => !x.IsDeleted) <= 2)
 				{
-					currentUserViewModel.SetWithoutSave(true);
+					var organisation = organisationDetailsViewModel.Organisation;
+					var organisationViewModel = new OrganisationViewModel(organisation);
+					Organisations.Add(organisationViewModel);
+					SelectedOrganisation = organisationViewModel;
+					var currentUserViewModel =
+						OrganisationUsersViewModel.Items.FirstOrDefault(x => x.User.UID == FiresecManager.CurrentUser.UID);
+					if (currentUserViewModel.User != null)
+					{
+						currentUserViewModel.SetWithoutSave(true);
+					}
+					ServiceFactoryBase.Events.GetEvent<NewOrganisationEvent>().Publish(SelectedOrganisation.Organisation.UID);
 				}
-				ServiceFactory.Events.GetEvent<NewOrganisationEvent>().Publish(SelectedOrganisation.Organisation.UID);
+				else
+				{
+					MessageBoxService.ShowError("Нельзя выполнить операцию из-за ограничения демо-версии. Максимальное количество организаций в системе - 2");
+				}
 			}
 		}
 		bool CanAdd()
@@ -171,12 +180,19 @@ namespace SKDModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите восстановить организацию?"))
 			{
-				var restoreResult = OrganisationHelper.Restore(SelectedOrganisation.Organisation);
-				if (!restoreResult)
-					return;
-				SelectedOrganisation.IsDeleted = false;
-				SetItemsCanSelect(true);
-				ServiceFactory.Events.GetEvent<RestoreOrganisationEvent>().Publish(SelectedOrganisation.Organisation.UID);
+				if (Organisations.Count(x => !x.IsDeleted) < 2 && OrganisationHelper.Get(new OrganisationFilter()).Count(x => !x.IsDeleted) < 2)
+				{
+					var restoreResult = OrganisationHelper.Restore(SelectedOrganisation.Organisation);
+					if (!restoreResult)
+						return;
+					SelectedOrganisation.IsDeleted = false;
+					SetItemsCanSelect(true);
+					ServiceFactoryBase.Events.GetEvent<RestoreOrganisationEvent>().Publish(SelectedOrganisation.Organisation.UID);
+				}
+				else
+				{
+					MessageBoxService.ShowError("Нельзя выполнить операцию из-за ограничения демо-версии. Максимальное количество организаций в системе - 2");
+				}
 			}
 		}
 		bool CanRestore()

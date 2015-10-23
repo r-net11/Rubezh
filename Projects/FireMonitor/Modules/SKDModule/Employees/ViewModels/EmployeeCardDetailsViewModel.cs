@@ -392,27 +392,38 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			var manualInputValidationCondition = IsFirstRadioButtonChecked && Number == null;
-			var useReaderValidationCondition = UseReader && NumberFromControlReader == null;
-			var USBReaderValidationCondition = EnableValidationForUSB && NumberFromUSB == null;
+			var serverCards = CardHelper.GetByEmployee(_employee.UID);
 
-			if (manualInputValidationCondition || useReaderValidationCondition || USBReaderValidationCondition)
+			if (serverCards.Count(x => !x.IsDeleted) < 2 && Cards.Count(x => !x.IsDeleted && x.EmployeeUID == _employee.UID) < 2 && _employee.Type == PersonType.Employee
+				|| serverCards.Count(x => !x.IsDeleted) < 1 && Cards.Count(x => !x.IsDeleted && x.EmployeeUID == _employee.UID) < 1 && _employee.Type == PersonType.Guest)
 			{
-				MessageBoxService.ShowError("Номер карты должен быть задан в пределах 1 ... 2147483647", "Неверный номер карты");
+				var manualInputValidationCondition = IsFirstRadioButtonChecked && Number == null;
+				var useReaderValidationCondition = UseReader && NumberFromControlReader == null;
+				var USBReaderValidationCondition = EnableValidationForUSB && NumberFromUSB == null;
+
+				if (manualInputValidationCondition || useReaderValidationCondition || USBReaderValidationCondition)
+				{
+					MessageBoxService.ShowError("Номер карты должен быть задан в пределах 1 ... 2147483647", "Неверный номер карты");
+					return false;
+				}
+
+				Card = CopyCardData(IsEnableFromDeactivationCard, UseReader);
+
+				if (!Validate())
+					return false;
+
+				var saveResult = IsNewCard ? CardHelper.Add(Card, _employee.Name) : CardHelper.Edit(Card, _employee.Name);
+				if (!saveResult)
+					return false;
+
+				ServiceFactoryBase.Events.GetEvent<NewCardEvent>().Publish(Card);
+				return true;
+			}
+			else
+			{
+				MessageBoxService.ShowError(string.Format("Нельзя выполнить операцию из-за ограничения демо-версии. Максимальное количество пропусков для {0} - {1}", _employee.Type == PersonType.Employee ? "сотрудника" : "посетителя", _employee.Type == PersonType.Employee ? 2 : 1));
 				return false;
 			}
-
-			Card = CopyCardData(IsEnableFromDeactivationCard, UseReader);
-
-			if (!Validate())
-				return false;
-
-			var saveResult = IsNewCard ? CardHelper.Add(Card, _employee.Name) : CardHelper.Edit(Card, _employee.Name);
-			if (!saveResult)
-				return false;
-
-			ServiceFactoryBase.Events.GetEvent<NewCardEvent>().Publish(Card);
-			return true;
 		}
 
 		private SKDCard GetCardLogic(bool useFromDeactivate, bool useControlReader)

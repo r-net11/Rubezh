@@ -650,10 +650,30 @@ namespace SKDModule.ViewModels
 			}
 			Employee.Type = _personType;
 
-			var saveResult = EmployeeHelper.Save(Employee, _isNew);
-			if (saveResult && isLaunchEvent)
-				ServiceFactoryBase.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Publish(Employee);
-			return saveResult;
+			bool canSave;
+
+			if (IsEmployee)
+			{
+				canSave = EmployeeHelper.Get(new EmployeeFilter {PersonType = PersonType.Employee}).Count(x => !x.IsDeleted) < 5;
+			}
+			else
+			{
+				canSave = EmployeeHelper.Get(new EmployeeFilter {PersonType = PersonType.Guest}).Count(x => !x.IsDeleted) < 2;
+			}
+
+
+			if (canSave)
+			{
+				var saveResult = EmployeeHelper.Save(Employee, _isNew);
+				if (saveResult && isLaunchEvent)
+					ServiceFactoryBase.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Publish(Employee);
+				return saveResult;
+			}
+			else
+			{
+				MessageBoxService.ShowError(string.Format("Нельзя выполнить операцию из-за ограничения демо-версии. Максимальное количество {0} - {1}", IsEmployee ? "сотрудников" : "посетителей", IsEmployee ? 5 : 2));
+				return false;
+			}
 		}
 
 		bool IsLaunchEvent()
