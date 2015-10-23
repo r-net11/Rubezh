@@ -25,7 +25,7 @@ namespace RubezhAPI.GK
 			Logic = new GKLogic();
 			NSLogic = new GKLogic();
 			PlanElementUIDs = new List<Guid>();
-			GKReflectionItem = new GKReflectionItem();
+			GKMirrorItem = new GKMirrorItem();
 			IsNotUsed = false;
 			AllowMultipleVizualization = false;
 
@@ -200,7 +200,7 @@ namespace RubezhAPI.GK
 		/// Отражение объекта ГК
 		/// </summary>
 		[DataMember]
-		public GKReflectionItem GKReflectionItem { get; set; }
+		public GKMirrorItem GKMirrorItem { get; set; }
 
 
 		[XmlIgnore]

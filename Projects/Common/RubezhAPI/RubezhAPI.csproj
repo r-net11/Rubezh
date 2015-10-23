@@ -162,11 +162,11 @@
     <Compile Include="GKModels\Configuration\GKNameGenerationType.cs" />
     <Compile Include="GKModels\CurrentConsumption\CurrentConsumption.cs" />
     <Compile Include="GKModels\OPC\OPCSettings.cs" />
-    <Compile Include="GKModels\Reflection\GKReflectionItem.cs" />
+    <Compile Include="GKModels\Mirror\GKMirrorItem.cs" />
     <Compile Include="GKModels\GKPropertyChangedCallback.cs" />
     <Compile Include="GKModels\Guard\GKDeviceGuardZone.cs" />
     <Compile Include="GKModels\Logic\GKAdvancedLogic.cs" />
-    <Compile Include="GKModels\Reflection\MirrorUser.cs" />
+    <Compile Include="GKModels\Mirror\MirrorUser.cs" />
     <Compile Include="GKModels\SKD\GKCardType.cs" />
     <Compile Include="GKModels\SKD\GKSchedulePart.cs" />
     <Compile Include="GKModels\SKD\GKSKDZone.cs" />
