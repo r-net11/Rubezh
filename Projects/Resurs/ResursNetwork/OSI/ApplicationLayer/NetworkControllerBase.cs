@@ -10,6 +10,7 @@ using ResursNetwork.Management;
 using ResursNetwork.OSI.DataLinkLayer;
 using ResursNetwork.OSI.Messages;
 using ResursNetwork.OSI.Messages.Transactions;
+using ResursAPI.Models;
 using Common;
 
 namespace ResursNetwork.OSI.ApplicationLayer
@@ -31,6 +32,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
         protected int _TotalAttempts;
 		protected int _pollingPeriod =
 			Convert.ToInt32(TimeSpan.FromDays(1).TotalMilliseconds); // По умолчнию период синхронизации 1 день;
+		protected NetworkControllerErrors _errors;
 
         /// <summary>
         /// Id контроллера
@@ -231,6 +233,11 @@ namespace ResursNetwork.OSI.ApplicationLayer
 			}
 		}
 
+		public NetworkControllerErrors Errors
+		{
+			get { return _errors; }
+		}
+
         #endregion
         
         #region Constructors
@@ -331,14 +338,27 @@ namespace ResursNetwork.OSI.ApplicationLayer
             }
         }
 
-		protected void OnParameterChanged(ParameterChangedArgs args)
+		protected void OnParameterChanged(ParameterChangedEventArgs args)
 		{
 			if (ParameterChanged != null)
 			{
 				ParameterChanged(this, args);
 			}
 		}
-        /// <summary>
+
+		protected void OnErrorOccured(NetworkControllerErrorOccuredEventArgs args)
+		{
+			if (args == null)
+			{
+				throw new ArgumentNullException();
+			}
+			if (ErrorOccurred != null)
+			{
+				ErrorOccurred(this, args);
+			}
+		}
+        
+		/// <summary>
         /// Член IDisposable
         /// </summary>
         public virtual void Dispose()
@@ -370,18 +390,24 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// </summary>
         public abstract void SyncDateTime();
 
-        #endregion
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="commandName"></param>
+		public virtual void ExecuteCommand(string commandName)
+		{}
+        
+		#endregion
 
         #region Events
 
 		public event EventHandler StatusChanged;
         public event EventHandler<NetworkRequestCompletedArgs> NetwrokRequestCompleted;
-		public event EventHandler<ParameterChangedArgs> ParameterChanged;
+		public event EventHandler<ParameterChangedEventArgs> ParameterChanged;
 		public event EventHandler<ConfigurationChangedEventArgs> ConfigurationChanged;
+		public event EventHandler<NetworkControllerErrorOccuredEventArgs> ErrorOccurred;
 
 		#endregion
-
-
-
 	}
 }

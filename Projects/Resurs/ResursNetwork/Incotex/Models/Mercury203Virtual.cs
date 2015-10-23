@@ -111,7 +111,7 @@ namespace ResursNetwork.Incotex.Models
 				if (_Errors.CommunicationError != value)
 				{
 					_Errors.CommunicationError = value;
-					OnErrorOccurred(new ErrorOccuredEventArgs 
+					OnErrorOccurred(new DeviceErrorOccuredEventArgs 
 					{
  						Id = this.Id,
 						Errors = this.Errors 
@@ -131,7 +131,7 @@ namespace ResursNetwork.Incotex.Models
 				if (_Errors.ConfigurationError != value)
 				{
 					_Errors.ConfigurationError = value;
-					OnErrorOccurred(new ErrorOccuredEventArgs 
+					OnErrorOccurred(new DeviceErrorOccuredEventArgs 
 					{
  						Id = this.Id,
 						Errors = this.Errors 
@@ -151,7 +151,7 @@ namespace ResursNetwork.Incotex.Models
 				if (_Errors.RTCError != value)
 				{
 					_Errors.RTCError = value;
-					OnErrorOccurred(new ErrorOccuredEventArgs 
+					OnErrorOccurred(new DeviceErrorOccuredEventArgs 
 					{
  						Id = this.Id,
 						Errors = this.Errors 
@@ -305,7 +305,7 @@ namespace ResursNetwork.Incotex.Models
 			}
 		}
 
-		private void OnErrorOccurred(ErrorOccuredEventArgs args)
+		private void OnErrorOccurred(DeviceErrorOccuredEventArgs args)
 		{
 			if (args == null)
 			{
@@ -413,7 +413,7 @@ namespace ResursNetwork.Incotex.Models
 		#region Events
 
 		public event EventHandler StatusChanged;
-        public event EventHandler<ErrorOccuredEventArgs> ErrorOccurred;
+        public event EventHandler<DeviceErrorOccuredEventArgs> ErrorOccurred;
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
         #endregion

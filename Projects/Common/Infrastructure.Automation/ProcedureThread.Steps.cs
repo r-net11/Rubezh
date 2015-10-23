@@ -694,7 +694,7 @@ namespace Infrastructure.Automation
 			{
 				Guid eventUid = Guid.NewGuid();
 				SetValue(startRecordArguments.EventUIDArgument, eventUid);
-				ProcedureExecutionContext.StartRecord(JournalItem.UID, cameraUid, eventUid, timeout);
+				ProcedureExecutionContext.StartRecord(cameraUid, JournalItem.UID , eventUid, timeout);
 			}
 		}
 

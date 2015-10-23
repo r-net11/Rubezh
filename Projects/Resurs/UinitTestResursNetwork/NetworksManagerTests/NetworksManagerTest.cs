@@ -17,11 +17,11 @@ namespace UinitTestResursNetwork.NetworksManagerTests
 		internal class TestContener
 		{
 			NetworksManager _manager;
-			ParameterChangedArgs _paramChangedArgs = null;
+			ParameterChangedEventArgs _paramChangedArgs = null;
 			StatusChangedEventArgs _statusChangedArgs = null;
-			ErrorOccuredEventArgs _errorOccuredEArgs = null;
+			DeviceErrorOccuredEventArgs _errorOccuredEArgs = null;
 
-			public ParameterChangedArgs ParamChangedArgs
+			public ParameterChangedEventArgs ParamChangedArgs
 			{
 				get { return _paramChangedArgs; }
 			}
@@ -59,7 +59,7 @@ namespace UinitTestResursNetwork.NetworksManagerTests
 			}
 
 			private void EventHandler_manager_DeviceHasError(
-				object sender, ErrorOccuredEventArgs e)
+				object sender, DeviceErrorOccuredEventArgs e)
 			{
 				_errorOccuredEArgs = e;
 			}
@@ -71,7 +71,7 @@ namespace UinitTestResursNetwork.NetworksManagerTests
 			}
 
 			private void EventHandler_manager_ParameterChanged(object sender, 
-				ParameterChangedArgs e)
+				ParameterChangedEventArgs e)
 			{
 				_paramChangedArgs = e;
 			}

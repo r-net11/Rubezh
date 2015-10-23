@@ -110,6 +110,7 @@ namespace Resurs.ViewModels
 				}
 				AllConsumers.Add(consumerViewModel);
 				SelectedConsumer = consumerViewModel;
+				DBCash.AddJournalForUser(JournalType.AddConsumer, SelectedConsumer.Consumer);
 				UpdateDeviceViewModels(null, SelectedConsumer.GetConsumer());
 			}
 		}
@@ -129,6 +130,7 @@ namespace Resurs.ViewModels
 				SelectedConsumer.IsExpanded = true;
 				AllConsumers.Add(consumerViewModel);
 				SelectedConsumer = consumerViewModel;
+				DBCash.AddJournalForUser(JournalType.AddConsumer, SelectedConsumer.Consumer, "Добавление группы абонентов");
 			}
 		}
 		bool CanAddFolder()
@@ -152,6 +154,7 @@ namespace Resurs.ViewModels
 					((ConsumerDetailsViewModel)dialogViewModel).GetConsumer();
  
 				SelectedConsumer.Update(newConsumer);
+				DBCash.AddJournalForUser(JournalType.EditConsumer, newConsumer);
 				UpdateDeviceViewModels(oldConsumer, newConsumer);
 			}
 		}
@@ -181,7 +184,7 @@ namespace Resurs.ViewModels
 					parent.Nodes.Remove(selectedConsumer);
 					index = Math.Min(index, parent.ChildrenCount - 1);
 					SelectedConsumer = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
-
+					DBCash.AddJournalForUser(JournalType.DeleteConsumer, selectedConsumer.Consumer);
 					UpdateDeviceViewModels(selectedConsumer.GetConsumer(), null);
 				}
 			}
@@ -213,6 +216,9 @@ namespace Resurs.ViewModels
 					consumerViewModel.ExpandToThis();
 
 					SelectedConsumer = consumerViewModel;
+					DBCash.AddJournalForUser(JournalType.EditConsumer, 
+						SelectedConsumer.Consumer, 
+						string.Format("Перемещение в группу \"{0}\"", selectConsumerViewModel.SelectedConsumer.Consumer.Name));
 				}
 			}
 		}
@@ -251,6 +257,7 @@ namespace Resurs.ViewModels
 					{
 						deviceViewModel.Device.Consumer = null;
 						deviceViewModel.Device.ConsumerUID = null;
+						DBCash.AddJournalForUser(JournalType.EditDevice, deviceViewModel.Device, string.Format("Разорвана связь с лицевым счетом [{0}]{1}", oldConsumer.Number, oldConsumer.Name));
 					}
 				}
 
@@ -262,6 +269,7 @@ namespace Resurs.ViewModels
 					{
 						deviceViewModel.Device.Consumer = newConsumer;
 						deviceViewModel.Device.ConsumerUID = newConsumer.UID;
+						DBCash.AddJournalForUser(JournalType.EditDevice, deviceViewModel.Device, string.Format("Добавлена связь с лицевым счетом [{0}]{1}", newConsumer.Number, newConsumer.Name));
 					}
 				}
 		}
