@@ -87,6 +87,7 @@ namespace SecurityModule.ViewModels
 							new PermissionViewModel(PermissionType.Oper_Logout),
 							new PermissionViewModel(PermissionType.Oper_LogoutWithoutPassword),
 							new PermissionViewModel(PermissionType.Oper_NoAlarmConfirm),
+							new PermissionViewModel(PermissionType.Oper_MayNotConfirmCommands),
 							new PermissionViewModel("Управления ГК", new List<PermissionViewModel>()
 							{
 								new PermissionViewModel(PermissionType.Oper_ScheduleSKD),
@@ -109,9 +110,8 @@ namespace SecurityModule.ViewModels
 								new PermissionViewModel(PermissionType.Oper_PIM_Control),
 								new PermissionViewModel(PermissionType.Oper_Delay_Control),
 								new PermissionViewModel(PermissionType.Oper_NS_Control),
+								new PermissionViewModel(PermissionType.Oper_ChangeView),
 								}),
-							new PermissionViewModel(PermissionType.Oper_ChangeView),
-							new PermissionViewModel(PermissionType.Oper_MayNotConfirmCommands),
 							new PermissionViewModel("Отчеты", new List<PermissionViewModel>()
 								{
 									new PermissionViewModel("Конфигурация", new List<PermissionViewModel>()
