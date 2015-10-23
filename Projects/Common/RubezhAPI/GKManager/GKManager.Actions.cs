@@ -112,6 +112,10 @@ namespace RubezhClient
 			device.InitializeDefaultProperties();
 		}
 
+		/// <summary>
+		/// Удаление устройства
+		/// </summary>
+		/// <param name="device"></param>
 		public static void RemoveDevice(GKDevice device)
 		{
 			var parentDevice = device.Parent;
@@ -121,15 +125,6 @@ namespace RubezhClient
 				zone.OnChanged();
 			}
 
-			var deviceMPTs = MPTs.FindAll(x => x.MPTDevices.Any(y => y.DeviceUID == device.UID));
-			foreach (var deviceMPT in deviceMPTs)
-			{
-				foreach (var mptDevice in deviceMPT.MPTDevices.FindAll(x => x.DeviceUID == device.UID))
-				{
-					mptDevice.Device = null;
-					mptDevice.DeviceUID = Guid.Empty;
-				}
-			}
 			parentDevice.Children.Remove(device);
 			Devices.Remove(device);
 
@@ -143,7 +138,7 @@ namespace RubezhClient
 			device.OutDependentElements.ForEach(x =>
 			{
 				x.InputDependentElements.Remove(device);
-				x.UpdateLogic();
+				x.Invalidate();
 				x.OnChanged();
 			});
 		}
@@ -207,7 +202,6 @@ namespace RubezhClient
 
 		public static void ChangeLogic(GKDevice device, GKLogic logic)
 		{
-
 			device.Logic = logic;
 			DeviceConfiguration.InvalidateOneLogic(device, device.Logic);
 			device.OnChanged();
@@ -229,8 +223,18 @@ namespace RubezhClient
 				}
 			}
 
-			device.OutDependentElements.ForEach(x => x.InputDependentElements.Remove(device));
-			device.InputDependentElements.ForEach(x => x.OutDependentElements.Remove(device));
+			foreach (var gkBase in device.OutDependentElements)
+			{
+				gkBase.InputDependentElements.Remove(device);
+				gkBase.Invalidate();
+				gkBase.OnChanged();
+			}
+			foreach (var gkBase in device.InputDependentElements)
+			{
+				gkBase.OutDependentElements.Remove(device);
+				gkBase.Invalidate();
+				gkBase.OnChanged();
+			}
 			if (device.Children != null)
 			{
 				device.Children.ForEach(x =>

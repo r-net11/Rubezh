@@ -52,11 +52,11 @@ namespace RubezhAPI.GK
 		public List<GKBase> OutputDescriptors { get; set; }
 
 		public virtual void Invalidate()
-		{ 
+		{
 		}
 
 		public virtual void UpdateLogic()
-		{ 
+		{
 		}
 
 		public void ChangedLogic()
@@ -74,7 +74,7 @@ namespace RubezhAPI.GK
 			if (InputDependentElements.All(x => x.UID != gkBase.UID) && gkBase.UID != UID)
 				InputDependentElements.Add(gkBase);
 			if (gkBase.OutDependentElements.All(x => x.UID != UID) && gkBase.UID != UID)
-				gkBase.OutDependentElements.Add(this);		
+				gkBase.OutDependentElements.Add(this);
 		}
 
 		public virtual string GetGKDescriptorName(GKNameGenerationType gkNameGenerationType)
@@ -214,8 +214,8 @@ namespace RubezhAPI.GK
 				if (!mpt.MptLogic.UseOffCounterLogic)
 					LinkLogic(mpt, mpt.MptLogic.OffClausesGroup);
 				LinkLogic(mpt, mpt.MptLogic.StopClausesGroup);
-				foreach (var mptDevice in mpt.MPTDevices.FindAll(x => x.MPTDeviceType == GKMPTDeviceType.HandStart || x.MPTDeviceType == GKMPTDeviceType.HandStop
-					|| x.MPTDeviceType == GKMPTDeviceType.HandAutomaticOn || x.MPTDeviceType == GKMPTDeviceType.HandAutomaticOff || x.MPTDeviceType == GKMPTDeviceType.Bomb))
+				foreach (var mptDevice in mpt.MPTDevices.FindAll(x => x.Device != null && (x.MPTDeviceType == GKMPTDeviceType.HandStart || x.MPTDeviceType == GKMPTDeviceType.HandStop
+					|| x.MPTDeviceType == GKMPTDeviceType.HandAutomaticOn || x.MPTDeviceType == GKMPTDeviceType.HandAutomaticOff || x.MPTDeviceType == GKMPTDeviceType.Bomb)))
 				{
 					mpt.LinkToDescriptor(mptDevice.Device);
 				}

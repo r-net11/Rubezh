@@ -9,20 +9,18 @@ namespace ResursAPI
 {
 	public class Consumer : ModelBase
 	{
-		public Consumer():base()
+		public Consumer()
+			: base()
 		{
 			Children = new List<Consumer>();
-			Bills = new List<Bill>();
+			Devices = new List<Device>();
 		}
 
 		public Guid? ParentUID { get; set; }
 		public Consumer Parent { get; set; }
 		[InverseProperty("Parent")]
 		public List<Consumer> Children { get; set; }
-		public List<Bill> Bills { get; set; }
 		public bool IsFolder { get; set; }
-		[MaxLength(100)]
-		public string FIO { get; set; }
 		[MaxLength(100)]
 		public string Address { get; set; }
 		[MaxLength(100)]
@@ -34,5 +32,10 @@ namespace ResursAPI
 		[MaxLength(100)]
 		public string Password { get; set; }
 		public bool IsSendEmail { get; set; }
+		[MaxLength(100)]
+		public string Number { get; set; }
+		[NotMapped]
+		public List<Device> Devices { get; set; }
+		public Decimal Balance { get; set; }
 	}
 }

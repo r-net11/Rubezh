@@ -66,13 +66,13 @@ namespace RubezhAPI.SKD
 		public PersonType Type { get; set; }
 
 		[DataMember]
-		public string TabelNo;
+		public string TabelNo { get; set; }
 
 		[DataMember]
-		public DateTime CredentialsStartDate;
+		public DateTime CredentialsStartDate { get; set; }
 
 		[DataMember]
-		public Guid? EscortUID;
+		public Guid? EscortUID { get; set; }
 
 		[DataMember]
 		public string EscortName { get; set; }

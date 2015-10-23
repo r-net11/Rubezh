@@ -20,5 +20,6 @@ namespace ResursAPI
 		public Decimal Balance { get; set; }
 		[MaxLength(4000)]
 		public string TemplatePath { get; set; }
+		public Guid ReceiptUid { get; set; }
 	}
 }

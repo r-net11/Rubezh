@@ -67,6 +67,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
 
 		event EventHandler<NetworkRequestCompletedArgs> NetwrokRequestCompleted;
 		event EventHandler<ParameterChangedArgs> ParameterChanged;
+		event EventHandler<ConfigurationChangedEventArgs> ConfigurationChanged;
         
         #endregion
     }

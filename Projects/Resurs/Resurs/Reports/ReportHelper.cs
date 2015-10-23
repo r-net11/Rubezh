@@ -1,6 +1,5 @@
 ﻿using DevExpress.XtraReports.UI;
 using Resurs.Reports.Templates;
-using Resurs.ViewModels;
 
 namespace Resurs.Reports
 {
@@ -15,8 +14,8 @@ namespace Resurs.Reports
 					defaultReport = new ChangeFlowReport(); break;
 				case ReportType.Debtors:
 					defaultReport = new DebtorsReport(); break;
-				case ReportType.Receipts:
-					defaultReport = new ReceiptsReport(); break;
+				//case ReportType.Receipts:
+				//	defaultReport = new ReceiptsReport(); break;
 				case ReportType.ChangeValue:
 					defaultReport = new ChangeValueReport(); break;
 				default:

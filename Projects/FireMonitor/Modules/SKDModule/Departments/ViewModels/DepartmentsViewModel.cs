@@ -150,6 +150,8 @@ namespace SKDModule.ViewModels
 				SelectedItem.AddChild(itemViewModel);
 				AddChildren(itemViewModel, _clipboardChildren);
 				SelectedItem = itemViewModel;
+				_clipboard = CopyModel(SelectedItem.Model);
+				CopyChildren(SelectedItem.Model, _clipboard, Organisations.SelectMany(x => x.GetAllChildren(false)).Select(x => x.Model).ToList(), true);
 			}
 		}
 

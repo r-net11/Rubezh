@@ -30,7 +30,10 @@ namespace Infrastructure.Automation
 
 		public static void RunOnJournal(JournalItem journalItem)
 		{
-			foreach (var procedure in ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures)
+			if (ProcedureExecutionContext.SystemConfiguration == null)
+				return;
+
+			foreach (var procedure in ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.Where(x => x.ContextType == ProcedureExecutionContext.ContextType))
 			{
 				foreach (var filtersUID in procedure.FiltersUids)
 				{
@@ -65,13 +68,6 @@ namespace Infrastructure.Automation
 			ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => { if (x.StartWithServer) RunProcedure(x, new List<Argument>(), null, null); });
 		}
 
-		public static void RunOnStateChanged()
-		{
-			foreach (var procedure in ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures)
-			{
-			}
-		}
-
 		public static ProcedureThread RunProcedure(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, User user = null, JournalItem journalItem = null, Guid? clientUID = null)
 		{
 			var procedureThread = new ProcedureThread(procedure, arguments, callingProcedureVariables, journalItem, user, clientUID);
@@ -96,7 +92,6 @@ namespace Infrastructure.Automation
 
 		public static void SetNewConfig()
 		{
-			Stop();
 		}
 
 		static void CheckProcedureThread()

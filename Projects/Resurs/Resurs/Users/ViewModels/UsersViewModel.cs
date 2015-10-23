@@ -60,6 +60,9 @@ namespace Resurs.ViewModels
 			if (DialogService.ShowModalWindow(userDetailsViewModel))
 			{
 				SelectedUser.User = userDetailsViewModel.User;
+				if (DBCash.CurrentUser != null && DBCash.CurrentUser.UID == userDetailsViewModel.User.UID)
+					DBCash.CurrentUser = userDetailsViewModel.User;
+				Bootstrapper.MainViewModel.UpdateTabsIsVisible();
 				if (userDetailsViewModel.IsChange)
 					DBCash.AddJournalForUser(JournalType.EditUser, SelectedUser.User);
 			}

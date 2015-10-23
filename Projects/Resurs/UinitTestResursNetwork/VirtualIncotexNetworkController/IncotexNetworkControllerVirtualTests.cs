@@ -42,7 +42,7 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerVirtualTests
 				controller.SyncDateTime();
 
 				// Assert
-				Assert.AreEqual(dt.ToString(), device.RTC.ToString());
+				Assert.AreEqual(dt.ToString(), device.Rtc.ToString());
 			}
 		}
 	}

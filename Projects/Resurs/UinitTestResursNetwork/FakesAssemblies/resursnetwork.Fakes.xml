@@ -22,11 +22,17 @@
         <member name="P:ResursNetwork.BCD.Fakes.ShimBcdConverter.IsValidByte">
             <summary>Sets the shim of BcdConverter.IsValid(Byte bcdValue)</summary>
         </member>
+        <member name="P:ResursNetwork.BCD.Fakes.ShimBcdConverter.IsValidUInt32">
+            <summary>Sets the shim of BcdConverter.IsValid(UInt32 bcdValue)</summary>
+        </member>
         <member name="P:ResursNetwork.BCD.Fakes.ShimBcdConverter.ToBcdByteByte">
             <summary>Sets the shim of BcdConverter.ToBcdByte(Byte value)</summary>
         </member>
         <member name="P:ResursNetwork.BCD.Fakes.ShimBcdConverter.ToByteByte">
             <summary>Sets the shim of BcdConverter.ToByte(Byte bcdValue)</summary>
+        </member>
+        <member name="P:ResursNetwork.BCD.Fakes.ShimBcdConverter.ToUInt32UInt32">
+            <summary>Sets the shim of BcdConverter.ToUInt32(UInt32 bcdValue)</summary>
         </member>
         <member name="T:ResursNetwork.ComponentModel.Fakes.ShimEnumTypeConverter">
             <summary>Shim type of ResursNetwork.ComponentModel.EnumTypeConverter</summary>
@@ -166,25 +172,28 @@
         <member name="P:ResursNetwork.ComponentModel.Fakes.StubEnumTypeConverter.InstanceObserver">
             <summary>Gets or sets the instance observer.</summary>
         </member>
-        <member name="T:ResursNetwork.Incotex.Models.DateTime.Fakes.ShimIncotexDateTime">
-            <summary>Shim type of ResursNetwork.Incotex.Models.DateTime.IncotexDateTime</summary>
+        <member name="T:ResursNetwork.Incotex.Models.Fakes.ShimIncotexDateTime">
+            <summary>Shim type of ResursNetwork.Incotex.Models.IncotexDateTime</summary>
         </member>
-        <member name="M:ResursNetwork.Incotex.Models.DateTime.Fakes.ShimIncotexDateTime.#ctor">
+        <member name="M:ResursNetwork.Incotex.Models.Fakes.ShimIncotexDateTime.#ctor">
             <summary>Initializes a new shim instance</summary>
         </member>
-        <member name="M:ResursNetwork.Incotex.Models.DateTime.Fakes.ShimIncotexDateTime.BehaveAsCurrent">
+        <member name="M:ResursNetwork.Incotex.Models.Fakes.ShimIncotexDateTime.BehaveAsCurrent">
             <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
         </member>
-        <member name="M:ResursNetwork.Incotex.Models.DateTime.Fakes.ShimIncotexDateTime.BehaveAsNotImplemented">
+        <member name="M:ResursNetwork.Incotex.Models.Fakes.ShimIncotexDateTime.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.DateTime.Fakes.ShimIncotexDateTime.Behavior">
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimIncotexDateTime.Behavior">
             <summary>Assigns the behavior for all methods of the shimmed type</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.DateTime.Fakes.ShimIncotexDateTime.FromDateTimeDateTime">
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimIncotexDateTime.FromDateTimeDateTime">
             <summary>Sets the shim of IncotexDateTime.FromDateTime(DateTime datetime)</summary>
         </member>
-        <member name="T:ResursNetwork.Incotex.Models.DateTime.Fakes.ShimIncotexDateTime.AllInstances">
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimIncotexDateTime.FromIncotexDateTimeIncotexDateTime">
+            <summary>Sets the shim of IncotexDateTime.FromIncotexDateTime(IncotexDateTime datetime)</summary>
+        </member>
+        <member name="T:ResursNetwork.Incotex.Models.Fakes.ShimIncotexDateTime.AllInstances">
             <summary>Define shims for all instances members</summary>
         </member>
         <member name="T:ResursNetwork.Incotex.Models.Fakes.ShimMercury203">
@@ -229,6 +238,9 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.EventHandler_NetworkController_NetwrokRequestCompletedObjectNetworkRequestCompletedArgs">
             <summary>Sets the shim of Mercury203.EventHandler_NetworkController_NetwrokRequestCompleted(Object sender, NetworkRequestCompletedArgs e)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.ExecuteCommandString">
+            <summary>Sets the shim of Mercury203.ExecuteCommand(String commandName)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.GetAnswerNetwokAdderssNetworkRequest">
             <summary>Sets the shim of Mercury203.GetAnswerNetwokAdderss(NetworkRequest networkRequest)</summary>
         </member>
@@ -241,12 +253,6 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.Initialization">
             <summary>Sets the shim of Mercury203.Initialization()</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.RTCGet">
-            <summary>Sets the shim of Mercury203.get_RTC()</summary>
-        </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.RTCSetDateTime">
-            <summary>Sets the shim of Mercury203.set_RTC(DateTime value)</summary>
-        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.ReadDateTimeBoolean">
             <summary>Sets the shim of Mercury203.ReadDateTime(Boolean isExternalCall)</summary>
         </member>
@@ -258,6 +264,12 @@
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.ReadPowerLimitPerMonthBoolean">
             <summary>Sets the shim of Mercury203.ReadPowerLimitPerMonth(Boolean isExternalCall)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.RtcGet">
+            <summary>Sets the shim of Mercury203.get_Rtc()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.RtcSetDateTime">
+            <summary>Sets the shim of Mercury203.set_Rtc(DateTime value)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.SetNewAddressUInt32UInt32Boolean">
             <summary>Sets the shim of Mercury203.SetNewAddress(UInt32 addr, UInt32 newaddr, Boolean isExternalCall)</summary>
@@ -277,6 +289,9 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.EventHandler_NetworkController_NetwrokRequestCompletedObjectNetworkRequestCompletedArgs">
             <summary>Sets the shim of Mercury203.EventHandler_NetworkController_NetwrokRequestCompleted(Object sender, NetworkRequestCompletedArgs e)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.ExecuteCommandString">
+            <summary>Sets the shim of Mercury203.ExecuteCommand(String commandName)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.GetAnswerNetwokAdderssNetworkRequest">
             <summary>Sets the shim of Mercury203.GetAnswerNetwokAdderss(NetworkRequest networkRequest)</summary>
         </member>
@@ -289,12 +304,6 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.Initialization">
             <summary>Sets the shim of Mercury203.Initialization()</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.RTCGet">
-            <summary>Sets the shim of Mercury203.get_RTC()</summary>
-        </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.RTCSetDateTime">
-            <summary>Sets the shim of Mercury203.set_RTC(DateTime value)</summary>
-        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.ReadDateTimeBoolean">
             <summary>Sets the shim of Mercury203.ReadDateTime(Boolean isExternalCall)</summary>
         </member>
@@ -306,6 +315,12 @@
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.ReadPowerLimitPerMonthBoolean">
             <summary>Sets the shim of Mercury203.ReadPowerLimitPerMonth(Boolean isExternalCall)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.RtcGet">
+            <summary>Sets the shim of Mercury203.get_Rtc()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.RtcSetDateTime">
+            <summary>Sets the shim of Mercury203.set_Rtc(DateTime value)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.SetNewAddressUInt32UInt32Boolean">
             <summary>Sets the shim of Mercury203.SetNewAddress(UInt32 addr, UInt32 newaddr, Boolean isExternalCall)</summary>
@@ -370,6 +385,9 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.ErrorsGet">
             <summary>Sets the shim of Mercury203Virtual.get_Errors()</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.ExecuteCommandString">
+            <summary>Sets the shim of Mercury203Virtual.ExecuteCommand(String commandName)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.IdGet">
             <summary>Sets the shim of Mercury203Virtual.get_Id()</summary>
         </member>
@@ -385,6 +403,9 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.NetworkSetINetwrokController">
             <summary>Sets the shim of Mercury203Virtual.set_Network(INetwrokController value)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.OnErrorOccurredErrorOccuredEventArgs">
+            <summary>Sets the shim of Mercury203Virtual.OnErrorOccurred(ErrorOccuredEventArgs args)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.OnStatusChanged">
             <summary>Sets the shim of Mercury203Virtual.OnStatusChanged()</summary>
         </member>
@@ -397,17 +418,35 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.PropertyChangedRemovePropertyChangedEventHandler">
             <summary>Sets the shim of Mercury203Virtual.remove_PropertyChanged(PropertyChangedEventHandler value)</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.RTCErrorGet">
-            <summary>Sets the shim of Mercury203Virtual.get_RTCError()</summary>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.ReadConsumedPower">
+            <summary>Sets the shim of Mercury203Virtual.ReadConsumedPower()</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.RTCErrorSetBoolean">
-            <summary>Sets the shim of Mercury203Virtual.set_RTCError(Boolean value)</summary>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.ReadDateTime">
+            <summary>Sets the shim of Mercury203Virtual.ReadDateTime()</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.RTCGet">
-            <summary>Sets the shim of Mercury203Virtual.get_RTC()</summary>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.ReadGroupAddress">
+            <summary>Sets the shim of Mercury203Virtual.ReadGroupAddress()</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.RTCSetDateTime">
-            <summary>Sets the shim of Mercury203Virtual.set_RTC(DateTime value)</summary>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.ReadPowerLimit">
+            <summary>Sets the shim of Mercury203Virtual.ReadPowerLimit()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.ReadPowerLimitPerMonth">
+            <summary>Sets the shim of Mercury203Virtual.ReadPowerLimitPerMonth()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.RtcErrorGet">
+            <summary>Sets the shim of Mercury203Virtual.get_RtcError()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.RtcErrorSetBoolean">
+            <summary>Sets the shim of Mercury203Virtual.set_RtcError(Boolean value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.RtcGet">
+            <summary>Sets the shim of Mercury203Virtual.get_Rtc()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.RtcSetDateTime">
+            <summary>Sets the shim of Mercury203Virtual.set_Rtc(DateTime value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.SetNewAddressUInt32UInt32">
+            <summary>Sets the shim of Mercury203Virtual.SetNewAddress(UInt32 addr, UInt32 newaddr)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.Start">
             <summary>Sets the shim of Mercury203Virtual.Start()</summary>
@@ -460,6 +499,9 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.ErrorsGet">
             <summary>Sets the shim of Mercury203Virtual.get_Errors()</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.ExecuteCommandString">
+            <summary>Sets the shim of Mercury203Virtual.ExecuteCommand(String commandName)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.IdGet">
             <summary>Sets the shim of Mercury203Virtual.get_Id()</summary>
         </member>
@@ -475,6 +517,9 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.NetworkSetINetwrokController">
             <summary>Sets the shim of Mercury203Virtual.set_Network(INetwrokController value)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.OnErrorOccurredErrorOccuredEventArgs">
+            <summary>Sets the shim of Mercury203Virtual.OnErrorOccurred(ErrorOccuredEventArgs args)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.OnStatusChanged">
             <summary>Sets the shim of Mercury203Virtual.OnStatusChanged()</summary>
         </member>
@@ -487,17 +532,35 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.PropertyChangedRemovePropertyChangedEventHandler">
             <summary>Sets the shim of Mercury203Virtual.remove_PropertyChanged(PropertyChangedEventHandler value)</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.RTCErrorGet">
-            <summary>Sets the shim of Mercury203Virtual.get_RTCError()</summary>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.ReadConsumedPower">
+            <summary>Sets the shim of Mercury203Virtual.ReadConsumedPower()</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.RTCErrorSetBoolean">
-            <summary>Sets the shim of Mercury203Virtual.set_RTCError(Boolean value)</summary>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.ReadDateTime">
+            <summary>Sets the shim of Mercury203Virtual.ReadDateTime()</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.RTCGet">
-            <summary>Sets the shim of Mercury203Virtual.get_RTC()</summary>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.ReadGroupAddress">
+            <summary>Sets the shim of Mercury203Virtual.ReadGroupAddress()</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.RTCSetDateTime">
-            <summary>Sets the shim of Mercury203Virtual.set_RTC(DateTime value)</summary>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.ReadPowerLimit">
+            <summary>Sets the shim of Mercury203Virtual.ReadPowerLimit()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.ReadPowerLimitPerMonth">
+            <summary>Sets the shim of Mercury203Virtual.ReadPowerLimitPerMonth()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.RtcErrorGet">
+            <summary>Sets the shim of Mercury203Virtual.get_RtcError()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.RtcErrorSetBoolean">
+            <summary>Sets the shim of Mercury203Virtual.set_RtcError(Boolean value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.RtcGet">
+            <summary>Sets the shim of Mercury203Virtual.get_Rtc()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.RtcSetDateTime">
+            <summary>Sets the shim of Mercury203Virtual.set_Rtc(DateTime value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.SetNewAddressUInt32UInt32">
+            <summary>Sets the shim of Mercury203Virtual.SetNewAddress(UInt32 addr, UInt32 newaddr)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.Start">
             <summary>Sets the shim of Mercury203Virtual.Start()</summary>
@@ -517,6 +580,30 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.Stop">
             <summary>Sets the shim of Mercury203Virtual.Stop()</summary>
         </member>
+        <member name="T:ResursNetwork.Incotex.Models.Fakes.ShimPowerCounters">
+            <summary>Shim type of ResursNetwork.Incotex.Models.PowerCounters</summary>
+        </member>
+        <member name="M:ResursNetwork.Incotex.Models.Fakes.ShimPowerCounters.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:ResursNetwork.Incotex.Models.Fakes.ShimPowerCounters.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:ResursNetwork.Incotex.Models.Fakes.ShimPowerCounters.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimPowerCounters.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimPowerCounters.FromArrayUInt32Array">
+            <summary>Sets the shim of PowerCounters.FromArray(UInt32[] array)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimPowerCounters.ToFloatUInt32">
+            <summary>Sets the shim of PowerCounters.ToFloat(UInt32 bcdValue)</summary>
+        </member>
+        <member name="T:ResursNetwork.Incotex.Models.Fakes.ShimPowerCounters.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
         <member name="T:ResursNetwork.Incotex.Models.Fakes.StubMercury203">
             <summary>Stub type of ResursNetwork.Incotex.Models.Mercury203</summary>
         </member>
@@ -532,8 +619,8 @@
         <member name="M:ResursNetwork.Incotex.Models.Fakes.StubMercury203.AttachBackingFieldToAddress">
             <summary>Attaches delegates to emulate StubMercury203.Address as a property with a backing field.</summary>
         </member>
-        <member name="M:ResursNetwork.Incotex.Models.Fakes.StubMercury203.AttachBackingFieldToRTC">
-            <summary>Attaches delegates to emulate StubMercury203.RTC as a property with a backing field.</summary>
+        <member name="M:ResursNetwork.Incotex.Models.Fakes.StubMercury203.AttachBackingFieldToRtc">
+            <summary>Attaches delegates to emulate StubMercury203.Rtc as a property with a backing field.</summary>
         </member>
         <member name="F:ResursNetwork.Incotex.Models.Fakes.StubMercury203.DeviceTypeGet">
             <summary>Sets the stub of Mercury203.get_DeviceType()</summary>
@@ -543,6 +630,12 @@
         </member>
         <member name="F:ResursNetwork.Incotex.Models.Fakes.StubMercury203.EventHandler_NetworkController_NetwrokRequestCompletedObjectNetworkRequestCompletedArgs">
             <summary>Sets the stub of Mercury203.EventHandler_NetworkController_NetwrokRequestCompleted(Object sender, NetworkRequestCompletedArgs e)</summary>
+        </member>
+        <member name="M:ResursNetwork.Incotex.Models.Fakes.StubMercury203.ExecuteCommand(System.String)">
+            <summary>Sets the stub of Mercury203.ExecuteCommand(String commandName)</summary>
+        </member>
+        <member name="F:ResursNetwork.Incotex.Models.Fakes.StubMercury203.ExecuteCommandString">
+            <summary>Sets the stub of Mercury203.ExecuteCommand(String commandName)</summary>
         </member>
         <member name="M:ResursNetwork.Incotex.Models.Fakes.StubMercury203.Initialization">
             <summary>Sets the stub of Mercury203.Initialization()</summary>
@@ -571,11 +664,11 @@
         <member name="F:ResursNetwork.Incotex.Models.Fakes.StubMercury203.OnStatusChanged01">
             <summary>Sets the stub of DeviceBase.OnStatusChanged()</summary>
         </member>
-        <member name="F:ResursNetwork.Incotex.Models.Fakes.StubMercury203.RTCGet">
-            <summary>Sets the stub of Mercury203.get_RTC()</summary>
+        <member name="F:ResursNetwork.Incotex.Models.Fakes.StubMercury203.RtcGet">
+            <summary>Sets the stub of Mercury203.get_Rtc()</summary>
         </member>
-        <member name="F:ResursNetwork.Incotex.Models.Fakes.StubMercury203.RTCSetDateTime">
-            <summary>Sets the stub of Mercury203.set_RTC(DateTime value)</summary>
+        <member name="F:ResursNetwork.Incotex.Models.Fakes.StubMercury203.RtcSetDateTime">
+            <summary>Sets the stub of Mercury203.set_Rtc(DateTime value)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.StubMercury203.Address">
             <summary>Sets the stub of Mercury203.get_Address()</summary>
@@ -592,8 +685,8 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.StubMercury203.InstanceObserver">
             <summary>Gets or sets the instance observer.</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.StubMercury203.RTC">
-            <summary>Sets the stub of Mercury203.get_RTC()</summary>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.StubMercury203.Rtc">
+            <summary>Sets the stub of Mercury203.get_Rtc()</summary>
         </member>
         <member name="T:ResursNetwork.Incotex.Models.Fakes.StubMercury203Virtual">
             <summary>Stub type of ResursNetwork.Incotex.Models.Mercury203Virtual</summary>
@@ -694,17 +787,17 @@
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.WriteNetworkRequestBoolean">
             <summary>Sets the shim of IncotexNetworkController.Write(NetworkRequest networkRequest, Boolean isExternalCall)</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController._EventHandler_Connection_MessageReceivedb__0MessageBase">
-            <summary>Sets the shim of IncotexNetworkController.&lt;EventHandler_Connection_MessageReceived&gt;b__0(MessageBase y)</summary>
-        </member>
-        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController._EventHandler_Connection_MessageReceivedb__1MessageBase">
-            <summary>Sets the shim of IncotexNetworkController.&lt;EventHandler_Connection_MessageReceived&gt;b__1(MessageBase z)</summary>
-        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController._EventHandler_Connection_MessageReceivedb__2MessageBase">
             <summary>Sets the shim of IncotexNetworkController.&lt;EventHandler_Connection_MessageReceived&gt;b__2(MessageBase y)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController._EventHandler_Connection_MessageReceivedb__3MessageBase">
             <summary>Sets the shim of IncotexNetworkController.&lt;EventHandler_Connection_MessageReceived&gt;b__3(MessageBase z)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController._EventHandler_Connection_MessageReceivedb__4MessageBase">
+            <summary>Sets the shim of IncotexNetworkController.&lt;EventHandler_Connection_MessageReceived&gt;b__4(MessageBase y)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController._EventHandler_Connection_MessageReceivedb__5MessageBase">
+            <summary>Sets the shim of IncotexNetworkController.&lt;EventHandler_Connection_MessageReceived&gt;b__5(MessageBase z)</summary>
         </member>
         <member name="T:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.AllInstances">
             <summary>Define shims for all instances members</summary>
@@ -784,6 +877,12 @@
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.Behavior">
             <summary>Assigns the behavior for all methods of the shimmed type</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.ConfigurationChangedAddEventHandlerOfConfigurationChangedEventArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.add_ConfigurationChanged(EventHandler`1&lt;ConfigurationChangedEventArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.ConfigurationChangedRemoveEventHandlerOfConfigurationChangedEventArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.remove_ConfigurationChanged(EventHandler`1&lt;ConfigurationChangedEventArgs&gt; value)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.ConnectionGet">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.get_Connection()</summary>
         </member>
@@ -799,6 +898,9 @@
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.Dispose">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.Dispose()</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.EventHandler_devices_CollectionChangedObjectDevicesCollectionChangedEventArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.EventHandler_devices_CollectionChanged(Object sender, DevicesCollectionChangedEventArgs e)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.IdGet">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.get_Id()</summary>
         </member>
@@ -813,6 +915,9 @@
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.NetwrokRequestCompletedRemoveEventHandlerOfNetworkRequestCompletedArgs">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.remove_NetwrokRequestCompleted(EventHandler`1&lt;NetworkRequestCompletedArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.OnConfigurationChangedConfigurationChangedEventArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.OnConfigurationChanged(ConfigurationChangedEventArgs args)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.OnParameterChangedParameterChangedArgs">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.OnParameterChanged(ParameterChangedArgs args)</summary>
@@ -865,6 +970,12 @@
         <member name="T:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances">
             <summary>Define shims for all instances members</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.ConfigurationChangedAddEventHandlerOfConfigurationChangedEventArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.add_ConfigurationChanged(EventHandler`1&lt;ConfigurationChangedEventArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.ConfigurationChangedRemoveEventHandlerOfConfigurationChangedEventArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.remove_ConfigurationChanged(EventHandler`1&lt;ConfigurationChangedEventArgs&gt; value)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.ConnectionGet">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.get_Connection()</summary>
         </member>
@@ -876,6 +987,9 @@
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.Dispose">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.Dispose()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.EventHandler_devices_CollectionChangedObjectDevicesCollectionChangedEventArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.EventHandler_devices_CollectionChanged(Object sender, DevicesCollectionChangedEventArgs e)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.IdGet">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.get_Id()</summary>
@@ -891,6 +1005,9 @@
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.NetwrokRequestCompletedRemoveEventHandlerOfNetworkRequestCompletedArgs">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.remove_NetwrokRequestCompleted(EventHandler`1&lt;NetworkRequestCompletedArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.OnConfigurationChangedConfigurationChangedEventArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.OnConfigurationChanged(ConfigurationChangedEventArgs args)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.OnParameterChangedParameterChangedArgs">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.OnParameterChanged(ParameterChangedArgs args)</summary>
@@ -1747,6 +1864,12 @@
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.Constructor">
             <summary>Sets the shim of NetworksManager.NetworksManager()</summary>
         </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.DeviceHasErrorAddEventHandlerOfErrorOccuredEventArgs">
+            <summary>Sets the shim of NetworksManager.add_DeviceHasError(EventHandler`1&lt;ErrorOccuredEventArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.DeviceHasErrorRemoveEventHandlerOfErrorOccuredEventArgs">
+            <summary>Sets the shim of NetworksManager.remove_DeviceHasError(EventHandler`1&lt;ErrorOccuredEventArgs&gt; value)</summary>
+        </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.EventHandler_Device_ErrorOccurredObjectErrorOccuredEventArgs">
             <summary>Sets the shim of NetworksManager.EventHandler_Device_ErrorOccurred(Object sender, ErrorOccuredEventArgs e)</summary>
         </member>
@@ -1759,17 +1882,26 @@
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.EventHandler_NetworkControllers_CollectionChangedObjectNetworksCollectionChangedEventArgs">
             <summary>Sets the shim of NetworksManager.EventHandler_NetworkControllers_CollectionChanged(Object sender, NetworksCollectionChangedEventArgs e)</summary>
         </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.EventHandler_Network_ConfigurationChangedObjectConfigurationChangedEventArgs">
+            <summary>Sets the shim of NetworksManager.EventHandler_Network_ConfigurationChanged(Object sender, ConfigurationChangedEventArgs e)</summary>
+        </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.EventHandler_Network_ParameterChangedObjectParameterChangedArgs">
             <summary>Sets the shim of NetworksManager.EventHandler_Network_ParameterChanged(Object sender, ParameterChangedArgs e)</summary>
         </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.EventHandler_Network_StatusChangedObjectEventArgs">
             <summary>Sets the shim of NetworksManager.EventHandler_Network_StatusChanged(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.FindDeviceGuid">
+            <summary>Sets the shim of NetworksManager.FindDevice(Guid id)</summary>
+        </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.InstanceGet">
             <summary>Sets the shim of NetworksManager.get_Instance()</summary>
         </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.NetworksGet">
             <summary>Sets the shim of NetworksManager.get_Networks()</summary>
+        </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.OnDeviceHasErrorErrorOccuredEventArgs">
+            <summary>Sets the shim of NetworksManager.OnDeviceHasError(ErrorOccuredEventArgs args)</summary>
         </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.OnParameterChangedParameterChangedArgs">
             <summary>Sets the shim of NetworksManager.OnParameterChanged(ParameterChangedArgs args)</summary>
@@ -1789,6 +1921,9 @@
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.RemoveNetworkGuid">
             <summary>Sets the shim of NetworksManager.RemoveNetwork(Guid id)</summary>
         </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.SendCommandGuidString">
+            <summary>Sets the shim of NetworksManager.SendCommand(Guid deviceId, String commandName)</summary>
+        </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.SetSatusGuidBoolean">
             <summary>Sets the shim of NetworksManager.SetSatus(Guid id, Boolean status)</summary>
         </member>
@@ -1804,8 +1939,8 @@
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.SyncDateTimeGuid">
             <summary>Sets the shim of NetworksManager.SyncDateTime(Guid networkId)</summary>
         </member>
-        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager._SetSatusb__aINetwrokController">
-            <summary>Sets the shim of NetworksManager.&lt;SetSatus&gt;b__a(INetwrokController n)</summary>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager._FindDeviceb__eINetwrokController">
+            <summary>Sets the shim of NetworksManager.&lt;FindDevice&gt;b__e(INetwrokController n)</summary>
         </member>
         <member name="T:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances">
             <summary>Define shims for all instances members</summary>
@@ -1815,6 +1950,12 @@
         </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.AddNetworkDevice">
             <summary>Sets the shim of NetworksManager.AddNetwork(Device network)</summary>
+        </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.DeviceHasErrorAddEventHandlerOfErrorOccuredEventArgs">
+            <summary>Sets the shim of NetworksManager.add_DeviceHasError(EventHandler`1&lt;ErrorOccuredEventArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.DeviceHasErrorRemoveEventHandlerOfErrorOccuredEventArgs">
+            <summary>Sets the shim of NetworksManager.remove_DeviceHasError(EventHandler`1&lt;ErrorOccuredEventArgs&gt; value)</summary>
         </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.EventHandler_Device_ErrorOccurredObjectErrorOccuredEventArgs">
             <summary>Sets the shim of NetworksManager.EventHandler_Device_ErrorOccurred(Object sender, ErrorOccuredEventArgs e)</summary>
@@ -1828,14 +1969,23 @@
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.EventHandler_NetworkControllers_CollectionChangedObjectNetworksCollectionChangedEventArgs">
             <summary>Sets the shim of NetworksManager.EventHandler_NetworkControllers_CollectionChanged(Object sender, NetworksCollectionChangedEventArgs e)</summary>
         </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.EventHandler_Network_ConfigurationChangedObjectConfigurationChangedEventArgs">
+            <summary>Sets the shim of NetworksManager.EventHandler_Network_ConfigurationChanged(Object sender, ConfigurationChangedEventArgs e)</summary>
+        </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.EventHandler_Network_ParameterChangedObjectParameterChangedArgs">
             <summary>Sets the shim of NetworksManager.EventHandler_Network_ParameterChanged(Object sender, ParameterChangedArgs e)</summary>
         </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.EventHandler_Network_StatusChangedObjectEventArgs">
             <summary>Sets the shim of NetworksManager.EventHandler_Network_StatusChanged(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.FindDeviceGuid">
+            <summary>Sets the shim of NetworksManager.FindDevice(Guid id)</summary>
+        </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.NetworksGet">
             <summary>Sets the shim of NetworksManager.get_Networks()</summary>
+        </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.OnDeviceHasErrorErrorOccuredEventArgs">
+            <summary>Sets the shim of NetworksManager.OnDeviceHasError(ErrorOccuredEventArgs args)</summary>
         </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.OnParameterChangedParameterChangedArgs">
             <summary>Sets the shim of NetworksManager.OnParameterChanged(ParameterChangedArgs args)</summary>
@@ -1854,6 +2004,9 @@
         </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.RemoveNetworkGuid">
             <summary>Sets the shim of NetworksManager.RemoveNetwork(Guid id)</summary>
+        </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.SendCommandGuidString">
+            <summary>Sets the shim of NetworksManager.SendCommand(Guid deviceId, String commandName)</summary>
         </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.SetSatusGuidBoolean">
             <summary>Sets the shim of NetworksManager.SetSatus(Guid id, Boolean status)</summary>
@@ -2015,7 +2168,7 @@
             <summary>Sets the shim of DevicesCollection.InsertItem(Int32 index, IDevice item)</summary>
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel.Fakes.ShimDevicesCollection.OnCollectionChangedDevicesCollectionChangedEventArgs">
-            <summary>Sets the shim of DevicesCollection.OnCollectionChanged(DevicesCollectionChangedEventArgs e)</summary>
+            <summary>Sets the shim of DevicesCollection.OnCollectionChanged(DevicesCollectionChangedEventArgs args)</summary>
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel.Fakes.ShimDevicesCollection.RemoveItemInt32">
             <summary>Sets the shim of DevicesCollection.RemoveItem(Int32 index)</summary>
@@ -2042,7 +2195,7 @@
             <summary>Sets the shim of DevicesCollection.InsertItem(Int32 index, IDevice item)</summary>
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel.Fakes.ShimDevicesCollection.AllInstances.OnCollectionChangedDevicesCollectionChangedEventArgs">
-            <summary>Sets the shim of DevicesCollection.OnCollectionChanged(DevicesCollectionChangedEventArgs e)</summary>
+            <summary>Sets the shim of DevicesCollection.OnCollectionChanged(DevicesCollectionChangedEventArgs args)</summary>
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel.Fakes.ShimDevicesCollection.AllInstances.RemoveItemInt32">
             <summary>Sets the shim of DevicesCollection.RemoveItem(Int32 index)</summary>
@@ -2359,11 +2512,11 @@
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.ShimDeviceBase.PropertyChangedRemovePropertyChangedEventHandler">
             <summary>Sets the shim of DeviceBase.remove_PropertyChanged(PropertyChangedEventHandler value)</summary>
         </member>
-        <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.ShimDeviceBase.RTCErrorGet">
-            <summary>Sets the shim of DeviceBase.get_RTCError()</summary>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.ShimDeviceBase.RtcErrorGet">
+            <summary>Sets the shim of DeviceBase.get_RtcError()</summary>
         </member>
-        <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.ShimDeviceBase.RTCErrorSetBoolean">
-            <summary>Sets the shim of DeviceBase.set_RTCError(Boolean value)</summary>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.ShimDeviceBase.RtcErrorSetBoolean">
+            <summary>Sets the shim of DeviceBase.set_RtcError(Boolean value)</summary>
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.ShimDeviceBase.Start">
             <summary>Sets the shim of DeviceBase.Start()</summary>
@@ -2449,11 +2602,11 @@
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.ShimDeviceBase.AllInstances.PropertyChangedRemovePropertyChangedEventHandler">
             <summary>Sets the shim of DeviceBase.remove_PropertyChanged(PropertyChangedEventHandler value)</summary>
         </member>
-        <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.ShimDeviceBase.AllInstances.RTCErrorGet">
-            <summary>Sets the shim of DeviceBase.get_RTCError()</summary>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.ShimDeviceBase.AllInstances.RtcErrorGet">
+            <summary>Sets the shim of DeviceBase.get_RtcError()</summary>
         </member>
-        <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.ShimDeviceBase.AllInstances.RTCErrorSetBoolean">
-            <summary>Sets the shim of DeviceBase.set_RTCError(Boolean value)</summary>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.ShimDeviceBase.AllInstances.RtcErrorSetBoolean">
+            <summary>Sets the shim of DeviceBase.set_RtcError(Boolean value)</summary>
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.ShimDeviceBase.AllInstances.Start">
             <summary>Sets the shim of DeviceBase.Start()</summary>
@@ -2572,6 +2725,12 @@
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.ShimErrorOccuredEventArgs.ErrorsSetDeviceErrors">
             <summary>Sets the shim of ErrorOccuredEventArgs.set_Errors(DeviceErrors value)</summary>
         </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.ShimErrorOccuredEventArgs.IdGet">
+            <summary>Sets the shim of ErrorOccuredEventArgs.get_Id()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.ShimErrorOccuredEventArgs.IdSetGuid">
+            <summary>Sets the shim of ErrorOccuredEventArgs.set_Id(Guid value)</summary>
+        </member>
         <member name="T:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.ShimErrorOccuredEventArgs.AllInstances">
             <summary>Define shims for all instances members</summary>
         </member>
@@ -2580,6 +2739,12 @@
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.ShimErrorOccuredEventArgs.AllInstances.ErrorsSetDeviceErrors">
             <summary>Sets the shim of ErrorOccuredEventArgs.set_Errors(DeviceErrors value)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.ShimErrorOccuredEventArgs.AllInstances.IdGet">
+            <summary>Sets the shim of ErrorOccuredEventArgs.get_Id()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.ShimErrorOccuredEventArgs.AllInstances.IdSetGuid">
+            <summary>Sets the shim of ErrorOccuredEventArgs.set_Id(Guid value)</summary>
         </member>
         <member name="T:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.ShimParameter">
             <summary>Shim type of ResursNetwork.OSI.ApplicationLayer.Devices.Parameter</summary>
@@ -2722,8 +2887,8 @@
         <member name="M:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubDeviceBase.AttachBackingFieldToAddress">
             <summary>Attaches delegates to emulate StubDeviceBase.Address as a property with a backing field.</summary>
         </member>
-        <member name="M:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubDeviceBase.AttachBackingFieldToRTC">
-            <summary>Attaches delegates to emulate StubDeviceBase.RTC as a property with a backing field.</summary>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubDeviceBase.AttachBackingFieldToRtc">
+            <summary>Attaches delegates to emulate StubDeviceBase.Rtc as a property with a backing field.</summary>
         </member>
         <member name="F:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubDeviceBase.DeviceTypeGet">
             <summary>Sets the stub of DeviceBase.get_DeviceType()</summary>
@@ -2733,6 +2898,12 @@
         </member>
         <member name="F:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubDeviceBase.EventHandler_NetworkController_NetwrokRequestCompletedObjectNetworkRequestCompletedArgs">
             <summary>Sets the stub of DeviceBase.EventHandler_NetworkController_NetwrokRequestCompleted(Object sender, NetworkRequestCompletedArgs e)</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubDeviceBase.ExecuteCommand(System.String)">
+            <summary>Sets the stub of DeviceBase.ExecuteCommand(String commandName)</summary>
+        </member>
+        <member name="F:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubDeviceBase.ExecuteCommandString">
+            <summary>Sets the stub of DeviceBase.ExecuteCommand(String commandName)</summary>
         </member>
         <member name="M:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubDeviceBase.Initialization">
             <summary>Sets the stub of DeviceBase.Initialization()</summary>
@@ -2761,11 +2932,11 @@
         <member name="F:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubDeviceBase.OnStatusChanged01">
             <summary>Sets the stub of DeviceBase.OnStatusChanged()</summary>
         </member>
-        <member name="F:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubDeviceBase.RTCGet">
-            <summary>Sets the stub of DeviceBase.get_RTC()</summary>
+        <member name="F:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubDeviceBase.RtcGet">
+            <summary>Sets the stub of DeviceBase.get_Rtc()</summary>
         </member>
-        <member name="F:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubDeviceBase.RTCSetDateTime">
-            <summary>Sets the stub of DeviceBase.set_RTC(DateTime value)</summary>
+        <member name="F:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubDeviceBase.RtcSetDateTime">
+            <summary>Sets the stub of DeviceBase.set_Rtc(DateTime value)</summary>
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubDeviceBase.Address">
             <summary>Sets the stub of DeviceBase.get_Address()</summary>
@@ -2782,8 +2953,8 @@
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubDeviceBase.InstanceObserver">
             <summary>Gets or sets the instance observer.</summary>
         </member>
-        <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubDeviceBase.RTC">
-            <summary>Sets the stub of DeviceBase.get_RTC()</summary>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubDeviceBase.Rtc">
+            <summary>Sets the stub of DeviceBase.get_Rtc()</summary>
         </member>
         <member name="T:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubDeviceCommand">
             <summary>Stub type of ResursNetwork.OSI.ApplicationLayer.Devices.DeviceCommand</summary>
@@ -2854,11 +3025,11 @@
         <member name="M:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.AttachBackingFieldToNetwork">
             <summary>Attaches delegates to emulate StubIDevice.Network as a property with a backing field.</summary>
         </member>
-        <member name="M:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.AttachBackingFieldToRTC">
-            <summary>Attaches delegates to emulate StubIDevice.RTC as a property with a backing field.</summary>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.AttachBackingFieldToRtc">
+            <summary>Attaches delegates to emulate StubIDevice.Rtc as a property with a backing field.</summary>
         </member>
-        <member name="M:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.AttachBackingFieldToRTCError">
-            <summary>Attaches delegates to emulate StubIDevice.RTCError as a property with a backing field.</summary>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.AttachBackingFieldToRtcError">
+            <summary>Attaches delegates to emulate StubIDevice.RtcError as a property with a backing field.</summary>
         </member>
         <member name="M:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.AttachBackingFieldToStatus">
             <summary>Attaches delegates to emulate StubIDevice.Status as a property with a backing field.</summary>
@@ -2881,6 +3052,9 @@
         <member name="F:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.ErrorsGet">
             <summary>Sets the stub of IDevice.get_Errors()</summary>
         </member>
+        <member name="F:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.ExecuteCommandString">
+            <summary>Sets the stub of IDevice.ExecuteCommand(String commandName)</summary>
+        </member>
         <member name="F:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.IdGet">
             <summary>Sets the stub of IDevice.get_Id()</summary>
         </member>
@@ -2896,23 +3070,26 @@
         <member name="F:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.ParametersGet">
             <summary>Sets the stub of IDevice.get_Parameters()</summary>
         </member>
-        <member name="F:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.RTCErrorGet">
-            <summary>Sets the stub of IDevice.get_RTCError()</summary>
-        </member>
-        <member name="F:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.RTCErrorSetBoolean">
-            <summary>Sets the stub of IDevice.set_RTCError(Boolean value)</summary>
-        </member>
-        <member name="F:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.RTCGet">
-            <summary>Sets the stub of IDevice.get_RTC()</summary>
-        </member>
-        <member name="F:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.RTCSetDateTime">
-            <summary>Sets the stub of IDevice.set_RTC(DateTime value)</summary>
-        </member>
         <member name="M:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.r::ResursNetwork#Management#IManageable#Start">
             <summary>Sets the stub of IManageable.Start()</summary>
         </member>
         <member name="M:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.r::ResursNetwork#Management#IManageable#Stop">
             <summary>Sets the stub of IManageable.Stop()</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.r::ResursNetwork#OSI#ApplicationLayer#Devices#IDevice#ExecuteCommand(System.String)">
+            <summary>Sets the stub of IDevice.ExecuteCommand(String commandName)</summary>
+        </member>
+        <member name="F:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.RtcErrorGet">
+            <summary>Sets the stub of IDevice.get_RtcError()</summary>
+        </member>
+        <member name="F:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.RtcErrorSetBoolean">
+            <summary>Sets the stub of IDevice.set_RtcError(Boolean value)</summary>
+        </member>
+        <member name="F:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.RtcGet">
+            <summary>Sets the stub of IDevice.get_Rtc()</summary>
+        </member>
+        <member name="F:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.RtcSetDateTime">
+            <summary>Sets the stub of IDevice.set_Rtc(DateTime value)</summary>
         </member>
         <member name="F:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.Start">
             <summary>Sets the stub of IManageable.Start()</summary>
@@ -2950,11 +3127,11 @@
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.r::ResursNetwork#OSI#ApplicationLayer#Devices#IDevice#Parameters">
             <summary>Sets the stub of IDevice.get_Parameters()</summary>
         </member>
-        <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.r::ResursNetwork#OSI#ApplicationLayer#Devices#IDevice#RTC">
-            <summary>Sets the stub of IDevice.get_RTC()</summary>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.r::ResursNetwork#OSI#ApplicationLayer#Devices#IDevice#Rtc">
+            <summary>Sets the stub of IDevice.get_Rtc()</summary>
         </member>
-        <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.r::ResursNetwork#OSI#ApplicationLayer#Devices#IDevice#RTCError">
-            <summary>Sets the stub of IDevice.get_RTCError()</summary>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.r::ResursNetwork#OSI#ApplicationLayer#Devices#IDevice#RtcError">
+            <summary>Sets the stub of IDevice.get_RtcError()</summary>
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Fakes.StubIDevice.r::ResursNetwork#Management#IManageable#Status">
             <summary>Sets the stub of IManageable.get_Status()</summary>
@@ -3253,6 +3430,54 @@
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters.Fakes.StubIncotexDataTimeTypeConverter.InstanceObserver">
             <summary>Gets or sets the instance observer.</summary>
         </member>
+        <member name="T:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs">
+            <summary>Shim type of ResursNetwork.OSI.ApplicationLayer.ConfigurationChangedEventArgs</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.#ctor(ResursNetwork.OSI.ApplicationLayer.ConfigurationChangedEventArgs)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.ActionGet">
+            <summary>Sets the shim of ConfigurationChangedEventArgs.get_Action()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.ActionSetConfigurationChangedAction">
+            <summary>Sets the shim of ConfigurationChangedEventArgs.set_Action(ConfigurationChangedAction value)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.Constructor">
+            <summary>Sets the shim of ConfigurationChangedEventArgs.ConfigurationChangedEventArgs()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.DeviceGet">
+            <summary>Sets the shim of ConfigurationChangedEventArgs.get_Device()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.DeviceSetIDevice">
+            <summary>Sets the shim of ConfigurationChangedEventArgs.set_Device(IDevice value)</summary>
+        </member>
+        <member name="T:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.AllInstances.ActionGet">
+            <summary>Sets the shim of ConfigurationChangedEventArgs.get_Action()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.AllInstances.ActionSetConfigurationChangedAction">
+            <summary>Sets the shim of ConfigurationChangedEventArgs.set_Action(ConfigurationChangedAction value)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.AllInstances.DeviceGet">
+            <summary>Sets the shim of ConfigurationChangedEventArgs.get_Device()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.AllInstances.DeviceSetIDevice">
+            <summary>Sets the shim of ConfigurationChangedEventArgs.set_Device(IDevice value)</summary>
+        </member>
         <member name="T:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase">
             <summary>Shim type of ResursNetwork.OSI.ApplicationLayer.NetworkControllerBase</summary>
         </member>
@@ -3277,6 +3502,12 @@
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.Behavior">
             <summary>Assigns the behavior for all methods of the shimmed type</summary>
         </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.ConfigurationChangedAddEventHandlerOfConfigurationChangedEventArgs">
+            <summary>Sets the shim of NetworkControllerBase.add_ConfigurationChanged(EventHandler`1&lt;ConfigurationChangedEventArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.ConfigurationChangedRemoveEventHandlerOfConfigurationChangedEventArgs">
+            <summary>Sets the shim of NetworkControllerBase.remove_ConfigurationChanged(EventHandler`1&lt;ConfigurationChangedEventArgs&gt; value)</summary>
+        </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.ConnectionGet">
             <summary>Sets the shim of NetworkControllerBase.get_Connection()</summary>
         </member>
@@ -3292,6 +3523,9 @@
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.Dispose">
             <summary>Sets the shim of NetworkControllerBase.Dispose()</summary>
         </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.EventHandler_Devices_CollectionChangedObjectDevicesCollectionChangedEventArgs">
+            <summary>Sets the shim of NetworkControllerBase.EventHandler_Devices_CollectionChanged(Object sender, DevicesCollectionChangedEventArgs e)</summary>
+        </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.IdGet">
             <summary>Sets the shim of NetworkControllerBase.get_Id()</summary>
         </member>
@@ -3303,6 +3537,9 @@
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.NetwrokRequestCompletedRemoveEventHandlerOfNetworkRequestCompletedArgs">
             <summary>Sets the shim of NetworkControllerBase.remove_NetwrokRequestCompleted(EventHandler`1&lt;NetworkRequestCompletedArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.OnConfigurationChangedConfigurationChangedEventArgs">
+            <summary>Sets the shim of NetworkControllerBase.OnConfigurationChanged(ConfigurationChangedEventArgs args)</summary>
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.OnNetwrokRequestCompletedNetworkRequestCompletedArgs">
             <summary>Sets the shim of NetworkControllerBase.OnNetwrokRequestCompleted(NetworkRequestCompletedArgs args)</summary>
@@ -3352,6 +3589,12 @@
         <member name="T:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances">
             <summary>Define shims for all instances members</summary>
         </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.ConfigurationChangedAddEventHandlerOfConfigurationChangedEventArgs">
+            <summary>Sets the shim of NetworkControllerBase.add_ConfigurationChanged(EventHandler`1&lt;ConfigurationChangedEventArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.ConfigurationChangedRemoveEventHandlerOfConfigurationChangedEventArgs">
+            <summary>Sets the shim of NetworkControllerBase.remove_ConfigurationChanged(EventHandler`1&lt;ConfigurationChangedEventArgs&gt; value)</summary>
+        </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.ConnectionGet">
             <summary>Sets the shim of NetworkControllerBase.get_Connection()</summary>
         </member>
@@ -3364,6 +3607,9 @@
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.Dispose">
             <summary>Sets the shim of NetworkControllerBase.Dispose()</summary>
         </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.EventHandler_Devices_CollectionChangedObjectDevicesCollectionChangedEventArgs">
+            <summary>Sets the shim of NetworkControllerBase.EventHandler_Devices_CollectionChanged(Object sender, DevicesCollectionChangedEventArgs e)</summary>
+        </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.IdGet">
             <summary>Sets the shim of NetworkControllerBase.get_Id()</summary>
         </member>
@@ -3375,6 +3621,9 @@
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.NetwrokRequestCompletedRemoveEventHandlerOfNetworkRequestCompletedArgs">
             <summary>Sets the shim of NetworkControllerBase.remove_NetwrokRequestCompleted(EventHandler`1&lt;NetworkRequestCompletedArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.OnConfigurationChangedConfigurationChangedEventArgs">
+            <summary>Sets the shim of NetworkControllerBase.OnConfigurationChanged(ConfigurationChangedEventArgs args)</summary>
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.OnNetwrokRequestCompletedNetworkRequestCompletedArgs">
             <summary>Sets the shim of NetworkControllerBase.OnNetwrokRequestCompleted(NetworkRequestCompletedArgs args)</summary>
@@ -3516,6 +3765,24 @@
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs.AllInstances.ParameterNameSetString">
             <summary>Sets the shim of ParameterChangedArgs.set_ParameterName(String value)</summary>
+        </member>
+        <member name="T:ResursNetwork.OSI.ApplicationLayer.Fakes.StubConfigurationChangedEventArgs">
+            <summary>Stub type of ResursNetwork.OSI.ApplicationLayer.ConfigurationChangedEventArgs</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubConfigurationChangedEventArgs.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubConfigurationChangedEventArgs.InitializeStub">
+            <summary>Initializes a new instance of type StubConfigurationChangedEventArgs</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.StubConfigurationChangedEventArgs.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.StubConfigurationChangedEventArgs.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.StubConfigurationChangedEventArgs.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
         </member>
         <member name="T:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController">
             <summary>Stub type of ResursNetwork.OSI.ApplicationLayer.INetwrokController</summary>

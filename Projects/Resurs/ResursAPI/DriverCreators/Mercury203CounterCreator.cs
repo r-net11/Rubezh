@@ -21,9 +21,11 @@ namespace ResursAPI
 				Name = ParameterNamesMercury203.GADDR,
 				Description = "Групповой адрес",
 				ParameterType = ParameterType.Int,
+				IntType = ResursAPI.IntType.UInt32,
 				IsReadOnly = true,
 				Number = 0,
-				IntMinValue = 1
+				IntMinValue = 1,
+				IntDefaultValue = 1
 			});
 			driver.DriverParameters.Add(new DriverParameter(new Guid("22566EA7-7A66-4C43-B615-AEBDF211DA16"))
 			{
@@ -37,19 +39,25 @@ namespace ResursAPI
 			{
 				Name = ParameterNamesMercury203.PowerLimit,
 				Description = "Лимит мощности",
-				ParameterType = ParameterType.Double,
+				ParameterType = ParameterType.Int,
 				IsReadOnly = true,
 				Number = 2,
-				DoubleMinValue = 0.001
+				IntType = ResursAPI.IntType.UInt16,
+				IntMinValue = 0,
+				IntMaxValue = 9999,
+				IntDefaultValue = 1
 			});
 			driver.DriverParameters.Add(new DriverParameter(new Guid("77C3C079-FD03-419E-B80F-4D101E855358"))
 			{
 				Name = ParameterNamesMercury203.PowerLimitPerMonth,
 				Description = "Месячный лимит мощности",
-				ParameterType = ParameterType.Double,
+				ParameterType = ParameterType.Int,
 				IsReadOnly = true,
 				Number = 3,
-				DoubleMinValue = 0.001
+				IntType = ResursAPI.IntType.UInt16,
+				IntMinValue = 0,
+				IntMaxValue = 9999,
+				IntDefaultValue = 1
 			});
 			driver.Commands.Add(new DeviceCommand(new Guid("F4CBA9CC-1117-4562-BCA7-4B11C2A2FB45"))
 			{

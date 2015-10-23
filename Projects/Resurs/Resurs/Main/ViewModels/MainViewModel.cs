@@ -40,5 +40,14 @@ namespace Resurs.ViewModels
 				OnPropertyChanged(() => SelectedTabIndex);
 			}
 		}
+
+		public void UpdateTabsIsVisible()
+		{
+			DevicesViewModel.OnPropertyChanged(() => DevicesViewModel.IsVisible);
+			ConsumersViewModel.OnPropertyChanged(() => ConsumersViewModel.IsVisible);
+			UsersViewModel.OnPropertyChanged(() => UsersViewModel.IsVisible);
+			JournalEventsViewModel.OnPropertyChanged(() => JournalEventsViewModel.IsVisible);
+			TariffsViewModel.OnPropertyChanged(() => TariffsViewModel.IsVisible);
+		}
     }
 }

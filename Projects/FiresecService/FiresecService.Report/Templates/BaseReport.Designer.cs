@@ -41,6 +41,7 @@
 			this.lTimestamp = new DevExpress.XtraReports.UI.XRLabel();
 			this.Timestamp = new DevExpress.XtraReports.Parameters.Parameter();
 			this.lPage = new DevExpress.XtraReports.UI.XRPageInfo();
+			this.detailBand1 = new DevExpress.XtraReports.UI.DetailBand();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
 			// 
 			// TopMargin
@@ -86,10 +87,12 @@
 			this.lFilterName.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding(this.FilterName, "Text", "Фильтр: {0}")});
 			this.lFilterName.Dpi = 254F;
+			this.lFilterName.ForeColor = System.Drawing.Color.Gray;
 			this.lFilterName.LocationFloat = new DevExpress.Utils.PointFloat(0F, 278.8542F);
 			this.lFilterName.Name = "lFilterName";
 			this.lFilterName.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
 			this.lFilterName.SizeF = new System.Drawing.SizeF(1700F, 58.42001F);
+			this.lFilterName.StylePriority.UseForeColor = false;
 			this.lFilterName.StylePriority.UseTextAlignment = false;
 			this.lFilterName.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
 			// 
@@ -106,10 +109,12 @@
 			this.lPeriod.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding(this.Period, "Text", "За период {0}")});
 			this.lPeriod.Dpi = 254F;
+			this.lPeriod.ForeColor = System.Drawing.Color.Gray;
 			this.lPeriod.LocationFloat = new DevExpress.Utils.PointFloat(0F, 220.4341F);
 			this.lPeriod.Name = "lPeriod";
 			this.lPeriod.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
 			this.lPeriod.SizeF = new System.Drawing.SizeF(1700F, 58.42001F);
+			this.lPeriod.StylePriority.UseForeColor = false;
 			this.lPeriod.StylePriority.UseTextAlignment = false;
 			this.lPeriod.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
 			// 
@@ -138,10 +143,12 @@
 			this.lUserName.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding(this.UserName, "Text", "Пользователь: {0}")});
 			this.lUserName.Dpi = 254F;
+			this.lUserName.ForeColor = System.Drawing.Color.Gray;
 			this.lUserName.LocationFloat = new DevExpress.Utils.PointFloat(0F, 90.16997F);
 			this.lUserName.Name = "lUserName";
 			this.lUserName.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
 			this.lUserName.SizeF = new System.Drawing.SizeF(1250F, 58.42F);
+			this.lUserName.StylePriority.UseForeColor = false;
 			this.lUserName.StylePriority.UseTextAlignment = false;
 			this.lUserName.Text = "lUserName";
 			this.lUserName.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
@@ -158,10 +165,12 @@
 			this.lTimestamp.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding(this.Timestamp, "Text", "Дата и время формирования отчета: {0:dd.MM.yyyy HH:mm:ss}")});
 			this.lTimestamp.Dpi = 254F;
+			this.lTimestamp.ForeColor = System.Drawing.Color.Gray;
 			this.lTimestamp.LocationFloat = new DevExpress.Utils.PointFloat(0F, 31.75F);
 			this.lTimestamp.Name = "lTimestamp";
 			this.lTimestamp.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
 			this.lTimestamp.SizeF = new System.Drawing.SizeF(1250F, 58.42F);
+			this.lTimestamp.StylePriority.UseForeColor = false;
 			this.lTimestamp.StylePriority.UseTextAlignment = false;
 			this.lTimestamp.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
 			// 
@@ -175,19 +184,28 @@
 			// 
 			this.lPage.AnchorVertical = DevExpress.XtraReports.UI.VerticalAnchorStyles.Bottom;
 			this.lPage.Dpi = 254F;
+			this.lPage.ForeColor = System.Drawing.Color.Gray;
 			this.lPage.Format = "Стр {0} из {1}";
 			this.lPage.LocationFloat = new DevExpress.Utils.PointFloat(1300.479F, 90.16997F);
 			this.lPage.Name = "lPage";
 			this.lPage.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
 			this.lPage.SizeF = new System.Drawing.SizeF(399.5208F, 58.42F);
+			this.lPage.StylePriority.UseForeColor = false;
 			this.lPage.StylePriority.UseTextAlignment = false;
 			this.lPage.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
+			// 
+			// detailBand1
+			// 
+			this.detailBand1.Dpi = 254F;
+			this.detailBand1.HeightF = 254F;
+			this.detailBand1.Name = "detailBand1";
 			// 
 			// BaseReport
 			// 
 			this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
             this.TopMargin,
-            this.BottomMargin});
+            this.BottomMargin,
+            this.detailBand1});
 			this.Dpi = 254F;
 			this.ExportOptions.PrintPreview.ActionAfterExport = DevExpress.XtraPrinting.ActionAfterExport.Open;
 			this.ExportOptions.PrintPreview.ShowOptionsBeforeExport = false;
@@ -202,7 +220,7 @@
             this.UserName,
             this.Timestamp});
 			this.ReportUnit = DevExpress.XtraReports.UI.ReportUnit.TenthsOfAMillimeter;
-			this.Version = "14.1";
+			this.Version = "15.1";
 			this.DataSourceDemanded += new System.EventHandler<System.EventArgs>(this.BaseReport_DataSourceDemanded);
 			((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
@@ -223,5 +241,6 @@
 		private DevExpress.XtraReports.Parameters.Parameter Timestamp;
 		private DevExpress.XtraReports.UI.XRPageInfo lPage;
 		private DevExpress.XtraReports.UI.XRLabel lReportName;
+		private DevExpress.XtraReports.UI.DetailBand detailBand1;
 	}
 }

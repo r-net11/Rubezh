@@ -273,9 +273,9 @@ namespace GKModule.ViewModels
 		}
 		IElementZone GetElementSKDZone(ElementBase element)
 		{
-			IElementZone elementZone = element as ElementRectangleGKZone;
+			IElementZone elementZone = element as ElementRectangleGKSKDZone;
 			if (elementZone == null)
-				elementZone = element as ElementPolygonGKZone;
+				elementZone = element as ElementPolygonGKSKDZone;
 			return elementZone;
 		}
 

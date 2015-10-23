@@ -8,23 +8,34 @@ namespace ResursDAL
 {
 	public static partial class DBCash
 	{
-		public static bool AddMeasure(Guid deviceUID, int tariffPartNo, double value, DateTime dateTime)
+		public static bool AddMeasure(Guid deviceUID, int tariffPartNo, float value, double? moneyValue, DateTime dateTime)
 		{
 			using (var context = DatabaseContext.Initialize())
 			{
-				var measure = CreateMeasure(deviceUID, tariffPartNo, value, dateTime);
+				var measure = CreateMeasure(deviceUID, tariffPartNo, value, moneyValue, dateTime);
 				context.Measures.Add(measure);
 				context.SaveChanges();
 			}
 			return true;
 		}
 
-		public static Measure CreateMeasure(Guid deviceUID, int tariffPartNo, double value, DateTime dateTime)
+		public static bool AddMeasure(Measure measure)
+		{
+			using (var context = DatabaseContext.Initialize())
+			{
+				context.Measures.Add(measure);
+				context.SaveChanges();
+			}
+			return true;
+		}
+
+		public static Measure CreateMeasure(Guid deviceUID, int tariffPartNo, float value, double? moneyValue, DateTime dateTime)
 		{
 			var measure = new Measure();
 			measure.DeviceUID = deviceUID;
 			measure.TariffPartNo = tariffPartNo;
 			measure.Value = value;
+			measure.MoneyValue = moneyValue;
 			measure.DateTime = dateTime;
 			return measure;
 		}
@@ -43,7 +54,14 @@ namespace ResursDAL
 		{
 			using (var context = DatabaseContext.Initialize())
 			{
-				return context.Measures.Where(x => x.DeviceUID == deviceUID && x.DateTime>=startDate && x.DateTime <= endDate).OrderBy(x=>x.DateTime).ToList();
+				return context.Measures.Where(x => x.DeviceUID == deviceUID && x.DateTime >=startDate && x.DateTime <= endDate).OrderBy(x=>x.DateTime).ToList();
+			}
+		}
+		public static Measure GetLastMeasure(Guid deviceUID)
+		{
+			using (var context = DatabaseContext.Initialize())
+			{
+				return context.Measures.Where(x => x.DeviceUID == deviceUID).LastOrDefault();
 			}
 		}
 	}

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Specialized;
 using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
 using ResursNetwork.Management;
 using ResursNetwork.OSI.DataLinkLayer;
@@ -243,6 +244,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
             _TotalAttempts = 1;
             _MessageReceived = new EventHandler(EventHandler_Connection_MessageReceived);
             _Devices = new DevicesCollection(this);
+			_Devices.CollectionChanged += EventHandler_Devices_CollectionChanged;
         }
 
         #endregion
@@ -264,6 +266,51 @@ namespace ResursNetwork.OSI.ApplicationLayer
         {
             Status = Status.Stopped;
         }
+
+		private void EventHandler_Devices_CollectionChanged(
+			object sender, DevicesCollectionChangedEventArgs e)
+		{
+			switch (e.Action)
+			{
+				case NotifyCollectionChangedAction.Add:
+					{
+						OnConfigurationChanged(
+							new ConfigurationChangedEventArgs 
+							{ 
+								Device = e.Device, 
+								Action = ConfigurationChangedAction.DeviceAdded 
+							});
+						break;
+					}
+				case NotifyCollectionChangedAction.Remove:
+					{
+						OnConfigurationChanged(
+							new ConfigurationChangedEventArgs
+							{
+								Device = e.Device,
+								Action = ConfigurationChangedAction.DeviceRemoved
+							});
+						break;
+					}
+				default:
+					{
+						throw new NotImplementedException();
+					}
+			}
+		}
+
+		private void OnConfigurationChanged(ConfigurationChangedEventArgs args)
+		{
+			if (args == null)
+			{
+				throw new ArgumentNullException();
+			}
+
+			if (ConfigurationChanged != null)
+			{
+				ConfigurationChanged(this, args);
+			}
+		}
 
         /// <summary>
         /// Генерирует событие изменения состояния контроллера
@@ -330,6 +377,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
 		public event EventHandler StatusChanged;
         public event EventHandler<NetworkRequestCompletedArgs> NetwrokRequestCompleted;
 		public event EventHandler<ParameterChangedArgs> ParameterChanged;
+		public event EventHandler<ConfigurationChangedEventArgs> ConfigurationChanged;
 
 		#endregion
 

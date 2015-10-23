@@ -62,7 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseContext.cs" />
-    <Compile Include="DBCash.Bills.cs" />
     <Compile Include="DBCash.cs" />
     <Compile Include="DBCash.Devices.cs" />
     <Compile Include="DBCash.Journal.cs" />

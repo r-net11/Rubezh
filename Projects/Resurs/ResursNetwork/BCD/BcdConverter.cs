@@ -29,6 +29,23 @@ namespace ResursNetwork.BCD
             return true;    
         }
 
+		/// <summary>
+		/// Проверяет число на соответствие BCD-формату
+		/// </summary>
+		/// <param name="bcdValue">Число в формате BCD</param>
+		/// <returns>Соответствует - true</returns>
+		public static Boolean IsValid(uint bcdValue)
+		{
+			foreach (var item in BitConverter.GetBytes(bcdValue))
+			{
+				if (!IsValid(item))
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+
         /// <summary>
         /// Преобразует значение в формате BCD в байт
         /// </summary>
@@ -46,6 +63,23 @@ namespace ResursNetwork.BCD
                     "Аргумент не соответствует BCD-формату", "bcdValue");
             }
         }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="bcdValue">число в BCD-формате,
+		/// выравниваение big-endian (Старшим байтом вперёд)</param>
+		/// <returns></returns>
+		public static uint ToUInt32(uint bcdValue)
+		{
+			var array = BitConverter.GetBytes(bcdValue);
+			uint result = 0;
+			result = ToByte(array[3]); // младший байт числа
+			result = result + (((uint)ToByte(array[2])) * 100);
+			result = result + (((uint)ToByte(array[1])) * 10000);
+			result = result + (((uint)ToByte(array[0])) * 1000000); // старший байт числа
+			return result;
+		}
 
         /// <summary>
         /// Преобразует значение в значение в формате BCD

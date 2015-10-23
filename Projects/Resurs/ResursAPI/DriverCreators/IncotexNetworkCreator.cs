@@ -27,7 +27,8 @@ namespace ResursAPI
 					new ParameterEnumItem { Name = "115200", Value = 115200 }
 				},
 				Number = 0,
-				EnumDefaultItem = 9600
+				EnumDefaultItem = 9600,
+				CanWriteInActive = false
 			});
 			driver.DriverParameters.Add(new DriverParameter(new Guid("966542E0-1960-4463-A709-7B3B60ECD43D"))
 			{
@@ -36,7 +37,8 @@ namespace ResursAPI
 				ParameterType = ParameterType.Int,
 				Number = 1,
 				IntDefaultValue = 10,
-				IntMinValue = 1
+				IntMinValue = 1,
+				CanWriteInActive = false
 			});
 			driver.DriverParameters.Add(new DriverParameter(new Guid("C924C4B9-FB45-4668-A064-44E4CF1300E4"))
 			{
@@ -45,7 +47,8 @@ namespace ResursAPI
 				ParameterType = ParameterType.Int,
 				Number = 2,
 				IntDefaultValue = 10,
-				IntMinValue = 1
+				IntMinValue = 1,
+				CanWriteInActive = false
 			});
 			return driver;
 		}

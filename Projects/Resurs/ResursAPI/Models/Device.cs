@@ -40,6 +40,7 @@ namespace ResursAPI
 			if (parent == null)
 				return;
 			Parent = parent;
+			ParentUID = parent.UID;
 			Parent.Children.Add(this);
 			if (address != null)
 				Address = address.Value;
@@ -63,7 +64,7 @@ namespace ResursAPI
 			if (name == ParameterNames.ParameterNamesBase.Id)
 				return UID;
 			if (name == ParameterNames.ParameterNamesBase.Address)
-				return Address;
+				return Convert.ToUInt32(Address);
 			if (name == ParameterNames.ParameterNamesBase.PortName)
 			{
 				if(DeviceType != ResursAPI.DeviceType.Network)
@@ -86,8 +87,8 @@ namespace ResursAPI
 		public List<Parameter> Parameters { get; set; }
 		public Guid? TariffUID { get; set; }
 		public Tariff Tariff { get; set; }
-		public Guid? BillUID { get; set; }
-		public Bill Bill { get; set; }
+		public Guid? ConsumerUID { get; set; }
+		public Consumer Consumer { get; set; }
 		public Guid DriverUID { get; set; }
 		public DriverType DriverType { get { return Driver.DriverType; } }
 		public int Address { get; set; }
@@ -112,10 +113,10 @@ namespace ResursAPI
 			{
 				return DriverType == DriverType.IncotextNetwork ||
 					DriverType == DriverType.Mercury203Counter ||
-					DriverType == ResursAPI.DriverType.VirtualIncotextNetwork ||
-					DriverType == ResursAPI.DriverType.VirtualMercury203Counter ||
-					DriverType == ResursAPI.DriverType.VirtualMZEP55Counter ||
-					DriverType == ResursAPI.DriverType.VirtualMZEP55Network;
+					DriverType == DriverType.VirtualIncotextNetwork ||
+					DriverType == DriverType.VirtualMercury203Counter ||
+					DriverType == DriverType.VirtualMZEP55Counter ||
+					DriverType == DriverType.VirtualMZEP55Network;
 			} 
 		}
 		[NotMapped]

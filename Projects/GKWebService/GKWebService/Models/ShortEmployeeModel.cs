@@ -9,6 +9,7 @@ namespace GKWebService.Models
     public class ShortEmployeeModel
     {
         public Guid UID { get; set; }
+        public Guid ParentUID { get; set; }
         public Guid OrganisationUID { get; set; }
         public string Name { get; set; }
         public string DepartmentName { get; set; }
@@ -36,6 +37,7 @@ namespace GKWebService.Models
         private void InitializeOrganisation(Organisation organisation)
         {
             UID = organisation.UID;
+	        OrganisationUID = organisation.UID;
             Name = organisation.Name;
             IsOrganisation = true;
             IsExpanded = true;
@@ -48,6 +50,7 @@ namespace GKWebService.Models
         private void InitializeModel(ShortEmployee employee, IEnumerable<ShortEmployeeModel> organisations)
         {
             UID = employee.UID;
+	        ParentUID = employee.OrganisationUID;
             OrganisationUID = employee.OrganisationUID;
             IsOrganisation = false;
             Name = employee.FIO;

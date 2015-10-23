@@ -28,7 +28,6 @@
 			<ToolBarButton Command="{Binding ChangeParentCommand}" ToolTip="Переместить в группу (Ctrl+M)" ImageSource="ArrowInto" />
 			<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать (Ctrl+E)" ImageSource="Edit" />
 			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete" />
-			<ToolBarButton Command="{Binding OpenReceiptCommand}" ToolTip="Показать квитанцию" ImageSource="EditDocument" />
 		</StackPanel>
 		<view:ConsumerListView Grid.Column="0" Grid.Row="1" DataContext="{Binding ConsumerListViewModel}" />
 		<GridSplitter Grid.Column="1" Grid.Row="1" Width="5" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext"  Background="Transparent" />

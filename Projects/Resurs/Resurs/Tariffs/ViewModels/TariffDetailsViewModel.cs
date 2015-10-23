@@ -28,6 +28,7 @@ namespace Resurs.ViewModels
 				};
 			Title = "Создание нового тарифа";
 			SelectedTariffPartsNumber = 1;
+			GetMaxTariffParts();
 		}
 
 		public TariffDetailsViewModel(Tariff tariff)
@@ -40,6 +41,7 @@ namespace Resurs.ViewModels
 			Title = "Редактирование тарифа: " + tariff.TariffType.ToDescription();
 			SelectedTariffPartsNumber = (byte)tariff.TariffParts.Count;
 			SelectedTariffType = tariff.TariffType;
+			GetMaxTariffParts();
 		}
 		public bool IsNew { get; set; }
 
@@ -63,9 +65,26 @@ namespace Resurs.ViewModels
 					DBCash.GetDevice(item.Device.UID).TariffUID = Tariff.UID;
 				}
 				CanSave();
+				GetMaxTariffParts();
 			}
 		}
-
+		byte _maxTariffParts;
+		void GetMaxTariffParts()
+		{
+			_maxTariffParts = 8;
+			foreach (var device in Tariff.Devices)
+			{
+				if (_maxTariffParts.CompareTo((byte)device.MaxTatiffParts) > 0)
+				{
+					_maxTariffParts = (byte)device.MaxTatiffParts;
+					if (SelectedTariffPartsNumber > _maxTariffParts)
+					{
+						SelectedTariffPartsNumber = _maxTariffParts;
+					}
+				}
+			}
+			OnPropertyChanged(() => TariffPartsNumberEnum);
+		}
 		public ObservableCollection<TariffType> TariffType { get; set; }
 
 		public bool IsDiscount
@@ -120,9 +139,10 @@ namespace Resurs.ViewModels
 		{
 			get
 			{
-				return Enumerable.Range(1, 8).Select(x => (byte)x);
+				return Enumerable.Range(1, _maxTariffParts).Select(x => (byte)x);
 			}
 		}
+
 
 		public byte SelectedTariffPartsNumber
 		{
@@ -210,7 +230,7 @@ namespace Resurs.ViewModels
 						Tariff = Tariff,
 					});
 				}
-				return base.Save(); 
+				return base.Save();
 			}
 			MessageBoxService.ShowWarning("Имеются ошибки конфигурации. Изменения не сохранены.");
 			return false;

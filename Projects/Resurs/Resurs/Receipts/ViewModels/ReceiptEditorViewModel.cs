@@ -1,62 +1,49 @@
-﻿using DevExpress.XtraReports.UI;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Resurs.Consumers;
+using Resurs.Receipts;
 using Resurs.Reports.Templates;
 using Resurs.Views;
-using ResursAPI;
-using ResursDAL;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.ComponentModel;
 using System.Windows;
-using System.Runtime.Serialization;
-using System.Text;
 
 namespace Resurs.ViewModels
 {
 	public class ReceiptEditorViewModel : BaseViewModel
 	{
+		string SaveQuestion
+		{
+			get
+			{
+				var saveMessage = SelectedReceipt != null ? string.Format("Не сохранены изменения в шаблоне \"{0}\".\nСохранить изменения?", SelectedReceipt.Name) : string.Empty;
+				return saveMessage;
+			}
+		}
 		bool isNewReceipt;
-		string directoryPath;
-		bool IsNotSavedReceipt
+		bool isSaved;
+		bool IsShowNotSavedMessage
 		{
 			get
 			{
-				if (SelectedReceiptTemplate == null)
+				if (SelectedReceipt == null || isSaved)
 					return false;
-				return isNewReceipt 
+				return isNewReceipt
 					|| ReceiptEditorView.HasChangesFirstReceiptTemplate
-					|| SelectedReceiptTemplate.Name != Name;
+					|| SelectedReceipt.Name != Name;
 			}
 		}
-		string FilePath 
-		{
-			get
-			{
-				if (SelectedReceipt != null)
-				{
-					var fileName = string.Format("{0}", SelectedReceipt.UID);
-					return Path.Combine(directoryPath ,fileName);
-				}
-					
-				return string.Empty;
-			}
-		}
+		public static CancelEventHandler CancelEventHandler { get; private set; }
+
 		public ReceiptEditorViewModel()
 		{
 			AddReceiptCommand = new RelayCommand(OnAddReceipt, CanAddReceipt);
 			DeleteReceiptCommand = new RelayCommand(OnDeleteReceipt, CanDeleteReceipt);
 			SaveReceiptCommand = new RelayCommand(OnSaveReceipt, CanSaveReceipt);
 
-			var folderName = FolderHelper.FolderName;
-			directoryPath = Path.Combine(folderName, "Шаблоны квитанций");
-			if (!Directory.Exists(directoryPath))
-				Directory.CreateDirectory(directoryPath);
-	
-			Receipts = DBCash.GetAllReceipts();
+			CancelEventHandler = Save;
+			Receipts = ReceiptHelper.GetEditableTemplates();
 		}
 		string _name;
 		public string Name
@@ -68,8 +55,8 @@ namespace Resurs.ViewModels
 				OnPropertyChanged(() => Name);
 			}
 		}
-		List<Receipt> _receipts;
-		public List<Receipt> Receipts 
+		List<ReceiptTemplate> _receipts;
+		public List<ReceiptTemplate> Receipts
 		{
 			get { return _receipts; }
 			set
@@ -78,24 +65,25 @@ namespace Resurs.ViewModels
 				OnPropertyChanged(() => Receipts);
 			}
 		}
-		Receipt _selectedReceipt;
-		public Receipt SelectedReceipt
+		ReceiptTemplate _selectedReceipt;
+		public ReceiptTemplate SelectedReceipt
 		{
 			get { return _selectedReceipt; }
 			set
 			{
-				if (IsNotSavedReceipt)
+				string savedName = null;
+				if (IsShowNotSavedMessage)
 				{
-					var messageBoxResult = MessageBoxService.ShowQuestionExtended(string.Format("Не сохранены изменения в шаблоне \"{0}\".\nСохранить изменения?", SelectedReceipt.Name));
+					var messageBoxResult = MessageBoxService.ShowQuestionExtended(SaveQuestion);
 					switch (messageBoxResult)
 					{
 						case MessageBoxResult.Yes:
+							SaveReceiptCommand.Execute();
 							if (isNewReceipt)
 							{
 								Receipts.Remove(_selectedReceipt);
 								Receipts = RewriteReceipts(Receipts);
 							}
-							SaveReceiptCommand.Execute();
 							break;
 						case MessageBoxResult.No:
 							if (isNewReceipt)
@@ -105,39 +93,38 @@ namespace Resurs.ViewModels
 							}
 							break;
 						case MessageBoxResult.Cancel:
-							value = _selectedReceipt; 
+							value = _selectedReceipt;
+							savedName = Name;
 							break;
 					}
 				}
 				_selectedReceipt = value;
 				OnPropertyChanged(() => SelectedReceipt);
+				isNewReceipt = false;
+				isSaved = false;
 				if (_selectedReceipt != null)
 				{
-					Name = _selectedReceipt.Name;
-					if (_selectedReceipt.Template == null)
-						SelectedReceiptTemplate = new ReceiptTemplate { Name = "Новый шаблон" };
-					else
-					{
-						if (!File.Exists(FilePath))
-						{
-							File.WriteAllBytes(FilePath, _selectedReceipt.Template);
-						}
-						SelectedReceiptTemplate = (ReceiptTemplate)XtraReport.FromFile(FilePath, true);
-						SelectedReceiptTemplate.Name = value.Name;
-					}
+					Name = savedName ?? _selectedReceipt.Name;
 					ReceiptEditorView.CloseAllDocuments();
-					ReceiptEditorView.OpenDocument(SelectedReceiptTemplate);
-					isNewReceipt = false;
+					ReceiptEditorView.OpenDocument(SelectedReceipt);
+				}
+				else
+				{
+					Name = string.Empty;
 				}
 			}
 		}
-		public ReceiptTemplate SelectedReceiptTemplate { get; private set; }
 		public RelayCommand AddReceiptCommand { get; private set; }
 		void OnAddReceipt()
 		{
-			SelectedReceipt = new Receipt();
-			Receipts.Add(SelectedReceipt);
+			var newReceipt = new ReceiptTemplate
+			{
+				Name = "Новый шаблон",
+				Uid = Guid.NewGuid()
+			};
+			Receipts.Add(newReceipt);
 			Receipts = RewriteReceipts(Receipts);
+			SelectedReceipt = Receipts.Find(x => x == newReceipt);
 			isNewReceipt = true;
 		}
 		bool CanAddReceipt()
@@ -149,13 +136,12 @@ namespace Resurs.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion(string.Format("Вы уверены что хотите удалить шаблон \"{0}\"?", SelectedReceipt.Name)))
 			{
-				DBCash.DeleteReceipt(SelectedReceipt);
-				if (File.Exists(FilePath))
-					File.Delete(FilePath);
+				ReceiptHelper.DeleteReceipt(SelectedReceipt);
 				Receipts.Remove(SelectedReceipt);
 				Receipts = RewriteReceipts(Receipts);
 				ReceiptEditorView.CloseAllDocuments();
 				isNewReceipt = false;
+				isSaved =true;
 				SelectedReceipt = null;
 			}
 		}
@@ -170,28 +156,34 @@ namespace Resurs.ViewModels
 		public RelayCommand SaveReceiptCommand { get; private set; }
 		void OnSaveReceipt()
 		{
-			if (isNewReceipt)
-			{
-				Receipts.Add(SelectedReceipt);
-				Receipts = RewriteReceipts(Receipts);
-				isNewReceipt = false;
-			}
-			SelectedReceiptTemplate = ReceiptEditorView.GetFirstReceiptTemplate();
-			SelectedReceiptTemplate.SaveLayout(FilePath);
-			var template = File.ReadAllBytes(FilePath);
-			SelectedReceipt.Template = template;
-			SelectedReceipt.Name = Name;
-			DBCash.SaveReceipt(SelectedReceipt);
+			var selectedReceipt = ReceiptEditorView.GetFirstReceiptTemplate();
+			selectedReceipt.Name = Name;
+			selectedReceipt.Uid = SelectedReceipt.Uid;
+			ReceiptHelper.SaveReceipt(selectedReceipt);
+			var index = Receipts.IndexOf(SelectedReceipt);
+			Receipts.Insert(index, selectedReceipt);
+			Receipts.Remove(SelectedReceipt);
+			Receipts = RewriteReceipts(Receipts);
+			isSaved = true;
+			isNewReceipt = false;
+			SelectedReceipt = selectedReceipt;
 		}
 		bool CanSaveReceipt()
 		{
-			return SelectedReceiptTemplate != null;
+			return SelectedReceipt != null;
 		}
-		List<Receipt> RewriteReceipts(List<Receipt> receipts)
+		List<ReceiptTemplate> RewriteReceipts(List<ReceiptTemplate> receipts)
 		{
-			var newReceipts = new List<Receipt>();
+			var newReceipts = new List<ReceiptTemplate>();
 			newReceipts.AddRange(receipts);
 			return newReceipts;
+		}
+		void Save(object sender, CancelEventArgs e)
+		{
+			if (IsShowNotSavedMessage && MessageBoxService.ShowQuestion(SaveQuestion))
+			{
+				SaveReceiptCommand.Execute();
+			}
 		}
 	}
 }

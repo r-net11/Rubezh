@@ -4,12 +4,15 @@ using ResursDAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Resurs.ViewModels
 {
 	public class ChangeFlowFilterViewModel : ReportFilterViewModel
 	{
+		
+		public DateTime MinDate { get { return new DateTime(1900, 1, 1); } }
+		public DateTime MaxDate { get { return DateTime.Today.AddDays(1).AddSeconds(-1); } }
+		public bool IsDatePickerEnabled { get { return SelectedReportPeriod == ReportPeriodType.Arbitrary; } }
 		public ChangeFlowFilterViewModel()
 		{
 			Title = "Настройки отчета расхода счетчика";
@@ -19,7 +22,17 @@ namespace Resurs.ViewModels
 			EndDate = DateTime.Today.AddDays(1).AddSeconds(-1);
 			SelectedReportPeriod = ReportPeriodType.Arbitrary;
 		}
-		private DateTime _startDate;
+		bool _isNotShowCounters;
+		public bool IsNotShowCounters 
+		{
+			get { return _isNotShowCounters; }
+			set
+			{
+				_isNotShowCounters = value;
+				OnPropertyChanged(() => IsNotShowCounters);
+			}
+		}
+		DateTime _startDate;
 		public DateTime StartDate
 		{
 			get { return _startDate; }
@@ -30,7 +43,7 @@ namespace Resurs.ViewModels
 				OnPropertyChanged(() => StartDate);
 			}
 		}
-		private DateTime _endDate;
+		DateTime _endDate;
 		public DateTime EndDate
 		{
 			get { return _endDate; }
@@ -44,8 +57,8 @@ namespace Resurs.ViewModels
 				OnPropertyChanged(() => EndDate);
 			}
 		}
-		public List<Device> Devices { get; set; }
-		private Device _selectedDevice;
+		public List<Device> Devices { get; private set; }
+		Device _selectedDevice;
 		public Device SelectedDevice
 		{
 			get { return _selectedDevice; }
@@ -56,7 +69,7 @@ namespace Resurs.ViewModels
 				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
-		private ReportPeriodType _selectedReportPeriod;
+		ReportPeriodType _selectedReportPeriod;
 		public ReportPeriodType SelectedReportPeriod
 		{
 			get { return _selectedReportPeriod; }
@@ -83,8 +96,5 @@ namespace Resurs.ViewModels
 				}
 			}
 		}
-		public DateTime MinDate { get { return new DateTime(1900, 1, 1); } }
-		public DateTime MaxDate { get { return DateTime.Today.AddDays(1).AddSeconds(-1); } }
-		public bool IsDatePickerEnabled { get { return SelectedReportPeriod == ReportPeriodType.Arbitrary; } }
 	}
 }
