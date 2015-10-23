@@ -159,6 +159,10 @@ namespace Resurs.ViewModels
 				SelectedReceipt = null;
 			}
 		}
+		public bool IsVisible
+		{
+			get { return DBCash.CheckPermission(PermissionType.EditReceipt); }
+		}
 		bool CanDeleteReceipt()
 		{
 			return SelectedReceipt != null;

@@ -15,7 +15,7 @@ namespace Resurs.ViewModels
 		{
 			RemoveCommand = new RelayCommand(OnDelete, CanDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			AddCommand = new RelayCommand(OnAdd, CanAdd);
+			AddCommand = new RelayCommand(OnAdd);
 
 			Users = new ObservableCollection<UserViewModel>();
 			DBCash.Users.ForEach(x => Users.Add(new UserViewModel(x)));
@@ -53,11 +53,6 @@ namespace Resurs.ViewModels
 			}
 		}
 
-		bool CanAdd()
-		{
-			return DBCash.CheckPermission(PermissionType.EditUser);
-		}
-
 		public RelayCommand EditCommand { get; set; }
 		void OnEdit()
 		{
@@ -72,13 +67,15 @@ namespace Resurs.ViewModels
 
 		bool CanEdit()
 		{
-			return SelectedUser != null && DBCash.CheckPermission(PermissionType.EditUser);
+			return SelectedUser != null ;
 		}
 
 		public bool IsVisible
 		{
 			get { return DBCash.CheckPermission(PermissionType.ViewUser); }
 		}
+
+		public bool IsEdit { get { return DBCash.CheckPermission(PermissionType.EditUser); } }
 
 		public RelayCommand RemoveCommand { get; set; }
 		void OnDelete()
@@ -98,7 +95,7 @@ namespace Resurs.ViewModels
 
 		bool CanDelete()
 		{
-			return SelectedUser != null && DBCash.CurrentUser != null && SelectedUser.User.UID != DBCash.CurrentUser.UID && DBCash.CheckPermission(PermissionType.EditUser);
+			return SelectedUser != null && DBCash.CurrentUser != null && SelectedUser.User.UID != DBCash.CurrentUser.UID;
 		}
 
 		public void Select(Guid userUID)

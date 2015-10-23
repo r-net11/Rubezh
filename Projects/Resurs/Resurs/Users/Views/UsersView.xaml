@@ -9,7 +9,7 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="150" />
 		</Grid.RowDefinitions>
-		<StackPanel Grid.Row="0" Orientation="Horizontal">
+		<StackPanel Grid.Row="0" Orientation="Horizontal" IsEnabled="{Binding IsEdit}">
 			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить (Ctrl+N)" ImageSource="Add" />
 			<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать (Ctrl+E)" ImageSource="Edit" />
 			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete" />

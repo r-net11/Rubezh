@@ -38,17 +38,17 @@ namespace ResursDAL
 					{
 						var userpermissions = new List<UserPermission>();
 						User user = new User() { Name = "Adm", Login = "Adm", PasswordHash = HashHelper.GetHashFromString("") };
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.ViewConsumer });
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.ViewDevice });
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditConsumer });
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditDevice });
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditUser });
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.ViewUser });
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.ViewJournal });
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.ViewPlot });
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.ViewReport });
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.ViewTariff });
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditTariff });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.ViewConsumer });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.ViewDevice });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.EditConsumer });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.EditDevice });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.EditUser });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.ViewUser });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.ViewJournal });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.ViewPlot });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.ViewReport });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.ViewTariff });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.EditTariff });
 						user.UserPermissions = userpermissions;
 						context.Users.Add(user);
 						context.SaveChanges();

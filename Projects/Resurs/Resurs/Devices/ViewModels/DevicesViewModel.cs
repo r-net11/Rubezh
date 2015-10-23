@@ -123,9 +123,11 @@ namespace Resurs.ViewModels
 				FillAllDevices();
 				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 				if (deviceViewModel != null)
+				{
 					deviceViewModel.ExpandToThis();
-				SelectedDevice = deviceViewModel;
-				Bootstrapper.MainViewModel.SelectedTabIndex = 0;
+					SelectedDevice = deviceViewModel;
+					Bootstrapper.MainViewModel.SelectedTabIndex = 0;
+				}
 			}
 		}
 

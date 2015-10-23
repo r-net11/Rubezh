@@ -56,6 +56,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<DataGridTextColumn Binding="{Binding Journal.Description}" Width="*" Header="Уточнение" />
 				<DataGridTemplateColumn Header="Объект"  Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -79,7 +80,6 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Binding="{Binding Journal.Description}" Width="*" Header="Уточнение" />
 				<DataGridTemplateColumn Header="Пользователь" SortMemberPath="Journal.UserName" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>

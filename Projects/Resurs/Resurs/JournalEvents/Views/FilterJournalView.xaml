@@ -6,7 +6,7 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 			 MinWidth="600" MinHeight="600">
-    <Grid>
+	<Grid>
 		<TabControl BorderThickness="0" Padding="11" SelectedIndex="0">
 			<TabItem Header="Временной диапазон" DataContext="{Binding DateTimeViewModel}">
 				<Grid>
@@ -148,7 +148,7 @@
 				</ListView>
 			</TabItem>
 			<TabItem Header="Пользователь" DataContext="{Binding FilterUsersViewModel}">
-				<ListView Focusable="False" ItemsSource="{Binding FilterUserViewModel}"  SortBehavior.CanUserSortColumns="False" Margin="-5">
+				<ListView Focusable="False" ItemsSource="{Binding FilterUserViewModel}" SortBehavior.CanUserSortColumns="False" Margin="-5">
 					<ListView.View>
 						<GridView>
 							<GridViewColumn Header="Наименование">
@@ -170,5 +170,6 @@
 				</ListView>
 			</TabItem>
 		</TabControl>
+		<Button Command="{Binding ClearCommand}" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Content="Сбросить все настройки" Width="200" Margin="2,-30" />
 	</Grid>
 </UserControl>

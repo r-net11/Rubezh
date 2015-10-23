@@ -11,6 +11,7 @@ namespace ResursAPI
 		public Journal()
 		{
 			UID = Guid.NewGuid();
+			DateTime = DateTime.Now;
 		}
 		[Key]
 		public Guid UID { get; set; }
