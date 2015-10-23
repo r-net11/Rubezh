@@ -33,7 +33,7 @@ namespace Infrastructure.Automation
 			if (ProcedureExecutionContext.SystemConfiguration == null)
 				return;
 
-			foreach (var procedure in ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures)
+			foreach (var procedure in ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.Where(x => x.ContextType == ProcedureExecutionContext.ContextType))
 			{
 				foreach (var filtersUID in procedure.FiltersUids)
 				{
@@ -92,7 +92,6 @@ namespace Infrastructure.Automation
 
 		public static void SetNewConfig()
 		{
-			Stop();
 		}
 
 		static void CheckProcedureThread()
