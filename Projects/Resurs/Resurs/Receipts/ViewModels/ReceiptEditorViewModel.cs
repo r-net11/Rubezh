@@ -141,6 +141,7 @@ namespace Resurs.ViewModels
 				Receipts = RewriteReceipts(Receipts);
 				ReceiptEditorView.CloseAllDocuments();
 				isNewReceipt = false;
+				isSaved =true;
 				SelectedReceipt = null;
 			}
 		}
