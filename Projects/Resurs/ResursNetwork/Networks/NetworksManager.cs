@@ -315,9 +315,16 @@ namespace ResursNetwork.Networks
             _NetworkControllers[networkId].SyncDateTime();
         }
 
-		public void SendCommand(Guid deviceId, string commandName)
+		public void SendCommand(Guid id, string commandName)
 		{
-			var device = FindDevice(deviceId);
+			var controller = FindController(id);
+			
+			if (controller != null)
+			{
+				controller.ExecuteCommand(commandName);
+			}
+
+			var device = FindDevice(id);
 			device.ExecuteCommand(commandName);
 		}
 
@@ -332,6 +339,11 @@ namespace ResursNetwork.Networks
 					from d in n.Devices
 					where d.Id == id
 					select d).FirstOrDefault();
+		}
+
+		private INetwrokController FindController(Guid id)
+		{
+			return _NetworkControllers.FirstOrDefault(p => p.Id == id);
 		}
 
         /// <summary>
@@ -349,6 +361,7 @@ namespace ResursNetwork.Networks
                         e.Network.StatusChanged += EventHandler_Network_StatusChanged;
 						e.Network.ParameterChanged += EventHandler_Network_ParameterChanged;
 						e.Network.ConfigurationChanged += EventHandler_Network_ConfigurationChanged;
+						e.Network.ErrorOccurred += EventHandler_Network_ErrorOccurred;
                         
                         foreach(var device in e.Network.Devices)
                         {
@@ -363,6 +376,7 @@ namespace ResursNetwork.Networks
                         e.Network.StatusChanged -= EventHandler_Network_StatusChanged;
 						e.Network.ParameterChanged -= EventHandler_Network_ParameterChanged;
 						e.Network.ConfigurationChanged -= EventHandler_Network_ConfigurationChanged;
+						e.Network.ErrorOccurred -= EventHandler_Network_ErrorOccurred;
 
                         foreach (var device in e.Network.Devices)
                         {
@@ -375,6 +389,12 @@ namespace ResursNetwork.Networks
                 default: { throw new NotSupportedException(); }
             }
         }
+
+		private void EventHandler_Network_ErrorOccurred(
+			object sender, NetworkControllerErrorOccuredEventArgs e)
+		{
+			OnNetworkControllerHasError(e);
+		}
 
 		private void EventHandler_Network_ConfigurationChanged(
 			object sender, ConfigurationChangedEventArgs e)
@@ -406,13 +426,13 @@ namespace ResursNetwork.Networks
 			}
 		}
 
-		private void EventHandler_Network_ParameterChanged(object sender, ParameterChangedArgs e)
+		private void EventHandler_Network_ParameterChanged(object sender, ParameterChangedEventArgs e)
 		{
 			// Прокидываем событие дальше
 			OnParameterChanged(e);
 		}
 
-        private void EventHandler_Device_ErrorOccurred(object sender, ErrorOccuredEventArgs e)
+        private void EventHandler_Device_ErrorOccurred(object sender, DeviceErrorOccuredEventArgs e)
         {
 			OnDeviceHasError(e);
         }
@@ -470,7 +490,7 @@ namespace ResursNetwork.Networks
             }
         }
 
-		private void OnParameterChanged(ParameterChangedArgs args)
+		private void OnParameterChanged(ParameterChangedEventArgs args)
 		{
  			if (ParameterChanged != null)
 			{
@@ -478,7 +498,7 @@ namespace ResursNetwork.Networks
 			}
 		}
 
-		private void OnDeviceHasError(ErrorOccuredEventArgs args)
+		private void OnDeviceHasError(DeviceErrorOccuredEventArgs args)
 		{
 			if (args == null)
 			{
@@ -488,6 +508,20 @@ namespace ResursNetwork.Networks
 			if (DeviceHasError != null)
 			{
 				DeviceHasError(this, args);
+			}
+		}
+
+		private void OnNetworkControllerHasError(
+			NetworkControllerErrorOccuredEventArgs args)
+		{
+			if (args == null)
+			{
+				throw new ArgumentNullException();
+			}
+
+			if (NetworkControllerHasError != null)
+			{
+				NetworkControllerHasError(this, args);
 			}
 		}
 
@@ -510,9 +544,9 @@ namespace ResursNetwork.Networks
         /// (объединяет-дублирует события NetworkChangedStatus и DeviceChangedStatus)
         /// </summary>
 		public event EventHandler<StatusChangedEventArgs> StatusChanged;
-		public event EventHandler<ParameterChangedArgs> ParameterChanged;
-		public event EventHandler<ErrorOccuredEventArgs> DeviceHasError;
-
+		public event EventHandler<ParameterChangedEventArgs> ParameterChanged;
+		public event EventHandler<DeviceErrorOccuredEventArgs> DeviceHasError;
+		public event EventHandler<NetworkControllerErrorOccuredEventArgs> NetworkControllerHasError;
 		#endregion
     }
 }

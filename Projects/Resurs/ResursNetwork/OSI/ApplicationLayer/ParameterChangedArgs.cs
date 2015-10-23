@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ResursNetwork.OSI.ApplicationLayer
 {
-	public class ParameterChangedArgs : EventArgs
+	public class ParameterChangedEventArgs : EventArgs
 	{
 		Guid _deviceId;
 		string _parameterName;
@@ -29,7 +29,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
 			set { _newValue = value; }
 		}
 
-		public ParameterChangedArgs(Guid deviceId, string parameterName, ValueType newValue)
+		public ParameterChangedEventArgs(Guid deviceId, string parameterName, ValueType newValue)
 		{
 			_deviceId = deviceId;
 			_parameterName = parameterName;

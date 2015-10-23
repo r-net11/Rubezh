@@ -18,7 +18,7 @@ D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : war
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.OSI.Messages.Transactions.NetworkRequestStatus: type is a value type.
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.OSI.Messages.Transactions.TransactionErrorCodes: type is a value type.
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for ResursNetwork.OSI.Messages.Transactions.TransactionError: type is a value type.
-D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for <PrivateImplementationDetails>{8E93220F-4B8F-4C54-9251-CB16FA745C88}: type is not supported because of internal limitations.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for <PrivateImplementationDetails>{AFD56BBF-CEE9-4EDE-A3B4-F0E496A60402}: type is not supported because of internal limitations.
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate stub for <>f__AnonymousType0`2: type is sealed.
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.Management.IManageable: type is an interface.
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.ApplicationLayer.Devices.IDevice: type is an interface.
@@ -49,5 +49,5 @@ D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : war
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.Messages.Transactions.TransactionType: type is an enum.
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.Messages.Transactions.NetworkRequestStatus: type is an enum.
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for ResursNetwork.OSI.Messages.Transactions.TransactionErrorCodes: type is an enum.
-D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for <PrivateImplementationDetails>{8E93220F-4B8F-4C54-9251-CB16FA745C88}: type is not supported because of internal limitations.
+D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for <PrivateImplementationDetails>{AFD56BBF-CEE9-4EDE-A3B4-F0E496A60402}: type is not supported because of internal limitations.
 D:\Rubezh\Projects\Resurs\UinitTestResursNetwork\Fakes\resursnetwork.fakes : warning : Cannot generate shim for <>f__AnonymousType0`2: type is not supported because of internal limitations.
