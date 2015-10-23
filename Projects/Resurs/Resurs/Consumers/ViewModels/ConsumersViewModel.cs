@@ -51,7 +51,7 @@ namespace Resurs.ViewModels
 				OnPropertyChanged(() => SelectedConsumer);
 			}
 		}
-				
+
 		public List<ConsumerViewModel> AllConsumers;
 
 		public void FillAllConsumers()
@@ -91,8 +91,8 @@ namespace Resurs.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var consumerDetailsViewModel = new ConsumerDetailsViewModel(new Consumer 
-			{ 
+			var consumerDetailsViewModel = new ConsumerDetailsViewModel(new Consumer
+			{
 				ParentUID = SelectedConsumer.Consumer.IsFolder ? SelectedConsumer.Consumer.UID : SelectedConsumer.Consumer.ParentUID,
 			}, false, true);
 			if (DialogService.ShowModalWindow(consumerDetailsViewModel))
@@ -110,6 +110,7 @@ namespace Resurs.ViewModels
 				}
 				AllConsumers.Add(consumerViewModel);
 				SelectedConsumer = consumerViewModel;
+				UpdateDeviceViewModels(null, SelectedConsumer.GetConsumer());
 			}
 		}
 		bool CanAdd()
@@ -138,18 +139,20 @@ namespace Resurs.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var consumer = SelectedConsumer.Consumer.IsFolder ?
-				SelectedConsumer.ConsumersFolderDetails.GetConsumer() :
-				SelectedConsumer.ConsumerDetails.GetConsumer();
+			var oldConsumer = SelectedConsumer.GetConsumer();
+
 			var dialogViewModel = SelectedConsumer.Consumer.IsFolder ? (SaveCancelDialogViewModel)
-				new ConsumersFolderDetailsViewModel(consumer, false) :
-				new ConsumerDetailsViewModel(consumer, false);
+				new ConsumersFolderDetailsViewModel(oldConsumer, false) :
+				new ConsumerDetailsViewModel(oldConsumer, false);
+
 			if (DialogService.ShowModalWindow(dialogViewModel))
 			{
-				consumer = SelectedConsumer.Consumer.IsFolder ?
-				((ConsumersFolderDetailsViewModel)dialogViewModel).GetConsumer() :
-				((ConsumerDetailsViewModel)dialogViewModel).GetConsumer();
-				SelectedConsumer.Update(consumer);
+				var newConsumer = SelectedConsumer.Consumer.IsFolder ?
+					((ConsumersFolderDetailsViewModel)dialogViewModel).GetConsumer() :
+					((ConsumerDetailsViewModel)dialogViewModel).GetConsumer();
+ 
+				SelectedConsumer.Update(newConsumer);
+				UpdateDeviceViewModels(oldConsumer, newConsumer);
 			}
 		}
 		bool CanEdit()
@@ -178,10 +181,12 @@ namespace Resurs.ViewModels
 					parent.Nodes.Remove(selectedConsumer);
 					index = Math.Min(index, parent.ChildrenCount - 1);
 					SelectedConsumer = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
+
+					UpdateDeviceViewModels(selectedConsumer.GetConsumer(), null);
 				}
 			}
 		}
-		
+
 		bool CanRemove()
 		{
 			return SelectedConsumer != null && SelectedConsumer.Parent != null && DBCash.CheckPermission(PermissionType.EditConsumer);
@@ -219,6 +224,46 @@ namespace Resurs.ViewModels
 		public bool IsVisible
 		{
 			get { return DBCash.CheckPermission(PermissionType.ViewConsumer); }
+		}
+
+		void UpdateDeviceViewModels(Consumer oldConsumer, Consumer newConsumer)
+		{
+			if (oldConsumer == null && newConsumer == null)
+				return;
+
+			var devicesToRemove = oldConsumer == null ?
+				null :
+				newConsumer == null ?
+				oldConsumer.Devices :
+				oldConsumer.Devices.Except(newConsumer.Devices);
+
+			var devicesToAdd = newConsumer == null ?
+				null :
+				oldConsumer == null ?
+				newConsumer.Devices :
+				newConsumer.Devices.Except(oldConsumer.Devices);
+
+			if (devicesToRemove != null)
+				foreach (var device in devicesToRemove)
+				{
+					var deviceViewModel = Bootstrapper.MainViewModel.DevicesViewModel.AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
+					if (deviceViewModel != null)
+					{
+						deviceViewModel.Device.Consumer = null;
+						deviceViewModel.Device.ConsumerUID = null;
+					}
+				}
+
+			if (devicesToAdd != null)
+				foreach (var device in devicesToAdd)
+				{
+					var deviceViewModel = Bootstrapper.MainViewModel.DevicesViewModel.AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
+					if (deviceViewModel != null)
+					{
+						deviceViewModel.Device.Consumer = newConsumer;
+						deviceViewModel.Device.ConsumerUID = newConsumer.UID;
+					}
+				}
 		}
 	}
 }
