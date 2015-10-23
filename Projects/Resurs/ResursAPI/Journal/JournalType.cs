@@ -22,12 +22,12 @@ namespace ResursAPI
 		AddDevice,
 		[Description("Удалениe устройства")]
 		DeleteDevice,
-		[Description("Редактированиe абонента")]
-		EditApartment,
-		[Description("Добавлениe абонента")]
-		AddApartment,
-		[Description("Удалениe абонента")]
-		DeleteApartment,
+		[Description("Редактированиe лицевого счета")]
+		EditConsumer,
+		[Description("Добавлениe лицевого счета")]
+		AddConsumer,
+		[Description("Удалениe лицевого счета")]
+		DeleteConsumer,
 		[Description("Редактированиe тарифа")]
 		EditTariff,
 		[Description("Добавлениe тарифа")]

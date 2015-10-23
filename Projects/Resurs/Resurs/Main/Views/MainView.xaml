@@ -61,6 +61,7 @@
 			<TabItem Header="Настройки" DataContext="{Binding SettingsViewModel}">
 				<Views:SettingsView />
 			</TabItem>
+			<TabItem Header="Квитанции" DataContext="{Binding ReceiptEditorViewModel}" Visibility="{Binding IsVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
 		</TabControl>
 	</Grid>
 </Window>

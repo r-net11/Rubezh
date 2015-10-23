@@ -13,7 +13,7 @@ namespace Resurs.Converters
 			{
 				case JournalType.AddUser:
 				case JournalType.AddDevice:
-				case JournalType.AddApartment:
+				case JournalType.AddConsumer:
 				case JournalType.AddTariff:
 					return Brushes.Yellow;
 				default:
