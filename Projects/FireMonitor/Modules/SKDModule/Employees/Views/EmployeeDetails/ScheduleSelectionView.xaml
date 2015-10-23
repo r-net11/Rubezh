@@ -1,18 +1,12 @@
-﻿<UserControl x:Class="SKDModule.Views.ScheduleSelectionView"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-             xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
-             xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
-			 Width="700" MinHeight="650">
-	<UserControl.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
-			</ResourceDictionary.MergedDictionaries>
-		</ResourceDictionary>
-	</UserControl.Resources>
-	<Border Background="{StaticResource BackgroundBrush}">
+﻿<UserControl
+	x:Class="SKDModule.Views.ScheduleSelectionView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+    xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
+	Width="700"
+	MinHeight="650">
+	<Border>
 		<Grid Margin="10">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />

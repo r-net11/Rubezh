@@ -17,7 +17,6 @@
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
 				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/VerticalSeparatorStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 			<Converters2:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -33,7 +32,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 
-	<Grid Background="{StaticResource BaseWindowBackgroundBrush}">
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="2*" MinHeight="200" />
@@ -42,7 +41,6 @@
 		</Grid.RowDefinitions>
 		<Border
 			MinHeight="20"
-			Background="{StaticResource BackgroundBrush}"
 			CornerRadius="5">
 			<Grid>
 				<Grid.ColumnDefinitions>
