@@ -143,7 +143,8 @@ namespace ChinaSKDDriver
 						}
 						break;
 
-					case JournalEventNameType.Дверь_не_закрыта:
+					case JournalEventNameType.Дверь_не_закрыта_начало:
+					case JournalEventNameType.Дверь_не_закрыта_конец:
 					case JournalEventNameType.Взлом:
 					case JournalEventNameType.Повторный_проход:
 					case JournalEventNameType.Принуждение:
@@ -206,7 +207,8 @@ namespace ChinaSKDDriver
 						}
 						break;
 
-					case JournalEventNameType.Вскрытие_контроллера:
+					case JournalEventNameType.Вскрытие_контроллера_начало:
+					case JournalEventNameType.Вскрытие_контроллера_конец:
 						journalItem.JournalObjectType = JournalObjectType.SKDDevice;
 						device = Device.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Reader && (x.IntAddress + 1).ToString() == skdJournalItem.szReaderID);
 						if (device != null)
@@ -223,7 +225,8 @@ namespace ChinaSKDDriver
 
 				switch (skdJournalItem.JournalEventNameType)
 				{
-					case JournalEventNameType.Дверь_не_закрыта:
+					case JournalEventNameType.Дверь_не_закрыта_начало:
+					case JournalEventNameType.Дверь_не_закрыта_конец:
 					case JournalEventNameType.Взлом:
 					case JournalEventNameType.Открытие_двери:
 					case JournalEventNameType.Закрытие_двери:

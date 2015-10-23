@@ -123,17 +123,17 @@ namespace ChinaSKDDriver
 					journalItem.DoorNo = alarmLogItem.Channel;
 					break;
 				case AlarmType.AlarmLocal:
-					journalItem.JournalEventNameType = JournalEventNameType.Местная_тревога;
+					journalItem.JournalEventNameType = JournalEventNameType.Местная_тревога_начало;
 					journalItem.DoorNo = alarmLogItem.Channel;
 					break;
 				case AlarmType.DoorNotClose:
 				{
-					journalItem.JournalEventNameType = JournalEventNameType.Дверь_не_закрыта;
+					journalItem.JournalEventNameType = JournalEventNameType.Дверь_не_закрыта_начало;
 					journalItem.DoorNo = alarmLogItem.Channel;
 					break;
 				}
 				case AlarmType.ReaderChassisIntruded:
-					journalItem.JournalEventNameType = JournalEventNameType.Вскрытие_контроллера;
+					journalItem.JournalEventNameType = JournalEventNameType.Вскрытие_контроллера_начало;
 					journalItem.szReaderID = (alarmLogItem.Channel + 1).ToString();
 					break;
 				case AlarmType.Repeatenter:

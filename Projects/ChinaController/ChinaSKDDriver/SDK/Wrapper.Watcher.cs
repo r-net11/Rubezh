@@ -166,7 +166,10 @@ namespace ChinaSKDDriver
 					break;
 
 				case DH_ALARM_ACCESS_CTL_NOT_CLOSE:
-					journalItem.JournalEventNameType = JournalEventNameType.Дверь_не_закрыта;
+					if (wrapJournalItem.nAction == 0)
+						journalItem.JournalEventNameType = JournalEventNameType.Дверь_не_закрыта_начало;
+					else if (wrapJournalItem.nAction == 1)
+						journalItem.JournalEventNameType = JournalEventNameType.Дверь_не_закрыта_конец;
 					journalItem.DoorNo = wrapJournalItem.nDoor;
 					journalItem.nAction = wrapJournalItem.nAction;
 					break;
@@ -208,7 +211,7 @@ namespace ChinaSKDDriver
 					break;
 
 				case DH_ALARM_CHASSISINTRUDED:
-					journalItem.JournalEventNameType = JournalEventNameType.Вскрытие_контроллера;
+					journalItem.JournalEventNameType = JournalEventNameType.Вскрытие_контроллера_начало;
 					break;
 
 				default:
