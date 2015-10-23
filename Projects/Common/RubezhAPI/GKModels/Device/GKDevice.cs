@@ -31,7 +31,7 @@ namespace RubezhAPI.GK
 
 			Zones = new List<GKZone>();
 			GuardZones = new List<GKGuardZone>();
-        }
+		}
 
 		public override void Invalidate()
 		{
@@ -95,8 +95,8 @@ namespace RubezhAPI.GK
 			GKManager.DeviceConfiguration.InvalidateOneLogic(this, NSLogic);
 		}
 
-        [XmlIgnore]
-		public bool IsDisabled{ get; set; }
+		[XmlIgnore]
+		public bool IsDisabled { get; set; }
 		[XmlIgnore]
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.Device; } }
 		[XmlIgnore]
@@ -267,23 +267,20 @@ namespace RubezhAPI.GK
 				return address;
 			}
 		}
-
+		/// <summary>
+		/// Адрес устройства в ГК
+		/// </summary>
 		[XmlIgnore]
 		public string DottedAddress
 		{
 			get
 			{
-				if (!Driver.HasAddress)
-					return "";
-
-				if (DriverType == GKDriverType.GK)
+				if (DriverType == GKDriverType.GK && !Driver.HasAddress)
 					return Address;
 
 				var address = new StringBuilder();
-				var allParents = AllParents;
-				var rootDevice = allParents.FirstOrDefault();
 
-				foreach (var parentDevice in allParents.Where(x => x.Driver.HasAddress))
+				foreach (var parentDevice in AllParents.Where(x => x.Driver.HasAddress))
 				{
 					if (parentDevice.Driver.IsGroupDevice)
 						continue;
@@ -306,25 +303,33 @@ namespace RubezhAPI.GK
 				if (address.Length > 0 && address[address.Length - 1] == '.')
 					address.Remove(address.Length - 1, 1);
 
-				if (rootDevice != null && rootDevice.Children.Count > 1 && rootDevice.Driver.DriverType == GKDriverType.System)
-				{
-					address.Append("(" + allParents[1].Address + ")");
-				}
-
 				return address.ToString();
 			}
 		}
-
+		/// <summary>
+		/// Адрес утройства для отображения в интерфейсе в плоских списках устройств (напр. "1.2.1") и ip-адрес ГК, в случае более чем одного ГК в конфигурации (напр. "1.2.1 (192.168.0.1)").
+		/// </summary>
 		[XmlIgnore]
 		public string DottedPresentationAddress
 		{
 			get
 			{
+				if (DriverType == GKDriverType.GK) 
+				{
+					return Address;
+				}
 				var address = DottedAddress;
 				if (Driver.IsGroupDevice)
 				{
 					if (Children.Count > 0)
 						return Children.FirstOrDefault().DottedAddress + " - " + Children.LastOrDefault().DottedAddress;
+				}
+
+				var allParents = AllParents;
+				var rootDevice = allParents.FirstOrDefault();
+				if (rootDevice != null && rootDevice.Children.Count > 1 && rootDevice.Driver.DriverType == GKDriverType.System)
+				{
+					address = address + (" (" + allParents[1].Address + ")");
 				}
 				return address;
 			}
@@ -363,7 +368,7 @@ namespace RubezhAPI.GK
 
 		public override string GetGKDescriptorName(GKNameGenerationType gkNameGenerationType)
 		{
-			var result = ShortName + " " + DottedPresentationAddress;
+			var result = ShortName + " " + DottedAddress;
 			switch (gkNameGenerationType)
 			{
 				case GKNameGenerationType.DriverTypePlusAddressPlusDescription:
