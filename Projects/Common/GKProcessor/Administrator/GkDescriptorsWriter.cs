@@ -181,14 +181,6 @@ namespace GKProcessor
 
 		List<List<byte>> CreateDescriptors(BaseDescriptor descriptor)
 		{
-			if(descriptor.GKBase is GKDevice)
-			{
-				if (descriptor.GKBase.Description == "Звисят все направления")
-				{
-					;
-				}
-			}
-
 			var objectNo = (ushort)(descriptor.GetDescriptorNo());
 
 			var packs = new List<List<byte>>();
@@ -200,8 +192,8 @@ namespace GKProcessor
 				if (packBytes.Count > 0)
 				{
 					var resultBytes = new List<byte>();
-					ushort binaryObjectNo = (ushort)(descriptor.GetDescriptorNo());
-					resultBytes.AddRange(BytesHelper.ShortToBytes(binaryObjectNo));
+					ushort descriptorNo = (ushort)(descriptor.GetDescriptorNo());
+					resultBytes.AddRange(BytesHelper.ShortToBytes(descriptorNo));
 					resultBytes.Add((byte)(packNo + 1));
 					resultBytes.AddRange(packBytes);
 					packs.Add(resultBytes);
