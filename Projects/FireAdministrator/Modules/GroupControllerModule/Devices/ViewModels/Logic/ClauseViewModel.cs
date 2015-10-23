@@ -208,6 +208,11 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedStateType = value;
+				if (value!= null && Devices != null && (SelectedClauseOperationType == ClauseOperationType.AllDevices || SelectedClauseOperationType == ClauseOperationType.AnyDevice))
+				{
+					Devices.RemoveAll(x => !x.Driver.AvailableStateBits.Contains(value.StateBit));
+					OnPropertyChanged(() => PresenrationDevices);
+				}
 				OnPropertyChanged(() => SelectedStateType);
 			}
 		}
