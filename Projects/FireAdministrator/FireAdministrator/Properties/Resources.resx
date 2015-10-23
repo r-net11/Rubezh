@@ -120,4 +120,7 @@
   <data name="CreateNewConfigurationMessage" xml:space="preserve">
     <value>Вы уверены, что хотите перезаписать текущую конфигурацию?</value>
   </data>
+  <data name="DemoLimitControllersCountMessage" xml:space="preserve">
+    <value>Нельзя выполнить операцию из-за ограничения демо-версии. Максимальное количество контроллеров в конфигурации - 2</value>
+  </data>
 </root>

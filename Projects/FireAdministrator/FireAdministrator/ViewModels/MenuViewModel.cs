@@ -1,7 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
+using FireAdministrator.Properties;
 using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -140,6 +143,13 @@ namespace FireAdministrator.ViewModels
 		public RelayCommand SetNewConfigCommand { get; private set; }
 		void OnSetNewConfig()
 		{
+			// Ограничение в Демо версии - 2 контроллера
+			if (SKDManager.Devices.Count(x => x.Driver.IsController) > 2)
+			{
+				MessageBoxService.ShowWarning(Resources.DemoLimitControllersCountMessage);
+				return;
+			}
+
 			if (!MessageBoxService.ShowQuestion("Вы уверены, что хотите перезаписать текущую конфигурацию?")) return;
 
 			if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
