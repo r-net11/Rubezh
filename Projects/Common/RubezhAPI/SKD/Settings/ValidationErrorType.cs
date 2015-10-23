@@ -13,12 +13,15 @@ namespace RubezhAPI
 		DeviceHaveNoLogic = 2,
 
 		[Description("Количество подключенных к зоне датчиков")]
-		ZoneSensorQuantity = 4,
+		ZoneSensorQuantity = 3,
 
 		[Description("Несвязанные элементы плана")]
-		NotBoundedElements = 8,
+		NotBoundedElements = 3,
 
 		[Description("Датчик не подключен к ТД")]
-		SensorNotConnected = 16,
+		SensorNotConnected = 4,
+
+		[Description("Исполнительное устройство содержит собственную логику")]
+		DeviceHaveSelfLogik = 5,
 	}
 }

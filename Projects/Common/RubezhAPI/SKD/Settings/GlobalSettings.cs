@@ -23,6 +23,7 @@ namespace RubezhAPI
 			MonitorAutoConnect = false;
 
 			Server_EnableRemoteConnections = false;
+			IgnoredErrors = new List<ValidationErrorType>();
 
 			//DbConnectionString = @"Data Source=.\sqlexpress;Initial Catalog=Rubezh;Integrated Security=True;Language='English'";
 			DbConnectionString = @"Server=localhost;Database=Rubezh;User Id=asd;Password=1;";
@@ -34,7 +35,6 @@ namespace RubezhAPI
 			Monitor_F2_Enabled = true;
 			Monitor_F3_Enabled = true;
 			Monitor_F4_Enabled = true;
-			IgnoredErrors = 0;
 		}
 
 		[DataMember]
@@ -98,7 +98,7 @@ namespace RubezhAPI
 		public bool Monitor_HidePlansTree { get; set; }
 
 		[DataMember]
-		public ValidationErrorType IgnoredErrors { get; set; }
+		public List<ValidationErrorType> IgnoredErrors { get; set; }
 
 		[DataMember]
 		public bool ShowOtherZonesDevices { get; set; }
