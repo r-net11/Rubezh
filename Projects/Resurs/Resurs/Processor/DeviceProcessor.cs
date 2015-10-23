@@ -13,8 +13,6 @@ namespace Resurs.Processor
 {
 	public class DeviceProcessor
 	{
-		AutoResetEvent StopEvent;
-		Thread RunThread;
 		ResursNetwork.Networks.NetworksManager _networksManager;
 
 		static DeviceProcessor _instance;
@@ -43,51 +41,7 @@ namespace Resurs.Processor
 			_networksManager.DeviceHasError += OnNetworksManagerDeviceHasError;
 		}
 
-		public void Start()
-		{
-			if (RunThread == null)
-			{
-				StopEvent = new AutoResetEvent(false);
-				RunThread = new Thread(OnRunThread);
-				RunThread.Name = "Monitoring";
-				RunThread.Start();
-			}
-		}
-
-		public void Stop()
-		{
-			if (StopEvent != null)
-			{
-				StopEvent.Set();
-			}
-			if (RunThread != null)
-			{
-				RunThread.Join(TimeSpan.FromSeconds(5));
-			}
-			RunThread = null;
-		}
-
-		void OnRunThread()
-		{
-			while (true)
-			{
-				RunMonitoring();
-
-				if (StopEvent != null)
-				{
-					if (StopEvent != null)
-					{
-						StopEvent.WaitOne(TimeSpan.FromMinutes(1));
-					}
-				}
-			}
-		}
-
-		void RunMonitoring()
-		{
-
-		}
-
+		#region NetworksManagerCommands
 		public bool AddToMonitoring(Device device)
 		{
 			try
@@ -135,7 +89,7 @@ namespace Resurs.Processor
 				_networksManager.SetSatus(device.UID, isActive);
 				return true;
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				MessageBoxService.Show(e.Message);
 				return false;
@@ -147,9 +101,9 @@ namespace Resurs.Processor
 			return true;
 		}
 
-		public bool WriteParameter(Guid deviceUID, string parameterName, ValueType parameterValue) 
-		{ 
-			return true; 
+		public bool WriteParameter(Guid deviceUID, string parameterName, ValueType parameterValue)
+		{
+			return true;
 		}
 
 		public bool SendCommand(Guid guid, string p)
@@ -159,12 +113,31 @@ namespace Resurs.Processor
 				_networksManager.SendCommand(guid, p);
 				return true;
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				MessageBoxService.Show(e.Message);
 				return false;
 			}
 		}
+
+		public bool SyncDateTime(Guid deviceUID)
+		{
+			try
+			{
+				var device = DBCash.Devices.FirstOrDefault(x => x.UID == deviceUID);
+				if (!device.CanMonitor)
+					return true;
+				if(device.DeviceType == DeviceType.Network)
+					_networksManager.SyncDateTime(deviceUID);
+				return true;
+			}
+			catch (Exception e)
+			{
+				MessageBoxService.Show(e.Message);
+				return false;
+			}
+		}
+		#endregion
 
 		#region EventHandlers
 		public void OnNetworksManagerParameterChanged(object sender, ParameterChangedArgs args)
@@ -273,42 +246,5 @@ namespace Resurs.Processor
 		public event EventHandler<IsActiveChangedEventArgs> IsActiveChanged;
 		public event EventHandler<ErrorsChangedEventArgs> ErrorsChanged;
 		#endregion
-	}
-
-	public class IsActiveChangedEventArgs : EventArgs
-	{
-		public Guid DeviceUID { get; set; }
-		public bool IsActive { get; set; }
-		
-		public IsActiveChangedEventArgs() { }
-
-		public IsActiveChangedEventArgs(ResursNetwork.Networks.StatusChangedEventArgs args)
-		{
-			DeviceUID = args.Id;
-			IsActive = args.Status == ResursNetwork.Management.Status.Running;
-		}
-	}
-
-	public class ErrorsChangedEventArgs : EventArgs
-	{
-		public Guid DeviceUID { get; set; }
-		public List<DeviceError> Errors { get; set; }
-
-		public ErrorsChangedEventArgs() 
-		{ 
-			Errors = new List<DeviceError>(); 
-		}
-
-		public ErrorsChangedEventArgs(ResursNetwork.OSI.ApplicationLayer.Devices.ErrorOccuredEventArgs args)
-			: this()
-		{
-			DeviceUID = args.Id;
-			if (args.Errors.CommunicationError)
-				Errors.Add(DeviceError.CommunicationError);
-			if (args.Errors.ConfigurationError)
-				Errors.Add(DeviceError.ConfigurationError);
-			if (args.Errors.RTCError)
-				Errors.Add(DeviceError.RTCError);
-		}
 	}
 }

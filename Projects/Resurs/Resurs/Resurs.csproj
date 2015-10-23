@@ -370,6 +370,8 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Devices\DeviceError.cs" />
+    <Compile Include="Processor\EventArgs\ErrorsChangedEventArgs.cs" />
+    <Compile Include="Processor\EventArgs\IsActiveChangedEventArgs.cs" />
     <Compile Include="Receipts\ReceiptHelper.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerListViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.Bills.cs" />

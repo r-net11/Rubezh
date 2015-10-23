@@ -22,6 +22,7 @@ namespace Resurs.ViewModels
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			SetActiveCommand = new RelayCommand(OnSetActive, CanSetActive);
 			UnSetActiveCommand = new RelayCommand(OnUnSetActive, CanUnSetActive);
+			SyncDateTimeCommand = new RelayCommand(OnSyncDateTime, CanSyncDateTime);
 			
 			BuildTree();
 			if (RootDevice != null)
@@ -299,5 +300,17 @@ namespace Resurs.ViewModels
 				SelectedDevice.Update();
 			}
 		}
+
+		public RelayCommand SyncDateTimeCommand { get; private set; }
+		void OnSyncDateTime()
+		{
+			DeviceProcessor.Instance.SyncDateTime(SelectedDevice.Device.UID);
+		}
+		bool CanSyncDateTime()
+		{
+			return SelectedDevice != null && SelectedDevice.Parent != null && SelectedDevice.IsActive;
+		}
+
+		
 	}
 }

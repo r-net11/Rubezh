@@ -16,14 +16,12 @@ namespace ResursRunner
 	{
 		private const string SignalId = "8DC89238-5FD3-4631-8D50-96B4FF7AA7DC";
 		private const string WaitId = "0769AC75-8AF6-40DE-ABDA-83C1E3C7ABFF";
-		DeviceProcessor DeviceProcessor;
-
+		
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
 			ServerLoadHelper.SetLocation(System.Reflection.Assembly.GetExecutingAssembly().Location);
-			DeviceProcessor = new DeviceProcessor();
-
+			
 			var showWindow = true;
 			if(e.Args.Length > 0)
 			{
@@ -36,7 +34,6 @@ namespace ResursRunner
 				try
 				{
 					Bootstrapper.Run(showWindow);
-					DeviceProcessor.Start();
 				}
 				catch (Exception ex)
 				{
@@ -54,7 +51,7 @@ namespace ResursRunner
 
 		void OnShuttingDown()
 		{
-			DeviceProcessor.Stop();
+			;
 		}
 
 		protected override void OnExit(ExitEventArgs e)
