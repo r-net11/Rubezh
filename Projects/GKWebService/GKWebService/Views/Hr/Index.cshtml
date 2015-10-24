@@ -73,7 +73,7 @@
         <div class="icon delete"></div>
     </div>
 
-    <select id="SelectPersonType" data-bind="visible:hrPages.Employees, value: SelectedPersonType">
+    <select id="SelectPersonType" data-bind="visible:hrPages.Employees, value: SelectedPersonType, event:{ change: PersonTypeChanged}">
         <option value="Employee">Сотрудник</option>
         <option value="Guest">Посетитель</option>
     </select>

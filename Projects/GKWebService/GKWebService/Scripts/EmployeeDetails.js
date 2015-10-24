@@ -9,6 +9,7 @@ function EmployeeDetailsViewModel() {
     var self = this;
 
     self.Title = ko.observable();
+    self.IsEmployee = ko.observable(true);
 
     self.employeeDetailsPages = {
         General: ko.observable(true),
@@ -39,14 +40,15 @@ function EmployeeDetailsViewModel() {
 
     self.Init = function (isNew, personType) {
         self.IsNew = isNew;
-        self.PersonType = personType;
+        self.IsEmployee(personType === "Employee");
+        self.Type(personType);
         if (isNew) {
-            self.Title(self.PersonType === "Employee" ? "Добавить сотрудника" : "Добавить посетителя");
+            self.Title(self.IsEmployee() ? "Добавить сотрудника" : "Добавить посетителя");
             self.OrganisationUID(self.Organisation.UID);
             self.IsOrganisationChief(false);
             self.IsOrganisationHRChief(false);
         } else {
-            self.Title((self.PersonType === "Employee" ? "Свойства сотрудника: " : "Свойства посетителя: ") + self.FIO());
+            self.Title((self.IsEmployee() ? "Свойства сотрудника: " : "Свойства посетителя: ") + self.FIO());
             self.IsOrganisationChief(self.Organisation.ChiefUID == UID());
             self.IsOrganisationHRChief(self.Organisation.HRChiefUID == UID());
         }

@@ -48,7 +48,8 @@ namespace GKWebService.Controllers
 			return new JsonNetResult { Data = !result.HasError };
 		}
 
-        public JsonResult GetOrganisations()
+		[HttpPost]
+		public JsonResult GetOrganisations(EmployeeFilter employeeFilter)
         {
             var employeeModels = new List<ShortEmployeeModel>();
     
@@ -56,7 +57,6 @@ namespace GKWebService.Controllers
 			var organisations = ClientManager.FiresecService.GetOrganisations(organisationFilter).Result;
 			var initializedOrganisations = InitializeOrganisations(organisations);
 
-			var employeeFilter = new EmployeeFilter();
 			var employees = ClientManager.FiresecService.GetEmployeeList(employeeFilter).Result;
 			var initializedEmployees = InitializeEmployees(employees, initializedOrganisations);
 			
