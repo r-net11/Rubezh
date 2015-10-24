@@ -44,12 +44,7 @@ namespace GKProcessor
 			{
 				if (device.DriverType == GKDriverType.RSR2_GKMirrorDetectorsDevice)
 				{
-					var detectorDevicesMirrorDescriptor = new DetectorDevicesMirrorDescriptor(device);
-					Descriptors.Add(detectorDevicesMirrorDescriptor);
-					if (detectorDevicesMirrorDescriptor.DetectorDevicesMirrorPimDescriptor != null)
-					{
-						Descriptors.Add(detectorDevicesMirrorDescriptor.DetectorDevicesMirrorPimDescriptor);
-					}
+					Descriptors.Add(new DetectorDevicesMirrorDescriptor(device));
 				}
 				else
 					Descriptors.Add(new DeviceDescriptor(device));
