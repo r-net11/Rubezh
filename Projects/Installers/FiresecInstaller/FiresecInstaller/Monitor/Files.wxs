@@ -28,7 +28,6 @@
 				<File Id="Monitor.JournalModule.dll" Name="JournalModule.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.ReportsModule.dll" Name="ReportsModule.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.AutomationModule.dll" Name="AutomationModule.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DiagnosticsModule.dll" Name="DiagnosticsModule.dll" Source="$(var.Monitor.TargetDir)" />
 
 
 				<!--..\..\..\..\..\..\3rdParty\Rx-Xaml.2.1.30214.0\-->
@@ -72,7 +71,6 @@
 
 				<File Id="Monitor.CodeReason.Reports.dll" Name="CodeReason.Reports.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.CodeReason.Loya.Dameer.dll" Name="Loya.Dameer.dll" Source="$(var.Monitor.TargetDir)" />
-				<!--<File Id="Monitor.NLog.dll" Name="NLog.dll" Source="$(var.Common.TargetDir)" />-->
 				<File Id="Monitor.hasp_net_windows.dll" Name="hasp_net_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
 				<File Id="Monitor.hasp_windows.dll" Name="hasp_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
 				<File Id="Monitor.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Common.TargetDir)" />
