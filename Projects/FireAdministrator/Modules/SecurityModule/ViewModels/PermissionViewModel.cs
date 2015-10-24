@@ -55,6 +55,8 @@ namespace SecurityModule.ViewModels
 			}
 		}
 
+		public string Image { get { return IsPermission ? "/Controls;component/Images/AccessTemplate.png":"/Controls;component/Images/CFolder.png" ; } }
+
 		public void UpdateParent()
 		{
 			_isChecked = Children.All(x => x.IsChecked);

@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Specialized;
 using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
 using ResursNetwork.Management;
 using ResursNetwork.OSI.DataLinkLayer;
 using ResursNetwork.OSI.Messages;
 using ResursNetwork.OSI.Messages.Transactions;
+using ResursAPI.Models;
 using Common;
 
 namespace ResursNetwork.OSI.ApplicationLayer
@@ -30,6 +32,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
         protected int _TotalAttempts;
 		protected int _pollingPeriod =
 			Convert.ToInt32(TimeSpan.FromDays(1).TotalMilliseconds); // По умолчнию период синхронизации 1 день;
+		protected NetworkControllerErrors _errors;
 
         /// <summary>
         /// Id контроллера
@@ -230,6 +233,11 @@ namespace ResursNetwork.OSI.ApplicationLayer
 			}
 		}
 
+		public NetworkControllerErrors Errors
+		{
+			get { return _errors; }
+		}
+
         #endregion
         
         #region Constructors
@@ -243,6 +251,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
             _TotalAttempts = 1;
             _MessageReceived = new EventHandler(EventHandler_Connection_MessageReceived);
             _Devices = new DevicesCollection(this);
+			_Devices.CollectionChanged += EventHandler_Devices_CollectionChanged;
         }
 
         #endregion
@@ -265,6 +274,51 @@ namespace ResursNetwork.OSI.ApplicationLayer
             Status = Status.Stopped;
         }
 
+		private void EventHandler_Devices_CollectionChanged(
+			object sender, DevicesCollectionChangedEventArgs e)
+		{
+			switch (e.Action)
+			{
+				case NotifyCollectionChangedAction.Add:
+					{
+						OnConfigurationChanged(
+							new ConfigurationChangedEventArgs 
+							{ 
+								Device = e.Device, 
+								Action = ConfigurationChangedAction.DeviceAdded 
+							});
+						break;
+					}
+				case NotifyCollectionChangedAction.Remove:
+					{
+						OnConfigurationChanged(
+							new ConfigurationChangedEventArgs
+							{
+								Device = e.Device,
+								Action = ConfigurationChangedAction.DeviceRemoved
+							});
+						break;
+					}
+				default:
+					{
+						throw new NotImplementedException();
+					}
+			}
+		}
+
+		private void OnConfigurationChanged(ConfigurationChangedEventArgs args)
+		{
+			if (args == null)
+			{
+				throw new ArgumentNullException();
+			}
+
+			if (ConfigurationChanged != null)
+			{
+				ConfigurationChanged(this, args);
+			}
+		}
+
         /// <summary>
         /// Генерирует событие изменения состояния контроллера
         /// </summary>
@@ -284,14 +338,27 @@ namespace ResursNetwork.OSI.ApplicationLayer
             }
         }
 
-		protected void OnParameterChanged(ParameterChangedArgs args)
+		protected void OnParameterChanged(ParameterChangedEventArgs args)
 		{
 			if (ParameterChanged != null)
 			{
 				ParameterChanged(this, args);
 			}
 		}
-        /// <summary>
+
+		protected void OnErrorOccured(NetworkControllerErrorOccuredEventArgs args)
+		{
+			if (args == null)
+			{
+				throw new ArgumentNullException();
+			}
+			if (ErrorOccurred != null)
+			{
+				ErrorOccurred(this, args);
+			}
+		}
+        
+		/// <summary>
         /// Член IDisposable
         /// </summary>
         public virtual void Dispose()
@@ -323,17 +390,24 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// </summary>
         public abstract void SyncDateTime();
 
-        #endregion
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="commandName"></param>
+		public virtual void ExecuteCommand(string commandName)
+		{}
+        
+		#endregion
 
         #region Events
 
 		public event EventHandler StatusChanged;
         public event EventHandler<NetworkRequestCompletedArgs> NetwrokRequestCompleted;
-		public event EventHandler<ParameterChangedArgs> ParameterChanged;
+		public event EventHandler<ParameterChangedEventArgs> ParameterChanged;
+		public event EventHandler<ConfigurationChangedEventArgs> ConfigurationChanged;
+		public event EventHandler<NetworkControllerErrorOccuredEventArgs> ErrorOccurred;
 
 		#endregion
-
-
-
 	}
 }

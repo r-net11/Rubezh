@@ -122,6 +122,7 @@ namespace FiresecService.Service
 			ConfigurationCashHelper.Update();
 			GKProcessor.SetNewConfig();
 			ScheduleRunner.SetNewConfig();
+			ProcedureExecutionContext.UpdateConfiguration(ConfigurationCashHelper.SystemConfiguration, ConfigurationCashHelper.SecurityConfiguration);
 			AutomationProcessor.SetNewConfig();
 			ServerTaskRunner.SetNewConfig();
 			ServerState = RubezhAPI.ServerState.Ready;

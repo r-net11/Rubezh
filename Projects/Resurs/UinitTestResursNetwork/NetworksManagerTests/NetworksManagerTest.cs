@@ -17,11 +17,11 @@ namespace UinitTestResursNetwork.NetworksManagerTests
 		internal class TestContener
 		{
 			NetworksManager _manager;
-			ParameterChangedArgs _paramChangedArgs = null;
+			ParameterChangedEventArgs _paramChangedArgs = null;
 			StatusChangedEventArgs _statusChangedArgs = null;
-			ErrorOccuredEventArgs _errorOccuredEArgs = null;
+			DeviceErrorOccuredEventArgs _errorOccuredEArgs = null;
 
-			public ParameterChangedArgs ParamChangedArgs
+			public ParameterChangedEventArgs ParamChangedArgs
 			{
 				get { return _paramChangedArgs; }
 			}
@@ -59,7 +59,7 @@ namespace UinitTestResursNetwork.NetworksManagerTests
 			}
 
 			private void EventHandler_manager_DeviceHasError(
-				object sender, ErrorOccuredEventArgs e)
+				object sender, DeviceErrorOccuredEventArgs e)
 			{
 				_errorOccuredEArgs = e;
 			}
@@ -71,7 +71,7 @@ namespace UinitTestResursNetwork.NetworksManagerTests
 			}
 
 			private void EventHandler_manager_ParameterChanged(object sender, 
-				ParameterChangedArgs e)
+				ParameterChangedEventArgs e)
 			{
 				_paramChangedArgs = e;
 			}
@@ -180,6 +180,7 @@ namespace UinitTestResursNetwork.NetworksManagerTests
 			Assert.AreEqual(controller.Status, testCntr.StatusChangedArgs.Status);
 
 			// Act
+			testCntr.ResetEventsFlags();
 			testCntr.Manager.SetSatus(controller.Id, false);
 
 			// Assert
@@ -196,6 +197,47 @@ namespace UinitTestResursNetwork.NetworksManagerTests
 			Thread.Sleep(1000);
 			testCntr.Manager.SetSatus(controller.Id, false);
 			Thread.Sleep(1000);
+
+			// Act
+			testCntr.ResetEventsFlags();
+			testCntr.Manager.SetSatus(device.Id, true);
+
+			// Assert
+			Assert.IsTrue(testCntr.IsEventRaisedStatusChanged);
+			Assert.AreEqual(Status.Running, device.Status);
+			Assert.AreEqual(device.Id, testCntr.StatusChangedArgs.Id);
+			Assert.AreEqual(device.Status, testCntr.StatusChangedArgs.Status);
+
+			// Act
+			testCntr.ResetEventsFlags();
+			testCntr.Manager.SetSatus(device.Id, false);
+
+			// Assert
+			Assert.IsTrue(testCntr.IsEventRaisedStatusChanged);
+			Assert.AreEqual(Status.Stopped, device.Status);
+			Assert.AreEqual(device.Id, testCntr.StatusChangedArgs.Id);
+			Assert.AreEqual(device.Status, testCntr.StatusChangedArgs.Status);
+
+			// Arrange
+			device = new Mercury203Virtual
+			{
+				Address = 2
+			};
+			controller.Devices.Add(device);
+
+			// Act
+			testCntr.ResetEventsFlags();
+			testCntr.Manager.SetSatus(device.Id, true);
+
+			// Assert
+			Assert.IsTrue(testCntr.IsEventRaisedStatusChanged);
+			Assert.AreEqual(Status.Running, device.Status);
+			Assert.AreEqual(device.Id, testCntr.StatusChangedArgs.Id);
+			Assert.AreEqual(device.Status, testCntr.StatusChangedArgs.Status);
+
+			// Act
+			testCntr.Manager.RemoveDevice(device.Id);
+
 		}
 
 		/// <summary>

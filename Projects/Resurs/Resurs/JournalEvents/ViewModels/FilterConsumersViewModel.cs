@@ -68,13 +68,13 @@ namespace Resurs.ViewModels
 
 		public List<Guid?> GetConsumerUIDs() 
 		{
-			List<Guid?> ConsumerUIDs = new List<Guid?>();
+			List<Guid?> consumerUIDs = new List<Guid?>();
 			foreach(var consumer in AllConsumers)
 			{
 				if(consumer.IsChecked)
-				ConsumerUIDs.Add(consumer.Consumer.UID);
+				consumerUIDs.Add(consumer.Consumer.UID);
 			}
-			return ConsumerUIDs;
+			return consumerUIDs;
 		}
 	}
 }

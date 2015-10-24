@@ -73,7 +73,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         /// <summary>
         /// Возникает при ошибках в устройтве
         /// </summary>
-        event EventHandler<ErrorOccuredEventArgs> ErrorOccurred;
+        event EventHandler<DeviceErrorOccuredEventArgs> ErrorOccurred;
 
         #endregion
     }

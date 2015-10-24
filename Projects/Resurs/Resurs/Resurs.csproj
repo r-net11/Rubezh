@@ -369,22 +369,14 @@
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="Bills\ViewModels\BillsViewModel.cs" />
-    <Compile Include="Bills\ViewModels\BillViewModel.cs" />
-    <Compile Include="Bills\Views\BillsView.xaml.cs">
-      <DependentUpon>BillsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Bills\Views\BillView.xaml.cs">
-      <DependentUpon>BillView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Devices\DeviceError.cs" />
     <Compile Include="Receipts\ReceiptHelper.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerListViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.Bills.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.Common.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumersFolderDetailsViewModel.cs" />
-    <Compile Include="Consumers\ViewModels\ConsumerChangeParentViewModel.cs" />
-    <Compile Include="Consumers\ViewModels\SelectBillViewModel.cs" />
+    <Compile Include="Consumers\ViewModels\SelectConsumerViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumersViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ReceiptViewModel.cs" />
     <Compile Include="Consumers\Views\ConsumerListView.xaml.cs">
@@ -393,19 +385,17 @@
     <Compile Include="Consumers\Views\ConsumersFolderDetailsView.xaml.cs">
       <DependentUpon>ConsumersFolderDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consumers\Views\ConsumerChangeParentView.xaml.cs">
-      <DependentUpon>ConsumerChangeParentView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Converters\ClassTypeToIconConverter.cs" />
-    <Compile Include="Consumers\Views\SelectBillView.xaml.cs">
-      <DependentUpon>SelectBillView.xaml</DependentUpon>
+    <Compile Include="Consumers\Views\SelectConsumerView.xaml.cs">
+      <DependentUpon>SelectConsumerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Consumers\Views\ReceiptView.xaml.cs">
       <DependentUpon>ReceiptView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\DeviceStateToIconConverter.cs" />
     <Compile Include="Converters\DeviceTypeToIconConverter.cs" />
+    <Compile Include="Converters\JournalTypeToColorConverter.cs" />
     <Compile Include="Converters\JournalTypeToIconConverter.cs" />
     <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="Devices\ViewModels\DetailsParameterViewModel.cs" />
@@ -414,7 +404,7 @@
       <DependentUpon>TariffSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="JournalEvents\ViewModels\DateTimePairViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DeviceState.cs" />
+    <Compile Include="Devices\DeviceState.cs" />
     <Compile Include="JournalEvents\ViewModels\DateTimeViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\FilterConsumersViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\FilterConsumerViewModel.cs" />
@@ -598,18 +588,6 @@
     <Compile Include="Users\Views\UsersView.xaml.cs">
       <DependentUpon>UsersView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Bills\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Bills\Views\BillsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Bills\Views\BillView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Consumers\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -618,11 +596,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Consumers\Views\ConsumerChangeParentView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Consumers\Views\SelectBillView.xaml">
+    <Page Include="Consumers\Views\SelectConsumerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

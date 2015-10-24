@@ -47,17 +47,20 @@
 	(Широковещательная команда)
 	void SyncDateTime(Guid netwokrId)
 
-	Посыылает команду на устройство. Имя команды лежит в ResursAPI\Models\CommandNames
+	Посыылает команду на устройство/контроллер сети. Имя команды лежит в ResursAPI\Models\CommandNames
 	SendCommand(Guid deviceId, string commandName)
 
 2. События NetworksManager:
 	Генерируется при возникновении ошибок в устройтсве или при работе 
 	DeviceHasError(Guid deviceId, Error error)
 
+	Генерируется при возникновении ошибок в контроллере сети или при работе 
+	NetworkControllerHasError(Guid network, Error error)
+
 	Генерируется при изменении значения параметра устройтсва
 	ParameterChanged(Guid deviceId, string parameterName, ValueType newValue)
 	
-	Генерируется при изменении состояния устройтсва или сети
+	Генерируется при изменении состояния устройства или сети
 	StatusChanged(Guid id, bool newStatus)
 
 ------------------------------------------------------------------------------------------

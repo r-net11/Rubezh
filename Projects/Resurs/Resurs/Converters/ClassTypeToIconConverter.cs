@@ -28,7 +28,7 @@ namespace Resurs.Converters
 						bitMap = new BitmapImage(uri);
 						return bitMap;
 					case ClassType.IsDevice:
-						uri = new Uri("pack://application:,,,/Controls;component/SKDIcons/System.png");
+						uri = new Uri("pack://application:,,,/Controls;component/SKDIcons/Controller.png");
 						bitMap = new BitmapImage(uri);
 						return bitMap;
 					default:
@@ -49,8 +49,8 @@ namespace Resurs.Converters
 				case ClassType.IsConsumer:
 					return "/Controls;component/Images/AccessTemplate.png";
 				case ClassType.IsDevice:
-					return "/Controls;component/SKDIcons/System.png";
-					case ClassType.IsNone:
+					return "/Controls;component/SKDIcons/Controller.png";
+				case ClassType.IsNone:
 					return "/Controls;component/Images/PC.png";
 				default:
 					return null;

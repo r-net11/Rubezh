@@ -2,9 +2,9 @@
 
 namespace Resurs.Views
 {
-	public partial class SelectBillView : UserControl
+	public partial class SelectConsumerView : UserControl
 	{
-		public SelectBillView()
+		public SelectConsumerView()
 		{
 			InitializeComponent();
 		}

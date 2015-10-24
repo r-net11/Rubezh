@@ -38,17 +38,17 @@ namespace ResursDAL
 					{
 						var userpermissions = new List<UserPermission>();
 						User user = new User() { Name = "Adm", Login = "Adm", PasswordHash = HashHelper.GetHashFromString("") };
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.ViewConsumer });
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.ViewDevice });
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditConsumer });
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditDevice });
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditUser });
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.ViewUser });
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.ViewJournal });
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.ViewPlot });
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.ViewReport });
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.ViewTariff });
-						userpermissions.Add(new UserPermission() { User = user, PermissionType = PermissionType.EditTariff });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.ViewConsumer });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.ViewDevice });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.EditConsumer });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.EditDevice });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.EditUser });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.ViewUser });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.ViewJournal });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.ViewPlot });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.ViewReport });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.ViewTariff });
+						userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.EditTariff });
 						user.UserPermissions = userpermissions;
 						context.Users.Add(user);
 						context.SaveChanges();
@@ -119,8 +119,8 @@ namespace ResursDAL
 			{
 				using (var context = DatabaseContext.Initialize())
 				{
-					var _user = context.Users.FirstOrDefault(x => x.UID == user.UID);
-					context.Users.Remove(_user);
+					var tableUser = context.Users.FirstOrDefault(x => x.UID == user.UID);
+					context.Users.Remove(tableUser);
 					context.SaveChanges();
 					Users.Remove(user);
 				}
@@ -134,12 +134,12 @@ namespace ResursDAL
 		{
 			if (password == null)
 				password = "";
-			var _password = HashHelper.GetHashFromString(password);
+			var passwordHash = HashHelper.GetHashFromString(password);
 			try
 			{
 				using (var context = DatabaseContext.Initialize())
 				{
-					var user = context.Users.Include(x => x.UserPermissions).FirstOrDefault(x => x.PasswordHash == _password && x.Login == login);
+					var user = context.Users.Include(x => x.UserPermissions).FirstOrDefault(x => x.PasswordHash == passwordHash && x.Login == login);
 					if (user == null)
 						return "неверный логин или пароль";
 					DBCash.CurrentUser = user;

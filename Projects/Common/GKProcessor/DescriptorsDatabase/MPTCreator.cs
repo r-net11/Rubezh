@@ -13,7 +13,7 @@ namespace GKProcessor
 		{
 			MPT = mpt;
 
-			foreach (var mptDevice in MPT.MPTDevices)
+			foreach (var mptDevice in MPT.MPTDevices.Where(x => x.Device != null))
 			{
 				if (mptDevice.MPTDeviceType == GKMPTDeviceType.HandStart ||
 					mptDevice.MPTDeviceType == GKMPTDeviceType.HandStop ||

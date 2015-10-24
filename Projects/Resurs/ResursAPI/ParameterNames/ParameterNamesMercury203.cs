@@ -25,21 +25,5 @@ namespace ResursAPI.ParameterNames
 		/// тип в БД - Double, только для чтения
         /// </summary>
         public const string PowerLimitPerMonth = "PowerLimitPerMonth";
-		/// <summary>
-		/// Сождержимое счётчика тарифной зоны 1
-		/// </summary>
-		public const string CounterTarif1 = "CounterTarif1";
-		/// <summary>
-		/// Сождержимое счётчика тарифной зоны 1
-		/// </summary>
-		public const string CounterTarif2 = "CounterTarif2";
-		/// <summary>
-		/// Сождержимое счётчика тарифной зоны 1
-		/// </summary>
-		public const string CounterTarif3 = "CounterTarif3";
-		/// <summary>
-		/// Сождержимое счётчика тарифной зоны 1
-		/// </summary>
-		public const string CounterTarif4 = "CounterTarif4";
 	}
 }

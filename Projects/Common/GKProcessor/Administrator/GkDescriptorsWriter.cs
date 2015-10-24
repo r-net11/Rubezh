@@ -192,8 +192,8 @@ namespace GKProcessor
 				if (packBytes.Count > 0)
 				{
 					var resultBytes = new List<byte>();
-					ushort binaryObjectNo = (ushort)(descriptor.GetDescriptorNo());
-					resultBytes.AddRange(BytesHelper.ShortToBytes(binaryObjectNo));
+					ushort descriptorNo = (ushort)(descriptor.GetDescriptorNo());
+					resultBytes.AddRange(BytesHelper.ShortToBytes(descriptorNo));
 					resultBytes.Add((byte)(packNo + 1));
 					resultBytes.AddRange(packBytes);
 					packs.Add(resultBytes);

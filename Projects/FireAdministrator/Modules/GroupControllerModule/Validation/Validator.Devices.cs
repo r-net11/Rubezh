@@ -41,12 +41,12 @@ namespace GKModule.Validation
 					continue;
 				ValidateObjectOnlyOnOneGK(device);
 				ValidateIPAddress(device);
-				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.DeviceNotConnected))
+				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.DeviceNotConnected))
 				{
 					ValidateDeviceZone(device);
 					ValidateGuardDeviceZone(device);
 				}
-				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.DeviceHaveNoLogic))
+				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.DeviceHaveNoLogic))
 					ValidateLogic(device);
 				ValidateGKNotEmptyChildren(device);
 				ValidateParametersMinMax(device);

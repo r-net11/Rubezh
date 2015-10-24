@@ -62,9 +62,8 @@ namespace Infrastructure.Automation
 			Action<bool, string> onImportOrganisationList = null
 			)
 		{
+			UpdateConfiguration(systemConfiguration, securityConfiguration);
 			ContextType = contextType;
-			SystemConfiguration = systemConfiguration;
-			SecurityConfiguration = securityConfiguration;
 			OnSendCallback += onSendCallback;
 			OnCallbackResponse += onCallbackResponse;
 			OnSynchronizeVariable += onSynchronizeVariable;
@@ -86,6 +85,12 @@ namespace Infrastructure.Automation
 			OnImportOrganisation += onImportOrganisation;
 			OnImportOrganisationList += onImportOrganisationList;
 
+		}
+
+		public static void UpdateConfiguration(SystemConfiguration systemConfiguration, SecurityConfiguration securityConfiguration)
+		{
+			SystemConfiguration = systemConfiguration;
+			SecurityConfiguration = securityConfiguration;
 		}
 
 		public static void SendCallback(AutomationCallbackResult callback, Guid? userUid = null)

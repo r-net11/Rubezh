@@ -6,7 +6,7 @@ using ResursAPI.Models;
 
 namespace ResursNetwork.OSI.ApplicationLayer.Devices
 {
-    public class ErrorOccuredEventArgs: EventArgs
+    public class DeviceErrorOccuredEventArgs: EventArgs
     {
 		private Guid _Id;
         private DeviceErrors _Errors;

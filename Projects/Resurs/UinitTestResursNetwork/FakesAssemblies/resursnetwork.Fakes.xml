@@ -787,17 +787,17 @@
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.WriteNetworkRequestBoolean">
             <summary>Sets the shim of IncotexNetworkController.Write(NetworkRequest networkRequest, Boolean isExternalCall)</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController._EventHandler_Connection_MessageReceivedb__0MessageBase">
-            <summary>Sets the shim of IncotexNetworkController.&lt;EventHandler_Connection_MessageReceived&gt;b__0(MessageBase y)</summary>
-        </member>
-        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController._EventHandler_Connection_MessageReceivedb__1MessageBase">
-            <summary>Sets the shim of IncotexNetworkController.&lt;EventHandler_Connection_MessageReceived&gt;b__1(MessageBase z)</summary>
-        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController._EventHandler_Connection_MessageReceivedb__2MessageBase">
             <summary>Sets the shim of IncotexNetworkController.&lt;EventHandler_Connection_MessageReceived&gt;b__2(MessageBase y)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController._EventHandler_Connection_MessageReceivedb__3MessageBase">
             <summary>Sets the shim of IncotexNetworkController.&lt;EventHandler_Connection_MessageReceived&gt;b__3(MessageBase z)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController._EventHandler_Connection_MessageReceivedb__4MessageBase">
+            <summary>Sets the shim of IncotexNetworkController.&lt;EventHandler_Connection_MessageReceived&gt;b__4(MessageBase y)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController._EventHandler_Connection_MessageReceivedb__5MessageBase">
+            <summary>Sets the shim of IncotexNetworkController.&lt;EventHandler_Connection_MessageReceived&gt;b__5(MessageBase z)</summary>
         </member>
         <member name="T:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.AllInstances">
             <summary>Define shims for all instances members</summary>
@@ -877,6 +877,12 @@
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.Behavior">
             <summary>Assigns the behavior for all methods of the shimmed type</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.ConfigurationChangedAddEventHandlerOfConfigurationChangedEventArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.add_ConfigurationChanged(EventHandler`1&lt;ConfigurationChangedEventArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.ConfigurationChangedRemoveEventHandlerOfConfigurationChangedEventArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.remove_ConfigurationChanged(EventHandler`1&lt;ConfigurationChangedEventArgs&gt; value)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.ConnectionGet">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.get_Connection()</summary>
         </member>
@@ -892,6 +898,9 @@
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.Dispose">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.Dispose()</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.EventHandler_devices_CollectionChangedObjectDevicesCollectionChangedEventArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.EventHandler_devices_CollectionChanged(Object sender, DevicesCollectionChangedEventArgs e)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.IdGet">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.get_Id()</summary>
         </member>
@@ -906,6 +915,9 @@
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.NetwrokRequestCompletedRemoveEventHandlerOfNetworkRequestCompletedArgs">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.remove_NetwrokRequestCompleted(EventHandler`1&lt;NetworkRequestCompletedArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.OnConfigurationChangedConfigurationChangedEventArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.OnConfigurationChanged(ConfigurationChangedEventArgs args)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.OnParameterChangedParameterChangedArgs">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.OnParameterChanged(ParameterChangedArgs args)</summary>
@@ -958,6 +970,12 @@
         <member name="T:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances">
             <summary>Define shims for all instances members</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.ConfigurationChangedAddEventHandlerOfConfigurationChangedEventArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.add_ConfigurationChanged(EventHandler`1&lt;ConfigurationChangedEventArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.ConfigurationChangedRemoveEventHandlerOfConfigurationChangedEventArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.remove_ConfigurationChanged(EventHandler`1&lt;ConfigurationChangedEventArgs&gt; value)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.ConnectionGet">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.get_Connection()</summary>
         </member>
@@ -969,6 +987,9 @@
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.Dispose">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.Dispose()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.EventHandler_devices_CollectionChangedObjectDevicesCollectionChangedEventArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.EventHandler_devices_CollectionChanged(Object sender, DevicesCollectionChangedEventArgs e)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.IdGet">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.get_Id()</summary>
@@ -984,6 +1005,9 @@
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.NetwrokRequestCompletedRemoveEventHandlerOfNetworkRequestCompletedArgs">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.remove_NetwrokRequestCompleted(EventHandler`1&lt;NetworkRequestCompletedArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.OnConfigurationChangedConfigurationChangedEventArgs">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.OnConfigurationChanged(ConfigurationChangedEventArgs args)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.OnParameterChangedParameterChangedArgs">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.OnParameterChanged(ParameterChangedArgs args)</summary>
@@ -1858,11 +1882,17 @@
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.EventHandler_NetworkControllers_CollectionChangedObjectNetworksCollectionChangedEventArgs">
             <summary>Sets the shim of NetworksManager.EventHandler_NetworkControllers_CollectionChanged(Object sender, NetworksCollectionChangedEventArgs e)</summary>
         </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.EventHandler_Network_ConfigurationChangedObjectConfigurationChangedEventArgs">
+            <summary>Sets the shim of NetworksManager.EventHandler_Network_ConfigurationChanged(Object sender, ConfigurationChangedEventArgs e)</summary>
+        </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.EventHandler_Network_ParameterChangedObjectParameterChangedArgs">
             <summary>Sets the shim of NetworksManager.EventHandler_Network_ParameterChanged(Object sender, ParameterChangedArgs e)</summary>
         </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.EventHandler_Network_StatusChangedObjectEventArgs">
             <summary>Sets the shim of NetworksManager.EventHandler_Network_StatusChanged(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.FindDeviceGuid">
+            <summary>Sets the shim of NetworksManager.FindDevice(Guid id)</summary>
         </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.InstanceGet">
             <summary>Sets the shim of NetworksManager.get_Instance()</summary>
@@ -1909,11 +1939,8 @@
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.SyncDateTimeGuid">
             <summary>Sets the shim of NetworksManager.SyncDateTime(Guid networkId)</summary>
         </member>
-        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager._SendCommandb__16INetwrokController">
-            <summary>Sets the shim of NetworksManager.&lt;SendCommand&gt;b__16(INetwrokController n)</summary>
-        </member>
-        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager._SetSatusb__cINetwrokController">
-            <summary>Sets the shim of NetworksManager.&lt;SetSatus&gt;b__c(INetwrokController n)</summary>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager._FindDeviceb__eINetwrokController">
+            <summary>Sets the shim of NetworksManager.&lt;FindDevice&gt;b__e(INetwrokController n)</summary>
         </member>
         <member name="T:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances">
             <summary>Define shims for all instances members</summary>
@@ -1942,11 +1969,17 @@
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.EventHandler_NetworkControllers_CollectionChangedObjectNetworksCollectionChangedEventArgs">
             <summary>Sets the shim of NetworksManager.EventHandler_NetworkControllers_CollectionChanged(Object sender, NetworksCollectionChangedEventArgs e)</summary>
         </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.EventHandler_Network_ConfigurationChangedObjectConfigurationChangedEventArgs">
+            <summary>Sets the shim of NetworksManager.EventHandler_Network_ConfigurationChanged(Object sender, ConfigurationChangedEventArgs e)</summary>
+        </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.EventHandler_Network_ParameterChangedObjectParameterChangedArgs">
             <summary>Sets the shim of NetworksManager.EventHandler_Network_ParameterChanged(Object sender, ParameterChangedArgs e)</summary>
         </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.EventHandler_Network_StatusChangedObjectEventArgs">
             <summary>Sets the shim of NetworksManager.EventHandler_Network_StatusChanged(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.FindDeviceGuid">
+            <summary>Sets the shim of NetworksManager.FindDevice(Guid id)</summary>
         </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.NetworksGet">
             <summary>Sets the shim of NetworksManager.get_Networks()</summary>
@@ -2135,7 +2168,7 @@
             <summary>Sets the shim of DevicesCollection.InsertItem(Int32 index, IDevice item)</summary>
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel.Fakes.ShimDevicesCollection.OnCollectionChangedDevicesCollectionChangedEventArgs">
-            <summary>Sets the shim of DevicesCollection.OnCollectionChanged(DevicesCollectionChangedEventArgs e)</summary>
+            <summary>Sets the shim of DevicesCollection.OnCollectionChanged(DevicesCollectionChangedEventArgs args)</summary>
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel.Fakes.ShimDevicesCollection.RemoveItemInt32">
             <summary>Sets the shim of DevicesCollection.RemoveItem(Int32 index)</summary>
@@ -2162,7 +2195,7 @@
             <summary>Sets the shim of DevicesCollection.InsertItem(Int32 index, IDevice item)</summary>
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel.Fakes.ShimDevicesCollection.AllInstances.OnCollectionChangedDevicesCollectionChangedEventArgs">
-            <summary>Sets the shim of DevicesCollection.OnCollectionChanged(DevicesCollectionChangedEventArgs e)</summary>
+            <summary>Sets the shim of DevicesCollection.OnCollectionChanged(DevicesCollectionChangedEventArgs args)</summary>
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel.Fakes.ShimDevicesCollection.AllInstances.RemoveItemInt32">
             <summary>Sets the shim of DevicesCollection.RemoveItem(Int32 index)</summary>
@@ -3397,6 +3430,54 @@
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters.Fakes.StubIncotexDataTimeTypeConverter.InstanceObserver">
             <summary>Gets or sets the instance observer.</summary>
         </member>
+        <member name="T:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs">
+            <summary>Shim type of ResursNetwork.OSI.ApplicationLayer.ConfigurationChangedEventArgs</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.#ctor(ResursNetwork.OSI.ApplicationLayer.ConfigurationChangedEventArgs)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.ActionGet">
+            <summary>Sets the shim of ConfigurationChangedEventArgs.get_Action()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.ActionSetConfigurationChangedAction">
+            <summary>Sets the shim of ConfigurationChangedEventArgs.set_Action(ConfigurationChangedAction value)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.Constructor">
+            <summary>Sets the shim of ConfigurationChangedEventArgs.ConfigurationChangedEventArgs()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.DeviceGet">
+            <summary>Sets the shim of ConfigurationChangedEventArgs.get_Device()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.DeviceSetIDevice">
+            <summary>Sets the shim of ConfigurationChangedEventArgs.set_Device(IDevice value)</summary>
+        </member>
+        <member name="T:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.AllInstances.ActionGet">
+            <summary>Sets the shim of ConfigurationChangedEventArgs.get_Action()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.AllInstances.ActionSetConfigurationChangedAction">
+            <summary>Sets the shim of ConfigurationChangedEventArgs.set_Action(ConfigurationChangedAction value)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.AllInstances.DeviceGet">
+            <summary>Sets the shim of ConfigurationChangedEventArgs.get_Device()</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimConfigurationChangedEventArgs.AllInstances.DeviceSetIDevice">
+            <summary>Sets the shim of ConfigurationChangedEventArgs.set_Device(IDevice value)</summary>
+        </member>
         <member name="T:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase">
             <summary>Shim type of ResursNetwork.OSI.ApplicationLayer.NetworkControllerBase</summary>
         </member>
@@ -3421,6 +3502,12 @@
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.Behavior">
             <summary>Assigns the behavior for all methods of the shimmed type</summary>
         </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.ConfigurationChangedAddEventHandlerOfConfigurationChangedEventArgs">
+            <summary>Sets the shim of NetworkControllerBase.add_ConfigurationChanged(EventHandler`1&lt;ConfigurationChangedEventArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.ConfigurationChangedRemoveEventHandlerOfConfigurationChangedEventArgs">
+            <summary>Sets the shim of NetworkControllerBase.remove_ConfigurationChanged(EventHandler`1&lt;ConfigurationChangedEventArgs&gt; value)</summary>
+        </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.ConnectionGet">
             <summary>Sets the shim of NetworkControllerBase.get_Connection()</summary>
         </member>
@@ -3436,6 +3523,9 @@
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.Dispose">
             <summary>Sets the shim of NetworkControllerBase.Dispose()</summary>
         </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.EventHandler_Devices_CollectionChangedObjectDevicesCollectionChangedEventArgs">
+            <summary>Sets the shim of NetworkControllerBase.EventHandler_Devices_CollectionChanged(Object sender, DevicesCollectionChangedEventArgs e)</summary>
+        </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.IdGet">
             <summary>Sets the shim of NetworkControllerBase.get_Id()</summary>
         </member>
@@ -3447,6 +3537,9 @@
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.NetwrokRequestCompletedRemoveEventHandlerOfNetworkRequestCompletedArgs">
             <summary>Sets the shim of NetworkControllerBase.remove_NetwrokRequestCompleted(EventHandler`1&lt;NetworkRequestCompletedArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.OnConfigurationChangedConfigurationChangedEventArgs">
+            <summary>Sets the shim of NetworkControllerBase.OnConfigurationChanged(ConfigurationChangedEventArgs args)</summary>
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.OnNetwrokRequestCompletedNetworkRequestCompletedArgs">
             <summary>Sets the shim of NetworkControllerBase.OnNetwrokRequestCompleted(NetworkRequestCompletedArgs args)</summary>
@@ -3496,6 +3589,12 @@
         <member name="T:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances">
             <summary>Define shims for all instances members</summary>
         </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.ConfigurationChangedAddEventHandlerOfConfigurationChangedEventArgs">
+            <summary>Sets the shim of NetworkControllerBase.add_ConfigurationChanged(EventHandler`1&lt;ConfigurationChangedEventArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.ConfigurationChangedRemoveEventHandlerOfConfigurationChangedEventArgs">
+            <summary>Sets the shim of NetworkControllerBase.remove_ConfigurationChanged(EventHandler`1&lt;ConfigurationChangedEventArgs&gt; value)</summary>
+        </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.ConnectionGet">
             <summary>Sets the shim of NetworkControllerBase.get_Connection()</summary>
         </member>
@@ -3508,6 +3607,9 @@
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.Dispose">
             <summary>Sets the shim of NetworkControllerBase.Dispose()</summary>
         </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.EventHandler_Devices_CollectionChangedObjectDevicesCollectionChangedEventArgs">
+            <summary>Sets the shim of NetworkControllerBase.EventHandler_Devices_CollectionChanged(Object sender, DevicesCollectionChangedEventArgs e)</summary>
+        </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.IdGet">
             <summary>Sets the shim of NetworkControllerBase.get_Id()</summary>
         </member>
@@ -3519,6 +3621,9 @@
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.NetwrokRequestCompletedRemoveEventHandlerOfNetworkRequestCompletedArgs">
             <summary>Sets the shim of NetworkControllerBase.remove_NetwrokRequestCompleted(EventHandler`1&lt;NetworkRequestCompletedArgs&gt; value)</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.OnConfigurationChangedConfigurationChangedEventArgs">
+            <summary>Sets the shim of NetworkControllerBase.OnConfigurationChanged(ConfigurationChangedEventArgs args)</summary>
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimNetworkControllerBase.AllInstances.OnNetwrokRequestCompletedNetworkRequestCompletedArgs">
             <summary>Sets the shim of NetworkControllerBase.OnNetwrokRequestCompleted(NetworkRequestCompletedArgs args)</summary>
@@ -3660,6 +3765,24 @@
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.ShimParameterChangedArgs.AllInstances.ParameterNameSetString">
             <summary>Sets the shim of ParameterChangedArgs.set_ParameterName(String value)</summary>
+        </member>
+        <member name="T:ResursNetwork.OSI.ApplicationLayer.Fakes.StubConfigurationChangedEventArgs">
+            <summary>Stub type of ResursNetwork.OSI.ApplicationLayer.ConfigurationChangedEventArgs</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubConfigurationChangedEventArgs.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubConfigurationChangedEventArgs.InitializeStub">
+            <summary>Initializes a new instance of type StubConfigurationChangedEventArgs</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.StubConfigurationChangedEventArgs.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.StubConfigurationChangedEventArgs.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.StubConfigurationChangedEventArgs.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
         </member>
         <member name="T:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController">
             <summary>Stub type of ResursNetwork.OSI.ApplicationLayer.INetwrokController</summary>

@@ -217,7 +217,7 @@ namespace ResursNetwork.Incotex.Models
                         if (Errors.CommunicationError)
                         {
                             _Errors.CommunicationError = true;
-                            OnErrorOccurred(new ErrorOccuredEventArgs 
+                            OnErrorOccurred(new DeviceErrorOccuredEventArgs 
 							{
  								Id = this.Id,
 								Errors = _Errors 
@@ -232,7 +232,7 @@ namespace ResursNetwork.Incotex.Models
                         if (!Errors.CommunicationError)
                         {
                             _Errors.CommunicationError = true;
-                            OnErrorOccurred(new ErrorOccuredEventArgs 
+                            OnErrorOccurred(new DeviceErrorOccuredEventArgs 
 							{ 
 								Id = this.Id,
 								Errors = _Errors 

@@ -9,14 +9,11 @@
 	<DataTemplate DataType="{x:Type ViewModels:ConsumersFolderDetailsViewModel}">
 		<Views:ConsumersFolderDetailsView />
 	</DataTemplate>
-	<DataTemplate DataType="{x:Type ViewModels:ConsumerChangeParentViewModel}">
-		<Views:ConsumerChangeParentView />
-	</DataTemplate>
 	<DataTemplate DataType="{x:Type ViewModels:ConsumerListViewModel}">
 		<Views:ConsumerListView />
 	</DataTemplate>
-	<DataTemplate DataType="{x:Type ViewModels:SelectBillViewModel}">
-		<Views:SelectBillView />
+	<DataTemplate DataType="{x:Type ViewModels:SelectConsumerViewModel}">
+		<Views:SelectConsumerView />
 	</DataTemplate>
 	<DataTemplate DataType="{x:Type ViewModels:ReceiptViewModel}">
 		<Views:ReceiptView />

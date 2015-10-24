@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-			 MinWidth="700" MinHeight="400">
+			 MinWidth="620" MinHeight="400"
+			 Name="userControl">
 	<ScrollViewer Name="_scrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 		<TabControl>
 			<TabItem Header="Основные">
@@ -55,15 +56,15 @@
 					<TextBlock Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2"  
 							   Text="{Binding TariffType, Converter={StaticResource EnumToDescriptionConverter}}" Visibility="{Binding HasReadOnlyTariffType, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-					<TextBlock Grid.Row="4" Grid.Column="0" Text="Счет" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
+					<TextBlock Grid.Row="4" Grid.Column="0" Text="Лицевой счет" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
 					<StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1">
 						<TextBlock VerticalAlignment="Center">
-							<Hyperlink Command="{Binding SelectBillCommand}" CommandParameter="{Binding Bill.ConsumerUID}" Style="{StaticResource HyperlinkStyle}">
-								<TextBlock VerticalAlignment="Center" Text="{Binding BillLinkName}" />
+							<Hyperlink Command="{Binding SelectConsumerCommand}" CommandParameter="{Binding Consumer.UID}" Style="{StaticResource HyperlinkStyle}">
+								<TextBlock VerticalAlignment="Center" TextDecorations="Underline" Text="{Binding ConsumerLinkName}" />
 							</Hyperlink>
 						</TextBlock>
-						<ToolBarButton ToolTip="Удалить привязку счета" Height="28" Width="28" Background="DarkGray" ImageSource="DeleteCross" 
-							   Command="{Binding RemoveBillLinkCommand}" Visibility="{Binding Bill, Converter={StaticResource NullToVisibilityConverter}}" />
+						<ToolBarButton ToolTip="Удалить привязку лицевого счета" Height="28" Width="28" Background="DarkGray" ImageSource="DeleteCross" 
+							   Command="{Binding RemoveConsumerLinkCommand}" Visibility="{Binding Consumer, Converter={StaticResource NullToVisibilityConverter}}" />
 					</StackPanel>
 
 					<TextBlock Grid.Row="5" Grid.Column="0" Text="Тариф" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}"  
@@ -121,6 +122,11 @@
 			<TabItem Header="Управление" Visibility="{Binding HasCommands, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Grid Background="{StaticResource WindowBackgroundBrush}" >
 					<ItemsControl ItemsSource="{Binding Commands}" Margin="2">
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel MaxWidth="{Binding ActualWidth, ElementName=userControl}" Orientation="Horizontal"  />
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
 								<Button Command="{Binding SendCommand}" Content="{Binding Model.Description}" Width="200" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center" />

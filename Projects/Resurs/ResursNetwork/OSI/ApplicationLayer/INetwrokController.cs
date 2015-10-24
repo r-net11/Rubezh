@@ -9,6 +9,7 @@ using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
 using ResursNetwork.OSI.DataLinkLayer;
 using ResursNetwork.OSI.Messages;
 using ResursNetwork.OSI.Messages.Transactions;
+using ResursAPI.Models;
 
 namespace ResursNetwork.OSI.ApplicationLayer
 {
@@ -40,7 +41,9 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// Возвращает объет для работы с физическим интерфейсом
         /// </summary>
         IDataLinkPort Connection { get; set; }
-        
+
+		NetworkControllerErrors Errors { get; }
+
         #endregion
 
         #region Methods
@@ -61,12 +64,20 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// </summary>
         void SyncDateTime();
 
+		/// <summary>
+		/// Выполняет команду 
+		/// </summary>
+		/// <param name="commandName"></param>
+		void ExecuteCommand(string commandName);
+
         #endregion
 
         #region
 
 		event EventHandler<NetworkRequestCompletedArgs> NetwrokRequestCompleted;
-		event EventHandler<ParameterChangedArgs> ParameterChanged;
+		event EventHandler<ParameterChangedEventArgs> ParameterChanged;
+		event EventHandler<ConfigurationChangedEventArgs> ConfigurationChanged;
+		event EventHandler<NetworkControllerErrorOccuredEventArgs> ErrorOccurred;
         
         #endregion
     }
