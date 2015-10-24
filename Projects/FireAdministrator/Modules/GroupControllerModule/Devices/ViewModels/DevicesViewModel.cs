@@ -74,7 +74,7 @@ namespace GKModule.ViewModels
 					}
 				}
 
-				var gkDevices = AllDevices.Where(x => x.Driver.DriverType == GKDriverType.GK);
+				var gkDevices = AllDevices.Where(x => x.Driver.DriverType == GKDriverType.GK || x.Driver.DriverType == GKDriverType.RSR2_GKMirror);
 				foreach (var gkDevice in gkDevices)
 				{
 					var gkIndicatorsGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа индикаторов", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicatorsGroup) });

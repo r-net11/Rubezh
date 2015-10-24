@@ -422,7 +422,7 @@ namespace RubezhAPI.GK
 
 		public void UpdateGKPredefinedName(GKDevice device)
 		{
-			if (device.DriverType == GKDriverType.GK && device.Children.Count >= 15)
+			if ((device.DriverType == GKDriverType.GK || device.DriverType == GKDriverType.RSR2_GKMirror) && device.Children.Count >= 15)
 			{
 				if (device.Children.Count >= 21)
 				{

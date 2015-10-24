@@ -11,6 +11,11 @@ namespace GKProcessor
 		{
 			DescriptorType = DescriptorType.Device;
 			Device = device;
+			foreach (var dev in Device.GKReflectionItem.Devices)
+			{
+				Device.LinkToDescriptor(dev);
+			}
+			Device.LinkToDescriptor(Device);
 		}
 
 		public override void Build()
@@ -26,10 +31,31 @@ namespace GKProcessor
 		public override void BuildFormula()
 		{
 			Formula = new FormulaBuilder();
+			int count = 0;
 			foreach (var device in Device.GKReflectionItem.Devices)
 			{
-				
+				Formula.AddGetWord(false, device);
+				count++;
+				if (count > 1)
+				{
+					Formula.Add(FormulaOperationType.OR);
+				}
 			}
+			count = 0;
+			foreach (var device in Device.GKReflectionItem.Devices)
+			{
+				Formula.AddGetWord(true, device);
+				count++;
+				if (count > 1)
+				{
+					Formula.Add(FormulaOperationType.OR);
+				}
+			}
+
+			Formula.Add(FormulaOperationType.CONST, 0, 0x400);
+			Formula.Add(FormulaOperationType.OR);
+			Formula.AddPutWord(true, Device);
+			Formula.AddPutWord(false, Device);
 		}
 	}
 }

@@ -33,6 +33,7 @@ namespace GKProcessor
 						break;
 
 					case GKDriverType.RSR2_KAU:
+					case GKDriverType.RSR2_GKMirror:
 						whom = 4;
 						var modeProperty = device.Properties.FirstOrDefault(x => x.Name == "Mode");
 						if (modeProperty != null)
@@ -54,7 +55,7 @@ namespace GKProcessor
 						break;
 
 					default:
-						throw new Exception("Команду можно отправлять только в ГК или в КАУ");
+						throw new Exception("Команду можно отправлять только в ГК, в КАУ или в ПМФ");
 				}
 				var bytes = new List<byte>();
 				bytes.Add(whom);

@@ -71,9 +71,19 @@ namespace GKProcessor
 			AddWithGKBase(FormulaOperationType.GETBIT, (byte)stateBit, gkBase);
 		}
 
+		public void AddGetWord(bool isHiword, GKBase gkBase)
+		{
+			AddWithGKBase(FormulaOperationType.GETWORD, (byte)(isHiword ? 1 : 0), gkBase);
+		}
+
 		public void AddPutBit(GKStateBit stateBit, GKBase gkBase)
 		{
 			AddWithGKBase(FormulaOperationType.PUTBIT, (byte)stateBit, gkBase);
+		}
+
+		public void AddPutWord(bool isHiword, GKBase gkBase)
+		{
+			AddWithGKBase(FormulaOperationType.PUTWORD, (byte)(isHiword ? 1 : 0), gkBase);
 		}
 
 		public void AddArgumentPutBit(byte bit, GKBase gkBase)
@@ -246,12 +256,12 @@ namespace GKProcessor
 						case FormulaOperationType.GETBIT:
 						case FormulaOperationType.GETBYTE:
 						case FormulaOperationType.ACS:
+						case FormulaOperationType.GETWORD:
 							branch.StackValues.Add(null);
 							branch.CalculateStackDepth();
 							branch.CurrentFormulaNo += 1;
 							break;
 
-						case FormulaOperationType.GETWORD:
 						case FormulaOperationType.KOD:
 						case FormulaOperationType.GETMEMB:
 							branch.StackValues.Add(null);
@@ -274,12 +284,12 @@ namespace GKProcessor
 						case FormulaOperationType.SUB:
 						case FormulaOperationType.XOR:
 						case FormulaOperationType.CMPKOD:
+						case FormulaOperationType.PUTWORD:
 							branch.RemoveLast();
 							branch.CalculateStackDepth();
 							branch.CurrentFormulaNo += 1;
 							break;
-
-						case FormulaOperationType.PUTWORD:
+						
 						case FormulaOperationType.PUTP:
 						case FormulaOperationType.PUTMEMB:
 							branch.RemoveLast();

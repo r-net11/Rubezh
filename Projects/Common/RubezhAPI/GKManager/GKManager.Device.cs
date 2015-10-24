@@ -108,7 +108,7 @@ namespace RubezhClient
 				parentDevice.Children.Insert(index + 1, device);
 			}
 
-			if (driver.DriverType == GKDriverType.GK)
+			if (driver.DriverType == GKDriverType.GK || driver.DriverType == GKDriverType.RSR2_GKMirror)
 			{
 				var indicatorDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicator);
 				var releDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);

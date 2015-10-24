@@ -108,13 +108,14 @@ namespace RubezhClient
 					break;
 
 				case GKDriverType.RSR2_KAU:
+				case GKDriverType.RSR2_GKMirror:
 					gkControllerDevice = device.Parent;
 					break;
 
 				default:
 					{
-						Logger.Error("GKManager.GetIpAddress Получить IP адрес можно только у ГК или в КАУ");
-						throw new Exception("Получить IP адрес можно только у ГК или в КАУ");
+						Logger.Error("GKManager.GetIpAddress Получить IP адрес можно только у ГК или в КАУ или в ПМФ");
+						throw new Exception("Получить IP адрес можно только у ГК или в КАУ или в ПМФ");
 					}
 			}
 			var ipAddress = gkControllerDevice.GetGKIpAddress();

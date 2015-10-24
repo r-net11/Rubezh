@@ -77,6 +77,22 @@ namespace GKModule.ViewModels
 				case FormulaOperationType.BR:
 					break;
 
+				case FormulaOperationType.GETWORD:
+				case FormulaOperationType.PUTWORD:
+					FirstOperand = FormulaOperation.FirstOperand == 1 ? "старшее слово" : "младшее слово";
+					descriptorViewModel = DescriptorsViewModel.Descriptors.FirstOrDefault(x => ((x.Descriptor.DatabaseType == GKProcessor.DatabaseType.Gk && x.Descriptor.GKBase.GKDescriptorNo == FormulaOperation.SecondOperand) || (x.Descriptor.DatabaseType == GKProcessor.DatabaseType.Kau && x.Descriptor.GKBase.KAUDescriptorNo == FormulaOperation.SecondOperand)));
+					if (descriptorViewModel != null)
+					{
+						DescriptorIcon = descriptorViewModel.ImageSource;
+						SecondOperand = descriptorViewModel.Descriptor.GKBase.PresentationName;
+					}
+					else
+					{
+						SecondOperand = "<Не найдено в конфигурации>";
+						Error = "Отсутствует ссылка на объект логики";
+					}
+					break;
+
 				default:
 					IsBold = true;
 

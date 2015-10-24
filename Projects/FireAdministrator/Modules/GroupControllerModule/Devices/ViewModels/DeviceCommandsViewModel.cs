@@ -15,9 +15,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Microsoft.Win32;
-using System.IO;
-using Ionic.Zip;
-using System.Text;
 
 namespace GKModule.Models
 {
@@ -66,7 +63,7 @@ namespace GKModule.Models
 
 		bool CanShowInfo()
 		{
-			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKau || SelectedDevice.Device.DriverType == GKDriverType.GK));
+			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKau || SelectedDevice.Device.DriverType == GKDriverType.GK || SelectedDevice.Device.DriverType == GKDriverType.RSR2_GKMirror));
 		}
 
 		public RelayCommand SynchroniseTimeCommand { get; private set; }
@@ -211,7 +208,7 @@ namespace GKModule.Models
 
 		bool CanReadConfiguration()
 		{
-			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKau || SelectedDevice.Driver.DriverType == GKDriverType.GK));
+			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKau || SelectedDevice.Driver.DriverType == GKDriverType.GK || SelectedDevice.Device.DriverType == GKDriverType.RSR2_GKMirror));
 		}
 
 		bool CanReadConfigFile()
