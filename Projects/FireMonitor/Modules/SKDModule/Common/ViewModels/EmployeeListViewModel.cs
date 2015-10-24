@@ -6,6 +6,7 @@ using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
@@ -89,14 +90,21 @@ namespace SKDModule.ViewModels
 			var employeeSelectionViewModel = new EmployeeSelectionDialogViewModel(EmptyFilter);
 			if (DialogService.ShowModalWindow(employeeSelectionViewModel))
 			{
-				var viewModel = new TItem();
-				viewModel.Initialize(employeeSelectionViewModel.SelectedEmployee);
-				var result = AddToParent(viewModel.Employee);
-				if (!result)
-					return;
-				Employees.Add(viewModel);
-				SelectedEmployee = viewModel;
-				ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(SelectedEmployee.Employee.UID);
+				if (Employees.Count(x => !x.IsDeleted) < 5 && EmployeeHelper.Get(new EmployeeFilter()).Count(x => !x.IsDeleted) < 5)
+				{
+					var viewModel = new TItem();
+					viewModel.Initialize(employeeSelectionViewModel.SelectedEmployee);
+					var result = AddToParent(viewModel.Employee);
+					if (!result)
+						return;
+					Employees.Add(viewModel);
+					SelectedEmployee = viewModel;
+					ServiceFactoryBase.Events.GetEvent<EditEmployeeEvent>().Publish(SelectedEmployee.Employee.UID);
+				}
+				else
+				{
+					MessageBoxService.ShowError("Нельзя выполнить операцию из-за ограничения демо-версии. Максимальное количество сотрудников в системе - 5");
+				}
 			}
 		}
 		bool CanAdd()

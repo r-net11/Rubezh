@@ -96,7 +96,15 @@ namespace SKDModule.ViewModels
 
 		protected override bool Restore(ShortEmployee model)
 		{
-			return EmployeeHelper.Restore(model);
+			if (EmployeeHelper.Get(new EmployeeFilter{PersonType = PersonType.Employee}).Count(x => !x.IsDeleted) < 5 && model.Type == PersonType.Employee
+				|| EmployeeHelper.Get(new EmployeeFilter{PersonType = PersonType.Guest}).Count(x => !x.IsDeleted) < 2 && model.Type == PersonType.Guest)
+			{
+				return EmployeeHelper.Restore(model);
+			}
+
+			MessageBoxService.ShowError(string.Format("Нельзя выполнить операцию из-за ограничения демо-версии. Максимальное количество {0} в системе - {1}", model.Type == PersonType.Employee ? "сотрудников" : "посетителей",
+				model.Type == PersonType.Employee ? 5 : 2));
+			return false;
 		}
 
 		protected override void AfterRemove(ShortEmployee model)
