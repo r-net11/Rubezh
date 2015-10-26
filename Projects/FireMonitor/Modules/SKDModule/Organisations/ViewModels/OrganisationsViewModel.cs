@@ -121,11 +121,11 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var organisationDetailsViewModel = new OrganisationDetailsViewModel(this);
-			if (DialogService.ShowModalWindow(organisationDetailsViewModel))
+			var orgs = OrganisationHelper.Get(new OrganisationFilter());
+			if (Organisations.Count <= 2 && orgs.Count(x => !x.IsDeleted) <= 2)
 			{
-				var orgs = OrganisationHelper.Get(new OrganisationFilter());
-				if (Organisations.Count <= 2 && orgs.Count(x => !x.IsDeleted) <= 2)
+				var organisationDetailsViewModel = new OrganisationDetailsViewModel(this);
+				if (DialogService.ShowModalWindow(organisationDetailsViewModel))
 				{
 					var organisation = organisationDetailsViewModel.Organisation;
 					var organisationViewModel = new OrganisationViewModel(organisation);
@@ -139,10 +139,10 @@ namespace SKDModule.ViewModels
 					}
 					ServiceFactoryBase.Events.GetEvent<NewOrganisationEvent>().Publish(SelectedOrganisation.Organisation.UID);
 				}
-				else
-				{
-					MessageBoxService.ShowError("Нельзя выполнить операцию из-за ограничения демо-версии. Максимальное количество организаций в системе - 2");
-				}
+			}
+			else
+			{
+				MessageBoxService.ShowError("Нельзя выполнить операцию из-за ограничения демо-версии. Максимальное количество организаций в системе - 2");
 			}
 		}
 		bool CanAdd()
