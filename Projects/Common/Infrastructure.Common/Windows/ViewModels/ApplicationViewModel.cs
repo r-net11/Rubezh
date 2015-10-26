@@ -20,7 +20,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			ApplicationMaximizeCommand = new RelayCommand(Maximize, () => AllowMaximize);
 			ApplicationNormalizeCommand = new RelayCommand(Normalize);
 			ApplicationCloseCommand = new RelayCommand(() => Close(false), () => AllowClose);
-			ApplicationHelpCommand = new RelayCommand(ShowHelp, () => AllowHelp);
 			ApplicationAboutCommand = new RelayCommand(ShowAbout, () => AllowHelp);
 		}
 
@@ -89,13 +88,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 		{
 			Surface.WindowState = WindowState.Normal;
 			OnPropertyChanged(() => IsMaximized);
-		}
-
-		public RelayCommand ApplicationHelpCommand { get; private set; }
-
-		protected virtual void ShowHelp()
-		{
-			ManualPdfHelper.Show(GetManualName());
 		}
 
 		public RelayCommand ApplicationAboutCommand { get; private set; }

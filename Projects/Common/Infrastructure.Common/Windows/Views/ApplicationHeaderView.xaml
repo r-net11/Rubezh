@@ -32,7 +32,6 @@
 					<MenuItem.Header>
 						<Grid Height="12" Width="12" Margin="-2" Background="{DynamicResource Help}" />
 					</MenuItem.Header>
-					<MenuItem Command="{Binding Content.ApplicationHelpCommand}" Focusable="False" Header="Помощь" />
 					<MenuItem Command="{Binding Content.ApplicationAboutCommand}" Focusable="False" Header="О программе" />
 				</MenuItem>
 			</Menu>
