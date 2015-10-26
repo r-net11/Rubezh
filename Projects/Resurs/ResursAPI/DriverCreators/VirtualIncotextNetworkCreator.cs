@@ -27,6 +27,16 @@ namespace ResursAPI
 				IntDefaultValue = 1000,
 				CanWriteInActive = false
 			});
+			driver.Commands.Add(new DeviceCommand(new Guid("F6BCAA46-8E91-4427-BB59-3798A68DD9B2"))
+			{
+				Name = CommandNames.CommandNamesIncotexNetworkControllerVirtual.SetPortError,
+				Description = "Ошибка доступа к порту"
+			});
+			driver.Commands.Add(new DeviceCommand(new Guid("46A42757-2CE5-4D7C-BA88-CF6375C0542D"))
+			{
+				Name = CommandNames.CommandNamesIncotexNetworkControllerVirtual.ResetPortError,
+				Description = "Сброс ошибки доступа к порту"
+			});
 			return driver;
 		}
 	}

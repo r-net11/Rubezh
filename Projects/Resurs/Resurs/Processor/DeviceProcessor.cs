@@ -39,6 +39,8 @@ namespace Resurs.Processor
 			_networksManager.ParameterChanged += OnNetworksManagerParameterChanged;
 			_networksManager.DeviceHasError -= OnNetworksManagerDeviceHasError;
 			_networksManager.DeviceHasError += OnNetworksManagerDeviceHasError;
+			_networksManager.NetworkControllerHasError -= OnNetworksManagerNetworkControllerHasError;
+			_networksManager.NetworkControllerHasError += OnNetworksManagerNetworkControllerHasError;
 		}
 
 		#region NetworksManagerCommands
@@ -186,6 +188,17 @@ namespace Resurs.Processor
 		}
 
 		void OnNetworksManagerDeviceHasError(object sender, ResursNetwork.OSI.ApplicationLayer.Devices.DeviceErrorOccuredEventArgs args)
+		{
+			var handler = ErrorsChanged;
+
+			if (handler != null)
+			{
+				var isActiveChangedEventArgs = new ErrorsChangedEventArgs(args);
+				handler(this, isActiveChangedEventArgs);
+			}
+		}
+
+		void OnNetworksManagerNetworkControllerHasError(object sender, ResursNetwork.OSI.ApplicationLayer.NetworkControllerErrorOccuredEventArgs args)
 		{
 			var handler = ErrorsChanged;
 
