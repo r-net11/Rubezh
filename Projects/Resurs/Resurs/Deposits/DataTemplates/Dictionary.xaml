@@ -3,16 +3,11 @@
 					xmlns:ViewModels="clr-namespace:Resurs.ViewModels"
 					xmlns:Views="clr-namespace:Resurs.Views">
 
-	<DataTemplate DataType="{x:Type ViewModels:TariffDetailsViewModel}">
-		<Views:TariffDetailsView />
+	<DataTemplate DataType="{x:Type ViewModels:DepositDetailsViewModel}">
+		<Views:DepositDetailsView />
 	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:TariffsViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:DepositsViewModel}">
 		<Views:DepositsView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:TariffDevicesViewModel}">
-		<Views:TariffDevicesView />
 	</DataTemplate>
 
 </ResourceDictionary>
