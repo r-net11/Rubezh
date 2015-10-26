@@ -27,7 +27,7 @@ namespace Resurs.ViewModels
 			AddDepositCommand = new RelayCommand(OnAddDeposit);
 			ShowDepositsCommand = new RelayCommand(OnShowDeposits);
 
-			DepositsViewModel = new DepositsViewModel(consumer.Deposits, consumer.UID);
+			DepositsViewModel = new DepositsViewModel(consumer);
 		}
 
 		public DepositsViewModel DepositsViewModel { get; private set; }
@@ -103,13 +103,19 @@ namespace Resurs.ViewModels
 		public RelayCommand AddDepositCommand { get; private set; }
 		void OnAddDeposit()
 		{
-			var depositDetailsViewModel = new DepositDetailsViewModel(new Deposit { ConsumerUID = this.UID, Moment = DateTime.Now }, true);
+			var depositDetailsViewModel = new DepositDetailsViewModel(new Deposit 
+			{
+				Name = "ЛС: " + this.Number,
+				ConsumerUID = this.UID, 
+				Moment = DateTime.Now 
+			}, true);
 			if (DialogService.ShowModalWindow(depositDetailsViewModel))
 			{
 				var deposit = depositDetailsViewModel.GetDeposit();
 				var depositViewModel = new DepositViewModel(deposit);
 				DepositsViewModel.Deposits.Add(depositViewModel);
 				DBCash.SaveDeposit(deposit);
+				DBCash.AddJournalForUser(JournalType.AddDeposit, deposit, string.Format("Сумма: {0} руб.", deposit.Amount));
 			}
 		}
 

@@ -13,12 +13,12 @@ namespace Resurs.ViewModels
 {
 	public class DepositsViewModel : SaveCancelDialogViewModel
 	{
-		public Guid ConsumerUID { get; private set; }
-		public DepositsViewModel(IEnumerable<Deposit> deposits, Guid consumerUID)
+		public Consumer Consumer { get; private set; }
+		public DepositsViewModel(Consumer consumer)
 		{
 			Title = "История пополнения баланса";
-			ConsumerUID = consumerUID;
-			Deposits = new ObservableCollection<DepositViewModel>(deposits.Select(x => new DepositViewModel(x)));
+			Consumer = consumer;
+			Deposits = new ObservableCollection<DepositViewModel>(consumer.Deposits.Select(x => new DepositViewModel(x)));
 
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
@@ -41,7 +41,12 @@ namespace Resurs.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var depositDetailsViewModel = new DepositDetailsViewModel(new Deposit { ConsumerUID = this.ConsumerUID, Moment = DateTime.Now }, true);
+			var depositDetailsViewModel = new DepositDetailsViewModel(new Deposit 
+			{ 
+				Name = "ЛС: " + Consumer.Number,
+				ConsumerUID = Consumer.UID, 
+				Moment = DateTime.Now 
+			}, true);
 			if (DialogService.ShowModalWindow(depositDetailsViewModel))
 			{
 				var deposit = depositDetailsViewModel.GetDeposit();
@@ -49,7 +54,7 @@ namespace Resurs.ViewModels
 				Deposits.Add(depositViewModel);
 				SelectedDeposit = depositViewModel;
 				DBCash.SaveDeposit(deposit);
-				//DBCash.AddJournalForUser(JournalType.AddDeposit, deposit);
+				DBCash.AddJournalForUser(JournalType.AddDeposit, deposit, string.Format("Сумма: {0} руб.", deposit.Amount));
 			}
 		}
 		bool CanAdd()
@@ -63,9 +68,10 @@ namespace Resurs.ViewModels
 			var depositDetailsViewModel = new DepositDetailsViewModel(SelectedDeposit.Deposit, false);
 			if (DialogService.ShowModalWindow(depositDetailsViewModel))
 			{
-				SelectedDeposit.Update(depositDetailsViewModel.GetDeposit());
+				var deposit = depositDetailsViewModel.GetDeposit();
+				SelectedDeposit.Update(deposit);
 				DBCash.SaveDeposit(SelectedDeposit.Deposit);
-				//DBCash.AddJournalForUser(JournalType.AddDeposit, deposit);
+				DBCash.AddJournalForUser(JournalType.EditDeposit, deposit, string.Format("Сумма: {0} руб.", deposit.Amount));
 			}
 		}
 		bool CanEdit()
@@ -78,7 +84,7 @@ namespace Resurs.ViewModels
 		{
 			var index = Deposits.IndexOf(SelectedDeposit);
 			DBCash.DeleteDeposit(SelectedDeposit.Deposit);
-			//DBCash.AddJournalForUser(JournalType.AddDeposit, deposit);
+			DBCash.AddJournalForUser(JournalType.DeleteDeposit, SelectedDeposit.Deposit, string.Format("Сумма: {0} руб.", SelectedDeposit.Deposit.Amount));
 			Deposits.Remove(SelectedDeposit);
 			if (index >= Deposits.Count)
 				index = Deposits.Count - 1;
