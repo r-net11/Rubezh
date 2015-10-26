@@ -16,10 +16,10 @@ namespace Resurs.Reports.Templates
 		public string Description { get; set; }
 		public Guid Uid { get; set; }
 	//	public Bill Bill { get; set; }
-	//	public ReceiptTemplate()
-	//	{
-	//		InitializeComponent();
-	//	}
+		public ReceiptTemplate()
+		{
+			InitializeComponent();
+		}
 	//	public override void CreateDocument(bool buildPagesInBackground)
 	//	{
 	//		if (Bill != null)

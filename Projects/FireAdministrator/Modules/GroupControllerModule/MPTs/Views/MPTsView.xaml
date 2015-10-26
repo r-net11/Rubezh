@@ -94,7 +94,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTextColumn Header="Адрес" Binding="{Binding Device.DottedAddress}" MinWidth="100" Width="Auto" />
+							<DataGridTextColumn Header="Адрес" Binding="{Binding Device.DottedPresentationAddress}" MinWidth="100" Width="Auto" />
 							<DataGridTextColumn Header="Примечание" Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged}" MinWidth="100" Width="*" />
 						</DataGrid.Columns>
 					</DataGrid>

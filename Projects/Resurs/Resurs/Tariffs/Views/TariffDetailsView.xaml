@@ -70,7 +70,7 @@
 
 			<StackPanel Grid.Column="0" Grid.Row="5" Margin="5">
 				<TextBlock Margin="5">
-					<Hyperlink Command="{Binding EditDevicesCommand}" Style="{StaticResource HyperlinkStyle}">
+					<Hyperlink Command="{Binding EditDevicesCommand}" Style="{StaticResource HyperlinkStyle}" IsEnabled="{Binding IsEnable}">
 						<TextBlock Text="Привязать устройства" />
 					</Hyperlink>
 				</TextBlock>

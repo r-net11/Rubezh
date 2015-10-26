@@ -222,7 +222,7 @@ namespace GKModule.ViewModels
 				{
 					foreach (var deviceToCopy in DevicesToCopy)
 					{
-						var pasteDevice = GKManager.CopyDevice(deviceToCopy, isCut);
+						var pasteDevice = GKManager.CopyDevice(deviceToCopy, isCut,true);
 						var device = PasteDevice(pasteDevice);
 						if (device == null)
 							break;
@@ -237,14 +237,14 @@ namespace GKModule.ViewModels
 					{
 						GKManager.RebuildRSR2Addresses(SelectedDevice.Device);
 						GKManager.UpdateConfiguration();
-						if (isCut)
-							SelectedDevice.Device.OutDependentElements.ForEach(x => x.OnChanged());
+						SelectedDevice.Device.ChangedLogic();
 					}
 				}
 				GKManager.DeviceConfiguration.Update();
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
 				GKPlanExtension.Instance.InvalidateCanvas();
 				ServiceFactory.SaveService.GKChanged = true;
+				isCut = false;
 			}
 		}
 		bool CanPaste()

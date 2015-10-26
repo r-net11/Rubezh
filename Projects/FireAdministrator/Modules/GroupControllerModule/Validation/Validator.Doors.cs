@@ -176,7 +176,7 @@ namespace GKModule.Validation
 				if (door.DoorType == GKDoorType.AirlockBooth)
 					AddError(door, "К точке доступа не подключена кнопка на выход", ValidationErrorLevel.CannotWrite);
 			}
-			if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.SensorNotConnected))
+			if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.SensorNotConnected))
 			{
 				if (door.LockControlDevice == null)
 				{

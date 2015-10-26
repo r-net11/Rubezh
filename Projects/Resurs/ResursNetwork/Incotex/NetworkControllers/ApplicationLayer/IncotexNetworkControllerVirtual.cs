@@ -15,6 +15,8 @@ using ResursNetwork.OSI.Messages.Transactions;
 using ResursNetwork.Management;
 using ResursNetwork.Incotex.Models;
 using ResursNetwork.Networks;
+using ResursAPI.Models;
+using ResursAPI.CommandNames;
 using ResursAPI.ParameterNames;
 
 namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
@@ -35,6 +37,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 		CancellationTokenSource _cancellationTokenSource;
 		Task _networkPollingTask;
 		int _pollingPeriod;
+		NetworkControllerErrors _Errors;
 
         public Guid Id
         {
@@ -150,6 +153,30 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 				}
 			}
 		}
+
+		public NetworkControllerErrors Errors
+		{
+			get { return _Errors; }
+		}
+
+		public bool PortError
+		{
+			get { return _Errors.PortError; }
+			set 
+			{
+ 				if (_Errors.PortError != value)
+				{
+					_Errors.PortError = value;
+					OnErrorOccured(
+						new NetworkControllerErrorOccuredEventArgs 
+						{ 
+							Id = this.Id, 
+							Errors = _Errors 
+						});
+				}
+			}
+		}
+
         #endregion
 
         #region Constructors
@@ -234,7 +261,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             }
         }
 
-		private void OnParameterChanged(ParameterChangedArgs args)
+		private void OnParameterChanged(ParameterChangedEventArgs args)
 		{
 			if (args == null)
 			{
@@ -257,6 +284,18 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 			if (ConfigurationChanged != null)
 			{
 				ConfigurationChanged(this, args);
+			}
+		}
+
+		private void OnErrorOccured(NetworkControllerErrorOccuredEventArgs args)
+		{
+			if (args == null)
+			{
+				throw new ArgumentNullException();
+			}
+			if (ErrorOccurred != null)
+			{
+				ErrorOccurred(this, args);
 			}
 		}
 
@@ -298,7 +337,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 					var x = (float)device.Parameters[ParameterNamesMercury203Virtual.CounterTarif1].Value;
 					var newValue  = x + 1;
 					device.Parameters[ParameterNamesMercury203Virtual.CounterTarif1].Value = newValue;
-					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203Virtual.CounterTarif1,
+					OnParameterChanged(new ParameterChangedEventArgs(device.Id, ParameterNamesMercury203Virtual.CounterTarif1,
 						newValue));
 
 					if (cancel.IsCancellationRequested)
@@ -309,7 +348,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 					x = (float)device.Parameters[ParameterNamesMercury203Virtual.CounterTarif2].Value;
 					newValue = x + 1;
 					device.Parameters[ParameterNamesMercury203Virtual.CounterTarif2].Value = newValue;
-					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203Virtual.CounterTarif2,
+					OnParameterChanged(new ParameterChangedEventArgs(device.Id, ParameterNamesMercury203Virtual.CounterTarif2,
 						newValue));
 
 					if (cancel.IsCancellationRequested)
@@ -320,7 +359,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 					x = (float)device.Parameters[ParameterNamesMercury203Virtual.CounterTarif3].Value;
 					newValue = x + 1;
 					device.Parameters[ParameterNamesMercury203Virtual.CounterTarif3].Value = newValue;
-					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203Virtual.CounterTarif3,
+					OnParameterChanged(new ParameterChangedEventArgs(device.Id, ParameterNamesMercury203Virtual.CounterTarif3,
 						newValue));
 
 					if (cancel.IsCancellationRequested)
@@ -331,7 +370,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 					x = (float)device.Parameters[ParameterNamesMercury203Virtual.CounterTarif4].Value;
 					newValue = x + 1;
 					device.Parameters[ParameterNamesMercury203Virtual.CounterTarif4].Value = newValue;
-					OnParameterChanged(new ParameterChangedArgs(device.Id, ParameterNamesMercury203Virtual.CounterTarif3,
+					OnParameterChanged(new ParameterChangedEventArgs(device.Id, ParameterNamesMercury203Virtual.CounterTarif3,
 						newValue));
 				}
 
@@ -341,14 +380,35 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 			Debug.WriteLine("Поток на обработку остановлен");
 		}
 
+		public void ExecuteCommand(string commandName)
+		{
+			switch (commandName)
+			{
+				case CommandNamesIncotexNetworkControllerVirtual.SetPortError:
+					{
+						PortError = true; break; 
+					}
+				case CommandNamesIncotexNetworkControllerVirtual.ResetPortError:
+					{
+						PortError = false; break;
+					}
+				default:
+					{
+						throw new NotSupportedException(String.Format(
+						  "Попытка выполнить неподдерживаемую команду {0}", commandName));
+					}
+			}
+		}
+
         #endregion
 
         #region Events
 
 		public event EventHandler StatusChanged;
 		public event EventHandler<NetworkRequestCompletedArgs> NetwrokRequestCompleted;
-		public event EventHandler<ParameterChangedArgs> ParameterChanged;
+		public event EventHandler<ParameterChangedEventArgs> ParameterChanged;
 		public event EventHandler<ConfigurationChangedEventArgs> ConfigurationChanged;
+		public event EventHandler<NetworkControllerErrorOccuredEventArgs> ErrorOccurred;
 
 		#endregion
 

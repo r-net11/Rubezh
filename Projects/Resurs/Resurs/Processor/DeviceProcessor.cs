@@ -140,7 +140,7 @@ namespace Resurs.Processor
 		#endregion
 
 		#region EventHandlers
-		public void OnNetworksManagerParameterChanged(object sender, ParameterChangedArgs args)
+		public void OnNetworksManagerParameterChanged(object sender, ParameterChangedEventArgs args)
 		{
 			var device = DBCash.Devices.FirstOrDefault(x => x.UID == args.DeviceId);
 			switch (args.ParameterName)
@@ -185,7 +185,7 @@ namespace Resurs.Processor
 			}
 		}
 
-		void OnNetworksManagerDeviceHasError(object sender, ResursNetwork.OSI.ApplicationLayer.Devices.ErrorOccuredEventArgs args)
+		void OnNetworksManagerDeviceHasError(object sender, ResursNetwork.OSI.ApplicationLayer.Devices.DeviceErrorOccuredEventArgs args)
 		{
 			var handler = ErrorsChanged;
 
@@ -196,7 +196,7 @@ namespace Resurs.Processor
 			}
 		}
 
-		Measure CreateMeasure(Device device, ParameterChangedArgs args, int tariffPartNo)
+		Measure CreateMeasure(Device device, ParameterChangedEventArgs args, int tariffPartNo)
 		{
 			//TODO
 			//Probably need to store discounted value separate from main

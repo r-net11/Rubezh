@@ -9,7 +9,7 @@ namespace SettingsModule.ViewModels
 		public ErrorFilterViewModel(ValidationErrorType errorType)
 		{
 			ErrorType = errorType;
-			IsChecked = GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ErrorType);
+			//IsChecked = GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ErrorType);
 		}
 
 		public ValidationErrorType ErrorType { get; private set; }

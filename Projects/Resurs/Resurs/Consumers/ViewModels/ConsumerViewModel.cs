@@ -83,5 +83,14 @@ namespace Resurs.ViewModels
 			if (_consumersFolderDetails != null)
 				_consumersFolderDetails.Update(consumer);
 		}
+
+		public Consumer GetConsumer()
+		{
+			if (_consumerDetails != null)
+				return _consumerDetails.GetConsumer();
+			if (_consumersFolderDetails != null)
+				return _consumersFolderDetails.GetConsumer();
+			return null;
+		}
 	}
 }

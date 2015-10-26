@@ -41,14 +41,12 @@ namespace Resurs.ViewModels
 				};
 
 			}
-			PermissionsViewModel = new PermissionsViewModel(User);
-			CopyProperty();
-		}
-		void CopyProperty()
-		{
 			Login = User.Login;
 			Name = User.Name;
+
+			PermissionsViewModel = new PermissionsViewModel(User);
 		}
+		public PermissionsViewModel PermissionsViewModel { get; private set; }
 
 		string _login;
 		public string Login
@@ -102,17 +100,6 @@ namespace Resurs.ViewModels
 			{
 				_isChangePassword = value;
 				OnPropertyChanged(() => IsChangePassword);
-			}
-		}
-
-		PermissionsViewModel _permissionsViewModel;
-		public PermissionsViewModel PermissionsViewModel
-		{
-			get { return _permissionsViewModel; }
-			set
-			{
-				_permissionsViewModel = value;
-				OnPropertyChanged(() => PermissionsViewModel);
 			}
 		}
 

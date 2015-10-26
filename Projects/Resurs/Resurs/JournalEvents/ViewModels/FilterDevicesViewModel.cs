@@ -9,7 +9,6 @@ namespace Resurs.ViewModels
 {
 	public class FilterDevicesViewModel
 	{
-
 		public FilterDevicesViewModel(Filter filter)
 		{
 			BildTree();
@@ -36,7 +35,7 @@ namespace Resurs.ViewModels
 
 		void BildTree()
 		{
-			RootDevice = AddConsumerInternal(DBCash.RootDevice);
+			RootDevice = AddDeviceInternal(DBCash.RootDevice);
 			FillAllDevices();
 		}
 
@@ -45,14 +44,14 @@ namespace Resurs.ViewModels
 			get { return new[] { RootDevice }; }
 		}
 
-		private FilterDeviceViewModel AddConsumerInternal(Device device, FilterDeviceViewModel parentDeviceViewModel =null)
+		private FilterDeviceViewModel AddDeviceInternal(Device device, FilterDeviceViewModel parentDeviceViewModel =null)
 		{
 			var deviceViewModel = new FilterDeviceViewModel(device);
 			if (parentDeviceViewModel != null)
 				parentDeviceViewModel.AddChild(deviceViewModel);
 
 			foreach (var childDevice in device.Children)
-				AddConsumerInternal(childDevice, deviceViewModel);
+				AddDeviceInternal(childDevice, deviceViewModel);
 			return deviceViewModel;
 		}
 

@@ -8,9 +8,9 @@ using System.Xml.Serialization;
 namespace RubezhAPI.GK
 {
 	[DataContract]
-	public class GKReflectionItem
+	public class GKMirrorItem
 	{
-		public GKReflectionItem()
+		public GKMirrorItem()
 		{
 			ZoneUIDs = new List<Guid>();
 			GuardZoneUIDs = new List<Guid>();

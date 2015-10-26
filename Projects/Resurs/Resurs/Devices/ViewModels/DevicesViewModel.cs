@@ -123,14 +123,16 @@ namespace Resurs.ViewModels
 
 		public void Select(Guid deviceUID)
 		{
-			if (deviceUID != Guid.Empty)
+			if (deviceUID != Guid.Empty && IsVisible)
 			{
 				FillAllDevices();
 				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 				if (deviceViewModel != null)
+				{
 					deviceViewModel.ExpandToThis();
-				SelectedDevice = deviceViewModel;
-				Bootstrapper.MainViewModel.SelectedTabIndex = 0;
+					SelectedDevice = deviceViewModel;
+					Bootstrapper.MainViewModel.SelectedTabIndex = 0;
+				}
 			}
 		}
 
@@ -264,7 +266,7 @@ namespace Resurs.ViewModels
 			return SelectedDevice != null && 
 				SelectedDevice.Parent != null &&
 				!SelectedDevice.IsActive && 
-				DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);
+				DBCash.CheckPermission(PermissionType.EditDevice);
 		}
 
 		public RelayCommand UnSetActiveCommand { get; private set; }

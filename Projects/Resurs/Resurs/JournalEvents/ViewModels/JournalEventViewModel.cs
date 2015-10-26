@@ -14,7 +14,7 @@ namespace Resurs.ViewModels
 			ShowCommand = new RelayCommand(OnShow);
 			Journal = journal;
 		}
-		public Journal Journal { get; set; }
+		public Journal Journal { get; private set; }
 
 		public bool IsUser { get { return Journal.UserName != null; } }
 

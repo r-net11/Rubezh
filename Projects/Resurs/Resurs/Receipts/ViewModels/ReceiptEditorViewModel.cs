@@ -4,6 +4,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Resurs.Receipts;
 using Resurs.Reports.Templates;
 using Resurs.Views;
+using ResursAPI;
+using ResursDAL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -71,18 +73,19 @@ namespace Resurs.ViewModels
 			get { return _selectedReceipt; }
 			set
 			{
+				string savedName = null;
 				if (IsShowNotSavedMessage)
 				{
 					var messageBoxResult = MessageBoxService.ShowQuestionExtended(SaveQuestion);
 					switch (messageBoxResult)
 					{
 						case MessageBoxResult.Yes:
+							SaveReceiptCommand.Execute();
 							if (isNewReceipt)
 							{
 								Receipts.Remove(_selectedReceipt);
 								Receipts = RewriteReceipts(Receipts);
 							}
-							SaveReceiptCommand.Execute();
 							break;
 						case MessageBoxResult.No:
 							if (isNewReceipt)
@@ -93,6 +96,7 @@ namespace Resurs.ViewModels
 							break;
 						case MessageBoxResult.Cancel:
 							value = _selectedReceipt;
+							savedName = Name;
 							break;
 					}
 				}
@@ -102,13 +106,13 @@ namespace Resurs.ViewModels
 				isSaved = false;
 				if (_selectedReceipt != null)
 				{
-					Name = SelectedReceipt.Name;
+					Name = savedName ?? _selectedReceipt.Name;
 					ReceiptEditorView.CloseAllDocuments();
 					ReceiptEditorView.OpenDocument(SelectedReceipt);
 				}
 				else
 				{
-					Name = "";
+					Name = string.Empty;
 				}
 			}
 		}
@@ -120,7 +124,9 @@ namespace Resurs.ViewModels
 				Name = "Новый шаблон",
 				Uid = Guid.NewGuid()
 			};
-			SelectedReceipt = newReceipt;
+			Receipts.Add(newReceipt);
+			Receipts = RewriteReceipts(Receipts);
+			SelectedReceipt = Receipts.Find(x => x == newReceipt);
 			isNewReceipt = true;
 		}
 		bool CanAddReceipt()
@@ -137,8 +143,13 @@ namespace Resurs.ViewModels
 				Receipts = RewriteReceipts(Receipts);
 				ReceiptEditorView.CloseAllDocuments();
 				isNewReceipt = false;
+				isSaved =true;
 				SelectedReceipt = null;
 			}
+		}
+		public bool IsVisible
+		{
+			get { return DBCash.CheckPermission(PermissionType.EditReceipt); }
 		}
 		bool CanDeleteReceipt()
 		{
@@ -151,13 +162,12 @@ namespace Resurs.ViewModels
 			selectedReceipt.Name = Name;
 			selectedReceipt.Uid = SelectedReceipt.Uid;
 			ReceiptHelper.SaveReceipt(selectedReceipt);
-			if (isNewReceipt)
-			{
-				Receipts.Add(selectedReceipt);
-				Receipts = RewriteReceipts(Receipts);
-				isNewReceipt = false;
-			}
+			var index = Receipts.IndexOf(SelectedReceipt);
+			Receipts.Insert(index, selectedReceipt);
+			Receipts.Remove(SelectedReceipt);
+			Receipts = RewriteReceipts(Receipts);
 			isSaved = true;
+			isNewReceipt = false;
 			SelectedReceipt = selectedReceipt;
 		}
 		bool CanSaveReceipt()
