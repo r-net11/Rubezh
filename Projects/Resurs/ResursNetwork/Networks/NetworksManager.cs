@@ -327,6 +327,31 @@ namespace ResursNetwork.Networks
 			var device = FindDevice(id);
 			device.ExecuteCommand(commandName);
 		}
+		
+		/// <summary>
+		/// Читает значение параметра из удалённого устройство
+		/// асинхронно, обновление параметра по событию
+		/// </summary>
+		/// <param name="deviceId"></param>
+		/// <param name="parameterName"></param>
+		public void ReadParameter(Guid deviceId, string parameterName)
+		{
+			var device = FindDevice(deviceId);
+			device.ReadParameter(parameterName);
+		}
+		
+		/// <summary>
+		/// Записывает новое значение параметра у удалённое устройство
+		/// Блокирует вызывающий поток до окончания сетевой транзакции
+		/// </summary>
+		/// <param name="deviceId"></param>
+		/// <param name="parameterName"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public void WriteParameter(Guid deviceId, string parameterName, ValueType value)
+		{
+			throw new NotImplementedException();
+		}
 
 		/// <summary>
 		/// 

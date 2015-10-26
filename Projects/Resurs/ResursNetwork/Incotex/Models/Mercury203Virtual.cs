@@ -321,6 +321,15 @@ namespace ResursNetwork.Incotex.Models
         #endregion
 
 		#region Network API
+		public void ReadParameter(string parameterName)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void WriteParameter(string parameterName, ValueType value)
+		{
+			throw new NotImplementedException();
+		}
 
 		public void ExecuteCommand(string commandName)
 		{

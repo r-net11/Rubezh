@@ -66,7 +66,20 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
 		/// <param name="commandName">Команда</param>
 		void ExecuteCommand(string commandName);
 
-        #endregion
+		/// <summary>
+		/// Читает параметр из удалённого устройства
+		/// </summary>
+		/// <param name="parameterName"></param>
+		void ReadParameter(string parameterName);
+
+		/// <summary>
+		/// Записывает параметр в удалённом устройстве
+		/// </summary>
+		/// <param name="parameterName"></param>
+		/// <param name="value"></param>
+		void WriteParameter(string parameterName, ValueType value);        
+		
+		#endregion
 
         #region Events
 

@@ -165,11 +165,11 @@ namespace ResursNetwork.Incotex.Models
             {
                 case Mercury203CmdCode.SetNetworkAddress:
                     {
-                        GetAnswerNetwokAdderss(networkRequest); break;
+                        GetAnswerWriteNetwokAdderss(networkRequest); break;
                     }
                 case Mercury203CmdCode.ReadGroupAddress:
                     {
-                        GetReadGroupAddress(networkRequest); break;
+                        GetAnswerReadGroupAddress(networkRequest); break;
                     }
                 default:
                     {
@@ -197,6 +197,28 @@ namespace ResursNetwork.Incotex.Models
 						}
 				}
 			}
+		}
+
+		public override void ReadParameter(string parameterName)
+		{
+			switch(parameterName)
+			{
+				case ParameterNamesMercury203.GADDR:
+					{
+						ReadGroupAddress(isExternalCall: true);
+						break;
+					}
+				default:
+					{
+						throw new NotSupportedException(String.Format(
+							"Чтение праметра {0} не поддерживается", parameterName));
+					}
+			}
+		}
+
+		public override void WriteParameter(string parameterName, ValueType value)
+		{
+			throw new NotImplementedException();
 		}
 
         public override void EventHandler_NetworkController_NetwrokRequestCompleted(
@@ -261,7 +283,7 @@ namespace ResursNetwork.Incotex.Models
         /// <param name="addr">Текущий сетевой адрес счётчика</param>
         /// <param name="newaddr">Новый сетевой адрес счётчика</param>
         /// <returns></returns>
-        public IAsyncRequestResult SetNewAddress(UInt32 addr, UInt32 newaddr, bool isExternalCall = true)
+        public IAsyncRequestResult WriteNewAddress(UInt32 addr, UInt32 newaddr, bool isExternalCall = true)
         {
             var request = new DataMessage()
             {
@@ -296,7 +318,7 @@ namespace ResursNetwork.Incotex.Models
         /// Разбирает ответ от удалённого устройтва по запросу SetNewAddress
         /// </summary>
         /// <param name="networkRequest"></param>
-        private void GetAnswerNetwokAdderss(NetworkRequest networkRequest)
+        private void GetAnswerWriteNetwokAdderss(NetworkRequest networkRequest)
         {
             var request = (DataMessage)networkRequest.Request.Request;
 
@@ -408,7 +430,7 @@ namespace ResursNetwork.Incotex.Models
         /// по запросу ReadGroupAddress
         /// </summary>
         /// <param name="transaction"></param>
-        private void GetReadGroupAddress(NetworkRequest networkRequest)
+        private void GetAnswerReadGroupAddress(NetworkRequest networkRequest)
         {
             // Разбираем ответ
             if (networkRequest.Status == NetworkRequestStatus.Completed)

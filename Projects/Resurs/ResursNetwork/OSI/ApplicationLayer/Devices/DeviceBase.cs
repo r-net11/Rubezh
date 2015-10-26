@@ -240,6 +240,10 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
             }
         }
 
+		public abstract void ReadParameter(string parameterName);
+
+		public abstract void WriteParameter(string parameterName, ValueType value);
+
         protected virtual void OnErrorOccurred(DeviceErrorOccuredEventArgs args)
         {
             if (ErrorOccurred != null)
@@ -291,5 +295,6 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         public event PropertyChangedEventHandler PropertyChanged;
         
         #endregion
+
 	}
 }
