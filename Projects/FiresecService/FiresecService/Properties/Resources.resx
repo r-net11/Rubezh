@@ -120,6 +120,9 @@
   <data name="ConfigFileNotExist" xml:space="preserve">
     <value>Отсутствует файл конфигурации. Пожалуйста, переустановите программу.</value>
   </data>
+  <data name="DemoVersionOperationNotAllowed" xml:space="preserve">
+    <value>Текущая операция не доступна в данной версии ПО.</value>
+  </data>
   <data name="ErrorCaption" xml:space="preserve">
     <value />
   </data>

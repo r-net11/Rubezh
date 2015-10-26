@@ -3,6 +3,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using FiresecService.Properties;
 using SKDDriver;
 using SKDDriver.Translators;
 using System;
@@ -1954,10 +1955,7 @@ namespace FiresecService.Service
 
 		public OperationResult ImportOrganisation(ImportFilter filter)
 		{
-			using (var databaseService = new SKDDatabaseService())
-			{
-				return databaseService.OrganisationTranslator.Synchroniser.Import(filter);
-			}
+			return new OperationResult(Resources.DemoVersionOperationNotAllowed);
 		}
 
 		public OperationResult ExportOrganisationList(ExportFilter filter)
@@ -1970,10 +1968,7 @@ namespace FiresecService.Service
 
 		public OperationResult ImportOrganisationList(ImportFilter filter)
 		{
-			using (var databaseService = new SKDDatabaseService())
-			{
-				return databaseService.OrganisationTranslator.Synchroniser.ListSynchroniser.Import(filter);
-			}
+			return new OperationResult(Resources.DemoVersionOperationNotAllowed);
 		}
 
 		public OperationResult ExportJournal(JournalExportFilter filter)
