@@ -15,7 +15,7 @@ namespace Resurs.Processor
 			Errors = new List<DeviceError>();
 		}
 
-		public ErrorsChangedEventArgs(ResursNetwork.OSI.ApplicationLayer.Devices.ErrorOccuredEventArgs args)
+		public ErrorsChangedEventArgs(ResursNetwork.OSI.ApplicationLayer.Devices.DeviceErrorOccuredEventArgs args)
 			: this()
 		{
 			DeviceUID = args.Id;
