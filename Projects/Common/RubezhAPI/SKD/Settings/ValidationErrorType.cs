@@ -7,13 +7,13 @@ namespace RubezhAPI
 	public enum ValidationErrorType
 	{
 		[Description("Устройство не подключено к зоне")]
-		DeviceNotConnected = 1,
+		DeviceNotConnected = 0,
 
 		[Description("Отсутствует логика срабатывания исполнительного устройства")]
-		DeviceHaveNoLogic = 2,
+		DeviceHaveNoLogic = 1,
 
 		[Description("Количество подключенных к зоне датчиков")]
-		ZoneSensorQuantity = 3,
+		ZoneSensorQuantity = 2,
 
 		[Description("Несвязанные элементы плана")]
 		NotBoundedElements = 3,

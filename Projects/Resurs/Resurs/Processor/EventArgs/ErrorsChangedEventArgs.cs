@@ -20,11 +20,19 @@ namespace Resurs.Processor
 		{
 			DeviceUID = args.Id;
 			if (args.Errors.CommunicationError)
-				Errors.Add(DeviceError.CommunicationError);
+				Errors.Add(DeviceError.Communication);
 			if (args.Errors.ConfigurationError)
-				Errors.Add(DeviceError.ConfigurationError);
+				Errors.Add(DeviceError.Configuration);
 			if (args.Errors.RTCError)
-				Errors.Add(DeviceError.RTCError);
+				Errors.Add(DeviceError.RTC);
+		}
+
+		public ErrorsChangedEventArgs(ResursNetwork.OSI.ApplicationLayer.NetworkControllerErrorOccuredEventArgs args)
+			: this()
+		{
+			DeviceUID = args.Id;
+			if (args.Errors.PortError)
+				Errors.Add(DeviceError.Port);
 		}
 	}
 }

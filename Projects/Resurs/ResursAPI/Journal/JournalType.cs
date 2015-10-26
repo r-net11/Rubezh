@@ -34,5 +34,11 @@ namespace ResursAPI
 		AddTariff,
 		[Description("Удалениe тарифа")]
 		DeleteTariff,
+		[Description("Редактированиe пополнения баланса")]
+		EditDeposit,
+		[Description("Пополнение баланса")]
+		AddDeposit,
+		[Description("Удалениe пополнения баланса")]
+		DeleteDeposit,
 	}
 }

@@ -318,14 +318,16 @@ namespace ResursNetwork.Networks
 		public void SendCommand(Guid id, string commandName)
 		{
 			var controller = FindController(id);
-			
 			if (controller != null)
 			{
 				controller.ExecuteCommand(commandName);
 			}
-
-			var device = FindDevice(id);
-			device.ExecuteCommand(commandName);
+			else
+			{
+				var device = FindDevice(id);
+				if(device != null)
+					device.ExecuteCommand(commandName);
+			}
 		}
 		
 		/// <summary>

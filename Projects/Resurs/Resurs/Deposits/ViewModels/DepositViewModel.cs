@@ -49,12 +49,24 @@ namespace Resurs.ViewModels
 			}
 		}
 
+		string _name;
+		public string Name
+		{
+			get { return _name; }
+			set
+			{
+				_name = value;
+				OnPropertyChanged(() => Name);
+			}
+		}
+
 		public void Update(Deposit deposit)
 		{
 			Deposit = deposit;
 			Moment = deposit.Moment;
 			Amount = deposit.Amount;
 			Description = deposit.Description;
+			Name = deposit.Name;
 		}
 	}
 }

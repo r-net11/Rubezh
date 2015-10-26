@@ -19,6 +19,7 @@ namespace Resurs.ViewModels
 		public Guid UID { get; private set; }
 		public Guid ConsumerUID { get; private set; }
 		public Consumer Consumer { get; private set; }
+		public string Name { get; private set; }
 
 		DateTime _moment;
 		public DateTime Moment
@@ -61,6 +62,7 @@ namespace Resurs.ViewModels
 			Moment = deposit.Moment;
 			Amount = deposit.Amount;
 			Description = deposit.Description;
+			Name = deposit.Name;
 		}
 
 		public Deposit GetDeposit()
@@ -72,7 +74,8 @@ namespace Resurs.ViewModels
 				Consumer = this.Consumer,
 				Moment = this.Moment,
 				Amount = this.Amount,
-				Description = this.Description
+				Description = this.Description,
+				Name = this.Name
 			};
 		}
 	}

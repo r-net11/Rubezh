@@ -9,10 +9,12 @@ namespace Resurs
 	public enum DeviceError
 	{
 		[Description("Потеря связи")]
-		CommunicationError,
+		Communication,
 		[Description("Ошибка конфигурации ")]
-		ConfigurationError,
+		Configuration,
 		[Description("Часы не исправны")]
-		RTCError
+		RTC,
+		[Description("Ошибка COM-порта")]
+		Port
 	}
 }

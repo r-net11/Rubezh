@@ -119,9 +119,9 @@
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
 			</TabItem>
-			<TabItem Header="Управление" Visibility="{Binding HasCommands, Converter={StaticResource BoolToVisibilityConverter}}">
+			<TabItem Header="Управление" Visibility="{Binding HasCommands, Converter={StaticResource BoolToVisibilityConverter}}" >
 				<Grid Background="{StaticResource WindowBackgroundBrush}" >
-					<ItemsControl ItemsSource="{Binding Commands}" Margin="2">
+					<ItemsControl ItemsSource="{Binding Commands}" Margin="2" IsEnabled="{Binding Device.IsActive}">
 						<ItemsControl.ItemsPanel>
 							<ItemsPanelTemplate>
 								<WrapPanel MaxWidth="{Binding ActualWidth, ElementName=userControl}" Orientation="Horizontal"  />
