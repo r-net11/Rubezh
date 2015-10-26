@@ -6,9 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
 using System.Windows.Media;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using GKWebService.Models;
 using Infrastructure.Common.Services.Content;
 using Infrustructure.Plans.Elements;
@@ -41,7 +41,7 @@ namespace GKWebService.DataProviders
 		#region plan loading
 
 		public void LoadPlans() {
-			var plans = FiresecManager.PlansConfiguration.Plans;
+			var plans = ClientManager.PlansConfiguration.Plans;
 
 			Plans = new List<PlanSimpl>();
 
