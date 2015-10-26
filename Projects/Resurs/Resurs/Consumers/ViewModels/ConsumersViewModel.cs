@@ -97,7 +97,9 @@ namespace Resurs.ViewModels
 			}, false, true);
 			if (DialogService.ShowModalWindow(consumerDetailsViewModel))
 			{
-				var consumerViewModel = new ConsumerViewModel(consumerDetailsViewModel.GetConsumer());
+				var consumer = consumerDetailsViewModel.GetConsumer();
+				DBCash.SaveConsumer(consumer);
+				var consumerViewModel = new ConsumerViewModel(consumer);
 				if (SelectedConsumer.Consumer.IsFolder)
 				{
 					SelectedConsumer.AddChild(consumerViewModel);
@@ -152,7 +154,7 @@ namespace Resurs.ViewModels
 				var newConsumer = SelectedConsumer.Consumer.IsFolder ?
 					((ConsumersFolderDetailsViewModel)dialogViewModel).GetConsumer() :
 					((ConsumerDetailsViewModel)dialogViewModel).GetConsumer();
- 
+				DBCash.SaveConsumer(newConsumer);
 				SelectedConsumer.Update(newConsumer);
 				DBCash.AddJournalForUser(JournalType.EditConsumer, newConsumer);
 				UpdateDeviceViewModels(oldConsumer, newConsumer);

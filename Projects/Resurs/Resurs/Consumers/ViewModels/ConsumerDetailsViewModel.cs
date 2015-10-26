@@ -20,8 +20,8 @@ namespace Resurs.ViewModels
 
 		public bool IsReadOnly { get; private set; }
 
-		public Guid Uid { get; private set; }
-		public Guid? ParentUid { get; private set; }
+		public Guid UID { get; private set; }
+		public Guid? ParentUID { get; private set; }
 
 		int _selectedTabIndex;
 		public int SelectedTabIndex
@@ -36,8 +36,8 @@ namespace Resurs.ViewModels
 
 		public void Update(Consumer consumer)
 		{
-			Uid = consumer.UID;
-			ParentUid = consumer.ParentUID;
+			UID = consumer.UID;
+			ParentUID = consumer.ParentUID;
 			Name = consumer.Name;
 			Address = consumer.Address;
 			Description = consumer.Description;
@@ -62,10 +62,10 @@ namespace Resurs.ViewModels
 				IsSendEmail = this.IsSendEmail,
 				Login = this.Login,
 				Name = this.Name,
-				ParentUID = this.ParentUid,
+				ParentUID = this.ParentUID,
 				Password = this.Password,
 				Phone = this.Phone,
-				UID = this.Uid,
+				UID = this.UID,
 				Number = this.Number,
 				Balance = this.Balance,
 				Devices = this.Devices.Select(x => x.Device).ToList()
@@ -74,9 +74,6 @@ namespace Resurs.ViewModels
 
 		protected override bool Save()
 		{
-			var consumer = GetConsumer();
-			DBCash.SaveConsumer(consumer);
-			
 			return base.Save();
 		}
 	}

@@ -39,7 +39,7 @@ namespace Resurs
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Users/DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "JournalEvents/DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Tariffs/DataTemplates/Dictionary.xaml"));
-				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Bills/DataTemplates/Dictionary.xaml"));
+				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Deposits/DataTemplates/Dictionary.xaml"));
 				try
 				{
 					App.Current.ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown;

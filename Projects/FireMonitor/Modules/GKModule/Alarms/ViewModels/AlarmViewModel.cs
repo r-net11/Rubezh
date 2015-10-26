@@ -72,7 +72,7 @@ namespace GKModule.ViewModels
 				if (Alarm.Delay != null)
 					return "/Controls;component/Images/Delay.png";
 				if (Alarm.Mpt != null)
-					return "/Controls;component/Images/Mpt.png";
+					return "/Controls;component/Images/BMpt.png";
 				return null;
 			}
 		}
