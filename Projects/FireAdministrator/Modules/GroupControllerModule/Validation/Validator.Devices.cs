@@ -79,7 +79,7 @@ namespace GKModule.Validation
 				if (device.DriverType == GKDriverType.System || device.DriverType == GKDriverType.GK || !device.Driver.HasAddress || device.Driver.IsAutoCreate || device.Driver.IsGroupDevice)
 					continue;
 
-				if (!deviceAddresses.Add(device.DottedAddress))
+				if (!deviceAddresses.Add(device.DottedPresentationAddress))
 				{
 					AddError(device, "Дублируется адрес устройства", ValidationErrorLevel.CannotWrite);
 				}
