@@ -55,6 +55,7 @@ namespace FiresecService.Report.Templates
 						dataRow.FirstEnterLastExit = scheduleResult.Result.IsOnlyFirstEnter;
 						dataRow.Delay = scheduleResult.Result.AllowedLate;
 						dataRow.LeaveBefore = scheduleResult.Result.AllowedLate;
+						//TODO: Fill allowed absence and overtime
 
 						var scheduleSchemeResult = dataProvider.DatabaseService.ScheduleSchemeTranslator.GetSingle(scheduleResult.Result.ScheduleSchemeUID);
 						if (scheduleSchemeResult.Result != null)

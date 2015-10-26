@@ -40,28 +40,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		ObservableCollection<DayIntervalPartTransitionType> _availableTransitions;
-		public ObservableCollection<DayIntervalPartTransitionType> AvailableTransitions
-		{
-			get { return _availableTransitions; }
-			set
-			{
-				_availableTransitions = value;
-				OnPropertyChanged(() => AvailableTransitions);
-			}
-		}
-
-		DayIntervalPartTransitionType _selectedTransition;
-		public DayIntervalPartTransitionType SelectedTransition
-		{
-			get { return _selectedTransition; }
-			set
-			{
-				_selectedTransition = value;
-				OnPropertyChanged(() => SelectedTransition);
-			}
-		}
-
 		#endregion
 
 		#region Constructors
@@ -84,10 +62,8 @@ namespace SKDModule.ViewModels
 			}
 			DayIntervalPart = dayIntervalPart;
 
-			AvailableTransitions = new ObservableCollection<DayIntervalPartTransitionType>(Enum.GetValues(typeof(DayIntervalPartTransitionType)).OfType<DayIntervalPartTransitionType>());
 			BeginTime = dayIntervalPart.BeginTime;
 			EndTime = dayIntervalPart.EndTime;
-			SelectedTransition = dayIntervalPart.TransitionType;
 		}
 		#endregion
 
@@ -96,9 +72,10 @@ namespace SKDModule.ViewModels
 		{
 			if (!Validate())
 				return false;
-			DayIntervalPart.BeginTime = BeginTime;
-			DayIntervalPart.EndTime = EndTime;
-			DayIntervalPart.TransitionType = SelectedTransition;
+
+			DayIntervalPart.BeginTime = BeginTime > EndTime ? EndTime : BeginTime;
+			DayIntervalPart.EndTime = BeginTime > EndTime ? BeginTime : EndTime;
+			DayIntervalPart.TransitionType = BeginTime < EndTime ? DayIntervalPartTransitionType.Day : DayIntervalPartTransitionType.Night;
 			return true;
 		}
 		#endregion
@@ -174,11 +151,10 @@ namespace SKDModule.ViewModels
 			}
 			if (_isNew)
 			{
-				var newEmployeeDayIntervalPart = new DayIntervalPart()
+				var newEmployeeDayIntervalPart = new DayIntervalPart
 				{
 					BeginTime = BeginTime,
 					EndTime = EndTime,
-					TransitionType = SelectedTransition,
 					DayIntervalUID = _dayInterval.UID,
 				};
 				dayIntervalParts.Add(newEmployeeDayIntervalPart);
@@ -190,7 +166,6 @@ namespace SKDModule.ViewModels
 				{
 					deitingDayIntervalPart.BeginTime = BeginTime;
 					deitingDayIntervalPart.EndTime = EndTime;
-					deitingDayIntervalPart.TransitionType = SelectedTransition;
 				}
 			}
 			return dayIntervalParts;

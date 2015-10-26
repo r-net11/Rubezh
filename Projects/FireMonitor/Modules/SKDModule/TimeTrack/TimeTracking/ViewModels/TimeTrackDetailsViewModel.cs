@@ -136,16 +136,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public TimeSpan PresenceInBreakTimeSpan
-		{
-			get
-			{
-				if (DayTimeTrack == null || DayTimeTrack.Totals == null) return default(TimeSpan);
-				var presInBreak = DayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.PresenceInBrerak);
-				return presInBreak != null ? presInBreak.TimeSpan : default(TimeSpan);
-			}
-		}
-
 		public TimeSpan LateTimeSpan
 		{
 			get

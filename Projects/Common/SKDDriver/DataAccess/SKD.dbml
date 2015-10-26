@@ -259,6 +259,12 @@
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="AllowedAbsentLowThan" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NotAllowOvertimeLowerThan" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsEnabledAllowLate" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsEnabledAllowEarlyLeave" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsAllowAbsent" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsEnabledOvertime" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="Schedule_ScheduleZone" Member="ScheduleZones" ThisKey="UID" OtherKey="ScheduleUID" Type="ScheduleZone" />
       <Association Name="Schedule_Employee" Member="Employees" ThisKey="UID" OtherKey="ScheduleUID" Type="Employee" />
       <Association Name="Organisation_Schedule" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
@@ -408,7 +414,7 @@
       <Column Name="DeactivationControllerUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="UserTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ExternalKey" Type="System.String" DbType="NVarChar(40) NOT NULL" CanBeNull="false" />
-      <Column Member="IsHandicappedCard" Type="System.Boolean" CanBeNull="false" />
+      <Column Name="IsHandicappedCard" Type="System.Boolean" CanBeNull="false" />
       <Association Name="Card_CardDoor" Member="CardDoors" ThisKey="UID" OtherKey="CardUID" Type="CardDoor" />
       <Association Name="Card_PendingCard" Member="PendingCards" ThisKey="UID" OtherKey="CardUID" Type="PendingCard" />
       <Association Name="AccessTemplate_Card" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />

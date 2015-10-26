@@ -17,9 +17,6 @@
 	mc:Ignorable="d">
 	<UserControl.Resources>
 		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
-			</ResourceDictionary.MergedDictionaries>
 			<Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 			<Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 			<SolidColorBrush x:Key="WatermarkColor" Color="LightGray"/>
@@ -30,7 +27,7 @@
 			</CollectionViewSource>
 		</ResourceDictionary>
 	</UserControl.Resources>
-	<Grid Background="{StaticResource BaseWindowBackgroundBrush}">
+	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="*" />

@@ -1616,3 +1616,33 @@ BEGIN
 ALTER TABLE [Card] ADD [IsHandicappedCard] bit NOT NULL DEFAULT 0
 INSERT INTO Patches (Id) VALUES ('AddIsHandicappedCardColumn')
 END
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddAllowedAbsentLowThan')
+BEGIN
+ALTER TABLE [Schedule] ADD [AllowedAbsentLowThan] int NOT NULL DEFAULT 0
+INSERT INTO Patches (Id) VALUES ('AddAllowedAbsentLowThan')
+END
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddNotAllowOvertimeLowerThan')
+BEGIN
+ALTER TABLE [Schedule] ADD [NotAllowOvertimeLowerThan] int NOT NULL DEFAULT 0
+INSERT INTO Patches (Id) VALUES ('AddNotAllowOvertimeLowerThan')
+END
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsEnabledAllowLate')
+BEGIN
+	ALTER TABLE [Schedule] ADD [IsEnabledAllowLate] bit NOT NULL DEFAULT 0
+	INSERT INTO Patches (Id) VALUES ('AddIsEnabledAllowLate') 
+END
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsEnabledAllowEarlyLeave')
+BEGIN
+	ALTER TABLE [Schedule] ADD [IsEnabledAllowEarlyLeave] bit NOT NULL DEFAULT 0
+	INSERT INTO Patches (Id) VALUES ('AddIsEnabledAllowEarlyLeave')
+END
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsAllowAbsent')
+BEGIN
+	ALTER TABLE [Schedule] ADD [IsAllowAbsent] bit NOT NULL DEFAULT 0
+	INSERT INTO Patches (Id) VALUES ('AddIsAllowAbsent')
+END
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsEnabledOvertime')
+BEGIN 
+	ALTER TABLE [Schedule] ADD [IsEnabledOvertime] bit NOT NULL DEFAULT 0
+	INSERT INTO Patches (Id) VALUES ('AddIsEnabledOvertime')
+END

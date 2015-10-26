@@ -15,7 +15,7 @@
 			<BitmapImage x:Key="HelpImage" UriSource="pack://application:,,,/Controls;component/Images/Help.png" />
 		</ResourceDictionary>
 	</UserControl.Resources>
-    <Grid Background="{StaticResource BackgroundBrush}">
+    <Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="0.2*" />
 			<ColumnDefinition />

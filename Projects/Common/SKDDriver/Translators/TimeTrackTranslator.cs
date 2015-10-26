@@ -181,12 +181,14 @@ namespace SKDDriver.Translators
 				dayTimeTrack.NightSettings = nightSettings;
 				dayTimeTrack.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
 				dayTimeTrack.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
-				dayTimeTrack.AllowedLate = TimeSpan.FromSeconds(schedule.AllowedLate);
-				dayTimeTrack.AllowedEarlyLeave = TimeSpan.FromSeconds(schedule.AllowedEarlyLeave);
+				dayTimeTrack.AllowedLate = schedule.AllowedLate;
+				dayTimeTrack.AllowedEarlyLeave = schedule.AllowedEarlyLeave;
+				dayTimeTrack.AllowedAbsentLowThan = schedule.AllowedAbsentLowThan;
+				dayTimeTrack.NotAllowOvertimeLowerThan = schedule.NotAllowOvertimeLowerThan;
 
 				var realDate = date;
 				var ignoreHolidays = false;
-				var holiday = Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)HolidayType.WorkingHoliday && x.OrganisationUID == employee.OrganisationUID && !x.IsDeleted);
+				var holiday = Holidays.FirstOrDefault(x => x.Date == date && x.OrganisationUID == employee.OrganisationUID && !x.IsDeleted);
 				if (holiday != null)
 				{
 					if (holiday.TransferDate.HasValue)
@@ -337,6 +339,8 @@ namespace SKDDriver.Translators
 					{
 						result.TimeTrackParts.Remove(lastTimeTrack);
 					}
+
+					result.SlideTime -= reductionTimeSpan;
 				}
 			}
 

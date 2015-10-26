@@ -1,5 +1,4 @@
-﻿using System.Data.SqlTypes;
-using Common;
+﻿using Common;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using LinqKit;
@@ -7,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SKDDriver.DataAccess;
+using Employee = SKDDriver.DataAccess.Employee;
 using EmployeeDay = FiresecAPI.SKD.EmployeeDay;
 using OperationResult = FiresecAPI.OperationResult;
 
@@ -490,12 +490,7 @@ namespace SKDDriver.Translators
 
 			var intervalsCollection = new List<PassJournal>();
 
-			var firstdayOfCurrentMonth = new DateTime(date.Year, date.Month, 1);
-			if(date.Date == firstdayOfCurrentMonth)
-				intervalsCollection = passJournals
-					.Where(x => x.EmployeeUID == employee.UID)
-					.Where(x => (x.EnterTime < date.Date && !x.ExitTime.HasValue) || (x.EnterTime < date.Date && x.ExitTime.HasValue && x.ExitTime.Value.Date >= date.Date))
-					.ToList();
+			intervalsCollection = GetIntervalsFromPreviousMonth(employee, date, passJournals);
 
 			intervalsCollection.AddRange(passJournals.Where(x => x.EmployeeUID == employee.UID && x.EnterTime.Date == date.Date));
 
@@ -526,6 +521,23 @@ namespace SKDDriver.Translators
 			dayTimeTrack.RealTimeTrackParts = dayTimeTrack.RealTimeTrackParts.OrderBy(x => x.EnterDateTime.Ticks).ToList();
 
 			return dayTimeTrack;
+		}
+
+		private List<PassJournal> GetIntervalsFromPreviousMonth(Employee employee, DateTime date, IEnumerable<PassJournal> passJournals)
+		{
+			var intervalsCollection = new List<PassJournal>();
+			var firstdayOfCurrentMonth = new DateTime(date.Year, date.Month, 1);
+
+			if (date.Date == firstdayOfCurrentMonth)
+				intervalsCollection = passJournals
+					.Where(x => x.EmployeeUID == employee.UID)
+					.Where(
+						x =>
+							(x.EnterTime < date.Date && !x.ExitTime.HasValue) ||
+							(x.EnterTime < date.Date && x.ExitTime.HasValue && x.ExitTime.Value.Date >= date.Date))
+					.ToList();
+
+			return intervalsCollection;
 		}
 
 		public OperationResult SaveEmployeeDays(List<EmployeeDay> employeeDays)

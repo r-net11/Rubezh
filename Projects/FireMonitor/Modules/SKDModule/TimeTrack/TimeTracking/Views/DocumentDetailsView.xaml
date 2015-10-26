@@ -2,11 +2,20 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-			 MinWidth="600" MinHeight="500">
-	<Grid>
+			 xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
+			 MinWidth="500" MinHeight="350">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+			<SolidColorBrush x:Key="WatermarkColor" Color="LightGray"/>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<Grid Background="{StaticResource BaseWindowBackgroundBrush}">
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -15,11 +24,49 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
+			<RowDefinition />
 		</Grid.RowDefinitions>
-		<TextBlock Grid.Row="0" Grid.Column="0" Text="Оправдательный документ" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="2" />
-		<ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding AvailableDocuments}" SelectedItem="{Binding SelectedDocument}" Margin="2">
+		<TextBlock
+			Text="Номер документа"
+			VerticalAlignment="Center"
+			Margin="5"
+			TextWrapping="Wrap"
+			Foreground="White"/>
+		<TextBox
+			Grid.Column="1"
+			Margin="0 5"
+			Text="{Binding DocumentNumber}"
+			MaxLength="50"
+			VerticalAlignment="Center"/>
+		<TextBlock
+			Grid.Row="1"
+			Text="Дата документа"
+			Margin="5"
+			TextWrapping="Wrap"
+			Foreground="White"
+			VerticalAlignment="Center"/>
+		<DatePicker
+			Grid.Column="1"
+			Grid.Row="1"
+			behaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
+			behaviours:DatePickerCustomWatermark.WatermarkText="Выберите дату"
+			SelectedDate="{Binding DocumentDateTime, UpdateSourceTrigger=PropertyChanged}"
+			Margin="0 5"
+			VerticalAlignment="Center"/>
+		<TextBlock
+			Grid.Row="2"
+			Text="Вид оправдательного документа"
+			Margin="5"
+			Foreground="White"
+			TextWrapping="Wrap"
+			VerticalAlignment="Center"/>
+		<ComboBox
+			Grid.Column="1"
+			Grid.Row="2"
+			Margin="0 5"
+			VerticalAlignment="Center"
+			ItemsSource="{Binding AvailableDocuments}"
+			SelectedItem="{Binding SelectedDocument}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<StackPanel Orientation="Horizontal">
@@ -29,22 +76,74 @@
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-
-		<TextBlock Grid.Row="1" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Foreground="White" Margin="2" />
-		<TextBox Grid.Row="1" Grid.Column="1" MaxLength="50" Text="{Binding Comment}" Margin="2" />
-
-		<TextBlock Grid.Row="2" Grid.Column="0" Text="Номер документа" HorizontalAlignment="Right" Foreground="White" Margin="2" />
-		<TextBox Grid.Row="2" Grid.Column="1" MaxLength="50" Text="{Binding DocumentNumber}" Margin="2" />
-
-		<TextBlock Grid.Row="3" Grid.Column="0" Text="Дата документа" HorizontalAlignment="Right" Foreground="White" Margin="2" />
-		<Calendar Grid.Row="3" Grid.Column="1" DisplayDate="{Binding DocumentDateTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding DocumentDateTime, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
-
-		<Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" Content="Дата начала" />
-		<Calendar Grid.Row="5" Grid.Column="0" DisplayDate="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" IsEnabled="{Binding CanEditStartDateTime}" />
-		<TimePicker Grid.Row="6" Grid.Column="0" HorizontalAlignment="Center" TimeSpan="{Binding StartTime}" />
-
-		<Label Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Content="Дата конца" />
-		<Calendar Grid.Row="5" Grid.Column="1" DisplayDate="{Binding EndDateTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding EndDateTime, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
-		<TimePicker Grid.Row="6" Grid.Column="1" HorizontalAlignment="Center" TimeSpan="{Binding EndTime}" />
+		<TextBlock
+			Grid.Row="3"
+			Margin="5"
+			Text="Тип интервала по документу"
+			TextWrapping="Wrap"
+			VerticalAlignment="Center"
+			Foreground="White"/>
+		<TextBox
+			Grid.Column="1"
+			Grid.Row="3"
+			Margin="0 5"
+			VerticalAlignment="Center"/>
+		<TextBlock
+			Grid.Row="4"
+			Text="Дата и время начала действия документа"
+			Margin="5"
+			VerticalAlignment="Center"
+			TextWrapping="Wrap"
+			Foreground="White"/>
+		<DockPanel
+			Grid.Column="1"
+			Grid.Row="4"
+			Margin="0 5">
+			<DatePicker
+				VerticalAlignment="Center"
+				behaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
+				behaviours:DatePickerCustomWatermark.WatermarkText="Выберите дату"
+				SelectedDate="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}"/>
+			<TimePicker
+				Margin="5 0"
+				TimeSpan="{Binding StartTime}"/>
+		</DockPanel>
+		<TextBlock
+			Grid.Row="5"
+			Margin="5"
+			Text="Дата и время окончания действия документа"
+			TextWrapping="Wrap"
+			Foreground="White"
+			VerticalAlignment="Center"/>
+		<DockPanel
+			Grid.Column="1"
+			Grid.Row="5"
+			Margin="0 5">
+			<DatePicker
+				VerticalAlignment="Center"
+				behaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
+				behaviours:DatePickerCustomWatermark.WatermarkText="Выберите дату"
+				SelectedDate="{Binding EndDateTime, UpdateSourceTrigger=PropertyChanged}"/>
+			<TimePicker
+				Margin="5 0"
+				TimeSpan="{Binding EndTime}" />
+		</DockPanel>
+		<TextBlock
+			Grid.Row="6"
+			Text="Примечание"
+			Foreground="White"
+			TextWrapping="Wrap"
+			Margin="5"
+			VerticalAlignment="Top"/>
+		<TextBox
+			Grid.Column="1"
+			Grid.Row="6"
+			TextWrapping="Wrap"
+			VerticalContentAlignment="Top"
+			MaxLength="50"
+			Text="{Binding Comment}"
+			TextAlignment="Left"
+			AcceptsReturn="True"
+			Margin="0 5"/>
 	</Grid>
 </UserControl>
