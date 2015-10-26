@@ -17,7 +17,7 @@
 			<Conv:SwitchCase Then="Устройство нельзя размещать на плане" When="Prohibit" />
 			<Conv:SwitchCase Then="Устройство уже размещено на плане" When="Single" />
 		</Conv:SwitchConverter>
-		<ContextMenu x:Key="DeviceContextMenu">
+		<ContextMenu x:Key="DeviceContextMenu" >
 			<Controls:IconedMenuItem Command="{Binding CopyCommand}" ImageSource="BCopy" Text="Копировать (Ctrl+C)" />
 			<Controls:IconedMenuItem Command="{Binding CutCommand}" ImageSource="BCut" Text="Вырезать (Ctrl+Х)" />
 			<Controls:IconedMenuItem Command="{Binding PasteCommand}" ImageSource="BPaste" Text="Вставить (Ctrl+V)" />
@@ -33,7 +33,7 @@
                 <Controls:IconedMenuItem Text="Извещательные устройства" Command="{Binding GenerateForDetectorDevicesCommand}" />
                 <Controls:IconedMenuItem Text="Направления" Command="{Binding GenerateDirectionsCommand}" />
             </Controls:IconedMenuItem>
-            <Controls:IconedMenuItem  ImageSource="BPaste" Command="{Binding ShowAccessUserReflectionCommand}" Text="Права чтение/запись" Visibility = "{Binding IsEdit,  Converter={StaticResource BoolToVisibilityConverter}}" />
+            <Controls:IconedMenuItem  ImageSource="BPaste" Command="{Binding ShowAccessUserReflectionCommand}" Text="Права чтение/запись" Visibility="{Binding IsEdit,  Converter={StaticResource BoolToVisibilityConverter}}" />
             <Separator />
 			<Controls:IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить дочернее устройство (Ctrl+N)" />
 			<Controls:IconedMenuItem Command="{Binding AddToParentCommand}" ImageSource="BAddChild" Text="Добавить к родительскому устройству (Ctrl+M)" />
@@ -94,31 +94,41 @@
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<DockPanel ContextMenu="{StaticResource DeviceContextMenu}">
-									<drag:DragDropDecorator AllowSimulateDrag="True" DragCommand="{Binding CreateDragObjectCommand}" DragVisualProvider="{Binding CreateDragVisual}" DynamicCursor="True" IsSource="True">
-										<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" ToolTip="{Binding VisualizationState, Converter={StaticResource Tooltip}}" />
+									<drag:DragDropDecorator AllowSimulateDrag="True" DragCommand="{Binding CreateDragObjectCommand}" DragVisualProvider="{Binding CreateDragVisual}" DynamicCursor="True"
+															IsSource="True">
+										<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}"
+											   ToolTip="{Binding VisualizationState, Converter={StaticResource Tooltip}}" />
 									</drag:DragDropDecorator>
 									<Controls:EditorPresenter>
 										<Controls:EditorPresenter.ViewTemplate>
 											<ControlTemplate>
 												<StackPanel Orientation="Horizontal">
 													<Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="{Binding Driver.ImageSource}" />
-													<TextBlock Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Gray" Text="{Binding Device.ShortName}" Visibility="{Binding IsDisabled, Converter={StaticResource BoolToVisibilityConverter}}" />
-													<TextBlock Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{Binding PropertiesViewModel.DeviceParameterMissmatchType, Converter={StaticResource DeviceParameterMissmatchTypeToColorConverter3}}" Text="{Binding Device.ShortName}" Visibility="{Binding IsDisabled, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+													<TextBlock Text="{Binding Device.ShortName}"
+															   Visibility="{Binding IsDisabled, Converter={StaticResource BoolToVisibilityConverter}}"
+															   Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Gray" />
+													<TextBlock Text="{Binding Device.ShortName}"
+															   Foreground="{Binding PropertiesViewModel.DeviceParameterMissmatchType, Converter={StaticResource DeviceParameterMissmatchTypeToColorConverter3}}"
+															   Visibility="{Binding IsDisabled, Converter={StaticResource InversedBoolToVisibilityConverter}}"
+															   Width="200" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 												</StackPanel>
 											</ControlTemplate>
 										</Controls:EditorPresenter.ViewTemplate>
 										<Controls:EditorPresenter.EditTemplate>
 											<ControlTemplate>
 												<StackPanel Orientation="Horizontal">
-													<ComboBox ItemsSource="{Binding AvailvableDrivers}" SelectedItem="{Binding Driver, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}}">
+													<ComboBox ItemsSource="{Binding AvailvableDrivers}" SelectedItem="{Binding Driver, UpdateSourceTrigger=PropertyChanged}"
+															  Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}}">
 														<ComboBox.ItemTemplate>
 															<DataTemplate>
 																<Controls:IconLabel Foreground="{DynamicResource ForegroundColorDark}" ImageSource="{Binding ImageSource}" Text="{Binding ShortName}" />
 															</DataTemplate>
 														</ComboBox.ItemTemplate>
 													</ComboBox>
-													<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding Driver.ImageSource}" Visibility="{Binding CanChangeDriver, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-													<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Device.ShortName}" Visibility="{Binding CanChangeDriver, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+													<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding Driver.ImageSource}"
+														   Visibility="{Binding CanChangeDriver, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+													<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Device.ShortName}"
+															   Visibility="{Binding CanChangeDriver, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 												</StackPanel>
 											</ControlTemplate>
 										</Controls:EditorPresenter.EditTemplate>
@@ -140,7 +150,8 @@
 									<Controls:EditorPresenter.EditTemplate>
 										<ControlTemplate>
 											<Grid>
-												<Views:AddressEditor Address="{Binding Address}" Device="{Binding Device}" Visibility="{Binding Device.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
+												<Views:AddressEditor Address="{Binding Address}" Device="{Binding Device}"
+																	 Visibility="{Binding Device.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
 												<TextBlock Text="{Binding Address}" Visibility="{Binding Device.CanEditAddress, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 											</Grid>
 										</ControlTemplate>
@@ -156,7 +167,8 @@
 								<Controls:EditorPresenter>
 									<Controls:EditorPresenter.ViewTemplate>
 										<ControlTemplate>
-											<TextBlock Text="{Binding EditingPresentationZone}" Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}" TextWrapping="NoWrap" MinWidth="100" VerticalAlignment="Top" LineHeight="15" Margin="0 3 0 0" Cursor="Hand">
+											<TextBlock Text="{Binding EditingPresentationZone}" Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}"
+													   TextWrapping="NoWrap" MinWidth="100" VerticalAlignment="Top" LineHeight="15" Margin="0 3 0 0" Cursor="Hand">
 												<TextBlock.Style>
 													<Style TargetType="TextBlock">
 														<Style.Triggers>
@@ -193,7 +205,8 @@
 									</Controls:EditorPresenter.ViewTemplate>
 									<Controls:EditorPresenter.EditTemplate>
 										<ControlTemplate>
-											<TextBox Name="projectAddressTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="{DynamicResource ForegroundColorDark}" Text="{Binding ProjectAddress, UpdateSourceTrigger=PropertyChanged}" />
+											<TextBox Name="projectAddressTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="{DynamicResource ForegroundColorDark}"
+													 Text="{Binding ProjectAddress, UpdateSourceTrigger=PropertyChanged}" />
 											<ControlTemplate.Triggers>
 												<Trigger SourceName="projectAddressTextBox" Property="IsVisible" Value="True">
 													<Setter TargetName="projectAddressTextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=projectAddressTextBox}" />
@@ -217,7 +230,8 @@
 									</Controls:EditorPresenter.ViewTemplate>
 									<Controls:EditorPresenter.EditTemplate>
 										<ControlTemplate>
-											<TextBox Name="descriptionTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="{DynamicResource ForegroundColorDark}" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+											<TextBox Name="descriptionTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="{DynamicResource ForegroundColorDark}"
+													 Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
 											<ControlTemplate.Triggers>
 												<Trigger SourceName="descriptionTextBox" Property="IsVisible" Value="True">
 													<Setter TargetName="descriptionTextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=descriptionTextBox}" />
@@ -357,7 +371,7 @@
 
 						<StackPanel Orientation="Horizontal" Visibility="{Binding IsInMPT, Converter={StaticResource BoolToVisibilityConverter}}">
 							<TextBlock Width="120" Margin="2 2 5 2" Foreground="{DynamicResource ForegroundColorLight}" Text="МПТ " />
-							
+
 							<TextBlock VerticalAlignment="Center">
 								<Hyperlink Command="{Binding ShowMPTCommand}" Style="{StaticResource HyperlinkStyle}">
 									<StackPanel Orientation="Horizontal">
