@@ -4,6 +4,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
 using RubezhAPI.GK;
 using RubezhClient;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -30,6 +32,16 @@ namespace GKModule.ViewModels
 				Zone = zone;
 			}
 			CopyProperties();
+
+			var availableNames = new HashSet<string>();
+			var availableDescriptions = new HashSet<string>();
+			foreach (var existingSKDZone in GKManager.SKDZones)
+			{
+				availableNames.Add(existingSKDZone.Name);
+				availableDescriptions.Add(existingSKDZone.Description);
+			}
+			AvailableNames = new ObservableCollection<string>(availableNames);
+			AvailableDescriptions = new ObservableCollection<string>(availableDescriptions);
 		}
 
 		public void CopyProperties()
@@ -101,5 +113,9 @@ namespace GKModule.ViewModels
 			Zone.Description = Description;
 			return true;
 		}
+
+		public ObservableCollection<string> AvailableNames { get; set; }
+
+		public ObservableCollection<string> AvailableDescriptions { get; set; }
 	}
 }

@@ -1,8 +1,9 @@
 ﻿<UserControl x:Class="GKModule.Views.SKDZoneDetailsView"
-			xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-			MinWidth="600" MinHeight="300">
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+			 xmlns:controls="clr-namespace:Controls;assembly=Controls"
+			 MinWidth="600" MinHeight="300">
 
 	<TabControl>
 		<TabItem Header="Основные">
@@ -20,17 +21,25 @@
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
 				<TextBlock Grid.Row="1" Grid.Column="0" Text="Наименование" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<TextBox Name="nameTextBox" Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" >
-					<TextBox.Style>
+				<controls:XAutoCompleteBox Grid.Row="1" Grid.Column="1" 
+										   Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+										   ItemsSource="{Binding AvailableNames}" 
+										   IsTextCompletionEnabled="False"
+										   Margin="2">
+					<controls:XAutoCompleteBox.TextBoxStyle>
 						<Style TargetType="TextBox">
 							<Setter Property="MaxLength" Value="20" />
 							<Setter Property="ContextMenu" Value="{x:Null}" />
 						</Style>
-					</TextBox.Style>
-				</TextBox>
+					</controls:XAutoCompleteBox.TextBoxStyle>
+				</controls:XAutoCompleteBox>
 
 				<TextBlock Grid.Row="2" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				<controls:XAutoCompleteBox Grid.Row="2" Grid.Column="1" 
+										   Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+										   ItemsSource="{Binding AvailableDescriptions}"
+										   IsTextCompletionEnabled="False"
+										   Margin="2" />
 			</Grid>
 		</TabItem>
 	</TabControl>
