@@ -44,6 +44,21 @@ namespace ChinaSKDDriver
 					DeviceType = outResult.szDevType,
 					SoftwareVersion = outResult.szSoftWareVersion
 				};
+				
+				// Переопределяем тип устройства полученный с контроллера, на принятый в A.C.Tech
+				switch (deviceSoftwareInfo.DeviceType.ToUpper())
+				{
+					case "BSC1202B":
+						deviceSoftwareInfo.DeviceType = "SR-NC004";
+						break;
+					case "BSC1201B":
+						deviceSoftwareInfo.DeviceType = "SR-NC002";
+						break;
+					case "BSC1221A":
+						deviceSoftwareInfo.DeviceType = "SR-NC101";
+						break;
+				}
+
 				try
 				{
 					if (outResult.dwSoftwareBuildDate_Year > 0 && outResult.dwSoftwareBuildDate_Month > 0 && outResult.dwSoftwareBuildDate_Day > 0)
