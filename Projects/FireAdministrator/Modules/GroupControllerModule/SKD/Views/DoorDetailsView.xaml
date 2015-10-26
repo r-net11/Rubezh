@@ -27,10 +27,11 @@
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
 				<TextBlock Grid.Row="1" Grid.Column="0" Text="Наименование" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<controls:XAutoCompleteBox Grid.Row="1" Grid.Column="1" Margin="2"
+				<controls:XAutoCompleteBox Grid.Row="1" Grid.Column="1" 
 										   Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
 										   ItemsSource="{Binding AvailableNames}"
-										   IsTextCompletionEnabled="True">
+										   IsTextCompletionEnabled="False"
+										   Margin="2">
 					<controls:XAutoCompleteBox.TextBoxStyle>
 						<Style TargetType="TextBox">
 							<Setter Property="MaxLength" Value="20" />
@@ -40,10 +41,11 @@
 				</controls:XAutoCompleteBox>
 
 				<TextBlock Grid.Row="2" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<controls:XAutoCompleteBox Grid.Row="2" Grid.Column="1" Margin="2"
+				<controls:XAutoCompleteBox Grid.Row="2" Grid.Column="1" 
 										   Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
 										   ItemsSource="{Binding AvailableDescription}"
-										   IsTextCompletionEnabled="True" />
+										   IsTextCompletionEnabled="False"
+										   Margin="2" />
 
 				<TextBlock Grid.Row="3" Grid.Column="0" Text="Тип" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding AvailableDoorTypes}" SelectedItem="{Binding SelectedDoorType}" Margin="2">
