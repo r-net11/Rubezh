@@ -27,9 +27,9 @@ namespace FiresecService.Processor
 					waitHandler.Set();
 
 				if (FiresecLicenseManager.CurrentLicenseInfo.LicenseMode == LicenseMode.HasLicense)
-					GKProcessorManager.AddGKMessage(JournalEventNameType.Лицензия_обнаружена, JournalEventDescriptionType.NULL, "", null, null);
+					FiresecService.Service.FiresecService.InsertJournalMessage(JournalEventNameType.Лицензия_обнаружена, null, JournalEventDescriptionType.NULL);
 				else
-					GKProcessorManager.AddGKMessage(JournalEventNameType.Отсутствует_лицензия, JournalEventDescriptionType.NULL, "", null, null);
+					FiresecService.Service.FiresecService.InsertJournalMessage(JournalEventNameType.Отсутствует_лицензия, null, JournalEventDescriptionType.NULL);
 				DiagnosticsManager.Add("LicenseMode=" + FiresecLicenseManager.CurrentLicenseInfo.LicenseMode);
 			}
 			FiresecService.Service.FiresecService.NotifyConfigurationChanged();

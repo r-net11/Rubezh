@@ -21,7 +21,7 @@
 					<DataGrid.Resources>
 						<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 							<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" 
-										  MouseAction="LeftDoubleClick"/>
+										  MouseAction="LeftDoubleClick" />
 						</InputBindingCollection>
 					</DataGrid.Resources>
 					<DataGrid.ItemContainerStyle>
@@ -34,8 +34,8 @@
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
-										<Grid Margin="1 0 0 0" Width="16" Background="{DynamicResource Blue_Direction}" VerticalAlignment="Center" />
-										<TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding Direction.No}" VerticalAlignment="Center" />
+										<Grid Margin="1 0 0 0" Width="16" Height="16" Background="{DynamicResource Blue_Direction}" VerticalAlignment="Center" />
+										<TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding Delay.No}" VerticalAlignment="Center" />
 									</StackPanel>
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>

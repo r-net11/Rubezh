@@ -75,8 +75,8 @@
 					<Button Content="Квитанция" Command="{Binding ShowReceiptCommand}" Margin="2" Visibility="{Binding BillsViewModel.IsSelectionMode, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 				</StackPanel>
 				<StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" >
-					<Button Content="Пополнить" MinWidth="100" Margin="2" />
-					<Button Content="История" MinWidth="100" Margin="2" />
+					<Button Content="Пополнить" Command="{Binding AddDepositCommand}" MinWidth="100" Margin="2" />
+					<Button Content="История" Command="{Binding ShowDepositsCommand}" MinWidth="100" Margin="2" />
 				</StackPanel>
 				<ScrollViewer Grid.Row="1" Grid.RowSpan="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 					<StackPanel>

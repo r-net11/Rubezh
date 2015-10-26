@@ -58,26 +58,22 @@ namespace JournalModule.ViewModels
 				{
 					filter.JournalSubsystemTypes.Add(rootFilter.JournalSubsystemType);
 				}
-				else
+				foreach (var filterViewModel in rootFilter.Children)
 				{
-					foreach (var filterViewModel in rootFilter.Children)
+					if (filterViewModel.IsChecked)
 					{
-					    if (filterViewModel.IsChecked)
-					    {
-					        filter.JournalEventNameTypes.Add(filterViewModel.JournalEventNameType);
-					    }
-					    else
-					    {
-                            foreach (var descriptionViewModel in filterViewModel.Children)
-                            {
-                                if (descriptionViewModel.IsChecked)
-                                {
-                                    filter.JournalEventDescriptionTypes.Add(descriptionViewModel.JournalEventDescriptionType);
-                                }
-                            }
-					    }
+						filter.JournalEventNameTypes.Add(filterViewModel.JournalEventNameType);
 					}
-                   
+					else
+					{
+						foreach (var descriptionViewModel in filterViewModel.Children)
+						{
+							if (descriptionViewModel.IsChecked)
+							{
+								filter.JournalEventDescriptionTypes.Add(descriptionViewModel.JournalEventDescriptionType);
+							}
+						}
+					}
 				}
 			}
 			return filter;

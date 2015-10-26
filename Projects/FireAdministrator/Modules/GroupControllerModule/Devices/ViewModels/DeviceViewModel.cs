@@ -54,6 +54,8 @@ namespace GKModule.ViewModels
 			GenerateForPerformersDevicesCommand = new RelayCommand(GenerateForPerformersDevices);
 			GenerateMPTCommand = new RelayCommand(GenerateMPTs);
 			ShowAccessUserReflectionCommand = new RelayCommand(ShowAccessUserReflection);
+			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
+			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
 
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
@@ -977,7 +979,45 @@ namespace GKModule.ViewModels
 		public RelayCommand CopyCommand { get { return DevicesViewModel.Current.CopyCommand; } }
 		public RelayCommand CutCommand { get { return DevicesViewModel.Current.CutCommand; } }
 		public RelayCommand PasteCommand { get { return DevicesViewModel.Current.PasteCommand; } }
-		public RelayCommand CopyLogicCommand { get { return DevicesViewModel.Current.CopyLogicCommand; } }
-		public RelayCommand PasteLogicCommand { get { return DevicesViewModel.Current.PasteLogicCommand; } }
+		public RelayCommand CopyLogicCommand { get; private set; }
+		public RelayCommand PasteLogicCommand { get; private set; }
+		void OnCopyLogic()
+		{
+			var hasOnClause = Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOn_InManual);
+			var hasOnNowClause = Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOnNow_InManual);
+			var hasOffClause = Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOff_InManual);
+			var hasOffNowClause = Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOffNow_InManual);
+			var hasStopClause = Device.DriverType == GKDriverType.RSR2_Valve_DU || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV;
+			GKManager.CopyLogic(Device.Logic, hasOnClause, hasOnNowClause, hasOffClause, hasOffNowClause, hasStopClause);
+		}
+		bool CanCopyLogic()
+		{
+			return Device.Driver.HasLogic;
+		}
+
+		void OnPasteLogic()
+		{
+			var hasOnClause = Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOn_InManual);
+			var hasOnNowClause = Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOnNow_InManual);
+			var hasOffClause = Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOff_InManual);
+			var hasOffNowClause = Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOffNow_InManual);
+			var hasStopClause = Device.DriverType == GKDriverType.RSR2_Valve_DU || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV;
+
+			var result = GKManager.CompareLogic(new GKAdvancedLogic(hasOnClause, hasOnNowClause, hasOffClause, hasOffNowClause, hasStopClause));
+			var messageBoxResult = true;
+			if (!String.IsNullOrEmpty(result))
+				messageBoxResult = MessageBoxService.ShowConfirmation(result, "Копировать логику?");
+			if (messageBoxResult)
+			{
+				Device.Logic = GKManager.PasteLogic(new GKAdvancedLogic(hasOnClause, hasOnNowClause, hasOffClause, hasOffNowClause, hasStopClause));
+				Device.Invalidate();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+		bool CanPasteLogic()
+		{
+			return Device.Driver.HasLogic && GKManager.LogicToCopy != null;
+		}
+
 	}
 }

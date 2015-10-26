@@ -33,3 +33,4 @@ _ReSharper*/
 ClientAPI.Test/
 !DeviceInfos/*
 !Projects/Tools/MakeDeviceModel/bin/Debug/DeviceInfos/*
+Projects/Resurs/UinitTestResursNetwork/FakesAssemblies/*

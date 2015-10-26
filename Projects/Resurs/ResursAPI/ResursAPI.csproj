@@ -58,6 +58,7 @@
     <Compile Include="Journal\Journal.cs" />
     <Compile Include="Journal\StateType.cs" />
     <Compile Include="Models\CommandNames\CommandNamesIncotexNetworkControllerVirtual.cs" />
+    <Compile Include="Models\Deposit.cs" />
     <Compile Include="Models\CommandNames\CommandNamesMercury203.cs" />
     <Compile Include="Models\CommandNames\CommandNamesMercury203Virtual.cs" />
     <Compile Include="Models\DeviceErrors.cs" />

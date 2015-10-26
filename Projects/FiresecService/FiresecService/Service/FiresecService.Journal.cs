@@ -18,7 +18,21 @@ namespace FiresecService.Service
 		#region Add
 		void AddJournalMessage(JournalEventNameType journalEventNameType, string objectName, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL, string userName = null, Guid? uid = null)
 		{
-			var journalItem = new JournalItem()
+			var journalItem = CreateJournalItem(journalEventNameType, objectName, journalEventDescriptionType, uid); 
+			journalItem.UserName = userName != null ? userName : UserName;
+			AddCommonJournalItems(new List<JournalItem>() { journalItem });
+		}
+
+		public static void InsertJournalMessage(JournalEventNameType journalEventNameType, string objectName, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL, string userName = null, Guid? uid = null)
+		{
+			var journalItem = CreateJournalItem(journalEventNameType, objectName, journalEventDescriptionType, uid);
+			journalItem.UserName = userName;
+			AddCommonJournalItems(new List<JournalItem>() { journalItem });
+		}
+
+		static JournalItem CreateJournalItem(JournalEventNameType journalEventNameType, string objectName, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL, Guid? uid = null)
+		{
+			return new JournalItem()
 			{
 				SystemDateTime = DateTime.Now,
 				JournalEventNameType = journalEventNameType,
@@ -28,16 +42,6 @@ namespace FiresecService.Service
 				ObjectUID = uid != null ? uid.Value : Guid.Empty,
 				ObjectName = objectName,
 			};
-			if (userName != null)
-			{
-				journalItem.UserName = userName;
-			}
-			else
-			{
-				journalItem.UserName = UserName;
-			}
-
-			AddCommonJournalItems(new List<JournalItem>() { journalItem });
 		}
 
 		public static void AddCommonJournalItems(List<JournalItem> journalItems)

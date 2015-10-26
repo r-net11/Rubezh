@@ -43,6 +43,8 @@
 						   Command="{Binding SetActiveCommand}" Visibility="{Binding SelectedDevice.IsActive, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 			<ToolBarButton ToolTip="Выключить" ImageSource="Pause" 
 						   Command="{Binding UnSetActiveCommand}" Visibility="{Binding SelectedDevice.IsActive, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<ToolBarButton ToolTip="Синхронизация времени" ImageSource="Watch" 
+						   Command="{Binding SyncDateTimeCommand}" />
 		</StackPanel>
 		<tree:TreeList Grid.Row="1" Grid.Column="0" Source="{Binding RootDevices}" SelectedTreeNode="{Binding SelectedDevice}" ItemActivatedCommand="{Binding EditCommand}"
 				Focusable="True" tree:SortBehavior.CanUserSortColumns="True">

@@ -24,7 +24,14 @@ namespace Resurs.ViewModels
 			AddDeviceCommand = new RelayCommand(OnAddDevice);
 			RemoveDeviceCommand = new RelayCommand<DeviceViewModel>(OnRemoveDevice);
 			SelectDeviceCommand = new RelayCommand<Guid>(OnSelectDevice);
+			AddDepositCommand = new RelayCommand(OnAddDeposit);
+			ShowDepositsCommand = new RelayCommand(OnShowDeposits);
+
+			DepositsViewModel = new DepositsViewModel(consumer);
 		}
+
+		public DepositsViewModel DepositsViewModel { get; private set; }
+
 		string _number;
 		public string Number
 		{
@@ -91,6 +98,34 @@ namespace Resurs.ViewModels
 		void OnSelectDevice(Guid deviceUid)
 		{
 			Bootstrapper.MainViewModel.DevicesViewModel.Select(deviceUid);
+		}
+
+		public RelayCommand AddDepositCommand { get; private set; }
+		void OnAddDeposit()
+		{
+			var depositDetailsViewModel = new DepositDetailsViewModel(new Deposit 
+			{
+				Name = "ЛС: " + this.Number,
+				ConsumerUID = this.UID, 
+				Moment = DateTime.Now 
+			}, true);
+			if (DialogService.ShowModalWindow(depositDetailsViewModel))
+			{
+				var deposit = depositDetailsViewModel.GetDeposit();
+				var depositViewModel = new DepositViewModel(deposit);
+				DepositsViewModel.Deposits.Add(depositViewModel);
+				DBCash.SaveDeposit(deposit);
+				DBCash.AddJournalForUser(JournalType.AddDeposit, deposit, string.Format("Сумма: {0} руб.", deposit.Amount));
+			}
+		}
+
+		public RelayCommand ShowDepositsCommand { get; private set; }
+		void OnShowDeposits()
+		{
+			if (DialogService.ShowModalWindow(DepositsViewModel))
+			{
+
+			}
 		}
 				
 		public RelayCommand ShowReceiptCommand { get; private set; }

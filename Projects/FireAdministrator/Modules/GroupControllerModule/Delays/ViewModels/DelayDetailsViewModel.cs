@@ -45,12 +45,14 @@ namespace GKModule.ViewModels
 			CopyProperties();
 
 			var availableNames = new HashSet<string>();
-			var availableDescription = new HashSet<string>();
+			var availableDescriptions = new HashSet<string>();
 			foreach (var existingDelay in GKManager.Delays)
 			{
 				availableNames.Add(existingDelay.Name);
+				availableDescriptions.Add(existingDelay.Description);
 			}
 			AvailableNames = new ObservableCollection<string>(availableNames);
+			AvailableDescriptions = new ObservableCollection<string>(availableDescriptions);
 		}
 
 		void CopyProperties()
@@ -132,6 +134,7 @@ namespace GKModule.ViewModels
 		}
 
 		public ObservableCollection<string> AvailableNames { get; private set; }
+		public ObservableCollection<string> AvailableDescriptions { get; private set; }
 
 		protected override bool Save()
 		{

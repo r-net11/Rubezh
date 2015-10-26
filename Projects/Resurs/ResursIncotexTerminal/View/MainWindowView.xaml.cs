@@ -12,17 +12,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ResursNetwork.OSI.ApplicationLayer;
 
-namespace ResursIncotexTerminal
+namespace ResursIncotexTerminal.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindowView : Window
     {
         #region Constructors
 
-        public MainWindow()
+        public MainWindowView()
         {
             InitializeComponent();
         }
@@ -45,5 +46,14 @@ namespace ResursIncotexTerminal
             MessageBox.Show("Команда запущена из " + e.Source.ToString(), 
                 "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
+		private void EventHandler_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			var cbx = (ComboBox)sender;
+			if (_ComboBoxDevices != null)
+			{
+				_ComboBoxDevices.DataContext = (INetwrokController)cbx.SelectedItem;
+			}
+		}
     }
 }
