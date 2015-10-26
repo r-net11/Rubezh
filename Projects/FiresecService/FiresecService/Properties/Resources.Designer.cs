@@ -70,6 +70,15 @@ namespace FiresecService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Текущая операция не доступна в данной версии ПО..
+        /// </summary>
+        internal static string DemoVersionOperationNotAllowed {
+            get {
+                return ResourceManager.GetString("DemoVersionOperationNotAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
         internal static string ErrorCaption {
