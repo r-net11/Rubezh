@@ -59,6 +59,7 @@
     <Compile Include="Administrator\GKFileInfo.cs" />
     <Compile Include="Administrator\GKFileReaderWriter.cs" />
     <Compile Include="Administrator\KauDescriptorsReader.cs" />
+    <Compile Include="Administrator\MirrorDescriptorsReader.cs" />
     <Compile Include="Administrator\ParametersHelper.cs" />
     <Compile Include="Administrator\GKSKDHelper.cs" />
     <Compile Include="Administrator\GKAutoSearchHelper.cs" />
