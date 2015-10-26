@@ -3,6 +3,7 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 			 xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
+			 xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls"
 			 MinWidth="500" MinHeight="350">
 	<UserControl.Resources>
 		<ResourceDictionary>
@@ -10,6 +11,7 @@
 				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 			<SolidColorBrush x:Key="WatermarkColor" Color="LightGray"/>
+			<Converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<Grid Background="{StaticResource BaseWindowBackgroundBrush}">
@@ -87,6 +89,8 @@
 			Grid.Column="1"
 			Grid.Row="3"
 			Margin="0 5"
+			IsReadOnly="True"
+			Text="{Binding SelectedDocument.DocumentType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescriptionConverter}}"
 			VerticalAlignment="Center"/>
 		<TextBlock
 			Grid.Row="4"
