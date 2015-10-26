@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -208,6 +208,11 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedStateType = value;
+				if (value!= null && Devices != null && (SelectedClauseOperationType == ClauseOperationType.AllDevices || SelectedClauseOperationType == ClauseOperationType.AnyDevice))
+				{
+					Devices.RemoveAll(x => !x.Driver.AvailableStateBits.Contains(value.StateBit));
+					OnPropertyChanged(() => PresenrationDevices);
+				}
 				OnPropertyChanged(() => SelectedStateType);
 			}
 		}

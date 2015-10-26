@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using Infrastructure.Common.Windows;
 using Resurs.Service;
 using ResursDAL;
+using Resurs.ViewModels;
 
 namespace Resurs.Views
 {
@@ -11,6 +12,7 @@ namespace Resurs.Views
 	{
 		public MainView()
 		{
+			this.Closing += ReceiptEditorViewModel.CancelEventHandler;
 			InitializeComponent();
 			NotifyIconService.Start(OnShow, OnClose);
 		}
@@ -29,10 +31,7 @@ namespace Resurs.Views
 
 		void OnShow(object sender, EventArgs e)
 		{
-			WindowState = WindowState.Normal;
-			Show();
-			Activate();
-			ShowInTaskbar = true;
+			Bootstrapper.Activate();
 		}
 		void OnClose(object sender, EventArgs e)
 		{

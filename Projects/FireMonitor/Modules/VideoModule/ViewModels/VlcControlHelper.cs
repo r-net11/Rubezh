@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FiresecClient;
+using RubezhClient;
 
 namespace VideoModule.ViewModels
 {
@@ -9,7 +9,7 @@ namespace VideoModule.ViewModels
 		static VlcControlHelper ()
 		{
 			VlcControlViewModels = new List<VlcControlViewModel>();
-			//foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
+			//foreach (var camera in ClientManager.SystemConfiguration.Cameras)
 			//{
 			//	var vlcControlViewModel = new VlcControlViewModel();
 			//	vlcControlViewModel.RviRTSP = camera.RviRTSP;

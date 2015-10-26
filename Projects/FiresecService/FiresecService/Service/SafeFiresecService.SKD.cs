@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using Common;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.SKD;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.SKD;
 
 namespace FiresecService.Service
 {
@@ -23,9 +23,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SaveEmployee(item, isNew));
 		}
-		public OperationResult MarkDeletedEmployee(Guid uid, string name)
+		public OperationResult MarkDeletedEmployee(Guid uid, string name, bool isEmployee)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedEmployee(uid, name));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedEmployee(uid, name, isEmployee));
 		}
 		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
@@ -45,9 +45,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployeePosition(uid, positionUid, name));
 		}
-		public OperationResult RestoreEmployee(Guid uid, string name)
+		public OperationResult RestoreEmployee(Guid uid, string name, bool isEmployee)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreEmployee(uid, name));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreEmployee(uid, name, isEmployee));
 		}
         #endregion
 
@@ -90,6 +90,10 @@ namespace FiresecService.Service
 		public OperationResult<List<ShortPosition>> GetPositionList(PositionFilter filter)
 		{
 			return SafeContext.Execute<OperationResult<List<ShortPosition>>>(() => FiresecService.GetPositionList(filter));
+		}
+		public OperationResult<List<Guid>> GetPositionEmployees(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult<List<Guid>>>(() => FiresecService.GetPositionEmployees(uid));
 		}
 		public OperationResult<Position> GetPositionDetails(Guid uid)
 		{

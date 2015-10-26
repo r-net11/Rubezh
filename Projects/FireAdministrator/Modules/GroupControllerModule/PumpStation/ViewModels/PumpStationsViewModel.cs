@@ -4,8 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using Common;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -20,14 +20,15 @@ namespace GKModule.ViewModels
 	{
 		public PumpStationsViewModel()
 		{
-			Menu = new PumpStationsMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
-			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			ChangePumpDevicesCommand = new RelayCommand(OnChangePumpDevices, CanChangePumpDevices);
 			DeletePumpDeviceCommand = new RelayCommand(OnDeletePumpDevice, CanDeletePumpDevice);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
 			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
+
+			Menu = new PumpStationsMenuViewModel(this);
 			RegisterShortcuts();
 			SetRibbonItems();
 		}
@@ -79,11 +80,23 @@ namespace GKModule.ViewModels
 			var pumpStationDetailsViewModel = new PumpStationDetailsViewModel();
 			if (DialogService.ShowModalWindow(pumpStationDetailsViewModel))
 			{
-				GKManager.PumpStations.Add(pumpStationDetailsViewModel.PumpStation);
+				GKManager.AddPumpStation(pumpStationDetailsViewModel.PumpStation);
 				var pumpStationViewModel = new PumpStationViewModel(pumpStationDetailsViewModel.PumpStation);
 				PumpStations.Add(pumpStationViewModel);
 				SelectedPumpStation = pumpStationViewModel;
 				OnPropertyChanged(() => HasSelectedPumpStation);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
+		{
+			var pumpStationDetailsViewModel = new PumpStationDetailsViewModel(SelectedPumpStation.PumpStation);
+			if (DialogService.ShowModalWindow(pumpStationDetailsViewModel))
+			{
+				GKManager.EditPumpStation(SelectedPumpStation.PumpStation);
+				SelectedPumpStation.Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -95,19 +108,7 @@ namespace GKModule.ViewModels
 			{
 				var pumpDevices = new List<GKDevice>(SelectedPumpStation.PumpDevices.Select(x => x.Device));
 				var index = PumpStations.IndexOf(SelectedPumpStation);
-				GKManager.PumpStations.Remove(SelectedPumpStation.PumpStation);
-				SelectedPumpStation.PumpStation.InputDependentElements.ForEach(x =>
-				{
-					x.OutDependentElements.Remove(SelectedPumpStation.PumpStation);
-				});
-
-				SelectedPumpStation.PumpStation.OutDependentElements.ForEach(x =>
-				{
-					x.InputDependentElements.Remove(SelectedPumpStation.PumpStation);
-					x.UpdateLogic();
-					x.OnChanged();
-				});
-
+				GKManager.RemovePumpStation(SelectedPumpStation.PumpStation);
 				PumpStations.Remove(SelectedPumpStation);
 				index = Math.Min(index, PumpStations.Count - 1);
 				if (index > -1)
@@ -130,7 +131,7 @@ namespace GKModule.ViewModels
 					
 					for (var i = emptyPumpStations.Count()-1; i >= 0; i--)
 					{
-						GKManager.PumpStations.Remove(emptyPumpStations.ElementAt(i).PumpStation);
+						GKManager.RemovePumpStation(emptyPumpStations.ElementAt(i).PumpStation);
 						PumpStations.Remove(emptyPumpStations.ElementAt(i));
 					}
 
@@ -142,20 +143,6 @@ namespace GKModule.ViewModels
 		bool CanDeleteAllEmpty()
 		{
 			return PumpStations.Any(x => !x.PumpStation.StopLogic.GetObjects().Any() && !x.PumpStation.StartLogic.GetObjects().Any() && !x.PumpStation.NSDevices.Any() && !x.PumpStation.AutomaticOffLogic.GetObjects().Any());
-		}
-			
-
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			var pumpStationDetailsViewModel = new PumpStationDetailsViewModel(SelectedPumpStation.PumpStation);
-			if (DialogService.ShowModalWindow(pumpStationDetailsViewModel))
-			{
-				SelectedPumpStation.PumpStation = pumpStationDetailsViewModel.PumpStation;
-				SelectedPumpStation.Update();
-				SelectedPumpStation.PumpStation.OutDependentElements.ForEach(x => x.OnChanged());
-				ServiceFactory.SaveService.GKChanged = true;
-			}
 		}
 
 		public RelayCommand ChangePumpDevicesCommand { get; private set; }
@@ -199,11 +186,6 @@ namespace GKModule.ViewModels
 		{
 			base.OnShow();
 			SelectedPumpStation = SelectedPumpStation;
-		}
-
-		public override void OnHide()
-		{
-			base.OnHide();
 		}
 
 		private void RegisterShortcuts()

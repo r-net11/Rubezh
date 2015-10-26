@@ -1,0 +1,42 @@
+﻿<Window x:Class="ResursIncotexTerminal.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+	<Window.CommandBindings>
+		<CommandBinding Command="ApplicationCommands.New" 
+                        Executed="EventhHandler_CommandBinding_New"/>
+	</Window.CommandBindings>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="139*"/>
+		</Grid.ColumnDefinitions>
+		
+		<Grid.RowDefinitions>
+			<RowDefinition Height="25"/>
+			<RowDefinition Height="25"/>
+			<RowDefinition Height="25"/>
+			<RowDefinition Height="25*"/>
+			<RowDefinition Height="25"/>
+		</Grid.RowDefinitions>
+
+		<Menu Name="MenuMain" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			  IsMainMenu="True">
+			<MenuItem Name="MenuFile" Header="_File">
+				<MenuItem Name="MenuFileExit" Header="Exit" VerticalAlignment="Stretch" Click="EventhHandler_MenuFileExit_Click"/>
+				<MenuItem Name="MenuFileText" Header="TextCommand" VerticalAlignment="Stretch" Command="ApplicationCommands.New"/>
+			</MenuItem>
+		</Menu>
+		
+		<Label Name="Label1" Grid.Row="1" Target="{Binding ElementName=TexBox1}"
+			   HorizontalAlignment="Left" VerticalAlignment="Stretch">_Name</Label>
+		
+		<TextBox Name="TexBox1" Grid.Row="2" VerticalAlignment="Stretch"></TextBox>
+		
+		<StatusBar Name="StatusBarMain" Grid.Row="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+			<Label VerticalAlignment="Stretch" VerticalContentAlignment="Center">Текст 1</Label>
+			<Separator/>
+			<Label>Текст 2</Label>
+		</StatusBar>
+		
+	</Grid>
+</Window>

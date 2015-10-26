@@ -18,6 +18,14 @@
         return self.SelectedPersonType() == "Employee" ? "Сотрудники" : "Посетители";
     }, self);
 
+    self.PersonTypeChanged = function(obj, event) {
+        self.Employees.Init();
+    };
+
+    self.VisibleChanged = function(obj, event) {
+        alert("asdasd");
+    };
+
     self.HrPageClick = function (data, e, page) {
         for (var propertyName in self.hrPages) {
             self.hrPages[propertyName](false);

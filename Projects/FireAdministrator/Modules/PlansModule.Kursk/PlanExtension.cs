@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Events;
@@ -115,7 +115,7 @@ namespace PlansModule.Kursk
 		public override IEnumerable<ElementError> Validate()
 		{
 			List<ElementError> errors = new List<ElementError>();
-			FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
+			ClientManager.PlansConfiguration.AllPlans.ForEach(plan =>
 				errors.AddRange(FindUnbindedErrors<ElementRectangleTank, ShowGKDeviceEvent, Guid>(plan.ElementExtensions.OfType<ElementRectangleTank>(), plan.UID, "Несвязанный бак", "/Controls;component/Images/BPumpStation.png", Guid.Empty)));
 			return errors;
 		}

@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Models.Layouts;
-using FiresecAPI.SKD;
+using RubezhAPI.Models.Layouts;
+using RubezhAPI.SKD;
 using Infrastructure.Common.Services.Layout;
 using System;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 
 namespace SKDModule.ViewModels
 {
@@ -20,7 +20,7 @@ namespace SKDModule.ViewModels
 			Devices = new ObservableCollection<DeviceViewModel>();
 			foreach (var device in GKManager.Devices)
 			{
-				if (device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
+				if (device.Driver.IsCardReaderOrCodeReader)
 				{
 					var deviceViewModel = new DeviceViewModel(device);
 					Devices.Add(deviceViewModel);

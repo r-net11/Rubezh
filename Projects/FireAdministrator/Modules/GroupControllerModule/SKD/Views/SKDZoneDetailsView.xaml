@@ -1,7 +1,6 @@
 ﻿<UserControl x:Class="GKModule.Views.SKDZoneDetailsView"
 			xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 			MinWidth="600" MinHeight="300">
 
@@ -21,7 +20,14 @@
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
 				<TextBlock Grid.Row="1" Grid.Column="0" Text="Наименование" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<TextBox Name="nameTextBox" Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				<TextBox Name="nameTextBox" Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" >
+					<TextBox.Style>
+						<Style TargetType="TextBox">
+							<Setter Property="MaxLength" Value="20" />
+							<Setter Property="ContextMenu" Value="{x:Null}" />
+						</Style>
+					</TextBox.Style>
+				</TextBox>
 
 				<TextBlock Grid.Row="2" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />

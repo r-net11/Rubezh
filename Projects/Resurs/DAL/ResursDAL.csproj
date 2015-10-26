@@ -52,6 +52,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -63,6 +64,11 @@
     <Compile Include="DatabaseContext.cs" />
     <Compile Include="DBCash.cs" />
     <Compile Include="DBCash.Devices.cs" />
+    <Compile Include="DBCash.Journal.cs" />
+    <Compile Include="DBCash.Measure.cs" />
+    <Compile Include="DBCash.Consumers.cs" />
+    <Compile Include="DBCash.User.cs" />
+    <Compile Include="DBCash.Receipts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -28,6 +28,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
         /// Таймер межкадрового интервала
         /// </summary>
         private Timer _TimerInterFrameDelay;
+
         /// <summary>
         /// Наименование порта
         /// </summary>
@@ -42,6 +43,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
                 _SerialPort.PortName = value;
             }
         }
+
         /// <summary>
         /// Скорость передачи данных
         /// </summary>
@@ -50,6 +52,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
             get { return _SerialPort.BaudRate; }
             set { _SerialPort.BaudRate = value; }
         }
+
         /// <summary>
         /// Кол-во бит данных во фрейме (7, 8)
         /// </summary>
@@ -68,6 +71,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
                 }
             }
         }
+
         /// <summary>
         /// Кол-во стоп битов во фрайме
         /// </summary>
@@ -76,6 +80,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
             get { return _SerialPort.StopBits; }
             set { _SerialPort.StopBits = value; }
         }
+
         /// <summary>
         /// Паритет фрайма
         /// </summary>
@@ -84,6 +89,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
             get { return _SerialPort.Parity; }
             set { _SerialPort.Parity = value; }
         }
+
         /// <summary>
         /// Интервал тишины для разделения сетевых сообщений, мсек
         /// </summary>
@@ -92,25 +98,29 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
             get { return _TimerInterFrameDelay.Interval; }
             set { _TimerInterFrameDelay.Interval = value; }
         }
+
         public override InterfaceType InterfaceType
         {
             get { return InterfaceType.ComPort; }
         }
+
         public override bool IsOpen
         {
             get { return _SerialPort.IsOpen; }
         } 
+
         #endregion
 
         #region Constuctors
+
         /// <summary>
         /// Конструктор
         /// </summary>
-        public ComPort()
+        public ComPort(): base()
         {
             _SerialPort = new SerialPort();
             _SerialPort.DataBits = 8;
-            _SerialPort.Parity = Parity.Even;
+            _SerialPort.Parity = Parity.None;
             _SerialPort.StopBits = StopBits.One;
             _SerialPort.BaudRate = 19200;
             _SerialPort.DataReceived += EventHandler_SerialPort_DataReceived;
@@ -126,6 +136,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Обработчик срабатываения таймера межкадрового интервала
         /// </summary>
@@ -199,6 +210,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
                 OnMessageReceived();
             }
         }
+
         /// <summary>
         /// Обработчик события возникновения ошибки при работе порта
         /// </summary>
@@ -208,7 +220,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
             object sender, SerialErrorReceivedEventArgs e)
         {
             //Ошибка. Создать служебное сообщение об ошибке
-            ErrorCode code;
+            ErrorCode code = ErrorCode.UnknownError;
 
             switch (e.EventType)
             {
@@ -236,6 +248,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
             _InputBuffer.Enqueue(errMessage);
             OnMessageReceived();
         }
+
         /// <summary>
         /// Обработчик события получения данных из сети
         /// </summary>
@@ -249,6 +262,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
             _TimerInterFrameDelay.Stop();
             _TimerInterFrameDelay.Start();
         }
+
         public override void Write(IMessage message)
         {
             Byte[] array = message.ToArray();
@@ -256,6 +270,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
             // Фиксируем время отправки сообщения
             message.ExecutionTime = DateTime.Now;
         }
+
         /// <summary>
         /// Открывает соединение
         /// </summary>
@@ -263,6 +278,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
         {
             _SerialPort.Open();
         }
+
         /// <summary>
         /// Закрывает соединение
         /// </summary>
@@ -270,6 +286,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
         {
             _SerialPort.Close();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -280,7 +297,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
                 "Type={0}; PortName={1}; ControllerId={2}; BaudRate={3}; " +
                 "DataBits={4}; StopBits={5}; Parity={6}; SilentInterval={7}",
                 this.GetType().ToString(), PortName,
-                _NetworkController == null ? String.Empty : _NetworkController.ControllerId.ToString(),
+                _NetworkController == null ? String.Empty : _NetworkController.Id.ToString(),
                 BaudRate, DataBits, StopBits, Parity, SilentInterval);
             //return base.ToString();
         }

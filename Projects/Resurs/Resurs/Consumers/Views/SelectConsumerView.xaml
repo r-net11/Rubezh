@@ -1,0 +1,8 @@
+﻿<UserControl x:Class="Resurs.Views.SelectConsumerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+			 xmlns:view="clr-namespace:Resurs.Views"
+			 MinWidth="600" MinHeight="600" >
+	<view:ConsumerListView DataContext="{Binding ConsumerListViewModel}" />
+</UserControl>

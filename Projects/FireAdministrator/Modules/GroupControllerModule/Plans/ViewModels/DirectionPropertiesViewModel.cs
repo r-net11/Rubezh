@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using GKModule.Events;
 using GKModule.ViewModels;
 using Infrastructure;
@@ -92,7 +92,7 @@ namespace GKModule.Plans.ViewModels
 		void OnEdit()
 		{
 			ServiceFactory.Events.GetEvent<EditGKDirectionEvent>().Publish(SelectedDirection.Direction.UID);
-			SelectedDirection.Update(SelectedDirection.Direction);
+			SelectedDirection.Update();
 		}
 		bool CanEdit()
 		{

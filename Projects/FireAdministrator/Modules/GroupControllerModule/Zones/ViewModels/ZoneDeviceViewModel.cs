@@ -1,5 +1,5 @@
-﻿using FiresecAPI.GK;
-using FiresecClient;
+﻿using RubezhAPI.GK;
+using RubezhClient;
 using Infrastructure.Common.TreeList;
 
 namespace GKModule.ViewModels

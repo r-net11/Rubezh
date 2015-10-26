@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Common;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 using Infrastructure.Common;
 using Ionic.Zip;
 using System.Threading;
@@ -118,13 +118,14 @@ namespace FiresecService.Service
 		void RestartWithNewConfig()
 		{
 			AddJournalMessage(JournalEventNameType.Применение_конфигурации, null);
-			ServerState = FiresecAPI.ServerState.Restarting;
+			ServerState = RubezhAPI.ServerState.Restarting;
 			ConfigurationCashHelper.Update();
 			GKProcessor.SetNewConfig();
 			ScheduleRunner.SetNewConfig();
+			ProcedureExecutionContext.UpdateConfiguration(ConfigurationCashHelper.SystemConfiguration, ConfigurationCashHelper.SecurityConfiguration);
 			AutomationProcessor.SetNewConfig();
 			ServerTaskRunner.SetNewConfig();
-			ServerState = FiresecAPI.ServerState.Ready;
+			ServerState = RubezhAPI.ServerState.Ready;
 			NotifyConfigurationChanged();
 		}
 

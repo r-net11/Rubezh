@@ -1,4 +1,4 @@
-﻿using FiresecAPI.GK;
+﻿using RubezhAPI.GK;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -7,8 +7,7 @@ namespace GKModule.ViewModels
 {
 	public class ZoneViewModel : BaseViewModel
 	{
-		private VisualizationState _visualizetionState;
-		public GKZone Zone { get; set; }
+		public GKZone Zone { get; private set; }
 
 		public ZoneViewModel(GKZone zone)
 		{
@@ -16,28 +15,7 @@ namespace GKModule.ViewModels
 			Update();
 		}
 
-		public string Name
-		{
-			get { return Zone.Name; }
-			set
-			{
-				Zone.Name = value;
-				Zone.OnChanged();
-				OnPropertyChanged(() => Name);
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-		public string Description
-		{
-			get { return Zone.Description; }
-			set
-			{
-				Zone.Description = value;
-				Zone.OnChanged();
-				OnPropertyChanged(() => Description);
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
+		VisualizationState _visualizetionState;
 		public VisualizationState VisualizationState
 		{
 			get { return _visualizetionState; }
@@ -46,35 +24,15 @@ namespace GKModule.ViewModels
 		{
 			get { return Zone.PlanElementUIDs != null && Zone.PlanElementUIDs.Count > 0; }
 		}
-		public void Update(GKZone zone)
-		{
-			Zone = zone;
-			OnPropertyChanged(() => Zone);
-			OnPropertyChanged(() => Name);
-			OnPropertyChanged(() => Description);
-			Update();
-		}
 
 		public void Update()
 		{
+			OnPropertyChanged(() => Zone);
 			if (Zone.PlanElementUIDs == null)
 				return;
 			_visualizetionState = Zone.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Zone.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
 		}
-
-		#region OPC
-		public bool IsOPCUsed
-		{
-			get { return Zone.IsOPCUsed; }
-			set
-			{
-				Zone.IsOPCUsed = value;
-				OnPropertyChanged(() => IsOPCUsed);
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-		#endregion
 	}
 }

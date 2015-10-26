@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -29,7 +29,7 @@ namespace SecurityModule.ViewModels
 		public void Initialize()
 		{
 			Roles = new ObservableCollection<RoleViewModel>();
-			foreach (var role in FiresecManager.SecurityConfiguration.UserRoles)
+			foreach (var role in ClientManager.SecurityConfiguration.UserRoles)
 				Roles.Add(new RoleViewModel(role));
 			SelectedRole = Roles.FirstOrDefault();
 		}
@@ -62,7 +62,7 @@ namespace SecurityModule.ViewModels
 			var roleDetailsViewModel = new RoleDetailsViewModel();
 			if (DialogService.ShowModalWindow(roleDetailsViewModel))
 			{
-				FiresecManager.SecurityConfiguration.UserRoles.Add(roleDetailsViewModel.Role);
+				ClientManager.SecurityConfiguration.UserRoles.Add(roleDetailsViewModel.Role);
 				var roleViewModel = new RoleViewModel(roleDetailsViewModel.Role);
 				Roles.Add(roleViewModel);
 				SelectedRole = roleViewModel;
@@ -75,7 +75,7 @@ namespace SecurityModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion(string.Format("Вы уверенны, что хотите удалить шаблон прав \"{0}\" из списка?", SelectedRole.Role.Name)))
 			{
-				FiresecManager.SecurityConfiguration.UserRoles.Remove(SelectedRole.Role);
+				ClientManager.SecurityConfiguration.UserRoles.Remove(SelectedRole.Role);
 				Roles.Remove(SelectedRole);
 				ServiceFactory.SaveService.SecurityChanged = true;
 			}
@@ -87,9 +87,9 @@ namespace SecurityModule.ViewModels
 			var roleDetailsViewModel = new RoleDetailsViewModel(SelectedRole.Role);
 			if (DialogService.ShowModalWindow(roleDetailsViewModel))
 			{
-				FiresecManager.SecurityConfiguration.UserRoles.Remove(SelectedRole.Role);
+				ClientManager.SecurityConfiguration.UserRoles.Remove(SelectedRole.Role);
 				SelectedRole.Role = roleDetailsViewModel.Role;
-				FiresecManager.SecurityConfiguration.UserRoles.Add(SelectedRole.Role);
+				ClientManager.SecurityConfiguration.UserRoles.Add(SelectedRole.Role);
 
 				ServiceFactory.SaveService.SecurityChanged = true;
 			}

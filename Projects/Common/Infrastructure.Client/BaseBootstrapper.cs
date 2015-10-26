@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using Common;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure.Client.Login.ViewModels;
 using Infrastructure.Client.Properties;
 using Infrastructure.Client.Startup;
@@ -116,7 +116,7 @@ namespace Infrastructure.Client
 			shellViewModel.NavigationItems = new ReadOnlyCollection<NavigationItem>(GetNavigationItems());
 			if (InitializeModules())
 			{
-				ApplicationService.User = FiresecManager.CurrentUser;
+				ApplicationService.User = ClientManager.CurrentUser;
 				StartupService.Instance.DoStep("Запуск приложения");
 				ApplicationService.Run(shellViewModel);
 				return true;

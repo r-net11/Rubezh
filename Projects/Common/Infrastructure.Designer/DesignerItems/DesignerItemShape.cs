@@ -1,5 +1,5 @@
-﻿using FiresecAPI;
-using FiresecAPI.Models;
+﻿using RubezhAPI;
+using RubezhAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.Adorners;
 using Infrastructure.Designer.ElementProperties.ViewModels;

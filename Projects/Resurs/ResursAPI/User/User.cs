@@ -7,18 +7,14 @@ using System.Text;
 
 namespace ResursAPI
 {
-	public class User 
+	public class User : ModelBase
 	{
 		public User()
 		{
-			UID = Guid.NewGuid();
 			UserPermissions = new List<UserPermission>();
 		}
-		[Key]
-		public Guid UID { get; set; }
+
 		[MaxLength (100)]
-		public string Name { get; set;}
-		[MaxLength(100)]
 		public string Login { get; set; }
 		[MaxLength(200)]
 		public string PasswordHash { get; set; }

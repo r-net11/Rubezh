@@ -4,14 +4,14 @@ using System.ServiceModel;
 using Common;
 using DevExpress.Xpf.Printing;
 using DevExpress.XtraReports.Service;
-using FiresecAPI;
+using RubezhAPI;
 using Infrastructure.Common;
 
 namespace FiresecService.Report
 {
 	public class ReportServiceManager
 	{
-		const string FilterNamespace = @"FiresecAPI.SKD.ReportFilters";
+		const string FilterNamespace = @"RubezhAPI.SKD.ReportFilters";
 		static ReportServiceManager _instance = new ReportServiceManager();
 		ServiceHost _serviceHost;
 		public static bool IsRunning { get; private set; }

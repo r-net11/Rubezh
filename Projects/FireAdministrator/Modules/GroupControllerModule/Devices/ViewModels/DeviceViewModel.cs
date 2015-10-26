@@ -6,9 +6,9 @@ using System.Windows;
 using System.Windows.Shapes;
 using Common;
 using DeviceControls;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using GKModule.Events;
 using GKModule.Plans;
 using Infrastructure;
@@ -289,11 +289,11 @@ namespace GKModule.ViewModels
 					foreach (var childDeviceViewModel in addedDevice.Children)
 					{
 						DevicesViewModel.Current.AllDevices.Add(childDeviceViewModel);
+						addedDevice.IsExpanded = true;
 					}
 				}
 				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevices.LastOrDefault();
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
-				IsExpanded = true;
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -402,8 +402,8 @@ namespace GKModule.ViewModels
 				{
 					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirrorFireZone);
 					GKDevice device = GKManager.AddChild(Device, null, driver, 0);
-					device.GKReflectionItem.ZoneUIDs.Add(zone.UID);
-					device.GKReflectionItem.Zones.Add(zone);
+					device.GKMirrorItem.ZoneUIDs.Add(zone.UID);
+					device.GKMirrorItem.Zones.Add(zone);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
 					
@@ -424,8 +424,8 @@ namespace GKModule.ViewModels
 				{
 					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirrorGuardZone);
 					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
-					device.GKReflectionItem.GuardZoneUIDs.Add(zone.UID);
-					device.GKReflectionItem.GuardZones.Add(zone);
+					device.GKMirrorItem.GuardZoneUIDs.Add(zone.UID);
+					device.GKMirrorItem.GuardZones.Add(zone);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
 					
@@ -446,8 +446,8 @@ namespace GKModule.ViewModels
 				{
 					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirrorDirection);
 					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
-					device.GKReflectionItem.DiretionUIDs.Add(direction.UID);
-					device.GKReflectionItem.Diretions.Add(direction);
+					device.GKMirrorItem.DiretionUIDs.Add(direction.UID);
+					device.GKMirrorItem.Diretions.Add(direction);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
 
@@ -468,8 +468,8 @@ namespace GKModule.ViewModels
 				{
 					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirrorDetectorsDevice);
 					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
-					device.GKReflectionItem.DeviceUIDs.Add(detectordevice.UID);
-					device.GKReflectionItem.Devices.Add(detectordevice);
+					device.GKMirrorItem.DeviceUIDs.Add(detectordevice.UID);
+					device.GKMirrorItem.Devices.Add(detectordevice);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
 
@@ -490,8 +490,8 @@ namespace GKModule.ViewModels
 				{
 					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirrorPerformersDevice);
 					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
-					device.GKReflectionItem.DeviceUIDs.Add(performerdevice.UID);
-					device.GKReflectionItem.Devices.Add(performerdevice);
+					device.GKMirrorItem.DeviceUIDs.Add(performerdevice.UID);
+					device.GKMirrorItem.Devices.Add(performerdevice);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
 
@@ -512,8 +512,8 @@ namespace GKModule.ViewModels
 				{
 					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirrorFightFireZone);
 					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
-					device.GKReflectionItem.MPTUIDs.Add(mpt.UID);
-					device.GKReflectionItem.MPTs.Add(mpt);
+					device.GKMirrorItem.MPTUIDs.Add(mpt.UID);
+					device.GKMirrorItem.MPTs.Add(mpt);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
 
@@ -805,7 +805,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowNSLogic()
 		{
-			return Driver.IsPump;
+			return Device.DriverType == GKDriverType.RSR2_Bush_Fire;
 		}
 
 		public bool IsNSLogic
@@ -979,25 +979,5 @@ namespace GKModule.ViewModels
 		public RelayCommand PasteCommand { get { return DevicesViewModel.Current.PasteCommand; } }
 		public RelayCommand CopyLogicCommand { get { return DevicesViewModel.Current.CopyLogicCommand; } }
 		public RelayCommand PasteLogicCommand { get { return DevicesViewModel.Current.PasteLogicCommand; } }
-
-		#region OPC
-		public bool CanOPCUsed
-		{
-			get { return Device.Driver.IsPlaceable; }
-		}
-
-		public bool IsOPCUsed
-		{
-			get { return Device.IsOPCUsed; }
-			set
-			{
-				Device.IsOPCUsed = value;
-				OnPropertyChanged(() => IsOPCUsed);
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-
-
-		#endregion
 	}
 }

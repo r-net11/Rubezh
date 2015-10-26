@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Common;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
+using RubezhAPI.SKD;
+using RubezhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
-using SKDDriver;
-using FiresecClient;
-using FiresecAPI.GK;
+using RubezhDAL;
+using RubezhClient;
+using RubezhAPI.GK;
 
 namespace FiresecService.Report.Templates
 {
@@ -52,57 +52,57 @@ namespace FiresecService.Report.Templates
 			{
 				foreach (var mirrorItem in GKManager.Devices.Where(x => x.Parent != null && x.Parent.UID == mirror.Mirror))
 				{
-					if (mirrorItem.GKReflectionItem.Zones.Count > 0)
+					if (mirrorItem.GKMirrorItem.Zones.Count > 0)
 					{
-						mirrorItem.GKReflectionItem.Zones.ForEach(x =>
+						mirrorItem.GKMirrorItem.Zones.ForEach(x =>
 						{
 							AddRow(x, ds, mirrorItem.Address);
 						});	
 					}
 
-					if (mirrorItem.GKReflectionItem.Delays.Count > 0)
+					if (mirrorItem.GKMirrorItem.Delays.Count > 0)
 					{
-						mirrorItem.GKReflectionItem.Delays.ForEach(x =>
+						mirrorItem.GKMirrorItem.Delays.ForEach(x =>
 						{
 							AddRow(x, ds, mirrorItem.Address);
 						});
 					}
 
-					if (mirrorItem.GKReflectionItem.Devices.Count > 0)
+					if (mirrorItem.GKMirrorItem.Devices.Count > 0)
 					{
-						mirrorItem.GKReflectionItem.Devices.ForEach(x =>
+						mirrorItem.GKMirrorItem.Devices.ForEach(x =>
 						{
 							AddRow(x, ds, mirrorItem.Address);
 						});
 					}
 
-					if (mirrorItem.GKReflectionItem.Diretions.Count > 0)
+					if (mirrorItem.GKMirrorItem.Diretions.Count > 0)
 					{
-						mirrorItem.GKReflectionItem.Diretions.ForEach(x =>
+						mirrorItem.GKMirrorItem.Diretions.ForEach(x =>
 						{
 							AddRow(x, ds, mirrorItem.Address);
 						});
 					}
 
-					if (mirrorItem.GKReflectionItem.GuardZones.Count > 0)
+					if (mirrorItem.GKMirrorItem.GuardZones.Count > 0)
 					{
-						mirrorItem.GKReflectionItem.GuardZones.ForEach(x =>
+						mirrorItem.GKMirrorItem.GuardZones.ForEach(x =>
 						{
 							AddRow(x, ds, mirrorItem.Address);
 						});
 					}
 
-					if (mirrorItem.GKReflectionItem.MPTs.Count > 0)
+					if (mirrorItem.GKMirrorItem.MPTs.Count > 0)
 					{
-						mirrorItem.GKReflectionItem.MPTs.ForEach(x =>
+						mirrorItem.GKMirrorItem.MPTs.ForEach(x =>
 						{
 							AddRow(x, ds, mirrorItem.Address);
 						});
 					}
 
-					if (mirrorItem.GKReflectionItem.NSs.Count > 0)
+					if (mirrorItem.GKMirrorItem.NSs.Count > 0)
 					{
-						mirrorItem.GKReflectionItem.NSs.ForEach(x =>
+						mirrorItem.GKMirrorItem.NSs.ForEach(x =>
 						{
 							AddRow(x, ds, mirrorItem.Address);
 						});

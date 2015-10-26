@@ -105,10 +105,44 @@ function AppViewModel() {
     self.Menu.Report = ReportViewModel();
     self.Menu.Archive = ArchiveViewModel();
     self.Menu.HR = HRViewModel();
-    self.Menu.HR.Employees = EmployeesViewModel();
-    self.Menu.HR.EmployeeDetails = EmployeeDetailsViewModel();
+    self.Menu.HR.Employees = EmployeesViewModel(self.Menu.HR);
+    self.Menu.HR.Employees.EmployeeDetails = EmployeeDetailsViewModel();
 
     return self;
 }
+
+ko.bindingHandlers.datepicker = {
+    init: function (element, valueAccessor, allBindingsAccessor) {
+        //Initialize datepicker with some optional options
+        var options = allBindingsAccessor().datepickerOptions || {};
+        $(element).datepicker(options);
+        //Handle the field changing
+        ko.utils.registerEventHandler(element, "change", function () {
+            var observable = valueAccessor();
+            var tempdate = $(element).datepicker("getDate");
+            var tempdatestr = $.datepicker.formatDate("yy-mm-dd", tempdate);
+            observable(tempdatestr);
+        });
+        //Handle disposal (if KO removes by the template binding)
+        ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+            $(element).datepicker("destroy");
+        });
+    },
+    update: function (element, valueAccessor) {
+        var value = ko.utils.unwrapObservable(valueAccessor());
+        value = new Date(value);
+        var current = $(element).datepicker("getDate");
+        if (value - current !== 0) {
+            $(element).datepicker("setDate", value);
+        }
+    }
+};
+
+$.datepicker.setDefaults(
+  $.extend(
+    { 'dateFormat': 'dd.mm.yy' },
+    $.datepicker.regional['ru']
+  )
+);
 
 ko.applyBindings(new AppViewModel());

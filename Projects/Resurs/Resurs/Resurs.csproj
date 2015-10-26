@@ -16,6 +16,10 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -28,10 +32,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -60,6 +62,199 @@
     <ApplicationManifest>Resurs.exe.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Charts.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Charts.v15.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Data.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.DataAccess.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.DataAccess.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.DataAccess.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.DataAccess.v15.1.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Mvvm.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Mvvm.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Office.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Office.v15.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Office.v15.1.Core.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Office.v15.1.Core.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.PivotGrid.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.PivotGrid.v15.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.PivotGrid.v15.1.Core.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.PivotGrid.v15.1.Core.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Printing.v15.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v15.1.Core.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Printing.v15.1.Core.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.RichEdit.v15.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v15.1.Core.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.RichEdit.v15.1.Core.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Sparkline.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Sparkline.v15.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Sparkline.v15.1.Core.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Sparkline.v15.1.Core.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Utils.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Utils.v15.1.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v15.1.UI, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Utils.v15.1.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v15.1.UI.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Utils.v15.1.UI.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Core.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Xpf.Core.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Core.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Xpf.Core.v15.1.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Docking.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Xpf.Docking.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Docking.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Xpf.Docking.v15.1.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.DocumentViewer.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Xpf.DocumentViewer.v15.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.DocumentViewer.v15.1.Core.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Xpf.DocumentViewer.v15.1.Core.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Printing.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Xpf.Printing.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Printing.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Xpf.Printing.v15.1.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.ReportDesigner.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Xpf.ReportDesigner.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.ReportDesigner.v15.1.resources, Version=15.1.0.0, Culture=ru, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Xpf.ReportDesigner.v15.1.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Ribbon.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Xpf.Ribbon.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Ribbon.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.Xpf.Ribbon.v15.1.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.WpfReportDesigner.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Xpf.WpfReportDesigner.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraBars.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.XtraCharts.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.XtraCharts.v15.1.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.XtraEditors.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.XtraEditors.v15.1.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraGauges.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.XtraGauges.v15.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraGauges.v15.1.Core.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.XtraGauges.v15.1.Core.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraPivotGrid.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.XtraPivotGrid.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraPivotGrid.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.XtraPivotGrid.v15.1.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.XtraPrinting.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.XtraPrinting.v15.1.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.XtraReports.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v15.1.Extensions, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.XtraReports.v15.1.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v15.1.Extensions.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.XtraReports.v15.1.Extensions.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.XtraReports.v15.1.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraRichEdit.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.XtraRichEdit.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraRichEdit.v15.1.resources, Version=15.1.0.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\ru\DevExpress.XtraRichEdit.v15.1.resources.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -153,9 +348,11 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
     <Reference Include="WPFToolkit.Extended, Version=1.4.0.2, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
@@ -172,30 +369,72 @@
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="Apartments\ViewModels\ApartmentDetailsViewModel.Common.cs" />
-    <Compile Include="Apartments\ViewModels\ApartmentDetailsViewModel.cs" />
-    <Compile Include="Apartments\ViewModels\ApartmentsFolderDetailsViewModel.cs" />
-    <Compile Include="Apartments\ViewModels\ApartmentsViewModel.cs" />
-    <Compile Include="Apartments\ViewModels\ApartmentViewModel.cs" />
-    <Compile Include="Apartments\Views\ApartmentsFolderDetailsView.xaml.cs">
-      <DependentUpon>ApartmentsFolderDetailsView.xaml</DependentUpon>
+    <Compile Include="Devices\DeviceError.cs" />
+    <Compile Include="Receipts\ReceiptHelper.cs" />
+    <Compile Include="Consumers\ViewModels\ConsumerListViewModel.cs" />
+    <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.Bills.cs" />
+    <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.Common.cs" />
+    <Compile Include="Consumers\ViewModels\ConsumerDetailsViewModel.cs" />
+    <Compile Include="Consumers\ViewModels\ConsumersFolderDetailsViewModel.cs" />
+    <Compile Include="Consumers\ViewModels\SelectConsumerViewModel.cs" />
+    <Compile Include="Consumers\ViewModels\ConsumersViewModel.cs" />
+    <Compile Include="Consumers\ViewModels\ReceiptViewModel.cs" />
+    <Compile Include="Consumers\Views\ConsumerListView.xaml.cs">
+      <DependentUpon>ConsumerListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Consumers\Views\ConsumersFolderDetailsView.xaml.cs">
+      <DependentUpon>ConsumersFolderDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Converters\ClassTypeToIconConverter.cs" />
+    <Compile Include="Consumers\Views\SelectConsumerView.xaml.cs">
+      <DependentUpon>SelectConsumerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Consumers\Views\ReceiptView.xaml.cs">
+      <DependentUpon>ReceiptView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\DeviceStateToIconConverter.cs" />
+    <Compile Include="Converters\DeviceTypeToIconConverter.cs" />
+    <Compile Include="Converters\JournalTypeToColorConverter.cs" />
+    <Compile Include="Converters\JournalTypeToIconConverter.cs" />
     <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="Devices\ViewModels\DetailsParameterViewModel.cs" />
+    <Compile Include="Devices\ViewModels\TariffSelectionViewModel.cs" />
+    <Compile Include="Devices\Views\TariffSelectionView.xaml.cs">
+      <DependentUpon>TariffSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="JournalEvents\ViewModels\DateTimePairViewModel.cs" />
+    <Compile Include="Devices\DeviceState.cs" />
+    <Compile Include="JournalEvents\ViewModels\DateTimeViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterConsumersViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterConsumerViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterDevicesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\SelectDeviceViewModel.cs" />
+    <Compile Include="Devices\Views\SelectDeviceView.xaml.cs">
+      <DependentUpon>SelectDeviceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="JournalEvents\ViewModels\FilterDeviceViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterEventsViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterEventViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\FilterJournalViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterTariffsViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterTariffViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterUsersViewModel.cs" />
+    <Compile Include="JournalEvents\ViewModels\FilterUserViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\JournalEventsViewModel.cs" />
     <Compile Include="JournalEvents\ViewModels\JournalEventViewModel.cs" />
+    <Compile Include="JournalEvents\Views\FilterJournalView.xaml.cs">
+      <DependentUpon>FilterJournalView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="JournalEvents\Views\JournalEventsView.xaml.cs">
       <DependentUpon>JournalEventsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Processor\DeviceProcessor.cs" />
     <Compile Include="Processor\LoginService.cs" />
-    <Compile Include="Processor\ResursSettings.cs" />
-    <Compile Include="Processor\SettingsManager.cs" />
     <Compile Include="Main\ViewModels\Comparers.cs" />
     <Compile Include="Devices\ViewModels\DeviceDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
+    <Compile Include="Consumers\ViewModels\ConsumerViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\ParameterViewModel.cs" />
     <Compile Include="Devices\ViewModels\DriverTypesViewModel.cs" />
@@ -205,11 +444,11 @@
     <Compile Include="Main\ViewModels\StartupHeaderViewModel.cs" />
     <Compile Include="Main\ViewModels\StartupSettingsViewModel.cs" />
     <Compile Include="Main\ViewModels\StartupViewModel.cs" />
-    <Compile Include="Apartments\Views\ApartmentDetailsView.xaml.cs">
-      <DependentUpon>ApartmentDetailsView.xaml</DependentUpon>
+    <Compile Include="Consumers\Views\ConsumerDetailsView.xaml.cs">
+      <DependentUpon>ConsumerDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Apartments\Views\ApartmentsView.xaml.cs">
-      <DependentUpon>ApartmentsView.xaml</DependentUpon>
+    <Compile Include="Consumers\Views\ConsumersView.xaml.cs">
+      <DependentUpon>ConsumersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\DeviceDetailsView.xaml.cs">
       <DependentUpon>DeviceDetailsView.xaml</DependentUpon>
@@ -232,16 +471,110 @@
     <Compile Include="Main\Views\StartupView.xaml.cs">
       <DependentUpon>StartupView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Reports\DataSources\ChangeValueDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChangeValueDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\DataSources\CounterDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CounterDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\DataSources\DebtorsDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DebtorsDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\DataSources\ReceiptsDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReceiptsDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\DataSources\ReceiptTemplateDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReceiptTemplateDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ReportPeriodType.cs" />
+    <Compile Include="Reports\ReportPreviewModel.cs" />
+    <Compile Include="Reports\Templates\ChangeValueReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\Templates\ChangeValueReport.Designer.cs">
+      <DependentUpon>ChangeValueReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Templates\ReceiptsReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\Templates\ReceiptsReport.Designer.cs">
+      <DependentUpon>ReceiptsReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Templates\ReceiptTemplate.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\Templates\ReceiptTemplate.designer.cs">
+      <DependentUpon>ReceiptTemplate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ViewModels\ChangeFlowFilterViewModel.cs" />
+    <Compile Include="Reports\ViewModels\DebtorsFilterViewModel.cs" />
+    <Compile Include="Receipts\ViewModels\ReceiptEditorViewModel.cs" />
+    <Compile Include="Reports\Views\ChangeFlowFilterView.xaml.cs">
+      <DependentUpon>ChangeFlowFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\DebtorsFilterView.xaml.cs">
+      <DependentUpon>DebtorsFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Receipts\Views\ReceiptEditorView.xaml.cs">
+      <DependentUpon>ReceiptEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\ViewModels\SettingsViewModel.cs" />
+    <Compile Include="Settings\Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\DiscountToTextConverter.cs" />
+    <Compile Include="Converters\TariffTypeToResourceTypeConverter.cs" />
+    <Compile Include="Tariffs\ViewModels\TariffDevicesViewModel.cs" />
+    <Compile Include="Tariffs\ViewModels\TariffDeviceViewModel.cs" />
+    <Compile Include="Tariffs\ViewModels\TariffPartViewModel.cs" />
+    <Compile Include="Tariffs\Views\TariffDevicesView.xaml.cs">
+      <DependentUpon>TariffDevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tariffs\Views\TariffsView.xaml.cs">
+      <DependentUpon>TariffsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ReportFilter.cs" />
+    <Compile Include="Reports\Templates\ChangeFlowReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\Templates\ChangeFlowReport.Designer.cs">
+      <DependentUpon>ChangeFlowReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Templates\DebtorsReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\Templates\DebtorsReport.Designer.cs">
+      <DependentUpon>DebtorsReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ViewModels\ReportFilterViewModel.cs" />
     <Compile Include="Users\ViewModels\PermissionsViewModel.cs" />
     <Compile Include="Users\ViewModels\PermissionViewModel.cs" />
     <Compile Include="Tariffs\ViewModels\TariffsViewModel.cs" />
     <Compile Include="Tariffs\ViewModels\TariffDetailsViewModel.cs" />
     <Compile Include="Tariffs\ViewModels\TariffViewModel.cs" />
-    <Compile Include="Tariffs\Views\TariffsView.xaml.cs">
-      <DependentUpon>TariffsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Tariffs\Views\TariffDetailsView.xaml.cs">
       <DependentUpon>TariffDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ReportHelper.cs" />
+    <Compile Include="Reports\IReport.cs" />
+    <Compile Include="Reports\ReportType.cs" />
+    <Compile Include="Reports\ViewModels\ReportDesignerViewModel.cs" />
+    <Compile Include="Reports\ViewModels\ReportsViewModel.cs" />
+    <Compile Include="Reports\Views\ReportDesignerView.xaml.cs">
+      <DependentUpon>ReportDesignerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\ReportsView.xaml.cs">
+      <DependentUpon>ReportsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Users\ViewModels\UserDetailsViewModel.cs" />
     <Compile Include="Users\ViewModels\UsersViewModel.cs" />
@@ -255,11 +588,35 @@
     <Compile Include="Users\Views\UsersView.xaml.cs">
       <DependentUpon>UsersView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Apartments\DataTemplates\Dictionary.xaml">
+    <Page Include="Consumers\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Consumers\Views\ConsumerListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Consumers\Views\SelectConsumerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Devices\Views\SelectDeviceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Consumers\Views\ReceiptView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\TariffSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="JournalEvents\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JournalEvents\Views\FilterJournalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -267,7 +624,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Apartments\Views\ApartmentsFolderDetailsView.xaml">
+    <Page Include="Consumers\Views\ConsumersFolderDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -279,11 +636,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Apartments\Views\ApartmentDetailsView.xaml">
+    <Page Include="Consumers\Views\ConsumerDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Apartments\Views\ApartmentsView.xaml">
+    <Page Include="Consumers\Views\ConsumersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -319,17 +676,57 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Receipts\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reports\Views\ChangeFlowFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\DebtorsFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Receipts\Views\ReceiptEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Settings\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Settings\Views\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Tariffs\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Tariffs\Views\TariffsView.xaml">
+    <Page Include="Reports\Views\ReportDesignerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Tariffs\Views\TariffDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\ReportsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tariffs\Views\TariffDevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tariffs\Views\TariffsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Users\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
@@ -362,8 +759,78 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Reports\Templates\ChangeFlowReport.resx">
+      <DependentUpon>ChangeFlowReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Templates\ChangeValueReport.resx">
+      <DependentUpon>ChangeValueReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Templates\DebtorsReport.resx">
+      <DependentUpon>DebtorsReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Templates\ReceiptsReport.resx">
+      <DependentUpon>ReceiptsReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Templates\ReceiptTemplate.resx">
+      <DependentUpon>ReceiptTemplate.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="Reports\DataSources\ChangeValueDataSet.xsc">
+      <DependentUpon>ChangeValueDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Reports\DataSources\ChangeValueDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ChangeValueDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Reports\DataSources\ChangeValueDataSet.xss">
+      <DependentUpon>ChangeValueDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Reports\DataSources\CounterDataSet.xsc">
+      <DependentUpon>CounterDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Reports\DataSources\CounterDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CounterDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Reports\DataSources\CounterDataSet.xss">
+      <DependentUpon>CounterDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Reports\DataSources\DebtorsDataSet.xsc">
+      <DependentUpon>DebtorsDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Reports\DataSources\DebtorsDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DebtorsDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Reports\DataSources\DebtorsDataSet.xss">
+      <DependentUpon>DebtorsDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Reports\DataSources\ReceiptsDataSet.xsc">
+      <DependentUpon>ReceiptsDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Reports\DataSources\ReceiptsDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ReceiptsDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Reports\DataSources\ReceiptsDataSet.xss">
+      <DependentUpon>ReceiptsDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Reports\DataSources\ReceiptTemplateDataSet.xsc">
+      <DependentUpon>ReceiptTemplateDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Reports\DataSources\ReceiptTemplateDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ReceiptTemplateDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Reports\DataSources\ReceiptTemplateDataSet.xss">
+      <DependentUpon>ReceiptTemplateDataSet.xsd</DependentUpon>
     </None>
     <None Include="Resurs.exe.manifest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -405,6 +872,10 @@
       <Project>{94c0399f-3eab-4e23-98f9-61eb8daa4974}</Project>
       <Name>ResursAPI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ResursNetwork\ResursNetwork.csproj">
+      <Project>{ff5590ac-bf93-4ce8-af99-f75091becf64}</Project>
+      <Name>ResursNetwork</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
@@ -412,12 +883,12 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4 %28x86 и x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
-      <ProductName>Клиентский профиль .NET Framework 3.5 SP1</ProductName>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -448,11 +919,9 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Converters\" />
-    <Folder Include="Reports\DataTemplates\" />
-    <Folder Include="Reports\ViewModels\" />
-    <Folder Include="Reports\Views\" />
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -464,6 +933,11 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>
-    </PostBuildEvent>
+			del $(TargetDir)Pictures
+			del $(TargetDir)Temp
+			if "$(ConfigurationName)" == "Release" xcopy $(SolutionDir)..\Deploy\ConfigurationService $(TargetDir)Configuration\ /e /y
+			if "$(ConfigurationName)" == "Release" xcopy $(SolutionDir)..\Deploy\SqlCE $(TargetDir) /e /y
+			xcopy $(SolutionDir)..\..\3rdParty\MSSQLCEv35 $(TargetDir) /e /y
+		</PostBuildEvent>
   </PropertyGroup>
 </Project>

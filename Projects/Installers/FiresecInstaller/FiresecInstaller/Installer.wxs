@@ -99,8 +99,8 @@
 			<Custom Action="CloseApplications" Sequence="2" />
 			<RemoveExistingProducts After="InstallInitialize" />
 			<InstallExecute After="RemoveExistingProducts" />
-			<Custom Action="InstallPostgres" After="InstallExecute"><![CDATA[&Postgres.Features=3 AND IS_INSTALL_POSTGRE32 = 1]]></Custom>
-			<Custom Action="InstallPostgres64" After="InstallExecute"><![CDATA[&Postgres.Features=3 AND IS_INSTALL_POSTGRE64 = 1]]></Custom>
+			<!--<Custom Action="InstallPostgres" After="InstallExecute"><![CDATA[&Postgres.Features=3 AND IS_INSTALL_POSTGRE32 = 1]]></Custom>
+			<Custom Action="InstallPostgres64" After="InstallExecute"><![CDATA[&Postgres.Features=3 AND IS_INSTALL_POSTGRE64 = 1]]></Custom>-->
 		</InstallExecuteSequence>
 
 		<UI Id="MyWixUI_Wizard">

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.Automation;
-using FiresecClient;
+using RubezhAPI.Automation;
+using RubezhClient;
 using Infrastructure.Common.Windows;
 using AutomationModule.ViewModels;
 using Infrastructure.Common;
@@ -87,7 +87,7 @@ namespace AutomationModule
 						if (procedure.ContextType == ContextType.Client)
 							AutomationProcessor.RunProcedure(procedure, args, null);
 						else
-							FiresecManager.FiresecService.RunProcedure(procedure.Uid, args);
+							ClientManager.FiresecService.RunProcedure(procedure.Uid, args);
 					}
 					)
 				{

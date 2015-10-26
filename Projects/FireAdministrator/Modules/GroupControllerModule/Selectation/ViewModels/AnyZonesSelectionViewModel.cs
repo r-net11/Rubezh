@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
@@ -18,6 +18,9 @@ namespace GKModule.ViewModels
 			ZonesSelectationViewModel = new ZonesSelectationViewModel(device.Zones, true);
 			GuardZonesWithFuncSelectationViewModel = new GuardZonesWithFuncSelectationViewModel(device, true);
 		}
+
+		public bool IsSelectedZone { get { return Device.Zones.Count > 0; } }
+		public bool IsSelectedGuardZone { get { return Device.GuardZones.Count > 0; } }
 
 		protected override bool Save()
 		{

@@ -3,9 +3,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using FiresecAPI.Automation;
-using FiresecAPI.Journal;
-using FiresecAPI.Models;
+using RubezhAPI.Automation;
+using RubezhAPI.Journal;
+using RubezhAPI.Models;
 
 namespace Infrastructure.Automation
 {
@@ -30,13 +30,23 @@ namespace Infrastructure.Automation
 
 		public static void RunOnJournal(JournalItem journalItem)
 		{
-			foreach (var procedure in ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures)
+			if (ProcedureExecutionContext.SystemConfiguration == null)
+				return;
+
+			foreach (var procedure in ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.Where(x => x.ContextType == ProcedureExecutionContext.ContextType))
 			{
 				foreach (var filtersUID in procedure.FiltersUids)
 				{
 					var filter = ProcedureExecutionContext.SystemConfiguration.JournalFilters.FirstOrDefault(x => x.UID == filtersUID);
 					if (filter != null)
 					{
+						if (filter.JournalSubsystemTypes.Count +
+							filter.JournalEventNameTypes.Count +
+							filter.JournalEventDescriptionTypes.Count +
+							filter.JournalObjectTypes.Count +
+							filter.ObjectUIDs.Count == 0)
+							continue;
+
 						if (filter.JournalSubsystemTypes.Count > 0 && !filter.JournalSubsystemTypes.Contains(journalItem.JournalSubsystemType))
 							continue;
 						if (filter.JournalEventNameTypes.Count > 0 && !filter.JournalEventNameTypes.Contains(journalItem.JournalEventNameType))
@@ -56,13 +66,6 @@ namespace Infrastructure.Automation
 		public static void RunOnServerRun()
 		{
 			ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => { if (x.StartWithServer) RunProcedure(x, new List<Argument>(), null, null); });
-		}
-
-		public static void RunOnStateChanged()
-		{
-			foreach (var procedure in ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures)
-			{
-			}
 		}
 
 		public static ProcedureThread RunProcedure(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, User user = null, JournalItem journalItem = null, Guid? clientUID = null)
@@ -89,7 +92,6 @@ namespace Infrastructure.Automation
 
 		public static void SetNewConfig()
 		{
-			Stop();
 		}
 
 		static void CheckProcedureThread()

@@ -4,8 +4,8 @@ using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Models;
+using RubezhAPI;
+using RubezhAPI.Models;
 using Infrastructure.Common;
 using FiresecLicense;
 

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Media;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 

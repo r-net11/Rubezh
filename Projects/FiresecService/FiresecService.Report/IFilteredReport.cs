@@ -1,4 +1,4 @@
-﻿using FiresecAPI.SKD.ReportFilters;
+﻿using RubezhAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report
 {

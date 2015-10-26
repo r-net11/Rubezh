@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace GKProcessor
 {
@@ -33,7 +33,7 @@ namespace GKProcessor
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOnNow_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
 
-			GKDriversHelper.AddIntProprety(driver, 0, "Время удержания, с", 22, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 0, "Время удержания, с", 0, 0, 65535);
 
 			var property1 = new GKDriverProperty()
 			{

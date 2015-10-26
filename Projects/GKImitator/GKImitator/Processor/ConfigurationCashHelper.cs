@@ -2,9 +2,9 @@
 using System.IO;
 using System.Xml.Serialization;
 using Common;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhClient;
 using GKProcessor;
 using Infrastructure.Common;
 using Ionic.Zip;

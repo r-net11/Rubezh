@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.QualityTools.Testing.Fakes;
 using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer;
 using ResursNetwork.Incotex.NetworkControllers.DataLinkLayer;
 using ResursNetwork.Incotex.NetworkControllers.Messages;
 using ResursNetwork.Incotex.Models;
 using ResursNetwork.OSI.DataLinkLayer;
 using ResursNetwork.OSI.Messages;
-using ResursNetwork.OSI.Messages.Transaction;
+using ResursNetwork.OSI.Messages.Transactions;
 using ResursNetwork.Management;
 using Moq;
+//using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes;
+//using ResursNetwork.Incotex.NetworkControllers.DataLinkLayer.Fakes;
+//using ResursNetwork.OSI.DataLinkLayer.Fakes;
+
 
 namespace UinitTestResursNetwork.IncotexNetworkControllerTest
 {
@@ -21,7 +26,7 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
         /// типе 
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException), "")]
+        //[ExpectedException(typeof(InvalidOperationException), "")]
         public void TestWriteByWrongReqeustType()
         {
             // Arrange
@@ -42,6 +47,8 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
 
             var controller = new IncotexNetworkController();
             controller.Connection = comPort.Object;
+            var device = new Mercury203();
+            controller.Devices.Add(device);
             controller.Start();
 
             var request = new DataMessage()
@@ -49,20 +56,30 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
                 Address = 0x1,
                 CmdCode = Convert.ToByte(Mercury203CmdCode.ReadGroupAddress)
             };
-            var wrongTrans = new Transaction(TransactionType.Undefined, request); // Ошибка !!!
+            var wrongTrans = new Transaction(null, TransactionType.Undefined, request) { Sender = device }; // Ошибка !!!
+            var networkRequest = new NetworkRequest(wrongTrans);
 
             // Act
-            controller.Write(wrongTrans);
+            try
+            {
+                controller.Write(networkRequest);
 
-            // Assert
-            // Должно быть исключение
+                while (networkRequest.Status != NetworkRequestStatus.Failed)
+                {
+                    // Ждём, должно быть исключение
+                }
+            }
+            catch (Exception ex)
+            {
+                // Assert
+                Assert.AreEqual(typeof(InvalidOperationException), ex.GetType());
+            }
         }
 
         /// <summary>
         /// Проверяет выполение запроса при успешном ответе
         /// </summary>
         [TestMethod]
-        //[ExpectedException]
         public void TestReadGroupAddressSuccess()
         {
             // Arrange
@@ -81,7 +98,7 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
             comPort.Setup(p => p.MessagesToRead)
                 .Returns(() => amount)
                 .Callback(() => amount--);
-            
+
             comPort.Setup(p => p.Write(It.IsAny<IMessage>()))
                 .Raises(m => m.MessageReceived += null, new EventArgs());
             comPort.Setup(p => p.Read()).Returns(msg);
@@ -99,16 +116,16 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
             controller.Devices.Add(device);
 
             // Act
-            var trans = device.ReadGroupAddress();
+            var result = device.ReadGroupAddress();
             //controller.Write(trans);
             do
             {
                 // Ждём выполения комманды
             }
-            while (trans.Status == TransactionStatus.Running);
+            while (!result.IsCompleted);
 
             // Assert
-            Assert.AreEqual(TransactionStatus.Completed, trans.Status, "Success");
+            Assert.AreEqual(TransactionStatus.Completed, result.Stack[result.Stack.Length - 1].Status, "Success");
         }
 
         /// <summary>
@@ -136,6 +153,7 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
             var controller = new IncotexNetworkController();
             controller.Connection = comPort.Object;
             controller.Start();
+            controller.TotalAttempts = 2;
             //controller.Stop();
 
             var device = new Mercury203()
@@ -146,16 +164,16 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
             controller.Devices.Add(device);
 
             // Act
-            var trans = device.ReadGroupAddress();
-            //controller.Write(trans);
+            var result = device.ReadGroupAddress();
+
             do
             {
                 // Ждём выполения комманды
             }
-            while (trans.Status == TransactionStatus.Running);
+            while (!result.IsCompleted);
 
             // Assert
-            Assert.AreEqual(TransactionStatus.Aborted, trans.Status, "TimeOut");
+            Assert.AreEqual(TransactionStatus.Aborted, result.Stack[result.Stack.Length - 1].Status, "TimeOut");
         }
 
         /// <summary>
@@ -163,7 +181,7 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
         /// остановленном контроллере сети
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException), "")]
+        //[ExpectedException(typeof(InvalidOperationException), "")]
         public void TestReadGroupAddressByControllerIsStopped()
         {
             // Arrange
@@ -193,11 +211,26 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
 
             controller.Devices.Add(device);
 
+            Type type = null;
+
             // Act
-            var trans = device.ReadGroupAddress();
-            //controller.Write(trans);
+            try
+            {
+                var result = device.ReadGroupAddress();
+            }
+            catch (Exception ex)
+            {
+                type = ex.GetType();
+            }
 
             // Assert
+            Assert.AreEqual(typeof(InvalidOperationException), type);
+
+            // Assert
+            //while(true)
+            //{
+                // Ждём должно быть исключение
+            //}
         }
 
         /// <summary>
@@ -205,7 +238,6 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
         /// контроллера
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
         public void TestReadGroupAddressByIsNotController()
         {
             // Arrange
@@ -215,10 +247,12 @@ namespace UinitTestResursNetwork.IncotexNetworkControllerTest
             };
 
             // Act
-            var trans = device.ReadGroupAddress();
+            var result = device.ReadGroupAddress();
+            do {}
+            while(!result.IsCompleted);
 
             // Assert
-            // Должно быть исключение
+            Assert.AreEqual(TransactionStatus.Aborted, result.Stack[result.Stack.Length - 1].Status);
         }
     }
 }

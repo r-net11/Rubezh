@@ -4,41 +4,81 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ResursNetwork.Management;
-using ResursNetwork.Devices;
-using ResursNetwork.Devices.Collections.ObjectModel;
+using ResursNetwork.OSI.ApplicationLayer.Devices;
+using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
 using ResursNetwork.OSI.DataLinkLayer;
-using ResursNetwork.OSI.Messages.Transaction;
+using ResursNetwork.OSI.Messages;
+using ResursNetwork.OSI.Messages.Transactions;
+using ResursAPI.Models;
 
 namespace ResursNetwork.OSI.ApplicationLayer
 {
     public interface INetwrokController: IManageable, IDisposable
     {
         #region Fields And Properties
+
         /// <summary>
         /// Уникальный идентификатор контроллера
         /// </summary>
-        UInt32 ControllerId { get; set; }
+        Guid Id { get; set; }
+
         /// <summary>
         /// Список поддерживаемых данным контроллером типов устройств 
         /// </summary>
         IEnumerable<DeviceType> SuppotedDevices { get; }
+
         /// <summary>
         /// Список устройств в сети.
         /// </summary>
         DevicesCollection Devices { get; }
+
+		/// <summary>
+        /// Период (мсек) опроса и получения данных от удалённых устройств
+        /// </summary>
+		int PollingPeriod { get; set; }
+
         /// <summary>
         /// Возвращает объет для работы с физическим интерфейсом
         /// </summary>
-        IDataLinkPort Connection { get; }
+        IDataLinkPort Connection { get; set; }
+
+		NetworkControllerErrors Errors { get; }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Записывает транзакцию в буфер исходящих сообщений
         /// </summary>
-        /// <param name="transaction"></param>
-        void Write(Transaction transaction);
+        /// <param name="request"></param>
+        /// <param name="isExternalCall">
+        /// Признак, что вызов записи в буфер контроллера проиходит
+        /// из внешнего источника (например GUI)
+        /// </param>
+        IAsyncRequestResult Write(NetworkRequest request, bool isExternalCall);
+
+        /// <summary>
+        /// Отсылает в сеть широковещательную команду 
+        /// синхронизации времени
+        /// </summary>
+        void SyncDateTime();
+
+		/// <summary>
+		/// Выполняет команду 
+		/// </summary>
+		/// <param name="commandName"></param>
+		void ExecuteCommand(string commandName);
+
         #endregion
 
+        #region
+
+		event EventHandler<NetworkRequestCompletedArgs> NetwrokRequestCompleted;
+		event EventHandler<ParameterChangedEventArgs> ParameterChanged;
+		event EventHandler<ConfigurationChangedEventArgs> ConfigurationChanged;
+		event EventHandler<NetworkControllerErrorOccuredEventArgs> ErrorOccurred;
+        
+        #endregion
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using FiresecService.ViewModels;
 using System.Threading.Tasks;
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Practices.Prism.Events;
-using FiresecAPI.SKD;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using RubezhAPI.SKD;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using System;
 using System.Collections.Generic;
 

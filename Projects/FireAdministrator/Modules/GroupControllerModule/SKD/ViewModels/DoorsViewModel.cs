@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using GKModule.Events;
 using GKModule.Plans;
 using Infrastructure;
@@ -23,7 +23,7 @@ namespace GKModule.ViewModels
 {
 	public class DoorsViewModel : MenuViewPartViewModel,ISelectable<Guid>
 	{
-		private bool _lockSelection;
+		bool _lockSelection = false;
 		public static DoorsViewModel Current { get; private set; }
 
 		public DoorsViewModel()
@@ -31,8 +31,8 @@ namespace GKModule.ViewModels
 			Menu = new DoorsMenuViewModel(this);
 			Current = this;
 			AddCommand = new RelayCommand(OnAdd);
-			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
 			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 			RegisterShortcuts();
@@ -99,7 +99,7 @@ namespace GKModule.ViewModels
 			var doorDetailsViewModel = new DoorDetailsViewModel();
 			if (DialogService.ShowModalWindow(doorDetailsViewModel))
 			{
-				GKManager.DeviceConfiguration.Doors.Add(doorDetailsViewModel.Door);
+				GKManager.AddDoor(doorDetailsViewModel.Door);
 				var doorViewModel = new DoorViewModel(doorDetailsViewModel.Door);
 				Doors.Add(doorViewModel);
 				SelectedDoor = doorViewModel;
@@ -110,25 +110,29 @@ namespace GKModule.ViewModels
 			return null;
 		}
 
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
+		{
+			OnEdit(SelectedDoor.Door);
+		}
+		void OnEdit(GKDoor door)
+		{
+			var doorDetailsViewModel = new DoorDetailsViewModel(door);
+			if (DialogService.ShowModalWindow(doorDetailsViewModel))
+			{
+				SelectedDoor.Update();
+				GKManager.EditDoor(doorDetailsViewModel.Door);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить точку доступа " + SelectedDoor.Door.PresentationName))
 			{
 				var index = Doors.IndexOf(SelectedDoor);
-				GKManager.DeviceConfiguration.Doors.Remove(SelectedDoor.Door);
-				SelectedDoor.Door.InputDependentElements.ForEach(x =>
-				{
-					x.OutDependentElements.Remove(SelectedDoor.Door);
-				});
-
-				SelectedDoor.Door.OutDependentElements.ForEach(x =>
-				{
-					x.InputDependentElements.Remove(SelectedDoor.Door);
-					x.UpdateLogic();
-					x.OnChanged();
-				});
-				SelectedDoor.Door.OnChanged();
+				GKManager.RemoveDoor(SelectedDoor.Door);
 				Doors.Remove(SelectedDoor);
 				index = Math.Min(index, Doors.Count - 1);
 				if (index > -1)
@@ -149,7 +153,7 @@ namespace GKModule.ViewModels
 				{
 					for (var i = emptyDoors.Count() - 1; i >= 0; i--)
 					{
-						GKManager.Doors.Remove(emptyDoors.ElementAt(i).Door);
+						GKManager.RemoveDoor(emptyDoors.ElementAt(i).Door);
 						Doors.Remove(emptyDoors.ElementAt(i));
 					}
 					SelectedDoor = Doors.FirstOrDefault();
@@ -162,24 +166,6 @@ namespace GKModule.ViewModels
 		{
 			return Doors.Any(x => x.Door.ExitButtonUID == Guid.Empty && x.Door.EnterDeviceUID == Guid.Empty && x.Door.ExitDeviceUID == Guid.Empty && x.Door.EnterButtonUID == Guid.Empty && x.Door.ExitZoneUID == Guid.Empty &&
 					x.Door.LockDeviceUID == Guid.Empty && x.Door.LockDeviceExitUID == Guid.Empty && x.Door.LockControlDeviceUID == Guid.Empty && x.Door.LockControlDeviceExitUID == Guid.Empty && x.Door.EnterZoneUID == Guid.Empty);
-		}
-
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			OnEdit(SelectedDoor.Door);
-		}
-		void OnEdit(GKDoor door)
-		{
-			var doorDetailsViewModel = new DoorDetailsViewModel(door);
-			if (DialogService.ShowModalWindow(doorDetailsViewModel))
-			{
-				SelectedDoor.Update(doorDetailsViewModel.Door);
-				doorDetailsViewModel.Door.OnChanged();
-				doorDetailsViewModel.Door.OutDependentElements.ForEach(x => x.OnChanged());
-				doorDetailsViewModel.Door.InputDependentElements.ForEach(x => x.OnChanged());
-				ServiceFactory.SaveService.GKChanged = true;
-			}
 		}
 
 		public RelayCommand ShowDependencyItemsCommand { get; set; }
@@ -210,11 +196,6 @@ namespace GKModule.ViewModels
 			SelectedDoor = SelectedDoor;
 		}
 
-		public override void OnHide()
-		{
-			base.OnHide();
-		}
-
 		#region ISelectable<Guid> Members
 
 		public void Select(Guid doorUID)
@@ -225,17 +206,18 @@ namespace GKModule.ViewModels
 
 		#endregion
 
-		void RegisterShortcuts()
-		{
-			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-		}
 		public void LockedSelect(Guid doorUID)
 		{
 			_lockSelection = true;
 			Select(doorUID);
 			_lockSelection = false;
+		}
+
+		void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
 		}
 
 		void SubscribeEvents()
@@ -249,6 +231,20 @@ namespace GKModule.ViewModels
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+		}
+
+		private void SetRibbonItems()
+		{
+			RibbonItems = new List<RibbonMenuItemViewModel>()
+			{
+					new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				{
+					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
+					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
+					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
+					new RibbonMenuItemViewModel("Удалить все пустые ТД", DeleteAllEmptyCommand, "BDeleteEmpty"),
+				}, "BEdit") { Order = 2 }
+			};
 		}
 		void OnDoorChanged(Guid doorUID)
 		{
@@ -285,19 +281,6 @@ namespace GKModule.ViewModels
 		private ElementGKDoor GetElementDoor(ElementBase element)
 		{
 			return element as ElementGKDoor;
-		}
-		private void SetRibbonItems()
-		{
-			RibbonItems = new List<RibbonMenuItemViewModel>()
-			{
-					new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
-				{
-					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
-					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
-					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
-					new RibbonMenuItemViewModel("Удалить все пустые ТД", DeleteAllEmptyCommand, "BDeleteEmpty"),
-				}, "BEdit") { Order = 2 }
-			};
 		}
 	}
 }

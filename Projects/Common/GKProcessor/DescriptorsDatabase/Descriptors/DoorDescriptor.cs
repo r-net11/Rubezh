@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 
 namespace GKProcessor
 {
@@ -40,7 +40,7 @@ namespace GKProcessor
 		{
 			Formula = new FormulaBuilder();
 
-			var hasOpenRegimeLogic = Door.OpenRegimeLogic.OnClausesGroup.Clauses.Count + Door.OpenRegimeLogic.OnClausesGroup.ClauseGroups.Count > 0;
+			var hasOpenRegimeLogic = Door.OpenRegimeLogic.OnClausesGroup.GetObjects().Count > 0;
 			if (hasOpenRegimeLogic)
 			{
 				Formula.AddClauseFormula(Door.OpenRegimeLogic.OnClausesGroup);
@@ -54,7 +54,7 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.EXIT);
 			}
 
-			var hasCloseRegimeLogic = Door.CloseRegimeLogic.OnClausesGroup.Clauses.Count + Door.CloseRegimeLogic.OnClausesGroup.ClauseGroups.Count > 0;
+			var hasCloseRegimeLogic = Door.CloseRegimeLogic.OnClausesGroup.GetObjects().Count > 0;
 			if (hasCloseRegimeLogic)
 			{
 				Formula.AddClauseFormula(Door.CloseRegimeLogic.OnClausesGroup);
@@ -68,7 +68,7 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.EXIT);
 			}
 
-			var hasNormRegimeLogic = Door.NormRegimeLogic.OnClausesGroup.Clauses.Count + Door.NormRegimeLogic.OnClausesGroup.ClauseGroups.Count > 0;
+			var hasNormRegimeLogic = Door.NormRegimeLogic.OnClausesGroup.GetObjects().Count > 0;
 			if (hasNormRegimeLogic)
 			{
 				Formula.AddClauseFormula(Door.NormRegimeLogic.OnClausesGroup);
@@ -287,12 +287,13 @@ namespace GKProcessor
 					Formula.Add(FormulaOperationType.CONST, 0, (byte)exitZone.No);
 					Formula.Add(FormulaOperationType.PUTP);
 					Formula.Add(FormulaOperationType.CONST, 0, 1);
-					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door);
 				}
 				else
 				{
-					Formula.Add(FormulaOperationType.BR, 1, 1);
+					Formula.Add(FormulaOperationType.BR, 1, 3);
+					Formula.Add(FormulaOperationType.CONST, 0, 1);
 				}
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door);
 				Formula.Add(FormulaOperationType.EXIT);
 			}
 
@@ -309,12 +310,13 @@ namespace GKProcessor
 					Formula.Add(FormulaOperationType.CONST, 0, (byte)enterZone.No);
 					Formula.Add(FormulaOperationType.PUTP);
 					Formula.Add(FormulaOperationType.CONST, 0, 1);
-					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door);
 				}
 				else
 				{
-					Formula.Add(FormulaOperationType.BR, 1, 1);
+					Formula.Add(FormulaOperationType.BR, 1, 3);
+					Formula.Add(FormulaOperationType.CONST, 0, 1);
 				}
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door);
 				Formula.Add(FormulaOperationType.EXIT);
 			}
 			Formula.AddGetBit(GKStateBit.Attention, enterDevice);
@@ -393,7 +395,7 @@ namespace GKProcessor
 		void TurnOnDoorBuilder(bool enterDevice)
 		{
 			var device = enterDevice ? Door.EnterDevice : Door.ExitDevice;
-			if (device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
+			if (device.Driver.IsCardReaderOrCodeReader)
 			{
 				int operationCount = 4;
 				var zone1 = GKManager.SKDZones.FirstOrDefault(x => x.UID == (enterDevice ? Door.ExitZoneUID : Door.EnterZoneUID));

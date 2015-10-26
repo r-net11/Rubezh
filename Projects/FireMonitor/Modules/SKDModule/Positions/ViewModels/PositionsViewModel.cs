@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using RubezhAPI.SKD;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using SKDModule.Events;
@@ -69,10 +69,10 @@ namespace SKDModule.ViewModels
 
 		protected override void Remove()
 		{
-			if (EmployeeListViewModel.Employees.Count == 0 ||
+			var employeeUIDs = PositionHelper.GetEmployeeUIDs(SelectedItem.Model.UID);
+			if(employeeUIDs == null || employeeUIDs.Count == 0 ||
 				MessageBoxService.ShowQuestion("Существуют привязанные к должности сотрудники. Продожить?"))
 			{
-				var employeeUIDs = EmployeeListViewModel.Employees.Select(x => x.Employee.UID);
 				base.Remove();
 				foreach (var uid in employeeUIDs)
 				{
@@ -84,7 +84,12 @@ namespace SKDModule.ViewModels
 		protected override void Restore()
 		{
 			base.Restore();
-			var employeeUIDs = EmployeeListViewModel.Employees.Select(x => x.Employee.UID);
+		}
+
+		protected override void AfterRestore(ShortPosition model)
+		{
+			base.AfterRestore(model);
+			var employeeUIDs = PositionHelper.GetEmployeeUIDs(SelectedItem.Model.UID);
 			foreach (var uid in employeeUIDs)
 			{
 				ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(uid);
@@ -96,31 +101,22 @@ namespace SKDModule.ViewModels
 			base.OnOrganisationUsersChanged(newOrganisation);
 		}
 
-		protected override FiresecAPI.Models.PermissionType Permission
+		protected override RubezhAPI.Models.PermissionType Permission
 		{
-			get { return FiresecAPI.Models.PermissionType.Oper_SKD_Positions_Etit; }
+			get { return RubezhAPI.Models.PermissionType.Oper_SKD_Positions_Etit; }
 		}
 
 		protected override void UpdateSelected()
 		{
 			base.UpdateSelected();
-			if (EmployeeListViewModel == null)
-				EmployeeListViewModel = new PositionEmployeeListViewModel(SelectedItem, IsWithDeleted); 
-			else
-				EmployeeListViewModel.Initialize(SelectedItem, IsWithDeleted);
+			if (IsShowEmployeeList)
+				SelectedItem.InitializeEmployeeList();
 			OnPropertyChanged(() => IsShowEmployeeList);
 		}
 
-		public PositionEmployeeListViewModel EmployeeListViewModel { get; private set; }
-
 		public bool IsShowEmployeeList
 		{
-			get { return SelectedItem != null && !SelectedItem.IsOrganisation && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_View); }
-		}
-
-		protected override List<ShortPosition> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
-		{
-			return dbCallbackResult.Positions;
+			get { return SelectedItem != null && !SelectedItem.IsOrganisation && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_View); }
 		}
 
 		public override void Initialize(PositionFilter filter)

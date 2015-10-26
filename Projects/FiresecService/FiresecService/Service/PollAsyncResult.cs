@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using FiresecAPI;
+using RubezhAPI;
 
 namespace FiresecService.Service
 {

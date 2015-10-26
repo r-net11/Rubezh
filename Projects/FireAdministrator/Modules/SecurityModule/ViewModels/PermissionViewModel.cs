@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.Models;
+using RubezhAPI;
+using RubezhAPI.Models;
 using Infrastructure.Common.TreeList;
 
 namespace SecurityModule.ViewModels
@@ -54,6 +54,8 @@ namespace SecurityModule.ViewModels
 				}
 			}
 		}
+
+		public string Image { get { return IsPermission ? "/Controls;component/Images/AccessTemplate.png":"/Controls;component/Images/CFolder.png" ; } }
 
 		public void UpdateParent()
 		{

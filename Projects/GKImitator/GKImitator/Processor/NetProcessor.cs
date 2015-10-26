@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using GKImitator.ViewModels;
 using GKProcessor;
-using FiresecClient;
-using SKDDriver.DataClasses;
+using RubezhClient;
+using RubezhDAL.DataClasses;
 using System.Diagnostics;
 
 namespace GKImitator.Processor

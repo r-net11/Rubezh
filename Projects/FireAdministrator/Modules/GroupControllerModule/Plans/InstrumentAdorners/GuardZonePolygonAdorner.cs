@@ -1,7 +1,7 @@
 ﻿using System.Windows.Media;
 using System.Windows.Shapes;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using GKModule.Plans.ViewModels;
 using GKModule.ViewModels;
 using Infrastructure.Common.Windows;

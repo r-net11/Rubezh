@@ -1,0 +1,175 @@
+﻿<UserControl x:Class="Resurs.Views.FilterJournalView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+			 xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+			 MinWidth="600" MinHeight="600">
+	<Grid>
+		<TabControl BorderThickness="0" Padding="11" SelectedIndex="0">
+			<TabItem Header="Временной диапазон" DataContext="{Binding DateTimeViewModel}">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<TextBlock Grid.Column="0" Grid.Row="0" Text="Интервал" Width="Auto" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
+					<ComboBox  Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" ItemsSource="{Binding StateTypes}" SelectedItem="{Binding SelectedStateType}" Width="250"  Margin="4">
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" Margin="0 4 0 4" />
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
+					<ExtToolkit:IntegerUpDown Grid.Column="1" Grid.Row="1" Minimum="1" Maximum="1000" Value="{Binding Count, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsCountVisible, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Left" Width="250" Margin="4"/>
+					<TextBlock Text="Дата начала" Width="Auto" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Grid.Column="0" Grid.Row="1" Visibility="{Binding IsStartDateVisible, Converter={StaticResource BoolToVisibilityConverter}}" Margin="4" />
+					<StackPanel Orientation="Horizontal" Visibility="{Binding IsStartDateVisible, Converter={StaticResource BoolToVisibilityConverter}}" Grid.Column="1" Grid.Row="1">
+						<DatePicker
+							Width="150" 
+							Focusable="False"
+							DisplayDateStart="{Binding StartDateTime, Mode=OneWay}"
+							SelectedDate="{Binding StartDateTime.Date}" 
+							Margin="2" />
+						<Controls:TimePicker TimeSpan="{Binding StartDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+					</StackPanel>
+
+					<TextBlock Text="Дата окончания" Width="Auto" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Grid.Column="0" Grid.Row="2" Visibility="{Binding IsEndDateVisible, Converter={StaticResource BoolToVisibilityConverter}}" Margin="4" />
+					<StackPanel Orientation="Horizontal" Visibility="{Binding IsEndDateVisible, Converter={StaticResource BoolToVisibilityConverter}}" Grid.Column="1" Grid.Row="2">
+						<DatePicker
+							Width="150" 
+							Focusable="False"
+							DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneWay}"
+							SelectedDate="{Binding EndDateTime.Date}" 
+							Margin="2" />
+						<Controls:TimePicker TimeSpan="{Binding EndDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+					</StackPanel>
+					<TextBlock Grid.Column="0" Grid.Row="4" Width="Auto" HorizontalAlignment="Right" Text="Количество событий на странице" Style="{DynamicResource TextBlockDetailsStyle}" />
+					<ExtToolkit:IntegerUpDown  Grid.Column="1" Grid.Row="4" Minimum="10" Maximum="1000" Value="{Binding PageSize, UpdateSourceTrigger=PropertyChanged}"  SelectAllOnGotFocus="True" Width="100" HorizontalAlignment="Left"  Margin="4" />
+					<CheckBox Grid.Column="1" Grid.Row="5" Content="Сортировать по возрастанию"  Foreground="White" IsChecked="{Binding IsSortAsc}" Margin="4" />
+				</Grid>
+			</TabItem>
+			<TabItem Header="Событие" DataContext="{Binding FilterEventsViewModel}">
+				<ListView Focusable="False" ItemsSource="{Binding FilterEventViewModels}"  SortBehavior.CanUserSortColumns="False" Margin="-5">
+					<ListView.View>
+						<GridView>
+							<GridViewColumn Header="Наименование">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="Auto" />
+												<ColumnDefinition Width="*" />
+											</Grid.ColumnDefinitions>
+											<Image Grid.Column="0"  Width="16" Height="16" Source="{Binding ImageSource}" HorizontalAlignment="Left" Margin="2 0" />
+											<CheckBox Grid.Column="1" IsChecked="{Binding IsChecked , Mode=TwoWay}" Content="{Binding JournalType , Converter = {StaticResource EnumToDescriptionConverter}}"  Margin="2" />
+										</Grid>
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+						</GridView>
+					</ListView.View>
+				</ListView>
+			</TabItem>
+			<TabItem Header="Aбоненты" DataContext="{Binding FilterConsumersViewModel}">
+				<tree:TreeList Grid.Row="1" Source="{Binding RootConsumers}" 
+					   Focusable="True" tree:SortBehavior.CanUserSortColumns="True">
+					<tree:TreeList.View>
+						<GridView>
+							<GridViewColumn Header="Наименование" >
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="Auto" />
+												<ColumnDefinition Width="*" />
+											</Grid.ColumnDefinitions>
+											<Image Grid.Column="0"  Width="16" Height="16" Source="{Binding ImageSource}" HorizontalAlignment="Left" Margin="2 0" />
+											<CheckBox Grid.Column="1" IsChecked="{Binding IsChecked , Mode=TwoWay}" Content="{Binding Consumer.Name}"  Margin="2" />
+										</Grid>
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+						</GridView>
+					</tree:TreeList.View>
+				</tree:TreeList>
+			</TabItem>
+			<TabItem Header="Устройства" DataContext="{Binding FilterDevicesViewModel}">
+				<tree:TreeList Grid.Row="1" Source="{Binding RootDevices}" 
+					   Focusable="True" tree:SortBehavior.CanUserSortColumns="True">
+					<tree:TreeList.View>
+						<GridView>
+							<GridViewColumn Header="Наименование" >
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="Auto" />
+												<ColumnDefinition Width="*" />
+											</Grid.ColumnDefinitions>
+											<Image Grid.Column="0"  Width="16" Height="16" Source="/Controls;component/Images/AccessTemplate.png" HorizontalAlignment="Left" Margin="2 0"/>
+											<CheckBox Grid.Column="1" IsChecked="{Binding IsChecked , Mode=TwoWay}" Content="{Binding Device.Name}"  Margin="2" />
+										</Grid>
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+						</GridView>
+					</tree:TreeList.View>
+				</tree:TreeList>
+			</TabItem>
+			<TabItem Header="Тариф" DataContext="{Binding FilterTariffsViewModel}">
+				<ListView Focusable="False" ItemsSource="{Binding FilterTariffViewModel}"  SortBehavior.CanUserSortColumns="False" Margin="-5">
+					<ListView.View>
+						<GridView>
+							<GridViewColumn Header="Наименование">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="Auto" />
+												<ColumnDefinition Width="*" />
+											</Grid.ColumnDefinitions>
+											<Image Grid.Column="0"  Width="16" Height="16" Source="{Binding ImageSource}" HorizontalAlignment="Left" Margin="2 0" />
+											<CheckBox Grid.Column="1" IsChecked="{Binding IsChecked , Mode=TwoWay}" Content="{Binding Tariff.Name}"  Margin="2" />
+										</Grid>
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+						</GridView>
+					</ListView.View>
+				</ListView>
+			</TabItem>
+			<TabItem Header="Пользователь" DataContext="{Binding FilterUsersViewModel}">
+				<ListView Focusable="False" ItemsSource="{Binding FilterUserViewModel}" SortBehavior.CanUserSortColumns="False" Margin="-5">
+					<ListView.View>
+						<GridView>
+							<GridViewColumn Header="Наименование">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="Auto" />
+												<ColumnDefinition Width="*" />
+											</Grid.ColumnDefinitions>
+											<Image Grid.Column="0"  Width="16" Height="16" Source="/Controls;component/Images/Employee.png" HorizontalAlignment="Left" Margin="2 0" />
+											<CheckBox Grid.Column="1" IsChecked="{Binding IsChecked , Mode=TwoWay}" Content="{Binding User.Name}" Margin="2" />
+										</Grid>
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+						</GridView>
+					</ListView.View>
+				</ListView>
+			</TabItem>
+		</TabControl>
+		<Button Command="{Binding ClearCommand}" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Content="Сбросить все настройки" Width="200" Margin="2,-30" />
+	</Grid>
+</UserControl>

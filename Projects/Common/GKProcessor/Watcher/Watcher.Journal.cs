@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecClient;
-using SKDDriver;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
+using RubezhClient;
+using RubezhDAL;
 
 namespace GKProcessor
 {
@@ -30,7 +30,7 @@ namespace GKProcessor
 					LastId = newLastId;
 
 					gkLifecycleManager.AddItem("Изменение индекса в БД");
-					using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
+					using (var skdDatabaseService = new RubezhDAL.DataClasses.DbService())
 					{
 						var gkIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice);
 						skdDatabaseService.GKMetadataTranslator.SetLastJournalNo(gkIpAddress, LastId);

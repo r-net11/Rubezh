@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -32,7 +32,6 @@ namespace GKModule.ViewModels
 
 			foreach (var device in GKManager.Devices)
 			{
-
 				if (device.Driver.HasLogic)
 				{
 					foreach (var objectLogic in device.Logic.GetObjects())

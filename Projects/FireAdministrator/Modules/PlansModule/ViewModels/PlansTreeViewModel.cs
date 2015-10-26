@@ -1,4 +1,4 @@
-﻿using FiresecClient;
+﻿using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -25,7 +25,7 @@ namespace PlansModule.ViewModels
 			if (parent == null)
 			{
 				PlansViewModel.Plans.Remove(source);
-				FiresecManager.PlansConfiguration.Plans.Remove(source.Plan);
+				ClientManager.PlansConfiguration.Plans.Remove(source.Plan);
 			}
 			else
 			{
@@ -37,7 +37,7 @@ namespace PlansModule.ViewModels
 			if (target == null)
 			{
 				PlansViewModel.Plans.Add(source);
-				FiresecManager.PlansConfiguration.Plans.Add(source.Plan);
+				ClientManager.PlansConfiguration.Plans.Add(source.Plan);
 				source.Plan.Parent = null;
 			}
 			else
@@ -47,7 +47,7 @@ namespace PlansModule.ViewModels
 				target.Plan.Children.Add(source.Plan);
 				source.Plan.Parent = target.Plan;
 			}
-			FiresecManager.PlansConfiguration.Update();
+			ClientManager.PlansConfiguration.Update();
 			ServiceFactory.SaveService.PlansChanged = true;
 			ServiceFactoryBase.Events.GetEvent<PlansConfigurationChangedEvent>().Publish(null);
 			PlansViewModel.SelectedPlan = source;

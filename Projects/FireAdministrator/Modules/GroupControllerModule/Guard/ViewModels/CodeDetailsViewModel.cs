@@ -1,10 +1,10 @@
 ﻿using Controls;
 using System.Linq;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
-using FiresecClient;
+using RubezhClient;
 using GKProcessor;
 using Infrastructure;
 
@@ -96,7 +96,7 @@ namespace GKModule.ViewModels
 			if (!CompareLocalWithRemoteHashes())
 				return;
 
-			var result = FiresecManager.FiresecService.GKGetSingleParameter(Code);
+			var result = ClientManager.FiresecService.GKGetSingleParameter(Code);
 			if (!result.HasError && result.Result != null && result.Result.Count == 2)
 			{
 				var lowPassword = result.Result[0].Value;
@@ -123,7 +123,7 @@ namespace GKModule.ViewModels
 			var baseDescriptor = ParametersHelper.GetBaseDescriptor(Code);
 			if (baseDescriptor != null)
 			{
-				var result = FiresecManager.FiresecService.GKSetSingleParameter(Code, baseDescriptor.Parameters);
+				var result = ClientManager.FiresecService.GKSetSingleParameter(Code, baseDescriptor.Parameters);
 				if (result.HasError)
 				{
 					MessageBoxService.ShowError(result.Error);
@@ -143,7 +143,7 @@ namespace GKModule.ViewModels
 				return false;
 			}
 
-			var result = FiresecManager.FiresecService.GKGKHash(Code.GkDatabaseParent);
+			var result = ClientManager.FiresecService.GKGKHash(Code.GkDatabaseParent);
 			if (result.HasError)
 			{
 				MessageBoxService.ShowError("Ошибка при сравнении конфигураций. Операция запрещена");

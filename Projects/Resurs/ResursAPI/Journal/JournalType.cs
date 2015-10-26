@@ -10,5 +10,29 @@ namespace ResursAPI
 	{
 		[Description("Вход в систему")]
 		System,
+		[Description("Редактированиe пользователя")]
+		EditUser,
+		[Description("Добавлениe пользователя")]
+		AddUser,
+		[Description("Удалениe пользователя")]
+		DeleteUser,
+		[Description("Редактированиe устройства")]
+		EditDevice,
+		[Description("Добавлениe устройства")]
+		AddDevice,
+		[Description("Удалениe устройства")]
+		DeleteDevice,
+		[Description("Редактированиe лицевого счета")]
+		EditConsumer,
+		[Description("Добавлениe лицевого счета")]
+		AddConsumer,
+		[Description("Удалениe лицевого счета")]
+		DeleteConsumer,
+		[Description("Редактированиe тарифа")]
+		EditTariff,
+		[Description("Добавлениe тарифа")]
+		AddTariff,
+		[Description("Удалениe тарифа")]
+		DeleteTariff,
 	}
 }

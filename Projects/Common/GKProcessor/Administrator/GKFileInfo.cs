@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 using Infrastructure.Common;
-using FiresecClient;
+using RubezhClient;
 
 namespace GKProcessor
 {
@@ -75,7 +75,7 @@ namespace GKProcessor
 				if (mpt.MPTDevices != null)
 				{
 					stringBuilder.Append("nsDevices:");
-					foreach (var mptDevice in mpt.MPTDevices.Where(x => x.Device.GKParent == gkControllerDevice))
+					foreach (var mptDevice in mpt.MPTDevices.Where(x => x.Device != null && x.Device.GKParent == gkControllerDevice))
 					{
 						stringBuilder.Append(mptDevice.Device.PresentationName).Append("@");
 					}

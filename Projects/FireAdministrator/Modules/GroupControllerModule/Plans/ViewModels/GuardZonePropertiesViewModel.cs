@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using GKModule.Events;
 using GKModule.ViewModels;
 using Infrastructure;
@@ -67,7 +67,7 @@ namespace GKModule.Plans.ViewModels
 		private void OnEdit()
 		{
 			ServiceFactory.Events.GetEvent<EditGKGuardZoneEvent>().Publish(SelectedZone.Zone.UID);
-			SelectedZone.Update(SelectedZone.Zone);
+			SelectedZone.Update();
 		}
 		private bool CanEdit()
 		{

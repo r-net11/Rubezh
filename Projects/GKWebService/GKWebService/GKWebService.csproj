@@ -327,6 +327,7 @@
     <Content Include="Scripts\d3tip.js" />
     <Content Include="Scripts\d3\d3.js" />
     <Content Include="Scripts\d3\d3.min.js" />
+    <Content Include="Scripts\i18n\datepicker-ru.js" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />
     <Content Include="Scripts\i18n\grid.locale-bg.js" />
     <Content Include="Scripts\i18n\grid.locale-bg1251.js" />
@@ -398,6 +399,8 @@
     <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
     <Content Include="Scripts\knockout-3.3.0.debug.js" />
     <Content Include="Scripts\knockout-3.3.0.js" />
+    <Content Include="Scripts\knockout.mapping-latest.debug.js" />
+    <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\less.min.js" />
     <Content Include="Scripts\Main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
@@ -439,6 +442,7 @@
     <Compile Include="Models\ShapeTypesEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utils\JsonNetResult .cs" />
     <Compile Include="Utils\StaTaskScheduler.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -490,11 +494,11 @@
       <Project>{0f0ace8e-e606-4fca-b6b2-2f1fd86121de}</Project>
       <Name>Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\FiresecClient\FiresecClient.csproj">
+    <ProjectReference Include="..\..\Common\RubezhClient\RubezhClient.csproj">
       <Project>{f46953e0-ca12-4659-ae8c-88241b541f6c}</Project>
       <Name>FiresecClient</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
+    <ProjectReference Include="..\..\Common\RubezhAPI\RubezhAPI.csproj">
       <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
       <Name>FiresecAPI</Name>
     </ProjectReference>
@@ -509,10 +513,6 @@
     <ProjectReference Include="..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
       <Project>{da2a8431-7328-4ae8-926f-e191700577a1}</Project>
       <Name>Infrustructure.Plans</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Common\SKDDriver\SKDDriver.csproj">
-      <Project>{e1d3cda0-1de6-47d3-8d2f-c56b297e8007}</Project>
-      <Name>SKDDriver</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

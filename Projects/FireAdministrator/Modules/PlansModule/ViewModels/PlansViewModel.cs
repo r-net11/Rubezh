@@ -4,8 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Common;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.Models;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
@@ -85,7 +85,7 @@ namespace PlansModule.ViewModels
 
 		public void Initialize()
 		{
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 			{
 				if (plan.BackgroundImageSource.HasValue && !ServiceFactory.ContentService.CheckIfExists(plan.BackgroundImageSource.Value.ToString()))
 					plan.BackgroundImageSource = null;
@@ -95,7 +95,7 @@ namespace PlansModule.ViewModels
 			}
 			SelectedPlan = null;
 			Plans = new ObservableCollection<PlanViewModel>();
-			foreach (var plan in FiresecManager.PlansConfiguration.Plans)
+			foreach (var plan in ClientManager.PlansConfiguration.Plans)
 				AddPlan(plan, null);
 			if (SelectedPlan != null)
 				SelectedPlan.ExpandToThis();
@@ -214,8 +214,8 @@ namespace PlansModule.ViewModels
 				var planViewModel = new PlanViewModel(planFolder);
 				Plans.Add(planViewModel);
 				SelectedPlan = planViewModel;
-				FiresecManager.PlansConfiguration.Plans.Add(planFolder);
-				FiresecManager.PlansConfiguration.Update();
+				ClientManager.PlansConfiguration.Plans.Add(planFolder);
+				ClientManager.PlansConfiguration.Update();
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}
@@ -231,7 +231,7 @@ namespace PlansModule.ViewModels
 				SelectedPlan.Plan.Children.Add(planFolder);
 				SelectedPlan.Update();
 				SelectedPlan = planViewModel;
-				FiresecManager.PlansConfiguration.Update();
+				ClientManager.PlansConfiguration.Update();
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}
@@ -305,7 +305,7 @@ namespace PlansModule.ViewModels
 			{
 				base.OnShow();
 				using (new TimeCounter("PlansViewModel.UpdatePlansConfiguration: {0}"))
-					FiresecManager.UpdatePlansConfiguration();
+					ClientManager.UpdatePlansConfiguration();
 				DesignerCanvas.DeselectAll();
 				ExtensionAttached();
 
@@ -325,7 +325,7 @@ namespace PlansModule.ViewModels
 
 		private void ClearReferences(Plan plan)
 		{
-			foreach (var p in FiresecManager.PlansConfiguration.AllPlans)
+			foreach (var p in ClientManager.PlansConfiguration.AllPlans)
 				foreach (var subPlan in p.ElementSubPlans)
 					if (subPlan.PlanUID == plan.UID)
 						Helper.SetSubPlan(subPlan);

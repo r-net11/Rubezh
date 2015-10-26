@@ -1,9 +1,9 @@
-﻿using FiresecAPI.AutomationCallback;
-using FiresecAPI.Models;
-using FiresecAPI.Automation;
+﻿using RubezhAPI.AutomationCallback;
+using RubezhAPI.Models;
+using RubezhAPI.Automation;
 using System;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
 using System.Windows.Media;
 using System.Linq;
 using System.Collections.Generic;
@@ -62,9 +62,8 @@ namespace Infrastructure.Automation
 			Action<bool, string> onImportOrganisationList = null
 			)
 		{
+			UpdateConfiguration(systemConfiguration, securityConfiguration);
 			ContextType = contextType;
-			SystemConfiguration = systemConfiguration;
-			SecurityConfiguration = securityConfiguration;
 			OnSendCallback += onSendCallback;
 			OnCallbackResponse += onCallbackResponse;
 			OnSynchronizeVariable += onSynchronizeVariable;
@@ -86,6 +85,12 @@ namespace Infrastructure.Automation
 			OnImportOrganisation += onImportOrganisation;
 			OnImportOrganisationList += onImportOrganisationList;
 
+		}
+
+		public static void UpdateConfiguration(SystemConfiguration systemConfiguration, SecurityConfiguration securityConfiguration)
+		{
+			SystemConfiguration = systemConfiguration;
+			SecurityConfiguration = securityConfiguration;
 		}
 
 		public static void SendCallback(AutomationCallbackResult callback, Guid? userUid = null)

@@ -1,5 +1,5 @@
-﻿using FiresecAPI.GK;
-using FiresecAPI.SKD;
+﻿using RubezhAPI.GK;
+using RubezhAPI.SKD;
 using Infrastructure.Common.TreeList;
 
 namespace AutomationModule.ViewModels

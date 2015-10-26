@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using RubezhAPI.Models;
+using RubezhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 using GKModule.Plans.Designer;
 using GKModule.ViewModels;
@@ -9,7 +9,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using System.Collections.ObjectModel;
 using GKModule.Events;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace GKModule.Plans.ViewModels
 {
@@ -64,7 +64,7 @@ namespace GKModule.Plans.ViewModels
 		void OnEdit()
 		{
 			ServiceFactory.Events.GetEvent<EditGKDoorEvent>().Publish(SelectedGKDoor.Door.UID);
-			SelectedGKDoor.Update(SelectedGKDoor.Door);
+			SelectedGKDoor.Update();
 		}
 		bool CanEdit()
 		{

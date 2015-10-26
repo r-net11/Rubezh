@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Events;
 using Infrastructure.Common.Windows;
@@ -18,7 +18,7 @@ namespace FireMonitor.ViewModels
 
 		public string UserName
 		{
-			get { return FiresecManager.CurrentUser.Name; }
+			get { return ClientManager.CurrentUser.Name; }
 		}
 
 		public RelayCommand ChangeUserCommand { get; private set; }

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using Infrastructure.Common.Validation;
 using Infrastructure.Common;
-using FiresecAPI;
+using RubezhAPI;
 
 namespace GKModule.Validation
 {
@@ -16,17 +16,31 @@ namespace GKModule.Validation
 
 			foreach (var zone in GKManager.SKDZones)
 			{
+				ValidateSKDZoneMaxNo(zone);
 			}
 		}
 
+		/// <summary>
+		/// Валидация уникальности номеров зон СКД
+		/// </summary>
 		void ValidateSKDZoneNoEquality()
 		{
-			var zoneNos = new HashSet<int>();
+			var nos = new HashSet<int>();
 			foreach (var zone in GKManager.SKDZones)
 			{
-				if (!zoneNos.Add(zone.No))
-					Errors.Add(new SKDZoneValidationError(zone, "Дублируется номер", ValidationErrorLevel.CannotWrite));
+				if (!nos.Add(zone.No))
+					AddError(zone, "Дублируется номер", ValidationErrorLevel.CannotWrite);
 			}
+		}
+
+		/// <summary>
+		/// Валидация того, что номер зоны не превышает 255
+		/// </summary>
+		/// <param name="zone"></param>
+		void ValidateSKDZoneMaxNo(GKSKDZone zone)
+		{
+			if (zone.No > 255)
+				AddError(zone, "Номер зоны не должен превышать 255", ValidationErrorLevel.CannotWrite);
 		}
 	}
 }

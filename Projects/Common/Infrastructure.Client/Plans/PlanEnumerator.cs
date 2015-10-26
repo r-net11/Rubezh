@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Models;
+using RubezhAPI.Models;
 using Infrustructure.Plans.Elements;
 
 namespace Infrastructure.Client.Plans
@@ -10,7 +10,7 @@ namespace Infrastructure.Client.Plans
 		public static IEnumerable<ElementBase> Enumerate(Plan plan)
 		{
 			foreach (var elementPrimitives in EnumeratePrimitives(plan))
-				yield return elementPrimitives;
+							yield return elementPrimitives;
 			foreach (var elementSubPlan in plan.ElementSubPlans)
 				yield return elementSubPlan;
 		}

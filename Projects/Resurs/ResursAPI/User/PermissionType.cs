@@ -4,46 +4,40 @@ namespace ResursAPI
 {
 	public enum PermissionType
 	{
-		[DescriptionAttribute("Вкладка Устройства")]
-		Device,
+		[DescriptionAttribute("Просмотр Пользователей")]
+		ViewUser = 0,
 
-		[DescriptionAttribute("Редактирование вкладки Устройства")]
-		EditDevice,
+		[DescriptionAttribute("Редактирование Пользователя")]
+		EditUser = 1,
 
-		[DescriptionAttribute("Вкладка Абоненты")]
-		Apartment,
+		[DescriptionAttribute("Просмотр Устройств")]
+		ViewDevice = 2,
 
-		[DescriptionAttribute("Редактирование вкладки Абоненты")]
-		EditApartment,
+		[DescriptionAttribute("Редактирование Устройства")]
+		EditDevice = 3,
 
-		[DescriptionAttribute("Вкладка  Пользователи")]
-		User,
+		[DescriptionAttribute("Просмотр Абонентов")]
+		ViewConsumer = 4,
 
-		[DescriptionAttribute("Редактирование вкладки Пользователи")]
-		EditUser,
+		[DescriptionAttribute("Редактирование Абонента")]
+		EditConsumer = 5,
 
-		[DescriptionAttribute("Вкладка Тарифы")]
-		Tariff,
+		[DescriptionAttribute("Просмотр Тарифов")]
+		ViewTariff = 6,
 
-		[DescriptionAttribute("Редактирование вкладки Тарифы ")]
-		EditTariff,
+		[DescriptionAttribute("Редактирование Тарифа ")]
+		EditTariff = 7,
 
-		[DescriptionAttribute("Вкладка Отчеты")]
-		Report,
+		[DescriptionAttribute("Просмотр Отчетов")]
+		ViewReport = 8,
 
-		[DescriptionAttribute("Редактирование вкладки Отчеты")]
-		EditReport,
+		[DescriptionAttribute("Просмотр Графиков")]
+		ViewPlot = 9,
 
-		[DescriptionAttribute("Вкладка Графики")]
-		Plot,
+		[DescriptionAttribute("Просмотр Журнала событий")]
+		ViewJournal = 10,
 
-		[DescriptionAttribute("Редактирование вкладки Графики")]
-		EditPlot,
-
-		[DescriptionAttribute("Вкладка Журнал событий")]
-		Journal,
-
-		[DescriptionAttribute("Редактирование вкладки Журнал событий")]
-		EditJournal,
+		[DescriptionAttribute("Редактирование Квитанции ")]
+		EditReceipt = 11,
 	}
 }

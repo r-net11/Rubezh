@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using ResursNetwork.Devices.Collections.ObjectModel;
+using System.Collections.Specialized;
+using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
 using ResursNetwork.Management;
 using ResursNetwork.OSI.DataLinkLayer;
-using ResursNetwork.OSI.Messages.Transaction;
+using ResursNetwork.OSI.Messages;
+using ResursNetwork.OSI.Messages.Transactions;
+using ResursAPI.Models;
 using Common;
 
 namespace ResursNetwork.OSI.ApplicationLayer
@@ -18,23 +21,33 @@ namespace ResursNetwork.OSI.ApplicationLayer
     public abstract class NetworkControllerBase: INetwrokController
     {
         #region Fields And Properties
-        //private static List<UInt32> RegisteredControllerIds = new List<uint>();
 
-        protected uint _ControllerId;
+        protected Guid _Id;
+        protected DevicesCollection _Devices;
+        protected CancellationTokenSource _CancellationTokenSource;
+        protected Task _NetworkPollingTask;
+        protected Status _Status = Status.Stopped;
+        protected EventHandler _MessageReceived;
+        protected IDataLinkPort _Connection;
+        protected int _TotalAttempts;
+		protected int _pollingPeriod =
+			Convert.ToInt32(TimeSpan.FromDays(1).TotalMilliseconds); // По умолчнию период синхронизации 1 день;
+		protected NetworkControllerErrors _errors;
+
         /// <summary>
         /// Id контроллера
         /// </summary>
-        public uint ControllerId
+        public Guid Id
         {
-            get { return _ControllerId; }
-            set { _ControllerId = value; }
+            get { return _Id; }
+            set { _Id = value; }
         }
+
         /// <summary>
         /// Возвращает список типов устройств с которыми может работать данный контроллер
         /// </summary>
         public abstract IEnumerable<Devices.DeviceType> SuppotedDevices { get; }
 
-        protected DevicesCollection _Devices;
         /// <summary>
         /// Возвращает список устройств
         /// </summary>
@@ -43,9 +56,6 @@ namespace ResursNetwork.OSI.ApplicationLayer
             get { return _Devices; }
         }
 
-        protected CancellationTokenSource _CancellationTokenSource;
-        protected Task _NetworkPollingTask;
-        protected Status _Status = Status.Stopped;
         /// <summary>
         /// Возвращает или устанавливает статус контроллера
         /// </summary>
@@ -53,105 +63,102 @@ namespace ResursNetwork.OSI.ApplicationLayer
         {
             get
             {
-                return _Status;
-                //if (_NetworkPollingTask == null)
-                //{
-                //    return Status.Stopped;
-                //}
-                //else
-                //{
-                //    switch(_NetworkPollingTask.Status)
-                //    {
-                //        case TaskStatus.Canceled:
-                //        case TaskStatus.RanToCompletion:
-                //        case TaskStatus.Faulted:
-                //            { return Status.Stopped; }
-                //        case TaskStatus.Created:
-                //        case TaskStatus.Running:
-                //        case TaskStatus.WaitingForActivation:
-                //        case TaskStatus.WaitingForChildrenToComplete:
-                //        case TaskStatus.WaitingToRun:
-                //            { return Status.Running; }
-                //        default:
-                //            { throw new NotImplementedException(); }
-                //    }
-                //}
+                //return _Status;
+                if (_NetworkPollingTask == null)
+                {
+                    return Status.Stopped;
+                }
+                else
+                {
+                    switch (_NetworkPollingTask.Status)
+                    {
+                        case TaskStatus.Canceled:
+                        case TaskStatus.RanToCompletion:
+                        case TaskStatus.Faulted:
+                            { return Status.Stopped; }
+                        case TaskStatus.Created:
+                        case TaskStatus.Running:
+                        case TaskStatus.WaitingForActivation:
+                        case TaskStatus.WaitingForChildrenToComplete:
+                        case TaskStatus.WaitingToRun:
+                            { return Status.Running; }
+                        default:
+                            { throw new NotImplementedException(); }
+                    }
+                }
             }
             set
             {
                 if (Status != value)
                 {
-                    _Status = value;
-//                    switch (value)
-//                    {
-//                        case Status.Running:
-//                            {
-//                                if (_Connection == null)
-//                                {
-//                                    throw new InvalidOperationException(
-//                                        "Невозможно запустить контроллер. Не установлено соединение");
-//                                }
-//                                else
-//                                {
-//                                    _Connection.Open();
-//                                }
+                    //_Status = value;
+                    switch (value)
+                    {
+                        case Status.Running:
+                            {
+                                if (_Connection == null)
+                                {
+                                    throw new InvalidOperationException(
+                                        "Невозможно запустить контроллер. Не установлено соединение");
+                                }
+                                else
+                                {
+                                    _Connection.Open();
+                                }
 
-//                                if (_CancellationTokenSource == null)
-//                                {
-//                                    _CancellationTokenSource = new CancellationTokenSource();
-//                                }
-//                                // Запускаем сетевой обмен данными
-//                                _NetworkPollingTask = Task.Factory.StartNew(NetwokPollingAction, 
-//                                    _CancellationTokenSource.Token);
+                                if (_CancellationTokenSource == null)
+                                {
+                                    _CancellationTokenSource = new CancellationTokenSource();
+                                }
+                                // Запускаем сетевой обмен данными
+                                _NetworkPollingTask = Task.Factory.StartNew(NetwokPollingAction,
+                                    _CancellationTokenSource.Token);
 
-//                                Logger.Info(String.Format("Controller Id={0} | Изменил состояние на новое Status={1}",
-//                                    _ControllerId, Status.Running));
-                                
-//                                OnStatusWasChanged();
-//                                break; 
-//                            }
-//                        case Status.Stopped:
-//                            { 
-//                                // Останавливаем сетевой обмен данными
-//                                try
-//                                {
-//                                    _CancellationTokenSource.Cancel();
-//                                    _NetworkPollingTask.Wait(); // Ждём завершения операции отмены задачи
-//                                }
-//                                catch (AggregateException)
-//                                {
-//                                    if (!_NetworkPollingTask.IsCanceled)
-//                                    {
-//                                        throw;
-//                                    }
-//                                }
-//                                catch (Exception)
-//                                {
-//                                    throw;
-//                                }
-//                                finally
-//                                {
-//                                    _NetworkPollingTask.Dispose();
-//                                    _CancellationTokenSource.Dispose();
-//#if !DEBUG
-//                                    Logger.Info(String.Format("Controller Id={0} | {Изменил состояние на новое {0}}",
-//                                        _ControllerId, Status.Stopped));
-//#endif                                    
-//                                    _Connection.Close();
-//                                    OnStatusWasChanged();
-//                                }
-//                                break; 
-//                            }
-//                        default:
-//                            { throw new NotSupportedException(); }
-//                    }
+                                Logger.Info(String.Format("Controller Id={0} | Изменил состояние на новое Status={1}",
+                                    _Id, Status.Running));
+
+                                OnStatusWasChanged();
+                                break;
+                            }
+                        case Status.Stopped:
+                            {
+                                // Останавливаем сетевой обмен данными
+                                try
+                                {
+                                    _CancellationTokenSource.Cancel();
+                                    _NetworkPollingTask.Wait(); // Ждём завершения операции отмены задачи
+                                }
+                                catch (AggregateException)
+                                {
+                                    if (!_NetworkPollingTask.IsCanceled)
+                                    {
+                                        throw;
+                                    }
+                                }
+                                catch (Exception)
+                                {
+                                    throw;
+                                }
+                                finally
+                                {
+                                    _NetworkPollingTask.Dispose();
+                                    _CancellationTokenSource.Dispose();
+#if !DEBUG
+                                    Logger.Info(String.Format("Controller Id={0} | {Изменил состояние на новое {0}}",
+                                        _Id, Status.Stopped));
+#endif
+                                    _Connection.Close();
+                                    OnStatusWasChanged();
+                                }
+                                break;
+                            }
+                        default:
+                            { throw new NotSupportedException(); }
+                    }
                 }
             }
         }
 
-        protected EventHandler _MessageReceived;
-
-        protected IDataLinkPort _Connection;
         /// <summary>
         /// Объетк для соединения с физическим интерфейсом
         /// </summary>
@@ -160,7 +167,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
             get { return _Connection; }
             set
             {
-                if ((Status == Status.Running) || (Status == Status.Paused))
+                if (Status == Status.Running)
                 {
                     throw new InvalidOperationException(
                         "Невозможно выполенить установку порта, контроллер в активном состоянии");
@@ -194,20 +201,63 @@ namespace ResursNetwork.OSI.ApplicationLayer
             }
         }
 
+        /// <summary>
+        /// Кол-во попыток доступа к устройтсву прежде
+        /// чем устройство переводится в ошибка соединения 
+        /// </summary>
+        public int TotalAttempts
+        {
+            get { return _TotalAttempts; }
+            set
+            {
+                if (value > 0)
+                {
+                    _TotalAttempts = value;
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
+
+		/// <summary>
+		/// Период (мсек) получения данных от удалённых устройтв
+		/// </summary>
+		public virtual int PollingPeriod
+		{
+			get { return _pollingPeriod; }
+			set
+			{
+				_pollingPeriod = value;
+			}
+		}
+
+		public NetworkControllerErrors Errors
+		{
+			get { return _errors; }
+		}
+
         #endregion
         
         #region Constructors
+
         /// <summary>
         /// Конструктор
         /// </summary>
         public NetworkControllerBase()
         {
+            _Id = Guid.NewGuid();
+            _TotalAttempts = 1;
             _MessageReceived = new EventHandler(EventHandler_Connection_MessageReceived);
             _Devices = new DevicesCollection(this);
+			_Devices.CollectionChanged += EventHandler_Devices_CollectionChanged;
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Запускает опрос удалённых устройств 
         /// </summary>
@@ -215,6 +265,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
         {
             Status = Status.Running;
         }
+
         /// <summary>
         /// Останавливает опрос удалённых устройств)
         /// </summary>
@@ -222,49 +273,141 @@ namespace ResursNetwork.OSI.ApplicationLayer
         {
             Status = Status.Stopped;
         }
-        /// <summary>
-        /// Приостанавливает опрос удалённых устройств
-        /// </summary>
-        public virtual void Suspend()
-        {
-            Status = Status.Paused;
-        }
+
+		private void EventHandler_Devices_CollectionChanged(
+			object sender, DevicesCollectionChangedEventArgs e)
+		{
+			switch (e.Action)
+			{
+				case NotifyCollectionChangedAction.Add:
+					{
+						OnConfigurationChanged(
+							new ConfigurationChangedEventArgs 
+							{ 
+								Device = e.Device, 
+								Action = ConfigurationChangedAction.DeviceAdded 
+							});
+						break;
+					}
+				case NotifyCollectionChangedAction.Remove:
+					{
+						OnConfigurationChanged(
+							new ConfigurationChangedEventArgs
+							{
+								Device = e.Device,
+								Action = ConfigurationChangedAction.DeviceRemoved
+							});
+						break;
+					}
+				default:
+					{
+						throw new NotImplementedException();
+					}
+			}
+		}
+
+		private void OnConfigurationChanged(ConfigurationChangedEventArgs args)
+		{
+			if (args == null)
+			{
+				throw new ArgumentNullException();
+			}
+
+			if (ConfigurationChanged != null)
+			{
+				ConfigurationChanged(this, args);
+			}
+		}
+
         /// <summary>
         /// Генерирует событие изменения состояния контроллера
         /// </summary>
         protected virtual void OnStatusWasChanged()
         {
-            if (StatusWasChanged != null)
+            if (StatusChanged != null)
             {
-                StatusWasChanged(this, new EventArgs());
+                StatusChanged(this, new EventArgs());
             }
         }
-        /// <summary>
+
+        protected virtual void OnNetwrokRequestCompleted(NetworkRequestCompletedArgs args)
+        {
+            if (NetwrokRequestCompleted != null)
+            {
+                NetwrokRequestCompleted(this, args);
+            }
+        }
+
+		protected void OnParameterChanged(ParameterChangedEventArgs args)
+		{
+			if (ParameterChanged != null)
+			{
+				ParameterChanged(this, args);
+			}
+		}
+
+		protected void OnErrorOccured(NetworkControllerErrorOccuredEventArgs args)
+		{
+			if (args == null)
+			{
+				throw new ArgumentNullException();
+			}
+			if (ErrorOccurred != null)
+			{
+				ErrorOccurred(this, args);
+			}
+		}
+        
+		/// <summary>
         /// Член IDisposable
         /// </summary>
         public virtual void Dispose()
         {
             Stop();
         }
+
         /// <summary>
         /// Обработчик приёма сообщения
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected abstract void EventHandler_Connection_MessageReceived(object sender, EventArgs e);
+
         /// <summary>
         /// Метод выполняет сетевой опрос устройств
         /// </summary>
-        protected abstract void NetwokPollingAction(Object cancelToken);
+        protected abstract void NetwokPollingAction(Object cancellationToken);
+
         /// <summary>
         /// Записывает транзакцию в буфер исходящих сообщений
         /// </summary>
-        /// <param name="transaction"></param>
-        public abstract void Write(Transaction transaction);
-        #endregion
+        /// <param name="request"></param>
+        /// <param name="isExternalCall"></param>
+        public abstract IAsyncRequestResult Write(NetworkRequest request, bool isExternalCall);
+
+        /// <summary>
+        /// Синхронизирует время в сети
+        /// </summary>
+        public abstract void SyncDateTime();
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="commandName"></param>
+		public virtual void ExecuteCommand(string commandName)
+		{}
+        
+		#endregion
 
         #region Events
-        public event EventHandler StatusWasChanged;
-        #endregion
-    }
+
+		public event EventHandler StatusChanged;
+        public event EventHandler<NetworkRequestCompletedArgs> NetwrokRequestCompleted;
+		public event EventHandler<ParameterChangedEventArgs> ParameterChanged;
+		public event EventHandler<ConfigurationChangedEventArgs> ConfigurationChanged;
+		public event EventHandler<NetworkControllerErrorOccuredEventArgs> ErrorOccurred;
+
+		#endregion
+	}
 }

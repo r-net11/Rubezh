@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Common", "..
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrustructure.Plans", "..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj", "{DA2A8431-7328-4AE8-926F-E191700577A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecAPI", "..\Common\FiresecServiceAPI\FiresecAPI.csproj", "{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubezhAPI", "..\Common\RubezhAPI\RubezhAPI.csproj", "{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResursAPI", "ResursAPI\ResursAPI.csproj", "{94C0399F-3EAB-4E23-98F9-61EB8DAA4974}"
 EndProject
@@ -26,6 +26,27 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResursDAL", "DAL\ResursDAL.csproj", "{C6C6465E-30FE-4D6C-BDF4-1F0B9E4C325A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UinitTestResursNetwork", "UinitTestResursNetwork\UinitTestResursNetwork.csproj", "{812709F5-109B-46B4-8212-D459EB1BFE74}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{E7788D76-E567-42C3-B1C2-F14CF7C25D98}"
+	ProjectSection(SolutionItems) = preProject
+		Documents\Manual.txt = Documents\Manual.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Network protocols", "Network protocols", "{AF489ADB-308A-4E59-8BF6-B7E5E4FE236B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Incotex", "Incotex", "{DB2F5808-20FE-400B-86DF-416D71B94E8D}"
+	ProjectSection(SolutionItems) = preProject
+		Documents\Network protocols\Incotex\M203-система команд.pdf = Documents\Network protocols\Incotex\M203-система команд.pdf
+		Documents\Network protocols\Incotex\Описание протокола взаимодействия со счётчиком Меркурий 236 версия ПО 8.0.0 M234 версия ПО 9.0.0 v. 131211.pdf = Documents\Network protocols\Incotex\Описание протокола взаимодействия со счётчиком Меркурий 236 версия ПО 8.0.0 M234 версия ПО 9.0.0 v. 131211.pdf
+		Documents\Network protocols\Incotex\СИСТЕМА200_425.pdf = Documents\Network protocols\Incotex\СИСТЕМА200_425.pdf
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResursIncotexTerminal", "ResursIncotexTerminal\ResursIncotexTerminal.csproj", "{4241FD98-341F-4F40-ABDF-EE3837E9523F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Энергомера", "Энергомера", "{648432DB-A864-4AF1-912A-F6F55A6B65B9}"
+	ProjectSection(SolutionItems) = preProject
+		Documents\Network protocols\Энергомера\ГОСТ Р МЭК 61107-2001.pdf = Documents\Network protocols\Энергомера\ГОСТ Р МЭК 61107-2001.pdf
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -211,6 +232,20 @@ Global
 		{812709F5-109B-46B4-8212-D459EB1BFE74}.Release|Win32.ActiveCfg = Release|Any CPU
 		{812709F5-109B-46B4-8212-D459EB1BFE74}.Release|x64.ActiveCfg = Release|Any CPU
 		{812709F5-109B-46B4-8212-D459EB1BFE74}.Release|x86.ActiveCfg = Release|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Release|Win32.ActiveCfg = Release|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Release|x64.ActiveCfg = Release|Any CPU
+		{4241FD98-341F-4F40-ABDF-EE3837E9523F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -222,5 +257,8 @@ Global
 		{DA2A8431-7328-4AE8-926F-E191700577A1} = {55FE10AF-A462-4908-B710-8824101701E1}
 		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7} = {55FE10AF-A462-4908-B710-8824101701E1}
 		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF} = {55FE10AF-A462-4908-B710-8824101701E1}
+		{AF489ADB-308A-4E59-8BF6-B7E5E4FE236B} = {E7788D76-E567-42C3-B1C2-F14CF7C25D98}
+		{DB2F5808-20FE-400B-86DF-416D71B94E8D} = {AF489ADB-308A-4E59-8BF6-B7E5E4FE236B}
+		{648432DB-A864-4AF1-912A-F6F55A6B65B9} = {AF489ADB-308A-4E59-8BF6-B7E5E4FE236B}
 	EndGlobalSection
 EndGlobal

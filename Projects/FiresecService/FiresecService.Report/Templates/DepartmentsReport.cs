@@ -6,11 +6,11 @@ using System.Linq;
 using Common;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
+using RubezhAPI.SKD;
+using RubezhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using FiresecService.Report.Model;
-using SKDDriver;
+using RubezhDAL;
 
 namespace FiresecService.Report.Templates
 {
@@ -36,7 +36,7 @@ namespace FiresecService.Report.Templates
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<DepartmentsReportFilter>();
-            var databaseService = new SKDDriver.DataClasses.DbService();
+            var databaseService = new RubezhDAL.DataClasses.DbService();
 			dataProvider.LoadCache();
 			var departments = GetDepartments(dataProvider, filter);
 			var uids = departments.Select(item => item.UID).ToList();

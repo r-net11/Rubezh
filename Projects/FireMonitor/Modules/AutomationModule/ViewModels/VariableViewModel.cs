@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Automation;

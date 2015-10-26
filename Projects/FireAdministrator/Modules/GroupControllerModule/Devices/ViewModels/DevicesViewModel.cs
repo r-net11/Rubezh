@@ -5,9 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using Common;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using GKModule.Models;
 using GKModule.Plans;
 using GKModule.Plans.Designer;
@@ -23,7 +23,7 @@ using Infrustructure.Plans.Events;
 using Microsoft.Win32;
 using KeyboardKey = System.Windows.Input.Key;
 using System.Xml.Serialization;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 
 namespace GKModule.ViewModels
 {
@@ -31,7 +31,7 @@ namespace GKModule.ViewModels
 	{
 		public static DevicesViewModel Current { get; private set; }
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
-		private bool _lockSelection;
+		bool _lockSelection = false;
 
 		public DevicesViewModel()
 		{
@@ -44,7 +44,6 @@ namespace GKModule.ViewModels
 			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
 			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
 
-			_lockSelection = false;
 			Menu = new DevicesMenuViewModel(this);
 			Current = this;
 			RegisterShortcuts();
@@ -223,7 +222,7 @@ namespace GKModule.ViewModels
 				{
 					foreach (var deviceToCopy in DevicesToCopy)
 					{
-						var pasteDevice = GKManager.CopyDevice(deviceToCopy, isCut);
+						var pasteDevice = GKManager.CopyDevice(deviceToCopy, isCut,true);
 						var device = PasteDevice(pasteDevice);
 						if (device == null)
 							break;
@@ -232,21 +231,20 @@ namespace GKModule.ViewModels
 						{
 							cache.UpdateDeviceBinding(device);
 							SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
-							device.Invalidate();
-							if (isCut)
-								device.OutDependentElements.ForEach(x => x.OnChanged());
 						}
 					}
 					if (SelectedDevice.Device.IsConnectedToKAU)
 					{
 						GKManager.RebuildRSR2Addresses(SelectedDevice.Device);
 						GKManager.UpdateConfiguration();
+						SelectedDevice.Device.ChangedLogic();
 					}
 				}
 				GKManager.DeviceConfiguration.Update();
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
 				GKPlanExtension.Instance.InvalidateCanvas();
 				ServiceFactory.SaveService.GKChanged = true;
+				isCut = false;
 			}
 		}
 		bool CanPaste()
@@ -462,18 +460,6 @@ namespace GKModule.ViewModels
 			});
 		}
 
-		private void SubscribeEvents()
-		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
-
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
-		}
 		private void OnDeviceChanged(Guid deviceUID)
 		{
 			var device = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
@@ -501,24 +487,27 @@ namespace GKModule.ViewModels
 		}
 		private void OnElementSelected(ElementBase element)
 		{
-			ElementGKDevice elementXDevice = element as ElementGKDevice;
-			if (elementXDevice != null)
+			ElementGKDevice elementDevice = element as ElementGKDevice;
+			if (elementDevice != null)
 			{
 				_lockSelection = true;
-				Select(elementXDevice.DeviceUID);
+				Select(elementDevice.DeviceUID);
 				_lockSelection = false;
 			}
 		}
 
-		public override void OnShow()
+		private void SubscribeEvents()
 		{
-			base.OnShow();
-		}
-		public override void OnHide()
-		{
-			base.OnHide();
-		}
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+		}
 		protected override void UpdateRibbonItems()
 		{
 			base.UpdateRibbonItems();

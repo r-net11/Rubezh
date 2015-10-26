@@ -1,0 +1,66 @@
+------------------------------------------------------------------------------------------
+Работа с библиотекой ResursNetwork
+Основной класс для работы NetworksManager. Класс является singleton. Вся работа с удалёнными
+устройтсвами производится через него.
+
+1. Методы NetworksManager:
+
+	1.1 Для работы с сетями:
+
+	Добавляет новую сеть (сетевой контроллер) на основет переданного типа
+	void AddNetwork(ResursAPI.Device device);
+	
+	Удаляет сеть с указанным id из менаджера
+	void RemoveNetwork(Guid id);
+
+	Включает или выключает сетевой контроллер 
+	void SetStatus(Guid id, bool status)
+
+	Получает состояние сетевого контроллера
+	bool GetStatus(Guid id)
+
+	1.2 Для работые с устройствами:
+
+	Добавляет новое устройство в сеть с указанным идентификатором
+	!!! Сетевой контроллер должен существовать в NetworksManager перед
+	добавлением устройтсва.
+	void AddDevice(ResursAPI.Device device);
+
+	Удаляет устройтсво с указанным идентификатором из сети
+	void RemoveDevice(Guid deviceId)
+
+	Включает или выключает сетевое устройтсво 
+	void SetStatus(Guid id, bool status)
+
+	Получает состояние сетевого устройтсва
+	bool GetStatus(Guid id)
+
+	Читает значение параметра из удалённого устройтсво
+	Блокирует вызывающий поток до окончания сетевой транзакции
+	Result ReadParameter(Guid deviceId, string parameterName)
+
+	Записывает новое значение параметра у удалённое устройтство
+	Блокирует вызывающий поток до окончания сетевой транзакции
+	Result WriteParameter(Guid deviceId, string parameterName, ValueType value)
+
+	Устанавливает дату и время у всех устройтсв в указанной сети
+	(Широковещательная команда)
+	void SyncDateTime(Guid netwokrId)
+
+	Посыылает команду на устройство/контроллер сети. Имя команды лежит в ResursAPI\Models\CommandNames
+	SendCommand(Guid deviceId, string commandName)
+
+2. События NetworksManager:
+	Генерируется при возникновении ошибок в устройтсве или при работе 
+	DeviceHasError(Guid deviceId, Error error)
+
+	Генерируется при возникновении ошибок в контроллере сети или при работе 
+	NetworkControllerHasError(Guid network, Error error)
+
+	Генерируется при изменении значения параметра устройтсва
+	ParameterChanged(Guid deviceId, string parameterName, ValueType newValue)
+	
+	Генерируется при изменении состояния устройства или сети
+	StatusChanged(Guid id, bool newStatus)
+
+------------------------------------------------------------------------------------------

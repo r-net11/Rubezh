@@ -1,5 +1,5 @@
 ﻿using FireAdministrator.ViewModels;
-using FiresecClient;
+using RubezhClient;
 using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;

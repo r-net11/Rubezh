@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -13,8 +13,7 @@ namespace GKModule.ViewModels
 {
 	public class MPTViewModel : BaseViewModel
 	{
-		private VisualizationState _visualizetionState;
-		public GKMPT MPT { get; set; }
+		public GKMPT MPT { get; private set; }
 
 		public MPTViewModel(GKMPT mpt)
 		{
@@ -23,8 +22,8 @@ namespace GKModule.ViewModels
 			ChangeStopLogicCommand = new RelayCommand(OnChangeStopLogic);
 			ChangeSuspendLogicCommand = new RelayCommand(OnChangeSuspendLogic);
 			AddCommand = new RelayCommand(OnAdd);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+			EditCommand = new RelayCommand(OnEdit, () => SelectedDevice != null);
+			DeleteCommand = new RelayCommand(OnDelete, () => SelectedDevice != null);
 			EditPropertiesCommand = new RelayCommand(OnEditProperties, CanEditProperties);
 
 			MPT.Changed += Update;
@@ -82,7 +81,7 @@ namespace GKModule.ViewModels
 			foreach (var device in GKManager.Devices)
 			{
 				if (GKMPTDevice.GetAvailableMPTDriverTypes(SelectedDevice.MPTDeviceType).Any(x => device.DriverType == x))
-					if (!device.IsInMPT || device.DriverType == GKDriverType.RSR2_CardReader || device.DriverType == GKDriverType.RSR2_CodeReader)
+					if (!device.IsInMPT || device.Driver.IsCardReaderOrCodeReader)
 						devices.Add(device);
 			}
 
@@ -106,10 +105,6 @@ namespace GKModule.ViewModels
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
-		bool CanEdit()
-		{
-			return SelectedDevice != null;
-		}
 
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
@@ -120,10 +115,6 @@ namespace GKModule.ViewModels
 			MPT.ChangedLogic();
 			SelectedDevice = Devices.FirstOrDefault();
 			ServiceFactory.SaveService.GKChanged = true;
-		}
-		bool CanDelete()
-		{
-			return SelectedDevice != null;
 		}
 
 		public RelayCommand EditPropertiesCommand { get; private set; }
@@ -171,12 +162,6 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => StartPresentationName);
 			OnPropertyChanged(() => StopPresentationName);
 			OnPropertyChanged(() => SuspendPresentationName);
-		}
-
-		public void Update(GKMPT mpt)
-		{
-			MPT = mpt;
-			Update();
 		}
 
 		public RelayCommand ChangeStartLogicCommand { get; private set; }
@@ -244,6 +229,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		private VisualizationState _visualizetionState;
 		public VisualizationState VisualizationState
 		{
 			get { return _visualizetionState; }

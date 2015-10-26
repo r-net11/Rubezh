@@ -11,6 +11,7 @@ using System.Windows.Input;
 using KeyboardKey = System.Windows.Input.Key;
 using System.Collections.Generic;
 using Infrastructure.Common.Ribbon;
+using RubezhClient;
 
 namespace FiltersModule.ViewModels
 {
@@ -31,7 +32,7 @@ namespace FiltersModule.ViewModels
 		public void Initialize()
 		{
 			Filters = new ObservableCollection<FilterViewModel>();
-			foreach (var filter in FiresecClient.FiresecManager.SystemConfiguration.JournalFilters)
+			foreach (var filter in ClientManager.SystemConfiguration.JournalFilters)
 			{
 				var filterViewModel = new FilterViewModel(filter);
 				Filters.Add(filterViewModel);
@@ -67,7 +68,7 @@ namespace FiltersModule.ViewModels
 			var filterDetailsViewModel = new FilterDetailsViewModel();
 			if (DialogService.ShowModalWindow(filterDetailsViewModel))
 			{
-				FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filterDetailsViewModel.Filter);
+				ClientManager.SystemConfiguration.JournalFilters.Add(filterDetailsViewModel.Filter);
 				ServiceFactory.SaveService.FilterChanged = true;
 				var filterViewModel = new FilterViewModel(filterDetailsViewModel.Filter);
 				Filters.Add(filterViewModel);
@@ -89,7 +90,7 @@ namespace FiltersModule.ViewModels
 		void OnDelete()
 		{
 			var index = Filters.IndexOf(SelectedFilter);
-			FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Remove(SelectedFilter.Filter);
+			ClientManager.SystemConfiguration.JournalFilters.Remove(SelectedFilter.Filter);
 			Filters.Remove(SelectedFilter);
 			index = Math.Min(index, Filters.Count - 1);
 			if (index > -1)

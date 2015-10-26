@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI;
+using RubezhAPI;
 using Infrastructure.Common;
 
 namespace SettingsModule.ViewModels
@@ -9,7 +9,7 @@ namespace SettingsModule.ViewModels
 		public ErrorFilterViewModel(ValidationErrorType errorType)
 		{
 			ErrorType = errorType;
-			IsChecked = GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ErrorType);
+			//IsChecked = GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ErrorType);
 		}
 
 		public ValidationErrorType ErrorType { get; private set; }

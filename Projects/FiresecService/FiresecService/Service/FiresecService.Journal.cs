@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
-using FiresecAPI;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
-using SKDDriver.DataClasses;
+using RubezhAPI;
+using RubezhAPI.Journal;
+using RubezhAPI.SKD;
+using RubezhDAL.DataClasses;
 using System.Diagnostics;
 using Infrastructure.Automation;
 
@@ -42,9 +42,9 @@ namespace FiresecService.Service
 
 		public static void AddCommonJournalItems(List<JournalItem> journalItems)
 		{
-			using (var dbService = new SKDDriver.DataClasses.DbService())
+			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
-				dbService.JournalTranslator.AddRange(journalItems);
+				databaseService.JournalTranslator.AddRange(journalItems);
 			}
 			FiresecService.NotifyNewJournalItems(journalItems);
 			foreach (var journalItem in journalItems)
@@ -80,15 +80,15 @@ namespace FiresecService.Service
 
 		public OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter filter)
 		{
-			using (var dbService = new SKDDriver.DataClasses.DbService())
+			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
-				return dbService.JournalTranslator.GetFilteredJournalItems(filter);
+				return databaseService.JournalTranslator.GetFilteredJournalItems(filter);
 			}
 		}
 
 		public OperationResult<List<JournalItem>> GetArchivePage(ArchiveFilter filter, int page)
 		{
-			using(var dbService = new SKDDriver.DataClasses.DbService())
+			using(var dbService = new RubezhDAL.DataClasses.DbService())
 			{
 				return dbService.JournalTranslator.GetArchivePage(filter, page);
 			}
@@ -96,9 +96,9 @@ namespace FiresecService.Service
 
 		public OperationResult<int> GetArchiveCount(ArchiveFilter filter)
 		{
-			using (var dbService = new SKDDriver.DataClasses.DbService())
+			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
-				return dbService.JournalTranslator.GetArchiveCount(filter);
+				return databaseService.JournalTranslator.GetArchiveCount(filter);
 			}
 		}
 		#endregion

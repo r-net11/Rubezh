@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Practices.Prism.Events;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 using System.Collections.Generic;
 
 namespace GKSDK
@@ -37,7 +37,7 @@ namespace GKSDK
 		{
 			for (int i = 1; i <= 10; i++)
 			{
-				var message = FiresecManager.Connect(ClientType.Other, ConnectionSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.AdminLogin, GlobalSettingsHelper.GlobalSettings.AdminPassword);
+				var message = ClientManager.Connect(ClientType.Other, ConnectionSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.AdminLogin, GlobalSettingsHelper.GlobalSettings.AdminPassword);
 				if (message == null)
 					break;
 				Thread.Sleep(5000);
@@ -50,7 +50,7 @@ namespace GKSDK
 
 			ServiceFactoryBase.Events = new EventAggregator();
 
-			FiresecManager.GetConfiguration("GKSDK/Configuration");
+			ClientManager.GetConfiguration("GKSDK/Configuration");
 			GKDriversCreator.Create();
             GKManager.UpdateConfiguration();
             GKManager.CreateStates();
@@ -63,12 +63,12 @@ namespace GKSDK
 			SafeFiresecService.NewJournalItemsEvent -= OnNewJournalItems;
 			SafeFiresecService.NewJournalItemsEvent += OnNewJournalItems;
 
-			FiresecManager.StartPoll();
+			ClientManager.StartPoll();
 		}
 
 		void InitializeStates()
 		{
-			var gkStates = FiresecManager.FiresecService.GKGetStates();
+			var gkStates = ClientManager.FiresecService.GKGetStates();
 			CopyGKStates(gkStates);
 		}
 

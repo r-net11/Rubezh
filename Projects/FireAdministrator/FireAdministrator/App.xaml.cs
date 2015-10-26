@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
-using FiresecClient;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Client.Startup;
 using Infrastructure.Common;
@@ -65,7 +65,7 @@ namespace FireAdministrator
 			if (ApplicationService.Modules != null)
 				foreach (var module in ApplicationService.Modules)
 					module.Dispose();
-			FiresecManager.Disconnect();
+			ClientManager.Disconnect();
 		}
 
 		[STAThread]

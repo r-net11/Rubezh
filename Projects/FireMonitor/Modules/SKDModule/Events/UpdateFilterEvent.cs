@@ -1,4 +1,4 @@
-﻿using FiresecAPI.SKD;
+﻿using RubezhAPI.SKD;
 using Microsoft.Practices.Prism.Events;
 using SKDModule.ViewModels;
 

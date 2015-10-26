@@ -4,8 +4,8 @@ using System.Linq;
 using System.Windows;
 using Common;
 using FireMonitor.ViewModels;
-using FiresecAPI.Models;
-using FiresecClient;
+using RubezhAPI.Models;
+using RubezhClient;
 using GKProcessor;
 using Infrastructure;
 using Infrastructure.Client;
@@ -16,10 +16,10 @@ using Infrastructure.Events;
 using System.Windows.Threading;
 using Infrastructure.Client.Startup;
 using System.Threading;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 using Infrastructure.Automation;
-using FiresecAPI.Automation;
-using FiresecAPI.AutomationCallback;
+using RubezhAPI.Automation;
+using RubezhAPI.AutomationCallback;
 using System.Collections.Generic;
 
 namespace FireMonitor
@@ -47,50 +47,50 @@ namespace FireMonitor
 					CreateModules();
 
                     ServiceFactory.StartupService.DoStep("Загрузка лицензии");
-                    FiresecManager.GetLicense();
+                    ClientManager.GetLicense();
 
 					ServiceFactory.StartupService.ShowLoading("Чтение конфигурации", 15);
 					ServiceFactory.StartupService.AddCount(GetModuleCount());
 
 					ServiceFactory.StartupService.DoStep("Синхронизация файлов");
-					FiresecManager.UpdateFiles();
+					ClientManager.UpdateFiles();
 
 					ServiceFactory.StartupService.DoStep("Загрузка конфигурации с сервера");
-					FiresecManager.GetConfiguration("Monitor/Configuration");
+					ClientManager.GetConfiguration("Monitor/Configuration");
 					ProcedureExecutionContext.Initialize(
 						ContextType.Client,
-						FiresecManager.SystemConfiguration,
-						FiresecManager.SecurityConfiguration,
+						ClientManager.SystemConfiguration,
+						ClientManager.SecurityConfiguration,
 						SafeFiresecService.ProcessAutomationCallback,
-						FiresecManager.FiresecService.ProcedureCallbackResponse,
+						ClientManager.FiresecService.ProcedureCallbackResponse,
 						OnSynchronizeVariable,
-						FiresecManager.FiresecService.AddJournalItem,
-						FiresecManager.FiresecService.ControlGKDevice,
-						FiresecManager.FiresecService.StartRecord,
-						FiresecManager.FiresecService.StopRecord,
-						FiresecManager.FiresecService.Ptz,
-						FiresecManager.FiresecService.RviAlarm,
-						FiresecManager.FiresecService.ControlFireZone,
-						FiresecManager.FiresecService.ControlGuardZone,
-						FiresecManager.FiresecService.ControlDirection,
-						FiresecManager.FiresecService.ControlGKDoor,
-						FiresecManager.FiresecService.ControlDelay,
-						FiresecManager.FiresecService.ExportJournal,
-						FiresecManager.FiresecService.ExportOrganisation,
-						FiresecManager.FiresecService.ExportOrganisationList,
-						FiresecManager.FiresecService.ExportConfiguration,
-						FiresecManager.FiresecService.ImportOrganisation,
-						FiresecManager.FiresecService.ImportOrganisationList
+						ClientManager.FiresecService.AddJournalItem,
+						ClientManager.FiresecService.ControlGKDevice,
+						ClientManager.FiresecService.StartRecord,
+						ClientManager.FiresecService.StopRecord,
+						ClientManager.FiresecService.Ptz,
+						ClientManager.FiresecService.RviAlarm,
+						ClientManager.FiresecService.ControlFireZone,
+						ClientManager.FiresecService.ControlGuardZone,
+						ClientManager.FiresecService.ControlDirection,
+						ClientManager.FiresecService.ControlGKDoor,
+						ClientManager.FiresecService.ControlDelay,
+						ClientManager.FiresecService.ExportJournal,
+						ClientManager.FiresecService.ExportOrganisation,
+						ClientManager.FiresecService.ExportOrganisationList,
+						ClientManager.FiresecService.ExportConfiguration,
+						ClientManager.FiresecService.ImportOrganisation,
+						ClientManager.FiresecService.ImportOrganisationList
 						);
 
 					GKDriversCreator.Create();
 					BeforeInitialize(true);
 
 					ServiceFactory.StartupService.DoStep("Старт полинга сервера");
-					FiresecManager.StartPoll();
+					ClientManager.StartPoll();
 
 					ServiceFactory.StartupService.DoStep("Проверка прав пользователя");
-					if (FiresecManager.CheckPermission(PermissionType.Oper_Login))
+					if (ClientManager.CheckPermission(PermissionType.Oper_Login))
 					{
 						ServiceFactory.StartupService.DoStep("Загрузка клиентских настроек");
 						ClientSettings.LoadSettings();
@@ -149,7 +149,7 @@ namespace FireMonitor
 		{
 			if (targetContextType == ContextType.Client)
 			{
-				var remoteVariable = FiresecManager.FiresecService.GetVariable(variable.Uid);
+				var remoteVariable = ClientManager.FiresecService.GetVariable(variable.Uid);
 				if (remoteVariable != null)
 				{
 					variable.ExplicitValue = remoteVariable.ExplicitValue;
@@ -158,7 +158,7 @@ namespace FireMonitor
 			}
 			else
 			{
-				FiresecManager.FiresecService.SetVariableValue(variable.Uid, ProcedureExecutionContext.GetValue(variable));
+				ClientManager.FiresecService.SetVariableValue(variable.Uid, ProcedureExecutionContext.GetValue(variable));
 			}
 		}
 
@@ -170,7 +170,7 @@ namespace FireMonitor
 
 		static void ShutDown()
 		{
-			FiresecManager.Disconnect();
+			ClientManager.Disconnect();
 			if (Application.Current != null)
 				Application.Current.Shutdown();
 		}
@@ -225,7 +225,7 @@ namespace FireMonitor
 			{
 				ApplicationService.ApplicationWindow.IsEnabled = false;
 				ServiceFactory.ContentService.Invalidate();
-				FiresecManager.FiresecService.StopPoll();
+				ClientManager.FiresecService.StopPoll();
 				LoadingErrorManager.Clear();
 				ApplicationService.CloseAllWindows();
 				ServiceFactory.Layout.Close();

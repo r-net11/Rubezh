@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace GKProcessor
 {
@@ -12,8 +12,8 @@ namespace GKProcessor
 				DriverTypeNo = 0x102,
 				DriverType = GKDriverType.RSR2_KAU,
 				UID = new Guid("57C45124-9300-49BC-A268-68F3D929927B"),
-				Name = "Контроллер адресных устройств R2",
-				ShortName = "КАУ-2",
+				Name = "Контроллер адресных устройств",
+				ShortName = "КАУ",
 				CanEditAddress = true,
 				HasAddress = true,
 				IsDeviceOnShleif = false,

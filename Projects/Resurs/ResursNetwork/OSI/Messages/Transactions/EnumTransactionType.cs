@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ResursNetwork.OSI.Messages.Transaction
+namespace ResursNetwork.OSI.Messages.Transactions
 {
     /// <summary>
     /// Определяет тип транзакции "запрос-ответ"

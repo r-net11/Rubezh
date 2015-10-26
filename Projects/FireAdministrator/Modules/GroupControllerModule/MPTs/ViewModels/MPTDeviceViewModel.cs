@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -30,7 +30,7 @@ namespace GKModule.ViewModels
 				_device = value;
 				if (_device != null)
 				{
-					IsCodeReader = _device.DriverType == GKDriverType.RSR2_CodeReader || _device.DriverType == GKDriverType.RSR2_CardReader;
+					IsCodeReader = _device.Driver.IsCardReaderOrCodeReader;
 				}
 				OnPropertyChanged(() => IsCodeReader);
 				OnPropertyChanged(() => Device);

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using FiresecClient;
+using RubezhClient;
 using System.Windows.Input;
 using KeyboardKey = System.Windows.Input.Key;
 
@@ -19,17 +19,17 @@ namespace AutomationModule.ViewModels
 		public GlobalVariablesViewModel()
 		{
 			Current = this;
-			Menu = new GlobalVariablesMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			Menu = new GlobalVariablesMenuViewModel(this);
 			RegisterShortcuts();
 		}
 
 		public void Initialize()
 		{
 			GlobalVariables = new ObservableCollection<VariableViewModel>();
-			foreach (var globalVariable in FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
+			foreach (var globalVariable in ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 			{
 				var globalVariableViewModel = new VariableViewModel(globalVariable);
 				GlobalVariables.Add(globalVariableViewModel);
@@ -65,7 +65,7 @@ namespace AutomationModule.ViewModels
 			var globalVariableDetailsViewModel = new VariableDetailsViewModel(null, "глобальная переменная", "Добавить глобальную переменную", true);
 			if (DialogService.ShowModalWindow(globalVariableDetailsViewModel))
 			{
-				FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(globalVariableDetailsViewModel.Variable);
+				ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(globalVariableDetailsViewModel.Variable);
 				var globalVariableViewModel = new VariableViewModel(globalVariableDetailsViewModel.Variable);
 				GlobalVariables.Add(globalVariableViewModel);
 				SelectedGlobalVariable = globalVariableViewModel;
@@ -83,7 +83,7 @@ namespace AutomationModule.ViewModels
 		void OnDelete()
 		{
 			var index = GlobalVariables.IndexOf(SelectedGlobalVariable);
-			FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Remove(SelectedGlobalVariable.Variable);
+			ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Remove(SelectedGlobalVariable.Variable);
 			GlobalVariables.Remove(SelectedGlobalVariable);
 			index = Math.Min(index, GlobalVariables.Count - 1);
 			if (index > -1)

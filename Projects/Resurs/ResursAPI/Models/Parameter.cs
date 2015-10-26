@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ResursAPI
@@ -17,6 +18,7 @@ namespace ResursAPI
 		public void Initialize(DriverParameter driverParameter)
 		{
 			DriverParameter = driverParameter;
+			DriverParameterUID = driverParameter.UID;
 			switch (driverParameter.ParameterType)
 			{
 				case ParameterType.Enum:
@@ -29,24 +31,24 @@ namespace ResursAPI
 					break;
 				case ParameterType.Int:
 					if (IntValue == null)
-						IntValue = driverParameter.IntDefaultValue;
+						IntValue = driverParameter.IntDefaultValue > driverParameter.IntMinValue ? driverParameter.IntDefaultValue : driverParameter.IntMinValue;
 					break;
 				case ParameterType.Double:
 					if (DoubleValue == null)
-						DoubleValue = driverParameter.DoubleDefaultValue;
+						DoubleValue = driverParameter.DoubleDefaultValue > driverParameter.DoubleMinValue ? driverParameter.DoubleDefaultValue : driverParameter.DoubleMinValue;
 					break;
 				case ParameterType.Bool:
-					BoolValue = driverParameter.BoolDefaultValue;
+					if(BoolValue == null)
+						BoolValue = driverParameter.BoolDefaultValue;
 					break;
 				case ParameterType.DateTime:
 					if (DateTimeValue == null)
-						DateTimeValue = driverParameter.DateTimeDefaultValue;
+						DateTimeValue = driverParameter.DateTimeDefaultValue > driverParameter.DateTimeMinValue ? driverParameter.DateTimeDefaultValue : driverParameter.DateTimeMinValue;
 					break;
 				default:
 					break;
 			}
 		}
-
 		public string Validate()
 		{
 			if(DriverParameter == null)
@@ -60,6 +62,8 @@ namespace ResursAPI
 						return "Недопустимое значение параметра";
 					break;
 				case ParameterType.String:
+					if (StringValue != null && DriverParameter.RegEx != null && !Regex.IsMatch(StringValue, DriverParameter.RegEx))
+						return "Недопустимое значение параметра";
 					break;
 				case ParameterType.Int:
 					if (IntValue == null)
@@ -97,15 +101,13 @@ namespace ResursAPI
 		public Device Device { get; set; }
 		[NotMapped]
 		public DriverParameter DriverParameter { get; set; }
-		public bool IsPollingEnabled { get; set; }
-		public int Number { get; set; }
+		public Guid DriverParameterUID { get; set; }
 		public int? IntValue { get; set; }
 		public double? DoubleValue { get; set; }
-		public bool BoolValue { get; set; }
+		public bool? BoolValue { get; set; }
 		[MaxLength(4000)]
 		public string StringValue { get; set; }
 		public DateTime? DateTimeValue { get; set; }
-
 		public string GetStringValue()
 		{
 			switch (DriverParameter.ParameterType)
@@ -128,13 +130,83 @@ namespace ResursAPI
 						return "";
 					return DoubleValue.Value.ToString();
 				case ParameterType.Bool:
-					return BoolValue ? "Да" : "Нет";
+					if (BoolValue == null)
+						return "";
+					return BoolValue.Value ? "Да" : "Нет";
 				case ParameterType.DateTime:
 					if (DateTimeValue == null)
 						return "";
 					return DateTimeValue.Value.ToString();
 				default:
 					return "";
+			}
+		}
+		[NotMapped]
+		public ValueType ValueType
+		{
+			get
+			{
+				switch (DriverParameter.ParameterType)
+				{
+					case ParameterType.Enum:
+						if (IntValue != null)
+						{
+							switch (DriverParameter.IntType)
+							{
+								case IntType.Int:
+									return IntValue.Value;
+								case IntType.Int16:
+									return Convert.ToInt16(IntValue.Value);
+								case IntType.Int32:
+									return Convert.ToInt32(IntValue.Value);
+								case IntType.UInt32:
+									return Convert.ToUInt32(IntValue.Value);
+								case IntType.UInt16:
+									return Convert.ToUInt16(IntValue.Value);
+								default:
+									break;
+							}
+
+						}
+						break;
+					case ParameterType.String:
+						return new ParameterStringContainer 
+						{ 
+							Value = StringValue, 
+							RegEx = DriverParameter.RegEx 
+						};
+					case ParameterType.Int:
+						if (IntValue != null)
+						{
+							switch (DriverParameter.IntType)
+							{
+								case IntType.Int:
+									return IntValue.Value;
+								case IntType.Int16:
+									return Convert.ToInt16(IntValue.Value);
+								case IntType.Int32:
+									return Convert.ToInt32(IntValue.Value);
+								case IntType.UInt32:
+									return Convert.ToUInt32(IntValue.Value);
+								case IntType.UInt16:
+									return Convert.ToUInt16(IntValue.Value);
+								default:
+									break;
+							}
+						}
+						break;
+					case ParameterType.Double:
+						if (DoubleValue != null)
+							return DoubleValue.Value;
+						break;
+					case ParameterType.Bool:
+						return BoolValue;
+					case ParameterType.DateTime:
+						if (DateTimeValue != null)
+							return DateTimeValue.Value;
+						break;
+				}
+				throw new ArgumentNullException("Не найдено значение параметра");
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 ﻿using System;
-using FiresecAPI;
-using FiresecClient;
-using SKDDriver;
+using RubezhAPI;
+using RubezhClient;
+using RubezhDAL;
 
 namespace GKProcessor
 {
@@ -11,7 +11,7 @@ namespace GKProcessor
 		{
 			var gkIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice);
 			var localLastDBNo = -1;
-            using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
+            using (var skdDatabaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				localLastDBNo = skdDatabaseService.GKMetadataTranslator.GetLastJournalNo(gkIpAddress);
 			}
@@ -24,7 +24,7 @@ namespace GKProcessor
 			{
 				return false;
 			}
-			using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
+			using (var skdDatabaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				skdDatabaseService.GKMetadataTranslator.SetLastJournalNo(gkIpAddress, remoteLastId);
 			}

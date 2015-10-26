@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace GKProcessor
 {
@@ -103,7 +103,7 @@ namespace GKProcessor
 		{
 			var count = 0;
 
-			foreach (var guardDevice in deviceAndSettings.Where(x => x.Item1.DriverType != GKDriverType.RSR2_CodeReader && x.Item1.DriverType != GKDriverType.RSR2_CardReader))
+			foreach (var guardDevice in deviceAndSettings.Where(x => !x.Item1.Driver.IsCardReaderOrCodeReader))
 			{
 				Formula.AddGetBit(GKStateBit.Fire1, guardDevice.Item1);
 				if (count > 0)
@@ -121,9 +121,8 @@ namespace GKProcessor
 				count++;
 			}
 
-			foreach (var guardDevice in deviceAndSettings.Where(x => x.Item1.DriverType == GKDriverType.RSR2_CodeReader || x.Item1.DriverType == GKDriverType.RSR2_CardReader))
+			foreach (var guardDevice in deviceAndSettings.Where(x => x.Item1.Driver.IsCardReaderOrCodeReader))
 			{
-
 				FormulaHelper.AddCodeReaderLogic(Formula, guardDevice.Item2, guardDevice.Item1);
 				if (count > 0)
 				{
@@ -176,7 +175,7 @@ namespace GKProcessor
 						{
 							foreach (var setAlarmDevice in SetAlarmDevices)
 							{
-								if (setAlarmDevice.Item1.DriverType != GKDriverType.RSR2_CodeReader && setAlarmDevice.Item1.DriverType != GKDriverType.RSR2_CardReader)
+								if (!setAlarmDevice.Item1.Driver.IsCardReaderOrCodeReader)
 								{
 									Formula.AddGetBit(GKStateBit.Fire1, setAlarmDevice.Item1);
 									Formula.AddGetBit(GKStateBit.Failure, setAlarmDevice.Item1);
@@ -205,7 +204,7 @@ namespace GKProcessor
 			Formula.Add(FormulaOperationType.EXIT);
 			foreach (var guardDevice in deviceAndSettings)
 			{
-				if (guardDevice.Item1.DriverType != GKDriverType.RSR2_CodeReader && guardDevice.Item1.DriverType != GKDriverType.RSR2_CardReader)
+				if (!guardDevice.Item1.Driver.IsCardReaderOrCodeReader)
 				{
 					Formula.AddGetBit(GKStateBit.Fire1, guardDevice.Item1);
 					if (count > 0)

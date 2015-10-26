@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.SKD;
+using RubezhAPI.SKD;
 using System.Collections.Generic;
 
 namespace Infrastructure

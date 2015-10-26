@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Automation;
-using FiresecClient;
+using RubezhAPI.Automation;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -26,7 +26,7 @@ namespace AutomationModule.ViewModels
 		void InitializeFilters()
 		{
 			Filters = new ObservableCollection<FilterViewModel>();
-			foreach (var filter in FiresecManager.SystemConfiguration.JournalFilters.FindAll(x => !Procedure.FiltersUids.Contains(x.UID)))
+			foreach (var filter in ClientManager.SystemConfiguration.JournalFilters.FindAll(x => !Procedure.FiltersUids.Contains(x.UID)))
 			{
 				var filterViewModel = new FilterViewModel(filter);
 				Filters.Add(filterViewModel);

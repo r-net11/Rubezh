@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace GKProcessor
 {
@@ -186,18 +186,15 @@ namespace GKProcessor
 
 		void CreatePim()
 		{
-			//PumpStation.Pim.GetDataBaseParent();
 			PumpStation.Pim.IsLogicOnKau = PumpStation.IsLogicOnKau;
 			var pimDescriptor = new PimDescriptor(PumpStation.Pim);
 			Database.Descriptors.Add(pimDescriptor);
 
 			pimDescriptor.Formula = new FormulaBuilder();
-			var inputDevices = new List<GKBase>(PumpStation.InputDependentElements.Where(x => x is GKDevice));
-			foreach (var nsDevice in PumpStation.NSDevices)
-			{
-				if (!inputDevices.Contains(nsDevice))
-					inputDevices.Add(nsDevice);
-			}
+			var inputDevices = new List<GKBase>(PumpStation.StartLogic.GetObjects().Where(x => x is GKDevice));
+			inputDevices.AddRange(PumpStation.StopLogic.GetObjects().Where(x => x is GKDevice));
+			inputDevices.AddRange(PumpStation.AutomaticOffLogic.GetObjects().Where(x => x is GKDevice));
+			inputDevices.AddRange(PumpStation.NSDevices);
 			foreach (var inputDevice in inputDevices)
 			{
 				PumpStation.Pim.LinkToDescriptor(inputDevice);
@@ -211,7 +208,8 @@ namespace GKProcessor
 					pimDescriptor.Formula.Add(FormulaOperationType.OR);
 				}
 			}
-			pimDescriptor.Formula.AddPutBit(GKStateBit.Failure, PumpStation.Pim);
+			if (inputDevices.Count > 0)
+				pimDescriptor.Formula.AddPutBit(GKStateBit.Failure, PumpStation.Pim);
 
 			pimDescriptor.Formula.Add(FormulaOperationType.END);
 			pimDescriptor.IsFormulaGeneratedOutside = true;

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Net.Mail;
 using System.Text;
 using Common;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Common.Mail

@@ -2,8 +2,10 @@
 using ResursDAL;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace Resurs.Processor
 {
@@ -13,6 +15,16 @@ namespace Resurs.Processor
 		{
 
 			return DBCash.CheckLogin(login,password);
+		}
+
+		public static void RestartApplication()
+		{
+			var processStartInfo = new ProcessStartInfo()
+			{
+				FileName = Application.ResourceAssembly.Location,
+			};
+			System.Diagnostics.Process.Start(processStartInfo);
+			System.Environment.Exit(1);
 		}
 	}
 }

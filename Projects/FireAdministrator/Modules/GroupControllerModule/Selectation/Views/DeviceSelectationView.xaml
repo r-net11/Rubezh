@@ -4,11 +4,18 @@
 		xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 		MinWidth="700" MinHeight="400">
 
-	<DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
-			VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard" UIBehavior.ShowSelectionMark="True" UIBehavior.IsActiveSelectionMark="True">
+	<DataGrid ItemsSource="{Binding Devices}"
+			  SelectedItem="{Binding SelectedDevice}"
+			  SelectionChanged="OnSelectionChanged"
+			  CanUserSortColumns="True"
+			  VirtualizingStackPanel.IsVirtualizing="True"
+			  VirtualizingStackPanel.VirtualizationMode="Standard"
+			  UIBehavior.ShowSelectionMark="True"
+			  UIBehavior.IsActiveSelectionMark="True">
 		<DataGrid.Resources>
 			<InputBindingCollection x:Key="inputCollection" x:Shared="False">
-				<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
+				<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+							  MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
 			</InputBindingCollection>
 		</DataGrid.Resources>
 		<DataGrid.ItemContainerStyle>
@@ -27,7 +34,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTextColumn Binding="{Binding DottedAddress}" Header="Адрес" Width="Auto" />
+			<DataGridTextColumn Binding="{Binding DottedPresentationAddress}" Header="Адрес" Width="Auto" />
 			<DataGridTemplateColumn Header="Примечание" Width="*" >
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
@@ -39,7 +46,11 @@
 							</Controls:EditorPresenter.ViewTemplate>
 							<Controls:EditorPresenter.EditTemplate>
 								<ControlTemplate>
-									<TextBox Name="descriptionTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="{DynamicResource ForegroundColorDark}" Text="{Binding DataContext.Description, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, UpdateSourceTrigger=PropertyChanged}" />
+									<TextBox Name="descriptionTextBox"
+											 HorizontalAlignment="Stretch"
+											 BorderThickness="0"
+											 Foreground="{DynamicResource ForegroundColorDark}"
+											 Text="{Binding DataContext.Description, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, UpdateSourceTrigger=PropertyChanged}" />
 									<ControlTemplate.Triggers>
 										<Trigger SourceName="descriptionTextBox" Property="IsVisible" Value="True">
 											<Setter TargetName="descriptionTextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=descriptionTextBox}" />

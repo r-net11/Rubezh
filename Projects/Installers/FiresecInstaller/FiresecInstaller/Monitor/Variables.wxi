@@ -12,4 +12,5 @@
 	<?define Monitor.RVIVSS.Dll.TargetDir="..\..\..\..\..\..\3rdParty\RVIVSS\Dll\"?>
   <?define Server.TargetDir="..\..\..\..\..\FiresecService\bin\Release\"?>
   <?define Common.TargetDir="..\..\..\..\..\FireAdministrator\bin\Release\"?>
+	<?define Monitor.DevExpress.TargetDir="..\..\..\..\..\..\3rdParty\DevExpress\DevExpress 15.1\"?>
 </Include>

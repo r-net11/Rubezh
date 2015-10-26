@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecAPI.Automation;
-using FiresecAPI;
+using RubezhAPI.Automation;
+using RubezhAPI;
 
 namespace AutomationModule.ViewModels
 {

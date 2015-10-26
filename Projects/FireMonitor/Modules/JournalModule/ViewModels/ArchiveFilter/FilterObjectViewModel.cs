@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Reflection;
 using Controls.Converters;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
+using RubezhAPI.SKD;
 using Infrastructure.Common.TreeList;
 
 namespace JournalModule.ViewModels
@@ -76,7 +76,7 @@ namespace JournalModule.ViewModels
 			ImageSource = gkBase.ImageSource;
 		}
 
-		public FilterObjectViewModel(FiresecAPI.Models.Camera camera)
+		public FilterObjectViewModel(RubezhAPI.Models.Camera camera)
 		{
 			Name = camera.Name;
 			UID = camera.UID;

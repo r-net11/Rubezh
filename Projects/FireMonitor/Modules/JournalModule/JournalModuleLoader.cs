@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Journal;
-using FiresecAPI.Models.Layouts;
-using FiresecClient;
+using RubezhAPI.Journal;
+using RubezhAPI.Models.Layouts;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
@@ -96,11 +96,8 @@ namespace JournalModule
 			SafeFiresecService.NewJournalItemsEvent -= new Action<List<JournalItem>>(OnNewJournalItems);
 			SafeFiresecService.NewJournalItemsEvent += new Action<List<JournalItem>>(OnNewJournalItems);
 
-			SafeFiresecService.GetFilteredArchiveCompletedEvent -= new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredArchiveCompletedEvent);
-			SafeFiresecService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredArchiveCompletedEvent);
-
 			var journalFilter = new JournalFilter();
-			var result = FiresecManager.FiresecService.GetFilteredJournalItems(journalFilter);
+			var result = ClientManager.FiresecService.GetFilteredJournalItems(journalFilter);
 			if (!result.HasError)
 			{
 				JournalViewModel.SetJournalItems(result.Result);
@@ -119,19 +116,6 @@ namespace JournalModule
 			});
 		}
 
-		void OnGetFilteredArchiveCompletedEvent(IEnumerable<JournalItem> journalItems, Guid archivePortionUID)
-		{
-			ApplicationService.Invoke(() =>
-			{
-				var archiveResult = new ArchiveResult()
-				{
-					ArchivePortionUID = archivePortionUID,
-					JournalItems = journalItems
-				};
-				ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Publish(archiveResult);
-			});
-		}
-
 		#region ILayoutProviderModule Members
 
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
@@ -139,13 +123,13 @@ namespace JournalModule
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Journal, "Журнал событий", "Book.png", (p) =>
 			{
 				var layoutPartJournalProperties = p as LayoutPartReferenceProperties;
-				var filter = FiresecManager.SystemConfiguration.JournalFilters.FirstOrDefault(x => x.UID == layoutPartJournalProperties.ReferenceUID);
+				var filter = ClientManager.SystemConfiguration.JournalFilters.FirstOrDefault(x => x.UID == layoutPartJournalProperties.ReferenceUID);
 				if(filter == null)
 					filter = new JournalFilter();
 
 				var journalViewModel = new JournalViewModel(filter);
 				journalViewModel.Initialize();
-				var result = FiresecManager.FiresecService.GetFilteredJournalItems(filter);
+				var result = ClientManager.FiresecService.GetFilteredJournalItems(filter);
 				if (!result.HasError)
 				{
 					journalViewModel.SetJournalItems(result.Result);

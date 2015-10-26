@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using GKImitator.Processor;
 using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Journal;
+using RubezhAPI.Journal;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Infrastructure.Common.Windows;
-using SKDDriver.DataClasses;
+using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels
 {

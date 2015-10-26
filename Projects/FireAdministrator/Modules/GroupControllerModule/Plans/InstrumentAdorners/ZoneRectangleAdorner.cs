@@ -1,5 +1,5 @@
-﻿using FiresecAPI.GK;
-using FiresecAPI.Models;
+﻿using RubezhAPI.GK;
+using RubezhAPI.Models;
 using GKModule.Plans.ViewModels;
 using GKModule.ViewModels;
 using Infrastructure.Common.Windows;

@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FiresecClient;
-using FiresecAPI.GK;
+using RubezhClient;
+using RubezhAPI.GK;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure;
@@ -25,7 +25,7 @@ namespace GKModule.ViewModels
 			Title = "Права доступа для отражения";
 			Device = device;
 			Users = new ObservableCollection<MirrorUserNewModel>();
-			foreach (var mirrorUser in device.GKReflectionItem.MirrorUsers)
+			foreach (var mirrorUser in device.GKMirrorItem.MirrorUsers)
 			{
 				var mirrorUserNewModel = new MirrorUserNewModel(mirrorUser);
 				Users.Add(mirrorUserNewModel);
@@ -102,7 +102,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadCommand { get; private set; }
 		void Read()
 		{
-			var operationResult = FiresecManager.FiresecService.GKReadMirrorUsers(Device);
+			var operationResult = ClientManager.FiresecService.GKReadMirrorUsers(Device);
 			if (operationResult.HasError)
 				MessageBoxService.ShowWarning(operationResult.Error);
 			else
@@ -120,14 +120,14 @@ namespace GKModule.ViewModels
 		public RelayCommand WriteCommand { get; private set; }
 		void Write()
 		{
-			var operationResult = FiresecManager.FiresecService.GKWriteMirrorUsers(Device, Device.GKReflectionItem.MirrorUsers);
+			var operationResult = ClientManager.FiresecService.GKWriteMirrorUsers(Device, Device.GKMirrorItem.MirrorUsers);
 			if(operationResult.HasError)
 				MessageBoxService.ShowWarning(operationResult.Error);
 		}
 		
 		protected override bool Save()
 		{
-			Device.GKReflectionItem.MirrorUsers = new List<MirrorUser>(Users.Select(x=>x.MirrorUser));
+			Device.GKMirrorItem.MirrorUsers = new List<MirrorUser>(Users.Select(x=>x.MirrorUser));
 			ServiceFactory.SaveService.GKChanged = true;
 			return base.Save();
 		}

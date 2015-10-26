@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI;
-using FiresecAPI.Automation;
+using RubezhAPI;
+using RubezhAPI.Automation;
 using Infrastructure.Common.TreeList;
 
 namespace AutomationModule.ViewModels

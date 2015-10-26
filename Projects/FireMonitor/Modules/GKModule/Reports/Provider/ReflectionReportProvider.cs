@@ -1,4 +1,4 @@
-﻿using FiresecAPI.SKD.ReportFilters;
+﻿using RubezhAPI.SKD.ReportFilters;
 using GKModule.ViewModels;
 using Infrastructure.Common.SKDReports;
 using System;

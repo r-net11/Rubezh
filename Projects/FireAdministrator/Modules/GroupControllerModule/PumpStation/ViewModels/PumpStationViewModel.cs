@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+using RubezhAPI.GK;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -13,7 +13,7 @@ namespace GKModule.ViewModels
 {
 	public class PumpStationViewModel : BaseViewModel
 	{
-		public GKPumpStation PumpStation { get; set; }
+		public GKPumpStation PumpStation { get; private set; }
 
 		public PumpStationViewModel(GKPumpStation pumpStation)
 		{
@@ -109,6 +109,8 @@ namespace GKModule.ViewModels
 			{
 				var device = SelectedPumpDevice.Device;
 				PumpStation.NSDeviceUIDs.Remove(SelectedPumpDevice.Device.UID);
+				SelectedPumpDevice.Device.OutDependentElements.Remove(PumpStation);
+				PumpStation.InputDependentElements.Remove(SelectedPumpDevice.Device);
 				Update();
 				device.NSLogic = new GKLogic();
 				device.OnChanged();

@@ -9,46 +9,41 @@ using Resurs.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
-using FiresecAPI;
 using Infrastructure.Common.Theme;
 using System.Windows.Forms;
 using ResursRunner;
+using Microsoft.Win32;
+using Resurs.Views;
+using ResursDAL;
 
 namespace Resurs
 {
 	public static class Bootstrapper
 	{
-		static MainViewModel MainViewModel;
+		public static MainViewModel MainViewModel;
+		public static MainView MainView;
 
 		public static void Run(bool showWindow)
 		{
 			try
 			{
+				AddToAutorun();
 				ThemeHelper.LoadThemeFromRegister();
 				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 				var resourceService = new ResourceService();
 				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Main/DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Devices/DataTemplates/Dictionary.xaml"));
-				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Apartments/DataTemplates/Dictionary.xaml"));
+				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Consumers/DataTemplates/Dictionary.xaml"));
+				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Reports/DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Users/DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "JournalEvents/DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Tariffs/DataTemplates/Dictionary.xaml"));
+				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Bills/DataTemplates/Dictionary.xaml"));
 				try
 				{
 					App.Current.ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown;
-
-					var startupViewModel = new StartupViewModel();
-					if (!DialogService.ShowModalWindow(startupViewModel))
-						return;
-
-					var mainView = new Resurs.Views.MainView();
-					var mainViewModel = new MainViewModel();
-					mainView.DataContext = mainViewModel;
-					if (showWindow)
-					{
-						mainView.Show();
-					}
+					Activate(showWindow);
 				}
 				catch (Exception e)
 				{
@@ -61,6 +56,55 @@ namespace Resurs
 				Logger.Error(e, "Исключение при вызове Bootstrapper.Run");
 				Close();
 			}
+		}
+
+		public static void Activate()
+		{
+			Activate(true);
+		}
+		public static void Activate(bool showWindow)
+		{
+			if (showWindow && DBCash.CurrentUser == null)
+			{
+				var startupViewModel = new StartupViewModel();
+				if (!DialogService.ShowModalWindow(startupViewModel))
+					return;
+			}
+			
+			if (MainViewModel == null)
+				MainViewModel = new MainViewModel();
+			
+			if (MainView == null)
+			{
+				MainView = new MainView();
+				MainView.DataContext = MainViewModel;
+			}
+
+			if (showWindow)
+			{
+				MainViewModel.UpdateTabsIsVisible();
+				MainView.WindowState = System.Windows.WindowState.Normal;
+				MainView.Show();
+				MainView.Activate();
+				MainView.ShowInTaskbar = true;
+			}
+		}
+
+		static void AddToAutorun()
+		{
+			try
+			{
+				using (var registryKey = Registry.CurrentUser.CreateSubKey(@"software\Microsoft\Windows\CurrentVersion\Run"))
+				{
+					if (registryKey != null)
+						registryKey.SetValue("Resurs", string.Format("\"{0}\" -hide", Application.ExecutablePath));
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при попытке добавления программы в автозагрузку");
+			}
+			
 		}
 
 		public static void Close()

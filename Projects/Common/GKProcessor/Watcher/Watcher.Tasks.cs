@@ -22,7 +22,7 @@ namespace GKProcessor
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "NativeFiresecClient.AddTask");
+				Logger.Error(e, "Watcher.AddTask");
 			}
 		}
 
@@ -36,7 +36,7 @@ namespace GKProcessor
 					if (Tasks == null)
 					{
 						Tasks = new Queue<Action>();
-						Logger.Error("JournalWatcher.CheckTasks Tasks = null");
+						Logger.Error("Watcher.CheckTasks Tasks = null");
 					}
 
 					while (Tasks.Count > 0)
@@ -55,7 +55,7 @@ namespace GKProcessor
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "JournalWatcher.CheckTasks");
+				Logger.Error(e, "Watcher.CheckTasks");
 			}
 		}
 	}

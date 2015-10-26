@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FiresecClient;
-using FiresecAPI.GK;
+using RubezhClient;
+using RubezhAPI.GK;
 using System.Collections.Generic;
 
 namespace GKProcessor.Test
@@ -21,6 +21,7 @@ namespace GKProcessor.Test
 		[TestInitialize]
 		public void CreateConfiguration()
 		{
+			GKManager.DeviceConfiguration = new GKDeviceConfiguration();
 			GKDriversCreator.Create();
 			var systemDevice = GKManager.DeviceConfiguration.RootDevice = new GKDevice() { DriverUID = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.System).UID };
 			gkDevice = GKManager.AddChild(systemDevice, null, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GK), 0);
@@ -44,7 +45,8 @@ namespace GKProcessor.Test
 			Assert.IsNotNull(Kau1Database);
 			Kau2Database = DescriptorsManager.KauDatabases.FirstOrDefault(x => x.RootDevice == kauDevice2);
 			Assert.IsNotNull(Kau2Database);
-			Assert.IsTrue(DescriptorsManager.Check().Count() == 0);
+			var descriptorErrors = DescriptorsManager.Check().ToList();
+			Assert.IsTrue(descriptorErrors.Count() == 0);
 		}
 
 		void CheckDeviceLogicOnGK(GKDevice device)

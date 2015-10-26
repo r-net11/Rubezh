@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using FiresecClient;
+using RubezhClient;
 using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
@@ -12,7 +12,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
-using FiresecAPI.GK;
+using RubezhAPI.GK;
 
 namespace GKModule.ViewModels
 {
@@ -22,8 +22,8 @@ namespace GKModule.ViewModels
 		{
 			Menu = new GuardMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
-			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
 			RegisterShortcuts();
 			SetRibbonItems();
@@ -76,6 +76,22 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
+		{
+			var codeDetailsViewModel = new CodeDetailsViewModel(SelectedCode.Code);
+			if (DialogService.ShowModalWindow(codeDetailsViewModel))
+			{
+				SelectedCode.Update();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		bool CanEditDelete()
+		{
+			return (SelectedCode != null);
+		}
+
 		public void CreateCode(CreateGKCodeEventArg createGKCodeEventArg)
 		{
 			OnAdd();
@@ -125,7 +141,7 @@ namespace GKModule.ViewModels
 			HashSet<Guid> codes = new HashSet<Guid>();
 			foreach (var guardZone in GKManager.DeviceConfiguration.GuardZones)
 			{
-				var guardZoneDevices = guardZone.GuardZoneDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CardReader || x.Device.DriverType == GKDriverType.RSR2_CodeReader);
+				var guardZoneDevices = guardZone.GuardZoneDevices.Where(x => x.Device.Driver.IsCardReaderOrCodeReader);
 				foreach (var code in GKManager.DeviceConfiguration.Codes)
 				{
 					if (guardZoneDevices.Any(y => y.CodeReaderSettings.AlarmSettings.CodeUIDs.Contains(code.UID) || y.CodeReaderSettings.ChangeGuardSettings.CodeUIDs.Contains(code.UID) ||
@@ -138,7 +154,7 @@ namespace GKModule.ViewModels
 
 			foreach (var MPT in GKManager.DeviceConfiguration.MPTs)
 			{
-				var MPTDevices = MPT.MPTDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CardReader);
+				var MPTDevices = MPT.MPTDevices.Where(x => x.Device.Driver.IsCardReaderOrCodeReader);
 				foreach (var code in GKManager.DeviceConfiguration.Codes)
 				{
 					if (MPTDevices.Any(y => y.CodeReaderSettings.MPTSettings.CodeUIDs.Contains(code.UID)))
@@ -149,22 +165,6 @@ namespace GKModule.ViewModels
 			}
 
 			return codes;
-		}
-
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			var codeDetailsViewModel = new CodeDetailsViewModel(SelectedCode.Code);
-			if (DialogService.ShowModalWindow(codeDetailsViewModel))
-			{
-				SelectedCode.Code = codeDetailsViewModel.Code;
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-
-		bool CanEditDelete()
-		{
-			return (SelectedCode != null);
 		}
 
 		void RegisterShortcuts()

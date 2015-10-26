@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Automation;
-using FiresecClient;
+using RubezhAPI.Automation;
+using RubezhClient;
 using Infrastructure.Common.Validation;
+using Infrastructure.Common;
+using RubezhAPI;
 
 namespace AutomationModule.Validation
 {
@@ -14,7 +16,7 @@ namespace AutomationModule.Validation
 		void ValidateProcedure()
 		{
 			var nameList = new List<string>();
-			foreach (var procedure in FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures)
+			foreach (var procedure in ClientManager.SystemConfiguration.AutomationConfiguration.Procedures)
 			{
 				Procedure = procedure;
 				foreach (var procedureStep in procedure.Steps)
@@ -49,7 +51,7 @@ namespace AutomationModule.Validation
 				case ProcedureStepType.PlaySound:
 					{
 						var soundArguments = step.SoundArguments;
-						if (FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.All(x => x.Uid != soundArguments.SoundUid))
+						if (ClientManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.All(x => x.Uid != soundArguments.SoundUid))
 							Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы" + step.Name, ValidationErrorLevel.CannotSave));
 					}
 					break;
@@ -139,7 +141,7 @@ namespace AutomationModule.Validation
 				case ProcedureStepType.ProcedureSelection:
 					{
 						var procedureSelectionArguments = step.ProcedureSelectionArguments;
-						if (FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.All(x => x.Uid != procedureSelectionArguments.ScheduleProcedure.ProcedureUid))
+						if (ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.All(x => x.Uid != procedureSelectionArguments.ScheduleProcedure.ProcedureUid))
 							Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы" + step.Name, ValidationErrorLevel.CannotSave));
 						foreach (var argument in procedureSelectionArguments.ScheduleProcedure.Arguments)
 							ValidateArgument(step, argument);
@@ -171,11 +173,14 @@ namespace AutomationModule.Validation
 
 				case ProcedureStepType.ControlGKDevice:
 					{
-						var controlGKDeviceArguments = step.ControlGKDeviceArguments;
-						var gkDevice = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == controlGKDeviceArguments.GKDeviceArgument.ExplicitValue.UidValue);
-						if (gkDevice != null && gkDevice.Logic.OnClausesGroup.Clauses.Count > 0)
-							Errors.Add(new ProcedureStepValidationError(step, "Исполнительное устройство содержит собственную логику" + step.Name, ValidationErrorLevel.Warning));
-						ValidateArgument(step, controlGKDeviceArguments.GKDeviceArgument);
+						if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.DeviceHaveNoLogic))
+						{
+							var controlGKDeviceArguments = step.ControlGKDeviceArguments;
+							var gkDevice = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == controlGKDeviceArguments.GKDeviceArgument.ExplicitValue.UidValue);
+							if (gkDevice != null && gkDevice.Logic.OnClausesGroup.Clauses.Count > 0)
+								Errors.Add(new ProcedureStepValidationError(step, "Исполнительное устройство содержит собственную логику" + step.Name, ValidationErrorLevel.Warning));
+							ValidateArgument(step, controlGKDeviceArguments.GKDeviceArgument);
+						}
 					}
 					break;
 
@@ -448,7 +453,7 @@ namespace AutomationModule.Validation
 			var localVariables = new List<Variable>(Procedure.Variables);
 			localVariables.AddRange(new List<Variable>(Procedure.Arguments));
 			if (argument.VariableScope == VariableScope.GlobalVariable)
-				if (FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.All(x => x.Uid != argument.VariableUid))
+				if (ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.All(x => x.Uid != argument.VariableUid))
 				{
 					Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы", ValidationErrorLevel.CannotSave));
 					return false;

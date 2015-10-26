@@ -1,6 +1,6 @@
 ﻿using System;
-using FiresecAPI;
-using FiresecAPI.Models;
+using RubezhAPI;
+using RubezhAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace FiresecService.ViewModels

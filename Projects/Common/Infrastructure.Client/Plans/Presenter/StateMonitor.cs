@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using Infrustructure.Plans.Presenter;
 
 namespace Infrastructure.Client.Plans.Presenter

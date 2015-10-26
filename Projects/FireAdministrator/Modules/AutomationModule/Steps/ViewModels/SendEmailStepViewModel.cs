@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Automation;
+﻿using RubezhAPI.Automation;
 
 namespace AutomationModule.ViewModels
 {

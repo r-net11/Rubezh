@@ -2,11 +2,21 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-			 xmlns:viewModel="clr-namespace:Resurs.ViewModels">
+			 xmlns:viewModel="clr-namespace:Resurs.ViewModels"
+			 xmlns:Converters="clr-namespace:Resurs.Converters">
 	<UserControl.Resources>
 		<viewModel:DeviceViewModelNameComparer x:Key="DeviceViewModelNameComparer" />
 		<viewModel:DeviceViewModelDescriptionComparer x:Key="DeviceViewModelDescriptionComparer" />
 		<viewModel:DeviceViewModelAddressComparer x:Key="DeviceViewModelAddressComparer" />
+		<Converters:DeviceStateToIconConverter x:Key="DeviceStateToIconConverter" />
+		<Converters:DeviceTypeToIconConverter x:Key="DeviceTypeToIconConverter" />
+		<Style TargetType="TextBlock" x:Key="DeviceTextBlockStyle">
+			<Style.Triggers>
+				<DataTrigger Binding="{Binding IsActive, UpdateSourceTrigger=PropertyChanged}" Value="False">
+					<Setter Property="Foreground" Value="Gray" />
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
 	</UserControl.Resources>
 
 	<Grid>
@@ -29,6 +39,10 @@
 			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить (Ctrl+N)" ImageSource="Add" />
 			<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать (Ctrl+E)" ImageSource="Edit" />
 			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete" />
+			<ToolBarButton ToolTip="Включить" ImageSource="Play" 
+						   Command="{Binding SetActiveCommand}" Visibility="{Binding SelectedDevice.IsActive, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+			<ToolBarButton ToolTip="Выключить" ImageSource="Pause" 
+						   Command="{Binding UnSetActiveCommand}" Visibility="{Binding SelectedDevice.IsActive, Converter={StaticResource BoolToVisibilityConverter}}" />
 		</StackPanel>
 		<tree:TreeList Grid.Row="1" Grid.Column="0" Source="{Binding RootDevices}" SelectedTreeNode="{Binding SelectedDevice}" ItemActivatedCommand="{Binding EditCommand}"
 				Focusable="True" tree:SortBehavior.CanUserSortColumns="True">
@@ -38,8 +52,9 @@
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/AccessTemplate.png" />
-									<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Device.Name}" />
+									<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="{Binding State, Converter={StaticResource DeviceStateToIconConverter}}" />
+									<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="{Binding Device.DeviceType, Converter={StaticResource DeviceTypeToIconConverter}}" />
+									<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Device.Name}" Style="{StaticResource DeviceTextBlockStyle}" />
 								</StackPanel>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
@@ -47,21 +62,14 @@
 					<GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDescriptionComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Device.Description}" />
+								<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Device.Description}" Style="{StaticResource DeviceTextBlockStyle}"  />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
 					<GridViewColumn Header="Адрес" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelAddressComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Device.FullAddress}" />
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-					<GridViewColumn Header="Активность" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDescriptionComparer}">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Device.IsActive, Converter={StaticResource BoolToYesNoConverter}}" />
+								<TextBlock Margin="2 0" VerticalAlignment="Center" Text="{Binding Device.FullAddress}" Style="{StaticResource DeviceTextBlockStyle}"  />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
@@ -70,7 +78,22 @@
 		</tree:TreeList>
 		<GridSplitter Grid.Row="1" Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
 		<Grid Grid.Row="1" Grid.Column="2" DataContext="{Binding SelectedDevice}" >
-			<ListView ItemsSource="{Binding Parameters, Mode=OneWay}">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			<ItemsControl Grid.Row="0" ItemsSource="{Binding Errors}" Margin="2">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<Image Width="16" Source="/Controls;component/StateClassIcons/Failure.png" VerticalAlignment="Center" Margin="2" />
+							<TextBlock Margin="2" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}" 
+									   Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+						</StackPanel>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+			<ListView Grid.Row="1" ItemsSource="{Binding Parameters, Mode=OneWay}">
 				<ListView.View>
 					<GridView>
 						<GridViewColumn Header="Параметр" DisplayMemberBinding="{Binding Name}" />

@@ -1,0 +1,112 @@
+﻿<UserControl x:Class="Resurs.Views.ReportsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 xmlns:dxp="http://schemas.devexpress.com/winfx/2008/xaml/printing"
+			 xmlns:dxreport="http://schemas.devexpress.com/winfx/2008/xaml/reports/userdesigner"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+	<UserControl.Resources>
+		<dxp:DisabledCommand x:Key="disabledCommand" />
+	</UserControl.Resources>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid Grid.Row="0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+			<StackPanel Grid.Column="0" Orientation="Horizontal">
+				<ComboBox ItemsSource="{Binding ReportTypes}" SelectedItem="{Binding SelectedReportType}" Width="200">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>	
+				<ToolBarButton Command="{Binding ChangeFilterCommand}" ImageSource="Filter" ToolTip="Задать фильтр" />
+				<ToolBarButton Command="{Binding RefreshPreviewReportCommand}" ImageSource="Refresh" ToolTip="Показать отчет" />
+				<ToolBarButton Command="{Binding Model.FirstPageCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" ImageSource="leftLeft"  ToolTip="Начальная страница" />
+				<ToolBarButton Command="{Binding Model.PreviousPageCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" ImageSource="left"  ToolTip="Предыдущая страница" />
+				<TextBox x:Name="currentPage" ContextMenu="{x:Null}"  Height="30" MinWidth="25" MinHeight="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontSize="20" MaxWidth="120" 
+						 Text="{Binding Model.SelectedPage, ElementName=viewer, UpdateSourceTrigger=PropertyChanged}" 
+						 IsEnabled="{Binding Model.PageCount, ElementName=viewer, FallbackValue={StaticResource False}}" />
+				<Label VerticalContentAlignment="Center" Content="/" FontSize="20" />
+				<Label VerticalContentAlignment="Center" Content="{Binding Model.PageCount, ElementName=viewer, FallbackValue='0'}" FontSize="20" />
+				<ToolBarButton Command="{Binding Model.NextPageCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" ImageSource="right"  ToolTip="Следующая страница" />
+				<ToolBarButton Command="{Binding Model.LastPageCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" ImageSource="rightRight"  ToolTip="Последняя страница" />
+				<ToolBarButton Command="{Binding FitPageSizeCommand}" CommandParameter="{x:Static dxp:ZoomFitMode.PageWidth}" ImageSource="WidthToPage"  ToolTip="По ширине страницы" />
+				<ToolBarButton Command="{Binding FitPageSizeCommand}" CommandParameter="{x:Static dxp:ZoomFitMode.PageHeight}" ImageSource="HeightToPage"  ToolTip="По высоте страницы" />
+				<ToolBarButton Command="{Binding FitPageSizeCommand}" CommandParameter="{x:Static dxp:ZoomFitMode.WholePage}" ImageSource="FidthToPage"  ToolTip="Исходный размер" />
+			</StackPanel>
+			<DockPanel Grid.Column="1">
+				<ToolBarButton Command="{Binding Model.ZoomOutCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" DockPanel.Dock="Left" ImageSource="ZoomOut"  ToolTip="Уменьшить масштаб" />
+				<ToolBarButton Command="{Binding Model.ZoomInCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" DockPanel.Dock="Right" ImageSource="ZoomIn"  ToolTip="Увеличить масштаб" />
+				<Slider x:Name="slider" VerticalAlignment="Center" IsSnapToTickEnabled="True" Maximum="500" Minimum="10" Orientation="Horizontal" TickFrequency="10" ToolTip="Изменить масштаб" Value="{Binding Model.Zoom, ElementName=viewer}" />
+			</DockPanel>
+			<StackPanel Grid.Column="2" Orientation="Horizontal">
+				<ToolBarButton Command="{Binding Model.PrintCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" ImageSource="Print"  ToolTip="Печать отчета" />
+				<ToggleButton x:Name="button" Width="40" Height="40">
+					<ToggleButton.Template>
+						<ControlTemplate>
+							<Border Name="border" Margin="2" Background="Transparent" BorderBrush="Transparent" BorderThickness="1" CornerRadius="2" Padding="2" ToolTip="Экспорт документа" ToolTipService.ShowOnDisabled="True">
+								<Grid Margin="2" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource Pdf}" />
+							</Border>
+							<ControlTemplate.Triggers>
+								<Trigger Property="UIElement.IsMouseOver" Value="True">
+									<Setter TargetName="border" Property="Border.Background" Value="{DynamicResource HighlightedBackgoundBrush}" />
+									<Setter TargetName="border" Property="Border.BorderBrush" Value="{DynamicResource PressedBackgroundBrush}" />
+								</Trigger>
+								<Trigger Property="Button.IsPressed" Value="True">
+									<Setter TargetName="border" Property="Border.Background" Value="{DynamicResource PressedBackgroundBrush}" />
+								</Trigger>
+								<Trigger Property="ToggleButton.IsChecked" Value="True">
+									<Setter TargetName="border" Property="Border.Background" Value="{DynamicResource PressedBackgroundBrush}" />
+								</Trigger>
+								<Trigger Property="Button.IsEnabled" Value="False">
+									<Setter TargetName="border" Property="Opacity" Value="0.5" />
+								</Trigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</ToggleButton.Template>
+				</ToggleButton>
+				<Popup IsOpen="{Binding IsChecked, ElementName=button, Mode=TwoWay}" Placement="Bottom" PlacementTarget="{Binding ElementName=button}" StaysOpen="False" AllowsTransparency="True">
+					<Border CornerRadius="5" BorderThickness="1" BorderBrush="{DynamicResource WindowBorderBrush}" Background="{DynamicResource BackgroundBrush}">
+						<ItemsControl>
+							<ItemsControl.Triggers>
+								<EventTrigger RoutedEvent="Button.Click">
+									<BeginStoryboard>
+										<Storyboard>
+											<BooleanAnimationUsingKeyFrames Storyboard.TargetName="button" Storyboard.TargetProperty="IsChecked">
+												<DiscreteBooleanKeyFrame KeyTime="0:0:0" Value="False" />
+											</BooleanAnimationUsingKeyFrames>
+										</Storyboard>
+									</BeginStoryboard>
+								</EventTrigger>
+							</ItemsControl.Triggers>
+							<ItemsControl.Items>
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Pdf" ImageSource="ExportPDF"  ToolTip="Экспорт в PDF" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Htm" ImageSource="ExportHTM"  ToolTip="Экспорт в HTM" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Mht" ImageSource="ExportMHT"  ToolTip="Экспорт в MHT" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Rtf" ImageSource="ExportRTF"  ToolTip="Экспорт в RTF" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Xls" ImageSource="ExportXLS"  ToolTip="Экспорт в XLS" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Xlsx" ImageSource="ExportXLSX"  ToolTip="Экспорт в XLSX" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Csv" ImageSource="ExportCSV"  ToolTip="Экспорт в CSV" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Txt" ImageSource="ExportTXT"  ToolTip="Экспорт в TXT" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Image" ImageSource="ExportImage"  ToolTip="Экспорт в Image" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Xps" ImageSource="ExportXPS"  ToolTip="Экспорт в XPS" />
+							</ItemsControl.Items>
+						</ItemsControl>
+					</Border>
+				</Popup>
+			</StackPanel>
+		</Grid>
+		<dxp:DocumentViewer x:Name="viewer" Grid.Row="1" Model="{Binding Model}" />
+	</Grid>
+</UserControl>

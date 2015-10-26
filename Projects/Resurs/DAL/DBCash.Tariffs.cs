@@ -2,10 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Data.Entity;
-using System.Runtime.Serialization;
-using System.Data.SqlTypes;
 
 namespace ResursDAL
 {
@@ -16,26 +13,48 @@ namespace ResursDAL
 		{
 			using (var context = DatabaseContext.Initialize())
 			{
-				foreach (var item in tariff.TariffParts)
+				var devicesToUpdate = tariff.Devices;
+				tariff.Devices = new List<Device>();
+				var tariffEntity = context.Tariffs.Add(tariff);
+
+				foreach (var device in devicesToUpdate)
 				{
-					if(true)
-					{
-						item.StartTime = (DateTime)SqlDateTime.MinValue;
-					}
+					var dbDevice = context.Devices.FirstOrDefault(x => x.UID == device.UID);
+					if (dbDevice != null)
+						dbDevice.TariffUID = tariff.UID;
 				}
-
-
-				context.Tariffs.Add(tariff);
 				context.SaveChanges();
 			}
 			Tariffs.Add(tariff);
+		}
+
+		public static void CreateTariffs(IEnumerable<Tariff> tariffs)
+		{
+			using (var context = DatabaseContext.Initialize())
+			{
+				foreach (var tariff in tariffs)
+				{
+					var devicesToUpdate = tariff.Devices;
+					tariff.Devices = new List<Device>();
+					var tariffEntity = context.Tariffs.Add(tariff);
+
+					foreach (var device in devicesToUpdate)
+					{
+						var dbDevice = context.Devices.FirstOrDefault(x => x.UID == device.UID);
+						if (dbDevice != null)
+							dbDevice.TariffUID = tariff.UID;
+					}
+				}
+				context.SaveChanges();
+			}
+			Tariffs.AddRange(tariffs);
 		}
 
 		public static Tariff ReadTariff(Guid id)
 		{
 			using (var context = DatabaseContext.Initialize())
 			{
-				return context.Tariffs.FirstOrDefault(x => x.UID == id);
+				return context.Tariffs.Include(x => x.Devices).Include(x => x.TariffParts).FirstOrDefault(x => x.UID == id);
 			}
 		}
 
@@ -43,41 +62,60 @@ namespace ResursDAL
 		{
 			using (var context = DatabaseContext.Initialize())
 			{
-				var list = context.Tariffs.Select(x => new { UID = x.UID, Name = x.Name, Devices = x.Devices, Description = x.Description, TariffParts = x.TariffParts, TariffType = x.TariffType }).ToList();
-				List<Tariff> result = new List<Tariff>();
-				foreach (var item in list)
-				{
-					result.Add(new Tariff
-					{
-						Description = item.Description,
-						Devices = item.Devices,
-						Name = item.Name,
-						TariffParts = item.TariffParts,
-						TariffType = item.TariffType,
-						UID = item.UID,
-					});
-				}
-				return result;
+				return context.Tariffs.Include(x => x.Devices).Include(x => x.TariffParts).ToList();
 			}
 		}
+
 		public static void UpdateTariff(Tariff tariff)
 		{
-			//if (tableUser != null)
-			//{
-			//	context.UserPermissions.RemoveRange(tableUser.UserPermissions);
-			//	tableUser.Login = user.Login;
-			//	tableUser.Name = user.Name;
-			//	tableUser.PasswordHash = user.PasswordHash;
-			//	tableUser.UserPermissions = new List<UserPermission>();
-			//	tableUser.UserPermissions.AddRange(user.UserPermissions.Select(x => new UserPermission { PermissionType = x.PermissionType, User = tableUser }));
-			//}
+			using (var context = DatabaseContext.Initialize())
+			{
+				var tariffEntity = context.Tariffs.Include(x => x.Devices).Include(x => x.TariffParts).FirstOrDefault(x => x.UID == tariff.UID);
+				if (tariffEntity != null)
+				{
+					context.TariffParts.RemoveRange(tariffEntity.TariffParts);
+					tariffEntity.UID = tariff.UID;
+					tariffEntity.Name = tariff.Name;
+					tariffEntity.Description = tariff.Description;
+					tariffEntity.TariffType = tariff.TariffType;
+					tariffEntity.IsDiscount = tariff.IsDiscount;
+					tariffEntity.Devices = new List<Device>();
+					var devicesToUpdate = tariff.Devices;
+					foreach (var device in devicesToUpdate)
+					{
+						var dbDevice = context.Devices.FirstOrDefault(x => x.UID == device.UID);
+						if (dbDevice != null)
+							dbDevice.TariffUID = tariff.UID;
+						tariffEntity.Devices.Add(dbDevice);
+					}
+					tariffEntity.TariffParts = new List<TariffPart>();
+					tariffEntity.TariffParts.AddRange(tariff.TariffParts
+						.Select(x => new TariffPart
+						{
+							UID = x.UID,
+							Price = x.Price,
+							Threshold = x.Threshold,
+							Discount = x.Discount,
+							StartTime = x.StartTime,
+							Tariff = tariffEntity,
+						}));
+					context.SaveChanges();
+				}
+			}
+			Tariffs.RemoveAll(x => x.UID == tariff.UID);
+			Tariffs.Add(tariff);
 		}
 
+		//device is not deleted from dbcashe
 		public static void DeleteTariff(Tariff tariff)
 		{
 			using (var context = DatabaseContext.Initialize())
 			{
 				var tmp = context.Tariffs.FirstOrDefault(x => x.UID == tariff.UID);
+				foreach (var device in context.Devices)
+				{
+					device.Tariff = null;
+				}
 				context.Tariffs.Remove(tmp);
 				context.SaveChanges();
 			}

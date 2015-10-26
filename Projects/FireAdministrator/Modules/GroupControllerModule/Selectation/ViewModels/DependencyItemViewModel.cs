@@ -1,4 +1,4 @@
-﻿using FiresecAPI.GK;
+﻿using RubezhAPI.GK;
 using GKModule.Events;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;

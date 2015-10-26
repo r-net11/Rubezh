@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
-using FiresecClient;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
+using RubezhAPI.SKD;
+using RubezhClient;
 using GKProcessor;
-using SKDDriver;
+using RubezhDAL;
 using System.Collections.Generic;
 using Infrastructure.Automation;
 
@@ -82,8 +82,6 @@ namespace FiresecService
 				}
 			}
 			FiresecService.Service.FiresecService.NotifyGKObjectStateChanged(gkCallbackResult);
-
-			AutomationProcessor.RunOnStateChanged();
 		}
 
 		static void ProcessPassJournal(JournalItem journalItem)
@@ -106,9 +104,9 @@ namespace FiresecService
 
 				if (zoneUID.HasValue)
 				{
-					using (var dbService = new SKDDriver.DataClasses.DbService())
+					using (var databaseService = new RubezhDAL.DataClasses.DbService())
 					{
-						dbService.PassJournalTranslator.AddPassJournal(journalItem.EmployeeUID, zoneUID.Value);
+						databaseService.PassJournalTranslator.AddPassJournal(journalItem.EmployeeUID, zoneUID.Value);
 					}
 				}
 			}
@@ -122,7 +120,7 @@ namespace FiresecService
 				{
 					var device = GKManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 					{
-						using (var databaseService = new SKDDriver.DataClasses.DbService())
+						using (var databaseService = new RubezhDAL.DataClasses.DbService())
 						{
 							if (device != null)
 							{

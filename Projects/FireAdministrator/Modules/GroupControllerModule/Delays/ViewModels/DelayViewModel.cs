@@ -1,5 +1,5 @@
-﻿using FiresecAPI.GK;
-using FiresecClient;
+﻿using RubezhAPI.GK;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -11,25 +11,18 @@ namespace GKModule.ViewModels
 {
 	public class DelayViewModel : BaseViewModel
 	{
-		public GKDelay Delay { get; set; }
+		public GKDelay Delay { get; private set; }
 		public DelayViewModel(GKDelay delay)
 		{
 			ShowLogicCommand = new RelayCommand(OnShowLogic);
 			Delay = delay;
 			Delay.Changed += Update;
-			Update();
 		}
 
 		public void Update()
 		{
 			OnPropertyChanged(() => Delay);
 			OnPropertyChanged(() => PresentationLogic);
-		}
-
-		public void Update(GKDelay delay)
-		{
-			this.Delay = delay;
-			this.Update();
 		}
 
 		public string PresentationLogic
@@ -64,8 +57,7 @@ namespace GKModule.ViewModels
 			var logicViewModel = new LogicViewModel(Delay, Delay.Logic, true, hasStopClause: true);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
-				Delay.Logic = logicViewModel.GetModel();
-				Delay.ChangedLogic();
+				GKManager.SetDelayLogic(Delay, logicViewModel.GetModel());
 				OnPropertyChanged(() => PresentationLogic);
 				ServiceFactory.SaveService.GKChanged = true;
 			}

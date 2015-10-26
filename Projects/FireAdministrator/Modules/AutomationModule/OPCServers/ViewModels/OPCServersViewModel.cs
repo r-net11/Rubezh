@@ -5,8 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
-using FiresecAPI.Automation;
-using FiresecAPI.Models;
+using RubezhAPI.Automation;
+using RubezhAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -17,24 +17,23 @@ using Microsoft.Win32;
 using Softing.Opc.Ua.Toolkit;
 using Softing.Opc.Ua.Toolkit.Client;
 using System.Diagnostics;
+using RubezhClient;
 
 namespace AutomationModule.ViewModels
 {
     public class OPCServersViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
     {
-        public static OPCServersViewModel Current { get; private set; }
         public OPCUAClient client;
 
         public OPCServersViewModel()
         {
-            Current = this;
-            Menu = new OPCServersMenuViewModel(this);
             AddCommand = new RelayCommand(OnAdd);
             DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
             MonitoringCommand = new RelayCommand(OnMonitoring, CanEditDelete);
             CheckTagsCommand = new RelayCommand(OnCheckTags, CanEditDelete);
             PrintTreeCommand = new RelayCommand(OnPrintTreeCommand, CanEditDelete);
+			Menu = new OPCServersMenuViewModel(this);
 
             client = new OPCUAClient();
             ConnectionString = "opc.tcp://localhost:51510/UA/DemoServer";
@@ -50,14 +49,13 @@ namespace AutomationModule.ViewModels
             AddSubscriptionCommand = new RelayCommand(OnAddSubscription);
             DeleteSubscriptionCommand = new RelayCommand(OnDeleteSubscription);
             GetSubscriptionListCommand = new RelayCommand(OnGetSubscriptionList);
-
         }
 
         public void Initialize()
         {
             OPCServers = new ObservableCollection<OPCServerViewModel>();
             OPCTags = new ObservableCollection<OPCTagViewModel>();
-            foreach (var opcServer in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.OPCServers)
+            foreach (var opcServer in ClientManager.SystemConfiguration.AutomationConfiguration.OPCServers)
             {
                 var opcServerViewModel = new OPCServerViewModel(opcServer);
                 OPCServers.Add(opcServerViewModel);
@@ -112,7 +110,7 @@ namespace AutomationModule.ViewModels
             if (DialogService.ShowModalWindow(opcServerDetailsViewModel))
             {
                 var opcServerViewModel = new OPCServerViewModel(opcServerDetailsViewModel.OPCServer);
-				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.OPCServers.Add(opcServerDetailsViewModel.OPCServer);
+				ClientManager.SystemConfiguration.AutomationConfiguration.OPCServers.Add(opcServerDetailsViewModel.OPCServer);
                 OPCServers.Add(opcServerViewModel);
                 SelectedOPCServer = OPCServers.FirstOrDefault();
                 ServiceFactory.SaveService.AutomationChanged = true;
@@ -127,7 +125,7 @@ namespace AutomationModule.ViewModels
             if (DialogService.ShowModalWindow(opcServerDetailsViewModel))
             {
                 var opcServerViewModel = new OPCServerViewModel(opcServerDetailsViewModel.OPCServer);
-                FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.OPCServers.Add(opcServerDetailsViewModel.OPCServer);
+                ClientManager.SystemConfiguration.AutomationConfiguration.OPCServers.Add(opcServerDetailsViewModel.OPCServer);
                 OPCServers.Add(opcServerViewModel);
                 SelectedOPCServer = OPCServers.FirstOrDefault();
                 ServiceFactory.SaveService.AutomationChanged = true;
@@ -139,7 +137,7 @@ namespace AutomationModule.ViewModels
         private void OnDelete()
         {
             var index = OPCServers.IndexOf(SelectedOPCServer);
-            FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.OPCServers.Remove(SelectedOPCServer.OPCServer);
+            ClientManager.SystemConfiguration.AutomationConfiguration.OPCServers.Remove(SelectedOPCServer.OPCServer);
             OPCServers.Remove(SelectedOPCServer);
             index = Math.Min(index, OPCServers.Count - 1);
             if (index > -1)

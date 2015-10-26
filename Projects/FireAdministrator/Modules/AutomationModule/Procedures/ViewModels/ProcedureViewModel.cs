@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using AutomationModule.Procedures;
-using FiresecAPI.Automation;
+using RubezhAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -121,7 +121,9 @@ namespace AutomationModule.ViewModels
 
 		public void Update()
 		{
-			_visualizetionState = Procedure.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Procedure.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
+			if (ConditionsViewModel != null)
+				ConditionsViewModel.UpdateContent();
+			_visualizationState = Procedure.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Procedure.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
 		}
@@ -129,10 +131,10 @@ namespace AutomationModule.ViewModels
 		{
 			get { return Procedure.PlanElementUIDs.Count > 0; }
 		}
-		VisualizationState _visualizetionState;
+		VisualizationState _visualizationState;
 		public VisualizationState VisualizationState
 		{
-			get { return _visualizetionState; }
+			get { return _visualizationState; }
 		}
 	}
 }

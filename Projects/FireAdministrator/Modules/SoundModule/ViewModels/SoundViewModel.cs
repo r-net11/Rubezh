@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -62,7 +62,7 @@ namespace SoundsModule.ViewModels
 			{
 				var listSounds = new List<string>();
 				listSounds.Add(string.Empty);
-				listSounds.AddRange(FiresecClient.FileHelper.SoundsList);
+				listSounds.AddRange(RubezhClient.FileHelper.SoundsList);
 				return listSounds;
 			}
 		}
