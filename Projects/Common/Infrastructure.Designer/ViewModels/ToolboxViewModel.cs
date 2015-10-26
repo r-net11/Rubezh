@@ -22,8 +22,17 @@ namespace Infrastructure.Designer.ViewModels
 		{
 			DesignerCanvas = designerCanvas;
 			RegisterInstruments();
+			DeleteCommand = new RelayCommand(OnDelete);
 			EventManager.RegisterClassHandler(typeof(Window), Keyboard.KeyDownEvent, new KeyEventHandler(OnKeyEventHandler), true);
 		}
+
+		public void OnDelete()
+		{
+			if (DesignerCanvas != null)
+				DesignerCanvas.RemoveAllSelected();
+		}
+
+		public RelayCommand DeleteCommand { get; set; }
 
 		public DesignerCanvas DesignerCanvas { get; private set; }
 		public bool AcceptKeyboard { get; set; }

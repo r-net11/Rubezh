@@ -11,6 +11,15 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 
-	<ListBox ItemContainerStyle="{StaticResource ToolBoxItem2}" ItemsSource="{Binding Instruments}" ItemTemplateSelector="{StaticResource ToolboxItemTemplateSelector}" SelectedItem="{Binding ActiveInstrument}" Style="{StaticResource ToolBox}" />
+	<ListBox
+		ItemContainerStyle="{StaticResource ToolBoxItem2}"
+		ItemsSource="{Binding Instruments}"
+		ItemTemplateSelector="{StaticResource ToolboxItemTemplateSelector}"
+		SelectedItem="{Binding ActiveInstrument}"
+		Style="{StaticResource ToolBox}">
+		<ListBox.InputBindings>
+			<KeyBinding Key="Delete" Command="{Binding DeleteCommand}" />
+		</ListBox.InputBindings>
+	</ListBox>
 
 </UserControl>
