@@ -12,7 +12,14 @@
 			<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="Edit"  />
 			<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="Delete"  />
 		</StackPanel>
-		<XDataGrid Grid.Row="1" CanUserSortColumns="True" ItemsSource="{Binding Variables}" SelectedItem="{Binding SelectedVariable}" IsReadOnly="False">
+		<DataGrid Grid.Row="1" CanUserSortColumns="True" ItemsSource="{Binding Variables}" SelectedItem="{Binding SelectedVariable}" IsReadOnly="False">
+			<DataGrid.ContextMenu>
+				<ContextMenu>
+					<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить (Ctrl+N)" />
+					<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete" Text="Удалить (Ctrl+Del)" />
+					<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BSettings" Text="Редактировать (Ctrl+E)" />
+				</ContextMenu>
+			</DataGrid.ContextMenu>
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Header="Имя" Width="*" SortMemberPath="Variable.Name" CanUserResize="False">
 					<DataGridTemplateColumn.CellTemplate>
@@ -46,6 +53,6 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
-		</XDataGrid>
+		</DataGrid>
 	</Grid>
 </UserControl>

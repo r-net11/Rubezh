@@ -16,7 +16,6 @@ namespace ResursAPI
 		{
 			UID = Guid.NewGuid();
 			Tariff = tariff;
-
 		}
 
 		[Key]
@@ -24,7 +23,6 @@ namespace ResursAPI
 		public double Price { get; set; }
 		public double Discount { get; set; }
 		public TimeSpan StartTime { get; set; }
-		public TimeSpan EndTime { get; set; }
 		public double Threshold { get; set; }
 		public Tariff Tariff { get; set; } 
 	}

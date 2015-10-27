@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecLicense
+namespace RubezhAPI.License
 {
 	/// <summary>
 	/// Тип лицензии

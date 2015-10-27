@@ -10,7 +10,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Shell = FireMonitor;
 using Infrastructure.Client.Layout;
-using FiresecLicense;
+using RubezhAPI.License;
 
 namespace FireMonitor.Layout
 {
@@ -107,16 +107,16 @@ namespace FireMonitor.Layout
 		public static bool CheckLicense(RubezhAPI.Models.Layouts.Layout layout)
 		{
 			return !layout.Parts.Any(x=>
-				!FiresecLicenseManager.CurrentLicenseInfo.HasFirefighting && (
+				!LicenseManager.CurrentLicenseInfo.HasFirefighting && (
 				x.DescriptionUID == LayoutPartIdentities.PumpStations ||
 				x.DescriptionUID == LayoutPartIdentities.MPTs
 				)
 				||
-				!FiresecLicenseManager.CurrentLicenseInfo.HasGuard && (
+				!LicenseManager.CurrentLicenseInfo.HasGuard && (
 				x.DescriptionUID == LayoutPartIdentities.GuardZones
 				)
 				||
-				!FiresecLicenseManager.CurrentLicenseInfo.HasSKD && (
+				!LicenseManager.CurrentLicenseInfo.HasSKD && (
 				x.DescriptionUID == LayoutPartIdentities.Doors ||
 				x.DescriptionUID == LayoutPartIdentities.GKSKDZones ||
 				x.DescriptionUID == LayoutPartIdentities.SKDVerification ||
@@ -124,7 +124,7 @@ namespace FireMonitor.Layout
 				x.DescriptionUID == LayoutPartIdentities.SKDTimeTracking
 				)
 				||
-				!FiresecLicenseManager.CurrentLicenseInfo.HasVideo && (
+				!LicenseManager.CurrentLicenseInfo.HasVideo && (
 				x.DescriptionUID == LayoutPartIdentities.CamerasList ||
 				x.DescriptionUID == LayoutPartIdentities.CameraVideo ||
 				x.DescriptionUID == LayoutPartIdentities.MultiCamera

@@ -1,9 +1,9 @@
 ﻿namespace GKWebService.Models
 {
-    public enum ShapeTypes
-    {
-        Plan,
-        Path,
-        GkDevice
-    }
+	public enum ShapeTypes
+	{
+		Plan,
+		Path,
+		GkDevice
+	}
 }

@@ -12,7 +12,14 @@ namespace GKWebService.Models
         public Guid ParentUID { get; set; }
         public Guid OrganisationUID { get; set; }
         public string Name { get; set; }
-        public string DepartmentName { get; set; }
+		public string FirstName { get; set; }
+		public string SecondName { get; set; }
+		public string LastName { get; set; }
+		public string Description { get; set; }
+		public string Phone { get; set; }
+		public string DepartmentName { get; set; }
+		public string PositionName { get; set; }
+		public string OrganisationName { get; set; }
         public int Level { get; set; }
         public bool IsLeaf { get; set; }
         public bool IsOrganisation { get; set; }
@@ -55,6 +62,15 @@ namespace GKWebService.Models
             IsOrganisation = false;
             Name = employee.FIO;
             DepartmentName = employee.DepartmentName;
+	        FirstName = employee.FirstName;
+			LastName = employee.LastName;
+			SecondName = employee.SecondName;
+			Phone = employee.Phone;
+			Description = employee.Description;
+			PositionName = employee.PositionName;
+			OrganisationName = employee.OrganisationName;
+			IsDeleted = employee.IsDeleted;
+			RemovalDate = IsDeleted ? employee.RemovalDate.ToString("d MMM yyyy") : "";
             Level = 1;
             IsLeaf = true;
             IsExpanded = false;

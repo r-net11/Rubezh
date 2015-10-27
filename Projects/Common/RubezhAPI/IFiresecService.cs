@@ -4,7 +4,7 @@ using System.IO;
 using System.ServiceModel;
 using RubezhAPI.Journal;
 using RubezhAPI.Models;
-using FiresecLicense;
+using RubezhAPI.License;
 
 namespace RubezhAPI
 {
