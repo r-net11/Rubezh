@@ -59,6 +59,9 @@ namespace FireAdministrator
 					{
 						MessageBoxService.Show("Нет прав на работу с программой");
 						ClientManager.Disconnect();
+						if (Application.Current != null)
+							Application.Current.Shutdown();
+						return;
 					}
 					else if (Application.Current != null)
 					{
