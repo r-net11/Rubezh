@@ -156,7 +156,7 @@
 							</Grid.ColumnDefinitions>
 
 							<TextBlock Grid.Row="0" Grid.Column="0" Text="GLOBAL Удаленное рабочее место (количество):" Margin="5" />
-							<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding LicenseInfo.RemoteWorkplacesCount}" FontWeight="Bold" Margin="5" />
+							<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding LicenseInfo.RemoteClientsCount}" FontWeight="Bold" Margin="5" />
 
 							<TextBlock Grid.Row="1" Grid.Column="0" Text="GLOBAL Пожаротушение:" Margin="5" />
 							<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding LicenseInfo.HasFirefighting, Converter={StaticResource BoolToYesNoConverter}}" FontWeight="Bold" Margin="5" />

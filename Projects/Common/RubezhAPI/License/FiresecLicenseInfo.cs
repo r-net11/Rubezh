@@ -18,7 +18,7 @@ namespace RubezhAPI.License
 		/// Количество удаленных рабочих мест
 		/// </summary>
         [DataMember]
-        public int RemoteWorkplacesCount { get; set; }
+        public int RemoteClientsCount { get; set; }
 
 		/// <summary>
 		/// Разрешение на пожаротушение
@@ -55,7 +55,7 @@ namespace RubezhAPI.License
 			if (obj is FiresecLicenseInfo)
 			{
 				var licenseInfo = obj as FiresecLicenseInfo;
-				return licenseInfo.RemoteWorkplacesCount == this.RemoteWorkplacesCount
+				return licenseInfo.RemoteClientsCount == this.RemoteClientsCount
 					&& licenseInfo.HasFirefighting == this.HasFirefighting
 					&& licenseInfo.HasGuard == this.HasGuard
 					&& licenseInfo.HasSKD == this.HasSKD

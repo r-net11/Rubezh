@@ -41,7 +41,7 @@ namespace FiresecService.Processor
 			LicenseManager.CurrentLicenseInfo = new FiresecLicenseInfo()
 			{
 				LicenseMode = LicenseMode.Demonstration,
-				RemoteWorkplacesCount = 1,
+				RemoteClientsCount = 1,
 				HasFirefighting = true,
 				HasGuard = true,
 				HasSKD = true,
@@ -60,7 +60,7 @@ namespace FiresecService.Processor
 			LicenseManager.CurrentLicenseInfo = new FiresecLicenseInfo()
 			{
 				LicenseMode = LicenseMode.NoLicense,
-				RemoteWorkplacesCount = 0,
+				RemoteClientsCount = 0,
 				HasFirefighting = false,
 				HasGuard = false,
 				HasSKD = false,

@@ -31,7 +31,7 @@ namespace FiresecService.LicenseEditor
                 }
                 else
                 {
-					numericUpDownRemoteWorkplacesCount.Value = licenseInfo.RemoteWorkplacesCount;
+					numericUpDownRemoteClientsCount.Value = licenseInfo.RemoteClientsCount;
 					checkBoxFirefighting.Checked = licenseInfo.HasFirefighting;
 					checkBoxGuard.Checked = licenseInfo.HasGuard;
 					checkBoxSKD.Checked = licenseInfo.HasSKD;
@@ -53,7 +53,7 @@ namespace FiresecService.LicenseEditor
             {
 				var licenseInfo = new FiresecLicenseInfo()
 				{
-					RemoteWorkplacesCount = (int)numericUpDownRemoteWorkplacesCount.Value,
+					RemoteClientsCount = (int)numericUpDownRemoteClientsCount.Value,
 					HasFirefighting = checkBoxFirefighting.Checked,
 					HasGuard = checkBoxGuard.Checked,
 					HasSKD = checkBoxSKD.Checked,

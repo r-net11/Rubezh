@@ -20,13 +20,13 @@ namespace FiresecService.LicenseEditor
                 if (key.BinaryValue == null)
                     return;
 
-				int remoteWorkplacesCount;
-				if (!int.TryParse(args[2], out remoteWorkplacesCount))
+				int remoteClientsCount;
+				if (!int.TryParse(args[2], out remoteClientsCount))
                     return;
 
 			    var licenseInfo = new FiresecLicenseInfo()
 				{
-					RemoteWorkplacesCount = remoteWorkplacesCount,
+					RemoteClientsCount = remoteClientsCount,
 					HasFirefighting = args.Any(x => x.Trim().ToLower() == "firefighting"),
 					HasGuard = args.Any(x => x.Trim().ToLower() == "guard"),
 					HasSKD = args.Any(x => x.Trim().ToLower() == "skd"),
