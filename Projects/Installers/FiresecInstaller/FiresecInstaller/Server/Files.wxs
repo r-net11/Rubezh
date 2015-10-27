@@ -144,12 +144,6 @@
 		</DirectoryRef>
 
 		<DirectoryRef Id="AppData.FiresecLocation">
-			<Component Id="AppData.Manual_Admin.pdf">
-				<File Id="Server.Manual_Admin.pdf" Name="manual_admin.pdf" Source="..\..\..\..\..\Deploy\Manual\" />
-			</Component>
-			<Component Id="AppData.Manual_User.pdf">
-				<File Id="Server.Manual_User.pdf" Name="manual_user.pdf" Source="..\..\..\..\..\Deploy\Manual\" />
-			</Component>
 			<Component Id="Server.STRAZH_MODULE">
 				<File Id="AppData.StrazhSettings.xml" Name="StrazhSettings.xml" Source="..\..\..\..\..\Deploy\" />
 			</Component>
