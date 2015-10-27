@@ -86,12 +86,12 @@ namespace SKDModule.ViewModels
 
 		protected override bool Restore(ShortEmployee model)
 		{
-			if (EmployeeHelper.Get(new EmployeeFilter()).Count(x => !x.IsDeleted) <= 5)
+			if (EmployeeHelper.Get(new EmployeeFilter()).Count(x => !x.IsDeleted) < 5)
 			{
 				return EmployeeHelper.Restore(model);
 			}
 
-			MessageBoxService.ShowError("Нельзя выполнить операцию из-за ограничения демо-версии. Максимальное количество организаций в системе - 5");
+			MessageBoxService.ShowError("Нельзя выполнить операцию из-за ограничения демо-версии. Максимальное количество сотрудников в системе - 5");
 			return false;
 		}
 

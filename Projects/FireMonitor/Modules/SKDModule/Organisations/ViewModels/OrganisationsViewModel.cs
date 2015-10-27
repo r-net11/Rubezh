@@ -122,7 +122,7 @@ namespace SKDModule.ViewModels
 		void OnAdd()
 		{
 			var orgs = OrganisationHelper.Get(new OrganisationFilter());
-			if (Organisations.Count <= 2 && orgs.Count(x => !x.IsDeleted) <= 2)
+			if (Organisations.Count < 2 && orgs.Count(x => !x.IsDeleted) < 2)
 			{
 				var organisationDetailsViewModel = new OrganisationDetailsViewModel(this);
 				if (DialogService.ShowModalWindow(organisationDetailsViewModel))
