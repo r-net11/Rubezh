@@ -30,11 +30,6 @@ namespace Infrastructure.Common.About.ViewModels
 			get { return ((AssemblyTrademarkAttribute)Attribute.GetCustomAttribute(Assembly.GetEntryAssembly(), typeof(AssemblyTrademarkAttribute), false)).Trademark; }
 		}
 
-		public string Company
-		{
-			get { return ((AssemblyCompanyAttribute)Attribute.GetCustomAttribute(Assembly.GetEntryAssembly(), typeof(AssemblyCompanyAttribute), false)).Company; }
-		}
-
 		public string Version
 		{
 			get { return Assembly.GetEntryAssembly().GetName().Version.ToString(); }
