@@ -18,7 +18,7 @@ using Infrustructure.Plans.Events;
 using VideoModule.Plans;
 using VideoModule.ViewModels;
 using Vlc.DotNet.Core;
-using FiresecLicense;
+using RubezhAPI.License;
 
 namespace VideoModule
 {
@@ -92,7 +92,7 @@ namespace VideoModule
 
 		public override void Initialize()
 		{
-			_videoNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.HasVideo && ClientManager.SystemConfiguration.Cameras.Count > 0;
+			_videoNavigationItem.IsVisible = LicenseManager.CurrentLicenseInfo.HasVideo && ClientManager.SystemConfiguration.Cameras.Count > 0;
 			CamerasViewModel.Initialize();
 			_planPresenter.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);

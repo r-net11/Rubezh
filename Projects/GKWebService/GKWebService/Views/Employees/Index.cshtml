@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Employees";
     Layout = null;
 }
@@ -7,5 +6,27 @@
 <div>
     <table id="jqGridEmployees"></table>
 </div>
+
+<div data-bind="with: HR.Employees">
+    <div class="HrCardsPanel" data-bind="visible: !IsOrganisation()">
+        <ul>
+            <li><a href="" style="color: white" @*data-bind="click: function(data,event) { PageClick(data, event, 'Archive'); }"*@><span class="text" style="color: white">Сотрудник</span></a></li>
+        </ul>
+    </div><!-- .left-sidebar -->
+    <div class="HrCardDoorsPanel" data-bind="visible: !IsOrganisation()">
+        <div>
+            <div><span>Фамилия</span><label data-bind="text: LastName"></label></div>
+            <div><span>Имя</span><label data-bind="text: FirstName"></label></div>
+            <div><span>Отчество</span><label data-bind="text: SecondName"></label></div>
+            <div><span>Телефон</span><label data-bind="text: Phone"></label></div>
+            <div data-bind="visible: IsGuest"><span>Примечание</span><label data-bind="text: Description"></label></div>
+            <div data-bind="visible: !IsGuest()"><span>Должность</span><label data-bind="text: PositionName"></label></div>
+            <div><span>Подразделение</span><label data-bind="text: DepartmentName"></label></div>
+            <div><span>Организация</span><label data-bind="text: OrganisationName"></label></div>
+            <div data-bind="visible: IsDeleted"><span>Дата удаления</span><label data-bind="text: RemovalDate"></label></div>
+        </div>
+    </div>
+</div>
+
 
 @Html.Action("EmployeeDetails")

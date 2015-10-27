@@ -22,10 +22,6 @@
         self.Employees.Init();
     };
 
-    self.VisibleChanged = function(obj, event) {
-        alert("asdasd");
-    };
-
     self.HrPageClick = function (data, e, page) {
         for (var propertyName in self.hrPages) {
             self.hrPages[propertyName](false);

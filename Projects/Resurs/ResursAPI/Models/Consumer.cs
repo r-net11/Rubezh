@@ -14,6 +14,7 @@ namespace ResursAPI
 		{
 			Children = new List<Consumer>();
 			Devices = new List<Device>();
+			Deposits = new List<Deposit>();
 		}
 
 		public Guid? ParentUID { get; set; }
@@ -37,5 +38,7 @@ namespace ResursAPI
 		[NotMapped]
 		public List<Device> Devices { get; set; }
 		public Decimal Balance { get; set; }
+		[NotMapped]
+		public List<Deposit> Deposits { get; set; }
 	}
 }

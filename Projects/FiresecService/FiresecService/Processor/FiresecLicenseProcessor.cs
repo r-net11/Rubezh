@@ -1,9 +1,10 @@
 ﻿using RubezhAPI.Journal;
-using FiresecLicense;
+using RubezhLicense;
 using GKProcessor;
 using Infrastructure.Common;
 using System;
 using System.Threading;
+using RubezhAPI.License;
 
 namespace FiresecService.Processor
 {
@@ -11,35 +12,36 @@ namespace FiresecService.Processor
 	{
 		static AutoResetEvent waitHandler = new AutoResetEvent(false);
 
-		static LicenseMode? PreviousLicenseMode { get { return FiresecLicenseManager.PreviousLicenseInfo == null ? null : (LicenseMode?)FiresecLicenseManager.PreviousLicenseInfo.LicenseMode; } }
+		static LicenseMode? PreviousLicenseMode { get { return LicenseManager.PreviousLicenseInfo == null ? null : (LicenseMode?)LicenseManager.PreviousLicenseInfo.LicenseMode; } }
 
 		static FiresecLicenseProcessor()
 		{
 			if (!TryLoadLicense())
 				SetDemonstration();
-			FiresecLicenseManager.LicenseChanged += LicenseHelper_LicenseChanged;
+			LicenseManager.LicenseChanged += LicenseHelper_LicenseChanged;
 		}
+
 		static void LicenseHelper_LicenseChanged()
 		{
-			if (FiresecLicenseManager.CurrentLicenseInfo.LicenseMode != PreviousLicenseMode)
+			if (LicenseManager.CurrentLicenseInfo.LicenseMode != PreviousLicenseMode)
 			{
 				if (PreviousLicenseMode == LicenseMode.Demonstration)
 					waitHandler.Set();
 
-				if (FiresecLicenseManager.CurrentLicenseInfo.LicenseMode == LicenseMode.HasLicense)
-					GKProcessorManager.AddGKMessage(JournalEventNameType.Лицензия_обнаружена, JournalEventDescriptionType.NULL, "", null, null);
+				if (LicenseManager.CurrentLicenseInfo.LicenseMode == LicenseMode.HasLicense)
+					FiresecService.Service.FiresecService.InsertJournalMessage(JournalEventNameType.Лицензия_обнаружена, null, JournalEventDescriptionType.NULL);
 				else
-					GKProcessorManager.AddGKMessage(JournalEventNameType.Отсутствует_лицензия, JournalEventDescriptionType.NULL, "", null, null);
-				DiagnosticsManager.Add("LicenseMode=" + FiresecLicenseManager.CurrentLicenseInfo.LicenseMode);
+					FiresecService.Service.FiresecService.InsertJournalMessage(JournalEventNameType.Отсутствует_лицензия, null, JournalEventDescriptionType.NULL);
+				DiagnosticsManager.Add("LicenseMode=" + LicenseManager.CurrentLicenseInfo.LicenseMode);
 			}
 			FiresecService.Service.FiresecService.NotifyConfigurationChanged();
 		}
 		static void SetDemonstration()
 		{
-			FiresecLicenseManager.CurrentLicenseInfo = new FiresecLicenseInfo()
+			LicenseManager.CurrentLicenseInfo = new FiresecLicenseInfo()
 			{
 				LicenseMode = LicenseMode.Demonstration,
-				RemoteWorkplacesCount = 1,
+				RemoteClientsCount = 1,
 				HasFirefighting = true,
 				HasGuard = true,
 				HasSKD = true,
@@ -55,10 +57,10 @@ namespace FiresecService.Processor
 		}
 		static void SetNoLicense()
 		{
-			FiresecLicenseManager.CurrentLicenseInfo = new FiresecLicenseInfo()
+			LicenseManager.CurrentLicenseInfo = new FiresecLicenseInfo()
 			{
 				LicenseMode = LicenseMode.NoLicense,
-				RemoteWorkplacesCount = 0,
+				RemoteClientsCount = 0,
 				HasFirefighting = false,
 				HasGuard = false,
 				HasSKD = false,
@@ -72,12 +74,15 @@ namespace FiresecService.Processor
 			if (licenseInfo == null)
 				SetNoLicense();
 			else
-				FiresecLicenseManager.CurrentLicenseInfo = licenseInfo;
+			{
+				licenseInfo.LicenseMode = LicenseMode.HasLicense;
+				LicenseManager.CurrentLicenseInfo = licenseInfo;
+			}
 		}
 
 		public static bool TryLoadLicense()
 		{
-			var licenseInfo = FiresecLicenseManager.TryLoad(AppDataFolderHelper.GetFile("FiresecService.license"));
+			var licenseInfo = LicenseManager.TryLoad(AppDataFolderHelper.GetFile("FiresecService.license"));
 			if (licenseInfo == null)
 				return false;
 			SetLicense(licenseInfo);

@@ -41,7 +41,7 @@
 			this.checkBoxOpcServer = new System.Windows.Forms.CheckBox();
 			this.labelRemoteWorkplacesCount = new System.Windows.Forms.Label();
 			this.labelGuard = new System.Windows.Forms.Label();
-			this.numericUpDownRemoteWorkplacesCount = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDownRemoteClientsCount = new System.Windows.Forms.NumericUpDown();
 			this.panelTop = new System.Windows.Forms.Panel();
 			this.textBoxKey = new System.Windows.Forms.TextBox();
 			this.panelBottom = new System.Windows.Forms.Panel();
@@ -50,7 +50,7 @@
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.tableLayoutPanelCenter.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownRemoteWorkplacesCount)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownRemoteClientsCount)).BeginInit();
 			this.panelTop.SuspendLayout();
 			this.panelBottom.SuspendLayout();
 			this.SuspendLayout();
@@ -83,7 +83,7 @@
 			this.tableLayoutPanelCenter.Controls.Add(this.checkBoxOpcServer, 1, 5);
 			this.tableLayoutPanelCenter.Controls.Add(this.labelRemoteWorkplacesCount, 0, 0);
 			this.tableLayoutPanelCenter.Controls.Add(this.labelGuard, 0, 2);
-			this.tableLayoutPanelCenter.Controls.Add(this.numericUpDownRemoteWorkplacesCount, 1, 0);
+			this.tableLayoutPanelCenter.Controls.Add(this.numericUpDownRemoteClientsCount, 1, 0);
 			this.tableLayoutPanelCenter.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanelCenter.Location = new System.Drawing.Point(0, 34);
 			this.tableLayoutPanelCenter.Name = "tableLayoutPanelCenter";
@@ -209,17 +209,17 @@
 			this.labelGuard.Text = "GLOBAL Охрана:";
 			this.labelGuard.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// numericUpDownRemoteWorkplacesCount
+			// numericUpDownRemoteClientsCount
 			// 
-			this.numericUpDownRemoteWorkplacesCount.Location = new System.Drawing.Point(366, 5);
-			this.numericUpDownRemoteWorkplacesCount.Maximum = new decimal(new int[] {
+			this.numericUpDownRemoteClientsCount.Location = new System.Drawing.Point(366, 5);
+			this.numericUpDownRemoteClientsCount.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-			this.numericUpDownRemoteWorkplacesCount.Name = "numericUpDownRemoteWorkplacesCount";
-			this.numericUpDownRemoteWorkplacesCount.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownRemoteWorkplacesCount.TabIndex = 14;
+			this.numericUpDownRemoteClientsCount.Name = "numericUpDownRemoteClientsCount";
+			this.numericUpDownRemoteClientsCount.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDownRemoteClientsCount.TabIndex = 14;
 			// 
 			// panelTop
 			// 
@@ -294,7 +294,7 @@
 			this.Text = "Редактор лицензий Firesec Service";
 			this.tableLayoutPanelCenter.ResumeLayout(false);
 			this.tableLayoutPanelCenter.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownRemoteWorkplacesCount)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownRemoteClientsCount)).EndInit();
 			this.panelTop.ResumeLayout(false);
 			this.panelTop.PerformLayout();
 			this.panelBottom.ResumeLayout(false);
@@ -320,7 +320,7 @@
         private System.Windows.Forms.Label labelSKD;
         private System.Windows.Forms.Label labelFirefighting;
         private System.Windows.Forms.Label labelRemoteWorkplacesCount;
-        private System.Windows.Forms.NumericUpDown numericUpDownRemoteWorkplacesCount;
+        private System.Windows.Forms.NumericUpDown numericUpDownRemoteClientsCount;
         private System.Windows.Forms.Label labelGuard;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonLoad;

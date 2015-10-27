@@ -18,7 +18,7 @@
 			<IconedMenuItem Command="{Binding SelectedCamera.AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource False}" ImageSource="Eye3" Text="Запретить множественную визуализацию" />
 		</ContextMenu>
 	</UserControl.Resources>
-	<XDataGrid ContextMenu="{StaticResource CameraContextMenu}" Focusable="True" SelectedItem="{Binding SelectedCamera}" ItemsSource="{Binding Cameras}">
+	<DataGrid ContextMenu="{StaticResource CameraContextMenu}" Focusable="True" SelectedItem="{Binding SelectedCamera}" ItemsSource="{Binding Cameras}">
 		<DataGrid.Columns>
 			<DataGridTemplateColumn Width="*" Header="Камера">
 				<DataGridTemplateColumn.CellTemplate>
@@ -37,5 +37,5 @@
 			</DataGridTemplateColumn>
 			<DataGridTextColumn Width="*" Header="Адрес" Binding="{Binding PresentationAddress}" />
 		</DataGrid.Columns>
-	</XDataGrid>
+	</DataGrid>
 </UserControl>

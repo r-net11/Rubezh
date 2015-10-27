@@ -17,5 +17,10 @@ namespace ResursAPI
 			var appDataFolderName = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
 			FolderName = Path.Combine(appDataFolderName, "RubezhResurs");
 		}
+
+		public static string GetFile(string fileName)
+		{
+			return Path.Combine(FolderName, fileName);
+		}
 	}
 }
