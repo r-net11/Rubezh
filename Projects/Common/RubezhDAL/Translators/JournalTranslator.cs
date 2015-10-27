@@ -313,11 +313,6 @@ namespace RubezhDAL.DataClasses
 				var descriptions = filter.JournalEventDescriptionTypes.Select(x => (int)x).ToList();
 				result = result.Where(x => descriptions.Contains(x.Description));
 			}
-			if (filter.JournalSubsystemTypes.Count > 0)
-			{
-				var subsystems = filter.JournalSubsystemTypes.Select(x => (int)x).ToList();
-				result = result.Where(x => subsystems.Contains(x.Subsystem));
-			}
 			if (filter.JournalObjectTypes.Count > 0)
 			{
 				var objects = filter.JournalObjectTypes.Select(x => (int)x).ToList();

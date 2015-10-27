@@ -79,6 +79,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\AssemblyInfoCommon.cs">
+      <Link>Properties\AssemblyInfoCommon.cs</Link>
+    </Compile>
     <Compile Include="DataClasses\CardGKControllerUID.cs" />
     <Compile Include="DataClasses\CurrentConsumption.cs" />
     <Compile Include="DataClasses\EmployeeDay.cs" />

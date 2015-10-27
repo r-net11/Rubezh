@@ -92,6 +92,8 @@ namespace RubezhClient
 				device.Zones.Remove(zone);
 				device.ZoneUIDs.Remove(zone.UID);
 				zone.Devices.Remove(device);
+				zone.OutDependentElements.Remove(device);
+				device.InputDependentElements.Remove(zone);
 				zone.OnChanged();
 				device.OnChanged();
 			}

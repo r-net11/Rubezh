@@ -8,11 +8,14 @@
 			<RowDefinition Height="Auto" />
             <RowDefinition Height="150"  MinHeight="200"/>
 		</Grid.RowDefinitions>
-		<Controls:XDataGrid
-			CanUserSortColumns="True" 
-			ItemsSource="{Binding Filters}" 
-			SelectedItem="{Binding SelectedFilter}" 
-			IsReadOnly="False">
+		<DataGrid CanUserSortColumns="True" ItemsSource="{Binding Filters}" SelectedItem="{Binding SelectedFilter}" IsReadOnly="False">
+			<DataGrid.ContextMenu>
+				<ContextMenu>
+					<Controls:IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить (Ctrl+N)" />
+					<Controls:IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete" Text="Удалить (Ctrl+Del)" />
+					<Controls:IconedMenuItem Command="{Binding EditCommand}" ImageSource="BSettings" Text="Редактировать (Ctrl+E)" />
+				</ContextMenu>
+			</DataGrid.ContextMenu>
 			<DataGrid.Columns>
 				<DataGridTemplateColumn
 					Header="Название"
@@ -30,7 +33,7 @@
 				<DataGridTextColumn Binding="{Binding Filter.Description}" Header="Описание" Width="*" />
 				<DataGridTextColumn Binding="{Binding Filter.LastItemsCount}" Header="Количество последних записей" Width="*" />
 			</DataGrid.Columns>
-		</Controls:XDataGrid>
+		</DataGrid>
 		<GridSplitter Grid.Row="1" Height="5" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Cursor="SizeNS" />
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
             <Border Margin="0, 5, 0, 0" Background="White" CornerRadius="5 0 0 5" DataContext="{Binding SelectedFilter}">

@@ -7,76 +7,67 @@ namespace Resurs.ViewModels
 	public class TariffPartViewModel : BaseViewModel
 	{
 		public TariffPart TariffPart { get; set; }
-		public TariffPartViewModel()
+		public TariffPartViewModel(TariffPart tariffPart = null)
 		{
-			TariffPart = new ResursAPI.TariffPart();
-			Price = 0;
-			StartTime = new TimeSpan(0,0,0);
-			EndTime = new TimeSpan(0,0,0);
-			
-			Discount = 0;
-			Threshold = 0;
+			if (tariffPart == null)
+			{
+				TariffPart = new ResursAPI.TariffPart();
+				Price = 0;
+				StartTime = new TimeSpan(0, 0, 0);
+				Discount = 0;
+				Threshold = 0;
+			}
+			else
+			{
+				TariffPart = tariffPart;
+				Price = tariffPart.Price;
+				StartTime = tariffPart.StartTime;
+				Discount = tariffPart.Discount;
+				Threshold = tariffPart.Threshold;
+			}
 		}
 
-		public TariffPartViewModel(TariffPart tariffPart)
-		{
-			TariffPart = tariffPart;
-			Price = tariffPart.Price;
-			StartTime = tariffPart.StartTime;
-			EndTime = tariffPart.EndTime;
-			Discount = tariffPart.Discount;
-			Threshold = tariffPart.Threshold;
-		}
-
-		private double _threshold;
-
+		double _threshold;
 		public double Threshold
 		{
 			get { return _threshold; }
-			set { _threshold = value; }
+			set 
+			{ 
+				_threshold = value;
+				OnPropertyChanged(() => Threshold);
+			}
 		}
 
-		private double _price;
-
+		double _price;
 		public double Price
 		{
 			get { return _price; }
-			set 
-			{ 
+			set
+			{
 				_price = value;
 				OnPropertyChanged(() => Price);
 			}
 		}
-		private double _discount;
 
+		double _discount;
 		public double Discount
 		{
 			get { return _discount; }
-			set 
-			{ 
+			set
+			{
 				_discount = value;
 				OnPropertyChanged(() => Discount);
 			}
 		}
 
-		private TimeSpan _startTime;
-
+		TimeSpan _startTime;
 		public TimeSpan StartTime
 		{
 			get { return _startTime; }
-			set 
-			{ 
+			set
+			{
 				_startTime = value;
 				OnPropertyChanged(() => StartTime);
-			}
-		}
-		private TimeSpan _endTime;
-
-		public TimeSpan EndTime
-		{
-			get { return _endTime; }
-			set { _endTime = value;
-			OnPropertyChanged(() => EndTime);
 			}
 		}
 	}

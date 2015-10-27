@@ -21,17 +21,14 @@
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
 				<TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Text="Номер" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Text="Наименование" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Text="Примечание" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Text="Задержка, с" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Text="Удержание, с" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<TextBlock Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Text="Режим по окончанию удержания" Style="{DynamicResource TextBlockDetailsStyle}" />
-
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" />
-				<XAutoCompleteBox Grid.Row="1" Grid.Column="1" Margin="2"
-								  IsTextCompletionEnabled="True"
+				
+				<TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Text="Наименование" Style="{DynamicResource TextBlockDetailsStyle}" />
+				<XAutoCompleteBox Grid.Row="1" Grid.Column="1"
+								  IsTextCompletionEnabled="False"
 								  ItemsSource="{Binding AvailableNames}"
-								  Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" >
+								  Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+								  Margin="2">
 					<XAutoCompleteBox.TextBoxStyle>
 						<Style TargetType="TextBox">
 							<Setter Property="MaxLength" Value="20" />
@@ -39,9 +36,21 @@
 						</Style>
 					</XAutoCompleteBox.TextBoxStyle>
 				</XAutoCompleteBox>
-				<XAutoCompleteBox Grid.Row="2" Grid.Column="1" Margin="2" IsTextCompletionEnabled="True" ItemsSource="{Binding AvailableDescription}" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+				
+				<TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Text="Примечание" Style="{DynamicResource TextBlockDetailsStyle}" />
+				<XAutoCompleteBox Grid.Row="2" Grid.Column="1" 
+								  IsTextCompletionEnabled="False"
+								  ItemsSource="{Binding AvailableDescription}" 
+								  Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+								  Margin="2" />
+				
+				<TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Text="Задержка, с" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Margin="2" Value="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="65535" />
+
+				<TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Text="Удержание, с" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Margin="2" Value="{Binding Hold, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="65535" />
+				
+				<TextBlock Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Text="Режим по окончанию удержания" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<ComboBox Grid.Row="5" Grid.Column="1" Margin="2" ItemsSource="{Binding DelayRegimes}" SelectedItem="{Binding DelayRegime}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
@@ -50,9 +59,21 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 				<StackPanel Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
-					<ToolBarButton Width="36" Height="36" Margin="0 0 0 -8" Command="{Binding ReadPropertiesCommand}" ImageSource="read" ToolTip="Считать параметры направления" IsEnabled="{Binding IsEdit}" />
-					<ToolBarButton Width="36" Height="36" Margin="0 0 0 -8" Command="{Binding WritePropertiesCommand}" ImageSource="write" ToolTip="Записать параметры направления" IsEnabled="{Binding IsEdit}" />
-					<ToolBarButton Width="36" Height="36" Command="{Binding ResetPropertiesCommand}" ImageSource="defconfig" ToolTip="Параметры по умолчанию" IsEnabled="{Binding IsEdit}" />
+					<ToolBarButton Width="36" Height="36" Margin="0 0 0 -8"
+								   Command="{Binding ReadPropertiesCommand}"
+								   ImageSource="read"
+								   ToolTip="Считать параметры направления"
+								   IsEnabled="{Binding IsEdit}" />
+					<ToolBarButton Command="{Binding WritePropertiesCommand}"
+								   ImageSource="write"
+								   ToolTip="Записать параметры направления"
+								   IsEnabled="{Binding IsEdit}"
+								   Width="36" Height="36" Margin="0 0 0 -8"/>
+					<ToolBarButton Command="{Binding ResetPropertiesCommand}"
+								   ImageSource="defconfig"
+								   ToolTip="Параметры по умолчанию"
+								   IsEnabled="{Binding IsEdit}"
+								   Width="36" Height="36" />
 				</StackPanel>
 			</Grid>
 		</TabItem>

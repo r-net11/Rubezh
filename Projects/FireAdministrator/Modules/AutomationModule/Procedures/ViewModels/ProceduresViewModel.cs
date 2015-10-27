@@ -425,7 +425,10 @@ namespace AutomationModule.ViewModels
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 
 			if (SelectedProcedure != null)
+			{
+				SelectedProcedure.Update();
 				SelectedProcedure.StepsViewModel.UpdateContent();
+			}
 
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 

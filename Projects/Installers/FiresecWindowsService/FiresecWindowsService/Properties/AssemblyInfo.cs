@@ -7,10 +7,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("FiresecNTService")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("*")]
 [assembly: AssemblyProduct("FiresecNTService")]
-[assembly: AssemblyCopyright("Copyright © * 2012")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCompany("Группа компаний 'Рубеж'")]
+[assembly: AssemblyCopyright("Copyright © ООО 'КБ Пожарной Автоматики' 2015")]
+[assembly: AssemblyTrademark("http://www.rubezh.ru/")]
 [assembly: AssemblyCulture("")]
 
 // Параметр ComVisible со значением FALSE делает типы в сборке невидимыми 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // Можно задать все значения или принять номер построения и номер редакции по умолчанию, 
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+
+[assembly: AssemblyVersion("2.1.7.1")]

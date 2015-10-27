@@ -107,6 +107,7 @@ namespace ResursNetwork.Modbus
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Возвращает CRC16 в виде массива из 2 байт. Где: LowByte = Array[0] и
         /// HighByte = Array[1]
@@ -116,7 +117,8 @@ namespace ResursNetwork.Modbus
         {
             return new Byte[] { _Low, _High };
         }
-        /// <summary>
+        
+		/// <summary>
         /// Рассчитывает CRC16 для переданного массива
         /// </summary>
         public static CRC16 GetCRC16(Byte[] array)
@@ -142,6 +144,53 @@ namespace ResursNetwork.Modbus
             }
             return new CRC16(crct);
         }
+
+		/// <summary>
+		/// Получает сообщение и проверяет контрольную сумму в нём
+		/// </summary>
+		/// <param name="array">Сетевое сообщение (с контрольной суммой)</param>
+		/// <returns></returns>
+		public static bool CheckCRC16(Byte[] array)
+		{
+			if (array.Length < 3)
+			{
+				throw new ArgumentOutOfRangeException("Array.Lengh < 3");
+			}
+
+			// Выделяем CRC из массива 
+			var crc = new CRC16
+			{
+				High = array[array.Length - 1],
+				Low = array[array.Length - 2]
+			};
+
+			var data = new Byte[array.Length - 2];
+			Array.Copy(array, data, data.Length); 
+			// Для оставшихся байт рассчитываем CRC16
+			return crc == CRC16.GetCRC16(data) ? true : false;
+
+		}
+
+		public static bool operator ==(CRC16 x, CRC16 y)
+		{
+			return (x.High == y.High) && (x.Low == y.Low) ? true : false;
+		}
+
+		public static bool operator !=(CRC16 x, CRC16 y)
+		{
+			return x == y ? false : true;
+		}
+
+		public override bool Equals(object obj)
+		{
+			return base.Equals(obj);
+		}
+
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
+
         #endregion
     }
 }

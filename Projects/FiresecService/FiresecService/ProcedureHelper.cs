@@ -166,8 +166,8 @@ namespace FiresecService
 			}
 			if (commandType == GKDoorCommandType.Norm)
 			{
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(uid, GKBaseObjectType.Door);
 				FiresecServiceManager.SafeFiresecService.GKTurnOff(uid, GKBaseObjectType.Door);
+				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(uid, GKBaseObjectType.Door);
 			}
 		}
 

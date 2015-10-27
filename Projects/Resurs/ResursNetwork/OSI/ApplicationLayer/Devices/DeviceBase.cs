@@ -38,7 +38,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
             }
         }
 
-        public abstract DeviceType DeviceType { get; }
+        public abstract DeviceModel DeviceModel { get; }
 
         public virtual UInt32 Address
         {
@@ -187,7 +187,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         /// </summary>
         /// <param name="deviceType">Тип устройства</param>
         /// <returns></returns>
-        public static DeviceBase CreateDevice(DeviceType deviceType)
+        public static DeviceBase CreateDevice(DeviceModel deviceType)
         {
             throw new NotImplementedException();
         }
@@ -240,6 +240,10 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
             }
         }
 
+		public abstract OperationResult ReadParameter(string parameterName);
+
+		public abstract void WriteParameter(string parameterName, ValueType value);
+
         protected virtual void OnErrorOccurred(DeviceErrorOccuredEventArgs args)
         {
             if (ErrorOccurred != null)
@@ -291,5 +295,6 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         public event PropertyChangedEventHandler PropertyChanged;
         
         #endregion
+
 	}
 }

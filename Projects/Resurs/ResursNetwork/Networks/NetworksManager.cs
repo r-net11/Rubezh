@@ -14,6 +14,7 @@ using ResursNetwork.Incotex.Models;
 using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer;
 using ResursNetwork.Incotex.NetworkControllers.DataLinkLayer;
 using ResursAPI;
+using ResursAPI.Models;
 using ResursAPI.ParameterNames;
 
 namespace ResursNetwork.Networks
@@ -21,7 +22,7 @@ namespace ResursNetwork.Networks
     /// <summary>
     /// Объет упрвления сетями системы учёта русурсов
     /// </summary>
-    public class NetworksManager
+    public class NetworksManager: INetworksManager
     {
         #region Fields And Properties
 
@@ -318,14 +319,40 @@ namespace ResursNetwork.Networks
 		public void SendCommand(Guid id, string commandName)
 		{
 			var controller = FindController(id);
-			
 			if (controller != null)
 			{
 				controller.ExecuteCommand(commandName);
 			}
-
-			var device = FindDevice(id);
-			device.ExecuteCommand(commandName);
+			else
+			{
+				var device = FindDevice(id);
+				if(device != null)
+					device.ExecuteCommand(commandName);
+			}
+		}
+		
+		/// <summary>
+		/// Читает значение параметра из удалённого устройство
+		/// асинхронно, обновление параметра по событию
+		/// </summary>
+		/// <param name="deviceId"></param>
+		/// <param name="parameterName"></param>
+		public IOperationResult ReadParameter(Guid deviceId, string parameterName)
+		{
+			return FindDevice(deviceId).ReadParameter(parameterName);
+		}
+		
+		/// <summary>
+		/// Записывает новое значение параметра у удалённое устройство
+		/// Блокирует вызывающий поток до окончания сетевой транзакции
+		/// </summary>
+		/// <param name="deviceId"></param>
+		/// <param name="parameterName"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public void WriteParameter(Guid deviceId, string parameterName, ValueType value)
+		{
+			throw new NotImplementedException();
 		}
 
 		/// <summary>

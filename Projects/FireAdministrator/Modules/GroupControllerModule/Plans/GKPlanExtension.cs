@@ -460,11 +460,11 @@ namespace GKModule.Plans
 		{
 			base.ExtensionRegistered(designerCanvas);
 			LayerGroupService.Instance.RegisterGroup("GK", "Устройства", 12);
-			LayerGroupService.Instance.RegisterGroup("GKZone", "Зоны", 13);
+			LayerGroupService.Instance.RegisterGroup("GKZone", "Пожарные зоны", 13);
 			LayerGroupService.Instance.RegisterGroup("GKGuardZone", "Охранные зоны", 14);
 			LayerGroupService.Instance.RegisterGroup("GKSKDZone", "Зоны СКД", 15);
 			LayerGroupService.Instance.RegisterGroup("GKDirection", "Направления", 16);
-			LayerGroupService.Instance.RegisterGroup("GKMPT", "Направления", 17);
+			LayerGroupService.Instance.RegisterGroup("GKMPT", "МПТ", 17);
 			LayerGroupService.Instance.RegisterGroup("GKDoors", "ГК Точки доступа", 18);
 			LayerGroupService.Instance.RegisterGroup("GKDelay", "Задержки", 19);
 		}

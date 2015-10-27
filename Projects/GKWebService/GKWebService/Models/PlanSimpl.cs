@@ -1,24 +1,20 @@
-﻿using System;
+﻿#region Usings
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+
+#endregion
 
 namespace GKWebService.Models
 {
-    public class PlanSimpl
-    {
-        public string Name { get; set; }
-
-        public Guid Uid { get; set; }
-
-        public string Description { get; set; }
-
-        public List<PlanElement> Elements { get; set; }
-
-        public double Width { get; set; }
-
-        public double Height { get; set; }
-        
-        public List<PlanSimpl> NestedPlans { get; set; }
-    }
+	public class PlanSimpl
+	{
+		public string Description { get; set; }
+		public List<PlanElement> Elements { get; set; }
+		public double Height { get; set; }
+		public string Name { get; set; }
+		public List<PlanSimpl> NestedPlans { get; set; }
+		public Guid Uid { get; set; }
+		public double Width { get; set; }
+	}
 }

@@ -19,6 +19,7 @@ namespace ResursDAL
 				var consumer = context.Consumers.FirstOrDefault(x => x.UID == consumerUID);
 				consumer.Devices.AddRange(context.Devices.Where(x => x.ConsumerUID == consumerUID));
 				consumer.Devices.ForEach(x => x.Driver = DriversConfiguration.Drivers.FirstOrDefault(y => y.UID == x.DriverUID));
+				consumer.Deposits.AddRange(context.Deposits.Where(x => x.ConsumerUID == consumerUID));
 				return consumer;
 			}
 		}

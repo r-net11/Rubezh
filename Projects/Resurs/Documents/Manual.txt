@@ -36,12 +36,10 @@
 	bool GetStatus(Guid id)
 
 	Читает значение параметра из удалённого устройтсво
-	Блокирует вызывающий поток до окончания сетевой транзакции
-	Result ReadParameter(Guid deviceId, string parameterName)
+	OperationResult ReadParameter(Guid deviceId, string parameterName)
 
 	Записывает новое значение параметра у удалённое устройтство
-	Блокирует вызывающий поток до окончания сетевой транзакции
-	Result WriteParameter(Guid deviceId, string parameterName, ValueType value)
+	void WriteParameter(Guid deviceId, string parameterName, ValueType value)
 
 	Устанавливает дату и время у всех устройтсв в указанной сети
 	(Широковещательная команда)

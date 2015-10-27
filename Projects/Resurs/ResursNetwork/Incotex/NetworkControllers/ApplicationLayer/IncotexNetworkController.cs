@@ -105,8 +105,8 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 
 		const int MIN_POLLING_PERIOD = 1000;
 		
-		static DeviceType[] _supportedDevices = 
-			new DeviceType[] { DeviceType.Mercury203 };
+		static DeviceModel[] _supportedDevices = 
+			new DeviceModel[] { DeviceModel.Mercury203 };
 		static Type[] _supportedInterfaces = 
 			new Type[] { typeof(Incotex.NetworkControllers.DataLinkLayer.ComPort) };
 		static object _syncRoot = new object(); 
@@ -131,7 +131,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             get { return _currentNetworkRequest; }
         }
 
-        public override IEnumerable<DeviceType> SuppotedDevices
+        public override IEnumerable<DeviceModel> SuppotedDevices
         {
             get { return _supportedDevices; }
         }
@@ -311,15 +311,15 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             }
 
             // Обрабатывает сообщение
-            _autoResetEventRequest.Set();
             _CurrentIncomingMessage = dataMessages[0];
-        }
+			_autoResetEventRequest.Set();
+		}
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="cancellationToken"></param>
-        protected override void NetwokPollingAction(object cancellationToken)
+        protected override void NetworkPollingAction(object cancellationToken)
         {
             //DateTime lastUpdate;
             List<IDevice> faultyDevices = new List<IDevice>();
