@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
 	<?define ProductName="A.C.Tech" ?>
-	<?define ProductVersion="1.2.0.0" ?>
+	<?define ProductVersion="0.9.5.1" ?>
 	<?define ProductCode="93FFAF0E-DE92-4F0C-B9B0-A42AB67D75F4" ?>
 	<?define UpgradeCode="4EC7EDC0-351F-42A3-BB9A-5DD8D5131CFD" ?>
-	<?define Manufacturer='Группа компаний "Рубеж"' ?>
+	<?define Manufacturer="Компания СТРАЖ" ?>
 	<?define Codepage="1251" ?>
 	<?define BrandName="A.C.Tech"?>
 	<?define ServerName="FiresecService"?>
