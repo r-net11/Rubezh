@@ -9,7 +9,8 @@ using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhAPI.Models;
-using FiresecLicense;
+using RubezhLicense;
+using RubezhAPI.License;
 
 namespace FiresecService.Service
 {

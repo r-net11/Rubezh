@@ -1,4 +1,5 @@
-﻿using FiresecLicense;
+﻿using RubezhAPI.License;
+using RubezhLicense;
 using System;
 using System.Windows.Forms;
 
@@ -22,7 +23,7 @@ namespace FiresecService.LicenseEditor
 
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                var licenseInfo = FiresecLicenseManager.TryLoad(openFileDialog.FileName, key);
+                var licenseInfo = LicenseManager.TryLoad(openFileDialog.FileName, key);
                 if (licenseInfo == null)
                 {
                     MessageBox.Show("Лицензия не загружена", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -60,7 +61,7 @@ namespace FiresecService.LicenseEditor
 					HasOpcServer = checkBoxOpcServer.Checked
 				};
 
-				if (FiresecLicenseManager.TrySave(saveFileDialog.FileName, licenseInfo, key))
+				if (LicenseManager.TrySave(saveFileDialog.FileName, licenseInfo, key))
                     MessageBox.Show("Лицензия успешно сохранена!");
                 else
                     MessageBox.Show("Лицензия не сохранена!", "Ошибка сохранения", MessageBoxButtons.OK, MessageBoxIcon.Error);

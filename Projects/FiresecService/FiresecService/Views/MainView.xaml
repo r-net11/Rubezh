@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="FiresecService.Views.MainView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:lcns="clr-namespace:FiresecLicense;assembly=FiresecLicense"
+			 xmlns:lcns="clr-namespace:RubezhAPI.License;assembly=RubezhAPI"
 			 MinWidth="600" MinHeight="600"
 			 Loaded="UserControl_Loaded">
 	<UserControl.Resources>

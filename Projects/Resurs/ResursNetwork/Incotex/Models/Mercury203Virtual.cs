@@ -8,6 +8,7 @@ using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
 using ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters;
 using ResursNetwork.Incotex.Models;
 using ResursNetwork.Management;
+using ResursNetwork.OSI.Messages.Transactions;
 using ResursAPI.Models;
 using ResursAPI.ParameterNames;
 using ResursAPI.CommandNames;
@@ -23,7 +24,6 @@ namespace ResursNetwork.Incotex.Models
 		private DeviceErrors _Errors;
 		private INetwrokController _NetworkController;
 
-		
         public Guid Id
         {
             get
@@ -42,9 +42,9 @@ namespace ResursNetwork.Incotex.Models
             }
         }
 
-        public DeviceType DeviceType
+        public DeviceModel DeviceType
         {
-            get { return DeviceType.VirtualMercury203; }
+            get { return DeviceModel.VirtualMercury203; }
         }
 
         public uint Address
@@ -321,6 +321,84 @@ namespace ResursNetwork.Incotex.Models
         #endregion
 
 		#region Network API
+
+		public OperationResult ReadParameter(string parameterName)
+		{
+			switch (parameterName)
+			{
+				case ParameterNamesMercury203Virtual.Address:
+					{
+
+						return new OperationResult
+						{
+							Result = new TransactionError 
+							{ 
+								ErrorCode = TransactionErrorCodes.NoError, 
+								Description = String.Empty 
+							},
+							Value = Address
+						};
+					}
+				case ParameterNamesMercury203Virtual.DateTime:
+					{
+						return new OperationResult
+						{
+							Result = new TransactionError
+							{
+								ErrorCode = TransactionErrorCodes.NoError,
+								Description = String.Empty
+							},
+							Value = ReadDateTime()
+						};
+					}
+				case ParameterNamesMercury203Virtual.GADDR:
+					{
+						return new OperationResult
+						{
+							Result = new TransactionError
+							{
+								ErrorCode = TransactionErrorCodes.NoError,
+								Description = String.Empty
+							},
+							Value = ReadGroupAddress()
+						};
+					}
+				case ParameterNamesMercury203Virtual.PowerLimit:
+					{
+						return new OperationResult
+						{
+							Result = new TransactionError
+							{
+								ErrorCode = TransactionErrorCodes.NoError,
+								Description = String.Empty
+							},
+							Value = ReadPowerLimit()
+						};
+					}
+				case ParameterNamesMercury203Virtual.PowerLimitPerMonth:
+					{
+ 						return new OperationResult
+						{
+							Result = new TransactionError
+							{
+								ErrorCode = TransactionErrorCodes.NoError,
+								Description = String.Empty
+							},
+							Value = ReadPowerLimitPerMonth()
+						};
+					}
+				default:
+					{
+						throw new NotSupportedException(String.Format(
+							"Чтение параметра {0} не поддерживается", parameterName));
+					}
+			}
+		}
+
+		public void WriteParameter(string parameterName, ValueType value)
+		{
+			throw new NotImplementedException();
+		}
 
 		public void ExecuteCommand(string commandName)
 		{

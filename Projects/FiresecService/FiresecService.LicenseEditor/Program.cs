@@ -1,4 +1,5 @@
-﻿using FiresecLicense;
+﻿using RubezhAPI.License;
+using RubezhLicense;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -32,8 +33,8 @@ namespace FiresecService.LicenseEditor
 					HasVideo = args.Any(x => x.Trim().ToLower() == "video"),
 					HasOpcServer = args.Any(x => x.Trim().ToLower() == "opcserver")
 				};
-	                
-				FiresecLicenseManager.TrySave(args[0], licenseInfo, key);
+
+				LicenseManager.TrySave(args[0], licenseInfo, key);
 
                 return;
             }

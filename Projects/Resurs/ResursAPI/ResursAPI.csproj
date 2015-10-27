@@ -57,6 +57,8 @@
     <Compile Include="Journal\Filter.cs" />
     <Compile Include="Journal\Journal.cs" />
     <Compile Include="Journal\StateType.cs" />
+    <Compile Include="License\LicenseManager.cs" />
+    <Compile Include="License\ResursLicenseInfo.cs" />
     <Compile Include="Models\CommandNames\CommandNamesIncotexNetworkControllerVirtual.cs" />
     <Compile Include="Models\Deposit.cs" />
     <Compile Include="Models\CommandNames\CommandNamesMercury203.cs" />
@@ -64,11 +66,15 @@
     <Compile Include="Models\DeviceErrors.cs" />
     <Compile Include="Models\DeviceType.cs" />
     <Compile Include="Models\Driver\DeviceCommand.cs" />
+    <Compile Include="Models\INetworksManager.cs" />
+    <Compile Include="Models\IOperationResult.cs" />
     <Compile Include="Models\NetworkControllerErrors.cs" />
     <Compile Include="Models\ParameterStringContainer.cs" />
     <Compile Include="Models\Receipt.cs" />
     <Compile Include="Models\Tariff\TariffType.cs" />
     <Compile Include="Journal\JournalType.cs" />
+    <Compile Include="Models\TransactionError.cs" />
+    <Compile Include="Models\TransactionErrorCodes.cs" />
     <Compile Include="ParameterNames\ParameterNamesIncotexNetwork.cs" />
     <Compile Include="ParameterNames\ParameterNamesMercury203.cs" />
     <Compile Include="ParameterNames\ParameterNamesBase.cs" />
@@ -112,7 +118,12 @@
       <Project>{d57cb190-a30e-4a3d-a674-f1766ce1cc72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\RubezhLicense\RubezhLicense.csproj">
+      <Project>{e6d24912-812b-42b4-b6b0-97ca33c0f4af}</Project>
+      <Name>RubezhLicense</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

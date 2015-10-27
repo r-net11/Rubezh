@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using ResursNetwork.OSI.ApplicationLayer.Devices;
 using ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters;
@@ -12,6 +13,7 @@ using ResursNetwork.Incotex.Models;
 using ResursNetwork.Incotex.NetworkControllers.Messages;
 using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer;
 using ResursNetwork.Management;
+using ResursAPI.Models;
 using ResursAPI.ParameterNames;
 using ResursAPI.CommandNames;
 using Common;
@@ -30,9 +32,9 @@ namespace ResursNetwork.Incotex.Models
         /// </summary>
         private List<NetworkRequest> _ActiveRequests = new List<NetworkRequest>();
 
-        public override DeviceType DeviceType
+        public override DeviceModel DeviceType
         {
-            get { return DeviceType.Mercury203; }
+            get { return DeviceModel.Mercury203; }
         }
 
 		public override uint Address
@@ -165,11 +167,11 @@ namespace ResursNetwork.Incotex.Models
             {
                 case Mercury203CmdCode.SetNetworkAddress:
                     {
-                        GetAnswerNetwokAdderss(networkRequest); break;
+                        GetAnswerWriteNetwokAdderss(networkRequest); break;
                     }
                 case Mercury203CmdCode.ReadGroupAddress:
                     {
-                        GetReadGroupAddress(networkRequest); break;
+                        GetAnswerReadGroupAddress(networkRequest); break;
                     }
                 default:
                     {
@@ -197,6 +199,38 @@ namespace ResursNetwork.Incotex.Models
 						}
 				}
 			}
+		}
+
+		public override OperationResult ReadParameter(string parameterName)
+		{
+			switch(parameterName)
+			{
+				case ParameterNamesMercury203.GADDR:
+					{
+						var asyncResult = ReadGroupAddress(isExternalCall: true);
+						// Ждём завершения операции
+						while (!asyncResult.IsCompleted) 
+						{
+							Thread.Sleep(50);
+						}
+						// Возвращает результат
+						return new OperationResult
+						{
+							Result = asyncResult.Error,
+							Value = Parameters[parameterName].Value
+						};
+					}
+				default:
+					{
+						throw new NotSupportedException(String.Format(
+							"Чтение праметра {0} не поддерживается", parameterName));
+					}
+			}
+		}
+
+		public override void WriteParameter(string parameterName, ValueType value)
+		{
+			throw new NotImplementedException();
 		}
 
         public override void EventHandler_NetworkController_NetwrokRequestCompleted(
@@ -261,7 +295,7 @@ namespace ResursNetwork.Incotex.Models
         /// <param name="addr">Текущий сетевой адрес счётчика</param>
         /// <param name="newaddr">Новый сетевой адрес счётчика</param>
         /// <returns></returns>
-        public IAsyncRequestResult SetNewAddress(UInt32 addr, UInt32 newaddr, bool isExternalCall = true)
+        public IAsyncRequestResult WriteNewAddress(UInt32 addr, UInt32 newaddr, bool isExternalCall = true)
         {
             var request = new DataMessage()
             {
@@ -296,7 +330,7 @@ namespace ResursNetwork.Incotex.Models
         /// Разбирает ответ от удалённого устройтва по запросу SetNewAddress
         /// </summary>
         /// <param name="networkRequest"></param>
-        private void GetAnswerNetwokAdderss(NetworkRequest networkRequest)
+        private void GetAnswerWriteNetwokAdderss(NetworkRequest networkRequest)
         {
             var request = (DataMessage)networkRequest.Request.Request;
 
@@ -408,7 +442,7 @@ namespace ResursNetwork.Incotex.Models
         /// по запросу ReadGroupAddress
         /// </summary>
         /// <param name="transaction"></param>
-        private void GetReadGroupAddress(NetworkRequest networkRequest)
+        private void GetAnswerReadGroupAddress(NetworkRequest networkRequest)
         {
             // Разбираем ответ
             if (networkRequest.Status == NetworkRequestStatus.Completed)

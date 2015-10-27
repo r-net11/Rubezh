@@ -39,6 +39,8 @@ namespace Resurs.Processor
 			_networksManager.ParameterChanged += OnNetworksManagerParameterChanged;
 			_networksManager.DeviceHasError -= OnNetworksManagerDeviceHasError;
 			_networksManager.DeviceHasError += OnNetworksManagerDeviceHasError;
+			_networksManager.NetworkControllerHasError -= OnNetworksManagerNetworkControllerHasError;
+			_networksManager.NetworkControllerHasError += OnNetworksManagerNetworkControllerHasError;
 		}
 
 		#region NetworksManagerCommands
@@ -106,6 +108,16 @@ namespace Resurs.Processor
 			return true;
 		}
 
+		public bool ReadParameters(Device device)
+		{
+			return true;
+		}
+
+		public bool ReadParameter(Device device, string parameterName)
+		{
+			return true;
+		}
+
 		public bool SendCommand(Guid guid, string p)
 		{
 			try
@@ -147,30 +159,60 @@ namespace Resurs.Processor
 			{
 				case (ResursAPI.ParameterNames.ParameterNamesBase.CounterTarif1):
 					DBCash.AddMeasure(CreateMeasure(device, args, 0));
-					break;
+					return;
 				case (ResursAPI.ParameterNames.ParameterNamesBase.CounterTarif2):
 					DBCash.AddMeasure(CreateMeasure(device, args, 1));
-					break;
+					return;
 				case (ResursAPI.ParameterNames.ParameterNamesBase.CounterTarif3):
 					DBCash.AddMeasure(CreateMeasure(device, args, 2));
-					break;
+					return;
 				case (ResursAPI.ParameterNames.ParameterNamesBase.CounterTarif4):
 					DBCash.AddMeasure(CreateMeasure(device, args, 3));
-					break;
+					return;
 				case (ResursAPI.ParameterNames.ParameterNamesBase.CounterTarif5):
 					DBCash.AddMeasure(CreateMeasure(device, args, 4));
-					break;
+					return;
 				case (ResursAPI.ParameterNames.ParameterNamesBase.CounterTarif6):
 					DBCash.AddMeasure(CreateMeasure(device, args, 5));
-					break;
+					return;
 				case (ResursAPI.ParameterNames.ParameterNamesBase.CounterTarif7):
 					DBCash.AddMeasure(CreateMeasure(device, args, 6));
-					break;
+					return;
 				case (ResursAPI.ParameterNames.ParameterNamesBase.CounterTarif8):
 					DBCash.AddMeasure(CreateMeasure(device, args, 7));
-					break;
+					return;
+				case (ResursAPI.ParameterNames.ParameterNamesBase.DateTime):
+					device.DateTime = (DateTime)args.NewValue;
+					return;
 				default:
 					break;
+			}
+			var parameter = device.Parameters.FirstOrDefault(x => x.DriverParameter.Name == args.ParameterName);
+			if (parameter != null)
+			{
+				switch (parameter.DriverParameter.ParameterType)
+				{
+					case ParameterType.Enum:
+						parameter.IntValue = (int)args.NewValue;
+						break;
+					case ParameterType.String:
+						parameter.StringValue = ((ParameterStringContainer)args.NewValue).Value;
+						break;
+					case ParameterType.Int:
+						parameter.IntValue = Convert.ToInt32(args.NewValue);
+						break;
+					case ParameterType.Double:
+						parameter.DoubleValue = (double)args.NewValue;
+						break;
+					case ParameterType.Bool:
+						parameter.BoolValue = (bool)args.NewValue;
+						break;
+					case ParameterType.DateTime:
+						parameter.DateTimeValue = (DateTime)args.NewValue;
+						break;
+					default:
+						break;
+				}
 			}
 		}
 
@@ -186,6 +228,17 @@ namespace Resurs.Processor
 		}
 
 		void OnNetworksManagerDeviceHasError(object sender, ResursNetwork.OSI.ApplicationLayer.Devices.DeviceErrorOccuredEventArgs args)
+		{
+			var handler = ErrorsChanged;
+
+			if (handler != null)
+			{
+				var isActiveChangedEventArgs = new ErrorsChangedEventArgs(args);
+				handler(this, isActiveChangedEventArgs);
+			}
+		}
+
+		void OnNetworksManagerNetworkControllerHasError(object sender, ResursNetwork.OSI.ApplicationLayer.NetworkControllerErrorOccuredEventArgs args)
 		{
 			var handler = ErrorsChanged;
 

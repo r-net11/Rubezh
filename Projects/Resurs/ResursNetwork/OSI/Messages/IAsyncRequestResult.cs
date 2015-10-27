@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ResursNetwork.OSI.Messages.Transactions;
+using ResursAPI.Models;
 
 namespace ResursNetwork.OSI.Messages
 {
@@ -24,6 +25,17 @@ namespace ResursNetwork.OSI.Messages
         /// </summary>
         bool IsCompleted { get; }
 
-        #endregion
+		/// <summary>
+		/// Успешность выполения операции
+		/// </summary>
+		bool HasError { get; }
+
+		/// <summary>
+		/// Описание ошибки в последней выполенной
+		/// операции
+		/// </summary>
+		TransactionError Error { get; }
+        
+		#endregion
     }
 }

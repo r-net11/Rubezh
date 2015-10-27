@@ -30,7 +30,7 @@ namespace Resurs.ViewModels
 			{
 				if (!IsActive)
 					return DeviceState.Disabled;
-				if (Errors.Any(x => x == DeviceError.CommunicationError))
+				if (Errors.Any(x => x == DeviceError.Communication))
 					return DeviceState.ConnectionLost;
 				if (Errors.Any())
 					return DeviceState.Error;

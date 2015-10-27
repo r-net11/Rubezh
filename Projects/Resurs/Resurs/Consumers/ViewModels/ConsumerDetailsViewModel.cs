@@ -68,7 +68,8 @@ namespace Resurs.ViewModels
 				UID = this.UID,
 				Number = this.Number,
 				Balance = this.Balance,
-				Devices = this.Devices.Select(x => x.Device).ToList()
+				Devices = this.Devices.Select(x => x.Device).ToList(),
+				Deposits = this.DepositsViewModel.Deposits.Select(x => x.Deposit).ToList()
 			};
 		}
 

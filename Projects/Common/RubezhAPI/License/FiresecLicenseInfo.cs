@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace FiresecLicense
+namespace RubezhAPI.License
 {
 	/// <summary>
 	/// Разрешения лицензии
@@ -49,5 +49,21 @@ namespace FiresecLicense
 		/// </summary>
         [DataMember]
         public bool HasOpcServer { get; set; }
+
+		public override bool Equals(object obj)
+		{
+			if (obj is FiresecLicenseInfo)
+			{
+				var licenseInfo = obj as FiresecLicenseInfo;
+				return licenseInfo.RemoteWorkplacesCount == this.RemoteWorkplacesCount
+					&& licenseInfo.HasFirefighting == this.HasFirefighting
+					&& licenseInfo.HasGuard == this.HasGuard
+					&& licenseInfo.HasSKD == this.HasSKD
+					&& licenseInfo.HasVideo == this.HasVideo
+					&& licenseInfo.HasOpcServer == this.HasOpcServer;
+			}
+			else
+				return false;
+		}
     }
 }
