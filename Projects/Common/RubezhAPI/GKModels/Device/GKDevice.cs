@@ -276,7 +276,7 @@ namespace RubezhAPI.GK
 			get
 			{
 				if (DriverType == GKDriverType.GK && !Driver.HasAddress)
-					return Address;
+					return "";
 
 				var address = new StringBuilder();
 

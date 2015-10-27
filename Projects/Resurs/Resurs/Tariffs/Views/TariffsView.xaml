@@ -19,17 +19,15 @@
 			<ToolBarButton Command="{Binding RemoveCommand}"	ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete" />
 		</StackPanel>
 		<Grid Grid.Row ="1">
-			<DataGrid ItemsSource="{Binding Tariffs}" 
-					  SelectedItem="{Binding SelectedTariff}" 
-					  CanUserSortColumns="True">
+			<DataGrid ItemsSource="{Binding Tariffs}" SelectedItem="{Binding SelectedTariff}" CanUserSortColumns="True">
 				<DataGrid.InputBindings>
 					<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
 				</DataGrid.InputBindings>
 				<DataGrid.Columns>
-					<DataGridTextColumn Width="*" Header="Название"				Binding="{Binding Name}" />
-					<DataGridTextColumn Width="*" Header="Тип тарифа"			Binding="{Binding TariffType, Converter={StaticResource EnumToDescriptionConverter}}" />
-					<DataGridTextColumn Width="*" Header="Тарифные интервалы"	Binding="{Binding TariffParts}" />
-					<DataGridTextColumn Width="*" Header="Примечание"			Binding="{Binding Description}" />
+					<DataGridTextColumn Width="*" Header="Название"				Binding="{Binding Tariff.Name}" />
+					<DataGridTextColumn Width="*" Header="Тип тарифа"			Binding="{Binding Tariff.TariffType, Converter={StaticResource EnumToDescriptionConverter}}" />
+					<DataGridTextColumn Width="*" Header="Тарифные интервалы"	Binding="{Binding Tariff.TariffParts.Count}" />
+					<DataGridTextColumn Width="*" Header="Примечание"			Binding="{Binding Tariff.Description}" />
 				</DataGrid.Columns>
 			</DataGrid>
 		</Grid>
@@ -38,19 +36,20 @@
 				<StackPanel DataContext="{Binding SelectedTariff}">
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Название тарифа" Style="{DynamicResource TextBlockDetailsStyle}" />
-						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" Style="{DynamicResource TextBlockDetailsStyle}" />
+						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Tariff.Name}" Style="{DynamicResource TextBlockDetailsStyle}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Количество тарифных интервалов" Style="{DynamicResource TextBlockDetailsStyle}" />
-						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding TariffParts}" Style="{DynamicResource TextBlockDetailsStyle}" />
+						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Tariff.TariffParts.Count}" Style="{DynamicResource TextBlockDetailsStyle}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Примечание" Style="{DynamicResource TextBlockDetailsStyle}" />
-						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Description}" Style="{DynamicResource TextBlockDetailsStyle}" />
+						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Tariff.Description}" Style="{DynamicResource TextBlockDetailsStyle}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Тип тарифа" Style="{DynamicResource TextBlockDetailsStyle}" />
-						<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding IsDiscount, Converter={StaticResource DiscountToTextConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
+						<TextBlock Text="{Binding Tariff.IsDiscount, Converter={StaticResource DiscountToTextConverter}}" 
+								   Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" VerticalAlignment="Center" />
 					</StackPanel>
 				</StackPanel>
 			</Grid>

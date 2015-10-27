@@ -6,7 +6,8 @@ using RubezhAPI;
 using RubezhAPI.Journal;
 using RubezhAPI.Models;
 using RubezhDAL.DataClasses;
-using FiresecLicense;
+using RubezhLicense;
+using RubezhAPI.License;
 
 namespace FiresecService.Service
 {
@@ -115,7 +116,7 @@ namespace FiresecService.Service
         
         public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
         {
-			return new OperationResult<FiresecLicenseInfo>(FiresecLicenseManager.CurrentLicenseInfo);
+			return new OperationResult<FiresecLicenseInfo>(LicenseManager.CurrentLicenseInfo);
         }
     }
 }

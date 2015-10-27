@@ -173,7 +173,7 @@ namespace AutomationModule.Validation
 
 				case ProcedureStepType.ControlGKDevice:
 					{
-						if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.DeviceHaveNoLogic))
+						if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.DeviceHaveSelfLogik))
 						{
 							var controlGKDeviceArguments = step.ControlGKDeviceArguments;
 							var gkDevice = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == controlGKDeviceArguments.GKDeviceArgument.ExplicitValue.UidValue);

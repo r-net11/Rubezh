@@ -25,7 +25,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// <summary>
         /// Список поддерживаемых данным контроллером типов устройств 
         /// </summary>
-        IEnumerable<DeviceType> SuppotedDevices { get; }
+        IEnumerable<DeviceModel> SuppotedDevices { get; }
 
         /// <summary>
         /// Список устройств в сети.

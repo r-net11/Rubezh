@@ -27,8 +27,8 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 
 		const int MIN_POLLING_PERIOD = 1000;
 
-		static DeviceType[] _suppotedDevices =
-			new DeviceType[] { DeviceType.VirtualMercury203 };
+		static DeviceModel[] _suppotedDevices =
+			new DeviceModel[] { DeviceModel.VirtualMercury203 };
 
         Guid _id = Guid.NewGuid();
         DevicesCollection _devices;
@@ -51,7 +51,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             }
         }
 
-        public IEnumerable<DeviceType> SuppotedDevices
+        public IEnumerable<DeviceModel> SuppotedDevices
         {
             get { return _suppotedDevices; }
         }

@@ -1,4 +1,5 @@
-﻿using FiresecLicense;
+﻿using RubezhAPI.License;
+using RubezhLicense;
 using System;
 using System.Windows.Forms;
 
@@ -22,7 +23,7 @@ namespace FiresecService.LicenseEditor
 
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                var licenseInfo = FiresecLicenseManager.TryLoad(openFileDialog.FileName, key);
+                var licenseInfo = LicenseManager.TryLoad(openFileDialog.FileName, key);
                 if (licenseInfo == null)
                 {
                     MessageBox.Show("Лицензия не загружена", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -30,7 +31,7 @@ namespace FiresecService.LicenseEditor
                 }
                 else
                 {
-					numericUpDownRemoteWorkplacesCount.Value = licenseInfo.RemoteWorkplacesCount;
+					numericUpDownRemoteClientsCount.Value = licenseInfo.RemoteClientsCount;
 					checkBoxFirefighting.Checked = licenseInfo.HasFirefighting;
 					checkBoxGuard.Checked = licenseInfo.HasGuard;
 					checkBoxSKD.Checked = licenseInfo.HasSKD;
@@ -52,7 +53,7 @@ namespace FiresecService.LicenseEditor
             {
 				var licenseInfo = new FiresecLicenseInfo()
 				{
-					RemoteWorkplacesCount = (int)numericUpDownRemoteWorkplacesCount.Value,
+					RemoteClientsCount = (int)numericUpDownRemoteClientsCount.Value,
 					HasFirefighting = checkBoxFirefighting.Checked,
 					HasGuard = checkBoxGuard.Checked,
 					HasSKD = checkBoxSKD.Checked,
@@ -60,7 +61,7 @@ namespace FiresecService.LicenseEditor
 					HasOpcServer = checkBoxOpcServer.Checked
 				};
 
-				if (FiresecLicenseManager.TrySave(saveFileDialog.FileName, licenseInfo, key))
+				if (LicenseManager.TrySave(saveFileDialog.FileName, licenseInfo, key))
                     MessageBox.Show("Лицензия успешно сохранена!");
                 else
                     MessageBox.Show("Лицензия не сохранена!", "Ошибка сохранения", MessageBoxButtons.OK, MessageBoxIcon.Error);

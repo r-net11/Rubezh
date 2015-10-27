@@ -7,7 +7,8 @@ using Common;
 using RubezhAPI;
 using RubezhAPI.Models;
 using Infrastructure.Common;
-using FiresecLicense;
+using RubezhLicense;
+using RubezhAPI.License;
 
 namespace FiresecService.Service
 {
@@ -33,7 +34,8 @@ namespace FiresecService.Service
         bool CheckClientsCount(ClientCredentials clientCredentials)
         {
 			return clientCredentials.ClientType == ClientType.Administrator || !clientCredentials.IsRemote
-				|| ClientsManager.ClientInfos.Count(x => x.ClientCredentials.ClientType != ClientType.Administrator && x.ClientCredentials.IsRemote) < FiresecLicenseManager.CurrentLicenseInfo.RemoteWorkplacesCount;
+				|| ClientsManager.ClientInfos.Count(x => x.ClientCredentials.ClientType != ClientType.Administrator && x.ClientCredentials.IsRemote) 
+				< LicenseManager.CurrentLicenseInfo.RemoteClientsCount;
         }
 
 		bool CheckRemoteAccessPermissions(ClientCredentials clientCredentials)
