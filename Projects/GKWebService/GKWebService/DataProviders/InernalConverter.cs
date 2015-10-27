@@ -1,30 +1,32 @@
-﻿using System.Collections.Generic;
+﻿#region Usings
+
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Xaml;
 using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
+
+#endregion
 
 namespace GKWebService.DataProviders
 {
 	internal static class InernalConverter
 	{
 		/// <summary>
-		///     Преобразует XAML Drawing/DrawingGroup в png
+		///     Преобразует XAML Drawing/DrawingGroup в png base64 string
 		/// </summary>
 		/// <param name="width"></param>
 		/// <param name="height"></param>
 		/// <param name="drawing"></param>
-		/// <returns></returns>
-		public static byte[] XamlDrawingToPngImageBytes(int width, int height, Drawing drawing) {
+		/// <returns>Base64 string containing png bitmap</returns>
+		public static string XamlDrawingToPngBase64String(int width, int height, Drawing drawing) {
 			var bitmapEncoder = new PngBitmapEncoder();
-
 			// The image parameters...
 			double dpiX = 96;
 			double dpiY = 96;
@@ -52,7 +54,7 @@ namespace GKWebService.DataProviders
 				bitmapEncoder.Save(str);
 				values = str.ToArray();
 			}
-			return values;
+			return Convert.ToBase64String(values);
 		}
 
 		/// <summary>
@@ -61,6 +63,10 @@ namespace GKWebService.DataProviders
 		/// <param name="surface">XAML Canvas</param>
 		/// <returns>Bitmap, rendered from XAML</returns>
 		public static Bitmap XamlCanvasToPngBitmap(Canvas surface) {
+			if (surface == null) {
+				throw new ArgumentNullException("surface");
+			}
+
 			// Save current canvas transform
 			var transform = surface.LayoutTransform;
 			// reset current transform (in case it is scaled or rotated)
@@ -98,6 +104,12 @@ namespace GKWebService.DataProviders
 			return bmp;
 		}
 
+		/// <summary>
+		///     Преобразует набор точек в путь
+		/// </summary>
+		/// <param name="points">Коллекция точек</param>
+		/// <param name="isClosed">Замкнутая фигура?</param>
+		/// <returns></returns>
 		public static string PointsToPath(PointCollection points, bool isClosed) {
 			var enumerable = points.ToArray();
 			if (!enumerable.Any()) {
@@ -113,14 +125,6 @@ namespace GKWebService.DataProviders
 			var geometry = new PathGeometry();
 			geometry.Figures.Add(figure);
 			return geometry.ToString();
-		}
-
-		public static MemoryStream GenerateStreamFromString(string value) {
-			return new MemoryStream(Encoding.Unicode.GetBytes(value ?? ""));
-		}
-
-		public static object XamlFromString(string source) {
-			return XamlServices.Load(GenerateStreamFromString(source));
 		}
 
 		public static System.Drawing.Color ConvertColor(Color source) {
