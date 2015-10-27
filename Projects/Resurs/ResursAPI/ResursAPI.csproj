@@ -65,11 +65,14 @@
     <Compile Include="Models\DeviceType.cs" />
     <Compile Include="Models\Driver\DeviceCommand.cs" />
     <Compile Include="Models\INetworksManager.cs" />
+    <Compile Include="Models\IOperationResult.cs" />
     <Compile Include="Models\NetworkControllerErrors.cs" />
     <Compile Include="Models\ParameterStringContainer.cs" />
     <Compile Include="Models\Receipt.cs" />
     <Compile Include="Models\Tariff\TariffType.cs" />
     <Compile Include="Journal\JournalType.cs" />
+    <Compile Include="Models\TransactionError.cs" />
+    <Compile Include="Models\TransactionErrorCodes.cs" />
     <Compile Include="ParameterNames\ParameterNamesIncotexNetwork.cs" />
     <Compile Include="ParameterNames\ParameterNamesMercury203.cs" />
     <Compile Include="ParameterNames\ParameterNamesBase.cs" />

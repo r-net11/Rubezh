@@ -57,7 +57,7 @@
     <Compile Include="OSI\ApplicationLayer\Devices\Collections\ObjectModel\DevicesCollection.cs" />
     <Compile Include="OSI\ApplicationLayer\Devices\DeviceBase.cs" />
     <Compile Include="OSI\ApplicationLayer\Devices\DeviceCommand.cs" />
-    <Compile Include="OSI\ApplicationLayer\Devices\DeviceType.cs" />
+    <Compile Include="OSI\ApplicationLayer\Devices\DeviceModel.cs" />
     <Compile Include="OSI\ApplicationLayer\Devices\Collections\ObjectModel\ParatemersCollection.cs" />
     <Compile Include="OSI\ApplicationLayer\Devices\ErrorOccuredEventArgs.cs" />
     <Compile Include="OSI\ApplicationLayer\Devices\IDevice.cs" />
@@ -99,8 +99,6 @@
     <Compile Include="OSI\Messages\Transactions\EnumTransactionType.cs" />
     <Compile Include="OSI\Messages\Transactions\NetworkRequest.cs" />
     <Compile Include="OSI\Messages\Transactions\Transaction.cs" />
-    <Compile Include="OSI\Messages\Transactions\TransactionErrorCodes.cs" />
-    <Compile Include="OSI\Messages\Transactions\TransactionError.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

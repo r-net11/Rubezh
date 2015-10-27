@@ -42,9 +42,9 @@ namespace ResursNetwork.Incotex.Models
             }
         }
 
-        public DeviceType DeviceType
+        public DeviceModel DeviceType
         {
-            get { return DeviceType.VirtualMercury203; }
+            get { return DeviceModel.VirtualMercury203; }
         }
 
         public uint Address

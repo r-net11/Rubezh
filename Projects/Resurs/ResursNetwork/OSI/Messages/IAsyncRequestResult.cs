@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ResursNetwork.OSI.Messages.Transactions;
+using ResursAPI.Models;
 
 namespace ResursNetwork.OSI.Messages
 {

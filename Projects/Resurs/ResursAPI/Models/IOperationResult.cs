@@ -2,28 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ResursNetwork.OSI.Messages.Transactions;
-using ResursAPI.Models;
 
-namespace ResursNetwork.OSI.ApplicationLayer
+namespace ResursAPI.Models
 {
-	/// <summary>
-	/// Результат выполения методов ReadParameter, WriteParameter
-	/// </summary>
-	public class OperationResult: IOperationResult
+	public interface IOperationResult
 	{
 		#region Fields And Properties
 
 		/// <summary>
 		/// Успешность выполнения операции
 		/// </summary>
-		public TransactionError Result { get; set; }
+		TransactionError Result { get; set; }
 
 		/// <summary>
 		/// Прочитанное или записанное значение параметра
 		/// в удалённое устройтсво
 		/// </summary>
-		public ValueType Value { get; set; }
+		ValueType Value { get; set; }
 
 		#endregion
 	}

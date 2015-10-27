@@ -14,6 +14,7 @@ using ResursNetwork.Incotex.Models;
 using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer;
 using ResursNetwork.Incotex.NetworkControllers.DataLinkLayer;
 using ResursAPI;
+using ResursAPI.Models;
 using ResursAPI.ParameterNames;
 
 namespace ResursNetwork.Networks

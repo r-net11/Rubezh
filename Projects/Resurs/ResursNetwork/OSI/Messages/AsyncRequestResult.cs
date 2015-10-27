@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ResursNetwork.OSI.Messages.Transactions;
 using ResursNetwork.OSI.ApplicationLayer.Devices;
+using ResursAPI.Models;
 
 namespace ResursNetwork.OSI.Messages
 {

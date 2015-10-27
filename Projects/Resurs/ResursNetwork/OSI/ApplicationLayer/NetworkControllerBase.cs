@@ -46,7 +46,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// <summary>
         /// Возвращает список типов устройств с которыми может работать данный контроллер
         /// </summary>
-        public abstract IEnumerable<Devices.DeviceType> SuppotedDevices { get; }
+        public abstract IEnumerable<Devices.DeviceModel> SuppotedDevices { get; }
 
         /// <summary>
         /// Возвращает список устройств

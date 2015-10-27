@@ -13,6 +13,7 @@ using ResursNetwork.Incotex.Models;
 using ResursNetwork.Incotex.NetworkControllers.Messages;
 using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer;
 using ResursNetwork.Management;
+using ResursAPI.Models;
 using ResursAPI.ParameterNames;
 using ResursAPI.CommandNames;
 using Common;
@@ -31,9 +32,9 @@ namespace ResursNetwork.Incotex.Models
         /// </summary>
         private List<NetworkRequest> _ActiveRequests = new List<NetworkRequest>();
 
-        public override DeviceType DeviceType
+        public override DeviceModel DeviceType
         {
-            get { return DeviceType.Mercury203; }
+            get { return DeviceModel.Mercury203; }
         }
 
 		public override uint Address
