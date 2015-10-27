@@ -8,59 +8,15 @@ namespace RubezhLicense
 {
     public class RubezhLicenseManager<T> where T : new()
     {
-		public event Action LicenseChanged;
-
-		InitialKey _initialKey;
-		public InitialKey InitialKey 
-		{ 
-			get
-			{
-				if (_initialKey == null)
-					_initialKey = InitialKey.Generate();
-				return _initialKey;
-			}
-		}
-
-		T _currentLicenseInfo = new T();
-		public T CurrentLicenseInfo 
-		{
-			get { return _currentLicenseInfo; } 
-			set
-			{
-				var f = new T();
-				if (!object.Equals(_currentLicenseInfo, value))
-				{
-					PreviousLicenseInfo = _currentLicenseInfo;
-					_currentLicenseInfo = value;
-					if (LicenseChanged != null)
-						LicenseChanged();
-				}
-			}
-		}
-
-		public T PreviousLicenseInfo { get; private set; }
-
-		public T TryLoad(string fileName)
-		{
-			return TryLoad(fileName, InitialKey);
-		}
         public T TryLoad(string fileName, InitialKey key)
         {
 			return Deserialize(Decrypt(LoadFromFile(fileName), key.BinaryValue));
         }
-		public bool TrySave(string fileName, T licenseInfo)
-		{
-			return TrySave(fileName, licenseInfo, InitialKey);
-		}
+
 		public bool TrySave(string fileName, T licenseInfo, InitialKey key)
         {
 			return SaveToFile(Encrypt(Serialize(licenseInfo), key.BinaryValue), fileName);
         }
-
-		public bool CheckLicense(string path)
-		{
-			return TryLoad(path) != null;
-		}
 
 		#region Private members
 

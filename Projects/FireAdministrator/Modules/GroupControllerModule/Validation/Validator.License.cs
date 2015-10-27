@@ -18,7 +18,7 @@ namespace GKModule.Validation
 		/// </summary>
 		void ValidateFirefighting()
 		{
-			if (LicenseManager.FiresecLicenseManager.CurrentLicenseInfo.HasFirefighting)
+			if (LicenseManager.CurrentLicenseInfo.HasFirefighting)
 				return;
 			
 			foreach (var pumpStation in GKManager.PumpStations)
@@ -33,7 +33,7 @@ namespace GKModule.Validation
 		/// </summary>
 		void ValidateGuard()
 		{
-			if (LicenseManager.FiresecLicenseManager.CurrentLicenseInfo.HasGuard)
+			if (LicenseManager.CurrentLicenseInfo.HasGuard)
 				return;
 
 			foreach(var guardZone in GKManager.GuardZones)
@@ -45,7 +45,7 @@ namespace GKModule.Validation
 		/// </summary>
 		void ValidateSKD()
 		{
-			if (LicenseManager.FiresecLicenseManager.CurrentLicenseInfo.HasSKD)
+			if (LicenseManager.CurrentLicenseInfo.HasSKD)
 				return;
 
 			foreach(var skdZone in GKManager.SKDZones)

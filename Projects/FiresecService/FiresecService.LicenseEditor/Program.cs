@@ -34,7 +34,7 @@ namespace FiresecService.LicenseEditor
 					HasOpcServer = args.Any(x => x.Trim().ToLower() == "opcserver")
 				};
 
-				LicenseManager.FiresecLicenseManager.TrySave(args[0], licenseInfo, key);
+				LicenseManager.TrySave(args[0], licenseInfo, key);
 
                 return;
             }

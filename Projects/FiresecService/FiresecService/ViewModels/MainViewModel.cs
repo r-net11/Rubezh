@@ -31,14 +31,14 @@ namespace FiresecService.ViewModels
 			Logs = new ObservableCollection<LogViewModel>();
 			GKLifecycles = new ObservableCollection<GKLifecycleViewModel>();
 			LicenseViewModel = new LicenseViewModel();
-			LicenseManager.FiresecLicenseManager.LicenseChanged += LicenseHelper_LicenseChanged;
+			LicenseManager.LicenseChanged += LicenseHelper_LicenseChanged;
 			GKLifecycleManager.GKLifecycleChangedEvent += On_GKLifecycleChangedEvent;
 			SetTitle();
 		}
 
 		void SetTitle()
 		{
-			Title = LicenseManager.FiresecLicenseManager.CurrentLicenseInfo.LicenseMode == LicenseMode.Demonstration ?
+			Title = LicenseManager.CurrentLicenseInfo.LicenseMode == LicenseMode.Demonstration ?
 				"Сервер приложений Глобал [Демонстрационный режим]" :
 			   "Сервер приложений Глобал";
 		}

@@ -54,7 +54,7 @@ namespace RubezhClient
                 var operationResult = FiresecService.GetLicenseInfo();
                 if (!operationResult.HasError)
                 {
-					LicenseManager.FiresecLicenseManager.CurrentLicenseInfo = operationResult.Result;
+					LicenseManager.CurrentLicenseInfo = operationResult.Result;
                     return null;
                 }
                 else

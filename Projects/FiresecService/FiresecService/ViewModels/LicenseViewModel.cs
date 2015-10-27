@@ -36,9 +36,9 @@ namespace FiresecService.ViewModels
 
 		public LicenseViewModel()
 		{
-			InitialKey = LicenseManager.FiresecLicenseManager.InitialKey.ToString();
-			LicenseInfo = LicenseManager.FiresecLicenseManager.CurrentLicenseInfo;
-			LicenseManager.FiresecLicenseManager.LicenseChanged += FiresecLicenseManager_LicenseChanged;
+			InitialKey = LicenseManager.InitialKey.ToString();
+			LicenseInfo = LicenseManager.CurrentLicenseInfo;
+			LicenseManager.LicenseChanged += FiresecLicenseManager_LicenseChanged;
 			LoadLicenseCommand = new RelayCommand(OnLoadLicenseCommand);
 		}
 		
@@ -56,7 +56,7 @@ namespace FiresecService.ViewModels
             };
             if (openFileDialog.ShowDialog().Value)
             {
-				if (!LicenseManager.FiresecLicenseManager.CheckLicense(openFileDialog.FileName))
+				if (!LicenseManager.CheckLicense(openFileDialog.FileName))
                 {
                     MessageBoxService.ShowError("Некорректный файл лицензии");
                     return;
@@ -69,13 +69,13 @@ namespace FiresecService.ViewModels
                 {
                     MessageBoxService.ShowError("Ошибка копирования файла лицензии.\n" + e.Message);
                 }
-				FiresecLicenseProcessor.SetLicense(LicenseManager.FiresecLicenseManager.TryLoad(GetLicensePath()));
+				FiresecLicenseProcessor.SetLicense(LicenseManager.TryLoad(GetLicensePath()));
             }
         }
        
 		void FiresecLicenseManager_LicenseChanged()
 		{
-			LicenseInfo = LicenseManager.FiresecLicenseManager.CurrentLicenseInfo;
+			LicenseInfo = LicenseManager.CurrentLicenseInfo;
 		}
     }
 }

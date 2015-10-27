@@ -8,7 +8,7 @@ namespace VideoModule.Validation
 	{
 		void ValidateLicense()
 		{
-			if (LicenseManager.FiresecLicenseManager.CurrentLicenseInfo.HasVideo)
+			if (LicenseManager.CurrentLicenseInfo.HasVideo)
 				return;
 
 			foreach (var camera in ClientManager.SystemConfiguration.Cameras)

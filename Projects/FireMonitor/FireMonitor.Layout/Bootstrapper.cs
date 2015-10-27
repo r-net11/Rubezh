@@ -107,16 +107,16 @@ namespace FireMonitor.Layout
 		public static bool CheckLicense(RubezhAPI.Models.Layouts.Layout layout)
 		{
 			return !layout.Parts.Any(x=>
-				!LicenseManager.FiresecLicenseManager.CurrentLicenseInfo.HasFirefighting && (
+				!LicenseManager.CurrentLicenseInfo.HasFirefighting && (
 				x.DescriptionUID == LayoutPartIdentities.PumpStations ||
 				x.DescriptionUID == LayoutPartIdentities.MPTs
 				)
 				||
-				!LicenseManager.FiresecLicenseManager.CurrentLicenseInfo.HasGuard && (
+				!LicenseManager.CurrentLicenseInfo.HasGuard && (
 				x.DescriptionUID == LayoutPartIdentities.GuardZones
 				)
 				||
-				!LicenseManager.FiresecLicenseManager.CurrentLicenseInfo.HasSKD && (
+				!LicenseManager.CurrentLicenseInfo.HasSKD && (
 				x.DescriptionUID == LayoutPartIdentities.Doors ||
 				x.DescriptionUID == LayoutPartIdentities.GKSKDZones ||
 				x.DescriptionUID == LayoutPartIdentities.SKDVerification ||
@@ -124,7 +124,7 @@ namespace FireMonitor.Layout
 				x.DescriptionUID == LayoutPartIdentities.SKDTimeTracking
 				)
 				||
-				!LicenseManager.FiresecLicenseManager.CurrentLicenseInfo.HasVideo && (
+				!LicenseManager.CurrentLicenseInfo.HasVideo && (
 				x.DescriptionUID == LayoutPartIdentities.CamerasList ||
 				x.DescriptionUID == LayoutPartIdentities.CameraVideo ||
 				x.DescriptionUID == LayoutPartIdentities.MultiCamera

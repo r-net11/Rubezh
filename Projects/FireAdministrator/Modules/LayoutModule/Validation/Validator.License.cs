@@ -23,16 +23,16 @@ namespace LayoutModule.Validation
 
 		IEnumerable<string> GetLayoutLicenses(Layout layout)
 		{
-			if (!LicenseManager.FiresecLicenseManager.CurrentLicenseInfo.HasFirefighting && layout.Parts.Any(x => 
+			if (!LicenseManager.CurrentLicenseInfo.HasFirefighting && layout.Parts.Any(x => 
 				x.DescriptionUID == LayoutPartIdentities.PumpStations || 
 				x.DescriptionUID == LayoutPartIdentities.MPTs))
 				yield return "\"GLOBAL Пожаротушение\"";
 
-			if (!LicenseManager.FiresecLicenseManager.CurrentLicenseInfo.HasGuard && layout.Parts.Any(x => 
+			if (!LicenseManager.CurrentLicenseInfo.HasGuard && layout.Parts.Any(x => 
 				x.DescriptionUID == LayoutPartIdentities.GuardZones))
 				yield return "\"GLOBAL Охрана\"";
 
-			if (!LicenseManager.FiresecLicenseManager.CurrentLicenseInfo.HasSKD && layout.Parts.Any(x => 
+			if (!LicenseManager.CurrentLicenseInfo.HasSKD && layout.Parts.Any(x => 
 				x.DescriptionUID == LayoutPartIdentities.Doors ||
 				x.DescriptionUID == LayoutPartIdentities.GKSKDZones ||
 				x.DescriptionUID == LayoutPartIdentities.SKDVerification ||
@@ -40,7 +40,7 @@ namespace LayoutModule.Validation
 				x.DescriptionUID == LayoutPartIdentities.SKDTimeTracking))
 				yield return "\"GLOBAL Доступ\"";
 
-			if (!LicenseManager.FiresecLicenseManager.CurrentLicenseInfo.HasVideo && layout.Parts.Any(x =>
+			if (!LicenseManager.CurrentLicenseInfo.HasVideo && layout.Parts.Any(x =>
 				x.DescriptionUID == LayoutPartIdentities.CamerasList ||
 				x.DescriptionUID == LayoutPartIdentities.CameraVideo ||
 				x.DescriptionUID == LayoutPartIdentities.MultiCamera))
