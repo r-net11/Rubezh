@@ -60,7 +60,7 @@ namespace SKDModule
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDScheduleSchemes, 307, "Графики", "Панель графики", "BTree.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDHolidays, 308, "Праздничные дни", "Панель праздничные дни", "BTree.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDSchedules, 309, "Графики работ", "Панель графики работ", "BTree.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDTimeTracking, 310, "УРВ", "Панель учета рабочеговремени", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDTimeTracking, 310, "УРВ", "Панель учета рабочего времени", "BTree.png");
 		}
 		#endregion
 	}
