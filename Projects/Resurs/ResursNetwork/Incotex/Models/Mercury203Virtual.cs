@@ -24,7 +24,6 @@ namespace ResursNetwork.Incotex.Models
 		private DeviceErrors _Errors;
 		private INetwrokController _NetworkController;
 
-		
         public Guid Id
         {
             get
@@ -338,6 +337,54 @@ namespace ResursNetwork.Incotex.Models
 								Description = String.Empty 
 							},
 							Value = Address
+						};
+					}
+				case ParameterNamesMercury203Virtual.DateTime:
+					{
+						return new OperationResult
+						{
+							Result = new TransactionError
+							{
+								ErrorCode = TransactionErrorCodes.NoError,
+								Description = String.Empty
+							},
+							Value = ReadDateTime()
+						};
+					}
+				case ParameterNamesMercury203Virtual.GADDR:
+					{
+						return new OperationResult
+						{
+							Result = new TransactionError
+							{
+								ErrorCode = TransactionErrorCodes.NoError,
+								Description = String.Empty
+							},
+							Value = ReadGroupAddress()
+						};
+					}
+				case ParameterNamesMercury203Virtual.PowerLimit:
+					{
+						return new OperationResult
+						{
+							Result = new TransactionError
+							{
+								ErrorCode = TransactionErrorCodes.NoError,
+								Description = String.Empty
+							},
+							Value = ReadPowerLimit()
+						};
+					}
+				case ParameterNamesMercury203Virtual.PowerLimitPerMonth:
+					{
+ 						return new OperationResult
+						{
+							Result = new TransactionError
+							{
+								ErrorCode = TransactionErrorCodes.NoError,
+								Description = String.Empty
+							},
+							Value = ReadPowerLimitPerMonth()
 						};
 					}
 				default:

@@ -21,7 +21,7 @@ namespace ResursNetwork.Networks
     /// <summary>
     /// Объет упрвления сетями системы учёта русурсов
     /// </summary>
-    public class NetworksManager
+    public class NetworksManager: INetworksManager
     {
         #region Fields And Properties
 
