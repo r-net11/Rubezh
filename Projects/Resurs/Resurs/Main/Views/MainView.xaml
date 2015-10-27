@@ -44,7 +44,7 @@
 				<Views:ConsumersView Visibility="{Binding IsVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</TabItem>
 			<TabItem Header="Тарифы" DataContext="{Binding TariffsViewModel}" Visibility="{Binding IsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-				<Views:DepositsView />
+				<Views:TariffsView />
 			</TabItem>
 			<TabItem Header="Отчеты" DataContext="{Binding ReportsViewModel}" Visibility="{Binding IsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:ReportsView />

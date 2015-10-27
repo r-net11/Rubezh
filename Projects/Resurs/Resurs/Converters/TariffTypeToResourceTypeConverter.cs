@@ -26,7 +26,7 @@ namespace Resurs.Converters
 					return "Квт*ч";
 					break;
 				case TariffType.Heat:
-					return "GJ либо kWh";
+					return "GJ";
 					break;
 				default:
 					throw new Exception();
