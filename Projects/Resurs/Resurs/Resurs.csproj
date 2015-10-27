@@ -379,6 +379,10 @@
       <DependentUpon>DepositsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\DeviceError.cs" />
+    <Compile Include="License\ViewModels\LicenseViewModel.cs" />
+    <Compile Include="License\Views\LicenseView.xaml.cs">
+      <DependentUpon>LicenseView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Processor\EventArgs\ErrorsChangedEventArgs.cs" />
     <Compile Include="Processor\EventArgs\IsActiveChangedEventArgs.cs" />
     <Compile Include="Receipts\ReceiptHelper.cs" />
@@ -648,6 +652,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Consumers\Views\ConsumersFolderDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="License\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="License\Views\LicenseView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

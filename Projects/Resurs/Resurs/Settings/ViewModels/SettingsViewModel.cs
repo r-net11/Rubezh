@@ -14,7 +14,10 @@ namespace Resurs.ViewModels
 		public SettingsViewModel()
 		{
 			GenerateCommand = new RelayCommand(OnGenerate);
+			LicenseViewModel = new LicenseViewModel();
 		}
+
+		public LicenseViewModel LicenseViewModel { get; private set; }
 
 		public RelayCommand GenerateCommand { get; private set; }
 		void OnGenerate()
