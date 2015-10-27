@@ -6,7 +6,7 @@ using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhClient;
 using Infrastructure.Common;
-using FiresecLicense;
+using RubezhAPI.License;
 
 namespace GKProcessor
 {
@@ -364,7 +364,7 @@ namespace GKProcessor
 			using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Цикл мониторинга"))
 			{
 				gkLifecycleManager.AddItem("Проверка лицензии");
-				var hasLicense = FiresecLicenseManager.CurrentLicenseInfo.LicenseMode != LicenseMode.NoLicense;
+				var hasLicense = LicenseManager.FiresecLicenseManager.CurrentLicenseInfo.LicenseMode != LicenseMode.NoLicense;
 				if (HasLicense != hasLicense)
 				{
 					HasLicense = hasLicense;

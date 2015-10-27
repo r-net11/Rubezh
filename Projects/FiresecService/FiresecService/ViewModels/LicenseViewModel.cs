@@ -1,9 +1,10 @@
-﻿using FiresecLicense;
+﻿using RubezhLicense;
 using FiresecService.Processor;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
+using RubezhAPI.License;
 using System;
 using System.IO;
 
@@ -22,8 +23,8 @@ namespace FiresecService.ViewModels
 			}
 		}
 
-		FiresecLicenseInfo _licenseInfo;
-		public FiresecLicenseInfo LicenseInfo
+		LicenseInfo _licenseInfo;
+		public LicenseInfo LicenseInfo
 		{
 			get { return _licenseInfo; }
 			set 
@@ -35,9 +36,9 @@ namespace FiresecService.ViewModels
 
 		public LicenseViewModel()
 		{
-			InitialKey = FiresecLicenseManager.InitialKey.ToString();
-			LicenseInfo = FiresecLicenseManager.CurrentLicenseInfo;
-			FiresecLicenseManager.LicenseChanged += FiresecLicenseManager_LicenseChanged;
+			InitialKey = LicenseManager.FiresecLicenseManager.InitialKey.ToString();
+			LicenseInfo = LicenseManager.FiresecLicenseManager.CurrentLicenseInfo;
+			LicenseManager.FiresecLicenseManager.LicenseChanged += FiresecLicenseManager_LicenseChanged;
 			LoadLicenseCommand = new RelayCommand(OnLoadLicenseCommand);
 		}
 		
@@ -55,7 +56,7 @@ namespace FiresecService.ViewModels
             };
             if (openFileDialog.ShowDialog().Value)
             {
-				if (!FiresecLicenseManager.CheckLicense(openFileDialog.FileName))
+				if (!LicenseManager.FiresecLicenseManager.CheckLicense(openFileDialog.FileName))
                 {
                     MessageBoxService.ShowError("Некорректный файл лицензии");
                     return;
@@ -68,13 +69,13 @@ namespace FiresecService.ViewModels
                 {
                     MessageBoxService.ShowError("Ошибка копирования файла лицензии.\n" + e.Message);
                 }
-				FiresecLicenseProcessor.SetLicense(FiresecLicenseManager.TryLoad(GetLicensePath()));
+				FiresecLicenseProcessor.SetLicense(LicenseManager.FiresecLicenseManager.TryLoad(GetLicensePath()));
             }
         }
        
 		void FiresecLicenseManager_LicenseChanged()
 		{
-			LicenseInfo = FiresecLicenseManager.CurrentLicenseInfo;
+			LicenseInfo = LicenseManager.FiresecLicenseManager.CurrentLicenseInfo;
 		}
     }
 }

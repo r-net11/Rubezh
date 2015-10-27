@@ -9,7 +9,8 @@ using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhAPI.Models;
-using FiresecLicense;
+using RubezhLicense;
+using RubezhAPI.License;
 
 namespace FiresecService.Service
 {
@@ -148,7 +149,7 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.Test(arg); }, "Test");
 		}
 
-        public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
+        public OperationResult<LicenseInfo> GetLicenseInfo()
         {
             return SafeOperationCall(() => { return FiresecService.GetLicenseInfo(); }, "GetLicenseInfo");
         }

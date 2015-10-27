@@ -5,7 +5,7 @@ using Common;
 using RubezhAPI;
 using RubezhAPI.Models;
 using Infrastructure.Common;
-using FiresecLicense;
+using RubezhAPI.License;
 
 namespace RubezhClient
 {
@@ -200,7 +200,7 @@ namespace RubezhClient
 			}, "Connect");
 		}
 
-        public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
+        public OperationResult<LicenseInfo> GetLicenseInfo()
         {
             return SafeOperationCall(() =>
             {
@@ -212,7 +212,7 @@ namespace RubezhClient
                 {
 					Logger.Error("Исключение при вызове RubezhClient.GetLicenseInfo " + e.GetType().Name.ToString());
                 }
-                return OperationResult<FiresecLicenseInfo>.FromError("Не удается получить лицензию от " + _serverAddress);
+                return OperationResult<LicenseInfo>.FromError("Не удается получить лицензию от " + _serverAddress);
             }, "GetLicenseInfo");
         }
 

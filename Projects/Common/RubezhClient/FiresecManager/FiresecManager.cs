@@ -3,7 +3,7 @@ using System.Linq;
 using Common;
 using RubezhAPI;
 using RubezhAPI.Models;
-using FiresecLicense;
+using RubezhAPI.License;
 
 namespace RubezhClient
 {
@@ -54,7 +54,7 @@ namespace RubezhClient
                 var operationResult = FiresecService.GetLicenseInfo();
                 if (!operationResult.HasError)
                 {
-					FiresecLicenseManager.CurrentLicenseInfo = operationResult.Result;
+					LicenseManager.FiresecLicenseManager.CurrentLicenseInfo = operationResult.Result;
                     return null;
                 }
                 else

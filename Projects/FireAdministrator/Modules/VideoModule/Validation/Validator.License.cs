@@ -1,6 +1,6 @@
 ﻿using RubezhClient;
 using Infrastructure.Common.Validation;
-using FiresecLicense;
+using RubezhAPI.License;
 
 namespace VideoModule.Validation
 {
@@ -8,7 +8,7 @@ namespace VideoModule.Validation
 	{
 		void ValidateLicense()
 		{
-			if (FiresecLicenseManager.CurrentLicenseInfo.HasVideo)
+			if (LicenseManager.FiresecLicenseManager.CurrentLicenseInfo.HasVideo)
 				return;
 
 			foreach (var camera in ClientManager.SystemConfiguration.Cameras)

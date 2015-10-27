@@ -4,7 +4,7 @@ using System.IO;
 using System.ServiceModel;
 using RubezhAPI.Journal;
 using RubezhAPI.Models;
-using FiresecLicense;
+using RubezhAPI.License;
 
 namespace RubezhAPI
 {
@@ -58,7 +58,7 @@ namespace RubezhAPI
 		/// </summary>
 		/// <returns></returns>
         [OperationContract]
-        OperationResult<FiresecLicenseInfo> GetLicenseInfo();
+        OperationResult<LicenseInfo> GetLicenseInfo();
 		#endregion
 
 		#region Journal

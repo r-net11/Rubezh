@@ -13,7 +13,7 @@ using SKDModule.Reports;
 using SKDModule.Reports.Providers;
 using SKDModule.ViewModels;
 using RubezhClient;
-using FiresecLicense;
+using RubezhAPI.License;
 
 namespace SKDModule
 {
@@ -35,7 +35,7 @@ namespace SKDModule
 					{
 						new NavigationItem<ShowHREvent>(SKDTabItems.HRViewModel, "Картотека", "Kartoteka2W"),
 						new NavigationItem<ShowTimeTrackingEvent>(SKDTabItems.TimeTrackingTabsViewModel, "Учет рабочего времени", "TimeTrackingW")
-					}) { IsVisible = FiresecLicenseManager.CurrentLicenseInfo.HasSKD }
+					}) { IsVisible = LicenseManager.FiresecLicenseManager.CurrentLicenseInfo.HasSKD }
 				};
 		}
 
