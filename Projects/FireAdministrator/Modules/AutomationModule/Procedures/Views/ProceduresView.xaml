@@ -30,11 +30,7 @@
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-			<XDataGrid 
-				ContextMenu="{StaticResource ProcedureContextMenu}" 
-				ItemsSource="{Binding Procedures}" 
-				SelectedItem="{Binding SelectedProcedure}" 
-				IsReadOnly="False">
+			<DataGrid ContextMenu="{StaticResource ProcedureContextMenu}" ItemsSource="{Binding Procedures}" SelectedItem="{Binding SelectedProcedure}" IsReadOnly="False">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn 
 						Header="Название" 
@@ -50,7 +46,7 @@
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 				</DataGrid.Columns>
-			</XDataGrid>
+			</DataGrid>
 		</Grid>
 
 		<GridSplitter Grid.Column="1" Background="Transparent" HorizontalAlignment="Stretch"/>
