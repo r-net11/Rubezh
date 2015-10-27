@@ -34,16 +34,24 @@
 			this._toolStripMain = new System.Windows.Forms.ToolStrip();
 			this._splitContainerMain = new System.Windows.Forms.SplitContainer();
 			this._treeViewSystem = new System.Windows.Forms.TreeView();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this._comboBoxCommands = new System.Windows.Forms.ComboBox();
+			this._propertyGrid = new System.Windows.Forms.PropertyGrid();
 			this._contextMenuStripSystem = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this._toolStripMenuItemAddNetwork = new System.Windows.Forms.ToolStripMenuItem();
 			this._toolStripMenuItemRemoveNetwork = new System.Windows.Forms.ToolStripMenuItem();
 			this._toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
 			this._toolStripMenuItemAddDevice = new System.Windows.Forms.ToolStripMenuItem();
 			this._toolStripMenuItemRemoveDevice = new System.Windows.Forms.ToolStripMenuItem();
+			this._buttonExecute = new System.Windows.Forms.Button();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			((System.ComponentModel.ISupportInitialize)(this._splitContainerMain)).BeginInit();
 			this._splitContainerMain.Panel1.SuspendLayout();
+			this._splitContainerMain.Panel2.SuspendLayout();
 			this._splitContainerMain.SuspendLayout();
+			this.panel1.SuspendLayout();
 			this._contextMenuStripSystem.SuspendLayout();
+			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// _menuStripMain
@@ -79,6 +87,11 @@
 			// _splitContainerMain.Panel1
 			// 
 			this._splitContainerMain.Panel1.Controls.Add(this._treeViewSystem);
+			// 
+			// _splitContainerMain.Panel2
+			// 
+			this._splitContainerMain.Panel2.Controls.Add(this.panel1);
+			this._splitContainerMain.Panel2.Controls.Add(this._propertyGrid);
 			this._splitContainerMain.Size = new System.Drawing.Size(875, 625);
 			this._splitContainerMain.SplitterDistance = 291;
 			this._splitContainerMain.TabIndex = 3;
@@ -90,6 +103,31 @@
 			this._treeViewSystem.Name = "_treeViewSystem";
 			this._treeViewSystem.Size = new System.Drawing.Size(291, 625);
 			this._treeViewSystem.TabIndex = 0;
+			// 
+			// panel1
+			// 
+			this.panel1.Controls.Add(this.groupBox1);
+			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panel1.Location = new System.Drawing.Point(0, 398);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(580, 227);
+			this.panel1.TabIndex = 1;
+			// 
+			// _comboBoxCommands
+			// 
+			this._comboBoxCommands.FormattingEnabled = true;
+			this._comboBoxCommands.Location = new System.Drawing.Point(20, 35);
+			this._comboBoxCommands.Name = "_comboBoxCommands";
+			this._comboBoxCommands.Size = new System.Drawing.Size(352, 24);
+			this._comboBoxCommands.TabIndex = 0;
+			// 
+			// _propertyGrid
+			// 
+			this._propertyGrid.Dock = System.Windows.Forms.DockStyle.Top;
+			this._propertyGrid.Location = new System.Drawing.Point(0, 0);
+			this._propertyGrid.Name = "_propertyGrid";
+			this._propertyGrid.Size = new System.Drawing.Size(580, 398);
+			this._propertyGrid.TabIndex = 0;
 			// 
 			// _contextMenuStripSystem
 			// 
@@ -135,6 +173,28 @@
 			this._toolStripMenuItemRemoveDevice.Size = new System.Drawing.Size(226, 24);
 			this._toolStripMenuItemRemoveDevice.Text = "Удалить устройство";
 			// 
+			// _buttonExecute
+			// 
+			this._buttonExecute.Location = new System.Drawing.Point(378, 36);
+			this._buttonExecute.Name = "_buttonExecute";
+			this._buttonExecute.Size = new System.Drawing.Size(105, 23);
+			this._buttonExecute.TabIndex = 1;
+			this._buttonExecute.Text = "Выполнить";
+			this._buttonExecute.UseVisualStyleBackColor = true;
+			this._buttonExecute.Click += new System.EventHandler(this.EventHandler_buttonExecute_Click);
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this._comboBoxCommands);
+			this.groupBox1.Controls.Add(this._buttonExecute);
+			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.groupBox1.Location = new System.Drawing.Point(0, 0);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(580, 76);
+			this.groupBox1.TabIndex = 2;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "groupBox1";
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -148,9 +208,12 @@
 			this.Name = "FormMain";
 			this.Text = "Form1";
 			this._splitContainerMain.Panel1.ResumeLayout(false);
+			this._splitContainerMain.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this._splitContainerMain)).EndInit();
 			this._splitContainerMain.ResumeLayout(false);
+			this.panel1.ResumeLayout(false);
 			this._contextMenuStripSystem.ResumeLayout(false);
+			this.groupBox1.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -169,6 +232,11 @@
 		private System.Windows.Forms.ToolStripSeparator _toolStripSeparator;
 		private System.Windows.Forms.ToolStripMenuItem _toolStripMenuItemAddDevice;
 		private System.Windows.Forms.ToolStripMenuItem _toolStripMenuItemRemoveDevice;
+		private System.Windows.Forms.PropertyGrid _propertyGrid;
+		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.ComboBox _comboBoxCommands;
+		private System.Windows.Forms.Button _buttonExecute;
+		private System.Windows.Forms.GroupBox groupBox1;
 	}
 }
 

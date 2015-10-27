@@ -311,9 +311,9 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             }
 
             // Обрабатывает сообщение
-            _autoResetEventRequest.Set();
             _CurrentIncomingMessage = dataMessages[0];
-        }
+			_autoResetEventRequest.Set();
+		}
 
         /// <summary>
         /// 

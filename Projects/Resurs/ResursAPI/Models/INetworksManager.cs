@@ -53,7 +53,7 @@ namespace ResursAPI.Models
 		/// </summary>
 		/// <param name="deviceId"></param>
 		/// <param name="parameterName"></param>
-		//OperationResult ReadParameter(Guid deviceId, string parameterName);
+		IOperationResult ReadParameter(Guid deviceId, string parameterName);
 
 		/// <summary>
 		/// Записывает новое значение параметра у удалённое устройство

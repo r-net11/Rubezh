@@ -38,7 +38,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
             }
         }
 
-        public abstract DeviceModel DeviceType { get; }
+        public abstract DeviceModel DeviceModel { get; }
 
         public virtual UInt32 Address
         {

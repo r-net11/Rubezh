@@ -42,7 +42,7 @@ namespace ResursNetwork.Incotex.Models
             }
         }
 
-        public DeviceModel DeviceType
+        public DeviceModel DeviceModel
         {
             get { return DeviceModel.VirtualMercury203; }
         }
@@ -233,7 +233,7 @@ namespace ResursNetwork.Incotex.Models
 				PollingEnabled = true,
 				ReadOnly = false,
 				ValueConverter = new IncotexDataTimeTypeConverter(),
-				Value = new IncotexDateTime()
+				Value = IncotexDateTime.FromDateTime(DateTime.Now)
 			});
 
 			_Parameters.Add(new Parameter(typeof(UInt16))
@@ -385,6 +385,54 @@ namespace ResursNetwork.Incotex.Models
 								Description = String.Empty
 							},
 							Value = ReadPowerLimitPerMonth()
+						};
+					}
+				case ParameterNamesMercury203Virtual.CounterTarif1:
+					{
+						return new OperationResult
+						{
+							Result = new TransactionError
+							{
+								ErrorCode = TransactionErrorCodes.NoError,
+								Description = String.Empty
+							},
+							Value = _Parameters[ParameterNamesMercury203Virtual.CounterTarif1].Value
+						};
+					}
+				case ParameterNamesMercury203Virtual.CounterTarif2:
+					{
+						return new OperationResult
+						{
+							Result = new TransactionError
+							{
+								ErrorCode = TransactionErrorCodes.NoError,
+								Description = String.Empty
+							},
+							Value = _Parameters[ParameterNamesMercury203Virtual.CounterTarif2].Value
+						};
+					}
+				case ParameterNamesMercury203Virtual.CounterTarif3:
+					{
+						return new OperationResult
+						{
+							Result = new TransactionError
+							{
+								ErrorCode = TransactionErrorCodes.NoError,
+								Description = String.Empty
+							},
+							Value = _Parameters[ParameterNamesMercury203Virtual.CounterTarif3].Value
+						};
+					}
+				case ParameterNamesMercury203Virtual.CounterTarif4:
+					{
+						return new OperationResult
+						{
+							Result = new TransactionError
+							{
+								ErrorCode = TransactionErrorCodes.NoError,
+								Description = String.Empty
+							},
+							Value = _Parameters[ParameterNamesMercury203Virtual.CounterTarif4].Value
 						};
 					}
 				default:

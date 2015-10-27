@@ -7,11 +7,22 @@ using ResursTerminal.Forms;
 
 namespace ResursTerminal
 {
+	//class Program
+	//{
+	//	static void Main(string[] args)
+	//	{
+	//		Console.WriteLine("Старт");
+
+
+
+
+	//		Console.WriteLine("Для завершения работы нажми ENTER...");
+	//		Console.ReadLine();
+	//	}
+	//}
+
 	static class Program
 	{
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
 		[STAThread]
 		static void Main()
 		{

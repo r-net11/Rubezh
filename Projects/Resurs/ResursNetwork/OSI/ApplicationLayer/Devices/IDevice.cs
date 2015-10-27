@@ -23,7 +23,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         /// <summary>
         /// Возвращает тип устройства (счётчика электро)
         /// </summary>
-        DeviceModel DeviceType { get; }
+        DeviceModel DeviceModel { get; }
         
         /// <summary>
         /// Сетевой адрес устройства
