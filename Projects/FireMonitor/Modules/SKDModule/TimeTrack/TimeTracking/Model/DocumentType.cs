@@ -8,6 +8,7 @@ namespace SKDModule.Model
 		public Organisation Organisation { get; private set; }
 		public bool IsOrganisation { get; private set; }
 		public string Name { get; private set; }
+		public bool IsSystem { get; private set; }
 		public TimeTrackDocumentType TimeTrackDocumentType { get; private set; }
 
 		public DocumentType(Organisation organisation)
@@ -18,12 +19,13 @@ namespace SKDModule.Model
 			IsExpanded = true;
 		}
 
-		public DocumentType(Organisation organisation, TimeTrackDocumentType timeTrackDocumentType)
+		public DocumentType(Organisation organisation, TimeTrackDocumentType timeTrackDocumentType, bool isSystem = false)
 		{
 			Organisation = organisation;
 			TimeTrackDocumentType = timeTrackDocumentType;
 			IsOrganisation = false;
 			Name = timeTrackDocumentType.Name;
+			IsSystem = isSystem;
 		}
 
 		public void Update(TimeTrackDocumentType timeTrackDocumentType)
@@ -32,6 +34,7 @@ namespace SKDModule.Model
 			Name = timeTrackDocumentType.Name;
 			OnPropertyChanged(() => TimeTrackDocumentType);
 			OnPropertyChanged(() => Name);
+			OnPropertyChanged(() => IsSystem);
 		}
 	}
 }

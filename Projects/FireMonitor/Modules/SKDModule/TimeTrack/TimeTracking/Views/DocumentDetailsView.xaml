@@ -4,17 +4,14 @@
 			 xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 			 xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
 			 xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls"
-			 MinWidth="500" MinHeight="350">
+			 MinWidth="550" MinHeight="350">
 	<UserControl.Resources>
 		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
-			</ResourceDictionary.MergedDictionaries>
 			<SolidColorBrush x:Key="WatermarkColor" Color="LightGray"/>
 			<Converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
 		</ResourceDictionary>
 	</UserControl.Resources>
-	<Grid Background="{StaticResource BaseWindowBackgroundBrush}">
+	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition />
@@ -67,13 +64,13 @@
 			Grid.Row="2"
 			Margin="0 5"
 			VerticalAlignment="Center"
-			ItemsSource="{Binding AvailableDocuments}"
+			ItemsSource="{Binding AvailableDocumentsCollectionView, IsAsync=True}"
 			SelectedItem="{Binding SelectedDocument}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="{Binding ShortName}" VerticalAlignment="Center" Width="30" />
-						<TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+						<TextBlock Text="{Binding TimeTrackDocumentType.ShortName}" VerticalAlignment="Center" Width="30" />
+						<TextBlock Text="{Binding TimeTrackDocumentType.Name}" VerticalAlignment="Center" />
 					</StackPanel>
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
@@ -85,13 +82,21 @@
 			TextWrapping="Wrap"
 			VerticalAlignment="Center"
 			Foreground="White"/>
-		<TextBox
+		<ComboBox
 			Grid.Column="1"
 			Grid.Row="3"
-			Margin="0 5"
-			IsReadOnly="True"
-			Text="{Binding SelectedDocument.DocumentType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescriptionConverter}}"
-			VerticalAlignment="Center"/>
+			VerticalAlignment="Center"
+			ItemsSource="{Binding DocumentsTypes}"
+			SelectedItem="{Binding SelectedDocumentType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+			Margin="0 5">
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock
+						Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}"
+						VerticalAlignment="Center"/>
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
 		<TextBlock
 			Grid.Row="4"
 			Text="Дата и время начала действия документа"

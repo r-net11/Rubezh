@@ -363,7 +363,7 @@ namespace SKDModule.ViewModels
 		#endregion
 
 		#region DocumentEvents
-		void OnEditDocument(TimeTrackDocument document)
+		void OnEditDocument(ITimeTrackDocument document)
 		{
 			var timeTrackViewModel = _cachedTimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == document.EmployeeUID);
 			if (timeTrackViewModel != null)
@@ -372,7 +372,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		void OnRemoveDocument(TimeTrackDocument document)
+		void OnRemoveDocument(ITimeTrackDocument document)
 		{
 			var timeTrackViewModel = _cachedTimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == document.EmployeeUID);
 			if (timeTrackViewModel != null)

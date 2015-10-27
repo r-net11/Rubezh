@@ -83,25 +83,14 @@ namespace SKDDriver.Translators
 						}
 					}
 
-					var documentsOperationResult = DatabaseService.TimeTrackDocumentTranslator.Get(shortEmployee.UID, startDate, endDate, _TimeTrackDocuments);
+					var documentsOperationResult = DatabaseService.TimeTrackDocumentTranslator.GetWithTypes(shortEmployee, startDate, endDate, _TimeTrackDocuments, _TimeTrackDocumentTypes);
+
 					if (!documentsOperationResult.HasError)
 					{
 						var documents = documentsOperationResult.Result;
-						foreach (var document in documents)
+						foreach (var document in documents.Where(document => document.TimeTrackDocumentType != null))
 						{
-							document.TimeTrackDocumentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == document.DocumentCode);
-							if (document.TimeTrackDocumentType == null)
-							{
-								var documentTypesResult = DatabaseService.TimeTrackDocumentTypeTranslator.Get(shortEmployee.OrganisationUID, _TimeTrackDocumentTypes);
-								if (documentTypesResult.Result != null)
-								{
-									document.TimeTrackDocumentType = documentTypesResult.Result.FirstOrDefault(x => x.Code == document.DocumentCode);
-								}
-							}
-							if (document.TimeTrackDocumentType != null)
-							{
-								timeTrackEmployeeResult.Documents.Add(document);
-							}
+							timeTrackEmployeeResult.Documents.Add(document);
 						}
 
 						foreach (var document in timeTrackEmployeeResult.Documents)

@@ -102,19 +102,17 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var documentDetailsViewModel = new DocumentDetailsViewModel(true, OrganisationUID);
+			var documentDetailsViewModel = new DocumentDetailsViewModel(true, OrganisationUID, EmployeeUID);
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
-				var document = documentDetailsViewModel.TimeTrackDocument;
-				document.EmployeeUID = EmployeeUID;
-				var operationResult = FiresecManager.FiresecService.AddTimeTrackDocument(document);
+				var operationResult = FiresecManager.FiresecService.AddTimeTrackDocument(documentDetailsViewModel.TimeTrackDocument);
 				if (operationResult.HasError)
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);
 				}
 				else
 				{
-					var documentViewModel = new TimeTrackAttachedDocument(document);
+					var documentViewModel = new TimeTrackAttachedDocument(documentDetailsViewModel.TimeTrackDocument);
 					Documents.Add(documentViewModel);
 					SelectedDocument = documentViewModel;
 					IsDirty = true;
@@ -129,12 +127,10 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var documentDetailsViewModel = new DocumentDetailsViewModel(true, OrganisationUID, SelectedDocument.Document);
+			var documentDetailsViewModel = new DocumentDetailsViewModel(true, OrganisationUID, EmployeeUID, SelectedDocument.Document);
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
-				var document = documentDetailsViewModel.TimeTrackDocument;
-				document.EmployeeUID = EmployeeUID;
-				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(document);
+				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(documentDetailsViewModel.TimeTrackDocument);
 				if (operationResult.HasError)
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);
@@ -200,7 +196,7 @@ namespace SKDModule.ViewModels
 		}
 
 		#region ForEvent
-		public void OnEditDocument(TimeTrackDocument document)
+		public void OnEditDocument(ITimeTrackDocument document)
 		{
 			if (document.EmployeeUID == EmployeeUID)
 			{
@@ -217,7 +213,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void OnRemoveDocument(TimeTrackDocument document)
+		public void OnRemoveDocument(ITimeTrackDocument document)
 		{
 			var viewModel = Documents.FirstOrDefault(x => x.Document.UID == document.UID);
 			if (viewModel != null)

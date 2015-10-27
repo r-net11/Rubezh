@@ -1,20 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
 
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class TimeTrackDocument : ITimeTrackDocument
+	public class PresentDocument : ITimeTrackDocument
 	{
-		public TimeTrackDocument()
-		{
-			UID = Guid.NewGuid();
-			DocumentCode = 0;
-			StartDateTime = DateTime.Now.Date;
-			EndDateTime = DateTime.Now.Date + new TimeSpan(23, 59, 59);
-			DocumentDateTime = DateTime.Now;
-		}
-
 		[DataMember]
 		public Guid UID { get; set; }
 
@@ -44,5 +38,24 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public string FileName { get; set; }
+
+		public PresentDocument()
+		{
+			TimeTrackDocumentType = new TimeTrackDocumentType
+			{
+				DocumentType = DocumentType.Presence
+			};
+		}
+
+		public PresentDocument(string name, string shortName, int code)
+		{
+			TimeTrackDocumentType = new TimeTrackDocumentType
+			{
+				Name = name,
+				ShortName = shortName,
+				Code = code,
+				DocumentType = DocumentType.Presence
+			};
+		}
 	}
 }

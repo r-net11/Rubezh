@@ -32,6 +32,7 @@ namespace FiresecService.Report.Templates
 			var filter = GetFilter<DocumentsReportFilter>();
 			var employees = dataProvider.GetEmployees(filter);
 			var ds = new DataSetDocuments();
+			var docFactory = new DocumentsFactory();
 			foreach (var employee in employees)
 			{
 				var documentsResult = dataProvider.DatabaseService.TimeTrackDocumentTranslator.Get(employee.UID, filter.DateTimeFrom, filter.DateTimeTo);
@@ -42,9 +43,14 @@ namespace FiresecService.Report.Templates
 						var documentTypesResult = dataProvider.DatabaseService.TimeTrackDocumentTypeTranslator.Get(employee.OrganisationUID);
 						if (documentTypesResult.Result != null)
 						{
+
+							//TODO: Need refactoring. Remove documentType and use ITimeTrackDocument
 							var documentType = documentTypesResult.Result.FirstOrDefault(x => x.Code == document.DocumentCode);
 							if (documentType == null)
-								documentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == document.DocumentCode);
+							{
+								var doc = docFactory.SystemDocuments.FirstOrDefault(x => x.TimeTrackDocumentType.Code == document.DocumentCode);
+								documentType = doc != null ? doc.TimeTrackDocumentType : null;
+							}
 							if (documentType != null)
 							{
 								if (filter.Abcense && documentType.DocumentType == DocumentType.Absence ||

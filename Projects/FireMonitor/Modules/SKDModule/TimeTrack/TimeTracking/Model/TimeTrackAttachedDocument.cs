@@ -2,13 +2,11 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reactive.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
 using ReactiveUI;
 using SKDModule.Common;
@@ -20,7 +18,7 @@ namespace SKDModule.Model
 	{
 		#region Properties
 
-		public TimeTrackDocument Document { get; private set; }
+		public ITimeTrackDocument Document { get; private set; }
 
 		private string _name;
 		public string Name
@@ -80,7 +78,7 @@ namespace SKDModule.Model
 
 		#region Constructors
 
-		public TimeTrackAttachedDocument(TimeTrackDocument timeTrackDocument)
+		public TimeTrackAttachedDocument(ITimeTrackDocument timeTrackDocument)
 		{
 			Document = timeTrackDocument;
 
@@ -169,7 +167,7 @@ namespace SKDModule.Model
 
 		#region Methods
 
-		public void Update(TimeTrackDocument timeTrackDocument)
+		public void Update(ITimeTrackDocument timeTrackDocument)
 		{
 			Document = timeTrackDocument;
 			Update();

@@ -1,51 +1,37 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Windows.Data;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Microsoft.Practices.Prism;
+using ReactiveUI;
 
 namespace SKDModule.ViewModels
 {
 	public class DocumentDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public TimeTrackDocument TimeTrackDocument { get; private set; }
+		#region Properties
 
-		public DocumentDetailsViewModel(bool canEditStartDateTime, Guid organisationUID, TimeTrackDocument timeTrackDocument = null)
+		public ICollectionView AvailableDocumentsCollectionView { get; private set; }
+		public ITimeTrackDocument TimeTrackDocument { get; private set; }
+
+		public ObservableCollection<DocumentType> DocumentsTypes { get; private set; }
+
+		private DocumentType _selectedDocumentType;
+
+		public DocumentType SelectedDocumentType
 		{
-			CanEditStartDateTime = canEditStartDateTime;
-
-			if (timeTrackDocument == null)
+			get { return _selectedDocumentType; }
+			set
 			{
-				Title = "Добавление документа";
-				timeTrackDocument = new TimeTrackDocument();
+				if (_selectedDocumentType == value) return;
+				_selectedDocumentType = value;
+				OnPropertyChanged(() => SelectedDocumentType);
 			}
-			else
-			{
-				Title = "Редактирование документа";
-			}
-			TimeTrackDocument = timeTrackDocument;
-
-			AvailableDocuments = new ObservableCollection<TimeTrackDocumentType>();
-			foreach (var timeTrackDocumentType in TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes)
-			{
-				AvailableDocuments.Add(timeTrackDocumentType);
-			}
-			var documentTypes = DocumentTypeHelper.GetByOrganisation(organisationUID);
-			foreach (var documentType in documentTypes)
-			{
-				AvailableDocuments.Add(documentType);
-			}
-
-			StartDateTime = timeTrackDocument.StartDateTime.Date;
-			StartTime = timeTrackDocument.StartDateTime.TimeOfDay;
-			EndDateTime = timeTrackDocument.EndDateTime.Date;
-			EndTime = timeTrackDocument.EndDateTime.TimeOfDay;
-			Comment = timeTrackDocument.Comment;
-			DocumentNumber = timeTrackDocument.DocumentNumber;
-			DocumentDateTime = timeTrackDocument.DocumentDateTime;
-			SelectedDocument = AvailableDocuments.FirstOrDefault(x => x.Code == timeTrackDocument.DocumentCode);
 		}
 
 		DateTime _startDateTime;
@@ -127,10 +113,10 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<TimeTrackDocumentType> AvailableDocuments { get; private set; }
+		public ObservableCollection<ITimeTrackDocument> AvailableDocuments { get; private set; }
 
-		TimeTrackDocumentType _selectedDocument;
-		public TimeTrackDocumentType SelectedDocument
+		ITimeTrackDocument _selectedDocument;
+		public ITimeTrackDocument SelectedDocument
 		{
 			get { return _selectedDocument; }
 			set
@@ -138,6 +124,57 @@ namespace SKDModule.ViewModels
 				_selectedDocument = value;
 				OnPropertyChanged(() => SelectedDocument);
 			}
+		}
+		#endregion
+
+		public DocumentDetailsViewModel(bool canEditStartDateTime, Guid organisationUID, Guid employeeGuid, ITimeTrackDocument timeTrackDocument = null)
+		{
+			CanEditStartDateTime = canEditStartDateTime;
+
+			if (timeTrackDocument == null)
+			{
+				Title = "Добавление документа";
+				timeTrackDocument = new TimeTrackDocument();
+			}
+			else
+			{
+				Title = "Редактирование документа";
+			}
+			TimeTrackDocument = timeTrackDocument;
+			TimeTrackDocument.EmployeeUID = employeeGuid;
+
+			var docFactory = new DocumentsFactory();
+			AvailableDocuments = new ObservableCollection<ITimeTrackDocument>(docFactory.SystemDocuments);
+			var documentTypes = DocumentTypeHelper.GetByOrganisation(organisationUID);
+
+			AvailableDocuments.AddRange(documentTypes.Select(docFactory.GetDocument));
+
+			DocumentsTypes = new ObservableCollection<DocumentType>(Enum.GetValues(typeof (DocumentType)).Cast<DocumentType>());
+
+			AvailableDocumentsCollectionView = CollectionViewSource.GetDefaultView(AvailableDocuments);
+			AvailableDocumentsCollectionView.Filter = DocumentsFilter;
+
+			StartDateTime = timeTrackDocument.StartDateTime.Date;
+			StartTime = timeTrackDocument.StartDateTime.TimeOfDay;
+			EndDateTime = timeTrackDocument.EndDateTime.Date;
+			EndTime = timeTrackDocument.EndDateTime.TimeOfDay;
+			Comment = timeTrackDocument.Comment;
+			DocumentNumber = timeTrackDocument.DocumentNumber;
+			DocumentDateTime = timeTrackDocument.DocumentDateTime;
+			SelectedDocument = AvailableDocuments.FirstOrDefault(x => x.TimeTrackDocumentType.Code == timeTrackDocument.DocumentCode);
+
+			this.WhenAny(x => x.SelectedDocumentType, x => x.Value)
+				.Subscribe(_ =>
+				{
+					AvailableDocumentsCollectionView.Refresh();
+					SelectedDocument = (ITimeTrackDocument)AvailableDocumentsCollectionView.CurrentItem;
+				});
+		}
+
+		private bool DocumentsFilter(object obj)
+		{
+			var doc = obj as ITimeTrackDocument;
+			return doc != null && doc.TimeTrackDocumentType.DocumentType == SelectedDocumentType;
 		}
 
 		protected override bool Save()
@@ -162,8 +199,8 @@ namespace SKDModule.ViewModels
 			TimeTrackDocument.Comment = Comment;
 			TimeTrackDocument.DocumentNumber = DocumentNumber;
 			TimeTrackDocument.DocumentDateTime = DocumentDateTime;
-			TimeTrackDocument.TimeTrackDocumentType = SelectedDocument;
-			TimeTrackDocument.DocumentCode = SelectedDocument.Code;
+			TimeTrackDocument.TimeTrackDocumentType = SelectedDocument.TimeTrackDocumentType;
+			TimeTrackDocument.DocumentCode = SelectedDocument.TimeTrackDocumentType.Code;
 			return base.Save();
 		}
 	}

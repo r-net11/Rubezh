@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using SKDModule.Model;
+using DocumentType = SKDModule.Model.DocumentType;
 
 namespace SKDModule.ViewModels
 {
@@ -19,6 +20,7 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 
+			var docFactory = new DocumentsFactory();
 			Organisations = new List<DocumentType>();
 			var organisations = OrganisationHelper.GetByCurrentUser();
 			if (organisations == null)
@@ -39,6 +41,21 @@ namespace SKDModule.ViewModels
 					}
 				}
 			}
+
+			var systemOrganisation = new Organisation
+			{
+				Name = "Документы по умолчанию"
+			};
+
+			var systemOrganisationViewModel = new DocumentType(systemOrganisation);
+			foreach (var document in docFactory.SystemDocuments)
+			{
+				var documentTypeViewModel = new DocumentType(systemOrganisation, document.TimeTrackDocumentType, true);
+				systemOrganisationViewModel.AddChild(documentTypeViewModel);
+			}
+
+			Organisations.Add(systemOrganisationViewModel);
+
 			OnPropertyChanged(() => Organisations);
 			SelectedDocumentType = Organisations.FirstOrDefault();
 		}
@@ -76,7 +93,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var documentTypeDetailsViewModel = new DocumentTypeDetailsViewModel(SelectedDocumentType.Organisation.UID);
+			var documentTypeDetailsViewModel = new DocumentTypeDetailsViewModel(SelectedDocumentType);
 			if (DialogService.ShowModalWindow(documentTypeDetailsViewModel))
 			{
 				if (DocumentTypeHelper.Add(documentTypeDetailsViewModel.TimeTrackDocumentType))
@@ -103,7 +120,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var documentTypeDetailsViewModel = new DocumentTypeDetailsViewModel(SelectedDocumentType.Organisation.UID, SelectedDocumentType.TimeTrackDocumentType);
+			var documentTypeDetailsViewModel = new DocumentTypeDetailsViewModel(SelectedDocumentType, true);
 			if (DialogService.ShowModalWindow(documentTypeDetailsViewModel))
 			{
 				if (DocumentTypeHelper.Edit(documentTypeDetailsViewModel.TimeTrackDocumentType))

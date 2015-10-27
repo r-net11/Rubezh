@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
@@ -13,13 +14,15 @@ namespace SKDModule.ViewModels
 		Guid OrganisationUID { get; set; }
 		public TimeTrackDocumentType TimeTrackDocumentType { get; private set; }
 
-		public DocumentTypeDetailsViewModel(Guid orgnaisationUID, TimeTrackDocumentType timeTrackDocumentType = null)
+		public bool IsReadOnly { get; private set; }
+
+		public DocumentTypeDetailsViewModel(Model.DocumentType documentType, bool isEdit = false)
 		{
-			OrganisationUID = orgnaisationUID;
-			if (timeTrackDocumentType == null)
+			OrganisationUID = documentType.Organisation.UID;
+			if (documentType.TimeTrackDocumentType == null || !isEdit)
 			{
-				Title = "Создание документа";
-				TimeTrackDocumentType = new TimeTrackDocumentType()
+				Title = "Создание вида оправдательного документа";
+				TimeTrackDocumentType = new TimeTrackDocumentType
 				{
 					Name = "Название документа",
 					OrganisationUID = OrganisationUID
@@ -27,14 +30,12 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				TimeTrackDocumentType = timeTrackDocumentType;
-				Title = string.Format("Свойства документа: {0}", TimeTrackDocumentType.Name);
+				TimeTrackDocumentType = documentType.TimeTrackDocumentType;
+				Title = "Редактирование вида оправдательных документов";
+				IsReadOnly = documentType.IsSystem;
 			}
 
-			AvailableDocumentTypes = new ObservableCollection<DocumentType>();
-			AvailableDocumentTypes.Add(DocumentType.Overtime);
-			AvailableDocumentTypes.Add(DocumentType.Presence);
-			AvailableDocumentTypes.Add(DocumentType.Absence);
+			AvailableDocumentTypes = Enum.GetValues(typeof(DocumentType)).Cast<DocumentType>().ToList();
 
 			CopyProperties();
 		}
@@ -89,7 +90,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<DocumentType> AvailableDocumentTypes { get; private set; }
+		public List<DocumentType> AvailableDocumentTypes { get; private set; }
 
 		DocumentType _selectedDocumentType;
 		public DocumentType SelectedDocumentType
@@ -97,11 +98,9 @@ namespace SKDModule.ViewModels
 			get { return _selectedDocumentType; }
 			set
 			{
-				if (_selectedDocumentType != value)
-				{
-					_selectedDocumentType = value;
-					OnPropertyChanged(() => SelectedDocumentType);
-				}
+				if (_selectedDocumentType == value) return;
+				_selectedDocumentType = value;
+				OnPropertyChanged(() => SelectedDocumentType);
 			}
 		}
 
@@ -127,12 +126,13 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("Числовой код документа должен быть положительным числом");
 				return false;
 			}
-			if (TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.Any(x=>x.Name == Name))
+			var documentsFactory = new DocumentsFactory();
+			if (documentsFactory.SystemDocuments.Any(x => x.TimeTrackDocumentType.Name == Name))
 			{
 				MessageBoxService.ShowWarning("Название документа совпадает с одним из предопределенных");
 				return false;
 			}
-			if (TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.Any(x => x.ShortName == ShortName))
+			if (documentsFactory.SystemDocuments.Any(x => x.TimeTrackDocumentType.ShortName == ShortName))
 			{
 				MessageBoxService.ShowWarning("Буквенный код документа совпадает с одним из предопределенных кодов");
 				return false;

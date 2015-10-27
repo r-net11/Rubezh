@@ -258,7 +258,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<List<TimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
+		public OperationResult<List<ITimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
@@ -266,7 +266,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult AddTimeTrackDocument(TimeTrackDocument item)
+		public OperationResult AddTimeTrackDocument(ITimeTrackDocument item)
 		{
 			AddJournalMessage(JournalEventNameType.Внесение_оправдательного_документа, item.DocumentNumber.ToString(), JournalEventDescriptionType.Редактирование, uid: item.UID);
 			using (var databaseService = new SKDDatabaseService())
@@ -275,7 +275,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult EditTimeTrackDocument(TimeTrackDocument item)
+		public OperationResult EditTimeTrackDocument(ITimeTrackDocument item)
 		{
 			AddJournalMessage(JournalEventNameType.Внесение_оправдательного_документа, item.DocumentNumber.ToString(), JournalEventDescriptionType.Редактирование, uid: item.UID);
 			using (var databaseService = new SKDDatabaseService())
