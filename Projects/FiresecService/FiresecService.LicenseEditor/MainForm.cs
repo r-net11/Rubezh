@@ -51,7 +51,7 @@ namespace FiresecService.LicenseEditor
             }
             if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-				var licenseInfo = new LicenseInfo()
+				var licenseInfo = new FiresecLicenseInfo()
 				{
 					RemoteWorkplacesCount = (int)numericUpDownRemoteWorkplacesCount.Value,
 					HasFirefighting = checkBoxFirefighting.Checked,

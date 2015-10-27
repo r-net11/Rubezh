@@ -23,8 +23,8 @@ namespace FiresecService.ViewModels
 			}
 		}
 
-		LicenseInfo _licenseInfo;
-		public LicenseInfo LicenseInfo
+		FiresecLicenseInfo _licenseInfo;
+		public FiresecLicenseInfo LicenseInfo
 		{
 			get { return _licenseInfo; }
 			set 

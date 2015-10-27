@@ -114,9 +114,9 @@ namespace FiresecService.Service
 			}
 		}
         
-        public OperationResult<LicenseInfo> GetLicenseInfo()
+        public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
         {
-			return new OperationResult<LicenseInfo>(LicenseManager.FiresecLicenseManager.CurrentLicenseInfo);
+			return new OperationResult<FiresecLicenseInfo>(LicenseManager.FiresecLicenseManager.CurrentLicenseInfo);
         }
     }
 }

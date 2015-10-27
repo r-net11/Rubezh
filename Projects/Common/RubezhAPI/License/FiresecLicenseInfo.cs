@@ -6,7 +6,7 @@ namespace RubezhAPI.License
 	/// Разрешения лицензии
 	/// </summary>
     [DataContract]
-    public class LicenseInfo
+    public class FiresecLicenseInfo
     {
 		/// <summary>
 		/// Тип лицензии
@@ -52,9 +52,9 @@ namespace RubezhAPI.License
 
 		public override bool Equals(object obj)
 		{
-			if (obj is LicenseInfo)
+			if (obj is FiresecLicenseInfo)
 			{
-				var licenseInfo = obj as LicenseInfo;
+				var licenseInfo = obj as FiresecLicenseInfo;
 				return licenseInfo.RemoteWorkplacesCount == this.RemoteWorkplacesCount
 					&& licenseInfo.HasFirefighting == this.HasFirefighting
 					&& licenseInfo.HasGuard == this.HasGuard

@@ -149,7 +149,7 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.Test(arg); }, "Test");
 		}
 
-        public OperationResult<LicenseInfo> GetLicenseInfo()
+        public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
         {
             return SafeOperationCall(() => { return FiresecService.GetLicenseInfo(); }, "GetLicenseInfo");
         }

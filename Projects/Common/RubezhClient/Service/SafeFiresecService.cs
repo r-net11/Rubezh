@@ -200,7 +200,7 @@ namespace RubezhClient
 			}, "Connect");
 		}
 
-        public OperationResult<LicenseInfo> GetLicenseInfo()
+        public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
         {
             return SafeOperationCall(() =>
             {
@@ -212,7 +212,7 @@ namespace RubezhClient
                 {
 					Logger.Error("Исключение при вызове RubezhClient.GetLicenseInfo " + e.GetType().Name.ToString());
                 }
-                return OperationResult<LicenseInfo>.FromError("Не удается получить лицензию от " + _serverAddress);
+                return OperationResult<FiresecLicenseInfo>.FromError("Не удается получить лицензию от " + _serverAddress);
             }, "GetLicenseInfo");
         }
 

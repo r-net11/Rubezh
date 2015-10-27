@@ -24,7 +24,7 @@ namespace FiresecService.LicenseEditor
 				if (!int.TryParse(args[2], out remoteWorkplacesCount))
                     return;
 
-			    var licenseInfo = new LicenseInfo()
+			    var licenseInfo = new FiresecLicenseInfo()
 				{
 					RemoteWorkplacesCount = remoteWorkplacesCount,
 					HasFirefighting = args.Any(x => x.Trim().ToLower() == "firefighting"),

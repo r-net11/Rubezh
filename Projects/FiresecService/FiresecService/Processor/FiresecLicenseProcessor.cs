@@ -38,7 +38,7 @@ namespace FiresecService.Processor
 		}
 		static void SetDemonstration()
 		{
-			LicenseManager.FiresecLicenseManager.CurrentLicenseInfo = new LicenseInfo()
+			LicenseManager.FiresecLicenseManager.CurrentLicenseInfo = new FiresecLicenseInfo()
 			{
 				LicenseMode = LicenseMode.Demonstration,
 				RemoteWorkplacesCount = 1,
@@ -57,7 +57,7 @@ namespace FiresecService.Processor
 		}
 		static void SetNoLicense()
 		{
-			LicenseManager.FiresecLicenseManager.CurrentLicenseInfo = new LicenseInfo()
+			LicenseManager.FiresecLicenseManager.CurrentLicenseInfo = new FiresecLicenseInfo()
 			{
 				LicenseMode = LicenseMode.NoLicense,
 				RemoteWorkplacesCount = 0,
@@ -69,7 +69,7 @@ namespace FiresecService.Processor
 			};
 		}
 
-		public static void SetLicense(LicenseInfo licenseInfo)
+		public static void SetLicense(FiresecLicenseInfo licenseInfo)
 		{
 			if (licenseInfo == null)
 				SetNoLicense();
