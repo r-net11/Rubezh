@@ -8,6 +8,7 @@ using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
 using ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters;
 using ResursNetwork.Incotex.Models;
 using ResursNetwork.Management;
+using ResursNetwork.OSI.Messages.Transactions;
 using ResursAPI.Models;
 using ResursAPI.ParameterNames;
 using ResursAPI.CommandNames;
@@ -321,9 +322,30 @@ namespace ResursNetwork.Incotex.Models
         #endregion
 
 		#region Network API
-		public void ReadParameter(string parameterName)
+
+		public OperationResult ReadParameter(string parameterName)
 		{
-			throw new NotImplementedException();
+			switch (parameterName)
+			{
+				case ParameterNamesMercury203Virtual.Address:
+					{
+
+						return new OperationResult
+						{
+							Result = new TransactionError 
+							{ 
+								ErrorCode = TransactionErrorCodes.NoError, 
+								Description = String.Empty 
+							},
+							Value = Address
+						};
+					}
+				default:
+					{
+						throw new NotSupportedException(String.Format(
+							"Чтение параметра {0} не поддерживается", parameterName));
+					}
+			}
 		}
 
 		public void WriteParameter(string parameterName, ValueType value)

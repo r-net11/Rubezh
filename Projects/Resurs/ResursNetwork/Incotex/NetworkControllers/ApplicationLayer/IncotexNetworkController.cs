@@ -319,7 +319,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// 
         /// </summary>
         /// <param name="cancellationToken"></param>
-        protected override void NetwokPollingAction(object cancellationToken)
+        protected override void NetworkPollingAction(object cancellationToken)
         {
             //DateTime lastUpdate;
             List<IDevice> faultyDevices = new List<IDevice>();

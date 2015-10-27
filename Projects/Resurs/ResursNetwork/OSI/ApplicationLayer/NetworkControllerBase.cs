@@ -111,7 +111,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
                                     _CancellationTokenSource = new CancellationTokenSource();
                                 }
                                 // Запускаем сетевой обмен данными
-                                _NetworkPollingTask = Task.Factory.StartNew(NetwokPollingAction,
+                                _NetworkPollingTask = Task.Factory.StartNew(NetworkPollingAction,
                                     _CancellationTokenSource.Token);
 
                                 Logger.Info(String.Format("Controller Id={0} | Изменил состояние на новое Status={1}",
@@ -376,7 +376,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// <summary>
         /// Метод выполняет сетевой опрос устройств
         /// </summary>
-        protected abstract void NetwokPollingAction(Object cancellationToken);
+        protected abstract void NetworkPollingAction(Object cancellationToken);
 
         /// <summary>
         /// Записывает транзакцию в буфер исходящих сообщений

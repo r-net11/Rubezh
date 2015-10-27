@@ -57,6 +57,29 @@ namespace ResursNetwork.OSI.Messages
             }
         }
 
+		/// <summary>
+		/// Возвращает описание ошибки последней выолненной транзакции
+		/// (если сетевая операция ещё активна, то всегда возвращается успешный результат)
+		/// </summary>
+		public TransactionError Error
+		{
+			get
+			{
+				if (!IsCompleted)
+				{
+					return new TransactionError
+					{
+						ErrorCode = TransactionErrorCodes.NoError,
+						Description = String.Empty
+					};
+				}
+				else
+				{
+ 					return LastTransaction.Error;
+				}
+			}
+		}
+
         /// <summary>
         /// Возвращает последнею выполненную сетевую транзакцию
         /// </summary>

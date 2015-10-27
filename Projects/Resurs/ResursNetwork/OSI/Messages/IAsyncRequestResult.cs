@@ -24,6 +24,17 @@ namespace ResursNetwork.OSI.Messages
         /// </summary>
         bool IsCompleted { get; }
 
-        #endregion
+		/// <summary>
+		/// Успешность выполения операции
+		/// </summary>
+		bool HasError { get; }
+
+		/// <summary>
+		/// Описание ошибки в последней выполенной
+		/// операции
+		/// </summary>
+		TransactionError Error { get; }
+        
+		#endregion
     }
 }

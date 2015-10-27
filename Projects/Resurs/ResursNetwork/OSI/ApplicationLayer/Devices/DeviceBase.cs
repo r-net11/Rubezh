@@ -240,7 +240,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
             }
         }
 
-		public abstract void ReadParameter(string parameterName);
+		public abstract OperationResult ReadParameter(string parameterName);
 
 		public abstract void WriteParameter(string parameterName, ValueType value);
 

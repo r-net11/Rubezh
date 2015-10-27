@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using ResursNetwork.OSI.ApplicationLayer.Devices;
 using ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters;
@@ -199,14 +200,24 @@ namespace ResursNetwork.Incotex.Models
 			}
 		}
 
-		public override void ReadParameter(string parameterName)
+		public override OperationResult ReadParameter(string parameterName)
 		{
 			switch(parameterName)
 			{
 				case ParameterNamesMercury203.GADDR:
 					{
-						ReadGroupAddress(isExternalCall: true);
-						break;
+						var asyncResult = ReadGroupAddress(isExternalCall: true);
+						// Ждём завершения операции
+						while (!asyncResult.IsCompleted) 
+						{
+							Thread.Sleep(50);
+						}
+						// Возвращает результат
+						return new OperationResult
+						{
+							Result = asyncResult.Error,
+							Value = Parameters[parameterName].Value
+						};
 					}
 				default:
 					{

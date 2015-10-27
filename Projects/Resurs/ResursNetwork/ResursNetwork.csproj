@@ -50,6 +50,7 @@
     <Compile Include="OSI\ApplicationLayer\ConfigurationChangedEventArgs.cs" />
     <Compile Include="OSI\ApplicationLayer\NetworkControllerErrorOccuredEventArgs.cs" />
     <Compile Include="OSI\ApplicationLayer\NetworkRequestCompletedArgs.cs" />
+    <Compile Include="OSI\ApplicationLayer\OperationResult.cs" />
     <Compile Include="OSI\ApplicationLayer\ParameterChangedArgs.cs" />
     <Compile Include="OSI\Messages\AsyncRequestResult.cs" />
     <Compile Include="OSI\ApplicationLayer\Devices\Collections\ObjectModel\DevicesCollectionChangedEventArgs.cs" />

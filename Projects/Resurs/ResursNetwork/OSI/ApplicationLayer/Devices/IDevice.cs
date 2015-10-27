@@ -70,7 +70,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
 		/// Читает параметр из удалённого устройства
 		/// </summary>
 		/// <param name="parameterName"></param>
-		void ReadParameter(string parameterName);
+		OperationResult ReadParameter(string parameterName);
 
 		/// <summary>
 		/// Записывает параметр в удалённом устройстве
