@@ -72,6 +72,12 @@ namespace FireAdministrator
 		[STAThread]
 		private static void Main()
 		{
+			if (DateTime.Now.Date > new DateTime(2015, 12, 31))
+			{
+				MessageBox.Show(FireAdministrator.Properties.Resources.DemoLimitStartupDateMessage, "СТРАЖ", MessageBoxButton.OK, MessageBoxImage.Warning);
+				return;
+			}
+
 			ServiceFactory.StartupService.Run();
 			var app = new App();
 			app.InitializeComponent();
