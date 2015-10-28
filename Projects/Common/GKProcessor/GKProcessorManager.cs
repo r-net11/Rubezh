@@ -580,7 +580,8 @@ namespace GKProcessor
 				}
 			}
 			DateTime? deviceDateTime = null;
-			if (journalEventNameType != JournalEventNameType.Команда_оператора)
+			if (journalEventNameType != JournalEventNameType.Команда_оператора &&
+				journalEventNameType != JournalEventNameType.Отмена_операции)
 				deviceDateTime = DateTime.Now;
 
 			var journalItem = new JournalItem
