@@ -77,5 +77,14 @@ namespace FireAdministrator.Properties {
                 return ResourceManager.GetString("DemoLimitControllersCountMessage", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Период использования демо-версии истек 31.12.2015 г. Приложение не может быть запущено.
+        /// </summary>
+        internal static string DemoLimitStartupDateMessage {
+            get {
+                return ResourceManager.GetString("DemoLimitStartupDateMessage", resourceCulture);
+            }
+        }
     }
 }

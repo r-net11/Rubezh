@@ -123,4 +123,7 @@
   <data name="DemoLimitControllersCountMessage" xml:space="preserve">
     <value>Нельзя выполнить операцию из-за ограничения демо-версии. Максимальное количество контроллеров в конфигурации - 2</value>
   </data>
+  <data name="DemoLimitStartupDateMessage" xml:space="preserve">
+    <value>Период использования демо-версии истек 31.12.2015 г. Приложение не может быть запущено</value>
+  </data>
 </root>
