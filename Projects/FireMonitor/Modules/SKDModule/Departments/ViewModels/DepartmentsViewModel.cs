@@ -66,7 +66,7 @@ namespace SKDModule.ViewModels
 
 		protected override DepartmentViewModel GetParentItem(ShortDepartment model)
 		{
-			if (SelectedItem.IsOrganisation)
+			if (SelectedItem != null && SelectedItem.IsOrganisation)
 				return SelectedItem;
 			return GetParentItemInternal(model);
 		}

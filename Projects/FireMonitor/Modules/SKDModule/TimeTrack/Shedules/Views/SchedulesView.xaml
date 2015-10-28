@@ -44,12 +44,12 @@
 				Command="{Binding PasteCommand}"
 				ImageSource="Paste"
 				ToolTip="Вставить" />
-			<ToolBarButton
+			<!--<ToolBarButton
 				Command="{Binding RestoreCommand}"
 				ImageSource="Redo"
 				ToolTip="Восстановить"
 				Visibility="{Binding IsWithDeleted,
-			                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+			                                    Converter={StaticResource BoolToVisibilityConverter}}" />-->
 			<ToolBarButton
 				Command="{Binding ShowSettingsCommand}"
 				ImageSource="Settings2"

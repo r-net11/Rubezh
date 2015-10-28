@@ -30,11 +30,11 @@
 							Command="{Binding EditCommand}"
 							ImageSource="Edit"
 							ToolTip="{Binding EditCommandToolTip}" />
-						<ToolBarButton
+						<!--<ToolBarButton
 							Command="{Binding RestoreCommand}"
 							ImageSource="Redo"
 							ToolTip="Восстановить"
-							Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
+							Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" /> -->
 					</StackPanel>
 				</StackPanel>
 			</StackPanel>
@@ -60,12 +60,12 @@
 						Command="{Binding PasteCommand}"
 						ImageSource="Paste"
 						ToolTip="Вставить" />
-					<ToolBarButton
+					<!--<ToolBarButton
 						Command="{Binding RestoreCommand}"
 						ImageSource="Redo"
 						ToolTip="Восстановить"
 						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+					                                    Converter={StaticResource BoolToVisibilityConverter}}" />-->
 				</StackPanel>
 			</Grid>
 			<Grid Visibility="{Binding IsPositionsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -90,12 +90,12 @@
 						Command="{Binding PasteCommand}"
 						ImageSource="Paste"
 						ToolTip="Вставить" />
-					<ToolBarButton
+					<!--<ToolBarButton
 						Command="{Binding RestoreCommand}"
 						ImageSource="Redo"
 						ToolTip="Восстановить"
 						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+					                                    Converter={StaticResource BoolToVisibilityConverter}}" />-->
 				</StackPanel>
 			</Grid>
 			<Grid Visibility="{Binding IsAdditionalColumnTypesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -120,12 +120,12 @@
 						Command="{Binding PasteCommand}"
 						ImageSource="Paste"
 						ToolTip="Вставить" />
-					<ToolBarButton
+					<!--<ToolBarButton
 						Command="{Binding RestoreCommand}"
 						ImageSource="Redo"
 						ToolTip="Восстановить"
 						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+					                                    Converter={StaticResource BoolToVisibilityConverter}}" />-->
 				</StackPanel>
 			</Grid>
 			<Grid Visibility="{Binding IsCardsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -162,12 +162,12 @@
 						Command="{Binding PasteCommand}"
 						ImageSource="Paste"
 						ToolTip="Вставить" />
-					<ToolBarButton
+					<!--<ToolBarButton
 						Command="{Binding RestoreCommand}"
 						ImageSource="Redo"
 						ToolTip="Восстановить"
 						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+					                                    Converter={StaticResource BoolToVisibilityConverter}}" />-->
 				</StackPanel>
 			</Grid>
 			<Grid Visibility="{Binding IsPassCardTemplatesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -193,12 +193,12 @@
 						Command="{Binding PasteCommand}"
 						ImageSource="Paste"
 						ToolTip="Вставить" />
-					<ToolBarButton
+					<!--<ToolBarButton
 						Command="{Binding RestoreCommand}"
 						ImageSource="Redo"
 						ToolTip="Восстановить"
 						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+					                                    Converter={StaticResource BoolToVisibilityConverter}}" />-->
 				</StackPanel>
 			</Grid>
 			<Grid Visibility="{Binding IsOrganisationsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -216,12 +216,12 @@
 							Command="{Binding EditCommand}"
 							ImageSource="Edit"
 							ToolTip="Редактировать" />
-						<ToolBarButton
+						<!--<ToolBarButton
 							Command="{Binding RestoreCommand}"
 							ImageSource="Redo"
 							ToolTip="Восстановить"
 							Visibility="{Binding IsWithDeleted,
-						                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+						                                    Converter={StaticResource BoolToVisibilityConverter}}" />-->
 					</StackPanel>
 					<!--<ToolBarButton
 						Command="{Binding ChangeIsDeletedCommand}"
