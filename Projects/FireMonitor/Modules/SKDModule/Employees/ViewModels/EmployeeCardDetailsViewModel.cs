@@ -394,8 +394,15 @@ namespace SKDModule.ViewModels
 		{
 			var serverCards = CardHelper.GetByEmployee(_employee.UID);
 
-			if (serverCards.Count(x => !x.IsDeleted) < 2 && Cards.Count(x => !x.IsDeleted && x.EmployeeUID == _employee.UID) < 2 && _employee.Type == PersonType.Employee
-				|| serverCards.Count(x => !x.IsDeleted) < 1 && Cards.Count(x => !x.IsDeleted && x.EmployeeUID == _employee.UID) < 1 && _employee.Type == PersonType.Guest)
+			var canSave = serverCards.Count(x => !x.IsDeleted) < 2 &&
+			              Cards.Count(x => !x.IsDeleted && x.EmployeeUID == _employee.UID) < 2 &&
+			              _employee.Type == PersonType.Employee
+			              ||
+			              serverCards.Count(x => !x.IsDeleted) < 1 &&
+			              Cards.Count(x => !x.IsDeleted && x.EmployeeUID == _employee.UID) < 1 &&
+			              _employee.Type == PersonType.Guest;
+			canSave = IsNewCard ? canSave : !IsNewCard;
+			if (canSave)
 			{
 				var manualInputValidationCondition = IsFirstRadioButtonChecked && Number == null;
 				var useReaderValidationCondition = UseReader && NumberFromControlReader == null;

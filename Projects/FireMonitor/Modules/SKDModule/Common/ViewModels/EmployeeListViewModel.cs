@@ -90,8 +90,8 @@ namespace SKDModule.ViewModels
 			var employeeSelectionViewModel = new EmployeeSelectionDialogViewModel(EmptyFilter);
 			if (DialogService.ShowModalWindow(employeeSelectionViewModel))
 			{
-				if (Employees.Count(x => !x.IsDeleted) < 5 && EmployeeHelper.Get(new EmployeeFilter()).Count(x => !x.IsDeleted) < 5)
-				{
+				//if (Employees.Count(x => !x.IsDeleted) < 5 && EmployeeHelper.Get(new EmployeeFilter()).Count(x => !x.IsDeleted) < 5)
+				//{
 					var viewModel = new TItem();
 					viewModel.Initialize(employeeSelectionViewModel.SelectedEmployee);
 					var result = AddToParent(viewModel.Employee);
@@ -100,11 +100,11 @@ namespace SKDModule.ViewModels
 					Employees.Add(viewModel);
 					SelectedEmployee = viewModel;
 					ServiceFactoryBase.Events.GetEvent<EditEmployeeEvent>().Publish(SelectedEmployee.Employee.UID);
-				}
-				else
-				{
-					MessageBoxService.ShowError("Нельзя выполнить операцию из-за ограничения демо-версии. Максимальное количество сотрудников в системе - 5");
-				}
+				//}
+				//else
+				//{
+				//	MessageBoxService.ShowError("Нельзя выполнить операцию из-за ограничения демо-версии. Максимальное количество сотрудников в системе - 5");
+				//}
 			}
 		}
 		bool CanAdd()

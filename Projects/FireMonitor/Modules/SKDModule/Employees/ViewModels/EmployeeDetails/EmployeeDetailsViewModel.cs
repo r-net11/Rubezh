@@ -660,7 +660,7 @@ namespace SKDModule.ViewModels
 			{
 				canSave = EmployeeHelper.Get(new EmployeeFilter {PersonType = PersonType.Guest}).Count(x => !x.IsDeleted) < 2;
 			}
-
+			canSave = _isNew ? canSave : !_isNew;
 
 			if (canSave)
 			{
