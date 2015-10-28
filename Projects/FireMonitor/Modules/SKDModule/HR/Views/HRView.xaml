@@ -223,7 +223,7 @@
 							Visibility="{Binding IsWithDeleted,
 						                                    Converter={StaticResource BoolToVisibilityConverter}}" />
 					</StackPanel>
-					<ToolBarButton
+					<!--<ToolBarButton
 						Command="{Binding ChangeIsDeletedCommand}"
 						ImageSource="Add"
 						ToolTip="Отображать архивные сведения"
@@ -234,7 +234,7 @@
 						ImageSource="Delete"
 						ToolTip="Отображать архивные сведения"
 						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+					                                    Converter={StaticResource InversedBoolToVisibilityConverter}}" />-->
 				</StackPanel>
 			</Grid>
 
