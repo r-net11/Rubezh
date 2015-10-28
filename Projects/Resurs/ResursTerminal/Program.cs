@@ -72,7 +72,7 @@ namespace ResursTerminal
 			var result = _Device.ReadParameter(
 				ResursAPI.ParameterNames.ParameterNamesMercury203.DateTime);
 			var dt = ((IncotexDateTime)result.Value).ToDateTime();
-			Console.WriteLine("Результат: {0}", dt);
+			Console.WriteLine("Результат: {0}, Значение: {1} ", result.Result.ErrorCode, dt);
 		}
 
 		static void WriteDateTime()

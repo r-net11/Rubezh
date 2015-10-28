@@ -575,7 +575,7 @@ namespace ResursNetwork.Incotex.Models
             var request = new DataMessage()
             {
                 Address = Address,
-                CmdCode = Convert.ToByte(Mercury203CmdCode.ReadGroupAddress)
+                CmdCode = Convert.ToByte(Mercury203CmdCode.ReadDateTime)
             };
             var transaction = new Transaction(this, TransactionType.UnicastMode, request)
             {
@@ -649,14 +649,7 @@ namespace ResursNetwork.Incotex.Models
 				// Получаем параметр
 				// Присваиваем новое значение параметру
 				var parameter = _Parameters[ParameterNamesMercury203.DateTime];
-				parameter.Value = parameter.ValueConverter.FromArray(
-					new byte[] 
-                    {
-                        answer.Data[0],
-                        answer.Data[1],
-                        answer.Data[2],
-                        answer.Data[3]
-                    });
+				parameter.Value = parameter.ValueConverter.FromArray(answer.Data.ToArray());
 
 				//command.Status = Result.OK;
 				_ActiveRequests.Remove(command);
