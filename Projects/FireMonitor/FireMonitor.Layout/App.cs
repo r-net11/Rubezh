@@ -18,6 +18,12 @@ namespace FireMonitor.Layout
 		[STAThread]
 		private static void Main()
 		{
+			if (DateTime.Now.Date > new DateTime(2015, 12, 31))
+			{
+				MessageBox.Show(Layout.Properties.Resources.DemoLimitStartupDateMessage, "СТРАЖ", MessageBoxButton.OK, MessageBoxImage.Warning);
+				return;
+			}
+
 			ServiceFactory.StartupService.Run();
 			var app = new App();
 			var resourceLocater = new ResourceDescription(typeof(UIBehavior).Assembly, "Themes/Styles.xaml");
