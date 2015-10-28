@@ -284,7 +284,8 @@ namespace AutomationModule.ViewModels
 		}
 		void ReplaceVariableUid(Argument argument, Dictionary<Guid, Guid> dictionary)
 		{
-			argument.VariableUid = dictionary.ContainsKey(argument.VariableUid) ? dictionary[argument.VariableUid] : Guid.Empty;
+			if (argument.VariableScope == VariableScope.LocalVariable)
+				argument.VariableUid = dictionary.ContainsKey(argument.VariableUid) ? dictionary[argument.VariableUid] : Guid.Empty;
 		}
 		public RelayCommand PasteCommand { get; private set; }
 		void OnPaste()
