@@ -99,9 +99,9 @@ namespace GKProcessor
 				No = 4,
 				Name = "Питание, В",
 				Caption = "Питание, В",
-				Default = 150,
+				Default = 200,
 				DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
-				Min = 0,
+				Min = 200,
 				Multiplier = 10,
 				Max = 300
 			};
