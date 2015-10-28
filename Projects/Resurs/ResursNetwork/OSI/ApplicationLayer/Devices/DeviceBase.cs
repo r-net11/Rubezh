@@ -242,7 +242,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
 
 		public abstract OperationResult ReadParameter(string parameterName);
 
-		public abstract void WriteParameter(string parameterName, ValueType value);
+		public abstract OperationResult WriteParameter(string parameterName, ValueType value);
 
         protected virtual void OnErrorOccurred(DeviceErrorOccuredEventArgs args)
         {

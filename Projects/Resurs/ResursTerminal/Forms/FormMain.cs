@@ -158,6 +158,7 @@ namespace ResursTerminal.Forms
 						{
 							var result = device.ReadParameter(
 								ResursAPI.ParameterNames.ParameterNamesMercury203.DateTime);
+							var dt = ((IncotexDateTime)result.Value).ToDateTime();
 							break;
 						}
 					case "Прочитать групповой адерс":

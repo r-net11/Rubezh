@@ -166,6 +166,10 @@ namespace ResursNetwork.Incotex.Models
 
             switch ((Mercury203CmdCode)request.CmdCode)
             {
+				case Mercury203CmdCode.WriteDateTime:
+					{
+						GetAnswerWriteDateTime(networkRequest); break;
+					}
                 case Mercury203CmdCode.SetNetworkAddress:
                     {
                         GetAnswerWriteNetwokAdderss(networkRequest); break;
@@ -174,6 +178,10 @@ namespace ResursNetwork.Incotex.Models
                     {
                         GetAnswerReadGroupAddress(networkRequest); break;
                     }
+				case Mercury203CmdCode.ReadDateTime:
+					{
+						GetAnswerReadDateTime(networkRequest); break;
+					}
                 default:
                     {
                         throw new NotImplementedException(
@@ -204,11 +212,13 @@ namespace ResursNetwork.Incotex.Models
 
 		public override OperationResult ReadParameter(string parameterName)
 		{
+			IAsyncRequestResult asyncResult;
+ 
 			switch(parameterName)
 			{
 				case ParameterNamesMercury203.GADDR:
 					{
-						var asyncResult = ReadGroupAddress(isExternalCall: true);
+						asyncResult = ReadGroupAddress(isExternalCall: true);
 						// Ждём завершения операции
 						while (!asyncResult.IsCompleted) 
 						{
@@ -221,6 +231,21 @@ namespace ResursNetwork.Incotex.Models
 							Value = Parameters[parameterName].Value
 						};
 					}
+				case ParameterNamesMercury203.DateTime:
+					{
+						asyncResult = ReadDateTime(isExternalCall: true);
+						// Ждём завершения операции
+						while (!asyncResult.IsCompleted)
+						{
+							Thread.Sleep(50);
+						}
+						// Возвращает результат
+						return new OperationResult
+						{
+							Result = asyncResult.Error,
+							Value = Parameters[parameterName].Value
+						}; 
+					}
 				default:
 					{
 						throw new NotSupportedException(String.Format(
@@ -229,9 +254,35 @@ namespace ResursNetwork.Incotex.Models
 			}
 		}
 
-		public override void WriteParameter(string parameterName, ValueType value)
+		public override OperationResult WriteParameter(string parameterName, ValueType value)
 		{
-			throw new NotImplementedException();
+			IAsyncRequestResult asyncResult;
+ 
+			switch(parameterName)
+			{
+				case ParameterNamesMercury203.DateTime:
+					{
+						asyncResult = WriteDateTime(value: (DateTime)value, isExternalCall: true);
+						// Ждём завершения операции
+						while (!asyncResult.IsCompleted)
+						{
+							Thread.Sleep(50);
+						}
+						// Возвращает результат
+						return new OperationResult
+						{
+							Result = asyncResult.Error,
+							Value = Parameters[parameterName].Value
+						};
+
+						break;
+					}
+				default:
+					{
+						throw new NotSupportedException(String.Format(
+							"Запись праметра {0} не поддерживается", parameterName));
+					}
+			}
 		}
 
         public override void EventHandler_NetworkController_NetwrokRequestCompleted(
@@ -550,6 +601,169 @@ namespace ResursNetwork.Incotex.Models
             }
             return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
         }
+
+		private void GetAnswerReadDateTime(NetworkRequest networkRequest)
+		{
+			// Разбираем ответ
+			if (networkRequest.Status == NetworkRequestStatus.Completed)
+			{
+				var command = _ActiveRequests.FirstOrDefault(
+					p => p.Id == networkRequest.Id);
+
+				if (command == null)
+				{
+					throw new Exception("Не найдена команда с указанной транзакцией");
+				}
+
+				if (networkRequest.CurrentTransaction.Answer.ToArray().Length != 11)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Неверная длина ответного сообщения";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_ActiveRequests.Remove(command);
+				}
+
+				var request = (DataMessage)networkRequest.Request.Request;
+				var answer = (DataMessage)networkRequest.CurrentTransaction.Answer;
+
+				// Проверяем новый адрес в запросе и в ответе
+				if (request.Address != answer.Address)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Адрес команды в ответе не соответствует адресу в запросе";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_ActiveRequests.Remove(command);
+				}
+
+				if (answer.CmdCode != request.CmdCode)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Код команды в ответе не соответствует коду в запросе";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_ActiveRequests.Remove(command);
+				}
+
+				// Получаем параметр
+				// Присваиваем новое значение параметру
+				var parameter = _Parameters[ParameterNamesMercury203.DateTime];
+				parameter.Value = parameter.ValueConverter.FromArray(
+					new byte[] 
+                    {
+                        answer.Data[0],
+                        answer.Data[1],
+                        answer.Data[2],
+                        answer.Data[3]
+                    });
+
+				//command.Status = Result.OK;
+				_ActiveRequests.Remove(command);
+			}
+			else
+			{
+				// Транзакция выполнена с ошибкам
+				var command = _ActiveRequests.FirstOrDefault(
+					p => p.Id == networkRequest.Id);
+				//command.Status = Result.Error;
+				//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+				//TODO:
+				_ActiveRequests.Remove(command);
+			}
+		}
+
+		public IAsyncRequestResult WriteDateTime(DateTime value, bool isExternalCall = true)
+		{
+			var request = new DataMessage(
+				new IncotexDataTimeTypeConverter().ToArray(IncotexDateTime.FromDateTime(value)))
+			{
+				Address = Address,
+				CmdCode = Convert.ToByte(Mercury203CmdCode.WriteDateTime)
+			};
+			var transaction = new Transaction(this, TransactionType.UnicastMode, request)
+			{
+				Sender = this
+			};
+
+			var networkRequest = new NetworkRequest(transaction);
+
+			if (_NetworkController == null)
+			{
+				transaction.Start();
+				transaction.Abort(new TransactionError
+				{
+					ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+					Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+				});
+				networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
+			}
+			else
+			{
+				_ActiveRequests.Add(networkRequest);
+				_NetworkController.Write(networkRequest, isExternalCall);
+			}
+			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
+		}
+
+		private void GetAnswerWriteDateTime(NetworkRequest networkRequest)
+		{
+			// Разбираем ответ
+			if (networkRequest.Status == NetworkRequestStatus.Completed)
+			{
+				var command = _ActiveRequests.FirstOrDefault(
+					p => p.Id == networkRequest.Id);
+
+				if (command == null)
+				{
+					throw new Exception("Не найдена команда с указанной транзакцией");
+				}
+
+				if (networkRequest.CurrentTransaction.Answer.ToArray().Length != 7)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Неверная длина ответного сообщения";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_ActiveRequests.Remove(command);
+				}
+
+				var request = (DataMessage)networkRequest.Request.Request;
+				var answer = (DataMessage)networkRequest.CurrentTransaction.Answer;
+
+				// Проверяем новый адрес в запросе и в ответе
+				if (request.Address != answer.Address)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Адрес команды в ответе не соответствует адресу в запросе";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_ActiveRequests.Remove(command);
+				}
+
+				if (answer.CmdCode != request.CmdCode)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Код команды в ответе не соответствует коду в запросе";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_ActiveRequests.Remove(command);
+				}
+
+				//command.Status = Result.OK;
+				_ActiveRequests.Remove(command);
+			}
+			else
+			{
+				// Транзакция выполнена с ошибкам
+				var command = _ActiveRequests.FirstOrDefault(
+					p => p.Id == networkRequest.Id);
+				//command.Status = Result.Error;
+				//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+				//TODO:
+				_ActiveRequests.Remove(command);
+			}
+		}
 
         /// <summary>
         /// Чтение лимита мощности (CMD=22h)

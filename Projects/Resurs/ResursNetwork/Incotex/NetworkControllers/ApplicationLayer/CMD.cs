@@ -18,10 +18,10 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// Установка нового группового адреса счетчика 
         /// </summary>
         SetGroupNetworkAddress = 1,
-        /// <summary>
-        /// Установка внутрен-них часов и кален-даря счетчика
-        /// </summary>
-        SetDateTime = 2,
+		/// <summary>
+		/// Установка внутренних часов и календаря счетчика
+		/// </summary>
+		WriteDateTime = 0x02,
         /// <summary>
         /// Установка лимита мощности
         /// </summary>
@@ -101,6 +101,6 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// <summary>
         /// Чтение времени последнего отключения напряжения
         /// </summary>
-        ReadLastPowerFailure = 0x21
+        ReadLastPowerFailure = 0x21,
     }
 }
