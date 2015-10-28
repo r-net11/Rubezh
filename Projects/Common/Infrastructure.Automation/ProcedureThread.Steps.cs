@@ -379,25 +379,26 @@ namespace Infrastructure.Automation
 			var propertyValue = new object();
 			if (item is GKDevice)
 			{
+				var gkDevice = item as GKDevice;
 				switch (property)
 				{
 					case Property.ShleifNo:
-						propertyValue = (item as GKDevice).ShleifNo;
+						propertyValue = gkDevice.ShleifNo;
 						break;
 					case Property.IntAddress:
-						propertyValue = (item as GKDevice).IntAddress;
+						propertyValue = gkDevice.IntAddress;
 						break;
 					case Property.State:
-						propertyValue = (int)(item as GKDevice).State.StateClass;
+						propertyValue = (int)gkDevice.State.StateClass;
 						break;
 					case Property.Type:
-						propertyValue = (item as GKDevice).Driver.DriverType;
+						propertyValue = gkDevice.Driver.DriverType;
 						break;
 					case Property.Description:
-						propertyValue = (item as GKDevice).Description.Trim();
+						propertyValue = gkDevice.Description == null ? "" : gkDevice.Description.Trim();
 						break;
 					case Property.Uid:
-						propertyValue = (item as GKDevice).UID.ToString();
+						propertyValue = Convert.ToString(gkDevice.UID);
 						break;
 				}
 			}
