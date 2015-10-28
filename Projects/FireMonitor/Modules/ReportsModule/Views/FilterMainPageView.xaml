@@ -78,7 +78,7 @@
 				Margin="2"
 				Width="150"/>
 		</Grid>
-		<CheckBox Grid.Row="2" VerticalAlignment="Center" Content="Отображать архивные сведения" Foreground="White" IsChecked="{Binding UseArchive}" Visibility="{Binding HasArchive, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<!--<CheckBox Grid.Row="2" VerticalAlignment="Center" Content="Отображать архивные сведения" Foreground="White" IsChecked="{Binding UseArchive}" Visibility="{Binding HasArchive, Converter={StaticResource BoolToVisibilityConverter}}" />-->
 		<ContentPresenter Grid.Row="3" Content="{Binding MainViewModel, Mode=OneTime}" />
 		<TextBlock Grid.Row="4" Visibility="{Binding IsAdditionalExpanded, Converter={StaticResource InversedBoolToVisibilityConverter}}">
 			<Hyperlink Command="{Binding ExpandAdditionalCommand}" Style="{StaticResource HyperlinkStyle}">
