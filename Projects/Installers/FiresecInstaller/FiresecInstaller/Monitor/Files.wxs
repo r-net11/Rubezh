@@ -88,7 +88,6 @@
 				<File Id="Monitor.DevExpress.XtraReports.v15.1.dll"								Name="DevExpress.XtraReports.v15.1.dll" Source="$(var.Monitor.DevExpress.TargetDir)" />
 				<File Id="Monitor.DevExpress.XtraReports.v15.1.Extensions.dll"		Name="DevExpress.XtraReports.v15.1.Extensions.dll" Source="$(var.Monitor.DevExpress.TargetDir)" />
 				<File Id="Monitor.DevExpress.XtraRichEdit.v15.1.dll"							Name="DevExpress.XtraRichEdit.v15.1.dll" Source="$(var.Monitor.DevExpress.TargetDir)" />
-				
 			</Component>
 
 			<Component Id="Monitor.DB" Guid="B7677A70-A867-4A2D-BE8E-59D9198BB8DB">
@@ -236,7 +235,6 @@
 				<File Id="Monitor.DevExpress.XtraReports.v15.1.resources.dll"								Name="DevExpress.XtraReports.v15.1.resources.dll" Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
 				<File Id="Monitor.DevExpress.XtraReports.v15.1.Extensions.resources.dll"		Name="DevExpress.XtraReports.v15.1.Extensions.resources.dll" Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
 				<File Id="Monitor.DevExpress.XtraRichEdit.v15.1.resources.dll"							Name="DevExpress.XtraRichEdit.v15.1.resources.dll" Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
-				
 			</Component>
 		</DirectoryRef>
 		

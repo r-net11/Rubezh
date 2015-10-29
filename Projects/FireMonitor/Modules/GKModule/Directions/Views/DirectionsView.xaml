@@ -28,7 +28,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" SortMemberPath="Direction.Name" MinWidth="250" Header="Задержка">
+				<DataGridTemplateColumn Width="*" SortMemberPath="Direction.Name" MinWidth="250" Header="Направление">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">

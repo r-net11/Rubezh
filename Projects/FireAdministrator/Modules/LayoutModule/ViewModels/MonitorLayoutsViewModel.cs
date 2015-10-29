@@ -28,6 +28,7 @@ namespace LayoutModule.ViewModels
 			MonitorLayoutViewModel = new MonitorLayoutViewModel();
 			MonitorLayoutsTreeViewModel = new MonitorLayoutsTreeViewModel(this);
 			CreateCommands();
+			RegisterShortcuts();
 			SetRibbonItems();
 			Menu = new MonitorLayoutsMenuViewModel(this);
 			Instance = this;
@@ -102,7 +103,6 @@ namespace LayoutModule.ViewModels
 			LayoutPasteCommand = new RelayCommand(OnLayoutPaste, CanLayoutPaste);
 			_layoutBuffer = null;
 		}
-
 		public RelayCommand AddCommand { get; private set; }
 		private void OnAdd()
 		{
@@ -201,6 +201,15 @@ namespace LayoutModule.ViewModels
 		protected override void UpdateRibbonItems()
 		{
 			base.UpdateRibbonItems();
+		}
+		void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.E, ModifierKeys.Control), EditCommand);
+			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.Delete, ModifierKeys.Control), RemoveCommand);
+			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.C, ModifierKeys.Control), LayoutCopyCommand);
+			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.X, ModifierKeys.Control), LayoutCutCommand);
+			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.V, ModifierKeys.Control), LayoutPasteCommand);
 		}
 		private void SetRibbonItems()
 		{
