@@ -57,6 +57,7 @@ namespace Infrastructure.Client.Plans
 		{
 			var item = GetItem<TItem>((IElementReference)designerItem.Element);
 			if (item != null)
+			{
 				item.Changed += () =>
 				{
 					if (DesignerCanvas.IsPresented(designerItem))
@@ -67,6 +68,13 @@ namespace Infrastructure.Client.Plans
 						DesignerCanvas.Refresh();
 					}
 				};
+				item.UIDChanged += (oldUID, newUID) =>
+				{
+					var elementReference = designerItem.Element as IElementReference;
+					if (elementReference != null && elementReference.ItemUID == oldUID)
+						elementReference.ItemUID = newUID;
+				};
+			}
 		}
 		protected virtual void UpdateProperties<TItem>(CommonDesignerItem designerItem)
 			where TItem : IChangedNotification, IPlanPresentable
