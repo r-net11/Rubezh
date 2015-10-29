@@ -76,7 +76,7 @@ namespace GKProcessor
 		void SetRegime(GKMPTDeviceType deviceType, GKStateBit stateBit)
 		{
 			var count = 0;
-			foreach (var mptDevice in MPT.MPTDevices.Where(x => x.MPTDeviceType == deviceType))
+			foreach (var mptDevice in MPT.MPTDevices.Where(x => x.MPTDeviceType == deviceType && x.Device != null))
 			{
 				if (mptDevice.Device.Driver.IsCardReaderOrCodeReader)
 				{

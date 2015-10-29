@@ -443,7 +443,7 @@ namespace ResursNetwork.Incotex.Models
 			}
 		}
 
-		public void WriteParameter(string parameterName, ValueType value)
+		public OperationResult WriteParameter(string parameterName, ValueType value)
 		{
 			throw new NotImplementedException();
 		}

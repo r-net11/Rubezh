@@ -109,6 +109,7 @@ namespace FireAdministrator
 		void OnConfigurationChanged()
 		{
 			ClientManager.GetLicense();
+			ProcedureExecutionContext.UpdateConfiguration(ClientManager.SystemConfiguration, ClientManager.SecurityConfiguration);
 		}
 		void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
 		{
@@ -146,6 +147,7 @@ namespace FireAdministrator
 			LoadingErrorManager.Clear();
 			ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
 			ServiceFactory.ContentService.Invalidate();
+			ProcedureExecutionContext.UpdateConfiguration(ClientManager.SystemConfiguration, ClientManager.SecurityConfiguration);
 			InitializeModules();
 			LoadingService.Close();
 		}

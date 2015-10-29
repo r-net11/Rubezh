@@ -77,7 +77,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
 		/// </summary>
 		/// <param name="parameterName"></param>
 		/// <param name="value"></param>
-		void WriteParameter(string parameterName, ValueType value);        
+		OperationResult WriteParameter(string parameterName, ValueType value);        
 		
 		#endregion
 
