@@ -36,7 +36,7 @@ namespace Infrastructure.Designer.ViewModels
 				foreach (var designerItem in DesignerCanvas.SelectedItems)
 				{
 					designerItem.UpdateElementProperties();
-					_buffer.Add(designerItem.Element.Clone());
+					_buffer.Add(designerItem.Element);
 				}
 			}
 		}
@@ -69,11 +69,14 @@ namespace Infrastructure.Designer.ViewModels
 					var newItems = new List<DesignerItem>();
 					foreach (var elementBase in _buffer)
 					{
-						var element = elementBase.Clone();
-						element.UID = Guid.NewGuid();
-						var designerItem = DesignerCanvas.CreateElement(element);
-						designerItems.Add(designerItem);
-						newItems.Add(designerItem);
+						if (elementBase.AllowMultipleVizualization)
+						{
+							var element = elementBase.Clone();
+							element.UID = Guid.NewGuid();
+							var designerItem = DesignerCanvas.CreateElement(element);
+							designerItems.Add(designerItem);
+							newItems.Add(designerItem);
+						}
 					}
 					newItems.ForEach(item => item.IsSelected = true);
 					ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Publish(DesignerCanvas.SelectedElements.ToList());
