@@ -45,7 +45,7 @@
     <Compile Include="BCD\BcdConverter.cs" />
     <Compile Include="ComponentModel\EnumTypeConverter.cs" />
     <Compile Include="Incotex\Models\Mercury203Virtual.cs" />
-    <Compile Include="Incotex\Models\PowerCounters.cs" />
+    <Compile Include="Incotex\Models\TariffCounters.cs" />
     <Compile Include="Incotex\NetworkControllers\ApplicationLayer\IncotexNetworkControllerVirtual.cs" />
     <Compile Include="OSI\ApplicationLayer\ConfigurationChangedEventArgs.cs" />
     <Compile Include="OSI\ApplicationLayer\NetworkControllerErrorOccuredEventArgs.cs" />
