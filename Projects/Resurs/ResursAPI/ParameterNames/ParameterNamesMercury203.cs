@@ -25,9 +25,5 @@ namespace ResursAPI.ParameterNames
 		/// тип в БД - Double, только для чтения
         /// </summary>
         public const string PowerLimitPerMonth = "PowerLimitPerMonth";
-		/// <summary>
-		/// Читает содержимое тарифных аккумуляторов (счётчиков)
-		/// </summary>
-		public const string TariffCounters = "PowerCounters"; 
 	}
 }

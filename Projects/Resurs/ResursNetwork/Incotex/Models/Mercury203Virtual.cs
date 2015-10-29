@@ -529,7 +529,7 @@ namespace ResursNetwork.Incotex.Models
 		/// Чтение содержимого тарифных аккумуляторов (CMD=27H)
 		/// </summary>
 		/// <returns></returns>
-		public PowerCounters ReadConsumedPower()
+		public TariffCounters ReadConsumedPower()
 		{
 			throw new NotImplementedException();
 		}
