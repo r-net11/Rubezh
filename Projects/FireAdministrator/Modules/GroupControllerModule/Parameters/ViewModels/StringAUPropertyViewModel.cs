@@ -54,21 +54,18 @@ namespace GKModule.DeviceProperties
 				{
 					if (result <= DriverProperty.Max)
 					{
-						if (result >= DriverProperty.Min)
+						if (result < DriverProperty.Min)
 						{
-							Save(result);
-							_text = result.ToString();
-						}
-						else
-						{
-							_text = DriverProperty.Min.ToString();
+							result = DriverProperty.Min;
 						}
 					}
 					else
 					{
-						_text = DriverProperty.Max.ToString();
+						result = DriverProperty.Max;
 					}
 				}
+				Save(result);
+				_text = result.ToString();
 				OnPropertyChanged(() => Text);
 			}
 		}
