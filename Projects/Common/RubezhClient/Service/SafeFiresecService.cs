@@ -5,7 +5,7 @@ using Common;
 using RubezhAPI;
 using RubezhAPI.Models;
 using Infrastructure.Common;
-using FiresecLicense;
+using RubezhAPI.License;
 
 namespace RubezhClient
 {

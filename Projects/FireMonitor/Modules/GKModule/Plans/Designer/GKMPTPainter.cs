@@ -1,12 +1,4 @@
-﻿using System.Globalization;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using RubezhAPI;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using GKModule.Events;
-using GKModule.ViewModels;
+﻿using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Client.Plans.Presenter;
@@ -16,23 +8,28 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace GKModule.Plans.Designer
 {
 	class GKMPTPainter : BaseZonePainter<GKMPT, ShowGKMPTEvent>
 	{
-		private GeometryDrawing _textDrawing;
-		private ScaleTransform _scaleTransform;
-		private bool _showText = false;
+		GeometryDrawing _textDrawing;
+		ScaleTransform _scaleTransform;
 
 		public GKMPTPainter(PresenterItem presenterItem)
 			: base(presenterItem)
 		{
 			_textDrawing = null;
 			_scaleTransform = new ScaleTransform();
-			_showText = Item != null && presenterItem.Element is ElementRectangleGKMPT;
 		}
 
 		protected override GKMPT CreateItem(PresenterItem presenterItem)
@@ -66,7 +63,7 @@ namespace GKModule.Plans.Designer
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
-		private void OnShowJournal()
+		void OnShowJournal()
 		{
 			if (Item != null)
 				ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(new List<Guid> { Item.UID });
@@ -80,30 +77,29 @@ namespace GKModule.Plans.Designer
 				return;
 
 			base.Transform();
-			if (_showText)
+
+			var text = Item.State.StateClass.ToDescription();
+			if (Item.State.StateClasses.Contains(XStateClass.TurningOn) && Item.State.OnDelay > 0)
+				text += "\n" + string.Format("Задержка: {0} сек", Item.State.OnDelay);
+			else if (Item.State.StateClasses.Contains(XStateClass.On) && Item.State.HoldDelay > 0)
+				text += "\n" + string.Format("Удержание: {0} сек", Item.State.HoldDelay);
+
+			if (!string.IsNullOrEmpty(text))
 			{
-				var text = Item.State.StateClass.ToDescription();
-				if (Item.State.StateClasses.Contains(XStateClass.TurningOn) && Item.State.OnDelay > 0)
-					text += "\n" + string.Format("Задержка: {0} сек", Item.State.OnDelay);
-				else if (Item.State.StateClasses.Contains(XStateClass.On) && Item.State.HoldDelay > 0)
-					text += "\n" + string.Format("Удержание: {0} сек", Item.State.HoldDelay);
-				if (string.IsNullOrEmpty(text))
-					_textDrawing = null;
-				else
-				{
-					var typeface = new Typeface("Arial");
-					var formattedText = new FormattedText(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, 10, PainterCache.BlackBrush);
-					Point point = Geometry.Bounds.TopLeft;
-					_scaleTransform.CenterX = point.X;
-					_scaleTransform.CenterY = point.Y;
-					_scaleTransform.ScaleX = Geometry.Bounds.Width / formattedText.Width;
-					_scaleTransform.ScaleY = Geometry.Bounds.Height / formattedText.Height;
-					_textDrawing = new GeometryDrawing(PainterCache.BlackBrush, null, null);
-					_textDrawing.Geometry = formattedText.BuildGeometry(point);
-				}
+				var typeface = new Typeface("Arial");
+				var formattedText = new FormattedText(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, 10, PainterCache.BlackBrush);
+				Point point = Geometry.Bounds.TopLeft;
+				_scaleTransform.CenterX = point.X;
+				_scaleTransform.CenterY = point.Y;
+				_scaleTransform.ScaleX = Geometry.Bounds.Width / formattedText.Width;
+				_scaleTransform.ScaleY = Geometry.Bounds.Height / formattedText.Height;
+				_textDrawing = new GeometryDrawing(PainterCache.BlackBrush, null, null);
+				_textDrawing.Geometry = formattedText.BuildGeometry(point);
 			}
 			else
+			{
 				_textDrawing = null;
+			}
 		}
 		protected override void InnerDraw(DrawingContext drawingContext)
 		{

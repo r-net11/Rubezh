@@ -293,7 +293,11 @@ namespace RubezhClient
 			}
 
 			device.Properties = new List<GKProperty>();
+			Guid oldUID = device.UID;
 			device.UID = Guid.NewGuid();
+
+			device.OnUIDChanged(oldUID, device.UID);
+
 			device.OutDependentElements.ForEach(x =>
 			{
 				x.Invalidate();

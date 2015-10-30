@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Text;
 using ResursNetwork.OSI.ApplicationLayer.Devices;
+using ResursAPI.Models;
 
 namespace ResursNetwork.OSI.Messages.Transactions
 {

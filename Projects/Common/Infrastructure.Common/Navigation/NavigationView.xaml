@@ -27,7 +27,7 @@
 							</Style>
 						</HierarchicalDataTemplate.Resources>
 						<StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{Binding Title}">
-							<Grid Width="16" Background="{Binding Icon, Converter={StaticResource StringToResourceConverter}}" />
+							<Grid Width="16" Height="16" Background="{Binding Icon, Converter={StaticResource StringToResourceConverter}}" />
 							<TextBlock Text="{Binding Title}" Visibility="{Binding Context.TextVisibility, Converter={StaticResource BoolToVisibilityConverter}}" />
 						</StackPanel>
 					</HierarchicalDataTemplate>

@@ -118,15 +118,18 @@ namespace GKModule.ViewModels
 			var parameterTemplateSelectationViewModel = new ParameterTemplateSelectationViewModel();
 			if (DialogService.ShowModalWindow(parameterTemplateSelectationViewModel))
 			{
-				CopyParametersFromTemplate(parameterTemplateSelectationViewModel.SelectedParameterTemplate, Device);
-				PropertiesViewModel.Update();
+				if (HasAUProperties && IsEditableDevice(Device))
+				{
+					CopyParametersFromTemplate(parameterTemplateSelectationViewModel.SelectedParameterTemplate, Device);
+					PropertiesViewModel.Update(); 
+				}
 			}
 			UpdateDeviceParameterMissmatch();
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanPasteTemplate()
 		{
-			return HasAUProperties;
+			return HasAUProperties && IsEditableDevice(Device);
 		}
 
 		public RelayCommand PasteAllTemplateCommand { get; private set; }
@@ -135,12 +138,21 @@ namespace GKModule.ViewModels
 			var parameterTemplateSelectationViewModel = new ParameterTemplateSelectationViewModel();
 			if (DialogService.ShowModalWindow(parameterTemplateSelectationViewModel))
 			{
-				foreach (var device in Device.AllChildrenAndSelf)
+				List<GKDevice> deviceCollection;
+				if (HasAUProperties)
+					deviceCollection = Device.AllChildrenAndSelf;
+				else
+					deviceCollection = Device.AllChildren;
+
+				foreach (var device in deviceCollection)
 				{
-					CopyParametersFromTemplate(parameterTemplateSelectationViewModel.SelectedParameterTemplate, device);
-					var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
-					if (deviceViewModel != null)
-						deviceViewModel.PropertiesViewModel.Update();
+					if (IsEditableDevice(device))
+					{
+						CopyParametersFromTemplate(parameterTemplateSelectationViewModel.SelectedParameterTemplate, device);
+						var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
+						if (deviceViewModel != null)
+							deviceViewModel.PropertiesViewModel.Update(); 
+					}
 				}
 			}
 			UpdateDeviceParameterMissmatch();
@@ -148,7 +160,20 @@ namespace GKModule.ViewModels
 		}
 		bool CanPasteAllTemplate()
 		{
-			return Children.Count() > 0;
+			if (Children.Count() > 0)
+			{
+				foreach (var device in Device.AllChildren)
+				{
+					if (IsEditableDevice(device))
+						return true;
+				}
+				return HasAUProperties;
+			}
+			return false;
+		}
+		bool IsEditableDevice(GKDevice device)
+		{
+			return !device.IsInMPT;
 		}
 
 		static void CopyParametersFromTemplate(GKParameterTemplate parameterTemplate, GKDevice device)

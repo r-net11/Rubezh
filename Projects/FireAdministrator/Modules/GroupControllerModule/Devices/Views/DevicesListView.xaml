@@ -21,7 +21,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="Адрес" SortMemberPath="SortingAddress" Width="100">
+			<DataGridTemplateColumn Header="Адрес" SortMemberPath="SortingAddress" Width="Auto">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding Device.DottedPresentationAddress}" />

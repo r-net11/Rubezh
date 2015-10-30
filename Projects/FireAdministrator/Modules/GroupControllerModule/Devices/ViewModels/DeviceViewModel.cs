@@ -654,6 +654,7 @@ namespace GKModule.ViewModels
 		private void OnAllowMultipleVizualizationCommand(bool isAllow)
 		{
 			Device.AllowMultipleVizualization = isAllow;
+			Device.OnChanged();
 			Update();
 		}
 		private bool CanAllowMultipleVizualizationCommand(bool isAllow)

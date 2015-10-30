@@ -45,18 +45,19 @@
     <Compile Include="BCD\BcdConverter.cs" />
     <Compile Include="ComponentModel\EnumTypeConverter.cs" />
     <Compile Include="Incotex\Models\Mercury203Virtual.cs" />
-    <Compile Include="Incotex\Models\PowerCounters.cs" />
+    <Compile Include="Incotex\Models\TariffCounters.cs" />
     <Compile Include="Incotex\NetworkControllers\ApplicationLayer\IncotexNetworkControllerVirtual.cs" />
     <Compile Include="OSI\ApplicationLayer\ConfigurationChangedEventArgs.cs" />
     <Compile Include="OSI\ApplicationLayer\NetworkControllerErrorOccuredEventArgs.cs" />
     <Compile Include="OSI\ApplicationLayer\NetworkRequestCompletedArgs.cs" />
+    <Compile Include="OSI\ApplicationLayer\OperationResult.cs" />
     <Compile Include="OSI\ApplicationLayer\ParameterChangedArgs.cs" />
     <Compile Include="OSI\Messages\AsyncRequestResult.cs" />
     <Compile Include="OSI\ApplicationLayer\Devices\Collections\ObjectModel\DevicesCollectionChangedEventArgs.cs" />
     <Compile Include="OSI\ApplicationLayer\Devices\Collections\ObjectModel\DevicesCollection.cs" />
     <Compile Include="OSI\ApplicationLayer\Devices\DeviceBase.cs" />
     <Compile Include="OSI\ApplicationLayer\Devices\DeviceCommand.cs" />
-    <Compile Include="OSI\ApplicationLayer\Devices\DeviceType.cs" />
+    <Compile Include="OSI\ApplicationLayer\Devices\DeviceModel.cs" />
     <Compile Include="OSI\ApplicationLayer\Devices\Collections\ObjectModel\ParatemersCollection.cs" />
     <Compile Include="OSI\ApplicationLayer\Devices\ErrorOccuredEventArgs.cs" />
     <Compile Include="OSI\ApplicationLayer\Devices\IDevice.cs" />
@@ -98,8 +99,6 @@
     <Compile Include="OSI\Messages\Transactions\EnumTransactionType.cs" />
     <Compile Include="OSI\Messages\Transactions\NetworkRequest.cs" />
     <Compile Include="OSI\Messages\Transactions\Transaction.cs" />
-    <Compile Include="OSI\Messages\Transactions\TransactionErrorCodes.cs" />
-    <Compile Include="OSI\Messages\Transactions\TransactionError.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

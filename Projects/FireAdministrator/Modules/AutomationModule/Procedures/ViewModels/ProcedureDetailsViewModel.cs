@@ -14,7 +14,7 @@ namespace AutomationModule.ViewModels
 		{
 			if (procedure == null)
 			{
-				Procedure = new Procedure();
+				Procedure = new Procedure { ContextType = ContextType.Server };
 				Title = "Создание процедуры";
 			}
 			else

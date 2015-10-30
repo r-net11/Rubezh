@@ -1,92 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 using System.Security.Cryptography;
 
-namespace FiresecLicense
+namespace RubezhLicense
 {
-    public static class FiresecLicenseManager
+    public class RubezhLicenseManager<T> where T : new()
     {
-		public static event Action LicenseChanged;
-
-		static InitialKey _initialKey;
-		public static InitialKey InitialKey 
-		{ 
-			get
-			{
-				if (_initialKey == null)
-					_initialKey = InitialKey.Generate();
-				return _initialKey;
-			}
-		}
-
-		static FiresecLicenseInfo _currentLicenseInfo = new FiresecLicenseInfo();
-		public static FiresecLicenseInfo CurrentLicenseInfo 
-		{
-			get { return _currentLicenseInfo; } 
-			set
-			{
-				if (!TheSame(_currentLicenseInfo, value))
-				{
-					PreviousLicenseInfo = _currentLicenseInfo;
-					_currentLicenseInfo = value;
-					if (LicenseChanged != null)
-						LicenseChanged();
-				}
-			}
-		}
-
-		public static FiresecLicenseInfo PreviousLicenseInfo { get; private set; }
-
-		public static FiresecLicenseInfo TryLoad(string fileName)
-		{
-			return TryLoad(fileName, InitialKey);
-		}
-        public static FiresecLicenseInfo TryLoad(string fileName, InitialKey key)
+        public T TryLoad(string fileName, InitialKey key)
         {
-			var result = Deserialize(Decrypt(LoadFromFile(fileName), key.BinaryValue));
-			if (result != null)
-				result.LicenseMode = LicenseMode.HasLicense;
-			return result;
+			return Deserialize(Decrypt(LoadFromFile(fileName), key.BinaryValue));
         }
-		public static bool TrySave(string fileName, FiresecLicenseInfo licenseInfo)
-		{
-			return TrySave(fileName, licenseInfo, InitialKey);
-		}
-		public static bool TrySave(string fileName, FiresecLicenseInfo licenseInfo, InitialKey key)
+
+		public bool TrySave(string fileName, T licenseInfo, InitialKey key)
         {
 			return SaveToFile(Encrypt(Serialize(licenseInfo), key.BinaryValue), fileName);
         }
 
-		public static bool CheckLicense(string path)
-		{
-			return TryLoad(path) != null;
-		}
-
 		#region Private members
 
-		static bool TheSame(FiresecLicenseInfo licenseInfo1, FiresecLicenseInfo licenseInfo2)
-		{
-			if (licenseInfo1 == licenseInfo2)
-				return true;
-			if (licenseInfo1 == null || licenseInfo2 == null)
-				return false;
-			return licenseInfo1.RemoteWorkplacesCount == licenseInfo2.RemoteWorkplacesCount
-					&& licenseInfo1.HasFirefighting == licenseInfo2.HasFirefighting
-					&& licenseInfo1.HasGuard == licenseInfo2.HasGuard
-					&& licenseInfo1.HasSKD == licenseInfo2.HasSKD
-					&& licenseInfo1.HasVideo == licenseInfo2.HasVideo
-					&& licenseInfo2.HasOpcServer == licenseInfo2.HasOpcServer;
-		}
-		static string Serialize(FiresecLicenseInfo licenseInfo)
+		string Serialize(T licenseInfo)
         {
             try
             {
                 using (MemoryStream memoryStream = new MemoryStream())
                 {
-					new XmlSerializer(typeof(FiresecLicenseInfo)).Serialize(memoryStream, licenseInfo);
+					new XmlSerializer(typeof(T)).Serialize(memoryStream, licenseInfo);
                     memoryStream.Position = 0;
                     return new StreamReader(memoryStream).ReadToEnd();
                 }
@@ -97,26 +37,26 @@ namespace FiresecLicense
             }
         }
 
-		static FiresecLicenseInfo Deserialize(string data)
+		T Deserialize(string data)
         {
             if (data == null)
-                return null;
+                return default(T);
             
             try
             {
                 using (MemoryStream memoryStream = new MemoryStream(Encoding.Unicode.GetBytes(data)))
                 {
-					var xmlSerializer = new XmlSerializer(typeof(FiresecLicenseInfo));
-					return (FiresecLicenseInfo)xmlSerializer.Deserialize(memoryStream);
+					var xmlSerializer = new XmlSerializer(typeof(T));
+					return (T)xmlSerializer.Deserialize(memoryStream);
                 }
             }
             catch
             {
-                return null;
+				return default(T);
             }
         }
 
-        static byte[] Encrypt(string data, byte[] key)
+        byte[] Encrypt(string data, byte[] key)
         {
             if (data == null)
                 return null;
@@ -149,7 +89,7 @@ namespace FiresecLicense
             }
         }
 
-        static string Decrypt(byte[] data, byte[] key)
+        string Decrypt(byte[] data, byte[] key)
         {
             if (data == null)
                 return null;
@@ -184,7 +124,7 @@ namespace FiresecLicense
             }
         }
 
-        static byte[] LoadFromFile(string fileName)
+        byte[] LoadFromFile(string fileName)
         {
             try
             {
@@ -205,7 +145,7 @@ namespace FiresecLicense
             }
         }
 
-        static bool SaveToFile(byte[] data, string fileName)
+        bool SaveToFile(byte[] data, string fileName)
         {
             if (data == null)
                 return false;
@@ -227,7 +167,7 @@ namespace FiresecLicense
             }
         }
 
-        static byte[] FillBytes(byte[] input, int bits)
+        byte[] FillBytes(byte[] input, int bits)
         {
             if (input == null || input.Length == 0 || bits <= 0)
                 return null;

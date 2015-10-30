@@ -37,8 +37,9 @@ namespace RubezhDAL.DataClasses
         {
             try
             {
-                var journals = new List<Journal>();
-                for (int i = 0; i < 100000; i++)
+				var random = new Random();
+				var journals = new List<Journal>();
+                for (int i = 0; i < 1500000; i++)
                 {
                     var journal = new Journal
                     {
@@ -53,7 +54,7 @@ namespace RubezhDAL.DataClasses
                     };
                     journals.Add(journal);    
                 }
-                Context.Journals.AddRange(journals);
+				Context.BulkInsert(journals);
                 Context.SaveChanges();
                 return new OperationResult();
             }

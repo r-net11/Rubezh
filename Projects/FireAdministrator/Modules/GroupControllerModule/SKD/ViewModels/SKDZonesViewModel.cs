@@ -136,7 +136,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedZone.Zone.PresentationName))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedZone.Zone.PresentationName + " ?"))
 			{
 				var index = Zones.IndexOf(SelectedZone);
 				GKManager.RemoveSKDZone(SelectedZone.Zone);

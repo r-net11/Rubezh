@@ -125,7 +125,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить направление " + SelectedDirection.Direction.PresentationName))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить направление " + SelectedDirection.Direction.PresentationName + " ?"))
 			{
 				var index = Directions.IndexOf(SelectedDirection);
 				GKManager.RemoveDirection(SelectedDirection.Direction);

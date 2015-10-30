@@ -3,16 +3,14 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
-	<UserControl.Resources>
-		<ContextMenu x:Key="ZoneContextMenu">
-			<Controls:IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить дочернюю зону (Ctrl+N)" />
-			<Controls:IconedMenuItem Command="{Binding AddToParentCommand}" ImageSource="BAddChild" Text="Добавить к родительской зоне (Ctrl+M)" />
-			<Controls:IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete" Text="Удалить (Ctrl+Del)" />
-			<Controls:IconedMenuItem Command="{Binding EditCommand}" ImageSource="BSettings" Text="Редактировать" />
-		</ContextMenu>
-	</UserControl.Resources>
-
 	<DataGrid Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" CanUserSortColumns="True">
+		<DataGrid.ContextMenu>
+			<ContextMenu>
+				<Controls:IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить (Ctrl+N)" />
+				<Controls:IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete" Text="Удалить (Ctrl+Del)" />
+				<Controls:IconedMenuItem Command="{Binding EditCommand}" ImageSource="BSettings" Text="Редактировать (Ctrl+E)" />
+			</ContextMenu>
+		</DataGrid.ContextMenu>
 		<DataGrid.Resources>
 				<Style x:Key="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
 					<Setter Property="MinWidth" Value="0" />

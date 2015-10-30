@@ -2,7 +2,7 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Converter="clr-namespace:Resurs.Converters"
-			 Width="900" Height="350">
+			 Width="790" Height="350">
 	<UserControl.Resources>
 		<Converter:TariffTypeToResourceTypeConverter x:Key="TariffTypeToResourceTypeConverter" />
 	</UserControl.Resources>
@@ -43,7 +43,7 @@
 					   Text="Тип ресурса" 
 					   Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}" />
 			<ComboBox Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="5"
-					  ItemsSource="{Binding TariffType}" 
+					  ItemsSource="{Binding TariffTypes}" 
 					  SelectedItem="{Binding SelectedTariffType}" 
 					  Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}" >
 				<ComboBox.ItemTemplate>
@@ -68,13 +68,11 @@
 					  ItemsSource="{Binding TariffPartsNumberEnum}" 
 					  SelectedItem="{Binding SelectedTariffPartsNumber}" />
 
-			<StackPanel Grid.Column="0" Grid.Row="5" Margin="5">
-				<TextBlock Margin="5">
+				<TextBlock Grid.Column="0" Grid.Row="5" Margin="5">
 					<Hyperlink Command="{Binding EditDevicesCommand}" Style="{StaticResource HyperlinkStyle}" IsEnabled="{Binding IsEnable}">
 						<TextBlock Text="Привязать устройства" />
 					</Hyperlink>
 				</TextBlock>
-			</StackPanel>
 		</Grid>
 		<ScrollViewer VerticalAlignment="Top" HorizontalAlignment="Left" VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="0" Margin="5">
 			<ItemsControl ItemsSource="{Binding TariffParts}">
@@ -91,7 +89,7 @@
 								</Grid.RowDefinitions>
 								<Grid Grid.Column="0" Grid.Row="0">
 									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="100" />
+										<ColumnDefinition Width="90" />
 										<ColumnDefinition Width="100" />
 									</Grid.ColumnDefinitions>
 									<Grid.RowDefinitions>
@@ -100,48 +98,52 @@
 										<RowDefinition Height="Auto" />
 									</Grid.RowDefinitions>
 									<StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" Margin="5 5 5 2">
-										<TextBlock Margin="0"
-											Text="Цена за " Style="{DynamicResource TextBlockDetailsStyle}" />
-										<TextBlock Margin="0"
-												   Text="{Binding ElementName=myControl, Path=DataContext.SelectedTariffType, Converter={StaticResource TariffTypeToResourceTypeConverter}}" 
-												   Style="{DynamicResource TextBlockDetailsStyle}" />
+										<TextBlock Text="Цена за " Style="{DynamicResource TextBlockDetailsStyle}" Margin="0" />
+										<TextBlock Text="{Binding ElementName=myControl, Path=DataContext.SelectedTariffType, Converter={StaticResource TariffTypeToResourceTypeConverter}}" 
+												   Style="{DynamicResource TextBlockDetailsStyle}" Margin="0"/>
 									</StackPanel>
-									<TextBlock Grid.Column="0" Grid.Row="1" Margin="5 2 5 2" Text="Начало" Style="{DynamicResource TextBlockDetailsStyle}" />
-									<TextBlock Grid.Column="0" Grid.Row="2" Margin="5 2 5 5" Text="Конец" Style="{DynamicResource TextBlockDetailsStyle}" />
+									<TextBlock Grid.Column="0" Grid.Row="1" Margin="5 2 5 5" Text="Начало" Style="{DynamicResource TextBlockDetailsStyle}" />
 									<StackPanel Grid.Column="1" Grid.Row="0" Margin="5 5 5 2" Orientation="Horizontal">
 										<TextBox Text="{Binding Price}" Width="65" MinWidth="65" Margin="0" />
 										<TextBlock Text="руб" Margin="5 0 0 0" Style="{DynamicResource TextBlockDetailsStyle}" />
 									</StackPanel>
-									<DatePickerTextBox Grid.Column="1" Grid.Row="1" Margin="5 2 5 2" Text="{Binding StartTime}" />
-									<DatePickerTextBox Grid.Column="1" Grid.Row="2" Margin="5 2 5 5" Text="{Binding EndTime}" />
+									<DatePickerTextBox Grid.Column="1" Grid.Row="1" Margin="5 2 5 5" Height="20" Text="{Binding StartTime}">
+										<DatePickerTextBox.Style>
+											<Style TargetType="DatePickerTextBox">
+												<Setter Property="Template">
+													<Setter.Value>
+														<ControlTemplate TargetType="{x:Type DatePickerTextBox}">
+															<Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+																	BorderThickness="{TemplateBinding BorderThickness}" ContextMenu="{x:Null}" CornerRadius="3" Padding="2" />
+														</ControlTemplate>
+													</Setter.Value>
+												</Setter>
+											</Style>
+										</DatePickerTextBox.Style>
+									</DatePickerTextBox>
 								</Grid>
 								<Grid Grid.Column="1" Grid.Row="0" 
 									  Visibility="{Binding ElementName=myControl, Path=DataContext.IsDiscount, Converter={StaticResource BoolToVisibilityConverter}}">
 									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="Auto" />
-										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="105" />
+										<ColumnDefinition Width="110" />
 									</Grid.ColumnDefinitions>
 									<Grid.RowDefinitions>
 										<RowDefinition Height="Auto" />
 										<RowDefinition Height="Auto" />
 									</Grid.RowDefinitions>
-									<TextBlock Text="Цена до исчерпания льготного порога" 
-											   Style="{DynamicResource TextBlockDetailsStyle}"
-											   Margin="4" Grid.Column="0" Grid.Row="0" />
-									<StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" Margin="4" >
-										<TextBlock Margin="0"
-												   Text="Льготный порог " 
-												   Style="{DynamicResource TextBlockDetailsStyle}" />
-										<TextBlock Text="{Binding ElementName=myControl, Path=DataContext.SelectedTariffType, Converter={StaticResource TariffTypeToResourceTypeConverter}}" 
-												   Margin="0" Style="{DynamicResource TextBlockDetailsStyle}" />
-									</StackPanel>
-									<StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Margin="4" >
+									<TextBlock Text="Льготная цена" Style="{DynamicResource TextBlockDetailsStyle}" Margin="5 5 5 2" Grid.Column="0" Grid.Row="0" />
+									<TextBlock Text="Льготный порог " Style="{DynamicResource TextBlockDetailsStyle}" Margin="5 2 5 5" Grid.Column="0" Grid.Row="1" />
+									<StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Margin="5 5 5 2" >
 										<TextBox Margin="0" Width="65" MinWidth="65" HorizontalAlignment="Left"
 												 Text="{Binding Discount}" />
 										<TextBlock Text="руб" Margin="5 0 0 0" Style="{DynamicResource TextBlockDetailsStyle}" />
 									</StackPanel>
-									<TextBox Grid.Column="1" Grid.Row="1" Margin="4" Width="65" MinWidth="65" HorizontalAlignment="Left"
-											 Text="{Binding Threshold}" />
+									<StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Margin="5 2 5 5" >
+										<TextBox Width="65" MinWidth="65" HorizontalAlignment="Left" Text="{Binding Threshold}"  />
+										<TextBlock Text="{Binding ElementName=myControl, Path=DataContext.SelectedTariffType, Converter={StaticResource TariffTypeToResourceTypeConverter}}" 
+												   Margin="5 0 0 0" Style="{DynamicResource TextBlockDetailsStyle}" />
+									</StackPanel>
 								</Grid>
 							</Grid>
 						</Border>

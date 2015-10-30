@@ -9,7 +9,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
     /// <summary>
     /// Типы счётчиков электроэнергии
     /// </summary>
-    public enum DeviceType: int
+    public enum DeviceModel: int
     {
         /// <summary>
         /// Неизвестное устройство

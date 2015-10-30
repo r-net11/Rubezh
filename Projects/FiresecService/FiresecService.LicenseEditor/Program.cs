@@ -1,4 +1,5 @@
-﻿using FiresecLicense;
+﻿using RubezhAPI.License;
+using RubezhLicense;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -19,21 +20,21 @@ namespace FiresecService.LicenseEditor
                 if (key.BinaryValue == null)
                     return;
 
-				int remoteWorkplacesCount;
-				if (!int.TryParse(args[2], out remoteWorkplacesCount))
+				int remoteClientsCount;
+				if (!int.TryParse(args[2], out remoteClientsCount))
                     return;
 
 			    var licenseInfo = new FiresecLicenseInfo()
 				{
-					RemoteWorkplacesCount = remoteWorkplacesCount,
+					RemoteClientsCount = remoteClientsCount,
 					HasFirefighting = args.Any(x => x.Trim().ToLower() == "firefighting"),
 					HasGuard = args.Any(x => x.Trim().ToLower() == "guard"),
 					HasSKD = args.Any(x => x.Trim().ToLower() == "skd"),
 					HasVideo = args.Any(x => x.Trim().ToLower() == "video"),
 					HasOpcServer = args.Any(x => x.Trim().ToLower() == "opcserver")
 				};
-	                
-				FiresecLicenseManager.TrySave(args[0], licenseInfo, key);
+
+				LicenseManager.TrySave(args[0], licenseInfo, key);
 
                 return;
             }

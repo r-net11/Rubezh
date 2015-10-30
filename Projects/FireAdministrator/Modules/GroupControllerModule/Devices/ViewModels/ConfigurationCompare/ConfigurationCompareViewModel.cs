@@ -143,7 +143,8 @@ namespace GKModule.ViewModels
 			var unionObjects = objects1.Select(object1 => (ObjectViewModel)object1.Clone()).ToList();
 			foreach (var object2 in objects2)
 			{
-				if (unionObjects.All(x => x.Compare(x, object2) != 0))
+				//if (unionObjects.All(x => x.Compare(x, object2) != 0))
+				if (unionObjects.All(x => x.SortingName != object2.SortingName))
 					unionObjects.Add(object2);
 			}
 			unionObjects.Sort();

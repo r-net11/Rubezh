@@ -14,7 +14,10 @@ namespace Resurs.ViewModels
 		public SettingsViewModel()
 		{
 			GenerateCommand = new RelayCommand(OnGenerate);
+			LicenseViewModel = new LicenseViewModel();
 		}
+
+		public LicenseViewModel LicenseViewModel { get; private set; }
 
 		public RelayCommand GenerateCommand { get; private set; }
 		void OnGenerate()
@@ -66,7 +69,6 @@ namespace Resurs.ViewModels
 					tariffParts.Add(new TariffPart
 					{
 						Discount = random.Next(0, 1000),
-						EndTime = new TimeSpan(random.Next(0, 23), random.Next(0, 59), random.Next(0, 59)),
 						StartTime = new TimeSpan(random.Next(0, 23), random.Next(0, 59), random.Next(0, 59)),
 						Price = random.Next(0, 1000),
 						Tariff = tariffs[i],

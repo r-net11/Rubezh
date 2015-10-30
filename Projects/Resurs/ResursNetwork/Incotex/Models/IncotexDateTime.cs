@@ -20,6 +20,7 @@ namespace ResursNetwork.Incotex.Models
         /// </summary>
         Selebration = 7
     }
+
     public struct IncotexDateTime
     {
         #region Fields And Properties
@@ -40,6 +41,7 @@ namespace ResursNetwork.Incotex.Models
             get { return _DayOfWeek; }
             set { _DayOfWeek = value; }
         }
+
         /// <summary>
         /// Секунды
         /// </summary>
@@ -59,6 +61,7 @@ namespace ResursNetwork.Incotex.Models
                 }
             }
         }
+
         /// <summary>
         /// Минуты
         /// </summary>
@@ -78,6 +81,7 @@ namespace ResursNetwork.Incotex.Models
                 }
             }
         }
+
         /// <summary>
         /// Часы
         /// </summary>
@@ -97,6 +101,7 @@ namespace ResursNetwork.Incotex.Models
                 }  
             }
         }
+
         public byte DayOfMonth
         {
             get { return _DayOfMonth; }
@@ -113,6 +118,7 @@ namespace ResursNetwork.Incotex.Models
                 } 
             }
         }
+
         public byte Month
         {
             get { return _Month; }
@@ -146,6 +152,7 @@ namespace ResursNetwork.Incotex.Models
                 }                 
             }
         }
+
         #endregion
 
         #region Methods
@@ -156,8 +163,11 @@ namespace ResursNetwork.Incotex.Models
         public System.DateTime ToDateTime()
         {
             return new System.DateTime((2000 + BcdConverter.ToByte(Year)),
-                BcdConverter.ToByte(Month), BcdConverter.ToByte(DayOfMonth), BcdConverter.ToByte(Hours),
-                BcdConverter.ToByte(Minutes), BcdConverter.ToByte(Seconds));
+                Convert.ToInt32(BcdConverter.ToByte(Month)),
+				Convert.ToInt32(BcdConverter.ToByte(DayOfMonth)), 
+				Convert.ToInt32(BcdConverter.ToByte(Hours)),
+                Convert.ToInt32(BcdConverter.ToByte(Minutes)), 
+				Convert.ToInt32(BcdConverter.ToByte(Seconds)));
         }
 
 		/// <summary>

@@ -72,7 +72,9 @@ namespace SettingsModule.ViewModels
 				{
 					if (IsServerAuto)
 					{
-						var path = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\FiresecService\FiresecService.exe");
+						var entryAssemblyLocation = Assembly.GetEntryAssembly().Location;
+						var rubezhDirectoryPath = Path.GetDirectoryName(Path.GetDirectoryName(entryAssemblyLocation));
+						var path = Path.GetFullPath(rubezhDirectoryPath + @"..\FiresecService\FiresecService.exe");
 						registryKey.SetValue("FiresecService", path);
 					}
 					else if (registryKey.GetValue("FiresecService") != null)

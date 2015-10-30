@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using ResursNetwork.OSI.ApplicationLayer.Devices;
 using ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters;
@@ -12,6 +13,7 @@ using ResursNetwork.Incotex.Models;
 using ResursNetwork.Incotex.NetworkControllers.Messages;
 using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer;
 using ResursNetwork.Management;
+using ResursAPI.Models;
 using ResursAPI.ParameterNames;
 using ResursAPI.CommandNames;
 using Common;
@@ -30,9 +32,9 @@ namespace ResursNetwork.Incotex.Models
         /// </summary>
         private List<NetworkRequest> _ActiveRequests = new List<NetworkRequest>();
 
-        public override DeviceType DeviceType
+        public override DeviceModel DeviceModel
         {
-            get { return DeviceType.Mercury203; }
+            get { return DeviceModel.Mercury203; }
         }
 
 		public override uint Address
@@ -56,7 +58,8 @@ namespace ResursNetwork.Incotex.Models
 		{
 			get
 			{
-				return (System.DateTime)_Parameters[ParameterNamesMercury203.DateTime].Value;
+				return IncotexDateTime.FromIncotexDateTime(
+					(IncotexDateTime)_Parameters[ParameterNamesMercury203.DateTime].Value);
 			}
 			set
 			{
@@ -101,7 +104,7 @@ namespace ResursNetwork.Incotex.Models
                 PollingEnabled = true, 
                 ReadOnly = false,
                 ValueConverter = new IncotexDataTimeTypeConverter(),
-                Value = new IncotexDateTime()
+                Value = IncotexDateTime.FromDateTime(DateTime.Now)
             });
 
             _Parameters.Add(new Parameter(typeof(UInt16)) 
@@ -114,44 +117,44 @@ namespace ResursNetwork.Incotex.Models
                 Value = (UInt16)0
             });
 
-			_Parameters.Add(new Parameter(typeof(UInt32))
+			_Parameters.Add(new Parameter(typeof(float))
 			{
 				Name = ParameterNamesMercury203.CounterTarif1,
 				Description = "Счётчик тарифа 1",
 				PollingEnabled = true,
 				ReadOnly = true,
 				ValueConverter = null,
-				Value = (UInt32)0
+				Value = (float)0
 			});
 
-			_Parameters.Add(new Parameter(typeof(UInt32))
+			_Parameters.Add(new Parameter(typeof(float))
 			{
 				Name = ParameterNamesMercury203.CounterTarif2,
 				Description = "Счётчик тарифа 2",
 				PollingEnabled = true,
 				ReadOnly = true,
 				ValueConverter = null,
-				Value = (UInt32)0
+				Value = (float)0
 			});
 
-			_Parameters.Add(new Parameter(typeof(UInt32))
+			_Parameters.Add(new Parameter(typeof(float))
 			{
 				Name = ParameterNamesMercury203.CounterTarif3,
 				Description = "Счётчик тарифа 3",
 				PollingEnabled = true,
 				ReadOnly = true,
 				ValueConverter = null,
-				Value = (UInt32)0
+				Value = (float)0
 			});
 
-			_Parameters.Add(new Parameter(typeof(UInt32))
+			_Parameters.Add(new Parameter(typeof(float))
 			{
 				Name = ParameterNamesMercury203.CounterTarif4,
-				Description = "Счётчик тарифа 3",
+				Description = "Счётчик тарифа 4",
 				PollingEnabled = true,
 				ReadOnly = true,
 				ValueConverter = null,
-				Value = (UInt32)0
+				Value = (float)0
 			});
         }
 
@@ -163,14 +166,26 @@ namespace ResursNetwork.Incotex.Models
 
             switch ((Mercury203CmdCode)request.CmdCode)
             {
+				case Mercury203CmdCode.WriteDateTime:
+					{
+						GetAnswerWriteDateTime(networkRequest); break;
+					}
                 case Mercury203CmdCode.SetNetworkAddress:
                     {
-                        GetAnswerNetwokAdderss(networkRequest); break;
+                        GetAnswerWriteNetwokAdderss(networkRequest); break;
                     }
                 case Mercury203CmdCode.ReadGroupAddress:
                     {
-                        GetReadGroupAddress(networkRequest); break;
+                        GetAnswerReadGroupAddress(networkRequest); break;
                     }
+				case Mercury203CmdCode.ReadDateTime:
+					{
+						GetAnswerReadDateTime(networkRequest); break;
+					}
+				case Mercury203CmdCode.ReadTariffAccumulators:
+					{
+						GetAnswerReadTariffAccumulators(networkRequest); break;
+					}
                 default:
                     {
                         throw new NotImplementedException(
@@ -196,6 +211,141 @@ namespace ResursNetwork.Incotex.Models
 								Id, commandName));
 						}
 				}
+			}
+		}
+
+		public override OperationResult ReadParameter(string parameterName)
+		{
+			IAsyncRequestResult asyncResult;
+ 
+			switch(parameterName)
+			{
+				case ParameterNamesMercury203.GADDR:
+					{
+						asyncResult = ReadGroupAddress(isExternalCall: true);
+						// Ждём завершения операции
+						while (!asyncResult.IsCompleted) 
+						{
+							Thread.Sleep(50);
+						}
+						// Возвращает результат
+						return new OperationResult
+						{
+							Result = asyncResult.Error,
+							Value = Parameters[parameterName].Value
+						};
+					}
+				case ParameterNamesMercury203.CounterTarif1:
+					{
+						asyncResult = ReadTariffAccumulators(isExternalCall: true);
+						// Ждём завершения операции
+						while (!asyncResult.IsCompleted)
+						{
+							Thread.Sleep(50);
+						}
+						// Возвращает результат
+						return new OperationResult
+						{
+							Result = asyncResult.Error,
+							Value = Parameters[parameterName].Value
+						};
+					}
+				case ParameterNamesMercury203.CounterTarif2:
+					{
+						asyncResult = ReadTariffAccumulators(isExternalCall: true);
+						// Ждём завершения операции
+						while (!asyncResult.IsCompleted)
+						{
+							Thread.Sleep(50);
+						}
+						// Возвращает результат
+						return new OperationResult
+						{
+							Result = asyncResult.Error,
+							Value = Parameters[parameterName].Value
+						};
+					}
+				case ParameterNamesMercury203.CounterTarif3:
+					{
+						asyncResult = ReadTariffAccumulators(isExternalCall: true);
+						// Ждём завершения операции
+						while (!asyncResult.IsCompleted)
+						{
+							Thread.Sleep(50);
+						}
+						// Возвращает результат
+						return new OperationResult
+						{
+							Result = asyncResult.Error,
+							Value = Parameters[parameterName].Value
+						};
+					}
+				case ParameterNamesMercury203.CounterTarif4:
+					{
+						asyncResult = ReadTariffAccumulators(isExternalCall: true);
+						// Ждём завершения операции
+						while (!asyncResult.IsCompleted)
+						{
+							Thread.Sleep(50);
+						}
+						// Возвращает результат
+						return new OperationResult
+						{
+							Result = asyncResult.Error,
+							Value = Parameters[parameterName].Value
+						};
+					}
+				case ParameterNamesMercury203.DateTime:
+					{
+						asyncResult = ReadDateTime(isExternalCall: true);
+						// Ждём завершения операции
+						while (!asyncResult.IsCompleted)
+						{
+							Thread.Sleep(50);
+						}
+						// Возвращает результат
+						return new OperationResult
+						{
+							Result = asyncResult.Error,
+							Value = Parameters[parameterName].Value
+						}; 
+					}
+				default:
+					{
+						throw new NotSupportedException(String.Format(
+							"Чтение праметра {0} не поддерживается", parameterName));
+					}
+			}
+		}
+
+		public override OperationResult WriteParameter(string parameterName, ValueType value)
+		{
+			IAsyncRequestResult asyncResult;
+ 
+			switch(parameterName)
+			{
+				case ParameterNamesMercury203.DateTime:
+					{
+						asyncResult = WriteDateTime(value: (DateTime)value, isExternalCall: true);
+						// Ждём завершения операции
+						while (!asyncResult.IsCompleted)
+						{
+							Thread.Sleep(50);
+						}
+						// Возвращает результат
+						return new OperationResult
+						{
+							Result = asyncResult.Error,
+							Value = Parameters[parameterName].Value
+						};
+
+						break;
+					}
+				default:
+					{
+						throw new NotSupportedException(String.Format(
+							"Запись праметра {0} не поддерживается", parameterName));
+					}
 			}
 		}
 
@@ -261,7 +411,7 @@ namespace ResursNetwork.Incotex.Models
         /// <param name="addr">Текущий сетевой адрес счётчика</param>
         /// <param name="newaddr">Новый сетевой адрес счётчика</param>
         /// <returns></returns>
-        public IAsyncRequestResult SetNewAddress(UInt32 addr, UInt32 newaddr, bool isExternalCall = true)
+        public IAsyncRequestResult WriteNewAddress(UInt32 addr, UInt32 newaddr, bool isExternalCall = true)
         {
             var request = new DataMessage()
             {
@@ -296,7 +446,7 @@ namespace ResursNetwork.Incotex.Models
         /// Разбирает ответ от удалённого устройтва по запросу SetNewAddress
         /// </summary>
         /// <param name="networkRequest"></param>
-        private void GetAnswerNetwokAdderss(NetworkRequest networkRequest)
+        private void GetAnswerWriteNetwokAdderss(NetworkRequest networkRequest)
         {
             var request = (DataMessage)networkRequest.Request.Request;
 
@@ -408,7 +558,7 @@ namespace ResursNetwork.Incotex.Models
         /// по запросу ReadGroupAddress
         /// </summary>
         /// <param name="transaction"></param>
-        private void GetReadGroupAddress(NetworkRequest networkRequest)
+        private void GetAnswerReadGroupAddress(NetworkRequest networkRequest)
         {
             // Разбираем ответ
             if (networkRequest.Status == NetworkRequestStatus.Completed)
@@ -489,7 +639,7 @@ namespace ResursNetwork.Incotex.Models
             var request = new DataMessage()
             {
                 Address = Address,
-                CmdCode = Convert.ToByte(Mercury203CmdCode.ReadGroupAddress)
+                CmdCode = Convert.ToByte(Mercury203CmdCode.ReadDateTime)
             };
             var transaction = new Transaction(this, TransactionType.UnicastMode, request)
             {
@@ -515,6 +665,273 @@ namespace ResursNetwork.Incotex.Models
             }
             return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
         }
+
+		private void GetAnswerReadDateTime(NetworkRequest networkRequest)
+		{
+			// Разбираем ответ
+			if (networkRequest.Status == NetworkRequestStatus.Completed)
+			{
+				var command = _ActiveRequests.FirstOrDefault(
+					p => p.Id == networkRequest.Id);
+
+				if (command == null)
+				{
+					throw new Exception("Не найдена команда с указанной транзакцией");
+				}
+
+				if (networkRequest.CurrentTransaction.Answer.ToArray().Length != 11)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Неверная длина ответного сообщения";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_ActiveRequests.Remove(command);
+				}
+
+				var request = (DataMessage)networkRequest.Request.Request;
+				var answer = (DataMessage)networkRequest.CurrentTransaction.Answer;
+
+				// Проверяем новый адрес в запросе и в ответе
+				if (request.Address != answer.Address)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Адрес команды в ответе не соответствует адресу в запросе";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_ActiveRequests.Remove(command);
+				}
+
+				if (answer.CmdCode != request.CmdCode)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Код команды в ответе не соответствует коду в запросе";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_ActiveRequests.Remove(command);
+				}
+
+				// Получаем параметр
+				// Присваиваем новое значение параметру
+				var parameter = _Parameters[ParameterNamesMercury203.DateTime];
+				parameter.Value = parameter.ValueConverter.FromArray(answer.Data.ToArray());
+
+				//command.Status = Result.OK;
+				_ActiveRequests.Remove(command);
+			}
+			else
+			{
+				// Транзакция выполнена с ошибкам
+				var command = _ActiveRequests.FirstOrDefault(
+					p => p.Id == networkRequest.Id);
+				//command.Status = Result.Error;
+				//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+				//TODO:
+				_ActiveRequests.Remove(command);
+			}
+		}
+
+		/// <summary>
+		/// Установка времени и даты (CMD=02h)
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="isExternalCall"></param>
+		/// <returns></returns>
+		public IAsyncRequestResult WriteDateTime(DateTime value, bool isExternalCall = true)
+		{
+			var request = new DataMessage(
+				new IncotexDataTimeTypeConverter().ToArray(IncotexDateTime.FromDateTime(value)))
+			{
+				Address = Address,
+				CmdCode = Convert.ToByte(Mercury203CmdCode.WriteDateTime)
+			};
+			var transaction = new Transaction(this, TransactionType.UnicastMode, request)
+			{
+				Sender = this
+			};
+
+			var networkRequest = new NetworkRequest(transaction);
+
+			if (_NetworkController == null)
+			{
+				transaction.Start();
+				transaction.Abort(new TransactionError
+				{
+					ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+					Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+				});
+				networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
+			}
+			else
+			{
+				_ActiveRequests.Add(networkRequest);
+				_NetworkController.Write(networkRequest, isExternalCall);
+			}
+			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
+		}
+
+		private void GetAnswerWriteDateTime(NetworkRequest networkRequest)
+		{
+			// Разбираем ответ
+			if (networkRequest.Status == NetworkRequestStatus.Completed)
+			{
+				var command = _ActiveRequests.FirstOrDefault(
+					p => p.Id == networkRequest.Id);
+
+				if (command == null)
+				{
+					throw new Exception("Не найдена команда с указанной транзакцией");
+				}
+
+				if (networkRequest.CurrentTransaction.Answer.ToArray().Length != 7)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Неверная длина ответного сообщения";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_ActiveRequests.Remove(command);
+				}
+
+				var request = (DataMessage)networkRequest.Request.Request;
+				var answer = (DataMessage)networkRequest.CurrentTransaction.Answer;
+
+				// Проверяем новый адрес в запросе и в ответе
+				if (request.Address != answer.Address)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Адрес команды в ответе не соответствует адресу в запросе";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_ActiveRequests.Remove(command);
+				}
+
+				if (answer.CmdCode != request.CmdCode)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Код команды в ответе не соответствует коду в запросе";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_ActiveRequests.Remove(command);
+				}
+
+				//command.Status = Result.OK;
+				_ActiveRequests.Remove(command);
+			}
+			else
+			{
+				// Транзакция выполнена с ошибкам
+				var command = _ActiveRequests.FirstOrDefault(
+					p => p.Id == networkRequest.Id);
+				//command.Status = Result.Error;
+				//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+				//TODO:
+				_ActiveRequests.Remove(command);
+			}
+		}
+
+		/// <summary>
+		/// Читает содержимое тарифных аккумуляторов (CMD=27h)
+		/// </summary>
+		/// <param name="isExternalCall"></param>
+		/// <returns></returns>
+		public IAsyncRequestResult ReadTariffAccumulators(bool isExternalCall = true)
+		{
+			var request = new DataMessage()
+			{
+				Address = Address,
+				CmdCode = Convert.ToByte(Mercury203CmdCode.ReadTariffAccumulators)
+			};
+			var transaction = new Transaction(this, TransactionType.UnicastMode, request)
+			{
+				Sender = this
+			};
+
+			var networkRequest = new NetworkRequest(transaction);
+
+			if (_NetworkController == null)
+			{
+				transaction.Start();
+				transaction.Abort(new TransactionError
+				{
+					ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+					Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+				});
+				networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
+			}
+			else
+			{
+				_ActiveRequests.Add(networkRequest);
+				_NetworkController.Write(networkRequest, isExternalCall);
+			}
+			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
+		}
+
+		private void GetAnswerReadTariffAccumulators(NetworkRequest networkRequest)
+		{
+			// Разбираем ответ
+			if (networkRequest.Status == NetworkRequestStatus.Completed)
+			{
+				var command = _ActiveRequests.FirstOrDefault(
+					p => p.Id == networkRequest.Id);
+
+				if (command == null)
+				{
+					throw new Exception("Не найдена команда с указанной транзакцией");
+				}
+
+				if (networkRequest.CurrentTransaction.Answer.ToArray().Length != 23)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Неверная длина ответного сообщения";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_ActiveRequests.Remove(command);
+				}
+
+				var request = (DataMessage)networkRequest.Request.Request;
+				var answer = (DataMessage)networkRequest.CurrentTransaction.Answer;
+
+				// Проверяем новый адрес в запросе и в ответе
+				if (request.Address != answer.Address)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Адрес команды в ответе не соответствует адресу в запросе";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_ActiveRequests.Remove(command);
+				}
+
+				if (answer.CmdCode != request.CmdCode)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Код команды в ответе не соответствует коду в запросе";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_ActiveRequests.Remove(command);
+				}
+
+				// Получаем параметр
+				// Присваиваем новое значение параметру
+				TariffCounters cntrs = TariffCounters.FromArray(answer.Data.ToArray());
+				
+				_Parameters[ParameterNamesMercury203.CounterTarif1].Value = cntrs.ValueTotalTarif1;
+				_Parameters[ParameterNamesMercury203.CounterTarif2].Value = cntrs.ValueTotalTarif2;
+				_Parameters[ParameterNamesMercury203.CounterTarif3].Value = cntrs.ValueTotalTarif3;
+				_Parameters[ParameterNamesMercury203.CounterTarif4].Value = cntrs.ValueTotalTarif4;
+
+				//command.Status = Result.OK;
+				_ActiveRequests.Remove(command);
+			}
+			else
+			{
+				// Транзакция выполнена с ошибкам
+				var command = _ActiveRequests.FirstOrDefault(
+					p => p.Id == networkRequest.Id);
+				//command.Status = Result.Error;
+				//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+				//TODO:
+				_ActiveRequests.Remove(command);
+			}
+		}
 
         /// <summary>
         /// Чтение лимита мощности (CMD=22h)

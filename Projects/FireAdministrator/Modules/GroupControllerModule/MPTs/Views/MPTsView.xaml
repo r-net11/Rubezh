@@ -39,7 +39,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Header="Наименование" SortMemberPath="MPT.Name" MinWidth="250" Width="*">
+					<DataGridTemplateColumn Header="Наименование" SortMemberPath="MPT.Name" Width="*">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">

@@ -17,6 +17,8 @@ namespace RubezhAPI.Models
 
 		[DataMember]
 		public Guid DeviceUID { get; set; }
+		[DataMember]
+		public bool AllowMultipleVizualization { get; set; }
 
 		public override void UpdateZLayer()
 		{

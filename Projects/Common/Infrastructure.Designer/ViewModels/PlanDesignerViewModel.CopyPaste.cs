@@ -11,6 +11,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using RubezhAPI.Models;
 
 namespace Infrastructure.Designer.ViewModels
 {
@@ -36,7 +37,7 @@ namespace Infrastructure.Designer.ViewModels
 				foreach (var designerItem in DesignerCanvas.SelectedItems)
 				{
 					designerItem.UpdateElementProperties();
-					_buffer.Add(designerItem.Element.Clone());
+					_buffer.Add(designerItem.Element);
 				}
 			}
 		}
@@ -69,11 +70,22 @@ namespace Infrastructure.Designer.ViewModels
 					var newItems = new List<DesignerItem>();
 					foreach (var elementBase in _buffer)
 					{
-						var element = elementBase.Clone();
-						element.UID = Guid.NewGuid();
-						var designerItem = DesignerCanvas.CreateElement(element);
-						designerItems.Add(designerItem);
-						newItems.Add(designerItem);
+						bool allowPaste = true;
+						if (elementBase is ElementGKDevice)
+						{
+							var elementGKDevice = elementBase as ElementGKDevice;
+							allowPaste = elementGKDevice.AllowMultipleVizualization
+								|| !DesignerCanvas.Items.Any(x => x.Element is ElementGKDevice && (x.Element as ElementGKDevice).ItemUID == elementGKDevice.ItemUID);
+						}
+
+						if (allowPaste)
+						{
+							var element = elementBase.Clone();
+							element.UID = Guid.NewGuid();
+							var designerItem = DesignerCanvas.CreateElement(element);
+							designerItems.Add(designerItem);
+							newItems.Add(designerItem);
+						}
 					}
 					newItems.ForEach(item => item.IsSelected = true);
 					ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Publish(DesignerCanvas.SelectedElements.ToList());

@@ -273,9 +273,6 @@
     <Resource Include="Administrator.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Views\Administrator.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <SplashScreen Include="Logo.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

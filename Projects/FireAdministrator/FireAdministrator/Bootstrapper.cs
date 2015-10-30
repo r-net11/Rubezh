@@ -31,8 +31,8 @@ namespace FireAdministrator
 			{
 				try
 				{
-                    ServiceFactory.StartupService.DoStep("Загрузка лицензии");
-                    ClientManager.GetLicense();
+					ServiceFactory.StartupService.DoStep("Загрузка лицензии");
+					ClientManager.GetLicense();
 
 					ServiceFactory.StartupService.ShowLoading("Загрузка модулей", 5);
 					CreateModules();
@@ -59,6 +59,9 @@ namespace FireAdministrator
 					{
 						MessageBoxService.Show("Нет прав на работу с программой");
 						ClientManager.Disconnect();
+						if (Application.Current != null)
+							Application.Current.Shutdown();
+						return;
 					}
 					else if (Application.Current != null)
 					{
@@ -106,6 +109,7 @@ namespace FireAdministrator
 		void OnConfigurationChanged()
 		{
 			ClientManager.GetLicense();
+			ProcedureExecutionContext.UpdateConfiguration(ClientManager.SystemConfiguration, ClientManager.SecurityConfiguration);
 		}
 		void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
 		{
@@ -143,6 +147,7 @@ namespace FireAdministrator
 			LoadingErrorManager.Clear();
 			ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
 			ServiceFactory.ContentService.Invalidate();
+			ProcedureExecutionContext.UpdateConfiguration(ClientManager.SystemConfiguration, ClientManager.SecurityConfiguration);
 			InitializeModules();
 			LoadingService.Close();
 		}
