@@ -94,20 +94,7 @@
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
 						<DataGridTextColumn Width="Auto" Binding="{Binding PresentationAddress}" Header="Адрес" />
-						<DataGridTemplateColumn Width="*" Header="Логика">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding PresentationZone}" Visibility="{Binding PresentationZone, Converter={StaticResource NullToVisibilityConverter}}" TextWrapping="NoWrap" MinWidth="100" VerticalAlignment="Top" LineHeight="15" Margin="0 3 0 0" Cursor="Hand">
-										<TextBlock.ToolTip >
-											<WrapPanel>
-												<TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" />
-											</WrapPanel>
-										</TextBlock.ToolTip>
-									</TextBlock>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-						<DataGridTextColumn Width="150" Binding="{Binding Description}" Header="Примечание" />
+						<DataGridTextColumn Width="*" Binding="{Binding Description}" Header="Примечание" />
 					</DataGrid.Columns>
 				</MultiselectDataGrid>
 

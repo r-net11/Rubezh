@@ -31,7 +31,6 @@ namespace Infrastructure
 			ResourceService = new ResourceService();
 			Layout = ILayoutService;
 			ValidationService = IValidationService;
-			LoginService = new LoginService(ClientType.Administrator, "Администратор. Авторизация");
 			ContentService = new ContentService("Administrator");
 			DragDropService = new DragDropService();
 			RibbonService = new RibbonService();
@@ -40,7 +39,6 @@ namespace Infrastructure
 		public static SaveService SaveService { get; private set; }
 		public static ILayoutService Layout { get; private set; }
 		public static IValidationService ValidationService { get; private set; }
-		public static LoginService LoginService { get; private set; }
 		public static MenuService MenuService { get; set; }
 		public static IRibbonService RibbonService { get; private set; }
 	}

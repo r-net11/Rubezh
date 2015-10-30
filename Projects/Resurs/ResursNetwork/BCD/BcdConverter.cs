@@ -81,6 +81,21 @@ namespace ResursNetwork.BCD
 			return result;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="bcdValue">число в BCD-формате,
+		/// выравниваение big-endian (Старшим байтом вперёд)</param>
+		/// <returns></returns>
+		public static ushort ToUInt16(ushort bcdValue)
+		{
+			var array = BitConverter.GetBytes(bcdValue);
+			ushort result = 0;
+			result = ToByte(array[1]); // младший байт числа
+			result = Convert.ToUInt16(result + (((ushort)ToByte(array[0])) * 100)); // старший байт числа
+			return result;
+		}
+
         /// <summary>
         /// Преобразует значение в значение в формате BCD
         /// </summary>
@@ -97,6 +112,11 @@ namespace ResursNetwork.BCD
             var low = (Byte)(value % 10);
             return (Byte)((high << 4) | low);
         }
+
+		public static ushort ToBcdUIn16(ushort value)
+		{
+			throw new NotImplementedException();
+		}
 
         #endregion
     }

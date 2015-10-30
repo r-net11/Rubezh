@@ -300,7 +300,7 @@ namespace RubezhClient
 
 			device.OutDependentElements.ForEach(x =>
 			{
-				x.UpdateLogic();
+				x.Invalidate();
 				x.OnChanged();
 			});
 

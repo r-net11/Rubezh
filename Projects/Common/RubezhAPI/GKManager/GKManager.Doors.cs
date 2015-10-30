@@ -24,6 +24,7 @@ namespace RubezhClient
 		public static void RemoveDoor(GKDoor door)
 		{
 			Doors.Remove(door);
+			Devices.Where(x => x.UID == door.EnterDeviceUID || x.UID == door.ExitDeviceUID || x.UID == door.LockDeviceUID || x.UID == door.LockControlDeviceUID).ToList().ForEach(x => x.Door = null);
 			door.InputDependentElements.ForEach(x =>
 			{
 				x.OutDependentElements.Remove(door);

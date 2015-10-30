@@ -35,7 +35,7 @@
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
-										<Grid Margin="1 0 0 0" Width="16" Background="{DynamicResource Blue_Direction}" VerticalAlignment="Center" />
+										<Rectangle Margin="1 0 0 0" Width="16" Height="16" Fill="{DynamicResource Blue_Direction}" VerticalAlignment="Center" />
 										<TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding Direction.No}" VerticalAlignment="Center" />
 									</StackPanel>
 								</DataTemplate>

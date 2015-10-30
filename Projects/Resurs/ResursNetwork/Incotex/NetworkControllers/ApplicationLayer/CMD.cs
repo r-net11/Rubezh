@@ -13,7 +13,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// <summary>
         /// Установка нового сетевого адреса счетчика 
         /// </summary>
-        SetNetworkAddress = 0,
+        WriteNetworkAddress = 0,
         /// <summary>
         /// Установка нового группового адреса счетчика 
         /// </summary>
@@ -25,7 +25,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// <summary>
         /// Установка лимита мощности
         /// </summary>
-        SetLimitPower = 3,
+        WriteLimitPower = 3,
         /// <summary>
         /// Установка лимита энергии за месяц
         /// </summary>

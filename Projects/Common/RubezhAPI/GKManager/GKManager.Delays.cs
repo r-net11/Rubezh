@@ -44,6 +44,7 @@ namespace RubezhClient
 		public static void EditDelay(GKDelay delay)
 		{
 			delay.OutDependentElements.ForEach(x => x.OnChanged());
+			delay.OnChanged();
 		}
 
 		/// <summary>

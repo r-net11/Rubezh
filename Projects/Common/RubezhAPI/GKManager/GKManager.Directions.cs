@@ -45,6 +45,7 @@ namespace RubezhClient
 		public static void EditDirection(GKDirection direction)
 		{
 			direction.OutDependentElements.ForEach(x => x.OnChanged());
+			direction.OnChanged();
 		}
 
 		/// <summary>
