@@ -12,7 +12,7 @@
 		</ContextMenu>
 	</UserControl.Resources>
 
-	<XDataGrid Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" CanUserSortColumns="True">
+	<DataGrid Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" CanUserSortColumns="True">
 		<DataGrid.Resources>
 				<Style x:Key="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
 					<Setter Property="MinWidth" Value="0" />
@@ -34,5 +34,5 @@
 			<DataGridTextColumn Width="*" Binding="{Binding Zone.Name}" Header="Наименование" />
 			<DataGridTextColumn Width="*" Binding="{Binding Zone.Description}" Header="Примечание" />
 		</DataGrid.Columns>
-	</XDataGrid>
+	</DataGrid>
 </UserControl>
