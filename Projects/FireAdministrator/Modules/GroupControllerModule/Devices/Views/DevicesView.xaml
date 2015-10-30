@@ -152,7 +152,7 @@
 											<Grid>
 												<Views:AddressEditor Address="{Binding Address}" Device="{Binding Device}"
 																	 Visibility="{Binding Device.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
-												<TextBlock Text="{Binding Address}" Visibility="{Binding Device.CanEditAddress, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+												<TextBlock Text="{Binding PresentationAddress}" Visibility="{Binding Device.CanEditAddress, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 											</Grid>
 										</ControlTemplate>
 									</Controls:EditorPresenter.EditTemplate>
@@ -168,7 +168,7 @@
 									<Controls:EditorPresenter.ViewTemplate>
 										<ControlTemplate>
 											<TextBlock Text="{Binding EditingPresentationZone}" Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}"
-													   TextWrapping="NoWrap" MinWidth="100" VerticalAlignment="Top" LineHeight="15" Margin="0 3 0 0" Cursor="Hand">
+													   TextWrapping="NoWrap" MinWidth="100" VerticalAlignment="Top" LineHeight="15" Margin="0 4 0 0" Cursor="Hand">
 												<TextBlock.Style>
 													<Style TargetType="TextBlock">
 														<Style.Triggers>
