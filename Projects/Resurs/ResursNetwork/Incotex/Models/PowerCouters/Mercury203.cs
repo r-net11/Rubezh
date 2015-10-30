@@ -227,107 +227,37 @@ namespace ResursNetwork.Incotex.Models
 				case ParameterNamesMercury203.GADDR:
 					{
 						asyncResult = ReadGroupAddress(isExternalCall: true);
-						// Ждём завершения операции
-						while (!asyncResult.IsCompleted) 
-						{
-							Thread.Sleep(50);
-						}
-						// Возвращает результат
-						return new OperationResult
-						{
-							Result = asyncResult.Error,
-							Value = Parameters[parameterName].Value
-						};
+						break;
 					}
 				case ParameterNamesMercury203.CounterTarif1:
 					{
 						asyncResult = ReadTariffAccumulators(isExternalCall: true);
-						// Ждём завершения операции
-						while (!asyncResult.IsCompleted)
-						{
-							Thread.Sleep(50);
-						}
-						// Возвращает результат
-						return new OperationResult
-						{
-							Result = asyncResult.Error,
-							Value = Parameters[parameterName].Value
-						};
+						break;
 					}
 				case ParameterNamesMercury203.CounterTarif2:
 					{
 						asyncResult = ReadTariffAccumulators(isExternalCall: true);
-						// Ждём завершения операции
-						while (!asyncResult.IsCompleted)
-						{
-							Thread.Sleep(50);
-						}
-						// Возвращает результат
-						return new OperationResult
-						{
-							Result = asyncResult.Error,
-							Value = Parameters[parameterName].Value
-						};
+						break;
 					}
 				case ParameterNamesMercury203.CounterTarif3:
 					{
 						asyncResult = ReadTariffAccumulators(isExternalCall: true);
-						// Ждём завершения операции
-						while (!asyncResult.IsCompleted)
-						{
-							Thread.Sleep(50);
-						}
-						// Возвращает результат
-						return new OperationResult
-						{
-							Result = asyncResult.Error,
-							Value = Parameters[parameterName].Value
-						};
+						break;
 					}
 				case ParameterNamesMercury203.CounterTarif4:
 					{
 						asyncResult = ReadTariffAccumulators(isExternalCall: true);
-						// Ждём завершения операции
-						while (!asyncResult.IsCompleted)
-						{
-							Thread.Sleep(50);
-						}
-						// Возвращает результат
-						return new OperationResult
-						{
-							Result = asyncResult.Error,
-							Value = Parameters[parameterName].Value
-						};
+						break;
 					}
 				case ParameterNamesMercury203.DateTime:
 					{
 						asyncResult = ReadDateTime(isExternalCall: true);
-						// Ждём завершения операции
-						while (!asyncResult.IsCompleted)
-						{
-							Thread.Sleep(50);
-						}
-						// Возвращает результат
-						return new OperationResult
-						{
-							Result = asyncResult.Error,
-							Value = Parameters[parameterName].Value
-						}; 
+						break;
 					}
 				case ParameterNamesMercury203.PowerLimit:
 					{
 						asyncResult = ReadPowerLimit(isExternalCall: true);
-						// Ждём завершения операции
-						while (!asyncResult.IsCompleted)
-						{
-							Thread.Sleep(50);
-						}
-						// Возвращает результат
-						return new OperationResult
-						{
-							Result = asyncResult.Error,
-							Value = Parameters[parameterName].Value
-						}; 
+						break;
 					}
 				default:
 					{
@@ -335,6 +265,17 @@ namespace ResursNetwork.Incotex.Models
 							"Чтение праметра {0} не поддерживается", parameterName));
 					}
 			}
+			// Ждём завершения операции
+			while (!asyncResult.IsCompleted)
+			{
+				Thread.Sleep(50);
+			}
+			// Возвращает результат
+			return new OperationResult
+			{
+				Result = asyncResult.Error,
+				Value = Parameters[parameterName].Value
+			};
 		}
 
 		public override OperationResult WriteParameter(string parameterName, ValueType value)
