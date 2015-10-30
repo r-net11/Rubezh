@@ -29,10 +29,11 @@ namespace ResursTerminal
 		static void Main(string[] args)
 		{
 			Init();
-			ReadTariff1();
-			ReadTariff2();
-			ReadTariff3();
-			ReadTariff4();
+			ReadPowerLimit();
+			//ReadTariff1();
+			//ReadTariff2();
+			//ReadTariff3();
+			//ReadTariff4();
 			//ReadGroupAddress();
 			//WriteDateTime();
 			//ReadDateTime();
@@ -67,6 +68,19 @@ namespace ResursTerminal
 
 			_Device.Start();
 			network.Start();
+		}
+
+		static void ReadPowerLimit()
+		{
+			Console.WriteLine("Прочитать лимит мощности...");
+
+			var result = _Device.ReadParameter(
+				ResursAPI.ParameterNames.ParameterNamesMercury203.PowerLimit);
+			var x = result.Value;
+
+			Console.WriteLine("Результат: {0}, Значение: {1}",
+				result.Result.ErrorCode, x);
+ 
 		}
 
 		static void ReadTariff4()

@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="BCDTest\BcdTests.cs" />
     <Compile Include="IncotexNetworkControllerTest\IncotexNetworkControllerTests.cs" />
+    <Compile Include="MpowerTests\MpowerTest.cs" />
     <Compile Include="NetworksManagerTests\NetworksManagerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VirtualIncotexNetworkController\IncotexNetworkControllerVirtualTests.cs" />
