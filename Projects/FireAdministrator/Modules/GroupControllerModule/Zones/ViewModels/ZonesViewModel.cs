@@ -75,11 +75,6 @@ namespace GKModule.ViewModels
 				{
 					ZoneDevices.Initialize(value.Zone);
 				}
-				else
-				{
-					//ZoneDevices.InitializeAvailableDevice();
-					//ZoneDevices.Clear();
-				}
 				OnPropertyChanged(() => SelectedZone);
 				if (!_lockSelection && _selectedZone != null && _selectedZone.Zone.PlanElementUIDs != null && _selectedZone.Zone.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedZone.Zone.PlanElementUIDs);
@@ -145,7 +140,6 @@ namespace GKModule.ViewModels
 					SelectedZone = Zones[index];
 				if (Zones.Count() == 0)
 					ZoneDevices.Clear();
-				ZoneDevices.UpdateAvailableDevices();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
