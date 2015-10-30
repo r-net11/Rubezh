@@ -170,10 +170,14 @@ namespace ResursNetwork.Incotex.Models
 					{
 						GetAnswerWriteDateTime(networkRequest); break;
 					}
-                case Mercury203CmdCode.SetNetworkAddress:
+                case Mercury203CmdCode.WriteNetworkAddress:
                     {
                         GetAnswerWriteNetwokAdderss(networkRequest); break;
                     }
+				case Mercury203CmdCode.WriteLimitPower:
+					{
+						GetAnswerWritePowerLimit(networkRequest); break;
+					}
                 case Mercury203CmdCode.ReadGroupAddress:
                     {
                         GetAnswerReadGroupAddress(networkRequest); break;
@@ -287,18 +291,11 @@ namespace ResursNetwork.Incotex.Models
 				case ParameterNamesMercury203.DateTime:
 					{
 						asyncResult = WriteDateTime(value: (DateTime)value, isExternalCall: true);
-						// Ждём завершения операции
-						while (!asyncResult.IsCompleted)
-						{
-							Thread.Sleep(50);
-						}
-						// Возвращает результат
-						return new OperationResult
-						{
-							Result = asyncResult.Error,
-							Value = Parameters[parameterName].Value
-						};
-
+						break;
+					}
+				case ParameterNamesMercury203.PowerLimit:
+					{
+						asyncResult = WritePowerLimit(value: (float)value, isExternalCall: true);
 						break;
 					}
 				default:
@@ -307,6 +304,17 @@ namespace ResursNetwork.Incotex.Models
 							"Запись праметра {0} не поддерживается", parameterName));
 					}
 			}
+			// Ждём завершения операции
+			while (!asyncResult.IsCompleted)
+			{
+				Thread.Sleep(50);
+			}
+			// Возвращает результат
+			return new OperationResult
+			{
+				Result = asyncResult.Error,
+				Value = Parameters[parameterName].Value
+			};
 		}
 
         public override void EventHandler_NetworkController_NetwrokRequestCompleted(
@@ -366,7 +374,7 @@ namespace ResursNetwork.Incotex.Models
         #region Network API
 
         /// <summary>
-        /// Установка нового сетевого адреса счетчика (CMD=)
+        /// Установка нового сетевого адреса счетчика (CMD=00)
         /// </summary>
         /// <param name="addr">Текущий сетевой адрес счётчика</param>
         /// <param name="newaddr">Новый сетевой адрес счётчика</param>
@@ -376,7 +384,7 @@ namespace ResursNetwork.Incotex.Models
             var request = new DataMessage()
             {
                 Address = addr,
-                CmdCode = Convert.ToByte(Mercury203CmdCode.SetNetworkAddress)
+                CmdCode = Convert.ToByte(Mercury203CmdCode.WriteNetworkAddress)
             };
             var transaction = new Transaction(this, TransactionType.UnicastMode, request) 
             { 
@@ -403,7 +411,7 @@ namespace ResursNetwork.Incotex.Models
         }
 
         /// <summary>
-        /// Разбирает ответ от удалённого устройтва по запросу SetNewAddress
+		/// Разбирает ответ от удалённого устройтва по запросу SetNewAddress (CMD=00)
         /// </summary>
         /// <param name="networkRequest"></param>
         private void GetAnswerWriteNetwokAdderss(NetworkRequest networkRequest)
@@ -516,6 +524,10 @@ namespace ResursNetwork.Incotex.Models
 			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
 		}
 
+		/// <summary>
+		/// Разбирает ответ по запросу WriteDateTime (CMD=02h)
+		/// </summary>
+		/// <param name="networkRequest"></param>
 		private void GetAnswerWriteDateTime(NetworkRequest networkRequest)
 		{
 			// Разбираем ответ
@@ -574,6 +586,110 @@ namespace ResursNetwork.Incotex.Models
 				_ActiveRequests.Remove(command);
 			}
 		}
+
+		/// <summary>
+		/// Установка лимита мощности (CMD=03h)
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="isExternalCall"></param>
+		/// <returns></returns>
+		public IAsyncRequestResult WritePowerLimit(float value, bool isExternalCall = true)
+		{
+			var request = new DataMessage(
+				Mpower.GetValueConveter().ToArray(value))
+			{
+				Address = Address,
+				CmdCode = Convert.ToByte(Mercury203CmdCode.WriteLimitPower)
+			};
+
+			var transaction = new Transaction(this, TransactionType.UnicastMode, request)
+			{
+				Sender = this
+			};
+
+			var networkRequest = new NetworkRequest(transaction);
+
+			if (_NetworkController == null)
+			{
+				transaction.Start();
+				transaction.Abort(new TransactionError
+				{
+					ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+					Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+				});
+				networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
+			}
+			else
+			{
+				_ActiveRequests.Add(networkRequest);
+				_NetworkController.Write(networkRequest, isExternalCall);
+			}
+			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
+		}
+
+		/// <summary>
+		/// Разбирает ответ по запросу WritePowerLimit (CMD=03h)
+		/// </summary>
+		/// <param name="networkRequest"></param>
+		private void GetAnswerWritePowerLimit(NetworkRequest networkRequest)
+		{
+			// Разбираем ответ
+			if (networkRequest.Status == NetworkRequestStatus.Completed)
+			{
+				var command = _ActiveRequests.FirstOrDefault(
+					p => p.Id == networkRequest.Id);
+
+				if (command == null)
+				{
+					throw new Exception("Не найдена команда с указанной транзакцией");
+				}
+
+				if (networkRequest.CurrentTransaction.Answer.ToArray().Length != 7)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Неверная длина ответного сообщения";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_ActiveRequests.Remove(command);
+				}
+
+				var request = (DataMessage)networkRequest.Request.Request;
+				var answer = (DataMessage)networkRequest.CurrentTransaction.Answer;
+
+				// Проверяем новый адрес в запросе и в ответе
+				if (request.Address != answer.Address)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Адрес команды в ответе не соответствует адресу в запросе";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_ActiveRequests.Remove(command);
+				}
+
+				if (answer.CmdCode != request.CmdCode)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Код команды в ответе не соответствует коду в запросе";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_ActiveRequests.Remove(command);
+				}
+
+				//command.Status = Result.OK;
+				_ActiveRequests.Remove(command);
+			}
+			else
+			{
+				// Транзакция выполнена с ошибкам
+				var command = _ActiveRequests.FirstOrDefault(
+					p => p.Id == networkRequest.Id);
+				//command.Status = Result.Error;
+				//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+				//TODO:
+				_ActiveRequests.Remove(command);
+			}
+		}
+
 
         /// <summary>
         /// Чтение группового адреса счетчика (CMD=20h)
