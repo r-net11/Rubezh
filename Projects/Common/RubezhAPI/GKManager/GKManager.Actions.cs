@@ -296,7 +296,7 @@ namespace RubezhClient
 			device.UID = Guid.NewGuid();
 			device.OutDependentElements.ForEach(x =>
 			{
-				x.UpdateLogic();
+				x.Invalidate();
 				x.OnChanged();
 			});
 

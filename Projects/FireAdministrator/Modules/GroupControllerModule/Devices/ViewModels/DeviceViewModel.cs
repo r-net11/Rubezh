@@ -189,6 +189,7 @@ namespace GKModule.ViewModels
 				Device.Description = value;
 				OnPropertyChanged(() => Description);
 				UpdateDescriptorName();
+				Device.OnChanged();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
