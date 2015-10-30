@@ -60,10 +60,10 @@ namespace Infrastructure.Client.Plans
 			{
 				item.Changed += () =>
 				{
+					Cache.BuildSafe<TItem>();
+					UpdateProperties<TItem>(designerItem);
 					if (DesignerCanvas.IsPresented(designerItem))
 					{
-						Cache.BuildSafe<TItem>();
-						UpdateProperties<TItem>(designerItem);
 						designerItem.Painter.Invalidate();
 						DesignerCanvas.Refresh();
 					}

@@ -11,6 +11,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using RubezhAPI.Models;
 
 namespace Infrastructure.Designer.ViewModels
 {
@@ -69,7 +70,15 @@ namespace Infrastructure.Designer.ViewModels
 					var newItems = new List<DesignerItem>();
 					foreach (var elementBase in _buffer)
 					{
-						if (elementBase.AllowMultipleVizualization)
+						bool allowPaste = true;
+						if (elementBase is ElementGKDevice)
+						{
+							var elementGKDevice = elementBase as ElementGKDevice;
+							allowPaste = elementGKDevice.AllowMultipleVizualization
+								|| !DesignerCanvas.Items.Any(x => x.Element is ElementGKDevice && (x.Element as ElementGKDevice).ItemUID == elementGKDevice.ItemUID);
+						}
+
+						if (allowPaste)
 						{
 							var element = elementBase.Clone();
 							element.UID = Guid.NewGuid();
