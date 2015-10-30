@@ -32,7 +32,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Grid Margin="1 0 0 0" Width="16" Background="{DynamicResource BMPT}" VerticalAlignment="Center" />
+								<Image Margin="1 0 0 0" Width="16" Height="16" Source="/Controls;component/Images/BMPT.png" VerticalAlignment="Center" />
 								<TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding MPT.No}" VerticalAlignment="Center" />
 							</StackPanel>
 						</DataTemplate>
@@ -43,11 +43,10 @@
 			</DataGrid.Columns>
 			<DataGrid.ContextMenu>
 				<ContextMenu>
-					<Controls:IconedMenuItem ImageSource="BEdit"  Text="Редактировать" Command="{Binding EditCommand}" />
+					<Controls:IconedMenuItem ImageSource="BEdit" Text="Редактировать" Command="{Binding EditCommand}" />
 				</ContextMenu>
 			</DataGrid.ContextMenu>
 		</DataGrid>
-
 		<StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
 			<Button Width="100" Margin="2" Command="{Binding EditCommand}" Content="Редактировать" />
 			<Button Width="100" Margin="2" Command="{Binding CreateCommand}" Content="Создать" />

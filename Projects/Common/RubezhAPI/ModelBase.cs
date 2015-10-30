@@ -40,6 +40,11 @@ namespace RubezhAPI.GK
 		[DataMember]
 		public string Description { get; set; }
 
+
+
+		/// <summary>
+		/// Имя для отображения названия устройства в пользовательском интерфейсе
+		/// </summary>
 		[XmlIgnore]
 		public virtual string PresentationName
 		{

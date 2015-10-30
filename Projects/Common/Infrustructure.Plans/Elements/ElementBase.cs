@@ -55,8 +55,6 @@ namespace Infrustructure.Plans.Elements
 		public bool IsLocked { get; set; }
 		[DataMember]
 		public bool IsHidden { get; set; }
-		[DataMember]
-		public bool AllowMultipleVizualization { get; set; }
 
 		[XmlIgnore]
 		public bool AllowTransparent
