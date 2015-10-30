@@ -52,7 +52,9 @@ namespace GKProcessor
 					ToolTip = "Продолжительность горения для режима 2, мс",
 					Default = 0,
 					DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
-					IsAUParameter = true
+					IsAUParameter = true,
+					Min = 0,
+					Max = 65535
 				}
 				);
 
@@ -65,7 +67,9 @@ namespace GKProcessor
 					ToolTip = "Продолжительность гашения для режима 2, мс",
 					DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
 					Default = 0,
-					IsAUParameter = true
+					IsAUParameter = true,
+					Min = 0,
+					Max = 65535
 				}
 				);
 
