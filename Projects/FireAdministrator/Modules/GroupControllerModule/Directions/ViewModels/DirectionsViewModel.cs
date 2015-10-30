@@ -77,8 +77,8 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDirection = value;
-				if (value != null)
-					value.Update();
+				//if (value != null)
+				//	value.Update();
 				OnPropertyChanged(() => SelectedDirection);
 				if (!_lockSelection && _selectedDirection != null && _selectedDirection.Direction.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDirection.Direction.PlanElementUIDs);
@@ -116,8 +116,8 @@ namespace GKModule.ViewModels
 			var directionDetailsViewModel = new DirectionDetailsViewModel(direction);
 			if (DialogService.ShowModalWindow(directionDetailsViewModel))
 			{
-				GKManager.EditDirection(SelectedDirection.Direction);
 				SelectedDirection.Update();
+				GKManager.EditDirection(SelectedDirection.Direction);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
