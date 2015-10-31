@@ -235,6 +235,7 @@
 		<ResourceDictionary Source="../XamlImages/4x4Grid.xaml" />
 		<ResourceDictionary Source="../XamlImages/6x6Grid.xaml" />
 		<ResourceDictionary Source="../XamlImages/BArrowRight.xaml" />
+		<ResourceDictionary Source="../XamlImages/Briefcase.xaml" />
 		<ResourceDictionary Source="../XamlImages/BBriefcase.xaml" />
 		<ResourceDictionary Source="../XamlImages/BBriefcaseAll.xaml" />
 		<ResourceDictionary Source="../XamlImages/BConfig.xaml" />
@@ -246,7 +247,6 @@
 		<ResourceDictionary Source="../XamlImages/BParametersReadFromFile.xaml" />
 		<ResourceDictionary Source="../XamlImages/BReset.xaml" />
 		<ResourceDictionary Source="../XamlImages/BResetIgnore.xaml" />
-		<ResourceDictionary Source="../XamlImages/Briefcase.xaml" />
 		<ResourceDictionary Source="../XamlImages/BSaveAs.xaml" />
 		<ResourceDictionary Source="../XamlImages/BSelect.xaml" />
 		<ResourceDictionary Source="../XamlImages/BSound.xaml" />
