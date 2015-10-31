@@ -8,7 +8,13 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type TextBoxBase}">
-						<Border Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" ContextMenu="{x:Null}" CornerRadius="3" Padding="2">
+						<Border Name="Border" 
+								Background="{TemplateBinding Background}"
+								BorderBrush="{TemplateBinding BorderBrush}"
+								BorderThickness="{TemplateBinding BorderThickness}"
+								ContextMenu="{x:Null}"
+								CornerRadius="3"
+								Padding="2">
 							<ScrollViewer x:Name="PART_ContentHost" Margin="0" />
 						</Border>
 						<ControlTemplate.Triggers>
@@ -38,7 +44,9 @@
 		<TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="Пароль" FontWeight="Bold" Style="{DynamicResource TextBlockDetailsStyle}"/>
 		<TextBox Name="nameTextBox" Grid.Row="0" Grid.Column="1" Margin="2" IsEnabled="{Binding CanEditUserName}" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" />
 		<Controls:PasswordBoxControl Grid.Row="1" Grid.Column="1" Margin="2" Password="{Binding Password, UpdateSourceTrigger=PropertyChanged}" />
-		<CheckBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding SavePassword}" Visibility="{Binding CanSavePassword, Converter={StaticResource BoolToVisibilityConverter}}">
+		<CheckBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"
+				  IsChecked="{Binding SavePassword}"
+				  Visibility="{Binding CanSavePassword, Converter={StaticResource BoolToVisibilityConverter}}">
 			<TextBlock Text="Сохранить пароль" Style="{DynamicResource TextBlockDetailsStyle}" />
 		</CheckBox>
 	</Grid>
