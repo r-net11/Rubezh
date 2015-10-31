@@ -17,7 +17,7 @@ namespace ChinaSKDDriverAPI
 
 		public AccessMethodType MethodType { get; set; }
 
-		public int ReaderID { get; set; }
+		public string ReaderID { get; set; }
 
 		public int DoorNo { get; set; }
 

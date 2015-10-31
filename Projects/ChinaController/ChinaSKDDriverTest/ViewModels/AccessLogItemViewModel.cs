@@ -86,8 +86,8 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		private int _readerID;
-		public int ReaderID
+		private string _readerID;
+		public string ReaderID
 		{
 			get { return _readerID; }
 			set

@@ -78,7 +78,7 @@ namespace ChinaSKDDriver
 				Time = NET_TIMEToDateTime(nativeAccess.stuTime),
 				MethodType = (AccessMethodType) nativeAccess.emMethod,
 				Status = nativeAccess.bStatus,
-				ReaderID = nativeAccess.nReaderID,
+				ReaderID = nativeAccess.szReaderID,
 				DoorNo = nativeAccess.nDoor,
 				CardType = (CardType)nativeAccess.emCardType,
 				ErrorCode = (ErrorCode)nativeAccess.nErrorCode
@@ -153,7 +153,7 @@ namespace ChinaSKDDriver
 			journalItem.szPwd = accessLogItem.Password;
 			//journalItem.nAction = 
 			//journalItem.emStatus = 
-			journalItem.szReaderID = (accessLogItem.ReaderID + 1).ToString();
+			journalItem.szReaderID = accessLogItem.ReaderID;
 			//journalItem.szDoorName = 
 			journalItem.ErrorCode = accessLogItem.ErrorCode;
 
