@@ -9,7 +9,7 @@
 			 xmlns:viewModel="clr-namespace:GKModule.ViewModels"
 			 xmlns:Views="clr-namespace:GKModule.Views">
    
-    <UserControl.Resources>
+	<UserControl.Resources>
 		<Converters:DeviceParameterMissmatchTypeToColorConverter3 x:Key="DeviceParameterMissmatchTypeToColorConverter3" />
 		<Conv:SwitchConverter x:Key="Tooltip" Else="{x:Null}">
 			<Conv:SwitchCase Then="Устройство может быть размещено на плане" When="Multiple" />
@@ -25,16 +25,16 @@
 			<Controls:IconedMenuItem Command="{Binding CopyLogicCommand}" ImageSource="BCopy" Text="Копировать логику" />
 			<Controls:IconedMenuItem Command="{Binding PasteLogicCommand}" ImageSource="BPaste" Text="Вставить логику" />
 			<Separator />
-            <Controls:IconedMenuItem  ImageSource="BPaste" Text="Генерация отражения" Visibility = "{Binding IsEdit,  Converter={StaticResource BoolToVisibilityConverter}}">
-                <Controls:IconedMenuItem Text="Пожарные зоны" Command="{Binding GenerateZonesCommand}" />
-                <Controls:IconedMenuItem Text="Охранные зоны" Command="{Binding GenerateGuardZonesCommand}" />
-                <Controls:IconedMenuItem Text="Зоны пожаратушения" Command="{Binding GenerateMPTCommand}" />
-                <Controls:IconedMenuItem Text="Исполнительные устройства" Command="{Binding GenerateForPerformersDevicesCommand}" />
-                <Controls:IconedMenuItem Text="Извещательные устройства" Command="{Binding GenerateForDetectorDevicesCommand}" />
-                <Controls:IconedMenuItem Text="Направления" Command="{Binding GenerateDirectionsCommand}" />
-            </Controls:IconedMenuItem>
-            <Controls:IconedMenuItem  ImageSource="BPaste" Command="{Binding ShowAccessUserReflectionCommand}" Text="Права чтение/запись" Visibility="{Binding IsEdit,  Converter={StaticResource BoolToVisibilityConverter}}" />
-            <Separator />
+			<Controls:IconedMenuItem  ImageSource="BPaste" Text="Генерация отражения" Visibility = "{Binding IsEdit,  Converter={StaticResource BoolToVisibilityConverter}}">
+				<Controls:IconedMenuItem Text="Пожарные зоны" Command="{Binding GenerateZonesCommand}" />
+				<Controls:IconedMenuItem Text="Охранные зоны" Command="{Binding GenerateGuardZonesCommand}" />
+				<Controls:IconedMenuItem Text="Зоны пожаратушения" Command="{Binding GenerateMPTCommand}" />
+				<Controls:IconedMenuItem Text="Исполнительные устройства" Command="{Binding GenerateForPerformersDevicesCommand}" />
+				<Controls:IconedMenuItem Text="Извещательные устройства" Command="{Binding GenerateForDetectorDevicesCommand}" />
+				<Controls:IconedMenuItem Text="Направления" Command="{Binding GenerateDirectionsCommand}" />
+			</Controls:IconedMenuItem>
+			<Controls:IconedMenuItem  ImageSource="BPaste" Command="{Binding ShowAccessUserReflectionCommand}" Text="Права чтение/запись" Visibility="{Binding IsEdit,  Converter={StaticResource BoolToVisibilityConverter}}" />
+			<Separator />
 			<Controls:IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить дочернее устройство (Ctrl+N)" />
 			<Controls:IconedMenuItem Command="{Binding AddToParentCommand}" ImageSource="BAddChild" Text="Добавить к родительскому устройству (Ctrl+M)" />
 			<Controls:IconedMenuItem Command="{Binding RemoveCommand}" ImageSource="BDelete" Text="Удалить (Ctrl+Del)" />
