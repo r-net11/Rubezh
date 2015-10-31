@@ -8,7 +8,6 @@
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:viewModel="clr-namespace:GKModule.ViewModels"
 			 xmlns:Views="clr-namespace:GKModule.Views">
-   
 	<UserControl.Resources>
 		<Converters:DeviceParameterMissmatchTypeToColorConverter3 x:Key="DeviceParameterMissmatchTypeToColorConverter3" />
 		<Conv:SwitchConverter x:Key="Tooltip" Else="{x:Null}">
