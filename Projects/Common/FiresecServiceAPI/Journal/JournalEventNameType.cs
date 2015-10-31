@@ -50,7 +50,7 @@ namespace FiresecAPI.Journal
 		Проход_запрещен = 106,
 
 		[EventName(JournalSubsystemType.SKD, "Дверь не закрыта", XStateClass.Attention)]
-		Дверь_не_закрыта = 107,
+		Дверь_не_закрыта_начало = 107,
 
 		[EventName(JournalSubsystemType.SKD, "Взлом", XStateClass.Attention)]
 		Взлом = 108,
@@ -71,7 +71,7 @@ namespace FiresecAPI.Journal
 		Неизвестный_статус_двери = 113,
 
 		[EventName(JournalSubsystemType.SKD, "Вскрытие контроллера", XStateClass.Attention)]
-		Вскрытие_контроллера = 114,
+		Вскрытие_контроллера_начало = 114,
 
 		[EventName(JournalSubsystemType.SKD, "Множественный проход", XStateClass.Attention)]
 		Множественный_проход = 115,
@@ -80,7 +80,7 @@ namespace FiresecAPI.Journal
 		Проход_по_отпечатку_пальца = 116,
 
 		[EventName(JournalSubsystemType.SKD, "Местная тревога", XStateClass.Attention)]
-		Местная_тревога = 117,
+		Местная_тревога_начало = 117,
 
 		[EventName(JournalSubsystemType.SKD, "Сброс Контроллера", XStateClass.TechnologicalRegime)]
 		Сброс_Контроллера = 118,
@@ -420,5 +420,14 @@ namespace FiresecAPI.Journal
 
 		[EventName(JournalSubsystemType.SKD, "Снятие признака \"Не учитывать в расчетах\"", XStateClass.Info)]
 		Снятие_неУчитывать_в_расчетах = 245,
+
+		[EventName(JournalSubsystemType.SKD, "Восстановление: Вскрытие контроллера", XStateClass.Attention)]
+		Вскрытие_контроллера_конец = 246,
+
+		[EventName(JournalSubsystemType.SKD, "Восстановление: Дверь не закрыта", XStateClass.Attention)]
+		Дверь_не_закрыта_конец = 247,
+
+		[EventName(JournalSubsystemType.SKD, "Восстановление: Местная тревога", XStateClass.Attention)]
+		Местная_тревога_конец = 248
 	}
 }

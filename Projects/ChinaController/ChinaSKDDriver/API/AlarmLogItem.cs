@@ -17,8 +17,8 @@ namespace ChinaSKDDriverAPI
 
 		public string CardId { get; set; }
 
-		public int DoorNo { get; set; }
-
 		public AlarmType AlarmType { get; set; }
+
+		public int Channel { get; set; }
 	}
 }

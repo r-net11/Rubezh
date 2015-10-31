@@ -15,6 +15,7 @@ namespace FiresecAPI
 			UseHasp = false;
 			DBServerName = "SQLEXPRESS";
 			CreateNewDBOnOversize = true;
+			EnableOfflineLog = true;
 		}
 
 		[DataMember]
@@ -37,5 +38,7 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool CreateNewDBOnOversize { get; set; }
+
+		public bool EnableOfflineLog { get; set; }
 	}
 }

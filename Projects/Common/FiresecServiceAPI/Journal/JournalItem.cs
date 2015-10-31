@@ -17,6 +17,9 @@ namespace FiresecAPI.Journal
 		}
 
 		[DataMember]
+		public JournalItemType JournalItemType { get; set; }
+
+		[DataMember]
 		public DateTime SystemDateTime { get; set; }
 
 		[DataMember]
@@ -66,5 +69,11 @@ namespace FiresecAPI.Journal
 
 		[DataMember]
 		public List<JournalDetalisationItem> JournalDetalisationItems { get; set; }
+	}
+
+	public enum JournalItemType
+	{
+		Online = 0,
+		Offline = 1
 	}
 }

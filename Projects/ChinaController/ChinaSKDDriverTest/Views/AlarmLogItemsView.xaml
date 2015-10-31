@@ -27,7 +27,7 @@
 				<DataGridTextColumn Header="UserName" Binding="{Binding UserName}" Width="Auto" />
 				<DataGridTextColumn Header="LogType" Binding="{Binding LogType}" Width="Auto" />
 				<DataGridTextColumn Header="CardId" Binding="{Binding CardId}" Width="Auto" />
-				<DataGridTextColumn Header="DoorNo" Binding="{Binding DoorNo}" Width="Auto" />
+				<DataGridTextColumn Header="Channel" Binding="{Binding Channel}" Width="Auto" />
 				<DataGridTextColumn Header="AlarmType" Binding="{Binding AlarmType}" Width="Auto" />
 				<DataGridTextColumn Header="LogMessage" Binding="{Binding LogMessage}" Width="*" />
 			</DataGrid.Columns>

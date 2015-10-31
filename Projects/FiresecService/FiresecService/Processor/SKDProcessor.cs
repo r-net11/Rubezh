@@ -37,8 +37,8 @@ namespace FiresecService
 					SKDManager.UpdateConfiguration();
 					SKDManager.CreateStates();
 				}
-				ChinaSKDDriver.Processor.Start();
-				foreach (var deviceProcessor in ChinaSKDDriver.Processor.DeviceProcessors)
+				Processor.Start();
+				foreach (var deviceProcessor in Processor.DeviceProcessors)
 				{
 					deviceProcessor.NewJournalItem -= new Action<JournalItem>(OnNewJournalItem);
 					deviceProcessor.NewJournalItem += new Action<JournalItem>(OnNewJournalItem);
@@ -47,21 +47,22 @@ namespace FiresecService
 					deviceProcessor.ConnectionAppeared += new Action<DeviceProcessor>(OnConnectionAppeared);
 				}
 
-				ChinaSKDDriver.Processor.NewJournalItem -= new Action<JournalItem>(OnNewJournalItem);
-				ChinaSKDDriver.Processor.NewJournalItem += new Action<JournalItem>(OnNewJournalItem);
+				Processor.NewJournalItem -= new Action<JournalItem>(OnNewJournalItem);
+				Processor.NewJournalItem += new Action<JournalItem>(OnNewJournalItem);
 
-				ChinaSKDDriver.Processor.StatesChangedEvent -= new Action<SKDStates>(OnSKDStates);
-				ChinaSKDDriver.Processor.StatesChangedEvent += new Action<SKDStates>(OnSKDStates);
+				Processor.StatesChangedEvent -= new Action<SKDStates>(OnSKDStates);
+				Processor.StatesChangedEvent += new Action<SKDStates>(OnSKDStates);
 
-				ChinaSKDDriver.Processor.SKDProgressCallbackEvent -= new Action<SKDProgressCallback>(OnSKDProgressCallbackEvent);
-				ChinaSKDDriver.Processor.SKDProgressCallbackEvent += new Action<SKDProgressCallback>(OnSKDProgressCallbackEvent);
+				Processor.SKDProgressCallbackEvent -= new Action<SKDProgressCallback>(OnSKDProgressCallbackEvent);
+				Processor.SKDProgressCallbackEvent += new Action<SKDProgressCallback>(OnSKDProgressCallbackEvent);
 
-				ChinaSKDDriver.Processor.NewSearchDevice -= new Action<SKDDeviceSearchInfo>(OnNewSearchDevice);
-				ChinaSKDDriver.Processor.NewSearchDevice += new Action<SKDDeviceSearchInfo>(OnNewSearchDevice);
+				// События функционала автопоиска контроллеров в сети
+				Processor.NewSearchDevice -= new Action<SKDDeviceSearchInfo>(OnNewSearchDevice);
+				Processor.NewSearchDevice += new Action<SKDDeviceSearchInfo>(OnNewSearchDevice);
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "SKDProcessor.Create");
+				Logger.Error(e, "SKDProcessor.Start");
 			}
 		}
 
@@ -99,7 +100,8 @@ namespace FiresecService
 							}
 						}
 
-						if (journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен)
+						// Для онлайн событий прохода выполняем фиксацию факта прохода в БД журнала проходов
+						if (journalItem.JournalItemType == JournalItemType.Online && journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен)
 						{
 							var readerdevice = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 							if (readerdevice != null && readerdevice.Zone != null)
@@ -116,7 +118,9 @@ namespace FiresecService
 			}
 
 			journalItem.JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalItem.JournalEventNameType);
-			FiresecService.Service.FiresecService.AddCommonJournalItem(journalItem);
+			
+			// Фиксируем информацию о событии в БД журнала событий
+			Service.FiresecService.AddCommonJournalItem(journalItem);
 		}
 
 		static void OnNewSearchDevice(SKDDeviceSearchInfo skdDeviceSearchInfo)

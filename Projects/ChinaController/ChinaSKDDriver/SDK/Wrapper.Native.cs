@@ -115,8 +115,11 @@ namespace ChinaSKDDriver
 
 				case DH_ALARM_ACCESS_CTL_NOT_CLOSE:
 					{
-						journalItem.JournalEventNameType = JournalEventNameType.Дверь_не_закрыта;
 						var eventInfo = (NativeWrapper.ALARM_ACCESS_CTL_NOT_CLOSE_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_NOT_CLOSE_INFO)));
+						if (eventInfo.nAction == 0)
+							journalItem.JournalEventNameType = JournalEventNameType.Дверь_не_закрыта_начало;
+						else if (eventInfo.nAction == 1)
+							journalItem.JournalEventNameType = JournalEventNameType.Дверь_не_закрыта_конец;
 						journalItem.DeviceDateTime = NET_TIMEToDateTime(eventInfo.stuTime);
 						journalItem.DoorNo = eventInfo.nDoor;
 						journalItem.nAction = eventInfo.nAction;
@@ -182,10 +185,14 @@ namespace ChinaSKDDriver
 
 				case DH_ALARM_CHASSISINTRUDED:
 					{
-						journalItem.JournalEventNameType = JournalEventNameType.Вскрытие_контроллера;
 						var eventInfo = (NativeWrapper.ALARM_CHASSISINTRUDED_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_CHASSISINTRUDED_INFO)));
+
+						if (eventInfo.nAction == 0)
+							journalItem.JournalEventNameType = JournalEventNameType.Вскрытие_контроллера_начало;
+						else if (eventInfo.nAction == 1)
+							journalItem.JournalEventNameType = JournalEventNameType.Вскрытие_контроллера_конец;
+
 						journalItem.DeviceDateTime = NET_TIMEToDateTime(eventInfo.stuTime);
-						//journalItem.DoorNo = item7.nChannelID;
 						journalItem.nAction = eventInfo.nAction;
 						journalItem.szReaderID = eventInfo.szReaderID;
 						break;
@@ -212,8 +219,11 @@ namespace ChinaSKDDriver
 
 				case DH_ALARM_ALARM_EX2:
 					{
-						journalItem.JournalEventNameType = JournalEventNameType.Местная_тревога;
 						var eventInfo = (NativeWrapper.ALARM_ALARM_INFO_EX2)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ALARM_INFO_EX2)));
+						if (eventInfo.nAction == 0)
+							journalItem.JournalEventNameType = JournalEventNameType.Местная_тревога_начало;
+						else if (eventInfo.nAction == 1)
+							journalItem.JournalEventNameType = JournalEventNameType.Местная_тревога_конец;
 						journalItem.DeviceDateTime = NET_TIMEToDateTime(eventInfo.stuTime);
 						journalItem.DoorNo = eventInfo.nChannelID;
 						journalItem.nAction = eventInfo.nAction;
