@@ -148,7 +148,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteAllEmptyCommand { get; private set; }
 		void OnDeleteAllEmpty()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все неиспользуемые коды ?"))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?"))
 			{
 				var emptyZones = Zones.Where(x => !x.Zone.GuardZoneDevices.Any());
 

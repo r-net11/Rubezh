@@ -118,7 +118,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteAllEmptyCommand { get; private set; }
 		void OnDeleteAllEmpty()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?"))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все неиспользуемые коды ?"))
 			{
 				var emptyCodes = Codes.Where(x => !GetOnEmpty().Contains(x.Code.UID));
 				if (emptyCodes != null)
