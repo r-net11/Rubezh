@@ -101,21 +101,24 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			int oldIndex = Codes.IndexOf(SelectedCode);
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить код " + SelectedCode.Code.PresentationName + "?"))
+			{
+				int oldIndex = Codes.IndexOf(SelectedCode);
 
-			GKManager.DeviceConfiguration.Codes.Remove(SelectedCode.Code);
-			Codes.Remove(SelectedCode);
-			SelectedCode = Codes.FirstOrDefault();
-			ServiceFactory.SaveService.GKChanged = true;
+				GKManager.DeviceConfiguration.Codes.Remove(SelectedCode.Code);
+				Codes.Remove(SelectedCode);
+				SelectedCode = Codes.FirstOrDefault();
+				ServiceFactory.SaveService.GKChanged = true;
 
-			if (Codes.Count > 0)
-				SelectedCode = Codes[System.Math.Min(oldIndex, Codes.Count - 1)];
+				if (Codes.Count > 0)
+					SelectedCode = Codes[System.Math.Min(oldIndex, Codes.Count - 1)];
+			}
 		}
 
 		public RelayCommand DeleteAllEmptyCommand { get; private set; }
 		void OnDeleteAllEmpty()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?"))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все неиспользуемые коды ?"))
 			{
 				var emptyCodes = Codes.Where(x => !GetOnEmpty().Contains(x.Code.UID));
 				if (emptyCodes != null)

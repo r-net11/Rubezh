@@ -16,23 +16,29 @@ namespace ResursNetwork.OSI.DataLinkLayer
         #region Fields And Properties
         
         protected Guid _Id;
-        public Guid Id
+		/// <summary>
+		/// Буфер входящих сообщений
+		/// </summary>
+		protected Queue<IMessage> _InputBuffer = new Queue<IMessage>();
+		protected INetwrokController _NetworkController;
+        
+		public Guid Id
         {
             get { return _Id; }
             set { _Id = value; }
         }
+
         public abstract string PortName { get; set; }
-        public abstract bool IsOpen { get; }
-        /// <summary>
-        /// Буфер входящих сообщений
-        /// </summary>
-        protected Queue<IMessage> _InputBuffer;
+        
+		public abstract bool IsOpen { get; }
+        
         public int MessagesToRead
         {
             get { return _InputBuffer.Count; }
         }
-        public abstract InterfaceType InterfaceType { get; }
-        protected INetwrokController _NetworkController;
+
+		public abstract InterfaceType InterfaceType { get; }
+        
         public INetwrokController NetworkController
         {
             get { return _NetworkController; }

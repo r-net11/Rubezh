@@ -63,7 +63,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 
         public IDataLinkPort Connection
         {
-            get { throw new NotImplementedException(); }
+            get { return _connection; }
             set 
             {                
                 if (Status == Status.Running)

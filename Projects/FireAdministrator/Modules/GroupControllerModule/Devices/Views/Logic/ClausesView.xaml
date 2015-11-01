@@ -23,11 +23,35 @@
 					<RowDefinition Height="*" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<Button Grid.Row="0"
-					Width="100" Foreground="{DynamicResource ForegroundColorLight}" Style="{StaticResource ToolBarButtonStyle}"
-					Command="{Binding ChangeJoinOperatorCommand}"
-					Background="{Binding JoinOperator, Converter={StaticResource ClauseJoinOperatorToColorConverter}}">
-						<TextBlock Text="{Binding JoinOperator, Converter={StaticResource ClauseJounOperationConverter}}" FontWeight="Bold" />
+				<Button Grid.Row="0" Width="100"
+						Foreground="{DynamicResource ForegroundColorLight}"
+						Command="{Binding ChangeJoinOperatorCommand}"
+						Background="{Binding JoinOperator, Converter={StaticResource ClauseJoinOperatorToColorConverter}}">
+					<Button.Style>
+						<Style TargetType="Button">
+							<Setter Property="Template">
+								<Setter.Value>
+									<ControlTemplate TargetType="Button">
+										<Border Name="border" 
+												Margin="2" 
+												Background="{TemplateBinding Background}" 
+												BorderBrush="Transparent" 
+												BorderThickness="1" 
+												CornerRadius="2" 
+												Padding="2" 
+												ToolTip="{TemplateBinding ToolTip}" 
+												ToolTipService.ShowOnDisabled="True">
+											<ContentPresenter Margin="2" 
+															  HorizontalAlignment="Center" 
+															  VerticalAlignment="Center" 
+															  Content="{TemplateBinding ContentControl.Content}" />
+										</Border>
+									</ControlTemplate>
+								</Setter.Value>
+							</Setter>
+						</Style>
+					</Button.Style>
+					<TextBlock Text="{Binding JoinOperator, Converter={StaticResource ClauseJounOperationConverter}}" FontWeight="Bold" />
 				</Button>
 				<StackPanel Grid.Row="1" Orientation="Horizontal">
 					<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить условие" Height="32" Width="32" />

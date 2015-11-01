@@ -23,7 +23,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         /// <summary>
         /// Возвращает тип устройства (счётчика электро)
         /// </summary>
-        DeviceModel DeviceType { get; }
+        DeviceModel DeviceModel { get; }
         
         /// <summary>
         /// Сетевой адрес устройства
@@ -77,7 +77,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
 		/// </summary>
 		/// <param name="parameterName"></param>
 		/// <param name="value"></param>
-		void WriteParameter(string parameterName, ValueType value);        
+		OperationResult WriteParameter(string parameterName, ValueType value);        
 		
 		#endregion
 

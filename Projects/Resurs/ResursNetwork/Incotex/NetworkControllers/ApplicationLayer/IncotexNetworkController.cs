@@ -311,9 +311,9 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             }
 
             // Обрабатывает сообщение
-            _autoResetEventRequest.Set();
             _CurrentIncomingMessage = dataMessages[0];
-        }
+			_autoResetEventRequest.Set();
+		}
 
         /// <summary>
         /// 
@@ -412,7 +412,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                     else
                     {
                         // Проверяем: если запрос выполен успешно, но устройтсво содежит ошибку ComunicationError,
-                        // то считаем, что связь с устройтсвом восстановилась и убираем данную ошибку
+                        // то считаем, что связь с устройcтвом восстановилась и убираем данную ошибку
                         if (result.Sender.Errors.CommunicationError)
                         {
                             // удаляем данное устройтсво из списка неисправных

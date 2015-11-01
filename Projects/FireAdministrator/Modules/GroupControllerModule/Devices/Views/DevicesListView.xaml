@@ -21,7 +21,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="Адрес" SortMemberPath="SortingAddress" Width="100">
+			<DataGridTemplateColumn Header="Адрес" SortMemberPath="SortingAddress" Width="Auto">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding Device.DottedPresentationAddress}" />
@@ -42,6 +42,15 @@
 										<TextBlock.ToolTip>
 											<TextBlock Text="{Binding EditingPresentationZone}" TextWrapping="Wrap" />
 										</TextBlock.ToolTip>
+										<TextBlock.Style>
+											<Style TargetType="TextBlock">
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding IsLogicGrayed}" Value="True">
+														<Setter Property="TextBlock.Foreground" Value="Gray" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
 									</TextBlock>
 								</ControlTemplate>
 							</Controls:EditorPresenter.ViewTemplate>

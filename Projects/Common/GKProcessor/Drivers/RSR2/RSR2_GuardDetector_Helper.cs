@@ -21,7 +21,7 @@ namespace GKProcessor
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire1);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
@@ -29,7 +29,7 @@ namespace GKProcessor
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOn_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
 
-			GKDriversHelper.AddIntProprety(driver, 0, "Уровень в ед АЦП, с", 128, 128, 384);
+			GKDriversHelper.AddIntProprety(driver, 0, "Уровень в ед АЦП, с", 128, 16, 384);
 
 			return driver;
 		}

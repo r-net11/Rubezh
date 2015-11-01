@@ -102,7 +102,6 @@
       <DependentUpon>LayoutPartTitleView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Library\BaseFrameViewModel.cs" />
-    <Compile Include="Login\LoginService.cs" />
     <Compile Include="Login\ViewModels\LoginViewModel.cs" />
     <Compile Include="Login\Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>

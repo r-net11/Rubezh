@@ -40,6 +40,11 @@ namespace RubezhAPI.GK
 		[DataMember]
 		public string Description { get; set; }
 
+
+
+		/// <summary>
+		/// Имя для отображения названия устройства в пользовательском интерфейсе
+		/// </summary>
 		[XmlIgnore]
 		public virtual string PresentationName
 		{
@@ -52,5 +57,12 @@ namespace RubezhAPI.GK
 				Changed();
 		}
 		public event Action Changed;
+
+		public void OnUIDChanged(Guid oldUID, Guid newUID)
+		{
+			if (UIDChanged != null)
+				UIDChanged(oldUID, newUID);
+		}
+		public event Action<Guid, Guid> UIDChanged;
 	}
 }

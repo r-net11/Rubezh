@@ -10,6 +10,8 @@ namespace GKModule.ViewModels
 		public ObjectsListViewModel (GKDevice device, GKDeviceConfiguration deviceConfiguration)
 		{
 			deviceConfiguration.Update();
+			deviceConfiguration.UpdateConfiguration();
+			deviceConfiguration.PrepareDescriptors();
 			Objects = new List<ObjectViewModel>();
 
 			foreach (var childDevice in deviceConfiguration.Devices)

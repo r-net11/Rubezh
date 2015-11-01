@@ -12,13 +12,13 @@ namespace ResursAPI.Models
 		/// <summary>
 		/// Успешность выполнения операции
 		/// </summary>
-		TransactionError Result { get; set; }
+		TransactionError Result { get; }
 
 		/// <summary>
 		/// Прочитанное или записанное значение параметра
 		/// в удалённое устройтсво
 		/// </summary>
-		ValueType Value { get; set; }
+		ValueType Value { get; }
 
 		#endregion
 	}

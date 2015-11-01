@@ -189,6 +189,7 @@ namespace GKModule.ViewModels
 				Device.Description = value;
 				OnPropertyChanged(() => Description);
 				UpdateDescriptorName();
+				Device.OnChanged();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -653,6 +654,7 @@ namespace GKModule.ViewModels
 		private void OnAllowMultipleVizualizationCommand(bool isAllow)
 		{
 			Device.AllowMultipleVizualization = isAllow;
+			Device.OnChanged();
 			Update();
 		}
 		private bool CanAllowMultipleVizualizationCommand(bool isAllow)

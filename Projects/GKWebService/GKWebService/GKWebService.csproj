@@ -411,7 +411,9 @@
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\report.js" />
     <Content Include="Scripts\tooltips.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -426,6 +428,7 @@
     <Compile Include="Controllers\HrController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="DataProviders\InernalConverter.cs" />
     <Compile Include="DataProviders\PlansDataProvider.cs" />
     <Compile Include="DataProviders\PlansUpdater.cs" />
     <Compile Include="DataProviders\PlansUpdaterHub.cs" />

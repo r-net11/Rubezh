@@ -5,7 +5,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {
-	public class ObjectViewModel : BaseViewModel, IComparable  
+	public class ObjectViewModel : BaseViewModel, IComparable
 	{
 		public string Name { get; set; }
 		public string Address { get; set; }
@@ -38,6 +38,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public string SortingName { get; private set; }
+
 		public string DifferenceDiscription { get; set; }
 		public GKDevice Device;
 		public GKZone Zone;
@@ -63,6 +65,11 @@ namespace GKModule.ViewModels
 			PresentationZone = device.IsNotUsed ? "" : GKManager.GetPresentationZoneOrLogic(Device);
 			ImageSource = "/Controls;component/GKIcons/" + device.DriverType + ".png";
 			ObjectType = ObjectType.Device;
+			SortingName = "a " +
+				(device.KAUParent != null ? device.KAUParent.IntAddress * 256 * 256 * 256 : 0) +
+				(device.ShleifNo * 256 * 256) +
+				(!device.Driver.IsKau ? device.IntAddress * 256 : 0)
+				+ device.Driver.DriverType;
 		}
 
 		public ObjectViewModel(GKZone zone)
@@ -73,6 +80,7 @@ namespace GKModule.ViewModels
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.Zone;
+			SortingName = "b " + zone.No;
 		}
 
 		public ObjectViewModel(GKDirection direction)
@@ -83,6 +91,7 @@ namespace GKModule.ViewModels
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.Direction;
+			SortingName = "c " + direction.No;
 		}
 
 		public ObjectViewModel(GKPumpStation pumpStation)
@@ -93,6 +102,7 @@ namespace GKModule.ViewModels
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.PumpStation;
+			SortingName = "d " + pumpStation.No;
 		}
 
 		public ObjectViewModel(GKMPT mpt)
@@ -103,6 +113,7 @@ namespace GKModule.ViewModels
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.MPT;
+			SortingName = "e " + mpt.No;
 		}
 
 		public ObjectViewModel(GKDelay delay)
@@ -113,6 +124,7 @@ namespace GKModule.ViewModels
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.Delay;
+			SortingName = "f " + delay.No;
 		}
 
 		public ObjectViewModel(GKGuardZone guardZone)
@@ -123,6 +135,7 @@ namespace GKModule.ViewModels
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.GuardZone;
+			SortingName = "g " + guardZone.No;
 		}
 
 		public ObjectViewModel(GKCode code)
@@ -133,6 +146,7 @@ namespace GKModule.ViewModels
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.Code;
+			SortingName = "h " + code.No;
 		}
 
 		public ObjectViewModel(GKDoor door)
@@ -143,6 +157,7 @@ namespace GKModule.ViewModels
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.Door;
+			SortingName = "k " + door.No;
 		}
 
 		int IComparable.CompareTo(object a)

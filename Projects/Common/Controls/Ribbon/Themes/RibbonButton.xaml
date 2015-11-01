@@ -84,7 +84,7 @@
 							</Path.RenderTransform>
 							</Path>
 						-->
-						<Grid Height="26" Width="32" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{Binding ImageSource, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ribbon:RibbonButton}, Converter={StaticResource StringToResourceConverter}}" />
+						<Rectangle Height="26" Width="32" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="{Binding ImageSource, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ribbon:RibbonButton}, Converter={StaticResource StringToResourceConverter}}" />
 					</Grid>
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsMouseOver" Value="True">

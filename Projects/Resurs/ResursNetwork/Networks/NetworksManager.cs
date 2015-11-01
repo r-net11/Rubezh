@@ -337,7 +337,7 @@ namespace ResursNetwork.Networks
 		/// </summary>
 		/// <param name="deviceId"></param>
 		/// <param name="parameterName"></param>
-		public OperationResult ReadParameter(Guid deviceId, string parameterName)
+		public IOperationResult ReadParameter(Guid deviceId, string parameterName)
 		{
 			return FindDevice(deviceId).ReadParameter(parameterName);
 		}

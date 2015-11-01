@@ -83,6 +83,17 @@ namespace GKProcessor
 			driver.Properties.Add(property);
 			return property;
 		}
+		public static GKDriverProperty AddHiddenProperty(GKDriver driver, byte no, string propertyName)
+		{
+			var property = new GKDriverProperty()
+			{
+				No = no,
+				Name = propertyName,
+				DriverPropertyType = GKDriverPropertyTypeEnum.Hidden
+			};
+			driver.Properties.Add(property);
+			return property;
+		}
 
 		public static void AddPropertyParameter(GKDriverProperty property, string name, int value)
 		{

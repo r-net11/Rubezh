@@ -24,8 +24,9 @@
 				<File Id="Server.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.RubezhAPI.dll" Name="RubezhAPI.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.GKProcessor.dll" Name="GKProcessor.dll" Source="$(var.Common.TargetDir)" />
-        <File Id="Server.RubezhDAL.dll" Name="RubezhDAL.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.RubezhDAL.dll" Name="RubezhDAL.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.FiresecLicense.dll" Name="FiresecLicense.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.RubezhLicense.dll" Name="RubezhLicense.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.NLog.dll" Name="NLog.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Common.TargetDir)" />
