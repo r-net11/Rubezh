@@ -116,7 +116,65 @@ namespace GKWebService.Controllers
         {
             return organisations.Select(ShortEmployeeModel.CreateFromOrganisation).ToList();
         }
-    }
+
+		public JsonNetResult GetEmployeeCards(Guid? id)
+		{
+			var cards = new List<EmployeeCardModel>();
+			if (id.HasValue)
+			{
+				var operationResult = ClientManager.FiresecService.GetEmployeeCards(id.Value);
+				cards.AddRange(operationResult.Result.Select(CreateCard));
+			}
+			return new JsonNetResult { Data = new {Cards = cards}};
+		}
+
+		private EmployeeCardModel CreateCard(SKDCard card)
+		{
+			var employeeCard = EmployeeCardModel.Create(card);
+			var cardDoors = GetCardDoors(card);
+			employeeCard.Doors = InitializeDoors(cardDoors);
+			return employeeCard;
+		}
+
+	    private List<CardDoor> GetCardDoors(SKDCard card)
+		{
+			var cardDoors = new List<CardDoor>();
+			cardDoors.AddRange(card.CardDoors);
+			if (card.AccessTemplateUID != null)
+			{
+				var result = ClientManager.FiresecService.GetAccessTemplates(new AccessTemplateFilter());
+				var accessTemplates = result.Result;
+				if (accessTemplates != null)
+				{
+					var accessTemplate = accessTemplates.FirstOrDefault(x => x.UID == card.AccessTemplateUID);
+					if (accessTemplate != null)
+					{
+						foreach (var cardZone in accessTemplate.CardDoors)
+						{
+							if (!cardDoors.Any(x => x.DoorUID == cardZone.DoorUID))
+								cardDoors.Add(cardZone);
+						}
+					}
+				}
+			}
+			return cardDoors;
+		}
+
+		List<AccessDoorModel> InitializeDoors(IEnumerable<CardDoor> cardDoors)
+		{
+			var operationResult = ClientManager.FiresecService.GetGKSchedules();
+			if (operationResult.Result != null)
+				operationResult.Result.ForEach(x => x.ScheduleParts = x.ScheduleParts.OrderBy(y => y.DayNo).ToList());
+			var schedules = operationResult.Result;
+			var doors = new List<AccessDoorModel>();
+			var gkDoors = from cardDoor in cardDoors
+						  join gkDoor in GKManager.DeviceConfiguration.Doors on cardDoor.DoorUID equals gkDoor.UID
+						  select new { CardDoor = cardDoor, GKDoor = gkDoor };
+			foreach (var doorViewModel in gkDoors.Select(x => new AccessDoorModel(x.GKDoor, x.CardDoor, schedules)).OrderBy(x => x.PresentationName))
+				doors.Add(doorViewModel);
+			return doors;
+		}
+	}
 
 	public class SaveChiefParams
 	{
