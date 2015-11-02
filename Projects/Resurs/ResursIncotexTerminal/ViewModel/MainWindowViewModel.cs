@@ -14,10 +14,9 @@ namespace ResursIncotexTerminal.ViewModel
 	{
 		#region Fields And Properties
 		
-		public NetworksManager NetworkManager
+		public NetworksManager Manager
 		{ 
-			get 
-			{ return NetworksManager.Instance; } 
+			get { return NetworksManager.Instance; } 
 		}
 
 		public IList<INetwrokController> Networks

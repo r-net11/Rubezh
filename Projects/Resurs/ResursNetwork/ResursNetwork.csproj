@@ -44,8 +44,9 @@
   <ItemGroup>
     <Compile Include="BCD\BcdConverter.cs" />
     <Compile Include="ComponentModel\EnumTypeConverter.cs" />
-    <Compile Include="Incotex\Models\Mercury203Virtual.cs" />
-    <Compile Include="Incotex\Models\PowerCounters.cs" />
+    <Compile Include="Incotex\Models\Mpower.cs" />
+    <Compile Include="Incotex\Models\PowerCouters\Mercury203Virtual.cs" />
+    <Compile Include="Incotex\Models\TariffCounters.cs" />
     <Compile Include="Incotex\NetworkControllers\ApplicationLayer\IncotexNetworkControllerVirtual.cs" />
     <Compile Include="OSI\ApplicationLayer\ConfigurationChangedEventArgs.cs" />
     <Compile Include="OSI\ApplicationLayer\NetworkControllerErrorOccuredEventArgs.cs" />
@@ -67,7 +68,7 @@
     <Compile Include="OSI\ApplicationLayer\Devices\ValueConverters\BigEndianUInt32ValueConverter.cs" />
     <Compile Include="OSI\ApplicationLayer\Devices\ValueConverters\IncotexDataTimeTypeConverter.cs" />
     <Compile Include="Incotex\Models\IncotexDateTime.cs" />
-    <Compile Include="Incotex\Models\Mercury203.cs" />
+    <Compile Include="Incotex\Models\PowerCouters\Mercury203.cs" />
     <Compile Include="OSI\ApplicationLayer\Devices\Parameter.cs" />
     <Compile Include="OSI\ApplicationLayer\Devices\ValueConverters\IValueConverter.cs" />
     <Compile Include="Incotex\NetworkControllers\ApplicationLayer\CMD.cs" />

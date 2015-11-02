@@ -25,7 +25,6 @@ namespace Infrastructure
 		}
 		public static AppSettings AppSettings { get; set; }
 		public static ILayoutService Layout { get; private set; }
-		public static LoginService LoginService { get; private set; }
 
 		public static void Initialize(ILayoutService ILayoutService, ISecurityService ISecurityService)
 		{
@@ -33,7 +32,6 @@ namespace Infrastructure
 			ServiceFactoryBase.SecurityService = SecurityService = ISecurityService;
 			ResourceService = new ResourceService();
 			Layout = ILayoutService;
-			LoginService = new LoginService(ClientType.Monitor, "Оперативная задача. Авторизация.");
 			ContentService = new ContentService("Monitor");
 			DragDropService = new DragDropService();
 		}

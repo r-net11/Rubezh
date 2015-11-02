@@ -29,9 +29,15 @@ namespace ResursTerminal
 		static void Main(string[] args)
 		{
 			Init();
+			WritePowerLimit();
+			//ReadPowerLimit();
+			//ReadTariff1();
+			//ReadTariff2();
+			//ReadTariff3();
+			//ReadTariff4();
 			//ReadGroupAddress();
 			//WriteDateTime();
-			ReadDateTime();
+			//ReadDateTime();
 
 			Console.WriteLine("Для завершения работы нажми ENTER...");
 			Console.ReadLine();
@@ -63,6 +69,80 @@ namespace ResursTerminal
 
 			_Device.Start();
 			network.Start();
+		}
+
+		static void WritePowerLimit()
+		{
+			Console.WriteLine("Записать лимит мощности...");
+
+			var result = _Device.WriteParameter(
+				ResursAPI.ParameterNames.ParameterNamesMercury203.PowerLimit, 7f);
+			var x = result.Value;
+
+			Console.WriteLine("Результат: {0}, Значение: {1}",
+				result.Result.ErrorCode, x);
+
+		}
+
+		static void ReadPowerLimit()
+		{
+			Console.WriteLine("Прочитать лимит мощности...");
+
+			var result = _Device.ReadParameter(
+				ResursAPI.ParameterNames.ParameterNamesMercury203.PowerLimit);
+			var x = result.Value;
+
+			Console.WriteLine("Результат: {0}, Значение: {1}",
+				result.Result.ErrorCode, x);
+ 
+		}
+
+		static void ReadTariff4()
+		{
+			Console.WriteLine("Прочитать тарифные счётчики...");
+
+			var result = _Device.ReadParameter(
+				ResursAPI.ParameterNames.ParameterNamesMercury203.CounterTarif4);
+			var x = result.Value;
+
+			Console.WriteLine("Результат: {0}, Значение: \n Тариф 4={1}",
+				result.Result.ErrorCode, x);
+		}
+
+		static void ReadTariff3()
+		{
+			Console.WriteLine("Прочитать тарифные счётчики...");
+
+			var result = _Device.ReadParameter(
+				ResursAPI.ParameterNames.ParameterNamesMercury203.CounterTarif3);
+			var x = result.Value;
+
+			Console.WriteLine("Результат: {0}, Значение: \n Тариф 3={1}",
+				result.Result.ErrorCode, x);
+		}
+
+		static void ReadTariff2()
+		{
+			Console.WriteLine("Прочитать тарифные счётчики...");
+
+			var result = _Device.ReadParameter(
+				ResursAPI.ParameterNames.ParameterNamesMercury203.CounterTarif2);
+			var x = result.Value;
+
+			Console.WriteLine("Результат: {0}, Значение: \n Тариф 2={1}",
+				result.Result.ErrorCode, x);
+		}
+
+		static void ReadTariff1()
+		{
+			Console.WriteLine("Прочитать тарифные счётчики...");
+
+			var result = _Device.ReadParameter(
+				ResursAPI.ParameterNames.ParameterNamesMercury203.CounterTarif1);
+			var x = result.Value;
+
+			Console.WriteLine("Результат: {0}, Значение: \n Тариф 1={1}", 
+				result.Result.ErrorCode, x);
 		}
 
 		static void ReadDateTime()

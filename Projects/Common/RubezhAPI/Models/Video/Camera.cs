@@ -66,14 +66,20 @@ namespace RubezhAPI.Models
 			if (Changed != null)
 				Changed();
 		}
+		public event Action Changed;
+
+		public void OnUIDChanged(Guid oldUID, Guid newUID)
+		{
+			if (UIDChanged != null)
+				UIDChanged(oldUID, newUID);
+		}
+		public event Action<Guid, Guid> UIDChanged;
 
 		[XmlIgnore]
 		public string PresentationName
 		{
 			get { return Name + " " + Ip; }
 		}
-
-		public event Action Changed;
 
 		[XmlIgnore]
 		public CameraState CameraState { get; private set; }

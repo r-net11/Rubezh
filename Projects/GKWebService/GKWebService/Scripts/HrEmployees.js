@@ -106,6 +106,10 @@ function EmployeesViewModel(parentViewModel) {
         self.OrganisationName(myGrid.jqGrid('getCell', id, 'OrganisationName'));
         self.RemovalDate(myGrid.jqGrid('getCell', id, 'RemovalDate'));
         self.IsDeleted(myGrid.jqGrid('getCell', id, 'IsDeleted') == "true");
+
+        if (!self.IsOrganisation()) {
+            self.EmployeeCards.Init(self.UID());
+        }
     });
 
     self.ShowEmployee = function(box) {
@@ -135,7 +139,7 @@ function EmployeesViewModel(parentViewModel) {
             ko.mapping.fromJS(emp, {}, self.EmployeeDetails);
             $.getJSON("/Employees/GetOrganisation/" + self.OrganisationUID(), function(org) {
                 self.EmployeeDetails.Organisation = org;
-                self.EmployeeDetails.Init(true, self.ParentViewModel.SelectedPersonType());
+                self.EmployeeDetails.Init(true, self.ParentViewModel.SelectedPersonType(), self);
                 self.ShowEmployee(box);
             });
         });
@@ -146,7 +150,7 @@ function EmployeesViewModel(parentViewModel) {
             ko.mapping.fromJS(emp, {}, self.EmployeeDetails);
             $.getJSON("/Employees/GetOrganisation/" + self.OrganisationUID(), function(org) {
                 self.EmployeeDetails.Organisation = org;
-                self.EmployeeDetails.Init(false, self.ParentViewModel.SelectedPersonType());
+                self.EmployeeDetails.Init(false, self.ParentViewModel.SelectedPersonType(), self);
                 self.ShowEmployee(box);
             });
         });

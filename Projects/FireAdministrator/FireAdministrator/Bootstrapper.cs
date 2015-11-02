@@ -31,8 +31,8 @@ namespace FireAdministrator
 			{
 				try
 				{
-                    ServiceFactory.StartupService.DoStep("Загрузка лицензии");
-                    ClientManager.GetLicense();
+					ServiceFactory.StartupService.DoStep("Загрузка лицензии");
+					ClientManager.GetLicense();
 
 					ServiceFactory.StartupService.ShowLoading("Загрузка модулей", 5);
 					CreateModules();

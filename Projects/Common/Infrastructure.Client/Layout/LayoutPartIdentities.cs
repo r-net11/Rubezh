@@ -28,6 +28,7 @@ namespace Infrastructure.Client.Layout
 		public static readonly Guid Directions = new Guid("{020501DC-00A7-4EA7-B251-D4C98B7C796F}");
 		public static readonly Guid PumpStations = new Guid("{C96EB8B0-E6DA-482c-B19C-3BD862768713}");
 		public static readonly Guid MPTs = new Guid("{BE50C86B-75C2-4850-8894-A325B14F946A}");
+		public static readonly Guid Delays = new Guid("2B0C7C1C-ADFA-4C8E-8D15-565F7CD3C4FC");
 		public static readonly Guid Doors = new Guid("{1944B6F5-779F-4fff-949E-A546AC3493EC}");
 		public static readonly Guid ConnectionIndicator = new Guid("{203F1AD9-212D-4B92-AE61-C4B340D52DD6}");
 

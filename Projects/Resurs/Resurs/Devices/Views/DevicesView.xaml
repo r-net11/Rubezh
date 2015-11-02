@@ -1,6 +1,6 @@
 ﻿<UserControl x:Class="Resurs.Views.DevicesView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:viewModel="clr-namespace:Resurs.ViewModels"
 			 xmlns:Converters="clr-namespace:Resurs.Converters">

@@ -11,7 +11,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Client.Login.ViewModels
 {
-	internal class LoginViewModel : SaveCancelDialogViewModel
+	public class LoginViewModel : SaveCancelDialogViewModel
 	{
 		PasswordViewType _passwordViewType;
 

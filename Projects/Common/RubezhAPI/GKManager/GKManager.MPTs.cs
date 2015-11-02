@@ -44,6 +44,7 @@ namespace RubezhClient
 		public static void EditMPT(GKMPT mpt)
 		{
 			mpt.OutDependentElements.ForEach(x => x.OnChanged());
+			mpt.OnChanged();
 		}
 	}
 }

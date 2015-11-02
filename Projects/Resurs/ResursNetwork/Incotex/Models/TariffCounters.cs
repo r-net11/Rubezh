@@ -11,7 +11,7 @@ namespace ResursNetwork.Incotex.Models
 	/// (счётчиков нарастающего итога) 
 	/// потреблённой эл. энергии 4-х зон 
 	/// </summary>
-	public struct PowerCounters
+	public struct TariffCounters
 	{
 		#region Fields And Properties
 
@@ -80,11 +80,11 @@ namespace ResursNetwork.Incotex.Models
 		/// <param name="array">Массив значений аккумуляторов потреблённой эл. энергии
 		/// полученный из счётчика в формате BCD (десятки Вт.ч) старшие разряды вперёд</param>
 		/// <returns></returns>
-		public static PowerCounters FromArray(uint[] array)
+		public static TariffCounters FromArray(uint[] array)
 		{
 			if (array.Length == 4)
  			{
-				return new PowerCounters
+				return new TariffCounters
 				{
 					_counterTarif1Bcd = array[0],
 					_counterTarif2Bcd = array[1],
@@ -96,6 +96,58 @@ namespace ResursNetwork.Incotex.Models
 			{
 				throw new ArgumentException();
 			}
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="array"></param>
+		/// <returns></returns>
+		public static TariffCounters FromArray(byte[] array)
+		{
+			if (array.Length != 16)
+			{
+				throw new InvalidCastException(
+					"Невозможно привести массив байт к структуре. Неверная длина массива");
+			}
+
+			byte[] value = new byte[4];
+			uint[] values = new uint[4]; 
+
+			for (int i = 0; i < 4; i++)
+			{
+				Array.Copy(array, (i*4), value, 0, 4);
+
+				//if (BitConverter.IsLittleEndian)
+				//{
+				//	Array.Reverse(value);
+				//}
+				values[i] = BitConverter.ToUInt32(value, 0);	
+			}
+
+			return FromArray(values);
+		}
+
+		public static bool operator ==(TariffCounters x, TariffCounters y)
+		{
+			return (x._counterTarif1Bcd == y._counterTarif1Bcd) &&
+					(x._counterTarif2Bcd == y._counterTarif2Bcd) &&
+					(x._counterTarif3Bcd == y._counterTarif3Bcd) &&
+					(x._counterTarif4Bcd == y._counterTarif4Bcd) ? true : false;
+		}
+
+		public static bool operator !=(TariffCounters x, TariffCounters y)
+		{
+			return x == y ? false : true;
+		}
+
+		public override bool Equals(object obj)
+		{
+			return base.Equals(obj);
+		}
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
 		}
 
 		#endregion
