@@ -25,34 +25,34 @@ namespace ResursNetwork.OSI.Messages.Transactions
     public class NetworkRequest
     {
         #region Fields And Propeties
-        private Guid _Id = Guid.NewGuid();
-        private List<Transaction> _Transactions = new List<Transaction>();
-        private int _TotalAttempts = 1;
-        private AsyncRequestResult _AsyncRequestResult = new AsyncRequestResult();
+        private Guid _id = Guid.NewGuid();
+        private List<Transaction> _transactions = new List<Transaction>();
+        private int _totalAttempts = 1;
+        private AsyncRequestResult _asyncRequestResult;
 
         public Guid Id
         {
-            get { return _Id; }
+            get { return _id; }
         }
 
         public Transaction Request
         {
-            get { return _Transactions.Count == 0 ? null : _Transactions[0]; }
+            get { return _transactions.Count == 0 ? null : _transactions[0]; }
         }
 
         public Transaction[] TransactionsStack
         {
-            get { return _Transactions.ToArray(); }
+            get { return _transactions.ToArray(); }
         }
 
         public int TotalAttempts
         {
-            get { return _TotalAttempts; }
+            get { return _totalAttempts; }
             set 
             {
                 if (value > 0)
                 {
-                    _TotalAttempts = value;
+                    _totalAttempts = value;
                 }
                 else
                 {
@@ -64,21 +64,21 @@ namespace ResursNetwork.OSI.Messages.Transactions
 
         public Transaction CurrentTransaction
         {
-            get { return _Transactions.Count == 0 ? null : 
-                _Transactions[_Transactions.Count - 1]; }
+            get { return _transactions.Count == 0 ? null : 
+                _transactions[_transactions.Count - 1]; }
         }
 
         public NetworkRequestStatus Status
         {
             get
             {
-                if (_Transactions.Count == 0)
+                if (_transactions.Count == 0)
                 {
                     return NetworkRequestStatus.NotInitialized;
                 }
-                else if (_Transactions.Count == 1)
+                else if (_transactions.Count == 1)
                 {
-                    switch (_Transactions[0].Status)
+                    switch (_transactions[0].Status)
                     {
                         case TransactionStatus.NotInitialized:
                             { return NetworkRequestStatus.NotInitialized; }
@@ -94,7 +94,7 @@ namespace ResursNetwork.OSI.Messages.Transactions
                 }
                 else
                 {
-                    switch (_Transactions[_Transactions.Count - 1].Status)
+                    switch (_transactions[_transactions.Count - 1].Status)
                     {
                         case TransactionStatus.NotInitialized:
                         case TransactionStatus.Running:
@@ -115,7 +115,7 @@ namespace ResursNetwork.OSI.Messages.Transactions
         /// </summary>
         public AsyncRequestResult AsyncRequestResult
         {
-            get { return _AsyncRequestResult; }
+            get { return _asyncRequestResult; }
         }
 
         #endregion
@@ -129,7 +129,8 @@ namespace ResursNetwork.OSI.Messages.Transactions
 
         public NetworkRequest(Transaction transaction)
         {
-            _Transactions.Insert(0, transaction);
+			_asyncRequestResult = new AsyncRequestResult(this);
+            _transactions.Insert(0, transaction);
         }
 
         #endregion
@@ -148,11 +149,11 @@ namespace ResursNetwork.OSI.Messages.Transactions
                     "Невозможно выполнить повтор запроса, данная операция возможно только при неудачном предыдущем запросе");
             }
 
-            if (_Transactions.Count < _TotalAttempts)
+            if (_transactions.Count < _totalAttempts)
             {
-                _Transactions.Add(new Transaction(_Transactions[0].Sender,
-                    _Transactions[0].TransactionType, _Transactions[0].Request));
-                transaction = _Transactions[_Transactions.Count - 1];
+                _transactions.Add(new Transaction(_transactions[0].Sender,
+                    _transactions[0].TransactionType, _transactions[0].Request));
+                transaction = _transactions[_transactions.Count - 1];
                 return true;
             }
             else

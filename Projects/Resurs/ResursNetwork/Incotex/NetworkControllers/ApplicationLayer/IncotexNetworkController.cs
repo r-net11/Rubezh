@@ -356,6 +356,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                                     ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
                                     Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
                                 });
+							networkRequest.AsyncRequestResult.SetCompleted();
                             continue;
                         }
                     }
@@ -368,6 +369,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                             ErrorCode = TransactionErrorCodes.RequestWasCancelled,
                             Description = "Выполнение запроса прервано по требованию"
                         });
+						networkRequest.AsyncRequestResult.SetCompleted();
                         continue;
                     }
 
@@ -380,8 +382,9 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                         {
                             ErrorCode = TransactionErrorCodes.RequestTimeout,
                             Description =
-                            "Исключено из обработки по причине неудачного предыдущего запроса к этому устройтсву"
+                            "Исключено из обработки по причине неудачного предыдущего запроса к этому устройству"
                         });
+						networkRequest.AsyncRequestResult.SetCompleted();
                         continue;
                     }
 
@@ -542,7 +545,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                         OnNetwrokRequestCompleted(
                             new NetworkRequestCompletedArgs { NetworkRequest = _currentNetworkRequest });
 
-                        result.SetCompleted(_currentNetworkRequest.TransactionsStack);
+                        result.SetCompleted();
 
                         break;
                     }
@@ -563,13 +566,13 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                                 "Принят ответ от удалённого устройтства во время широковещательного запроса");
                         }
 
-                        result.SetCompleted(_currentNetworkRequest.TransactionsStack);
+                        result.SetCompleted();
 
                         break;
                     }
                 default:
                     {
-                        result.SetCompleted(_currentNetworkRequest.TransactionsStack);
+                        result.SetCompleted();
                         throw new NotSupportedException();
                     }
             }
@@ -579,6 +582,16 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         {
             throw new NotImplementedException();
         }
+
+		public override OperationResult ReadParameter(string parameterName)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void WriteParameter(string parameterName, ValueType value)
+		{
+			throw new NotImplementedException();
+		}
 
         #endregion
 

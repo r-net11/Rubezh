@@ -44,7 +44,7 @@ namespace Resurs.Receipts
 		{
 			var filePath = Path.Combine(DirectoryPath, receipt.Uid.ToString());
 			receipt.SaveLayout(filePath);
-			DBCash.SaveReceipt(new Receipt
+			DbCache.SaveReceipt(new Receipt
 			{
 				Name = receipt.Name,
 				UID = receipt.Uid,
@@ -56,7 +56,7 @@ namespace Resurs.Receipts
 		public static List<ReceiptTemplate> GetEditableTemplates()
 		{
 			var templates = new List<ReceiptTemplate>();
-			var receipts = DBCash.GetAllReceipts();
+			var receipts = DbCache.GetAllReceipts();
 			foreach (var receipt in receipts)
 			{
 				var filePath = Path.Combine(DirectoryPath, receipt.UID.ToString());
@@ -75,12 +75,12 @@ namespace Resurs.Receipts
 			var filePath = Path.Combine(DirectoryPath, receipt.Uid.ToString());
 			if (File.Exists(filePath))
 				File.Delete(filePath);
-			DBCash.DeleteReceiptByUid(receipt.Uid);
+			DbCache.DeleteReceiptByUid(receipt.Uid);
 		}
 		public static ReceiptTemplate GetTemplateByUid(Guid receiptUid)
 		{
 			var filePath = Path.Combine(DirectoryPath, receiptUid.ToString());
-			var receipt = DBCash.GetReceiptByUid(receiptUid);
+			var receipt = DbCache.GetReceiptByUid(receiptUid);
 			if (receipt != null)
 			{
 				if (!File.Exists(filePath))

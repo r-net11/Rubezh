@@ -21,7 +21,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
-	public class DirectionsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class DirectionsViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public static DirectionsViewModel Current { get; private set; }
 		bool _lockSelection = false;

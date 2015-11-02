@@ -15,6 +15,7 @@ using ResursNetwork.OSI.Messages.Transactions;
 using ResursNetwork.Management;
 using ResursNetwork.Incotex.Models;
 using ResursNetwork.Networks;
+using ResursAPI;
 using ResursAPI.Models;
 using ResursAPI.CommandNames;
 using ResursAPI.ParameterNames;
@@ -38,6 +39,16 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 		Task _networkPollingTask;
 		int _pollingPeriod;
 		NetworkControllerErrors _Errors;
+
+		#region нужен только для отладки
+
+		int _bautRate = 9600;
+		int _broadcastRequestDelay = 2000;
+		string _portName = "VIRTUAL COM1";
+	
+		#endregion
+
+
 
         public Guid Id
         {
@@ -400,6 +411,98 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 			}
 		}
 
+		public OperationResult ReadParameter(string parameterName)
+		{
+			switch (parameterName)
+			{
+				case ParameterNamesIncotexNetworkVirtual.BautRate:
+					{
+						return new OperationResult
+						{
+							Result =
+								new TransactionError 
+								{ 
+									ErrorCode = TransactionErrorCodes.NoError, 
+									Description = String.Empty 
+								},
+							Value = _bautRate
+						};
+					}
+				case ParameterNamesIncotexNetworkVirtual.BroadcastDelay:
+					{
+						return new OperationResult
+						{
+							Result =
+								new TransactionError
+								{
+									ErrorCode = TransactionErrorCodes.NoError,
+									Description = String.Empty
+								},
+							Value = _broadcastRequestDelay
+						};
+					}
+				case ParameterNamesIncotexNetworkVirtual.PollInterval:
+					{
+						return new OperationResult
+						{
+							Result =
+								new TransactionError
+								{
+									ErrorCode = TransactionErrorCodes.NoError,
+									Description = String.Empty
+								},
+							Value = _pollingPeriod
+						};
+					}
+				case ParameterNamesIncotexNetworkVirtual.PortName:
+					{
+						return new OperationResult
+						{
+							Result =
+								new TransactionError
+								{
+									ErrorCode = TransactionErrorCodes.NoError,
+									Description = String.Empty
+								},
+							Value = new ParameterStringContainer { Value = _portName }
+						};
+					}
+				default:
+					{
+ 						throw new InvalidOperationException(String.Format(
+							"Ошибка чтения параметра. Параметр {0} не найден", parameterName));
+					}
+			}
+		}
+
+		public void WriteParameter(string parameterName, ValueType value)
+		{
+			switch (parameterName)
+			{
+				case ParameterNamesIncotexNetworkVirtual.BautRate:
+					{
+						_bautRate = (int)value; break;
+					}
+				case ParameterNamesIncotexNetworkVirtual.BroadcastDelay:
+					{
+						_broadcastRequestDelay = (int)value; break;
+					}
+				case ParameterNamesIncotexNetworkVirtual.PollInterval:
+					{
+						_pollingPeriod = (int)value; break;
+					}
+				case ParameterNamesIncotexNetworkVirtual.PortName:
+					{
+						_portName = ((ParameterStringContainer)value).Value; break;
+					}
+				default:
+					{
+						throw new InvalidOperationException(String.Format(
+							"Ошибка записи параметра. Параметр {0} не найден", parameterName));
+					}
+			}
+		}
+
         #endregion
 
         #region Events
@@ -411,7 +514,5 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 		public event EventHandler<NetworkControllerErrorOccuredEventArgs> ErrorOccurred;
 
 		#endregion
-
-
 	}
 }

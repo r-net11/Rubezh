@@ -383,7 +383,7 @@ namespace Infrastructure.Automation
 				switch (property)
 				{
 					case Property.ShleifNo:
-						propertyValue = gkDevice.ShleifNo;
+						propertyValue = (int)gkDevice.ShleifNo;
 						break;
 					case Property.IntAddress:
 						propertyValue = gkDevice.IntAddress;
@@ -604,7 +604,7 @@ namespace Infrastructure.Automation
 					var propertyValue = GetPropertyValue(findObjectCondition.Property, item);
 					var conditionValue = GetValue<object>(findObjectCondition.SourceArgument);
 					var comparer = Compare(propertyValue, conditionValue, findObjectCondition.ConditionType);
-					if (comparer != null && !comparer.Value)
+					if (comparer == null || !comparer.Value)
 					{
 						allTrue = false;
 						break;
@@ -617,8 +617,6 @@ namespace Infrastructure.Automation
 
 		bool? Compare(object param1, object param2, ConditionType conditionType)
 		{
-			if (param1.GetType() != param2.GetType())
-				return null;
 			if (param1.GetType().IsEnum || param1 is int)
 			{
 				return conditionType == ConditionType.IsEqual && (int)param1 == (int)param2
@@ -628,6 +626,9 @@ namespace Infrastructure.Automation
 					|| conditionType == ConditionType.IsLess && (int)param1 < (int)param2
 					|| conditionType == ConditionType.IsNotLess && (int)param1 >= (int)param2;
 			}
+
+			if (param1.GetType() != param2.GetType())
+				return null;
 
 			if (param1 is DateTime)
 			{
@@ -647,11 +648,13 @@ namespace Infrastructure.Automation
 					|| conditionType == ConditionType.EndsWith && ((string)param1).EndsWith((string)param2)
 					|| conditionType == ConditionType.Contains && ((string)param1).Contains((string)param2);
 			}
+
 			if (param1 is bool)
 			{
 				return conditionType == ConditionType.IsEqual && (bool)param1 == (bool)param2
 						|| conditionType == ConditionType.IsNotEqual && (bool)param1 != (bool)param2;
 			}
+
 			return null;
 		}
 

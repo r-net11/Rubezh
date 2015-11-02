@@ -18,10 +18,10 @@ namespace Resurs.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 
 			Users = new ObservableCollection<UserViewModel>();
-			DBCash.Users.ForEach(x => Users.Add(new UserViewModel(x)));
+			DbCache.Users.ForEach(x => Users.Add(new UserViewModel(x)));
 			SelectedUser = Users.FirstOrDefault();
-			if (DBCash.GetUser(SelectedUser.User.UID) != null)
-				SelectedUser.User = DBCash.GetUser(SelectedUser.User.UID);
+			if (DbCache.GetUser(SelectedUser.User.UID) != null)
+				SelectedUser.User = DbCache.GetUser(SelectedUser.User.UID);
 		}
 
 		public ObservableCollection<UserViewModel> Users { get; private set; }
@@ -34,7 +34,7 @@ namespace Resurs.ViewModels
 			{
 				_selectedUser = value;
 				if (_selectedUser != null)
-					_selectedUser.User = DBCash.GetUser(SelectedUser.User.UID);
+					_selectedUser.User = DbCache.GetUser(SelectedUser.User.UID);
 				OnPropertyChanged(() => SelectedUser);
 			}
 		}
@@ -45,7 +45,7 @@ namespace Resurs.ViewModels
 			var userDetailsViewModel = new UserDetailsViewModel();
 			if (DialogService.ShowModalWindow(userDetailsViewModel))
 			{
-				DBCash.AddJournalForUser(JournalType.AddUser, userDetailsViewModel.User);
+				DbCache.AddJournalForUser(JournalType.AddUser, userDetailsViewModel.User);
 
 				var userViewModel = new UserViewModel(userDetailsViewModel.User);
 				Users.Add(userViewModel);
@@ -60,11 +60,11 @@ namespace Resurs.ViewModels
 			if (DialogService.ShowModalWindow(userDetailsViewModel))
 			{
 				SelectedUser.User = userDetailsViewModel.User;
-				if (DBCash.CurrentUser != null && DBCash.CurrentUser.UID == userDetailsViewModel.User.UID)
-					DBCash.CurrentUser = userDetailsViewModel.User;
+				if (DbCache.CurrentUser != null && DbCache.CurrentUser.UID == userDetailsViewModel.User.UID)
+					DbCache.CurrentUser = userDetailsViewModel.User;
 				Bootstrapper.MainViewModel.UpdateTabsIsVisible();
 				if (userDetailsViewModel.IsChange)
-					DBCash.AddJournalForUser(JournalType.EditUser, SelectedUser.User);
+					DbCache.AddJournalForUser(JournalType.EditUser, SelectedUser.User);
 			}
 		}
 
@@ -75,10 +75,10 @@ namespace Resurs.ViewModels
 
 		public bool IsVisible
 		{
-			get { return DBCash.CheckPermission(PermissionType.ViewUser); }
+			get { return DbCache.CheckPermission(PermissionType.ViewUser); }
 		}
 
-		public bool IsEdit { get { return DBCash.CheckPermission(PermissionType.EditUser); } }
+		public bool IsEdit { get { return DbCache.CheckPermission(PermissionType.EditUser); } }
 
 		public RelayCommand RemoveCommand { get; set; }
 		void OnDelete()
@@ -86,8 +86,8 @@ namespace Resurs.ViewModels
 			if (MessageBoxService.ShowQuestion(string.Format("Вы уверенны, что хотите удалить пользователя \"{0}\" из списка", SelectedUser.User.Name)))
 			{
 				var index = Users.IndexOf(SelectedUser);
-				DBCash.AddJournalForUser(JournalType.DeleteUser, SelectedUser.User);
-				DBCash.DeleteUser(SelectedUser.User);
+				DbCache.AddJournalForUser(JournalType.DeleteUser, SelectedUser.User);
+				DbCache.DeleteUser(SelectedUser.User);
 				Users.Remove(SelectedUser);
 
 				index = Math.Min(index, Users.Count - 1);
@@ -98,7 +98,7 @@ namespace Resurs.ViewModels
 
 		bool CanDelete()
 		{
-			return SelectedUser != null && DBCash.CurrentUser != null && SelectedUser.User.UID != DBCash.CurrentUser.UID;
+			return SelectedUser != null && DbCache.CurrentUser != null && SelectedUser.User.UID != DbCache.CurrentUser.UID;
 		}
 
 		public void Select(Guid userUID)

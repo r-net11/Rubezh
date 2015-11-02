@@ -11,7 +11,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
-	public class SchedulesViewModel : ViewPartViewModel, IEditingViewModel
+	public class SchedulesViewModel : ViewPartViewModel
 	{
 		public SchedulesViewModel()
 		{

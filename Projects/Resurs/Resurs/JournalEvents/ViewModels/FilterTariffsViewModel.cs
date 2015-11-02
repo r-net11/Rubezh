@@ -15,7 +15,7 @@ namespace Resurs.ViewModels
 		public FilterTariffsViewModel(Filter filter)
 		{
 			FilterTariffViewModel = new ObservableCollection<FilterTariffViewModel>();
-			DBCash.Tariffs.ForEach(x => FilterTariffViewModel.Add(new FilterTariffViewModel(x)));
+			DbCache.Tariffs.ForEach(x => FilterTariffViewModel.Add(new FilterTariffViewModel(x)));
 			FilterTariffViewModel.ForEach(x =>
 				{
 					if (filter.TariffUIDs.Contains(x.Tariff.UID))

@@ -19,7 +19,7 @@ namespace Resurs.Reports.Templates
 				DeviceName.Value = filter.Device.Name;
 				Address.Value = filter.Device.FullAddress;
 				AbonentName.Value = "Лавров Генадий Павлович";
-				var measures = DBCash.GetMeasures(filter.Device.UID, filter.StartDate, filter.EndDate);
+				var measures = DbCache.GetMeasures(filter.Device.UID, filter.StartDate, filter.EndDate);
 				var dataSet = new CounterDataSet();
 				foreach (var measure in measures)
 				{

@@ -15,7 +15,7 @@ using Infrastructure.Common.Windows;
 
 namespace AutomationModule.ViewModels
 {
-	public class ProceduresViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class ProceduresViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public static ProceduresViewModel Current { get; private set; }
 		public ProceduresViewModel()

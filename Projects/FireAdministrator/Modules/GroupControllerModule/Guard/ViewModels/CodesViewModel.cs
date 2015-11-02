@@ -16,7 +16,7 @@ using RubezhAPI.GK;
 
 namespace GKModule.ViewModels
 {
-	public class CodesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class CodesViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public CodesViewModel()
 		{

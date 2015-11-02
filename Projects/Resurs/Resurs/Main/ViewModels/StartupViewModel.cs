@@ -20,7 +20,7 @@ namespace Resurs.ViewModels
 	{
 		public StartupViewModel()
 		{
-			DBCash.CheckConnection();
+			DbCache.CheckConnection();
 			HeaderCommandViewModel = new StartupHeaderViewModel(this);
 			Title = "Вход в АРМ Ресурс";
 			Sizable = false;
@@ -90,7 +90,7 @@ namespace Resurs.ViewModels
 			{
 				//ApplicationService.DoEvents(Dispatcher);
 				Close(true);
-				DBCash.AddJournalForUser(JournalType.System);
+				DbCache.AddJournalForUser(JournalType.System);
 			}
 		}
 		public RelayCommand CancelCommand { get; private set; }

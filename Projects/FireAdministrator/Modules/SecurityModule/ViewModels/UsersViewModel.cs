@@ -14,7 +14,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace SecurityModule.ViewModels
 {
-	public class UsersViewModel : MenuViewPartViewModel, IEditingViewModel
+	public class UsersViewModel : MenuViewPartViewModel
 	{
 		public UsersViewModel()
 		{

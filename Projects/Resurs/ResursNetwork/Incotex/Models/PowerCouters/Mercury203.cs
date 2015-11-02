@@ -400,7 +400,7 @@ namespace ResursNetwork.Incotex.Models
                     ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
                     Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
                 });
-                networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
+                networkRequest.AsyncRequestResult.SetCompleted();
             }
             else
             {
@@ -514,7 +514,7 @@ namespace ResursNetwork.Incotex.Models
 					ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
 					Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
 				});
-				networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
+				networkRequest.AsyncRequestResult.SetCompleted();
 			}
 			else
 			{
@@ -617,7 +617,7 @@ namespace ResursNetwork.Incotex.Models
 					ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
 					Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
 				});
-				networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
+				networkRequest.AsyncRequestResult.SetCompleted();
 			}
 			else
 			{
@@ -717,7 +717,7 @@ namespace ResursNetwork.Incotex.Models
                     ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
                     Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
                 });
-                networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
+                networkRequest.AsyncRequestResult.SetCompleted();
             }
             else
             {
@@ -829,7 +829,7 @@ namespace ResursNetwork.Incotex.Models
                     ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
                     Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
                 });
-                networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
+                networkRequest.AsyncRequestResult.SetCompleted();
             }
             else
             {
@@ -934,7 +934,7 @@ namespace ResursNetwork.Incotex.Models
 					ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
 					Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
 				});
-				networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
+				networkRequest.AsyncRequestResult.SetCompleted();
 			}
 			else
 			{
@@ -1039,7 +1039,7 @@ namespace ResursNetwork.Incotex.Models
 					ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
 					Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
 				});
-				networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
+				networkRequest.AsyncRequestResult.SetCompleted();
 			}
 			else
 			{
@@ -1076,7 +1076,7 @@ namespace ResursNetwork.Incotex.Models
 					ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
 					Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
 				});
-				networkRequest.AsyncRequestResult.SetCompleted(new Transaction[] { transaction });
+				networkRequest.AsyncRequestResult.SetCompleted();
 			}
 			else
 			{
