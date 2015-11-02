@@ -353,7 +353,8 @@ namespace ResursNetwork.Networks
 		}
 		
 		/// <summary>
-		/// Записывает новое значение параметра у удалённое устройство
+		/// Записывает новое значение параметра в удалённом устройстве
+		/// или сетевом контроллере.
 		/// Блокирует вызывающий поток до окончания сетевой транзакции
 		/// </summary>
 		/// <param name="deviceId"></param>
@@ -362,7 +363,18 @@ namespace ResursNetwork.Networks
 		/// <returns></returns>
 		public void WriteParameter(Guid deviceId, string parameterName, ValueType value)
 		{
-			throw new NotImplementedException();
+			// Ищем среди контроллеров
+			var controller = _NetworkControllers.SingleOrDefault(x => x.Id == deviceId);
+
+			if (controller != null)
+			{
+				controller.WriteParameter(parameterName, value);
+			}
+			else
+			{
+				// Ищем среди устройств
+				FindDevice(deviceId).WriteParameter(parameterName, value);
+			}
 		}
 
 		/// <summary>

@@ -400,7 +400,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
 
 		public abstract OperationResult ReadParameter(string parameterName);
 
-		public abstract OperationResult WriteParameter(string parameterName, ValueType value);
+		public abstract void WriteParameter(string parameterName, ValueType value);
 
 		#endregion
 

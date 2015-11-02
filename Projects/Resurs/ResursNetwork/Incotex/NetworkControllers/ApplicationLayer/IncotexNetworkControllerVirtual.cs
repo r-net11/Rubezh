@@ -475,9 +475,32 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 			}
 		}
 
-		public OperationResult WriteParameter(string parameterName, ValueType value)
+		public void WriteParameter(string parameterName, ValueType value)
 		{
-			throw new NotImplementedException();
+			switch (parameterName)
+			{
+				case ParameterNamesIncotexNetworkVirtual.BautRate:
+					{
+						_bautRate = (int)value; break;
+					}
+				case ParameterNamesIncotexNetworkVirtual.BroadcastDelay:
+					{
+						_broadcastRequestDelay = (int)value; break;
+					}
+				case ParameterNamesIncotexNetworkVirtual.PollInterval:
+					{
+						_pollingPeriod = (int)value; break;
+					}
+				case ParameterNamesIncotexNetworkVirtual.PortName:
+					{
+						_portName = ((ParameterStringContainer)value).Value; break;
+					}
+				default:
+					{
+						throw new InvalidOperationException(String.Format(
+							"Ошибка записи параметра. Параметр {0} не найден", parameterName));
+					}
+			}
 		}
 
         #endregion

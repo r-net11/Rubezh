@@ -588,7 +588,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 			throw new NotImplementedException();
 		}
 
-		public override OperationResult WriteParameter(string parameterName, ValueType value)
+		public override void WriteParameter(string parameterName, ValueType value)
 		{
 			throw new NotImplementedException();
 		}

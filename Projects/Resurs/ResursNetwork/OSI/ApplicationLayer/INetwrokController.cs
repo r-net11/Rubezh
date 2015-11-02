@@ -59,7 +59,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
 		/// </summary>
 		/// <param name="parameterName"></param>
 		/// <param name="value"></param>
-		OperationResult WriteParameter(string parameterName, ValueType value);  
+		void WriteParameter(string parameterName, ValueType value);  
 
         /// <summary>
         /// Записывает транзакцию в буфер исходящих сообщений
