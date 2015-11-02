@@ -29,8 +29,9 @@ namespace ResursTerminal
 		static void Main(string[] args)
 		{
 			Init();
-			WritePowerLimit();
-			//ReadPowerLimit();
+			//WritePowerLimit();
+			ReadPowerLimit();
+			ReadPowerLimit();
 			//ReadTariff1();
 			//ReadTariff2();
 			//ReadTariff3();
