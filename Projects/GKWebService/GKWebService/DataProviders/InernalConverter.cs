@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -124,7 +125,7 @@ namespace GKWebService.DataProviders
 			var figure = new PathFigure(new Point(start.X, start.Y), segments, isClosed);
 			var geometry = new PathGeometry();
 			geometry.Figures.Add(figure);
-			return geometry.ToString();
+			return geometry.ToString(CultureInfo.InvariantCulture);
 		}
 
 		public static System.Drawing.Color ConvertColor(Color source) {

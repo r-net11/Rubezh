@@ -74,7 +74,7 @@ namespace Resurs
 		}
 		public static void Activate(bool showWindow)
 		{
-			if (showWindow && DBCash.CurrentUser == null)
+			if (showWindow && DbCache.CurrentUser == null)
 			{
 				var startupViewModel = new StartupViewModel();
 				if (!DialogService.ShowModalWindow(startupViewModel))

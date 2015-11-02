@@ -39,7 +39,7 @@ namespace Resurs.ViewModels
 
 		void BuildTree()
 		{
-			RootcConsumer = AddConsumerInternal(DBCash.RootConsumer);
+			RootcConsumer = AddConsumerInternal(DbCache.RootConsumer);
 			FillAllConsumers();
 		}
 

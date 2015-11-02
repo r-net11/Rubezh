@@ -16,7 +16,7 @@ using RubezhClient;
 
 namespace AutomationModule.ViewModels
 {
-	public class SoundsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class SoundsViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public SoundsViewModel()
 		{

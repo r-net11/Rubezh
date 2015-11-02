@@ -13,7 +13,7 @@ using System;
 
 namespace AutomationModule.ViewModels
 {
-	public class VariablesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class VariablesViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public Procedure Procedure { get; private set; }
 

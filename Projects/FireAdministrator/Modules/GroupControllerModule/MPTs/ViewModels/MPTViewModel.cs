@@ -34,6 +34,7 @@ namespace GKModule.ViewModels
 				Devices.Add(deviceViewModel);
 			}
 			SelectedDevice = Devices.FirstOrDefault();
+			Update();
 		}
 
 		ObservableCollection<MPTDeviceViewModel> _devices;
@@ -121,7 +122,7 @@ namespace GKModule.ViewModels
 		void OnEditProperties()
 		{
 			var mptDevicePropertiesViewModel = new MPTDevicePropertiesViewModel(SelectedDevice.Device, true);
-			if(DialogService.ShowModalWindow(mptDevicePropertiesViewModel))
+			if (DialogService.ShowModalWindow(mptDevicePropertiesViewModel))
 			{
 				SelectedDevice.MPTDevicePropertiesViewModel.Update(false);
 				ChangeIsInMPT(SelectedDevice.MPTDevice.Device, true);
@@ -130,7 +131,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanEditProperties()
 		{
-			return SelectedDevice != null && SelectedDevice.Device!= null;
+			return SelectedDevice != null && SelectedDevice.Device != null;
 		}
 
 		public static void ChangeIsInMPT(GKDevice device, bool isInMPT)
@@ -149,7 +150,7 @@ namespace GKModule.ViewModels
 
 		public void Update()
 		{
-			_visualizetionState = MPT.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (MPT.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
+			this.VisualizationState = MPT.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (MPT.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
 			Devices = new ObservableCollection<MPTDeviceViewModel>();
 			foreach (var mptDevice in MPT.MPTDevices)
 			{
@@ -229,10 +230,15 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		private VisualizationState _visualizetionState;
+		private VisualizationState _visualizationState;
 		public VisualizationState VisualizationState
 		{
-			get { return _visualizetionState; }
+			get { return _visualizationState; }
+			private set
+			{
+				this._visualizationState = value;
+				base.OnPropertyChanged(() => this.VisualizationState);
+			}
 		}
 	}
 }

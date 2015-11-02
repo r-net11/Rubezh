@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ResursDAL
 {
-	public static partial class DBCash
+	public static partial class DbCache
 	{
 		public static bool AddMeasure(Guid deviceUID, int tariffPartNo, float value, double? moneyValue, DateTime dateTime)
 		{
