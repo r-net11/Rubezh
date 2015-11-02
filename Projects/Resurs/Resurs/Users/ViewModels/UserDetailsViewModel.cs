@@ -110,7 +110,7 @@ namespace Resurs.ViewModels
 				MessageBoxService.Show("Логин не может быть пустым");
 				return false;
 			}
-			else if (Login != User.Login && DBCash.Users.Any(x => x.Login == Login))
+			else if (Login != User.Login && DbCache.Users.Any(x => x.Login == Login))
 			{
 				MessageBoxService.Show("Пользователь с таким логином уже существует");
 				return false;
@@ -154,7 +154,7 @@ namespace Resurs.ViewModels
 				SaveProperties();
 			else
 				return false;
-			DBCash.SaveUser(User);
+			DbCache.SaveUser(User);
 			return base.Save();
 		}
 	}

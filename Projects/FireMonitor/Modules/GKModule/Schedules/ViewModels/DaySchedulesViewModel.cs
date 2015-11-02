@@ -12,7 +12,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
-	public class DaySchedulesViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class DaySchedulesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
 		public DaySchedulesViewModel()
 		{

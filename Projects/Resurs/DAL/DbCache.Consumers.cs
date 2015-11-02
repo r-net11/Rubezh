@@ -10,7 +10,7 @@ using System.Data.Entity.Infrastructure;
 
 namespace ResursDAL
 {
-	public static partial class DBCash
+	public static partial class DbCache
 	{
 		public static Consumer GetConsumer(Guid consumerUID)
 		{

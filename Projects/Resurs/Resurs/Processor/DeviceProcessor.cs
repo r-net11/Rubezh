@@ -96,7 +96,7 @@ namespace Resurs.Processor
 		{
 			return InTryCatch(() =>
 			{
-				var device = DBCash.Devices.FirstOrDefault(x => x.UID == deviceUID);
+				var device = DbCache.Devices.FirstOrDefault(x => x.UID == deviceUID);
 				if (device.CanMonitor)
 					_networksManager.WriteParameter(deviceUID, parameterName, parameterValue);
 			});
@@ -145,7 +145,7 @@ namespace Resurs.Processor
 		{
 			return InTryCatch(() => 
 			{
-				var device = DBCash.Devices.FirstOrDefault(x => x.UID == deviceUID);
+				var device = DbCache.Devices.FirstOrDefault(x => x.UID == deviceUID);
 				if (device.CanMonitor)
 					_networksManager.SyncDateTime(deviceUID);
 			});
@@ -155,32 +155,32 @@ namespace Resurs.Processor
 		#region EventHandlers
 		public void OnNetworksManagerParameterChanged(object sender, ParameterChangedEventArgs args)
 		{
-			var device = DBCash.Devices.FirstOrDefault(x => x.UID == args.DeviceId);
+			var device = DbCache.Devices.FirstOrDefault(x => x.UID == args.DeviceId);
 			switch (args.ParameterName)
 			{
 				case (ResursAPI.ParameterNames.ParameterNamesBase.CounterTarif1):
-					DBCash.AddMeasure(CreateMeasure(device, args, 0));
+					DbCache.AddMeasure(CreateMeasure(device, args, 0));
 					return;
 				case (ResursAPI.ParameterNames.ParameterNamesBase.CounterTarif2):
-					DBCash.AddMeasure(CreateMeasure(device, args, 1));
+					DbCache.AddMeasure(CreateMeasure(device, args, 1));
 					return;
 				case (ResursAPI.ParameterNames.ParameterNamesBase.CounterTarif3):
-					DBCash.AddMeasure(CreateMeasure(device, args, 2));
+					DbCache.AddMeasure(CreateMeasure(device, args, 2));
 					return;
 				case (ResursAPI.ParameterNames.ParameterNamesBase.CounterTarif4):
-					DBCash.AddMeasure(CreateMeasure(device, args, 3));
+					DbCache.AddMeasure(CreateMeasure(device, args, 3));
 					return;
 				case (ResursAPI.ParameterNames.ParameterNamesBase.CounterTarif5):
-					DBCash.AddMeasure(CreateMeasure(device, args, 4));
+					DbCache.AddMeasure(CreateMeasure(device, args, 4));
 					return;
 				case (ResursAPI.ParameterNames.ParameterNamesBase.CounterTarif6):
-					DBCash.AddMeasure(CreateMeasure(device, args, 5));
+					DbCache.AddMeasure(CreateMeasure(device, args, 5));
 					return;
 				case (ResursAPI.ParameterNames.ParameterNamesBase.CounterTarif7):
-					DBCash.AddMeasure(CreateMeasure(device, args, 6));
+					DbCache.AddMeasure(CreateMeasure(device, args, 6));
 					return;
 				case (ResursAPI.ParameterNames.ParameterNamesBase.CounterTarif8):
-					DBCash.AddMeasure(CreateMeasure(device, args, 7));
+					DbCache.AddMeasure(CreateMeasure(device, args, 7));
 					return;
 				case (ResursAPI.ParameterNames.ParameterNamesBase.DateTime):
 					device.DateTime = (DateTime)args.NewValue;

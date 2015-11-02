@@ -307,7 +307,7 @@ namespace Resurs.ViewModels
 			{
 				Device.SetParent(_parent, Address);
 			}
-			if (ResursDAL.DBCash.SaveDevice(Device))
+			if (ResursDAL.DbCache.SaveDevice(Device))
 			{
 				_isSaved = true;
 				return base.Save();

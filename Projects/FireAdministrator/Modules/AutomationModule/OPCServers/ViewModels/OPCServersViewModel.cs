@@ -21,7 +21,7 @@ using RubezhClient;
 
 namespace AutomationModule.ViewModels
 {
-    public class OPCServersViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+    public class OPCServersViewModel : MenuViewPartViewModel, ISelectable<Guid>
     {
         public OPCUAClient client;
 

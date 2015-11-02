@@ -38,7 +38,7 @@ namespace Resurs.ViewModels
 
 		void GetAllDevices()
 		{
-			foreach (var device in DBCash.Devices)
+			foreach (var device in DbCache.Devices)
 			{
 				if (device.DeviceType == DeviceType.Counter)
 				{

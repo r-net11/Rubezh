@@ -54,13 +54,13 @@ namespace Resurs.ViewModels
 			{
 				foreach (var device in Tariff.Devices)
 				{
-					DBCash.Devices.Single(x => x.UID == device.UID).TariffUID = null;
+					DbCache.Devices.Single(x => x.UID == device.UID).TariffUID = null;
 				}
 				Tariff.Devices.Clear();
 				foreach (var item in tariffDevicesViewModel.SelectedDevices)
 				{
 					Tariff.Devices.Add(item.Device);
-					DBCash.Devices.Single(x => x.UID == item.Device.UID).TariffUID = Tariff.UID;
+					DbCache.Devices.Single(x => x.UID == item.Device.UID).TariffUID = Tariff.UID;
 				}
 				CanSave();
 				GetMaxTariffParts();
@@ -188,7 +188,7 @@ namespace Resurs.ViewModels
 
 		public bool IsTariffValid { get { return !ValidateTariff(); } }
 
-		public bool IsEnable { get { return DBCash.CheckPermission(PermissionType.ViewDevice); } }
+		public bool IsEnable { get { return DbCache.CheckPermission(PermissionType.ViewDevice); } }
 
 		protected override bool CanSave()
 		{

@@ -149,7 +149,7 @@ namespace Resurs.ViewModels
 		}
 		public bool IsVisible
 		{
-			get { return DBCash.CheckPermission(PermissionType.EditReceipt); }
+			get { return DbCache.CheckPermission(PermissionType.EditReceipt); }
 		}
 		bool CanDeleteReceipt()
 		{

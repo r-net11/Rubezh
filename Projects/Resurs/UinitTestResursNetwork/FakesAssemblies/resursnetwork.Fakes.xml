@@ -4717,6 +4717,9 @@
         <member name="P:ResursNetwork.OSI.Messages.Fakes.ShimAsyncRequestResult.Constructor">
             <summary>Sets the shim of AsyncRequestResult.AsyncRequestResult()</summary>
         </member>
+        <member name="P:ResursNetwork.OSI.Messages.Fakes.ShimAsyncRequestResult.ConstructorNetworkRequest">
+            <summary>Sets the shim of AsyncRequestResult.AsyncRequestResult(NetworkRequest networkCommand)</summary>
+        </member>
         <member name="P:ResursNetwork.OSI.Messages.Fakes.ShimAsyncRequestResult.ErrorGet">
             <summary>Sets the shim of AsyncRequestResult.get_Error()</summary>
         </member>
@@ -4729,11 +4732,14 @@
         <member name="P:ResursNetwork.OSI.Messages.Fakes.ShimAsyncRequestResult.LastTransactionGet">
             <summary>Sets the shim of AsyncRequestResult.get_LastTransaction()</summary>
         </member>
+        <member name="P:ResursNetwork.OSI.Messages.Fakes.ShimAsyncRequestResult.NetworkCommandGet">
+            <summary>Sets the shim of AsyncRequestResult.get_NetworkCommand()</summary>
+        </member>
         <member name="P:ResursNetwork.OSI.Messages.Fakes.ShimAsyncRequestResult.SenderGet">
             <summary>Sets the shim of AsyncRequestResult.get_Sender()</summary>
         </member>
-        <member name="P:ResursNetwork.OSI.Messages.Fakes.ShimAsyncRequestResult.SetCompletedTransactionArray">
-            <summary>Sets the shim of AsyncRequestResult.SetCompleted(Transaction[] stack)</summary>
+        <member name="P:ResursNetwork.OSI.Messages.Fakes.ShimAsyncRequestResult.SetCompleted">
+            <summary>Sets the shim of AsyncRequestResult.SetCompleted()</summary>
         </member>
         <member name="P:ResursNetwork.OSI.Messages.Fakes.ShimAsyncRequestResult.StackGet">
             <summary>Sets the shim of AsyncRequestResult.get_Stack()</summary>
@@ -4753,11 +4759,14 @@
         <member name="P:ResursNetwork.OSI.Messages.Fakes.ShimAsyncRequestResult.AllInstances.LastTransactionGet">
             <summary>Sets the shim of AsyncRequestResult.get_LastTransaction()</summary>
         </member>
+        <member name="P:ResursNetwork.OSI.Messages.Fakes.ShimAsyncRequestResult.AllInstances.NetworkCommandGet">
+            <summary>Sets the shim of AsyncRequestResult.get_NetworkCommand()</summary>
+        </member>
         <member name="P:ResursNetwork.OSI.Messages.Fakes.ShimAsyncRequestResult.AllInstances.SenderGet">
             <summary>Sets the shim of AsyncRequestResult.get_Sender()</summary>
         </member>
-        <member name="P:ResursNetwork.OSI.Messages.Fakes.ShimAsyncRequestResult.AllInstances.SetCompletedTransactionArray">
-            <summary>Sets the shim of AsyncRequestResult.SetCompleted(Transaction[] stack)</summary>
+        <member name="P:ResursNetwork.OSI.Messages.Fakes.ShimAsyncRequestResult.AllInstances.SetCompleted">
+            <summary>Sets the shim of AsyncRequestResult.SetCompleted()</summary>
         </member>
         <member name="P:ResursNetwork.OSI.Messages.Fakes.ShimAsyncRequestResult.AllInstances.StackGet">
             <summary>Sets the shim of AsyncRequestResult.get_Stack()</summary>
@@ -4888,7 +4897,7 @@
         <member name="T:ResursNetwork.OSI.Messages.Fakes.StubAsyncRequestResult">
             <summary>Stub type of ResursNetwork.OSI.Messages.AsyncRequestResult</summary>
         </member>
-        <member name="M:ResursNetwork.OSI.Messages.Fakes.StubAsyncRequestResult.#ctor">
+        <member name="M:ResursNetwork.OSI.Messages.Fakes.StubAsyncRequestResult.#ctor(ResursNetwork.OSI.Messages.Transactions.NetworkRequest)">
             <summary>Initializes a new instance</summary>
         </member>
         <member name="M:ResursNetwork.OSI.Messages.Fakes.StubAsyncRequestResult.InitializeStub">

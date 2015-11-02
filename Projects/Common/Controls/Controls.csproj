@@ -266,7 +266,6 @@
     <Compile Include="TreeList\TreeListItem.cs" />
     <Compile Include="XAutoCompleteBox.cs" />
     <Compile Include="XButton.cs" />
-    <Compile Include="XDataGrid.cs" />
     <Compile Include="XRichTextBox.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

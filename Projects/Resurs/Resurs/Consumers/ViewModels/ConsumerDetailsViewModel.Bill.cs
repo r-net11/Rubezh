@@ -82,7 +82,7 @@ namespace Resurs.ViewModels
 		{
 			var exceptDeviceUids = new List<Guid>();
 			exceptDeviceUids.AddRange(Devices.Select(x => x.Device.UID));
-			exceptDeviceUids.AddRange(DBCash.GetAllChildren(DBCash.RootDevice).Where(x => x.ConsumerUID != null).Select(x => x.UID));
+			exceptDeviceUids.AddRange(DbCache.GetAllChildren(DbCache.RootDevice).Where(x => x.ConsumerUID != null).Select(x => x.UID));
 			var selectDeviceViewModel = new SelectDeviceViewModel(exceptDeviceUids);
 			if (DialogService.ShowModalWindow(selectDeviceViewModel) && selectDeviceViewModel.SelectedDevice != null)
 				Devices.Add(new DeviceViewModel(selectDeviceViewModel.SelectedDevice.Device));
@@ -114,8 +114,8 @@ namespace Resurs.ViewModels
 				var deposit = depositDetailsViewModel.GetDeposit();
 				var depositViewModel = new DepositViewModel(deposit);
 				DepositsViewModel.Deposits.Add(depositViewModel);
-				DBCash.SaveDeposit(deposit);
-				DBCash.AddJournalForUser(JournalType.AddDeposit, deposit, string.Format("Сумма: {0} руб.", deposit.Amount));
+				DbCache.SaveDeposit(deposit);
+				DbCache.AddJournalForUser(JournalType.AddDeposit, deposit, string.Format("Сумма: {0} руб.", deposit.Amount));
 			}
 		}
 

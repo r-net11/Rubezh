@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 namespace ResursDAL
 {
-	public static partial class DBCash
+	public static partial class DbCache
 	{
 		public static Device RootDevice { get; private set; }
 		public static List<Device> Devices { get { return GetAllChildren(RootDevice); } }
