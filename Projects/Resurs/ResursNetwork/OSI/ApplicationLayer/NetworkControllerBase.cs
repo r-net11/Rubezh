@@ -397,7 +397,11 @@ namespace ResursNetwork.OSI.ApplicationLayer
 		/// <param name="commandName"></param>
 		public virtual void ExecuteCommand(string commandName)
 		{}
-        
+
+		public abstract OperationResult ReadParameter(string parameterName);
+
+		public abstract OperationResult WriteParameter(string parameterName, ValueType value);
+
 		#endregion
 
         #region Events

@@ -583,6 +583,16 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             throw new NotImplementedException();
         }
 
+		public override OperationResult ReadParameter(string parameterName)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override OperationResult WriteParameter(string parameterName, ValueType value)
+		{
+			throw new NotImplementedException();
+		}
+
         #endregion
 
         #region Events

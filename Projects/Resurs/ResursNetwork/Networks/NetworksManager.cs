@@ -332,13 +332,23 @@ namespace ResursNetwork.Networks
 		}
 		
 		/// <summary>
-		/// Читает значение параметра из удалённого устройство
-		/// асинхронно, обновление параметра по событию
+		/// Читает значение параметра из удалённого устройствa
+		/// или из сетевого контроллера асинхронно, 
+		/// обновление параметра по событию
 		/// </summary>
 		/// <param name="deviceId"></param>
 		/// <param name="parameterName"></param>
 		public IOperationResult ReadParameter(Guid deviceId, string parameterName)
 		{
+			// Ищем среди контроллеров
+			var controller = _NetworkControllers.SingleOrDefault(x => x.Id == deviceId);
+			
+			if (controller != null)
+			{
+				return controller.ReadParameter(parameterName);
+			}
+			
+			// Ищем среди устройств
 			return FindDevice(deviceId).ReadParameter(parameterName);
 		}
 		

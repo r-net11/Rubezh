@@ -48,6 +48,19 @@ namespace ResursNetwork.OSI.ApplicationLayer
 
         #region Methods
 
+		/// <summary>
+		/// Читает параметр из сетевого контроллера
+		/// </summary>
+		/// <param name="parameterName"></param>
+		OperationResult ReadParameter(string parameterName);
+
+		/// <summary>
+		/// Записывает параметр сетевого контроллера (настройки и т.п)
+		/// </summary>
+		/// <param name="parameterName"></param>
+		/// <param name="value"></param>
+		OperationResult WriteParameter(string parameterName, ValueType value);  
+
         /// <summary>
         /// Записывает транзакцию в буфер исходящих сообщений
         /// </summary>

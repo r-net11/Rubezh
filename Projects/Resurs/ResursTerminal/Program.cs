@@ -31,7 +31,6 @@ namespace ResursTerminal
 			Init();
 			//WritePowerLimit();
 			ReadPowerLimit();
-			ReadPowerLimit();
 			//ReadTariff1();
 			//ReadTariff2();
 			//ReadTariff3();
