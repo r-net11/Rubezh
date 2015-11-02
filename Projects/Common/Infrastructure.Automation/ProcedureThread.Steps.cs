@@ -383,7 +383,7 @@ namespace Infrastructure.Automation
 				switch (property)
 				{
 					case Property.ShleifNo:
-						propertyValue = gkDevice.ShleifNo;
+						propertyValue = (int)gkDevice.ShleifNo;
 						break;
 					case Property.IntAddress:
 						propertyValue = gkDevice.IntAddress;
