@@ -70,6 +70,8 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDelay = value;
+				if (value != null)
+					value.Update();
 				OnPropertyChanged(() => SelectedDelay);
 			}
 		}

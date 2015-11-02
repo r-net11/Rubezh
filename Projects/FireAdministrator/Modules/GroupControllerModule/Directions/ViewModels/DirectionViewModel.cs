@@ -25,7 +25,7 @@ namespace GKModule.ViewModels
 		public void Update()
 		{
 			OnPropertyChanged(() => Direction);
-			_visualizetionState = Direction.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Direction.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
+			_visualizationState = Direction.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Direction.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
 			OnPropertyChanged(() => VisualizationState);
 			OnPropertyChanged(() => PresentationLogic);
 		}
@@ -68,10 +68,10 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		VisualizationState _visualizetionState;
+		VisualizationState _visualizationState;
 		public VisualizationState VisualizationState
 		{
-			get { return _visualizetionState; }
+			get { return _visualizationState; }
 		}
 	}
 }
