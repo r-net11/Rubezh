@@ -345,42 +345,5 @@ namespace Resurs.ViewModels
 #endif
 			return allPorts.Except(_parent.Children.Where(x => x.UID != Device.UID).Select(x => x.ComPort));
 		}
-
-		public bool SetStatus(Guid deviceUID, bool isActive)
-		{
-			return true;
-		}
-
-		public bool WriteParameter(Guid deviceUID, 
-			string parameterName, 
-			string stringValue = null, 
-			int? intValue = null, 
-			double? doubleValue = null, bool? 
-			boolValue = null, 
-			DateTime? dateTimeValue = null) 
-		{ 
-			return true; 
-		}
-	}
-
-	public class CommandViewModel
-	{
-		public Device _device;
-		public DeviceCommand Model { get; private set; }
-
-		public CommandViewModel(Device device, DeviceCommand model)
-		{
-			_device = device;
-			Model = model;
-		}
-
-		public RelayCommand SendCommand 
-		{ 
-			get 
-			{ 
-				return new RelayCommand(() => 
-					DeviceProcessor.Instance.SendCommand(_device.UID, Model.Name)); 
-			} 
-		}
 	}
 }

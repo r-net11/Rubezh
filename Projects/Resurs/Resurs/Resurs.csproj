@@ -379,6 +379,7 @@
       <DependentUpon>DepositsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\DeviceError.cs" />
+    <Compile Include="Devices\ViewModels\DeviceDetails\CommandViewModel.cs" />
     <Compile Include="License\ViewModels\LicenseViewModel.cs" />
     <Compile Include="License\Views\LicenseView.xaml.cs">
       <DependentUpon>LicenseView.xaml</DependentUpon>
@@ -412,8 +413,8 @@
     <Compile Include="Converters\DeviceTypeToIconConverter.cs" />
     <Compile Include="Converters\JournalTypeToColorConverter.cs" />
     <Compile Include="Converters\JournalTypeToIconConverter.cs" />
-    <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DetailsParameterViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceDetails\DateTimePairViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceDetails\DetailsParameterViewModel.cs" />
     <Compile Include="Devices\ViewModels\TariffSelectionViewModel.cs" />
     <Compile Include="Devices\Views\TariffSelectionView.xaml.cs">
       <DependentUpon>TariffSelectionView.xaml</DependentUpon>
@@ -447,7 +448,7 @@
     <Compile Include="Processor\DeviceProcessor.cs" />
     <Compile Include="Processor\LoginService.cs" />
     <Compile Include="Main\ViewModels\Comparers.cs" />
-    <Compile Include="Devices\ViewModels\DeviceDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceDetails\DeviceDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />

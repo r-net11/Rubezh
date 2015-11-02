@@ -34,6 +34,9 @@
         <member name="P:ResursNetwork.BCD.Fakes.ShimBcdConverter.ToByteByte">
             <summary>Sets the shim of BcdConverter.ToByte(Byte bcdValue)</summary>
         </member>
+        <member name="P:ResursNetwork.BCD.Fakes.ShimBcdConverter.ToUInt16UInt16">
+            <summary>Sets the shim of BcdConverter.ToUInt16(UInt16 bcdValue)</summary>
+        </member>
         <member name="P:ResursNetwork.BCD.Fakes.ShimBcdConverter.ToUInt32UInt32">
             <summary>Sets the shim of BcdConverter.ToUInt32(UInt32 bcdValue)</summary>
         </member>
@@ -265,6 +268,9 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.GetAnswerWriteNetwokAdderssNetworkRequest">
             <summary>Sets the shim of Mercury203.GetAnswerWriteNetwokAdderss(NetworkRequest networkRequest)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.GetAnswerWritePowerLimitNetworkRequest">
+            <summary>Sets the shim of Mercury203.GetAnswerWritePowerLimit(NetworkRequest networkRequest)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.Initialization">
             <summary>Sets the shim of Mercury203.Initialization()</summary>
         </member>
@@ -300,6 +306,9 @@
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WriteParameterStringValueType">
             <summary>Sets the shim of Mercury203.WriteParameter(String parameterName, ValueType value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WritePowerLimitSingleBoolean">
+            <summary>Sets the shim of Mercury203.WritePowerLimit(Single value, Boolean isExternalCall)</summary>
         </member>
         <member name="T:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances">
             <summary>Define shims for all instances members</summary>
@@ -340,6 +349,9 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.GetAnswerWriteNetwokAdderssNetworkRequest">
             <summary>Sets the shim of Mercury203.GetAnswerWriteNetwokAdderss(NetworkRequest networkRequest)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.GetAnswerWritePowerLimitNetworkRequest">
+            <summary>Sets the shim of Mercury203.GetAnswerWritePowerLimit(NetworkRequest networkRequest)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.Initialization">
             <summary>Sets the shim of Mercury203.Initialization()</summary>
         </member>
@@ -375,6 +387,9 @@
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.WriteParameterStringValueType">
             <summary>Sets the shim of Mercury203.WriteParameter(String parameterName, ValueType value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.WritePowerLimitSingleBoolean">
+            <summary>Sets the shim of Mercury203.WritePowerLimit(Single value, Boolean isExternalCall)</summary>
         </member>
         <member name="T:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual">
             <summary>Shim type of ResursNetwork.Incotex.Models.Mercury203Virtual</summary>
@@ -667,8 +682,8 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMpower.ToArrayValueType">
             <summary>Sets the shim of Mpower.ToArray(ValueType value)</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMpower.ToFloatUInt32">
-            <summary>Sets the shim of Mpower.ToFloat(UInt32 bcdValue)</summary>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMpower.ToFloatUInt16">
+            <summary>Sets the shim of Mpower.ToFloat(UInt16 bcdValue)</summary>
         </member>
         <member name="T:ResursNetwork.Incotex.Models.Fakes.ShimMpower.AllInstances">
             <summary>Define shims for all instances members</summary>
