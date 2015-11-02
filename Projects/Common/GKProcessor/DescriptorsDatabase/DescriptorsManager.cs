@@ -12,8 +12,8 @@ namespace GKProcessor
 
 		public static void Create()
 		{
-			GKManager.DeviceConfiguration.UpdateConfiguration();
 			GKManager.DeviceConfiguration.PrepareDescriptors();
+			GKManager.DeviceConfiguration.UpdateConfiguration();
 
 			GkDatabases = new List<GkDatabase>();
 			KauDatabases = new List<KauDatabase>();
