@@ -5,14 +5,18 @@
 
 <div id="HR" data-bind="with: HR">
     <div class="HrToolbar" data-bind="visible:hrPages.Employees">
-        <div class="icon add" data-bind="click: function(data,event) { Employees.AddEmployeeClick(data, event, '#employee-details-box'); }"></div>
-        <div class="icon delete"></div>
-        <div class="icon edit" data-bind="click: function(data,event) { Employees.EditEmployeeClick(data, event, '#employee-details-box'); }"></div>
-        <div class="icon redo"></div>
-        <div class="icon add"></div>
-        <div class="icon delete"></div>
-        <div class="icon edit"></div>
-        <div class="icon print"></div>
+        <div data-bind="visible:!Employees.EmployeeCards.IsCardSelected()">
+            <div class="icon add" data-bind="click: Employees.CanAdd() ? function(data,event) { Employees.AddEmployeeClick(data, event, '#employee-details-box'); } : null, attr: {title: Employees.AddCommandToolTip}, css: {disabled: !Employees.CanAdd()}"></div>
+            <div class="icon delete" data-bind="attr: {title: Employees.RemoveCommandToolTip}, css: {disabled: !Employees.CanRemove()}"></div>
+            <div class="icon edit" data-bind="click: Employees.CanEdit() ? function(data,event) { Employees.EditEmployeeClick(data, event, '#employee-details-box'); } : null, attr: {title: Employees.EditCommandToolTip}, css: {disabled: !Employees.CanEdit()}"></div>
+            <div title="Восстановить" class="icon redo"></div>
+        </div>
+        <div class="icon add" title="Добавить пропуск" data-bind="css: {disabled: !Employees.EmployeeCards.CanAddCard()}"></div>
+        <div data-bind="visible:Employees.EmployeeCards.IsCardSelected">
+            <div class="icon delete" title="Удалить пропуск"></div>
+            <div class="icon edit" title="Редактировать пропуск"></div>
+            <div class="icon print" title="Печать удостоверения"></div>
+        </div>
         <div class="icon filter"></div>
     </div>
     <div class="HrToolbar" data-bind="visible:hrPages.Departments">

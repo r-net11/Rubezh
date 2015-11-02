@@ -107,7 +107,7 @@ function AppViewModel() {
     self.Menu.HR = HRViewModel();
     self.Menu.HR.Employees = EmployeesViewModel(self.Menu.HR);
     self.Menu.HR.Employees.EmployeeDetails = EmployeeDetailsViewModel();
-    self.Menu.HR.Employees.EmployeeCards = EmployeeCardsViewModel();
+    self.Menu.HR.Employees.EmployeeCards = EmployeeCardsViewModel(self.Menu.HR.Employees);
 
     return self;
 }
