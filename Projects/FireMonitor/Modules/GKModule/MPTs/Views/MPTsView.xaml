@@ -102,10 +102,7 @@
 					<DataGridTemplateColumn Header="Устройство" MinWidth="200" Width="Auto">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<StackPanel Orientation="Horizontal">
-									<Image Source="{Binding DeviceViewModel.Device.Driver.ImageSource}" Width="16" Margin="2 0 0 0" />
-									<TextBlock Text="{Binding DeviceViewModel.Device.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2" />
-								</StackPanel>
+								<Views:DeviceView Margin="2 0" DataContext="{Binding DeviceViewModel}" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
