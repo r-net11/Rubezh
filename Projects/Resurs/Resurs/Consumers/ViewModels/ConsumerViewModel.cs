@@ -42,7 +42,7 @@ namespace Resurs.ViewModels
 			{
 				if (_consumerDetails == null && Consumer != null && !Consumer.IsFolder)
 				{
-					var consumer = DBCash.GetConsumer(Consumer.UID);
+					var consumer = DbCache.GetConsumer(Consumer.UID);
 					if (consumer == null)
 						return null;
 					_consumerDetails = new ConsumerDetailsViewModel(consumer, true);
@@ -62,7 +62,7 @@ namespace Resurs.ViewModels
 			{
 				if (_consumersFolderDetails == null && Consumer != null && Consumer.IsFolder)
 				{
-					var consumer = DBCash.GetConsumer(Consumer.UID);
+					var consumer = DbCache.GetConsumer(Consumer.UID);
 					if (consumer == null)
 						return null;
 					_consumersFolderDetails = new ConsumersFolderDetailsViewModel(consumer, true);

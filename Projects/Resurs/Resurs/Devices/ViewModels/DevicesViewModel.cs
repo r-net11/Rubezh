@@ -3,6 +3,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Resurs.Processor;
 using ResursAPI;
+using ResursAPI.License;
 using ResursDAL;
 using ResursNetwork.Networks;
 using System;
@@ -24,7 +25,7 @@ namespace Resurs.ViewModels
 			UnSetActiveCommand = new RelayCommand(OnUnSetActive, CanUnSetActive);
 			SyncDateTimeCommand = new RelayCommand(OnSyncDateTime, CanSyncDateTime);
 			ReadParametersCommand = new RelayCommand(OnReadParameters, CanReadParameters);
-			
+
 			BuildTree();
 			if (RootDevice != null)
 			{
@@ -84,7 +85,7 @@ namespace Resurs.ViewModels
 
 		void BuildTree()
 		{
-			RootDevice = AddDeviceInternal(ResursDAL.DBCash.RootDevice, null);
+			RootDevice = AddDeviceInternal(ResursDAL.DbCache.RootDevice, null);
 			FillAllDevices();
 		}
 
@@ -139,7 +140,7 @@ namespace Resurs.ViewModels
 
 		public bool IsVisible
 		{
-			get { return DBCash.CheckPermission(PermissionType.ViewDevice); }
+			get { return DbCache.CheckPermission(PermissionType.ViewDevice); }
 		}
 
 		void UpdateConsumerDetailsViewModels(Device device, Consumer oldConsumer = null)
@@ -206,7 +207,7 @@ namespace Resurs.ViewModels
 		}
 		bool CanAdd()
 		{
-			return SelectedDevice != null && DBCash.CheckPermission(PermissionType.EditDevice);
+			return SelectedDevice != null && DbCache.CheckPermission(PermissionType.EditDevice);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -224,7 +225,7 @@ namespace Resurs.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedDevice != null && SelectedDevice.Parent != null && DBCash.CheckPermission(PermissionType.EditDevice);
+			return SelectedDevice != null && SelectedDevice.Parent != null && DbCache.CheckPermission(PermissionType.EditDevice);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -234,7 +235,7 @@ namespace Resurs.ViewModels
 			{
 				var selectedDevice = SelectedDevice;
 				var parent = selectedDevice.Parent;
-				if (parent != null && DBCash.DeleteDevice(selectedDevice.Device))
+				if (parent != null && DbCache.DeleteDevice(selectedDevice.Device))
 				{
 					var index = selectedDevice.VisualIndex;
 					DeviceProcessor.Instance.DeleteFromMonitoring(selectedDevice.Device);
@@ -251,7 +252,7 @@ namespace Resurs.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedDevice != null && SelectedDevice.Parent != null && DBCash.CheckPermission(PermissionType.EditDevice);
+			return SelectedDevice != null && SelectedDevice.Parent != null && DbCache.CheckPermission(PermissionType.EditDevice);
 		}
 
 		public RelayCommand SetActiveCommand { get; private set; }
@@ -267,7 +268,7 @@ namespace Resurs.ViewModels
 			return SelectedDevice != null && 
 				SelectedDevice.Parent != null &&
 				!SelectedDevice.IsActive && 
-				DBCash.CheckPermission(PermissionType.EditDevice);
+				DbCache.CheckPermission(PermissionType.EditDevice);
 		}
 
 		public RelayCommand UnSetActiveCommand { get; private set; }
@@ -280,7 +281,7 @@ namespace Resurs.ViewModels
 			return SelectedDevice != null &&
 				SelectedDevice.Parent != null &&
 				SelectedDevice.IsActive && 
-				DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);
+				DbCache.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditDevice);
 		}
 
 		void OnIsActiveChanged(object sender, IsActiveChangedEventArgs args)
@@ -289,7 +290,7 @@ namespace Resurs.ViewModels
 			if(device != null)
 			{
 				SelectedDevice.Device.IsActive = args.IsActive;
-				DBCash.SaveDevice(SelectedDevice.Device);
+				DbCache.SaveDevice(SelectedDevice.Device);
 				SelectedDevice.Update();
 			}
 		}

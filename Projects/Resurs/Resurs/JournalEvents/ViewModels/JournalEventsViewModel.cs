@@ -45,7 +45,7 @@ namespace Resurs.ViewModels
 				}
 			}
 
-			var count = DBCash.GetJournalCount(Filter);
+			var count = DbCache.GetJournalCount(Filter);
 			if (count.HasValue)
 			{
 				TotalPageNumber =  count.Value / Filter.PageSize + 1;
@@ -85,7 +85,7 @@ namespace Resurs.ViewModels
 
 		public bool IsVisible
 		{
-			get { return DBCash.CheckPermission(PermissionType.ViewJournal); }
+			get { return DbCache.CheckPermission(PermissionType.ViewJournal); }
 		}
 
 		public bool HasPages
@@ -169,7 +169,7 @@ namespace Resurs.ViewModels
 
 		void GetJournalItems()
 		{
-			var journalItemsResult = DBCash.GetJournalPage(Filter, CurrentPageNumber);
+			var journalItemsResult = DbCache.GetJournalPage(Filter, CurrentPageNumber);
 			if (journalItemsResult != null)
 			{
 				Events = new ObservableCollection<JournalEventViewModel>();

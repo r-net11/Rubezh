@@ -14,7 +14,7 @@ namespace Resurs.Processor
 		public static string Login(string login, string password)
 		{
 
-			return DBCash.CheckLogin(login,password);
+			return DbCache.CheckLogin(login,password);
 		}
 
 		public static void RestartApplication()

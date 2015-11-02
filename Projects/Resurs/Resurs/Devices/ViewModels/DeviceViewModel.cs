@@ -53,7 +53,7 @@ namespace Resurs.ViewModels
 		public void Load()
 		{
 			var children = Device.Children;
-			var device = DBCash.GetDevice(Device.UID);
+			var device = DbCache.GetDevice(Device.UID);
 			if (device != null)
 				Update(device);
 			Device.Children = children;

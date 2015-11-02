@@ -73,8 +73,8 @@ namespace ResursDAL
 				userpermissions.Add(new UserPermission { User = user, PermissionType = PermissionType.EditTariff });
 				user.UserPermissions = userpermissions;
 				context.Users.Add(user);
-				DBCash.Users = new List<User>();
-				DBCash.Users.Add(user);
+				DbCache.Users = new List<User>();
+				DbCache.Users.Add(user);
 			}
 			base.Seed(context);
 		}

@@ -78,7 +78,7 @@ namespace Resurs.ViewModels
 
 		void BuildTree(IList<Guid> exceptConsumerUids, bool isOnlyFolders)
 		{
-			RootConsumer = AddConsumerInternal(DBCash.RootConsumer, null, exceptConsumerUids, isOnlyFolders);
+			RootConsumer = AddConsumerInternal(DbCache.RootConsumer, null, exceptConsumerUids, isOnlyFolders);
 		}
 
 		private ConsumerViewModel AddConsumerInternal(Consumer consumer, ConsumerViewModel parentConsumerViewModel, IList<Guid> exceptConsumerUids, bool isOnlyFolders)

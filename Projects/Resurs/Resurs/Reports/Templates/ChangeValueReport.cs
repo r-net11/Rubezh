@@ -14,13 +14,13 @@ namespace Resurs.Reports.Templates
 		{
 			InitializeComponent();
 			var filter = ReportsViewModel.Filter;
-			var counters = DBCash.GetAllChildren(DBCash.RootDevice).Where(x => x.DeviceType == DeviceType.Counter).ToList();
+			var counters = DbCache.GetAllChildren(DbCache.RootDevice).Where(x => x.DeviceType == DeviceType.Counter).ToList();
 			var dataSet = new ChangeValueDataSet();
 			int round = 2;
 			foreach (var counter in counters)
 			{
 				var dataRow = dataSet.Data.NewDataRow();
-				var measures = DBCash.GetMeasures(counter.UID, filter.StartDate, filter.EndDate);
+				var measures = DbCache.GetMeasures(counter.UID, filter.StartDate, filter.EndDate);
 				if (measures.Count == 0)
 					break;
 				var firstmeasure = measures.First();
