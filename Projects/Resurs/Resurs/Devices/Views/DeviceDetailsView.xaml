@@ -64,7 +64,7 @@
 							</Hyperlink>
 						</TextBlock>
 						<ToolBarButton ToolTip="Удалить привязку лицевого счета" Height="28" Width="28" Background="DarkGray" ImageSource="DeleteCross" 
-							   Command="{Binding RemoveConsumerLinkCommand}" Visibility="{Binding Consumer, Converter={StaticResource NullToVisibilityConverter}}" />
+									   Command="{Binding RemoveConsumerLinkCommand}" Visibility="{Binding Consumer, Converter={StaticResource NullToVisibilityConverter}}" />
 					</StackPanel>
 
 					<TextBlock Grid.Row="5" Grid.Column="0" Text="Тариф" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorWhite}"  
@@ -78,7 +78,7 @@
 							</Hyperlink>
 						</TextBlock>
 						<ToolBarButton ToolTip="Открепить от тарифа" Height="28" Width="28" ImageSource="DeleteCross" 
-							   Command="{Binding RemoveTariffCommand}" Visibility="{Binding HasTariff, Converter={StaticResource BoolToVisibilityConverter}}" />
+									   Command="{Binding RemoveTariffCommand}" Visibility="{Binding HasTariff, Converter={StaticResource BoolToVisibilityConverter}}" />
 					</StackPanel>
 				</Grid>
 			</TabItem>

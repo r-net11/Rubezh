@@ -209,5 +209,31 @@ namespace ResursAPI
 				throw new ArgumentNullException("Не найдено значение параметра");
 			}
 		}
+		public void SetValue(ValueType valueType)
+		{
+			switch (DriverParameter.ParameterType)
+			{
+				case ParameterType.Enum:
+					IntValue = (int)valueType;
+					break;
+				case ParameterType.String:
+					var parameterStringContainer = (ParameterStringContainer)valueType;
+					StringValue = parameterStringContainer.Value;
+					break;
+				case ParameterType.Int:
+					IntValue = (int)valueType;
+					break;
+				case ParameterType.Double:
+					DoubleValue = (double)valueType;
+					break;
+				case ParameterType.Bool:
+					BoolValue = (bool)BoolValue;
+					break;
+				case ParameterType.DateTime:
+					DateTimeValue = (DateTime)DateTimeValue;
+					break;
+			}
+		}
+		 
 	}
 }

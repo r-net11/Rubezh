@@ -23,6 +23,7 @@ namespace Resurs.ViewModels
 			SetActiveCommand = new RelayCommand(OnSetActive, CanSetActive);
 			UnSetActiveCommand = new RelayCommand(OnUnSetActive, CanUnSetActive);
 			SyncDateTimeCommand = new RelayCommand(OnSyncDateTime, CanSyncDateTime);
+			ReadParametersCommand = new RelayCommand(OnReadParameters, CanReadParameters);
 			
 			BuildTree();
 			if (RootDevice != null)
@@ -309,6 +310,17 @@ namespace Resurs.ViewModels
 			DeviceProcessor.Instance.SyncDateTime(SelectedDevice.Device.UID);
 		}
 		bool CanSyncDateTime()
+		{
+			return SelectedDevice != null && SelectedDevice.Parent != null && SelectedDevice.IsActive;
+		}
+
+		public RelayCommand ReadParametersCommand { get; private set; }
+		void OnReadParameters()
+		{
+			DeviceProcessor.Instance.ReadParameters(SelectedDevice.Device);
+			SelectedDevice.Update();
+		}
+		bool CanReadParameters()
 		{
 			return SelectedDevice != null && SelectedDevice.Parent != null && SelectedDevice.IsActive;
 		}
