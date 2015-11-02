@@ -270,7 +270,6 @@
     <Compile Include="Windows\ViewModels\RightContentViewModel.cs" />
     <Compile Include="Windows\ViewModels\ISelectable.cs" />
     <Compile Include="Windows\ViewModels\LoadingViewModel.cs" />
-    <Compile Include="Windows\ViewModels\IEditingViewModel.cs" />
     <Compile Include="IModule.cs" />
     <Compile Include="Windows\ViewModels\IViewPartViewModel.cs" />
     <Compile Include="ModuleBase.cs" />

@@ -13,7 +13,7 @@ using RubezhClient;
 
 namespace AutomationModule.ViewModels
 {
-	public class SchedulesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class SchedulesViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public SchedulesViewModel()
 		{

@@ -20,7 +20,7 @@ using GKModule.ViewModels;
 
 namespace GKModule.ViewModels
 {
-	public class DelaysViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class DelaysViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public static DelaysViewModel Current { get; private set; }
 

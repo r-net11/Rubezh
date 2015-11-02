@@ -8,7 +8,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public abstract class OrganisationViewModel<TViewModel, TElement> : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public abstract class OrganisationViewModel<TViewModel, TElement> : ViewPartViewModel, ISelectable<Guid>
 		where TViewModel : BaseObjectViewModel<TElement>
 		where TElement : OrganisationElementBase
 	{

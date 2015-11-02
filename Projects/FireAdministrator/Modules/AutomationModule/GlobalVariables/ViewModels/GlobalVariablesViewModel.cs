@@ -13,7 +13,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace AutomationModule.ViewModels
 {
-	public class GlobalVariablesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class GlobalVariablesViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public static GlobalVariablesViewModel Current { get; private set; }
 		public GlobalVariablesViewModel()

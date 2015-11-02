@@ -11,7 +11,7 @@ using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
-	public class DayIntervalViewModel : OrganisationElementViewModel<DayIntervalViewModel, DayInterval>, IEditingViewModel
+	public class DayIntervalViewModel : OrganisationElementViewModel<DayIntervalViewModel, DayInterval>
 	{
 		bool _isInitialized;
 
