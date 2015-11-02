@@ -30,7 +30,7 @@ namespace GKModule.ViewModels
 		public void Update()
 		{
 			OnPropertyChanged(() => Zone);
-			_visualizetionState = Zone.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Zone.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
+			_visualizationState = Zone.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Zone.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
 		}
@@ -47,10 +47,10 @@ namespace GKModule.ViewModels
 				ServiceFactoryBase.Events.GetEvent<FindElementEvent>().Publish(Zone.PlanElementUIDs);
 		}
 
-		VisualizationState _visualizetionState;
+		VisualizationState _visualizationState;
 		public VisualizationState VisualizationState
 		{
-			get { return _visualizetionState; }
+			get { return _visualizationState; }
 		}
 	}
 }

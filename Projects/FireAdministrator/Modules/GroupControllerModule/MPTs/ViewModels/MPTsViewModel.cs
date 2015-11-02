@@ -19,7 +19,7 @@ using RubezhAPI.GK;
 
 namespace GKModule.ViewModels
 {
-	public class MPTsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class MPTsViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		bool _lockSelection = false;
 

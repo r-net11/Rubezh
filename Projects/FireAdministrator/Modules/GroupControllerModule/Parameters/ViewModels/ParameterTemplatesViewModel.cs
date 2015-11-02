@@ -14,7 +14,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
-	public class ParameterTemplatesViewModel : MenuViewPartViewModel, IEditingViewModel
+	public class ParameterTemplatesViewModel : MenuViewPartViewModel 
 	{
 		public ParameterTemplatesViewModel()
 		{

@@ -24,8 +24,15 @@
                 </StackPanel>
             </StackPanel>
 
-            <XDataGrid Grid.Row="1" ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" CanUserSortColumns="True">
-			    <DataGrid.Columns>
+            <DataGrid Grid.Row="1" ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" CanUserSortColumns="True">
+				<DataGrid.ContextMenu>
+					<ContextMenu>
+						<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить (Ctrl+N)" />
+						<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete" Text="Удалить (Ctrl+Del)" />
+						<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BSettings" Text="Редактировать (Ctrl+E)" />
+					</ContextMenu>
+				</DataGrid.ContextMenu>
+				<DataGrid.Columns>
 				    <DataGridTemplateColumn Header="№" SortMemberPath="Schedule.No" Width="Auto" CanUserResize="False">
 					    <DataGridTemplateColumn.CellTemplate>
 						    <DataTemplate>
@@ -39,7 +46,7 @@
 				    <DataGridTextColumn Width="*" Binding="{Binding Schedule.Name}" Header="Наименование" />
 				    <DataGridTextColumn Width="*" Binding="{Binding Schedule.Description}" Header="Примечание" />
 			    </DataGrid.Columns>
-		    </XDataGrid>
+		    </DataGrid>
         </Grid>
 		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" GridSplitterFix.Attach="True" />
 		<Grid Grid.Column="2" DataContext="{Binding SelectedSchedule}" Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.IsHolidaySchedule, Converter={StaticResource InversedBoolToVisibilityConverter}}">

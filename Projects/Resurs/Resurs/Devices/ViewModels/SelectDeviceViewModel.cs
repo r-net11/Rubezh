@@ -55,7 +55,7 @@ namespace Resurs.ViewModels
 
 		void BuildTree(List<Guid> exceptDeviceUids)
 		{
-			RootDevice = AddDeviceInternal(ResursDAL.DBCash.RootDevice, null, exceptDeviceUids);
+			RootDevice = AddDeviceInternal(ResursDAL.DbCache.RootDevice, null, exceptDeviceUids);
 		}
 				
 		private DeviceViewModel AddDeviceInternal(Device device, DeviceViewModel parentDeviceViewModel, List<Guid> exceptDeviceUids)
@@ -78,7 +78,7 @@ namespace Resurs.ViewModels
 
 		public bool IsVisibility
 		{
-			get { return DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.ViewDevice); }
+			get { return DbCache.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.ViewDevice); }
 		}
 	}
 }

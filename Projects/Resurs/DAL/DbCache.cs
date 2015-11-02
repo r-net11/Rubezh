@@ -10,11 +10,11 @@ using Infrastructure.Common.Windows;
 
 namespace ResursDAL
 {
-	public static partial class DBCash
+	public static partial class DbCache
 	{
 		public static Consumer RootConsumer { get; set; }
 
-		static DBCash()
+		static DbCache()
 		{
 			RootDevice = GetRootDevice();
 			if (RootDevice == null)

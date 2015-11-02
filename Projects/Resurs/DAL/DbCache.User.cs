@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace ResursDAL
 {
-	public static partial class DBCash
+	public static partial class DbCache
 	{
 		public static List<User> Users { get; set; }
 		public static User CurrentUser { get; set; }
@@ -142,7 +142,7 @@ namespace ResursDAL
 					var user = context.Users.Include(x => x.UserPermissions).FirstOrDefault(x => x.PasswordHash == passwordHash && x.Login == login);
 					if (user == null)
 						return "неверный логин или пароль";
-					DBCash.CurrentUser = user;
+					DbCache.CurrentUser = user;
 				}
 				return null;
 			}

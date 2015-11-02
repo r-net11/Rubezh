@@ -12,7 +12,7 @@ namespace Resurs.Reports.Templates
 			InitializeComponent();
 			var dataSet = new DebtorsDataSet();
 			var filter = ReportsViewModel.Filter;
-			var consumers = DBCash.GetAllConsumers();
+			var consumers = DbCache.GetAllConsumers();
 			MinDebt.Value = filter.MinDebt;
 			foreach (var consumer in consumers)
 			{

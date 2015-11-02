@@ -17,7 +17,7 @@ using VideoModule.Plans;
 
 namespace VideoModule.ViewModels
 {
-	public class CamerasViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class CamerasViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		bool _lockSelection = false;
 		public static CamerasViewModel Current { get; private set; }

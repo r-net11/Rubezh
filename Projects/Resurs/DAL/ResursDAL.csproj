@@ -62,19 +62,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseContext.cs" />
-    <Compile Include="DBCash.Deposits.cs" />
-    <Compile Include="DBCash.cs" />
-    <Compile Include="DBCash.Devices.cs" />
-    <Compile Include="DBCash.Journal.cs" />
-    <Compile Include="DBCash.Measure.cs" />
-    <Compile Include="DBCash.Consumers.cs" />
-    <Compile Include="DBCash.User.cs" />
-    <Compile Include="DBCash.Receipts.cs" />
+    <Compile Include="DbCache.Deposits.cs" />
+    <Compile Include="DbCache.cs" />
+    <Compile Include="DbCache.Devices.cs" />
+    <Compile Include="DbCache.Journal.cs" />
+    <Compile Include="DbCache.Measure.cs" />
+    <Compile Include="DbCache.Consumers.cs" />
+    <Compile Include="DbCache.User.cs" />
+    <Compile Include="DbCache.Receipts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Compile Include="DBCash.Tariffs.cs" />
+    <Compile Include="DbCache.Tariffs.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

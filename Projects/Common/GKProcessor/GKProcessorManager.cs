@@ -579,15 +579,11 @@ namespace GKProcessor
 					journalObjectType = JournalObjectType.GKDoor;
 				}
 			}
-			DateTime? deviceDateTime = null;
-			if (journalEventNameType != JournalEventNameType.Команда_оператора &&
-				journalEventNameType != JournalEventNameType.Отмена_операции)
-				deviceDateTime = DateTime.Now;
-
+			
 			var journalItem = new JournalItem
 			{
 				SystemDateTime = DateTime.Now,
-				DeviceDateTime = deviceDateTime,
+				DeviceDateTime = null,
 				JournalObjectType = journalObjectType,
 				JournalEventNameType = journalEventNameType,
 				JournalEventDescriptionType = journalEventDescriptionType,

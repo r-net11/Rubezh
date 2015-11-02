@@ -48,7 +48,14 @@
 				<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать (Ctrl+E)" />
 				<ToolBarButton Command="{Binding DeleteCommand}" ImageSource="Delete"  ToolTip="Удалить (Ctrl+Del)" />
 			</StackPanel>
-			<XDataGrid Grid.Row="1" Margin="2" ItemsSource="{Binding DayIntervalParts}" SelectedItem="{Binding SelectedDayIntervalPart}">
+			<DataGrid Grid.Row="1" Margin="2" ItemsSource="{Binding DayIntervalParts}" SelectedItem="{Binding SelectedDayIntervalPart}">
+				<DataGrid.ContextMenu>
+					<ContextMenu>
+						<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить (Ctrl+N)" />
+						<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete" Text="Удалить (Ctrl+Del)" />
+						<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BSettings" Text="Редактировать (Ctrl+E)" />
+					</ContextMenu>
+				</DataGrid.ContextMenu>
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Width="Auto" Header="№">
 						<DataGridTemplateColumn.CellTemplate>
@@ -79,7 +86,7 @@
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 				</DataGrid.Columns>
-			</XDataGrid>
+			</DataGrid>
 		</Grid>
 	</Grid>
 </UserControl>

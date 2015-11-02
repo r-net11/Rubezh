@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ResursDAL
 {
-	public static partial class DBCash
+	public static partial class DbCache
 	{
 		public static List<Receipt> GetAllReceipts()
 		{

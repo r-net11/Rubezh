@@ -180,6 +180,7 @@
     <Compile Include="SKDReports\ISKDReportProviderModule.cs" />
     <Compile Include="SKDReports\SKDReportGroup.cs" />
     <Compile Include="SKDReports\SKDReportProvider.cs" />
+    <Compile Include="TimeoutOperation.cs" />
     <Compile Include="Validation\PlanObjectValidationError.cs" />
     <Compile Include="Windows\ViewModels\BaseObjectViewModel.cs" />
     <Compile Include="Windows\ViewModels\DateSelectionViewModel.cs" />
@@ -269,7 +270,6 @@
     <Compile Include="Windows\ViewModels\RightContentViewModel.cs" />
     <Compile Include="Windows\ViewModels\ISelectable.cs" />
     <Compile Include="Windows\ViewModels\LoadingViewModel.cs" />
-    <Compile Include="Windows\ViewModels\IEditingViewModel.cs" />
     <Compile Include="IModule.cs" />
     <Compile Include="Windows\ViewModels\IViewPartViewModel.cs" />
     <Compile Include="ModuleBase.cs" />

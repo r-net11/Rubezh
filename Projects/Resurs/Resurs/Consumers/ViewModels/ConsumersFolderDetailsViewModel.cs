@@ -66,7 +66,7 @@ namespace Resurs.ViewModels
 		
 		protected override bool Save()
 		{
-			DBCash.SaveConsumer(GetConsumer());
+			DbCache.SaveConsumer(GetConsumer());
 			return base.Save();
 		}
 	}

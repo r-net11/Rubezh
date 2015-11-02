@@ -21,7 +21,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
-	public class GuardZonesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class GuardZonesViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		bool _lockSelection = false;
 		public GuardZoneDevicesViewModel ZoneDevices { get; set; }

@@ -6,7 +6,7 @@ using System.Data.Entity;
 
 namespace ResursDAL
 {
-	public static partial class DBCash
+	public static partial class DbCache
 	{
 		public static List<Tariff> Tariffs { get; set; }
 		public static void CreateTariff(Tariff tariff)
