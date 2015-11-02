@@ -17,6 +17,12 @@ namespace FiresecAPI.SKD
 		public bool IsManuallyAdded { get; set; }
 
 		/// <summary>
+		/// Флаг, отображающий лежит ли интервал за пределами графика работ (касается только неявок по документу)
+		/// </summary>
+		[DataMember]
+		public bool IsOutside { get; set; }
+
+		/// <summary>
 		/// Показывает, сделан ли проход в зоне УРВ или нет
 		/// </summary>
 		[DataMember]

@@ -396,6 +396,7 @@
       <Column Name="DocumentDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="DocumentNumber" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="FileName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="IsOutside" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.Card" Member="Cards">

@@ -1646,3 +1646,8 @@ BEGIN
 	ALTER TABLE [Schedule] ADD [IsEnabledOvertime] bit NOT NULL DEFAULT 0
 	INSERT INTO Patches (Id) VALUES ('AddIsEnabledOvertime')
 END
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsOutsideColumn')
+BEGIN
+	ALTER TABLE [TimeTrackDocument] ADD [IsOutside] bit NOT NULL DEFAULT 0
+	INSERT INTO Patches (Id) VALUES ('AddIsOutsideColumn')
+END

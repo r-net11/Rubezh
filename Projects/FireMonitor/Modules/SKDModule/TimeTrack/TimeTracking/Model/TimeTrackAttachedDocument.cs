@@ -57,7 +57,7 @@ namespace SKDModule.Model
 				//_fileName = value;
 				this.RaiseAndSetIfChanged(ref _fileName, value);
 				Document.FileName = _fileName;
-				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(Document);
+				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(Document); //TODO: Refactor this. 4 times executes EditDocument action
 				if (operationResult.HasError)
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
 using FiresecAPI.SKD;
+using FiresecAPI.SKD.TimeTrack.TimeTrackDocuments;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -18,6 +19,31 @@ namespace SKDModule.ViewModels
 
 		public ICollectionView AvailableDocumentsCollectionView { get; private set; }
 		public ITimeTrackDocument TimeTrackDocument { get; private set; }
+
+		private bool _isEnableAbsence;
+
+		public bool IsEnableAbsence
+		{
+			get { return _isEnableAbsence; }
+			set
+			{
+				if (_isEnableAbsence == value) return;
+				_isEnableAbsence = value;
+				OnPropertyChanged(() => IsEnableAbsence);
+			}
+		}
+
+		private bool _isOutside;
+
+		public bool IsOutside
+		{
+			get { return _isOutside; }
+			set
+			{
+				_isOutside = value;
+				OnPropertyChanged(() => IsOutside);
+			}
+		}
 
 		public ObservableCollection<DocumentType> DocumentsTypes { get; private set; }
 
@@ -162,12 +188,14 @@ namespace SKDModule.ViewModels
 			DocumentNumber = timeTrackDocument.DocumentNumber;
 			DocumentDateTime = timeTrackDocument.DocumentDateTime;
 			SelectedDocument = AvailableDocuments.FirstOrDefault(x => x.TimeTrackDocumentType.Code == timeTrackDocument.DocumentCode);
+			IsOutside = timeTrackDocument.IsOutside;
 
 			this.WhenAny(x => x.SelectedDocumentType, x => x.Value)
 				.Subscribe(_ =>
 				{
 					AvailableDocumentsCollectionView.Refresh();
 					SelectedDocument = (ITimeTrackDocument)AvailableDocumentsCollectionView.CurrentItem;
+					IsEnableAbsence = SelectedDocument as AbsenceDocument != null || SelectedDocument as AbsenceReasonableDocument != null;
 				});
 		}
 
@@ -201,6 +229,7 @@ namespace SKDModule.ViewModels
 			TimeTrackDocument.DocumentDateTime = DocumentDateTime;
 			TimeTrackDocument.TimeTrackDocumentType = SelectedDocument.TimeTrackDocumentType;
 			TimeTrackDocument.DocumentCode = SelectedDocument.TimeTrackDocumentType.Code;
+			TimeTrackDocument.IsOutside = IsOutside;
 			return base.Save();
 		}
 	}

@@ -8,6 +8,8 @@ namespace FiresecAPI.SKD
 
 		Guid EmployeeUID { get; set; }
 
+		bool IsOutside { get; set; }
+
 		DateTime StartDateTime { get; set; }
 
 		DateTime EndDateTime { get; set; }

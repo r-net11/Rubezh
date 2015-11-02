@@ -127,7 +127,12 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var documentDetailsViewModel = new DocumentDetailsViewModel(true, OrganisationUID, EmployeeUID, SelectedDocument.Document);
+			var documentDetailsViewModel = new DocumentDetailsViewModel(true, OrganisationUID, EmployeeUID,
+				SelectedDocument.Document)
+			{
+				SelectedDocumentType = SelectedDocument.Document.TimeTrackDocumentType.DocumentType
+			};
+
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
 				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(documentDetailsViewModel.TimeTrackDocument);

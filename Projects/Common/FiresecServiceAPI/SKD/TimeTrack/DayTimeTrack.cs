@@ -506,6 +506,7 @@ namespace FiresecAPI.SKD
 				if (timeTrackPart != null)
 				{
 					timeTrackPart.MinTimeTrackDocumentType = document.TimeTrackDocumentType;
+					timeTrackPart.IsOutside = document.IsOutside;
 					DocumentTrackParts.Add(timeTrackPart);
 				}
 			}
@@ -539,6 +540,7 @@ namespace FiresecAPI.SKD
 							newTimeTrackPart.MinTimeTrackDocumentType = timeTrackPart.MinTimeTrackDocumentType;
 						else if (timeTrackPart.MinTimeTrackDocumentType.DocumentType < newTimeTrackPart.MinTimeTrackDocumentType.DocumentType)
 							newTimeTrackPart.MinTimeTrackDocumentType = timeTrackPart.MinTimeTrackDocumentType;
+						newTimeTrackPart.IsOutside = timeTrackPart.IsOutside;
 						newTimeTrackPart.TimeTrackDocumentTypes.Add(timeTrackPart.MinTimeTrackDocumentType);
 					}
 
@@ -636,6 +638,8 @@ namespace FiresecAPI.SKD
 				case DocumentType.Presence:
 					return hasPlannedTimeTrack ? TimeTrackType.DocumentPresence : TimeTrackType.None;
 				case DocumentType.Absence:
+					if (documentTimeTrack.IsOutside)
+						return TimeTrackType.DocumentAbsence;
 					return (hasRealTimeTrack || hasPlannedTimeTrack) ? TimeTrackType.DocumentAbsence : TimeTrackType.None;
 				default:
 					return TimeTrackType.None;

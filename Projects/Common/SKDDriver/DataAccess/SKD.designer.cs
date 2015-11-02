@@ -8891,6 +8891,8 @@ namespace SKDDriver.DataAccess
 		
 		private string _FileName;
 		
+		private bool _IsOutside;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -8913,6 +8915,8 @@ namespace SKDDriver.DataAccess
     partial void OnDocumentNumberChanged();
     partial void OnFileNameChanging(string value);
     partial void OnFileNameChanged();
+    partial void OnIsOutsideChanging(bool value);
+    partial void OnIsOutsideChanged();
     #endregion
 		
 		public TimeTrackDocument()
@@ -9096,6 +9100,26 @@ namespace SKDDriver.DataAccess
 					this._FileName = value;
 					this.SendPropertyChanged("FileName");
 					this.OnFileNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsOutside", DbType="Bit NOT NULL")]
+		public bool IsOutside
+		{
+			get
+			{
+				return this._IsOutside;
+			}
+			set
+			{
+				if ((this._IsOutside != value))
+				{
+					this.OnIsOutsideChanging(value);
+					this.SendPropertyChanging();
+					this._IsOutside = value;
+					this.SendPropertyChanged("IsOutside");
+					this.OnIsOutsideChanged();
 				}
 			}
 		}

@@ -9,6 +9,7 @@
 		<ResourceDictionary>
 			<SolidColorBrush x:Key="WatermarkColor" Color="LightGray"/>
 			<Converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
+			<Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<Grid>
@@ -17,6 +18,7 @@
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
@@ -138,15 +140,23 @@
 				TimeSpan="{Binding EndTime}" />
 		</DockPanel>
 		<TextBlock
-			Grid.Row="6"
+			Grid.Row="7"
 			Text="Примечание"
 			Foreground="White"
 			TextWrapping="Wrap"
 			Margin="5"
 			VerticalAlignment="Top"/>
-		<TextBox
+		<CheckBox
 			Grid.Column="1"
 			Grid.Row="6"
+			Content="Действует вне графика"
+			Foreground="White"
+			Margin="0 5"
+			Visibility="{Binding IsEnableAbsence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibilityConverter}}"
+			IsChecked="{Binding IsOutside, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+		<TextBox
+			Grid.Column="1"
+			Grid.Row="7"
 			TextWrapping="Wrap"
 			VerticalContentAlignment="Top"
 			MaxLength="50"

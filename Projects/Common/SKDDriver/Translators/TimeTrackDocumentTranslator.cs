@@ -48,7 +48,8 @@ namespace SKDDriver.Translators
 						Comment = tableTimeTrackDocument.Comment,
 						DocumentDateTime = tableTimeTrackDocument.DocumentDateTime,
 						DocumentNumber = tableTimeTrackDocument.DocumentNumber,
-						FileName = tableTimeTrackDocument.FileName
+						FileName = tableTimeTrackDocument.FileName,
+						IsOutside = tableTimeTrackDocument.IsOutside
 					})
 					.ToList();
 
@@ -103,7 +104,8 @@ namespace SKDDriver.Translators
 					tmpDoc.Comment = tableDoc.Comment;
 					tmpDoc.DocumentDateTime = tableDoc.DocumentDateTime;
 					tmpDoc.DocumentNumber = tableDoc.DocumentNumber;
-					tmpDoc.FileName = tmpDoc.FileName;
+					tmpDoc.FileName = tableDoc.FileName;
+					tmpDoc.IsOutside = tableDoc.IsOutside;
 					docsList.Add(tmpDoc);
 				}
 
@@ -146,7 +148,8 @@ namespace SKDDriver.Translators
 					DocumentCode = timeTrackDocument.DocumentCode,
 					Comment = timeTrackDocument.Comment,
 					DocumentDateTime = timeTrackDocument.DocumentDateTime,
-					DocumentNumber = timeTrackDocument.DocumentNumber
+					DocumentNumber = timeTrackDocument.DocumentNumber,
+					IsOutside = timeTrackDocument.IsOutside
 				};
 				Context.TimeTrackDocuments.InsertOnSubmit(tableItem);
 				tableItem.FileName = timeTrackDocument.FileName;
@@ -174,6 +177,7 @@ namespace SKDDriver.Translators
 					tableItem.DocumentDateTime = timeTrackDocument.DocumentDateTime;
 					tableItem.DocumentNumber = timeTrackDocument.DocumentNumber;
 					tableItem.FileName = timeTrackDocument.FileName;
+					tableItem.IsOutside = timeTrackDocument.IsOutside;
 					Context.SubmitChanges();
 				}
 				return new OperationResult();

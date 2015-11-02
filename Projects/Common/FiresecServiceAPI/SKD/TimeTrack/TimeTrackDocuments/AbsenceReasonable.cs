@@ -15,6 +15,9 @@ namespace FiresecAPI.SKD.TimeTrack.TimeTrackDocuments
 		public Guid EmployeeUID { get; set; }
 
 		[DataMember]
+		public bool IsOutside { get; set; }
+
+		[DataMember]
 		public DateTime StartDateTime { get; set; }
 
 		[DataMember]

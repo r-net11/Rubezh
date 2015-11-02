@@ -19,6 +19,9 @@ namespace FiresecAPI.SKD
 		public Guid UID { get; set; }
 
 		[DataMember]
+		public bool IsOutside { get; set; }
+
+		[DataMember]
 		public Guid EmployeeUID { get; set; }
 
 		[DataMember]

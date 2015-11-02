@@ -449,7 +449,11 @@ namespace SKDModule.ViewModels
 
 		void OnEditDocument()
 		{
-			var documentDetailsViewModel = new DocumentDetailsViewModel(false, ShortEmployee.OrganisationUID,  ShortEmployee.UID, SelectedDocument.Document);
+			var documentDetailsViewModel = new DocumentDetailsViewModel(false, ShortEmployee.OrganisationUID, ShortEmployee.UID,
+				SelectedDocument.Document)
+			{
+				SelectedDocumentType = SelectedDocument.Document.TimeTrackDocumentType.DocumentType
+			};
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
 				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(documentDetailsViewModel.TimeTrackDocument);
