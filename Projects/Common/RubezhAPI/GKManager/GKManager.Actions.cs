@@ -228,13 +228,11 @@ namespace RubezhClient
 			foreach (var gkBase in device.OutDependentElements)
 			{
 				gkBase.InputDependentElements.Remove(device);
-				gkBase.Invalidate();
 				gkBase.OnChanged();
 			}
 			foreach (var gkBase in device.InputDependentElements)
 			{
 				gkBase.OutDependentElements.Remove(device);
-				gkBase.Invalidate();
 				gkBase.OnChanged();
 			}
 			if (device.Children != null)

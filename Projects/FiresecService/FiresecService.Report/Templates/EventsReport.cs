@@ -37,7 +37,7 @@ namespace FiresecService.Report.Templates
 		{
 			var filter = GetFilter<EventsReportFilter>();
 			var dataSet = new EventsDataSet();
-			var archiveFilter = new ArchiveFilter();
+			var archiveFilter = new JournalFilter();
 			archiveFilter.StartDate = filter.DateTimeFrom;
 			archiveFilter.EndDate = filter.DateTimeTo;
 			if (filter.JournalEventNameTypes != null && filter.JournalEventNameTypes.Count > 0)
@@ -66,7 +66,7 @@ namespace FiresecService.Report.Templates
 			}
 			if (!filter.Users.IsEmpty())
 				archiveFilter.Users = filter.Users;
-			var journalItemsResult = dataProvider.DbService.JournalTranslator.GetFilteredJournalItems(archiveFilter);
+			var journalItemsResult = dataProvider.DbService.JournalTranslator.GetFilteredArchiveItems(archiveFilter);
 			if (journalItemsResult.Result != null)
 			{
 				foreach (var journalItem in journalItemsResult.Result)
@@ -199,7 +199,7 @@ namespace FiresecService.Report.Templates
 			return dataSet;
 		}
 
-		string BuildQuery(ArchiveFilter archiveFilter)
+		string BuildQuery(JournalFilter archiveFilter)
 		{
 			string dateTimeTypeString;
 			if (archiveFilter.UseDeviceDateTime)

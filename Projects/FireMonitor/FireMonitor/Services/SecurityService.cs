@@ -11,9 +11,6 @@ namespace FireMonitor
 	{
 		public bool Validate()
 		{
-			if (ClientManager.CheckPermission(PermissionType.Oper_MayNotConfirmCommands))
-				return true;
-
 			var loginViewModel = new LoginViewModel(ClientType.Monitor, Infrastructure.Client.Login.ViewModels.LoginViewModel.PasswordViewType.Validate) { Title = "Оперативная задача. Авторизация", };
 			DialogService.ShowModalWindow(loginViewModel);
 			if (!loginViewModel.IsConnected)

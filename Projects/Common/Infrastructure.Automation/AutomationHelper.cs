@@ -73,6 +73,12 @@ namespace Infrastructure.Automation
 				return new List<Property> { Property.Description, Property.No, Property.Delay, Property.CurrentDelay, Property.Hold, Property.CurrentHold, Property.DelayRegime, Property.Uid, Property.Name, Property.State };
 			if (objectType == ObjectType.GuardZone)
 				return new List<Property> { Property.Description, Property.No, Property.Uid, Property.Name, Property.State };
+			if (objectType == ObjectType.GKDoor)
+				return new List<Property> { Property.Description, Property.No, Property.Delay, Property.CurrentDelay, Property.Hold, Property.CurrentHold, Property.Uid, Property.Name, Property.State };
+			if (objectType == ObjectType.Organisation)
+				return new List<Property> { Property.Description, Property.Uid, Property.Name };
+			if (objectType == ObjectType.VideoDevice)
+				return new List<Property> { Property.Uid, Property.Name };
 			return new List<Property>();
 		}
 

@@ -10,11 +10,12 @@ namespace JournalModule.ViewModels
 {
 	public class ArchiveFilterViewModel : DialogViewModel
 	{
+		public bool IsShowDateTime { get; private set; }
 		public ArchiveDateTimeViewModel ArchiveDateTimeViewModel { get; private set; }
 		public FilterNamesViewModel FilterNamesViewModel { get; private set; }
 		public FilterObjectsViewModel FilterObjectsViewModel { get; private set; }
 		
-		public ArchiveFilterViewModel(ArchiveFilter filter)
+		public ArchiveFilterViewModel(JournalFilter filter, bool isShowDateTime)
 		{
 			Title = "Настройки фильтра";
 			ClearCommand = new RelayCommand(OnClear);
@@ -22,20 +23,22 @@ namespace JournalModule.ViewModels
 			CancelCommand = new RelayCommand(OnCancel);
 
 			if (filter == null)
-				filter = new ArchiveFilter();
-			ArchiveDateTimeViewModel = new ArchiveDateTimeViewModel();
+				filter = new JournalFilter();
+			IsShowDateTime = isShowDateTime;
+			if(IsShowDateTime)
+				ArchiveDateTimeViewModel = new ArchiveDateTimeViewModel();
 			FilterNamesViewModel = new FilterNamesViewModel(filter);
 			FilterObjectsViewModel = new FilterObjectsViewModel(filter);
 			
 		}
 
-		void Initialize(ArchiveFilter filter)
+		void Initialize(JournalFilter filter)
 		{
 			FilterNamesViewModel.Initialize(filter);
 			FilterObjectsViewModel.Initialize(filter);
 		}
 
-		public ArchiveFilter GetModel()
+		public JournalFilter GetModel()
 		{
 			var archiveFilter = FilterNamesViewModel.GetModel();
 			var objectsFilter = FilterObjectsViewModel.GetModel();
@@ -47,21 +50,24 @@ namespace JournalModule.ViewModels
 		public RelayCommand ClearCommand { get; private set; }
 		void OnClear()
 		{
-			Initialize(new ArchiveFilter());
+			Initialize(new JournalFilter());
 		}
 
 		public RelayCommand SaveCommand { get; private set; }
 		void OnSave()
 		{
-			if (ArchiveDateTimeViewModel.SelectedArchiveDefaultStateType == ArchiveDefaultStateType.RangeDate)
+			if (IsShowDateTime)
 			{
-				if (ArchiveDateTimeViewModel.StartDateTime.DateTime > ArchiveDateTimeViewModel.EndDateTime.DateTime)
+				if (ArchiveDateTimeViewModel.SelectedArchiveDefaultStateType == ArchiveDefaultStateType.RangeDate)
 				{
-					MessageBoxService.ShowWarning("Начальная дата должна быть меньше конечной");
-					return;
+					if (ArchiveDateTimeViewModel.StartDateTime.DateTime > ArchiveDateTimeViewModel.EndDateTime.DateTime)
+					{
+						MessageBoxService.ShowWarning("Начальная дата должна быть меньше конечной");
+						return;
+					}
 				}
+				ArchiveDateTimeViewModel.Save();
 			}
-			ArchiveDateTimeViewModel.Save();
 			Close(true);
 		}
 		public RelayCommand CancelCommand { get; private set; }
