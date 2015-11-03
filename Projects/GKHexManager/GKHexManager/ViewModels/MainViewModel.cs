@@ -25,8 +25,8 @@ namespace HexManager.ViewModels
 			Name = hexFileCollectionInfo.Name;
 			MinorVersion = hexFileCollectionInfo.MinorVersion;
 			MajorVersion = hexFileCollectionInfo.MajorVersion;
-            AvailableDriverTypes = new ObservableCollection<GKDriverType>()
-		    { 
+			AvailableDriverTypes = new ObservableCollection<GKDriverType>()
+			{ 
 				GKDriverType.GK, GKDriverType.RSR2_KAU
 			};
 			HexFileViewModels = new ObservableRangeCollection<HexFileViewModel>();
@@ -39,8 +39,8 @@ namespace HexManager.ViewModels
 			SelectedDriverType = AvailableDriverTypes.FirstOrDefault();
 		}
 
-        ObservableCollection<GKDriverType> _availableDriverTypes;
-        public ObservableCollection<GKDriverType> AvailableDriverTypes
+		ObservableCollection<GKDriverType> _availableDriverTypes;
+		public ObservableCollection<GKDriverType> AvailableDriverTypes
 		{
 			get { return _availableDriverTypes; }
 			set
@@ -50,7 +50,7 @@ namespace HexManager.ViewModels
 			}
 		}
 
-        GKDriverType _selectedDriverType;
+		GKDriverType _selectedDriverType;
 		public GKDriverType SelectedDriverType
 		{
 			get { return _selectedDriverType; }
@@ -79,7 +79,7 @@ namespace HexManager.ViewModels
 			set
 			{
 				_minorVersion = value;
-                OnPropertyChanged(() => MinorVersion);
+				OnPropertyChanged(() => MinorVersion);
 			}
 		}
 
@@ -90,7 +90,7 @@ namespace HexManager.ViewModels
 			set
 			{
 				_majorVersion = value;
-                OnPropertyChanged(() => MajorVersion);
+				OnPropertyChanged(() => MajorVersion);
 			}
 		}
 
@@ -101,7 +101,7 @@ namespace HexManager.ViewModels
 			set
 			{
 				_hexFilesViewModel = value;
-                OnPropertyChanged(() => HexFileViewModels);
+				OnPropertyChanged(() => HexFileViewModels);
 			}
 		}
 
@@ -112,7 +112,7 @@ namespace HexManager.ViewModels
 			set
 			{
 				_selectedHexFile = value;
-                OnPropertyChanged(() => SelectedHexFile);
+				OnPropertyChanged(() => SelectedHexFile);
 			}
 		}
 
@@ -127,7 +127,7 @@ namespace HexManager.ViewModels
 		{
 			var openFileDialog = new OpenFileDialog()
 			{
-                Filter = "Пакет обновления (*.HCS)|*.HCS"
+				Filter = "Пакет обновления (*.HCS)|*.HCS"
 			};
 			if (openFileDialog.ShowDialog() == true)
 			{
@@ -148,7 +148,7 @@ namespace HexManager.ViewModels
 		{
 			SelectedDriverType = SelectedHexFile.DriverType;
 			AvailableDriverTypes.Add(SelectedDriverType);
-            AvailableDriverTypes = new ObservableCollection<GKDriverType>(AvailableDriverTypes.OrderBy(x => x.ToString()));
+			AvailableDriverTypes = new ObservableCollection<GKDriverType>(AvailableDriverTypes.OrderBy(x => x.ToString()));
 			HexFileViewModels.Remove(SelectedHexFile);
 			SelectedHexFile = HexFileViewModels.FirstOrDefault();
 		}
