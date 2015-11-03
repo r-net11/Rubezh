@@ -58,10 +58,34 @@ function EmployeesViewModel(parentViewModel) {
     self.OrganisationName = ko.observable();
     self.RemovalDate = ko.observable();
     self.IsDeleted = ko.observable();
+    self.IsRowSelected = ko.observable(false);
+    self.ItemRemovingName = ko.computed(function() {
+        return self.IsGuest() ? "посетителя" : "сотрудника";
+    }, self);
+    self.AddCommandToolTip = ko.computed(function() {
+        return "Добавить " + self.ItemRemovingName();
+    }, self);
+    self.RemoveCommandToolTip = ko.computed(function () {
+        return "Удалить " + self.ItemRemovingName();
+    }, self);
+    self.EditCommandToolTip = ko.computed(function () {
+        return "Редактировать " + self.ItemRemovingName();
+    }, self);
+    self.CanAdd = ko.computed(function() {
+        return self.IsRowSelected();
+    }, self);
+    self.CanRemove = ko.computed(function () {
+        return self.IsRowSelected() && !self.IsOrganisation();
+    }, self);
+    self.CanEdit = ko.computed(function() {
+        return self.IsRowSelected() && !self.IsOrganisation();
+    }, self);
 
     self.Init = function () {
         var filter = { PersonType: parentViewModel.SelectedPersonType() };
         self.IsGuest(parentViewModel.SelectedPersonType() === "Guest");
+        self.IsOrganisation(true);
+        self.IsRowSelected(false);
 
         $.ajax({
             url: "/Employees/GetOrganisations",
@@ -79,36 +103,41 @@ function EmployeesViewModel(parentViewModel) {
     };
 
     self.UpdateTree = function (data) {
-        self.TreeData = data;
         $("#jqGridEmployees").setGridParam({
-            datastr: self.TreeData,
+            datastr: data,
             datatype: "jsonstring",
             treedatatype: "jsonstring",
         });
         $("#jqGridEmployees").trigger("reloadGrid");
-
+        $("#jqGridEmployees").jqGrid("resetSelection");
     };
 
     $('#jqGridEmployees').on('jqGridSelectRow', function (event, id, selected) {
 
-        var myGrid = $('#jqGridEmployees');
+        if (selected) {
+            var myGrid = $('#jqGridEmployees');
 
-        self.UID(id);
-        self.OrganisationUID(myGrid.jqGrid('getCell', id, 'OrganisationUID'));
-        self.DepartmentName(myGrid.jqGrid('getCell', id, 'DepartmentName'));
-        self.IsOrganisation(myGrid.jqGrid('getCell', id, 'IsOrganisation') == "true");
-        self.LastName(myGrid.jqGrid('getCell', id, 'LastName'));
-        self.FirstName(myGrid.jqGrid('getCell', id, 'FirstName'));
-        self.SecondName(myGrid.jqGrid('getCell', id, 'SecondName'));
-        self.Phone(myGrid.jqGrid('getCell', id, 'Phone'));
-        self.Description(myGrid.jqGrid('getCell', id, 'Description'));
-        self.PositionName(myGrid.jqGrid('getCell', id, 'PositionName'));
-        self.OrganisationName(myGrid.jqGrid('getCell', id, 'OrganisationName'));
-        self.RemovalDate(myGrid.jqGrid('getCell', id, 'RemovalDate'));
-        self.IsDeleted(myGrid.jqGrid('getCell', id, 'IsDeleted') == "true");
+            self.UID(id);
+            self.OrganisationUID(myGrid.jqGrid('getCell', id, 'OrganisationUID'));
+            self.DepartmentName(myGrid.jqGrid('getCell', id, 'DepartmentName'));
+            self.IsOrganisation(myGrid.jqGrid('getCell', id, 'IsOrganisation') == "true");
+            self.LastName(myGrid.jqGrid('getCell', id, 'LastName'));
+            self.FirstName(myGrid.jqGrid('getCell', id, 'FirstName'));
+            self.SecondName(myGrid.jqGrid('getCell', id, 'SecondName'));
+            self.Phone(myGrid.jqGrid('getCell', id, 'Phone'));
+            self.Description(myGrid.jqGrid('getCell', id, 'Description'));
+            self.PositionName(myGrid.jqGrid('getCell', id, 'PositionName'));
+            self.OrganisationName(myGrid.jqGrid('getCell', id, 'OrganisationName'));
+            self.RemovalDate(myGrid.jqGrid('getCell', id, 'RemovalDate'));
+            self.IsDeleted(myGrid.jqGrid('getCell', id, 'IsDeleted') == "true");
 
-        if (!self.IsOrganisation()) {
-            self.EmployeeCards.Init(self.UID());
+            if (!self.IsOrganisation()) {
+                self.EmployeeCards.InitCards(self.UID());
+            } else {
+                self.EmployeeCards.InitCards(null);
+            }
+
+            self.IsRowSelected(true);
         }
     });
 
@@ -155,8 +184,6 @@ function EmployeesViewModel(parentViewModel) {
             });
         });
     };
-
-    self.Init();
 
     return self;
 }

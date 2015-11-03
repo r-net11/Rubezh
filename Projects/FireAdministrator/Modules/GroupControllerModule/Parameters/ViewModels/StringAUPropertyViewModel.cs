@@ -63,10 +63,10 @@ namespace GKModule.DeviceProperties
 					{
 						result = DriverProperty.Max;
 					}
+					Save(result);
+					_text = result.ToString();
+					OnPropertyChanged(() => Text);
 				}
-				Save(result);
-				_text = result.ToString();
-				OnPropertyChanged(() => Text);
 			}
 		}
 	}

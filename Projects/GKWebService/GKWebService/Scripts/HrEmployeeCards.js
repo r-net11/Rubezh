@@ -15,10 +15,14 @@
 });
 
 
-function EmployeeCardsViewModel() {
+function EmployeeCardsViewModel(parentViewModel) {
     var self = this;
 
-    self.IsCardSelected = ko.observable(false);
+    self.ParentViewModel = parentViewModel;
+    self.IsCardClicked = ko.observable(false);
+    self.IsCardSelected = ko.computed(function () {
+        return self.IsCardClicked() && self.ParentViewModel.IsRowSelected() && !self.ParentViewModel.IsOrganisation();
+    });
 
     $.ajax({
         dataType: "json",
@@ -30,17 +34,24 @@ function EmployeeCardsViewModel() {
         }
     });
 
-    self.Init = function (employeeUID) {
-        self.IsCardSelected(false);
-        $.getJSON("Employees/GetEmployeeCards/" + employeeUID, function (cards) {
-            ko.mapping.fromJS(cards, {}, self);
-        });
+    self.InitCards = function (employeeUID) {
+        self.IsCardClicked(false);
+
+        if (employeeUID != null) {
+            $.getJSON("Employees/GetEmployeeCards/" + employeeUID, function(cards) {
+                ko.mapping.fromJS(cards, {}, self);
+            });
+        }
     };
+
+    self.CanAddCard = ko.computed(function () {
+        return !self.ParentViewModel.IsOrganisation();
+    }, self);
 
     self.CardClick = function (data, e, card) {
         $('div.HrCardsPanel li').removeClass("active");
         $(e.currentTarget).parent().addClass("active");
-        self.IsCardSelected(true);
+        self.IsCardClicked(true);
         $("#jqGridDoors").setGridParam({
             datastr: ko.toJSON(card.Doors),
             datatype: "jsonstring",
@@ -52,7 +63,7 @@ function EmployeeCardsViewModel() {
     self.EmployeeClick = function (data, e) {
         $('div.HrCardsPanel li').removeClass("active");
         $(e.currentTarget).parent().addClass("active");
-        self.IsCardSelected(false);
+        self.IsCardClicked(false);
     };
 
     return self;
