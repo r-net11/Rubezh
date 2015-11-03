@@ -5,7 +5,6 @@
 		<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete" ToolTip="Удалить макет (Ctrl+Del)" />
 
 		<ToolBarButton Command="{Binding LayoutCopyCommand}" ImageSource="Copy" ToolTip="Копировать (Ctrl+C)" />
-		<ToolBarButton Command="{Binding LayoutCutCommand}" ImageSource="Cut" ToolTip="Вырезать (Ctrl+X)" />
 		<ToolBarButton Command="{Binding LayoutPasteCommand}" ImageSource="Paste" ToolTip="Вставить (Ctrl+V)" />
 	</StackPanel>
 </UserControl>

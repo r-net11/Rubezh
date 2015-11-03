@@ -113,10 +113,10 @@ namespace FiresecService.Service
 				return databaseService.ResetDB();
 			}
 		}
-        
-        public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
-        {
+		
+		public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
+		{
 			return new OperationResult<FiresecLicenseInfo>(LicenseManager.CurrentLicenseInfo);
-        }
-    }
+		}
+	}
 }

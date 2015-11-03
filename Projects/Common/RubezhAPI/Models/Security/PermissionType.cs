@@ -97,6 +97,9 @@ namespace RubezhAPI.Models
 		[DescriptionAttribute("Отчет по событиям")]
 		Oper_Reports_Events,
 
+		[DescriptionAttribute("Отчет по отражениям")]
+		Oper_Reports_Mirror,
+
 		[DescriptionAttribute("Маршрут сотрудника/посетителя")]
 		Oper_Reports_EmployeeRoot,
 

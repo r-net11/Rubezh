@@ -39,6 +39,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 		Task _networkPollingTask;
 		int _pollingPeriod;
 		NetworkControllerErrors _Errors;
+		int _requestTimeout = 2000; // Значение по умолчанию
 
 		#region нужен только для отладки
 
@@ -467,6 +468,19 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 							Value = new ParameterStringContainer { Value = _portName }
 						};
 					}
+				case ParameterNamesIncotexNetworkVirtual.Timeout:
+					{
+						return new OperationResult
+						{
+							Result =
+								new TransactionError
+								{
+									ErrorCode = TransactionErrorCodes.NoError,
+									Description = String.Empty
+								},
+							Value = _requestTimeout
+						}; 
+					}
 				default:
 					{
  						throw new InvalidOperationException(String.Format(
@@ -494,6 +508,10 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 				case ParameterNamesIncotexNetworkVirtual.PortName:
 					{
 						_portName = ((ParameterStringContainer)value).Value; break;
+					}
+				case ParameterNamesIncotexNetworkVirtual.Timeout:
+					{
+						_requestTimeout = (int)value; break;
 					}
 				default:
 					{

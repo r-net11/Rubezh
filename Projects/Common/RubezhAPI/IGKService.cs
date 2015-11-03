@@ -26,12 +26,6 @@ namespace RubezhAPI
 		OperationResult<GKDevice> GKAutoSearch(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName);
-
-		[OperationContract]
-		OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<Guid> deviceUIDs);
-		
-		[OperationContract]
 		OperationResult<bool> GKSyncronyseTime(Guid deviceUID);
 
 		[OperationContract]

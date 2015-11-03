@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
+using System.Timers;
 using ResursNetwork.OSI.ApplicationLayer;
 using ResursNetwork.OSI.ApplicationLayer.Devices;
 using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
@@ -15,28 +17,30 @@ using ResursAPI.CommandNames;
 
 namespace ResursNetwork.Incotex.Models
 {
-	public class Mercury203Virtual: IDevice
+	public class Mercury203Virtual: IDevice, IDisposable
 	{
 		#region Fields And Properties
 
-		private ParatemersCollection _Parameters = new ParatemersCollection();
-		private Status _Status = Status.Stopped;
-		private DeviceErrors _Errors;
-		private INetwrokController _NetworkController;
+		ParatemersCollection _parameters = new ParatemersCollection();
+		Status _status = Status.Stopped;
+		DeviceErrors _errors;
+		INetwrokController _networkController;
+		Timer _timer;
+
 
         public Guid Id
         {
             get
             {
-				return (Guid)_Parameters[ParameterNamesMercury203.Id].Value;
+				return (Guid)_parameters[ParameterNamesMercury203.Id].Value;
             }
             set
             {
-				var id = (Guid)_Parameters[ParameterNamesMercury203.Id.ToString()].Value;
+				var id = (Guid)_parameters[ParameterNamesMercury203.Id.ToString()].Value;
 
 				if (id != value)
 				{
-					_Parameters[ParameterNamesMercury203.Id.ToString()].Value = value;
+					_parameters[ParameterNamesMercury203.Id.ToString()].Value = value;
 					//OnPropertyChanged("Id");
 				}
             }
@@ -49,7 +53,7 @@ namespace ResursNetwork.Incotex.Models
 
         public uint Address
         {
-            get { return (UInt32)_Parameters[ParameterNamesMercury203.Address].Value; }
+            get { return (UInt32)_parameters[ParameterNamesMercury203.Address].Value; }
 			set 
 			{
 				if (value == 0)
@@ -58,11 +62,11 @@ namespace ResursNetwork.Incotex.Models
 						"Попытка установить недопустимый адрес равеный 0");
 				}
 
-				var address = (UInt32)_Parameters[ParameterNamesMercury203.Address].Value;
+				var address = (UInt32)_parameters[ParameterNamesMercury203.Address].Value;
 
 				if (address != value)
 				{
-					_Parameters[ParameterNamesMercury203.Address].Value = value;
+					_parameters[ParameterNamesMercury203.Address].Value = value;
 					//OnPropertyChanged("Address");
 				}
 			}
@@ -70,26 +74,26 @@ namespace ResursNetwork.Incotex.Models
 
         public INetwrokController Network
         {
-            get { return _NetworkController; }
-			set { _NetworkController = value; }
+            get { return _networkController; }
+			set { _networkController = value; }
         }
 
         public ParatemersCollection Parameters
         {
-            get { return _Parameters; }
+            get { return _parameters; }
         }
 
         public Status Status
         {
             get
             {
-                return _Status;
+                return _status;
             }
             set
             {
-				if (_Status != value)
+				if (_status != value)
 				{
-					_Status = value;
+					_status = value;
 					OnStatusChanged();
 				}
             }
@@ -97,20 +101,20 @@ namespace ResursNetwork.Incotex.Models
 
         public DeviceErrors Errors
         {
-            get { return _Errors; }
+            get { return _errors; }
         }
 
         public bool CommunicationError
         {
             get
             {
-                return _Errors.CommunicationError;
+                return _errors.CommunicationError;
             }
             set
             {
-				if (_Errors.CommunicationError != value)
+				if (_errors.CommunicationError != value)
 				{
-					_Errors.CommunicationError = value;
+					_errors.CommunicationError = value;
 					OnErrorOccurred(new DeviceErrorOccuredEventArgs 
 					{
  						Id = this.Id,
@@ -124,13 +128,13 @@ namespace ResursNetwork.Incotex.Models
         {
             get
             {
-                return _Errors.ConfigurationError;
+                return _errors.ConfigurationError;
             }
 			set
 			{
-				if (_Errors.ConfigurationError != value)
+				if (_errors.ConfigurationError != value)
 				{
-					_Errors.ConfigurationError = value;
+					_errors.ConfigurationError = value;
 					OnErrorOccurred(new DeviceErrorOccuredEventArgs 
 					{
  						Id = this.Id,
@@ -144,13 +148,13 @@ namespace ResursNetwork.Incotex.Models
         {
             get
             {
-                return _Errors.RTCError;
+                return _errors.RTCError;
             }
 			set
 			{
-				if (_Errors.RTCError != value)
+				if (_errors.RTCError != value)
 				{
-					_Errors.RTCError = value;
+					_errors.RTCError = value;
 					OnErrorOccurred(new DeviceErrorOccuredEventArgs 
 					{
  						Id = this.Id,
@@ -164,12 +168,12 @@ namespace ResursNetwork.Incotex.Models
 		{
 			get 
 			{ 
-				return ((IncotexDateTime)_Parameters[ParameterNamesMercury203Virtual
+				return ((IncotexDateTime)_parameters[ParameterNamesMercury203Virtual
 				.DateTime].Value).ToDateTime(); 
 			}
 			set
 			{
-				_Parameters[ParameterNamesMercury203Virtual.DateTime].Value = 
+				_parameters[ParameterNamesMercury203Virtual.DateTime].Value = 
 					IncotexDateTime.FromDateTime(value);
 			}
 		}
@@ -181,22 +185,42 @@ namespace ResursNetwork.Incotex.Models
 		public Mercury203Virtual()
 		{
 			Initialization();
+			_timer = new Timer { Interval = 1000, AutoReset = true };
+			_timer.Elapsed += EventHandler_timer_Elapsed;
+			_timer.Start();
 		}
 
 		#endregion
 
 		#region Methods
+		
+		void EventHandler_timer_Elapsed(object sender, ElapsedEventArgs e)
+		{
+			// Обновляем часы счётчика
+			var prm = _parameters[ParameterNamesMercury203Virtual.DateTime];
+			var dt = IncotexDateTime.FromIncotexDateTime((IncotexDateTime)prm.Value).AddSeconds(1);
+			prm.Value = IncotexDateTime.FromDateTime(dt);
+		}
+
+		public void Dispose()
+		{
+			if (_timer != null)
+			{
+				_timer.Stop();
+				_timer.Dispose();
+			}
+		}
 
 		/// <summary>
 		/// Инициализирует список свойств для конкретного устройства
 		/// </summary>
 		private void Initialization()
 		{
-			_Errors.Reset();
+			_errors.Reset();
 
-			_Parameters = new ParatemersCollection();
+			_parameters = new ParatemersCollection();
 
-			_Parameters.Add(new Parameter(typeof(Guid))
+			_parameters.Add(new Parameter(typeof(Guid))
 			{
 				Name = ParameterNamesMercury203Virtual.Id,
 				Description = "Сетевой адрес устройства",
@@ -206,7 +230,7 @@ namespace ResursNetwork.Incotex.Models
 				Value = Guid.NewGuid()
 			});
 
-			_Parameters.Add(new Parameter(typeof(UInt32))
+			_parameters.Add(new Parameter(typeof(UInt32))
 			{
 				Name = ParameterNamesMercury203Virtual.Address,
 				Description = "Сетевой адрес устройтсва",
@@ -216,17 +240,17 @@ namespace ResursNetwork.Incotex.Models
 				Value = (UInt32)1
 			});
 
-			_Parameters.Add(new Parameter(typeof(UInt32))
+			_parameters.Add(new Parameter(typeof(UInt32))
 			{
 				Name = ParameterNamesMercury203Virtual.GADDR,
 				Description = "Групповой адрес счётчика",
 				PollingEnabled = true,
 				ReadOnly = false,
-				ValueConverter = new BigEndianUInt32ValueConverter(),
+				ValueConverter = null,
 				Value = (UInt32)0
 			});
 
-			_Parameters.Add(new Parameter(typeof(IncotexDateTime))
+			_parameters.Add(new Parameter(typeof(IncotexDateTime))
 			{
 				Name = ParameterNamesMercury203Virtual.DateTime,
 				Description = "Текущее значение часов счётчика",
@@ -236,17 +260,17 @@ namespace ResursNetwork.Incotex.Models
 				Value = IncotexDateTime.FromDateTime(DateTime.Now)
 			});
 
-			_Parameters.Add(new Parameter(typeof(UInt16))
+			_parameters.Add(new Parameter(typeof(UInt16))
 			{
 				Name = ParameterNamesMercury203Virtual.PowerLimit,
 				Description = "Значение лимита мощности",
 				PollingEnabled = true,
 				ReadOnly = false,
-				ValueConverter = new BigEndianUInt16ValueConvertor(),
+				ValueConverter = null,
 				Value = (UInt16)0
 			});
 
-			_Parameters.Add(new Parameter(typeof(float))
+			_parameters.Add(new Parameter(typeof(float))
 			{
 				Name = ParameterNamesMercury203Virtual.CounterTarif1,
 				Description = "Счётчик тарифа 1",
@@ -256,7 +280,7 @@ namespace ResursNetwork.Incotex.Models
 				Value = (float)0
 			});
 
-			_Parameters.Add(new Parameter(typeof(float))
+			_parameters.Add(new Parameter(typeof(float))
 			{
 				Name = ParameterNamesMercury203Virtual.CounterTarif2,
 				Description = "Счётчик тарифа 2",
@@ -266,7 +290,7 @@ namespace ResursNetwork.Incotex.Models
 				Value = (float)0
 			});
 
-			_Parameters.Add(new Parameter(typeof(float))
+			_parameters.Add(new Parameter(typeof(float))
 			{
 				Name = ParameterNamesMercury203Virtual.CounterTarif3,
 				Description = "Счётчик тарифа 3",
@@ -276,7 +300,7 @@ namespace ResursNetwork.Incotex.Models
 				Value = (float)0
 			});
 
-			_Parameters.Add(new Parameter(typeof(float))
+			_parameters.Add(new Parameter(typeof(float))
 			{
 				Name = ParameterNamesMercury203Virtual.CounterTarif4,
 				Description = "Счётчик тарифа 4",
@@ -396,7 +420,7 @@ namespace ResursNetwork.Incotex.Models
 								ErrorCode = TransactionErrorCodes.NoError,
 								Description = String.Empty
 							},
-							Value = _Parameters[ParameterNamesMercury203Virtual.CounterTarif1].Value
+							Value = _parameters[ParameterNamesMercury203Virtual.CounterTarif1].Value
 						};
 					}
 				case ParameterNamesMercury203Virtual.CounterTarif2:
@@ -408,7 +432,7 @@ namespace ResursNetwork.Incotex.Models
 								ErrorCode = TransactionErrorCodes.NoError,
 								Description = String.Empty
 							},
-							Value = _Parameters[ParameterNamesMercury203Virtual.CounterTarif2].Value
+							Value = _parameters[ParameterNamesMercury203Virtual.CounterTarif2].Value
 						};
 					}
 				case ParameterNamesMercury203Virtual.CounterTarif3:
@@ -420,7 +444,7 @@ namespace ResursNetwork.Incotex.Models
 								ErrorCode = TransactionErrorCodes.NoError,
 								Description = String.Empty
 							},
-							Value = _Parameters[ParameterNamesMercury203Virtual.CounterTarif3].Value
+							Value = _parameters[ParameterNamesMercury203Virtual.CounterTarif3].Value
 						};
 					}
 				case ParameterNamesMercury203Virtual.CounterTarif4:
@@ -432,7 +456,7 @@ namespace ResursNetwork.Incotex.Models
 								ErrorCode = TransactionErrorCodes.NoError,
 								Description = String.Empty
 							},
-							Value = _Parameters[ParameterNamesMercury203Virtual.CounterTarif4].Value
+							Value = _parameters[ParameterNamesMercury203Virtual.CounterTarif4].Value
 						};
 					}
 				default:
@@ -445,7 +469,138 @@ namespace ResursNetwork.Incotex.Models
 
 		public OperationResult WriteParameter(string parameterName, ValueType value)
 		{
-			throw new NotImplementedException();
+			switch (parameterName)
+			{
+				case ParameterNamesMercury203Virtual.Address:
+					{
+						Address = (UInt32)value;
+						return new OperationResult
+						{
+							Result = new TransactionError
+							{
+								ErrorCode = TransactionErrorCodes.NoError,
+								Description = String.Empty
+							},
+							Value = Address
+						};
+					}
+				case ParameterNamesMercury203Virtual.DateTime:
+					{
+						WriteDateTime((DateTime)value);
+
+						return new OperationResult
+						{
+							Result = new TransactionError
+							{
+								ErrorCode = TransactionErrorCodes.NoError,
+								Description = String.Empty
+							}
+						};
+					}
+				case ParameterNamesMercury203Virtual.GADDR:
+					{
+						_parameters[ParameterNamesMercury203Virtual.GADDR].Value =
+							(uint)value;
+
+						return new OperationResult
+						{
+							Result = new TransactionError
+							{
+								ErrorCode = TransactionErrorCodes.NoError,
+								Description = String.Empty
+							}
+						};
+					}
+				case ParameterNamesMercury203Virtual.PowerLimit:
+					{
+						_parameters[ParameterNamesMercury203Virtual.PowerLimit].Value =
+							(ushort)value;
+						
+						return new OperationResult
+						{
+							Result = new TransactionError
+							{
+								ErrorCode = TransactionErrorCodes.NoError,
+								Description = String.Empty
+							}
+						};
+					}
+				case ParameterNamesMercury203Virtual.PowerLimitPerMonth:
+					{
+						_parameters[ParameterNamesMercury203Virtual.PowerLimit].Value =
+							(ushort)value;
+
+						return new OperationResult
+						{
+							Result = new TransactionError
+							{
+								ErrorCode = TransactionErrorCodes.NoError,
+								Description = String.Empty
+							}
+						};
+					}
+				case ParameterNamesMercury203Virtual.CounterTarif1:
+					{
+						_parameters[ParameterNamesMercury203Virtual.CounterTarif1].Value =
+							(float)value;
+						
+						return new OperationResult
+						{
+							Result = new TransactionError
+							{
+								ErrorCode = TransactionErrorCodes.NoError,
+								Description = String.Empty
+							}
+						};
+					}
+				case ParameterNamesMercury203Virtual.CounterTarif2:
+					{
+						_parameters[ParameterNamesMercury203Virtual.CounterTarif2].Value =
+							(float)value;
+
+						return new OperationResult
+						{
+							Result = new TransactionError
+							{
+								ErrorCode = TransactionErrorCodes.NoError,
+								Description = String.Empty
+							}
+						};
+					}
+				case ParameterNamesMercury203Virtual.CounterTarif3:
+					{
+						_parameters[ParameterNamesMercury203Virtual.CounterTarif3].Value =
+							(float)value;
+
+						return new OperationResult
+						{
+							Result = new TransactionError
+							{
+								ErrorCode = TransactionErrorCodes.NoError,
+								Description = String.Empty
+							}
+						};
+					}
+				case ParameterNamesMercury203Virtual.CounterTarif4:
+					{
+						_parameters[ParameterNamesMercury203Virtual.CounterTarif4].Value =
+							(float)value;
+
+						return new OperationResult
+						{
+							Result = new TransactionError
+							{
+								ErrorCode = TransactionErrorCodes.NoError,
+								Description = String.Empty
+							}
+						};
+					}
+				default:
+					{
+						throw new NotSupportedException(String.Format(
+							"Чтение параметра {0} не поддерживается", parameterName));
+					}
+			}
 		}
 
 		public void ExecuteCommand(string commandName)
@@ -479,30 +634,48 @@ namespace ResursNetwork.Incotex.Models
 		}
 
 		/// <summary>
-		/// Установка нового сетевого адреса счетчика 
+		/// Установка нового сетевого адреса счетчика (CMD=00h)
 		/// </summary>
 		/// <param name="addr">Текущий сетевой адрес счётчика</param>
 		/// <param name="newaddr">Новый сетевой адрес счётчика</param>
-		public void SetNewAddress(uint addr, uint newaddr)
+		public void WriteNewAddress(uint addr, uint newaddr)
 		{
-			_Parameters[ParameterNamesMercury203Virtual.Address].Value = newaddr;
+			_parameters[ParameterNamesMercury203Virtual.Address].Value = newaddr;
 		}
-		
+
+		/// <summary>
+		/// Запись группового адреса счётчика (CMD=01h)
+		/// </summary>
+		public void WriteGroupAddress(UInt32 address)
+		{
+			_parameters[ParameterNamesMercury203Virtual.GADDR].Value = address;
+		}
+
+		/// <summary>
+		/// Установка внутренних часов и календаря счетчика (CMD=02h)
+		/// </summary>
+		/// <returns></returns>
+		public void WriteDateTime(DateTime dateTime)
+		{
+			_parameters[ParameterNamesMercury203Virtual.DateTime].Value =
+				IncotexDateTime.FromDateTime(dateTime);
+		}
+
 		/// <summary>
 		/// Чтение группового адреса счетчика (CMD=20h)
 		/// </summary>
 		public uint ReadGroupAddress()
 		{
-			return (uint)_Parameters[ParameterNamesMercury203Virtual.GADDR].Value;
+			return (uint)_parameters[ParameterNamesMercury203Virtual.GADDR].Value;
 		}
-		
+
 		/// <summary>
 		/// Чтение внутренних часов и календаря счетчика (CMD=21h)
 		/// </summary>
 		/// <returns></returns>
 		public System.DateTime ReadDateTime()
 		{
-			return ((IncotexDateTime)_Parameters[ParameterNamesMercury203Virtual.DateTime].Value)
+			return ((IncotexDateTime)_parameters[ParameterNamesMercury203Virtual.DateTime].Value)
 				.ToDateTime();
 		}
 
@@ -512,7 +685,7 @@ namespace ResursNetwork.Incotex.Models
 		/// <returns></returns>
 		public ushort ReadPowerLimit()
 		{
-			return (ushort)_Parameters[ParameterNamesMercury203Virtual.PowerLimit].Value;
+			return (ushort)_parameters[ParameterNamesMercury203Virtual.PowerLimit].Value;
 		}
 
 		/// <summary>
@@ -521,8 +694,7 @@ namespace ResursNetwork.Incotex.Models
 		/// <returns></returns>
 		public uint ReadPowerLimitPerMonth()
 		{
-			throw new NotImplementedException();
-			//return (ushort)_Parameters[ParameterNamesMercury203Virtual.PowerLimitPerMonth].Value;
+			return (ushort)_parameters[ParameterNamesMercury203Virtual.PowerLimitPerMonth].Value;
 		}
 
 		/// <summary>
@@ -531,7 +703,13 @@ namespace ResursNetwork.Incotex.Models
 		/// <returns></returns>
 		public TariffCounters ReadConsumedPower()
 		{
-			throw new NotImplementedException();
+			return new TariffCounters
+			{
+				ValueTotalTarif1 = (float)_parameters[ParameterNamesMercury203Virtual.CounterTarif1].Value,
+				ValueTotalTarif2 = (float)_parameters[ParameterNamesMercury203Virtual.CounterTarif2].Value,
+				ValueTotalTarif3 = (float)_parameters[ParameterNamesMercury203Virtual.CounterTarif3].Value,
+				ValueTotalTarif4 = (float)_parameters[ParameterNamesMercury203Virtual.CounterTarif4].Value
+			};
 		}
 
 		#endregion
@@ -543,5 +721,6 @@ namespace ResursNetwork.Incotex.Models
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
         #endregion
+
 	}
 }
