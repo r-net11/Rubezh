@@ -28,14 +28,12 @@ namespace GKModule.Models
 		public DeviceCommandsViewModel(DevicesViewModel devicesViewModel)
 		{
 			_devicesViewModel = devicesViewModel;
-
 			ReadConfigurationCommand = new RelayCommand(OnReadConfiguration, CanReadConfiguration);
 			ReadConfigFileCommand = new RelayCommand(OnReadConfigFile, CanReadConfigFile);
 			WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
-			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
 			AutoSearchCommand = new RelayCommand(OnAutoSearch, CanAutoSearch);
 			GetUsersCommand = new RelayCommand(OnGetUsers, CanGetUsers);
 			RewriteUsersCommand = new RelayCommand(OnRewriteUsers, CanRewriteUsers);
@@ -217,41 +215,6 @@ namespace GKModule.Models
 		bool CanReadConfigFile()
 		{
 			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == GKDriverType.GK);
-		}
-
-		public RelayCommand UpdateFirmwhareCommand { get; private set; }
-		void OnUpdateFirmwhare()
-		{
-			var openDialog = new OpenFileDialog()
-			{
-				Filter = "soft update files|*.hcs",
-				DefaultExt = "soft update files|*.hcs"
-			};
-			if (openDialog.ShowDialog().Value)
-			{
-				var thread = new Thread(() =>
-				{
-					List<byte> firmwareBytes = GKProcessor.FirmwareUpdateHelper.HexFileToBytesList(openDialog.FileName);
-					var result = ClientManager.FiresecService.GKUpdateFirmware(SelectedDevice.Device, firmwareBytes);
-
-					ApplicationService.Invoke(() =>
-					{
-						LoadingService.Close();
-						if (result.HasError)
-						{
-							MessageBoxService.ShowWarning(result.Error, "Ошибка при обновление ПО");
-						}
-					});
-				});
-				thread.Name = "DeviceCommandsViewModel UpdateFirmware";
-				thread.Start();
-
-			}
-		}
-
-		bool CanUpdateFirmwhare()
-		{
-			return (SelectedDevice != null && (SelectedDevice.Driver.IsKau || SelectedDevice.Driver.DriverType == GKDriverType.GK) && ClientManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
 		}
 
 		bool ValidateConfiguration()

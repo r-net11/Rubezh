@@ -210,17 +210,6 @@ namespace GKProcessor
 			return OperationResult<GKDevice>.FromError(gkAutoSearchHelper.Error, newDevice);
 		}
 
-		public static OperationResult<bool> GKUpdateFirmware(GKDevice device, List<byte> firmwareBytes, string userName)
-		{
-			Stop();
-			var firmwareUpdateHelper = new FirmwareUpdateHelper();
-			string updateResult = firmwareUpdateHelper.Update(device, firmwareBytes, userName);
-			Start();
-			if (updateResult != null)
-				return OperationResult<bool>.FromError(updateResult, false);
-			return new OperationResult<bool>(true);
-		}
-
 		public static bool GKSyncronyseTime(GKDevice device, string userName)
 		{
 			AddGKMessage(JournalEventNameType.Синхронизация_времени, JournalEventDescriptionType.NULL, "", device, userName);

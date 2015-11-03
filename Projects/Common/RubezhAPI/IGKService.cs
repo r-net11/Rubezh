@@ -26,9 +26,6 @@ namespace RubezhAPI
 		OperationResult<GKDevice> GKAutoSearch(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<bool> GKUpdateFirmware(Guid deviceUID, List<byte> firmwareBytes);
-
-		[OperationContract]
 		OperationResult<bool> GKSyncronyseTime(Guid deviceUID);
 
 		[OperationContract]
