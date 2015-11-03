@@ -109,7 +109,7 @@ namespace RubezhAPI
 
 		[OperationContract]
 		OperationResult SaveCardTemplate(SKDCard card);
-        #endregion
+		#endregion
 
 		#region AccessTemplate
 		[OperationContract]
@@ -203,8 +203,8 @@ namespace RubezhAPI
 		[OperationContract]
 		OperationResult GenerateEmployeeDays();
 
-        [OperationContract]
-        OperationResult GenerateJournal();
+		[OperationContract]
+		OperationResult GenerateJournal();
 
 		[OperationContract]
 		OperationResult GenerateTestData(bool isAscending);

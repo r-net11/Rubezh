@@ -155,7 +155,7 @@ namespace RubezhDAL.DataClasses
 			}
 		}
 
-		public OperationResult<List<JournalItem>> GetFilteredJournalItems(ArchiveFilter filter)
+		public OperationResult<List<JournalItem>> GetFilteredArchiveItems(JournalFilter filter)
 		{
 			try
 			{
@@ -170,7 +170,7 @@ namespace RubezhDAL.DataClasses
 			}
 		}
 
-		public OperationResult<List<JournalItem>> GetArchivePage(ArchiveFilter filter, int page)
+		public OperationResult<List<JournalItem>> GetArchivePage(JournalFilter filter, int page)
 		{
 			try
 			{
@@ -185,7 +185,7 @@ namespace RubezhDAL.DataClasses
 			}
 		}
 
-		public OperationResult<int> GetArchiveCount(ArchiveFilter filter)
+		public OperationResult<int> GetArchiveCount(JournalFilter filter)
 		{
 			try
 			{
@@ -199,7 +199,7 @@ namespace RubezhDAL.DataClasses
 			}
 		}
 
-		bool IsInFilter(Journal item, ArchiveFilter filter)
+		bool IsInFilter(Journal item, JournalFilter filter)
 		{
 			bool result = true;
 			if (filter.UseDeviceDateTime)
@@ -300,7 +300,7 @@ namespace RubezhDAL.DataClasses
 			return result;
 		}
 
-		IQueryable<Journal> GetFilteredArchiveInternal(ArchiveFilter filter)
+		IQueryable<Journal> GetFilteredArchiveInternal(JournalFilter filter)
 		{
 			IQueryable<Journal> result = Context.Journals;
 			if (filter.JournalEventNameTypes.Count > 0)

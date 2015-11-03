@@ -13,13 +13,13 @@ namespace JournalModule.ViewModels
 {
 	public class FilterObjectsViewModel : BaseViewModel
 	{
-		public FilterObjectsViewModel(ArchiveFilter filter)
+		public FilterObjectsViewModel(JournalFilter filter)
 		{
 			BuildTree();
 			Initialize(filter);
 		}
 
-		public void Initialize(ArchiveFilter filter)
+		public void Initialize(JournalFilter filter)
 		{
 			AllFilters.ForEach(x => x.IsChecked=false);
 
@@ -45,9 +45,9 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public ArchiveFilter GetModel()
+		public JournalFilter GetModel()
 		{
-			var filter = new ArchiveFilter();
+			var filter = new JournalFilter();
 
 			foreach (var subsystemFilter in RootFilters)
 			{

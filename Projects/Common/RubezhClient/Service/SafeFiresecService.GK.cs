@@ -41,22 +41,6 @@ namespace RubezhClient
 			return SafeOperationCall(() => FiresecService.GKAutoSearch(device.UID), "GKAutoSearch");
 		}
 
-		public OperationResult<bool> GKUpdateFirmware(GKDevice device, string fileName)
-		{
-			return SafeOperationCall(() => FiresecService.GKUpdateFirmware(device.UID, fileName), "GKUpdateFirmware");
-		}
-
-		public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, List<GKDevice> devices)
-		{
-			var deviceUIDs = new List<Guid>();
-			foreach (var device in devices)
-			{
-				deviceUIDs.Add(device.UID);
-			}
-			var result = SafeOperationCall(() => FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, ClientManager.CurrentUser.Name, deviceUIDs), "GKUpdateFirmwareFSCS");
-			return result;
-		}
-
 		public OperationResult<bool> GKSyncronyseTime(GKDevice device)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKSyncronyseTime(device.UID); }, "GKSyncronyseTime");

@@ -96,12 +96,7 @@ namespace JournalModule
 			SafeFiresecService.NewJournalItemsEvent -= new Action<List<JournalItem>>(OnNewJournalItems);
 			SafeFiresecService.NewJournalItemsEvent += new Action<List<JournalItem>>(OnNewJournalItems);
 
-			var journalFilter = new JournalFilter();
-			var result = ClientManager.FiresecService.GetFilteredJournalItems(journalFilter);
-			if (!result.HasError)
-			{
-				JournalViewModel.SetJournalItems(result.Result);
-			}
+			JournalViewModel.SetJournalItems();
 			ArchiveViewModel.Update();
 		}
 
@@ -129,12 +124,8 @@ namespace JournalModule
 
 				var journalViewModel = new JournalViewModel(filter);
 				journalViewModel.Initialize();
-				var result = ClientManager.FiresecService.GetFilteredJournalItems(filter);
-				if (!result.HasError)
-				{
-					journalViewModel.SetJournalItems(result.Result);
-				}
-
+				journalViewModel.SetJournalItems();
+				
 				return journalViewModel;
 			});
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Archive, "Архив", "Archive.png", (p) => ArchiveViewModel);

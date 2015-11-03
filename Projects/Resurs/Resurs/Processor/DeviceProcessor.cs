@@ -47,7 +47,7 @@ namespace Resurs.Processor
 		#region NetworksManagerCommands
 		public bool AddToMonitoring(Device device)
 		{
-			return InTryCatch(() => 
+			return InTryCatch(() =>
 			{
 				if (device.CanMonitor)
 				{
@@ -84,9 +84,9 @@ namespace Resurs.Processor
 			{
 				if (device.CanMonitor)
 				{
-					foreach (var parameter in device.Parameters)
+					foreach (var parameter in device.Parameters.Where(x => !x.DriverParameter.IsReadOnly))
 					{
-						_networksManager.WriteParameter(parameter.UID, parameter.DriverParameter.Name, parameter.ValueType);
+						_networksManager.WriteParameter(device.UID, parameter.DriverParameter.Name, parameter.ValueType);
 					}
 				}
 			});
@@ -127,7 +127,7 @@ namespace Resurs.Processor
 				if (device.CanMonitor)
 				{
 					var result = _networksManager.ReadParameter(device.UID, parameterName);
-					if(!result.HasError())
+					if (!result.HasError())
 					{
 						return new ValueTypeContainer { ValueType = result.Value };
 					}
@@ -143,7 +143,7 @@ namespace Resurs.Processor
 
 		public bool SyncDateTime(Guid deviceUID)
 		{
-			return InTryCatch(() => 
+			return InTryCatch(() =>
 			{
 				var device = DbCache.Devices.FirstOrDefault(x => x.UID == deviceUID);
 				if (device.CanMonitor)
@@ -265,7 +265,7 @@ namespace Resurs.Processor
 				var tariffParts = device.Tariff.TariffParts;
 				// Тарифные интервалы не отсортированы по StartTime в Tariff. .OrderBy(x => x.StartTime) - Вероятно, лишнее.
 				var tariffPart = device.Tariff.TariffParts.OrderBy(x => x.StartTime).ElementAt(tariffPartNo);
-				
+
 				//Проверяем льготный порог
 				if (tariffPart.Threshold > 0)
 				{
@@ -274,7 +274,7 @@ namespace Resurs.Processor
 					{
 						moneyValue = split * tariffPart.Discount;
 						tariffPart.Discount -= split;
-					} 
+					}
 					else
 					{
 						thresholdOverflow = (float)((double)split - tariffPart.Threshold);

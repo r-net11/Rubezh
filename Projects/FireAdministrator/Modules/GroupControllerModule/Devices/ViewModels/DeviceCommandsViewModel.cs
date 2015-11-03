@@ -28,14 +28,12 @@ namespace GKModule.Models
 		public DeviceCommandsViewModel(DevicesViewModel devicesViewModel)
 		{
 			_devicesViewModel = devicesViewModel;
-
 			ReadConfigurationCommand = new RelayCommand(OnReadConfiguration, CanReadConfiguration);
 			ReadConfigFileCommand = new RelayCommand(OnReadConfigFile, CanReadConfigFile);
 			WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
-			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
 			AutoSearchCommand = new RelayCommand(OnAutoSearch, CanAutoSearch);
 			GetUsersCommand = new RelayCommand(OnGetUsers, CanGetUsers);
 			RewriteUsersCommand = new RelayCommand(OnRewriteUsers, CanRewriteUsers);
@@ -217,77 +215,6 @@ namespace GKModule.Models
 		bool CanReadConfigFile()
 		{
 			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == GKDriverType.GK);
-		}
-
-		public RelayCommand UpdateFirmwhareCommand { get; private set; }
-		void OnUpdateFirmwhare()
-		{
-			if (SelectedDevice.Device.DriverType == GKDriverType.System)
-			{
-				var openDialog = new OpenFileDialog()
-				{
-					Filter = "FSCS updater|*.fscs",
-					DefaultExt = "FSCS updater|*.fscs"
-				};
-				if (openDialog.ShowDialog().Value)
-				{
-					var gkKauKauRsr2Devices = GKManager.DeviceConfiguration.Devices.FindAll(x => (x.Driver.DriverType == GKDriverType.GK) || (x.Driver.IsKau));
-					var firmWareUpdateViewModel = new FirmWareUpdateViewModel(gkKauKauRsr2Devices);
-					if (DialogService.ShowModalWindow(firmWareUpdateViewModel))
-					{
-						var thread = new Thread(() =>
-						{
-							var hxcFileInfo = HXCFileInfoHelper.Load(openDialog.FileName);
-							var devices = new List<GKDevice>();
-							firmWareUpdateViewModel.UpdatedDevices.FindAll(x => x.IsChecked).ForEach(x => devices.Add(x.Device));
-							var result = ClientManager.FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, devices);
-
-							ApplicationService.Invoke(new Action(() =>
-							{
-								LoadingService.Close();
-								if (result.HasError)
-								{
-									MessageBoxService.ShowWarning(result.Error, "Ошибка при обновление ПО");
-								}
-							}));
-						});
-						thread.Name = "DeviceCommandsViewModel UpdateFirmwhare";
-						thread.Start();
-					}
-				}
-			}
-			else
-			{
-				var openDialog = new OpenFileDialog()
-				{
-					Filter = "soft update files|*.hcs",
-					DefaultExt = "soft update files|*.hcs"
-				};
-				if (openDialog.ShowDialog().Value)
-				{
-					var thread = new Thread(() =>
-					{
-						var result = ClientManager.FiresecService.GKUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
-
-						ApplicationService.Invoke(() =>
-						{
-							LoadingService.Close();
-							if (result.HasError)
-							{
-								MessageBoxService.ShowWarning(result.Error, "Ошибка при обновление ПО");
-							}
-						});
-					});
-					thread.Name = "DeviceCommandsViewModel UpdateFirmwhare";
-					thread.Start();
-				}
-
-			}
-		}
-
-		bool CanUpdateFirmwhare()
-		{
-			return (SelectedDevice != null && (SelectedDevice.Driver.IsKau || SelectedDevice.Driver.DriverType == GKDriverType.GK || SelectedDevice.Driver.DriverType == GKDriverType.System) && ClientManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
 		}
 
 		bool ValidateConfiguration()

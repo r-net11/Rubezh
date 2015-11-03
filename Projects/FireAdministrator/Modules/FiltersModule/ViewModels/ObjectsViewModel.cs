@@ -46,9 +46,9 @@ namespace FiltersModule.ViewModels
 			}
 		}
 
-		public ArchiveFilter GetModel()
+		public JournalFilter GetModel()
 		{
-			var filter = new ArchiveFilter();
+			var filter = new JournalFilter();
 			foreach (var subsystem in RootObjects)
 			{
 				foreach (var objectType in subsystem.Children)

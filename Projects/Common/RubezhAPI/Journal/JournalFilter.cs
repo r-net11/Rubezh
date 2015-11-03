@@ -1,21 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.Serialization;
-using RubezhAPI.SKD;
 
 namespace RubezhAPI.Journal
 {
 	[DataContract]
-	public class JournalFilter : FilterBase
+	public class JournalFilter
 	{
 		public JournalFilter()
 		{
 			UID = Guid.NewGuid();
+			StartDate = DateTime.Now.AddDays(-1);
+			EndDate = DateTime.Now;
+			UseDeviceDateTime = false;
 			JournalSubsystemTypes = new List<JournalSubsystemType>();
 			JournalEventNameTypes = new List<JournalEventNameType>();
 			JournalEventDescriptionTypes = new List<JournalEventDescriptionType>();
 			JournalObjectTypes = new List<JournalObjectType>();
 			ObjectUIDs = new List<Guid>();
+			EmployeeUIDs = new List<Guid>();
+            Users = new List<string>();
 			LastItemsCount = 100;
 		}
 
@@ -27,9 +32,15 @@ namespace RubezhAPI.Journal
 
 		[DataMember]
 		public string Description { get; set; }
+		
+		[DataMember]
+		public DateTime StartDate { get; set; }
 
 		[DataMember]
-		public int LastItemsCount { get; set; }
+		public DateTime EndDate { get; set; }
+
+		[DataMember]
+		public bool UseDeviceDateTime { get; set; }
 
 		[DataMember]
 		public List<JournalSubsystemType> JournalSubsystemTypes { get; set; }
@@ -45,5 +56,20 @@ namespace RubezhAPI.Journal
 
 		[DataMember]
 		public List<Guid> ObjectUIDs { get; set; }
+
+		[DataMember]
+		public List<Guid> EmployeeUIDs { get; set; }
+
+        [DataMember]
+        public List<string> Users { get; set; }
+
+		[DataMember]
+		public int PageSize { get; set; }
+
+		[DataMember]
+		public bool IsSortAsc { get; set; }
+
+		[DataMember]
+		public int LastItemsCount { get; set; }
 	}
 }
