@@ -62,6 +62,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             {
                 get { return _OutputBufferExternalCalls.Count + _OutputBufferInternalCalls.Count; }
             }
+
             #endregion
 
             /// <summary>
@@ -668,7 +669,36 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 
 		public override void WriteParameter(string parameterName, ValueType value)
 		{
-			throw new NotImplementedException();
+			switch (parameterName)
+			{
+				case ParameterNamesIncotexNetwork.BautRate:
+					{
+						((ComPort)base._Connection).BaudRate = (int)value; break;
+					}
+				case ParameterNamesIncotexNetworkVirtual.BroadcastDelay:
+					{
+						BroadcastRequestDelay = (int)value; break;
+					}
+				case ParameterNamesIncotexNetworkVirtual.PollInterval:
+					{
+							PollingPeriod = (int)value; break;
+					}
+				case ParameterNamesIncotexNetworkVirtual.PortName:
+					{
+						((ComPort)base._Connection).PortName = 
+							((ParameterStringContainer)value).Value;
+						break;
+					}
+				case ParameterNamesIncotexNetworkVirtual.Timeout:
+					{
+						RequestTimeout = (int)value; break;
+					}
+				default:
+					{
+						throw new InvalidOperationException(String.Format(
+							"Ошибка чтения параметра. Параметр {0} не найден", parameterName));
+					}
+			}
 		}
 
         #endregion
