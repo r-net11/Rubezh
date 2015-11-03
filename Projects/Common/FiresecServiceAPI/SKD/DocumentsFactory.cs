@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.SKD.TimeTrack.TimeTrackDocuments;
-
 namespace FiresecAPI.SKD
 {
 	public class DocumentsFactory
@@ -90,6 +88,8 @@ namespace FiresecAPI.SKD
 			{
 				case DocumentType.Absence: document = new AbsenceDocument();
 					break;
+				case DocumentType.AbsenceReasonable: document = new AbsenceReasonableDocument();
+					break;
 				case DocumentType.Presence: document = new PresentDocument();
 					break;
 				case DocumentType.Overtime: document = new OvertimeDocument();
@@ -106,6 +106,8 @@ namespace FiresecAPI.SKD
 			switch (documentType.DocumentType)
 			{
 				case DocumentType.Absence: document = new AbsenceDocument(documentType.Name, documentType.ShortName, documentType.Code);
+					break;
+				case DocumentType.AbsenceReasonable: document = new AbsenceReasonableDocument(documentType.Name, documentType.ShortName, documentType.Code);
 					break;
 				case DocumentType.Presence: document = new PresentDocument(documentType.Name, documentType.ShortName, documentType.Code);
 					break;

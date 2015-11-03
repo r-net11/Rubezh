@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Linq.Mapping;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -10,6 +11,7 @@ namespace FiresecAPI.SKD
 	[KnownType(typeof(OvertimeDocument))]
 	[KnownType(typeof(AbsenceDocument))]
 	[KnownType(typeof(PresentDocument))]
+	[KnownType(typeof(AbsenceReasonableDocument))]
 	public class DayTimeTrack
 	{
 		#region Constructors
@@ -146,10 +148,35 @@ namespace FiresecAPI.SKD
 
 			CombinedTimeTrackParts = TransferNightSettings(CombinedTimeTrackParts, NightSettings);
 			CombinedTimeTrackParts = ApplyDeviationPolitics(CombinedTimeTrackParts, AllowedAbsentLowThan, AllowedEarlyLeave, AllowedLate, NotAllowOvertimeLowerThan);
+			CombinedTimeTrackParts = CorrectDocumentIntervals(CombinedTimeTrackParts, SlideTime);
 			RealTimeTrackPartsForCalculates = FillTypesForRealTimeTrackParts(RealTimeTrackPartsForCalculates, PlannedTimeTrackParts);
 			Totals = CalculateTotal(SlideTime, PlannedTimeTrackParts, RealTimeTrackPartsForCalculates, CombinedTimeTrackParts, IsHoliday);
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
 			CalculateLetterCode();
+		}
+
+		private List<TimeTrackPart> CorrectDocumentIntervals(List<TimeTrackPart> combinedTimeTrackParts, TimeSpan slideTIme)
+		{
+			var result = new List<TimeTrackPart>();
+			var tmpCalc = 0.0;
+
+			foreach (var timeTrackPart in combinedTimeTrackParts)
+			{
+				if (timeTrackPart.TimeTrackPartType == TimeTrackType.DocumentPresence)
+				{
+					tmpCalc += timeTrackPart.Delta.TotalSeconds;
+
+					if (tmpCalc > SlideTime.TotalSeconds)
+					{
+						timeTrackPart.ExitDateTime = timeTrackPart.ExitDateTime - TimeSpan.FromSeconds(tmpCalc - slideTIme.TotalSeconds);
+						result.Add(timeTrackPart);
+						break;
+					}
+				}
+
+				result.Add(timeTrackPart);
+			}
+			return result;
 		}
 
 		private List<TimeTrackPart> ApplyDeviationPolitics(IEnumerable<TimeTrackPart> combinedTimeTrackParts, int allowedAbsent,
@@ -628,6 +655,7 @@ namespace FiresecAPI.SKD
 		private static TimeTrackType GetDocumentTimeTrackType(TimeTrackPart documentTimeTrack, TimeTrackPart timeTrackPart,
 			bool hasPlannedTimeTrack, bool hasRealTimeTrack)
 		{
+			//TODO: Make test for this method
 			var documentType = documentTimeTrack.MinTimeTrackDocumentType.DocumentType;
 			timeTrackPart.MinTimeTrackDocumentType = documentTimeTrack.MinTimeTrackDocumentType;
 
@@ -860,6 +888,7 @@ namespace FiresecAPI.SKD
 				case TimeTrackType.DocumentOvertime:
 				case TimeTrackType.DocumentPresence:
 				case TimeTrackType.Presence:
+				case TimeTrackType.Overtime:
 					return timeTrack.Delta;
 
 				case TimeTrackType.Late:
@@ -951,6 +980,11 @@ namespace FiresecAPI.SKD
 
 			var longestTimeTrackType = TimeTrackType.Presence;
 			var longestTimeSpan = new TimeSpan();
+
+			var presenceTimeTrack = totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Presence);
+			if (presenceTimeTrack != null)
+				longestTimeSpan = presenceTimeTrack.TimeSpan;
+
 			foreach (var total in totals)
 			{
 				switch (total.TimeTrackType)

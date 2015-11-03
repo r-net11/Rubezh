@@ -10,6 +10,7 @@ namespace FiresecAPI
 	[ServiceKnownType(typeof(PresentDocument))]
 	[ServiceKnownType(typeof(AbsenceDocument))]
 	[ServiceKnownType(typeof(TimeTrackDocument))]
+	[ServiceKnownType(typeof(AbsenceReasonableDocument))]
 	public partial interface IFiresecServiceSKD
 	{
 		[OperationContract]

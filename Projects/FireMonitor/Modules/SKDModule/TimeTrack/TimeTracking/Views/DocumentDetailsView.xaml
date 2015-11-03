@@ -51,7 +51,7 @@
 			Grid.Row="1"
 			behaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
 			behaviours:DatePickerCustomWatermark.WatermarkText="Выберите дату"
-			SelectedDate="{Binding DocumentDateTime, UpdateSourceTrigger=PropertyChanged}"
+			SelectedDate="{Binding DocumentDateTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 			Margin="0 5"
 			VerticalAlignment="Center"/>
 		<TextBlock

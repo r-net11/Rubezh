@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
 using FiresecAPI.SKD;
-using FiresecAPI.SKD.TimeTrack.TimeTrackDocuments;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;

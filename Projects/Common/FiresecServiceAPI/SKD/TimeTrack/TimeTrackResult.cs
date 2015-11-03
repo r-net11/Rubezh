@@ -29,6 +29,7 @@ namespace FiresecAPI.SKD
 	[KnownType(typeof(AbsenceDocument))]
 	[KnownType(typeof(OvertimeDocument))]
 	[KnownType(typeof(TimeTrackDocument))]
+	[KnownType(typeof(AbsenceReasonableDocument))]
 	public class TimeTrackEmployeeResult
 	{
 		public TimeTrackEmployeeResult()

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace FiresecAPI.SKD.TimeTrack.TimeTrackDocuments
+namespace FiresecAPI.SKD
 {
 	public class AbsenceReasonableDocument : ITimeTrackDocument
 	{

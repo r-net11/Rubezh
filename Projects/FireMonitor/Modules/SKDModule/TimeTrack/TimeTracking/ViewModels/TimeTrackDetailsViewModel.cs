@@ -421,7 +421,9 @@ namespace SKDModule.ViewModels
 			var documentDetailsViewModel = new DocumentDetailsViewModel(false, ShortEmployee.OrganisationUID, ShortEmployee.UID)
 			{
 				StartDateTime = DayTimeTrack.Date.Date,
-				EndDateTime = DayTimeTrack.Date.Date + new TimeSpan(23, 59, 59)
+				EndDateTime = DayTimeTrack.Date.Date,
+				EndTime = new TimeSpan(23, 59, 59),
+				DocumentDateTime = DayTimeTrack.Date.Date
 			};
 
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
