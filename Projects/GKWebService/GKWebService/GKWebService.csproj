@@ -437,6 +437,7 @@
     </Compile>
     <Compile Include="JournalItemViewModel.cs" />
     <Compile Include="Models\AccessDoorModel.cs" />
+    <Compile Include="Models\ElementHint.cs" />
     <Compile Include="Models\EmployeeCardModel.cs" />
     <Compile Include="Models\ShortEmployeeModel.cs" />
     <Compile Include="Models\PlanElement.cs" />
@@ -444,6 +445,7 @@
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\Shape.cs" />
     <Compile Include="Models\ShapeTypesEnum.cs" />
+    <Compile Include="Models\StateHintRecord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\JsonNetResult .cs" />

@@ -18,7 +18,7 @@ namespace GKWebService.Models
 		public string HingImage { get; set; }
 		public double HingImageHeight { get; set; }
 		public double HingImageWidth { get; set; }
-		public string Hint { get; set; }
+		public ElementHint Hint { get; set; }
 		public Guid Id { get; set; }
 
 		/// <summary>

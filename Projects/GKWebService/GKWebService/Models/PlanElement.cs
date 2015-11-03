@@ -1,6 +1,7 @@
 ﻿#region Usings
 
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -42,7 +43,7 @@ namespace GKWebService.Models
 				FillMouseOver = InernalConverter.ConvertColor(item.BackgroundColor),
 				Name = item.PresentationName,
 				Id = item.UID,
-				Hint = GetElementHintText(item),
+				Hint = GetElementHint(item),
 				BorderThickness = item.BorderThickness,
 				Type = ShapeTypes.Path.ToString()
 			};
@@ -59,7 +60,7 @@ namespace GKWebService.Models
 				Name = item.PresentationName,
 				Id = item.UID,
 				BorderThickness = item.BorderThickness,
-				Hint = GetElementHintText(item),
+				Hint = GetElementHint(item),
 				Type = ShapeTypes.Path.ToString()
 			};
 			return shape;
@@ -74,7 +75,7 @@ namespace GKWebService.Models
 				FillMouseOver = InernalConverter.ConvertColor(item.BackgroundColor),
 				Name = item.PresentationName,
 				Id = item.UID,
-				Hint = GetElementHintText(item),
+				Hint = GetElementHint(item),
 				BorderThickness = item.BorderThickness,
 				Type = ShapeTypes.Path.ToString()
 			};
@@ -95,7 +96,7 @@ namespace GKWebService.Models
 				Name = item.PresentationName,
 				Id = item.DeviceUID,
 				Image = GetDeviceStatePic(device),
-				Hint = GetElementHintText(item),
+				Hint = GetElementHint(item),
 				X = item.Left - 7,
 				Y = item.Top - 7,
 				Height = 14,
@@ -117,17 +118,26 @@ namespace GKWebService.Models
 			if (pic == null) {
 				return;
 			}
-			var statusUpdate = new {
+
+            // Получаем названия для состояний
+		    string[] stateClasses = new string[state.StateClasses.Count];
+		    for (int index = 0; index < state.StateClasses.Count; index++) {
+		        XStateClass stateClass = state.StateClasses[index];
+		        stateClasses[index] = InernalConverter.GetStateClassName(stateClass);
+		    }
+
+            // Собираем обновление для передачи
+		    var statusUpdate = new {
 				Id = state.UID,
 				Picture = pic,
-				StateClass = state.StateClass.ToString(),
-				state.StateClasses,
+				StateClass = InernalConverter.GetStateClassName(state.StateClass),
+                StateClasses = stateClasses,
 				state.AdditionalStates
 			};
 			PlansUpdater.Instance.UpdateDeviceState(statusUpdate);
 		}
 
-		private static string GetDeviceStatePic(GKDevice device) {
+	    private static string GetDeviceStatePic(GKDevice device) {
 			var deviceConfig =
 				GKManager.DeviceLibraryConfiguration.GKDevices.FirstOrDefault(d => d.DriverUID == device.DriverUID);
 			if (deviceConfig == null) {
@@ -160,7 +170,7 @@ namespace GKWebService.Models
 					}
 					var pngBitmap = getBitmapTask.Result;
 					var img = new MagickImage(pngBitmap) {
-						AnimationDelay = frame.Duration / 10
+						AnimationDelay = frame.Duration / 10, HasAlpha = true, AlphaColor = MagickColor.Transparent, BackgroundColor = MagickColor.Transparent
 					};
 					collection.Add(img);
 				}
@@ -225,7 +235,9 @@ namespace GKWebService.Models
 
 		//}
 
-		private static string GetElementHintText(ElementBase element) {
+		private static ElementHint GetElementHint(ElementBase element) {
+            var hint = new ElementHint();
+
 			var asZone = element as IElementZone;
 			if (asZone != null) {
 				if (element is ElementRectangleGKZone
@@ -233,7 +245,7 @@ namespace GKWebService.Models
 					var zone = GKManager.Zones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
 					if (zone != null) {
 						if (zone.PresentationName != null) {
-							return zone.PresentationName;
+                            hint.StateHintLines.Add(new HintLine(){Text = zone.PresentationName});
 						}
 					}
 				}
@@ -242,7 +254,7 @@ namespace GKWebService.Models
 					var zone = GKManager.GuardZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
 					if (zone != null) {
 						if (zone.PresentationName != null) {
-							return zone.PresentationName;
+							hint.StateHintLines.Add(new HintLine(){Text = zone.PresentationName});
 						}
 					}
 				}
@@ -251,7 +263,7 @@ namespace GKWebService.Models
 					var zone = GKManager.SKDZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
 					if (zone != null) {
 						if (zone.PresentationName != null) {
-							return zone.PresentationName;
+							hint.StateHintLines.Add(new HintLine(){Text = zone.PresentationName});
 						}
 					}
 				}
@@ -261,7 +273,7 @@ namespace GKWebService.Models
 				var mpt = GKManager.MPTs.FirstOrDefault(m => m.UID == asMpt.MPTUID);
 				if (mpt != null) {
 					if (mpt.PresentationName != null) {
-						return mpt.PresentationName;
+						hint.StateHintLines.Add(new HintLine(){Text = mpt.PresentationName});
 					}
 				}
 			}
@@ -270,7 +282,7 @@ namespace GKWebService.Models
 				var delay = GKManager.Delays.FirstOrDefault(m => m.UID == asDelay.DelayUID);
 				if (delay != null) {
 					if (delay.PresentationName != null) {
-						return delay.PresentationName;
+						hint.StateHintLines.Add(new HintLine(){Text = delay.PresentationName});
 					}
 				}
 			}
@@ -280,7 +292,7 @@ namespace GKWebService.Models
 					d => d.UID == asDirection.DirectionUID);
 				if (direction != null) {
 					if (direction.PresentationName != null) {
-						return direction.PresentationName;
+						hint.StateHintLines.Add(new HintLine(){Text = direction.PresentationName});
 					}
 				}
 			}
@@ -290,18 +302,19 @@ namespace GKWebService.Models
 					d => d.UID == asDevice.DeviceUID);
 				if (device != null
 				    && device.PresentationName != null) {
-					return device.PresentationName;
+					hint.StateHintLines.Add(new HintLine {Text = device.PresentationName, Icon = GetElementHintIcon(asDevice).Item1});
 				}
 			}
-			return string.Empty;
+			return hint;
 		}
 
-		private Tuple<string, Size> GetElementHintIcon(ElementBasePoint item) {
+		private static Tuple<string, Size> GetElementHintIcon(ElementBasePoint item) {
 			var imagePath = string.Empty;
 
-			if (item is ElementGKDevice) {
+		    var gkDevice = item as ElementGKDevice;
+		    if (gkDevice != null) {
 				var device =
-					GKManager.Devices.FirstOrDefault(d => d.UID == ((ElementGKDevice)item).DeviceUID);
+					GKManager.Devices.FirstOrDefault(d => d.UID == gkDevice.DeviceUID);
 				if (device == null) {
 					return null;
 				}
@@ -317,9 +330,10 @@ namespace GKWebService.Models
 					deviceConfig.States.FirstOrDefault(s => s.StateClass == XStateClass.No);
 				imagePath = device.ImageSource.Replace("/Controls;component/", "");
 			}
-			if (item is ElementGKDoor) {
+		    var gkDoor = item as ElementGKDoor;
+		    if (gkDoor != null) {
 				var door =
-					GKManager.Doors.FirstOrDefault(d => d.UID == ((ElementGKDoor)item).DoorUID);
+					GKManager.Doors.FirstOrDefault(d => d.UID == gkDoor.DoorUID);
 				if (door == null) {
 					return null;
 				}
@@ -337,7 +351,7 @@ namespace GKWebService.Models
 		/// </summary>
 		/// <param name="resName">Путь к ресурсу формата GKIcons/RSR2_Bush_Fire.png</param>
 		/// <returns></returns>
-		private Tuple<string, Size> GetImageResource(string resName) {
+		private static Tuple<string, Size> GetImageResource(string resName) {
 			var assembly = Assembly.GetAssembly(typeof (Controls.AlarmButton));
 			var name =
 				assembly.GetManifestResourceNames().FirstOrDefault(n => n.EndsWith(".resources", StringComparison.Ordinal));
