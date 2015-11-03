@@ -222,72 +222,36 @@ namespace GKModule.Models
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }
 		void OnUpdateFirmwhare()
 		{
-			if (SelectedDevice.Device.DriverType == GKDriverType.System)
+			var openDialog = new OpenFileDialog()
 			{
-				var openDialog = new OpenFileDialog()
-				{
-					Filter = "FSCS updater|*.fscs",
-					DefaultExt = "FSCS updater|*.fscs"
-				};
-				if (openDialog.ShowDialog().Value)
-				{
-					var gkKauKauRsr2Devices = GKManager.DeviceConfiguration.Devices.FindAll(x => (x.Driver.DriverType == GKDriverType.GK) || (x.Driver.IsKau));
-					var firmWareUpdateViewModel = new FirmWareUpdateViewModel(gkKauKauRsr2Devices);
-					if (DialogService.ShowModalWindow(firmWareUpdateViewModel))
-					{
-						var thread = new Thread(() =>
-						{
-							var hxcFileInfo = HXCFileInfoHelper.Load(openDialog.FileName);
-							var devices = new List<GKDevice>();
-							firmWareUpdateViewModel.UpdatedDevices.FindAll(x => x.IsChecked).ForEach(x => devices.Add(x.Device));
-							var result = ClientManager.FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, devices);
-
-							ApplicationService.Invoke(new Action(() =>
-							{
-								LoadingService.Close();
-								if (result.HasError)
-								{
-									MessageBoxService.ShowWarning(result.Error, "Ошибка при обновление ПО");
-								}
-							}));
-						});
-						thread.Name = "DeviceCommandsViewModel UpdateFirmwhare";
-						thread.Start();
-					}
-				}
-			}
-			else
+				Filter = "soft update files|*.hcs",
+				DefaultExt = "soft update files|*.hcs"
+			};
+			if (openDialog.ShowDialog().Value)
 			{
-				var openDialog = new OpenFileDialog()
+				var thread = new Thread(() =>
 				{
-					Filter = "soft update files|*.hcs",
-					DefaultExt = "soft update files|*.hcs"
-				};
-				if (openDialog.ShowDialog().Value)
-				{
-					var thread = new Thread(() =>
-					{
-						var result = ClientManager.FiresecService.GKUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
+					List<byte> firmwareBytes = GKProcessor.FirmwareUpdateHelper.HexFileToBytesList(openDialog.FileName);
+					var result = ClientManager.FiresecService.GKUpdateFirmware(SelectedDevice.Device, firmwareBytes);
 
-						ApplicationService.Invoke(() =>
+					ApplicationService.Invoke(() =>
+					{
+						LoadingService.Close();
+						if (result.HasError)
 						{
-							LoadingService.Close();
-							if (result.HasError)
-							{
-								MessageBoxService.ShowWarning(result.Error, "Ошибка при обновление ПО");
-							}
-						});
+							MessageBoxService.ShowWarning(result.Error, "Ошибка при обновление ПО");
+						}
 					});
-					thread.Name = "DeviceCommandsViewModel UpdateFirmwhare";
-					thread.Start();
-				}
+				});
+				thread.Name = "DeviceCommandsViewModel UpdateFirmware";
+				thread.Start();
 
 			}
 		}
 
 		bool CanUpdateFirmwhare()
 		{
-			return (SelectedDevice != null && (SelectedDevice.Driver.IsKau || SelectedDevice.Driver.DriverType == GKDriverType.GK || SelectedDevice.Driver.DriverType == GKDriverType.System) && ClientManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
+			return (SelectedDevice != null && (SelectedDevice.Driver.IsKau || SelectedDevice.Driver.DriverType == GKDriverType.GK) && ClientManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
 		}
 
 		bool ValidateConfiguration()

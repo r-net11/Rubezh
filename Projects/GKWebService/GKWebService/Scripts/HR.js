@@ -1,5 +1,7 @@
-﻿function HRViewModel() {
+﻿function HRViewModel(parentViewModel) {
     var self = {};
+
+    self.ParentViewModel = parentViewModel;
 
     self.hrPages = {
         Employees: ko.observable(true),
@@ -11,6 +13,12 @@
         PassCardTemplates: ko.observable(false),
         Organisations: ko.observable(false)
     };
+
+    self.ParentViewModel.pages["HR"].subscribe(function (newValue) {
+        if (newValue) {
+            self.Employees.Init();
+        }
+    });
 
     self.SelectedPersonType = ko.observable("Employee");
 

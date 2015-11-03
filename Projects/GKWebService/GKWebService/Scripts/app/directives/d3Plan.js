@@ -161,7 +161,7 @@
 		{
 			case "Plan":
 				{
-					if (item.Image == "")
+					if (item.Image === "")
 					{
 						renderPathElement(item, i, svg, tip, menuItems, scope);
 					}

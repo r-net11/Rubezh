@@ -16,7 +16,7 @@ namespace Resurs.ViewModels
 		public ChangeFlowFilterViewModel()
 		{
 			Title = "Настройки отчета расхода счетчика";
-			Devices = DBCash.GetAllChildren(DBCash.RootDevice).Where(x => x.DeviceType == DeviceType.Counter).ToList();
+			Devices = DbCache.GetAllChildren(DbCache.RootDevice).Where(x => x.DeviceType == DeviceType.Counter).ToList();
 			SelectedDevice = Devices.FirstOrDefault();
 			StartDate = DateTime.Today;
 			EndDate = DateTime.Today.AddDays(1).AddSeconds(-1);

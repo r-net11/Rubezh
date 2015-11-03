@@ -43,6 +43,8 @@
 						   Command="{Binding SetActiveCommand}" Visibility="{Binding SelectedDevice.IsActive, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 			<ToolBarButton ToolTip="Выключить" ImageSource="Pause" 
 						   Command="{Binding UnSetActiveCommand}" Visibility="{Binding SelectedDevice.IsActive, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<ToolBarButton ToolTip="Считать параметры" ImageSource="Refresh" 
+						   Command="{Binding ReadParametersCommand}" />
 			<ToolBarButton ToolTip="Синхронизация времени" ImageSource="Watch" 
 						   Command="{Binding SyncDateTimeCommand}" />
 		</StackPanel>

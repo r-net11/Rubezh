@@ -289,17 +289,17 @@ namespace Resurs.ViewModels
 			Device.ConsumerUID = Consumer == null ? null : (Guid?)Consumer.UID;
 			Device.Tariff = Tariff;
 			Device.TariffUID = Tariff == null ? null : (Guid?)Tariff.UID;
-			var isDbMissmatch = false;
+			
 			if (IsActive)
 			{
+				var isDbMissmatch = false;
 				foreach (var newParameter in Device.Parameters.Where(x => x.DriverParameter.IsWriteToDevice && x.DriverParameter.CanWriteInActive))
 				{
 					var oldParameter = _oldDevice.Parameters.FirstOrDefault(x => x.UID == newParameter.UID);
-					if (oldParameter.ValueType != newParameter.ValueType)
+					if (!Parameter.IsEqual(oldParameter, newParameter))
 					{
 						isDbMissmatch = isDbMissmatch || !DeviceProcessor.Instance.WriteParameter(Device.UID, newParameter.DriverParameter.Name, newParameter.ValueType);
 					}
-					
 				}
 				Device.IsDbMissmatch = isDbMissmatch;
 			}
@@ -307,7 +307,7 @@ namespace Resurs.ViewModels
 			{
 				Device.SetParent(_parent, Address);
 			}
-			if (ResursDAL.DBCash.SaveDevice(Device))
+			if (ResursDAL.DbCache.SaveDevice(Device))
 			{
 				_isSaved = true;
 				return base.Save();
@@ -344,43 +344,6 @@ namespace Resurs.ViewModels
 			var allPorts = SerialPort.GetPortNames();
 #endif
 			return allPorts.Except(_parent.Children.Where(x => x.UID != Device.UID).Select(x => x.ComPort));
-		}
-
-		public bool SetStatus(Guid deviceUID, bool isActive)
-		{
-			return true;
-		}
-
-		public bool WriteParameter(Guid deviceUID, 
-			string parameterName, 
-			string stringValue = null, 
-			int? intValue = null, 
-			double? doubleValue = null, bool? 
-			boolValue = null, 
-			DateTime? dateTimeValue = null) 
-		{ 
-			return true; 
-		}
-	}
-
-	public class CommandViewModel
-	{
-		public Device _device;
-		public DeviceCommand Model { get; private set; }
-
-		public CommandViewModel(Device device, DeviceCommand model)
-		{
-			_device = device;
-			Model = model;
-		}
-
-		public RelayCommand SendCommand 
-		{ 
-			get 
-			{ 
-				return new RelayCommand(() => 
-					DeviceProcessor.Instance.SendCommand(_device.UID, Model.Name)); 
-			} 
 		}
 	}
 }

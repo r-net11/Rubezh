@@ -15,7 +15,7 @@ using RubezhClient;
 
 namespace FiltersModule.ViewModels
 {
-	public class FiltersViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class FiltersViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public FiltersViewModel()
 		{

@@ -11,11 +11,11 @@ using System.Diagnostics;
 
 namespace ResursDAL
 {
-	public static partial class DBCash
+	public static partial class DbCache
 	{
 		public static Device RootDevice { get; private set; }
 		public static List<Device> Devices { get { return GetAllChildren(RootDevice); } }
-
+		
 		public static Device GetRootDevice()
 		{
 			try
@@ -39,6 +39,16 @@ namespace ResursDAL
 			{
 				MessageBoxService.Show(e.Message);
 				return null;
+			}
+		}
+
+		public static bool CanAddActive
+		{
+			get
+			{
+				var currentDevices = Devices.Where(x => x.DeviceType == DeviceType.Counter && x.IsActive).Count();
+				var maxDevices = ResursAPI.License.LicenseManager.CurrentLicenseInfo.DevicesCount;
+				return currentDevices <= maxDevices;
 			}
 		}
 

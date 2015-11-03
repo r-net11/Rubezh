@@ -47,25 +47,25 @@ namespace RubezhClient
 			}
 		}
 
-        public static string GetLicense()
-        {
-            try
-            {
-                var operationResult = FiresecService.GetLicenseInfo();
-                if (!operationResult.HasError)
-                {
+		public static string GetLicense()
+		{
+			try
+			{
+				var operationResult = FiresecService.GetLicenseInfo();
+				if (!operationResult.HasError)
+				{
 					LicenseManager.CurrentLicenseInfo = operationResult.Result;
-                    return null;
-                }
-                else
-                    return operationResult.Error;
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "ClientManager.GetLicense");
-                return e.Message;
-            }
-        }
+					return null;
+				}
+				else
+					return operationResult.Error;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ClientManager.GetLicense");
+				return e.Message;
+			}
+		}
 
 		public static string GetIP()
 		{

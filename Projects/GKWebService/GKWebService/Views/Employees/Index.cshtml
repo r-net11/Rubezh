@@ -7,14 +7,17 @@
     <table id="jqGridEmployees"></table>
 </div>
 
-<div data-bind="with: HR.Employees">
-    <div class="HrCardsPanel" data-bind="visible: !IsOrganisation()">
+<div data-bind="with: HR.Employees, visible: !HR.Employees.IsOrganisation()">
+    <div class="HrCardsPanel">
         <ul>
-            <li><a href="" style="color: white" @*data-bind="click: function(data,event) { PageClick(data, event, 'Archive'); }"*@><span class="text" style="color: white">Сотрудник</span></a></li>
+            <li><a href="" data-bind="click: function(data,event) { EmployeeCards.EmployeeClick(data, event); }"><span class="text">Сотрудник</span></a></li>
+        </ul>
+        <ul data-bind="foreach: EmployeeCards.Cards">
+            <li><a href="" data-bind="click: function(data,event) { $parent.EmployeeCards.CardClick(data, event, $data); }"><span class="text" data-bind="text: 'Пропуск ' + Number()"></span></a></li>
         </ul>
     </div><!-- .left-sidebar -->
-    <div class="HrCardDoorsPanel" data-bind="visible: !IsOrganisation()">
-        <div>
+    <div class="HrCardDoorsPanel">
+        <div data-bind="visible: !EmployeeCards.IsCardSelected()">
             <div><span>Фамилия</span><label data-bind="text: LastName"></label></div>
             <div><span>Имя</span><label data-bind="text: FirstName"></label></div>
             <div><span>Отчество</span><label data-bind="text: SecondName"></label></div>
@@ -24,6 +27,9 @@
             <div><span>Подразделение</span><label data-bind="text: DepartmentName"></label></div>
             <div><span>Организация</span><label data-bind="text: OrganisationName"></label></div>
             <div data-bind="visible: IsDeleted"><span>Дата удаления</span><label data-bind="text: RemovalDate"></label></div>
+        </div>
+        <div data-bind="visible: EmployeeCards.IsCardSelected">
+            <table id="jqGridDoors"></table>
         </div>
     </div>
 </div>

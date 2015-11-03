@@ -17,7 +17,7 @@ namespace Resurs.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanEdit);
 			Tariffs = new ObservableCollection<TariffViewModel>();
-			DBCash.Tariffs.ForEach(x => Tariffs.Add(new TariffViewModel(x)));
+			DbCache.Tariffs.ForEach(x => Tariffs.Add(new TariffViewModel(x)));
 			SelectedTariff = Tariffs.FirstOrDefault();
 		}
 		public bool HasSelectedTariff { get { return SelectedTariff != null; } }
@@ -42,8 +42,8 @@ namespace Resurs.ViewModels
 			var tariffDetailsViewModel = new TariffDetailsViewModel();
 			if (DialogService.ShowModalWindow(tariffDetailsViewModel))
 			{
-				DBCash.CreateTariff(tariffDetailsViewModel.Tariff);
-				DBCash.AddJournalForUser(JournalType.AddTariff, tariffDetailsViewModel.Tariff);
+				DbCache.CreateTariff(tariffDetailsViewModel.Tariff);
+				DbCache.AddJournalForUser(JournalType.AddTariff, tariffDetailsViewModel.Tariff);
 				var tariffViewModel = new TariffViewModel(tariffDetailsViewModel.Tariff);
 				Tariffs.Add(tariffViewModel);
 				SelectedTariff = tariffViewModel;
@@ -52,15 +52,15 @@ namespace Resurs.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		bool CanEdit()
 		{
-			return SelectedTariff != null && DBCash.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditTariff);
+			return SelectedTariff != null && DbCache.CurrentUser.UserPermissions.Any(x => x.PermissionType == PermissionType.EditTariff);
 		}
 		void OnEdit()
 		{
 			var tariffDetailsViewModel = new TariffDetailsViewModel(SelectedTariff.Tariff);
 			if (DialogService.ShowModalWindow(tariffDetailsViewModel))
 			{
-				DBCash.UpdateTariff(tariffDetailsViewModel.Tariff);
-				DBCash.AddJournalForUser(JournalType.EditTariff, SelectedTariff.Tariff);
+				DbCache.UpdateTariff(tariffDetailsViewModel.Tariff);
+				DbCache.AddJournalForUser(JournalType.EditTariff, SelectedTariff.Tariff);
 				SelectedTariff.Tariff = tariffDetailsViewModel.Tariff;
 			}
 		}
@@ -69,8 +69,8 @@ namespace Resurs.ViewModels
 		void OnRemove()
 		{
 			var index = Tariffs.IndexOf(SelectedTariff);
-			DBCash.DeleteTariff(SelectedTariff.Tariff);
-			DBCash.AddJournalForUser(JournalType.DeleteTariff, SelectedTariff.Tariff);
+			DbCache.DeleteTariff(SelectedTariff.Tariff);
+			DbCache.AddJournalForUser(JournalType.DeleteTariff, SelectedTariff.Tariff);
 			Tariffs.Remove(SelectedTariff);
 			if (Tariffs.Count == 0)
 				SelectedTariff = null;
@@ -98,7 +98,7 @@ namespace Resurs.ViewModels
 		}
 		public bool IsVisible
 		{
-			get { return DBCash.CheckPermission(PermissionType.ViewTariff); }
+			get { return DbCache.CheckPermission(PermissionType.ViewTariff); }
 		}
 	}
 }

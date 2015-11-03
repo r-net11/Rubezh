@@ -266,7 +266,6 @@
     <Compile Include="TreeList\TreeListItem.cs" />
     <Compile Include="XAutoCompleteBox.cs" />
     <Compile Include="XButton.cs" />
-    <Compile Include="XDataGrid.cs" />
     <Compile Include="XRichTextBox.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -1000,7 +999,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="XamlImages\briefcase.xaml">
+    <Page Include="XamlImages\Briefcase.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

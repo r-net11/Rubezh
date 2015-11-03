@@ -16,6 +16,7 @@ using FiresecService.Processor;
 using Infrastructure.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.Automation;
+using System.Collections.Generic;
 
 namespace FiresecService
 {
@@ -62,6 +63,7 @@ namespace FiresecService
 				UILogger.Log("Загрузка конфигурации");
 				ConfigurationCashHelper.Update();
 
+
 				ProcedureExecutionContext.Initialize(
 					ContextType.Server,
 					ConfigurationCashHelper.SystemConfiguration,
@@ -85,7 +87,8 @@ namespace FiresecService
 					ProcedureHelper.ExportOrganisationList,
 					ProcedureHelper.ExportConfiguration,
 					ProcedureHelper.ImportOrganisation,
-					ProcedureHelper.ImportOrganisationList
+					ProcedureHelper.ImportOrganisationList,
+					GetOrganisations
 					);
 
 				GKProcessor.Create();
@@ -117,6 +120,12 @@ namespace FiresecService
 				UILogger.Log("Ошибка при запуске сервера", true);
 				Close();
 			}
+		}
+
+		static List<RubezhAPI.SKD.Organisation> GetOrganisations()
+		{
+			var result = FiresecServiceManager.SafeFiresecService.GetOrganisations(new RubezhAPI.SKD.OrganisationFilter());
+			return result.HasError ? new List<RubezhAPI.SKD.Organisation>() : result.Result;
 		}
 		
 		private static void OnWorkThread()

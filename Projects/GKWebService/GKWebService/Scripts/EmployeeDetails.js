@@ -30,18 +30,16 @@ function EmployeeDetailsViewModel() {
         }
     });
 
-    $('#employee-details-box').on('fadeInComplete', function () {
-    });
-
     self.FIO = function () {
         var names = [self.LastName(), self.FirstName(), self.SecondName()];
         return names.join(" ");
     };
 
-    self.Init = function (isNew, personType) {
+    self.Init = function (isNew, personType, parentViewModel) {
         self.IsNew = isNew;
         self.IsEmployee(personType === "Employee");
         self.Type(personType);
+        self.ParentViewModel = parentViewModel;
         if (isNew) {
             self.Title(self.IsEmployee() ? "Добавить сотрудника" : "Добавить посетителя");
             self.OrganisationUID(self.Organisation.UID);
@@ -81,19 +79,27 @@ function EmployeeDetailsViewModel() {
             type: "post",
             contentType: "application/json",
             data: "{'employee':" + data + ",'isNew': '" + self.IsNew + "'}",
-            success: function (response) {
-                self.SaveChief(self.IsOrganisationChief(), self.Organisation.ChiefUID, "Employees/SaveChief");
-                self.SaveChief(self.IsOrganisationHRChief(), self.Organisation.HRChiefUID, "Employees/SaveHRChief");
+            success: function () {
+                self.SaveChief(self.IsOrganisationChief(), 
+                    self.Organisation.ChiefUID, 
+                    "Employees/SaveChief", 
+                    function() {
+                        self.SaveChief(self.IsOrganisationHRChief(),
+                            self.Organisation.HRChiefUID,
+                            "Employees/SaveHRChief",
+                            function () {
+                                self.ParentViewModel.Init();
+                                EmployeeDetailsClose();
+                            });
+                    });
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert("request failed");
             },
         });
-
-        EmployeeDetailsClose();
     };
 
-    self.SaveChief = function (isOrganisationChief, organisationChiefUID, url) {
+    self.SaveChief = function (isOrganisationChief, organisationChiefUID, url, success) {
         var uid;
         if (isOrganisationChief && organisationChiefUID != self.UID()) {
             uid = self.UID();
@@ -112,10 +118,15 @@ function EmployeeDetailsViewModel() {
                     "', 'OrganisationName': '" +
                     self.Organisation.Name +
                     "'}",
-                error: function (xhr, ajaxOptions, thrownError) {
+                success: function() {
+                    success();
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
                     alert("request failed");
                 },
             });
+        } else {
+            success();
         }
     };
 

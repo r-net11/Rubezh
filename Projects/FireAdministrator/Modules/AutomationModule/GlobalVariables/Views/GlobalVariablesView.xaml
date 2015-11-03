@@ -3,7 +3,7 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:automation="clr-namespace:RubezhAPI.Automation;assembly=RubezhAPI">
 
-	<XDataGrid CanUserSortColumns="True" ItemsSource="{Binding GlobalVariables}" SelectedItem="{Binding SelectedGlobalVariable}" IsReadOnly="False">
+	<DataGrid CanUserSortColumns="True" ItemsSource="{Binding GlobalVariables}" SelectedItem="{Binding SelectedGlobalVariable}" IsReadOnly="False">
 		<DataGrid.ContextMenu>
 			<ContextMenu>
 				<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить (Ctrl+N)" />
@@ -47,5 +47,5 @@
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
 		</DataGrid.Columns>
-	</XDataGrid>
+	</DataGrid>
 </UserControl>

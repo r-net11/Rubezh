@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ResursDAL
 {
-	public static partial class DBCash
+	public static partial class DbCache
 	{
 		public static int? GetJournalCount(Filter filter)
 		{

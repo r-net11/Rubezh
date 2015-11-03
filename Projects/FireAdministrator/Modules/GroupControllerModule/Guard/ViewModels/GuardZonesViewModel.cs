@@ -21,7 +21,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
-	public class GuardZonesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class GuardZonesViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		bool _lockSelection = false;
 		public GuardZoneDevicesViewModel ZoneDevices { get; set; }
@@ -148,7 +148,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteAllEmptyCommand { get; private set; }
 		void OnDeleteAllEmpty()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все неиспользуемые коды ?"))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?"))
 			{
 				var emptyZones = Zones.Where(x => !x.Zone.GuardZoneDevices.Any());
 
