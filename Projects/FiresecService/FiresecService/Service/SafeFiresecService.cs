@@ -149,10 +149,10 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.Test(arg); }, "Test");
 		}
 
-        public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
-        {
-            return SafeOperationCall(() => { return FiresecService.GetLicenseInfo(); }, "GetLicenseInfo");
-        }
+		public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetLicenseInfo(); }, "GetLicenseInfo");
+		}
 
 		#region Journal
 		public OperationResult<DateTime> GetMinJournalDateTime()
@@ -211,15 +211,9 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKAutoSearch(deviceUID); }, "GKAutoSearch");
 		}
 
-		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName)
+		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, List<byte> firmwareBytes)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKUpdateFirmware(deviceUID, fileName); }, "GKUpdateFirmware");
-		}
-
-		public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<Guid> deviceUIDs)
-		{
-			var result = SafeOperationCall(() => { return FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, userName, deviceUIDs); }, "GKUpdateFirmwareFSCS");
-			return result;
+			return SafeOperationCall(() => { return FiresecService.GKUpdateFirmware(deviceUID, firmwareBytes); }, "GKUpdateFirmware");
 		}
 
 		public OperationResult<bool> GKSyncronyseTime(Guid deviceUID)

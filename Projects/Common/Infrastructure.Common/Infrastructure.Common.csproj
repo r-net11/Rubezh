@@ -158,7 +158,6 @@
     </Compile>
     <Compile Include="BindingErrorListener.cs" />
     <Compile Include="EncryptHelper.cs" />
-    <Compile Include="HXCFileInfoHelper.cs" />
     <Compile Include="Navigation\ShowOnPlanArgs.cs" />
     <Compile Include="Ribbon\RibbonViewModel.cs" />
     <Compile Include="Services\DragDrop\DragCorrectionEventArgs.cs" />
