@@ -9,7 +9,7 @@ namespace GKProcessor
 		{
 			var driver = new GKDriver()
 			{
-				DriverTypeNo = 0x998,
+				DriverTypeNo = 0x10E,
 				DriverType = GKDriverType.RSR2_GKMirrorDetectorsDevice,
 				UID = new Guid("134F0703-05CE-4025-BA12-1710362B1FFB"),
 				Name = "Извещательные устройства",

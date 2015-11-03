@@ -54,10 +54,26 @@ namespace GKProcessor
 			modeProperty.Parameters.Add(new GKDriverPropertyParameter() { Name = "Резервная", Value = 1 });
 			driver.Properties.Add(modeProperty);
 
+
 			driver.Properties.Add(
 				new GKDriverProperty()
 				{
 					No = 0,
+					Name = "ConnectionLostCount",
+					Caption = "Неответы",
+					ToolTip = "Неответы",
+					Min = 0,
+					Max = 10,
+					Default = 3,
+					DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
+					IsAUParameter = true
+				}
+				);
+
+			driver.Properties.Add(
+				new GKDriverProperty()
+				{
+					No = 1,
 					Name = "Parameter 0",
 					Caption = "Порог питания, В",
 					ToolTip = "",
@@ -73,7 +89,7 @@ namespace GKProcessor
 			driver.Properties.Add(
 				new GKDriverProperty()
 				{
-					No = 1,
+					No = 2,
 					Name = "Parameter 1",
 					Caption = "Яркость, %",
 					ToolTip = "",
