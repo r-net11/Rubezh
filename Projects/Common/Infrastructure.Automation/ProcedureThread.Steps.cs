@@ -459,6 +459,9 @@ namespace Infrastructure.Automation
 					case Property.Name:
 						propertyValue = gkZone.Name.Trim();
 						break;
+					case Property.Description:
+						propertyValue = gkZone.Description == null ? "" : gkZone.Description.Trim();
+						break;
 					case Property.Uid:
 						propertyValue = gkZone.UID.ToString();
 						break;
@@ -584,7 +587,7 @@ namespace Infrastructure.Automation
 						propertyValue = organisation.Name.Trim();
 						break;
 					case Property.Description:
-						propertyValue = organisation.Description == null ? "" : organisation.Description.Trim(); ;
+						propertyValue = organisation.Description == null ? "" : organisation.Description.Trim();
 						break;
 					case Property.Uid:
 						propertyValue = organisation.UID.ToString();
