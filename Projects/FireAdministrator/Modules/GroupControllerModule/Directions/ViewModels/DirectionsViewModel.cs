@@ -194,7 +194,7 @@ namespace GKModule.ViewModels
 
 		bool CanPaste()
 		{
-			return _directionToCopy != null;
+			return _directionToCopy != null && SelectedDirection!= null;
 		}
 
 		public RelayCommand CopyLogicCommand { get; private set; }
