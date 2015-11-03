@@ -116,6 +116,7 @@ namespace SecurityModule.ViewModels
 									new PermissionViewModel("Конфигурация", new List<PermissionViewModel>()
 										{
 											new PermissionViewModel(PermissionType.Oper_Reports_Doors),
+											new PermissionViewModel(PermissionType.Oper_Reports_Mirror),
 										}),
 									new PermissionViewModel("События", new List<PermissionViewModel>()
 										{
