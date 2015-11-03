@@ -90,7 +90,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<List<JournalItem>> GetArchivePage(ArchiveFilter filter, int page)
+		public OperationResult<List<JournalItem>> GetArchivePage(JournalFilter filter, int page)
 		{
 			using(var dbService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -98,7 +98,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<int> GetArchiveCount(ArchiveFilter filter)
+		public OperationResult<int> GetArchiveCount(JournalFilter filter)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{

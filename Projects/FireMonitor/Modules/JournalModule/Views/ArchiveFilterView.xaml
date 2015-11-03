@@ -26,8 +26,10 @@
 			</StackPanel>
 		</Grid>
 		<TabControl BorderThickness="0" Padding="11" SelectedIndex="0">
-			<TabItem Header="Временной диапазон" DataContext="{Binding ArchiveDateTimeViewModel}">
-				<Grid>
+			<TabItem Header="Временной диапазон" 
+					 Visibility="{Binding IsShowDateTime, Converter={StaticResource BoolToVisibilityConverter}}" 
+					 >
+				<Grid  DataContext="{Binding ArchiveDateTimeViewModel}" >
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="100" />
 						<ColumnDefinition Width="250" />
@@ -78,8 +80,9 @@
 							  IsChecked="{Binding IsSortAsc}" />
 				</Grid>
 			</TabItem>
-			<TabItem Header="Событие" DataContext="{Binding FilterNamesViewModel}">
-				<tree:TreeList Focusable="False" Source="{Binding RootFilters}" SelectedTreeNode="{Binding SelectedFilter}" tree:SortBehavior.CanUserSortColumns="False" Margin="-5">
+			<TabItem Header="Событие" IsSelected="{Binding IsShowDateTime, Converter={StaticResource InverseBooleanConverter}, Mode=OneWay}">
+				<tree:TreeList Focusable="False" tree:SortBehavior.CanUserSortColumns="False" Margin="-5"
+							   DataContext="{Binding FilterNamesViewModel}"  Source="{Binding RootFilters}" SelectedTreeNode="{Binding SelectedFilter}" >
 					<tree:TreeList.View>
 						<GridView>
 							<GridViewColumn Header="Наименование">
