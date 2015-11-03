@@ -57,8 +57,8 @@ namespace RubezhAPI
 		/// Запрос данных лицензии
 		/// </summary>
 		/// <returns></returns>
-        [OperationContract]
-        OperationResult<FiresecLicenseInfo> GetLicenseInfo();
+		[OperationContract]
+		OperationResult<FiresecLicenseInfo> GetLicenseInfo();
 		#endregion
 
 		#region Journal

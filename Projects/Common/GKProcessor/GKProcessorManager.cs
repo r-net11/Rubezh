@@ -210,25 +210,14 @@ namespace GKProcessor
 			return OperationResult<GKDevice>.FromError(gkAutoSearchHelper.Error, newDevice);
 		}
 
-		public static OperationResult<bool> GKUpdateFirmware(GKDevice device, string fileName, string userName)
+		public static OperationResult<bool> GKUpdateFirmware(GKDevice device, List<byte> firmwareBytes, string userName)
 		{
 			Stop();
 			var firmwareUpdateHelper = new FirmwareUpdateHelper();
-			firmwareUpdateHelper.Update(device, fileName, userName);
+			string updateResult = firmwareUpdateHelper.Update(device, firmwareBytes, userName);
 			Start();
-			if (firmwareUpdateHelper.ErrorList.Count > 0)
-				return OperationResult<bool>.FromError(firmwareUpdateHelper.ErrorList, false);
-			return new OperationResult<bool>(true);
-		}
-
-		public static OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<GKDevice> devices)
-		{
-			Stop();
-			var firmwareUpdateHelper = new FirmwareUpdateHelper();
-			firmwareUpdateHelper.UpdateFSCS(hxcFileInfo, devices, userName);
-			Start();
-			if (firmwareUpdateHelper.ErrorList.Count > 0)
-				return OperationResult<bool>.FromError(firmwareUpdateHelper.ErrorList, false);
+			if (updateResult != null)
+				return OperationResult<bool>.FromError(updateResult, false);
 			return new OperationResult<bool>(true);
 		}
 
