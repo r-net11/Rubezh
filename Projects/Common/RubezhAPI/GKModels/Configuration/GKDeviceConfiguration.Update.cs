@@ -94,6 +94,7 @@ namespace RubezhAPI.GK
 			foreach (var pumpStation in PumpStations)
 			{
 				pumpStation.ClearClauseDependencies();
+				pumpStation.Pim.ClearClauseDependencies();
 				pumpStation.NSDevices = new List<GKDevice>();
 			}
 			foreach (var mpt in MPTs)
