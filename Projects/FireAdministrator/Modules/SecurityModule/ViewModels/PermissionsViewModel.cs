@@ -105,7 +105,6 @@ namespace SecurityModule.ViewModels
 									new PermissionViewModel(PermissionType.Oper_Door_Control),
 									new PermissionViewModel(PermissionType.Oper_Full_Door_Control),
 								}),
-								new PermissionViewModel(PermissionType.Oper_Door_Control),
 								new PermissionViewModel(PermissionType.Oper_MPT_Control),
 								new PermissionViewModel(PermissionType.Oper_PIM_Control),
 								new PermissionViewModel(PermissionType.Oper_Delay_Control),
