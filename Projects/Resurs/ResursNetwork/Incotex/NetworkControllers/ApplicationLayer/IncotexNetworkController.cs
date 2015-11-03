@@ -14,7 +14,10 @@ using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
 using ResursNetwork.Management;
 using ResursNetwork.Incotex.Models;
 using ResursNetwork.Incotex.NetworkControllers.Messages;
+using ResursNetwork.Incotex.NetworkControllers.DataLinkLayer;
+using ResursAPI;
 using ResursAPI.Models;
+using ResursAPI.ParameterNames;
 using Common;
 
 namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
@@ -585,7 +588,82 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 
 		public override OperationResult ReadParameter(string parameterName)
 		{
-			throw new NotImplementedException();
+			switch (parameterName)
+			{
+				case ParameterNamesIncotexNetwork.BautRate:
+					{
+						return new OperationResult
+						{
+							Result =
+								new TransactionError
+								{
+									ErrorCode = TransactionErrorCodes.NoError,
+									Description = String.Empty
+								},
+							Value = ((ComPort)base._Connection).BaudRate
+						};
+					}
+				case ParameterNamesIncotexNetworkVirtual.BroadcastDelay:
+					{
+						return new OperationResult
+						{
+							Result =
+								new TransactionError
+								{
+									ErrorCode = TransactionErrorCodes.NoError,
+									Description = String.Empty
+								},
+							Value = _broadcastRequestDelay
+						};
+					}
+				case ParameterNamesIncotexNetworkVirtual.PollInterval:
+					{
+						return new OperationResult
+						{
+							Result =
+								new TransactionError
+								{
+									ErrorCode = TransactionErrorCodes.NoError,
+									Description = String.Empty
+								},
+							Value = _pollingPeriod
+						};
+					}
+				case ParameterNamesIncotexNetworkVirtual.PortName:
+					{
+						return new OperationResult
+						{
+							Result =
+								new TransactionError
+								{
+									ErrorCode = TransactionErrorCodes.NoError,
+									Description = String.Empty
+								},
+							Value = new ParameterStringContainer 
+							{
+								Value = ((ComPort)base._Connection).PortName
+							}
+						};
+					}
+				case ParameterNamesIncotexNetworkVirtual.Timeout:
+					{
+						return new OperationResult
+						{
+							Result =
+								new TransactionError
+								{
+									ErrorCode = TransactionErrorCodes.NoError,
+									Description = String.Empty
+								},
+							Value = _requestTimeout
+						};
+					}
+				default:
+					{
+						throw new InvalidOperationException(String.Format(
+							"Ошибка чтения параметра. Параметр {0} не найден", parameterName));
+					}
+			}
 		}
 
 		public override void WriteParameter(string parameterName, ValueType value)
