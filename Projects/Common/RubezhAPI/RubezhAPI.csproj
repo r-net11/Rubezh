@@ -388,7 +388,7 @@
     <Compile Include="SKD\TimeTrack\ScheduleScheme.cs" />
     <Compile Include="SKD\Employee\ShortEmployee.cs" />
     <Compile Include="SKD\Employee\PersonType.cs" />
-    <Compile Include="Journal\ArchiveFilter.cs" />
+    <Compile Include="Journal\JournalFilter.cs" />
     <Compile Include="SKD\Organisation\OrganisationFilter.cs" />
     <Compile Include="SKD\Common\OrganisationFilterBase.cs" />
     <Compile Include="SKD\Organisation\Organisation.cs" />
@@ -432,7 +432,6 @@
     <Compile Include="Models\Plans\ElementRectangleGKDirection.cs" />
     <Compile Include="Models\Plans\PlanFolder.cs" />
     <Compile Include="SKD\Card\AccessTemplate.cs" />
-    <Compile Include="Journal\JournalFilter.cs" />
     <Compile Include="VersionedConfiguration.cs" />
     <Compile Include="Models\Plans\ElementPolygonGKZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleGKZone.cs" />

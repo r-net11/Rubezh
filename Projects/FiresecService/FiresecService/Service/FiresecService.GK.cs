@@ -85,31 +85,6 @@ namespace FiresecService.Service
 			return OperationResult<GKDevice>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
-		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName)
-		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				return GKProcessorManager.GKUpdateFirmware(device, fileName, UserName);
-			}
-			return OperationResult<bool>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
-		}
-
-		public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<Guid> deviceUIDs)
-		{
-			var devices = new List<GKDevice>();
-			foreach (var deviceUID in deviceUIDs)
-			{
-				var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-				if (device == null)
-				{
-					return OperationResult<bool>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
-				}
-				devices.Add(device);
-			}
-			return GKProcessorManager.GKUpdateFirmwareFSCS(hxcFileInfo, userName, devices);
-		}
-
 		public OperationResult<bool> GKSyncronyseTime(Guid deviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);

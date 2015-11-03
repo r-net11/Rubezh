@@ -40,8 +40,7 @@
         <File Id="Administrator.NLog.dll" Name="NLog.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Loya.Dameer.dll" Name="Loya.Dameer.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.RviClient.dll" Name="RviClient.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.FiresecLicense.dll" Name="FiresecLicense.dll" Source="$(var.Administrator.TargetDir)" />
-		<File Id="Administrator.RubezhLicense.dll" Name="RubezhLicense.dll" Source="$(var.Administrator.TargetDir)" />
+				<File Id="Administrator.RubezhLicense.dll" Name="RubezhLicense.dll" Source="$(var.Administrator.TargetDir)" />
 		  
         <File Id="Administrator.log4net.dll" Name="log4net.dll" Source="..\..\..\..\..\..\3rdParty\OPC\" />
         <File Id="Administrator.Softing.Opc.Ua.Sdk.Client.dll" Name="Softing.Opc.Ua.Sdk.Client.dll" Source="..\..\..\..\..\..\3rdParty\OPC\" />

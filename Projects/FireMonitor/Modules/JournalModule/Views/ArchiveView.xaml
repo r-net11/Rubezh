@@ -32,6 +32,6 @@
 				<Controls:ToolBarButton Grid.Column="3" Command="{Binding ShowSettingsCommand}" ToolTip="Настройки" ImageSource="Settings2" />
 			</Grid>
 		</Border>
-		<Views:JournalView Grid.Row="1" Margin="0 5 0 0" />
+		<Views:JournalViewInternal Grid.Row="1" Margin="0 5 0 0" />
 	</Grid>
 </UserControl>

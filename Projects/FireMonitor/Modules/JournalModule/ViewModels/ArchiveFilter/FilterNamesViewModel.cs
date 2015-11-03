@@ -11,13 +11,13 @@ namespace JournalModule.ViewModels
 {
 	public class FilterNamesViewModel : BaseViewModel
 	{
-		public FilterNamesViewModel(ArchiveFilter filter)
+		public FilterNamesViewModel(JournalFilter filter)
 		{
 			BuildTree();
 			Initialize(filter);
 		}
 
-		public void Initialize(ArchiveFilter filter)
+		public void Initialize(JournalFilter filter)
 		{
 			AllFilters.ForEach(x => x.IsChecked = false);
 			foreach (var eventName in filter.JournalEventNameTypes)
@@ -49,9 +49,9 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public ArchiveFilter GetModel()
+		public JournalFilter GetModel()
 		{
-			var filter = new ArchiveFilter();
+			var filter = new JournalFilter();
 			foreach (var rootFilter in RootFilters)
 			{
 				if (rootFilter.IsChecked)

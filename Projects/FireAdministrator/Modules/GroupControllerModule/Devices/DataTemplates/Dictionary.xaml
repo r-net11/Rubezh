@@ -24,10 +24,6 @@
 		<Views:PropertiesView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:FirmWareUpdateViewModel}">
-		<Views:FirmWareUpdateView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:ConfigurationCompareViewModel}">
 		<Views:ConfigurationCompareView />
 	</DataTemplate>
@@ -44,24 +40,24 @@
 		<Views:GKUsersView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:SettingsViewModel}">
-        <Views:SettingsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:SettingsViewModel}">
+		<Views:SettingsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DevicesListViewModel}">
-        <Views:DevicesListView />
-    </DataTemplate>
-    
-    <DataTemplate DataType="{x:Type ViewModels:ReflectionViewModel}">
-        <Views:ReflectionView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DevicesListViewModel}">
+		<Views:DevicesListView />
+	</DataTemplate>
+	
+	<DataTemplate DataType="{x:Type ViewModels:ReflectionViewModel}">
+		<Views:ReflectionView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ReflectionUsersViewModel}">
-        <Views:ReflectionUsersView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ReflectionUsersViewModel}">
+		<Views:ReflectionUsersView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ReflectionUserDetailsViewModel}">
-        <Views:ReflectionUserDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ReflectionUserDetailsViewModel}">
+		<Views:ReflectionUserDetailsView />
+	</DataTemplate>
 
 </ResourceDictionary>

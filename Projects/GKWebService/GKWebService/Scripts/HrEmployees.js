@@ -103,9 +103,8 @@ function EmployeesViewModel(parentViewModel) {
     };
 
     self.UpdateTree = function (data) {
-        self.TreeData = data;
         $("#jqGridEmployees").setGridParam({
-            datastr: self.TreeData,
+            datastr: data,
             datatype: "jsonstring",
             treedatatype: "jsonstring",
         });
@@ -185,8 +184,6 @@ function EmployeesViewModel(parentViewModel) {
             });
         });
     };
-
-    self.Init();
 
     return self;
 }

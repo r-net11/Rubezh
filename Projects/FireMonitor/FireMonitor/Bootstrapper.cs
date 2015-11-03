@@ -80,7 +80,8 @@ namespace FireMonitor
 						ClientManager.FiresecService.ExportOrganisationList,
 						ClientManager.FiresecService.ExportConfiguration,
 						ClientManager.FiresecService.ImportOrganisation,
-						ClientManager.FiresecService.ImportOrganisationList
+						ClientManager.FiresecService.ImportOrganisationList,
+						GetOrganisations
 						);
 
 					GKDriversCreator.Create();
@@ -143,6 +144,12 @@ namespace FireMonitor
 				return false;				
 			}
 			return result;
+		}
+
+		static List<RubezhAPI.SKD.Organisation> GetOrganisations()
+		{
+			var result = ClientManager.FiresecService.GetOrganisations(new RubezhAPI.SKD.OrganisationFilter());
+			return result.HasError ? new List<RubezhAPI.SKD.Organisation>() : result.Result;
 		}
 
 		private void OnSynchronizeVariable(Variable variable, ContextType targetContextType)

@@ -102,7 +102,6 @@
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ObjectsListViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ObjectViewModel.cs" />
-    <Compile Include="Devices\ViewModels\FirmWareUpdateViewModel.cs" />
     <Compile Include="Devices\ViewModels\GKUsersViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\ClauseGroupViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\StateTypeViewModel.cs" />
@@ -122,9 +121,6 @@
     </Compile>
     <Compile Include="Devices\Views\DevicesOnShleifView.xaml.cs">
       <DependentUpon>DevicesOnShleifView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Devices\Views\FirmWareUpdateView.xaml.cs">
-      <DependentUpon>FirmWareUpdateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\GKUsersView.xaml.cs">
       <DependentUpon>GKUsersView.xaml</DependentUpon>
@@ -649,10 +645,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\DevicesOnShleifView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Devices\Views\FirmWareUpdateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

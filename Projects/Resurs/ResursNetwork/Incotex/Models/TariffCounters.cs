@@ -26,6 +26,7 @@ namespace ResursNetwork.Incotex.Models
 		public float ValueTotalTarif1
 		{
 			get { return ToFloat(_counterTarif1Bcd); }
+			set { _counterTarif1Bcd = ToBcd(value); }
 		}
 
 		/// <summary>
@@ -34,6 +35,7 @@ namespace ResursNetwork.Incotex.Models
 		public float ValueTotalTarif2
 		{
 			get { return ToFloat(_counterTarif2Bcd); }
+			set { _counterTarif2Bcd = ToBcd(value); }
 		}
 
 		/// <summary>
@@ -42,6 +44,7 @@ namespace ResursNetwork.Incotex.Models
 		public float ValueTotalTarif3
 		{
 			get { return ToFloat(_counterTarif3Bcd); }
+			set { _counterTarif3Bcd = ToBcd(value); }
 		}
 
 		/// <summary>
@@ -50,6 +53,7 @@ namespace ResursNetwork.Incotex.Models
 		public float ValueTotalTarif4
 		{
 			get { return ToFloat(_counterTarif4Bcd); }
+			set { _counterTarif3Bcd = ToBcd(value); }
 		}
 
 		#endregion
@@ -72,6 +76,21 @@ namespace ResursNetwork.Incotex.Models
 				throw new InvalidCastException(
 					"Невозможно выполнить приведение типов. Формат исходного числа не BCD");
 			}
+		}
+
+		/// <summary>
+		/// Преобразует значение (кВт*ч) в передставление BCD
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		static uint ToBcd(float value)
+		{
+			if (value > 999999.99f)
+			{
+				throw new InvalidCastException(String.Format(
+					"Попытка преоборазовать число {0} большее 999999.99", value));
+			}
+			return BcdConverter.ToBcdUInt32(Convert.ToUInt32(value * 100));
 		}
 
 		/// <summary>
@@ -145,6 +164,7 @@ namespace ResursNetwork.Incotex.Models
 		{
 			return base.Equals(obj);
 		}
+
 		public override int GetHashCode()
 		{
 			return base.GetHashCode();

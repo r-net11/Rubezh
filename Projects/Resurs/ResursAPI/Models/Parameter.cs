@@ -214,24 +214,46 @@ namespace ResursAPI
 			switch (DriverParameter.ParameterType)
 			{
 				case ParameterType.Enum:
-					IntValue = (int)valueType;
+					IntValue = Convert.ToInt32(valueType);
 					break;
 				case ParameterType.String:
 					var parameterStringContainer = (ParameterStringContainer)valueType;
 					StringValue = parameterStringContainer.Value;
 					break;
 				case ParameterType.Int:
-					IntValue = (int)valueType;
+					IntValue = Convert.ToInt32(valueType);
 					break;
 				case ParameterType.Double:
-					DoubleValue = (double)valueType;
+					DoubleValue = Convert.ToDouble(valueType);
 					break;
 				case ParameterType.Bool:
-					BoolValue = (bool)BoolValue;
+					BoolValue = (bool)valueType;
 					break;
 				case ParameterType.DateTime:
-					DateTimeValue = (DateTime)DateTimeValue;
+					DateTimeValue = (DateTime)valueType;
 					break;
+			}
+		}
+
+		public static bool IsEqual(Parameter x, Parameter y)
+		{
+			if (x.DriverParameter.ParameterType != y.DriverParameter.ParameterType)
+				return false;
+			switch (x.DriverParameter.ParameterType)
+			{
+				case ParameterType.Enum:
+				case ParameterType.Int:
+					return x.IntValue == y.IntValue;
+				case ParameterType.String:
+					return x.StringValue == y.StringValue;
+				case ParameterType.Double:
+					return x.DoubleValue == y.DoubleValue;
+				case ParameterType.Bool:
+					return x.BoolValue == y.BoolValue;
+				case ParameterType.DateTime:
+					return  x.DateTimeValue == y.DateTimeValue;
+				default:
+					return false;
 			}
 		}
 		 
