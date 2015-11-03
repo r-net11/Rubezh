@@ -703,7 +703,13 @@ namespace ResursNetwork.Incotex.Models
 		/// <returns></returns>
 		public TariffCounters ReadConsumedPower()
 		{
-			throw new NotImplementedException();
+			return new TariffCounters
+			{
+				ValueTotalTarif1 = (float)_parameters[ParameterNamesMercury203Virtual.CounterTarif1].Value,
+				ValueTotalTarif2 = (float)_parameters[ParameterNamesMercury203Virtual.CounterTarif2].Value,
+				ValueTotalTarif3 = (float)_parameters[ParameterNamesMercury203Virtual.CounterTarif3].Value,
+				ValueTotalTarif4 = (float)_parameters[ParameterNamesMercury203Virtual.CounterTarif4].Value
+			};
 		}
 
 		#endregion
