@@ -694,8 +694,7 @@ namespace ResursNetwork.Incotex.Models
 		/// <returns></returns>
 		public uint ReadPowerLimitPerMonth()
 		{
-			throw new NotImplementedException();
-			//return (ushort)_Parameters[ParameterNamesMercury203Virtual.PowerLimitPerMonth].Value;
+			return (ushort)_parameters[ParameterNamesMercury203Virtual.PowerLimitPerMonth].Value;
 		}
 
 		/// <summary>
