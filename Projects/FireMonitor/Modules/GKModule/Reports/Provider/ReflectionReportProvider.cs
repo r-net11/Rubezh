@@ -5,12 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RubezhAPI.Models;
 
 namespace GKModule.Reports.Providers
 {
 	public class ReflectionReportProvider : FilteredSKDReportProvider<ReflectionReportFilter>
 	{
-		public ReflectionReportProvider():base("Список отражений", 432, SKDReportGroup.Configuration)
+		public ReflectionReportProvider()
+			: base("Список отражений", 432, SKDReportGroup.Configuration, PermissionType.Oper_Reports_Mirror)
 		{
 		}
 

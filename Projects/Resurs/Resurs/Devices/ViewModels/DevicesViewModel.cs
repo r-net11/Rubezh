@@ -318,8 +318,11 @@ namespace Resurs.ViewModels
 		public RelayCommand ReadParametersCommand { get; private set; }
 		void OnReadParameters()
 		{
-			DeviceProcessor.Instance.ReadParameters(SelectedDevice.Device);
-			SelectedDevice.Update();
+			if (DeviceProcessor.Instance.ReadParameters(SelectedDevice.Device))
+			{
+				DbCache.SaveDevice(SelectedDevice.Device);
+				SelectedDevice.Update();
+			}
 		}
 		bool CanReadParameters()
 		{

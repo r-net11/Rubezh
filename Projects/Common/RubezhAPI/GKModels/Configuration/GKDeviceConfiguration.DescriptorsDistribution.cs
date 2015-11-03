@@ -177,6 +177,7 @@ namespace RubezhAPI.GK
 
 			gkBases.ForEach(x => x.ClearDescriptor());
 			gkBases.ForEach(x => x.PrepareInputOutputDependences());
+			gkBases.ForEach(x => x.Invalidate());
 			gkBases.ForEach(x => x.IsChildDescriptorsReady = false);
 			gkBases.ForEach(x => x.CalculateAllChildDescriptors());
 

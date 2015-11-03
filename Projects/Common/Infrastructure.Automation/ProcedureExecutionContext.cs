@@ -7,6 +7,7 @@ using RubezhAPI.Journal;
 using System.Windows.Media;
 using System.Linq;
 using System.Collections.Generic;
+using RubezhAPI.SKD;
 
 namespace Infrastructure.Automation
 {
@@ -36,6 +37,7 @@ namespace Infrastructure.Automation
 		static event Action<bool, bool, bool, string> OnExportConfiguration;
 		static event Action<bool, string> OnImportOrganisation;
 		static event Action<bool, string> OnImportOrganisationList;
+		static GetOrganisationsEventHandler OnGetOrganisations;
 
 		public static void Initialize(ContextType contextType, 
 			SystemConfiguration systemConfiguration, 
@@ -59,7 +61,8 @@ namespace Infrastructure.Automation
 			Action<bool, string> onExportOrganisationList = null,
 			Action<bool, bool, bool, string> onExportConfiguration = null,
 			Action<bool, string> onImportOrganisation = null,
-			Action<bool, string> onImportOrganisationList = null
+			Action<bool, string> onImportOrganisationList = null,
+			GetOrganisationsEventHandler onGetOrganisations = null
 			)
 		{
 			UpdateConfiguration(systemConfiguration, securityConfiguration);
@@ -84,7 +87,7 @@ namespace Infrastructure.Automation
 			OnExportConfiguration += onExportConfiguration;
 			OnImportOrganisation += onImportOrganisation;
 			OnImportOrganisationList += onImportOrganisationList;
-
+			OnGetOrganisations = onGetOrganisations;
 		}
 
 		public static void UpdateConfiguration(SystemConfiguration systemConfiguration, SecurityConfiguration securityConfiguration)
@@ -373,5 +376,12 @@ namespace Infrastructure.Automation
 			}
 			SynchronizeVariable(target, ContextType.Server);
 		}
+
+		public static List<Organisation> GetOrganisations()
+		{
+			return OnGetOrganisations == null ? null : OnGetOrganisations();
+		}
 	}
+
+	public delegate List<Organisation> GetOrganisationsEventHandler();
 }

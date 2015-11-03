@@ -289,17 +289,17 @@ namespace Resurs.ViewModels
 			Device.ConsumerUID = Consumer == null ? null : (Guid?)Consumer.UID;
 			Device.Tariff = Tariff;
 			Device.TariffUID = Tariff == null ? null : (Guid?)Tariff.UID;
-			var isDbMissmatch = false;
+			
 			if (IsActive)
 			{
+				var isDbMissmatch = false;
 				foreach (var newParameter in Device.Parameters.Where(x => x.DriverParameter.IsWriteToDevice && x.DriverParameter.CanWriteInActive))
 				{
 					var oldParameter = _oldDevice.Parameters.FirstOrDefault(x => x.UID == newParameter.UID);
-					if (oldParameter.ValueType != newParameter.ValueType)
+					if (!Parameter.IsEqual(oldParameter, newParameter))
 					{
 						isDbMissmatch = isDbMissmatch || !DeviceProcessor.Instance.WriteParameter(Device.UID, newParameter.DriverParameter.Name, newParameter.ValueType);
 					}
-					
 				}
 				Device.IsDbMissmatch = isDbMissmatch;
 			}
