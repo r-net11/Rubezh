@@ -661,7 +661,7 @@ namespace FiresecAPI.SKD
 
 			switch (documentType)
 			{
-				case DocumentType.Overtime :
+				case DocumentType.Overtime:
 					return TimeTrackType.DocumentOvertime;
 				case DocumentType.Presence:
 					return hasPlannedTimeTrack ? TimeTrackType.DocumentPresence : TimeTrackType.None;
@@ -672,7 +672,7 @@ namespace FiresecAPI.SKD
 				case DocumentType.AbsenceReasonable:
 					if (documentTimeTrack.IsOutside)
 						return TimeTrackType.DocumentAbsence;
-					return (hasRealTimeTrack || hasPlannedTimeTrack) ? TimeTrackType.DocumentAbsence : TimeTrackType.None;
+					return (hasRealTimeTrack || hasPlannedTimeTrack) ? TimeTrackType.DocumentAbsenceReasonable : TimeTrackType.None;
 				default:
 					return TimeTrackType.None;
 			}
@@ -997,6 +997,7 @@ namespace FiresecAPI.SKD
 					case TimeTrackType.DocumentOvertime:
 					case TimeTrackType.DocumentPresence:
 					case TimeTrackType.DocumentAbsence:
+					case TimeTrackType.DocumentAbsenceReasonable:
 						if (total.TimeSpan > longestTimeSpan)
 						{
 							longestTimeTrackType = total.TimeTrackType;
@@ -1142,6 +1143,7 @@ namespace FiresecAPI.SKD
 				case TimeTrackType.DocumentOvertime:
 				case TimeTrackType.DocumentPresence:
 				case TimeTrackType.DocumentAbsence:
+				case TimeTrackType.DocumentAbsenceReasonable:
 					var tmieTrackPart = CombinedTimeTrackParts.FirstOrDefault(x => x.TimeTrackPartType == TimeTrackType);
 					if (tmieTrackPart != null && tmieTrackPart.MinTimeTrackDocumentType != null)
 					{
