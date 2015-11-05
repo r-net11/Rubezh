@@ -20,19 +20,19 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         #region Fields And Properties
         private Status _Status;
         protected INetwrokController _NetworkController;
-        protected ParatemersCollection _Parameters;
+        protected ParatemersCollection _parameters;
         protected DeviceErrors _Errors;
 
         public Guid Id
         {
-            get { return (Guid)_Parameters[ParameterNamesMercury203.Id.ToString()].Value; }
+            get { return (Guid)_parameters[ParameterNamesMercury203.Id.ToString()].Value; }
             set 
             {
-                var id = (Guid)_Parameters[ParameterNamesMercury203.Id.ToString()].Value;
+                var id = (Guid)_parameters[ParameterNamesMercury203.Id.ToString()].Value;
 
                 if (id != value)
                 {
-                    _Parameters[ParameterNamesMercury203.Id.ToString()].Value = value;
+                    _parameters[ParameterNamesMercury203.Id.ToString()].Value = value;
                     OnPropertyChanged("Id");
                 }
             }
@@ -42,14 +42,14 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
 
         public virtual UInt32 Address
         {
-            get { return (UInt32)_Parameters[ParameterNamesMercury203.Address].Value; }
+            get { return (UInt32)_parameters[ParameterNamesMercury203.Address].Value; }
             set  
             {
-                var address = (UInt32)_Parameters[ParameterNamesMercury203.Address].Value;
+                var address = (UInt32)_parameters[ParameterNamesMercury203.Address].Value;
                 
                 if (address != value)
                 {
-                    _Parameters[ParameterNamesMercury203.Address].Value = value;
+                    _parameters[ParameterNamesMercury203.Address].Value = value;
                     OnPropertyChanged("Address");
                 }
             }
@@ -106,7 +106,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
 
         public ParatemersCollection Parameters
         {
-            get { return _Parameters; }
+            get { return _parameters; }
         }
 
         public DeviceErrors Errors
@@ -197,9 +197,9 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         /// </summary>
 		protected virtual void Initialization()
 		{
-			_Parameters = new ParatemersCollection();
+			_parameters = new ParatemersCollection();
 
-			_Parameters.Add(new Parameter(typeof(Guid))
+			_parameters.Add(new Parameter(typeof(Guid))
 			{
 				Name = ParameterNamesBase.Id,
 				Description = "Сетевой адрес устройства",
@@ -209,7 +209,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
 				Value = Guid.NewGuid()
 			});
 
-			_Parameters.Add(new Parameter(typeof(UInt32))
+			_parameters.Add(new Parameter(typeof(UInt32))
 			{
 				Name = ParameterNamesBase.Address,
 				Description = "Сетевой адрес устройтсва",

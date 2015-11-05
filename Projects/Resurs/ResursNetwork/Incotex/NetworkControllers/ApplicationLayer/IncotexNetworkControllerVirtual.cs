@@ -257,6 +257,21 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 			}
         }
 
+		public void SyncDateTime()
+		{
+			var groups = _devices.GroupBy(x => ((Mercury203Virtual)x).GroupAddress);
+
+			var dt = DateTime.Now;
+
+			foreach(var group in groups)
+			{
+				foreach(var device in group)
+				{
+					device.Rtc = dt;
+				}
+			}
+		}
+
         public void Start()
         {
             Status = Status.Running;

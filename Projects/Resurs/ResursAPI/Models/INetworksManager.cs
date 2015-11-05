@@ -47,6 +47,8 @@ namespace ResursAPI.Models
 		/// <remarks>broadcastAddress: в Incotex-протоколе это это групповой адрес устройств </remarks>
 		void SyncDateTime(Guid networkId, ValueType broadcastAddress);
 
+		void SyncDateTime(Guid networkId);
+
 		void SendCommand(Guid id, string commandName);
 
 		/// <summary>

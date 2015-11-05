@@ -23,7 +23,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
         #region Fields And Properties
 
         protected Guid _Id;
-        protected DevicesCollection _Devices;
+        protected DevicesCollection _devices;
         protected CancellationTokenSource _CancellationTokenSource;
         protected Task _NetworkPollingTask;
         protected Status _Status = Status.Stopped;
@@ -53,7 +53,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// </summary>
         public DevicesCollection Devices
         {
-            get { return _Devices; }
+            get { return _devices; }
         }
 
         /// <summary>
@@ -250,8 +250,8 @@ namespace ResursNetwork.OSI.ApplicationLayer
             _Id = Guid.NewGuid();
             _TotalAttempts = 1;
             _MessageReceived = new EventHandler(EventHandler_Connection_MessageReceived);
-            _Devices = new DevicesCollection(this);
-			_Devices.CollectionChanged += EventHandler_Devices_CollectionChanged;
+            _devices = new DevicesCollection(this);
+			_devices.CollectionChanged += EventHandler_Devices_CollectionChanged;
         }
 
         #endregion
@@ -390,6 +390,8 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// </summary>
 		/// <param name="broadcastAddress">Широковещательный адрес данной системы</param>
         public abstract void SyncDateTime(ValueType broadcastAddress);
+
+		public abstract void SyncDateTime();
 
 		/// <summary>
 		/// 
