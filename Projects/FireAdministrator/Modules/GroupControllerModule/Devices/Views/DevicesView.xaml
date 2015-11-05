@@ -116,8 +116,11 @@
 										<Controls:EditorPresenter.EditTemplate>
 											<ControlTemplate>
 												<StackPanel Orientation="Horizontal">
-													<ComboBox ItemsSource="{Binding AvailvableDrivers}" SelectedItem="{Binding Driver, UpdateSourceTrigger=PropertyChanged}"
-															  Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}}">
+													<ComboBox ItemsSource="{Binding AvailvableDrivers}"
+															  SelectedItem="{Binding Driver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+															  Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}}"
+															  SelectedIndex="{Binding SelectedAvailableDriverIndex}"
+															  Width="120" Height="19">
 														<ComboBox.ItemTemplate>
 															<DataTemplate>
 																<Controls:IconLabel Foreground="{DynamicResource ForegroundColorDark}" ImageSource="{Binding ImageSource}" Text="{Binding ShortName}" />
