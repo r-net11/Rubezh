@@ -38,6 +38,11 @@ namespace GKProcessor
 				return;
 			}
 
+			if (Device.MirrorParent != null)
+			{
+				
+			}
+
 			if (CreateMPTLogic())
 				return;
 

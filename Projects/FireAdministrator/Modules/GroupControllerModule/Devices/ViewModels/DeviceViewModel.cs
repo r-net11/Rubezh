@@ -400,7 +400,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (var zone in zonesSelectationViewModel.TargetZones)
 				{
-					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirrorFireZone);
+					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.FireZonesMirror);
 					GKDevice device = GKManager.AddChild(Device, null, driver, 0);
 					device.GKReflectionItem.ZoneUIDs.Add(zone.UID);
 					device.GKReflectionItem.Zones.Add(zone);
@@ -422,7 +422,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (var zone in guardZonesSelectationViewModel.TargetZones)
 				{
-					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirrorGuardZone);
+					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GuardZonesMirror);
 					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
 					device.GKReflectionItem.GuardZoneUIDs.Add(zone.UID);
 					device.GKReflectionItem.GuardZones.Add(zone);
@@ -444,7 +444,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (var direction in directionsSelectationViewModel.TargetDirections)
 				{
-					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirrorDirection);
+					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.DirectionsMirror);
 					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
 					device.GKReflectionItem.DiretionUIDs.Add(direction.UID);
 					device.GKReflectionItem.Diretions.Add(direction);
@@ -466,7 +466,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (var detectordevice in deviceSelectationViewMode.Devices)
 				{
-					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.DetectorDeviceMirror);
+					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.DetectorDevicesMirror);
 					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
 					device.GKReflectionItem.DeviceUIDs.Add(detectordevice.UID);
 					device.GKReflectionItem.Devices.Add(detectordevice);
@@ -488,7 +488,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (var performerdevice in deviceSelectationViewMode.Devices)
 				{
-					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirrorPerformersDevice);
+					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.ControlDevicesMirror);
 					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
 					device.GKReflectionItem.DeviceUIDs.Add(performerdevice.UID);
 					device.GKReflectionItem.Devices.Add(performerdevice);
@@ -510,7 +510,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (var mpt in mPTsSelectationViewModel.TargetMPTs)
 				{
-					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirrorFightFireZone);
+					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.FirefightingZonesMirror);
 					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
 					device.GKReflectionItem.MPTUIDs.Add(mpt.UID);
 					device.GKReflectionItem.MPTs.Add(mpt);

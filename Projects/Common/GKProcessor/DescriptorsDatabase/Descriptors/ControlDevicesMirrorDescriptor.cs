@@ -5,14 +5,16 @@ namespace GKProcessor
 	public class ControlDevicesMirrorDescriptor : BaseDescriptor
 	{
 		GKDevice Device { get; set; }
-		GKReflectionItem ReflectionItem { get; set; }
 
 		public ControlDevicesMirrorDescriptor(GKDevice device)
 			: base(device)
 		{
 			DescriptorType = DescriptorType.Device;
 			Device = device;
-			ReflectionItem = device.GKReflectionItem;
+			foreach (var dev in Device.GKReflectionItem.Devices)
+			{
+				Device.LinkToDescriptor(dev);
+			}
 		}
 
 		public override void Build()
@@ -28,44 +30,31 @@ namespace GKProcessor
 		public override void BuildFormula()
 		{
 			Formula = new FormulaBuilder();
-			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) ||
-				(DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
+			int count = 0;
+			foreach (var device in Device.GKReflectionItem.Devices)
 			{
-				Formula.Add(FormulaOperationType.END);
-				return;
+				Formula.AddGetWord(false, device);
+				count++;
+				if (count > 1)
+				{
+					Formula.Add(FormulaOperationType.OR);
+				}
+			}
+			count = 0;
+			foreach (var device in Device.GKReflectionItem.Devices)
+			{
+				Formula.AddGetWord(true, device);
+				count++;
+				if (count > 1)
+				{
+					Formula.Add(FormulaOperationType.OR);
+				}
 			}
 
-			var clauseGroup = new GKClauseGroup();
-			var clause = new GKClause();
-			clauseGroup.Clauses.Add(clause);
-			clause.Devices = ReflectionItem.Devices;
-			clause.ClauseOperationType = ClauseOperationType.AnyDevice;
-			clause.StateType = GKStateBit.Ignore;
-
-			Formula.AddClauseFormula(clauseGroup);
-			Formula.AddPutBit(GKStateBit.Ignore, Device);
-
-			clause.StateType = GKStateBit.Stop_InManual;
-			Formula.AddClauseFormula(clauseGroup);
-			Formula.AddPutBit(GKStateBit.Stop_InManual, Device);
-
-			clause.StateType = GKStateBit.TurningOn;
-			Formula.AddClauseFormula(clauseGroup);
-			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
-
-			clause.StateType = GKStateBit.On;
-			Formula.AddClauseFormula(clauseGroup);
-			Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Device);
-
-			clause.StateType = GKStateBit.TurningOff;
-			Formula.AddClauseFormula(clauseGroup);
-			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
-
-			clause.StateType = GKStateBit.Off;
-			Formula.AddClauseFormula(clauseGroup);
-			Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Device);
-			
-			Formula.Add(FormulaOperationType.END);
+			Formula.Add(FormulaOperationType.CONST, 0, 0x400);
+			Formula.Add(FormulaOperationType.OR);
+			Formula.AddPutWord(true, Device);
+			Formula.AddPutWord(false, Device);
 		}
 	}
 }

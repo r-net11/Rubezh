@@ -42,7 +42,7 @@ namespace GKProcessor
 
 			foreach (var device in Devices)
 			{
-				if (device.DriverType == GKDriverType.DetectorDevicesMirror)
+				if (device.DriverType == GKDriverType.DetectorDevicesMirror || device.DriverType == GKDriverType.ControlDevicesMirror)
 				{
 					Descriptors.Add(new DetectorDevicesMirrorDescriptor(device));
 				}

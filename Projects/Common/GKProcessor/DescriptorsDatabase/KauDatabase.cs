@@ -35,7 +35,7 @@ namespace GKProcessor
 			Descriptors = new List<BaseDescriptor>();
 			foreach (var device in Devices)
 			{
-				if (device.DriverType == GKDriverType.DetectorDevicesMirror)
+				if (device.DriverType == GKDriverType.DetectorDevicesMirror || device.DriverType == GKDriverType.ControlDevicesMirror)
 					Descriptors.Add(new DetectorDevicesMirrorDescriptor(device));
 				else
 					Descriptors.Add(new DeviceDescriptor(device));

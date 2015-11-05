@@ -14,17 +14,17 @@ namespace GKModule.ViewModels
 		{
 			switch (device.Driver.DriverType)
 			{
-				case GKDriverType.RSR2_GKMirrorFireZone:
+				case GKDriverType.FireZonesMirror:
 					HasFireZones = true;
 					IsFireZones = true;
 					break;
 
-				case GKDriverType.RSR2_GKMirrorGuardZone:
+				case GKDriverType.GuardZonesMirror:
 					HasGuardZones = true;
 					IsGuardZones = true;
 					break;
 
-				case GKDriverType.RSR2_GKMirrorPerformersDevice:
+				case GKDriverType.ControlDevicesMirror:
 					HasMPT = true;
 					HasDevices = true;
 					HasDirections = true;
@@ -33,18 +33,18 @@ namespace GKModule.ViewModels
 					IsDirections = true;
 					break;
 
-				case GKDriverType.RSR2_GKMirrorFightFireZone:
+				case GKDriverType.FirefightingZonesMirror:
 					HasDirections = true;
 					HasFireZones = true;
 					IsDirections = true;
 					break;
 
-				case GKDriverType.RSR2_GKMirrorDirection:
+				case GKDriverType.DirectionsMirror:
 					HasDirections = true;
 					IsDirections = true;
 					break;
 
-				case GKDriverType.DetectorDeviceMirror:
+				case GKDriverType.DetectorDevicesMirror:
 					HasDevices = true;
 					IsDevices = true;
 					break;
@@ -60,12 +60,12 @@ namespace GKModule.ViewModels
 			DirectionsSelectationViewModel = new DirectionsSelectationViewModel(directions);
 			var delays = GKManager.Delays.Where(x => Device.GKReflectionItem.DelayUIDs.Contains(x.UID)).ToList();
 			DelaysSelectationViewModel = new DelaysSelectationViewModel(delays);
-			if (device.Driver.DriverType == GKDriverType.DetectorDeviceMirror)
+			if (device.Driver.DriverType == GKDriverType.DetectorDevicesMirror)
 			{
 				var devices = GKManager.Devices.Where(x => Device.GKReflectionItem.DeviceUIDs.Contains(x.UID)).ToList();
 				DevicesSelectationViewModel = new DevicesSelectationViewModel(devices, GKManager.Devices.Where(x=> x.Driver.HasZone).ToList());
 			}
-			if (device.Driver.DriverType == GKDriverType.RSR2_GKMirrorPerformersDevice)
+			if (device.Driver.DriverType == GKDriverType.ControlDevicesMirror)
 			{
 				var devices = GKManager.Devices.Where(x => Device.GKReflectionItem.DeviceUIDs.Contains(x.UID)).ToList();
 				DevicesSelectationViewModel = new DevicesSelectationViewModel(devices, GKManager.Devices.Where(x => x.Driver.IsControlDevice).ToList());

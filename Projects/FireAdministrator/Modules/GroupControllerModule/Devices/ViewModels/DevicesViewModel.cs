@@ -74,7 +74,7 @@ namespace GKModule.ViewModels
 					}
 				}
 
-				var gkDevices = AllDevices.Where(x => x.Driver.DriverType == GKDriverType.GK || x.Driver.DriverType == GKDriverType.RSR2_GKMirror);
+				var gkDevices = AllDevices.Where(x => x.Driver.DriverType == GKDriverType.GK || x.Driver.DriverType == GKDriverType.GKMirror);
 				foreach (var gkDevice in gkDevices)
 				{
 					var gkIndicatorsGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа индикаторов", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicatorsGroup) });
@@ -192,7 +192,7 @@ namespace GKModule.ViewModels
 		bool CanCutCopy()
 		{
 			return !(SelectedDevice == null || SelectedDevice.Parent == null ||
-				SelectedDevice.Driver.IsAutoCreate || SelectedDevice.Parent.Driver.IsGroupDevice || SelectedDevice.Parent.Driver.DriverType == GKDriverType.RSR2_GKMirror);
+				SelectedDevice.Driver.IsAutoCreate || SelectedDevice.Parent.Driver.IsGroupDevice || SelectedDevice.Parent.Driver.DriverType == GKDriverType.GKMirror);
 		}
 
 		private bool isCut;
