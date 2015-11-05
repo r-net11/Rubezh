@@ -183,6 +183,10 @@ namespace ResursNetwork.Incotex.Models
 
             switch ((Mercury203CmdCode)request.CmdCode)
             {
+				case Mercury203CmdCode.WriteGroupAddress:
+					{
+						GetAnswerReadGroupAddress(networkRequest); break;
+					}
 				case Mercury203CmdCode.WriteDateTime:
 					{
 						GetAnswerWriteDateTime(networkRequest); break;
@@ -305,6 +309,11 @@ namespace ResursNetwork.Incotex.Models
  
 			switch(parameterName)
 			{
+				case ParameterNamesMercury203.GADDR:
+					{
+						asyncResult = WriteGroupAddress(addr: (uint)value, isExternalCall: true);
+						break;
+					}
 				case ParameterNamesMercury203.DateTime:
 					{
 						asyncResult = WriteDateTime(value: (DateTime)value, isExternalCall: true);
@@ -391,7 +400,7 @@ namespace ResursNetwork.Incotex.Models
         #region Network API
 
         /// <summary>
-        /// Установка нового сетевого адреса счетчика (CMD=00)
+        /// Установка нового сетевого адреса счетчика (CMD=00h)
         /// </summary>
         /// <param name="addr">Текущий сетевой адрес счётчика</param>
         /// <param name="newaddr">Новый сетевой адрес счётчика</param>
@@ -428,7 +437,7 @@ namespace ResursNetwork.Incotex.Models
         }
 
         /// <summary>
-		/// Разбирает ответ от удалённого устройтва по запросу SetNewAddress (CMD=00)
+		/// Разбирает ответ от удалённого устройтва по запросу SetNewAddress (CMD=00h)
         /// </summary>
         /// <param name="networkRequest"></param>
         private void GetAnswerWriteNetwokAdderss(NetworkRequest networkRequest)
@@ -501,6 +510,108 @@ namespace ResursNetwork.Incotex.Models
                 _activeRequests.Remove(command);
             }
         }
+
+		/// <summary>
+		/// Установка нового группового адреса счётчика (CMD=01h)
+		/// </summary>
+		/// <param name="addr"></param>
+		/// <param name="isExternalCall"></param>
+		/// <returns></returns>
+		public IAsyncRequestResult WriteGroupAddress(uint addr, bool isExternalCall = true)
+		{
+			var request = new DataMessage(new BigEndianUInt32ValueConverter().ToArray(addr))
+			{
+				Address = this.Address,
+				CmdCode = Convert.ToByte(Mercury203CmdCode.WriteGroupAddress)
+			};
+
+			var transaction = new Transaction(this, TransactionType.UnicastMode, request)
+			{
+				Sender = this
+			};
+
+			var networkRequest = new NetworkRequest(transaction);
+
+			if (_NetworkController == null)
+			{
+				transaction.Start();
+				transaction.Abort(new TransactionError
+				{
+					ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+					Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+				});
+				networkRequest.AsyncRequestResult.SetCompleted();
+			}
+			else
+			{
+				_activeRequests.Add(networkRequest);
+				_NetworkController.Write(networkRequest, isExternalCall);
+			}
+			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
+		}
+
+		/// <summary>
+		/// Разбирает ответ по запросу WriteNewGroupAddress (CMD=01h)
+		/// </summary>
+		/// <param name="networkRequest"></param>
+		private void GetAnswerWriteNewGroupAddress(NetworkRequest networkRequest)
+		{
+			// Разбираем ответ
+			if (networkRequest.Status == NetworkRequestStatus.Completed)
+			{
+				var command = _activeRequests.FirstOrDefault(
+					p => p.Id == networkRequest.Id);
+
+				if (command == null)
+				{
+					throw new Exception("Не найдена команда с указанной транзакцией");
+				}
+
+				if (networkRequest.CurrentTransaction.Answer.ToArray().Length != 7)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Неверная длина ответного сообщения";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_activeRequests.Remove(command);
+				}
+
+				var request = (DataMessage)networkRequest.Request.Request;
+				var answer = (DataMessage)networkRequest.CurrentTransaction.Answer;
+
+				// Проверяем новый адрес в запросе и в ответе
+				if (request.Address != answer.Address)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Адрес команды в ответе не соответствует адресу в запросе";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_activeRequests.Remove(command);
+				}
+
+				if (answer.CmdCode != request.CmdCode)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Код команды в ответе не соответствует коду в запросе";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_activeRequests.Remove(command);
+				}
+
+				//command.Status = Result.OK;
+				_activeRequests.Remove(command);
+			}
+			else
+			{
+				// Транзакция выполнена с ошибкам
+				var command = _activeRequests.FirstOrDefault(
+					p => p.Id == networkRequest.Id);
+				//command.Status = Result.Error;
+				//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+				//TODO:
+				_activeRequests.Remove(command);
+			}
+		}
 
 		/// <summary>
 		/// Установка времени и даты (CMD=02h)

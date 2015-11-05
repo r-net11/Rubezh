@@ -17,7 +17,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// <summary>
         /// Установка нового группового адреса счетчика 
         /// </summary>
-        SetGroupNetworkAddress = 1,
+        WriteGroupAddress = 1,
 		/// <summary>
 		/// Установка внутренних часов и календаря счетчика
 		/// </summary>
