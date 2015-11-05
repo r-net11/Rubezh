@@ -54,6 +54,7 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Administrator\FirmwareUpdateHelper.cs" />
     <Compile Include="Administrator\GkDescriptorsWriter.cs" />
     <Compile Include="Administrator\DeviceBytesHelper.cs" />
     <Compile Include="Administrator\GkDescriptorsReader.cs" />
