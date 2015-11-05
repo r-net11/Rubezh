@@ -43,7 +43,8 @@
 
 	Устанавливает дату и время у всех устройтсв в указанной сети
 	(Широковещательная команда)
-	void SyncDateTime(Guid netwokrId)
+	broadcastAddress - широковещательный адрес: в Incotex-протоколе это это групповой адрес устройтсв 
+	void SyncDateTime(Guid netwokrId, ValueType broadcastAddress)
 
 	Посыылает команду на устройство/контроллер сети. Имя команды лежит в ResursAPI\Models\CommandNames
 	SendCommand(Guid deviceId, string commandName)

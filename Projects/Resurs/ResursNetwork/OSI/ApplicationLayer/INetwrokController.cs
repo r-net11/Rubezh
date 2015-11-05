@@ -75,7 +75,8 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// Отсылает в сеть широковещательную команду 
         /// синхронизации времени
         /// </summary>
-        void SyncDateTime();
+		/// <param name="broadcastAddress">Широковещательный адрес данной системы</param>
+		void SyncDateTime(ValueType broadcastAddress);
 
 		/// <summary>
 		/// Выполняет команду 

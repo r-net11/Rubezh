@@ -386,17 +386,17 @@ namespace ResursNetwork.OSI.ApplicationLayer
         public abstract IAsyncRequestResult Write(NetworkRequest request, bool isExternalCall);
 
         /// <summary>
-        /// Синхронизирует время в сети
+        /// Синхронизирует время в сети во всех устройтсвах
         /// </summary>
-        public abstract void SyncDateTime();
+		/// <param name="broadcastAddress">Широковещательный адрес данной системы</param>
+        public abstract void SyncDateTime(ValueType broadcastAddress);
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="id"></param>
 		/// <param name="commandName"></param>
-		public virtual void ExecuteCommand(string commandName)
-		{}
+		public virtual void ExecuteCommand(string commandName) {}
 
 		public abstract OperationResult ReadParameter(string parameterName);
 
