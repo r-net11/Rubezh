@@ -14,7 +14,7 @@ namespace AutomationModule.ViewModels
 		{
 			JournalArguments = stepViewModel.Step.JournalArguments;
 			MessageArgument = new ArgumentViewModel(JournalArguments.MessageArgument, stepViewModel.Update, null);
-			ExplicitTypes = new ObservableCollection<ExplicitType>(AutomationHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
+			ExplicitTypes = new ObservableCollection<ExplicitType>(AutomationHelper.GetEnumList<ExplicitType>());
 			EnumTypes = AutomationHelper.GetEnumObs<EnumType>(); 
 		}
 
