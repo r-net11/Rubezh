@@ -197,16 +197,5 @@ namespace LayoutModule.ViewModels
 			if (dragging)
 				Manager.StartDragging(layoutPartViewModel);
 		}
-		public void KeyPressed(KeyEventArgs e)
-		{
-			if (ActiveLayoutPart != null)
-				switch (e.Key)
-				{
-					case Key.Delete:
-						LayoutParts.Remove(ActiveLayoutPart);
-						e.Handled = true;
-						break;
-				}
-		}
 	}
 }
