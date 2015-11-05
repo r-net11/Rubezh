@@ -26,11 +26,11 @@ namespace ResursNetwork.Incotex.Models
     public class Mercury203: DeviceBase
     {
         #region Fields And Properties
-
-        /// <summary>
+        
+		/// <summary>
         /// Хранит все активные операции по данному устройтву
         /// </summary>
-        private List<NetworkRequest> _ActiveRequests = new List<NetworkRequest>();
+        List<NetworkRequest> _activeRequests = new List<NetworkRequest>();
 
         public override DeviceModel DeviceModel
         {
@@ -54,12 +54,29 @@ namespace ResursNetwork.Incotex.Models
 			}
 		}
 
+		public uint GroupAddress
+		{
+			get 
+			{ 
+				return Convert.ToUInt32(_parameters[ParameterNamesMercury203.GADDR].Value); 
+			}
+			set
+			{
+				if (value == 0)
+				{
+					throw new ArgumentOutOfRangeException(
+						"Групповой адрес должен быть больше 0");
+				}
+				_parameters[ParameterNamesMercury203.GADDR].Value = value;
+			}
+		}
+
 		public override System.DateTime Rtc
 		{
 			get
 			{
 				return IncotexDateTime.FromIncotexDateTime(
-					(IncotexDateTime)_Parameters[ParameterNamesMercury203.DateTime].Value);
+					(IncotexDateTime)_parameters[ParameterNamesMercury203.DateTime].Value);
 			}
 			set
 			{
@@ -87,7 +104,7 @@ namespace ResursNetwork.Incotex.Models
         {
 			base.Initialization();
 
-            _Parameters.Add(new Parameter(typeof(UInt32))
+            _parameters.Add(new Parameter(typeof(UInt32))
             {
                 Name = ParameterNamesMercury203.GADDR,
                 Description = "Групповой адрес счётчика",
@@ -97,7 +114,7 @@ namespace ResursNetwork.Incotex.Models
                 Value = (UInt32)0
             });
 
-            _Parameters.Add(new Parameter(typeof(IncotexDateTime)) 
+            _parameters.Add(new Parameter(typeof(IncotexDateTime)) 
             {
                 Name = ParameterNamesMercury203.DateTime, 
                 Description = "Текущее значение часов счётчика",
@@ -107,7 +124,7 @@ namespace ResursNetwork.Incotex.Models
                 Value = IncotexDateTime.FromDateTime(DateTime.Now)
             });
 
-            _Parameters.Add(new Parameter(typeof(float)) 
+            _parameters.Add(new Parameter(typeof(float)) 
             {
                 Name = ParameterNamesMercury203.PowerLimit,
                 Description = "Значение лимита мощности",
@@ -117,7 +134,7 @@ namespace ResursNetwork.Incotex.Models
                 Value = (float)0
             });
 
-			_Parameters.Add(new Parameter(typeof(float))
+			_parameters.Add(new Parameter(typeof(float))
 			{
 				Name = ParameterNamesMercury203.CounterTarif1,
 				Description = "Счётчик тарифа 1",
@@ -127,7 +144,7 @@ namespace ResursNetwork.Incotex.Models
 				Value = (float)0
 			});
 
-			_Parameters.Add(new Parameter(typeof(float))
+			_parameters.Add(new Parameter(typeof(float))
 			{
 				Name = ParameterNamesMercury203.CounterTarif2,
 				Description = "Счётчик тарифа 2",
@@ -137,7 +154,7 @@ namespace ResursNetwork.Incotex.Models
 				Value = (float)0
 			});
 
-			_Parameters.Add(new Parameter(typeof(float))
+			_parameters.Add(new Parameter(typeof(float))
 			{
 				Name = ParameterNamesMercury203.CounterTarif3,
 				Description = "Счётчик тарифа 3",
@@ -147,7 +164,7 @@ namespace ResursNetwork.Incotex.Models
 				Value = (float)0
 			});
 
-			_Parameters.Add(new Parameter(typeof(float))
+			_parameters.Add(new Parameter(typeof(float))
 			{
 				Name = ParameterNamesMercury203.CounterTarif4,
 				Description = "Счётчик тарифа 4",
@@ -166,6 +183,10 @@ namespace ResursNetwork.Incotex.Models
 
             switch ((Mercury203CmdCode)request.CmdCode)
             {
+				case Mercury203CmdCode.WriteGroupAddress:
+					{
+						GetAnswerReadGroupAddress(networkRequest); break;
+					}
 				case Mercury203CmdCode.WriteDateTime:
 					{
 						GetAnswerWriteDateTime(networkRequest); break;
@@ -288,6 +309,11 @@ namespace ResursNetwork.Incotex.Models
  
 			switch(parameterName)
 			{
+				case ParameterNamesMercury203.GADDR:
+					{
+						asyncResult = WriteGroupAddress(addr: (uint)value, isExternalCall: true);
+						break;
+					}
 				case ParameterNamesMercury203.DateTime:
 					{
 						asyncResult = WriteDateTime(value: (DateTime)value, isExternalCall: true);
@@ -321,7 +347,7 @@ namespace ResursNetwork.Incotex.Models
             object sender, NetworkRequestCompletedArgs e)
         {
             // Ищем запрос в буфере
-            var request = _ActiveRequests.FirstOrDefault(r => r.Id == e.NetworkRequest.Id);
+            var request = _activeRequests.FirstOrDefault(r => r.Id == e.NetworkRequest.Id);
 
             if (request == null)
             {
@@ -374,7 +400,7 @@ namespace ResursNetwork.Incotex.Models
         #region Network API
 
         /// <summary>
-        /// Установка нового сетевого адреса счетчика (CMD=00)
+        /// Установка нового сетевого адреса счетчика (CMD=00h)
         /// </summary>
         /// <param name="addr">Текущий сетевой адрес счётчика</param>
         /// <param name="newaddr">Новый сетевой адрес счётчика</param>
@@ -404,14 +430,14 @@ namespace ResursNetwork.Incotex.Models
             }
             else
             {
-                _ActiveRequests.Add(networkRequest);
+                _activeRequests.Add(networkRequest);
                 _NetworkController.Write(networkRequest, isExternalCall);
             }
             return (IAsyncRequestResult)networkRequest.AsyncRequestResult; 
         }
 
         /// <summary>
-		/// Разбирает ответ от удалённого устройтва по запросу SetNewAddress (CMD=00)
+		/// Разбирает ответ от удалённого устройтва по запросу SetNewAddress (CMD=00h)
         /// </summary>
         /// <param name="networkRequest"></param>
         private void GetAnswerWriteNetwokAdderss(NetworkRequest networkRequest)
@@ -423,7 +449,7 @@ namespace ResursNetwork.Incotex.Models
             {
                 var requestArray = networkRequest.Request.Request.ToArray();
                 var answerArray = networkRequest.CurrentTransaction.Answer.ToArray();
-                var command = _ActiveRequests.FirstOrDefault(
+                var command = _activeRequests.FirstOrDefault(
                     p => p.Id == networkRequest.Id);
 
                 if (command == null)
@@ -437,7 +463,7 @@ namespace ResursNetwork.Incotex.Models
                     //command.ErrorDescription = "Неверная длина ответного сообщения";
                     //OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
                     //TODO: Пишем в лог
-                    _ActiveRequests.Remove(command);
+                    _activeRequests.Remove(command);
                 }
 
                 if (answerArray[4] != request.CmdCode)
@@ -446,7 +472,7 @@ namespace ResursNetwork.Incotex.Models
                     //command.ErrorDescription = "Код команды в ответе не соответствует коду в запросе";
                     //OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
                     //TODO: Пишем в лог
-                    _ActiveRequests.Remove(command);
+                    _activeRequests.Remove(command);
                 }
 
                 // Проверяем новый адрес в запросе и в ответе
@@ -460,7 +486,7 @@ namespace ResursNetwork.Incotex.Models
                     //    "Новый адрес счётчика в ответе не соответствует устанавливаемому";
                     //OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
                     //TODO: Пишем в лог
-                    _ActiveRequests.Remove(command);
+                    _activeRequests.Remove(command);
                 }
                 
                 //Всё в порядке выполняем изменение сетевого адреса
@@ -470,35 +496,35 @@ namespace ResursNetwork.Incotex.Models
 
                 Address = adr;
                 //command.Status = Result.OK;
-                _ActiveRequests.Remove(command);
+                _activeRequests.Remove(command);
             }
             else
             {
                 // Транзакция выполнена с ошибкам
-                var command = _ActiveRequests.FirstOrDefault(
+                var command = _activeRequests.FirstOrDefault(
                     p => p.Id == networkRequest.Id);
 
                 //command.Status = Result.Error;
                 //OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
                 //TODO: Пишем в лог
-                _ActiveRequests.Remove(command);
+                _activeRequests.Remove(command);
             }
         }
 
 		/// <summary>
-		/// Установка времени и даты (CMD=02h)
+		/// Установка нового группового адреса счётчика (CMD=01h)
 		/// </summary>
-		/// <param name="value"></param>
+		/// <param name="addr"></param>
 		/// <param name="isExternalCall"></param>
 		/// <returns></returns>
-		public IAsyncRequestResult WriteDateTime(DateTime value, bool isExternalCall = true)
+		public IAsyncRequestResult WriteGroupAddress(uint addr, bool isExternalCall = true)
 		{
-			var request = new DataMessage(
-				new IncotexDataTimeTypeConverter().ToArray(IncotexDateTime.FromDateTime(value)))
+			var request = new DataMessage(new BigEndianUInt32ValueConverter().ToArray(addr))
 			{
-				Address = Address,
-				CmdCode = Convert.ToByte(Mercury203CmdCode.WriteDateTime)
+				Address = this.Address,
+				CmdCode = Convert.ToByte(Mercury203CmdCode.WriteGroupAddress)
 			};
+
 			var transaction = new Transaction(this, TransactionType.UnicastMode, request)
 			{
 				Sender = this
@@ -518,7 +544,110 @@ namespace ResursNetwork.Incotex.Models
 			}
 			else
 			{
-				_ActiveRequests.Add(networkRequest);
+				_activeRequests.Add(networkRequest);
+				_NetworkController.Write(networkRequest, isExternalCall);
+			}
+			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
+		}
+
+		/// <summary>
+		/// Разбирает ответ по запросу WriteNewGroupAddress (CMD=01h)
+		/// </summary>
+		/// <param name="networkRequest"></param>
+		private void GetAnswerWriteNewGroupAddress(NetworkRequest networkRequest)
+		{
+			// Разбираем ответ
+			if (networkRequest.Status == NetworkRequestStatus.Completed)
+			{
+				var command = _activeRequests.FirstOrDefault(
+					p => p.Id == networkRequest.Id);
+
+				if (command == null)
+				{
+					throw new Exception("Не найдена команда с указанной транзакцией");
+				}
+
+				if (networkRequest.CurrentTransaction.Answer.ToArray().Length != 7)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Неверная длина ответного сообщения";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_activeRequests.Remove(command);
+				}
+
+				var request = (DataMessage)networkRequest.Request.Request;
+				var answer = (DataMessage)networkRequest.CurrentTransaction.Answer;
+
+				// Проверяем новый адрес в запросе и в ответе
+				if (request.Address != answer.Address)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Адрес команды в ответе не соответствует адресу в запросе";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_activeRequests.Remove(command);
+				}
+
+				if (answer.CmdCode != request.CmdCode)
+				{
+					//command.Status = Result.Error;
+					//command.ErrorDescription = "Код команды в ответе не соответствует коду в запросе";
+					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+					//TODO:
+					_activeRequests.Remove(command);
+				}
+
+				//command.Status = Result.OK;
+				_activeRequests.Remove(command);
+			}
+			else
+			{
+				// Транзакция выполнена с ошибкам
+				var command = _activeRequests.FirstOrDefault(
+					p => p.Id == networkRequest.Id);
+				//command.Status = Result.Error;
+				//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
+				//TODO:
+				_activeRequests.Remove(command);
+			}
+		}
+
+		/// <summary>
+		/// Установка времени и даты (CMD=02h)
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="isExternalCall"></param>
+		/// <returns></returns>
+		public IAsyncRequestResult WriteDateTime(DateTime value, bool isExternalCall = true)
+		{
+			var request = new DataMessage(
+				new IncotexDataTimeTypeConverter().ToArray(IncotexDateTime.FromDateTime(value)))
+			{
+				Address = Address,
+				CmdCode = Convert.ToByte(Mercury203CmdCode.WriteDateTime)
+			};
+
+			var transaction = new Transaction(this, TransactionType.UnicastMode, request)
+			{
+				Sender = this
+			};
+
+			var networkRequest = new NetworkRequest(transaction);
+
+			if (_NetworkController == null)
+			{
+				transaction.Start();
+				transaction.Abort(new TransactionError
+				{
+					ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+					Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+				});
+				networkRequest.AsyncRequestResult.SetCompleted();
+			}
+			else
+			{
+				_activeRequests.Add(networkRequest);
 				_NetworkController.Write(networkRequest, isExternalCall);
 			}
 			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
@@ -533,7 +662,7 @@ namespace ResursNetwork.Incotex.Models
 			// Разбираем ответ
 			if (networkRequest.Status == NetworkRequestStatus.Completed)
 			{
-				var command = _ActiveRequests.FirstOrDefault(
+				var command = _activeRequests.FirstOrDefault(
 					p => p.Id == networkRequest.Id);
 
 				if (command == null)
@@ -547,7 +676,7 @@ namespace ResursNetwork.Incotex.Models
 					//command.ErrorDescription = "Неверная длина ответного сообщения";
 					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
 					//TODO:
-					_ActiveRequests.Remove(command);
+					_activeRequests.Remove(command);
 				}
 
 				var request = (DataMessage)networkRequest.Request.Request;
@@ -560,7 +689,7 @@ namespace ResursNetwork.Incotex.Models
 					//command.ErrorDescription = "Адрес команды в ответе не соответствует адресу в запросе";
 					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
 					//TODO:
-					_ActiveRequests.Remove(command);
+					_activeRequests.Remove(command);
 				}
 
 				if (answer.CmdCode != request.CmdCode)
@@ -569,22 +698,70 @@ namespace ResursNetwork.Incotex.Models
 					//command.ErrorDescription = "Код команды в ответе не соответствует коду в запросе";
 					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
 					//TODO:
-					_ActiveRequests.Remove(command);
+					_activeRequests.Remove(command);
 				}
 
 				//command.Status = Result.OK;
-				_ActiveRequests.Remove(command);
+				_activeRequests.Remove(command);
 			}
 			else
 			{
 				// Транзакция выполнена с ошибкам
-				var command = _ActiveRequests.FirstOrDefault(
+				var command = _activeRequests.FirstOrDefault(
 					p => p.Id == networkRequest.Id);
 				//command.Status = Result.Error;
 				//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
 				//TODO:
-				_ActiveRequests.Remove(command);
+				_activeRequests.Remove(command);
 			}
+		}
+
+		/// <summary>
+		/// Широковешательная команда записи времени и даты во все устройтсва
+		/// сети с указанным групповым адресом
+		/// </summary>
+		/// <param name="dateTime"></param>
+		/// <param name="groupAddress">Групповой адрес устройтсв</param>
+		/// <param name="networkController"></param>
+		/// <param name="isExternalCall"></param>
+		/// <returns></returns>
+		/// <remarks>Ответ на данный тип запросов не приходит, 
+		/// только создаётся временная выдержка</remarks>
+		public static IAsyncRequestResult WriteDateTimeInGroupDevices(
+			DateTime dateTime, 
+			UInt32 groupAddress, 
+			INetwrokController networkController, 
+			bool isExternalCall = true)
+		{
+			var request = new DataMessage(
+				new IncotexDataTimeTypeConverter().ToArray(IncotexDateTime.FromDateTime(dateTime)))
+			{
+				Address = groupAddress,
+				CmdCode = Convert.ToByte(Mercury203CmdCode.WriteDateTime)
+			};
+
+			var transaction = new Transaction(null, TransactionType.BroadcastMode, request)
+			{
+				Sender = null
+			};
+
+			var networkRequest = new NetworkRequest(transaction);
+
+			if (networkController == null)
+			{
+				transaction.Start();
+				transaction.Abort(new TransactionError
+				{
+					ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+					Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+				});
+				networkRequest.AsyncRequestResult.SetCompleted();
+			}
+			else
+			{
+				networkController.Write(networkRequest, isExternalCall);
+			}
+			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
 		}
 
 		/// <summary>
@@ -621,7 +798,7 @@ namespace ResursNetwork.Incotex.Models
 			}
 			else
 			{
-				_ActiveRequests.Add(networkRequest);
+				_activeRequests.Add(networkRequest);
 				_NetworkController.Write(networkRequest, isExternalCall);
 			}
 			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
@@ -636,7 +813,7 @@ namespace ResursNetwork.Incotex.Models
 			// Разбираем ответ
 			if (networkRequest.Status == NetworkRequestStatus.Completed)
 			{
-				var command = _ActiveRequests.FirstOrDefault(
+				var command = _activeRequests.FirstOrDefault(
 					p => p.Id == networkRequest.Id);
 
 				if (command == null)
@@ -650,7 +827,7 @@ namespace ResursNetwork.Incotex.Models
 					//command.ErrorDescription = "Неверная длина ответного сообщения";
 					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
 					//TODO:
-					_ActiveRequests.Remove(command);
+					_activeRequests.Remove(command);
 				}
 
 				var request = (DataMessage)networkRequest.Request.Request;
@@ -663,7 +840,7 @@ namespace ResursNetwork.Incotex.Models
 					//command.ErrorDescription = "Адрес команды в ответе не соответствует адресу в запросе";
 					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
 					//TODO:
-					_ActiveRequests.Remove(command);
+					_activeRequests.Remove(command);
 				}
 
 				if (answer.CmdCode != request.CmdCode)
@@ -672,21 +849,21 @@ namespace ResursNetwork.Incotex.Models
 					//command.ErrorDescription = "Код команды в ответе не соответствует коду в запросе";
 					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
 					//TODO:
-					_ActiveRequests.Remove(command);
+					_activeRequests.Remove(command);
 				}
 
 				//command.Status = Result.OK;
-				_ActiveRequests.Remove(command);
+				_activeRequests.Remove(command);
 			}
 			else
 			{
 				// Транзакция выполнена с ошибкам
-				var command = _ActiveRequests.FirstOrDefault(
+				var command = _activeRequests.FirstOrDefault(
 					p => p.Id == networkRequest.Id);
 				//command.Status = Result.Error;
 				//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
 				//TODO:
-				_ActiveRequests.Remove(command);
+				_activeRequests.Remove(command);
 			}
 		}
 
@@ -721,7 +898,7 @@ namespace ResursNetwork.Incotex.Models
             }
             else
             {
-                _ActiveRequests.Add(networkRequest);
+                _activeRequests.Add(networkRequest);
                 _NetworkController.Write(networkRequest, isExternalCall);
             }
             return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
@@ -736,7 +913,7 @@ namespace ResursNetwork.Incotex.Models
             // Разбираем ответ
             if (networkRequest.Status == NetworkRequestStatus.Completed)
             {
-                var command = _ActiveRequests.FirstOrDefault(
+                var command = _activeRequests.FirstOrDefault(
                     p => p.Id == networkRequest.Id);
 
                 if (command == null)
@@ -750,7 +927,7 @@ namespace ResursNetwork.Incotex.Models
                     //command.ErrorDescription = "Неверная длина ответного сообщения";
                     //OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
                     //TODO:
-                    _ActiveRequests.Remove(command);
+                    _activeRequests.Remove(command);
                 }
 
                 var request = (DataMessage)networkRequest.Request.Request;
@@ -763,7 +940,7 @@ namespace ResursNetwork.Incotex.Models
                     //command.ErrorDescription = "Адрес команды в ответе не соответствует адресу в запросе";
                     //OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
                     //TODO:
-                    _ActiveRequests.Remove(command);
+                    _activeRequests.Remove(command);
                 }
 
                 if (answer.CmdCode != request.CmdCode)
@@ -772,12 +949,12 @@ namespace ResursNetwork.Incotex.Models
                     //command.ErrorDescription = "Код команды в ответе не соответствует коду в запросе";
                     //OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
                     //TODO:
-                    _ActiveRequests.Remove(command);
+                    _activeRequests.Remove(command);
                 }
 
                 // Получаем параметр
                 // Присваиваем новое значение параметру
-                var parameter = _Parameters[ParameterNamesMercury203.GADDR];
+                var parameter = _parameters[ParameterNamesMercury203.GADDR];
                 parameter.Value = parameter.ValueConverter.FromArray(
                     new byte[] 
                     {
@@ -788,17 +965,17 @@ namespace ResursNetwork.Incotex.Models
                     });
 
                 //command.Status = Result.OK;
-                _ActiveRequests.Remove(command);
+                _activeRequests.Remove(command);
             }
             else
             {
                 // Транзакция выполнена с ошибкам
-                var command = _ActiveRequests.FirstOrDefault(
+                var command = _activeRequests.FirstOrDefault(
                     p => p.Id == networkRequest.Id);
                 //command.Status = Result.Error;
                 //OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
                 //TODO:
-                _ActiveRequests.Remove(command);
+                _activeRequests.Remove(command);
             }
         }
 
@@ -833,7 +1010,7 @@ namespace ResursNetwork.Incotex.Models
             }
             else
             {
-                _ActiveRequests.Add(networkRequest);
+                _activeRequests.Add(networkRequest);
                 _NetworkController.Write(networkRequest, isExternalCall);
             }
             return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
@@ -848,7 +1025,7 @@ namespace ResursNetwork.Incotex.Models
 			// Разбираем ответ
 			if (networkRequest.Status == NetworkRequestStatus.Completed)
 			{
-				var command = _ActiveRequests.FirstOrDefault(
+				var command = _activeRequests.FirstOrDefault(
 					p => p.Id == networkRequest.Id);
 
 				if (command == null)
@@ -862,7 +1039,7 @@ namespace ResursNetwork.Incotex.Models
 					//command.ErrorDescription = "Неверная длина ответного сообщения";
 					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
 					//TODO:
-					_ActiveRequests.Remove(command);
+					_activeRequests.Remove(command);
 				}
 
 				var request = (DataMessage)networkRequest.Request.Request;
@@ -875,7 +1052,7 @@ namespace ResursNetwork.Incotex.Models
 					//command.ErrorDescription = "Адрес команды в ответе не соответствует адресу в запросе";
 					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
 					//TODO:
-					_ActiveRequests.Remove(command);
+					_activeRequests.Remove(command);
 				}
 
 				if (answer.CmdCode != request.CmdCode)
@@ -884,26 +1061,26 @@ namespace ResursNetwork.Incotex.Models
 					//command.ErrorDescription = "Код команды в ответе не соответствует коду в запросе";
 					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
 					//TODO:
-					_ActiveRequests.Remove(command);
+					_activeRequests.Remove(command);
 				}
 
 				// Получаем параметр
 				// Присваиваем новое значение параметру
-				var parameter = _Parameters[ParameterNamesMercury203.DateTime];
+				var parameter = _parameters[ParameterNamesMercury203.DateTime];
 				parameter.Value = parameter.ValueConverter.FromArray(answer.Data.ToArray());
 
 				//command.Status = Result.OK;
-				_ActiveRequests.Remove(command);
+				_activeRequests.Remove(command);
 			}
 			else
 			{
 				// Транзакция выполнена с ошибкам
-				var command = _ActiveRequests.FirstOrDefault(
+				var command = _activeRequests.FirstOrDefault(
 					p => p.Id == networkRequest.Id);
 				//command.Status = Result.Error;
 				//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
 				//TODO:
-				_ActiveRequests.Remove(command);
+				_activeRequests.Remove(command);
 			}
 		}
 
@@ -938,7 +1115,7 @@ namespace ResursNetwork.Incotex.Models
 			}
 			else
 			{
-				_ActiveRequests.Add(networkRequest);
+				_activeRequests.Add(networkRequest);
 				_NetworkController.Write(networkRequest, isExternalCall);
 			}
 			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
@@ -953,7 +1130,7 @@ namespace ResursNetwork.Incotex.Models
 			// Разбираем ответ
 			if (networkRequest.Status == NetworkRequestStatus.Completed)
 			{
-				var command = _ActiveRequests.FirstOrDefault(
+				var command = _activeRequests.FirstOrDefault(
 					p => p.Id == networkRequest.Id);
 
 				if (command == null)
@@ -967,7 +1144,7 @@ namespace ResursNetwork.Incotex.Models
 					//command.ErrorDescription = "Неверная длина ответного сообщения";
 					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
 					//TODO:
-					_ActiveRequests.Remove(command);
+					_activeRequests.Remove(command);
 				}
 
 				var request = (DataMessage)networkRequest.Request.Request;
@@ -980,7 +1157,7 @@ namespace ResursNetwork.Incotex.Models
 					//command.ErrorDescription = "Адрес команды в ответе не соответствует адресу в запросе";
 					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
 					//TODO:
-					_ActiveRequests.Remove(command);
+					_activeRequests.Remove(command);
 				}
 
 				if (answer.CmdCode != request.CmdCode)
@@ -989,26 +1166,26 @@ namespace ResursNetwork.Incotex.Models
 					//command.ErrorDescription = "Код команды в ответе не соответствует коду в запросе";
 					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
 					//TODO:
-					_ActiveRequests.Remove(command);
+					_activeRequests.Remove(command);
 				}
 
 				// Получаем параметр
 				// Присваиваем новое значение параметру
-				var parameter = _Parameters[ParameterNamesMercury203.PowerLimit];
+				var parameter = _parameters[ParameterNamesMercury203.PowerLimit];
 				parameter.Value = parameter.ValueConverter.FromArray(answer.Data.ToArray());
 
 				//command.Status = Result.OK;
-				_ActiveRequests.Remove(command);
+				_activeRequests.Remove(command);
 			}
 			else
 			{
 				// Транзакция выполнена с ошибкам
-				var command = _ActiveRequests.FirstOrDefault(
+				var command = _activeRequests.FirstOrDefault(
 					p => p.Id == networkRequest.Id);
 				//command.Status = Result.Error;
 				//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
 				//TODO:
-				_ActiveRequests.Remove(command);
+				_activeRequests.Remove(command);
 			}
 		}
 
@@ -1043,7 +1220,7 @@ namespace ResursNetwork.Incotex.Models
 			}
 			else
 			{
-				_ActiveRequests.Add(networkRequest);
+				_activeRequests.Add(networkRequest);
 				_NetworkController.Write(networkRequest, isExternalCall);
 			}
 			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
@@ -1080,7 +1257,7 @@ namespace ResursNetwork.Incotex.Models
 			}
 			else
 			{
-				_ActiveRequests.Add(networkRequest);
+				_activeRequests.Add(networkRequest);
 				_NetworkController.Write(networkRequest, isExternalCall);
 			}
 			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
@@ -1095,7 +1272,7 @@ namespace ResursNetwork.Incotex.Models
 			// Разбираем ответ
 			if (networkRequest.Status == NetworkRequestStatus.Completed)
 			{
-				var command = _ActiveRequests.FirstOrDefault(
+				var command = _activeRequests.FirstOrDefault(
 					p => p.Id == networkRequest.Id);
 
 				if (command == null)
@@ -1109,7 +1286,7 @@ namespace ResursNetwork.Incotex.Models
 					//command.ErrorDescription = "Неверная длина ответного сообщения";
 					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
 					//TODO:
-					_ActiveRequests.Remove(command);
+					_activeRequests.Remove(command);
 				}
 
 				var request = (DataMessage)networkRequest.Request.Request;
@@ -1122,7 +1299,7 @@ namespace ResursNetwork.Incotex.Models
 					//command.ErrorDescription = "Адрес команды в ответе не соответствует адресу в запросе";
 					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
 					//TODO:
-					_ActiveRequests.Remove(command);
+					_activeRequests.Remove(command);
 				}
 
 				if (answer.CmdCode != request.CmdCode)
@@ -1131,30 +1308,30 @@ namespace ResursNetwork.Incotex.Models
 					//command.ErrorDescription = "Код команды в ответе не соответствует коду в запросе";
 					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
 					//TODO:
-					_ActiveRequests.Remove(command);
+					_activeRequests.Remove(command);
 				}
 
 				// Получаем параметр
 				// Присваиваем новое значение параметру
 				TariffCounters cntrs = TariffCounters.FromArray(answer.Data.ToArray());
 				
-				_Parameters[ParameterNamesMercury203.CounterTarif1].Value = cntrs.ValueTotalTarif1;
-				_Parameters[ParameterNamesMercury203.CounterTarif2].Value = cntrs.ValueTotalTarif2;
-				_Parameters[ParameterNamesMercury203.CounterTarif3].Value = cntrs.ValueTotalTarif3;
-				_Parameters[ParameterNamesMercury203.CounterTarif4].Value = cntrs.ValueTotalTarif4;
+				_parameters[ParameterNamesMercury203.CounterTarif1].Value = cntrs.ValueTotalTarif1;
+				_parameters[ParameterNamesMercury203.CounterTarif2].Value = cntrs.ValueTotalTarif2;
+				_parameters[ParameterNamesMercury203.CounterTarif3].Value = cntrs.ValueTotalTarif3;
+				_parameters[ParameterNamesMercury203.CounterTarif4].Value = cntrs.ValueTotalTarif4;
 
 				//command.Status = Result.OK;
-				_ActiveRequests.Remove(command);
+				_activeRequests.Remove(command);
 			}
 			else
 			{
 				// Транзакция выполнена с ошибкам
-				var command = _ActiveRequests.FirstOrDefault(
+				var command = _activeRequests.FirstOrDefault(
 					p => p.Id == networkRequest.Id);
 				//command.Status = Result.Error;
 				//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
 				//TODO:
-				_ActiveRequests.Remove(command);
+				_activeRequests.Remove(command);
 			}
 		}
 

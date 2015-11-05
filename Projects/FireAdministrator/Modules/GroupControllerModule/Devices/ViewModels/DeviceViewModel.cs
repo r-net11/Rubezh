@@ -854,7 +854,6 @@ namespace GKModule.ViewModels
 					}
 					OnPropertyChanged(() => Device);
 					OnPropertyChanged(() => Driver);
-					OnPropertyChanged(() => Device);
 					OnPropertyChanged(() => Children);
 					OnPropertyChanged(() => EditingPresentationZone);
 					OnPropertyChanged(() => GuardPresentationZone);
@@ -871,6 +870,7 @@ namespace GKModule.ViewModels
 		}
 
 		public ObservableCollection<GKDriver> AvailvableDrivers { get; private set; }
+		public int SelectedAvailableDriverIndex { get; set; }
 
 		void UpdateDriver()
 		{
@@ -884,8 +884,13 @@ namespace GKModule.ViewModels
 					{
 						AvailvableDrivers.Add(driver);
 					}
+					if (driver.DriverType == Driver.DriverType)
+					{
+						SelectedAvailableDriverIndex = AvailvableDrivers.Count-1;
+					}
 				}
 			}
+			
 		}
 
 		public bool CanDriverBeChanged(GKDriver driver)

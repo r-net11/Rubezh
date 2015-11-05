@@ -22,7 +22,7 @@ namespace Infrastructure.Automation
 		void AddJournalItem(ProcedureStep procedureStep)
 		{
 			var messageValue = GetValue<object>(procedureStep.JournalArguments.MessageArgument);
-			ProcedureExecutionContext.AddJournalItem(GetStringValue(messageValue));
+			ProcedureExecutionContext.AddJournalItem(AutomationHelper.GetStringValue(messageValue));
 		}
 
 		bool Compare(ProcedureStep procedureStep)
@@ -304,27 +304,12 @@ namespace Infrastructure.Automation
 						value2 = GetValue<object>(arithmeticArguments.Argument2);
 						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
 							if (resultVariable != null)
-								resultVariable.ExplicitValue.StringValue = String.Concat(GetStringValue(value1), GetStringValue(value2));
+								resultVariable.ExplicitValue.StringValue = String.Concat(AutomationHelper.GetStringValue(value1), AutomationHelper.GetStringValue(value2));
 						break;
 					}
 			}
 		}
-
-		public static string GetStringValue(object obj)
-		{
-			if (obj == null)
-				return "";
-
-			var objType = obj.GetType();
-			if (objType == typeof(bool))
-				return (bool)obj ? "Да" : "Нет";
-
-			if (objType.IsEnum)
-				return ((Enum)obj).ToDescription();
-
-			return obj.ToString();
-		}
-
+				
 		void FindObjects(ProcedureStep procedureStep)
 		{
 			var findObjectArguments = procedureStep.FindObjectArguments;
@@ -333,7 +318,6 @@ namespace Infrastructure.Automation
 				FindObjectsOr(variable, findObjectArguments.FindObjectConditions);
 			else
 				FindObjectsAnd(variable, findObjectArguments.FindObjectConditions);
-			//ProcedureExecutionContext.SynchronizeVariable(variable, ContextType.Server);
 		}
 
 		void GetObjectProperty(ProcedureStep procedureStep)

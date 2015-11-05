@@ -10,22 +10,10 @@
 							  MouseAction="LeftDoubleClick" />
 			</InputBindingCollection>
 			<ContextMenu x:Key="contextMenu" DataContext="{Binding DataContext.Layouts, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}">
-				<MenuItem Command="{Binding EditCommand}" Header="Редактировать">
-					<MenuItem.Icon>
-						<Grid Width="16" VerticalAlignment="Center" Background="{DynamicResource BEdit}" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Command="{Binding RemoveCommand}" Header="Удалить">
-					<MenuItem.Icon>
-						<Grid Width="16" VerticalAlignment="Center" Background="{DynamicResource BDelete}" />
-					</MenuItem.Icon>
-				</MenuItem>
+				<IconedMenuItem Command="{Binding EditCommand}" Text="Редактировать" ImageSource="BEdit" />
+				<IconedMenuItem Command="{Binding RemoveCommand}" Text="Удалить" ImageSource="BDelete" />
 				<Separator />
-				<MenuItem Command="{Binding LayoutCopyCommand}" Header="Копировать">
-					<MenuItem.Icon>
-						<Grid Width="16" VerticalAlignment="Center" Background="{DynamicResource BCopy}" />
-					</MenuItem.Icon>
-				</MenuItem>
+				<IconedMenuItem Command="{Binding LayoutCopyCommand}" Text="Копировать" ImageSource="BCopy" />
 			</ContextMenu>
 		</ListView.Resources>
 		<ListView.ItemContainerStyle>
@@ -37,16 +25,8 @@
 		</ListView.ItemContainerStyle>
 		<ListView.ContextMenu>
 			<ContextMenu>
-				<MenuItem Command="{Binding Layouts.AddCommand}" Header="Добавить макет">
-					<MenuItem.Icon>
-						<Grid Width="16" VerticalAlignment="Center" Background="{DynamicResource BAdd}" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Command="{Binding Layouts.LayoutPasteCommand}" CommandParameter="{StaticResource True}" Header="Вставить">
-					<MenuItem.Icon>
-						<Grid Width="16" VerticalAlignment="Center" Background="{DynamicResource BPaste}" />
-					</MenuItem.Icon>
-				</MenuItem>
+				<IconedMenuItem Command="{Binding Layouts.AddCommand}" Text="Добавить макет" ImageSource="BAdd" />
+				<IconedMenuItem Command="{Binding Layouts.LayoutPasteCommand}" CommandParameter="{StaticResource True}" Text="Вставить" ImageSource="BPaste" />
 			</ContextMenu>
 		</ListView.ContextMenu>
 		<ListView.View>
@@ -56,7 +36,7 @@
 						<DataTemplate>
 							<Border Background="Transparent">
 								<StackPanel Orientation="Horizontal">
-									<Grid Width="16" Height="16" Background="{DynamicResource BLayouts}" />
+									<Rectangle Width="16" Height="16" Fill="{DynamicResource BLayouts}" />
 									<TextBlock VerticalAlignment="Center" Text="{Binding Caption}" Margin="2 0 0 0" />
 								</StackPanel>
 							</Border>
