@@ -201,7 +201,7 @@ namespace SKDModule.ViewModels
 		}
 
 		#region ForEvent
-		public void OnEditDocument(ITimeTrackDocument document)
+		public void OnEditDocument(TimeTrackDocument document)
 		{
 			if (document.EmployeeUID == EmployeeUID)
 			{
@@ -218,7 +218,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void OnRemoveDocument(ITimeTrackDocument document)
+		public void OnRemoveDocument(TimeTrackDocument document)
 		{
 			var viewModel = Documents.FirstOrDefault(x => x.Document.UID == document.UID);
 			if (viewModel != null)

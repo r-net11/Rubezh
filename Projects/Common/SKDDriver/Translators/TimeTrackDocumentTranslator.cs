@@ -19,13 +19,13 @@ namespace SKDDriver.Translators
 			Context = databaseService.Context;
 		}
 
-		public OperationResult<List<ITimeTrackDocument>> Get(Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
+		public OperationResult<List<TimeTrackDocument>> Get(Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
 		{
 			return Get(employeeUID, startDateTime, endDateTime, Context.TimeTrackDocuments, Context.TimeTrackDocumentTypes);
 		}
 
 		[Obsolete]
-		public OperationResult<List<ITimeTrackDocument>> Get(Guid employeeUID, DateTime startDateTime, DateTime endDateTime, IEnumerable<DataAccess.TimeTrackDocument> tableItems, IEnumerable<DataAccess.TimeTrackDocumentType> tableItemsTypes)
+		public OperationResult<List<TimeTrackDocument>> Get(Guid employeeUID, DateTime startDateTime, DateTime endDateTime, IEnumerable<DataAccess.TimeTrackDocument> tableItems, IEnumerable<DataAccess.TimeTrackDocumentType> tableItemsTypes)
 		{
 			try
 			{
@@ -53,16 +53,16 @@ namespace SKDDriver.Translators
 					})
 					.ToList();
 
-				List<ITimeTrackDocument> result = timeTrackDocuments.Cast<ITimeTrackDocument>().ToList();
-				return new OperationResult<List<ITimeTrackDocument>>(result);
+				var result = timeTrackDocuments.ToList();
+				return new OperationResult<List<TimeTrackDocument>>(result);
 			}
 			catch (Exception e)
 			{
-				return OperationResult<List<ITimeTrackDocument>>.FromError(e.Message);
+				return OperationResult<List<TimeTrackDocument>>.FromError(e.Message);
 			}
 		}
 
-		public OperationResult<List<ITimeTrackDocument>> GetWithTypes(ShortEmployee employee, DateTime startDateTime, DateTime endDateTime, IEnumerable<DataAccess.TimeTrackDocument> tableItems, IEnumerable<DataAccess.TimeTrackDocumentType> tableItemsTypes)
+		public OperationResult<List<TimeTrackDocument>> GetWithTypes(ShortEmployee employee, DateTime startDateTime, DateTime endDateTime, IEnumerable<DataAccess.TimeTrackDocument> tableItems, IEnumerable<DataAccess.TimeTrackDocumentType> tableItemsTypes)
 		{
 			try
 			{
@@ -91,51 +91,31 @@ namespace SKDDriver.Translators
 
 				systemTypes = systemTypes.Union(timeTrackDocumentTypes);
 
-				List<ITimeTrackDocument> docsList = new List<ITimeTrackDocument>();
-
-				foreach (var tableDoc in tableTimeTrackDocuments)
+				var docsList = tableTimeTrackDocuments.Select(tableDoc => new TimeTrackDocument
 				{
-					ITimeTrackDocument tmpDoc = docfactory.GetDocument(systemTypes.FirstOrDefault(x => x.Code == tableDoc.DocumentCode));
-					tmpDoc.UID = tableDoc.UID;
-					tmpDoc.EmployeeUID = tableDoc.EmployeeUID;
-					tmpDoc.StartDateTime = tableDoc.StartDateTime;
-					tmpDoc.EndDateTime = tableDoc.EndDateTime;
-					tmpDoc.DocumentCode = tableDoc.DocumentCode;
-					tmpDoc.Comment = tableDoc.Comment;
-					tmpDoc.DocumentDateTime = tableDoc.DocumentDateTime;
-					tmpDoc.DocumentNumber = tableDoc.DocumentNumber;
-					tmpDoc.FileName = tableDoc.FileName;
-					tmpDoc.IsOutside = tableDoc.IsOutside;
-					docsList.Add(tmpDoc);
-				}
+					UID = tableDoc.UID,
+					EmployeeUID = tableDoc.EmployeeUID,
+					StartDateTime = tableDoc.StartDateTime,
+					EndDateTime = tableDoc.EndDateTime,
+					DocumentCode = tableDoc.DocumentCode,
+					Comment = tableDoc.Comment,
+					DocumentDateTime = tableDoc.DocumentDateTime,
+					DocumentNumber = tableDoc.DocumentNumber,
+					FileName = tableDoc.FileName,
+					IsOutside = tableDoc.IsOutside,
+					TimeTrackDocumentType = systemTypes.FirstOrDefault(x => x.Code == tableDoc.DocumentCode)
+				})
+				.ToList();
 
-
-				//var timeTrackDocuments = tableTimeTrackDocuments
-				//	.Select(tableTimeTrackDocument => new TimeTrackDocument
-				//	{
-				//		UID = tableTimeTrackDocument.UID,
-				//		EmployeeUID = tableTimeTrackDocument.EmployeeUID,
-				//		StartDateTime = tableTimeTrackDocument.StartDateTime,
-				//		EndDateTime = tableTimeTrackDocument.EndDateTime,
-				//		DocumentCode = tableTimeTrackDocument.DocumentCode,
-				//		Comment = tableTimeTrackDocument.Comment,
-				//		DocumentDateTime = tableTimeTrackDocument.DocumentDateTime,
-				//		DocumentNumber = tableTimeTrackDocument.DocumentNumber,
-				//		FileName = tableTimeTrackDocument.FileName,
-				//		TimeTrackDocumentType = systemTypes.FirstOrDefault(x => x.Code == tableTimeTrackDocument.DocumentCode)
-				//	})
-				//	.ToList();
-
-			//	List<ITimeTrackDocument> result = timeTrackDocuments.Cast<ITimeTrackDocument>().ToList();
-				return new OperationResult<List<ITimeTrackDocument>>(docsList);
+				return new OperationResult<List<TimeTrackDocument>>(docsList);
 			}
 			catch (Exception e)
 			{
-				return OperationResult<List<ITimeTrackDocument>>.FromError(e.Message);
+				return OperationResult<List<TimeTrackDocument>>.FromError(e.Message);
 			}
 		}
 
-		public OperationResult AddTimeTrackDocument(ITimeTrackDocument timeTrackDocument)
+		public OperationResult AddTimeTrackDocument(TimeTrackDocument timeTrackDocument)
 		{
 			try
 			{
@@ -162,7 +142,7 @@ namespace SKDDriver.Translators
 			}
 		}
 
-		public OperationResult EditTimeTrackDocument(ITimeTrackDocument timeTrackDocument)
+		public OperationResult EditTimeTrackDocument(TimeTrackDocument timeTrackDocument)
 		{
 			try
 			{

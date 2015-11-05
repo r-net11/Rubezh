@@ -12,6 +12,14 @@ namespace FiresecAPI.SKD
 			UID = Guid.NewGuid();
 		}
 
+		public TimeTrackDocumentType(string name, string shortName, int code, DocumentType type)
+		{
+			Name = name;
+			ShortName = shortName;
+			Code = code;
+			DocumentType = type;
+		}
+
 		[DataMember]
 		public Guid UID { get; set; }
 

@@ -18,7 +18,7 @@ namespace SKDModule.Model
 	{
 		#region Properties
 
-		public ITimeTrackDocument Document { get; private set; }
+		public TimeTrackDocument Document { get; private set; }
 
 		private string _name;
 		public string Name
@@ -78,7 +78,7 @@ namespace SKDModule.Model
 
 		#region Constructors
 
-		public TimeTrackAttachedDocument(ITimeTrackDocument timeTrackDocument)
+		public TimeTrackAttachedDocument(TimeTrackDocument timeTrackDocument)
 		{
 			Document = timeTrackDocument;
 
@@ -167,7 +167,7 @@ namespace SKDModule.Model
 
 		#region Methods
 
-		public void Update(ITimeTrackDocument timeTrackDocument)
+		public void Update(TimeTrackDocument timeTrackDocument)
 		{
 			Document = timeTrackDocument;
 			Update();

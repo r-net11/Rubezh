@@ -7,11 +7,6 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	[KnownType(typeof(TimeTrackDocument))]
-	[KnownType(typeof(OvertimeDocument))]
-	[KnownType(typeof(AbsenceDocument))]
-	[KnownType(typeof(PresentDocument))]
-	[KnownType(typeof(AbsenceReasonableDocument))]
 	public class DayTimeTrack
 	{
 		#region Constructors
@@ -22,7 +17,7 @@ namespace FiresecAPI.SKD
 			CrossNightTimeTrackParts = new List<TimeTrackPart>();
 			DocumentTrackParts = new List<TimeTrackPart>();
 			CombinedTimeTrackParts = new List<TimeTrackPart>();
-			Documents = new List<ITimeTrackDocument>();
+			Documents = new List<TimeTrackDocument>();
 			Totals = new List<TimeTrackTotal>();
 		}
 
@@ -94,7 +89,7 @@ namespace FiresecAPI.SKD
 		public int HolidayReduction { get; set; }
 
 		[DataMember]
-		public List<ITimeTrackDocument> Documents { get; set; }
+		public List<TimeTrackDocument> Documents { get; set; }
 
 		[DataMember]
 		public NightSettings NightSettings { get; set; }

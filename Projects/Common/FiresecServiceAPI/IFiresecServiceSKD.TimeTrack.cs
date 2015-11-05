@@ -6,11 +6,6 @@ using System.ServiceModel;
 
 namespace FiresecAPI
 {
-	[ServiceKnownType(typeof(OvertimeDocument))]
-	[ServiceKnownType(typeof(PresentDocument))]
-	[ServiceKnownType(typeof(AbsenceDocument))]
-	[ServiceKnownType(typeof(TimeTrackDocument))]
-	[ServiceKnownType(typeof(AbsenceReasonableDocument))]
 	public partial interface IFiresecServiceSKD
 	{
 		[OperationContract]
@@ -92,13 +87,13 @@ namespace FiresecAPI
 		OperationResult MarkDeletedScheduleZone(Guid uid, string name);
 
 		[OperationContract]
-		OperationResult<List<ITimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime);
+		OperationResult<List<TimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime);
 
 		[OperationContract]
-		OperationResult AddTimeTrackDocument(ITimeTrackDocument timeTrackDocument);
+		OperationResult AddTimeTrackDocument(TimeTrackDocument timeTrackDocument);
 
 		[OperationContract]
-		OperationResult EditTimeTrackDocument(ITimeTrackDocument timeTrackDocument);
+		OperationResult EditTimeTrackDocument(TimeTrackDocument timeTrackDocument);
 
 		[OperationContract]
 		OperationResult RemoveTimeTrackDocument(Guid timeTrackDocumentUID);

@@ -303,11 +303,6 @@
     <Compile Include="SKD\TimeTrack\DayTimeTrackPart.cs" />
     <Compile Include="SKD\TimeTrack\Enums\DocumentType.cs" />
     <Compile Include="SKD\TimeTrack\ReportT13.cs" />
-    <Compile Include="SKD\TimeTrack\TimeTrackDocuments\AbsenceDocument.cs" />
-    <Compile Include="SKD\TimeTrack\TimeTrackDocuments\AbsenceReasonable.cs" />
-    <Compile Include="SKD\TimeTrack\TimeTrackDocuments\ITimeTrackDocument.cs" />
-    <Compile Include="SKD\TimeTrack\TimeTrackDocuments\OvertimeDocument.cs" />
-    <Compile Include="SKD\TimeTrack\TimeTrackDocuments\PresentDocument.cs" />
     <Compile Include="SKD\TimeTrack\TimeTrackResult.cs" />
     <Compile Include="SKD\TimeTrack\PlannedTimeTrackCollection.cs" />
     <Compile Include="SKD\TimeTrack\ShortSchedule.cs" />

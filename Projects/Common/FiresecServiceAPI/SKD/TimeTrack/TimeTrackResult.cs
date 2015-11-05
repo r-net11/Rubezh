@@ -25,17 +25,12 @@ namespace FiresecAPI.SKD
 	}
 
 	[DataContract]
-	[KnownType(typeof(PresentDocument))]
-	[KnownType(typeof(AbsenceDocument))]
-	[KnownType(typeof(OvertimeDocument))]
-	[KnownType(typeof(TimeTrackDocument))]
-	[KnownType(typeof(AbsenceReasonableDocument))]
 	public class TimeTrackEmployeeResult
 	{
 		public TimeTrackEmployeeResult()
 		{
 			DayTimeTracks = new List<DayTimeTrack>();
-			Documents = new List<ITimeTrackDocument>();
+			Documents = new List<TimeTrackDocument>();
 		}
 
 		public TimeTrackEmployeeResult(string error) :
@@ -54,7 +49,7 @@ namespace FiresecAPI.SKD
 		public List<DayTimeTrack> DayTimeTracks { get; set; }
 
 		[DataMember]
-		public List<ITimeTrackDocument> Documents { get; set; }
+		public List<TimeTrackDocument> Documents { get; set; }
 
 		[DataMember]
 		public string Error { get; set; }

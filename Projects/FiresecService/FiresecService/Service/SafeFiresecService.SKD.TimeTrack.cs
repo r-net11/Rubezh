@@ -140,17 +140,17 @@ namespace FiresecService.Service
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedScheduleZone(uid, name));
 		}
 
-		public OperationResult<List<ITimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
+		public OperationResult<List<TimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
 		{
 			return SafeContext.Execute(() => FiresecService.GetTimeTrackDocument(employeeUID, startDateTime, endDateTime));
 		}
 
-		public OperationResult AddTimeTrackDocument(ITimeTrackDocument timeTrackDocument)
+		public OperationResult AddTimeTrackDocument(TimeTrackDocument timeTrackDocument)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.AddTimeTrackDocument(timeTrackDocument));
 		}
 
-		public OperationResult EditTimeTrackDocument(ITimeTrackDocument timeTrackDocument)
+		public OperationResult EditTimeTrackDocument(TimeTrackDocument timeTrackDocument)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.EditTimeTrackDocument(timeTrackDocument));
 		}

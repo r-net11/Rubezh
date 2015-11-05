@@ -17,7 +17,7 @@ namespace SKDModule.ViewModels
 		#region Properties
 
 		public ICollectionView AvailableDocumentsCollectionView { get; private set; }
-		public ITimeTrackDocument TimeTrackDocument { get; private set; }
+		public TimeTrackDocument TimeTrackDocument { get; private set; }
 
 		private bool _isEnableAbsence;
 
@@ -138,10 +138,10 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<ITimeTrackDocument> AvailableDocuments { get; private set; }
+		public ObservableCollection<TimeTrackDocument> AvailableDocuments { get; private set; }
 
-		ITimeTrackDocument _selectedDocument;
-		public ITimeTrackDocument SelectedDocument
+		TimeTrackDocument _selectedDocument;
+		public TimeTrackDocument SelectedDocument
 		{
 			get { return _selectedDocument; }
 			set
@@ -152,7 +152,7 @@ namespace SKDModule.ViewModels
 		}
 		#endregion
 
-		public DocumentDetailsViewModel(bool canEditStartDateTime, Guid organisationUID, Guid employeeGuid, ITimeTrackDocument timeTrackDocument = null)
+		public DocumentDetailsViewModel(bool canEditStartDateTime, Guid organisationUID, Guid employeeGuid, TimeTrackDocument timeTrackDocument = null)
 		{
 			CanEditStartDateTime = canEditStartDateTime;
 
@@ -169,10 +169,10 @@ namespace SKDModule.ViewModels
 			TimeTrackDocument.EmployeeUID = employeeGuid;
 
 			var docFactory = new DocumentsFactory();
-			AvailableDocuments = new ObservableCollection<ITimeTrackDocument>(docFactory.SystemDocuments);
+			AvailableDocuments = new ObservableCollection<TimeTrackDocument>(docFactory.SystemDocuments);
 			var documentTypes = DocumentTypeHelper.GetByOrganisation(organisationUID);
 
-			AvailableDocuments.AddRange(documentTypes.Select(docFactory.GetDocument));
+			AvailableDocuments.AddRange(documentTypes.Select(x => new TimeTrackDocument(x.Name, x.ShortName, x.Code, x.DocumentType)));
 
 			DocumentsTypes = new ObservableCollection<DocumentType>(Enum.GetValues(typeof (DocumentType)).Cast<DocumentType>());
 
@@ -193,14 +193,14 @@ namespace SKDModule.ViewModels
 				.Subscribe(_ =>
 				{
 					AvailableDocumentsCollectionView.Refresh();
-					SelectedDocument = (ITimeTrackDocument)AvailableDocumentsCollectionView.CurrentItem;
-					IsEnableAbsence = SelectedDocument as AbsenceDocument != null || SelectedDocument as AbsenceReasonableDocument != null;
+					SelectedDocument = (TimeTrackDocument)AvailableDocumentsCollectionView.CurrentItem;
+					IsEnableAbsence = SelectedDocument.TimeTrackDocumentType.DocumentType == DocumentType.Absence || SelectedDocument.TimeTrackDocumentType.DocumentType == DocumentType.AbsenceReasonable;
 				});
 		}
 
 		private bool DocumentsFilter(object obj)
 		{
-			var doc = obj as ITimeTrackDocument;
+			var doc = obj as TimeTrackDocument;
 			return doc != null && doc.TimeTrackDocumentType.DocumentType == SelectedDocumentType;
 		}
 

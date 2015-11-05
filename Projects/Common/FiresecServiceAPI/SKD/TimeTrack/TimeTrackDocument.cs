@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class TimeTrackDocument : ITimeTrackDocument
+	public class TimeTrackDocument
 	{
 		public TimeTrackDocument()
 		{
@@ -13,6 +13,11 @@ namespace FiresecAPI.SKD
 			StartDateTime = DateTime.Now.Date;
 			EndDateTime = DateTime.Now.Date + new TimeSpan(23, 59, 59);
 			DocumentDateTime = DateTime.Now;
+		}
+
+		public TimeTrackDocument(string name, string shortCode, int numCode, DocumentType type)
+		{
+			TimeTrackDocumentType = new TimeTrackDocumentType(name, shortCode, numCode, type);
 		}
 
 		[DataMember]
