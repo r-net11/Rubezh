@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.Models.Layouts;
 
 namespace GKModule.ViewModels
 {
 	public class MPTsViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
+		public MPTsViewModel()
+		{
+			IsVisibleBottomPanel = true;
+		}
 		public void Initialize()
 		{
 			MPTs = new List<MPTViewModel>();
@@ -40,7 +45,26 @@ namespace GKModule.ViewModels
 				OnPropertyChanged(() => SelectedMPT);
 			}
 		}
-
+		LayoutPartAdditionalProperties _properties;
+		public LayoutPartAdditionalProperties Properties
+		{
+			get { return _properties; }
+			set
+			{
+				_properties = value;
+				IsVisibleBottomPanel = _properties.IsVisibleBottomPanel;
+			}
+		}
+		bool _isVisibleBottomPanel;
+		public bool IsVisibleBottomPanel
+		{
+			get { return _isVisibleBottomPanel; }
+			set
+			{
+				_isVisibleBottomPanel = value;
+				OnPropertyChanged(() => IsVisibleBottomPanel);
+			}
+		}
 		public void Select(Guid mptUID)
 		{
 			if (mptUID != Guid.Empty)

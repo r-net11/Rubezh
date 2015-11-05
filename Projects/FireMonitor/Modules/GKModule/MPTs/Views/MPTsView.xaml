@@ -129,8 +129,9 @@
 				</DataGrid.RowStyle>
 			</DataGrid>
 		</Grid>
-		<Grid Grid.Row="1" DataContext="{Binding SelectedMPT}">
-			<Grid.ColumnDefinitions>
+		<Grid Grid.Row="1" Visibility="{Binding IsVisibleBottomPanel, Converter={StaticResource BoolToVisibilityConverter}}">
+			<Grid DataContext="{Binding SelectedMPT}">
+				<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
@@ -151,6 +152,7 @@
 				</StackPanel>
 			</Border>
 			<Views:MPTControlView Grid.Column="1" DataContext="{Binding MPTDetailsViewModel}" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}" Margin="4 4 0 0" />
+		</Grid>
 		</Grid>
 	</Grid>
 </UserControl>

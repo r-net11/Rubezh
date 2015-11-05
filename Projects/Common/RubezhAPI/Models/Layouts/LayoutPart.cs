@@ -10,6 +10,7 @@ namespace RubezhAPI.Models.Layouts
 	[KnownType(typeof(LayoutPartProcedureProperties))]
 	[KnownType(typeof(LayoutPartTimeProperties))]
 	[KnownType(typeof(LayoutPartTextProperties))]
+	[KnownType(typeof(LayoutPartAdditionalProperties))]
 	public class LayoutPart
 	{
 		public LayoutPart()

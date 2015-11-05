@@ -108,8 +108,13 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="LayoutModule.cs" />
+    <Compile Include="LayoutParts\ViewModels\LayoutPartPropertyAdditionalPageViewModel.cs" />
     <Compile Include="LayoutParts\ViewModels\LayoutPartPropertyTextPageViewModel.cs" />
     <Compile Include="LayoutParts\ViewModels\LayoutPartTextViewModel.cs" />
+    <Compile Include="LayoutParts\ViewModels\LayoutPartWithAdditioanlPropertiesViewModel.cs" />
+    <Compile Include="LayoutParts\Views\LayoutPartPropertyAdditionalPageView.xaml.cs">
+      <DependentUpon>LayoutPartPropertyAdditionalPageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LayoutParts\Views\LayoutPartPropertyTextPageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyTextPageView.xaml</DependentUpon>
     </Compile>
@@ -256,6 +261,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="LayoutParts\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LayoutParts\Views\LayoutPartPropertyAdditionalPageView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
