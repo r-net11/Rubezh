@@ -171,14 +171,16 @@ namespace StrazhModule.ViewModels
 
 			var thread = new Thread(() =>
 			{
-#if DEBUG
-				Logger.Info("Ожидаем сигнала о возможности продолжить работу треда для записи конфигурации на все контроллеры");
-#endif
 				if (_configurationChangedWaitHandle != null)
+				{
+#if DEBUG
+					Logger.Info("Ожидаем сигнала о возможности продолжить работу треда для записи конфигурации на все контроллеры");
+#endif
 					_configurationChangedWaitHandle.WaitOne();
 #if DEBUG
-				Logger.Info("Получен сигнал о возможности продолжить работу треда для записи конфигурации на все контроллеры");
+					Logger.Info("Получен сигнал о возможности продолжить работу треда для записи конфигурации на все контроллеры");
 #endif
+				}
 				//Thread.Sleep(TimeSpan.FromSeconds(2));
 
 				var failedDevicesUids = new HashSet<Guid>();
@@ -193,6 +195,10 @@ namespace StrazhModule.ViewModels
 					result = FiresecManager.FiresecService.SKDWriteAllTimeSheduleConfiguration();
 					if (result.HasError && result.Result != null)
 						result.Result.ForEach(x => failedDevicesUids.Add(x));
+#if DEBUG
+					if (result.IsCanceled)
+						Logger.Info("Выполнение FiresecManager.FiresecService.SKDWriteAllTimeSheduleConfiguration было прервано");
+#endif
 				}
 
 				// 2. Записываем пароли
@@ -204,6 +210,10 @@ namespace StrazhModule.ViewModels
 					result = FiresecManager.FiresecService.RewriteControllerLocksPasswordsOnAllControllers();
 					if (result.HasError && result.Result != null)
 						result.Result.ForEach(x => failedDevicesUids.Add(x));
+#if DEBUG
+					if (result.IsCanceled)
+						Logger.Info("Выполнение FiresecManager.FiresecService.RewriteControllerLocksPasswordsOnAllControllers было прервано");
+#endif
 				}
 
 				// 3. Записываем пропуска
@@ -215,6 +225,10 @@ namespace StrazhModule.ViewModels
 					result = FiresecManager.FiresecService.RewriteCardsOnAllControllers();
 					if (result.HasError && result.Result != null)
 						result.Result.ForEach(x => failedDevicesUids.Add(x));
+#if DEBUG
+					if (result.IsCanceled)
+						Logger.Info("Выполнение FiresecManager.FiresecService.RewriteCardsOnAllControllers было прервано");
+#endif
 				}
 
 				ApplicationService.Invoke(() =>
@@ -239,7 +253,7 @@ namespace StrazhModule.ViewModels
 				});
 
 			});
-			thread.Name = "DeviceCommandsViewModel OnShowWriteConfigurationInAllControllers";
+			thread.Name = "DeviceCommandsViewModel.ShowWriteConfigurationInAllControllersCommand";
 			thread.Start();
 		}
 

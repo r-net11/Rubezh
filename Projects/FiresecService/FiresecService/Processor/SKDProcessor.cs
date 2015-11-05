@@ -267,7 +267,7 @@ namespace FiresecService
 
 		private static void OnSKDProgressCallbackEvent(SKDProgressCallback SKDProgressCallback)
 		{
-			FiresecService.Service.FiresecService.NotifySKDProgress(SKDProgressCallback);
+			Service.FiresecService.NotifySKDProgress(SKDProgressCallback);
 		}
 
 		private static void OnConnectionAppeared(DeviceProcessor deviceProcessor)

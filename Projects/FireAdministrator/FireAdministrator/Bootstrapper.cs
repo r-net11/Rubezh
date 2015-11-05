@@ -63,8 +63,8 @@ namespace FireAdministrator
 					AterInitialize();
 					FiresecManager.StartPoll();
 
-					SafeFiresecService.SKDProgressCallbackEvent -= new Action<FiresecAPI.SKDProgressCallback>(OnSKDProgressCallbackEvent);
-					SafeFiresecService.SKDProgressCallbackEvent += new Action<FiresecAPI.SKDProgressCallback>(OnSKDProgressCallbackEvent);
+					SafeFiresecService.SKDProgressCallbackEvent -= OnSKDProgressCallbackEvent;
+					SafeFiresecService.SKDProgressCallbackEvent += OnSKDProgressCallbackEvent;
 
 					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(OnConfigurationClosed);
@@ -91,7 +91,7 @@ namespace FireAdministrator
 			}
 		}
 
-		void OnSKDProgressCallbackEvent(SKDProgressCallback SKDProgressCallback)
+		private void OnSKDProgressCallbackEvent(SKDProgressCallback SKDProgressCallback)
 		{
 			ApplicationService.Invoke(() =>
 			{
@@ -100,6 +100,9 @@ namespace FireAdministrator
 					case SKDProgressCallbackType.Start:
 						if (SKDProgressCallback.SKDProgressClientType == SKDProgressClientType.Administrator)
 						{
+#if DEBUG
+							Logger.Info("Открыто окно прогрессбара");
+#endif
 							LoadingService.Show(SKDProgressCallback.Title, SKDProgressCallback.Text, SKDProgressCallback.StepCount, SKDProgressCallback.CanCancel);
 						}
 						return;
@@ -107,16 +110,24 @@ namespace FireAdministrator
 					case SKDProgressCallbackType.Progress:
 						if (SKDProgressCallback.SKDProgressClientType == SKDProgressClientType.Administrator)
 						{
-							//LoadingService.DoStep(SKDProgressCallback.Text, SKDProgressCallback.Title, SKDProgressCallback.StepCount, SKDProgressCallback.CurrentStep, SKDProgressCallback.CanCancel);
+#if DEBUG
+							Logger.Info("Обновление состояния в окне прогрессбара");
+#endif
 							LoadingService.DoStep(SKDProgressCallback.Text);
 							if (LoadingService.IsCanceled)
 							{
+#if DEBUG
+								Logger.Info("Отправка сообщения Серверу приложений о прерывании текущей операции");
+#endif
 								FiresecManager.FiresecService.CancelSKDProgress(SKDProgressCallback.UID, FiresecManager.CurrentUser.Name);
 							}
 						}
 						return;
 
 					case SKDProgressCallbackType.Stop:
+#if DEBUG
+							Logger.Info("Закрыто окно прогрессбара");
+#endif
 						LoadingService.Close();
 						return;
 				}

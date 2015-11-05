@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ChinaSKDDriverAPI;
+using Common;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
@@ -114,6 +115,14 @@ namespace ChinaSKDDriver
 
 		public static SKDProgressCallback StartProgress(string title, string text, int stepCount, bool canCancel, SKDProgressClientType progressClientType)
 		{
+#if DEBUG
+			var logMessage = String.Format("Выполнение Process.StartProgress(title={0}, text={1}, stepCount={2}, canCancel={3})",
+				String.IsNullOrEmpty(title) ? "null" : String.Format("'{0}'", title),
+				String.IsNullOrEmpty(text) ? "null" : String.Format("'{0}'", text),
+				stepCount,
+				canCancel);
+			Logger.Info(logMessage);
+#endif
 			var SKDProgressCallback = new SKDProgressCallback()
 			{
 				SKDProgressCallbackType = SKDProgressCallbackType.Start,
@@ -125,6 +134,14 @@ namespace ChinaSKDDriver
 			};
 			ProgressCallbacks.Add(SKDProgressCallback);
 			OnSKDCallbackResult(SKDProgressCallback);
+#if DEBUG
+			logMessage = String.Format("Завершение Process.StartProgress(title={0}, text={1}, stepCount={2}, canCancel={3})",
+				String.IsNullOrEmpty(title) ? "null" : String.Format("'{0}'", title),
+				String.IsNullOrEmpty(text) ? "null" : String.Format("'{0}'", text),
+				stepCount,
+				canCancel);
+			Logger.Info(logMessage);
+#endif
 			return SKDProgressCallback;
 		}
 
@@ -158,28 +175,28 @@ namespace ChinaSKDDriver
 
 		private static void OnSKDCallbackResult(SKDProgressCallback SKDProgressCallback)
 		{
+#if DEBUG
+			Logger.Info("Начало выполнения Processor.OnSKDCallbackResult");
+			ProgressCallbacks.Where(x => x.IsCanceled && (DateTime.Now - x.CancelizationDateTime).TotalMinutes > 5).ForEach(
+				x => Logger.Info(String.Format("Удаляемый SKDProgressCallback: UID='{0}', IsCanceled={1}", x.UID, x.IsCanceled)));
+#endif
 			ProgressCallbacks.RemoveAll(x => x.IsCanceled && (DateTime.Now - x.CancelizationDateTime).TotalMinutes > 5);
 			if (SKDProgressCallback.SKDProgressCallbackType == SKDProgressCallbackType.Stop || !SKDProgressCallback.IsCanceled)
 			{
 				if (SKDProgressCallbackEvent != null)
+				{
+#if DEBUG
+					Logger.Info(String.Format("Уведомление подписчиков события SKDProgressCallbackEvent(SKDProgressCallback[UID='{0}'])", SKDProgressCallback.UID));
+#endif
 					SKDProgressCallbackEvent(SKDProgressCallback);
+				}
 			}
+#if DEBUG
+			Logger.Info("Конец выполнения Processor.OnSKDCallbackResult");
+#endif
 		}
 
 		public static event Action<SKDProgressCallback> SKDProgressCallbackEvent;
-
-		public static void OnSKDCallbackResult(SKDCallbackResult SKDCallbackResult)
-		{
-			if (SKDCallbackResult.JournalItems.Count +
-				SKDCallbackResult.SKDStates.DeviceStates.Count +
-				SKDCallbackResult.SKDStates.ZoneStates.Count > 0)
-			{
-				if (SKDCallbackResultEvent != null)
-					SKDCallbackResultEvent(SKDCallbackResult);
-			}
-		}
-
-		public static event Action<SKDCallbackResult> SKDCallbackResultEvent;
 
 		#endregion Callback
 	}

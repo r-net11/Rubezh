@@ -894,7 +894,10 @@ namespace FiresecService.Service
 			// Останавливаем прогресс хода выполнения операции
 			Processor.StopProgress(progressCallback);
 
-			return OperationResult<List<Guid>>.FromError(errors, failedDeviceUIDs);
+			if (errors.Count > 0)
+				return OperationResult<List<Guid>>.FromError(errors, failedDeviceUIDs);
+			
+			return new OperationResult<List<Guid>>();
 		}
 
 		/// <summary>
@@ -982,7 +985,9 @@ namespace FiresecService.Service
 			// Останавливаем прогресс хода выполнения операции
 			Processor.StopProgress(progressCallback);
 
-			return OperationResult<List<Guid>>.FromError(errors, failedDeviceUIDs);
+			if (errors.Count > 0)
+				return OperationResult<List<Guid>>.FromError(errors, failedDeviceUIDs);
+			return new OperationResult<List<Guid>>();
 		}
 
 		public OperationResult<bool> SKDUpdateFirmware(Guid deviceUID, string fileName)
@@ -1175,7 +1180,9 @@ namespace FiresecService.Service
 			// Останавливаем прогресс хода выполнения операции
 			Processor.StopProgress(progressCallback);
 
-			return OperationResult<List<Guid>>.FromError(errors, failedDeviceUIDs);
+			if (errors.Count > 0)
+				return OperationResult<List<Guid>>.FromError(errors, failedDeviceUIDs);
+			return new OperationResult<List<Guid>>();
 		}
 
 		#endregion </Пароли замков>

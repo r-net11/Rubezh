@@ -146,6 +146,9 @@ namespace ChinaSKDDriver
 
 				for (var i = 0; i <= 127; i++)
 				{
+#if DEBUG
+					Logger.Info("Итерация: {0}", i + 1);
+#endif
 					var weeklyInterval = SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault(x => x.ID == i) ??
 					                     new SKDWeeklyInterval();
 
@@ -205,12 +208,22 @@ namespace ChinaSKDDriver
 
 					// Выполнение операции прервано пользователем
 					if (progressCallback != null && progressCallback.IsCanceled)
+					{
+#if DEBUG
+						Logger.Info(String.Format("Операция записи графиков доступа на контроллер \"{0}\" отменена", deviceProcessor.Device.Name));
+#endif
 						return OperationResult<bool>.FromCancel(String.Format("Операция записи графиков доступа на контроллер \"{0}\" отменена", deviceProcessor.Device.Name));
+					}
 					
 					
 					// Обновляем индикатор хода выполнения операции
 					if (progressCallback != null)
+					{
+#if DEBUG
+						Logger.Info(String.Format("Обновляем индикатор хода выполнения операции записи графиков доступа на контроллер \"{0}\"", deviceProcessor.Device.Name));
+#endif
 						DoProgress(null, progressCallback);
+					}
 
 					var result = deviceProcessor.Wrapper.SetTimeShedules(i, timeShedules);
 					if (!result)
@@ -225,7 +238,12 @@ namespace ChinaSKDDriver
 
 				// Останавливаем индикатор хода выполнения операции
 				if (progressCallback != null)
+				{
+#if DEBUG
+					Logger.Info(String.Format("Останавливаем индикатор хода выполнения операции записи графиков доступа на контроллер \"{0}\"", deviceProcessor.Device.Name));
+#endif
 					StopProgress(progressCallback);
+				}
 
 				return new OperationResult<bool>(true);
 			}

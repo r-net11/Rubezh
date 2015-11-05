@@ -174,12 +174,14 @@ namespace StrazhModule.ViewModels
 				// 1. Записываем графики доступа на контроллер
 				var result = FiresecManager.FiresecService.SKDWriteTimeSheduleConfiguration(Device);
 
-#if DEBUG
-				Logger.Info("Записываем пароли замков");
-#endif
 				// 2. Записываем пароли замков на контроллер
 				if (!result.IsCanceled)
+				{
+#if DEBUG
+					Logger.Info("Записываем пароли замков");
+#endif
 					result = FiresecManager.FiresecService.SetControllerLocksPasswords(Device, GetCantrollerLocksPasswords(Device));
+				}
 
 				ApplicationService.Invoke(() =>
 				{

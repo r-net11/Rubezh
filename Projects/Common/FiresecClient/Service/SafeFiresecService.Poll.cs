@@ -88,7 +88,12 @@ namespace FiresecClient
 						SafeOperationCall(() =>
 						{
 							if (SKDProgressCallbackEvent != null)
+							{
+#if DEBUG
+								Logger.Info("Уведомляем всех подписчиков события SKDProgressCallbackEvent");
+#endif
 								SKDProgressCallbackEvent(callbackResult.SKDProgressCallback);
+							}
 						});
 						break;
 
