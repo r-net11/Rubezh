@@ -1,4 +1,5 @@
 ﻿using ChinaSKDDriverAPI;
+using Common;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using System;
@@ -173,13 +174,14 @@ namespace ChinaSKDDriver
 		/// <param name="device">Контроллер, на который перезаписываются пропуска</param>
 		/// <param name="cards">Перезаписываемые пропуска</param>
 		/// <param name="accessTemplates">Шаблоны доступа к перезаписываемым пропускам</param>
+		/// <param name="parentProgressCallback">Родительский индикатор выполнения задачи</param>
 		/// <returns>Список ошибок при выполнении операции</returns>
-		public List<string> RewriteAllCards(SKDDevice device, IEnumerable<SKDCard> cards, IEnumerable<AccessTemplate> accessTemplates, bool doProgress = true)
+		public List<string> RewriteAllCards(SKDDevice device, IEnumerable<SKDCard> cards, IEnumerable<AccessTemplate> accessTemplates, SKDProgressCallback parentProgressCallback = null)
 		{
 			SKDProgressCallback progressCallback = null;
 
 			// Показываем индикатор выполнения операции
-			if (doProgress)
+			if (parentProgressCallback == null)
 				progressCallback = Processor.StartProgress(String.Format("Запись пропусков на контроллер \"{0}\"", device.Name), "", cards.Count(), true, SKDProgressClientType.Administrator);
 
 			var errors = new List<string>();
@@ -202,8 +204,17 @@ namespace ChinaSKDDriver
 				}
 
 				// Пользователь отменил операцию
-				if (progressCallback != null && progressCallback.IsCanceled)
+				if (parentProgressCallback != null)
+					Processor.UpdateProgressCancelStatus(parentProgressCallback);
+
+				if ((progressCallback != null && progressCallback.IsCanceled) ||
+				    (parentProgressCallback != null && parentProgressCallback.IsCanceled))
+				{
+#if DEBUG
+					Logger.Info(String.Format("Операция записи пропусков на контроллер \"{0}\" отменена", device.Name));
+#endif
 					return new List<string> { "Операция отменена" };
+				}
 
 				// Обновляем индикатор выполнения операции
 				if (progressCallback != null)

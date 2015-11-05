@@ -173,6 +173,22 @@ namespace ChinaSKDDriver
 			OnSKDCallbackResult(SKDProgressCallback);
 		}
 
+		public static void UpdateProgressCancelStatus(SKDProgressCallback progressCallback)
+		{
+			var newProgressCallback = new SKDProgressCallback()
+			{
+				UID = progressCallback.UID,
+				LastActiveDateTime = DateTime.Now,
+				SKDProgressCallbackType = SKDProgressCallbackType.UpdateCancelStatus,
+				Title = progressCallback.Title,
+				Text = progressCallback.Text,
+				StepCount = progressCallback.StepCount,
+				CanCancel = progressCallback.CanCancel,
+				SKDProgressClientType = progressCallback.SKDProgressClientType
+			};
+			OnSKDCallbackResult(newProgressCallback);
+		}
+
 		private static void OnSKDCallbackResult(SKDProgressCallback SKDProgressCallback)
 		{
 #if DEBUG

@@ -125,9 +125,9 @@ namespace ChinaSKDDriver
 		/// Записывает графики доступа на контроллер
 		/// </summary>
 		/// <param name="deviceUID">Идентификатор контроллера, на который производится запись</param>
-		/// <param name="doProgress">Использовать ли индикатор выполнения задачи</param>
+		/// <param name="parentProgressCallback">Родительский индикатор выполнения задачи</param>
 		/// <returns>Объект OperationResult, описывающий результат выполнения процедуры записи</returns>
-		public static OperationResult<bool> SKDWriteTimeSheduleConfiguration(Guid deviceUID, bool doProgress = true)
+		public static OperationResult<bool> SKDWriteTimeSheduleConfiguration(Guid deviceUID, SKDProgressCallback parentProgressCallback = null)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (deviceProcessor != null)
@@ -141,7 +141,7 @@ namespace ChinaSKDDriver
 				SKDProgressCallback progressCallback = null;
 	
 				// Показываем индикатор хода выполнения операции
-				if (doProgress)
+				if (parentProgressCallback == null)
 					progressCallback = StartProgress(String.Format("Запись графиков доступа на контроллер \"{0}\"", deviceProcessor.Device.Name), null, 128, true, SKDProgressClientType.Administrator);
 
 				for (var i = 0; i <= 127; i++)
@@ -207,15 +207,17 @@ namespace ChinaSKDDriver
 					}
 
 					// Выполнение операции прервано пользователем
-					if (progressCallback != null && progressCallback.IsCanceled)
+					if (parentProgressCallback != null)
+						UpdateProgressCancelStatus(parentProgressCallback);
+
+					if ((progressCallback != null && progressCallback.IsCanceled) || (parentProgressCallback != null && parentProgressCallback.IsCanceled))
 					{
 #if DEBUG
 						Logger.Info(String.Format("Операция записи графиков доступа на контроллер \"{0}\" отменена", deviceProcessor.Device.Name));
 #endif
 						return OperationResult<bool>.FromCancel(String.Format("Операция записи графиков доступа на контроллер \"{0}\" отменена", deviceProcessor.Device.Name));
 					}
-					
-					
+
 					// Обновляем индикатор хода выполнения операции
 					if (progressCallback != null)
 					{
@@ -572,7 +574,14 @@ namespace ChinaSKDDriver
 			return false;
 		}
 
-		public static OperationResult<bool> SetControllerLocksPasswords(Guid deviceUid, IEnumerable<SKDLocksPassword> locksPasswords, bool doProgress = true)
+		/// <summary>
+		/// Записывает пароли замков на контроллер
+		/// </summary>
+		/// <param name="deviceUid">Идентификатор контроллера</param>
+		/// <param name="locksPasswords">Пароли замков</param>
+		/// <param name="parentProgressCallback">Родительский индикатор выполнения задачи</param>
+		/// <returns>Объект OperationResult с результатом выполнения процедуры</returns>
+		public static OperationResult<bool> SetControllerLocksPasswords(Guid deviceUid, IEnumerable<SKDLocksPassword> locksPasswords, SKDProgressCallback parentProgressCallback = null)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUid);
 			if (deviceProcessor != null)
@@ -583,7 +592,7 @@ namespace ChinaSKDDriver
 				SKDProgressCallback progressCallback = null;
 
 				// Показываем индикатор хода выполнения операции
-				if (doProgress)
+				if (parentProgressCallback == null)
 					progressCallback = StartProgress(String.Format("Запись паролей замков на контроллер \"{0}\"", deviceProcessor.Device.Name), null, locksPasswords.Count() + 1, true, SKDProgressClientType.Administrator);
 
 				// Сначала удаляем с контроллера все пароли замков, записанные ранее
@@ -649,8 +658,17 @@ namespace ChinaSKDDriver
 						DoProgress(null, progressCallback);
 
 					// Выполнение операции прервано пользователем
-					if (progressCallback != null && progressCallback.IsCanceled)
+					if (parentProgressCallback != null)
+						UpdateProgressCancelStatus(parentProgressCallback);
+
+					if ((progressCallback != null && progressCallback.IsCanceled) ||
+					    (parentProgressCallback != null && parentProgressCallback.IsCanceled))
+					{
+#if DEBUG
+						Logger.Info(String.Format("Операция записи паролей замков на контроллер \"{0}\" отменена", deviceProcessor.Device.Name));
+#endif
 						return OperationResult<bool>.FromCancel(String.Format("Операция записи паролей замков на контроллер \"{0}\" отменена", deviceProcessor.Device.Name));
+					}
 				}
 
 				// Останавливаем индикатор хода выполнения операции

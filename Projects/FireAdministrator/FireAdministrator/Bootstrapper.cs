@@ -114,24 +114,33 @@ namespace FireAdministrator
 							Logger.Info("Обновление состояния в окне прогрессбара");
 #endif
 							LoadingService.DoStep(SKDProgressCallback.Text);
+
 							if (LoadingService.IsCanceled)
-							{
-#if DEBUG
-								Logger.Info("Отправка сообщения Серверу приложений о прерывании текущей операции");
-#endif
-								FiresecManager.FiresecService.CancelSKDProgress(SKDProgressCallback.UID, FiresecManager.CurrentUser.Name);
-							}
+								CancelSKDProgress(SKDProgressCallback);
 						}
 						return;
 
 					case SKDProgressCallbackType.Stop:
 #if DEBUG
-							Logger.Info("Закрыто окно прогрессбара");
+						Logger.Info("Закрыто окно прогрессбара");
 #endif
 						LoadingService.Close();
 						return;
+
+					case SKDProgressCallbackType.UpdateCancelStatus:
+						if (LoadingService.IsCanceled)
+							CancelSKDProgress(SKDProgressCallback);
+						return;
 				}
 			});
+		}
+
+		private void CancelSKDProgress(SKDProgressCallback progressCallback)
+		{
+#if DEBUG
+			Logger.Info("Отправка сообщения Серверу приложений о прерывании текущей операции");
+#endif
+			FiresecManager.FiresecService.CancelSKDProgress(progressCallback.UID, FiresecManager.CurrentUser.Name);
 		}
 
 		private void OnConfigurationChanged(object obj)

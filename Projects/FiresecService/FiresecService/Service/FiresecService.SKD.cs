@@ -880,7 +880,7 @@ namespace FiresecService.Service
 #if DEBUG
 				Logger.Info(String.Format("Запись графиков доступа на контроллер \"{0}\"", device.Name));
 #endif
-				var result = Processor.SKDWriteTimeSheduleConfiguration(device.UID, false);
+				var result = Processor.SKDWriteTimeSheduleConfiguration(device.UID, progressCallback);
 				if (result.HasError)
 				{
 					failedDeviceUIDs.Add(device.UID);
@@ -965,7 +965,7 @@ namespace FiresecService.Service
 					var accessTemplatesResult = databaseService.AccessTemplateTranslator.Get(new AccessTemplateFilter());
 					if (!cardsResult.HasError && !accessTemplatesResult.HasError)
 					{
-						result = Processor.SKDRewriteAllCards(device, cardsResult.Result, accessTemplatesResult.Result, false);
+						result = Processor.SKDRewriteAllCards(device, cardsResult.Result, accessTemplatesResult.Result, progressCallback);
 					}
 					else
 					{
@@ -1166,7 +1166,7 @@ namespace FiresecService.Service
 #if DEBUG
 				Logger.Info(String.Format("Запись паролей замков на контроллер \"{0}\"", device.Name));
 #endif
-				var result = Processor.SetControllerLocksPasswords(device.UID, device.ControllerPasswords != null ? device.ControllerPasswords.LocksPasswords : new List<SKDLocksPassword>(), false);
+				var result = Processor.SetControllerLocksPasswords(device.UID, device.ControllerPasswords != null ? device.ControllerPasswords.LocksPasswords : new List<SKDLocksPassword>(), progressCallback);
 				if (result.HasError)
 				{
 					failedDeviceUIDs.Add(device.UID);

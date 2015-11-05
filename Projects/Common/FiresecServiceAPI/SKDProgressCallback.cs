@@ -47,7 +47,8 @@ namespace FiresecAPI
 	{
 		Start,
 		Progress,
-		Stop
+		Stop,
+		UpdateCancelStatus
 	}
 
 	public enum SKDProgressClientType
