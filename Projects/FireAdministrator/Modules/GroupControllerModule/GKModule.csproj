@@ -294,7 +294,7 @@
       <DependentUpon>MPTPropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Selectation\ViewModels\AnyZonesSelectionViewModel.cs" />
-    <Compile Include="Selectation\ViewModels\DependencyItemsViewModel..cs" />
+    <Compile Include="Selectation\ViewModels\DependencyItemsViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DependencyItemViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DeviceGuardZoneViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DirectionsSelectationViewModel.cs" />

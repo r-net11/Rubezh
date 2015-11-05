@@ -120,8 +120,9 @@
 											<ControlTemplate>
 												<ComboBox ItemsSource="{Binding AvailvableDrivers}"
 														  SelectedItem="{Binding Driver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+														  HorizontalAlignment="Left"
 														  SelectedIndex="{Binding SelectedAvailableDriverIndex}"
-														  Width="120" Height="19">
+														  Height="19">
 													<ComboBox.ItemTemplate>
 														<DataTemplate>
 															<Controls:IconLabel Foreground="{DynamicResource ForegroundColorDark}"
