@@ -44,13 +44,14 @@ namespace Infrastructure.Automation
 		{
 			var showMessageArguments = procedureStep.ShowMessageArguments;
 			var message = GetValue<object>(showMessageArguments.MessageArgument);
+			var messageString = AutomationHelper.GetStringValue(message);
 			var automationCallbackResult = new AutomationCallbackResult()
 			{
 				AutomationCallbackType = AutomationCallbackType.Message,
 				Data = new MessageCallbackData()
 				{
 					IsModalWindow = showMessageArguments.IsModalWindow,
-					Message = message,
+					Message = messageString,
 					WithConfirmation = showMessageArguments.WithConfirmation
 				},
 			};
