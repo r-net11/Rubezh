@@ -107,6 +107,9 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 
         #region Fields And Properties
 
+		/// <summary>
+		/// Минимальное значение, которое можно установить для ствойства PollingPeriod
+		/// </summary>
 		const int MIN_POLLING_PERIOD = 1000;
 		
 		static DeviceModel[] _supportedDevices = 
@@ -546,10 +549,10 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                             //}
                         }
 
+						result.SetCompleted();
+
                         OnNetwrokRequestCompleted(
                             new NetworkRequestCompletedArgs { NetworkRequest = _currentNetworkRequest });
-
-                        result.SetCompleted();
 
                         break;
                     }
@@ -570,7 +573,10 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                                 "Принят ответ от удалённого устройтства во время широковещательного запроса");
                         }
 
-                        result.SetCompleted();
+						result.SetCompleted();
+						
+						OnNetwrokRequestCompleted(
+							new NetworkRequestCompletedArgs { NetworkRequest = _currentNetworkRequest });
 
                         break;
                     }
@@ -582,9 +588,15 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             }
         }
 
-        public override void SyncDateTime()
+		/// <summary>
+		/// Синхронизирует время в группе устройтсв с указанным групповым
+		/// адресом
+		/// </summary>
+		/// <param name="groupAddress"></param>
+		public override void SyncDateTime(ValueType groupAddress)
         {
-            throw new NotImplementedException();
+			Mercury203.WriteDateTimeInGroupDevices(DateTime.Now, (uint)groupAddress, 
+				(INetwrokController)this, isExternalCall: true);
         }
 
 		public override OperationResult ReadParameter(string parameterName)

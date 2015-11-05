@@ -26,11 +26,11 @@ namespace ResursNetwork.Incotex.Models
     public class Mercury203: DeviceBase
     {
         #region Fields And Properties
-
-        /// <summary>
+        
+		/// <summary>
         /// Хранит все активные операции по данному устройтву
         /// </summary>
-        private List<NetworkRequest> _ActiveRequests = new List<NetworkRequest>();
+        List<NetworkRequest> _ActiveRequests = new List<NetworkRequest>();
 
         public override DeviceModel DeviceModel
         {
@@ -499,6 +499,7 @@ namespace ResursNetwork.Incotex.Models
 				Address = Address,
 				CmdCode = Convert.ToByte(Mercury203CmdCode.WriteDateTime)
 			};
+
 			var transaction = new Transaction(this, TransactionType.UnicastMode, request)
 			{
 				Sender = this
@@ -585,6 +586,54 @@ namespace ResursNetwork.Incotex.Models
 				//TODO:
 				_ActiveRequests.Remove(command);
 			}
+		}
+
+		/// <summary>
+		/// Широковешательная команда записи времени и даты во все устройтсва
+		/// сети с указанным групповым адресом
+		/// </summary>
+		/// <param name="dateTime"></param>
+		/// <param name="groupAddress">Групповой адрес устройтсв</param>
+		/// <param name="networkController"></param>
+		/// <param name="isExternalCall"></param>
+		/// <returns></returns>
+		/// <remarks>Ответ на данный тип запросов не приходит, 
+		/// только создаётся временная выдержка</remarks>
+		public static IAsyncRequestResult WriteDateTimeInGroupDevices(
+			DateTime dateTime, 
+			UInt32 groupAddress, 
+			INetwrokController networkController, 
+			bool isExternalCall = true)
+		{
+			var request = new DataMessage(
+				new IncotexDataTimeTypeConverter().ToArray(IncotexDateTime.FromDateTime(dateTime)))
+			{
+				Address = groupAddress,
+				CmdCode = Convert.ToByte(Mercury203CmdCode.WriteDateTime)
+			};
+
+			var transaction = new Transaction(null, TransactionType.BroadcastMode, request)
+			{
+				Sender = null
+			};
+
+			var networkRequest = new NetworkRequest(transaction);
+
+			if (networkController == null)
+			{
+				transaction.Start();
+				transaction.Abort(new TransactionError
+				{
+					ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+					Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+				});
+				networkRequest.AsyncRequestResult.SetCompleted();
+			}
+			else
+			{
+				networkController.Write(networkRequest, isExternalCall);
+			}
+			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
 		}
 
 		/// <summary>

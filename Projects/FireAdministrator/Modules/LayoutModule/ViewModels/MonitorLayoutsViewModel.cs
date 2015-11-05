@@ -228,12 +228,5 @@ namespace LayoutModule.ViewModels
 			if (IsActive)
 				LayoutDesignerViewModel.Instance.SaveLayout();
 		}
-
-		protected override void KeyPressed(KeyEventArgs e)
-		{
-			if (!e.Handled)
-				LayoutDesignerViewModel.Instance.KeyPressed(e);
-			base.KeyPressed(e);
-		}
 	}
 }

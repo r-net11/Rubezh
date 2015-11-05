@@ -311,9 +311,10 @@ namespace ResursNetwork.Networks
         /// Синхронизирует дату и время устройтсв в указанной сети
         /// </summary>
         /// <param name="networkId"></param>
-        public void SyncDateTime(Guid networkId)
+		/// <param name="broadcastAddress">Широковещательный адрес</param>
+        public void SyncDateTime(Guid networkId, ValueType broadcastAddress)
         {
-            _NetworkControllers[networkId].SyncDateTime();
+            _NetworkControllers[networkId].SyncDateTime(broadcastAddress);
         }
 
 		public void SendCommand(Guid id, string commandName)

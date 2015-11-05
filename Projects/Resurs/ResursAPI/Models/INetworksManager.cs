@@ -43,7 +43,9 @@ namespace ResursAPI.Models
         /// Синхронизирует дату и время устройтсв в указанной сети
         /// </summary>
         /// <param name="networkId"></param>
-		void SyncDateTime(Guid networkId);
+		/// <param name="broadcastAddress">Широковещательный адрес</param>
+		/// <remarks>broadcastAddress: в Incotex-протоколе это это групповой адрес устройств </remarks>
+		void SyncDateTime(Guid networkId, ValueType broadcastAddress);
 
 		void SendCommand(Guid id, string commandName);
 
