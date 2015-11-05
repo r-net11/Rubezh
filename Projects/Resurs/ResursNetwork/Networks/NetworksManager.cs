@@ -317,6 +317,11 @@ namespace ResursNetwork.Networks
             _NetworkControllers[networkId].SyncDateTime(broadcastAddress);
         }
 
+		public void SyncDateTime(Guid networkId)
+		{
+			_NetworkControllers[networkId].SyncDateTime();
+		}
+
 		public void SendCommand(Guid id, string commandName)
 		{
 			var controller = FindController(id);

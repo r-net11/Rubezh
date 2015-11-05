@@ -341,7 +341,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                 {
                     // При срабатывании по таймауту обновляем данные из удалённых устройтств
                     // При условии что контроллер в активном состоянии
-                    foreach (DeviceBase device in _Devices)
+                    foreach (DeviceBase device in _devices)
                     {
                         ReadDeviceParameters(device);
                     }
@@ -595,9 +595,53 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 		/// <param name="groupAddress"></param>
 		public override void SyncDateTime(ValueType groupAddress)
         {
-			Mercury203.WriteDateTimeInGroupDevices(DateTime.Now, (uint)groupAddress, 
+			var result = Mercury203.WriteDateTimeInGroupDevices(DateTime.Now, (uint)groupAddress, 
 				(INetwrokController)this, isExternalCall: true);
+
+			// Ждём завершения операции
+			for (int i = 0; i < 2; i++)
+			{
+				Thread.Sleep(BroadcastRequestDelay);
+				
+				if (result.IsCompleted)
+				{
+					return;
+				}
+			}
+
+			throw new Exception(
+				"Широковешательный запрос не завершился за заданное время");
         }
+
+		public override void SyncDateTime()
+		{
+			Boolean flag = false;
+			var groups = _devices.GroupBy(x => ((Mercury203)x).GroupAddress);
+
+			foreach (var group in groups)
+			{
+				var result = Mercury203.WriteDateTimeInGroupDevices(DateTime.Now, group.Key,
+					(INetwrokController)this, isExternalCall: true);
+
+				// Ждём завершения операции
+				for (int i = 0; i < 2; i++)
+				{
+					Thread.Sleep(BroadcastRequestDelay);
+
+					if (result.IsCompleted)
+					{
+						flag = true;
+						break;
+					}
+				}
+
+				if (!flag)
+				{
+					throw new Exception(
+						"Широковешательный запрос не завершился за заданное время"); 
+				}
+			}
+		}
 
 		public override OperationResult ReadParameter(string parameterName)
 		{
