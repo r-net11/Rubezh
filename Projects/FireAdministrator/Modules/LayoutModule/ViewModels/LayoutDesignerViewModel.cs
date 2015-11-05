@@ -177,10 +177,13 @@ namespace LayoutModule.ViewModels
 					}
 					break;
 				case NotifyCollectionChangedAction.Remove:
-					foreach (LayoutPartViewModel layoutPartViewModel in e.OldItems)
+					if (_layout != null)
 					{
-						_layout.Parts.Remove(layoutPartViewModel.LayoutPart);
-						layoutPartViewModel.LayoutPartDescriptionViewModel.Count--;
+						foreach (LayoutPartViewModel layoutPartViewModel in e.OldItems)
+						{
+							_layout.Parts.Remove(layoutPartViewModel.LayoutPart);
+							layoutPartViewModel.LayoutPartDescriptionViewModel.Count--;
+						}
 					}
 					break;
 			}
