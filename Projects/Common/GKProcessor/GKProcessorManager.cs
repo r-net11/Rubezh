@@ -197,7 +197,7 @@ namespace GKProcessor
 				descriptorReader.ReadConfiguration(device);
 				return OperationResult<GKDeviceConfiguration>.FromError(descriptorReader.Error, descriptorReader.DeviceConfiguration);
 			}
-			if (device.Driver.DriverType == GKDriverType.RSR2_GKMirror)
+			if (device.Driver.DriverType == GKDriverType.GKMirror)
 			{
 				descriptorReader = new MirrorDescriptorsReader();
 				descriptorReader.ReadConfiguration(device);

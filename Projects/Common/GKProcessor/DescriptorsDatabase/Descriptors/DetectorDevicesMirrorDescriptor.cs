@@ -15,7 +15,6 @@ namespace GKProcessor
 			{
 				Device.LinkToDescriptor(dev);
 			}
-			//Device.LinkToDescriptor(Device);
 		}
 
 		public override void Build()

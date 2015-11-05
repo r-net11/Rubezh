@@ -466,7 +466,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (var detectordevice in deviceSelectationViewMode.Devices)
 				{
-					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirrorDetectorsDevice);
+					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.DetectorDeviceMirror);
 					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
 					device.GKReflectionItem.DeviceUIDs.Add(detectordevice.UID);
 					device.GKReflectionItem.Devices.Add(detectordevice);

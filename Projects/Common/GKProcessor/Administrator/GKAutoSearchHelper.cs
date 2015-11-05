@@ -121,7 +121,7 @@ namespace GKProcessor
 
 							else
 							{
-								kauDevice.Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirror);
+								kauDevice.Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKMirror);
 								if (kauDevice.Driver != null)
 									kauDevice.DriverUID = kauDevice.Driver.UID;
 							}

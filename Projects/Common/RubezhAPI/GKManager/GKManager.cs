@@ -108,7 +108,7 @@ namespace RubezhClient
 					break;
 
 				case GKDriverType.RSR2_KAU:
-				case GKDriverType.RSR2_GKMirror:
+				case GKDriverType.GKMirror:
 					gkControllerDevice = device.Parent;
 					break;
 

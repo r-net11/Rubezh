@@ -10,7 +10,7 @@ namespace GKProcessor
 			var driver = new GKDriver()
 			{
 				DriverTypeNo = 0x102,
-				DriverType = GKDriverType.RSR2_GKMirror,
+				DriverType = GKDriverType.GKMirror,
 				UID = new Guid("72B08282-457D-4e7b-B86F-EBCC0CC4EF03"),
 				Name = "Отражение ГК",
 				ShortName = "Отражение ГК",
@@ -26,12 +26,12 @@ namespace GKProcessor
 			driver.AutoCreateChildren.Add(GKDriverType.GKIndicator);
 			driver.AutoCreateChildren.Add(GKDriverType.GKRele);
 
-			driver.Children.Add(GKDriverType.RSR2_GKMirrorDetectorsDevice);
-			driver.Children.Add(GKDriverType.RSR2_GKMirrorFireZone);
-			driver.Children.Add(GKDriverType.RSR2_GKMirrorPerformersDevice);
-			driver.Children.Add(GKDriverType.RSR2_GKMirrorGuardZone);
-			driver.Children.Add(GKDriverType.RSR2_GKMirrorFightFireZone);
-			driver.Children.Add(GKDriverType.RSR2_GKMirrorDirection);
+			driver.Children.Add(GKDriverType.DetectorDevicesMirror);
+			driver.Children.Add(GKDriverType.FireZonesMirror);
+			driver.Children.Add(GKDriverType.ControlDevicesMirror);
+			driver.Children.Add(GKDriverType.GuardZonesMirror);
+			driver.Children.Add(GKDriverType.FirefightingZonesMirror);
+			driver.Children.Add(GKDriverType.DirectionsMirror);
 
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
 			driver.AvailableStateClasses.Add(XStateClass.Unknown);

@@ -534,7 +534,7 @@ namespace RubezhAPI.GK
 			{
 				var allParents = AllParents;
 				allParents.Add(this);
-				return allParents.LastOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirror);
+				return allParents.LastOrDefault(x => x.DriverType == GKDriverType.GKMirror);
 			}
 		}
 

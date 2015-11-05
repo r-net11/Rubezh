@@ -33,7 +33,7 @@ namespace GKProcessor
 						break;
 
 					case GKDriverType.RSR2_KAU:
-					case GKDriverType.RSR2_GKMirror:
+					case GKDriverType.GKMirror:
 						whom = 4;
 						var modeProperty = device.Properties.FirstOrDefault(x => x.Name == "Mode");
 						if (modeProperty != null)

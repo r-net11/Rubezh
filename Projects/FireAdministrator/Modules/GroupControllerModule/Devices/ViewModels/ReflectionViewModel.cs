@@ -44,7 +44,7 @@ namespace GKModule.ViewModels
 					IsDirections = true;
 					break;
 
-				case GKDriverType.RSR2_GKMirrorDetectorsDevice:
+				case GKDriverType.DetectorDeviceMirror:
 					HasDevices = true;
 					IsDevices = true;
 					break;
@@ -60,7 +60,7 @@ namespace GKModule.ViewModels
 			DirectionsSelectationViewModel = new DirectionsSelectationViewModel(directions);
 			var delays = GKManager.Delays.Where(x => Device.GKReflectionItem.DelayUIDs.Contains(x.UID)).ToList();
 			DelaysSelectationViewModel = new DelaysSelectationViewModel(delays);
-			if (device.Driver.DriverType == GKDriverType.RSR2_GKMirrorDetectorsDevice)
+			if (device.Driver.DriverType == GKDriverType.DetectorDeviceMirror)
 			{
 				var devices = GKManager.Devices.Where(x => Device.GKReflectionItem.DeviceUIDs.Contains(x.UID)).ToList();
 				DevicesSelectationViewModel = new DevicesSelectationViewModel(devices, GKManager.Devices.Where(x=> x.Driver.HasZone).ToList());

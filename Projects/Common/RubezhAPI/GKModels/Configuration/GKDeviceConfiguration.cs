@@ -148,7 +148,7 @@ namespace RubezhAPI.GK
 		{
 			foreach (var device in Devices)
 			{
-				if (device.DriverType == GKDriverType.RSR2_KAU || device.DriverType == GKDriverType.RSR2_GKMirror)
+				if (device.DriverType == GKDriverType.RSR2_KAU || device.DriverType == GKDriverType.GKMirror)
 				{
 					GKManager.RebuildRSR2Addresses(device);
 				}

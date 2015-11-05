@@ -10,11 +10,11 @@ namespace GKProcessor
 		{
 			var driver = new GKDriver()
 			{
-				DriverTypeNo = 0x998,
-				DriverType = GKDriverType.RSR2_GKMirrorFightFireZone,
+				DriverTypeNo = 0x10F,
+				DriverType = GKDriverType.FirefightingZonesMirror,
 				UID = new Guid("C796BFE3-A1B9-4507-8B18-09DD20B16FB2"),
-				Name = "Зоны пожаротушения",
-				ShortName = "Зоны пожаротушения",
+				Name = "Зона пожарная с защитой",
+				ShortName = "ЗПЗ",
 				HasAddress = true,
 				IsDeviceOnShleif = false,
 				IsPlaceable = false,

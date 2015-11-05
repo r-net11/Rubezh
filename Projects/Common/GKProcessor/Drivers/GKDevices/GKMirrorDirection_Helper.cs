@@ -10,11 +10,11 @@ namespace GKProcessor
 		{
 			var driver = new GKDriver()
 			{
-				DriverTypeNo = 0x998,
-				DriverType = GKDriverType.RSR2_GKMirrorDirection,
+				DriverTypeNo = 0x10A,
+				DriverType = GKDriverType.DirectionsMirror,
 				UID = new Guid("19AD5199-53DF-40F5-9E35-99726476FD49"),
-				Name = "Направления",
-				ShortName = "Направления",
+				Name = "Направление противопожарной защиты",
+				ShortName = "НПЗ",
 				HasAddress = true,
 				IsDeviceOnShleif = false,
 				IsPlaceable = false,
