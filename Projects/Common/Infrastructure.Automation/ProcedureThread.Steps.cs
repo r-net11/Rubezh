@@ -524,6 +524,9 @@ namespace Infrastructure.Automation
 					case Property.Name:
 						propertyValue = gkGuardZone.Name.Trim();
 						break;
+					case Property.Description:
+						propertyValue = gkGuardZone.Description == null ? "" : gkGuardZone.Description.Trim();
+						break;
 					case Property.Uid:
 						propertyValue = gkGuardZone.UID.ToString();
 						break;
@@ -557,7 +560,7 @@ namespace Infrastructure.Automation
 						propertyValue = gkDoor.State.HoldDelay;
 						break;
 					case Property.Description:
-						propertyValue = gkDoor.Description == null ? "" : gkDoor.Description.Trim(); ;
+						propertyValue = gkDoor.Description == null ? "" : gkDoor.Description.Trim();
 						break;
 					case Property.Uid:
 						propertyValue = gkDoor.UID.ToString();
