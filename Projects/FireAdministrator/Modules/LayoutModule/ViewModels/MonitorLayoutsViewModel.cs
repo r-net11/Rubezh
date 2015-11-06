@@ -54,7 +54,6 @@ namespace LayoutModule.ViewModels
 				LayoutUsersViewModel = new LayoutUsersViewModel();
 				Layouts = new ObservableCollection<LayoutViewModel>();
 				ListCollectionView view = (ListCollectionView)CollectionViewSource.GetDefaultView(Layouts);
-				view.CustomSort = new LayoutViewModelComparer();
 				foreach (var layout in ClientManager.LayoutsConfiguration.Layouts)
 					Layouts.Add(new LayoutViewModel(layout));
 				view.MoveCurrentToFirst();
