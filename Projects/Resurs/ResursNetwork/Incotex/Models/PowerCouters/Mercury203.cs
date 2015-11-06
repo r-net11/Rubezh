@@ -144,6 +144,16 @@ namespace ResursNetwork.Incotex.Models
 				Value = (ushort)0
 			});
 
+			_parameters.Add(new Parameter(typeof(byte))
+			{
+				Name = ParameterNamesMercury203.AmountOfActiveTariffs,
+				Description = "Количество действующих тарифов",
+				PollingEnabled = true,
+				ReadOnly = false,
+				ValueConverter = null,
+				Value = (byte)0
+			});
+
 			_parameters.Add(new Parameter(typeof(float))
 			{
 				Name = ParameterNamesMercury203.CounterTarif1,
@@ -206,6 +216,10 @@ namespace ResursNetwork.Incotex.Models
 						GetAnswerGeneralWriteRequest(networkRequest); break;
 					}
 				case Mercury203CmdCode.WriteLimitPower:
+					{
+						GetAnswerGeneralWriteRequest(networkRequest); break;
+					}
+				case Mercury203CmdCode.WriteAmountOfActiveTariffs:
 					{
 						GetAnswerGeneralWriteRequest(networkRequest); break;
 					}
@@ -332,6 +346,16 @@ namespace ResursNetwork.Incotex.Models
 				case ParameterNamesMercury203.PowerLimit:
 					{
 						asyncResult = WritePowerLimit(value: (float)value, isExternalCall: true);
+						break;
+					}
+				case ParameterNamesMercury203.PowerLimitPerMonth:
+					{
+						asyncResult = WritePowerLimitPerMonth(value: (float)value, isExternalCall: true);
+						break;
+					}
+				case ParameterNamesMercury203.AmountOfActiveTariffs:
+					{
+						asyncResult = WriteAmountOfActiveTariff(value: (byte)value, isExternalCall: true);
 						break;
 					}
 				default:
@@ -792,6 +816,52 @@ namespace ResursNetwork.Incotex.Models
 			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
 		}
 
+		/// <summary>
+		/// Установка лимита мощности за месяц (CMD=04h)
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="isExternalCall"></param>
+		/// <returns></returns>
+		public IAsyncRequestResult WriteAmountOfActiveTariff(byte value, bool isExternalCall = true)
+		{
+			if ((value < 1) || (value > 4))
+			{
+				throw new ArgumentOutOfRangeException("Amount",
+					"Кол-во активных тарифов должно быть от 1 до 4");
+			}
+
+			var request = new DataMessage(
+				Mpower.GetValueConveter().ToArray(value))
+			{
+				Address = Address,
+				CmdCode = Convert.ToByte(Mercury203CmdCode.WriteAmountOfActiveTariffs)
+			};
+
+			var transaction = new Transaction(this, TransactionType.UnicastMode, request)
+			{
+				Sender = this
+			};
+
+			var networkRequest = new NetworkRequest(transaction);
+
+			if (_NetworkController == null)
+			{
+				transaction.Start();
+				transaction.Abort(new TransactionError
+				{
+					ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+					Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+				});
+				networkRequest.AsyncRequestResult.SetCompleted();
+			}
+			else
+			{
+				_activeRequests.Add(networkRequest);
+				_NetworkController.Write(networkRequest, isExternalCall);
+			}
+
+			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
+		}
 
         /// <summary>
         /// Чтение группового адреса счетчика (CMD=20h)
