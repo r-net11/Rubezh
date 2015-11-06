@@ -25,5 +25,9 @@ namespace ResursAPI.ParameterNames
 		/// тип в БД - Double, только для чтения
         /// </summary>
         public const string PowerLimitPerMonth = "PowerLimitPerMonth";
+		/// <summary>
+		/// Количество активных тарифов
+		/// </summary>
+		public const string AmountOfActiveTariffs = "AmountOfActiveTariffs";
 	}
 }

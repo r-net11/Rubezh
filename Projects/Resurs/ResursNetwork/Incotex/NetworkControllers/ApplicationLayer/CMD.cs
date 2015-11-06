@@ -53,7 +53,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// <summary>
         /// Установка числа действующих тари-фов
         /// </summary>
-        SetActiveTariffs,
+        WriteAmountOfActiveTariffs,
         /// <summary>
         /// Чтение группового адреса счетчика
         /// </summary>

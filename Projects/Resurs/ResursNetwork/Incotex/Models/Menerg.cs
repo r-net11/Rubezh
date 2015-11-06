@@ -41,6 +41,7 @@ namespace ResursNetwork.Incotex.Models
 		public ushort PowerLimitPerMonth
 		{
 			get { return BcdConverter.ToUInt16(_powerLimitBcd); }
+			set { _powerLimitBcd = BcdConverter.ToBcdUInt16(value); }
 		}
 
 		#endregion
