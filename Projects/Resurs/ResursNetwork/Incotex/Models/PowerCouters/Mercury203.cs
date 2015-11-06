@@ -183,21 +183,21 @@ namespace ResursNetwork.Incotex.Models
 
             switch ((Mercury203CmdCode)request.CmdCode)
             {
+				case Mercury203CmdCode.WriteAddress:
+					{
+						GetAnswerWriteAdderss(networkRequest); break;
+					}
 				case Mercury203CmdCode.WriteGroupAddress:
 					{
-						GetAnswerReadGroupAddress(networkRequest); break;
+						GetAnswerGeneralWriteRequest(networkRequest); break;
 					}
 				case Mercury203CmdCode.WriteDateTime:
 					{
-						GetAnswerWriteDateTime(networkRequest); break;
+						GetAnswerGeneralWriteRequest(networkRequest); break;
 					}
-                case Mercury203CmdCode.WriteNetworkAddress:
-                    {
-                        GetAnswerWriteNetwokAdderss(networkRequest); break;
-                    }
 				case Mercury203CmdCode.WriteLimitPower:
 					{
-						GetAnswerWritePowerLimit(networkRequest); break;
+						GetAnswerGeneralWriteRequest(networkRequest); break;
 					}
                 case Mercury203CmdCode.ReadGroupAddress:
                     {
@@ -405,12 +405,12 @@ namespace ResursNetwork.Incotex.Models
         /// <param name="addr">Текущий сетевой адрес счётчика</param>
         /// <param name="newaddr">Новый сетевой адрес счётчика</param>
         /// <returns></returns>
-        public IAsyncRequestResult WriteNewAddress(UInt32 addr, UInt32 newaddr, bool isExternalCall = true)
+        public IAsyncRequestResult WriteAddress(UInt32 addr, UInt32 newaddr, bool isExternalCall = true)
         {
             var request = new DataMessage()
             {
                 Address = addr,
-                CmdCode = Convert.ToByte(Mercury203CmdCode.WriteNetworkAddress)
+                CmdCode = Convert.ToByte(Mercury203CmdCode.WriteAddress)
             };
             var transaction = new Transaction(this, TransactionType.UnicastMode, request) 
             { 
@@ -440,7 +440,7 @@ namespace ResursNetwork.Incotex.Models
 		/// Разбирает ответ от удалённого устройтва по запросу SetNewAddress (CMD=00h)
         /// </summary>
         /// <param name="networkRequest"></param>
-        private void GetAnswerWriteNetwokAdderss(NetworkRequest networkRequest)
+        private void GetAnswerWriteAdderss(NetworkRequest networkRequest)
         {
             var request = (DataMessage)networkRequest.Request.Request;
 
@@ -551,10 +551,11 @@ namespace ResursNetwork.Incotex.Models
 		}
 
 		/// <summary>
-		/// Разбирает ответ по запросу WriteNewGroupAddress (CMD=01h)
+		/// Разбирает ответ на запрос записи параметра, общий для команд
+		/// записи имеющий структуру ADDR-CMD-CRC
 		/// </summary>
 		/// <param name="networkRequest"></param>
-		private void GetAnswerWriteNewGroupAddress(NetworkRequest networkRequest)
+		private void GetAnswerGeneralWriteRequest(NetworkRequest networkRequest)
 		{
 			// Разбираем ответ
 			if (networkRequest.Status == NetworkRequestStatus.Completed)
@@ -654,69 +655,6 @@ namespace ResursNetwork.Incotex.Models
 		}
 
 		/// <summary>
-		/// Разбирает ответ по запросу WriteDateTime (CMD=02h)
-		/// </summary>
-		/// <param name="networkRequest"></param>
-		private void GetAnswerWriteDateTime(NetworkRequest networkRequest)
-		{
-			// Разбираем ответ
-			if (networkRequest.Status == NetworkRequestStatus.Completed)
-			{
-				var command = _activeRequests.FirstOrDefault(
-					p => p.Id == networkRequest.Id);
-
-				if (command == null)
-				{
-					throw new Exception("Не найдена команда с указанной транзакцией");
-				}
-
-				if (networkRequest.CurrentTransaction.Answer.ToArray().Length != 7)
-				{
-					//command.Status = Result.Error;
-					//command.ErrorDescription = "Неверная длина ответного сообщения";
-					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
-					//TODO:
-					_activeRequests.Remove(command);
-				}
-
-				var request = (DataMessage)networkRequest.Request.Request;
-				var answer = (DataMessage)networkRequest.CurrentTransaction.Answer;
-
-				// Проверяем новый адрес в запросе и в ответе
-				if (request.Address != answer.Address)
-				{
-					//command.Status = Result.Error;
-					//command.ErrorDescription = "Адрес команды в ответе не соответствует адресу в запросе";
-					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
-					//TODO:
-					_activeRequests.Remove(command);
-				}
-
-				if (answer.CmdCode != request.CmdCode)
-				{
-					//command.Status = Result.Error;
-					//command.ErrorDescription = "Код команды в ответе не соответствует коду в запросе";
-					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
-					//TODO:
-					_activeRequests.Remove(command);
-				}
-
-				//command.Status = Result.OK;
-				_activeRequests.Remove(command);
-			}
-			else
-			{
-				// Транзакция выполнена с ошибкам
-				var command = _activeRequests.FirstOrDefault(
-					p => p.Id == networkRequest.Id);
-				//command.Status = Result.Error;
-				//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
-				//TODO:
-				_activeRequests.Remove(command);
-			}
-		}
-
-		/// <summary>
 		/// Широковешательная команда записи времени и даты во все устройтсва
 		/// сети с указанным групповым адресом
 		/// </summary>
@@ -803,70 +741,6 @@ namespace ResursNetwork.Incotex.Models
 			}
 			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
 		}
-
-		/// <summary>
-		/// Разбирает ответ по запросу WritePowerLimit (CMD=03h)
-		/// </summary>
-		/// <param name="networkRequest"></param>
-		private void GetAnswerWritePowerLimit(NetworkRequest networkRequest)
-		{
-			// Разбираем ответ
-			if (networkRequest.Status == NetworkRequestStatus.Completed)
-			{
-				var command = _activeRequests.FirstOrDefault(
-					p => p.Id == networkRequest.Id);
-
-				if (command == null)
-				{
-					throw new Exception("Не найдена команда с указанной транзакцией");
-				}
-
-				if (networkRequest.CurrentTransaction.Answer.ToArray().Length != 7)
-				{
-					//command.Status = Result.Error;
-					//command.ErrorDescription = "Неверная длина ответного сообщения";
-					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
-					//TODO:
-					_activeRequests.Remove(command);
-				}
-
-				var request = (DataMessage)networkRequest.Request.Request;
-				var answer = (DataMessage)networkRequest.CurrentTransaction.Answer;
-
-				// Проверяем новый адрес в запросе и в ответе
-				if (request.Address != answer.Address)
-				{
-					//command.Status = Result.Error;
-					//command.ErrorDescription = "Адрес команды в ответе не соответствует адресу в запросе";
-					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
-					//TODO:
-					_activeRequests.Remove(command);
-				}
-
-				if (answer.CmdCode != request.CmdCode)
-				{
-					//command.Status = Result.Error;
-					//command.ErrorDescription = "Код команды в ответе не соответствует коду в запросе";
-					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
-					//TODO:
-					_activeRequests.Remove(command);
-				}
-
-				//command.Status = Result.OK;
-				_activeRequests.Remove(command);
-			}
-			else
-			{
-				// Транзакция выполнена с ошибкам
-				var command = _activeRequests.FirstOrDefault(
-					p => p.Id == networkRequest.Id);
-				//command.Status = Result.Error;
-				//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
-				//TODO:
-				_activeRequests.Remove(command);
-			}
-		}
-
 
         /// <summary>
         /// Чтение группового адреса счетчика (CMD=20h)

@@ -13,7 +13,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// <summary>
         /// Установка нового сетевого адреса счетчика 
         /// </summary>
-        WriteNetworkAddress = 0,
+        WriteAddress = 0,
         /// <summary>
         /// Установка нового группового адреса счетчика 
         /// </summary>
