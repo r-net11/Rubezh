@@ -94,5 +94,11 @@ namespace RubezhAPI.GK
 		{
 			get { return "/Controls;component/GKIcons/" + DriverType + ".png"; }
 		}
+		public override bool Equals(object obj)
+		{
+			if (obj == null || !(obj is GKDriver))
+				return false;
+			return ((GKDriver)obj).ShortName == this.ShortName;
+		}
 	}
 }

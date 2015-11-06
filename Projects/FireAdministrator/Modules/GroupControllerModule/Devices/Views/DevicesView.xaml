@@ -118,10 +118,10 @@
 										</Controls:EditorPresenter.ViewTemplate>
 										<Controls:EditorPresenter.EditTemplate >
 											<ControlTemplate>
-												<ComboBox ItemsSource="{Binding AvailvableDrivers}"
-														  SelectedItem="{Binding Driver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+												<ComboBox ItemsSource="{Binding AvailvableDrivers, UpdateSourceTrigger=PropertyChanged}"
+														  SelectedValue="{Binding Driver}"
+														  SelectedValuePath=""
 														  HorizontalAlignment="Left"
-														  SelectedIndex="{Binding SelectedAvailableDriverIndex}"
 														  Height="19">
 													<ComboBox.ItemTemplate>
 														<DataTemplate>
