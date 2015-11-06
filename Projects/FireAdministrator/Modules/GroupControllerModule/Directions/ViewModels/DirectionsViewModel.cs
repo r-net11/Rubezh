@@ -183,7 +183,7 @@ namespace GKModule.ViewModels
 			var logicViewModel = new LogicViewModel(SelectedDirection.Direction, _directionToCopy.Logic, true);
 			directionViewModel.Direction.Logic = logicViewModel.GetModel();
 			directionViewModel.Direction.No = (ushort)(GKManager.Directions.Select(x => x.No).Max() + 1);
-			directionViewModel.Direction.Invalidate();
+			directionViewModel.Direction.Invalidate(GKManager.DeviceConfiguration);
 			GKManager.AddDirection(directionViewModel.Direction);
 			Directions.Add(directionViewModel);
 			SelectedDirection = directionViewModel;
@@ -216,7 +216,7 @@ namespace GKModule.ViewModels
 			if (messageBoxResult)
 			{
 				SelectedDirection.Direction.Logic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, true));
-				SelectedDirection.Direction.Invalidate();
+				SelectedDirection.Direction.Invalidate(GKManager.DeviceConfiguration);
 				SelectedDirection.Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -238,7 +238,7 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedDirection != null)
 			{
-				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedDirection.Direction.OutDependentElements);
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedDirection.Direction.OutputDependentElements);
 				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}
