@@ -23,11 +23,11 @@ namespace RubezhAPI.GK
 			PlanElementUIDs = new List<Guid>();
 		}
 
-		public override void Invalidate()
+		public override void Invalidate(GKDeviceConfiguration deviceConfiguration)
 		{
 			foreach (var mptDevice in MPTDevices)
 			{
-				var device = GKManager.Devices.FirstOrDefault(x => x.UID == mptDevice.DeviceUID);
+				var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == mptDevice.DeviceUID);
 				mptDevice.Device = device;
 				if (device == null)
 					mptDevice.DeviceUID = Guid.Empty;
@@ -38,7 +38,7 @@ namespace RubezhAPI.GK
 				}
 			}
 
-			UpdateLogic();
+			UpdateLogic(deviceConfiguration);
 
 			MptLogic.GetObjects().ForEach(x =>
 			{
@@ -46,9 +46,9 @@ namespace RubezhAPI.GK
 			});
 		}
 
-		public override void UpdateLogic()
+		public override void UpdateLogic(GKDeviceConfiguration deviceConfiguration)
 		{
-			GKManager.DeviceConfiguration.InvalidateOneLogic(this, MptLogic);
+			deviceConfiguration.InvalidateOneLogic(this, MptLogic);
 		}
 
 		bool _isLogicOnKau;

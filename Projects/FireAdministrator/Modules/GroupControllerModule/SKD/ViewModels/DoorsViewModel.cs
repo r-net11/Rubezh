@@ -174,7 +174,7 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedDoor.Door != null)
 			{
-				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedDoor.Door.OutDependentElements);
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedDoor.Door.OutputDependentElements);
 				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}

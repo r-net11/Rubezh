@@ -193,7 +193,7 @@ namespace GKModule.ViewModels
 			{
 				SelectedMPT.MPT.MptLogic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, true));
 				SelectedMPT.Update();
-				SelectedMPT.MPT.Invalidate();
+				SelectedMPT.MPT.Invalidate(GKManager.DeviceConfiguration);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -209,7 +209,7 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedMPT != null)
 			{
-				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedMPT.MPT.OutDependentElements);
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedMPT.MPT.OutputDependentElements);
 				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}

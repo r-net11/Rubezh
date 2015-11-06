@@ -125,7 +125,7 @@ namespace GKModule.ViewModels
 					Door.InputDependentElements.ForEach(x =>
 						{
 							if (x.UID == Door.EnterDeviceUID)
-								x.OutDependentElements.Remove(Door);
+								x.OutputDependentElements.Remove(Door);
 						});
 					Door.InputDependentElements.RemoveAll(x => x.UID == Door.EnterDeviceUID);
 				}
@@ -164,7 +164,7 @@ namespace GKModule.ViewModels
 					Door.InputDependentElements.ForEach(x =>
 					{
 						if (x.UID == Door.ExitDeviceUID)
-							x.OutDependentElements.Remove(Door);
+							x.OutputDependentElements.Remove(Door);
 					});
 					Door.InputDependentElements.RemoveAll(x => x.UID == Door.ExitDeviceUID);
 				}
@@ -197,7 +197,7 @@ namespace GKModule.ViewModels
 					Door.InputDependentElements.ForEach(x =>
 					{
 						if (x.UID == Door.EnterButtonUID)
-							x.OutDependentElements.Remove(Door);
+							x.OutputDependentElements.Remove(Door);
 					});
 					Door.InputDependentElements.RemoveAll(x => x.UID == Door.EnterButtonUID);
 				}
@@ -229,7 +229,7 @@ namespace GKModule.ViewModels
 					Door.InputDependentElements.ForEach(x =>
 					{
 						if (x.UID == Door.ExitButtonUID)
-							x.OutDependentElements.Remove(Door);
+							x.OutputDependentElements.Remove(Door);
 					});
 					Door.InputDependentElements.RemoveAll(x => x.UID == Door.ExitButtonUID);
 				}
@@ -261,7 +261,7 @@ namespace GKModule.ViewModels
 					Door.InputDependentElements.ForEach(x =>
 					{
 						if (x.UID == Door.ExitButtonUID)
-							x.OutDependentElements.Remove(Door);
+							x.OutputDependentElements.Remove(Door);
 					});
 					Door.InputDependentElements.RemoveAll(x => x.UID == Door.LockDeviceUID);
 				}
@@ -293,7 +293,7 @@ namespace GKModule.ViewModels
 					Door.InputDependentElements.ForEach(x =>
 					{
 						if (x.UID == Door.LockDeviceExitUID)
-							x.OutDependentElements.Remove(Door);
+							x.OutputDependentElements.Remove(Door);
 					});
 					Door.InputDependentElements.RemoveAll(x => x.UID == Door.LockDeviceExitUID);
 				}

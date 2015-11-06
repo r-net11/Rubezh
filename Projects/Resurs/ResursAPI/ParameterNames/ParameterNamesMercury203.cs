@@ -29,5 +29,9 @@ namespace ResursAPI.ParameterNames
 		/// Количество активных тарифов
 		/// </summary>
 		public const string AmountOfActiveTariffs = "AmountOfActiveTariffs";
+		/// <summary>
+		/// Активный тариф.
+		/// </summary>
+		public const string ActiveTariff = "ActiveTariff";
 	}
 }

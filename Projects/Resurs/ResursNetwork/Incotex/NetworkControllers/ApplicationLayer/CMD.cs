@@ -51,9 +51,13 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// </summary>
         SetIndicationMode = 9,
         /// <summary>
-        /// Установка числа действующих тари-фов
+        /// Установка числа действующих тарифов
         /// </summary>
-        WriteAmountOfActiveTariffs,
+        WriteAmountOfActiveTariffs = 0x0A,
+		/// <summary>
+		/// Установка действующего тарифа
+		/// </summary>
+		WriteActiveTariff = 0x0B,
         /// <summary>
         /// Чтение группового адреса счетчика
         /// </summary>
