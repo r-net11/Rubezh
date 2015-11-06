@@ -134,6 +134,16 @@ namespace ResursNetwork.Incotex.Models
                 Value = (float)0
             });
 
+			_parameters.Add(new Parameter(typeof(ushort))
+			{
+				Name = ParameterNamesMercury203.PowerLimitPerMonth,
+				Description = "Значение лимита мощности",
+				PollingEnabled = true,
+				ReadOnly = false,
+				ValueConverter = Menerg.GetValueConveter(),
+				Value = (ushort)0
+			});
+
 			_parameters.Add(new Parameter(typeof(float))
 			{
 				Name = ParameterNamesMercury203.CounterTarif1,
@@ -711,7 +721,7 @@ namespace ResursNetwork.Incotex.Models
 		public IAsyncRequestResult WritePowerLimit(float value, bool isExternalCall = true)
 		{
 			var request = new DataMessage(
-				Mpower.GetValueConveter().ToArray(value))
+				Menerg.GetValueConveter().ToArray(value))
 			{
 				Address = Address,
 				CmdCode = Convert.ToByte(Mercury203CmdCode.WriteLimitPower)
@@ -741,6 +751,47 @@ namespace ResursNetwork.Incotex.Models
 			}
 			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
 		}
+
+		/// <summary>
+		/// Установка лимита мощности за месяц (CMD=04h)
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="isExternalCall"></param>
+		/// <returns></returns>
+		public IAsyncRequestResult WritePowerLimitPerMonth(float value, bool isExternalCall = true)
+		{
+			var request = new DataMessage(
+				Mpower.GetValueConveter().ToArray(value))
+			{
+				Address = Address,
+				CmdCode = Convert.ToByte(Mercury203CmdCode.WriteLimitPowerPerMonth)
+			};
+
+			var transaction = new Transaction(this, TransactionType.UnicastMode, request)
+			{
+				Sender = this
+			};
+
+			var networkRequest = new NetworkRequest(transaction);
+
+			if (_NetworkController == null)
+			{
+				transaction.Start();
+				transaction.Abort(new TransactionError
+				{
+					ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+					Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+				});
+				networkRequest.AsyncRequestResult.SetCompleted();
+			}
+			else
+			{
+				_activeRequests.Add(networkRequest);
+				_NetworkController.Write(networkRequest, isExternalCall);
+			}
+			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
+		}
+
 
         /// <summary>
         /// Чтение группового адреса счетчика (CMD=20h)

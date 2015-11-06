@@ -7,69 +7,52 @@ using ResursNetwork.OSI.ApplicationLayer.Devices.ValueConverters;
 
 namespace ResursNetwork.Incotex.Models
 {
-	internal class MpowerValueConverter:
-		IValueConverter
+	internal class MenergValueConverter : IValueConverter
 	{
 		/// <summary>
-		/// Преобразует массив из 2 байт в значение float (mm.mm кВт*ч)
+		/// Преобразует массив из 2 байт в значение ushort (mmmm кВт*ч)
 		/// </summary>
 		/// <param name="array"></param>
 		/// <returns></returns>
 		public ValueType FromArray(byte[] array)
 		{
-			return Mpower.FromArray(array).PowerLimit;
+			return Menerg.FromArray(array).PowerLimitPerMonth;
 		}
 
 		/// <summary>
-		/// Сериализует значение (Mpower или float (mm.mm кВт*ч)) в массив
+		/// Сериализует значение (Mpower или ushort (mmmm кВт*ч)) в массив
 		/// из 2 байт в BCD формате
 		/// </summary>
 		/// <param name="value"></param>
 		/// <returns></returns>
 		public byte[] ToArray(ValueType value)
 		{
-			return Mpower.ToArray(value);
+			return Menerg.ToArray(value);
 		}
 	}
 
-	/// <summary>
-	/// Соотвествует типу данных протокола Incontex Меркурий 203
-	/// </summary>
-	public struct Mpower
+	public struct Menerg
 	{
 		#region Fields And Properties
 
-		static MpowerValueConverter _converter;
+		static MenergValueConverter _converter;
 		ushort _powerLimitBcd;
 
-		public float PowerLimit
+		public ushort PowerLimitPerMonth
 		{
-			get { return ToFloat(_powerLimitBcd); }
+			get { return BcdConverter.ToUInt16(_powerLimitBcd); }
 		}
 
 		#endregion
 
 		#region Methods
 
-		static float ToFloat(ushort bcdValue)
-		{
-			if (BcdConverter.IsValid(bcdValue))
-			{
-				return ((float)BcdConverter.ToUInt16(bcdValue)) / 100;
-			}
-			else
-			{
-				throw new InvalidCastException(
-					"Невозможно выполнить приведение типов. Формат исходного числа не BCD");
-			}
-		}
-
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="array"></param>
 		/// <returns></returns>
-		public static Mpower FromArray(byte[] array)
+		public static Menerg FromArray(byte[] array)
 		{
 			if (array.Length != 2)
 			{
@@ -81,44 +64,37 @@ namespace ResursNetwork.Incotex.Models
 			//{
 			//	Array.Reverse(array);
 			//}
-			return new Mpower
+			return new Menerg
 			{
 				_powerLimitBcd = BitConverter.ToUInt16(array, 0)
-			};			
+			};
 		}
 
 		/// <summary>
-		/// Сериализует значение (Mpower или float (mm.mm кВт*ч)) в массив
+		/// Сериализует значение (Mpower или ushort (mmmm кВт*ч)) в массив
 		/// из 2 байт в BCD формате
 		/// </summary>
 		/// <param name="value"></param>
 		/// <returns></returns>
 		public static byte[] ToArray(ValueType value)
 		{
-			if (value is Mpower)
+			if (value is Menerg)
 			{
-				var bcd = (Mpower)value;
+				var bcd = (Menerg)value;
 				return BitConverter.GetBytes(bcd._powerLimitBcd);
 			}
-			else if (value is float)
+			else if (value is ushort)
 			{
-				var x = (float)value;
+				var x = (ushort)value;
 
-				if (x >= 100)
+				if (x >= 10000)
 				{
 					throw new ArgumentOutOfRangeException(
 						"Значение лимта мощьности не можеть быть больше или равно 100");
 				}
 
-				// Получаем целую часть числа
-				byte integerQuotient = Convert.ToByte(Math.Truncate(x));
-				// Получаем дробную часть числа
-				byte remainder = Convert.ToByte(Math.Round((x - integerQuotient), 2) * 100);
-
-				byte[] result = new byte[2];
-				result[0] = BcdConverter.ToBcdByte(integerQuotient);
-				result[1] = BcdConverter.ToBcdByte(remainder);
-				return result;
+				var bcd = BcdConverter.ToBcdUInt16(x);
+				return BitConverter.GetBytes(bcd);
 			}
 			else
 			{
@@ -130,7 +106,7 @@ namespace ResursNetwork.Incotex.Models
 		{
 			if (_converter == null)
 			{
-				_converter = new MpowerValueConverter();
+				_converter = new MenergValueConverter();
 			}
 			return (IValueConverter)_converter;
 		}

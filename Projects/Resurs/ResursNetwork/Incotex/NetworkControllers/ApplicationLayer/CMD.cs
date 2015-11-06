@@ -29,7 +29,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// <summary>
         /// Установка лимита энергии за месяц
         /// </summary>
-        SetLimitPowerPerMonth = 4,
+        WriteLimitPowerPerMonth = 4,
         /// <summary>
         /// Установка флага сезонного времени 
         /// </summary>
