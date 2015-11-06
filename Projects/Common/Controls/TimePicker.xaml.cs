@@ -8,7 +8,7 @@ namespace Controls
 {
 	public partial class TimePicker : UserControl
 	{
-        static readonly int HoursMax = 24;
+		static readonly int HoursMax = 24;
 		static readonly int MinutesMax = 59;
 		static readonly int HoursMin = 0;
 		static readonly int MinutesMin = 0;
@@ -16,7 +16,7 @@ namespace Controls
 		public static readonly DependencyProperty TimeSpanProperty = DependencyProperty.Register("TimeSpan", typeof(TimeSpan), typeof(TimePicker), 
 			new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnTimeSpanPropertyChanged)));
 
-        public static readonly DependencyProperty IsFullDayProperty = DependencyProperty.Register("IsFullDay", typeof(Boolean), typeof(TimePicker));
+		public static readonly DependencyProperty IsFullDayProperty = DependencyProperty.Register("IsFullDay", typeof(Boolean), typeof(TimePicker));
 
 		static void OnTimeSpanPropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
 		{
@@ -24,13 +24,13 @@ namespace Controls
 			if (timePicker != null)
 			{
 				timePicker.TimeSpan = timePicker.TimeSpan;
-                if (timePicker.TimeSpan.Days > 0)
-                {
-                    if (timePicker.IsFullDay)
-                            timePicker.TextBox.Text = "24:00";
-                    else timePicker.TextBox.Text = "23:59";
-                }
-                 else timePicker.TextBox.Text = timePicker.TimeSpan.Hours.ToString("D2") + ":" + timePicker.TimeSpan.Minutes.ToString("D2");
+				if (timePicker.TimeSpan.Days > 0)
+				{
+					if (timePicker.IsFullDay)
+							timePicker.TextBox.Text = "24:00";
+					else timePicker.TextBox.Text = "23:59";
+				}
+				 else timePicker.TextBox.Text = timePicker.TimeSpan.Hours.ToString("D2") + ":" + timePicker.TimeSpan.Minutes.ToString("D2");
 			}
 			dp.CoerceValue(TimeSpanProperty);
 		}
@@ -48,11 +48,11 @@ namespace Controls
 			set { SetValue(TimeSpanProperty, value); }
 		}
 
-        public bool IsFullDay
-        {
-            get { return (bool)GetValue(IsFullDayProperty); }
-            set { SetValue(IsFullDayProperty, value); }
-        }
+		public bool IsFullDay
+		{
+			get { return (bool)GetValue(IsFullDayProperty); }
+			set { SetValue(IsFullDayProperty, value); }
+		}
 
 		public void InitializeTime()
 		{
@@ -74,8 +74,8 @@ namespace Controls
 			{
 				if (value > HoursMax)
 					value = HoursMax;
-                if (value == HoursMax && Minutes > MinutesMin && !this.IsFullDay)
-                    value = HoursMax-1;
+				if (value == HoursMax && Minutes > MinutesMin && !this.IsFullDay)
+					value = HoursMax-1;
 				if (value < HoursMin)
 					value = HoursMin;
 				var stringValue = value.ToString("D2");
@@ -105,8 +105,8 @@ namespace Controls
 					value = MinutesMax;
 				if (value < MinutesMin)
 					value = MinutesMin;
-                if (this.IsFullDay&& Hours==HoursMax)
-                    value = MinutesMin;
+				if (this.IsFullDay&& Hours==HoursMax)
+					value = MinutesMin;
 				var stringValue = value.ToString("D2");
 				var text = TextBox.Text.ToCharArray();
 				var caretIndex = TextBox.CaretIndex;
@@ -150,8 +150,8 @@ namespace Controls
 		{
 			if (caretIndex == 2)
 				return;
-            if (this.IsFullDay && Hours == HoursMax && (caretIndex == 3 || caretIndex == 4))
-                return;
+			if (this.IsFullDay && Hours == HoursMax && (caretIndex == 3 || caretIndex == 4))
+				return;
 			var text = TextBox.Text.ToCharArray();
 			if (value < 0)
 				value = 0;

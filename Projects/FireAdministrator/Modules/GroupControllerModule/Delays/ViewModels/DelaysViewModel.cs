@@ -39,7 +39,6 @@ namespace GKModule.ViewModels
 			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 
 			IsRightPanelEnabled = true;
-			RegisterShortcuts();
 			SetRibbonItems();
 		}
 
@@ -261,15 +260,6 @@ namespace GKModule.ViewModels
 		{
 			base.OnShow();
 			SelectedDelay = SelectedDelay;
-		}
-
-		private void RegisterShortcuts()
-		{
-			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
 		}
 
 		private void SetRibbonItems()

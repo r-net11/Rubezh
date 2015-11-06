@@ -31,10 +31,10 @@ namespace JournalModule.Reports
 		public ReportData GetData()
 		{
 			var data = new ReportData();
-			if (ArchiveViewModel.ArchiveFilter != null)
+			if (ArchiveViewModel.Filter != null)
 			{
-				data.ReportDocumentValues.Add("StartDate", ArchiveViewModel.ArchiveFilter.StartDate);
-				data.ReportDocumentValues.Add("EndDate", ArchiveViewModel.ArchiveFilter.EndDate);
+				data.ReportDocumentValues.Add("StartDate", ArchiveViewModel.Filter.StartDate);
+				data.ReportDocumentValues.Add("EndDate", ArchiveViewModel.Filter.EndDate);
 			}
 			else
 			{

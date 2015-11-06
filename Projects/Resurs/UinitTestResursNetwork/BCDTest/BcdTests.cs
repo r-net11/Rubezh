@@ -92,5 +92,33 @@ namespace UinitTestResursNetwork.BCDTest
             //assert
             // Ожидаем исключение
         }
+
+		[TestMethod]
+		public void ToBcdUIn16Test()
+		{
+			//arrange
+			var digit = @"1234";
+			var x = ushort.Parse(digit);
+
+			//act
+			var result = BcdConverter.ToBcdUInt16(x);
+
+			//assert
+			Assert.AreEqual((ushort)0x1234, result);
+		}
+
+		[TestMethod]
+		public void ToBcdUIn32Test()
+		{
+			//arrange
+			var digit = @"12345678";
+			var x = uint.Parse(digit);
+
+			//act
+			var result = BcdConverter.ToBcdUInt32(x);
+
+			//assert
+			Assert.AreEqual((uint)0x12345678, result);
+		}
     }
 }

@@ -294,7 +294,7 @@
       <DependentUpon>MPTPropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Selectation\ViewModels\AnyZonesSelectionViewModel.cs" />
-    <Compile Include="Selectation\ViewModels\DependencyItemsViewModel..cs" />
+    <Compile Include="Selectation\ViewModels\DependencyItemsViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DependencyItemViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DeviceGuardZoneViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DirectionsSelectationViewModel.cs" />
@@ -1053,6 +1053,10 @@
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{7E982F7A-E8B8-4B63-A204-9FC7E5F97170}</Project>
       <Name>Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutModule\LayoutModule.csproj">
+      <Project>{8cd90c43-088e-420c-aa4f-7346f6f11b57}</Project>
+      <Name>LayoutModule</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

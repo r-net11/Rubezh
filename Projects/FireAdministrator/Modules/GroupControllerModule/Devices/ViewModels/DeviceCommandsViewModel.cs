@@ -15,9 +15,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Microsoft.Win32;
-using System.IO;
-using Ionic.Zip;
-using System.Text;
 
 namespace GKModule.Models
 {
@@ -35,7 +32,7 @@ namespace GKModule.Models
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
-			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
+			UpdateFirmwareCommand = new RelayCommand(OnUpdateFirmware, CanUpdateFirmware);
 			AutoSearchCommand = new RelayCommand(OnAutoSearch, CanAutoSearch);
 			GetUsersCommand = new RelayCommand(OnGetUsers, CanGetUsers);
 			RewriteUsersCommand = new RelayCommand(OnRewriteUsers, CanRewriteUsers);
@@ -219,8 +216,8 @@ namespace GKModule.Models
 			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == GKDriverType.GK);
 		}
 
-		public RelayCommand UpdateFirmwhareCommand { get; private set; }
-		void OnUpdateFirmwhare()
+		public RelayCommand UpdateFirmwareCommand { get; private set; }
+		void OnUpdateFirmware()
 		{
 			var openDialog = new OpenFileDialog()
 			{
@@ -249,7 +246,7 @@ namespace GKModule.Models
 			}
 		}
 
-		bool CanUpdateFirmwhare()
+		bool CanUpdateFirmware()
 		{
 			return (SelectedDevice != null && (SelectedDevice.Driver.IsKau || SelectedDevice.Driver.DriverType == GKDriverType.GK) && ClientManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
 		}

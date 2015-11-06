@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -10,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using RubezhAPI.GK;
 using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
 
@@ -131,5 +133,12 @@ namespace GKWebService.DataProviders
 		public static System.Drawing.Color ConvertColor(Color source) {
 			return System.Drawing.Color.FromArgb(source.A, source.R, source.G, source.B);
 		}
+
+	    internal static string GetStateClassName(XStateClass stateClass) {
+	        var type = typeof (XStateClass);
+	        var memInfo = type.GetMember(stateClass.ToString());
+	        var attributes = memInfo[0].GetCustomAttributes(typeof (DescriptionAttribute), false);
+	        return ((DescriptionAttribute)attributes[0]).Description;
+	    }
 	}
 }

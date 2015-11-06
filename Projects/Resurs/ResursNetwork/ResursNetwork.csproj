@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="BCD\BcdConverter.cs" />
     <Compile Include="ComponentModel\EnumTypeConverter.cs" />
+    <Compile Include="Incotex\Models\Menerg.cs" />
     <Compile Include="Incotex\Models\Mpower.cs" />
     <Compile Include="Incotex\Models\PowerCouters\Mercury203Virtual.cs" />
     <Compile Include="Incotex\Models\TariffCounters.cs" />

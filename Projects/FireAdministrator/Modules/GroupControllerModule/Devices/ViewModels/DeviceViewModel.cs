@@ -854,7 +854,6 @@ namespace GKModule.ViewModels
 					}
 					OnPropertyChanged(() => Device);
 					OnPropertyChanged(() => Driver);
-					OnPropertyChanged(() => Device);
 					OnPropertyChanged(() => Children);
 					OnPropertyChanged(() => EditingPresentationZone);
 					OnPropertyChanged(() => GuardPresentationZone);

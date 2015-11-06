@@ -72,6 +72,20 @@ namespace ResursNetwork.Incotex.Models
 			}
         }
 
+		public uint GroupAddress
+		{
+			get { return Convert.ToUInt32(_parameters[ParameterNamesMercury203Virtual.GADDR].Value); }
+			set 
+			{
+				if (value == 0)
+				{
+					throw new ArgumentOutOfRangeException(
+						"Групповой адрес должен быть больше 0");
+				}
+				_parameters[ParameterNamesMercury203Virtual.GADDR].Value = value; 
+			}
+		}
+
         public INetwrokController Network
         {
             get { return _networkController; }
@@ -703,7 +717,13 @@ namespace ResursNetwork.Incotex.Models
 		/// <returns></returns>
 		public TariffCounters ReadConsumedPower()
 		{
-			throw new NotImplementedException();
+			return new TariffCounters
+			{
+				ValueTotalTarif1 = (float)_parameters[ParameterNamesMercury203Virtual.CounterTarif1].Value,
+				ValueTotalTarif2 = (float)_parameters[ParameterNamesMercury203Virtual.CounterTarif2].Value,
+				ValueTotalTarif3 = (float)_parameters[ParameterNamesMercury203Virtual.CounterTarif3].Value,
+				ValueTotalTarif4 = (float)_parameters[ParameterNamesMercury203Virtual.CounterTarif4].Value
+			};
 		}
 
 		#endregion

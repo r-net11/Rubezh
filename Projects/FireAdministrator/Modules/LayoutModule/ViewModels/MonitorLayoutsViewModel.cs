@@ -54,7 +54,6 @@ namespace LayoutModule.ViewModels
 				LayoutUsersViewModel = new LayoutUsersViewModel();
 				Layouts = new ObservableCollection<LayoutViewModel>();
 				ListCollectionView view = (ListCollectionView)CollectionViewSource.GetDefaultView(Layouts);
-				view.CustomSort = new LayoutViewModelComparer();
 				foreach (var layout in ClientManager.LayoutsConfiguration.Layouts)
 					Layouts.Add(new LayoutViewModel(layout));
 				view.MoveCurrentToFirst();
@@ -98,8 +97,7 @@ namespace LayoutModule.ViewModels
 			RemoveCommand = new RelayCommand(OnRemove, CanEditRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
 
-			LayoutCopyCommand = new RelayCommand(OnLayoutCopy, CanLayoutCopyCut);
-			LayoutCutCommand = new RelayCommand(OnLayoutCut, CanLayoutCopyCut);
+			LayoutCopyCommand = new RelayCommand(OnLayoutCopy, CanLayoutCopy);
 			LayoutPasteCommand = new RelayCommand(OnLayoutPaste, CanLayoutPaste);
 			_layoutBuffer = null;
 		}
@@ -142,13 +140,7 @@ namespace LayoutModule.ViewModels
 			using (new WaitWrapper())
 				_layoutBuffer = Utils.Clone(SelectedLayout.Layout);
 		}
-		public RelayCommand LayoutCutCommand { get; private set; }
-		private void OnLayoutCut()
-		{
-			_layoutBuffer = SelectedLayout.Layout;
-			OnLayoutRemove();
-		}
-		private bool CanLayoutCopyCut()
+		private bool CanLayoutCopy()
 		{
 			return SelectedLayout != null;
 		}
@@ -208,7 +200,6 @@ namespace LayoutModule.ViewModels
 			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.E, ModifierKeys.Control), EditCommand);
 			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.Delete, ModifierKeys.Control), RemoveCommand);
 			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.C, ModifierKeys.Control), LayoutCopyCommand);
-			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.X, ModifierKeys.Control), LayoutCutCommand);
 			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.V, ModifierKeys.Control), LayoutPasteCommand);
 		}
 		private void SetRibbonItems()
@@ -221,7 +212,6 @@ namespace LayoutModule.ViewModels
 					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
 					new RibbonMenuItemViewModel("Удалить", RemoveCommand, "BDelete"),
 					new RibbonMenuItemViewModel("Копировать", LayoutCopyCommand, "BCopy") {IsNewGroup=true},
-					new RibbonMenuItemViewModel("Вырезать", LayoutCutCommand, "BCut"),
 					new RibbonMenuItemViewModel("Вставить", LayoutPasteCommand, true, "BPaste"),
 				}, "BLayouts") { Order = 2 }
 			};
@@ -236,13 +226,6 @@ namespace LayoutModule.ViewModels
 		{
 			if (IsActive)
 				LayoutDesignerViewModel.Instance.SaveLayout();
-		}
-
-		protected override void KeyPressed(KeyEventArgs e)
-		{
-			if (!e.Handled)
-				LayoutDesignerViewModel.Instance.KeyPressed(e);
-			base.KeyPressed(e);
 		}
 	}
 }

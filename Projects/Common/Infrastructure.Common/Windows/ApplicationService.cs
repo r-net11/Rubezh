@@ -158,16 +158,16 @@ namespace Infrastructure.Common.Windows
 					Application.Current.Dispatcher.Invoke(action);
 			}
 		}
-        public static void Invoke(Action<string> action, string parameter)
-        {
-            if (Application.Current != null)
-            {
-                if (Application.Current.Dispatcher.CheckAccess())
-                    action(parameter);
-                else
-                    Application.Current.Dispatcher.Invoke(action, parameter);
-            }
-        }
+		public static void Invoke(Action<string> action, string parameter)
+		{
+			if (Application.Current != null)
+			{
+				if (Application.Current.Dispatcher.CheckAccess())
+					action(parameter);
+				else
+					Application.Current.Dispatcher.Invoke(action, parameter);
+			}
+		}
 		public static DispatcherOperation BeginInvoke(Action action, DispatcherPriority priority = DispatcherPriority.Normal)
 		{
 			return Application.Current.Dispatcher.BeginInvoke(priority, action);

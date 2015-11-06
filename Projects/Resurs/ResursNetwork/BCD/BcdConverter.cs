@@ -113,9 +113,48 @@ namespace ResursNetwork.BCD
             return (Byte)((high << 4) | low);
         }
 
-		public static ushort ToBcdUIn16(ushort value)
+		public static ushort ToBcdUInt16(ushort value)
 		{
-			throw new NotImplementedException();
+			if (value > 9999)
+			{
+				throw new InvalidCastException(
+					"Невозможно преобразовать в BCD формат. Значение слишком большое");
+			}
+
+			//var x = Convert.ToSingle(value);
+			ushort result = 0;
+			ushort digit;
+
+			for (int i = 0; i < 4; i++)
+			{
+				digit = (ushort)(value % 10);
+				value = (ushort)(value / 10);
+				result |= (ushort)(digit << (4 * i));				
+			}
+
+			return result;
+		}
+
+		public static uint ToBcdUInt32(uint value)
+		{
+			if (value > 99999999)
+			{
+				throw new InvalidCastException(
+					"Невозможно преобразовать в BCD формат. Значение слишком большое");
+			}
+
+			//var x = Convert.ToSingle(value);
+			uint result = 0;
+			uint digit;
+
+			for (int i = 0; i < 8; i++)
+			{
+				digit = (uint)(value % 10);
+				value = (uint)(value / 10);
+				result |= (uint)(digit << (4 * i));
+			}
+
+			return result;
 		}
 
         #endregion

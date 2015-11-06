@@ -1,4 +1,12 @@
 ﻿$(document).ready(function() {
+    function imageFormat(cellvalue, options, rowObject) {
+        if (rowObject.IsOrganisation) {
+            return '<img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/Hr/Organisation.png" />' + cellvalue;
+        } else {
+            return '<img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/Hr/Employee.png" />' + cellvalue;
+        }
+    };
+
     $("#jqGridEmployees").jqGrid({
         datastr: null,
         datatype: "jsonstring",
@@ -6,7 +14,7 @@
             { label: 'UID', name: 'UID', key: true, hidden: true, sortable: false },
             { label: 'ParentUID', name: 'ParentUID', hidden: true, sortable: false },
             { label: 'OrganisationUID', name: 'OrganisationUID', hidden: true, sortable: false },
-            { label: 'ФИО', name: 'Name', width: 100, sortable: false },
+            { label: 'ФИО', name: 'Name', width: 100, sortable: false, formatter: imageFormat },
             { label: 'Подразделение', name: 'DepartmentName', width: 100, sortable: false },
             { label: 'IsOrganisation', name: 'IsOrganisation', hidden: true, sortable: false },
             { label: 'LastName', name: 'LastName', hidden: true, sortable: false },
@@ -110,6 +118,7 @@ function EmployeesViewModel(parentViewModel) {
         });
         $("#jqGridEmployees").trigger("reloadGrid");
         $("#jqGridEmployees").jqGrid("resetSelection");
+        $("#jqGridEmployees").setCell(0, 'Name', "<i>asd</i>");
     };
 
     $('#jqGridEmployees').on('jqGridSelectRow', function (event, id, selected) {

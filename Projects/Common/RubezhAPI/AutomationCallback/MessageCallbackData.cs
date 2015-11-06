@@ -6,7 +6,7 @@ namespace RubezhAPI.AutomationCallback
 	public class MessageCallbackData : AutomationCallbackData
 	{
 		[DataMember]
-		public object Message { get; set; }
+		public string Message { get; set; }
 
 		[DataMember]
 		public bool IsModalWindow { get; set; }

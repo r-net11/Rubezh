@@ -219,6 +219,8 @@
     <Content Include="Content\Image\Icon\Archive\refresh.png" />
     <Content Include="Content\Image\Icon\Archive\right.png" />
     <Content Include="Content\Image\Icon\Archive\rightRight.png" />
+    <Resource Include="Content\Image\Icon\Hr\Card.png" />
+    <Resource Include="Content\Image\Icon\Hr\Employee.png" />
     <Content Include="Content\Image\Icon\Header\close_pop.png" />
     <Content Include="Content\Image\Icon\Header\connection-indicator.png" />
     <Content Include="Content\Image\Icon\Header\map-off.png" />
@@ -227,6 +229,7 @@
     <Content Include="Content\Image\Icon\Header\sound-on.png" />
     <Content Include="Content\Image\Icon\Header\user.png" />
     <Content Include="Content\Image\Icon\Header\window-normal.png" />
+    <Resource Include="Content\Image\Icon\Hr\Organisation.png" />
     <Content Include="Content\Image\Icon\Menu\archive.png" />
     <Content Include="Content\Image\Icon\Menu\Bug.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Add.png" />
@@ -437,6 +440,7 @@
     </Compile>
     <Compile Include="JournalItemViewModel.cs" />
     <Compile Include="Models\AccessDoorModel.cs" />
+    <Compile Include="Models\ElementHint.cs" />
     <Compile Include="Models\EmployeeCardModel.cs" />
     <Compile Include="Models\ShortEmployeeModel.cs" />
     <Compile Include="Models\PlanElement.cs" />
@@ -444,6 +448,7 @@
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\Shape.cs" />
     <Compile Include="Models\ShapeTypesEnum.cs" />
+    <Compile Include="Models\StateHintRecord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\JsonNetResult .cs" />
