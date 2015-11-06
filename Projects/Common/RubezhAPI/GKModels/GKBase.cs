@@ -330,6 +330,12 @@ namespace RubezhAPI.GK
 			GkParents = new HashSet<GKDevice>();
 		}
 
+		public GKDevice GetMirrorParent()
+		{
+			var mirrorParent = InputDependentElements.FindAll(x => x is GKDevice).FirstOrDefault(x => (x as GKDevice).Driver.HasMirror);
+			return mirrorParent as GKDevice;
+		}
+
 		[XmlIgnore]
 		public List<GKBase> ChildDescriptors = new List<GKBase>();
 

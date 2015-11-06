@@ -31,16 +31,22 @@ namespace GKProcessor
 		public override void BuildFormula()
 		{
 			Formula = new FormulaBuilder();
-			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) ||
-			    (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
+			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
 			{
 				Formula.Add(FormulaOperationType.END);
 				return;
 			}
 
-			if (Device.MirrorParent != null)
+			var mirrorParent = Device.GetMirrorParent();
+
+			if (mirrorParent != null)
 			{
-				
+				Formula.AddGetWord(true, mirrorParent);
+				Formula.Add(FormulaOperationType.CONST, 0, 0xF800);
+				Formula.Add(FormulaOperationType.AND);
+				Formula.Add(FormulaOperationType.CONST, 0, 0x100);
+				Formula.Add(FormulaOperationType.EQ);
+				Formula.AddPutBit(GKStateBit.SetRegime_Automatic, Device);
 			}
 
 			if (CreateMPTLogic())
