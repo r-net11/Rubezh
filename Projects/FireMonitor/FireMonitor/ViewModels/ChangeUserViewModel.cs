@@ -18,6 +18,7 @@ namespace FireMonitor.ViewModels
 		public ChangeUserViewModel()
 		{
 			Title = "Смена пользователя";
+			Password = "";
 		}
 		string _login;
 		public string Login

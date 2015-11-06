@@ -25,15 +25,15 @@ namespace RubezhClient
 		{
 			GuardZones.Remove(guardZone);
 			guardZone.OnChanged();
-			guardZone.OutDependentElements.ForEach(x =>
+			guardZone.OutputDependentElements.ForEach(x =>
 			{
 				x.InputDependentElements.Remove(guardZone);
 				if (x is GKDevice)
 				{
-					x.Invalidate();
+					x.Invalidate(GKManager.DeviceConfiguration);
 					x.OnChanged();
 				}
-				x.UpdateLogic();
+				x.UpdateLogic(GKManager.DeviceConfiguration);
 				x.OnChanged();
 			});
 		}
@@ -45,7 +45,7 @@ namespace RubezhClient
 		public static void EditGuardZone(GKGuardZone guardZone)
 		{
 			guardZone.InputDependentElements.ForEach(x => x.OnChanged());
-			guardZone.OutDependentElements.ForEach(x => x.OnChanged());
+			guardZone.OutputDependentElements.ForEach(x => x.OnChanged());
 			guardZone.OnChanged();
 		}
 	}

@@ -96,7 +96,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(pumpStationDetailsViewModel))
 			{
 				GKManager.EditPumpStation(SelectedPumpStation.PumpStation);
-				SelectedPumpStation.Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -171,7 +170,7 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedPumpStation.PumpStation != null)
 			{
-				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedPumpStation.PumpStation.OutDependentElements);
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedPumpStation.PumpStation.OutputDependentElements);
 				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}

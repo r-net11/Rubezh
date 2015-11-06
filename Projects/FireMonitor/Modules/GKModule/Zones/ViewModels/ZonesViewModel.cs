@@ -6,6 +6,7 @@ using RubezhAPI.GK;
 using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Models.Layouts;
+using System.Windows;
 
 namespace GKModule.ViewModels
 {
@@ -59,7 +60,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_properties = value;
-				IsVisibleBottomPanel = _properties.IsVisibleBottomPanel;
+				IsVisibleBottomPanel = (_properties != null) ? _properties.IsVisibleBottomPanel : false;
 			}
 		}
 		bool _isVisibleBottomPanel;

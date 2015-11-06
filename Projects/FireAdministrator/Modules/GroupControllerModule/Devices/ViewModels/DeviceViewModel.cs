@@ -972,7 +972,7 @@ namespace GKModule.ViewModels
 		{
 			if (Device != null)
 			{
-				var dependencyItemsViewModel = new DependencyItemsViewModel(Device.OutDependentElements);
+				var dependencyItemsViewModel = new DependencyItemsViewModel(Device.OutputDependentElements);
 				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}
@@ -1011,7 +1011,7 @@ namespace GKModule.ViewModels
 			if (messageBoxResult)
 			{
 				Device.Logic = GKManager.PasteLogic(new GKAdvancedLogic(hasOnClause, hasOnNowClause, hasOffClause, hasOffNowClause, hasStopClause));
-				Device.Invalidate();
+				Device.Invalidate(GKManager.DeviceConfiguration);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
