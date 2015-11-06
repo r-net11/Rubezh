@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using FiresecAPI.SKD;
 
 namespace FiresecClient.SKDHelpers
@@ -28,6 +29,12 @@ namespace FiresecClient.SKDHelpers
 		{
 			var operationResult = FiresecManager.FiresecService.RemoveTimeTrackDocumentType(documentTypeUID);
 			return Common.ShowErrorIfExists(operationResult);
+		}
+
+		public static IEnumerable<TimeTrackDocumentType> GetSystemDocuments()
+		{
+			var result = FiresecManager.FiresecService.GetSystemDocumentTypes();
+			return Common.ShowErrorIfExists(result);
 		}
 	}
 }

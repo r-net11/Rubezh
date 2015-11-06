@@ -1,4 +1,5 @@
-﻿using FiresecAPI.Models;
+﻿using System.Threading.Tasks;
+using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using System;
 using System.Collections.Generic;
@@ -100,6 +101,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult<List<TimeTrackDocumentType>> GetTimeTrackDocumentTypes(Guid organisationUID);
+
+		[OperationContract]
+		OperationResult<IEnumerable<TimeTrackDocumentType>> GetSystemDocumentTypes();
 
 		[OperationContract]
 		OperationResult AddTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType);

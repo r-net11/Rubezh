@@ -5,12 +5,12 @@
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
     xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 	xmlns:layout="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
-	MinWidth="500"
+	MinWidth="550"
 	MinHeight="500">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
+			<RowDefinition />
 		</Grid.RowDefinitions>
 		<StackPanel
 			Orientation="Horizontal"
@@ -32,7 +32,8 @@
 			Grid.Row="1"
 			Focusable="True"
 			SelectedTreeNode="{Binding SelectedDocumentType}"
-			Source="{Binding Organisations}"
+			Source="{Binding Organisations, IsAsync=True}"
+			layout:ListViewLayoutManager.Enabled="True"
 			Margin="2">
             <tree:TreeList.Resources>
                 <InputBindingCollection x:Key="inputCollection" x:Shared="False">
@@ -45,8 +46,8 @@
                 </Style>
             </tree:TreeList.ItemContainerStyle>
             <tree:TreeList.View>
-				<GridView layout:ListViewLayoutManager.Enabled="True">
-					<GridViewColumn Header="Название" layout:FixedColumn.Width="100">
+				<GridView>
+					<GridViewColumn Header="Название" Width="220">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -67,24 +68,54 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Буквенный код">
+					<GridViewColumn Header="Буквенный код" Width="100">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding TimeTrackDocumentType.ShortName}" Margin="1" />
+								<TextBlock Text="{Binding TimeTrackDocumentType.ShortName}" Margin="1">
+									<TextBlock.Style>
+										<Style TargetType="{x:Type TextBlock}">
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding IsSystem}" Value="True">
+													<Setter Property="Foreground" Value="#FF808080" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</TextBlock.Style>
+								</TextBlock>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Числовой код">
+					<GridViewColumn Header="Числовой код" Width="100">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding TimeTrackDocumentType.Code}" Margin="1" />
+								<TextBlock Text="{Binding TimeTrackDocumentType.Code}" Margin="1">
+									<TextBlock.Style>
+										<Style TargetType="{x:Type TextBlock}">
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding IsSystem}" Value="True">
+													<Setter Property="Foreground" Value="#FF808080" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</TextBlock.Style>
+								</TextBlock>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
 					<GridViewColumn Header="Тип" layout:ProportionalColumn.Width="1">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding TimeTrackDocumentType.DocumentType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="1" />
+								<TextBlock Text="{Binding TimeTrackDocumentType.DocumentType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="1">
+									<TextBlock.Style>
+										<Style TargetType="{x:Type TextBlock}">
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding IsSystem}" Value="True">
+													<Setter Property="Foreground" Value="#FF808080" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</TextBlock.Style>
+								</TextBlock>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>

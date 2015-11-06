@@ -478,4 +478,13 @@
       <Association Name="GKSchedule_ScheduleGKDaySchedule" Member="ScheduleGKDaySchedules" ThisKey="UID" OtherKey="ScheduleUID" Type="ScheduleGKDaySchedule" />
     </Type>
   </Table>
+  <Table Name="" Member="TimeTrackSystemDocumentTypes">
+    <Type Name="TimeTrackSystemDocumentTypes">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="ShortName" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="DocumentCode" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DocumentType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
 </Database>

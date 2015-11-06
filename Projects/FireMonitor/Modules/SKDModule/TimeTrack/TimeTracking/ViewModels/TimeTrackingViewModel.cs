@@ -41,6 +41,12 @@ namespace SKDModule.ViewModels
 
 		#region Properties
 
+		private IEnumerable<TimeTrackDocumentType> _systemDocuments;
+		public IEnumerable<TimeTrackDocumentType> SystemDocuments
+		{
+			get { return _systemDocuments ?? (_systemDocuments = DocumentTypeHelper.GetSystemDocuments()); }
+		}
+
 		public bool IsFilterAccepted
 		{
 			get { return _isFilterAccepted; }
@@ -126,7 +132,10 @@ namespace SKDModule.ViewModels
 
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);
-			ShowDocumentTypesCommand = new RelayCommand(OnShowDocumentTypes);
+
+			ShowDocumentTypesCommand = new ReactiveCommand();
+			ShowDocumentTypesCommand.Subscribe(_ => OnShowDocumentTypes());
+
 			_timeTrackFilter = CreateTimeTrackFilter();
 			UpdateGrid();
 
@@ -353,10 +362,10 @@ namespace SKDModule.ViewModels
 			return ApplicationService.IsReportEnabled;
 		}
 
-		public RelayCommand ShowDocumentTypesCommand { get; private set; }
+		public ReactiveCommand ShowDocumentTypesCommand { get; private set; }
 		void OnShowDocumentTypes()
 		{
-			var documentTypesViewModel = new DocumentTypesViewModel();
+			var documentTypesViewModel = new DocumentTypesViewModel(SystemDocuments);
 			DialogService.ShowModalWindow(documentTypesViewModel);
 		}
 

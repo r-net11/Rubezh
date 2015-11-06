@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Data;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
@@ -168,11 +170,7 @@ namespace SKDModule.ViewModels
 			TimeTrackDocument = timeTrackDocument;
 			TimeTrackDocument.EmployeeUID = employeeGuid;
 
-			var docFactory = new DocumentsFactory();
-			AvailableDocuments = new ObservableCollection<TimeTrackDocument>(docFactory.SystemDocuments);
-			var documentTypes = DocumentTypeHelper.GetByOrganisation(organisationUID);
-
-			AvailableDocuments.AddRange(documentTypes.Select(x => new TimeTrackDocument(x.Name, x.ShortName, x.Code, x.DocumentType)));
+			AvailableDocuments = new ObservableCollection<TimeTrackDocument>(SystemTypes(organisationUID).Select(x => new TimeTrackDocument(x.Name, x.ShortName, x.Code, x.DocumentType)));
 
 			DocumentsTypes = new ObservableCollection<DocumentType>(Enum.GetValues(typeof (DocumentType)).Cast<DocumentType>());
 
@@ -196,6 +194,13 @@ namespace SKDModule.ViewModels
 					SelectedDocument = (TimeTrackDocument)AvailableDocumentsCollectionView.CurrentItem;
 					IsEnableAbsence = SelectedDocument.TimeTrackDocumentType.DocumentType == DocumentType.Absence || SelectedDocument.TimeTrackDocumentType.DocumentType == DocumentType.AbsenceReasonable;
 				});
+		}
+
+		private static IEnumerable<TimeTrackDocumentType> SystemTypes(Guid organisationUID)
+		{
+			var systemTypes = Task.Factory.StartNew(() => DocumentTypeHelper.GetSystemDocuments());
+			var docTypes = Task.Factory.StartNew(() => DocumentTypeHelper.GetByOrganisation(organisationUID));
+			return new List<TimeTrackDocumentType>(systemTypes.Result.Concat(docTypes.Result));
 		}
 
 		private bool DocumentsFilter(object obj)

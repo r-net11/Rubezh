@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -140,8 +141,14 @@ namespace FiresecClient
 
 		public OperationResult<List<TimeTrackDocumentType>> GetTimeTrackDocumentTypes(Guid organisationUID)
 		{
-			return SafeContext.Execute<OperationResult<List<TimeTrackDocumentType>>>(() => FiresecService.GetTimeTrackDocumentTypes(organisationUID));
+			return SafeContext.Execute(() => FiresecService.GetTimeTrackDocumentTypes(organisationUID));
 		}
+
+		public OperationResult<IEnumerable<TimeTrackDocumentType>> GetSystemDocumentTypes()
+		{
+			return SafeContext.Execute(() => FiresecService.GetSystemDocumentTypes());
+		}
+
 		public OperationResult AddTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.AddTimeTrackDocumentType(timeTrackDocumentType));

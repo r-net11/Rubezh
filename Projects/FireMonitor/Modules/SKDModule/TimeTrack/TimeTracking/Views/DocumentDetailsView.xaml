@@ -88,7 +88,7 @@
 			Grid.Column="1"
 			Grid.Row="3"
 			VerticalAlignment="Center"
-			ItemsSource="{Binding DocumentsTypes}"
+			ItemsSource="{Binding DocumentsTypes, IsAsync=True}"
 			SelectedItem="{Binding SelectedDocumentType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 			Margin="0 5">
 			<ComboBox.ItemTemplate>
