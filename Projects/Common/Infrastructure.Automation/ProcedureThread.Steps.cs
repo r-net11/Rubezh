@@ -202,6 +202,8 @@ namespace Infrastructure.Automation
 			{
 				callbackType = AutomationCallbackType.SetPlanProperty;
 				value = GetValue<object>(controlPlanArguments.ValueArgument);
+				if (value is int && (int)value < 0)
+					return;
 			}
 
 			var automationCallbackResult = new AutomationCallbackResult()
