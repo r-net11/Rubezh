@@ -355,7 +355,12 @@ namespace ResursNetwork.Incotex.Models
 					}
 				case ParameterNamesMercury203.AmountOfActiveTariffs:
 					{
-						asyncResult = WriteAmountOfActiveTariff(value: (byte)value, isExternalCall: true);
+						asyncResult = WriteAmountOfActiveTariffs(value: (byte)value, isExternalCall: true);
+						break;
+					}
+				case ParameterNamesMercury203.ActiveTariff:
+					{
+						asyncResult = WriteActiveTariff(value: (byte)value, isExternalCall: true);
 						break;
 					}
 				default:
@@ -817,12 +822,12 @@ namespace ResursNetwork.Incotex.Models
 		}
 
 		/// <summary>
-		/// Установка лимита мощности за месяц (CMD=04h)
+		/// Установка числа действующих тарифов (CMD=0Ah)
 		/// </summary>
 		/// <param name="value"></param>
 		/// <param name="isExternalCall"></param>
 		/// <returns></returns>
-		public IAsyncRequestResult WriteAmountOfActiveTariff(byte value, bool isExternalCall = true)
+		public IAsyncRequestResult WriteAmountOfActiveTariffs(byte value, bool isExternalCall = true)
 		{
 			if ((value < 1) || (value > 4))
 			{
@@ -863,6 +868,53 @@ namespace ResursNetwork.Incotex.Models
 			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
 		}
 
+		/// <summary>
+		/// Установка тарифа (CMD=0Bh)
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="isExternalCall"></param>
+		/// <returns></returns>
+		public IAsyncRequestResult WriteActiveTariff(byte value, bool isExternalCall = true)
+		{
+			if ((value < 1) || (value > 4))
+			{
+				throw new ArgumentOutOfRangeException("Amount",
+					"Действующий тарифов должн быть от 1 до 4");
+			}
+
+			var request = new DataMessage(
+				Mpower.GetValueConveter().ToArray(value))
+			{
+				Address = Address,
+				CmdCode = Convert.ToByte(Mercury203CmdCode.WriteActiveTariff)
+			};
+
+			var transaction = new Transaction(this, TransactionType.UnicastMode, request)
+			{
+				Sender = this
+			};
+
+			var networkRequest = new NetworkRequest(transaction);
+
+			if (_NetworkController == null)
+			{
+				transaction.Start();
+				transaction.Abort(new TransactionError
+				{
+					ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+					Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+				});
+				networkRequest.AsyncRequestResult.SetCompleted();
+			}
+			else
+			{
+				_activeRequests.Add(networkRequest);
+				_NetworkController.Write(networkRequest, isExternalCall);
+			}
+
+			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
+		}
+		
         /// <summary>
         /// Чтение группового адреса счетчика (CMD=20h)
         /// </summary>
