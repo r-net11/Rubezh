@@ -44,6 +44,7 @@ namespace RubezhClient
 		public static void EditPumpStation(GKPumpStation pumpStation)
 		{
 			pumpStation.OutDependentElements.ForEach(x => x.OnChanged());
+			pumpStation.OnChanged();
 		}
 	}
 }
