@@ -62,34 +62,16 @@ namespace SKDDriver.Translators
 			}
 		}
 
-		public OperationResult<List<TimeTrackDocument>> GetWithTypes(ShortEmployee employee, DateTime startDateTime, DateTime endDateTime, IEnumerable<DataAccess.TimeTrackDocument> tableItems, IEnumerable<DataAccess.TimeTrackDocumentType> tableItemsTypes)
+		public OperationResult<List<TimeTrackDocument>> GetWithTypes(ShortEmployee employee, DateTime startDateTime, DateTime endDateTime, IEnumerable<DataAccess.TimeTrackDocument> tableItems, IEnumerable<TimeTrackDocumentType> documentTypes)
 		{
 			try
 			{
-				//TODO: Add func to get types of documents
 				var tableTimeTrackDocuments = tableItems
 					.Where(x => x.EmployeeUID == employee.UID &&
 					((x.StartDateTime.Date >= startDateTime && x.StartDateTime.Date <= endDateTime) ||
 					 (x.EndDateTime.Date >= startDateTime && x.EndDateTime.Date <= endDateTime) ||
 					 (startDateTime >= x.StartDateTime.Date && startDateTime <= x.EndDateTime.Date) ||
 					 (endDateTime >= x.StartDateTime.Date && endDateTime <= x.EndDateTime.Date)));
-
-				var docfactory = new DocumentsFactory();
-				var systemTypes = docfactory.SystemDocuments.Select(x => x.TimeTrackDocumentType);
-				var timeTrackDocumentTypes = tableItemsTypes
-					.Where(x => x.OrganisationUID == employee.OrganisationUID)
-					.Select(tableTimeTrackDocumentType => new TimeTrackDocumentType
-					{
-						UID = tableTimeTrackDocumentType.UID,
-						OrganisationUID = tableTimeTrackDocumentType.OrganisationUID,
-						Name = tableTimeTrackDocumentType.Name,
-						ShortName = tableTimeTrackDocumentType.ShortName,
-						Code = tableTimeTrackDocumentType.DocumentCode,
-						DocumentType = (DocumentType)tableTimeTrackDocumentType.DocumentType,
-					})
-					.ToList();
-
-				systemTypes = systemTypes.Union(timeTrackDocumentTypes);
 
 				var docsList = tableTimeTrackDocuments.Select(tableDoc => new TimeTrackDocument
 				{
@@ -103,7 +85,7 @@ namespace SKDDriver.Translators
 					DocumentNumber = tableDoc.DocumentNumber,
 					FileName = tableDoc.FileName,
 					IsOutside = tableDoc.IsOutside,
-					TimeTrackDocumentType = systemTypes.FirstOrDefault(x => x.Code == tableDoc.DocumentCode)
+					TimeTrackDocumentType = documentTypes.FirstOrDefault(x => x.Code == tableDoc.DocumentCode)
 				})
 				.ToList();
 

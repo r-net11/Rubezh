@@ -246,7 +246,6 @@
     <Compile Include="SKD\Device\SKDInterlockConfiguration.cs" />
     <Compile Include="SKD\Device\SKDLocksPassword.cs" />
     <Compile Include="SKD\Device\SKDControllerPasswords.cs" />
-    <Compile Include="SKD\DocumentsFactory.cs" />
     <Compile Include="SKD\Organisation\ExportOrganisation.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterUser.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterEmployeeAndVisitor.cs" />

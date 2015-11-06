@@ -8,7 +8,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using SKDDriver.DataAccess;
-
+using TimeTrackDocumentType = FiresecAPI.SKD.TimeTrackDocumentType;
+using System.Threading.Tasks;
 namespace SKDDriver.Translators
 {
 	public class TimeTrackTranslator
@@ -83,7 +84,11 @@ namespace SKDDriver.Translators
 						}
 					}
 
-					var documentsOperationResult = DatabaseService.TimeTrackDocumentTranslator.GetWithTypes(shortEmployee, startDate, endDate, _TimeTrackDocuments, _TimeTrackDocumentTypes);
+					var systemTypes = GetAllDocumentTypes(shortEmployee);
+
+					if(systemTypes == null) continue;
+
+					var documentsOperationResult = DatabaseService.TimeTrackDocumentTranslator.GetWithTypes(shortEmployee, startDate, endDate, _TimeTrackDocuments, systemTypes);
 
 					if (!documentsOperationResult.HasError)
 					{
@@ -114,6 +119,19 @@ namespace SKDDriver.Translators
 			{
 				return OperationResult<TimeTrackResult>.FromError(e.Message);
 			}
+		}
+
+		private IEnumerable<TimeTrackDocumentType> GetAllDocumentTypes(ShortEmployee shortEmployee)
+		{
+			var systemTypesTask = Task<OperationResult<IEnumerable<TimeTrackDocumentType>>>.Factory.StartNew(() =>
+				DatabaseService.TimeTrackDocumentTypeTranslator.GetSystemDocumentTypes());
+			var organisationTypesTask = Task<OperationResult<List<TimeTrackDocumentType>>>.Factory.StartNew(() =>
+				DatabaseService.TimeTrackDocumentTypeTranslator.Get(shortEmployee.OrganisationUID));
+
+			if (systemTypesTask.Result.HasError || systemTypesTask.Result.HasError)
+				return null;
+
+			return systemTypesTask.Result.Result.Concat(organisationTypesTask.Result.Result);
 		}
 
 		public Stream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)

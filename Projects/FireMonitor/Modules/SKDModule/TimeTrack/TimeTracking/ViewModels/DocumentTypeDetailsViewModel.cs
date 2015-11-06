@@ -11,42 +11,15 @@ namespace SKDModule.ViewModels
 {
 	public class DocumentTypeDetailsViewModel : SaveCancelDialogViewModel
 	{
-		Guid OrganisationUID { get; set; }
+		#region Properties
+
+		private IEnumerable<TimeTrackDocumentType> _systemTimeTrackDocumentTypes;
+
+		private Guid OrganisationUID { get; set; }
+
 		public TimeTrackDocumentType TimeTrackDocumentType { get; private set; }
 
 		public bool IsReadOnly { get; private set; }
-
-		public DocumentTypeDetailsViewModel(Model.DocumentType documentType, bool isEdit = false)
-		{
-			OrganisationUID = documentType.Organisation.UID;
-			if (documentType.TimeTrackDocumentType == null || !isEdit)
-			{
-				Title = "Создание вида оправдательного документа";
-				TimeTrackDocumentType = new TimeTrackDocumentType
-				{
-					Name = "Название документа",
-					OrganisationUID = OrganisationUID
-				};
-			}
-			else
-			{
-				TimeTrackDocumentType = documentType.TimeTrackDocumentType;
-				Title = "Редактирование вида оправдательных документов";
-				IsReadOnly = documentType.IsSystem;
-			}
-
-			AvailableDocumentTypes = Enum.GetValues(typeof(DocumentType)).Cast<DocumentType>().ToList();
-
-			CopyProperties();
-		}
-
-		public void CopyProperties()
-		{
-			Name = TimeTrackDocumentType.Name;
-			ShortName = TimeTrackDocumentType.ShortName;
-			Code = TimeTrackDocumentType.Code;
-			SelectedDocumentType = AvailableDocumentTypes.FirstOrDefault(x => x == TimeTrackDocumentType.DocumentType);
-		}
 
 		string _name;
 		public string Name
@@ -104,6 +77,42 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		#endregion
+
+		public DocumentTypeDetailsViewModel(Model.DocumentType documentType, IEnumerable<TimeTrackDocumentType> systemTimeTrackDocumentTypes,  bool isEdit = false)
+		{
+			OrganisationUID = documentType.Organisation.UID;
+			_systemTimeTrackDocumentTypes = systemTimeTrackDocumentTypes;
+
+			if (documentType.TimeTrackDocumentType == null || !isEdit)
+			{
+				Title = "Создание вида оправдательного документа";
+				TimeTrackDocumentType = new TimeTrackDocumentType
+				{
+					Name = "Название документа",
+					OrganisationUID = OrganisationUID
+				};
+			}
+			else
+			{
+				TimeTrackDocumentType = documentType.TimeTrackDocumentType;
+				Title = "Редактирование вида оправдательных документов";
+				IsReadOnly = documentType.IsSystem;
+			}
+
+			AvailableDocumentTypes = Enum.GetValues(typeof(DocumentType)).Cast<DocumentType>().ToList();
+
+			CopyProperties();
+		}
+
+		public void CopyProperties()
+		{
+			Name = TimeTrackDocumentType.Name;
+			ShortName = TimeTrackDocumentType.ShortName;
+			Code = TimeTrackDocumentType.Code;
+			SelectedDocumentType = AvailableDocumentTypes.FirstOrDefault(x => x == TimeTrackDocumentType.DocumentType);
+		}
+
 		protected override bool CanSave()
 		{
 			return !string.IsNullOrEmpty(Name);
@@ -126,13 +135,13 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("Числовой код документа должен быть положительным числом");
 				return false;
 			}
-			var documentsFactory = new DocumentsFactory();
-			if (documentsFactory.SystemDocuments.Any(x => x.TimeTrackDocumentType.Name == Name))
+
+			if (_systemTimeTrackDocumentTypes.Any(x => x.Name == Name))
 			{
 				MessageBoxService.ShowWarning("Название документа совпадает с одним из предопределенных");
 				return false;
 			}
-			if (documentsFactory.SystemDocuments.Any(x => x.TimeTrackDocumentType.ShortName == ShortName))
+			if (_systemTimeTrackDocumentTypes.Any(x => x.ShortName == ShortName))
 			{
 				MessageBoxService.ShowWarning("Буквенный код документа совпадает с одним из предопределенных кодов");
 				return false;

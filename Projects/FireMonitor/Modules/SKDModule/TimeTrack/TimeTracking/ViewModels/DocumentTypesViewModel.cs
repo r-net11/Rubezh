@@ -13,12 +13,15 @@ namespace SKDModule.ViewModels
 {
 	public class DocumentTypesViewModel : DialogViewModel
 	{
+		private IEnumerable<TimeTrackDocumentType> SystemDocumentTypes { get; set; }
+
 		public DocumentTypesViewModel(IEnumerable<TimeTrackDocumentType> systemDocumentTypes)
 		{
 			Title = "Документы";
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+			SystemDocumentTypes = systemDocumentTypes;
 
 			Organisations = new List<DocumentType>();
 			Initialize(systemDocumentTypes);
@@ -97,7 +100,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var documentTypeDetailsViewModel = new DocumentTypeDetailsViewModel(SelectedDocumentType);
+			var documentTypeDetailsViewModel = new DocumentTypeDetailsViewModel(SelectedDocumentType, SystemDocumentTypes);
 			if (DialogService.ShowModalWindow(documentTypeDetailsViewModel))
 			{
 				if (DocumentTypeHelper.Add(documentTypeDetailsViewModel.TimeTrackDocumentType))
@@ -124,7 +127,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var documentTypeDetailsViewModel = new DocumentTypeDetailsViewModel(SelectedDocumentType, true);
+			var documentTypeDetailsViewModel = new DocumentTypeDetailsViewModel(SelectedDocumentType, SystemDocumentTypes, true);
 			if (DialogService.ShowModalWindow(documentTypeDetailsViewModel))
 			{
 				if (DocumentTypeHelper.Edit(documentTypeDetailsViewModel.TimeTrackDocumentType))

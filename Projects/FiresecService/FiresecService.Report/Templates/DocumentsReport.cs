@@ -32,45 +32,38 @@ namespace FiresecService.Report.Templates
 			var filter = GetFilter<DocumentsReportFilter>();
 			var employees = dataProvider.GetEmployees(filter);
 			var ds = new DataSetDocuments();
-			var docFactory = new DocumentsFactory();
+			var systemDocuments = dataProvider.DatabaseService.TimeTrackDocumentTypeTranslator.GetSystemDocumentTypes();
+
 			foreach (var employee in employees)
 			{
 				var documentsResult = dataProvider.DatabaseService.TimeTrackDocumentTranslator.Get(employee.UID, filter.DateTimeFrom, filter.DateTimeTo);
-				if (documentsResult.Result != null)
-				{
-					foreach (var document in documentsResult.Result)
-					{
-						var documentTypesResult = dataProvider.DatabaseService.TimeTrackDocumentTypeTranslator.Get(employee.OrganisationUID);
-						if (documentTypesResult.Result != null)
-						{
 
-							//TODO: Need refactoring. Remove documentType and use ITimeTrackDocument
-							var documentType = documentTypesResult.Result.FirstOrDefault(x => x.Code == document.DocumentCode);
-							if (documentType == null)
-							{
-								var doc = docFactory.SystemDocuments.FirstOrDefault(x => x.TimeTrackDocumentType.Code == document.DocumentCode);
-								documentType = doc != null ? doc.TimeTrackDocumentType : null;
-							}
-							if (documentType != null)
-							{
-								if (filter.Abcense && documentType.DocumentType == DocumentType.Absence ||
-								   filter.Presence && documentType.DocumentType == DocumentType.Presence ||
-									filter.Overtime && documentType.DocumentType == DocumentType.Overtime)
-								{
-									var row = ds.Data.NewDataRow();
-									row.Employee = employee.Name;
-									row.Department = employee.Department;
-									row.StartDateTime = document.StartDateTime;
-									row.EndDateTime = document.EndDateTime;
-									row.DocumentCode = documentType.Code;
-									row.DocumentName = documentType.Name;
-									row.DocumentShortName = documentType.ShortName;
-									row.DocumentType = documentType.DocumentType.ToDescription();
-									ds.Data.AddDataRow(row);
-								}
-							}
-						}
-					}
+				if (documentsResult.Result == null) continue;
+
+				foreach (var document in documentsResult.Result)
+				{
+					var documentTypesResult = dataProvider.DatabaseService.TimeTrackDocumentTypeTranslator.Get(employee.OrganisationUID);
+
+					if (documentTypesResult.Result == null) continue;
+
+					var documentType = documentTypesResult.Result.FirstOrDefault(x => x.Code == document.DocumentCode) ??
+					                   systemDocuments.Result.FirstOrDefault(x => x.Code == document.DocumentCode);
+
+					if (documentType == null ||
+					    ((!filter.Abcense || documentType.DocumentType != DocumentType.Absence) &&
+					     (!filter.Presence || documentType.DocumentType != DocumentType.Presence) &&
+					     (!filter.Overtime || documentType.DocumentType != DocumentType.Overtime))) continue;
+
+					var row = ds.Data.NewDataRow();
+					row.Employee = employee.Name;
+					row.Department = employee.Department;
+					row.StartDateTime = document.StartDateTime;
+					row.EndDateTime = document.EndDateTime;
+					row.DocumentCode = documentType.Code;
+					row.DocumentName = documentType.Name;
+					row.DocumentShortName = documentType.ShortName;
+					row.DocumentType = documentType.DocumentType.ToDescription();
+					ds.Data.AddDataRow(row);
 				}
 			}
 			return ds;
