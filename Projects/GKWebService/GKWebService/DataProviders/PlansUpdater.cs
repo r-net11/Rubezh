@@ -53,5 +53,9 @@ namespace GKWebService.DataProviders
 		public void UpdateDeviceState(object stateData) {
 			Clients.All.updateDeviceState(stateData);
 		}
+
+        public void UpdateHint(object stateData) {
+			Clients.All.updateHint(stateData);
+		}
 	}
 }

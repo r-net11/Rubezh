@@ -1,5 +1,4 @@
 using System;
-using GKWebService.DataProviders;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 
@@ -38,9 +37,6 @@ namespace GKWebService.App_Start
 
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
-            //container.RegisterInstance(typeof (PlansDataProvider), new PlansDataProvider(),
-            //                           new ContainerControlledLifetimeManager());
-            //container.RegisterType<IPlansDataProvider, PlansDataProvider>(new ContainerControlledLifetimeManager());
         }
     }
 }
