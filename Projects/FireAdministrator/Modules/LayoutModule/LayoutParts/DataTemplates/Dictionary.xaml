@@ -23,5 +23,9 @@
 	<DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyTextPageViewModel}">
 		<Views:LayoutPartPropertyTextPageView />
 	</DataTemplate>
+	
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyAdditionalPageViewModel}">
+		<Views:LayoutPartPropertyAdditionalPageView />
+	</DataTemplate>
 
 </ResourceDictionary>

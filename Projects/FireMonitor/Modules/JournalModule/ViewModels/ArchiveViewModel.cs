@@ -103,6 +103,7 @@ namespace JournalModule.ViewModels
 				if (DialogService.ShowModalWindow(archiveFilterViewModel))
 				{
 					Filter = archiveFilterViewModel.GetModel();
+					Update();
 				}
 			}
 		}

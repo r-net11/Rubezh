@@ -85,7 +85,7 @@ namespace GKModule.ViewModels
 			var devicesSelectationViewModel = new DevicesSelectationViewModel(PumpStation.NSDevices, sourceDevices);
 			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
 			{
-				PumpStation.NSDevices.ForEach(x => x.OutDependentElements.Remove(PumpStation));
+				PumpStation.NSDevices.ForEach(x => x.OutputDependentElements.Remove(PumpStation));
 				PumpStation.NSDevices = devicesSelectationViewModel.DevicesList;
 				PumpStation.NSDeviceUIDs = new List<Guid>();
 				PumpStation.InputDependentElements = new List<GKBase>();
@@ -95,7 +95,7 @@ namespace GKModule.ViewModels
 					PumpStation.NSDeviceUIDs.Add(device.UID);
 					device.Logic = new GKLogic();
 				}
-				PumpStation.Invalidate();
+				PumpStation.Invalidate(GKManager.DeviceConfiguration);
 				Update();
 				pumpDevices.ForEach(x => x.OnChanged());
 				PumpStation.NSDevices.FindAll(x => !pumpDevices.Contains(x)).ForEach(y => y.NSLogic = new GKLogic());
@@ -109,7 +109,7 @@ namespace GKModule.ViewModels
 			{
 				var device = SelectedPumpDevice.Device;
 				PumpStation.NSDeviceUIDs.Remove(SelectedPumpDevice.Device.UID);
-				SelectedPumpDevice.Device.OutDependentElements.Remove(PumpStation);
+				SelectedPumpDevice.Device.OutputDependentElements.Remove(PumpStation);
 				PumpStation.InputDependentElements.Remove(SelectedPumpDevice.Device);
 				Update();
 				device.NSLogic = new GKLogic();

@@ -1,5 +1,8 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using MediaSourcePlayer.MediaSource;
+using System;
+using System.ComponentModel;
 using System.Windows;
 using VideoModule.ViewModels;
 
@@ -7,13 +10,13 @@ namespace VideoModule.Views
 {
 	public partial class LayoutPartCameraView
 	{
+		public static CancelEventHandler CameraClosing { get; private set; }
 		public LayoutPartCameraView()
 		{
 			InitializeComponent();
 			Loaded += OnLoaded;
 		}
-
-		private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
+		private void OnClosed(object sender, EventArgs e)
 		{
 			MediaSourcePlayer.Stop();
 			MediaSourcePlayer.Close();
@@ -25,7 +28,7 @@ namespace VideoModule.Views
 			{
 				if (layoutPartCameraViewModel.RviRTSP != null)
 				{
-					ShellViewModel.Current.Closing += OnClosing;
+					ApplicationService.Closed += OnClosed;
 					MediaSourcePlayer.Open(MediaSourceFactory.CreateFromRtspStream(layoutPartCameraViewModel.RviRTSP));
 					MediaSourcePlayer.Play();
 				}

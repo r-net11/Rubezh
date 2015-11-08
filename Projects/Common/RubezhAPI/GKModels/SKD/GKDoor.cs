@@ -59,9 +59,9 @@ namespace RubezhAPI.GK
 			return new Tuple<GKDevice, Guid>(null, Guid.Empty);
 		}
 
-		public override void Invalidate()
+		public override void Invalidate(GKDeviceConfiguration deviceConfiguration)
 		{
-			UpdateLogic();
+			UpdateLogic(deviceConfiguration);
 			OpenRegimeLogic.GetObjects().ForEach(AddDependentElement);
 			NormRegimeLogic.GetObjects().ForEach(AddDependentElement);		
 			CloseRegimeLogic.GetObjects().ForEach(AddDependentElement);
@@ -111,11 +111,11 @@ namespace RubezhAPI.GK
 			}
 		}
 
-		public override void UpdateLogic()
+		public override void UpdateLogic(GKDeviceConfiguration deviceConfiguration)
 		{
-			GKManager.DeviceConfiguration.InvalidateOneLogic(this, OpenRegimeLogic);
-			GKManager.DeviceConfiguration.InvalidateOneLogic(this, NormRegimeLogic);
-			GKManager.DeviceConfiguration.InvalidateOneLogic(this, CloseRegimeLogic);
+			deviceConfiguration.InvalidateOneLogic(this, OpenRegimeLogic);
+			deviceConfiguration.InvalidateOneLogic(this, NormRegimeLogic);
+			deviceConfiguration.InvalidateOneLogic(this, CloseRegimeLogic);
 		}
 
 		[XmlIgnore]

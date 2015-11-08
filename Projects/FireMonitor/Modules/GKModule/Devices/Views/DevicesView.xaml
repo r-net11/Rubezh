@@ -16,7 +16,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" MinHeight="200" />
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="150" MinHeight="150" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid Grid.Row="0" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
 			<tree:TreeList Name="_devicesDataGrid" Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}" tree:SortBehavior.CanUserSortColumns="True">
@@ -56,13 +56,15 @@
 			</tree:TreeList>
 		</Grid>
 		<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
-		<Border Grid.Row="2" Background="{DynamicResource BackgroundBrush}" BorderThickness="0" CornerRadius="5" DataContext="{Binding SelectedDevice}" TextBlock.FontSize="11" TextBlock.Foreground="White" Padding="5" Margin="0 5 0 0">
-			<ScrollViewer VerticalScrollBarVisibility="Auto">
+		<Grid Grid.Row="2" Visibility="{Binding  IsVisibleBottomPanel, Converter={StaticResource BoolToVisibilityConverter}}">
+			<Border Background="{DynamicResource BackgroundBrush}" BorderThickness="0" CornerRadius="5" DataContext="{Binding SelectedDevice}" TextBlock.FontSize="11" TextBlock.Foreground="White" Padding="5" Margin="0 5 0 0" MinHeight="150">
+				<ScrollViewer VerticalScrollBarVisibility="Auto">
 				<StackPanel>
 					<TextBlock FontWeight="Bold" Foreground="Orange" Text="{Binding Device.PresentationName}" />
 					<Views:DeviceStateView TextElement.Foreground="White" />
 				</StackPanel>
 			</ScrollViewer>
 		</Border>
+		</Grid>
 	</Grid>
 </UserControl>

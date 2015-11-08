@@ -9,15 +9,22 @@ namespace FireMonitor
 {
 	public class SecurityService : ISecurityService
 	{
-		public bool Validate()
+		public bool Validate(bool flag = true)
 		{
-			var loginViewModel = new LoginViewModel(ClientType.Monitor, Infrastructure.Client.Login.ViewModels.LoginViewModel.PasswordViewType.Validate) { Title = "Оперативная задача. Авторизация", };
-			DialogService.ShowModalWindow(loginViewModel);
-			if (!loginViewModel.IsConnected)
+			if (flag && ClientManager.CheckPermission(PermissionType.Oper_MayNotConfirmCommands))
 			{
-				MessageBoxService.Show(loginViewModel.Message);
+					return true;
 			}
-			return loginViewModel.IsConnected;
+			else
+			{
+				var loginViewModel = new LoginViewModel(ClientType.Monitor, Infrastructure.Client.Login.ViewModels.LoginViewModel.PasswordViewType.Validate) { Title = "Оперативная задача. Авторизация", };
+				DialogService.ShowModalWindow(loginViewModel);
+				if (!loginViewModel.IsConnected && !loginViewModel.IsCanceled)
+				{
+					MessageBoxService.ShowError(loginViewModel.Message);
+				}
+				return loginViewModel.IsConnected;
+			}
 		}
 	}
 }

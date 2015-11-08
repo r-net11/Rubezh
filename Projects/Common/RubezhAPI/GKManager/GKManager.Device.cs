@@ -38,7 +38,7 @@ namespace RubezhClient
 			deviceTo.ProjectAddress = deviceFrom.ProjectAddress;
 			deviceTo.PredefinedName = deviceFrom.PredefinedName;
 			deviceTo.InputDependentElements = deviceFrom.InputDependentElements;
-			deviceTo.OutDependentElements = deviceFrom.OutDependentElements;
+			deviceTo.OutputDependentElements = deviceFrom.OutputDependentElements;
 
 			deviceTo.Properties = new List<GKProperty>();
 			foreach (var property in deviceFrom.Properties)

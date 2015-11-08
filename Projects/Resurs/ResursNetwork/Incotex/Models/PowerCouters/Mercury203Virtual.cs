@@ -72,6 +72,20 @@ namespace ResursNetwork.Incotex.Models
 			}
         }
 
+		public uint GroupAddress
+		{
+			get { return Convert.ToUInt32(_parameters[ParameterNamesMercury203Virtual.GADDR].Value); }
+			set 
+			{
+				if (value == 0)
+				{
+					throw new ArgumentOutOfRangeException(
+						"Групповой адрес должен быть больше 0");
+				}
+				_parameters[ParameterNamesMercury203Virtual.GADDR].Value = value; 
+			}
+		}
+
         public INetwrokController Network
         {
             get { return _networkController; }

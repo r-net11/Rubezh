@@ -2,6 +2,6 @@
 {
 	public interface ISecurityService
 	{
-		bool Validate();
+		bool Validate(bool flag = true);
 	}
 }

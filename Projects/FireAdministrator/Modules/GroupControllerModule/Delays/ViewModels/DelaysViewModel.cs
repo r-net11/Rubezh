@@ -168,7 +168,7 @@ namespace GKModule.ViewModels
 			var delay = _delayToCopy.Clone();
 			delay.Logic = logicViewModel.GetModel();
 			delay.No = (ushort)(GKManager.Delays.Select(x => x.No).Max() + 1);
-			delay.Invalidate();
+			delay.Invalidate(GKManager.DeviceConfiguration);
 			var delayViewModel = new DelayViewModel(delay);
 			GKManager.Delays.Add(delayViewModel.Delay);
 			Delays.Add(delayViewModel);
@@ -198,7 +198,7 @@ namespace GKModule.ViewModels
 			{
 				SelectedDelay.Delay.Logic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, true));
 				SelectedDelay.Update();
-				SelectedDelay.Delay.Invalidate();
+				SelectedDelay.Delay.Invalidate(GKManager.DeviceConfiguration);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -214,7 +214,7 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedDelay != null)
 			{
-				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedDelay.Delay.OutDependentElements);
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedDelay.Delay.OutputDependentElements);
 				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}

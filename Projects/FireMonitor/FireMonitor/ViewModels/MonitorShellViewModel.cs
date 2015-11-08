@@ -72,7 +72,7 @@ namespace FireMonitor.ViewModels
 				}
 				return false;
 			}
-			return !ServiceFactory.SecurityService.Validate();
+			return !ServiceFactory.SecurityService.Validate(false);
 		}
 		public override void OnClosed()
 		{

@@ -26,13 +26,13 @@ namespace RubezhClient
 			PumpStations.Remove(pumpStation);
 			pumpStation.InputDependentElements.ForEach(x =>
 			{
-				x.OutDependentElements.Remove(pumpStation);
+				x.OutputDependentElements.Remove(pumpStation);
 			});
 
-			pumpStation.OutDependentElements.ForEach(x =>
+			pumpStation.OutputDependentElements.ForEach(x =>
 			{
 				x.InputDependentElements.Remove(pumpStation);
-				x.UpdateLogic();
+				x.UpdateLogic(GKManager.DeviceConfiguration);
 				x.OnChanged();
 			});
 		}
@@ -43,7 +43,8 @@ namespace RubezhClient
 		/// <param name="pumpStation"></param>
 		public static void EditPumpStation(GKPumpStation pumpStation)
 		{
-			pumpStation.OutDependentElements.ForEach(x => x.OnChanged());
+			pumpStation.OutputDependentElements.ForEach(x => x.OnChanged());
+			pumpStation.OnChanged();
 		}
 	}
 }

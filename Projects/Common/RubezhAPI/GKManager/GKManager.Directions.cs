@@ -26,13 +26,13 @@ namespace RubezhClient
 			Directions.Remove(direction);
 			direction.InputDependentElements.ForEach(x =>
 			{
-				x.OutDependentElements.Remove(direction);
+				x.OutputDependentElements.Remove(direction);
 			});
 
-			direction.OutDependentElements.ForEach(x =>
+			direction.OutputDependentElements.ForEach(x =>
 			{
 				x.InputDependentElements.Remove(direction);
-				x.UpdateLogic();
+				x.UpdateLogic(GKManager.DeviceConfiguration);
 				x.OnChanged();
 			});
 			direction.OnChanged();
@@ -44,7 +44,7 @@ namespace RubezhClient
 		/// <param name="direction"></param>
 		public static void EditDirection(GKDirection direction)
 		{
-			direction.OutDependentElements.ForEach(x => x.OnChanged());
+			direction.OutputDependentElements.ForEach(x => x.OnChanged());
 			direction.OnChanged();
 		}
 

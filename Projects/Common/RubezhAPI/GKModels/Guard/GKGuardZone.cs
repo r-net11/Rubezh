@@ -29,18 +29,18 @@ namespace RubezhAPI.GK
 			AlarmDelay = 1;
 		}
 
-		public override void Invalidate()
+		public override void Invalidate(GKDeviceConfiguration deviceConfiguration)
 		{
 			var guardZoneDevices = new List<GKGuardZoneDevice>();
 			foreach (var guardZoneDevice in GuardZoneDevices)
 			{
-				var device = GKManager.Devices.FirstOrDefault(x => x.UID == guardZoneDevice.DeviceUID);
+				var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == guardZoneDevice.DeviceUID);
 				if (device != null)
 				{
 					if (!device.InputDependentElements.Contains(this))
-						device.OutDependentElements.Add(this);
-					if (!OutDependentElements.Contains(device))
-						OutDependentElements.Add(device);
+						device.OutputDependentElements.Add(this);
+					if (!OutputDependentElements.Contains(device))
+						OutputDependentElements.Add(device);
 
 					if (device.DriverType == GKDriverType.RSR2_GuardDetector || device.DriverType == GKDriverType.RSR2_GuardDetectorSound || device.DriverType == GKDriverType.RSR2_AM_1 || device.DriverType == GKDriverType.RSR2_MAP4 || device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
 					{
@@ -49,10 +49,10 @@ namespace RubezhAPI.GK
 					}
 					if (device.Driver.IsCardReaderOrCodeReader)
 					{
-						GKManager.DeviceConfiguration.InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.SetGuardSettings);
-						GKManager.DeviceConfiguration.InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.ResetGuardSettings);
-						GKManager.DeviceConfiguration.InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.ChangeGuardSettings);
-						GKManager.DeviceConfiguration.InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.AlarmSettings);
+						deviceConfiguration.InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.SetGuardSettings);
+						deviceConfiguration.InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.ResetGuardSettings);
+						deviceConfiguration.InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.ChangeGuardSettings);
+						deviceConfiguration.InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.AlarmSettings);
 					}
 				}
 			}
