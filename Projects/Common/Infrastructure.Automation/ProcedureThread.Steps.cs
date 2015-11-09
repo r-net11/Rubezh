@@ -94,13 +94,14 @@ namespace Infrastructure.Automation
 		void ShowProperty(ProcedureStep procedureStep)
 		{
 			var showPropertyArguments = procedureStep.ShowPropertyArguments;
+			var objectUid = GetValue<Guid>(showPropertyArguments.ObjectArgument);
 			var automationCallbackResult = new AutomationCallbackResult()
 			{
 				AutomationCallbackType = AutomationCallbackType.Property,
 				Data = new PropertyCallBackData()
 				{
 					ObjectType = showPropertyArguments.ObjectType,
-					ObjectUid = showPropertyArguments.ObjectArgument.ExplicitValue.UidValue
+					ObjectUid = objectUid
 				},
 			};
 			SendCallback(showPropertyArguments, automationCallbackResult);
