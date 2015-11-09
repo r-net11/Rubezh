@@ -378,6 +378,10 @@ namespace Infrastructure.Automation
 				case ProcedureStepType.Now:
 					Now(procedureStep);
 					break;
+
+				case ProcedureStepType.RunProgram:
+					RunProgram(procedureStep);
+					break;
 			}
 			return Result.Normal;
 		}

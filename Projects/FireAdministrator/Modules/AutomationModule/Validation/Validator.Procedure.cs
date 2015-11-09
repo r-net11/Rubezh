@@ -148,13 +148,6 @@ namespace AutomationModule.Validation
 					}
 					break;
 
-				case ProcedureStepType.Exit:
-					{
-						var exitArguments = step.ExitArguments;
-						ValidateArgument(step, exitArguments.ExitCodeArgument);
-					}
-					break;
-
 				case ProcedureStepType.SetValue:
 					{
 						var setValueArguments = step.SetValueArguments;
