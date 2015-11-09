@@ -1,4 +1,6 @@
-﻿using Infrastructure.Common;
+﻿using System.Data.SqlClient;
+using System.Text;
+using Infrastructure.Common;
 using SKDDriver.Translators;
 using System;
 
@@ -8,19 +10,28 @@ namespace SKDDriver
 	{
 		public DataAccess.SKDDataContext Context { get; private set; }
 
-		public static string ConnectionString
+		public static string GetConnectionString(string db)
 		{
-			get
+			var csb = new SqlConnectionStringBuilder();
+			csb.DataSource = String.Format(@"{0}\{1}", AppServerSettingsHelper.AppServerSettings.DBServerAddress, AppServerSettingsHelper.AppServerSettings.DBServerName);
+			csb.InitialCatalog = db;
+			csb.IntegratedSecurity = AppServerSettingsHelper.AppServerSettings.DBUseIntegratedSecurity;
+			if (!csb.IntegratedSecurity)
 			{
-				var serverName = AppServerSettingsHelper.AppServerSettings.DBServerName;
-				var connectionString = @"Data Source=.\" + serverName + ";Initial Catalog=SKD;Integrated Security=True;Language='English'";
-				return connectionString;
+				csb.UserID = AppServerSettingsHelper.AppServerSettings.DBUserID;
+				csb.Password = AppServerSettingsHelper.AppServerSettings.DBUserPwd;
 			}
+			return csb.ConnectionString;
 		}
+
+		public static string MasterConnectionString { get { return GetConnectionString("master"); } }
+		public static string SkdConnectionString { get { return GetConnectionString("SKD"); } }
+		public static string JournalConnectionString { get { return GetConnectionString("Journal_1"); } }
+		public static string PassJournalConnectionString { get { return GetConnectionString("PassJournal_1"); } }
 
 		public SKDDatabaseService()
 		{
-			Context = new DataAccess.SKDDataContext(ConnectionString);
+			Context = new DataAccess.SKDDataContext(SkdConnectionString);
 
 			CardDoorTranslator = new CardDoorTranslator(this);
 			CardTranslator = new CardTranslator(this);
