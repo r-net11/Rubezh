@@ -3,21 +3,22 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 			 xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
-			 MinWidth="500" MinHeight="350">
+			 xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls"
+			 MinWidth="550" MinHeight="350">
 	<UserControl.Resources>
 		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
-			</ResourceDictionary.MergedDictionaries>
 			<SolidColorBrush x:Key="WatermarkColor" Color="LightGray"/>
+			<Converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
+			<Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 		</ResourceDictionary>
 	</UserControl.Resources>
-	<Grid Background="{StaticResource BaseWindowBackgroundBrush}">
+	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
@@ -50,7 +51,7 @@
 			Grid.Row="1"
 			behaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
 			behaviours:DatePickerCustomWatermark.WatermarkText="Выберите дату"
-			SelectedDate="{Binding DocumentDateTime, UpdateSourceTrigger=PropertyChanged}"
+			SelectedDate="{Binding DocumentDateTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 			Margin="0 5"
 			VerticalAlignment="Center"/>
 		<TextBlock
@@ -65,13 +66,13 @@
 			Grid.Row="2"
 			Margin="0 5"
 			VerticalAlignment="Center"
-			ItemsSource="{Binding AvailableDocuments}"
+			ItemsSource="{Binding AvailableDocumentsCollectionView, IsAsync=True}"
 			SelectedItem="{Binding SelectedDocument}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="{Binding ShortName}" VerticalAlignment="Center" Width="30" />
-						<TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+						<TextBlock Text="{Binding TimeTrackDocumentType.ShortName}" VerticalAlignment="Center" Width="30" />
+						<TextBlock Text="{Binding TimeTrackDocumentType.Name}" VerticalAlignment="Center" />
 					</StackPanel>
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
@@ -83,11 +84,21 @@
 			TextWrapping="Wrap"
 			VerticalAlignment="Center"
 			Foreground="White"/>
-		<TextBox
+		<ComboBox
 			Grid.Column="1"
 			Grid.Row="3"
-			Margin="0 5"
-			VerticalAlignment="Center"/>
+			VerticalAlignment="Center"
+			ItemsSource="{Binding DocumentsTypes, IsAsync=True}"
+			SelectedItem="{Binding SelectedDocumentType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+			Margin="0 5">
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock
+						Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}"
+						VerticalAlignment="Center"/>
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
 		<TextBlock
 			Grid.Row="4"
 			Text="Дата и время начала действия документа"
@@ -129,15 +140,23 @@
 				TimeSpan="{Binding EndTime}" />
 		</DockPanel>
 		<TextBlock
-			Grid.Row="6"
+			Grid.Row="7"
 			Text="Примечание"
 			Foreground="White"
 			TextWrapping="Wrap"
 			Margin="5"
 			VerticalAlignment="Top"/>
-		<TextBox
+		<CheckBox
 			Grid.Column="1"
 			Grid.Row="6"
+			Content="Действует вне графика"
+			Foreground="White"
+			Margin="0 5"
+			Visibility="{Binding IsEnableAbsence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibilityConverter}}"
+			IsChecked="{Binding IsOutside, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+		<TextBox
+			Grid.Column="1"
+			Grid.Row="7"
 			TextWrapping="Wrap"
 			VerticalContentAlignment="Top"
 			MaxLength="50"

@@ -1,4 +1,5 @@
-﻿using FiresecAPI;
+﻿using System.Threading.Tasks;
+using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
@@ -305,6 +306,14 @@ namespace FiresecService.Service
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.TimeTrackDocumentTypeTranslator.AddTimeTrackDocumentType(timeTrackDocumentType);
+			}
+		}
+
+		public OperationResult<IEnumerable<TimeTrackDocumentType>> GetSystemDocumentTypes()
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.TimeTrackDocumentTypeTranslator.GetSystemDocumentTypes();
 			}
 		}
 

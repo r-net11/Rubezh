@@ -444,6 +444,14 @@ namespace SKDDriver.DataAccess
 				return this.GetTable<GKSchedule>();
 			}
 		}
+		
+		public System.Data.Linq.Table<TimeTrackSystemDocumentTypes> TimeTrackSystemDocumentTypes
+		{
+			get
+			{
+				return this.GetTable<TimeTrackSystemDocumentTypes>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AccessTemplate")]
@@ -8891,6 +8899,8 @@ namespace SKDDriver.DataAccess
 		
 		private string _FileName;
 		
+		private bool _IsOutside;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -8913,6 +8923,8 @@ namespace SKDDriver.DataAccess
     partial void OnDocumentNumberChanged();
     partial void OnFileNameChanging(string value);
     partial void OnFileNameChanged();
+    partial void OnIsOutsideChanging(bool value);
+    partial void OnIsOutsideChanged();
     #endregion
 		
 		public TimeTrackDocument()
@@ -9096,6 +9108,26 @@ namespace SKDDriver.DataAccess
 					this._FileName = value;
 					this.SendPropertyChanged("FileName");
 					this.OnFileNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsOutside", DbType="Bit NOT NULL")]
+		public bool IsOutside
+		{
+			get
+			{
+				return this._IsOutside;
+			}
+			set
+			{
+				if ((this._IsOutside != value))
+				{
+					this.OnIsOutsideChanging(value);
+					this.SendPropertyChanging();
+					this._IsOutside = value;
+					this.SendPropertyChanged("IsOutside");
+					this.OnIsOutsideChanged();
 				}
 			}
 		}
@@ -10792,6 +10824,105 @@ namespace SKDDriver.DataAccess
 		{
 			this.SendPropertyChanging();
 			entity.GKSchedule = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="")]
+	public partial class TimeTrackSystemDocumentTypes
+	{
+		
+		private System.Guid _UID;
+		
+		private string _Name;
+		
+		private string _ShortName;
+		
+		private int _DocumentCode;
+		
+		private int _DocumentType;
+		
+		public TimeTrackSystemDocumentTypes()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					this._UID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this._Name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ShortName", DbType="NVarChar(10) NOT NULL", CanBeNull=false)]
+		public string ShortName
+		{
+			get
+			{
+				return this._ShortName;
+			}
+			set
+			{
+				if ((this._ShortName != value))
+				{
+					this._ShortName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DocumentCode", DbType="Int NOT NULL")]
+		public int DocumentCode
+		{
+			get
+			{
+				return this._DocumentCode;
+			}
+			set
+			{
+				if ((this._DocumentCode != value))
+				{
+					this._DocumentCode = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DocumentType", DbType="Int NOT NULL")]
+		public int DocumentType
+		{
+			get
+			{
+				return this._DocumentType;
+			}
+			set
+			{
+				if ((this._DocumentType != value))
+				{
+					this._DocumentType = value;
+				}
+			}
 		}
 	}
 }

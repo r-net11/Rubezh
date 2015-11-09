@@ -1,9 +1,13 @@
-﻿using FiresecAPI;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
+using FiresecAPI;
 using FiresecAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SKDDriver.DataAccess;
 using OperationResult = FiresecAPI.OperationResult;
+using TimeTrackDocumentType = FiresecAPI.SKD.TimeTrackDocumentType;
 
 namespace SKDDriver.Translators
 {
@@ -52,13 +56,15 @@ namespace SKDDriver.Translators
 		{
 			try
 			{
-				var tableItem = new DataAccess.TimeTrackDocumentType();
-				tableItem.UID = timeTrackDocumentType.UID;
-				tableItem.OrganisationUID = timeTrackDocumentType.OrganisationUID;
-				tableItem.Name = timeTrackDocumentType.Name;
-				tableItem.ShortName = timeTrackDocumentType.ShortName;
-				tableItem.DocumentCode = timeTrackDocumentType.Code;
-				tableItem.DocumentType = (int)timeTrackDocumentType.DocumentType;
+				var tableItem = new DataAccess.TimeTrackDocumentType
+				{
+					UID = timeTrackDocumentType.UID,
+					OrganisationUID = timeTrackDocumentType.OrganisationUID,
+					Name = timeTrackDocumentType.Name,
+					ShortName = timeTrackDocumentType.ShortName,
+					DocumentCode = timeTrackDocumentType.Code,
+					DocumentType = (int) timeTrackDocumentType.DocumentType
+				};
 				Context.TimeTrackDocumentTypes.InsertOnSubmit(tableItem);
 				Context.SubmitChanges();
 				return new OperationResult();
@@ -94,7 +100,7 @@ namespace SKDDriver.Translators
 		{
 			try
 			{
-				var tableItem = Context.TimeTrackDocumentTypes.Where(x => x.UID.Equals(uid)).Single();
+				var tableItem = Context.TimeTrackDocumentTypes.Single(x => x.UID.Equals(uid));
 				Context.TimeTrackDocumentTypes.DeleteOnSubmit(tableItem);
 				Context.TimeTrackDocumentTypes.Context.SubmitChanges();
 			}
@@ -103,6 +109,28 @@ namespace SKDDriver.Translators
 				return new OperationResult(e.Message);
 			}
 			return new OperationResult();
+		}
+
+		public OperationResult<IEnumerable<TimeTrackDocumentType>> GetSystemDocumentTypes()
+		{
+			try
+			{
+				return new OperationResult<IEnumerable<TimeTrackDocumentType>>(Context.TimeTrackSystemDocumentTypes
+					.Select(x => new TimeTrackDocumentType
+					{
+						UID = x.UID,
+						Code = x.DocumentCode,
+						Name = x.Name,
+						ShortName = x.ShortName,
+						OrganisationUID = Guid.Empty,
+						DocumentType = (DocumentType)x.DocumentType
+					}).ToList());
+			}
+			catch (Exception e)
+			{
+				return OperationResult<IEnumerable<TimeTrackDocumentType>>.FromError(e.Message);
+			}
+
 		}
 	}
 }

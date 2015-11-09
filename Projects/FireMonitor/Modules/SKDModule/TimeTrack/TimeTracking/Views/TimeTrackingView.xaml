@@ -113,7 +113,7 @@
 					Grid.Column="4"
 					Command="{Binding ShowDocumentTypesCommand}"
 					ImageSource="Settings2"
-					ToolTip="Типы документов" />
+					ToolTip="Виды документов" />
 				<StackPanel
 					Grid.Column="5"
 					HorizontalAlignment="Right"

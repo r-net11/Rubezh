@@ -102,19 +102,17 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var documentDetailsViewModel = new DocumentDetailsViewModel(true, OrganisationUID);
+			var documentDetailsViewModel = new DocumentDetailsViewModel(true, OrganisationUID, EmployeeUID);
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
-				var document = documentDetailsViewModel.TimeTrackDocument;
-				document.EmployeeUID = EmployeeUID;
-				var operationResult = FiresecManager.FiresecService.AddTimeTrackDocument(document);
+				var operationResult = FiresecManager.FiresecService.AddTimeTrackDocument(documentDetailsViewModel.TimeTrackDocument);
 				if (operationResult.HasError)
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);
 				}
 				else
 				{
-					var documentViewModel = new TimeTrackAttachedDocument(document);
+					var documentViewModel = new TimeTrackAttachedDocument(documentDetailsViewModel.TimeTrackDocument);
 					Documents.Add(documentViewModel);
 					SelectedDocument = documentViewModel;
 					IsDirty = true;
@@ -129,12 +127,15 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var documentDetailsViewModel = new DocumentDetailsViewModel(true, OrganisationUID, SelectedDocument.Document);
+			var documentDetailsViewModel = new DocumentDetailsViewModel(true, OrganisationUID, EmployeeUID,
+				SelectedDocument.Document)
+			{
+				SelectedDocumentType = SelectedDocument.Document.TimeTrackDocumentType.DocumentType
+			};
+
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
-				var document = documentDetailsViewModel.TimeTrackDocument;
-				document.EmployeeUID = EmployeeUID;
-				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(document);
+				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(documentDetailsViewModel.TimeTrackDocument);
 				if (operationResult.HasError)
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);

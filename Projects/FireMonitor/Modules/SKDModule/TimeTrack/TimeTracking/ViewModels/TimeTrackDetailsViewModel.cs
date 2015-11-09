@@ -418,18 +418,16 @@ namespace SKDModule.ViewModels
 
 		void OnAddDocument()
 		{
-			var timeTrackDocument = new TimeTrackDocument
+			var documentDetailsViewModel = new DocumentDetailsViewModel(false, ShortEmployee.OrganisationUID, ShortEmployee.UID)
 			{
 				StartDateTime = DayTimeTrack.Date.Date,
-				EndDateTime = DayTimeTrack.Date.Date + new TimeSpan(23, 59, 59)
+				EndDateTime = DayTimeTrack.Date.Date,
+				EndTime = new TimeSpan(23, 59, 59),
+				DocumentDateTime = DayTimeTrack.Date.Date
 			};
-
-			var documentDetailsViewModel = new DocumentDetailsViewModel(false, ShortEmployee.OrganisationUID, timeTrackDocument);
 
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
-				documentDetailsViewModel.TimeTrackDocument.EmployeeUID = ShortEmployee.UID;
-
 				var operationResult = FiresecManager.FiresecService.AddTimeTrackDocument(documentDetailsViewModel.TimeTrackDocument);
 				if (operationResult.HasError)
 				{
@@ -453,16 +451,19 @@ namespace SKDModule.ViewModels
 
 		void OnEditDocument()
 		{
-			var documentDetailsViewModel = new DocumentDetailsViewModel(false, ShortEmployee.OrganisationUID, SelectedDocument.Document);
+			var documentDetailsViewModel = new DocumentDetailsViewModel(false, ShortEmployee.OrganisationUID, ShortEmployee.UID,
+				SelectedDocument.Document)
+			{
+				SelectedDocumentType = SelectedDocument.Document.TimeTrackDocumentType.DocumentType
+			};
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
-				var document = documentDetailsViewModel.TimeTrackDocument;
-				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(document);
+				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(documentDetailsViewModel.TimeTrackDocument);
 				if (operationResult.HasError)
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);
 				}
-				ServiceFactoryBase.Events.GetEvent<EditDocumentEvent>().Publish(document);
+				ServiceFactoryBase.Events.GetEvent<EditDocumentEvent>().Publish(documentDetailsViewModel.TimeTrackDocument);
 				SelectedDocument.Update();
 				IsDirty = true;
 			}

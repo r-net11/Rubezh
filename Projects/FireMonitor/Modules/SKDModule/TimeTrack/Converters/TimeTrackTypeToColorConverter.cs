@@ -54,6 +54,8 @@ namespace SKDModule.Converters
 
 				case TimeTrackType.DocumentAbsence:
 					return new SolidColorBrush(Colors.LightPink);
+				case TimeTrackType.DocumentAbsenceReasonable:
+					return new SolidColorBrush(Colors.LightPink);
 			}
 
 			return new SolidColorBrush(Colors.Green);

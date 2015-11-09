@@ -10,7 +10,10 @@ namespace FiresecAPI.SKD
 		[Description("Присутствие")]
 		Presence = 1,
 
-		[Description("Отсутствие")]
+		[Description("Отсутствие по неуважительной причине")]
 		Absence = 2,
+
+		[Description("Отсутствие по уважительной причине")]
+		AbsenceReasonable = 3,
 	}
 }
