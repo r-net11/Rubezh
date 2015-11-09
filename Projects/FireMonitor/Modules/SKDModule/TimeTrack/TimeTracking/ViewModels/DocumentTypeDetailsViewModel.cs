@@ -14,6 +14,7 @@ namespace SKDModule.ViewModels
 		#region Properties
 
 		private IEnumerable<TimeTrackDocumentType> _systemTimeTrackDocumentTypes;
+		private Model.DocumentType _inputDocumentType;
 
 		private Guid OrganisationUID { get; set; }
 
@@ -82,6 +83,7 @@ namespace SKDModule.ViewModels
 		public DocumentTypeDetailsViewModel(Model.DocumentType documentType, IEnumerable<TimeTrackDocumentType> systemTimeTrackDocumentTypes,  bool isEdit = false)
 		{
 			OrganisationUID = documentType.Organisation.UID;
+			_inputDocumentType = documentType;
 			_systemTimeTrackDocumentTypes = systemTimeTrackDocumentTypes;
 
 			if (documentType.TimeTrackDocumentType == null || !isEdit)
@@ -120,53 +122,56 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (string.IsNullOrEmpty(Name))
+			if (!_inputDocumentType.IsSystem)
 			{
-				MessageBoxService.ShowWarning("Не задано название документа");
-				return false;
-			}
-			if (string.IsNullOrEmpty(ShortName))
-			{
-				MessageBoxService.ShowWarning("Не задан буквенный код документа");
-				return false;
-			}
-			if (Code <= 0)
-			{
-				MessageBoxService.ShowWarning("Числовой код документа должен быть положительным числом");
-				return false;
-			}
+				if (string.IsNullOrEmpty(Name))
+				{
+					MessageBoxService.ShowWarning("Не задано название документа");
+					return false;
+				}
+				if (string.IsNullOrEmpty(ShortName))
+				{
+					MessageBoxService.ShowWarning("Не задан буквенный код документа");
+					return false;
+				}
+				if (Code <= 0)
+				{
+					MessageBoxService.ShowWarning("Числовой код документа должен быть положительным числом");
+					return false;
+				}
 
-			if (_systemTimeTrackDocumentTypes.Any(x => x.Name == Name))
-			{
-				MessageBoxService.ShowWarning("Название документа совпадает с одним из предопределенных");
-				return false;
-			}
-			if (_systemTimeTrackDocumentTypes.Any(x => x.ShortName == ShortName))
-			{
-				MessageBoxService.ShowWarning("Буквенный код документа совпадает с одним из предопределенных кодов");
-				return false;
-			}
-			if (Code <= 36)
-			{
-				MessageBoxService.ShowWarning("Числовой код документа совпадает с одним из предопределенных");
-				return false;
-			}
+				if (_systemTimeTrackDocumentTypes.Any(x => x.Name == Name))
+				{
+					MessageBoxService.ShowWarning("Название документа совпадает с одним из предопределенных");
+					return false;
+				}
+				if (_systemTimeTrackDocumentTypes.Any(x => x.ShortName == ShortName))
+				{
+					MessageBoxService.ShowWarning("Буквенный код документа совпадает с одним из предопределенных кодов");
+					return false;
+				}
+				if (Code <= 36)
+				{
+					MessageBoxService.ShowWarning("Числовой код документа совпадает с одним из предопределенных");
+					return false;
+				}
 
-			var documentTypes = DocumentTypeHelper.GetByOrganisation(OrganisationUID);
-			if (documentTypes.Any(x => x.Name == Name && x.UID != TimeTrackDocumentType.UID))
-			{
-				MessageBoxService.ShowWarning("Название документа совпадает с одним из ранее введенным");
-				return false;
-			}
-			if (documentTypes.Any(x => x.ShortName == ShortName && x.UID != TimeTrackDocumentType.UID))
-			{
-				MessageBoxService.ShowWarning("Буквенный код документа совпадает с одним из ранее введенным");
-				return false;
-			}
-			if (documentTypes.Any(x => x.Code == Code && x.UID != TimeTrackDocumentType.UID))
-			{
-				MessageBoxService.ShowWarning("Числовой код документа совпадает с одним из ранее введенным");
-				return false;
+				var documentTypes = DocumentTypeHelper.GetByOrganisation(OrganisationUID);
+				if (documentTypes.Any(x => x.Name == Name && x.UID != TimeTrackDocumentType.UID))
+				{
+					MessageBoxService.ShowWarning("Название документа совпадает с одним из ранее введенным");
+					return false;
+				}
+				if (documentTypes.Any(x => x.ShortName == ShortName && x.UID != TimeTrackDocumentType.UID))
+				{
+					MessageBoxService.ShowWarning("Буквенный код документа совпадает с одним из ранее введенным");
+					return false;
+				}
+				if (documentTypes.Any(x => x.Code == Code && x.UID != TimeTrackDocumentType.UID))
+				{
+					MessageBoxService.ShowWarning("Числовой код документа совпадает с одним из ранее введенным");
+					return false;
+				}
 			}
 			TimeTrackDocumentType.Name = Name;
 			TimeTrackDocumentType.ShortName = ShortName;

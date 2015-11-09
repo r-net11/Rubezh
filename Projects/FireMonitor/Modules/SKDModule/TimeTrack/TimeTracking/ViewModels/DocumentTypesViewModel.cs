@@ -13,6 +13,7 @@ namespace SKDModule.ViewModels
 {
 	public class DocumentTypesViewModel : DialogViewModel
 	{
+		private const string SystemOrganisationName = "Документы по умолчанию";
 		private IEnumerable<TimeTrackDocumentType> SystemDocumentTypes { get; set; }
 
 		public DocumentTypesViewModel(IEnumerable<TimeTrackDocumentType> systemDocumentTypes)
@@ -54,7 +55,7 @@ namespace SKDModule.ViewModels
 
 			var systemOrganisation = new Organisation
 			{
-				Name = "Документы по умолчанию"
+				Name = SystemOrganisationName
 			};
 
 			var systemOrganisationViewModel = new DocumentType(systemOrganisation);
@@ -121,7 +122,8 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return SelectedDocumentType != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
+			return SelectedDocumentType != null && !SelectedDocumentType.IsSystem && !Equals(SelectedDocumentType.Name, SystemOrganisationName)
+				&& FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -165,7 +167,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedDocumentType != null && !SelectedDocumentType.IsOrganisation && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
+			return SelectedDocumentType != null && !SelectedDocumentType.IsOrganisation && !SelectedDocumentType.IsSystem && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
 		}
 	}
 }
