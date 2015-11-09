@@ -141,11 +141,6 @@ namespace GKModule.ViewModels
 				ServiceFactory.Events.GetEvent<ShowGKDoorEvent>().Publish(Alarm.GkBaseEntity.UID);
 			}
 		}
-		void GetEvent<T>(Guid gkBaseEntityUid) where T : CompositePresentationEvent<Guid>, new()
-		{
-			ServiceFactory.Events.GetEvent<T>().Publish(gkBaseEntityUid);
-		}
-
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
