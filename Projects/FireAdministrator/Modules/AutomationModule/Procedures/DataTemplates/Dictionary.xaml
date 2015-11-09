@@ -112,10 +112,6 @@
 		<Views:ProcedureSelectionStepView />
 	</DataTemplate>
 
-	<DataTemplate x:Key="exitTemplate">
-		<Views:ExitStepView />
-	</DataTemplate>
-
 	<DataTemplate x:Key="setValueTemplate">
 		<Views:SetValueStepView />
 	</DataTemplate>
@@ -264,7 +260,6 @@
 										 ControlGKGuardZoneTemplate="{StaticResource controlGKGuardZoneTemplate}"
 										 ControlPlanTemplate="{StaticResource controlPlanTemplate}"
 										 ControlVisualTemplate="{StaticResource controlVisualTemplate}"
-										 ExitTemplate="{StaticResource exitTemplate}"
 										 FindObjectTemplate="{StaticResource findObjectTemplate}"
 										 ForeachTemplate="{StaticResource foreachTemplate}"
 										 ForTemplate="{StaticResource forTemplate}"
