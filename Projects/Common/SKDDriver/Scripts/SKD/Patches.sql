@@ -1269,16 +1269,6 @@ CONSTRAINT [PK_GKSchedule] PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
-CREATE TABLE GKScheduleDay(
-[UID] uniqueidentifier NOT NULL,
-[ScheduleUID] uniqueidentifier NOT NULL,
-[DateTime] datetime NOT NULL
-CONSTRAINT [PK_GKScheduleDay] PRIMARY KEY CLUSTERED
-(
-[UID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
 CREATE TABLE GKDaySchedule(
 [UID] uniqueidentifier NOT NULL,
 [No] int NOT NULL,
@@ -1317,18 +1307,12 @@ CONSTRAINT [PK_GKDaySchedulePart] PRIMARY KEY CLUSTERED
 CREATE INDEX GKDaySchedulePartIndex ON [dbo].GKDaySchedulePart([UID])
 CREATE INDEX GKDayScheduleIndex ON [dbo].GKDaySchedule([UID])
 CREATE INDEX GKScheduleIndex ON [dbo].GKSchedule([UID])
-CREATE INDEX GKScheduleDayIndex ON [dbo].GKScheduleDay([UID])
 CREATE INDEX ScheduleGKDayScheduleIndex ON [dbo].ScheduleGKDaySchedule([UID])
 
 ALTER TABLE [dbo].GKDaySchedulePart WITH NOCHECK ADD CONSTRAINT [FK_GKDaySchedulePart_GKDaySchedule] FOREIGN KEY(DayScheduleUID)
 REFERENCES [dbo].[GKDaySchedule] ([Uid])
 NOT FOR REPLICATION
 ALTER TABLE [dbo].GKDaySchedulePart NOCHECK CONSTRAINT [FK_GKDaySchedulePart_GKDaySchedule]
-
-ALTER TABLE [dbo].GKScheduleDay WITH NOCHECK ADD CONSTRAINT [FK_GKScheduleDay_GKSchedule] FOREIGN KEY(ScheduleUID)
-REFERENCES [dbo].[GKSchedule] ([Uid])
-NOT FOR REPLICATION
-ALTER TABLE [dbo].GKScheduleDay NOCHECK CONSTRAINT [FK_GKScheduleDay_GKSchedule]
 
 ALTER TABLE [dbo].ScheduleGKDaySchedule WITH NOCHECK ADD CONSTRAINT [FK_ScheduleGKSchedule_GKSchedule] FOREIGN KEY(ScheduleUID)
 REFERENCES [dbo].[GKSchedule] ([Uid])
@@ -1347,7 +1331,6 @@ GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'GKSchedule2')
 BEGIN
 
-DROP TABLE GKScheduleDay
 DROP TABLE ScheduleGKDaySchedule
 DROP TABLE GKDaySchedulePart
 DROP TABLE GKDaySchedule
@@ -1371,16 +1354,6 @@ CONSTRAINT [PK_GKSchedule] PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
-CREATE TABLE GKScheduleDay(
-[UID] uniqueidentifier NOT NULL,
-[ScheduleUID] uniqueidentifier NOT NULL,
-[DateTime] datetime NOT NULL
-CONSTRAINT [PK_GKScheduleDay] PRIMARY KEY CLUSTERED
-(
-[UID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
 CREATE TABLE GKDaySchedule(
 [UID] uniqueidentifier NOT NULL,
 [No] int NOT NULL,
@@ -1419,18 +1392,12 @@ CONSTRAINT [PK_GKDaySchedulePart] PRIMARY KEY CLUSTERED
 CREATE INDEX GKDaySchedulePartIndex ON [dbo].GKDaySchedulePart([UID])
 CREATE INDEX GKDayScheduleIndex ON [dbo].GKDaySchedule([UID])
 CREATE INDEX GKScheduleIndex ON [dbo].GKSchedule([UID])
-CREATE INDEX GKScheduleDayIndex ON [dbo].GKScheduleDay([UID])
 CREATE INDEX ScheduleGKDayScheduleIndex ON [dbo].ScheduleGKDaySchedule([UID])
 
 ALTER TABLE [dbo].GKDaySchedulePart WITH NOCHECK ADD CONSTRAINT [FK_GKDaySchedulePart_GKDaySchedule] FOREIGN KEY(DayScheduleUID)
 REFERENCES [dbo].[GKDaySchedule] ([Uid])
 NOT FOR REPLICATION
 ALTER TABLE [dbo].GKDaySchedulePart NOCHECK CONSTRAINT [FK_GKDaySchedulePart_GKDaySchedule]
-
-ALTER TABLE [dbo].GKScheduleDay WITH NOCHECK ADD CONSTRAINT [FK_GKScheduleDay_GKSchedule] FOREIGN KEY(ScheduleUID)
-REFERENCES [dbo].[GKSchedule] ([Uid])
-NOT FOR REPLICATION
-ALTER TABLE [dbo].GKScheduleDay NOCHECK CONSTRAINT [FK_GKScheduleDay_GKSchedule]
 
 ALTER TABLE [dbo].ScheduleGKDaySchedule WITH NOCHECK ADD CONSTRAINT [FK_ScheduleGKSchedule_GKSchedule] FOREIGN KEY(ScheduleUID)
 REFERENCES [dbo].[GKSchedule] ([Uid])
@@ -1693,4 +1660,9 @@ IF EXISTS(SELECT * FROM Patches WHERE Id='RemoveGKCardTypeColumn')
                  AND  TABLE_NAME = 'GKCards')
 			DROP TABLE GKCards
 		DELETE FROM Patches WHERE Id='RemoveGKCardTypeColumn'
+	END
+GO
+IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='dbo' AND TABLE_NAME='GKScheduleDay')
+	BEGIN
+		DROP TABLE GKScheduleDay
 	END

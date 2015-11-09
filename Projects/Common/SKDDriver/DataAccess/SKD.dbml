@@ -403,14 +403,6 @@
       <Association Name="Employee_Card" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.GKScheduleDay" Member="GKScheduleDays">
-    <Type Name="GKScheduleDay">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="ScheduleUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="DateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="GKSchedule_GKScheduleDay" Member="GKSchedule" ThisKey="ScheduleUID" OtherKey="UID" Type="GKSchedule" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.GKDaySchedule" Member="GKDaySchedules">
     <Type Name="GKDaySchedule">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -455,7 +447,6 @@
       <Column Name="HolidayScheduleNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="WorkingHolidayScheduleNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Year" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="GKSchedule_GKScheduleDay" Member="GKScheduleDays" ThisKey="UID" OtherKey="ScheduleUID" Type="GKScheduleDay" />
       <Association Name="GKSchedule_ScheduleGKDaySchedule" Member="ScheduleGKDaySchedules" ThisKey="UID" OtherKey="ScheduleUID" Type="ScheduleGKDaySchedule" />
     </Type>
   </Table>

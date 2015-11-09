@@ -49,7 +49,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("SKDModel", "FK_TimeTrackException_Employee", "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SKDDriver.EFDataAccess.Employee), "TimeTrackException", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SKDDriver.EFDataAccess.TimeTrackException), true)]
 [assembly: EdmRelationshipAttribute("SKDModel", "FK_GKDaySchedulePart_GKDaySchedule", "GKDaySchedule", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SKDDriver.EFDataAccess.GKDaySchedule), "GKDaySchedulePart", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SKDDriver.EFDataAccess.GKDaySchedulePart), true)]
 [assembly: EdmRelationshipAttribute("SKDModel", "FK_ScheduleGKSchedule_GKDaySchedule", "GKDaySchedule", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SKDDriver.EFDataAccess.GKDaySchedule), "ScheduleGKDaySchedule", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SKDDriver.EFDataAccess.ScheduleGKDaySchedule), true)]
-[assembly: EdmRelationshipAttribute("SKDModel", "FK_GKScheduleDay_GKSchedule", "GKSchedule", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SKDDriver.EFDataAccess.GKSchedule), "GKScheduleDay", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SKDDriver.EFDataAccess.GKScheduleDay), true)]
 [assembly: EdmRelationshipAttribute("SKDModel", "FK_ScheduleGKSchedule_GKSchedule", "GKSchedule", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SKDDriver.EFDataAccess.GKSchedule), "ScheduleGKDaySchedule", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SKDDriver.EFDataAccess.ScheduleGKDaySchedule), true)]
 [assembly: EdmRelationshipAttribute("SKDModel", "FK_Holiday_Organisation", "Organisation", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SKDDriver.EFDataAccess.Organisation), "Holiday", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SKDDriver.EFDataAccess.Holiday), true)]
 [assembly: EdmRelationshipAttribute("SKDModel", "FK_NightSettings_Organisation", "Organisation", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SKDDriver.EFDataAccess.Organisation), "NightSettings", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SKDDriver.EFDataAccess.NightSetting), true)]
@@ -307,22 +306,6 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<GKSchedule> _GKSchedules;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<GKScheduleDay> GKScheduleDays
-        {
-            get
-            {
-                if ((_GKScheduleDays == null))
-                {
-                    _GKScheduleDays = base.CreateObjectSet<GKScheduleDay>("GKScheduleDays");
-                }
-                return _GKScheduleDays;
-            }
-        }
-        private ObjectSet<GKScheduleDay> _GKScheduleDays;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -742,14 +725,6 @@ namespace SKDDriver.EFDataAccess
         public void AddToGKSchedules(GKSchedule gKSchedule)
         {
             base.AddObject("GKSchedules", gKSchedule);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the GKScheduleDays EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToGKScheduleDays(GKScheduleDay gKScheduleDay)
-        {
-            base.AddObject("GKScheduleDays", gKScheduleDay);
         }
     
         /// <summary>
@@ -5598,28 +5573,6 @@ namespace SKDDriver.EFDataAccess
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("SKDModel", "FK_GKScheduleDay_GKSchedule", "GKScheduleDay")]
-        public EntityCollection<GKScheduleDay> GKScheduleDays
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<GKScheduleDay>("SKDModel.FK_GKScheduleDay_GKSchedule", "GKScheduleDay");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<GKScheduleDay>("SKDModel.FK_GKScheduleDay_GKSchedule", "GKScheduleDay", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("SKDModel", "FK_ScheduleGKSchedule_GKSchedule", "ScheduleGKDaySchedule")]
         public EntityCollection<ScheduleGKDaySchedule> ScheduleGKDaySchedules
         {
@@ -5632,157 +5585,6 @@ namespace SKDDriver.EFDataAccess
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ScheduleGKDaySchedule>("SKDModel.FK_ScheduleGKSchedule_GKSchedule", "ScheduleGKDaySchedule", value);
-                }
-            }
-        }
-
-        #endregion
-
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="SKDModel", Name="GKScheduleDay")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class GKScheduleDay : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new GKScheduleDay object.
-        /// </summary>
-        /// <param name="uID">Initial value of the UID property.</param>
-        /// <param name="scheduleUID">Initial value of the ScheduleUID property.</param>
-        /// <param name="dateTime">Initial value of the DateTime property.</param>
-        public static GKScheduleDay CreateGKScheduleDay(global::System.Guid uID, global::System.Guid scheduleUID, global::System.DateTime dateTime)
-        {
-            GKScheduleDay gKScheduleDay = new GKScheduleDay();
-            gKScheduleDay.UID = uID;
-            gKScheduleDay.ScheduleUID = scheduleUID;
-            gKScheduleDay.DateTime = dateTime;
-            return gKScheduleDay;
-        }
-
-        #endregion
-
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Guid UID
-        {
-            get
-            {
-                return _UID;
-            }
-            set
-            {
-                if (_UID != value)
-                {
-                    OnUIDChanging(value);
-                    ReportPropertyChanging("UID");
-                    _UID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("UID");
-                    OnUIDChanged();
-                }
-            }
-        }
-        private global::System.Guid _UID;
-        partial void OnUIDChanging(global::System.Guid value);
-        partial void OnUIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Guid ScheduleUID
-        {
-            get
-            {
-                return _ScheduleUID;
-            }
-            set
-            {
-                OnScheduleUIDChanging(value);
-                ReportPropertyChanging("ScheduleUID");
-                _ScheduleUID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("ScheduleUID");
-                OnScheduleUIDChanged();
-            }
-        }
-        private global::System.Guid _ScheduleUID;
-        partial void OnScheduleUIDChanging(global::System.Guid value);
-        partial void OnScheduleUIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.DateTime DateTime
-        {
-            get
-            {
-                return _DateTime;
-            }
-            set
-            {
-                OnDateTimeChanging(value);
-                ReportPropertyChanging("DateTime");
-                _DateTime = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("DateTime");
-                OnDateTimeChanged();
-            }
-        }
-        private global::System.DateTime _DateTime;
-        partial void OnDateTimeChanging(global::System.DateTime value);
-        partial void OnDateTimeChanged();
-
-        #endregion
-
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("SKDModel", "FK_GKScheduleDay_GKSchedule", "GKSchedule")]
-        public GKSchedule GKSchedule
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<GKSchedule>("SKDModel.FK_GKScheduleDay_GKSchedule", "GKSchedule").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<GKSchedule>("SKDModel.FK_GKScheduleDay_GKSchedule", "GKSchedule").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<GKSchedule> GKScheduleReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<GKSchedule>("SKDModel.FK_GKScheduleDay_GKSchedule", "GKSchedule");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<GKSchedule>("SKDModel.FK_GKScheduleDay_GKSchedule", "GKSchedule", value);
                 }
             }
         }

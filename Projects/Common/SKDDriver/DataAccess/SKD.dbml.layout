@@ -464,12 +464,6 @@
         <classShapeMoniker Id="219d04fd-05b9-46e5-80d1-84356c358eb1" />
       </nodes>
     </associationConnector>
-    <classShape Id="321bc318-e316-4e42-851e-1e36da7c3056" absoluteBounds="6, 10.625, 2, 1.3862939453125005">
-      <DataClassMoniker Name="/SKDDataContext/GKScheduleDay" />
-      <nestedChildShapes>
-        <elementListCompartment Id="e3c188ae-49b4-49bd-bf8b-4c874299cb35" absoluteBounds="6.0150000000000006, 11.085, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <classShape Id="4b6bdcdf-dcad-4df7-8c19-e1499501cff8" absoluteBounds="3.375, 8.875, 2, 1.5785953776041666">
       <DataClassMoniker Name="/SKDDataContext/GKDaySchedule" />
       <nestedChildShapes>
@@ -508,13 +502,6 @@
         <elementListCompartment Id="c56eae90-f990-4d70-a070-c7c3777a480f" absoluteBounds="8.765, 9.585, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(8.75 : 11.1626395670573); (8 : 11.1626395670573)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/GKSchedule/GKSchedule_GKScheduleDay" />
-      <nodes>
-        <classShapeMoniker Id="e5d0fe9d-a1d8-4bb8-8d29-d8e7c4e519f9" />
-        <classShapeMoniker Id="321bc318-e316-4e42-851e-1e36da7c3056" />
-      </nodes>
-    </associationConnector>
     <associationConnector edgePoints="[(8.75 : 9.69275024414062); (8 : 9.69275024414062)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/SKDDataContext/GKSchedule/GKSchedule_ScheduleGKDaySchedule" />
       <nodes>
