@@ -20,14 +20,7 @@ namespace GKModule.ViewModels
 
 		public Plan Plan { get; set; }
 		public Guid ElementUID { get; set; }
-		public GKDevice Device { get; set; }
-		public GKZone Zone { get; set; }
-		public GKGuardZone GuardZone { get; set; }
-		public GKSKDZone SKDZone { get; set; }
-		public GKDelay Delay { get; set; }
-		public GKDirection Direction { get; set; }
-		public GKMPT MPT { get; set; }
-		public GKDoor Door { get; set; }
+		public GKBase GkBaseEntity { get; set; }
 
 		public string Name
 		{

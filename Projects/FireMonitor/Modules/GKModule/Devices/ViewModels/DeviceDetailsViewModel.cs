@@ -198,7 +198,7 @@ namespace GKModule.ViewModels
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-					alarmPlanViewModel.Device = Device;
+					alarmPlanViewModel.GkBaseEntity = Device;
 					Plans.Add(alarmPlanViewModel);
 				}
 			}
