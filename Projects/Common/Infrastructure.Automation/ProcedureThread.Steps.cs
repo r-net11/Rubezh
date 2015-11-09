@@ -312,6 +312,7 @@ namespace Infrastructure.Automation
 						break;
 					}
 			}
+			ProcedureExecutionContext.SynchronizeVariable(resultVariable, ContextType.Server);
 		}
 				
 		void FindObjects(ProcedureStep procedureStep)
