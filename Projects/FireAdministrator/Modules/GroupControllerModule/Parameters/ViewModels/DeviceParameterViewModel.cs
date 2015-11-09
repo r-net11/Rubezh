@@ -31,6 +31,9 @@ namespace GKModule.ViewModels
 			{
 				foreach (var driverProperty in Device.Driver.Properties)
 				{
+					if (driverProperty.CanNotEdit)
+						continue;
+
 					if (driverProperty.IsAUParameter)
 					{
 						switch (driverProperty.DriverPropertyType)

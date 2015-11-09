@@ -54,7 +54,6 @@ namespace LayoutModule.ViewModels
 				LayoutUsersViewModel = new LayoutUsersViewModel();
 				Layouts = new ObservableCollection<LayoutViewModel>();
 				ListCollectionView view = (ListCollectionView)CollectionViewSource.GetDefaultView(Layouts);
-				view.CustomSort = new LayoutViewModelComparer();
 				foreach (var layout in ClientManager.LayoutsConfiguration.Layouts)
 					Layouts.Add(new LayoutViewModel(layout));
 				view.MoveCurrentToFirst();
@@ -227,13 +226,6 @@ namespace LayoutModule.ViewModels
 		{
 			if (IsActive)
 				LayoutDesignerViewModel.Instance.SaveLayout();
-		}
-
-		protected override void KeyPressed(KeyEventArgs e)
-		{
-			if (!e.Handled)
-				LayoutDesignerViewModel.Instance.KeyPressed(e);
-			base.KeyPressed(e);
 		}
 	}
 }

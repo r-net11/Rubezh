@@ -242,13 +242,35 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 			throw new NotImplementedException();
 		}
 
-        public void SyncDateTime()
+        public void SyncDateTime(ValueType groupAddress)
         {
-			foreach (var device in _devices)
+			uint gadr = Convert.ToUInt32(groupAddress);
+			var dt = DateTime.Now;
+
+			var devices = _devices
+				.Where(p => p is Mercury203Virtual)
+				.Where(l => ((Mercury203Virtual)l).GroupAddress == gadr);
+							
+			foreach (var device in devices)
 			{
-				device.Rtc = DateTime.Now;
+				device.Rtc = dt;
 			}
         }
+
+		public void SyncDateTime()
+		{
+			var groups = _devices.GroupBy(x => ((Mercury203Virtual)x).GroupAddress);
+
+			var dt = DateTime.Now;
+
+			foreach(var group in groups)
+			{
+				foreach(var device in group)
+				{
+					device.Rtc = dt;
+				}
+			}
+		}
 
         public void Start()
         {

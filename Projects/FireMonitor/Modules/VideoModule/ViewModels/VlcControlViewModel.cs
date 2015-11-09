@@ -20,30 +20,30 @@ namespace VideoModule.ViewModels
 			set
 			{
 				_rviRTSP = value;
-				_vlcControl = new VlcControl { Media = new LocationMedia(_rviRTSP) };
-				_vlcControl.PositionChanged -= VlcControlOnPositionChanged;
-				_vlcControl.PositionChanged += VlcControlOnPositionChanged;
+				//_vlcControl = new VlcControl { Media = new LocationMedia(_rviRTSP) };
+				//_vlcControl.PositionChanged -= VlcControlOnPositionChanged;
+				//_vlcControl.PositionChanged += VlcControlOnPositionChanged;
 			}
 		}
 
-		private VlcControl _vlcControl;
-		public ImageSource Image
-		{
-			get
-			{
-				if (_vlcControl == null)
-					return new BitmapImage();
-				return _vlcControl.VideoSource;
-			}
-		}
+		//private VlcControl _vlcControl;
+		//public ImageSource Image
+		//{
+		//	get
+		//	{
+		//		if (_vlcControl == null)
+		//			return new BitmapImage();
+		//		return _vlcControl.VideoSource;
+		//	}
+		//}
 
 		public void Start()
 		{
 			try
 			{
-				if (_vlcControl == null ||_vlcControl.IsPlaying)
-					return;
-				Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, (Action)_vlcControl.Play);
+				//if (_vlcControl == null ||_vlcControl.IsPlaying)
+				//	return;
+				//Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, (Action)_vlcControl.Play);
 				//_vlcControl.Play();
 			}
 			catch (Exception e)
@@ -54,16 +54,16 @@ namespace VideoModule.ViewModels
 
 		public void Stop()
 		{
-			if (_vlcControl.IsPlaying)
-			{
-				_vlcControl.Stop();
-			}
+			//if (_vlcControl.IsPlaying)
+			//{
+			//	_vlcControl.Stop();
+			//}
 		}
 
 		private void VlcControlOnPositionChanged(VlcControl sender, VlcEventArgs<float> vlcEventArgs)
 		{
-			if (_vlcControl != null)
-				OnPropertyChanged(() => Image);
+			//if (_vlcControl != null)
+			//	OnPropertyChanged(() => Image);
 		}
 	}
 }

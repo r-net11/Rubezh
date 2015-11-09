@@ -13,11 +13,11 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// <summary>
         /// Установка нового сетевого адреса счетчика 
         /// </summary>
-        WriteNetworkAddress = 0,
+        WriteAddress = 0,
         /// <summary>
         /// Установка нового группового адреса счетчика 
         /// </summary>
-        SetGroupNetworkAddress = 1,
+        WriteGroupAddress = 1,
 		/// <summary>
 		/// Установка внутренних часов и календаря счетчика
 		/// </summary>
@@ -29,7 +29,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// <summary>
         /// Установка лимита энергии за месяц
         /// </summary>
-        SetLimitPowerPerMonth = 4,
+        WriteLimitPowerPerMonth = 4,
         /// <summary>
         /// Установка флага сезонного времени 
         /// </summary>
@@ -51,9 +51,13 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// </summary>
         SetIndicationMode = 9,
         /// <summary>
-        /// Установка числа действующих тари-фов
+        /// Установка числа действующих тарифов
         /// </summary>
-        SetActiveTariffs,
+        WriteAmountOfActiveTariffs = 0x0A,
+		/// <summary>
+		/// Установка действующего тарифа
+		/// </summary>
+		WriteActiveTariff = 0x0B,
         /// <summary>
         /// Чтение группового адреса счетчика
         /// </summary>

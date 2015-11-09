@@ -177,10 +177,13 @@ namespace LayoutModule.ViewModels
 					}
 					break;
 				case NotifyCollectionChangedAction.Remove:
-					foreach (LayoutPartViewModel layoutPartViewModel in e.OldItems)
+					if (_layout != null)
 					{
-						_layout.Parts.Remove(layoutPartViewModel.LayoutPart);
-						layoutPartViewModel.LayoutPartDescriptionViewModel.Count--;
+						foreach (LayoutPartViewModel layoutPartViewModel in e.OldItems)
+						{
+							_layout.Parts.Remove(layoutPartViewModel.LayoutPart);
+							layoutPartViewModel.LayoutPartDescriptionViewModel.Count--;
+						}
 					}
 					break;
 			}
@@ -193,17 +196,6 @@ namespace LayoutModule.ViewModels
 			ActiveLayoutPart = layoutPartViewModel;
 			if (dragging)
 				Manager.StartDragging(layoutPartViewModel);
-		}
-		public void KeyPressed(KeyEventArgs e)
-		{
-			if (ActiveLayoutPart != null)
-				switch (e.Key)
-				{
-					case Key.Delete:
-						LayoutParts.Remove(ActiveLayoutPart);
-						e.Handled = true;
-						break;
-				}
 		}
 	}
 }

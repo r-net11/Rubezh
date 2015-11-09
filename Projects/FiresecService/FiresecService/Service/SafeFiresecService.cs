@@ -211,6 +211,11 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKAutoSearch(deviceUID); }, "GKAutoSearch");
 		}
 
+		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, List<byte> firmwareBytes)
+		{
+			return SafeOperationCall(() => { return FiresecService.GKUpdateFirmware(deviceUID, firmwareBytes); }, "GKUpdateFirmware");
+		}
+
 		public OperationResult<bool> GKSyncronyseTime(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKSyncronyseTime(deviceUID); }, "GKSyncronyseTime");

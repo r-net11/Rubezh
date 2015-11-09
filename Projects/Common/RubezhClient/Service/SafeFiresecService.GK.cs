@@ -41,6 +41,11 @@ namespace RubezhClient
 			return SafeOperationCall(() => FiresecService.GKAutoSearch(device.UID), "GKAutoSearch");
 		}
 
+		public OperationResult<bool> GKUpdateFirmware(GKDevice device, List<byte> firmwareBytes)
+		{
+			return SafeOperationCall(() => FiresecService.GKUpdateFirmware(device.UID, firmwareBytes), "GKUpdateFirmware");
+		}
+
 		public OperationResult<bool> GKSyncronyseTime(GKDevice device)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKSyncronyseTime(device.UID); }, "GKSyncronyseTime");
