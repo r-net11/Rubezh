@@ -530,7 +530,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowAccessUserReflectionCommand { get; private set; }
 		void ShowAccessUserReflection()
 		{
-			var accessUserReflrctionViewModel = new ReflectionUsersViewModel(Device);
+			var accessUserReflrctionViewModel = new MirrorUsersViewModel(Device);
 			DialogService.ShowModalWindow(accessUserReflrctionViewModel);
 			ServiceFactory.SaveService.GKChanged = true;			
 		}
@@ -728,7 +728,7 @@ namespace GKModule.ViewModels
 		{
 			if (Driver.HasMirror)
 			{
-				var _reflectionview = new ReflectionViewModel(Device);
+				var _reflectionview = new MirrorViewModel(Device);
 				DialogService.ShowModalWindow(_reflectionview);
 			}
 			OnPropertyChanged(() => EditingPresentationZone);

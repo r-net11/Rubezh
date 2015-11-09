@@ -17,9 +17,9 @@ namespace GKModule.Views
 	/// <summary>
 	/// Interaction logic for ReflictionView.xaml
 	/// </summary>
-	public partial class ReflectionView : UserControl
+	public partial class MirrorView : UserControl
 	{
-		public ReflectionView()
+		public MirrorView()
 		{
 			InitializeComponent();
 		}

@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace GKModule.Views
 {
 	/// <summary>
-	/// Interaction logic for AccessDetailsUserReflrctionViewModel.xaml
+	/// Interaction logic for NewUserReflrctionView.xaml
 	/// </summary>
-	public partial class ReflectionUserDetailsView : UserControl
+	public partial class MirrorUsersView : UserControl
 	{
-		public ReflectionUserDetailsView()
+		public MirrorUsersView()
 		{
 			InitializeComponent();
 		}
