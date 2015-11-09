@@ -870,7 +870,6 @@ namespace GKModule.ViewModels
 		}
 
 		public ObservableCollection<GKDriver> AvailvableDrivers { get; private set; }
-		public int SelectedAvailableDriverIndex { get; set; }
 
 		void UpdateDriver()
 		{
@@ -884,13 +883,8 @@ namespace GKModule.ViewModels
 					{
 						AvailvableDrivers.Add(driver);
 					}
-					if (driver.DriverType == Driver.DriverType)
-					{
-						SelectedAvailableDriverIndex = AvailvableDrivers.Count-1;
-					}
 				}
 			}
-			
 		}
 
 		public bool CanDriverBeChanged(GKDriver driver)
@@ -978,7 +972,7 @@ namespace GKModule.ViewModels
 		{
 			if (Device != null)
 			{
-				var dependencyItemsViewModel = new DependencyItemsViewModel(Device.OutDependentElements);
+				var dependencyItemsViewModel = new DependencyItemsViewModel(Device.OutputDependentElements);
 				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}
@@ -1017,7 +1011,7 @@ namespace GKModule.ViewModels
 			if (messageBoxResult)
 			{
 				Device.Logic = GKManager.PasteLogic(new GKAdvancedLogic(hasOnClause, hasOnNowClause, hasOffClause, hasOffNowClause, hasStopClause));
-				Device.Invalidate();
+				Device.Invalidate(GKManager.DeviceConfiguration);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

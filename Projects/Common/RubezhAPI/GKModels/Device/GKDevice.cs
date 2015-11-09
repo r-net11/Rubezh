@@ -33,11 +33,11 @@ namespace RubezhAPI.GK
 			GuardZones = new List<GKGuardZone>();
 		}
 
-		public override void Invalidate()
+		public override void Invalidate(GKDeviceConfiguration deviceConfiguration)
 		{
 			if (Driver.HasLogic)
 			{
-				UpdateLogic();
+				UpdateLogic(deviceConfiguration);
 				Logic.GetObjects().ForEach(x =>
 				{
 					AddDependentElement(x);
@@ -54,7 +54,7 @@ namespace RubezhAPI.GK
 
 				foreach (var zoneUID in ZoneUIDs)
 				{
-					var zone = GKManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
 					if (zone != null)
 					{
 						zones.Add(zone);
@@ -74,7 +74,7 @@ namespace RubezhAPI.GK
 
 				foreach (var guardZoneUID in GuardZoneUIDs)
 				{
-					var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == guardZoneUID);
+					var guardZone = deviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == guardZoneUID);
 					if (guardZone != null)
 					{
 						guardZones.Add(guardZone);
@@ -89,10 +89,10 @@ namespace RubezhAPI.GK
 			OnChanged();
 		}
 
-		public override void UpdateLogic()
+		public override void UpdateLogic(GKDeviceConfiguration deviceConfiguration)
 		{
-			GKManager.DeviceConfiguration.InvalidateOneLogic(this, Logic);
-			GKManager.DeviceConfiguration.InvalidateOneLogic(this, NSLogic);
+			deviceConfiguration.InvalidateOneLogic(this, Logic);
+			deviceConfiguration.InvalidateOneLogic(this, NSLogic);
 		}
 
 		[XmlIgnore]

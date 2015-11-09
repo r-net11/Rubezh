@@ -184,7 +184,7 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedZone.Zone != null)
 			{
-				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedZone.Zone.OutDependentElements);
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedZone.Zone.OutputDependentElements);
 				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}

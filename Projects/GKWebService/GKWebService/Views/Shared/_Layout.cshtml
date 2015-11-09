@@ -62,6 +62,18 @@
                     </div>
                 </div>
 
+                <div id="question-box" class="save-cancel-popup">
+                    <div class="title-bar">
+                        <span>Оперативная задача Глобал</span>
+                        <a href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Close Window" alt="Close" data-bind="click: QuestionBox.Close" /></a>
+                    </div>
+                    <div>
+                        <label data-bind="text: QuestionBox.Message"></label>
+                    </div>
+                    <button class="submit ok-cancel-button" type="button" data-bind="click: QuestionBox.OnYesClick">Да</button>
+                    <button class="submit ok-cancel-button" type="button" data-bind="click: QuestionBox.Close">Нет</button>
+                </div>
+
                 <div id="clockbox" class="time"></div>
                 <div class="icons">
                     <div class="icon mute" data-bind="css:{'off': isSound}, click: SoundClick"></div>
@@ -163,6 +175,7 @@
     <script src="~/Scripts/report.js"></script>
     <script src="~/Scripts/archive.js"></script>
     <script src="~/Scripts/HR.js"></script>
+    <script src="~/Scripts/HrFilter.js"></script>
     <script src="~/Scripts/HrEmployees.js"></script>
     <script src="~/Scripts/EmployeeDetails.js"></script>
     <script src="~/Scripts/HrEmployeeCards.js"></script>

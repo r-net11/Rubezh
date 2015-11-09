@@ -134,6 +134,26 @@ namespace ResursNetwork.Incotex.Models
                 Value = (float)0
             });
 
+			_parameters.Add(new Parameter(typeof(ushort))
+			{
+				Name = ParameterNamesMercury203.PowerLimitPerMonth,
+				Description = "Значение лимита мощности",
+				PollingEnabled = true,
+				ReadOnly = false,
+				ValueConverter = Menerg.GetValueConveter(),
+				Value = (ushort)0
+			});
+
+			_parameters.Add(new Parameter(typeof(byte))
+			{
+				Name = ParameterNamesMercury203.AmountOfActiveTariffs,
+				Description = "Количество действующих тарифов",
+				PollingEnabled = true,
+				ReadOnly = false,
+				ValueConverter = null,
+				Value = (byte)0
+			});
+
 			_parameters.Add(new Parameter(typeof(float))
 			{
 				Name = ParameterNamesMercury203.CounterTarif1,
@@ -183,21 +203,25 @@ namespace ResursNetwork.Incotex.Models
 
             switch ((Mercury203CmdCode)request.CmdCode)
             {
+				case Mercury203CmdCode.WriteAddress:
+					{
+						GetAnswerWriteAdderss(networkRequest); break;
+					}
 				case Mercury203CmdCode.WriteGroupAddress:
 					{
-						GetAnswerReadGroupAddress(networkRequest); break;
+						GetAnswerGeneralWriteRequest(networkRequest); break;
 					}
 				case Mercury203CmdCode.WriteDateTime:
 					{
-						GetAnswerWriteDateTime(networkRequest); break;
+						GetAnswerGeneralWriteRequest(networkRequest); break;
 					}
-                case Mercury203CmdCode.WriteNetworkAddress:
-                    {
-                        GetAnswerWriteNetwokAdderss(networkRequest); break;
-                    }
 				case Mercury203CmdCode.WriteLimitPower:
 					{
-						GetAnswerWritePowerLimit(networkRequest); break;
+						GetAnswerGeneralWriteRequest(networkRequest); break;
+					}
+				case Mercury203CmdCode.WriteAmountOfActiveTariffs:
+					{
+						GetAnswerGeneralWriteRequest(networkRequest); break;
 					}
                 case Mercury203CmdCode.ReadGroupAddress:
                     {
@@ -324,6 +348,21 @@ namespace ResursNetwork.Incotex.Models
 						asyncResult = WritePowerLimit(value: (float)value, isExternalCall: true);
 						break;
 					}
+				case ParameterNamesMercury203.PowerLimitPerMonth:
+					{
+						asyncResult = WritePowerLimitPerMonth(value: (float)value, isExternalCall: true);
+						break;
+					}
+				case ParameterNamesMercury203.AmountOfActiveTariffs:
+					{
+						asyncResult = WriteAmountOfActiveTariffs(value: (byte)value, isExternalCall: true);
+						break;
+					}
+				case ParameterNamesMercury203.ActiveTariff:
+					{
+						asyncResult = WriteActiveTariff(value: (byte)value, isExternalCall: true);
+						break;
+					}
 				default:
 					{
 						throw new NotSupportedException(String.Format(
@@ -405,12 +444,12 @@ namespace ResursNetwork.Incotex.Models
         /// <param name="addr">Текущий сетевой адрес счётчика</param>
         /// <param name="newaddr">Новый сетевой адрес счётчика</param>
         /// <returns></returns>
-        public IAsyncRequestResult WriteNewAddress(UInt32 addr, UInt32 newaddr, bool isExternalCall = true)
+        public IAsyncRequestResult WriteAddress(UInt32 addr, UInt32 newaddr, bool isExternalCall = true)
         {
             var request = new DataMessage()
             {
                 Address = addr,
-                CmdCode = Convert.ToByte(Mercury203CmdCode.WriteNetworkAddress)
+                CmdCode = Convert.ToByte(Mercury203CmdCode.WriteAddress)
             };
             var transaction = new Transaction(this, TransactionType.UnicastMode, request) 
             { 
@@ -440,7 +479,7 @@ namespace ResursNetwork.Incotex.Models
 		/// Разбирает ответ от удалённого устройтва по запросу SetNewAddress (CMD=00h)
         /// </summary>
         /// <param name="networkRequest"></param>
-        private void GetAnswerWriteNetwokAdderss(NetworkRequest networkRequest)
+        private void GetAnswerWriteAdderss(NetworkRequest networkRequest)
         {
             var request = (DataMessage)networkRequest.Request.Request;
 
@@ -551,10 +590,11 @@ namespace ResursNetwork.Incotex.Models
 		}
 
 		/// <summary>
-		/// Разбирает ответ по запросу WriteNewGroupAddress (CMD=01h)
+		/// Разбирает ответ на запрос записи параметра, общий для команд
+		/// записи имеющий структуру ADDR-CMD-CRC
 		/// </summary>
 		/// <param name="networkRequest"></param>
-		private void GetAnswerWriteNewGroupAddress(NetworkRequest networkRequest)
+		private void GetAnswerGeneralWriteRequest(NetworkRequest networkRequest)
 		{
 			// Разбираем ответ
 			if (networkRequest.Status == NetworkRequestStatus.Completed)
@@ -654,69 +694,6 @@ namespace ResursNetwork.Incotex.Models
 		}
 
 		/// <summary>
-		/// Разбирает ответ по запросу WriteDateTime (CMD=02h)
-		/// </summary>
-		/// <param name="networkRequest"></param>
-		private void GetAnswerWriteDateTime(NetworkRequest networkRequest)
-		{
-			// Разбираем ответ
-			if (networkRequest.Status == NetworkRequestStatus.Completed)
-			{
-				var command = _activeRequests.FirstOrDefault(
-					p => p.Id == networkRequest.Id);
-
-				if (command == null)
-				{
-					throw new Exception("Не найдена команда с указанной транзакцией");
-				}
-
-				if (networkRequest.CurrentTransaction.Answer.ToArray().Length != 7)
-				{
-					//command.Status = Result.Error;
-					//command.ErrorDescription = "Неверная длина ответного сообщения";
-					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
-					//TODO:
-					_activeRequests.Remove(command);
-				}
-
-				var request = (DataMessage)networkRequest.Request.Request;
-				var answer = (DataMessage)networkRequest.CurrentTransaction.Answer;
-
-				// Проверяем новый адрес в запросе и в ответе
-				if (request.Address != answer.Address)
-				{
-					//command.Status = Result.Error;
-					//command.ErrorDescription = "Адрес команды в ответе не соответствует адресу в запросе";
-					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
-					//TODO:
-					_activeRequests.Remove(command);
-				}
-
-				if (answer.CmdCode != request.CmdCode)
-				{
-					//command.Status = Result.Error;
-					//command.ErrorDescription = "Код команды в ответе не соответствует коду в запросе";
-					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
-					//TODO:
-					_activeRequests.Remove(command);
-				}
-
-				//command.Status = Result.OK;
-				_activeRequests.Remove(command);
-			}
-			else
-			{
-				// Транзакция выполнена с ошибкам
-				var command = _activeRequests.FirstOrDefault(
-					p => p.Id == networkRequest.Id);
-				//command.Status = Result.Error;
-				//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
-				//TODO:
-				_activeRequests.Remove(command);
-			}
-		}
-
-		/// <summary>
 		/// Широковешательная команда записи времени и даты во все устройтсва
 		/// сети с указанным групповым адресом
 		/// </summary>
@@ -773,7 +750,7 @@ namespace ResursNetwork.Incotex.Models
 		public IAsyncRequestResult WritePowerLimit(float value, bool isExternalCall = true)
 		{
 			var request = new DataMessage(
-				Mpower.GetValueConveter().ToArray(value))
+				Menerg.GetValueConveter().ToArray(value))
 			{
 				Address = Address,
 				CmdCode = Convert.ToByte(Mercury203CmdCode.WriteLimitPower)
@@ -805,69 +782,139 @@ namespace ResursNetwork.Incotex.Models
 		}
 
 		/// <summary>
-		/// Разбирает ответ по запросу WritePowerLimit (CMD=03h)
+		/// Установка лимита мощности за месяц (CMD=04h)
 		/// </summary>
-		/// <param name="networkRequest"></param>
-		private void GetAnswerWritePowerLimit(NetworkRequest networkRequest)
+		/// <param name="value"></param>
+		/// <param name="isExternalCall"></param>
+		/// <returns></returns>
+		public IAsyncRequestResult WritePowerLimitPerMonth(float value, bool isExternalCall = true)
 		{
-			// Разбираем ответ
-			if (networkRequest.Status == NetworkRequestStatus.Completed)
+			var request = new DataMessage(
+				Mpower.GetValueConveter().ToArray(value))
 			{
-				var command = _activeRequests.FirstOrDefault(
-					p => p.Id == networkRequest.Id);
+				Address = Address,
+				CmdCode = Convert.ToByte(Mercury203CmdCode.WriteLimitPowerPerMonth)
+			};
 
-				if (command == null)
+			var transaction = new Transaction(this, TransactionType.UnicastMode, request)
+			{
+				Sender = this
+			};
+
+			var networkRequest = new NetworkRequest(transaction);
+
+			if (_NetworkController == null)
+			{
+				transaction.Start();
+				transaction.Abort(new TransactionError
 				{
-					throw new Exception("Не найдена команда с указанной транзакцией");
-				}
-
-				if (networkRequest.CurrentTransaction.Answer.ToArray().Length != 7)
-				{
-					//command.Status = Result.Error;
-					//command.ErrorDescription = "Неверная длина ответного сообщения";
-					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
-					//TODO:
-					_activeRequests.Remove(command);
-				}
-
-				var request = (DataMessage)networkRequest.Request.Request;
-				var answer = (DataMessage)networkRequest.CurrentTransaction.Answer;
-
-				// Проверяем новый адрес в запросе и в ответе
-				if (request.Address != answer.Address)
-				{
-					//command.Status = Result.Error;
-					//command.ErrorDescription = "Адрес команды в ответе не соответствует адресу в запросе";
-					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
-					//TODO:
-					_activeRequests.Remove(command);
-				}
-
-				if (answer.CmdCode != request.CmdCode)
-				{
-					//command.Status = Result.Error;
-					//command.ErrorDescription = "Код команды в ответе не соответствует коду в запросе";
-					//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
-					//TODO:
-					_activeRequests.Remove(command);
-				}
-
-				//command.Status = Result.OK;
-				_activeRequests.Remove(command);
+					ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+					Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+				});
+				networkRequest.AsyncRequestResult.SetCompleted();
 			}
 			else
 			{
-				// Транзакция выполнена с ошибкам
-				var command = _activeRequests.FirstOrDefault(
-					p => p.Id == networkRequest.Id);
-				//command.Status = Result.Error;
-				//OnErrorOccurred(new ErrorOccuredEventArgs() { DescriptionError = command.ToString() });
-				//TODO:
-				_activeRequests.Remove(command);
+				_activeRequests.Add(networkRequest);
+				_NetworkController.Write(networkRequest, isExternalCall);
 			}
+			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
 		}
 
+		/// <summary>
+		/// Установка числа действующих тарифов (CMD=0Ah)
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="isExternalCall"></param>
+		/// <returns></returns>
+		public IAsyncRequestResult WriteAmountOfActiveTariffs(byte value, bool isExternalCall = true)
+		{
+			if ((value < 1) || (value > 4))
+			{
+				throw new ArgumentOutOfRangeException("Amount",
+					"Кол-во активных тарифов должно быть от 1 до 4");
+			}
 
+			var request = new DataMessage(
+				Mpower.GetValueConveter().ToArray(value))
+			{
+				Address = Address,
+				CmdCode = Convert.ToByte(Mercury203CmdCode.WriteAmountOfActiveTariffs)
+			};
+
+			var transaction = new Transaction(this, TransactionType.UnicastMode, request)
+			{
+				Sender = this
+			};
+
+			var networkRequest = new NetworkRequest(transaction);
+
+			if (_NetworkController == null)
+			{
+				transaction.Start();
+				transaction.Abort(new TransactionError
+				{
+					ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+					Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+				});
+				networkRequest.AsyncRequestResult.SetCompleted();
+			}
+			else
+			{
+				_activeRequests.Add(networkRequest);
+				_NetworkController.Write(networkRequest, isExternalCall);
+			}
+
+			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
+		}
+
+		/// <summary>
+		/// Установка тарифа (CMD=0Bh)
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="isExternalCall"></param>
+		/// <returns></returns>
+		public IAsyncRequestResult WriteActiveTariff(byte value, bool isExternalCall = true)
+		{
+			if ((value < 1) || (value > 4))
+			{
+				throw new ArgumentOutOfRangeException("Amount",
+					"Действующий тарифов должн быть от 1 до 4");
+			}
+
+			var request = new DataMessage(
+				Mpower.GetValueConveter().ToArray(value))
+			{
+				Address = Address,
+				CmdCode = Convert.ToByte(Mercury203CmdCode.WriteActiveTariff)
+			};
+
+			var transaction = new Transaction(this, TransactionType.UnicastMode, request)
+			{
+				Sender = this
+			};
+
+			var networkRequest = new NetworkRequest(transaction);
+
+			if (_NetworkController == null)
+			{
+				transaction.Start();
+				transaction.Abort(new TransactionError
+				{
+					ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
+					Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
+				});
+				networkRequest.AsyncRequestResult.SetCompleted();
+			}
+			else
+			{
+				_activeRequests.Add(networkRequest);
+				_NetworkController.Write(networkRequest, isExternalCall);
+			}
+
+			return (IAsyncRequestResult)networkRequest.AsyncRequestResult;
+		}
+		
         /// <summary>
         /// Чтение группового адреса счетчика (CMD=20h)
         /// </summary>

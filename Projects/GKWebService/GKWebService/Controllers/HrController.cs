@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GKWebService.Utils;
+using RubezhAPI.SKD;
 
 namespace GKWebService.Controllers
 {
@@ -47,5 +49,15 @@ namespace GKWebService.Controllers
         {
             return View();
         }
-    }
+
+		public ActionResult HrFilter()
+		{
+			return View();
+		}
+
+		public JsonNetResult GetFilter(Guid? id)
+		{
+			return new JsonNetResult { Data = new EmployeeFilter() };
+		}
+	}
 }

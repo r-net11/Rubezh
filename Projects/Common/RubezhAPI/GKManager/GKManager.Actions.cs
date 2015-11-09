@@ -62,8 +62,8 @@ namespace RubezhClient
 				device.ZoneUIDs.Add(zone.UID);
 			if (!device.InputDependentElements.Contains(zone))
 				device.InputDependentElements.Add(zone);
-			if (!zone.OutDependentElements.Contains(device))
-				zone.OutDependentElements.Add(device);
+			if (!zone.OutputDependentElements.Contains(device))
+				zone.OutputDependentElements.Add(device);
 			zone.Devices.Add(device);
 			zone.OnChanged();
 			device.OnChanged();
@@ -79,8 +79,8 @@ namespace RubezhClient
 				device.GuardZoneUIDs.Add(guardZone.UID);
 			if (!device.InputDependentElements.Contains(guardZone))
 				device.InputDependentElements.Add(guardZone);
-			if (!guardZone.OutDependentElements.Contains(device))
-				guardZone.OutDependentElements.Add(device);
+			if (!guardZone.OutputDependentElements.Contains(device))
+				guardZone.OutputDependentElements.Add(device);
 			guardZone.OnChanged();
 			device.OnChanged();
 		}
@@ -92,7 +92,7 @@ namespace RubezhClient
 				device.Zones.Remove(zone);
 				device.ZoneUIDs.Remove(zone.UID);
 				zone.Devices.Remove(device);
-				zone.OutDependentElements.Remove(device);
+				zone.OutputDependentElements.Remove(device);
 				device.InputDependentElements.Remove(zone);
 				zone.OnChanged();
 				device.OnChanged();
@@ -132,15 +132,15 @@ namespace RubezhClient
 
 			device.InputDependentElements.ForEach(x =>
 			{
-				x.OutDependentElements.Remove(device);
+				x.OutputDependentElements.Remove(device);
 				if (x is GKGuardZone)
-					x.Invalidate();
+					x.Invalidate(GKManager.DeviceConfiguration);
 			});
 
-			device.OutDependentElements.ForEach(x =>
+			device.OutputDependentElements.ForEach(x =>
 			{
 				x.InputDependentElements.Remove(device);
-				x.Invalidate();
+				x.Invalidate(GKManager.DeviceConfiguration);
 				x.OnChanged();
 			});
 		}
@@ -225,14 +225,14 @@ namespace RubezhClient
 				}
 			}
 
-			foreach (var gkBase in device.OutDependentElements)
+			foreach (var gkBase in device.OutputDependentElements)
 			{
 				gkBase.InputDependentElements.Remove(device);
 				gkBase.OnChanged();
 			}
 			foreach (var gkBase in device.InputDependentElements)
 			{
-				gkBase.OutDependentElements.Remove(device);
+				gkBase.OutputDependentElements.Remove(device);
 				gkBase.OnChanged();
 			}
 			if (device.Children != null)
@@ -240,7 +240,7 @@ namespace RubezhClient
 				device.Children.ForEach(x =>
 				{
 					GKManager.Devices.Remove(x);
-					x.OutDependentElements.ForEach(y =>
+					x.OutputDependentElements.ForEach(y =>
 					{
 						y.InputDependentElements.Remove(x);
 						y.ChangedLogic();
@@ -248,10 +248,10 @@ namespace RubezhClient
 					});
 					x.InputDependentElements.ForEach(y =>
 					{
-						y.OutDependentElements.Remove(x);
+						y.OutputDependentElements.Remove(x);
 						if (y is GKGuardZone)
 						{
-							y.Invalidate();
+							y.Invalidate(GKManager.DeviceConfiguration);
 						}
 						if (y is GKZone)
 						{
@@ -296,9 +296,9 @@ namespace RubezhClient
 
 			device.OnUIDChanged(oldUID, device.UID);
 
-			device.OutDependentElements.ForEach(x =>
+			device.OutputDependentElements.ForEach(x =>
 			{
-				x.Invalidate();
+				x.Invalidate(GKManager.DeviceConfiguration);
 				x.OnChanged();
 			});
 
@@ -306,10 +306,10 @@ namespace RubezhClient
 			{
 				if (x is GKGuardZone)
 				{
-					x.Invalidate();
+					x.Invalidate(GKManager.DeviceConfiguration);
 					x.OnChanged();
 				}
-				x.UpdateLogic();
+				x.UpdateLogic(GKManager.DeviceConfiguration);
 				x.OnChanged();
 			});
 			device.Zones = new List<GKZone>();
@@ -317,7 +317,7 @@ namespace RubezhClient
 			device.GuardZones = new List<GKGuardZone>();
 			device.GuardZoneUIDs = new List<Guid>();
 			device.InputDependentElements = new List<GKBase>();
-			device.OutDependentElements = new List<GKBase>();
+			device.OutputDependentElements = new List<GKBase>();
 		
 			return true;
 		}

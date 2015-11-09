@@ -88,7 +88,7 @@ function EmployeeDetailsViewModel() {
                             self.Organisation.HRChiefUID,
                             "Employees/SaveHRChief",
                             function () {
-                                self.ParentViewModel.Init();
+                                self.ParentViewModel.ReloadTree();
                                 EmployeeDetailsClose();
                             });
                     });

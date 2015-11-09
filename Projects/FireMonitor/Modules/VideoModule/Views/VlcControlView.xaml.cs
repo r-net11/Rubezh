@@ -16,18 +16,18 @@ namespace VideoModule.Views
 			set
 			{
 				_rtsp = value;
-				myVlcControl.Media = new LocationMedia(_rtsp);
+				//myVlcControl.Media = new LocationMedia(_rtsp);
 			}
 		}
 
 		public void Start()
 		{
-			myVlcControl.Play();
+			//myVlcControl.Play();
 		}
 
 		public void Stop()
 		{
-			myVlcControl.Stop();
+			//myVlcControl.Stop();
 		}
 	}
 }

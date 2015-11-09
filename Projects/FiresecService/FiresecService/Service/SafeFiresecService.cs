@@ -168,12 +168,12 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
 		}
 
-		public OperationResult<List<JournalItem>> GetArchivePage(ArchiveFilter filter, int page)
+		public OperationResult<List<JournalItem>> GetArchivePage(JournalFilter filter, int page)
 		{
 			return SafeContext.Execute<OperationResult<List<JournalItem>>>(() => FiresecService.GetArchivePage(filter, page));
 		}
 
-		public OperationResult<int> GetArchiveCount(ArchiveFilter filter)
+		public OperationResult<int> GetArchiveCount(JournalFilter filter)
 		{
 			return SafeContext.Execute<OperationResult<int>>(() => FiresecService.GetArchiveCount(filter));
 		}

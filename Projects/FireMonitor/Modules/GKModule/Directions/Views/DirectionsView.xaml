@@ -51,7 +51,7 @@
 				<DataGridTemplateColumn Header="Логика включения" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding PresentationLogic}" Visibility="{Binding PresentationLogic, Converter={StaticResource NullToVisibilityConverter}}" TextWrapping="NoWrap" MinWidth="100" VerticalAlignment="Top" LineHeight="15" Margin="0 3 0 0" Cursor="Hand">
+							<TextBlock Text="{Binding PresentationLogic}" Visibility="{Binding PresentationLogic, Converter={StaticResource NullToVisibilityConverter}}" TextWrapping="NoWrap" MinWidth="100" VerticalAlignment="Top" LineHeight="15" Margin="0 3 0 0">
 								<TextBlock.ToolTip >
 									<WrapPanel>
 										<TextBlock Text="{Binding PresentationLogic}" TextWrapping="Wrap" />
