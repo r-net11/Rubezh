@@ -1,9 +1,13 @@
 ﻿$(document).ready(function() {
     function imageFormat(cellvalue, options, rowObject) {
+        var newCellValue = cellvalue;
+        if (rowObject.IsDeleted) {
+            newCellValue = '<span style="opacity:0.5">' + newCellValue + '</span>';
+        };
         if (rowObject.IsOrganisation) {
-            return '<img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/Hr/Organisation.png" />' + cellvalue;
+            return '<img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/Hr/Organisation.png" />' + newCellValue;
         } else {
-            return '<img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/Hr/Employee.png" />' + cellvalue;
+            return '<img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/Hr/Employee.png" />' + newCellValue;
         }
     };
 
@@ -14,7 +18,8 @@
             { label: 'UID', name: 'UID', key: true, hidden: true, sortable: false },
             { label: 'ParentUID', name: 'ParentUID', hidden: true, sortable: false },
             { label: 'OrganisationUID', name: 'OrganisationUID', hidden: true, sortable: false },
-            { label: 'ФИО', name: 'Name', width: 100, sortable: false, formatter: imageFormat },
+            { label: 'ФИО', name: 'FIO', width: 100, sortable: false, formatter: imageFormat },
+            { label: 'Name', name: 'Name', width: 100, hidden: true, sortable: false},
             { label: 'Подразделение', name: 'DepartmentName', width: 100, sortable: false },
             { label: 'IsOrganisation', name: 'IsOrganisation', hidden: true, sortable: false },
             { label: 'LastName', name: 'LastName', hidden: true, sortable: false },
@@ -34,7 +39,7 @@
         viewrecords: true,
 
         treeGrid: true,
-        ExpandColumn: "Name",
+        ExpandColumn: "FIO",
         treedatatype: "local",
         treeGridModel: "adjacency",
         loadonce: false,
@@ -60,6 +65,7 @@ function EmployeesViewModel(parentViewModel) {
     self.LastName = ko.observable();
     self.FirstName = ko.observable();
     self.SecondName = ko.observable();
+    self.Name = ko.observable();
     self.Phone = ko.observable();
     self.Description = ko.observable();
     self.PositionName = ko.observable();
@@ -80,17 +86,24 @@ function EmployeesViewModel(parentViewModel) {
         return "Редактировать " + self.ItemRemovingName();
     }, self);
     self.CanAdd = ko.computed(function() {
-        return self.IsRowSelected();
+        return self.IsRowSelected() && !self.IsDeleted();
     }, self);
     self.CanRemove = ko.computed(function () {
-        return self.IsRowSelected() && !self.IsOrganisation();
+        return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation();
     }, self);
     self.CanEdit = ko.computed(function() {
-        return self.IsRowSelected() && !self.IsOrganisation();
+        return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation();
+    }, self);
+    self.CanRestore = ko.computed(function () {
+        return self.IsRowSelected() && self.IsDeleted() && !self.IsOrganisation();
     }, self);
 
-    self.Init = function () {
-        var filter = { PersonType: parentViewModel.SelectedPersonType() };
+    self.Init = function(filter) {
+        self.Filter = filter;
+        self.ReloadTree();
+    };
+
+    self.ReloadTree = function () {
         self.IsGuest(parentViewModel.SelectedPersonType() === "Guest");
         self.IsOrganisation(true);
         self.IsRowSelected(false);
@@ -99,7 +112,7 @@ function EmployeesViewModel(parentViewModel) {
             url: "/Employees/GetOrganisations",
             type: "post",
             contentType: "application/json",
-            data: ko.toJSON(filter),
+            data: ko.mapping.toJSON(self.Filter),
             success: function (data) {
                 self.UpdateTree(data);
             },
@@ -133,6 +146,7 @@ function EmployeesViewModel(parentViewModel) {
             self.LastName(myGrid.jqGrid('getCell', id, 'LastName'));
             self.FirstName(myGrid.jqGrid('getCell', id, 'FirstName'));
             self.SecondName(myGrid.jqGrid('getCell', id, 'SecondName'));
+            self.Name(myGrid.jqGrid('getCell', id, 'Name'));
             self.Phone(myGrid.jqGrid('getCell', id, 'Phone'));
             self.Description(myGrid.jqGrid('getCell', id, 'Description'));
             self.PositionName(myGrid.jqGrid('getCell', id, 'PositionName'));
@@ -150,35 +164,31 @@ function EmployeesViewModel(parentViewModel) {
         }
     });
 
-    self.ShowEmployee = function(box) {
-        //Fade in the Popup
-        $(box).fadeIn(300, function() {
-            $(this).trigger("fadeInComplete");
-        });
-
-        //Set the center alignment padding + border see css style
-        var popMargTop = ($(box).height() + 24) / 2;
-        var popMargLeft = ($(box).width() + 24) / 2;
-
-        $(box).css({
-            'margin-top': -popMargTop,
-            'margin-left': -popMargLeft
-        });
-
-        // Add the mask to body
-        $('body').append('<div id="mask"></div>');
-        $('#mask').fadeIn(300);
-
-        return false;
-    };
-
     self.AddEmployeeClick = function(data, e, box) {
         $.getJSON("/Employees/GetEmployeeDetails/", function(emp) {
             ko.mapping.fromJS(emp, {}, self.EmployeeDetails);
             $.getJSON("/Employees/GetOrganisation/" + self.OrganisationUID(), function(org) {
                 self.EmployeeDetails.Organisation = org;
                 self.EmployeeDetails.Init(true, self.ParentViewModel.SelectedPersonType(), self);
-                self.ShowEmployee(box);
+                ShowBox(box);
+            });
+        });
+    };
+
+    self.RemoveEmployeeClick = function (data, e) {
+        app.Header.QuestionBox.InitQuestionBox("Вы уверены, что хотите архивировать " + self.ItemRemovingName() + "?", function () {
+            var jsonData = "{'uid':'" + self.UID() + "','name': '" + self.Name() + "','isOrganisation': '" + self.IsOrganisation() + "'}";
+            $.ajax({
+                url: "Employees/MarkDeleted",
+                type: "post",
+                contentType: "application/json",
+                data: jsonData,
+                success: function () {
+                    self.ReloadTree();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("request failed");
+                },
             });
         });
     };
@@ -189,7 +199,35 @@ function EmployeesViewModel(parentViewModel) {
             $.getJSON("/Employees/GetOrganisation/" + self.OrganisationUID(), function(org) {
                 self.EmployeeDetails.Organisation = org;
                 self.EmployeeDetails.Init(false, self.ParentViewModel.SelectedPersonType(), self);
-                self.ShowEmployee(box);
+                ShowBox(box);
+            });
+        });
+    };
+
+    self.RestoreEmployeeClick = function (data, e) {
+        app.Header.QuestionBox.InitQuestionBox("Вы уверены, что хотите восстановить " + self.ItemRemovingName() + "?", function () {
+            var ids = $("#jqGridEmployees").getDataIDs();
+            for (var i=0; i < ids.length; i++){
+                var rowData = $("#jqGridEmployees").getRowData(ids[i]);
+                if (rowData.IsDeleted != "true" &&
+                    rowData.Name === self.Name() &&
+                    rowData.OrganisationUID === self.OrganisationUID()) {
+                    alert("Существует неудалённый элемент с таким именем");
+                    return;
+                }
+            }
+            var jsonData = "{'uid':'" + self.UID() + "','name': '" + self.Name() + "','isOrganisation': '" + self.IsOrganisation() + "'}";
+            $.ajax({
+                url: "Employees/Restore",
+                type: "post",
+                contentType: "application/json",
+                data: jsonData,
+                success: function () {
+                    self.ReloadTree();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("request failed");
+                },
             });
         });
     };

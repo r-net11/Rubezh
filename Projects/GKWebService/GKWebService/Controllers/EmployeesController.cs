@@ -77,7 +77,21 @@ namespace GKWebService.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonNetResult GetEmployeeDetails(Guid? id)
+		[HttpPost]
+		public JsonNetResult MarkDeleted(Guid uid, string name, bool isOrganisation)
+		{
+			var operationResult = ClientManager.FiresecService.MarkDeletedEmployee(uid, name, !isOrganisation);
+			return new JsonNetResult { Data = operationResult != null && operationResult.HasError && !operationResult.Error.Contains("Ошибка БД") };
+		}
+
+		[HttpPost]
+		public JsonNetResult Restore(Guid uid, string name, bool isOrganisation)
+		{
+			var result = ClientManager.FiresecService.RestoreEmployee(uid, name, !isOrganisation);
+			return new JsonNetResult { Data = !result.HasError };
+		}
+
+		public JsonNetResult GetEmployeeDetails(Guid? id)
         {
             Employee employee;
 	        if (id.HasValue)
