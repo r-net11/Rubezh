@@ -14,7 +14,7 @@ namespace AutomationModule.ViewModels
 		{
 			ShowPropertyArguments = stepViewModel.Step.ShowPropertyArguments;
 			ObjectArgument = new ArgumentViewModel(ShowPropertyArguments.ObjectArgument, stepViewModel.Update, null);
-			ObjectTypes = AutomationHelper.GetEnumObs<ObjectType>();
+			ObjectTypes = new ObservableCollection<ObjectType>(AutomationHelper.GetEnumList<ObjectType>().FindAll(x => x != ObjectType.Organisation));
 			IsServerContext = Procedure.ContextType == ContextType.Server;
 		}
 

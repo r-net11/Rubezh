@@ -45,7 +45,7 @@ function EmployeeCardsViewModel(parentViewModel) {
     };
 
     self.CanAddCard = ko.computed(function () {
-        return !self.ParentViewModel.IsOrganisation();
+        return !self.ParentViewModel.IsOrganisation() && !self.ParentViewModel.IsDeleted();
     }, self);
 
     self.CardClick = function (data, e, card) {

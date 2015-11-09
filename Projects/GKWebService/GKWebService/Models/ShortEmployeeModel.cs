@@ -11,6 +11,7 @@ namespace GKWebService.Models
         public Guid UID { get; set; }
         public Guid ParentUID { get; set; }
         public Guid OrganisationUID { get; set; }
+        public string FIO { get; set; }
         public string Name { get; set; }
 		public string FirstName { get; set; }
 		public string SecondName { get; set; }
@@ -46,6 +47,7 @@ namespace GKWebService.Models
             UID = organisation.UID;
 	        OrganisationUID = organisation.UID;
             Name = organisation.Name;
+            FIO = organisation.Name;
             IsOrganisation = true;
             IsExpanded = true;
             IsDeleted = organisation.IsDeleted;
@@ -60,6 +62,7 @@ namespace GKWebService.Models
 	        ParentUID = employee.OrganisationUID;
             OrganisationUID = employee.OrganisationUID;
             IsOrganisation = false;
+            FIO = employee.FIO;
             Name = employee.FIO;
             DepartmentName = employee.DepartmentName;
 	        FirstName = employee.FirstName;

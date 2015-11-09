@@ -153,6 +153,12 @@ namespace AutomationModule
 							if (videoDevice != null)
 								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowCameraDetailsEvent>();
 							break;
+
+						case ObjectType.GKDoor:
+							var gkDoor = GKManager.Doors.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							if (gkDoor != null)
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDoorDetailsEvent>();
+							break;
 					}
 					if (ShowObjectDetailsEvent != null)
 						ApplicationService.BeginInvoke(() => ShowObjectDetailsEvent.Publish(propertyArguments.ObjectUid));

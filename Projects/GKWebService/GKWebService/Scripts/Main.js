@@ -96,21 +96,24 @@ function HeaderIconsViewModel() {
     return self;
 }
 
-function AppViewModel() {
+var app = new function AppViewModel() {
     var self = this;
     self.Menu = MenuViewModel();
-    
+
     self.Header = HeaderIconsViewModel();
+
+    self.Header.QuestionBox = QuestionBoxViewModel();
 
     self.Menu.Report = ReportViewModel();
     self.Menu.Archive = ArchiveViewModel();
     self.Menu.HR = HRViewModel(self.Menu);
+    self.Menu.HR.Filter = FilterViewModel(self.Menu.HR);
     self.Menu.HR.Employees = EmployeesViewModel(self.Menu.HR);
     self.Menu.HR.Employees.EmployeeDetails = EmployeeDetailsViewModel();
     self.Menu.HR.Employees.EmployeeCards = EmployeeCardsViewModel(self.Menu.HR.Employees);
 
     return self;
-}
+};
 
 ko.bindingHandlers.datepicker = {
     init: function (element, valueAccessor, allBindingsAccessor) {
@@ -146,4 +149,56 @@ $.datepicker.setDefaults(
   )
 );
 
-ko.applyBindings(new AppViewModel());
+function QuestionBoxViewModel() {
+    var self = this;
+    self.Message = ko.observable();
+
+    self.InitQuestionBox = function (msg, yesClick) {
+        self.Message(msg);
+        self.YesClick = yesClick;
+        ShowBox("#question-box");
+    };
+
+    self.OnYesClick = function () {
+        self.YesClick();
+        CloseBox();
+    };
+
+    self.Close = function() {
+        CloseBox();
+    };
+
+    return self;
+};
+
+function ShowBox(box) {
+    //Fade in the Popup
+    $(box).fadeIn(300, function () {
+        $(this).trigger("fadeInComplete");
+    });
+
+    //Set the center alignment padding + border see css style
+    var popMargTop = ($(box).height() + 24) / 2;
+    var popMargLeft = ($(box).width() + 24) / 2;
+
+    $(box).css({
+        'margin-top': -popMargTop,
+        'margin-left': -popMargLeft
+    });
+
+    // Add the mask to body
+    $('body').append('<div id="mask"></div>');
+    $('#mask').fadeIn(300);
+
+    return false;
+};
+
+function CloseBox() {
+    $('#mask , .save-cancel-popup').fadeOut(300, function () {
+        $('#mask').remove();
+    });
+
+    return false;
+};
+
+ko.applyBindings(app);

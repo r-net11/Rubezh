@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "HrFilter";
+    Layout = null;
+}
+
+<div id="filter-box" class="save-cancel-popup" data-bind="with: HR.Filter">
+    <div class="title-bar">
+        <span>Фильтр</span>
+        <a href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Close Window" alt="Close" data-bind="click: Cancel" /></a>
+    </div>
+    <div>
+        <form id="Filter" data-bind="submit: Save">
+            <label><input type="checkbox" name="IsWithDeleted" data-bind="checked: IsWithDeleted" value="">Отображать архивные сведения</label><br/>
+            <button class="submit ok-cancel-button" type="button" data-bind="click: Save">OK</button>
+        </form>
+    </div>
+</div>
