@@ -72,7 +72,10 @@ namespace GKModule.Validation
 			foreach (var mptDevice in mpt.MPTDevices)
 			{
 				if (mptDevice.Device == null)
+				{
 					AddError(mpt, "Не настроено устройство МПТ", ValidationErrorLevel.CannotWrite);
+					AddError(mpt, "Не настроено устройство МПТ", ValidationErrorLevel.CannotSave);
+				}
 			}
 		}
 
