@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using SKDDriver;
 
 namespace FiresecService.Report.Templates
 {
@@ -152,7 +153,7 @@ namespace FiresecService.Report.Templates
 
 		public OperationResult<List<JournalItem>> GetFilteredJournalItems(ArchiveFilter archiveFilter)
 		{
-			var ConnectionString = @"Data Source=.\" + AppServerSettingsHelper.AppServerSettings.DBServerName + ";Initial Catalog=Journal_" + "1" + ";Integrated Security=True;Language='English'";
+			var ConnectionString = SKDDatabaseService.JournalConnectionString;
 
 			try
 			{

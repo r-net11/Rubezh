@@ -13,7 +13,9 @@ namespace FiresecAPI
 			ReportServicePort = 8800;
 			EnableRemoteConnections = false;
 			UseHasp = false;
+			DBServerAddress = ".";
 			DBServerName = "SQLEXPRESS";
+			DBUseIntegratedSecurity = true;
 			CreateNewDBOnOversize = true;
 			EnableOfflineLog = true;
 		}
@@ -34,7 +36,19 @@ namespace FiresecAPI
 		public bool UseHasp { get; set; }
 
 		[DataMember]
+		public string DBServerAddress { get; set; }
+
+		[DataMember]
 		public string DBServerName { get; set; }
+
+		[DataMember]
+		public bool DBUseIntegratedSecurity { get; set; }
+
+		[DataMember]
+		public string DBUserID { get; set; }
+
+		[DataMember]
+		public string DBUserPwd { get; set; }
 
 		[DataMember]
 		public bool CreateNewDBOnOversize { get; set; }
