@@ -1674,18 +1674,30 @@ END
 GO
 IF EXISTS(SELECT * FROM Patches WHERE Id='CreateGKMetadata')
 	BEGIN
-		DROP TABLE GKMetadata
+		IF EXISTS(SELECT * 
+                 FROM INFORMATION_SCHEMA.TABLES 
+                 WHERE TABLE_SCHEMA = 'TheSchema' 
+                 AND  TABLE_NAME = 'TheTable')
+			DROP TABLE GKMetadata
 		DELETE FROM Patches WHERE Id='CreateGKMetadata'
 	END
 GO
 IF EXISTS(SELECT * FROM Patches WHERE Id='Recreate_GKMetadata')
 	BEGIN
-		DROP TABLE GKMetadata
+		IF EXISTS(SELECT * 
+					 FROM INFORMATION_SCHEMA.TABLES 
+					 WHERE TABLE_SCHEMA = 'TheSchema' 
+					 AND  TABLE_NAME = 'TheTable')
+			DROP TABLE GKMetadata
 		DELETE FROM Patches WHERE Id='Recreate_GKMetadata'
 	END
 GO
 IF EXISTS(SELECT * FROM Patches WHERE Id='Recreate_GKMetadata2')
 	BEGIN
-		DROP TABLE GKMetadata
+		IF EXISTS(SELECT * 
+                 FROM INFORMATION_SCHEMA.TABLES 
+                 WHERE TABLE_SCHEMA = 'TheSchema' 
+                 AND  TABLE_NAME = 'TheTable')
+			DROP TABLE GKMetadata
 		DELETE FROM Patches WHERE Id='Recreate_GKMetadata2'
 	END
