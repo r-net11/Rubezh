@@ -16,7 +16,6 @@ namespace SKDDriver
 			var devicesResult = new OperationResult();
 			var doorsResult = new OperationResult();
 			var zonesResult = new OperationResult();
-			var gkZonesResult = new OperationResult();
 			if (filter.IsExportDevices)
 				devicesResult = Export<ExportDevice, SKDDevice>(SKDManager.Devices, "Devices.xml", filter.Path);
 			if (filter.IsExportDoors)

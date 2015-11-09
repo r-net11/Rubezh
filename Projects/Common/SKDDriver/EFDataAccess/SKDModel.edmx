@@ -15,9 +15,6 @@
           <EntitySet Name="DayIntervalPart" EntityType="SKDModel.Store.DayIntervalPart" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Department" EntityType="SKDModel.Store.Department" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Employee" EntityType="SKDModel.Store.Employee" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="GKDaySchedule" EntityType="SKDModel.Store.GKDaySchedule" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="GKDaySchedulePart" EntityType="SKDModel.Store.GKDaySchedulePart" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="GKSchedule" EntityType="SKDModel.Store.GKSchedule" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Holiday" EntityType="SKDModel.Store.Holiday" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="JournalMetadata" EntityType="SKDModel.Store.JournalMetadata" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="NightSettings" EntityType="SKDModel.Store.NightSettings" store:Type="Tables" Schema="dbo" />
@@ -36,7 +33,6 @@
           <EntitySet Name="Position" EntityType="SKDModel.Store.Position" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Schedule" EntityType="SKDModel.Store.Schedule" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ScheduleDay" EntityType="SKDModel.Store.ScheduleDay" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="ScheduleGKDaySchedule" EntityType="SKDModel.Store.ScheduleGKDaySchedule" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ScheduleScheme" EntityType="SKDModel.Store.ScheduleScheme" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ScheduleZone" EntityType="SKDModel.Store.ScheduleZone" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TimeTrackDocument" EntityType="SKDModel.Store.TimeTrackDocument" store:Type="Tables" Schema="dbo" />
@@ -134,10 +130,6 @@
             <End Role="Schedule" EntitySet="Schedule" />
             <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
-          <AssociationSet Name="FK_GKDaySchedulePart_GKDaySchedule" Association="SKDModel.Store.FK_GKDaySchedulePart_GKDaySchedule">
-            <End Role="GKDaySchedule" EntitySet="GKDaySchedule" />
-            <End Role="GKDaySchedulePart" EntitySet="GKDaySchedulePart" />
-          </AssociationSet>
           <AssociationSet Name="FK_Holiday_Organisation" Association="SKDModel.Store.FK_Holiday_Organisation">
             <End Role="Organisation" EntitySet="Organisation" />
             <End Role="Holiday" EntitySet="Holiday" />
@@ -197,14 +189,6 @@
           <AssociationSet Name="FK_ScheduleDay_ScheduleScheme" Association="SKDModel.Store.FK_ScheduleDay_ScheduleScheme">
             <End Role="ScheduleScheme" EntitySet="ScheduleScheme" />
             <End Role="ScheduleDay" EntitySet="ScheduleDay" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ScheduleGKSchedule_GKDaySchedule" Association="SKDModel.Store.FK_ScheduleGKSchedule_GKDaySchedule">
-            <End Role="GKDaySchedule" EntitySet="GKDaySchedule" />
-            <End Role="ScheduleGKDaySchedule" EntitySet="ScheduleGKDaySchedule" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ScheduleGKSchedule_GKSchedule" Association="SKDModel.Store.FK_ScheduleGKSchedule_GKSchedule">
-            <End Role="GKSchedule" EntitySet="GKSchedule" />
-            <End Role="ScheduleGKDaySchedule" EntitySet="ScheduleGKDaySchedule" />
           </AssociationSet>
           <AssociationSet Name="FK_ScheduleScheme_Organisation" Association="SKDModel.Store.FK_ScheduleScheme_Organisation">
             <End Role="Organisation" EntitySet="Organisation" />
@@ -362,43 +346,6 @@
           <Property Name="LastEmployeeDayUpdate" Type="datetime" Nullable="false" />
           <Property Name="ExternalKey" Type="nvarchar" Nullable="false" MaxLength="40" />
         </EntityType>
-        <EntityType Name="GKDaySchedule">
-          <Key>
-            <PropertyRef Name="UID" />
-          </Key>
-          <Property Name="UID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="No" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" />
-          <Property Name="Description" Type="nvarchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="GKDaySchedulePart">
-          <Key>
-            <PropertyRef Name="UID" />
-          </Key>
-          <Property Name="UID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="No" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" />
-          <Property Name="Description" Type="nvarchar" MaxLength="50" />
-          <Property Name="StartMilliseconds" Type="float" Nullable="false" />
-          <Property Name="EndMilliseconds" Type="float" Nullable="false" />
-          <Property Name="DayScheduleUID" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
-        <EntityType Name="GKSchedule">
-          <Key>
-            <PropertyRef Name="UID" />
-          </Key>
-          <Property Name="UID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="No" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" />
-          <Property Name="Description" Type="nvarchar" MaxLength="50" />
-          <Property Name="Type" Type="int" Nullable="false" />
-          <Property Name="PeriodType" Type="int" Nullable="false" />
-          <Property Name="StartDateTime" Type="datetime" Nullable="false" />
-          <Property Name="HoursPeriod" Type="int" Nullable="false" />
-          <Property Name="HolidayScheduleNo" Type="int" Nullable="false" />
-          <Property Name="WorkingHolidayScheduleNo" Type="int" Nullable="false" />
-          <Property Name="Year" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="Holiday">
           <Key>
             <PropertyRef Name="UID" />
@@ -544,14 +491,6 @@
           <Property Name="DayIntervalUID" Type="uniqueidentifier" />
           <Property Name="ScheduleSchemeUID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Number" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ScheduleGKDaySchedule">
-          <Key>
-            <PropertyRef Name="UID" />
-          </Key>
-          <Property Name="UID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ScheduleUID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="DayScheduleUID" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="ScheduleScheme">
           <Key>
@@ -893,18 +832,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_GKDaySchedulePart_GKDaySchedule">
-          <End Role="GKDaySchedule" Type="SKDModel.Store.GKDaySchedule" Multiplicity="1" />
-          <End Role="GKDaySchedulePart" Type="SKDModel.Store.GKDaySchedulePart" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GKDaySchedule">
-              <PropertyRef Name="UID" />
-            </Principal>
-            <Dependent Role="GKDaySchedulePart">
-              <PropertyRef Name="DayScheduleUID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Holiday_Organisation">
           <End Role="Organisation" Type="SKDModel.Store.Organisation" Multiplicity="0..1" />
           <End Role="Holiday" Type="SKDModel.Store.Holiday" Multiplicity="*" />
@@ -1085,30 +1012,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ScheduleGKSchedule_GKDaySchedule">
-          <End Role="GKDaySchedule" Type="SKDModel.Store.GKDaySchedule" Multiplicity="1" />
-          <End Role="ScheduleGKDaySchedule" Type="SKDModel.Store.ScheduleGKDaySchedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GKDaySchedule">
-              <PropertyRef Name="UID" />
-            </Principal>
-            <Dependent Role="ScheduleGKDaySchedule">
-              <PropertyRef Name="DayScheduleUID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ScheduleGKSchedule_GKSchedule">
-          <End Role="GKSchedule" Type="SKDModel.Store.GKSchedule" Multiplicity="1" />
-          <End Role="ScheduleGKDaySchedule" Type="SKDModel.Store.ScheduleGKDaySchedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GKSchedule">
-              <PropertyRef Name="UID" />
-            </Principal>
-            <Dependent Role="ScheduleGKDaySchedule">
-              <PropertyRef Name="ScheduleUID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ScheduleScheme_Organisation">
           <End Role="Organisation" Type="SKDModel.Store.Organisation" Multiplicity="0..1" />
           <End Role="ScheduleScheme" Type="SKDModel.Store.ScheduleScheme" Multiplicity="*" />
@@ -1172,9 +1075,6 @@
           <EntitySet Name="DayIntervalParts" EntityType="SKDModel.DayIntervalPart" />
           <EntitySet Name="Departments" EntityType="SKDModel.Department" />
           <EntitySet Name="Employees" EntityType="SKDModel.Employee" />
-          <EntitySet Name="GKDaySchedules" EntityType="SKDModel.GKDaySchedule" />
-          <EntitySet Name="GKDayScheduleParts" EntityType="SKDModel.GKDaySchedulePart" />
-          <EntitySet Name="GKSchedules" EntityType="SKDModel.GKSchedule" />
           <EntitySet Name="Holidays" EntityType="SKDModel.Holiday" />
           <EntitySet Name="JournalMetadatas" EntityType="SKDModel.JournalMetadata" />
           <EntitySet Name="NightSettings" EntityType="SKDModel.NightSetting" />
@@ -1189,7 +1089,6 @@
           <EntitySet Name="Positions" EntityType="SKDModel.Position" />
           <EntitySet Name="Schedules" EntityType="SKDModel.Schedule" />
           <EntitySet Name="ScheduleDays" EntityType="SKDModel.ScheduleDay" />
-          <EntitySet Name="ScheduleGKDaySchedules" EntityType="SKDModel.ScheduleGKDaySchedule" />
           <EntitySet Name="ScheduleSchemes" EntityType="SKDModel.ScheduleScheme" />
           <EntitySet Name="ScheduleZones" EntityType="SKDModel.ScheduleZone" />
           <EntitySet Name="TimeTrackDocuments" EntityType="SKDModel.TimeTrackDocument" />
@@ -1306,18 +1205,6 @@
           <AssociationSet Name="FK_TimeTrackException_Employee" Association="SKDModel.FK_TimeTrackException_Employee">
             <End Role="Employee" EntitySet="Employees" />
             <End Role="TimeTrackException" EntitySet="TimeTrackExceptions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GKDaySchedulePart_GKDaySchedule" Association="SKDModel.FK_GKDaySchedulePart_GKDaySchedule">
-            <End Role="GKDaySchedule" EntitySet="GKDaySchedules" />
-            <End Role="GKDaySchedulePart" EntitySet="GKDayScheduleParts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ScheduleGKSchedule_GKDaySchedule" Association="SKDModel.FK_ScheduleGKSchedule_GKDaySchedule">
-            <End Role="GKDaySchedule" EntitySet="GKDaySchedules" />
-            <End Role="ScheduleGKDaySchedule" EntitySet="ScheduleGKDaySchedules" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ScheduleGKSchedule_GKSchedule" Association="SKDModel.FK_ScheduleGKSchedule_GKSchedule">
-            <End Role="GKSchedule" EntitySet="GKSchedules" />
-            <End Role="ScheduleGKDaySchedule" EntitySet="ScheduleGKDaySchedules" />
           </AssociationSet>
           <AssociationSet Name="FK_Holiday_Organisation" Association="SKDModel.FK_Holiday_Organisation">
             <End Role="Organisation" EntitySet="Organisations" />
@@ -1556,47 +1443,6 @@
           <NavigationProperty Name="Organisations1" Relationship="SKDModel.FK_Organisation_Employee3" FromRole="Employee" ToRole="Organisation" />
           <NavigationProperty Name="TimeTrackExceptions" Relationship="SKDModel.FK_TimeTrackException_Employee" FromRole="Employee" ToRole="TimeTrackException" />
         </EntityType>
-        <EntityType Name="GKDaySchedule">
-          <Key>
-            <PropertyRef Name="UID" />
-          </Key>
-          <Property Name="UID" Type="Guid" Nullable="false" />
-          <Property Name="No" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Description" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="GKDayScheduleParts" Relationship="SKDModel.FK_GKDaySchedulePart_GKDaySchedule" FromRole="GKDaySchedule" ToRole="GKDaySchedulePart" />
-          <NavigationProperty Name="ScheduleGKDaySchedules" Relationship="SKDModel.FK_ScheduleGKSchedule_GKDaySchedule" FromRole="GKDaySchedule" ToRole="ScheduleGKDaySchedule" />
-        </EntityType>
-        <EntityType Name="GKDaySchedulePart">
-          <Key>
-            <PropertyRef Name="UID" />
-          </Key>
-          <Property Name="UID" Type="Guid" Nullable="false" />
-          <Property Name="No" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Description" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="StartMilliseconds" Type="Double" Nullable="false" />
-          <Property Name="EndMilliseconds" Type="Double" Nullable="false" />
-          <Property Name="DayScheduleUID" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="GKDaySchedule" Relationship="SKDModel.FK_GKDaySchedulePart_GKDaySchedule" FromRole="GKDaySchedulePart" ToRole="GKDaySchedule" />
-        </EntityType>
-        <EntityType Name="GKSchedule">
-          <Key>
-            <PropertyRef Name="UID" />
-          </Key>
-          <Property Name="UID" Type="Guid" Nullable="false" />
-          <Property Name="No" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Description" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Type" Type="Int32" Nullable="false" />
-          <Property Name="PeriodType" Type="Int32" Nullable="false" />
-          <Property Name="StartDateTime" Type="DateTime" Nullable="false" />
-          <Property Name="HoursPeriod" Type="Int32" Nullable="false" />
-          <Property Name="HolidayScheduleNo" Type="Int32" Nullable="false" />
-          <Property Name="WorkingHolidayScheduleNo" Type="Int32" Nullable="false" />
-          <Property Name="Year" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ScheduleGKDaySchedules" Relationship="SKDModel.FK_ScheduleGKSchedule_GKSchedule" FromRole="GKSchedule" ToRole="ScheduleGKDaySchedule" />
-        </EntityType>
         <EntityType Name="Holiday">
           <Key>
             <PropertyRef Name="UID" />
@@ -1776,16 +1622,6 @@
           <Property Name="Number" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DayInterval" Relationship="SKDModel.FK_ScheduleDay_DayInterval" FromRole="ScheduleDay" ToRole="DayInterval" />
           <NavigationProperty Name="ScheduleScheme" Relationship="SKDModel.FK_ScheduleDay_ScheduleScheme" FromRole="ScheduleDay" ToRole="ScheduleScheme" />
-        </EntityType>
-        <EntityType Name="ScheduleGKDaySchedule">
-          <Key>
-            <PropertyRef Name="UID" />
-          </Key>
-          <Property Name="UID" Type="Guid" Nullable="false" />
-          <Property Name="ScheduleUID" Type="Guid" Nullable="false" />
-          <Property Name="DayScheduleUID" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="GKDaySchedule" Relationship="SKDModel.FK_ScheduleGKSchedule_GKDaySchedule" FromRole="ScheduleGKDaySchedule" ToRole="GKDaySchedule" />
-          <NavigationProperty Name="GKSchedule" Relationship="SKDModel.FK_ScheduleGKSchedule_GKSchedule" FromRole="ScheduleGKDaySchedule" ToRole="GKSchedule" />
         </EntityType>
         <EntityType Name="ScheduleScheme">
           <Key>
@@ -2193,42 +2029,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_GKDaySchedulePart_GKDaySchedule">
-          <End Role="GKDaySchedule" Type="SKDModel.GKDaySchedule" Multiplicity="1" />
-          <End Role="GKDaySchedulePart" Type="SKDModel.GKDaySchedulePart" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GKDaySchedule">
-              <PropertyRef Name="UID" />
-            </Principal>
-            <Dependent Role="GKDaySchedulePart">
-              <PropertyRef Name="DayScheduleUID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ScheduleGKSchedule_GKDaySchedule">
-          <End Role="GKDaySchedule" Type="SKDModel.GKDaySchedule" Multiplicity="1" />
-          <End Role="ScheduleGKDaySchedule" Type="SKDModel.ScheduleGKDaySchedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GKDaySchedule">
-              <PropertyRef Name="UID" />
-            </Principal>
-            <Dependent Role="ScheduleGKDaySchedule">
-              <PropertyRef Name="DayScheduleUID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ScheduleGKSchedule_GKSchedule">
-          <End Role="GKSchedule" Type="SKDModel.GKSchedule" Multiplicity="1" />
-          <End Role="ScheduleGKDaySchedule" Type="SKDModel.ScheduleGKDaySchedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GKSchedule">
-              <PropertyRef Name="UID" />
-            </Principal>
-            <Dependent Role="ScheduleGKDaySchedule">
-              <PropertyRef Name="ScheduleUID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Holiday_Organisation">
           <End Role="Organisation" Type="SKDModel.Organisation" Multiplicity="0..1" />
           <End Role="Holiday" Type="SKDModel.Holiday" Multiplicity="*" />
@@ -2498,34 +2298,6 @@
             <ScalarProperty Name="LastEmployeeDayUpdate" ColumnName="LastEmployeeDayUpdate" />
             <ScalarProperty Name="ExternalKey" ColumnName="ExternalKey" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="GKDaySchedules"><EntityTypeMapping TypeName="SKDModel.GKDaySchedule"><MappingFragment StoreEntitySet="GKDaySchedule">
-            <ScalarProperty Name="UID" ColumnName="UID" />
-            <ScalarProperty Name="No" ColumnName="No" />
-            <ScalarProperty Name="Name" ColumnName="Name" />
-            <ScalarProperty Name="Description" ColumnName="Description" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="GKDayScheduleParts"><EntityTypeMapping TypeName="SKDModel.GKDaySchedulePart"><MappingFragment StoreEntitySet="GKDaySchedulePart">
-            <ScalarProperty Name="UID" ColumnName="UID" />
-            <ScalarProperty Name="No" ColumnName="No" />
-            <ScalarProperty Name="Name" ColumnName="Name" />
-            <ScalarProperty Name="Description" ColumnName="Description" />
-            <ScalarProperty Name="StartMilliseconds" ColumnName="StartMilliseconds" />
-            <ScalarProperty Name="EndMilliseconds" ColumnName="EndMilliseconds" />
-            <ScalarProperty Name="DayScheduleUID" ColumnName="DayScheduleUID" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="GKSchedules"><EntityTypeMapping TypeName="SKDModel.GKSchedule"><MappingFragment StoreEntitySet="GKSchedule">
-            <ScalarProperty Name="UID" ColumnName="UID" />
-            <ScalarProperty Name="No" ColumnName="No" />
-            <ScalarProperty Name="Name" ColumnName="Name" />
-            <ScalarProperty Name="Description" ColumnName="Description" />
-            <ScalarProperty Name="Type" ColumnName="Type" />
-            <ScalarProperty Name="PeriodType" ColumnName="PeriodType" />
-            <ScalarProperty Name="StartDateTime" ColumnName="StartDateTime" />
-            <ScalarProperty Name="HoursPeriod" ColumnName="HoursPeriod" />
-            <ScalarProperty Name="HolidayScheduleNo" ColumnName="HolidayScheduleNo" />
-            <ScalarProperty Name="WorkingHolidayScheduleNo" ColumnName="WorkingHolidayScheduleNo" />
-            <ScalarProperty Name="Year" ColumnName="Year" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="Holidays"><EntityTypeMapping TypeName="SKDModel.Holiday"><MappingFragment StoreEntitySet="Holiday">
             <ScalarProperty Name="UID" ColumnName="UID" />
             <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2627,11 +2399,6 @@
             <ScalarProperty Name="ScheduleSchemeUID" ColumnName="ScheduleSchemeUID" />
             <ScalarProperty Name="Number" ColumnName="Number" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="ScheduleGKDaySchedules"><EntityTypeMapping TypeName="SKDModel.ScheduleGKDaySchedule"><MappingFragment StoreEntitySet="ScheduleGKDaySchedule">
-            <ScalarProperty Name="UID" ColumnName="UID" />
-            <ScalarProperty Name="ScheduleUID" ColumnName="ScheduleUID" />
-            <ScalarProperty Name="DayScheduleUID" ColumnName="DayScheduleUID" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="ScheduleSchemes"><EntityTypeMapping TypeName="SKDModel.ScheduleScheme"><MappingFragment StoreEntitySet="ScheduleScheme">
             <ScalarProperty Name="UID" ColumnName="UID" />
             <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2726,9 +2493,6 @@
         <EntityTypeShape EntityType="SKDModel.DayIntervalPart" Width="1.5" PointX="18" PointY="21.875" Height="1.7566536458333317" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.Department" Width="1.5" PointX="6" PointY="27.125" Height="4.3862109375000031" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.Employee" Width="1.5" PointX="8.25" PointY="25.25" Height="8.3305468750000031" IsExpanded="true" />
-        <EntityTypeShape EntityType="SKDModel.GKDaySchedule" Width="1.5" PointX="0.75" PointY="3.625" Height="1.9210009765624991" IsExpanded="true" />
-        <EntityTypeShape EntityType="SKDModel.GKDaySchedulePart" Width="1.5" PointX="3" PointY="3.5" Height="2.2496956380208317" IsExpanded="true" />
-        <EntityTypeShape EntityType="SKDModel.GKSchedule" Width="1.5" PointX="0.75" PointY="6.5" Height="3.0714322916666674" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.Holiday" Width="1.5" PointX="15.75" PointY="24.875" Height="2.5783902994791674" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.JournalMetadata" Width="1.5" PointX="5.75" PointY="7.875" Height="1.5923063151041674" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.NightSetting" Width="1.5" PointX="15.75" PointY="28.125" Height="1.7566536458333388" IsExpanded="true" />
@@ -2743,7 +2507,6 @@
         <EntityTypeShape EntityType="SKDModel.Position" Width="1.5" PointX="18.75" PointY="29" Height="2.7427376302083246" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.Schedule" Width="1.5" PointX="18" PointY="37" Height="3.2357796223958246" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.ScheduleDay" Width="1.5" PointX="18" PointY="34.125" Height="1.9210009765625102" IsExpanded="true" />
-        <EntityTypeShape EntityType="SKDModel.ScheduleGKDaySchedule" Width="1.5" PointX="3" PointY="0.75" Height="1.7566536458333388" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.ScheduleScheme" Width="1.5" PointX="15.75" PointY="45.875" Height="2.7427376302083246" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.ScheduleZone" Width="1.5" PointX="20.25" PointY="37.75" Height="1.7566536458333246" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.TimeTrackDocument" Width="1.5" PointX="7.75" PointY="6.875" Height="2.4140429687500102" IsExpanded="true" />
@@ -2962,23 +2725,6 @@
           <ConnectorPoint PointX="9.52048326923077" PointY="33.580546875" />
           <ConnectorPoint PointX="9.52048326923077" PointY="64.292674153645834" />
           <ConnectorPoint PointX="10.5" PointY="64.292674153645834" />
-        </AssociationConnector>
-        <AssociationConnector Association="SKDModel.FK_GKDaySchedulePart_GKDaySchedule" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="4.58550048828125" />
-          <ConnectorPoint PointX="2.5416666666666665" PointY="4.5855004882812489" />
-          <ConnectorPoint PointX="2.7083333333333335" PointY="4.58550048828125" />
-          <ConnectorPoint PointX="3" PointY="4.58550048828125" />
-        </AssociationConnector>
-        <AssociationConnector Association="SKDModel.FK_ScheduleGKSchedule_GKDaySchedule" ManuallyRouted="false">
-          <ConnectorPoint PointX="1.5" PointY="3.625" />
-          <ConnectorPoint PointX="1.5" PointY="1.6283268229166694" />
-          <ConnectorPoint PointX="3" PointY="1.6283268229166694" />
-        </AssociationConnector>
-        <AssociationConnector Association="SKDModel.FK_ScheduleGKSchedule_GKSchedule" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="6.5" />
-          <ConnectorPoint PointX="2.625" PointY="6.125" />
-          <ConnectorPoint PointX="2.625" PointY="2.0987422343749977" />
-          <ConnectorPoint PointX="3" PointY="2.0987422343749977" />
         </AssociationConnector>
         <AssociationConnector Association="SKDModel.FK_Holiday_Organisation" ManuallyRouted="false">
           <ConnectorPoint PointX="15" PointY="27.101695149739584" />
