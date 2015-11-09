@@ -311,22 +311,6 @@ namespace SKDDriver.EFDataAccess
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<GKMetadata> GKMetadatas
-        {
-            get
-            {
-                if ((_GKMetadatas == null))
-                {
-                    _GKMetadatas = base.CreateObjectSet<GKMetadata>("GKMetadatas");
-                }
-                return _GKMetadatas;
-            }
-        }
-        private ObjectSet<GKMetadata> _GKMetadatas;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<GKSchedule> GKSchedules
         {
             get
@@ -774,14 +758,6 @@ namespace SKDDriver.EFDataAccess
         public void AddToGKDayScheduleParts(GKDaySchedulePart gKDaySchedulePart)
         {
             base.AddObject("GKDayScheduleParts", gKDaySchedulePart);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the GKMetadatas EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToGKMetadatas(GKMetadata gKMetadata)
-        {
-            base.AddObject("GKMetadatas", gKMetadata);
         }
     
         /// <summary>
@@ -5538,141 +5514,6 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="SKDModel", Name="GKMetadata")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class GKMetadata : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new GKMetadata object.
-        /// </summary>
-        /// <param name="uID">Initial value of the UID property.</param>
-        /// <param name="iPAddress">Initial value of the IPAddress property.</param>
-        /// <param name="serialNo">Initial value of the SerialNo property.</param>
-        /// <param name="lastJournalNo">Initial value of the LastJournalNo property.</param>
-        public static GKMetadata CreateGKMetadata(global::System.Guid uID, global::System.String iPAddress, global::System.String serialNo, global::System.Int32 lastJournalNo)
-        {
-            GKMetadata gKMetadata = new GKMetadata();
-            gKMetadata.UID = uID;
-            gKMetadata.IPAddress = iPAddress;
-            gKMetadata.SerialNo = serialNo;
-            gKMetadata.LastJournalNo = lastJournalNo;
-            return gKMetadata;
-        }
-
-        #endregion
-
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Guid UID
-        {
-            get
-            {
-                return _UID;
-            }
-            set
-            {
-                if (_UID != value)
-                {
-                    OnUIDChanging(value);
-                    ReportPropertyChanging("UID");
-                    _UID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("UID");
-                    OnUIDChanged();
-                }
-            }
-        }
-        private global::System.Guid _UID;
-        partial void OnUIDChanging(global::System.Guid value);
-        partial void OnUIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String IPAddress
-        {
-            get
-            {
-                return _IPAddress;
-            }
-            set
-            {
-                OnIPAddressChanging(value);
-                ReportPropertyChanging("IPAddress");
-                _IPAddress = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("IPAddress");
-                OnIPAddressChanged();
-            }
-        }
-        private global::System.String _IPAddress;
-        partial void OnIPAddressChanging(global::System.String value);
-        partial void OnIPAddressChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String SerialNo
-        {
-            get
-            {
-                return _SerialNo;
-            }
-            set
-            {
-                OnSerialNoChanging(value);
-                ReportPropertyChanging("SerialNo");
-                _SerialNo = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("SerialNo");
-                OnSerialNoChanged();
-            }
-        }
-        private global::System.String _SerialNo;
-        partial void OnSerialNoChanging(global::System.String value);
-        partial void OnSerialNoChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 LastJournalNo
-        {
-            get
-            {
-                return _LastJournalNo;
-            }
-            set
-            {
-                OnLastJournalNoChanging(value);
-                ReportPropertyChanging("LastJournalNo");
-                _LastJournalNo = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("LastJournalNo");
-                OnLastJournalNoChanged();
-            }
-        }
-        private global::System.Int32 _LastJournalNo;
-        partial void OnLastJournalNoChanging(global::System.Int32 value);
-        partial void OnLastJournalNoChanged();
-
-        #endregion
-
-    
     }
     
     /// <summary>

@@ -1040,18 +1040,6 @@ ALTER TABLE Card ALTER COLUMN Number nvarchar(50) NOT NULL
 INSERT INTO Patches (Id) VALUES ('CardNoString')
 END
 
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'CreateGKMetadata')
-BEGIN
-CREATE TABLE [dbo].[GKMetadata](
-[IPAddress] [nvarchar](50) NOT NULL,
-[SerialNo] [nvarchar](50) NOT NULL,
-[LastJournalNo] [int] NOT NULL,
-[LastUserNo] [int] NOT NULL
-)
-ON [PRIMARY]
-INSERT INTO Patches (Id) VALUES ('CreateGKMetadata')
-END
-
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveEventNamesAndDescriptions')
 BEGIN
 DROP TABLE EventNames
@@ -1115,24 +1103,6 @@ CONSTRAINT [PK_PassJournalMetadata] PRIMARY KEY CLUSTERED
 INSERT INTO Patches (Id) VALUES ('Create_Journal_And_PassJournal_Metadata')
 END
 
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Recreate_GKMetadata')
-BEGIN
-DROP TABLE GKMetadata
-
-CREATE TABLE [dbo].[GKMetadata](
-[UID] [uniqueidentifier] NOT NULL,
-[IPAddress] [nvarchar](50) NOT NULL,
-[SerialNo] [nvarchar](50) NOT NULL,
-[LastJournalNo] [int] NOT NULL,
-[LastUserNo] [int] NOT NULL
-CONSTRAINT [PK_GKMetadata] PRIMARY KEY CLUSTERED
-(
-[UID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-INSERT INTO Patches (Id) VALUES ('Recreate_GKMetadata')
-END
-
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_CardSubsystemType')
 BEGIN
@@ -1152,23 +1122,6 @@ ALTER TABLE OrganisationDoor DROP CONSTRAINT OrganisationDoor_CardSubsystemType_
 ALTER TABLE OrganisationDoor DROP COLUMN CardSubsystemType
 END
 INSERT INTO Patches (Id) VALUES ('Drop_CardSubsystemType')
-END
-
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Recreate_GKMetadata2')
-BEGIN
-DROP TABLE GKMetadata
-
-CREATE TABLE [dbo].[GKMetadata](
-[UID] [uniqueidentifier] NOT NULL,
-[IPAddress] [nvarchar](50) NOT NULL,
-[SerialNo] [nvarchar](50) NOT NULL,
-[LastJournalNo] [int] NOT NULL,
-CONSTRAINT [PK_GKMetadata] PRIMARY KEY CLUSTERED
-(
-[UID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-INSERT INTO Patches (Id) VALUES ('Recreate_GKMetadata2')
 END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Department_Chief_Default_Name')
@@ -1616,61 +1569,68 @@ BEGIN
 ALTER TABLE [Card] ADD [IsHandicappedCard] bit NOT NULL DEFAULT 0
 INSERT INTO Patches (Id) VALUES ('AddIsHandicappedCardColumn')
 END
+GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddAllowedAbsentLowThan')
 BEGIN
 ALTER TABLE [Schedule] ADD [AllowedAbsentLowThan] int NOT NULL DEFAULT 0
 INSERT INTO Patches (Id) VALUES ('AddAllowedAbsentLowThan')
 END
+GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddNotAllowOvertimeLowerThan')
 BEGIN
 ALTER TABLE [Schedule] ADD [NotAllowOvertimeLowerThan] int NOT NULL DEFAULT 0
 INSERT INTO Patches (Id) VALUES ('AddNotAllowOvertimeLowerThan')
 END
+GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsEnabledAllowLate')
 BEGIN
 	ALTER TABLE [Schedule] ADD [IsEnabledAllowLate] bit NOT NULL DEFAULT 0
 	INSERT INTO Patches (Id) VALUES ('AddIsEnabledAllowLate') 
 END
+GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsEnabledAllowEarlyLeave')
 BEGIN
 	ALTER TABLE [Schedule] ADD [IsEnabledAllowEarlyLeave] bit NOT NULL DEFAULT 0
 	INSERT INTO Patches (Id) VALUES ('AddIsEnabledAllowEarlyLeave')
 END
+GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsAllowAbsent')
 BEGIN
 	ALTER TABLE [Schedule] ADD [IsAllowAbsent] bit NOT NULL DEFAULT 0
 	INSERT INTO Patches (Id) VALUES ('AddIsAllowAbsent')
 END
+GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsEnabledOvertime')
 BEGIN 
 	ALTER TABLE [Schedule] ADD [IsEnabledOvertime] bit NOT NULL DEFAULT 0
 	INSERT INTO Patches (Id) VALUES ('AddIsEnabledOvertime')
 END
+GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsOutsideColumn')
 BEGIN
 	ALTER TABLE [TimeTrackDocument] ADD [IsOutside] bit NOT NULL DEFAULT 0
 	INSERT INTO Patches (Id) VALUES ('AddIsOutsideColumn')
 END
-
+GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddTimeTrackSystemDocumentTypes')
-BEGIN
-IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'TimeTrackSystemDocumentTypes')
-BEGIN
-CREATE TABLE [dbo].[TimeTrackSystemDocumentTypes](
-[UID] [uniqueidentifier] NOT NULL,
-[Name] [nvarchar](max) NOT NULL,
-[ShortName] [nvarchar](10) NOT NULL,
-[DocumentCode] [int] NOT NULL,
-[DocumentType] [int] NOT NULL
-CONSTRAINT [PK_TimeTrackSystemDocumentTypes] PRIMARY KEY CLUSTERED
-(
-[UID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+	BEGIN
+		IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'TimeTrackSystemDocumentTypes')
+		BEGIN
+			CREATE TABLE [dbo].[TimeTrackSystemDocumentTypes](
+			[UID] [uniqueidentifier] NOT NULL,
+			[Name] [nvarchar](max) NOT NULL,
+			[ShortName] [nvarchar](10) NOT NULL,
+			[DocumentCode] [int] NOT NULL,
+			[DocumentType] [int] NOT NULL
+			CONSTRAINT [PK_TimeTrackSystemDocumentTypes] PRIMARY KEY CLUSTERED
+			(
+			[UID] ASC
+			)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+			) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+	END
+	INSERT INTO Patches (Id) VALUES ('AddTimeTrackSystemDocumentTypes')
 END
-INSERT INTO Patches (Id) VALUES ('AddTimeTrackSystemDocumentTypes')
-END
-
+GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddTimeTrackSystemDocumentTypesData')
 BEGIN
 	INSERT INTO [dbo].[TimeTrackSystemDocumentTypes](UID, Name, ShortName, DocumentCode, DocumentType) VALUES(NEWID(), 'Продолжительность работы в дневное время', 'Я', 1, 1)
@@ -1711,3 +1671,21 @@ BEGIN
 	INSERT INTO [dbo].[TimeTrackSystemDocumentTypes](UID, Name, ShortName, DocumentCode, DocumentType) VALUES(NEWID(), 'Время приостановки работы в случае задержки выплаты заработной платы', 'НЗ', 36, 3)
 	INSERT INTO Patches (Id) VALUES ('AddTimeTrackSystemDocumentTypesData')
 END
+GO
+IF EXISTS(SELECT * FROM Patches WHERE Id='CreateGKMetadata')
+	BEGIN
+		DROP TABLE GKMetadata
+		DELETE FROM Patches WHERE Id='CreateGKMetadata'
+	END
+GO
+IF EXISTS(SELECT * FROM Patches WHERE Id='Recreate_GKMetadata')
+	BEGIN
+		DROP TABLE GKMetadata
+		DELETE FROM Patches WHERE Id='Recreate_GKMetadata'
+	END
+GO
+IF EXISTS(SELECT * FROM Patches WHERE Id='Recreate_GKMetadata2')
+	BEGIN
+		DROP TABLE GKMetadata
+		DELETE FROM Patches WHERE Id='Recreate_GKMetadata2'
+	END

@@ -110,14 +110,6 @@
       <Column Name="UserType" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
-  <Table Name="dbo.GKMetadata" Member="GKMetadatas">
-    <Type Name="GKMetadata">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="IPAddress" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="SerialNo" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="LastJournalNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
   <Table Name="dbo.Holiday" Member="Holidays">
     <Type Name="Holiday">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />

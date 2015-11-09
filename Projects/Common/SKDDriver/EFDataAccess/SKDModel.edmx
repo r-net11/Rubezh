@@ -18,7 +18,6 @@
           <EntitySet Name="GKCards" EntityType="SKDModel.Store.GKCards" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="GKDaySchedule" EntityType="SKDModel.Store.GKDaySchedule" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="GKDaySchedulePart" EntityType="SKDModel.Store.GKDaySchedulePart" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="GKMetadata" EntityType="SKDModel.Store.GKMetadata" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="GKSchedule" EntityType="SKDModel.Store.GKSchedule" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="GKScheduleDay" EntityType="SKDModel.Store.GKScheduleDay" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Holiday" EntityType="SKDModel.Store.Holiday" store:Type="Tables" Schema="dbo" />
@@ -401,15 +400,6 @@
           <Property Name="StartMilliseconds" Type="float" Nullable="false" />
           <Property Name="EndMilliseconds" Type="float" Nullable="false" />
           <Property Name="DayScheduleUID" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
-        <EntityType Name="GKMetadata">
-          <Key>
-            <PropertyRef Name="UID" />
-          </Key>
-          <Property Name="UID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="IPAddress" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="SerialNo" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="LastJournalNo" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="GKSchedule">
           <Key>
@@ -1223,7 +1213,6 @@
           <EntitySet Name="GKCards" EntityType="SKDModel.GKCard" />
           <EntitySet Name="GKDaySchedules" EntityType="SKDModel.GKDaySchedule" />
           <EntitySet Name="GKDayScheduleParts" EntityType="SKDModel.GKDaySchedulePart" />
-          <EntitySet Name="GKMetadatas" EntityType="SKDModel.GKMetadata" />
           <EntitySet Name="GKSchedules" EntityType="SKDModel.GKSchedule" />
           <EntitySet Name="GKScheduleDays" EntityType="SKDModel.GKScheduleDay" />
           <EntitySet Name="Holidays" EntityType="SKDModel.Holiday" />
@@ -1646,15 +1635,6 @@
           <Property Name="EndMilliseconds" Type="Double" Nullable="false" />
           <Property Name="DayScheduleUID" Type="Guid" Nullable="false" />
           <NavigationProperty Name="GKDaySchedule" Relationship="SKDModel.FK_GKDaySchedulePart_GKDaySchedule" FromRole="GKDaySchedulePart" ToRole="GKDaySchedule" />
-        </EntityType>
-        <EntityType Name="GKMetadata">
-          <Key>
-            <PropertyRef Name="UID" />
-          </Key>
-          <Property Name="UID" Type="Guid" Nullable="false" />
-          <Property Name="IPAddress" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="SerialNo" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="LastJournalNo" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="GKSchedule">
           <Key>
@@ -2620,12 +2600,6 @@
             <ScalarProperty Name="EndMilliseconds" ColumnName="EndMilliseconds" />
             <ScalarProperty Name="DayScheduleUID" ColumnName="DayScheduleUID" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="GKMetadatas"><EntityTypeMapping TypeName="SKDModel.GKMetadata"><MappingFragment StoreEntitySet="GKMetadata">
-            <ScalarProperty Name="UID" ColumnName="UID" />
-            <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
-            <ScalarProperty Name="SerialNo" ColumnName="SerialNo" />
-            <ScalarProperty Name="LastJournalNo" ColumnName="LastJournalNo" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="GKSchedules"><EntityTypeMapping TypeName="SKDModel.GKSchedule"><MappingFragment StoreEntitySet="GKSchedule">
             <ScalarProperty Name="UID" ColumnName="UID" />
             <ScalarProperty Name="No" ColumnName="No" />
@@ -2847,7 +2821,6 @@
         <EntityTypeShape EntityType="SKDModel.GKCard" Width="1.5" PointX="5.75" PointY="1.875" Height="2.0853483072916674" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.GKDaySchedule" Width="1.5" PointX="0.75" PointY="3.625" Height="1.9210009765624991" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.GKDaySchedulePart" Width="1.5" PointX="3" PointY="3.5" Height="2.2496956380208317" IsExpanded="true" />
-        <EntityTypeShape EntityType="SKDModel.GKMetadata" Width="1.5" PointX="5.75" PointY="4.875" Height="1.5923063151041674" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.GKSchedule" Width="1.5" PointX="0.75" PointY="6.5" Height="3.0714322916666674" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.GKScheduleDay" Width="1.5" PointX="3" PointY="7.25" Height="1.5923063151041674" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.Holiday" Width="1.5" PointX="15.75" PointY="24.875" Height="2.5783902994791674" IsExpanded="true" />

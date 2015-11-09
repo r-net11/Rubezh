@@ -54,9 +54,6 @@ namespace SKDDriver.DataAccess
     partial void InsertGKCard(GKCard instance);
     partial void UpdateGKCard(GKCard instance);
     partial void DeleteGKCard(GKCard instance);
-    partial void InsertGKMetadata(GKMetadata instance);
-    partial void UpdateGKMetadata(GKMetadata instance);
-    partial void DeleteGKMetadata(GKMetadata instance);
     partial void InsertHoliday(Holiday instance);
     partial void UpdateHoliday(Holiday instance);
     partial void DeleteHoliday(Holiday instance);
@@ -226,14 +223,6 @@ namespace SKDDriver.DataAccess
 			get
 			{
 				return this.GetTable<GKCard>();
-			}
-		}
-		
-		public System.Data.Linq.Table<GKMetadata> GKMetadatas
-		{
-			get
-			{
-				return this.GetTable<GKMetadata>();
 			}
 		}
 		
@@ -2888,140 +2877,6 @@ namespace SKDDriver.DataAccess
 					this._UserType = value;
 					this.SendPropertyChanged("UserType");
 					this.OnUserTypeChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.GKMetadata")]
-	public partial class GKMetadata : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _UID;
-		
-		private string _IPAddress;
-		
-		private string _SerialNo;
-		
-		private int _LastJournalNo;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnUIDChanging(System.Guid value);
-    partial void OnUIDChanged();
-    partial void OnIPAddressChanging(string value);
-    partial void OnIPAddressChanged();
-    partial void OnSerialNoChanging(string value);
-    partial void OnSerialNoChanged();
-    partial void OnLastJournalNoChanging(int value);
-    partial void OnLastJournalNoChanged();
-    #endregion
-		
-		public GKMetadata()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid UID
-		{
-			get
-			{
-				return this._UID;
-			}
-			set
-			{
-				if ((this._UID != value))
-				{
-					this.OnUIDChanging(value);
-					this.SendPropertyChanging();
-					this._UID = value;
-					this.SendPropertyChanged("UID");
-					this.OnUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IPAddress", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string IPAddress
-		{
-			get
-			{
-				return this._IPAddress;
-			}
-			set
-			{
-				if ((this._IPAddress != value))
-				{
-					this.OnIPAddressChanging(value);
-					this.SendPropertyChanging();
-					this._IPAddress = value;
-					this.SendPropertyChanged("IPAddress");
-					this.OnIPAddressChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SerialNo", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string SerialNo
-		{
-			get
-			{
-				return this._SerialNo;
-			}
-			set
-			{
-				if ((this._SerialNo != value))
-				{
-					this.OnSerialNoChanging(value);
-					this.SendPropertyChanging();
-					this._SerialNo = value;
-					this.SendPropertyChanged("SerialNo");
-					this.OnSerialNoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastJournalNo", DbType="Int NOT NULL")]
-		public int LastJournalNo
-		{
-			get
-			{
-				return this._LastJournalNo;
-			}
-			set
-			{
-				if ((this._LastJournalNo != value))
-				{
-					this.OnLastJournalNoChanging(value);
-					this.SendPropertyChanging();
-					this._LastJournalNo = value;
-					this.SendPropertyChanged("LastJournalNo");
-					this.OnLastJournalNoChanged();
 				}
 			}
 		}
