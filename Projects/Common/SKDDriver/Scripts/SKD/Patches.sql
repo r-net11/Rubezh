@@ -1018,15 +1018,6 @@ END
 INSERT INTO Patches (Id) VALUES ('RemoveOrganisationGKDoor')
 END
 
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'GKCards')
-BEGIN
-ALTER TABLE Card ADD [GKLevel] [tinyint] NOT NULL CONSTRAINT "Card_GKLevel_Default" DEFAULT 0
-ALTER TABLE Card ADD [GKLevelSchedule] [tinyint] NOT NULL CONSTRAINT "Card_GKLevelSchedule_Default" DEFAULT 0
-ALTER TABLE CardDoor DROP COLUMN EnterIntervalType
-ALTER TABLE CardDoor DROP COLUMN ExitIntervalType
-INSERT INTO Patches (Id) VALUES ('GKCards')
-END
-
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RenameCardDoorIntervals')
 BEGIN
 EXEC sp_rename 'CardDoor.EnterIntervalID', 'EnterScheduleNo', 'COLUMN'
@@ -1210,30 +1201,6 @@ ALTER TABLE Employee ADD LastEmployeeDayUpdate datetime NOT NULL CONSTRAINT "Sch
 INSERT INTO Patches (Id) VALUES ('Employee_LastEmployeeDayUpdate')
 END
 GO
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'GKCards_Table')
-BEGIN
-IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'GKCards')
-BEGIN
-CREATE TABLE GKCards(
-[UID] [uniqueidentifier] NOT NULL,
-[IPAddress] [nvarchar](50) NOT NULL,
-[GKNo] [int] NOT NULL,
-[CardNo] [int] NOT NULL,
-[FIO] [nvarchar](50) NOT NULL,
-[IsActive] [bit] NOT NULL,
-[UserType] [tinyint] NOT NULL,
-CONSTRAINT [PK_GKCards] PRIMARY KEY CLUSTERED
-(
-[UID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-END
-
-CREATE INDEX GKCardsIPAddressIndex ON [dbo].[GKCards]([IPAddress])
-
-INSERT INTO Patches (Id) VALUES ('GKCards_Table')
-END
-GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Card_Number_Int')
 BEGIN
 IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Card')
@@ -1280,12 +1247,6 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Employee_TabelNo_String_40')
 BEGIN
 ALTER TABLE Employee ALTER COLUMN TabelNo nvarchar(40) NULL
 INSERT INTO Patches (Id) VALUES ('Employee_TabelNo_String_40')
-END
-GO
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'GKCardType')
-BEGIN
-ALTER TABLE Card ADD GKCardType int NOT NULL DEFAULT -1
-INSERT INTO Patches (Id) VALUES ('GKCardType')
 END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'GKSchedule')
@@ -1557,13 +1518,6 @@ END'
 	INSERT INTO Patches (Id) VALUES ('DropColumnDefaultConstraint')
 END
 GO
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveGKCardTypeColumn')
-BEGIN
-EXEC [dbo].[DropColumnDefaultConstraint] @tableName = N'dbo.Card', @columnName = 'GKCardType'
-ALTER TABLE [Card] DROP COLUMN [GKCardType]
-INSERT INTO Patches (Id) VALUES ('RemoveGKCardTypeColumn')
-END
-GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsHandicappedCardColumn')
 BEGIN
 ALTER TABLE [Card] ADD [IsHandicappedCard] bit NOT NULL DEFAULT 0
@@ -1676,8 +1630,8 @@ IF EXISTS(SELECT * FROM Patches WHERE Id='CreateGKMetadata')
 	BEGIN
 		IF EXISTS(SELECT * 
                  FROM INFORMATION_SCHEMA.TABLES 
-                 WHERE TABLE_SCHEMA = 'TheSchema' 
-                 AND  TABLE_NAME = 'TheTable')
+                 WHERE TABLE_SCHEMA = 'dbo' 
+                 AND  TABLE_NAME = 'GKMetadata')
 			DROP TABLE GKMetadata
 		DELETE FROM Patches WHERE Id='CreateGKMetadata'
 	END
@@ -1686,8 +1640,8 @@ IF EXISTS(SELECT * FROM Patches WHERE Id='Recreate_GKMetadata')
 	BEGIN
 		IF EXISTS(SELECT * 
 					 FROM INFORMATION_SCHEMA.TABLES 
-					 WHERE TABLE_SCHEMA = 'TheSchema' 
-					 AND  TABLE_NAME = 'TheTable')
+					 WHERE TABLE_SCHEMA = 'dbo' 
+					 AND  TABLE_NAME = 'GKMetadata')
 			DROP TABLE GKMetadata
 		DELETE FROM Patches WHERE Id='Recreate_GKMetadata'
 	END
@@ -1696,8 +1650,47 @@ IF EXISTS(SELECT * FROM Patches WHERE Id='Recreate_GKMetadata2')
 	BEGIN
 		IF EXISTS(SELECT * 
                  FROM INFORMATION_SCHEMA.TABLES 
-                 WHERE TABLE_SCHEMA = 'TheSchema' 
-                 AND  TABLE_NAME = 'TheTable')
+                 WHERE TABLE_SCHEMA = 'dbo' 
+                 AND  TABLE_NAME = 'GKMetadata')
 			DROP TABLE GKMetadata
 		DELETE FROM Patches WHERE Id='Recreate_GKMetadata2'
+	END
+IF EXISTS(SELECT * FROM Patches WHERE Id='GKCards')
+	BEGIN
+		IF EXISTS(SELECT * 
+                 FROM INFORMATION_SCHEMA.TABLES 
+                 WHERE TABLE_SCHEMA = 'dbo' 
+                 AND  TABLE_NAME = 'GKCards')
+			DROP TABLE GKCards
+		DELETE FROM Patches WHERE Id='GKCards'
+	END
+GO
+IF EXISTS(SELECT * FROM Patches WHERE Id='GKCards_Table')
+	BEGIN
+		IF EXISTS(SELECT * 
+                 FROM INFORMATION_SCHEMA.TABLES 
+                 WHERE TABLE_SCHEMA = 'dbo' 
+                 AND  TABLE_NAME = 'GKCards')
+			DROP TABLE GKCards
+		DELETE FROM Patches WHERE Id='GKCards_Table'
+	END
+GO
+IF EXISTS(SELECT * FROM Patches WHERE Id='GKCardType')
+	BEGIN
+		IF EXISTS(SELECT * 
+                 FROM INFORMATION_SCHEMA.TABLES 
+                 WHERE TABLE_SCHEMA = 'dbo' 
+                 AND  TABLE_NAME = 'GKCards')
+			DROP TABLE GKCards
+		DELETE FROM Patches WHERE Id='GKCardType'
+	END
+GO
+IF EXISTS(SELECT * FROM Patches WHERE Id='RemoveGKCardTypeColumn')
+	BEGIN
+		IF EXISTS(SELECT * 
+                 FROM INFORMATION_SCHEMA.TABLES 
+                 WHERE TABLE_SCHEMA = 'dbo' 
+                 AND  TABLE_NAME = 'GKCards')
+			DROP TABLE GKCards
+		DELETE FROM Patches WHERE Id='RemoveGKCardTypeColumn'
 	END

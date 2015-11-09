@@ -15,7 +15,6 @@
           <EntitySet Name="DayIntervalPart" EntityType="SKDModel.Store.DayIntervalPart" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Department" EntityType="SKDModel.Store.Department" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Employee" EntityType="SKDModel.Store.Employee" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="GKCards" EntityType="SKDModel.Store.GKCards" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="GKDaySchedule" EntityType="SKDModel.Store.GKDaySchedule" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="GKDaySchedulePart" EntityType="SKDModel.Store.GKDaySchedulePart" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="GKSchedule" EntityType="SKDModel.Store.GKSchedule" store:Type="Tables" Schema="dbo" />
@@ -367,18 +366,6 @@
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="LastEmployeeDayUpdate" Type="datetime" Nullable="false" />
           <Property Name="ExternalKey" Type="nvarchar" Nullable="false" MaxLength="40" />
-        </EntityType>
-        <EntityType Name="GKCards">
-          <Key>
-            <PropertyRef Name="UID" />
-          </Key>
-          <Property Name="UID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="IPAddress" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="GKNo" Type="int" Nullable="false" />
-          <Property Name="CardNo" Type="int" Nullable="false" />
-          <Property Name="FIO" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="IsActive" Type="bit" Nullable="false" />
-          <Property Name="UserType" Type="tinyint" Nullable="false" />
         </EntityType>
         <EntityType Name="GKDaySchedule">
           <Key>
@@ -1210,7 +1197,6 @@
           <EntitySet Name="DayIntervalParts" EntityType="SKDModel.DayIntervalPart" />
           <EntitySet Name="Departments" EntityType="SKDModel.Department" />
           <EntitySet Name="Employees" EntityType="SKDModel.Employee" />
-          <EntitySet Name="GKCards" EntityType="SKDModel.GKCard" />
           <EntitySet Name="GKDaySchedules" EntityType="SKDModel.GKDaySchedule" />
           <EntitySet Name="GKDayScheduleParts" EntityType="SKDModel.GKDaySchedulePart" />
           <EntitySet Name="GKSchedules" EntityType="SKDModel.GKSchedule" />
@@ -1599,18 +1585,6 @@
           <NavigationProperty Name="Organisations" Relationship="SKDModel.FK_Organisation_Employee" FromRole="Employee" ToRole="Organisation" />
           <NavigationProperty Name="Organisations1" Relationship="SKDModel.FK_Organisation_Employee3" FromRole="Employee" ToRole="Organisation" />
           <NavigationProperty Name="TimeTrackExceptions" Relationship="SKDModel.FK_TimeTrackException_Employee" FromRole="Employee" ToRole="TimeTrackException" />
-        </EntityType>
-        <EntityType Name="GKCard">
-          <Key>
-            <PropertyRef Name="UID" />
-          </Key>
-          <Property Name="UID" Type="Guid" Nullable="false" />
-          <Property Name="IPAddress" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="GKNo" Type="Int32" Nullable="false" />
-          <Property Name="CardNo" Type="Int32" Nullable="false" />
-          <Property Name="FIO" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="UserType" Type="Byte" Nullable="false" />
         </EntityType>
         <EntityType Name="GKDaySchedule">
           <Key>
@@ -2576,15 +2550,6 @@
             <ScalarProperty Name="LastEmployeeDayUpdate" ColumnName="LastEmployeeDayUpdate" />
             <ScalarProperty Name="ExternalKey" ColumnName="ExternalKey" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="GKCards"><EntityTypeMapping TypeName="SKDModel.GKCard"><MappingFragment StoreEntitySet="GKCards">
-            <ScalarProperty Name="UID" ColumnName="UID" />
-            <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
-            <ScalarProperty Name="GKNo" ColumnName="GKNo" />
-            <ScalarProperty Name="CardNo" ColumnName="CardNo" />
-            <ScalarProperty Name="FIO" ColumnName="FIO" />
-            <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-            <ScalarProperty Name="UserType" ColumnName="UserType" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="GKDaySchedules"><EntityTypeMapping TypeName="SKDModel.GKDaySchedule"><MappingFragment StoreEntitySet="GKDaySchedule">
             <ScalarProperty Name="UID" ColumnName="UID" />
             <ScalarProperty Name="No" ColumnName="No" />
@@ -2818,7 +2783,6 @@
         <EntityTypeShape EntityType="SKDModel.DayIntervalPart" Width="1.5" PointX="18" PointY="21.875" Height="1.7566536458333317" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.Department" Width="1.5" PointX="6" PointY="27.125" Height="4.3862109375000031" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.Employee" Width="1.5" PointX="8.25" PointY="25.25" Height="8.3305468750000031" IsExpanded="true" />
-        <EntityTypeShape EntityType="SKDModel.GKCard" Width="1.5" PointX="5.75" PointY="1.875" Height="2.0853483072916674" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.GKDaySchedule" Width="1.5" PointX="0.75" PointY="3.625" Height="1.9210009765624991" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.GKDaySchedulePart" Width="1.5" PointX="3" PointY="3.5" Height="2.2496956380208317" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.GKSchedule" Width="1.5" PointX="0.75" PointY="6.5" Height="3.0714322916666674" IsExpanded="true" />

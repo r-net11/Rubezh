@@ -360,7 +360,6 @@ namespace FiresecService.Service
 					errors.AddRange(getAccessTemplateOperationResult.Errors);
 
 				errors.AddRange(AddStrazhCard(card, getAccessTemplateOperationResult.Result, databaseService));
-				//		errors.AddRange(AddGKCard(card, getAccessTemplateOperationResult.Result, databaseService));
 
 				return OperationResult<bool>.FromError(errors, true);
 			}
