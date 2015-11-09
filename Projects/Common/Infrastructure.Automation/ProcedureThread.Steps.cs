@@ -14,6 +14,7 @@ using RubezhClient;
 using Property = RubezhAPI.Automation.Property;
 using RubezhAPI.SKD;
 using RubezhClient.SKDHelpers;
+using System.Diagnostics;
 
 namespace Infrastructure.Automation
 {
@@ -811,6 +812,13 @@ namespace Infrastructure.Automation
 		{
 			var nowArguments = procedureStep.NowArguments;
 			SetValue(nowArguments.ResultArgument, DateTime.Now);
+		}
+
+		public void RunProgram(ProcedureStep procedureStep)
+		{
+			var processName = GetValue<string>(procedureStep.RunProgramArguments.PathArgument);
+			var parameters = GetValue<string>(procedureStep.RunProgramArguments.ParametersArgument);
+			Process.Start(processName, parameters);
 		}
 
 		void ControlFireZone(ProcedureStep procedureStep)
