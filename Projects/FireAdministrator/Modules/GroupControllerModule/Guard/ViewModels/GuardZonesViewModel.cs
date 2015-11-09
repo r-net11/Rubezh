@@ -76,10 +76,6 @@ namespace GKModule.ViewModels
 				{
 					ZoneDevices.Initialize(value.Zone);
 				}
-				else
-				{
-					ZoneDevices.Clear();
-				}
 				OnPropertyChanged(() => SelectedZone);
 				if (!_lockSelection && _selectedZone != null && _selectedZone.Zone.PlanElementUIDs != null  && _selectedZone.Zone.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedZone.Zone.PlanElementUIDs);
@@ -104,6 +100,8 @@ namespace GKModule.ViewModels
 				GKManager.AddGuardZone(guardZoneDetailsViewModel.Zone);
 				var zoneViewModel = new GuardZoneViewModel(guardZoneDetailsViewModel.Zone);
 				Zones.Add(zoneViewModel);
+				if (Zones.Count() > 0)
+					ZoneDevices.InitializeAvailableDevices();
 				SelectedZone = zoneViewModel;
 				ServiceFactory.SaveService.GKChanged = true;
 				GKPlanExtension.Instance.Cache.BuildSafe<GKGuardZone>();
@@ -135,12 +133,14 @@ namespace GKModule.ViewModels
 			{
 				var index = Zones.IndexOf(SelectedZone);
 				GKManager.RemoveGuardZone(SelectedZone.Zone);
-
+				if (SelectedZone.Zone.GuardZoneDevices.Count() > 0 && Zones.Count() != 1)
+					ZoneDevices.InitializeAvailableDevices();
 				Zones.Remove(SelectedZone);
 				index = Math.Min(index, Zones.Count - 1);
 				if (index > -1)
 					SelectedZone = Zones[index];
-				ZoneDevices.UpdateAvailableDevices();
+				if (Zones.Count() == 0)
+					ZoneDevices.Clear();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -215,6 +215,10 @@ namespace GKModule.ViewModels
 		{
 			base.OnShow();
 			SelectedZone = SelectedZone;
+			if (SelectedZone != null)
+				ZoneDevices.InitializeAvailableDevices();
+			else
+				ZoneDevices.Clear();
 		}
 
 		#region ISelectable<Guid> Members

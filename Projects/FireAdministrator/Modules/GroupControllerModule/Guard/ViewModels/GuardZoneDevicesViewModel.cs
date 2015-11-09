@@ -28,7 +28,6 @@ namespace GKModule.ViewModels
 			Zone = zone;
 
 			Devices = new ObservableCollection<GuardZoneDeviceViewModel>();
-			AvailableDevices = new ObservableCollection<GuardZoneDeviceViewModel>();
 			foreach (var device in GKManager.Devices)
 			{
 				if (device.Driver.HasLogic)
@@ -56,27 +55,10 @@ namespace GKModule.ViewModels
 						var deviceViewModel = new GuardZoneDeviceViewModel(guardZoneDevice);
 						Devices.Add(deviceViewModel);
 					}
-					else
-					{
-						if (device.GuardZoneUIDs.Count > 0 || (device.IsInMPT && !GlobalSettingsHelper.GlobalSettings.ShowMPTsDevices)
-							|| (device.ZoneUIDs.Count > 0 && !GlobalSettingsHelper.GlobalSettings.ShowOtherZonesDevices)
-							|| (device.Door != null && !GlobalSettingsHelper.GlobalSettings.ShowDoorsDevices))
-							continue;
-						guardZoneDevice = new GKGuardZoneDevice
-						{
-							DeviceUID = device.UID,
-							Device = device
-						};
-						var deviceViewModel = new GuardZoneDeviceViewModel(guardZoneDevice);
-						AvailableDevices.Add(deviceViewModel);
-					}
 				}
 			}
 			OnPropertyChanged(() => Devices);
-			OnPropertyChanged(() => AvailableDevices);
-
-			SelectedDevice = Devices.LastOrDefault();
-			SelectedAvailableDevice = AvailableDevices.LastOrDefault();
+			SelectedDevice = Devices.FirstOrDefault();
 		}
 
 		public void Clear()
@@ -87,11 +69,33 @@ namespace GKModule.ViewModels
 			SelectedAvailableDevice = null;
 		}
 
-		public void UpdateAvailableDevices()
-		{
-			OnPropertyChanged(() => AvailableDevices);
-		}
 
+		public void InitializeAvailableDevices()
+		{
+			AvailableDevices = new ObservableCollection<GuardZoneDeviceViewModel>();
+			foreach (var device in GKManager.Devices)
+			{
+				if (device.DriverType == GKDriverType.RSR2_GuardDetector || device.DriverType == GKDriverType.RSR2_GuardDetectorSound || device.DriverType == GKDriverType.RSR2_AM_1 || device.DriverType == GKDriverType.RSR2_MAP4 || device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader && !Zone.GuardZoneDevices.Any(x => x.DeviceUID == device.UID))
+				{
+					if (device.GuardZoneUIDs.Count > 0 || (device.IsInMPT && !GlobalSettingsHelper.GlobalSettings.ShowMPTsDevices)
+							|| (device.ZoneUIDs.Count > 0 && !GlobalSettingsHelper.GlobalSettings.ShowOtherZonesDevices)
+							|| (device.Door != null && !GlobalSettingsHelper.GlobalSettings.ShowDoorsDevices))
+						continue;
+
+					var guardZoneDevice = new GKGuardZoneDevice
+					{
+						DeviceUID = device.UID,
+						Device = device
+					};
+					var deviceViewModel = new GuardZoneDeviceViewModel(guardZoneDevice);
+					AvailableDevices.Add(deviceViewModel);
+				}
+			}
+
+			OnPropertyChanged(() => AvailableDevices);
+			SelectedAvailableDevice = AvailableDevices.FirstOrDefault();
+		}
+		
 		public ObservableCollection<GuardZoneDeviceViewModel> Devices { get; private set; }
 
 		GuardZoneDeviceViewModel _selectedDevice;
@@ -141,7 +145,8 @@ namespace GKModule.ViewModels
 				GKManager.AddDeviceToGuardZone(availabledeviceViewModel.GuardZoneDevice.Device, Zone);
 			}
 
-			Initialize(Zone);
+			SelectedDevice = Devices.FirstOrDefault();
+			SelectedAvailableDevice = AvailableDevices.FirstOrDefault();
 
 			availableDevicesIndex = Math.Min(availableDevicesIndex, AvailableDevices.Count - 1);
 			if (availableDevicesIndex > -1)
@@ -181,7 +186,8 @@ namespace GKModule.ViewModels
 				GKManager.RemoveDeviceFromGuardZone(deviceViewModel.GuardZoneDevice.Device, Zone);
 			}
 
-			Initialize(Zone);
+			SelectedDevice = Devices.FirstOrDefault();
+			SelectedAvailableDevice = AvailableDevices.FirstOrDefault();
 
 			availableDevicesIndex = Math.Min(availableDevicesIndex, AvailableDevices.Count - 1);
 			if (availableDevicesIndex > -1)
