@@ -183,24 +183,29 @@ namespace RubezhAPI.GK
 
 				if (device.Driver.HasMirror)
 				{
-					if (device.DriverType == GKDriverType.DetectorDevicesMirror)
-						device.GKReflectionItem.Devices.ForEach(x => x.LinkToDescriptor(this));
-					if (device.DriverType == GKDriverType.ControlDevicesMirror)
-					{ 
-						device.GKReflectionItem.Devices.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
-						device.GKReflectionItem.Diretions.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
-					}
-					if (device.DriverType == GKDriverType.DirectionsMirror)
-						device.GKReflectionItem.Diretions.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
-					if (device.DriverType == GKDriverType.FireZonesMirror)
-						device.GKReflectionItem.Zones.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
-					if (device.DriverType == GKDriverType.FirefightingZonesMirror)
+					switch (device.DriverType)
 					{
-						device.GKReflectionItem.Zones.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
-						device.GKReflectionItem.Diretions.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+						case GKDriverType.DetectorDevicesMirror:
+							device.GKReflectionItem.Devices.ForEach(x => x.LinkToDescriptor(this));
+							break;
+						case GKDriverType.ControlDevicesMirror:
+							device.GKReflectionItem.Devices.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							device.GKReflectionItem.Diretions.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							break;
+						case GKDriverType.DirectionsMirror:
+							device.GKReflectionItem.Diretions.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							break;
+						case GKDriverType.FireZonesMirror:
+							device.GKReflectionItem.Zones.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							break;
+						case GKDriverType.FirefightingZonesMirror:
+							device.GKReflectionItem.Zones.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							device.GKReflectionItem.Diretions.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							break;
+						case GKDriverType.GuardZonesMirror:
+							device.GKReflectionItem.GuardZones.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							break;
 					}
-					if (device.DriverType == GKDriverType.GuardZonesMirror)
-						device.GKReflectionItem.GuardZones.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
 				}
 			}
 

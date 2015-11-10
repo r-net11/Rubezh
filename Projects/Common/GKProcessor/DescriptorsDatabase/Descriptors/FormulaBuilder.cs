@@ -99,6 +99,53 @@ namespace GKProcessor
 			AddPutBit(GKStateBit.TurnOff_InAutomatic, gkBase);
 		}
 
+		public void AddMirrorLogic(GKBase gkBase, GKDevice mirrorParent)
+		{
+			if (mirrorParent != null)
+			{
+				AddGetWord(true, mirrorParent);
+				Add(FormulaOperationType.CONST, 0, 0xF800);
+				Add(FormulaOperationType.AND);
+
+				Add(FormulaOperationType.DUP);
+				Add(FormulaOperationType.DUP);
+				Add(FormulaOperationType.DUP);
+				Add(FormulaOperationType.DUP);
+				Add(FormulaOperationType.DUP);
+				Add(FormulaOperationType.DUP);
+
+
+				Add(FormulaOperationType.CONST, 0, 0x800);
+				Add(FormulaOperationType.EQ);
+				AddPutBit(GKStateBit.SetRegime_Automatic, gkBase);
+
+				Add(FormulaOperationType.CONST, 0, 0x1000);
+				Add(FormulaOperationType.EQ);
+				AddPutBit(GKStateBit.SetRegime_Manual, gkBase);
+
+				Add(FormulaOperationType.CONST, 0, 0x2000);
+				Add(FormulaOperationType.EQ);
+				AddPutBit(GKStateBit.TurnOn_InAutomatic, gkBase);
+
+
+				Add(FormulaOperationType.CONST, 0, 0x2800);
+				Add(FormulaOperationType.EQ);
+				AddPutBit(GKStateBit.TurnOff_InAutomatic, gkBase);
+
+				Add(FormulaOperationType.CONST, 0, 0x4000);
+				Add(FormulaOperationType.EQ);
+				AddPutBit(GKStateBit.Reset, gkBase);
+
+				Add(FormulaOperationType.CONST, 0, 0x4800);
+				Add(FormulaOperationType.EQ);
+				AddPutBit(GKStateBit.TurnOn_InManual, gkBase);
+
+				Add(FormulaOperationType.CONST, 0, 0x5000);
+				Add(FormulaOperationType.EQ);
+				AddPutBit(GKStateBit.TurnOff_InManual, gkBase);
+			}
+		}
+
 		public void AddClauseFormula(GKClauseGroup clauseGroup)
 		{
 			var clauseIndex = 0;

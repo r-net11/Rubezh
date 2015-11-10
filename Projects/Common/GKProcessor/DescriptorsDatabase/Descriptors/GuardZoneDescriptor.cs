@@ -92,6 +92,10 @@ namespace GKProcessor
 				return;
 			}
 
+			var mirrorParent = GuardZone.GetMirrorParent();
+			if (mirrorParent != null)
+				Formula.AddMirrorLogic(GuardZone, mirrorParent);
+
 			AddGuardDevicesLogic(SetAlarmDevices, GKStateBit.Fire1);
 			AddGuardDevicesLogic(SetGuardDevices, GKStateBit.TurnOn_InAutomatic);
 			AddGuardDevicesLogic(ResetGuardDevices, GKStateBit.TurnOff_InAutomatic);

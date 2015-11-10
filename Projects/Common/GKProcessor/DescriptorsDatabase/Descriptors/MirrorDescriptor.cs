@@ -2,11 +2,11 @@
 
 namespace GKProcessor
 {
-	public class DetectorDevicesMirrorDescriptor : BaseDescriptor
+	public class MirrorDescriptor : BaseDescriptor
 	{
 		GKDevice Device { get; set; }
 
-		public DetectorDevicesMirrorDescriptor(GKDevice device)
+		public MirrorDescriptor(GKDevice device)
 			: base(device)
 		{
 			DescriptorType = DescriptorType.Device;
@@ -35,37 +35,20 @@ namespace GKProcessor
 		{
 			Formula = new FormulaBuilder();
 			int count = 0;
-			foreach (var device in Device.GKReflectionItem.Devices)
+			foreach (var gkBase in Device.GKReflectionItem.GKBases)
 			{
-				Formula.AddGetWord(false, device);
+				Formula.AddGetWord(false, gkBase);
 				count++;
 				if (count > 1)
 				{
 					Formula.Add(FormulaOperationType.OR);
 				}
 			}
-			foreach (var direction in Device.GKReflectionItem.Diretions)
-			{
-				Formula.AddGetWord(false, direction);
-				count++;
-				if (count > 1)
-				{
-					Formula.Add(FormulaOperationType.OR);
-				}
-			}
+			Formula.AddPutWord(false, Device);
 			count = 0;
-			foreach (var device in Device.GKReflectionItem.Devices)
+			foreach (var gkBase in Device.GKReflectionItem.GKBases)
 			{
-				Formula.AddGetWord(true, device);
-				count++;
-				if (count > 1)
-				{
-					Formula.Add(FormulaOperationType.OR);
-				}
-			}
-			foreach (var direction in Device.GKReflectionItem.Diretions)
-			{
-				Formula.AddGetWord(true, direction);
+				Formula.AddGetWord(true, gkBase);
 				count++;
 				if (count > 1)
 				{
@@ -76,7 +59,6 @@ namespace GKProcessor
 			Formula.Add(FormulaOperationType.CONST, 0, 0x400);
 			Formula.Add(FormulaOperationType.OR);
 			Formula.AddPutWord(true, Device);
-			Formula.AddPutWord(false, Device);
 		}
 	}
 }

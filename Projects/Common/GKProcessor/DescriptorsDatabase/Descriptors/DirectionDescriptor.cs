@@ -32,33 +32,8 @@ namespace GKProcessor
 			}
 
 			var mirrorParent = Direction.GetMirrorParent();
-
 			if (mirrorParent != null)
-			{
-				Formula.AddGetWord(true, mirrorParent);
-				Formula.Add(FormulaOperationType.CONST, 0, 0xF800);
-				Formula.Add(FormulaOperationType.AND);
-
-				Formula.Add(FormulaOperationType.DUP);
-				Formula.Add(FormulaOperationType.DUP);
-				Formula.Add(FormulaOperationType.DUP);
-
-				Formula.Add(FormulaOperationType.CONST, 0, 0x4800);
-				Formula.Add(FormulaOperationType.EQ);
-				Formula.AddPutBit(GKStateBit.TurnOn_InManual, Direction);
-
-				Formula.Add(FormulaOperationType.CONST, 0, 0x5000);
-				Formula.Add(FormulaOperationType.EQ);
-				Formula.AddPutBit(GKStateBit.TurnOff_InManual, Direction);
-
-				Formula.Add(FormulaOperationType.CONST, 0, 0x800);
-				Formula.Add(FormulaOperationType.EQ);
-				Formula.AddPutBit(GKStateBit.SetRegime_Automatic, Direction);
-
-				Formula.Add(FormulaOperationType.CONST, 0, 0x1000);
-				Formula.Add(FormulaOperationType.EQ);
-				Formula.AddPutBit(GKStateBit.SetRegime_Manual, Direction);
-			}
+				Formula.AddMirrorLogic(Direction, mirrorParent);
 
 			if (Direction.Logic.StopClausesGroup.GetObjects().Count > 0)
 			{

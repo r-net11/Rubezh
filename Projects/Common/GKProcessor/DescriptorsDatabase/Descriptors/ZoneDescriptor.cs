@@ -28,6 +28,10 @@ namespace GKProcessor
 				return;
 			}
 
+			var mirrorParent = Zone.GetMirrorParent();
+			if (mirrorParent != null)
+				Formula.AddMirrorLogic(Zone, mirrorParent);
+
 			var fire1Count = AddDeviceFire1();
 			AddDeviceFire2();
 			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire2Count, comment:"Количество устройств для формирования Пожар2");

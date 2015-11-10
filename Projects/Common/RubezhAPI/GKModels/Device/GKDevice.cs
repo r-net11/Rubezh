@@ -88,24 +88,29 @@ namespace RubezhAPI.GK
 
 			if (Driver.HasMirror)
 			{
-				if (DriverType == GKDriverType.DetectorDevicesMirror)
-					GKReflectionItem.Devices.ForEach(x => x.AddDependentElement(this));
-				if (DriverType == GKDriverType.ControlDevicesMirror)
+				switch (DriverType)
 				{ 
-					GKReflectionItem.Devices.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-					GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+					case GKDriverType.DetectorDevicesMirror:
+						GKReflectionItem.Devices.ForEach(x => x.AddDependentElement(this));
+						break;
+					case GKDriverType.ControlDevicesMirror:
+						GKReflectionItem.Devices.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						break;
+					case GKDriverType.DirectionsMirror:
+						GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						break;
+					case GKDriverType.FireZonesMirror:
+						GKReflectionItem.Zones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						break;
+					case GKDriverType.FirefightingZonesMirror:
+						GKReflectionItem.Zones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						break;
+					case GKDriverType.GuardZonesMirror:
+						GKReflectionItem.GuardZones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						break;
 				}
-				if (DriverType == GKDriverType.DirectionsMirror)
-					GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-				if (DriverType == GKDriverType.FireZonesMirror)
-					GKReflectionItem.Zones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-				if (DriverType == GKDriverType.FirefightingZonesMirror)
-				{ 
-					GKReflectionItem.Zones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-					GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-				}
-				if (DriverType == GKDriverType.GuardZonesMirror)
-					GKReflectionItem.GuardZones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
 			}
 
 			OnChanged();
