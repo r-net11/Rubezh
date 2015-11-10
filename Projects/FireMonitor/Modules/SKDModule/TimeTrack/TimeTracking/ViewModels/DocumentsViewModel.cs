@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reactive;
-using System.Reactive.Linq;
-using System.Threading;
-using FiresecAPI.SKD;
+﻿using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using iTextSharp.text.pdf.qrcode;
 using ReactiveUI;
-using ReactiveUI.Xaml;
 using SKDModule.Model;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {

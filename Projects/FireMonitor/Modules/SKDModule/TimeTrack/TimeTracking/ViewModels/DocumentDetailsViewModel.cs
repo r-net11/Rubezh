@@ -1,16 +1,15 @@
-﻿using System;
+﻿using FiresecAPI.SKD;
+using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using ReactiveUI;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Data;
-using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using Microsoft.Practices.Prism;
-using ReactiveUI;
 
 namespace SKDModule.ViewModels
 {
@@ -170,7 +169,8 @@ namespace SKDModule.ViewModels
 			TimeTrackDocument = timeTrackDocument;
 			TimeTrackDocument.EmployeeUID = employeeGuid;
 
-			AvailableDocuments = new ObservableCollection<TimeTrackDocument>(SystemTypes(organisationUID).Select(x => new TimeTrackDocument(x.Name, x.ShortName, x.Code, x.DocumentType)));
+			AvailableDocuments = new ObservableCollection<TimeTrackDocument>(SystemTypes(organisationUID)
+				.Select(x => new TimeTrackDocument(x.Name, x.ShortName, x.Code, x.DocumentType)));
 
 			DocumentsTypes = new ObservableCollection<DocumentType>(Enum.GetValues(typeof (DocumentType)).Cast<DocumentType>());
 

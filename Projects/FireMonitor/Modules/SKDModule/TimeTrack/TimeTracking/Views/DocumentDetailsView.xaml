@@ -71,7 +71,7 @@
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="{Binding TimeTrackDocumentType.ShortName}" VerticalAlignment="Center" Width="30" />
+						<TextBlock Text="{Binding TimeTrackDocumentType.ShortName}" VerticalAlignment="Center" Width="30" TextTrimming="WordEllipsis" />
 						<TextBlock Text="{Binding TimeTrackDocumentType.Name}" VerticalAlignment="Center" />
 					</StackPanel>
 				</DataTemplate>

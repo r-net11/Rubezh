@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using FiresecAPI;
+﻿using FiresecAPI;
 using FiresecAPI.SKD;
 using ReactiveUI;
 using SKDModule.Helpers;
 using SKDModule.ViewModels;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SKDModule.Model
 {

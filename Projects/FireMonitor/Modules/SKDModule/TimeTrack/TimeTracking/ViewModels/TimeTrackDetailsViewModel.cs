@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-using System.Reactive.Linq;
-using Common;
+﻿using Common;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecClient;
@@ -13,13 +11,14 @@ using ReactiveUI;
 using SKDModule.Events;
 using SKDModule.Helpers;
 using SKDModule.Model;
+using SKDModule.Properties;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Windows.Data;
-using SKDModule.Properties;
 using DayTimeTrackPart = SKDModule.Model.DayTimeTrackPart;
 
 namespace SKDModule.ViewModels
