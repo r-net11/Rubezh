@@ -4,6 +4,7 @@
 			<Border Background="White" CornerRadius="5">
 				<StackPanel>
 					<Button Command="{Binding TestCommand}" Content="Добавить устройства к существующим АЛС" Width="300" Margin="2" />
+					<Button Command="{Binding WriteUsersCommand}" Content="Окно записи пользователей" Width="300" Margin="2" />
 				</StackPanel>
 			</Border>
 		</TabItem>

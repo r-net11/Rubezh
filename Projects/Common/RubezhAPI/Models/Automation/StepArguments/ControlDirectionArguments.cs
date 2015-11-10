@@ -26,19 +26,19 @@ namespace RubezhAPI.Automation
 		[Description("Ручное")]
 		Manual,
 		
-		[Description("Отключение")]
+		[Description("Отключить")]
 		Ignore,
 		
-		[Description("Пуск")]
+		[Description("Включить")]
 		TurnOn,
 
-		[Description("Пуск немедленно")]
+		[Description("Включить немедленно")]
 		TurnOnNow,
 
 		[Description("Останов пуска")]
 		ForbidStart,
 
-		[Description("Стоп немедленно")]
+		[Description("Выключить")]
 		TurnOff
 	}
 }
