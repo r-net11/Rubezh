@@ -32,7 +32,6 @@ namespace FiresecService.Report.Templates
 			var filter = GetFilter<DocumentsReportFilter>();
 			var employees = dataProvider.GetEmployees(filter);
 			var ds = new DataSetDocuments();
-			var systemDocuments = dataProvider.DatabaseService.TimeTrackDocumentTypeTranslator.GetSystemDocumentTypes();
 
 			foreach (var employee in employees)
 			{
@@ -46,8 +45,7 @@ namespace FiresecService.Report.Templates
 
 					if (documentTypesResult.Result == null) continue;
 
-					var documentType = documentTypesResult.Result.FirstOrDefault(x => x.Code == document.DocumentCode) ??
-					                   systemDocuments.Result.FirstOrDefault(x => x.Code == document.DocumentCode);
+					var documentType = documentTypesResult.Result.FirstOrDefault(x => x.Code == document.DocumentCode);
 
 					if (documentType == null ||
 					    ((!filter.Abcense || documentType.DocumentType != DocumentType.Absence) &&

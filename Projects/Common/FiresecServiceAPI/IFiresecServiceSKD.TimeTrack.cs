@@ -103,9 +103,6 @@ namespace FiresecAPI
 		OperationResult<List<TimeTrackDocumentType>> GetTimeTrackDocumentTypes(Guid organisationUID);
 
 		[OperationContract]
-		OperationResult<IEnumerable<TimeTrackDocumentType>> GetSystemDocumentTypes();
-
-		[OperationContract]
 		OperationResult AddTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType);
 
 		[OperationContract]

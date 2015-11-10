@@ -13,7 +13,6 @@ namespace SKDModule.ViewModels
 	{
 		#region Properties
 
-		private IEnumerable<TimeTrackDocumentType> _systemTimeTrackDocumentTypes;
 		private Model.DocumentType _inputDocumentType;
 
 		private Guid OrganisationUID { get; set; }
@@ -80,11 +79,10 @@ namespace SKDModule.ViewModels
 
 		#endregion
 
-		public DocumentTypeDetailsViewModel(Model.DocumentType documentType, IEnumerable<TimeTrackDocumentType> systemTimeTrackDocumentTypes,  bool isEdit = false)
+		public DocumentTypeDetailsViewModel(Model.DocumentType documentType,  bool isEdit = false)
 		{
 			OrganisationUID = documentType.Organisation.UID;
 			_inputDocumentType = documentType;
-			_systemTimeTrackDocumentTypes = systemTimeTrackDocumentTypes;
 
 			if (documentType.TimeTrackDocumentType == null || !isEdit)
 			{
@@ -140,16 +138,16 @@ namespace SKDModule.ViewModels
 					return false;
 				}
 
-				if (_systemTimeTrackDocumentTypes.Any(x => x.Name == Name))
-				{
-					MessageBoxService.ShowWarning("Название документа совпадает с одним из предопределенных");
-					return false;
-				}
-				if (_systemTimeTrackDocumentTypes.Any(x => x.ShortName == ShortName))
-				{
-					MessageBoxService.ShowWarning("Буквенный код документа совпадает с одним из предопределенных кодов");
-					return false;
-				}
+				//if (_systemTimeTrackDocumentTypes.Any(x => x.Name == Name))
+				//{
+				//	MessageBoxService.ShowWarning("Название документа совпадает с одним из предопределенных");
+				//	return false;
+				//}
+				//if (_systemTimeTrackDocumentTypes.Any(x => x.ShortName == ShortName))
+				//{
+				//	MessageBoxService.ShowWarning("Буквенный код документа совпадает с одним из предопределенных кодов");
+				//	return false;
+				//}
 				if (Code <= 36)
 				{
 					MessageBoxService.ShowWarning("Числовой код документа совпадает с одним из предопределенных");

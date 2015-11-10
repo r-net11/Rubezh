@@ -464,11 +464,5 @@
         <classShapeMoniker Id="219d04fd-05b9-46e5-80d1-84356c358eb1" />
       </nodes>
     </associationConnector>
-    <classShape Id="55dfe9d3-94d0-4cda-ae93-07ca6bd669e5" absoluteBounds="17, 23.875, 2, 1.7708968098958344">
-      <DataClassMoniker Name="/SKDDataContext/TimeTrackSystemDocumentTypes" />
-      <nestedChildShapes>
-        <elementListCompartment Id="503e051f-2851-44e7-a479-0c0c6ef40992" absoluteBounds="17.015, 24.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

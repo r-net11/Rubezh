@@ -198,9 +198,8 @@ namespace SKDModule.ViewModels
 
 		private static IEnumerable<TimeTrackDocumentType> SystemTypes(Guid organisationUID)
 		{
-			var systemTypes = Task.Factory.StartNew(() => DocumentTypeHelper.GetSystemDocuments());
 			var docTypes = Task.Factory.StartNew(() => DocumentTypeHelper.GetByOrganisation(organisationUID));
-			return new List<TimeTrackDocumentType>(systemTypes.Result.Concat(docTypes.Result));
+			return new List<TimeTrackDocumentType>(docTypes.Result);
 		}
 
 		private bool DocumentsFilter(object obj)

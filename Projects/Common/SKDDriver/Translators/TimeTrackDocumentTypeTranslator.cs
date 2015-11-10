@@ -110,27 +110,5 @@ namespace SKDDriver.Translators
 			}
 			return new OperationResult();
 		}
-
-		public OperationResult<IEnumerable<TimeTrackDocumentType>> GetSystemDocumentTypes()
-		{
-			try
-			{
-				return new OperationResult<IEnumerable<TimeTrackDocumentType>>(Context.TimeTrackSystemDocumentTypes
-					.Select(x => new TimeTrackDocumentType
-					{
-						UID = x.UID,
-						Code = x.DocumentCode,
-						Name = x.Name,
-						ShortName = x.ShortName,
-						OrganisationUID = Guid.Empty,
-						DocumentType = (DocumentType)x.DocumentType
-					}).ToList());
-			}
-			catch (Exception e)
-			{
-				return OperationResult<IEnumerable<TimeTrackDocumentType>>.FromError(e.Message);
-			}
-
-		}
 	}
 }

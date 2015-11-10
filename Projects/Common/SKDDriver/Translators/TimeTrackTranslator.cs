@@ -37,7 +37,6 @@ namespace SKDDriver.Translators
 		private List<DataAccess.DayIntervalPart> _DayIntervalParts;
 		private List<DataAccess.TimeTrackDocument> _TimeTrackDocuments;
 		private List<DataAccess.TimeTrackDocumentType> _TimeTrackDocumentTypes;
-		private List<DataAccess.TimeTrackSystemDocumentTypes> _TimeTrackSystemDocumentTypes;
 		private List<DataAccess.NightSetting> _NightSettings;
 
 		private void InitializeData()
@@ -54,7 +53,6 @@ namespace SKDDriver.Translators
 			_DayIntervalParts = Context.DayIntervalParts.ToList();
 			_TimeTrackDocuments = Context.TimeTrackDocuments.ToList();
 			_TimeTrackDocumentTypes = Context.TimeTrackDocumentTypes.ToList();
-			_TimeTrackSystemDocumentTypes = Context.TimeTrackSystemDocumentTypes.ToList();
 			_NightSettings = Context.NightSettings.ToList();
 		}
 
@@ -125,13 +123,12 @@ namespace SKDDriver.Translators
 
 		private IEnumerable<TimeTrackDocumentType> GetAllDocumentTypes(ShortEmployee shortEmployee)
 		{
-			var systemTypesTask = DatabaseService.TimeTrackDocumentTypeTranslator.GetSystemDocumentTypes();
 			var organisationTypesTask = DatabaseService.TimeTrackDocumentTypeTranslator.Get(shortEmployee.OrganisationUID);
 
-			if (systemTypesTask.Result == null || systemTypesTask.Result == null)
+			if (organisationTypesTask.Result == null)
 				return null;
 
-			return systemTypesTask.Result.Concat(organisationTypesTask.Result);
+			return organisationTypesTask.Result;
 		}
 
 		public Stream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)

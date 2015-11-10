@@ -41,12 +41,6 @@ namespace SKDModule.ViewModels
 
 		#region Properties
 
-		private IEnumerable<TimeTrackDocumentType> _systemDocuments;
-		public IEnumerable<TimeTrackDocumentType> SystemDocuments
-		{
-			get { return _systemDocuments ?? (_systemDocuments = DocumentTypeHelper.GetSystemDocuments()); }
-		}
-
 		public bool IsFilterAccepted
 		{
 			get { return _isFilterAccepted; }
@@ -365,7 +359,7 @@ namespace SKDModule.ViewModels
 		public ReactiveCommand ShowDocumentTypesCommand { get; private set; }
 		void OnShowDocumentTypes()
 		{
-			var documentTypesViewModel = new DocumentTypesViewModel(SystemDocuments);
+			var documentTypesViewModel = new DocumentTypesViewModel();
 			DialogService.ShowModalWindow(documentTypesViewModel);
 		}
 

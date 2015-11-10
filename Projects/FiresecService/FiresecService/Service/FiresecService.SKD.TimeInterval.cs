@@ -309,14 +309,6 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<IEnumerable<TimeTrackDocumentType>> GetSystemDocumentTypes()
-		{
-			using (var databaseService = new SKDDatabaseService())
-			{
-				return databaseService.TimeTrackDocumentTypeTranslator.GetSystemDocumentTypes();
-			}
-		}
-
 		public OperationResult EditTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType)
 		{
 			using (var databaseService = new SKDDatabaseService())

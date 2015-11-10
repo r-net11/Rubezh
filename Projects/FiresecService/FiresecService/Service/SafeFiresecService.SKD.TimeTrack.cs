@@ -166,11 +166,6 @@ namespace FiresecService.Service
 			return SafeContext.Execute<OperationResult<List<TimeTrackDocumentType>>>(() => FiresecService.GetTimeTrackDocumentTypes(organisationUID));
 		}
 
-		public OperationResult<IEnumerable<TimeTrackDocumentType>> GetSystemDocumentTypes()
-		{
-			return SafeContext.Execute(() => FiresecService.GetSystemDocumentTypes());
-		}
-
 		public OperationResult AddTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.AddTimeTrackDocumentType(timeTrackDocumentType));

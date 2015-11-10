@@ -13,25 +13,21 @@ namespace SKDModule.ViewModels
 {
 	public class DocumentTypesViewModel : DialogViewModel
 	{
-		private const string SystemOrganisationName = "Документы по умолчанию";
-		private IEnumerable<TimeTrackDocumentType> SystemDocumentTypes { get; set; }
-
-		public DocumentTypesViewModel(IEnumerable<TimeTrackDocumentType> systemDocumentTypes)
+		public DocumentTypesViewModel()
 		{
 			Title = "Документы";
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-			SystemDocumentTypes = systemDocumentTypes;
 
 			Organisations = new List<DocumentType>();
-			Initialize(systemDocumentTypes);
+			Initialize();
 
 			OnPropertyChanged(() => Organisations);
 			SelectedDocumentType = Organisations.FirstOrDefault();
 		}
 
-		private void Initialize(IEnumerable<TimeTrackDocumentType> systemDocumentTypes)
+		private void Initialize()
 		{
 			var organisations = OrganisationHelper.GetByCurrentUser();
 			if (organisations != null)
@@ -52,20 +48,6 @@ namespace SKDModule.ViewModels
 					}
 				}
 			}
-
-			var systemOrganisation = new Organisation
-			{
-				Name = SystemOrganisationName
-			};
-
-			var systemOrganisationViewModel = new DocumentType(systemOrganisation);
-			foreach (var document in systemDocumentTypes)
-			{
-				var documentTypeViewModel = new DocumentType(systemOrganisation, document, true);
-				systemOrganisationViewModel.AddChild(documentTypeViewModel);
-			}
-
-			Organisations.Add(systemOrganisationViewModel);
 		}
 
 		public List<DocumentType> Organisations { get; private set; }
@@ -101,7 +83,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var documentTypeDetailsViewModel = new DocumentTypeDetailsViewModel(SelectedDocumentType, SystemDocumentTypes);
+			var documentTypeDetailsViewModel = new DocumentTypeDetailsViewModel(SelectedDocumentType);
 			if (DialogService.ShowModalWindow(documentTypeDetailsViewModel))
 			{
 				if (DocumentTypeHelper.Add(documentTypeDetailsViewModel.TimeTrackDocumentType))
@@ -122,14 +104,14 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return SelectedDocumentType != null && !SelectedDocumentType.IsSystem && !Equals(SelectedDocumentType.Name, SystemOrganisationName)
+			return SelectedDocumentType != null && !SelectedDocumentType.IsSystem && !Equals(SelectedDocumentType.Name)
 				&& FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var documentTypeDetailsViewModel = new DocumentTypeDetailsViewModel(SelectedDocumentType, SystemDocumentTypes, true);
+			var documentTypeDetailsViewModel = new DocumentTypeDetailsViewModel(SelectedDocumentType, true);
 			if (DialogService.ShowModalWindow(documentTypeDetailsViewModel))
 			{
 				if (DocumentTypeHelper.Edit(documentTypeDetailsViewModel.TimeTrackDocumentType))
