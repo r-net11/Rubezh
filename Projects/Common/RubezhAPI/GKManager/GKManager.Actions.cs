@@ -318,6 +318,7 @@ namespace RubezhClient
 			device.GuardZoneUIDs = new List<Guid>();
 			device.InputDependentElements = new List<GKBase>();
 			device.OutputDependentElements = new List<GKBase>();
+			device.IsInMPT = false;
 		
 			return true;
 		}
