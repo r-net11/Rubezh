@@ -24,7 +24,7 @@ namespace SKDModule.ViewModels
 			{
 				IsNew = true;
 				Title = "Создание новой организации";
-				OrganisationDetails = new OrganisationDetails()
+				OrganisationDetails = new OrganisationDetails
 				{
 					Name = "Организация",
 				};

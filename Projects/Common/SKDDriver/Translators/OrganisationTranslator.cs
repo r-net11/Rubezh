@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using SKDDriver.Translators;
 
 namespace SKDDriver
 {
@@ -289,20 +290,20 @@ namespace SKDDriver
 			var photoSaveResult = DatabaseService.PhotoTranslator.SaveOrDelete(apiItem.Photo);
 			if (photoSaveResult.HasError)
 				return photoSaveResult;
+			var systemTypesSaveResult =
+				DatabaseService.TimeTrackDocumentTypeTranslator.AddSystemDocumentTypesForOrganisation(apiItem.UID);
+			if (systemTypesSaveResult.HasError)
+				return systemTypesSaveResult;
+
 			try
 			{
-				if (apiItem == null)
-					return new OperationResult("Попытка сохранить пустую запись");
 				var verifyResult = CanSave(apiItem);
 				if (verifyResult.HasError)
 					return verifyResult;
 				var tableItem = (from x in Table where x.UID.Equals(apiItem.UID) select x).FirstOrDefault();
 				if (tableItem == null)
 				{
-					tableItem = new DataAccess.Organisation();
-					tableItem.UID = apiItem.UID;
-					tableItem.Name = apiItem.Name;
-					tableItem.Description = apiItem.Description;
+					tableItem = new DataAccess.Organisation {UID = apiItem.UID, Name = apiItem.Name, Description = apiItem.Description};
 					if (apiItem.Photo != null)
 						tableItem.PhotoUID = apiItem.Photo.UID;
 					tableItem.IsDeleted = apiItem.IsDeleted;
