@@ -95,7 +95,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_properties = value;
-				IsVisibleBottomPanel = _properties.IsVisibleBottomPanel;
+				IsVisibleBottomPanel = _properties != null && _properties.IsVisibleBottomPanel;
 			}
 		}
 		bool _isVisibleBottomPanel;
