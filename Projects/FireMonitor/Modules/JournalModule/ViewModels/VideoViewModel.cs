@@ -32,7 +32,7 @@ namespace JournalModule.ViewModels
 
 		public VideoViewModel(Guid eventUID, Guid cameraUID)
 		{
-			VideoPath = AppDataFolderHelper.GetTempFileName() + ".avi";
+			VideoPath = AppDataFolderHelper.GetTempFileName() + ".mkv";
 			Title = "Видеофрагмент, связанный с событием";
 			try
 			{

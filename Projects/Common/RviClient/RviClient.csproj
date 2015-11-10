@@ -73,6 +73,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.AlarmRuleCheckExistOut.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -140,14 +141,14 @@
     <None Include="Service References\RVIServiceReference\service1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\RVIStreamingServiceReference\Message.xsd">
+    <None Include="Service References\RVIStreamingServiceReference\Message1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\RVIStreamingServiceReference\service.wsdl" />
-    <None Include="Service References\RVIStreamingServiceReference\service.xsd">
+    <None Include="Service References\RVIStreamingServiceReference\service1.wsdl" />
+    <None Include="Service References\RVIStreamingServiceReference\service2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\RVIStreamingServiceReference\service1.xsd">
+    <None Include="Service References\RVIStreamingServiceReference\service21.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
