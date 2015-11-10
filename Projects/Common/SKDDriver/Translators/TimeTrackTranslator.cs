@@ -84,11 +84,11 @@ namespace SKDDriver.Translators
 						}
 					}
 
-					var systemTypes = GetAllDocumentTypes(shortEmployee);
+					var documentTypes = GetAllDocumentTypes(shortEmployee);
 
-					if(systemTypes == null) continue;
+					if (documentTypes == null) continue;
 
-					var documentsOperationResult = DatabaseService.TimeTrackDocumentTranslator.GetWithTypes(shortEmployee, startDate, endDate, _TimeTrackDocuments, systemTypes);
+					var documentsOperationResult = DatabaseService.TimeTrackDocumentTranslator.GetWithTypes(shortEmployee, startDate, endDate, _TimeTrackDocuments, documentTypes);
 
 					if (!documentsOperationResult.HasError)
 					{

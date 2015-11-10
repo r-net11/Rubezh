@@ -65,7 +65,7 @@
 										<TextBlock.Style>
 											<Style TargetType="{x:Type TextBlock}">
 												<Style.Triggers>
-													<DataTrigger Binding="{Binding IsSystem}" Value="True">
+													<DataTrigger Binding="{Binding TimeTrackDocumentType.IsSystem}" Value="True">
 														<Setter Property="Foreground" Value="#FF808080" />
 													</DataTrigger>
 												</Style.Triggers>
@@ -83,7 +83,7 @@
 									<TextBlock.Style>
 										<Style TargetType="{x:Type TextBlock}">
 											<Style.Triggers>
-												<DataTrigger Binding="{Binding IsSystem}" Value="True">
+												<DataTrigger Binding="{Binding TimeTrackDocumentType.IsSystem}" Value="True">
 													<Setter Property="Foreground" Value="#FF808080" />
 												</DataTrigger>
 											</Style.Triggers>
@@ -100,7 +100,7 @@
 									<TextBlock.Style>
 										<Style TargetType="{x:Type TextBlock}">
 											<Style.Triggers>
-												<DataTrigger Binding="{Binding IsSystem}" Value="True">
+												<DataTrigger Binding="{Binding TimeTrackDocumentType.IsSystem}" Value="True">
 													<Setter Property="Foreground" Value="#FF808080" />
 												</DataTrigger>
 											</Style.Triggers>
@@ -117,7 +117,7 @@
 									<TextBlock.Style>
 										<Style TargetType="{x:Type TextBlock}">
 											<Style.Triggers>
-												<DataTrigger Binding="{Binding IsSystem}" Value="True">
+												<DataTrigger Binding="{Binding TimeTrackDocumentType.IsSystem}" Value="True">
 													<Setter Property="Foreground" Value="#FF808080" />
 												</DataTrigger>
 											</Style.Triggers>

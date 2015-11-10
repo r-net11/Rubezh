@@ -192,7 +192,12 @@ namespace SKDModule.ViewModels
 				{
 					AvailableDocumentsCollectionView.Refresh();
 					SelectedDocument = (TimeTrackDocument)AvailableDocumentsCollectionView.CurrentItem;
-					IsEnableAbsence = SelectedDocument.TimeTrackDocumentType.DocumentType == DocumentType.Absence || SelectedDocument.TimeTrackDocumentType.DocumentType == DocumentType.AbsenceReasonable;
+					IsEnableAbsence = (SelectedDocument != null
+										&& SelectedDocument.TimeTrackDocumentType != null
+										&& SelectedDocument.TimeTrackDocumentType.DocumentType == DocumentType.Absence) ||
+										(SelectedDocument != null
+										&& SelectedDocument.TimeTrackDocumentType != null
+										&& SelectedDocument.TimeTrackDocumentType.DocumentType == DocumentType.AbsenceReasonable);
 				});
 		}
 

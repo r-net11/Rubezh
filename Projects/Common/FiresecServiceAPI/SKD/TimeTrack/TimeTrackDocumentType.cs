@@ -33,6 +33,9 @@ namespace FiresecAPI.SKD
 		public int Code { get; set; }
 
 		[DataMember]
+		public bool IsSystem { get; set; }
+
+		[DataMember]
 		public DocumentType DocumentType { get; set; }
 
 		[DataMember]

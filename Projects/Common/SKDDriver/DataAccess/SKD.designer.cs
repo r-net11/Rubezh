@@ -6591,6 +6591,8 @@ namespace SKDDriver.DataAccess
 		
 		private System.Guid _OrganisationUID;
 		
+		private bool _IsSystem;
+		
 		private EntityRef<Organisation> _Organisation;
 		
     #region Extensibility Method Definitions
@@ -6609,6 +6611,8 @@ namespace SKDDriver.DataAccess
     partial void OnDocumentTypeChanged();
     partial void OnOrganisationUIDChanging(System.Guid value);
     partial void OnOrganisationUIDChanged();
+    partial void OnIsSystemChanging(bool value);
+    partial void OnIsSystemChanged();
     #endregion
 		
 		public TimeTrackDocumentType()
@@ -6737,6 +6741,26 @@ namespace SKDDriver.DataAccess
 					this._OrganisationUID = value;
 					this.SendPropertyChanged("OrganisationUID");
 					this.OnOrganisationUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsSystem", DbType="Bit NOT NULL")]
+		public bool IsSystem
+		{
+			get
+			{
+				return this._IsSystem;
+			}
+			set
+			{
+				if ((this._IsSystem != value))
+				{
+					this.OnIsSystemChanging(value);
+					this.SendPropertyChanging();
+					this._IsSystem = value;
+					this.SendPropertyChanged("IsSystem");
+					this.OnIsSystemChanged();
 				}
 			}
 		}

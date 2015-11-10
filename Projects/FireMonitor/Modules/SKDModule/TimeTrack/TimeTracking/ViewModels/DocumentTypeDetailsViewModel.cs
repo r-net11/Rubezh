@@ -13,7 +13,8 @@ namespace SKDModule.ViewModels
 	{
 		#region Properties
 
-		private Model.DocumentType _inputDocumentType;
+		private readonly Model.DocumentType _inputDocumentType;
+		private readonly List<TimeTrackDocumentType> _inputDocumentTypesForOrganisation;
 
 		private Guid OrganisationUID { get; set; }
 
@@ -79,10 +80,11 @@ namespace SKDModule.ViewModels
 
 		#endregion
 
-		public DocumentTypeDetailsViewModel(Model.DocumentType documentType,  bool isEdit = false)
+		public DocumentTypeDetailsViewModel(Model.DocumentType documentType, List<TimeTrackDocumentType> documentTypesForOrganisation,  bool isEdit = false)
 		{
 			OrganisationUID = documentType.Organisation.UID;
 			_inputDocumentType = documentType;
+			_inputDocumentTypesForOrganisation = documentTypesForOrganisation;
 
 			if (documentType.TimeTrackDocumentType == null || !isEdit)
 			{
@@ -97,7 +99,7 @@ namespace SKDModule.ViewModels
 			{
 				TimeTrackDocumentType = documentType.TimeTrackDocumentType;
 				Title = "Редактирование вида оправдательных документов";
-				IsReadOnly = documentType.IsSystem;
+				IsReadOnly = documentType.TimeTrackDocumentType.IsSystem;
 			}
 
 			AvailableDocumentTypes = Enum.GetValues(typeof(DocumentType)).Cast<DocumentType>().ToList();
@@ -120,7 +122,9 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (!_inputDocumentType.IsSystem)
+			if (_inputDocumentType.IsOrganisation || (_inputDocumentType != null
+				&& _inputDocumentType.TimeTrackDocumentType != null
+				&& !_inputDocumentType.TimeTrackDocumentType.IsSystem))
 			{
 				if (string.IsNullOrEmpty(Name))
 				{
@@ -138,16 +142,16 @@ namespace SKDModule.ViewModels
 					return false;
 				}
 
-				//if (_systemTimeTrackDocumentTypes.Any(x => x.Name == Name))
-				//{
-				//	MessageBoxService.ShowWarning("Название документа совпадает с одним из предопределенных");
-				//	return false;
-				//}
-				//if (_systemTimeTrackDocumentTypes.Any(x => x.ShortName == ShortName))
-				//{
-				//	MessageBoxService.ShowWarning("Буквенный код документа совпадает с одним из предопределенных кодов");
-				//	return false;
-				//}
+				if (_inputDocumentTypesForOrganisation.Any(x => x.Name == Name))
+				{
+					MessageBoxService.ShowWarning("Название документа совпадает с одним из предопределенных");
+					return false;
+				}
+				if (_inputDocumentTypesForOrganisation.Any(x => x.ShortName == ShortName))
+				{
+					MessageBoxService.ShowWarning("Буквенный код документа совпадает с одним из предопределенных кодов");
+					return false;
+				}
 				if (Code <= 36)
 				{
 					MessageBoxService.ShowWarning("Числовой код документа совпадает с одним из предопределенных");

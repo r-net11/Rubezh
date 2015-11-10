@@ -1262,7 +1262,7 @@
             <End Role="ScheduleScheme" EntitySet="ScheduleSchemes" />
             <End Role="ScheduleDay" EntitySet="ScheduleDays" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="AccessTemplate">
           <Key>
             <PropertyRef Name="UID" />
@@ -2426,14 +2426,17 @@
             <ScalarProperty Name="DocumentDateTime" ColumnName="DocumentDateTime" />
             <ScalarProperty Name="DocumentNumber" ColumnName="DocumentNumber" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="TimeTrackDocumentTypes"><EntityTypeMapping TypeName="SKDModel.TimeTrackDocumentType"><MappingFragment StoreEntitySet="TimeTrackDocumentType">
-            <ScalarProperty Name="UID" ColumnName="UID" />
-            <ScalarProperty Name="Name" ColumnName="Name" />
-            <ScalarProperty Name="ShortName" ColumnName="ShortName" />
-            <ScalarProperty Name="DocumentCode" ColumnName="DocumentCode" />
-            <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
-            <ScalarProperty Name="OrganisationUID" ColumnName="OrganisationUID" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="TimeTrackDocumentTypes">
+            <EntityTypeMapping TypeName="IsTypeOf(SKDModel.TimeTrackDocumentType)">
+              <MappingFragment StoreEntitySet="TimeTrackDocumentType">
+                <ScalarProperty Name="UID" ColumnName="UID" />
+                <ScalarProperty Name="OrganisationUID" ColumnName="OrganisationUID" />
+                <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
+                <ScalarProperty Name="DocumentCode" ColumnName="DocumentCode" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="TimeTrackExceptions"><EntityTypeMapping TypeName="SKDModel.TimeTrackException"><MappingFragment StoreEntitySet="TimeTrackException">
             <ScalarProperty Name="UID" ColumnName="UID" />
             <ScalarProperty Name="EmployeeUID" ColumnName="EmployeeUID" />
@@ -2463,7 +2466,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
@@ -2509,7 +2512,7 @@
         <EntityTypeShape EntityType="SKDModel.ScheduleDay" Width="1.5" PointX="18" PointY="34.125" Height="1.9210009765625102" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.ScheduleScheme" Width="1.5" PointX="15.75" PointY="45.875" Height="2.7427376302083246" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.ScheduleZone" Width="1.5" PointX="20.25" PointY="37.75" Height="1.7566536458333246" IsExpanded="true" />
-        <EntityTypeShape EntityType="SKDModel.TimeTrackDocument" Width="1.5" PointX="7.75" PointY="6.875" Height="2.4140429687500102" IsExpanded="true" />
+        <EntityTypeShape EntityType="SKDModel.TimeTrackDocument" Width="1.5" PointX="7.75" PointY="7.375" Height="2.4140429687500102" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.TimeTrackDocumentType" Width="1.5" PointX="15.75" PointY="49.25" Height="2.0853483072916674" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.TimeTrackException" Width="1.5" PointX="10.5" PointY="63.25" Height="2.0853483072916745" IsExpanded="true" />
         <AssociationConnector Association="SKDModel.FK_AccessTemplate_Organisation" ManuallyRouted="false">

@@ -13,6 +13,8 @@ namespace SKDModule.ViewModels
 {
 	public class DocumentTypesViewModel : DialogViewModel
 	{
+		private List<TimeTrackDocumentType> DocumentTypesForCurrentOrganisation { get; set; }
+
 		public DocumentTypesViewModel()
 		{
 			Title = "Документы";
@@ -37,8 +39,8 @@ namespace SKDModule.ViewModels
 					var organisationViewModel = new DocumentType(organisation);
 					Organisations.Add(organisationViewModel);
 
-					var documentTypes = DocumentTypeHelper.GetByOrganisation(organisation.UID);
-					foreach (var documentType in documentTypes)
+					DocumentTypesForCurrentOrganisation = DocumentTypeHelper.GetByOrganisation(organisation.UID).ToList();
+					foreach (var documentType in DocumentTypesForCurrentOrganisation)
 					{
 						if (documentType.OrganisationUID == organisation.UID)
 						{
@@ -83,7 +85,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var documentTypeDetailsViewModel = new DocumentTypeDetailsViewModel(SelectedDocumentType);
+			var documentTypeDetailsViewModel = new DocumentTypeDetailsViewModel(SelectedDocumentType, DocumentTypesForCurrentOrganisation);
 			if (DialogService.ShowModalWindow(documentTypeDetailsViewModel))
 			{
 				if (DocumentTypeHelper.Add(documentTypeDetailsViewModel.TimeTrackDocumentType))
@@ -104,14 +106,26 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return SelectedDocumentType != null && !SelectedDocumentType.IsSystem && !Equals(SelectedDocumentType.Name)
-				&& FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
+			if (SelectedDocumentType != null
+				&& SelectedDocumentType.IsOrganisation
+			    && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit))
+				return true;
+
+			return SelectedDocumentType != null
+					&& SelectedDocumentType.TimeTrackDocumentType != null
+					&& !SelectedDocumentType.TimeTrackDocumentType.IsSystem
+					&& FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
+
+			//return SelectedDocumentType != null
+			//	&& !SelectedDocumentType.TimeTrackDocumentType.IsSystem
+			//	&& !Equals(SelectedDocumentType.Name)
+			//	&& FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var documentTypeDetailsViewModel = new DocumentTypeDetailsViewModel(SelectedDocumentType, true);
+			var documentTypeDetailsViewModel = new DocumentTypeDetailsViewModel(SelectedDocumentType, DocumentTypesForCurrentOrganisation, true);
 			if (DialogService.ShowModalWindow(documentTypeDetailsViewModel))
 			{
 				if (DocumentTypeHelper.Edit(documentTypeDetailsViewModel.TimeTrackDocumentType))
@@ -149,7 +163,11 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedDocumentType != null && !SelectedDocumentType.IsOrganisation && !SelectedDocumentType.IsSystem && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
+			return SelectedDocumentType != null
+				&& !SelectedDocumentType.IsOrganisation
+				&& SelectedDocumentType.TimeTrackDocumentType != null
+				&& !SelectedDocumentType.TimeTrackDocumentType.IsSystem
+				&& FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
 		}
 	}
 }

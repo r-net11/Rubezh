@@ -122,6 +122,7 @@ namespace SKDDriver.Translators
 						ShortName = tableTimeTrackDocumentType.ShortName,
 						Code = tableTimeTrackDocumentType.DocumentCode,
 						DocumentType = (DocumentType) tableTimeTrackDocumentType.DocumentType,
+						IsSystem = tableTimeTrackDocumentType.IsSystem
 					})
 					.ToList();
 
@@ -167,7 +168,8 @@ namespace SKDDriver.Translators
 					DocumentType = (int) x.DocumentType,
 					Name = x.Name,
 					ShortName = x.ShortName,
-					OrganisationUID = organisationGuid
+					OrganisationUID = organisationGuid,
+					IsSystem = true
 				});
 				Context.TimeTrackDocumentTypes.InsertAllOnSubmit(systemDocuments);
 				Context.SubmitChanges();
