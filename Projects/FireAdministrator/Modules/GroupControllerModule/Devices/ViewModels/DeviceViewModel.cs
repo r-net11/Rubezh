@@ -141,7 +141,11 @@ namespace GKModule.ViewModels
 
 		public bool IsInPumpStation
 		{
-			get { return Device != null && GKManager.PumpStations.Any(x => x.InputDependentElements.Contains(Device)); }
+			get {
+				return Device != null && (Device.DriverType == GKDriverType.RSR2_Bush_Drenazh || Device.DriverType == GKDriverType.RSR2_Bush_Fire
+				|| Device.DriverType == GKDriverType.RSR2_Bush_Jokey || Device.DriverType == GKDriverType.RSR2_Bush_Shuv)
+				&& Device.OutputDependentElements.Any(x => x as GKPumpStation != null);
+			}
 		}
 
 		public string Address
