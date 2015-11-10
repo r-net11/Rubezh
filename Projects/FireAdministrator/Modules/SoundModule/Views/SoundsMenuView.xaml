@@ -1,9 +1,17 @@
-<UserControl x:Class="SoundsModule.Views.SoundsMenuView"
+﻿<UserControl x:Class="SoundsModule.Views.SoundsMenuView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-		<ToolBarButton Command="{Binding PlaySoundCommand}" ImageSource="Stop" Width="32" Visibility="{Binding IsNowPlaying, Converter={StaticResource BoolToVisibilityConverter}}" />
-		<ToolBarButton Command="{Binding PlaySoundCommand}" ImageSource="Play" Visibility="{Binding IsNowPlaying, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+		<ToolBarButton Command="{Binding PlaySoundCommand}"
+					   ToolTip="Остановить"
+					   ImageSource="Stop"
+					   Width="32"
+					   Visibility="{Binding IsNowPlaying, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<ToolBarButton Command="{Binding PlaySoundCommand}"
+					   ToolTip="Воспроизвести"
+					   ImageSource="Play"
+					   Width="32"
+					   Visibility="{Binding IsNowPlaying, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 	</StackPanel>
 </UserControl>

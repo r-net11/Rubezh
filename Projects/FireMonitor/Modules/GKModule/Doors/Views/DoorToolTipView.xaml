@@ -10,11 +10,12 @@
 		</Style>
 	</UserControl.Resources>
 
-	<StackPanel>
+	<StackPanel MaxWidth="800">
 		<StackPanel Orientation="Horizontal">
 			<Image Margin="2" Width="16" Height="16" Source="/Controls;component/Images/Door.png" />
 			<TextBlock Text="{Binding Door.PresentationName}" FontWeight="Bold" />
 		</StackPanel>
+		<TextBlock Text="{Binding Door.Description}" Visibility="{Binding Door.Description, Converter={StaticResource StringToVisibilityConverter}}" TextWrapping="Wrap" />
 		<StackPanel Orientation="Horizontal">
 			<ItemsControl ItemsSource="{Binding State.StateClasses}">
 				<ItemsControl.ItemTemplate>

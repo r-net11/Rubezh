@@ -12,7 +12,8 @@ namespace GKProcessor
 {
 	public static class GKSKDHelper
 	{
-		public static OperationResult<bool> AddOrEditCard(GKControllerCardSchedule controllerCardSchedule, SKDCard card, string employeeName, int gkCardNo = 0, bool isNew = true, RubezhDAL.DataClasses.DbService dbService = null)
+		public static OperationResult<bool> AddOrEditCard(GKControllerCardSchedule controllerCardSchedule, 
+			SKDCard card, string employeeName, int gkCardNo = 0, bool isNew = true, RubezhDAL.DataClasses.DbService dbService = null)
 		{
 			if (gkCardNo == 0)
 			{
@@ -27,20 +28,45 @@ namespace GKProcessor
 					gkCardNo = dbService.GKCardTranslator.GetFreeGKNo(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), card.Number, out isNew);
 			}
 
+			var user = new GKUser((ushort)gkCardNo, controllerCardSchedule.ControllerDevice);
+			user.ExpirationDate = card.EndDate;
+			user.Fio = employeeName;
+			user.GkLevel = (byte)card.GKLevel;
+			user.GkLevelSchedule = (byte)card.GKLevelSchedule;
+			user.Password = card.Number;
+			user.UserType = card.GKCardType;
+
+			var result = AddOrEditUser(user, isNew, controllerCardSchedule.CardSchedules);
+			if (result.HasError)
+				return result;
+
+			using (var skdDatabaseService = new RubezhDAL.DataClasses.DbService())
+			{
+				skdDatabaseService.GKCardTranslator.AddOrEdit(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), gkCardNo, card.Number, employeeName);
+			}
+
+			return new OperationResult<bool>(true);
+		}
+
+		public static OperationResult<bool> AddOrEditUser(GKUser user, bool isNew = true, List<GKCardSchedule> allCardSchedules = null)
+		{
+			if (allCardSchedules == null)
+				allCardSchedules = new List<GKCardSchedule>();
+			
 			var bytes = new List<byte>();
-			bytes.AddRange(BytesHelper.ShortToBytes((ushort)(gkCardNo)));
-			bytes.Add((byte)card.GKCardType);
+			bytes.AddRange(BytesHelper.ShortToBytes(user.GkNo));
+			bytes.Add((byte)user.UserType);
 			bytes.Add(0);
-			var nameBytes = BytesHelper.StringDescriptionToBytes(employeeName);
+			var nameBytes = BytesHelper.StringDescriptionToBytes(user.Fio);
 			bytes.AddRange(nameBytes);
-			bytes.AddRange(BytesHelper.IntToBytes((int)card.Number));
-			bytes.Add((byte)card.GKLevel);
-			bytes.Add((byte)card.GKLevelSchedule);
+			bytes.AddRange(BytesHelper.IntToBytes((int)user.Password));
+			bytes.Add(user.GkLevel);
+			bytes.Add(user.GkLevelSchedule);
 
 			bytes.Add(0);
 			bytes.Add(0);
 
-			var secondsPeriod = (new DateTime(card.EndDate.Year, card.EndDate.Month, card.EndDate.Day) - new DateTime(2000, 1, 1)).TotalSeconds;
+			var secondsPeriod = (new DateTime(user.ExpirationDate.Year, user.ExpirationDate.Month, user.ExpirationDate.Day) - new DateTime(2000, 1, 1)).TotalSeconds;
 			bytes.AddRange(BytesHelper.IntToBytes((int)secondsPeriod));
 
 			for (int packNo = 0; packNo < 65535; packNo++)
@@ -52,7 +78,7 @@ namespace GKProcessor
 					startCardScheduleNo = 68 + (packNo - 1) * 84;
 					cardScheduleCount = 84;
 				}
-				var cardSchedules = controllerCardSchedule.CardSchedules.Skip(startCardScheduleNo).Take(cardScheduleCount).ToList();
+				var cardSchedules = allCardSchedules.Skip(startCardScheduleNo).Take(cardScheduleCount).ToList();
 				if (cardSchedules.Count == 0)
 					break;
 				foreach (var cardSchedule in cardSchedules)
@@ -76,7 +102,7 @@ namespace GKProcessor
 				bytes.Add(0);
 				bytes.Add(0);
 
-				if (startCardScheduleNo + cardScheduleCount < controllerCardSchedule.CardSchedules.Count)
+				if (startCardScheduleNo + cardScheduleCount < allCardSchedules.Count)
 				{
 					bytes.AddRange(BytesHelper.ShortToBytes((ushort)(packNo + 1)));
 				}
@@ -104,7 +130,7 @@ namespace GKProcessor
 
 			foreach (var pack in packs)
 			{
-				var sendResult = SendManager.Send(controllerCardSchedule.ControllerDevice, (ushort)(pack.Count), (byte)(isNew ? 25 : 26), 0, pack);
+				var sendResult = SendManager.Send(user.GkDevice, (ushort)(pack.Count), (byte)(isNew ? 25 : 26), 0, pack);
 				if (sendResult.HasError)
 				{
 					return OperationResult<bool>.FromError(sendResult.Error);
@@ -113,11 +139,6 @@ namespace GKProcessor
 				{
 					return OperationResult<bool>.FromError("Неправильный формат при записи карты в прибор");
 				}
-			}
-
-			using (var skdDatabaseService = new RubezhDAL.DataClasses.DbService())
-			{
-				skdDatabaseService.GKCardTranslator.AddOrEdit(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), gkCardNo, card.Number, employeeName);
 			}
 
 			return new OperationResult<bool>(true);
@@ -191,12 +212,12 @@ namespace GKProcessor
 					break;
 				}
 
-				var user = new GKUser();
-				user.GKNo = BytesHelper.SubstructShort(sendResult.Bytes, 1);
-				user.CardType = (GKCardType)sendResult.Bytes[3];
+				var gkNo = BytesHelper.SubstructShort(sendResult.Bytes, 1);
+				var user = new GKUser(gkNo, device);
+				user.UserType = (GKCardType)sendResult.Bytes[3];
 				user.IsActive = sendResult.Bytes[4] == 0;
-				user.FIO = BytesHelper.BytesToStringDescription(sendResult.Bytes, 5);
-				user.Number = (uint)BytesHelper.SubstructInt(sendResult.Bytes, 37);
+				user.Fio = BytesHelper.BytesToStringDescription(sendResult.Bytes, 5);
+				user.Password = (uint)BytesHelper.SubstructInt(sendResult.Bytes, 37);
 				users.Add(user);
 				if (progressCallback.IsCanceled)
 				{
@@ -241,60 +262,16 @@ namespace GKProcessor
 
 		public static bool RemoveAllUsers(GKDevice device, int usersCount, GKProgressCallback progressCallback)
 		{
-			var result = true;
-			int cardsCount = 0;
-			for (int no = 1; no <= usersCount; no++)
-			{
-				var bytes = new List<byte>();
-				bytes.Add(0);
-				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
+			var cardsCount = RemoveAllUsersInternal(device, usersCount, progressCallback);
+			if (cardsCount == 0)
+				return false;
 
-				var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 24, 0, bytes);
-				if (sendResult.HasError)
-				{
-					result = false;
-					break;
-				}
-				if (sendResult.Bytes.Count == 0)
-				{
-					break;
-				}
-
-				bytes = new List<byte>();
-				bytes.Add(0);
-				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
-				bytes.Add(0);
-				bytes.Add(1);
-				var nameBytes = BytesHelper.StringDescriptionToBytes("-");
-				bytes.AddRange(nameBytes);
-				bytes.AddRange(BytesHelper.IntToBytes(-1));
-				bytes.Add(0);
-				bytes.Add(0);
-				for (int i = 0; i < 256 - 42; i++)
-				{
-					bytes.Add(0);
-				}
-
-				sendResult = SendManager.Send(device, (ushort)(bytes.Count), 26, 0, bytes);
-				if (sendResult.HasError)
-				{
-					result = false;
-					break;
-				}
-				if (sendResult.Bytes.Count == 256)
-				{
-					break;
-				}
-
-				cardsCount++;
-				GKProcessorManager.DoProgress("Пользователь " + no, progressCallback);
-			}
 			using (var skdDatabaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				GKProcessorManager.DoProgress("Удаление пользователей прибора из БД", progressCallback);
 				skdDatabaseService.GKCardTranslator.RemoveAll(device.GetGKIpAddress(), cardsCount);
 			}
-			return result;
+			return true;
 		}
 
 		public static List<GKControllerCardSchedule> GetGKControllerCardSchedules(SKDCard card, List<CardDoor> accessTemplateDoors)
@@ -371,6 +348,86 @@ namespace GKProcessor
 			}
 
 			return controllerCardSchedules;
+		}
+
+		public static OperationResult<bool> WriteAllUsers(List<GKUser> users)
+		{
+			try
+			{
+				var devicesWithUsers = users.GroupBy(x => x.GkDevice);
+				foreach (var deviceUsers in devicesWithUsers)
+				{
+					var usersCount = GetUsersCount(deviceUsers.Key);
+					RemoveAllUsersInternal(deviceUsers.Key, usersCount);
+				}
+				foreach (var user in users)
+				{
+					AddOrEditUser(user);
+				}
+				return new OperationResult<bool>(true);
+			}
+			catch (Exception e)
+			{
+				return OperationResult<bool>.FromError(e.Message);
+			}
+		}
+
+		/// <summary>
+		/// Возвращает число удалённых пропусков
+		/// </summary>
+		/// <param name="device"></param>
+		/// <param name="usersCount"></param>
+		/// <param name="progressCallback"></param>
+		/// <returns></returns>
+		static int RemoveAllUsersInternal(GKDevice device, int usersCount, GKProgressCallback progressCallback = null)
+		{
+			int cardsCount = 0;
+			for (int no = 1; no <= usersCount; no++)
+			{
+				var bytes = new List<byte>();
+				bytes.Add(0);
+				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
+
+				var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 24, 0, bytes);
+				if (sendResult.HasError)
+				{
+					break;
+				}
+				if (sendResult.Bytes.Count == 0)
+				{
+					break;
+				}
+
+				bytes = new List<byte>();
+				bytes.Add(0);
+				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
+				bytes.Add(0);
+				bytes.Add(1);
+				var nameBytes = BytesHelper.StringDescriptionToBytes("-");
+				bytes.AddRange(nameBytes);
+				bytes.AddRange(BytesHelper.IntToBytes(-1));
+				bytes.Add(0);
+				bytes.Add(0);
+				for (int i = 0; i < 256 - 42; i++)
+				{
+					bytes.Add(0);
+				}
+
+				sendResult = SendManager.Send(device, (ushort)(bytes.Count), 26, 0, bytes);
+				if (sendResult.HasError)
+				{
+					break;
+				}
+				if (sendResult.Bytes.Count == 256)
+				{
+					break;
+				}
+
+				cardsCount++;
+				if(progressCallback != null)
+					GKProcessorManager.DoProgress("Пользователь " + no, progressCallback);
+			}
+			return cardsCount;
 		}
 	}
 
