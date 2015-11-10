@@ -177,6 +177,11 @@
 				<File Id="Monitor.mfc80u.dll" Name="mfc80u.dll" Source="$(var.Monitor.TargetDir)dll\" />
 				<File Id="Monitor.mfcm80.dll" Name="mfcm80.dll" Source="$(var.Monitor.TargetDir)dll\" />
 				<File Id="Monitor.mfcm80u.dll" Name="mfcm80u.dll" Source="$(var.Monitor.TargetDir)dll\" />
+				<File Id="Monitor.Microsoft.VC80.ATL.manifest" Name="Microsoft.VC80.ATL.manifest" Source="$(var.Monitor.TargetDir)dll\" />
+				<File Id="Monitor.Microsoft.VC80.CRT.manifest" Name="Microsoft.VC80.CRT.manifest" Source="$(var.Monitor.TargetDir)dll\" />
+				<File Id="Monitor.Microsoft.VC80.MFC.manifest" Name="Microsoft.VC80.MFC.manifest" Source="$(var.Monitor.TargetDir)dll\" />
+				<File Id="Monitor.Microsoft.VC80.MFCLOC.manifest" Name="Microsoft.VC80.MFCLOC.manifest" Source="$(var.Monitor.TargetDir)dll\" />
+				<File Id="Monitor.Microsoft.VC80.OpenMP.manifest" Name="Microsoft.VC80.OpenMP.manifest" Source="$(var.Monitor.TargetDir)dll\" />
 				<File Id="Monitor.mjpegdec.dll" Name="mjpegdec.dll" Source="$(var.Monitor.TargetDir)dll\" />
 				<File Id="Monitor.mp2dec.dll" Name="mp2dec.dll" Source="$(var.Monitor.TargetDir)dll\" />
 				<File Id="Monitor.mp3dec.dll" Name="mp3dec.dll" Source="$(var.Monitor.TargetDir)dll\" />
