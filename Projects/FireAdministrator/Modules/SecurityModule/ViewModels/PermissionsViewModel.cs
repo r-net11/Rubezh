@@ -150,7 +150,6 @@ namespace SecurityModule.ViewModels
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_Employees_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_Employees_Edit),
-												new PermissionViewModel(PermissionType.Oper_SKD_Employees_Edit_CardType),
 											}),
 											new PermissionViewModel("Посетители", new List<PermissionViewModel>()
 											{
@@ -176,6 +175,7 @@ namespace SecurityModule.ViewModels
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_Cards_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_Cards_Etit),
+												new PermissionViewModel(PermissionType.Oper_SKD_Employees_Edit_CardType),
 											}),
 											new PermissionViewModel("Шаблоны доступа", new List<PermissionViewModel>()
 											{
