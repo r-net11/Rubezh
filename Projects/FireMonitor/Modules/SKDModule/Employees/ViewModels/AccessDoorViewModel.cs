@@ -26,16 +26,15 @@ namespace SKDModule.ViewModels
 			ExitSchedules = new ObservableCollection<CardScheduleItem>();
 			if (schedules != null)
 			{
-			    foreach (var schedule in schedules)
-			    {
-			        if (schedule.ScheduleType == GKScheduleType.Access)
-			        {
-			            EnterSchedules.Add(new CardScheduleItem(schedule.No, schedule.Name));
-			            ExitSchedules.Add(new CardScheduleItem(schedule.No, schedule.Name));
-			        }
-			    }
+				EnterSchedules = new ObservableCollection<CardScheduleItem>(from o in schedules
+																			orderby o.No ascending
+																			select new CardScheduleItem(o.No, o.Name));
+				ExitSchedules = new ObservableCollection<CardScheduleItem>(from o in schedules
+																		   orderby o.No ascending
+																		   select new CardScheduleItem(o.No, o.Name));
 			}
-			Initialize(cardDoors, onChecked);
+
+		Initialize(cardDoors, onChecked);
 		}
 
 		void Initialize(List<CardDoor> cardDoors, Action<AccessDoorViewModel> onChecked)

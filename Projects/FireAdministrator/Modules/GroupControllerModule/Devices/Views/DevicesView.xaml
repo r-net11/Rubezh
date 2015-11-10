@@ -116,7 +116,7 @@
 												</StackPanel>
 											</ControlTemplate>
 										</Controls:EditorPresenter.ViewTemplate>
-										<Controls:EditorPresenter.EditTemplate >
+										<Controls:EditorPresenter.EditTemplate>
 											<ControlTemplate>
 												<ComboBox ItemsSource="{Binding AvailvableDrivers, UpdateSourceTrigger=PropertyChanged}"
 														  SelectedValue="{Binding Driver}"

@@ -15,7 +15,6 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ForTemplate { get; set; }
 		public DataTemplate PauseTemplate { get; set; }
 		public DataTemplate ProcedureSelectionTemplate { get; set; }
-		public DataTemplate ExitTemplate { get; set; }
 		public DataTemplate SetValueTemplate { get; set; }
 		public DataTemplate IncrementValueTemplate { get; set; }
 		public DataTemplate ControlGKDeviceTemplate { get; set; }
@@ -73,8 +72,6 @@ namespace AutomationModule.ViewModels
 				return PauseTemplate;
 			if (item is ProcedureSelectionStepViewModel)
 				return ProcedureSelectionTemplate;
-			if (item is ExitStepViewModel)
-				return ExitTemplate;
 			if (item is SetValueStepViewModel)
 				return SetValueTemplate;
 			if (item is IncrementValueStepViewModel)

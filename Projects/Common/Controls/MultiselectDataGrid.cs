@@ -74,28 +74,32 @@ namespace Controls
 		private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 
-			if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)
-				|| Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
-				return;
-			DataGrid dataGrid = sender as DataGrid;
-			if (dataGrid != null && dataGrid.SelectedItem != null)
+			try
 			{
-				dataGrid.UpdateLayout();
-				dataGrid.ScrollIntoView(dataGrid.SelectedItem);
-				var row = dataGrid.ItemContainerGenerator.ContainerFromItem(dataGrid.SelectedItem) as DataGridRow;
-				if (row != null)
+				if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)
+					|| Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+					return;
+				DataGrid dataGrid = sender as DataGrid;
+				if (dataGrid != null && dataGrid.SelectedItem != null)
 				{
-					DataGridCell cell = GetCell(dataGrid, row, 0);
-					if (cell != null)
+					dataGrid.UpdateLayout();
+					dataGrid.ScrollIntoView(dataGrid.SelectedItem);
+					var row = dataGrid.ItemContainerGenerator.ContainerFromItem(dataGrid.SelectedItem) as DataGridRow;
+					if (row != null)
 					{
-						if (cell.IsFocused)
-							return;
-						var method = typeof(DataGrid).GetMethod("HandleSelectionForCellInput", BindingFlags.Instance | BindingFlags.NonPublic);
-						method.Invoke(dataGrid, new object[] { cell, false, false, false });
-						cell.Focus();
+						DataGridCell cell = GetCell(dataGrid, row, 0);
+						if (cell != null)
+						{
+							if (cell.IsFocused)
+								return;
+							var method = typeof(DataGrid).GetMethod("HandleSelectionForCellInput", BindingFlags.Instance | BindingFlags.NonPublic);
+							method.Invoke(dataGrid, new object[] { cell, false, false, false });
+							cell.Focus();
+						}
 					}
 				}
 			}
+			catch {}
 		}
 	}
 }

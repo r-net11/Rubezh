@@ -236,7 +236,6 @@
     <Compile Include="Models\Automation\ObjectType.cs" />
     <Compile Include="Models\Automation\ScheduleProcedure.cs" />
     <Compile Include="Models\Automation\StepArguments\ArithmeticArguments.cs" />
-    <Compile Include="Models\Automation\StepArguments\ExitArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\FindObjectArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ForeachArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\PauseArguments.cs" />

@@ -194,42 +194,42 @@ namespace RubezhClient
 			List<StringBuilder> list = new List<StringBuilder>();
 			if (logic.OnClausesGroup.ClauseGroups.Count > 0 || logic.OnClausesGroup.Clauses.Count > 0)
 			{
-				StringBuilder stringBuuilder = new StringBuilder();
-				stringBuuilder.Append("Условие включения: ");
-				stringBuuilder.Append(GetPresentationLogic(logic.OnClausesGroup));
-				list.Add(stringBuuilder);
+				StringBuilder stringBuilder = new StringBuilder();
+				stringBuilder.Append("Условие включения: ");
+				stringBuilder.Append(GetPresentationLogic(logic.OnClausesGroup));
+				list.Add(stringBuilder);
 			}
 
 			if (logic.OnNowClausesGroup.ClauseGroups.Count > 0 || logic.OnNowClausesGroup.Clauses.Count > 0)
 			{
-				StringBuilder stringBuuilder = new StringBuilder();
-				stringBuuilder.Append("Условие включения немедленно: ");
-				stringBuuilder.Append(GetPresentationLogic(logic.OnNowClausesGroup));
-				list.Add(stringBuuilder);
+				StringBuilder stringBuilder = new StringBuilder();
+				stringBuilder.Append("Условие включения немедленно: ");
+				stringBuilder.Append(GetPresentationLogic(logic.OnNowClausesGroup));
+				list.Add(stringBuilder);
 			}
 
 			if (logic.OffClausesGroup.ClauseGroups.Count > 0 || logic.OffClausesGroup.Clauses.Count > 0)
 			{
-				StringBuilder stringBuuilder = new StringBuilder();
-				stringBuuilder.Append("Условие выключения: ");
-				stringBuuilder.Append(GetPresentationLogic(logic.OffClausesGroup));
-				list.Add(stringBuuilder);
+				StringBuilder stringBuilder = new StringBuilder();
+				stringBuilder.Append("Условие выключения: ");
+				stringBuilder.Append(GetPresentationLogic(logic.OffClausesGroup));
+				list.Add(stringBuilder);
 			}
 
 			if (logic.OffNowClausesGroup.ClauseGroups.Count > 0 || logic.OffNowClausesGroup.Clauses.Count > 0)
 			{
-				StringBuilder stringBuuilder = new StringBuilder();
-				stringBuuilder.Append("Условие выключения немедленно: ");
-				stringBuuilder.Append(GetPresentationLogic(logic.OffNowClausesGroup));
-				list.Add(stringBuuilder);
+				StringBuilder stringBuilder = new StringBuilder();
+				stringBuilder.Append("Условие выключения немедленно: ");
+				stringBuilder.Append(GetPresentationLogic(logic.OffNowClausesGroup));
+				list.Add(stringBuilder);
 			}
 
 			if (logic.StopClausesGroup.ClauseGroups.Count > 0 || logic.StopClausesGroup.Clauses.Count > 0 )
 			{
-				StringBuilder stringBuuilder = new StringBuilder();
-				stringBuuilder.Append("Условие остановки: ");
-				stringBuuilder.Append(GetPresentationLogic(logic.StopClausesGroup));
-				list.Add(stringBuuilder);
+				StringBuilder stringBuilder = new StringBuilder();
+				stringBuilder.Append("Условие остановки: ");
+				stringBuilder.Append(GetPresentationLogic(logic.StopClausesGroup));
+				list.Add(stringBuilder);
 			}
 			return string.Join("\n", list);
 		}

@@ -157,10 +157,6 @@ namespace AutomationModule.ViewModels
 						ReplaceVariableUid(argument, dictionary);
 					break;
 
-				case ProcedureStepType.Exit:
-					ReplaceVariableUid(step.ExitArguments.ExitCodeArgument, dictionary);
-					break;
-
 				case ProcedureStepType.SetValue:
 					ReplaceVariableUid(step.SetValueArguments.SourceArgument, dictionary);
 					ReplaceVariableUid(step.SetValueArguments.TargetArgument, dictionary);
