@@ -47,7 +47,6 @@ namespace GKProcessor
 			switch (DatabaseType)
 			{
 				case DatabaseType.Gk:
-				case DatabaseType.Mirror:
 					if (GKBase.KauDatabaseParent != null)
 					{
 						ushort lineNo = GKManager.GetKauLine(GKBase.KauDatabaseParent);
@@ -59,6 +58,14 @@ namespace GKProcessor
 						ControllerAdress = 0x200;
 						AdressOnController = GKBase.GKDescriptorNo;
 					}
+					Address.AddRange(BytesHelper.ShortToBytes(ControllerAdress));
+					Address.AddRange(BytesHelper.ShortToBytes(AdressOnController));
+					Address.AddRange(BytesHelper.ShortToBytes(PhysicalAdress));
+					break;
+
+				case DatabaseType.Mirror:
+					ControllerAdress = 0x200;
+					AdressOnController = GKBase.KAUDescriptorNo;
 					Address.AddRange(BytesHelper.ShortToBytes(ControllerAdress));
 					Address.AddRange(BytesHelper.ShortToBytes(AdressOnController));
 					Address.AddRange(BytesHelper.ShortToBytes(PhysicalAdress));

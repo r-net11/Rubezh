@@ -18,7 +18,7 @@ namespace GKModule.ViewModels
 		public ReflectionPageViewModel()
 		{
 			Title = "Отражения";
-			Devices = new ObservableCollection<GKDevice>(GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_GKMirror));
+			Devices = new ObservableCollection<GKDevice>(GKManager.Devices.Where(x => x.DriverType == GKDriverType.GKMirror));
 			SelectedDevice = Devices.FirstOrDefault();
 		}
 

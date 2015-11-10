@@ -44,9 +44,43 @@ namespace GKProcessor
 				Formula.AddGetWord(true, mirrorParent);
 				Formula.Add(FormulaOperationType.CONST, 0, 0xF800);
 				Formula.Add(FormulaOperationType.AND);
-				Formula.Add(FormulaOperationType.CONST, 0, 0x100);
+
+				Formula.Add(FormulaOperationType.DUP);
+				Formula.Add(FormulaOperationType.DUP);
+				Formula.Add(FormulaOperationType.DUP);
+				Formula.Add(FormulaOperationType.DUP);
+				Formula.Add(FormulaOperationType.DUP);
+				Formula.Add(FormulaOperationType.DUP);
+
+
+				Formula.Add(FormulaOperationType.CONST, 0, 0x800);
 				Formula.Add(FormulaOperationType.EQ);
 				Formula.AddPutBit(GKStateBit.SetRegime_Automatic, Device);
+
+				Formula.Add(FormulaOperationType.CONST, 0, 0x1000);
+				Formula.Add(FormulaOperationType.EQ);
+				Formula.AddPutBit(GKStateBit.SetRegime_Manual, Device);
+
+				Formula.Add(FormulaOperationType.CONST, 0, 0x2000);
+				Formula.Add(FormulaOperationType.EQ);
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+
+
+				Formula.Add(FormulaOperationType.CONST, 0, 0x2800);
+				Formula.Add(FormulaOperationType.EQ);
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
+
+				Formula.Add(FormulaOperationType.CONST, 0, 0x4000);
+				Formula.Add(FormulaOperationType.EQ);
+				Formula.AddPutBit(GKStateBit.Reset, Device);
+
+				Formula.Add(FormulaOperationType.CONST, 0, 0x4800);
+				Formula.Add(FormulaOperationType.EQ);
+				Formula.AddPutBit(GKStateBit.TurnOn_InManual, Device);
+
+				Formula.Add(FormulaOperationType.CONST, 0, 0x5000);
+				Formula.Add(FormulaOperationType.EQ);
+				Formula.AddPutBit(GKStateBit.TurnOff_InManual, Device);
 			}
 
 			if (CreateMPTLogic())
@@ -166,6 +200,11 @@ namespace GKProcessor
 			var binProperties = new List<BinProperty>();
 
 			if (DatabaseType == DatabaseType.Gk && Device.Driver.IsDeviceOnShleif)
+			{
+				return;
+			}
+
+			if (DatabaseType == DatabaseType.Gk && (Device.DriverType == GKDriverType.GKMirror || (Device.Parent!=null && Device.Parent.DriverType == GKDriverType.GKMirror)))
 			{
 				return;
 			}

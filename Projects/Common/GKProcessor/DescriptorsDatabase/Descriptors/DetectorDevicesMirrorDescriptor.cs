@@ -15,6 +15,10 @@ namespace GKProcessor
 			{
 				Device.LinkToDescriptor(dev);
 			}
+			foreach (var dir in Device.GKReflectionItem.Diretions)
+			{
+				Device.LinkToDescriptor(dir);
+			}
 		}
 
 		public override void Build()
@@ -40,10 +44,28 @@ namespace GKProcessor
 					Formula.Add(FormulaOperationType.OR);
 				}
 			}
+			foreach (var direction in Device.GKReflectionItem.Diretions)
+			{
+				Formula.AddGetWord(false, direction);
+				count++;
+				if (count > 1)
+				{
+					Formula.Add(FormulaOperationType.OR);
+				}
+			}
 			count = 0;
 			foreach (var device in Device.GKReflectionItem.Devices)
 			{
 				Formula.AddGetWord(true, device);
+				count++;
+				if (count > 1)
+				{
+					Formula.Add(FormulaOperationType.OR);
+				}
+			}
+			foreach (var direction in Device.GKReflectionItem.Diretions)
+			{
+				Formula.AddGetWord(true, direction);
 				count++;
 				if (count > 1)
 				{

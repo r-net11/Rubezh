@@ -86,6 +86,28 @@ namespace RubezhAPI.GK
 				GuardZoneUIDs = guardZoneUIDs;
 			}
 
+			if (Driver.HasMirror)
+			{
+				if (DriverType == GKDriverType.DetectorDevicesMirror)
+					GKReflectionItem.Devices.ForEach(x => x.AddDependentElement(this));
+				if (DriverType == GKDriverType.ControlDevicesMirror)
+				{ 
+					GKReflectionItem.Devices.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+					GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+				}
+				if (DriverType == GKDriverType.DirectionsMirror)
+					GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+				if (DriverType == GKDriverType.FireZonesMirror)
+					GKReflectionItem.Zones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+				if (DriverType == GKDriverType.FirefightingZonesMirror)
+				{ 
+					GKReflectionItem.Zones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+					GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+				}
+				if (DriverType == GKDriverType.GuardZonesMirror)
+					GKReflectionItem.GuardZones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+			}
+
 			OnChanged();
 		}
 

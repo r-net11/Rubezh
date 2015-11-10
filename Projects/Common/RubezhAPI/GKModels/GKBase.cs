@@ -180,6 +180,28 @@ namespace RubezhAPI.GK
 					device.LinkToDescriptor(devicePumpStation);
 					LinkLogic(device, device.NSLogic.OnClausesGroup);
 				}
+
+				if (device.Driver.HasMirror)
+				{
+					if (device.DriverType == GKDriverType.DetectorDevicesMirror)
+						device.GKReflectionItem.Devices.ForEach(x => x.LinkToDescriptor(this));
+					if (device.DriverType == GKDriverType.ControlDevicesMirror)
+					{ 
+						device.GKReflectionItem.Devices.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+						device.GKReflectionItem.Diretions.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+					}
+					if (device.DriverType == GKDriverType.DirectionsMirror)
+						device.GKReflectionItem.Diretions.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+					if (device.DriverType == GKDriverType.FireZonesMirror)
+						device.GKReflectionItem.Zones.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+					if (device.DriverType == GKDriverType.FirefightingZonesMirror)
+					{
+						device.GKReflectionItem.Zones.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+						device.GKReflectionItem.Diretions.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+					}
+					if (device.DriverType == GKDriverType.GuardZonesMirror)
+						device.GKReflectionItem.GuardZones.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+				}
 			}
 
 			var zone = this as GKZone;
@@ -322,7 +344,7 @@ namespace RubezhAPI.GK
 
 		public void ClearDescriptor()
 		{
-			InputDependentElements = new List<GKBase>();
+			//InputDependentElements = new List<GKBase>();
 			OutDependentElements = new List<GKBase>();
 			InputDescriptors = new List<GKBase>();
 			OutputDescriptors = new List<GKBase>();
