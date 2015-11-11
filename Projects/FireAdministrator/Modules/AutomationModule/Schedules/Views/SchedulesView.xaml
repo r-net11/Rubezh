@@ -3,13 +3,6 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:views="clr-namespace:AutomationModule.Views"
 			 xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
-	<UserControl.Resources>
-<!--		<CollectionViewSource x:Key="cvsSchedules" Source="{Binding Schedules}">
-			<CollectionViewSource.SortDescriptions>
-				<scm:SortDescription PropertyName="Name" Direction="Ascending"/>
-			</CollectionViewSource.SortDescriptions>
-		</CollectionViewSource> -->
-	</UserControl.Resources>
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition />
@@ -21,16 +14,15 @@
 			<RowDefinition Height="1" />
 			<RowDefinition Height="150" />
 		</Grid.RowDefinitions>
-
-		<DataGrid
-			ItemsSource="{Binding Schedules}"
-			SelectedItem="{Binding SelectedSchedule}"
-			IsReadOnly="False"
-			Margin="0, 0, 2, 2">
+		<DataGrid ItemsSource="{Binding Schedules}"
+				  SelectedItem="{Binding SelectedSchedule}"
+				  IsReadOnly="False"
+				  Margin="0, 0, 2, 2">
+			<DataGrid.InputBindings>
+				<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
+			</DataGrid.InputBindings>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn
-					Header="Название"
-					Width="*">
+				<DataGridTemplateColumn Header="Название" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">

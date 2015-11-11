@@ -10,15 +10,18 @@
 			<SwitchCase Then="Камера уже размещена на плане" When="Single" />
 		</SwitchConverter>
 		<ContextMenu  x:Key="CameraContextMenu">
-			<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd"  Text="Добавить (Ctrl+N)" />
-			<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete"  Text="Удалить (Ctrl+Del)" />
-			<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit"  Text="Редактировать (Ctrl+E)" />
+			<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить (Ctrl+N)" />
+			<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete" Text="Удалить (Ctrl+Del)" />
+			<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit" Text="Редактировать (Ctrl+E)" />
 			<Separator />
 			<IconedMenuItem Command="{Binding SelectedCamera.AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource True}" ImageSource="Eye2" Text="Разрешить множественную визуализацию" />
 			<IconedMenuItem Command="{Binding SelectedCamera.AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource False}" ImageSource="Eye3" Text="Запретить множественную визуализацию" />
 		</ContextMenu>
 	</UserControl.Resources>
 	<DataGrid ContextMenu="{StaticResource CameraContextMenu}" Focusable="True" SelectedItem="{Binding SelectedCamera}" ItemsSource="{Binding Cameras}">
+		<DataGrid.InputBindings>
+			<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
+		</DataGrid.InputBindings>
 		<DataGrid.Columns>
 			<DataGridTemplateColumn Width="*" Header="Камера">
 				<DataGridTemplateColumn.CellTemplate>
