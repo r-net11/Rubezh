@@ -1376,6 +1376,7 @@ IF EXISTS(SELECT * FROM Patches WHERE Id='Recreate_GKMetadata2')
 			DROP TABLE GKMetadata
 		DELETE FROM Patches WHERE Id='Recreate_GKMetadata2'
 	END
+GO
 IF EXISTS(SELECT * FROM Patches WHERE Id='GKCards')
 	BEGIN
 		IF EXISTS(SELECT * 
