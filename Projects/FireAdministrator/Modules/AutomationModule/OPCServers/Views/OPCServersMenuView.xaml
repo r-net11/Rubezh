@@ -4,10 +4,10 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-		<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="Add" />
-		<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="Edit" />
-		<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="Delete" />
-        <ToolBarButton Command="{Binding CheckTagsCommand}" ToolTip="Изменить параметры контроля" ImageSource="Settings2" />
-        <ToolBarButton Command="{Binding PrintTreeCommand}" ToolTip="Вывести лерево тегов" ImageSource="Print" />
-    </StackPanel>
+		<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить (Ctrl + N)" ImageSource="Add" />
+		<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать (Ctrl + E)" ImageSource="Edit" />
+		<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить (Ctrl + Del)" ImageSource="Delete" />
+		<ToolBarButton Command="{Binding CheckTagsCommand}" ToolTip="Изменить параметры контроля" ImageSource="Settings2" />
+		<ToolBarButton Command="{Binding PrintTreeCommand}" ToolTip="Вывести дерево тегов" ImageSource="Print" />
+	</StackPanel>
 </UserControl>

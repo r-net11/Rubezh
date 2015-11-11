@@ -65,7 +65,6 @@
 						<Directory Id="Monitor.Dll" Name="Dll" />
 					</Directory>
 					<Directory Id="GKOPCLOCATION" Name="GKOPC" />
-					<Directory Id="FirmwhareUpdateLOCATION" Name="Актуальные прошивки ГК" />
         </Directory>
 			</Directory>
 			<Directory Id="ProgramMenuFolder">

@@ -34,7 +34,7 @@ namespace SKDModule.ViewModels
 
 		public void ReloadDayIntervals()
 		{
-			if (Organisations != null)
+			if (Organisations != null && Organisations.Count > 0)
 			{
 				var dayIntervals = DayIntervalHelper.Get(new DayIntervalFilter()
 				{
@@ -43,7 +43,12 @@ namespace SKDModule.ViewModels
 				});
 				_dayIntervals = new Dictionary<Guid, ObservableCollection<DayInterval>>();
 				Organisations.ForEach(item => _dayIntervals.Add(item.Organisation.UID, new ObservableCollection<DayInterval>()));
-				dayIntervals.ForEach(item => _dayIntervals[item.OrganisationUID].Add(item));
+				foreach (var item in dayIntervals)
+				{
+					var organisation = _dayIntervals[item.OrganisationUID];
+					if (organisation != null)
+						organisation.Add(item);
+				}
 			}
 		}
 		public ObservableCollection<DayInterval> GetDayIntervals(Guid organisationUID)

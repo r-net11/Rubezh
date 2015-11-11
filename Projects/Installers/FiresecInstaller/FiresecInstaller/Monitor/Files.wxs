@@ -78,6 +78,7 @@
 				<File Id="Monitor.DevExpress.Xpf.Printing.v15.1.dll"							Name="DevExpress.Xpf.Printing.v15.1.dll" Source="$(var.Monitor.DevExpress.TargetDir)" />
 				<File Id="Monitor.DevExpress.Xpf.Printing.v15.1.Service.dll"			Name="DevExpress.Xpf.Printing.v15.1.Service.dll" Source="$(var.Monitor.DevExpress.TargetDir)" />
 				<File Id="Monitor.DevExpress.Xpf.Ribbon.v15.1.dll"								Name="DevExpress.Xpf.Ribbon.v15.1.dll" Source="$(var.Monitor.DevExpress.TargetDir)" />
+				<File Id="Monitor.DevExpress.Xpf.WpfReportDesigner.v15.1.dll"			Name="DevExpress.Xpf.WpfReportDesigner.v15.1.dll" Source="$(var.Monitor.DevExpress.TargetDir)" />
 				<File Id="Monitor.DevExpress.XtraBars.v15.1.dll"									Name="DevExpress.XtraBars.v15.1.dll" Source="$(var.Monitor.DevExpress.TargetDir)" />
 				<File Id="Monitor.DevExpress.XtraCharts.v15.1.dll"								Name="DevExpress.XtraCharts.v15.1.dll" Source="$(var.Monitor.DevExpress.TargetDir)" />
 				<File Id="Monitor.DevExpress.XtraEditors.v15.1.dll"								Name="DevExpress.XtraEditors.v15.1.dll" Source="$(var.Monitor.DevExpress.TargetDir)" />

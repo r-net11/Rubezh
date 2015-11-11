@@ -21,7 +21,6 @@ namespace RubezhAPI.Automation
 			ForArguments = new ForArguments();
 			PauseArguments = new PauseArguments();
 			ProcedureSelectionArguments = new ProcedureSelectionArguments();
-			ExitArguments = new ExitArguments();
 			SetValueArguments = new SetValueArguments();
 			IncrementValueArguments = new IncrementValueArguments();
 			ControlGKDeviceArguments = new ControlGKDeviceArguments();
@@ -101,9 +100,6 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public ProcedureSelectionArguments ProcedureSelectionArguments { get; set; }
-
-		[DataMember]
-		public ExitArguments ExitArguments { get; set; }
 
 		[DataMember]
 		public GetListCountArguments GetListCountArguments { get; set; }

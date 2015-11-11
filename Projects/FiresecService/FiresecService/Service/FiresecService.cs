@@ -6,7 +6,6 @@ using RubezhAPI;
 using RubezhAPI.Journal;
 using RubezhAPI.Models;
 using RubezhDAL.DataClasses;
-using RubezhLicense;
 using RubezhAPI.License;
 
 namespace FiresecService.Service

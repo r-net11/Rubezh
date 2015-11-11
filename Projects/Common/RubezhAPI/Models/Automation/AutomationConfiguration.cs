@@ -206,13 +206,6 @@ namespace RubezhAPI.Automation
 					}
 					break;
 
-				case ProcedureStepType.Exit:
-					{
-						var exitArguments = step.ExitArguments;
-						InvalidateArgument(procedure, exitArguments.ExitCodeArgument);
-					}
-					break;
-
 				case ProcedureStepType.SetValue:
 					{
 						var setValueArguments = step.SetValueArguments;

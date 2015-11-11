@@ -122,7 +122,8 @@ namespace AutomationModule.ViewModels
 		void OnAddVariable()
 		{
 			var variableDetailsViewModel = new VariableDetailsViewModel(null, SelectedVariableScope == VariableScope.LocalVariable ? "локальная переменная" : "глобальная переменная",
-				SelectedVariableScope == VariableScope.LocalVariable ? "Добавить локальную переменную" : "Добавить глобальную переменную");
+				SelectedVariableScope == VariableScope.LocalVariable ? "Добавить локальную переменную" : "Добавить глобальную переменную", 
+				SelectedVariableScope == VariableScope.GlobalVariable);
 			variableDetailsViewModel.IsList = IsList;
 			variableDetailsViewModel.ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ExplicitTypes);
 			var explicitTypeViewModel = variableDetailsViewModel.ExplicitTypes.FirstOrDefault();

@@ -14,6 +14,7 @@ using RubezhClient;
 using Property = RubezhAPI.Automation.Property;
 using RubezhAPI.SKD;
 using RubezhClient.SKDHelpers;
+using System.Diagnostics;
 
 namespace Infrastructure.Automation
 {
@@ -120,6 +121,7 @@ namespace Infrastructure.Automation
 			var content = GetValue<string>(sendEmailArguments.EMailContentArgument);
 			var Smtp = new SmtpClient(smtp, port);
 			Smtp.Credentials = new NetworkCredential(login, password);
+			Smtp.EnableSsl = true;
 			var Message = new MailMessage();
 			Message.From = new MailAddress(eMailAddressFrom);
 			Message.To.Add(new MailAddress(eMailAddressTo));
@@ -311,6 +313,7 @@ namespace Infrastructure.Automation
 						break;
 					}
 			}
+			ProcedureExecutionContext.SynchronizeVariable(resultVariable, ContextType.Server);
 		}
 				
 		void FindObjects(ProcedureStep procedureStep)
@@ -811,6 +814,13 @@ namespace Infrastructure.Automation
 		{
 			var nowArguments = procedureStep.NowArguments;
 			SetValue(nowArguments.ResultArgument, DateTime.Now);
+		}
+
+		public void RunProgram(ProcedureStep procedureStep)
+		{
+			var processName = GetValue<string>(procedureStep.RunProgramArguments.PathArgument);
+			var parameters = GetValue<string>(procedureStep.RunProgramArguments.ParametersArgument);
+			Process.Start(processName, parameters);
 		}
 
 		void ControlFireZone(ProcedureStep procedureStep)

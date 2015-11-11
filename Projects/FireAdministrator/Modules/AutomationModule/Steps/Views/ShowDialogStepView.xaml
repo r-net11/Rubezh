@@ -43,7 +43,7 @@
 			<TextBlock Grid.Row="2" Grid.Column="2" Style="{DynamicResource ShowDialogStepView}" Text="Можно закрывать" />
 			<TextBlock Grid.Row="3" Grid.Column="2" Style="{DynamicResource ShowDialogStepView}" Text="Можно разворачивать" />
 			<TextBlock Grid.Row="3" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Поверх всех" />
-			<TextBlock Grid.Row="2" Grid.Column="4" Style="{DynamicResource ShowDialogStepView}" Text="Фиксированный размер" Grid.ColumnSpan="2" />
+			<TextBlock Grid.Row="2" Grid.Column="4" Style="{DynamicResource ShowDialogStepView}" Text="Изменяемый размер" Grid.ColumnSpan="2" />
 			<TextBlock Grid.Row="3" Grid.Column="4" Style="{DynamicResource ShowDialogStepView}" Text="Всем клиентам" Grid.ColumnSpan="2" Visibility="{Binding IsServerContext, Converter={StaticResource BoolToVisibilityConverter}}" />
 			<TextBlock Grid.Row="6" Grid.Column="4" Style="{DynamicResource ShowDialogStepView}" Text="Ширина" />
 			<TextBlock Grid.Row="7" Grid.Column="4" Style="{DynamicResource ShowDialogStepView}" Text="Высота" />

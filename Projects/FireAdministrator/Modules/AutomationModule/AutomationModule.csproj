@@ -191,7 +191,6 @@
     <Compile Include="Steps\ViewModels\ArithmeticStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlGKGuardZoneStepViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DirectionViewModel.cs" />
-    <Compile Include="Steps\ViewModels\ExitStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\FindObjectStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ForeachStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetObjectPropertyStepViewModel.cs" />
@@ -319,9 +318,6 @@
     </Compile>
     <Compile Include="Steps\Views\ShowDialogStepView.xaml.cs">
       <DependentUpon>ShowDialogStepView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Steps\Views\ExitStepView.xaml.cs">
-      <DependentUpon>ExitStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\FindObjectStepView.xaml.cs">
       <DependentUpon>FindObjectStepView.xaml</DependentUpon>
@@ -732,10 +728,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\ControlGKGuardZoneStepView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Steps\Views\ExitStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

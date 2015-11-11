@@ -98,7 +98,7 @@ namespace RubezhAPI.GK
 		{
 			if (obj == null || !(obj is GKDriver))
 				return false;
-			return ((GKDriver)obj).ShortName == this.ShortName;
+			return ((GKDriver)obj).UID == this.UID;
 		}
 	}
 }

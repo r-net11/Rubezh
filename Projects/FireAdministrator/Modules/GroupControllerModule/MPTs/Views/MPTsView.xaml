@@ -5,9 +5,9 @@
 			 xmlns:Views="clr-namespace:GKModule.Views">
 	<UserControl.Resources>
 		<ContextMenu x:Key="MptContextMenu">
-			<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd"  Text="Добавить (Ctrl+N)" />
-			<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete"  Text="Удалить (Ctrl+Del)" />
-			<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit"  Text="Редактировать (Ctrl+E)" />
+			<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить (Ctrl+N)" />
+			<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete" Text="Удалить (Ctrl+Del)" />
+			<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit" Text="Редактировать (Ctrl+E)" />
 			<Separator />
 			<IconedMenuItem Command="{Binding CopyLogicCommand}" ImageSource="BCopy" Text="Копировать логику" />
 			<IconedMenuItem Command="{Binding PasteLogicCommand}" ImageSource="BPaste" Text="Вставить логику" />
@@ -27,6 +27,9 @@
 				<ColumnDefinition Width="2*" MinWidth="200" />
 			</Grid.ColumnDefinitions>
 			<DataGrid Grid.Column="0" ContextMenu="{StaticResource MptContextMenu}" ItemsSource="{Binding MPTs}" SelectedItem="{Binding SelectedMPT}" CanUserSortColumns="True">
+				<DataGrid.InputBindings>
+					<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
+				</DataGrid.InputBindings>
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="№" SortMemberPath="MPT.No" Width="Auto" CanUserResize="False">
 						<DataGridTemplateColumn.CellTemplate>
@@ -119,7 +122,7 @@
 							</TextBlock>
 							<Views:MPTDevicePropertiesView DataContext="{Binding MPTDevicePropertiesViewModel}" MinHeight="10" />
 						</StackPanel>
-						<ToolBarButton Grid.Column="1" Command="{Binding EditPropertiesCommand}" ToolTip="Параметры устройства" ImageSource="Settings2"  VerticalAlignment="Top" />
+						<ToolBarButton Grid.Column="1" Command="{Binding EditPropertiesCommand}" ToolTip="Параметры устройства" ImageSource="Settings2" VerticalAlignment="Top" />
 					</Grid>
 				</Grid>
 			</Grid>
