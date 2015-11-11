@@ -441,7 +441,12 @@ namespace SKDModule.ViewModels
 		}
 		protected virtual bool CanPaste()
 		{
-			return SelectedItem != null && _clipboard != null && ParentOrganisation != null && IsEditAllowed;
+			return SelectedItem != null
+				&& _clipboard != null
+				&& ParentOrganisation != null
+				&& IsEditAllowed
+				&& !SelectedItem.IsDeleted
+				&& !ParentOrganisation.IsDeleted;
 		}
 
 		protected virtual TModel CopyModel(TModel source)
