@@ -93,7 +93,7 @@ namespace GKProcessor
 				return true;
 			var description = BytesHelper.BytesToStringDescription(bytes);
 			var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == internalType);
-			if (driver != null)
+			if (driver != null && driver.DriverType != GKDriverType.GK)
 			{
 				var device = new GKDevice
 				{

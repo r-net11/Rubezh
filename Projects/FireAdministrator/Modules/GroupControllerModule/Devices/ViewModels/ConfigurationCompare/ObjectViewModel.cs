@@ -161,16 +161,21 @@ namespace GKModule.ViewModels
 
 			if (object1.ObjectType == ObjectType.Device)
 			{
-				var orderNo1 =
-					(object1.Device.KAUParent != null ? object1.Device.KAUParent.IntAddress * 256 * 256 * 256 : 0) +
-					(object1.Device.ShleifNo * 256 * 256) +
-					(!object1.Device.Driver.IsKau ? object1.Device.IntAddress * 256 : 0)
-					+ object1.Device.Driver.DriverType;
-				var orderNo2 =
-					(object2.Device.KAUParent != null ? object2.Device.KAUParent.IntAddress * 256 * 256 * 256 : 0) +
-					(object2.Device.ShleifNo * 256 * 256) +
-					(!object2.Device.Driver.IsKau ? object2.Device.IntAddress * 256 : 0)
-					+ object2.Device.Driver.DriverType;
+				var device1 = object1.Device;
+				var device2 = object2.Device;
+				var intAddress1 = 0;
+				var intAddress2 = 0;
+				if (device1.KAUParent != null)
+					intAddress1 = device1.KAUParent.IntAddress;
+				else if (device1.MirrorParent != null)
+					intAddress1 = device1.MirrorParent.IntAddress;
+				if (device2.KAUParent != null)
+					intAddress2 = device2.KAUParent.IntAddress;
+				else if (device2.MirrorParent != null)
+					intAddress2 = device2.MirrorParent.IntAddress;
+
+				var orderNo1 = (intAddress1 * 256 * 256 * 256) + (device1.ShleifNo * 256 * 256) + (!device1.Driver.IsKau ? device1.IntAddress * 256 : 0) + device1.Driver.DriverType;
+				var orderNo2 = (intAddress2 * 256 * 256 * 256) + (device2.ShleifNo * 256 * 256) + (!device2.Driver.IsKau ? device2.IntAddress * 256 : 0) + device2.Driver.DriverType;
 				if (orderNo1 > orderNo2)
 					return 1;
 				if (orderNo1 < orderNo2)
