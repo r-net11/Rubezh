@@ -166,6 +166,9 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("Архивирование, восстановление пропусков")]
 		Oper_SKD_Cards_Etit,
 
+		[DescriptionAttribute("Сброс флага запрета повторного прохода")]
+		Oper_SKD_Cards_ResetRepeatEnter,
+
 		[DescriptionAttribute("Просмотр шаблонов доступа")]
 		Oper_SKD_AccessTemplates_View,
 

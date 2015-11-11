@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -61,16 +62,16 @@ namespace SecurityModule.ViewModels
 
 		public PermissionViewModel[] RootPermissions
 		{
-			get { return new PermissionViewModel[] { RootPermission }; }
+			get { return new[] { RootPermission }; }
 		}
 
-		void BuildPermissionTree()
+		public void BuildPermissionTree()
 		{
 			RootPermission = new PermissionViewModel("Все",
-				new List<PermissionViewModel>()
+				new List<PermissionViewModel>
 				{
 					new PermissionViewModel("Администратор",
-						new List<PermissionViewModel>()
+						new List<PermissionViewModel>
 						{
 							new PermissionViewModel(PermissionType.Adm_ViewConfig),
 							new PermissionViewModel(PermissionType.Adm_SetNewConfig),
@@ -79,7 +80,7 @@ namespace SecurityModule.ViewModels
 							new PermissionViewModel(PermissionType.Adm_Security),
 						}),
 					new PermissionViewModel("ОЗ",
-						new List<PermissionViewModel>()
+						new List<PermissionViewModel>
 						{
 							new PermissionViewModel(PermissionType.Oper_Login),
 							new PermissionViewModel(PermissionType.Oper_Logout),
@@ -89,24 +90,24 @@ namespace SecurityModule.ViewModels
 							new PermissionViewModel(PermissionType.Oper_ChangeView),
 							new PermissionViewModel(PermissionType.Oper_MayNotConfirmCommands),
 							new PermissionViewModel(PermissionType.Oper_GKSchedules),
-							new PermissionViewModel("Журнал и архив событий", new List<PermissionViewModel>()
+							new PermissionViewModel("Журнал и архив событий", new List<PermissionViewModel>
 								{
 									new PermissionViewModel(PermissionType.Oper_Journal_View),
 									new PermissionViewModel(PermissionType.Oper_Archive_View),
 									new PermissionViewModel(PermissionType.Oper_Archive_Settings),
 								}),
-							new PermissionViewModel("Отчеты", new List<PermissionViewModel>()
+							new PermissionViewModel("Отчеты", new List<PermissionViewModel>
 								{
-									new PermissionViewModel("Конфигурация", new List<PermissionViewModel>()
+									new PermissionViewModel("Конфигурация", new List<PermissionViewModel>
 										{
 											new PermissionViewModel(PermissionType.Oper_Reports_Doors),
 										}),
-									new PermissionViewModel("События", new List<PermissionViewModel>()
+									new PermissionViewModel("События", new List<PermissionViewModel>
 										{
 											new PermissionViewModel(PermissionType.Oper_Reports_Events),
 											new PermissionViewModel(PermissionType.Oper_Reports_EmployeeRoot),
 										}),
-									new PermissionViewModel("Картотека", new List<PermissionViewModel>()
+									new PermissionViewModel("Картотека", new List<PermissionViewModel>
 										{
 											new PermissionViewModel(PermissionType.Oper_Reports_Cards),
 											new PermissionViewModel(PermissionType.Oper_Reports_Employees_Access),
@@ -116,7 +117,7 @@ namespace SecurityModule.ViewModels
 											new PermissionViewModel(PermissionType.Oper_Reports_EmployeeZone),
 											new PermissionViewModel(PermissionType.Oper_Reports_Employee),
 										}),
-									new PermissionViewModel("Учет рабочего времени", new List<PermissionViewModel>()
+									new PermissionViewModel("Учет рабочего времени", new List<PermissionViewModel>
 										{
 											new PermissionViewModel(PermissionType.Oper_Reports_Discipline),
 											new PermissionViewModel(PermissionType.Oper_Reports_Schedules),
@@ -125,66 +126,67 @@ namespace SecurityModule.ViewModels
 											new PermissionViewModel(PermissionType.Oper_Reports_T13),
 										}),
 								}),
-							new PermissionViewModel("СКД", new List<PermissionViewModel>()
+							new PermissionViewModel("СКД", new List<PermissionViewModel>
 								{
-									new PermissionViewModel("Устройства", new List<PermissionViewModel>()
+									new PermissionViewModel("Устройства", new List<PermissionViewModel>
 										{
 											new PermissionViewModel(PermissionType.Oper_Strazh_Devices_View),
 											new PermissionViewModel(PermissionType.Oper_Strazh_Devices_Control),
 										}),
-									new PermissionViewModel("Зоны", new List<PermissionViewModel>()
+									new PermissionViewModel("Зоны", new List<PermissionViewModel>
 										{
 											new PermissionViewModel(PermissionType.Oper_Strazh_Zones_View),
 											new PermissionViewModel(PermissionType.Oper_Strazh_Zones_Control),
 										}),
-									new PermissionViewModel("Точки доступа", new List<PermissionViewModel>()
+									new PermissionViewModel("Точки доступа", new List<PermissionViewModel>
 										{
 											new PermissionViewModel(PermissionType.Oper_Strazh_Doors_View),
 											new PermissionViewModel(PermissionType.Oper_Strazh_Doors_Control),
 										}),
-									new PermissionViewModel("Картотека", new List<PermissionViewModel>()
+									new PermissionViewModel("Картотека", new List<PermissionViewModel>
 										{
-											new PermissionViewModel("Сотрудники", new List<PermissionViewModel>()
+											new PermissionViewModel("Сотрудники", new List<PermissionViewModel>
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_Employees_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_Employees_Edit),
 											}),
-											new PermissionViewModel("Посетители", new List<PermissionViewModel>()
+											new PermissionViewModel("Посетители", new List<PermissionViewModel>
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_Guests_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_Guests_Edit),
 											}),
-											new PermissionViewModel("Подразделения", new List<PermissionViewModel>()
+											new PermissionViewModel("Подразделения", new List<PermissionViewModel>
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_Departments_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_Departments_Etit),
 											}),
-											new PermissionViewModel("Должности", new List<PermissionViewModel>()
+											new PermissionViewModel("Должности", new List<PermissionViewModel>
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_Positions_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_Positions_Etit),
 											}),
-											new PermissionViewModel("Дополнительные колонки", new List<PermissionViewModel>()
+											new PermissionViewModel("Дополнительные колонки", new List<PermissionViewModel>
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_AdditionalColumns_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_AdditionalColumns_Etit),
 											}),
-											new PermissionViewModel("Пропуска", new List<PermissionViewModel>()
+											new PermissionViewModel("Пропуска", new List<PermissionViewModel>
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_Cards_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_Cards_Etit),
+												new PermissionViewModel(PermissionType.Oper_SKD_Cards_ResetRepeatEnter),
 											}),
-											new PermissionViewModel("Шаблоны доступа", new List<PermissionViewModel>()
+											new PermissionViewModel("Шаблоны доступа", new List<PermissionViewModel>
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_AccessTemplates_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_AccessTemplates_Etit),
 											}),
-											new PermissionViewModel("Шаблоны пропусков", new List<PermissionViewModel>()
+											new PermissionViewModel("Шаблоны пропусков", new List<PermissionViewModel>
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_PassCards_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_PassCards_Etit),
 											}),
-											new PermissionViewModel("Организации", new List<PermissionViewModel>()
+											new PermissionViewModel("Организации", new List<PermissionViewModel>
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_Organisations_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_Organisations_Edit),
@@ -192,29 +194,29 @@ namespace SecurityModule.ViewModels
 												new PermissionViewModel(PermissionType.Oper_SKD_Organisations_Doors),
 											}),
 										}),
-									new PermissionViewModel("Учет рабочего времени", new List<PermissionViewModel>()
+									new PermissionViewModel("Учет рабочего времени", new List<PermissionViewModel>
 										{
-											new PermissionViewModel("Дневные графики", new List<PermissionViewModel>()
+											new PermissionViewModel("Дневные графики", new List<PermissionViewModel>
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_DaySchedules_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit),
 											}),
-											new PermissionViewModel("Графики", new List<PermissionViewModel>()
+											new PermissionViewModel("Графики", new List<PermissionViewModel>
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit),
 											}),
-											new PermissionViewModel("Праздничные дни", new List<PermissionViewModel>()
+											new PermissionViewModel("Праздничные дни", new List<PermissionViewModel>
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_Holidays_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_Holidays_Edit),
 											}),
-											new PermissionViewModel("Графики работ", new List<PermissionViewModel>()
+											new PermissionViewModel("Графики работ", new List<PermissionViewModel>
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_Schedules_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_Schedules_Edit),
 											}),
-											new PermissionViewModel("Учет рабочего времени ", new List<PermissionViewModel>()
+											new PermissionViewModel("Учет рабочего времени ", new List<PermissionViewModel>
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_Report_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_Parts_Edit),
@@ -229,13 +231,10 @@ namespace SecurityModule.ViewModels
 
 		public List<string> GetPermissionStrings()
 		{
-			var result = new List<string>();
-			foreach (var permission in AllPermissions)
-			{
-				if (permission.IsChecked && permission.IsPermission)
-					result.Add(permission.PermissionType.ToString());
-			}
-			return result;
+			return AllPermissions
+				.Where(permission => permission.IsChecked && permission.IsPermission)
+				.Select(permission => permission.PermissionType.ToString())
+				.ToList();
 		}
 	}
 }

@@ -5,8 +5,8 @@ using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
@@ -15,7 +15,7 @@ namespace SKDModule.ViewModels
 {
 	public class EmployeeCardsViewModel : BaseViewModel, ICardDoorsParentList<EmployeeCardViewModel>
 	{
-		EmployeeViewModel _employeeViewModel;
+		private readonly EmployeeViewModel _employeeViewModel;
 
 		public ShortEmployee Employee { get { return _employeeViewModel.Model; } }
 
@@ -24,8 +24,9 @@ namespace SKDModule.ViewModels
 			_employeeViewModel = employeeViewModel;
 			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
 			SelectEmployeeCommand = new RelayCommand(OnSelectEmployee);
-			ServiceFactory.Events.GetEvent<UpdateAccessTemplateEvent>().Unsubscribe(OnUpdateAccessTemplate);
-			ServiceFactory.Events.GetEvent<UpdateAccessTemplateEvent>().Subscribe(OnUpdateAccessTemplate);
+			ServiceFactoryBase.Events.GetEvent<UpdateAccessTemplateEvent>().Unsubscribe(OnUpdateAccessTemplate);
+			ServiceFactoryBase.Events.GetEvent<UpdateAccessTemplateEvent>().Subscribe(OnUpdateAccessTemplate);
+			CanShowResetRepeatEnterButton = FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_ResetRepeatEnter);
 			Cards = new ObservableCollection<EmployeeCardViewModel>();
 			if (!_employeeViewModel.IsOrganisation)
 			{
@@ -49,6 +50,19 @@ namespace SKDModule.ViewModels
 			{
 				_selectedCard = value;
 				OnPropertyChanged(() => SelectedCard);
+			}
+		}
+
+		private bool _canShowResetRepeatEnterButton;
+
+		public bool CanShowResetRepeatEnterButton
+		{
+			get { return _canShowResetRepeatEnterButton; }
+			set
+			{
+				if (_canShowResetRepeatEnterButton == value) return;
+				_canShowResetRepeatEnterButton = value;
+				OnPropertyChanged(() => CanShowResetRepeatEnterButton);
 			}
 		}
 
