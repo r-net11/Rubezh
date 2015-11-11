@@ -21,7 +21,6 @@ namespace GKProcessor
 				HasMirror = true,
 				MinAddress = 1,
 				MaxAddress = 2000,
-				IsReal = false
 			};
 
 			driver.AvailableStateClasses.Add(XStateClass.Norm);

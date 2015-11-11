@@ -149,7 +149,7 @@ namespace GKProcessor
 				GKProcessorManager.DoProgress(device.PresentationName + " Переход в рабочий режим", progressCallback);
 				if (progressCallback.IsCanceled)
 					return true;
-				SendManager.Send(device, 0, 11, 0, null, device.DriverType == GKDriverType.GK);
+				SendManager.Send(device, 0, 11, 0, null, device.DriverType == GKDriverType.GK || device.DriverType == GKDriverType.GKMirror);
 
 				if (waitUntillStart)
 				{
