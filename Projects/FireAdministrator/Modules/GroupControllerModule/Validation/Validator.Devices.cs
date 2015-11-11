@@ -115,7 +115,7 @@ namespace GKModule.Validation
 
 			if (device.Driver.HasZone)
 			{
-				if (device.Zones.Count == 0)
+				if (device.Zones.Count == 0 && device.GuardZones.Count == 0)
 					AddError(device, "Устройство не подключено к зоне", ValidationErrorLevel.Warning);
 			}
 		}
