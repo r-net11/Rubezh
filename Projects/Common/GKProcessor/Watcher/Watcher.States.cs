@@ -206,7 +206,7 @@ namespace GKProcessor
 				ushort physicalAddress = (ushort)device.IntAddress;
 				if (device.Driver.IsDeviceOnShleif)
 					physicalAddress = (ushort)((device.ShleifNo - 1) * 256 + device.IntAddress);
-				if (device.DriverType != GKDriverType.GK && device.DriverType != GKDriverType.RSR2_KAU
+				if (device.DriverType != GKDriverType.GK && device.DriverType != GKDriverType.RSR2_KAU && device.DriverType != GKDriverType.GKMirror
 					&& device.Driver.HasAddress && device.Driver.IsReal && physicalAddress != descriptorStateHelper.PhysicalAddress)
 				{
 					isMissmatch = true;
