@@ -317,6 +317,14 @@ namespace FiresecService.Service
 			}
 		}
 
+		public OperationResult CheckDocumentType(TimeTrackDocumentType timeTrackDocumentType, Guid organisationUID)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.TimeTrackDocumentTranslator.CheckDocumentType(timeTrackDocumentType, organisationUID);
+			}
+		}
+
 		public OperationResult RemoveTimeTrackDocumentType(Guid timeTrackDocumentTypeUID)
 		{
 			using (var databaseService = new SKDDatabaseService())

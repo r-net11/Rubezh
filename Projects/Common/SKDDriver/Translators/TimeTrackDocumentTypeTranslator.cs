@@ -1,13 +1,10 @@
-﻿using System.Diagnostics;
-using System.Threading.Tasks;
-using FiresecAPI;
+﻿using FiresecAPI;
 using FiresecAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SKDDriver.DataAccess;
 using OperationResult = FiresecAPI.OperationResult;
-using TimeTrackDocument = FiresecAPI.SKD.TimeTrackDocument;
+using Organisation = FiresecAPI.SKD.Organisation;
 using TimeTrackDocumentType = FiresecAPI.SKD.TimeTrackDocumentType;
 
 namespace SKDDriver.Translators
@@ -185,7 +182,7 @@ namespace SKDDriver.Translators
 		{
 			try
 			{
-				var tableItem = (from x in Context.TimeTrackDocumentTypes where x.UID.Equals(timeTrackDocumentType.UID) select x).FirstOrDefault();
+				var tableItem = Context.TimeTrackDocumentTypes.FirstOrDefault(x => x.UID.Equals(timeTrackDocumentType.UID));
 				if (tableItem != null)
 				{
 					tableItem.Name = timeTrackDocumentType.Name;

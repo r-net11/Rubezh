@@ -148,6 +148,12 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.AddTimeTrackDocumentType(timeTrackDocumentType));
 		}
+
+		public OperationResult CheckDocumentType(TimeTrackDocumentType documentType, Guid organisationUID)
+		{
+			return SafeContext.Execute(() => FiresecService.CheckDocumentType(documentType, organisationUID));
+		}
+
 		public OperationResult EditTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.EditTimeTrackDocumentType(timeTrackDocumentType));
