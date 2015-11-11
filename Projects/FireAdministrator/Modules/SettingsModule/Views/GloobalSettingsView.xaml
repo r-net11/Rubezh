@@ -1,79 +1,129 @@
 ﻿<UserControl
-	x:Class="SettingsModule.Views.GloobalSettingsView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-	MinWidth="800" MinHeight="500">
-	<UserControl.Resources>
-		<Style TargetType="TextBlock">
-			<Setter Property="Foreground" Value="White" />
-		</Style>
-	</UserControl.Resources>
-
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+	x:Class="SettingsModule.Views.GloobalSettingsView"
+	MinWidth="600" MinHeight="420">
 	<TabControl>
 		<TabItem DataContext="{Binding AppServerViewModel}" Header="Сервер">
 			<Grid Margin="2">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="*" />
-				</Grid.ColumnDefinitions>
 				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
 				</Grid.RowDefinitions>
+				<Grid Grid.Row="0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
 
-				<TextBlock Grid.Row="0" Grid.Column="0" Text="Разрешить удаленные соединения на сервере" HorizontalAlignment="Right" Margin="2" />
-				<CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding EnableRemoteConnections}" HorizontalAlignment="Left" Margin="2" />
+					<TextBlock Grid.Row="0" Grid.Column="0" Text="Разрешить удаленные соединения на сервере" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" />
+					<CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding EnableRemoteConnections}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" />
 
-				<TextBlock Grid.Row="1" Grid.Column="0" Text="IP-адрес сервера" HorizontalAlignment="Right" Margin="2" />
-				<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding AvailableIpAddresses}" SelectedItem="{Binding ServiceAddress}" IsEnabled="{Binding EnableRemoteConnections}" Margin="2" />
+					<TextBlock Grid.Row="1" Grid.Column="0" Text="IP-адрес сервера" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" />
+					<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding AvailableIpAddresses}" SelectedItem="{Binding ServiceAddress}" IsEnabled="{Binding EnableRemoteConnections}" VerticalAlignment="Center" Margin="2" />
 
-				<TextBlock Grid.Row="2" Grid.Column="0" Text="Порт" HorizontalAlignment="Right" Margin="2" />
-				<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding ServicePort, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="65535" Margin="2" />
+					<TextBlock Grid.Row="2" Grid.Column="0" Text="Порт" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" />
+					<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding ServicePort, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="65535" VerticalAlignment="Center" Margin="2" />
 
-				<TextBlock Grid.Row="3" Grid.Column="0" Text="Порт сервиса отчетов" HorizontalAlignment="Right" Margin="2" />
-				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding ReportServicePort, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="65535" Margin="2" />
+					<TextBlock Grid.Row="3" Grid.Column="0" Text="Порт сервиса отчетов" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" />
+					<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding ReportServicePort, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="65535" VerticalAlignment="Center" Margin="2" />
 
-				<TextBlock
-					Grid.Row="4"
-					Grid.Column="0"
-					Margin="2"
-					HorizontalAlignment="Right"
-					Text="Использовать HASP" />
-				<CheckBox
-					Grid.Row="4"
-					Grid.Column="1"
-					Margin="2"
-					HorizontalAlignment="Left"
-					IsChecked="{Binding UseHasp}" />
-				<TextBlock
-					Grid.Row="5"
-					Grid.Column="0"
-					Margin="2"
-					HorizontalAlignment="Right"
-					Text="Название экземпляра сервера БД" />
-				<TextBox
-					Grid.Row="5"
-					Grid.Column="1"
-					Margin="2"
-					Text="{Binding DBServerName}" />
-				<TextBlock
-					Grid.Row="6"
-					Grid.Column="0"
-					Margin="2"
-					HorizontalAlignment="Right"
-					Text="Создавать новую БД при переполнении" />
-				<CheckBox
-					Grid.Row="6"
-					Grid.Column="1"
-					Margin="2"
-					HorizontalAlignment="Left"
-					IsChecked="{Binding CreateNewDBOnOversize}" />
+					<TextBlock
+						Grid.Row="4"
+						Grid.Column="0"
+						Margin="2"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Center"
+						Text="Использовать HASP"
+						Foreground="{DynamicResource ForegroundColorLight}"/>
+					<CheckBox
+						Grid.Row="4"
+						Grid.Column="1"
+						Margin="2"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						IsChecked="{Binding UseHasp}" />
+					<TextBlock
+						Grid.Row="5"
+						Grid.Column="0"
+						Margin="2"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Center"
+						Text="Название экземпляра сервера БД"
+						Foreground="{DynamicResource ForegroundColorLight}"/>
+					<TextBox
+						Grid.Row="5"
+						Grid.Column="1"
+						Margin="2"
+						VerticalAlignment="Center"
+						Text="{Binding DBServerName}" />
+					<TextBlock
+						Grid.Row="6"
+						Grid.Column="0"
+						Margin="2"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Center"
+						Text="Создавать новую БД при переполнении"
+						Foreground="{DynamicResource ForegroundColorLight}"/>
+					<CheckBox
+						Grid.Row="6"
+						Grid.Column="1"
+						Margin="2"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						IsChecked="{Binding CreateNewDBOnOversize}" />
+				</Grid>
+				<GroupBox Grid.Row="1" Header="Настройка базы данных" Margin="2 10">
+					<GroupBox.HeaderTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding}" Foreground="{DynamicResource ForegroundColorLight}"/>
+						</DataTemplate>
+					</GroupBox.HeaderTemplate>
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="Auto"/>
+						</Grid.RowDefinitions>
+						<Grid Grid.Row="0">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto"/>
+								<ColumnDefinition Width="*"/>
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition/>
+								<RowDefinition/>
+								<RowDefinition/>
+								<RowDefinition/>
+								<RowDefinition/>
+								<RowDefinition/>
+							</Grid.RowDefinitions>
+							<TextBlock Grid.Row="0" Grid.Column="0" Text="IP-адрес сервера баз данных" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2"/>
+							<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding DBServerAddress}" VerticalAlignment="Center" Margin="2"/>
+							<TextBlock Grid.Row="1" Grid.Column="0" Text="Порт сервера баз данных" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2"/>
+							<extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding DBServerPort, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="65535" VerticalAlignment="Center" Margin="2"/>
+							<TextBlock Grid.Row="2" Grid.Column="0" Text="Название экземпляра сервера БД" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2"/>
+							<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding DBServerName}" VerticalAlignment="Center" Margin="2"/>
+							<TextBlock Grid.Row="3" Grid.Column="0" Text="Аутентификация" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2"/>
+							<ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding AvailableSqlServerAuthenticationModes}" SelectedItem="{Binding SqlServerAuthenticationMode}" VerticalAlignment="Center" Margin="2"/>
+							<TextBlock Grid.Row="4" Grid.Column="0" Text="Логин сервера БД" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2"/>
+							<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding DBUserID}" VerticalAlignment="Center" IsEnabled="{Binding UseSqlServerAuthentication}" Margin="2"/>
+							<TextBlock Grid.Row="5" Grid.Column="0" Text="Пароль сервера БД" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2"/>
+							<TextBox Grid.Row="5" Grid.Column="1" Text="{Binding DBUserPwd}" VerticalAlignment="Center" IsEnabled="{Binding UseSqlServerAuthentication}" Margin="2"/>
+						</Grid>
+						<Button Grid.Row="1" Content="Проверка соединения" Width="150" HorizontalAlignment="Right" Margin="2"/>
+					</Grid>
+				</GroupBox>
 			</Grid>
 		</TabItem>
 		<TabItem Header="Автозапуск">
@@ -101,8 +151,7 @@
 					<TextBox
 						Margin="2"
 						Background="LightGray"
-						Text="{Binding LogsFolderPath,
-					                        Mode=OneWay}" />
+						Text="{Binding LogsFolderPath, Mode=OneWay}" />
 					<StackPanel Orientation="Horizontal">
 						<Button
 							Width="150"
@@ -141,22 +190,27 @@
 					Grid.Column="0"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Адрес сервера" />
+					VerticalAlignment="Center"
+					Text="Адрес сервера"
+					Foreground="{DynamicResource ForegroundColorLight}"/>
 				<TextBox
 					Grid.Row="0"
 					Grid.Column="1"
+					VerticalAlignment="Center"
 					Margin="2"
-					Text="{Binding RemoteAddress,
-				                        UpdateSourceTrigger=PropertyChanged}" />
+					Text="{Binding RemoteAddress, UpdateSourceTrigger=PropertyChanged}" />
 				<TextBlock
 					Grid.Row="1"
 					Grid.Column="0"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Порт сервера" />
+					VerticalAlignment="Center"
+					Text="Порт сервера"
+					Foreground="{DynamicResource ForegroundColorLight}"/>
 				<extToolkit:IntegerUpDown
 					Grid.Row="1"
 					Grid.Column="1"
+					VerticalAlignment="Center"
 					Margin="2"
 					Value="{Binding RemotePort, UpdateSourceTrigger=PropertyChanged}"
 					Minimum="0" Maximum="65535" />
@@ -165,10 +219,13 @@
 					Grid.Column="0"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Порт сервиса отчетов" />
+					VerticalAlignment="Center"
+					Text="Порт сервиса отчетов"
+					Foreground="{DynamicResource ForegroundColorLight}"/>
 				<extToolkit:IntegerUpDown
 					Grid.Row="2"
 					Grid.Column="1"
+					VerticalAlignment="Center"
 					Margin="2"
 					Value="{Binding ReportRemotePort, UpdateSourceTrigger=PropertyChanged}"
 					Minimum="0" Maximum="65535" />
@@ -177,61 +234,74 @@
 					Grid.Column="0"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Логин" />
+					VerticalAlignment="Center"
+					Text="Логин"
+					Foreground="{DynamicResource ForegroundColorLight}"/>
 				<TextBox
 					Grid.Row="3"
 					Grid.Column="1"
+					VerticalAlignment="Center"
 					Margin="2"
-					Text="{Binding Login,
-				                        UpdateSourceTrigger=PropertyChanged}" />
+					Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" />
 				<TextBlock
 					Grid.Row="4"
 					Grid.Column="0"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Пароль" />
+					VerticalAlignment="Center"
+					Text="Пароль"
+					Foreground="{DynamicResource ForegroundColorLight}"/>
 				<TextBox
 					Grid.Row="4"
 					Grid.Column="1"
+					VerticalAlignment="Center"
 					Margin="2"
-					Text="{Binding Password,
-				                        UpdateSourceTrigger=PropertyChanged}" />
+					Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" />
 				<TextBlock
 					Grid.Row="5"
 					Grid.Column="0"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Автоконнект" />
+					VerticalAlignment="Center"
+					Text="Автоконнект"
+					Foreground="{DynamicResource ForegroundColorLight}"/>
 				<CheckBox
 					Grid.Row="5"
 					Grid.Column="1"
 					Margin="2"
 					HorizontalAlignment="Left"
+					VerticalAlignment="Center"
 					IsChecked="{Binding AutoConnect}" />
 				<TextBlock
 					Grid.Row="6"
 					Grid.Column="0"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Запретить администратору автоконнект" />
+					VerticalAlignment="Center"
+					Text="Запретить администратору автоконнект"
+					Foreground="{DynamicResource ForegroundColorLight}"/>
 				<CheckBox
 					Grid.Row="6"
 					Grid.Column="1"
 					Margin="2"
 					HorizontalAlignment="Left"
+					VerticalAlignment="Center"
 					IsChecked="{Binding DoNotAutoconnectAdm}" />
 				<TextBlock
 					Grid.Row="7"
 					Grid.Column="0"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Перезапускать ОЗ в случае аварийного завершения" />
+					VerticalAlignment="Center"
+					Text="Перезапускать ОЗ в случае аварийного завершения"
+					 Foreground="{DynamicResource ForegroundColorLight}"/>
 
 				<CheckBox
 					Grid.Row="7"
 					Grid.Column="1"
 					Margin="2"
 					HorizontalAlignment="Left"
+					VerticalAlignment="Center"
 					IsChecked="{Binding RunRevisor}" />
 			</Grid>
 		</TabItem>
@@ -286,8 +356,7 @@
 		<TabItem
 			DataContext="{Binding GlobalSettings}"
 			Header="Отладка"
-			Visibility="{Binding IsDebug,
-		                              Converter={StaticResource BoolToVisibilityConverter}}">
+			Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Grid Margin="2">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
