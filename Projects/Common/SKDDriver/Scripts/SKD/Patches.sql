@@ -1478,6 +1478,6 @@ IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='dbo' AND T
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsSystemColumnInTimeTrackDocumentType')
 	BEGIN
-		ALTER TABLE TimeTrackDocumentType ADD [IsSystem] [bit] NOT NULL DEFAULT 0
+		ALTER TABLE [TimeTrackDocumentType] ADD [IsSystem] bit NOT NULL DEFAULT 0
 		INSERT INTO Patches (Id) VALUES ('AddIsSystemColumnInTimeTrackDocumentType')
 	END
