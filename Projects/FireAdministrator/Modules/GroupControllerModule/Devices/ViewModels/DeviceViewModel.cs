@@ -143,8 +143,7 @@ namespace GKModule.ViewModels
 		{
 			get {
 				return Device != null && (Device.DriverType == GKDriverType.RSR2_Bush_Drenazh || Device.DriverType == GKDriverType.RSR2_Bush_Fire
-				|| Device.DriverType == GKDriverType.RSR2_Bush_Jokey || Device.DriverType == GKDriverType.RSR2_Bush_Shuv)
-				&& Device.OutputDependentElements.Any(x => x as GKPumpStation != null);
+				|| Device.DriverType == GKDriverType.RSR2_Bush_Jokey ) && Device.OutputDependentElements.Any(x => x as GKPumpStation != null);
 			}
 		}
 
