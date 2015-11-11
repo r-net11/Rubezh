@@ -1,21 +1,27 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace RubezhAPI.GK
 {
 	[DataContract]
 	public class GKUser
 	{
-		public GKUser(ushort gkNo, GKDevice gkDevice)
+		public GKUser()
 		{
-			GkNo = gkNo;
-			GkDevice = gkDevice;
 			GkLevel = 0;
 			GkLevelSchedule = 0;
 			IsActive = true;
 		}
 
-		
+		public GKUser(ushort gkNo, GKDevice gkDevice)
+			: this()
+		{
+			GkNo = gkNo;
+			GkDevice = gkDevice;
+		}
+
+
 		/// <summary>
 		/// Порядковый номер в ГК
 		/// </summary>
@@ -50,6 +56,7 @@ namespace RubezhAPI.GK
 		public byte GkLevelSchedule { get; set; }
 
 		[DataMember]
+		[XmlIgnore]
 		public GKDevice GkDevice { get; set; }
 	}
 }
