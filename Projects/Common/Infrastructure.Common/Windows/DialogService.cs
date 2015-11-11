@@ -15,7 +15,7 @@ namespace Infrastructure.Common.Windows
 		{
 			if (!Application.Current.Dispatcher.CheckAccess())
 				return (Window)Application.Current.Dispatcher.Invoke((Func<Window>)GetActiveWindow);
-			var window = Application.Current.Windows.Cast<Window>().SingleOrDefault(x => x.IsActive);
+			var window = Application.Current.Windows.Cast<Window>().SingleOrDefault(x => x.IsActive && !(x is BalloonTrayTip.Views.BalloonToolTipView));
 			return window ?? ApplicationService.ApplicationWindow;
 		}
 

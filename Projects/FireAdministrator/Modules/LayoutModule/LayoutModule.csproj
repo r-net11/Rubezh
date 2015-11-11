@@ -139,7 +139,6 @@
     <Compile Include="ViewModels\LayoutElementsViewModel.cs" />
     <Compile Include="ViewModels\LayoutViewModel.cs" />
     <Compile Include="ViewModels\MonitorLayoutViewModel.cs" />
-    <Compile Include="ViewModels\MonitorLayoutsTreeViewModel.cs" />
     <Compile Include="ViewModels\LayoutDesignerViewModel.cs" />
     <Compile Include="ViewModels\MonitorLayoutsViewModel.cs" />
     <Compile Include="ViewModels\IPFilterViewModel.cs" />
@@ -182,9 +181,6 @@
     </Compile>
     <Compile Include="Views\MonitorLayoutsMenuView.xaml.cs">
       <DependentUpon>MonitorLayoutsMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MonitorLayoutsTreeView.xaml.cs">
-      <DependentUpon>MonitorLayoutsTreeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MonitorLayoutsView.xaml.cs">
       <DependentUpon>MonitorLayoutsView.xaml</DependentUpon>
@@ -320,10 +316,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MonitorLayoutsMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MonitorLayoutsTreeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

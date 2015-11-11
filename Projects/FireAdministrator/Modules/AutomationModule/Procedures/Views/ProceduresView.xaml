@@ -65,11 +65,13 @@
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 			<DataGrid ContextMenu="{StaticResource ProcedureContextMenu}" ItemsSource="{Binding Procedures}" SelectedItem="{Binding SelectedProcedure}" IsReadOnly="False">
+				<DataGrid.InputBindings>
+					<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
+				</DataGrid.InputBindings>
 				<DataGrid.Columns>
-					<DataGridTemplateColumn 
-						Header="Название" 
-						SortMemberPath="Name"
-						Width="*">
+					<DataGridTemplateColumn Header="Название" 
+											SortMemberPath="Name"
+											Width="*">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">

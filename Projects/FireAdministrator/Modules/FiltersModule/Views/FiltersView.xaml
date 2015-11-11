@@ -6,9 +6,12 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" MinHeight="200" />
 			<RowDefinition Height="Auto" />
-            <RowDefinition Height="150"  MinHeight="200"/>
+			<RowDefinition Height="150" MinHeight="200"/>
 		</Grid.RowDefinitions>
 		<DataGrid CanUserSortColumns="True" ItemsSource="{Binding Filters}" SelectedItem="{Binding SelectedFilter}" IsReadOnly="False">
+			<DataGrid.InputBindings>
+				<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
+			</DataGrid.InputBindings>
 			<DataGrid.ContextMenu>
 				<ContextMenu>
 					<Controls:IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить (Ctrl+N)" />
@@ -17,10 +20,9 @@
 				</ContextMenu>
 			</DataGrid.ContextMenu>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn
-					Header="Название"
-					SortMemberPath="Filter.Name"
-					Width="*">
+				<DataGridTemplateColumn Header="Название"
+										SortMemberPath="Filter.Name"
+										Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -35,35 +37,35 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<GridSplitter Grid.Row="1" Height="5" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Cursor="SizeNS" />
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
-            <Border Margin="0, 5, 0, 0" Background="White" CornerRadius="5 0 0 5" DataContext="{Binding SelectedFilter}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>                   
-                </Grid.ColumnDefinitions>
-                    <ItemsControl Grid.Column="0" ItemsSource="{Binding Names}" Margin="5">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" Margin="2">
-                                <Image Width="16" Height="16" Source="{Binding ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
-                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="1000" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <ItemsControl Grid.Column="1" ItemsSource="{Binding Objects}" Margin="5">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Height="16" Source="{Binding ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
-                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="1000" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-              </Grid>
-        </Border>
-        </ScrollViewer>
-    </Grid>
-    </UserControl>
+		<ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+			<Border Margin="0, 5, 0, 0" Background="White" CornerRadius="5 0 0 5" DataContext="{Binding SelectedFilter}">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+					<ItemsControl Grid.Column="0" ItemsSource="{Binding Names}" Margin="5">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal" Margin="2">
+									<Image Width="16" Height="16" Source="{Binding ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
+									<TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="1000" />
+								</StackPanel>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+					<ItemsControl Grid.Column="1" ItemsSource="{Binding Objects}" Margin="5">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Width="16" Height="16" Source="{Binding ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
+									<TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="1000" />
+								</StackPanel>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</Grid>
+			</Border>
+		</ScrollViewer>
+	</Grid>
+</UserControl>

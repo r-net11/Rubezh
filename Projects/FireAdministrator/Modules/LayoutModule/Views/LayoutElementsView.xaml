@@ -1,4 +1,8 @@
-﻿<UserControl x:Class="LayoutModule.Views.LayoutElementsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:viewModel="clr-namespace:LayoutModule.ViewModels" xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock">
+﻿<UserControl x:Class="LayoutModule.Views.LayoutElementsView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:viewModel="clr-namespace:LayoutModule.ViewModels"
+			 xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock">
 	<UserControl.Resources>
 		<SwitchConverter x:Key="Tooltip" Else="{x:Null}">
 			<SwitchCase Then="Элемент может быть размещен" When="Multiple" />
@@ -10,8 +14,6 @@
 	<TreeList SelectedTreeNode="{Binding SelectedLayoutPart}" Source="{Binding LayoutParts}">
 		<TreeList.ItemContainerStyle>
 			<Style BasedOn="{StaticResource {x:Type TreeListItem}}" TargetType="{x:Type TreeListItem}">
-				<!--  <Setter Property="ContextMenu" Value="{StaticResource contextMenu}" />  -->
-				<!--  <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />  -->
 				<Setter Property="Focusable" Value="True" />
 			</Style>
 		</TreeList.ItemContainerStyle>
