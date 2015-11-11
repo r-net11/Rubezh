@@ -84,7 +84,7 @@ namespace GKModule.Models
 		}
 		bool CanSynchroniseTime()
 		{
-			return (SelectedDevice != null && SelectedDevice.Device.DriverType == GKDriverType.GK);
+			return (SelectedDevice != null && (SelectedDevice.Device.DriverType == GKDriverType.GK || SelectedDevice.Device.DriverType == GKDriverType.GKMirror));
 		}
 
 		public RelayCommand ReadJournalCommand { get; private set; }
