@@ -20,8 +20,8 @@ namespace FireMonitor.Layout.ViewModels
 {
 	public class LayoutContainer
 	{
-		private XmlLayoutSerializer _serializer;
-		private BaseViewModel _viewModel;
+		XmlLayoutSerializer _serializer;
+		BaseViewModel _viewModel;
 		public event EventHandler LayoutChanging;
 		public event EventHandler LayoutChanged;
 		public LayoutModel Layout { get; private set; }
@@ -81,7 +81,7 @@ namespace FireMonitor.Layout.ViewModels
 			var properties = ClientManager.FiresecService.GetProperties(Layout.UID);
 			if (properties != null)
 			{
-				if (properties.VisualProperties!=null)
+				if (properties.VisualProperties != null)
 					foreach (var visualProperty in properties.VisualProperties)
 					{
 						var layoutPart = LayoutParts.FirstOrDefault(item => item.UID == visualProperty.LayoutPart);
@@ -93,7 +93,7 @@ namespace FireMonitor.Layout.ViewModels
 			}
 		}
 
-		private ObservableCollection<LayoutPartViewModel> _layoutParts;
+		ObservableCollection<LayoutPartViewModel> _layoutParts;
 		public ObservableCollection<LayoutPartViewModel> LayoutParts
 		{
 			get { return _layoutParts; }
@@ -107,7 +107,7 @@ namespace FireMonitor.Layout.ViewModels
 			}
 		}
 
-		private LayoutPartViewModel _activeLayoutPart;
+		LayoutPartViewModel _activeLayoutPart;
 		public LayoutPartViewModel ActiveLayoutPart
 		{
 			get { return _activeLayoutPart; }
@@ -118,7 +118,7 @@ namespace FireMonitor.Layout.ViewModels
 			}
 		}
 
-		private DockingManager _manager;
+		DockingManager _manager;
 		public DockingManager Manager
 		{
 			get { return _manager; }
