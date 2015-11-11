@@ -70,24 +70,24 @@
 										<Controls:EditorPresenter.ViewTemplate>
 											<ControlTemplate>
 												<TextBlock MinWidth="100" Cursor="Hand" Text="{Binding NSPresentationZone}" Visibility="{Binding IsNSLogic, Converter={StaticResource BoolToVisibilityConverter}}">
-												<TextBlock.Style>
-													<Style TargetType="TextBlock">
-														<Style.Triggers>
-															<DataTrigger Binding="{Binding IsLogicGrayed}" Value="True">
-																<Setter Property="TextBlock.Foreground" Value="Gray" />
-															</DataTrigger>
-														</Style.Triggers>
-													</Style>
-												</TextBlock.Style>
-												<TextBlock.InputBindings>
-													<MouseBinding Command="{Binding ShowNSLogicCommand}" MouseAction="LeftClick" />
-												</TextBlock.InputBindings>
-												<TextBlock.ToolTip>
-													<WrapPanel>
-														<TextBlock Text="{Binding NSPresentationZone}" TextWrapping="Wrap" />
-													</WrapPanel>
-												</TextBlock.ToolTip>
-											</TextBlock>
+													<TextBlock.Style>
+														<Style TargetType="TextBlock">
+															<Style.Triggers>
+																<DataTrigger Binding="{Binding IsLogicGrayed}" Value="True">
+																	<Setter Property="TextBlock.Foreground" Value="Gray" />
+																</DataTrigger>
+															</Style.Triggers>
+														</Style>
+													</TextBlock.Style>
+													<TextBlock.InputBindings>
+														<MouseBinding Command="{Binding ShowNSLogicCommand}" MouseAction="LeftClick" />
+													</TextBlock.InputBindings>
+													<TextBlock.ToolTip>
+														<WrapPanel>
+															<TextBlock Text="{Binding NSPresentationZone}" TextWrapping="Wrap" />
+														</WrapPanel>
+													</TextBlock.ToolTip>
+												</TextBlock>
 											</ControlTemplate>
 										</Controls:EditorPresenter.ViewTemplate>
 									</Controls:EditorPresenter>

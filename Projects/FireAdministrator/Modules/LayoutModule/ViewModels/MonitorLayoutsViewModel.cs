@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Data;
-using System.Windows.Input;
 using Common;
 using RubezhAPI.Models.Layouts;
 using RubezhClient;
@@ -20,15 +19,12 @@ namespace LayoutModule.ViewModels
 	{
 		public static MonitorLayoutsViewModel Instance { get; private set; }
 		public MonitorLayoutViewModel MonitorLayoutViewModel { get; private set; }
-		public MonitorLayoutsTreeViewModel MonitorLayoutsTreeViewModel { get; private set; }
 		public LayoutUsersViewModel LayoutUsersViewModel { get; private set; }
 
 		public MonitorLayoutsViewModel()
 		{
 			MonitorLayoutViewModel = new MonitorLayoutViewModel();
-			MonitorLayoutsTreeViewModel = new MonitorLayoutsTreeViewModel(this);
 			CreateCommands();
-			RegisterShortcuts();
 			SetRibbonItems();
 			Menu = new MonitorLayoutsMenuViewModel(this);
 			Instance = this;
@@ -193,14 +189,6 @@ namespace LayoutModule.ViewModels
 		protected override void UpdateRibbonItems()
 		{
 			base.UpdateRibbonItems();
-		}
-		void RegisterShortcuts()
-		{
-			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.N, ModifierKeys.Control), AddCommand);
-			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.E, ModifierKeys.Control), EditCommand);
-			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.Delete, ModifierKeys.Control), RemoveCommand);
-			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.C, ModifierKeys.Control), LayoutCopyCommand);
-			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.V, ModifierKeys.Control), LayoutPasteCommand);
 		}
 		private void SetRibbonItems()
 		{

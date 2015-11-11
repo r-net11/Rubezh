@@ -31,10 +31,6 @@
 		<Views:LayoutUsersView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:MonitorLayoutsTreeViewModel}">
-		<Views:MonitorLayoutsTreeView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:LayoutPropertiesViewModel}">
 		<Views:LayoutPropertiesView />
 	</DataTemplate>
