@@ -1,16 +1,14 @@
-﻿using System.Globalization;
-using System.Reactive.Linq;
-using FiresecAPI.SKD;
+﻿using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using ReactiveUI;
+using SKDModule.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ReactiveUI;
-using SKDModule.Model;
-using SKDModule.Helpers;
+using System.Reactive.Linq;
 using DayTimeTrackPart = SKDModule.Model.DayTimeTrackPart;
 using TimeTrackZone = SKDModule.Model.TimeTrackZone;
 

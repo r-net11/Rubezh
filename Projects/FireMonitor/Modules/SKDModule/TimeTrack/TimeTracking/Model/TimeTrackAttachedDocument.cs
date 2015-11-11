@@ -2,13 +2,11 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reactive.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
 using ReactiveUI;
 using SKDModule.Common;
@@ -59,7 +57,7 @@ namespace SKDModule.Model
 				//_fileName = value;
 				this.RaiseAndSetIfChanged(ref _fileName, value);
 				Document.FileName = _fileName;
-				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(Document);
+				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(Document); //TODO: Refactor this. 4 times executes EditDocument action
 				if (operationResult.HasError)
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);

@@ -53,7 +53,7 @@ namespace FiresecAPI.Models
 		Oper_SKD,
 
 		[DescriptionAttribute("Управление графиками СКД")]
-		Oper_GKSchedules,
+		Oper_GKSchedules, //TODO: Rename
 
 		[DescriptionAttribute("Просмотр журнала")]
 		Oper_Journal_View,

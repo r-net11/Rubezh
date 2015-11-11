@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-using System.Reactive.Linq;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;
 using ReactiveUI;
@@ -10,6 +8,7 @@ using SKDModule.ViewModels;
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive.Linq;
 
 namespace SKDModule.Model
 {

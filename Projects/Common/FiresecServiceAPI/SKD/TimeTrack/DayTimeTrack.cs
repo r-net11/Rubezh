@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Linq.Mapping;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -142,10 +143,35 @@ namespace FiresecAPI.SKD
 
 			CombinedTimeTrackParts = TransferNightSettings(CombinedTimeTrackParts, NightSettings);
 			CombinedTimeTrackParts = ApplyDeviationPolitics(CombinedTimeTrackParts, AllowedAbsentLowThan, AllowedEarlyLeave, AllowedLate, NotAllowOvertimeLowerThan);
+			CombinedTimeTrackParts = CorrectDocumentIntervals(CombinedTimeTrackParts, SlideTime);
 			RealTimeTrackPartsForCalculates = FillTypesForRealTimeTrackParts(RealTimeTrackPartsForCalculates, PlannedTimeTrackParts);
 			Totals = CalculateTotal(SlideTime, PlannedTimeTrackParts, RealTimeTrackPartsForCalculates, CombinedTimeTrackParts, IsHoliday);
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
 			CalculateLetterCode();
+		}
+
+		private List<TimeTrackPart> CorrectDocumentIntervals(List<TimeTrackPart> combinedTimeTrackParts, TimeSpan slideTIme)
+		{
+			var result = new List<TimeTrackPart>();
+			var tmpCalc = 0.0;
+
+			foreach (var timeTrackPart in combinedTimeTrackParts)
+			{
+				if (timeTrackPart.TimeTrackPartType == TimeTrackType.DocumentPresence)
+				{
+					tmpCalc += timeTrackPart.Delta.TotalSeconds;
+
+					if (tmpCalc > SlideTime.TotalSeconds)
+					{
+						timeTrackPart.ExitDateTime = timeTrackPart.ExitDateTime - TimeSpan.FromSeconds(tmpCalc - slideTIme.TotalSeconds);
+						result.Add(timeTrackPart);
+						break;
+					}
+				}
+
+				result.Add(timeTrackPart);
+			}
+			return result;
 		}
 
 		private List<TimeTrackPart> ApplyDeviationPolitics(IEnumerable<TimeTrackPart> combinedTimeTrackParts, int allowedAbsent,
@@ -502,6 +528,7 @@ namespace FiresecAPI.SKD
 				if (timeTrackPart != null)
 				{
 					timeTrackPart.MinTimeTrackDocumentType = document.TimeTrackDocumentType;
+					timeTrackPart.IsOutside = document.IsOutside;
 					DocumentTrackParts.Add(timeTrackPart);
 				}
 			}
@@ -535,6 +562,7 @@ namespace FiresecAPI.SKD
 							newTimeTrackPart.MinTimeTrackDocumentType = timeTrackPart.MinTimeTrackDocumentType;
 						else if (timeTrackPart.MinTimeTrackDocumentType.DocumentType < newTimeTrackPart.MinTimeTrackDocumentType.DocumentType)
 							newTimeTrackPart.MinTimeTrackDocumentType = timeTrackPart.MinTimeTrackDocumentType;
+						newTimeTrackPart.IsOutside = timeTrackPart.IsOutside;
 						newTimeTrackPart.TimeTrackDocumentTypes.Add(timeTrackPart.MinTimeTrackDocumentType);
 					}
 
@@ -622,17 +650,24 @@ namespace FiresecAPI.SKD
 		private static TimeTrackType GetDocumentTimeTrackType(TimeTrackPart documentTimeTrack, TimeTrackPart timeTrackPart,
 			bool hasPlannedTimeTrack, bool hasRealTimeTrack)
 		{
+			//TODO: Make test for this method
 			var documentType = documentTimeTrack.MinTimeTrackDocumentType.DocumentType;
 			timeTrackPart.MinTimeTrackDocumentType = documentTimeTrack.MinTimeTrackDocumentType;
 
 			switch (documentType)
 			{
-				case DocumentType.Overtime :
+				case DocumentType.Overtime:
 					return TimeTrackType.DocumentOvertime;
 				case DocumentType.Presence:
 					return hasPlannedTimeTrack ? TimeTrackType.DocumentPresence : TimeTrackType.None;
 				case DocumentType.Absence:
+					if (documentTimeTrack.IsOutside)
+						return TimeTrackType.DocumentAbsence;
 					return (hasRealTimeTrack || hasPlannedTimeTrack) ? TimeTrackType.DocumentAbsence : TimeTrackType.None;
+				case DocumentType.AbsenceReasonable:
+					if (documentTimeTrack.IsOutside)
+						return TimeTrackType.DocumentAbsence;
+					return (hasRealTimeTrack || hasPlannedTimeTrack) ? TimeTrackType.DocumentAbsenceReasonable : TimeTrackType.None;
 				default:
 					return TimeTrackType.None;
 			}
@@ -848,6 +883,7 @@ namespace FiresecAPI.SKD
 				case TimeTrackType.DocumentOvertime:
 				case TimeTrackType.DocumentPresence:
 				case TimeTrackType.Presence:
+				case TimeTrackType.Overtime:
 					return timeTrack.Delta;
 
 				case TimeTrackType.Late:
@@ -939,6 +975,11 @@ namespace FiresecAPI.SKD
 
 			var longestTimeTrackType = TimeTrackType.Presence;
 			var longestTimeSpan = new TimeSpan();
+
+			var presenceTimeTrack = totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Presence);
+			if (presenceTimeTrack != null)
+				longestTimeSpan = presenceTimeTrack.TimeSpan;
+
 			foreach (var total in totals)
 			{
 				switch (total.TimeTrackType)
@@ -951,6 +992,7 @@ namespace FiresecAPI.SKD
 					case TimeTrackType.DocumentOvertime:
 					case TimeTrackType.DocumentPresence:
 					case TimeTrackType.DocumentAbsence:
+					case TimeTrackType.DocumentAbsenceReasonable:
 						if (total.TimeSpan > longestTimeSpan)
 						{
 							longestTimeTrackType = total.TimeTrackType;
@@ -1096,6 +1138,7 @@ namespace FiresecAPI.SKD
 				case TimeTrackType.DocumentOvertime:
 				case TimeTrackType.DocumentPresence:
 				case TimeTrackType.DocumentAbsence:
+				case TimeTrackType.DocumentAbsenceReasonable:
 					var tmieTrackPart = CombinedTimeTrackParts.FirstOrDefault(x => x.TimeTrackPartType == TimeTrackType);
 					if (tmieTrackPart != null && tmieTrackPart.MinTimeTrackDocumentType != null)
 					{

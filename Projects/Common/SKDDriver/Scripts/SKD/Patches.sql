@@ -1009,24 +1009,6 @@ CREATE INDEX JournalObjectUIDIndex ON Journal([ObjectUID])
 INSERT INTO Patches (Id) VALUES ('Journal_Indexes')
 END
 
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveOrganisationGKDoor')
-BEGIN
-IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'OrganisationGKDoor')
-BEGIN
-DROP TABLE OrganisationGKDoor
-END
-INSERT INTO Patches (Id) VALUES ('RemoveOrganisationGKDoor')
-END
-
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'GKCards')
-BEGIN
-ALTER TABLE Card ADD [GKLevel] [tinyint] NOT NULL CONSTRAINT "Card_GKLevel_Default" DEFAULT 0
-ALTER TABLE Card ADD [GKLevelSchedule] [tinyint] NOT NULL CONSTRAINT "Card_GKLevelSchedule_Default" DEFAULT 0
-ALTER TABLE CardDoor DROP COLUMN EnterIntervalType
-ALTER TABLE CardDoor DROP COLUMN ExitIntervalType
-INSERT INTO Patches (Id) VALUES ('GKCards')
-END
-
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RenameCardDoorIntervals')
 BEGIN
 EXEC sp_rename 'CardDoor.EnterIntervalID', 'EnterScheduleNo', 'COLUMN'
@@ -1038,18 +1020,6 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'CardNoString')
 BEGIN
 ALTER TABLE Card ALTER COLUMN Number nvarchar(50) NOT NULL
 INSERT INTO Patches (Id) VALUES ('CardNoString')
-END
-
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'CreateGKMetadata')
-BEGIN
-CREATE TABLE [dbo].[GKMetadata](
-[IPAddress] [nvarchar](50) NOT NULL,
-[SerialNo] [nvarchar](50) NOT NULL,
-[LastJournalNo] [int] NOT NULL,
-[LastUserNo] [int] NOT NULL
-)
-ON [PRIMARY]
-INSERT INTO Patches (Id) VALUES ('CreateGKMetadata')
 END
 
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveEventNamesAndDescriptions')
@@ -1115,24 +1085,6 @@ CONSTRAINT [PK_PassJournalMetadata] PRIMARY KEY CLUSTERED
 INSERT INTO Patches (Id) VALUES ('Create_Journal_And_PassJournal_Metadata')
 END
 
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Recreate_GKMetadata')
-BEGIN
-DROP TABLE GKMetadata
-
-CREATE TABLE [dbo].[GKMetadata](
-[UID] [uniqueidentifier] NOT NULL,
-[IPAddress] [nvarchar](50) NOT NULL,
-[SerialNo] [nvarchar](50) NOT NULL,
-[LastJournalNo] [int] NOT NULL,
-[LastUserNo] [int] NOT NULL
-CONSTRAINT [PK_GKMetadata] PRIMARY KEY CLUSTERED
-(
-[UID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-INSERT INTO Patches (Id) VALUES ('Recreate_GKMetadata')
-END
-
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_CardSubsystemType')
 BEGIN
@@ -1152,23 +1104,6 @@ ALTER TABLE OrganisationDoor DROP CONSTRAINT OrganisationDoor_CardSubsystemType_
 ALTER TABLE OrganisationDoor DROP COLUMN CardSubsystemType
 END
 INSERT INTO Patches (Id) VALUES ('Drop_CardSubsystemType')
-END
-
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Recreate_GKMetadata2')
-BEGIN
-DROP TABLE GKMetadata
-
-CREATE TABLE [dbo].[GKMetadata](
-[UID] [uniqueidentifier] NOT NULL,
-[IPAddress] [nvarchar](50) NOT NULL,
-[SerialNo] [nvarchar](50) NOT NULL,
-[LastJournalNo] [int] NOT NULL,
-CONSTRAINT [PK_GKMetadata] PRIMARY KEY CLUSTERED
-(
-[UID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-INSERT INTO Patches (Id) VALUES ('Recreate_GKMetadata2')
 END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Department_Chief_Default_Name')
@@ -1257,30 +1192,6 @@ ALTER TABLE Employee ADD LastEmployeeDayUpdate datetime NOT NULL CONSTRAINT "Sch
 INSERT INTO Patches (Id) VALUES ('Employee_LastEmployeeDayUpdate')
 END
 GO
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'GKCards_Table')
-BEGIN
-IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'GKCards')
-BEGIN
-CREATE TABLE GKCards(
-[UID] [uniqueidentifier] NOT NULL,
-[IPAddress] [nvarchar](50) NOT NULL,
-[GKNo] [int] NOT NULL,
-[CardNo] [int] NOT NULL,
-[FIO] [nvarchar](50) NOT NULL,
-[IsActive] [bit] NOT NULL,
-[UserType] [tinyint] NOT NULL,
-CONSTRAINT [PK_GKCards] PRIMARY KEY CLUSTERED
-(
-[UID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-END
-
-CREATE INDEX GKCardsIPAddressIndex ON [dbo].[GKCards]([IPAddress])
-
-INSERT INTO Patches (Id) VALUES ('GKCards_Table')
-END
-GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Card_Number_Int')
 BEGIN
 IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Card')
@@ -1329,208 +1240,6 @@ ALTER TABLE Employee ALTER COLUMN TabelNo nvarchar(40) NULL
 INSERT INTO Patches (Id) VALUES ('Employee_TabelNo_String_40')
 END
 GO
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'GKCardType')
-BEGIN
-ALTER TABLE Card ADD GKCardType int NOT NULL DEFAULT -1
-INSERT INTO Patches (Id) VALUES ('GKCardType')
-END
-GO
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'GKSchedule')
-BEGIN
-CREATE TABLE GKSchedule(
-[UID] uniqueidentifier NOT NULL,
-[No] int NOT NULL,
-[Name] [nvarchar](50) NULL,
-[Description] [nvarchar](50) NULL,
-[Type] int NOT NULL,
-[PeriodType] int NOT NULL,
-[StartDateTime] datetime NOT NULL,
-[HoursPeriod] int NOT NULL,
-[HolidayScheduleNo] int NOT NULL,
-[WorkingHolidayScheduleNo] int NOT NULL,
-[Year] int NOT NULL
-CONSTRAINT [PK_GKSchedule] PRIMARY KEY CLUSTERED
-(
-[UID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
-CREATE TABLE GKScheduleDay(
-[UID] uniqueidentifier NOT NULL,
-[ScheduleUID] uniqueidentifier NOT NULL,
-[DateTime] datetime NOT NULL
-CONSTRAINT [PK_GKScheduleDay] PRIMARY KEY CLUSTERED
-(
-[UID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
-CREATE TABLE GKDaySchedule(
-[UID] uniqueidentifier NOT NULL,
-[No] int NOT NULL,
-[Name] [nvarchar](50) NULL,
-[Description] [nvarchar](50) NULL,
-CONSTRAINT [PK_GKDaySchedule] PRIMARY KEY CLUSTERED
-(
-[UID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
-CREATE TABLE ScheduleGKDaySchedule(
-[UID] uniqueidentifier NOT NULL,
-[ScheduleUID] uniqueidentifier NOT NULL,
-[DayScheduleUID]  uniqueidentifier NOT NULL,
-CONSTRAINT [PK_ScheduleGKDaySchedule] PRIMARY KEY CLUSTERED
-(
-[UID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
-CREATE TABLE GKDaySchedulePart(
-[UID] uniqueidentifier NOT NULL,
-[No] int NOT NULL,
-[Name] [nvarchar](50) NULL,
-[Description] [nvarchar](50) NULL,
-StartMilliseconds float NOT NULL,
-EndMilliseconds float NOT NULL,
-[DayScheduleUID] uniqueidentifier NOT NULL,
-CONSTRAINT [PK_GKDaySchedulePart] PRIMARY KEY CLUSTERED
-(
-[UID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
-CREATE INDEX GKDaySchedulePartIndex ON [dbo].GKDaySchedulePart([UID])
-CREATE INDEX GKDayScheduleIndex ON [dbo].GKDaySchedule([UID])
-CREATE INDEX GKScheduleIndex ON [dbo].GKSchedule([UID])
-CREATE INDEX GKScheduleDayIndex ON [dbo].GKScheduleDay([UID])
-CREATE INDEX ScheduleGKDayScheduleIndex ON [dbo].ScheduleGKDaySchedule([UID])
-
-ALTER TABLE [dbo].GKDaySchedulePart WITH NOCHECK ADD CONSTRAINT [FK_GKDaySchedulePart_GKDaySchedule] FOREIGN KEY(DayScheduleUID)
-REFERENCES [dbo].[GKDaySchedule] ([Uid])
-NOT FOR REPLICATION
-ALTER TABLE [dbo].GKDaySchedulePart NOCHECK CONSTRAINT [FK_GKDaySchedulePart_GKDaySchedule]
-
-ALTER TABLE [dbo].GKScheduleDay WITH NOCHECK ADD CONSTRAINT [FK_GKScheduleDay_GKSchedule] FOREIGN KEY(ScheduleUID)
-REFERENCES [dbo].[GKSchedule] ([Uid])
-NOT FOR REPLICATION
-ALTER TABLE [dbo].GKScheduleDay NOCHECK CONSTRAINT [FK_GKScheduleDay_GKSchedule]
-
-ALTER TABLE [dbo].ScheduleGKDaySchedule WITH NOCHECK ADD CONSTRAINT [FK_ScheduleGKSchedule_GKSchedule] FOREIGN KEY(ScheduleUID)
-REFERENCES [dbo].[GKSchedule] ([Uid])
-NOT FOR REPLICATION
-ALTER TABLE [dbo].ScheduleGKDaySchedule NOCHECK CONSTRAINT [FK_ScheduleGKSchedule_GKSchedule]
-
-ALTER TABLE [dbo].ScheduleGKDaySchedule WITH NOCHECK ADD CONSTRAINT [FK_ScheduleGKSchedule_GKDaySchedule] FOREIGN KEY(DayScheduleUID)
-REFERENCES [dbo].[GKDaySchedule] ([Uid])
-NOT FOR REPLICATION
-ALTER TABLE [dbo].ScheduleGKDaySchedule NOCHECK CONSTRAINT [FK_ScheduleGKSchedule_GKDaySchedule]
-
-INSERT INTO Patches (Id) VALUES ('GKSchedule')
-END
-
-GO
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'GKSchedule2')
-BEGIN
-
-DROP TABLE GKScheduleDay
-DROP TABLE ScheduleGKDaySchedule
-DROP TABLE GKDaySchedulePart
-DROP TABLE GKDaySchedule
-DROP TABLE GKSchedule
-
-CREATE TABLE GKSchedule(
-[UID] uniqueidentifier NOT NULL,
-[No] int NOT NULL,
-[Name] [nvarchar](50) NULL,
-[Description] [nvarchar](50) NULL,
-[Type] int NOT NULL,
-[PeriodType] int NOT NULL,
-[StartDateTime] datetime NOT NULL,
-[HoursPeriod] int NOT NULL,
-[HolidayScheduleNo] int NOT NULL,
-[WorkingHolidayScheduleNo] int NOT NULL,
-[Year] int NOT NULL
-CONSTRAINT [PK_GKSchedule] PRIMARY KEY CLUSTERED
-(
-[UID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
-CREATE TABLE GKScheduleDay(
-[UID] uniqueidentifier NOT NULL,
-[ScheduleUID] uniqueidentifier NOT NULL,
-[DateTime] datetime NOT NULL
-CONSTRAINT [PK_GKScheduleDay] PRIMARY KEY CLUSTERED
-(
-[UID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
-CREATE TABLE GKDaySchedule(
-[UID] uniqueidentifier NOT NULL,
-[No] int NOT NULL,
-[Name] [nvarchar](50) NULL,
-[Description] [nvarchar](50) NULL,
-CONSTRAINT [PK_GKDaySchedule] PRIMARY KEY CLUSTERED
-(
-[UID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
-CREATE TABLE ScheduleGKDaySchedule(
-[UID] uniqueidentifier NOT NULL,
-[ScheduleUID] uniqueidentifier NOT NULL,
-[DayScheduleUID]  uniqueidentifier NOT NULL,
-CONSTRAINT [PK_ScheduleGKDaySchedule] PRIMARY KEY CLUSTERED
-(
-[UID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
-CREATE TABLE GKDaySchedulePart(
-[UID] uniqueidentifier NOT NULL,
-[No] int NOT NULL,
-[Name] [nvarchar](50) NULL,
-[Description] [nvarchar](50) NULL,
-StartMilliseconds float NOT NULL,
-EndMilliseconds float NOT NULL,
-[DayScheduleUID] uniqueidentifier NOT NULL,
-CONSTRAINT [PK_GKDaySchedulePart] PRIMARY KEY CLUSTERED
-(
-[UID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
-CREATE INDEX GKDaySchedulePartIndex ON [dbo].GKDaySchedulePart([UID])
-CREATE INDEX GKDayScheduleIndex ON [dbo].GKDaySchedule([UID])
-CREATE INDEX GKScheduleIndex ON [dbo].GKSchedule([UID])
-CREATE INDEX GKScheduleDayIndex ON [dbo].GKScheduleDay([UID])
-CREATE INDEX ScheduleGKDayScheduleIndex ON [dbo].ScheduleGKDaySchedule([UID])
-
-ALTER TABLE [dbo].GKDaySchedulePart WITH NOCHECK ADD CONSTRAINT [FK_GKDaySchedulePart_GKDaySchedule] FOREIGN KEY(DayScheduleUID)
-REFERENCES [dbo].[GKDaySchedule] ([Uid])
-NOT FOR REPLICATION
-ALTER TABLE [dbo].GKDaySchedulePart NOCHECK CONSTRAINT [FK_GKDaySchedulePart_GKDaySchedule]
-
-ALTER TABLE [dbo].GKScheduleDay WITH NOCHECK ADD CONSTRAINT [FK_GKScheduleDay_GKSchedule] FOREIGN KEY(ScheduleUID)
-REFERENCES [dbo].[GKSchedule] ([Uid])
-NOT FOR REPLICATION
-ALTER TABLE [dbo].GKScheduleDay NOCHECK CONSTRAINT [FK_GKScheduleDay_GKSchedule]
-
-ALTER TABLE [dbo].ScheduleGKDaySchedule WITH NOCHECK ADD CONSTRAINT [FK_ScheduleGKSchedule_GKSchedule] FOREIGN KEY(ScheduleUID)
-REFERENCES [dbo].[GKSchedule] ([Uid])
-NOT FOR REPLICATION
-ALTER TABLE [dbo].ScheduleGKDaySchedule NOCHECK CONSTRAINT [FK_ScheduleGKSchedule_GKSchedule]
-
-ALTER TABLE [dbo].ScheduleGKDaySchedule WITH NOCHECK ADD CONSTRAINT [FK_ScheduleGKSchedule_GKDaySchedule] FOREIGN KEY(DayScheduleUID)
-REFERENCES [dbo].[GKDaySchedule] ([Uid])
-NOT FOR REPLICATION
-ALTER TABLE [dbo].ScheduleGKDaySchedule NOCHECK CONSTRAINT [FK_ScheduleGKSchedule_GKDaySchedule]
-
-INSERT INTO Patches (Id) VALUES ('GKSchedule2')
-END
-GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'NullableGender')
 BEGIN
 ALTER TABLE Employee ALTER COLUMN Gender int NULL
@@ -1567,20 +1276,6 @@ ALTER TABLE [CardDoor] DROP COLUMN [ExitScheduleNo]
 INSERT INTO Patches (Id) VALUES ('RemoveExitScheduleNoFromCardDoor')
 END
 GO
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveGKLevelColumn')
-BEGIN
-ALTER TABLE [Card] DROP Card_GKLevel_Default
-ALTER TABLE [Card] DROP COLUMN [GKLevel]
-INSERT INTO Patches (Id) VALUES ('RemoveGKLevelColumn') 
-END
-GO
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveGKLevelScheduleColumn')
-BEGIN
-ALTER TABLE [Card] DROP Card_GKLevelSchedule_Default
-ALTER TABLE [Card] DROP COLUMN [GKLevelSchedule]
-INSERT INTO Patches (Id) VALUES ('RemoveGKLevelScheduleColumn')
-END
-GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DropColumnDefaultConstraint')
 BEGIN
 	exec [dbo].[sp_executesql] @statement = N'
@@ -1604,45 +1299,185 @@ END'
 	INSERT INTO Patches (Id) VALUES ('DropColumnDefaultConstraint')
 END
 GO
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveGKCardTypeColumn')
-BEGIN
-EXEC [dbo].[DropColumnDefaultConstraint] @tableName = N'dbo.Card', @columnName = 'GKCardType'
-ALTER TABLE [Card] DROP COLUMN [GKCardType]
-INSERT INTO Patches (Id) VALUES ('RemoveGKCardTypeColumn')
-END
-GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsHandicappedCardColumn')
 BEGIN
 ALTER TABLE [Card] ADD [IsHandicappedCard] bit NOT NULL DEFAULT 0
 INSERT INTO Patches (Id) VALUES ('AddIsHandicappedCardColumn')
 END
+GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddAllowedAbsentLowThan')
 BEGIN
 ALTER TABLE [Schedule] ADD [AllowedAbsentLowThan] int NOT NULL DEFAULT 0
 INSERT INTO Patches (Id) VALUES ('AddAllowedAbsentLowThan')
 END
+GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddNotAllowOvertimeLowerThan')
 BEGIN
 ALTER TABLE [Schedule] ADD [NotAllowOvertimeLowerThan] int NOT NULL DEFAULT 0
 INSERT INTO Patches (Id) VALUES ('AddNotAllowOvertimeLowerThan')
 END
+GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsEnabledAllowLate')
 BEGIN
 	ALTER TABLE [Schedule] ADD [IsEnabledAllowLate] bit NOT NULL DEFAULT 0
 	INSERT INTO Patches (Id) VALUES ('AddIsEnabledAllowLate') 
 END
+GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsEnabledAllowEarlyLeave')
 BEGIN
 	ALTER TABLE [Schedule] ADD [IsEnabledAllowEarlyLeave] bit NOT NULL DEFAULT 0
 	INSERT INTO Patches (Id) VALUES ('AddIsEnabledAllowEarlyLeave')
 END
+GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsAllowAbsent')
 BEGIN
 	ALTER TABLE [Schedule] ADD [IsAllowAbsent] bit NOT NULL DEFAULT 0
 	INSERT INTO Patches (Id) VALUES ('AddIsAllowAbsent')
 END
+GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsEnabledOvertime')
 BEGIN 
 	ALTER TABLE [Schedule] ADD [IsEnabledOvertime] bit NOT NULL DEFAULT 0
 	INSERT INTO Patches (Id) VALUES ('AddIsEnabledOvertime')
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsOutsideColumn')
+BEGIN
+	ALTER TABLE [TimeTrackDocument] ADD [IsOutside] bit NOT NULL DEFAULT 0
+	INSERT INTO Patches (Id) VALUES ('AddIsOutsideColumn')
+END
+GO
+IF EXISTS(SELECT * FROM Patches WHERE Id='CreateGKMetadata')
+	BEGIN
+		IF EXISTS(SELECT * 
+                 FROM INFORMATION_SCHEMA.TABLES 
+                 WHERE TABLE_SCHEMA = 'dbo' 
+                 AND  TABLE_NAME = 'GKMetadata')
+			DROP TABLE GKMetadata
+		DELETE FROM Patches WHERE Id='CreateGKMetadata'
+	END
+GO
+IF EXISTS(SELECT * FROM Patches WHERE Id='Recreate_GKMetadata')
+	BEGIN
+		IF EXISTS(SELECT * 
+					 FROM INFORMATION_SCHEMA.TABLES 
+					 WHERE TABLE_SCHEMA = 'dbo' 
+					 AND  TABLE_NAME = 'GKMetadata')
+			DROP TABLE GKMetadata
+		DELETE FROM Patches WHERE Id='Recreate_GKMetadata'
+	END
+GO
+IF EXISTS(SELECT * FROM Patches WHERE Id='Recreate_GKMetadata2')
+	BEGIN
+		IF EXISTS(SELECT * 
+                 FROM INFORMATION_SCHEMA.TABLES 
+                 WHERE TABLE_SCHEMA = 'dbo' 
+                 AND  TABLE_NAME = 'GKMetadata')
+			DROP TABLE GKMetadata
+		DELETE FROM Patches WHERE Id='Recreate_GKMetadata2'
+	END
+IF EXISTS(SELECT * FROM Patches WHERE Id='GKCards')
+	BEGIN
+		IF EXISTS(SELECT * 
+                 FROM INFORMATION_SCHEMA.TABLES 
+                 WHERE TABLE_SCHEMA = 'dbo' 
+                 AND  TABLE_NAME = 'GKCards')
+			DROP TABLE GKCards
+		DELETE FROM Patches WHERE Id='GKCards'
+	END
+GO
+IF EXISTS(SELECT * FROM Patches WHERE Id='GKCards_Table')
+	BEGIN
+		IF EXISTS(SELECT * 
+                 FROM INFORMATION_SCHEMA.TABLES 
+                 WHERE TABLE_SCHEMA = 'dbo' 
+                 AND  TABLE_NAME = 'GKCards')
+			DROP TABLE GKCards
+		DELETE FROM Patches WHERE Id='GKCards_Table'
+	END
+GO
+IF EXISTS(SELECT * FROM Patches WHERE Id='GKCardType')
+	BEGIN
+		IF EXISTS(SELECT * 
+                 FROM INFORMATION_SCHEMA.TABLES 
+                 WHERE TABLE_SCHEMA = 'dbo' 
+                 AND  TABLE_NAME = 'GKCards')
+			DROP TABLE GKCards
+		DELETE FROM Patches WHERE Id='GKCardType'
+	END
+GO
+IF EXISTS(SELECT * FROM Patches WHERE Id='RemoveGKCardTypeColumn')
+	BEGIN
+		IF EXISTS(SELECT * 
+                 FROM INFORMATION_SCHEMA.TABLES 
+                 WHERE TABLE_SCHEMA = 'dbo' 
+                 AND  TABLE_NAME = 'GKCards')
+			DROP TABLE GKCards
+		DELETE FROM Patches WHERE Id='RemoveGKCardTypeColumn'
+	END
+GO
+IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='dbo' AND TABLE_NAME='GKScheduleDay')
+	BEGIN
+		DROP TABLE GKScheduleDay
+	END
+GO
+IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='dbo' AND TABLE_NAME='GKDaySchedulePart')
+	BEGIN
+		DROP TABLE GKDaySchedulePart
+	END
+GO
+IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='dbo' AND TABLE_NAME='GKSchedule')
+	BEGIN
+		DROP TABLE GKSchedule
+	END
+GO
+IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='dbo' AND TABLE_NAME='ScheduleGKDaySchedule')
+	BEGIN
+		DROP TABLE ScheduleGKDaySchedule
+	END
+GO
+IF EXISTS(SELECT * FROM Patches WHERE Id='GKSchedule')
+	BEGIN
+		DELETE FROM Patches WHERE Id='GKSchedule'
+	END
+GO
+IF EXISTS(SELECT * FROM Patches WHERE Id='RemoveGKLevelScheduleColumn')
+	BEGIN
+		DELETE FROM Patches WHERE Id='RemoveGKLevelScheduleColumn'
+	END
+GO
+IF EXISTS(SELECT * FROM Patches WHERE Id='RemoveGKLevelColumn')
+	BEGIN
+		DELETE FROM Patches WHERE Id='RemoveGKLevelColumn'
+	END
+GO
+IF EXISTS(SELECT * FROM Patches WHERE Id='RemoveOrganisationGKDoor')
+	BEGIN
+		DELETE FROM Patches WHERE Id='RemoveOrganisationGKDoor'
+	END
+GO
+IF EXISTS(SELECT * FROM Patches WHERE Id='GKSchedule2')
+BEGIN
+	DELETE FROM Patches WHERE Id='GKSchedule2'
+END
+GO
+IF EXISTS(SELECT * FROM Patches WHERE Id='AddTimeTrackSystemDocumentTypes')
+	BEGIN
+		DELETE FROM Patches WHERE Id='AddTimeTrackSystemDocumentTypes'
+	END
+GO
+IF EXISTS(SELECT * FROM Patches WHERE Id='AddTimeTrackSystemDocumentTypesData')
+	BEGIN
+		DELETE FROM Patches WHERE Id='AddTimeTrackSystemDocumentTypesData'
+	END
+GO
+IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='dbo' AND TABLE_NAME='TimeTrackSystemDocumentTypes')
+	BEGIN
+		DROP TABLE TimeTrackSystemDocumentTypes
+	END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsSystemColumnInTimeTrackDocumentType')
+	BEGIN
+		ALTER TABLE TimeTrackDocumentType ADD [IsSystem] [bit] NOT NULL DEFAULT 0
+		INSERT INTO Patches (Id) VALUES ('AddIsSystemColumnInTimeTrackDocumentType')
+	END

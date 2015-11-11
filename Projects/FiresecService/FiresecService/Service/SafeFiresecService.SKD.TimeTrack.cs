@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using System.Threading.Tasks;
+using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
@@ -142,7 +143,7 @@ namespace FiresecService.Service
 
 		public OperationResult<List<TimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
 		{
-			return SafeContext.Execute<OperationResult<List<TimeTrackDocument>>>(() => FiresecService.GetTimeTrackDocument(employeeUID, startDateTime, endDateTime));
+			return SafeContext.Execute(() => FiresecService.GetTimeTrackDocument(employeeUID, startDateTime, endDateTime));
 		}
 
 		public OperationResult AddTimeTrackDocument(TimeTrackDocument timeTrackDocument)

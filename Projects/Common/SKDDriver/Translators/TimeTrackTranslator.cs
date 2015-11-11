@@ -8,7 +8,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using SKDDriver.DataAccess;
-
+using TimeTrackDocumentType = FiresecAPI.SKD.TimeTrackDocumentType;
+using System.Threading.Tasks;
 namespace SKDDriver.Translators
 {
 	public class TimeTrackTranslator
@@ -83,25 +84,18 @@ namespace SKDDriver.Translators
 						}
 					}
 
-					var documentsOperationResult = DatabaseService.TimeTrackDocumentTranslator.Get(shortEmployee.UID, startDate, endDate, _TimeTrackDocuments);
+					var documentTypes = GetAllDocumentTypes(shortEmployee);
+
+					if (documentTypes == null) continue;
+
+					var documentsOperationResult = DatabaseService.TimeTrackDocumentTranslator.GetWithTypes(shortEmployee, startDate, endDate, _TimeTrackDocuments, documentTypes);
+
 					if (!documentsOperationResult.HasError)
 					{
 						var documents = documentsOperationResult.Result;
-						foreach (var document in documents)
+						foreach (var document in documents.Where(document => document.TimeTrackDocumentType != null))
 						{
-							document.TimeTrackDocumentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == document.DocumentCode);
-							if (document.TimeTrackDocumentType == null)
-							{
-								var documentTypesResult = DatabaseService.TimeTrackDocumentTypeTranslator.Get(shortEmployee.OrganisationUID, _TimeTrackDocumentTypes);
-								if (documentTypesResult.Result != null)
-								{
-									document.TimeTrackDocumentType = documentTypesResult.Result.FirstOrDefault(x => x.Code == document.DocumentCode);
-								}
-							}
-							if (document.TimeTrackDocumentType != null)
-							{
-								timeTrackEmployeeResult.Documents.Add(document);
-							}
+							timeTrackEmployeeResult.Documents.Add(document);
 						}
 
 						foreach (var document in timeTrackEmployeeResult.Documents)
@@ -125,6 +119,16 @@ namespace SKDDriver.Translators
 			{
 				return OperationResult<TimeTrackResult>.FromError(e.Message);
 			}
+		}
+
+		private IEnumerable<TimeTrackDocumentType> GetAllDocumentTypes(ShortEmployee shortEmployee)
+		{
+			var organisationTypesTask = DatabaseService.TimeTrackDocumentTypeTranslator.Get(shortEmployee.OrganisationUID);
+
+			if (organisationTypesTask.Result == null)
+				return null;
+
+			return organisationTypesTask.Result;
 		}
 
 		public Stream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)

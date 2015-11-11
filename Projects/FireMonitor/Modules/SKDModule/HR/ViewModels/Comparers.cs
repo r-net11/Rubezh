@@ -1,7 +1,9 @@
 ﻿using System;
 using FiresecAPI;
+using FiresecAPI.SKD;
 using Infrastructure.Common.TreeList;
 using SKDModule.PassCardDesigner.ViewModels;
+using DocumentType = SKDModule.Model.DocumentType;
 
 namespace SKDModule.ViewModels
 {
@@ -192,4 +194,42 @@ namespace SKDModule.ViewModels
 			return String.Compare(x.Department.Name, y.Department.Name);
 		}
 	}
+
+	#region DocumentComparers
+	public class DocumentNameViewModelComparer : TreeNodeComparer<DocumentType>
+	{
+		protected override int Compare(DocumentType x, DocumentType y)
+		{
+			if (x.IsOrganisation || y.IsOrganisation) return 0;
+			return string.Compare(x.Name, y.Name);
+		}
+	}
+
+	public class DocumentTypeViewModelComparer : TreeNodeComparer<DocumentType>
+	{
+		protected override int Compare(DocumentType x, DocumentType y)
+		{
+			if (x.IsOrganisation || y.IsOrganisation) return 0;
+			return string.Compare(x.TimeTrackDocumentType.DocumentType.ToString(), y.TimeTrackDocumentType.DocumentType.ToString());
+		}
+	}
+
+	public class DocumentCodeViewModelComparer : TreeNodeComparer<DocumentType>
+	{
+		protected override int Compare(DocumentType x, DocumentType y)
+		{
+			if (x.IsOrganisation || y.IsOrganisation) return 0;
+			return x.TimeTrackDocumentType.Code.CompareTo(y.TimeTrackDocumentType.Code);
+		}
+	}
+
+	public class DocumentShortNameViewModelComparer : TreeNodeComparer<DocumentType>
+	{
+		protected override int Compare(DocumentType x, DocumentType y)
+		{
+			if (x.IsOrganisation || y.IsOrganisation) return 0;
+			return string.Compare(x.TimeTrackDocumentType.ShortName, y.TimeTrackDocumentType.ShortName);
+		}
+	}
+	#endregion
 }

@@ -123,6 +123,9 @@
   <data name="ForceClosingFailedMessage" xml:space="preserve">
     <value>Нельзя закрыть интервал. Интервал был закрыт ранее автоматически</value>
   </data>
+  <data name="RemoveDocumentTypeMessage" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить вид документа?</value>
+  </data>
   <data name="ResetAdjustmentsQuestion" xml:space="preserve">
     <value>При выполнении сброса корректировок все введенные вручную данные будут удалены. Продолжить?</value>
   </data>

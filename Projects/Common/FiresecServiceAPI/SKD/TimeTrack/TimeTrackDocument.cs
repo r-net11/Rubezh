@@ -15,8 +15,16 @@ namespace FiresecAPI.SKD
 			DocumentDateTime = DateTime.Now;
 		}
 
+		public TimeTrackDocument(string name, string shortCode, int numCode, DocumentType type)
+		{
+			TimeTrackDocumentType = new TimeTrackDocumentType(name, shortCode, numCode, type);
+		}
+
 		[DataMember]
 		public Guid UID { get; set; }
+
+		[DataMember]
+		public bool IsOutside { get; set; }
 
 		[DataMember]
 		public Guid EmployeeUID { get; set; }

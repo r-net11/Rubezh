@@ -37,23 +37,6 @@ namespace SKDDriver.DataAccess
 		DateTime RemovalDate { get; set; }
 	}
 
-	public interface IGKModelBase
-	{
-		Guid UID { get; set; }
-
-		int No { get; set; }
-
-		string Name { get; set; }
-
-		string Description { get; set; }
-	}
-
-	public partial class GKSchedule : IGKModelBase { }
-
-	public partial class GKDaySchedule : IGKModelBase { }
-
-	public partial class GKDaySchedulePart : IGKModelBase { }
-
 	public partial class AdditionalColumn : IDatabaseElement, ILinkedToEmployee { }
 
 	public partial class Photo : IDatabaseElement { }

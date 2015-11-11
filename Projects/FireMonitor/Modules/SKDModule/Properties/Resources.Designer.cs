@@ -79,6 +79,15 @@ namespace SKDModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Вы уверены, что хотите удалить вид документа?.
+        /// </summary>
+        internal static string RemoveDocumentTypeMessage {
+            get {
+                return ResourceManager.GetString("RemoveDocumentTypeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to При выполнении сброса корректировок все введенные вручную данные будут удалены. Продолжить?.
         /// </summary>
         internal static string ResetAdjustmentsQuestion {

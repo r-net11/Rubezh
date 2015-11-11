@@ -1,4 +1,5 @@
-﻿using FiresecAPI.Models;
+﻿using System.Threading.Tasks;
+using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using System;
 using System.Collections.Generic;

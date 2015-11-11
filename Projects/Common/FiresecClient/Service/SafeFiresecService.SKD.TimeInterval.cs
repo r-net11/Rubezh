@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -120,9 +121,9 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.MarkDeletedScheduleZone(item.UID, name));
 		}
 
-		public FiresecAPI.OperationResult<List<TimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
+		public OperationResult<List<TimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<List<TimeTrackDocument>>>(() => FiresecService.GetTimeTrackDocument(employeeUID, startDateTime, endDateTime));
+			return SafeContext.Execute(() => FiresecService.GetTimeTrackDocument(employeeUID, startDateTime, endDateTime));
 		}
 		public OperationResult AddTimeTrackDocument(TimeTrackDocument timeTrackDocument)
 		{
@@ -132,6 +133,7 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute(() => FiresecService.EditTimeTrackDocument(timeTrackDocument));
 		}
+
 		public OperationResult RemoveTimeTrackDocument(Guid timeTrackDocumentUID)
 		{
 			return SafeContext.Execute(() => FiresecService.RemoveTimeTrackDocument(timeTrackDocumentUID));
@@ -139,8 +141,9 @@ namespace FiresecClient
 
 		public OperationResult<List<TimeTrackDocumentType>> GetTimeTrackDocumentTypes(Guid organisationUID)
 		{
-			return SafeContext.Execute<OperationResult<List<TimeTrackDocumentType>>>(() => FiresecService.GetTimeTrackDocumentTypes(organisationUID));
+			return SafeContext.Execute(() => FiresecService.GetTimeTrackDocumentTypes(organisationUID));
 		}
+
 		public OperationResult AddTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.AddTimeTrackDocumentType(timeTrackDocumentType));

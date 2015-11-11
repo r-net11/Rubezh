@@ -71,6 +71,9 @@ namespace SKDModule.Views
 						case DocumentType.Absence:
 							timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentAbsence;
 							break;
+						case DocumentType.AbsenceReasonable:
+							timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentAbsenceReasonable;
+							break;
 					}
 					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.EnterDateTime) + " - " +
 					                        TimePartDateToString(timeTrackPart.ExitDateTime) + "\n" +

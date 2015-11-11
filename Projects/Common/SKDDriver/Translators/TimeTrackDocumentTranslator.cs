@@ -1,4 +1,5 @@
-﻿using FiresecAPI;
+﻿using System.Windows.Documents;
+using FiresecAPI;
 using FiresecAPI.SKD;
 using System;
 using System.Collections.Generic;
@@ -20,13 +21,15 @@ namespace SKDDriver.Translators
 
 		public OperationResult<List<TimeTrackDocument>> Get(Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
 		{
-			return Get(employeeUID, startDateTime, endDateTime, Context.TimeTrackDocuments);
+			return Get(employeeUID, startDateTime, endDateTime, Context.TimeTrackDocuments, Context.TimeTrackDocumentTypes);
 		}
 
-		public OperationResult<List<TimeTrackDocument>> Get(Guid employeeUID, DateTime startDateTime, DateTime endDateTime, IEnumerable<DataAccess.TimeTrackDocument> tableItems)
+		[Obsolete]
+		public OperationResult<List<TimeTrackDocument>> Get(Guid employeeUID, DateTime startDateTime, DateTime endDateTime, IEnumerable<DataAccess.TimeTrackDocument> tableItems, IEnumerable<DataAccess.TimeTrackDocumentType> tableItemsTypes)
 		{
 			try
 			{
+				//TODO: Add func to get types of documents
 				var tableTimeTrackDocuments = tableItems
 					.Where(x => x.EmployeeUID == employeeUID &&
 					((x.StartDateTime.Date >= startDateTime && x.StartDateTime.Date <= endDateTime) ||
@@ -45,10 +48,48 @@ namespace SKDDriver.Translators
 						Comment = tableTimeTrackDocument.Comment,
 						DocumentDateTime = tableTimeTrackDocument.DocumentDateTime,
 						DocumentNumber = tableTimeTrackDocument.DocumentNumber,
-						FileName = tableTimeTrackDocument.FileName
+						FileName = tableTimeTrackDocument.FileName,
+						IsOutside = tableTimeTrackDocument.IsOutside
 					})
 					.ToList();
-				return new OperationResult<List<TimeTrackDocument>>(timeTrackDocuments);
+
+				var result = timeTrackDocuments.ToList();
+				return new OperationResult<List<TimeTrackDocument>>(result);
+			}
+			catch (Exception e)
+			{
+				return OperationResult<List<TimeTrackDocument>>.FromError(e.Message);
+			}
+		}
+
+		public OperationResult<List<TimeTrackDocument>> GetWithTypes(ShortEmployee employee, DateTime startDateTime, DateTime endDateTime, IEnumerable<DataAccess.TimeTrackDocument> tableItems, IEnumerable<TimeTrackDocumentType> documentTypes)
+		{
+			try
+			{
+				var tableTimeTrackDocuments = tableItems
+					.Where(x => x.EmployeeUID == employee.UID &&
+					((x.StartDateTime.Date >= startDateTime && x.StartDateTime.Date <= endDateTime) ||
+					 (x.EndDateTime.Date >= startDateTime && x.EndDateTime.Date <= endDateTime) ||
+					 (startDateTime >= x.StartDateTime.Date && startDateTime <= x.EndDateTime.Date) ||
+					 (endDateTime >= x.StartDateTime.Date && endDateTime <= x.EndDateTime.Date)));
+
+				var docsList = tableTimeTrackDocuments.Select(tableDoc => new TimeTrackDocument
+				{
+					UID = tableDoc.UID,
+					EmployeeUID = tableDoc.EmployeeUID,
+					StartDateTime = tableDoc.StartDateTime,
+					EndDateTime = tableDoc.EndDateTime,
+					DocumentCode = tableDoc.DocumentCode,
+					Comment = tableDoc.Comment,
+					DocumentDateTime = tableDoc.DocumentDateTime,
+					DocumentNumber = tableDoc.DocumentNumber,
+					FileName = tableDoc.FileName,
+					IsOutside = tableDoc.IsOutside,
+					TimeTrackDocumentType = documentTypes.FirstOrDefault(x => x.Code == tableDoc.DocumentCode)
+				})
+				.ToList();
+
+				return new OperationResult<List<TimeTrackDocument>>(docsList);
 			}
 			catch (Exception e)
 			{
@@ -60,15 +101,18 @@ namespace SKDDriver.Translators
 		{
 			try
 			{
-				var tableItem = new DataAccess.TimeTrackDocument();
-				tableItem.UID = timeTrackDocument.UID;
-				tableItem.EmployeeUID = timeTrackDocument.EmployeeUID;
-				tableItem.StartDateTime = timeTrackDocument.StartDateTime;
-				tableItem.EndDateTime = timeTrackDocument.EndDateTime;
-				tableItem.DocumentCode = timeTrackDocument.DocumentCode;
-				tableItem.Comment = timeTrackDocument.Comment;
-				tableItem.DocumentDateTime = timeTrackDocument.DocumentDateTime;
-				tableItem.DocumentNumber = timeTrackDocument.DocumentNumber;
+				var tableItem = new DataAccess.TimeTrackDocument
+				{
+					UID = timeTrackDocument.UID,
+					EmployeeUID = timeTrackDocument.EmployeeUID,
+					StartDateTime = timeTrackDocument.StartDateTime,
+					EndDateTime = timeTrackDocument.EndDateTime,
+					DocumentCode = timeTrackDocument.DocumentCode,
+					Comment = timeTrackDocument.Comment,
+					DocumentDateTime = timeTrackDocument.DocumentDateTime,
+					DocumentNumber = timeTrackDocument.DocumentNumber,
+					IsOutside = timeTrackDocument.IsOutside
+				};
 				Context.TimeTrackDocuments.InsertOnSubmit(tableItem);
 				tableItem.FileName = timeTrackDocument.FileName;
 				Context.SubmitChanges();
@@ -95,6 +139,7 @@ namespace SKDDriver.Translators
 					tableItem.DocumentDateTime = timeTrackDocument.DocumentDateTime;
 					tableItem.DocumentNumber = timeTrackDocument.DocumentNumber;
 					tableItem.FileName = timeTrackDocument.FileName;
+					tableItem.IsOutside = timeTrackDocument.IsOutside;
 					Context.SubmitChanges();
 				}
 				return new OperationResult();
