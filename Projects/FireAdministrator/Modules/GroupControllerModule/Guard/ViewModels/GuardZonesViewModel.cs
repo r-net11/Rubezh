@@ -100,9 +100,9 @@ namespace GKModule.ViewModels
 				GKManager.AddGuardZone(guardZoneDetailsViewModel.Zone);
 				var zoneViewModel = new GuardZoneViewModel(guardZoneDetailsViewModel.Zone);
 				Zones.Add(zoneViewModel);
-				if (Zones.Count() > 0)
-					ZoneDevices.InitializeAvailableDevices();
 				SelectedZone = zoneViewModel;
+				if (Zones.Count() == 1)
+					ZoneDevices.InitializeAvailableDevices(SelectedZone.Zone);
 				ServiceFactory.SaveService.GKChanged = true;
 				GKPlanExtension.Instance.Cache.BuildSafe<GKGuardZone>();
 				return guardZoneDetailsViewModel;
@@ -134,7 +134,10 @@ namespace GKModule.ViewModels
 				var index = Zones.IndexOf(SelectedZone);
 				GKManager.RemoveGuardZone(SelectedZone.Zone);
 				if (SelectedZone.Zone.GuardZoneDevices.Count() > 0 && Zones.Count() != 1)
-					ZoneDevices.InitializeAvailableDevices();
+				{
+					SelectedZone.Zone.GuardZoneDevices.Clear();
+					ZoneDevices.InitializeAvailableDevices(SelectedZone.Zone);
+				}
 				Zones.Remove(SelectedZone);
 				index = Math.Min(index, Zones.Count - 1);
 				if (index > -1)
@@ -216,7 +219,7 @@ namespace GKModule.ViewModels
 			base.OnShow();
 			SelectedZone = SelectedZone;
 			if (SelectedZone != null)
-				ZoneDevices.InitializeAvailableDevices();
+				ZoneDevices.InitializeAvailableDevices(SelectedZone.Zone);
 			else
 				ZoneDevices.Clear();
 		}

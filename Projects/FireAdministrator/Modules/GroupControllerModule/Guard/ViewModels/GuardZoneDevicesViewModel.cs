@@ -70,12 +70,12 @@ namespace GKModule.ViewModels
 		}
 
 
-		public void InitializeAvailableDevices()
+		public void InitializeAvailableDevices(GKGuardZone zone)
 		{
 			AvailableDevices = new ObservableCollection<GuardZoneDeviceViewModel>();
 			foreach (var device in GKManager.Devices)
 			{
-				if (device.DriverType == GKDriverType.RSR2_GuardDetector || device.DriverType == GKDriverType.RSR2_GuardDetectorSound || device.DriverType == GKDriverType.RSR2_AM_1 || device.DriverType == GKDriverType.RSR2_MAP4 || device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader && !Zone.GuardZoneDevices.Any(x => x.DeviceUID == device.UID))
+				if (device.DriverType == GKDriverType.RSR2_GuardDetector || device.DriverType == GKDriverType.RSR2_GuardDetectorSound || device.DriverType == GKDriverType.RSR2_AM_1 || device.DriverType == GKDriverType.RSR2_MAP4 || device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader && !zone.GuardZoneDevices.Any(x => x.DeviceUID == device.UID))
 				{
 					if (device.GuardZoneUIDs.Count > 0 || (device.IsInMPT && !GlobalSettingsHelper.GlobalSettings.ShowMPTsDevices)
 							|| (device.ZoneUIDs.Count > 0 && !GlobalSettingsHelper.GlobalSettings.ShowOtherZonesDevices)
