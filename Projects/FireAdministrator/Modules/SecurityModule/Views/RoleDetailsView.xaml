@@ -9,9 +9,9 @@
 			<Grid Margin="10">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
-					<RowDefinition Height="*" />
+					<RowDefinition />
 				</Grid.RowDefinitions>
-				<DockPanel Grid.Row="0">
+				<DockPanel>
 					<Label DockPanel.Dock="Left" Content="Название" FontWeight="Bold" VerticalAlignment="Center" />
 					<TextBox DockPanel.Dock="Right" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="100" VerticalAlignment="Center" Margin="2" />
 				</DockPanel>

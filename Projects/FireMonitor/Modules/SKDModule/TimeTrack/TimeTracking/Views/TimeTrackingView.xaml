@@ -112,6 +112,7 @@
 				<ToolBarButton
 					Grid.Column="4"
 					Command="{Binding ShowDocumentTypesCommand}"
+					Visibility="{Binding CanShowDocumentTypes, Converter={StaticResource BoolToVisibilityConverter}}"
 					ImageSource="Settings2"
 					ToolTip="Виды документов" />
 				<StackPanel

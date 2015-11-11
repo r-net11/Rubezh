@@ -74,6 +74,19 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		private bool _canShowDocumentTypes;
+
+		public bool CanShowDocumentTypes
+		{
+			get { return _canShowDocumentTypes; }
+			set
+			{
+				if (_canShowDocumentTypes == value) return;
+				_canShowDocumentTypes = value;
+				OnPropertyChanged(() => CanShowDocumentTypes);
+			}
+		}
+
 		public int TotalPageNumber
 		{
 			get
@@ -126,6 +139,7 @@ namespace SKDModule.ViewModels
 
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);
+			CanShowDocumentTypes = FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
 
 			ShowDocumentTypesCommand = new ReactiveCommand();
 			ShowDocumentTypesCommand.Subscribe(_ => OnShowDocumentTypes());

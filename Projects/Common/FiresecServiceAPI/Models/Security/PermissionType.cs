@@ -223,7 +223,7 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("Создание, редактирование, удаление, оправдательных документов")]
 		Oper_SKD_TimeTrack_Documents_Edit,
 
-		[DescriptionAttribute("Добавление, удаление, редактирование типа документов в списке 'Типы документов'")]
+		[DescriptionAttribute("Ведение справочника видов оправдательных документов")]
 		Oper_SKD_TimeTrack_DocumentTypes_Edit,
 	}
 }
