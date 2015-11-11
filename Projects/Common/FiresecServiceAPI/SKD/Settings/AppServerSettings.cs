@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI
@@ -13,11 +14,15 @@ namespace FiresecAPI
 			ReportServicePort = 8800;
 			EnableRemoteConnections = false;
 			UseHasp = false;
-			DBServerAddress = ".";
-			DBServerName = "SQLEXPRESS";
-			DBUseIntegratedSecurity = true;
 			CreateNewDBOnOversize = true;
 			EnableOfflineLog = true;
+
+			DBServerAddress = ".";
+			DBServerPort = 1344;
+			DBServerName = "SQLEXPRESS";
+			DBUseIntegratedSecurity = true;
+			DBUserID = String.Empty;
+			DBUserPwd = String.Empty;
 		}
 
 		[DataMember]
@@ -37,6 +42,9 @@ namespace FiresecAPI
 
 		[DataMember]
 		public string DBServerAddress { get; set; }
+
+		[DataMember]
+		public int DBServerPort { get; set; }
 
 		[DataMember]
 		public string DBServerName { get; set; }

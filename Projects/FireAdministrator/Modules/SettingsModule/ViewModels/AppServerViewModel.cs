@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -93,7 +94,6 @@ namespace SettingsModule.ViewModels
 		}
 
 		private bool _useHasp;
-
 		public bool UseHasp
 		{
 			get { return _useHasp; }
@@ -107,7 +107,6 @@ namespace SettingsModule.ViewModels
 		}
 
 		private string _dbServerName;
-
 		public string DBServerName
 		{
 			get { return _dbServerName; }
@@ -121,7 +120,6 @@ namespace SettingsModule.ViewModels
 		}
 
 		private bool _createNewDBOnOversize;
-
 		public bool CreateNewDBOnOversize
 		{
 			get { return _createNewDBOnOversize; }
@@ -134,9 +132,91 @@ namespace SettingsModule.ViewModels
 			}
 		}
 
+		private string _dbServerAddress;
+		public string DBServerAddress
+		{
+			get { return _dbServerAddress; }
+			set
+			{
+				if (_dbServerAddress == value)
+					return;
+				_dbServerAddress = value;
+				OnPropertyChanged(() => DBServerAddress);
+			}
+		}
+
+		private int _dbServerPort;
+		public int DBServerPort
+		{
+			get { return _dbServerPort; }
+			set
+			{
+				if (_dbServerPort == value)
+					return;
+				_dbServerPort = value;
+				OnPropertyChanged(() => DBServerPort);
+			}
+		}
+
+		private SqlServerAuthenticationMode _sqlServerAuthenticationMode;
+		public SqlServerAuthenticationMode SqlServerAuthenticationMode
+		{
+			get { return _sqlServerAuthenticationMode; }
+			set
+			{
+				if (_sqlServerAuthenticationMode == value)
+					return;
+				_sqlServerAuthenticationMode = value;
+				OnPropertyChanged(() => SqlServerAuthenticationMode);
+				OnPropertyChanged(() => UseSqlServerAuthentication);
+			}
+		}
+
+		public ObservableCollection<SqlServerAuthenticationMode> AvailableSqlServerAuthenticationModes { get; private set; }
+
+		private void InitializeAvailableSqlServerAuthenticationModes()
+		{
+			AvailableSqlServerAuthenticationModes = new ObservableCollection<SqlServerAuthenticationMode>
+			{
+				SqlServerAuthenticationMode.Windows,
+				SqlServerAuthenticationMode.SqlServer
+			};
+		}
+
+		public bool UseSqlServerAuthentication {
+			get { return SqlServerAuthenticationMode == SqlServerAuthenticationMode.SqlServer; }
+		}
+
+		private string _dbUserID;
+		public string DBUserID
+		{
+			get { return _dbUserID; }
+			set
+			{
+				if (_dbUserID == value)
+					return;
+				_dbUserID = value;
+				OnPropertyChanged(() => DBUserID);
+			}
+		}
+
+		private string _dbUserPwd;
+		public string DBUserPwd
+		{
+			get { return _dbUserPwd; }
+			set
+			{
+				if (_dbUserPwd == value)
+					return;
+				_dbUserPwd = value;
+				OnPropertyChanged(() => DBUserPwd);
+			}
+		}
+
 		public AppServerViewModel()
 		{
 			InitializeAvailableIpAddresses();
+			InitializeAvailableSqlServerAuthenticationModes();
 			ReadFromModel();
 		}
 
@@ -149,8 +229,17 @@ namespace SettingsModule.ViewModels
 			ReportServicePort = settings.ReportServicePort;
 			EnableRemoteConnections = settings.EnableRemoteConnections;
 			UseHasp = settings.UseHasp;
-			DBServerName = settings.DBServerName;
 			CreateNewDBOnOversize = settings.CreateNewDBOnOversize;
+
+			// Параметры соединения с СУБД
+			DBServerAddress = settings.DBServerAddress;
+			DBServerPort = settings.DBServerPort;
+			DBServerName = settings.DBServerName;
+			SqlServerAuthenticationMode = settings.DBUseIntegratedSecurity
+				? SqlServerAuthenticationMode.Windows
+				: SqlServerAuthenticationMode.SqlServer;
+			DBUserID = settings.DBUserID;
+			DBUserPwd = settings.DBUserPwd;
 		}
 
 		private void WriteToModel()
@@ -162,13 +251,28 @@ namespace SettingsModule.ViewModels
 			settings.ReportServicePort = ReportServicePort;
 			settings.EnableRemoteConnections = EnableRemoteConnections;
 			settings.UseHasp = UseHasp;
-			settings.DBServerName = DBServerName;
 			settings.CreateNewDBOnOversize = CreateNewDBOnOversize;
+
+			// Параметры соединения с СУБД
+			settings.DBServerAddress = DBServerAddress;
+			settings.DBServerPort = DBServerPort;
+			settings.DBServerName = DBServerName;
+			settings.DBUseIntegratedSecurity = SqlServerAuthenticationMode == SqlServerAuthenticationMode.Windows;
+			settings.DBUserID = DBUserID;
+			settings.DBUserPwd = DBUserPwd;
 		}
 
 		public void Save()
 		{
 			WriteToModel();
 		}
+	}
+
+	public enum SqlServerAuthenticationMode
+	{
+		[Description("Windows")]
+		Windows,
+		[Description("SQL Sever")]
+		SqlServer
 	}
 }
