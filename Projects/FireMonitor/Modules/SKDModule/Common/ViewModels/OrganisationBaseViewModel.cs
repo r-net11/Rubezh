@@ -297,7 +297,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return SelectedItem != null && !SelectedItem.IsDeleted && IsEditAllowed;
+			return SelectedItem != null && !SelectedItem.IsDeleted && IsEditAllowed && ParentOrganisation != null && !ParentOrganisation.IsDeleted;
 		}
 
 		protected virtual bool IsAddViewModel(TModel model) { return true; }
