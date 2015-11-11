@@ -110,6 +110,7 @@ var app = new function AppViewModel() {
     self.Menu.HR.Filter = FilterViewModel(self.Menu.HR);
     self.Menu.HR.Employees = EmployeesViewModel(self.Menu.HR);
     self.Menu.HR.Employees.EmployeeDetails = EmployeeDetailsViewModel();
+    self.Menu.HR.Employees.EmployeeCardDetails = EmployeeCardDetailsViewModel(self.Menu.HR.Employees);
     self.Menu.HR.Employees.EmployeeCards = EmployeeCardsViewModel(self.Menu.HR.Employees);
 
     return self;

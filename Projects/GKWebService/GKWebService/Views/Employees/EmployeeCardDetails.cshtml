@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "EmployeeCardDetails";
+    Layout = null;
+}
+
+<div id="employee-card-details-box" class="save-cancel-popup" data-bind="with: HR.Employees.EmployeeCardDetails">
+    <div class="title-bar">
+        <span data-bind="text: Title"></span>
+        <a href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Close Window" alt="Close" data-bind="click: EmployeeCardDetailsClose" /></a>
+    </div>
+    <div>
+        <form id="EmployeeCard" data-bind="submit: SaveEmployeeCard">
+            <ul class="tab">
+                <li class="active"><a href="" data-bind="click: function(data,event) { EmployeeCardDetailsPageClick(data, event, 'General'); }"><span>Основные</span></a></li>
+                <li data-bind="visible: CanSelectGKControllers"><a href="" data-bind="click: function(data,event) { EmployeeCardDetailsPageClick(data, event, 'GKControllers'); }"><span>Контроллеры</span></a></li>
+                <li><a href="" data-bind="click: function(data,event) { EmployeeCardDetailsPageClick(data, event, 'AccessDoors'); }"><span>Точки доступа</span></a></li>
+                <li><a href="" data-bind="click: function(data,event) { EmployeeCardDetailsPageClick(data, event, 'AccessTemplates'); }"><span>Шаблон доступа</span></a></li>
+            </ul>
+
+            <div class="data-input" data-bind="visible:employeeCardDetailsPages.General">
+                <label for="GKCardType" data-bind="visible: CanChangeCardType">
+                    <span>Тип пропуска</span>
+                    <select name="GKCardType" data-bind="value: SelectedGKCardType">
+                        <option value="Employee">Сотрудник</option>
+                        <option value="Operator">Оператор</option>
+                        <option value="Administrator">Администратор</option>
+                        <option value="Installator">Инсталлятор</option>
+                        <option value="Manufactor">Изготовитель</option>
+                    </select>
+                </label>
+                <label for="EndDate"><span>Конец действия</span><input type="text" id="EndDate" name="EndDate" data-bind="datepicker: EndDate, datepickerOptions: { dateFormat: 'dd.mm.yy' }" value="" /></label>
+                <label for="GKLevel"><span>Уровень доступа</span><input type="number" name="GKLevel" data-bind="value: GKLevel" value="" /></label>
+            </div>
+            <div class="data-input" data-bind="visible:employeeCardDetailsPages.GKControllers">
+            </div>
+            <div class="data-input" data-bind="visible:employeeCardDetailsPages.AccessDoors">
+            </div>
+            <div class="data-input" data-bind="visible:employeeCardDetailsPages.AccessTemplates">
+            </div>
+            <button class="submit ok-cancel-button" type="button" data-bind="click: SaveEmployeeCard">OK</button>
+        </form>
+    </div>
+</div>

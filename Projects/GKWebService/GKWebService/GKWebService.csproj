@@ -328,6 +328,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Clock.js" />
+    <Content Include="Scripts\EmployeeCardDetails.js" />
     <Content Include="Scripts\HrFilter.js" />
     <Content Include="Scripts\EmployeeDetails.js" />
     <Content Include="Scripts\HR.js" />
@@ -485,6 +486,7 @@
     <Content Include="Views\Employees\Index.cshtml" />
     <Content Include="Views\Employees\EmployeeDetails.cshtml" />
     <Content Include="Views\Hr\HrFilter.cshtml" />
+    <Content Include="Views\Employees\EmployeeCardDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
