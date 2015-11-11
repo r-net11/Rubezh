@@ -115,7 +115,7 @@ namespace GKProcessor
 
 						foreach (var kauDatabase in kauDatabases)
 						{
-							if (!DeviceBytesHelper.GoToWorkingRegime(kauDatabase.RootDevice, progressCallback))
+							if (!DeviceBytesHelper.GoToWorkingRegime(kauDatabase.RootDevice, progressCallback, kauDatabase.RootDevice.Driver.IsKau))
 							{
 								Errors.Add("Не удалось перевести" + kauDatabase.RootDevice.PresentationName + "в рабочий режим");
 							}

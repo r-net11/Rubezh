@@ -87,7 +87,7 @@ namespace GKProcessor
 					return true;
 
 				GKProcessorManager.DoProgress(device.PresentationName + " Переход в технологический режим", progressCallback);
-				SendManager.Send(device, 0, 14, 0, null, device.DriverType == GKDriverType.GK);
+				SendManager.Send(device, 0, 14, 0, null, device.DriverType == GKDriverType.GK || device.DriverType == GKDriverType.GKMirror);
 				for (int i = 0; i < 10; i++)
 				{
 					if (progressCallback.IsCanceled)
