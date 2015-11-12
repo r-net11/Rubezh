@@ -24,6 +24,10 @@
 		<Views:VariableDetailsView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:VariableViewModel}">
+		<Views:VariableView />
+	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:ArgumentViewModel}">
 		<Views:ArgumentView />
 	</DataTemplate>
@@ -110,10 +114,6 @@
 
 	<DataTemplate x:Key="procedureSelectionTemplate">
 		<Views:ProcedureSelectionStepView />
-	</DataTemplate>
-
-	<DataTemplate x:Key="exitTemplate">
-		<Views:ExitStepView />
 	</DataTemplate>
 
 	<DataTemplate x:Key="setValueTemplate">
@@ -264,7 +264,6 @@
 										 ControlGKGuardZoneTemplate="{StaticResource controlGKGuardZoneTemplate}"
 										 ControlPlanTemplate="{StaticResource controlPlanTemplate}"
 										 ControlVisualTemplate="{StaticResource controlVisualTemplate}"
-										 ExitTemplate="{StaticResource exitTemplate}"
 										 FindObjectTemplate="{StaticResource findObjectTemplate}"
 										 ForeachTemplate="{StaticResource foreachTemplate}"
 										 ForTemplate="{StaticResource forTemplate}"

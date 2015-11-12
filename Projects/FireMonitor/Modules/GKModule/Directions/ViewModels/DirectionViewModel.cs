@@ -1,6 +1,4 @@
 ﻿using RubezhAPI.GK;
-using RubezhAPI.Models;
-using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -83,8 +81,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var presentationZone = GKManager.GetPresentationLogic(Direction.Logic);
-				return presentationZone;
+				return GKManager.GetPresentationLogic(Direction.Logic);
 			}
 		}
 	}

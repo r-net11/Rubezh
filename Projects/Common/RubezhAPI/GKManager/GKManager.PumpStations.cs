@@ -26,13 +26,13 @@ namespace RubezhClient
 			PumpStations.Remove(pumpStation);
 			pumpStation.InputDependentElements.ForEach(x =>
 			{
-				x.OutDependentElements.Remove(pumpStation);
+				x.OutputDependentElements.Remove(pumpStation);
 			});
 
-			pumpStation.OutDependentElements.ForEach(x =>
+			pumpStation.OutputDependentElements.ForEach(x =>
 			{
 				x.InputDependentElements.Remove(pumpStation);
-				x.UpdateLogic();
+				x.UpdateLogic(GKManager.DeviceConfiguration);
 				x.OnChanged();
 			});
 		}
@@ -43,7 +43,33 @@ namespace RubezhClient
 		/// <param name="pumpStation"></param>
 		public static void EditPumpStation(GKPumpStation pumpStation)
 		{
-			pumpStation.OutDependentElements.ForEach(x => x.OnChanged());
+			pumpStation.OutputDependentElements.ForEach(x => x.OnChanged());
+			pumpStation.OnChanged();
+		}
+
+		public static void ChangePumpDevices(GKPumpStation pumpStation, List<GKDevice> devices)
+		{
+			pumpStation.NSDevices.ForEach(x => 
+				{
+					if (!devices.Contains(x))
+					{
+						x.OutputDependentElements.Remove(pumpStation);
+						pumpStation.InputDependentElements.Remove(x);
+						x.NSLogic = new GKLogic();
+						x.OnChanged();
+					}
+				});
+
+			pumpStation.NSDevices = devices;
+			pumpStation.NSDeviceUIDs = new List<Guid>();
+
+			foreach (var device in pumpStation.NSDevices)
+			{
+				pumpStation.NSDeviceUIDs.Add(device.UID);
+				device.Logic = new GKLogic();
+				pumpStation.AddDependentElement(device);
+			}
+			pumpStation.OnChanged();
 		}
 	}
 }

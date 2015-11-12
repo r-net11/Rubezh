@@ -86,6 +86,7 @@ namespace ResursNetwork.Incotex.Models
 				_powerLimitBcd = BitConverter.ToUInt16(array, 0)
 			};			
 		}
+
 		/// <summary>
 		/// Сериализует значение (Mpower или float (mm.mm кВт*ч)) в массив
 		/// из 2 байт в BCD формате

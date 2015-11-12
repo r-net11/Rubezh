@@ -122,7 +122,8 @@ namespace AutomationModule.ViewModels
 		void OnAddVariable()
 		{
 			var variableDetailsViewModel = new VariableDetailsViewModel(null, SelectedVariableScope == VariableScope.LocalVariable ? "локальная переменная" : "глобальная переменная",
-				SelectedVariableScope == VariableScope.LocalVariable ? "Добавить локальную переменную" : "Добавить глобальную переменную");
+				SelectedVariableScope == VariableScope.LocalVariable ? "Добавить локальную переменную" : "Добавить глобальную переменную", 
+				SelectedVariableScope == VariableScope.GlobalVariable);
 			variableDetailsViewModel.IsList = IsList;
 			variableDetailsViewModel.ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ExplicitTypes);
 			var explicitTypeViewModel = variableDetailsViewModel.ExplicitTypes.FirstOrDefault();
@@ -287,17 +288,19 @@ namespace AutomationModule.ViewModels
 			get { return Argument.VariableScope; }
 			set
 			{
-				Argument.VariableScope = value;
-				if (value == VariableScope.ExplicitValue)
-					SelectedVariable = null;
-				if (value == VariableScope.LocalVariable)
-					SelectedVariable = LocalVariables.FirstOrDefault(x => x.Variable.Uid == Argument.VariableUid);
-				if (value == VariableScope.GlobalVariable)
-					SelectedVariable = GlobalVariables.FirstOrDefault(x => x.Variable.Uid == Argument.VariableUid);
-				if (UpdateVariableScopeHandler != null)
-					UpdateVariableScopeHandler();
-				OnPropertyChanged(() => SelectedVariableScope);
-				OnPropertyChanged(() => Description);
+				if (Argument.VariableScope != value)
+				{
+					Argument.VariableScope = value;
+					if (value == VariableScope.ExplicitValue)
+						SelectedVariable = null;
+					if (value == VariableScope.LocalVariable)
+						SelectedVariable = LocalVariables.FirstOrDefault(x => x.Variable.Uid == Argument.VariableUid);
+					if (value == VariableScope.GlobalVariable)
+						SelectedVariable = GlobalVariables.FirstOrDefault(x => x.Variable.Uid == Argument.VariableUid);
+					if (UpdateVariableScopeHandler != null)
+						UpdateVariableScopeHandler();
+					OnPropertyChanged(() => SelectedVariableScope);
+				}
 			}
 		}
 
@@ -318,21 +321,25 @@ namespace AutomationModule.ViewModels
 			get { return _selectedVariable; }
 			set
 			{
-				_selectedVariable = value;
-				if (_selectedVariable != null)
+				if (_selectedVariable != value)
 				{
-					Argument.VariableUid = value.Variable.Uid;
-					ExplicitType = _selectedVariable.Variable.ExplicitType;
-					EnumType = _selectedVariable.Variable.EnumType;
-					ObjectType = _selectedVariable.Variable.ObjectType;
-					if (UpdateVariableHandler != null)
-						UpdateVariableHandler();
+					_selectedVariable = value;
+					if (_selectedVariable != null)
+					{
+						Argument.VariableUid = value.Variable.Uid;
+						ExplicitType = _selectedVariable.Variable.ExplicitType;
+						EnumType = _selectedVariable.Variable.EnumType;
+						ObjectType = _selectedVariable.Variable.ObjectType;
+						if (UpdateVariableHandler != null)
+							UpdateVariableHandler();
+					}
+					else
+					{
+						Argument.VariableUid = Guid.Empty;
+					}
+					OnPropertyChanged(() => SelectedVariable);
+					OnPropertyChanged(() => Description);
 				}
-				else
-				{
-					Argument.VariableUid = Guid.Empty;
-				}
-				OnPropertyChanged(() => SelectedVariable);
 			}
 		}
 

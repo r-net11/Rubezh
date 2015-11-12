@@ -3,8 +3,8 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="3*" />
-			<RowDefinition Height="2*" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<DataGrid Grid.Row="0" CanUserSortColumns="True" Focusable="True" ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}">
 			<DataGrid.Columns>
@@ -49,7 +49,7 @@
 				<DataGridTextColumn Width="*" Binding="{Binding Door.Description}" Header="Примечание" />
 			</DataGrid.Columns>
 		</DataGrid>
-		<Grid Grid.Row="1">
+		<Grid Grid.Row="1"  Visibility="{Binding IsVisibleBottomPanel, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />

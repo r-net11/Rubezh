@@ -141,7 +141,10 @@ namespace GKModule.ViewModels
 
 		public bool IsInPumpStation
 		{
-			get { return Device != null && GKManager.PumpStations.Any(x => x.InputDependentElements.Contains(Device)); }
+			get {
+				return Device != null && (Device.DriverType == GKDriverType.RSR2_Bush_Drenazh || Device.DriverType == GKDriverType.RSR2_Bush_Fire
+				|| Device.DriverType == GKDriverType.RSR2_Bush_Jokey ) && Device.OutputDependentElements.Any(x => x as GKPumpStation != null);
+			}
 		}
 
 		public string Address
@@ -530,7 +533,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowAccessUserReflectionCommand { get; private set; }
 		void ShowAccessUserReflection()
 		{
-			var accessUserReflrctionViewModel = new ReflectionUsersViewModel(Device);
+			var accessUserReflrctionViewModel = new MirrorUsersViewModel(Device);
 			DialogService.ShowModalWindow(accessUserReflrctionViewModel);
 			ServiceFactory.SaveService.GKChanged = true;			
 		}
@@ -728,7 +731,7 @@ namespace GKModule.ViewModels
 		{
 			if (Driver.HasMirror)
 			{
-				var _reflectionview = new ReflectionViewModel(Device);
+				var _reflectionview = new MirrorViewModel(Device);
 				DialogService.ShowModalWindow(_reflectionview);
 			}
 			OnPropertyChanged(() => EditingPresentationZone);
@@ -854,7 +857,6 @@ namespace GKModule.ViewModels
 					}
 					OnPropertyChanged(() => Device);
 					OnPropertyChanged(() => Driver);
-					OnPropertyChanged(() => Device);
 					OnPropertyChanged(() => Children);
 					OnPropertyChanged(() => EditingPresentationZone);
 					OnPropertyChanged(() => GuardPresentationZone);
@@ -973,7 +975,7 @@ namespace GKModule.ViewModels
 		{
 			if (Device != null)
 			{
-				var dependencyItemsViewModel = new DependencyItemsViewModel(Device.OutDependentElements);
+				var dependencyItemsViewModel = new DependencyItemsViewModel(Device.OutputDependentElements);
 				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}
@@ -1012,7 +1014,7 @@ namespace GKModule.ViewModels
 			if (messageBoxResult)
 			{
 				Device.Logic = GKManager.PasteLogic(new GKAdvancedLogic(hasOnClause, hasOnNowClause, hasOffClause, hasOffNowClause, hasStopClause));
-				Device.Invalidate();
+				Device.Invalidate(GKManager.DeviceConfiguration);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

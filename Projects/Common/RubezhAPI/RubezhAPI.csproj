@@ -236,7 +236,6 @@
     <Compile Include="Models\Automation\ObjectType.cs" />
     <Compile Include="Models\Automation\ScheduleProcedure.cs" />
     <Compile Include="Models\Automation\StepArguments\ArithmeticArguments.cs" />
-    <Compile Include="Models\Automation\StepArguments\ExitArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\FindObjectArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ForeachArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\PauseArguments.cs" />
@@ -251,6 +250,7 @@
     <Compile Include="Models\Automation\VariableScope.cs" />
     <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\ExplicitType.cs" />
+    <Compile Include="Models\Layouts\LayoutPartAdditionalProperties.cs" />
     <Compile Include="Models\Plans\ElementPolygonGKDelay.cs" />
     <Compile Include="Models\Layouts\LayoutPartTextProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartTimeProperties.cs" />

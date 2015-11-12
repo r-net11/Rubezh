@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using Common;
 using RubezhAPI.GK;
 using RubezhClient;
 using GKModule.Events;
@@ -15,8 +14,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
-using Infrastructure.Common.Services;
-using GKModule.ViewModels;
 
 namespace GKModule.ViewModels
 {
@@ -40,6 +37,15 @@ namespace GKModule.ViewModels
 
 			IsRightPanelEnabled = true;
 			SetRibbonItems();
+			RegisterShortcuts();
+		}
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 		}
 
 		public void Initialize()
@@ -168,7 +174,7 @@ namespace GKModule.ViewModels
 			var delay = _delayToCopy.Clone();
 			delay.Logic = logicViewModel.GetModel();
 			delay.No = (ushort)(GKManager.Delays.Select(x => x.No).Max() + 1);
-			delay.Invalidate();
+			delay.Invalidate(GKManager.DeviceConfiguration);
 			var delayViewModel = new DelayViewModel(delay);
 			GKManager.Delays.Add(delayViewModel.Delay);
 			Delays.Add(delayViewModel);
@@ -198,7 +204,7 @@ namespace GKModule.ViewModels
 			{
 				SelectedDelay.Delay.Logic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, true));
 				SelectedDelay.Update();
-				SelectedDelay.Delay.Invalidate();
+				SelectedDelay.Delay.Invalidate(GKManager.DeviceConfiguration);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -214,7 +220,7 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedDelay != null)
 			{
-				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedDelay.Delay.OutDependentElements);
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedDelay.Delay.OutputDependentElements);
 				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}

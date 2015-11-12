@@ -27,13 +27,13 @@ namespace RubezhClient
 			Devices.Where(x => x.UID == door.EnterDeviceUID || x.UID == door.ExitDeviceUID || x.UID == door.LockDeviceUID || x.UID == door.LockControlDeviceUID).ToList().ForEach(x => x.Door = null);
 			door.InputDependentElements.ForEach(x =>
 			{
-				x.OutDependentElements.Remove(door);
+				x.OutputDependentElements.Remove(door);
 			});
 
-			door.OutDependentElements.ForEach(x =>
+			door.OutputDependentElements.ForEach(x =>
 			{
 				x.InputDependentElements.Remove(door);
-				x.UpdateLogic();
+				x.UpdateLogic(GKManager.DeviceConfiguration);
 				x.OnChanged();
 			});
 			door.OnChanged();
@@ -46,7 +46,7 @@ namespace RubezhClient
 		public static void EditDoor(GKDoor door)
 		{
 			door.OnChanged();
-			door.OutDependentElements.ForEach(x => x.OnChanged());
+			door.OutputDependentElements.ForEach(x => x.OnChanged());
 			door.InputDependentElements.ForEach(x => x.OnChanged());
 		}
 	}

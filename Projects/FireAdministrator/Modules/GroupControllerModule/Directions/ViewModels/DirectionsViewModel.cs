@@ -39,10 +39,18 @@ namespace GKModule.ViewModels
 			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
 			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
 			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
-
+			RegisterShortcuts();
 			IsRightPanelEnabled = true;
 			SubscribeEvents();
 			SetRibbonItems();
+		}
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 		}
 		protected override bool IsRightPanelVisibleByDefault
 		{
@@ -76,8 +84,6 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDirection = value;
-				//if (value != null)
-				//	value.Update();
 				OnPropertyChanged(() => SelectedDirection);
 				if (!_lockSelection && _selectedDirection != null && _selectedDirection.Direction.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDirection.Direction.PlanElementUIDs);
@@ -184,7 +190,7 @@ namespace GKModule.ViewModels
 			var logicViewModel = new LogicViewModel(SelectedDirection.Direction, _directionToCopy.Logic, true);
 			directionViewModel.Direction.Logic = logicViewModel.GetModel();
 			directionViewModel.Direction.No = (ushort)(GKManager.Directions.Select(x => x.No).Max() + 1);
-			directionViewModel.Direction.Invalidate();
+			directionViewModel.Direction.Invalidate(GKManager.DeviceConfiguration);
 			GKManager.AddDirection(directionViewModel.Direction);
 			Directions.Add(directionViewModel);
 			SelectedDirection = directionViewModel;
@@ -217,7 +223,7 @@ namespace GKModule.ViewModels
 			if (messageBoxResult)
 			{
 				SelectedDirection.Direction.Logic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, true));
-				SelectedDirection.Direction.Invalidate();
+				SelectedDirection.Direction.Invalidate(GKManager.DeviceConfiguration);
 				SelectedDirection.Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -239,7 +245,7 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedDirection != null)
 			{
-				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedDirection.Direction.OutDependentElements);
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedDirection.Direction.OutputDependentElements);
 				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}

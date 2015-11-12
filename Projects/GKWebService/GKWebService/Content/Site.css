@@ -98,3 +98,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 	background: #266199;
     color: white;
 }
+
+
+div.disabled {
+    opacity: 0.5;
+}

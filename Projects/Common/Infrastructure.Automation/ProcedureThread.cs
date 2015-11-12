@@ -76,10 +76,8 @@ namespace Infrastructure.Automation
 		{
 			try
 			{
-				if (Steps.Any(step => RunStep(step) == Result.Exit))
-				{
-					return true;
-				}
+				Steps.Any(x => RunStep(x) == Result.Exit);
+				return true;
 			}
 			catch
 			{
@@ -89,7 +87,6 @@ namespace Infrastructure.Automation
 			{
 				IsAlive = false;
 			}
-			return true;
 		}
 
 		Result RunStep(ProcedureStep procedureStep)
@@ -377,6 +374,10 @@ namespace Infrastructure.Automation
 
 				case ProcedureStepType.Now:
 					Now(procedureStep);
+					break;
+
+				case ProcedureStepType.RunProgram:
+					RunProgram(procedureStep);
 					break;
 			}
 			return Result.Normal;

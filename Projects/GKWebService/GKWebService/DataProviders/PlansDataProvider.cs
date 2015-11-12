@@ -51,13 +51,15 @@ namespace GKWebService.DataProviders
 		}
 
 		private PlanElement LoadPlanRoot(Plan plan) {
+            var hint = new ElementHint();
+            hint.StateHintLines.Add(new HintLine(){Text = plan.Description});
 			return new PlanElement {
 				Border = InernalConverter.ConvertColor(Colors.Black),
 				BorderThickness = 0,
 				Fill = InernalConverter.ConvertColor(plan.BackgroundColor),
 				Id = plan.UID,
 				Name = plan.Caption,
-				Hint = plan.Description,
+				Hint = hint,
 				Path =
 					"M 0 0 L " + plan.Width + " 0 L " + plan.Width +
 					" " + plan.Height +

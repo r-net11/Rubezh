@@ -4,6 +4,7 @@ using System.Linq;
 using RubezhAPI.GK;
 using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.Models.Layouts;
 
 namespace GKModule.ViewModels
 {
@@ -13,6 +14,7 @@ namespace GKModule.ViewModels
 		public DevicesViewModel()
 		{
 			Current = this;
+			IsVisibleBottomPanel = true;
 		}
 
 		public void Initialize()
@@ -86,7 +88,26 @@ namespace GKModule.ViewModels
 		}
 
 		public DeviceViewModel[] RootDevices { get; private set; }
-
+		LayoutPartAdditionalProperties _properties;
+		public LayoutPartAdditionalProperties Properties
+		{
+			get { return _properties; }
+			set
+			{
+				_properties = value;
+				IsVisibleBottomPanel = (_properties != null) ? _properties.IsVisibleBottomPanel : false;
+			}
+		}
+		bool _isVisibleBottomPanel;
+		public bool IsVisibleBottomPanel
+		{
+			get { return _isVisibleBottomPanel; }
+			set
+			{
+				_isVisibleBottomPanel = value;
+				OnPropertyChanged(() => IsVisibleBottomPanel);
+			}
+		}
 		void BuildTree()
 		{
 			RootDevice = AddDeviceInternal(GKManager.DeviceConfiguration.RootDevice, null);

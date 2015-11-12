@@ -363,7 +363,7 @@ namespace RubezhClient
 					}
 				}
 			}
-
+			SystemConfiguration.AutomationConfiguration.AutomationSounds.ForEach(x => uids.Add(x.Uid)); 
 			uids.Remove(null);
 			uids.Remove(Guid.Empty);
 			ServiceFactoryBase.ContentService.RemoveAllBut(uids.Select(x=>x.Value.ToString()).ToList());

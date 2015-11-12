@@ -26,13 +26,13 @@ namespace RubezhClient
 			MPTs.Remove(mpt);
 			mpt.InputDependentElements.ForEach(x =>
 			{
-				x.OutDependentElements.Remove(mpt);
+				x.OutputDependentElements.Remove(mpt);
 			});
 
-			mpt.OutDependentElements.ForEach(x =>
+			mpt.OutputDependentElements.ForEach(x =>
 			{
 				x.InputDependentElements.Remove(mpt);
-				x.UpdateLogic();
+				x.UpdateLogic(GKManager.DeviceConfiguration);
 				x.OnChanged();
 			});
 		}
@@ -43,8 +43,14 @@ namespace RubezhClient
 		/// <param name="mpt"></param>
 		public static void EditMPT(GKMPT mpt)
 		{
-			mpt.OutDependentElements.ForEach(x => x.OnChanged());
+			mpt.OutputDependentElements.ForEach(x => x.OnChanged());
 			mpt.OnChanged();
+		}
+
+		public static void SetMPTLogic(GKMPT MPT, GKLogic logic)
+		{
+			MPT.MptLogic = logic;
+			MPT.ChangedLogic();
 		}
 	}
 }

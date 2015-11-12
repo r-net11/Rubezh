@@ -28,8 +28,11 @@
         <member name="P:ResursNetwork.BCD.Fakes.ShimBcdConverter.ToBcdByteByte">
             <summary>Sets the shim of BcdConverter.ToBcdByte(Byte value)</summary>
         </member>
-        <member name="P:ResursNetwork.BCD.Fakes.ShimBcdConverter.ToBcdUIn16UInt16">
-            <summary>Sets the shim of BcdConverter.ToBcdUIn16(UInt16 value)</summary>
+        <member name="P:ResursNetwork.BCD.Fakes.ShimBcdConverter.ToBcdUInt16UInt16">
+            <summary>Sets the shim of BcdConverter.ToBcdUInt16(UInt16 value)</summary>
+        </member>
+        <member name="P:ResursNetwork.BCD.Fakes.ShimBcdConverter.ToBcdUInt32UInt32">
+            <summary>Sets the shim of BcdConverter.ToBcdUInt32(UInt32 value)</summary>
         </member>
         <member name="P:ResursNetwork.BCD.Fakes.ShimBcdConverter.ToByteByte">
             <summary>Sets the shim of BcdConverter.ToByte(Byte bcdValue)</summary>
@@ -202,6 +205,33 @@
         <member name="T:ResursNetwork.Incotex.Models.Fakes.ShimIncotexDateTime.AllInstances">
             <summary>Define shims for all instances members</summary>
         </member>
+        <member name="T:ResursNetwork.Incotex.Models.Fakes.ShimMenerg">
+            <summary>Shim type of ResursNetwork.Incotex.Models.Menerg</summary>
+        </member>
+        <member name="M:ResursNetwork.Incotex.Models.Fakes.ShimMenerg.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:ResursNetwork.Incotex.Models.Fakes.ShimMenerg.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:ResursNetwork.Incotex.Models.Fakes.ShimMenerg.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMenerg.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMenerg.FromArrayByteArray">
+            <summary>Sets the shim of Menerg.FromArray(Byte[] array)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMenerg.GetValueConveter">
+            <summary>Sets the shim of Menerg.GetValueConveter()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMenerg.ToArrayValueType">
+            <summary>Sets the shim of Menerg.ToArray(ValueType value)</summary>
+        </member>
+        <member name="T:ResursNetwork.Incotex.Models.Fakes.ShimMenerg.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
         <member name="T:ResursNetwork.Incotex.Models.Fakes.ShimMercury203">
             <summary>Shim type of ResursNetwork.Incotex.Models.Mercury203</summary>
         </member>
@@ -247,6 +277,9 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.ExecuteCommandString">
             <summary>Sets the shim of Mercury203.ExecuteCommand(String commandName)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.GetAnswerGeneralWriteRequestNetworkRequest">
+            <summary>Sets the shim of Mercury203.GetAnswerGeneralWriteRequest(NetworkRequest networkRequest)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.GetAnswerNetworkRequest">
             <summary>Sets the shim of Mercury203.GetAnswer(NetworkRequest networkRequest)</summary>
         </member>
@@ -262,14 +295,14 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.GetAnswerReadTariffAccumulatorsNetworkRequest">
             <summary>Sets the shim of Mercury203.GetAnswerReadTariffAccumulators(NetworkRequest networkRequest)</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.GetAnswerWriteDateTimeNetworkRequest">
-            <summary>Sets the shim of Mercury203.GetAnswerWriteDateTime(NetworkRequest networkRequest)</summary>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.GetAnswerWriteAdderssNetworkRequest">
+            <summary>Sets the shim of Mercury203.GetAnswerWriteAdderss(NetworkRequest networkRequest)</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.GetAnswerWriteNetwokAdderssNetworkRequest">
-            <summary>Sets the shim of Mercury203.GetAnswerWriteNetwokAdderss(NetworkRequest networkRequest)</summary>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.GroupAddressGet">
+            <summary>Sets the shim of Mercury203.get_GroupAddress()</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.GetAnswerWritePowerLimitNetworkRequest">
-            <summary>Sets the shim of Mercury203.GetAnswerWritePowerLimit(NetworkRequest networkRequest)</summary>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.GroupAddressSetUInt32">
+            <summary>Sets the shim of Mercury203.set_GroupAddress(UInt32 value)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.Initialization">
             <summary>Sets the shim of Mercury203.Initialization()</summary>
@@ -298,14 +331,26 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.RtcSetDateTime">
             <summary>Sets the shim of Mercury203.set_Rtc(DateTime value)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WriteAddressUInt32UInt32Boolean">
+            <summary>Sets the shim of Mercury203.WriteAddress(UInt32 addr, UInt32 newaddr, Boolean isExternalCall)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WriteAmountOfActiveTariffByteBoolean">
+            <summary>Sets the shim of Mercury203.WriteAmountOfActiveTariff(Byte value, Boolean isExternalCall)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WriteDateTimeDateTimeBoolean">
             <summary>Sets the shim of Mercury203.WriteDateTime(DateTime value, Boolean isExternalCall)</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WriteNewAddressUInt32UInt32Boolean">
-            <summary>Sets the shim of Mercury203.WriteNewAddress(UInt32 addr, UInt32 newaddr, Boolean isExternalCall)</summary>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WriteDateTimeInGroupDevicesDateTimeUInt32INetwrokControllerBoolean">
+            <summary>Sets the shim of Mercury203.WriteDateTimeInGroupDevices(DateTime dateTime, UInt32 groupAddress, INetwrokController networkController, Boolean isExternalCall)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WriteGroupAddressUInt32Boolean">
+            <summary>Sets the shim of Mercury203.WriteGroupAddress(UInt32 addr, Boolean isExternalCall)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WriteParameterStringValueType">
             <summary>Sets the shim of Mercury203.WriteParameter(String parameterName, ValueType value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WritePowerLimitPerMonthSingleBoolean">
+            <summary>Sets the shim of Mercury203.WritePowerLimitPerMonth(Single value, Boolean isExternalCall)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WritePowerLimitSingleBoolean">
             <summary>Sets the shim of Mercury203.WritePowerLimit(Single value, Boolean isExternalCall)</summary>
@@ -328,6 +373,9 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.ExecuteCommandString">
             <summary>Sets the shim of Mercury203.ExecuteCommand(String commandName)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.GetAnswerGeneralWriteRequestNetworkRequest">
+            <summary>Sets the shim of Mercury203.GetAnswerGeneralWriteRequest(NetworkRequest networkRequest)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.GetAnswerNetworkRequest">
             <summary>Sets the shim of Mercury203.GetAnswer(NetworkRequest networkRequest)</summary>
         </member>
@@ -343,14 +391,14 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.GetAnswerReadTariffAccumulatorsNetworkRequest">
             <summary>Sets the shim of Mercury203.GetAnswerReadTariffAccumulators(NetworkRequest networkRequest)</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.GetAnswerWriteDateTimeNetworkRequest">
-            <summary>Sets the shim of Mercury203.GetAnswerWriteDateTime(NetworkRequest networkRequest)</summary>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.GetAnswerWriteAdderssNetworkRequest">
+            <summary>Sets the shim of Mercury203.GetAnswerWriteAdderss(NetworkRequest networkRequest)</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.GetAnswerWriteNetwokAdderssNetworkRequest">
-            <summary>Sets the shim of Mercury203.GetAnswerWriteNetwokAdderss(NetworkRequest networkRequest)</summary>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.GroupAddressGet">
+            <summary>Sets the shim of Mercury203.get_GroupAddress()</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.GetAnswerWritePowerLimitNetworkRequest">
-            <summary>Sets the shim of Mercury203.GetAnswerWritePowerLimit(NetworkRequest networkRequest)</summary>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.GroupAddressSetUInt32">
+            <summary>Sets the shim of Mercury203.set_GroupAddress(UInt32 value)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.Initialization">
             <summary>Sets the shim of Mercury203.Initialization()</summary>
@@ -379,14 +427,23 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.RtcSetDateTime">
             <summary>Sets the shim of Mercury203.set_Rtc(DateTime value)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.WriteAddressUInt32UInt32Boolean">
+            <summary>Sets the shim of Mercury203.WriteAddress(UInt32 addr, UInt32 newaddr, Boolean isExternalCall)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.WriteAmountOfActiveTariffByteBoolean">
+            <summary>Sets the shim of Mercury203.WriteAmountOfActiveTariff(Byte value, Boolean isExternalCall)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.WriteDateTimeDateTimeBoolean">
             <summary>Sets the shim of Mercury203.WriteDateTime(DateTime value, Boolean isExternalCall)</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.WriteNewAddressUInt32UInt32Boolean">
-            <summary>Sets the shim of Mercury203.WriteNewAddress(UInt32 addr, UInt32 newaddr, Boolean isExternalCall)</summary>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.WriteGroupAddressUInt32Boolean">
+            <summary>Sets the shim of Mercury203.WriteGroupAddress(UInt32 addr, Boolean isExternalCall)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.WriteParameterStringValueType">
             <summary>Sets the shim of Mercury203.WriteParameter(String parameterName, ValueType value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.WritePowerLimitPerMonthSingleBoolean">
+            <summary>Sets the shim of Mercury203.WritePowerLimitPerMonth(Single value, Boolean isExternalCall)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.WritePowerLimitSingleBoolean">
             <summary>Sets the shim of Mercury203.WritePowerLimit(Single value, Boolean isExternalCall)</summary>
@@ -407,6 +464,9 @@
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
         </member>
         <member name="M:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.Bind(System.ComponentModel.INotifyPropertyChanged)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="M:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.Bind(System.IDisposable)">
             <summary>Binds the members of the interface to the shim.</summary>
         </member>
         <member name="M:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.Bind(ResursNetwork.Management.IManageable)">
@@ -442,6 +502,9 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.DeviceModelGet">
             <summary>Sets the shim of Mercury203Virtual.get_DeviceModel()</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.Dispose">
+            <summary>Sets the shim of Mercury203Virtual.Dispose()</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.ErrorOccurredAddEventHandlerOfDeviceErrorOccuredEventArgs">
             <summary>Sets the shim of Mercury203Virtual.add_ErrorOccurred(EventHandler`1&lt;DeviceErrorOccuredEventArgs&gt; value)</summary>
         </member>
@@ -451,8 +514,17 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.ErrorsGet">
             <summary>Sets the shim of Mercury203Virtual.get_Errors()</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.EventHandler_timer_ElapsedObjectElapsedEventArgs">
+            <summary>Sets the shim of Mercury203Virtual.EventHandler_timer_Elapsed(Object sender, ElapsedEventArgs e)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.ExecuteCommandString">
             <summary>Sets the shim of Mercury203Virtual.ExecuteCommand(String commandName)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.GroupAddressGet">
+            <summary>Sets the shim of Mercury203Virtual.get_GroupAddress()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.GroupAddressSetUInt32">
+            <summary>Sets the shim of Mercury203Virtual.set_GroupAddress(UInt32 value)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.IdGet">
             <summary>Sets the shim of Mercury203Virtual.get_Id()</summary>
@@ -514,9 +586,6 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.RtcSetDateTime">
             <summary>Sets the shim of Mercury203Virtual.set_Rtc(DateTime value)</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.SetNewAddressUInt32UInt32">
-            <summary>Sets the shim of Mercury203Virtual.SetNewAddress(UInt32 addr, UInt32 newaddr)</summary>
-        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.Start">
             <summary>Sets the shim of Mercury203Virtual.Start()</summary>
         </member>
@@ -534,6 +603,15 @@
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.Stop">
             <summary>Sets the shim of Mercury203Virtual.Stop()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.WriteDateTimeDateTime">
+            <summary>Sets the shim of Mercury203Virtual.WriteDateTime(DateTime dateTime)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.WriteGroupAddressUInt32">
+            <summary>Sets the shim of Mercury203Virtual.WriteGroupAddress(UInt32 address)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.WriteNewAddressUInt32UInt32">
+            <summary>Sets the shim of Mercury203Virtual.WriteNewAddress(UInt32 addr, UInt32 newaddr)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.WriteParameterStringValueType">
             <summary>Sets the shim of Mercury203Virtual.WriteParameter(String parameterName, ValueType value)</summary>
@@ -562,6 +640,9 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.DeviceModelGet">
             <summary>Sets the shim of Mercury203Virtual.get_DeviceModel()</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.Dispose">
+            <summary>Sets the shim of Mercury203Virtual.Dispose()</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.ErrorOccurredAddEventHandlerOfDeviceErrorOccuredEventArgs">
             <summary>Sets the shim of Mercury203Virtual.add_ErrorOccurred(EventHandler`1&lt;DeviceErrorOccuredEventArgs&gt; value)</summary>
         </member>
@@ -571,8 +652,17 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.ErrorsGet">
             <summary>Sets the shim of Mercury203Virtual.get_Errors()</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.EventHandler_timer_ElapsedObjectElapsedEventArgs">
+            <summary>Sets the shim of Mercury203Virtual.EventHandler_timer_Elapsed(Object sender, ElapsedEventArgs e)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.ExecuteCommandString">
             <summary>Sets the shim of Mercury203Virtual.ExecuteCommand(String commandName)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.GroupAddressGet">
+            <summary>Sets the shim of Mercury203Virtual.get_GroupAddress()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.GroupAddressSetUInt32">
+            <summary>Sets the shim of Mercury203Virtual.set_GroupAddress(UInt32 value)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.IdGet">
             <summary>Sets the shim of Mercury203Virtual.get_Id()</summary>
@@ -634,9 +724,6 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.RtcSetDateTime">
             <summary>Sets the shim of Mercury203Virtual.set_Rtc(DateTime value)</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.SetNewAddressUInt32UInt32">
-            <summary>Sets the shim of Mercury203Virtual.SetNewAddress(UInt32 addr, UInt32 newaddr)</summary>
-        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.Start">
             <summary>Sets the shim of Mercury203Virtual.Start()</summary>
         </member>
@@ -654,6 +741,15 @@
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.Stop">
             <summary>Sets the shim of Mercury203Virtual.Stop()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.WriteDateTimeDateTime">
+            <summary>Sets the shim of Mercury203Virtual.WriteDateTime(DateTime dateTime)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.WriteGroupAddressUInt32">
+            <summary>Sets the shim of Mercury203Virtual.WriteGroupAddress(UInt32 address)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.WriteNewAddressUInt32UInt32">
+            <summary>Sets the shim of Mercury203Virtual.WriteNewAddress(UInt32 addr, UInt32 newaddr)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203Virtual.AllInstances.WriteParameterStringValueType">
             <summary>Sets the shim of Mercury203Virtual.WriteParameter(String parameterName, ValueType value)</summary>
@@ -714,6 +810,9 @@
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimTariffCounters.InequalityOpTariffCountersTariffCounters">
             <summary>Sets the shim of TariffCounters.op_Inequality(TariffCounters x, TariffCounters y)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimTariffCounters.ToBcdSingle">
+            <summary>Sets the shim of TariffCounters.ToBcd(Single value)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimTariffCounters.ToFloatUInt32">
             <summary>Sets the shim of TariffCounters.ToFloat(UInt32 bcdValue)</summary>
@@ -898,6 +997,9 @@
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.ReadDeviceParametersDeviceBase">
             <summary>Sets the shim of IncotexNetworkController.ReadDeviceParameters(DeviceBase device)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.ReadParameterString">
+            <summary>Sets the shim of IncotexNetworkController.ReadParameter(String parameterName)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.RequestTimeoutGet">
             <summary>Sets the shim of IncotexNetworkController.get_RequestTimeout()</summary>
         </member>
@@ -913,8 +1015,14 @@
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.SyncDateTime">
             <summary>Sets the shim of IncotexNetworkController.SyncDateTime()</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.SyncDateTimeValueType">
+            <summary>Sets the shim of IncotexNetworkController.SyncDateTime(ValueType groupAddress)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.WriteNetworkRequestBoolean">
             <summary>Sets the shim of IncotexNetworkController.Write(NetworkRequest networkRequest, Boolean isExternalCall)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.WriteParameterStringValueType">
+            <summary>Sets the shim of IncotexNetworkController.WriteParameter(String parameterName, ValueType value)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController._EventHandler_Connection_MessageReceivedb__2MessageBase">
             <summary>Sets the shim of IncotexNetworkController.&lt;EventHandler_Connection_MessageReceived&gt;b__2(MessageBase y)</summary>
@@ -927,6 +1035,9 @@
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController._EventHandler_Connection_MessageReceivedb__5MessageBase">
             <summary>Sets the shim of IncotexNetworkController.&lt;EventHandler_Connection_MessageReceived&gt;b__5(MessageBase z)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController._SyncDateTimeb__13IDevice">
+            <summary>Sets the shim of IncotexNetworkController.&lt;SyncDateTime&gt;b__13(IDevice x)</summary>
         </member>
         <member name="T:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.AllInstances">
             <summary>Define shims for all instances members</summary>
@@ -964,6 +1075,9 @@
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.AllInstances.ReadDeviceParametersDeviceBase">
             <summary>Sets the shim of IncotexNetworkController.ReadDeviceParameters(DeviceBase device)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.AllInstances.ReadParameterString">
+            <summary>Sets the shim of IncotexNetworkController.ReadParameter(String parameterName)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.AllInstances.RequestTimeoutGet">
             <summary>Sets the shim of IncotexNetworkController.get_RequestTimeout()</summary>
         </member>
@@ -976,8 +1090,14 @@
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.AllInstances.SyncDateTime">
             <summary>Sets the shim of IncotexNetworkController.SyncDateTime()</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.AllInstances.SyncDateTimeValueType">
+            <summary>Sets the shim of IncotexNetworkController.SyncDateTime(ValueType groupAddress)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.AllInstances.WriteNetworkRequestBoolean">
             <summary>Sets the shim of IncotexNetworkController.Write(NetworkRequest networkRequest, Boolean isExternalCall)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkController.AllInstances.WriteParameterStringValueType">
+            <summary>Sets the shim of IncotexNetworkController.WriteParameter(String parameterName, ValueType value)</summary>
         </member>
         <member name="T:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual">
             <summary>Shim type of ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.IncotexNetworkControllerVirtual</summary>
@@ -1087,6 +1207,9 @@
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.PortErrorSetBoolean">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.set_PortError(Boolean value)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.ReadParameterString">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.ReadParameter(String parameterName)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.Start">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.Start()</summary>
         </member>
@@ -1114,8 +1237,20 @@
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.SyncDateTime">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.SyncDateTime()</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.SyncDateTimeValueType">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.SyncDateTime(ValueType groupAddress)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.WriteNetworkRequestBoolean">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.Write(NetworkRequest request, Boolean isExternalCall)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.WriteParameterStringValueType">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.WriteParameter(String parameterName, ValueType value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual._SyncDateTimeb__3IDevice">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.&lt;SyncDateTime&gt;b__3(IDevice p)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual._SyncDateTimeb__8IDevice">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.&lt;SyncDateTime&gt;b__8(IDevice x)</summary>
         </member>
         <member name="T:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances">
             <summary>Define shims for all instances members</summary>
@@ -1198,6 +1333,9 @@
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.PortErrorSetBoolean">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.set_PortError(Boolean value)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.ReadParameterString">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.ReadParameter(String parameterName)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.Start">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.Start()</summary>
         </member>
@@ -1222,8 +1360,14 @@
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.SyncDateTime">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.SyncDateTime()</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.SyncDateTimeValueType">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.SyncDateTime(ValueType groupAddress)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.WriteNetworkRequestBoolean">
             <summary>Sets the shim of IncotexNetworkControllerVirtual.Write(NetworkRequest request, Boolean isExternalCall)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.ShimIncotexNetworkControllerVirtual.AllInstances.WriteParameterStringValueType">
+            <summary>Sets the shim of IncotexNetworkControllerVirtual.WriteParameter(String parameterName, ValueType value)</summary>
         </member>
         <member name="T:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController">
             <summary>Stub type of ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.IncotexNetworkController</summary>
@@ -1288,6 +1432,12 @@
         <member name="F:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.PollingPeriodSetInt32">
             <summary>Sets the stub of IncotexNetworkController.set_PollingPeriod(Int32 value)</summary>
         </member>
+        <member name="M:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.ReadParameter(System.String)">
+            <summary>Sets the stub of IncotexNetworkController.ReadParameter(String parameterName)</summary>
+        </member>
+        <member name="F:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.ReadParameterString">
+            <summary>Sets the stub of IncotexNetworkController.ReadParameter(String parameterName)</summary>
+        </member>
         <member name="M:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.Start">
             <summary>Sets the stub of NetworkControllerBase.Start()</summary>
         </member>
@@ -1306,14 +1456,26 @@
         <member name="M:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.SyncDateTime">
             <summary>Sets the stub of IncotexNetworkController.SyncDateTime()</summary>
         </member>
+        <member name="M:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.SyncDateTime(System.ValueType)">
+            <summary>Sets the stub of IncotexNetworkController.SyncDateTime(ValueType groupAddress)</summary>
+        </member>
         <member name="F:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.SyncDateTime01">
             <summary>Sets the stub of IncotexNetworkController.SyncDateTime()</summary>
+        </member>
+        <member name="F:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.SyncDateTimeValueType">
+            <summary>Sets the stub of IncotexNetworkController.SyncDateTime(ValueType groupAddress)</summary>
         </member>
         <member name="M:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.Write(ResursNetwork.OSI.Messages.Transactions.NetworkRequest,System.Boolean)">
             <summary>Sets the stub of IncotexNetworkController.Write(NetworkRequest networkRequest, Boolean isExternalCall)</summary>
         </member>
         <member name="F:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.WriteNetworkRequestBoolean">
             <summary>Sets the stub of IncotexNetworkController.Write(NetworkRequest networkRequest, Boolean isExternalCall)</summary>
+        </member>
+        <member name="M:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.WriteParameter(System.String,System.ValueType)">
+            <summary>Sets the stub of IncotexNetworkController.WriteParameter(String parameterName, ValueType value)</summary>
+        </member>
+        <member name="F:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.WriteParameterStringValueType">
+            <summary>Sets the stub of IncotexNetworkController.WriteParameter(String parameterName, ValueType value)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.NetworkControllers.ApplicationLayer.Fakes.StubIncotexNetworkController.CallBase">
             <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
@@ -2146,11 +2308,14 @@
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.SyncDateTimeGuid">
             <summary>Sets the shim of NetworksManager.SyncDateTime(Guid networkId)</summary>
         </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.SyncDateTimeGuidValueType">
+            <summary>Sets the shim of NetworksManager.SyncDateTime(Guid networkId, ValueType broadcastAddress)</summary>
+        </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.WriteParameterGuidStringValueType">
             <summary>Sets the shim of NetworksManager.WriteParameter(Guid deviceId, String parameterName, ValueType value)</summary>
         </member>
-        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager._FindDeviceb__eINetwrokController">
-            <summary>Sets the shim of NetworksManager.&lt;FindDevice&gt;b__e(INetwrokController n)</summary>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager._FindDeviceb__14INetwrokController">
+            <summary>Sets the shim of NetworksManager.&lt;FindDevice&gt;b__14(INetwrokController n)</summary>
         </member>
         <member name="T:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances">
             <summary>Define shims for all instances members</summary>
@@ -2247,6 +2412,9 @@
         </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.SyncDateTimeGuid">
             <summary>Sets the shim of NetworksManager.SyncDateTime(Guid networkId)</summary>
+        </member>
+        <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.SyncDateTimeGuidValueType">
+            <summary>Sets the shim of NetworksManager.SyncDateTime(Guid networkId, ValueType broadcastAddress)</summary>
         </member>
         <member name="P:ResursNetwork.Networks.Fakes.ShimNetworksManager.AllInstances.WriteParameterGuidStringValueType">
             <summary>Sets the shim of NetworksManager.WriteParameter(Guid deviceId, String parameterName, ValueType value)</summary>
@@ -4216,6 +4384,9 @@
         <member name="F:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.PollingPeriodSetInt32">
             <summary>Sets the stub of INetwrokController.set_PollingPeriod(Int32 value)</summary>
         </member>
+        <member name="F:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.ReadParameterString">
+            <summary>Sets the stub of INetwrokController.ReadParameter(String parameterName)</summary>
+        </member>
         <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.r::ResursNetwork#Management#IManageable#Start">
             <summary>Sets the stub of IManageable.Start()</summary>
         </member>
@@ -4225,11 +4396,20 @@
         <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.r::ResursNetwork#OSI#ApplicationLayer#INetwrokController#ExecuteCommand(System.String)">
             <summary>Sets the stub of INetwrokController.ExecuteCommand(String commandName)</summary>
         </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.r::ResursNetwork#OSI#ApplicationLayer#INetwrokController#ReadParameter(System.String)">
+            <summary>Sets the stub of INetwrokController.ReadParameter(String parameterName)</summary>
+        </member>
         <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.r::ResursNetwork#OSI#ApplicationLayer#INetwrokController#SyncDateTime">
             <summary>Sets the stub of INetwrokController.SyncDateTime()</summary>
         </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.r::ResursNetwork#OSI#ApplicationLayer#INetwrokController#SyncDateTime(System.ValueType)">
+            <summary>Sets the stub of INetwrokController.SyncDateTime(ValueType broadcastAddress)</summary>
+        </member>
         <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.r::ResursNetwork#OSI#ApplicationLayer#INetwrokController#Write(ResursNetwork.OSI.Messages.Transactions.NetworkRequest,System.Boolean)">
             <summary>Sets the stub of INetwrokController.Write(NetworkRequest request, Boolean isExternalCall)</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.r::ResursNetwork#OSI#ApplicationLayer#INetwrokController#WriteParameter(System.String,System.ValueType)">
+            <summary>Sets the stub of INetwrokController.WriteParameter(String parameterName, ValueType value)</summary>
         </member>
         <member name="F:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.Start">
             <summary>Sets the stub of IManageable.Start()</summary>
@@ -4249,11 +4429,17 @@
         <member name="F:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.SyncDateTime">
             <summary>Sets the stub of INetwrokController.SyncDateTime()</summary>
         </member>
+        <member name="F:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.SyncDateTimeValueType">
+            <summary>Sets the stub of INetwrokController.SyncDateTime(ValueType broadcastAddress)</summary>
+        </member>
         <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.global::System#IDisposable#Dispose">
             <summary>Sets the stub of IDisposable.Dispose()</summary>
         </member>
         <member name="F:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.WriteNetworkRequestBoolean">
             <summary>Sets the stub of INetwrokController.Write(NetworkRequest request, Boolean isExternalCall)</summary>
+        </member>
+        <member name="F:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.WriteParameterStringValueType">
+            <summary>Sets the stub of INetwrokController.WriteParameter(String parameterName, ValueType value)</summary>
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.StubINetwrokController.r::ResursNetwork#OSI#ApplicationLayer#INetwrokController#Connection">
             <summary>Sets the stub of INetwrokController.get_Connection()</summary>
@@ -4339,6 +4525,12 @@
         <member name="F:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.PollingPeriodSetInt32">
             <summary>Sets the stub of NetworkControllerBase.set_PollingPeriod(Int32 value)</summary>
         </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.ReadParameter(System.String)">
+            <summary>Sets the stub of NetworkControllerBase.ReadParameter(String parameterName)</summary>
+        </member>
+        <member name="F:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.ReadParameterString">
+            <summary>Sets the stub of NetworkControllerBase.ReadParameter(String parameterName)</summary>
+        </member>
         <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.Start">
             <summary>Sets the stub of NetworkControllerBase.Start()</summary>
         </member>
@@ -4357,14 +4549,26 @@
         <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.SyncDateTime">
             <summary>Sets the stub of NetworkControllerBase.SyncDateTime()</summary>
         </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.SyncDateTime(System.ValueType)">
+            <summary>Sets the stub of NetworkControllerBase.SyncDateTime(ValueType broadcastAddress)</summary>
+        </member>
         <member name="F:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.SyncDateTime01">
             <summary>Sets the stub of NetworkControllerBase.SyncDateTime()</summary>
+        </member>
+        <member name="F:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.SyncDateTimeValueType">
+            <summary>Sets the stub of NetworkControllerBase.SyncDateTime(ValueType broadcastAddress)</summary>
         </member>
         <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.Write(ResursNetwork.OSI.Messages.Transactions.NetworkRequest,System.Boolean)">
             <summary>Sets the stub of NetworkControllerBase.Write(NetworkRequest request, Boolean isExternalCall)</summary>
         </member>
         <member name="F:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.WriteNetworkRequestBoolean">
             <summary>Sets the stub of NetworkControllerBase.Write(NetworkRequest request, Boolean isExternalCall)</summary>
+        </member>
+        <member name="M:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.WriteParameter(System.String,System.ValueType)">
+            <summary>Sets the stub of NetworkControllerBase.WriteParameter(String parameterName, ValueType value)</summary>
+        </member>
+        <member name="F:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.WriteParameterStringValueType">
+            <summary>Sets the stub of NetworkControllerBase.WriteParameter(String parameterName, ValueType value)</summary>
         </member>
         <member name="P:ResursNetwork.OSI.ApplicationLayer.Fakes.StubNetworkControllerBase.CallBase">
             <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>

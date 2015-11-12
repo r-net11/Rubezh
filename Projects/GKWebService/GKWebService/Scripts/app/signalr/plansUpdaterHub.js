@@ -16,7 +16,12 @@
 		{
 			var uid = stateData.Id.replace(" ", "-");
 			$("#" + uid).attr("href", "data:image/gif;base64," + stateData.Picture);
-		}
+		},
+
+        updateHint: function(stateData) {
+
+            
+        }
 	});
 
 	// Start the connection

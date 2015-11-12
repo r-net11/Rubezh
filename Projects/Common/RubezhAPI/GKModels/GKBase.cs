@@ -22,7 +22,7 @@ namespace RubezhAPI.GK
 			InputDescriptors = new List<GKBase>();
 			OutputDescriptors = new List<GKBase>();
 			InputDependentElements = new List<GKBase>();
-			OutDependentElements = new List<GKBase>();
+			OutputDependentElements = new List<GKBase>();
 		}
 
 		/// <summary>
@@ -35,7 +35,7 @@ namespace RubezhAPI.GK
 		/// Коллекция объектов, которые зависят от данного объекта. Например, объекты, в логике которых участвует данный объект
 		/// </summary>
 		[XmlIgnore]
-		public List<GKBase> OutDependentElements { get; set; }
+		public List<GKBase> OutputDependentElements { get; set; }
 
 
 		public void ClearClauseDependencies()
@@ -43,7 +43,7 @@ namespace RubezhAPI.GK
 			InputDescriptors = new List<GKBase>();
 			OutputDescriptors = new List<GKBase>();
 			InputDependentElements = new List<GKBase>();
-			OutDependentElements = new List<GKBase>();
+			OutputDependentElements = new List<GKBase>();
 		}
 
 		[XmlIgnore]
@@ -51,30 +51,33 @@ namespace RubezhAPI.GK
 		[XmlIgnore]
 		public List<GKBase> OutputDescriptors { get; set; }
 
-		public virtual void Invalidate()
+		public virtual void Invalidate(GKDeviceConfiguration deviceConfiguration)
 		{
 		}
 
-		public virtual void UpdateLogic()
+		public virtual void UpdateLogic(GKDeviceConfiguration deviceConfiguration)
 		{
 		}
 
 		public void ChangedLogic()
 		{
+			if(InputDependentElements.Count()==0)
+				Invalidate(GKManager.DeviceConfiguration);
 			InputDependentElements.ForEach(x =>
 				{
-					x.OutDependentElements.Remove(this);
+					x.OutputDependentElements.Remove(this);
+					x.OnChanged();
 				});
 			InputDependentElements = new List<GKBase>();
-			this.Invalidate();
+			Invalidate(GKManager.DeviceConfiguration);
 		}
 
 		public void AddDependentElement(GKBase gkBase)
 		{
 			if (InputDependentElements.All(x => x.UID != gkBase.UID) && gkBase.UID != UID)
 				InputDependentElements.Add(gkBase);
-			if (gkBase.OutDependentElements.All(x => x.UID != UID) && gkBase.UID != UID)
-				gkBase.OutDependentElements.Add(this);
+			if (gkBase.OutputDependentElements.All(x => x.UID != UID) && gkBase.UID != UID)
+				gkBase.OutputDependentElements.Add(this);
 		}
 
 		public virtual string GetGKDescriptorName(GKNameGenerationType gkNameGenerationType)
@@ -321,7 +324,7 @@ namespace RubezhAPI.GK
 		public void ClearDescriptor()
 		{
 			InputDependentElements = new List<GKBase>();
-			OutDependentElements = new List<GKBase>();
+			OutputDependentElements = new List<GKBase>();
 			InputDescriptors = new List<GKBase>();
 			OutputDescriptors = new List<GKBase>();
 			KauParents = new HashSet<GKDevice>();

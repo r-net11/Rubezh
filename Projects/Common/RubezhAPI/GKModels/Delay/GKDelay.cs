@@ -21,21 +21,21 @@ namespace RubezhAPI.GK
 			PlanElementUIDs = new List<Guid>();
 		}
 
-		public override void Invalidate()
+		public override void Invalidate(GKDeviceConfiguration deviceConfiguration)
 		{
-			UpdateLogic();
+			UpdateLogic(deviceConfiguration);
 			Logic.GetObjects().ForEach(x =>
 			{
 				if (!InputDependentElements.Contains(x) && x != this)
 					InputDependentElements.Add(x);
-				if (!x.OutDependentElements.Contains(this) && x != this)
-					x.OutDependentElements.Add(this);
+				if (!x.OutputDependentElements.Contains(this) && x != this)
+					x.OutputDependentElements.Add(this);
 			});
 		}
 
-		public override void UpdateLogic()
+		public override void UpdateLogic(GKDeviceConfiguration deviceConfiguration)
 		{
-			GKManager.DeviceConfiguration.InvalidateOneLogic(this, Logic);
+			deviceConfiguration.InvalidateOneLogic(this, Logic);
 		}
 
 		/// <summary>

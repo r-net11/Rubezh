@@ -108,8 +108,13 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="LayoutModule.cs" />
+    <Compile Include="LayoutParts\ViewModels\LayoutPartPropertyAdditionalPageViewModel.cs" />
     <Compile Include="LayoutParts\ViewModels\LayoutPartPropertyTextPageViewModel.cs" />
     <Compile Include="LayoutParts\ViewModels\LayoutPartTextViewModel.cs" />
+    <Compile Include="LayoutParts\ViewModels\LayoutPartWithAdditioanlPropertiesViewModel.cs" />
+    <Compile Include="LayoutParts\Views\LayoutPartPropertyAdditionalPageView.xaml.cs">
+      <DependentUpon>LayoutPartPropertyAdditionalPageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LayoutParts\Views\LayoutPartPropertyTextPageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyTextPageView.xaml</DependentUpon>
     </Compile>
@@ -129,13 +134,11 @@
     <Compile Include="ViewModels\LayoutPartDescriptionViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartViewModel.cs" />
     <Compile Include="ViewModels\LayoutUserViewModel.cs" />
-    <Compile Include="ViewModels\LayoutViewModelComparer.cs" />
     <Compile Include="ViewModels\LayoutPropertiesViewModel.cs" />
     <Compile Include="ViewModels\LayoutUsersViewModel.cs" />
     <Compile Include="ViewModels\LayoutElementsViewModel.cs" />
     <Compile Include="ViewModels\LayoutViewModel.cs" />
     <Compile Include="ViewModels\MonitorLayoutViewModel.cs" />
-    <Compile Include="ViewModels\MonitorLayoutsTreeViewModel.cs" />
     <Compile Include="ViewModels\LayoutDesignerViewModel.cs" />
     <Compile Include="ViewModels\MonitorLayoutsViewModel.cs" />
     <Compile Include="ViewModels\IPFilterViewModel.cs" />
@@ -178,9 +181,6 @@
     </Compile>
     <Compile Include="Views\MonitorLayoutsMenuView.xaml.cs">
       <DependentUpon>MonitorLayoutsMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MonitorLayoutsTreeView.xaml.cs">
-      <DependentUpon>MonitorLayoutsTreeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MonitorLayoutsView.xaml.cs">
       <DependentUpon>MonitorLayoutsView.xaml</DependentUpon>
@@ -259,6 +259,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="LayoutParts\Views\LayoutPartPropertyAdditionalPageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="LayoutParts\Views\LayoutPartPropertyTemplateContainerPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -312,10 +316,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MonitorLayoutsMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MonitorLayoutsTreeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

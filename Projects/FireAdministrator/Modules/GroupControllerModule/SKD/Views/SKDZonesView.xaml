@@ -4,6 +4,9 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
 	<DataGrid Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" CanUserSortColumns="True">
+		<DataGrid.InputBindings>
+			<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
+		</DataGrid.InputBindings>
 		<DataGrid.ContextMenu>
 			<ContextMenu>
 				<Controls:IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить (Ctrl+N)" />

@@ -146,6 +146,9 @@
     <Compile Include="Procedures\ViewModels\LayoutPartPropertyViewModel.cs" />
     <Compile Include="Procedures\ViewModels\LayoutPartViewModel.cs" />
     <Compile Include="Procedures\ViewModels\PlanViewModel.cs" />
+    <Compile Include="Procedures\Views\VariableView.xaml.cs">
+      <DependentUpon>VariableView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Steps\ViewModels\ControlDelayStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlGKDoorStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlPlanStepViewModel.cs" />
@@ -191,7 +194,6 @@
     <Compile Include="Steps\ViewModels\ArithmeticStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlGKGuardZoneStepViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DirectionViewModel.cs" />
-    <Compile Include="Steps\ViewModels\ExitStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\FindObjectStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ForeachStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetObjectPropertyStepViewModel.cs" />
@@ -319,9 +321,6 @@
     </Compile>
     <Compile Include="Steps\Views\ShowDialogStepView.xaml.cs">
       <DependentUpon>ShowDialogStepView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Steps\Views\ExitStepView.xaml.cs">
-      <DependentUpon>ExitStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\FindObjectStepView.xaml.cs">
       <DependentUpon>FindObjectStepView.xaml</DependentUpon>
@@ -595,6 +594,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Procedures\Views\VariableView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Steps\Views\ChangeListStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -732,10 +735,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\ControlGKGuardZoneStepView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Steps\Views\ExitStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -18,10 +18,10 @@
 function EmployeeCardsViewModel(parentViewModel) {
     var self = this;
 
-    self.ParentViewModel = parentViewModel;
+    self.EmployeesParentViewModel = parentViewModel;
     self.IsCardClicked = ko.observable(false);
     self.IsCardSelected = ko.computed(function () {
-        return self.IsCardClicked() && self.ParentViewModel.IsRowSelected() && !self.ParentViewModel.IsOrganisation();
+        return self.IsCardClicked() && self.EmployeesParentViewModel.IsRowSelected() && !self.EmployeesParentViewModel.IsOrganisation();
     });
 
     $.ajax({
@@ -45,13 +45,18 @@ function EmployeeCardsViewModel(parentViewModel) {
     };
 
     self.CanAddCard = ko.computed(function () {
-        return !self.ParentViewModel.IsOrganisation();
+        return !self.EmployeesParentViewModel.IsOrganisation() && !self.EmployeesParentViewModel.IsDeleted();
+    }, self);
+
+    self.CanEditCard = ko.computed(function () {
+        return true;
     }, self);
 
     self.CardClick = function (data, e, card) {
         $('div.HrCardsPanel li').removeClass("active");
         $(e.currentTarget).parent().addClass("active");
         self.IsCardClicked(true);
+        self.Card = card;
         $("#jqGridDoors").setGridParam({
             datastr: ko.toJSON(card.Doors),
             datatype: "jsonstring",
@@ -64,6 +69,22 @@ function EmployeeCardsViewModel(parentViewModel) {
         $('div.HrCardsPanel li').removeClass("active");
         $(e.currentTarget).parent().addClass("active");
         self.IsCardClicked(false);
+    };
+
+    self.EditEmployeeCardClick = function (data, e, box) {
+        $.getJSON("/Employees/GetEmployeeCardDetails/" + self.Card.UID(), function (card) {
+            ko.mapping.fromJS(card, {}, self.EmployeesParentViewModel.EmployeeCardDetails);
+            self.EmployeesParentViewModel.EmployeeCardDetails.InitEmployeeCardDetails(false);
+            ShowBox(box);
+        });
+    };
+
+    self.AddEmployeeCardClick = function (data, e, box) {
+        $.getJSON("/Employees/GetEmployeeCardDetails/", function (card) {
+            ko.mapping.fromJS(card, {}, self.EmployeesParentViewModel.EmployeeCardDetails);
+            self.EmployeesParentViewModel.EmployeeCardDetails.InitEmployeeCardDetails(true);
+            ShowBox(box);
+        });
     };
 
     return self;

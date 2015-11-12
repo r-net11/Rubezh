@@ -39,7 +39,7 @@ namespace FireMonitor.Layout.ViewModels
 		public event EventHandler SelectedChanged;
 		public event EventHandler ActiveChanged;
 
-		private string _title;
+		string _title;
 		public string Title
 		{
 			get { return _title; }
@@ -49,7 +49,7 @@ namespace FireMonitor.Layout.ViewModels
 				OnPropertyChanged(() => Title);
 			}
 		}
-		private string _iconSource;
+		string _iconSource;
 		public string IconSource
 		{
 			get { return _iconSource; }
@@ -59,7 +59,7 @@ namespace FireMonitor.Layout.ViewModels
 				OnPropertyChanged(() => IconSource);
 			}
 		}
-		private bool _isSelected;
+		bool _isSelected;
 		public bool IsSelected
 		{
 			get { return _isSelected; }
@@ -70,7 +70,7 @@ namespace FireMonitor.Layout.ViewModels
 				FireSelectedChanged();
 			}
 		}
-		private bool _isActive;
+		bool _isActive;
 		public bool IsActive
 		{
 			get { return _isActive; }
@@ -93,7 +93,7 @@ namespace FireMonitor.Layout.ViewModels
 			}
 		}
 
-		private int _margin;
+		int _margin;
 		public int Margin
 		{
 			get { return _margin; }
@@ -103,7 +103,7 @@ namespace FireMonitor.Layout.ViewModels
 				OnPropertyChanged(() => Margin);
 			}
 		}
-		private int _borderThickness;
+		int _borderThickness;
 		public int BorderThickness
 		{
 			get { return _borderThickness; }
@@ -113,7 +113,7 @@ namespace FireMonitor.Layout.ViewModels
 				OnPropertyChanged(() => BorderThickness);
 			}
 		}
-		private Color _borderColor;
+		Color _borderColor;
 		public Color BorderColor
 		{
 			get { return _borderColor; }
@@ -123,7 +123,7 @@ namespace FireMonitor.Layout.ViewModels
 				OnPropertyChanged(() => BorderColor);
 			}
 		}
-		private Color _backgroundColor;
+		Color _backgroundColor;
 		public Color BackgroundColor
 		{
 			get { return _backgroundColor; }

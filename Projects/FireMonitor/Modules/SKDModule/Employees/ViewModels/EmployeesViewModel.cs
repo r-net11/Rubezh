@@ -213,7 +213,12 @@ namespace SKDModule.ViewModels
 
 		protected override RubezhAPI.Models.PermissionType Permission
 		{
-			get { return RubezhAPI.Models.PermissionType.Oper_SKD_Employees_Edit; }
+			get 
+			{
+				if (PersonType == PersonType.Employee)
+					return RubezhAPI.Models.PermissionType.Oper_SKD_Employees_Edit;
+				return RubezhAPI.Models.PermissionType.Oper_SKD_Guests_Edit;
+			}
 		}
 	}
 }

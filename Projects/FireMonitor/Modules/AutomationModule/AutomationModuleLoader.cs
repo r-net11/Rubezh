@@ -101,16 +101,15 @@ namespace AutomationModule
 					break;
 				case AutomationCallbackType.Message:
 					var messageArguments = (MessageCallbackData)automationCallbackResult.Data;
-					var message = AutomationHelper.GetStringValue(messageArguments.Message);
 					ApplicationService.Invoke(() =>
 					{
 						if (messageArguments.WithConfirmation)
 						{
-							var confirm = MessageBoxService.ShowConfirmation(message, "Сообщение");
+							var confirm = MessageBoxService.ShowConfirmation(messageArguments.Message, "Сообщение");
 							ProcedureExecutionContext.CallbackResponse(automationCallbackResult.ContextType, automationCallbackResult.CallbackUID, confirm);
 						}
 						else
-							MessageBoxService.ShowExtended(message, "Сообщение", messageArguments.IsModalWindow);
+							MessageBoxService.ShowExtended(messageArguments.Message, "Сообщение", messageArguments.IsModalWindow);
 					});
 					break;
 				case AutomationCallbackType.Property:
@@ -153,6 +152,12 @@ namespace AutomationModule
 							var videoDevice = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
 							if (videoDevice != null)
 								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowCameraDetailsEvent>();
+							break;
+
+						case ObjectType.GKDoor:
+							var gkDoor = GKManager.Doors.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							if (gkDoor != null)
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDoorDetailsEvent>();
 							break;
 					}
 					if (ShowObjectDetailsEvent != null)

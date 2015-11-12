@@ -24,7 +24,30 @@ namespace GKWebService.Controllers
             return View();
         }
 
-        [HttpPost]
+		public JsonNetResult GetEmployeeDetails(Guid? id)
+		{
+			Employee employee;
+			if (id.HasValue)
+			{
+				var operationResult = ClientManager.FiresecService.GetEmployeeDetails(id.Value);
+				employee = operationResult.Result;
+			}
+			else
+			{
+				employee = new Employee();
+				employee.BirthDate = DateTime.Now;
+				employee.CredentialsStartDate = DateTime.Now;
+				employee.DocumentGivenDate = DateTime.Now;
+				employee.DocumentValidTo = DateTime.Now;
+				employee.RemovalDate = DateTime.Now;
+				employee.ScheduleStartDate = DateTime.Now;
+			}
+			employee.Photo = null;
+			employee.AdditionalColumns.ForEach(c => c.Photo = null);
+			return new JsonNetResult { Data = employee };
+		}
+
+		[HttpPost]
 		public JsonNetResult EmployeeDetails(Employee employee, bool isNew)
         {
 			var operationResult = ClientManager.FiresecService.SaveEmployee(employee, isNew);
@@ -77,27 +100,19 @@ namespace GKWebService.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonNetResult GetEmployeeDetails(Guid? id)
-        {
-            Employee employee;
-	        if (id.HasValue)
-	        {
-		        employee = EmployeeHelper.GetDetails(id);
-	        }
-	        else
-	        {
-		        employee = new Employee();
-				employee.BirthDate = DateTime.Now;
-				employee.CredentialsStartDate = DateTime.Now;
-				employee.DocumentGivenDate = DateTime.Now;
-				employee.DocumentValidTo = DateTime.Now;
-				employee.RemovalDate = DateTime.Now;
-				employee.ScheduleStartDate = DateTime.Now;
-			}
-	        employee.Photo = null;
-            employee.AdditionalColumns.ForEach(c => c.Photo = null);
-            return new JsonNetResult {Data = employee};
-        }
+		[HttpPost]
+		public JsonNetResult MarkDeleted(Guid uid, string name, bool isOrganisation)
+		{
+			var operationResult = ClientManager.FiresecService.MarkDeletedEmployee(uid, name, !isOrganisation);
+			return new JsonNetResult { Data = operationResult != null && operationResult.HasError && !operationResult.Error.Contains("Ошибка БД") };
+		}
+
+		[HttpPost]
+		public JsonNetResult Restore(Guid uid, string name, bool isOrganisation)
+		{
+			var result = ClientManager.FiresecService.RestoreEmployee(uid, name, !isOrganisation);
+			return new JsonNetResult { Data = !result.HasError };
+		}
 
         public JsonNetResult GetOrganisation(Guid? id)
         {
@@ -126,6 +141,35 @@ namespace GKWebService.Controllers
 				cards.AddRange(operationResult.Result.Select(CreateCard));
 			}
 			return new JsonNetResult { Data = new {Cards = cards}};
+		}
+
+		public ActionResult EmployeeCardDetails()
+		{
+			return View();
+		}
+
+		public JsonNetResult GetEmployeeCardDetails(Guid? id)
+		{
+			SKDCard card;
+			if (id.HasValue)
+			{
+				var operationResult = ClientManager.FiresecService.GetSingleCard(id.Value);
+				card = operationResult.Result;
+			}
+			else
+			{
+				card = new SKDCard();
+			}
+
+			return new JsonNetResult { Data = card };
+		}
+
+		[HttpPost]
+		public JsonNetResult EmployeeCardDetails(SKDCard card, string employeeName, bool isNew)
+		{
+			var operationResult = ClientManager.FiresecService.EditCard(card, employeeName);
+
+			return new JsonNetResult { Data = operationResult.Result };
 		}
 
 		private EmployeeCardModel CreateCard(SKDCard card)

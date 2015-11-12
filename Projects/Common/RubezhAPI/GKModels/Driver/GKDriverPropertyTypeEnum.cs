@@ -6,6 +6,5 @@
 		StringType,
 		IntType,
 		BoolType,
-		Hidden
 	}
 }

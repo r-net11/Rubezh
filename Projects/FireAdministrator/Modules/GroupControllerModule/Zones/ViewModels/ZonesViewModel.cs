@@ -184,7 +184,7 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedZone.Zone != null)
 			{
-				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedZone.Zone.OutDependentElements);
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedZone.Zone.OutputDependentElements);
 				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}
@@ -216,6 +216,8 @@ namespace GKModule.ViewModels
 			SelectedZone = SelectedZone;
 			if(SelectedZone!= null)
 			ZoneDevices.InitializeAvailableDevice();
+			else
+				ZoneDevices.Clear();
 		}
 
 		#region ISelectable<Guid> Members

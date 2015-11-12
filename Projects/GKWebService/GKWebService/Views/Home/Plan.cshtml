@@ -9,19 +9,23 @@
 @Scripts.Render("~/bundles/libs")
 @Scripts.Render("~/bundles/shapesApp")
 @Scripts.Render("~/Scripts/jquery.signalR-2.2.0.min.js")
-@Scripts.Render("~/Scripts/app/signalr/plansUpdaterHub.js")
-<script src="~/signalr/hubs"></script>
+@*@Scripts.Render("~/Scripts/app/signalr/plansUpdaterHub.js")*@
+<script src="~/Scripts/angular-signalr-hub.js"></script>
+@*<script src="~/signalr/hubs"></script>*@
 
-
-
-<div ng-app="canvasApp" class="plan">
+<div ng-app="canvasApp"
+     class="plan">
+    <div ng-controller="SignalrCtrl">
+       <div class="message"></div> 
+    </div>
     <div ng-controller="PlanCtrl">
-        <div class="message"></div>
         <h1 class="">Доступные планы:</h1>
         <div ng-repeat="plan in PlansList">
-            <div><a href="" ng-click="LoadPlan(plan.Uid)">
-                <h2>[{{$index + 1}}] {{plan.Name}}</h2>
-                <p>{{plan.Description}}</p></a></div> 
+            <div><a href=""
+                    ng-click="LoadPlan(plan.Uid)">
+                    <h2>[{{$index + 1}}] {{plan.Name}}</h2>
+                    <p>{{plan.Description}}</p></a>
+            </div>
         </div>
         <div id="modal">
             <div id="content"></div>
@@ -30,7 +34,7 @@
                 X
             </button>
         </div>
-        <d3-plan data="d3Data" ></d3-plan>
+        <d3-plan data="d3Data"></d3-plan>
     </div>
 </div>
 <style>
