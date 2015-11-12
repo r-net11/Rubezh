@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using GKProcessor;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.GK;
 using Infrastructure.Common;
@@ -28,15 +29,6 @@ namespace GKModule.ViewModels
 		}
 		DeviceViewModel AddDeviceInternal(GKDevice device, DeviceViewModel parentDeviceViewModel)
 		{
-			if (device.DriverType == GKDriverType.RSR2_MVP)
-				foreach (var autoCreateDriverType in device.Driver.AutoCreateChildren)
-				{
-					var autoCreateDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
-					for (byte i = autoCreateDriver.MinAddress; i <= autoCreateDriver.MaxAddress; i++)
-					{
-						GKManager.AddChild(device, null, autoCreateDriver, i);
-					}
-				}
 			var deviceViewModel = new DeviceViewModel(device);
 			if (parentDeviceViewModel != null)
 				parentDeviceViewModel.AddChild(deviceViewModel);

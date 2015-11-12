@@ -119,25 +119,21 @@ namespace RubezhAPI.GK
 				if (door.EnterDevice != null)
 				{
 					door.ChildDescriptors.Add(door.EnterDevice);
-					//door.EnterDevice.ChildDescriptors.Add(door);
 				}
 
 				if (door.ExitDevice != null)
 				{
 					door.ChildDescriptors.Add(door.ExitDevice);
-					//door.ExitDevice.ChildDescriptors.Add(door);
 				}
 
 				if (door.EnterButton != null)
 				{
 					door.ChildDescriptors.Add(door.EnterButton);
-					//door.EnterButton.ChildDescriptors.Add(door);
 				}
 
 				if (door.ExitButton != null)
 				{
 					door.ChildDescriptors.Add(door.ExitButton);
-					//door.ExitButton.ChildDescriptors.Add(door);
 				}
 
 				if (door.LockDevice != null)
@@ -155,13 +151,11 @@ namespace RubezhAPI.GK
 				if (door.LockControlDevice != null)
 				{
 					door.ChildDescriptors.Add(door.LockControlDevice);
-					//door.LockControlDevice.ChildDescriptors.Add(door);
 				}
 
 				if (door.LockControlDeviceExit != null)
 				{
 					door.ChildDescriptors.Add(door.LockControlDeviceExit);
-					//door.LockControlDeviceExit.ChildDescriptors.Add(door);
 				}
 
 				gkBases.Add(door);
