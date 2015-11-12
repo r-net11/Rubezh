@@ -102,7 +102,7 @@ namespace GKModule.ViewModels
 				Zones.Add(zoneViewModel);
 				SelectedZone = zoneViewModel;
 				if (Zones.Count() == 1)
-					ZoneDevices.InitializeAvailableDevices(SelectedZone.Zone);
+					ZoneDevices.InitializeAvailableDevices(guardZoneDetailsViewModel.Zone);
 				ServiceFactory.SaveService.GKChanged = true;
 				GKPlanExtension.Instance.Cache.BuildSafe<GKGuardZone>();
 				return guardZoneDetailsViewModel;
