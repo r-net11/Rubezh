@@ -169,7 +169,7 @@ namespace RubezhAPI.GK
 
 			foreach (var device in Devices)
 			{
-				device.ChildDescriptors = device.Logic.GetObjects();
+				device.ChildDescriptors.AddRange(device.Logic.GetObjects());
 				if (device.Driver.HasMirror)
 				{
 					switch (device.DriverType)
