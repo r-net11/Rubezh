@@ -39,6 +39,7 @@ namespace LayoutModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), LayoutCopyCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), LayoutPasteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete), CloseLayoutPartCommand);
 		}
 
 		#region ISelectable<Guid> Members
@@ -100,18 +101,26 @@ namespace LayoutModule.ViewModels
 		private Layout _layoutBuffer;
 		private void CreateCommands()
 		{
+			CloseLayoutPartCommand = new RelayCommand(OnCloseLayoutPart);
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 
 			LayoutCopyCommand = new RelayCommand(OnLayoutCopy, CanLayoutCopy);
 			LayoutPasteCommand = new RelayCommand(OnLayoutPaste, CanLayoutPaste);
-
 			
 			_layoutBuffer = null;
 		}
+
+		public RelayCommand CloseLayoutPartCommand { get; set; }
+
+		void OnCloseLayoutPart()
+		{
+			LayoutDesignerViewModel.Instance.LayoutParts.Remove(LayoutDesignerViewModel.Instance.ActiveLayoutPart);
+		}
+
 		public RelayCommand AddCommand { get; private set; }
-		private void OnAdd()
+		void OnAdd()
 		{
 			var layout = new Layout();
 			var adminUser = ClientManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == "adm");
