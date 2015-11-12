@@ -13,6 +13,12 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
+		public static bool CheckDocumentType(TimeTrackDocumentType documentType, Guid organisationUID)
+		{
+			var res = FiresecManager.FiresecService.CheckDocumentType(documentType, organisationUID);
+			return !res.HasError;
+		}
+
 		public static bool Add(TimeTrackDocumentType documentType)
 		{
 			var operationResult = FiresecManager.FiresecService.AddTimeTrackDocumentType(documentType);

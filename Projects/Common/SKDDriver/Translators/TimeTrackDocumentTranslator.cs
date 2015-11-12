@@ -1,4 +1,4 @@
-﻿using System.Windows.Documents;
+﻿using Common;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using System;
@@ -97,6 +97,20 @@ namespace SKDDriver.Translators
 			}
 		}
 
+		public OperationResult CheckDocumentType(TimeTrackDocumentType timeTrackDocumentType, Guid organisationUID)
+		{
+			var emplOfCurrentOrganisation = Context.Employees.Where(x => x.OrganisationUID == organisationUID);
+			var joinDocumentsEmployeeResult = emplOfCurrentOrganisation
+												.Join(
+												Context.TimeTrackDocuments,
+												empl => empl.UID,
+												doc => doc.EmployeeUID,
+												(empl, doc) => new {empl.UID, doc.DocumentCode}
+												);
+			var result = joinDocumentsEmployeeResult.Where(x => x.DocumentCode == timeTrackDocumentType.Code);
+			return result.IsEmpty() ? new OperationResult() : new OperationResult("Error");
+		}
+
 		public OperationResult AddTimeTrackDocument(TimeTrackDocument timeTrackDocument)
 		{
 			try
@@ -154,7 +168,7 @@ namespace SKDDriver.Translators
 		{
 			try
 			{
-				var tableItem = Context.TimeTrackDocuments.Where(x => x.UID.Equals(uid)).Single();
+				var tableItem = Context.TimeTrackDocuments.Single(x => x.UID.Equals(uid));
 				Context.TimeTrackDocuments.DeleteOnSubmit(tableItem);
 				Context.TimeTrackDocuments.Context.SubmitChanges();
 			}

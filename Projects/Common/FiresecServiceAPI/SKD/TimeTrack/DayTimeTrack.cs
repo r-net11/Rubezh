@@ -146,8 +146,37 @@ namespace FiresecAPI.SKD
 			CombinedTimeTrackParts = CorrectDocumentIntervals(CombinedTimeTrackParts, SlideTime);
 			RealTimeTrackPartsForCalculates = FillTypesForRealTimeTrackParts(RealTimeTrackPartsForCalculates, PlannedTimeTrackParts);
 			Totals = CalculateTotal(SlideTime, PlannedTimeTrackParts, RealTimeTrackPartsForCalculates, CombinedTimeTrackParts, IsHoliday);
+			Totals = GetTotalBalance(Totals);
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
 			CalculateLetterCode();
+		}
+
+		private List<TimeTrackTotal> GetTotalBalance(List<TimeTrackTotal> totalCollection)
+		{
+			var totalAbsence = new TimeSpan();
+			var abcence = totalCollection.Where(x => x.TimeTrackType == TimeTrackType.Late
+			                                         || x.TimeTrackType == TimeTrackType.Absence
+			                                         || x.TimeTrackType == TimeTrackType.EarlyLeave
+			                                         || x.TimeTrackType == TimeTrackType.DocumentAbsence)
+													 .Select(x => x.TimeSpan)
+													 .Aggregate(totalAbsence, (span, timeSpan) => span + timeSpan);
+			var totalOvertime = new TimeSpan();
+			var overtime = totalCollection.Where(x => x.TimeTrackType == TimeTrackType.Overtime
+			                                           || x.TimeTrackType == TimeTrackType.DocumentOvertime)
+													   .Select(x => x.TimeSpan)
+													   .Aggregate(totalOvertime, (span, timeSpan) => span + timeSpan);
+
+			var totalBalance = totalCollection.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Balance);
+			if (totalBalance != null)
+			{
+				totalBalance.TimeSpan = overtime - abcence;
+			}
+			else
+			{
+				return new List<TimeTrackTotal>();
+			}
+
+			return totalCollection;
 		}
 
 		private List<TimeTrackPart> CorrectDocumentIntervals(List<TimeTrackPart> combinedTimeTrackParts, TimeSpan slideTIme)

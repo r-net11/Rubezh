@@ -121,6 +121,8 @@ namespace SKDDriver.DataAccess
 		
 		private bool _IsNeedAdjustmentOriginal;
 		
+		private bool _NotTakeInCalculationsOriginal;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -155,6 +157,8 @@ namespace SKDDriver.DataAccess
     partial void OnIsOpenChanged();
     partial void OnIsNeedAdjustmentOriginalChanging(bool value);
     partial void OnIsNeedAdjustmentOriginalChanged();
+    partial void OnNotTakeInCalculationsOriginalChanging(bool value);
+    partial void OnNotTakeInCalculationsOriginalChanged();
     #endregion
 		
 		public PassJournal()
@@ -458,6 +462,26 @@ namespace SKDDriver.DataAccess
 					this._IsNeedAdjustmentOriginal = value;
 					this.SendPropertyChanged("IsNeedAdjustmentOriginal");
 					this.OnIsNeedAdjustmentOriginalChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NotTakeInCalculationsOriginal", DbType="Bit NOT NULL")]
+		public bool NotTakeInCalculationsOriginal
+		{
+			get
+			{
+				return this._NotTakeInCalculationsOriginal;
+			}
+			set
+			{
+				if ((this._NotTakeInCalculationsOriginal != value))
+				{
+					this.OnNotTakeInCalculationsOriginalChanging(value);
+					this.SendPropertyChanging();
+					this._NotTakeInCalculationsOriginal = value;
+					this.SendPropertyChanged("NotTakeInCalculationsOriginal");
+					this.OnNotTakeInCalculationsOriginalChanged();
 				}
 			}
 		}

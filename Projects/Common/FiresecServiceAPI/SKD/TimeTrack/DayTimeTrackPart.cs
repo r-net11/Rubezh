@@ -57,6 +57,9 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public bool IsNeedAdjustmentOriginal { get; set; }
 
+		[DataMember]
+		public bool NotTakeInCalculationsOriginal { get; set; }
+
 		#endregion
 	}
 }

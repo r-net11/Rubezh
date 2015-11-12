@@ -93,3 +93,10 @@ BEGIN
 	ALTER TABLE PassJournal ADD [IsNeedAdjustmentOriginal] bit NOT NULL DEFAULT 0
 	INSERT INTO Patches (Id) VALUES ('AddingIsNeedAdjustmentOriginalColumn')
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddingNotTakeInCalculationsOriginalColumn')
+	BEGIN
+		ALTER TABLE PassJournal ADD [NotTakeInCalculationsOriginal] bit NOT NULL DEFAULT 0
+		INSERT INTO Patches (Id) VALUES ('AddingNotTakeInCalculationsOriginalColumn')
+	END
+GO

@@ -37,6 +37,9 @@ namespace SKDModule.Helpers
 				originalInterval.ExitDateTime = rightConflictedInterval.Value;
 			}
 
+			originalInterval.NotTakeInCalculations = originalInterval.TimeTrackZone != null && originalInterval.TimeTrackZone.IsURV
+															? originalInterval.NotTakeInCalculationsOriginal
+															: originalInterval.NotTakeInCalculations;
 			originalInterval.IsNeedAdjustment = originalInterval.IsNeedAdjustmentOriginal;
 			originalInterval.IsDirty = true;
 			return originalInterval;

@@ -67,6 +67,8 @@ namespace SKDModule.Model
 			}
 		}
 
+		public bool NotTakeInCalculationsOriginal { get; set; }
+
 		private bool _isOpen;
 
 		public bool IsOpen
@@ -212,6 +214,7 @@ namespace SKDModule.Model
 			IsNeedAdjustmentOriginal = dayTimeTrackPart.IsNeedAdjustmentOriginal;
 			IsOpen = dayTimeTrackPart.IsOpen;
 			NotTakeInCalculations = dayTimeTrackPart.NotTakeInCalculations;
+			NotTakeInCalculationsOriginal = dayTimeTrackPart.NotTakeInCalculationsOriginal;
 			if (dayTimeTrackPart.TimeTrackZone != null)
 			{
 				TimeTrackZone = new TimeTrackZone(dayTimeTrackPart.TimeTrackZone);
@@ -251,6 +254,7 @@ namespace SKDModule.Model
 				timeTrackPart.ExitDateTime,
 				zone,
 				timeTrackPart.NotTakeInCalculations,
+				timeTrackPart.NotTakeInCalculationsOriginal,
 				timeTrackPart.IsManuallyAdded,
 				timeTrackPart.IsNeedAdjustment,
 				timeTrackPart.IsNeedAdjustmentOriginal,
@@ -285,7 +289,7 @@ namespace SKDModule.Model
 		#region Methods
 
 		public void Update(DateTime? enterDateTime, DateTime? exitDateTime,
-			TimeTrackZone timeTrackZone, bool notTakeInCalculations, bool isManuallyAdded, bool isNeedAdjustment, bool isNeedAdjustmentOriginal, DateTime? adjustmentDate, string correctedBy,
+			TimeTrackZone timeTrackZone, bool notTakeInCalculations, bool notTakeInCalculationsOriginal, bool isManuallyAdded, bool isNeedAdjustment, bool isNeedAdjustmentOriginal, DateTime? adjustmentDate, string correctedBy,
 			Guid correctedByUID, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal, bool isOpen = false, bool isForceClosed = false)
 		{
 			TimeTrackZone = timeTrackZone;
@@ -295,6 +299,7 @@ namespace SKDModule.Model
 			ExitDateTime = exitDateTime;
 			ExitTime = exitDateTime.GetValueOrDefault().TimeOfDay;
 			NotTakeInCalculations = notTakeInCalculations;
+			NotTakeInCalculationsOriginal = notTakeInCalculationsOriginal;
 			IsManuallyAdded = isManuallyAdded;
 			IsNeedAdjustmentOriginal = isNeedAdjustmentOriginal;
 			IsNeedAdjustment = isNeedAdjustment;
@@ -347,6 +352,7 @@ namespace SKDModule.Model
 				IsNew = IsNew,
 				IsRemoveAllIntersections = IsRemoveAllIntersections,
 				NotTakeInCalculations = NotTakeInCalculations,
+				NotTakeInCalculationsOriginal = NotTakeInCalculationsOriginal,
 				TimeTrackZone = TimeTrackZone.ToDTO()
 			};
 

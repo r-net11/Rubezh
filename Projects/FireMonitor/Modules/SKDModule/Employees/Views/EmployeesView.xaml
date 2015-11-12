@@ -5,11 +5,13 @@
 	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 	xmlns:Views="clr-namespace:SKDModule.Views"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+	xmlns:converters="clr-namespace:Controls.Converters;assembly=Controls"
 	xmlns:ctr="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
 	xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
 	<UserControl.Resources>
 		<viewModel:EmployeeViewModelLastNameComparer x:Key="EmployeeViewModelLastNameComparer" />
 		<viewModel:EmployeeViewModelDepartmentComparer x:Key="EmployeeViewModelDepartmentComparer" />
+		<converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 		<Style
 			x:Key="IsDepartmentDeletedStyle"
 			BasedOn="{StaticResource {x:Type TextBlock}}"
@@ -131,6 +133,7 @@
 								ToolTip="Печать удостоверения" />
 							<ToolBarButton
 								Command="{Binding SelectedCard.ResetRepeatEnterCommand}"
+								Visibility="{Binding CanShowResetRepeatEnterButton, Converter={StaticResource BoolToVisibilityConverter}}"
 								ImageSource="DropAllApb"
 								ToolTip="Сброс ограничения на повторный проход" />
 						</StackPanel>

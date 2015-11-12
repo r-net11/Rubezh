@@ -106,6 +106,9 @@ namespace FiresecAPI
 		OperationResult AddTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType);
 
 		[OperationContract]
+		OperationResult CheckDocumentType(TimeTrackDocumentType documentType, Guid organisationUID);
+
+		[OperationContract]
 		OperationResult EditTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType);
 
 		[OperationContract]

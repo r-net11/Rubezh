@@ -297,7 +297,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return SelectedItem != null && !SelectedItem.IsDeleted && IsEditAllowed;
+			return SelectedItem != null && !SelectedItem.IsDeleted && IsEditAllowed && ParentOrganisation != null && !ParentOrganisation.IsDeleted;
 		}
 
 		protected virtual bool IsAddViewModel(TModel model) { return true; }
@@ -441,7 +441,12 @@ namespace SKDModule.ViewModels
 		}
 		protected virtual bool CanPaste()
 		{
-			return SelectedItem != null && _clipboard != null && ParentOrganisation != null && IsEditAllowed;
+			return SelectedItem != null
+				&& _clipboard != null
+				&& ParentOrganisation != null
+				&& IsEditAllowed
+				&& !SelectedItem.IsDeleted
+				&& !ParentOrganisation.IsDeleted;
 		}
 
 		protected virtual TModel CopyModel(TModel source)

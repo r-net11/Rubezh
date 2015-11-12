@@ -134,6 +134,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
+			//TODO: DocumentsForSelectedOrganisation() can be replaced by SelectedDocumentType.Organisation
 			var documentTypeDetailsViewModel = new DocumentTypeDetailsViewModel(SelectedDocumentType, DocumentsForSelectedOrganisation(), true);
 			if (DialogService.ShowModalWindow(documentTypeDetailsViewModel))
 			{
@@ -164,6 +165,13 @@ namespace SKDModule.ViewModels
 				return;
 
 			var timeTrackDocumentType = SelectedDocumentType.TimeTrackDocumentType;
+			if (!DocumentTypeHelper.CheckDocumentType(timeTrackDocumentType, SelectedDocumentType.Organisation.UID))
+			{
+				MessageBoxService.ShowWarning(
+					string.Format("Документы вида \"{0}\" введены для некоторых сотрудников. Для удаления вида оправдательных документов необходимо предварительно удалить эти документы или изменить их вид", SelectedDocumentType.Name)
+					);
+				return;
+			}
 			var removeResult = DocumentTypeHelper.Remove(timeTrackDocumentType.UID);
 			if (!removeResult)
 				return;
