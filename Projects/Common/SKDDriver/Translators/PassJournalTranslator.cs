@@ -625,11 +625,9 @@ namespace SKDDriver.Translators
 					filter = filter.And(e => zoneUIDs.Contains(e.ZoneUID));
 				if (dateTime.HasValue)
 				{
-					filter =
-						filter.And(
-							e =>
-								e.EnterTime.Day == dateTime.Value.Day && e.EnterTime.Hour >= dateTime.Value.Hour &&
-								e.EnterTime.Minute >= dateTime.Value.Minute);
+					filter = filter.And(
+						e => e.EnterTime <= dateTime.GetValueOrDefault() && e.ExitTime >= dateTime.GetValueOrDefault()
+						     || e.EnterTime <= dateTime.GetValueOrDefault() && !e.ExitTime.HasValue);
 				}
 				else
 					filter = filter.And(e => !e.ExitTime.HasValue);
