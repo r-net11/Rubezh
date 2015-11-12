@@ -12,7 +12,6 @@ namespace SKDModule.ViewModels
 		public string PresentationName { get; private set; }
 		public string EnerScheduleName { get; private set; }
 		public string ExitScheduleName { get; private set; }
-		public bool HasEnter { get; private set; }
 		public bool HasExit { get; private set; }
 		public CardDoor CardDoor { get; private set; } 
 
@@ -34,8 +33,7 @@ namespace SKDModule.ViewModels
 					ExitScheduleName = exitSchedule.Name;
 				}
 			}
-			HasEnter = door.EnterDeviceUID != Guid.Empty;
-			HasExit = door.ExitDeviceUID != Guid.Empty && door.DoorType == GKDoorType.TwoWay;
+			HasExit = door.DoorType == GKDoorType.TwoWay;
 		}
 	}
 }
