@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
@@ -21,6 +23,14 @@ namespace GKModule.ViewModels
 				new ObservableCollection<PmfUserViewModel>() : 
 				new ObservableCollection<PmfUserViewModel>(GKManager.PmfUsers.OrderBy(x => x.GkNo).Select(x => new PmfUserViewModel(x)));
 			SelectedUser = Users.FirstOrDefault();
+			RegisterShortcuts();
+		}
+
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 		}
 
 		public ObservableCollection<PmfUserViewModel> Users { get; private set; }

@@ -6,7 +6,7 @@
 		<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить (Ctrl + N)" ImageSource="Add" />
 		<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать (Ctrl + E)" ImageSource="Edit" />
 		<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить (Ctrl + Del)" ImageSource="Delete" />
-		<ToolBarButton Command="{Binding PlaySoundCommand}" ToolTip="Остановить" ImageSource="Stop" Width="32" Visibility="{Binding IsNowPlaying, Converter={StaticResource BoolToVisibilityConverter}}" />
-		<ToolBarButton Command="{Binding PlaySoundCommand}" ToolTip="Воспроизвести" ImageSource="Play" Visibility="{Binding IsNowPlaying, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+		<ToolBarButton Command="{Binding PlaySoundCommand}" ToolTip="Остановить (Ctrl + P)" ImageSource="Stop" Width="32" Visibility="{Binding IsNowPlaying, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<ToolBarButton Command="{Binding PlaySoundCommand}" ToolTip="Воспроизвести (Ctrl + P)" ImageSource="Play" Visibility="{Binding IsNowPlaying, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 	</StackPanel>
 </UserControl>
