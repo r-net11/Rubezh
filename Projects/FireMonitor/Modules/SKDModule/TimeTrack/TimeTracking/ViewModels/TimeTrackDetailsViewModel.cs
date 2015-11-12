@@ -83,18 +83,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private bool _canDoChanges;
-		public bool CanDoChanges
-		{
-			get { return _canDoChanges; }
-			set
-			{
-				if (_canDoChanges == value) return;
-				_canDoChanges = value;
-				OnPropertyChanged(() => CanDoChanges);
-			}
-		}
-
 		public TimeSpan BalanceTimeSpan
 		{
 			get
@@ -245,8 +233,8 @@ namespace SKDModule.ViewModels
 			EditDocumentCommand = new RelayCommand(OnEditDocument, CanEditDocument);
 			RemoveDocumentCommand = new RelayCommand(OnRemoveDocument, CanRemoveDocument);
 			AddFileCommand = new RelayCommand(OnAddFile);
-			OpenFileCommand = new RelayCommand(OnOpenFile);
-			RemoveFileCommand = new RelayCommand(OnRemoveFile);
+			OpenFileCommand = new RelayCommand(OnOpenFile, CanOpenOrRemoveFile);
+			RemoveFileCommand = new RelayCommand(OnRemoveFile, CanOpenOrRemoveFile);
 			AddCustomPartCommand = new RelayCommand(OnAddCustomPart, CanAddPart);
 			RemovePartCommand = new RelayCommand(OnRemovePart, CanRemovePart);
 			EditPartCommand = new RelayCommand(OnEditPart, CanEditPart);
@@ -276,11 +264,6 @@ namespace SKDModule.ViewModels
 					});
 				});
 
-			this.WhenAny(x => x.SelectedDocument, x => x.Value)
-				.Subscribe(value =>
-				{
-					CanDoChanges = value != null && !value.HasFile;
-				});
 
 			this.WhenAny(x => x.IsShowOnlyScheduledIntervals, x => x.Value)
 				.Subscribe(value => DayTimeTrackPartsCollection.Refresh());
@@ -378,6 +361,11 @@ namespace SKDModule.ViewModels
 			SelectedDayTimeTrackPart = DayTimeTrackParts.FirstOrDefault();
 			IsDirty = true;
 			ServiceFactoryBase.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
+		}
+
+		private bool CanOpenOrRemoveFile()
+		{
+			return SelectedDocument != null && SelectedDocument.HasFile && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
 		void OnRemovePart()

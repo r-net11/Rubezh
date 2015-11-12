@@ -264,9 +264,9 @@
 				<Grid Margin="2">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
-						<RowDefinition Height="*" />
+						<RowDefinition />
 					</Grid.RowDefinitions>
-					<StackPanel Grid.Row="0" Orientation="Horizontal">
+					<StackPanel Orientation="Horizontal">
 						<ToolBarButton
 							Command="{Binding AddDocumentCommand}"
 							ImageSource="Add"
@@ -282,17 +282,14 @@
 						<ToolBarButton
 							Command="{Binding AddFileCommand}"
 							ImageSource="Add"
-							IsEnabled="{Binding CanDoChanges}"
 							ToolTip="Добавить файл" />
 						<ToolBarButton
 							Command="{Binding OpenFileCommand}"
 							ImageSource="Edit"
-							IsEnabled="{Binding CanDoChanges}"
 							ToolTip="Открыть файл" />
 						<ToolBarButton
 							Command="{Binding RemoveFileCommand}"
 							ImageSource="Delete"
-							IsEnabled="{Binding CanDoChanges}"
 							ToolTip="Удалить файл" />
 					</StackPanel>
 					<DataGrid
