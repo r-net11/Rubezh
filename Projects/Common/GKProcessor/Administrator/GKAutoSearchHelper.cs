@@ -104,7 +104,7 @@ namespace GKProcessor
 						var result1 = SendManager.Send(kauDevice, 0, 1, 1);
 						if (!result1.HasError)
 						{
-							if (result1.Bytes.Count > 0 && result1.Bytes[0] == 61)
+							if (result1.Bytes.Count > 0 && result1.Bytes[0] != 1)
 							{
 								var sendResult = SendManager.Send(kauDevice, 2, 12, 32, BytesHelper.ShortToBytes(1));
 								if (!sendResult.HasError && sendResult.Bytes.Count == 32)
