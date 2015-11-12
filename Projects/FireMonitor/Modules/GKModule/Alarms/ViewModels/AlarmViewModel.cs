@@ -48,21 +48,8 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var device = Alarm.GkBaseEntity as GKDevice;
-				if ( device != null)
-					return device.Driver.ImageSource;
-				if (Alarm.GkBaseEntity as GKZone != null)
-					return "/Controls;component/Images/Zone.png";
-				if (Alarm.GkBaseEntity as GKGuardZone != null)
-					return "/Controls;component/Images/GuardZone.png";
-				if (Alarm.GkBaseEntity as GKDirection != null)
-					return "/Controls;component/Images/Blue_Direction.png";
-				if (Alarm.GkBaseEntity as GKDoor != null)
-					return "/Controls;component/Images/Door.png";
-				if (Alarm.GkBaseEntity as GKDelay != null)
-					return "/Controls;component/Images/Delay.png";
-				if (Alarm.GkBaseEntity as GKMPT != null)
-					return "/Controls;component/Images/BMpt.png";
+				if (Alarm.GkBaseEntity != null)
+					return Alarm.GkBaseEntity.ImageSource;
 				return null;
 			}
 		}
@@ -112,31 +99,31 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowObjectCommand { get; private set; }
 		void OnShowObject()
 		{
-			if (Alarm.GkBaseEntity as GKDevice != null)
+			if (Alarm.GkBaseEntity is GKDevice)
 			{
 				ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>().Publish(Alarm.GkBaseEntity.UID);
 			}
-			if (Alarm.GkBaseEntity as GKZone != null)
+			if (Alarm.GkBaseEntity is GKZone)
 			{
 				ServiceFactory.Events.GetEvent<ShowGKZoneEvent>().Publish(Alarm.GkBaseEntity.UID);
 			}
-			if (Alarm.GkBaseEntity as GKGuardZone != null)
+			if (Alarm.GkBaseEntity is GKGuardZone)
 			{
 				ServiceFactory.Events.GetEvent<ShowGKGuardZoneEvent>().Publish(Alarm.GkBaseEntity.UID);
 			}
-			if (Alarm.GkBaseEntity as GKDirection != null)
+			if (Alarm.GkBaseEntity is GKDirection)
 			{
 				ServiceFactory.Events.GetEvent<ShowGKDirectionEvent>().Publish(Alarm.GkBaseEntity.UID);
 			}
-			if (Alarm.GkBaseEntity as GKMPT != null)
+			if (Alarm.GkBaseEntity is GKMPT)
 			{
 				ServiceFactory.Events.GetEvent<ShowGKMPTEvent>().Publish(Alarm.GkBaseEntity.UID);
 			}
-			if (Alarm.GkBaseEntity as GKDelay != null)
+			if (Alarm.GkBaseEntity is GKDelay)
 			{
 				ServiceFactory.Events.GetEvent<ShowGKDelayEvent>().Publish(Alarm.GkBaseEntity.UID);
 			}
-			if (Alarm.GkBaseEntity as GKDoor != null)
+			if (Alarm.GkBaseEntity is GKDoor)
 			{
 				ServiceFactory.Events.GetEvent<ShowGKDoorEvent>().Publish(Alarm.GkBaseEntity.UID);
 			}
@@ -316,37 +303,37 @@ namespace GKModule.ViewModels
 		{
 			if (Alarm.AlarmType != GKAlarmType.Ignore)
 				return false;
-			if (Alarm.GkBaseEntity as GKDevice != null)
+			if (Alarm.GkBaseEntity is GKDevice)
 			{
 				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Device_Control))
 					return true;
 			}
 
-			if (Alarm.GkBaseEntity as GKZone != null)
+			if (Alarm.GkBaseEntity is GKZone)
 			{
 				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Zone_Control))
 					return true;
 			}
 
-			if (Alarm.GkBaseEntity as GKGuardZone != null)
+			if (Alarm.GkBaseEntity is GKGuardZone)
 			{
 				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_GuardZone_Control))
 					return true;
 			}
 
-			if (Alarm.GkBaseEntity as GKMPT != null)
+			if (Alarm.GkBaseEntity is GKMPT)
 			{
 				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_MPT_Control))
 					return true;
 			}
 
-			if (Alarm.GkBaseEntity as GKDelay != null)
+			if (Alarm.GkBaseEntity is GKDelay)
 			{
 				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Delay_Control))
 					return true;
 			}
 
-			if (Alarm.GkBaseEntity as GKDirection != null)
+			if (Alarm.GkBaseEntity is GKDirection)
 			{
 				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Directions_Control))
 					return true;

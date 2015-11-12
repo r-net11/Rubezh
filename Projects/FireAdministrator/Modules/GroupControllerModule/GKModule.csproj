@@ -178,6 +178,7 @@
     <Compile Include="Events\EditGKSKDZoneEvent.cs" />
     <Compile Include="Events\CreateGKMPTEvent.cs" />
     <Compile Include="Events\EditGKMPTEvent.cs" />
+    <Compile Include="Events\ShowPmfUsersEvent.cs" />
     <Compile Include="Guard\ViewModels\CodeReaderDetailsViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodeReaderSettingsViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodesMenuViewModel.cs" />
@@ -292,6 +293,9 @@
     </Compile>
     <Compile Include="Plans\Views\MPTPropertiesView.xaml.cs">
       <DependentUpon>MPTPropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PmfUsers\Views\PmfUserDetailsView.xaml.cs">
+      <DependentUpon>PmfUserDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Selectation\ViewModels\AnyZonesSelectionViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DependencyItemsViewModel.cs" />
@@ -483,6 +487,16 @@
     </Compile>
     <Compile Include="SKD\Views\SKDZonesView.xaml.cs">
       <DependentUpon>SKDZonesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PmfUsers\ViewModels\PmfUserDetailsViewModel.cs" />
+    <Compile Include="PmfUsers\ViewModels\PmfUsersMenuViewModel.cs" />
+    <Compile Include="PmfUsers\ViewModels\PmfUserViewModel.cs" />
+    <Compile Include="PmfUsers\ViewModels\PmfUsersViewModel.cs" />
+    <Compile Include="PmfUsers\Views\PmfUsersMenuView.xaml.cs">
+      <DependentUpon>PmfUsersMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PmfUsers\Views\PmfUsersView.xaml.cs">
+      <DependentUpon>PmfUsersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validation\CodeValidationError.cs" />
     <Compile Include="Validation\Validator.License.cs" />
@@ -776,6 +790,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="PmfUsers\Views\PmfUserDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PumpStation\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -951,6 +969,18 @@
     <Page Include="SKD\Views\SKDZonesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PmfUsers\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PmfUsers\Views\PmfUsersMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PmfUsers\Views\PmfUsersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Zones\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>

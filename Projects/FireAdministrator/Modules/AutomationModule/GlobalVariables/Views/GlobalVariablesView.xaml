@@ -4,6 +4,9 @@
 			 xmlns:automation="clr-namespace:RubezhAPI.Automation;assembly=RubezhAPI">
 
 	<DataGrid CanUserSortColumns="True" ItemsSource="{Binding GlobalVariables}" SelectedItem="{Binding SelectedGlobalVariable}" IsReadOnly="False">
+		<DataGrid.InputBindings>
+			<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
+		</DataGrid.InputBindings>
 		<DataGrid.ContextMenu>
 			<ContextMenu>
 				<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить (Ctrl+N)" />
@@ -12,10 +15,9 @@
 			</ContextMenu>
 		</DataGrid.ContextMenu>
 		<DataGrid.Columns>
-			<DataGridTemplateColumn 
-				Header="Имя"
-				SortMemberPath="Variable.Name"
-				Width="*">
+			<DataGridTemplateColumn Header="Имя"
+									SortMemberPath="Variable.Name"
+									Width="*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">

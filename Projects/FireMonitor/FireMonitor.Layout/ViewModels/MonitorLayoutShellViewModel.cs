@@ -102,23 +102,23 @@ namespace FireMonitor.Layout.ViewModels
 		}
 
 		public RelayCommand ChangeUserCommand { get; private set; }
-		private void OnChangeUser()
+		void OnChangeUser()
 		{
 			ApplicationService.ShutDown();
 			Process.Start(Application.ResourceAssembly.Location);
 		}
-		private bool CanChangeUser()
+		bool CanChangeUser()
 		{
 			return ClientManager.CheckPermission(PermissionType.Oper_Logout);
 		}
 
 		public RelayCommand<LayoutModel> ChangeLayoutCommand { get; private set; }
-		private void OnChangeLayout(LayoutModel layout)
+		void OnChangeLayout(LayoutModel layout)
 		{
 			ApplicationService.CloseAllWindows();
 			LayoutContainer.UpdateLayout(layout);
 		}
-		private bool CanChangeLayout(LayoutModel layout)
+		bool CanChangeLayout(LayoutModel layout)
 		{
 			return layout != Layout;
 		}

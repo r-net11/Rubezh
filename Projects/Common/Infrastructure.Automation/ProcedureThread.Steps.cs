@@ -121,6 +121,7 @@ namespace Infrastructure.Automation
 			var content = GetValue<string>(sendEmailArguments.EMailContentArgument);
 			var Smtp = new SmtpClient(smtp, port);
 			Smtp.Credentials = new NetworkCredential(login, password);
+			Smtp.EnableSsl = true;
 			var Message = new MailMessage();
 			Message.From = new MailAddress(eMailAddressFrom);
 			Message.To.Add(new MailAddress(eMailAddressTo));

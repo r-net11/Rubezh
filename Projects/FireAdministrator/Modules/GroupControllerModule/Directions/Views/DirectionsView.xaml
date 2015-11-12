@@ -22,6 +22,7 @@
 			<KeyBinding Key="N" Modifiers="Control" Command="{Binding AddCommand}" />
 			<KeyBinding Key="Delete" Modifiers="Control" Command="{Binding DeleteCommand}" />
 			<KeyBinding Key="E" Modifiers="Control" Command="{Binding EditCommand}" />
+			<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
 		</DataGrid.InputBindings>
 		<DataGrid.Columns>
 			<DataGridTemplateColumn Header="№" SortMemberPath="Direction.No" Width="Auto" CanUserResize="False">
