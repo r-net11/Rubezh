@@ -205,6 +205,33 @@
         <member name="T:ResursNetwork.Incotex.Models.Fakes.ShimIncotexDateTime.AllInstances">
             <summary>Define shims for all instances members</summary>
         </member>
+        <member name="T:ResursNetwork.Incotex.Models.Fakes.ShimMenerg">
+            <summary>Shim type of ResursNetwork.Incotex.Models.Menerg</summary>
+        </member>
+        <member name="M:ResursNetwork.Incotex.Models.Fakes.ShimMenerg.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:ResursNetwork.Incotex.Models.Fakes.ShimMenerg.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:ResursNetwork.Incotex.Models.Fakes.ShimMenerg.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMenerg.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMenerg.FromArrayByteArray">
+            <summary>Sets the shim of Menerg.FromArray(Byte[] array)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMenerg.GetValueConveter">
+            <summary>Sets the shim of Menerg.GetValueConveter()</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMenerg.ToArrayValueType">
+            <summary>Sets the shim of Menerg.ToArray(ValueType value)</summary>
+        </member>
+        <member name="T:ResursNetwork.Incotex.Models.Fakes.ShimMenerg.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
         <member name="T:ResursNetwork.Incotex.Models.Fakes.ShimMercury203">
             <summary>Shim type of ResursNetwork.Incotex.Models.Mercury203</summary>
         </member>
@@ -307,6 +334,9 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WriteAddressUInt32UInt32Boolean">
             <summary>Sets the shim of Mercury203.WriteAddress(UInt32 addr, UInt32 newaddr, Boolean isExternalCall)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WriteAmountOfActiveTariffByteBoolean">
+            <summary>Sets the shim of Mercury203.WriteAmountOfActiveTariff(Byte value, Boolean isExternalCall)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WriteDateTimeDateTimeBoolean">
             <summary>Sets the shim of Mercury203.WriteDateTime(DateTime value, Boolean isExternalCall)</summary>
         </member>
@@ -318,6 +348,9 @@
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WriteParameterStringValueType">
             <summary>Sets the shim of Mercury203.WriteParameter(String parameterName, ValueType value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WritePowerLimitPerMonthSingleBoolean">
+            <summary>Sets the shim of Mercury203.WritePowerLimitPerMonth(Single value, Boolean isExternalCall)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WritePowerLimitSingleBoolean">
             <summary>Sets the shim of Mercury203.WritePowerLimit(Single value, Boolean isExternalCall)</summary>
@@ -397,6 +430,9 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.WriteAddressUInt32UInt32Boolean">
             <summary>Sets the shim of Mercury203.WriteAddress(UInt32 addr, UInt32 newaddr, Boolean isExternalCall)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.WriteAmountOfActiveTariffByteBoolean">
+            <summary>Sets the shim of Mercury203.WriteAmountOfActiveTariff(Byte value, Boolean isExternalCall)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.WriteDateTimeDateTimeBoolean">
             <summary>Sets the shim of Mercury203.WriteDateTime(DateTime value, Boolean isExternalCall)</summary>
         </member>
@@ -405,6 +441,9 @@
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.WriteParameterStringValueType">
             <summary>Sets the shim of Mercury203.WriteParameter(String parameterName, ValueType value)</summary>
+        </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.WritePowerLimitPerMonthSingleBoolean">
+            <summary>Sets the shim of Mercury203.WritePowerLimitPerMonth(Single value, Boolean isExternalCall)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.WritePowerLimitSingleBoolean">
             <summary>Sets the shim of Mercury203.WritePowerLimit(Single value, Boolean isExternalCall)</summary>
