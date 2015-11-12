@@ -1,4 +1,5 @@
-﻿using FiresecAPI.Models;
+﻿using Common;
+using FiresecAPI.Models;
 using RviClient.RVIServiceReference;
 using RviClient.RVIStreamingServiceReference;
 using System;
@@ -224,6 +225,9 @@ namespace RviClient
 					Session = sessionUID
 				};
 				var videoRecordStartOut = client.VideoRecordStart(videoRecordStartIn);
+#if DEBUG
+				Logger.Info(String.Format("Вызов RviОператор.VideoRecordStart(new VideoRecordStartIn(DeviceGuid='{0}', ChannelNumber={1}, EventGuid='{2}', TimeOut={3}, new HeaderRequest(Request='{4}', Session='{5}'))", videoRecordStartIn.DeviceGuid, videoRecordStartIn.ChannelNumber, videoRecordStartIn.EventGuid, videoRecordStartIn.TimeOut, videoRecordStartIn.Header.Request, videoRecordStartIn.Header.Session));
+#endif
 
 				var sessionCloseIn = new SessionCloseIn();
 				sessionCloseIn.Header = new HeaderRequest()
@@ -261,6 +265,9 @@ namespace RviClient
 					Session = sessionUID
 				};
 				var videoRecordStopOut = client.VideoRecordStop(videoRecordStopIn);
+#if DEBUG
+				Logger.Info(String.Format("Вызов RviОператор.VideoRecordStop(new VideoRecordStopIn(DeviceGuid='{0}', ChannelNumber={1}, EventGuid='{2}', new HeaderRequest(Request='{3}', Session='{4}'))", videoRecordStopIn.DeviceGuid, videoRecordStopIn.ChannelNumber, videoRecordStopIn.EventGuid, videoRecordStopIn.Header.Request, videoRecordStopIn.Header.Session));
+#endif
 
 				var sessionCloseIn = new SessionCloseIn();
 				sessionCloseIn.Header = new HeaderRequest()
@@ -347,6 +354,9 @@ namespace RviClient
 						};
 						alarmRuleExecuteIn.AlarmRuleGuid = alarmRule.Guid;
 						var alarmRuleExecuteOut = client.AlarmRuleExecute(alarmRuleExecuteIn);
+#if DEBUG
+						Logger.Info(String.Format("Вызов RviОператор.AlarmRuleExecute(new AlarmRuleExecuteIn(Request='{0}', Session='{1}'))", alarmRuleExecuteIn.Header.Request, alarmRuleExecuteIn.Header.Session));
+#endif
 					}
 				}
 
