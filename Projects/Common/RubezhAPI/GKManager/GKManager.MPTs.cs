@@ -46,5 +46,11 @@ namespace RubezhClient
 			mpt.OutputDependentElements.ForEach(x => x.OnChanged());
 			mpt.OnChanged();
 		}
+
+		public static void SetMPTLogic(GKMPT MPT, GKLogic logic)
+		{
+			MPT.MptLogic = logic;
+			MPT.ChangedLogic();
+		}
 	}
 }

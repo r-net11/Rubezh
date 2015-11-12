@@ -171,8 +171,7 @@ namespace GKModule.ViewModels
 			var logicViewModel = new LogicViewModel(MPT, MPT.MptLogic);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
-				MPT.MptLogic = logicViewModel.GetModel();
-				MPT.ChangedLogic();
+				GKManager.SetMPTLogic(MPT, logicViewModel.GetModel());
 				OnPropertyChanged(() => StartPresentationName);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -189,8 +188,7 @@ namespace GKModule.ViewModels
 			var logicViewModel = new LogicViewModel(MPT, MPT.MptLogic, true, hasOnClause: false);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
-				MPT.MptLogic = logicViewModel.GetModel();
-				MPT.ChangedLogic();
+				GKManager.SetMPTLogic(MPT, logicViewModel.GetModel());
 				OnPropertyChanged(() => StopPresentationName);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -207,8 +205,7 @@ namespace GKModule.ViewModels
 			var logicViewModel = new LogicViewModel(MPT, MPT.MptLogic, hasStopClause: true, hasOnClause: false);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
-				MPT.MptLogic = logicViewModel.GetModel();
-				MPT.ChangedLogic();
+				GKManager.SetMPTLogic(MPT, logicViewModel.GetModel());
 				OnPropertyChanged(() => SuspendPresentationName);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
