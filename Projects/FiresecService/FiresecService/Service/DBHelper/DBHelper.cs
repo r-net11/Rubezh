@@ -424,5 +424,19 @@ namespace FiresecService
 
 			return journalItem;
 		}
+		
+		public static string BuildConnectionString(string ipAddress, int ipPort, string instanceName, string db, bool useIntegratedSecurity = true, string userID = null, string userPwd = null)
+		{
+			var csb = new SqlConnectionStringBuilder();
+			csb.DataSource = String.Format(@"{0},{1}\{2}", ipAddress, ipPort, instanceName);
+			csb.InitialCatalog = db;
+			csb.IntegratedSecurity = useIntegratedSecurity;
+			if (!csb.IntegratedSecurity)
+			{
+				csb.UserID = userID;
+				csb.Password = userPwd;
+			}
+			return csb.ConnectionString;
+		}
 	}
 }
