@@ -5,7 +5,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Text;
+using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SettingsModule.ViewModels
@@ -213,8 +215,23 @@ namespace SettingsModule.ViewModels
 			}
 		}
 
+		public RelayCommand CheckSqlServerConnectionCommand { get; private set; }
+		private void OnCheckSqlServerConnection()
+		{
+			var operationResult = FiresecManager.FiresecService.CheckSqlServerConnection(DBServerAddress, DBServerPort,
+				DBServerName, SqlServerAuthenticationMode == SqlServerAuthenticationMode.Windows, DBUserID, DBUserPwd);
+
+			var msg = String.Format("Соединение с сервером {0} {1}\n\n{2}", DBServerName, operationResult.HasError ? "установить не удалось" : "успешно установлено", operationResult.Error);
+
+			if (operationResult.HasError)
+				MessageBoxService.ShowWarning(msg);
+			else
+				MessageBoxService.ShowConfirmation(msg);
+		}
+
 		public AppServerViewModel()
 		{
+			CheckSqlServerConnectionCommand = new RelayCommand(OnCheckSqlServerConnection);
 			InitializeAvailableIpAddresses();
 			InitializeAvailableSqlServerAuthenticationModes();
 			ReadFromModel();
