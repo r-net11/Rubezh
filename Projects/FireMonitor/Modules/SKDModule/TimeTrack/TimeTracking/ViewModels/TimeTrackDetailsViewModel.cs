@@ -607,7 +607,9 @@ namespace SKDModule.ViewModels
 					originalDayTimeTrackPart.EnterDateTime = originalDayTimeTrackPart.EnterTimeOriginal;
 					originalDayTimeTrackPart.ExitDateTime = originalDayTimeTrackPart.ExitTimeOriginal;
 					originalDayTimeTrackPart.IsNeedAdjustment = originalDayTimeTrackPart.IsNeedAdjustmentOriginal;
-					originalDayTimeTrackPart.NotTakeInCalculations = originalDayTimeTrackPart.NotTakeInCalculationsOriginal;
+					originalDayTimeTrackPart.NotTakeInCalculations = originalDayTimeTrackPart.TimeTrackZone != null && originalDayTimeTrackPart.TimeTrackZone.IsURV
+																	? originalDayTimeTrackPart.NotTakeInCalculationsOriginal
+																	: originalDayTimeTrackPart.NotTakeInCalculations;
 					originalDayTimeTrackPart.AdjustmentDate = null;
 					originalDayTimeTrackPart.CorrectedBy = null;
 					originalDayTimeTrackPart.CorrectedByUID = null;
@@ -624,7 +626,9 @@ namespace SKDModule.ViewModels
 			inputInterval.EnterDateTime = inputInterval.EnterTimeOriginal;
 			inputInterval.ExitDateTime = inputInterval.ExitTimeOriginal;
 			inputInterval.IsNeedAdjustment = inputInterval.IsNeedAdjustmentOriginal;
-			inputInterval.NotTakeInCalculations = inputInterval.NotTakeInCalculationsOriginal;
+			inputInterval.NotTakeInCalculations = inputInterval.TimeTrackZone != null && inputInterval.TimeTrackZone.IsURV
+												? inputInterval.NotTakeInCalculationsOriginal
+												: inputInterval.NotTakeInCalculations;
 			inputInterval.IsDirty = true;
 		}
 
@@ -644,7 +648,9 @@ namespace SKDModule.ViewModels
 					dayTimeTrackPart.AdjustmentDate = null;
 					dayTimeTrackPart.CorrectedBy = null;
 					dayTimeTrackPart.CorrectedByUID = null;
-					dayTimeTrackPart.NotTakeInCalculations = dayTimeTrackPart.NotTakeInCalculationsOriginal;
+					dayTimeTrackPart.NotTakeInCalculations = dayTimeTrackPart.TimeTrackZone != null && dayTimeTrackPart.TimeTrackZone.IsURV
+															? dayTimeTrackPart.NotTakeInCalculationsOriginal
+															: dayTimeTrackPart.NotTakeInCalculations;
 				}
 			}
 		}
