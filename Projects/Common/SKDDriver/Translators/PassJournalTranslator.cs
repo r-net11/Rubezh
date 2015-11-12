@@ -110,6 +110,7 @@ namespace SKDDriver.Translators
 					IsNeedAdjustmentOriginal = passjournalItem.IsNeedAdjustmentOriginal,
 					IsOpen = passjournalItem.IsOpen,
 					NotTakeInCalculations = passjournalItem.NotTakeInCalculations,
+					NotTakeInCalculationsOriginal = passjournalItem.NotTakeInCalculationsOriginal,
 					UID = passjournalItem.UID,
 					TimeTrackZone = new TimeTrackZone
 					{
@@ -326,6 +327,7 @@ namespace SKDDriver.Translators
 					AdjustmentDate = dayTimeTrackPart.AdjustmentDate,
 					CorrectedByUID = dayTimeTrackPart.CorrectedByUID,
 					NotTakeInCalculations = dayTimeTrackPart.NotTakeInCalculations,
+					NotTakeInCalculationsOriginal = dayTimeTrackPart.NotTakeInCalculationsOriginal,
 					IsAddedManually = dayTimeTrackPart.IsManuallyAdded,
 					EnterTimeOriginal = dayTimeTrackPart.EnterTimeOriginal,
 					ExitTimeOriginal = dayTimeTrackPart.ExitTimeOriginal
@@ -505,6 +507,7 @@ namespace SKDDriver.Translators
 					PassJournalUID = passJournal.UID,
 					IsManuallyAdded = passJournal.IsAddedManually,
 					NotTakeInCalculations = passJournal.NotTakeInCalculations,
+					NotTakeInCalculationsOriginal = passJournal.NotTakeInCalculationsOriginal,
 					IsNeedAdjustment = passJournal.IsNeedAdjustment,
 					AdjustmentDate = passJournal.AdjustmentDate,
 					CorrectedByUID = passJournal.CorrectedByUID,

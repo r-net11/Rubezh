@@ -63,6 +63,9 @@ namespace FiresecAPI.SKD
 		public bool NotTakeInCalculations { get; set; }
 
 		[DataMember]
+		public bool NotTakeInCalculationsOriginal { get; set; }
+
+		[DataMember]
 		public Guid PassJournalUID { get; set; }
 
 		[DataMember]
