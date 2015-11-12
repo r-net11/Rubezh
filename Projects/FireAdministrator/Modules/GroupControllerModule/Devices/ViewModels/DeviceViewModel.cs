@@ -283,6 +283,24 @@ namespace GKModule.ViewModels
 
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
+				var mirrors = newDeviceViewModel.AddedDevices.FindAll(x => x.Driver.DriverType == GKDriverType.GKMirror);
+				foreach (var mirror in mirrors)
+				{
+					var gkIndicatorsGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа индикаторов", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicatorsGroup) });
+					var gkRelaysGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа реле", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKRelaysGroup) });
+					var gkIndicators = new List<DeviceViewModel>(mirror.Children.Where(x => x.Driver.DriverType == GKDriverType.GKIndicator));
+					var gkRelays = new List<DeviceViewModel>(mirror.Children.Where(x => x.Driver.DriverType == GKDriverType.GKRele));
+					foreach (var gkIndicator in gkIndicators)
+					{
+						gkIndicatorsGroupDevice.AddChild(gkIndicator);
+					}
+					foreach (var gkRelay in gkRelays)
+					{
+						gkRelaysGroupDevice.AddChild(gkRelay);
+					}
+					mirror.AddChildFirst(gkIndicatorsGroupDevice);
+					mirror.AddChildFirst(gkRelaysGroupDevice);
+				}
 				foreach (var addedDevice in newDeviceViewModel.AddedDevices)
 				{
 					DevicesViewModel.Current.AllDevices.Add(addedDevice);
