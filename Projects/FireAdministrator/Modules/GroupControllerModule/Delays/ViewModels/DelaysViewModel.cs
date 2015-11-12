@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using Common;
 using RubezhAPI.GK;
 using RubezhClient;
 using GKModule.Events;
@@ -15,8 +14,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
-using Infrastructure.Common.Services;
-using GKModule.ViewModels;
 
 namespace GKModule.ViewModels
 {
@@ -40,6 +37,15 @@ namespace GKModule.ViewModels
 
 			IsRightPanelEnabled = true;
 			SetRibbonItems();
+			RegisterShortcuts();
+		}
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 		}
 
 		public void Initialize()
