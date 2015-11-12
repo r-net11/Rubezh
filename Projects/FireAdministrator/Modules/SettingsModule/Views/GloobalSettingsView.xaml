@@ -24,7 +24,6 @@
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 
 					<TextBlock Grid.Row="0" Grid.Column="0" Text="Разрешить удаленные соединения на сервере" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" />
@@ -54,20 +53,6 @@
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
 						IsChecked="{Binding UseHasp}" />
-					<TextBlock
-						Grid.Row="5"
-						Grid.Column="0"
-						Margin="2"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Center"
-						Text="Название экземпляра сервера БД"
-						Foreground="{DynamicResource ForegroundColorLight}"/>
-					<TextBox
-						Grid.Row="5"
-						Grid.Column="1"
-						Margin="2"
-						VerticalAlignment="Center"
-						Text="{Binding DBServerName}" />
 					<TextBlock
 						Grid.Row="6"
 						Grid.Column="0"

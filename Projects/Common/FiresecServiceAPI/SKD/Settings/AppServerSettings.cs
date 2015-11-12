@@ -18,7 +18,7 @@ namespace FiresecAPI
 			EnableOfflineLog = true;
 
 			DBServerAddress = ".";
-			DBServerPort = 1344;
+			DBServerPort = 1433;
 			DBServerName = "SQLEXPRESS";
 			DBUseIntegratedSecurity = true;
 			DBUserID = String.Empty;

@@ -221,12 +221,12 @@ namespace SettingsModule.ViewModels
 			var operationResult = FiresecManager.FiresecService.CheckSqlServerConnection(DBServerAddress, DBServerPort,
 				DBServerName, SqlServerAuthenticationMode == SqlServerAuthenticationMode.Windows, DBUserID, DBUserPwd);
 
-			var msg = String.Format("Соединение с сервером {0} {1}\n\n{2}", DBServerName, operationResult.HasError ? "установить не удалось" : "успешно установлено", operationResult.Error);
+			var msg = String.Format("Соединение с сервером {0} {1}", DBServerName, operationResult.HasError ? String.Format("установить не удалось по причине ошибки: \n\n{0}", operationResult.Error) : "успешно установлено");
 
 			if (operationResult.HasError)
 				MessageBoxService.ShowWarning(msg);
 			else
-				MessageBoxService.ShowConfirmation(msg);
+				MessageBoxService.Show(msg);
 		}
 
 		public AppServerViewModel()

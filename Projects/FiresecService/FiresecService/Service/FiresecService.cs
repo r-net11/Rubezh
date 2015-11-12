@@ -203,7 +203,7 @@ namespace FiresecService.Service
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<bool> CheckSqlServerConnection(string ipAddress, int ipPort, string instanceName, bool useIntegratedSecurity, string userID, string userPwd)
 		{
-			var connectionString = DBHelper.BuildConnectionString(ipAddress, ipPort, instanceName, "master", useIntegratedSecurity, userID, userPwd);
+			var connectionString = SKDDatabaseService.BuildConnectionString(ipAddress, ipPort, instanceName, "master", useIntegratedSecurity, userID, userPwd);
 			using (var connection = new SqlConnection(connectionString))
 			{
 				try
