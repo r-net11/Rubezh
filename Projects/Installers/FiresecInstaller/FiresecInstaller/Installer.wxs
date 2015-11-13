@@ -20,7 +20,10 @@
 		<Condition Message="Не удалось обнаружить Microsoft .NET Framework 4.0. Установите Microsoft .NET Framework 4.0 и запустите установку заново">
 			NETFRAMEWORK40FULL
 		</Condition>
-
+		
+		<Icon Id="ProgramIcon.ico" SourceFile="Data\ProgramIcon.ico"/>
+		<Property Id="ARPPRODUCTICON" Value="ProgramIcon.ico" />
+		
 		<Property Id="_BrowseProperty" Value="INSTALLLOCATION" />
 		<Property Id="SHORTCUT_PROGRAMMENU" Value="1" />
 		<Property Id="SHORTCUT_DESKTOP" Value="1" />
