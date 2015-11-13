@@ -9,7 +9,8 @@ function MenuViewModel() {
         Device: ko.observable(false),
         HR: ko.observable(false),
         Archive: ko.observable(false),
-        Plan: ko.observable(false)
+        Plan: ko.observable(false),
+        FireZones: ko.observable(false)
     };
 
     self.StatePageOpened = ko.observable(false);
