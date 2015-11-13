@@ -23,7 +23,7 @@ namespace SKDModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-			AddFileCommand = new RelayCommand(OnAddFile);
+			AddFileCommand = new RelayCommand(OnAddFile, CanAddFile);
 			OpenFileCommand = new RelayCommand(OnOpenFile, CanEditOrRemove);
 			RemoveFileCommand = new RelayCommand(OnRemoveFile, CanEditOrRemove);
 
@@ -166,6 +166,11 @@ namespace SKDModule.ViewModels
 		void OnOpenFile()
 		{
 			SelectedDocument.OpenFile();
+		}
+
+		private bool CanAddFile()
+		{
+			return SelectedDocument != null && SelectedDocument.Document != null;
 		}
 
 		public RelayCommand RemoveFileCommand { get; private set; }

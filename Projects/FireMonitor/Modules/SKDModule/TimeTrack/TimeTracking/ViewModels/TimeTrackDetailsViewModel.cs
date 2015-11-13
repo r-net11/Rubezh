@@ -232,7 +232,7 @@ namespace SKDModule.ViewModels
 			AddDocumentCommand = new RelayCommand(OnAddDocument, CanAddDocument);
 			EditDocumentCommand = new RelayCommand(OnEditDocument, CanEditDocument);
 			RemoveDocumentCommand = new RelayCommand(OnRemoveDocument, CanRemoveDocument);
-			AddFileCommand = new RelayCommand(OnAddFile);
+			AddFileCommand = new RelayCommand(OnAddFile, CanAddFile);
 			OpenFileCommand = new RelayCommand(OnOpenFile, CanOpenOrRemoveFile);
 			RemoveFileCommand = new RelayCommand(OnRemoveFile, CanOpenOrRemoveFile);
 			AddCustomPartCommand = new RelayCommand(OnAddCustomPart, CanAddPart);
@@ -371,6 +371,11 @@ namespace SKDModule.ViewModels
 		void OnRemovePart()
 		{
 			RemoveDayTimeTrack(SelectedDayTimeTrackPart);
+		}
+
+		private bool CanAddFile()
+		{
+			return SelectedDocument != null && SelectedDocument.Document != null;
 		}
 
 		public bool CanRemovePart()
