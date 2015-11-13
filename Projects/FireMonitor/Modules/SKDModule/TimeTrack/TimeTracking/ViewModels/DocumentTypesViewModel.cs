@@ -108,21 +108,31 @@ namespace SKDModule.ViewModels
 
 		private IEnumerable<TimeTrackDocumentType> DocumentsForSelectedOrganisation()
 		{
-			IEnumerable<DocumentType> documentsForSelectedOrganisation;
+			IEnumerable<DocumentType> documentsForSelectedOrganisation = null;
+			try
+			{
+				if (SelectedDocumentType.IsOrganisation)
+				{
+					documentsForSelectedOrganisation = SelectedDocumentType.GetAllChildren().Where(x => !x.IsOrganisation);
+				}
+				else
+				{
+					var testOrganisation = SelectedDocumentType.GetAllParents().FirstOrDefault();
+					documentsForSelectedOrganisation = testOrganisation != null
+						? testOrganisation.GetAllChildren().Where(x => !x.IsOrganisation)
+						: null;
+				}
 
-			if (SelectedDocumentType.IsOrganisation)
-			{
-				documentsForSelectedOrganisation = SelectedDocumentType.GetAllChildren().Where(x => !x.IsOrganisation);
+
 			}
-			else
+			catch (Exception e)
 			{
-				var testOrganisation = SelectedDocumentType.GetAllParents().FirstOrDefault();
-				documentsForSelectedOrganisation = testOrganisation != null ? testOrganisation.GetAllChildren().Where(x => !x.IsOrganisation) : null;
+				MessageBoxService.ShowWarning(e.Message);
 			}
 
 			return documentsForSelectedOrganisation != null
-				? documentsForSelectedOrganisation.Select(x => x.TimeTrackDocumentType)
-				: null;
+					? documentsForSelectedOrganisation.Select(x => x.TimeTrackDocumentType)
+					: null;
 		}
 
 		bool CanAdd()

@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using Caliburn.Micro;
+using Common;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;

@@ -51,14 +51,6 @@
 				<File Id="Monitor.System.Runtime.dll" Name="System.Runtime.dll" Source="..\..\..\..\..\..\3rdParty\Microsoft.Bcl.1.1.7\" />
 				<File Id="Monitor.System.Threading.Tasks.dll" Name="System.Threading.Tasks.dll" Source="..\..\..\..\..\..\3rdParty\Microsoft.Bcl.1.1.7\" />
 				<!-- MyLYBS -->
-
-
-
-
-
-
-
-
 				<File Id="Monitor.SKDModule.dll" Name="SKDModule.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.Xceed.Wpf.AvalonDock.dll" Name="Xceed.Wpf.AvalonDock.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.SharpVectors.Converters.dll" Name="SharpVectors.Converters.dll" Source="$(var.Monitor.TargetDir)" />
@@ -94,6 +86,7 @@
 				<File Id="Monitor.DevExpress.Xpf.Layout.v14.1.Core.dll" Name="DevExpress.Xpf.Layout.v14.1.Core.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.DevExpress.Xpf.Printing.v14.1.dll" Name="DevExpress.Xpf.Printing.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.DevExpress.Xpf.Ribbon.v14.1.dll" Name="DevExpress.Xpf.Ribbon.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.Monitor.TargetDir)" />
 			</Component>
 
 			<Component Id="Monitor.DB" Guid="B7677A70-A867-4A2D-BE8E-59D9198BB8DB">

@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Documents;
-using FiresecAPI.SKD;
+﻿using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {
@@ -23,18 +22,19 @@ namespace SKDModule.ViewModels
 			_filter = new CardFilter();
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			ResetRepeatEnterForOrg = new RelayCommand(OnResetRepeatEnterForOrg, () => SelectedCard != null && SelectedCard.IsOrganisation);
-			ServiceFactory.Events.GetEvent<NewCardEvent>().Unsubscribe(OnNewCard);
-			ServiceFactory.Events.GetEvent<NewCardEvent>().Subscribe(OnNewCard);
-			ServiceFactory.Events.GetEvent<BlockCardEvent>().Unsubscribe(OnBlockCard);
-			ServiceFactory.Events.GetEvent<BlockCardEvent>().Subscribe(OnBlockCard);
-			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Unsubscribe(OnEditOrganisation);
-			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Subscribe(OnEditOrganisation);
-			ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Unsubscribe(OnRemoveOrganisation);
-			ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Subscribe(OnRemoveOrganisation);
-			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Unsubscribe(OnOrganisationUsersChanged);
-			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Subscribe(OnOrganisationUsersChanged);
-			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Unsubscribe(OnEditEmployee);
-			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Subscribe(OnEditEmployee);
+			CanShowResetRepeatEnterButton = FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_ResetRepeatEnter);
+			ServiceFactoryBase.Events.GetEvent<NewCardEvent>().Unsubscribe(OnNewCard);
+			ServiceFactoryBase.Events.GetEvent<NewCardEvent>().Subscribe(OnNewCard);
+			ServiceFactoryBase.Events.GetEvent<BlockCardEvent>().Unsubscribe(OnBlockCard);
+			ServiceFactoryBase.Events.GetEvent<BlockCardEvent>().Subscribe(OnBlockCard);
+			ServiceFactoryBase.Events.GetEvent<EditOrganisationEvent>().Unsubscribe(OnEditOrganisation);
+			ServiceFactoryBase.Events.GetEvent<EditOrganisationEvent>().Subscribe(OnEditOrganisation);
+			ServiceFactoryBase.Events.GetEvent<RemoveOrganisationEvent>().Unsubscribe(OnRemoveOrganisation);
+			ServiceFactoryBase.Events.GetEvent<RemoveOrganisationEvent>().Subscribe(OnRemoveOrganisation);
+			ServiceFactoryBase.Events.GetEvent<OrganisationUsersChangedEvent>().Unsubscribe(OnOrganisationUsersChanged);
+			ServiceFactoryBase.Events.GetEvent<OrganisationUsersChangedEvent>().Subscribe(OnOrganisationUsersChanged);
+			ServiceFactoryBase.Events.GetEvent<EditEmployee2Event>().Unsubscribe(OnEditEmployee);
+			ServiceFactoryBase.Events.GetEvent<EditEmployee2Event>().Subscribe(OnEditEmployee);
 		}
 
 		void OnNewCard(SKDCard newCard)
@@ -83,7 +83,7 @@ namespace SKDModule.ViewModels
 			{
 				var parent = card.Parent;
 				parent.RemoveChild(card);
-				if (parent.Children.Count() == 0)
+				if (!parent.Children.Any())
 					RootItems.Remove(parent);
 			}
 			var newCard = CardHelper.GetSingle(uid);
@@ -128,32 +128,33 @@ namespace SKDModule.ViewModels
 		{
 			if (newOrganisation.UserUIDs.Any(x => x == FiresecManager.CurrentUser.UID))
 			{
-				if (!RootItems.Any(x => x.IsOrganisation && x.Organisation.UID == newOrganisation.UID))
+				if (RootItems.Any(x => x.IsOrganisation && x.Organisation.UID == newOrganisation.UID)) return;
+
+				var organisationViewModel = new CardViewModel(newOrganisation);
+				var cardFilter = new CardFilter
 				{
-					var organisationViewModel = new CardViewModel(newOrganisation);
-					var cardFilter = new CardFilter();
-					cardFilter.EmployeeFilter = new EmployeeFilter { OrganisationUIDs = new System.Collections.Generic.List<Guid> { newOrganisation.UID } };
-					var cards = CardHelper.Get(cardFilter);
-					if (cards == null || cards.Count() == 0)
-						return;
-					RootItems.Add(organisationViewModel);
-					foreach (var card in cards.Where(x => x.OrganisationUID == newOrganisation.UID))
-					{
-						organisationViewModel.AddChild(new CardViewModel(card));
-					}
-					OnPropertyChanged(() => RootItems);
-					OnPropertyChanged(() => RootItemsArray);
+					EmployeeFilter = new EmployeeFilter {OrganisationUIDs = new List<Guid> {newOrganisation.UID}}
+				};
+				var cards = CardHelper.Get(cardFilter);
+				if (cards == null || !cards.Any())
+					return;
+				RootItems.Add(organisationViewModel);
+				foreach (var card in cards.Where(x => x.OrganisationUID == newOrganisation.UID))
+				{
+					organisationViewModel.AddChild(new CardViewModel(card));
 				}
+				OnPropertyChanged(() => RootItems);
+				OnPropertyChanged(() => RootItemsArray);
 			}
 			else
 			{
 				var organisationViewModel = RootItems.FirstOrDefault(x => x.IsOrganisation && x.Organisation.UID == newOrganisation.UID);
-				if (organisationViewModel != null)
-				{
-					RootItems.Remove(organisationViewModel);
-					OnPropertyChanged(() => RootItems);
-					OnPropertyChanged(() => RootItemsArray);
-				}
+
+				if (organisationViewModel == null) return;
+
+				RootItems.Remove(organisationViewModel);
+				OnPropertyChanged(() => RootItems);
+				OnPropertyChanged(() => RootItemsArray);
 			}
 		}
 
@@ -203,13 +204,13 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => RootItemsArray);
 		}
 
-		ObservableCollection<CardViewModel> rootItems;
+		ObservableCollection<CardViewModel> _rootItems;
 		public ObservableCollection<CardViewModel> RootItems
 		{
-			get { return rootItems; }
+			get { return _rootItems; }
 			set
 			{
-				rootItems = value;
+				_rootItems = value;
 				OnPropertyChanged(() => RootItems);
 				OnPropertyChanged(() => RootItemsArray);
 			}
@@ -228,6 +229,19 @@ namespace SKDModule.ViewModels
 			{
 				_selectedCard = value;
 				OnPropertyChanged(() => SelectedCard);
+			}
+		}
+
+		private bool _canShowResetRepeatEnterButton;
+
+		public bool CanShowResetRepeatEnterButton
+		{
+			get { return _canShowResetRepeatEnterButton; }
+			set
+			{
+				if (_canShowResetRepeatEnterButton == value) return;
+				_canShowResetRepeatEnterButton = value;
+				OnPropertyChanged(() => CanShowResetRepeatEnterButton);
 			}
 		}
 

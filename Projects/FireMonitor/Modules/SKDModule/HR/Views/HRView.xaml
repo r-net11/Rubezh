@@ -136,6 +136,7 @@
 						ToolTip="Удалить" />
 					<ToolBarButton
 						Command="{Binding ResetRepeatEnterForOrg}"
+						Visibility="{Binding CanShowResetRepeatEnterButton, Converter={StaticResource BoolToVisibilityConverter}}"
 						ImageSource="DropAllApb"
 						ToolTip="Сброс ограничения на повторный прохов для ВСЕХ пропусков организации" />
 				</StackPanel>
