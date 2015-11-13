@@ -66,16 +66,18 @@ namespace AutomationModule.ViewModels
 			Delay = null;
 			Organisation = null;
 
-			var flag = 
-				(Device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == uidValue)) == null ||
-				(Zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == uidValue)) == null ||
-				(GuardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == uidValue)) == null ||
-				(Camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uidValue)) == null ||
-				(GKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == uidValue)) == null ||
-				(Direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uidValue)) == null ||
-				(Delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == uidValue)) == null ||
-				(Organisation = OrganisationHelper.GetSingle(uidValue)) == null;
-						
+			if (uidValue != Guid.Empty)
+			{
+				var flag =
+					(Device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == uidValue)) != null ||
+					(Zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == uidValue)) != null ||
+					(GuardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == uidValue)) != null ||
+					(Camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uidValue)) != null ||
+					(GKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == uidValue)) != null ||
+					(Direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uidValue)) != null ||
+					(Delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == uidValue)) != null ||
+					(Organisation = OrganisationHelper.GetSingle(uidValue)) != null;
+			}
 			base.OnPropertyChanged(() => PresentationName);
 		}
 
@@ -170,12 +172,15 @@ namespace AutomationModule.ViewModels
 			get { return ExplicitValue.UidValue; }
 			set
 			{
-				ExplicitValue.UidValue = value;
-				Initialize(value);
-				if (UpdateObjectHandler != null)
-					UpdateObjectHandler();
-				OnPropertyChanged(() => UidValue);
-				OnPropertyChanged(() => IsEmpty);
+				if (ExplicitValue.UidValue != value)
+				{
+					ExplicitValue.UidValue = value;
+					Initialize(value);
+					if (UpdateObjectHandler != null)
+						UpdateObjectHandler();
+					OnPropertyChanged(() => UidValue);
+					OnPropertyChanged(() => IsEmpty);
+				}
 			}
 		}
 
