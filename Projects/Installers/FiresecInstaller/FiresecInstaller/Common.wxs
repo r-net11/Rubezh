@@ -3,7 +3,6 @@
 		 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
 		 xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension">
 	<Fragment>
-		<Icon Id="Fscp.Icon" src="Data\Administrator.ico"/>
 		<Component Id="FscpAssociation" Directory="INSTALLLOCATION" Guid="1CCD517A-4A30-4DFE-A591-767890E83A70">
 
 			<RegistryKey Root="HKCR" Key=".fscp" ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">

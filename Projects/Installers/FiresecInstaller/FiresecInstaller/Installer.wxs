@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
-     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
-     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+	 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
+	 xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
 	<?include Variables.wxi?>
 
-	<Product Id="*" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)" Codepage="$(var.Codepage)">
+	<Product Id="*" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)"
+			 UpgradeCode="$(var.UpgradeCode)" Codepage="$(var.Codepage)">
 		<Package InstallerVersion="200" Compressed="yes" Manufacturer="$(var.Manufacturer)" Description="Установка $(var.ProductName)" SummaryCodepage="$(var.Codepage)" />
 		<Media Id="1" Cabinet="Firesec.cab" EmbedCab="yes" />
 
 		<Upgrade Id="$(var.UpgradeCode)">
 			<UpgradeVersion Minimum="0.00.0000" IncludeMinimum="yes"
-			  Maximum="$(var.ProductVersion)" IncludeMaximum="yes" OnlyDetect="no"
-			  MigrateFeatures="yes" IgnoreRemoveFailure="yes" Language="1049"
-			  Property="OLDERVERSIONBEINGUPGRADED" />
+							Maximum="$(var.ProductVersion)" IncludeMaximum="yes" OnlyDetect="no"
+							MigrateFeatures="yes" IgnoreRemoveFailure="yes" Language="1049"
+							Property="OLDERVERSIONBEINGUPGRADED" />
 		</Upgrade>
 
 		<PropertyRef Id="NETFRAMEWORK40FULL" />
@@ -37,7 +38,7 @@
 		<Property Id="ALLUSERS" Value="1" Secure="yes" />
 		<Property Id="IS_INSTALL_POSTGRE32" />
 		<Property Id="IS_INSTALL_POSTGRE64" />
-		
+
 		<Property Id="INSTALL_FIRESEC2" Secure="yes" />
 		<Property Id="INSTALL_OPC" Value="0" Secure="yes" />
 		<Property Id="INSTALL_GK" Value="0" Secure="yes" />
@@ -65,7 +66,7 @@
 						<Directory Id="Monitor.Dll" Name="Dll" />
 					</Directory>
 					<Directory Id="GKOPCLOCATION" Name="GKOPC" />
-        </Directory>
+				</Directory>
 			</Directory>
 			<Directory Id="ProgramMenuFolder">
 				<Directory Id="ProgramMenuDir" Name="$(var.ProductName)">
@@ -81,11 +82,11 @@
 			<Directory Id="DesktopFolder" />
 			<Directory Id="CommonAppDataFolder" Name="CommonAppDataFolder">
 				<Directory Id="AppData.FiresecLocation" Name="Firesec2">
-          <Directory Id="AppData.ServerLocation" Name="Server">
-            <Directory Id="AppData.ServerLocation.Config" Name="Config">
-              <Directory Id="AppData.ServerLocation.Content" Name="Content" />
-            </Directory>
-          </Directory>
+					<Directory Id="AppData.ServerLocation" Name="Server">
+						<Directory Id="AppData.ServerLocation.Config" Name="Config">
+							<Directory Id="AppData.ServerLocation.Content" Name="Content" />
+						</Directory>
+					</Directory>
 					<Directory Id="AppData.EmptyLocation" Name="Empty" />
 				</Directory>
 			</Directory>
@@ -106,5 +107,5 @@
 			<UIRef Id="WixUI_Wizard" />
 			<UIRef Id="WixUI_ErrorProgressText" />
 		</UI>
-  </Product>
+	</Product>
 </Wix>

@@ -12,14 +12,11 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
 using System.Windows.Threading;
 using Infrastructure.Client.Startup;
-using System.Threading;
 using RubezhAPI.Journal;
 using Infrastructure.Automation;
 using RubezhAPI.Automation;
-using RubezhAPI.AutomationCallback;
 using System.Collections.Generic;
 
 namespace FireMonitor
@@ -46,8 +43,8 @@ namespace FireMonitor
 				{
 					CreateModules();
 
-                    ServiceFactory.StartupService.DoStep("Загрузка лицензии");
-                    ClientManager.GetLicense();
+					ServiceFactory.StartupService.DoStep("Загрузка лицензии");
+					ClientManager.GetLicense();
 
 					ServiceFactory.StartupService.ShowLoading("Чтение конфигурации", 15);
 					ServiceFactory.StartupService.AddCount(GetModuleCount());
@@ -111,13 +108,13 @@ namespace FireMonitor
 						ShutDown();
 						return false;
 					}
-															
-                    SafeFiresecService.ReconnectionErrorEvent += x => { ApplicationService.Invoke(OnReconnectionError, x); };
+
+					SafeFiresecService.ReconnectionErrorEvent += x => { ApplicationService.Invoke(OnReconnectionError, x); };
 					SafeFiresecService.NewJournalItemsEvent += OnNewJournalItems;
 
 					ScheduleRunner.Start();
-					
-				//MutexHelper.KeepAlive();
+
+					//MutexHelper.KeepAlive();
 					if (Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost")
 					{
 						RegistrySettingsHelper.SetBool("isException", true);
@@ -141,7 +138,7 @@ namespace FireMonitor
 			{
 				if (Application.Current != null)
 					Application.Current.Shutdown();
-				return false;				
+				return false;
 			}
 			return result;
 		}
@@ -182,7 +179,7 @@ namespace FireMonitor
 				Application.Current.Shutdown();
 		}
 
-        protected virtual bool Run()
+		protected virtual bool Run()
 		{
 			var result = true;
 			var shell = CreateShell();
@@ -199,14 +196,14 @@ namespace FireMonitor
 			return new MonitorShellViewModel();
 		}
 
-        void OnReconnectionError(string error)
-        {
-            if (!MessageBoxService.ShowConfirmation(String.Format("Связь с сервером восстановлена после сбоя, однако подключение не удалось по причине:\n\"{0}\"\nПовторить попытку подключения?", error))
-                && Application.Current != null)
-            {
-                Application.Current.Shutdown();
-            }
-        }
+		void OnReconnectionError(string error)
+		{
+			if (!MessageBoxService.ShowConfirmation(String.Format("Связь с сервером восстановлена после сбоя, однако подключение не удалось по причине:\n\"{0}\"\nПовторить попытку подключения?", error))
+				&& Application.Current != null)
+			{
+				Application.Current.Shutdown();
+			}
+		}
 
 		void OnConfigurationChanged()
 		{
@@ -279,7 +276,7 @@ namespace FireMonitor
 				}
 			}
 		}
-				
+
 		private void RunWatcher()
 		{
 			_watcher = new AutoActivationWatcher();
