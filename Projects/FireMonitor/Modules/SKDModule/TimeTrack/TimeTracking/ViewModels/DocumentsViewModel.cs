@@ -24,8 +24,8 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			AddFileCommand = new RelayCommand(OnAddFile);
-			OpenFileCommand = new RelayCommand(OnOpenFile);
-			RemoveFileCommand = new RelayCommand(OnRemoveFile);
+			OpenFileCommand = new RelayCommand(OnOpenFile, CanEditOrRemove);
+			RemoveFileCommand = new RelayCommand(OnRemoveFile, CanEditOrRemove);
 
 			Documents = new ObservableCollection<TimeTrackAttachedDocument>();
 			if (timeTrackEmployeeResult.Documents != null)
@@ -43,11 +43,6 @@ namespace SKDModule.ViewModels
 				//	.Where(value => value.HasFile)
 				//	.ToProperty(this, x => x.CanDoChanges);
 
-			this.WhenAny(x => x.SelectedDocument, x => x.Value)
-				.Subscribe(value =>
-				{
-					CanDoChanges = value != null && !value.HasFile;
-				});
 			//this.WhenAny(x => x.SelectedDocument, x => x.Value).Select(x => x != null)
 			//var isSearchEnabled = this.ObservableForProperty(x => x.SelectedDocument)
 			//.Select(x => x.Value != null);
@@ -67,18 +62,6 @@ namespace SKDModule.ViewModels
 			//	   IReactiveCommand<Unit> command = await pauseOrContinueCommand.FirstAsync();
 			//	   await command.ExecuteAsync();
 			//   });
-		}
-
-		private bool _canDoChanges;
-		public bool CanDoChanges
-		{
-			get { return _canDoChanges; }
-			set
-			{
-				if (_canDoChanges == value) return;
-				_canDoChanges = value;
-				OnPropertyChanged(() => CanDoChanges);
-			}
 		}
 
 		public ObservableCollection<TimeTrackAttachedDocument> Documents { get; private set; }
@@ -119,6 +102,13 @@ namespace SKDModule.ViewModels
 			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
+		private bool CanEditOrRemove()
+		{
+			return SelectedDocument != null
+				&& SelectedDocument.HasFile
+				&& FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
+		}
+
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
@@ -141,7 +131,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedDocument != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
+			return SelectedDocument != null && SelectedDocument.HasFile && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -163,7 +153,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedDocument != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
+			return SelectedDocument != null && SelectedDocument.HasFile && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
 		public RelayCommand AddFileCommand { get; private set; }

@@ -87,6 +87,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\WPF Toolkit\v3.5.50211.1\System.Windows.Controls.Input.Toolkit.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Presentation" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -121,9 +122,12 @@
     <Compile Include="AlignableWrapPanel.cs" />
     <Compile Include="Attach.cs" />
     <Compile Include="AttachedColumnBehavior.cs" />
+    <Compile Include="Behaviours\InputValidatorHelper.cs" />
     <Compile Include="Behaviours\CustomSortBehaviour.cs" />
     <Compile Include="Behaviours\DatePickerCustomWatermark.cs" />
+    <Compile Include="Behaviours\NumericValidator.cs" />
     <Compile Include="Behaviours\TextBlockAutoToolTipBehaviour.cs" />
+    <Compile Include="Behaviours\TextBoxBehavior.cs" />
     <Compile Include="ButtonSpinner.cs" />
     <Compile Include="Converters\BoolToSelectionModeConverter.cs" />
     <Compile Include="Converters\ConverterHelper.cs" />

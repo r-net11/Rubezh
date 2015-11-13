@@ -149,6 +149,8 @@ namespace SKDModule.ViewModels
 						return false;
 					}
 				}
+
+				else return false;
 			}
 			else if ((_inputDocumentType != null && _inputDocumentType.IsOrganisation)
 			    ||
