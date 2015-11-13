@@ -25,7 +25,7 @@ namespace SKDDriver
 		public static string BuildConnectionString(string ipAddress, int ipPort, string instanceName, string db, bool useIntegratedSecurity = true, string userID = null, string userPwd = null)
 		{
 			var csb = new SqlConnectionStringBuilder();
-			csb.DataSource = String.Format(@"{0}\{1},{2}", ipAddress, instanceName, ipPort);
+			csb.DataSource = String.Format(@"{0}{1},{2}", ipAddress, String.IsNullOrEmpty(instanceName) ? String.Empty : String.Format(@"\{0}", instanceName), ipPort);
 			csb.InitialCatalog = db;
 			csb.IntegratedSecurity = useIntegratedSecurity;
 			if (!csb.IntegratedSecurity)
