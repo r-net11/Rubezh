@@ -25,15 +25,13 @@ namespace GKModule.ViewModels
 			UserTypes = new ObservableCollection<GKCardType>(Enum.GetValues(typeof(GKCardType)).OfType<GKCardType>());
 			UserTypes.Remove(GKCardType.Employee);
 
-			GkDevices = new ObservableCollection<GKDevice>(GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_GKMirror));
-
 			if (user == null)
 			{
 				_isNew = true;
 				Title = "Создание пользователя";
 				var gkNo = (ushort)(parentViewModel.Users.Count > 0 ? parentViewModel.Users.Max(x => x.User.GkNo) + 1 : 1);
 				var password = parentViewModel.Users.Count > 0 ? parentViewModel.Users.Max(x => x.User.Password) + 1 : 1;
-				user = new GKUser(gkNo, GkDevices.FirstOrDefault()) 
+				user = new GKUser(gkNo, _parentViewModel.Pmf.UID) 
 				{
 					Password = password, 
 					ExpirationDate = DateTime.Now.AddYears(1), 
@@ -53,7 +51,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				return new GKUser(GkNo, GkDevice)
+				return new GKUser(GkNo, _parentViewModel.Pmf.UID)
 				{
 					Fio = Fio,
 					Password = Password,
@@ -70,7 +68,6 @@ namespace GKModule.ViewModels
 			Password = user.Password;
 			UserType = user.UserType;
 			ExpirationDate = new DateTimePairViewModel(user.ExpirationDate);
-			GkDevice = GkDevices.FirstOrDefault(x => x.UID == user.GkDevice.UID);
 		}
 		
 		ushort _gkNo;
@@ -118,18 +115,6 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<GKDevice> GkDevices { get; private set; }
-		GKDevice _gkDevice;
-		public GKDevice GkDevice
-		{
-			get { return _gkDevice; }
-			set
-			{
-				_gkDevice = value;
-				OnPropertyChanged(() => GkDevice);
-			}
-		}
-
 		DateTimePairViewModel _expirationDate;
 		public DateTimePairViewModel ExpirationDate
 		{
@@ -143,14 +128,9 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (GkDevice == null)
-			{
-				MessageBoxService.Show("Необходимо указать прибор, к которому будет добавлен пользователь");
-				return false;
-			}
 			if(_isNew || (GkNo != _oldUser.GkNo))
 			{
-				if(_parentViewModel.Users.Any(x => x.User.GkNo == GkNo && x.User.GkDevice.UID == GkDevice.UID))
+				if(_parentViewModel.Users.Any(x => x.User.GkNo == GkNo))
 				{
 					MessageBoxService.Show("Невозможно добавить пользователя с совпадающим номером");
 					return false;
@@ -158,7 +138,7 @@ namespace GKModule.ViewModels
 			}
 			if (_isNew || (Password != _oldUser.Password))
 			{
-				if (_parentViewModel.Users.Any(x => x.User.Password == Password && x.User.GkDevice.UID == GkDevice.UID))
+				if (_parentViewModel.Users.Any(x => x.User.Password == Password))
 				{
 					MessageBoxService.Show("Невозможно добавить пользователя с совпадающим паролем");
 					return false;

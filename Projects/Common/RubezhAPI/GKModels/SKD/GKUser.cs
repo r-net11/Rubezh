@@ -14,11 +14,11 @@ namespace RubezhAPI.GK
 			IsActive = true;
 		}
 
-		public GKUser(ushort gkNo, GKDevice gkDevice)
+		public GKUser(ushort gkNo, Guid deviceUID)
 			: this()
 		{
 			GkNo = gkNo;
-			GkDevice = gkDevice;
+			DeviceUID = deviceUID;
 		}
 
 
@@ -56,7 +56,6 @@ namespace RubezhAPI.GK
 		public byte GkLevelSchedule { get; set; }
 
 		[DataMember]
-		[XmlIgnore]
-		public GKDevice GkDevice { get; set; }
+		public Guid DeviceUID { get; set; }
 	}
 }

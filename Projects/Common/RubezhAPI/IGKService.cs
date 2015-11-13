@@ -65,6 +65,12 @@ namespace RubezhAPI
 		OperationResult<bool> GKWriteMirrorUsers(Guid gkDeviceUID,List<MirrorUser> mirrorUsers);
 
 		[OperationContract]
+		OperationResult<List<GKUser>> GetGKUsers(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<bool> WriteAllGKUsers(List<GKUser> users);
+
+		[OperationContract]
 		OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID);
 
 		[OperationContract]

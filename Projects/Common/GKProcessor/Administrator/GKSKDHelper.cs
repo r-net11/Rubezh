@@ -28,7 +28,7 @@ namespace GKProcessor
 					gkCardNo = dbService.GKCardTranslator.GetFreeGKNo(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), card.Number, out isNew);
 			}
 
-			var user = new GKUser((ushort)gkCardNo, controllerCardSchedule.ControllerDevice);
+			var user = new GKUser((ushort)gkCardNo, controllerCardSchedule.ControllerDevice.UID);
 			user.ExpirationDate = card.EndDate;
 			user.Fio = employeeName;
 			user.GkLevel = (byte)card.GKLevel;
@@ -36,7 +36,7 @@ namespace GKProcessor
 			user.Password = card.Number;
 			user.UserType = card.GKCardType;
 
-			var result = AddOrEditUser(user, isNew, controllerCardSchedule.CardSchedules);
+			var result = AddOrEditUser(user, controllerCardSchedule.ControllerDevice, isNew, controllerCardSchedule.CardSchedules);
 			if (result.HasError)
 				return result;
 
@@ -48,7 +48,7 @@ namespace GKProcessor
 			return new OperationResult<bool>(true);
 		}
 
-		public static OperationResult<bool> AddOrEditUser(GKUser user, bool isNew = true, List<GKCardSchedule> allCardSchedules = null)
+		public static OperationResult<bool> AddOrEditUser(GKUser user, GKDevice device, bool isNew = true, List<GKCardSchedule> allCardSchedules = null)
 		{
 			if (allCardSchedules == null)
 				allCardSchedules = new List<GKCardSchedule>();
@@ -130,7 +130,7 @@ namespace GKProcessor
 
 			foreach (var pack in packs)
 			{
-				var sendResult = SendManager.Send(user.GkDevice, (ushort)(pack.Count), (byte)(isNew ? 25 : 26), 0, pack);
+				var sendResult = SendManager.Send(device, (ushort)(pack.Count), (byte)(isNew ? 25 : 26), 0, pack);
 				if (sendResult.HasError)
 				{
 					return OperationResult<bool>.FromError(sendResult.Error);
@@ -213,7 +213,7 @@ namespace GKProcessor
 				}
 
 				var gkNo = BytesHelper.SubstructShort(sendResult.Bytes, 1);
-				var user = new GKUser(gkNo, device);
+				var user = new GKUser(gkNo, device.UID);
 				user.UserType = (GKCardType)sendResult.Bytes[3];
 				user.IsActive = sendResult.Bytes[4] == 0;
 				user.Fio = BytesHelper.BytesToStringDescription(sendResult.Bytes, 5);
@@ -354,16 +354,22 @@ namespace GKProcessor
 		{
 			try
 			{
-				var devicesWithUsers = users.GroupBy(x => x.GkDevice);
+				var devicesWithUsers = users.GroupBy(x => x.DeviceUID);
 				foreach (var deviceUsers in devicesWithUsers)
 				{
-					var usersCount = GetUsersCount(deviceUsers.Key);
-					RemoveAllUsersInternal(deviceUsers.Key, usersCount);
+					var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUsers.Key);
+					if (device != null)
+					{
+						var usersCount = GetUsersCount(device);
+						RemoveAllUsersInternal(device, usersCount);
+						foreach (var user in users)
+						{
+							AddOrEditUser(user, device);
+						}
+					}
+
 				}
-				foreach (var user in users)
-				{
-					AddOrEditUser(user);
-				}
+				
 				return new OperationResult<bool>(true);
 			}
 			catch (Exception e)

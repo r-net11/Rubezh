@@ -55,7 +55,7 @@ namespace GKModule.ViewModels
 			GenerateMPTCommand = new RelayCommand(GenerateMPTs);
 			ShowAccessUserReflectionCommand = new RelayCommand(ShowAccessUserReflection);
 			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
-			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
+			PmfUsersCommand = new RelayCommand(OnPmfUsers, CanPmfUsers);
 
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
@@ -1022,6 +1022,17 @@ namespace GKModule.ViewModels
 		{
 			return Device.Driver.HasLogic && GKManager.LogicToCopy != null;
 		}
+
+		public RelayCommand PmfUsersCommand { get; private set; }
+		void OnPmfUsers()
+		{
+			DialogService.ShowModalWindow(new PmfUsersViewModel(Device));
+		}
+		bool CanPmfUsers()
+		{
+			return IsPmf;
+		}
+		public bool IsPmf { get { return Device.DriverType == GKDriverType.RSR2_GKMirror; } }
 
 	}
 }
