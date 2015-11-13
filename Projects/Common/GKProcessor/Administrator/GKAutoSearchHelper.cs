@@ -104,7 +104,7 @@ namespace GKProcessor
 						var result1 = SendManager.Send(kauDevice, 0, 1, 1);
 						if (!result1.HasError)
 						{
-							if (result1.Bytes.Count > 0 && result1.Bytes[0] == 61)
+							if (result1.Bytes.Count > 0 && result1.Bytes[0] != 1)
 							{
 								var sendResult = SendManager.Send(kauDevice, 2, 12, 32, BytesHelper.ShortToBytes(1));
 								if (!sendResult.HasError && sendResult.Bytes.Count == 32)
@@ -195,10 +195,6 @@ namespace GKProcessor
 			{
 				var deviceGroups = new List<DeviceGroup>();
 				var devices = new List<GKDevice>();
-				var line1Count = 0;
-				var line2Count = 0;
-				var mvpLine1 = new GKDevice();
-				var mvpLine2 = new GKDevice();
 				for (int address = 1; address <= 255; address++)
 				{
 					gkLifecycleManager.Progress(address, 255);
@@ -239,20 +235,6 @@ namespace GKProcessor
 								device.IntAddress = (byte)address;
 								devices.Add(device);
 
-								if (line1Count > 0)
-								{
-									mvpLine1.Children.Add(device);
-									device.Parent = mvpLine1;
-									line1Count--;
-								}
-
-								if (line2Count > 0 && line1Count == 0)
-								{
-									mvpLine2.Children.Add(device);
-									device.Parent = mvpLine2;
-									line2Count--;
-								}
-
 								var deviceGroup = deviceGroups.FirstOrDefault(x => x.SerialNo == serialNo);
 								if (deviceGroup == null || (serialNo == 0 || serialNo == -1) || (driver.DriverType != GKDriverType.RSR2_AM_1 && driver.DriverType != GKDriverType.RSR2_MAP4 && driver.DriverType != GKDriverType.RSR2_MVK8 && driver.DriverType != GKDriverType.RSR2_RM_1))
 								{
@@ -261,23 +243,6 @@ namespace GKProcessor
 									deviceGroups.Add(deviceGroup);
 								}
 								deviceGroup.Devices.Add(device);
-
-								if (device.DriverType == GKDriverType.RSR2_MVP)
-								{
-									var sendResult = SendManager.Send(kauDevice, 2, 9, ushort.MaxValue, BytesHelper.ShortToBytes((ushort)(device.IntAddress + 2)));
-									line1Count = sendResult.Bytes[1];
-									line2Count = sendResult.Bytes[5];
-									foreach (var autoCreateDriverType in device.Driver.AutoCreateChildren)
-									{
-										var autoCreateDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
-										for (byte i = autoCreateDriver.MinAddress; i <= autoCreateDriver.MaxAddress; i++)
-										{
-											GKManager.AddChild(device, null, autoCreateDriver, i);
-										}
-									}
-									mvpLine1 = device.Children[0];
-									mvpLine2 = device.Children[1];
-								}
 							}
 						}
 					}
