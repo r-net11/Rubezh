@@ -9,7 +9,7 @@ namespace RubezhClient
 {
 	public partial class GKManager
 	{
-		public static GKDevice CopyDevice(GKDevice device, bool fullCopy , bool Paste = false)
+		public static GKDevice CopyDevice(GKDevice device, bool fullCopy , bool paste = false)
 		{
 			var newDevice = new GKDevice();
 			if (fullCopy)
@@ -17,7 +17,7 @@ namespace RubezhClient
 				newDevice.UID = device.UID;
 			}
 			CopyDevice(device, newDevice);
-			if (Paste)
+			if (paste)
 			{
 				foreach (var guardZone in GKManager.GuardZones)
 				{
