@@ -62,6 +62,8 @@
 				<Controls:IconedMenuItem Command="{Binding SyncFromDeviceToSystemCommand}" ImageSource="BLeft" Text="Копировать параметры из устройства в систему" />
 				<Controls:IconedMenuItem Command="{Binding SyncFromAllDeviceToSystemCommand}" ImageSource="BLeftLeft" Text="Копировать параметры из всех дочерних устройств в систему" />
 			</Controls:IconedMenuItem>
+			<Separator Visibility="{Binding IsPmf, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<Controls:IconedMenuItem Command="{Binding PmfUsersCommand}" ImageSource="BUser" Text="Пользователи ПМФ" Visibility="{Binding IsPmf, Converter={StaticResource BoolToVisibilityConverter}}" />
 		</ContextMenu>
 		<viewModel:DeviceViewModelDeviceComparer x:Key="DeviceViewModelDeviceComparer" />
 		<viewModel:DeviceViewModelAddressComparer x:Key="DeviceViewModelAddressComparer" />

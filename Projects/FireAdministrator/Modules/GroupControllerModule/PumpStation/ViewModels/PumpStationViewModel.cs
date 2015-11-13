@@ -75,30 +75,16 @@ namespace GKModule.ViewModels
 			var sourceDevices = new List<GKDevice>();
 			foreach (var device in GKManager.Devices)
 			{
-				if (device.Driver.DriverType == GKDriverType.RSR2_Bush_Drenazh || device.Driver.DriverType == GKDriverType.RSR2_Bush_Jokey || device.Driver.DriverType == GKDriverType.RSR2_Bush_Fire || device.Driver.DriverType == GKDriverType.RSR2_Bush_Shuv)
+				if (device.Driver.DriverType == GKDriverType.RSR2_Bush_Drenazh || device.Driver.DriverType == GKDriverType.RSR2_Bush_Jokey || device.Driver.DriverType == GKDriverType.RSR2_Bush_Fire)
 				{
 					sourceDevices.Add(device);
 				}
 			}
 
-			var pumpDevices = new List<GKDevice>(PumpStation.NSDevices);
 			var devicesSelectationViewModel = new DevicesSelectationViewModel(PumpStation.NSDevices, sourceDevices);
 			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
 			{
-				PumpStation.NSDevices.ForEach(x => x.OutputDependentElements.Remove(PumpStation));
-				PumpStation.NSDevices = devicesSelectationViewModel.DevicesList;
-				PumpStation.NSDeviceUIDs = new List<Guid>();
-				PumpStation.InputDependentElements = new List<GKBase>();
-
-				foreach (var device in PumpStation.NSDevices)
-				{
-					PumpStation.NSDeviceUIDs.Add(device.UID);
-					device.Logic = new GKLogic();
-				}
-				PumpStation.Invalidate(GKManager.DeviceConfiguration);
-				Update();
-				pumpDevices.ForEach(x => x.OnChanged());
-				PumpStation.NSDevices.FindAll(x => !pumpDevices.Contains(x)).ForEach(y => y.NSLogic = new GKLogic());
+				GKManager.ChangePumpDevices(PumpStation, devicesSelectationViewModel.DevicesList);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

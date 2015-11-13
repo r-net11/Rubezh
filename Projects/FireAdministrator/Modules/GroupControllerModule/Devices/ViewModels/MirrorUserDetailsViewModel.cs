@@ -13,11 +13,11 @@ using System.Text.RegularExpressions;
 
 namespace GKModule.ViewModels
 {
-	class ReflectionUserDetailsViewModel : SaveCancelDialogViewModel
+	class MirrorUserDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public MirrorUser MirrorUser { get; set; }
 		private ObservableCollection<MirrorUserNewModel> _mirrorUsers;
-		public ReflectionUserDetailsViewModel(ObservableCollection<MirrorUserNewModel> mirrorUsers, MirrorUser mirrorUser = null)
+		public MirrorUserDetailsViewModel(ObservableCollection<MirrorUserNewModel> mirrorUsers, MirrorUser mirrorUser = null)
 		{
 			_mirrorUsers = new ObservableCollection<MirrorUserNewModel>(mirrorUsers);
 			 GKCardTypes = new ObservableCollection<GKCardType>(Enum.GetValues(typeof(GKCardType)).OfType<GKCardType>());

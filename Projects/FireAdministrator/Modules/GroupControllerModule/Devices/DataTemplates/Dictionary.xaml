@@ -48,16 +48,16 @@
 		<Views:DevicesListView />
 	</DataTemplate>
 	
-	<DataTemplate DataType="{x:Type ViewModels:ReflectionViewModel}">
-		<Views:ReflectionView />
+	<DataTemplate DataType="{x:Type ViewModels:MirrorViewModel}">
+		<Views:MirrorView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:ReflectionUsersViewModel}">
-		<Views:ReflectionUsersView />
+	<DataTemplate DataType="{x:Type ViewModels:MirrorUsersViewModel}">
+		<Views:MirrorUsersView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:ReflectionUserDetailsViewModel}">
-		<Views:ReflectionUserDetailsView />
+	<DataTemplate DataType="{x:Type ViewModels:MirrorUserDetailsViewModel}">
+		<Views:MirrorUserDetailsView />
 	</DataTemplate>
 
 </ResourceDictionary>

@@ -21,6 +21,7 @@ namespace GKModule.Validation
 				ValidateMPTDeviceHasNoDevice(mpt);
 				ValidateMPTDeviceHasWrongDevice(mpt);
 				ValidateMPTSameDevices(mpt);
+				ValidateMPTSameCodeForDevices(mpt);
 				ValidateMPTSameDevicesAndLogic(mpt);
 				ValidateMPTDeviceParameters(mpt);
 				ValidateMPTSelfLogic(mpt);
@@ -72,7 +73,10 @@ namespace GKModule.Validation
 			foreach (var mptDevice in mpt.MPTDevices)
 			{
 				if (mptDevice.Device == null)
+				{
 					AddError(mpt, "Не настроено устройство МПТ", ValidationErrorLevel.CannotWrite);
+					AddError(mpt, "Не настроено устройство МПТ", ValidationErrorLevel.CannotSave);
+				}
 			}
 		}
 
@@ -101,8 +105,33 @@ namespace GKModule.Validation
 			var devices = new HashSet<GKDevice>();
 			foreach (var device in GetAllMPTDevices(mpt))
 			{
-				if (!devices.Add(device))
+				if (!devices.Add(device) && device.DriverType != GKDriverType.RSR2_CardReader && device.DriverType != GKDriverType.RSR2_CodeReader)
 					AddError(mpt, "Дублируются устройства, входящие в МПТ", ValidationErrorLevel.CannotWrite);
+			}
+		}
+
+		/// <summary>
+		/// Валидация того, что устройства контроллер вигант или коданаборник не   МПТ совпадают
+		/// </summary>
+		/// <param name="mpt"></param>
+		void ValidateMPTSameCodeForDevices(GKMPT mpt)
+		{
+			ValidateCodeMPTDevice(mpt.MPTDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CardReader), mpt);
+			ValidateCodeMPTDevice(mpt.MPTDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CodeReader), mpt);
+		}
+
+		void ValidateCodeMPTDevice(IEnumerable<GKMPTDevice> MPTDevices, GKMPT mpt)
+		{ 
+			var MPTDevice = new HashSet<Tuple<Guid, GKCodeReaderEnterType>>();
+			foreach (var MPTSetting in MPTDevices.Select(x=> x.CodeReaderSettings.MPTSettings))
+			{
+				foreach (var GUID in MPTSetting.CodeUIDs)
+				{
+					if (!MPTDevice.Add(new Tuple<Guid, GKCodeReaderEnterType>(GUID, MPTSetting.CodeReaderEnterType)))
+					{ 
+						AddError(mpt, "Используются одинаковые коды для устройств в МПТ", ValidationErrorLevel.CannotWrite);
+					}
+				}
 			}
 		}
 

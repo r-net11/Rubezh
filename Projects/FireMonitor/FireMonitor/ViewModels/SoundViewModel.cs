@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
@@ -17,9 +18,6 @@ namespace FireMonitor.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Unsubscribe(OnStateChanged);
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Subscribe(OnStateChanged);
-
-			ServiceFactory.Events.GetEvent<SKDObjectsStateChangedEvent>().Unsubscribe(OnStateChanged);
-			ServiceFactory.Events.GetEvent<SKDObjectsStateChangedEvent>().Subscribe(OnStateChanged);
 
 			PlaySoundCommand = new RelayCommand(OnPlaySound);
 			OnStateChanged(null);
@@ -63,31 +61,25 @@ namespace FireMonitor.ViewModels
 				if (!string.IsNullOrEmpty(sound.SoundName))
 				{
 					var hasStateClass = false;
-					foreach (var device in GKManager.Devices)
-						if (device.IsRealDevice)
+					foreach (var device in GKManager.Devices.Where(x => x.IsRealDevice))
+					{
+						if (sound.StateClass != XStateClass.Attention && sound.StateClass != XStateClass.Fire1 && sound.StateClass != XStateClass.Fire2)
 						{
-							var stateClass = device.State.StateClass;
-							if (sound.StateClass != XStateClass.Attention && sound.StateClass != XStateClass.Fire1 && sound.StateClass != XStateClass.Fire2)
+							if (device.State.StateClass == sound.StateClass)
 							{
-								if (stateClass == sound.StateClass)
-								{
-									hasStateClass = true;
-									break;
-								}
+								hasStateClass = true;
+								break;
 							}
 						}
-					foreach (var zone in GKManager.Zones)
-						if (zone.State != null && zone.State.StateClass == sound.StateClass)
-						{
-							hasStateClass = true;
-							break;
-						}
-					foreach (var direction in GKManager.Directions)
-						if (direction.State != null && direction.State.StateClass == sound.StateClass)
-						{
-							hasStateClass = true;
-							break;
-						}
+					}
+					if (GKManager.Zones.Any(x => x.State != null && x.State.StateClass == sound.StateClass))
+					{
+						hasStateClass = true;
+					}
+					if (GKManager.Directions.Any(x => x.State != null && x.State.StateClass == sound.StateClass))
+					{
+						hasStateClass = true;
+					}
 
 					if (hasStateClass)
 					{
@@ -102,6 +94,10 @@ namespace FireMonitor.ViewModels
 			if (minSound != null)
 			{
 				AlarmPlayerHelper.Play(RubezhClient.FileHelper.GetSoundFilePath(minSound.SoundName), minSound.BeeperType, minSound.IsContinious);
+			}
+			else
+			{
+				AlarmPlayerHelper.Stop();
 			}
 		}
 

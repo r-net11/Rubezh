@@ -265,7 +265,6 @@
     <Compile Include="TreeList\TreeList.cs" />
     <Compile Include="TreeList\TreeListItem.cs" />
     <Compile Include="XAutoCompleteBox.cs" />
-    <Compile Include="XButton.cs" />
     <Compile Include="XRichTextBox.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -491,7 +490,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Generic.xaml">
+    <Page Include="Themes\AlarmButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1580,6 +1579,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="XamlImages\ResetAlarm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ResetAlarmText.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

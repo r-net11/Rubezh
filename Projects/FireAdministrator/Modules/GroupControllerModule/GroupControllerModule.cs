@@ -47,8 +47,7 @@ namespace GKModule
 		DescriptorsViewModel DescriptorsViewModel;
 		DiagnosticsViewModel DiagnosticsViewModel;
 		GKPlanExtension _planExtension;
-		PmfUsersViewModel _pmfUsersViewModel;
-
+		
 		public override void CreateViewModels()
 		{
 			ServiceFactory.Events.GetEvent<CreateGKZoneEvent>().Subscribe(OnCreateGKZone);
@@ -83,7 +82,6 @@ namespace GKModule
 			OPCViewModel = new OPCsViewModel();
 			DescriptorsViewModel = new DescriptorsViewModel();
 			DiagnosticsViewModel = new DiagnosticsViewModel();
-			_pmfUsersViewModel = new PmfUsersViewModel();
 			_planExtension = new GKPlanExtension(DevicesViewModel, ZonesViewModel, GuardZonesViewModel, SKDZonesViewModel, DelaysViewModel, DirectionsViewModel, MPTsViewModel, DoorsViewModel);
 		}
 
@@ -137,7 +135,6 @@ namespace GKModule
 					new NavigationItem<ShowGKOPCDevicesEvent, Guid>(OPCViewModel,"OPC Сервер", "tree", null, null, Guid.Empty),
 					new NavigationItem<ShowGKDeviceLidraryEvent, object>(DeviceLidraryViewModel, "Библиотека", "Book"),
 #endif
-					new NavigationItem<ShowPmfUsersEvent, object>(_pmfUsersViewModel, "Пользователи ПМФ", "User"),
 					new NavigationItem<ShowGKDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "Bug"),
 				}) {IsExpanded = true},
 			};
@@ -166,7 +163,7 @@ namespace GKModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Selectation/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "SKD/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PmfUsers/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Devices/PmfUsers/DataTemplates/Dictionary.xaml"));
 		}
 
 		#region IValidationModule Members

@@ -21,6 +21,7 @@ namespace RubezhAPI.GK
 
 			SetGuardSettings.CodeReaderEnterType = GKCodeReaderEnterType.CodeAndOne;
 			ResetGuardSettings.CodeReaderEnterType = GKCodeReaderEnterType.CodeAndTwo;
+			MPTSettings.CodeReaderEnterType = GKCodeReaderEnterType.CodeOnly;
 		}
 
 		/// <summary>

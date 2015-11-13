@@ -45,6 +45,7 @@
 		<ResourceDictionary Source="ButtonSpinner.xaml" />
 		<ResourceDictionary Source="IntegerUpDown.xaml" />
 		<ResourceDictionary Source="ImageStyle.xaml" />
+		<ResourceDictionary Source="AlarmButton.xaml" />
 		<ResourceDictionary Source="../Menu/DataTemplates/Dictionary.xaml" />
 		<ResourceDictionary Source="../Ribbon/DataTemplates/Dictionary.xaml" />
 
@@ -173,6 +174,7 @@
 		<ResourceDictionary Source="../XamlImages/Redo.xaml" />
 		<ResourceDictionary Source="../XamlImages/Refresh.xaml" />
 		<ResourceDictionary Source="../XamlImages/ResetAlarm.xaml" />
+		<ResourceDictionary Source="../XamlImages/ResetAlarmText.xaml" />
 		<ResourceDictionary Source="../XamlImages/right.xaml" />
 		<ResourceDictionary Source="../XamlImages/rightRight.xaml" />
 		<ResourceDictionary Source="../XamlImages/Save.xaml" />

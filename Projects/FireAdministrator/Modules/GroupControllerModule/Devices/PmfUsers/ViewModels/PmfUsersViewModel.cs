@@ -3,23 +3,34 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using RubezhAPI.GK;
 using RubezhClient;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
-	public class PmfUsersViewModel : MenuViewPartViewModel
+	public class PmfUsersViewModel : DialogViewModel
 	{
-		public PmfUsersViewModel()
+		public GKDevice Pmf { get; private set; }
+		
+		public PmfUsersViewModel(GKDevice pmf)
 		{
-			Menu = new PmfUsersMenuViewModel(this);
+			if(pmf == null || pmf.DriverType != GKDriverType.RSR2_GKMirror)
+			{
+				MessageBoxService.Show("Неверный тип устройства");
+				return;
+			}
+			Pmf = pmf;
+			Title = "Пользователи " + Pmf.PresentationName;
 			Users = GKManager.PmfUsers == null ? 
 				new ObservableCollection<PmfUserViewModel>() : 
-				new ObservableCollection<PmfUserViewModel>(GKManager.PmfUsers.OrderBy(x => x.GkNo).Select(x => new PmfUserViewModel(x)));
+				new ObservableCollection<PmfUserViewModel>(GKManager.PmfUsers.Where(x => x.DeviceUID == pmf.UID).OrderBy(x => x.GkNo).Select(x => new PmfUserViewModel(x)));
 			SelectedUser = Users.FirstOrDefault();
 		}
 
@@ -79,6 +90,29 @@ namespace GKModule.ViewModels
 		void OnWrite()
 		{
 			return;
+			var result = ClientManager.FiresecService.WriteAllGKUsers(Users.Select(x => x.User).ToList());
+			if (result.HasError)
+			{
+				MessageBoxService.Show(result.Error);
+				return;
+			}
+		}
+
+		public RelayCommand ReadCommand { get { return new RelayCommand(OnRead); } }
+		void OnRead()
+		{
+			return;
+			var result = ClientManager.FiresecService.GetGKUsers(Pmf.UID);
+			if (result.HasError)
+			{
+				MessageBoxService.Show(result.Error);
+				return;
+			}
+			GKManager.PmfUsers.RemoveAll(x => x.DeviceUID == Pmf.UID);
+			GKManager.PmfUsers.AddRange(result.Result);
+			ServiceFactory.SaveService.GKChanged = true;
+			Users = new ObservableCollection<PmfUserViewModel>(result.Result.Select(x => new PmfUserViewModel(x)));
+			OnPropertyChanged(() => Users);
 		}
 		#endregion
 	}

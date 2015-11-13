@@ -14,9 +14,12 @@ using System.Windows.Shapes;
 
 namespace GKModule.Views
 {
-	public partial class PmfUsersMenuView : UserControl
+	/// <summary>
+	/// Interaction logic for NewUserReflrctionView.xaml
+	/// </summary>
+	public partial class MirrorUsersView : UserControl
 	{
-		public PmfUsersMenuView()
+		public MirrorUsersView()
 		{
 			InitializeComponent();
 		}

@@ -4,7 +4,7 @@
 	<UserControl.Resources>
 		<ContextMenu x:Key="RowMenu">
 			<IconedMenuItem Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" Text="Редактировать" ImageSource="BEdit" />
-			<IconedMenuItem Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" Text="Удалить" ImageSource="BDelete" />
+			<IconedMenuItem Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" Text="Удалить" ImageSource="BDelete" />
 			<Separator />
 			<IconedMenuItem Command="{Binding DataContext.LayoutCopyCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" Text="Копировать" ImageSource="BCopy" />
 		</ContextMenu>
@@ -21,11 +21,6 @@
 		</Grid.ColumnDefinitions>
 		<DataGrid ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}" CanUserSortColumns="True" Grid.Column="0" RowStyle="{StaticResource DefaultRowStyle}">
 			<DataGrid.InputBindings>
-				<KeyBinding Key="C" Modifiers="Control" Command="{Binding LayoutCopyCommand}" />
-				<KeyBinding Key="V" Modifiers="Control" Command="{Binding LayoutPasteCommand}" />
-				<KeyBinding Key="N" Modifiers="Control" Command="{Binding AddCommand}" />
-				<KeyBinding Key="Delete" Modifiers="Control" Command="{Binding RemoveCommand}" />
-				<KeyBinding Key="E" Modifiers="Control" Command="{Binding EditCommand}" />
 				<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
 			</DataGrid.InputBindings>
 			<DataGrid.ContextMenu>
@@ -43,7 +38,6 @@
 									<TextBlock VerticalAlignment="Center" Text="{Binding Caption}" Margin="2 0 0 0" />
 								</StackPanel>
 						</DataTemplate>
-						
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>

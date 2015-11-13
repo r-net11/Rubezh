@@ -93,8 +93,8 @@
       <DependentUpon>DescriptorsMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\ViewModels\MirrorUserNewModel.cs" />
-    <Compile Include="Devices\ViewModels\ReflectionUserDetailsViewModel.cs" />
-    <Compile Include="Devices\ViewModels\ReflectionUsersViewModel.cs" />
+    <Compile Include="Devices\ViewModels\MirrorUserDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\MirrorUsersViewModel.cs" />
     <Compile Include="Devices\ViewModels\AutoSearchDevicesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesListViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesOnShleifViewModel.cs" />
@@ -105,13 +105,13 @@
     <Compile Include="Devices\ViewModels\GKUsersViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\ClauseGroupViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\StateTypeViewModel.cs" />
-    <Compile Include="Devices\ViewModels\ReflectionViewModel.cs" />
+    <Compile Include="Devices\ViewModels\MirrorViewModel.cs" />
     <Compile Include="Devices\ViewModels\RSR2NewDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModelBase.cs" />
     <Compile Include="Devices\ViewModels\SettingsViewModel.cs" />
     <Compile Include="Devices\ViewModels\UpdatedDeviceViewModel.cs" />
-    <Compile Include="Devices\Views\ReflectionUserDetailsView.xaml.cs">
-      <DependentUpon>ReflectionUserDetailsView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\MirrorUserDetailsView.xaml.cs">
+      <DependentUpon>MirrorUserDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\AutoSearchDevicesView.xaml.cs">
       <DependentUpon>AutoSearchDevicesView.xaml</DependentUpon>
@@ -128,11 +128,11 @@
     <Compile Include="Devices\Views\Logic\ClausesView.xaml.cs">
       <DependentUpon>ClausesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\ReflectionUsersView.xaml.cs">
-      <DependentUpon>ReflectionUsersView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\MirrorUsersView.xaml.cs">
+      <DependentUpon>MirrorUsersView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\ReflectionView.xaml.cs">
-      <DependentUpon>ReflectionView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\MirrorView.xaml.cs">
+      <DependentUpon>MirrorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\RSR2NewDeviceView.xaml.cs">
       <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
@@ -294,7 +294,7 @@
     <Compile Include="Plans\Views\MPTPropertiesView.xaml.cs">
       <DependentUpon>MPTPropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PmfUsers\Views\PmfUserDetailsView.xaml.cs">
+    <Compile Include="Devices\PmfUsers\Views\PmfUserDetailsView.xaml.cs">
       <DependentUpon>PmfUserDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Selectation\ViewModels\AnyZonesSelectionViewModel.cs" />
@@ -488,14 +488,10 @@
     <Compile Include="SKD\Views\SKDZonesView.xaml.cs">
       <DependentUpon>SKDZonesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PmfUsers\ViewModels\PmfUserDetailsViewModel.cs" />
-    <Compile Include="PmfUsers\ViewModels\PmfUsersMenuViewModel.cs" />
-    <Compile Include="PmfUsers\ViewModels\PmfUserViewModel.cs" />
-    <Compile Include="PmfUsers\ViewModels\PmfUsersViewModel.cs" />
-    <Compile Include="PmfUsers\Views\PmfUsersMenuView.xaml.cs">
-      <DependentUpon>PmfUsersMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PmfUsers\Views\PmfUsersView.xaml.cs">
+    <Compile Include="Devices\PmfUsers\ViewModels\PmfUserDetailsViewModel.cs" />
+    <Compile Include="Devices\PmfUsers\ViewModels\PmfUserViewModel.cs" />
+    <Compile Include="Devices\PmfUsers\ViewModels\PmfUsersViewModel.cs" />
+    <Compile Include="Devices\PmfUsers\Views\PmfUsersView.xaml.cs">
       <DependentUpon>PmfUsersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validation\CodeValidationError.cs" />
@@ -642,7 +638,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Devices\Views\ReflectionUserDetailsView.xaml">
+    <Page Include="Devices\Views\MirrorUserDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -670,11 +666,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\ReflectionUsersView.xaml">
+    <Page Include="Devices\Views\MirrorUsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\ReflectionView.xaml">
+    <Page Include="Devices\Views\MirrorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -790,7 +786,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PmfUsers\Views\PmfUserDetailsView.xaml">
+    <Page Include="Devices\PmfUsers\Views\PmfUserDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -970,15 +966,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PmfUsers\DataTemplates\Dictionary.xaml">
+    <Page Include="Devices\PmfUsers\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PmfUsers\Views\PmfUsersMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PmfUsers\Views\PmfUsersView.xaml">
+    <Page Include="Devices\PmfUsers\Views\PmfUsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -8,9 +8,9 @@ using RubezhClient;
 
 namespace GKModule.ViewModels 
 {
-	class ReflectionViewModel:SaveCancelDialogViewModel
+	class MirrorViewModel:SaveCancelDialogViewModel
 	{
-		public ReflectionViewModel(GKDevice device)
+		public MirrorViewModel(GKDevice device)
 		{
 			switch (device.Driver.DriverType)
 			{
