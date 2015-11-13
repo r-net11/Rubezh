@@ -450,6 +450,8 @@
     <Compile Include="Models\AccessDoorModel.cs" />
     <Compile Include="Models\ElementHint.cs" />
     <Compile Include="Models\EmployeeCardModel.cs" />
+    <Compile Include="Models\GKControllerModel.cs" />
+    <Compile Include="Models\ShortEmployeeCardModel.cs" />
     <Compile Include="Models\ShortEmployeeModel.cs" />
     <Compile Include="Models\PlanElement.cs" />
     <Compile Include="Models\PlanSimpl.cs" />
