@@ -12,9 +12,9 @@ using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {
-	class ReflectionUsersViewModel : SaveCancelDialogViewModel
+	class MirrorUsersViewModel : SaveCancelDialogViewModel
 	{
-		public ReflectionUsersViewModel(GKDevice device)
+		public MirrorUsersViewModel(GKDevice device)
 		{
 			AddCommand = new RelayCommand(Add);
 			DeleteCommand = new RelayCommand(Delete);
@@ -60,7 +60,7 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void Add()
 		{
-			var accessDetailsUserReflrctionViewModel = new ReflectionUserDetailsViewModel(Users);
+			var accessDetailsUserReflrctionViewModel = new MirrorUserDetailsViewModel(Users);
 			if (DialogService.ShowModalWindow(accessDetailsUserReflrctionViewModel))
 			{
 				var mirrorUser = accessDetailsUserReflrctionViewModel.MirrorUser;
@@ -90,7 +90,7 @@ namespace GKModule.ViewModels
 			if (SelectedUser != null)
 			{
 				var mirrorUsers = new ObservableCollection<MirrorUserNewModel>(Users.Where(x => x.Password != SelectedUser.Password));
-				var accessDetailsUserReflrctionViewModel = new ReflectionUserDetailsViewModel(mirrorUsers, SelectedUser.MirrorUser);
+				var accessDetailsUserReflrctionViewModel = new MirrorUserDetailsViewModel(mirrorUsers, SelectedUser.MirrorUser);
 				if (DialogService.ShowModalWindow(accessDetailsUserReflrctionViewModel))
 				{
 					var mirrorUser = accessDetailsUserReflrctionViewModel.MirrorUser;

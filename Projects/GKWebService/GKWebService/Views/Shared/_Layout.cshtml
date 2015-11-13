@@ -68,11 +68,13 @@
                         <span>Оперативная задача Глобал</span>
                         <a href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Close Window" alt="Close" data-bind="click: QuestionBox.Close" /></a>
                     </div>
-                    <div>
-                        <label data-bind="text: QuestionBox.Message"></label>
-                    </div>
-                    <button class="submit ok-cancel-button" type="button" data-bind="click: QuestionBox.OnYesClick">Да</button>
-                    <button class="submit ok-cancel-button" type="button" data-bind="click: QuestionBox.Close">Нет</button>
+                    <fieldset class="textbox">
+                        <div>
+                            <label data-bind="text: QuestionBox.Message"></label>
+                        </div>
+                        <button class="submit ok-cancel-button" type="button" data-bind="click: QuestionBox.OnYesClick">Да</button>
+                        <button class="submit ok-cancel-button" type="button" data-bind="click: QuestionBox.Close">Нет</button>
+                    </fieldset>
                 </div>
 
                 <div id="clockbox" class="time"></div>
@@ -180,6 +182,7 @@
     <script src="~/Scripts/HrFilter.js"></script>
     <script src="~/Scripts/HrEmployees.js"></script>
     <script src="~/Scripts/EmployeeDetails.js"></script>
+    <script src="~/Scripts/EmployeeCardDetails.js"></script>
     <script src="~/Scripts/HrEmployeeCards.js"></script>
     <script src="~/Scripts/Main.js"></script>
     <script src="~/Scripts/Clock.js"></script>

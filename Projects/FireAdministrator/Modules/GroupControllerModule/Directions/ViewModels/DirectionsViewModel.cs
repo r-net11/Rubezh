@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using Common;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhClient;
@@ -39,10 +38,18 @@ namespace GKModule.ViewModels
 			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
 			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
 			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
-
+			RegisterShortcuts();
 			IsRightPanelEnabled = true;
 			SubscribeEvents();
 			SetRibbonItems();
+		}
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 		}
 		protected override bool IsRightPanelVisibleByDefault
 		{

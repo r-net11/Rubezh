@@ -8,6 +8,8 @@ namespace GKWebService.Models
 {
     public class EmployeeCardModel
     {
+		public Guid UID { get; set; }
+
 		public uint Number { get; set; }
 
 		public List<AccessDoorModel> Doors { get; set; }
@@ -16,6 +18,7 @@ namespace GKWebService.Models
         {
 			var model = new EmployeeCardModel();
 			model.Number = card.Number;
+			model.UID = card.UID;
             return model;
         }
     }

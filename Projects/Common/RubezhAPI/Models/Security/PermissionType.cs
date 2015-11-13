@@ -178,7 +178,7 @@ namespace RubezhAPI.Models
 		[DescriptionAttribute("Просмотр пропусков")]
 		Oper_SKD_Cards_View,
 
-		[DescriptionAttribute("Архивирование, восстановление пропусков")]
+		[DescriptionAttribute("Создание, редактирование, архивирование, восстановление пропусков")]
 		Oper_SKD_Cards_Etit,
 
 		[DescriptionAttribute("Просмотр шаблонов доступа")]

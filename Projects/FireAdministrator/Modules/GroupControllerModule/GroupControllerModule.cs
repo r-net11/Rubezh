@@ -47,7 +47,7 @@ namespace GKModule
 		DescriptorsViewModel DescriptorsViewModel;
 		DiagnosticsViewModel DiagnosticsViewModel;
 		GKPlanExtension _planExtension;
-
+		
 		public override void CreateViewModels()
 		{
 			ServiceFactory.Events.GetEvent<CreateGKZoneEvent>().Subscribe(OnCreateGKZone);
@@ -99,7 +99,6 @@ namespace GKModule
 			DoorsViewModel.Initialize();
 			SKDZonesViewModel.Initialize();
 			OPCViewModel.Initialize();
-
 			_planExtension.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 			_planExtension.Cache.BuildAllSafe();
@@ -164,6 +163,7 @@ namespace GKModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Selectation/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "SKD/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Devices/PmfUsers/DataTemplates/Dictionary.xaml"));
 		}
 
 		#region IValidationModule Members

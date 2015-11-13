@@ -10,6 +10,7 @@ using System;
 using Infrastructure;
 using Infrastructure.Events;
 using System.ComponentModel;
+using System.Windows.Input;
 
 namespace GKModule.ViewModels
 {
@@ -21,8 +22,9 @@ namespace GKModule.ViewModels
 			AddCommand = new RelayCommand(Add);
 			DeleteCommand = new RelayCommand(Delete);
 
-			Menu = new OPCMenuViewModel(this);			
+			Menu = new OPCMenuViewModel(this);
 		}
+
 		public void Initialize()
 		{
 			Devices = new ObservableCollection<OPCItemViewModel>();

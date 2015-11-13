@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Data;
-using System.Windows.Input;
 using Common;
 using RubezhAPI.Models.Layouts;
 using RubezhClient;
@@ -13,6 +12,8 @@ using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace LayoutModule.ViewModels
 {
@@ -20,18 +21,25 @@ namespace LayoutModule.ViewModels
 	{
 		public static MonitorLayoutsViewModel Instance { get; private set; }
 		public MonitorLayoutViewModel MonitorLayoutViewModel { get; private set; }
-		public MonitorLayoutsTreeViewModel MonitorLayoutsTreeViewModel { get; private set; }
 		public LayoutUsersViewModel LayoutUsersViewModel { get; private set; }
 
 		public MonitorLayoutsViewModel()
 		{
 			MonitorLayoutViewModel = new MonitorLayoutViewModel();
-			MonitorLayoutsTreeViewModel = new MonitorLayoutsTreeViewModel(this);
 			CreateCommands();
-			RegisterShortcuts();
 			SetRibbonItems();
 			Menu = new MonitorLayoutsMenuViewModel(this);
 			Instance = this;
+			RegisterShortcuts();
+		}
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), LayoutCopyCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), LayoutPasteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete), CloseLayoutPartCommand);
 		}
 
 		#region ISelectable<Guid> Members
@@ -93,16 +101,26 @@ namespace LayoutModule.ViewModels
 		private Layout _layoutBuffer;
 		private void CreateCommands()
 		{
+			CloseLayoutPartCommand = new RelayCommand(OnCloseLayoutPart);
 			AddCommand = new RelayCommand(OnAdd);
-			RemoveCommand = new RelayCommand(OnRemove, CanEditRemove);
-			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
+			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
+			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 
 			LayoutCopyCommand = new RelayCommand(OnLayoutCopy, CanLayoutCopy);
 			LayoutPasteCommand = new RelayCommand(OnLayoutPaste, CanLayoutPaste);
+			
 			_layoutBuffer = null;
 		}
+
+		public RelayCommand CloseLayoutPartCommand { get; set; }
+
+		void OnCloseLayoutPart()
+		{
+			LayoutDesignerViewModel.Instance.LayoutParts.Remove(LayoutDesignerViewModel.Instance.ActiveLayoutPart);
+		}
+
 		public RelayCommand AddCommand { get; private set; }
-		private void OnAdd()
+		void OnAdd()
 		{
 			var layout = new Layout();
 			var adminUser = ClientManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == "adm");
@@ -114,11 +132,11 @@ namespace LayoutModule.ViewModels
 			if (DialogService.ShowModalWindow(layoutDetailsViewModel))
 				OnLayoutPaste(layoutDetailsViewModel.Layout);
 		}
-		public RelayCommand RemoveCommand { get; private set; }
-		private void OnRemove()
+		public RelayCommand DeleteCommand { get; private set; }
+		private void OnDelete()
 		{
 			if (MessageBoxService.ShowConfirmation(string.Format("Вы уверены, что хотите удалить макет '{0}'?", SelectedLayout.Caption)))
-				OnLayoutRemove();
+				OnLayoutDelete();
 		}
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
@@ -130,7 +148,7 @@ namespace LayoutModule.ViewModels
 				ServiceFactory.SaveService.LayoutsChanged = true;
 			}
 		}
-		private bool CanEditRemove()
+		private bool CanEditDelete()
 		{
 			return SelectedLayout != null;
 		}
@@ -170,7 +188,7 @@ namespace LayoutModule.ViewModels
 				ServiceFactory.SaveService.LayoutsChanged = true;
 			}
 		}
-		private void OnLayoutRemove()
+		private void OnLayoutDelete()
 		{
 			using (new WaitWrapper())
 			{
@@ -194,14 +212,6 @@ namespace LayoutModule.ViewModels
 		{
 			base.UpdateRibbonItems();
 		}
-		void RegisterShortcuts()
-		{
-			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.N, ModifierKeys.Control), AddCommand);
-			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.E, ModifierKeys.Control), EditCommand);
-			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.Delete, ModifierKeys.Control), RemoveCommand);
-			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.C, ModifierKeys.Control), LayoutCopyCommand);
-			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.V, ModifierKeys.Control), LayoutPasteCommand);
-		}
 		private void SetRibbonItems()
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
@@ -210,7 +220,7 @@ namespace LayoutModule.ViewModels
 				{
 					new RibbonMenuItemViewModel("Добавить макет", AddCommand, "BAdd"),
 					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
-					new RibbonMenuItemViewModel("Удалить", RemoveCommand, "BDelete"),
+					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
 					new RibbonMenuItemViewModel("Копировать", LayoutCopyCommand, "BCopy") {IsNewGroup=true},
 					new RibbonMenuItemViewModel("Вставить", LayoutPasteCommand, true, "BPaste"),
 				}, "BLayouts") { Order = 2 }

@@ -14,12 +14,9 @@ using System.Windows.Shapes;
 
 namespace GKModule.Views
 {
-	/// <summary>
-	/// Interaction logic for ReflictionView.xaml
-	/// </summary>
-	public partial class ReflectionView : UserControl
+	public partial class PmfUsersView : UserControl
 	{
-		public ReflectionView()
+		public PmfUsersView()
 		{
 			InitializeComponent();
 		}

@@ -13,6 +13,9 @@
 		</Grid.ColumnDefinitions>
 		<Grid Grid.Column="0">
 			<DataGrid CanUserSortColumns="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
+				<DataGrid.InputBindings>
+					<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
+				</DataGrid.InputBindings>
 				<DataGrid.ContextMenu>
 					<ContextMenu>
 						<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить (Ctrl+N)" />

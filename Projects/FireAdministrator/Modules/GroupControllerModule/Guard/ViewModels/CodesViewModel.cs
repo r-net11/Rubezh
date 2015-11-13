@@ -65,6 +65,11 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
+			OnAddResult();
+		}
+
+		GKCode OnAddResult()
+		{
 			var codeDetailsViewModel = new CodeDetailsViewModel();
 			if (DialogService.ShowModalWindow(codeDetailsViewModel))
 			{
@@ -73,7 +78,9 @@ namespace GKModule.ViewModels
 				Codes.Add(codeViewModel);
 				SelectedCode = codeViewModel;
 				ServiceFactory.SaveService.GKChanged = true;
+				return codeDetailsViewModel.Code;
 			}
+			return null;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -94,8 +101,7 @@ namespace GKModule.ViewModels
 
 		public void CreateCode(CreateGKCodeEventArg createGKCodeEventArg)
 		{
-			OnAdd();
-			createGKCodeEventArg.Code = SelectedCode.Code;
+			createGKCodeEventArg.Code = OnAddResult();
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }

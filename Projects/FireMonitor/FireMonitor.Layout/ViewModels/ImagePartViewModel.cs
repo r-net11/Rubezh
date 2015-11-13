@@ -20,7 +20,7 @@ namespace FireMonitor.Layout.ViewModels
 			}
 		}
 
-		private TileBrush _imageBrush;
+		TileBrush _imageBrush;
 		public TileBrush ImageBrush
 		{
 			get { return _imageBrush; }

@@ -20,6 +20,8 @@ namespace JournalModule.ViewModels
 {
 	public class JournalViewModel : ViewPartViewModel, ILayoutPartContent
 	{
+		static int counter;
+		bool isFirstInstance;
 		int _unreadCount;
 		public bool IsShowButtons { get; private set; }
 		public JournalFilter Filter { get; private set; }
@@ -43,6 +45,9 @@ namespace JournalModule.ViewModels
 			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournalItems);
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
+			if (counter == 0)
+				isFirstInstance = true;
+			counter++;
 		}
 
 		public void SetJournalItems()
@@ -122,8 +127,11 @@ namespace JournalModule.ViewModels
 						(journalItemViewModel.StateClass == XStateClass.Fire1 || journalItemViewModel.StateClass == XStateClass.Fire2 || journalItemViewModel.StateClass == XStateClass.Attention)) ||
 						((journalItem.JournalObjectType == JournalObjectType.GKGuardZone || journalItem.JournalObjectType == JournalObjectType.GKDoor) && journalItemViewModel.StateClass == XStateClass.Fire1))
 					{
-						var confirmationViewModel = new ConfirmationViewModel(journalItem);
-						DialogService.ShowWindow(confirmationViewModel);
+						if (isFirstInstance)
+						{
+							var confirmationViewModel = new ConfirmationViewModel(journalItem);
+							DialogService.ShowWindow(confirmationViewModel); 
+						}
 					}
 				}
 			}

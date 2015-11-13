@@ -17,6 +17,7 @@
 	</UserControl.Resources>
 	<DataGrid ContextMenu="{StaticResource DirectionContextMenu}" CanUserSortColumns="True" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
 		<DataGrid.InputBindings>
+			<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
 			<KeyBinding Key="C" Modifiers="Control" Command="{Binding CopyCommand}" />
 			<KeyBinding Key="V" Modifiers="Control" Command="{Binding PasteCommand}" />
 			<KeyBinding Key="N" Modifiers="Control" Command="{Binding AddCommand}" />

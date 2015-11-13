@@ -216,6 +216,8 @@ namespace GKModule.ViewModels
 			SelectedZone = SelectedZone;
 			if(SelectedZone!= null)
 			ZoneDevices.InitializeAvailableDevice();
+			else
+				ZoneDevices.Clear();
 		}
 
 		#region ISelectable<Guid> Members

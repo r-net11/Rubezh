@@ -61,12 +61,15 @@ namespace RubezhAPI.GK
 
 		public void ChangedLogic()
 		{
+			if(InputDependentElements.Count()==0)
+				Invalidate(GKManager.DeviceConfiguration);
 			InputDependentElements.ForEach(x =>
 				{
 					x.OutputDependentElements.Remove(this);
+					x.OnChanged();
 				});
 			InputDependentElements = new List<GKBase>();
-			this.Invalidate(GKManager.DeviceConfiguration);
+			Invalidate(GKManager.DeviceConfiguration);
 		}
 
 		public void AddDependentElement(GKBase gkBase)

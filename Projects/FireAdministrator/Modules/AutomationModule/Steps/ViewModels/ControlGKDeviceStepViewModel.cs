@@ -54,7 +54,7 @@ namespace AutomationModule.ViewModels
 		{
 			if (IsBiStateControl(device))
 			{
-				Commands = new ObservableCollection<CommandType> { CommandType.SetRegime_Automatic2, CommandType.SetRegime_Off };
+				Commands = new ObservableCollection<CommandType> { CommandType.SetRegime_Off };
 				if (HasReset(device))
 					Commands.Add(CommandType.Reset);
 			}
@@ -104,8 +104,6 @@ namespace AutomationModule.ViewModels
 			{
 				case CommandType.SetRegime_Automatic:
 					return GKStateBit.SetRegime_Automatic;
-				case CommandType.SetRegime_Automatic2:
-					return GKStateBit.SetRegime_Automatic;
 				case CommandType.SetRegime_Manual:
 					return GKStateBit.SetRegime_Manual;
 				case CommandType.SetRegime_Off:
@@ -136,7 +134,7 @@ namespace AutomationModule.ViewModels
 				switch (stateString)
 				{
 					case GKStateBit.SetRegime_Automatic:
-						return IsTriStateControl(GKDeviceArgument.ExplicitValue.Device) ? CommandType.SetRegime_Automatic : CommandType.SetRegime_Automatic2;
+						return CommandType.SetRegime_Automatic;
 					case GKStateBit.SetRegime_Manual:
 						return CommandType.SetRegime_Manual;
 					case GKStateBit.SetRegime_Off:
@@ -191,9 +189,6 @@ namespace AutomationModule.ViewModels
 	{
 		[Description("Автоматика")]
 		SetRegime_Automatic,
-
-		[Description("Снять отключение")]
-		SetRegime_Automatic2,
 
 		[Description("Ручное")]
 		SetRegime_Manual,

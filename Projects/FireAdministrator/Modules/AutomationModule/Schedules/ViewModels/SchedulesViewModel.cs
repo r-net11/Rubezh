@@ -10,6 +10,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Common;
 using RubezhClient;
+using KeyboardKey = System.Windows.Input.Key;
+using System.Windows.Input;
 
 namespace AutomationModule.ViewModels
 {
@@ -21,6 +23,14 @@ namespace AutomationModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			RegisterShortcuts();
+		}
+
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 		}
 
 		public void Initialize()
