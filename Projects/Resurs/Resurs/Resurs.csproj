@@ -379,6 +379,11 @@
       <DependentUpon>DepositsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\DeviceError.cs" />
+    <Compile Include="Devices\ViewModels\DeviceDetails\CommandViewModel.cs" />
+    <Compile Include="License\ViewModels\LicenseViewModel.cs" />
+    <Compile Include="License\Views\LicenseView.xaml.cs">
+      <DependentUpon>LicenseView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Processor\EventArgs\ErrorsChangedEventArgs.cs" />
     <Compile Include="Processor\EventArgs\IsActiveChangedEventArgs.cs" />
     <Compile Include="Receipts\ReceiptHelper.cs" />
@@ -408,8 +413,8 @@
     <Compile Include="Converters\DeviceTypeToIconConverter.cs" />
     <Compile Include="Converters\JournalTypeToColorConverter.cs" />
     <Compile Include="Converters\JournalTypeToIconConverter.cs" />
-    <Compile Include="Devices\ViewModels\DateTimePairViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DetailsParameterViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceDetails\DateTimePairViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceDetails\DetailsParameterViewModel.cs" />
     <Compile Include="Devices\ViewModels\TariffSelectionViewModel.cs" />
     <Compile Include="Devices\Views\TariffSelectionView.xaml.cs">
       <DependentUpon>TariffSelectionView.xaml</DependentUpon>
@@ -443,7 +448,7 @@
     <Compile Include="Processor\DeviceProcessor.cs" />
     <Compile Include="Processor\LoginService.cs" />
     <Compile Include="Main\ViewModels\Comparers.cs" />
-    <Compile Include="Devices\ViewModels\DeviceDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceDetails\DeviceDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
     <Compile Include="Consumers\ViewModels\ConsumerViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
@@ -648,6 +653,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Consumers\Views\ConsumersFolderDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="License\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="License\Views\LicenseView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -886,6 +899,10 @@
     <ProjectReference Include="..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\RubezhLicense\RubezhLicense.csproj">
+      <Project>{e6d24912-812b-42b4-b6b0-97ca33c0f4af}</Project>
+      <Name>RubezhLicense</Name>
     </ProjectReference>
     <ProjectReference Include="..\DAL\ResursDAL.csproj">
       <Project>{c6c6465e-30fe-4d6c-bdf4-1f0b9e4c325a}</Project>

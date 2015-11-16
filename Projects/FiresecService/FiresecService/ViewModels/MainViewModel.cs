@@ -5,9 +5,8 @@ using System.Windows.Threading;
 using RubezhAPI.Models;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecLicense;
 using GKProcessor;
-using RubezhAPI.GK;
+using RubezhAPI.License;
 
 namespace FiresecService.ViewModels
 {
@@ -29,16 +28,17 @@ namespace FiresecService.ViewModels
 			Logs = new ObservableCollection<LogViewModel>();
 			GKLifecycles = new ObservableCollection<GKLifecycleViewModel>();
 			LicenseViewModel = new LicenseViewModel();
-			FiresecLicenseManager.LicenseChanged += LicenseHelper_LicenseChanged;
+			LicenseManager.LicenseChanged += LicenseHelper_LicenseChanged;
 			GKLifecycleManager.GKLifecycleChangedEvent += On_GKLifecycleChangedEvent;
 			SetTitle();
+			Icon = @"../Server.ico";
 		}
 
 		void SetTitle()
 		{
-			Title = FiresecLicenseManager.CurrentLicenseInfo.LicenseMode == LicenseMode.Demonstration ?
+			Title = LicenseManager.CurrentLicenseInfo.LicenseMode == LicenseMode.Demonstration ?
 				"Сервер приложений Глобал [Демонстрационный режим]" :
-			   "Сервер приложений Глобал";
+				"Сервер приложений Глобал";
 		}
 
 		void LicenseHelper_LicenseChanged()

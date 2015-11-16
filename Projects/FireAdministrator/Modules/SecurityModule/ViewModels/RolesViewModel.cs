@@ -14,7 +14,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace SecurityModule.ViewModels
 {
-	public class RolesViewModel : MenuViewPartViewModel, IEditingViewModel
+	public class RolesViewModel : MenuViewPartViewModel
 	{
 		public RolesViewModel()
 		{
@@ -113,9 +113,9 @@ namespace SecurityModule.ViewModels
 			{
 				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
-					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
-					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
+					new RibbonMenuItemViewModel("Добавить (Ctrl+N)", AddCommand, "BAdd"),
+					new RibbonMenuItemViewModel("Редактировать (Ctrl+E)", EditCommand, "BEdit"),
+					new RibbonMenuItemViewModel("Удалить (Ctrl+Del)", DeleteCommand, "BDelete"),
 				}, "BEdit") { Order = 2 }
 			};
 		}

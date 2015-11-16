@@ -20,7 +20,7 @@ using RubezhAPI.GK;
 
 namespace GKModule.ViewModels
 {
-	public class SKDZonesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class SKDZonesViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		bool _lockSelection = false;
 
@@ -96,6 +96,7 @@ namespace GKModule.ViewModels
 				MessageBoxService.ShowWarning("Невозможно добавить больше 255 зон");
 				return;
 			}
+			
 			OnAddResult();
 		}
 		SKDZoneDetailsViewModel OnAddResult()
@@ -126,6 +127,8 @@ namespace GKModule.ViewModels
 			{
 				GKManager.EditSKDZone(SelectedZone.Zone);
 				SelectedZone.Update();
+				if (DoorsViewModel.Current.SelectedDoor!= null)
+					DoorsViewModel.Current.SelectedDoor.Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -133,7 +136,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedZone.Zone.PresentationName))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedZone.Zone.PresentationName + " ?"))
 			{
 				var index = Zones.IndexOf(SelectedZone);
 				GKManager.RemoveSKDZone(SelectedZone.Zone);
@@ -171,30 +174,9 @@ namespace GKModule.ViewModels
 
 		void RegisterShortcuts()
 		{
-			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), () =>
-			{
-				if (SelectedZone != null)
-				{
-					if (AddCommand.CanExecute(null))
-						AddCommand.Execute();
-				}
-			});
-			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), () =>
-			{
-				if (SelectedZone != null)
-				{
-					if (DeleteCommand.CanExecute(null))
-						DeleteCommand.Execute();
-				}
-			});
-			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), () =>
-			{
-				if (SelectedZone != null)
-				{
-					if (EditCommand.CanExecute(null))
-						EditCommand.Execute();
-				}
-			});
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
 		}
 
 		public void LockedSelect(Guid zoneUID)

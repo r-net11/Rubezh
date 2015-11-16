@@ -14,6 +14,7 @@ using ResursNetwork.Incotex.Models;
 using ResursNetwork.Incotex.NetworkControllers.ApplicationLayer;
 using ResursNetwork.Incotex.NetworkControllers.DataLinkLayer;
 using ResursAPI;
+using ResursAPI.Models;
 using ResursAPI.ParameterNames;
 
 namespace ResursNetwork.Networks
@@ -21,7 +22,7 @@ namespace ResursNetwork.Networks
     /// <summary>
     /// Объет упрвления сетями системы учёта русурсов
     /// </summary>
-    public class NetworksManager
+    public class NetworksManager: INetworksManager
     {
         #region Fields And Properties
 
@@ -310,10 +311,16 @@ namespace ResursNetwork.Networks
         /// Синхронизирует дату и время устройтсв в указанной сети
         /// </summary>
         /// <param name="networkId"></param>
-        public void SyncDateTime(Guid networkId)
+		/// <param name="broadcastAddress">Широковещательный адрес</param>
+        public void SyncDateTime(Guid networkId, ValueType broadcastAddress)
         {
-            _NetworkControllers[networkId].SyncDateTime();
+            _NetworkControllers[networkId].SyncDateTime(broadcastAddress);
         }
+
+		public void SyncDateTime(Guid networkId)
+		{
+			_NetworkControllers[networkId].SyncDateTime();
+		}
 
 		public void SendCommand(Guid id, string commandName)
 		{
@@ -331,19 +338,29 @@ namespace ResursNetwork.Networks
 		}
 		
 		/// <summary>
-		/// Читает значение параметра из удалённого устройство
-		/// асинхронно, обновление параметра по событию
+		/// Читает значение параметра из удалённого устройствa
+		/// или из сетевого контроллера асинхронно, 
+		/// обновление параметра по событию
 		/// </summary>
 		/// <param name="deviceId"></param>
 		/// <param name="parameterName"></param>
-		public void ReadParameter(Guid deviceId, string parameterName)
+		public IOperationResult ReadParameter(Guid deviceId, string parameterName)
 		{
-			var device = FindDevice(deviceId);
-			device.ReadParameter(parameterName);
+			// Ищем среди контроллеров
+			var controller = _NetworkControllers.SingleOrDefault(x => x.Id == deviceId);
+			
+			if (controller != null)
+			{
+				return controller.ReadParameter(parameterName);
+			}
+			
+			// Ищем среди устройств
+			return FindDevice(deviceId).ReadParameter(parameterName);
 		}
 		
 		/// <summary>
-		/// Записывает новое значение параметра у удалённое устройство
+		/// Записывает новое значение параметра в удалённом устройстве
+		/// или сетевом контроллере.
 		/// Блокирует вызывающий поток до окончания сетевой транзакции
 		/// </summary>
 		/// <param name="deviceId"></param>
@@ -352,7 +369,18 @@ namespace ResursNetwork.Networks
 		/// <returns></returns>
 		public void WriteParameter(Guid deviceId, string parameterName, ValueType value)
 		{
-			throw new NotImplementedException();
+			// Ищем среди контроллеров
+			var controller = _NetworkControllers.SingleOrDefault(x => x.Id == deviceId);
+
+			if (controller != null)
+			{
+				controller.WriteParameter(parameterName, value);
+			}
+			else
+			{
+				// Ищем среди устройств
+				FindDevice(deviceId).WriteParameter(parameterName, value);
+			}
 		}
 
 		/// <summary>

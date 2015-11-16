@@ -13,7 +13,7 @@ namespace Resurs.ViewModels
 	{
 		public TariffSelectionViewModel(DeviceDetailsViewModel parentViewModel)
 		{
-			Tariffs = new ObservableCollection<Tariff>(DBCash.Tariffs.Where(x => 
+			Tariffs = new ObservableCollection<Tariff>(DbCache.Tariffs.Where(x => 
 				x.TariffType == parentViewModel.TariffType && 
 				x.TariffParts.Count <= parentViewModel.Device.MaxTatiffParts));
 			_emptyTariff = new Tariff { Name = "Открепить от тарифа" };

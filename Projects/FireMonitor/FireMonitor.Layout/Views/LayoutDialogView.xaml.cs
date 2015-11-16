@@ -33,7 +33,7 @@ namespace FireMonitor.Layout.Views
 		private void LayoutDialogView_Loaded(object sender, RoutedEventArgs e)
 		{
 			var layoutDialogViewModel = DataContext as LayoutDialogViewModel;
-			if(layoutDialogViewModel != null)
+			if (layoutDialogViewModel != null)
 			{
 				if (layoutDialogViewModel.Data.CustomPosition)
 				{

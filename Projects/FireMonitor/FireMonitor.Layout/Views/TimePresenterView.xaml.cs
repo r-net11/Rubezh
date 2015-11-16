@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows.Controls;
-using System.Windows.Threading;
+﻿using System.Windows.Controls;
 
 namespace FireMonitor.Layout.Views
 {

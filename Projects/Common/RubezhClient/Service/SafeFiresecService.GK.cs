@@ -41,20 +41,9 @@ namespace RubezhClient
 			return SafeOperationCall(() => FiresecService.GKAutoSearch(device.UID), "GKAutoSearch");
 		}
 
-		public OperationResult<bool> GKUpdateFirmware(GKDevice device, string fileName)
+		public OperationResult<bool> GKUpdateFirmware(GKDevice device, List<byte> firmwareBytes)
 		{
-			return SafeOperationCall(() => FiresecService.GKUpdateFirmware(device.UID, fileName), "GKUpdateFirmware");
-		}
-
-		public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, List<GKDevice> devices)
-		{
-			var deviceUIDs = new List<Guid>();
-			foreach (var device in devices)
-			{
-				deviceUIDs.Add(device.UID);
-			}
-			var result = SafeOperationCall(() => FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, ClientManager.CurrentUser.Name, deviceUIDs), "GKUpdateFirmwareFSCS");
-			return result;
+			return SafeOperationCall(() => FiresecService.GKUpdateFirmware(device.UID, firmwareBytes), "GKUpdateFirmware");
 		}
 
 		public OperationResult<bool> GKSyncronyseTime(GKDevice device)
@@ -115,6 +104,16 @@ namespace RubezhClient
 		public OperationResult<bool> GKWriteMirrorUsers(GKDevice device, List<MirrorUser> mirrorUsers)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKWriteMirrorUsers(device.UID, mirrorUsers); }, "GKWriteMirrorUsers");
+		}
+
+		public OperationResult<List<GKUser>> GetGKUsers(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetGKUsers(deviceUID); }, "GetGKUsers");
+		}
+
+		public OperationResult<bool> WriteAllGKUsers(List<GKUser> users)
+		{
+			return SafeOperationCall(() => { return FiresecService.WriteAllGKUsers(users); }, "GetGKUsers");
 		}
 
 		public OperationResult<List<byte>> GKGKHash(GKDevice device)

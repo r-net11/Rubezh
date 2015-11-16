@@ -33,6 +33,7 @@
 	
 	@Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/libs")
 </head>
 <body>
     <div class="wrapper">
@@ -60,6 +61,20 @@
 
                         </fieldset>
                     </div>
+                </div>
+
+                <div id="question-box" class="save-cancel-popup">
+                    <div class="title-bar">
+                        <span>Оперативная задача Глобал</span>
+                        <a href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Close Window" alt="Close" data-bind="click: QuestionBox.Close" /></a>
+                    </div>
+                    <fieldset class="textbox">
+                        <div>
+                            <label data-bind="text: QuestionBox.Message"></label>
+                        </div>
+                        <button class="submit ok-cancel-button" type="button" data-bind="click: QuestionBox.OnYesClick">Да</button>
+                        <button class="submit ok-cancel-button" type="button" data-bind="click: QuestionBox.Close">Нет</button>
+                    </fieldset>
                 </div>
 
                 <div id="clockbox" class="time"></div>
@@ -99,8 +114,9 @@
                         <a class="group-control" href="#" data-bind="click: MenuClick"><span class="icon group-control"></span><span class="text">Групповой контроллер</span></a>
                         <ul>
                             <li class="state" data-bind="css:{'active': StatePageOpened}"><a href="" data-bind="click: function(data,event) { PageClick(data, event, 'State'); } "><span class="icon state"></span><span class="text">Состояния</span></a></li>
-                            <li><a class="device" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Device'); } "><span class="icon device"></span><span class="text">Устройствар</span></a></li>
+                            <li><a class="device" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Device'); } "><span class="icon device"></span><span class="text">Устройства</span></a></li>
                             <li><a class="params" href=""><span class="icon params"></span><span class="text">Параметры</span></a></li>
+                            <li><a class="params" href="" data-bind="click: function(data,event) { PageClick(data, event, 'FireZones'); } "><span class="icon firezones"></span><span class="text">Пожарные зоны</span></a></li>
                         </ul>
                     </li>
                     <li class="event-log"><a href="" data-bind="click: function(data,event) { PageClick(data, event, 'Report'); }"><span class="icon event-log"></span><span class="text">Журнал событий</span></a></li>
@@ -163,8 +179,11 @@
     <script src="~/Scripts/report.js"></script>
     <script src="~/Scripts/archive.js"></script>
     <script src="~/Scripts/HR.js"></script>
+    <script src="~/Scripts/HrFilter.js"></script>
     <script src="~/Scripts/HrEmployees.js"></script>
     <script src="~/Scripts/EmployeeDetails.js"></script>
+    <script src="~/Scripts/EmployeeCardDetails.js"></script>
+    <script src="~/Scripts/HrEmployeeCards.js"></script>
     <script src="~/Scripts/Main.js"></script>
     <script src="~/Scripts/Clock.js"></script>
     <script src="~/Scripts/tooltips.js"></script>

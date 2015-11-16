@@ -35,7 +35,7 @@ namespace Resurs.ViewModels
 
 		void BildTree()
 		{
-			RootDevice = AddDeviceInternal(DBCash.RootDevice);
+			RootDevice = AddDeviceInternal(DbCache.RootDevice);
 			FillAllDevices();
 		}
 

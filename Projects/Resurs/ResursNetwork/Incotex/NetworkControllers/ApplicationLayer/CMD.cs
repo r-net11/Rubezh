@@ -13,23 +13,23 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// <summary>
         /// Установка нового сетевого адреса счетчика 
         /// </summary>
-        SetNetworkAddress = 0,
+        WriteAddress = 0,
         /// <summary>
         /// Установка нового группового адреса счетчика 
         /// </summary>
-        SetGroupNetworkAddress = 1,
-        /// <summary>
-        /// Установка внутрен-них часов и кален-даря счетчика
-        /// </summary>
-        SetDateTime = 2,
+        WriteGroupAddress = 1,
+		/// <summary>
+		/// Установка внутренних часов и календаря счетчика
+		/// </summary>
+		WriteDateTime = 0x02,
         /// <summary>
         /// Установка лимита мощности
         /// </summary>
-        SetLimitPower = 3,
+        WriteLimitPower = 3,
         /// <summary>
         /// Установка лимита энергии за месяц
         /// </summary>
-        SetLimitPowerPerMonth = 4,
+        WriteLimitPowerPerMonth = 4,
         /// <summary>
         /// Установка флага сезонного времени 
         /// </summary>
@@ -51,9 +51,13 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// </summary>
         SetIndicationMode = 9,
         /// <summary>
-        /// Установка числа действующих тари-фов
+        /// Установка числа действующих тарифов
         /// </summary>
-        SetActiveTariffs,
+        WriteAmountOfActiveTariffs = 0x0A,
+		/// <summary>
+		/// Установка действующего тарифа
+		/// </summary>
+		WriteActiveTariff = 0x0B,
         /// <summary>
         /// Чтение группового адреса счетчика
         /// </summary>
@@ -101,6 +105,6 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
         /// <summary>
         /// Чтение времени последнего отключения напряжения
         /// </summary>
-        ReadLastPowerFailure = 0x21
+        ReadLastPowerFailure = 0x21,
     }
 }

@@ -26,11 +26,8 @@ namespace RubezhAPI
 		OperationResult<GKDevice> GKAutoSearch(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName);
+		OperationResult<bool> GKUpdateFirmware(Guid deviceUID, List<byte> firmwareBytes);
 
-		[OperationContract]
-		OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<Guid> deviceUIDs);
-		
 		[OperationContract]
 		OperationResult<bool> GKSyncronyseTime(Guid deviceUID);
 
@@ -66,6 +63,12 @@ namespace RubezhAPI
 
 		[OperationContract]
 		OperationResult<bool> GKWriteMirrorUsers(Guid gkDeviceUID,List<MirrorUser> mirrorUsers);
+
+		[OperationContract]
+		OperationResult<List<GKUser>> GetGKUsers(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<bool> WriteAllGKUsers(List<GKUser> users);
 
 		[OperationContract]
 		OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID);

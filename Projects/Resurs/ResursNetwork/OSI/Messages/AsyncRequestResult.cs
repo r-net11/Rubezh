@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ResursNetwork.OSI.Messages.Transactions;
 using ResursNetwork.OSI.ApplicationLayer.Devices;
+using ResursAPI.Models;
 
 namespace ResursNetwork.OSI.Messages
 {
@@ -14,20 +15,26 @@ namespace ResursNetwork.OSI.Messages
     {
         #region Fields And Properties
 
-        private bool _Status = false;
-        private Transaction[] _Stack; 
+        bool _status = false;
+        Transaction[] _stack;
+		NetworkRequest _NetworkRequest;
         
         public Transaction[] Stack
         {
-            get { return _Stack; }
+            get { return _stack; }
         }
+
+		public NetworkRequest NetworkCommand
+		{
+			get { return _NetworkRequest; }
+		}
 
         /// <summary>
         /// Возвращает статус сетевой операции
         /// </summary>
         public bool IsCompleted
         {
-            get { return _Status; }
+            get { return _status; }
         }
 
         /// <summary>
@@ -57,12 +64,35 @@ namespace ResursNetwork.OSI.Messages
             }
         }
 
+		/// <summary>
+		/// Возвращает описание ошибки последней выолненной транзакции
+		/// (если сетевая операция ещё активна, то всегда возвращается успешный результат)
+		/// </summary>
+		public TransactionError Error
+		{
+			get
+			{
+				if (!IsCompleted)
+				{
+					return new TransactionError
+					{
+						ErrorCode = TransactionErrorCodes.NoError,
+						Description = String.Empty
+					};
+				}
+				else
+				{
+ 					return LastTransaction.Error;
+				}
+			}
+		}
+
         /// <summary>
         /// Возвращает последнею выполненную сетевую транзакцию
         /// </summary>
         public Transaction LastTransaction
         {
-            get { return _Stack.Length == 0 ? null : _Stack[Stack.Length - 1]; }
+            get { return _stack.Length == 0 ? null : _stack[Stack.Length - 1]; }
         }
 
         /// <summary>
@@ -70,15 +100,25 @@ namespace ResursNetwork.OSI.Messages
         /// </summary>
         public IDevice Sender 
         { 
-            get { return _Stack.Length == 0 ? null : _Stack[0].Sender; } 
+            get { return _stack.Length == 0 ? null : _stack[0].Sender; } 
         }
 
         #endregion
 
         #region Constructors
 
-        public AsyncRequestResult() { }
-        
+		private AsyncRequestResult() { throw new NotImplementedException(); }
+
+		public AsyncRequestResult(NetworkRequest networkCommand)
+		{
+			if (networkCommand == null)
+			{
+				throw new ArgumentNullException("networkCommand", String.Empty);
+			}
+
+			_NetworkRequest = networkCommand;
+		}
+
         #endregion
 
         #region Methods
@@ -87,16 +127,10 @@ namespace ResursNetwork.OSI.Messages
         /// Вызывается при завершении сетевой операции
         /// </summary>
         /// <param name="stack"></param>
-        public void SetCompleted(Transaction[] stack)
+        public void SetCompleted()
         {
-            if (stack == null)
-            {
-                throw new ArgumentNullException("stack", 
-                    "В стеке транзакций сетевой операции должно быть хотябы одна транзакция");
-            }
-
-            _Status = true;
-            _Stack = stack;
+            _status = true;
+            _stack = _NetworkRequest.TransactionsStack;
         }
 
         #endregion

@@ -5,22 +5,19 @@
 		<Style TargetType="TextBlock">
 			<Setter Property="VerticalAlignment" Value="Center"/>
 		</Style>
-		<Style TargetType="Image">
-			<Setter Property="VerticalAlignment" Value="Center"/>
-		</Style>
 	</UserControl.Resources>
-	<StackPanel>
+	<StackPanel MaxWidth="800">
 		<StackPanel Orientation="Horizontal">
-			<Grid Margin="2 0" Width="16" Height="16" Background="{DynamicResource Blue_Direction}" />
+			<Rectangle Margin="2 0" Width="16" Height="16" Fill="{DynamicResource BPumpStation}" />
 			<TextBlock Text="{Binding PumpStation.PresentationName}" FontWeight="Bold" Margin="2 0" />
 		</StackPanel>
-		<TextBlock Text="{Binding PumpStation.Description}" Visibility="{Binding PumpStation.Description, Converter={StaticResource StringToVisibilityConverter}}" />
+		<TextBlock Text="{Binding PumpStation.Description}" Visibility="{Binding PumpStation.Description, Converter={StaticResource StringToVisibilityConverter}}" TextWrapping="Wrap" />
 		<ItemsControl ItemsSource="{Binding State.StateClasses}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
 					<StackPanel Orientation="Horizontal">
 						<Image Source="{Binding ., Converter={StaticResource XStateClassToIconConverter}}" Width="16" Margin="2 0" />
-						<TextBlock Text="{Binding ., Converter={StaticResource XStateClassToStringConverter}}" Margin="2 0" />
+						<TextBlock Text="{Binding ., Converter={StaticResource XStateClassToStringConverter}}" Margin="2 0" VerticalAlignment="Center" />
 					</StackPanel>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>

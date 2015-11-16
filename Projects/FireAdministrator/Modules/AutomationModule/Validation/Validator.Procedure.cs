@@ -148,13 +148,6 @@ namespace AutomationModule.Validation
 					}
 					break;
 
-				case ProcedureStepType.Exit:
-					{
-						var exitArguments = step.ExitArguments;
-						ValidateArgument(step, exitArguments.ExitCodeArgument);
-					}
-					break;
-
 				case ProcedureStepType.SetValue:
 					{
 						var setValueArguments = step.SetValueArguments;
@@ -331,6 +324,8 @@ namespace AutomationModule.Validation
 						Errors.Add(new ProcedureStepValidationError(step, "Не выбран элемент плана", ValidationErrorLevel.CannotSave));
 					break;
 				case ProcedureStepType.ShowDialog:
+					if (step.ShowDialogArguments.Layout == Guid.Empty)
+						Errors.Add(new ProcedureStepValidationError(step, "Не выбран макет", ValidationErrorLevel.CannotSave));
 					break;
 				case ProcedureStepType.GenerateGuid:
 					{

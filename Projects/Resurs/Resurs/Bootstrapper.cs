@@ -15,6 +15,8 @@ using ResursRunner;
 using Microsoft.Win32;
 using Resurs.Views;
 using ResursDAL;
+using ResursAPI;
+using ResursAPI.License;
 
 namespace Resurs
 {
@@ -40,6 +42,14 @@ namespace Resurs
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "JournalEvents/DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Tariffs/DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Deposits/DataTemplates/Dictionary.xaml"));
+
+				LicenseManager.CurrentLicenseInfo = LicenseManager.TryLoad(FolderHelper.GetFile("Resurs.license"));
+				if (LicenseManager.CurrentLicenseInfo == null)
+					BalloonHelper.Show("АРМ Ресурс", "Ошибка лицензии");
+#if DEBUG
+				LicenseManager.CurrentLicenseInfo = new ResursLicenseInfo { DevicesCount = 10 }; //TODO: убрать
+#endif
+
 				try
 				{
 					App.Current.ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown;
@@ -64,7 +74,7 @@ namespace Resurs
 		}
 		public static void Activate(bool showWindow)
 		{
-			if (showWindow && DBCash.CurrentUser == null)
+			if (showWindow && DbCache.CurrentUser == null)
 			{
 				var startupViewModel = new StartupViewModel();
 				if (!DialogService.ShowModalWindow(startupViewModel))

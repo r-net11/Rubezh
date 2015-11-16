@@ -193,7 +193,7 @@ namespace GKModule.ViewModels
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-					alarmPlanViewModel.Direction = Direction;
+					alarmPlanViewModel.GkBaseEntity = Direction;
 					Plans.Add(alarmPlanViewModel);
 					continue;
 				}
@@ -202,7 +202,7 @@ namespace GKModule.ViewModels
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-					alarmPlanViewModel.Direction = Direction;
+					alarmPlanViewModel.GkBaseEntity = Direction;
 					Plans.Add(alarmPlanViewModel);
 				}
 			}

@@ -46,7 +46,7 @@ namespace FireMonitor.Layout.ViewModels
 
 		public LayoutContainer LayoutContainer { get; private set; }
 
-		private double _width;
+		double _width;
 		public double Width
 		{
 			get { return _width; }
@@ -56,7 +56,7 @@ namespace FireMonitor.Layout.ViewModels
 				OnPropertyChanged(() => Width);
 			}
 		}
-		private double _height;
+		double _height;
 		public double Height
 		{
 			get { return _height; }
@@ -66,7 +66,7 @@ namespace FireMonitor.Layout.ViewModels
 				OnPropertyChanged(() => Height);
 			}
 		}
-		private double _minWidth;
+		double _minWidth;
 		public double MinWidth
 		{
 			get { return _minWidth; }
@@ -76,7 +76,7 @@ namespace FireMonitor.Layout.ViewModels
 				OnPropertyChanged(() => MinWidth);
 			}
 		}
-		private double _minHeight;
+		double _minHeight;
 		public double MinHeight
 		{
 			get { return _minHeight; }

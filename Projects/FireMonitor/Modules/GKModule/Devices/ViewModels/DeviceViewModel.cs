@@ -68,9 +68,9 @@ namespace GKModule.ViewModels
 			get
 			{
 				return State != null && (State.StateClass == XStateClass.Fire1 || State.StateClass == XStateClass.Fire2) &&
-				       (Device.Driver.IsAm || Device.Children.Count > 0 &&
-				        !Device.AllChildren.Any(
-					        x => !x.Driver.IsAm && (x.State.StateClass == XStateClass.Fire1 || x.State.StateClass == XStateClass.Fire2)));
+					   (Device.Driver.IsAm || Device.Children.Count > 0 &&
+						!Device.AllChildren.Any(
+							x => !x.Driver.IsAm && (x.State.StateClass == XStateClass.Fire1 || x.State.StateClass == XStateClass.Fire2)));
 			}
 		}
 

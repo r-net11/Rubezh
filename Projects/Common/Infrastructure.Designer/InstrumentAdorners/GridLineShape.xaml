@@ -1,4 +1,8 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Conv="clr-namespace:Controls.Converters;assembly=Controls" xmlns:loc="clr-namespace:Infrastructure.Designer.InstrumentAdorners" xmlns:Painter="clr-namespace:Infrustructure.Plans.Painters;assembly=Infrustructure.Plans">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:Conv="clr-namespace:Controls.Converters;assembly=Controls"
+					xmlns:loc="clr-namespace:Infrastructure.Designer.InstrumentAdorners"
+					xmlns:Painter="clr-namespace:Infrustructure.Plans.Painters;assembly=Infrustructure.Plans">
 
 	<Conv:SwitchConverter x:Key="OrientationCursor">
 		<Conv:SwitchCase Then="SizeNS" When="Horizontal" />

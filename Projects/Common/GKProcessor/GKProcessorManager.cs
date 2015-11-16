@@ -210,25 +210,14 @@ namespace GKProcessor
 			return OperationResult<GKDevice>.FromError(gkAutoSearchHelper.Error, newDevice);
 		}
 
-		public static OperationResult<bool> GKUpdateFirmware(GKDevice device, string fileName, string userName)
+		public static OperationResult<bool> GKUpdateFirmware(GKDevice device, List<byte> firmwareBytes, string userName)
 		{
 			Stop();
 			var firmwareUpdateHelper = new FirmwareUpdateHelper();
-			firmwareUpdateHelper.Update(device, fileName, userName);
+			string updateResult = firmwareUpdateHelper.Update(device, firmwareBytes, userName);
 			Start();
-			if (firmwareUpdateHelper.ErrorList.Count > 0)
-				return OperationResult<bool>.FromError(firmwareUpdateHelper.ErrorList, false);
-			return new OperationResult<bool>(true);
-		}
-
-		public static OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<GKDevice> devices)
-		{
-			Stop();
-			var firmwareUpdateHelper = new FirmwareUpdateHelper();
-			firmwareUpdateHelper.UpdateFSCS(hxcFileInfo, devices, userName);
-			Start();
-			if (firmwareUpdateHelper.ErrorList.Count > 0)
-				return OperationResult<bool>.FromError(firmwareUpdateHelper.ErrorList, false);
+			if (updateResult != null)
+				return OperationResult<bool>.FromError(updateResult, false);
 			return new OperationResult<bool>(true);
 		}
 
@@ -579,14 +568,11 @@ namespace GKProcessor
 					journalObjectType = JournalObjectType.GKDoor;
 				}
 			}
-			DateTime? deviceDateTime = null;
-			if (journalEventNameType != JournalEventNameType.Команда_оператора)
-				deviceDateTime = DateTime.Now;
-
+			
 			var journalItem = new JournalItem
 			{
 				SystemDateTime = DateTime.Now,
-				DeviceDateTime = deviceDateTime,
+				DeviceDateTime = null,
 				JournalObjectType = journalObjectType,
 				JournalEventNameType = journalEventNameType,
 				JournalEventDescriptionType = journalEventDescriptionType,

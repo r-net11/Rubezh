@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO.Ports;
 using System.Timers;
+using ResursNetwork.Modbus;
 using ResursNetwork.OSI.DataLinkLayer;
 using ResursNetwork.OSI.ApplicationLayer;
 using ResursNetwork.OSI.Messages;
@@ -23,11 +24,11 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
         /// <summary>
         /// COM-порт
         /// </summary>
-        private SerialPort _SerialPort;
+        private SerialPort _serialPort;
         /// <summary>
         /// Таймер межкадрового интервала
         /// </summary>
-        private Timer _TimerInterFrameDelay;
+        private Timer _timerInterFrameDelay;
 
         /// <summary>
         /// Наименование порта
@@ -36,11 +37,11 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
         {
             get
             {
-                return _SerialPort.PortName;
+                return _serialPort.PortName;
             }
             set
             {
-                _SerialPort.PortName = value;
+                _serialPort.PortName = value;
             }
         }
 
@@ -49,8 +50,8 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
         /// </summary>
         public int BaudRate
         {
-            get { return _SerialPort.BaudRate; }
-            set { _SerialPort.BaudRate = value; }
+            get { return _serialPort.BaudRate; }
+            set { _serialPort.BaudRate = value; }
         }
 
         /// <summary>
@@ -58,12 +59,12 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
         /// </summary>
         public int DataBits 
         { 
-            get { return _SerialPort.DataBits; }
+            get { return _serialPort.DataBits; }
             set 
             {
                 if ((value == 7) && (value == 8))
                 {
-                    _SerialPort.DataBits = value;
+                    _serialPort.DataBits = value;
                 }
                 else
                 {
@@ -77,8 +78,8 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
         /// </summary>
         public StopBits StopBits
         {
-            get { return _SerialPort.StopBits; }
-            set { _SerialPort.StopBits = value; }
+            get { return _serialPort.StopBits; }
+            set { _serialPort.StopBits = value; }
         }
 
         /// <summary>
@@ -86,8 +87,8 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
         /// </summary>
         public Parity Parity
         {
-            get { return _SerialPort.Parity; }
-            set { _SerialPort.Parity = value; }
+            get { return _serialPort.Parity; }
+            set { _serialPort.Parity = value; }
         }
 
         /// <summary>
@@ -95,8 +96,8 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
         /// </summary>
         public Double SilentInterval
         {
-            get { return _TimerInterFrameDelay.Interval; }
-            set { _TimerInterFrameDelay.Interval = value; }
+            get { return _timerInterFrameDelay.Interval; }
+            set { _timerInterFrameDelay.Interval = value; }
         }
 
         public override InterfaceType InterfaceType
@@ -106,7 +107,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
 
         public override bool IsOpen
         {
-            get { return _SerialPort.IsOpen; }
+            get { return _serialPort.IsOpen; }
         } 
 
         #endregion
@@ -118,19 +119,19 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
         /// </summary>
         public ComPort(): base()
         {
-            _SerialPort = new SerialPort();
-            _SerialPort.DataBits = 8;
-            _SerialPort.Parity = Parity.None;
-            _SerialPort.StopBits = StopBits.One;
-            _SerialPort.BaudRate = 19200;
-            _SerialPort.DataReceived += EventHandler_SerialPort_DataReceived;
-            _SerialPort.ErrorReceived += EventHandler_SerialPort_ErrorReceived;
-            _SerialPort.ReceivedBytesThreshold = 1;
+            _serialPort = new SerialPort();
+            _serialPort.DataBits = 8;
+            _serialPort.Parity = Parity.None;
+            _serialPort.StopBits = StopBits.One;
+            _serialPort.BaudRate = 19200;
+            _serialPort.DataReceived += EventHandler_SerialPort_DataReceived;
+            _serialPort.ErrorReceived += EventHandler_SerialPort_ErrorReceived;
+            _serialPort.ReceivedBytesThreshold = 1;
 
-            _TimerInterFrameDelay = new Timer();
-            _TimerInterFrameDelay.AutoReset = false;
-            _TimerInterFrameDelay.Elapsed += EventHandler_TimerInterFrameDelay_Elapsed;
-            _TimerInterFrameDelay.Interval = 150;
+            _timerInterFrameDelay = new Timer();
+            _timerInterFrameDelay.AutoReset = false;
+            _timerInterFrameDelay.Elapsed += EventHandler_TimerInterFrameDelay_Elapsed;
+            _timerInterFrameDelay.Interval = 150;
         }
 
         #endregion
@@ -151,17 +152,18 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
             // принято.
             List<Byte> list = new List<byte>();
             // Получаем массив байт принятого сообщения
-            while(_SerialPort.BytesToRead != 0)
+            while(_serialPort.BytesToRead != 0)
             {
-                 list.Add((Byte)_SerialPort.ReadByte());
+                 list.Add((Byte)_serialPort.ReadByte());
             }
-            // Проверяем форат сообщения
+            
+			// Проверяем форат сообщения
             // Минимальная длина сообщения 1 байт: 
             //          [ADDR: 4 байта] + [CMD: 1 байт] + [DATA: 0 байт] + [CRC16: 2 байта] = 7 байт
             if (list.Count < 7)
             {
                 //TODO: Ошибка. Создать служебное сообщение об ошибке
-                errMessage = new ServiceErrorMessage()
+                errMessage = new ServiceErrorMessage
                 {
                     SpecificErrorCode = ErrorCode.IncorrectMessageLength,
                     Description = "Неправильная длина сообщения",
@@ -170,17 +172,42 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
                 
                 _InputBuffer.Enqueue(errMessage);
                 OnMessageReceived();
+				return;
             }
+
             // Проверяем CRC16
             var array = new Byte[list.Count - 2];
+			list.CopyTo(0, array, 0, array.Length);
+			if (!CRC16.CheckCRC16(list.ToArray()))
+			{
+				errMessage = new ServiceErrorMessage
+				{
+					SpecificErrorCode = ErrorCode.IncorrectCRC,
+					Description = "Неправильная контрольная сумма",
+					ExecutionTime = DateTime.Now
+				};
+
+				_InputBuffer.Enqueue(errMessage);
+				OnMessageReceived();
+				return;
+			}
+
             // Получаем данные сообщения
+			array = new Byte[list.Count - 7]; // 7 = 5 [adr:4 cmd: 1] + 2 [crc16: 2]
             list.CopyTo(5, array, 0, array.Length);
-            // Получаем адрес устройства
+
+			// Получаем адрес устройства
             UInt32 adr = 0;
-            adr |= ((UInt32)list[3] << 24);
-            adr |= ((UInt32)list[2] << 16);
-            adr |= ((UInt32)list[1] << 8);
-            adr |= list[0];
+			//adr |= ((UInt32)list[3] << 24);
+			//adr |= ((UInt32)list[2] << 16);
+			//adr |= ((UInt32)list[1] << 8);
+			//adr |= list[0];
+
+			var arrayAdr = new Byte[4];
+			list.CopyTo(0, arrayAdr, 0, 4);
+			if (BitConverter.IsLittleEndian)
+				Array.Reverse(arrayAdr);
+			adr = BitConverter.ToUInt32(arrayAdr, 0); 
 
             message = new DataMessage(array) 
             { 
@@ -189,26 +216,10 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
                 CmdCode = list[4],
                 ExecutionTime = DateTime.Now 
             };
-
-            if ((message.CRC16.Low != list[list.Count - 2]) ||
-                (message.CRC16.High != list[list.Count - 1]))
-            {
-                // CRC16 не совпал.
-                errMessage = new ServiceErrorMessage()
-                {
-                    SpecificErrorCode = ErrorCode.IncorrectCRC,
-                    Description = "Принято сообщение с неверной контрольной суммой",
-                    ExecutionTime = DateTime.Now
-                };
-                _InputBuffer.Enqueue(errMessage);
-                OnMessageReceived();
-            }
-            else
-            {
-                // Формируем сообщение и сохраняем его в буфер
-                _InputBuffer.Enqueue(message);
-                OnMessageReceived();
-            }
+			
+			// Формируем сообщение и сохраняем его в буфер
+			_InputBuffer.Enqueue(message);
+			OnMessageReceived();
         }
 
         /// <summary>
@@ -259,14 +270,14 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
         {
             // Сбрасываем межкадровый таймер при приёме очередных данных
             // и запускаем его снова
-            _TimerInterFrameDelay.Stop();
-            _TimerInterFrameDelay.Start();
+            _timerInterFrameDelay.Stop();
+            _timerInterFrameDelay.Start();
         }
 
         public override void Write(IMessage message)
         {
             Byte[] array = message.ToArray();
-            _SerialPort.Write(array, 0, array.Length);
+            _serialPort.Write(array, 0, array.Length);
             // Фиксируем время отправки сообщения
             message.ExecutionTime = DateTime.Now;
         }
@@ -276,7 +287,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
         /// </summary>
         public override void Open()
         {
-            _SerialPort.Open();
+            _serialPort.Open();
         }
 
         /// <summary>
@@ -284,7 +295,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.DataLinkLayer
         /// </summary>
         public override void Close()
         {
-            _SerialPort.Close();
+            _serialPort.Close();
         }
 
         /// <summary>

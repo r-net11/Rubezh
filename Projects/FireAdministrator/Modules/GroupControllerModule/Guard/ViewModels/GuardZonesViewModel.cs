@@ -21,7 +21,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
-	public class GuardZonesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class GuardZonesViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		bool _lockSelection = false;
 		public GuardZoneDevicesViewModel ZoneDevices { get; set; }
@@ -76,10 +76,6 @@ namespace GKModule.ViewModels
 				{
 					ZoneDevices.Initialize(value.Zone);
 				}
-				else
-				{
-					ZoneDevices.Clear();
-				}
 				OnPropertyChanged(() => SelectedZone);
 				if (!_lockSelection && _selectedZone != null && _selectedZone.Zone.PlanElementUIDs != null  && _selectedZone.Zone.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedZone.Zone.PlanElementUIDs);
@@ -105,6 +101,8 @@ namespace GKModule.ViewModels
 				var zoneViewModel = new GuardZoneViewModel(guardZoneDetailsViewModel.Zone);
 				Zones.Add(zoneViewModel);
 				SelectedZone = zoneViewModel;
+				if (Zones.Count() == 1)
+					ZoneDevices.InitializeAvailableDevices(guardZoneDetailsViewModel.Zone);
 				ServiceFactory.SaveService.GKChanged = true;
 				GKPlanExtension.Instance.Cache.BuildSafe<GKGuardZone>();
 				return guardZoneDetailsViewModel;
@@ -131,16 +129,21 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить охранную зону " + SelectedZone.Zone.PresentationName))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить охранную зону " + SelectedZone.Zone.PresentationName + " ?"))
 			{
 				var index = Zones.IndexOf(SelectedZone);
 				GKManager.RemoveGuardZone(SelectedZone.Zone);
-
+				if (SelectedZone.Zone.GuardZoneDevices.Count() > 0 && Zones.Count() != 1)
+				{
+					SelectedZone.Zone.GuardZoneDevices.Clear();
+					ZoneDevices.InitializeAvailableDevices(SelectedZone.Zone);
+				}
 				Zones.Remove(SelectedZone);
 				index = Math.Min(index, Zones.Count - 1);
 				if (index > -1)
 					SelectedZone = Zones[index];
-				ZoneDevices.UpdateAvailableDevices();
+				if (Zones.Count() == 0)
+					ZoneDevices.Clear();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -184,7 +187,7 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedZone.Zone != null)
 			{
-				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedZone.Zone.OutDependentElements);
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedZone.Zone.OutputDependentElements);
 				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}
@@ -215,6 +218,10 @@ namespace GKModule.ViewModels
 		{
 			base.OnShow();
 			SelectedZone = SelectedZone;
+			if (SelectedZone != null)
+				ZoneDevices.InitializeAvailableDevices(SelectedZone.Zone);
+			else
+				ZoneDevices.Clear();
 		}
 
 		#region ISelectable<Guid> Members

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using Common;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhClient;
@@ -21,7 +20,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
-	public class DirectionsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class DirectionsViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public static DirectionsViewModel Current { get; private set; }
 		bool _lockSelection = false;
@@ -39,11 +38,18 @@ namespace GKModule.ViewModels
 			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
 			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
 			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
-
-			IsRightPanelEnabled = true;
 			RegisterShortcuts();
+			IsRightPanelEnabled = true;
 			SubscribeEvents();
 			SetRibbonItems();
+		}
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 		}
 		protected override bool IsRightPanelVisibleByDefault
 		{
@@ -77,8 +83,6 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDirection = value;
-				if (value != null)
-					value.Update();
 				OnPropertyChanged(() => SelectedDirection);
 				if (!_lockSelection && _selectedDirection != null && _selectedDirection.Direction.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDirection.Direction.PlanElementUIDs);
@@ -116,8 +120,8 @@ namespace GKModule.ViewModels
 			var directionDetailsViewModel = new DirectionDetailsViewModel(direction);
 			if (DialogService.ShowModalWindow(directionDetailsViewModel))
 			{
-				GKManager.EditDirection(SelectedDirection.Direction);
 				SelectedDirection.Update();
+				GKManager.EditDirection(SelectedDirection.Direction);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -125,7 +129,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить направление " + SelectedDirection.Direction.PresentationName))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить направление " + SelectedDirection.Direction.PresentationName + " ?"))
 			{
 				var index = Directions.IndexOf(SelectedDirection);
 				GKManager.RemoveDirection(SelectedDirection.Direction);
@@ -185,7 +189,7 @@ namespace GKModule.ViewModels
 			var logicViewModel = new LogicViewModel(SelectedDirection.Direction, _directionToCopy.Logic, true);
 			directionViewModel.Direction.Logic = logicViewModel.GetModel();
 			directionViewModel.Direction.No = (ushort)(GKManager.Directions.Select(x => x.No).Max() + 1);
-			directionViewModel.Direction.Invalidate();
+			directionViewModel.Direction.Invalidate(GKManager.DeviceConfiguration);
 			GKManager.AddDirection(directionViewModel.Direction);
 			Directions.Add(directionViewModel);
 			SelectedDirection = directionViewModel;
@@ -194,7 +198,7 @@ namespace GKModule.ViewModels
 
 		bool CanPaste()
 		{
-			return _directionToCopy != null;
+			return _directionToCopy != null && SelectedDirection!= null;
 		}
 
 		public RelayCommand CopyLogicCommand { get; private set; }
@@ -218,7 +222,7 @@ namespace GKModule.ViewModels
 			if (messageBoxResult)
 			{
 				SelectedDirection.Direction.Logic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, true));
-				SelectedDirection.Direction.Invalidate();
+				SelectedDirection.Direction.Invalidate(GKManager.DeviceConfiguration);
 				SelectedDirection.Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -240,7 +244,7 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedDirection != null)
 			{
-				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedDirection.Direction.OutDependentElements);
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedDirection.Direction.OutputDependentElements);
 				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}
@@ -330,15 +334,6 @@ namespace GKModule.ViewModels
 				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 		}
 		#endregion
-
-		void RegisterShortcuts()
-		{
-			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.C, ModifierKeys.Control), CopyCommand);
-			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.V, ModifierKeys.Control), PasteCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-		}
 
 		void SubscribeEvents()
 		{

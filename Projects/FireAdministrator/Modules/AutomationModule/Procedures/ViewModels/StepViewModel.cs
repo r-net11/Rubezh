@@ -71,10 +71,6 @@ namespace AutomationModule.ViewModels
 					Content = new ProcedureSelectionStepViewModel(this);
 					break;
 
-				case ProcedureStepType.Exit:
-					Content = new ExitStepViewModel(this);
-					break;
-
 				case ProcedureStepType.SetValue:
 					Content = new SetValueStepViewModel(this);
 					break;

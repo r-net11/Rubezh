@@ -105,7 +105,6 @@ namespace SecurityModule.ViewModels
 									new PermissionViewModel(PermissionType.Oper_Door_Control),
 									new PermissionViewModel(PermissionType.Oper_Full_Door_Control),
 								}),
-								new PermissionViewModel(PermissionType.Oper_Door_Control),
 								new PermissionViewModel(PermissionType.Oper_MPT_Control),
 								new PermissionViewModel(PermissionType.Oper_PIM_Control),
 								new PermissionViewModel(PermissionType.Oper_Delay_Control),
@@ -117,6 +116,7 @@ namespace SecurityModule.ViewModels
 									new PermissionViewModel("Конфигурация", new List<PermissionViewModel>()
 										{
 											new PermissionViewModel(PermissionType.Oper_Reports_Doors),
+											new PermissionViewModel(PermissionType.Oper_Reports_Mirror),
 										}),
 									new PermissionViewModel("События", new List<PermissionViewModel>()
 										{
@@ -150,7 +150,6 @@ namespace SecurityModule.ViewModels
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_Employees_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_Employees_Edit),
-												new PermissionViewModel(PermissionType.Oper_SKD_Employees_Edit_CardType),
 											}),
 											new PermissionViewModel("Посетители", new List<PermissionViewModel>()
 											{
@@ -176,6 +175,7 @@ namespace SecurityModule.ViewModels
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_Cards_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_Cards_Etit),
+												new PermissionViewModel(PermissionType.Oper_SKD_Employees_Edit_CardType),
 											}),
 											new PermissionViewModel("Шаблоны доступа", new List<PermissionViewModel>()
 											{

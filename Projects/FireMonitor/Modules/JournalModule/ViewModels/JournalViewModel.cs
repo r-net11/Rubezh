@@ -14,21 +14,29 @@ using JournalModule.Events;
 using Infrastructure.Common.Services.Layout;
 using System.Windows.Threading;
 using System;
+using Infrastructure.Common;
 
 namespace JournalModule.ViewModels
 {
 	public class JournalViewModel : ViewPartViewModel, ILayoutPartContent
 	{
-		private int _unreadCount;
-		public JournalFilter JournalFilter { get; private set; }
+		static int counter;
+		bool isFirstInstance;
+		int _unreadCount;
+		public bool IsShowButtons { get; private set; }
+		public JournalFilter Filter { get; private set; }
 
 		public JournalViewModel(JournalFilter journalFilter = null)
 		{
 			_unreadCount = 0;
-			JournalFilter = journalFilter;
-			if (JournalFilter == null)
-				JournalFilter = new JournalFilter();
+			Filter = journalFilter;
+			if (Filter == null)
+			{
+				Filter = new JournalFilter();
+				IsShowButtons = true;
+			}
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
+			ShowFilterCommand = new RelayCommand(OnShowFilter);
 		}
 
 		public void Initialize()
@@ -37,17 +45,25 @@ namespace JournalModule.ViewModels
 			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournalItems);
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
+			if (counter == 0)
+				isFirstInstance = true;
+			counter++;
 		}
 
-		public void SetJournalItems(List<JournalItem> journalItems)
+		public void SetJournalItems()
 		{
-			JournalItems = new ObservableCollection<JournalItemViewModel>();
-			foreach (var journalItem in journalItems)
+			
+			var result = ClientManager.FiresecService.GetFilteredJournalItems(Filter);
+			if (!result.HasError)
 			{
-				var journalItemViewModel = new JournalItemViewModel(journalItem);
-				JournalItems.Add(journalItemViewModel);
+				JournalItems = new ObservableCollection<JournalItemViewModel>();
+				foreach (var journalItem in result.Result)
+				{
+					var journalItemViewModel = new JournalItemViewModel(journalItem);
+					JournalItems.Add(journalItemViewModel);
+				}
+				SelectedJournal = JournalItems.FirstOrDefault();
 			}
-			SelectedJournal = JournalItems.FirstOrDefault();
 		}
 
 		ObservableCollection<JournalItemViewModel> _journalItems;
@@ -76,15 +92,15 @@ namespace JournalModule.ViewModels
 		{
 			foreach (var journalItem in journalItems)
 			{
-				if (JournalFilter.JournalSubsystemTypes.Count > 0 && !JournalFilter.JournalSubsystemTypes.Contains(journalItem.JournalSubsystemType))
+				if (Filter.JournalSubsystemTypes.Count > 0 && !Filter.JournalSubsystemTypes.Contains(journalItem.JournalSubsystemType))
 					continue;
-				if (JournalFilter.JournalEventNameTypes.Count > 0 && !JournalFilter.JournalEventNameTypes.Contains(journalItem.JournalEventNameType))
+				if (Filter.JournalEventNameTypes.Count > 0 && !Filter.JournalEventNameTypes.Contains(journalItem.JournalEventNameType))
 					continue;
-				if (JournalFilter.JournalEventDescriptionTypes.Count > 0 && !JournalFilter.JournalEventDescriptionTypes.Contains(journalItem.JournalEventDescriptionType))
+				if (Filter.JournalEventDescriptionTypes.Count > 0 && !Filter.JournalEventDescriptionTypes.Contains(journalItem.JournalEventDescriptionType))
 					continue;
-				if (JournalFilter.JournalObjectTypes.Count > 0 && !JournalFilter.JournalObjectTypes.Contains(journalItem.JournalObjectType))
+				if (Filter.JournalObjectTypes.Count > 0 && !Filter.JournalObjectTypes.Contains(journalItem.JournalObjectType))
 					continue;
-				if (JournalFilter.ObjectUIDs.Count > 0 && !JournalFilter.ObjectUIDs.Contains(journalItem.ObjectUID))
+				if (Filter.ObjectUIDs.Count > 0 && !Filter.ObjectUIDs.Contains(journalItem.ObjectUID))
 					continue;
 
 				var existingJournalItem = JournalItems.FirstOrDefault(x => x.JournalItem.UID == journalItem.UID);
@@ -102,8 +118,8 @@ namespace JournalModule.ViewModels
 				else
 					JournalItems.Add(journalItemViewModel);
 
-				if (JournalItems.Count > JournalFilter.LastItemsCount)
-					JournalItems.RemoveAt(JournalFilter.LastItemsCount);
+				if (JournalItems.Count > Filter.LastItemsCount)
+					JournalItems.RemoveAt(Filter.LastItemsCount);
 
 				if (ClientManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
 				{
@@ -111,8 +127,11 @@ namespace JournalModule.ViewModels
 						(journalItemViewModel.StateClass == XStateClass.Fire1 || journalItemViewModel.StateClass == XStateClass.Fire2 || journalItemViewModel.StateClass == XStateClass.Attention)) ||
 						((journalItem.JournalObjectType == JournalObjectType.GKGuardZone || journalItem.JournalObjectType == JournalObjectType.GKDoor) && journalItemViewModel.StateClass == XStateClass.Fire1))
 					{
-						var confirmationViewModel = new ConfirmationViewModel(journalItem);
-						DialogService.ShowWindow(confirmationViewModel);
+						if (isFirstInstance)
+						{
+							var confirmationViewModel = new ConfirmationViewModel(journalItem);
+							DialogService.ShowWindow(confirmationViewModel); 
+						}
 					}
 				}
 			}
@@ -175,6 +194,26 @@ namespace JournalModule.ViewModels
 		private string GetDefaultTitle()
 		{
 			return Container.LayoutPart.Title ?? Container.LayoutPartPresenter.Name;
+		}
+
+		public RelayCommand ShowFilterCommand { get; private set; }
+		void OnShowFilter()
+		{
+			ArchiveFilterViewModel archiveFilterViewModel = null;
+
+			var result = WaitHelper.Execute(() =>
+			{
+				archiveFilterViewModel = new ArchiveFilterViewModel(Filter, false);
+			});
+
+			if (result)
+			{
+				if (DialogService.ShowModalWindow(archiveFilterViewModel))
+				{
+					Filter = archiveFilterViewModel.GetModel();
+					SetJournalItems();
+				}
+			}
 		}
 	}
 }

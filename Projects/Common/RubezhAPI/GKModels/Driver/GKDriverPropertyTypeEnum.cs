@@ -5,6 +5,6 @@
 		EnumType,
 		StringType,
 		IntType,
-		BoolType
+		BoolType,
 	}
 }

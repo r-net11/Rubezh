@@ -30,7 +30,12 @@ namespace GKWebService
             bundles.Add(new ScriptBundle("~/bundles/shapesApp").Include(
                       "~/Scripts/app/app.js",
                       "~/Scripts/app/controllers/planCtrl.js",
-                      "~/Scripts/app/directives/d3Plan.js"));
+                      "~/Scripts/app/controllers/signalrCtrl.js",
+                      "~/Scripts/app/directives/d3Plan.js",
+                      "~/Scripts/app/services/signalrService.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/fireZones").Include(
+                      "~/Scripts/app/controllers/firezonesCtrl.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

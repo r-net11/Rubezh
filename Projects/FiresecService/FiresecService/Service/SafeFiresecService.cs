@@ -9,7 +9,8 @@ using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhAPI.Models;
-using FiresecLicense;
+using RubezhLicense;
+using RubezhAPI.License;
 
 namespace FiresecService.Service
 {
@@ -148,10 +149,10 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.Test(arg); }, "Test");
 		}
 
-        public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
-        {
-            return SafeOperationCall(() => { return FiresecService.GetLicenseInfo(); }, "GetLicenseInfo");
-        }
+		public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetLicenseInfo(); }, "GetLicenseInfo");
+		}
 
 		#region Journal
 		public OperationResult<DateTime> GetMinJournalDateTime()
@@ -167,12 +168,12 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
 		}
 
-		public OperationResult<List<JournalItem>> GetArchivePage(ArchiveFilter filter, int page)
+		public OperationResult<List<JournalItem>> GetArchivePage(JournalFilter filter, int page)
 		{
 			return SafeContext.Execute<OperationResult<List<JournalItem>>>(() => FiresecService.GetArchivePage(filter, page));
 		}
 
-		public OperationResult<int> GetArchiveCount(ArchiveFilter filter)
+		public OperationResult<int> GetArchiveCount(JournalFilter filter)
 		{
 			return SafeContext.Execute<OperationResult<int>>(() => FiresecService.GetArchiveCount(filter));
 		}
@@ -210,15 +211,9 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKAutoSearch(deviceUID); }, "GKAutoSearch");
 		}
 
-		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName)
+		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, List<byte> firmwareBytes)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKUpdateFirmware(deviceUID, fileName); }, "GKUpdateFirmware");
-		}
-
-		public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<Guid> deviceUIDs)
-		{
-			var result = SafeOperationCall(() => { return FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, userName, deviceUIDs); }, "GKUpdateFirmwareFSCS");
-			return result;
+			return SafeOperationCall(() => { return FiresecService.GKUpdateFirmware(deviceUID, firmwareBytes); }, "GKUpdateFirmware");
 		}
 
 		public OperationResult<bool> GKSyncronyseTime(Guid deviceUID)
@@ -279,6 +274,16 @@ namespace FiresecService.Service
 		public OperationResult<bool> GKWriteMirrorUsers(Guid deviceUID, List<MirrorUser> mirrorUsers)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKWriteMirrorUsers(deviceUID, mirrorUsers); }, "GKWriteMirrorUsers");
+		}
+
+		public OperationResult<List<GKUser>> GetGKUsers(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetGKUsers(deviceUID); }, "GetGKUsers");
+		}
+
+		public OperationResult<bool> WriteAllGKUsers(List<GKUser> users)
+		{
+			return SafeOperationCall(() => { return FiresecService.WriteAllGKUsers(users); }, "WriteAllGKUsers");
 		}
 
 		public OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID)

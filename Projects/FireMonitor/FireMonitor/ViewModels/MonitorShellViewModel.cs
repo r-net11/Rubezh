@@ -22,6 +22,7 @@ namespace FireMonitor.ViewModels
 			: base(clientType)
 		{
 			Title = "Оперативная задача Глобал";
+			Icon = @"..\Monitor.ico";
 			Toolbar = new ToolbarViewModel();
 			Height = 700;
 			Width = 1100;
@@ -72,7 +73,7 @@ namespace FireMonitor.ViewModels
 				}
 				return false;
 			}
-			return !ServiceFactory.SecurityService.Validate();
+			return !ServiceFactory.SecurityService.Validate(false);
 		}
 		public override void OnClosed()
 		{

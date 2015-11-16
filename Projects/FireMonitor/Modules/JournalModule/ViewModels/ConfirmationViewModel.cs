@@ -33,6 +33,7 @@ namespace JournalModule.ViewModels
 			journalItem.JournalEventNameType = JournalEventNameType.Подтверждение_тревоги;
 			journalItem.DescriptionText = JournalItemViewModel.Name + " " + JournalItemViewModel.Description + " (время реакции " + deltaSeconds.ToString() + " сек)";
 			ClientManager.FiresecService.AddJournalItem(journalItem);
+			AlarmPlayerHelper.Stop();
 		}
 	}
 }

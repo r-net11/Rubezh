@@ -1,23 +1,20 @@
-﻿using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
 using ResursDAL;
-using System;
-using System.Collections.ObjectModel;
 using System.Collections.Generic;
-using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace Resurs.ViewModels
 {
 	class TariffDevicesViewModel : SaveCancelDialogViewModel
 	{
-		public TariffDevicesViewModel(TariffDetailsViewModel tariff)
+		public TariffDevicesViewModel(Tariff tariff)
 		{
-			_tariff = tariff.Tariff;
+			_tariff = tariff;
 			Title = "Выбор счётчиков для привязки";
 			Devices = new ObservableCollection<TariffDeviceViewModel>();
-			GetAllDevices(ResursDAL.DBCash.RootDevice);
-			SelectedDevices = new ObservableCollection<TariffDeviceViewModel>();
+			GetAllDevices();
+			SelectedDevices = new List<TariffDeviceViewModel>();
 
 			foreach (var device in Devices)
 			{
@@ -35,24 +32,20 @@ namespace Resurs.ViewModels
 			}
 		}
 		Tariff _tariff;
-		public ObservableCollection<TariffDeviceViewModel> Devices { get; set; }
+		public ObservableCollection<TariffDeviceViewModel> Devices { get; private set; }
 
-		public ObservableCollection<TariffDeviceViewModel> SelectedDevices { get; set; }
+		public List<TariffDeviceViewModel> SelectedDevices { get; private set; }
 
-		void GetAllDevices(Device parent)
+		void GetAllDevices()
 		{
-			foreach (var child in parent.Children)
+			foreach (var device in DbCache.Devices)
 			{
-				if (child.DeviceType == DeviceType.Counter)
+				if (device.DeviceType == DeviceType.Counter)
 				{
-					if (child.TariffType == _tariff.TariffType)
+					if (device.TariffType == _tariff.TariffType)
 					{
-						Devices.Add(new TariffDeviceViewModel(child));
+						Devices.Add(new TariffDeviceViewModel(device));
 					}
-				}
-				else
-				{
-					GetAllDevices(child);
 				}
 			}
 		}

@@ -3,16 +3,21 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:automation="clr-namespace:RubezhAPI.Automation;assembly=RubezhAPI">
 
-	<XDataGrid
-		CanUserSortColumns="True"
-		ItemsSource="{Binding GlobalVariables}"
-		SelectedItem="{Binding SelectedGlobalVariable}"
-		IsReadOnly="False">
+	<DataGrid CanUserSortColumns="True" ItemsSource="{Binding GlobalVariables}" SelectedItem="{Binding SelectedGlobalVariable}" IsReadOnly="False">
+		<DataGrid.InputBindings>
+			<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
+		</DataGrid.InputBindings>
+		<DataGrid.ContextMenu>
+			<ContextMenu>
+				<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить (Ctrl+N)" />
+				<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete" Text="Удалить (Ctrl+Del)" />
+				<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BSettings" Text="Редактировать (Ctrl+E)" />
+			</ContextMenu>
+		</DataGrid.ContextMenu>
 		<DataGrid.Columns>
-			<DataGridTemplateColumn 
-				Header="Имя"
-				SortMemberPath="Variable.Name"
-				Width="*">
+			<DataGridTemplateColumn Header="Имя"
+									SortMemberPath="Variable.Name"
+									Width="*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
@@ -44,5 +49,5 @@
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
 		</DataGrid.Columns>
-	</XDataGrid>
+	</DataGrid>
 </UserControl>

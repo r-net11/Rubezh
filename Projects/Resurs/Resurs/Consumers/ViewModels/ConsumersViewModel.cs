@@ -98,7 +98,7 @@ namespace Resurs.ViewModels
 			if (DialogService.ShowModalWindow(consumerDetailsViewModel))
 			{
 				var consumer = consumerDetailsViewModel.GetConsumer();
-				DBCash.SaveConsumer(consumer);
+				DbCache.SaveConsumer(consumer);
 				var consumerViewModel = new ConsumerViewModel(consumer);
 				if (SelectedConsumer.Consumer.IsFolder)
 				{
@@ -112,13 +112,13 @@ namespace Resurs.ViewModels
 				}
 				AllConsumers.Add(consumerViewModel);
 				SelectedConsumer = consumerViewModel;
-				DBCash.AddJournalForUser(JournalType.AddConsumer, SelectedConsumer.Consumer);
+				DbCache.AddJournalForUser(JournalType.AddConsumer, SelectedConsumer.Consumer);
 				UpdateDeviceViewModels(null, SelectedConsumer.GetConsumer());
 			}
 		}
 		bool CanAdd()
 		{
-			return SelectedConsumer != null && DBCash.CheckPermission(PermissionType.EditConsumer);
+			return SelectedConsumer != null && DbCache.CheckPermission(PermissionType.EditConsumer);
 		}
 
 		public RelayCommand AddFolderCommand { get; private set; }
@@ -132,12 +132,12 @@ namespace Resurs.ViewModels
 				SelectedConsumer.IsExpanded = true;
 				AllConsumers.Add(consumerViewModel);
 				SelectedConsumer = consumerViewModel;
-				DBCash.AddJournalForUser(JournalType.AddConsumer, SelectedConsumer.Consumer, "Добавление группы абонентов");
+				DbCache.AddJournalForUser(JournalType.AddConsumer, SelectedConsumer.Consumer, "Добавление группы абонентов");
 			}
 		}
 		bool CanAddFolder()
 		{
-			return SelectedConsumer != null && SelectedConsumer.Consumer.IsFolder && DBCash.CheckPermission(PermissionType.EditConsumer);
+			return SelectedConsumer != null && SelectedConsumer.Consumer.IsFolder && DbCache.CheckPermission(PermissionType.EditConsumer);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -154,15 +154,15 @@ namespace Resurs.ViewModels
 				var newConsumer = SelectedConsumer.Consumer.IsFolder ?
 					((ConsumersFolderDetailsViewModel)dialogViewModel).GetConsumer() :
 					((ConsumerDetailsViewModel)dialogViewModel).GetConsumer();
-				DBCash.SaveConsumer(newConsumer);
+				DbCache.SaveConsumer(newConsumer);
 				SelectedConsumer.Update(newConsumer);
-				DBCash.AddJournalForUser(JournalType.EditConsumer, newConsumer);
+				DbCache.AddJournalForUser(JournalType.EditConsumer, newConsumer);
 				UpdateDeviceViewModels(oldConsumer, newConsumer);
 			}
 		}
 		bool CanEdit()
 		{
-			return SelectedConsumer != null && DBCash.CheckPermission(PermissionType.EditConsumer);
+			return SelectedConsumer != null && DbCache.CheckPermission(PermissionType.EditConsumer);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -180,13 +180,13 @@ namespace Resurs.ViewModels
 				var parent = selectedConsumer.Parent;
 				if (parent != null)
 				{
-					DBCash.DeleteConsumer(selectedConsumer.Consumer);
+					DbCache.DeleteConsumer(selectedConsumer.Consumer);
 
 					var index = selectedConsumer.VisualIndex;
 					parent.Nodes.Remove(selectedConsumer);
 					index = Math.Min(index, parent.ChildrenCount - 1);
 					SelectedConsumer = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
-					DBCash.AddJournalForUser(JournalType.DeleteConsumer, selectedConsumer.Consumer);
+					DbCache.AddJournalForUser(JournalType.DeleteConsumer, selectedConsumer.Consumer);
 					UpdateDeviceViewModels(selectedConsumer.GetConsumer(), null);
 				}
 			}
@@ -194,7 +194,7 @@ namespace Resurs.ViewModels
 
 		bool CanRemove()
 		{
-			return SelectedConsumer != null && SelectedConsumer.Parent != null && DBCash.CheckPermission(PermissionType.EditConsumer);
+			return SelectedConsumer != null && SelectedConsumer.Parent != null && DbCache.CheckPermission(PermissionType.EditConsumer);
 		}
 
 		public RelayCommand ChangeParentCommand { get; private set; }
@@ -206,10 +206,10 @@ namespace Resurs.ViewModels
 				var parentConsumerViewModel = AllConsumers.FirstOrDefault(x => x.Consumer.UID == selectConsumerViewModel.SelectedConsumer.Consumer.UID);
 				if (parentConsumerViewModel != null)
 				{
-					SelectedConsumer.Consumer = DBCash.GetConsumer(SelectedConsumer.Consumer.UID);
+					SelectedConsumer.Consumer = DbCache.GetConsumer(SelectedConsumer.Consumer.UID);
 					SelectedConsumer.Consumer.ParentUID = selectConsumerViewModel.SelectedConsumer.Consumer.UID;
 
-					DBCash.SaveConsumer(SelectedConsumer.Consumer);
+					DbCache.SaveConsumer(SelectedConsumer.Consumer);
 
 					var consumerViewModel = SelectedConsumer;
 					SelectedConsumer.Parent.RemoveChild(SelectedConsumer);
@@ -218,7 +218,7 @@ namespace Resurs.ViewModels
 					consumerViewModel.ExpandToThis();
 
 					SelectedConsumer = consumerViewModel;
-					DBCash.AddJournalForUser(JournalType.EditConsumer, 
+					DbCache.AddJournalForUser(JournalType.EditConsumer, 
 						SelectedConsumer.Consumer, 
 						string.Format("Перемещение в группу \"{0}\"", selectConsumerViewModel.SelectedConsumer.Consumer.Name));
 				}
@@ -227,11 +227,11 @@ namespace Resurs.ViewModels
 
 		bool CanChangeParent()
 		{
-			return SelectedConsumer != null && SelectedConsumer.Parent != null && DBCash.CheckPermission(PermissionType.EditConsumer);
+			return SelectedConsumer != null && SelectedConsumer.Parent != null && DbCache.CheckPermission(PermissionType.EditConsumer);
 		}
 		public bool IsVisible
 		{
-			get { return DBCash.CheckPermission(PermissionType.ViewConsumer); }
+			get { return DbCache.CheckPermission(PermissionType.ViewConsumer); }
 		}
 
 		void UpdateDeviceViewModels(Consumer oldConsumer, Consumer newConsumer)
@@ -259,7 +259,7 @@ namespace Resurs.ViewModels
 					{
 						deviceViewModel.Device.Consumer = null;
 						deviceViewModel.Device.ConsumerUID = null;
-						DBCash.AddJournalForUser(JournalType.EditDevice, deviceViewModel.Device, string.Format("Разорвана связь с лицевым счетом [{0}]{1}", oldConsumer.Number, oldConsumer.Name));
+						DbCache.AddJournalForUser(JournalType.EditDevice, deviceViewModel.Device, string.Format("Разорвана связь с лицевым счетом [{0}]{1}", oldConsumer.Number, oldConsumer.Name));
 					}
 				}
 
@@ -271,7 +271,7 @@ namespace Resurs.ViewModels
 					{
 						deviceViewModel.Device.Consumer = newConsumer;
 						deviceViewModel.Device.ConsumerUID = newConsumer.UID;
-						DBCash.AddJournalForUser(JournalType.EditDevice, deviceViewModel.Device, string.Format("Добавлена связь с лицевым счетом [{0}]{1}", newConsumer.Number, newConsumer.Name));
+						DbCache.AddJournalForUser(JournalType.EditDevice, deviceViewModel.Device, string.Format("Добавлена связь с лицевым счетом [{0}]{1}", newConsumer.Number, newConsumer.Name));
 					}
 				}
 		}

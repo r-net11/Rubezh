@@ -1,5 +1,10 @@
-﻿function HRViewModel() {
+﻿function HRViewModel(parentViewModel) {
     var self = {};
+
+    self.ParentViewModel = parentViewModel;
+
+    self.Init = function () {
+    };
 
     self.hrPages = {
         Employees: ko.observable(true),
@@ -12,6 +17,13 @@
         Organisations: ko.observable(false)
     };
 
+    self.ParentViewModel.pages["HR"].subscribe(function (newValue) {
+        if (newValue) {
+            self.Init();
+            self.InitializeEmployeeFilter(self.Filter);
+        }
+    });
+
     self.SelectedPersonType = ko.observable("Employee");
 
     self.EmployeesHeader = ko.computed(function () {
@@ -19,14 +31,15 @@
     }, self);
 
     self.PersonTypeChanged = function(obj, event) {
-        self.Employees.Init();
+        self.InitializeEmployeeFilter(self.Filter);
     };
 
-    self.VisibleChanged = function(obj, event) {
-        alert("asdasd");
+    self.InitializeEmployeeFilter = function(filter) {
+        filter.PersonType(self.SelectedPersonType());
+        self.Employees.Init(filter);
     };
 
-    self.HrPageClick = function (data, e, page) {
+    self.HrPageClick = function(data, e, page) {
         for (var propertyName in self.hrPages) {
             self.hrPages[propertyName](false);
         }
@@ -34,7 +47,12 @@
         self.hrPages[page](!self.hrPages[page]());
         $('div#HR li').removeClass("active");
         $(e.currentTarget).parent().addClass("active");
-    }
+    };
+
+    self.EditFilter = function (data, e, box) {
+        self.Filter.InitFilter();
+        ShowBox(box);
+    };
 
     return self;
 }

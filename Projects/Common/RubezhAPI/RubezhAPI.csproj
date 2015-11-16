@@ -175,6 +175,9 @@
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\JournalDetalisationItem.cs" />
     <Compile Include="Journal\JournalItemsCollection.cs" />
+    <Compile Include="License\FiresecLicenseInfo.cs" />
+    <Compile Include="License\LicenseManager.cs" />
+    <Compile Include="License\LicenseMode.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="Models\Automation\Argument.cs" />
     <Compile Include="Models\Automation\ContextType.cs" />
@@ -233,7 +236,6 @@
     <Compile Include="Models\Automation\ObjectType.cs" />
     <Compile Include="Models\Automation\ScheduleProcedure.cs" />
     <Compile Include="Models\Automation\StepArguments\ArithmeticArguments.cs" />
-    <Compile Include="Models\Automation\StepArguments\ExitArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\FindObjectArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ForeachArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\PauseArguments.cs" />
@@ -248,6 +250,7 @@
     <Compile Include="Models\Automation\VariableScope.cs" />
     <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\ExplicitType.cs" />
+    <Compile Include="Models\Layouts\LayoutPartAdditionalProperties.cs" />
     <Compile Include="Models\Plans\ElementPolygonGKDelay.cs" />
     <Compile Include="Models\Layouts\LayoutPartTextProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartTimeProperties.cs" />
@@ -385,7 +388,7 @@
     <Compile Include="SKD\TimeTrack\ScheduleScheme.cs" />
     <Compile Include="SKD\Employee\ShortEmployee.cs" />
     <Compile Include="SKD\Employee\PersonType.cs" />
-    <Compile Include="Journal\ArchiveFilter.cs" />
+    <Compile Include="Journal\JournalFilter.cs" />
     <Compile Include="SKD\Organisation\OrganisationFilter.cs" />
     <Compile Include="SKD\Common\OrganisationFilterBase.cs" />
     <Compile Include="SKD\Organisation\Organisation.cs" />
@@ -429,7 +432,6 @@
     <Compile Include="Models\Plans\ElementRectangleGKDirection.cs" />
     <Compile Include="Models\Plans\PlanFolder.cs" />
     <Compile Include="SKD\Card\AccessTemplate.cs" />
-    <Compile Include="Journal\JournalFilter.cs" />
     <Compile Include="VersionedConfiguration.cs" />
     <Compile Include="Models\Plans\ElementPolygonGKZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleGKZone.cs" />
@@ -556,13 +558,13 @@
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FiresecLicense\FiresecLicense.csproj">
-      <Project>{e6d24912-812b-42b4-b6b0-97ca33c0f4af}</Project>
-      <Name>FiresecLicense</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Infrustructure.Plans\Infrustructure.Plans.csproj">
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RubezhLicense\RubezhLicense.csproj">
+      <Project>{e6d24912-812b-42b4-b6b0-97ca33c0f4af}</Project>
+      <Name>RubezhLicense</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

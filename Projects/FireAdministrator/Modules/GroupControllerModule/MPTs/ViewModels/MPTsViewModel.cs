@@ -19,7 +19,7 @@ using RubezhAPI.GK;
 
 namespace GKModule.ViewModels
 {
-	public class MPTsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class MPTsViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		bool _lockSelection = false;
 
@@ -129,7 +129,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить МПТ " + SelectedMPT.MPT.Name))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить МПТ " + SelectedMPT.MPT.PresentationName + " ?"))
 			{
 				foreach (var mptDevice in SelectedMPT.MPT.MPTDevices)
 				{
@@ -193,7 +193,7 @@ namespace GKModule.ViewModels
 			{
 				SelectedMPT.MPT.MptLogic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, true));
 				SelectedMPT.Update();
-				SelectedMPT.MPT.Invalidate();
+				SelectedMPT.MPT.Invalidate(GKManager.DeviceConfiguration);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -209,7 +209,7 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedMPT != null)
 			{
-				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedMPT.MPT.OutDependentElements);
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedMPT.MPT.OutputDependentElements);
 				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}

@@ -15,6 +15,7 @@ using ResursNetwork.OSI.Messages.Transactions;
 using ResursNetwork.Management;
 using ResursNetwork.Incotex.Models;
 using ResursNetwork.Networks;
+using ResursAPI;
 using ResursAPI.Models;
 using ResursAPI.CommandNames;
 using ResursAPI.ParameterNames;
@@ -27,8 +28,8 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 
 		const int MIN_POLLING_PERIOD = 1000;
 
-		static DeviceType[] _suppotedDevices =
-			new DeviceType[] { DeviceType.VirtualMercury203 };
+		static DeviceModel[] _suppotedDevices =
+			new DeviceModel[] { DeviceModel.VirtualMercury203 };
 
         Guid _id = Guid.NewGuid();
         DevicesCollection _devices;
@@ -38,6 +39,17 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 		Task _networkPollingTask;
 		int _pollingPeriod;
 		NetworkControllerErrors _Errors;
+		int _requestTimeout = 2000; // Значение по умолчанию
+
+		#region нужен только для отладки
+
+		int _bautRate = 9600;
+		int _broadcastRequestDelay = 2000;
+		string _portName = "VIRTUAL COM1";
+	
+		#endregion
+
+
 
         public Guid Id
         {
@@ -51,7 +63,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             }
         }
 
-        public IEnumerable<DeviceType> SuppotedDevices
+        public IEnumerable<DeviceModel> SuppotedDevices
         {
             get { return _suppotedDevices; }
         }
@@ -63,7 +75,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 
         public IDataLinkPort Connection
         {
-            get { throw new NotImplementedException(); }
+            get { return _connection; }
             set 
             {                
                 if (Status == Status.Running)
@@ -230,13 +242,35 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 			throw new NotImplementedException();
 		}
 
-        public void SyncDateTime()
+        public void SyncDateTime(ValueType groupAddress)
         {
-			foreach (var device in _devices)
+			uint gadr = Convert.ToUInt32(groupAddress);
+			var dt = DateTime.Now;
+
+			var devices = _devices
+				.Where(p => p is Mercury203Virtual)
+				.Where(l => ((Mercury203Virtual)l).GroupAddress == gadr);
+							
+			foreach (var device in devices)
 			{
-				device.Rtc = DateTime.Now;
+				device.Rtc = dt;
 			}
         }
+
+		public void SyncDateTime()
+		{
+			var groups = _devices.GroupBy(x => ((Mercury203Virtual)x).GroupAddress);
+
+			var dt = DateTime.Now;
+
+			foreach(var group in groups)
+			{
+				foreach(var device in group)
+				{
+					device.Rtc = dt;
+				}
+			}
+		}
 
         public void Start()
         {
@@ -400,6 +434,115 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 			}
 		}
 
+		public OperationResult ReadParameter(string parameterName)
+		{
+			switch (parameterName)
+			{
+				case ParameterNamesIncotexNetworkVirtual.BautRate:
+					{
+						return new OperationResult
+						{
+							Result =
+								new TransactionError 
+								{ 
+									ErrorCode = TransactionErrorCodes.NoError, 
+									Description = String.Empty 
+								},
+							Value = _bautRate
+						};
+					}
+				case ParameterNamesIncotexNetworkVirtual.BroadcastDelay:
+					{
+						return new OperationResult
+						{
+							Result =
+								new TransactionError
+								{
+									ErrorCode = TransactionErrorCodes.NoError,
+									Description = String.Empty
+								},
+							Value = _broadcastRequestDelay
+						};
+					}
+				case ParameterNamesIncotexNetworkVirtual.PollInterval:
+					{
+						return new OperationResult
+						{
+							Result =
+								new TransactionError
+								{
+									ErrorCode = TransactionErrorCodes.NoError,
+									Description = String.Empty
+								},
+							Value = _pollingPeriod
+						};
+					}
+				case ParameterNamesIncotexNetworkVirtual.PortName:
+					{
+						return new OperationResult
+						{
+							Result =
+								new TransactionError
+								{
+									ErrorCode = TransactionErrorCodes.NoError,
+									Description = String.Empty
+								},
+							Value = new ParameterStringContainer { Value = _portName }
+						};
+					}
+				case ParameterNamesIncotexNetworkVirtual.Timeout:
+					{
+						return new OperationResult
+						{
+							Result =
+								new TransactionError
+								{
+									ErrorCode = TransactionErrorCodes.NoError,
+									Description = String.Empty
+								},
+							Value = _requestTimeout
+						}; 
+					}
+				default:
+					{
+ 						throw new InvalidOperationException(String.Format(
+							"Ошибка чтения параметра. Параметр {0} не найден", parameterName));
+					}
+			}
+		}
+
+		public void WriteParameter(string parameterName, ValueType value)
+		{
+			switch (parameterName)
+			{
+				case ParameterNamesIncotexNetworkVirtual.BautRate:
+					{
+						_bautRate = (int)value; break;
+					}
+				case ParameterNamesIncotexNetworkVirtual.BroadcastDelay:
+					{
+						_broadcastRequestDelay = (int)value; break;
+					}
+				case ParameterNamesIncotexNetworkVirtual.PollInterval:
+					{
+						_pollingPeriod = (int)value; break;
+					}
+				case ParameterNamesIncotexNetworkVirtual.PortName:
+					{
+						_portName = ((ParameterStringContainer)value).Value; break;
+					}
+				case ParameterNamesIncotexNetworkVirtual.Timeout:
+					{
+						_requestTimeout = (int)value; break;
+					}
+				default:
+					{
+						throw new InvalidOperationException(String.Format(
+							"Ошибка записи параметра. Параметр {0} не найден", parameterName));
+					}
+			}
+		}
+
         #endregion
 
         #region Events
@@ -411,7 +554,5 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 		public event EventHandler<NetworkControllerErrorOccuredEventArgs> ErrorOccurred;
 
 		#endregion
-
-
 	}
 }

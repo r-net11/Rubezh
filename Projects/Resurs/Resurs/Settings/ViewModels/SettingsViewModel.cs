@@ -14,7 +14,10 @@ namespace Resurs.ViewModels
 		public SettingsViewModel()
 		{
 			GenerateCommand = new RelayCommand(OnGenerate);
+			LicenseViewModel = new LicenseViewModel();
 		}
+
+		public LicenseViewModel LicenseViewModel { get; private set; }
 
 		public RelayCommand GenerateCommand { get; private set; }
 		void OnGenerate()
@@ -47,7 +50,7 @@ namespace Resurs.ViewModels
 			var random = new Random();
 			var tariffs = new List<Tariff>();
 			Array TariffType = Enum.GetValues(typeof(TariffType));
-			GetAllDevices(DBCash.GetRootDevice());
+			GetAllDevices(DbCache.GetRootDevice());
 			for (int i = 0; i < 25; i++)
 			{
 				var tariffParts = new List<TariffPart>();
@@ -66,7 +69,6 @@ namespace Resurs.ViewModels
 					tariffParts.Add(new TariffPart
 					{
 						Discount = random.Next(0, 1000),
-						EndTime = new TimeSpan(random.Next(0, 23), random.Next(0, 59), random.Next(0, 59)),
 						StartTime = new TimeSpan(random.Next(0, 23), random.Next(0, 59), random.Next(0, 59)),
 						Price = random.Next(0, 1000),
 						Tariff = tariffs[i],
@@ -85,7 +87,7 @@ namespace Resurs.ViewModels
 					}
 				}
 			}
-			DBCash.CreateTariffs(tariffs);
+			DbCache.CreateTariffs(tariffs);
 		}
 
 		void DropDB()
@@ -95,22 +97,22 @@ namespace Resurs.ViewModels
 
 		void CreateDevices()
 		{
-			DBCash.GenerateTestDevices();
+			DbCache.GenerateTestDevices();
 		}
 
 		void CreateConsumers()
 		{
-			DBCash.CreateConsumers();
+			DbCache.CreateConsumers();
 		}
 
 		void CreateUsers()
 		{
-			DBCash.CreateUsers();
+			DbCache.CreateUsers();
 		}
 
 		void CreateMeasures()
 		{
-			var counters = DBCash.GetAllChildren(DBCash.RootDevice).Where(x => x.DeviceType == DeviceType.Counter);
+			var counters = DbCache.GetAllChildren(DbCache.RootDevice).Where(x => x.DeviceType == DeviceType.Counter);
 			var measures = new List<Measure>();
 			var nowDate = DateTime.Now;
 			var startDate = nowDate.AddDays(-7);
@@ -128,13 +130,13 @@ namespace Resurs.ViewModels
 					val1 += (float)(random.NextDouble() * 10);
 					val2 += (float)(random.NextDouble() * 10);
 					val3 += (float)(random.NextDouble() * 10);
-					measures.Add(DBCash.CreateMeasure(counter.UID, 0, val0, val0, date));
-					measures.Add(DBCash.CreateMeasure(counter.UID, 1, val1, val1, date));
-					measures.Add(DBCash.CreateMeasure(counter.UID, 2, val2, val2, date));
-					measures.Add(DBCash.CreateMeasure(counter.UID, 3, val3, val3, date));
+					measures.Add(DbCache.CreateMeasure(counter.UID, 0, val0, val0, date));
+					measures.Add(DbCache.CreateMeasure(counter.UID, 1, val1, val1, date));
+					measures.Add(DbCache.CreateMeasure(counter.UID, 2, val2, val2, date));
+					measures.Add(DbCache.CreateMeasure(counter.UID, 3, val3, val3, date));
 				} 
 			}
-			DBCash.AddRangeMeasures(measures);
+			DbCache.AddRangeMeasures(measures);
 			
 
 		}

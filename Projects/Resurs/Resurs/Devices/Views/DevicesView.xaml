@@ -1,6 +1,6 @@
 ﻿<UserControl x:Class="Resurs.Views.DevicesView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:viewModel="clr-namespace:Resurs.ViewModels"
 			 xmlns:Converters="clr-namespace:Resurs.Converters">
@@ -43,6 +43,8 @@
 						   Command="{Binding SetActiveCommand}" Visibility="{Binding SelectedDevice.IsActive, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 			<ToolBarButton ToolTip="Выключить" ImageSource="Pause" 
 						   Command="{Binding UnSetActiveCommand}" Visibility="{Binding SelectedDevice.IsActive, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<ToolBarButton ToolTip="Считать параметры" ImageSource="Refresh" 
+						   Command="{Binding ReadParametersCommand}" />
 			<ToolBarButton ToolTip="Синхронизация времени" ImageSource="Watch" 
 						   Command="{Binding SyncDateTimeCommand}" />
 		</StackPanel>

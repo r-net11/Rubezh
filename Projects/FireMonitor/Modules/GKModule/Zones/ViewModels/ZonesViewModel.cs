@@ -5,6 +5,8 @@ using System.Linq;
 using RubezhAPI.GK;
 using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.Models.Layouts;
+using System.Windows;
 
 namespace GKModule.ViewModels
 {
@@ -14,8 +16,8 @@ namespace GKModule.ViewModels
 		public ZonesViewModel()
 		{
 			Current = this;
+			IsVisibleBottomPanel = true;
 		}
-
 		public void Initialize()
 		{
 			Zones = new ObservableCollection<ZoneViewModel>();
@@ -29,7 +31,6 @@ namespace GKModule.ViewModels
 			}
 			SelectedZone = Zones.FirstOrDefault();
 		}
-
 		ObservableCollection<ZoneViewModel> _zones;
 		public ObservableCollection<ZoneViewModel> Zones
 		{
@@ -52,7 +53,26 @@ namespace GKModule.ViewModels
 				OnPropertyChanged(() => SelectedZone);
 			}
 		}
-
+		LayoutPartAdditionalProperties _properties;
+		public LayoutPartAdditionalProperties Properties
+		{
+			get { return _properties; }
+			set
+			{
+				_properties = value;
+				IsVisibleBottomPanel = (_properties != null) ? _properties.IsVisibleBottomPanel : false;
+			}
+		}
+		bool _isVisibleBottomPanel;
+		public bool IsVisibleBottomPanel
+		{
+			get{return _isVisibleBottomPanel;}
+			set
+			{
+				_isVisibleBottomPanel = value;
+				OnPropertyChanged(() => IsVisibleBottomPanel);
+			}
+		}
 		public void Select(Guid zoneUID)
 		{
 			if (zoneUID != Guid.Empty)

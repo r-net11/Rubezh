@@ -10,6 +10,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using System.Diagnostics;
+using GKWebService.DataProviders;
 using RubezhAPI.Journal;
 
 namespace GKWebService
@@ -18,8 +19,10 @@ namespace GKWebService
 	{
         private static object syncBootstrapper = new object();
 
-		public static void Run()
-		{
+		public static void Run() {
+
+		    SubscribeOnServiceStateEvents();
+
 			for (int i = 1; i <= 10; i++)
 			{
 				var message = ClientManager.Connect(ClientType.WebService, ConnectionSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.AdminLogin, "");
@@ -32,12 +35,30 @@ namespace GKWebService
 					return;
 				}
 			}
-
-			InitializeGK();
-			ClientManager.StartPoll();
+            
+			InitServer();
 		}
 
-		static void InitializeGK()
+	    private static void InitServer() {
+	        InitializeGK();
+	        ClientManager.StartPoll();
+	    }
+
+	    private static void SubscribeOnServiceStateEvents() {
+	        SafeFiresecService.ConfigurationChangedEvent += SafeFiresecServiceOnConfigurationChangedEvent;
+            SafeFiresecService.ConnectionAppeared += SafeFiresecServiceOnConnectionAppeared;
+	    }
+
+	    private static void SafeFiresecServiceOnConnectionAppeared() {
+            //InitServer();
+            //PlansUpdater.Instance.
+	    }
+
+	    private static void SafeFiresecServiceOnConfigurationChangedEvent() {
+            //InitServer();
+	    }
+
+	    static void InitializeGK()
 		{
 			ClientManager.GetConfiguration("GKOPC/Configuration");
             

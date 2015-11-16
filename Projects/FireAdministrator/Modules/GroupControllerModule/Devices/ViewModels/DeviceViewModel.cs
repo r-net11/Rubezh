@@ -55,7 +55,7 @@ namespace GKModule.ViewModels
 			GenerateMPTCommand = new RelayCommand(GenerateMPTs);
 			ShowAccessUserReflectionCommand = new RelayCommand(ShowAccessUserReflection);
 			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
-			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
+			PmfUsersCommand = new RelayCommand(OnPmfUsers, CanPmfUsers);
 
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
@@ -141,7 +141,10 @@ namespace GKModule.ViewModels
 
 		public bool IsInPumpStation
 		{
-			get { return Device != null && GKManager.PumpStations.Any(x => x.InputDependentElements.Contains(Device)); }
+			get {
+				return Device != null && (Device.DriverType == GKDriverType.RSR2_Bush_Drenazh || Device.DriverType == GKDriverType.RSR2_Bush_Fire
+				|| Device.DriverType == GKDriverType.RSR2_Bush_Jokey ) && Device.OutputDependentElements.Any(x => x as GKPumpStation != null);
+			}
 		}
 
 		public string Address
@@ -189,6 +192,7 @@ namespace GKModule.ViewModels
 				Device.Description = value;
 				OnPropertyChanged(() => Description);
 				UpdateDescriptorName();
+				Device.OnChanged();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -529,7 +533,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowAccessUserReflectionCommand { get; private set; }
 		void ShowAccessUserReflection()
 		{
-			var accessUserReflrctionViewModel = new ReflectionUsersViewModel(Device);
+			var accessUserReflrctionViewModel = new MirrorUsersViewModel(Device);
 			DialogService.ShowModalWindow(accessUserReflrctionViewModel);
 			ServiceFactory.SaveService.GKChanged = true;			
 		}
@@ -653,6 +657,7 @@ namespace GKModule.ViewModels
 		private void OnAllowMultipleVizualizationCommand(bool isAllow)
 		{
 			Device.AllowMultipleVizualization = isAllow;
+			Device.OnChanged();
 			Update();
 		}
 		private bool CanAllowMultipleVizualizationCommand(bool isAllow)
@@ -726,7 +731,7 @@ namespace GKModule.ViewModels
 		{
 			if (Driver.HasMirror)
 			{
-				var _reflectionview = new ReflectionViewModel(Device);
+				var _reflectionview = new MirrorViewModel(Device);
 				DialogService.ShowModalWindow(_reflectionview);
 			}
 			OnPropertyChanged(() => EditingPresentationZone);
@@ -852,7 +857,6 @@ namespace GKModule.ViewModels
 					}
 					OnPropertyChanged(() => Device);
 					OnPropertyChanged(() => Driver);
-					OnPropertyChanged(() => Device);
 					OnPropertyChanged(() => Children);
 					OnPropertyChanged(() => EditingPresentationZone);
 					OnPropertyChanged(() => GuardPresentationZone);
@@ -971,7 +975,7 @@ namespace GKModule.ViewModels
 		{
 			if (Device != null)
 			{
-				var dependencyItemsViewModel = new DependencyItemsViewModel(Device.OutDependentElements);
+				var dependencyItemsViewModel = new DependencyItemsViewModel(Device.OutputDependentElements);
 				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}
@@ -1010,7 +1014,7 @@ namespace GKModule.ViewModels
 			if (messageBoxResult)
 			{
 				Device.Logic = GKManager.PasteLogic(new GKAdvancedLogic(hasOnClause, hasOnNowClause, hasOffClause, hasOffNowClause, hasStopClause));
-				Device.Invalidate();
+				Device.Invalidate(GKManager.DeviceConfiguration);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -1018,6 +1022,17 @@ namespace GKModule.ViewModels
 		{
 			return Device.Driver.HasLogic && GKManager.LogicToCopy != null;
 		}
+
+		public RelayCommand PmfUsersCommand { get; private set; }
+		void OnPmfUsers()
+		{
+			DialogService.ShowModalWindow(new PmfUsersViewModel(Device));
+		}
+		bool CanPmfUsers()
+		{
+			return IsPmf;
+		}
+		public bool IsPmf { get { return Device.DriverType == GKDriverType.RSR2_GKMirror; } }
 
 	}
 }

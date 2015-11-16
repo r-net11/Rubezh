@@ -20,8 +20,9 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using Infrastructure.Common.SKDReports;
-using FiresecLicense;
 using GKModule.Reports.Providers;
+using RubezhAPI.License;
+using RubezhAPI.Models.Layouts;
 
 namespace GKModule
 {
@@ -212,12 +213,12 @@ namespace GKModule
 		{
 			_planPresenter.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
-			_zonesNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.HasFirefighting && GKManager.Zones.Count > 0;
-			_guardZonesNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.HasGuard && GKManager.DeviceConfiguration.GuardZones.Count > 0;
-			_skdZonesNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.HasSKD && GKManager.DeviceConfiguration.SKDZones.Count > 0;
+			_zonesNavigationItem.IsVisible = LicenseManager.CurrentLicenseInfo.HasFirefighting && GKManager.Zones.Count > 0;
+			_guardZonesNavigationItem.IsVisible = LicenseManager.CurrentLicenseInfo.HasGuard && GKManager.DeviceConfiguration.GuardZones.Count > 0;
+			_skdZonesNavigationItem.IsVisible = LicenseManager.CurrentLicenseInfo.HasSKD && GKManager.DeviceConfiguration.SKDZones.Count > 0;
 			_directionsNavigationItem.IsVisible = GKManager.Directions.Count > 0;
-			_pumpStationsNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.HasFirefighting && GKManager.PumpStations.Count > 0;
-			_mptsNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.HasFirefighting && GKManager.MPTs.Count > 0;
+			_pumpStationsNavigationItem.IsVisible = LicenseManager.CurrentLicenseInfo.HasFirefighting && GKManager.PumpStations.Count > 0;
+			_mptsNavigationItem.IsVisible = LicenseManager.CurrentLicenseInfo.HasFirefighting && GKManager.MPTs.Count > 0;
 			DevicesViewModel.Initialize();
 			DeviceParametersViewModel.Initialize();
 			ZonesViewModel.Initialize();
@@ -231,23 +232,23 @@ namespace GKModule
 			PimsViewModel.Initialize();
 			_pimsNavigationItem.IsVisible = PimsViewModel.Pims.Count > 0;
 			DoorsViewModel.Initialize();
-			_doorsNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.HasSKD && GKManager.Doors.Count > 0;
+			_doorsNavigationItem.IsVisible = LicenseManager.CurrentLicenseInfo.HasSKD && GKManager.Doors.Count > 0;
 			DaySchedulesViewModel.Initialize();
 			SchedulesViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-            _zonesNavigationItem = new NavigationItem<ShowGKZoneEvent, Guid>(ZonesViewModel, "Пожарные зоны", "Zones", null, null, Guid.Empty);
-            _guardZonesNavigationItem = new NavigationItem<ShowGKGuardZoneEvent, Guid>(GuardZonesViewModel, "Охранные зоны", "Zones", null, null, Guid.Empty);
-            _directionsNavigationItem = new NavigationItem<ShowGKDirectionEvent, Guid>(DirectionsViewModel, "Направления", "Direction", null, null, Guid.Empty);
-            _delaysNavigationItem = new NavigationItem<ShowGKDelayEvent, Guid>(DelaysViewModel, "Задержки", "Watch", null, null, Guid.Empty);
-            _pimsNavigationItem = new NavigationItem<ShowGKPimEvent, Guid>(PimsViewModel, "ПИМ", "Pim_White", null, null, Guid.Empty);
-            _pumpStationsNavigationItem = new NavigationItem<ShowGKPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "PumpStation", null, null, Guid.Empty);
-            _mptsNavigationItem = new NavigationItem<ShowGKMPTEvent, Guid>(MPTsViewModel, "МПТ", "MPT", null, null, Guid.Empty);
-            _skdZonesNavigationItem = new NavigationItem<ShowGKSKDZoneEvent, Guid>(SKDZonesViewModel, "Зоны СКД", "Zones", null, null, Guid.Empty);
-            _doorsNavigationItem = new NavigationItem<ShowGKDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "DoorW", null, null, Guid.Empty);
+			_zonesNavigationItem = new NavigationItem<ShowGKZoneEvent, Guid>(ZonesViewModel, "Пожарные зоны", "Zones", null, null, Guid.Empty);
+			_guardZonesNavigationItem = new NavigationItem<ShowGKGuardZoneEvent, Guid>(GuardZonesViewModel, "Охранные зоны", "Zones", null, null, Guid.Empty);
+			_directionsNavigationItem = new NavigationItem<ShowGKDirectionEvent, Guid>(DirectionsViewModel, "Направления", "Direction", null, null, Guid.Empty);
+			_delaysNavigationItem = new NavigationItem<ShowGKDelayEvent, Guid>(DelaysViewModel, "Задержки", "Watch", null, null, Guid.Empty);
+			_pimsNavigationItem = new NavigationItem<ShowGKPimEvent, Guid>(PimsViewModel, "ПИМ", "Pim_White", null, null, Guid.Empty);
+			_pumpStationsNavigationItem = new NavigationItem<ShowGKPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "PumpStation", null, null, Guid.Empty);
+			_mptsNavigationItem = new NavigationItem<ShowGKMPTEvent, Guid>(MPTsViewModel, "МПТ", "MPT", null, null, Guid.Empty);
+			_skdZonesNavigationItem = new NavigationItem<ShowGKSKDZoneEvent, Guid>(SKDZonesViewModel, "Зоны СКД", "Zones", null, null, Guid.Empty);
+			_doorsNavigationItem = new NavigationItem<ShowGKDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "DoorW", null, null, Guid.Empty);
 
-            return new List<NavigationItem>
+			return new List<NavigationItem>
 				{
 				new NavigationItem(ModuleType.ToDescription(), "tree",
 					new List<NavigationItem>()
@@ -269,7 +270,7 @@ namespace GKModule
 							{
 								new NavigationItem<ShowGKDaySchedulesEvent, Guid>(DaySchedulesViewModel, "Дневные графики", "ShedulesDaylyW", null, null, Guid.Empty),
 								new NavigationItem<ShowGKScheduleEvent, Guid>(SchedulesViewModel, "Графики", "ShedulesW", null, null, Guid.Empty),
-							}){IsVisible = ClientManager.CheckPermission(PermissionType.Oper_ScheduleSKD) && FiresecLicenseManager.CurrentLicenseInfo.HasSKD},
+							}){IsVisible = ClientManager.CheckPermission(PermissionType.Oper_ScheduleSKD) && LicenseManager.CurrentLicenseInfo.HasSKD},
 					})
 			};
 		}
@@ -309,14 +310,20 @@ namespace GKModule
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Alarms, "Состояния", "Alarm.png", (p) => AlarmsViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.GDevices, "Устройства", "Tree.png", (p) => DevicesViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Zones, "Зоны", "Zones.png", (p) => ZonesViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.GuardZones, "Охранные зоны", "Zones.png", (p) => GuardZonesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.GDevices, "Устройства", "Tree.png", (p) =>
+			{ DevicesViewModel.Properties = p as LayoutPartAdditionalProperties; return DevicesViewModel; });
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Zones, "Зоны", "Zones.png", (p) =>
+				{ ZonesViewModel.Properties = p as LayoutPartAdditionalProperties; return ZonesViewModel; });
+			yield return new LayoutPartPresenter(LayoutPartIdentities.GuardZones, "Охранные зоны", "Zones.png", (p) =>
+				{ GuardZonesViewModel.Properties = p as LayoutPartAdditionalProperties; return GuardZonesViewModel; });
 			yield return new LayoutPartPresenter(LayoutPartIdentities.GKSKDZones, "Зоны СКД", "Zones.png", (p) => SKDZonesViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Directions, "Направления", "Direction.png", (p) => DirectionsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.PumpStations, "НС", "PumpStation.png", (p) => PumpStationsViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.MPTs, "МПТ", "BMPT.png", (p) => MPTsViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Doors, "Точки доступа", "Tree.png", (p) => DoorsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.MPTs, "МПТ", "BMPT.png", (p) =>
+				{ MPTsViewModel.Properties = p as LayoutPartAdditionalProperties; return MPTsViewModel; });
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Delays, "Задержки", "Delay.png", (p) => DelaysViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Doors, "Точки доступа", "Tree.png", (p) =>
+				{ DoorsViewModel.Properties = p as LayoutPartAdditionalProperties; return DoorsViewModel; });
 			yield return new LayoutPartPresenter(LayoutPartIdentities.ConnectionIndicator, "Индикатор связи", "ConnectionIndicator.png", (p) => new GKConnectionIndicatorViewModel());
 		}
 		#endregion

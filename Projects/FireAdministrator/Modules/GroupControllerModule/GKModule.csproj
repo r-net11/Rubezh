@@ -93,8 +93,8 @@
       <DependentUpon>DescriptorsMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\ViewModels\MirrorUserNewModel.cs" />
-    <Compile Include="Devices\ViewModels\ReflectionUserDetailsViewModel.cs" />
-    <Compile Include="Devices\ViewModels\ReflectionUsersViewModel.cs" />
+    <Compile Include="Devices\ViewModels\MirrorUserDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\MirrorUsersViewModel.cs" />
     <Compile Include="Devices\ViewModels\AutoSearchDevicesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesListViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesOnShleifViewModel.cs" />
@@ -102,17 +102,16 @@
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ObjectsListViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ObjectViewModel.cs" />
-    <Compile Include="Devices\ViewModels\FirmWareUpdateViewModel.cs" />
     <Compile Include="Devices\ViewModels\GKUsersViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\ClauseGroupViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\StateTypeViewModel.cs" />
-    <Compile Include="Devices\ViewModels\ReflectionViewModel.cs" />
+    <Compile Include="Devices\ViewModels\MirrorViewModel.cs" />
     <Compile Include="Devices\ViewModels\RSR2NewDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModelBase.cs" />
     <Compile Include="Devices\ViewModels\SettingsViewModel.cs" />
     <Compile Include="Devices\ViewModels\UpdatedDeviceViewModel.cs" />
-    <Compile Include="Devices\Views\ReflectionUserDetailsView.xaml.cs">
-      <DependentUpon>ReflectionUserDetailsView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\MirrorUserDetailsView.xaml.cs">
+      <DependentUpon>MirrorUserDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\AutoSearchDevicesView.xaml.cs">
       <DependentUpon>AutoSearchDevicesView.xaml</DependentUpon>
@@ -123,20 +122,17 @@
     <Compile Include="Devices\Views\DevicesOnShleifView.xaml.cs">
       <DependentUpon>DevicesOnShleifView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\FirmWareUpdateView.xaml.cs">
-      <DependentUpon>FirmWareUpdateView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Devices\Views\GKUsersView.xaml.cs">
       <DependentUpon>GKUsersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\Logic\ClausesView.xaml.cs">
       <DependentUpon>ClausesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\ReflectionUsersView.xaml.cs">
-      <DependentUpon>ReflectionUsersView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\MirrorUsersView.xaml.cs">
+      <DependentUpon>MirrorUsersView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\ReflectionView.xaml.cs">
-      <DependentUpon>ReflectionView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\MirrorView.xaml.cs">
+      <DependentUpon>MirrorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\RSR2NewDeviceView.xaml.cs">
       <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
@@ -182,6 +178,7 @@
     <Compile Include="Events\EditGKSKDZoneEvent.cs" />
     <Compile Include="Events\CreateGKMPTEvent.cs" />
     <Compile Include="Events\EditGKMPTEvent.cs" />
+    <Compile Include="Events\ShowPmfUsersEvent.cs" />
     <Compile Include="Guard\ViewModels\CodeReaderDetailsViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodeReaderSettingsViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodesMenuViewModel.cs" />
@@ -297,8 +294,11 @@
     <Compile Include="Plans\Views\MPTPropertiesView.xaml.cs">
       <DependentUpon>MPTPropertiesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Devices\PmfUsers\Views\PmfUserDetailsView.xaml.cs">
+      <DependentUpon>PmfUserDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Selectation\ViewModels\AnyZonesSelectionViewModel.cs" />
-    <Compile Include="Selectation\ViewModels\DependencyItemsViewModel..cs" />
+    <Compile Include="Selectation\ViewModels\DependencyItemsViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DependencyItemViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DeviceGuardZoneViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DirectionsSelectationViewModel.cs" />
@@ -488,6 +488,12 @@
     <Compile Include="SKD\Views\SKDZonesView.xaml.cs">
       <DependentUpon>SKDZonesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Devices\PmfUsers\ViewModels\PmfUserDetailsViewModel.cs" />
+    <Compile Include="Devices\PmfUsers\ViewModels\PmfUserViewModel.cs" />
+    <Compile Include="Devices\PmfUsers\ViewModels\PmfUsersViewModel.cs" />
+    <Compile Include="Devices\PmfUsers\Views\PmfUsersView.xaml.cs">
+      <DependentUpon>PmfUsersView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Validation\CodeValidationError.cs" />
     <Compile Include="Validation\Validator.License.cs" />
     <Compile Include="Validation\Validator.Plans.cs" />
@@ -632,7 +638,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Devices\Views\ReflectionUserDetailsView.xaml">
+    <Page Include="Devices\Views\MirrorUserDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -652,10 +658,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\FirmWareUpdateView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Devices\Views\GKUsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -664,11 +666,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\ReflectionUsersView.xaml">
+    <Page Include="Devices\Views\MirrorUsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\ReflectionView.xaml">
+    <Page Include="Devices\Views\MirrorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -783,6 +785,10 @@
     <Page Include="Plans\Views\MPTPropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Devices\PmfUsers\Views\PmfUserDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PumpStation\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -960,6 +966,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Devices\PmfUsers\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Devices\PmfUsers\Views\PmfUsersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Zones\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1030,13 +1044,13 @@
       <Project>{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2}</Project>
       <Name>DeviceControls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\RubezhLicense\RubezhLicense.csproj">
+      <Project>{e6d24912-812b-42b4-b6b0-97ca33c0f4af}</Project>
+      <Name>RubezhLicense</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\RubezhClient\RubezhClient.csproj">
       <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
       <Name>RubezhClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\FiresecLicense\FiresecLicense.csproj">
-      <Project>{e6d24912-812b-42b4-b6b0-97ca33c0f4af}</Project>
-      <Name>FiresecLicense</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Common\RubezhAPI\RubezhAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
@@ -1061,6 +1075,10 @@
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{7E982F7A-E8B8-4B63-A204-9FC7E5F97170}</Project>
       <Name>Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutModule\LayoutModule.csproj">
+      <Project>{8cd90c43-088e-420c-aa4f-7346f6f11b57}</Project>
+      <Name>LayoutModule</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

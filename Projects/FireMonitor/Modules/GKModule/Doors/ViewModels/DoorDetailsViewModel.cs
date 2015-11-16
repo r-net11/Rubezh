@@ -69,7 +69,7 @@ namespace GKModule.ViewModels
 				if (elementBase != null)
 				{
 					var planLinkViewModel = new PlanLinkViewModel(plan, elementBase);
-					planLinkViewModel.Door = Door;
+					planLinkViewModel.GkBaseEntity = Door;
 					Plans.Add(planLinkViewModel);
 					continue;
 				}

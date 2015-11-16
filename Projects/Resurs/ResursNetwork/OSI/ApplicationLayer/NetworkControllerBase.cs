@@ -23,7 +23,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
         #region Fields And Properties
 
         protected Guid _Id;
-        protected DevicesCollection _Devices;
+        protected DevicesCollection _devices;
         protected CancellationTokenSource _CancellationTokenSource;
         protected Task _NetworkPollingTask;
         protected Status _Status = Status.Stopped;
@@ -46,14 +46,14 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// <summary>
         /// Возвращает список типов устройств с которыми может работать данный контроллер
         /// </summary>
-        public abstract IEnumerable<Devices.DeviceType> SuppotedDevices { get; }
+        public abstract IEnumerable<Devices.DeviceModel> SuppotedDevices { get; }
 
         /// <summary>
         /// Возвращает список устройств
         /// </summary>
         public DevicesCollection Devices
         {
-            get { return _Devices; }
+            get { return _devices; }
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
                                     _CancellationTokenSource = new CancellationTokenSource();
                                 }
                                 // Запускаем сетевой обмен данными
-                                _NetworkPollingTask = Task.Factory.StartNew(NetwokPollingAction,
+                                _NetworkPollingTask = Task.Factory.StartNew(NetworkPollingAction,
                                     _CancellationTokenSource.Token);
 
                                 Logger.Info(String.Format("Controller Id={0} | Изменил состояние на новое Status={1}",
@@ -250,8 +250,8 @@ namespace ResursNetwork.OSI.ApplicationLayer
             _Id = Guid.NewGuid();
             _TotalAttempts = 1;
             _MessageReceived = new EventHandler(EventHandler_Connection_MessageReceived);
-            _Devices = new DevicesCollection(this);
-			_Devices.CollectionChanged += EventHandler_Devices_CollectionChanged;
+            _devices = new DevicesCollection(this);
+			_devices.CollectionChanged += EventHandler_Devices_CollectionChanged;
         }
 
         #endregion
@@ -376,7 +376,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// <summary>
         /// Метод выполняет сетевой опрос устройств
         /// </summary>
-        protected abstract void NetwokPollingAction(Object cancellationToken);
+        protected abstract void NetworkPollingAction(Object cancellationToken);
 
         /// <summary>
         /// Записывает транзакцию в буфер исходящих сообщений
@@ -386,18 +386,24 @@ namespace ResursNetwork.OSI.ApplicationLayer
         public abstract IAsyncRequestResult Write(NetworkRequest request, bool isExternalCall);
 
         /// <summary>
-        /// Синхронизирует время в сети
+        /// Синхронизирует время в сети во всех устройтсвах
         /// </summary>
-        public abstract void SyncDateTime();
+		/// <param name="broadcastAddress">Широковещательный адрес данной системы</param>
+        public abstract void SyncDateTime(ValueType broadcastAddress);
+
+		public abstract void SyncDateTime();
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="id"></param>
 		/// <param name="commandName"></param>
-		public virtual void ExecuteCommand(string commandName)
-		{}
-        
+		public virtual void ExecuteCommand(string commandName) {}
+
+		public abstract OperationResult ReadParameter(string parameterName);
+
+		public abstract void WriteParameter(string parameterName, ValueType value);
+
 		#endregion
 
         #region Events

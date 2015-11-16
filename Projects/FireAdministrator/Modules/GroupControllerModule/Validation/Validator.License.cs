@@ -1,6 +1,6 @@
 ﻿using RubezhClient;
 using Infrastructure.Common.Validation;
-using FiresecLicense;
+using RubezhAPI.License;
 
 namespace GKModule.Validation
 {
@@ -18,7 +18,7 @@ namespace GKModule.Validation
 		/// </summary>
 		void ValidateFirefighting()
 		{
-			if (FiresecLicenseManager.CurrentLicenseInfo.HasFirefighting)
+			if (LicenseManager.CurrentLicenseInfo.HasFirefighting)
 				return;
 			
 			foreach (var pumpStation in GKManager.PumpStations)
@@ -33,7 +33,7 @@ namespace GKModule.Validation
 		/// </summary>
 		void ValidateGuard()
 		{
-			if (FiresecLicenseManager.CurrentLicenseInfo.HasGuard)
+			if (LicenseManager.CurrentLicenseInfo.HasGuard)
 				return;
 
 			foreach(var guardZone in GKManager.GuardZones)
@@ -45,7 +45,7 @@ namespace GKModule.Validation
 		/// </summary>
 		void ValidateSKD()
 		{
-			if (FiresecLicenseManager.CurrentLicenseInfo.HasSKD)
+			if (LicenseManager.CurrentLicenseInfo.HasSKD)
 				return;
 
 			foreach(var skdZone in GKManager.SKDZones)

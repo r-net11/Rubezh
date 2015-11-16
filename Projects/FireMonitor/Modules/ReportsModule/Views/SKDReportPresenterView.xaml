@@ -1,4 +1,12 @@
-<UserControl x:Class="ReportsModule.Views.SKDReportPresenterView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" xmlns:dxp="http://schemas.devexpress.com/winfx/2008/xaml/printing" xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon">
+<UserControl x:Class="ReportsModule.Views.SKDReportPresenterView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+			 xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+			 xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+			 xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+			 xmlns:dxp="http://schemas.devexpress.com/winfx/2008/xaml/printing"
+			 xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon">
 	<UserControl.Resources>
 		<dxp:DisabledCommand x:Key="disabledCommand" />
 	</UserControl.Resources>

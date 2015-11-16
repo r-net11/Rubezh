@@ -48,7 +48,7 @@ namespace GKModule.ViewModels
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-					alarmPlanViewModel.Delay = this.Delay;
+					alarmPlanViewModel.GkBaseEntity = this.Delay;
 					Plans.Add(alarmPlanViewModel);
 					continue;
 				}
@@ -57,7 +57,7 @@ namespace GKModule.ViewModels
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-					alarmPlanViewModel.Delay = this.Delay;
+					alarmPlanViewModel.GkBaseEntity = this.Delay;
 					Plans.Add(alarmPlanViewModel);
 				}
 			}

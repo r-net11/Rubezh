@@ -3,54 +3,54 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
-
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="150" />
 		</Grid.RowDefinitions>
-		<Grid Grid.Row="0" Margin="2" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
-			<DataGrid ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}" Margin="2">
-				<DataGrid.Columns>
-					<DataGridTemplateColumn Header="Точка доступа" Width="*">
-						<DataGridTemplateColumn.CellTemplate>
+		<DataGrid ItemsSource="{Binding Doors}"
+				  SelectedItem="{Binding SelectedDoor}"
+				  ScrollViewer.IsDeferredScrollingEnabled="True"
+				  VirtualizingStackPanel.VirtualizationMode="Recycling"
+				  Margin="2" Grid.Row="0">
+			<DataGrid.Columns>
+				<DataGridTemplateColumn Header="Точка доступа" Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image Source="/Controls;component/Images/Door.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+								<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2" />
+								<TextBlock Text="{Binding PresentationName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+		</DataGrid>
+		<Grid DataContext="{Binding SelectedDoor}" Grid.Row="1" Margin="2"
+			  Visibility="{Binding Path=DataContext.HasSelectedDoor, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={StaticResource BoolToVisibilityConverter}}">
+			<StackPanel IsEnabled="{Binding IsChecked}">
+				<StackPanel>
+					<TextBlock Width="200" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Временной критерий для входа" HorizontalAlignment="Left" />
+					<ComboBox Margin="2" ItemsSource="{Binding EnterSchedules}" SelectedItem="{Binding SelectedEnterSchedule}" >
+						<ComboBox.ItemTemplate>
 							<DataTemplate>
-								<StackPanel Orientation="Horizontal">
-									<Image Source="/Controls;component/Images/Door.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2" />
-									<TextBlock Text="{Binding PresentationName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2" />
-								</StackPanel>
+								<TextBlock Margin="2" Text="{Binding Name}" />
 							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
-				</DataGrid.Columns>
-			</DataGrid>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
+				</StackPanel>
+				<StackPanel Visibility="{Binding HasExit, Converter={StaticResource BoolToVisibilityConverter}}">
+					<TextBlock Width="200" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Временной критерий для выхода" HorizontalAlignment="Left" />
+					<ComboBox Margin="2" ItemsSource="{Binding ExitSchedules}" SelectedItem="{Binding SelectedExitSchedule}">
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Margin="2" Text="{Binding Name}" />
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
+				</StackPanel>
+			</StackPanel>
 		</Grid>
-		<Grid Grid.Row="1" Margin="2" Visibility="{Binding HasSelectedDoor, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid DataContext="{Binding SelectedDoor}">
-                <StackPanel IsEnabled="{Binding IsChecked}">
-                    <StackPanel Visibility="{Binding HasEnter, Converter={StaticResource BoolToVisibilityConverter}}">
-						<TextBlock Width="200" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Временной критерий для входа" HorizontalAlignment="Left" />
-                        <ComboBox Margin="2" ItemsSource="{Binding EnterSchedules}" SelectedItem="{Binding SelectedEnterSchedule}">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Margin="2" Text="{Binding Name}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                    </StackPanel>
-                    <StackPanel Visibility="{Binding HasExit, Converter={StaticResource BoolToVisibilityConverter}}">
-						<TextBlock Width="200" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Временной критерий для выхода" HorizontalAlignment="Left" />
-                        <ComboBox Margin="2" ItemsSource="{Binding ExitSchedules}" SelectedItem="{Binding SelectedExitSchedule}">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Margin="2" Text="{Binding Name}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                    </StackPanel>
-                </StackPanel>
-            </Grid>
-        </Grid>
 	</Grid>
 </UserControl>

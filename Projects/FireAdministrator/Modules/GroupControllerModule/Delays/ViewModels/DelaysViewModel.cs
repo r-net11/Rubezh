@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using Common;
 using RubezhAPI.GK;
 using RubezhClient;
 using GKModule.Events;
@@ -15,12 +14,10 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
-using Infrastructure.Common.Services;
-using GKModule.ViewModels;
 
 namespace GKModule.ViewModels
 {
-	public class DelaysViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class DelaysViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public static DelaysViewModel Current { get; private set; }
 
@@ -39,8 +36,16 @@ namespace GKModule.ViewModels
 			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 
 			IsRightPanelEnabled = true;
-			RegisterShortcuts();
 			SetRibbonItems();
+			RegisterShortcuts();
+		}
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 		}
 
 		public void Initialize()
@@ -70,6 +75,8 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDelay = value;
+				if (value != null)
+					value.Update();
 				OnPropertyChanged(() => SelectedDelay);
 			}
 		}
@@ -111,7 +118,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить задержку " + SelectedDelay.Delay.Name))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить задержку " + SelectedDelay.Delay.PresentationName + " ?"))
 			{
 				var index = Delays.IndexOf(SelectedDelay);
 				GKManager.RemoveDelay(SelectedDelay.Delay);
@@ -167,7 +174,7 @@ namespace GKModule.ViewModels
 			var delay = _delayToCopy.Clone();
 			delay.Logic = logicViewModel.GetModel();
 			delay.No = (ushort)(GKManager.Delays.Select(x => x.No).Max() + 1);
-			delay.Invalidate();
+			delay.Invalidate(GKManager.DeviceConfiguration);
 			var delayViewModel = new DelayViewModel(delay);
 			GKManager.Delays.Add(delayViewModel.Delay);
 			Delays.Add(delayViewModel);
@@ -197,7 +204,7 @@ namespace GKModule.ViewModels
 			{
 				SelectedDelay.Delay.Logic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, true));
 				SelectedDelay.Update();
-				SelectedDelay.Delay.Invalidate();
+				SelectedDelay.Delay.Invalidate(GKManager.DeviceConfiguration);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -213,7 +220,7 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedDelay != null)
 			{
-				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedDelay.Delay.OutDependentElements);
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedDelay.Delay.OutputDependentElements);
 				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}
@@ -259,15 +266,6 @@ namespace GKModule.ViewModels
 		{
 			base.OnShow();
 			SelectedDelay = SelectedDelay;
-		}
-
-		private void RegisterShortcuts()
-		{
-			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
 		}
 
 		private void SetRibbonItems()

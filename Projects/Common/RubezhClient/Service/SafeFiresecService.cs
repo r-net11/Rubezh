@@ -5,7 +5,7 @@ using Common;
 using RubezhAPI;
 using RubezhAPI.Models;
 using Infrastructure.Common;
-using FiresecLicense;
+using RubezhAPI.License;
 
 namespace RubezhClient
 {
@@ -163,11 +163,10 @@ namespace RubezhClient
 				FiresecServiceFactory.Dispose();
 				FiresecServiceFactory = new RubezhClient.FiresecServiceFactory();
 				FiresecService = FiresecServiceFactory.Create(_serverAddress);
-                var operationResult = FiresecService.Connect(FiresecServiceFactory.UID, _clientCredentials, false);
-                if (operationResult.HasError && ReconnectionErrorEvent != null)
-                {
+                OperationResult<bool> operationResult = null;
+				TimeoutOperation.Execute(() => operationResult = FiresecService.Connect(FiresecServiceFactory.UID, _clientCredentials, false), TimeSpan.FromSeconds(30));
+				if (operationResult != null && operationResult.HasError && ReconnectionErrorEvent != null)
                     ReconnectionErrorEvent(operationResult.Error);
-                }
 				return operationResult.Result;
 			}
 			catch

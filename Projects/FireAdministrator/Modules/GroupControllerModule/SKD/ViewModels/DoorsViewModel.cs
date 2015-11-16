@@ -129,7 +129,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить точку доступа " + SelectedDoor.Door.PresentationName))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить точку доступа " + SelectedDoor.Door.PresentationName + " ?"))
 			{
 				var index = Doors.IndexOf(SelectedDoor);
 				GKManager.RemoveDoor(SelectedDoor.Door);
@@ -174,7 +174,7 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedDoor.Door != null)
 			{
-				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedDoor.Door.OutDependentElements);
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedDoor.Door.OutputDependentElements);
 				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}

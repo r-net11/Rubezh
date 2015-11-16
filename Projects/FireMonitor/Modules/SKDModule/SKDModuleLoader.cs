@@ -13,7 +13,7 @@ using SKDModule.Reports;
 using SKDModule.Reports.Providers;
 using SKDModule.ViewModels;
 using RubezhClient;
-using FiresecLicense;
+using RubezhAPI.License;
 
 namespace SKDModule
 {
@@ -30,12 +30,12 @@ namespace SKDModule
 		{
 			return new List<NavigationItem>
 				{
-				new NavigationItem("СКД", "SKDW",
+				new NavigationItem("РЎРљР”", "SKDW",
 					new List<NavigationItem>()
 					{
-						new NavigationItem<ShowHREvent>(SKDTabItems.HRViewModel, "Картотека", "Kartoteka2W"),
-						new NavigationItem<ShowTimeTrackingEvent>(SKDTabItems.TimeTrackingTabsViewModel, "Учет рабочего времени", "TimeTrackingW")
-					}) { IsVisible = FiresecLicenseManager.CurrentLicenseInfo.HasSKD }
+						new NavigationItem<ShowHREvent>(SKDTabItems.HRViewModel, "РљР°СЂС‚РѕС‚РµРєР°", "Kartoteka2W"),
+						new NavigationItem<ShowTimeTrackingEvent>(SKDTabItems.TimeTrackingTabsViewModel, "РЈС‡РµС‚ СЂР°Р±РѕС‡РµРіРѕ РІСЂРµРјРµРЅРё", "TimeTrackingW")
+					}) { IsVisible = LicenseManager.CurrentLicenseInfo.HasSKD }
 				};
 		}
 
@@ -81,9 +81,9 @@ namespace SKDModule
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHR, "Картотека", "Levels.png", (p) => SKDTabItems.HRViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Верификация", "Tree.png", (p) => new VerificationViewModel(p as LayoutPartReferenceProperties));
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeTracking, "Учет рабочего времени", "Tree.png", (p) => SKDTabItems.TimeTrackingTabsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHR, "РљР°СЂС‚РѕС‚РµРєР°", "Levels.png", (p) => SKDTabItems.HRViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Р’РµСЂРёС„РёРєР°С†РёСЏ", "Tree.png", (p) => new VerificationViewModel(p as LayoutPartReferenceProperties));
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeTracking, "РЈС‡РµС‚ СЂР°Р±РѕС‡РµРіРѕ РІСЂРµРјРµРЅРё", "Tree.png", (p) => SKDTabItems.TimeTrackingTabsViewModel);
 		}
 		#endregion
 

@@ -13,20 +13,32 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Microsoft.Win32;
 using RubezhClient;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace AutomationModule.ViewModels
 {
-	public class SoundsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class SoundsViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public SoundsViewModel()
 		{
-			PlaySoundCommand = new RelayCommand(OnPlaySound);
+			PlaySoundCommand = new RelayCommand(OnPlaySound, CanPlaySound);
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			Menu = new SoundsMenuViewModel(this);
+
+			RegisterShortcuts();
 		}
 
+		
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.P, ModifierKeys.Control), PlaySoundCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+		}
 		public void Initialize()
 		{
 			Sounds = new ObservableCollection<SoundViewModel>();
@@ -71,6 +83,11 @@ namespace AutomationModule.ViewModels
 				_isNowPlaying = value;
 				OnPropertyChanged(() => IsNowPlaying);
 			}
+		}
+
+		private bool CanPlaySound(object obj)
+		{
+			return SelectedSound != null;
 		}
 
 		public RelayCommand PlaySoundCommand { get; private set; }

@@ -83,7 +83,6 @@ namespace GKProcessor
 			driver.Properties.Add(property);
 			return property;
 		}
-
 		public static void AddPropertyParameter(GKDriverProperty property, string name, int value)
 		{
 			var parameter = new GKDriverPropertyParameter()

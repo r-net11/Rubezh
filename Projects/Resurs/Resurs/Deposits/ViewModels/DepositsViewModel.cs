@@ -53,8 +53,8 @@ namespace Resurs.ViewModels
 				var depositViewModel = new DepositViewModel(deposit);
 				Deposits.Add(depositViewModel);
 				SelectedDeposit = depositViewModel;
-				DBCash.SaveDeposit(deposit);
-				DBCash.AddJournalForUser(JournalType.AddDeposit, deposit, string.Format("Сумма: {0} руб.", deposit.Amount));
+				DbCache.SaveDeposit(deposit);
+				DbCache.AddJournalForUser(JournalType.AddDeposit, deposit, string.Format("Сумма: {0} руб.", deposit.Amount));
 			}
 		}
 		bool CanAdd()
@@ -70,8 +70,8 @@ namespace Resurs.ViewModels
 			{
 				var deposit = depositDetailsViewModel.GetDeposit();
 				SelectedDeposit.Update(deposit);
-				DBCash.SaveDeposit(SelectedDeposit.Deposit);
-				DBCash.AddJournalForUser(JournalType.EditDeposit, deposit, string.Format("Сумма: {0} руб.", deposit.Amount));
+				DbCache.SaveDeposit(SelectedDeposit.Deposit);
+				DbCache.AddJournalForUser(JournalType.EditDeposit, deposit, string.Format("Сумма: {0} руб.", deposit.Amount));
 			}
 		}
 		bool CanEdit()
@@ -83,8 +83,8 @@ namespace Resurs.ViewModels
 		void OnRemove()
 		{
 			var index = Deposits.IndexOf(SelectedDeposit);
-			DBCash.DeleteDeposit(SelectedDeposit.Deposit);
-			DBCash.AddJournalForUser(JournalType.DeleteDeposit, SelectedDeposit.Deposit, string.Format("Сумма: {0} руб.", SelectedDeposit.Deposit.Amount));
+			DbCache.DeleteDeposit(SelectedDeposit.Deposit);
+			DbCache.AddJournalForUser(JournalType.DeleteDeposit, SelectedDeposit.Deposit, string.Format("Сумма: {0} руб.", SelectedDeposit.Deposit.Amount));
 			Deposits.Remove(SelectedDeposit);
 			if (index >= Deposits.Count)
 				index = Deposits.Count - 1;

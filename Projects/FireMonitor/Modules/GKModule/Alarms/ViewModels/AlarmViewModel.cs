@@ -12,6 +12,7 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using System;
 using System.Collections.Generic;
+using Microsoft.Practices.Prism.Events;
 
 namespace GKModule.ViewModels
 {
@@ -37,20 +38,8 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (Alarm.Device != null)
-					return Alarm.Device.PresentationName;
-				if (Alarm.Zone != null)
-					return Alarm.Zone.PresentationName;
-				if (Alarm.GuardZone != null)
-					return Alarm.GuardZone.PresentationName;
-				if (Alarm.Direction != null)
-					return Alarm.Direction.PresentationName;
-				if (Alarm.Door != null)
-					return Alarm.Door.PresentationName;
-				if (Alarm.Delay != null)
-					return Alarm.Delay.PresentationName;
-				if (Alarm.Mpt != null)
-					return Alarm.Mpt.PresentationName;
+				if (Alarm.GkBaseEntity != null)
+					return Alarm.GkBaseEntity.PresentationName;
 				return null;
 			}
 		}
@@ -59,20 +48,8 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (Alarm.Device != null)
-					return Alarm.Device.Driver.ImageSource;
-				if (Alarm.Zone != null)
-					return "/Controls;component/Images/Zone.png";
-				if (Alarm.GuardZone != null)
-					return "/Controls;component/Images/GuardZone.png";
-				if (Alarm.Direction != null)
-					return "/Controls;component/Images/Blue_Direction.png";
-				if (Alarm.Door != null)
-					return "/Controls;component/Images/Door.png";
-				if (Alarm.Delay != null)
-					return "/Controls;component/Images/Delay.png";
-				if (Alarm.Mpt != null)
-					return "/Controls;component/Images/BMpt.png";
+				if (Alarm.GkBaseEntity != null)
+					return Alarm.GkBaseEntity.ImageSource;
 				return null;
 			}
 		}
@@ -81,20 +58,8 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (Alarm.Device != null)
-					return Alarm.Device.State.StateClass;
-				if (Alarm.Zone != null)
-					return Alarm.Zone.State.StateClass;
-				if (Alarm.GuardZone != null)
-					return Alarm.GuardZone.State.StateClass;
-				if (Alarm.Direction != null)
-					return Alarm.Direction.State.StateClass;
-				if (Alarm.Door != null)
-					return Alarm.Door.State.StateClass;
-				if (Alarm.Delay != null)
-					return Alarm.Delay.State.StateClass;
-				if (Alarm.Mpt != null)
-					return Alarm.Mpt.State.StateClass;
+				if (Alarm.GkBaseEntity != null)
+					return Alarm.GkBaseEntity.State.StateClass;
 				return XStateClass.Norm;
 			}
 		}
@@ -108,137 +73,14 @@ namespace GKModule.ViewModels
 			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 			{
 				ElementBase elementBase;
-				if (Alarm.Device != null)
+				var elementUnion = plan.ElementUnion;
+				if (Alarm.GkBaseEntity != null)
 				{
-					elementBase = plan.ElementGKDevices.FirstOrDefault(x => x.DeviceUID == Alarm.Device.UID);
+					elementBase = elementUnion.FirstOrDefault(x => x.UID == Alarm.GkBaseEntity.UID);
 					if (elementBase != null)
 					{
 						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-						alarmPlanViewModel.Device = Alarm.Device;
-						Plans.Add(alarmPlanViewModel);
-					}
-				}
-				if (Alarm.Zone != null)
-				{
-					elementBase = plan.ElementRectangleGKZones.FirstOrDefault(x => x.ZoneUID == Alarm.Zone.UID);
-					if (elementBase != null)
-					{
-						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-						alarmPlanViewModel.Zone = Alarm.Zone;
-						Plans.Add(alarmPlanViewModel);
-						continue;
-					}
-
-					elementBase = plan.ElementPolygonGKZones.FirstOrDefault(x => x.ZoneUID == Alarm.Zone.UID);
-					if (elementBase != null)
-					{
-						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-						alarmPlanViewModel.Zone = Alarm.Zone;
-						Plans.Add(alarmPlanViewModel);
-					}
-				}
-				if (Alarm.GuardZone != null)
-				{
-					elementBase = plan.ElementRectangleGKGuardZones.FirstOrDefault(x => x.ZoneUID == Alarm.GuardZone.UID);
-					if (elementBase != null)
-					{
-						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-						alarmPlanViewModel.GuardZone = Alarm.GuardZone;
-						Plans.Add(alarmPlanViewModel);
-						continue;
-					}
-
-					elementBase = plan.ElementPolygonGKGuardZones.FirstOrDefault(x => x.ZoneUID == Alarm.GuardZone.UID);
-					if (elementBase != null)
-					{
-						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-						alarmPlanViewModel.GuardZone = Alarm.GuardZone;
-						Plans.Add(alarmPlanViewModel);
-					}
-				}
-				if (Alarm.Delay != null)
-				{
-					elementBase = plan.ElementRectangleGKDelays.FirstOrDefault(x => x.DelayUID == Alarm.Delay.UID);
-					if (elementBase != null)
-					{
-						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-						alarmPlanViewModel.Delay = Alarm.Delay;
-						Plans.Add(alarmPlanViewModel);
-						continue;
-					}
-					elementBase = plan.ElementPolygonGKDelays.FirstOrDefault(x => x.DelayUID == Alarm.Delay.UID);
-					if (elementBase != null)
-					{
-						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-						alarmPlanViewModel.Delay = Alarm.Delay;
-						Plans.Add(alarmPlanViewModel);
-						continue;
-					}
-				}
-				if (Alarm.Direction != null)
-				{
-					elementBase = plan.ElementRectangleGKDirections.FirstOrDefault(x => x.DirectionUID == Alarm.Direction.UID);
-					if (elementBase != null)
-					{
-						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-						alarmPlanViewModel.Direction = Alarm.Direction;
-						Plans.Add(alarmPlanViewModel);
-						continue;
-					}
-
-					elementBase = plan.ElementPolygonGKDirections.FirstOrDefault(x => x.DirectionUID == Alarm.Direction.UID);
-					if (elementBase != null)
-					{
-						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-						alarmPlanViewModel.Direction = Alarm.Direction;
-						Plans.Add(alarmPlanViewModel);
-					}
-				}
-				if (Alarm.Mpt != null)
-				{
-					elementBase = plan.ElementRectangleGKMPTs.FirstOrDefault(x => x.MPTUID == Alarm.Mpt.UID);
-					if (elementBase != null)
-					{
-						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-						alarmPlanViewModel.MPT = Alarm.Mpt;
-						Plans.Add(alarmPlanViewModel);
-						continue;
-					}
-
-					elementBase = plan.ElementPolygonGKMPTs.FirstOrDefault(x => x.MPTUID == Alarm.Mpt.UID);
-					if (elementBase != null)
-					{
-						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-						alarmPlanViewModel.MPT = Alarm.Mpt;
-						Plans.Add(alarmPlanViewModel);
-					}
-				}
-				if (Alarm.Delay != null)
-				{
-					elementBase = plan.ElementRectangleGKDelays.FirstOrDefault(x => x.DelayUID == Alarm.Delay.UID);
-					if (elementBase != null)
-					{
-						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-						alarmPlanViewModel.Delay = Alarm.Delay;
-						Plans.Add(alarmPlanViewModel);
-						continue;
-					}
-
-					elementBase = plan.ElementPolygonGKDelays.FirstOrDefault(x => x.DelayUID == Alarm.Delay.UID);
-					if (elementBase != null)
-					{
-						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-						alarmPlanViewModel.Delay = Alarm.Delay;
-						Plans.Add(alarmPlanViewModel);
-					}
-				}
-				if (Alarm.Door != null)
-				{
-					elementBase = plan.ElementGKDoors.FirstOrDefault(x => x.DoorUID == Alarm.Door.UID);
-					if (elementBase != null)
-					{
-						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-						alarmPlanViewModel.Door = Alarm.Door;
+						alarmPlanViewModel.GkBaseEntity = Alarm.GkBaseEntity;
 						Plans.Add(alarmPlanViewModel);
 					}
 				}
@@ -257,97 +99,112 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowObjectCommand { get; private set; }
 		void OnShowObject()
 		{
-			if (Alarm.Device != null)
+			if (Alarm.GkBaseEntity is GKDevice)
 			{
-				ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>().Publish(Alarm.Device.UID);
+				ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>().Publish(Alarm.GkBaseEntity.UID);
 			}
-			if (Alarm.Zone != null)
+			if (Alarm.GkBaseEntity is GKZone)
 			{
-				ServiceFactory.Events.GetEvent<ShowGKZoneEvent>().Publish(Alarm.Zone.UID);
+				ServiceFactory.Events.GetEvent<ShowGKZoneEvent>().Publish(Alarm.GkBaseEntity.UID);
 			}
-			if (Alarm.GuardZone != null)
+			if (Alarm.GkBaseEntity is GKGuardZone)
 			{
-				ServiceFactory.Events.GetEvent<ShowGKGuardZoneEvent>().Publish(Alarm.GuardZone.UID);
+				ServiceFactory.Events.GetEvent<ShowGKGuardZoneEvent>().Publish(Alarm.GkBaseEntity.UID);
 			}
-			if (Alarm.Direction != null)
+			if (Alarm.GkBaseEntity is GKDirection)
 			{
-				ServiceFactory.Events.GetEvent<ShowGKDirectionEvent>().Publish(Alarm.Direction.UID);
+				ServiceFactory.Events.GetEvent<ShowGKDirectionEvent>().Publish(Alarm.GkBaseEntity.UID);
 			}
-			if (Alarm.Mpt != null)
+			if (Alarm.GkBaseEntity is GKMPT)
 			{
-				ServiceFactory.Events.GetEvent<ShowGKMPTEvent>().Publish(Alarm.Mpt.UID);
+				ServiceFactory.Events.GetEvent<ShowGKMPTEvent>().Publish(Alarm.GkBaseEntity.UID);
 			}
-			if (Alarm.Delay != null)
+			if (Alarm.GkBaseEntity is GKDelay)
 			{
-				ServiceFactory.Events.GetEvent<ShowGKDelayEvent>().Publish(Alarm.Delay.UID);
+				ServiceFactory.Events.GetEvent<ShowGKDelayEvent>().Publish(Alarm.GkBaseEntity.UID);
 			}
-			if (Alarm.Door != null)
+			if (Alarm.GkBaseEntity is GKDoor)
 			{
-				ServiceFactory.Events.GetEvent<ShowGKDoorEvent>().Publish(Alarm.Door.UID);
+				ServiceFactory.Events.GetEvent<ShowGKDoorEvent>().Publish(Alarm.GkBaseEntity.UID);
 			}
 		}
-
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
-			if (Alarm.Device != null)
+			GKDevice device;
+			GKZone zone;
+			GKGuardZone guardZone;
+			GKDirection direction;
+			GKMPT mpt;
+			GKDelay delay;
+			GKDoor door;
+
+			if ((device = Alarm.GkBaseEntity as GKDevice) != null)
 			{
-				ShowOnPlanHelper.ShowDevice(Alarm.Device);
+				ShowOnPlanHelper.ShowDevice(device);
 			}
-			if (Alarm.Zone != null)
+			if ((zone = Alarm.GkBaseEntity as GKZone) != null)
 			{
-				ShowOnPlanHelper.ShowZone(Alarm.Zone);
+				ShowOnPlanHelper.ShowZone(zone);
 			}
-			if (Alarm.GuardZone != null)
+			if ((guardZone = Alarm.GkBaseEntity as GKGuardZone) != null)
 			{
-				ShowOnPlanHelper.ShowGuardZone(Alarm.GuardZone);
+				ShowOnPlanHelper.ShowGuardZone(guardZone);
 			}
-			if (Alarm.Direction != null)
+			if ((direction = Alarm.GkBaseEntity as GKDirection) != null)
 			{
-				ShowOnPlanHelper.ShowDirection(Alarm.Direction);
+				ShowOnPlanHelper.ShowDirection(direction);
 			}
-			if (Alarm.Mpt != null)
+			if ((mpt = Alarm.GkBaseEntity as GKMPT) != null)
 			{
-				ShowOnPlanHelper.ShowMPT(Alarm.Mpt);
+				ShowOnPlanHelper.ShowMPT(mpt);
 			}
-			if (Alarm.Delay != null)
+			if ((delay = Alarm.GkBaseEntity as GKDelay) != null)
 			{
-				ShowOnPlanHelper.ShowDelay(Alarm.Delay);
+				ShowOnPlanHelper.ShowDelay(delay);
 			}
-			if (Alarm.Door != null)
+			if ((door = Alarm.GkBaseEntity as GKDoor) != null)
 			{
-				ShowOnPlanHelper.ShowDoor(Alarm.Door);
+				ShowOnPlanHelper.ShowDoor(door);
 			}
 		}
 		bool CanShowOnPlan()
 		{
-			if (Alarm.Device != null)
+			GKDevice device;
+			GKZone zone;
+			GKGuardZone guardZone;
+			GKDirection direction;
+			GKMPT mpt;
+			GKDelay delay;
+			GKDoor door;
+
+			if ((device = Alarm.GkBaseEntity as GKDevice) != null)
 			{
-				return ShowOnPlanHelper.CanShowDevice(Alarm.Device);
+				return ShowOnPlanHelper.CanShowDevice(device);
 			}
-			if (Alarm.Zone != null)
+			if ((zone = Alarm.GkBaseEntity as GKZone) != null)
 			{
-				return ShowOnPlanHelper.CanShowZone(Alarm.Zone);
+				return ShowOnPlanHelper.CanShowZone(zone);
 			}
-			if (Alarm.GuardZone != null)
+			if ((guardZone = Alarm.GkBaseEntity as GKGuardZone) != null)
 			{
-				return ShowOnPlanHelper.CanShowGuardZone(Alarm.GuardZone);
+				return ShowOnPlanHelper.CanShowGuardZone(guardZone);
 			}
-			if (Alarm.Direction != null)
+			if ((direction = Alarm.GkBaseEntity as GKDirection) != null)
 			{
-				return ShowOnPlanHelper.CanShowDirection(Alarm.Direction);
+				return ShowOnPlanHelper.CanShowDirection(direction);
 			}
-			if (Alarm.Mpt != null)
+			if ((mpt = Alarm.GkBaseEntity as GKMPT) != null)
 			{
-				return ShowOnPlanHelper.CanShowMPT(Alarm.Mpt);
+				return ShowOnPlanHelper.CanShowMPT(mpt);
 			}
-			if (Alarm.Delay != null)
+			if ((delay = Alarm.GkBaseEntity as GKDelay) != null)
 			{
-				return ShowOnPlanHelper.CanShowDelay(Alarm.Delay);
+				return ShowOnPlanHelper.CanShowDelay(delay);
 			}
-			if (Alarm.Door != null)
+			if ((door = Alarm.GkBaseEntity as GKDoor) != null)
 			{
-				return ShowOnPlanHelper.CanShowDoor(Alarm.Door);
+				return ShowOnPlanHelper.CanShowDoor(door);
 			}
 			return false;
 		}
@@ -357,38 +214,42 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				if (Alarm.Zone != null)
+				var zone = Alarm.GkBaseEntity as GKZone;
+				if (zone != null)
 				{
 					switch (Alarm.AlarmType)
 					{
 						case GKAlarmType.Fire1:
-							ClientManager.FiresecService.GKResetFire1(Alarm.Zone);
+							ClientManager.FiresecService.GKResetFire1(zone);
 							break;
 
 						case GKAlarmType.Fire2:
-							ClientManager.FiresecService.GKResetFire2(Alarm.Zone);
+							ClientManager.FiresecService.GKResetFire2(zone);
 							break;
 					}
 				}
-				if (Alarm.GuardZone != null)
+				var guardZone = Alarm.GkBaseEntity as GKGuardZone;
+				if (guardZone != null)
 				{
 					switch (Alarm.AlarmType)
 					{
 						case GKAlarmType.GuardAlarm:
-							ClientManager.FiresecService.GKReset(Alarm.GuardZone);
+							ClientManager.FiresecService.GKReset(guardZone);
 							break;
 					}
 				}
-				if (Alarm.Device != null)
+				var device = Alarm.GkBaseEntity as GKDevice;
+				if (device != null)
 				{
-					ClientManager.FiresecService.GKReset(Alarm.Device);
+					ClientManager.FiresecService.GKReset(device);
 				}
-				if (Alarm.Door != null)
+				var door = Alarm.GkBaseEntity as GKDoor;
+				if (door != null)
 				{
 					switch (Alarm.AlarmType)
 					{
 						case GKAlarmType.GuardAlarm:
-							ClientManager.FiresecService.GKReset(Alarm.Door);
+							ClientManager.FiresecService.GKReset(door);
 							break;
 					}
 				}
@@ -396,22 +257,24 @@ namespace GKModule.ViewModels
 		}
 		bool CanReset()
 		{
-			if (Alarm.Zone != null)
+			if (Alarm.GkBaseEntity as GKZone != null)
 			{
 				return (Alarm.AlarmType == GKAlarmType.Fire1 || Alarm.AlarmType == GKAlarmType.Fire2);
 			}
-			if (Alarm.GuardZone != null)
+			if (Alarm.GkBaseEntity as GKGuardZone != null)
 			{
 				return (Alarm.AlarmType == GKAlarmType.GuardAlarm);
 			}
-			if (Alarm.Device != null)
+
+			var device = Alarm.GkBaseEntity as GKDevice;
+			if (device != null)
 			{
-				if (Alarm.Device.DriverType == GKDriverType.RSR2_MAP4)
+				if (device.DriverType == GKDriverType.RSR2_MAP4)
 				{
-					return Alarm.Device.State.StateClasses.Contains(XStateClass.Fire2) || Alarm.Device.State.StateClasses.Contains(XStateClass.Fire1);
+					return device.State.StateClasses.Contains(XStateClass.Fire2) || device.State.StateClasses.Contains(XStateClass.Fire1);
 				}
 			}
-			if (Alarm.Door != null)
+			if (Alarm.GkBaseEntity as GKDoor != null)
 			{
 				return (Alarm.AlarmType == GKAlarmType.GuardAlarm);
 			}
@@ -427,59 +290,11 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				if (Alarm.Device != null)
+				if (Alarm.GkBaseEntity != null)
 				{
-					if (Alarm.Device.State.StateClasses.Contains(XStateClass.Ignore))
+					if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore))
 					{
-						ClientManager.FiresecService.GKSetAutomaticRegime(Alarm.Device);
-					}
-				}
-
-				if (Alarm.Zone != null)
-				{
-					if (Alarm.Zone.State.StateClasses.Contains(XStateClass.Ignore))
-					{
-						ClientManager.FiresecService.GKSetAutomaticRegime(Alarm.Zone);
-					}
-				}
-
-				if (Alarm.GuardZone != null)
-				{
-					if (Alarm.GuardZone.State.StateClasses.Contains(XStateClass.Ignore))
-					{
-						ClientManager.FiresecService.GKSetAutomaticRegime(Alarm.GuardZone);
-					}
-				}
-
-				if (Alarm.Direction != null)
-				{
-					if (Alarm.Direction.State.StateClasses.Contains(XStateClass.Ignore))
-					{
-						ClientManager.FiresecService.GKSetAutomaticRegime(Alarm.Direction);
-					}
-				}
-
-				if (Alarm.Mpt != null)
-				{
-					if (Alarm.Mpt.State.StateClasses.Contains(XStateClass.Ignore))
-					{
-						ClientManager.FiresecService.GKSetAutomaticRegime(Alarm.Mpt);
-					}
-				}
-
-				if (Alarm.Delay != null)
-				{
-					if (Alarm.Delay.State.StateClasses.Contains(XStateClass.Ignore))
-					{
-						ClientManager.FiresecService.GKSetAutomaticRegime(Alarm.Delay);
-					}
-				}
-
-				if (Alarm.Door != null)
-				{
-					if (Alarm.Door.State.StateClasses.Contains(XStateClass.Ignore))
-					{
-						ClientManager.FiresecService.GKSetAutomaticRegime(Alarm.Door);
+						ClientManager.FiresecService.GKSetAutomaticRegime(Alarm.GkBaseEntity);
 					}
 				}
 			}
@@ -488,43 +303,41 @@ namespace GKModule.ViewModels
 		{
 			if (Alarm.AlarmType != GKAlarmType.Ignore)
 				return false;
-
-			if (Alarm.Device != null)
+			if (Alarm.GkBaseEntity is GKDevice)
 			{
-				if (Alarm.Device.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Device_Control))
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Device_Control))
 					return true;
 			}
 
-			if (Alarm.Zone != null)
+			if (Alarm.GkBaseEntity is GKZone)
 			{
-				if (Alarm.Zone.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Zone_Control))
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Zone_Control))
 					return true;
 			}
 
-			if (Alarm.GuardZone != null)
+			if (Alarm.GkBaseEntity is GKGuardZone)
 			{
-				if (Alarm.GuardZone.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_GuardZone_Control))
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_GuardZone_Control))
 					return true;
 			}
 
-			if (Alarm.Mpt != null)
+			if (Alarm.GkBaseEntity is GKMPT)
 			{
-				if (Alarm.Mpt.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_MPT_Control))
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_MPT_Control))
 					return true;
 			}
 
-			if (Alarm.Delay != null)
+			if (Alarm.GkBaseEntity is GKDelay)
 			{
-				if (Alarm.Delay.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Delay_Control))
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Delay_Control))
 					return true;
 			}
 
-			if (Alarm.Direction != null)
+			if (Alarm.GkBaseEntity is GKDirection)
 			{
-				if (Alarm.Direction.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Directions_Control))
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Directions_Control))
 					return true;
 			}
-
 			return false;
 		}
 		public bool CanResetIgnoreCommand
@@ -537,32 +350,39 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				if (Alarm.Device != null)
+				var device = Alarm.GkBaseEntity as GKDevice;
+				if (device != null)
 				{
-					if (Alarm.Device.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_Device_Control))
+					if (device.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_Device_Control))
 					{
-						ClientManager.FiresecService.GKSetAutomaticRegime(Alarm.Device);
+						ClientManager.FiresecService.GKSetAutomaticRegime(device);
 					}
 				}
-				if (Alarm.Direction != null)
+
+				var direction = Alarm.GkBaseEntity as GKDirection;
+				if (direction != null)
 				{
-					if (Alarm.Direction.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_Directions_Control))
+					if (direction.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_Directions_Control))
 					{
-						ClientManager.FiresecService.GKSetAutomaticRegime(Alarm.Direction);
+						ClientManager.FiresecService.GKSetAutomaticRegime(direction);
 					}
 				}
-				if (Alarm.Delay != null)
+
+				var delay = Alarm.GkBaseEntity as GKDelay;
+				if (delay != null)
 				{
-					if (Alarm.Delay.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_Delay_Control))
+					if (delay.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_Delay_Control))
 					{
-						ClientManager.FiresecService.GKSetAutomaticRegime(Alarm.Delay);
+						ClientManager.FiresecService.GKSetAutomaticRegime(delay);
 					}
 				}
-				if (Alarm.Mpt != null)
+
+				var mpt = Alarm.GkBaseEntity as GKMPT;
+				if (mpt != null)
 				{
-					if (Alarm.Mpt.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_MPT_Control))
+					if (mpt.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_MPT_Control))
 					{
-						ClientManager.FiresecService.GKSetAutomaticRegime(Alarm.Mpt);
+						ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
 					}
 				}
 			}
@@ -571,21 +391,14 @@ namespace GKModule.ViewModels
 		{
 			if (Alarm.AlarmType == GKAlarmType.AutoOff)
 			{
-				if (Alarm.Device != null)
+				if (Alarm.GkBaseEntity != null)
 				{
-					return Alarm.Device.Driver.IsControlDevice && Alarm.Device.State.StateClasses.Contains(XStateClass.AutoOff);
-				}
-				if (Alarm.Direction != null)
-				{
-					return Alarm.Direction.State.StateClasses.Contains(XStateClass.AutoOff);
-				}
-				if (Alarm.Delay != null)
-				{
-					return Alarm.Delay.State.StateClasses.Contains(XStateClass.AutoOff);
-				}
-				if (Alarm.Mpt != null)
-				{
-					return Alarm.Mpt.State.StateClasses.Contains(XStateClass.AutoOff);
+					var device = Alarm.GkBaseEntity as GKDevice;
+					if (device != null)
+					{
+						return device.Driver.IsControlDevice && Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.AutoOff);
+					}
+					return Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.AutoOff);
 				}
 			}
 			return false;
@@ -599,58 +412,54 @@ namespace GKModule.ViewModels
 		void OnShowJournal()
 		{
 			var uids = new List<Guid>();
-			if (Alarm.Device != null)
-				uids.Add(Alarm.Device.UID);
-			if (Alarm.Zone != null)
-				uids.Add(Alarm.Zone.UID);
-			if (Alarm.GuardZone != null)
-				uids.Add(Alarm.GuardZone.UID);
-			if (Alarm.Direction != null)
-				uids.Add(Alarm.Direction.UID);
-			if (Alarm.Mpt != null)
-				uids.Add(Alarm.Mpt.UID);
-			if (Alarm.Delay != null)
-				uids.Add(Alarm.Delay.UID);
-			if (Alarm.Door != null)
-				uids.Add(Alarm.Door.UID);
+			if (Alarm.GkBaseEntity != null)
+				uids.Add(Alarm.GkBaseEntity.UID);
 			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(uids);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			if (Alarm.Device != null)
+			GKDevice device;
+			GKZone zone;
+			GKGuardZone guardZone;
+			GKDirection direction;
+			GKMPT mpt;
+			GKDelay delay;
+			GKDoor door;
+
+			if ((device = Alarm.GkBaseEntity as GKDevice) != null)
 			{
-				DialogService.ShowWindow(new DeviceDetailsViewModel(Alarm.Device));
+				DialogService.ShowWindow(new DeviceDetailsViewModel(device));
 			}
-			if (Alarm.Zone != null)
+			if ((zone = Alarm.GkBaseEntity as GKZone) != null)
 			{
-				DialogService.ShowWindow(new ZoneDetailsViewModel(Alarm.Zone));
+				DialogService.ShowWindow(new ZoneDetailsViewModel(zone));
 			}
-			if (Alarm.GuardZone != null)
+			if ((guardZone = Alarm.GkBaseEntity as GKGuardZone) != null)
 			{
-				DialogService.ShowWindow(new GuardZoneDetailsViewModel(Alarm.GuardZone));
+				DialogService.ShowWindow(new GuardZoneDetailsViewModel(guardZone));
 			}
-			if (Alarm.Direction != null)
+			if ((direction = Alarm.GkBaseEntity as GKDirection) != null)
 			{
-				DialogService.ShowWindow(new DirectionDetailsViewModel(Alarm.Direction));
+				DialogService.ShowWindow(new DirectionDetailsViewModel(direction));
 			}
-			if (Alarm.Mpt != null)
+			if ((mpt = Alarm.GkBaseEntity as GKMPT) != null)
 			{
-				DialogService.ShowWindow(new MPTDetailsViewModel(Alarm.Mpt));
+				DialogService.ShowWindow(new MPTDetailsViewModel(mpt));
 			}
-			if (Alarm.Delay != null)
+			if ((delay = Alarm.GkBaseEntity as GKDelay) != null)
 			{
-				DialogService.ShowWindow(new DelayDetailsViewModel(Alarm.Delay));
+				DialogService.ShowWindow(new DelayDetailsViewModel(delay));
 			}
-			if (Alarm.Door != null)
+			if ((door = Alarm.GkBaseEntity as GKDoor) != null)
 			{
-				DialogService.ShowWindow(new DoorDetailsViewModel(Alarm.Door));
+				DialogService.ShowWindow(new DoorDetailsViewModel(door));
 			}
 		}
 		bool CanShowProperties()
 		{
-			return Alarm.Device != null || Alarm.Zone != null || Alarm.GuardZone != null || Alarm.Direction != null || Alarm.Mpt != null || Alarm.Delay != null || Alarm.Door != null;
+			return Alarm.GkBaseEntity != null;
 		}
 		public bool CanShowPropertiesCommand
 		{

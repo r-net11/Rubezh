@@ -115,7 +115,7 @@ namespace GKModule.Validation
 
 			if (device.Driver.HasZone)
 			{
-				if (device.Zones.Count == 0)
+				if (device.Zones.Count == 0 && device.GuardZones.Count == 0)
 					AddError(device, "Устройство не подключено к зоне", ValidationErrorLevel.Warning);
 			}
 		}
@@ -128,7 +128,7 @@ namespace GKModule.Validation
 			if (device.DriverType == GKDriverType.GKRele)
 				return;
 
-			if (device.Driver.HasLogic && !device.Driver.IgnoreHasLogic)
+			if (device.Driver.HasLogic && !device.Driver.IgnoreHasLogic && !GKManager.Doors.Any(x=> x.LockDevice == device || x.LockDeviceExit == device))
 			{
 				if (device.Logic.OnClausesGroup.Clauses.Count == 0)
 					AddError(device, "Отсутствует логика срабатывания исполнительного устройства", ValidationErrorLevel.Warning);

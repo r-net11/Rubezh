@@ -4,14 +4,12 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
-using Common;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhClient;
 using GKModule.Models;
 using GKModule.Plans;
 using GKModule.Plans.Designer;
-using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -71,24 +69,24 @@ namespace GKModule.ViewModels
 					}
 				}
 
-				var gkDevices = AllDevices.Where(x => x.Driver.DriverType == GKDriverType.GK);
-				foreach (var gkDevice in gkDevices)
-				{
-					var gkIndicatorsGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа индикаторов", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicatorsGroup) });
-					var gkRelaysGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа реле", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKRelaysGroup) });
-					var gkIndicators = new List<DeviceViewModel>(gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKIndicator));
-					var gkRelays = new List<DeviceViewModel>(gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKRele));
-					foreach (var gkIndicator in gkIndicators)
-					{
-						gkIndicatorsGroupDevice.AddChild(gkIndicator);
-					}
-					foreach (var gkRelay in gkRelays)
-					{
-						gkRelaysGroupDevice.AddChild(gkRelay);
-					}
-					gkDevice.AddChildFirst(gkIndicatorsGroupDevice);
-					gkDevice.AddChildFirst(gkRelaysGroupDevice);
-				}
+				//var gkDevices = AllDevices.Where(x => x.Driver.DriverType == GKDriverType.GK);
+				//foreach (var gkDevice in gkDevices)
+				//{
+				//	var gkIndicatorsGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа индикаторов", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicatorsGroup) });
+				//	var gkRelaysGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа реле", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKRelaysGroup) });
+				//	var gkIndicators = new List<DeviceViewModel>(gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKIndicator));
+				//	var gkRelays = new List<DeviceViewModel>(gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKRele));
+				//	foreach (var gkIndicator in gkIndicators)
+				//	{
+				//		gkIndicatorsGroupDevice.AddChild(gkIndicator);
+				//	}
+				//	foreach (var gkRelay in gkRelays)
+				//	{
+				//		gkRelaysGroupDevice.AddChild(gkRelay);
+				//	}
+				//	gkDevice.AddChildFirst(gkIndicatorsGroupDevice);
+				//	gkDevice.AddChildFirst(gkRelaysGroupDevice);
+				//}
 			}
 
 			foreach (var device in AllDevices)
@@ -471,17 +469,28 @@ namespace GKModule.ViewModels
 			RibbonItems[0][1].Command = SelectedDevice == null ? null : SelectedDevice.ShowPropertiesCommand;
 			RibbonItems[0][2].Command = SelectedDevice == null ? null : SelectedDevice.RemoveCommand;
 
-			RibbonItems[1][9][0].Command = SelectedDevice == null ? null : SelectedDevice.ReadCommand;
-			RibbonItems[1][9][1].Command = SelectedDevice == null ? null : SelectedDevice.WriteCommand;
-			RibbonItems[1][9][2].Command = SelectedDevice == null ? null : SelectedDevice.ReadAllCommand;
-			RibbonItems[1][9][3].Command = SelectedDevice == null ? null : SelectedDevice.WriteAllCommand;
-			RibbonItems[1][9][4].Command = SelectedDevice == null ? null : SelectedDevice.SyncFromDeviceToSystemCommand;
-			RibbonItems[1][9][5].Command = SelectedDevice == null ? null : SelectedDevice.SyncFromAllDeviceToSystemCommand;
-			RibbonItems[1][9][6].Command = SelectedDevice == null ? null : SelectedDevice.CopyParamCommand;
-			RibbonItems[1][9][7].Command = SelectedDevice == null ? null : SelectedDevice.PasteParamCommand;
-			RibbonItems[1][9][8].Command = SelectedDevice == null ? null : SelectedDevice.PasteAllParamCommand;
-			RibbonItems[1][9][9].Command = SelectedDevice == null ? null : SelectedDevice.PasteTemplateCommand;
-			RibbonItems[1][9][10].Command = SelectedDevice == null ? null : SelectedDevice.PasteAllTemplateCommand;
+			RibbonItems[1][8][0].Command = SelectedDevice == null ? null : SelectedDevice.ReadCommand;
+			RibbonItems[1][8][1].Command = SelectedDevice == null ? null : SelectedDevice.WriteCommand;
+			RibbonItems[1][8][2].Command = SelectedDevice == null ? null : SelectedDevice.ReadAllCommand;
+			RibbonItems[1][8][3].Command = SelectedDevice == null ? null : SelectedDevice.WriteAllCommand;
+			RibbonItems[1][8][4].Command = SelectedDevice == null ? null : SelectedDevice.SyncFromDeviceToSystemCommand;
+			RibbonItems[1][8][5].Command = SelectedDevice == null ? null : SelectedDevice.SyncFromAllDeviceToSystemCommand;
+			RibbonItems[1][8][6].Command = SelectedDevice == null ? null : SelectedDevice.CopyParamCommand;
+			RibbonItems[1][8][7].Command = SelectedDevice == null ? null : SelectedDevice.PasteParamCommand;
+			RibbonItems[1][8][8].Command = SelectedDevice == null ? null : SelectedDevice.PasteAllParamCommand;
+			RibbonItems[1][8][9].Command = SelectedDevice == null ? null : SelectedDevice.PasteTemplateCommand;
+			RibbonItems[1][8][10].Command = SelectedDevice == null ? null : SelectedDevice.PasteAllTemplateCommand;
+			//RibbonItems[1][9][0].Command = SelectedDevice == null ? null : SelectedDevice.ReadCommand;
+			//RibbonItems[1][9][1].Command = SelectedDevice == null ? null : SelectedDevice.WriteCommand;
+			//RibbonItems[1][9][2].Command = SelectedDevice == null ? null : SelectedDevice.ReadAllCommand;
+			//RibbonItems[1][9][3].Command = SelectedDevice == null ? null : SelectedDevice.WriteAllCommand;
+			//RibbonItems[1][9][4].Command = SelectedDevice == null ? null : SelectedDevice.SyncFromDeviceToSystemCommand;
+			//RibbonItems[1][9][5].Command = SelectedDevice == null ? null : SelectedDevice.SyncFromAllDeviceToSystemCommand;
+			//RibbonItems[1][9][6].Command = SelectedDevice == null ? null : SelectedDevice.CopyParamCommand;
+			//RibbonItems[1][9][7].Command = SelectedDevice == null ? null : SelectedDevice.PasteParamCommand;
+			//RibbonItems[1][9][8].Command = SelectedDevice == null ? null : SelectedDevice.PasteAllParamCommand;
+			//RibbonItems[1][9][9].Command = SelectedDevice == null ? null : SelectedDevice.PasteTemplateCommand;
+			//RibbonItems[1][9][10].Command = SelectedDevice == null ? null : SelectedDevice.PasteAllTemplateCommand;
 		}
 		private void SetRibbonItems()
 		{
@@ -504,7 +513,7 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Информация об устройстве", DeviceCommandsViewModel.ShowInfoCommand, "BInformation") { IsNewGroup = true },
 					new RibbonMenuItemViewModel("Синхронизация времени", DeviceCommandsViewModel.SynchroniseTimeCommand, "BWatch"),
 					new RibbonMenuItemViewModel("Журнал событий", DeviceCommandsViewModel.ReadJournalCommand, "BJournal"),
-					new RibbonMenuItemViewModel("Обновление ПО", DeviceCommandsViewModel.UpdateFirmwhareCommand, "BParametersSync"),
+					//new RibbonMenuItemViewModel("Обновление ПО", DeviceCommandsViewModel.UpdateFirmwareCommand, "BParametersSync"),
 					new RibbonMenuItemViewModel("Автопоиск устройств", DeviceCommandsViewModel.AutoSearchCommand, "BSearch"),
 					new RibbonMenuItemViewModel("Считать пользователей прибора", DeviceCommandsViewModel.GetUsersCommand, "BSettings"),
 					new RibbonMenuItemViewModel("Параметры", new ObservableCollection<RibbonMenuItemViewModel>

@@ -14,7 +14,7 @@
 			<DataGridTemplateColumn Header="Номер карты" Width="Auto">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-						<TextBlock Text="{Binding Number}" Margin="2" />
+						<TextBlock Text="{Binding Password}" Margin="2" />
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>

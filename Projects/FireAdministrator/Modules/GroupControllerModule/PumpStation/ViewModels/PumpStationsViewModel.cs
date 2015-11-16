@@ -96,7 +96,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(pumpStationDetailsViewModel))
 			{
 				GKManager.EditPumpStation(SelectedPumpStation.PumpStation);
-				SelectedPumpStation.Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -104,7 +103,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить НС " + SelectedPumpStation.PumpStation.Name))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить НС " + SelectedPumpStation.PumpStation.PresentationName + " ?"))
 			{
 				var pumpDevices = new List<GKDevice>(SelectedPumpStation.PumpDevices.Select(x => x.Device));
 				var index = PumpStations.IndexOf(SelectedPumpStation);
@@ -171,7 +170,7 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedPumpStation.PumpStation != null)
 			{
-				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedPumpStation.PumpStation.OutDependentElements);
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedPumpStation.PumpStation.OutputDependentElements);
 				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}

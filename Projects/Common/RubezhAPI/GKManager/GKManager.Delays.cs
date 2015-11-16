@@ -26,13 +26,13 @@ namespace RubezhClient
 			Delays.Remove(delay);
 			delay.InputDependentElements.ForEach(x =>
 			{
-				x.OutDependentElements.Remove(delay);
+				x.OutputDependentElements.Remove(delay);
 			});
 
-			delay.OutDependentElements.ForEach(x =>
+			delay.OutputDependentElements.ForEach(x =>
 			{
 				x.InputDependentElements.Remove(delay);
-				x.UpdateLogic();
+				x.UpdateLogic(GKManager.DeviceConfiguration);
 				x.OnChanged();
 			});
 		}
@@ -43,7 +43,8 @@ namespace RubezhClient
 		/// <param name="delay"></param>
 		public static void EditDelay(GKDelay delay)
 		{
-			delay.OutDependentElements.ForEach(x => x.OnChanged());
+			delay.OutputDependentElements.ForEach(x => x.OnChanged());
+			delay.OnChanged();
 		}
 
 		/// <summary>

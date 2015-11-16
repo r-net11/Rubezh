@@ -9,12 +9,12 @@
 			<Setter Property="VerticalAlignment" Value="Center" />
 		</Style>
 	</UserControl.Resources>
-	<StackPanel>
+	<StackPanel MaxWidth="800">
 		<StackPanel Orientation="Horizontal">
 			<Image Margin="2" Width="16" Height="16" Source="/Controls;component/Images/GuardZone.png" />
 			<TextBlock Text="{Binding GuardZone.PresentationName}" FontWeight="Bold" />
 		</StackPanel>
-		<TextBlock Text="{Binding GuardZone.Description}" Visibility="{Binding GuardZone.Description, Converter={StaticResource StringToVisibilityConverter}}" />
+		<TextBlock Text="{Binding GuardZone.Description}" Visibility="{Binding GuardZone.Description, Converter={StaticResource StringToVisibilityConverter}}" TextWrapping="Wrap" />
 		<StackPanel Orientation="Horizontal">
 			<ItemsControl ItemsSource="{Binding State.StateClasses}">
 				<ItemsControl.ItemTemplate>

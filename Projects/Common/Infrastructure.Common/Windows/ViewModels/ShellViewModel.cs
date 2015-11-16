@@ -11,7 +11,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 {
 	public class ShellViewModel : ApplicationViewModel
 	{
-		public static ShellViewModel Current { get; private set; }
 		private double _splitterDistance;
 		private GridLength _emptyGridColumn;
 		public ShellViewModel(ClientType clientType)
@@ -34,7 +33,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			TextVisibility = !RegistrySettingsHelper.GetBool(ClientType + ".Shell.TextVisibility");
 			RibbonVisible = false;
 			ToolbarVisible = true;
-			Current = this;
 		}
 
 		string logoSource;

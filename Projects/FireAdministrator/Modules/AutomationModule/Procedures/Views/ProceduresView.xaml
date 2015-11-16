@@ -11,6 +11,40 @@
 				</DataTrigger>
 			</Style.Triggers>
 		</Style>
+		<Style x:Key="ProcedureButtons" BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+			<Setter Property="Foreground" Value="White" />
+			<Setter Property="Height" Value="25" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type Button}">
+
+						<Grid Height="{TemplateBinding Height}">
+							<Border x:Name="Border" Margin="2" Background="{TemplateBinding Background}" BorderThickness="0" CornerRadius="2">
+								<ContentPresenter x:Name="ContentSite" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+									<ContentPresenter.Style>
+										<Style>
+											<Setter Property="TextElement.FontSize" Value="12" />
+										</Style>
+									</ContentPresenter.Style>
+								</ContentPresenter>
+							</Border>
+						</Grid>
+
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsMouseOver" Value="True">
+								<Setter TargetName="Border" Property="Background" Value="{DynamicResource HighlightedBackgoundBrush}" />
+							</Trigger>
+							<Trigger Property="IsPressed" Value="True">
+								<Setter TargetName="Border" Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+							</Trigger>
+							<Trigger Property="IsEnabled" Value="False">
+								<Setter Property="TextElement.Foreground" Value="DarkGray" />
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
 		<ContextMenu x:Key="ProcedureContextMenu">
 			<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить процедуру (Ctrl+N)" />
 			<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete" Text="Удалить процедуру (Ctrl+Del)" />
@@ -30,16 +64,14 @@
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-			<XDataGrid 
-				ContextMenu="{StaticResource ProcedureContextMenu}" 
-				ItemsSource="{Binding Procedures}" 
-				SelectedItem="{Binding SelectedProcedure}" 
-				IsReadOnly="False">
+			<DataGrid ContextMenu="{StaticResource ProcedureContextMenu}" ItemsSource="{Binding Procedures}" SelectedItem="{Binding SelectedProcedure}" IsReadOnly="False">
+				<DataGrid.InputBindings>
+					<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
+				</DataGrid.InputBindings>
 				<DataGrid.Columns>
-					<DataGridTemplateColumn 
-						Header="Название" 
-						SortMemberPath="Name"
-						Width="*">
+					<DataGridTemplateColumn Header="Название" 
+											SortMemberPath="Name"
+											Width="*">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -50,7 +82,7 @@
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 				</DataGrid.Columns>
-			</XDataGrid>
+			</DataGrid>
 		</Grid>
 
 		<GridSplitter Grid.Column="1" Background="Transparent" HorizontalAlignment="Stretch"/>
@@ -59,10 +91,9 @@
 			<Grid>
 				<StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="280 14 0 0">
 					<StackPanel Orientation="Horizontal">
-
-						<Button Content="Шаги" Command="{Binding ShowStepsCommand}" Width="120" Foreground="{DynamicResource ForegroundColorLight}">
+						<Button Content="Шаги" Command="{Binding ShowStepsCommand}" Width="120" Height="28">
 							<Button.Style>
-								<Style BasedOn="{StaticResource ToolBarButtonStyle}" TargetType="{x:Type Button}">
+								<Style TargetType="{x:Type Button}" BasedOn="{StaticResource ProcedureButtons}">
 									<Style.Triggers>
 										<DataTrigger Binding="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToBoolConverter},
 											ConverterParameter={x:Static procedures:MenuType.IsSteps}}" Value="True">
@@ -77,9 +108,9 @@
 							</Button.Style>
 						</Button>
 
-						<Button Content="Переменные" Command="{Binding ShowVariablesCommand}" Width="120" Foreground="{DynamicResource ForegroundColorLight}">
+						<Button Content="Переменные" Command="{Binding ShowVariablesCommand}" Width="120" Height="28">
 							<Button.Style>
-								<Style BasedOn="{StaticResource ToolBarButtonStyle}" TargetType="{x:Type Button}">
+								<Style TargetType="{x:Type Button}" BasedOn="{StaticResource ProcedureButtons}">
 									<Style.Triggers>
 										<DataTrigger Binding="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToBoolConverter},
 											ConverterParameter={x:Static procedures:MenuType.IsVariables}, Mode=OneWay}" Value="True">
@@ -94,9 +125,9 @@
 							</Button.Style>
 						</Button>
 
-						<Button Content="Аргументы" Command="{Binding ShowArgumentsCommand}" Width="120" Foreground="{DynamicResource ForegroundColorLight}">
+						<Button Content="Аргументы" Command="{Binding ShowArgumentsCommand}" Width="120" Height="28">
 							<Button.Style>
-								<Style BasedOn="{StaticResource ToolBarButtonStyle}" TargetType="{x:Type Button}">
+								<Style TargetType="{x:Type Button}" BasedOn="{StaticResource ProcedureButtons}">
 									<Style.Triggers>
 										<DataTrigger Binding="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToBoolConverter},
 											ConverterParameter={x:Static procedures:MenuType.IsArguments}, Mode=OneWay}" Value="True">
@@ -111,9 +142,9 @@
 							</Button.Style>
 						</Button>
 
-						<Button Content="Условия запуска" Command="{Binding ShowConditionsCommand}" Width="120" Foreground="{DynamicResource ForegroundColorLight}">
+						<Button Content="Условия запуска" Command="{Binding ShowConditionsCommand}" Width="120" Height="28">
 							<Button.Style>
-								<Style BasedOn="{StaticResource ToolBarButtonStyle}" TargetType="{x:Type Button}">
+								<Style TargetType="{x:Type Button}" BasedOn="{StaticResource ProcedureButtons}">
 									<Style.Triggers>
 										<DataTrigger Binding="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToBoolConverter},
 											ConverterParameter={x:Static procedures:MenuType.IsConditions}, Mode=OneWay}" Value="True">

@@ -14,7 +14,10 @@ using ResursNetwork.OSI.ApplicationLayer.Devices.Collections.ObjectModel;
 using ResursNetwork.Management;
 using ResursNetwork.Incotex.Models;
 using ResursNetwork.Incotex.NetworkControllers.Messages;
+using ResursNetwork.Incotex.NetworkControllers.DataLinkLayer;
+using ResursAPI;
 using ResursAPI.Models;
+using ResursAPI.ParameterNames;
 using Common;
 
 namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
@@ -59,6 +62,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             {
                 get { return _OutputBufferExternalCalls.Count + _OutputBufferInternalCalls.Count; }
             }
+
             #endregion
 
             /// <summary>
@@ -103,10 +107,13 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
 
         #region Fields And Properties
 
+		/// <summary>
+		/// Минимальное значение, которое можно установить для ствойства PollingPeriod
+		/// </summary>
 		const int MIN_POLLING_PERIOD = 1000;
 		
-		static DeviceType[] _supportedDevices = 
-			new DeviceType[] { DeviceType.Mercury203 };
+		static DeviceModel[] _supportedDevices = 
+			new DeviceModel[] { DeviceModel.Mercury203 };
 		static Type[] _supportedInterfaces = 
 			new Type[] { typeof(Incotex.NetworkControllers.DataLinkLayer.ComPort) };
 		static object _syncRoot = new object(); 
@@ -131,7 +138,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             get { return _currentNetworkRequest; }
         }
 
-        public override IEnumerable<DeviceType> SuppotedDevices
+        public override IEnumerable<DeviceModel> SuppotedDevices
         {
             get { return _supportedDevices; }
         }
@@ -311,15 +318,15 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
             }
 
             // Обрабатывает сообщение
-            _autoResetEventRequest.Set();
             _CurrentIncomingMessage = dataMessages[0];
-        }
+			_autoResetEventRequest.Set();
+		}
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="cancellationToken"></param>
-        protected override void NetwokPollingAction(object cancellationToken)
+        protected override void NetworkPollingAction(object cancellationToken)
         {
             //DateTime lastUpdate;
             List<IDevice> faultyDevices = new List<IDevice>();
@@ -334,7 +341,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                 {
                     // При срабатывании по таймауту обновляем данные из удалённых устройтств
                     // При условии что контроллер в активном состоянии
-                    foreach (DeviceBase device in _Devices)
+                    foreach (DeviceBase device in _devices)
                     {
                         ReadDeviceParameters(device);
                     }
@@ -356,6 +363,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                                     ErrorCode = TransactionErrorCodes.DataLinkPortNotInstalled,
                                     Description = "Невозможно выполенить запрос. Не установлен контроллер сети"
                                 });
+							networkRequest.AsyncRequestResult.SetCompleted();
                             continue;
                         }
                     }
@@ -368,6 +376,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                             ErrorCode = TransactionErrorCodes.RequestWasCancelled,
                             Description = "Выполнение запроса прервано по требованию"
                         });
+						networkRequest.AsyncRequestResult.SetCompleted();
                         continue;
                     }
 
@@ -380,8 +389,9 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                         {
                             ErrorCode = TransactionErrorCodes.RequestTimeout,
                             Description =
-                            "Исключено из обработки по причине неудачного предыдущего запроса к этому устройтсву"
+                            "Исключено из обработки по причине неудачного предыдущего запроса к этому устройству"
                         });
+						networkRequest.AsyncRequestResult.SetCompleted();
                         continue;
                     }
 
@@ -412,7 +422,7 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                     else
                     {
                         // Проверяем: если запрос выполен успешно, но устройтсво содежит ошибку ComunicationError,
-                        // то считаем, что связь с устройтсвом восстановилась и убираем данную ошибку
+                        // то считаем, что связь с устройcтвом восстановилась и убираем данную ошибку
                         if (result.Sender.Errors.CommunicationError)
                         {
                             // удаляем данное устройтсво из списка неисправных
@@ -539,10 +549,10 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                             //}
                         }
 
+						result.SetCompleted();
+
                         OnNetwrokRequestCompleted(
                             new NetworkRequestCompletedArgs { NetworkRequest = _currentNetworkRequest });
-
-                        result.SetCompleted(_currentNetworkRequest.TransactionsStack);
 
                         break;
                     }
@@ -563,22 +573,189 @@ namespace ResursNetwork.Incotex.NetworkControllers.ApplicationLayer
                                 "Принят ответ от удалённого устройтства во время широковещательного запроса");
                         }
 
-                        result.SetCompleted(_currentNetworkRequest.TransactionsStack);
+						result.SetCompleted();
+						
+						OnNetwrokRequestCompleted(
+							new NetworkRequestCompletedArgs { NetworkRequest = _currentNetworkRequest });
 
                         break;
                     }
                 default:
                     {
-                        result.SetCompleted(_currentNetworkRequest.TransactionsStack);
+                        result.SetCompleted();
                         throw new NotSupportedException();
                     }
             }
         }
 
-        public override void SyncDateTime()
+		/// <summary>
+		/// Синхронизирует время в группе устройтсв с указанным групповым
+		/// адресом
+		/// </summary>
+		/// <param name="groupAddress"></param>
+		public override void SyncDateTime(ValueType groupAddress)
         {
-            throw new NotImplementedException();
+			var result = Mercury203.WriteDateTimeInGroupDevices(DateTime.Now, (uint)groupAddress, 
+				(INetwrokController)this, isExternalCall: true);
+
+			// Ждём завершения операции
+			for (int i = 0; i < 2; i++)
+			{
+				Thread.Sleep(BroadcastRequestDelay);
+				
+				if (result.IsCompleted)
+				{
+					return;
+				}
+			}
+
+			throw new Exception(
+				"Широковешательный запрос не завершился за заданное время");
         }
+
+		public override void SyncDateTime()
+		{
+			Boolean flag = false;
+			var groups = _devices.GroupBy(x => ((Mercury203)x).GroupAddress);
+
+			foreach (var group in groups)
+			{
+				var result = Mercury203.WriteDateTimeInGroupDevices(DateTime.Now, group.Key,
+					(INetwrokController)this, isExternalCall: true);
+
+				// Ждём завершения операции
+				for (int i = 0; i < 2; i++)
+				{
+					Thread.Sleep(BroadcastRequestDelay);
+
+					if (result.IsCompleted)
+					{
+						flag = true;
+						break;
+					}
+				}
+
+				if (!flag)
+				{
+					throw new Exception(
+						"Широковешательный запрос не завершился за заданное время"); 
+				}
+			}
+		}
+
+		public override OperationResult ReadParameter(string parameterName)
+		{
+			switch (parameterName)
+			{
+				case ParameterNamesIncotexNetwork.BautRate:
+					{
+						return new OperationResult
+						{
+							Result =
+								new TransactionError
+								{
+									ErrorCode = TransactionErrorCodes.NoError,
+									Description = String.Empty
+								},
+							Value = ((ComPort)base._Connection).BaudRate
+						};
+					}
+				case ParameterNamesIncotexNetworkVirtual.BroadcastDelay:
+					{
+						return new OperationResult
+						{
+							Result =
+								new TransactionError
+								{
+									ErrorCode = TransactionErrorCodes.NoError,
+									Description = String.Empty
+								},
+							Value = _broadcastRequestDelay
+						};
+					}
+				case ParameterNamesIncotexNetworkVirtual.PollInterval:
+					{
+						return new OperationResult
+						{
+							Result =
+								new TransactionError
+								{
+									ErrorCode = TransactionErrorCodes.NoError,
+									Description = String.Empty
+								},
+							Value = _pollingPeriod
+						};
+					}
+				case ParameterNamesIncotexNetworkVirtual.PortName:
+					{
+						return new OperationResult
+						{
+							Result =
+								new TransactionError
+								{
+									ErrorCode = TransactionErrorCodes.NoError,
+									Description = String.Empty
+								},
+							Value = new ParameterStringContainer 
+							{
+								Value = ((ComPort)base._Connection).PortName
+							}
+						};
+					}
+				case ParameterNamesIncotexNetworkVirtual.Timeout:
+					{
+						return new OperationResult
+						{
+							Result =
+								new TransactionError
+								{
+									ErrorCode = TransactionErrorCodes.NoError,
+									Description = String.Empty
+								},
+							Value = _requestTimeout
+						};
+					}
+				default:
+					{
+						throw new InvalidOperationException(String.Format(
+							"Ошибка чтения параметра. Параметр {0} не найден", parameterName));
+					}
+			}
+		}
+
+		public override void WriteParameter(string parameterName, ValueType value)
+		{
+			switch (parameterName)
+			{
+				case ParameterNamesIncotexNetwork.BautRate:
+					{
+						((ComPort)base._Connection).BaudRate = (int)value; break;
+					}
+				case ParameterNamesIncotexNetworkVirtual.BroadcastDelay:
+					{
+						BroadcastRequestDelay = (int)value; break;
+					}
+				case ParameterNamesIncotexNetworkVirtual.PollInterval:
+					{
+							PollingPeriod = (int)value; break;
+					}
+				case ParameterNamesIncotexNetworkVirtual.PortName:
+					{
+						((ComPort)base._Connection).PortName = 
+							((ParameterStringContainer)value).Value;
+						break;
+					}
+				case ParameterNamesIncotexNetworkVirtual.Timeout:
+					{
+						RequestTimeout = (int)value; break;
+					}
+				default:
+					{
+						throw new InvalidOperationException(String.Format(
+							"Ошибка чтения параметра. Параметр {0} не найден", parameterName));
+					}
+			}
+		}
 
         #endregion
 

@@ -81,6 +81,21 @@ namespace ResursNetwork.BCD
 			return result;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="bcdValue">число в BCD-формате,
+		/// выравниваение big-endian (Старшим байтом вперёд)</param>
+		/// <returns></returns>
+		public static ushort ToUInt16(ushort bcdValue)
+		{
+			var array = BitConverter.GetBytes(bcdValue);
+			ushort result = 0;
+			result = ToByte(array[1]); // младший байт числа
+			result = Convert.ToUInt16(result + (((ushort)ToByte(array[0])) * 100)); // старший байт числа
+			return result;
+		}
+
         /// <summary>
         /// Преобразует значение в значение в формате BCD
         /// </summary>
@@ -97,6 +112,50 @@ namespace ResursNetwork.BCD
             var low = (Byte)(value % 10);
             return (Byte)((high << 4) | low);
         }
+
+		public static ushort ToBcdUInt16(ushort value)
+		{
+			if (value > 9999)
+			{
+				throw new InvalidCastException(
+					"Невозможно преобразовать в BCD формат. Значение слишком большое");
+			}
+
+			//var x = Convert.ToSingle(value);
+			ushort result = 0;
+			ushort digit;
+
+			for (int i = 0; i < 4; i++)
+			{
+				digit = (ushort)(value % 10);
+				value = (ushort)(value / 10);
+				result |= (ushort)(digit << (4 * i));				
+			}
+
+			return result;
+		}
+
+		public static uint ToBcdUInt32(uint value)
+		{
+			if (value > 99999999)
+			{
+				throw new InvalidCastException(
+					"Невозможно преобразовать в BCD формат. Значение слишком большое");
+			}
+
+			//var x = Convert.ToSingle(value);
+			uint result = 0;
+			uint digit;
+
+			for (int i = 0; i < 8; i++)
+			{
+				digit = (uint)(value % 10);
+				value = (uint)(value / 10);
+				result |= (uint)(digit << (4 * i));
+			}
+
+			return result;
+		}
 
         #endregion
     }

@@ -24,15 +24,15 @@ namespace RubezhClient
 		public static void RemoveZone(GKZone zone)
 		{
 			Zones.Remove(zone);
-			zone.OutDependentElements.ForEach(x =>
+			zone.OutputDependentElements.ForEach(x =>
 			{
 				x.InputDependentElements.Remove(zone);
 				if (x is GKDevice)
 				{
-					x.Invalidate();
+					x.Invalidate(GKManager.DeviceConfiguration);
 					x.OnChanged();
 				}
-				x.UpdateLogic();
+				x.UpdateLogic(GKManager.DeviceConfiguration);
 				x.OnChanged();
 			});
 
@@ -53,7 +53,7 @@ namespace RubezhClient
 		public static void EditZone(GKZone zone)
 		{
 			zone.OnChanged();
-			zone.OutDependentElements.ForEach(x => x.OnChanged());
+			zone.OutputDependentElements.ForEach(x => x.OnChanged());
 		}
 	}
 }

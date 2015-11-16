@@ -280,6 +280,14 @@ namespace GKModule.Validation
 					AddError(door, "Устройство Замок не должно иметь настроенную логику срабатывания", ValidationErrorLevel.CannotWrite);
 				}
 			}
+
+			if (door.LockDeviceExit != null)
+			{
+				if (door.LockDeviceExit.Logic.GetObjects().Count > 0)
+				{
+					AddError(door, "Устройство Замок не должно иметь настроенную логику срабатывания", ValidationErrorLevel.CannotWrite);
+				}
+			}
 		}
 	}
 }

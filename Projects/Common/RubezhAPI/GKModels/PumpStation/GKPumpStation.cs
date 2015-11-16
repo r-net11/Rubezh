@@ -36,13 +36,13 @@ namespace RubezhAPI.GK
 			};
 		}
 
-		public override void Invalidate()
+		public override void Invalidate(GKDeviceConfiguration deviceConfiguration)
 		{
 			var nsDevicesUIDs = new List<Guid>();
 			NSDevices = new List<GKDevice>();
 			foreach (var NSDevicesUID in NSDeviceUIDs)
 			{
-				var device = GKManager.Devices.FirstOrDefault(x => x.UID == NSDevicesUID);
+				var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == NSDevicesUID);
 				if (device != null)
 				{
 					nsDevicesUIDs.Add(NSDevicesUID);
@@ -53,7 +53,7 @@ namespace RubezhAPI.GK
 
 			NSDeviceUIDs = nsDevicesUIDs;
 
-			UpdateLogic();
+			UpdateLogic(deviceConfiguration);
 
 			StartLogic.GetObjects().ForEach(x => AddDependentElement(x));
 			
@@ -63,11 +63,11 @@ namespace RubezhAPI.GK
 			
 		}
 
-		public override void UpdateLogic()
+		public override void UpdateLogic(GKDeviceConfiguration deviceConfiguration)
 		{
-			GKManager.DeviceConfiguration.InvalidateOneLogic(this, StartLogic);
-			GKManager.DeviceConfiguration.InvalidateOneLogic(this, StopLogic);
-			GKManager.DeviceConfiguration.InvalidateOneLogic(this, AutomaticOffLogic);
+			deviceConfiguration.InvalidateOneLogic(this, StartLogic);
+			deviceConfiguration.InvalidateOneLogic(this, StopLogic);
+			deviceConfiguration.InvalidateOneLogic(this, AutomaticOffLogic);
 		}
 
 		[XmlIgnore]
@@ -140,7 +140,7 @@ namespace RubezhAPI.GK
 		{
 			get 
 			{
-				var presentationName = "0" + No + "." + Name;
+				var presentationName = No + "." + Name;
 				if (Pim != null)
 					Pim.Name = presentationName;
 				return presentationName; 

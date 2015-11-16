@@ -57,16 +57,24 @@ namespace Infrastructure.Client.Plans
 		{
 			var item = GetItem<TItem>((IElementReference)designerItem.Element);
 			if (item != null)
+			{
 				item.Changed += () =>
 				{
+					Cache.BuildSafe<TItem>();
+					UpdateProperties<TItem>(designerItem);
 					if (DesignerCanvas.IsPresented(designerItem))
 					{
-						Cache.BuildSafe<TItem>();
-						UpdateProperties<TItem>(designerItem);
 						designerItem.Painter.Invalidate();
 						DesignerCanvas.Refresh();
 					}
 				};
+				item.UIDChanged += (oldUID, newUID) =>
+				{
+					var elementReference = designerItem.Element as IElementReference;
+					if (elementReference != null && elementReference.ItemUID == oldUID)
+						elementReference.ItemUID = newUID;
+				};
+			}
 		}
 		protected virtual void UpdateProperties<TItem>(CommonDesignerItem designerItem)
 			where TItem : IChangedNotification, IPlanPresentable

@@ -25,7 +25,7 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// <summary>
         /// Список поддерживаемых данным контроллером типов устройств 
         /// </summary>
-        IEnumerable<DeviceType> SuppotedDevices { get; }
+        IEnumerable<DeviceModel> SuppotedDevices { get; }
 
         /// <summary>
         /// Список устройств в сети.
@@ -48,6 +48,19 @@ namespace ResursNetwork.OSI.ApplicationLayer
 
         #region Methods
 
+		/// <summary>
+		/// Читает параметр из сетевого контроллера
+		/// </summary>
+		/// <param name="parameterName"></param>
+		OperationResult ReadParameter(string parameterName);
+
+		/// <summary>
+		/// Записывает параметр сетевого контроллера (настройки и т.п)
+		/// </summary>
+		/// <param name="parameterName"></param>
+		/// <param name="value"></param>
+		void WriteParameter(string parameterName, ValueType value);  
+
         /// <summary>
         /// Записывает транзакцию в буфер исходящих сообщений
         /// </summary>
@@ -62,7 +75,10 @@ namespace ResursNetwork.OSI.ApplicationLayer
         /// Отсылает в сеть широковещательную команду 
         /// синхронизации времени
         /// </summary>
-        void SyncDateTime();
+		/// <param name="broadcastAddress">Широковещательный адрес данной системы</param>
+		void SyncDateTime(ValueType broadcastAddress);
+
+		void SyncDateTime();
 
 		/// <summary>
 		/// Выполняет команду 

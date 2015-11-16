@@ -16,7 +16,7 @@ using RubezhAPI.GK;
 
 namespace GKModule.ViewModels
 {
-	public class CodesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class CodesViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public CodesViewModel()
 		{
@@ -65,6 +65,11 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
+			OnAddResult();
+		}
+
+		GKCode OnAddResult()
+		{
 			var codeDetailsViewModel = new CodeDetailsViewModel();
 			if (DialogService.ShowModalWindow(codeDetailsViewModel))
 			{
@@ -73,7 +78,9 @@ namespace GKModule.ViewModels
 				Codes.Add(codeViewModel);
 				SelectedCode = codeViewModel;
 				ServiceFactory.SaveService.GKChanged = true;
+				return codeDetailsViewModel.Code;
 			}
+			return null;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -94,28 +101,30 @@ namespace GKModule.ViewModels
 
 		public void CreateCode(CreateGKCodeEventArg createGKCodeEventArg)
 		{
-			OnAdd();
-			createGKCodeEventArg.Code = SelectedCode.Code;
+			createGKCodeEventArg.Code = OnAddResult();
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			int oldIndex = Codes.IndexOf(SelectedCode);
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить код " + SelectedCode.Code.PresentationName + "?"))
+			{
+				int oldIndex = Codes.IndexOf(SelectedCode);
 
-			GKManager.DeviceConfiguration.Codes.Remove(SelectedCode.Code);
-			Codes.Remove(SelectedCode);
-			SelectedCode = Codes.FirstOrDefault();
-			ServiceFactory.SaveService.GKChanged = true;
+				GKManager.DeviceConfiguration.Codes.Remove(SelectedCode.Code);
+				Codes.Remove(SelectedCode);
+				SelectedCode = Codes.FirstOrDefault();
+				ServiceFactory.SaveService.GKChanged = true;
 
-			if (Codes.Count > 0)
-				SelectedCode = Codes[System.Math.Min(oldIndex, Codes.Count - 1)];
+				if (Codes.Count > 0)
+					SelectedCode = Codes[System.Math.Min(oldIndex, Codes.Count - 1)];
+			}
 		}
 
 		public RelayCommand DeleteAllEmptyCommand { get; private set; }
 		void OnDeleteAllEmpty()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?"))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все неиспользуемые коды ?"))
 			{
 				var emptyCodes = Codes.Where(x => !GetOnEmpty().Contains(x.Code.UID));
 				if (emptyCodes != null)

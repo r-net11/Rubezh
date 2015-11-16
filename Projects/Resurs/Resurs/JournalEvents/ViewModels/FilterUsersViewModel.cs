@@ -14,9 +14,9 @@ namespace Resurs.ViewModels
 		public FilterUsersViewModel(Filter filter)
 		{
 			FilterUserViewModel = new ObservableCollection<FilterUserViewModel>();
-			if (DBCash.GetAllUsers() != null)
+			if (DbCache.GetAllUsers() != null)
 			{
-				DBCash.GetAllUsers().ForEach(x => FilterUserViewModel.Add(new FilterUserViewModel(x)));
+				DbCache.GetAllUsers().ForEach(x => FilterUserViewModel.Add(new FilterUserViewModel(x)));
 				FilterUserViewModel.ForEach(x =>
 					{
 						if (filter.UserUIDs.Contains(x.User.UID))

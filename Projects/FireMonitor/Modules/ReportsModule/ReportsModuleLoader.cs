@@ -23,7 +23,7 @@ namespace ReportsModule
 
 		public override void CreateViewModels()
 		{
-            _reportViewModel = new ReportsViewModel();
+			_reportViewModel = new ReportsViewModel();
 			_skdReportViewModel = new SKDReportsViewModel();
 
 			ServiceFactory.Events.GetEvent<PrintReportEvent>().Unsubscribe(OnPrintReport);

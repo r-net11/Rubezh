@@ -94,6 +94,7 @@ namespace RubezhAPI.GK
 			foreach (var pumpStation in PumpStations)
 			{
 				pumpStation.ClearClauseDependencies();
+				pumpStation.Pim.ClearClauseDependencies();
 				pumpStation.NSDevices = new List<GKDevice>();
 			}
 			foreach (var mpt in MPTs)
@@ -118,33 +119,19 @@ namespace RubezhAPI.GK
 
 		void Invalidation()
 		{
-			foreach (var device in Devices)
-			{
-				device.Invalidate();
-			}
+			Devices.ForEach(x => x.Invalidate(this));
 
-			foreach (var mpt in MPTs)
-			{
-				mpt.Invalidate();
-			}
-			Doors.ForEach(x => x.Invalidate());
-			foreach (var pump in PumpStations)
-			{
-				pump.Invalidate();
-			}
-			foreach (var guardZone in GuardZones)
-			{
-				guardZone.Invalidate();
-			}
-			foreach (var delay in Delays)
-			{
-				delay.Invalidate();
-			}
+			MPTs.ForEach(x => x.Invalidate(this));
+			
+			Doors.ForEach(x => x.Invalidate(this));
 
-			foreach (var directory in Directions)
-			{
-				directory.Invalidate();
-			}
+			PumpStations.ForEach(x => x.Invalidate(this));
+
+			GuardZones.ForEach(x => x.Invalidate(this));
+
+			Delays.ForEach(x => x.Invalidate(this));
+
+			Directions.ForEach(x => x.Invalidate(this));
 		}
 
 		public void InvalidateOneLogic(GKBase gkBase, GKLogic logic)

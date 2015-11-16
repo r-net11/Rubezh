@@ -12,6 +12,9 @@ using RubezhAPI.Journal;
 using RubezhAPI.Models;
 using RubezhClient;
 using Property = RubezhAPI.Automation.Property;
+using RubezhAPI.SKD;
+using RubezhClient.SKDHelpers;
+using System.Diagnostics;
 
 namespace Infrastructure.Automation
 {
@@ -20,7 +23,7 @@ namespace Infrastructure.Automation
 		void AddJournalItem(ProcedureStep procedureStep)
 		{
 			var messageValue = GetValue<object>(procedureStep.JournalArguments.MessageArgument);
-			ProcedureExecutionContext.AddJournalItem(GetStringValue(messageValue));
+			ProcedureExecutionContext.AddJournalItem(AutomationHelper.GetStringValue(messageValue));
 		}
 
 		bool Compare(ProcedureStep procedureStep)
@@ -42,13 +45,14 @@ namespace Infrastructure.Automation
 		{
 			var showMessageArguments = procedureStep.ShowMessageArguments;
 			var message = GetValue<object>(showMessageArguments.MessageArgument);
+			var messageString = AutomationHelper.GetStringValue(message);
 			var automationCallbackResult = new AutomationCallbackResult()
 			{
 				AutomationCallbackType = AutomationCallbackType.Message,
 				Data = new MessageCallbackData()
 				{
 					IsModalWindow = showMessageArguments.IsModalWindow,
-					Message = message,
+					Message = messageString,
 					WithConfirmation = showMessageArguments.WithConfirmation
 				},
 			};
@@ -91,13 +95,14 @@ namespace Infrastructure.Automation
 		void ShowProperty(ProcedureStep procedureStep)
 		{
 			var showPropertyArguments = procedureStep.ShowPropertyArguments;
+			var objectUid = GetValue<Guid>(showPropertyArguments.ObjectArgument);
 			var automationCallbackResult = new AutomationCallbackResult()
 			{
 				AutomationCallbackType = AutomationCallbackType.Property,
 				Data = new PropertyCallBackData()
 				{
 					ObjectType = showPropertyArguments.ObjectType,
-					ObjectUid = showPropertyArguments.ObjectArgument.ExplicitValue.UidValue
+					ObjectUid = objectUid
 				},
 			};
 			SendCallback(showPropertyArguments, automationCallbackResult);
@@ -116,6 +121,7 @@ namespace Infrastructure.Automation
 			var content = GetValue<string>(sendEmailArguments.EMailContentArgument);
 			var Smtp = new SmtpClient(smtp, port);
 			Smtp.Credentials = new NetworkCredential(login, password);
+			Smtp.EnableSsl = true;
 			var Message = new MailMessage();
 			Message.From = new MailAddress(eMailAddressFrom);
 			Message.To.Add(new MailAddress(eMailAddressTo));
@@ -199,6 +205,8 @@ namespace Infrastructure.Automation
 			{
 				callbackType = AutomationCallbackType.SetPlanProperty;
 				value = GetValue<object>(controlPlanArguments.ValueArgument);
+				if (value is int && (int)value < 0)
+					return;
 			}
 
 			var automationCallbackResult = new AutomationCallbackResult()
@@ -301,27 +309,13 @@ namespace Infrastructure.Automation
 						value2 = GetValue<object>(arithmeticArguments.Argument2);
 						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
 							if (resultVariable != null)
-								resultVariable.ExplicitValue.StringValue = String.Concat(GetStringValue(value1), GetStringValue(value2));
+								resultVariable.ExplicitValue.StringValue = String.Concat(AutomationHelper.GetStringValue(value1), AutomationHelper.GetStringValue(value2));
 						break;
 					}
 			}
+			ProcedureExecutionContext.SynchronizeVariable(resultVariable, ContextType.Server);
 		}
-
-		public static string GetStringValue(object obj)
-		{
-			if (obj == null)
-				return "";
-
-			var objType = obj.GetType();
-			if (objType == typeof(bool))
-				return (bool)obj ? "Да" : "Нет";
-
-			if (objType.IsEnum)
-				return ((Enum)obj).ToDescription();
-
-			return obj.ToString();
-		}
-
+				
 		void FindObjects(ProcedureStep procedureStep)
 		{
 			var findObjectArguments = procedureStep.FindObjectArguments;
@@ -330,7 +324,6 @@ namespace Infrastructure.Automation
 				FindObjectsOr(variable, findObjectArguments.FindObjectConditions);
 			else
 				FindObjectsAnd(variable, findObjectArguments.FindObjectConditions);
-			//ProcedureExecutionContext.SynchronizeVariable(variable, ContextType.Server);
 		}
 
 		void GetObjectProperty(ProcedureStep procedureStep)
@@ -368,9 +361,8 @@ namespace Infrastructure.Automation
 			if (item is RubezhAPI.SKD.Organisation)
 				return (item as RubezhAPI.SKD.Organisation).UID;
 
-			//TODO: what is VideoDevice?
-			//if (item is VideoDevice)
-			//	return (item as ).UID;
+			if (item is Camera)
+				return (item as Camera).UID;
 
 			return Guid.Empty;
 		}
@@ -379,143 +371,220 @@ namespace Infrastructure.Automation
 			var propertyValue = new object();
 			if (item is GKDevice)
 			{
+				var gkDevice = item as GKDevice;
 				switch (property)
 				{
 					case Property.ShleifNo:
-						propertyValue = (item as GKDevice).ShleifNo;
+						propertyValue = (int)gkDevice.ShleifNo;
 						break;
 					case Property.IntAddress:
-						propertyValue = (item as GKDevice).IntAddress;
+						propertyValue = gkDevice.IntAddress;
 						break;
 					case Property.State:
-						propertyValue = (int)(item as GKDevice).State.StateClass;
+						propertyValue = (int)gkDevice.State.StateClass;
 						break;
 					case Property.Type:
-						propertyValue = (item as GKDevice).Driver.DriverType;
+						propertyValue = gkDevice.Driver.DriverType;
 						break;
 					case Property.Description:
-						propertyValue = (item as GKDevice).Description.Trim();
+						propertyValue = gkDevice.Description == null ? "" : gkDevice.Description.Trim();
 						break;
 					case Property.Uid:
-						propertyValue = (item as GKDevice).UID.ToString();
+						propertyValue = Convert.ToString(gkDevice.UID);
 						break;
 				}
 			}
 
 			if (item is GKDelay)
 			{
+				var gkDelay = item as GKDelay;
 				switch (property)
 				{
 					case Property.Name:
-						propertyValue = (item as GKDelay).Name.Trim();
+						propertyValue = gkDelay.Name.Trim();
 						break;
 					case Property.No:
-						propertyValue = (item as GKDelay).No;
+						propertyValue = gkDelay.No;
 						break;
 					case Property.Delay:
-						propertyValue = (item as GKDelay).DelayTime;
+						propertyValue = (int)gkDelay.DelayTime;
 						break;
 					case Property.CurrentDelay:
-						propertyValue = (item as GKDelay).State.OnDelay;
+						propertyValue = gkDelay.State.OnDelay;
 						break;
 					case Property.State:
-						propertyValue = (int)(item as GKDelay).State.StateClass;
+						propertyValue = (int)gkDelay.State.StateClass;
 						break;
 					case Property.Hold:
-						propertyValue = (item as GKDelay).Hold;
+						propertyValue = gkDelay.Hold;
 						break;
 					case Property.CurrentHold:
-						propertyValue = (item as GKDelay).State.HoldDelay;
+						propertyValue = gkDelay.State.HoldDelay;
 						break;
 					case Property.DelayRegime:
-						propertyValue = (item as GKDelay).DelayRegime;
+						propertyValue = gkDelay.DelayRegime;
 						break;
 					case Property.Description:
-						propertyValue = (item as GKDelay).Description.Trim();
+						propertyValue = gkDelay.Description == null ? "" : gkDelay.Description.Trim();;
 						break;
 					case Property.Uid:
-						propertyValue = (item as GKDelay).UID.ToString();
+						propertyValue = gkDelay.UID.ToString();
 						break;
 				}
 			}
 
 			if (item is GKZone)
 			{
+				var gkZone = item as GKZone;
 				switch (property)
 				{
 					case Property.No:
-						propertyValue = (item as GKZone).No;
+						propertyValue = gkZone.No;
 						break;
 					case Property.Type:
-						propertyValue = (item as GKZone).ObjectType;
+						propertyValue = gkZone.ObjectType;
 						break;
 					case Property.State:
-						propertyValue = (int)(item as GKZone).State.StateClass;
+						propertyValue = (int)gkZone.State.StateClass;
 						break;
 					case Property.Name:
-						propertyValue = (item as GKZone).Name.Trim();
+						propertyValue = gkZone.Name.Trim();
+						break;
+					case Property.Description:
+						propertyValue = gkZone.Description == null ? "" : gkZone.Description.Trim();
 						break;
 					case Property.Uid:
-						propertyValue = (item as GKZone).UID.ToString();
+						propertyValue = gkZone.UID.ToString();
 						break;
 				}
 			}
 
 			if (item is GKDirection)
 			{
+				var gkDirection = item as GKDirection;
 				switch (property)
 				{
 					case Property.Name:
-						propertyValue = (item as GKDirection).Name.Trim();
+						propertyValue = gkDirection.Name.Trim();
 						break;
 					case Property.No:
-						propertyValue = (item as GKDirection).No;
+						propertyValue = gkDirection.No;
 						break;
 					case Property.Delay:
-						propertyValue = (int)(item as GKDirection).Delay;
+						propertyValue = (int)gkDirection.Delay;
 						break;
 					case Property.CurrentDelay:
-						propertyValue = (int)(item as GKDirection).State.OnDelay;
+						propertyValue = (int)gkDirection.State.OnDelay;
 						break;
 					case Property.Hold:
-						propertyValue = (int)(item as GKDirection).Hold;
+						propertyValue = (int)gkDirection.Hold;
 						break;
 					case Property.CurrentHold:
-						propertyValue = (int)(item as GKDirection).State.HoldDelay;
+						propertyValue = (int)gkDirection.State.HoldDelay;
 						break;
 					case Property.DelayRegime:
-						propertyValue = (int)(item as GKDirection).DelayRegime;
+						propertyValue = (int)gkDirection.DelayRegime;
 						break;
 					case Property.Description:
-						propertyValue = (item as GKDirection).Description.Trim();
+						propertyValue = gkDirection.Description.Trim();
 						break;
 					case Property.Uid:
-						propertyValue = (item as GKDirection).UID.ToString();
+						propertyValue = gkDirection.UID.ToString();
 						break;
 					case Property.State:
-						propertyValue = (int)(item as GKDirection).State.StateClass;
+						propertyValue = (int)gkDirection.State.StateClass;
 						break;
 				}
 			}
 
 			if (item is GKGuardZone)
 			{
+				var gkGuardZone = item as GKGuardZone;
 				switch (property)
 				{
 					case Property.No:
-						propertyValue = (item as GKGuardZone).No;
+						propertyValue = gkGuardZone.No;
 						break;
 					case Property.Type:
-						propertyValue = (item as GKGuardZone).ObjectType;
+						propertyValue = gkGuardZone.ObjectType;
 						break;
 					case Property.State:
-						propertyValue = (item as GKGuardZone).State.StateClass;
+						propertyValue = gkGuardZone.State.StateClass;
 						break;
 					case Property.Name:
-						propertyValue = (item as GKGuardZone).Name.Trim();
+						propertyValue = gkGuardZone.Name.Trim();
+						break;
+					case Property.Description:
+						propertyValue = gkGuardZone.Description == null ? "" : gkGuardZone.Description.Trim();
 						break;
 					case Property.Uid:
-						propertyValue = (item as GKGuardZone).UID.ToString();
+						propertyValue = gkGuardZone.UID.ToString();
+						break;
+				}
+			}
+
+			if (item is GKDoor)
+			{
+				var gkDoor = item as GKDoor;
+				switch (property)
+				{
+					case Property.Name:
+						propertyValue = gkDoor.Name.Trim();
+						break;
+					case Property.No:
+						propertyValue = gkDoor.No;
+						break;
+					case Property.Delay:
+						propertyValue = gkDoor.Delay;
+						break;
+					case Property.CurrentDelay:
+						propertyValue = gkDoor.State.OnDelay;
+						break;
+					case Property.State:
+						propertyValue = (int)gkDoor.State.StateClass;
+						break;
+					case Property.Hold:
+						propertyValue = gkDoor.Hold;
+						break;
+					case Property.CurrentHold:
+						propertyValue = gkDoor.State.HoldDelay;
+						break;
+					case Property.Description:
+						propertyValue = gkDoor.Description == null ? "" : gkDoor.Description.Trim();
+						break;
+					case Property.Uid:
+						propertyValue = gkDoor.UID.ToString();
+						break;
+				}
+			}
+
+			if (item is Camera)
+			{
+				var camera = item as Camera;
+				switch (property)
+				{
+					case Property.Name:
+						propertyValue = camera.Name.Trim();
+						break;
+					case Property.Uid:
+						propertyValue = camera.UID.ToString();
+						break;
+				}
+			}
+
+			if (item is Organisation)
+			{
+				var organisation = item as Organisation;
+				switch (property)
+				{
+					case Property.Name:
+						propertyValue = organisation.Name.Trim();
+						break;
+					case Property.Description:
+						propertyValue = organisation.Description == null ? "" : organisation.Description.Trim();
+						break;
+					case Property.Uid:
+						propertyValue = organisation.UID.ToString();
 						break;
 				}
 			}
@@ -537,10 +606,12 @@ namespace Infrastructure.Automation
 					return new List<GKDoor>(GKManager.DeviceConfiguration.Doors);
 				case ObjectType.GuardZone:
 					return new List<GKGuardZone>(GKManager.DeviceConfiguration.GuardZones);
-				//case ObjectType.Organisation:
-				//case ObjectType.VideoDevice:
+				case ObjectType.VideoDevice:
+					return new List<Camera>(ProcedureExecutionContext.SystemConfiguration.Cameras);
 				case ObjectType.Zone:
 					return new List<GKZone>(GKManager.DeviceConfiguration.Zones);
+				case ObjectType.Organisation:
+					return new List<Organisation>(ProcedureExecutionContext.GetOrganisations());
 			}
 			return new List<object>();
 		}
@@ -548,23 +619,38 @@ namespace Infrastructure.Automation
 		object InitializeItem(Guid itemUid)
 		{
 			var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
-			var zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == itemUid);
-			var guardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == itemUid);
-			var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == itemUid);
-			var direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == itemUid);
-			var delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == itemUid);
 			if (device != null)
 				return device;
+
+			var zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == itemUid);
 			if (zone != null)
 				return zone;
+
+			var guardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == itemUid);
 			if (guardZone != null)
 				return guardZone;
+
+			var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == itemUid);
 			if (camera != null)
 				return camera;
+
+			var direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == itemUid);
 			if (direction != null)
 				return direction;
+
+			var delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == itemUid);
 			if (delay != null)
 				return delay;
+			
+			var door = GKManager.Doors.FirstOrDefault(x => x.UID == itemUid);
+			if (door != null)
+				return door;
+
+			var organisations = ProcedureExecutionContext.GetOrganisations();
+			var organisation = organisations == null ? null : organisations.FirstOrDefault(x => x.UID == itemUid);
+			if (organisation != null)
+				return organisation;
+
 			return null;
 		}
 
@@ -603,7 +689,7 @@ namespace Infrastructure.Automation
 					var propertyValue = GetPropertyValue(findObjectCondition.Property, item);
 					var conditionValue = GetValue<object>(findObjectCondition.SourceArgument);
 					var comparer = Compare(propertyValue, conditionValue, findObjectCondition.ConditionType);
-					if (comparer != null && !comparer.Value)
+					if (comparer == null || !comparer.Value)
 					{
 						allTrue = false;
 						break;
@@ -616,8 +702,6 @@ namespace Infrastructure.Automation
 
 		bool? Compare(object param1, object param2, ConditionType conditionType)
 		{
-			if (param1.GetType() != param2.GetType())
-				return null;
 			if (param1.GetType().IsEnum || param1 is int)
 			{
 				return conditionType == ConditionType.IsEqual && (int)param1 == (int)param2
@@ -627,6 +711,9 @@ namespace Infrastructure.Automation
 					|| conditionType == ConditionType.IsLess && (int)param1 < (int)param2
 					|| conditionType == ConditionType.IsNotLess && (int)param1 >= (int)param2;
 			}
+
+			if (param1.GetType() != param2.GetType())
+				return null;
 
 			if (param1 is DateTime)
 			{
@@ -646,11 +733,13 @@ namespace Infrastructure.Automation
 					|| conditionType == ConditionType.EndsWith && ((string)param1).EndsWith((string)param2)
 					|| conditionType == ConditionType.Contains && ((string)param1).Contains((string)param2);
 			}
+
 			if (param1 is bool)
 			{
 				return conditionType == ConditionType.IsEqual && (bool)param1 == (bool)param2
 						|| conditionType == ConditionType.IsNotEqual && (bool)param1 != (bool)param2;
 			}
+
 			return null;
 		}
 
@@ -725,6 +814,13 @@ namespace Infrastructure.Automation
 		{
 			var nowArguments = procedureStep.NowArguments;
 			SetValue(nowArguments.ResultArgument, DateTime.Now);
+		}
+
+		public void RunProgram(ProcedureStep procedureStep)
+		{
+			var processName = GetValue<string>(procedureStep.RunProgramArguments.PathArgument);
+			var parameters = GetValue<string>(procedureStep.RunProgramArguments.ParametersArgument);
+			Process.Start(processName, parameters);
 		}
 
 		void ControlFireZone(ProcedureStep procedureStep)

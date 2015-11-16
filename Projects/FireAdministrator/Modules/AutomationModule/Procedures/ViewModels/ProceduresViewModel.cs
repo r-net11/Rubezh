@@ -15,7 +15,7 @@ using Infrastructure.Common.Windows;
 
 namespace AutomationModule.ViewModels
 {
-	public class ProceduresViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class ProceduresViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public static ProceduresViewModel Current { get; private set; }
 		public ProceduresViewModel()
@@ -157,10 +157,6 @@ namespace AutomationModule.ViewModels
 						ReplaceVariableUid(argument, dictionary);
 					break;
 
-				case ProcedureStepType.Exit:
-					ReplaceVariableUid(step.ExitArguments.ExitCodeArgument, dictionary);
-					break;
-
 				case ProcedureStepType.SetValue:
 					ReplaceVariableUid(step.SetValueArguments.SourceArgument, dictionary);
 					ReplaceVariableUid(step.SetValueArguments.TargetArgument, dictionary);
@@ -284,7 +280,8 @@ namespace AutomationModule.ViewModels
 		}
 		void ReplaceVariableUid(Argument argument, Dictionary<Guid, Guid> dictionary)
 		{
-			argument.VariableUid = dictionary.ContainsKey(argument.VariableUid) ? dictionary[argument.VariableUid] : Guid.Empty;
+			if (argument.VariableScope == VariableScope.LocalVariable)
+				argument.VariableUid = dictionary.ContainsKey(argument.VariableUid) ? dictionary[argument.VariableUid] : Guid.Empty;
 		}
 		public RelayCommand PasteCommand { get; private set; }
 		void OnPaste()
@@ -425,7 +422,10 @@ namespace AutomationModule.ViewModels
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 
 			if (SelectedProcedure != null)
+			{
+				SelectedProcedure.Update();
 				SelectedProcedure.StepsViewModel.UpdateContent();
+			}
 
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 

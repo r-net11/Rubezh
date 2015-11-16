@@ -25,14 +25,20 @@
             .html(function (d) { return d; });
 	}
 
-	// Получение канвы
-	function getSvg()
-	{
-		var svg = d3.select("svg");
-		return svg;
-	}
+    function renderTipContent(hintLines) {
+        var hintHtml = "";
+        hintLines.forEach(function(item, i, arr) {
+            if (item.Icon) {
+               hintHtml = hintHtml + "<div style='float:left'><img src='data:image/png;base64," + item.Icon +"' width=32 height=32></img></div>"; 
+            }
+            if (item.Text) {
+               hintHtml = hintHtml + "<div><p>" + item.Text +"</p></div>"; 
+            }
+        });
+        return hintHtml;
+    }
 
-	function elementOnContextMenu(item, menuItems, scope)
+    function elementOnContextMenu(item, menuItems, scope)
 	{
 		// Создаем div, представляющий контекстное меню
 		d3.selectAll('.context-menu').data([1])
@@ -83,7 +89,7 @@
             .on('mouseover', function (d)
             {
             	var id = document.getElementById(item.Id.replace(" ", "-") + i);
-            	tip.show(item.Hint, id);
+            	tip.show(renderTipContent(item.Hint.StateHintLines), id);
             })
             // Обработка события прекращения наведения мыши
             .on('mouseout', function (d) { tip.hide(); })
@@ -105,7 +111,7 @@
             .on('mouseover', function (d)
             {
             	var id = document.getElementById(item.Id.replace(" ", "-"));
-            	tip.show(item.Hint, id);
+            	tip.show(renderTipContent(item.Hint.StateHintLines), id);
             })
             // Обработка события прекращения наведения мыши
             .on('mouseout', function (d) { tip.hide(); })
@@ -131,7 +137,7 @@
             		fill: item.FillMouseOver
             	});
             	var id = document.getElementById(item.Id.replace(" ", "-") + i);
-            	tip.show(item.Hint, id);
+            	tip.show(renderTipContent(item.Hint.StateHintLines), id);
             })
             // Обработка события прекращения наведения мыши
             .on('mouseout', function (d)
@@ -161,7 +167,7 @@
 		{
 			case "Plan":
 				{
-					if (item.Image == "")
+					if (item.Image === "")
 					{
 						renderPathElement(item, i, svg, tip, menuItems, scope);
 					}

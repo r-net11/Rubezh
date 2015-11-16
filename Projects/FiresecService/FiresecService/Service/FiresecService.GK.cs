@@ -85,29 +85,14 @@ namespace FiresecService.Service
 			return OperationResult<GKDevice>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
-		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName)
+		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, List<byte> firmwareBytes)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return GKProcessorManager.GKUpdateFirmware(device, fileName, UserName);
+				return GKProcessorManager.GKUpdateFirmware(device, firmwareBytes, UserName);
 			}
 			return OperationResult<bool>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
-		}
-
-		public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<Guid> deviceUIDs)
-		{
-			var devices = new List<GKDevice>();
-			foreach (var deviceUID in deviceUIDs)
-			{
-				var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-				if (device == null)
-				{
-					return OperationResult<bool>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
-				}
-				devices.Add(device);
-			}
-			return GKProcessorManager.GKUpdateFirmwareFSCS(hxcFileInfo, userName, devices);
 		}
 
 		public OperationResult<bool> GKSyncronyseTime(Guid deviceUID)
@@ -590,6 +575,21 @@ namespace FiresecService.Service
 				return new OperationResult<bool>(true);
 			}
 			return OperationResult<bool>.FromError("Не найден ГК в конфигурации");
+		}
+
+		public OperationResult<List<GKUser>> GetGKUsers(Guid deviceUID)
+		{
+			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				return GKSKDHelper.GetAllUsers(device, new GKProgressCallback());
+			}
+			return OperationResult<List<GKUser>>.FromError("Прибор не найден в конфигурации");
+		}
+
+		public OperationResult<bool> WriteAllGKUsers(List<GKUser> users)
+		{
+			return GKSKDHelper.WriteAllUsers(users);
 		}
 		#endregion
 

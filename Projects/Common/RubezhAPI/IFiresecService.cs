@@ -4,7 +4,7 @@ using System.IO;
 using System.ServiceModel;
 using RubezhAPI.Journal;
 using RubezhAPI.Models;
-using FiresecLicense;
+using RubezhAPI.License;
 
 namespace RubezhAPI
 {
@@ -57,8 +57,8 @@ namespace RubezhAPI
 		/// Запрос данных лицензии
 		/// </summary>
 		/// <returns></returns>
-        [OperationContract]
-        OperationResult<FiresecLicenseInfo> GetLicenseInfo();
+		[OperationContract]
+		OperationResult<FiresecLicenseInfo> GetLicenseInfo();
 		#endregion
 
 		#region Journal
@@ -92,7 +92,7 @@ namespace RubezhAPI
 		/// <param name="page"></param>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<List<JournalItem>> GetArchivePage(ArchiveFilter filter, int page);
+		OperationResult<List<JournalItem>> GetArchivePage(JournalFilter filter, int page);
 
 		/// <summary>
 		/// Запрос количества страниц событий по заданному фильтру
@@ -100,7 +100,7 @@ namespace RubezhAPI
 		/// <param name="filter"></param>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<int> GetArchiveCount(ArchiveFilter filter);
+		OperationResult<int> GetArchiveCount(JournalFilter filter);
 		#endregion
 
 		#region Files

@@ -23,7 +23,7 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
         /// <summary>
         /// Возвращает тип устройства (счётчика электро)
         /// </summary>
-        DeviceType DeviceType { get; }
+        DeviceModel DeviceModel { get; }
         
         /// <summary>
         /// Сетевой адрес устройства
@@ -70,14 +70,14 @@ namespace ResursNetwork.OSI.ApplicationLayer.Devices
 		/// Читает параметр из удалённого устройства
 		/// </summary>
 		/// <param name="parameterName"></param>
-		void ReadParameter(string parameterName);
+		OperationResult ReadParameter(string parameterName);
 
 		/// <summary>
 		/// Записывает параметр в удалённом устройстве
 		/// </summary>
 		/// <param name="parameterName"></param>
 		/// <param name="value"></param>
-		void WriteParameter(string parameterName, ValueType value);        
+		OperationResult WriteParameter(string parameterName, ValueType value);        
 		
 		#endregion
 
