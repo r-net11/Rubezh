@@ -62,9 +62,7 @@ namespace RubezhClient
 				var contentDirectory = Path.Combine(configDirectory, "Content");
                 if (Directory.Exists(configDirectory))
                 {
-                    //MessageBoxService.Show(configDirectory);
                     Directory.Delete(configDirectory, true);
-                    MessageBoxService.Show(configDirectory);
                 }
 				Directory.CreateDirectory(configDirectory);
 				Directory.CreateDirectory(contentDirectory);

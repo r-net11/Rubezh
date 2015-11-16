@@ -75,14 +75,7 @@ namespace Infrastructure.Common
 					{
 						var xmlSerializer = new XmlSerializer(typeof(T));
 						configuration = (T)xmlSerializer.Deserialize(fileStream);
-                        if(fileName == "SecurityConfiguration.xml")
-                        {
-                            if(configuration == null)
-                                MessageBoxService.Show("Deserialize configuration is null");
-                            else
-                                MessageBoxService.Show("Deserialize configuration is not null");
-                        }
-					}
+                    }
 					else
 					{
 						var dataContractSerializer = new DataContractSerializer(typeof(T));
