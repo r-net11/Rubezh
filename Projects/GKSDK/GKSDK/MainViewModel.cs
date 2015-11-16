@@ -21,6 +21,7 @@ namespace GKSDK
 		public DevicesViewModel DevicesViewModel { get; private set; }
 		public ZonesViewModel ZonesViewModel { get; private set; }
 		public DirectionsViewModel DirectionsViewModel { get; private set; }
+		public SKDViewModel SKDViewModel { get; private set; }
 		public JournalsViewModel JournalsViewModel { get; private set; }
 
 		public MainViewModel()
@@ -30,6 +31,7 @@ namespace GKSDK
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
+			SKDViewModel = new SKDViewModel();
 			JournalsViewModel = new JournalsViewModel();
 		}
 
