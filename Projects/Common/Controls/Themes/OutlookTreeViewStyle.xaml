@@ -2,23 +2,10 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:Converters="clr-namespace:Controls.Converters">
 
-	<!--<Style x:Key="ExpandCollapseToggleStyleEmpty" TargetType="ToggleButton">
-		<Setter Property="Focusable" Value="False"/>
-		<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-		<Setter Property="VerticalContentAlignment" Value="Stretch"/>
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="ToggleButton">
-					<ContentPresenter/>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>-->
-
 	<Style x:Key="OutlookTreeView" TargetType="{x:Type TreeView}">
 		<Style.Resources>
 			<Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-			<SolidColorBrush x:Key="CaptionBrush" Color= "#fff" />
+			<SolidColorBrush x:Key="CaptionBrush" Color= "#FFFFFF" />
 			<SolidColorBrush x:Key="BorderBrush" Color="#343337" />
 			<Style TargetType="{x:Type TreeViewItem}">
 				<Setter Property="Padding" Value="12,2,12,2"/>
@@ -35,8 +22,21 @@
 					<Setter.Value>
 						<ControlTemplate TargetType="{x:Type TreeViewItem}">
 							<StackPanel Orientation="Vertical">
-								<Border SnapsToDevicePixels="true" CornerRadius="3" MinHeight="32" x:Name="Header" Background="{TemplateBinding Background}" BorderThickness="1" BorderBrush="{StaticResource BorderBrush}" ToolTip="{Binding Title}">
-									<ContentPresenter TextBlock.FontSize="8pt" TextBlock.FontFamily="Arial" TextBlock.FontWeight="Bold" TextBlock.Foreground="{StaticResource CaptionBrush}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Margin="{TemplateBinding Padding}" VerticalAlignment="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" ContentSource="Header" RecognizesAccessKey="True" HorizontalAlignment="Left"/>
+								<Border x:Name="Header" 
+										Background="{TemplateBinding Background}"
+										ToolTip="{Binding Title}"
+										BorderBrush="{StaticResource BorderBrush}"
+										BorderThickness="1"
+										CornerRadius="3" MinHeight="32"
+										SnapsToDevicePixels="true">
+									<ContentPresenter TextBlock.FontSize="8pt" 
+													  TextBlock.FontFamily="Arial" 
+													  TextBlock.FontWeight="Bold"
+													  TextBlock.Foreground="{StaticResource CaptionBrush}"
+													  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+													  Margin="{TemplateBinding Padding}"
+													  VerticalAlignment="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
+													  ContentSource="Header" RecognizesAccessKey="True" HorizontalAlignment="Left" />
 								</Border>
 								<ContentControl x:Name="Content">
 									<ItemsPresenter/>
@@ -111,5 +111,4 @@
 		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="BorderThickness" Value="0"/>
 	</Style>
-
 </ResourceDictionary>

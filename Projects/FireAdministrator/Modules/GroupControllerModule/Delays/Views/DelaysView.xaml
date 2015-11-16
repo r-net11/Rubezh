@@ -4,6 +4,11 @@
 	<DataGrid CanUserSortColumns="True" ItemsSource="{Binding Delays}" SelectedItem="{Binding SelectedDelay}">
 		<DataGrid.InputBindings>
 			<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
+			<KeyBinding Key="C" Modifiers="Control" Command="{Binding CopyCommand}" />
+			<KeyBinding Key="V" Modifiers="Control" Command="{Binding PasteCommand}" />
+			<KeyBinding Key="N" Modifiers="Control" Command="{Binding AddCommand}" />
+			<KeyBinding Key="Delete" Modifiers="Control" Command="{Binding DeleteCommand}" />
+			<KeyBinding Key="E" Modifiers="Control" Command="{Binding EditCommand}" />
 		</DataGrid.InputBindings>
 		<DataGrid.ContextMenu>
 			<ContextMenu>
@@ -16,7 +21,7 @@
 				<IconedMenuItem Command="{Binding CopyLogicCommand}" ImageSource="BCopy" Text="Копировать логику" />
 				<IconedMenuItem Command="{Binding PasteLogicCommand}" ImageSource="BPaste" Text="Вставить логику" />
 				<Separator/>
-				<IconedMenuItem Command ="{Binding ShowDependencyItemsCommand}" Text="Список зависящих объектов" />
+				<IconedMenuItem Command="{Binding ShowDependencyItemsCommand}" Text="Список зависящих объектов" />
 			</ContextMenu>
 		</DataGrid.ContextMenu>
 		<DataGrid.Columns>
