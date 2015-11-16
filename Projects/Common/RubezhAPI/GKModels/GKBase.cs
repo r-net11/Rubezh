@@ -359,7 +359,7 @@ namespace RubezhAPI.GK
 
 		public GKDevice GetMirrorParent()
 		{
-			var mirrorParent = InputDependentElements.FindAll(x => x is GKDevice).FirstOrDefault(x => (x as GKDevice).Driver.HasMirror);
+			var mirrorParent = InputDependentElements.FirstOrDefault(x => x is GKDevice && (x as GKDevice).Driver.HasMirror);
 			return mirrorParent as GKDevice;
 		}
 

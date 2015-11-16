@@ -107,42 +107,59 @@ namespace GKProcessor
 				Add(FormulaOperationType.CONST, 0, 0xF800);
 				Add(FormulaOperationType.AND);
 
-				Add(FormulaOperationType.DUP);
-				Add(FormulaOperationType.DUP);
-				Add(FormulaOperationType.DUP);
-				Add(FormulaOperationType.DUP);
-				Add(FormulaOperationType.DUP);
-				Add(FormulaOperationType.DUP);
 
+				if (gkBase is GKDevice || gkBase is GKDirection || gkBase is GKDelay || gkBase is GKPumpStation || gkBase is GKMPT)
+				{
+					Add(FormulaOperationType.DUP);
+					Add(FormulaOperationType.CONST, 0, 0x800);
+					Add(FormulaOperationType.EQ);
+					AddPutBit(GKStateBit.SetRegime_Automatic, gkBase);
+				}
 
-				Add(FormulaOperationType.CONST, 0, 0x800);
-				Add(FormulaOperationType.EQ);
-				AddPutBit(GKStateBit.SetRegime_Automatic, gkBase);
+				if (gkBase is GKDevice || gkBase is GKDirection || gkBase is GKDelay || gkBase is GKPumpStation || gkBase is GKMPT)
+				{
+					Add(FormulaOperationType.DUP);
+					Add(FormulaOperationType.CONST, 0, 0x1000);
+					Add(FormulaOperationType.EQ);
+					AddPutBit(GKStateBit.SetRegime_Manual, gkBase);
+				}
 
-				Add(FormulaOperationType.CONST, 0, 0x1000);
-				Add(FormulaOperationType.EQ);
-				AddPutBit(GKStateBit.SetRegime_Manual, gkBase);
+				if (gkBase is GKGuardZone)
+				{
+					Add(FormulaOperationType.DUP);
+					Add(FormulaOperationType.CONST, 0, 0x2000);
+					Add(FormulaOperationType.EQ);
+					AddPutBit(GKStateBit.TurnOn_InAutomatic, gkBase);
+				}
 
-				Add(FormulaOperationType.CONST, 0, 0x2000);
-				Add(FormulaOperationType.EQ);
-				AddPutBit(GKStateBit.TurnOn_InAutomatic, gkBase);
+				if (gkBase is GKGuardZone)
+				{
+					Add(FormulaOperationType.CONST, 0, 0x2800);
+					Add(FormulaOperationType.EQ);
+					AddPutBit(GKStateBit.TurnOff_InAutomatic, gkBase);
+				}
 
+				if (gkBase is GKZone)
+				{
+					Add(FormulaOperationType.CONST, 0, 0x4000);
+					Add(FormulaOperationType.EQ);
+					AddPutBit(GKStateBit.Reset, gkBase);
+				}
 
-				Add(FormulaOperationType.CONST, 0, 0x2800);
-				Add(FormulaOperationType.EQ);
-				AddPutBit(GKStateBit.TurnOff_InAutomatic, gkBase);
+				if (gkBase is GKDevice || gkBase is GKDirection || gkBase is GKDelay || gkBase is GKPumpStation || gkBase is GKMPT)
+				{
+					Add(FormulaOperationType.DUP);
+					Add(FormulaOperationType.CONST, 0, 0x4800);
+					Add(FormulaOperationType.EQ);
+					AddPutBit(GKStateBit.TurnOn_InManual, gkBase);
+				}
 
-				Add(FormulaOperationType.CONST, 0, 0x4000);
-				Add(FormulaOperationType.EQ);
-				AddPutBit(GKStateBit.Reset, gkBase);
-
-				Add(FormulaOperationType.CONST, 0, 0x4800);
-				Add(FormulaOperationType.EQ);
-				AddPutBit(GKStateBit.TurnOn_InManual, gkBase);
-
-				Add(FormulaOperationType.CONST, 0, 0x5000);
-				Add(FormulaOperationType.EQ);
-				AddPutBit(GKStateBit.TurnOff_InManual, gkBase);
+				if (gkBase is GKDevice || gkBase is GKDirection || gkBase is GKDelay || gkBase is GKPumpStation || gkBase is GKMPT)
+				{
+					Add(FormulaOperationType.CONST, 0, 0x5000);
+					Add(FormulaOperationType.EQ);
+					AddPutBit(GKStateBit.TurnOff_InManual, gkBase);
+				}
 			}
 		}
 
