@@ -35,6 +35,7 @@ namespace PlansModule.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<ShowPlanElementEvent>().Subscribe(OnShowElement);
 			ServiceFactory.Events.GetEvent<FindElementEvent>().Subscribe(OnShowElementDevice);
+			ServiceFactory.Events.GetEvent<RemoveGKDeviceEvent>().Subscribe(OnRemoveElementDevice);
 			ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
 
 			AddCommand = new RelayCommand(OnAdd);
@@ -342,6 +343,20 @@ namespace PlansModule.ViewModels
 				}
 			}
 		}
+		private void OnRemoveElementDevice(Guid deviceUID)
+		{
+			foreach (var plan in this.Plans)
+			{
+				IEnumerable<ElementGKDevice> devices = plan.Plan.ElementGKDevices
+					.Where(device => device.DeviceUID == deviceUID)
+					.ToArray();
+				foreach (var device in devices)
+				{
+					DesignerCanvas.RemoveDesignerItem(device);
+				}
+			}
+		}
+
 		private void OnShowDevices(List<Guid> deviceUIDs)
 		{
 			foreach (var item in DesignerCanvas.Items)
