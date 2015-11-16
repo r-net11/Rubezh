@@ -119,10 +119,11 @@ namespace GKProcessor
 				var onDelay = gkBase.InternalState.OnDelay;
 				var holdDelay = gkBase.InternalState.HoldDelay;
 				var offDelay = gkBase.InternalState.OffDelay;
+				var runningTime = gkBase.InternalState.RunningTime;
 
 				GetDelays(gkBase);
 
-				if (onDelay != gkBase.InternalState.OnDelay || holdDelay != gkBase.InternalState.HoldDelay || offDelay != gkBase.InternalState.OffDelay)
+				if (onDelay != gkBase.InternalState.OnDelay || holdDelay != gkBase.InternalState.HoldDelay || offDelay != gkBase.InternalState.OffDelay || runningTime != gkBase.InternalState.RunningTime)
 					OnObjectStateChanged(gkBase);
 
 				if (gkBase.InternalState.StateClass == XStateClass.On && holdDelay == 0)
@@ -164,6 +165,7 @@ namespace GKProcessor
 			gkBase.InternalState.OnDelay = descriptorStateHelper.OnDelay;
 			gkBase.InternalState.HoldDelay = descriptorStateHelper.HoldDelay;
 			gkBase.InternalState.OffDelay = descriptorStateHelper.OffDelay;
+			gkBase.InternalState.RunningTime = descriptorStateHelper.RunningTime;
 			return true;
 		}
 
@@ -189,6 +191,7 @@ namespace GKProcessor
 			gkBase.InternalState.OnDelay = descriptorStateHelper.OnDelay;
 			gkBase.InternalState.HoldDelay = descriptorStateHelper.HoldDelay;
 			gkBase.InternalState.OffDelay = descriptorStateHelper.OffDelay;
+			gkBase.InternalState.RunningTime = descriptorStateHelper.RunningTime;
 		}
 
 		void CheckDBMissmatch(GKBase gkBase, DescriptorStateHelper descriptorStateHelper)

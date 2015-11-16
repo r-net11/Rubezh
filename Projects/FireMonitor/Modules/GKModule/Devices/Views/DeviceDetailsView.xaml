@@ -33,10 +33,16 @@
 						</StackPanel>
 					</StackPanel>
 					<StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}">
-						<TextBlock Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Удержание, c" Visibility="{Binding HasRunTime, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-						<TextBlock Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Время хода, c" Visibility="{Binding HasRunTime, Converter={StaticResource BoolToVisibilityConverter}}" />
+						<TextBlock Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Удержание, c" />
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="{Binding State.HoldDelay}" FontSize="24" Margin="2" />
+							<TextBlock Text="Сек" FontSize="24" Margin="2" />
+						</StackPanel>
+					</StackPanel>
+					<StackPanel Visibility="{Binding HasRunningTime, Converter={StaticResource BoolToVisibilityConverter}}">
+						<TextBlock Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Время хода, c" />
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding State.RunningTime}" FontSize="24" Margin="2" />
 							<TextBlock Text="Сек" FontSize="24" Margin="2" />
 						</StackPanel>
 					</StackPanel>
