@@ -126,6 +126,7 @@
 				<File Id="Server.Dll.Api.dll" Name="Api.dll" Source="$(var.VSSDll.TargetDir)" />
 				<File Id="Server.Dll.Entities.dll" Name="Entities.dll" Source="$(var.VSSDll.TargetDir)" />
 				<File Id="Server.Dll.GalaSoft.MvvmLight.WPF4.dll" Name="GalaSoft.MvvmLight.WPF4.dll" Source="$(var.VSSDll.TargetDir)" />
+				<File Id="RVI_VSS.Utils.dll" Name="RVI_VSS.Utils.dll" Source="$(var.VSSDll.TargetDir)" />
 				<File Id="Server.Dll.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.VSSDll.TargetDir)" />
 			</Component>
 		</DirectoryRef>

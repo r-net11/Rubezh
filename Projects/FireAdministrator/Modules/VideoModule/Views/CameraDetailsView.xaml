@@ -6,8 +6,8 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:viewModels="clr-namespace:VideoModule.ViewModels"
 	xmlns:mediaSourcePlayer="clr-namespace:MediaSourcePlayer;assembly=MediaSourcePlayer"
-	Width="545"
-	Height="380"
+	MinWidth="545"
+	MinHeight="380"
 	d:DataContext="{d:DesignInstance viewModels:CameraDetailsViewModel}"
 	mc:Ignorable="d">
 	<UserControl.Resources>
@@ -21,7 +21,7 @@
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition />
+			<ColumnDefinition Width="*"/>
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -47,9 +47,8 @@
 			HorizontalAlignment="Center"
 			VerticalAlignment="Top"
 			Content="Предпросмотр"
-			Padding="4" 
-			Click="ButtonBase_OnClick"
-			IsEnabled="{Binding CanPlay}"/>
+			Command ="{Binding PlayCommand}"
+			Padding="4"/>
 		<TextBlock
 			Grid.Row="1"
 			Margin="5 10 10 10"
@@ -67,8 +66,8 @@
 			Grid.Row="1"
 			Grid.RowSpan="4"
 			Grid.Column="2"
-			Width="250"
-			Height="250"
+			Width="400"
+			Height="300"
 			Margin="5"
 			VerticalAlignment="Top">
 		</mediaSourcePlayer:MediaPlayer>
