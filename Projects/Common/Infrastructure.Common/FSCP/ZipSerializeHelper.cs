@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Common;
 using RubezhAPI;
+using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Common
 {
@@ -74,6 +75,13 @@ namespace Infrastructure.Common
 					{
 						var xmlSerializer = new XmlSerializer(typeof(T));
 						configuration = (T)xmlSerializer.Deserialize(fileStream);
+                        if(fileName == "SecurityConfiguration.xml")
+                        {
+                            if(configuration == null)
+                                MessageBoxService.Show("Deserialize configuration is null");
+                            else
+                                MessageBoxService.Show("Deserialize configuration is not null");
+                        }
 					}
 					else
 					{
@@ -88,6 +96,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
+                MessageBoxService.Show("Deserialoze error " + e.Message);
 				Logger.Error("ZipSerializeHelper.DeSerialize " + fileName + " " + e.Message);
 				return new T();
 			}

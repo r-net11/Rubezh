@@ -6,6 +6,7 @@ using RubezhAPI.Models;
 using RubezhAPI.SKD;
 using Infrastructure.Common;
 using Ionic.Zip;
+using Infrastructure.Common.Windows;
 
 namespace RubezhClient
 {
@@ -23,15 +24,31 @@ namespace RubezhClient
 
 		static void LoadConfigFromDirectory(string unzipFolderPath)
 		{
+            MessageBoxService.Show("LoadConfigFromDirectory");
 			foreach (var zipConfigurationItem in ZipConfigurationItemsCollection.GetWellKnownNames())
 			{
 				var configurationFileName = Path.Combine(unzipFolderPath, zipConfigurationItem);
+                if (zipConfigurationItem == "SecurityConfiguration.xml")
+                {
+                    if (File.Exists(configurationFileName))
+                    {
+                        MessageBoxService.Show("LoadConfigFromDirectory found");
+                    }
+                    else
+                    {
+                        MessageBoxService.Show("LoadConfigFromDirectory not found " + configurationFileName);
+                    }
+                }
 				if (File.Exists(configurationFileName))
 				{
 					switch (zipConfigurationItem)
 					{
 						case "SecurityConfiguration.xml":
 							SecurityConfiguration = ZipSerializeHelper.DeSerialize<SecurityConfiguration>(configurationFileName, true);
+                            if (SecurityConfiguration == null)
+                                MessageBoxService.Show("Initialise SecurityConfiguration = null");
+                            else
+                                MessageBoxService.Show("Initialise SecurityConfiguration is not null");
 							break;
 						case "PlansConfiguration.xml":
 							PlansConfiguration = ZipSerializeHelper.DeSerialize<PlansConfiguration>(configurationFileName, true);
