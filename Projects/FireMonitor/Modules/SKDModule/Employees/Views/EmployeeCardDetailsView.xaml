@@ -265,8 +265,7 @@
 						Width="225"
 						Margin="2 4"
 						SelectedDate="{Binding StartDate}"
-						DisplayDate="{Binding StartDate}"
-						DisplayDateStart="{x:Static sys:DateTime.Now}" />
+						DisplayDate="{Binding StartDate}" />
 					<TextBlock
 						Grid.Row="3"
 						Text="Окончание действия"

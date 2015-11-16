@@ -3,7 +3,6 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using ReactiveUI;
 using SKDModule.Model;
 using System;
 using System.Collections.ObjectModel;
@@ -21,8 +20,8 @@ namespace SKDModule.ViewModels
 			EmployeeUID = timeTrackEmployeeResult.ShortEmployee.UID;
 			OrganisationUID = timeTrackEmployeeResult.ShortEmployee.OrganisationUID;
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+			EditCommand = new RelayCommand(OnEdit, CanEditOrRemoveDoc);
+			RemoveCommand = new RelayCommand(OnRemove, CanEditOrRemoveDoc);
 			AddFileCommand = new RelayCommand(OnAddFile, CanAddFile);
 			OpenFileCommand = new RelayCommand(OnOpenFile, CanEditOrRemove);
 			RemoveFileCommand = new RelayCommand(OnRemoveFile, CanEditOrRemove);
@@ -78,7 +77,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		private void OnAdd()
 		{
 			var documentDetailsViewModel = new DocumentDetailsViewModel(true, OrganisationUID, EmployeeUID);
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
@@ -97,7 +96,7 @@ namespace SKDModule.ViewModels
 				}
 			}
 		}
-		bool CanAdd()
+		private bool CanAdd()
 		{
 			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
@@ -110,7 +109,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
+		private void OnEdit()
 		{
 			var documentDetailsViewModel = new DocumentDetailsViewModel(true, OrganisationUID, EmployeeUID,
 				SelectedDocument.Document)
@@ -129,13 +128,13 @@ namespace SKDModule.ViewModels
 				IsDirty = true;
 			}
 		}
-		bool CanEdit()
+		private bool CanEditOrRemoveDoc()
 		{
-			return SelectedDocument != null && SelectedDocument.HasFile && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
+			return SelectedDocument != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
+		private void OnRemove()
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить документ?"))
 			{
@@ -151,13 +150,9 @@ namespace SKDModule.ViewModels
 				}
 			}
 		}
-		bool CanRemove()
-		{
-			return SelectedDocument != null && SelectedDocument.HasFile && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
-		}
 
 		public RelayCommand AddFileCommand { get; private set; }
-		void OnAddFile()
+		private void OnAddFile()
 		{
 			SelectedDocument.AddFile();
 		}
