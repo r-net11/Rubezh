@@ -324,6 +324,8 @@ namespace AutomationModule.Validation
 						Errors.Add(new ProcedureStepValidationError(step, "Не выбран элемент плана", ValidationErrorLevel.CannotSave));
 					break;
 				case ProcedureStepType.ShowDialog:
+					if (step.ShowDialogArguments.Layout == Guid.Empty)
+						Errors.Add(new ProcedureStepValidationError(step, "Не выбран макет", ValidationErrorLevel.CannotSave));
 					break;
 				case ProcedureStepType.GenerateGuid:
 					{

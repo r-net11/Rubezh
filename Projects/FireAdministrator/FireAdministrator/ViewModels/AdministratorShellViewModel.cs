@@ -34,12 +34,13 @@ namespace FireAdministrator.ViewModels
 			AddRibbonItem();
 			AllowLogoIcon = false;
 			RibbonVisible = true;
+			Icon = @"..\Administrator.ico";
 		}
 
 		public override void Run()
 		{
 			base.Run();
-			ServiceFactory.Layout.ShortcutService.Shortcuts.Add(new KeyGesture(Key.S, ModifierKeys.Control), _menu.SaveCommand);			
+			ServiceFactory.Layout.ShortcutService.Shortcuts.Add(new KeyGesture(Key.S, ModifierKeys.Control), _menu.SaveCommand);
 		}
 		public override bool OnClosing(bool isCanceled)
 		{

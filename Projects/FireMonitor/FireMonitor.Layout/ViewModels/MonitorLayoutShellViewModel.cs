@@ -1,24 +1,16 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Media;
 using FireMonitor.ViewModels;
 using RubezhAPI.Models;
 using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
-using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
-using Xceed.Wpf.AvalonDock;
-using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using LayoutModel = RubezhAPI.Models.Layouts.Layout;
 using RubezhAPI.AutomationCallback;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireMonitor.Layout.ViewModels
 {
@@ -35,6 +27,7 @@ namespace FireMonitor.Layout.ViewModels
 			LayoutContainer.LayoutChanging += LayoutChanging;
 			ChangeUserCommand = new RelayCommand(OnChangeUser, CanChangeUser);
 			ChangeLayoutCommand = new RelayCommand<LayoutModel>(OnChangeLayout, CanChangeLayout);
+			Icon = @"..\Monitor.Layout.ico";
 		}
 
 		public LayoutContainer LayoutContainer { get; private set; }

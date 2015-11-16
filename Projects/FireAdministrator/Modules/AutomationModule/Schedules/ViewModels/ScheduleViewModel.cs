@@ -64,7 +64,7 @@ namespace AutomationModule.ViewModels
 			}
 			Hours = new ObservableCollection<int> { -1 };
 			PeriodHours = new ObservableCollection<int>();
-			for (int i = 0; i <= 24; i++)
+			for (int i = 0; i < 24; i++)
 			{
 				Hours.Add(i);
 				PeriodHours.Add(i);

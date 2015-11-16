@@ -7,10 +7,6 @@
 		<Views:PmfUsersView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:PmfUsersMenuViewModel}">
-		<Views:PmfUsersMenuView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:PmfUserDetailsViewModel}">
 		<Views:PmfUserDetailsView />
 	</DataTemplate>

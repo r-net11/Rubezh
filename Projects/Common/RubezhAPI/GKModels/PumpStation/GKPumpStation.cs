@@ -140,7 +140,7 @@ namespace RubezhAPI.GK
 		{
 			get 
 			{
-				var presentationName = "0" + No + "." + Name;
+				var presentationName = No + "." + Name;
 				if (Pim != null)
 					Pim.Name = presentationName;
 				return presentationName; 

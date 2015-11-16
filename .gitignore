@@ -17,3 +17,5 @@ Documents/Manual/Ñîñòîÿíèÿ.docx
 Projects/Resurs/UinitTestResursNetwork/FakesAssemblies/resursnetwork.Fakes.messages
 Projects/Resurs/UinitTestResursNetwork/FakesAssemblies/resursnetwork.Fakes.dll
 Projects/Resurs/UinitTestResursNetwork/FakesAssemblies/resursnetwork.Fakes.xml
+*.psess
+*.vsp
