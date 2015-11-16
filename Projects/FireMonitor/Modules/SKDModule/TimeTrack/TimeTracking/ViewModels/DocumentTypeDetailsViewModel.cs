@@ -144,7 +144,7 @@ namespace SKDModule.ViewModels
 						MessageBoxService.ShowWarning("Буквенный код документа совпадает с одним из предопределенных кодов");
 						return false;
 					}
-					if (!_inputDocumentTypesForOrganisation.IsEmpty() && _inputDocumentTypesForOrganisation.All(x => x.Code != Code))
+					if (!_inputDocumentTypesForOrganisation.IsEmpty() && _inputDocumentTypesForOrganisation.Any(x => x.Code == Code))
 					{
 						MessageBoxService.ShowWarning("Числовой код документа совпадает с одним из предопределенных");
 						return false;
