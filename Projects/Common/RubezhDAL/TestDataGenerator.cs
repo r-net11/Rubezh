@@ -15,9 +15,11 @@ namespace RubezhDAL.DataClasses
     public class TestDataGenerator
     {
         DatabaseContext Context;
+        DbService _dbService;
         public TestDataGenerator(DbService dbService)
         {
             Context = dbService.Context;
+            _dbService = dbService;
         }
         public OperationResult GenerateTestData(bool isAscending)
         {
@@ -38,24 +40,41 @@ namespace RubezhDAL.DataClasses
             try
             {
 				var random = new Random();
-				var journals = new List<Journal>();
-                for (int i = 0; i < 1500000; i++)
+                //var journals = new List<Journal>();
+                //for (int i = 0; i < 1500000; i++)
+                //{
+                //    var journal = new Journal
+                //    {
+                //        UID = Guid.NewGuid(),
+                //        CardNo = 1,
+                //        Description = 1,
+                //        Name = 1,
+                //        ObjectType = 1,
+                //        ObjectUID = Guid.Empty,
+                //        Subsystem = 1,
+                //        SystemDate = DateTime.Now,
+                //    };
+                //    journals.Add(journal);    
+                //}
+                var journals = new List<RubezhAPI.Journal.JournalItem>();
+                for (int i = 0; i < 2500; i++)
                 {
-                    var journal = new Journal
+                    var journal = new RubezhAPI.Journal.JournalItem
                     {
                         UID = Guid.NewGuid(),
                         CardNo = 1,
-                        Description = 1,
-                        Name = 1,
-                        ObjectType = 1,
-                        ObjectUID = Guid.Empty,
-                        Subsystem = 1,
-                        SystemDate = DateTime.Now,
+                        JournalEventDescriptionType = RubezhAPI.Journal.JournalEventDescriptionType.NULL,
+                        JournalEventNameType = RubezhAPI.Journal.JournalEventNameType.Команда_оператора,
+                        JournalObjectType = RubezhAPI.Journal.JournalObjectType.None,
+                        JournalSubsystemType = RubezhAPI.Journal.JournalSubsystemType.System,
+                        SystemDateTime = DateTime.Now,
+                        ObjectUID = Guid.Empty
                     };
-                    journals.Add(journal);    
+                    journals.Add(journal);
                 }
-				Context.BulkInsert(journals);
-                Context.SaveChanges();
+                _dbService.JournalTranslator.AddRange(journals);
+				//Context.BulkInsert(journals);
+                //Context.SaveChanges();
                 return new OperationResult();
             }
             catch (Exception e)

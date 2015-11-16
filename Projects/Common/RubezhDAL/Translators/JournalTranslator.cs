@@ -85,17 +85,11 @@ namespace RubezhDAL.DataClasses
 			{
 				if (apiItems.Count == 0)
 					return new OperationResult();
-				var index = 0;
-				while (true)
-				{
-					var portion = apiItems.Skip(1000 * index).Take(1000);
-					index++;
-					if (portion.Count() == 0)
-						break;
-					var query = "INSERT INTO dbo.\"Journals\" (\"UID\", \"EmployeeUID\", \"SystemDate\", \"DeviceDate\", \"Subsystem\", \"Name\", \"Description\", \"DescriptionText\", \"ObjectType\", \"ObjectUID\", \"Detalisation\", \"UserName\", \"VideoUID\", \"CameraUID\", \"ObjectName\", \"CardNo\") VALUES";
-					foreach (var item in portion)
-					{
-						query += string.Format("('{0}', {1}, '{2}', {3}, '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}', '{15}'),",
+                string query = "";
+                foreach (var item in apiItems)
+                {
+                    query += "INSERT INTO dbo.\"Journals\" (\"UID\", \"EmployeeUID\", \"SystemDate\", \"DeviceDate\", \"Subsystem\", \"Name\", \"Description\", \"DescriptionText\", \"ObjectType\", \"ObjectUID\", \"Detalisation\", \"UserName\", \"VideoUID\", \"CameraUID\", \"ObjectName\", \"CardNo\") VALUES";
+					query += string.Format("('{0}', {1}, '{2}', {3}, '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}', '{15}'); ",
 							item.UID,
 							item.EmployeeUID.EmptyToNullSqlStr(),
 							item.SystemDateTime.CheckDate().ToString("yyyyMMdd HH:mm:ss"),
@@ -112,15 +106,13 @@ namespace RubezhDAL.DataClasses
 							item.CameraUID,
 							item.ObjectName,
 							item.CardNo);
-					}
-					query = query.TrimEnd(',');
-					Context.Database.ExecuteSqlCommand(query);
 				}
-				return new OperationResult();
+                Context.Database.ExecuteSqlCommand(query);
+                return new OperationResult();
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "JournalTranslator.Add");
+				Logger.Error(e, "JournalTranslator.AddRange");
 				return new OperationResult(e.Message);
 			}
 		}

@@ -21,6 +21,7 @@ namespace GKProcessor
 		public int OnDelay { get; private set; }
 		public int HoldDelay { get; private set; }
 		public int OffDelay { get; private set; }
+		public int RunningTime { get; private set; }
 
 		public void Parse(List<byte> bytes, GKBase gkBase)
 		{
@@ -197,12 +198,14 @@ namespace GKProcessor
 						if (additionalShortParameters[1] == 1)
 						{
 							OnDelay = additionalShortParameters[0];
-							HoldDelay = 0;
 						}
 						if (additionalShortParameters[1] == 2)
 						{
+							RunningTime = additionalShortParameters[0];
+						}
+						if (additionalShortParameters[1] == 3)
+						{
 							HoldDelay = additionalShortParameters[0];
-							OnDelay = 0;
 						}
 						break;
 					case GKDriverType.RSR2_MVK8:
