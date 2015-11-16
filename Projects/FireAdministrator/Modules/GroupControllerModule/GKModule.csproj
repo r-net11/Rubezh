@@ -294,7 +294,7 @@
     <Compile Include="Plans\Views\MPTPropertiesView.xaml.cs">
       <DependentUpon>MPTPropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PmfUsers\Views\PmfUserDetailsView.xaml.cs">
+    <Compile Include="Devices\PmfUsers\Views\PmfUserDetailsView.xaml.cs">
       <DependentUpon>PmfUserDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Selectation\ViewModels\AnyZonesSelectionViewModel.cs" />
@@ -488,14 +488,10 @@
     <Compile Include="SKD\Views\SKDZonesView.xaml.cs">
       <DependentUpon>SKDZonesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PmfUsers\ViewModels\PmfUserDetailsViewModel.cs" />
-    <Compile Include="PmfUsers\ViewModels\PmfUsersMenuViewModel.cs" />
-    <Compile Include="PmfUsers\ViewModels\PmfUserViewModel.cs" />
-    <Compile Include="PmfUsers\ViewModels\PmfUsersViewModel.cs" />
-    <Compile Include="PmfUsers\Views\PmfUsersMenuView.xaml.cs">
-      <DependentUpon>PmfUsersMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PmfUsers\Views\PmfUsersView.xaml.cs">
+    <Compile Include="Devices\PmfUsers\ViewModels\PmfUserDetailsViewModel.cs" />
+    <Compile Include="Devices\PmfUsers\ViewModels\PmfUserViewModel.cs" />
+    <Compile Include="Devices\PmfUsers\ViewModels\PmfUsersViewModel.cs" />
+    <Compile Include="Devices\PmfUsers\Views\PmfUsersView.xaml.cs">
       <DependentUpon>PmfUsersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validation\CodeValidationError.cs" />
@@ -790,7 +786,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PmfUsers\Views\PmfUserDetailsView.xaml">
+    <Page Include="Devices\PmfUsers\Views\PmfUserDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -970,15 +966,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PmfUsers\DataTemplates\Dictionary.xaml">
+    <Page Include="Devices\PmfUsers\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PmfUsers\Views\PmfUsersMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PmfUsers\Views\PmfUsersView.xaml">
+    <Page Include="Devices\PmfUsers\Views\PmfUsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

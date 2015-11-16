@@ -1,6 +1,8 @@
-<UserControl x:Class="GKModule.Views.DoorsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:viewModel="clr-namespace:GKModule.ViewModels" xmlns:Views="clr-namespace:GKModule.Views"
-			 xmlns:gk="clr-namespace:RubezhAPI.GK;assembly=RubezhAPI">
-
+<UserControl x:Class="GKModule.Views.DoorsView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:gk="clr-namespace:RubezhAPI.GK;assembly=RubezhAPI"
+			 xmlns:Views="clr-namespace:GKModule.Views">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
@@ -12,13 +14,13 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Door.png" />
+								<Image Margin="1 0 0 0" Width="16" Height="16" VerticalAlignment="Center" Source="/Controls;component/Images/Door.png" />
 								<TextBlock Margin="2 0 5 0" VerticalAlignment="Center" Text="{Binding Door.No}" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="Auto" Header="Точка доступа" SortMemberPath="Door.Name">
+				<DataGridTemplateColumn Width="Auto" Header="Точка доступа" SortMemberPath="Door.Name" MinWidth="210">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -46,7 +48,7 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTextColumn Width="Auto" Binding="{Binding Door.DoorType, Converter={StaticResource EnumToDescriptionConverter}}" Header="Тип" />
-				<DataGridTextColumn Width="*" Binding="{Binding Door.Description}" Header="Примечание" />
+				<DataGridTextColumn Width="Auto" Binding="{Binding Door.Description}" Header="Примечание" />
 			</DataGrid.Columns>
 		</DataGrid>
 		<Grid Grid.Row="1"  Visibility="{Binding IsVisibleBottomPanel, Converter={StaticResource BoolToVisibilityConverter}}">

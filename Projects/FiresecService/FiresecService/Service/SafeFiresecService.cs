@@ -276,6 +276,16 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKWriteMirrorUsers(deviceUID, mirrorUsers); }, "GKWriteMirrorUsers");
 		}
 
+		public OperationResult<List<GKUser>> GetGKUsers(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetGKUsers(deviceUID); }, "GetGKUsers");
+		}
+
+		public OperationResult<bool> WriteAllGKUsers(List<GKUser> users)
+		{
+			return SafeOperationCall(() => { return FiresecService.WriteAllGKUsers(users); }, "WriteAllGKUsers");
+		}
+
 		public OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKGKHash(gkDeviceUID); }, "GKGKHash");

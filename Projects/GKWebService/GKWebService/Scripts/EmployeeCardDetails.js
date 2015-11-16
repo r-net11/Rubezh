@@ -8,6 +8,16 @@
     self.CanSelectGKControllers = ko.computed(function () {
         return self.SelectedGKCardType() != "Employee";
     }, self);
+    self.GKSchedules = ko.observableArray();
+    self.SelectedGKSchedule = ko.observable();
+
+    self.UseStopList = ko.observable(false);
+    self.StopListCards = ko.observableArray();
+    self.SelectedStopListCard = ko.observable();
+
+    self.UseReader = ko.observable(false);
+
+    self.IsNewCard = ko.observable();
 
     self.employeeCardDetailsPages = {
         General: ko.observable(true),
@@ -27,13 +37,19 @@
     });
 
     self.InitEmployeeCardDetails = function (isNew) {
-        self.IsNew = isNew;
+        self.IsNewCard(isNew);
         if (isNew) {
             self.Title("Создание пропуска");
         } else {
-            self.Title(("Свойства пропуска: ") + self.Number());
+            self.Title(("Свойства пропуска: ") + self.Card.Number());
         }
         self.CanChangeCardType(!self.ParentViewModel.IsGuest());
+        $.getJSON("Employees/GetSchedules", function(data) {
+            ko.mapping.fromJS(data, {}, self.GKSchedules);
+        });
+        $.getJSON("Employees/GetStopListCards", function (data) {
+            ko.mapping.fromJS(data, {}, self.StopListCards);
+        });
     };
 
     self.EmployeeCardDetailsPageClick = function (data, e, page) {
@@ -60,13 +76,21 @@
             url: "Employees/EmployeeCardDetails",
             type: "post",
             contentType: "application/json",
-            data: "{'card':" + data + ",'employeeName': '" + self.ParentViewModel.Name() + "','isNew': '" + self.IsNew + "'}",
+            data: "{'card':" + data + ",'employeeName': '" + self.ParentViewModel.Name() + "','isNew': '" + self.IsNewCard() + "'}",
             success: function () {
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert("request failed");
             },
         });
+    };
+
+    self.ChangeReaderClick = function() {
+
+    };
+
+    self.ShowUSBCardReaderClick = function () {
+
     };
 
     return self;

@@ -34,6 +34,9 @@ namespace GKWebService
                       "~/Scripts/app/directives/d3Plan.js",
                       "~/Scripts/app/services/signalrService.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/fireZones").Include(
+                      "~/Scripts/app/controllers/firezonesCtrl.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));

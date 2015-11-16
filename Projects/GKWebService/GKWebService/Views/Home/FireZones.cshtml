@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "FireZones";
+    Layout = null;
+}
+
+
+@using System.Web.Optimization
+
+@Scripts.Render("~/bundles/fireZones")
+<h1>Fire Zones</h1>
+<div ng-controller="firezonesCtrl">
+    {{message}}
+</div>

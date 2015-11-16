@@ -123,8 +123,6 @@ namespace Infrastructure.Common.Windows
 				{
 					if (Application.Current == null)
 						return;
-					if (Application.Current.MainWindow != null)
-						Application.Current.MainWindow.Close();
 					else
 					{
 						if (Closing != null)

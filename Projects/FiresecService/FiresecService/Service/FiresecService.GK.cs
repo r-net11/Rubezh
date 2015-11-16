@@ -576,6 +576,21 @@ namespace FiresecService.Service
 			}
 			return OperationResult<bool>.FromError("Не найден ГК в конфигурации");
 		}
+
+		public OperationResult<List<GKUser>> GetGKUsers(Guid deviceUID)
+		{
+			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				return GKSKDHelper.GetAllUsers(device, new GKProgressCallback());
+			}
+			return OperationResult<List<GKUser>>.FromError("Прибор не найден в конфигурации");
+		}
+
+		public OperationResult<bool> WriteAllGKUsers(List<GKUser> users)
+		{
+			return GKSKDHelper.WriteAllUsers(users);
+		}
 		#endregion
 
 		public OperationResult<List<MirrorUser>> GKReadMirrorUsers(Guid deviceUID)

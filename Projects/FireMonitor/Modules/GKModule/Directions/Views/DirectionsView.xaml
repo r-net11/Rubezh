@@ -21,18 +21,18 @@
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
-							<Grid Margin="1 0 0 0" Width="16" Background="{DynamicResource Blue_Direction}" VerticalAlignment="Center" />
+							<Rectangle Margin="1 0 0 0" Width="16" Height="16" Fill="{DynamicResource Blue_Direction}" VerticalAlignment="Center" />
 							<TextBlock HorizontalAlignment="Stretch" Text="{Binding Direction.No}" VerticalAlignment="Center" Margin="2" />
 						</StackPanel>
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Width="*" SortMemberPath="Direction.Name" MinWidth="250" Header="Направление">
+			<DataGridTemplateColumn Width="Auto" SortMemberPath="Direction.Name" MinWidth="210" Header="Направление">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
 							<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
-							<TextBlock Width="200" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+							<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center">
 								<Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
 									<TextBlock Text="{Binding Direction.Name}" />
 								</Hyperlink>
@@ -47,7 +47,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="Логика включения" Width="*">
+			<DataGridTemplateColumn Header="Логика включения" Width="Auto" MinWidth="100">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding PresentationLogic}"
