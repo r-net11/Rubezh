@@ -249,6 +249,8 @@ namespace SKDModule.ViewModels
 			DayTimeTrackPartsCollection.Filter = new Predicate<object>(FilterDayTimeTrackParts);
 			Documents = GetObservableCollection(DayTimeTrack.Documents, x => new TimeTrackAttachedDocument(x));
 
+			IsShowOnlyScheduledIntervals = true;
+
 			this.WhenAny(x => x.SelectedDayTimeTrackPart, x => x.Value)
 				.Subscribe(value =>
 				{
