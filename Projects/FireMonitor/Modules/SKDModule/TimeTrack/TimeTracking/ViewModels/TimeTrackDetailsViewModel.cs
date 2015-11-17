@@ -333,7 +333,6 @@ namespace SKDModule.ViewModels
 				timeTrackPartDetailsViewModel.CurrentTimeTrackPart.ExitTimeOriginal =
 					timeTrackPartDetailsViewModel.CurrentTimeTrackPart.ExitDateTime;
 
-
 				SelectedTimeTrackPartDetailsViewModel = timeTrackPartDetailsViewModel.CurrentTimeTrackPart;
 
 				if (timeTrackPartDetailsViewModel.CurrentTimeTrackPart.ExitDateTime.HasValue)
