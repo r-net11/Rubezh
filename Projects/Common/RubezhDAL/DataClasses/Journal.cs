@@ -8,9 +8,7 @@ namespace RubezhDAL.DataClasses
 	{
 		[Key]
 		public Guid UID { get; set; }
-		[Index]
 		public Guid? EmployeeUID { get; set; }
-		[Index]
 		public Employee Employee { get; set; }
 		[Index]
 		public DateTime SystemDate { get; set; }
@@ -22,27 +20,20 @@ namespace RubezhDAL.DataClasses
 		public int Name { get; set; }
 		[Index]
 		public int Description { get; set; }
-		[Index]
 		[MaxLength(4000)]
 		public string DescriptionText { get; set; }
 		[Index]
 		public int ObjectType { get; set; }
 		[Index]
 		public Guid ObjectUID { get; set; }
-		[Index]
 		[MaxLength(4000)]
 		public string Detalisation { get; set; }
-		[Index]
 		[MaxLength(50)]
 		public string UserName { get; set; }
-		[Index]
 		public Guid? VideoUID { get; set; }
-		[Index]
 		public Guid? CameraUID { get; set; }
-		[Index]
 		[MaxLength(100)]
 		public string ObjectName { get; set; }
-		[Index]
 		public int CardNo { get; set; }
 	}
 }

@@ -57,7 +57,7 @@ namespace RubezhDAL.DataClasses
                 //    journals.Add(journal);    
                 //}
                 var journals = new List<RubezhAPI.Journal.JournalItem>();
-                for (int i = 0; i < 2500; i++)
+                for (int i = 0; i < 25000; i++)
                 {
                     var journal = new RubezhAPI.Journal.JournalItem
                     {
@@ -72,7 +72,8 @@ namespace RubezhDAL.DataClasses
                     };
                     journals.Add(journal);
                 }
-                _dbService.JournalTranslator.AddRange(journals);
+
+				_dbService.JournalTranslator.AddRange(journals);
 				//Context.BulkInsert(journals);
                 //Context.SaveChanges();
                 return new OperationResult();
