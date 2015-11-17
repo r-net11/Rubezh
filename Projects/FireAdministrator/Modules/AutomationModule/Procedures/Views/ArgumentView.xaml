@@ -59,10 +59,6 @@
 	</UserControl.Resources>
 
 	<StackPanel Orientation="Horizontal">
-		<StackPanel.Resources>
-			<CollectionViewSource x:Key="localVariables" Source="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.LocalVariables}" />
-			<CollectionViewSource x:Key="globalVariables" Source="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.GlobalVariables}" />
-		</StackPanel.Resources>
 		<ComboBox ItemsSource="{Binding VariableScopes}" SelectedItem="{Binding SelectedVariableScope, UpdateSourceTrigger=PropertyChanged}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -71,9 +67,9 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<ComboBox Width="200" ItemsSource="{Binding Source={StaticResource localVariables}}" SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource VariableComboBox}" Visibility="{Binding Path=SelectedVariableScope, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:VariableScope.LocalVariable}}" />
+		<ComboBox Width="200" ItemsSource="{Binding LocalVariables}" SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource VariableComboBox}" Visibility="{Binding Path=SelectedVariableScope, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:VariableScope.LocalVariable}}" />
 
-		<ComboBox Width="200" ItemsSource="{Binding Source={StaticResource globalVariables}}" SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource VariableComboBox}" Visibility="{Binding Path=SelectedVariableScope, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:VariableScope.GlobalVariable}}" />
+		<ComboBox Width="200" ItemsSource="{Binding GlobalVariables}" SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource VariableComboBox}" Visibility="{Binding Path=SelectedVariableScope, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:VariableScope.GlobalVariable}}" />
 
 		<StackPanel Visibility="{Binding SelectedVariableScope, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:VariableScope.ExplicitValue}}">
 			<StackPanel Visibility="{Binding IsList, Converter={StaticResource InversedBoolToVisibilityConverter}}">

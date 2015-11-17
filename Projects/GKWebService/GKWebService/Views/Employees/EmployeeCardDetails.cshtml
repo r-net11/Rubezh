@@ -29,8 +29,25 @@
                         <option value="Manufactor">Изготовитель</option>
                     </select>
                 </label>
-                <label for="EndDate"><span>Конец действия</span><input type="text" id="EndDate" name="EndDate" data-bind="datepicker: EndDate, datepickerOptions: { dateFormat: 'dd.mm.yy' }" value="" /></label>
-                <label for="GKLevel"><span>Уровень доступа</span><input type="number" name="GKLevel" data-bind="value: GKLevel" value="" /></label>
+                <label for="EndDate"><span>Конец действия</span><input type="text" id="EndDate" name="EndDate" data-bind="datepicker: Card.EndDate, datepickerOptions: { dateFormat: 'dd.mm.yy' }" value="" /></label>
+                <label for="GKLevel"><span>Уровень доступа</span><input type="number" name="GKLevel" data-bind="value: Card.GKLevel" value="" /></label>
+                <label for="GKSchedule">
+                    <span>График доступа</span>
+                    <select name="GKSchedule" data-bind="options: GKSchedules, optionsText: function(item) {return item.No() + ' ' + item.Name();}, value: SelectedGKSchedule, optionsCaption: ''"></select>
+                </label>
+                <label for="Number"><span>Номер</span><input type="number" name="Number" data-bind="value: Card.Number, enable: IsNewCard() && !UseStopList()" value="" /></label>
+                <label for="StopListCard">
+                    <span><input type="checkbox" id="UseStopList" data-bind="checked: UseStopList, enable: IsNewCard" value=""><label for="UseStopList">Из списка деактивированных</label></span>
+                    <select name="StopListCard" data-bind="options: StopListCards, optionsText: 'Number', value: SelectedStopListCard, enable: IsNewCard() && UseStopList()"></select>
+                </label>
+                <label for="ChangeReader">
+                    <span><input type="checkbox" id="UseReader" data-bind="checked: UseReader, enable: IsNewCard" value=""><label for="UseReader">От контрольного считывателя</label></span>
+                    <a id="ChangeReader" href=""><span data-bind="click: ChangeReaderClick, enable: IsNewCard">Нажмите для выбора считывателя</span></a>
+                </label>
+                <label for="ShowUSBCardReader">
+                    <span></span>
+                    <input class="ok-cancel-button" type="button" name="ShowUSBCardReader" data-bind="click: ShowUSBCardReaderClick, enable: IsNewCard" value="От USB-считывателя" />
+                </label>
             </div>
             <div class="data-input" data-bind="visible:employeeCardDetailsPages.GKControllers">
             </div>

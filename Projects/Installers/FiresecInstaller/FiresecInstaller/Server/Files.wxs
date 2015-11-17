@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
-		 xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension"
-		 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+	 xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension"
+	 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
 	<?include Variables.wxi?>
 	<Fragment>
 
@@ -75,7 +75,7 @@
 				<File Id="Server.Microsoft.SqlServer.SqlClrProvider.dll" Name="Microsoft.SqlServer.SqlClrProvider.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
 				<File Id="Server.Microsoft.SqlServer.SqlEnum.dll" Name="Microsoft.SqlServer.SqlEnum.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
 			</Component>
-			
+
 			<Component Id="Server.VIDEO_MODULE" Guid="7d458de8-d0d7-478f-b0d5-e2c512469922">
 				<File Id="Server.API.dll" Name="API.dll" Source="$(var.Server.RVIVSS)" />
 				<File Id="Server.Entities.dll" Name="Entities.dll" Source="$(var.Server.RVIVSS)" />
@@ -109,21 +109,21 @@
 					<File Id="Server.SystemConfiguration.xml" Name="SystemConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SystemConfiguration.xml" />
 					<File Id="Server.ZipConfigurationItemsCollection.xml" Name="ZipConfigurationItemsCollection.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\ZipConfigurationItemsCollection.xml" />
 				</Component>
-        <Component Id="AppData.ServerLocation.Config.Library" Guid="6D518E5C-6420-43DA-BDE3-5FDE7AB30F24">
-          <File Id="Server.GKDeviceLibraryConfiguration.xml" Name="GKDeviceLibraryConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\GKDeviceLibraryConfiguration.xml" />
-        </Component>
+				<Component Id="AppData.ServerLocation.Config.Library" Guid="6D518E5C-6420-43DA-BDE3-5FDE7AB30F24">
+					<File Id="Server.GKDeviceLibraryConfiguration.xml" Name="GKDeviceLibraryConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\GKDeviceLibraryConfiguration.xml" />
+				</Component>
 			</Directory>
 		</DirectoryRef>
 
 		<DirectoryRef Id="AppData.EmptyLocation">
 			<Component Id="Server.AppData.EmptyLocation" Guid="EBFF4919-E86E-48C2-88C7-C91E7133EE37">
-        <File Id="Server.AppData.EmptyLocation.GKDeviceConfiguration.xml" Name="GKDeviceConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\GKDeviceConfiguration.xml" />
-        <File Id="Server.AppData.EmptyLocation.GKDeviceLibraryConfiguration.xml" Name="GKDeviceLibraryConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\GKDeviceLibraryConfiguration.xml" />
-        <File Id="Server.AppData.EmptyLocation.LayoutsConfiguration.xml" Name="LayoutsConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\LayoutsConfiguration.xml" />
-        <File Id="Server.AppData.EmptyLocation.PlansConfiguration.xml" Name="PlansConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\PlansConfiguration.xml" />
-        <File Id="Server.AppData.EmptyLocation.SecurityConfiguration.xml" Name="SecurityConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SecurityConfiguration.xml" />
-        <File Id="Server.AppData.EmptyLocation.SystemConfiguration.xml" Name="SystemConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SystemConfiguration.xml" />
-        <File Id="Server.AppData.EmptyLocation.ZipConfigurationItemsCollection.xml" Name="ZipConfigurationItemsCollection.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\ZipConfigurationItemsCollection.xml" />
+				<File Id="Server.AppData.EmptyLocation.GKDeviceConfiguration.xml" Name="GKDeviceConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\GKDeviceConfiguration.xml" />
+				<File Id="Server.AppData.EmptyLocation.GKDeviceLibraryConfiguration.xml" Name="GKDeviceLibraryConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\GKDeviceLibraryConfiguration.xml" />
+				<File Id="Server.AppData.EmptyLocation.LayoutsConfiguration.xml" Name="LayoutsConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\LayoutsConfiguration.xml" />
+				<File Id="Server.AppData.EmptyLocation.PlansConfiguration.xml" Name="PlansConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\PlansConfiguration.xml" />
+				<File Id="Server.AppData.EmptyLocation.SecurityConfiguration.xml" Name="SecurityConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SecurityConfiguration.xml" />
+				<File Id="Server.AppData.EmptyLocation.SystemConfiguration.xml" Name="SystemConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SystemConfiguration.xml" />
+				<File Id="Server.AppData.EmptyLocation.ZipConfigurationItemsCollection.xml" Name="ZipConfigurationItemsCollection.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\ZipConfigurationItemsCollection.xml" />
 			</Component>
 		</DirectoryRef>
 

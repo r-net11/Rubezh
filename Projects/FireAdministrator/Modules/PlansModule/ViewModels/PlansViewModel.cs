@@ -35,12 +35,15 @@ namespace PlansModule.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<ShowPlanElementEvent>().Subscribe(OnShowElement);
 			ServiceFactory.Events.GetEvent<FindElementEvent>().Subscribe(OnShowElementDevice);
+			ServiceFactory.Events.GetEvent<RemoveGKDeviceEvent>().Subscribe(OnRemoveElementDevice);
 			ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
 
 			AddCommand = new RelayCommand(OnAdd);
 			AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
 			RemoveCommand = new RelayCommand(OnRemove, CanAddEditRemove);
 			EditCommand = new RelayCommand(OnEdit, CanAddEditRemove);
+			MoveDownCommand = new RelayCommand(this.OnMoveDown, this.CanMoveDown);
+			MoveUpCommand = new RelayCommand(this.OnMoveUp, this.CanMoveUp);
 			AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
 			AddFolderCommand = new RelayCommand(OnAddFolder);
 			AddSubFolderCommand = new RelayCommand(OnAddSubFolder, CanAddEditRemove);
@@ -113,6 +116,8 @@ namespace PlansModule.ViewModels
 				new MenuButtonViewModel(this.AddCommand, "Add", "Добавить план"),
 				new MenuButtonViewModel(this.EditCommand, "Edit", "Редактировать план"),
 				new MenuButtonViewModel(this.RemoveCommand, "Delete", "Удалить план"),
+				new MenuButtonViewModel(this.MoveDownCommand, "arrowDown", "Переместить вниз"),
+				new MenuButtonViewModel(this.MoveUpCommand, "arrowUp", "Переместить вверх"),
 			};
 		}
 
@@ -189,6 +194,62 @@ namespace PlansModule.ViewModels
 				OnPlanRemove(false);
 			}
 
+		}
+		public RelayCommand MoveDownCommand { get; private set; }
+		private void OnMoveDown()
+		{
+			PlanViewModel selectedPlan = this.SelectedPlan;
+			if (selectedPlan.Parent == null)
+			{
+				MoveItem(this.Plans, selectedPlan, +1);
+			}
+			else
+			{
+				MoveItem(this.SelectedPlan.Parent.Nodes, selectedPlan, +1);
+			}
+			this.SelectedPlan = selectedPlan;
+		}
+		private bool CanMoveDown()
+		{
+			if (this.SelectedPlan == null)
+				return false;
+			int index = 0;
+			int count = 0;
+			if (this.SelectedPlan.Parent == null)
+			{
+				index = this.Plans.IndexOf(this.SelectedPlan);
+				count = this.Plans.Count;
+			}
+			else
+			{
+				index = this.SelectedPlan.Parent.Nodes.IndexOf(this.SelectedPlan);
+				count = this.SelectedPlan.Parent.Nodes.Count;
+			}
+			return index < count - 1;
+		}
+
+		public RelayCommand MoveUpCommand { get; private set; }
+		private void OnMoveUp()
+		{
+			PlanViewModel selectedPlan = this.SelectedPlan;
+			if (selectedPlan.Parent == null)
+			{
+				MoveItem(this.Plans, selectedPlan, -1);
+			}
+			else
+			{
+				MoveItem(this.SelectedPlan.Parent.Nodes, selectedPlan, -1);
+			}
+			this.SelectedPlan = selectedPlan;
+		}
+		private bool CanMoveUp()
+		{
+			if (this.SelectedPlan == null)
+				return false;
+			if (this.SelectedPlan.Parent == null)
+				return this.Plans.IndexOf(this.SelectedPlan) > 0;
+			else
+				return this.SelectedPlan.Parent.Nodes.IndexOf(this.SelectedPlan) > 0;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -282,6 +343,20 @@ namespace PlansModule.ViewModels
 				}
 			}
 		}
+		private void OnRemoveElementDevice(Guid deviceUID)
+		{
+			foreach (var plan in this.Plans)
+			{
+				IEnumerable<ElementGKDevice> devices = plan.Plan.ElementGKDevices
+					.Where(device => device.DeviceUID == deviceUID)
+					.ToArray();
+				foreach (var device in devices)
+				{
+					DesignerCanvas.RemoveDesignerItem(device);
+				}
+			}
+		}
+
 		private void OnShowDevices(List<Guid> deviceUIDs)
 		{
 			foreach (var item in DesignerCanvas.Items)
@@ -329,6 +404,15 @@ namespace PlansModule.ViewModels
 				foreach (var subPlan in p.ElementSubPlans)
 					if (subPlan.PlanUID == plan.UID)
 						Helper.SetSubPlan(subPlan);
+		}
+
+		private static void MoveItem<T>(ObservableCollection<T> parent, T item, int increment)
+		{
+			int itemIndex = parent.IndexOf(item);
+			int targetIndex = itemIndex + increment;
+			T temp = item;
+			parent[itemIndex] = parent[targetIndex];
+			parent[targetIndex] = temp;
 		}
 
 		private double _splitterDistance;

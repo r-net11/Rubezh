@@ -313,7 +313,13 @@ namespace GKModule
 			yield return new LayoutPartPresenter(LayoutPartIdentities.GDevices, "Устройства", "Tree.png", (p) =>
 			{ DevicesViewModel.Properties = p as LayoutPartAdditionalProperties; return DevicesViewModel; });
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Zones, "Зоны", "Zones.png", (p) =>
-				{ ZonesViewModel.Properties = p as LayoutPartAdditionalProperties; return ZonesViewModel; });
+				{
+
+					var zonesViewModel = new ZonesViewModel();
+					zonesViewModel.Initialize();
+					zonesViewModel.Properties = p as LayoutPartAdditionalProperties;
+					return zonesViewModel;
+				});
 			yield return new LayoutPartPresenter(LayoutPartIdentities.GuardZones, "Охранные зоны", "Zones.png", (p) =>
 				{ GuardZonesViewModel.Properties = p as LayoutPartAdditionalProperties; return GuardZonesViewModel; });
 			yield return new LayoutPartPresenter(LayoutPartIdentities.GKSKDZones, "Зоны СКД", "Zones.png", (p) => SKDZonesViewModel);

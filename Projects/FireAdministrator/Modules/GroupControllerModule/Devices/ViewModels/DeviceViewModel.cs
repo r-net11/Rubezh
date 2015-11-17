@@ -55,7 +55,7 @@ namespace GKModule.ViewModels
 			GenerateMPTCommand = new RelayCommand(GenerateMPTs);
 			ShowAccessUserReflectionCommand = new RelayCommand(ShowAccessUserReflection);
 			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
-			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
+			PmfUsersCommand = new RelayCommand(OnPmfUsers, CanPmfUsers);
 
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
@@ -141,9 +141,10 @@ namespace GKModule.ViewModels
 
 		public bool IsInPumpStation
 		{
-			get {
+			get
+			{
 				return Device != null && (Device.DriverType == GKDriverType.RSR2_Bush_Drenazh || Device.DriverType == GKDriverType.RSR2_Bush_Fire
-				|| Device.DriverType == GKDriverType.RSR2_Bush_Jokey ) && Device.OutputDependentElements.Any(x => x as GKPumpStation != null);
+				|| Device.DriverType == GKDriverType.RSR2_Bush_Jokey) && Device.OutputDependentElements.Any(x => x as GKPumpStation != null);
 			}
 		}
 
@@ -348,6 +349,7 @@ namespace GKModule.ViewModels
 			var allDevices = Device.AllChildrenAndSelf;
 			foreach (var device in allDevices)
 			{
+				ServiceFactoryBase.Events.GetEvent<RemoveGKDeviceEvent>().Publish(device.UID);
 				GKManager.RemoveDevice(device);
 			}
 			allDevices.ForEach(device => device.OnChanged());
@@ -413,7 +415,7 @@ namespace GKModule.ViewModels
 					device.GKMirrorItem.Zones.Add(zone);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
-					
+
 				}
 				GKManager.RebuildRSR2Addresses(Device);
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
@@ -435,7 +437,7 @@ namespace GKModule.ViewModels
 					device.GKMirrorItem.GuardZones.Add(zone);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
-					
+
 				}
 				GKManager.RebuildRSR2Addresses(Device);
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
@@ -536,7 +538,7 @@ namespace GKModule.ViewModels
 		{
 			var accessUserReflrctionViewModel = new MirrorUsersViewModel(Device);
 			DialogService.ShowModalWindow(accessUserReflrctionViewModel);
-			ServiceFactory.SaveService.GKChanged = true;			
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
@@ -625,9 +627,9 @@ namespace GKModule.ViewModels
 		{
 			IsSelected = true;
 			var plansElement = new ElementGKDevice
-				{
-					DeviceUID = Device.UID
-				};
+			{
+				DeviceUID = Device.UID
+			};
 			dataObject.SetData("DESIGNER_ITEM", plansElement);
 		}
 		private bool CanCreateDragObjectCommand(DataObject dataObject)
@@ -693,7 +695,7 @@ namespace GKModule.ViewModels
 			if (Driver.IsAm)
 			{
 				var anyZonesSelectionViewModel = new AnyZonesSelectionViewModel(Device);
-				if(DialogService.ShowModalWindow(anyZonesSelectionViewModel))
+				if (DialogService.ShowModalWindow(anyZonesSelectionViewModel))
 					Device.ChangedLogic();
 			}
 			else
@@ -846,7 +848,7 @@ namespace GKModule.ViewModels
 			{
 				if (Device.DriverType != value.DriverType)
 				{
-					if(!GKManager.ChangeDriver(Device, value))
+					if (!GKManager.ChangeDriver(Device, value))
 					{
 						MessageBoxService.ShowWarning("Невозможно сменить тип устройства");
 						return;
@@ -1023,6 +1025,17 @@ namespace GKModule.ViewModels
 		{
 			return Device.Driver.HasLogic && GKManager.LogicToCopy != null;
 		}
+
+		public RelayCommand PmfUsersCommand { get; private set; }
+		void OnPmfUsers()
+		{
+			DialogService.ShowModalWindow(new PmfUsersViewModel(Device));
+		}
+		bool CanPmfUsers()
+		{
+			return IsPmf;
+		}
+		public bool IsPmf { get { return Device.DriverType == GKDriverType.RSR2_GKMirror; } }
 
 	}
 }

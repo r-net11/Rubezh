@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using RubezhAPI.GK;
 using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhClient.SKDHelpers;
@@ -134,7 +135,7 @@ namespace GKWebService.Controllers
 
 		public JsonNetResult GetEmployeeCards(Guid? id)
 		{
-			var cards = new List<EmployeeCardModel>();
+			var cards = new List<ShortEmployeeCardModel>();
 			if (id.HasValue)
 			{
 				var operationResult = ClientManager.FiresecService.GetEmployeeCards(id.Value);
@@ -158,10 +159,14 @@ namespace GKWebService.Controllers
 			}
 			else
 			{
-				card = new SKDCard();
+				card = new SKDCard
+				{
+					EndDate = DateTime.Now.AddYears(1),
+					GKCardType = GKCardType.Employee
+				};
 			}
 
-			return new JsonNetResult { Data = card };
+			return new JsonNetResult { Data = new { Card = card } };
 		}
 
 		[HttpPost]
@@ -172,9 +177,29 @@ namespace GKWebService.Controllers
 			return new JsonNetResult { Data = operationResult.Result };
 		}
 
-		private EmployeeCardModel CreateCard(SKDCard card)
+	    public JsonNetResult GetSchedules()
+	    {
+			var operationResult = ClientManager.FiresecService.GetGKSchedules();
+		    return new JsonNetResult {Data = operationResult.Result};
+	    }
+
+		public JsonNetResult GetStopListCards()
+	    {
+			var operationResult = ClientManager.FiresecService.GetCards(new CardFilter { DeactivationType = LogicalDeletationType.Deleted });
+			var cards = operationResult.Result.Where(x => x.IsInStopList).ToList();
+			return new JsonNetResult { Data = cards };
+	    }
+
+		public JsonNetResult GetAvailableGKControllers()
 		{
-			var employeeCard = EmployeeCardModel.Create(card);
+			var controllers = GKManager.Devices.Where(x => x.DriverType == GKDriverType.GK)
+											   .Select(d => new GKControllerModel(d)).ToList();
+			return new JsonNetResult { Data = controllers };
+		}
+
+		private ShortEmployeeCardModel CreateCard(SKDCard card)
+		{
+			var employeeCard = ShortEmployeeCardModel.Create(card);
 			var cardDoors = GetCardDoors(card);
 			employeeCard.Doors = InitializeDoors(cardDoors);
 			return employeeCard;

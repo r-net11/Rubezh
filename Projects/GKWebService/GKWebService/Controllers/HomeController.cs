@@ -40,6 +40,11 @@ namespace GKWebService.Controllers
             return View();
         }
 
+        public ActionResult FireZones()
+        {
+            return View();
+        }
+
         [HttpPost]
         public JsonResult Logon(string login, string password)
         {

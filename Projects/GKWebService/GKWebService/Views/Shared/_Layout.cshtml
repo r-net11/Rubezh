@@ -33,6 +33,7 @@
 	
 	@Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/libs")
 </head>
 <body>
     <div class="wrapper">
@@ -113,8 +114,9 @@
                         <a class="group-control" href="#" data-bind="click: MenuClick"><span class="icon group-control"></span><span class="text">Групповой контроллер</span></a>
                         <ul>
                             <li class="state" data-bind="css:{'active': StatePageOpened}"><a href="" data-bind="click: function(data,event) { PageClick(data, event, 'State'); } "><span class="icon state"></span><span class="text">Состояния</span></a></li>
-                            <li><a class="device" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Device'); } "><span class="icon device"></span><span class="text">Устройствар</span></a></li>
+                            <li><a class="device" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Device'); } "><span class="icon device"></span><span class="text">Устройства</span></a></li>
                             <li><a class="params" href=""><span class="icon params"></span><span class="text">Параметры</span></a></li>
+                            <li><a class="params" href="" data-bind="click: function(data,event) { PageClick(data, event, 'FireZones'); } "><span class="icon firezones"></span><span class="text">Пожарные зоны</span></a></li>
                         </ul>
                     </li>
                     <li class="event-log"><a href="" data-bind="click: function(data,event) { PageClick(data, event, 'Report'); }"><span class="icon event-log"></span><span class="text">Журнал событий</span></a></li>

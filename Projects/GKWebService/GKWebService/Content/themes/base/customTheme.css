@@ -401,7 +401,8 @@
 [data-bind="visible:pages.HR"], 
 [data-bind="visible:pages.State"], 
 [data-bind="visible:pages.Device"],
-[data-bind="visible:pages.Plan"] {
+[data-bind="visible:pages.Plan"],
+[data-bind="visible:pages.FireZones"]{
 	margin:10px 10px 0 0;
 }
 

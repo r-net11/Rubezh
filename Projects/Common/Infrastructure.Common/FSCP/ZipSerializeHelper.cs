@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Common;
 using RubezhAPI;
+using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Common
 {
@@ -74,7 +75,7 @@ namespace Infrastructure.Common
 					{
 						var xmlSerializer = new XmlSerializer(typeof(T));
 						configuration = (T)xmlSerializer.Deserialize(fileStream);
-					}
+                    }
 					else
 					{
 						var dataContractSerializer = new DataContractSerializer(typeof(T));
@@ -88,6 +89,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
+                MessageBoxService.Show("Deserialoze error " + e.Message);
 				Logger.Error("ZipSerializeHelper.DeSerialize " + fileName + " " + e.Message);
 				return new T();
 			}

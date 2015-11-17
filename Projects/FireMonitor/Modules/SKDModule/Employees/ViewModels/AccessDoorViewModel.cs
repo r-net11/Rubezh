@@ -19,8 +19,7 @@ namespace SKDModule.ViewModels
 		{
 			DoorUID = door.UID;
 			PresentationName = door.PresentationName;
-			HasEnter = door.EnterDeviceUID != Guid.Empty;
-			HasExit = door.ExitDeviceUID != Guid.Empty && door.DoorType != GKDoorType.OneWay;
+			HasExit = door.DoorType != GKDoorType.OneWay;
 
 			EnterSchedules = new ObservableCollection<CardScheduleItem>();
 			ExitSchedules = new ObservableCollection<CardScheduleItem>();
@@ -60,7 +59,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public bool HasEnter { get; private set; }
 		public bool HasExit { get; private set; }
 
 		bool _isChecked;

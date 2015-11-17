@@ -30,6 +30,9 @@ namespace RubezhAPI.GK
 		public int OffDelay { get; set; }
 
 		[DataMember]
+		public int RunningTime { get; set; }
+
+		[DataMember]
 		public List<GKMeasureParameterValue> XMeasureParameterValues { get; set; }
 
 		[DataMember]

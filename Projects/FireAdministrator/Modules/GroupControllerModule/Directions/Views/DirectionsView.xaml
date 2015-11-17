@@ -1,29 +1,29 @@
 <UserControl x:Class="GKModule.Views.DirectionsView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<UserControl.Resources>
-		<ContextMenu x:Key="DirectionContextMenu">
-			<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить (Ctrl+N)" />
-			<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete" Text="Удалить (Ctrl+Del)" />
-			<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit" Text="Редактировать (Ctrl+E)" />
-			<IconedMenuItem Command="{Binding CopyCommand}" ImageSource="BCopy" Text="Копировать (Ctrl+C)" />
-			<IconedMenuItem Command="{Binding PasteCommand}" ImageSource="BPaste" Text="Вставить (Ctrl+V)" />
-			<Separator />
-			<IconedMenuItem Command="{Binding CopyLogicCommand}" ImageSource="BCopy" Text="Копировать логику" />
-			<IconedMenuItem Command="{Binding PasteLogicCommand}" ImageSource="BPaste" Text="Вставить логику" />
-			<Separator/>
-			<IconedMenuItem Command="{Binding ShowDependencyItemsCommand}" Text="Список зависящих объектов" />
-		</ContextMenu>
-	</UserControl.Resources>
-	<DataGrid ContextMenu="{StaticResource DirectionContextMenu}" CanUserSortColumns="True" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
+	<DataGrid CanUserSortColumns="True" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
 		<DataGrid.InputBindings>
+			<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
 			<KeyBinding Key="C" Modifiers="Control" Command="{Binding CopyCommand}" />
 			<KeyBinding Key="V" Modifiers="Control" Command="{Binding PasteCommand}" />
 			<KeyBinding Key="N" Modifiers="Control" Command="{Binding AddCommand}" />
 			<KeyBinding Key="Delete" Modifiers="Control" Command="{Binding DeleteCommand}" />
 			<KeyBinding Key="E" Modifiers="Control" Command="{Binding EditCommand}" />
-			<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
 		</DataGrid.InputBindings>
+		<DataGrid.ContextMenu>
+			<ContextMenu>
+				<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить (Ctrl+N)" />
+				<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete" Text="Удалить (Ctrl+Del)" />
+				<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit" Text="Редактировать (Ctrl+E)" />
+				<IconedMenuItem Command="{Binding CopyCommand}" ImageSource="BCopy" Text="Копировать (Ctrl+C)" />
+				<IconedMenuItem Command="{Binding PasteCommand}" ImageSource="BPaste" Text="Вставить (Ctrl+V)" />
+				<Separator />
+				<IconedMenuItem Command="{Binding CopyLogicCommand}" ImageSource="BCopy" Text="Копировать логику" />
+				<IconedMenuItem Command="{Binding PasteLogicCommand}" ImageSource="BPaste" Text="Вставить логику" />
+				<Separator/>
+				<IconedMenuItem Command="{Binding ShowDependencyItemsCommand}" Text="Список зависящих объектов" />
+			</ContextMenu>
+		</DataGrid.ContextMenu>
 		<DataGrid.Columns>
 			<DataGridTemplateColumn Header="№" SortMemberPath="Direction.No" Width="Auto" CanUserResize="False">
 				<DataGridTemplateColumn.CellTemplate>

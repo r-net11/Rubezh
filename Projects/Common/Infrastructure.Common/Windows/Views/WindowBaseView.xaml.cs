@@ -142,9 +142,9 @@ namespace Infrastructure.Common.Windows.Views
 				MinWidth = AbsolutMinSize;
 
 			if (MaxHeight > SystemParameters.MaximizedPrimaryScreenHeight)
-				MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight - 2 * SystemParameters.BorderWidth - 2 * SystemParameters.Border;
+				MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight - 15;
 			if (MaxWidth > SystemParameters.MaximizedPrimaryScreenWidth)
-				MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
+				MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth - 15;
 			if (Left < 0)
 				Left = 0;
 			if (Top < 0)

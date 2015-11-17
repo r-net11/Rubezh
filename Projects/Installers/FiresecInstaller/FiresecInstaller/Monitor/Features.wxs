@@ -3,7 +3,7 @@
 	<?include Variables.wxi?>
 	<Fragment>
 		<Feature Id="Monitor.Features" Title="Оперативная задача" Description="Установка приложения Оперативная задача" Level="1" Display="hidden"
-						 ConfigurableDirectory="MONITORLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+				 ConfigurableDirectory="MONITORLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="Monitor.Files" />
 			<ComponentRef Id="Monitor.Files.ru" />
 			<ComponentRef Id="Monitor.DB" />
