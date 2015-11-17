@@ -148,7 +148,9 @@ namespace SKDDriver.Translators
 			{
 				var conflictedCollection = linkedIntervalsCollection
 					.Where(x => (x.UID != el.UID) && (el.EnterTimeOriginal.HasValue && el.ExitTimeOriginal.HasValue))
-					.Where(x => el.ExitTimeOriginal >= x.ExitTime && el.EnterTimeOriginal <= x.EnterTime).ToList();
+					//.Where(x => el.ExitTimeOriginal >= x.ExitTime && el.EnterTimeOriginal <= x.EnterTime)
+					.Where(x => x.EnterTime < el.ExitTimeOriginal && el.EnterTimeOriginal < x.ExitTime)
+					.ToList();
 
 				if (conflictedCollection.Any())
 				{

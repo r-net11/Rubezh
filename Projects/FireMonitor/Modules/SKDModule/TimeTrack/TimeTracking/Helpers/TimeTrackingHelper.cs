@@ -23,9 +23,9 @@ namespace SKDModule.Helpers
 		public static DayTimeTrackPart ResolveConflictWithSettingBorders(DayTimeTrackPart originalInterval, List<DayTimeTrackPart> conflictedIntervals)
 		{
 			var leftConflictedInterval =
-				conflictedIntervals.Where(x => x.ExitDateTime > originalInterval.EnterTimeOriginal).Max(x => x.EnterDateTime);
+				conflictedIntervals.Where(x => x.ExitDateTime > originalInterval.EnterTimeOriginal).Min(x => x.EnterDateTime);
 			var rightConflictedInterval =
-				conflictedIntervals.Where(x => x.EnterDateTime > originalInterval.ExitTimeOriginal).Min(x => x.ExitDateTime);
+				conflictedIntervals.Where(x => x.EnterDateTime > originalInterval.ExitTimeOriginal).Max(x => x.ExitDateTime);
 
 			if (leftConflictedInterval != null)
 			{
