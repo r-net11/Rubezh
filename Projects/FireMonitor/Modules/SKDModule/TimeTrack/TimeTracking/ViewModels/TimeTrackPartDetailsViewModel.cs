@@ -122,6 +122,7 @@ namespace SKDModule.ViewModels
 				};
 
 				NotTakeInCalculations = inputTimeTrackPart.NotTakeInCalculations;
+				IsEnabledTakeInCalculations = inputTimeTrackPart.TimeTrackZone.IsURV;
 				CurrentZone = CurrentTimeTrackPart.TimeTrackZone;
 				Title = "Редактировать проход";
 			}
