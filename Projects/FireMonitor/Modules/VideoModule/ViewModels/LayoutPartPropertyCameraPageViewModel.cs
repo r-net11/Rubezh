@@ -15,10 +15,10 @@ namespace VideoModule.ViewModels
 		{
 			Title = "Список камер";
 			PropertyViewModels = new ObservableCollection<PropertyViewModel>();
-			var vlcControlViews = new List<VlcControlView>();
-			LayoutMultiCameraView.GetLogicalChildCollection(uiElement, vlcControlViews);
+			var layoutPartCameraViews = new List<LayoutPartCameraView>();
+			LayoutMultiCameraView.GetLogicalChildCollection(uiElement, layoutPartCameraViews);
 			int i = 0;
-			foreach (var control in vlcControlViews)
+			foreach (var control in layoutPartCameraViews)
 			{
 				var presentationCellName = "Окно " + ++i;
 				var item = ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == control.Name);

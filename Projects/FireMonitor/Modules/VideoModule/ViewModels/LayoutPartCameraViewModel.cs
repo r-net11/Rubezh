@@ -10,8 +10,11 @@ namespace VideoModule.ViewModels
 	public class LayoutPartCameraViewModel : BaseViewModel
 	{
 		public Camera Camera { get; private set; }
-		public string RviRTSP { get; private set; }
+		public string RviRTSP { get; set; }
 
+		public LayoutPartCameraViewModel()
+		{
+		}
 		public LayoutPartCameraViewModel(LayoutPartReferenceProperties properties)
 		{
 			if (properties != null)

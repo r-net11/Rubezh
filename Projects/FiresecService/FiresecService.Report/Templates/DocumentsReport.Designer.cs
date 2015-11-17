@@ -29,7 +29,6 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DocumentsReport));
-			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
 			this.xrTable1 = new DevExpress.XtraReports.UI.XRTable();
 			this.xrTableRow1 = new DevExpress.XtraReports.UI.XRTableRow();
 			this.xrTableCell3 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -45,8 +44,6 @@
 			this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
 			this.GroupHeader2 = new DevExpress.XtraReports.UI.GroupHeaderBand();
 			this.xrTable2 = new DevExpress.XtraReports.UI.XRTable();
-			this.GroupHeader3 = new DevExpress.XtraReports.UI.GroupHeaderBand();
-			this.OrganisationLabel = new DevExpress.XtraReports.UI.XRLabel();
 			this.xrTableRow2 = new DevExpress.XtraReports.UI.XRTableRow();
 			this.xrTableCell10 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrTableCell11 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -57,6 +54,8 @@
 			this.xrTableCell9 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrTableCell2 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrTableCell15 = new DevExpress.XtraReports.UI.XRTableCell();
+			this.GroupHeader3 = new DevExpress.XtraReports.UI.GroupHeaderBand();
+			this.OrganisationLabel = new DevExpress.XtraReports.UI.XRLabel();
 			this.xrControlStyle1 = new DevExpress.XtraReports.UI.XRControlStyle();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable2)).BeginInit();
@@ -66,17 +65,15 @@
 			// 
 			this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             this.xrTable1,
-			this.OrganisationLabel});
-			this.Detail.Dpi = 254F;
-			this.Detail.HeightF = 64F;
-			this.Detail.Name = "Detail";
+            this.OrganisationLabel});
+			this.Detail.HeightF = 114.3F;
 			// 
 			// xrTable1
 			// 
 			this.xrTable1.Borders = ((DevExpress.XtraPrinting.BorderSide)(((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Right) 
             | DevExpress.XtraPrinting.BorderSide.Bottom)));
 			this.xrTable1.Dpi = 254F;
-			this.xrTable1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
+			this.xrTable1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 50.8F);
 			this.xrTable1.Name = "xrTable1";
 			this.xrTable1.OddStyleName = "xrControlStyle1";
 			this.xrTable1.Padding = new DevExpress.XtraPrinting.PaddingInfo(3, 3, 3, 3, 254F);
@@ -201,19 +198,6 @@
 			this.GroupHeader1.Level = 1;
 			this.GroupHeader1.Name = "GroupHeader1";
 			// 
-			// OrganisationLabel
-			// 
-			OrganisationLabel.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Organisation", "Организация: {0}")});
-			OrganisationLabel.Dpi = 254F;
-			OrganisationLabel.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
-			OrganisationLabel.Name = "OrganisationLabel";
-			OrganisationLabel.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
-			OrganisationLabel.SizeF = new System.Drawing.SizeF(824.5997F, 50.8F);
-			OrganisationLabel.StylePriority.UseTextAlignment = false;
-			OrganisationLabel.Text = "OrganisationLabel";
-			OrganisationLabel.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
-			// 
 			// xrLabel1
 			// 
 			this.xrLabel1.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
@@ -239,19 +223,6 @@
 			this.GroupHeader2.KeepTogether = true;
 			this.GroupHeader2.Name = "GroupHeader2";
 			this.GroupHeader2.RepeatEveryPage = true;
-			// 
-			// GroupHeader3
-			// 
-			this.GroupHeader3.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.OrganisationLabel});
-			this.GroupHeader3.Dpi = 254F;
-			this.GroupHeader3.GroupFields.AddRange(new DevExpress.XtraReports.UI.GroupField[] {
-            new DevExpress.XtraReports.UI.GroupField("Organisation", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
-			this.GroupHeader3.GroupUnion = DevExpress.XtraReports.UI.GroupUnion.WithFirstDetail;
-			this.GroupHeader3.HeightF = 84F;
-			this.GroupHeader3.KeepTogether = true;
-			this.GroupHeader3.Level = 2;
-			this.GroupHeader3.Name = "GroupHeader3";
 			// 
 			// xrTable2
 			// 
@@ -353,6 +324,30 @@
 			this.xrTableCell15.Text = "Числ. код";
 			this.xrTableCell15.Weight = 0.083720949516546156D;
 			// 
+			// GroupHeader3
+			// 
+			this.GroupHeader3.Dpi = 254F;
+			this.GroupHeader3.GroupFields.AddRange(new DevExpress.XtraReports.UI.GroupField[] {
+            new DevExpress.XtraReports.UI.GroupField("Organisation", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
+			this.GroupHeader3.GroupUnion = DevExpress.XtraReports.UI.GroupUnion.WithFirstDetail;
+			this.GroupHeader3.HeightF = 84F;
+			this.GroupHeader3.KeepTogether = true;
+			this.GroupHeader3.Level = 2;
+			this.GroupHeader3.Name = "GroupHeader3";
+			// 
+			// OrganisationLabel
+			// 
+			this.OrganisationLabel.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Organisation", "Организация: {0}")});
+			this.OrganisationLabel.Dpi = 254F;
+			this.OrganisationLabel.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
+			this.OrganisationLabel.Name = "OrganisationLabel";
+			this.OrganisationLabel.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
+			this.OrganisationLabel.SizeF = new System.Drawing.SizeF(824.5997F, 50.8F);
+			this.OrganisationLabel.StylePriority.UseTextAlignment = false;
+			this.OrganisationLabel.Text = "OrganisationLabel";
+			this.OrganisationLabel.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
+			// 
 			// xrControlStyle1
 			// 
 			this.xrControlStyle1.BackColor = System.Drawing.Color.LightGray;
@@ -365,7 +360,7 @@
             this.Detail,
             this.GroupHeader1,
             this.GroupHeader2,
-			this.GroupHeader3});
+            this.GroupHeader3});
 			this.DataMember = "Data";
 			this.DataSourceSchema = resources.GetString("$this.DataSourceSchema");
 			this.ExportOptions.PrintPreview.ActionAfterExport = DevExpress.XtraPrinting.ActionAfterExport.Open;
@@ -375,7 +370,7 @@
 			this.PageWidth = 2970;
 			this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
             this.xrControlStyle1});
-			this.Version = "14.1";
+			this.Version = "15.1";
 			this.Controls.SetChildIndex(this.GroupHeader3, 0);
 			this.Controls.SetChildIndex(this.GroupHeader2, 0);
 			this.Controls.SetChildIndex(this.GroupHeader1, 0);
@@ -388,7 +383,6 @@
 
 		#endregion
 
-		private DevExpress.XtraReports.UI.DetailBand Detail;
 		private DevExpress.XtraReports.UI.GroupHeaderBand GroupHeader1;
 		private DevExpress.XtraReports.UI.XRLabel xrLabel1;
 		private DevExpress.XtraReports.UI.GroupHeaderBand GroupHeader2;
