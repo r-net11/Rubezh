@@ -75,7 +75,7 @@ namespace GKModule.ViewModels
 			AvailableDevices = new ObservableCollection<GuardZoneDeviceViewModel>();
 			foreach (var device in GKManager.Devices)
 			{
-				if (device.DriverType == GKDriverType.RSR2_GuardDetector || device.DriverType == GKDriverType.RSR2_GuardDetectorSound || device.DriverType == GKDriverType.RSR2_AM_1 || device.DriverType == GKDriverType.RSR2_MAP4 || device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader && !zone.GuardZoneDevices.Any(x => x.DeviceUID == device.UID))
+				if (device.Driver.HasGuardZone && !zone.GuardZoneDevices.Any(x => x.DeviceUID == device.UID))
 				{
 					if (device.GuardZoneUIDs.Count > 0 || (device.IsInMPT && !GlobalSettingsHelper.GlobalSettings.ShowMPTsDevices)
 							|| (device.ZoneUIDs.Count > 0 && !GlobalSettingsHelper.GlobalSettings.ShowOtherZonesDevices)
@@ -141,7 +141,7 @@ namespace GKModule.ViewModels
 			{
 				Devices.Add(availabledeviceViewModel);
 				AvailableDevices.Remove(availabledeviceViewModel);
-				Zone.GuardZoneDevices.Add(availabledeviceViewModel.GuardZoneDevice);
+				//Zone.GuardZoneDevices.Add(availabledeviceViewModel.GuardZoneDevice);
 				GKManager.AddDeviceToGuardZone(availabledeviceViewModel.GuardZoneDevice.Device, Zone);
 			}
 
@@ -182,7 +182,7 @@ namespace GKModule.ViewModels
 			{
 				AvailableDevices.Add(deviceViewModel);
 				Devices.Remove(deviceViewModel);
-				Zone.GuardZoneDevices.RemoveAll(x=>x.DeviceUID == deviceViewModel.GuardZoneDevice.Device.UID);
+				//Zone.GuardZoneDevices.RemoveAll(x=>x.DeviceUID == deviceViewModel.GuardZoneDevice.Device.UID);
 				GKManager.RemoveDeviceFromGuardZone(deviceViewModel.GuardZoneDevice.Device, Zone);
 			}
 
