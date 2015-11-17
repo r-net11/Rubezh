@@ -5,6 +5,7 @@ using Common;
 using RubezhAPI;
 using RubezhAPI.Journal;
 using System.Diagnostics;
+using System.Text;
 
 namespace RubezhDAL.DataClasses
 {
@@ -85,17 +86,11 @@ namespace RubezhDAL.DataClasses
 			{
 				if (apiItems.Count == 0)
 					return new OperationResult();
-				var index = 0;
-				while (true)
-				{
-					var portion = apiItems.Skip(1000 * index).Take(1000);
-					index++;
-					if (portion.Count() == 0)
-						break;
-					var query = "INSERT INTO dbo.\"Journals\" (\"UID\", \"EmployeeUID\", \"SystemDate\", \"DeviceDate\", \"Subsystem\", \"Name\", \"Description\", \"DescriptionText\", \"ObjectType\", \"ObjectUID\", \"Detalisation\", \"UserName\", \"VideoUID\", \"CameraUID\", \"ObjectName\", \"CardNo\") VALUES";
-					foreach (var item in portion)
-					{
-						query += string.Format("('{0}', {1}, '{2}', {3}, '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}', '{15}'),",
+				var query = new StringBuilder();
+                foreach (var item in apiItems)
+                {
+                    query.Append("INSERT INTO dbo.\"Journals\" (\"UID\", \"EmployeeUID\", \"SystemDate\", \"DeviceDate\", \"Subsystem\", \"Name\", \"Description\", \"DescriptionText\", \"ObjectType\", \"ObjectUID\", \"Detalisation\", \"UserName\", \"VideoUID\", \"CameraUID\", \"ObjectName\", \"CardNo\") VALUES");
+					query.Append(string.Format("('{0}', {1}, '{2}', {3}, '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}', '{15}'); ",
 							item.UID,
 							item.EmployeeUID.EmptyToNullSqlStr(),
 							item.SystemDateTime.CheckDate().ToString("yyyyMMdd HH:mm:ss"),
@@ -111,16 +106,14 @@ namespace RubezhDAL.DataClasses
 							item.VideoUID,
 							item.CameraUID,
 							item.ObjectName,
-							item.CardNo);
-					}
-					query = query.TrimEnd(',');
-					Context.Database.ExecuteSqlCommand(query);
+							item.CardNo));
 				}
+				Context.Database.ExecuteSqlCommand(query.ToString());
 				return new OperationResult();
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "JournalTranslator.Add");
+				Logger.Error(e, "JournalTranslator.AddRange");
 				return new OperationResult(e.Message);
 			}
 		}

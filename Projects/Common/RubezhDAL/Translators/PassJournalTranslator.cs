@@ -20,6 +20,7 @@ namespace RubezhDAL.DataClasses
 		{
 			DbService = dbService;
 			Context = DbService.Context;
+			Synchroniser = new PassJounalSynchroniser(dbService);
 		}
 		
 		public OperationResult AddPassJournal(Guid employeeUID, Guid zoneUID)
@@ -426,8 +427,12 @@ namespace RubezhDAL.DataClasses
 			{
 				if (!Directory.Exists(filter.Path))
 					return new OperationResult("Папка не существует");
-                var tableItems = _context.PassJournals.Where(x => x.EnterTime >= filter.MinDate.CheckDate() & x.EnterTime <= filter.MaxDate.CheckDate());
-				var items = tableItems.Select(x => Translate(x)).ToList();
+				var minDate = filter.MinDate.CheckDate();
+				var maxDate = filter.MaxDate.CheckDate();
+				var tableItems = _context.PassJournals.Where(x => x.EnterTime >= minDate && x.EnterTime <= maxDate).ToList();
+				var employeeUIDs = tableItems.Select(x => x.EmployeeUID).ToList();
+				var employees = _context.Employees.Where(x => employeeUIDs.Any(y => y == x.UID)).ToList();
+				var items = tableItems.Select(x => Translate(x, employees)).ToList();
 				var serializer = new XmlSerializer(typeof(List<ExportPassJournalItem>));
 				using (var fileStream = File.Open(NameXml, FileMode.Create))
 				{
@@ -448,15 +453,19 @@ namespace RubezhDAL.DataClasses
 			}
 		}
 
-		ExportPassJournalItem Translate(PassJournal tableItem)
+		ExportPassJournalItem Translate(PassJournal tableItem, List<Employee> employees)
 		{
+			var employee = employees.FirstOrDefault(x => x.UID == tableItem.EmployeeUID);
+			var zone = GKManager.SKDZones.FirstOrDefault(x => x.UID == tableItem.ZoneUID);
 			return new ExportPassJournalItem
 			{
 				UID = tableItem.UID,
 				EmployeeUID = tableItem.EmployeeUID != null ? tableItem.EmployeeUID.Value : Guid.Empty,
+				EmployeeFIO = employee != null ? employee.LastName + " " + employee.FirstName + " " + employee.SecondName : "",
 				EnterDateTime = tableItem.EnterTime,
 				ExitDateTime = tableItem.ExitTime != null ? tableItem.ExitTime.Value : new DateTime(),
-				ZoneUID = tableItem.ZoneUID
+				ZoneUID = tableItem.ZoneUID,
+				ZoneNo = zone != null ? zone.No : -1
 			};
 		}
 	}
@@ -465,7 +474,9 @@ namespace RubezhDAL.DataClasses
 	{
 		public Guid UID { get; set; }
 		public Guid EmployeeUID { get; set; }
+		public string EmployeeFIO { get; set; }
 		public Guid ZoneUID { get; set; }
+		public int ZoneNo { get; set; } 
 		public DateTime EnterDateTime { get; set; }
 		public DateTime ExitDateTime { get; set; }
 	}

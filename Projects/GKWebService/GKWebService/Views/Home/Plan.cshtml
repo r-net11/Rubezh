@@ -4,17 +4,13 @@
     Layout = null;
 }
 
-@using System.Web.Optimization
-
-@Scripts.Render("~/bundles/libs")
-@Scripts.Render("~/bundles/shapesApp")
-@Scripts.Render("~/Scripts/jquery.signalR-2.2.0.min.js")
+@*@Scripts.Render("~/bundles/shapesApp")*@
+@*@Scripts.Render("~/Scripts/jquery.signalR-2.2.0.min.js")*@
 @*@Scripts.Render("~/Scripts/app/signalr/plansUpdaterHub.js")*@
-<script src="~/Scripts/angular-signalr-hub.js"></script>
+@*<script src="~/Scripts/angular-signalr-hub.js"></script>*@
 @*<script src="~/signalr/hubs"></script>*@
 
-<div ng-app="canvasApp"
-     class="plan">
+<div class="plan">
     <div ng-controller="SignalrCtrl">
        <div class="message"></div> 
     </div>

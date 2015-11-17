@@ -9,9 +9,6 @@ using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Vlc.DotNet.Core;
-using Vlc.DotNet.Core.Medias;
-using Vlc.DotNet.Wpf;
 using Infrastructure;
 using Infrastructure.Events;
 

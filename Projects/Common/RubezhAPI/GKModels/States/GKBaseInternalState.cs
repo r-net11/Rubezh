@@ -23,6 +23,7 @@ namespace RubezhAPI.GK
 			OnDelay = 0;
 			HoldDelay = 0;
 			OffDelay = 0;
+			RunningTime = 0;
 		}
 
 		public bool IsInitialState { get; set; }
@@ -114,7 +115,7 @@ namespace RubezhAPI.GK
 		public int OnDelay { get; set; }
 		public int HoldDelay { get; set; }
 		public int OffDelay { get; set; }
-
+		public int RunningTime { get; set; }
 		public void CopyToGKState(GKState state)
 		{
 			state.StateClasses = StateClasses.ToList();
@@ -123,6 +124,7 @@ namespace RubezhAPI.GK
 			state.OnDelay = OnDelay;
 			state.OffDelay = OffDelay;
 			state.HoldDelay = HoldDelay;
+			state.RunningTime = RunningTime;
 
 			if (IsInitialState || IsSuspending || IsNoLicense || IsConnectionLost)
 			{
@@ -130,6 +132,7 @@ namespace RubezhAPI.GK
 				state.OnDelay = 0;
 				state.OffDelay = 0;
 				state.HoldDelay = 0;
+				state.RunningTime = 0;
 			}
 		}
 	}

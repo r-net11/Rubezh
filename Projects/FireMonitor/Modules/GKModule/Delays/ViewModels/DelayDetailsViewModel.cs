@@ -177,6 +177,10 @@ namespace GKModule.ViewModels
 		{
 			get { return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0; }
 		}
+		public bool HasRunningTime
+		{
+			get { return State.StateClasses.Contains(XStateClass.On) && State.RunningTime > 0; }
+		}
 
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()

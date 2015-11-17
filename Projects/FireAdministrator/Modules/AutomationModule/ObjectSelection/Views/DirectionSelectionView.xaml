@@ -20,7 +20,7 @@
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
-							<Grid Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Background="{DynamicResource Blue_Direction}" />
+							<Image Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/BDirection.png" />
 							<TextBlock Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Direction.No}" />
 						</StackPanel>
 					</DataTemplate>

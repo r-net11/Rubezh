@@ -12,6 +12,7 @@ using Infrastructure.Common.Services;
 using Infrustructure.Plans.Elements;
 using GKProcessor;
 using RubezhAPI.Models.Layouts;
+using Infrastructure.Common.Windows;
 
 namespace RubezhClient
 {
@@ -53,17 +54,17 @@ namespace RubezhClient
 
 		public static void GetConfiguration(string configurationFolderName)
 		{
-			try
+           try
 			{
 				var serverConfigDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
 				var configDirectory = AppDataFolderHelper.GetLocalFolder(configurationFolderName);
 				var contentDirectory = Path.Combine(configDirectory, "Content");
-
-				if (Directory.Exists(configDirectory))
-					Directory.Delete(configDirectory, true);
+                if (Directory.Exists(configDirectory))
+                {
+                    Directory.Delete(configDirectory, true);
+                }
 				Directory.CreateDirectory(configDirectory);
 				Directory.CreateDirectory(contentDirectory);
-
 				if (ServiceFactoryBase.ContentService != null)
 					ServiceFactoryBase.ContentService.Invalidate();
 
@@ -94,7 +95,7 @@ namespace RubezhClient
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "ClientManager.GetConfiguration");
+                Logger.Error(e, "ClientManager.GetConfiguration");
 				LoadingErrorManager.Add(e);
 			}
 		}
