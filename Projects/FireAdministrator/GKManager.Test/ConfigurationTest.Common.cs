@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace GKManager2.Test
 {
 	[TestClass]
-	public class ZonesTest
+	public partial class ConfigurationTest
 	{
 		GKDevice gkDevice1;
 		GKDevice kauDevice11;
@@ -44,18 +44,6 @@ namespace GKManager2.Test
 		GKDevice AddDevice(GKDevice device, GKDriverType driverType)
 		{
 			return GKManager.AddChild(device.Children[1], null, GKManager.Drivers.FirstOrDefault(x => x.DriverType == driverType), 0);
-		}
-
-		[TestMethod]
-		public void AddDeviceToZoneTest()
-		{
-			var device = AddDevice(kauDevice11, GKDriverType.RSR2_SmokeDetector);
-			var zone = new GKZone();
-			GKManager.AddZone(zone);
-			GKManager.AddDeviceToZone(device, zone);
-			Assert.IsTrue(device.ZoneUIDs.Contains(zone.UID));
-			Assert.IsTrue(device.Zones.Contains(zone));
-			Assert.IsTrue(zone.Devices.Contains(device));
 		}
 	}
 }
