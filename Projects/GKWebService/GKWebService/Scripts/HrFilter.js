@@ -1,5 +1,5 @@
 ﻿function FilterViewModel(parentViewModel) {
-    var self = this;
+    var self = {};
 
     self.HRViewModel = parentViewModel;
 

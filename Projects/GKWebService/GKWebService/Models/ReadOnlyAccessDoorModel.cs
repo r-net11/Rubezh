@@ -7,7 +7,7 @@ using RubezhAPI.SKD;
 
 namespace GKWebService.Models
 {
-	public class AccessDoorModel
+	public class ReadOnlyAccessDoorModel
 	{
 		public string PresentationName { get; set; }
 		public string EnerScheduleName { get; set; }
@@ -16,7 +16,7 @@ namespace GKWebService.Models
 		public bool HasExit { get; set; }
 		public CardDoor CardDoor { get; set; }
 
-		public AccessDoorModel(GKDoor door, CardDoor cardDoor, List<GKSchedule> schedules)
+		public ReadOnlyAccessDoorModel(GKDoor door, CardDoor cardDoor, List<GKSchedule> schedules)
 		{
 			PresentationName = door.PresentationName;
 			CardDoor = cardDoor;
@@ -38,7 +38,7 @@ namespace GKWebService.Models
 			HasExit = door.ExitDeviceUID != Guid.Empty && door.DoorType == GKDoorType.TwoWay;
 		}
 
-		public AccessDoorModel()
+		public ReadOnlyAccessDoorModel()
 		{
 		}
 	}

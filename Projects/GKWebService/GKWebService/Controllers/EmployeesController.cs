@@ -154,8 +154,7 @@ namespace GKWebService.Controllers
 			SKDCard card;
 			if (id.HasValue)
 			{
-				var operationResult = ClientManager.FiresecService.GetSingleCard(id.Value);
-				card = operationResult.Result;
+				card = ClientManager.FiresecService.GetSingleCard(id.Value).Result;
 			}
 			else
 			{
@@ -166,35 +165,32 @@ namespace GKWebService.Controllers
 				};
 			}
 
-			return new JsonNetResult { Data = new { Card = card } };
+			var cardModel = new EmployeeCardModel();
+
+			cardModel.Card = card;
+
+			cardModel.Schedules = ClientManager.FiresecService.GetGKSchedules().Result;
+
+			var operationResult = ClientManager.FiresecService.GetCards(new CardFilter { DeactivationType = LogicalDeletationType.Deleted });
+			cardModel.StopListCards = operationResult.Result.Where(x => x.IsInStopList).ToList();
+
+			cardModel.AvailableGKControllers = GKManager.Devices.Where(x => x.DriverType == GKDriverType.GK)
+																.Select(d =>
+																{
+																	var isChecked = !id.HasValue;
+																	isChecked |= card.GKControllerUIDs != null && card.GKControllerUIDs.Contains(d.UID);
+																	return new GKControllerModel(d.UID, isChecked, d.PresentationName);
+																}).ToList();
+
+			return new JsonNetResult { Data = cardModel };
 		}
 
 		[HttpPost]
-		public JsonNetResult EmployeeCardDetails(SKDCard card, string employeeName, bool isNew)
+		public JsonNetResult EmployeeCardDetails(EmployeeCardModel cardModel, string employeeName, bool isNew)
 		{
-			var operationResult = ClientManager.FiresecService.EditCard(card, employeeName);
+			var operationResult = ClientManager.FiresecService.EditCard(cardModel.Card, employeeName);
 
 			return new JsonNetResult { Data = operationResult.Result };
-		}
-
-	    public JsonNetResult GetSchedules()
-	    {
-			var operationResult = ClientManager.FiresecService.GetGKSchedules();
-		    return new JsonNetResult {Data = operationResult.Result};
-	    }
-
-		public JsonNetResult GetStopListCards()
-	    {
-			var operationResult = ClientManager.FiresecService.GetCards(new CardFilter { DeactivationType = LogicalDeletationType.Deleted });
-			var cards = operationResult.Result.Where(x => x.IsInStopList).ToList();
-			return new JsonNetResult { Data = cards };
-	    }
-
-		public JsonNetResult GetAvailableGKControllers()
-		{
-			var controllers = GKManager.Devices.Where(x => x.DriverType == GKDriverType.GK)
-											   .Select(d => new GKControllerModel(d)).ToList();
-			return new JsonNetResult { Data = controllers };
 		}
 
 		private ShortEmployeeCardModel CreateCard(SKDCard card)
@@ -229,17 +225,17 @@ namespace GKWebService.Controllers
 			return cardDoors;
 		}
 
-		List<AccessDoorModel> InitializeDoors(IEnumerable<CardDoor> cardDoors)
+		List<ReadOnlyAccessDoorModel> InitializeDoors(IEnumerable<CardDoor> cardDoors)
 		{
 			var operationResult = ClientManager.FiresecService.GetGKSchedules();
 			if (operationResult.Result != null)
 				operationResult.Result.ForEach(x => x.ScheduleParts = x.ScheduleParts.OrderBy(y => y.DayNo).ToList());
 			var schedules = operationResult.Result;
-			var doors = new List<AccessDoorModel>();
+			var doors = new List<ReadOnlyAccessDoorModel>();
 			var gkDoors = from cardDoor in cardDoors
 						  join gkDoor in GKManager.DeviceConfiguration.Doors on cardDoor.DoorUID equals gkDoor.UID
 						  select new { CardDoor = cardDoor, GKDoor = gkDoor };
-			foreach (var doorViewModel in gkDoors.Select(x => new AccessDoorModel(x.GKDoor, x.CardDoor, schedules)).OrderBy(x => x.PresentationName))
+			foreach (var doorViewModel in gkDoors.Select(x => new ReadOnlyAccessDoorModel(x.GKDoor, x.CardDoor, schedules)).OrderBy(x => x.PresentationName))
 				doors.Add(doorViewModel);
 			return doors;
 		}

@@ -29,7 +29,6 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkingTimeReport));
-			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
 			this.xrTable2 = new DevExpress.XtraReports.UI.XRTable();
 			this.xrTableRow2 = new DevExpress.XtraReports.UI.XRTableRow();
 			this.xrTableCell9 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -84,9 +83,7 @@
 			// 
 			this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             this.xrTable2});
-			this.Detail.Dpi = 254F;
-			this.Detail.HeightF = 64F;
-			this.Detail.Name = "Detail";
+			this.Detail.HeightF = 63.5F;
 			// 
 			// xrTable2
 			// 
@@ -579,7 +576,6 @@
 
 		#endregion
 
-		private DevExpress.XtraReports.UI.DetailBand Detail;
 		private DevExpress.XtraReports.UI.GroupHeaderBand GroupHeader1;
 		private DevExpress.XtraReports.UI.GroupHeaderBand GroupHeader2;
 		private DevExpress.XtraReports.UI.XRLabel xrLabel1;

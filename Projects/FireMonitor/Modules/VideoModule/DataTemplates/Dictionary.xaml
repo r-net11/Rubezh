@@ -27,8 +27,4 @@
 		<Views:LayoutPartPropertyCameraPageView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:VlcControlViewModel}">
-		<Views:VlcControlView />
-	</DataTemplate>
-
 </ResourceDictionary>

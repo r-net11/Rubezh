@@ -12,7 +12,7 @@ namespace GKWebService.Models
 
 		public uint Number { get; set; }
 
-		public List<AccessDoorModel> Doors { get; set; }
+		public List<ReadOnlyAccessDoorModel> Doors { get; set; }
 
 		public static ShortEmployeeCardModel Create(SKDCard card)
 		{

@@ -232,6 +232,7 @@
     <Content Include="Content\Image\Icon\Header\user.png" />
     <Content Include="Content\Image\Icon\Header\window-normal.png" />
     <Resource Include="Content\Image\Icon\Hr\Organisation.png" />
+    <Resource Include="Content\Image\Icon\Hr\Door.png" />
     <Content Include="Content\Image\Icon\Menu\archive.png" />
     <Content Include="Content\Image\Icon\Menu\Bug.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Add.png" />
@@ -331,6 +332,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Clock.js" />
+    <Content Include="Scripts\EmployeeCardDetails.js" />
     <Content Include="Scripts\HrFilter.js" />
     <Content Include="Scripts\EmployeeDetails.js" />
     <Content Include="Scripts\HR.js" />
@@ -409,6 +411,11 @@
     <Content Include="Scripts\jquery.jqGrid.src.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-3.3.0.debug.js" />
     <Content Include="Scripts\knockout-3.3.0.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
@@ -447,7 +454,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="JournalItemViewModel.cs" />
-    <Compile Include="Models\AccessDoorModel.cs" />
+    <Compile Include="Models\ReadOnlyAccessDoorModel.cs" />
     <Compile Include="Models\ElementHint.cs" />
     <Compile Include="Models\EmployeeCardModel.cs" />
     <Compile Include="Models\GKControllerModel.cs" />

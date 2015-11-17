@@ -29,7 +29,6 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EmployeeReport));
-			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
 			this.xrLeftTable = new DevExpress.XtraReports.UI.XRTable();
 			this.xrTableRow19 = new DevExpress.XtraReports.UI.XRTableRow();
 			this.xrTableCell37 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -88,8 +87,6 @@
 			this.xrTableCell34 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrLabel5 = new DevExpress.XtraReports.UI.XRLabel();
 			this.xrPictureBox1 = new DevExpress.XtraReports.UI.XRPictureBox();
-			this.TopMargin = new DevExpress.XtraReports.UI.TopMarginBand();
-			this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
 			this.EmployeeText = new DevExpress.XtraReports.UI.CalculatedField();
 			this.OddRowStyle = new DevExpress.XtraReports.UI.XRControlStyle();
 			((System.ComponentModel.ISupportInitialize)(this.xrLeftTable)).BeginInit();
@@ -106,7 +103,6 @@
 			this.Detail.Dpi = 254F;
 			this.Detail.HeightF = 891F;
 			this.Detail.KeepTogether = true;
-			this.Detail.Name = "Detail";
 			this.Detail.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 254F);
 			this.Detail.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
 			this.Detail.BeforePrint += new System.Drawing.Printing.PrintEventHandler(this.Detail_BeforePrint);
@@ -645,20 +641,6 @@
 			this.xrPictureBox1.Sizing = DevExpress.XtraPrinting.ImageSizeMode.ZoomImage;
 			this.xrPictureBox1.StylePriority.UseBorders = false;
 			// 
-			// TopMargin
-			// 
-			this.TopMargin.HeightF = 100F;
-			this.TopMargin.Name = "TopMargin";
-			this.TopMargin.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
-			this.TopMargin.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
-			// 
-			// BottomMargin
-			// 
-			this.BottomMargin.HeightF = 100F;
-			this.BottomMargin.Name = "BottomMargin";
-			this.BottomMargin.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
-			this.BottomMargin.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
-			// 
 			// EmployeeText
 			// 
 			this.EmployeeText.DataMember = "Data";
@@ -694,9 +676,6 @@
 
 		#endregion
 
-		private DevExpress.XtraReports.UI.DetailBand Detail;
-		private DevExpress.XtraReports.UI.TopMarginBand TopMargin;
-		private DevExpress.XtraReports.UI.BottomMarginBand BottomMargin;
 		private DevExpress.XtraReports.UI.XRPictureBox xrPictureBox1;
 		private DevExpress.XtraReports.UI.XRTable xrRightTable;
 		private DevExpress.XtraReports.UI.XRTableRow xrTableRow1;

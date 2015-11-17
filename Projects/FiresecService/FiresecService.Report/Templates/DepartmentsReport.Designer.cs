@@ -28,8 +28,6 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			float[] columnsWidth = new float[] { 200F };
-
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DepartmentsReport));
 			this.xrTableRow1 = new DevExpress.XtraReports.UI.XRTableRow();
 			this.xrTableCell1 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -38,8 +36,6 @@
 			this.xrTableCell4 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrTableCell5 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.GroupHeader1 = new DevExpress.XtraReports.UI.GroupHeaderBand();
-			this.GroupHeader2 = new DevExpress.XtraReports.UI.GroupHeaderBand();
-			this.OrganisationLabel = new DevExpress.XtraReports.UI.XRLabel();
 			this.xrTableHeader = new DevExpress.XtraReports.UI.XRTable();
 			this.xrTableRow3 = new DevExpress.XtraReports.UI.XRTableRow();
 			this.xrTableCell16 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -49,7 +45,8 @@
 			this.xrTableCell14 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrTableCell15 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrTableCellArchiveHeader = new DevExpress.XtraReports.UI.XRTableCell();
-			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
+			this.GroupHeader2 = new DevExpress.XtraReports.UI.GroupHeaderBand();
+			this.OrganisationLabel = new DevExpress.XtraReports.UI.XRLabel();
 			this.xrTableContent = new DevExpress.XtraReports.UI.XRTable();
 			this.xrTableRow2 = new DevExpress.XtraReports.UI.XRTableRow();
 			this.xrTableCellLevel = new DevExpress.XtraReports.UI.XRTableCell();
@@ -64,6 +61,12 @@
 			((System.ComponentModel.ISupportInitialize)(this.xrTableHeader)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.xrTableContent)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
+			// 
+			// Detail
+			// 
+			this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrTableContent});
+			this.Detail.HeightF = 63.5F;
 			// 
 			// xrTableRow1
 			// 
@@ -82,8 +85,7 @@
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Department.Description")});
 			this.xrTableCell1.Name = "xrTableCell1";
 			this.xrTableCell1.Text = "xrTableCell1";
-			//this.xrTableCell1.Weight = 0.66666666666666663D;
-			this.xrTableCell1.WidthF = columnsWidth[0];
+			this.xrTableCell1.Weight = 0D;
 			// 
 			// xrTableCell2
 			// 
@@ -125,36 +127,9 @@
 			this.GroupHeader1.Dpi = 254F;
 			this.GroupHeader1.GroupUnion = DevExpress.XtraReports.UI.GroupUnion.WithFirstDetail;
 			this.GroupHeader1.HeightF = 64F;
-			this.GroupHeader1.Level = 1;
 			this.GroupHeader1.Name = "GroupHeader1";
 			this.GroupHeader1.RepeatEveryPage = true;
 			this.GroupHeader1.StylePriority.UseBackColor = false;
-			// 
-			// GroupHeader2
-			// 
-			this.GroupHeader2.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.OrganisationLabel});
-			this.GroupHeader2.Dpi = 254F;
-			this.GroupHeader2.GroupFields.AddRange(new DevExpress.XtraReports.UI.GroupField[] {
-            new DevExpress.XtraReports.UI.GroupField("Organisation", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
-			this.GroupHeader2.GroupUnion = DevExpress.XtraReports.UI.GroupUnion.WithFirstDetail;
-			this.GroupHeader2.HeightF = 84F;
-			this.GroupHeader2.KeepTogether = true;
-			this.GroupHeader2.Level = 2;
-			this.GroupHeader2.Name = "GroupHeader2";
-			// 
-			// OrganisationLabel
-			// 
-			OrganisationLabel.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Organisation", "Организация: {0}")});
-			OrganisationLabel.Dpi = 254F;
-			OrganisationLabel.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
-			OrganisationLabel.Name = "OrganisationLabel";
-			OrganisationLabel.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
-			OrganisationLabel.SizeF = new System.Drawing.SizeF(824.5997F, 50.8F);
-			OrganisationLabel.StylePriority.UseTextAlignment = false;
-			OrganisationLabel.Text = "OrganisationLabel";
-			OrganisationLabel.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
 			// 
 			// xrTableHeader
 			// 
@@ -163,7 +138,7 @@
             | DevExpress.XtraPrinting.BorderSide.Bottom)));
 			this.xrTableHeader.Dpi = 254F;
 			this.xrTableHeader.KeepTogether = true;
-			this.xrTableHeader.LocationFloat = new DevExpress.Utils.PointFloat(0.0002422333F, 0F);
+			this.xrTableHeader.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0.4999695F);
 			this.xrTableHeader.Name = "xrTableHeader";
 			this.xrTableHeader.Padding = new DevExpress.XtraPrinting.PaddingInfo(3, 3, 3, 3, 254F);
 			this.xrTableHeader.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
@@ -195,36 +170,35 @@
 			this.xrTableCell16.Dpi = 254F;
 			this.xrTableCell16.Name = "xrTableCell16";
 			this.xrTableCell16.Text = "Уровень";
-			//this.xrTableCell16.Weight = 0.20512820512820512D;
-			this.xrTableCell16.WidthF = columnsWidth[0];
+			this.xrTableCell16.Weight = 0.33984487917732614D;
 			// 
 			// xrTableCell11
 			// 
 			this.xrTableCell11.Dpi = 254F;
 			this.xrTableCell11.Name = "xrTableCell11";
 			this.xrTableCell11.Text = "Подразделение";
-			this.xrTableCell11.Weight = 0.66666666666666652D;
+			this.xrTableCell11.Weight = 0.52320377148294828D;
 			// 
 			// xrTableCell12
 			// 
 			this.xrTableCell12.Dpi = 254F;
 			this.xrTableCell12.Name = "xrTableCell12";
 			this.xrTableCell12.Text = "Телефон";
-			this.xrTableCell12.Weight = 0.41025641025641019D;
+			this.xrTableCell12.Weight = 0.35507808716988176D;
 			// 
 			// xrTableCell13
 			// 
 			this.xrTableCell13.Dpi = 254F;
 			this.xrTableCell13.Name = "xrTableCell13";
 			this.xrTableCell13.Text = "Руководитель";
-			this.xrTableCell13.Weight = 0.66666666666666674D;
+			this.xrTableCell13.Weight = 0.50665288447266066D;
 			// 
 			// xrTableCell14
 			// 
 			this.xrTableCell14.Dpi = 254F;
 			this.xrTableCell14.Name = "xrTableCell14";
 			this.xrTableCell14.Text = "Вышестоящее подразделение";
-			this.xrTableCell14.Weight = 0.66666666666666652D;
+			this.xrTableCell14.Weight = 0.96462540497362625D;
 			// 
 			// xrTableCell15
 			// 
@@ -232,22 +206,40 @@
 			this.xrTableCell15.Name = "xrTableCell15";
 			this.xrTableCell15.StylePriority.UseBackColor = false;
 			this.xrTableCell15.Text = "Примечание";
-			this.xrTableCell15.Weight = 0.51282051282051277D;
+			this.xrTableCell15.Weight = 0.44660702928052293D;
 			// 
 			// xrTableCellArchiveHeader
 			// 
 			this.xrTableCellArchiveHeader.Dpi = 254F;
 			this.xrTableCellArchiveHeader.Name = "xrTableCellArchiveHeader";
 			this.xrTableCellArchiveHeader.Text = "Архив";
-			this.xrTableCellArchiveHeader.Weight = 0.20512820512820509D;
+			this.xrTableCellArchiveHeader.Weight = 0.409286868276581D;
 			// 
-			// Detail
+			// GroupHeader2
 			// 
-			this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.xrTableContent});
-			this.Detail.Dpi = 254F;
-			this.Detail.HeightF = 64F;
-			this.Detail.Name = "Detail";
+			this.GroupHeader2.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.OrganisationLabel});
+			this.GroupHeader2.Dpi = 254F;
+			this.GroupHeader2.GroupFields.AddRange(new DevExpress.XtraReports.UI.GroupField[] {
+            new DevExpress.XtraReports.UI.GroupField("Organisation", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
+			this.GroupHeader2.GroupUnion = DevExpress.XtraReports.UI.GroupUnion.WithFirstDetail;
+			this.GroupHeader2.HeightF = 84F;
+			this.GroupHeader2.KeepTogether = true;
+			this.GroupHeader2.Level = 1;
+			this.GroupHeader2.Name = "GroupHeader2";
+			// 
+			// OrganisationLabel
+			// 
+			this.OrganisationLabel.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Organisation", "Организация: {0}")});
+			this.OrganisationLabel.Dpi = 254F;
+			this.OrganisationLabel.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
+			this.OrganisationLabel.Name = "OrganisationLabel";
+			this.OrganisationLabel.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
+			this.OrganisationLabel.SizeF = new System.Drawing.SizeF(824.5997F, 50.8F);
+			this.OrganisationLabel.StylePriority.UseTextAlignment = false;
+			this.OrganisationLabel.Text = "OrganisationLabel";
+			this.OrganisationLabel.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
 			// 
 			// xrTableContent
 			// 
@@ -289,8 +281,7 @@
 			this.xrTableCellLevel.Name = "xrTableCellLevel";
 			this.xrTableCellLevel.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 254F);
 			this.xrTableCellLevel.StylePriority.UsePadding = false;
-			//this.xrTableCellLevel.Weight = 0.20512859637920672D;
-			this.xrTableCellLevel.WidthF = columnsWidth[0];
+			this.xrTableCellLevel.Weight = 0.33984470805415129D;
 			this.xrTableCellLevel.BeforePrint += new System.Drawing.Printing.PrintEventHandler(this.xrTableCellLevel_BeforePrint);
 			// 
 			// xrTableCell6
@@ -300,7 +291,7 @@
 			this.xrTableCell6.Dpi = 254F;
 			this.xrTableCell6.Name = "xrTableCell6";
 			this.xrTableCell6.Text = "xrTableCell6";
-			this.xrTableCell6.Weight = 0.66666658841646631D;
+			this.xrTableCell6.Weight = 0.52320385554167D;
 			// 
 			// xrTableCell7
 			// 
@@ -309,7 +300,7 @@
 			this.xrTableCell7.Dpi = 254F;
 			this.xrTableCell7.Name = "xrTableCell7";
 			this.xrTableCell7.Text = "xrTableCell7";
-			this.xrTableCell7.Weight = 0.41025648850661062D;
+			this.xrTableCell7.Weight = 0.35507802965435487D;
 			// 
 			// xrTableCell8
 			// 
@@ -318,7 +309,7 @@
 			this.xrTableCell8.Dpi = 254F;
 			this.xrTableCell8.Name = "xrTableCell8";
 			this.xrTableCell8.Text = "xrTableCell8";
-			this.xrTableCell8.Weight = 0.66666651016626588D;
+			this.xrTableCell8.Weight = 0.50665258808051128D;
 			// 
 			// xrTableCell9
 			// 
@@ -327,7 +318,7 @@
 			this.xrTableCell9.Dpi = 254F;
 			this.xrTableCell9.Name = "xrTableCell9";
 			this.xrTableCell9.Text = "xrTableCell9";
-			this.xrTableCell9.Weight = 0.66666682316706738D;
+			this.xrTableCell9.Weight = 0.9646252058310214D;
 			// 
 			// xrTableCell10
 			// 
@@ -336,7 +327,7 @@
 			this.xrTableCell10.Dpi = 254F;
 			this.xrTableCell10.Name = "xrTableCell10";
 			this.xrTableCell10.Text = "xrTableCell10";
-			this.xrTableCell10.Weight = 0.51282012156951118D;
+			this.xrTableCell10.Weight = 0.44660696378522169D;
 			// 
 			// xrTableCellArchive
 			// 
@@ -346,7 +337,7 @@
 			this.xrTableCellArchive.Name = "xrTableCellArchive";
 			this.xrTableCellArchive.StylePriority.UseTextAlignment = false;
 			this.xrTableCellArchive.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-			this.xrTableCellArchive.Weight = 0.20512820512820509D;
+			this.xrTableCellArchive.Weight = 0.40928735093441282D;
 			// 
 			// xrControlStyle1
 			// 
@@ -363,8 +354,8 @@
 			// DepartmentsReport
 			// 
 			this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
+            this.GroupHeader2,
             this.GroupHeader1,
-			this.GroupHeader2,
             this.Detail});
 			this.CalculatedFields.AddRange(new DevExpress.XtraReports.UI.CalculatedField[] {
             this.ArchiveLabel});
@@ -372,9 +363,10 @@
 			this.DataSourceSchema = resources.GetString("$this.DataSourceSchema");
 			this.ExportOptions.PrintPreview.ActionAfterExport = DevExpress.XtraPrinting.ActionAfterExport.Open;
 			this.ExportOptions.PrintPreview.ShowOptionsBeforeExport = false;
+			this.Margins = new System.Drawing.Printing.Margins(201, 198, 350, 280);
 			this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
             this.xrControlStyle1});
-			this.Version = "14.1";
+			this.Version = "15.1";
 			this.BeforePrint += new System.Drawing.Printing.PrintEventHandler(this.Report415_BeforePrint);
 			this.Controls.SetChildIndex(this.Detail, 0);
 			this.Controls.SetChildIndex(this.GroupHeader1, 0);
@@ -403,7 +395,6 @@
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell13;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell14;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell15;
-		private DevExpress.XtraReports.UI.DetailBand Detail;
 		private DevExpress.XtraReports.UI.XRTable xrTableContent;
 		private DevExpress.XtraReports.UI.XRTableRow xrTableRow2;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell6;
