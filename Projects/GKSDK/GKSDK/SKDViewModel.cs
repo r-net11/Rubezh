@@ -57,6 +57,12 @@ namespace GKSDK
 			employee.LastName = LastName;
 			employee.FirstName = FirstName;
 			employee.SecondName = SecondName;
+			var organisationsResult = ClientManager.FiresecService.GetOrganisations(new OrganisationFilter());
+			if(organisationsResult.HasError || organisationsResult.Result.Count == 0)
+				return;
+			var organisation = organisationsResult.Result.FirstOrDefault();
+			employee.OrganisationUID = organisation.UID;
+			employee.Type = PersonType.Guest;
 			ClientManager.FiresecService.SaveEmployee(employee, true);
 		}
 	}
