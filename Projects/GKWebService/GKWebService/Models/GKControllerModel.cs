@@ -8,13 +8,17 @@ namespace GKWebService.Models
 {
 	public class GKControllerModel
 	{
+		public Guid UID { get; set; }
+
 		public bool IsChecked { get; set; }
 
-		public GKDevice Device { get; private set; }
+		public string PresentationName { get; set; }
 
-		public GKControllerModel(GKDevice device)
+		public GKControllerModel(Guid UID, bool isChecked, string presentationName)
 		{
-			Device = device;
+			this.UID = UID;
+			IsChecked = isChecked;
+			PresentationName = presentationName;
 		}
 	}
 }

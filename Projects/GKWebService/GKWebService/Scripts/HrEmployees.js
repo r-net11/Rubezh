@@ -131,7 +131,6 @@ function EmployeesViewModel(parentViewModel) {
         });
         $("#jqGridEmployees").trigger("reloadGrid");
         $("#jqGridEmployees").jqGrid("resetSelection");
-        $("#jqGridEmployees").setCell(0, 'Name', "<i>asd</i>");
     };
 
     $('#jqGridEmployees').on('jqGridSelectRow', function (event, id, selected) {

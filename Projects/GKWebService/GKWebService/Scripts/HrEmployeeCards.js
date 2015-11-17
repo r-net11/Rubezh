@@ -16,7 +16,7 @@
 
 
 function EmployeeCardsViewModel(parentViewModel) {
-    var self = this;
+    var self = {};
 
     self.EmployeesParentViewModel = parentViewModel;
     self.IsCardClicked = ko.observable(false);
