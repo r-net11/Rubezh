@@ -89,8 +89,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
-                MessageBoxService.Show("Deserialoze error " + e.Message);
-				Logger.Error("ZipSerializeHelper.DeSerialize " + fileName + " " + e.Message);
+                Logger.Error("ZipSerializeHelper.DeSerialize " + fileName + " " + e.Message);
 				return new T();
 			}
 		}

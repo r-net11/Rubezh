@@ -96,8 +96,7 @@ namespace RubezhClient
 			}
 			catch (Exception e)
 			{
-                MessageBoxService.Show(e.Message);
-				Logger.Error(e, "ClientManager.GetConfiguration");
+                Logger.Error(e, "ClientManager.GetConfiguration");
 				LoadingErrorManager.Add(e);
 			}
 		}
