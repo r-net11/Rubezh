@@ -167,6 +167,7 @@ namespace RubezhAPI.GK
 			state.OnDelay = OnDelay;
 			state.HoldDelay = HoldDelay;
 			state.OffDelay = OffDelay;
+			state.RunningTime = RunningTime;
 			state.StateClasses = StateClasses;
 			state.StateClass = StateClass;
 		}
