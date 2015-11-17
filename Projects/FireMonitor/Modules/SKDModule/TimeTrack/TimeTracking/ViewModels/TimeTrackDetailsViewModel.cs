@@ -540,7 +540,6 @@ namespace SKDModule.ViewModels
 		{
 			if (!ShowResetAdjustmentsWarning()) return;
 
-			ClearIntervalsData(DayTimeTrackParts);
 			var missedIntervals = PassJournalHelper.GetMissedIntervals(DayTimeTrack.Date, ShortEmployee).Select(x => new DayTimeTrackPart(x)).ToList();
 			foreach (var dayTimeTrackPart in missedIntervals)
 			{
@@ -549,6 +548,8 @@ namespace SKDModule.ViewModels
 
 				DayTimeTrackParts.Add(dayTimeTrackPart);
 			}
+
+			ClearIntervalsData(DayTimeTrackParts);
 
 			if (!DayTimeTrackParts.Any()) return;
 
