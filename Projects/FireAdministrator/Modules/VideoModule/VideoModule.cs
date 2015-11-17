@@ -63,7 +63,6 @@ namespace VideoModule
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Video, LayoutPartIdentities.CamerasList, 203, "Список камер", "Панель список камер", "BVideo.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Video, LayoutPartIdentities.CameraVideo, 204, "Одна камера", "Панель видео с камеры", "BVideo.png")
 			{
 				Factory = (p) => new LayoutPartCameraViewModel(p as LayoutPartReferenceProperties),
