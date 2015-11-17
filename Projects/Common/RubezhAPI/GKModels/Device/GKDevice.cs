@@ -85,8 +85,6 @@ namespace RubezhAPI.GK
 				GuardZones = guardZones;
 				GuardZoneUIDs = guardZoneUIDs;
 			}
-
-			OnChanged();
 		}
 
 		public override void UpdateLogic(GKDeviceConfiguration deviceConfiguration)
