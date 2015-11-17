@@ -141,8 +141,7 @@ namespace GKModule.ViewModels
 			{
 				Devices.Add(availabledeviceViewModel);
 				AvailableDevices.Remove(availabledeviceViewModel);
-				//Zone.GuardZoneDevices.Add(availabledeviceViewModel.GuardZoneDevice);
-				GKManager.AddDeviceToGuardZone(availabledeviceViewModel.GuardZoneDevice.Device, Zone);
+				GKManager.AddDeviceToGuardZone(availabledeviceViewModel.GuardZoneDevice.Device, Zone, availabledeviceViewModel.GuardZoneDevice);
 			}
 
 			SelectedDevice = Devices.FirstOrDefault();
@@ -176,13 +175,15 @@ namespace GKModule.ViewModels
 			{
 				var deviceViewModel = device as GuardZoneDeviceViewModel;
 				if (deviceViewModel != null)
+				{
+					deviceViewModel.GuardZoneDevice.CodeReaderSettings = new GKCodeReaderSettings();
 					deviceViewModels.Add(deviceViewModel);
+				}
 			}
 			foreach (var deviceViewModel in deviceViewModels)
 			{
 				AvailableDevices.Add(deviceViewModel);
 				Devices.Remove(deviceViewModel);
-				//Zone.GuardZoneDevices.RemoveAll(x=>x.DeviceUID == deviceViewModel.GuardZoneDevice.Device.UID);
 				GKManager.RemoveDeviceFromGuardZone(deviceViewModel.GuardZoneDevice.Device, Zone);
 			}
 

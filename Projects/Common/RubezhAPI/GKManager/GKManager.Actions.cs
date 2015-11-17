@@ -69,13 +69,9 @@ namespace RubezhClient
 			device.OnChanged();
 		}
 
-		public static void AddDeviceToGuardZone(GKDevice device, GKGuardZone guardZone)
+		public static void AddDeviceToGuardZone(GKDevice device, GKGuardZone guardZone ,GKGuardZoneDevice guardZoneDevice = null)
 		{
-			var guardZoneDevice = new GKGuardZoneDevice
-			{
-				DeviceUID = device.UID,
-				Device = device
-			};
+			if (guardZoneDevice!= null)
 			guardZone.GuardZoneDevices.Add(guardZoneDevice);
 			if (!device.GuardZones.Contains(guardZone))
 			{
