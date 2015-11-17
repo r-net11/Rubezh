@@ -298,6 +298,7 @@ namespace GKModule.ViewModels
 						addedDevice.IsExpanded = true;
 					}
 				}
+				DevicesViewModel.Current.SelectedDevice.IsExpanded = true;
 				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevices.LastOrDefault();
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
 				ServiceFactory.SaveService.GKChanged = true;
