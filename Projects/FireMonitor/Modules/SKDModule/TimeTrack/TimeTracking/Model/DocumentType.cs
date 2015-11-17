@@ -1,4 +1,5 @@
-﻿using FiresecAPI.SKD;
+﻿using System;
+using FiresecAPI.SKD;
 using Infrastructure.Common.TreeList;
 
 namespace SKDModule.Model
@@ -8,6 +9,9 @@ namespace SKDModule.Model
 		public Organisation Organisation { get; private set; }
 		public bool IsOrganisation { get; private set; }
 		public string Name { get; private set; }
+
+		public Guid UID { get; private set; }
+
 		public TimeTrackDocumentType TimeTrackDocumentType { get; private set; }
 
 		public DocumentType(Organisation organisation)
@@ -15,6 +19,7 @@ namespace SKDModule.Model
 			Organisation = organisation;
 			IsOrganisation = true;
 			Name = organisation.Name;
+			UID = organisation.UID;
 			IsExpanded = true;
 		}
 
@@ -24,6 +29,7 @@ namespace SKDModule.Model
 			TimeTrackDocumentType = timeTrackDocumentType;
 			IsOrganisation = false;
 			Name = timeTrackDocumentType.Name;
+			UID = timeTrackDocumentType.UID;
 		}
 
 		public void Update(TimeTrackDocumentType timeTrackDocumentType)
@@ -32,6 +38,7 @@ namespace SKDModule.Model
 			Name = timeTrackDocumentType.Name;
 			OnPropertyChanged(() => TimeTrackDocumentType);
 			OnPropertyChanged(() => Name);
+			OnPropertyChanged(() => UID);
 		}
 	}
 }
