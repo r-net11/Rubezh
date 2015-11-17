@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Media;
-using RubezhAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 
@@ -39,20 +38,8 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		protected virtual void CopyProperties()
 		{
-			Text = ElementTextBlock.Text;
-			BackgroundColor = ElementTextBlock.BackgroundColor;
-			ForegroundColor = ElementTextBlock.ForegroundColor;
-			BorderColor = ElementTextBlock.BorderColor;
+			ElementBase.Copy(this.ElementTextBlock, this);
 			StrokeThickness = ElementTextBlock.BorderThickness;
-			FontSize = ElementTextBlock.FontSize;
-			FontItalic = ElementTextBlock.FontItalic;
-			FontBold = ElementTextBlock.FontBold;
-			FontFamilyName = ElementTextBlock.FontFamilyName;
-			Stretch = ElementTextBlock.Stretch;
-			TextAlignment = ElementTextBlock.TextAlignment;
-			VerticalAlignment = ElementTextBlock.VerticalAlignment;
-			WordWrap = ElementTextBlock.WordWrap;
-			PresentationName = ElementTextBlock.PresentationName;
 		}
 
 		private string _text;
@@ -212,22 +199,21 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			}
 		}
 
+		bool _showTooltip;
+		public bool ShowTooltip
+		{
+			get { return this._showTooltip; }
+			set
+			{
+				this._showTooltip = value;
+				OnPropertyChanged(() => this.ShowTooltip);
+			}
+		}
+
 		protected override bool Save()
 		{
-			ElementTextBlock.Text = Text;
-			ElementTextBlock.BackgroundColor = BackgroundColor;
-			ElementTextBlock.ForegroundColor = ForegroundColor;
-			ElementTextBlock.BorderColor = BorderColor;
+			ElementBase.Copy(this, this.ElementTextBlock);
 			ElementTextBlock.BorderThickness = StrokeThickness;
-			ElementTextBlock.FontSize = FontSize;
-			ElementTextBlock.FontBold = FontBold;
-			ElementTextBlock.FontItalic = FontItalic;
-			ElementTextBlock.FontFamilyName = FontFamilyName;
-			ElementTextBlock.TextAlignment = TextAlignment;
-			ElementTextBlock.VerticalAlignment = VerticalAlignment;
-			ElementTextBlock.WordWrap = WordWrap;
-			ElementTextBlock.Stretch = Stretch;
-			ElementTextBlock.PresentationName = PresentationName;
 			return base.Save();
 		}
 	}
