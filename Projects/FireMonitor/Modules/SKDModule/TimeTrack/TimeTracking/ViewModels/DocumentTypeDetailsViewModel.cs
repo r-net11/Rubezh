@@ -180,8 +180,11 @@ namespace SKDModule.ViewModels
 						return false;
 					}
 				}
+
+				else return false;
 			}
-			else if(IsEdit && _inputDocumentType != null && _inputDocumentType.TimeTrackDocumentType != null && !_inputDocumentType.TimeTrackDocumentType.IsSystem)
+			else if (IsEdit && _inputDocumentType != null && _inputDocumentType.TimeTrackDocumentType != null &&
+			         !_inputDocumentType.TimeTrackDocumentType.IsSystem)
 			{
 				if (BaseValidation())
 				{
@@ -205,7 +208,9 @@ namespace SKDModule.ViewModels
 						return false;
 					}
 				}
+				else return false;
 			}
+			else return false;
 
 			return true;
 		}
