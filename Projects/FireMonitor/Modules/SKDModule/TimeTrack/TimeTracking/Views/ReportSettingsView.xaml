@@ -101,8 +101,12 @@
 			<TextBlock Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left"
 					   Text="{Binding HRViewModel.SelectedEmployee.PositionName, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding HRViewModel.HasSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
 			
-		   <TextBlock Grid.Row="6" Grid.Column="0" Text="Дата формирования" VerticalAlignment="Top" />
-			<Calendar Grid.Row="6" Grid.Column="1" Margin="2" HorizontalAlignment="Left" DisplayDate="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
+			<TextBlock Grid.Row="6" Grid.Column="0" Text="Дата формирования" VerticalAlignment="Top" />
+			<DatePicker SelectedDate="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}"
+						DisplayDate="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}"
+						Grid.Row="6" Grid.Column="1"
+						HorizontalAlignment="Left"
+						Margin="2" />
 		</Grid>
 	</Border>
 </UserControl>
