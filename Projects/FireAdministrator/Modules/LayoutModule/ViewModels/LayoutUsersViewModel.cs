@@ -6,6 +6,8 @@ using RubezhAPI.Models;
 using RubezhAPI.Models.Layouts;
 using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure;
+using Infrastructure.Events;
 
 namespace LayoutModule.ViewModels
 {
@@ -16,6 +18,10 @@ namespace LayoutModule.ViewModels
 		private bool _locked;
 		public LayoutUsersViewModel()
 		{
+			ServiceFactory.Events.GetEvent<AddUserEvent>().Unsubscribe(OnAddUser);
+			ServiceFactory.Events.GetEvent<AddUserEvent>().Subscribe(OnAddUser);
+			ServiceFactory.Events.GetEvent<DeleteUserEvent>().Unsubscribe(OnDeleteUser);
+			ServiceFactory.Events.GetEvent<DeleteUserEvent>().Subscribe(OnDeleteUser);
 			Update();
 			_locked = false;
 		}
@@ -49,9 +55,7 @@ namespace LayoutModule.ViewModels
 			_map = new Dictionary<Guid, LayoutUserViewModel>();
 			ClientManager.SecurityConfiguration.UserRoles.ForEach(item => roles.Add(item.UID, item));
 			ClientManager.SecurityConfiguration.Users.ForEach(item => _map.Add(item.UID, new LayoutUserViewModel(item, IsActiveChanged)));
-			var list = _map.Values.ToList();
-			list.Sort(Comparison);
-			Users = new ObservableCollection<LayoutUserViewModel>(list);
+			RewriteUsers(_map);
 			_locked = false;
 		}
 		public void Update(Layout layout)
@@ -91,6 +95,22 @@ namespace LayoutModule.ViewModels
 					if (layoutUserViewModel.IsActive)
 						_layout.Users.Add(layoutUserViewModel.User.UID);
 			}
+		}
+		void OnAddUser(User user)
+		{
+			_map.Add(user.UID, new LayoutUserViewModel(user, IsActiveChanged));
+			RewriteUsers(_map);
+		}
+		void OnDeleteUser(User user)
+		{
+			_map.Remove(user.UID);
+			RewriteUsers(_map);
+		}
+		void RewriteUsers(Dictionary<Guid, LayoutUserViewModel> map)
+		{
+			var list = map.Values.ToList();
+			list.Sort(Comparison);
+			Users = new ObservableCollection<LayoutUserViewModel>(list);
 		}
 	}
 }
