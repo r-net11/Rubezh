@@ -50,8 +50,25 @@
                 </label>
             </div>
             <div class="data-input" data-bind="visible:employeeCardDetailsPages.GKControllers">
+                <ul data-bind="foreach: AvailableGKControllers">
+                    <li>
+                        <label><input type="checkbox" data-bind="checked: IsChecked" value=""><span data-bind="text: PresentationName"></span></label>
+                    </li>
+                </ul>
             </div>
-            <div class="data-input" data-bind="visible:employeeCardDetailsPages.AccessDoors">
+            <div data-bind="visible:employeeCardDetailsPages.AccessDoors">
+                <ul data-bind="foreach: Doors">
+                    <li>
+                        <label>
+                            <img src="~/Content/Image/Icon/Hr/Door.png" />
+                            <input type="checkbox" data-bind="checked: IsChecked" value="">
+                            <span data-bind="text: PresentationName"></span>
+                        </label>
+                    </li>
+                </ul>
+                <div class="data-input">
+                    
+                </div>
             </div>
             <div class="data-input" data-bind="visible:employeeCardDetailsPages.AccessTemplates">
             </div>

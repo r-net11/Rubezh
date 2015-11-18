@@ -10,7 +10,11 @@ namespace RubezhAPI.Models
 		public ElementPolygon()
 		{
 			PresentationName = "Многоугольник";
+			ShowTooltip = true;
 		}
+
+		[DataMember]
+		public bool ShowTooltip { get; set; }
 
 		#region IPrimitive Members
 

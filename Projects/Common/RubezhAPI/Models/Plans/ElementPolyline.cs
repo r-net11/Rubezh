@@ -10,7 +10,11 @@ namespace RubezhAPI.Models
 		public ElementPolyline()
 		{
 			PresentationName = "Линия";
+			ShowTooltip = true;
 		}
+
+		[DataMember]
+		public bool ShowTooltip { get; set; }
 
 		#region IPrimitive Members
 

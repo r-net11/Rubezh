@@ -14,7 +14,7 @@ namespace Infrustructure.Plans.Presenter
 		public event EventHandler ClickEvent;
 
 		public bool IsPoint { get; set; }
-		
+
 		public Func<ContextMenu> ContextMenuProvider { get; set; }
 
 		public bool ShowBorderOnMouseOver { get; set; }
@@ -27,7 +27,7 @@ namespace Infrustructure.Plans.Presenter
 			ShowBorderOnMouseOver = false;
 			IsEnabled = true;
 			IsPoint = false;
-			IsVisibleLayout = true;
+			IsVisibleLayout = !element.IsHidden;
 		}
 
 		public void InvalidatePainter()

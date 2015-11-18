@@ -137,7 +137,7 @@ namespace RubezhDAL.DataClasses
 			}).ToList();
 			tableItem.Type = (int)apiItem.Type;
 			tableItem.TabelNo = apiItem.TabelNo;
-			tableItem.CredentialsStartDate = apiItem.CredentialsStartDate;
+			tableItem.CredentialsStartDate = apiItem.CredentialsStartDate.CheckDate();
 			tableItem.EscortUID = apiItem.EscortUID;
 			tableItem.BirthDate = apiItem.BirthDate.CheckDate();
 			tableItem.BirthPlace = apiItem.BirthPlace;

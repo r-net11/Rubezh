@@ -1,5 +1,5 @@
 ﻿function EmployeeCardDetailsViewModel(parentViewModel) {
-    var self = this;
+    var self = {};
 
     self.Title = ko.observable();
     self.ParentViewModel = parentViewModel;
@@ -18,6 +18,8 @@
     self.UseReader = ko.observable(false);
 
     self.IsNewCard = ko.observable();
+
+    self.AccessDoorIsChecked = ko.observable();
 
     self.employeeCardDetailsPages = {
         General: ko.observable(true),
@@ -44,12 +46,6 @@
             self.Title(("Свойства пропуска: ") + self.Card.Number());
         }
         self.CanChangeCardType(!self.ParentViewModel.IsGuest());
-        $.getJSON("Employees/GetSchedules", function(data) {
-            ko.mapping.fromJS(data, {}, self.GKSchedules);
-        });
-        $.getJSON("Employees/GetStopListCards", function (data) {
-            ko.mapping.fromJS(data, {}, self.StopListCards);
-        });
     };
 
     self.EmployeeCardDetailsPageClick = function (data, e, page) {

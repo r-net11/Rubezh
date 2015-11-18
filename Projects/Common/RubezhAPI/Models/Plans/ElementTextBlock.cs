@@ -26,6 +26,7 @@ namespace RubezhAPI.Models
 			FontBold = false;
 			Height = 22;
 			Width = 52;
+			ShowTooltip = true;
 		}
 
 		[DataMember]
@@ -48,6 +49,8 @@ namespace RubezhAPI.Models
 		public int VerticalAlignment { get; set; }
 		[DataMember]
 		public bool WordWrap { get; set; }
+		[DataMember]
+		public bool ShowTooltip { get; set; }
 
 		#region IPrimitive Members
 

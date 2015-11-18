@@ -54,8 +54,7 @@ namespace RubezhClient
 
 		public static void GetConfiguration(string configurationFolderName)
 		{
-            //MessageBoxService.Show("GetConfiguration");
-			try
+           try
 			{
 				var serverConfigDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
 				var configDirectory = AppDataFolderHelper.GetLocalFolder(configurationFolderName);
