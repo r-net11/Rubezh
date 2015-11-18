@@ -192,7 +192,9 @@ namespace SKDDriver.Translators
 														.Where(
 														x => x.EmployeeUID == employeeGuid &&
 														x.EnterTimeOriginal.Value.Date >= minIntervalsDate.Date &&
-														x.ExitTimeOriginal.Value.Date <= maxIntervalDate).ToList();
+														x.ExitTimeOriginal.Value.Date <= maxIntervalDate)
+														.Where(x => !x.IsAddedManually || x.EnterTime.Date != currentDate.Date || x.ExitTime.GetValueOrDefault().Date != currentDate.Date)
+														.ToList();
 			var conflictedIntervals = GetIntervalsWithConflicts(dayTimeTrackParts, linkedIntervals);
 
 			return new OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>>(conflictedIntervals);
