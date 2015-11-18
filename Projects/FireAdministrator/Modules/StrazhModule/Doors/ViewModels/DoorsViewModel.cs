@@ -9,6 +9,7 @@ using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
@@ -69,7 +70,7 @@ namespace StrazhModule.ViewModels
 				_selectedDoor = value;
 				OnPropertyChanged(() => SelectedDoor);
 				if (!_lockSelection && _selectedDoor != null && _selectedDoor.Door.PlanElementUIDs.Count > 0)
-					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDoor.Door.PlanElementUIDs);
+					ServiceFactoryBase.Events.GetEvent<FindElementEvent>().Publish(_selectedDoor.Door.PlanElementUIDs);
 			}
 		}
 
@@ -145,7 +146,7 @@ namespace StrazhModule.ViewModels
 				{
 					SKDManager.ChangeDoorDevice(doorDetailsViewModel.Door, null);
 				}
-				SelectedDoor.Update(doorDetailsViewModel.Door);
+
 				doorDetailsViewModel.Door.OnChanged();
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
@@ -167,10 +168,6 @@ namespace StrazhModule.ViewModels
 		{
 			base.OnShow();
 			SelectedDoor = SelectedDoor;
-		}
-		public override void OnHide()
-		{
-			base.OnHide();
 		}
 
 		#region ISelectable<Guid> Members
@@ -198,15 +195,15 @@ namespace StrazhModule.ViewModels
 
 		private void SubscribeEvents()
 		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
 		private void OnDoorChanged(Guid doorUID)
 		{
@@ -221,7 +218,6 @@ namespace StrazhModule.ViewModels
 		}
 		private void OnElementChanged(List<ElementBase> elements)
 		{
-			Guid guid = Guid.Empty;
 			_lockSelection = true;
 			elements.ForEach(element =>
 			{
@@ -256,9 +252,9 @@ namespace StrazhModule.ViewModels
 
 		private void SetRibbonItems()
 		{
-			RibbonItems = new List<RibbonMenuItemViewModel>()
+			RibbonItems = new List<RibbonMenuItemViewModel>
 			{
-					new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+					new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>
 				{
 					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
 					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),

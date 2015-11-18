@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using DeviceControls;
+using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Windows;
-using FiresecAPI.Models;
-using DeviceControls;
-using System.Windows.Shapes;
-using Infrustructure.Plans.Painters;
-using Infrastructure.Common.Services;
 using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Painters;
+using System;
+using System.Windows;
+using System.Windows.Shapes;
 
 namespace StrazhModule.ViewModels
 {
