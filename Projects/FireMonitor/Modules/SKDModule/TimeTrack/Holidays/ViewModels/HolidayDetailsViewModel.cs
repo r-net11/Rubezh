@@ -10,8 +10,8 @@ namespace SKDModule.ViewModels
 {
 	public class HolidayDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<Holiday>
 	{
-		Organisation Organisation;
-		bool _isNew;
+		private Organisation Organisation;
+		private bool _isNew;
 		public Holiday Model { get; private set; }
 
 		public HolidayDetailsViewModel() { }
@@ -23,10 +23,10 @@ namespace SKDModule.ViewModels
 			_isNew = holiday == null;
 			if (_isNew)
 			{
-				Title = "Новый сокращённый день";
+				Title = "Новый праздничный день";
 				holiday = new Holiday()
 				{
-					Name = "Название сокращённого дня",
+					Name = "Название праздничного дня",
 					OrganisationUID = Organisation.UID,
 					Date = new DateTime(holidaysViewModel.SelectedYear, DateTime.Today.Month, DateTime.Today.Day),
 				};
@@ -34,18 +34,21 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				Title = "Редактирование сокращённого дня";
+				Title = "Редактирование праздничного дня";
 				Model = HolidayHelper.GetSingle(holiday.UID);
 			}
 
 			Name = holiday.Name;
 			Date = holiday.Date;
 
-			IsOneHourReduction = holiday.Reduction.Hours == 1;
+			TimeReduction = holiday.Reduction;
 			TransferDate = holiday.TransferDate.HasValue ? holiday.TransferDate.Value : holiday.Date;
 
 			AvailableHolidayTypes = new ObservableCollection<HolidayType>(Enum.GetValues(typeof(HolidayType)).OfType<HolidayType>());
 			HolidayType = holiday.Type;
+
+
+
 			return true;
 		}
 
@@ -58,6 +61,16 @@ namespace SKDModule.ViewModels
 				_date = value;
 				OnPropertyChanged(() => Date);
 			}
+		}
+
+		public DateTime SelectDateStartLimit
+		{
+			get { return new DateTime(Model.Date.Year, 1, 1); }
+		}
+
+		public DateTime SelectDateEndLimit
+		{
+			get { return new DateTime(Model.Date.Year, 12, 31); }
 		}
 
 		string _name;
@@ -83,6 +96,17 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => HolidayType);
 				OnPropertyChanged(() => IsReductionEnabled);
 				OnPropertyChanged(() => IsTransferDateEnabled);
+
+				if (_isNew)
+					switch (_holidayType)
+					{
+						case HolidayType.BeforeHoliday:
+							TimeReduction = TimeSpan.FromHours(1);
+							break;
+						default:
+							TimeReduction = TimeSpan.FromHours(0);
+							break;
+					}
 			}
 		}
 
@@ -97,14 +121,16 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		bool _IsOneHourReduction;
-		public bool IsOneHourReduction
+		private TimeSpan _timeReduction;
+		public TimeSpan TimeReduction
 		{
-			get { return _IsOneHourReduction; }
+			get { return _timeReduction; }
 			set
 			{
-				_IsOneHourReduction = value;
-				OnPropertyChanged(() => IsOneHourReduction);
+				if (_timeReduction == value)
+					return;
+				_timeReduction = value;
+				OnPropertyChanged(() => TimeReduction);
 			}
 		}
 
@@ -122,7 +148,7 @@ namespace SKDModule.ViewModels
 			Model.Name = Name;
 			Model.Date = Date;
 			Model.Type = HolidayType;
-			Model.Reduction = IsOneHourReduction ? new TimeSpan(1, 0, 0) : new TimeSpan(2, 0, 0);
+			Model.Reduction = TimeReduction;
 			Model.TransferDate = IsTransferDateEnabled ? (DateTime?)TransferDate : null;
 
 			return HolidayHelper.Save(Model, _isNew);

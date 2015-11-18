@@ -107,7 +107,7 @@ namespace SKDModule.ViewModels
 
 		protected override string ItemRemovingName
 		{
-			get { return "сокращённый день"; }
+			get { return "праздничный день"; }
 		}
 
 

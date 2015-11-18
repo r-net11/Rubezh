@@ -1,4 +1,5 @@
-﻿using FiresecAPI.SKD;
+﻿using System.Globalization;
+using FiresecAPI.SKD;
 using LinqKit;
 using System;
 using System.Linq;
@@ -32,15 +33,34 @@ namespace SKDDriver.Translators
 			var result = base.CanSave(item);
 			if (result.HasError)
 				return result;
-			if (item.Reduction.TotalHours > 2)
-				return new OperationResult("Величина сокращения не может быть больше двух часов");
-			//if (item.Type == HolidayType.WorkingHoliday && item.Date.DayOfWeek != DayOfWeek.Saturday && item.Date.DayOfWeek != DayOfWeek.Sunday)
-			//	return new OperationResult("Дата переноса устанавливается только на субботу или воскресенье");
-			if (Table.Any(x => x.UID != item.UID && x.OrganisationUID == item.OrganisationUID && x.Date.Date == item.Date.Date && !x.IsDeleted))
-				return new OperationResult("Дата сокращённого дня совпадает с введенной ранее");
-			bool hasSameName = Table.Any(x => x.OrganisationUID == item.OrganisationUID && x.UID != item.UID && !x.IsDeleted && x.Name == item.Name && x.Date.Year == item.Date.Year);
-			if (hasSameName)
-				return new OperationResult("Сокращённый день с таким же названием уже содержится в базе данных");
+
+			// Для одной организации нельзя ввести два праздничных дня с одинаковым названием в пределах одного года
+			if (Table.Any(x => 
+				x.OrganisationUID == item.OrganisationUID
+				&& x.UID != item.UID
+				&& x.Name == item.Name
+				&& x.Date.Year == item.Date.Year
+				&& !x.IsDeleted))
+				return new OperationResult("Праздничный день с таким названием уже существует");
+
+			// Для одной организации нельзя ввести два праздничных дня на одну и ту же дату
+			if (Table.Any(x =>
+				x.UID != item.UID
+				&& x.OrganisationUID == item.OrganisationUID
+				&& x.Date.Date == item.Date.Date
+				&& !x.IsDeleted))
+				return new OperationResult(String.Format("Праздничный день введенный на дату {0} уже существует", item.Date.ToString("d")));
+
+			// Для одной организации нельзя ввести два праздничных дня типа "Рабочий выходной" с одной и той же датой переноса
+			if (Table.Any(x =>
+				x.UID != item.UID
+				&& x.OrganisationUID == item.OrganisationUID
+				&& (HolidayType)x.Type == HolidayType.WorkingHoliday
+				&& (HolidayType)x.Type == item.Type
+				&& x.TransferDate == item.TransferDate
+				&& !x.IsDeleted))
+				return new OperationResult(String.Format("Рабочий выходной, имеющий дату переноса {0} уже существует", item.Date.ToString("d")));
+			
 			return new OperationResult();
 		}
 
