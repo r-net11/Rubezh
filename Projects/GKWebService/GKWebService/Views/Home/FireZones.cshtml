@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "FireZones";
     Layout = null;
 }
@@ -7,8 +6,71 @@
 
 @*@using System.Web.Optimization
 
-@Scripts.Render("~/bundles/fireZones")*@
-<h1>Fire Zones</h1>
+    @Scripts.Render("~/bundles/fireZones")*@
 <div ng-controller="firezonesCtrl">
-    {{message1}}
+    @*{{message1}}*@
+    <div class="area">
+        Область
+    </div>
+    <br/>
+    <table id="grid"></table>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var data = [[48803, "DSK1", "", "02200220"], [48769, "APPR", "", "77733337"]];
+
+            $("#grid").jqGrid({
+                datatype: "local",
+                height: 'auto',
+                colNames: ['Устройство', 'Адрес', 'Логика', 'Примечание'],
+                colModel: [{
+                    name: 'device',
+                    index: 'device',
+                    width: 250,
+                    sorttype: "int"
+                },
+                {
+                    name: 'address',
+                    index: 'address',
+                    width: 100,
+                    sorttype: "date"
+                },
+                {
+                    name: 'logic',
+                    index: 'logic',
+                    width: 50
+                },
+                {
+                    name: 'note',
+                    index: 'note',
+                    width: 765,
+                    sorttype: "float"
+                }
+                ]
+            });
+
+            var names = ["device", "address", "logic", "note"];
+            var mydata = [];
+
+            for (var i = 0; i < data.length; i++) {
+                mydata[i] = {};
+                for (var j = 0; j < data[i].length; j++) {
+                    mydata[i][names[j]] = data[i][j];
+                }
+            }
+
+            for (var i = 0; i <= mydata.length; i++) {
+                $("#grid").jqGrid('addRowData', i + 1, mydata[i]);
+            }
+
+            $("#grid").jqGrid('setGridParam', { ondblClickRow: function (rowid, iRow, iCol, e) { alert('double clicked'); } });
+        });
+    </script>
 </div>
+
+<style>
+    .area {
+        background: white;
+        height: 540px;
+        width: 100%;
+    }
+</style>
