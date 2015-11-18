@@ -143,9 +143,10 @@ namespace SKDDriver.Translators
 			List<DayTimeTrackPart> originalCollection, List<PassJournal> linkedIntervalsCollection)
 		{
 			var resultDictionary = new Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>();
-			var tmpCollection = new List<DayTimeTrackPart>();
+
 			foreach (var el in originalCollection)
 			{
+				var tmpCollection = new List<DayTimeTrackPart>();
 				var conflictedCollection = linkedIntervalsCollection
 					.Where(x => (x.UID != el.UID) && (el.EnterTimeOriginal.HasValue && el.ExitTimeOriginal.HasValue))
 					//.Where(x => el.ExitTimeOriginal >= x.ExitTime && el.EnterTimeOriginal <= x.EnterTime)
