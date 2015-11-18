@@ -32,24 +32,25 @@
 					</ComboBox>
 
 					<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Конец действия" />
-					<Calendar Grid.Row="1" Grid.Column="1"  Margin="2" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#66ff9829" BorderThickness="2" IsTodayHighlighted="False" SelectionMode="SingleDate" 
-							  DisplayDate="{Binding EndDate}" SelectedDate="{Binding EndDate}"  />
-
-
+					<DatePicker DisplayDate="{Binding EndDate}"
+								SelectedDate="{Binding EndDate}"
+								IsTodayHighlighted="False"
+								Grid.Row="1" Grid.Column="1"
+								Margin="2" />
 					<TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Text="Уровень доступа" Margin="2" />
 					<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding GKLevel}" Margin="2" />
 
 					<TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Text="График доступа" Margin="2" />
-                    <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding GKSchedules}" SelectedItem="{Binding SelectedGKSchedule}" Margin="2">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding No}" Margin="2" />
-                                    <TextBlock Text="{Binding Name}" Margin="2" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
+					<ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding GKSchedules}" SelectedItem="{Binding SelectedGKSchedule}" Margin="2">
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding No}" Margin="2" />
+									<TextBlock Text="{Binding Name}" Margin="2" />
+								</StackPanel>
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
 				</Grid>
 
 				<Grid IsEnabled="{Binding IsNewCard}">
@@ -88,22 +89,22 @@
 				</Grid>
 			</StackPanel>
 		</TabItem>
-        <TabItem Header="Контроллеры" Visibility="{Binding CanSelectGKControllers, Converter={StaticResource BoolToVisibilityConverter}}">
-            <DataGrid ItemsSource="{Binding AvailableGKControllers}">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="*" Header="Контроллер">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding Device.PresentationName}" Margin="2" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </TabItem>
-        <TabItem Header="Точки доступа">
+		<TabItem Header="Контроллеры" Visibility="{Binding CanSelectGKControllers, Converter={StaticResource BoolToVisibilityConverter}}">
+			<DataGrid ItemsSource="{Binding AvailableGKControllers}">
+				<DataGrid.Columns>
+					<DataGridTemplateColumn Width="*" Header="Контроллер">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding Device.PresentationName}" Margin="2" />
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+		</TabItem>
+		<TabItem Header="Точки доступа">
 			<Views:AccessDoorsSelectationView DataContext="{Binding AccessDoorsSelectationViewModel}" />
 		</TabItem>
 		<TabItem Header="Шаблон доступа">
