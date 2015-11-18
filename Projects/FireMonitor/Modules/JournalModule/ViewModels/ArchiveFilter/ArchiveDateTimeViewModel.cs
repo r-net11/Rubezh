@@ -25,12 +25,12 @@ namespace JournalModule.ViewModels
 			UseDeviceDateTime = ClientSettings.ArchiveDefaultState.UseDeviceDateTime;
 			IsSortAsc = ClientSettings.ArchiveDefaultState.IsSortAsc;
 
-			if (ArchiveFirstDate < ClientSettings.ArchiveDefaultState.StartDate)
+			if (ArchiveFirstDate <ClientSettings.ArchiveDefaultState.StartDate)
 				StartDateTime = new DateTimePairViewModel(ClientSettings.ArchiveDefaultState.StartDate);
 			else
 				StartDateTime = new DateTimePairViewModel(ArchiveFirstDate);
 
-			if (ArchiveFirstDate < ClientSettings.ArchiveDefaultState.EndDate)
+			if (ArchiveFirstDate <ClientSettings.ArchiveDefaultState.EndDate)
 				EndDateTime = new DateTimePairViewModel(ClientSettings.ArchiveDefaultState.EndDate);
 			else
 				EndDateTime = new DateTimePairViewModel(NowDate);
