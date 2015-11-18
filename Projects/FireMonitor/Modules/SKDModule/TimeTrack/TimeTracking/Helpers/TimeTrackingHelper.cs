@@ -38,8 +38,8 @@ namespace SKDModule.Helpers
 			}
 
 			originalInterval.NotTakeInCalculations = originalInterval.TimeTrackZone != null && originalInterval.TimeTrackZone.IsURV
-															? originalInterval.NotTakeInCalculationsOriginal
-															: originalInterval.NotTakeInCalculations;
+													? originalInterval.NotTakeInCalculationsOriginal
+													: originalInterval.NotTakeInCalculations;
 			originalInterval.IsNeedAdjustment = originalInterval.IsNeedAdjustmentOriginal;
 			originalInterval.IsDirty = true;
 			return originalInterval;

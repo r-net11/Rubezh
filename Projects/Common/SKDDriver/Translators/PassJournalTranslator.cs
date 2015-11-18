@@ -286,11 +286,12 @@ namespace SKDDriver.Translators
 					passJournalItem.CorrectedByUID = dayTimeTrackPart.CorrectedByUID;
 					passJournalItem.NotTakeInCalculations = dayTimeTrackPart.NotTakeInCalculations;
 					passJournalItem.IsAddedManually = dayTimeTrackPart.IsManuallyAdded;
-					if (dayTimeTrackPart.IsForceClosed)
+					if (dayTimeTrackPart.IsForceClosed && passJournalItem.ExitTimeOriginal == null)
 					{
 						passJournalItem.ExitTimeOriginal = passJournalItem.ExitTime;
 						passJournalItem.IsOpen = default(bool);
 						passJournalItem.IsForceClosed = true;
+						passJournalItem.NotTakeInCalculationsOriginal = dayTimeTrackPart.NotTakeInCalculations;
 						setForceClosedFlag = true;
 					}
 				}
