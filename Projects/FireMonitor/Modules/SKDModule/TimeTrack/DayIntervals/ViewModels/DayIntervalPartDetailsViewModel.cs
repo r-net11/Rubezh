@@ -50,7 +50,7 @@ namespace SKDModule.ViewModels
 			{
 				Title = "Новый интервал";
 				_isNew = true;
-				dayIntervalPart = new DayIntervalPart()
+				dayIntervalPart = new DayIntervalPart
 				{
 					DayIntervalUID = dayInterval.UID,
 				};
@@ -136,19 +136,17 @@ namespace SKDModule.ViewModels
 
 		List<DayIntervalPart> CloneDayIntervalPart()
 		{
-			var dayIntervalParts = new List<DayIntervalPart>();
-			foreach (var dayIntervalPart in _dayInterval.DayIntervalParts)
-			{
-				var clonedDayIntervalPart = new DayIntervalPart()
+			var dayIntervalParts = _dayInterval.DayIntervalParts
+				.Select(dayIntervalPart => new DayIntervalPart
 				{
 					UID = dayIntervalPart.UID,
 					BeginTime = dayIntervalPart.BeginTime,
 					EndTime = dayIntervalPart.EndTime,
 					TransitionType = dayIntervalPart.TransitionType,
 					DayIntervalUID = dayIntervalPart.DayIntervalUID,
-				};
-				dayIntervalParts.Add(clonedDayIntervalPart);
-			}
+				})
+				.ToList();
+
 			if (_isNew)
 			{
 				var newEmployeeDayIntervalPart = new DayIntervalPart

@@ -16,9 +16,9 @@
 		<!--<loya:Dameer Grid.Row="1" Grid.Column="1" Width="240" Margin="2,6,2,6" HorizontalAlignment="Left" CustomFormat="dd MMMM yyyy HH:mm:ss" Format="Custom" IsEnabled="{Binding UseCurrentDate, Converter={StaticResource InverseBooleanConverter}}" ShowCheckBox="False" Value="{Binding ReportDateTime}" />-->
 		<xctk:DateTimePicker
 			Grid.Row="1"
-			Grid.Column="1" 
+			Grid.Column="1"
 			HorizontalAlignment="Left"
-			VerticalAlignment="Top" 
+			VerticalAlignment="Top"
 			Width="180"
 			BorderThickness="1"
 			AutoCloseCalendar="True"
@@ -26,7 +26,7 @@
 			SnapsToDevicePixels="True"
 			Focusable="False"
 			IsEnabled="{Binding UseCurrentDate, Converter={StaticResource InverseBooleanConverter}}"
-			Value="{Binding ReportDateTime}" 
+			Value="{Binding ReportDateTime, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
 			Margin="2" />
 	</Grid>
 </UserControl>

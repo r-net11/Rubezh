@@ -77,15 +77,14 @@ namespace SKDModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (DayIntervalPartHelper.Remove(SelectedDayIntervalPart.DayIntervalPart, Model.Name))
-			{
-				Model.DayIntervalParts.Remove(SelectedDayIntervalPart.DayIntervalPart);
-				DayIntervalParts.Remove(SelectedDayIntervalPart);
-			}
+			if (!DayIntervalPartHelper.Remove(SelectedDayIntervalPart.DayIntervalPart, Model.Name)) return;
+
+			Model.DayIntervalParts.RemoveAll(x => x.UID == SelectedDayIntervalPart.DayIntervalPart.UID);
+			DayIntervalParts.Remove(SelectedDayIntervalPart);
 		}
 		bool CanDelete()
 		{
-			return SelectedDayIntervalPart != null && DayIntervalParts.Count > 1 && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit);
+			return SelectedDayIntervalPart != null && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -95,6 +94,8 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel))
 			{
 				DayIntervalPartHelper.Save(SelectedDayIntervalPart.DayIntervalPart, Model.Name);
+				Model.DayIntervalParts.RemoveAll(x => x.UID == SelectedDayIntervalPart.DayIntervalPart.UID);
+				Model.DayIntervalParts.Add(SelectedDayIntervalPart.DayIntervalPart);
 				SelectedDayIntervalPart.Update();
 				var selectedDayIntervalPart = SelectedDayIntervalPart;
 				DayIntervalParts.Sort(item => item.BeginTime);
