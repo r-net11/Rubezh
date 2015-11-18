@@ -52,7 +52,7 @@ namespace GKModule.Validation
 				AddError(skdZone, "Отсутствует лицензия модуля \"GLOBAL Доступ\"", ValidationErrorLevel.CannotWrite);
 
 			foreach(var door in GKManager.Doors)
-				AddError(door, "Для работы с точками доступа нужна лицензия модуля \"GLOBAL Доступ\"", ValidationErrorLevel.CannotWrite);
+				AddError(door, "Отсутствует лицензия модуля \"GLOBAL Доступ\"", ValidationErrorLevel.CannotWrite);
 		}
 	}
 }
