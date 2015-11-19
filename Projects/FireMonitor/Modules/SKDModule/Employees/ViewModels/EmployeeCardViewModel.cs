@@ -121,6 +121,12 @@ namespace SKDModule.ViewModels
 				doorGuids.AddRange(CardDoorsViewModel.Doors.Select(x => x.CardDoor.DoorUID));
 			else
 			{
+				if (CardDoorsViewModel.SelectedDoor == null || CardDoorsViewModel.SelectedDoor.CardDoor == null)
+				{
+					MessageBoxService.ShowWarning("Точки доступа отсутствуют.");
+					return;
+				}
+
 				doorGuids.Add(CardDoorsViewModel.SelectedDoor.CardDoor.DoorUID);
 				doorName = CardDoorsViewModel.SelectedDoor.Name;
 			}
