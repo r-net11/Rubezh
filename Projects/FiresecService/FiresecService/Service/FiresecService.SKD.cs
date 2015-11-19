@@ -335,7 +335,7 @@ namespace FiresecService.Service
 			}
 			else if (cardNo != null)
 			{
-				AddJournalMessage(JournalEventNameType.Сброс_антипессбэка_для_выбранной_ТД, employeeName, descriptionText: cardNo.ToString());
+				AddJournalMessage(JournalEventNameType.Сброс_антипессбэка_для_всех_ТД, employeeName, descriptionText: cardNo.ToString());
 			}
 			else
 			{
@@ -1212,7 +1212,7 @@ namespace FiresecService.Service
 		private OperationResult<bool> ChangeLockAccessState(SKDDevice device, AccessState accessState)
 		{
 			var prevAccessState = device.SKDDoorConfiguration.AccessState;
-			
+
 			// Пытаемся перевести замок в требуемый режим
 			device.SKDDoorConfiguration.AccessState = accessState;
 			var result = Processor.SetDoorConfiguration(device.UID, device.SKDDoorConfiguration);
@@ -1259,11 +1259,11 @@ namespace FiresecService.Service
 		{
 			// Ищем замок в конфигурации
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			
+
 			// Если замок не найден в конфигурации, возвращаем ошибку
 			if (device == null)
 				return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
-			
+
 			// Фиксируем в журнале событий намерение на преревод замка в требуемый режим
 			AddSKDJournalMessage(eventNameType, device);
 
@@ -1317,7 +1317,7 @@ namespace FiresecService.Service
 			// Фиксируем в журнале событий факт преревода замка в режим "Открыто"
 			if (!result.HasError && result.Result)
 				AddSKDJournalMessage(JournalEventNameType.Перевод_замка_в_режим_Открыто, SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID));
-			
+
 			return result;
 		}
 
@@ -1329,13 +1329,13 @@ namespace FiresecService.Service
 		public OperationResult<bool> SKDClearDevicePromptWarning(Guid deviceUID)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			
+
 			if (device == null)
 				return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 
 			// Фиксируем в журнале событий факт отправки команды на сброс состояния "Взлом" замка
 			AddSKDJournalMessage(JournalEventNameType.Команда_на_сброс_состояния_взлом_замка, device);
-			
+
 			// Сбрасываем состояние замка "Взлом"
 			var result = Processor.ClearPromptWarning(device);
 
@@ -1352,7 +1352,7 @@ namespace FiresecService.Service
 					skdStates.DeviceStates.Add(device.State);
 					Processor.OnStatesChanged(skdStates);
 				}
-				
+
 				// Фиксируем в журнале событий подтверждение на выполнение команды на сброс состояния "Взлом" замка
 				AddSKDJournalMessage(JournalEventNameType.Сброс_состояния_взлом_замка, device);
 			}
@@ -1583,7 +1583,7 @@ namespace FiresecService.Service
 				{
 					return OperationResult<bool>.FromError(errors);
 				}
-	
+
 				// Фиксируем в журнале событий подтверждение на выполнение команды на сброс состояния "Взлом" зоны
 				AddSKDJournalMessage(JournalEventNameType.Сброс_состояния_взлом_зоны, zone);
 
@@ -1724,7 +1724,7 @@ namespace FiresecService.Service
 			// Фиксируем в журнале событий факт преревода точки доступа в режим "Закрыто"
 			if (!result.HasError)
 				AddSKDJournalMessage(JournalEventNameType.Перевод_точки_доступа_в_режим_Закрыто, SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID));
-			
+
 			return result;
 		}
 

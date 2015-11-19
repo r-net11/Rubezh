@@ -23,23 +23,23 @@ namespace SKDModule.Helpers
 		public static DayTimeTrackPart ResolveConflictWithSettingBorders(DayTimeTrackPart originalInterval, List<DayTimeTrackPart> conflictedIntervals)
 		{
 			var leftConflictedInterval =
-				conflictedIntervals.Where(x => x.ExitDateTime > originalInterval.EnterTimeOriginal).Max(x => x.ExitDateTime);
+				conflictedIntervals.Where(x => x.ExitDateTime > originalInterval.EnterTimeOriginal).Min(x => x.EnterDateTime);
 			var rightConflictedInterval =
-				conflictedIntervals.Where(x => x.EnterDateTime > originalInterval.ExitTimeOriginal).Min(x => x.EnterDateTime);
+				conflictedIntervals.Where(x => x.EnterDateTime > originalInterval.ExitTimeOriginal).Max(x => x.ExitDateTime);
 
 			if (leftConflictedInterval != null)
 			{
-				originalInterval.EnterDateTime = leftConflictedInterval.Value;
+				originalInterval.ExitDateTime = leftConflictedInterval.Value;
 			}
 
 			if (rightConflictedInterval != null)
 			{
-				originalInterval.ExitDateTime = rightConflictedInterval.Value;
+				originalInterval.EnterDateTime = rightConflictedInterval.Value;
 			}
 
 			originalInterval.NotTakeInCalculations = originalInterval.TimeTrackZone != null && originalInterval.TimeTrackZone.IsURV
-															? originalInterval.NotTakeInCalculationsOriginal
-															: originalInterval.NotTakeInCalculations;
+													? originalInterval.NotTakeInCalculationsOriginal
+													: originalInterval.NotTakeInCalculations;
 			originalInterval.IsNeedAdjustment = originalInterval.IsNeedAdjustmentOriginal;
 			originalInterval.IsDirty = true;
 			return originalInterval;

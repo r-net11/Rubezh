@@ -122,6 +122,7 @@ namespace SKDModule.ViewModels
 				};
 
 				NotTakeInCalculations = inputTimeTrackPart.NotTakeInCalculations;
+				IsEnabledTakeInCalculations = inputTimeTrackPart.TimeTrackZone.IsURV;
 				CurrentZone = CurrentTimeTrackPart.TimeTrackZone;
 				Title = "Редактировать проход";
 			}
@@ -160,7 +161,6 @@ namespace SKDModule.ViewModels
 			CurrentTimeTrackPart.CorrectedByUID = FiresecManager.CurrentUser.UID;
 			CurrentTimeTrackPart.NotTakeInCalculations = NotTakeInCalculations;
 			CurrentTimeTrackPart.NotTakeInCalculationsOriginal = NotTakeInCalculations;
-			CurrentTimeTrackPart.IsNeedAdjustment = default(bool);
 
 			if (!Validate()) return false;
 
@@ -175,6 +175,7 @@ namespace SKDModule.ViewModels
 			DayTimeTrackPart.AdjustmentDate = DateTime.Now;
 			DayTimeTrackPart.CorrectedByUID = FiresecManager.CurrentUser.UID;
 			DayTimeTrackPart.NotTakeInCalculations = NotTakeInCalculations;
+			DayTimeTrackPart.IsNeedAdjustment = default(bool);
 
 			return true;
 		}

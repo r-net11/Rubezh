@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using FiresecAPI.SKD;
+﻿using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {
@@ -16,7 +16,6 @@ namespace SKDModule.ViewModels
 		bool _isInitialized;
 
 		public DayIntervalsViewModel()
-			:base()
 		{
 			_isInitialized = false;
 			_changeIsDeletedSubscriber = new ChangeIsDeletedSubscriber(this);
@@ -37,7 +36,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize()
 		{
-			var filter = new DayIntervalFilter() { UserUID = FiresecManager.CurrentUser.UID, LogicalDeletationType = LogicalDeletationType };
+			var filter = new DayIntervalFilter { UserUID = FiresecManager.CurrentUser.UID, LogicalDeletationType = LogicalDeletationType };
 			Initialize(filter);
 		}
 
@@ -126,13 +125,13 @@ namespace SKDModule.ViewModels
 		protected override void AfterRemove(DayInterval model)
 		{
 			base.AfterRemove(model);
-			ServiceFactory.Events.GetEvent<EditDayIntervalEvent>().Publish(model.UID);
+			ServiceFactoryBase.Events.GetEvent<EditDayIntervalEvent>().Publish(model.UID);
 		}
 
 		protected override void AfterRestore(DayInterval model)
 		{
 			base.AfterRestore(model);
-			ServiceFactory.Events.GetEvent<EditDayIntervalEvent>().Publish(model.UID);
+			ServiceFactoryBase.Events.GetEvent<EditDayIntervalEvent>().Publish(model.UID);
 		}
 
 		protected override string ItemRemovingName

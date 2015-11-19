@@ -70,12 +70,12 @@ namespace SKDModule.ViewModels
 			if (_isNew)
 			{
 				Title = "Новый дневной график";
-				model = new DayInterval()
+				model = new DayInterval
 				{
 					Name = "Дневной график",
 					OrganisationUID = organisation.UID,
 				};
-				model.DayIntervalParts.Add(new DayIntervalPart() { BeginTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(18, 0, 0), DayIntervalUID = model.UID });
+				model.DayIntervalParts.Add(new DayIntervalPart { BeginTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(18, 0, 0), DayIntervalUID = model.UID });
 				Model = model;
 			}
 			else

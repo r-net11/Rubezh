@@ -143,12 +143,15 @@ namespace SKDDriver.Translators
 			List<DayTimeTrackPart> originalCollection, List<PassJournal> linkedIntervalsCollection)
 		{
 			var resultDictionary = new Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>();
-			var tmpCollection = new List<DayTimeTrackPart>();
+
 			foreach (var el in originalCollection)
 			{
+				var tmpCollection = new List<DayTimeTrackPart>();
 				var conflictedCollection = linkedIntervalsCollection
 					.Where(x => (x.UID != el.UID) && (el.EnterTimeOriginal.HasValue && el.ExitTimeOriginal.HasValue))
-					.Where(x => el.ExitTimeOriginal >= x.ExitTime && el.EnterTimeOriginal <= x.EnterTime).ToList();
+					//.Where(x => el.ExitTimeOriginal >= x.ExitTime && el.EnterTimeOriginal <= x.EnterTime)
+					.Where(x => x.EnterTime < el.ExitTimeOriginal && el.EnterTimeOriginal < x.ExitTime)
+					.ToList();
 
 				if (conflictedCollection.Any())
 				{
@@ -189,7 +192,9 @@ namespace SKDDriver.Translators
 														.Where(
 														x => x.EmployeeUID == employeeGuid &&
 														x.EnterTimeOriginal.Value.Date >= minIntervalsDate.Date &&
-														x.ExitTimeOriginal.Value.Date <= maxIntervalDate).ToList();
+														x.ExitTimeOriginal.Value.Date <= maxIntervalDate)
+														.Where(x => !x.IsAddedManually || x.EnterTime.Date != currentDate.Date || x.ExitTime.GetValueOrDefault().Date != currentDate.Date)
+														.ToList();
 			var conflictedIntervals = GetIntervalsWithConflicts(dayTimeTrackParts, linkedIntervals);
 
 			return new OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>>(conflictedIntervals);
@@ -284,11 +289,12 @@ namespace SKDDriver.Translators
 					passJournalItem.CorrectedByUID = dayTimeTrackPart.CorrectedByUID;
 					passJournalItem.NotTakeInCalculations = dayTimeTrackPart.NotTakeInCalculations;
 					passJournalItem.IsAddedManually = dayTimeTrackPart.IsManuallyAdded;
-					if (dayTimeTrackPart.IsForceClosed)
+					if (dayTimeTrackPart.IsForceClosed && passJournalItem.ExitTimeOriginal == null)
 					{
 						passJournalItem.ExitTimeOriginal = passJournalItem.ExitTime;
 						passJournalItem.IsOpen = default(bool);
 						passJournalItem.IsForceClosed = true;
+						passJournalItem.NotTakeInCalculationsOriginal = dayTimeTrackPart.NotTakeInCalculations;
 						setForceClosedFlag = true;
 					}
 				}

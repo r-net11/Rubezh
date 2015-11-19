@@ -397,10 +397,10 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Сброс состояния \"Взлом\"", XStateClass.Info, "Сброс состояния зоны \"Взлом\"")]
 		Сброс_состояния_взлом_зоны = 237,
 
-		[EventName(JournalSubsystemType.System, "Сброс ограничения на повторный проход", XStateClass.Info)]
+		[EventName(JournalSubsystemType.SKD, "Сброс ограничения на повторный проход", XStateClass.Info)]
 		Сброс_антипессбэка_для_выбранной_ТД = 238,
 
-		[EventName(JournalSubsystemType.System, "Сброс ограничения на повторный проход для ВСЕХ пропусков", XStateClass.Info)]
+		[EventName(JournalSubsystemType.SKD, "Сброс ограничения на повторный проход для ВСЕХ пропусков", XStateClass.Info)]
 		Сброс_антипессбэка_для_всех_пропусков = 239,
 
 		[EventName(JournalSubsystemType.SKD, "Добавление интервала", XStateClass.Info)]
@@ -428,6 +428,9 @@ namespace FiresecAPI.Journal
 		Дверь_не_закрыта_конец = 247,
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление: Местная тревога", XStateClass.Attention)]
-		Местная_тревога_конец = 248
+		Местная_тревога_конец = 248,
+
+		[EventName(JournalSubsystemType.SKD, "Сброс ограничения на повторный проход для всех точек доступа", XStateClass.Info)]
+		Сброс_антипессбэка_для_всех_ТД = 249,
 	}
 }

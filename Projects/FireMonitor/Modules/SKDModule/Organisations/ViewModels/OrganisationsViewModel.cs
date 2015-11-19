@@ -129,11 +129,11 @@ namespace SKDModule.ViewModels
 				Organisations.Add(organisationViewModel);
 				SelectedOrganisation = organisationViewModel;
 				var currentUserViewModel = OrganisationUsersViewModel.Items.FirstOrDefault(x => x.User.UID == FiresecManager.CurrentUser.UID);
-				if (currentUserViewModel.User != null)
+				if (currentUserViewModel != null && currentUserViewModel.User != null)
 				{
 					currentUserViewModel.SetWithoutSave(true);
 				}
-				ServiceFactory.Events.GetEvent<NewOrganisationEvent>().Publish(SelectedOrganisation.Organisation.UID);
+				ServiceFactoryBase.Events.GetEvent<NewOrganisationEvent>().Publish(SelectedOrganisation.Organisation.UID);
 			}
 		}
 		bool CanAdd()

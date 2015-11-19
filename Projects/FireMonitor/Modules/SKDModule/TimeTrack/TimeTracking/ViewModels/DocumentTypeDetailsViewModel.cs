@@ -125,43 +125,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if ((_inputDocumentType != null && _inputDocumentType.IsOrganisation)
-				||
-				(_inputDocumentType != null && _inputDocumentType.TimeTrackDocumentType != null && !_inputDocumentType.TimeTrackDocumentType.IsSystem)
-				&&
-				!IsEdit)
-			{
-				if (ExecuteBaseValidation())
-				{
-					if (!_inputDocumentTypesForOrganisation.IsEmpty() && _inputDocumentTypesForOrganisation.Any(x => x.Name == Name))
-					{
-						MessageBoxService.ShowWarning("Название документа совпадает с одним из предопределенных");
-						return false;
-					}
-					if (!_inputDocumentTypesForOrganisation.IsEmpty() &&
-					    _inputDocumentTypesForOrganisation.Any(x => x.ShortName == ShortName))
-					{
-						MessageBoxService.ShowWarning("Буквенный код документа совпадает с одним из предопределенных кодов");
-						return false;
-					}
-					if (!_inputDocumentTypesForOrganisation.IsEmpty() && _inputDocumentTypesForOrganisation.Any(x => x.Code == Code))
-					{
-						MessageBoxService.ShowWarning("Числовой код документа совпадает с одним из предопределенных");
-						return false;
-					}
-				}
-
-				else return false;
-			}
-			else if ((_inputDocumentType != null && _inputDocumentType.IsOrganisation)
-			    ||
-			    (_inputDocumentType != null && _inputDocumentType.TimeTrackDocumentType != null &&
-			     !_inputDocumentType.TimeTrackDocumentType.IsSystem)
-			    &&
-			    IsEdit)
-			{
-				if (!ExecuteBaseValidation()) return false;
-			}
+			if (!ExecuteValidation()) return false;
 
 			TimeTrackDocumentType.Name = Name;
 			TimeTrackDocumentType.ShortName = ShortName;
@@ -170,7 +134,7 @@ namespace SKDModule.ViewModels
 			return true;
 		}
 
-		private bool ExecuteBaseValidation()
+		private bool BaseValidation()
 		{
 			if (string.IsNullOrEmpty(Name))
 			{
@@ -187,6 +151,66 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("Числовой код документа должен быть положительным числом");
 				return false;
 			}
+
+			return true;
+		}
+
+		private bool ExecuteValidation()
+		{
+			if (!IsEdit)
+			{
+				if (BaseValidation())
+				{
+					if (!_inputDocumentTypesForOrganisation.IsEmpty() &&
+					    _inputDocumentTypesForOrganisation.Any(x => x.Name == Name))
+					{
+						MessageBoxService.ShowWarning("Название документа совпадает с одним из предопределенных");
+						return false;
+					}
+					if (!_inputDocumentTypesForOrganisation.IsEmpty() &&
+					    _inputDocumentTypesForOrganisation.Any(x => x.ShortName == ShortName))
+					{
+						MessageBoxService.ShowWarning("Буквенный код документа совпадает с одним из предопределенных кодов");
+						return false;
+					}
+					if (!_inputDocumentTypesForOrganisation.IsEmpty() &&
+					    _inputDocumentTypesForOrganisation.Any(x => x.Code == Code))
+					{
+						MessageBoxService.ShowWarning("Числовой код документа совпадает с одним из предопределенных");
+						return false;
+					}
+				}
+
+				else return false;
+			}
+			else if (IsEdit && _inputDocumentType != null && _inputDocumentType.TimeTrackDocumentType != null &&
+			         !_inputDocumentType.TimeTrackDocumentType.IsSystem)
+			{
+				if (BaseValidation())
+				{
+					if (!_inputDocumentTypesForOrganisation.IsEmpty() &&
+					    _inputDocumentTypesForOrganisation.Where(x => x.UID != _inputDocumentType.UID).Any(x => x.Name == Name))
+					{
+						MessageBoxService.ShowWarning("Название документа совпадает с одним из предопределенных");
+						return false;
+					}
+					if (!_inputDocumentTypesForOrganisation.IsEmpty() &&
+					    _inputDocumentTypesForOrganisation.Where(x => x.UID != _inputDocumentType.UID)
+						    .Any(x => x.ShortName == ShortName))
+					{
+						MessageBoxService.ShowWarning("Буквенный код документа совпадает с одним из предопределенных кодов");
+						return false;
+					}
+					if (!_inputDocumentTypesForOrganisation.IsEmpty() &&
+					    _inputDocumentTypesForOrganisation.Where(x => x.UID != _inputDocumentType.UID).Any(x => x.Code == Code))
+					{
+						MessageBoxService.ShowWarning("Числовой код документа совпадает с одним из предопределенных");
+						return false;
+					}
+				}
+				else return false;
+			}
+			else return false;
 
 			return true;
 		}
