@@ -9,6 +9,7 @@
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto"/>
 			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="Auto"/>
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
@@ -24,6 +25,13 @@
 
 		<TextBlock Grid.Column="0" Grid.Row="2" Text="Длительность" Style="{DynamicResource TextBlockDetailsStyle}" />
 		<views:ArgumentView Grid.Column="1" Grid.Row="2" DataContext="{Binding TimeoutArgument}" />
+		<ComboBox Grid.Column="2" Grid.Row="2" ItemsSource="{Binding TimeTypes}" SelectedItem="{Binding SelectedTimeType, UpdateSourceTrigger=PropertyChanged}">
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
 
 	</Grid>
 </UserControl>

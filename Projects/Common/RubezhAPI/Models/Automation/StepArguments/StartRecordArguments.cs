@@ -20,5 +20,8 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public Argument TimeoutArgument { get; set; }
+		
+		[DataMember]
+		public TimeType TimeType { get; set; }
 	}
 }

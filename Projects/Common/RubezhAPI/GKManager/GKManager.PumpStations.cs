@@ -17,6 +17,24 @@ namespace RubezhClient
 			PumpStations.Add(pumpStation);
 		}
 
+		public static void SetPumpStationStartLogic (GKPumpStation pumpStation, GKLogic newLogic )
+		{
+			pumpStation.StartLogic = newLogic;
+			pumpStation.ChangedLogic();
+		}
+
+		public static void SetPumpStationStopLogic(GKPumpStation pumpStation, GKLogic newLogic)
+		{
+			pumpStation.StopLogic = newLogic;
+			pumpStation.ChangedLogic();
+		}
+
+		public static void SetPumpStationAutomaticOffLogic(GKPumpStation pumpStation, GKLogic newLogic)
+		{
+			pumpStation.AutomaticOffLogic = newLogic;
+			pumpStation.ChangedLogic();
+		}
+
 		/// <summary>
 		/// Удаление НС
 		/// </summary>

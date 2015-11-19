@@ -48,15 +48,15 @@ namespace GKModule.Validation
 		/// </summary>
 		void ValidateCodeForZones()
 		{
-			var guardDevices = new HashSet<Tuple<Guid, GKCodeReaderEnterType>>();
 			foreach (var guardZone in GKManager.DeviceConfiguration.GuardZones)
 			{
-				foreach (var guard in guardZone.GuardZoneDevices.Where(x => x.Device.Driver.IsCardReaderOrCodeReader))
+				var guardDevices = new HashSet<Tuple<Guid, GKCodeReaderEnterType>>();
+				foreach (var device in guardZone.GuardZoneDevices.Where(x => x.Device.Driver.IsCardReaderOrCodeReader))
 				{
-					ValidationGuardSettings(guard.CodeReaderSettings.AlarmSettings, guardDevices, guardZone, guard.Device.PresentationName);
-					ValidationGuardSettings(guard.CodeReaderSettings.ChangeGuardSettings, guardDevices, guardZone, guard.Device.PresentationName);
-					ValidationGuardSettings(guard.CodeReaderSettings.ResetGuardSettings, guardDevices, guardZone, guard.Device.PresentationName);
-					ValidationGuardSettings(guard.CodeReaderSettings.SetGuardSettings, guardDevices, guardZone, guard.Device.PresentationName);
+					ValidationGuardSettings(device.CodeReaderSettings.AlarmSettings, guardDevices, guardZone, device.Device.PresentationName);
+					ValidationGuardSettings(device.CodeReaderSettings.ChangeGuardSettings, guardDevices, guardZone, device.Device.PresentationName);
+					ValidationGuardSettings(device.CodeReaderSettings.ResetGuardSettings, guardDevices, guardZone, device.Device.PresentationName);
+					ValidationGuardSettings(device.CodeReaderSettings.SetGuardSettings, guardDevices, guardZone, device.Device.PresentationName);
 				}
 			}
 		}

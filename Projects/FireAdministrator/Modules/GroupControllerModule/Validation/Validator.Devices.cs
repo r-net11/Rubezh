@@ -113,10 +113,26 @@ namespace GKModule.Validation
 					return;
 			}
 
-			if (device.Driver.HasZone)
+			if (device.Driver.HasZone && device.Driver.HasGuardZone)
 			{
 				if (device.Zones.Count == 0 && device.GuardZones.Count == 0)
 					AddError(device, "Устройство не подключено к зоне", ValidationErrorLevel.Warning);
+			}
+
+			else if (device.Driver.HasGuardZone )
+			{
+				if (device.GuardZones == null || device.GuardZones.Count == 0)
+				{
+					AddError(device, string.Format("Устройство не подключено к зоне"), ValidationErrorLevel.Warning);
+				}
+			}
+
+			else if (device.Driver.HasZone)
+			{
+				if (device.GuardZones == null || device.GuardZones.Count == 0)
+				{
+					AddError(device, string.Format("Устройство не подключено к зоне"), ValidationErrorLevel.Warning);
+				}
 			}
 		}
 

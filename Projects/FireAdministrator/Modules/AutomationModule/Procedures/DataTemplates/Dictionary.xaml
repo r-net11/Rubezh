@@ -76,6 +76,10 @@
 		<Views:OrganisationSelectionView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:ProcedureLayoutsSelectionViewModel}">
+		<Views:ProcedureLayoutsSelectionView />
+	</DataTemplate>
+
 	<DataTemplate x:Key="soundsTemplate">
 		<Views:SoundStepView />
 	</DataTemplate>
