@@ -88,9 +88,23 @@ namespace Infrustructure.Plans.Elements
 			return newElement;
 		}
 
-		public void Copy(ElementBase target)
+		/// <summary>
+		/// Copies Data from current Element to another Object.
+		/// </summary>
+		/// <param name="target">Object to copy Data to.</param>
+		public void Copy(object target)
 		{
-			PropertyInfo[] sourceProperties = this.GetType().GetProperties();
+			Copy(this, target);
+		}
+
+		/// <summary>
+		/// Copies Data from one Object to another.
+		/// </summary>
+		/// <param name="source">Object to copy Data from.</param>
+		/// <param name="target">Object to copy Data to.</param>
+		public static void Copy(object source, object target)
+		{
+			PropertyInfo[] sourceProperties = source.GetType().GetProperties();
 			PropertyInfo[] targetProperties = target.GetType().GetProperties();
 
 			foreach (PropertyInfo sourceProperty in sourceProperties)
@@ -102,7 +116,7 @@ namespace Infrustructure.Plans.Elements
 					.FirstOrDefault();
 				if (targetProperty != null)
 				{
-					object propertyValue = sourceProperty.GetValue(this, null);
+					object propertyValue = sourceProperty.GetValue(source, null);
 					// Sometimes there are Point Collections in the Objects.
 					// New Instance should be created and Points should be copied from the Source.
 					if (sourceProperty.PropertyType == typeof(PointCollection))
@@ -117,6 +131,7 @@ namespace Infrustructure.Plans.Elements
 				}
 			}
 		}
+
 		public virtual void UpdateZLayer()
 		{
 			ZLayer = 0;

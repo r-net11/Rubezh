@@ -1,6 +1,7 @@
 ﻿using System.Windows.Media;
 using RubezhAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrustructure.Plans.Elements;
 
 namespace Infrastructure.Designer.ElementProperties.ViewModels
 {
@@ -19,10 +20,8 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		protected virtual void CopyProperties()
 		{
-			BackgroundColor = ElementRectangle.BackgroundColor;
-			BorderColor = ElementRectangle.BorderColor;
+			ElementBase.Copy(this.ElementRectangle, this);
 			StrokeThickness = ElementRectangle.BorderThickness;
-			PresentationName = ElementRectangle.PresentationName;
 		}
 
 		Color _backgroundColor;
@@ -69,12 +68,21 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			}
 		}
 
+		bool _showTooltip;
+		public bool ShowTooltip
+		{
+			get { return this._showTooltip; }
+			set
+			{
+				this._showTooltip = value;
+				OnPropertyChanged(() => this.ShowTooltip);
+			}
+		}
+
 		protected override bool Save()
 		{
-			ElementRectangle.BackgroundColor = BackgroundColor;
-			ElementRectangle.BorderColor = BorderColor;
+			ElementBase.Copy(this, this.ElementRectangle);
 			ElementRectangle.BorderThickness = StrokeThickness;
-			ElementRectangle.PresentationName = PresentationName;
 			ImagePropertiesViewModel.Save();
 			return base.Save();
 		}

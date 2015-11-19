@@ -470,9 +470,6 @@ namespace FiresecService.Service
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				var errors = new List<string>();
-				var deleteFromDbResult = databaseService.CardTranslator.Delete(card);
-				if (deleteFromDbResult.HasError)
-					errors.Add(deleteFromDbResult.Error);
 				
 				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
 				if (getAccessTemplateOperationResult.HasError)
@@ -480,6 +477,10 @@ namespace FiresecService.Service
 
 				var cardDoors = getAccessTemplateOperationResult.Result != null ? getAccessTemplateOperationResult.Result.CardDoors : new List<CardDoor>();
 				errors.AddRange(DeleteGKCard(card, cardDoors, databaseService));
+
+				var deleteFromDbResult = databaseService.CardTranslator.Delete(card);
+				if (deleteFromDbResult.HasError)
+					errors.Add(deleteFromDbResult.Error);
 				
 				if(errors.Count > 0)
 					return new OperationResult(errors);

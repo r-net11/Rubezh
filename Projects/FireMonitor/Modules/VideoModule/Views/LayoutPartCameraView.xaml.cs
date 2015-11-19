@@ -10,6 +10,7 @@ namespace VideoModule.Views
 {
 	public partial class LayoutPartCameraView
 	{
+		bool isStarted;
 		public static CancelEventHandler CameraClosing { get; private set; }
 		public LayoutPartCameraView()
 		{
@@ -18,11 +19,18 @@ namespace VideoModule.Views
 		}
 		private void OnClosed(object sender, EventArgs e)
 		{
-			MediaSourcePlayer.Stop();
-			MediaSourcePlayer.Close();
+			Stop();
 		}	
 		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
 		{
+			Start();
+		}	
+		public void Start()
+		{
+			if (isStarted)
+			{
+				Stop();
+			}
 			var layoutPartCameraViewModel = DataContext as LayoutPartCameraViewModel;
 			if (layoutPartCameraViewModel != null)
 			{
@@ -33,6 +41,12 @@ namespace VideoModule.Views
 					MediaSourcePlayer.Play();
 				}
 			}
-		}	
+			isStarted = true;
+		}
+		void Stop()
+		{
+			MediaSourcePlayer.Stop();
+			MediaSourcePlayer.Close();
+		}
 	}
 }

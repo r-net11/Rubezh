@@ -1,6 +1,7 @@
 ﻿using System.Windows.Media;
 using RubezhAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrustructure.Plans.Elements;
 
 namespace Infrastructure.Designer.ElementProperties.ViewModels
 {
@@ -17,9 +18,8 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		void CopyProperties()
 		{
-			BorderColor = _elementPolyline.BorderColor;
+			ElementBase.Copy(this._elementPolyline, this);
 			StrokeThickness = _elementPolyline.BorderThickness;
-			PresentationName = _elementPolyline.PresentationName;
 		}
 
 		Color _borderColor;
@@ -55,11 +55,21 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			}
 		}
 
+		bool _showTooltip;
+		public bool ShowTooltip
+		{
+			get { return this._showTooltip; }
+			set
+			{
+				this._showTooltip = value;
+				OnPropertyChanged(() => this.ShowTooltip);
+			}
+		}
+
 		protected override bool Save()
 		{
-			_elementPolyline.BorderColor = BorderColor;
+			ElementBase.Copy(this, this._elementPolyline);
 			_elementPolyline.BorderThickness = StrokeThickness;
-			_elementPolyline.PresentationName = PresentationName;
 			return base.Save();
 		}
 	}

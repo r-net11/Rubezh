@@ -31,6 +31,10 @@ namespace PlansModule.Primitives
 			Func<CommonDesignerCanvas, ElementBase, IPainter> factoryMethod = null;
 			if (factoryMethods.TryGetValue(primitive.Primitive, out factoryMethod))
 			{
+				// The following Object contains a Tooltip Flag to be copied from Source Element to determine Visibility:
+				ToolTipFlagContainer tooltipFlag = new ToolTipFlagContainer();
+				ElementBase.Copy(element, tooltipFlag);
+
 				IPainter wrappedPainter = factoryMethod(canvas, element);
 				PrimitiveToolTipViewModel tooltip = new PrimitiveToolTipViewModel()
 				{
@@ -38,7 +42,7 @@ namespace PlansModule.Primitives
 				};
 				return new PrimitivePainter(wrappedPainter)
 				{
-					ToolTip = tooltip,
+					ToolTip = tooltipFlag.ShowTooltip ? tooltip : null,
 				};
 			}
 			else
@@ -53,6 +57,14 @@ namespace PlansModule.Primitives
 			{ Primitive.Polygon, (canvas, element) => new PolygonPainter(canvas, element) },
 			{ Primitive.Polyline, (canvas, element) => new PolylinePainter(canvas, element) },
 		};
+
+		/// <summary>
+		/// The following Class contains a Tooltip Flag to be copied from Source Element to determine Visibility:
+		/// </summary>
+		private class ToolTipFlagContainer
+		{
+			public bool ShowTooltip { get; set; }
+		}
 
 	}
 }

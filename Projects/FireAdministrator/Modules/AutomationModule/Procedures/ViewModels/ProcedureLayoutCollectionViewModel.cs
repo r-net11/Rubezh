@@ -3,7 +3,10 @@ using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Automation;
 using System.Collections.ObjectModel;
 using RubezhClient;
+using System.Linq;
 using LayoutModel = RubezhAPI.Models.Layouts.Layout;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 
 namespace AutomationModule.ViewModels
 {
@@ -14,45 +17,36 @@ namespace AutomationModule.ViewModels
 		public ProcedureLayoutCollectionViewModel(ProcedureLayoutCollection procedureLayoutCollection)
 		{
 			ProcedureLayoutCollection = procedureLayoutCollection;
-			LayoutItems = new ObservableCollection<ProcedureLayoutItemViewModel>();
-
-			foreach (var layout in ClientManager.LayoutsConfiguration.Layouts)
+			Layouts = new ObservableCollection<LayoutViewModel>();
+			foreach (var layoutUID in procedureLayoutCollection.LayoutsUIDs)
 			{
-				var procedureLayoutItems = new ProcedureLayoutItemViewModel(ProcedureLayoutCollection, layout);
-				LayoutItems.Add(procedureLayoutItems);
+				var layout = ClientManager.LayoutsConfiguration.Layouts.FirstOrDefault(x => x.UID == layoutUID);
+				if (layout != null)
+					Layouts.Add(new LayoutViewModel(layout));
+			}
+
+			EditCommand = new RelayCommand(OnEdit);
+		}
+
+		ObservableCollection<LayoutViewModel> _layouts;
+		public ObservableCollection<LayoutViewModel> Layouts
+		{
+			get { return _layouts; }
+			set
+			{
+				_layouts = value;
+				OnPropertyChanged(() => Layouts);
 			}
 		}
 
-		public ObservableCollection<ProcedureLayoutItemViewModel> LayoutItems { get; private set; }
-	}
-
-	public class ProcedureLayoutItemViewModel : BaseViewModel
-	{
-		public LayoutModel Layout { get; private set; }
-		public ProcedureLayoutCollection ProcedureLayoutCollection { get; private set; }
-
-		public ProcedureLayoutItemViewModel(ProcedureLayoutCollection procedureLayoutCollection, LayoutModel layout)
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
 		{
-			Layout = layout;
-			ProcedureLayoutCollection = procedureLayoutCollection;
-		}
-
-		public string Name
-		{
-			get { return Layout.Caption; }
-		}
-
-		public bool IsChecked
-		{
-			get { return ProcedureLayoutCollection.LayoutsUIDs.Contains(Layout.UID); }
-			set
+			var procedureLayoutsSelectionViewModel = new ProcedureLayoutsSelectionViewModel(ProcedureLayoutCollection);
+			if (DialogService.ShowModalWindow(procedureLayoutsSelectionViewModel))
 			{
-				if (value && !ProcedureLayoutCollection.LayoutsUIDs.Contains(Layout.UID))
-					ProcedureLayoutCollection.LayoutsUIDs.Add(Layout.UID);
-				else if (!value)
-					ProcedureLayoutCollection.LayoutsUIDs.Remove(Layout.UID);
-				ServiceFactory.SaveService.AutomationChanged = true;
-				OnPropertyChanged(() => IsChecked);
+				Layouts = new ObservableCollection<LayoutViewModel>(procedureLayoutsSelectionViewModel.LayoutItems.Where(x => x.IsChecked).Select(x => new LayoutViewModel(x.Layout)));
+				ProcedureLayoutCollection.LayoutsUIDs = Layouts.Select(x => x.Layout.UID).ToList();
 			}
 		}
 	}

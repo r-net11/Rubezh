@@ -30,10 +30,11 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<StackPanel Grid.Row="1" Orientation="Horizontal">
-			<ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить все" ImageSource="SelectAll"  />
-			<ToolBarButton Command="{Binding DeSelectAllCommand}" ToolTip="Снять все выделения" ImageSource="SelectNone"  />
-			<ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать" ImageSource="Copy"  />
-			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="Delete"  />
+			<ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить все" ImageSource="SelectAll" />
+			<ToolBarButton Command="{Binding DeSelectAllCommand}" ToolTip="Снять все выделения" ImageSource="SelectNone" />
+			<ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать" ImageSource="Copy" />
+			<ToolBarButton Command="{Binding CutCommand}" ToolTip="Вырезать" ImageSource="Cut" />
+			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="Delete" />
 		</StackPanel>
 	</Grid>
 </UserControl>

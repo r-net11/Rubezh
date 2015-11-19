@@ -41,7 +41,7 @@
 			this.lTimestamp = new DevExpress.XtraReports.UI.XRLabel();
 			this.Timestamp = new DevExpress.XtraReports.Parameters.Parameter();
 			this.lPage = new DevExpress.XtraReports.UI.XRPageInfo();
-			this.detailBand1 = new DevExpress.XtraReports.UI.DetailBand();
+			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
 			// 
 			// TopMargin
@@ -194,18 +194,18 @@
 			this.lPage.StylePriority.UseTextAlignment = false;
 			this.lPage.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
 			// 
-			// detailBand1
+			// Detail
 			// 
-			this.detailBand1.Dpi = 254F;
-			this.detailBand1.HeightF = 254F;
-			this.detailBand1.Name = "detailBand1";
+			this.Detail.Dpi = 254F;
+			this.Detail.HeightF = 89.95834F;
+			this.Detail.Name = "Detail";
 			// 
 			// BaseReport
 			// 
 			this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
             this.TopMargin,
             this.BottomMargin,
-            this.detailBand1});
+            this.Detail});
 			this.Dpi = 254F;
 			this.ExportOptions.PrintPreview.ActionAfterExport = DevExpress.XtraPrinting.ActionAfterExport.Open;
 			this.ExportOptions.PrintPreview.ShowOptionsBeforeExport = false;
@@ -241,6 +241,6 @@
 		private DevExpress.XtraReports.Parameters.Parameter Timestamp;
 		private DevExpress.XtraReports.UI.XRPageInfo lPage;
 		private DevExpress.XtraReports.UI.XRLabel lReportName;
-		private DevExpress.XtraReports.UI.DetailBand detailBand1;
+		protected DevExpress.XtraReports.UI.DetailBand Detail;
 	}
 }

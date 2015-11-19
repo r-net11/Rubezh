@@ -300,13 +300,9 @@
     <Compile Include="Common\ViewModels\IEmployeeListParent.cs" />
     <Compile Include="Common\ViewModels\OrganisationBaseViewModel.cs" />
     <Compile Include="Common\ViewModels\OrganisationElementBaseViewModel.cs" />
-    <Compile Include="Common\ViewModels\DateSelectionViewModel.cs" />
     <Compile Include="Common\ViewModels\IDetailsViewModel.cs" />
     <Compile Include="Common\ViewModels\OrganisationsFilterViewModel.cs" />
     <Compile Include="Common\ViewModels\WebCameraDetailsViewModel.cs" />
-    <Compile Include="Common\Views\DateSelectionView.xaml.cs">
-      <DependentUpon>DateSelectionView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Common\Views\DepartmentsFilterView.xaml.cs">
       <DependentUpon>DepartmentsFilterView.xaml</DependentUpon>
     </Compile>
@@ -807,10 +803,6 @@
     <Page Include="Common\PhotoSelection.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Common\Views\DateSelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Common\Views\DepartmentsFilterView.xaml">
       <SubType>Designer</SubType>

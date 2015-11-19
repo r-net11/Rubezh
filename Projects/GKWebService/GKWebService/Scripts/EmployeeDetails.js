@@ -6,7 +6,7 @@
 });
 
 function EmployeeDetailsViewModel() {
-    var self = this;
+    var self = {};
 
     self.Title = ko.observable();
     self.IsEmployee = ko.observable(true);
@@ -47,8 +47,8 @@ function EmployeeDetailsViewModel() {
             self.IsOrganisationHRChief(false);
         } else {
             self.Title((self.IsEmployee() ? "Свойства сотрудника: " : "Свойства посетителя: ") + self.FIO());
-            self.IsOrganisationChief(self.Organisation.ChiefUID == UID());
-            self.IsOrganisationHRChief(self.Organisation.HRChiefUID == UID());
+            self.IsOrganisationChief(self.Organisation.ChiefUID == self.UID());
+            self.IsOrganisationHRChief(self.Organisation.HRChiefUID == self.UID());
         }
     };
 

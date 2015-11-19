@@ -132,6 +132,7 @@ namespace RubezhAPI.GK
 				state.OnDelay = 0;
 				state.OffDelay = 0;
 				state.HoldDelay = 0;
+				state.RunningTime = 0;
 			}
 		}
 	}

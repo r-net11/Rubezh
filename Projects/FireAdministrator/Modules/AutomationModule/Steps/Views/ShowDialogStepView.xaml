@@ -75,28 +75,6 @@
 			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding Left, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=CustomPositionCheckBox, Path=IsChecked}" Grid.ColumnSpan="2" />
 			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="5" Value="{Binding Top, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=CustomPositionCheckBox, Path=IsChecked}" Grid.ColumnSpan="2" />
 		</Grid>
-		<Grid Grid.Column="1" Margin="2" DataContext="{Binding ProcedureLayoutCollectionViewModel}">
-			<DataGrid ItemsSource="{Binding LayoutItems}">
-				<DataGrid.Columns>
-					<DataGridTemplateColumn Width="*" Header="Наименование макета">
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<StackPanel Orientation="Horizontal">
-									<Grid Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Background="{DynamicResource BLayouts}" />
-									<TextBlock Text="{Binding Layout.Caption}" />
-								</StackPanel>
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Width="Auto" Header="Использовать">
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
-				</DataGrid.Columns>
-			</DataGrid>
-		</Grid>
+		<Views:ProcedureLayoutCollectionView Grid.Column="1" DataContext="{Binding ProcedureLayoutCollectionViewModel}" Margin="2" HorizontalAlignment="Left" />
 	</Grid>
 </UserControl>

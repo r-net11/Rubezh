@@ -1,13 +1,14 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
-@using System.Web.Optimization
+@*@using System.Web.Optimization*@
 
-
-<div data-bind="visible:pages.HR">@Html.Action("Index", "Hr")</div>
-<div data-bind="visible:pages.State">@Html.Action("State")</div>
-<div data-bind="visible:pages.Device">@Html.Action("Device")</div>
-<div data-bind="visible:pages.FireZones">@Html.Action("FireZones")</div>
-<div data-bind="visible:pages.Report">@Html.Action("Report")</div>
-<div data-bind="visible:pages.Archive">@Html.Action("Archive")</div>
-<div data-bind="visible:pages.Plan">@Html.Action("Plan")</div>
+<div ng-app="canvasApp">
+	<div data-bind="visible:pages.HR">@Html.Action("Index", "Hr")</div>
+	<div data-bind="visible:pages.State">@Html.Action("State")</div>
+	<div data-bind="visible:pages.Device">@Html.Action("Device")</div>
+	<div data-bind="visible:pages.FireZones">@Html.Action("FireZones")</div>
+	<div data-bind="visible:pages.Report">@Html.Action("Report")</div>
+	<div data-bind="visible:pages.Archive">@Html.Action("Archive")</div>
+	<div data-bind="visible:pages.Plan">@Html.Action("Plan")</div>
+</div>

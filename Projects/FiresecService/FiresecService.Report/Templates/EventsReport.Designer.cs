@@ -28,8 +28,8 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			DevExpress.XtraReports.UI.XRSummary xrSummary1 = new DevExpress.XtraReports.UI.XRSummary();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EventsReport));
-			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
 			this.xrTable1 = new DevExpress.XtraReports.UI.XRTable();
 			this.xrTableRow1 = new DevExpress.XtraReports.UI.XRTableRow();
 			this.xrTableCell1 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -52,7 +52,6 @@
 			this.xrControlStyle1 = new DevExpress.XtraReports.UI.XRControlStyle();
 			this.GroupFooter1 = new DevExpress.XtraReports.UI.GroupFooterBand();
 			this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
-			this.xrSummary1 = new DevExpress.XtraReports.UI.XRSummary();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
@@ -61,9 +60,7 @@
 			// 
 			this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             this.xrTable1});
-			this.Detail.Dpi = 254F;
-			this.Detail.HeightF = 64F;
-			this.Detail.Name = "Detail";
+			this.Detail.HeightF = 63.5F;
 			// 
 			// xrTable1
 			// 
@@ -277,18 +274,17 @@
 			this.xrLabel1.StylePriority.UseFont = false;
 			this.xrLabel1.StylePriority.UsePadding = false;
 			this.xrLabel1.StylePriority.UseTextAlignment = false;
-			this.xrSummary1.FormatString = "Всего событий: {0}";
-			this.xrSummary1.Func = DevExpress.XtraReports.UI.SummaryFunc.Count;
-			this.xrSummary1.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
-			this.xrLabel1.Summary = this.xrSummary1;
-
+			xrSummary1.FormatString = "Всего событий: {0}";
+			xrSummary1.Func = DevExpress.XtraReports.UI.SummaryFunc.Count;
+			xrSummary1.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
+			this.xrLabel1.Summary = xrSummary1;
 			this.xrLabel1.Text = "Total";
 			this.xrLabel1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
 			// 
 			// EventsReport
 			// 
 			this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
-			this.Detail,
+            this.Detail,
             this.GroupHeader1,
             this.GroupFooter1});
 			this.DataMember = "Data";
@@ -312,7 +308,6 @@
 
 		#endregion
 
-		private DevExpress.XtraReports.UI.DetailBand Detail;
 		private DevExpress.XtraReports.UI.GroupHeaderBand GroupHeader1;
 		private DevExpress.XtraReports.UI.XRTable xrTable1;
 		private DevExpress.XtraReports.UI.XRTableRow xrTableRow1;

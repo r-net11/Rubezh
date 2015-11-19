@@ -24,6 +24,7 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
 			<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Название" />
@@ -40,8 +41,8 @@
 			<TextBlock Grid.Row="11" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Курсив" />
 			<TextBlock Grid.Row="12" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Растянуть" />
 			<TextBlock Grid.Row="13" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Перенос слов" />
-
-			<!--
+            <TextBlock Grid.Row="14" Grid.Column="0" HorizontalAlignment="Right" Text="Отображать подсказку" Style="{DynamicResource TextBlockDetailsStyle}" />
+            <!--
 				<Grid Grid.Row="0" Grid.Column="1" Background="White" Margin="2">
 				<TextBox Height="160" Margin="2" AcceptsReturn="True" Name="_textBox"
 				AcceptsTab="False"
@@ -76,6 +77,7 @@
 			<CheckBox Grid.Row="11" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding FontItalic, UpdateSourceTrigger=PropertyChanged}" />
 			<CheckBox Grid.Row="12" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding Stretch, UpdateSourceTrigger=PropertyChanged}" />
 			<CheckBox Grid.Row="13" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding WordWrap, UpdateSourceTrigger=PropertyChanged}" />
+            <CheckBox Grid.Row="14" Grid.Column="1" Margin="2" IsChecked="{Binding ShowTooltip}" />
 		</Grid>
 	</Border>
 </UserControl>
