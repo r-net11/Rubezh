@@ -26,6 +26,11 @@ namespace GKProcessor
 		public override void BuildFormula()
 		{
 			Formula = new FormulaBuilder();
+			if (Device.GKReflectionItem.GKBases.Count == 0)
+			{
+				Formula.Add(FormulaOperationType.END);
+				return;
+			}
 			int count;
 
 			if (Device.DriverType == GKDriverType.FirefightingZonesMirror)
