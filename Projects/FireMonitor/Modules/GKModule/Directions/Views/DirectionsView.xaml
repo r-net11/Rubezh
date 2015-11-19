@@ -56,8 +56,7 @@
 								   VerticalAlignment="Top"
 								   LineHeight="15"
 								   Margin="0 3 0 0"
-								   MinWidth="100"
-								   Cursor="Hand">
+								   MinWidth="100">
 							<TextBlock.ToolTip >
 								<WrapPanel>
 									<TextBlock Text="{Binding PresentationLogic}" TextWrapping="Wrap" />

@@ -18,7 +18,11 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<TextBlock Grid.Row="0" Grid.Column="0" Text="Оправдательный документ" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
+		<TextBlock Text="Оправдательный документ"
+				   Grid.Row="0" Grid.Column="0"
+				   HorizontalAlignment="Right" VerticalAlignment="Center"
+				   Style="{DynamicResource TextBlockDetailsStyle}"
+				   Margin="2" />
 		<ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding AvailableDocuments}" SelectedItem="{Binding SelectedDocument}" Margin="2">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -37,14 +41,21 @@
 		<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding DocumentNumber}" Margin="2" />
 
 		<TextBlock Grid.Row="3" Grid.Column="0" Text="Дата документа" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
-		<Calendar Grid.Row="3" Grid.Column="1" DisplayDate="{Binding DocumentDateTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding DocumentDateTime, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
+		<DatePicker SelectedDate="{Binding DocumentDateTime, UpdateSourceTrigger=PropertyChanged}"
+					DisplayDate="{Binding DocumentDateTime, UpdateSourceTrigger=PropertyChanged}"
+					Grid.Row="3" Grid.Column="1" />
 
 		<TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" Text="Дата начала" Style="{DynamicResource TextBlockDetailsStyle}" />
-		<Calendar Grid.Row="5" Grid.Column="0" DisplayDate="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" IsEnabled="{Binding CanEditStartDateTime}" />
+		<DatePicker SelectedDate="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}"
+					DisplayDate="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}"
+					IsEnabled="{Binding CanEditStartDateTime}" 
+					Grid.Row="5" Grid.Column="0" />
 		<TimePicker Grid.Row="6" Grid.Column="0" HorizontalAlignment="Center" TimeSpan="{Binding StartTime}" />
 
 		<TextBlock Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Text="Дата конца" Style="{DynamicResource TextBlockDetailsStyle}" />
-		<Calendar Grid.Row="5" Grid.Column="1" DisplayDate="{Binding EndDateTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding EndDateTime, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
+		<DatePicker SelectedDate="{Binding EndDateTime, UpdateSourceTrigger=PropertyChanged}"
+					DisplayDate="{Binding EndDateTime, UpdateSourceTrigger=PropertyChanged}"
+					Grid.Row="5" Grid.Column="1" />
 		<TimePicker Grid.Row="6" Grid.Column="1" HorizontalAlignment="Center" TimeSpan="{Binding EndTime}" IsFullDay="True"/>
 	</Grid>
 </UserControl>

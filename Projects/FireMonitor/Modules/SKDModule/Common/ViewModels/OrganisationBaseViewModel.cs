@@ -301,7 +301,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (MessageBoxService.ShowQuestion(string.Format("Вы уверены, что хотите архивировать {0}?", ItemRemovingName)))
+			if (ShowRemovingQuestion())
 			{
 				Remove();
 			}
@@ -322,6 +322,10 @@ namespace SKDModule.ViewModels
 				RemoveSelectedViewModel();
 			}
 			AfterRemove(model);
+		}
+		protected virtual bool ShowRemovingQuestion()
+		{
+			return MessageBoxService.ShowQuestion(string.Format("Вы уверены, что хотите архивировать {0}?", ItemRemovingName));
 		}
 		void RemoveSelectedViewModel()
 		{

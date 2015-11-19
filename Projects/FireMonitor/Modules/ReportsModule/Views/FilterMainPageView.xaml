@@ -51,32 +51,25 @@
 
 			<ComboBox Grid.Row="0" Grid.Column="1" Width="240" Margin="2" HorizontalAlignment="Left" ItemsSource="{Binding Source={x:Type API:ReportPeriodType}, Converter={StaticResource EnumToItemsSourceConverter}}" ItemTemplate="{StaticResource EnumDescriptionTemplate}" SelectedItem="{Binding SelectedReportPeriod}" />
 
-			<DatePicker
-				DisplayDateStart="{Binding MinDate}"
-				DisplayDateEnd="{Binding DateTimeTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-				Grid.Column="1"
-				Grid.Row="1"
-				SelectedDateFormat="Short"
-				SelectedDate="{Binding DateTimeFrom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-				IsEnabled="{Binding SelectedReportPeriod, Converter={StaticResource ReportPeriodTypeToBoolConverter}}"
-				HorizontalAlignment="Left"
-				Margin="2"
-				VerticalContentAlignment="Center"
-				VerticalAlignment="Center"
-				Width="150" />
+			<DatePicker DisplayDateStart="{Binding MinDate}"
+						DisplayDateEnd="{Binding MaxDate}"
+						SelectedDate="{Binding DateTimeFrom}"
+						DisplayDate="{Binding DateTimeFrom}"
+						IsEnabled="{Binding SelectedReportPeriod, Converter={StaticResource ReportPeriodTypeToBoolConverter}}"
+						SelectedDateFormat="Short"
+						Grid.Column="1" Grid.Row="1"
+						HorizontalAlignment="Left" VerticalAlignment="Center"
+						Margin="2" Width="150" />
 			
-			<DatePicker
-				DisplayDateStart="{Binding MinDate, Mode=OneWay}"
-				DisplayDateEnd="{Binding MaxDate, Mode=OneWay}"
-				Grid.Column="1" 
-				Grid.Row="2" 
-				SelectedDateFormat="Short"
-				SelectedDate="{Binding DateTimeTo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-				IsEnabled="{Binding SelectedReportPeriod, Converter={StaticResource ReportPeriodTypeToBoolConverter}}"
-				HorizontalAlignment="Left" 
-				VerticalAlignment="Center" 
-				Margin="2"
-				Width="150" />
+			<DatePicker DisplayDateStart="{Binding MinDate}"
+						DisplayDateEnd="{Binding MaxDate}"
+						SelectedDate="{Binding DateTimeTo}" 
+						DisplayDate="{Binding DateTimeTo}"
+						IsEnabled="{Binding SelectedReportPeriod, Converter={StaticResource ReportPeriodTypeToBoolConverter}}"
+						SelectedDateFormat="Short"
+						Grid.Column="1" Grid.Row="2" 
+						HorizontalAlignment="Left" VerticalAlignment="Center" 
+						Margin="2" Width="150" />
 		</Grid>
 		<CheckBox Grid.Row="2" VerticalAlignment="Center" Content="Отображать архивные сведения" Foreground="White" IsChecked="{Binding UseArchive}" Visibility="{Binding HasArchive, Converter={StaticResource BoolToVisibilityConverter}}" />
 		<ContentPresenter Grid.Row="3" Content="{Binding MainViewModel, Mode=OneTime}" />

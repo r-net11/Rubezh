@@ -470,9 +470,6 @@ namespace FiresecService.Service
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				var errors = new List<string>();
-				var deleteFromDbResult = databaseService.CardTranslator.Delete(card);
-				if (deleteFromDbResult.HasError)
-					errors.Add(deleteFromDbResult.Error);
 				
 				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
 				if (getAccessTemplateOperationResult.HasError)
@@ -480,6 +477,10 @@ namespace FiresecService.Service
 
 				var cardDoors = getAccessTemplateOperationResult.Result != null ? getAccessTemplateOperationResult.Result.CardDoors : new List<CardDoor>();
 				errors.AddRange(DeleteGKCard(card, cardDoors, databaseService));
+
+				var deleteFromDbResult = databaseService.CardTranslator.Delete(card);
+				if (deleteFromDbResult.HasError)
+					errors.Add(deleteFromDbResult.Error);
 				
 				if(errors.Count > 0)
 					return new OperationResult(errors);
@@ -532,21 +533,37 @@ namespace FiresecService.Service
 				return OperationResult<bool>.FromError(errors, !saveResult.HasError);
 			}
 		}
-		public OperationResult MarkDeletedAccessTemplate(Guid uid, string name)
+		public OperationResult MarkDeletedAccessTemplate(AccessTemplate accessTemplate)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_шаблона_доступа, name, uid: uid);
+			AddJournalMessage(JournalEventNameType.Удаление_шаблона_доступа, accessTemplate.Name, uid: accessTemplate.UID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
-				return databaseService.AccessTemplateTranslator.MarkDeleted(uid);
+				var cardsResult = databaseService.CardTranslator.GetByAccessTemplateUID(accessTemplate.UID);
+				if(!cardsResult.HasError && cardsResult.Result.IsNotNullOrEmpty())
+				{
+					var cards = cardsResult.Result;
+					databaseService.CardTranslator.RemoveAccessTemplate(cards.Select(x => x.UID).ToList());
+					var cardsToUpdate = cards.Where(x => x.CardDoors.Count > 0).ToList();
+					foreach (var card in cardsToUpdate)
+					{
+						EditGKCard(card, accessTemplate, card, null, databaseService);
+					}
+					var cardsToRemove = cards.Where(x => x.CardDoors.Count == 0).ToList();
+					foreach (var card in cardsToRemove)
+					{
+						DeleteGKCard(card, accessTemplate.CardDoors, databaseService);
+					}
+				}
+				return databaseService.AccessTemplateTranslator.MarkDeleted(accessTemplate.UID);
 			}
 		}
 
-		public OperationResult RestoreAccessTemplate(Guid uid, string name)
+		public OperationResult RestoreAccessTemplate(AccessTemplate accessTemplate)
 		{
-			AddJournalMessage(JournalEventNameType.Восстановление_шаблона_доступа, name, uid: uid);
+			AddJournalMessage(JournalEventNameType.Восстановление_шаблона_доступа, accessTemplate.Name, uid: accessTemplate.UID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
-				return databaseService.AccessTemplateTranslator.Restore(uid);
+				return databaseService.AccessTemplateTranslator.Restore(accessTemplate.UID);
 			}
 		}
 		#endregion

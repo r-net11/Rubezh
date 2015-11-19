@@ -22,7 +22,7 @@ namespace Controls
 		public MultiselectDataGrid()
 		{
 			SelectionMode = DataGridSelectionMode.Extended;
-			SelectionChanged += OnSelectionChanged;
+		//	SelectionChanged += OnSelectionChanged;
 		}
 
 		public static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject

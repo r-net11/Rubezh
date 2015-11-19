@@ -36,10 +36,6 @@ namespace SKDModule.ViewModels
 			SelectPositionCommand = new RelayCommand(OnSelectPosition);
 			SelectScheduleCommand = new RelayCommand(OnSelectSchedule);
 			SelectEscortCommand = new RelayCommand(OnSelectEscort);
-			SelectBirthDateCommand = new RelayCommand(OnSelectBirthDate);
-			SelectGivenDateCommand = new RelayCommand(OnSelectGivenDate);
-			SelectValidToCommand = new RelayCommand(OnSelectValidTo);
-			SelectCredentialsStartDateCommand = new RelayCommand(OnSelectCredentialsStartDate);
 
 			CanEditDepartment = canEditDepartment;
 			_canEditPosition = canEditPosition;
@@ -150,7 +146,7 @@ namespace SKDModule.ViewModels
 					SecondName = SecondName,
 					LastName = LastName,
 					Type = Employee.Type,
-					CredentialsStartDate = CredentialsStartDateString,
+					CredentialsStartDate = CredentialsStartDate.ToString(),
 					TextColumns = new List<TextColumn>(),
 					Phone = Employee.Phone,
 					Description = Employee.Description,
@@ -347,15 +343,9 @@ namespace SKDModule.ViewModels
 				{
 					_credentialsStartDate = value;
 					OnPropertyChanged(() => CredentialsStartDate);
-					OnPropertyChanged(() => CredentialsStartDateString);
 				}
 			}
 		}
-		public string CredentialsStartDateString
-		{
-			get { return CredentialsStartDate.ToString("dd/MM/yyyy"); }
-		}
-
 		string _tabelNo;
 		public string TabelNo
 		{
@@ -418,13 +408,7 @@ namespace SKDModule.ViewModels
 			{
 				_birthDate = value;
 				OnPropertyChanged(() => BirthDate);
-				OnPropertyChanged(() => BirthDateString);
 			}
-		}
-
-		public string BirthDateString
-		{
-			get { return BirthDate.ToString("dd/MM/yyyy"); }
 		}
 
 		string _birthPlace;
@@ -446,13 +430,7 @@ namespace SKDModule.ViewModels
 			{
 				_givenDate = value;
 				OnPropertyChanged(() => GivenDate);
-				OnPropertyChanged(() => GivenDateString);
 			}
-		}
-
-		public string GivenDateString
-		{
-			get { return GivenDate.ToString("dd/MM/yyyy"); }
 		}
 
 		string _givenBy;
@@ -491,13 +469,7 @@ namespace SKDModule.ViewModels
 			{
 				_validTo = value;
 				OnPropertyChanged(() => ValidTo);
-				OnPropertyChanged(() => ValidToString);
 			}
-		}
-
-		public string ValidToString
-		{
-			get { return ValidTo.ToString("dd/MM/yyyy"); }
 		}
 
 		string _departmentCode;
@@ -595,16 +567,6 @@ namespace SKDModule.ViewModels
 		#endregion
 
 		#region Commands
-		public RelayCommand SelectCredentialsStartDateCommand { get; private set; }
-		void OnSelectCredentialsStartDate()
-		{
-			var selectDateViewModel = new DateSelectionViewModel(CredentialsStartDate);
-			if (DialogService.ShowModalWindow(selectDateViewModel))
-			{
-				CredentialsStartDate = selectDateViewModel.DateTime;
-			}
-		}
-
 		public RelayCommand SelectScheduleCommand { get; private set; }
 		void OnSelectSchedule()
 		{
@@ -624,36 +586,6 @@ namespace SKDModule.ViewModels
 				else
 					SelectedSchedule = null;
 				
-			}
-		}
-
-		public RelayCommand SelectGivenDateCommand { get; private set; }
-		void OnSelectGivenDate()
-		{
-			var selectDateViewModel = new DateSelectionViewModel(GivenDate);
-			if (DialogService.ShowModalWindow(selectDateViewModel))
-			{
-				GivenDate = selectDateViewModel.DateTime;
-			}
-		}
-
-		public RelayCommand SelectValidToCommand { get; private set; }
-		void OnSelectValidTo()
-		{
-			var selectDateViewModel = new DateSelectionViewModel(ValidTo);
-			if (DialogService.ShowModalWindow(selectDateViewModel))
-			{
-				ValidTo = selectDateViewModel.DateTime;
-			}
-		}
-
-		public RelayCommand SelectBirthDateCommand { get; private set; }
-		void OnSelectBirthDate()
-		{
-			var selectDateViewModel = new DateSelectionViewModel(BirthDate);
-			if (DialogService.ShowModalWindow(selectDateViewModel))
-			{
-				BirthDate = selectDateViewModel.DateTime;
 			}
 		}
 

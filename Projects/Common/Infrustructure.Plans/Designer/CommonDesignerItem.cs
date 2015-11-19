@@ -202,13 +202,12 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected virtual object GetToolTip()
 		{
-			string format = 
-				Index == default(int) 
-				? string.Format("{0}", Title) 
+			string format =
+				Index == default(int)
+				? string.Format("{0}", Title)
 				: string.Format("{0}. {1}", Index, Title);
-
 			var tooltip = Painter == null ? null : Painter.GetToolTip(format);
-			return tooltip ?? format;
+			return tooltip;
 		}
 		protected virtual ContextMenu ContextMenuOpening()
 		{
