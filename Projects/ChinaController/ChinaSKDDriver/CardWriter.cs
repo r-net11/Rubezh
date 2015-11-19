@@ -334,8 +334,7 @@ namespace ChinaSKDDriver
 							result = deviceProcessor.Wrapper.ResetRepeatEnter(controllerCardItem.Card.Number.GetValueOrDefault().ToString("X"));
 							if (cardInfo == null)
 							{
-								controllerCardItem.Error = string.Format("Пропуск {0} отсутствует на контроллере {1}",
-									(int)controllerCardItem.Card.Number, deviceProcessor.Device.Name);
+								controllerCardItem.Error = string.Format("Отсутствует связь с контроллером {0}", deviceProcessor.Device.Name);
 							}
 							break;
 					}
