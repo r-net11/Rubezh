@@ -324,5 +324,72 @@ namespace RubezhClient
 		{
 			zone.OnChanged();
 		}
+
+		public static void ClearMirror(GKDevice mirrorDevice)
+		{
+			mirrorDevice.GKReflectionItem.Devices = new List<GKDevice>();
+			mirrorDevice.GKReflectionItem.DeviceUIDs = new List<Guid>();
+			mirrorDevice.GKReflectionItem.Zones = new List<GKZone>();
+			mirrorDevice.GKReflectionItem.ZoneUIDs = new List<Guid>();
+			mirrorDevice.GKReflectionItem.GuardZones = new List<GKGuardZone>();
+			mirrorDevice.GKReflectionItem.GuardZoneUIDs = new List<Guid>();
+			mirrorDevice.GKReflectionItem.Diretions = new List<GKDirection>();
+			mirrorDevice.GKReflectionItem.DiretionUIDs = new List<Guid>();
+			mirrorDevice.GKReflectionItem.Delays = new List<GKDelay>();
+			mirrorDevice.GKReflectionItem.DelayUIDs = new List<Guid>();
+			mirrorDevice.GKReflectionItem.NSs = new List<GKPumpStation>();
+			mirrorDevice.GKReflectionItem.NSUIDs = new List<Guid>();
+			mirrorDevice.GKReflectionItem.MPTs = new List<GKMPT>();
+			mirrorDevice.GKReflectionItem.MPTUIDs = new List<Guid>();
+		}
+
+		public static void AddToMirror(GKBase gkBase, GKDevice mirrorDevice)
+		{
+			if (gkBase is GKDevice)
+			{
+				mirrorDevice.GKReflectionItem.Devices.Add(gkBase as GKDevice);
+				mirrorDevice.GKReflectionItem.DeviceUIDs.Add(gkBase.UID);
+			}
+
+			if (gkBase is GKZone)
+			{
+				mirrorDevice.GKReflectionItem.Zones.Add(gkBase as GKZone);
+				mirrorDevice.GKReflectionItem.ZoneUIDs.Add(gkBase.UID);
+			}
+
+			if (gkBase is GKGuardZone)
+			{
+				mirrorDevice.GKReflectionItem.GuardZones.Add(gkBase as GKGuardZone);
+				mirrorDevice.GKReflectionItem.GuardZoneUIDs.Add(gkBase.UID);
+			}
+
+			if (gkBase is GKDirection)
+			{
+				mirrorDevice.GKReflectionItem.Diretions.Add(gkBase as GKDirection);
+				mirrorDevice.GKReflectionItem.DiretionUIDs.Add(gkBase.UID);
+			}
+
+			if (gkBase is GKDelay)
+			{
+				mirrorDevice.GKReflectionItem.Delays.Add(gkBase as GKDelay);
+				mirrorDevice.GKReflectionItem.DelayUIDs.Add(gkBase.UID);
+			}
+
+			if (gkBase is GKPumpStation)
+			{
+				mirrorDevice.GKReflectionItem.NSs.Add(gkBase as GKPumpStation);
+				mirrorDevice.GKReflectionItem.NSUIDs.Add(gkBase.UID);
+			}
+
+			if (gkBase is GKMPT)
+			{
+				mirrorDevice.GKReflectionItem.MPTs.Add(gkBase as GKMPT);
+				mirrorDevice.GKReflectionItem.MPTUIDs.Add(gkBase.UID);
+			}
+
+			//mirrorDevice.AddDependentElement(gkBase);
+			//if (mirrorDevice.DriverType != GKDriverType.DetectorDevicesMirror)
+			//	gkBase.AddDependentElement(mirrorDevice);
+		}
 	}
 }

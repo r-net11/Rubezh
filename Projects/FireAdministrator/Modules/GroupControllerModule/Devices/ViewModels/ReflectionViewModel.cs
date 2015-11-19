@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using Common;
+using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -122,39 +123,16 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			Device.GKReflectionItem.ZoneUIDs = ZonesSelectationViewModel.TargetZones.Select(x => x.UID).ToList();
-
-			Device.GKReflectionItem.Zones = ZonesSelectationViewModel.TargetZones.ToList();
-
-			Device.GKReflectionItem.GuardZoneUIDs = GuardZonesSelectationViewModel.TargetZones.Select(x=> x.UID).ToList();
-
-			Device.GKReflectionItem.GuardZones = GuardZonesSelectationViewModel.TargetZones.ToList();
-
-			Device.GKReflectionItem.DiretionUIDs = DirectionsSelectationViewModel.TargetDirections.Select(x => x.UID).ToList();
-
-			Device.GKReflectionItem.Diretions = DirectionsSelectationViewModel.TargetDirections.ToList();
-
-			Device.GKReflectionItem.DelayUIDs = DelaysSelectationViewModel.TargetDelays.Select(x => x.UID).ToList();
-
-			Device.GKReflectionItem.Delays = DelaysSelectationViewModel.TargetDelays.ToList();
-
+			GKManager.ClearMirror(Device);
+			ZonesSelectationViewModel.TargetZones.ForEach(x => GKManager.AddToMirror(x, Device));
+			GuardZonesSelectationViewModel.TargetZones.ForEach(x => GKManager.AddToMirror(x, Device));
+			DirectionsSelectationViewModel.TargetDirections.ForEach(x => GKManager.AddToMirror(x, Device));
+			DelaysSelectationViewModel.TargetDelays.ForEach(x => GKManager.AddToMirror(x, Device));
 			if (DevicesSelectationViewModel != null)
-			{
-				Device.GKReflectionItem.DeviceUIDs = DevicesSelectationViewModel.Devices.Select(x => x.UID).ToList();
-
-				Device.GKReflectionItem.Devices = DevicesSelectationViewModel.Devices.ToList();
-			}
-			Device.GKReflectionItem.NSUIDs = PumpStationsSelectationViewModel.TargetPumpStations.Select(x => x.UID).ToList();
-
-			Device.GKReflectionItem.NSs = PumpStationsSelectationViewModel.TargetPumpStations.ToList();
-
-			Device.GKReflectionItem.MPTUIDs = MPTsSelectationViewModel.TargetMPTs.Select(x => x.UID).ToList();
-
-			Device.GKReflectionItem.MPTs = MPTsSelectationViewModel.TargetMPTs.ToList();
-
+				DevicesSelectationViewModel.Devices.ForEach(x => GKManager.AddToMirror(x, Device));
+			PumpStationsSelectationViewModel.TargetPumpStations.ForEach(x => GKManager.AddToMirror(x, Device));
+			MPTsSelectationViewModel.TargetMPTs.ForEach(x => GKManager.AddToMirror(x, Device));
 			return base.Save();
-			
 		}
-
 	}
 }

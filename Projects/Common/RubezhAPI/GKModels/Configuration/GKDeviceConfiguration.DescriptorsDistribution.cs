@@ -169,7 +169,7 @@ namespace RubezhAPI.GK
 					switch (device.DriverType)
 					{
 						case GKDriverType.DetectorDevicesMirror:
-							device.GKReflectionItem.Devices.ForEach(x => x.ChildDescriptors.Add(device));
+							device.GKReflectionItem.Devices.ForEach(x => device.ChildDescriptors.Add(x));
 							break;
 
 						case GKDriverType.ControlDevicesMirror:
