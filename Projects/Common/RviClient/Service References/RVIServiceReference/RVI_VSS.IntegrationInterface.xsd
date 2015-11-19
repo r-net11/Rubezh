@@ -17,6 +17,7 @@
       <xs:element minOccurs="0" name="Number" type="xs:int" />
       <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="Status" type="q1:DeviceStatus" />
       <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="Streams" nillable="true" type="q2:ArrayOfStream" />
+      <xs:element minOccurs="0" name="Vendor" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Channel" nillable="true" type="tns:Channel" />

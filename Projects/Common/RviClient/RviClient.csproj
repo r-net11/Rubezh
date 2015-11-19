@@ -84,6 +84,9 @@
     <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.AlarmRulesOut.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.ChannelStreamingStartOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.PerimeterOut.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -117,6 +120,9 @@
     <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.UnsubscribePerimeterChangedOut.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.VideoFileOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.VideoRecordStartOut.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -127,6 +133,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\RVIServiceReference\RVI_VSS.IntegrationInterface.XmlSchemas.Common.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RVIServiceReference\RVI_VSS.IntegrationInterface.XmlSchemas.Video.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\RVIServiceReference\RVI_VSS.IntegrationInterface.XmlSchemas.xsd">

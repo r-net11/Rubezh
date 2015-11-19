@@ -1,4 +1,4 @@
-RVI VSS видео €чейка по состо€нию на 22.07.2015 г.
+RVI VSS видео €чейка по состо€нию на 14.11.2015 г.
 
 ¬ состав инсталл€тора необходимо включить следующие файлы:
 
@@ -7,6 +7,7 @@ RVI VSS видео €чейка по состо€нию на 22.07.2015 г.
 API.dll
 Entities.dll
 GalaSoft.MvvmLight.WPF4.dll
+RVI_VSS.Utils.dll
 SdkWrapper.dll
 
 2. ƒл€ FireAdministrator / FireMonitor
@@ -18,7 +19,10 @@ GalaSoft.MvvmLight.WPF4.dll
 MediaSourcePlayer.dll
 NativePlayerIpcProtocol.dll
 NativePlayerWrap.dll
-ProcessCommunication.dll
+PlayerPoolService.dll
+PlayerService.dll
+PlayerServiceApi.dll
+RVI_VSS.Utils.dll
 RviVssDec.exe
 SdkWrapper.dll
 

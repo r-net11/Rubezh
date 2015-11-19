@@ -12,6 +12,7 @@
         <include name="API.dll" />
         <include name="Entities.dll" />
         <include name="GalaSoft.MvvmLight.WPF4.dll" />
+        <include name="RVI_VSS.Utils.dll" />
         <include name="SdkWrapper.dll" />
       </fileset>
     </copy>
@@ -20,6 +21,7 @@
         <include name="API.dll" />
         <include name="Entities.dll" />
         <include name="GalaSoft.MvvmLight.WPF4.dll" />
+        <include name="RVI_VSS.Utils.dll" />
         <include name="SdkWrapper.dll" />
       </fileset>
     </copy>
