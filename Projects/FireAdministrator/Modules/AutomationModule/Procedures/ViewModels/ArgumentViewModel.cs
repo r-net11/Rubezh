@@ -15,6 +15,7 @@ namespace AutomationModule.ViewModels
 {
 	public class ArgumentViewModel : BaseViewModel
 	{
+		Procedure _procedure;
 		public const string EmptyText = "<пусто>";
 		public Action UpdateVariableScopeHandler { get; set; }
 		public Action UpdateVariableHandler { get; set; }
@@ -121,7 +122,8 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddVariableCommand { get; private set; }
 		void OnAddVariable()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(null, SelectedVariableScope == VariableScope.LocalVariable ? "локальная переменная" : "глобальная переменная",
+			var variableDetailsViewModel = new VariableDetailsViewModel(null,
+				SelectedVariableScope == VariableScope.LocalVariable ? AutomationHelper.GetLocalVariables(ProceduresViewModel.Current.SelectedProcedure.Procedure) : ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables,
 				SelectedVariableScope == VariableScope.LocalVariable ? "Добавить локальную переменную" : "Добавить глобальную переменную", 
 				SelectedVariableScope == VariableScope.GlobalVariable);
 			variableDetailsViewModel.IsList = IsList;

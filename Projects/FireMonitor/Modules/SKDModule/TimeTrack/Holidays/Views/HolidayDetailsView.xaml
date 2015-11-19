@@ -18,7 +18,7 @@
 		<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding AvailableHolidayTypes}" SelectedItem="{Binding HolidayType}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
-					<StackPanel Orientation="Horizontal">
+					<StackPanel>
 						<TextBlock Foreground="Black" Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 					</StackPanel>
 				</DataTemplate>

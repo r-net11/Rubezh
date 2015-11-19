@@ -10,6 +10,7 @@ using System.Windows.Input;
 using KeyboardKey = System.Windows.Input.Key;
 using Infrustructure.Plans.Events;
 using System;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -58,7 +59,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(null, "локальная переменная", "Добавить локальную переменную");
+			var variableDetailsViewModel = new VariableDetailsViewModel(null, AutomationHelper.GetLocalVariables(Procedure), "Добавить локальную переменную");
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
 				var varialbeViewModel = new VariableViewModel(variableDetailsViewModel.Variable);
@@ -86,7 +87,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, "локальная переменная", "Редактировать локальную переменную");
+			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, AutomationHelper.GetLocalVariables(Procedure), "Редактировать локальную переменную");
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
 				PropertyCopy.Copy(variableDetailsViewModel.Variable, SelectedVariable.Variable);

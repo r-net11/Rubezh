@@ -146,6 +146,13 @@
     <Compile Include="Procedures\ViewModels\LayoutPartPropertyViewModel.cs" />
     <Compile Include="Procedures\ViewModels\LayoutPartViewModel.cs" />
     <Compile Include="Procedures\ViewModels\PlanViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ProcedureLayoutsSelectionViewModel.cs" />
+    <Compile Include="Procedures\Views\ProcedureLayoutsSelectionView.xaml.cs">
+      <DependentUpon>ProcedureLayoutsSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\ProcedureLayoutCollectionView.xaml.cs">
+      <DependentUpon>ProcedureLayoutCollectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Procedures\Views\VariableView.xaml.cs">
       <DependentUpon>VariableView.xaml</DependentUpon>
     </Compile>
@@ -587,6 +594,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\ArgumentsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Procedures\Views\ProcedureLayoutsSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Procedures\Views\ProcedureLayoutCollectionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using RubezhAPI;
 using RubezhAPI.Models;
@@ -12,6 +13,7 @@ using GKModule.Events;
 using RubezhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.GK;
+using RubezhClient;
 
 namespace GKModule.ViewModels
 {
@@ -26,6 +28,16 @@ namespace GKModule.ViewModels
 			Zone = zone;
 			Update();
 		}
+		List<GKDoor> _doors;
+		public List<GKDoor> Doors
+		{
+			get { return _doors; }
+			set
+			{
+				_doors = value;
+				OnPropertyChanged(() => Doors);
+			}
+		}
 
 		public void Update()
 		{
@@ -33,6 +45,8 @@ namespace GKModule.ViewModels
 			_visualizationState = Zone.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Zone.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
+
+			Doors = GKManager.Doors.Where(x => x.EnterZoneUID == Zone.UID || x.ExitZoneUID==Zone.UID).ToList();
 		}
 
 		public bool IsOnPlan

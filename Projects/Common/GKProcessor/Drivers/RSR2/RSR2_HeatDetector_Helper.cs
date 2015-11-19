@@ -1,5 +1,5 @@
-﻿using System;
-using RubezhAPI.GK;
+﻿using RubezhAPI.GK;
+using System;
 
 namespace GKProcessor
 {
@@ -22,7 +22,7 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
 
-			GKDriversHelper.AddIntProprety(driver, 0, "Порог срабатывания по температуре, °C", 70, 54, 100);
+			GKDriversHelper.AddIntProprety(driver, 0, "Порог срабатывания по температуре, °C", 70, 54, 85);
 			GKDriversHelper.AddIntProprety(driver, 1, "Порог срабатывания по градиенту температуры, °C/мин", 5, 1, 50).Multiplier = 10;
 
 			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Температура, °C", InternalName = "Temperature", HasNegativeValue = true });

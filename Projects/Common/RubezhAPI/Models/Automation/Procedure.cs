@@ -11,7 +11,7 @@ namespace RubezhAPI.Automation
 	{
 		public Procedure()
 		{
-			Name = "Новая процедура";
+			Name = "Процедура";
 			Variables = new List<Variable>();
 			Arguments = new List<Variable>();
 			Steps = new List<ProcedureStep>();

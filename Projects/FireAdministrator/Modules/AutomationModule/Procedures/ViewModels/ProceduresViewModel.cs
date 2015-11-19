@@ -95,7 +95,7 @@ namespace AutomationModule.ViewModels
 		private void OnCut()
 		{
 			OnCopy();
-			OnDelete();
+			DoDelete();
 		}
 		void ReplaceStepUids(ProcedureStep step, Dictionary<Guid, Guid> dictionary)
 		{
@@ -341,6 +341,11 @@ namespace AutomationModule.ViewModels
 
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
+		{
+			if (MessageBoxService.ShowQuestion("Вы действительно хотите удалить процедуру?"))
+				DoDelete();
+		}
+		void DoDelete()
 		{
 			var index = Procedures.IndexOf(SelectedProcedure);
 			ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.Remove(SelectedProcedure.Procedure);

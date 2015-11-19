@@ -75,9 +75,9 @@ namespace GKModule.ViewModels
 			AvailableDevices = new ObservableCollection<GuardZoneDeviceViewModel>();
 			foreach (var device in GKManager.Devices)
 			{
-				if (device.DriverType == GKDriverType.RSR2_GuardDetector || device.DriverType == GKDriverType.RSR2_GuardDetectorSound || device.DriverType == GKDriverType.RSR2_AM_1 || device.DriverType == GKDriverType.RSR2_MAP4 || device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader && !zone.GuardZoneDevices.Any(x => x.DeviceUID == device.UID))
+				if (device.Driver.HasGuardZone && !zone.GuardZoneDevices.Any(x => x.DeviceUID == device.UID))
 				{
-					if (device.GuardZoneUIDs.Count > 0 || (device.IsInMPT && !GlobalSettingsHelper.GlobalSettings.ShowMPTsDevices)
+					if (device.GuardZones.Count > 0 || (device.IsInMPT && !GlobalSettingsHelper.GlobalSettings.ShowMPTsDevices)
 							|| (device.ZoneUIDs.Count > 0 && !GlobalSettingsHelper.GlobalSettings.ShowOtherZonesDevices)
 							|| (device.Door != null && !GlobalSettingsHelper.GlobalSettings.ShowDoorsDevices))
 						continue;
@@ -141,8 +141,7 @@ namespace GKModule.ViewModels
 			{
 				Devices.Add(availabledeviceViewModel);
 				AvailableDevices.Remove(availabledeviceViewModel);
-				Zone.GuardZoneDevices.Add(availabledeviceViewModel.GuardZoneDevice);
-				GKManager.AddDeviceToGuardZone(availabledeviceViewModel.GuardZoneDevice.Device, Zone);
+				GKManager.AddDeviceToGuardZone(availabledeviceViewModel.GuardZoneDevice.Device, Zone, availabledeviceViewModel.GuardZoneDevice);
 			}
 
 			SelectedDevice = Devices.FirstOrDefault();
@@ -176,13 +175,15 @@ namespace GKModule.ViewModels
 			{
 				var deviceViewModel = device as GuardZoneDeviceViewModel;
 				if (deviceViewModel != null)
+				{
+					deviceViewModel.GuardZoneDevice.CodeReaderSettings = new GKCodeReaderSettings();
 					deviceViewModels.Add(deviceViewModel);
+				}
 			}
 			foreach (var deviceViewModel in deviceViewModels)
 			{
 				AvailableDevices.Add(deviceViewModel);
 				Devices.Remove(deviceViewModel);
-				Zone.GuardZoneDevices.RemoveAll(x=>x.DeviceUID == deviceViewModel.GuardZoneDevice.Device.UID);
 				GKManager.RemoveDeviceFromGuardZone(deviceViewModel.GuardZoneDevice.Device, Zone);
 			}
 

@@ -20,6 +20,8 @@ namespace GKModule.ViewModels
 			DeSelectAllCommand = new RelayCommand(OnDeSelectAll);
 			CopyCommand = new RelayCommand(OnCopy);
 			RemoveCommand = new RelayCommand(OnRemove);
+			CutCommand = new RelayCommand(OnCut);
+			_devicesToCopy = new List<GKDevice>();
 
 			Devices = new ObservableCollection<DeviceOnShleifViewModel>();
 			foreach (var device in shleifDevice.Children)
@@ -27,6 +29,22 @@ namespace GKModule.ViewModels
 				var deviceOnShleifViewModel = new DeviceOnShleifViewModel(device);
 				Devices.Add(deviceOnShleifViewModel);
 			}
+		}
+
+		private List<GKDevice> _devicesToCopy { get; set; }
+
+		void OnCut()
+		{
+			_devicesToCopy.Clear();
+			foreach (var device in Devices)
+			{
+				if (device.IsActive)
+				{
+					_devicesToCopy.Add(GKManager.CopyDevice(device.Device, true));
+				}
+			}
+			DevicesViewModel.Current.DevicesToCopy = _devicesToCopy;
+			OnRemove();
 		}
 
 		public List<GKDevice> CopyDevices { get; private set; }
@@ -53,15 +71,15 @@ namespace GKModule.ViewModels
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{
-			var devicesToCopy = new List<GKDevice>();
+			_devicesToCopy.Clear();
 			foreach (var device in Devices)
 			{
 				if (device.IsActive)
 				{
-					devicesToCopy.Add(GKManager.CopyDevice(device.Device, false));
+					_devicesToCopy.Add(GKManager.CopyDevice(device.Device, false));
 				}
 			}
-			DevicesViewModel.Current.DevicesToCopy = devicesToCopy;
+			DevicesViewModel.Current.DevicesToCopy = _devicesToCopy;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -86,6 +104,8 @@ namespace GKModule.ViewModels
 			Devices = new ObservableCollection<DeviceOnShleifViewModel>(Devices.Where(x => !x.IsActive));
 			OnPropertyChanged(() => Devices);
 		}
+
+		public RelayCommand CutCommand { get; set; }
 	}
 
 	public class DeviceOnShleifViewModel : BaseViewModel

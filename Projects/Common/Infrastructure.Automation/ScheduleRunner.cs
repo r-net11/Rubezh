@@ -109,7 +109,7 @@ namespace Infrastructure.Automation
 				foreach (var scheduleProcedure in schedule.ScheduleProcedures)
 				{
 					var procedure = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
-					if (procedure != null && procedure.IsActive && procedure.ContextType == ProcedureExecutionContext.ContextType)
+					if (procedure != null && procedure.ContextType == ProcedureExecutionContext.ContextType)
 						AutomationProcessor.RunProcedure(procedure, scheduleProcedure.Arguments, null);
 				}
 		}

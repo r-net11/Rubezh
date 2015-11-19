@@ -6,20 +6,18 @@ using RubezhAPI.Models;
 using RubezhAPI.Models.Layouts;
 using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure;
+using Infrastructure.Events;
 
 namespace LayoutModule.ViewModels
 {
 	public class LayoutUsersViewModel : BaseViewModel
 	{
-		private Dictionary<Guid, LayoutUserViewModel> _map;
 		private Layout _layout;
-		private bool _locked;
 		public LayoutUsersViewModel()
 		{
 			Update();
-			_locked = false;
 		}
-
 		private ObservableCollection<LayoutUserViewModel> _users;
 		public ObservableCollection<LayoutUserViewModel> Users
 		{
@@ -30,7 +28,6 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => Users);
 			}
 		}
-
 		private LayoutUserViewModel _selectedUser;
 		public LayoutUserViewModel SelectedUser
 		{
@@ -41,42 +38,23 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => SelectedUser);
 			}
 		}
-
 		public void Update()
 		{
-			_locked = true;
-			var roles = new Dictionary<Guid, UserRole>();
-			_map = new Dictionary<Guid, LayoutUserViewModel>();
-			ClientManager.SecurityConfiguration.UserRoles.ForEach(item => roles.Add(item.UID, item));
-			ClientManager.SecurityConfiguration.Users.ForEach(item => _map.Add(item.UID, new LayoutUserViewModel(item, IsActiveChanged)));
-			var list = _map.Values.ToList();
-			list.Sort(Comparison);
-			Users = new ObservableCollection<LayoutUserViewModel>(list);
-			_locked = false;
+			var users = new List<LayoutUserViewModel>();
+			ClientManager.SecurityConfiguration.Users.ForEach(item => users.Add(new LayoutUserViewModel(item)));
+			users.Sort(Comparison);
+			Users = new ObservableCollection<LayoutUserViewModel>(users);
 		}
 		public void Update(Layout layout)
 		{
-			_locked = true;
 			_layout = layout;
 			if (_layout != null)
 				for (int i = _layout.Users.Count - 1; i >= 0; i--)
-					if (!_map.ContainsKey(_layout.Users[i]))
+					if (Users.Select(x => x.User.UID == _layout.Users[i]).Count() == 0)
 						_layout.Users.RemoveAt(i);
 			foreach (var layoutUserViewModel in Users)
 				layoutUserViewModel.IsActive = _layout != null && _layout.Users.Contains(layoutUserViewModel.User.UID);
 			SelectedUser = Users.FirstOrDefault();
-			_locked = false;
-		}
-		private void IsActiveChanged(LayoutUserViewModel layoutUserViewModel)
-		{
-			if (_layout != null && !_locked)
-			{
-				//if (layoutUserViewModel.IsActive && !_layout.Users.Contains(layoutUserViewModel.User.UID))
-				//	_layout.Users.Add(layoutUserViewModel.User.UID);
-				//else if (!layoutUserViewModel.IsActive && _layout.Users.Contains(layoutUserViewModel.User.UID))
-				//	_layout.Users.Remove(layoutUserViewModel.User.UID);
-				//ServiceFactory.SaveService.LayoutsChanged = true;
-			}
 		}
 		private int Comparison(LayoutUserViewModel x, LayoutUserViewModel y)
 		{

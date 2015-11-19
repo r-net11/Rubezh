@@ -5,6 +5,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using System.Collections.ObjectModel;
 using Infrastructure;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -26,7 +27,7 @@ namespace AutomationModule.ViewModels
 		public new RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(null, "аргумент", "Добавить аргумент");
+			var variableDetailsViewModel = new VariableDetailsViewModel(null, AutomationHelper.GetLocalVariables(Procedure), "Добавить аргумент");
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
 				var variableViewModel = new VariableViewModel(variableDetailsViewModel.Variable);
@@ -53,7 +54,7 @@ namespace AutomationModule.ViewModels
 		public new RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, "аргумент", "Редактировать аргумент");
+			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, AutomationHelper.GetLocalVariables(Procedure), "Редактировать аргумент");
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
 				PropertyCopy.Copy<Variable, Variable>(variableDetailsViewModel.Variable, SelectedVariable.Variable);

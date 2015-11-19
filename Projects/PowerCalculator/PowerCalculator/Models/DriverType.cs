@@ -37,6 +37,9 @@ namespace PowerCalculator.Models
         [Description("Метка адресная с питанием - 4")]
         RSR2_MAP4,
 
+		[Description("Модуль релейный - 1")]
+		RSR2_RM_1,
+
         [Description("Модуль релейный - 2")]
         RSR2_RM_2,
 

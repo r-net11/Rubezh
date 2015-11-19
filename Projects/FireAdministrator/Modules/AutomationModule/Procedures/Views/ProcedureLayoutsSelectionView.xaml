@@ -1,0 +1,28 @@
+<UserControl x:Class="AutomationModule.Views.ProcedureLayoutsSelectionView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 MinHeight="200" MinWidth="300">
+	<Grid>
+		<DataGrid ItemsSource="{Binding LayoutItems}">
+			<DataGrid.Columns>
+				<DataGridTemplateColumn Width="*" Header="Наименование макета">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Rectangle Height="16" Width="16" Fill="{DynamicResource BLayouts}" Margin="5 0"/>
+								<TextBlock Text="{Binding Layout.Caption}" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Width="Auto" Header="Использовать">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+		</DataGrid>
+	</Grid>
+</UserControl>

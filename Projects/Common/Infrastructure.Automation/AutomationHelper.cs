@@ -19,9 +19,19 @@ namespace Infrastructure.Automation
 		public static List<Variable> GetAllVariables(Procedure procedure)
 		{
 			var allVariables = new List<Variable>(ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.GlobalVariables);
-			allVariables.AddRange(procedure.Variables);
-			allVariables.AddRange(procedure.Arguments);
+			allVariables.AddRange(GetLocalVariables(procedure));
 			return allVariables;
+		}
+
+		public static List<Variable> GetLocalVariables(Procedure procedure)
+		{
+			var localVariables = new List<Variable>();
+			if (procedure != null)
+			{
+				localVariables.AddRange(procedure.Variables);
+				localVariables.AddRange(procedure.Arguments);
+			}
+			return localVariables;
 		}
 
 		public static List<Variable> GetAllVariables(Procedure procedure, ExplicitType explicitType, ObjectType objectType = ObjectType.Device, EnumType enumType = EnumType.DriverType)

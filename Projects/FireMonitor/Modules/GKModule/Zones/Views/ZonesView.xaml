@@ -17,7 +17,12 @@
 				</Grid.RowDefinitions>
 				<Grid Name="_grid" Grid.Row="0">
 					<ScrollViewer Name="_scrollViewer">
-						<ListBox Name="_zonesListBox" Width="{Binding ActualWidth, ElementName=_grid}" BorderThickness="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" Style="{x:Null}">
+						<ListBox Name="_zonesListBox" 
+								 Width="{Binding ActualWidth, ElementName=_grid}" 
+								 BorderThickness="0" 
+								 ItemsSource="{Binding Zones}"
+								 SelectedItem="{Binding SelectedZone}"
+								 Style="{x:Null}">
 							<ListBox.ItemContainerStyle>
 								<Style TargetType="ListBoxItem">
 									<Setter Property="Padding" Value="0" />
@@ -44,7 +49,10 @@
 							</ListBox.ItemContainerStyle>
 							<ListBox.ItemTemplate>
 								<DataTemplate>
-									<Grid Width="50" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{Binding State.StateClass, Converter={StaticResource XStateClassToZoneColorConverter}}">
+									<Grid Width="50" Height="25"
+										  HorizontalAlignment="Center"
+										  VerticalAlignment="Center"
+										  Background="{Binding State.StateClass, Converter={StaticResource XStateClassToZoneColorConverter}}">
 										<Grid.ToolTip>
 											<Views:ZoneToolTipView />
 										</Grid.ToolTip>
@@ -86,7 +94,10 @@
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<Image Source="{Binding ., Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-									<TextBlock VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Text="{Binding ., Converter={StaticResource XStateClassToStringConverter}}" Margin="5 0" />
+									<TextBlock Text="{Binding ., Converter={StaticResource XStateClassToStringConverter}}"
+											   VerticalAlignment="Center"
+											   Style="{DynamicResource TextBlockDetailsStyle}"
+											   Margin="5 0" />
 								</StackPanel>
 							</DataTemplate>
 						</ItemsControl.ItemTemplate>
@@ -111,7 +122,14 @@
 						<GridViewColumn  Header="Логика" >
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
-									<TextBlock Text="{Binding PresentationLogic}" Visibility="{Binding PresentationLogic, Converter={StaticResource NullToVisibilityConverter}}" TextWrapping="NoWrap" MinWidth="100" VerticalAlignment="Top" LineHeight="15" Margin="0 3 0 0" Cursor="Hand">
+									<TextBlock Text="{Binding PresentationLogic}"
+											   Visibility="{Binding PresentationLogic, Converter={StaticResource NullToVisibilityConverter}}"
+											   TextWrapping="NoWrap"
+											   MinWidth="100"
+											   VerticalAlignment="Top"
+											   LineHeight="15"
+											   Margin="0 3 0 0"
+											   Cursor="Hand">
 										<TextBlock.ToolTip >
 											<WrapPanel>
 												<TextBlock Text="{Binding PresentationLogic}" TextWrapping="Wrap" />
