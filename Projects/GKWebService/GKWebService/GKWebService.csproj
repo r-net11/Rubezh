@@ -454,6 +454,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="JournalItemViewModel.cs" />
+    <Compile Include="Models\AccessDoorModel.cs" />
     <Compile Include="Models\ReadOnlyAccessDoorModel.cs" />
     <Compile Include="Models\ElementHint.cs" />
     <Compile Include="Models\EmployeeCardModel.cs" />
@@ -498,6 +499,7 @@
     <Content Include="Views\Employees\EmployeeDetails.cshtml" />
     <Content Include="Views\Hr\HrFilter.cshtml" />
     <Content Include="Views\Home\FireZones.cshtml" />
+    <Content Include="Views\Employees\EmployeeCardDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
