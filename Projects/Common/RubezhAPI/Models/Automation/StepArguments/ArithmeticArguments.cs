@@ -52,19 +52,4 @@ namespace RubezhAPI.Automation
 		[Description("Или")]
 		Or
 	}
-
-	public enum TimeType
-	{
-		[Description("секунд")]
-		Sec,
-
-		[Description("минут")]
-		Min,
-
-		[Description("часов")]
-		Hour,
-
-		[Description("дней")]
-		Day
-	}
 }
