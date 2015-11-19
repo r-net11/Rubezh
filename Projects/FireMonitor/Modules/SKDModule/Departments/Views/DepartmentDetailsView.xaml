@@ -47,22 +47,23 @@
 
 				<TextBlock Grid.Row="3" Grid.Column="0" Text="Родительское подразделение" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" >
+					<!--<Button Content="SelectDepartmentCommand" Command="{Binding SelectDepartmentCommand}" />-->
 					<TextBlock VerticalAlignment="Center">
-							<Hyperlink Command="{Binding SelectDepartmentCommand}" Style="{StaticResource HyperlinkStyle}">
-								<TextBlock Text="{Binding SelectedDepartment.Name}" TextDecorations="Underline" />
-								<TextBlock>
-									<TextBlock.Style>
-										<Style>
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding HasSelectedDepartment}" Value="false">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
-												</DataTrigger>
-											</Style.Triggers>
-										</Style>
-									</TextBlock.Style>
-								</TextBlock>
-							</Hyperlink>
-						</TextBlock>
+						<Hyperlink Command="{Binding SelectDepartmentCommand}" Style="{StaticResource HyperlinkStyle}">
+							<TextBlock Text="{Binding SelectedDepartment.Name}" TextDecorations="Underline" />
+							<TextBlock>
+								<TextBlock.Style>
+									<Style>
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding HasSelectedDepartment}" Value="false">
+												<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</TextBlock.Style>
+							</TextBlock>
+						</Hyperlink>
+					</TextBlock>
 				</StackPanel>
 
 				<TextBlock Grid.Row="4" Grid.Column="0" Text="Телефон" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
