@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
@@ -8,7 +10,7 @@ using Organisation = FiresecAPI.SKD.Organisation;
 
 namespace SKDModule.ViewModels
 {
-	public class HolidayDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<Holiday>
+	public class HolidayDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<Holiday>, IDataErrorInfo
 	{
 		private Organisation Organisation;
 		private bool _isNew;
@@ -47,12 +49,12 @@ namespace SKDModule.ViewModels
 			AvailableHolidayTypes = new ObservableCollection<HolidayType>(Enum.GetValues(typeof(HolidayType)).OfType<HolidayType>());
 			HolidayType = holiday.Type;
 
-
+			_validationErrors = new Dictionary<string, string>();
 
 			return true;
 		}
 
-		DateTime _date;
+		private DateTime _date;
 		public DateTime Date
 		{
 			get { return _date; }
@@ -73,7 +75,7 @@ namespace SKDModule.ViewModels
 			get { return new DateTime(Model.Date.Year, 12, 31); }
 		}
 
-		string _name;
+		private string _name;
 		public string Name
 		{
 			get { return _name; }
@@ -110,7 +112,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		DateTime _transferDate;
+		private DateTime _transferDate;
 		public DateTime TransferDate
 		{
 			get { return _transferDate; }
@@ -152,6 +154,76 @@ namespace SKDModule.ViewModels
 			Model.TransferDate = IsTransferDateEnabled ? (DateTime?)TransferDate : null;
 
 			return HolidayHelper.Save(Model, _isNew);
+		}
+
+		protected override bool CanSave()
+		{
+			// Не должно быть ошибок клиентской валидации данных
+			return _validationErrors.Count == 0;
+		}
+
+		#region <Реализация интерфейса IDataErrorInfo>
+
+		public string Error
+		{
+			get { return String.Join("\n", _validationErrors.Values.ToArray()); }
+		}
+
+		public string this[string propertyName]
+		{
+			get { return GetValidationError(propertyName); }
+		}
+		
+		#endregion </Реализация интерфейса IDataErrorInfo>
+
+		private IDictionary<string, string> _validationErrors;
+
+		private string GetValidationError(string propertyName)
+		{
+			string error = null;
+
+			switch (propertyName)
+			{
+				case "Date":
+				{
+					
+					if (Date.Year != Model.Date.Year)
+						error = FormatErrorString("Дата", GetInputYearError(Model.Date.Year));
+					break;
+				}
+				case "TransferDate":
+				{
+					if (IsTransferDateEnabled && TransferDate.Year != Model.Date.Year)
+						error = FormatErrorString("Дата переноса", GetInputYearError(Model.Date.Year));
+					break;
+				}
+			}
+
+			if (!String.IsNullOrEmpty(error))
+			{
+				if (!_validationErrors.ContainsKey(propertyName))
+					_validationErrors.Add(propertyName, error);
+				else
+					_validationErrors[propertyName] = error;
+			}
+			else
+			{
+				if (_validationErrors.ContainsKey(propertyName))
+					_validationErrors.Remove(propertyName);
+			}
+			OnPropertyChanged(() => Error);
+
+			return error;
+		}
+
+		private string FormatErrorString(string fieldName, object neededValue)
+		{
+			return String.Format("* {0}: {1}", fieldName, neededValue);
+		}
+
+		private string GetInputYearError(int neededYear)
+		{
+			return String.Format("Год не равен '{0}'", neededYear);
 		}
 	}
 }
