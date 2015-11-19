@@ -514,11 +514,9 @@ namespace SKDModule.ViewModels
 		{
 			if (CanCancel)
 			{
-				AllowClose = true;
 				return base.Cancel();
 			}
 
-			AllowClose = false;
 			return true;
 		}
 
