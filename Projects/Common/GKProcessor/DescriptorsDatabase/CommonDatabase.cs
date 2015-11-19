@@ -32,7 +32,7 @@ namespace GKProcessor
 					var physicalAddress = BytesHelper.SubstructShort(descriptor.AllBytes, 2);
 					offsetPosition = 4;
 				}
-				if (DatabaseType == DatabaseType.Gk)
+				if (DatabaseType == DatabaseType.Gk || DatabaseType == DatabaseType.Mirror)
 				{
 					var controllerAddress = BytesHelper.SubstructShort(descriptor.AllBytes, 2);
 					var addressOnController = BytesHelper.SubstructShort(descriptor.AllBytes, 4);
@@ -44,7 +44,7 @@ namespace GKProcessor
 
 				var inputDependencesCount = 0;
 				var outputDependencesPosition = offsetPosition + 2;
-				if(DatabaseType == DatabaseType.Gk)
+				if (DatabaseType == DatabaseType.Gk || DatabaseType == DatabaseType.Mirror)
 				{
 					inputDependencesCount = BytesHelper.SubstructShort(descriptor.AllBytes, offsetPosition + 2);
 					for (int i = 0; i < inputDependencesCount; i++)

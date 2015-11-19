@@ -184,10 +184,27 @@ namespace GKProcessor
 		{
 			AddGKMessage(JournalEventNameType.Чтение_конфигурации_из_прибора, JournalEventDescriptionType.NULL, "", device, userName);
 			Stop();
-			var descriptorReader = device.Driver.IsKau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
-			descriptorReader.ReadConfiguration(device);
+			DescriptorReaderBase descriptorReader;
+			if (device.Driver.IsKau)
+			{
+				descriptorReader = new KauDescriptorsReaderBase();
+				descriptorReader.ReadConfiguration(device);
+				return OperationResult<GKDeviceConfiguration>.FromError(descriptorReader.Error, descriptorReader.DeviceConfiguration);
+			}
+			if (device.Driver.DriverType == GKDriverType.GK)
+			{
+				descriptorReader = new GkDescriptorsReaderBase();
+				descriptorReader.ReadConfiguration(device);
+				return OperationResult<GKDeviceConfiguration>.FromError(descriptorReader.Error, descriptorReader.DeviceConfiguration);
+			}
+			if (device.Driver.DriverType == GKDriverType.GKMirror)
+			{
+				descriptorReader = new MirrorDescriptorsReader();
+				descriptorReader.ReadConfiguration(device);
+				return OperationResult<GKDeviceConfiguration>.FromError(descriptorReader.Error, descriptorReader.DeviceConfiguration);
+			}
 			Start();
-			return OperationResult<GKDeviceConfiguration>.FromError(descriptorReader.Error, descriptorReader.DeviceConfiguration);
+			return OperationResult<GKDeviceConfiguration>.FromError("Для данного типа устройства запрещено чтение дескрипторов");
 		}
 
 		public static OperationResult<string> GKReadConfigurationFromGKFile(GKDevice device, string userName, GKProgressCallback progressCallback)

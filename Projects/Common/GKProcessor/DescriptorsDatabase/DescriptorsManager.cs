@@ -23,7 +23,7 @@ namespace GKProcessor
 				var gkDatabase = new GkDatabase(device);
 				GkDatabases.Add(gkDatabase);
 
-				foreach (var kauDevice in device.Children.Where(x => x.Driver.IsKau))
+				foreach (var kauDevice in device.Children.Where(x => x.Driver.IsKau || x.DriverType == GKDriverType.GKMirror))
 				{
 					var kauDatabase = new KauDatabase(kauDevice);
 					gkDatabase.KauDatabases.Add(kauDatabase);

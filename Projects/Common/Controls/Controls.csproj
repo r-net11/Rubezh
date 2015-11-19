@@ -2613,9 +2613,6 @@
     <Resource Include="Images\GreenArrowDown.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="GKIcons\RSR2_GKMirror.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="GKIcons\RSR2_GKMirrorItem.png" />
   </ItemGroup>
   <ItemGroup>
@@ -2631,24 +2628,6 @@
     <Resource Include="GKIcons\GKIndicatorsGroup.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="GKIcons\RSR2_GKMirrorDirection.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="GKIcons\RSR2_GKMirrorGuardZone.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="GKIcons\RSR2_GKMirrorFireZone.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="GKIcons\RSR2_GKMirrorFightFireZone.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="GKIcons\RSR2_GKMirrorPerformersDevice.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="GKIcons\RSR2_GKMirrorDetectorsDevice.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Cable.png" />
   </ItemGroup>
   <ItemGroup>
@@ -2662,6 +2641,17 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="StepIcons\Now.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\ControlDevicesMirror.png" />
+    <Resource Include="GKIcons\DetectorDevicesMirror.png" />
+    <Resource Include="GKIcons\FirefightingZonesMirror.png" />
+    <Resource Include="GKIcons\FireZonesMirror.png" />
+    <Resource Include="GKIcons\GKMirror.png" />
+    <Resource Include="GKIcons\GuardZonesMirror.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\DirectionsMirror.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

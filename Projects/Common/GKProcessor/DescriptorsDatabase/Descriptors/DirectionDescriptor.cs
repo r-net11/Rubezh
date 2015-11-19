@@ -30,6 +30,11 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.END);
 				return;
 			}
+
+			var mirrorParent = Direction.GetMirrorParent();
+			if (mirrorParent != null)
+				Formula.AddMirrorLogic(Direction, mirrorParent);
+
 			if (Direction.Logic.StopClausesGroup.GetObjects().Count > 0)
 			{
 				Formula.AddClauseFormula(Direction.Logic.StopClausesGroup);

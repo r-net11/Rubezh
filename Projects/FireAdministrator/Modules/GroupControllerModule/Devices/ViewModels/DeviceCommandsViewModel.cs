@@ -63,7 +63,7 @@ namespace GKModule.Models
 
 		bool CanShowInfo()
 		{
-			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKau || SelectedDevice.Device.DriverType == GKDriverType.GK));
+			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKau || SelectedDevice.Device.DriverType == GKDriverType.GK || SelectedDevice.Device.DriverType == GKDriverType.GKMirror));
 		}
 
 		public RelayCommand SynchroniseTimeCommand { get; private set; }
@@ -84,7 +84,7 @@ namespace GKModule.Models
 		}
 		bool CanSynchroniseTime()
 		{
-			return (SelectedDevice != null && SelectedDevice.Device.DriverType == GKDriverType.GK);
+			return (SelectedDevice != null && (SelectedDevice.Device.DriverType == GKDriverType.GK || SelectedDevice.Device.DriverType == GKDriverType.GKMirror));
 		}
 
 		public RelayCommand ReadJournalCommand { get; private set; }
@@ -208,7 +208,7 @@ namespace GKModule.Models
 
 		bool CanReadConfiguration()
 		{
-			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKau || SelectedDevice.Driver.DriverType == GKDriverType.GK));
+			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKau || SelectedDevice.Driver.DriverType == GKDriverType.GK || SelectedDevice.Device.DriverType == GKDriverType.GKMirror));
 		}
 
 		bool CanReadConfigFile()

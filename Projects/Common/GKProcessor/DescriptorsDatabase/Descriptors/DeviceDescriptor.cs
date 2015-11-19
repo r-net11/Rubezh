@@ -31,12 +31,15 @@ namespace GKProcessor
 		public override void BuildFormula()
 		{
 			Formula = new FormulaBuilder();
-			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) ||
-			    (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
+			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
 			{
 				Formula.Add(FormulaOperationType.END);
 				return;
 			}
+
+			var mirrorParent = Device.GetMirrorParent();
+			if (mirrorParent != null)
+				Formula.AddMirrorLogic(Device, mirrorParent);
 
 			if (CreateMPTLogic())
 				return;
@@ -155,6 +158,11 @@ namespace GKProcessor
 			var binProperties = new List<BinProperty>();
 
 			if (DatabaseType == DatabaseType.Gk && Device.Driver.IsDeviceOnShleif)
+			{
+				return;
+			}
+
+			if (DatabaseType == DatabaseType.Gk && (Device.DriverType == GKDriverType.GKMirror || (Device.Parent!=null && Device.Parent.DriverType == GKDriverType.GKMirror)))
 			{
 				return;
 			}

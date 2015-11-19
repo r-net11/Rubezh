@@ -21,7 +21,7 @@ namespace GKModule.ViewModels
 		
 		public PmfUsersViewModel(GKDevice pmf)
 		{
-			if(pmf == null || pmf.DriverType != GKDriverType.RSR2_GKMirror)
+			if(pmf == null || pmf.DriverType != GKDriverType.GKMirror)
 			{
 				MessageBoxService.Show("Неверный тип устройства");
 				return;

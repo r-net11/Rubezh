@@ -42,8 +42,10 @@ namespace GKProcessor
 
 			foreach (var device in Devices)
 			{
-				var deviceDescriptor = new DeviceDescriptor(device);
-				Descriptors.Add(deviceDescriptor);
+				if (device.Driver.HasMirror)
+					Descriptors.Add(new MirrorDescriptor(device));
+				else
+					Descriptors.Add(new DeviceDescriptor(device));
 			}
 
 			AddKauLogicObjects();

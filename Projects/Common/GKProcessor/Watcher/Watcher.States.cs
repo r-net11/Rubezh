@@ -209,8 +209,8 @@ namespace GKProcessor
 				ushort physicalAddress = (ushort)device.IntAddress;
 				if (device.Driver.IsDeviceOnShleif)
 					physicalAddress = (ushort)((device.ShleifNo - 1) * 256 + device.IntAddress);
-				if (device.DriverType != GKDriverType.GK && device.DriverType != GKDriverType.RSR2_KAU
-					&& device.Driver.HasAddress && device.Driver.IsReal && physicalAddress != descriptorStateHelper.PhysicalAddress)
+				if (device.DriverType != GKDriverType.GK && device.DriverType != GKDriverType.RSR2_KAU && device.DriverType != GKDriverType.GKMirror
+					&& device.Driver.HasAddress && !device.Driver.HasMirror && device.Driver.IsReal && physicalAddress != descriptorStateHelper.PhysicalAddress)
 				{
 					isMissmatch = true;
 					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_физический_адрес_устройства;

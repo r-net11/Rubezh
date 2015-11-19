@@ -69,24 +69,24 @@ namespace GKModule.ViewModels
 					}
 				}
 
-				//var gkDevices = AllDevices.Where(x => x.Driver.DriverType == GKDriverType.GK);
-				//foreach (var gkDevice in gkDevices)
-				//{
-				//	var gkIndicatorsGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа индикаторов", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicatorsGroup) });
-				//	var gkRelaysGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа реле", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKRelaysGroup) });
-				//	var gkIndicators = new List<DeviceViewModel>(gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKIndicator));
-				//	var gkRelays = new List<DeviceViewModel>(gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKRele));
-				//	foreach (var gkIndicator in gkIndicators)
-				//	{
-				//		gkIndicatorsGroupDevice.AddChild(gkIndicator);
-				//	}
-				//	foreach (var gkRelay in gkRelays)
-				//	{
-				//		gkRelaysGroupDevice.AddChild(gkRelay);
-				//	}
-				//	gkDevice.AddChildFirst(gkIndicatorsGroupDevice);
-				//	gkDevice.AddChildFirst(gkRelaysGroupDevice);
-				//}
+				var gkDevices = AllDevices.Where(x => x.Driver.DriverType == GKDriverType.GK || x.Driver.DriverType == GKDriverType.GKMirror);
+				foreach (var gkDevice in gkDevices)
+				{
+					var gkIndicatorsGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа индикаторов", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicatorsGroup) });
+					var gkRelaysGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа реле", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKRelaysGroup) });
+					var gkIndicators = new List<DeviceViewModel>(gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKIndicator));
+					var gkRelays = new List<DeviceViewModel>(gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKRele));
+					foreach (var gkIndicator in gkIndicators)
+					{
+						gkIndicatorsGroupDevice.AddChild(gkIndicator);
+					}
+					foreach (var gkRelay in gkRelays)
+					{
+						gkRelaysGroupDevice.AddChild(gkRelay);
+					}
+					gkDevice.AddChildFirst(gkIndicatorsGroupDevice);
+					gkDevice.AddChildFirst(gkRelaysGroupDevice);
+				}
 			}
 
 			foreach (var device in AllDevices)
@@ -187,7 +187,7 @@ namespace GKModule.ViewModels
 		bool CanCutCopy()
 		{
 			return !(SelectedDevice == null || SelectedDevice.Parent == null ||
-				SelectedDevice.Driver.IsAutoCreate || SelectedDevice.Parent.Driver.IsGroupDevice || SelectedDevice.Parent.Driver.DriverType == GKDriverType.RSR2_GKMirror);
+				SelectedDevice.Driver.IsAutoCreate || SelectedDevice.Parent.Driver.IsGroupDevice || SelectedDevice.Parent.Driver.DriverType == GKDriverType.GKMirror);
 		}
 
 		private bool isCut;

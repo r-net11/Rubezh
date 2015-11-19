@@ -83,6 +83,8 @@ namespace RubezhAPI.GK
 		public virtual string GetGKDescriptorName(GKNameGenerationType gkNameGenerationType)
 		{
 			var result = PresentationName;
+			if (result == null)
+				return "";
 			if (result.Length > 32)
 				result = result.Substring(0, 32);
 			return result.TrimEnd(' ');
@@ -180,6 +182,33 @@ namespace RubezhAPI.GK
 				{
 					device.LinkToDescriptor(devicePumpStation);
 					LinkLogic(device, device.NSLogic.OnClausesGroup);
+				}
+
+				if (device.Driver.HasMirror)
+				{
+					switch (device.DriverType)
+					{
+						case GKDriverType.DetectorDevicesMirror:
+							device.GKReflectionItem.Devices.ForEach(x => LinkToDescriptor(x));
+							break;
+						case GKDriverType.ControlDevicesMirror:
+							device.GKReflectionItem.Devices.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							device.GKReflectionItem.Diretions.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							break;
+						case GKDriverType.DirectionsMirror:
+							device.GKReflectionItem.Diretions.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							break;
+						case GKDriverType.FireZonesMirror:
+							device.GKReflectionItem.Zones.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							break;
+						case GKDriverType.FirefightingZonesMirror:
+							device.GKReflectionItem.Zones.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							device.GKReflectionItem.Diretions.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							break;
+						case GKDriverType.GuardZonesMirror:
+							device.GKReflectionItem.GuardZones.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							break;
+					}
 				}
 			}
 
@@ -323,12 +352,18 @@ namespace RubezhAPI.GK
 
 		public void ClearDescriptor()
 		{
-			InputDependentElements = new List<GKBase>();
+			//InputDependentElements = new List<GKBase>();
 			OutputDependentElements = new List<GKBase>();
 			InputDescriptors = new List<GKBase>();
 			OutputDescriptors = new List<GKBase>();
 			KauParents = new HashSet<GKDevice>();
 			GkParents = new HashSet<GKDevice>();
+		}
+
+		public GKDevice GetMirrorParent()
+		{
+			var mirrorParent = InputDependentElements.FirstOrDefault(x => x is GKDevice && (x as GKDevice).Driver.HasMirror);
+			return mirrorParent as GKDevice;
 		}
 
 		[XmlIgnore]

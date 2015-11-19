@@ -85,7 +85,7 @@ namespace GKModule.ViewModels
 				LocalDevice.Children.RemoveAll(x => x.DriverType == GKDriverType.RSR2_KAU);
 				foreach (var kauChild in RemoteDevice.Children)
 				{
-					if (kauChild.DriverType == GKDriverType.RSR2_KAU)
+					if (kauChild.DriverType == GKDriverType.RSR2_KAU || kauChild.DriverType == GKDriverType.GKMirror)
 					{
 						LocalDevice.Children.Add(kauChild);
 					}

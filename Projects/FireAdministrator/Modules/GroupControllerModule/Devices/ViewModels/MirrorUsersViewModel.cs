@@ -25,7 +25,7 @@ namespace GKModule.ViewModels
 			Title = "Права доступа для отражения";
 			Device = device;
 			Users = new ObservableCollection<MirrorUserNewModel>();
-			foreach (var mirrorUser in device.GKMirrorItem.MirrorUsers)
+			foreach (var mirrorUser in device.GKReflectionItem.MirrorUsers)
 			{
 				var mirrorUserNewModel = new MirrorUserNewModel(mirrorUser);
 				Users.Add(mirrorUserNewModel);
@@ -120,14 +120,14 @@ namespace GKModule.ViewModels
 		public RelayCommand WriteCommand { get; private set; }
 		void Write()
 		{
-			var operationResult = ClientManager.FiresecService.GKWriteMirrorUsers(Device, Device.GKMirrorItem.MirrorUsers);
+			var operationResult = ClientManager.FiresecService.GKWriteMirrorUsers(Device, Device.GKReflectionItem.MirrorUsers);
 			if(operationResult.HasError)
 				MessageBoxService.ShowWarning(operationResult.Error);
 		}
 		
 		protected override bool Save()
 		{
-			Device.GKMirrorItem.MirrorUsers = new List<MirrorUser>(Users.Select(x=>x.MirrorUser));
+			Device.GKReflectionItem.MirrorUsers = new List<MirrorUser>(Users.Select(x=>x.MirrorUser));
 			ServiceFactory.SaveService.GKChanged = true;
 			return base.Save();
 		}

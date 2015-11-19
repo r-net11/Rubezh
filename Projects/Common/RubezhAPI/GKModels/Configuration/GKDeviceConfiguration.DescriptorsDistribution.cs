@@ -12,11 +12,6 @@ namespace RubezhAPI.GK
 		{
 			Codes.ForEach(x => x.ChildDescriptors = new List<GKBase>());
 			var gkBases = new List<GKBase>();
-			foreach (var device in Devices)
-			{
-				device.ChildDescriptors = device.Logic.GetObjects();
-				gkBases.Add(device);
-			}
 
 			foreach (var zone in Zones)
 			{
@@ -127,25 +122,21 @@ namespace RubezhAPI.GK
 				if (door.EnterDevice != null)
 				{
 					door.ChildDescriptors.Add(door.EnterDevice);
-					//door.EnterDevice.ChildDescriptors.Add(door);
 				}
 
 				if (door.ExitDevice != null)
 				{
 					door.ChildDescriptors.Add(door.ExitDevice);
-					//door.ExitDevice.ChildDescriptors.Add(door);
 				}
 
 				if (door.EnterButton != null)
 				{
 					door.ChildDescriptors.Add(door.EnterButton);
-					//door.EnterButton.ChildDescriptors.Add(door);
 				}
 
 				if (door.ExitButton != null)
 				{
 					door.ChildDescriptors.Add(door.ExitButton);
-					//door.ExitButton.ChildDescriptors.Add(door);
 				}
 
 				if (door.LockDevice != null)
@@ -163,16 +154,47 @@ namespace RubezhAPI.GK
 				if (door.LockControlDevice != null)
 				{
 					door.ChildDescriptors.Add(door.LockControlDevice);
-					//door.LockControlDevice.ChildDescriptors.Add(door);
 				}
 
 				if (door.LockControlDeviceExit != null)
 				{
 					door.ChildDescriptors.Add(door.LockControlDeviceExit);
-					//door.LockControlDeviceExit.ChildDescriptors.Add(door);
 				}
 
 				gkBases.Add(door);
+			}
+
+			foreach (var device in Devices)
+			{
+				device.ChildDescriptors.AddRange(device.Logic.GetObjects());
+				if (device.Driver.HasMirror)
+				{
+					switch (device.DriverType)
+					{
+						case GKDriverType.DetectorDevicesMirror:
+							device.GKReflectionItem.Devices.ForEach(x => device.ChildDescriptors.Add(x));
+							break;
+
+						case GKDriverType.ControlDevicesMirror:
+							device.GKReflectionItem.Devices.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
+							device.GKReflectionItem.Diretions.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
+							break;
+						case GKDriverType.DirectionsMirror:
+							device.GKReflectionItem.Diretions.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
+							break;
+						case GKDriverType.FireZonesMirror:
+							device.GKReflectionItem.Zones.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
+							break;
+						case GKDriverType.FirefightingZonesMirror:
+							device.GKReflectionItem.Zones.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
+							device.GKReflectionItem.Diretions.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
+							break;
+						case GKDriverType.GuardZonesMirror:
+							device.GKReflectionItem.GuardZones.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
+							break;
+					}
+				}
+				gkBases.Add(device);
 			}
 
 			gkBases.ForEach(x => x.ClearDescriptor());
