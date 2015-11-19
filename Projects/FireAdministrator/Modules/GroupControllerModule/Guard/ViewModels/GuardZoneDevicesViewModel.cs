@@ -77,7 +77,7 @@ namespace GKModule.ViewModels
 			{
 				if (device.Driver.HasGuardZone && !zone.GuardZoneDevices.Any(x => x.DeviceUID == device.UID))
 				{
-					if (device.GuardZoneUIDs.Count > 0 || (device.IsInMPT && !GlobalSettingsHelper.GlobalSettings.ShowMPTsDevices)
+					if (device.GuardZones.Count > 0 || (device.IsInMPT && !GlobalSettingsHelper.GlobalSettings.ShowMPTsDevices)
 							|| (device.ZoneUIDs.Count > 0 && !GlobalSettingsHelper.GlobalSettings.ShowOtherZonesDevices)
 							|| (device.Door != null && !GlobalSettingsHelper.GlobalSettings.ShowDoorsDevices))
 						continue;
