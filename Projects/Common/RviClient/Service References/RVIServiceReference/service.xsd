@@ -2,6 +2,7 @@
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" />
   <xs:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Alarm" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Video" />
   <xs:element name="SessionInitialiazation">
     <xs:complexType>
       <xs:sequence>
@@ -114,115 +115,143 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="GetVideoFile">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="document" nillable="true" type="q17:VideoFileIn" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetVideoFileResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="GetVideoFileResult" nillable="true" type="q18:VideoFileOut" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="SetPtzPreset">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="document" nillable="true" type="q17:PtzPresetIn" />
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="document" nillable="true" type="q19:PtzPresetIn" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SetPtzPresetResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="SetPtzPresetResult" nillable="true" type="q18:PtzPresetOut" />
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="SetPtzPresetResult" nillable="true" type="q20:PtzPresetOut" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PtzTemplateBypassStart">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="document" nillable="true" type="q19:PtzTemplateBypassStartIn" />
+        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="document" nillable="true" type="q21:PtzTemplateBypassStartIn" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PtzTemplateBypassStartResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="PtzTemplateBypassStartResult" nillable="true" type="q20:PtzTemplateBypassStartOut" />
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="PtzTemplateBypassStartResult" nillable="true" type="q22:PtzTemplateBypassStartOut" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PtzTemplateBypassStop">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="document" nillable="true" type="q21:PtzTemplateBypassStopIn" />
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="document" nillable="true" type="q23:PtzTemplateBypassStopIn" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PtzTemplateBypassStopResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="PtzTemplateBypassStopResult" nillable="true" type="q22:PtzTemplateBypassStopOut" />
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="PtzTemplateBypassStopResult" nillable="true" type="q24:PtzTemplateBypassStopOut" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SnapshotDo">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="document" nillable="true" type="q23:SnapshotDoIn" />
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="document" nillable="true" type="q25:SnapshotDoIn" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SnapshotDoResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="SnapshotDoResult" nillable="true" type="q24:SnapshotDoOut" />
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="SnapshotDoResult" nillable="true" type="q26:SnapshotDoOut" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetSnapshotImage">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="document" nillable="true" type="q25:SnapshotImageIn" />
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="document" nillable="true" type="q27:SnapshotImageIn" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetSnapshotImageResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="GetSnapshotImageResult" nillable="true" type="q26:SnapshotImageOut" />
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" minOccurs="0" name="GetSnapshotImageResult" nillable="true" type="q28:SnapshotImageOut" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetAlarmRules">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Alarm" minOccurs="0" name="document" nillable="true" type="q27:AlarmRulesIn" />
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Alarm" minOccurs="0" name="document" nillable="true" type="q29:AlarmRulesIn" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetAlarmRulesResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Alarm" minOccurs="0" name="GetAlarmRulesResult" nillable="true" type="q28:AlarmRulesOut" />
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Alarm" minOccurs="0" name="GetAlarmRulesResult" nillable="true" type="q30:AlarmRulesOut" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="AlarmRuleExecute">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Alarm" minOccurs="0" name="document" nillable="true" type="q29:AlarmRuleExecuteIn" />
+        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Alarm" minOccurs="0" name="document" nillable="true" type="q31:AlarmRuleExecuteIn" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="AlarmRuleExecuteResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Alarm" minOccurs="0" name="AlarmRuleExecuteResult" nillable="true" type="q30:AlarmRuleExecuteOut" />
+        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Alarm" minOccurs="0" name="AlarmRuleExecuteResult" nillable="true" type="q32:AlarmRuleExecuteOut" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="AlarmRuleCheckExist">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Alarm" minOccurs="0" name="document" nillable="true" type="q31:AlarmRuleCheckExistIn" />
+        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Alarm" minOccurs="0" name="document" nillable="true" type="q33:AlarmRuleCheckExistIn" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="AlarmRuleCheckExistResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Alarm" minOccurs="0" name="AlarmRuleCheckExistResult" nillable="true" type="q32:AlarmRuleCheckExistOut" />
+        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Alarm" minOccurs="0" name="AlarmRuleCheckExistResult" nillable="true" type="q34:AlarmRuleCheckExistOut" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VideoStreamingStart">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Video" minOccurs="0" name="streamingStartIn" nillable="true" type="q35:ChannelStreamingStartIn" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VideoStreamingStartResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Video" minOccurs="0" name="VideoStreamingStartResult" nillable="true" type="q36:ChannelStreamingStartOut" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

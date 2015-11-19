@@ -106,9 +106,11 @@
 				<File Id="Administrator.Entities.dll" Name="Entities.dll" Source="$(var.VSSDll.TargetDir)" />
 				<File Id="Administrator.GalaSoft.MvvmLight.WPF4.dll" Name="GalaSoft.MvvmLight.WPF4.dll" Source="$(var.VSSDll.TargetDir)" />
 				<File Id="Administrator.MediaSourcePlayer.dll" Name="MediaSourcePlayer.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Administrator.NativePlayerIpcProtocol.dll" Name="NativePlayerIpcProtocol.dll" Source="$(var.VSSDll.TargetDir)" />
 				<File Id="Administrator.NativePlayerWrap.dll" Name="NativePlayerWrap.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Administrator.ProcessCommunication.dll" Name="ProcessCommunication.dll" Source="$(var.VSSDll.TargetDir)" />
+				<File Id="Administrator.PlayerPoolService.dll" Name="PlayerPoolService.dll" Source="$(var.VSSDll.TargetDir)" />
+				<File Id="Administrator.PlayerService.dll" Name="PlayerService.dll" Source="$(var.VSSDll.TargetDir)" />
+				<File Id="Administrator.PlayerServiceApi.dll" Name="PlayerServiceApi.dll" Source="$(var.VSSDll.TargetDir)" />
+				<File Id="Administrator.RVI_VSS.Utils.dll" Name="RVI_VSS.Utils.dll" Source="$(var.VSSDll.TargetDir)" />
 				<File Id="Administrator.RviVssDec.exe" Name="RviVssDec.exe" Source="$(var.VSSDll.TargetDir)" />
 				<File Id="Administrator.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.VSSDll.TargetDir)" />
 			</Component>
@@ -129,7 +131,9 @@
 				<File Id="Administrator.avdevice_56.dll" Name="avdevice-56.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.avfilter_5.dll" Name="avfilter-5.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.avformat_56.dll" Name="avformat-56.dll" Source="$(var.Administrator.TargetDir)dll\" />
+				<File Id="Administrator.avnetsdk.dll" Name="avnetsdk.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.avutil_54.dll" Name="avutil-54.dll" Source="$(var.Administrator.TargetDir)dll\" />
+				<File Id="Administrator.D3DX9_43.dll" Name="D3DX9_43.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.dhconfigsdk.dll" Name="dhconfigsdk.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.DhDecode.dll" Name="DhDecode.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.dhdvr.dll" Name="dhdvr.dll" Source="$(var.Administrator.TargetDir)dll\" />
@@ -143,9 +147,14 @@
 				<File Id="Administrator.gdiplus.dll" Name="gdiplus.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.h264dec.dll" Name="h264dec.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.HCNetSDK.dll" Name="HCNetSDK.dll" Source="$(var.Administrator.TargetDir)dll\" />
+				<File Id="Administrator.HWDecode.dll" Name="HWDecode.dll" Source="$(var.Administrator.TargetDir)dll\" />
+				<File Id="Administrator.Infra.dll" Name="Infra.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.IvsDrawer.dll" Name="IvsDrawer.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.IvsDrawer_64.dll" Name="IvsDrawer_64.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.jpegdec.dll" Name="jpegdec.dll" Source="$(var.Administrator.TargetDir)dll\" />
+				<File Id="Administrator.json.dll" Name="json.dll" Source="$(var.Administrator.TargetDir)dll\" />
+				<File Id="Administrator.log4cplus.properties" Name="log4cplus.properties" Source="$(var.Administrator.TargetDir)dll\" />
+				<File Id="Administrator.LogMoudle.dll" Name="LogMoudle.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.mfc80.dll" Name="mfc80.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.mfc80u.dll" Name="mfc80u.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.mfcm80.dll" Name="mfcm80.dll" Source="$(var.Administrator.TargetDir)dll\" />
@@ -156,17 +165,18 @@
 				<File Id="Administrator.Microsoft.VC80.MFCLOC.manifest" Name="Microsoft.VC80.MFCLOC.manifest" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.Microsoft.VC80.OpenMP.manifest" Name="Microsoft.VC80.OpenMP.manifest" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.mjpegdec.dll" Name="mjpegdec.dll" Source="$(var.Administrator.TargetDir)dll\" />
+				<File Id="Administrator.MP_Render.dll" Name="MP_Render.dll" Source="$(var.Administrator.TargetDir)dll\" />
+				<File Id="Administrator.MP_VIE.dll" Name="MP_VIE.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.mp2dec.dll" Name="mp2dec.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.mp3dec.dll" Name="mp3dec.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.MP3Decoder.dll" Name="MP3Decoder.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.mpeg4dec.dll" Name="mpeg4dec.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.mpeg4enc.dll" Name="mpeg4enc.dll" Source="$(var.Administrator.TargetDir)dll\" />
-				<File Id="Administrator.MP_Render.dll" Name="MP_Render.dll" Source="$(var.Administrator.TargetDir)dll\" />
-				<File Id="Administrator.MP_VIE.dll" Name="MP_VIE.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.msvcm80.dll" Name="msvcm80.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.msvcp80.dll" Name="msvcp80.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.msvcr80.dll" Name="msvcr80.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.NativePlayer.dll" Name="NativePlayer.dll" Source="$(var.Administrator.TargetDir)dll\" />
+				<File Id="Administrator.NetFramework.dll" Name="NetFramework.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.npf.sys" Name="npf.sys" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.npf64.sys" Name="npf64.sys" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.NvdaiDll.dll" Name="NvdaiDll.dll" Source="$(var.Administrator.TargetDir)dll\" />
@@ -175,13 +185,14 @@
 				<File Id="Administrator.NvdcPlayerDll.dll" Name="NvdcPlayerDll.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.OpenAL32.dll" Name="OpenAL32.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.PlayCtrl.dll" Name="PlayCtrl.dll" Source="$(var.Administrator.TargetDir)dll\" />
-				<File Id="Administrator.postproc_53.dll" Name="postproc-53.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.postproc.dll" Name="postproc.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.QosControl.dll" Name="QosControl.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.Sadp.dll" Name="Sadp.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.SDL2.dll" Name="SDL2.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.SensorUI.dll" Name="SensorUI.dll" Source="$(var.Administrator.TargetDir)dll\" />
+				<File Id="Administrator.Stream.dll" Name="Stream.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.StreamAnalyzer.dll" Name="StreamAnalyzer.dll" Source="$(var.Administrator.TargetDir)dll\" />
+				<File Id="Administrator.StreamSvr.dll" Name="StreamSvr.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.StreamTransClient.dll" Name="StreamTransClient.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.SuperRender.dll" Name="SuperRender.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.swresample_1.dll" Name="swresample-1.dll" Source="$(var.Administrator.TargetDir)dll\" />

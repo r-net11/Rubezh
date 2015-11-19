@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Net;
 using System.Windows;
 using System.Windows.Controls;
+using Common;
 using MediaSourcePlayer.MediaSource;
 using VideoModule.ViewModels;
 
@@ -13,24 +15,52 @@ namespace VideoModule.Views
 		{
 			InitializeComponent();
 
+			DataContextChanged += OnDataContextChanged;
 			Unloaded += OnUnloaded;
 		}
 
-		private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+		void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
 			var viewModel = DataContext as CameraDetailsViewModel;
 			if (viewModel == null)
 				return;
-			viewModel.CanPlay = false;
 
-			MediaSourcePlayer.Open(MediaSourceFactory.CreateFromRtspStream(viewModel.Camera.RviRTSP));
-			MediaSourcePlayer.Play();
+			viewModel.Play -= ViewModelOnPlay;
+			viewModel.Play += ViewModelOnPlay;
+		}
+
+		private void ViewModelOnPlay(object sender, EventArgs eventArgs)
+		{
+			var viewModel = DataContext as CameraDetailsViewModel;
+			if (viewModel == null)
+				return;
+
+			try
+			{
+				IPEndPoint ipEndPoint;
+				int vendorId;
+				if (viewModel.PrepareToTranslation(out ipEndPoint, out vendorId))
+				{
+					MediaSourcePlayer.Open(MediaSourceFactory.CreateFromTcpSocket(ipEndPoint, vendorId));
+					MediaSourcePlayer.Play();
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e);
+			}
 		}
 
 		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
 		{
 			MediaSourcePlayer.Stop();
 			MediaSourcePlayer.Close();
+
+			var viewModel = DataContext as CameraDetailsViewModel;
+			if (viewModel == null)
+				return;
+
+			viewModel.Play -= ViewModelOnPlay;
 		}
 	}
 }

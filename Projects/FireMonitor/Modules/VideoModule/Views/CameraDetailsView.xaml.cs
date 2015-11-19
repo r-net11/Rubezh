@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Net;
 using System.Windows;
+using Common;
 using FiresecAPI.Models;
 using MediaSourcePlayer.MediaSource;
 using VideoModule.ViewModels;
@@ -26,13 +28,24 @@ namespace VideoModule.Views
 		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
 		{
 			var viewModel = DataContext as CameraDetailsViewModel;
+			if (viewModel == null)
+				return;
 			
 			// При загрузке формы сразу стартуем просмотр видео ячейки
-			if (viewModel != null)
+			try
 			{
-				MediaSourcePlayer.Open(MediaSourceFactory.CreateFromRtspStream(viewModel.RviRTSP));
-				MediaSourcePlayer.Play();
-				_needStopPlaying = true;
+				IPEndPoint ipEndPoint;
+				int vendorId;
+				if (viewModel.PrepareToTranslation(out ipEndPoint, out vendorId))
+				{
+					var ms = MediaSourceFactory.CreateFromTcpSocket(ipEndPoint, vendorId);
+					MediaSourcePlayer.Open(ms);
+					MediaSourcePlayer.Play();
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e);
 			}
 		}
 
@@ -45,6 +58,9 @@ namespace VideoModule.Views
 				MediaSourcePlayer.Close();
 				_needStopPlaying = false;
 			}
+			
+			Loaded -= OnLoaded;
+			Unloaded -= OnUnloaded;
 			Dispatcher.ShutdownStarted -= Dispatcher_ShutdownStarted;
 		}
 

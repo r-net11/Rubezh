@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -11,6 +12,7 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using FiresecAPI.Journal;
 using System;
+using RviClient;
 
 namespace VideoModule.ViewModels
 {
@@ -110,6 +112,11 @@ namespace VideoModule.ViewModels
 		public bool IsSetPtzPreset
 		{
 			get { return CanSetPtzPreset(); }
+		}
+
+		public bool PrepareToTranslation(out IPEndPoint ipEndPoint, out int vendorId)
+		{
+			return RviClientHelper.PrepareToTranslation(FiresecManager.SystemConfiguration, Camera, out ipEndPoint, out vendorId);
 		}
 
 		public class PlanViewModel : BaseViewModel

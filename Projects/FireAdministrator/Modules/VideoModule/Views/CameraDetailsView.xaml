@@ -6,8 +6,8 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:viewModels="clr-namespace:VideoModule.ViewModels"
 	xmlns:mediaSourcePlayer="clr-namespace:MediaSourcePlayer;assembly=MediaSourcePlayer"
-	Width="545"
-	Height="380"
+	MinWidth="545"
+	MinHeight="380"
 	d:DataContext="{d:DesignInstance viewModels:CameraDetailsViewModel}"
 	mc:Ignorable="d">
 	<UserControl.Resources>
@@ -17,84 +17,81 @@
 			<Setter Property="Foreground" Value="White" />
 		</Style>
 	</UserControl.Resources>
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition />
-		</Grid.ColumnDefinitions>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition />
-		</Grid.RowDefinitions>
-		<TextBlock
-			Margin="5 5 10 10"
-			Style="{StaticResource TextBlockCameraStyle}"
-			Text="Название устройства" />
-		<TextBlock
-			Grid.Column="1"
-			Margin="10 5 10 10"
-			Style="{StaticResource TextBlockCameraStyle}"
-			Text="{Binding Camera.Name,
-		                          FallbackValue=Название}" />
-		<Button
-			Grid.RowSpan="5"
-			Grid.Column="2"
-			Width="140"
-			HorizontalAlignment="Center"
-			VerticalAlignment="Top"
-			Content="Предпросмотр"
-			Padding="4" 
-			Click="ButtonBase_OnClick"
-			IsEnabled="{Binding CanPlay}"/>
-		<TextBlock
-			Grid.Row="1"
-			Margin="5 10 10 10"
-			Style="{StaticResource TextBlockCameraStyle}"
-			Text="Адрес устройства" />
-		<TextBlock
-			Grid.Row="1"
-			Grid.Column="1"
-			Margin="5"
-			Style="{StaticResource TextBlockCameraStyle}"
-			Text="{Binding Camera.Ip,
-		                          FallbackValue=0.0.0.0}" />
-		<mediaSourcePlayer:MediaPlayer
-			x:Name="MediaSourcePlayer"
-			Grid.Row="1"
-			Grid.RowSpan="4"
-			Grid.Column="2"
-			Width="250"
-			Height="250"
-			Margin="5"
-			VerticalAlignment="Top">
-		</mediaSourcePlayer:MediaPlayer>
-		<TextBlock
-			Grid.Row="2"
-			Margin="5 10 10 10"
-			Style="{StaticResource TextBlockCameraStyle}"
-			Text="Номер канала" />
-		<TextBlock
-			Grid.Row="2"
-			Grid.Column="1"
-			Margin="10"
-			Style="{StaticResource TextBlockCameraStyle}"
-			Text="{Binding Camera.RviChannelNo,
-		                          FallbackValue=0}" />
-		<TextBlock
-			Grid.Row="3"
-			Margin="5 10 10 10"
-			Style="{StaticResource TextBlockCameraStyle}"
-			Text="Название канала" />
-		<TextBlock
-			Grid.Row="3"
-			Grid.Column="1"
-			Margin="10"
-			Style="{StaticResource TextBlockCameraStyle}"
-			Text="{Binding Camera.RviChannelName,
-		                          FallbackValue=Rvi_Имя}" />
-	</Grid>
+	<TabControl>
+		<TabItem Header="Основные">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<TextBlock
+					Grid.Row="0"
+					Grid.Column="0"
+					Margin="5 5 10 10"
+					Style="{StaticResource TextBlockCameraStyle}"
+					Text="Название устройства" />
+				<TextBlock
+					Grid.Row="0"
+					Grid.Column="1"
+					Margin="10 5 10 10"
+					Style="{StaticResource TextBlockCameraStyle}"
+					Text="{Binding Camera.Name, FallbackValue=Название}" />
+				<TextBlock
+					Grid.Row="1"
+					Grid.Column="0"
+					Margin="5 10 10 10"
+					Style="{StaticResource TextBlockCameraStyle}"
+					Text="Адрес устройства" />
+				<TextBlock
+					Grid.Row="1"
+					Grid.Column="1"
+					Margin="5"
+					Style="{StaticResource TextBlockCameraStyle}"
+					Text="{Binding Camera.Ip, FallbackValue=0.0.0.0}" />
+				<TextBlock
+					Grid.Row="2"
+					Grid.Column="0"
+					Margin="5 10 10 10"
+					Style="{StaticResource TextBlockCameraStyle}"
+					Text="Номер канала" />
+				<TextBlock
+					Grid.Row="2"
+					Grid.Column="1"
+					Margin="10"
+					Style="{StaticResource TextBlockCameraStyle}"
+					Text="{Binding Camera.RviChannelNo, FallbackValue=0}" />
+				<TextBlock
+					Grid.Row="3"
+					Grid.Column="0"
+					Margin="5 10 10 10"
+					Style="{StaticResource TextBlockCameraStyle}"
+					Text="Название канала" />
+				<TextBlock
+					Grid.Row="3"
+					Grid.Column="1"
+					Margin="10"
+					Style="{StaticResource TextBlockCameraStyle}"
+					Text="{Binding Camera.RviChannelName, FallbackValue=Rvi_Имя}" />
+			</Grid>
+		</TabItem>
+		<TabItem Header="Предпросмотр">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition/>
+				</Grid.RowDefinitions>
+				<Button Grid.Row="0" Content="Просмотр видео" Command="{Binding PlayCommand}" VerticalAlignment="Center" Margin="2"/>
+				<mediaSourcePlayer:MediaPlayer
+					Grid.Row="1"
+					x:Name="MediaSourcePlayer"
+					Margin="2"/>
+			</Grid>
+		</TabItem>
+	</TabControl>
 </UserControl>

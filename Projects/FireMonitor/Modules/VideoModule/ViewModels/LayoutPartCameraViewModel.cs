@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
+using RviClient;
 
 namespace VideoModule.ViewModels
 {
@@ -20,6 +22,11 @@ namespace VideoModule.ViewModels
 				if (Camera != null)
 					RviRTSP = Camera.RviRTSP;
 			}
+		}
+
+		public bool PrepareToTranslation(out IPEndPoint ipEndPoint, out int vendorId)
+		{
+			return RviClientHelper.PrepareToTranslation(FiresecManager.SystemConfiguration, Camera, out ipEndPoint, out vendorId);
 		}
 	}
 }

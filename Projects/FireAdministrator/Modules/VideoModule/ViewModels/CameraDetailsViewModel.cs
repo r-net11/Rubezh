@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -10,6 +11,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using RviClient;
 
 namespace VideoModule.ViewModels
 {
@@ -17,24 +19,39 @@ namespace VideoModule.ViewModels
 	{
 		public Camera Camera { get; private set; }
 
-		private bool _canPlay;
-		public bool CanPlay
+		public event EventHandler Play;
+
+		protected virtual void RaisePlay()
 		{
-			get { return _canPlay; }
-			set
-			{
-				if (_canPlay == value)
-					return;
-				_canPlay = value;
-				OnPropertyChanged(() => CanPlay);
-			}
+			var temp = Play;
+			if (temp != null)
+				temp(this, EventArgs.Empty);
+		}
+
+		private bool _canPlay;
+
+		public RelayCommand PlayCommand { get; private set; }
+		private void OnPlay()
+		{
+			RaisePlay();
+			_canPlay = false;
+		}
+		public bool CanPlay()
+		{
+			return _canPlay;
 		}
 
 		public CameraDetailsViewModel(Camera camera = null)
 		{
 			Title = "Свойства камеры";
 			Camera = camera ?? new Camera();
-			CanPlay = true;
+			_canPlay = true;
+			PlayCommand = new RelayCommand(OnPlay, CanPlay);
+		}
+
+		public bool PrepareToTranslation(out IPEndPoint ipEndPoint, out int vendorId)
+		{
+			return RviClientHelper.PrepareToTranslation(FiresecManager.SystemConfiguration, Camera, out ipEndPoint, out vendorId);
 		}
 	}
 }
