@@ -1,19 +1,27 @@
 ﻿<UserControl x:Class="LayoutModule.Views.MonitorLayoutsView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<UserControl.InputBindings>
+		<KeyBinding Key="Delete" Command="{Binding CloseLayoutPartCommand}" />
+		<KeyBinding Key="Delete" Modifiers="Control" Command="{Binding DeleteCommand}" />
+		<KeyBinding Key="N" Modifiers="Control" Command="{Binding AddCommand}" />
+		<KeyBinding Key="E" Modifiers="Control" Command="{Binding EditCommand}" />
+		<KeyBinding Key="C" Modifiers="Control" Command="{Binding CopyCommand}" />
+		<KeyBinding Key="V" Modifiers="Control" Command="{Binding PasteCommand}" />
+	</UserControl.InputBindings>
 	<UserControl.Resources>
 		<ContextMenu x:Key="RowMenu">
 			<IconedMenuItem Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" Text="Редактировать" ImageSource="BEdit" />
 			<IconedMenuItem Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" Text="Удалить" ImageSource="BDelete" />
 			<Separator />
-			<IconedMenuItem Command="{Binding DataContext.LayoutCopyCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" Text="Копировать" ImageSource="BCopy" />
+			<IconedMenuItem Command="{Binding DataContext.CopyCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" Text="Копировать" ImageSource="BCopy" />
 		</ContextMenu>
 		<Style x:Key="DefaultRowStyle" TargetType="{x:Type DataGridRow}">
 			<Setter Property="ContextMenu" Value="{StaticResource RowMenu}" />
 		</Style>
 	</UserControl.Resources>
 
-	<Grid>
+	<Grid IsVisibleChanged="Grid_IsVisibleChanged">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="200" MinWidth="200" MaxWidth="600" />
 			<ColumnDefinition Width="Auto" />
@@ -26,7 +34,7 @@
 			<DataGrid.ContextMenu>
 				<ContextMenu>
 					<IconedMenuItem Command="{Binding AddCommand}" Text="Добавить макет" ImageSource="BAdd" />
-					<IconedMenuItem Command="{Binding LayoutPasteCommand}" CommandParameter="{StaticResource True}" Text="Вставить" ImageSource="BPaste" />
+					<IconedMenuItem Command="{Binding PasteCommand}" CommandParameter="{StaticResource True}" Text="Вставить" ImageSource="BPaste" />
 				</ContextMenu>
 			</DataGrid.ContextMenu>
 			<DataGrid.Columns>
