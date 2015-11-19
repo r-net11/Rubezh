@@ -55,7 +55,6 @@ namespace RubezhClient
 			deviceTo.ZoneUIDs = deviceFrom.ZoneUIDs.ToList();
 			deviceTo.Zones = deviceFrom.Zones.ToList();
 			deviceTo.GuardZones = deviceFrom.GuardZones.ToList();
-			deviceTo.GuardZoneUIDs = deviceFrom.GuardZoneUIDs.ToList();
 
 			deviceTo.Logic.OnClausesGroup = deviceFrom.Logic.OnClausesGroup.Clone();
 			deviceTo.Logic.OffClausesGroup = deviceFrom.Logic.OffClausesGroup.Clone();
@@ -154,6 +153,17 @@ namespace RubezhClient
 					AddChild(device, null, autoCreateDriver, i);
 				}
 			}
+		}
+
+		public static void SetDeviceLogic(GKDevice device, GKLogic logic, bool isNs = false)
+		{
+			if (isNs)
+				device.NSLogic = logic;
+			else
+				device.Logic = logic;
+
+			device.ChangedLogic();
+			device.OnChanged();
 		}
 
 		public static bool IsValidIpAddress(GKDevice device)
