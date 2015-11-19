@@ -141,6 +141,7 @@ namespace LayoutModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
+			LayoutUsersViewModel.Update();
 			if (DialogService.ShowModalWindow(new LayoutPropertiesViewModel(SelectedLayout.Layout, LayoutUsersViewModel)))
 			{
 				SelectedLayout.Update();

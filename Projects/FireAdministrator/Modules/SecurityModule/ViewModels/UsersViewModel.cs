@@ -71,7 +71,6 @@ namespace SecurityModule.ViewModels
 				Users.Add(userViewModel);
 				SelectedUser = userViewModel;
 				ServiceFactory.SaveService.SecurityChanged = true;
-				ServiceFactory.Events.GetEvent<AddUserEvent>().Publish(userDetailsViewModel.User);
 			}
 		}
 
@@ -80,12 +79,10 @@ namespace SecurityModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion(string.Format("Вы уверенны, что хотите удалить пользователя \"{0}\" из списка", SelectedUser.User.Name)))
 			{	
-				ServiceFactory.Events.GetEvent<DeleteUserEvent>().Publish(SelectedUser.User);
 				ClientManager.SecurityConfiguration.Users.Remove(SelectedUser.User);
 				Users.Remove(SelectedUser);
 
 				ServiceFactory.SaveService.SecurityChanged = true;
-				
 			}
 		}
 		bool CanDelete()
