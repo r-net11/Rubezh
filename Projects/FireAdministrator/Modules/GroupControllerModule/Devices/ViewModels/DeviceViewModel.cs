@@ -237,7 +237,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				Device.IsNotUsed = !value;
-				GKManager.ChangeLogic(Device, new GKLogic());
+				GKManager.SetDeviceLogic(Device, new GKLogic());
 				OnPropertyChanged(() => IsUsed);
 				OnPropertyChanged(() => ShowOnPlan);
 				OnPropertyChanged(() => PresentationZone);
@@ -678,8 +678,7 @@ namespace GKModule.ViewModels
 			var logicViewModel = new LogicViewModel(Device, Device.Logic, true, hasOnNowClause, hasOffNowClause, hasStopClause);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
-				GKManager.ChangeLogic(Device, logicViewModel.GetModel());
-				Device.ChangedLogic();
+				GKManager.SetDeviceLogic(Device, logicViewModel.GetModel());
 				OnPropertyChanged(() => PresentationZone);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -807,8 +806,7 @@ namespace GKModule.ViewModels
 			var logicViewModel = new LogicViewModel(Device, Device.NSLogic);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
-				Device.NSLogic = logicViewModel.GetModel();
-				Device.ChangedLogic();
+				GKManager.SetDeviceLogic(Device, logicViewModel.GetModel(), true);
 				OnPropertyChanged("NSPresentationZone");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
