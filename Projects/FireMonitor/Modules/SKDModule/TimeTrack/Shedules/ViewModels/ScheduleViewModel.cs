@@ -15,15 +15,15 @@ namespace SKDModule.ViewModels
 	public class ScheduleViewModel : OrganisationElementViewModel<ScheduleViewModel, Schedule>, IEditingViewModel, IDoorsParent
 	{
 		private bool _isInitialized;
-		
+
 		public ScheduleViewModel() { }
-		
+
 		public override void InitializeOrganisation(Organisation organisation, ViewPartViewModel parentViewModel)
 		{
 			base.InitializeOrganisation(organisation, parentViewModel);
 			_isInitialized = false;
 		}
-		
+
 		public override void InitializeModel(Organisation organisation, Schedule model, ViewPartViewModel parentViewModel)
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
@@ -123,7 +123,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			return SelectedScheduleZone != null && ScheduleZones.Count > 1 && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit);
+			return SelectedScheduleZone != null && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -155,7 +155,7 @@ namespace SKDModule.ViewModels
 				{
 					Model.Zones.Remove(item.Model);
 					ScheduleZones.Remove(item);
-				}	
+				}
 			}
 		}
 	}
