@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using RubezhAPI;
-using RubezhAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
-using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Events;
-using GKModule.Events;
-using RubezhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.GK;
 using RubezhClient;
+using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {
@@ -23,19 +19,33 @@ namespace GKModule.ViewModels
 
 		public SKDZoneViewModel(GKSKDZone zone)
 		{
+			ManageOutputDoorsCommand = new RelayCommand(OnManageOutputDoors);
+			ManageInputDoorsCommand = new RelayCommand(OnManageInputDoors);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 
+			OutputDoors = new ObservableCollection<DoorSkdZoneViewModel>();
+			InputDoors = new ObservableCollection<DoorSkdZoneViewModel>();
 			Zone = zone;
 			Update();
 		}
-		List<GKDoor> _doors;
-		public List<GKDoor> Doors
+		ObservableCollection<DoorSkdZoneViewModel> _outputDoors;
+		public ObservableCollection<DoorSkdZoneViewModel> OutputDoors
 		{
-			get { return _doors; }
+			get { return _outputDoors; }
 			set
 			{
-				_doors = value;
-				OnPropertyChanged(() => Doors);
+				_outputDoors = value;
+				OnPropertyChanged(() => OutputDoors);
+			}
+		}
+		ObservableCollection<DoorSkdZoneViewModel> _inputDoors;
+		public ObservableCollection<DoorSkdZoneViewModel> InputDoors
+		{
+			get { return _inputDoors; }
+			set
+			{
+				_inputDoors = value;
+				OnPropertyChanged(() => InputDoors);
 			}
 		}
 
@@ -46,14 +56,50 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
 
-			Doors = GKManager.Doors.Where(x => x.EnterZoneUID == Zone.UID || x.ExitZoneUID==Zone.UID).ToList();
+			OutputDoors = new ObservableCollection<DoorSkdZoneViewModel>(GKManager.Doors.Where(x => x.EnterZoneUID == Zone.UID).Select(x => new DoorSkdZoneViewModel(x, this)));
+			InputDoors = new ObservableCollection<DoorSkdZoneViewModel>(GKManager.Doors.Where(x => x.ExitZoneUID == Zone.UID).Select(x => new DoorSkdZoneViewModel(x, this)));
 		}
-
+		public RelayCommand ManageOutputDoorsCommand { get; private set; }
+		void OnManageOutputDoors()
+		{
+			var beforeDoors = new List<GKDoor>(OutputDoors.Select(x => x.Door));
+			var doorsSelectationViewModel = new DoorsSelectationViewModel(beforeDoors);
+			if (DialogService.ShowModalWindow(doorsSelectationViewModel))
+			{
+				var afterDoors = doorsSelectationViewModel.Doors;
+				foreach (var door in beforeDoors)
+				{
+					if (!afterDoors.Contains(door))
+						door.EnterZoneUID = Guid.Empty;
+				}
+				afterDoors.ForEach(door => door.EnterZoneUID = Zone.UID);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+			Update();
+		}
+		public RelayCommand ManageInputDoorsCommand { get; private set; }
+		void OnManageInputDoors()
+		{
+			var beforeDoors = new List<GKDoor>(InputDoors.Select(x => x.Door));
+			var doorsTypes = new List<GKDoorType> { GKDoorType.AirlockBooth, GKDoorType.Barrier, GKDoorType.Turnstile, GKDoorType.TwoWay };
+			var doorsSelectationViewModel = new DoorsSelectationViewModel(beforeDoors, doorsTypes);
+			if (DialogService.ShowModalWindow(doorsSelectationViewModel))
+			{
+				var afterDoors = doorsSelectationViewModel.Doors;
+				foreach (var door in beforeDoors)
+				{
+					if (!afterDoors.Contains(door))
+						door.ExitZoneUID = Guid.Empty;
+				}
+				afterDoors.ForEach(door => door.ExitZoneUID = Zone.UID);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+			Update();
+		}
 		public bool IsOnPlan
 		{
 			get { return Zone.PlanElementUIDs.Count > 0; }
 		}
-
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
