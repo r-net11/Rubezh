@@ -98,7 +98,7 @@ namespace FiresecService.Service
 			if (isNew)
 				AddJournalMessage(JournalEventNameType.Добавление_нового_праздничного_дня, item.Name, uid: item.UID);
 			else
-				AddJournalMessage(JournalEventNameType.Редактирование_праздничного_дня, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
+				AddJournalMessage(JournalEventNameType.Редактирование_праздничного_дня, item.Name, uid: item.UID);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.HolidayTranslator.Save(item);
