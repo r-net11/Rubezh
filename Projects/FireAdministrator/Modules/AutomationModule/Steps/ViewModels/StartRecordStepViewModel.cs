@@ -44,7 +44,11 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Камера: " + CameraArgument.Description + " Идентификатор: " + EventUIDArgument.Description + " Таймаут: " + TimeoutArgument.Description;
+				return string.Format("Камера: {0} Идентификатор: {1} Длительность: {2} {3}", 
+					CameraArgument.Description, 
+					EventUIDArgument.Description, 
+					TimeoutArgument.Description, 
+					SelectedTimeType.ToDescription());
 			}
 		}
 	}
