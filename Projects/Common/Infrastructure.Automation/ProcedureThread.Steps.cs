@@ -188,7 +188,7 @@ namespace Infrastructure.Automation
 			else
 			{
 				SendCallback(procedureStep.ControlVisualArguments, automationCallbackResult);
-				if (procedureStep.ControlVisualArguments.StoreOnServer && procedureStep.ControlVisualArguments.ForAllClients)
+				if (procedureStep.ControlVisualArguments.ForAllClients)
 					ProcedurePropertyCache.SetProperty(procedureStep.ControlVisualArguments.Layout, (VisualPropertyCallbackData)automationCallbackResult.Data);
 			}
 		}
