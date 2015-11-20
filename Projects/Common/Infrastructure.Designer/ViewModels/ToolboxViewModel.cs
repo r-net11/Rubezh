@@ -220,6 +220,13 @@ namespace Infrastructure.Designer.ViewModels
 
 		private void OnKeyEventHandler(object sender, KeyEventArgs e)
 		{
+			/*TODO: Need to refactoring. ApplicationService.Layout.IsRightPanelFocused property not always is true.
+			 * RightContent_PreviewMouseDown in ShallViewModel is responsible for this property */
+			if (e.Key == Key.Delete && IsRightPanel && Keyboard.Modifiers == ModifierKeys.None)
+			{
+				OnDelete();
+			}
+
 			if (!AcceptKeyboard || (!IsDialog ^ ApplicationService.ApplicationWindow.IsKeyboardFocusWithin) || (IsRightPanel && !ApplicationService.Layout.IsRightPanelFocused))
 				return;
 
