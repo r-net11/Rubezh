@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using RubezhAPI.Automation;
 using RubezhAPI;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -17,8 +18,20 @@ namespace AutomationModule.ViewModels
 			EventUIDArgument = new ArgumentViewModel(StartRecordArguments.EventUIDArgument, stepViewModel.Update, UpdateContent);
 			TimeoutArgument = new ArgumentViewModel(StartRecordArguments.TimeoutArgument, stepViewModel.Update, UpdateContent);
 			CameraArgument = new ArgumentViewModel(StartRecordArguments.CameraArgument, stepViewModel.Update, null);
+			TimeTypes = AutomationHelper.GetEnumObs<TimeType>();
+			SelectedTimeType = StartRecordArguments.TimeType;
 		}
 
+		public ObservableCollection<TimeType> TimeTypes { get; private set; }
+		public TimeType SelectedTimeType
+		{
+			get { return StartRecordArguments.TimeType; }
+			set
+			{
+				StartRecordArguments.TimeType = value;
+				OnPropertyChanged(() => SelectedTimeType);
+			}
+		}
 
 		public override void UpdateContent()
 		{

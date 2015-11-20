@@ -47,7 +47,7 @@ namespace RubezhClient.SKDHelpers
 		{
 			if (uid == null)
 				return null;
-			var filter = new EmployeeFilter { LogicalDeletationType = LogicalDeletationType.All, UIDs = new List<Guid> { uid.Value } };
+			var filter = new EmployeeFilter { LogicalDeletationType = LogicalDeletationType.All, UIDs = new List<Guid> { uid.Value }, IsAllPersonTypes = true };
 			var operationResult = ClientManager.FiresecService.GetEmployeeList(filter);
 			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
 		}

@@ -38,14 +38,24 @@
         }
     });
 
-    self.InitEmployeeCardDetails = function (isNew) {
-        self.IsNewCard(isNew);
-        if (isNew) {
-            self.Title("Создание пропуска");
-        } else {
-            self.Title(("Свойства пропуска: ") + self.Card.Number());
-        }
-        self.CanChangeCardType(!self.ParentViewModel.IsGuest());
+    self.InitEmployeeCardDetails = function (organisationUID, cardId, isNew) {
+        var sendData = "{'organisationId':'" + organisationUID + "','cardId': '" + cardId + "'}";
+        $.ajax({
+            url: "Employees/GetEmployeeCardDetails",
+            type: "post",
+            contentType: "application/json",
+            data: sendData,
+            success: function (data) {
+                ko.mapping.fromJS(data, {}, self);
+                self.IsNewCard(isNew);
+                if (isNew) {
+                    self.Title("Создание пропуска");
+                } else {
+                    self.Title(("Свойства пропуска: ") + self.Card().Number());
+                }
+                self.CanChangeCardType(!self.ParentViewModel.IsGuest());
+            }
+        });
     };
 
     self.EmployeeCardDetailsPageClick = function (data, e, page) {
@@ -87,6 +97,13 @@
 
     self.ShowUSBCardReaderClick = function () {
 
+    };
+
+    self.DoorClick = function (data, e, door) {
+        $('ul#EmployeeCardDetailsDoors li').removeClass("active");
+        $(e.currentTarget).parent().addClass("active");
+        self.SelectedDoor(door);
+        return false;
     };
 
     return self;

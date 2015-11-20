@@ -108,8 +108,6 @@ namespace GKProcessor.Test
 			var guardZone = new GKGuardZone();
 			guardZone.GuardZoneDevices.Add(new GKGuardZoneDevice() { ActionType = GKGuardZoneDeviceActionType.SetGuard, DeviceUID = device1.UID });
 			guardZone.GuardZoneDevices.Add(new GKGuardZoneDevice() { DeviceUID = device2.UID, CodeReaderSettings = new GKCodeReaderSettings() { SetGuardSettings = new GKCodeReaderSettingsPart() { CodeReaderEnterType = GKCodeReaderEnterType.CodeAndOne, CodeUIDs = { code.UID } } } });
-			device1.GuardZoneUIDs.Add(guardZone.UID);
-			device2.GuardZoneUIDs.Add(guardZone.UID);
 			GKManager.GuardZones.Add(guardZone);
 			Compile();
 
@@ -132,7 +130,6 @@ namespace GKProcessor.Test
 			var device1 = AddDevice(kauDevice1, driverType);
 			var guardZone = new GKGuardZone();
 			guardZone.GuardZoneDevices.Add(new GKGuardZoneDevice() { DeviceUID = device1.UID, CodeReaderSettings = new GKCodeReaderSettings() { SetGuardSettings = new GKCodeReaderSettingsPart() { CodeReaderEnterType = GKCodeReaderEnterType.CodeAndOne, AccessLevel = 1 } } });
-			device1.GuardZoneUIDs.Add(guardZone.UID);
 			GKManager.GuardZones.Add(guardZone);
 			Compile();
 
@@ -157,7 +154,6 @@ namespace GKProcessor.Test
 			GKManager.DeviceConfiguration.Codes.Add(code);
 			var guardZone = new GKGuardZone();
 			guardZone.GuardZoneDevices.Add(new GKGuardZoneDevice() { DeviceUID = device1.UID, CodeReaderSettings = new GKCodeReaderSettings() { SetGuardSettings = new GKCodeReaderSettingsPart() { CodeReaderEnterType = GKCodeReaderEnterType.CodeAndOne, CodeUIDs = { code.UID } } } });
-			device1.GuardZoneUIDs.Add(guardZone.UID);
 			GKManager.GuardZones.Add(guardZone);
 			Compile();
 
@@ -184,7 +180,6 @@ namespace GKProcessor.Test
 			GKManager.DeviceConfiguration.Codes.Add(code);
 			var guardZone = new GKGuardZone();
 			guardZone.GuardZoneDevices.Add(new GKGuardZoneDevice() { DeviceUID = device1.UID, CodeReaderSettings = new GKCodeReaderSettings() { SetGuardSettings = new GKCodeReaderSettingsPart() { CodeReaderEnterType = GKCodeReaderEnterType.CodeAndOne, CodeUIDs = { code.UID }, AccessLevel = 1 } } });
-			device1.GuardZoneUIDs.Add(guardZone.UID);
 			GKManager.GuardZones.Add(guardZone);
 			Compile();
 
@@ -218,10 +213,6 @@ namespace GKProcessor.Test
 			guardZone.GuardZoneDevices.Add(new GKGuardZoneDevice() { DeviceUID = device2.UID, CodeReaderSettings = new GKCodeReaderSettings() { SetGuardSettings = new GKCodeReaderSettingsPart() { CodeReaderEnterType = GKCodeReaderEnterType.CodeOnly, AccessLevel = 1 } } });
 			guardZone.GuardZoneDevices.Add(new GKGuardZoneDevice() { DeviceUID = device3.UID, ActionType = GKGuardZoneDeviceActionType.SetAlarm });
 			guardZone.GuardZoneDevices.Add(new GKGuardZoneDevice() { DeviceUID = device4.UID, ActionType = GKGuardZoneDeviceActionType.SetAlarm });
-			device1.GuardZoneUIDs.Add(guardZone.UID);
-			device2.GuardZoneUIDs.Add(guardZone.UID);
-			device3.GuardZoneUIDs.Add(guardZone.UID);
-			device4.GuardZoneUIDs.Add(guardZone.UID);
 			GKManager.GuardZones.Add(guardZone);
 			Compile();
 

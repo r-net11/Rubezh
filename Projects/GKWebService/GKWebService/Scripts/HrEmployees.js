@@ -154,9 +154,9 @@ function EmployeesViewModel(parentViewModel) {
             self.IsDeleted(myGrid.jqGrid('getCell', id, 'IsDeleted') == "true");
 
             if (!self.IsOrganisation()) {
-                self.EmployeeCards.InitCards(self.UID());
+                self.EmployeeCards.InitCards(self.OrganisationUID(), self.UID());
             } else {
-                self.EmployeeCards.InitCards(null);
+                self.EmployeeCards.InitCards(self.OrganisationUID(), null);
             }
 
             self.IsRowSelected(true);

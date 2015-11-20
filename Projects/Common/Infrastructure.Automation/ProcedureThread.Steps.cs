@@ -779,6 +779,13 @@ namespace Infrastructure.Automation
 			var startRecordArguments = procedureStep.StartRecordArguments;
 			var cameraUid = GetValue<Guid>(startRecordArguments.CameraArgument);
 			var timeout = GetValue<int>(startRecordArguments.TimeoutArgument);
+			switch (startRecordArguments.TimeType)
+			{
+				case TimeType.Min: timeout *= 60; break;
+				case TimeType.Hour: timeout *= 3600; break;
+				case TimeType.Day: timeout *= 86400; break;
+			}
+			
 			if (JournalItem != null)
 			{
 				Guid eventUid = Guid.NewGuid();

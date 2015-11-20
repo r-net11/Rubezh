@@ -158,13 +158,13 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SaveAccessTemplate(item, isNew));
 		}
-		public OperationResult MarkDeletedAccessTemplate(Guid uid, string name)
+		public OperationResult MarkDeletedAccessTemplate(AccessTemplate item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedAccessTemplate(uid, name));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedAccessTemplate(item));
 		}
-		public OperationResult RestoreAccessTemplate(Guid uid, string name)
+		public OperationResult RestoreAccessTemplate(AccessTemplate item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreAccessTemplate(uid, name));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreAccessTemplate(item));
 		}
 		#endregion
 

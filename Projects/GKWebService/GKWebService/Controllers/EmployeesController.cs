@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Windows.Documents;
 using RubezhAPI.GK;
 using RubezhAPI.SKD;
 using RubezhClient;
@@ -149,12 +150,17 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
-		public JsonNetResult GetEmployeeCardDetails(Guid? id)
+		public JsonNetResult GetEmployeeCardDetails(Guid? organisationId, Guid? cardId)
 		{
-			SKDCard card;
-			if (id.HasValue)
+			if (!organisationId.HasValue)
 			{
-				card = ClientManager.FiresecService.GetSingleCard(id.Value).Result;
+				return new JsonNetResult { Data = new EmployeeCardModel() };
+			}
+
+			SKDCard card;
+			if (cardId.HasValue)
+			{
+				card = ClientManager.FiresecService.GetSingleCard(cardId.Value).Result;
 			}
 			else
 			{
@@ -177,10 +183,16 @@ namespace GKWebService.Controllers
 			cardModel.AvailableGKControllers = GKManager.Devices.Where(x => x.DriverType == GKDriverType.GK)
 																.Select(d =>
 																{
-																	var isChecked = !id.HasValue;
+																	var isChecked = !cardId.HasValue;
 																	isChecked |= card.GKControllerUIDs != null && card.GKControllerUIDs.Contains(d.UID);
 																	return new GKControllerModel(d.UID, isChecked, d.PresentationName);
 																}).ToList();
+
+			var organisation = ClientManager.FiresecService.GetOrganisations(new OrganisationFilter {UIDs = new List<Guid>{organisationId.Value}}).Result.FirstOrDefault();
+
+			cardModel.Doors = GKManager.DeviceConfiguration.Doors.Where(door => organisation.DoorUIDs.Any(y => y == door.UID))
+				.Select(door => new AccessDoorModel(door, card.CardDoors, cardModel.Schedules))
+				.ToList();
 
 			return new JsonNetResult { Data = cardModel };
 		}

@@ -34,7 +34,8 @@ function EmployeeCardsViewModel(parentViewModel) {
         }
     });
 
-    self.InitCards = function (employeeUID) {
+    self.InitCards = function (organisationUID, employeeUID) {
+        self.OrganisationUID = organisationUID;
         self.IsCardClicked(false);
 
         if (employeeUID != null) {
@@ -72,19 +73,13 @@ function EmployeeCardsViewModel(parentViewModel) {
     };
 
     self.EditEmployeeCardClick = function (data, e, box) {
-        $.getJSON("/Employees/GetEmployeeCardDetails/" + self.Card.UID(), function (card) {
-            ko.mapping.fromJS(card, {}, self.EmployeesParentViewModel.EmployeeCardDetails);
-            self.EmployeesParentViewModel.EmployeeCardDetails.InitEmployeeCardDetails(false);
-            ShowBox(box);
-        });
+        self.EmployeesParentViewModel.EmployeeCardDetails.InitEmployeeCardDetails(self.OrganisationUID, self.Card.UID(), false);
+        ShowBox(box);
     };
 
     self.AddEmployeeCardClick = function (data, e, box) {
-        $.getJSON("/Employees/GetEmployeeCardDetails/", function (card) {
-            ko.mapping.fromJS(card, {}, self.EmployeesParentViewModel.EmployeeCardDetails);
-            self.EmployeesParentViewModel.EmployeeCardDetails.InitEmployeeCardDetails(true);
-            ShowBox(box);
-        });
+        self.EmployeesParentViewModel.EmployeeCardDetails.InitEmployeeCardDetails(self.OrganisationUID, null, false);
+        ShowBox(box);
     };
 
     return self;

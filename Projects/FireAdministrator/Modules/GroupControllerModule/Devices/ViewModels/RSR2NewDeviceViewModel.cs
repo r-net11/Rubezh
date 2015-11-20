@@ -64,10 +64,16 @@ namespace GKModule.ViewModels
 				{
 					GKDevice device = GKManager.AddChild(RealParentDevice, ParentDevice, SelectedDriver, 0);
 					var addedDevice = NewDeviceHelper.InsertDevice(device, ParentDeviceViewModel);
+					if (AddedDevices.Count == 0)
 					AddedDevices.Add(addedDevice);
+					else
+						AddedDevices.Insert(0,addedDevice);
 				}
 			}
+			
 			GKManager.RebuildRSR2Addresses(ParentDevice);
+			//if (RealParentDevice != ParentDevice)
+			//	AddedDevices.Reverse();
 			return true;
 		}
 

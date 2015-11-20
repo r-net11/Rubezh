@@ -182,13 +182,13 @@ namespace RubezhClient
 		{
 			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SaveAccessTemplate(item, isNew));
 		}
-		public OperationResult MarkDeletedAccessTemplate(Guid uid, string name)
+		public OperationResult MarkDeletedAccessTemplate(AccessTemplate item)
 		{
-			return SafeContext.Execute(() => FiresecService.MarkDeletedAccessTemplate(uid, name));
+			return SafeContext.Execute(() => FiresecService.MarkDeletedAccessTemplate(item));
 		}
-		public OperationResult RestoreAccessTemplate(Guid uid, string name)
+		public OperationResult RestoreAccessTemplate(AccessTemplate item)
 		{
-			return SafeContext.Execute(() => FiresecService.RestoreAccessTemplate(uid, name));
+			return SafeContext.Execute(() => FiresecService.RestoreAccessTemplate(item));
 		}
 		#endregion
 
