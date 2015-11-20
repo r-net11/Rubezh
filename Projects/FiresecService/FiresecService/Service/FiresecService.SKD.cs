@@ -1020,14 +1020,14 @@ namespace FiresecService.Service
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
-				return databaseService.OrganisationTranslator.Synchroniser.ListSynchroniser.Export(filter);
+				return databaseService.OrganisationTranslator.ListSynchroniser.Export(filter);
 			}
 		}
 		public OperationResult ImportOrganisationList(ImportFilter filter)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
-				return databaseService.OrganisationTranslator.Synchroniser.ListSynchroniser.Import(filter);
+				return databaseService.OrganisationTranslator.ListSynchroniser.Import(filter);
 			}
 		}
 
