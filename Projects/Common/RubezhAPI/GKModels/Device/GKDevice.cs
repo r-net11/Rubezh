@@ -22,6 +22,7 @@ namespace RubezhAPI.GK
 			Properties = new List<GKProperty>();
 			DeviceProperties = new List<GKProperty>();
 			ZoneUIDs = new List<Guid>();
+			GuardZoneUIDs = new List<Guid>();
 			Logic = new GKLogic();
 			NSLogic = new GKLogic();
 			PlanElementUIDs = new List<Guid>();
@@ -30,6 +31,7 @@ namespace RubezhAPI.GK
 			AllowMultipleVizualization = false;
 			Zones = new List<GKZone>();
 			GuardZones = new List<GKGuardZone>();
+			GuardZoneUIDs = new List<Guid>();
 		}
 
 		public override void Invalidate(GKDeviceConfiguration deviceConfiguration)
@@ -68,14 +70,27 @@ namespace RubezhAPI.GK
 			}
 			if (Driver.HasGuardZone)
 			{
+				var guardZoneUIDs = new List<Guid>();
 				var guardZones = new List<GKGuardZone>();
 
-				foreach (var guardZone in deviceConfiguration.GuardZones.Where(x => GuardZones.Any(y=> y.UID == x.UID)))
+				foreach (var guardZoneUID in GuardZoneUIDs)
 				{
+					var guardZone = deviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == guardZoneUID);
+					if (guardZone != null)
+					{
 						guardZones.Add(guardZone);
+						guardZoneUIDs.Add(guardZoneUID);
+						if (guardZone.GuardZoneDevices.All(x => x.DeviceUID != UID))
+						{
+							var guardZoneDevice = new GKGuardZoneDevice();
+							guardZoneDevice.Device = this;
+							guardZoneDevice.DeviceUID = UID;
+							guardZone.GuardZoneDevices.Add(guardZoneDevice);
+						}
 						AddDependentElement(guardZone);
+					}
+					GuardZones = guardZones;
 				}
-				GuardZones = guardZones;
 			}
 			if (Driver.HasMirror)
 			{
@@ -176,6 +191,12 @@ namespace RubezhAPI.GK
 		/// </summary>
 		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }
+
+		/// <summary>
+		/// Идентификаторы охранных зон
+		/// </summary>
+		[DataMember]
+		public List<Guid> GuardZoneUIDs { get; set; }
 
 		/// <summary>
 		/// Логика сработки
