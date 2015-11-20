@@ -32,7 +32,9 @@ namespace RubezhDAL
 			{
 				if (!Directory.Exists(filter.Path))
 					return new OperationResult("Папка не существует");
-				var tableItems = _Table.Where(x => x.SystemDate >= filter.MinDate.CheckDate() & x.SystemDate <= filter.MaxDate.CheckDate());
+				var minDate = filter.MinDate.CheckDate();
+				var maxDate = filter.MaxDate.CheckDate();
+				var tableItems = _Table.Where(x => x.SystemDate >= minDate & x.SystemDate <= maxDate).ToList();
 				var items = tableItems.Select(x => Translate(x)).ToList();
 				var serializer = new XmlSerializer(typeof(List<ExportJournalItem>));
 				using (var fileStream = File.Open(NameXml, FileMode.Create))

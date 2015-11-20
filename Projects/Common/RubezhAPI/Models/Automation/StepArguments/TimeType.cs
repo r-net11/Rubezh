@@ -5,15 +5,15 @@ namespace RubezhAPI.Automation
 	public enum TimeType
 	{
 		[Description("секунд")]
-		Sec = 1,
+		Sec,
 
 		[Description("минут")]
-		Min = 60,
+		Min,
 
 		[Description("часов")]
-		Hour = Min * 60,
+		Hour,
 
 		[Description("дней")]
-		Day = Hour * 24
+		Day
 	}
 }

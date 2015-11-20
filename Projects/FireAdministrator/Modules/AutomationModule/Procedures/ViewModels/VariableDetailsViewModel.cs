@@ -22,6 +22,7 @@ namespace AutomationModule.ViewModels
 		{
 			automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			_availableVariables = availableVariables;
+			Variable = variable;
 			Title = title;
 			IsGlobal = isGlobal;
 			ContextTypes = AutomationHelper.GetEnumObs<ContextType>();
@@ -140,7 +141,7 @@ namespace AutomationModule.ViewModels
 				MessageBoxService.ShowWarning("Название не может быть пустым");
 				return false;
 			}
-			if (_availableVariables.Any(x => x.Name == Name && x.Uid != Variable.Uid))
+			if (_availableVariables.Any(x => x.Name == Name && (Variable == null || x.Uid != Variable.Uid)))
 			{
 				MessageBoxService.ShowWarning("Переменная с таким именем уже существует");
 				return false;
