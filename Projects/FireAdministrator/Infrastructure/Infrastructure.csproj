@@ -80,13 +80,11 @@
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="Events\AddUserEvent.cs" />
     <Compile Include="Events\BeforeConfigurationSerializeEvent.cs" />
     <Compile Include="Events\ConfigurationChangedEvent.cs" />
     <Compile Include="Events\ConfigurationSavingEvent.cs" />
     <Compile Include="Events\ConfigurationClosedEvent.cs" />
     <Compile Include="Events\CreateFilterEvent.cs" />
-    <Compile Include="Events\DeleteUserEvent.cs" />
     <Compile Include="Events\EditValidationEvent.cs" />
     <Compile Include="Events\LoadFromFileEvent.cs" />
     <Compile Include="Events\RemoveGKDeviceEvent.cs" />

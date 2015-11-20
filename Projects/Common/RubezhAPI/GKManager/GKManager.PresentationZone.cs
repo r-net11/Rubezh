@@ -192,7 +192,7 @@ namespace RubezhClient
 		public static string GetPresentationLogic(GKLogic logic)
 		{
 			List<StringBuilder> list = new List<StringBuilder>();
-			if (logic.OnClausesGroup.ClauseGroups.Count > 0 || logic.OnClausesGroup.Clauses.Count > 0)
+			if (logic.OnClausesGroup.ClauseGroups.Count > 0 || logic.OnClausesGroup.GetObjects().Count > 0)
 			{
 				StringBuilder stringBuilder = new StringBuilder();
 				stringBuilder.Append("Условие включения: ");
@@ -200,7 +200,7 @@ namespace RubezhClient
 				list.Add(stringBuilder);
 			}
 
-			if (logic.OnNowClausesGroup.ClauseGroups.Count > 0 || logic.OnNowClausesGroup.Clauses.Count > 0)
+			if (logic.OnNowClausesGroup.ClauseGroups.Count > 0 || logic.OnNowClausesGroup.GetObjects().Count > 0)
 			{
 				StringBuilder stringBuilder = new StringBuilder();
 				stringBuilder.Append("Условие включения немедленно: ");
@@ -208,7 +208,7 @@ namespace RubezhClient
 				list.Add(stringBuilder);
 			}
 
-			if (logic.OffClausesGroup.ClauseGroups.Count > 0 || logic.OffClausesGroup.Clauses.Count > 0)
+			if (logic.OffClausesGroup.ClauseGroups.Count > 0 || logic.OffClausesGroup.GetObjects().Count > 0)
 			{
 				StringBuilder stringBuilder = new StringBuilder();
 				stringBuilder.Append("Условие выключения: ");
@@ -216,7 +216,7 @@ namespace RubezhClient
 				list.Add(stringBuilder);
 			}
 
-			if (logic.OffNowClausesGroup.ClauseGroups.Count > 0 || logic.OffNowClausesGroup.Clauses.Count > 0)
+			if (logic.OffNowClausesGroup.ClauseGroups.Count > 0 || logic.OffNowClausesGroup.GetObjects().Count > 0)
 			{
 				StringBuilder stringBuilder = new StringBuilder();
 				stringBuilder.Append("Условие выключения немедленно: ");
@@ -224,7 +224,7 @@ namespace RubezhClient
 				list.Add(stringBuilder);
 			}
 
-			if (logic.StopClausesGroup.ClauseGroups.Count > 0 || logic.StopClausesGroup.Clauses.Count > 0 )
+			if (logic.StopClausesGroup.ClauseGroups.Count > 0 || logic.StopClausesGroup.GetObjects().Count > 0)
 			{
 				StringBuilder stringBuilder = new StringBuilder();
 				stringBuilder.Append("Условие остановки: ");

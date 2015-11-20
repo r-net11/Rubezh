@@ -17,7 +17,7 @@ namespace FiresecService.Service
 			if (procedure != null)
 			{
 				var user = ProcedureExecutionContext.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == CurrentClientCredentials.UserName);
-				var result = AutomationProcessor.RunProcedure(procedure, args, null, user, null, clientUID);
+				AutomationProcessor.RunProcedure(procedure, args, null, user, null, clientUID);
 				return new OperationResult<bool>(true);
 			}
 			return OperationResult<bool>.FromError("Процедура не найдена");

@@ -212,23 +212,31 @@ namespace GKModule.ViewModels
 		public RelayCommand PasteCommand { get; private set; }
 		void OnPaste()
 		{
+			var allChildren =SelectedDevice.Device.KAUShleifParent.AllChildren;
+			if (allChildren.Count + DevicesToCopy.Count > 255)
+			{
+				MessageBoxService.ShowWarning("Адрес устройства не может превышать 255");
+				return;
+			}
 			using (new WaitWrapper())
 			{
+				GKDevice device = null;
 				using (var cache = new ElementDeviceUpdater())
 				{
 					foreach (var deviceToCopy in DevicesToCopy)
 					{
 						var pasteDevice = GKManager.CopyDevice(deviceToCopy, isCut,true);
-						var device = PasteDevice(pasteDevice);
+						device = PasteDevice(pasteDevice);
 						if (device == null)
 							break;
 						device.UID = pasteDevice.UID;
 						if (device != null)
 						{
 							cache.UpdateDeviceBinding(device);
-							SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
 						}
 					}
+					if(device!= null)
+					SelectedDevice = AllDevices.FirstOrDefault(x=> x.Device.UID == device.UID);
 					if (SelectedDevice.Device.IsConnectedToKAU)
 					{
 						GKManager.RebuildRSR2Addresses(SelectedDevice.Device);
@@ -279,15 +287,15 @@ namespace GKModule.ViewModels
 
 		GKDevice PasteDevice(GKDevice device)
 		{
-			if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU || SelectedDevice.Device.DriverType == GKDriverType.KAUIndicator)
-				return null;
+			//if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU || SelectedDevice.Device.DriverType == GKDriverType.KAUIndicator)
+			//	return null;
 			if (SelectedDevice.Device.IsConnectedToKAU)
 			{
 				var kauDeviceShleifdevice = SelectedDevice.Device.KAUShleifParent;
 				var allChildren = kauDeviceShleifdevice.AllChildren;
 				int maxAddress = 0;
 				if (allChildren.Count > 0)
-					maxAddress = allChildren.Max(x => x.IntAddress);
+					maxAddress = allChildren.Count();
 
 				var realDevicesCount = device.AllChildrenAndSelf.Count(x => x.IsRealDevice);
 

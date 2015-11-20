@@ -455,7 +455,7 @@ namespace RubezhAPI.GK
 			if (mptDevice.Device != null)
 			{
 				mptDevice.Device.IsInMPT = true;
-				GKManager.ChangeLogic(mptDevice.Device, new GKLogic());
+				GKManager.SetDeviceLogic(mptDevice.Device, new GKLogic());
 				mptDevice.Device.ZoneUIDs = new List<Guid>();
 				mptDevice.Device.Zones.Clear();
 			}

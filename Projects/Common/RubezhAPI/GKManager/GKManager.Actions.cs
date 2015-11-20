@@ -34,11 +34,9 @@ namespace RubezhClient
 				guardZone.OnChanged();
 			}
 			device.GuardZones.Clear();
-			device.GuardZoneUIDs.Clear();
 			foreach (var deviceGuardZone in deviceGuardZones)
 			{
 				device.GuardZones.Add(deviceGuardZone.GuardZone);
-				device.GuardZoneUIDs.Add(deviceGuardZone.GuardZoneUID);
 
 				var gkGuardZoneDevice = new GKGuardZoneDevice();
 				gkGuardZoneDevice.Device = device;
@@ -69,14 +67,14 @@ namespace RubezhClient
 			device.OnChanged();
 		}
 
-		public static void AddDeviceToGuardZone(GKDevice device, GKGuardZone guardZone)
+		public static void AddDeviceToGuardZone(GKDevice device, GKGuardZone guardZone ,GKGuardZoneDevice guardZoneDevice = null)
 		{
+			if (guardZoneDevice!= null)
+			guardZone.GuardZoneDevices.Add(guardZoneDevice);
 			if (!device.GuardZones.Contains(guardZone))
 			{
 				device.GuardZones.Add(guardZone);
 			}
-			if (!device.GuardZoneUIDs.Contains(guardZone.UID))
-				device.GuardZoneUIDs.Add(guardZone.UID);
 			if (!device.InputDependentElements.Contains(guardZone))
 				device.InputDependentElements.Add(guardZone);
 			if (!guardZone.OutputDependentElements.Contains(device))
@@ -103,8 +101,8 @@ namespace RubezhClient
 		{
 			if (guardZone != null)
 			{
+				guardZone.GuardZoneDevices.RemoveAll(x => x.DeviceUID == device.UID);
 				device.GuardZones.Remove(guardZone);
-				device.GuardZoneUIDs.Remove(guardZone.UID);
 				device.OnChanged();
 			}
 		}
@@ -202,13 +200,6 @@ namespace RubezhClient
 		}
 		#endregion
 
-		public static void ChangeLogic(GKDevice device, GKLogic logic)
-		{
-			device.Logic = logic;
-			DeviceConfiguration.InvalidateOneLogic(device, device.Logic);
-			device.OnChanged();
-		}
-
 		public static bool ChangeDriver(GKDevice device, GKDriver driver)
 		{
 			var kauShleifParent = device.KAUShleifParent;
@@ -287,7 +278,7 @@ namespace RubezhClient
 			{
 				RemoveDeviceFromZone(device, null);
 				device.Zones.ForEach(x => x.Devices.Remove(device));
-				ChangeLogic(device, new GKLogic());
+				SetDeviceLogic (device, new GKLogic());
 			}
 
 			device.Properties = new List<GKProperty>();
@@ -315,7 +306,6 @@ namespace RubezhClient
 			device.Zones = new List<GKZone>();
 			device.ZoneUIDs = new List<Guid>();
 			device.GuardZones = new List<GKGuardZone>();
-			device.GuardZoneUIDs = new List<Guid>();
 			device.InputDependentElements = new List<GKBase>();
 			device.OutputDependentElements = new List<GKBase>();
 			device.IsInMPT = false;

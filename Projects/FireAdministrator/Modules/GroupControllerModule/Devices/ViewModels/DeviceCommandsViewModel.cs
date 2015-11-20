@@ -32,7 +32,7 @@ namespace GKModule.Models
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
-			UpdateFirmwareCommand = new RelayCommand(OnUpdateFirmware, CanUpdateFirmware);
+			//UpdateFirmwareCommand = new RelayCommand(OnUpdateFirmware, CanUpdateFirmware);
 			AutoSearchCommand = new RelayCommand(OnAutoSearch, CanAutoSearch);
 			GetUsersCommand = new RelayCommand(OnGetUsers, CanGetUsers);
 			RewriteUsersCommand = new RelayCommand(OnRewriteUsers, CanRewriteUsers);
@@ -216,40 +216,40 @@ namespace GKModule.Models
 			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == GKDriverType.GK);
 		}
 
-		public RelayCommand UpdateFirmwareCommand { get; private set; }
-		void OnUpdateFirmware()
-		{
-			var openDialog = new OpenFileDialog()
-			{
-				Filter = "soft update files|*.hcs",
-				DefaultExt = "soft update files|*.hcs"
-			};
-			if (openDialog.ShowDialog().Value)
-			{
-				var thread = new Thread(() =>
-				{
-					List<byte> firmwareBytes = GKProcessor.FirmwareUpdateHelper.HexFileToBytesList(openDialog.FileName);
-					var result = ClientManager.FiresecService.GKUpdateFirmware(SelectedDevice.Device, firmwareBytes);
+		//public RelayCommand UpdateFirmwareCommand { get; private set; }
+		//void OnUpdateFirmware()
+		//{
+		//	var openDialog = new OpenFileDialog()
+		//	{
+		//		Filter = "soft update files|*.hcs",
+		//		DefaultExt = "soft update files|*.hcs"
+		//	};
+		//	if (openDialog.ShowDialog().Value)
+		//	{
+		//		var thread = new Thread(() =>
+		//		{
+		//			List<byte> firmwareBytes = GKProcessor.FirmwareUpdateHelper.HexFileToBytesList(openDialog.FileName);
+		//			var result = ClientManager.FiresecService.GKUpdateFirmware(SelectedDevice.Device, firmwareBytes);
 
-					ApplicationService.Invoke(() =>
-					{
-						LoadingService.Close();
-						if (result.HasError)
-						{
-							MessageBoxService.ShowWarning(result.Error, "Ошибка при обновление ПО");
-						}
-					});
-				});
-				thread.Name = "DeviceCommandsViewModel UpdateFirmware";
-				thread.Start();
+		//			ApplicationService.Invoke(() =>
+		//			{
+		//				LoadingService.Close();
+		//				if (result.HasError)
+		//				{
+		//					MessageBoxService.ShowWarning(result.Error, "Ошибка при обновление ПО");
+		//				}
+		//			});
+		//		});
+		//		thread.Name = "DeviceCommandsViewModel UpdateFirmware";
+		//		thread.Start();
 
-			}
-		}
+		//	}
+		//}
 
-		bool CanUpdateFirmware()
-		{
-			return (SelectedDevice != null && (SelectedDevice.Driver.IsKau || SelectedDevice.Driver.DriverType == GKDriverType.GK) && ClientManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
-		}
+		//bool CanUpdateFirmware()
+		//{
+		//	return (SelectedDevice != null && (SelectedDevice.Driver.IsKau || SelectedDevice.Driver.DriverType == GKDriverType.GK) && ClientManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
+		//}
 
 		bool ValidateConfiguration()
 		{

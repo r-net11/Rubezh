@@ -192,6 +192,9 @@ namespace GKModule.ViewModels
 			var deviceSelectationViewModel = new DeviceSelectationViewModel(EnterButton, devices);
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
+				//Tuple<Guid, GKDevice> tuple = new Tuple<Guid, GKDevice>(Door.EnterButtonUID, Door.EnterButton);
+				//tuple = GKManager.ChangeDevice(Door, tuple, deviceSelectationViewModel.SelectedDevice);
+				//GKManager.ChangeDeviceUID(ref Door.EnterButton, ref Door.EnterButtonUID, Door, deviceSelectationViewModel.SelectedDevice);
 				if (Door.EnterButtonUID != Guid.Empty)
 				{
 					Door.InputDependentElements.ForEach(x =>
@@ -212,6 +215,7 @@ namespace GKModule.ViewModels
 					Door.EnterButton.Door = Door;
 					Door.AddDependentElement(Door.EnterButton);
 				}
+
 				Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -388,8 +392,7 @@ namespace GKModule.ViewModels
 			var logicViewModel = new LogicViewModel(Door, Door.OpenRegimeLogic);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
-				Door.OpenRegimeLogic = logicViewModel.GetModel();
-				Door.ChangedLogic();
+				GKManager.SetDoorOpenRegimeLogic(Door, logicViewModel.GetModel());
 				OnPropertyChanged(() => OpenRegimeLogicPresentationName);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -406,8 +409,7 @@ namespace GKModule.ViewModels
 			var logicViewModel = new LogicViewModel(Door, Door.NormRegimeLogic);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
-				Door.NormRegimeLogic = logicViewModel.GetModel();
-				Door.ChangedLogic();
+				GKManager.SetDoorNormRegimeLogic(Door, logicViewModel.GetModel());
 				OnPropertyChanged(() => NormRegimeLogicPresentationName);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -424,8 +426,7 @@ namespace GKModule.ViewModels
 			var logicViewModel = new LogicViewModel(Door, Door.CloseRegimeLogic);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
-				Door.CloseRegimeLogic = logicViewModel.GetModel();
-				Door.ChangedLogic();
+				GKManager.SetDoorCloseRegimeLogic(Door, logicViewModel.GetModel());
 				OnPropertyChanged(() => CloseRegimeLogicPresentationName);
 				ServiceFactory.SaveService.GKChanged = true;
 			}

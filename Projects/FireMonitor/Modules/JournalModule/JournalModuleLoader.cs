@@ -15,6 +15,8 @@ using Infrastructure.Events;
 using JournalModule.ViewModels;
 using Infrastructure.Common.Reports;
 using JournalModule.Reports;
+using RubezhAPI.Models;
+using RubezhAPI.GK;
 
 namespace JournalModule
 {
@@ -108,6 +110,20 @@ namespace JournalModule
 					UnreadJournalCount += journalItems.Count;
 
 				ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Publish(journalItems);
+				foreach (var journalItem in journalItems)
+				{
+					var stateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
+					if (ClientManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
+					{
+						if (((journalItem.JournalObjectType == JournalObjectType.GKZone || journalItem.JournalObjectType == JournalObjectType.GKDirection) &&
+							(stateClass == XStateClass.Fire1 || stateClass == XStateClass.Fire2 || stateClass == XStateClass.Attention)) ||
+							((journalItem.JournalObjectType == JournalObjectType.GKGuardZone || journalItem.JournalObjectType == JournalObjectType.GKDoor) && stateClass == XStateClass.Fire1))
+						{
+							var confirmationViewModel = new ConfirmationViewModel(journalItem);
+							DialogService.ShowWindow(confirmationViewModel);
+						}
+					}
+				}
 			});
 		}
 
