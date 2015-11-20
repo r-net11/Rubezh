@@ -1,36 +1,66 @@
-﻿<UserControl x:Class="JournalModule.Views.ArchiveFilterView"
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:DataGridProperties="clr-namespace:Controls;assembly=Controls"
-		xmlns:Converters="clr-namespace:JournalModule.Converters"
-		xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-		xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-		xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
-		xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-		MinWidth="950" MinHeight="500">
-
+﻿<UserControl
+	x:Class="JournalModule.Views.ArchiveFilterView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:layout="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
+	xmlns:Converters="clr-namespace:JournalModule.Converters"
+	xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+	MinWidth="950"
+	MinHeight="500">
 	<UserControl.Resources>
 		<Converters:ArchiveDefaultStateTypeToStringConverter x:Key="ArchiveDefaultStateTypeToStringConverter" />
 	</UserControl.Resources>
-
 	<DockPanel>
-		<Grid Margin="0,5,0,0" DockPanel.Dock="Bottom">
+		<Grid
+			Margin="0,5,0,0"
+			DockPanel.Dock="Bottom">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition />
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
-			<Button Grid.Column="0" Content="Сбросить все настройки" Command="{Binding ClearCommand}" HorizontalAlignment="Left" Margin="2" Width="200" />
-			<StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
-				<Button Width="100" Margin="2" Command="{Binding SaveCommand}" Content="Ok" IsDefault="True" />
-				<Button Width="100" Margin="2" Command="{Binding CancelCommand}" Content="Отмена" />
+			<Button
+				Content="Сбросить все настройки"
+				Command="{Binding ClearCommand}"
+				HorizontalAlignment="Left"
+				Margin="2"
+				Width="200" />
+			<StackPanel
+				Grid.Column="1"
+				HorizontalAlignment="Right"
+				Orientation="Horizontal">
+				<Button
+					Width="100"
+					Margin="2"
+					Command="{Binding SaveCommand}"
+					Content="Ok"
+					IsDefault="True" />
+				<Button
+					Width="100"
+					Margin="2"
+					Command="{Binding CancelCommand}"
+					Content="Отмена" />
 			</StackPanel>
 		</Grid>
-		<TabControl BorderThickness="0" Padding="11" SelectedIndex="0">
-			<TabItem Header="Временной диапазон" DataContext="{Binding ArchiveDateTimeViewModel}">
+		<TabControl
+			BorderThickness="0"
+			Padding="11"
+			SelectedIndex="0">
+			<TabItem
+				Header="Временной диапазон"
+				DataContext="{Binding ArchiveDateTimeViewModel}">
 				<StackPanel Margin="2">
 					<StackPanel Orientation="Horizontal" Margin="2">
-						<TextBlock Text="Интервал" Width="100" VerticalAlignment="Center" Foreground="White" />
-						<ComboBox ItemsSource="{Binding ArchiveDefaultStateTypes}" SelectedItem="{Binding SelectedArchiveDefaultStateType}" Width="250">
+						<TextBlock
+							Text="Интервал"
+							Width="100"
+							VerticalAlignment="Center"
+							Foreground="White" />
+						<ComboBox
+							ItemsSource="{Binding ArchiveDefaultStateTypes}"
+							SelectedItem="{Binding SelectedArchiveDefaultStateType}"
+							Width="250">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" Margin="1" />
@@ -39,61 +69,118 @@
 						</ComboBox>
 					</StackPanel>
 
-					<ExtToolkit:IntegerUpDown Minimum="1" Maximum="1000" Value="{Binding Count, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsCountVisible, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Left" Width="200" Margin="102 2 0 0" />
-
-					<StackPanel Orientation="Horizontal" Visibility="{Binding IsStartDateVisible, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
-						<TextBlock Text="Дата начала" Width="100" VerticalAlignment="Top" Foreground="White" />
+					<ExtToolkit:IntegerUpDown
+						Minimum="1"
+						Maximum="1000"
+						Value="{Binding Count, UpdateSourceTrigger=PropertyChanged}"
+						Visibility="{Binding IsCountVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+						HorizontalAlignment="Left"
+						Width="200"
+						Margin="102 2 0 0" />
+					<StackPanel
+						Orientation="Horizontal"
+						Visibility="{Binding IsStartDateVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+						Margin="2">
+						<TextBlock
+							Text="Дата начала"
+							Width="100"
+							VerticalAlignment="Top"
+							Foreground="White" />
 						<Calendar
-								DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneWay}"
-								SelectedDate="{Binding StartDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
-								DisplayDate="{Binding StartDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
-								SelectionMode="SingleDate" />
-						<Controls:TimePicker TimeSpan="{Binding StartDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+							DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneWay}"
+							SelectedDate="{Binding StartDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
+							DisplayDate="{Binding StartDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
+							SelectionMode="SingleDate" />
+						<Controls:TimePicker
+							TimeSpan="{Binding StartDateTime.Time, UpdateSourceTrigger=PropertyChanged}"
+							Margin="2" />
+					</StackPanel>
+					<StackPanel
+						Orientation="Horizontal"
+						Visibility="{Binding IsEndDateVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+						Margin="2">
+						<TextBlock
+							Text="Дата окончания"
+							Width="100"
+							VerticalAlignment="Top"
+							Foreground="White" />
+						<Calendar
+							DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneWay}"
+							SelectedDate="{Binding EndDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
+							DisplayDate="{Binding EndDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
+							SelectionMode="SingleDate" />
+						<Controls:TimePicker
+							TimeSpan="{Binding EndDateTime.Time, UpdateSourceTrigger=PropertyChanged}"
+							Margin="2" />
 					</StackPanel>
 
-					<StackPanel Orientation="Horizontal" Visibility="{Binding IsEndDateVisible, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
-						<TextBlock Text="Дата окончания" Width="100" VerticalAlignment="Top" Foreground="White" />
-						<Calendar
-								DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneWay}"
-								SelectedDate="{Binding EndDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
-								DisplayDate="{Binding EndDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
-								SelectionMode="SingleDate" />
-						<Controls:TimePicker TimeSpan="{Binding EndDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-					</StackPanel>
-
-					<CheckBox IsChecked="{Binding UseDeviceDateTime, UpdateSourceTrigger=PropertyChanged}" Content="Использовать дату устройства" Foreground="White" Margin="102 2 0 0" />
+					<CheckBox
+						IsChecked="{Binding UseDeviceDateTime, UpdateSourceTrigger=PropertyChanged}"
+						Content="Использовать дату устройства"
+						Foreground="White"
+						Margin="102 2 0 0" />
 				</StackPanel>
 			</TabItem>
 			<TabItem Header="Событие" DataContext="{Binding FilterNamesViewModel}">
-				<tree:TreeList Focusable="False" Source="{Binding RootFilters}" SelectedTreeNode="{Binding SelectedFilter}" tree:SortBehavior.CanUserSortColumns="False" Margin="-5">
+				<tree:TreeList
+					layout:ListViewLayoutManager.Enabled="True"
+					Focusable="False" Source="{Binding RootFilters}"
+					SelectedTreeNode="{Binding SelectedFilter}"
+					tree:SortBehavior.CanUserSortColumns="False"
+					Margin="-5">
 					<tree:TreeList.View>
 						<GridView>
-							<GridViewColumn Header="Наименование">
+							<GridViewColumn Header="Наименование" layout:ProportionalColumn.Width="1">
 								<GridViewColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel Orientation="Horizontal">
-											<Image Width="16" Height="16" Source="{Binding ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
-											<CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="1000" Margin="2" />
+											<Image
+												Width="16"
+												Height="16"
+												Source="{Binding ImageSource}"
+												HorizontalAlignment="Left"
+												Margin="5 0" />
+											<CheckBox
+												IsChecked="{Binding IsChecked}"
+												Content="{Binding Name}"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Center"
+												Margin="2" />
 										</StackPanel>
 									</DataTemplate>
 								</GridViewColumn.CellTemplate>
 							</GridViewColumn>
 						</GridView>
-
 					</tree:TreeList.View>
 				</tree:TreeList>
 			</TabItem>
 			<TabItem Header="Объект" DataContext="{Binding FilterObjectsViewModel}">
-				<tree:TreeList Focusable="False" Source="{Binding RootFilters}" SelectedTreeNode="{Binding SelectedFilter}" tree:SortBehavior.CanUserSortColumns="False" Margin="-5">
+				<tree:TreeList
+					layout:ListViewLayoutManager.Enabled="True"
+					Focusable="False"
+					Source="{Binding RootFilters}"
+					SelectedTreeNode="{Binding SelectedFilter}"
+					tree:SortBehavior.CanUserSortColumns="False"
+					Margin="-5">
 					<tree:TreeList.View>
 						<GridView>
-							<GridViewColumn Header="Наименование">
+							<GridViewColumn Header="Наименование" layout:ProportionalColumn.Width="1">
 								<GridViewColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel Orientation="Horizontal">
-											<Image Width="16" Height="16" Source="{Binding ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
+											<Image
+												Width="16"
+												Height="16"
+												Source="{Binding ImageSource}"
+												HorizontalAlignment="Left"
+												Margin="5 0" />
 											<CheckBox IsChecked="{Binding IsChecked}" />
-											<TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="1000" Margin="2" />
+											<TextBlock
+												Text="{Binding Name}"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Center"
+												Width="1000"
+												Margin="2" />
 										</StackPanel>
 									</DataTemplate>
 								</GridViewColumn.CellTemplate>
