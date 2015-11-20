@@ -1,16 +1,16 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using FiresecAPI.SKD;
+﻿using FiresecAPI.SKD;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Microsoft.Win32;
 using ReactiveUI;
 using SKDModule.Common;
 using SKDModule.Events;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 
 namespace SKDModule.Model
 {
@@ -57,11 +57,6 @@ namespace SKDModule.Model
 				//_fileName = value;
 				this.RaiseAndSetIfChanged(ref _fileName, value);
 				Document.FileName = _fileName;
-				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(Document); //TODO: Refactor this. 4 times executes EditDocument action
-				if (operationResult.HasError)
-				{
-					MessageBoxService.ShowWarning(operationResult.Error);
-				}
 				//	OnPropertyChanged(() => FileName);
 				//	OnPropertyChanged(() => HasFile);
 			}
@@ -101,6 +96,8 @@ namespace SKDModule.Model
 
 		public void AddFile()
 		{
+			const long mb50 = 52428800;
+			const int allowedLenght = 100;
 			var openFileDialog = new OpenFileDialog();
 			if (openFileDialog.ShowDialog() == true)
 			{
@@ -109,14 +106,14 @@ namespace SKDModule.Model
 					Directory.CreateDirectory(docsDirectory);
 				var fileName = openFileDialog.FileName;
 				var length = new FileInfo(fileName).Length;
-				if (length > 52428800) //TODO: WTF??
+				if (length > mb50)
 				{
 					MessageBoxService.Show("Размер загружаемого файла не должен превышать 50 мб");
 					return;
 				}
-				var files = Directory.GetFiles(docsDirectory).Select(x => Path.GetFileName(x));
+				var files = Directory.GetFiles(docsDirectory).Select(Path.GetFileName);
 				var newFileName = CopyHelper.CopyFileName(openFileDialog.SafeFileName, files);
-				if (newFileName.Length >= 100) //TODO: WTF??
+				if (newFileName.Length >= allowedLenght)
 				{
 					MessageBoxService.Show("Имя файла не может быть длиннее 100 символов");
 					return;
@@ -124,7 +121,11 @@ namespace SKDModule.Model
 				var newFullFileName = Path.Combine(docsDirectory, newFileName);
 				File.Copy(fileName, newFullFileName);
 				FileName = newFileName;
-				ServiceFactory.Events.GetEvent<EditDocumentEvent>().Publish(Document);
+
+				if (AcceptDocumentChanges())
+				{
+					ServiceFactoryBase.Events.GetEvent<EditDocumentEvent>().Publish(Document);
+				}
 			}
 		}
 
@@ -149,23 +150,35 @@ namespace SKDModule.Model
 
 		public void RemoveFile()
 		{
-			if (MessageBoxService.ShowQuestion("Вы действительно хотите удалить файл оправдательного документа?"))
+			if (!MessageBoxService.ShowQuestion("Вы действительно хотите удалить файл оправдательного документа?")) return;
+
+			var fileName = AppDataFolderHelper.GetFileInFolder("Documents", FileName);
+			if (File.Exists(fileName))
 			{
-				var fileName = AppDataFolderHelper.GetFileInFolder("Documents", FileName);
-				if (File.Exists(fileName))
-				{
-					File.Delete(fileName);
-				}
-				else
-					MessageBoxService.Show("Файл не существует");
-				FileName = null;
-				ServiceFactory.Events.GetEvent<EditDocumentEvent>().Publish(Document);
+				File.Delete(fileName);
+			}
+			else
+				MessageBoxService.Show("Файл не существует");
+			FileName = null;
+
+			if (AcceptDocumentChanges())
+			{
+				ServiceFactoryBase.Events.GetEvent<EditDocumentEvent>().Publish(Document);
 			}
 		}
 
 		#endregion
 
 		#region Methods
+
+		private bool AcceptDocumentChanges()
+		{
+			var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(Document);
+
+			if (!operationResult.HasError) return true;
+			MessageBoxService.ShowWarning(operationResult.Error);
+			return false;
+		}
 
 		public void Update(TimeTrackDocument timeTrackDocument)
 		{
