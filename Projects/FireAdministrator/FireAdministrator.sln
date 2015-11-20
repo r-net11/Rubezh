@@ -84,6 +84,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubezhLicense", "..\Common\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GKManager.Test", "GKManager.Test\GKManager.Test.csproj", "{10FB49CD-E2C1-4376-A660-48718E54A9A1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GKModuleTest", "GKModuleTest\GKModuleTest.csproj", "{200D591B-3E47-455D-83E7-AA84A102CAE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -488,6 +490,18 @@ Global
 		{10FB49CD-E2C1-4376-A660-48718E54A9A1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{10FB49CD-E2C1-4376-A660-48718E54A9A1}.Release|X64.ActiveCfg = Release|Any CPU
 		{10FB49CD-E2C1-4376-A660-48718E54A9A1}.Release|x86.ActiveCfg = Release|Any CPU
+		{200D591B-3E47-455D-83E7-AA84A102CAE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{200D591B-3E47-455D-83E7-AA84A102CAE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{200D591B-3E47-455D-83E7-AA84A102CAE5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{200D591B-3E47-455D-83E7-AA84A102CAE5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{200D591B-3E47-455D-83E7-AA84A102CAE5}.Debug|X64.ActiveCfg = Debug|Any CPU
+		{200D591B-3E47-455D-83E7-AA84A102CAE5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{200D591B-3E47-455D-83E7-AA84A102CAE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{200D591B-3E47-455D-83E7-AA84A102CAE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{200D591B-3E47-455D-83E7-AA84A102CAE5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{200D591B-3E47-455D-83E7-AA84A102CAE5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{200D591B-3E47-455D-83E7-AA84A102CAE5}.Release|X64.ActiveCfg = Release|Any CPU
+		{200D591B-3E47-455D-83E7-AA84A102CAE5}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
