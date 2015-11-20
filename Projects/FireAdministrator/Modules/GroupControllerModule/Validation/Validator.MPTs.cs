@@ -116,18 +116,17 @@ namespace GKModule.Validation
 		/// <param name="mpt"></param>
 		void ValidateMPTSameCodeForDevices(GKMPT mpt)
 		{
-			ValidateCodeMPTDevice(mpt.MPTDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CardReader), mpt);
-			ValidateCodeMPTDevice(mpt.MPTDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CodeReader), mpt);
+			ValidateCodeMPTDevice(mpt.MPTDevices.Where(x => x.Device!= null && x.Device.Driver.IsCardReaderOrCodeReader), mpt);
 		}
 
-		void ValidateCodeMPTDevice(IEnumerable<GKMPTDevice> MPTDevices, GKMPT mpt)
+		void ValidateCodeMPTDevice(IEnumerable<GKMPTDevice> mptDevices, GKMPT mpt)
 		{ 
-			var MPTDevice = new HashSet<Tuple<Guid, GKCodeReaderEnterType>>();
-			foreach (var MPTSetting in MPTDevices.Select(x=> x.CodeReaderSettings.MPTSettings))
+			var MPTDevice = new HashSet<Tuple<Guid, Guid, GKCodeReaderEnterType>>();
+			foreach (var mptDevice in mptDevices)
 			{
-				foreach (var GUID in MPTSetting.CodeUIDs)
+				foreach (var codeUID in mptDevice.CodeReaderSettings.MPTSettings.CodeUIDs)
 				{
-					if (!MPTDevice.Add(new Tuple<Guid, GKCodeReaderEnterType>(GUID, MPTSetting.CodeReaderEnterType)))
+					if (!MPTDevice.Add(new Tuple<Guid, Guid, GKCodeReaderEnterType>(codeUID, mptDevice.DeviceUID, mptDevice.CodeReaderSettings.MPTSettings.CodeReaderEnterType)))
 					{ 
 						AddError(mpt, "Используются одинаковые коды для устройств в МПТ", ValidationErrorLevel.CannotWrite);
 					}

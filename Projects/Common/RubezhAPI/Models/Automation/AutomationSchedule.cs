@@ -9,7 +9,7 @@ namespace RubezhAPI.Automation
 	{
 		public AutomationSchedule()
 		{
-			Name = "Новое расписание";
+			Name = "Расписание";
 			Uid = Guid.NewGuid();
 			Year = -1;
 			Month = -1;

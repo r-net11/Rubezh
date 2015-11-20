@@ -5,7 +5,7 @@
 			 MinWidth="500" MinHeight="500">
 	<TabControl>
 		<TabItem Header="Основные">
-			<ScrollViewer VerticalScrollBarVisibility="Auto" >
+			<ScrollViewer VerticalScrollBarVisibility="Auto">
 				<StackPanel>
 					<Grid>
 						<Grid.RowDefinitions>
@@ -56,10 +56,8 @@
 							</TextBlock>
 						</StackPanel>
 
-						<TextBlock Grid.Row="5" Grid.Column="0" Text="Сопровождающий" HorizontalAlignment="Right" VerticalAlignment="Center" 
-								Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
-						<StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
-								Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+						<TextBlock Grid.Row="5" Grid.Column="0" Text="Сопровождающий" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
+						<StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}">
 							<TextBlock VerticalAlignment="Center">
 								<Hyperlink Command="{Binding SelectEscortCommand}" Style="{StaticResource HyperlinkStyle}">
 									<TextBlock Text="{Binding SelectedEscort.Name}" TextDecorations="Underline" />
@@ -78,10 +76,8 @@
 							</TextBlock>
 						</StackPanel>
 
-						<TextBlock Grid.Row="6" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" VerticalAlignment="Center" 
-								Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
-						<TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
-								Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+						<TextBlock Grid.Row="6" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
+						<TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 
 						<TextBlock Grid.Row="7" Grid.Column="0" Text="График работы" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
 						<StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -93,12 +89,11 @@
 							</TextBlock>
 						</StackPanel>
 
-						<TextBlock Grid.Row="8" Grid.Column="0" Text="Учётные данные действуют с" HorizontalAlignment="Right"  Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
-						<TextBlock Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
-							<Hyperlink Command="{Binding SelectCredentialsStartDateCommand}" Style="{StaticResource HyperlinkStyle}">
-								<TextBlock Text="{Binding CredentialsStartDateString}" TextDecorations="Underline" Margin="2" />
-							</Hyperlink>
-						</TextBlock>
+						<TextBlock Grid.Row="8" Grid.Column="0" Text="Учётные данные действуют с" HorizontalAlignment="Right" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
+						<DatePicker Grid.Row="8" Grid.Column="1" 
+									VerticalAlignment="Center"
+									Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}"
+									DisplayDate="{Binding CredentialsStartDate}" SelectedDate="{Binding CredentialsStartDate}" />
 
 						<TextBlock Grid.Row="9" Grid.Column="0" Text="Табельный номер" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 						<TextBox Grid.Row="9" Grid.Column="1" Text="{Binding TabelNo}" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2" />
@@ -117,8 +112,8 @@
 							<DataTemplate>
 								<Grid>
 									<Grid.ColumnDefinitions>
-										<ColumnDefinition />
-										<ColumnDefinition />
+										<ColumnDefinition MaxWidth="200" />
+										<ColumnDefinition Width="*" />
 									</Grid.ColumnDefinitions>
 									<TextBlock Grid.Column="0" Text="{Binding Name}" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 									<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
@@ -151,25 +146,13 @@
 				<TextBlock Grid.Row="1" Grid.Column="0" Text="Место рождения" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding BirthPlace, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 				<TextBlock Grid.Row="2" Grid.Column="0" Text="Дата рождения" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<TextBlock Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
-					<Hyperlink Command="{Binding SelectBirthDateCommand}" Style="{StaticResource HyperlinkStyle}">
-						<TextBlock Text="{Binding BirthDateString}" TextDecorations="Underline" />
-					</Hyperlink>
-				</TextBlock>
+				<DatePicker Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" DisplayDate="{Binding BirthDate}" SelectedDate="{Binding BirthDate}" />
 				<TextBlock Grid.Row="3" Grid.Column="0" Text="Кем выдан" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding GivenBy, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 				<TextBlock Grid.Row="4" Grid.Column="0" Text="Дата выдачи" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<TextBlock Grid.Row="4" Grid.Column="1" VerticalAlignment="Center">
-					<Hyperlink Command="{Binding SelectGivenDateCommand}" Style="{StaticResource HyperlinkStyle}">
-						<TextBlock Text="{Binding GivenDateString}" TextDecorations="Underline" />
-					</Hyperlink>
-				</TextBlock>
+				<DatePicker Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" DisplayDate="{Binding GivenDate}" SelectedDate="{Binding GivenDate}" />
 				<TextBlock Grid.Row="5" Grid.Column="0" Text="Документ действителен до" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<TextBlock Grid.Row="5" Grid.Column="1" VerticalAlignment="Center">
-					<Hyperlink Command="{Binding SelectValidToCommand}" Style="{StaticResource HyperlinkStyle}">
-						<TextBlock Text="{Binding ValidToString}" TextDecorations="Underline" />
-					</Hyperlink>
-				</TextBlock>
+				<DatePicker Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" SelectedDate="{Binding ValidTo}" DisplayDate="{Binding ValidTo}" />
 				<TextBlock Grid.Row="6" Grid.Column="0" Text="Гражданство" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Citizenship, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 				<TextBlock Grid.Row="7" Grid.Column="0" Text="Пол" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />

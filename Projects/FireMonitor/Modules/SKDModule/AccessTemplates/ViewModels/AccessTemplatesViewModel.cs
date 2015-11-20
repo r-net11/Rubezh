@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using RubezhAPI.SKD;
 using RubezhClient.SKDHelpers;
+using System.Text;
+using Infrastructure.Common.Windows;
+using Infrastructure;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -84,6 +88,30 @@ namespace SKDModule.ViewModels
 			{
 				SelectedItem.InitializeDoors();
 			}
+		}
+
+		protected override bool ShowRemovingQuestion()
+		{
+			var cards = CardHelper.GetOrganisationCards(ParentOrganisation.UID);
+			if(cards == null)
+				return false;
+			var linkedCards = cards.Where(x => x.AccessTemplateUID == SelectedItem.Model.UID);
+			if (linkedCards.Count() > 0)
+			{
+				var numbers = linkedCards.Select(x => x.Number).OrderBy(x => x);
+				var numbersSting = string.Join(",", numbers);
+				var message = string.Format("Шаблон привязан к пропускам номер {0}. При удалении шаблона указанные в нём точки доступа будут убраны из привязаных пропусков. Вы уверены, что хотите удалить шаблон?", 
+					numbersSting);
+				return MessageBoxService.ShowQuestion(message);
+			}
+			else 
+				return base.ShowRemovingQuestion();
+		}
+
+		protected override void AfterRemove(AccessTemplate model)
+		{
+			base.AfterRemove(model);
+			ServiceFactory.Events.GetEvent<UpdateAccessTemplateEvent>().Publish(model.UID);
 		}
 	}	
 }

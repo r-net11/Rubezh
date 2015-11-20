@@ -107,26 +107,8 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ControlPlanArguments.ForAllClients = value;
-				if (value == false)
-					StoreOnServer = false;
 				OnPropertyChanged(() => ForAllClients);
-				OnPropertyChanged(() => CanStoreOnServer);
 			}
-		}
-
-		public bool StoreOnServer
-		{
-			get { return ControlPlanArguments.StoreOnServer; }
-			set
-			{
-				ControlPlanArguments.StoreOnServer = value;
-				OnPropertyChanged(() => StoreOnServer);
-			}
-		}
-
-		public bool CanStoreOnServer
-		{
-			get { return ControlElementType == ControlElementType.Set && ForAllClients; }
 		}
 
 		ObservableCollection<ElementPropertyType> GetElemetProperties(ElementViewModel element)

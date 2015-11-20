@@ -151,6 +151,18 @@ namespace PowerCalculator.Processor
 				});
 
 			Drivers.Add(new Driver()
+			{
+				DriverType = DriverType.RSR2_RM_1,
+				Mult = 2,
+				R = 0.8,
+				I = 0.21,
+				U = 0,
+				DeviceType = DeviceType.Consumer,
+				Umin = 12,
+				Imax = 300
+			});
+
+			Drivers.Add(new Driver()
 				{
 					DriverType = DriverType.RSR2_RM_2,
 					Mult = 2,

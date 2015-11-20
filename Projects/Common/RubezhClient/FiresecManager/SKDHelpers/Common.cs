@@ -11,6 +11,10 @@ namespace RubezhClient.SKDHelpers
 			{
 				return false;
 			}
+			if(operationResult.HasWarnings)
+			{
+				MessageBoxService.ShowWarning(string.Join("\n", operationResult.Warnings));
+			}
 			if (operationResult.HasError)
 			{
 				if (operationResult.Error.Contains("String or binary data would be truncated"))

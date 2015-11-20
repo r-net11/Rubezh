@@ -75,7 +75,7 @@ namespace SecurityModule.ViewModels
 							new PermissionViewModel(PermissionType.Adm_ViewConfig),
 							new PermissionViewModel(PermissionType.Adm_SetNewConfig),
 							new PermissionViewModel(PermissionType.Adm_WriteDeviceConfig),
-							new PermissionViewModel(PermissionType.Adm_ChangeDevicesSoft),
+							//new PermissionViewModel(PermissionType.Adm_ChangeDevicesSoft),
 							new PermissionViewModel(PermissionType.Adm_Security),
 
 							}),

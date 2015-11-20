@@ -14,7 +14,8 @@ using SKDModule.Reports.Providers;
 using SKDModule.ViewModels;
 using RubezhClient;
 using RubezhAPI.License;
-
+using RubezhAPI.Models;
+using System.Linq;
 namespace SKDModule
 {
 	public class SKDModuleLoader : ModuleBase, IReportProviderModule, ILayoutProviderModule, ISKDReportProviderModule
@@ -28,14 +29,37 @@ namespace SKDModule
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
+			IEnumerable<PermissionType> cardFielsPernissionType = new List<PermissionType>()
+			{
+				PermissionType.Oper_SKD_Employees_View,
+				PermissionType.Oper_SKD_Guests_View,
+				PermissionType.Oper_SKD_Departments_View,
+				PermissionType.Oper_SKD_Positions_View,
+				PermissionType.Oper_SKD_AdditionalColumns_View,
+				PermissionType.Oper_SKD_Cards_View,
+				PermissionType.Oper_SKD_AccessTemplates_View,
+				PermissionType.Oper_SKD_PassCards_View,
+				PermissionType.Oper_SKD_Organisations_View,
+			};
+
+			IEnumerable<PermissionType> timeTrackingPernissionType = new List<PermissionType>()
+			{
+				PermissionType.Oper_SKD_TimeTrack_DaySchedules_View,
+				PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_View,
+				PermissionType.Oper_SKD_TimeTrack_Holidays_View,
+				PermissionType.Oper_SKD_TimeTrack_Schedules_View,
+				PermissionType.Oper_SKD_TimeTrack_Report_View
+			};
+			bool isTimeTracking = timeTrackingPernissionType.Any(x=> ClientManager.CheckPermission(x));
+			bool isCardFiels = cardFielsPernissionType.Any(x => ClientManager.CheckPermission(x));
 			return new List<NavigationItem>
 				{
 				new NavigationItem("СКД", "SKDW",
 					new List<NavigationItem>()
 					{
-						new NavigationItem<ShowHREvent>(SKDTabItems.HRViewModel, "Картотека", "Kartoteka2W"),
-						new NavigationItem<ShowTimeTrackingEvent>(SKDTabItems.TimeTrackingTabsViewModel, "Учет рабочего времени", "TimeTrackingW")
-					}) { IsVisible = LicenseManager.CurrentLicenseInfo.HasSKD }
+						new NavigationItem<ShowHREvent>(SKDTabItems.HRViewModel, "Картотека", "Kartoteka2W"){IsVisible = isCardFiels},
+						new NavigationItem<ShowTimeTrackingEvent>(SKDTabItems.TimeTrackingTabsViewModel, "Учет рабочего времени", "TimeTrackingW"){IsVisible = isTimeTracking}
+					}) { IsVisible = LicenseManager.CurrentLicenseInfo.HasSKD && (isCardFiels || isTimeTracking)}
 				};
 		}
 

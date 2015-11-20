@@ -38,13 +38,20 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 
-				<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Content="Дата начала" />
-                <Calendar Grid.Row="2" Grid.Column="0" SelectionMode="SingleDate" 
-                          DisplayDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsFreePeriod}" SelectedDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="{Binding MinDate, Mode=OneWay}" DisplayDateEnd="{Binding MaxDate, Mode=OneWay}" />
-
-				<Label Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Content="Дата конца" />
-                <Calendar Grid.Row="2" Grid.Column="1" SelectionMode="SingleDate" 
-                          DisplayDate="{Binding EndDate, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsFreePeriod}" SelectedDate="{Binding EndDate, UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="{Binding MinDate, Mode=OneWay}" DisplayDateEnd="{Binding MaxDate, Mode=OneWay}" />
+				<TextBlock Text="Дата начала" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" />
+				<DatePicker SelectedDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}"
+							DisplayDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}"
+							DisplayDateStart="{Binding MinDate, Mode=OneWay}"
+							DisplayDateEnd="{Binding MaxDate, Mode=OneWay}"
+							IsEnabled="{Binding IsFreePeriod}"
+							Grid.Row="2" Grid.Column="0" />
+				<TextBlock Text="Дата конца" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" />
+				<DatePicker SelectedDate="{Binding EndDate, UpdateSourceTrigger=PropertyChanged}"
+							DisplayDate="{Binding EndDate, UpdateSourceTrigger=PropertyChanged}"
+							DisplayDateStart="{Binding MinDate, Mode=OneWay}"
+							DisplayDateEnd="{Binding MaxDate, Mode=OneWay}"
+							IsEnabled="{Binding IsFreePeriod}"
+							Grid.Row="2" Grid.Column="1" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Отображаемые данные">
