@@ -67,6 +67,8 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedZone = value;
+				if (_selectedZone != null)
+					_selectedZone.Update();
 				OnPropertyChanged(() => SelectedZone);
 				UpdateRibbonItems();
 				if (!_lockSelection && _selectedZone != null && _selectedZone.Zone.PlanElementUIDs.Count > 0)
@@ -178,7 +180,6 @@ namespace GKModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
 		}
-
 		public void LockedSelect(Guid zoneUID)
 		{
 			_lockSelection = true;
