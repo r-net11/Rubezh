@@ -104,6 +104,9 @@
 		{
 			bool result = Cancel();
 			IsCancelled = ! result;
+			if (IsCancelled && !AllowClose) //TODO: Bad realisation. Need to fix SKDDEV-839.
+				AllowClose = true;
+
 			CloseCanBeCancelled(result, IsCancelled);
 		}
 	}
