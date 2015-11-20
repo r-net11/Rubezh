@@ -129,6 +129,7 @@ namespace FiresecAPI.SKD
 			CalculateDocuments();
 
 			PlannedTimeTrackParts = PlannedTimeTrackParts;
+			CrossNightTimeTrackParts = CrossNightTimeTrackParts.Where(x => RealTimeTrackParts.All(y => y.PassJournalUID != x.PassJournalUID)).ToList();
 			RealTimeTrackParts.AddRange(CrossNightTimeTrackParts);
 			CrossNightTimeTrackParts = CalculateCrossNightTimeTrackParts(RealTimeTrackParts, Date);
 			RealTimeTrackParts = RealTimeTrackParts.OrderBy(x => x.EnterDateTime).ThenBy(x => x.ExitDateTime).ToList();

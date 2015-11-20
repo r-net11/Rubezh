@@ -22,7 +22,7 @@ namespace Infrastructure.Common.Windows
 
 		public bool IsRightPanelFocused
 		{
-			get { return ShellViewModel == null ? false : ShellViewModel.IsRightPanelFocused; }
+			get { return ShellViewModel != null && ShellViewModel.IsRightPanelFocused; }
 		}
 
 		public void SetRightPanelVisible(bool isVisible)

@@ -103,7 +103,8 @@
 		private void OnCancel()
 		{
 			bool result = Cancel();
-			CloseCanBeCancelled(result, AllowClose);
+			IsCancelled = ! result;
+			CloseCanBeCancelled(result, IsCancelled);
 		}
 	}
 }
