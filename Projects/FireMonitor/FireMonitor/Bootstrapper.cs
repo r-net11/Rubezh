@@ -110,7 +110,7 @@ namespace FireMonitor
 					}
 
 					SafeFiresecService.ReconnectionErrorEvent += x => { ApplicationService.Invoke(OnReconnectionError, x); };
-					SafeFiresecService.NewJournalItemsEvent += OnNewJournalItems;
+					SafeFiresecService.JournalItemsEvent += OnJournalItems;
 
 					ScheduleRunner.Start();
 
@@ -166,10 +166,11 @@ namespace FireMonitor
 			}
 		}
 
-		private void OnNewJournalItems(List<JournalItem> journalItems)
+		private void OnJournalItems(List<JournalItem> journalItems, bool isNew)
 		{
-			foreach (var journalItem in journalItems)
-				AutomationProcessor.RunOnJournal(journalItem);
+			if (isNew)
+				foreach (var journalItem in journalItems)
+					AutomationProcessor.RunOnJournal(journalItem);
 		}
 
 		static void ShutDown()

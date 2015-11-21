@@ -50,7 +50,7 @@ namespace FiresecService.Service
 			{
 				databaseService.JournalTranslator.AddRange(journalItems);
 			}
-			FiresecService.NotifyNewJournalItems(journalItems);
+			FiresecService.NotifyJournalItems(journalItems, true);
 			foreach (var journalItem in journalItems)
 			{
 				AutomationProcessor.RunOnJournal(journalItem);

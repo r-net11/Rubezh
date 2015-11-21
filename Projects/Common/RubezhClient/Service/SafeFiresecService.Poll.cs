@@ -20,7 +20,7 @@ namespace RubezhClient
 		public static event Action<CallbackOperationResult> CallbackOperationResultEvent;
 		public static event Action<AutomationCallbackResult> AutomationEvent;
 		public static event Action ConfigurationChangedEvent;
-		public static event Action<List<JournalItem>> NewJournalItemsEvent;
+		public static event Action<List<JournalItem>, bool> JournalItemsEvent;
 		
 		bool isConnected = true;
 		public bool SuspendPoll = false;
@@ -132,11 +132,11 @@ namespace RubezhClient
 						break;
 
 					case CallbackResultType.NewEvents:
+					case CallbackResultType.UpdateEvents:
 						SafeOperationCall(() =>
 						{
-							if (NewJournalItemsEvent != null)
-								NewJournalItemsEvent(callbackResult.JournalItems);
-
+							if (JournalItemsEvent != null)
+								JournalItemsEvent(callbackResult.JournalItems, callbackResult.CallbackResultType == CallbackResultType.NewEvents);
 						});
 						break;
 

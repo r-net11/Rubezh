@@ -63,11 +63,11 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult, clientUID);
 		}
 
-		public static void NotifyNewJournalItems(List<JournalItem> journalItems)
+		public static void NotifyJournalItems(List<JournalItem> journalItems, bool isNew)
 		{
 			var callbackResult = new CallbackResult()
 			{
-				CallbackResultType = CallbackResultType.NewEvents,
+				CallbackResultType = isNew ? CallbackResultType.NewEvents : CallbackResultType.UpdateEvents,
 				JournalItems = journalItems
 			};
 			CallbackManager.Add(callbackResult);

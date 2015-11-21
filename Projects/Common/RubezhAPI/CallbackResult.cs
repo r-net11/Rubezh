@@ -57,6 +57,7 @@ namespace RubezhAPI
 		GKObjectStateChanged,
 		GKPropertyChanged,
 		NewEvents,
+		UpdateEvents,
 		AutomationCallbackResult,
 		ConfigurationChanged,
 	    Disconnecting,
