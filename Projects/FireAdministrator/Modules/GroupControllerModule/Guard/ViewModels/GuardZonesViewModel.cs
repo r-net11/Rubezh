@@ -179,7 +179,7 @@ namespace GKModule.ViewModels
 			var zonesSettingsViewModel = new ZonesSettingsViewModel(true);
 			DialogService.ShowModalWindow(zonesSettingsViewModel);
 			if (SelectedZone != null)
-				ZoneDevices.Initialize(SelectedZone.Zone);
+				ZoneDevices.InitializeAvailableDevices(SelectedZone.Zone);
 		}
 
 		public RelayCommand ShowDependencyItemsCommand { get; set; }
