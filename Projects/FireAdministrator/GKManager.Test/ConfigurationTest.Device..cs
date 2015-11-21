@@ -45,7 +45,8 @@ namespace GKManager2.Test
 			Assert.IsFalse(guardZone.GuardZoneDevices.Any(x => x.Device.UID == device.UID));
 		}
 		/// <summary>
-		/// 
+		/// тест на добавления устройства в логику задержки,направления,устройства 
+		/// и праверку на отстутсвия устройства в логики при его удалении
 		/// </summary>
 		[TestMethod]
 		public void RemoveDeviceTestLogicForDelayAndDirection()
@@ -80,6 +81,11 @@ namespace GKManager2.Test
 			Assert.IsFalse(direction.Logic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains(device.UID)));
 
 		}
+
+		/// <summary>
+		/// тест на добавления устройства в логику и устройств входящих в  МПТ,НС,ТД  
+		/// и праверку на отстутсвия устройства в логики при его удалении
+		/// </summary>
 		[TestMethod]
 		public void RemoveDeviceTestLogicForMptNsDoor()
 		{
