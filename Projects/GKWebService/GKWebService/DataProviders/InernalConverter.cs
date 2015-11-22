@@ -111,23 +111,34 @@ namespace GKWebService.DataProviders
 		///     Преобразует набор точек в путь
 		/// </summary>
 		/// <param name="points">Коллекция точек</param>
-		/// <param name="isClosed">Замкнутая фигура?</param>
+		/// <param name="pathKind">Тип пути - Линия(замкнутая/открытая), либо Эллипс</param>
 		/// <returns></returns>
-		public static string PointsToPath(PointCollection points, bool isClosed) {
+		public static string PointsToPath(PointCollection points, PathKind pathKind) {
 			var enumerable = points.ToArray();
 			if (!enumerable.Any()) {
 				return string.Empty;
 			}
 
-			var start = enumerable[0];
-			var segments = new List<LineSegment>();
-			for (var i = 1; i < enumerable.Length; i++) {
-				segments.Add(new LineSegment(new Point(enumerable[i].X, enumerable[i].Y), true));
+			switch (pathKind) {
+					case PathKind.Ellipse: {
+						var radiusX = (enumerable[1].X - enumerable[0].X) / 2;
+						var radiusY = (enumerable[2].Y - enumerable[1].Y) / 2;
+						var center = new Point(enumerable[1].X - radiusX, enumerable[2].Y - radiusY);
+						var geometry = new EllipseGeometry(center: center, radiusX: radiusX, radiusY: radiusY);
+						return geometry.GetFlattenedPathGeometry().ToString(CultureInfo.InvariantCulture);
+					}
+				default: {
+						var start = enumerable[0];
+						var segments = new List<LineSegment>();
+						for (var i = 1; i < enumerable.Length; i++) {
+							segments.Add(new LineSegment(new Point(enumerable[i].X, enumerable[i].Y), true));
+						}
+						var figure = new PathFigure(start, segments, (pathKind == PathKind.ClosedLine));
+						var geometry = new PathGeometry();
+						geometry.Figures.Add(figure);
+						return geometry.ToString(CultureInfo.InvariantCulture);
+				}
 			}
-			var figure = new PathFigure(new Point(start.X, start.Y), segments, isClosed);
-			var geometry = new PathGeometry();
-			geometry.Figures.Add(figure);
-			return geometry.ToString(CultureInfo.InvariantCulture);
 		}
 
 		public static System.Drawing.Color ConvertColor(Color source) {
@@ -140,5 +151,11 @@ namespace GKWebService.DataProviders
 	        var attributes = memInfo[0].GetCustomAttributes(typeof (DescriptionAttribute), false);
 	        return ((DescriptionAttribute)attributes[0]).Description;
 	    }
+	}
+
+	public enum PathKind {
+		Line,
+		ClosedLine,
+		Ellipse
 	}
 }
