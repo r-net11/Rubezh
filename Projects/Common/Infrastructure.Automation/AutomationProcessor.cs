@@ -68,12 +68,14 @@ namespace Infrastructure.Automation
 			ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => { if (x.StartWithServer) RunProcedure(x, new List<Argument>(), null, null); });
 		}
 
-		public static ProcedureThread RunProcedure(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, User user = null, JournalItem journalItem = null, Guid? clientUID = null)
+		public static void RunProcedure(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, User user = null, JournalItem journalItem = null, Guid? clientUID = null)
 		{
-			var procedureThread = new ProcedureThread(procedure, arguments, callingProcedureVariables, journalItem, user, clientUID);
-			_procedureThreads.TryAdd(procedureThread.UID, procedureThread);
-			procedureThread.Start();
-			return procedureThread;
+			if (procedure.IsActive)
+			{
+				var procedureThread = new ProcedureThread(procedure, arguments, callingProcedureVariables, journalItem, user, clientUID);
+				_procedureThreads.TryAdd(procedureThread.UID, procedureThread);
+				procedureThread.Start();
+			}
 		}
 
 		public static void Stop()

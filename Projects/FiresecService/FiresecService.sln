@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecService", "FiresecService\FiresecService.csproj", "{903CA80D-886E-43AF-A631-BEB260F8F93D}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -279,8 +279,5 @@ Global
 		{AE2102F4-C2B3-4CA3-850F-69C93E23DFB7} = {55FE10AF-A462-4908-B710-8824101701E1}
 		{F46953E0-CA12-4659-AE8C-88241B541F6C} = {55FE10AF-A462-4908-B710-8824101701E1}
 		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007} = {55FE10AF-A462-4908-B710-8824101701E1}
-	EndGlobalSection
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

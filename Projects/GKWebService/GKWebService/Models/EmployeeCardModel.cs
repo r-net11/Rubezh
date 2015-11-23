@@ -17,6 +17,8 @@ namespace GKWebService.Models
 
 		public List<GKControllerModel> AvailableGKControllers { get; set; }
 
-		public List<ReadOnlyAccessDoorModel> Doors { get; set; } 
+		public List<AccessDoorModel> Doors { get; set; }
+
+		public AccessDoorModel SelectedDoor { get; set; }
 	}
 }

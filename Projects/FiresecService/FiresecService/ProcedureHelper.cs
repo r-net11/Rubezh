@@ -49,7 +49,7 @@ namespace FiresecService
 							dbService.JournalTranslator.SaveVideoUID(journalItemUid.Value, eventUid.Value, cameraUid);
 							journalItem.VideoUID = eventUid.Value;
 							journalItem.CameraUID = cameraUid;
-							FiresecService.Service.FiresecService.NotifyNewJournalItems(new List<JournalItem>() { journalItem });
+							FiresecService.Service.FiresecService.NotifyJournalItems(new List<JournalItem>() { journalItem }, false);
 						}
 					}
 				}

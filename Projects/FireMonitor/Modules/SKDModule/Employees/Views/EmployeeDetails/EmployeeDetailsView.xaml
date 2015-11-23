@@ -112,8 +112,8 @@
 							<DataTemplate>
 								<Grid>
 									<Grid.ColumnDefinitions>
-										<ColumnDefinition />
-										<ColumnDefinition />
+										<ColumnDefinition MaxWidth="200" />
+										<ColumnDefinition Width="*" />
 									</Grid.ColumnDefinitions>
 									<TextBlock Grid.Column="0" Text="{Binding Name}" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 									<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Margin="2" />

@@ -446,5 +446,23 @@ namespace RubezhDAL.DataClasses
 			
 		}
 		#endregion
+
+		public OperationResult RemoveAccessTemplate(List<Guid> uids)
+		{
+			try
+			{
+				var cards = Context.Cards.Where(x => uids.Any(y => y == x.UID));
+				foreach (var card in cards)
+				{
+					card.AccessTemplateUID = null;
+				}
+				Context.SaveChanges();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
 	}
 }

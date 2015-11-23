@@ -16,7 +16,7 @@ namespace GKModule.ViewModels
 	{
 		public List<GKDoor> Doors { get; private set; }
 
-		public DoorsSelectationViewModel(List<GKDoor> doors)
+		public DoorsSelectationViewModel(List<GKDoor> doors, List<GKDoorType> doorsTypes = null)
 		{
 			Title = "Выбор точек доступа";
 			AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
@@ -28,7 +28,22 @@ namespace GKModule.ViewModels
 			TargetDoors = new ObservableCollection<GKDoor>();
 			SourceDoors = new ObservableCollection<GKDoor>();
 
-			foreach (var door in GKManager.DeviceConfiguration.Doors)
+			var allDoors = GKManager.DeviceConfiguration.Doors;
+			if (doorsTypes != null)
+			{
+				var filteredDoors = new List<GKDoor>();
+				foreach (var door in allDoors)
+					foreach (var doorType in doorsTypes)
+					{
+						if (door.DoorType == doorType)
+						{
+							filteredDoors.Add(door);
+							break;
+						}
+					}
+				allDoors = filteredDoors;
+			}
+			foreach (var door in allDoors)
 			{
 				if (Doors.Contains(door))
 					TargetDoors.Add(door);

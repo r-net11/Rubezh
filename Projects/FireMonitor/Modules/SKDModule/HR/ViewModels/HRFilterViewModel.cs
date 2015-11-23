@@ -54,9 +54,9 @@ namespace SKDModule.ViewModels
 				_isWithDeleted = value;
 				OnPropertyChanged(() => IsWithDeleted);
 				Filter.LogicalDeletationType = IsWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active;
-				EmployeesFilterViewModel.Initialize(Filter.EmployeeFilter, Filter.LogicalDeletationType, Filter.EmployeeFilter.PersonType);
-				PositionsFilterViewModel.Initialize(Filter.EmployeeFilter.PositionUIDs, Filter.LogicalDeletationType);
-				DepartmentsFilterViewModel.Initialize(Filter.EmployeeFilter.DepartmentUIDs, Filter.LogicalDeletationType);
+				EmployeesFilterViewModel.Initialize(EmployeesFilterViewModel.Filter, Filter.LogicalDeletationType, Filter.EmployeeFilter.PersonType);
+				PositionsFilterViewModel.Initialize(PositionsFilterViewModel.UIDs, Filter.LogicalDeletationType);
+				DepartmentsFilterViewModel.Initialize(DepartmentsFilterViewModel.UIDs, Filter.LogicalDeletationType);
 				Filter.OrganisationUIDs = OrganisationUIDs;
 				InitializeOrganisations(Filter);
 			}

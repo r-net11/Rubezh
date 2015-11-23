@@ -29,7 +29,7 @@
 		<TextBlock Grid.Column="0" Grid.Row="3" Text="До" Style="{DynamicResource TextBlockDetailsStyle}" />
 		<Views:ArgumentView Grid.Column="1" Grid.Row="3" DataContext="{Binding MaxDateArgument}" />
 
-		<TextBlock Grid.Column="0" Grid.Row="4" Text="Путь к файлу" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<TextBlock Grid.Column="0" Grid.Row="4" Text="Путь к папке" Style="{DynamicResource TextBlockDetailsStyle}" />
 		<Views:ArgumentView Grid.Column="1" Grid.Row="4" DataContext="{Binding PathArgument}" />
 	</Grid>
 </UserControl>

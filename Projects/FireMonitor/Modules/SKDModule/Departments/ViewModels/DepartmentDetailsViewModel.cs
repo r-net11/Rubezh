@@ -18,16 +18,30 @@ namespace SKDModule.ViewModels
 		public bool IsNew { get; private set; }
 		List<TinyDepartment> _childDepartments;
 
-		public DepartmentDetailsViewModel() { }
-		
+		public DepartmentDetailsViewModel()
+		{
+			
+		}
+
 		public bool Initialize(Organisation organisation, ShortDepartment shortDepartment, ViewPartViewModel parentViewModel)
 		{
-			OrganisationUID = organisation.UID;
-			if (shortDepartment == null)
+			InitializeInternal(organisation.UID, shortDepartment, (parentViewModel as DepartmentsViewModel).SelectedItem.Model);
+			return true;
+		}
+
+		public void Initialize(Guid organisationUID, ShortDepartment parentDepartment)
+		{
+			InitializeInternal(organisationUID, null, parentDepartment);
+		}
+
+		void InitializeInternal(Guid organisationUID, ShortDepartment department, ShortDepartment parentDepartment)
+		{
+			OrganisationUID = organisationUID;
+			if (department == null)
 			{
 				Title = "Создание подразделения";
 				IsNew = true;
-				var parentModel = (parentViewModel as DepartmentsViewModel).SelectedItem.Model;
+				var parentModel = parentDepartment;
 				Department = new Department()
 				{
 					Name = "Новое подразделение",
@@ -38,28 +52,13 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				Department = DepartmentHelper.GetDetails(shortDepartment.UID);
+				Department = DepartmentHelper.GetDetails(department.UID);
 				Title = string.Format("Свойства подразделения: {0}", Department.Name);
 				_childDepartments = new List<TinyDepartment>();
 			}
 			CopyProperties();
 			ChiefViewModel = new EmployeeSelectationViewModel(Department.ChiefUID, new EmployeeFilter { DepartmentUIDs = new List<Guid> { Department.UID } });
 			SelectDepartmentCommand = new RelayCommand(OnSelectDepartment);
-			return true;
-		}
-
-		public void Initialize(Guid organisationUID, Guid parentDepartmentUID)
-		{
-			OrganisationUID = organisationUID;
-			Title = "Создание подразделения";
-			Department = new Department()
-			{
-				Name = "Новое подразделение",
-				ParentDepartmentUID = parentDepartmentUID,
-				OrganisationUID = OrganisationUID
-			};
-			CopyProperties();
-			ChiefViewModel = new EmployeeSelectationViewModel(Department.ChiefUID, new EmployeeFilter { DepartmentUIDs = new List<Guid> { Department.UID } });
 		}
 
 		public void CopyProperties()
@@ -67,7 +66,7 @@ namespace SKDModule.ViewModels
 			Name = Department.Name;
 			Description = Department.Description;
 			Phone = Department.Phone;
-			SelectedDepartment = DepartmentHelper.GetSingleShort(Department.ParentDepartmentUID); 
+			SelectedDepartment = DepartmentHelper.GetSingleShort(Department.ParentDepartmentUID);
 			if (Department.Photo != null)
 				PhotoData = Department.Photo.Data;
 		}
@@ -121,7 +120,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_photoData = value;
-				OnPropertyChanged(()=>PhotoData);
+				OnPropertyChanged(() => PhotoData);
 			}
 		}
 
@@ -147,8 +146,8 @@ namespace SKDModule.ViewModels
 			return true;
 		}
 
-		public ShortDepartment Model 
-		{ 
+		public ShortDepartment Model
+		{
 			get
 			{
 				return new ShortDepartment
@@ -158,7 +157,7 @@ namespace SKDModule.ViewModels
 					Name = Department.Name,
 					ParentDepartmentUID = Department.ParentDepartmentUID,
 					ChildDepartments = _childDepartments,
-					Phone = Department.Phone, 
+					Phone = Department.Phone,
 					OrganisationUID = OrganisationUID,
 					ChiefUID = ChiefViewModel.SelectedEmployeeUID
 				};
