@@ -37,7 +37,7 @@ namespace GKManager2.Test
 			var guardZoneDevice = new GKGuardZoneDevice {Device = device,DeviceUID = device.UID };
 			guardZone.GuardZoneDevices.Add(guardZoneDevice);
 			GKManager.AddGuardZone(guardZone);
-			GKManager.AddDeviceToGuardZone(device, guardZone,guardZone.GuardZoneDevices[0]);
+			GKManager.AddDeviceToGuardZone(guardZone, guardZone.GuardZoneDevices[0]);
 			Assert.IsTrue(device.GuardZones.Contains(guardZone));
 			Assert.IsTrue(guardZone.GuardZoneDevices.Any(x => x.DeviceUID == device.UID));
 			GKManager.RemoveDeviceFromGuardZone(device, guardZone);

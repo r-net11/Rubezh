@@ -70,14 +70,8 @@ namespace GKProcessor.Test
 		[TestMethod]
 		public void TestGuardZone()
 		{
-			var device = AddDevice(kauDevice, GKDriverType.RSR2_GuardDetector);
-			var guardZone = new GKGuardZone();
-			GKManager.AddGuardZone(guardZone);
-			GKManager.AddDeviceToGuardZone(device, guardZone);
-			Test(guardZone, GKDriverType.GuardZonesMirror);
-			CheckDeviceLogicOnGK(device);
-
 			var cardReaderDevice = AddDevice(kauDevice, GKDriverType.RSR2_CardReader);
+
 			var guardZoneDevice = new GKGuardZoneDevice();
 			guardZoneDevice.Device = cardReaderDevice;
 			guardZoneDevice.DeviceUID = cardReaderDevice.UID;
@@ -88,8 +82,11 @@ namespace GKProcessor.Test
 			guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeUIDs.Add(code.UID);
 			guardZoneDevice.ActionType = GKGuardZoneDeviceActionType.ChangeGuard;
 			guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeReaderEnterType = GKCodeReaderEnterType.CodeAndOne;
-			GKManager.AddDeviceToGuardZone(cardReaderDevice, guardZone, guardZoneDevice);
-			Compile();
+
+			var guardZone = new GKGuardZone();
+			GKManager.AddGuardZone(guardZone);
+			GKManager.AddDeviceToGuardZone(guardZone, guardZoneDevice);
+			Test(guardZone, GKDriverType.GuardZonesMirror);
 			CheckDeviceLogicOnGK(cardReaderDevice);
 			CheckObjectOnGK(code);
 			Assert.IsNotNull(guardZone.Pim);
