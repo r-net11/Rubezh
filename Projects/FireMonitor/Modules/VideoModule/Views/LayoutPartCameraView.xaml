@@ -3,19 +3,6 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mediaSourcePlayer="clr-namespace:MediaSourcePlayer;assembly=MediaSourcePlayer">
 	<Grid Background="Black">
-		<Border>
-			<Border.Background>
-				<VisualBrush Stretch="Uniform">
-					<VisualBrush.Visual>
-						<mediaSourcePlayer:MediaPlayer
-			                        x:Name="MediaSourcePlayer"
-			                        Width="450"
-			                        Height="250"
-									OriginalAspectRatio="True">
-						</mediaSourcePlayer:MediaPlayer>
-					</VisualBrush.Visual>
-				</VisualBrush >
-			</Border.Background>
-		</Border>
+		<mediaSourcePlayer:MediaPlayer x:Name="MediaSourcePlayer"/>
 	</Grid>
 </UserControl>
