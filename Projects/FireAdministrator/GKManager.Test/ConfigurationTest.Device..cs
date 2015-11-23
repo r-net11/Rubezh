@@ -84,7 +84,7 @@ namespace GKManager2.Test
 
 		/// <summary>
 		/// тест на добавления устройства в логику и устройств входящих в  МПТ,НС,ТД  
-		/// и праверку на отстутсвия устройства в логики при его удалении
+		/// и праверку на отстутсвия устройства в логики и устройств входящих в  МПТ,НС,ТД  при его удалении
 		/// </summary>
 		[TestMethod]
 		public void RemoveDeviceTestLogicForMptNsDoor()
@@ -108,6 +108,8 @@ namespace GKManager2.Test
 			mpt.MPTDevices.Add(gkMptDevice);
 			Assert.IsTrue(mpt.MptLogic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains(device.UID)));
 			Assert.IsTrue(mpt.MPTDevices.Any(x => x.DeviceUID == device.UID));
+			Assert.IsTrue(mpt.InputDependentElements.Contains(device));
+			Assert.IsTrue(device.OutputDependentElements.Contains(mpt));
 
 			var pump = new GKPumpStation();
 			GKManager.AddPumpStation(pump);
@@ -120,15 +122,18 @@ namespace GKManager2.Test
 			GKManager.AddDoor(door);
 			GKManager.SetDoorOpenRegimeLogic(door, gkLogic);
 			GKManager.SetDoorCloseRegimeLogic(door, gkLogic);
+
 			GKManager.ChangeEnterButtonDevice(door, device);
 			Assert.IsTrue(door.EnterButton == device);
 			Assert.IsTrue(door.EnterButtonUID == device.UID);
+			Assert.IsTrue(device.Door == door);
 			door.EnterButton = null;
 			door.EnterButtonUID = Guid.Empty;
 
 			GKManager.ChangeExitButtonDevice(door, device);
 			Assert.IsTrue(door.ExitButton == device);
 			Assert.IsTrue(door.ExitButtonUID == device.UID);
+			Assert.IsTrue(device.Door == door);
 			door.ExitButton = null;
 			door.ExitButtonUID = Guid.Empty;
 
