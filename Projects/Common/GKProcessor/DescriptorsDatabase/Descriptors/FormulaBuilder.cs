@@ -99,11 +99,20 @@ namespace GKProcessor
 			AddPutBit(GKStateBit.TurnOff_InAutomatic, gkBase);
 		}
 
-		public void AddMirrorLogic(GKBase gkBase, GKDevice mirrorParent)
+		public void AddMirrorLogic(GKBase gkBase, List<GKDevice> mirrorParents)
 		{
-			if (mirrorParent != null)
+			if (mirrorParents != null && mirrorParents.Count > 0)
 			{
-				AddGetWord(true, mirrorParent);
+				int count = 0;
+				foreach (var mirrorParent in mirrorParents)
+				{
+					AddGetWord(true, mirrorParent);
+					count++;
+					if (count > 1)
+					{
+						Add(FormulaOperationType.OR);
+					}
+				}
 				Add(FormulaOperationType.CONST, 0, 0xF800);
 				Add(FormulaOperationType.AND);
 

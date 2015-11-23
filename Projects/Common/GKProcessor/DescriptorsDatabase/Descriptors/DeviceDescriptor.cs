@@ -37,9 +37,8 @@ namespace GKProcessor
 				return;
 			}
 
-			var mirrorParent = Device.GetMirrorParent();
-			if (mirrorParent != null)
-				Formula.AddMirrorLogic(Device, mirrorParent);
+			var mirrorParents = Device.GetMirrorParents();
+			Formula.AddMirrorLogic(Device, mirrorParents);
 
 			if (CreateMPTLogic())
 				return;

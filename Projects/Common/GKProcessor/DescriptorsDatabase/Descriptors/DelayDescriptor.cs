@@ -31,9 +31,8 @@ namespace GKProcessor
 				return;
 			}
 
-			var mirrorParent = Delay.GetMirrorParent();
-			if (mirrorParent != null)
-				Formula.AddMirrorLogic(Delay, mirrorParent);
+			var mirrorParents = Delay.GetMirrorParents();
+			Formula.AddMirrorLogic(Delay, mirrorParents);
 
 			if (Delay.Logic.StopClausesGroup.GetObjects().Count > 0)
 			{

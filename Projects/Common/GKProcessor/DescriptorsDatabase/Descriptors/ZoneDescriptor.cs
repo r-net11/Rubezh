@@ -15,8 +15,8 @@ namespace GKProcessor
 
 		public override void Build()
 		{
-			DeviceType = BytesHelper.ShortToBytes((ushort)0x100);
-			SetAddress((ushort)0);
+			DeviceType = BytesHelper.ShortToBytes(0x100);
+			SetAddress(0);
 		}
 
 		public override void BuildFormula()
@@ -28,9 +28,8 @@ namespace GKProcessor
 				return;
 			}
 
-			var mirrorParent = Zone.GetMirrorParent();
-			if (mirrorParent != null)
-				Formula.AddMirrorLogic(Zone, mirrorParent);
+			var mirrorParents = Zone.GetMirrorParents();
+			Formula.AddMirrorLogic(Zone, mirrorParents);
 
 			var fire1Count = AddDeviceFire1();
 			AddDeviceFire2();
