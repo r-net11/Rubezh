@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "FireZones";
     Layout = null;
 }
@@ -7,8 +6,19 @@
 
 @*@using System.Web.Optimization
 
-@Scripts.Render("~/bundles/fireZones")*@
-<h1>Fire Zones</h1>
+    @Scripts.Render("~/bundles/fireZones")*@
 <div ng-controller="firezonesCtrl">
-    {{message1}}
+    <div class="area">
+        Область
+    </div>
+    <br />
+    <ng-jq-grid config="config" data="data"></ng-jq-grid>
 </div>
+
+<style>
+    .area {
+        background: white;
+        height: 500px;
+        width: 100%;
+    }
+</style>

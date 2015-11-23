@@ -95,35 +95,42 @@ namespace JournalModule
 
 		public override void AfterInitialize()
 		{
-			SafeFiresecService.NewJournalItemsEvent -= new Action<List<JournalItem>>(OnNewJournalItems);
-			SafeFiresecService.NewJournalItemsEvent += new Action<List<JournalItem>>(OnNewJournalItems);
+			SafeFiresecService.JournalItemsEvent -= new Action<List<JournalItem>, bool>(OnJournalItems);
+			SafeFiresecService.JournalItemsEvent += new Action<List<JournalItem>, bool>(OnJournalItems);
 
 			JournalViewModel.SetJournalItems();
 			ArchiveViewModel.Update();
 		}
 
-		void OnNewJournalItems(List<JournalItem> journalItems)
+		void OnJournalItems(List<JournalItem> journalItems, bool isNew)
 		{
 			ApplicationService.Invoke(() =>
 			{
-				if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
-					UnreadJournalCount += journalItems.Count;
-
-				ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Publish(journalItems);
-				foreach (var journalItem in journalItems)
+				if (isNew)
 				{
-					var stateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
-					if (ClientManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
+					if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
+						UnreadJournalCount += journalItems.Count;
+
+					ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Publish(journalItems);
+
+					foreach (var journalItem in journalItems)
 					{
-						if (((journalItem.JournalObjectType == JournalObjectType.GKZone || journalItem.JournalObjectType == JournalObjectType.GKDirection) &&
-							(stateClass == XStateClass.Fire1 || stateClass == XStateClass.Fire2 || stateClass == XStateClass.Attention)) ||
-							((journalItem.JournalObjectType == JournalObjectType.GKGuardZone || journalItem.JournalObjectType == JournalObjectType.GKDoor) && stateClass == XStateClass.Fire1))
+						var stateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
+						if (ClientManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
 						{
-							var confirmationViewModel = new ConfirmationViewModel(journalItem);
-							DialogService.ShowWindow(confirmationViewModel);
+							if (((journalItem.JournalObjectType == JournalObjectType.GKZone || journalItem.JournalObjectType == JournalObjectType.GKDirection) &&
+								(stateClass == XStateClass.Fire1 || stateClass == XStateClass.Fire2 || stateClass == XStateClass.Attention)) ||
+								((journalItem.JournalObjectType == JournalObjectType.GKGuardZone || journalItem.JournalObjectType == JournalObjectType.GKDoor) && stateClass == XStateClass.Fire1))
+							{
+								var confirmationViewModel = new ConfirmationViewModel(journalItem);
+								DialogService.ShowWindow(confirmationViewModel);
+							}
 						}
 					}
 				}
+				else
+					ServiceFactory.Events.GetEvent<UpdateJournalItemsEvent>().Publish(journalItems);
+
 			});
 		}
 

@@ -1,9 +1,9 @@
 ﻿#region Usings
 
 using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -11,6 +11,7 @@ using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Xaml;
@@ -20,6 +21,9 @@ using Infrustructure.Plans.Elements;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhClient;
+using FontStyle = System.Windows.FontStyle;
+using Point = System.Windows.Point;
+using Size = System.Drawing.Size;
 
 #endregion
 
@@ -36,7 +40,30 @@ namespace GKWebService.Models
 				rect.BottomLeft
 			};
 			var shape = new PlanElement {
-				Path = InernalConverter.PointsToPath(pt, true),
+				Path = InernalConverter.PointsToPath(pt, PathKind.ClosedLine),
+				Border = InernalConverter.ConvertColor(item.BorderColor),
+				Fill = InernalConverter.ConvertColor(item.BackgroundColor),
+				BorderMouseOver = InernalConverter.ConvertColor(item.BorderColor),
+				FillMouseOver = InernalConverter.ConvertColor(item.BackgroundColor),
+				Name = item.PresentationName,
+				Id = item.UID,
+				Hint = GetElementHint(item),
+				BorderThickness = item.BorderThickness,
+				Type = ShapeTypes.Path.ToString()
+			};
+			return shape;
+		}
+
+		public static PlanElement FromEllipse(ElementEllipse item) {
+			var rect = item.GetRectangle();
+			var pt = new PointCollection {
+				rect.TopLeft,
+				rect.TopRight,
+				rect.BottomRight,
+				rect.BottomLeft
+			};
+			var shape = new PlanElement {
+				Path = InernalConverter.PointsToPath(pt, PathKind.Ellipse),
 				Border = InernalConverter.ConvertColor(item.BorderColor),
 				Fill = InernalConverter.ConvertColor(item.BackgroundColor),
 				BorderMouseOver = InernalConverter.ConvertColor(item.BorderColor),
@@ -52,7 +79,7 @@ namespace GKWebService.Models
 
 		public static PlanElement FromPolygon(ElementBasePolygon item) {
 			var shape = new PlanElement {
-				Path = InernalConverter.PointsToPath(item.Points, true),
+				Path = InernalConverter.PointsToPath(item.Points, PathKind.ClosedLine),
 				Border = InernalConverter.ConvertColor(item.BorderColor),
 				Fill = InernalConverter.ConvertColor(item.BackgroundColor),
 				BorderMouseOver = InernalConverter.ConvertColor(item.BorderColor),
@@ -68,7 +95,7 @@ namespace GKWebService.Models
 
 		public static PlanElement FromPolyline(ElementBasePolyline item) {
 			var shape = new PlanElement {
-				Path = InernalConverter.PointsToPath(item.Points, false),
+				Path = InernalConverter.PointsToPath(item.Points, PathKind.Line),
 				Border = InernalConverter.ConvertColor(item.BorderColor),
 				Fill = System.Drawing.Color.Transparent,
 				BorderMouseOver = InernalConverter.ConvertColor(item.BorderColor),
@@ -80,6 +107,25 @@ namespace GKWebService.Models
 				Type = ShapeTypes.Path.ToString()
 			};
 			return shape;
+		}
+
+		public static PlanElement FromTextBlocks(ElementTextBlock item) {
+			var fontFamily = new System.Windows.Media.FontFamily(item.FontFamilyName);
+			var fontStyle = item.FontItalic ? FontStyles.Italic : FontStyles.Normal;
+			var fontWeight = item.FontBold ? FontWeights.Bold : FontWeights.Normal;
+            FormattedText text = new FormattedText(item.Text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, new Typeface(fontFamily, fontStyle, fontWeight, FontStretches.Normal), item.FontSize, new SolidColorBrush(item.ForegroundColor));
+			var shape = new PlanElement {
+				Path = text.BuildGeometry(new Point(item.Left, item.Top)).GetFlattenedPathGeometry().ToString(CultureInfo.InvariantCulture).Substring(2),
+				Border = InernalConverter.ConvertColor(Colors.Transparent),
+				Fill = InernalConverter.ConvertColor(item.ForegroundColor),
+				Name = item.PresentationName,
+				Id = item.UID,
+				Hint = GetElementHint(item),
+				BorderThickness = item.BorderThickness,
+				Type = ShapeTypes.Path.ToString()
+			};
+			return shape;
+
 		}
 
 		public static PlanElement FromDevice(ElementGKDevice item) {
@@ -382,5 +428,7 @@ namespace GKWebService.Models
 
 			return new Tuple<string, Size>(Convert.ToBase64String(byteArray), value1.Size);
 		}
+
+		
 	}
 }

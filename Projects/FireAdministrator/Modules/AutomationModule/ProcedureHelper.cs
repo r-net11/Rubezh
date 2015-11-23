@@ -21,6 +21,20 @@ namespace AutomationModule
 			allElements.AddRange(plan.ElementTextBlocks);
 			allElements.AddRange(plan.ElementPolygons);
 			allElements.AddRange(plan.ElementExtensions);
+			allElements.AddRange(plan.ElementGKDevices);
+			allElements.AddRange(plan.ElementRectangleGKZones);
+			allElements.AddRange(plan.ElementRectangleGKGuardZones);
+			allElements.AddRange(plan.ElementRectangleGKSKDZones);
+			allElements.AddRange(plan.ElementRectangleGKDirections);
+			allElements.AddRange(plan.ElementRectangleGKMPTs);
+			allElements.AddRange(plan.ElementRectangleGKDelays);
+			allElements.AddRange(plan.ElementPolygonGKZones);
+			allElements.AddRange(plan.ElementPolygonGKGuardZones);
+			allElements.AddRange(plan.ElementPolygonGKSKDZones);
+			allElements.AddRange(plan.ElementPolygonGKDirections);
+			allElements.AddRange(plan.ElementPolygonGKMPTs);
+			allElements.AddRange(plan.ElementPolygonGKDelays);
+			allElements.AddRange(plan.ElementSubPlans);
 			foreach (var elementRectangle in allElements)
 			{
 				elements.Add(new ElementViewModel(elementRectangle));

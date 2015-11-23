@@ -5,10 +5,9 @@
 	<Grid>			
 		<Grid.RowDefinitions>
 				<RowDefinition Height="5*" />
-				<RowDefinition Height="3*" />			
+				<RowDefinition Height="3*" />
 		</Grid.RowDefinitions>
-		<Grid Grid.Row="0">
-		<DataGrid Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" CanUserSortColumns="True">
+		<DataGrid Grid.Row="0" Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" CanUserSortColumns="True">
 			<DataGrid.InputBindings>
 				<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
 			</DataGrid.InputBindings>
@@ -20,10 +19,10 @@
 				</ContextMenu>
 			</DataGrid.ContextMenu>
 			<DataGrid.Resources>
-					<Style x:Key="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
-						<Setter Property="MinWidth" Value="0" />
-						<Setter Property="MinHeight" Value="0" />
-					</Style>
+				<Style x:Key="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
+					<Setter Property="MinWidth" Value="0" />
+					<Setter Property="MinHeight" Value="0" />
+				</Style>
 			</DataGrid.Resources>
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Header="№" SortMemberPath="Zone.No" Width="Auto" CanUserResize="False">
@@ -41,28 +40,65 @@
 				<DataGridTextColumn Width="*" Binding="{Binding Zone.Description}" Header="Примечание" />
 			</DataGrid.Columns>
 		</DataGrid>
+		<Grid Grid.Row="1" DataContext="{Binding SelectedZone}">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+			<ScrollViewer Grid.Column="0" Margin="0 4 2 0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+				<Border Background="White" CornerRadius="5">
+					<StackPanel>
+						<TextBlock Margin="5 2" FontWeight="Bold" Text="Список точек доступа ведущих из зоны:" />
+						<ItemsControl Margin="20 5 0 0" ItemsSource="{Binding OutputDoors}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Door.png" />
+										<TextBlock Margin="5 3 0 0" FontWeight="Bold" Text="{Binding Door.PresentationName}" />
+										<TextBlock Margin="2 1 0 0" VerticalAlignment="Center">
+											<Hyperlink Command="{Binding RemoveOutputDoorCommand}" Style="{StaticResource HyperlinkStyle2}">
+												<Image Margin="3 0 0 0" VerticalAlignment="Center" Source="/Controls;component/StateClassIcons/Failure.png" />
+											</Hyperlink>
+										</TextBlock>
+									</StackPanel>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+						<TextBlock Margin="25 5" FontWeight="Bold" VerticalAlignment="Center">
+							<Hyperlink Command="{Binding ManageOutputDoorsCommand}" Style="{StaticResource HyperlinkStyle2}">
+								<TextBlock Text="Управлять списком" />
+							</Hyperlink>
+						</TextBlock>
+					</StackPanel>
+				</Border>
+			</ScrollViewer>
+			<ScrollViewer Grid.Column="1" Margin="2 4 0 0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+				<Border Background="White" CornerRadius="5">
+					<StackPanel>
+						<TextBlock Margin="5 2" FontWeight="Bold" Text="Список точек доступа ведущих в зону:" />
+						<ItemsControl Margin="20 5 0 0" ItemsSource="{Binding InputDoors}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Door.png" />
+										<TextBlock Margin="5 3 0 0" FontWeight="Bold" Text="{Binding Door.PresentationName}"/>
+										<TextBlock Margin="2 1 0 0" VerticalAlignment="Center">
+										<Hyperlink Command="{Binding RemoveInputDoorCommand}" Style="{StaticResource HyperlinkStyle2}">
+											<Image Margin="3 0 0 0" VerticalAlignment="Center" Source="/Controls;component/StateClassIcons/Failure.png" />
+										</Hyperlink>
+										</TextBlock>
+									</StackPanel>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+						<TextBlock Margin="25 5" FontWeight="Bold" VerticalAlignment="Center">
+							<Hyperlink Command="{Binding ManageInputDoorsCommand}" Style="{StaticResource HyperlinkStyle2}">
+								<TextBlock Text="Управлять списком" />
+							</Hyperlink>
+						</TextBlock>
+					</StackPanel>
+				</Border>
+			</ScrollViewer>
 		</Grid>
-		<ScrollViewer Grid.Row="1" Margin="0 4 0 0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-			<Border Background="White" CornerRadius="5">
-				<Grid DataContext="{Binding SelectedZone}">
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="*" />
-					</Grid.RowDefinitions>
-					<TextBlock Grid.Row="0" Margin="5 2" FontWeight="Bold" Text="Список точек доступа настроенных на зону:" />
-					<ItemsControl Grid.Row="1" Margin="20 5 0 0" ItemsSource="{Binding Doors}">
-						<ItemsControl.ItemTemplate>
-							<DataTemplate>
-								<StackPanel Orientation="Horizontal">
-									<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Door.png" />
-									<TextBlock Margin="5 2" FontWeight="Bold" Text="{Binding Name}"/>
-								</StackPanel>
-							</DataTemplate>
-						</ItemsControl.ItemTemplate>
-					</ItemsControl>
-				</Grid>
-			</Border>
-		</ScrollViewer>
 	</Grid>
 </UserControl>

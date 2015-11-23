@@ -92,7 +92,7 @@ namespace RubezhClient
 		public static ushort GetKauLine(GKDevice device)
 		{
 			ushort lineNo = 0;
-			if (device.Driver.IsKau)
+			if (device.Driver.IsKau || device.DriverType == GKDriverType.RSR2_GKMirror)
 			{
 				var modeProperty = device.Properties.FirstOrDefault(x => x.Name == "Mode");
 				if (modeProperty != null)
