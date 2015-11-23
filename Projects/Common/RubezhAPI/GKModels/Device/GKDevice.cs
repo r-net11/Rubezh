@@ -79,14 +79,6 @@ namespace RubezhAPI.GK
 			//	}
 			//	GuardZones = guardZones;
 			//}
-						if (guardZone.GuardZoneDevices.All(x => x.DeviceUID != UID))
-						{
-							var guardZoneDevice = new GKGuardZoneDevice();
-							guardZoneDevice.Device = this;
-							guardZoneDevice.DeviceUID = UID;
-							guardZone.GuardZoneDevices.Add(guardZoneDevice);
-						}
-			}
 			if (Driver.HasMirror)
 			{
 				switch (DriverType)
@@ -116,7 +108,6 @@ namespace RubezhAPI.GK
 						break;
 				}
 			}
-
 		}
 
 		public override void UpdateLogic(GKDeviceConfiguration deviceConfiguration)
