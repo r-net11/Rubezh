@@ -212,11 +212,14 @@ namespace GKModule.ViewModels
 		public RelayCommand PasteCommand { get; private set; }
 		void OnPaste()
 		{
-			var allChildren =SelectedDevice.Device.KAUShleifParent.AllChildren;
-			if (allChildren.Count + DevicesToCopy.Count > 255)
+			if (SelectedDevice.Device.IsConnectedToKAU)
 			{
-				MessageBoxService.ShowWarning("Адрес устройства не может превышать 255");
-				return;
+				var allChildren = SelectedDevice.Device.KAUShleifParent.AllChildren;
+				if (allChildren.Count + DevicesToCopy.Count > 255)
+				{
+					MessageBoxService.ShowWarning("Адрес устройства не может превышать 255");
+					return;
+				}
 			}
 			using (new WaitWrapper())
 			{
@@ -287,8 +290,8 @@ namespace GKModule.ViewModels
 
 		GKDevice PasteDevice(GKDevice device)
 		{
-			//if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU || SelectedDevice.Device.DriverType == GKDriverType.KAUIndicator)
-			//	return null;
+			if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU || SelectedDevice.Device.DriverType == GKDriverType.KAUIndicator)
+				return null;
 			if (SelectedDevice.Device.IsConnectedToKAU)
 			{
 				var kauDeviceShleifdevice = SelectedDevice.Device.KAUShleifParent;
