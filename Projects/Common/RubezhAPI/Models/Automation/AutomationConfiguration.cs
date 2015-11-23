@@ -357,7 +357,7 @@ namespace RubezhAPI.Automation
 						}
 						else
 						{
-							if (plan.SimpleElements.All(x => x.UID != controlPlanArguments.ElementUid))
+							if (plan.AllElements.All(x => x.UID != controlPlanArguments.ElementUid))
 								controlPlanArguments.ElementUid = Guid.Empty;
 						}
 						InvalidateArgument(procedure, controlPlanArguments.ValueArgument);
