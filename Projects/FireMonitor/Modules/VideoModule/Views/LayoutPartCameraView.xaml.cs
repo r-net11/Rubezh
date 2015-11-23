@@ -19,6 +19,8 @@ namespace VideoModule.Views
 
 		private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
 		{
+			MediaSourcePlayer.Stop();
+			MediaSourcePlayer.Close();
 			var viewModel = DataContext as LayoutPartCameraViewModel;
 			if (viewModel == null)
 				return;
