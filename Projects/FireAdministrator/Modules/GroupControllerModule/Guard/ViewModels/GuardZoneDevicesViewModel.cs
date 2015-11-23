@@ -78,7 +78,7 @@ namespace GKModule.ViewModels
 				if (device.Driver.HasGuardZone && !zone.GuardZoneDevices.Any(x => x.DeviceUID == device.UID))
 				{
 					if (device.GuardZones.Count > 0 || (device.IsInMPT && !GlobalSettingsHelper.GlobalSettings.ShowMPTsDevices)
-							|| (device.ZoneUIDs.Count > 0 && !GlobalSettingsHelper.GlobalSettings.ShowOtherZonesDevices)
+							|| (device.ZoneUIDs.Count > 0 && !GlobalSettingsHelper.GlobalSettings.ShowZonesDevices)
 							|| (device.Door != null && !GlobalSettingsHelper.GlobalSettings.ShowDoorsDevices))
 						continue;
 
@@ -177,6 +177,7 @@ namespace GKModule.ViewModels
 				if (deviceViewModel != null)
 				{
 					deviceViewModel.GuardZoneDevice.CodeReaderSettings = new GKCodeReaderSettings();
+					deviceViewModel.GuardZoneDevice.ActionType = GKGuardZoneDeviceActionType.SetGuard;
 					deviceViewModels.Add(deviceViewModel);
 				}
 			}

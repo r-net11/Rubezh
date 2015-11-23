@@ -123,15 +123,15 @@ namespace GKModule.Validation
 			{
 				if (device.GuardZones == null || device.GuardZones.Count == 0)
 				{
-					AddError(device, string.Format("Устройство не подключено к зоне"), ValidationErrorLevel.Warning);
+					AddError(device, string.Format("Устройство не подключено к охраной зоне"), ValidationErrorLevel.Warning);
 				}
 			}
 
 			else if (device.Driver.HasZone)
 			{
-				if (device.GuardZones == null || device.GuardZones.Count == 0)
+				if (device.Zones == null || device.Zones.Count == 0)
 				{
-					AddError(device, string.Format("Устройство не подключено к зоне"), ValidationErrorLevel.Warning);
+					AddError(device, string.Format("Устройство не подключено к пожарной зоне"), ValidationErrorLevel.Warning);
 				}
 			}
 		}
@@ -237,7 +237,7 @@ namespace GKModule.Validation
 		{
 			if (device.IsInMPT && device.Door != null)
 			{
-				var mpt = GKManager.MPTs.FirstOrDefault(x => x.MPTDevices.Any(y => y.DeviceUID == device.UID && (y.MPTDeviceType == GKMPTDeviceType.Bomb || y.MPTDeviceType == GKMPTDeviceType.DoNotEnterBoard || y.MPTDeviceType == GKMPTDeviceType.ExitBoard || y.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard)));
+				var mpt = GKManager.MPTs.FirstOrDefault(x => x.MPTDevices.Any(y => y.DeviceUID == device.UID && (y.MPTDeviceType == GKMPTDeviceType.Bomb || y.MPTDeviceType == GKMPTDeviceType.DoNotEnterBoard || y.MPTDeviceType == GKMPTDeviceType.ExitBoard || y.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard || y.MPTDeviceType == GKMPTDeviceType.Speaker)));
 				 if(mpt!= null && (device.Door.LockDeviceUID == device.UID || device.Door.LockDeviceExitUID == device.UID ))
 				{
 					Errors.Add(new DeviceValidationError(device, string.Format("Устройство {0} не может учавствовать одновременно в {1} в качестве замка и в {2} в качестве {3}",device.PresentationName,device.Door.PresentationName, mpt.PresentationName , mpt.MPTDevices.FirstOrDefault(x=> x.DeviceUID == device.UID).MPTDeviceType.ToDescription()), ValidationErrorLevel.CannotWrite));

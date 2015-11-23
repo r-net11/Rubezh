@@ -68,18 +68,17 @@ namespace RubezhAPI.GK
 				Zones = zones;
 				ZoneUIDs = zoneUIDs;
 			}
-			if (Driver.HasGuardZone)
-			{
-				var guardZoneUIDs = new List<Guid>();
-				var guardZones = new List<GKGuardZone>();
+			//if (Driver.HasGuardZone)
+			//{
+			//	var guardZones = new List<GKGuardZone>();
 
-				foreach (var guardZoneUID in GuardZoneUIDs)
-				{
-					var guardZone = deviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == guardZoneUID);
-					if (guardZone != null)
-					{
-						guardZones.Add(guardZone);
-						guardZoneUIDs.Add(guardZoneUID);
+			//	foreach (var guardZone in deviceConfiguration.GuardZones.Where(x => GuardZones.Any(y=> y.UID == x.UID)))
+			//	{
+			//			guardZones.Add(guardZone);
+			//			AddDependentElement(guardZone);
+			//	}
+			//	GuardZones = guardZones;
+			//}
 						if (guardZone.GuardZoneDevices.All(x => x.DeviceUID != UID))
 						{
 							var guardZoneDevice = new GKGuardZoneDevice();
@@ -87,10 +86,6 @@ namespace RubezhAPI.GK
 							guardZoneDevice.DeviceUID = UID;
 							guardZone.GuardZoneDevices.Add(guardZoneDevice);
 						}
-						AddDependentElement(guardZone);
-					}
-					GuardZones = guardZones;
-				}
 			}
 			if (Driver.HasMirror)
 			{
