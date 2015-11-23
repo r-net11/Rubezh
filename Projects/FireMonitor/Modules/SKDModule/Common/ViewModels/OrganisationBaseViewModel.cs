@@ -13,6 +13,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Common;
 using SKDModule.Events;
 using RubezhAPI;
+using System.Diagnostics;
 
 namespace SKDModule.ViewModels
 {
@@ -453,6 +454,18 @@ namespace SKDModule.ViewModels
 			copy.Description = source.Description;
 			copy.OrganisationUID = ParentOrganisation.Organisation.UID;
 			return copy;
+		}
+
+		public bool ShowFromJournal(Guid uid)
+		{
+			var items = Organisations.SelectMany(x => x.GetAllChildren(false));
+			var selectedItem = items.FirstOrDefault(x => x.UID == uid);
+			if(selectedItem != null)
+			{
+				SelectedItem = selectedItem;
+				return true;
+			}
+			return false;
 		}
 	}
 }

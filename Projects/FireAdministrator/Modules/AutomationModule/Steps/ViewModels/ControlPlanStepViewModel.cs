@@ -147,6 +147,36 @@ namespace AutomationModule.ViewModels
 					ElementPropertyType.Left, 
 					ElementPropertyType.Top 
 				};
+			if (element.ElementType == typeof(ElementGKDevice))
+				return new ObservableCollection<ElementPropertyType> 
+				{ 
+					ElementPropertyType.IsVisible, 
+					ElementPropertyType.IsEnabled,
+					ElementPropertyType.Left, 
+					ElementPropertyType.Top 
+				};
+			if (element.ElementType == typeof(ElementRectangleGKZone) ||
+				element.ElementType == typeof(ElementRectangleGKGuardZone) ||
+				element.ElementType == typeof(ElementRectangleGKSKDZone) ||
+				element.ElementType == typeof(ElementRectangleGKDirection) ||
+				element.ElementType == typeof(ElementRectangleGKMPT) ||
+				element.ElementType == typeof(ElementRectangleGKDelay) ||
+				element.ElementType == typeof(ElementPolygonGKZone) ||
+				element.ElementType == typeof(ElementPolygonGKGuardZone) ||
+				element.ElementType == typeof(ElementPolygonGKSKDZone) ||
+				element.ElementType == typeof(ElementPolygonGKDirection) ||
+				element.ElementType == typeof(ElementPolygonGKMPT) ||
+				element.ElementType == typeof(ElementPolygonGKDelay) ||
+				element.ElementType == typeof(ElementSubPlan))
+				return new ObservableCollection<ElementPropertyType> 
+				{ 
+					ElementPropertyType.IsVisible, 
+					ElementPropertyType.IsEnabled,
+					ElementPropertyType.Height, 
+					ElementPropertyType.Width,
+					ElementPropertyType.Left, 
+					ElementPropertyType.Top 
+				};
 			if (element.ElementType == typeof(ElementTextBlock))
 				return AutomationHelper.GetEnumObs<ElementPropertyType>();
 			return new ObservableCollection<ElementPropertyType>();

@@ -27,7 +27,8 @@ namespace GKManager2.Test
 		}
 
 		/// <summary>
-		/// 
+		/// тест для проверки добавления зоны к устройтву и устройства к зоне
+		/// и проверка коллекций после удаления устройства 
 		/// </summary>
 		[TestMethod]
 		public void RemoveDeviceTestGuardZone()
@@ -43,7 +44,10 @@ namespace GKManager2.Test
 			GKManager.RemoveDeviceFromGuardZone(device, guardZone);
 			Assert.IsFalse(guardZone.GuardZoneDevices.Any(x => x.Device.UID == device.UID));
 		}
-
+		/// <summary>
+		/// тест на добавления устройства в логику задержки,направления,устройства 
+		/// и праверку на отстутсвия устройства в логики при его удалении
+		/// </summary>
 		[TestMethod]
 		public void RemoveDeviceTestLogicForDelayAndDirection()
 		{
@@ -65,7 +69,7 @@ namespace GKManager2.Test
 			var delay = new GKDelay();
 			GKManager.AddDelay(delay);
 			GKManager.SetDelayLogic(delay, gkLogic);
-			Assert.IsTrue(delay.Logic.OnClausesGroup.Clauses.Any(x=> x.DelayUIDs.Contains(device.UID)));
+			Assert.IsTrue(delay.Logic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains(device.UID)));
 
 			var direction = new GKDirection();
 			GKManager.AddDirection(direction);
@@ -77,8 +81,13 @@ namespace GKManager2.Test
 			Assert.IsFalse(direction.Logic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains(device.UID)));
 
 		}
+
+		/// <summary>
+		/// тест на добавления устройства в логику и устройств входящих в  МПТ,НС,ТД  
+		/// и праверку на отстутсвия устройства в логики и устройств входящих в  МПТ,НС,ТД  при его удалении
+		/// </summary>
 		[TestMethod]
-		public void RemoveDeviceTestLogic()
+		public void RemoveDeviceTestLogicForMptNsDoor()
 		{
 			var device = AddDevice(kauDevice11, GKDriverType.RSR2_AM_1);
 			GKManager.UpdateConfiguration();
@@ -99,6 +108,8 @@ namespace GKManager2.Test
 			mpt.MPTDevices.Add(gkMptDevice);
 			Assert.IsTrue(mpt.MptLogic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains(device.UID)));
 			Assert.IsTrue(mpt.MPTDevices.Any(x => x.DeviceUID == device.UID));
+			Assert.IsTrue(mpt.InputDependentElements.Contains(device));
+			Assert.IsTrue(device.OutputDependentElements.Contains(mpt));
 
 			var pump = new GKPumpStation();
 			GKManager.AddPumpStation(pump);
@@ -110,12 +121,50 @@ namespace GKManager2.Test
 			var door = new GKDoor();
 			GKManager.AddDoor(door);
 			GKManager.SetDoorOpenRegimeLogic(door, gkLogic);
+			GKManager.SetDoorCloseRegimeLogic(door, gkLogic);
+
 			GKManager.ChangeEnterButtonDevice(door, device);
+			Assert.IsTrue(door.EnterButton == device);
+			Assert.IsTrue(door.EnterButtonUID == device.UID);
+			Assert.IsTrue(device.Door == door);
+			door.EnterButton = null;
+			door.EnterButtonUID = Guid.Empty;
+
 			GKManager.ChangeExitButtonDevice(door, device);
+			Assert.IsTrue(door.ExitButton == device);
+			Assert.IsTrue(door.ExitButtonUID == device.UID);
+			Assert.IsTrue(device.Door == door);
+			door.ExitButton = null;
+			door.ExitButtonUID = Guid.Empty;
+
 			GKManager.ChangeLockControlDevice(door, device);
+			Assert.IsTrue(door.LockControlDevice == device);
+			Assert.IsTrue(door.LockControlDeviceUID == device.UID);
+			Assert.IsTrue(device.Door == door);
+			door.LockDevice = null;
+			door.LockControlDeviceUID = Guid.Empty;
+
 			GKManager.ChangeLockControlDeviceExit(door, device);
+			Assert.IsTrue(door.LockControlDeviceExitUID == device.UID);
+			Assert.IsTrue(door.LockControlDeviceExit == device);
+			Assert.IsTrue(device.Door == door);
+			door.LockDeviceExit = null;
+			door.LockControlDeviceExitUID = Guid.Empty;
+
 			GKManager.ChangeLockDevice(door, device);
+			Assert.IsTrue(door.LockDevice == device);
+			Assert.IsTrue(door.LockDeviceUID == device.UID);
+			Assert.IsTrue(device.Door == door);
+			door.LockDeviceUID = Guid.Empty;
+			door.LockDevice = null;
+
 			GKManager.ChangeLockDeviceExit(door, device);
+			Assert.IsTrue(door.LockDeviceExit == device);
+			Assert.IsTrue(door.LockDeviceExitUID == device.UID);
+			Assert.IsTrue(device.Door == door);
+			Assert.IsTrue(door.OpenRegimeLogic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains( device.UID)));
+			Assert.IsTrue(door.CloseRegimeLogic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains(device.UID)));
+			
 			GKManager.RemoveDevice(device);
 			Assert.IsFalse(mpt.MptLogic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains(device.UID)));
 			Assert.IsFalse(pump.StartLogic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains(device.UID)));

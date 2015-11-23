@@ -120,30 +120,7 @@ namespace GKModule.ViewModels
 			var deviceSelectationViewModel = new DeviceSelectationViewModel(EnterDevice, devices);
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
-				if (Door.EnterDeviceUID != Guid.Empty)
-				{
-					Door.InputDependentElements.ForEach(x =>
-						{
-							if (x.UID == Door.EnterDeviceUID)
-								x.OutputDependentElements.Remove(Door);
-						});
-					Door.InputDependentElements.RemoveAll(x => x.UID == Door.EnterDeviceUID);
-				}
-
-				Door.EnterDeviceUID = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.UID : Guid.Empty;
-
-				if(Door.EnterDevice != null)
-				{
-					Door.EnterDevice.Door = null;
-				}
-				Door.EnterDevice = deviceSelectationViewModel.SelectedDevice;
-				if (Door.EnterDevice != null)
-				{
-					Door.EnterDevice.Door = Door;
-					Door.AddDependentElement(Door.EnterDevice);
-					
-				}
-				Update();
+				GKManager.ChangeEnterDevice(Door, deviceSelectationViewModel.SelectedDevice);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -159,28 +136,7 @@ namespace GKModule.ViewModels
 			var deviceSelectationViewModel = new DeviceSelectationViewModel(ExitDevice, devices);
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
-				if (Door.ExitDeviceUID != Guid.Empty)
-				{
-					Door.InputDependentElements.ForEach(x =>
-					{
-						if (x.UID == Door.ExitDeviceUID)
-							x.OutputDependentElements.Remove(Door);
-					});
-					Door.InputDependentElements.RemoveAll(x => x.UID == Door.ExitDeviceUID);
-				}
-
-				Door.ExitDeviceUID = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.UID : Guid.Empty;
-				if (Door.ExitDevice != null)
-				{
-					Door.ExitDevice.Door = null;
-				}
-				Door.ExitDevice = deviceSelectationViewModel.SelectedDevice;
-				if (Door.ExitDevice != null)
-				{
-					Door.ExitDevice.Door = Door;
-					Door.AddDependentElement(Door.ExitDevice);
-				}
-				Update();
+				GKManager.ChangeExitDevice(Door, deviceSelectationViewModel.SelectedDevice);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -192,30 +148,7 @@ namespace GKModule.ViewModels
 			var deviceSelectationViewModel = new DeviceSelectationViewModel(EnterButton, devices);
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
-				//Tuple<Guid, GKDevice> tuple = new Tuple<Guid, GKDevice>(Door.EnterButtonUID, Door.EnterButton);
-				//tuple = GKManager.ChangeDevice(Door, tuple, deviceSelectationViewModel.SelectedDevice);
-				//GKManager.ChangeDeviceUID(ref Door.EnterButton, ref Door.EnterButtonUID, Door, deviceSelectationViewModel.SelectedDevice);
-				if (Door.EnterButtonUID != Guid.Empty)
-				{
-					Door.InputDependentElements.ForEach(x =>
-					{
-						if (x.UID == Door.EnterButtonUID)
-							x.OutputDependentElements.Remove(Door);
-					});
-					Door.InputDependentElements.RemoveAll(x => x.UID == Door.EnterButtonUID);
-				}
-				Door.EnterButtonUID = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.UID : Guid.Empty;
-				if (Door.EnterButton != null)
-				{
-					Door.EnterButton.Door = null;
-				}
-				Door.EnterButton = deviceSelectationViewModel.SelectedDevice;
-				if (Door.EnterButton != null)
-				{
-					Door.EnterButton.Door = Door;
-					Door.AddDependentElement(Door.EnterButton);
-				}
-
+				GKManager.ChangeEnterButtonDevice(Door, deviceSelectationViewModel.SelectedDevice);
 				Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -228,28 +161,7 @@ namespace GKModule.ViewModels
 			var deviceSelectationViewModel = new DeviceSelectationViewModel(ExitButton, devices);
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
-				if (Door.ExitButtonUID != Guid.Empty)
-				{
-					Door.InputDependentElements.ForEach(x =>
-					{
-						if (x.UID == Door.ExitButtonUID)
-							x.OutputDependentElements.Remove(Door);
-					});
-					Door.InputDependentElements.RemoveAll(x => x.UID == Door.ExitButtonUID);
-				}
-
-				Door.ExitButtonUID = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.UID : Guid.Empty;
-				if (Door.ExitButton != null)
-				{
-					Door.ExitButton.Door = null;
-				}
-				Door.ExitButton = deviceSelectationViewModel.SelectedDevice;
-				if (Door.ExitButton != null)
-				{
-					Door.ExitButton.Door = Door;
-					Door.AddDependentElement(Door.ExitButton);
-				}
-				Update();
+				GKManager.ChangeExitButtonDevice(Door, deviceSelectationViewModel.SelectedDevice);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -260,28 +172,7 @@ namespace GKModule.ViewModels
 			var deviceSelectationViewModel = new DeviceSelectationViewModel(LockDevice, GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_RM_1 || x.DriverType == GKDriverType.RSR2_MVK8 || x.DriverType == GKDriverType.RSR2_CodeReader || x.DriverType == GKDriverType.RSR2_CardReader));
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
-				if (Door.LockDeviceUID != Guid.Empty)
-				{
-					Door.InputDependentElements.ForEach(x =>
-					{
-						if (x.UID == Door.ExitButtonUID)
-							x.OutputDependentElements.Remove(Door);
-					});
-					Door.InputDependentElements.RemoveAll(x => x.UID == Door.LockDeviceUID);
-				}
-
-				Door.LockDeviceUID = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.UID : Guid.Empty;
-				if (Door.LockDevice != null)
-				{
-					Door.LockDevice.Door = null;
-				}
-				Door.LockDevice = deviceSelectationViewModel.SelectedDevice;
-				if (Door.LockDevice != null)
-				{
-					Door.LockDevice.Door = Door;
-					Door.AddDependentElement(Door.LockDevice);
-				}
-				Update();
+				GKManager.ChangeLockDevice(Door, deviceSelectationViewModel.SelectedDevice);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -292,30 +183,7 @@ namespace GKModule.ViewModels
 			var deviceSelectationViewModel = new DeviceSelectationViewModel(LockDeviceExit, GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_RM_1 || x.DriverType == GKDriverType.RSR2_MVK8 || x.DriverType == GKDriverType.RSR2_CodeReader || x.DriverType == GKDriverType.RSR2_CardReader));
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
-				if (Door.LockDeviceExitUID != Guid.Empty)
-				{
-					Door.InputDependentElements.ForEach(x =>
-					{
-						if (x.UID == Door.LockDeviceExitUID)
-							x.OutputDependentElements.Remove(Door);
-					});
-					Door.InputDependentElements.RemoveAll(x => x.UID == Door.LockDeviceExitUID);
-				}
-
-				Door.LockDeviceExitUID = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.UID : Guid.Empty;
-
-				if (Door.LockDeviceExit != null)
-				{
-					Door.LockDeviceExit.Door = null;
-				}
-				Door.LockDeviceExit = deviceSelectationViewModel.SelectedDevice;
-				if (Door.LockDeviceExit != null)
-				{
-					Door.LockDeviceExit.Door = Door;
-					Door.AddDependentElement(Door.LockDeviceExit);
-				}
-
-				Update();
+				GKManager.ChangeLockDeviceExit(Door, deviceSelectationViewModel.SelectedDevice);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -326,17 +194,7 @@ namespace GKModule.ViewModels
 			var deviceSelectationViewModel = new DeviceSelectationViewModel(LockControlDevice, GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_AM_1));
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
-				Door.LockControlDeviceUID = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.UID : Guid.Empty;
-				if (Door.LockDevice != null)
-				{
-					Door.LockDevice.Door = null;
-				}
-				Door.LockDevice = deviceSelectationViewModel.SelectedDevice;
-				if (Door.LockDevice != null)
-				{
-					Door.LockDevice.Door = Door;
-				}
-				Update();
+				GKManager.ChangeLockControlDevice(Door, deviceSelectationViewModel.SelectedDevice);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -347,17 +205,7 @@ namespace GKModule.ViewModels
 			var deviceSelectationViewModel = new DeviceSelectationViewModel(LockControlDeviceExit, GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_AM_1));
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
-				Door.LockControlDeviceExitUID = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.UID : Guid.Empty;
-				if (Door.LockDeviceExit != null)
-				{
-					Door.LockDeviceExit.Door = null;
-				}
-				Door.LockDeviceExit = deviceSelectationViewModel.SelectedDevice;
-				if (Door.LockDeviceExit != null)
-				{
-					Door.LockDeviceExit.Door = Door;
-				}
-				Update();
+				GKManager.ChangeLockControlDeviceExit(Door, deviceSelectationViewModel.SelectedDevice);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -368,8 +216,7 @@ namespace GKModule.ViewModels
 			var zoneSelectationViewModel = new SKDZoneSelectationViewModel(EnterZone);
 			if (DialogService.ShowModalWindow(zoneSelectationViewModel))
 			{
-				Door.EnterZoneUID = zoneSelectationViewModel.SelectedZone != null ? zoneSelectationViewModel.SelectedZone.UID : Guid.Empty;
-				Update();
+				GKManager.ChangeEnterZone(Door, zoneSelectationViewModel.SelectedZone);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -380,8 +227,7 @@ namespace GKModule.ViewModels
 			var zoneSelectationViewModel = new SKDZoneSelectationViewModel(ExitZone);
 			if (DialogService.ShowModalWindow(zoneSelectationViewModel))
 			{
-				Door.ExitZoneUID = zoneSelectationViewModel.SelectedZone != null ? zoneSelectationViewModel.SelectedZone.UID : Guid.Empty;
-				Update();
+				GKManager.ChangeExitZone(Door, zoneSelectationViewModel.SelectedZone);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
