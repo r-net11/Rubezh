@@ -337,10 +337,10 @@ namespace PlansModule.ViewModels
 		}
 		private ElementBase GetElement(PlanCallbackData data)
 		{
-			var plan = PlanTreeViewModel == null ? (PlanDesignerViewModel.Plan.UID == data.PlanUid ? PlanDesignerViewModel.PlanViewModel : null) : PlanTreeViewModel.Plans.FirstOrDefault(x => x.Plan.UID == data.PlanUid);
+			var plan = PlanTreeViewModel == null ? (PlanDesignerViewModel.Plan.UID == data.PlanUid ? PlanDesignerViewModel.PlanViewModel : null) : PlanTreeViewModel.FindPlan(data.PlanUid);
 			if (plan == null)
 				return null;
-			return plan.Plan.SimpleElements.FirstOrDefault(x => x.UID == data.ElementUid);
+			return plan.Plan.AllElements.FirstOrDefault(x => x.UID == data.ElementUid);
 		}
 	}
 }

@@ -41,6 +41,8 @@ namespace JournalModule.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournalItems);
 			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournalItems);
+			ServiceFactory.Events.GetEvent<UpdateJournalItemsEvent>().Unsubscribe(OnUpdateJournalItems);
+			ServiceFactory.Events.GetEvent<UpdateJournalItemsEvent>().Subscribe(OnUpdateJournalItems);
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
 		}
@@ -83,30 +85,28 @@ namespace JournalModule.ViewModels
 			}
 		}
 
+		bool CheckFilter(JournalItem journalItem)
+		{
+			if (Filter.JournalSubsystemTypes.Count > 0 && !Filter.JournalSubsystemTypes.Contains(journalItem.JournalSubsystemType))
+				return false;
+			if (Filter.JournalEventNameTypes.Count > 0 && !Filter.JournalEventNameTypes.Contains(journalItem.JournalEventNameType))
+				return false;
+			if (Filter.JournalEventDescriptionTypes.Count > 0 && !Filter.JournalEventDescriptionTypes.Contains(journalItem.JournalEventDescriptionType))
+				return false;
+			if (Filter.JournalObjectTypes.Count > 0 && !Filter.JournalObjectTypes.Contains(journalItem.JournalObjectType))
+				return false;
+			if (Filter.ObjectUIDs.Count > 0 && !Filter.ObjectUIDs.Contains(journalItem.ObjectUID))
+				return false;
+			return true;
+		}
+
 		void OnNewJournalItems(List<JournalItem> journalItems)
 		{
 			foreach (var journalItem in journalItems)
 			{
-				if (Filter.JournalSubsystemTypes.Count > 0 && !Filter.JournalSubsystemTypes.Contains(journalItem.JournalSubsystemType))
+				if (!CheckFilter(journalItem))
 					continue;
-				if (Filter.JournalEventNameTypes.Count > 0 && !Filter.JournalEventNameTypes.Contains(journalItem.JournalEventNameType))
-					continue;
-				if (Filter.JournalEventDescriptionTypes.Count > 0 && !Filter.JournalEventDescriptionTypes.Contains(journalItem.JournalEventDescriptionType))
-					continue;
-				if (Filter.JournalObjectTypes.Count > 0 && !Filter.JournalObjectTypes.Contains(journalItem.JournalObjectType))
-					continue;
-				if (Filter.ObjectUIDs.Count > 0 && !Filter.ObjectUIDs.Contains(journalItem.ObjectUID))
-					continue;
-
-				var existingJournalItem = JournalItems.FirstOrDefault(x => x.JournalItem.UID == journalItem.UID);
-				if (existingJournalItem != null)
-				{
-					existingJournalItem.JournalItem.VideoUID = journalItem.VideoUID;
-					existingJournalItem.JournalItem.CameraUID = journalItem.CameraUID;
-					existingJournalItem.OnPropertyChanged(() => existingJournalItem.ShowVideoCommand);
-					continue;
-				}
-
+								
 				var journalItemViewModel = new JournalItemViewModel(journalItem);
 				if (JournalItems.Count > 0)
 					JournalItems.Insert(0, journalItemViewModel);
@@ -122,6 +122,23 @@ namespace JournalModule.ViewModels
 
 			_unreadCount += journalItems.Count;
 			UpdateUnread();
+		}
+
+		void OnUpdateJournalItems(List<JournalItem> journalItems)
+		{
+			foreach (var journalItem in journalItems)
+			{
+				if (!CheckFilter(journalItem))
+					continue;
+
+				var existingJournalItem = JournalItems.FirstOrDefault(x => x.JournalItem.UID == journalItem.UID);
+				if (existingJournalItem != null)
+				{
+					existingJournalItem.JournalItem.VideoUID = journalItem.VideoUID;
+					existingJournalItem.JournalItem.CameraUID = journalItem.CameraUID;
+					existingJournalItem.OnPropertyChanged(() => existingJournalItem.ShowVideoCommand);
+				}
+			}
 		}
 
 		public List<JournalColumnType> AdditionalColumns
