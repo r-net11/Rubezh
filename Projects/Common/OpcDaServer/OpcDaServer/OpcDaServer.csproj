@@ -44,7 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OpcDaDirectory.cs" />
     <Compile Include="OpcDaServer.cs" />
+    <Compile Include="OpcDaItemBase.cs" />
+    <Compile Include="OpcDaTag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
