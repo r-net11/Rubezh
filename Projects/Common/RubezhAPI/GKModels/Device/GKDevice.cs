@@ -22,7 +22,6 @@ namespace RubezhAPI.GK
 			Properties = new List<GKProperty>();
 			DeviceProperties = new List<GKProperty>();
 			ZoneUIDs = new List<Guid>();
-			GuardZoneUIDs = new List<Guid>();
 			Logic = new GKLogic();
 			NSLogic = new GKLogic();
 			PlanElementUIDs = new List<Guid>();
@@ -31,7 +30,6 @@ namespace RubezhAPI.GK
 			AllowMultipleVizualization = false;
 			Zones = new List<GKZone>();
 			GuardZones = new List<GKGuardZone>();
-			GuardZoneUIDs = new List<Guid>();
 		}
 
 		public override void Invalidate(GKDeviceConfiguration deviceConfiguration)
@@ -180,12 +178,6 @@ namespace RubezhAPI.GK
 		/// </summary>
 		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }
-
-		/// <summary>
-		/// Идентификаторы охранных зон
-		/// </summary>
-		[DataMember]
-		public List<Guid> GuardZoneUIDs { get; set; }
 
 		/// <summary>
 		/// Логика сработки

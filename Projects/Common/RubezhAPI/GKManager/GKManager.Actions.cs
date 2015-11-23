@@ -73,8 +73,6 @@ namespace RubezhClient
 			guardZone.GuardZoneDevices.Add(guardZoneDevice);
 			if (!device.GuardZones.Contains(guardZone))
 				device.GuardZones.Add(guardZone);
-			if (!device.GuardZoneUIDs.Contains(guardZone.UID))
-				device.GuardZoneUIDs.Add(guardZone.UID);
 			if (!device.InputDependentElements.Contains(guardZone))
 				device.InputDependentElements.Add(guardZone);
 			if (!guardZone.OutputDependentElements.Contains(device))
