@@ -178,6 +178,9 @@ namespace RubezhAPI.GK
 						case GKDriverType.ControlDevicesMirror:
 							device.GKReflectionItem.Devices.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
 							device.GKReflectionItem.Diretions.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
+							device.GKReflectionItem.Delays.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
+							device.GKReflectionItem.MPTs.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
+							device.GKReflectionItem.NSs.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
 							break;
 						case GKDriverType.DirectionsMirror:
 							device.GKReflectionItem.Diretions.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });

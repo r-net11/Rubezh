@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RubezhClient;
 using RubezhAPI.GK;
@@ -23,7 +22,7 @@ namespace GKProcessor.Test
 		public void CreateConfiguration()
 		{
 			GKDriversCreator.Create();
-			var systemDevice = GKManager.DeviceConfiguration.RootDevice = new GKDevice() { DriverUID = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.System).UID };
+			var systemDevice = GKManager.DeviceConfiguration.RootDevice = new GKDevice { DriverUID = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.System).UID };
 			gkDevice = GKManager.AddChild(systemDevice, null, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GK), 0);
 			kauDevice = GKManager.AddChild(gkDevice, null, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU), 1);
 			reflectionDevice1 = GKManager.AddChild(gkDevice, null, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKMirror), 2);
@@ -45,62 +44,42 @@ namespace GKProcessor.Test
 			var descriptorErrors = DescriptorsManager.Check().ToList();
 			Assert.IsTrue(!descriptorErrors.Any());
 		}
-		void CheckObjectLogicOnGK(GKBase gkBase)
+		void CheckDeviceLogicOnGK(GKDevice device)
 		{
-			var deviceGkDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == gkBase);
-			var deviceKauDescriptor = KauDatabase.Descriptors.FirstOrDefault(x => x.GKBase == gkBase);
-			Assert.IsTrue(deviceGkDescriptor.Formula.FormulaOperations.Count > 1, "На ГК должна присутствовать логика объекта");
-			Assert.IsTrue(deviceKauDescriptor.Formula.FormulaOperations.Count == 1, "На КАУ должна отсутствовать логика объекта");
+			var gkBaseGkDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == device);
+			var gkBaseKauDescriptor = KauDatabase.Descriptors.FirstOrDefault(x => x.GKBase == device);
+			Assert.IsTrue(gkBaseGkDescriptor.Formula.FormulaOperations.Count > 1, "На ГК должна присутствовать логика объекта");
+			Assert.IsTrue(gkBaseKauDescriptor.Formula.FormulaOperations.Count == 1, "На КАУ должна отсутствовать логика объекта");
 		}
 
-		void CheckDeviceLogicOnKau(GKDevice device, int kauNo = 1)
+		void CheckDeviceHasNoLogic(GKDevice device)
 		{
 			var deviceGKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == device);
 			var deviceKauDescriptor = KauDatabase.Descriptors.FirstOrDefault(x => x.GKBase == device);
 			Assert.IsTrue(deviceGKDescriptor.Formula.FormulaOperations.Count == 1, "На ГК должна отсутствовать логика устройства");
-			Assert.IsTrue(deviceKauDescriptor.Formula.FormulaOperations.Count > 1, "На КАУ должна присутствовать логика устройства");
+			Assert.IsTrue(deviceKauDescriptor.Formula.FormulaOperations.Count == 1, "На КАУ должна отсутствовать логика устройства");
 		}
 
-		[TestMethod]
-		public void TestDetectorDevice()
+		void CheckObjectOnGK(GKBase gkBase)
 		{
-			var device = AddDevice(kauDevice, GKDriverType.RSR2_SmokeDetector);
-			Test(device, GKDriverType.DetectorDevicesMirror);
-		}
-
-		[TestMethod]
-		public void TestControlDevice()
-		{
-			var device = AddDevice(kauDevice, GKDriverType.RSR2_RM_1);
-			Test(device, GKDriverType.ControlDevicesMirror);
-		}
-
-		[TestMethod]
-		public void TestZone()
-		{
-			var device = AddDevice(kauDevice, GKDriverType.RSR2_HandDetector);
-			var zone = new GKZone();
-			GKManager.Zones.Add(zone);
-			device.ZoneUIDs.Add(zone.UID);
-			Test(zone, GKDriverType.FireZonesMirror);
-		}
-
-		[TestMethod]
-		public void TestGuardZone()
-		{
-			var device = AddDevice(kauDevice, GKDriverType.RSR2_GuardDetector);
-			var guardZone = new GKGuardZone();
-			GKManager.AddGuardZone(guardZone);
-			GKManager.AddDeviceToGuardZone(device, guardZone);
-			Test(guardZone, GKDriverType.GuardZonesMirror);
-			CheckObjectLogicOnGK(device);
+			var gkBaseGkDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == gkBase);
+			var gkBaseKauDescriptor = KauDatabase.Descriptors.FirstOrDefault(x => x.GKBase == gkBase);
+			Assert.IsNotNull(gkBaseGkDescriptor);
+			Assert.IsNull(gkBaseKauDescriptor);
 		}
 
 		void Test(GKBase gkBase, GKDriverType mirrorType)
 		{
 			TestOneMirror(gkBase, mirrorType);
-			TestTwoMirror(gkBase, mirrorType);
-			TestTwoReflection(gkBase, mirrorType);
+			TestTwoMirrors(gkBase, mirrorType);
+			TestTwoReflections(gkBase, mirrorType);
+		}
+
+		void TestFirefightingZone(GKZone zone, GKDirection direction)
+		{
+			TestOneFirefightingZoneMirror(zone, direction);
+			TestTwoFirefightingZoneMirrors(zone, direction);
+			TestTwoFirefightingZoneReflections(zone, direction);
 		}
 
 		void TestOneMirror(GKBase gkBase, GKDriverType mirrorType)
@@ -113,13 +92,13 @@ namespace GKProcessor.Test
 			{
 				Assert.IsTrue(gkBase.InputDescriptors.Contains(mirrorDevice));
 				var rmDevice = AddDevice(kauDevice, GKDriverType.RSR2_RM_1);
-				AddLogic(rmDevice, gkBase);
+				rmDevice.Logic.OnClausesGroup.Clauses.Add(GetClause(gkBase));
 				Compile();
-				CheckObjectLogicOnGK(rmDevice);
+				CheckDeviceLogicOnGK(rmDevice);
 			}
 		}
 
-		void TestTwoMirror(GKBase gkBase, GKDriverType mirrorType)
+		void TestTwoMirrors(GKBase gkBase, GKDriverType mirrorType)
 		{
 			var mirrorDevice1 = AddDevice(reflectionDevice1, mirrorType);
 			var mirrorDevice2 = AddDevice(reflectionDevice1, mirrorType);
@@ -133,13 +112,13 @@ namespace GKProcessor.Test
 				Assert.IsTrue(gkBase.InputDescriptors.Contains(mirrorDevice1));
 				Assert.IsTrue(gkBase.InputDescriptors.Contains(mirrorDevice2));
 				var rmDevice = AddDevice(kauDevice, GKDriverType.RSR2_RM_1);
-				AddLogic(rmDevice, gkBase);
+				rmDevice.Logic.OnClausesGroup.Clauses.Add(GetClause(gkBase));
 				Compile();
-				CheckObjectLogicOnGK(rmDevice);
+				CheckDeviceLogicOnGK(rmDevice);
 			}
 		}
 
-		void TestTwoReflection(GKBase gkBase, GKDriverType mirrorType)
+		void TestTwoReflections(GKBase gkBase, GKDriverType mirrorType)
 		{
 			var mirrorDevice1 = AddDevice(reflectionDevice1, mirrorType);
 			var mirrorDevice2 = AddDevice(reflectionDevice2, mirrorType);
@@ -153,13 +132,84 @@ namespace GKProcessor.Test
 				Assert.IsTrue(gkBase.InputDescriptors.Contains(mirrorDevice1));
 				Assert.IsTrue(gkBase.InputDescriptors.Contains(mirrorDevice2));
 				var rmDevice = AddDevice(kauDevice, GKDriverType.RSR2_RM_1);
-				AddLogic(rmDevice, gkBase);
+				rmDevice.Logic.OnClausesGroup.Clauses.Add(GetClause(gkBase));
 				Compile();
-				CheckObjectLogicOnGK(rmDevice);
+				CheckDeviceLogicOnGK(rmDevice);
 			}
 		}
 
-		void AddLogic(GKDevice targetDevice, GKBase gkBase)
+		void TestOneFirefightingZoneMirror(GKZone zone, GKDirection direction)
+		{
+			var mirrorDevice = AddDevice(reflectionDevice1, GKDriverType.FirefightingZonesMirror);
+			GKManager.AddToMirror(zone, mirrorDevice);
+			GKManager.AddToMirror(direction, mirrorDevice);
+			Compile();
+			Assert.IsTrue(zone.OutputDescriptors.Contains(mirrorDevice));
+			Assert.IsTrue(zone.InputDescriptors.Contains(mirrorDevice));
+			Assert.IsTrue(direction.OutputDescriptors.Contains(mirrorDevice));
+			Assert.IsTrue(direction.InputDescriptors.Contains(mirrorDevice));
+			var rmDevice1 = AddDevice(kauDevice, GKDriverType.RSR2_RM_1);
+			rmDevice1.Logic.OnClausesGroup.Clauses.Add(GetClause(zone));
+			var rmDevice2 = AddDevice(kauDevice, GKDriverType.RSR2_RM_1);
+			rmDevice2.Logic.OnClausesGroup.Clauses.Add(GetClause(direction));
+			Compile();
+			CheckDeviceLogicOnGK(rmDevice1);
+			CheckDeviceLogicOnGK(rmDevice2);
+		}
+
+		void TestTwoFirefightingZoneMirrors(GKZone zone, GKDirection direction)
+		{
+			var mirrorDevice1 = AddDevice(reflectionDevice1, GKDriverType.FirefightingZonesMirror);
+			var mirrorDevice2 = AddDevice(reflectionDevice1, GKDriverType.FirefightingZonesMirror);
+			GKManager.AddToMirror(zone, mirrorDevice1);
+			GKManager.AddToMirror(zone, mirrorDevice2);
+			GKManager.AddToMirror(direction, mirrorDevice1);
+			GKManager.AddToMirror(direction, mirrorDevice2);
+			Compile();
+			Assert.IsTrue(zone.OutputDescriptors.Contains(mirrorDevice1));
+			Assert.IsTrue(zone.OutputDescriptors.Contains(mirrorDevice2));
+			Assert.IsTrue(zone.InputDescriptors.Contains(mirrorDevice1));
+			Assert.IsTrue(zone.InputDescriptors.Contains(mirrorDevice2));
+			Assert.IsTrue(direction.OutputDescriptors.Contains(mirrorDevice1));
+			Assert.IsTrue(direction.OutputDescriptors.Contains(mirrorDevice2));
+			Assert.IsTrue(direction.InputDescriptors.Contains(mirrorDevice1));
+			Assert.IsTrue(direction.InputDescriptors.Contains(mirrorDevice2));
+			var rmDevice1 = AddDevice(kauDevice, GKDriverType.RSR2_RM_1);
+			rmDevice1.Logic.OnClausesGroup.Clauses.Add(GetClause(zone));
+			var rmDevice2 = AddDevice(kauDevice, GKDriverType.RSR2_RM_1);
+			rmDevice2.Logic.OnClausesGroup.Clauses.Add(GetClause(direction));
+			Compile();
+			CheckDeviceLogicOnGK(rmDevice1);
+			CheckDeviceLogicOnGK(rmDevice2);
+		}
+
+		void TestTwoFirefightingZoneReflections(GKZone zone, GKDirection direction)
+		{
+			var mirrorDevice1 = AddDevice(reflectionDevice1, GKDriverType.FirefightingZonesMirror);
+			var mirrorDevice2 = AddDevice(reflectionDevice2, GKDriverType.FirefightingZonesMirror);
+			GKManager.AddToMirror(zone, mirrorDevice1);
+			GKManager.AddToMirror(zone, mirrorDevice2);
+			GKManager.AddToMirror(direction, mirrorDevice1);
+			GKManager.AddToMirror(direction, mirrorDevice2);
+			Compile();
+			Assert.IsTrue(zone.OutputDescriptors.Contains(mirrorDevice1));
+			Assert.IsTrue(zone.OutputDescriptors.Contains(mirrorDevice2));
+			Assert.IsTrue(zone.InputDescriptors.Contains(mirrorDevice1));
+			Assert.IsTrue(zone.InputDescriptors.Contains(mirrorDevice2));
+			Assert.IsTrue(direction.OutputDescriptors.Contains(mirrorDevice1));
+			Assert.IsTrue(direction.OutputDescriptors.Contains(mirrorDevice2));
+			Assert.IsTrue(direction.InputDescriptors.Contains(mirrorDevice1));
+			Assert.IsTrue(direction.InputDescriptors.Contains(mirrorDevice2));
+			var rmDevice1 = AddDevice(kauDevice, GKDriverType.RSR2_RM_1);
+			rmDevice1.Logic.OnClausesGroup.Clauses.Add(GetClause(zone));
+			var rmDevice2 = AddDevice(kauDevice, GKDriverType.RSR2_RM_1);
+			rmDevice2.Logic.OnClausesGroup.Clauses.Add(GetClause(direction));
+			Compile();
+			CheckDeviceLogicOnGK(rmDevice1);
+			CheckDeviceLogicOnGK(rmDevice2);
+		}
+
+		GKClause GetClause(GKBase gkBase)
 		{
 			var clause = new GKClause();
 
@@ -167,51 +217,59 @@ namespace GKProcessor.Test
 			{
 				clause.ClauseOperationType = ClauseOperationType.AllDevices;
 				clause.DeviceUIDs = new List<Guid> { gkBase.UID };
+				clause.StateType = GKStateBit.Failure;
 			}
 
 			if (gkBase is GKZone)
 			{
 				clause.ClauseOperationType = ClauseOperationType.AllZones;
 				clause.ZoneUIDs = new List<Guid> { gkBase.UID };
+				clause.StateType = GKStateBit.Fire1;
 			}
 
 			if (gkBase is GKGuardZone)
 			{
 				clause.ClauseOperationType = ClauseOperationType.AllGuardZones;
 				clause.GuardZoneUIDs = new List<Guid> { gkBase.UID };
+				clause.StateType = GKStateBit.Attention;
 			}
 
 			if (gkBase is GKDirection)
 			{
 				clause.ClauseOperationType = ClauseOperationType.AllDirections;
 				clause.DirectionUIDs = new List<Guid> { gkBase.UID };
+				clause.StateType = GKStateBit.On;
 			}
 
 			if (gkBase is GKDelay)
 			{
 				clause.ClauseOperationType = ClauseOperationType.AllDelays;
 				clause.DelayUIDs = new List<Guid> { gkBase.UID };
+				clause.StateType = GKStateBit.On;
 			}
 
 			if (gkBase is GKDoor)
 			{
 				clause.ClauseOperationType = ClauseOperationType.AllDoors;
 				clause.DoorUIDs = new List<Guid> { gkBase.UID };
+				clause.StateType = GKStateBit.On;
 			}
 
 			if (gkBase is GKMPT)
 			{
 				clause.ClauseOperationType = ClauseOperationType.AllMPTs;
 				clause.MPTUIDs = new List<Guid> { gkBase.UID };
+				clause.StateType = GKStateBit.On;
 			}
 
-			if (gkBase is GKMPT)
+			if (gkBase is GKPumpStation)
 			{
 				clause.ClauseOperationType = ClauseOperationType.AllPumpStations;
 				clause.PumpStationsUIDs = new List<Guid> { gkBase.UID };
+				clause.StateType = GKStateBit.On;
 			}
 
-			targetDevice.Logic.OnClausesGroup.Clauses.Add(clause);
+			return clause;
 		}
 	}
 }

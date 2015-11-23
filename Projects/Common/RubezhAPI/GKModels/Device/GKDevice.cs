@@ -102,6 +102,9 @@ namespace RubezhAPI.GK
 					case GKDriverType.ControlDevicesMirror:
 						GKReflectionItem.Devices.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
 						GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						GKReflectionItem.Delays.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						GKReflectionItem.MPTs.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						GKReflectionItem.NSs.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
 						break;
 					case GKDriverType.DirectionsMirror:
 						GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });

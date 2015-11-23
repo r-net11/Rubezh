@@ -35,6 +35,10 @@ namespace GKProcessor
 				return;
 			}
 
+			var mirrorParent = MPT.GetMirrorParent();
+			if (mirrorParent != null)
+				Formula.AddMirrorLogic(MPT, mirrorParent);
+
 			if (MPT.MptLogic.StopClausesGroup.GetObjects().Count > 0)
 			{
 				Formula.AddClauseFormula(MPT.MptLogic.StopClausesGroup);

@@ -46,7 +46,7 @@ namespace GKProcessor
 					}
 				}
 				Formula.Add(FormulaOperationType.CONST, 0, 0xFFF1);
-				Formula.Add(FormulaOperationType.OR);
+				Formula.Add(FormulaOperationType.AND);
 
 				count = 0;
 				foreach (var gkBase in Device.GKReflectionItem.Zones)
@@ -61,7 +61,7 @@ namespace GKProcessor
 				if (count > 0)
 				{
 					Formula.Add(FormulaOperationType.CONST, 0, 0xE);
-					Formula.Add(FormulaOperationType.OR);
+					Formula.Add(FormulaOperationType.AND);
 					Formula.Add(FormulaOperationType.OR);
 				}
 				Formula.AddPutWord(false, Device);
