@@ -228,6 +228,10 @@ namespace SKDModule.ViewModels
 		{
 			//if (string.IsNullOrEmpty(dayTimeTrack.Error))
 			//	dayTimeTrack.Calculate();
+			//TODO: Bad realisation. Need to fix SKDDEV-839
+			AllowClose = false;
+			CloseOnEscape = false;
+
 			Title = "Время сотрудника " + shortEmployee.FIO + " в течение дня " + dayTimeTrack.Date.Date.ToString("yyyy-MM-dd");
 			AddDocumentCommand = new RelayCommand(OnAddDocument, CanAddDocument);
 			EditDocumentCommand = new RelayCommand(OnEditDocument, CanEditDocument);
