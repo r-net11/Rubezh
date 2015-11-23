@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using FiresecAPI.SKD;
+﻿using FiresecAPI.SKD;
 using LinqKit;
 using System;
 using System.Linq;
@@ -69,6 +68,12 @@ namespace SKDDriver.Translators
 				return new OperationResult(String.Format("Отсутствует праздничный день с UID='{0}'", uid));
 
 			return Validate(Translate(holidayToRestore));
+		}
+
+		protected override bool IsSimilarNames(DataAccess.Holiday item1, DataAccess.Holiday item2)
+		{
+			// Для разных годов могут быть одинаковые названия праздников
+			return base.IsSimilarNames(item1, item2) && item1.Date == item2.Date;
 		}
 
 		private OperationResult Validate(Holiday holiday)
