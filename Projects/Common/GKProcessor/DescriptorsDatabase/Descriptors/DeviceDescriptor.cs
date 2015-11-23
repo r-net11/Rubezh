@@ -258,7 +258,6 @@ namespace GKProcessor
 
 		void CreateAutomaticOffBoards(GKMPT mpt)
 		{
-			Formula = new FormulaBuilder();
 			Formula.AddGetBit(GKStateBit.Norm, mpt);
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
@@ -269,7 +268,6 @@ namespace GKProcessor
 
 		void CreateOnDevices(GKMPT mpt)
 		{
-			Formula = new FormulaBuilder();
 			Formula.AddGetBit(GKStateBit.TurningOn, mpt);
 			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 			Formula.AddGetBit(GKStateBit.Off, mpt);
@@ -279,7 +277,6 @@ namespace GKProcessor
 
 		void CreateBombDevices(GKMPT mpt)
 		{
-			Formula = new FormulaBuilder();
 			Formula.AddGetBit(GKStateBit.On, mpt);
 			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 			Formula.AddGetBit(GKStateBit.Off, mpt);
