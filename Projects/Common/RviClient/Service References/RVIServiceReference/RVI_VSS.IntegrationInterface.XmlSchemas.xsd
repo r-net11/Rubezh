@@ -86,6 +86,7 @@
       <xs:element minOccurs="0" name="IsDeleted" type="xs:boolean" />
       <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Status" type="tns:DeviceStatus" />
+      <xs:element minOccurs="0" name="Vendor" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Device" nillable="true" type="tns:Device" />
