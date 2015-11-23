@@ -86,6 +86,42 @@ namespace RubezhClient
 			door.OnChanged();
 		}
 
+		public static void ChangeEnterDevice(GKDoor door, GKDevice device)
+		{
+			RemoveDependenctElement(door, door.EnterDeviceUID);
+
+			door.EnterDeviceUID = device != null ? device.UID : Guid.Empty;
+			if (door.EnterDevice != null)
+			{
+				door.EnterDevice.Door = null;
+			}
+			door.EnterDevice = device;
+			if (door.EnterDevice != null)
+			{
+				door.EnterDevice.Door = door;
+				door.AddDependentElement(door.EnterDevice);
+			}
+			door.OnChanged();
+		}
+
+		public static void ChangeExitDevice(GKDoor door, GKDevice device)
+		{
+			RemoveDependenctElement(door, door.ExitDeviceUID);
+
+			door.ExitDeviceUID = device != null ? device.UID : Guid.Empty;
+			if (door.ExitDevice != null)
+			{
+				door.ExitDevice.Door = null;
+			}
+			door.ExitDevice = device;
+			if (door.ExitDevice != null)
+			{
+				door.ExitDevice.Door = door;
+				door.AddDependentElement(door.ExitDevice);
+			}
+			door.OnChanged();
+		}
+
 		public static void ChangeExitButtonDevice(GKDoor door, GKDevice device)
 		{
 			RemoveDependenctElement(door, door.ExitButtonUID);
@@ -145,58 +181,47 @@ namespace RubezhClient
 			RemoveDependenctElement(door, door.LockControlDeviceUID);
 
 			door.LockControlDeviceUID = device != null ? device.UID : Guid.Empty;
-			if (door.LockDevice != null)
+			if (door.LockControlDevice != null)
 			{
-				door.LockDevice.Door = null;
+				door.LockControlDevice.Door = null;
 			}
-			door.LockDevice = device;
-			if (door.LockDevice != null)
+			door.LockControlDevice = device;
+			if (door.LockControlDevice != null)
 			{
-				door.LockDevice.Door = door;
-				door.AddDependentElement(door.LockDevice);
+				door.LockControlDevice.Door = door;
+				door.AddDependentElement(door.LockControlDevice);
 			}
 			door.OnChanged();
 		}
 
-		public static void ChangeLockControlDeviceExit(GKDoor door, GKDevice device)
+		public static void ChangeLockControlDeviceExit(GKDoor door,  GKDevice device)
 		{
 			RemoveDependenctElement(door, door.LockControlDeviceExitUID);
 
 			door.LockControlDeviceExitUID = device != null ? device.UID : Guid.Empty;
-			if (door.LockDeviceExit != null)
+			if (door.LockControlDeviceExit != null)
 			{
-				door.LockDeviceExit.Door = null;
+				door.LockControlDeviceExit.Door = null;
 			}
-			door.LockDeviceExit = device;
-			if (door.LockDeviceExit != null)
+			door.LockControlDeviceExit = device;
+			if (door.LockControlDeviceExit != null)
 			{
-				door.LockDeviceExit.Door = door;
-				door.AddDependentElement(door.LockDeviceExit);
+				door.LockControlDeviceExit.Door = door;
+				door.AddDependentElement(door.LockControlDeviceExit);
 			}
 			door.OnChanged();
 		}
 
-		public static Tuple <Guid, GKDevice> ChangeDevice(GKDoor door, Tuple <Guid, GKDevice> tuple , GKDevice device)
+		public static void ChangeEnterZone(GKDoor door, GKSKDZone zone)
 		{
-			var _deviceUID = tuple.Item1;
-			var _device = tuple.Item2;
-			RemoveDependenctElement(door, tuple.Item1);
-
-			_deviceUID = device != null ? device.UID : Guid.Empty;
-
-			if (_device != null)
-			{
-				_device.Door = null;
-			}
-			_device = device;
-			if (_device != null)
-			{
-				device.Door = door;
-				door.AddDependentElement(device);
-			}
+			door.EnterZoneUID = zone != null ? zone.UID : Guid.Empty;
 			door.OnChanged();
+		}
 
-			return new Tuple<Guid, GKDevice>(_deviceUID, _device);
+		public static void ChangeExitZone(GKDoor door, GKSKDZone zone)
+		{
+			door.ExitZoneUID = zone != null ? zone.UID : Guid.Empty;
+			door.OnChanged();
 		}
 
 		public static void RemoveDependenctElement(GKDoor door, Guid deviceUID)
@@ -211,7 +236,5 @@ namespace RubezhClient
 				door.InputDependentElements.RemoveAll(x => x.UID == deviceUID);
 			}
 		}
-
-
 	}
 }
