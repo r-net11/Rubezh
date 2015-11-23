@@ -56,6 +56,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="GKManager.Test.cs" />
+    <Compile Include="MirrorsTest.Objects.cs" />
     <Compile Include="ValidationTest.Common.cs" />
     <Compile Include="ValidationTest.Door.cs" />
     <Compile Include="ValidationTest.MPT.cs" />
