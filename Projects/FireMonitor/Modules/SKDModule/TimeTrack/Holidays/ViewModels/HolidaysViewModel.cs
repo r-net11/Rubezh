@@ -12,7 +12,7 @@ namespace SKDModule.ViewModels
 	{
 		public HolidaysViewModel():base()
 		{
-			InitializeYears();
+			SelectedDate = DateTime.Now;
 			_changeIsDeletedSubscriber = new ChangeIsDeletedSubscriber(this);
 		}
 
@@ -41,35 +41,24 @@ namespace SKDModule.ViewModels
 			return copy;
 		}
 
-		void InitializeYears()
-		{
-			AvailableYears = new ObservableCollection<int>();
-			for (int i = 2014; i <= 2020; i++) //TODO:
-				AvailableYears.Add(i);
-			SelectedYear = AvailableYears.FirstOrDefault(x => x == DateTime.Now.Year);
-		}
-
-		ObservableCollection<int> _availableYears;
-		public ObservableCollection<int> AvailableYears
-		{
-			get { return _availableYears; }
-			set
-			{
-				_availableYears = value;
-				OnPropertyChanged(() => AvailableYears);
-			}
-		}
-
-		int _selectedYear;
 		public int SelectedYear
 		{
-			get { return _selectedYear; }
+			get { return _selectedDate.Year; }
+		}
+
+		private DateTime _selectedDate;
+		public DateTime SelectedDate
+		{
+			get { return _selectedDate; }
 			set
 			{
-				_selectedYear = value;
+				if (_selectedDate == value)
+					return;
+				_selectedDate = value;
+				OnPropertyChanged(() => SelectedDate);
 				OnPropertyChanged(() => SelectedYear);
 
-				var filter = new HolidayFilter() { UserUID = FiresecManager.CurrentUser.UID, Year = value, LogicalDeletationType = LogicalDeletationType };
+				var filter = new HolidayFilter() { UserUID = FiresecManager.CurrentUser.UID, Year = value.Year, LogicalDeletationType = LogicalDeletationType };
 				Initialize(filter);
 			}
 		}
@@ -107,7 +96,7 @@ namespace SKDModule.ViewModels
 
 		protected override string ItemRemovingName
 		{
-			get { return "сокращённый день"; }
+			get { return "праздничный день"; }
 		}
 
 

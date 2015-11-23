@@ -17,7 +17,7 @@ namespace SKDModule.ViewModels
 			get
 			{
 				if (Model != null && Model.Type == HolidayType.BeforeHoliday)
-					return Model.Reduction.ToString("hh\\-mm");
+					return Model.Reduction.ToString("hh\\:mm");
 				return null;
 			}
 		}

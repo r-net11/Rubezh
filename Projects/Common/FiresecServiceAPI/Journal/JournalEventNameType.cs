@@ -202,7 +202,7 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Редактирование графика работы сотрудника", XStateClass.Info)]
 		Редактирование_графика_работы_сотрудника = 157,
 
-		[EventName(JournalSubsystemType.SKD, "Редактирование сокращённого дня", XStateClass.Info)]
+		[EventName(JournalSubsystemType.SKD, "Редактирование праздничного дня", XStateClass.Info)]
 		Редактирование_праздничного_дня = 158,
 
 		[EventName(JournalSubsystemType.SKD, "Редактирование шаблона пропуска", XStateClass.Info)]
@@ -235,7 +235,7 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Добавление нового графика работы сотрудника", XStateClass.Info)]
 		Добавление_нового_графика_работы_сотрудника = 169,
 
-		[EventName(JournalSubsystemType.SKD, "Добавление нового сокращённого дня", XStateClass.Info)]
+		[EventName(JournalSubsystemType.SKD, "Добавление нового праздничного дня", XStateClass.Info)]
 		Добавление_нового_праздничного_дня = 170,
 
 		[EventName(JournalSubsystemType.SKD, "Добавление нового шаблона пропуска", XStateClass.Info)]
@@ -271,7 +271,7 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Удаление графика работы сотрудника", XStateClass.Info)]
 		Удаление_графика_работы_сотрудника = 192,
 
-		[EventName(JournalSubsystemType.SKD, "Удаление сокращённого дня", XStateClass.Info)]
+		[EventName(JournalSubsystemType.SKD, "Удаление праздничного дня", XStateClass.Info)]
 		Удаление_праздничного_дня = 193,
 
 		[EventName(JournalSubsystemType.SKD, "Удаление шаблона пропуска", XStateClass.Info)]
@@ -304,7 +304,7 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Восстановление графика работы сотрудника", XStateClass.Info)]
 		Восстановление_графика_работы_сотрудника = 203,
 
-		[EventName(JournalSubsystemType.SKD, "Восстановление сокращённого дня", XStateClass.Info)]
+		[EventName(JournalSubsystemType.SKD, "Восстановление праздничного дня", XStateClass.Info)]
 		Восстановление_праздничного_дня = 204,
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление шаблона пропуска", XStateClass.Info)]

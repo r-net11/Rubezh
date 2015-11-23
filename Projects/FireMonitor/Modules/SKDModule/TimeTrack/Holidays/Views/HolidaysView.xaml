@@ -28,13 +28,22 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
-			<ComboBox ItemsSource="{Binding AvailableYears}" SelectedItem="{Binding SelectedYear}">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding .}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
+			<DatePicker x:Name="DatePicker" SelectedDate="{Binding SelectedDate}" Width="70" CalendarOpened="DatePicker_CalendarOpened">
+				<DatePicker.Resources>
+					<Style TargetType="DatePickerTextBox">
+						<Setter Property="Control.Template">
+							<Setter.Value>
+								<ControlTemplate>
+									<TextBox
+										x:Name="PART_TextBox" 
+										Text="{Binding Path=SelectedDate, StringFormat = {}{0:yyyy}, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}"
+										IsReadOnly="True"/>
+								</ControlTemplate>
+							</Setter.Value>
+						</Setter>
+					</Style>
+				</DatePicker.Resources>
+			</DatePicker>
 			<StackPanel Orientation="Horizontal">
 				<ToolBarButton
 					Command="{Binding AddCommand}"

@@ -32,16 +32,8 @@ namespace SKDDriver.Translators
 			var result = base.CanSave(item);
 			if (result.HasError)
 				return result;
-			if (item.Reduction.TotalHours > 2)
-				return new OperationResult("Величина сокращения не может быть больше двух часов");
-			//if (item.Type == HolidayType.WorkingHoliday && item.Date.DayOfWeek != DayOfWeek.Saturday && item.Date.DayOfWeek != DayOfWeek.Sunday)
-			//	return new OperationResult("Дата переноса устанавливается только на субботу или воскресенье");
-			if (Table.Any(x => x.UID != item.UID && x.OrganisationUID == item.OrganisationUID && x.Date.Date == item.Date.Date && !x.IsDeleted))
-				return new OperationResult("Дата сокращённого дня совпадает с введенной ранее");
-			bool hasSameName = Table.Any(x => x.OrganisationUID == item.OrganisationUID && x.UID != item.UID && !x.IsDeleted && x.Name == item.Name && x.Date.Year == item.Date.Year);
-			if (hasSameName)
-				return new OperationResult("Сокращённый день с таким же названием уже содержится в базе данных");
-			return new OperationResult();
+
+			return Validate(item);
 		}
 
 		protected override Holiday Translate(DataAccess.Holiday tableItem)
@@ -63,6 +55,57 @@ namespace SKDDriver.Translators
 			tableItem.Reduction = (int)apiItem.Reduction.TotalSeconds;
 			tableItem.TransferDate = apiItem.TransferDate < TranslatiorHelper.MinYear ? TranslatiorHelper.MinYear : apiItem.TransferDate;
 			tableItem.Type = (int)apiItem.Type;
+		}
+
+		protected override OperationResult CanRestore(Guid uid)
+		{
+			var result = base.CanRestore(uid);
+			if (result.HasError)
+				return result;
+			
+			var holidayToRestore = Table.FirstOrDefault(x => x.UID == uid);
+			if (holidayToRestore == null)
+				return new OperationResult(String.Format("Отсутствует праздничный день с UID='{0}'", uid));
+
+			return Validate(Translate(holidayToRestore));
+		}
+
+		protected override bool IsSimilarNames(DataAccess.Holiday item1, DataAccess.Holiday item2)
+		{
+			// Для разных годов могут быть одинаковые названия праздников
+			return base.IsSimilarNames(item1, item2) && item1.Date == item2.Date;
+		}
+
+		private OperationResult Validate(Holiday holiday)
+		{
+			// Для одной организации нельзя ввести два праздничных дня с одинаковым названием в пределах одного года
+			if (Table.Any(x =>
+				x.OrganisationUID == holiday.OrganisationUID
+				&& x.UID != holiday.UID
+				&& x.Name == holiday.Name
+				&& x.Date.Year == holiday.Date.Year
+				&& !x.IsDeleted))
+				return new OperationResult("Праздничный день с таким названием уже существует");
+
+			// Для одной организации нельзя ввести два праздничных дня на одну и ту же дату
+			if (Table.Any(x =>
+				x.UID != holiday.UID
+				&& x.OrganisationUID == holiday.OrganisationUID
+				&& x.Date.Date == holiday.Date.Date
+				&& !x.IsDeleted))
+				return new OperationResult(String.Format("Праздничный день введенный на дату {0} уже существует", holiday.Date.ToString("d")));
+
+			// Для одной организации нельзя ввести два праздничных дня типа "Рабочий выходной" с одной и той же датой переноса
+			if (Table.Any(x =>
+				x.UID != holiday.UID
+				&& x.OrganisationUID == holiday.OrganisationUID
+				&& (HolidayType)x.Type == HolidayType.WorkingHoliday
+				&& (HolidayType)x.Type == holiday.Type
+				&& x.TransferDate == holiday.TransferDate
+				&& !x.IsDeleted))
+				return new OperationResult(String.Format("Рабочий выходной, имеющий дату переноса {0} уже существует", holiday.Date.ToString("d")));
+
+			return new OperationResult();
 		}
 	}
 }
