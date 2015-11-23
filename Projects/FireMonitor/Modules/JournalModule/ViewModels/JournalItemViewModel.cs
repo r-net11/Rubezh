@@ -255,14 +255,10 @@ namespace JournalModule.ViewModels
 			if (ObjectName == null)
 				ObjectName = "<Нет в конфигурации>";
 
-			//if (JournalItem.EmployeeUID != Guid.Empty)
-			//{
-			//	var employee = EmployeeHelper.GetDetails(JournalItem.EmployeeUID);
-			//	if (employee != null)
-			//	{
-
-			//	}
-			//}
+			if (JournalItem.JournalSubsystemType == JournalSubsystemType.SKD)
+			{
+				ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowJournalHREvent>();
+			}
 		}
 
 		public bool IsStateImage

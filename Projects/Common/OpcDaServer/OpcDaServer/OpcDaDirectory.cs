@@ -7,6 +7,8 @@ namespace OpcDaServer
 {
 	public class OpcDaDirectory: OpcDaItemBase
 	{
+		#region Constructors
+
 		private OpcDaDirectory() { throw new NotImplementedException(); }
 
 		/// <summary>
@@ -37,6 +39,11 @@ namespace OpcDaServer
 			}
 		}
 
+		#endregion
+
+		#region Fields And Properties
+
+		string _directoryName;
 		public string DirectoryName
 		{
 			get { return _directoryName; }
@@ -52,12 +59,13 @@ namespace OpcDaServer
 			get { return _directoryName == RootDirectory; }
 		}
 
-		string _directoryName;
-		List<OpcDaItemBase> _tags;
+		List<OpcDaItemBase> _tags = new List<OpcDaItemBase>();
 
 		/// <summary>
 		/// Список воложенных тегов и директорий
 		/// </summary>
-		public IList<OpcDaItemBase> Tags { get; }
+		public IList<OpcDaItemBase> Tags { get { return _tags; } }
+
+		#endregion
 	}
 }

@@ -207,5 +207,16 @@ namespace SKDModule.ViewModels
 			OrganisationDoorsViewModel.CanSelect = canSelect;
 			OrganisationUsersViewModel.CanSelect = canSelect;
 		}
+
+		public bool ShowFromJournal(Guid uid)
+		{
+			var selectedItem = Organisations.FirstOrDefault(x => x.Organisation.UID == uid);
+			if(selectedItem != null)
+			{
+				SelectedOrganisation = selectedItem;
+				return true;
+			}
+			return false;
+		}
 	}
 }
