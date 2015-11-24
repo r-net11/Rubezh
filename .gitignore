@@ -20,3 +20,4 @@ Projects/Resurs/UinitTestResursNetwork/FakesAssemblies/resursnetwork.Fakes.xml
 *.psess
 *.vsp
 /Projects/GKWebService/GKWebService/GKWebService.csproj.DotSettings
+/git.bat
