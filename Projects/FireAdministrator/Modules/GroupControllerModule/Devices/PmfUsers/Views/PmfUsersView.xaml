@@ -8,24 +8,17 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
-			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить (Ctrl+N)" ImageSource="Add"  />
-			<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать (Ctrl+E)" ImageSource="Edit" />
-			<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete" />
+			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="Add" />
+			<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="Edit" />
+			<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="Delete" />
 			<ToolBarButton Command="{Binding WriteCommand}" ToolTip="Записать в прибор" ImageSource="ParametersWrite" />
-			<ToolBarButton Command="{Binding ReadCommand}" ToolTip="Считать из прибор" ImageSource="ParametersRead" />
+			<ToolBarButton Command="{Binding ReadCommand}" ToolTip="Считать из прибора" ImageSource="ParametersRead" />
 		</StackPanel>
 		<DataGrid Grid.Row="1" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}">
 			<DataGrid.InputBindings>
 				<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
 			</DataGrid.InputBindings>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Номер" Width="Auto">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding User.GkNo}" Margin="2" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
 				<DataGridTemplateColumn Header="ФИО" Width="3*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -50,7 +43,7 @@
 				<DataGridTemplateColumn Header="Срок действия" Width="2*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding ExpirationDateString}" Margin="2" />
+							<TextBlock Text="{Binding User.ExpirationDate, StringFormat='dd.MM.yyyy'}" Margin="2" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

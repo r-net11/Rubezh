@@ -1,4 +1,8 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls" xmlns:Converters="clr-namespace:Controls.Converters" xmlns:s="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:Controls="clr-namespace:Controls"
+					xmlns:Converters="clr-namespace:Controls.Converters"
+					xmlns:s="clr-namespace:System;assembly=mscorlib">
 
 	<Converters:LevelToIndentConverter x:Key="LevelToIndentConverter" />
 

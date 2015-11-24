@@ -30,6 +30,7 @@ namespace RubezhAPI.GK
 			AllowMultipleVizualization = false;
 			Zones = new List<GKZone>();
 			GuardZones = new List<GKGuardZone>();
+			PmfUsers = new List<GKUser>();
 		}
 
 		public override void Invalidate(GKDeviceConfiguration deviceConfiguration)
@@ -214,6 +215,9 @@ namespace RubezhAPI.GK
 		/// </summary>
 		[DataMember]
 		public GKReflectionItem GKReflectionItem { get; set; }
+
+		[DataMember]
+		public List<GKUser> PmfUsers { get; set; }
 
 
 		[XmlIgnore]

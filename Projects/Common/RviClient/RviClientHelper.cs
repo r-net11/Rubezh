@@ -7,7 +7,7 @@ using RubezhAPI.Models;
 using RviClient.RVIServiceReference;
 using RviClient.RVIStreamingServiceReference;
 using Common;
-using Infrastructure.Common.Windows;
+using System.Net;
 
 namespace RviClient
 {
@@ -72,7 +72,7 @@ namespace RviClient
 		public static List<Device> GetDevices(SystemConfiguration systemConfiguration)
 		{
 			var devices = new List<Device>();
-			
+
 			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
 			{
 				var sessionUID = Guid.NewGuid();
@@ -309,7 +309,7 @@ namespace RviClient
 						Session = sessionUID
 					};
 					sessionInitialiazationIn.Login = systemConfiguration.RviSettings.Login;
-					sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;					
+					sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;
 					var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
 
 					using (IntegrationVideoStreamingClient streamingClient = CreateIntegrationVideoStreamingClient(systemConfiguration))
@@ -332,13 +332,70 @@ namespace RviClient
 						return false;
 					return true;
 				}
-			}							
+			}
 			catch (CommunicationException e)
 			{
 				Logger.Error(e, "RViClientHelper.GetVideoFile");
 				errorInformation = "Видео не получено. Проверьте запущен ли RVi Оператор, правильно ли указаны логин и пароль.";
 				return false;
 			}
+		}
+		public static bool PrepareToTranslation(SystemConfiguration systemConfiguration, Camera camera, out IPEndPoint ipEndPoint, out int vendorId)
+		{
+			ipEndPoint = null;
+			vendorId = -1;
+
+			var devices = GetDevices(systemConfiguration);
+			var device = devices.FirstOrDefault(d => d.Guid == camera.RviDeviceUID);
+
+			if (device == null)
+				return false;
+
+			var channel = device.Channels.FirstOrDefault(ch => ch.Number == camera.RviChannelNo);
+
+			if (channel == null)
+				return false;
+
+			vendorId = channel.Vendor;
+
+			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+			{
+				var sessionUID = Guid.NewGuid();
+
+				var sessionInitialiazationIn = new SessionInitialiazationIn();
+				sessionInitialiazationIn.Header = new HeaderRequest()
+				{
+					Request = Guid.NewGuid(),
+					Session = sessionUID
+				};
+				sessionInitialiazationIn.Login = systemConfiguration.RviSettings.Login;
+				sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;
+				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
+				//var errorMessage = sessionInitialiazationOut.Header.HeaderResponseMessage.Information;
+
+				var response = client.VideoStreamingStart(new ChannelStreamingStartIn()
+				{
+					Header = new HeaderRequest() { Request = new Guid(), Session = sessionUID },
+					DeviceGuid = device.Guid,
+					ChannelNumber = channel.Number,
+					StreamNumber = camera.StreamNo
+				});
+
+				var sessionCloseIn = new SessionCloseIn();
+				sessionCloseIn.Header = new HeaderRequest()
+				{
+					Request = Guid.NewGuid(),
+					Session = sessionUID
+				};
+				var sessionCloseOut = client.SessionClose(sessionCloseIn);
+
+				if (response.EndPointPort == 0)
+				{
+					return false;
+				}
+				ipEndPoint = new IPEndPoint(IPAddress.Parse(response.EndPointAdress), response.EndPointPort);
+			}
+			return true;
 		}
 
 		public static void AlarmRuleExecute(SystemConfiguration systemConfiguration, string ruleName)
