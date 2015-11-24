@@ -6,14 +6,17 @@
 		<Setter Property="KeyboardNavigation.ControlTabNavigation" Value="Cycle" />
 		<Setter Property="KeyboardNavigation.TabNavigation" Value="Cycle" />
 		<Setter Property="KeyboardNavigation.DirectionalNavigation" Value="Cycle" />
+		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
 		<Setter Property="ItemsSource" Value="{Binding Items}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type ribbon:RibbonMenuView}">
 					<DockPanel>
-						<Border Margin="5" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1" CornerRadius="5" DockPanel.Dock="Left">
-							<StackPanel Margin="2" IsItemsHost="True" />
-						</Border>
+						<ScrollViewer>
+							<Border Margin="5" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1" CornerRadius="5" DockPanel.Dock="Left">
+								<StackPanel Margin="2" IsItemsHost="True" />
+							</Border>
+						</ScrollViewer>
 						<ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" />
 					</DockPanel>
 				</ControlTemplate>

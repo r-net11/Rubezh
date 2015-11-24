@@ -37,7 +37,7 @@ namespace GKModule.ViewModels
 				{
 					if (DriverProperty.Multiplier != 0)
 						doubleValue *= DriverProperty.Multiplier;
-					doubleValue = Math.Min(ushort.MaxValue, doubleValue);
+					doubleValue = Math.Min(DriverProperty.Max, doubleValue);
 					_text = (ushort)doubleValue;
 					Save(_text);
 				}

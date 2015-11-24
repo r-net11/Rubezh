@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace AutomationModule.Views
 {
@@ -9,9 +11,11 @@ namespace AutomationModule.Views
 			InitializeComponent();
 		}
 
-		private void DataGridCheckBoxColumn_Selected(object sender, System.Windows.RoutedEventArgs e)
+		private void StepsView_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
 		{
-
+			var element = (UIElement)sender;
+			element.Focusable = true;
+			Keyboard.Focus(element);
 		}
 	}
 }

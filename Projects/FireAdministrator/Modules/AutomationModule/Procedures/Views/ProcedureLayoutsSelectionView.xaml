@@ -5,6 +5,13 @@
 	<Grid>
 		<DataGrid ItemsSource="{Binding LayoutItems}">
 			<DataGrid.Columns>
+				<DataGridTemplateColumn Width="Auto">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
 				<DataGridTemplateColumn Width="*" Header="Наименование макета">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -12,13 +19,6 @@
 								<Rectangle Height="16" Width="16" Fill="{DynamicResource BLayouts}" Margin="5 0"/>
 								<TextBlock Text="{Binding Layout.Caption}" />
 							</StackPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="Auto" Header="Использовать">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
