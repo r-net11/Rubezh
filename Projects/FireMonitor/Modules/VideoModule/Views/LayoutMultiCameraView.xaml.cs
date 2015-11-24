@@ -122,11 +122,6 @@ namespace VideoModule.Views
 				}
 			}
 		}
-
-		void OnShowArchive(object sender, RoutedEventArgs e)
-		{
-		}
-
 		public static void GetLogicalChildCollection(DependencyObject parent, List<LayoutPartCameraView> logicalCollection)
 		{
 			var children = LogicalTreeHelper.GetChildren(parent);

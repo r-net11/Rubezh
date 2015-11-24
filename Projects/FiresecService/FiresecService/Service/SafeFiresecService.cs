@@ -281,9 +281,9 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GetGKUsers(deviceUID); }, "GetGKUsers");
 		}
 
-		public OperationResult<bool> WriteAllGKUsers(List<GKUser> users)
+		public OperationResult<bool> RewritePmfUsers(Guid uid, List<GKUser> users)
 		{
-			return SafeOperationCall(() => { return FiresecService.WriteAllGKUsers(users); }, "WriteAllGKUsers");
+			return SafeOperationCall(() => { return FiresecService.RewritePmfUsers(uid, users); }, "RewritePmfUsers");
 		}
 
 		public OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID)
