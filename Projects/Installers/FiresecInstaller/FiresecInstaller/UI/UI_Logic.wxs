@@ -42,7 +42,7 @@
 
 			<Publish Dialog="SQLLoginDialog" Control="Back" Event="NewDialog" Value="ShortcutsDialog">1</Publish>
 			<Publish Dialog="SQLLoginDialog" Control="Next" Event="NewDialog" Value="VerifyReadyDialog">1</Publish>
-			<Publish Dialog="SQLLoginDialog" Control="Next" Property="SQLINSTANCE" Value="[SQLINSTANCE]">1</Publish>
+			<Publish Dialog="SQLLoginDialog" Control="Next" Property="SQLSERVER_INSTANCENAME" Value="[SQLSERVER_INSTANCENAME]">1</Publish>
 			<Publish Dialog="SQLLoginDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
 
 			<Publish Dialog="VerifyReadyDialog" Control="Back" Event="NewDialog" Value="ShortcutsDialog">1</Publish>

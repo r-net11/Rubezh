@@ -16,7 +16,7 @@
                 <Control Id="SqlServerPortEdit" Type="Edit" Width="146" Height="15" X="184" Y="88" Property="SQLSERVER_PORT"/>
                 <!-- Название экземпляра сервера БД -->
                 <Control Id="SqlServerInstanceNameLabel" Type="Text" X="38" Y="109" Width="137" Height="14" Text="&amp;Название экземпляра сервера БД:" TabSkip="no" />
-                <Control Id="SqlServerInstanceNameEdit" Type="Edit" X="184" Y="106" Width="146" Height="15" Property="SQLINSTANCE" TabSkip="no" />
+                <Control Id="SqlServerInstanceNameEdit" Type="Edit" X="184" Y="106" Width="146" Height="15" Property="SQLSERVER_INSTANCENAME" TabSkip="no" />
                 <!-- Аутентификация -->
 				<Control Id="SqlServerAuthenticationModeLabel" Type="Text" X="30" Y="129" Width="334" Height="14" Text="Аутентификация:" TabSkip="no" NoPrefix="yes" />
                 <Control Id="SqlServerAuthenticationModeRadioButtonGroup" Type="RadioButtonGroup" X="37" Y="145" Width="343" Height="34" Property="IS_SQLSERVER_AUTHENTICATION" TabSkip="no" />
