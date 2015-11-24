@@ -15,11 +15,6 @@
 			<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 		</ResourceDictionary>
 	</UserControl.Resources>
-	<!--<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition />
-		</Grid.ColumnDefinitions>-->
 	<StackPanel Orientation="Horizontal">
 		<TextBlock
 			Focusable="False"
@@ -55,6 +50,7 @@
 			Visibility="{Binding IsReaderSelected, Mode=TwoWay, ElementName=_this, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Visible}"
 			VerticalAlignment="Center"
 			Validation.ErrorTemplate="{x:Null}"
+			IsReadOnly="True"
 			IsEnabled="{Binding ElementName=_this, Path=IsEnabled, UpdateSourceTrigger=PropertyChanged}"
 			Width="{Binding TextBoxWidth, ElementName=_this}"
 			MinWidth="50">
