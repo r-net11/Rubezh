@@ -15,7 +15,8 @@ namespace AutomationModule.ViewModels
 			JournalArguments = stepViewModel.Step.JournalArguments;
 			MessageArgument = new ArgumentViewModel(JournalArguments.MessageArgument, stepViewModel.Update, null);
 			ExplicitTypes = new ObservableCollection<ExplicitType>(AutomationHelper.GetEnumList<ExplicitType>());
-			EnumTypes = AutomationHelper.GetEnumObs<EnumType>(); 
+			EnumTypes = AutomationHelper.GetEnumObs<EnumType>();
+			ObjectTypes = AutomationHelper.GetEnumObs<ObjectType>();
 		}
 
 		public ObservableCollection<ExplicitType> ExplicitTypes { get; private set; }
@@ -45,9 +46,24 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public ObservableCollection<ObjectType> ObjectTypes { get; private set; }
+		public ObjectType ObjectType
+		{
+			get
+			{
+				return JournalArguments.ObjectType;
+			}
+			set
+			{
+				JournalArguments.ObjectType = value;
+				UpdateContent();
+				OnPropertyChanged(() => ObjectType);
+			}
+		}
+
 		public override void UpdateContent()
 		{
-			MessageArgument.Update(Procedure, ExplicitType, EnumType, isList:false);
+			MessageArgument.Update(Procedure, ExplicitType, EnumType, ObjectType, false);
 		}
 
 		public override string Description
