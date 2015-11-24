@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.ViewModels;
 using Infrastructure.Common;
+using Infrastructure;
 using RubezhClient;
 
 namespace AutomationModule.ViewModels
@@ -21,16 +22,16 @@ namespace AutomationModule.ViewModels
 			_opcDaServers = new ObservableCollection<OpcDaServerViewModel>();
 
 			// Загрузка сохранённого списка серверов
-			//foreach (var opcServer in ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaServers)
-			//{
-			//	var opcServerViewModel = new OpcDaServerViewModel(opcServer);
-			//}
-			
+			foreach (var opcServer in ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaServers)
+			{
+				var opcServerViewModel = new OpcDaServerViewModel(opcServer);
+				_opcDaServers.Add(opcServerViewModel);
+			}
 			
 			// Сейчас заглушка
-			_opcDaServers = new ObservableCollection<OpcDaServerViewModel>(
-				OpcDaServer.OpcDaServer.GetRegistredServers()
-				.Select(serv => new OpcDaServerViewModel(serv)));
+			//_opcDaServers = new ObservableCollection<OpcDaServerViewModel>(
+			//	OpcDaServer.OpcDaServer.GetRegistredServers()
+			//	.Select(serv => new OpcDaServerViewModel(serv)));
 
 			// Для отладки
 			//_opcDaServers.Add(new OpcDaServerViewModel(
@@ -99,13 +100,11 @@ namespace AutomationModule.ViewModels
 				foreach (var server in addingDialog.SelectedServers)
 				{
 					OpcDaServers.Add(server);
+					ClientManager.SystemConfiguration.AutomationConfiguration
+						.OpcDaServers.Add(server.ConvertTo());
+					ServiceFactory.SaveService.AutomationChanged = true;
 				}
 			}
-
-			//ClientManager.SystemConfiguration.AutomationConfiguration.OPCServers.Add(opcServerDetailsViewModel.OPCServer);
-			//OPCServers.Add(opcServerViewModel);
-			//SelectedOPCServer = OPCServers.FirstOrDefault();
-			//ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
 		private bool OnCanAdd()
@@ -118,8 +117,21 @@ namespace AutomationModule.ViewModels
 
 		private void OnDelete()
 		{
+
+			var delServer = ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaServers
+				.FirstOrDefault(x => (x.Id == SelectedOpcDaServer.Base.Id) && 
+					(x.ServerName == SelectedOpcDaServer.Base.ServerName));
+
+			if (delServer != null)
+			{
+				ClientManager.SystemConfiguration.AutomationConfiguration
+					.OpcDaServers.Remove(delServer);
+				ServiceFactory.SaveService.AutomationChanged = true;
+			}
+
 			OpcDaServers.Remove(SelectedOpcDaServer);
 			SelectedOpcDaServer = null;
+
 		}
 
 		private bool OnCanDelete()

@@ -39,7 +39,16 @@ namespace AutomationModule.ViewModels
 
 		public OpcDaServer.OpcDaServer Base { get; private set; }
 		
-		public string ServerName { get { return Base.ServerName; }}
+		public string ServerName { get { return Base.ServerName; } }
+
+		public RubezhAPI.Automation.OpcDaServer ConvertTo()
+		{
+			return new RubezhAPI.Automation.OpcDaServer 
+						{ 
+							ServerName = Base.ServerName, 
+							Id = Base.Id 
+						};
+		}
 
 		#endregion
 	}
