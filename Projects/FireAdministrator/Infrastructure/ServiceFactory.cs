@@ -34,6 +34,7 @@ namespace Infrastructure
 			ContentService = new ContentService("Administrator");
 			DragDropService = new DragDropService();
 			RibbonService = new RibbonService();
+			DialogService = new MonitorDialogService();
 		}
 
 		public static SaveService SaveService { get; private set; }
@@ -41,5 +42,6 @@ namespace Infrastructure
 		public static IValidationService ValidationService { get; private set; }
 		public static MenuService MenuService { get; set; }
 		public static IRibbonService RibbonService { get; private set; }
+		public static IDialogService DialogService { get; set; }
 	}
 }

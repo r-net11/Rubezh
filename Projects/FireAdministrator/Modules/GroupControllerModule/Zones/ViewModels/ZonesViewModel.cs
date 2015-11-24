@@ -94,7 +94,7 @@ namespace GKModule.ViewModels
 		ZoneDetailsViewModel OnAddResult()
 		{
 			var zoneDetailsViewModel = new ZoneDetailsViewModel();
-			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
+			if (ServiceFactory.DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
 				GKManager.AddZone(zoneDetailsViewModel.Zone);
 				var zoneViewModel = new ZoneViewModel(zoneDetailsViewModel.Zone);
