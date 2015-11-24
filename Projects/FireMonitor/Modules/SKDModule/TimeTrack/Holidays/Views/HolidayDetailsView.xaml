@@ -103,7 +103,7 @@
 				IsEnabled="{Binding IsReductionEnabled}"
 				Style="{StaticResource DisabledTextBlockStyle}"
 				Text="Величина сокращения" />
-				<controls:TimePicker
+			<controls:TimePicker
 				Grid.Row="3"
 				Grid.Column="1"
 				TimeSpan="{Binding TimeReduction, UpdateSourceTrigger=PropertyChanged}"
@@ -116,7 +116,7 @@
 				IsEnabled="{Binding IsTransferDateEnabled}"
 				Style="{StaticResource DisabledTextBlockStyle}"
 				Text="Дата переноса" />
-				<DatePicker
+			<DatePicker
 				Style="{StaticResource DatePickerWithErrorStyle}"
 				Grid.Row="4"
 				Grid.Column="1"

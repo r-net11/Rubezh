@@ -8,6 +8,7 @@ using FiresecAPI.Journal;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
@@ -36,24 +37,17 @@ namespace JournalModule.ViewModels
 			LastPageCommand = new RelayCommand(OnLastPage, CanLastPage);
 			Pages = new ObservableCollection<ArchivePageViewModel>();
 
-			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
-			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
-			ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Subscribe(OnGetFilteredArchiveCompleted);
-			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
-			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
+			ServiceFactoryBase.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
+			ServiceFactoryBase.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
+			ServiceFactoryBase.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Subscribe(OnGetFilteredArchiveCompleted);
+			ServiceFactoryBase.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
+			ServiceFactoryBase.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
 		}
 
 		public void Initialize()
 		{
 			var result = FiresecManager.FiresecService.GetMinJournalDateTime();
-			if (!result.HasError)
-			{
-				ArchiveFirstDate = result.Result;
-			}
-			else
-			{
-				ArchiveFirstDate = DateTime.Now.AddYears(-10);
-			}
+			ArchiveFirstDate = result.HasError ? DateTime.Now.AddYears(-10) : result.Result;
 		}
 
 		ObservableCollection<ArchivePageViewModel> _pages;

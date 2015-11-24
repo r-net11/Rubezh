@@ -112,7 +112,7 @@ namespace FiresecClient
 		#region Journal
 		public OperationResult<DateTime> GetMinJournalDateTime()
 		{
-			return SafeContext.Execute<OperationResult<DateTime>>(() => FiresecService.GetMinJournalDateTime());
+			return SafeContext.Execute(() => FiresecService.GetMinJournalDateTime());
 		}
 		public OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter filter)
 		{

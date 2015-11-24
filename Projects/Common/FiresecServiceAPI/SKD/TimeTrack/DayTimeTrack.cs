@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Linq.Mapping;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -145,7 +144,7 @@ namespace FiresecAPI.SKD
 				CombinedTimeTrackParts = TransferPresentToOvertime(CombinedTimeTrackParts, SlideTime);
 			}
 
-			if(NightSettings.IsNightSettingsEnabled)
+			if (NightSettings != null && NightSettings.IsNightSettingsEnabled)
 				CalculateNightTimeSpans(NightSettings);
 
 			CombinedTimeTrackParts = TransferNightSettings(CombinedTimeTrackParts, _nighTimeSpans);

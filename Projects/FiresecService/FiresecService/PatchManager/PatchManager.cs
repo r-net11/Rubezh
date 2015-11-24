@@ -1,7 +1,6 @@
 ﻿using Common;
 using FiresecAPI;
 using FiresecService.ViewModels;
-using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;

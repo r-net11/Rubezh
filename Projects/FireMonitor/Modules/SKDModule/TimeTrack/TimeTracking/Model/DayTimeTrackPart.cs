@@ -365,10 +365,7 @@ namespace SKDModule.Model
 		public string CurrentError
 		{
 			get { return _currentError; }
-			set
-			{
-				this.RaiseAndSetIfChanged(ref _currentError, value);
-			}
+			set { this.RaiseAndSetIfChanged(ref _currentError, value); }
 		}
 
 		public string this[string propertyName]
