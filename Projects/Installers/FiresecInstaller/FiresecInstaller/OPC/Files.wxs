@@ -21,13 +21,14 @@
 				<File Id="OPC.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="OPC.RubezhAPI.dll" Name="RubezhAPI.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="OPC.RubezhClient.dll" Name="RubezhClient.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="OPC.NLog.dll" Name="NLog.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="OPC.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="OPC.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="OPC.WPFToolkit.Extended.dll" Name="WPFToolkit.Extended.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="OPC.gbda_clr.dll" Name="gbda_clr.dll" Source="$(var.OPC.TargetDir)" />
 				<File Id="OPC.gbda3w.dll" Name="gbda3w.dll" Source="$(var.OPC.TargetDir)" />
 				<File Id="OPC.ControlsMicrosoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Common.TargetDir)" />
+
+				<File Id="OPC.NLog.dll" Name="NLog.dll" Source="..\..\..\..\..\..\3rdParty\NLog.2.0.1.2\" />
 			</Component>
 
 			<Component Id="OPC.DB.Common" Guid="2BD1C3BF-5578-4686-A5ED-6E47C402FAEB">
