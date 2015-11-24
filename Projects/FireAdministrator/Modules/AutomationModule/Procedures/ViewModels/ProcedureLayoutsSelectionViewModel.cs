@@ -14,7 +14,10 @@ namespace AutomationModule.ViewModels
 		public ProcedureLayoutsSelectionViewModel(ProcedureLayoutCollection procedureLayoutCollection)
 		{
 			Title = "Выбор макетов";
-			LayoutItems = new ObservableCollection<ProcedureLayoutItemViewModel>(ClientManager.LayoutsConfiguration.Layouts.Select(x => new ProcedureLayoutItemViewModel(x, procedureLayoutCollection.LayoutsUIDs.Contains(x.UID))));
+			LayoutItems = new ObservableCollection<ProcedureLayoutItemViewModel>();
+			LayoutItems.Add(new ProcedureLayoutItemViewModel(ProcedureLayoutCollectionViewModel.NoLayout, procedureLayoutCollection.LayoutsUIDs.Contains(LayoutModel.NoLayoutUID)));
+			foreach (var layoutItem in ClientManager.LayoutsConfiguration.Layouts.Select(x => new ProcedureLayoutItemViewModel(x, procedureLayoutCollection.LayoutsUIDs.Contains(x.UID))))
+				LayoutItems.Add(layoutItem);
 		}
 	}
 

@@ -9,6 +9,7 @@ using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhAPI.SKD;
 using Infrastructure.Common.Windows;
+using RubezhAPI.Models.Layouts;
 
 namespace RubezhClient
 {
@@ -77,11 +78,17 @@ namespace RubezhClient
 
 		public static void ProcessAutomationCallback(AutomationCallbackResult callback, Guid? clientUid = null)
 		{
-			SafeOperationCall(() =>
-			{
-				if (AutomationEvent != null)
-					AutomationEvent(callback);
-			});
+			if (callback.Data == null || callback.Data.LayoutFilter == null || ApplicationService.Shell == null)
+				return;
+			var layoutUID = ApplicationService.Shell.Layout == null ? 
+				Layout.NoLayoutUID : 
+				ApplicationService.Shell.Layout.UID;
+			if (callback.Data.LayoutFilter.LayoutsUIDs.Contains(layoutUID))
+				SafeOperationCall(() =>
+				{
+					if (AutomationEvent != null)
+						AutomationEvent(callback);
+				});
 		}
 
 		void ProcessCallbackResult(List<CallbackResult> callbackResults)
@@ -126,8 +133,6 @@ namespace RubezhClient
 						break;
 
 					case CallbackResultType.AutomationCallbackResult:
-						if (callbackResult.AutomationCallbackResult.Data == null || callbackResult.AutomationCallbackResult.Data.LayoutFilter == null || callbackResult.AutomationCallbackResult.Data.LayoutFilter.LayoutsUIDs.Count == 0 ||
-							ApplicationService.Shell == null || ApplicationService.Shell.Layout == null || callbackResult.AutomationCallbackResult.Data.LayoutFilter.LayoutsUIDs.Contains(ApplicationService.Shell.Layout.UID))
 							ProcessAutomationCallback(callbackResult.AutomationCallbackResult);
 						break;
 
