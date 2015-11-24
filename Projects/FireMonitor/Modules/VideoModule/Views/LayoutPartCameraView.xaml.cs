@@ -9,6 +9,7 @@ namespace VideoModule.Views
 {
 	public partial class LayoutPartCameraView
 	{
+		bool isLoaded;
 		public LayoutPartCameraView()
 		{
 			InitializeComponent();
@@ -16,11 +17,38 @@ namespace VideoModule.Views
 			DataContextChanged += OnDataContextChanged;
 			Dispatcher.ShutdownStarted += DispatcherOnShutdownStarted;
 		}
+		void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+		{
+			if (isLoaded)
+			{
+				Close();
+				Start(); 
+			}
+		}
+		void DispatcherOnShutdownStarted(object sender, EventArgs eventArgs)
+		{
+			Close();
 
-		private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+			DataContextChanged -= OnDataContextChanged;
+			Dispatcher.ShutdownStarted -= DispatcherOnShutdownStarted;
+		}
+		void UserControl_Unloaded(object sender, RoutedEventArgs e)
+		{
+			Close();
+			isLoaded = false;
+		}
+		void UserControl_Loaded(object sender, RoutedEventArgs e)
+		{
+			Start();
+			isLoaded = true;
+		}
+		void Close()
 		{
 			MediaSourcePlayer.Stop();
 			MediaSourcePlayer.Close();
+		}
+		void Start()
+		{
 			var viewModel = DataContext as LayoutPartCameraViewModel;
 			if (viewModel == null)
 				return;
@@ -38,15 +66,6 @@ namespace VideoModule.Views
 			{
 				Logger.Error(e);
 			}
-		}
-
-		private void DispatcherOnShutdownStarted(object sender, EventArgs eventArgs)
-		{
-			MediaSourcePlayer.Stop();
-			MediaSourcePlayer.Close();
-
-			DataContextChanged -= OnDataContextChanged;
-			Dispatcher.ShutdownStarted -= DispatcherOnShutdownStarted;
 		}
 	}
 }
