@@ -29,9 +29,8 @@ namespace GKModule.ViewModels
 			{
 				_isNew = true;
 				Title = "Создание пользователя";
-				var gkNo = (ushort)(parentViewModel.Users.Count > 0 ? parentViewModel.Users.Max(x => x.User.GkNo) + 1 : 1);
 				var password = parentViewModel.Users.Count > 0 ? parentViewModel.Users.Max(x => x.User.Password) + 1 : 1;
-				user = new GKUser(gkNo, _parentViewModel.Pmf.UID) 
+				user = new GKUser 
 				{
 					Password = password, 
 					ExpirationDate = DateTime.Now.AddYears(1), 
@@ -51,36 +50,24 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				return new GKUser(GkNo, _parentViewModel.Pmf.UID)
+				return new GKUser
 				{
 					Fio = Fio,
 					Password = Password,
 					UserType = UserType,
-					ExpirationDate = ExpirationDate.DateTime
+					ExpirationDate = ExpirationDate
 				};
 			}
 		}
 
 		void CopyProperties(GKUser user)
 		{
-			GkNo = user.GkNo;
 			Fio = user.Fio;
 			Password = user.Password;
 			UserType = user.UserType;
-			ExpirationDate = new DateTimePairViewModel(user.ExpirationDate);
+			ExpirationDate = user.ExpirationDate;
 		}
 		
-		ushort _gkNo;
-		public ushort GkNo
-		{
-			get { return _gkNo; }
-			set
-			{
-				_gkNo = value;
-				OnPropertyChanged(() => GkNo);
-			}
-		}
-
 		string _fio;
 		public string Fio
 		{
@@ -115,8 +102,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		DateTimePairViewModel _expirationDate;
-		public DateTimePairViewModel ExpirationDate
+		DateTime _expirationDate;
+		public DateTime ExpirationDate
 		{
 			get { return _expirationDate; }
 			set
@@ -128,14 +115,6 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			if(_isNew || (GkNo != _oldUser.GkNo))
-			{
-				if(_parentViewModel.Users.Any(x => x.User.GkNo == GkNo))
-				{
-					MessageBoxService.Show("Невозможно добавить пользователя с совпадающим номером");
-					return false;
-				}
-			}
 			if (_isNew || (Password != _oldUser.Password))
 			{
 				if (_parentViewModel.Users.Any(x => x.User.Password == Password))
@@ -146,8 +125,8 @@ namespace GKModule.ViewModels
 			}
 			_isSaved = true;
 			if (!_isNew)
-				GKManager.PmfUsers.Remove(_oldUser);
-			GKManager.PmfUsers.Add(User);
+				_parentViewModel.Pmf.PmfUsers.Remove(_oldUser);
+			_parentViewModel.Pmf.PmfUsers.Add(User);
 			ServiceFactory.SaveService.GKChanged = true;
 			return base.Save();
 		}
