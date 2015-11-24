@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using FiresecAPI.SKD;
+﻿using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {
@@ -22,8 +22,8 @@ namespace SKDModule.ViewModels
 		{
 			_isInitialized = false;
 			_changeIsDeletedSubscriber = new ChangeIsDeletedSubscriber(this);
-			ServiceFactory.Events.GetEvent<UpdateFilterEvent>().Unsubscribe(OnUpdateFilter);
-			ServiceFactory.Events.GetEvent<UpdateFilterEvent>().Subscribe(OnUpdateFilter);
+			ServiceFactoryBase.Events.GetEvent<UpdateFilterEvent>().Unsubscribe(OnUpdateFilter);
+			ServiceFactoryBase.Events.GetEvent<UpdateFilterEvent>().Subscribe(OnUpdateFilter);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings, CanShowSettings);
 			_updateOrganisationDoorsEventSubscriber = new UpdateOrganisationDoorsEventSubscriber<ScheduleViewModel>(this);
 		}
@@ -32,7 +32,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize()
 		{
-			var filter = new ScheduleFilter()
+			var filter = new ScheduleFilter
 			{
 				UserUID = FiresecManager.CurrentUser.UID,
 				LogicalDeletationType = LogicalDeletationType
@@ -107,7 +107,7 @@ namespace SKDModule.ViewModels
 		protected override void Remove()
 		{
 			var isAnyEmployees = EmployeeHelper.Get(new EmployeeFilter { ScheduleUIDs = new List<Guid> { SelectedItem.Model.UID } }).Count() != 0;
-			if (!isAnyEmployees || (isAnyEmployees && MessageBoxService.ShowQuestion("Существуют привязанные к графику сотрудники. Продолжить?")))
+			if (!isAnyEmployees || (MessageBoxService.ShowQuestion("Существуют привязанные к графику сотрудники. Продолжить?")))
 			{
 				base.Remove();
 			}
@@ -150,7 +150,7 @@ namespace SKDModule.ViewModels
 
 		void OnUpdateFilter(HRFilter hrFilter)
 		{
-			var filter = new ScheduleFilter()
+			var filter = new ScheduleFilter
 			{
 				UserUID = FiresecManager.CurrentUser.UID,
 				LogicalDeletationType = LogicalDeletationType,
@@ -163,7 +163,9 @@ namespace SKDModule.ViewModels
 		void OnShowSettings()
 		{
 			var nightSettingsViewModel = new NightSettingsViewModel(ParentOrganisation.Organisation.UID);
-			DialogService.ShowModalWindow(nightSettingsViewModel);
+
+			if (DialogService.ShowModalWindow(nightSettingsViewModel) && SelectedItem != null)
+				SelectedItem.Update();
 		}
 		bool CanShowSettings()
 		{

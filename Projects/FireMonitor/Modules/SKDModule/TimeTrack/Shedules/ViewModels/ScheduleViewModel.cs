@@ -16,8 +16,6 @@ namespace SKDModule.ViewModels
 	{
 		private bool _isInitialized;
 
-		public ScheduleViewModel() { }
-
 		public override void InitializeOrganisation(Organisation organisation, ViewPartViewModel parentViewModel)
 		{
 			base.InitializeOrganisation(organisation, parentViewModel);
@@ -36,21 +34,17 @@ namespace SKDModule.ViewModels
 
 		public void Initialize()
 		{
-			if (!_isInitialized)
+			if (_isInitialized) return;
+			_isInitialized = true;
+			if (IsOrganisation) return;
+			ScheduleZones = new SortableObservableCollection<ScheduleZoneViewModel>();
+			foreach (var employeeScheduleZone in Model.Zones)
 			{
-				_isInitialized = true;
-				if (!IsOrganisation)
-				{
-					ScheduleZones = new SortableObservableCollection<ScheduleZoneViewModel>();
-					foreach (var employeeScheduleZone in Model.Zones)
-					{
-						var scheduleZoneViewModel = new ScheduleZoneViewModel(employeeScheduleZone);
-						ScheduleZones.Add(scheduleZoneViewModel);
-					}
-					ScheduleZones.Sort(x => x.No);
-					SelectedScheduleZone = ScheduleZones.FirstOrDefault();
-				}
+				var scheduleZoneViewModel = new ScheduleZoneViewModel(employeeScheduleZone);
+				ScheduleZones.Add(scheduleZoneViewModel);
 			}
+			ScheduleZones.Sort(x => x.No);
+			SelectedScheduleZone = ScheduleZones.FirstOrDefault();
 		}
 		public override void Update()
 		{
@@ -62,19 +56,22 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
-				if (!IsOrganisation)
+				if (IsOrganisation)
 				{
-					var schemes = ScheduleSchemeHelper.Get(new ScheduleSchemeFilter()
-					{
-						OrganisationUIDs = new List<Guid>() { Organisation.UID },
-						Type = ScheduleSchemeType.Month | ScheduleSchemeType.SlideDay | ScheduleSchemeType.Week,
-						WithDays = false,
-					});
-					var scheme = schemes.FirstOrDefault(item => item.UID == Model.ScheduleSchemeUID);
-					if (scheme != null)
-					{
-						return scheme.Name + " (" + scheme.Type.ToDescription() + ")";
-					}
+					var res = NightSettingsHelper.GetByOrganisation(Organisation.UID);
+					return res == null || !res.IsNightSettingsEnabled ? null : string.Format("Ночное время с {0} до {1}", res.NightStartTime, res.NightEndTime);
+				}
+
+				var schemes = ScheduleSchemeHelper.Get(new ScheduleSchemeFilter
+				{
+					OrganisationUIDs = new List<Guid> { Organisation.UID },
+					Type = ScheduleSchemeType.Month | ScheduleSchemeType.SlideDay | ScheduleSchemeType.Week,
+					WithDays = false,
+				});
+				var scheme = schemes.FirstOrDefault(item => item.UID == Model.ScheduleSchemeUID);
+				if (scheme != null)
+				{
+					return scheme.Name + " (" + scheme.Type.ToDescription() + ")";
 				}
 				return null;
 			}

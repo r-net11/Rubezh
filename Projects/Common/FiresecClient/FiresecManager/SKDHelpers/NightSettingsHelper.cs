@@ -7,7 +7,8 @@ namespace FiresecClient.SKDHelpers
 	{
 		public static NightSettings GetByOrganisation(Guid uid)
 		{
-			return Common.ShowErrorIfExists(FiresecManager.FiresecService.GetNightSettingsByOrganisation(uid));
+			var result = FiresecManager.FiresecService.GetNightSettingsByOrganisation(uid);
+			return result.HasError ? null : result.Result;
 		}
 
 		public static bool Save(NightSettings item)

@@ -14,5 +14,8 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public TimeSpan NightEndTime { get; set; }
+
+		[DataMember]
+		public bool IsNightSettingsEnabled { get; set; }
 	}
 }

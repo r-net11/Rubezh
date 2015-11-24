@@ -7057,6 +7057,8 @@ namespace SKDDriver.DataAccess
 		
 		private long _NightEndTime;
 		
+		private bool _IsNightSettingsEnabled;
+		
 		private EntityRef<Organisation> _Organisation;
 		
     #region Extensibility Method Definitions
@@ -7071,6 +7073,8 @@ namespace SKDDriver.DataAccess
     partial void OnNightStartTimeChanged();
     partial void OnNightEndTimeChanging(long value);
     partial void OnNightEndTimeChanged();
+    partial void OnIsNightSettingsEnabledChanging(bool value);
+    partial void OnIsNightSettingsEnabledChanged();
     #endregion
 		
 		public NightSetting()
@@ -7159,6 +7163,26 @@ namespace SKDDriver.DataAccess
 					this._NightEndTime = value;
 					this.SendPropertyChanged("NightEndTime");
 					this.OnNightEndTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsNightSettingsEnabled", DbType="bit NOT NULL")]
+		public bool IsNightSettingsEnabled
+		{
+			get
+			{
+				return this._IsNightSettingsEnabled;
+			}
+			set
+			{
+				if ((this._IsNightSettingsEnabled != value))
+				{
+					this.OnIsNightSettingsEnabledChanging(value);
+					this.SendPropertyChanging();
+					this._IsNightSettingsEnabled = value;
+					this.SendPropertyChanged("IsNightSettingsEnabled");
+					this.OnIsNightSettingsEnabledChanged();
 				}
 			}
 		}

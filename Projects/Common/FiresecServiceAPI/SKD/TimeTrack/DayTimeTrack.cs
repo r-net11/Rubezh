@@ -9,6 +9,9 @@ namespace FiresecAPI.SKD
 	[DataContract]
 	public class DayTimeTrack
 	{
+		#region Fields
+		private List<NightSettings> _nighTimeSpans;
+		#endregion
 		#region Constructors
 		public DayTimeTrack()
 		{
@@ -142,7 +145,10 @@ namespace FiresecAPI.SKD
 				CombinedTimeTrackParts = TransferPresentToOvertime(CombinedTimeTrackParts, SlideTime);
 			}
 
-			CombinedTimeTrackParts = TransferNightSettings(CombinedTimeTrackParts, NightSettings);
+			if(NightSettings.IsNightSettingsEnabled)
+				CalculateNightTimeSpans(NightSettings);
+
+			CombinedTimeTrackParts = TransferNightSettings(CombinedTimeTrackParts, _nighTimeSpans);
 			CombinedTimeTrackParts = ApplyDeviationPolitics(CombinedTimeTrackParts, AllowedAbsentLowThan, AllowedEarlyLeave, AllowedLate, NotAllowOvertimeLowerThan);
 			CombinedTimeTrackParts = CorrectDocumentIntervals(CombinedTimeTrackParts, SlideTime);
 			RealTimeTrackPartsForCalculates = FillTypesForRealTimeTrackParts(RealTimeTrackPartsForCalculates, PlannedTimeTrackParts);
@@ -150,6 +156,21 @@ namespace FiresecAPI.SKD
 			Totals = GetTotalBalance(Totals);
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
 			CalculateLetterCode();
+		}
+
+		private void CalculateNightTimeSpans(NightSettings nightSettings)
+		{
+			_nighTimeSpans = new List<NightSettings>();
+
+			if (nightSettings.NightStartTime < nightSettings.NightEndTime)
+			{
+				_nighTimeSpans.Add(nightSettings);
+			}
+			else if(nightSettings.NightStartTime > nightSettings.NightEndTime)
+			{
+				_nighTimeSpans.Add(new NightSettings{NightStartTime = nightSettings.NightStartTime, NightEndTime = new TimeSpan(23, 59, 59)});
+				_nighTimeSpans.Add(new NightSettings{NightStartTime = new TimeSpan(), NightEndTime = nightSettings.NightEndTime});
+			}
 		}
 
 		private List<TimeTrackTotal> GetTotalBalance(List<TimeTrackTotal> totalCollection)
@@ -229,36 +250,58 @@ namespace FiresecAPI.SKD
 			return isApplyForAbsence || isApplyForEarlyLeave || isApplyForLate || isApplyForOverTime;
 		}
 
+		private bool IsIntersectWithNightSettings(TimeTrackPart timeTrackPart, List<NightSettings> nightSettings, out NightSettings currentNightSetting)
+		{
+			foreach (var nightSetting in nightSettings)
+			{
+				if (timeTrackPart.EnterDateTime.TimeOfDay <= nightSetting.NightEndTime
+				    && timeTrackPart.ExitDateTime.GetValueOrDefault().TimeOfDay >= nightSetting.NightStartTime)
+				{
+					currentNightSetting = nightSetting;
+					return true;
+				}
+			}
+			currentNightSetting = new NightSettings();
+			return false;
+			//if (nightSettings.NightStartTime > nightSettings.NightEndTime)
+			//{
+			//	return nightSettings.NightEndTime <= timeTrackPart.EnterDateTime.TimeOfDay
+			//	   && nightSettings.NightStartTime >= timeTrackPart.ExitDateTime.GetValueOrDefault().TimeOfDay;
+			//}
+			//return timeTrackPart.EnterDateTime.TimeOfDay <= nightSettings.NightEndTime
+			//		&& timeTrackPart.ExitDateTime.GetValueOrDefault().TimeOfDay >= nightSettings.NightStartTime;
+		}
+
 		private List<TimeTrackPart> TransferNightSettings(List<TimeTrackPart> combinedTimeTrackParts,
-			NightSettings nightSettings)
+			List<NightSettings> nightSettings)
 		{
 			if (nightSettings == null) return combinedTimeTrackParts;
 
 			var resultCollection = new List<TimeTrackPart>();
-
 			foreach (var el in combinedTimeTrackParts)
 			{
-				if (el.TimeTrackPartType == TimeTrackType.Presence
-					&& el.EnterDateTime.TimeOfDay <= nightSettings.NightEndTime
-					&& el.ExitDateTime.GetValueOrDefault().TimeOfDay >= NightSettings.NightStartTime)
+				NightSettings currentNightSetting;
+				if (el.TimeTrackPartType == TimeTrackType.Presence && IsIntersectWithNightSettings(el, nightSettings, out currentNightSetting))
+				//	&& el.EnterDateTime.TimeOfDay <= nightSettings.NightEndTime
+				//	&& el.ExitDateTime.GetValueOrDefault().TimeOfDay >= nightSettings.NightStartTime)
 				{
 					var night = new TimeTrackPart {TimeTrackPartType = TimeTrackType.Night};
 					//Вычисляем время входа нового интервала ночного времени
-					if (el.EnterDateTime.TimeOfDay <= nightSettings.NightStartTime)
+					if (el.EnterDateTime.TimeOfDay <= currentNightSetting.NightStartTime)
 					{
-						night.EnterDateTime = el.EnterDateTime.Date + nightSettings.NightStartTime;
+						night.EnterDateTime = el.EnterDateTime.Date + currentNightSetting.NightStartTime;
 					}
-					else if (el.EnterDateTime.TimeOfDay > nightSettings.NightStartTime)
+					else if (el.EnterDateTime.TimeOfDay > currentNightSetting.NightStartTime)
 					{
 						night.EnterDateTime = el.EnterDateTime;
 					}
 
 					//Вычисляем время выхода нового интервала ночного времени
-					if (el.ExitDateTime.GetValueOrDefault().TimeOfDay >= nightSettings.NightEndTime)
+					if (el.ExitDateTime.GetValueOrDefault().TimeOfDay >= currentNightSetting.NightEndTime)
 					{
-						night.ExitDateTime = el.ExitDateTime.GetValueOrDefault().Date + nightSettings.NightEndTime;
+						night.ExitDateTime = el.ExitDateTime.GetValueOrDefault().Date + currentNightSetting.NightEndTime;
 					}
-					else if (el.ExitDateTime.GetValueOrDefault().TimeOfDay < nightSettings.NightEndTime)
+					else if (el.ExitDateTime.GetValueOrDefault().TimeOfDay < currentNightSetting.NightEndTime)
 					{
 						night.ExitDateTime = el.ExitDateTime;
 					}
@@ -420,7 +463,7 @@ namespace FiresecAPI.SKD
 			{
 				TimeTrackPart timeTrackPartItem = timeTrackPart;
 
-				if (timeTrackPart.EnterDateTime.Date == Date && timeTrackPart.ExitDateTime.Value.Date > Date)
+				if (timeTrackPart.ExitDateTime != null && (timeTrackPart.EnterDateTime.Date == Date && timeTrackPart.ExitDateTime.Value.Date > Date))
 				{
 					timeTrackPartItem = new TimeTrackPart
 					{
@@ -443,7 +486,7 @@ namespace FiresecAPI.SKD
 						IsForceClosed = timeTrackPart.IsForceClosed
 					};
 				}
-				else if (timeTrackPart.EnterDateTime.Date < Date && timeTrackPart.ExitDateTime.Value.Date == Date)
+				else if (timeTrackPart.ExitDateTime != null && (timeTrackPart.EnterDateTime.Date < Date && timeTrackPart.ExitDateTime.Value.Date == Date))
 				{
 					timeTrackPartItem = new TimeTrackPart
 					{
@@ -466,7 +509,7 @@ namespace FiresecAPI.SKD
 						IsForceClosed = timeTrackPart.IsForceClosed
 					};
 				}
-				else if (timeTrackPart.EnterDateTime.Date < Date && timeTrackPart.ExitDateTime.Value.Date > Date)
+				else if (timeTrackPart.ExitDateTime != null && (timeTrackPart.EnterDateTime.Date < Date && timeTrackPart.ExitDateTime.Value.Date > Date))
 				{
 					timeTrackPartItem = new TimeTrackPart
 					{

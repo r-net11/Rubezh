@@ -1482,3 +1482,10 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsSystemColumnInTimeTrackDoc
 		ALTER TABLE [TimeTrackDocumentType] ADD [IsSystem] bit NOT NULL DEFAULT 0
 		INSERT INTO Patches (Id) VALUES ('AddIsSystemColumnInTimeTrackDocumentType')
 	END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsNightSettingsEnabledColumn')
+	BEGIN
+		ALTER TABLE [NightSettings] ADD [IsNightSettingsEnabled] bit NOT NULL DEFAULT 0
+		INSERT INTO Patches (Id) VALUES ('AddIsNightSettingsEnabledColumn')
+	END
+GO 

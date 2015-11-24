@@ -73,8 +73,8 @@ namespace SKDModule.ViewModels
 			if (!Validate())
 				return false;
 
-			DayIntervalPart.BeginTime = BeginTime > EndTime ? EndTime : BeginTime;
-			DayIntervalPart.EndTime = BeginTime > EndTime ? BeginTime : EndTime;
+			DayIntervalPart.BeginTime = BeginTime;
+			DayIntervalPart.EndTime = EndTime;
 			DayIntervalPart.TransitionType = BeginTime < EndTime ? DayIntervalPartTransitionType.Day : DayIntervalPartTransitionType.Night;
 			return true;
 		}
@@ -103,11 +103,6 @@ namespace SKDModule.ViewModels
 				var endTime = dayIntervalPart.EndTime;
 				if (dayIntervalPart.TransitionType != DayIntervalPartTransitionType.Day)
 					endTime = endTime.Add(TimeSpan.FromDays(1));
-				if (beginTime > endTime)
-				{
-					MessageBoxService.ShowWarning("Время окончания интервала должно быть позже времени начала");
-					return false;
-				}
 				if (beginTime < currentDateTime)
 				{
 					MessageBoxService.ShowWarning("Последовательность интервалов не должна быть пересекающейся");
@@ -119,11 +114,6 @@ namespace SKDModule.ViewModels
 					return false;
 				}
 				currentDateTime = beginTime;
-				if (endTime < currentDateTime)
-				{
-					MessageBoxService.ShowWarning("Начало интервала не может быть раньше его окончания");
-					return false;
-				}
 				if (endTime == currentDateTime)
 				{
 					MessageBoxService.ShowWarning("Интервал не может иметь нулевую длительность");
