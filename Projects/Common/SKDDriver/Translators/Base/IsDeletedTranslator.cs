@@ -112,7 +112,7 @@ namespace SKDDriver
 				foreach (var item in Table)
 				{
 					if (!item.IsDeleted && IsSimilarNames(item, databaseItem))
-						return new OperationResult("Существует неудалённая запись с тем названием");
+						return new OperationResult("Существует неудаленная запись с тем же названием");
 				}
 				var beforeRestoreResult = BeforeRestore(uid, databaseItem.RemovalDate);
 				if (beforeRestoreResult.HasError)

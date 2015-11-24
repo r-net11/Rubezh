@@ -10,7 +10,7 @@ namespace FiresecAPI.SKD
 		[EnumMember]
 		Holiday = 0,
 
-		[DescriptionAttribute("Сокращённый день")]
+		[DescriptionAttribute("Предпраздничный день")]
 		[EnumMember]
 		BeforeHoliday = 1,
 
