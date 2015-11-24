@@ -189,7 +189,8 @@ namespace SKDModule.ViewModels
 			{
 				if (DayTimeTrack == null || DayTimeTrack.Totals == null) return default(TimeSpan);
 				var docAbsence = DayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.DocumentAbsence);
-				return docAbsence != null ? docAbsence.TimeSpan : default(TimeSpan);
+				var docAbsenceReason = DayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.DocumentAbsenceReasonable);
+				return docAbsence + docAbsenceReason;
 			}
 		}
 
