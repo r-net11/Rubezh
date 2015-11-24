@@ -80,6 +80,7 @@
 				<File Id="Server.API.dll" Name="API.dll" Source="$(var.Server.RVIVSS)" />
 				<File Id="Server.Entities.dll" Name="Entities.dll" Source="$(var.Server.RVIVSS)" />
 				<File Id="Server.GalaSoft.MvvmLight.WPF4.dll" Name="GalaSoft.MvvmLight.WPF4.dll" Source="$(var.Server.RVIVSS)" />
+				<File Id="Server.RVI_VSS.Utils.dll" Name="RVI_VSS.Utils.dll" Source="$(var.Server.RVIVSS)" />
 				<File Id="Server.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.Server.RVIVSS)" />
 			</Component>
 
