@@ -16,6 +16,9 @@ using RubezhClient;
 using RubezhAPI.License;
 using RubezhAPI.Models;
 using System.Linq;
+using Infrastructure;
+using Infrastructure.Events;
+using System;
 namespace SKDModule
 {
 	public class SKDModuleLoader : ModuleBase, IReportProviderModule, ILayoutProviderModule, ISKDReportProviderModule
@@ -144,11 +147,21 @@ public class SKDTabItems
 		Filter.EmployeeFilter.UserUID = userUID;
 		HRViewModel = new HRViewModel(this);
 		TimeTrackingTabsViewModel = new TimeTrackingTabsViewModel(this);
+
+		ServiceFactory.Events.GetEvent<ShowJournalHREvent>().Unsubscribe(OnShowJournalHR);
+		ServiceFactory.Events.GetEvent<ShowJournalHREvent>().Subscribe(OnShowJournalHR);
 	}
 
 	public void Initialize()
 	{
 		HRViewModel.Initialize();
 		TimeTrackingTabsViewModel.Initialize();
+	}
+
+	void OnShowJournalHR(Guid uid)
+	{
+		if (HRViewModel.ShowFromJournal(uid))
+			return;
+		TimeTrackingTabsViewModel.ShowFromJournal(uid);
 	}
 }

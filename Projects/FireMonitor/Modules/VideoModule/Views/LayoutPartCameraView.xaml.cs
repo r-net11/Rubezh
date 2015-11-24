@@ -1,52 +1,52 @@
-﻿using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using MediaSourcePlayer.MediaSource;
-using System;
-using System.ComponentModel;
+﻿using System;
+using System.Net;
 using System.Windows;
+using Common;
+using MediaSourcePlayer.MediaSource;
 using VideoModule.ViewModels;
 
 namespace VideoModule.Views
 {
 	public partial class LayoutPartCameraView
 	{
-		bool isStarted;
-		public static CancelEventHandler CameraClosing { get; private set; }
 		public LayoutPartCameraView()
 		{
 			InitializeComponent();
-			Loaded += OnLoaded;
+
+			DataContextChanged += OnDataContextChanged;
+			Dispatcher.ShutdownStarted += DispatcherOnShutdownStarted;
 		}
-		private void OnClosed(object sender, EventArgs e)
-		{
-			Stop();
-		}	
-		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
-		{
-			Start();
-		}	
-		public void Start()
-		{
-			if (isStarted)
-			{
-				Stop();
-			}
-			var layoutPartCameraViewModel = DataContext as LayoutPartCameraViewModel;
-			if (layoutPartCameraViewModel != null)
-			{
-				if (layoutPartCameraViewModel.RviRTSP != null)
-				{
-					ApplicationService.Closed += OnClosed;
-					MediaSourcePlayer.Open(MediaSourceFactory.CreateFromRtspStream(layoutPartCameraViewModel.RviRTSP));
-					MediaSourcePlayer.Play();
-				}
-			}
-			isStarted = true;
-		}
-		void Stop()
+
+		private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
 		{
 			MediaSourcePlayer.Stop();
 			MediaSourcePlayer.Close();
+			var viewModel = DataContext as LayoutPartCameraViewModel;
+			if (viewModel == null)
+				return;
+			try
+			{
+				IPEndPoint ipEndPoint;
+				int vendorId;
+				if (viewModel.PrepareToTranslation(out ipEndPoint, out vendorId))
+				{
+					MediaSourcePlayer.Open(MediaSourceFactory.CreateFromTcpSocket(ipEndPoint, vendorId));
+					MediaSourcePlayer.Play();
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e);
+			}
+		}
+
+		private void DispatcherOnShutdownStarted(object sender, EventArgs eventArgs)
+		{
+			MediaSourcePlayer.Stop();
+			MediaSourcePlayer.Close();
+
+			DataContextChanged -= OnDataContextChanged;
+			Dispatcher.ShutdownStarted -= DispatcherOnShutdownStarted;
 		}
 	}
 }

@@ -12,7 +12,7 @@ namespace VideoModule.ViewModels
 			foreach (var camera in ClientManager.SystemConfiguration.Cameras)
 			{
 				var layoutPartCameraViewModel = new LayoutPartCameraViewModel();
-				layoutPartCameraViewModel.RviRTSP = camera.RviRTSP;
+				layoutPartCameraViewModel.Camera = camera;
 				LayoutPartCameraViewModels.Add(layoutPartCameraViewModel);
 			}
 		}
