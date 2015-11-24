@@ -35,13 +35,15 @@ namespace Infrastructure
 			DragDropService = new DragDropService();
 			RibbonService = new RibbonService();
 			DialogService = new MonitorDialogService();
+			MessageBoxService = new MonitorMessageBoxService();
 		}
 
 		public static SaveService SaveService { get; private set; }
 		public static ILayoutService Layout { get; private set; }
 		public static IValidationService ValidationService { get; private set; }
 		public static MenuService MenuService { get; set; }
-		public static IRibbonService RibbonService { get; private set; }
+		public static IRibbonService RibbonService { get; set; }
 		public static IDialogService DialogService { get; set; }
+		public static IMessageBoxService MessageBoxService { get; set; }
 	}
 }

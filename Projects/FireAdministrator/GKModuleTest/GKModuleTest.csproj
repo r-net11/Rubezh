@@ -44,6 +44,10 @@
       <HintPath>..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Rhino.Mocks">
+      <HintPath>..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -60,7 +64,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="FakeDialogService.cs" />
     <Compile Include="ZonesTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -68,6 +71,10 @@
     <ProjectReference Include="..\..\Common\Common\Common.csproj">
       <Project>{fe37b6d4-73e5-40f2-a770-a974561430b8}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\GKProcessor\GKProcessor.csproj">
+      <Project>{62564d14-0234-4947-8218-2c7d74721023}</Project>
+      <Name>GKProcessor</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\Infrastructure.Client\Infrastructure.Client.csproj">
       <Project>{f91017cc-7740-46f0-b86a-9fdb6e2e1edb}</Project>
@@ -97,6 +104,10 @@
       <Project>{75276eba-15d7-4f08-8239-3c40e6835cb6}</Project>
       <Name>GKModule</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

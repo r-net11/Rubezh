@@ -101,6 +101,7 @@
     <Compile Include="Events\ShowGKDeviceEvent.cs" />
     <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\ILayoutService.cs" />
+    <Compile Include="Services\IMessageBoxService.cs" />
     <Compile Include="Services\IProgressService.cs" />
     <Compile Include="Services\IValidationResult.cs" />
     <Compile Include="Services\IValidationService.cs" />
@@ -118,6 +119,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Services\MenuService.cs" />
+    <Compile Include="Services\MonitorMessageBoxService.cs" />
     <Compile Include="Services\SaveService.cs" />
     <Compile Include="ServiceFactory.cs" />
     <Compile Include="Services\MonitorDialogService.cs" />
