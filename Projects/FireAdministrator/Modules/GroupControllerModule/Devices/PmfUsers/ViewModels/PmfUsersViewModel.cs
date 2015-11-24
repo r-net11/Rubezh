@@ -27,7 +27,7 @@ namespace GKModule.ViewModels
 			WriteCommand = new RelayCommand(OnWrite);
 			ReadCommand = new RelayCommand(OnRead);
 			
-			if(pmf == null || pmf.DriverType != GKDriverType.RSR2_GKMirror)
+			if(pmf == null || pmf.DriverType != GKDriverType.GKMirror)
 			{
 				MessageBoxService.Show("Неверный тип устройства");
 				return;
