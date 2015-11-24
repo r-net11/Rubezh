@@ -22,6 +22,17 @@ namespace AutomationModule.ViewModels
 
 			Base = server;
 		}
+
+		public OpcDaServerViewModel(RubezhAPI.Automation.OpcDaServer server)
+		{
+			if (server == null)
+			{
+				throw new ArgumentNullException("server");
+			}
+
+			Base = new OpcDaServer.OpcDaServer { Id = server.Id, ServerName = server.ServerName };
+		}
+
 		#endregion
 
 		#region Fields And Properties

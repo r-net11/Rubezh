@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.ViewModels;
 using Infrastructure.Common;
+using RubezhClient;
 
 namespace AutomationModule.ViewModels
 {
@@ -17,15 +18,23 @@ namespace AutomationModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd, OnCanAdd);
 			DeleteCommand = new RelayCommand(OnDelete, OnCanDelete);
 
+			_opcDaServers = new ObservableCollection<OpcDaServerViewModel>();
+
 			// Загрузка сохранённого списка серверов
- 			// Сейчас заглушка
+			//foreach (var opcServer in ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaServers)
+			//{
+			//	var opcServerViewModel = new OpcDaServerViewModel(opcServer);
+			//}
+			
+			
+			// Сейчас заглушка
 			_opcDaServers = new ObservableCollection<OpcDaServerViewModel>(
 				OpcDaServer.OpcDaServer.GetRegistredServers()
 				.Select(serv => new OpcDaServerViewModel(serv)));
 
 			// Для отладки
-			_opcDaServers.Add(new OpcDaServerViewModel(
-				new OpcDaServer.OpcDaServer{ Id = Guid.NewGuid(), ServerName = "TestServer" }));
+			//_opcDaServers.Add(new OpcDaServerViewModel(
+			//	new OpcDaServer.OpcDaServer{ Id = Guid.NewGuid(), ServerName = "TestServer" }));
 
 			Menu = new OpcDaServersMenuViewModel(this);
 		}
@@ -74,7 +83,7 @@ namespace AutomationModule.ViewModels
 
 		private void OnAdd()
 		{
-			//TODO: создать и передать список отсутствующих в конфигурационном списке серверов
+			//Cоздаём и передаём список отсутствующих в конфигурационном списке серверов
 			var list = OpcDaServer.OpcDaServer.GetRegistredServers();
 			var notselectedServers = OpcDaServers.Count == 0 ? 
 									list.Select(x => new OpcDaServerViewModel(x)) : 
@@ -83,8 +92,8 @@ namespace AutomationModule.ViewModels
 									where rs.Id != ss.Base.Id
 									select ss;
 
-			//var addingDialog = new OpcDaServersAddingServersViewModel(OpcDaServers);
 			var addingDialog = new OpcDaServersAddingServersViewModel(notselectedServers);
+
 			if (Infrastructure.Common.Windows.DialogService.ShowModalWindow(addingDialog))
 			{
 				foreach (var server in addingDialog.SelectedServers)
@@ -92,6 +101,11 @@ namespace AutomationModule.ViewModels
 					OpcDaServers.Add(server);
 				}
 			}
+
+			//ClientManager.SystemConfiguration.AutomationConfiguration.OPCServers.Add(opcServerDetailsViewModel.OPCServer);
+			//OPCServers.Add(opcServerViewModel);
+			//SelectedOPCServer = OPCServers.FirstOrDefault();
+			//ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
 		private bool OnCanAdd()
