@@ -252,7 +252,11 @@ namespace SKDModule.ViewModels
 
 		private Guid GetFirstOrganizationUID()
 		{
-			var firstOrganizationElement = OrganisationHelper.GetByCurrentUser().FirstOrDefault();
+			var resp = OrganisationHelper.GetByCurrentUser();
+
+			if (resp == null) return Guid.Empty;
+
+			var firstOrganizationElement = resp.FirstOrDefault();
 			return firstOrganizationElement != null ? firstOrganizationElement.UID : Guid.Empty;
 		}
 

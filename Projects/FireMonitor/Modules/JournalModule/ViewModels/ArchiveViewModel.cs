@@ -47,7 +47,9 @@ namespace JournalModule.ViewModels
 		public void Initialize()
 		{
 			var result = FiresecManager.FiresecService.GetMinJournalDateTime();
-			ArchiveFirstDate = result.HasError ? DateTime.Now.AddYears(-10) : result.Result;
+			ArchiveFirstDate = result == null || result.HasError
+							? DateTime.Now.AddYears(-10)
+							: result.Result;
 		}
 
 		ObservableCollection<ArchivePageViewModel> _pages;
