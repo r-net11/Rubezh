@@ -1,15 +1,10 @@
-﻿<UserControl x:Class="StrazhModule.Views.ControllerTimeSettingsView"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 MinWidth="471" MinHeight="308">
-	<UserControl.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/Styles.xaml" />
-			</ResourceDictionary.MergedDictionaries>
-		</ResourceDictionary>
-	</UserControl.Resources>
-	<Border Background="{StaticResource BackgroundBrush}">
+﻿<UserControl
+	x:Class="StrazhModule.Views.ControllerTimeSettingsView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	MinWidth="471"
+	MinHeight="308">
+	<Border Background="{DynamicResource BackgroundBrush}">
 		<Grid Margin="10">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto"/>

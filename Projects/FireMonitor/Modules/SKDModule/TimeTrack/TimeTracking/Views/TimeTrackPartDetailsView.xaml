@@ -17,7 +17,6 @@
 	mc:Ignorable="d">
 	<UserControl.Resources>
 		<ResourceDictionary>
-			<Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 			<Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 			<SolidColorBrush x:Key="WatermarkColor" Color="LightGray"/>
 			<CollectionViewSource x:Key="cvsZones" Source="{Binding Zones}">
@@ -193,7 +192,7 @@
 					BorderThickness="1"
 					CornerRadius="3"
 					Opacity="0.8"
-					BorderBrush="{StaticResource BaseWindowBackgroundBrush}"
+					BorderBrush="{DynamicResource BaseWindowBackgroundBrush}"
 					Background="LightCoral"
 					Padding="0">
 					<Border.Style>

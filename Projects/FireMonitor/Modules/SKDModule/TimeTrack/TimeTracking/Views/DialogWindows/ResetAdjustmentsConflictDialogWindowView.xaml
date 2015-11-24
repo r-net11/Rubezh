@@ -13,14 +13,13 @@
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
 				<ResourceDictionary Source="pack://application:,,,/Controls;component/XamlImages/Help.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</UserControl.Resources>
     <Grid
 		Language="ru-RU"
-		Background="{StaticResource BaseWindowBackgroundBrush}">
+		Background="{DynamicResource BaseWindowBackgroundBrush}">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="0.2*" />
 			<ColumnDefinition />

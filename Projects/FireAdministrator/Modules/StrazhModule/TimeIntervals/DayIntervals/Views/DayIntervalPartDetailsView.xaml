@@ -5,14 +5,7 @@
 	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 	Width="500"
 	Height="200">
-	<UserControl.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
-			</ResourceDictionary.MergedDictionaries>
-		</ResourceDictionary>
-	</UserControl.Resources>
-	<Border Background="{StaticResource BackgroundBrush}">
+	<Border Background="{DynamicResource BackgroundBrush}">
 		<Grid Margin="10">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
