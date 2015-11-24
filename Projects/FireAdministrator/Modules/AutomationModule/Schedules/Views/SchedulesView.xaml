@@ -124,7 +124,7 @@
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
 					<StackPanel Orientation="Horizontal" Margin="5 0 0 0">
-						<TextBlock Text="Задать период" Style="{DynamicResource TextBlockDetailsStyle}" Margin="5" VerticalAlignment="Top" />
+						<TextBlock Text="Периодичность" Style="{DynamicResource TextBlockDetailsStyle}" Margin="5" VerticalAlignment="Top" />
 						<CheckBox IsChecked="{Binding IsPeriodSelected}" Margin="5" />
 					</StackPanel>
 					<StackPanel Orientation="Vertical">
