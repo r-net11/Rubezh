@@ -1,5 +1,4 @@
-﻿using Infrastructure;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Automation;
 using System.Collections.ObjectModel;
 using RubezhClient;
@@ -12,12 +11,16 @@ namespace AutomationModule.ViewModels
 {
 	public class ProcedureLayoutCollectionViewModel : BaseViewModel
 	{
+		static LayoutModel _noLayout = new LayoutModel { Caption = "<Без макетов>", UID = LayoutModel.NoLayoutUID };
+		public static LayoutModel NoLayout { get { return _noLayout; } }
 		public ProcedureLayoutCollection ProcedureLayoutCollection { get; private set; }
 
 		public ProcedureLayoutCollectionViewModel(ProcedureLayoutCollection procedureLayoutCollection)
 		{
 			ProcedureLayoutCollection = procedureLayoutCollection;
 			Layouts = new ObservableCollection<LayoutViewModel>();
+			if (procedureLayoutCollection.LayoutsUIDs.Contains(LayoutModel.NoLayoutUID))
+				Layouts.Add(new LayoutViewModel(NoLayout));
 			foreach (var layoutUID in procedureLayoutCollection.LayoutsUIDs)
 			{
 				var layout = ClientManager.LayoutsConfiguration.Layouts.FirstOrDefault(x => x.UID == layoutUID);

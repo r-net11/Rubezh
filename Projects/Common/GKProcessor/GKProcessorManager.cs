@@ -567,6 +567,14 @@ namespace GKProcessor
 				{
 					journalObjectType = JournalObjectType.GKDoor;
 				}
+				if (gkBase is GKMPT)
+				{
+					journalObjectType = JournalObjectType.GKMPT;
+				}
+				if (gkBase is GKPumpStation)
+				{
+					journalObjectType = JournalObjectType.GKPumpStation;
+				}
 			}
 			
 			var journalItem = new JournalItem
