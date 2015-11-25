@@ -67,17 +67,17 @@ namespace RubezhAPI.GK
 				Zones = zones;
 				ZoneUIDs = zoneUIDs;
 			}
-			//if (Driver.HasGuardZone)
-			//{
-			//	var guardZones = new List<GKGuardZone>();
+			if (Driver.HasGuardZone)
+			{
+				var guardZones = new List<GKGuardZone>();
 
-			//	foreach (var guardZone in deviceConfiguration.GuardZones.Where(x => GuardZones.Any(y=> y.UID == x.UID)))
-			//	{
-			//			guardZones.Add(guardZone);
-			//			AddDependentElement(guardZone);
-			//	}
-			//	GuardZones = guardZones;
-			//}
+				foreach (var guardZone in deviceConfiguration.GuardZones.Where(x => x.GuardZoneDevices.Any(y=> y.DeviceUID ==UID)))
+				{
+					guardZones.Add(guardZone);
+					AddDependentElement(guardZone);
+				}
+				GuardZones = guardZones;
+			}
 		}
 
 		public override void UpdateLogic(GKDeviceConfiguration deviceConfiguration)

@@ -19,10 +19,12 @@ namespace FireMonitor.Layout
 		private Guid? _layoutID;
 		private RubezhAPI.Models.Layouts.Layout _layout;
 		private MonitorLayoutShellViewModel _monitorLayoutShellViewModel;
-
+		public delegate void Change(RubezhAPI.Models.Layouts.Layout layout);
+		public static Change ChangeLayout{get;set;}
 		public Bootstrapper()
 		{
 			_layout = null;
+			ChangeLayout = CahngeLayout;
 		}
 
 		protected override bool Run()
@@ -129,6 +131,11 @@ namespace FireMonitor.Layout
 				x.DescriptionUID == LayoutPartIdentities.CameraVideo ||
 				x.DescriptionUID == LayoutPartIdentities.MultiCamera
 				));
+		}
+
+		void CahngeLayout(RubezhAPI.Models.Layouts.Layout layout)
+		{
+			_layout = layout;
 		}
 	}
 }

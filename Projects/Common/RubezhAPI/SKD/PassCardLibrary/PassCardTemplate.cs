@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Common;
+using Infrustructure.Plans.Elements;
+using RubezhAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Windows.Media;
-using Common;
-using RubezhAPI.Models;
-using Infrustructure.Plans.Elements;
 
 namespace RubezhAPI.SKD
 {
@@ -53,6 +53,8 @@ namespace RubezhAPI.SKD
 		public Color BackgroundColor { get; set; }
 		[DataMember]
 		public Guid? BackgroundImageSource { get; set; }
+		[DataMember]
+		public Guid? BackgroundSVGImageSource { get; set; }
 		[DataMember]
 		public string BackgroundSourceName { get; set; }
 		[DataMember]

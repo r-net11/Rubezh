@@ -67,6 +67,7 @@ namespace FiresecService.Service
 				}
 			}
 			ClientsManager.Remove(uid);
+			Logger.Info("Bug catching (RG-362). FiresecService.Disconnect");
 		}
 
 		public OperationResult<ServerState> GetServerState()

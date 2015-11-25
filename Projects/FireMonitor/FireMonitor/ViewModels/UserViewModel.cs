@@ -11,8 +11,10 @@ namespace FireMonitor.ViewModels
 {
 	public class UserViewModel : BaseViewModel
 	{
-		public UserViewModel()
+		Bootstrapper botstrapper;
+		public UserViewModel(Bootstrapper botstrapper)
 		{
+			this.botstrapper = botstrapper;
 			ChangeUserCommand = new RelayCommand(OnChangeUser);
 		}
 
@@ -24,7 +26,7 @@ namespace FireMonitor.ViewModels
 		public RelayCommand ChangeUserCommand { get; private set; }
 		void OnChangeUser()
 		{
-			var changeUserViewModel = new ChangeUserViewModel();
+			var changeUserViewModel = new ChangeUserViewModel(botstrapper);
 			DialogService.ShowModalWindow(changeUserViewModel);	
 		}
 	}
