@@ -1,4 +1,5 @@
-﻿using FiresecAPI.SKD;
+﻿using System;
+using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using System.Data;
@@ -58,7 +59,7 @@ namespace FiresecService.Report.Templates
 						if (dayTimeTrack.RealTimeTrackParts.Count > 0)
 						{
 							dataRow.FirstEnter = dayTimeTrack.RealTimeTrackParts.Min(x => x.EnterDateTime.TimeOfDay);
-							dataRow.LastExit = dayTimeTrack.RealTimeTrackParts.Where(x => x.ExitDateTime.HasValue).Max(x => x.ExitDateTime.Value.TimeOfDay);
+							dataRow.LastExit = dayTimeTrack.RealTimeTrackParts.Where(x => x.ExitDateTime.HasValue).Select(x => x.ExitDateTime).DefaultIfEmpty().Max().GetValueOrDefault().TimeOfDay;
 						}
 
 						var absence = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Absence);

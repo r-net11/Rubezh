@@ -55,8 +55,7 @@ namespace FiresecService.Report.Templates
 				filter.ZoneOut = true;
 			}
 
-			var cardFilter = new CardFilter();
-			cardFilter.EmployeeFilter = dataProvider.GetCardEmployeeFilter(filter);
+			var cardFilter = new CardFilter {EmployeeFilter = dataProvider.GetCardEmployeeFilter(filter)};
 			if (filter.PassCardForcing)
 				cardFilter.CardTypes.Add(CardType.Duress);
 			if (filter.PassCardLocked)
@@ -96,18 +95,15 @@ namespace FiresecService.Report.Templates
 					}
 				}
 
-				Dictionary<int, string> intervalMap = new Dictionary<int, string>();
-				foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
-				{
-					intervalMap.Add(interval.ID, interval.Name);
-				}
+				var intervalMap = SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals
+								.ToDictionary(interval => interval.ID, interval => interval.Name);
 
 				foreach (var card in cardsResult.Result)
 				{
 					IEnumerable<CardDoor> cardDoors = card.CardDoors;
 					if (!accessTemplates.HasError && card.AccessTemplateUID.HasValue && card.AccessTemplateUID.Value != Guid.Empty)
 					{
-						var accessTemplate = accessTemplates.Result.FirstOrDefault(item => item.UID == card.AccessTemplateUID.Value);
+						var accessTemplate = accessTemplates.Result.FirstOrDefault(item => card.AccessTemplateUID != null && item.UID == card.AccessTemplateUID.Value);
 						var cardDoorUIDs = card.CardDoors.Select(item => item.DoorUID);
 						if (accessTemplate != null)
 							cardDoors = cardDoors.Union(accessTemplate.CardDoors.Where(item => !cardDoorUIDs.Contains(item.DoorUID)));
