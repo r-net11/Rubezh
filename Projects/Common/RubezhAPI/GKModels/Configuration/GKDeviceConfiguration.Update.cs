@@ -409,7 +409,7 @@ namespace RubezhAPI.GK
 
 		public void UpdateGKPredefinedName(GKDevice device)
 		{
-			if (device.DriverType == GKDriverType.GK || device.DriverType == GKDriverType.RSR2_GKMirror)
+			if (device.DriverType == GKDriverType.GK || device.DriverType == GKDriverType.GKMirror)
 			{
 				var indicatorsGroupDevice = device.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicatorsGroup);
 				var relaysGroupDevice = device.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKRelaysGroup);
