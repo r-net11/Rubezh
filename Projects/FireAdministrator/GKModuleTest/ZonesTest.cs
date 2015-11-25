@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GKModule.ViewModels;
 using Infrastructure;
 using GKModule.Plans;
@@ -14,10 +13,11 @@ using RubezhAPI.Models;
 using System.Collections.Generic;
 using GKProcessor;
 using Infrastructure.Common.Services.Ribbon;
+using NUnit.Framework;
 
 namespace GKModuleTest
 {
-	[TestClass]
+	[TestFixture]
 	public class ZonesTest
 	{
 		delegate bool ShowModalWindowDelegate(WindowBaseViewModel windowBaseViewModel);
@@ -31,7 +31,7 @@ namespace GKModuleTest
 		GKDevice kauDevice21;
 		GKDevice kauDevice22;
 
-		[TestInitialize]
+		[SetUp]
 		public void CreateConfiguration()
 		{
 			GKManager.DeviceConfiguration = new GKDeviceConfiguration();
@@ -58,7 +58,7 @@ namespace GKModuleTest
 		/// <summary>
 		/// В список зоно можно добавить зону и она добавится в конфигурацию
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void Add()
 		{
 			var mockRepository = new MockRepository();
@@ -79,6 +79,8 @@ namespace GKModuleTest
 			ServiceFactory.Initialize(null, null);
 			ServiceFactory.DialogService = dialogService;
 			ServiceFactory.MessageBoxService = messageBoxService;
+			ServiceFactory.MenuService = new MenuService(x => { ;});
+			ServiceFactory.RibbonService = mockRepository.StrictMock<IRibbonService>();
 			var gkPlanExtension = new GKPlanExtension(null, null, null, null, null, null, null, null);
 
 			var zonesViewModel = new ZonesViewModel();
@@ -96,13 +98,13 @@ namespace GKModuleTest
 			Assert.IsTrue(zonesViewModel.DeleteCommand.CanExecute(null));
 			zonesViewModel.DeleteCommand.Execute();
 			Assert.IsTrue(zonesViewModel.Zones.Count == 0);
-			Assert.IsTrue(GKManager.Zones.Count == 1);
+			Assert.IsTrue(GKManager.Zones.Count == 0);
 		}
 
 		/// <summary>
 		/// Если нет ни одной зоны, то список доступных устройств пуст
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void AddDeviceToNoZone()
 		{
 			var mockRepository = new MockRepository();
@@ -113,6 +115,8 @@ namespace GKModuleTest
 			ServiceFactory.Initialize(null, null);
 			ServiceFactory.DialogService = dialogService;
 			ServiceFactory.MessageBoxService = messageBoxService;
+			ServiceFactory.MenuService = new MenuService(x => { ;});
+			ServiceFactory.RibbonService = mockRepository.StrictMock<IRibbonService>();
 			var gkPlanExtension = new GKPlanExtension(null, null, null, null, null, null, null, null);
 
 			AddDevice(kauDevice11, GKDriverType.RSR2_SmokeDetector);
@@ -130,7 +134,7 @@ namespace GKModuleTest
 		/// <summary>
 		/// Если есть зона и извещательные устройства, по устройство можно добавить в зону и при этом изменится конфигурация
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void AddDeviceToZone()
 		{
 			var mockRepository = new MockRepository();
