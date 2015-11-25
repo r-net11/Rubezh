@@ -64,6 +64,14 @@
 		<Views:DelaySelectionView />
 	</DataTemplate>
 	
+	<DataTemplate DataType="{x:Type ViewModels:PumpStationSelectionViewModel}">
+		<Views:PumpStationSelectionView />
+	</DataTemplate>
+	
+	<DataTemplate DataType="{x:Type ViewModels:MPTSelectionViewModel}">
+		<Views:MPTSelectionView />
+	</DataTemplate>
+	
 	<DataTemplate DataType="{x:Type ViewModels:DirectionSelectionViewModel}">
 		<Views:DirectionSelectionView />
 	</DataTemplate>
@@ -150,6 +158,14 @@
 
 	<DataTemplate x:Key="controlDelayTemplate">
 		<Views:ControlDelayStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="controlPumpStationTemplate">
+		<Views:ControlPumpStationStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="controlMPTTemplate">
+		<Views:ControlMPTStepView />
 	</DataTemplate>
 
 	<DataTemplate x:Key="getObjectPropertyTemplate">
@@ -266,6 +282,8 @@
 										 ControlGKDeviceTemplate="{StaticResource controlGKDeviceTemplate}"
 										 ControlGKFireZoneTemplate="{StaticResource controlGKFireZoneTemplate}"
 										 ControlGKGuardZoneTemplate="{StaticResource controlGKGuardZoneTemplate}"
+										 ControlPumpStationTemplate="{StaticResource controlPumpStationTemplate}"
+										 ControlMPTTemplate="{StaticResource controlMPTTemplate}"
 										 ControlPlanTemplate="{StaticResource controlPlanTemplate}"
 										 ControlVisualTemplate="{StaticResource controlVisualTemplate}"
 										 FindObjectTemplate="{StaticResource findObjectTemplate}"

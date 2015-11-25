@@ -88,6 +88,16 @@ namespace RubezhClient
 			SafeContext.Execute(() => FiresecService.ControlDelay(uid, commandType));
 		}
 
+		public void ControlPumpStation(Guid uid, PumpStationCommandType commandType)
+		{
+			SafeContext.Execute(() => FiresecService.ControlPumpStation(uid, commandType));
+		}
+
+		public void ControlMPT(Guid uid, MPTCommandType commandType)
+		{
+			SafeContext.Execute(() => FiresecService.ControlMPT(uid, commandType));
+		}
+
 		public void ExportJournal(bool isExportJournal, bool isExportPassJournal, DateTime minDate, DateTime maxDate, string path)
 		{
 			SafeContext.Execute(() => FiresecService.ExportJournalA(isExportJournal, isExportPassJournal, minDate, maxDate, path));

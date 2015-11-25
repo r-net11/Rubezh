@@ -340,23 +340,8 @@ namespace Infrastructure.Automation
 
 		Guid GetObjectUid(object item)
 		{
-			if (item is GKDevice)
-				return (item as GKDevice).UID;
-
-			if (item is GKDelay)
-				return (item as GKDelay).UID;
-			
-			if (item is GKZone)
-				return (item as GKZone).UID;
-
-			if (item is GKDirection)
-				return (item as GKDirection).UID;
-
-			if (item is GKDoor)
-				return (item as GKDoor).UID;
-
-			if (item is GKGuardZone)
-				return (item as GKGuardZone).UID;
+			if (item is ModelBase)
+				return (item as ModelBase).UID;
 
 			if (item is RubezhAPI.SKD.Organisation)
 				return (item as RubezhAPI.SKD.Organisation).UID;
@@ -558,6 +543,76 @@ namespace Infrastructure.Automation
 				}
 			}
 
+			if (item is GKPumpStation)
+			{
+				var gkPumpStation = item as GKPumpStation;
+				switch (property)
+				{
+					case Property.Name:
+						propertyValue = gkPumpStation.Name.Trim();
+						break;
+					case Property.No:
+						propertyValue = gkPumpStation.No;
+						break;
+					case Property.Delay:
+						propertyValue = gkPumpStation.Delay;
+						break;
+					case Property.CurrentDelay:
+						propertyValue = gkPumpStation.State.OnDelay;
+						break;
+					case Property.State:
+						propertyValue = (int)gkPumpStation.State.StateClass;
+						break;
+					case Property.Hold:
+						propertyValue = gkPumpStation.Hold;
+						break;
+					case Property.CurrentHold:
+						propertyValue = gkPumpStation.State.HoldDelay;
+						break;
+					case Property.Description:
+						propertyValue = gkPumpStation.Description == null ? "" : gkPumpStation.Description.Trim();
+						break;
+					case Property.Uid:
+						propertyValue = gkPumpStation.UID.ToString();
+						break;
+				}
+			}
+
+			if (item is GKMPT)
+			{
+				var gkMPT = item as GKMPT;
+				switch (property)
+				{
+					case Property.Name:
+						propertyValue = gkMPT.Name.Trim();
+						break;
+					case Property.No:
+						propertyValue = gkMPT.No;
+						break;
+					case Property.Delay:
+						propertyValue = gkMPT.Delay;
+						break;
+					case Property.CurrentDelay:
+						propertyValue = gkMPT.State.OnDelay;
+						break;
+					case Property.State:
+						propertyValue = (int)gkMPT.State.StateClass;
+						break;
+					case Property.Hold:
+						propertyValue = gkMPT.Hold;
+						break;
+					case Property.CurrentHold:
+						propertyValue = gkMPT.State.HoldDelay;
+						break;
+					case Property.Description:
+						propertyValue = gkMPT.Description == null ? "" : gkMPT.Description.Trim();
+						break;
+					case Property.Uid:
+						propertyValue = gkMPT.UID.ToString();
+						break;
+				}
+			}
+
 			if (item is Camera)
 			{
 				var camera = item as Camera;
@@ -610,6 +665,10 @@ namespace Infrastructure.Automation
 					return new List<Camera>(ProcedureExecutionContext.SystemConfiguration.Cameras);
 				case ObjectType.Zone:
 					return new List<GKZone>(GKManager.DeviceConfiguration.Zones);
+				case ObjectType.PumpStation:
+					return new List<GKPumpStation>(GKManager.DeviceConfiguration.PumpStations);
+				case ObjectType.MPT:
+					return new List<GKMPT>(GKManager.DeviceConfiguration.MPTs);
 				case ObjectType.Organisation:
 					return new List<Organisation>(ProcedureExecutionContext.GetOrganisations());
 			}
@@ -641,6 +700,14 @@ namespace Infrastructure.Automation
 			var delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == itemUid);
 			if (delay != null)
 				return delay;
+
+			var pumpStation = GKManager.DeviceConfiguration.PumpStations.FirstOrDefault(x => x.UID == itemUid);
+			if (pumpStation != null)
+				return pumpStation;
+
+			var mpt = GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == itemUid);
+			if (mpt != null)
+				return mpt;
 			
 			var door = GKManager.Doors.FirstOrDefault(x => x.UID == itemUid);
 			if (door != null)
@@ -863,6 +930,20 @@ namespace Infrastructure.Automation
 			var delayUid = GetValue<Guid>(procedureStep.ControlDelayArguments.DelayArgument);
 			var delayCommandType = procedureStep.ControlDelayArguments.DelayCommandType;
 			ProcedureExecutionContext.ControlDelay(delayUid, delayCommandType);
+		}
+
+		void ControlPumpStation(ProcedureStep procedureStep)
+		{
+			var pumpStationUid = GetValue<Guid>(procedureStep.ControlPumpStationArguments.PumpStationArgument);
+			var pumpStationCommandType = procedureStep.ControlPumpStationArguments.PumpStationCommandType;
+			ProcedureExecutionContext.ControlPumpStation(pumpStationUid, pumpStationCommandType);
+		}
+
+		void ControlMPT(ProcedureStep procedureStep)
+		{
+			var mptUid = GetValue<Guid>(procedureStep.ControlMPTArguments.MPTArgument);
+			var mptCommandType = procedureStep.ControlMPTArguments.MPTCommandType;
+			ProcedureExecutionContext.ControlMPT(mptUid, mptCommandType);
 		}
 
 		void Pause(ProcedureStep procedureStep)

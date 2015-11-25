@@ -106,6 +106,12 @@ namespace RubezhAPI.Automation
 		[DescriptionAttribute("Управление задержкой")]
 		ControlDelay,
 
+		[DescriptionAttribute("Управление насосной станцией")]
+		ControlPumpStation,
+
+		[DescriptionAttribute("Управление МПТ")]
+		ControlMPT,
+
 		[DescriptionAttribute("Чтение свойства визуального элемента")]
 		ControlVisualGet,
 
