@@ -125,6 +125,7 @@
 	{
 		svg.append("svg:path")
             .attr("d", item.Path)
+			.attr("shape-rendering", "geometricPrecision") // Установка качественной отрисовки принудительно
             .style("stroke-width", item.BorderThickness)
             .style("stroke", 'rgba(' + item.Border.R + ',' + item.Border.G + ',' + item.Border.B + ',' + item.Border.A + ')')
             .style("fill", 'rgba(' + item.Fill.R + ',' + item.Fill.G + ',' + item.Fill.B + ',' + item.Fill.A + ')')

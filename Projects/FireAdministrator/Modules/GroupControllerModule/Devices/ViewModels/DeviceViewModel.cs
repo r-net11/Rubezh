@@ -55,6 +55,7 @@ namespace GKModule.ViewModels
 			GenerateMPTCommand = new RelayCommand(GenerateMPTs);
 			ShowAccessUserReflectionCommand = new RelayCommand(ShowAccessUserReflection);
 			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
+			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
 			PmfUsersCommand = new RelayCommand(OnPmfUsers, CanPmfUsers);
 
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
@@ -714,7 +715,6 @@ namespace GKModule.ViewModels
 					if (DialogService.ShowModalWindow(guardZonesSelectationViewModel))
 					{
 						GKManager.ChangeDeviceGuardZones(Device, guardZonesSelectationViewModel.DeviceGuardZones.Select(x => x.DeviceGuardZone).ToList());
-						Device.ChangedLogic();
 					}
 				}
 			}
@@ -1016,6 +1016,7 @@ namespace GKModule.ViewModels
 			{
 				Device.Logic = GKManager.PasteLogic(new GKAdvancedLogic(hasOnClause, hasOnNowClause, hasOffClause, hasOffNowClause, hasStopClause));
 				Device.Invalidate(GKManager.DeviceConfiguration);
+				Device.OnChanged();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

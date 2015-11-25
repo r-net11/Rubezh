@@ -21,7 +21,6 @@ using Infrustructure.Plans.Elements;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhClient;
-using FontStyle = System.Windows.FontStyle;
 using Point = System.Windows.Point;
 using Size = System.Drawing.Size;
 
@@ -113,19 +112,61 @@ namespace GKWebService.Models
 			var fontFamily = new System.Windows.Media.FontFamily(item.FontFamilyName);
 			var fontStyle = item.FontItalic ? FontStyles.Italic : FontStyles.Normal;
 			var fontWeight = item.FontBold ? FontWeights.Bold : FontWeights.Normal;
-            FormattedText text = new FormattedText(item.Text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, new Typeface(fontFamily, fontStyle, fontWeight, FontStretches.Normal), item.FontSize, new SolidColorBrush(item.ForegroundColor));
+			var text = new FormattedText(
+				item.Text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
+				new Typeface(fontFamily, fontStyle, fontWeight, FontStretches.Normal), item.FontSize, new SolidColorBrush(item.ForegroundColor)) {
+					Trimming = TextTrimming.WordEllipsis,
+					MaxLineCount = item.WordWrap ? int.MaxValue : 1
+				};
+			// Делаем первый рендер без трансформаций
+			var pathGeometry = text.BuildGeometry(new Point(item.Left + item.BorderThickness, item.Top + item.BorderThickness));
+			// Добавляем Scale-трансформацию, если включен Stretch, либо Translate-трансформацию
+			if (item.Stretch) {
+				var scaleFactorX = (item.Width - item.BorderThickness * 2) / text.Width;
+				var scaleFactorY = (item.Height - item.BorderThickness * 2) / text.Height;
+				pathGeometry.Transform = new ScaleTransform(
+					scaleFactorX, scaleFactorY, item.Left + item.BorderThickness, item.Top + item.BorderThickness);
+			}
+			else {
+				double offsetX = 0;
+				double offsetY = 0;
+				switch (item.TextAlignment) {
+					case 1: {
+						offsetX = item.Width - item.BorderThickness * 2 - text.Width;
+						break;
+					}
+					case 2: {
+						offsetX = (item.Width - item.BorderThickness * 2 - text.Width) / 2;
+						break;
+					}
+				}
+				switch (item.VerticalAlignment) {
+					case 1: {
+						offsetY = (item.Height - item.BorderThickness * 2 - text.Height) / 2;
+						break;
+					}
+					case 2: {
+						offsetY = item.Height - item.BorderThickness * 2 - text.Height;
+						break;
+					}
+				}
+
+				pathGeometry.Transform = new TranslateTransform(offsetX, offsetY);
+			}
+			// Делаем финальный рендер
+			var path = pathGeometry.GetFlattenedPathGeometry().ToString(CultureInfo.InvariantCulture).Substring(2);
+
 			var shape = new PlanElement {
-				Path = text.BuildGeometry(new Point(item.Left, item.Top)).GetFlattenedPathGeometry().ToString(CultureInfo.InvariantCulture).Substring(2),
+				Path = path,
 				Border = InernalConverter.ConvertColor(Colors.Transparent),
 				Fill = InernalConverter.ConvertColor(item.ForegroundColor),
 				Name = item.PresentationName,
 				Id = item.UID,
 				Hint = GetElementHint(item),
-				BorderThickness = item.BorderThickness,
+				BorderThickness = 0,
 				Type = ShapeTypes.Path.ToString()
 			};
 			return shape;
-
 		}
 
 		public static PlanElement FromDevice(ElementGKDevice item) {
@@ -165,25 +206,25 @@ namespace GKWebService.Models
 				return;
 			}
 
-            // Получаем названия для состояний
-		    string[] stateClasses = new string[state.StateClasses.Count];
-		    for (int index = 0; index < state.StateClasses.Count; index++) {
-		        XStateClass stateClass = state.StateClasses[index];
-		        stateClasses[index] = InernalConverter.GetStateClassName(stateClass);
-		    }
+			// Получаем названия для состояний
+			var stateClasses = new string[state.StateClasses.Count];
+			for (var index = 0; index < state.StateClasses.Count; index++) {
+				var stateClass = state.StateClasses[index];
+				stateClasses[index] = InernalConverter.GetStateClassName(stateClass);
+			}
 
-            // Собираем обновление для передачи
-		    var statusUpdate = new {
+			// Собираем обновление для передачи
+			var statusUpdate = new {
 				Id = state.UID,
 				Picture = pic,
 				StateClass = InernalConverter.GetStateClassName(state.StateClass),
-                StateClasses = stateClasses,
+				StateClasses = stateClasses,
 				state.AdditionalStates
 			};
 			PlansUpdater.Instance.UpdateDeviceState(statusUpdate);
 		}
 
-	    private static string GetDeviceStatePic(GKDevice device) {
+		private static string GetDeviceStatePic(GKDevice device) {
 			var deviceConfig =
 				GKManager.DeviceLibraryConfiguration.GKDevices.FirstOrDefault(d => d.DriverUID == device.DriverUID);
 			if (deviceConfig == null) {
@@ -216,7 +257,10 @@ namespace GKWebService.Models
 					}
 					var pngBitmap = getBitmapTask.Result;
 					var img = new MagickImage(pngBitmap) {
-						AnimationDelay = frame.Duration / 10, HasAlpha = true, AlphaColor = MagickColor.Transparent, BackgroundColor = MagickColor.Transparent
+						AnimationDelay = frame.Duration / 10,
+						HasAlpha = true,
+						AlphaColor = MagickColor.Transparent,
+						BackgroundColor = MagickColor.Transparent
 					};
 					collection.Add(img);
 				}
@@ -282,7 +326,7 @@ namespace GKWebService.Models
 		//}
 
 		private static ElementHint GetElementHint(ElementBase element) {
-            var hint = new ElementHint();
+			var hint = new ElementHint();
 
 			var asZone = element as IElementZone;
 			if (asZone != null) {
@@ -291,7 +335,7 @@ namespace GKWebService.Models
 					var zone = GKManager.Zones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
 					if (zone != null) {
 						if (zone.PresentationName != null) {
-                            hint.StateHintLines.Add(new HintLine(){Text = zone.PresentationName});
+							hint.StateHintLines.Add(new HintLine { Text = zone.PresentationName });
 						}
 					}
 				}
@@ -300,7 +344,7 @@ namespace GKWebService.Models
 					var zone = GKManager.GuardZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
 					if (zone != null) {
 						if (zone.PresentationName != null) {
-							hint.StateHintLines.Add(new HintLine(){Text = zone.PresentationName});
+							hint.StateHintLines.Add(new HintLine { Text = zone.PresentationName });
 						}
 					}
 				}
@@ -309,7 +353,7 @@ namespace GKWebService.Models
 					var zone = GKManager.SKDZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
 					if (zone != null) {
 						if (zone.PresentationName != null) {
-							hint.StateHintLines.Add(new HintLine(){Text = zone.PresentationName});
+							hint.StateHintLines.Add(new HintLine { Text = zone.PresentationName });
 						}
 					}
 				}
@@ -319,7 +363,7 @@ namespace GKWebService.Models
 				var mpt = GKManager.MPTs.FirstOrDefault(m => m.UID == asMpt.MPTUID);
 				if (mpt != null) {
 					if (mpt.PresentationName != null) {
-						hint.StateHintLines.Add(new HintLine(){Text = mpt.PresentationName});
+						hint.StateHintLines.Add(new HintLine { Text = mpt.PresentationName });
 					}
 				}
 			}
@@ -328,7 +372,7 @@ namespace GKWebService.Models
 				var delay = GKManager.Delays.FirstOrDefault(m => m.UID == asDelay.DelayUID);
 				if (delay != null) {
 					if (delay.PresentationName != null) {
-						hint.StateHintLines.Add(new HintLine(){Text = delay.PresentationName});
+						hint.StateHintLines.Add(new HintLine { Text = delay.PresentationName });
 					}
 				}
 			}
@@ -338,7 +382,7 @@ namespace GKWebService.Models
 					d => d.UID == asDirection.DirectionUID);
 				if (direction != null) {
 					if (direction.PresentationName != null) {
-						hint.StateHintLines.Add(new HintLine(){Text = direction.PresentationName});
+						hint.StateHintLines.Add(new HintLine { Text = direction.PresentationName });
 					}
 				}
 			}
@@ -348,7 +392,7 @@ namespace GKWebService.Models
 					d => d.UID == asDevice.DeviceUID);
 				if (device != null
 				    && device.PresentationName != null) {
-					hint.StateHintLines.Add(new HintLine {Text = device.PresentationName, Icon = GetElementHintIcon(asDevice).Item1});
+					hint.StateHintLines.Add(new HintLine { Text = device.PresentationName, Icon = GetElementHintIcon(asDevice).Item1 });
 				}
 			}
 			return hint;
@@ -357,8 +401,8 @@ namespace GKWebService.Models
 		private static Tuple<string, Size> GetElementHintIcon(ElementBasePoint item) {
 			var imagePath = string.Empty;
 
-		    var gkDevice = item as ElementGKDevice;
-		    if (gkDevice != null) {
+			var gkDevice = item as ElementGKDevice;
+			if (gkDevice != null) {
 				var device =
 					GKManager.Devices.FirstOrDefault(d => d.UID == gkDevice.DeviceUID);
 				if (device == null) {
@@ -376,8 +420,8 @@ namespace GKWebService.Models
 					deviceConfig.States.FirstOrDefault(s => s.StateClass == XStateClass.No);
 				imagePath = device.ImageSource.Replace("/Controls;component/", "");
 			}
-		    var gkDoor = item as ElementGKDoor;
-		    if (gkDoor != null) {
+			var gkDoor = item as ElementGKDoor;
+			if (gkDoor != null) {
 				var door =
 					GKManager.Doors.FirstOrDefault(d => d.UID == gkDoor.DoorUID);
 				if (door == null) {
@@ -428,7 +472,5 @@ namespace GKWebService.Models
 
 			return new Tuple<string, Size>(Convert.ToBase64String(byteArray), value1.Size);
 		}
-
-		
 	}
 }
