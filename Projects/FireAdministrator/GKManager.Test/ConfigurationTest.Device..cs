@@ -140,6 +140,7 @@ namespace GKManager2.Test
 		public void RemoveDeviceTestLogicForMptNsDoor()
 		{
 			var device = AddDevice(kauDevice11, GKDriverType.RSR2_AM_1);
+			var device2 = AddDevice(kauDevice11, GKDriverType.RSR2_AM_1);
 			GKManager.UpdateConfiguration();
 
 			var clause = new GKClause
@@ -167,16 +168,19 @@ namespace GKManager2.Test
 			GKManager.ChangePumpDevices(pump, new List<GKDevice>() {device});
 			Assert.IsTrue(pump.StartLogic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains(device.UID)));
 			Assert.IsTrue(pump.NSDevices.Contains(device));
+			Assert.IsTrue(pump.InputDependentElements.Contains(device));
+			Assert.IsTrue(device.OutputDependentElements.Contains(pump));
 
 			var door = new GKDoor();
 			GKManager.AddDoor(door);
 			GKManager.SetDoorOpenRegimeLogic(door, gkLogic);
 			GKManager.SetDoorCloseRegimeLogic(door, gkLogic);
-
 			GKManager.ChangeEnterButtonDevice(door, device);
 			Assert.IsTrue(door.EnterButton == device);
 			Assert.IsTrue(door.EnterButtonUID == device.UID);
 			Assert.IsTrue(device.Door == door);
+			Assert.IsTrue(device.OutputDependentElements.Contains(door));
+			Assert.IsTrue(door.InputDependentElements.Contains(device));
 			door.EnterButton = null;
 			door.EnterButtonUID = Guid.Empty;
 
