@@ -482,23 +482,24 @@ namespace FiresecService.Service
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
 			if (device != null)
 			{
+				var isGk = device.DriverType == GKDriverType.GK;
 				var progressCallback = new GKProgressCallback();
 				ServerTaskRunner.Add(progressCallback, "Чтение пользователей прибора", new Action(() =>
 					{
 						try
 						{
 							var users = GKSKDHelper.GetAllUsers(device, progressCallback);
-							FiresecService.NotifyOperationResult_GetAllUsers(users);
+							FiresecService.NotifyOperationResult_GetAllUsers(users, isGk);
 						}
 						catch (Exception e)
 						{
-							FiresecService.NotifyOperationResult_GetAllUsers(OperationResult<List<GKUser>>.FromError(e.Message));
+							FiresecService.NotifyOperationResult_GetAllUsers(OperationResult<List<GKUser>>.FromError(e.Message), isGk);
 						}
 					}
 				));
 				return new OperationResult<bool>(true);
 			}
-			return OperationResult<bool>.FromError("Не найден ГК в конфигурации");
+			return OperationResult<bool>.FromError("Прибор не найден в конфигурации");
 		}
 
 		public OperationResult<bool> GKRewriteUsers(Guid deviceUID)
@@ -577,19 +578,23 @@ namespace FiresecService.Service
 			return OperationResult<bool>.FromError("Не найден ГК в конфигурации");
 		}
 
-		public OperationResult<List<GKUser>> GetGKUsers(Guid deviceUID)
-		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				return GKSKDHelper.GetAllUsers(device, new GKProgressCallback());
-			}
-			return OperationResult<List<GKUser>>.FromError("Прибор не найден в конфигурации");
-		}
-
 		public OperationResult<bool> RewritePmfUsers(Guid uid, List<GKUser> users)
 		{
-			return GKSKDHelper.RewritePmfUsers(uid, users);
+			var progressCallback = new GKProgressCallback();
+			ServerTaskRunner.Add(progressCallback, "Чтение пользователей прибора", new Action(() =>
+				{
+					try
+					{
+						var result = GKSKDHelper.RewritePmfUsers(uid, users, progressCallback);
+						FiresecService.NotifyOperationResult_RewriteUsers(result);
+					}
+					catch (Exception e)
+					{
+						FiresecService.NotifyOperationResult_RewriteUsers(OperationResult<bool>.FromError(e.Message));
+					}
+				}
+			));
+			return new OperationResult<bool>(true);
 		}
 		#endregion
 

@@ -65,9 +65,6 @@ namespace RubezhAPI
 		OperationResult<bool> GKWriteMirrorUsers(Guid gkDeviceUID,List<MirrorUser> mirrorUsers);
 
 		[OperationContract]
-		OperationResult<List<GKUser>> GetGKUsers(Guid deviceUID);
-
-		[OperationContract]
 		OperationResult<bool> RewritePmfUsers(Guid uid, List<GKUser> users);
 
 		[OperationContract]

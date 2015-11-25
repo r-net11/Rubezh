@@ -96,14 +96,14 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifyOperationResult_GetAllUsers(OperationResult<List<GKUser>> result)
+		public static void NotifyOperationResult_GetAllUsers(OperationResult<List<GKUser>> result, bool isGk)
 		{
 			var callbackResult = new CallbackResult()
 			{
 				CallbackResultType = CallbackResultType.OperationResult,
 				CallbackOperationResult = new CallbackOperationResult()
 				{
-					CallbackOperationResultType = CallbackOperationResultType.GetAllUsers,
+					CallbackOperationResultType = isGk ? CallbackOperationResultType.GetAllUsers : CallbackOperationResultType.GetPmfUsers,
 					Error = result.Error,
 					HasError = result.HasError,
 					Users = result.Result

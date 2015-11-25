@@ -35,5 +35,6 @@ namespace RubezhAPI
 		RewriteUsers,
 		WriteConfiguration,
 		ReadConfigurationFromGKFile,
+		GetPmfUsers
 	}
 }

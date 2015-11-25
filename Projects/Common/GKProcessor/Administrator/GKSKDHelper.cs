@@ -7,6 +7,7 @@ using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhDAL;
 using System.Diagnostics;
+using System.Threading;
 
 namespace GKProcessor
 {
@@ -236,6 +237,34 @@ namespace GKProcessor
 			return new OperationResult<List<GKUser>>(users);
 		}
 
+		public static OperationResult<List<GKUser>> GetAllUsersTest(GKDevice device, GKProgressCallback progressCallback)
+		{
+			progressCallback = GKProcessorManager.StartProgress("Чтение пользователей прибора " + device.PresentationName, "", 100, true, GKProgressClientType.Administrator);
+			var users = new List<GKUser>();
+
+			for (ushort i = 1; i <= 100; i++)
+			{
+				Thread.Sleep(100);
+				var user = new GKUser
+				{
+					GkNo = i,
+					UserType = GKCardType.Administrator,
+					IsActive = true,
+					Fio = "Пользователь " + i,
+					Password = i
+				};
+				users.Add(user);
+				if (progressCallback.IsCanceled)
+				{
+					return OperationResult<List<GKUser>>.FromError("Операция отменена", users);
+				}
+				GKProcessorManager.DoProgress("Пользователь " + i, progressCallback);
+			}
+
+			GKProcessorManager.StopProgress(progressCallback);
+			return new OperationResult<List<GKUser>>(users);
+		}
+
         public static int GetUsersCount(GKDevice device)
         {
             int minNo = 0;
@@ -356,29 +385,27 @@ namespace GKProcessor
 			return controllerCardSchedules;
 		}
 
-		public static OperationResult<bool> RewritePmfUsers(Guid deviceUID, List<GKUser> users)
+		public static OperationResult<bool> RewritePmfUsers(Guid deviceUID, List<GKUser> users, GKProgressCallback progressCallback)
 		{
-			try
+			progressCallback = GKProcessorManager.StartProgress("Запись пользователей", "", users.Count, true, GKProgressClientType.Administrator);
+			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
 			{
-				var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-				if (device != null)
+				RemoveAllUsersInternal(device, GetUsersCount(device));
+				ushort gkNo = 0;
+				foreach (var user in users.OrderBy(x => x.Password))
 				{
-					var usersCount = GetUsersCount(device);
-					RemoveAllUsersInternal(device, usersCount);
-					ushort gkNo = 0;
-					foreach (var user in users.OrderBy(x => x.Password))
+					user.GkNo = gkNo++;
+					AddOrEditUser(user, device);
+					if (progressCallback.IsCanceled)
 					{
-						user.GkNo = gkNo++;
-						AddOrEditUser(user, device);
+						return OperationResult<bool>.FromError("Операция отменена");
 					}
+					GKProcessorManager.DoProgress("Пользователь " + gkNo, progressCallback);
 				}
-				
-				return new OperationResult<bool>(true);
 			}
-			catch (Exception e)
-			{
-				return OperationResult<bool>.FromError(e.Message);
-			}
+			GKProcessorManager.StopProgress(progressCallback);
+			return new OperationResult<bool>(true);
 		}
 
 		/// <summary>

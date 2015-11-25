@@ -106,11 +106,6 @@ namespace RubezhClient
 			return SafeOperationCall(() => { return FiresecService.GKWriteMirrorUsers(device.UID, mirrorUsers); }, "GKWriteMirrorUsers");
 		}
 
-		public OperationResult<List<GKUser>> GetGKUsers(Guid deviceUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.GetGKUsers(deviceUID); }, "GetGKUsers");
-		}
-
 		public OperationResult<bool> RewritePmfUsers(Guid uid, List<GKUser> users)
 		{
 			return SafeOperationCall(() => { return FiresecService.RewritePmfUsers(uid, users); }, "RewritePmfUsers");

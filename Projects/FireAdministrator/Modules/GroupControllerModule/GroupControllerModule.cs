@@ -273,6 +273,18 @@ namespace GKModule
 							MessageBoxService.ShowWarning(callbackOperationResult.Error, "Ошибка при перезаписи пользователей");
 						}
 					}
+					if (callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.GetPmfUsers)
+					{
+						if (!callbackOperationResult.HasError)
+						{
+							ServiceFactoryBase.Events.GetEvent<GetPmfUsersEvent>().Publish(callbackOperationResult.Users);
+						}
+						else
+						{
+							//LoadingService.Close();
+							MessageBoxService.ShowWarning(callbackOperationResult.Error, "Ошибка при перезаписи пользователей");
+						}
+					}
 					if (callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.RewriteUsers)
 					{
 						if (!callbackOperationResult.HasError)
