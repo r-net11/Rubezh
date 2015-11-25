@@ -18,30 +18,19 @@ namespace AutomationModule.ViewModels
 			{
 				throw new ArgumentNullException("servers");
 			}
-			_allServers = new List<OpcDaServersAddingServerViewModel>(servers
-				.Select(server => new OpcDaServersAddingServerViewModel(server) { IsSelected = false }));
+			AllServers = new List<OpcDaServersAddingServerViewModel>(servers
+				.Select(server => new OpcDaServersAddingServerViewModel(server)));
 		}
 
-		private List<OpcDaServersAddingServerViewModel> _allServers;
+		public List<OpcDaServersAddingServerViewModel> AllServers { get; private set; }
 
-		public List<OpcDaServersAddingServerViewModel> AllServers
-		{
-			get { return _allServers; }
-		}
-
-		private List<OpcDaServerViewModel> _selectedServers = 
-			new List<OpcDaServerViewModel>();
-		
-		public OpcDaServerViewModel[] SelectedServers 
-		{ 
-			get { return _selectedServers.ToArray(); }
-		}
+		public OpcDaServerViewModel[] SelectedServers { get; private set; }
 
 		protected override bool Save()
 		{
-			_selectedServers.AddRange(_allServers
+			SelectedServers = AllServers
 				.Where(server => server.IsSelected == true)
-				.Select(s => s.Base));
+				.Select(s => s.Base).ToArray();
 			return base.Save();
 		}
 	}

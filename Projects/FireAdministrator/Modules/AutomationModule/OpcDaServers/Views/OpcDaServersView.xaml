@@ -7,13 +7,17 @@
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
 
-		<ListView Grid.Column="0" ItemsSource="{Binding OpcDaServers}" SelectedItem="{Binding SelectedOpcDaServer}">
-			<ListView.View>
-				<GridView>
-					<GridViewColumn DisplayMemberBinding="{Binding Path=ServerName}">OPC DA Серверы</GridViewColumn>
-				</GridView>
-			</ListView.View>
-		</ListView>
+		<DataGrid Grid.Column="0" ItemsSource="{Binding OpcDaServers}" SelectedItem="{Binding SelectedOpcDaServer}">
+			<DataGrid.Columns>
+				<DataGridTemplateColumn Header="OPC DA Серверы" Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding ServerName}" /> 
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+		</DataGrid>
 		
 	</Grid>
 </UserControl>

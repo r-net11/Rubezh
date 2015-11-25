@@ -16,16 +16,17 @@ namespace AutomationModule.ViewModels
 
 		public OpcDaServersViewModel()
 		{
-			AddCommand = new RelayCommand(OnAdd, OnCanAdd);
-			DeleteCommand = new RelayCommand(OnDelete, OnCanDelete);
+			Menu = new OpcDaServersMenuViewModel(this);
+			AddCommand = new RelayCommand(OnAdd);
+			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 
-			_opcDaServers = new ObservableCollection<OpcDaServerViewModel>();
+			OpcDaServers = new ObservableCollection<OpcDaServerViewModel>();
 
 			// Загрузка сохранённого списка серверов
 			foreach (var opcServer in ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaServers)
 			{
 				var opcServerViewModel = new OpcDaServerViewModel(opcServer);
-				_opcDaServers.Add(opcServerViewModel);
+				OpcDaServers.Add(opcServerViewModel);
 			}
 			
 			// Сейчас заглушка
@@ -36,8 +37,6 @@ namespace AutomationModule.ViewModels
 			// Для отладки
 			//_opcDaServers.Add(new OpcDaServerViewModel(
 			//	new OpcDaServer.OpcDaServer{ Id = Guid.NewGuid(), ServerName = "TestServer" }));
-
-			Menu = new OpcDaServersMenuViewModel(this);
 		}
 
 		#endregion
@@ -90,7 +89,7 @@ namespace AutomationModule.ViewModels
 									list.Select(x => new OpcDaServerViewModel(x)) : 
 									from rs in list
 									from ss in OpcDaServers
-									where rs.Id != ss.Base.Id
+									where rs.Id != ss.Id
 									select ss;
 
 			var addingDialog = new OpcDaServersAddingServersViewModel(notselectedServers);
@@ -107,36 +106,20 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		private bool OnCanAdd()
-		{
-			//TODO: Доделать
-			return true;
-		}
-
 		public RelayCommand DeleteCommand { get; private set; }
-
 		private void OnDelete()
 		{
-
-			var delServer = ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaServers
-				.FirstOrDefault(x => (x.Id == SelectedOpcDaServer.Base.Id) && 
-					(x.ServerName == SelectedOpcDaServer.Base.ServerName));
-
-			if (delServer != null)
-			{
-				ClientManager.SystemConfiguration.AutomationConfiguration
-					.OpcDaServers.Remove(delServer);
-				ServiceFactory.SaveService.AutomationChanged = true;
-			}
+			ClientManager.SystemConfiguration.AutomationConfiguration
+				.OpcDaServers.Remove(SelectedOpcDaServer.Base);
+			ServiceFactory.SaveService.AutomationChanged = true;
 
 			OpcDaServers.Remove(SelectedOpcDaServer);
 			SelectedOpcDaServer = null;
-
 		}
 
-		private bool OnCanDelete()
+		private bool CanDelete()
 		{
-			return (SelectedOpcDaServer != null) && (OpcDaServers.Count > 0);
+			return SelectedOpcDaServer != null;
 		}
 
 		#endregion
