@@ -281,8 +281,8 @@ namespace FiresecService
 
 			var query =
 				"SELECT * FROM Journal WHERE " +
-				"\n " + dateTimeTypeString + " > '" + archiveFilter.StartDate.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
-				"\n AND " + dateTimeTypeString + " < '" + archiveFilter.EndDate.ToString("yyyy-MM-dd HH:mm:ss") + "'";
+				"\n " + dateTimeTypeString + " > '" + archiveFilter.StartDate.ToString("yyyy-MM-ddTHH:mm:ss") + "'" +
+				"\n AND " + dateTimeTypeString + " < '" + archiveFilter.EndDate.ToString("yyyy-MM-ddTHH:mm:ss") + "'";
 
 			if (archiveFilter.JournalEventNameTypes.Count > 0)
 			{
