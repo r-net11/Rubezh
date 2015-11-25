@@ -260,24 +260,6 @@ namespace GKModule.ViewModels
 			if (newDeviceViewModel.Drivers.Count == 1)
 			{
 				newDeviceViewModel.SaveCommand.Execute();
-				if (newDeviceViewModel.Drivers[0].DriverType == GKDriverType.GK && newDeviceViewModel.AddedDevices.Count > 0)
-				{
-					var gkDevice = newDeviceViewModel.AddedDevices[0];
-					var gkIndicatorsGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа индикаторов", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicatorsGroup) });
-					var gkRelaysGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа реле", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKRelaysGroup) });
-					var gkIndicators = new List<DeviceViewModel>(gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKIndicator));
-					var gkRelays = new List<DeviceViewModel>(gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKRele));
-					foreach (var gkIndicator in gkIndicators)
-					{
-						gkIndicatorsGroupDevice.AddChild(gkIndicator);
-					}
-					foreach (var gkRelay in gkRelays)
-					{
-						gkRelaysGroupDevice.AddChild(gkRelay);
-					}
-					gkDevice.AddChildFirst(gkIndicatorsGroupDevice);
-					gkDevice.AddChildFirst(gkRelaysGroupDevice);
-				}
 				foreach (var addedDevice in newDeviceViewModel.AddedDevices)
 				{
 					DevicesViewModel.Current.AllDevices.Add(addedDevice);
