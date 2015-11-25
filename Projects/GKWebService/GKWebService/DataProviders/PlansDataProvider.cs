@@ -78,9 +78,12 @@ namespace GKWebService.DataProviders
 			var rectangles = LoadRectangleElements(plan);
 			var polygons = LoadPolygonElements(plan);
 			var polylines = LoadPolyLineElements(plan);
+			var ellipses = LoadEllipseElements(plan);
+			var textBlocks = LoadTextBlockElements(plan);
 			//var doors = LoadDoorElements(plan);
 			var devices = plan.ElementGKDevices.Select(PlanElement.FromDevice);
-			return rectangles.Concat(polygons).Concat(polylines).Concat(devices);
+			
+			return rectangles.Concat(polygons).Concat(polylines).Concat(ellipses).Concat(textBlocks).Concat(devices);
 		}
 
 		private IEnumerable<PlanElement> LoadPolygonElements(Plan plan) {
@@ -157,6 +160,16 @@ namespace GKWebService.DataProviders
 			return polylines.Select(PlanElement.FromPolyline);
 		}
 
+		private IEnumerable<PlanElement> LoadEllipseElements(Plan plan) {
+			// Конвертим зоны-эллипсы
+			return plan.ElementEllipses.ToList().Select(PlanElement.FromEllipse);
+		}
+
+		private IEnumerable<PlanElement> LoadTextBlockElements(Plan plan) {
+			// Конвертим текстблоки
+			return plan.ElementTextBlocks.ToList().Select(PlanElement.FromRectangle).Union(plan.ElementTextBlocks.ToList().Select(PlanElement.FromTextBlocks));
+		}
+
 		private void OnServiceCallback(GKCallbackResult obj) {
 			var states = obj.GKStates;
 			foreach (var state in states.DeviceStates) {
@@ -191,6 +204,9 @@ namespace GKWebService.DataProviders
 			Drawing drawing;
 			if (source.HasValue) {
 				drawing = _contentService.GetDrawing(source.Value);
+				if (drawing == null) {
+					return string.Empty;
+				}
 			}
 			else {
 				return string.Empty;

@@ -1,5 +1,5 @@
-﻿using System;
-using RubezhAPI.GK;
+﻿using RubezhAPI.GK;
+using System;
 
 namespace GKProcessor
 {
@@ -25,7 +25,7 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire2);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire2);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 
 			var property1 = new GKDriverProperty()
 			{
@@ -54,7 +54,7 @@ namespace GKProcessor
 			property1.Parameters.Add(property1Parameter3);
 			driver.Properties.Add(property1);
 
-			GKDriversHelper.AddIntProprety(driver, 1, "Порог питания, В", 80, 1, 1000).Multiplier = 10;
+			GKDriversHelper.AddIntProprety(driver, 1, "Порог питания, В", 80, 0, 280).Multiplier = 10;
 			GKDriversHelper.AddIntProprety(driver, 2, "Порог 1", 250, 1, 10000);
 			GKDriversHelper.AddIntProprety(driver, 3, "Порог 2", 750, 1, 10000);
 			GKDriversHelper.AddIntProprety(driver, 4, "Порог 3", 1500, 1, 10000);
@@ -92,7 +92,7 @@ namespace GKProcessor
 			driver.Properties.Add(property4);
 
 			driver.MeasureParameters.Add(new GKMeasureParameter { No = 1, Name = "Сопротивление, Ом", InternalName = "Resistance" });
-			driver.MeasureParameters.Add(new GKMeasureParameter { No = 2, Name = "Питание, В", Multiplier = 10});
+			driver.MeasureParameters.Add(new GKMeasureParameter { No = 2, Name = "Питание, В", Multiplier = 10 });
 
 
 			return driver;

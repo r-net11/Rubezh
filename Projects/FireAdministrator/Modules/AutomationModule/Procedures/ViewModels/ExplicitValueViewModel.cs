@@ -25,6 +25,8 @@ namespace AutomationModule.ViewModels
 		public Camera Camera { get; private set; }
 		public GKDoor GKDoor { get; private set; }
 		public GKDirection Direction { get; private set; }
+		public GKPumpStation PumpStation { get; private set; }
+		public GKMPT MPT { get; private set; }
 		public Organisation Organisation { get; private set; }
 		public ExplicitValue ExplicitValue { get; private set; }
 		public Action UpdateDescriptionHandler { get; set; }
@@ -63,6 +65,8 @@ namespace AutomationModule.ViewModels
 			Camera = null;
 			GKDoor = null;
 			Direction = null;
+			PumpStation = null;
+			MPT = null;
 			Delay = null;
 			Organisation = null;
 
@@ -76,6 +80,8 @@ namespace AutomationModule.ViewModels
 					(GKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == uidValue)) != null ||
 					(Direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uidValue)) != null ||
 					(Delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == uidValue)) != null ||
+					(PumpStation = GKManager.DeviceConfiguration.PumpStations.FirstOrDefault(x => x.UID == uidValue)) != null ||
+					(MPT = GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == uidValue)) != null ||
 					(Organisation = OrganisationHelper.GetSingle(uidValue)) != null;
 			}
 			base.OnPropertyChanged(() => PresentationName);
@@ -99,6 +105,10 @@ namespace AutomationModule.ViewModels
 					return Direction.PresentationName;
 				if (Delay != null)
 					return Delay.PresentationName;
+				if (PumpStation != null)
+					return PumpStation.PresentationName;
+				if (MPT != null)
+					return MPT.PresentationName;
 				if (Organisation != null)
 					return Organisation.Name;
 				return "Null";
@@ -264,12 +274,12 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return ((Device == null) && (Zone == null) && (GuardZone == null) && (Camera == null) && (Direction == null) && (GKDoor == null) && (Delay == null) && (Organisation == null));
+				return ((Device == null) && (Zone == null) && (GuardZone == null) && (Camera == null) && (Direction == null) && (GKDoor == null) && (Delay == null) && (PumpStation == null) && (MPT == null) && (Organisation == null));
 			}
 			set
 			{
 				if (value)
-					Device = null; Zone = null; GuardZone = null; Camera = null; Direction = null; GKDoor = null; Delay = null; Organisation = null;
+					Device = null; Zone = null; GuardZone = null; Camera = null; Direction = null; GKDoor = null; Delay = null; PumpStation = null; MPT = null; Organisation = null;
 			}
 		}
 

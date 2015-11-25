@@ -29,7 +29,7 @@ using Infrustructure.Plans.Services;
 
 namespace GKModule.Plans
 {
-	class GKPlanExtension : BasePlanExtension
+	public class GKPlanExtension : BasePlanExtension
 	{
 		public static GKPlanExtension Instance { get; private set; }
 

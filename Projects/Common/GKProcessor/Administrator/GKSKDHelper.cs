@@ -28,14 +28,17 @@ namespace GKProcessor
 					gkCardNo = dbService.GKCardTranslator.GetFreeGKNo(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), card.Number, out isNew);
 			}
 
-			var user = new GKUser((ushort)gkCardNo, controllerCardSchedule.ControllerDevice.UID);
-			user.ExpirationDate = card.EndDate;
-			user.Fio = employeeName;
-			user.GkLevel = (byte)card.GKLevel;
-			user.GkLevelSchedule = (byte)card.GKLevelSchedule;
-			user.Password = card.Number;
-			user.UserType = card.GKCardType;
-
+			var user = new GKUser
+			{
+				GkNo = (ushort)gkCardNo,
+				ExpirationDate = card.EndDate,
+				Fio = employeeName,
+				GkLevel = (byte)card.GKLevel,
+				GkLevelSchedule = (byte)card.GKLevelSchedule,
+				Password = card.Number,
+				UserType = card.GKCardType
+			};
+			
 			var result = AddOrEditUser(user, controllerCardSchedule.ControllerDevice, isNew, controllerCardSchedule.CardSchedules);
 			if (result.HasError)
 				return result;
@@ -213,11 +216,14 @@ namespace GKProcessor
 				}
 
 				var gkNo = BytesHelper.SubstructShort(sendResult.Bytes, 1);
-				var user = new GKUser(gkNo, device.UID);
-				user.UserType = (GKCardType)sendResult.Bytes[3];
-				user.IsActive = sendResult.Bytes[4] == 0;
-				user.Fio = BytesHelper.BytesToStringDescription(sendResult.Bytes, 5);
-				user.Password = (uint)BytesHelper.SubstructInt(sendResult.Bytes, 37);
+				var user = new GKUser
+				{
+					GkNo = gkNo,
+					UserType = (GKCardType)sendResult.Bytes[3],
+					IsActive = sendResult.Bytes[4] == 0,
+					Fio = BytesHelper.BytesToStringDescription(sendResult.Bytes, 5),
+					Password = (uint)BytesHelper.SubstructInt(sendResult.Bytes, 37)
+				};
 				users.Add(user);
 				if (progressCallback.IsCanceled)
 				{
@@ -350,24 +356,21 @@ namespace GKProcessor
 			return controllerCardSchedules;
 		}
 
-		public static OperationResult<bool> WriteAllUsers(List<GKUser> users)
+		public static OperationResult<bool> RewritePmfUsers(Guid deviceUID, List<GKUser> users)
 		{
 			try
 			{
-				var devicesWithUsers = users.GroupBy(x => x.DeviceUID);
-				foreach (var deviceUsers in devicesWithUsers)
+				var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+				if (device != null)
 				{
-					var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUsers.Key);
-					if (device != null)
+					var usersCount = GetUsersCount(device);
+					RemoveAllUsersInternal(device, usersCount);
+					ushort gkNo = 0;
+					foreach (var user in users.OrderBy(x => x.Password))
 					{
-						var usersCount = GetUsersCount(device);
-						RemoveAllUsersInternal(device, usersCount);
-						foreach (var user in users)
-						{
-							AddOrEditUser(user, device);
-						}
+						user.GkNo = gkNo++;
+						AddOrEditUser(user, device);
 					}
-
 				}
 				
 				return new OperationResult<bool>(true);

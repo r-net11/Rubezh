@@ -37,7 +37,6 @@
 		<ResourceDictionary Source="GridViewColumnHeaderStyle.xaml" />
 		<ResourceDictionary Source="TreeListViewStyle.xaml" />
 		<ResourceDictionary Source="ListViewStyle.xaml" />
-		<ResourceDictionary Source="TreeListStyle.xaml" />
 		<ResourceDictionary Source="ColorPicker.xaml" />
 		<ResourceDictionary Source="ItemsControlStyle.xaml" />
 		<ResourceDictionary Source="IconedMenuStyle.xaml" />

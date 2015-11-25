@@ -23,7 +23,7 @@ namespace VideoModule.ViewModels
 			List<Device> devices = null;
 			try
 			{
-				devices = RviClientHelper.GetDevices(ClientManager.SystemConfiguration);
+				devices = RviClientHelper.GetDevices(ClientManager.SystemConfiguration.RviSettings);
 			}
 			catch
 			{
@@ -58,7 +58,7 @@ namespace VideoModule.ViewModels
 			{
 				if (device.IsChecked)
 				{
-					var stream = device.Channel.Streams[device.StreamNo - 1];
+					var stream = device.Channel.Streams[device.StreamNo];
 					if (stream != null)
 					{
 						var camera = new Camera();

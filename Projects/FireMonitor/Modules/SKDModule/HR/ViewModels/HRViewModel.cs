@@ -10,6 +10,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using SKDModule.Events;
 using SKDModule.PassCardDesigner.ViewModels;
+using System;
 
 namespace SKDModule.ViewModels
 {
@@ -300,6 +301,49 @@ namespace SKDModule.ViewModels
 			EmployeeFilter.UIDs = Filter.EmplooyeeUIDs;
 			EmployeeFilter.PersonType = SelectedPersonType;
 			EmployeeFilter.LogicalDeletationType = Filter.LogicalDeletationType;
+		}
+
+		public bool ShowFromJournal(Guid uid)
+		{
+			bool isFounded = false;
+			if(EmployeesViewModel.ShowFromJournal(uid))
+			{
+				IsEmployeesSelected = true;
+				isFounded = true;
+			}
+			if(DepartmentsViewModel.ShowFromJournal(uid))
+			{
+				IsDepartmentsSelected = true;
+				isFounded = true;
+			}
+			if(PositionsViewModel.ShowFromJournal(uid))
+			{
+				IsPositionsSelected = true;
+				isFounded = true;
+			}
+			if(AdditionalColumnTypesViewModel.ShowFromJournal(uid))
+			{
+				IsAdditionalColumnTypesSelected = true;
+				isFounded = true;
+			}
+			if(AccessTemplatesViewModel.ShowFromJournal(uid))
+			{
+				IsAccessTemplatesSelected = true;
+				isFounded = true;
+			}
+			if(PassCardTemplatesViewModel.ShowFromJournal(uid))
+			{
+				IsPassCardTemplatesSelected = true;
+				isFounded = true;
+			}
+			if(OrganisationsViewModel.ShowFromJournal(uid))
+			{
+				IsOrganisationsSelected = true;
+				isFounded = true;
+			}
+			if (isFounded)
+				ApplicationService.Layout.Show(this);
+			return isFounded;
 		}
 	}
 }

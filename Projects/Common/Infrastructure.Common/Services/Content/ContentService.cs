@@ -1,13 +1,12 @@
-﻿using System;
-using System.Linq;
+﻿using Common;
+using Infrustructure.Plans.Painters;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xaml;
-using Common;
-using Infrustructure.Plans.Painters;
-using System.Drawing;
 
 namespace Infrastructure.Common.Services.Content
 {
@@ -106,7 +105,7 @@ namespace Infrastructure.Common.Services.Content
 			catch (Exception ex)
 			{
 				Logger.Error(ex, "ContentService.GetObject<T>, Не удалось считать файл с изображением заднего плана.");
-				return default(T); 
+				return default(T);
 			}
 		}
 		public Visual GetVisual(Guid guid)

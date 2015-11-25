@@ -28,6 +28,7 @@
     <MetadataFile FileName="RVI_VSS.IntegrationInterface.XmlSchemas.Common.xsd" MetadataType="Schema" ID="6623c930-be61-47ed-b558-cedf974ce590" SourceId="1" SourceUrl="net.tcp://localhost:8000/Integration/mex" />
     <MetadataFile FileName="RVI_VSS.IntegrationInterface.xsd" MetadataType="Schema" ID="222ff19d-a594-4bc0-b86d-9b809b340f68" SourceId="1" SourceUrl="net.tcp://localhost:8000/Integration/mex" />
     <MetadataFile FileName="RVI_VSS.IntegrationInterface.XmlSchemas.Alarm.xsd" MetadataType="Schema" ID="d835f1a4-317e-41df-8d74-33ed46d4f01d" SourceId="1" SourceUrl="net.tcp://localhost:8000/Integration/mex" />
+    <MetadataFile FileName="RVI_VSS.IntegrationInterface.XmlSchemas.Video.xsd" MetadataType="Schema" ID="77c51618-5a92-4564-bdc3-302974c0feb5" SourceId="1" SourceUrl="net.tcp://localhost:8000/Integration/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

@@ -30,6 +30,7 @@ namespace RubezhAPI.GK
 
 			Zones = new List<GKZone>();
 			GuardZones = new List<GKGuardZone>();
+			PmfUsers = new List<GKUser>();
 		}
 
 		public override void Invalidate(GKDeviceConfiguration deviceConfiguration)
@@ -70,10 +71,10 @@ namespace RubezhAPI.GK
 			{
 				var guardZones = new List<GKGuardZone>();
 
-				foreach (var guardZone in deviceConfiguration.GuardZones.Where(x => GuardZones.Any(y=> y.UID == x.UID)))
+				foreach (var guardZone in deviceConfiguration.GuardZones.Where(x => x.GuardZoneDevices.Any(y=> y.DeviceUID ==UID)))
 				{
-						guardZones.Add(guardZone);
-						AddDependentElement(guardZone);
+					guardZones.Add(guardZone);
+					AddDependentElement(guardZone);
 				}
 				GuardZones = guardZones;
 			}
@@ -185,6 +186,9 @@ namespace RubezhAPI.GK
 		/// </summary>
 		[DataMember]
 		public GKMirrorItem GKMirrorItem { get; set; }
+
+		[DataMember]
+		public List<GKUser> PmfUsers { get; set; }
 
 
 		[XmlIgnore]

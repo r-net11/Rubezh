@@ -281,9 +281,9 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GetGKUsers(deviceUID); }, "GetGKUsers");
 		}
 
-		public OperationResult<bool> WriteAllGKUsers(List<GKUser> users)
+		public OperationResult<bool> RewritePmfUsers(Guid uid, List<GKUser> users)
 		{
-			return SafeOperationCall(() => { return FiresecService.WriteAllGKUsers(users); }, "WriteAllGKUsers");
+			return SafeOperationCall(() => { return FiresecService.RewritePmfUsers(uid, users); }, "RewritePmfUsers");
 		}
 
 		public OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID)
@@ -487,6 +487,16 @@ namespace FiresecService.Service
 		public void ControlDelay(Guid uid, DelayCommandType commandType)
 		{
 			SafeOperationCall(() => FiresecService.ControlDelay(uid, commandType), "ControlDelay");
+		}
+
+		public void ControlPumpStation(Guid uid, PumpStationCommandType commandType)
+		{
+			SafeOperationCall(() => FiresecService.ControlPumpStation(uid, commandType), "ControlPumpStation");
+		}
+
+		public void ControlMPT(Guid uid, MPTCommandType commandType)
+		{
+			SafeOperationCall(() => FiresecService.ControlMPT(uid, commandType), "ControlMPT");
 		}
 
 		public void ExportJournalA(bool isExportJournal, bool isExportPassJournal, DateTime minDate, DateTime maxDate, string path)

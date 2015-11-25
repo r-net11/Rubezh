@@ -1,12 +1,11 @@
-﻿using System.Security.Policy;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using RubezhClient;
 using Infrastructure.Events;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using System;
 using System.Collections.Generic;
 
@@ -54,6 +53,7 @@ namespace GKModule.ViewModels
 				ShowOnPlanHelper.ShowGuardZone(GuardZone);
 			else
 				DialogService.ShowWindow(new GuardZoneDetailsViewModel(GuardZone));
+			GuardZonesViewModel.Current.SelectedZone = this;
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }

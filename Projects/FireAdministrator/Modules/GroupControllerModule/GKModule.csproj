@@ -463,6 +463,7 @@
       <DependentUpon>DoorsSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SKD\ViewModels\DoorDetailsViewModel.cs" />
+    <Compile Include="SKD\ViewModels\DoorSkdZoneViewModel.cs" />
     <Compile Include="SKD\ViewModels\DoorsMenuViewModel.cs" />
     <Compile Include="SKD\ViewModels\DoorsViewModel.cs" />
     <Compile Include="SKD\ViewModels\DoorViewModel.cs" />

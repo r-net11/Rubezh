@@ -46,12 +46,11 @@
 			</Setter>
 		</Style>
 		<ContextMenu x:Key="ProcedureContextMenu">
-			<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить процедуру (Ctrl+N)" />
-			<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete" Text="Удалить процедуру (Ctrl+Del)" />
-			<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit" Text="Редактировать процедуру (Ctrl+E)" />
-			<IconedMenuItem Command="{Binding CopyCommand}" ImageSource="BCopy" Text="Копировать процедуру (Ctrl+C)" />
-			<IconedMenuItem Command="{Binding CutCommand}" ImageSource="BCut" Text="Вырезать процедуру (Ctrl+X)" />
-			<IconedMenuItem Command="{Binding PasteCommand}" ImageSource="BPaste" Text="Вставить процедуру (Ctrl+V)" />
+			<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить процедуру" />
+			<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete" Text="Удалить процедуру" />
+			<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit" Text="Редактировать процедуру" />
+			<IconedMenuItem Command="{Binding CopyCommand}" ImageSource="BCopy" Text="Копировать процедуру" />
+			<IconedMenuItem Command="{Binding PasteCommand}" ImageSource="BPaste" Text="Вставить процедуру" />
 		</ContextMenu>
 	</UserControl.Resources>
 	<Grid>
@@ -89,7 +88,9 @@
 
 		<Grid Grid.Column="2" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" DataContext="{Binding SelectedProcedure}" Margin="4, -50, 0, 0">
 			<Grid>
-				<StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="280 14 0 0">
+				<WrapPanel Margin="0 14 0 0">
+					<Rectangle Width="280" Height="32" />
+					<!--<StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="280 14 0 0">-->
 					<StackPanel Orientation="Horizontal">
 						<Button Content="Шаги" Command="{Binding ShowStepsCommand}" Width="120" Height="28">
 							<Button.Style>
@@ -159,11 +160,11 @@
 							</Button.Style>
 						</Button>
 					</StackPanel>
-				</StackPanel>
-
+				<!--</StackPanel>-->
+				</WrapPanel>
 				<Grid Visibility="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToVisibilityConverter},
 					ConverterParameter={x:Static procedures:MenuType.IsSteps}}">
-					<Views:StepsView DataContext="{Binding StepsViewModel}" />
+					<Views:StepsView DataContext="{Binding StepsViewModel}" IsVisibleChanged="StepsView_IsVisibleChanged" />
 				</Grid>
 				<Grid Visibility="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToVisibilityConverter},
 					ConverterParameter={x:Static procedures:MenuType.IsVariables}}">

@@ -1,52 +1,71 @@
-﻿using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using MediaSourcePlayer.MediaSource;
-using System;
-using System.ComponentModel;
+﻿using System;
+using System.Net;
 using System.Windows;
+using Common;
+using MediaSourcePlayer.MediaSource;
 using VideoModule.ViewModels;
 
 namespace VideoModule.Views
 {
 	public partial class LayoutPartCameraView
 	{
-		bool isStarted;
-		public static CancelEventHandler CameraClosing { get; private set; }
+		bool isLoaded;
 		public LayoutPartCameraView()
 		{
 			InitializeComponent();
-			Loaded += OnLoaded;
+
+			DataContextChanged += OnDataContextChanged;
+			Dispatcher.ShutdownStarted += DispatcherOnShutdownStarted;
 		}
-		private void OnClosed(object sender, EventArgs e)
+		void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
 		{
-			Stop();
-		}	
-		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+			if (isLoaded)
+			{
+				Close();
+				Start(); 
+			}
+		}
+		void DispatcherOnShutdownStarted(object sender, EventArgs eventArgs)
+		{
+			Close();
+
+			DataContextChanged -= OnDataContextChanged;
+			Dispatcher.ShutdownStarted -= DispatcherOnShutdownStarted;
+		}
+		void UserControl_Unloaded(object sender, RoutedEventArgs e)
+		{
+			Close();
+			isLoaded = false;
+		}
+		void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 			Start();
-		}	
-		public void Start()
-		{
-			if (isStarted)
-			{
-				Stop();
-			}
-			var layoutPartCameraViewModel = DataContext as LayoutPartCameraViewModel;
-			if (layoutPartCameraViewModel != null)
-			{
-				if (layoutPartCameraViewModel.RviRTSP != null)
-				{
-					ApplicationService.Closed += OnClosed;
-					MediaSourcePlayer.Open(MediaSourceFactory.CreateFromRtspStream(layoutPartCameraViewModel.RviRTSP));
-					MediaSourcePlayer.Play();
-				}
-			}
-			isStarted = true;
+			isLoaded = true;
 		}
-		void Stop()
+		void Close()
 		{
 			MediaSourcePlayer.Stop();
 			MediaSourcePlayer.Close();
+		}
+		void Start()
+		{
+			var viewModel = DataContext as LayoutPartCameraViewModel;
+			if (viewModel == null)
+				return;
+			try
+			{
+				IPEndPoint ipEndPoint;
+				int vendorId;
+				if (viewModel.PrepareToTranslation(out ipEndPoint, out vendorId))
+				{
+					MediaSourcePlayer.Open(MediaSourceFactory.CreateFromTcpSocket(ipEndPoint, vendorId));
+					MediaSourcePlayer.Play();
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e);
+			}
 		}
 	}
 }

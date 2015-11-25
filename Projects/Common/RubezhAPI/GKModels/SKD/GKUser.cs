@@ -14,16 +14,8 @@ namespace RubezhAPI.GK
 			IsActive = true;
 		}
 
-		public GKUser(ushort gkNo, Guid deviceUID)
-			: this()
-		{
-			GkNo = gkNo;
-			DeviceUID = deviceUID;
-		}
-
-
 		/// <summary>
-		/// Порядковый номер в ГК
+		/// Порядковый номер в ГК, при добавлении определяется автоматически
 		/// </summary>
 		[DataMember]
 		public ushort GkNo { get; set; }
@@ -54,8 +46,5 @@ namespace RubezhAPI.GK
 
 		[DataMember]
 		public byte GkLevelSchedule { get; set; }
-
-		[DataMember]
-		public Guid DeviceUID { get; set; }
 	}
 }

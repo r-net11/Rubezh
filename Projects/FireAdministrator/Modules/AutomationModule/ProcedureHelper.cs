@@ -21,6 +21,20 @@ namespace AutomationModule
 			allElements.AddRange(plan.ElementTextBlocks);
 			allElements.AddRange(plan.ElementPolygons);
 			allElements.AddRange(plan.ElementExtensions);
+			allElements.AddRange(plan.ElementGKDevices);
+			allElements.AddRange(plan.ElementRectangleGKZones);
+			allElements.AddRange(plan.ElementRectangleGKGuardZones);
+			allElements.AddRange(plan.ElementRectangleGKSKDZones);
+			allElements.AddRange(plan.ElementRectangleGKDirections);
+			allElements.AddRange(plan.ElementRectangleGKMPTs);
+			allElements.AddRange(plan.ElementRectangleGKDelays);
+			allElements.AddRange(plan.ElementPolygonGKZones);
+			allElements.AddRange(plan.ElementPolygonGKGuardZones);
+			allElements.AddRange(plan.ElementPolygonGKSKDZones);
+			allElements.AddRange(plan.ElementPolygonGKDirections);
+			allElements.AddRange(plan.ElementPolygonGKMPTs);
+			allElements.AddRange(plan.ElementPolygonGKDelays);
+			allElements.AddRange(plan.ElementSubPlans);
 			foreach (var elementRectangle in allElements)
 			{
 				elements.Add(new ElementViewModel(elementRectangle));
@@ -32,50 +46,70 @@ namespace AutomationModule
 		{
 			if (objectType == ObjectType.Device)
 			{
-				var deviceSelectationViewModel = new DeviceSelectionViewModel(currentExplicitValue.Device);
-				if (DialogService.ShowModalWindow(deviceSelectationViewModel))
+				var deviceSelectionViewModel = new DeviceSelectionViewModel(currentExplicitValue.Device);
+				if (DialogService.ShowModalWindow(deviceSelectionViewModel))
 				{
-					currentExplicitValue.UidValue = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.Device.UID : Guid.Empty;
+					currentExplicitValue.UidValue = deviceSelectionViewModel.SelectedDevice != null ? deviceSelectionViewModel.SelectedDevice.Device.UID : Guid.Empty;
 					return true;
 				}
 			}
 
 			if (objectType == ObjectType.Zone)
 			{
-				var zoneSelectationViewModel = new ZoneSelectionViewModel(currentExplicitValue.Zone);
-				if (DialogService.ShowModalWindow(zoneSelectationViewModel))
+				var zoneSelectionViewModel = new ZoneSelectionViewModel(currentExplicitValue.Zone);
+				if (DialogService.ShowModalWindow(zoneSelectionViewModel))
 				{
-					currentExplicitValue.UidValue = zoneSelectationViewModel.SelectedZone != null ? zoneSelectationViewModel.SelectedZone.Zone.UID : Guid.Empty;
+					currentExplicitValue.UidValue = zoneSelectionViewModel.SelectedZone != null ? zoneSelectionViewModel.SelectedZone.Zone.UID : Guid.Empty;
 					return true;
 				}
 			}
 
 			if (objectType == ObjectType.GuardZone)
 			{
-				var guardZoneSelectationViewModel = new GuardZoneSelectionViewModel(currentExplicitValue.GuardZone);
-				if (DialogService.ShowModalWindow(guardZoneSelectationViewModel))
+				var guardZoneSelectionViewModel = new GuardZoneSelectionViewModel(currentExplicitValue.GuardZone);
+				if (DialogService.ShowModalWindow(guardZoneSelectionViewModel))
 				{
-					currentExplicitValue.UidValue = guardZoneSelectationViewModel.SelectedZone != null ? guardZoneSelectationViewModel.SelectedZone.GuardZone.UID : Guid.Empty;
+					currentExplicitValue.UidValue = guardZoneSelectionViewModel.SelectedZone != null ? guardZoneSelectionViewModel.SelectedZone.GuardZone.UID : Guid.Empty;
 					return true;
 				}
 			}
 
 			if (objectType == ObjectType.GKDoor)
 			{
-				var doorSelectationViewModel = new GKDoorSelectionViewModel(currentExplicitValue.GKDoor);
-				if (DialogService.ShowModalWindow(doorSelectationViewModel))
+				var doorSelectionViewModel = new GKDoorSelectionViewModel(currentExplicitValue.GKDoor);
+				if (DialogService.ShowModalWindow(doorSelectionViewModel))
 				{
-					currentExplicitValue.UidValue = doorSelectationViewModel.SelectedDoor != null ? doorSelectationViewModel.SelectedDoor.GKDoor.UID : Guid.Empty;
+					currentExplicitValue.UidValue = doorSelectionViewModel.SelectedDoor != null ? doorSelectionViewModel.SelectedDoor.GKDoor.UID : Guid.Empty;
 					return true;
 				}
 			}
 
 			if (objectType == ObjectType.Direction)
 			{
-				var directionSelectationViewModel = new DirectionSelectionViewModel(currentExplicitValue.Direction);
-				if (DialogService.ShowModalWindow(directionSelectationViewModel))
+				var directionSelectionViewModel = new DirectionSelectionViewModel(currentExplicitValue.Direction);
+				if (DialogService.ShowModalWindow(directionSelectionViewModel))
 				{
-					currentExplicitValue.UidValue = directionSelectationViewModel.SelectedDirection != null ? directionSelectationViewModel.SelectedDirection.Direction.UID : Guid.Empty;
+					currentExplicitValue.UidValue = directionSelectionViewModel.SelectedDirection != null ? directionSelectionViewModel.SelectedDirection.Direction.UID : Guid.Empty;
+					return true;
+				}
+			}
+
+			if (objectType == ObjectType.PumpStation)
+			{
+				var pumpStationSelectionViewModel = new PumpStationSelectionViewModel(currentExplicitValue.PumpStation);
+				if (DialogService.ShowModalWindow(pumpStationSelectionViewModel))
+				{
+					currentExplicitValue.UidValue = pumpStationSelectionViewModel.SelectedPumpStation != null ? pumpStationSelectionViewModel.SelectedPumpStation.PumpStation.UID : Guid.Empty;
+					return true;
+				}
+			}
+
+			if (objectType == ObjectType.MPT)
+			{
+				var mptSelectionViewModel = new MPTSelectionViewModel(currentExplicitValue.MPT);
+				if (DialogService.ShowModalWindow(mptSelectionViewModel))
+				{
+					currentExplicitValue.UidValue = mptSelectionViewModel.SelectedMPT != null ? mptSelectionViewModel.SelectedMPT.MPT.UID : Guid.Empty;
 					return true;
 				}
 			}

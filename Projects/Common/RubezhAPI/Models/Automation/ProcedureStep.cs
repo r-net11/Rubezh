@@ -27,6 +27,8 @@ namespace RubezhAPI.Automation
 			ControlGKFireZoneArguments = new ControlGKFireZoneArguments();
 			ControlGKGuardZoneArguments = new ControlGKGuardZoneArguments();
 			ControlDirectionArguments = new ControlDirectionArguments();
+			ControlPumpStationArguments = new ControlPumpStationArguments();
+			ControlMPTArguments = new ControlMPTArguments();
 			JournalArguments = new JournalArguments();
 			GetObjectPropertyArguments = new GetObjectPropertyArguments();
 			SendEmailArguments = new SendEmailArguments();
@@ -127,6 +129,12 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public ControlDelayArguments ControlDelayArguments { get; set; }
+		
+		[DataMember]
+		public ControlPumpStationArguments ControlPumpStationArguments { get; set; }
+		
+		[DataMember]
+		public ControlMPTArguments ControlMPTArguments { get; set; }
 
 		[DataMember]
 		public JournalArguments JournalArguments { get; set; }

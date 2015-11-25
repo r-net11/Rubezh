@@ -98,12 +98,10 @@ namespace SKDModule.ViewModels
 			var linkedCards = cards.Where(x => x.AccessTemplateUID == SelectedItem.Model.UID);
 			if (linkedCards.Count() > 0)
 			{
-				var stringBuilder = new StringBuilder();
-				foreach (var card in cards)
-				{
-					stringBuilder.Append(string.Format(" {0}", card.Number));
-				}
-				string message = string.Format("Шаблон привязан к пропускам номер{0}, при удалении шаблона, указанные в нём точки доступа будут убраны из привязаных пропусков. Вы уверены, что хотите удалить шаблон?", stringBuilder.ToString());
+				var numbers = linkedCards.Select(x => x.Number).OrderBy(x => x);
+				var numbersSting = string.Join(",", numbers);
+				var message = string.Format("Шаблон привязан к пропускам номер {0}. При удалении шаблона указанные в нём точки доступа будут убраны из привязаных пропусков. Вы уверены, что хотите удалить шаблон?", 
+					numbersSting);
 				return MessageBoxService.ShowQuestion(message);
 			}
 			else 
