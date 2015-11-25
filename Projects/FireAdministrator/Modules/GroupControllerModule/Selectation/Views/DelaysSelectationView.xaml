@@ -10,8 +10,8 @@
 			<ColumnDefinition Width="50" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<MultiselectDataGrid x:Name="dataGrid1" Grid.Column="0" ItemsSource="{Binding TargetDelays}" SelectedItem="{Binding SelectedTargetDelay}" CanUserSortColumns="True"
-				VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
+		<DataGrid x:Name="dataGrid1" Grid.Column="0" ItemsSource="{Binding TargetDelays}" SelectedItem="{Binding SelectedTargetDelay}" CanUserSortColumns="True"
+				VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard" SelectionMode="Extended">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 					<MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
@@ -36,15 +36,15 @@
 				<DataGridTextColumn Binding="{Binding Name}" Header="Задержки" Width="*" />
 				<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
 			</DataGrid.Columns>
-		</MultiselectDataGrid>
+		</DataGrid>
 		<StackPanel Grid.Column="1" Margin="2">
 			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные задержки" ImageSource="left"  CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
 			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные задержки" ImageSource="right"  CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
 			<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все задержки" ImageSource="leftLeft"  />
 			<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все задержки" ImageSource="rightRight"  />
 		</StackPanel>
-		<MultiselectDataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceDelays}" SelectedItem="{Binding SelectedSourceDelay}" CanUserSortColumns="True"
-				VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
+		<DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceDelays}" SelectedItem="{Binding SelectedSourceDelay}" CanUserSortColumns="True"
+				VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard" SelectionMode="Extended">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 					<MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
@@ -69,6 +69,6 @@
 				<DataGridTextColumn Binding="{Binding Name}" Header="Задержки" Width="*" />
 				<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
 			</DataGrid.Columns>
-		</MultiselectDataGrid>
+		</DataGrid>
 	</Grid>
 </UserControl>

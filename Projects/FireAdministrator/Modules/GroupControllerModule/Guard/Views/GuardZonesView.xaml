@@ -64,7 +64,7 @@
 					<RowDefinition Height="*" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<MultiselectDataGrid x:Name="DataGrid1" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
+				<DataGrid x:Name="DataGrid1" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionMode="Extended">
 					<DataGrid.Resources>
 						<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 							<MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" CommandParameter="{Binding ElementName=DataGrid1, Path=SelectedItems}" MouseAction="LeftDoubleClick" />
@@ -130,7 +130,7 @@
 						</DataGridTemplateColumn>
 						<DataGridTextColumn Width="*" Binding="{Binding GuardZoneDevice.Device.Description}" Header="Примечание" />
 					</DataGrid.Columns>
-				</MultiselectDataGrid>
+				</DataGrid>
 
 				<StackPanel Grid.Row="1" Orientation="Horizontal">
 					<ToolBarButton Command="{Binding AddCommand}" CommandParameter="{Binding ElementName=DataGrid2, Path=SelectedItems}" ImageSource="arrowUp"  ToolTip="Добавить в зону" />
@@ -141,7 +141,7 @@
 			<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
 
 			<Grid Grid.Row="2" SizeChanged="OnSizeChanged">
-				<MultiselectDataGrid x:Name="DataGrid2" ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
+				<DataGrid x:Name="DataGrid2" ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}" SelectionMode="Extended">
 					<DataGrid.Resources>
 						<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 							<MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" CommandParameter="{Binding ElementName=DataGrid2, Path=SelectedItems}" MouseAction="LeftDoubleClick" />
@@ -166,7 +166,7 @@
 						<DataGridTextColumn Width="Auto" Binding="{Binding GuardZoneDevice.Device.DottedPresentationAddress}" Header="Адрес" />
 						<DataGridTextColumn Width="*" Binding="{Binding GuardZoneDevice.Device.Description}" Header="Примечание" />
 					</DataGrid.Columns>
-				</MultiselectDataGrid>
+				</DataGrid>
 			</Grid>
 		</Grid>
 	</Grid>
