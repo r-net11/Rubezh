@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -45,10 +46,10 @@ namespace CustomAction
 
 		#region <Чтение файла конфигурации AppServerSettings.xml>
 
-		private const string InstallLocation = "INSTALLLOCATION";
 		private const string ConfigDir = "C:\\ProgramData\\Firesec2";
 		private const string ConfigFile = "AppServerSettings.xml";
-		
+
+		private const string ProductName = "ProductName";
 		private const string SqlServerAddress = "SQLSERVER_ADDRESS";
 		private const string SqlServerPort = "SQLSERVER_PORT";
 		private const string SqlServerInstanceName = "SQLSERVER_INSTANCENAME";
@@ -96,6 +97,53 @@ namespace CustomAction
 			catch (Exception e)
 			{
 				session.Log("В результате выполнения ReadAppServerSettings возникла ошибка: {0}", e.Message);
+				return ActionResult.Failure;
+			}
+
+			return ActionResult.Success;
+		}
+
+		[CustomAction]
+		public static ActionResult CheckSqlConnection(Session session)
+		{
+			session.Log("Выполнение CheckSqlConnection");
+
+			try
+			{
+				//MessageBox.Show(
+				//	String.Format("{0}\n{1}\n{2}\n{3}\n{4}\n{5}",
+				//	session[SqlServerAddress],
+				//	session[SqlServerPort],
+				//	session[SqlServerInstanceName],
+				//	session[SqlServerAuthenticationMode],
+				//	session[SqlServerLogin],
+				//	session[SqlServerPassword]));
+
+				var address = session[SqlServerAddress];
+				
+				int port;
+				if (!Int32.TryParse(session[SqlServerPort], out port))
+					port = SqlServerPortDefault;
+
+				var instanceName = session[SqlServerInstanceName];
+				var dbIntegratedSecurity = session[SqlServerAuthenticationMode] == "0"; 
+				var login = session[SqlServerLogin];
+				var password = session[SqlServerPassword];
+				
+				var msg = String.Format(@"Соединение с сервером {0}\{1},{2}", address, instanceName, port);
+				string errors;
+				if (!CheckSqlServerConnection(address, port, instanceName, dbIntegratedSecurity, login, password, out errors))
+				{
+					msg = String.Format("{0} установить не удалось по причине ошибки: \n\n{1}", msg, errors);
+					MessageBox.Show(msg, String.Format("Установка {0}", session[ProductName]), MessageBoxButton.OK, MessageBoxImage.Warning);
+					return ActionResult.Success;
+				}
+				msg = String.Format("{0} успешно установлено", msg);
+				MessageBox.Show(msg, String.Format("Установка {0}", session[ProductName]), MessageBoxButton.OK, MessageBoxImage.Information);
+			}
+			catch (Exception e)
+			{
+				session.Log("В результате выполнения CheckSqlConnection возникла ошибка: {0}", e.Message);
 				return ActionResult.Failure;
 			}
 
@@ -185,6 +233,50 @@ namespace CustomAction
 				return SqlServerPasswordDefault;
 
 			return element.Value;
+		}
+
+		/// <summary>
+		/// Проверяет доступность СУБД MS SQL Server
+		/// </summary>
+		/// <param name="ipAddress">IP-адрес сервера СУБД</param>
+		/// <param name="ipPort">IP-порт сервера СУБД</param>
+		/// <param name="instanceName">Название именованной установки сервера СУБД</param>
+		/// <param name="useIntegratedSecurity">Метод аутентификации</param>
+		/// <param name="userID">Логин (только для SQL Server аутентификации)</param>
+		/// <param name="userPwd">Пароль (только для SQL Server аутентификации)</param>
+		/// <param name="errors">Ошибки, возникшие в процессе проверки соединения</param>
+		/// <returns>true - в случае успеха, false - в противном случае</returns>
+		private static bool CheckSqlServerConnection(string ipAddress, int ipPort, string instanceName, bool useIntegratedSecurity, string userID, string userPwd, out string errors)
+		{
+			errors = null;
+			var connectionString = BuildConnectionString(ipAddress, ipPort, instanceName, "master", useIntegratedSecurity, userID, userPwd);
+			using (var connection = new SqlConnection(connectionString))
+			{
+				try
+				{
+					connection.Open();
+				}
+				catch (Exception e)
+				{
+					errors = e.Message;
+					return false;
+				}
+			}
+			return true;
+		}
+
+		private static string BuildConnectionString(string ipAddress, int ipPort, string instanceName, string db, bool useIntegratedSecurity, string userID, string userPwd)
+		{
+			var csb = new SqlConnectionStringBuilder();
+			csb.DataSource = String.Format(@"{0}{1},{2}", ipAddress, String.IsNullOrEmpty(instanceName) ? String.Empty : String.Format(@"\{0}", instanceName), ipPort);
+			csb.InitialCatalog = db;
+			csb.IntegratedSecurity = useIntegratedSecurity;
+			if (!csb.IntegratedSecurity)
+			{
+				csb.UserID = userID;
+				csb.Password = userPwd;
+			}
+			return csb.ConnectionString;
 		}
 
 		#endregion </Чтение файла конфигурации AppServerSettings.xml>
