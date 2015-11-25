@@ -38,7 +38,7 @@ namespace VideoModule.ViewModels
 		}
 		public bool PrepareToTranslation(out IPEndPoint ipEndPoint, out int vendorId)
 		{
-			return RviClientHelper.PrepareToTranslation(ClientManager.SystemConfiguration, Camera, out ipEndPoint, out vendorId);
+			return RviClientHelper.PrepareToTranslation(ClientManager.SystemConfiguration.RviSettings, Camera, out ipEndPoint, out vendorId);
 		}
 	}
 }
