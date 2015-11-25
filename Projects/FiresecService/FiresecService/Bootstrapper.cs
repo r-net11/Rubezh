@@ -82,6 +82,8 @@ namespace FiresecService
 					ProcedureHelper.ControlDirection,
 					ProcedureHelper.ControlGKDoor,
 					ProcedureHelper.ControlDelay,
+					ProcedureHelper.ControlPumpStation,
+					ProcedureHelper.ControlMPT,
 					ProcedureHelper.ExportJournal,
 					ProcedureHelper.ExportOrganisation,
 					ProcedureHelper.ExportOrganisationList,

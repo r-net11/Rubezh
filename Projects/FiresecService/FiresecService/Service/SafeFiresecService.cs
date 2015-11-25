@@ -484,6 +484,16 @@ namespace FiresecService.Service
 			SafeOperationCall(() => FiresecService.ControlDelay(uid, commandType), "ControlDelay");
 		}
 
+		public void ControlPumpStation(Guid uid, PumpStationCommandType commandType)
+		{
+			SafeOperationCall(() => FiresecService.ControlPumpStation(uid, commandType), "ControlPumpStation");
+		}
+
+		public void ControlMPT(Guid uid, MPTCommandType commandType)
+		{
+			SafeOperationCall(() => FiresecService.ControlMPT(uid, commandType), "ControlMPT");
+		}
+
 		public void ExportJournalA(bool isExportJournal, bool isExportPassJournal, DateTime minDate, DateTime maxDate, string path)
 		{
 			SafeOperationCall(() => FiresecService.ExportJournalA(isExportJournal, isExportPassJournal, minDate, maxDate, path), "ExportJournal");

@@ -25,7 +25,7 @@ namespace VideoModule.ViewModels
 		{
 			if (Camera != null)
 			{
-				return RviClientHelper.PrepareToTranslation(ClientManager.SystemConfiguration, Camera, out ipEndPoint, out vendorId);
+				return RviClientHelper.PrepareToTranslation(ClientManager.SystemConfiguration.RviSettings, Camera, out ipEndPoint, out vendorId);
 			}
 			ipEndPoint = null;
 			vendorId = int.MinValue;

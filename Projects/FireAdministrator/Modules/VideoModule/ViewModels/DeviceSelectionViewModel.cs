@@ -23,7 +23,7 @@ namespace VideoModule.ViewModels
 			List<Device> devices = null;
 			try
 			{
-				devices = RviClientHelper.GetDevices(ClientManager.SystemConfiguration);
+				devices = RviClientHelper.GetDevices(ClientManager.SystemConfiguration.RviSettings);
 			}
 			catch
 			{
