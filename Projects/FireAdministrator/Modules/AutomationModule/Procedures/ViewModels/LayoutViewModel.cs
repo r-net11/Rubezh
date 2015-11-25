@@ -13,7 +13,7 @@ namespace AutomationModule.ViewModels
 		public LayoutViewModel(LayoutModel layout)
 		{
 			Layout = layout;
-			NavigateCommand = new RelayCommand(OnNavigate);
+			NavigateCommand = new RelayCommand(OnNavigate, CanNavigate);
 		}
 
 		public string Name
@@ -25,6 +25,10 @@ namespace AutomationModule.ViewModels
 		void OnNavigate()
 		{
 			ServiceFactoryBase.Events.GetEvent<ShowMonitorLayoutEvent>().Publish(Layout.UID);
+		}
+		bool CanNavigate()
+		{
+			return Layout.UID != LayoutModel.NoLayoutUID;
 		}
 	}
 }

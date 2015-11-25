@@ -9,7 +9,7 @@
 			<Setter Property="VerticalAlignment" Value="Center"/>
 		</Style>
 	</UserControl.Resources>
-	<StackPanel>
+	<StackPanel MaxWidth="800">
 		<StackPanel Orientation="Horizontal">
 			<Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="2" VerticalAlignment="Center" />
 			<TextBlock Text="{Binding Device.PresentationName}" FontWeight="Bold" HorizontalAlignment="Stretch" VerticalAlignment="Center" />

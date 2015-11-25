@@ -37,7 +37,6 @@
 				<File Id="Administrator.XamlTune.dll" Name="XamlTune.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Administrator.TargetDir)" />
-				<File Id="Administrator.NLog.dll" Name="NLog.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.Loya.Dameer.dll" Name="Loya.Dameer.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.RviClient.dll" Name="RviClient.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.RubezhLicense.dll" Name="RubezhLicense.dll" Source="$(var.Administrator.TargetDir)" />
@@ -47,6 +46,8 @@
 				<File Id="Administrator.Softing.Opc.Ua.Sdk.Configuration.dll" Name="Softing.Opc.Ua.Sdk.Configuration.dll" Source="..\..\..\..\..\..\3rdParty\OPC\" />
 				<File Id="Administrator.Softing.Opc.Ua.Sdk.Core.dll" Name="Softing.Opc.Ua.Sdk.Core.dll" Source="..\..\..\..\..\..\3rdParty\OPC\" />
 				<File Id="Administrator.Softing.Opc.Ua.Toolkit.dll" Name="Softing.Opc.Ua.Toolkit.dll" Source="..\..\..\..\..\..\3rdParty\OPC\" />
+				
+				<File Id="Administrator.NLog.dll" Name="NLog.dll" Source="..\..\..\..\..\..\3rdParty\NLog.2.0.1.2\" />
 
 				<File Id="Administrator.Npgsql.dll" Name="Npgsql.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Administrator.Npgsql.EntityFramework.dll" Name="Npgsql.EntityFramework.dll" Source="$(var.Server.TargetDir)" />

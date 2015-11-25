@@ -27,7 +27,6 @@
 				<File Id="Server.RubezhDAL.dll" Name="RubezhDAL.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.RubezhLicense.dll" Name="RubezhLicense.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Server.NLog.dll" Name="NLog.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.WPFToolkit.Extended.dll" Name="WPFToolkit.Extended.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.itextsharp.dll" Name="itextsharp.dll" Source="$(var.Common.TargetDir)" />
@@ -36,6 +35,8 @@
 				<File Id="Server.Xceed.Wpf.AvalonDock.dll" Name="Xceed.Wpf.AvalonDock.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.System.Windows.Controls.Input.Toolkit.dll" Name="System.Windows.Controls.Input.Toolkit.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.RviClient.dll" Name="RviClient.dll" Source="$(var.Server.TargetDir)" />
+
+				<File Id="Server.NLog.dll" Name="NLog.dll" Source="..\..\..\..\..\..\3rdParty\NLog.2.0.1.2\" />
 
 				<File Id="Server.EntityFramework.dll" Name="EntityFramework.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.EntityFramework.SqlServer.dll" Name="EntityFramework.SqlServer.dll" Source="$(var.Server.TargetDir)" />

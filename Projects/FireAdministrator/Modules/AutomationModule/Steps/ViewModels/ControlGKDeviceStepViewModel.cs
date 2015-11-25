@@ -21,6 +21,7 @@ namespace AutomationModule.ViewModels
 			GKDeviceArgument.UpdateVariableScopeHandler = Update;
 			GKDeviceArgument.ExplicitValue.UpdateObjectHandler += Update;
 			Commands = new ObservableCollection<CommandType>();
+			Update();
 		}
 
 		public void Update()
