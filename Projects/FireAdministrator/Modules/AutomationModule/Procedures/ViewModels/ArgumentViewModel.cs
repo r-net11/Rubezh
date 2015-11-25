@@ -93,6 +93,8 @@ namespace AutomationModule.ViewModels
 						|| ((ObjectType == ObjectType.VideoDevice) && (ExplicitValue.Camera == null))
 						|| ((ObjectType == ObjectType.Zone) && (ExplicitValue.Zone == null))
 						|| ((ObjectType == ObjectType.Delay) && (ExplicitValue.Delay == null))
+						|| ((ObjectType == ObjectType.PumpStation) && (ExplicitValue.PumpStation == null))
+						|| ((ObjectType == ObjectType.MPT) && (ExplicitValue.MPT == null))
 						|| ((ObjectType == ObjectType.Organisation) && (ExplicitValue.Organisation == null)));
 			}
 		}
