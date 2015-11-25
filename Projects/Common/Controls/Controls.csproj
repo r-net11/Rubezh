@@ -228,7 +228,6 @@
     <Compile Include="TimePicker.xaml.cs">
       <DependentUpon>TimePicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MultiselectDataGrid.cs" />
     <Compile Include="XStateHelper.cs" />
     <Compile Include="TemplateSelectors\InterfaceTemplateSelector.cs" />
     <Compile Include="TextBoxHelper.cs" />
