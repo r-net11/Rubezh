@@ -320,7 +320,8 @@ namespace SKDDriver.Translators
 					};
 					if (tableInterval.EndTime > 60 * 60 * 24)
 						timeTrackPart.EndsInNextDay = true;
-					timeTrackPart.DayName = dayInterval.Name;
+					if (dayInterval != null)
+						timeTrackPart.DayName = dayInterval.Name;
 					result.TimeTrackParts.Add(timeTrackPart);
 				}
 				if (nightTimeTrackPart != null)
@@ -344,7 +345,8 @@ namespace SKDDriver.Translators
 						result.TimeTrackParts.Remove(lastTimeTrack);
 					}
 
-					result.SlideTime -= reductionTimeSpan;
+					if(result.SlideTime  > TimeSpan.Zero) //если используется расчёт по норме
+						result.SlideTime -= reductionTimeSpan;
 				}
 			}
 
