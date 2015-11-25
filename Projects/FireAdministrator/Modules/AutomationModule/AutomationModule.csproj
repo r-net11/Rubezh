@@ -87,7 +87,6 @@
     <Compile Include="Events\ShowAutomationSchedulesEvents.cs" />
     <Compile Include="Events\ShowAutomationSoundsEvent.cs" />
     <Compile Include="Events\ShowGlobalVariablesEvent.cs" />
-    <Compile Include="Events\ShowOpcDaServersEvent.cs" />
     <Compile Include="Events\ShowProceduresEvent.cs" />
     <Compile Include="Events\ShowOPCServersEvent.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesMenuViewModel.cs" />
@@ -123,20 +122,6 @@
     </Compile>
     <Compile Include="ObjectSelection\Views\OrganisatonSelectionView.xaml.cs">
       <DependentUpon>OrganisatonSelectionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="OpcDaServers\ViewModels\OpcDaServersAddingServerViewModel.cs" />
-    <Compile Include="OpcDaServers\ViewModels\OpcDaServersAddingServersViewModel.cs" />
-    <Compile Include="OpcDaServers\ViewModels\OpcDaServersViewModel.cs" />
-    <Compile Include="OpcDaServers\ViewModels\OpcDaServerViewModel.cs" />
-    <Compile Include="OpcDaServers\ViewModels\OpcDaServersMenuViewModel.cs" />
-    <Compile Include="OpcDaServers\Views\OpcDaServersAddingServersView.xaml.cs">
-      <DependentUpon>OpcDaServersAddingServersView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="OpcDaServers\Views\OpcDaServersMenuView.xaml.cs">
-      <DependentUpon>OpcDaServersMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="OpcDaServers\Views\OpcDaServersView.xaml.cs">
-      <DependentUpon>OpcDaServersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OPCServers\ViewModels\Client.cs" />
     <Compile Include="OPCServers\ViewModels\ConfigClass.cs" />
@@ -510,10 +495,6 @@
       <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
       <Name>Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\OpcDaServer\OpcDaServer\OpcDaServer.csproj">
-      <Project>{f15ca571-230c-4116-ac49-86c095014282}</Project>
-      <Name>OpcDaServer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\RubezhClient\RubezhClient.csproj">
       <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
       <Name>RubezhClient</Name>
@@ -593,22 +574,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ObjectSelection\Views\OrganisatonSelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="OpcDaServers\DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="OpcDaServers\Views\OpcDaServersAddingServersView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="OpcDaServers\Views\OpcDaServersMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="OpcDaServers\Views\OpcDaServersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
