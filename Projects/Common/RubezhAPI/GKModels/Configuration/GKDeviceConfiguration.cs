@@ -28,8 +28,7 @@ namespace RubezhAPI.GK
 			Doors = new List<GKDoor>();
 			SKDZones = new List<GKSKDZone>();
 			OPCSettings = new OPCSettings();
-			PmfUsers = new List<GKUser>();
-
+			
 			ParameterTemplates = new List<GKParameterTemplate>();
 			GKNameGenerationType = GKNameGenerationType.DriverTypePlusAddressPlusDescription;
 		}
@@ -111,9 +110,6 @@ namespace RubezhAPI.GK
 
 		[DataMember]
 		public OPCSettings OPCSettings { get; set; }
-
-		[DataMember]
-		public List<GKUser> PmfUsers { get; set; }
 
 		public void Update()
 		{

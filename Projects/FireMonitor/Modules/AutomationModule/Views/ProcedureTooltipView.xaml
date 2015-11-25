@@ -12,5 +12,6 @@
 			<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="/Controls;component/Images/ProcedureYellow.png" />
 			<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Procedure.Name}" />
 		</StackPanel>
+		<TextBlock Text="{Binding Procedure.Description}" Visibility="{Binding Procedure.Description, Converter={StaticResource StringToVisibilityConverter}}" TextWrapping="Wrap" />
 	</StackPanel>
 </UserControl>

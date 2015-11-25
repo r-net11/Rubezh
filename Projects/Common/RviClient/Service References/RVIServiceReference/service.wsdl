@@ -18,6 +18,7 @@
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Alarm" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Video" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IIntegration_SessionInitialiazation_InputMessage">
@@ -122,6 +123,12 @@
   <wsdl:message name="IIntegration_AlarmRuleCheckExist_OutputMessage">
     <wsdl:part name="parameters" element="tns:AlarmRuleCheckExistResponse" />
   </wsdl:message>
+  <wsdl:message name="IIntegration_VideoStreamingStart_InputMessage">
+    <wsdl:part name="parameters" element="tns:VideoStreamingStart" />
+  </wsdl:message>
+  <wsdl:message name="IIntegration_VideoStreamingStart_OutputMessage">
+    <wsdl:part name="parameters" element="tns:VideoStreamingStartResponse" />
+  </wsdl:message>
   <wsdl:portType name="IIntegration">
     <wsdl:operation name="SessionInitialiazation">
       <wsdl:input wsaw:Action="http://tempuri.org/IIntegration/SessionInitialiazation" message="tns:IIntegration_SessionInitialiazation_InputMessage" />
@@ -190,6 +197,10 @@
     <wsdl:operation name="AlarmRuleCheckExist">
       <wsdl:input wsaw:Action="http://tempuri.org/IIntegration/AlarmRuleCheckExist" message="tns:IIntegration_AlarmRuleCheckExist_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IIntegration/AlarmRuleCheckExistResponse" message="tns:IIntegration_AlarmRuleCheckExist_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="VideoStreamingStart">
+      <wsdl:input wsaw:Action="http://tempuri.org/IIntegration/VideoStreamingStart" message="tns:IIntegration_VideoStreamingStart_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IIntegration/VideoStreamingStartResponse" message="tns:IIntegration_VideoStreamingStart_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IIntegration" type="tns:IIntegration">
@@ -342,6 +353,15 @@
     </wsdl:operation>
     <wsdl:operation name="AlarmRuleCheckExist">
       <soap12:operation soapAction="http://tempuri.org/IIntegration/AlarmRuleCheckExist" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VideoStreamingStart">
+      <soap12:operation soapAction="http://tempuri.org/IIntegration/VideoStreamingStart" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

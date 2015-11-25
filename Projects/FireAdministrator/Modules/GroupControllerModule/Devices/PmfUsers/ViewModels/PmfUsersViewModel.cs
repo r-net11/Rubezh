@@ -21,6 +21,12 @@ namespace GKModule.ViewModels
 		
 		public PmfUsersViewModel(GKDevice pmf)
 		{
+			AddCommand = new RelayCommand(OnAdd);
+			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+			WriteCommand = new RelayCommand(OnWrite);
+			ReadCommand = new RelayCommand(OnRead);
+			
 			if(pmf == null || pmf.DriverType != GKDriverType.GKMirror)
 			{
 				MessageBoxService.Show("Неверный тип устройства");
@@ -28,9 +34,7 @@ namespace GKModule.ViewModels
 			}
 			Pmf = pmf;
 			Title = "Пользователи " + Pmf.PresentationName;
-			Users = GKManager.PmfUsers == null ? 
-				new ObservableCollection<PmfUserViewModel>() : 
-				new ObservableCollection<PmfUserViewModel>(GKManager.PmfUsers.Where(x => x.DeviceUID == pmf.UID).OrderBy(x => x.GkNo).Select(x => new PmfUserViewModel(x)));
+			Users = new ObservableCollection<PmfUserViewModel>(pmf.PmfUsers.OrderBy(x => x.Password).Select(x => new PmfUserViewModel(x)));
 			SelectedUser = Users.FirstOrDefault();
 		}
 
@@ -46,8 +50,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		#region Commands
-		public RelayCommand AddCommand { get { return new RelayCommand(OnAdd); } }
+		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
 			var pmfUserDetailsViewModel = new PmfUserDetailsViewModel(this);
@@ -58,7 +61,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand EditCommand { get { return new RelayCommand(OnEdit, CanEdit); } }
+		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
 			var pmfUserDetailsViewModel = new PmfUserDetailsViewModel(this, SelectedUser.User);
@@ -73,24 +76,24 @@ namespace GKModule.ViewModels
 			return SelectedUser != null;
 		}
 
-		public RelayCommand DeleteCommand { get { return new RelayCommand(OnDelete, CanDelete); } }
+		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
+			var user = SelectedUser.User;
 			Users.Remove(SelectedUser);
+			Pmf.PmfUsers.RemoveAll(x => x.Password == user.Password);
 			SelectedUser = Users.FirstOrDefault();
-			GKManager.PmfUsers.Remove(SelectedUser.User);
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanDelete()
 		{
 			return SelectedUser != null;
 		}
-		
-		public RelayCommand WriteCommand { get { return new RelayCommand(OnWrite); } }
+
+		public RelayCommand WriteCommand { get; private set; }
 		void OnWrite()
 		{
-			return;
-			var result = ClientManager.FiresecService.WriteAllGKUsers(Users.Select(x => x.User).ToList());
+			var result = ClientManager.FiresecService.RewritePmfUsers(Pmf.UID, Users.Select(x => x.User).ToList());
 			if (result.HasError)
 			{
 				MessageBoxService.Show(result.Error);
@@ -98,22 +101,19 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand ReadCommand { get { return new RelayCommand(OnRead); } }
+		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
-			return;
 			var result = ClientManager.FiresecService.GetGKUsers(Pmf.UID);
 			if (result.HasError)
 			{
 				MessageBoxService.Show(result.Error);
 				return;
 			}
-			GKManager.PmfUsers.RemoveAll(x => x.DeviceUID == Pmf.UID);
-			GKManager.PmfUsers.AddRange(result.Result);
+			Pmf.PmfUsers = new List<GKUser>(result.Result);
 			ServiceFactory.SaveService.GKChanged = true;
 			Users = new ObservableCollection<PmfUserViewModel>(result.Result.Select(x => new PmfUserViewModel(x)));
 			OnPropertyChanged(() => Users);
 		}
-		#endregion
 	}
 }

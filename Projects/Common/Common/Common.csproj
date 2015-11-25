@@ -121,7 +121,7 @@
       <HintPath>..\..\..\3rdParty\iTextSharp\itextsharp.xtra.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
-      <HintPath>..\..\..\3rdParty\NLog2\NLog.dll</HintPath>
+      <HintPath>..\..\..\3rdParty\NLog.2.0.1.2\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />

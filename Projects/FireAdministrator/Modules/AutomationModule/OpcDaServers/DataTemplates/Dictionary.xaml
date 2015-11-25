@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:Views="clr-namespace:AutomationModule.Views"
+					xmlns:ViewModels="clr-namespace:AutomationModule.ViewModels">
+	<DataTemplate DataType="{x:Type ViewModels:OpcDaServersViewModel}">
+		<Views:OpcDaServersView />
+	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:OpcDaServersMenuViewModel}">
+		<Views:OpcDaServersMenuView />
+	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:OpcDaServersAddingServersViewModel}">
+		<Views:OpcDaServersAddingServersView />
+	</DataTemplate>
+</ResourceDictionary>
