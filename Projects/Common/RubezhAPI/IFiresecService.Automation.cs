@@ -46,6 +46,10 @@ namespace RubezhAPI
 		[OperationContract]
 		void ControlDelay(Guid uid, DelayCommandType commandType);
 		[OperationContract]
+		void ControlPumpStation(Guid uid, PumpStationCommandType commandType);
+		[OperationContract]
+		void ControlMPT(Guid uid, MPTCommandType commandType);
+		[OperationContract]
 		void ExportJournalA(bool isExportJournal, bool isExportPassJournal, DateTime minDate, DateTime maxDate, string path);
 		[OperationContract]
 		void ExportOrganisationA(bool isWithDeleted, Guid organisationUid, string path);

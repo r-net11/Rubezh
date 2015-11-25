@@ -111,11 +111,21 @@
     </Compile>
     <Compile Include="ObjectSelection\ViewModels\DelaySelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DelayViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\MPTSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\PumpStationSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\MPTViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\PumpStationViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\GKDoorSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\OrganisationSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\OrganisationViewModel.cs" />
     <Compile Include="ObjectSelection\Views\DelaySelectionView.xaml.cs">
       <DependentUpon>DelaySelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\MPTSelectionView.xaml.cs">
+      <DependentUpon>MPTSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\PumpStationSelectionView.xaml.cs">
+      <DependentUpon>PumpStationSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ObjectSelection\Views\GKDoorSelectionView.xaml.cs">
       <DependentUpon>GKDoorSelectionView.xaml</DependentUpon>
@@ -157,6 +167,8 @@
       <DependentUpon>VariableView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\ViewModels\ControlDelayStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ControlMPTStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ControlPumpStationStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlGKDoorStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlPlanStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlVisualStepViewModel.cs" />
@@ -259,6 +271,12 @@
     </Compile>
     <Compile Include="Steps\Views\ControlDelayStepView.xaml.cs">
       <DependentUpon>ControlDelayStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ControlMPTStepView.xaml.cs">
+      <DependentUpon>ControlMPTStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ControlPumpStationStepView.xaml.cs">
+      <DependentUpon>ControlPumpStationStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ControlDirectionStepView.xaml.cs">
       <DependentUpon>ControlDirectionStepView.xaml</DependentUpon>
@@ -569,6 +587,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ObjectSelection\Views\MPTSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ObjectSelection\Views\PumpStationSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ObjectSelection\Views\GKDoorSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -624,6 +650,14 @@
     <Page Include="Steps\Views\ControlDelayStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ControlMPTStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Steps\Views\ControlPumpStationStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Steps\Views\ControlGKDoorStepView.xaml">
       <SubType>Designer</SubType>

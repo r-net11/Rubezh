@@ -1,6 +1,5 @@
-﻿using RubezhAPI.GK;
-using RubezhAPI.SKD;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.GK;
 
 namespace AutomationModule.ViewModels
 {
