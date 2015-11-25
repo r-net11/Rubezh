@@ -715,7 +715,6 @@ namespace GKModule.ViewModels
 					if (DialogService.ShowModalWindow(guardZonesSelectationViewModel))
 					{
 						GKManager.ChangeDeviceGuardZones(Device, guardZonesSelectationViewModel.DeviceGuardZones.Select(x => x.DeviceGuardZone).ToList());
-						Device.ChangedLogic();
 					}
 				}
 			}
