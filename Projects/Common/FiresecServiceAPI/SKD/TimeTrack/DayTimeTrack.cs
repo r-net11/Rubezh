@@ -886,7 +886,7 @@ namespace FiresecAPI.SKD
 			resultTotalCollection.Add(
 				new TimeTrackTotal(TimeTrackType.Night)
 				{
-					TimeSpan = GetNightTime(NightSettings)
+					TimeSpan = GetNightTime(NightSettings, realTimeTrackParts)
 				});
 
 			resultTotalCollection.Add(
@@ -1022,17 +1022,17 @@ namespace FiresecAPI.SKD
 			return balanceTimeSpan;
 		}
 
-		private TimeSpan GetNightTime(NightSettings nightSettings)
+		public TimeSpan GetNightTime(NightSettings nightSettings, List<TimeTrackPart> realTimeTrackParts)
 		{
-			if (nightSettings == null || nightSettings.NightEndTime == nightSettings.NightStartTime) return default(TimeSpan);
+			if (nightSettings == null || nightSettings.NightEndTime == nightSettings.NightStartTime || !nightSettings.IsNightSettingsEnabled) return default(TimeSpan);
 
 			if (nightSettings.NightEndTime > nightSettings.NightStartTime)
 			{
-				return CalculateEveningTime(nightSettings.NightStartTime, nightSettings.NightEndTime, RealTimeTrackParts);
+				return CalculateEveningTime(nightSettings.NightStartTime, nightSettings.NightEndTime, realTimeTrackParts);
 			}
 
-			return CalculateEveningTime(nightSettings.NightStartTime, new TimeSpan(23, 59, 59), RealTimeTrackParts) +
-				   CalculateEveningTime(new TimeSpan(0, 0, 0), nightSettings.NightEndTime, RealTimeTrackParts);
+			return CalculateEveningTime(nightSettings.NightStartTime, new TimeSpan(23, 59, 59), realTimeTrackParts) +
+				   CalculateEveningTime(new TimeSpan(0, 0, 0), nightSettings.NightEndTime, realTimeTrackParts);
 		}
 
 		/// <summary>
@@ -1092,16 +1092,16 @@ namespace FiresecAPI.SKD
 
 			if (end <= TimeSpan.Zero) return result;
 
-			foreach (var trackPart in realTimeTrackParts.Where(x => x.ExitDateTime.HasValue))
+			foreach (var trackPart in realTimeTrackParts.Where(x => x.ExitDateTime.HasValue && x.IsForURVZone && !x.NotTakeInCalculations && x.TimeTrackPartType == TimeTrackType.Night))
 			{
-				if (trackPart.EnterDateTime.TimeOfDay <= start && trackPart.ExitDateTime.Value.TimeOfDay >= end)
+				if (trackPart.ExitDateTime != null && (trackPart.EnterDateTime.TimeOfDay <= start && trackPart.ExitDateTime.Value.TimeOfDay >= end))
 				{
 					result += end - start;
 				}
 				else
 				{
-					if ((trackPart.EnterDateTime.TimeOfDay >= start && trackPart.EnterDateTime.TimeOfDay <= end) ||
-					    (trackPart.ExitDateTime.Value.TimeOfDay >= start && trackPart.ExitDateTime.Value.TimeOfDay <= end))
+					if (trackPart.ExitDateTime != null && ((trackPart.EnterDateTime.TimeOfDay >= start && trackPart.EnterDateTime.TimeOfDay <= end) ||
+					                                       (trackPart.ExitDateTime.Value.TimeOfDay >= start && trackPart.ExitDateTime.Value.TimeOfDay <= end)))
 					{
 						var minStartTime = trackPart.EnterDateTime.TimeOfDay < start ? start : trackPart.EnterDateTime.TimeOfDay;
 						var minEndTime = trackPart.ExitDateTime.Value.TimeOfDay > end ? end : trackPart.ExitDateTime.Value.TimeOfDay;

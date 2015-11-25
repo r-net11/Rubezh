@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Windows;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -12,8 +14,8 @@ namespace SKDModule.ViewModels
 		public NightSettingsViewModel(Guid organisationUID)
 		{
 			Title = "Настройка интервала ночного времени";
-			_nightSettings = NightSettingsHelper.GetByOrganisation(organisationUID) ??
-			                new NightSettings { OrganisationUID = organisationUID };
+			_nightSettings = NightSettingsHelper.GetByOrganisation(organisationUID)
+						?? new NightSettings { OrganisationUID = organisationUID };
 		}
 
 		public TimeSpan NightStartTime
@@ -49,6 +51,11 @@ namespace SKDModule.ViewModels
 		protected override bool Save()
 		{
 			return NightSettingsHelper.Save(_nightSettings);
+		}
+
+		protected override bool CanSave()
+		{
+			return !_nightSettings.NightStartTime.Equals(_nightSettings.NightEndTime);
 		}
 	}
 }
