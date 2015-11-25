@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Media;
 using System.Xml.Serialization;
-using Common;
 
 namespace Infrustructure.Plans.Elements
 {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using Common;
+﻿using Common;
 using Infrastructure.Client.Converters;
 using Infrastructure.Client.Images;
 using Infrastructure.Common;
@@ -10,18 +7,23 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Microsoft.Win32;
+using System;
+using System.IO;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Infrastructure.Designer.ElementProperties.ViewModels
 {
 	public class ImagePropertiesViewModel : BaseViewModel
 	{
-		private IElementBackground _element;
-		private Guid? _imageSource;
-		private string _sourceName;
-		private ResourceType _imageType;
-		private bool _newImage;
-		private DrawingGroup _drawing;
-		private WMFImage _wmf;
+		IElementBackground _element;
+		Guid? _imageSource;
+		Guid? _svgImageSource;
+		string _sourceName;
+		ResourceType _imageType;
+		bool _newImage;
+		DrawingGroup _drawing;
+		WMFImage _wmf;
 		public TileBrush ImageBrush { get; private set; }
 
 		public ImagePropertiesViewModel(IElementBackground element)
@@ -39,7 +41,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		}
 
 		public RelayCommand SelectPictureCommand { get; private set; }
-		private void OnSelectPicture()
+		void OnSelectPicture()
 		{
 			var openFileDialog = new OpenFileDialog();
 			openFileDialog.Filter = ImageExtensions.GraphicFilter;
@@ -80,11 +82,10 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 					}
 					OnPropertyChanged(() => ImageBrush);
 				}
-
 		}
 
 		public RelayCommand RemovePictureCommand { get; private set; }
-		private void OnRemovePicture()
+		void OnRemovePicture()
 		{
 			if (_imageSource.HasValue)
 				ServiceFactoryBase.ContentService.RemoveContent(_imageSource.Value);
@@ -95,7 +96,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			_wmf = null;
 			UpdateImage();
 		}
-		private bool CanRemovePicture()
+		bool CanRemovePicture()
 		{
 			return ImageBrush != null;
 		}
@@ -125,7 +126,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			_element.ImageType = _imageType;
 		}
 
-		private void UpdateImage()
+		void UpdateImage()
 		{
 			try
 			{
