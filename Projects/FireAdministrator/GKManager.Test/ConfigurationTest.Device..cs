@@ -36,13 +36,55 @@ namespace GKManager2.Test
 			var device = AddDevice(kauDevice11, GKDriverType.RSR2_GuardDetector);
 			var guardZone = new GKGuardZone();
 			var guardZoneDevice = new GKGuardZoneDevice {Device = device,DeviceUID = device.UID };
-			guardZone.GuardZoneDevices.Add(guardZoneDevice);
 			GKManager.AddGuardZone(guardZone);
-			GKManager.AddDeviceToGuardZone(device, guardZone,guardZone.GuardZoneDevices[0]);
+#region forzone	
+			// проверка добавления устройства в зону
+			GKManager.AddDeviceToGuardZone(device, guardZone, guardZoneDevice);
 			Assert.IsTrue(device.GuardZones.Contains(guardZone));
 			Assert.IsTrue(guardZone.GuardZoneDevices.Any(x => x.DeviceUID == device.UID));
+			Assert.IsTrue(device.InputDependentElements.Contains(guardZone));
+			Assert.IsTrue(guardZone.OutputDependentElements.Contains(device));
+
 			GKManager.RemoveDeviceFromGuardZone(device, guardZone);
 			Assert.IsFalse(guardZone.GuardZoneDevices.Any(x => x.Device.UID == device.UID));
+			Assert.IsFalse(device.GuardZones.Contains(guardZone));
+			Assert.IsFalse(device.InputDependentElements.Contains(guardZone));
+			Assert.IsFalse(guardZone.OutputDependentElements.Contains(device));
+#endregion
+
+#region fordevice
+			// проверка добавления зоны в устройства
+			GKManager.ChangeDeviceGuardZones(device, new List<GKDeviceGuardZone>() {new GKDeviceGuardZone{GuardZone = guardZone, GuardZoneUID = guardZone.UID}});
+			Assert.IsTrue(device.GuardZones.Contains(guardZone));
+			Assert.IsTrue(guardZone.GuardZoneDevices.Any(x => x.DeviceUID == device.UID));
+			Assert.IsTrue(device.InputDependentElements.Contains(guardZone));
+			Assert.IsTrue(guardZone.OutputDependentElements.Contains(device));
+
+			var guardZone_2 = new GKGuardZone();
+			GKManager.AddGuardZone(guardZone_2);
+			GKManager.ChangeDeviceGuardZones(device, new List<GKDeviceGuardZone>() { new GKDeviceGuardZone { GuardZone = guardZone_2, GuardZoneUID = guardZone_2.UID }});
+			Assert.IsTrue(device.GuardZones.Contains(guardZone_2));
+			Assert.IsTrue(guardZone_2.GuardZoneDevices.Any(x => x.DeviceUID == device.UID));
+			Assert.IsTrue(device.InputDependentElements.Contains(guardZone_2));
+			Assert.IsTrue(guardZone_2.OutputDependentElements.Contains(device));
+
+			Assert.IsFalse(device.GuardZones.Contains(guardZone));
+			Assert.IsFalse(guardZone.GuardZoneDevices.Any(x => x.DeviceUID == device.UID));
+			Assert.IsFalse(device.InputDependentElements.Contains(guardZone));
+			Assert.IsFalse(guardZone.OutputDependentElements.Contains(device));
+#endregion
+			//удалениy зоны
+			GKManager.AddDeviceToGuardZone(device, guardZone, guardZoneDevice);
+			GKManager.RemoveGuardZone(guardZone);
+			Assert.IsFalse(device.GuardZones.Any(x => x.UID == guardZone.UID));
+			Assert.IsFalse(device.InputDependentElements.Any(x => x.UID == guardZone.UID));
+
+			// удаление устройства
+			GKManager.ChangeDeviceGuardZones(device, new List<GKDeviceGuardZone>() { new GKDeviceGuardZone { GuardZone = guardZone_2, GuardZoneUID = guardZone_2.UID } });
+			GKManager.RemoveDevice(device);
+			Assert.IsFalse(guardZone_2.GuardZoneDevices.Any(x => x.DeviceUID == device.UID));
+			Assert.IsFalse(guardZone_2.OutputDependentElements.Any(x => x.UID == device.UID));
+
 		}
 		/// <summary>
 		/// тест на добавления устройства в логику задержки,направления,устройства 
@@ -65,20 +107,28 @@ namespace GKManager2.Test
 
 			GKManager.SetDeviceLogic(device, gkLogic);
 			Assert.IsTrue(device.Logic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains(device.UID)));
+			Assert.IsFalse(device.OutputDependentElements.Any(x => x.UID == device.UID));
+			Assert.IsFalse(device.InputDependentElements.Any(x => x.UID == device.UID));
 
 			var delay = new GKDelay();
 			GKManager.AddDelay(delay);
 			GKManager.SetDelayLogic(delay, gkLogic);
 			Assert.IsTrue(delay.Logic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains(device.UID)));
+			Assert.IsTrue(device.OutputDependentElements.Any(x => x.UID == delay.UID));
+			Assert.IsTrue(delay.InputDependentElements.Any(x => x.UID == device.UID));
 
 			var direction = new GKDirection();
 			GKManager.AddDirection(direction);
 			GKManager.SetDirectionLogic(direction,gkLogic);
 			Assert.IsTrue(direction.Logic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Any()));
+			Assert.IsTrue(device.OutputDependentElements.Any(x => x.UID == direction.UID));
+			Assert.IsTrue(direction.InputDependentElements.Any(x => x.UID == device.UID));
 
 			GKManager.RemoveDevice(device);
 			Assert.IsFalse(delay.Logic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains(device.UID)));
 			Assert.IsFalse(direction.Logic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains(device.UID)));
+			Assert.IsFalse(delay.InputDependentElements.Any(x => x.UID == device.UID));
+			Assert.IsFalse(direction.InputDependentElements.Any(x => x.UID == device.UID));
 
 		}
 
