@@ -47,6 +47,7 @@ namespace RubezhClient
 				deviceGuardZone.GuardZone.GuardZoneDevices.Add(gkGuardZoneDevice);
 				deviceGuardZone.GuardZone.OnChanged();
 			}
+			device.ChangedLogic();
 			device.OnChanged();
 		}
 
@@ -102,7 +103,9 @@ namespace RubezhClient
 			if (guardZone != null)
 			{
 				guardZone.GuardZoneDevices.RemoveAll(x => x.DeviceUID == device.UID);
-				device.GuardZones.Remove(guardZone);
+				device.GuardZones.RemoveAll(x => x.UID == guardZone.UID);
+				guardZone.OutputDependentElements.RemoveAll(x => x.UID == device.UID);
+				device.InputDependentElements.RemoveAll(x => x.UID == guardZone.UID);
 				device.OnChanged();
 			}
 		}
