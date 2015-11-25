@@ -32,12 +32,13 @@
 		<Property Id="SETUPCHOICE" Value="Full" />
 		
 		<!-- Значения по умолчанию для свойств соединения с СУБД MS SQL Server -->
-		<Property Id="SQLSERVER_ADDRESS" Value="." />
-		<Property Id="SQLSERVER_PORT" Value="1433" />
-		<Property Id="SQLSERVER_INSTANCENAME" Value="SQLEXPRESS" />
-		<Property Id="IS_SQLSERVER_AUTHENTICATION" Value="0" />
-		<Property Id="IS_SQLSERVER_USERNAME" Value="sa" />
-		
+		<Property Id="SQLSERVER_ADDRESS" Value="$(var.SQLServerAddressDefault)" />
+		<Property Id="SQLSERVER_PORT" Value="$(var.SQLServerPortDefault)" />
+		<Property Id="SQLSERVER_INSTANCENAME" Value="$(var.SQLServerInstanceNameDefault)" />
+		<Property Id="SQLSERVER_AUTHENTICATIONMODE" Value="$(var.SQLServerAuthenticationModeDefault)" />
+		<Property Id="SQLSERVER_LOGIN" Value="$(var.SQLServerLoginDefault)" />
+		<Property Id="SQLSERVER_PASSWORD" Value="$(var.SQLServerPasswordDefault)" />
+
 		<Property Id="INSTALLMODE" />
 		<Property Id="ALLUSERS" Value="1" Secure="yes" />
 

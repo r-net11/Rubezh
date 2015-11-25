@@ -1,7 +1,9 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
+using System.Xml.Linq;
 using Microsoft.Deployment.WindowsInstaller;
 using System;
 using System.Windows;
@@ -44,9 +46,22 @@ namespace CustomAction
 		#region <Чтение файла конфигурации AppServerSettings.xml>
 
 		private const string InstallLocation = "INSTALLLOCATION";
+		private const string ConfigDir = "C:\\ProgramData\\Firesec2";
 		private const string ConfigFile = "AppServerSettings.xml";
-		private const string ServerPort = "SERVER_PORT";
-		private const int DefaultPort = 8888;
+		
+		private const string SqlServerAddress = "SQLSERVER_ADDRESS";
+		private const string SqlServerPort = "SQLSERVER_PORT";
+		private const string SqlServerInstanceName = "SQLSERVER_INSTANCENAME";
+		private const string SqlServerAuthenticationMode = "SQLSERVER_AUTHENTICATIONMODE";
+		private const string SqlServerLogin = "SQLSERVER_LOGIN";
+		private const string SqlServerPassword = "SQLSERVER_PASSWORD";
+
+		private const string SqlServerAddressDefault = ".";
+		private const int SqlServerPortDefault = 1433;
+		private const string SqlServerInstanceNameDefault = "SQLEXPRESS";
+		private const bool SqlServerAuthenticationModeDefault = true;
+		private const string SqlServerLoginDefault = "strazh";
+		private const string SqlServerPasswordDefault = "strazhstrazh";
 
 		[CustomAction]
 		public static ActionResult ReadAppServerSettings(Session session)
@@ -55,15 +70,28 @@ namespace CustomAction
 
 			try
 			{
-				var installLocation = session[InstallLocation];
-				session.Log("Каталог установки: [{0}]", installLocation);
+				session.Log("Каталог конфигурации: [{0}]", ConfigDir);
 
-				var root = ReadConfigRoot(session, installLocation);
+				var root = ReadConfigRoot(session, ConfigDir);
 				if (root == null)
+				{
 					return ActionResult.Success;
+				}
 
-				int port = GetSqlServerPort(root);
-				session[ServerPort] = port.ToString();
+				session[SqlServerAddress] = GetSqlServerAddress(root);
+				session[SqlServerPort] = GetSqlServerPort(root).ToString();
+				session[SqlServerInstanceName] = GetSqlServerInstanceName(root);
+				session[SqlServerAuthenticationMode] = GetSqlServerAuthenticationMode(root) ? Convert.ToString(0) : Convert.ToString(1);
+				session[SqlServerLogin] = GetSqlServerLogin(root);
+				session[SqlServerPassword] = GetSqlServerPassword(root);
+				//MessageBox.Show(
+				//	String.Format("{0}\n{1}\n{2}\n{3}\n{4}\n{5}",
+				//	session[SqlServerAddress],
+				//	session[SqlServerPort],
+				//	session[SqlServerInstanceName],
+				//	session[SqlServerAuthenticationMode],
+				//	session[SqlServerLogin],
+				//	session[SqlServerPassword]));
 			}
 			catch (Exception e)
 			{
@@ -74,58 +102,89 @@ namespace CustomAction
 			return ActionResult.Success;
 		}
 
-		private static XmlElement ReadConfigRoot(Session session, string installLocation)
+		private static XElement ReadConfigRoot(Session session, string location)
 		{
-			if (!Directory.Exists(installLocation))
+			if (!Directory.Exists(location))
 			{
-				session.Log("Каталог установки [{0}] не найден", installLocation);
+				session.Log("Каталог установки [{0}] не найден", location);
 				return null;
 			}
 
-			string configFile = Path.Combine(installLocation, ConfigFile);
+			var configFile = Path.Combine(location, ConfigFile);
 			if (!File.Exists(configFile))
 			{
 				session.Log("Конфигурационный файл [{0}] не найден", configFile);
 				return null;
 			}
 
-			var doc = new XmlDocument();
+			XDocument doc = null;
 			using (var reader = new StreamReader(configFile))
 			{
-				doc.Load(reader);
+				doc = XDocument.Load(reader);
 			}
 
-			return doc.DocumentElement;
+			return (doc == null) ? null : doc.Root;
 		}
 
-		private static int GetSqlServerPort(XmlElement root)
+		private static string GetSqlServerAddress(XElement root)
 		{
-			const string path = "descendant::service[@name='ApplicationService.Common.ApplicationService']/host/baseAddresses/add[@baseAddress]/@baseAddress";
+			var element = root.Elements().FirstOrDefault(e => e.Name == "DBServerAddress");
+			if (element == null)
+				return SqlServerAddressDefault;
 
-			const string portPattern = @"localhost:(?<port>\d*)";
+			return element.Value;
+		}
 
-			string address = LoadAttribute(root, path);
-			if (string.IsNullOrEmpty(address))
-				return DefaultPort;
-
-			var regex = new Regex(portPattern);
-			var matches = regex.Match(address);
-			if (!matches.Success)
-				return DefaultPort;
-
-			var portString = matches.Groups["port"].Value;
+		private static int GetSqlServerPort(XElement root)
+		{
+			var element = root.Elements().FirstOrDefault(e => e.Name == "DBServerPort");
+			if (element == null)
+				return SqlServerPortDefault;
 
 			int result;
-			if (!int.TryParse(portString, out result))
-				return DefaultPort;
+			if (!int.TryParse(element.Value, out result))
+				return SqlServerPortDefault;
 
 			return result;
 		}
 
-		private static string LoadAttribute(XmlElement root, string path)
+		private static string GetSqlServerInstanceName(XElement root)
 		{
-			var node = root.SelectSingleNode(path);
-			return node != null ? node.Value : null;
+			var element = root.Elements().FirstOrDefault(e => e.Name == "DBServerName");
+			if (element == null)
+				return SqlServerInstanceNameDefault;
+
+			return element.Value;
+		}
+
+		private static bool GetSqlServerAuthenticationMode(XElement root)
+		{
+			var element = root.Elements().FirstOrDefault(e => e.Name == "DBUseIntegratedSecurity");
+			if (element == null)
+				return SqlServerAuthenticationModeDefault;
+
+			bool result;
+			if (!Boolean.TryParse(element.Value, out result))
+				return SqlServerAuthenticationModeDefault;
+			return result;
+		}
+
+		private static string GetSqlServerLogin(XElement root)
+		{
+			var element = root.Elements().FirstOrDefault(e => e.Name == "DBUserID");
+			if (element == null)
+				return SqlServerLoginDefault;
+
+			return element.Value;
+		}
+
+		private static string GetSqlServerPassword(XElement root)
+		{
+			var element = root.Elements().FirstOrDefault(e => e.Name == "DBUserPwd");
+			if (element == null)
+				return SqlServerPasswordDefault;
+
+			return element.Value;
 		}
 
 		#endregion </Чтение файла конфигурации AppServerSettings.xml>
