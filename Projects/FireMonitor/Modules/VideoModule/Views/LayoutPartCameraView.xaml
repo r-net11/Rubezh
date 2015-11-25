@@ -1,21 +1,10 @@
 ﻿<UserControl x:Class="VideoModule.Views.LayoutPartCameraView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:mediaSourcePlayer="clr-namespace:MediaSourcePlayer;assembly=MediaSourcePlayer">
+			 xmlns:mediaSourcePlayer="clr-namespace:MediaSourcePlayer;assembly=MediaSourcePlayer"
+			 Unloaded="UserControl_Unloaded"
+			 Loaded="UserControl_Loaded">
 	<Grid Background="Black">
-		<Border>
-			<Border.Background>
-				<VisualBrush Stretch="Uniform">
-					<VisualBrush.Visual>
-						<mediaSourcePlayer:MediaPlayer
-			                        x:Name="MediaSourcePlayer"
-			                        Width="450"
-			                        Height="250"
-									OriginalAspectRatio="True">
-						</mediaSourcePlayer:MediaPlayer>
-					</VisualBrush.Visual>
-				</VisualBrush >
-			</Border.Background>
-		</Border>
+		<mediaSourcePlayer:MediaPlayer x:Name="MediaSourcePlayer"/>
 	</Grid>
 </UserControl>

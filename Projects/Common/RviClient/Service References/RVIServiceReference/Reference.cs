@@ -38,6 +38,7 @@ namespace RviClient.RVIServiceReference {
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.AlarmRulesIn))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.AlarmRuleExecuteIn))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.AlarmRuleCheckExistIn))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.ChannelStreamingStartIn))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.SessionInitialiazationIn))]
     public partial class DocumentInBase : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -568,6 +569,62 @@ namespace RviClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ChannelStreamingStartIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.V" +
+        "ideo")]
+    [System.SerializableAttribute()]
+    public partial class ChannelStreamingStartIn : RviClient.RVIServiceReference.DocumentInBase {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ChannelNumberField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Guid DeviceGuidField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int StreamNumberField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ChannelNumber {
+            get {
+                return this.ChannelNumberField;
+            }
+            set {
+                if ((this.ChannelNumberField.Equals(value) != true)) {
+                    this.ChannelNumberField = value;
+                    this.RaisePropertyChanged("ChannelNumber");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Guid DeviceGuid {
+            get {
+                return this.DeviceGuidField;
+            }
+            set {
+                if ((this.DeviceGuidField.Equals(value) != true)) {
+                    this.DeviceGuidField = value;
+                    this.RaisePropertyChanged("DeviceGuid");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int StreamNumber {
+            get {
+                return this.StreamNumberField;
+            }
+            set {
+                if ((this.StreamNumberField.Equals(value) != true)) {
+                    this.StreamNumberField = value;
+                    this.RaisePropertyChanged("StreamNumber");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="SessionInitialiazationIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class SessionInitialiazationIn : RviClient.RVIServiceReference.DocumentInBase {
@@ -624,6 +681,7 @@ namespace RviClient.RVIServiceReference {
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.AlarmRulesOut))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.AlarmRuleExecuteOut))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.AlarmRuleCheckExistOut))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.ChannelStreamingStartOut))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.SessionInitialiazationOut))]
     public partial class DocumentOutBase : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -1051,6 +1109,94 @@ namespace RviClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ChannelStreamingStartOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.V" +
+        "ideo")]
+    [System.SerializableAttribute()]
+    public partial class ChannelStreamingStartOut : RviClient.RVIServiceReference.DocumentOutBase {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ChannelNumberField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Guid DeviceGuidField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string EndPointAdressField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int EndPointPortField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int StreamNumberField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ChannelNumber {
+            get {
+                return this.ChannelNumberField;
+            }
+            set {
+                if ((this.ChannelNumberField.Equals(value) != true)) {
+                    this.ChannelNumberField = value;
+                    this.RaisePropertyChanged("ChannelNumber");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Guid DeviceGuid {
+            get {
+                return this.DeviceGuidField;
+            }
+            set {
+                if ((this.DeviceGuidField.Equals(value) != true)) {
+                    this.DeviceGuidField = value;
+                    this.RaisePropertyChanged("DeviceGuid");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string EndPointAdress {
+            get {
+                return this.EndPointAdressField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.EndPointAdressField, value) != true)) {
+                    this.EndPointAdressField = value;
+                    this.RaisePropertyChanged("EndPointAdress");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int EndPointPort {
+            get {
+                return this.EndPointPortField;
+            }
+            set {
+                if ((this.EndPointPortField.Equals(value) != true)) {
+                    this.EndPointPortField = value;
+                    this.RaisePropertyChanged("EndPointPort");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int StreamNumber {
+            get {
+                return this.StreamNumberField;
+            }
+            set {
+                if ((this.StreamNumberField.Equals(value) != true)) {
+                    this.StreamNumberField = value;
+                    this.RaisePropertyChanged("StreamNumber");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="SessionInitialiazationOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class SessionInitialiazationOut : RviClient.RVIServiceReference.DocumentOutBase {
@@ -1145,6 +1291,9 @@ namespace RviClient.RVIServiceReference {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private RviClient.RVIServiceReference.DeviceStatus StatusField;
         
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int VendorField;
+        
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
             get {
@@ -1233,6 +1382,19 @@ namespace RviClient.RVIServiceReference {
             }
         }
         
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Vendor {
+            get {
+                return this.VendorField;
+            }
+            set {
+                if ((this.VendorField.Equals(value) != true)) {
+                    this.VendorField = value;
+                    this.RaisePropertyChanged("Vendor");
+                }
+            }
+        }
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -1275,6 +1437,9 @@ namespace RviClient.RVIServiceReference {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private RviClient.RVIServiceReference.Stream[] StreamsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int VendorField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -1386,6 +1551,19 @@ namespace RviClient.RVIServiceReference {
                 if ((object.ReferenceEquals(this.StreamsField, value) != true)) {
                     this.StreamsField = value;
                     this.RaisePropertyChanged("Streams");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Vendor {
+            get {
+                return this.VendorField;
+            }
+            set {
+                if ((this.VendorField.Equals(value) != true)) {
+                    this.VendorField = value;
+                    this.RaisePropertyChanged("Vendor");
                 }
             }
         }
@@ -1591,6 +1769,9 @@ namespace RviClient.RVIServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IIntegration/AlarmRuleCheckExist", ReplyAction="http://tempuri.org/IIntegration/AlarmRuleCheckExistResponse")]
         RviClient.RVIServiceReference.AlarmRuleCheckExistOut AlarmRuleCheckExist(RviClient.RVIServiceReference.AlarmRuleCheckExistIn document);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IIntegration/VideoStreamingStart", ReplyAction="http://tempuri.org/IIntegration/VideoStreamingStartResponse")]
+        RviClient.RVIServiceReference.ChannelStreamingStartOut VideoStreamingStart(RviClient.RVIServiceReference.ChannelStreamingStartIn streamingStartIn);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1686,6 +1867,10 @@ namespace RviClient.RVIServiceReference {
         
         public RviClient.RVIServiceReference.AlarmRuleCheckExistOut AlarmRuleCheckExist(RviClient.RVIServiceReference.AlarmRuleCheckExistIn document) {
             return base.Channel.AlarmRuleCheckExist(document);
+        }
+        
+        public RviClient.RVIServiceReference.ChannelStreamingStartOut VideoStreamingStart(RviClient.RVIServiceReference.ChannelStreamingStartIn streamingStartIn) {
+            return base.Channel.VideoStreamingStart(streamingStartIn);
         }
     }
 }

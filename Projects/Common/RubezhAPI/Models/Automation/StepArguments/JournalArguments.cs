@@ -18,5 +18,8 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public EnumType EnumType { get; set; }
+
+		[DataMember]
+		public ObjectType ObjectType { get; set; }
 	}
 }

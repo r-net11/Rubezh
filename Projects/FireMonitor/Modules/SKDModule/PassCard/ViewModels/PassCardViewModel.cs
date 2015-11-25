@@ -21,7 +21,7 @@ using System.ComponentModel;
 
 namespace SKDModule.PassCard.ViewModels
 {
-	public class PassCardViewModel : SaveCancelDialogViewModel, IPlanDesignerViewModel
+	public class PassCardViewModel : DialogViewModel, IPlanDesignerViewModel
 	{
 		private PassCardCanvas _passCardCanvas;
 		private Employee _employee;
@@ -43,12 +43,10 @@ namespace SKDModule.PassCard.ViewModels
 			_organisation = OrganisationHelper.GetDetails(_employee.OrganisationUID);
 			_passCardCanvas = new PassCardCanvas();
 			PassCardTemplates = new ObservableCollection<ShortPassCardTemplate>(PassCardTemplateHelper.GetByOrganisation(_organisation.UID));
+			SelectedPassCardTemplate = PassCardTemplates.FirstOrDefault();
 
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
-
-			var uid = _card.PassCardTemplateUID;
-			SelectedPassCardTemplate = uid.HasValue ? PassCardTemplates.FirstOrDefault(item => item.UID == uid.Value) : null;
 		}
 
 		public ObservableCollection<ShortPassCardTemplate> PassCardTemplates { get; private set; }
@@ -282,13 +280,6 @@ namespace SKDModule.PassCard.ViewModels
 				}
 				args.Painter = new PassCardImagePropertyPainter(_passCardCanvas, elementPassCardImageProperty, photo == null || photo.Data == null || photo.Data.Count() == 0 ? null : photo.Data);
 			}
-		}
-
-		protected override bool Save()
-		{
-			var cardTemplateUID = SelectedPassCardTemplate == null ? null : (Guid?)SelectedPassCardTemplate.UID;
-			_card.PassCardTemplateUID = cardTemplateUID;
-			return CardHelper.SaveTemplate(_card);
 		}
 	}
 }

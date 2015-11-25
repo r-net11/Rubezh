@@ -89,6 +89,10 @@ namespace Infrastructure.Automation
 				return new List<Property> { Property.Description, Property.Uid, Property.Name };
 			if (objectType == ObjectType.VideoDevice)
 				return new List<Property> { Property.Uid, Property.Name };
+			if (objectType == ObjectType.PumpStation)
+				return new List<Property> { Property.Uid, Property.No, Property.Delay, Property.Name };
+			if (objectType == ObjectType.MPT)
+				return new List<Property> { Property.Uid, Property.Description, Property.Name };
 			return new List<Property>();
 		}
 
@@ -202,6 +206,12 @@ namespace Infrastructure.Automation
 			var delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == uid);
 			if (delay != null)
 				return delay.PresentationName;
+			var pumpStation = GKManager.DeviceConfiguration.PumpStations.FirstOrDefault(x => x.UID == uid);
+			if (pumpStation != null)
+				return pumpStation.PresentationName;
+			var mpt = GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == uid);
+			if (mpt != null)
+				return mpt.PresentationName;
 			var organisation = OrganisationHelper.GetSingle(uid);
 			if (organisation != null)
 				return organisation.Name;

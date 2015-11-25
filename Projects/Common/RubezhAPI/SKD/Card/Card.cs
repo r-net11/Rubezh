@@ -28,9 +28,6 @@ namespace RubezhAPI.SKD
 		public List<CardDoor> CardDoors { get; set; }
 
 		[DataMember]
-		public Guid? PassCardTemplateUID { get; set; }
-
-		[DataMember]
 		public Guid? AccessTemplateUID { get; set; }
 
 		[DataMember]

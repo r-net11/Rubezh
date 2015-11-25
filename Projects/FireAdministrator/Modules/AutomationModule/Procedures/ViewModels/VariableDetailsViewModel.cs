@@ -250,6 +250,12 @@ namespace AutomationModule.ViewModels
 						case ObjectType.GKDoor:
 							_name = "ТочкаДоступа";
 							break;
+						case ObjectType.PumpStation:
+							_name = "НасоснаяСтанция";
+							break;
+						case ObjectType.MPT:
+							_name = "МПТ";
+							break;
 						case ObjectType.Organisation:
 							_name = "Организация";
 							break;

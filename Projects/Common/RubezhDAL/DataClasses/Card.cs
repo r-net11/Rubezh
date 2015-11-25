@@ -22,10 +22,7 @@ namespace RubezhDAL.DataClasses
 		[Index]
 		public Guid? AccessTemplateUID { get; set; }
 		public AccessTemplate AccessTemplate { get; set; }
-		[Index]
-		public Guid? PassCardTemplateUID { get; set; }
-		public PassCardTemplate PassCardTemplate { get; set; }
-
+		
 		public ICollection<PendingCard> PendingCards { get; set; }
 
 		public ICollection<CardDoor> CardDoors { get; set; }

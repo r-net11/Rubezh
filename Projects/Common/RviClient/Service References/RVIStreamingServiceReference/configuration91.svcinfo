@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="H94wx/Nyb+a0P8qS05oxV0ePq+U=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="r4TJdq4l8UbCiqEaeEcA3CY3T8U=">
   <bindingConfigurations>
-    <bindingConfiguration bindingType="netTcpBinding" name="NetTcpBinding_IIntegrationVideoStreaming1">
+    <bindingConfiguration bindingType="netTcpBinding" name="NetTcpBinding_IIntegrationVideoStreaming">
       <properties>
         <property path="/name" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>NetTcpBinding_IIntegrationVideoStreaming1</serializedValue>
+          <serializedValue>NetTcpBinding_IIntegrationVideoStreaming</serializedValue>
         </property>
         <property path="/closeTimeout" isComplexType="false" isExplicitlyDefined="true" clrType="System.TimeSpan, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />
@@ -118,7 +118,7 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="NetTcpBinding_IIntegrationVideoStreaming1" contract="RVIStreamingServiceReference.IIntegrationVideoStreaming" bindingType="netTcpBinding" address="net.tcp://localhost:8000/IntegrationVideoStreaming" bindingConfiguration="NetTcpBinding_IIntegrationVideoStreaming1">
+    <endpoint name="NetTcpBinding_IIntegrationVideoStreaming" contract="RVIStreamingServiceReference.IIntegrationVideoStreaming" bindingType="netTcpBinding" address="net.tcp://localhost:8000/IntegrationVideoStreaming" bindingConfiguration="NetTcpBinding_IIntegrationVideoStreaming">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>net.tcp://localhost:8000/IntegrationVideoStreaming</serializedValue>
@@ -130,7 +130,7 @@
           <serializedValue>netTcpBinding</serializedValue>
         </property>
         <property path="/bindingConfiguration" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>NetTcpBinding_IIntegrationVideoStreaming1</serializedValue>
+          <serializedValue>NetTcpBinding_IIntegrationVideoStreaming</serializedValue>
         </property>
         <property path="/contract" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>RVIStreamingServiceReference.IIntegrationVideoStreaming</serializedValue>
@@ -193,7 +193,7 @@
           <serializedValue>False</serializedValue>
         </property>
         <property path="/name" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>NetTcpBinding_IIntegrationVideoStreaming1</serializedValue>
+          <serializedValue>NetTcpBinding_IIntegrationVideoStreaming</serializedValue>
         </property>
         <property path="/kind" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

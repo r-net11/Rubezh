@@ -101,6 +101,16 @@ namespace FiresecService.Service
 			ProcedureHelper.ControlDelay(uid, commandType);
 		}
 
+		public void ControlPumpStation(Guid uid, PumpStationCommandType commandType)
+		{
+			ProcedureHelper.ControlPumpStation(uid, commandType);
+		}
+
+		public void ControlMPT(Guid uid, MPTCommandType commandType)
+		{
+			ProcedureHelper.ControlMPT(uid, commandType);
+		}
+
 		public void ExportJournalA(bool isExportJournal, bool isExportPassJournal, DateTime minDate, DateTime maxDate, string path)
 		{
 			ProcedureHelper.ExportJournal(isExportJournal, isExportPassJournal, minDate, maxDate, path);

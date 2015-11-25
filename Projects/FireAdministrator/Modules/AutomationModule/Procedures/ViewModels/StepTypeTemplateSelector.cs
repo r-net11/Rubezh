@@ -22,6 +22,8 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ControlGKGuardZoneTemplate { get; set; }
 		public DataTemplate ControlDirectionTemplate { get; set; }
 		public DataTemplate ControlGKDoorTemplate { get; set; }
+		public DataTemplate ControlPumpStationTemplate { get; set; }
+		public DataTemplate ControlMPTTemplate { get; set; }
 		public DataTemplate GetObjectPropertyTemplate { get; set; }
 		public DataTemplate SendEmailTemplate { get; set; }
 		public DataTemplate RunProgramTemplate { get; set; }
@@ -86,6 +88,10 @@ namespace AutomationModule.ViewModels
 				return ControlDirectionTemplate;
 			if (item is ControlGKDoorStepViewModel)
 				return ControlGKDoorTemplate;
+			if (item is ControlPumpStationStepViewModel)
+				return ControlPumpStationTemplate;
+			if (item is ControlMPTStepViewModel)
+				return ControlMPTTemplate;
 			if (item is ControlDelayStepViewModel)
 				return ControlDelayTemplate;
 			if (item is GetObjectPropertyStepViewModel)

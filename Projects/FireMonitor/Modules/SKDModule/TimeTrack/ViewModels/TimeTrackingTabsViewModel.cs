@@ -145,5 +145,33 @@ namespace SKDModule.ViewModels
 				SKDTabItems.Initialize();
 			}
 		}
+
+		public bool ShowFromJournal(Guid uid)
+		{
+			bool isFounded = false;
+			if(DayIntervalsViewModel.ShowFromJournal(uid))
+			{
+				IsDayIntervalsSelected = true;
+				isFounded = true;
+			}
+			else if(ScheduleSchemesViewModel.ShowFromJournal(uid))
+			{
+				IsScheduleSchemesSelected = true;
+				isFounded = true;
+			}
+			else if(HolidaysViewModel.ShowFromJournal(uid))
+			{
+				IsHolidaysSelected = true;
+				isFounded = true;
+			}
+			else if(SchedulesViewModel.ShowFromJournal(uid))
+			{
+				IsSchedulesSelected = true;
+				isFounded = true;
+			}
+			if (isFounded)
+				ApplicationService.Layout.Show(this);
+			return isFounded;
+		}
 	}
 }

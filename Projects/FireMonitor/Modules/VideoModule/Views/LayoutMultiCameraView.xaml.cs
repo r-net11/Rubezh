@@ -46,30 +46,7 @@ namespace VideoModule.Views
 			GetLogicalChildCollection(_6X6GridView, controls);
 			LayoutPartCameraViews.AddRange(controls);
 			InitializeUIElement();
-			StartAll();
-
 		}
-
-		void StartAll()
-		{
-			foreach (var layoutPartCameraView in LayoutPartCameraViews)
-			{
-				try
-				{
-					var cameraUid = ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == layoutPartCameraView.Name).Value;
-					if (cameraUid != Guid.Empty)
-					{
-						layoutPartCameraView.Start();
-					}
-				}
-				catch (Exception e)
-				{
-
-					MessageBox.Show(e.Message);
-				}
-			}
-		}
-
 		void InitializeUIElement()
 		{
 			foreach (var layoutPartCameraView in LayoutPartCameraViews)
@@ -78,7 +55,7 @@ namespace VideoModule.Views
 				var camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
 				if (camera != null)
 				{
-					var layoutPartCameraViewModel = LayoutPartCameraHelper.LayoutPartCameraViewModels.FirstOrDefault(x => x.RviRTSP == camera.RviRTSP);
+					var layoutPartCameraViewModel = LayoutPartCameraHelper.LayoutPartCameraViewModels.FirstOrDefault(x => x.Camera == camera);
 					if (layoutPartCameraViewModel != null)
 						layoutPartCameraView.DataContext = layoutPartCameraViewModel;
 				}
@@ -127,11 +104,11 @@ namespace VideoModule.Views
 			{
 				foreach (var propertyViewModel in layoutPartPropertyCameraPageViewModel.PropertyViewModels)
 				{
-					if (propertyViewModel.SelectedCamera == null || propertyViewModel.SelectedCamera.RviRTSP == null)
+					if (propertyViewModel.SelectedCamera == null)
 					{
 						continue;
 					}
-					var layoutPartCameraViewModel = LayoutPartCameraHelper.LayoutPartCameraViewModels.FirstOrDefault(x => x.RviRTSP == propertyViewModel.SelectedCamera.RviRTSP);
+					var layoutPartCameraViewModel = LayoutPartCameraHelper.LayoutPartCameraViewModels.FirstOrDefault(x => x.Camera == propertyViewModel.SelectedCamera);
 					if (layoutPartCameraViewModel == null)
 						continue;
 					var layoutPartCameraView = LayoutPartCameraViews.FirstOrDefault(x => x.Name == propertyViewModel.CellName);
@@ -142,15 +119,9 @@ namespace VideoModule.Views
 						continue;
 					ClientSettings.RviMultiLayoutCameraSettings.Dictionary[propertyViewModel.CellName] = cameraUid;
 					InitializeUIElement();
-					StartAll();
 				}
 			}
 		}
-
-		void OnShowArchive(object sender, RoutedEventArgs e)
-		{
-		}
-
 		public static void GetLogicalChildCollection(DependencyObject parent, List<LayoutPartCameraView> logicalCollection)
 		{
 			var children = LogicalTreeHelper.GetChildren(parent);

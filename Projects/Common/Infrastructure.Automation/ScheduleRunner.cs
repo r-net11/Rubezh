@@ -96,11 +96,11 @@ namespace Infrastructure.Automation
 			if (schedule.Year == -1 || schedule.Month == -1 || schedule.Day == -1 || schedule.Hour == -1 || schedule.Minute == -1 || schedule.Second == -1)
 				return false;
 			var scheduleDateTime = new DateTime(schedule.Year, schedule.Month, schedule.Day, schedule.Hour, schedule.Minute, schedule.Second);
-			var delta = (int)((dateTime - scheduleDateTime).TotalSeconds);
+			var delta = (dateTime - scheduleDateTime).TotalSeconds;
 			if (delta < 0)
 				return false;
 			var period = schedule.PeriodDay * 24 * 3600 + schedule.PeriodHour * 3600 + schedule.PeriodMinute * 60 + schedule.PeriodSecond;
-			return (delta % period == 0);
+			return ((int)delta % period == 0);
 		}
 
 		static void RunProcedures(AutomationSchedule schedule)

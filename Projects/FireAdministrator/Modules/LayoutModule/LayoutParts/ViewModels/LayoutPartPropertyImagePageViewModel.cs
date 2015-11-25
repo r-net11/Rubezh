@@ -1,26 +1,28 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using Common;
-using RubezhAPI.Models.Layouts;
+﻿using Common;
 using Infrastructure.Client.Converters;
 using Infrastructure.Client.Images;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Microsoft.Win32;
+using RubezhAPI.Models.Layouts;
+using System;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace LayoutModule.LayoutParts.ViewModels
 {
 	public class LayoutPartPropertyImagePageViewModel : LayoutPartPropertyPageViewModel
 	{
-		private LayoutPartImageViewModel _layoutPartImageViewModel;
-		private string _sourceName;
-		private bool _imageChanged;
-		private DrawingGroup _drawing;
-		private WMFImage _wmf;
+		LayoutPartImageViewModel _layoutPartImageViewModel;
+		string _sourceName;
+		bool _imageChanged;
+		DrawingGroup _drawing;
+		WMFImage _wmf;
+		byte[] _svg;
 
 		public LayoutPartPropertyImagePageViewModel(LayoutPartImageViewModel layoutPartImageViewModel)
 		{
@@ -31,7 +33,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 		}
 
 		public ObservableCollection<Stretch> StretchTypes { get; private set; }
-		private Stretch _stretch;
+		Stretch _stretch;
 		public Stretch Stretch
 		{
 			get { return _stretch; }
@@ -42,7 +44,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 				OnPropertyChanged(() => Stretch);
 			}
 		}
-		private TileBrush _imageBrush;
+		TileBrush _imageBrush;
 		public TileBrush ImageBrush
 		{
 			get { return _imageBrush; }
@@ -53,14 +55,14 @@ namespace LayoutModule.LayoutParts.ViewModels
 				OnPropertyChanged(() => ImageBrush);
 			}
 		}
-		private void UpdateStretch()
+		void UpdateStretch()
 		{
 			if (ImageBrush != null)
 				ImageBrush.Stretch = Stretch;
 		}
 
 		public RelayCommand SelectPictureCommand { get; private set; }
-		private void OnSelectPicture()
+		void OnSelectPicture()
 		{
 			var openFileDialog = new OpenFileDialog();
 			openFileDialog.Filter = ImageExtensions.GraphicFilter;
@@ -73,6 +75,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 						_drawing = SVGConverters.ReadDrawing(_sourceName);
 						_wmf = null;
 						ImageBrush = new DrawingBrush(_drawing);
+						_svg = File.ReadAllBytes(_sourceName);
 					}
 					else if (ImageExtensions.IsWMFGraphics(_sourceName))
 					{
@@ -97,14 +100,14 @@ namespace LayoutModule.LayoutParts.ViewModels
 		}
 
 		public RelayCommand RemovePictureCommand { get; private set; }
-		private void OnRemovePicture()
+		void OnRemovePicture()
 		{
 			_drawing = null;
 			_wmf = null;
 			ImageBrush = null;
 			_imageChanged = true;
 		}
-		private bool CanRemovePicture()
+		bool CanRemovePicture()
 		{
 			return ImageBrush != null;
 		}
@@ -158,6 +161,8 @@ namespace LayoutModule.LayoutParts.ViewModels
 						else
 							properties.ReferenceUID = Guid.Empty;
 					}
+				if (_svg != null)
+					properties.ReferenceSVGUID = ServiceFactoryBase.ContentService.AddContent(_svg);
 				properties.Stretch = Stretch;
 				_layoutPartImageViewModel.ImageBrush = ImageBrush;
 				return true;

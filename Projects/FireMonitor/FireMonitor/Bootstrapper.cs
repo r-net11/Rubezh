@@ -72,6 +72,8 @@ namespace FireMonitor
 						ClientManager.FiresecService.ControlDirection,
 						ClientManager.FiresecService.ControlGKDoor,
 						ClientManager.FiresecService.ControlDelay,
+						ClientManager.FiresecService.ControlPumpStation,
+						ClientManager.FiresecService.ControlMPT,
 						ClientManager.FiresecService.ExportJournal,
 						ClientManager.FiresecService.ExportOrganisation,
 						ClientManager.FiresecService.ExportOrganisationList,
