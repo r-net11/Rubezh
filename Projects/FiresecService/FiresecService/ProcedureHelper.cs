@@ -53,7 +53,7 @@ namespace FiresecService
 						}
 					}
 				}
-			RviClient.RviClientHelper.VideoRecordStart(ProcedureExecutionContext.SystemConfiguration, camera, eventUid.Value, timeout);
+			RviClient.RviClientHelper.VideoRecordStart(ProcedureExecutionContext.SystemConfiguration.RviSettings, camera, eventUid.Value, timeout);
 		}
 
 		public static void StopRecord(Guid cameraUid, Guid eventUid)
@@ -61,7 +61,7 @@ namespace FiresecService
 			var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
 			if (camera == null)
 				return;
-			RviClient.RviClientHelper.VideoRecordStop(ProcedureExecutionContext.SystemConfiguration, camera, eventUid);
+			RviClient.RviClientHelper.VideoRecordStop(ProcedureExecutionContext.SystemConfiguration.RviSettings, camera, eventUid);
 		}
 
 		public static void Ptz(Guid cameraUid, int ptzNumber)
@@ -69,12 +69,12 @@ namespace FiresecService
 			var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
 			if (camera == null)
 				return;
-			RviClient.RviClientHelper.SetPtzPreset(ProcedureExecutionContext.SystemConfiguration, camera, ptzNumber);
+			RviClient.RviClientHelper.SetPtzPreset(ProcedureExecutionContext.SystemConfiguration.RviSettings, camera, ptzNumber);
 		}
 
 		public static void RviAlarm(string name)
 		{
-			RviClient.RviClientHelper.AlarmRuleExecute(ProcedureExecutionContext.SystemConfiguration, name);
+			RviClient.RviClientHelper.AlarmRuleExecute(ProcedureExecutionContext.SystemConfiguration.RviSettings, name);
 		}
 
 		public static void ControlFireZone(Guid uid, ZoneCommandType commandType)
