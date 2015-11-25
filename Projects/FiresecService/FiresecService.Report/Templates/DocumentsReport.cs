@@ -45,8 +45,7 @@ namespace FiresecService.Report.Templates
 
 					if (documentTypesResult.Result == null) continue;
 
-					var documentType = documentTypesResult.Result.FirstOrDefault(x => x.Code == document.DocumentCode)
-					                   ?? TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == document.DocumentCode);
+					var documentType = documentTypesResult.Result.FirstOrDefault(x => x.Code == document.DocumentCode);
 
 					if (documentType == null) continue;
 
