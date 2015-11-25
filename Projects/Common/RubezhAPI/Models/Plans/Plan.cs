@@ -81,6 +81,8 @@ namespace RubezhAPI.Models
 		[DataMember]
 		public string BackgroundSourceName { get; set; }
 		[DataMember]
+		public Guid? BackgroundSVGImageSource { get; set; }
+		[DataMember]
 		public ResourceType ImageType { get; set; }
 
 		[DataMember]

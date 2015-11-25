@@ -77,6 +77,9 @@ namespace Infrustructure.Plans.Elements
 		}
 		[XmlIgnore]
 		public abstract ElementType Type { get; }
+
+		public Guid? BackgroundSVGImageSource { get; set; }
+
 		public abstract Rect GetRectangle();
 		protected abstract void SetPosition(Point point);
 

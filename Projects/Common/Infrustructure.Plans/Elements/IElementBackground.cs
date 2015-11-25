@@ -9,6 +9,7 @@ namespace Infrustructure.Plans.Elements
 		bool AllowTransparent { get; }
 		Color BackgroundColor { get; set; }
 		Guid? BackgroundImageSource { get; set; }
+		Guid? BackgroundSVGImageSource { get; set; }
 		string BackgroundSourceName { get; set; }
 		ResourceType ImageType { get; set; }
 	}

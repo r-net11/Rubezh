@@ -54,6 +54,8 @@ namespace RubezhAPI.SKD
 		[DataMember]
 		public Guid? BackgroundImageSource { get; set; }
 		[DataMember]
+		public Guid? BackgroundSVGImageSource { get; set; }
+		[DataMember]
 		public string BackgroundSourceName { get; set; }
 		[DataMember]
 		public ResourceType ImageType { get; set; }

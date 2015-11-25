@@ -22,6 +22,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 		bool _imageChanged;
 		DrawingGroup _drawing;
 		WMFImage _wmf;
+		byte[] _svg;
 
 		public LayoutPartPropertyImagePageViewModel(LayoutPartImageViewModel layoutPartImageViewModel)
 		{
@@ -74,6 +75,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 						_drawing = SVGConverters.ReadDrawing(_sourceName);
 						_wmf = null;
 						ImageBrush = new DrawingBrush(_drawing);
+						_svg = File.ReadAllBytes(_sourceName);
 					}
 					else if (ImageExtensions.IsWMFGraphics(_sourceName))
 					{
@@ -159,6 +161,8 @@ namespace LayoutModule.LayoutParts.ViewModels
 						else
 							properties.ReferenceUID = Guid.Empty;
 					}
+				if (_svg != null)
+					properties.ReferenceSVGUID = ServiceFactoryBase.ContentService.AddContent(_svg);
 				properties.Stretch = Stretch;
 				_layoutPartImageViewModel.ImageBrush = ImageBrush;
 				return true;

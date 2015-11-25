@@ -24,6 +24,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		bool _newImage;
 		DrawingGroup _drawing;
 		WMFImage _wmf;
+		byte[] _svg;
 		public TileBrush ImageBrush { get; private set; }
 
 		public ImagePropertiesViewModel(IElementBackground element)
@@ -34,6 +35,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			_element = element;
 			_sourceName = _element.BackgroundSourceName;
 			_imageSource = _element.BackgroundImageSource;
+			_svgImageSource = _element.BackgroundSVGImageSource;
 			_imageType = _element.ImageType;
 			SelectPictureCommand = new RelayCommand(OnSelectPicture);
 			RemovePictureCommand = new RelayCommand(OnRemovePicture, CanRemovePicture);
@@ -56,6 +58,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 						_wmf = null;
 						ImageBrush = new DrawingBrush(_drawing);
 						_imageType = ResourceType.Drawing;
+						_svg = File.ReadAllBytes(_sourceName);
 					}
 					else if (ImageExtensions.IsWMFGraphics(_sourceName))
 					{
@@ -89,6 +92,8 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		{
 			if (_imageSource.HasValue)
 				ServiceFactoryBase.ContentService.RemoveContent(_imageSource.Value);
+			if (_svgImageSource.HasValue)
+				ServiceFactoryBase.ContentService.RemoveContent(_svgImageSource.Value);
 			_imageSource = null;
 			_sourceName = null;
 			_newImage = false;
@@ -106,8 +111,6 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			if (_newImage)
 				using (new WaitWrapper())
 				{
-					if (_imageSource.HasValue && _imageSource.Value != Guid.Empty)
-						ServiceFactoryBase.ContentService.RemoveContent(_imageSource.Value);
 					switch (_imageType)
 					{
 						case ResourceType.Drawing:
@@ -121,6 +124,10 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 							break;
 					}
 				}
+			if (_svg != null)
+			{
+				_element.BackgroundSVGImageSource = ServiceFactoryBase.ContentService.AddContent(_svg);
+			}
 			_element.BackgroundImageSource = _imageSource;
 			_element.BackgroundSourceName = _sourceName;
 			_element.ImageType = _imageType;
