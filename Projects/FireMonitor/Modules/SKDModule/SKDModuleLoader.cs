@@ -19,6 +19,7 @@ using System.Linq;
 using Infrastructure;
 using Infrastructure.Events;
 using System;
+using Infrastructure.Common.Services;
 namespace SKDModule
 {
 	public class SKDModuleLoader : ModuleBase, IReportProviderModule, ILayoutProviderModule, ISKDReportProviderModule
@@ -78,20 +79,19 @@ namespace SKDModule
 		public override void RegisterResource()
 		{
 			base.RegisterResource();
-			var resourceService = new ResourceService();
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "HR/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Employees/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Departments/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Positions/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "AdditionalColumns/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "AccessTemplates/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Organisations/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Verification/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Cards/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "TimeTrack/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PassCard/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PassCardDesigner/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Reports/DataTemplates/Dictionary.xaml"));
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "HR/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "Employees/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "Departments/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "Positions/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "AdditionalColumns/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "AccessTemplates/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "Organisations/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "Verification/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "Cards/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "TimeTrack/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "PassCard/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "PassCardDesigner/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "Reports/DataTemplates/Dictionary.xaml");
 			DesignerLoader.RegisterResource();
 		}
 

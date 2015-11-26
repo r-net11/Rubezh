@@ -30,7 +30,6 @@ namespace Infrastructure
 		{
 			ServiceFactoryBase.Events = Events = new EventAggregator();
 			ServiceFactoryBase.SecurityService = SecurityService = ISecurityService;
-			ResourceService = new ResourceService();
 			Layout = ILayoutService;
 			ContentService = new ContentService("Monitor");
 			DragDropService = new DragDropService();

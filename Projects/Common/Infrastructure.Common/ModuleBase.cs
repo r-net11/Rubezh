@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using RubezhAPI;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Services;
 
 namespace Infrastructure.Common
 {
@@ -28,8 +29,7 @@ namespace Infrastructure.Common
 
 		public virtual void RegisterResource()
 		{
-			ResourceService resourceService = new ResourceService();
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "DataTemplates/Dictionary.xaml");
 		}
 
 		public virtual bool BeforeInitialize(bool firstTime)

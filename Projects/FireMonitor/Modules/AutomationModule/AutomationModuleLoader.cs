@@ -71,7 +71,7 @@ namespace AutomationModule
 		public override void RegisterResource()
 		{
 			base.RegisterResource();
-			ServiceFactoryBase.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "DataTemplates/Dictionary.xaml");
 		}
 		public override void Dispose()
 		{
