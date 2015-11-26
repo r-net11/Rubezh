@@ -15,8 +15,10 @@ namespace FireMonitor.ViewModels
 {
 	public class ChangeUserViewModel : SaveCancelDialogViewModel
 	{
-		public ChangeUserViewModel()
+		Bootstrapper botstrapper;
+		public ChangeUserViewModel(Bootstrapper botstrapper)
 		{
+			this.botstrapper = botstrapper;
 			Title = "Смена пользователя";
 			Password = "";
 		}
@@ -65,12 +67,8 @@ namespace FireMonitor.ViewModels
 				}
 				
 					ClientManager.Disconnect();
-					var processStartInfo = new ProcessStartInfo()
-					{
-						FileName = Application.ResourceAssembly.Location,
-						Arguments = GetRestartCommandLineArguments()
-					};
-					System.Diagnostics.Process.Start(processStartInfo);
+					botstrapper.Restart(Login, Password);
+
 					return base.Save();
 			}
 			else 

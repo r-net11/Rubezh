@@ -78,7 +78,7 @@ function EmployeeCardsViewModel(parentViewModel) {
     };
 
     self.AddEmployeeCardClick = function (data, e, box) {
-        self.EmployeesParentViewModel.EmployeeCardDetails.InitEmployeeCardDetails(self.OrganisationUID, null, false);
+        self.EmployeesParentViewModel.EmployeeCardDetails.InitEmployeeCardDetails(self.OrganisationUID, null, true);
         ShowBox(box);
     };
 

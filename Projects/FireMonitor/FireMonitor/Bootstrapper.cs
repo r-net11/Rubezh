@@ -72,6 +72,8 @@ namespace FireMonitor
 						ClientManager.FiresecService.ControlDirection,
 						ClientManager.FiresecService.ControlGKDoor,
 						ClientManager.FiresecService.ControlDelay,
+						ClientManager.FiresecService.ControlPumpStation,
+						ClientManager.FiresecService.ControlMPT,
 						ClientManager.FiresecService.ExportJournal,
 						ClientManager.FiresecService.ExportOrganisation,
 						ClientManager.FiresecService.ExportOrganisationList,
@@ -188,7 +190,7 @@ namespace FireMonitor
 			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new SoundViewModel());
 			if (!RunShell(shell))
 				result = false;
-			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new UserViewModel());
+			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new UserViewModel(this));
 			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new AutoActivationViewModel());
 			return result;
 		}
@@ -224,7 +226,7 @@ namespace FireMonitor
 				timer.Start();
 			}
 		}
-		void Restart()
+		public void Restart(string login = null, string password = null)
 		{
 			using (new WaitWrapper())
 			{
@@ -235,6 +237,11 @@ namespace FireMonitor
 				ApplicationService.CloseAllWindows();
 				ServiceFactory.Layout.Close();
 				ApplicationService.ShutDown();
+			}
+			if (login != null && password != null)
+			{
+				_login = login;
+				_password = password;
 			}
 			RestartApplication();
 		}

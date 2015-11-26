@@ -8,7 +8,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 {
 	public class PassCardTemplatePropertiesViewModel : SaveCancelDialogViewModel
 	{
-		private const double MinSize = 10;
+		const double MinSize = 10;
 		public PassCardTemplate PassCardTemplate { get; private set; }
 		public ImagePropertiesViewModel ImagePropertiesViewModel { get; private set; }
 
@@ -20,7 +20,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			CopyProperties();
 		}
 
-		private void CopyProperties()
+		void CopyProperties()
 		{
 			BackgroundColor = PassCardTemplate.BackgroundColor;
 			BorderColor = PassCardTemplate.BorderColor;
@@ -31,7 +31,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			Height = PassCardTemplate.Height;
 		}
 
-		private Color _backgroundColor;
+		Color _backgroundColor;
 		public Color BackgroundColor
 		{
 			get { return _backgroundColor; }
@@ -42,7 +42,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			}
 		}
 
-		private string _caption;
+		string _caption;
 		public string Caption
 		{
 			get { return _caption; }
@@ -53,7 +53,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			}
 		}
 
-		private string _description;
+		string _description;
 		public string Description
 		{
 			get { return _description; }
@@ -64,7 +64,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			}
 		}
 
-		private double _width;
+		double _width;
 		public double Width
 		{
 			get { return _width; }
@@ -75,7 +75,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			}
 		}
 
-		private double _height;
+		double _height;
 		public double Height
 		{
 			get { return _height; }
@@ -86,7 +86,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			}
 		}
 
-		private Color _borderColor;
+		Color _borderColor;
 		public Color BorderColor
 		{
 			get { return _borderColor; }
@@ -97,7 +97,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			}
 		}
 
-		private double _borderThickness;
+		double _borderThickness;
 		public double BorderThickness
 		{
 			get { return _borderThickness; }

@@ -167,7 +167,7 @@ namespace GKWebService.DataProviders
 
 		private IEnumerable<PlanElement> LoadTextBlockElements(Plan plan) {
 			// Конвертим текстблоки
-			return plan.ElementTextBlocks.ToList().Select(PlanElement.FromTextBlocks);
+			return plan.ElementTextBlocks.ToList().Select(PlanElement.FromRectangle).Union(plan.ElementTextBlocks.ToList().Select(PlanElement.FromTextBlocks));
 		}
 
 		private void OnServiceCallback(GKCallbackResult obj) {

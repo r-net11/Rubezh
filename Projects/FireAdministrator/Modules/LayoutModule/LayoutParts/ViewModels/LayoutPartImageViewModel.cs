@@ -1,19 +1,15 @@
-﻿using System;
+﻿using Infrastructure.Client.Images;
+using Infrastructure.Common.Services.Layout;
+using RubezhAPI.Models.Layouts;
 using System.Collections.Generic;
 using System.Windows.Media;
-using Common;
-using RubezhAPI.Models.Layouts;
-using Infrastructure.Common.Services;
-using Infrastructure.Common.Services.Layout;
-using Infrastructure.Common.Windows;
-using Infrastructure.Client.Images;
 
 namespace LayoutModule.LayoutParts.ViewModels
 {
 	public class LayoutPartImageViewModel : BaseLayoutPartViewModel
 	{
-		private LayoutPartImageProperties _properties;
-		private LayoutPartPropertyPageViewModel _imagePage;
+		LayoutPartImageProperties _properties;
+		LayoutPartPropertyPageViewModel _imagePage;
 		public LayoutPartImageViewModel(LayoutPartImageProperties properties)
 		{
 			_imageBrush = null;
@@ -34,7 +30,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			}
 		}
 
-		private TileBrush _imageBrush;
+		TileBrush _imageBrush;
 		public TileBrush ImageBrush
 		{
 			get { return _imageBrush; }
