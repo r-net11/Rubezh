@@ -30,7 +30,7 @@ namespace SKDModule.ViewModels
 
 			foreach (var organisation in OrganisationHelper.GetByCurrentUser())
 			{
-				if (Organisations.Contains(organisation))
+				if (Organisations.Any(x => x.UID == organisation.UID))
 					TargetOrganisations.Add(organisation);
 				else
 					SourceOrganisations.Add(organisation);

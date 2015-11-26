@@ -10,7 +10,7 @@
 			<ColumnDefinition Width="50" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<MultiselectDataGrid x:Name="dataGrid1" Grid.Column="0" ItemsSource="{Binding TargetOrganisations}" SelectedItem="{Binding SelectedTargetOrganisation}" CanUserSortColumns="True"
+		<DataGrid x:Name="dataGrid1" Grid.Column="0" ItemsSource="{Binding TargetOrganisations}" SelectedItem="{Binding SelectedTargetOrganisation}" CanUserSortColumns="True"
 				VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
@@ -33,14 +33,14 @@
 				<DataGridTextColumn Binding="{Binding Name}" Header="Организация" Width="*" />
 				<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
 			</DataGrid.Columns>
-		</MultiselectDataGrid>
+		</DataGrid>
 		<StackPanel Grid.Column="1" Margin="2">
 			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные организации" ImageSource="left"  CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
 			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные организации" ImageSource="right"  CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
 			<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все организации" ImageSource="leftLeft"  />
 			<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все организации" ImageSource="rightRight"  />
 		</StackPanel>
-		<MultiselectDataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceOrganisations}" SelectedItem="{Binding SelectedSourceOrganisation}" CanUserSortColumns="True"
+		<DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceOrganisations}" SelectedItem="{Binding SelectedSourceOrganisation}" CanUserSortColumns="True"
 				VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
@@ -63,6 +63,6 @@
 				<DataGridTextColumn Binding="{Binding Name}" Header="Организация" Width="*" />
 				<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
 			</DataGrid.Columns>
-		</MultiselectDataGrid>
+		</DataGrid>
 	</Grid>
 </UserControl>

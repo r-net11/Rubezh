@@ -10,7 +10,7 @@
 			<ColumnDefinition Width="50" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<MultiselectDataGrid x:Name="dataGrid1" Grid.Column="0" ItemsSource="{Binding TargetCameras}" SelectedItem="{Binding SelectedTargetCamera}" CanUserSortColumns="True"
+		<DataGrid x:Name="dataGrid1" Grid.Column="0" ItemsSource="{Binding TargetCameras}" SelectedItem="{Binding SelectedTargetCamera}" CanUserSortColumns="True"
 				VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
@@ -32,14 +32,14 @@
 				</DataGridTemplateColumn>
 				<DataGridTextColumn Binding="{Binding Name}" Header="Камера" Width="*" />
 			</DataGrid.Columns>
-		</MultiselectDataGrid>
+		</DataGrid>
 		<StackPanel Grid.Column="1" Margin="2">
 			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные камеры" ImageSource="left"  CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
 			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные камеры" ImageSource="right"  CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
 			<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все камеры" ImageSource="leftLeft"  />
 			<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все камеры" ImageSource="rightRight"  />
 		</StackPanel>
-		<MultiselectDataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceCameras}" SelectedItem="{Binding SelectedSourceCamera}" CanUserSortColumns="True"
+		<DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceCameras}" SelectedItem="{Binding SelectedSourceCamera}" CanUserSortColumns="True"
 				VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
@@ -61,6 +61,6 @@
 				</DataGridTemplateColumn>
 				<DataGridTextColumn Binding="{Binding Name}" Header="Камера" Width="*" />
 			</DataGrid.Columns>
-		</MultiselectDataGrid>
+		</DataGrid>
 	</Grid>
 </UserControl>
