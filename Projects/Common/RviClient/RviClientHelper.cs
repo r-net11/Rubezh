@@ -292,11 +292,6 @@ namespace RviClient
 		{
 			try
 			{
-				if (camera == null)
-				{
-					errorInformation = "Не найдена камера.";
-					return false;
-				}
 				using (IntegrationClient client = CreateIntegrationClient(rviSettings))
 				{
 					var sessionUID = Guid.NewGuid();
