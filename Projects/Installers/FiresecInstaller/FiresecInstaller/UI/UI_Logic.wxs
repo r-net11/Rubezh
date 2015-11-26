@@ -46,7 +46,7 @@
 			<Publish Dialog="SQLLoginDialog" Control="Next" Event="NewDialog" Value="VerifyReadyDialog">1</Publish>
 			<Publish Dialog="SQLLoginDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
 
-			<Publish Dialog="VerifyReadyDialog" Control="Back" Event="NewDialog" Value="ShortcutsDialog">1</Publish>
+			<Publish Dialog="VerifyReadyDialog" Control="Back" Event="NewDialog" Value="SQLLoginDialog">1</Publish>
 
 			<Publish Dialog="SetupProgressDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
 
