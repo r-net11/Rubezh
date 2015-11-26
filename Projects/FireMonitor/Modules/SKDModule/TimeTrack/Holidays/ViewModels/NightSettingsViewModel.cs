@@ -55,7 +55,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return !_nightSettings.NightStartTime.Equals(_nightSettings.NightEndTime);
+			return !_nightSettings.NightStartTime.Equals(_nightSettings.NightEndTime) || !IsNightSettingsEnabled;
 		}
 	}
 }
