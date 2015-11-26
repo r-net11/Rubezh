@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
 using GKWebService.Models;
+using GKWebService.Models.Plan;
 using Infrastructure.Common.Services.Content;
 using Infrustructure.Plans.Elements;
 using RubezhAPI.GK;

@@ -5,7 +5,7 @@ using System.Drawing;
 
 #endregion
 
-namespace GKWebService.Models
+namespace GKWebService.Models.Plan
 {
 	public class Shape
 	{

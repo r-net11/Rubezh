@@ -1,4 +1,4 @@
-﻿namespace GKWebService.Models
+﻿namespace GKWebService.Models.Plan
 {
 	public enum ShapeTypes
 	{

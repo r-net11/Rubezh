@@ -26,7 +26,7 @@ using Size = System.Drawing.Size;
 
 #endregion
 
-namespace GKWebService.Models
+namespace GKWebService.Models.Plan
 {
 	public class PlanElement : Shape
 	{

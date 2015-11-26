@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace GKWebService.Models
+namespace GKWebService.Models.Plan
 {
     public class ElementHint
     {
