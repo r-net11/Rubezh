@@ -207,10 +207,10 @@ namespace GKProcessor
 				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(i)));
 
 				var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 24, 0, bytes);
-				if (sendResult.HasError)
-				{
-					return OperationResult<List<GKUser>>.FromError("Во время выполнения операции возникла ошибка", users);
-				}
+                //if (sendResult.HasError)
+                //{
+                //    return OperationResult<List<GKUser>>.FromError("Во время выполнения операции возникла ошибка", users);
+                //}
 				if (sendResult.Bytes.Count == 0)
 				{
 					break;
@@ -390,10 +390,10 @@ namespace GKProcessor
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-                progressCallback = GKProcessorManager.StartProgress("Подсчёт числа пользователей на приборе", "", 1, true, GKProgressClientType.Administrator);
+                progressCallback = GKProcessorManager.StartProgress("Подсчёт числа пользователей на приборе", "", 1, false, GKProgressClientType.Administrator);
                 var usersToDeleteCount = GetUsersCount(device);
                 GKProcessorManager.StopProgress(progressCallback);
-                progressCallback = GKProcessorManager.StartProgress("Удаление пользователей", "", usersToDeleteCount, true, GKProgressClientType.Administrator);
+                progressCallback = GKProcessorManager.StartProgress("Удаление пользователей", "", usersToDeleteCount, false, GKProgressClientType.Administrator);
                 RemoveAllUsersInternal(device, usersToDeleteCount, progressCallback);
                 GKProcessorManager.StopProgress(progressCallback);
                 progressCallback = GKProcessorManager.StartProgress("Запись пользователей", "", users.Count, true, GKProgressClientType.Administrator);
