@@ -14,6 +14,8 @@ using Infrustructure.Plans.Events;
 using SKDModule.Validation;
 using SKDModule.ViewModels;
 using RubezhAPI.SKD;
+using Infrastructure.Events;
+using System.Linq;
 
 namespace SKDModule
 {
@@ -21,6 +23,8 @@ namespace SKDModule
 	{
 		public override void CreateViewModels()
 		{
+			ServiceFactory.Events.GetEvent<SelectOrganisationEvent>().Subscribe(OnSelectOrganisation);
+			ServiceFactory.Events.GetEvent<SelectOrganisationsEvent>().Subscribe(OnSelectOrganisations);
 		}
 
 		public override void Initialize()
@@ -41,6 +45,21 @@ namespace SKDModule
 			base.RegisterResource();
 			var resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Layout/DataTemplates/Dictionary.xaml"));
+		}
+
+		void OnSelectOrganisation(SelectOrganisationEventArg selectOrganisationEventArg)
+		{
+			var cameraSelectionViewModel = new OrganisationSelectionViewModel(selectOrganisationEventArg.Organisation);
+			selectOrganisationEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(cameraSelectionViewModel);
+			selectOrganisationEventArg.Organisation = selectOrganisationEventArg.Cancel || cameraSelectionViewModel.SelectedOrganisation == null ?
+				null :
+				cameraSelectionViewModel.SelectedOrganisation.Organisation;
+		}
+		void OnSelectOrganisations(SelectOrganisationsEventArg selectOrganisationsEventArg)
+		{
+			var organisationsSelectionViewModel = new OrganisationsSelectionViewModel(selectOrganisationsEventArg.Organisations);
+			selectOrganisationsEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(organisationsSelectionViewModel);
+			selectOrganisationsEventArg.Organisations = organisationsSelectionViewModel.TargetOrganisations.ToList();
 		}
 
 		#region IValidationModule Members

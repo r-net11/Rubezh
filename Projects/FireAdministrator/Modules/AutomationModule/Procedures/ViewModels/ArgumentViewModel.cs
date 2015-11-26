@@ -206,7 +206,12 @@ namespace AutomationModule.ViewModels
 		void OnChange(ExplicitValueViewModel explicitValueViewModel)
 		{
 			if (IsList)
-				ProcedureHelper.SelectObject(ObjectType, explicitValueViewModel);
+			{
+				var explicitValues = ExplicitValues.ToList();
+				ProcedureHelper.SelectObjects(ObjectType, ref explicitValues);
+				if (explicitValues != null)
+					ExplicitValues = new ObservableCollection<ExplicitValueViewModel>(explicitValues);
+			}
 			else
 				ProcedureHelper.SelectObject(ObjectType, ExplicitValue);
 			OnPropertyChanged(() => ExplicitValues);
