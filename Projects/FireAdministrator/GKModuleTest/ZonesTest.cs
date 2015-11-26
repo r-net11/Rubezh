@@ -14,6 +14,10 @@ using System.Collections.Generic;
 using GKProcessor;
 using Infrastructure.Common.Services.Ribbon;
 using NUnit.Framework;
+using System.Windows;
+using GKModule;
+using Infrastructure.Common;
+using System.Reflection;
 
 namespace GKModuleTest
 {
@@ -22,6 +26,7 @@ namespace GKModuleTest
 	{
 		delegate bool ShowModalWindowDelegate(WindowBaseViewModel windowBaseViewModel);
 		delegate bool ShowQuestionDelegate(string message, string title = null);
+		delegate void AddResourceDelegate(Assembly callerAssembly, string name);
 
 		GKDevice gkDevice1;
 		GKDevice kauDevice11;
@@ -56,7 +61,7 @@ namespace GKModuleTest
 		}
 
 		/// <summary>
-		/// В список зоно можно добавить зону и она добавится в конфигурацию
+		/// В список зоно можн добавить зону и она добавится в конфигурацию
 		/// </summary>
 		[Test]
 		public void Add()
@@ -67,7 +72,8 @@ namespace GKModuleTest
 			{
 				(x as ZoneDetailsViewModel).Name = "Test Zone";
 				(x as ZoneDetailsViewModel).SaveCommand.Execute();
-				return true;
+
+				return x.CloseResult.Value;
 			}));
 			var messageBoxService = mockRepository.StrictMock<IMessageBoxService>();
 			Expect.Call(delegate { messageBoxService.ShowQuestion(null, null); }).IgnoreArguments().Do(new ShowQuestionDelegate((x, y) =>
@@ -99,6 +105,44 @@ namespace GKModuleTest
 			zonesViewModel.DeleteCommand.Execute();
 			Assert.IsTrue(zonesViewModel.Zones.Count == 0);
 			Assert.IsTrue(GKManager.Zones.Count == 0);
+		}
+
+		/// <summary>
+		/// При отмене создания зоны она не должна добавиться в список зон
+		/// </summary>
+		[Test]
+		public void AddCancel()
+		{
+			var mockRepository = new MockRepository();
+			var dialogService = mockRepository.StrictMock<IDialogService>();
+			Expect.Call(delegate { dialogService.ShowModalWindow(null); }).IgnoreArguments().Do(new ShowModalWindowDelegate(x =>
+			{
+				(x as ZoneDetailsViewModel).CancelCommand.Execute();
+				return x.CloseResult.Value;
+			}));
+			var messageBoxService = mockRepository.StrictMock<IMessageBoxService>();
+			Expect.Call(delegate { messageBoxService.ShowQuestion(null, null); }).IgnoreArguments().Do(new ShowQuestionDelegate((x, y) =>
+			{
+				return true;
+			}));
+			mockRepository.ReplayAll();
+
+			ServiceFactory.Initialize(null, null);
+			ServiceFactory.DialogService = dialogService;
+			ServiceFactory.MessageBoxService = messageBoxService;
+			ServiceFactory.MenuService = new MenuService(x => { ;});
+			ServiceFactory.RibbonService = mockRepository.StrictMock<IRibbonService>();
+			var gkPlanExtension = new GKPlanExtension(null, null, null, null, null, null, null, null);
+
+			var zonesViewModel = new ZonesViewModel();
+			zonesViewModel.Initialize();
+			zonesViewModel.OnShow();
+
+			Assert.IsTrue(zonesViewModel.Zones.Count == 0);
+			Assert.IsTrue(zonesViewModel.SelectedZone == null);
+			zonesViewModel.AddCommand.Execute();
+			Assert.IsTrue(zonesViewModel.Zones.Count == 0);
+			Assert.IsTrue(zonesViewModel.SelectedZone == null);
 		}
 
 		/// <summary>
@@ -166,6 +210,39 @@ namespace GKModuleTest
 			Assert.IsTrue(zonesViewModel.ZoneDevices.AvailableDevices.Count == 2);
 			Assert.IsTrue(zone.Devices.Count == 1);
 			Assert.IsTrue(device1.Zones.Count == 1);
+		}
+
+		/// <summary>
+		/// Тест на создание всех вьюмоделей
+		/// </summary>
+		[Test]
+		[STAThread]
+		public void AllViewModelsTest()
+		{
+			var mockRepository = new MockRepository();
+			var dialogService = mockRepository.StrictMock<IDialogService>();
+			var messageBoxService = mockRepository.StrictMock<IMessageBoxService>();
+			var resourceService = mockRepository.StrictMock<IResourceService>();
+			Expect.Call(delegate { resourceService.AddResource(null, null); }).IgnoreArguments().Do(new AddResourceDelegate((x, y) =>
+			{
+				;
+			})).Repeat.Any();
+
+			ServiceFactory.Initialize(null, null);
+			ServiceFactory.ResourceService = resourceService;
+			ServiceFactory.DialogService = dialogService;
+			ServiceFactory.MessageBoxService = messageBoxService;
+			ServiceFactory.MenuService = new MenuService(x => { ;});
+			ServiceFactory.RibbonService = mockRepository.StrictMock<IRibbonService>();
+			var gkPlanExtension = new GKPlanExtension(null, null, null, null, null, null, null, null);
+
+			mockRepository.ReplayAll();
+
+			GKManager.DeviceLibraryConfiguration = new GKDeviceLibraryConfiguration();
+
+			var groupControllerModule = new GroupControllerModule();
+			groupControllerModule.CreateViewModels();
+			groupControllerModule.Initialize();
 		}
 	}
 }

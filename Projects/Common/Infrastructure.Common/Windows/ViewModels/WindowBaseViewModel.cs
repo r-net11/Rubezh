@@ -9,6 +9,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 	{
 		public event EventHandler Closed;
 		public event CancelEventHandler Closing;
+		public bool? CloseResult { get; private set; }
 
 		public WindowBaseViewModel()
 		{
@@ -113,6 +114,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 					Surface.DialogResult = result;
 				Surface.Close();
 			}
+			CloseResult = result;
 		}
 
 		internal void InternalClosing(CancelEventArgs e)

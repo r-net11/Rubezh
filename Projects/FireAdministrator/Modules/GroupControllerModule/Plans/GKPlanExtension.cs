@@ -85,8 +85,7 @@ namespace GKModule.Plans
 		public override void Initialize()
 		{
 			base.Initialize();
-			using (new TimeCounter("DevicePictureCache.LoadGKCache: {0}"))
-				PictureCacheSource.GKDevicePicture.LoadCache();
+			PictureCacheSource.GKDevicePicture.LoadCache();
 		}
 
 		#region IPlanExtension Members
