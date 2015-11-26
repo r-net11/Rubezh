@@ -44,13 +44,13 @@
 			<Publish Dialog="SQLLoginDialog" Control="CheckConnectionPushButton" Event="DoAction" Value="CheckSqlConnection">1</Publish>
 			<Publish Dialog="SQLLoginDialog" Control="Back" Event="NewDialog" Value="ShortcutsDialog">1</Publish>
 			<Publish Dialog="SQLLoginDialog" Control="Next" Event="NewDialog" Value="VerifyReadyDialog">1</Publish>
-			<!--<Publish Dialog="SQLLoginDialog" Control="Next" Property="SQLSERVER_INSTANCENAME" Value="[SQLSERVER_INSTANCENAME]">1</Publish>-->
 			<Publish Dialog="SQLLoginDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
 
 			<Publish Dialog="VerifyReadyDialog" Control="Back" Event="NewDialog" Value="ShortcutsDialog">1</Publish>
 
 			<Publish Dialog="SetupProgressDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
 
+			<Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="WriteAppServerSettings" Order="1">1</Publish>
 			<Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
 
 			<InstallUISequence>
