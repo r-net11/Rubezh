@@ -114,7 +114,6 @@
 						Validation.ErrorTemplate="{x:Null}"
 						IsEnabled="{Binding ElementName=EnableReader, Path=IsChecked, UpdateSourceTrigger=PropertyChanged}"
 						TextBoxWidth="{Binding ElementName=StopListBox, Path=ActualWidth}"
-
 						IsLinkEnabled="{Binding IsChecked, ElementName=EnableReader, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 						ClickCommand="{Binding ChangeReaderCommand}"
 						LinkText="{Binding ReaderName, UpdateSourceTrigger=PropertyChanged}"

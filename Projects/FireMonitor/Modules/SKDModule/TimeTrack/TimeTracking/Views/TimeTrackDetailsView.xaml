@@ -38,9 +38,6 @@
 				</Style.Triggers>
 			</Style>
 			<BitmapImage x:Key="MyImageSource" UriSource="pack://application:,,,/Controls;component/Images/Zone.png" />
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
-			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<Grid>

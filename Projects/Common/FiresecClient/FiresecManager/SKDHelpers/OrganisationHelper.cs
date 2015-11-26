@@ -15,7 +15,7 @@ namespace FiresecClient.SKDHelpers
 
 		public static IEnumerable<Organisation> GetByCurrentUser()
 		{
-			return Get(new OrganisationFilter() { UserUID = FiresecManager.CurrentUser.UID });
+			return Get(new OrganisationFilter { UserUID = FiresecManager.CurrentUser.UID });
 		}
 
 		public static bool Save(OrganisationDetails organisation, bool isNew)

@@ -24,7 +24,7 @@
 		</StackPanel>
 		<DataGrid
 			Name="dataGrid"
-			ItemsSource="{Binding JournalItems}"
+			ItemsSource="{Binding JournalItems, IsAsync=True}"
 			SelectedItem="{Binding SelectedJournal}">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Width="150" Header="Дата на устройстве">

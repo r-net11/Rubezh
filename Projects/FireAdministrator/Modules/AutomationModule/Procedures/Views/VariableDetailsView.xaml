@@ -5,14 +5,7 @@
 	xmlns:Views="clr-namespace:AutomationModule.Views"
 	MinWidth="650"
 	MinHeight="400">
-	<UserControl.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
-			</ResourceDictionary.MergedDictionaries>
-		</ResourceDictionary>
-	</UserControl.Resources>
-	<Border Background="{StaticResource BackgroundBrush}">
+	<Border Background="{DynamicResource BackgroundBrush}">
 		<Grid Margin="10">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition />

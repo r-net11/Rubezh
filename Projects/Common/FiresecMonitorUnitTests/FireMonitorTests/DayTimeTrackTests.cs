@@ -787,5 +787,36 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 		}
 
 		#endregion
+
+		#region GetNightTimeTests
+
+		[Test]
+		public void CactulateNightTimeInNonURVZones()
+		{
+			//Arrange
+			var dayTimeTrack = new DayTimeTrack();
+			var nightSettings = new NightSettings
+			{
+				IsNightSettingsEnabled = true,
+				NightStartTime = TimeSpan.FromHours(20),
+				NightEndTime = TimeSpan.FromHours(23)
+			};
+			var realTimeTrackParts = new List<TimeTrackPart>
+			{
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.AddDays(-1).AddHours(20),
+					ExitDateTime = TIME.AddDays(-1).AddHours(23),
+					IsForURVZone = false,
+					NotTakeInCalculations = true
+				}
+			};
+			//Act
+			var nightTime = dayTimeTrack.GetNightTime(nightSettings, realTimeTrackParts);
+			//Assert
+			Assert.AreEqual(nightTime, TimeSpan.Zero);
+		}
+
+		#endregion
 	}
 }

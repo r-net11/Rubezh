@@ -112,7 +112,7 @@ namespace FiresecClient
 		#region Journal
 		public OperationResult<DateTime> GetMinJournalDateTime()
 		{
-			return SafeContext.Execute<OperationResult<DateTime>>(() => FiresecService.GetMinJournalDateTime());
+			return SafeContext.Execute(() => FiresecService.GetMinJournalDateTime());
 		}
 		public OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter filter)
 		{
@@ -259,7 +259,7 @@ namespace FiresecClient
 		#region NightSettings
 		public OperationResult<NightSettings> GetNightSettingsByOrganisation(Guid organisationUID)
 		{
-			return SafeContext.Execute<OperationResult<NightSettings>>(() => FiresecService.GetNightSettingsByOrganisation(organisationUID));
+			return SafeContext.Execute(() => FiresecService.GetNightSettingsByOrganisation(organisationUID));
 		}
 		public OperationResult SaveNightSettings(NightSettings nightSettings)
 		{

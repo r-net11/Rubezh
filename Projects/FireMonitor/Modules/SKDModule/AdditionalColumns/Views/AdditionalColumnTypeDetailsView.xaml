@@ -9,13 +9,10 @@
 	MinHeight="250">
 	<UserControl.Resources>
 		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
-			</ResourceDictionary.MergedDictionaries>
 			<Converters:DataTypeToStringConverter x:Key="DataTypeToStringConverter" />
 		</ResourceDictionary>
 	</UserControl.Resources>
-	<Border Background="{StaticResource BackgroundBrush}">
+	<Border Background="{DynamicResource BackgroundBrush}">
 		<Grid Margin="10">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />

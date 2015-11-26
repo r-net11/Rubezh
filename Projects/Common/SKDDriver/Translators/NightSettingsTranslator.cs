@@ -19,6 +19,7 @@ namespace SKDDriver
 			apiItem.OrganisationUID = tableItem.OrganisationUID != null ? tableItem.OrganisationUID.Value : Guid.Empty;
 			apiItem.NightStartTime = TimeSpan.FromTicks(tableItem.NightStartTime);
 			apiItem.NightEndTime = TimeSpan.FromTicks(tableItem.NightEndTime);
+			apiItem.IsNightSettingsEnabled = tableItem.IsNightSettingsEnabled;
 			return apiItem;
 		}
 
@@ -27,6 +28,7 @@ namespace SKDDriver
 			tableItem.OrganisationUID = apiItem.OrganisationUID;
 			tableItem.NightStartTime = apiItem.NightStartTime.Ticks;
 			tableItem.NightEndTime = apiItem.NightEndTime.Ticks;
+			tableItem.IsNightSettingsEnabled = apiItem.IsNightSettingsEnabled;
 		}
 
 		public OperationResult<NightSettings> GetByOrganisation(Guid uid)

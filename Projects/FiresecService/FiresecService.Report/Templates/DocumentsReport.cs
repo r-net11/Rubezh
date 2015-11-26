@@ -47,21 +47,23 @@ namespace FiresecService.Report.Templates
 
 					var documentType = documentTypesResult.Result.FirstOrDefault(x => x.Code == document.DocumentCode);
 
-					if (documentType == null ||
-					    ((!filter.Abcense || documentType.DocumentType != DocumentType.Absence) &&
-					     (!filter.Presence || documentType.DocumentType != DocumentType.Presence) &&
-					     (!filter.Overtime || documentType.DocumentType != DocumentType.Overtime))) continue;
+					if (documentType == null) continue;
 
-					var row = ds.Data.NewDataRow();
-					row.Employee = employee.Name;
-					row.Department = employee.Department;
-					row.StartDateTime = document.StartDateTime;
-					row.EndDateTime = document.EndDateTime;
-					row.DocumentCode = documentType.Code;
-					row.DocumentName = documentType.Name;
-					row.DocumentShortName = documentType.ShortName;
-					row.DocumentType = documentType.DocumentType.ToDescription();
-					ds.Data.AddDataRow(row);
+					if (filter.Abcense && documentType.DocumentType == DocumentType.Absence ||
+					    filter.Presence && documentType.DocumentType == DocumentType.Presence ||
+					    filter.Overtime && documentType.DocumentType == DocumentType.Overtime)
+					{
+						var row = ds.Data.NewDataRow();
+						row.Employee = employee.Name;
+						row.Department = employee.Department;
+						row.StartDateTime = document.StartDateTime;
+						row.EndDateTime = document.EndDateTime;
+						row.DocumentCode = documentType.Code;
+						row.DocumentName = documentType.Name;
+						row.DocumentShortName = documentType.ShortName;
+						row.DocumentType = documentType.DocumentType.ToDescription();
+						ds.Data.AddDataRow(row);
+					}
 				}
 			}
 			return ds;

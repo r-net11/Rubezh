@@ -17,193 +17,176 @@ namespace AutomationModule.ViewModels
 			StepsViewModel = stepsViewModel;
 			Step = step;
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
-			if ((step.ProcedureStepType == ProcedureStepType.ControlDoor)
-				|| (step.ProcedureStepType == ProcedureStepType.ControlSKDDevice) || (step.ProcedureStepType == ProcedureStepType.ControlSKDZone)
-				|| (step.ProcedureStepType == ProcedureStepType.Ptz)
-				|| (step.ProcedureStepType == ProcedureStepType.StartRecord) || (step.ProcedureStepType == ProcedureStepType.StopRecord) || (step.ProcedureStepType == ProcedureStepType.RviAlarm))
-				ImageSource = "/Controls;component/StepIcons/Control.png";
-			else
-				ImageSource = "/Controls;component/StepIcons/" + step.ProcedureStepType + ".png";
+			ImageSource = GetImageForStep(step);
+			Content = GetContentForStep(step);
+
+			UpdateContent();
+			ServiceFactory.SaveService.AutomationChanged = automationChanged;
+		}
+
+		private string GetImageForStep(ProcedureStep step)
+		{
+			switch (step.ProcedureStepType)
+			{
+				case ProcedureStepType.RviAlarm:
+				case ProcedureStepType.StopRecord:
+				case ProcedureStepType.StartRecord:
+				case ProcedureStepType.Ptz:
+				case ProcedureStepType.ControlSKDZone:
+				case ProcedureStepType.ControlSKDDevice:
+				case ProcedureStepType.ControlDoor:
+					return "/Controls;component/StepIcons/Control.png";
+				case ProcedureStepType.ExportOrganisationList:
+				case ProcedureStepType.ExportOrganisation:
+				case ProcedureStepType.ExportConfiguration:
+				case ProcedureStepType.ExportJournal:
+					return "/Controls;component/StepIcons/Export.png";
+				case ProcedureStepType.ImportOrganisationList:
+				case ProcedureStepType.ImportOrganisation:
+					return "/Controls;component/StepIcons/Import.png";
+				default:
+					return "/Controls;component/StepIcons/" + step.ProcedureStepType + ".png";
+			}
+		}
+
+		private BaseStepViewModel GetContentForStep(ProcedureStep step)
+		{
 			switch (step.ProcedureStepType)
 			{
 				case ProcedureStepType.PlaySound:
-					Content = new SoundStepViewModel(this);
-					break;
+					return new SoundStepViewModel(this);
 
 				case ProcedureStepType.ShowMessage:
-					Content = new ShowMessageStepViewModel(this);
-					break;
+					return new ShowMessageStepViewModel(this);
 
 				case ProcedureStepType.Arithmetics:
-					Content = new ArithmeticStepViewModel(this);
-					break;
+					return new ArithmeticStepViewModel(this);
 
 				case ProcedureStepType.If:
-					Content = new ConditionStepViewModel(this);
-					break;
+					return new ConditionStepViewModel(this);
 
 				case ProcedureStepType.AddJournalItem:
-					Content = new JournalStepViewModel(this);
-					break;
+					return new JournalStepViewModel(this);
 
 				case ProcedureStepType.FindObjects:
-					Content = new FindObjectStepViewModel(this);
-					break;
+					return new FindObjectStepViewModel(this);
 
 				case ProcedureStepType.Foreach:
-					Content = new ForeachStepViewModel(this);
-					break;
+					return new ForeachStepViewModel(this);
 
 				case ProcedureStepType.For:
-					Content = new ForStepViewModel(this);
-					break;
+					return new ForStepViewModel(this);
 
 				case ProcedureStepType.While:
-					Content = new ConditionStepViewModel(this);
-					break;
+					return new ConditionStepViewModel(this);
 
 				case ProcedureStepType.Pause:
-					Content = new PauseStepViewModel(this);
-					break;
+					return new PauseStepViewModel(this);
 
 				case ProcedureStepType.ProcedureSelection:
-					Content = new ProcedureSelectionStepViewModel(this);
-					break;
+					return new ProcedureSelectionStepViewModel(this);
 
 				case ProcedureStepType.Exit:
-					Content = new ExitStepViewModel(this);
-					break;
+					return new ExitStepViewModel(this);
 
 				case ProcedureStepType.SetValue:
-					Content = new SetValueStepViewModel(this);
-					break;
+					return new SetValueStepViewModel(this);
 
 				case ProcedureStepType.IncrementValue:
-					Content = new IncrementValueStepViewModel(this);
-					break;
+					return new IncrementValueStepViewModel(this);
 
 				case ProcedureStepType.Random:
-					Content = new RandomStepViewModel(this);
-					break;
+					return new RandomStepViewModel(this);
 
 				case ProcedureStepType.ControlSKDDevice:
-					Content = new ControlSKDDeviceStepViewModel(this);
-					break;
+					return new ControlSKDDeviceStepViewModel(this);
 
 				case ProcedureStepType.ControlDoor:
-					Content = new ControlDoorStepViewModel(this);
-					break;
+					return new ControlDoorStepViewModel(this);
 
 				case ProcedureStepType.ControlSKDZone:
-					Content = new ControlSKDZoneStepViewModel(this);
-					break;
+					return new ControlSKDZoneStepViewModel(this);
 
 				case ProcedureStepType.GetObjectProperty:
-					Content = new GetObjectPropertyStepViewModel(this);
-					break;
+					return new GetObjectPropertyStepViewModel(this);
 
 				case ProcedureStepType.SendEmail:
-					Content = new SendEmailStepViewModel(this);
-					break;
+					return new SendEmailStepViewModel(this);
 
 				case ProcedureStepType.RunProgram:
-					Content = new RunProgramStepViewModel(this);
-					break;
+					return new RunProgramStepViewModel(this);
 
 				case ProcedureStepType.ChangeList:
-					Content = new ChangeListStepViewModel(this);
-					break;
+					return new ChangeListStepViewModel(this);
 
 				case ProcedureStepType.CheckPermission:
-					Content = new CheckPermissionStepViewModel(this);
-					break;
+					return new CheckPermissionStepViewModel(this);
 
 				case ProcedureStepType.GetListCount:
-					Content = new GetListCountStepViewModel(this);
-					break;
+					return new GetListCountStepViewModel(this);
 
 				case ProcedureStepType.GetListItem:
-					Content = new GetListItemStepViewModel(this);
-					break;
+					return new GetListItemStepViewModel(this);
 
 				case ProcedureStepType.GetJournalItem:
-					Content = new GetJournalItemStepViewModel(this);
-					break;
+					return new GetJournalItemStepViewModel(this);
 
 				case ProcedureStepType.ControlVisualGet:
-					Content = new ControlVisualStepViewModel(this, ControlElementType.Get);
-					break;
+					return new ControlVisualStepViewModel(this, ControlElementType.Get);
 
 				case ProcedureStepType.ControlVisualSet:
-					Content = new ControlVisualStepViewModel(this, ControlElementType.Set);
-					break;
+					return new ControlVisualStepViewModel(this, ControlElementType.Set);
 
 				case ProcedureStepType.ControlPlanGet:
-					Content = new ControlPlanStepViewModel(this, ControlElementType.Get);
-					break;
+					return new ControlPlanStepViewModel(this, ControlElementType.Get);
 
 				case ProcedureStepType.ControlPlanSet:
-					Content = new ControlPlanStepViewModel(this, ControlElementType.Set);
-					break;
+					return new ControlPlanStepViewModel(this, ControlElementType.Set);
 
 				case ProcedureStepType.ShowDialog:
-					Content = new ShowDialogStepViewModel(this);
-					break;
+					return new ShowDialogStepViewModel(this);
 
 				case ProcedureStepType.ShowProperty:
-					Content = new ShowPropertyStepViewModel(this);
-					break;
+					return new ShowPropertyStepViewModel(this);
 
 				case ProcedureStepType.GenerateGuid:
-					Content = new GenerateGuidStepViewModel(this);
-					break;
+					return new GenerateGuidStepViewModel(this);
 
 				case ProcedureStepType.SetJournalItemGuid:
-					Content = new SetJournalItemGuidStepViewModel(this);
-					break;
+					return new SetJournalItemGuidStepViewModel(this);
 
 				case ProcedureStepType.ExportJournal:
-					Content = new ExportJournalStepViewModel(this);
-					break;
+					return new ExportJournalStepViewModel(this);
 
 				case ProcedureStepType.ExportOrganisation:
-					Content = new ExportOrganisationStepViewModel(this);
-					break;
+					return new ExportOrganisationStepViewModel(this);
 
 				case ProcedureStepType.ExportConfiguration:
-					Content = new ExportConfigurationStepViewModel(this);
-					break;
+					return new ExportConfigurationStepViewModel(this);
 
 				case ProcedureStepType.ImportOrganisation:
-					Content = new ImportOrganisationStepViewModel(this);
-					break;
+					return new ImportOrganisationStepViewModel(this);
 
 				case ProcedureStepType.ExportOrganisationList:
-					Content = new ExportOrganisationListStepViewModel(this);
-					break;
+					return new ExportOrganisationListStepViewModel(this);
 
 				case ProcedureStepType.ImportOrganisationList:
-					Content = new ImportOrganisationListStepViewModel(this);
-					break;
+					return new ImportOrganisationListStepViewModel(this);
 
 				case ProcedureStepType.Ptz:
-					Content = new PtzStepViewModel(this);
-					break;
+					return new PtzStepViewModel(this);
 
 				case ProcedureStepType.StartRecord:
-					Content = new StartRecordStepViewModel(this);
-					break;
+					return new StartRecordStepViewModel(this);
 
 				case ProcedureStepType.StopRecord:
-					Content = new StopRecordStepViewModel(this);
-					break;
+					return new StopRecordStepViewModel(this);
 
 				case ProcedureStepType.RviAlarm:
-					Content = new RviAlarmStepViewModel(this);
-					break;
+					return new RviAlarmStepViewModel(this);
+				default:
+					return null;
 			}
-			UpdateContent();
-			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 		}
 
 		public void UpdateContent()

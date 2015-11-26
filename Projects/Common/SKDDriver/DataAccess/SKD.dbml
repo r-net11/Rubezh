@@ -315,6 +315,7 @@
       <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="NightStartTime" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
       <Column Name="NightEndTime" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="IsNightSettingsEnabled" Type="System.Boolean" DbType="bit NOT NULL" CanBeNull="false" />
       <Association Name="Organisation_NightSetting" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>

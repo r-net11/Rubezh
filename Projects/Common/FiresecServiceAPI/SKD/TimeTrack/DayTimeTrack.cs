@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Linq.Mapping;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -9,6 +8,9 @@ namespace FiresecAPI.SKD
 	[DataContract]
 	public class DayTimeTrack
 	{
+		#region Fields
+		private List<NightSettings> _nighTimeSpans;
+		#endregion
 		#region Constructors
 		public DayTimeTrack()
 		{
@@ -136,20 +138,41 @@ namespace FiresecAPI.SKD
 			RealTimeTrackPartsForCalculates = GetRealTimeTracksForCalculate(RealTimeTrackParts.Where(x => x.ExitDateTime.HasValue && x.IsForURVZone && !x.NotTakeInCalculations));
 			CombinedTimeTrackParts = CalculateCombinedTimeTrackParts(PlannedTimeTrackParts, RealTimeTrackPartsForCalculates,
 																							DocumentTrackParts);
-			if (SlideTime != default(TimeSpan))
+			if (SlideTime != TimeSpan.Zero)
 			{
 				CombinedTimeTrackParts = AdjustmentCombinedTimeTracks(CombinedTimeTrackParts, PlannedTimeTrackParts, RealTimeTrackParts, SlideTime);
 				CombinedTimeTrackParts = TransferPresentToOvertime(CombinedTimeTrackParts, SlideTime);
 			}
 
-			CombinedTimeTrackParts = TransferNightSettings(CombinedTimeTrackParts, NightSettings);
+			if (NightSettings != null && NightSettings.IsNightSettingsEnabled)
+				CalculateNightTimeSpans(NightSettings);
+
+			CombinedTimeTrackParts = TransferNightSettings(CombinedTimeTrackParts, _nighTimeSpans);
 			CombinedTimeTrackParts = ApplyDeviationPolitics(CombinedTimeTrackParts, AllowedAbsentLowThan, AllowedEarlyLeave, AllowedLate, NotAllowOvertimeLowerThan);
-			CombinedTimeTrackParts = CorrectDocumentIntervals(CombinedTimeTrackParts, SlideTime);
+
+			if(SlideTime != TimeSpan.Zero)
+				CombinedTimeTrackParts = CorrectDocumentIntervals(CombinedTimeTrackParts, SlideTime);
+
 			RealTimeTrackPartsForCalculates = FillTypesForRealTimeTrackParts(RealTimeTrackPartsForCalculates, PlannedTimeTrackParts);
 			Totals = CalculateTotal(SlideTime, PlannedTimeTrackParts, RealTimeTrackPartsForCalculates, CombinedTimeTrackParts, IsHoliday);
 			Totals = GetTotalBalance(Totals);
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
 			CalculateLetterCode();
+		}
+
+		private void CalculateNightTimeSpans(NightSettings nightSettings)
+		{
+			_nighTimeSpans = new List<NightSettings>();
+
+			if (nightSettings.NightStartTime < nightSettings.NightEndTime)
+			{
+				_nighTimeSpans.Add(nightSettings);
+			}
+			else if(nightSettings.NightStartTime > nightSettings.NightEndTime)
+			{
+				_nighTimeSpans.Add(new NightSettings{NightStartTime = nightSettings.NightStartTime, NightEndTime = new TimeSpan(23, 59, 59)});
+				_nighTimeSpans.Add(new NightSettings{NightStartTime = new TimeSpan(), NightEndTime = nightSettings.NightEndTime});
+			}
 		}
 
 		private List<TimeTrackTotal> GetTotalBalance(List<TimeTrackTotal> totalCollection)
@@ -229,36 +252,58 @@ namespace FiresecAPI.SKD
 			return isApplyForAbsence || isApplyForEarlyLeave || isApplyForLate || isApplyForOverTime;
 		}
 
+		private bool IsIntersectWithNightSettings(TimeTrackPart timeTrackPart, List<NightSettings> nightSettings, out NightSettings currentNightSetting)
+		{
+			foreach (var nightSetting in nightSettings)
+			{
+				if (timeTrackPart.EnterDateTime.TimeOfDay <= nightSetting.NightEndTime
+				    && timeTrackPart.ExitDateTime.GetValueOrDefault().TimeOfDay >= nightSetting.NightStartTime)
+				{
+					currentNightSetting = nightSetting;
+					return true;
+				}
+			}
+			currentNightSetting = new NightSettings();
+			return false;
+			//if (nightSettings.NightStartTime > nightSettings.NightEndTime)
+			//{
+			//	return nightSettings.NightEndTime <= timeTrackPart.EnterDateTime.TimeOfDay
+			//	   && nightSettings.NightStartTime >= timeTrackPart.ExitDateTime.GetValueOrDefault().TimeOfDay;
+			//}
+			//return timeTrackPart.EnterDateTime.TimeOfDay <= nightSettings.NightEndTime
+			//		&& timeTrackPart.ExitDateTime.GetValueOrDefault().TimeOfDay >= nightSettings.NightStartTime;
+		}
+
 		private List<TimeTrackPart> TransferNightSettings(List<TimeTrackPart> combinedTimeTrackParts,
-			NightSettings nightSettings)
+			List<NightSettings> nightSettings)
 		{
 			if (nightSettings == null) return combinedTimeTrackParts;
 
 			var resultCollection = new List<TimeTrackPart>();
-
 			foreach (var el in combinedTimeTrackParts)
 			{
-				if (el.TimeTrackPartType == TimeTrackType.Presence
-					&& el.EnterDateTime.TimeOfDay <= nightSettings.NightEndTime
-					&& el.ExitDateTime.GetValueOrDefault().TimeOfDay >= NightSettings.NightStartTime)
+				NightSettings currentNightSetting;
+				if (el.TimeTrackPartType == TimeTrackType.Presence && IsIntersectWithNightSettings(el, nightSettings, out currentNightSetting))
+				//	&& el.EnterDateTime.TimeOfDay <= nightSettings.NightEndTime
+				//	&& el.ExitDateTime.GetValueOrDefault().TimeOfDay >= nightSettings.NightStartTime)
 				{
 					var night = new TimeTrackPart {TimeTrackPartType = TimeTrackType.Night};
 					//Вычисляем время входа нового интервала ночного времени
-					if (el.EnterDateTime.TimeOfDay <= nightSettings.NightStartTime)
+					if (el.EnterDateTime.TimeOfDay <= currentNightSetting.NightStartTime)
 					{
-						night.EnterDateTime = el.EnterDateTime.Date + nightSettings.NightStartTime;
+						night.EnterDateTime = el.EnterDateTime.Date + currentNightSetting.NightStartTime;
 					}
-					else if (el.EnterDateTime.TimeOfDay > nightSettings.NightStartTime)
+					else if (el.EnterDateTime.TimeOfDay > currentNightSetting.NightStartTime)
 					{
 						night.EnterDateTime = el.EnterDateTime;
 					}
 
 					//Вычисляем время выхода нового интервала ночного времени
-					if (el.ExitDateTime.GetValueOrDefault().TimeOfDay >= nightSettings.NightEndTime)
+					if (el.ExitDateTime.GetValueOrDefault().TimeOfDay >= currentNightSetting.NightEndTime)
 					{
-						night.ExitDateTime = el.ExitDateTime.GetValueOrDefault().Date + nightSettings.NightEndTime;
+						night.ExitDateTime = el.ExitDateTime.GetValueOrDefault().Date + currentNightSetting.NightEndTime;
 					}
-					else if (el.ExitDateTime.GetValueOrDefault().TimeOfDay < nightSettings.NightEndTime)
+					else if (el.ExitDateTime.GetValueOrDefault().TimeOfDay < currentNightSetting.NightEndTime)
 					{
 						night.ExitDateTime = el.ExitDateTime;
 					}
@@ -356,6 +401,9 @@ namespace FiresecAPI.SKD
 		private List<TimeTrackPart> AdjustmentCombinedTimeTracks(List<TimeTrackPart> combinedTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts, TimeSpan slideTime)
 		{
 			var sumPlannedTime = GetSummOfPlannedTimeTrackParts(plannedTimeTrackParts); //Суммарное время графика
+
+			if (sumPlannedTime < slideTime) return combinedTimeTrackParts;
+
 			var differWithPlannedTime = sumPlannedTime - slideTime; //Показывает доступное время неявки
 			const double TOLERANCE = 0.000001;
 
@@ -420,7 +468,7 @@ namespace FiresecAPI.SKD
 			{
 				TimeTrackPart timeTrackPartItem = timeTrackPart;
 
-				if (timeTrackPart.EnterDateTime.Date == Date && timeTrackPart.ExitDateTime.Value.Date > Date)
+				if (timeTrackPart.ExitDateTime != null && (timeTrackPart.EnterDateTime.Date == Date && timeTrackPart.ExitDateTime.Value.Date > Date))
 				{
 					timeTrackPartItem = new TimeTrackPart
 					{
@@ -443,7 +491,7 @@ namespace FiresecAPI.SKD
 						IsForceClosed = timeTrackPart.IsForceClosed
 					};
 				}
-				else if (timeTrackPart.EnterDateTime.Date < Date && timeTrackPart.ExitDateTime.Value.Date == Date)
+				else if (timeTrackPart.ExitDateTime != null && (timeTrackPart.EnterDateTime.Date < Date && timeTrackPart.ExitDateTime.Value.Date == Date))
 				{
 					timeTrackPartItem = new TimeTrackPart
 					{
@@ -466,7 +514,7 @@ namespace FiresecAPI.SKD
 						IsForceClosed = timeTrackPart.IsForceClosed
 					};
 				}
-				else if (timeTrackPart.EnterDateTime.Date < Date && timeTrackPart.ExitDateTime.Value.Date > Date)
+				else if (timeTrackPart.ExitDateTime != null && (timeTrackPart.EnterDateTime.Date < Date && timeTrackPart.ExitDateTime.Value.Date > Date))
 				{
 					timeTrackPartItem = new TimeTrackPart
 					{
@@ -841,7 +889,7 @@ namespace FiresecAPI.SKD
 			resultTotalCollection.Add(
 				new TimeTrackTotal(TimeTrackType.Night)
 				{
-					TimeSpan = GetNightTime(NightSettings)
+					TimeSpan = GetNightTime(NightSettings, realTimeTrackParts)
 				});
 
 			resultTotalCollection.Add(
@@ -977,17 +1025,17 @@ namespace FiresecAPI.SKD
 			return balanceTimeSpan;
 		}
 
-		private TimeSpan GetNightTime(NightSettings nightSettings)
+		public TimeSpan GetNightTime(NightSettings nightSettings, List<TimeTrackPart> realTimeTrackParts)
 		{
-			if (nightSettings == null || nightSettings.NightEndTime == nightSettings.NightStartTime) return default(TimeSpan);
+			if (nightSettings == null || nightSettings.NightEndTime == nightSettings.NightStartTime || !nightSettings.IsNightSettingsEnabled) return default(TimeSpan);
 
 			if (nightSettings.NightEndTime > nightSettings.NightStartTime)
 			{
-				return CalculateEveningTime(nightSettings.NightStartTime, nightSettings.NightEndTime, RealTimeTrackParts);
+				return CalculateEveningTime(nightSettings.NightStartTime, nightSettings.NightEndTime, realTimeTrackParts);
 			}
 
-			return CalculateEveningTime(nightSettings.NightStartTime, new TimeSpan(23, 59, 59), RealTimeTrackParts) +
-				   CalculateEveningTime(new TimeSpan(0, 0, 0), nightSettings.NightEndTime, RealTimeTrackParts);
+			return CalculateEveningTime(nightSettings.NightStartTime, new TimeSpan(23, 59, 59), realTimeTrackParts) +
+				   CalculateEveningTime(new TimeSpan(0, 0, 0), nightSettings.NightEndTime, realTimeTrackParts);
 		}
 
 		/// <summary>
@@ -1047,16 +1095,16 @@ namespace FiresecAPI.SKD
 
 			if (end <= TimeSpan.Zero) return result;
 
-			foreach (var trackPart in realTimeTrackParts.Where(x => x.ExitDateTime.HasValue))
+			foreach (var trackPart in realTimeTrackParts.Where(x => x.ExitDateTime.HasValue && x.IsForURVZone && !x.NotTakeInCalculations && x.TimeTrackPartType == TimeTrackType.Night))
 			{
-				if (trackPart.EnterDateTime.TimeOfDay <= start && trackPart.ExitDateTime.Value.TimeOfDay >= end)
+				if (trackPart.ExitDateTime != null && (trackPart.EnterDateTime.TimeOfDay <= start && trackPart.ExitDateTime.Value.TimeOfDay >= end))
 				{
 					result += end - start;
 				}
 				else
 				{
-					if ((trackPart.EnterDateTime.TimeOfDay >= start && trackPart.EnterDateTime.TimeOfDay <= end) ||
-					    (trackPart.ExitDateTime.Value.TimeOfDay >= start && trackPart.ExitDateTime.Value.TimeOfDay <= end))
+					if (trackPart.ExitDateTime != null && ((trackPart.EnterDateTime.TimeOfDay >= start && trackPart.EnterDateTime.TimeOfDay <= end) ||
+					                                       (trackPart.ExitDateTime.Value.TimeOfDay >= start && trackPart.ExitDateTime.Value.TimeOfDay <= end)))
 					{
 						var minStartTime = trackPart.EnterDateTime.TimeOfDay < start ? start : trackPart.EnterDateTime.TimeOfDay;
 						var minEndTime = trackPart.ExitDateTime.Value.TimeOfDay > end ? end : trackPart.ExitDateTime.Value.TimeOfDay;
