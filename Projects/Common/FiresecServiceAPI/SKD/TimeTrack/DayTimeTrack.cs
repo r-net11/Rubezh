@@ -401,6 +401,9 @@ namespace FiresecAPI.SKD
 		private List<TimeTrackPart> AdjustmentCombinedTimeTracks(List<TimeTrackPart> combinedTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts, TimeSpan slideTime)
 		{
 			var sumPlannedTime = GetSummOfPlannedTimeTrackParts(plannedTimeTrackParts); //Суммарное время графика
+
+			if (sumPlannedTime < slideTime) return combinedTimeTrackParts;
+
 			var differWithPlannedTime = sumPlannedTime - slideTime; //Показывает доступное время неявки
 			const double TOLERANCE = 0.000001;
 
