@@ -5,7 +5,7 @@ using Microsoft.AspNet.SignalR.Hubs;
 
 #endregion
 
-namespace GKWebService.DataProviders
+namespace GKWebService.DataProviders.Plan
 {
 	[HubName("plansUpdater")]
 	public class PlansUpdaterHub : Hub

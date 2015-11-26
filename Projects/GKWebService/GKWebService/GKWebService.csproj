@@ -446,10 +446,10 @@
     <Compile Include="Controllers\HrController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
-    <Compile Include="DataProviders\InernalConverter.cs" />
-    <Compile Include="DataProviders\PlansDataProvider.cs" />
-    <Compile Include="DataProviders\PlansUpdater.cs" />
-    <Compile Include="DataProviders\PlansUpdaterHub.cs" />
+    <Compile Include="Utils\InernalConverter.cs" />
+    <Compile Include="DataProviders\Plan\PlansDataProvider.cs" />
+    <Compile Include="DataProviders\Plan\PlansUpdater.cs" />
+    <Compile Include="DataProviders\Plan\PlansUpdaterHub.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

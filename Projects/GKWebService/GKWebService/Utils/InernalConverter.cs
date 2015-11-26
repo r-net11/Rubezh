@@ -17,7 +17,7 @@ using Point = System.Windows.Point;
 
 #endregion
 
-namespace GKWebService.DataProviders
+namespace GKWebService.Utils
 {
 	internal static class InernalConverter
 	{

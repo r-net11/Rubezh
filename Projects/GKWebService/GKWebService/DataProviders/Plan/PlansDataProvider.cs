@@ -4,17 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
-using GKWebService.Models;
 using GKWebService.Models.Plan;
+using GKWebService.Utils;
 using Infrastructure.Common.Services.Content;
 using Infrustructure.Plans.Elements;
 using RubezhAPI.GK;
-using RubezhAPI.Models;
 using RubezhClient;
 
 #endregion
 
-namespace GKWebService.DataProviders
+namespace GKWebService.DataProviders.Plan
 {
 	public class PlansDataProvider
 	{
@@ -31,7 +30,7 @@ namespace GKWebService.DataProviders
 			SafeFiresecService.GKCallbackResultEvent += OnServiceCallback;
 		}
 
-		private void LoadPlan(Plan plan) {
+		private void LoadPlan(RubezhAPI.Models.Plan plan) {
 			// Корень плана
 			var planToAdd = new PlanSimpl {
 				Name = plan.Caption,
@@ -51,9 +50,9 @@ namespace GKWebService.DataProviders
 			Plans.Add(planToAdd);
 		}
 
-		private PlanElement LoadPlanRoot(Plan plan) {
-            var hint = new ElementHint();
-            hint.StateHintLines.Add(new HintLine(){Text = plan.Description});
+		private PlanElement LoadPlanRoot(RubezhAPI.Models.Plan plan) {
+			var hint = new ElementHint();
+			hint.StateHintLines.Add(new HintLine { Text = plan.Description });
 			return new PlanElement {
 				Border = InernalConverter.ConvertColor(Colors.Black),
 				BorderThickness = 0,
@@ -75,7 +74,7 @@ namespace GKWebService.DataProviders
 			};
 		}
 
-		private IEnumerable<PlanElement> LoadPlanSubElements(Plan plan) {
+		private IEnumerable<PlanElement> LoadPlanSubElements(RubezhAPI.Models.Plan plan) {
 			var rectangles = LoadRectangleElements(plan);
 			var polygons = LoadPolygonElements(plan);
 			var polylines = LoadPolyLineElements(plan);
@@ -83,11 +82,11 @@ namespace GKWebService.DataProviders
 			var textBlocks = LoadTextBlockElements(plan);
 			//var doors = LoadDoorElements(plan);
 			var devices = plan.ElementGKDevices.Select(PlanElement.FromDevice);
-			
+
 			return rectangles.Concat(polygons).Concat(polylines).Concat(ellipses).Concat(textBlocks).Concat(devices);
 		}
 
-		private IEnumerable<PlanElement> LoadPolygonElements(Plan plan) {
+		private IEnumerable<PlanElement> LoadPolygonElements(RubezhAPI.Models.Plan plan) {
 			var polygons =
 				(from rect in plan.ElementPolygons
 				 select rect as ElementBasePolygon)
@@ -120,7 +119,7 @@ namespace GKWebService.DataProviders
 			return polygons.Select(PlanElement.FromPolygon);
 		}
 
-		private IEnumerable<PlanElement> LoadRectangleElements(Plan plan) {
+		private IEnumerable<PlanElement> LoadRectangleElements(RubezhAPI.Models.Plan plan) {
 			var rectangles =
 				(from rect in plan.ElementRectangles
 				 select rect as ElementBaseRectangle)
@@ -153,7 +152,7 @@ namespace GKWebService.DataProviders
 			return rectangles.ToList().Select(PlanElement.FromRectangle);
 		}
 
-		private IEnumerable<PlanElement> LoadPolyLineElements(Plan plan) {
+		private IEnumerable<PlanElement> LoadPolyLineElements(RubezhAPI.Models.Plan plan) {
 			var polylines = (from line in plan.ElementPolylines
 			                 select line as ElementBasePolyline);
 
@@ -161,14 +160,17 @@ namespace GKWebService.DataProviders
 			return polylines.Select(PlanElement.FromPolyline);
 		}
 
-		private IEnumerable<PlanElement> LoadEllipseElements(Plan plan) {
+		private IEnumerable<PlanElement> LoadEllipseElements(RubezhAPI.Models.Plan plan) {
 			// Конвертим зоны-эллипсы
 			return plan.ElementEllipses.ToList().Select(PlanElement.FromEllipse);
 		}
 
-		private IEnumerable<PlanElement> LoadTextBlockElements(Plan plan) {
+		private IEnumerable<PlanElement> LoadTextBlockElements(RubezhAPI.Models.Plan plan) {
 			// Конвертим текстблоки
-			return plan.ElementTextBlocks.ToList().Select(PlanElement.FromRectangle).Union(plan.ElementTextBlocks.ToList().Select(PlanElement.FromTextBlocks));
+			return
+				plan.ElementTextBlocks.ToList()
+				    .Select(PlanElement.FromRectangle)
+				    .Union(plan.ElementTextBlocks.ToList().Select(PlanElement.FromTextBlocks));
 		}
 
 		private void OnServiceCallback(GKCallbackResult obj) {
