@@ -159,6 +159,18 @@ namespace AutomationModule
 							if (gkDoor != null)
 								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDoorDetailsEvent>();
 							break;
+
+						case ObjectType.PumpStation:
+							var pumpStation = GKManager.PumpStations.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							if (pumpStation != null)
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKPumpStationDetailsEvent>();
+							break;
+
+						case ObjectType.MPT:
+							var mpt = GKManager.MPTs.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							if (mpt != null)
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKMPTDetailsEvent>();
+							break;
 					}
 					if (ShowObjectDetailsEvent != null)
 						ApplicationService.BeginInvoke(() => ShowObjectDetailsEvent.Publish(propertyArguments.ObjectUid));
