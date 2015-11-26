@@ -26,9 +26,8 @@ namespace GKOPCServer
 		{
 			try
 			{
-				var resourceService = new ResourceService();
-				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
-				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
+				ServiceFactoryBase.ResourceService.AddResource(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml");
+				ServiceFactoryBase.ResourceService.AddResource(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml");
 
 				WindowThread = new Thread(new ThreadStart(OnWorkThread));
 				WindowThread.Name = "GK OPC Main Window";
