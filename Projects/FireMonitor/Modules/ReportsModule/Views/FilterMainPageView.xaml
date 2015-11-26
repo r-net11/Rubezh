@@ -52,7 +52,7 @@
 			<ComboBox Grid.Row="0" Grid.Column="1" Width="240" Margin="2" HorizontalAlignment="Left" ItemsSource="{Binding Source={x:Type API:ReportPeriodType}, Converter={StaticResource EnumToItemsSourceConverter}}" ItemTemplate="{StaticResource EnumDescriptionTemplate}" SelectedItem="{Binding SelectedReportPeriod}" />
 
 			<DatePicker DisplayDateStart="{Binding MinDate}"
-						DisplayDateEnd="{Binding MaxDate}"
+						DisplayDateEnd="{Binding MaxDate, Mode=OneTime}"
 						SelectedDate="{Binding DateTimeFrom}"
 						DisplayDate="{Binding DateTimeFrom}"
 						IsEnabled="{Binding SelectedReportPeriod, Converter={StaticResource ReportPeriodTypeToBoolConverter}}"
@@ -62,7 +62,7 @@
 						Margin="2" Width="150" />
 			
 			<DatePicker DisplayDateStart="{Binding MinDate}"
-						DisplayDateEnd="{Binding MaxDate}"
+						DisplayDateEnd="{Binding MaxDate, Mode=OneTime}"
 						SelectedDate="{Binding DateTimeTo}" 
 						DisplayDate="{Binding DateTimeTo}"
 						IsEnabled="{Binding SelectedReportPeriod, Converter={StaticResource ReportPeriodTypeToBoolConverter}}"
