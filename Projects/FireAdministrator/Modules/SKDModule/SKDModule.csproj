@@ -78,6 +78,15 @@
     <Compile Include="SKDModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\Validator.cs" />
+    <Compile Include="ViewModels\OrganisationsSelectionViewModel.cs" />
+    <Compile Include="ViewModels\OrganisationSelectionViewModel.cs" />
+    <Compile Include="ViewModels\OrganisationViewModel.cs" />
+    <Compile Include="Views\OrganisatonsSelectionView.xaml.cs">
+      <DependentUpon>OrganisatonsSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OrganisatonSelectionView.xaml.cs">
+      <DependentUpon>OrganisatonSelectionView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
@@ -131,6 +140,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Layout\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\OrganisatonsSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\OrganisatonSelectionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
