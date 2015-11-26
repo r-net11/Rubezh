@@ -387,25 +387,31 @@ namespace GKProcessor
 
 		public static OperationResult<bool> RewritePmfUsers(Guid deviceUID, List<GKUser> users, GKProgressCallback progressCallback)
 		{
-			progressCallback = GKProcessorManager.StartProgress("Запись пользователей", "", users.Count, true, GKProgressClientType.Administrator);
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				RemoveAllUsersInternal(device, GetUsersCount(device));
-				ushort gkNo = 0;
-				foreach (var user in users.OrderBy(x => x.Password))
-				{
-					user.GkNo = gkNo++;
-					AddOrEditUser(user, device);
-					if (progressCallback.IsCanceled)
-					{
-						return OperationResult<bool>.FromError("Операция отменена");
-					}
-					GKProcessorManager.DoProgress("Пользователь " + gkNo, progressCallback);
-				}
+                progressCallback = GKProcessorManager.StartProgress("Подсчёт числа пользователей на приборе", "", 1, true, GKProgressClientType.Administrator);
+                var usersToDeleteCount = GetUsersCount(device);
+                GKProcessorManager.StopProgress(progressCallback);
+                progressCallback = GKProcessorManager.StartProgress("Удаление пользователей", "", usersToDeleteCount, true, GKProgressClientType.Administrator);
+                RemoveAllUsersInternal(device, usersToDeleteCount, progressCallback);
+                GKProcessorManager.StopProgress(progressCallback);
+                progressCallback = GKProcessorManager.StartProgress("Запись пользователей", "", users.Count, true, GKProgressClientType.Administrator);
+                ushort gkNo = 0;
+                foreach (var user in users.OrderBy(x => x.Password))
+                {
+                    user.GkNo = gkNo++;
+                    AddOrEditUser(user, device);
+                    if (progressCallback.IsCanceled)
+                    {
+                        return OperationResult<bool>.FromError("Операция отменена");
+                    }
+                    GKProcessorManager.DoProgress("Пользователь " + gkNo, progressCallback);
+                }
+                GKProcessorManager.StopProgress(progressCallback);
+                return new OperationResult<bool>(true);
 			}
-			GKProcessorManager.StopProgress(progressCallback);
-			return new OperationResult<bool>(true);
+            return OperationResult<bool>.FromError("Устройство не найдено");
 		}
 
 		/// <summary>
@@ -460,7 +466,7 @@ namespace GKProcessor
 				}
 
 				cardsCount++;
-				if(progressCallback != null)
+                if(progressCallback != null)
 					GKProcessorManager.DoProgress("Пользователь " + no, progressCallback);
 			}
 			return cardsCount;
