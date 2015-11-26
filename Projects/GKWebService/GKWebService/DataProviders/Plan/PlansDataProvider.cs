@@ -80,10 +80,10 @@ namespace GKWebService.DataProviders.Plan
 			var polylines = LoadPolyLineElements(plan);
 			var ellipses = LoadEllipseElements(plan);
 			var textBlocks = LoadTextBlockElements(plan);
-			//var doors = LoadDoorElements(plan);
+			var doors = LoadDoorElements(plan);
 			var devices = plan.ElementGKDevices.Select(PlanElement.FromDevice);
 
-			return rectangles.Concat(polygons).Concat(polylines).Concat(ellipses).Concat(textBlocks).Concat(devices);
+			return rectangles.Concat(polygons).Concat(polylines).Concat(ellipses).Concat(textBlocks).Concat(doors).Concat(devices);
 		}
 
 		private IEnumerable<PlanElement> LoadPolygonElements(RubezhAPI.Models.Plan plan) {
@@ -171,6 +171,11 @@ namespace GKWebService.DataProviders.Plan
 				plan.ElementTextBlocks.ToList()
 				    .Select(PlanElement.FromRectangle)
 				    .Union(plan.ElementTextBlocks.ToList().Select(PlanElement.FromTextBlocks));
+		}
+
+		private IEnumerable<PlanElement> LoadDoorElements(RubezhAPI.Models.Plan plan) {
+			// Конвертим зоны-прямоугольники
+			return plan.ElementGKDoors.ToList().SelectMany(PlanElement.FromGkDoor);
 		}
 
 		private void OnServiceCallback(GKCallbackResult obj) {

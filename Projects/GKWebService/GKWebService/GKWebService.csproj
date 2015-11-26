@@ -266,6 +266,7 @@
       <DependentUpon>main.css</DependentUpon>
     </Content>
     <Content Include="Content\Site.css" />
+    <EmbeddedResource Include="Content\SvgIcons\GKDoor.txt" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -446,6 +447,7 @@
     <Compile Include="Controllers\HrController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
     <Compile Include="Utils\InernalConverter.cs" />
     <Compile Include="DataProviders\Plan\PlansDataProvider.cs" />
     <Compile Include="DataProviders\Plan\PlansUpdater.cs" />

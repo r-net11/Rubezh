@@ -1,6 +1,7 @@
 ﻿#region Usings
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
@@ -15,8 +16,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Xaml;
-using GKWebService.DataProviders;
 using GKWebService.DataProviders.Plan;
+using GKWebService.DataProviders.Resources;
 using GKWebService.Utils;
 using ImageMagick;
 using Infrustructure.Plans.Elements;
@@ -171,6 +172,53 @@ namespace GKWebService.Models.Plan
 			return shape;
 		}
 
+		public static List<PlanElement> FromGkDoor(ElementGKDoor item) {
+			var result = new List<PlanElement>();
+			var strings = EmbeddedResourceLoader.LoadResource("GKWebService.Content.SvgIcons.GKDoor.txt")
+			                                    .Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+			var rect = item.GetRectangle();
+			var geometry = Geometry.Parse(strings[0]);
+			var flatten = geometry.GetFlattenedPathGeometry();
+			flatten.Transform = new TranslateTransform(rect.TopLeft.X, rect.TopRight.Y);
+			KnownColor color1;
+			Enum.TryParse(strings[1], true, out color1);
+			KnownColor color2;
+			Enum.TryParse(strings[2], true, out color2);
+			var shape1 = new PlanElement {
+				Path = flatten.GetFlattenedPathGeometry().ToString(CultureInfo.InvariantCulture),
+				Border = System.Drawing.Color.FromKnownColor(color1),
+				Fill = System.Drawing.Color.FromKnownColor(color2),
+				BorderMouseOver = InernalConverter.ConvertColor(Colors.Transparent),
+				FillMouseOver = InernalConverter.ConvertColor(Colors.Transparent),
+				Name = item.PresentationName,
+				Id = item.UID,
+				Hint = GetElementHint(item),
+				BorderThickness = item.BorderThickness,
+				Type = ShapeTypes.Path.ToString()
+			};
+			result.Add(shape1);
+			geometry = Geometry.Parse(strings[3]);
+			flatten = geometry.GetFlattenedPathGeometry();
+			flatten.Transform = new TranslateTransform(rect.TopLeft.X, rect.TopRight.Y);
+			Enum.TryParse(strings[4], true, out color1);
+			Enum.TryParse(strings[5], true, out color2);
+
+			var shape2 = new PlanElement {
+				Path = flatten.GetFlattenedPathGeometry().ToString(CultureInfo.InvariantCulture),
+				Border = System.Drawing.Color.FromKnownColor(color1),
+				Fill = System.Drawing.Color.FromKnownColor(color2),
+				BorderMouseOver = InernalConverter.ConvertColor(Colors.Transparent),
+				FillMouseOver = InernalConverter.ConvertColor(Colors.Transparent),
+				Name = item.PresentationName,
+				Id = item.UID,
+				Hint = GetElementHint(item),
+				BorderThickness = item.BorderThickness,
+				Type = ShapeTypes.Path.ToString()
+			};
+			result.Add(shape2);
+			return result;
+		}
+
 		public static PlanElement FromDevice(ElementGKDevice item) {
 			// Находим девайс и набор его состояний
 			var device =
@@ -282,53 +330,18 @@ namespace GKWebService.Models.Plan
 			return Convert.ToBase64String(bytes);
 		}
 
-		//private byte[] GetDoorPic(GKDoor device)
-		//{
-		//	var stateWithPic =
-		//		device.States.FirstOrDefault(s => s.StateClass == device.State.StateClass) ??
-		//		deviceConfig.States.FirstOrDefault(s => s.StateClass == XStateClass.No);
-		//	if (stateWithPic == null)
-		//		return null;
-
-		//	// Перебираем кадры в состоянии и генерируем gif картинку
-		//	byte[] bytes;
-		//	using (MagickImageCollection collection = new MagickImageCollection())
-		//	{
-		//		foreach (var frame in stateWithPic.Frames)
-		//		{
-		//			var frame1 = frame;
-		//			Task<Bitmap> getBitmapTask = Task.Factory.StartNewSta(() =>
-		//			{
-		//				Canvas surface =
-		//					(Canvas)XamlFromString(frame1.Image);
-		//				return XamlCanvasToPngBitmap(surface);
-		//			});
-		//			Task.WaitAll(getBitmapTask);
-		//			var pngBitmap = getBitmapTask.Result;
-		//			MagickImage img = new MagickImage(pngBitmap)
-		//			{
-		//				AnimationDelay = frame.Duration / 10,
-		//			};
-		//			collection.Add(img);
-		//		}
-		//		var path = string.Format(@"C:\tmpImage{0}.gif", Guid.NewGuid());
-		//		collection.Write(path);
-		//		using (var fstream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
-		//		{
-		//			using (var stream = new MemoryStream())
-		//			{
-		//				fstream.CopyTo(stream);
-		//				bytes = stream.ToArray();
-		//			}
-		//		}
-		//		File.Delete(path);
-		//	}
-		//	return bytes;
-
-		//}
-
 		private static ElementHint GetElementHint(ElementBase element) {
 			var hint = new ElementHint();
+
+			var asDoor = element as ElementGKDoor;
+			if (asDoor != null) {
+				var door = GKManager.Doors.FirstOrDefault(d => d.UID == asDoor.DoorUID);
+				if (door != null) {
+					if (door.PresentationName != null) {
+						hint.StateHintLines.Add(new HintLine { Text = door.PresentationName, Icon = GetElementHintIcon(asDoor).Item1 });
+					}
+				}
+			}
 
 			var asZone = element as IElementZone;
 			if (asZone != null) {
