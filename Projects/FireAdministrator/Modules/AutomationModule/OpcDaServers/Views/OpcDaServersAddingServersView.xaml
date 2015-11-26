@@ -14,7 +14,7 @@
 				<DataGridTemplateColumn Header="Сервер" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding ServerName}" Margin="2" />
+							<TextBlock Text="{Binding Server.ServerName}" Margin="2" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

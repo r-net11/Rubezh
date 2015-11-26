@@ -85,12 +85,14 @@ namespace AutomationModule.ViewModels
 		{
 			//Cоздаём и передаём список отсутствующих в конфигурационном списке серверов
 			var list = OpcDaServer.OpcDaServer.GetRegistredServers();
-			var notselectedServers = OpcDaServers.Count == 0 ? 
-									list.Select(x => new OpcDaServerViewModel(x)) : 
+			var notselectedServers = OpcDaServers.Count == 0 ?
+									list.Select(x => new OpcDaServerViewModel(
+										new RubezhAPI.Automation.OpcDaServer { Id = x.Id, ServerName= x.ServerName })) :
 									from rs in list
 									from ss in OpcDaServers
 									where rs.Id != ss.Id
-									select ss;
+									select new OpcDaServerViewModel(
+										new RubezhAPI.Automation.OpcDaServer { Id = rs.Id, ServerName = rs.ServerName });
 
 			var addingDialog = new OpcDaServersAddingServersViewModel(notselectedServers);
 
@@ -114,7 +116,7 @@ namespace AutomationModule.ViewModels
 			ServiceFactory.SaveService.AutomationChanged = true;
 
 			OpcDaServers.Remove(SelectedOpcDaServer);
-			SelectedOpcDaServer = null;
+			SelectedOpcDaServer = OpcDaServers.FirstOrDefault();
 		}
 
 		private bool CanDelete()

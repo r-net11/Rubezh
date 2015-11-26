@@ -8,8 +8,6 @@ namespace AutomationModule.ViewModels
 {
 	public class OpcDaServersAddingServersViewModel : SaveCancelDialogViewModel
 	{
-		private OpcDaServersAddingServersViewModel() { throw new NotImplementedException(); }
-
 		public OpcDaServersAddingServersViewModel(IEnumerable<OpcDaServerViewModel> servers)
 		{
 			Title = "Добавить серверы";
@@ -18,6 +16,7 @@ namespace AutomationModule.ViewModels
 			{
 				throw new ArgumentNullException("servers");
 			}
+
 			AllServers = new List<OpcDaServersAddingServerViewModel>(servers
 				.Select(server => new OpcDaServersAddingServerViewModel(server)));
 		}
@@ -30,7 +29,7 @@ namespace AutomationModule.ViewModels
 		{
 			SelectedServers = AllServers
 				.Where(server => server.IsSelected == true)
-				.Select(s => s.Base).ToArray();
+				.Select(s => s.Server).ToArray();
 			return base.Save();
 		}
 	}

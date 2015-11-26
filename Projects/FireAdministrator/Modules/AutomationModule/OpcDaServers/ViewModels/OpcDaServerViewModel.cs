@@ -11,13 +11,7 @@ namespace AutomationModule.ViewModels
 	{
 		#region Constructors
 
-		private OpcDaServerViewModel() { throw new NotImplementedException(); }
-
-		public OpcDaServerViewModel(OpcDaServer.OpcDaServer server)
-		{
-			ServerName = server.ServerName;
-			Id = server.Id;
-		}
+		public OpcDaServerViewModel() { throw new NotImplementedException(); }
 
 		public OpcDaServerViewModel(RubezhAPI.Automation.OpcDaServer server)
 		{
@@ -31,10 +25,10 @@ namespace AutomationModule.ViewModels
 		#region Fields And Properties
 
 		//public OpcDaServer.OpcDaServer Base { get; private set; }
-		public RubezhAPI.Automation.OpcDaServer Base { get; private set; }
+		public RubezhAPI.Automation.OpcDaServer Base { get; protected set; }
 
-		public string ServerName { get; private set; }
-		public Guid Id { get; private set; }
+		public string ServerName { get; protected set; }
+		public Guid Id { get; protected set; }
 
 		public RubezhAPI.Automation.OpcDaServer ConvertTo()
 		{
