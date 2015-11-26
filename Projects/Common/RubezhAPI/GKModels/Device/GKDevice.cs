@@ -535,11 +535,13 @@ namespace RubezhAPI.GK
 			get { return KAUParent != null; }
 		}
 
+		public bool UseReservedIP { get; set; }
+
 		public string GetGKIpAddress()
 		{
 			if (DriverType == GKDriverType.GK)
 			{
-				var ipProperty = this.Properties.FirstOrDefault(x => x.Name == "IPAddress");
+				var ipProperty = Properties.FirstOrDefault(x => x.Name == (UseReservedIP ? "ReservedIPAddress" : "IPAddress"));
 				if (ipProperty != null)
 				{
 					return ipProperty.StringValue;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Threading;
 using System.Windows.Controls;
 using Common;
@@ -29,7 +30,7 @@ namespace GKProcessor
 				}
 				
 				var pingResult = DeviceBytesHelper.Ping(newKauDevice.GKParent);
-				if (!pingResult)
+				if (pingResult.HasError)
 				{
 					if (progressCallback != null)
 						GKProcessorManager.StopProgress(progressCallback);
@@ -37,7 +38,7 @@ namespace GKProcessor
 					return null;
 				}
 				var pingResult2 = DeviceBytesHelper.Ping(newKauDevice);
-				if (!pingResult2)
+				if (pingResult2.HasError)
 				{
 					if (progressCallback != null)
 						GKProcessorManager.StopProgress(progressCallback);
@@ -70,7 +71,7 @@ namespace GKProcessor
 
 			var progressCallback = GKProcessorManager.StartProgress("Автопоиск устройств на " + gkControllerDevice.PresentationName, "Проверка связи", 1, true, GKProgressClientType.Administrator);
 			var pingResult = DeviceBytesHelper.Ping(gkControllerDevice);
-			if (!pingResult)
+			if (pingResult.HasError)
 			{
 				if (progressCallback != null)
 					GKProcessorManager.StopProgress(progressCallback);
@@ -100,7 +101,7 @@ namespace GKProcessor
 					kauDevice.Properties.Add(new GKProperty() {Name = "Mode", Value = 0});
 					GKManager.AddAutoCreateChildren(kauDevice);
 
-					var result1 = SendManager.Send(kauDevice, 0, 1, 1);
+						var result1 = DeviceBytesHelper.Ping(kauDevice);
 					if (!result1.HasError)
 					{
 						var sendResult = SendManager.Send(kauDevice, 2, 12, 32, BytesHelper.ShortToBytes(1));
@@ -204,11 +205,9 @@ namespace GKProcessor
 							Error = "Операция отменена";
 							return false;
 						}
-						var waitTime = 1000/(i + 1);
-						result2 = SendManager.Send(kauDevice, 3, 0x86, 6, bytes, true, false, waitTime);
+						result2 = SendManager.Send(kauDevice, 3, 0x86, 6, bytes, true, false, 3000);
 						if (!result2.HasError)
 							break;
-						Thread.Sleep(waitTime);
 					}
 					if (!result2.HasError)
 					{

@@ -32,7 +32,7 @@ namespace GKProcessor
 					{
 						gkLifecycleManager.AddItem("ГК");
 						var pingResult = DeviceBytesHelper.Ping(gkDatabase.RootDevice);
-						if (!pingResult)
+						if (pingResult.HasError)
 						{
 							Errors.Add("Устройство " + gkDatabase.RootDevice.PresentationName + " недоступно");
 							return;
@@ -42,7 +42,7 @@ namespace GKProcessor
 						{
 							gkLifecycleManager.AddItem(kauDatabase.RootDevice.PresentationName);
 							pingResult = DeviceBytesHelper.Ping(kauDatabase.RootDevice);
-							if (pingResult)
+							if (!pingResult.HasError)
 							{
 								kauDatabases.Add(kauDatabase);
 							}

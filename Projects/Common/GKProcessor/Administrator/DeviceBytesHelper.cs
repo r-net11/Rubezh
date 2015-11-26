@@ -46,7 +46,7 @@ namespace GKProcessor
 			try
 			{
 				var stringBuilder = new StringBuilder();
-				var result1 = SendManager.Send(device, 0, 1, 1);
+				var result1 = Ping(device);
 				if (result1.HasError)
 					return null;
 
@@ -103,7 +103,7 @@ namespace GKProcessor
 
 		public static bool IsInTechnologicalRegime(GKDevice device)
 		{
-			var sendResult = SendManager.Send(device, 0, 1, 1);
+			var sendResult = Ping(device);
 			if (!sendResult.HasError)
 			{
 				if (sendResult.Bytes.Count > 0)
@@ -157,7 +157,7 @@ namespace GKProcessor
 					{
 						if (progressCallback.IsCanceled)
 							return true;
-						var sendResult = SendManager.Send(device, 0, 1, 1);
+						var sendResult = Ping(device);
 						if (!sendResult.HasError)
 						{
 							if (sendResult.Bytes.Count > 0)
@@ -180,14 +180,15 @@ namespace GKProcessor
 			}
 		}
 
-		public static bool Ping(GKDevice gkControllerDevice)
+		public static SendResult Ping(GKDevice gkControllerDevice)
 		{
 			var sendResult = SendManager.Send(gkControllerDevice, 0, 1, 1);
 			if (sendResult.HasError)
 			{
-				return false;
+				gkControllerDevice.UseReservedIP = !gkControllerDevice.UseReservedIP;
+				sendResult = SendManager.Send(gkControllerDevice, 0, 1, 1);
 			}
-			return true;
+			return sendResult;
 		}
 	}
 }
