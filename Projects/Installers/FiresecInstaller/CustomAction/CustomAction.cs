@@ -44,10 +44,12 @@ namespace CustomAction
 
 		#endregion </Закрытие приложений перед проведением обновления>
 
-		#region <Чтение файла конфигурации AppServerSettings.xml>
+		#region <Работа с файлом конфигурации AppServerSettings.xml>
 
 		private const string ConfigDir = "C:\\ProgramData\\Firesec2";
 		private const string ConfigFile = "AppServerSettings.xml";
+
+		#region <Переменные сессии и значения по умолчанию>
 
 		private const string ProductName = "ProductName";
 		private const string SqlServerAddress = "SQLSERVER_ADDRESS";
@@ -64,6 +66,15 @@ namespace CustomAction
 		private const string SqlServerLoginDefault = "strazh";
 		private const string SqlServerPasswordDefault = "strazhstrazh";
 
+		#endregion </Переменные сессии и значения по умолчанию>
+
+		private const string DBServerAddressNodeName = "DBServerAddress";
+		private const string DBServerPortNodeName = "DBServerPort";
+		private const string DBServerNameNodeName = "DBServerName";
+		private const string DBUseIntegratedSecurityNodeName = "DBUseIntegratedSecurity";
+		private const string DBUserIDNodeName = "DBUserID";
+		private const string DBUserPwdNodeName = "DBUserPwd";
+
 		[CustomAction]
 		public static ActionResult ReadAppServerSettings(Session session)
 		{
@@ -71,9 +82,10 @@ namespace CustomAction
 
 			try
 			{
-				session.Log("Каталог конфигурации: [{0}]", ConfigDir);
+				session.Log("Каталог хранения конфигурации: [{0}]", ConfigDir);
 
-				var root = ReadConfigRoot(session, ConfigDir);
+				var doc = ReadConfigFile(session, Path.Combine(ConfigDir, ConfigFile));
+				var root = (doc == null) ? null : doc.Root;
 				if (root == null)
 				{
 					return ActionResult.Success;
@@ -150,89 +162,108 @@ namespace CustomAction
 			return ActionResult.Success;
 		}
 
-		private static XElement ReadConfigRoot(Session session, string location)
+		[CustomAction]
+		public static ActionResult WriteAppServerSettings(Session session)
 		{
-			if (!Directory.Exists(location))
+			session.Log("Выполнение WriteAppServerSettings");
+
+			try
 			{
-				session.Log("Каталог установки [{0}] не найден", location);
+				session.Log("Каталог хранения конфигурации: [{0}]", ConfigDir);
+
+				var doc = ReadConfigFile(session, Path.Combine(ConfigDir, ConfigFile));
+				var root = (doc == null) ? null : doc.Root;
+				if (root == null)
+				{
+					return ActionResult.Success;
+				}
+
+				SetElementValue(root, DBServerAddressNodeName, session[SqlServerAddress]);
+				SetElementValue(root, DBServerPortNodeName, session[SqlServerPort]);
+				SetElementValue(root, DBServerNameNodeName, session[SqlServerInstanceName]);
+				SetElementValue(root, DBUseIntegratedSecurityNodeName, session[SqlServerAuthenticationMode] == "0");
+				SetElementValue(root, DBUserIDNodeName, session[SqlServerLogin]);
+				SetElementValue(root, DBUserPwdNodeName, session[SqlServerPassword]);
+
+				WriteConfigFile(doc, Path.Combine(ConfigDir, ConfigFile));
+			}
+			catch (Exception e)
+			{
+				session.Log("В результате выполнения WriteAppServerSettings возникла ошибка: {0}", e.Message);
+				return ActionResult.Failure;
+			}
+
+			return ActionResult.Success;
+		}
+
+		private static XDocument ReadConfigFile(Session session, string filePath)
+		{
+			var dir = Path.GetDirectoryName(filePath);
+			if (!Directory.Exists(dir))
+			{
+				session.Log("Каталог хранения конфигурации [{0}] не найден", dir);
 				return null;
 			}
 
-			var configFile = Path.Combine(location, ConfigFile);
-			if (!File.Exists(configFile))
+			if (!File.Exists(filePath))
 			{
-				session.Log("Конфигурационный файл [{0}] не найден", configFile);
+				session.Log("Конфигурационный файл [{0}] не найден", filePath);
 				return null;
 			}
 
 			XDocument doc = null;
-			using (var reader = new StreamReader(configFile))
+			using (var reader = new StreamReader(filePath))
 			{
 				doc = XDocument.Load(reader);
 			}
 
-			return (doc == null) ? null : doc.Root;
+			return doc;
+		}
+
+		private static string GetElementValue(XElement rootElement, string elementName)
+		{
+			var element = rootElement.Elements().FirstOrDefault(e => e.Name == elementName);
+			return (element == null) ? null : element.Value;
 		}
 
 		private static string GetSqlServerAddress(XElement root)
 		{
-			var element = root.Elements().FirstOrDefault(e => e.Name == "DBServerAddress");
-			if (element == null)
-				return SqlServerAddressDefault;
-
-			return element.Value;
+			return GetElementValue(root, DBServerAddressNodeName) ?? SqlServerAddressDefault;
 		}
 
 		private static int GetSqlServerPort(XElement root)
 		{
-			var element = root.Elements().FirstOrDefault(e => e.Name == "DBServerPort");
-			if (element == null)
+			var result = GetElementValue(root, DBServerPortNodeName);
+			if (result == null)
 				return SqlServerPortDefault;
 
-			int result;
-			if (!int.TryParse(element.Value, out result))
-				return SqlServerPortDefault;
-
-			return result;
+			int resultInt;
+			return int.TryParse(result, out resultInt) ? resultInt : SqlServerPortDefault;
 		}
 
 		private static string GetSqlServerInstanceName(XElement root)
 		{
-			var element = root.Elements().FirstOrDefault(e => e.Name == "DBServerName");
-			if (element == null)
-				return SqlServerInstanceNameDefault;
-
-			return element.Value;
+			return GetElementValue(root, DBServerNameNodeName) ?? SqlServerInstanceNameDefault;
 		}
 
 		private static bool GetSqlServerAuthenticationMode(XElement root)
 		{
-			var element = root.Elements().FirstOrDefault(e => e.Name == "DBUseIntegratedSecurity");
-			if (element == null)
+			var result = GetElementValue(root, DBUseIntegratedSecurityNodeName);
+			if (result == null)
 				return SqlServerAuthenticationModeDefault;
 
-			bool result;
-			if (!Boolean.TryParse(element.Value, out result))
-				return SqlServerAuthenticationModeDefault;
-			return result;
+			bool resultBool;
+			return Boolean.TryParse(result, out resultBool) ? resultBool : SqlServerAuthenticationModeDefault;
 		}
 
 		private static string GetSqlServerLogin(XElement root)
 		{
-			var element = root.Elements().FirstOrDefault(e => e.Name == "DBUserID");
-			if (element == null)
-				return SqlServerLoginDefault;
-
-			return element.Value;
+			return GetElementValue(root, DBUserIDNodeName) ?? SqlServerLoginDefault;
 		}
 
 		private static string GetSqlServerPassword(XElement root)
 		{
-			var element = root.Elements().FirstOrDefault(e => e.Name == "DBUserPwd");
-			if (element == null)
-				return SqlServerPasswordDefault;
-
-			return element.Value;
+			return GetElementValue(root, DBUserPwdNodeName) ?? SqlServerPasswordDefault;
 		}
 
 		/// <summary>
@@ -279,6 +310,22 @@ namespace CustomAction
 			return csb.ConnectionString;
 		}
 
-		#endregion </Чтение файла конфигурации AppServerSettings.xml>
+		private static void WriteConfigFile(XDocument document, string filePath)
+		{
+			using (var stream = new StreamWriter(filePath, false))
+			{
+				document.Save(stream);
+			}
+		}
+
+		private static void SetElementValue(XElement root, string elementName, object value)
+		{
+			var element = root.Elements().FirstOrDefault(e => e.Name == elementName);
+			if (element == null)
+				return;
+			element.SetValue(value);
+		}
+
+		#endregion </Работа с файлом конфигурации AppServerSettings.xml>
 	}
 }
