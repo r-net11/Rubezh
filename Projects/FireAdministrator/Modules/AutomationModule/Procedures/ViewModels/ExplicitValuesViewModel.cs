@@ -3,6 +3,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
 using RubezhAPI.Automation;
 using Infrastructure.Common;
+using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
@@ -13,7 +14,7 @@ namespace AutomationModule.ViewModels
 
 		public ExplicitValuesViewModel()
 		{
-			AddCommand = new RelayCommand(OnAdd);
+			EditListCommand = new RelayCommand(OnEditList);
 			RemoveCommand = new RelayCommand<ExplicitValueViewModel>(OnRemove);
 			ChangeCommand = new RelayCommand<ExplicitValueViewModel>(OnChange);
 			ExplicitValue = new ExplicitValueViewModel();
@@ -22,7 +23,7 @@ namespace AutomationModule.ViewModels
 
 		public ExplicitValuesViewModel(ExplicitValue explicitValue, List<ExplicitValue> explicitValues, bool isList, ExplicitType explicitType, EnumType enumType, ObjectType objectType)
 		{
-			AddCommand = new RelayCommand(OnAdd);
+			EditListCommand = new RelayCommand(OnEditList);
 			RemoveCommand = new RelayCommand<ExplicitValueViewModel>(OnRemove);
 			ChangeCommand = new RelayCommand<ExplicitValueViewModel>(OnChange);
 			IsList = isList;
@@ -106,14 +107,15 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		public RelayCommand EditListCommand { get; private set; }
+		void OnEditList()
 		{
-			var explicitValueViewModel = new ExplicitValueViewModel();
+			var explicitValues = ExplicitValues.ToList();
 			if (ExplicitType == ExplicitType.Object)
-				if (!ProcedureHelper.SelectObject(ObjectType, explicitValueViewModel))
+				if (!ProcedureHelper.SelectObjects(ObjectType, ref explicitValues))
 					return;
-			ExplicitValues.Add(explicitValueViewModel);
+			if (explicitValues != null)
+				ExplicitValues = new ObservableCollection<ExplicitValueViewModel>(explicitValues);
 			OnPropertyChanged(() => ExplicitValues);
 		}
 
@@ -128,7 +130,12 @@ namespace AutomationModule.ViewModels
 		void OnChange(ExplicitValueViewModel explicitValueViewModel)
 		{
 			if (IsList)
-				ProcedureHelper.SelectObject(ObjectType, explicitValueViewModel);
+				{
+				var explicitValues = ExplicitValues.ToList();
+				ProcedureHelper.SelectObjects(ObjectType, ref explicitValues);
+				if (explicitValues != null)
+					ExplicitValues = new ObservableCollection<ExplicitValueViewModel>(explicitValues);
+			}
 			else
 				ProcedureHelper.SelectObject(ObjectType, ExplicitValue);
 			OnPropertyChanged(() => ExplicitValue);

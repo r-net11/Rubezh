@@ -17,6 +17,7 @@ namespace LayoutModule.ViewModels
 {
 	public class MonitorLayoutsViewModel : MenuViewPartViewModel, ISelectable<Guid>, IInitializable
 	{
+		static int copyCounter;
 		public static MonitorLayoutsViewModel Instance { get; private set; }
 		public MonitorLayoutViewModel MonitorLayoutViewModel { get; private set; }
 		public LayoutUsersViewModel LayoutUsersViewModel { get; private set; }
@@ -52,6 +53,7 @@ namespace LayoutModule.ViewModels
 				ListCollectionView view = (ListCollectionView)CollectionViewSource.GetDefaultView(Layouts);
 				foreach (var layout in ClientManager.LayoutsConfiguration.Layouts)
 					Layouts.Add(new LayoutViewModel(layout));
+				SortLayouts();
 				view.MoveCurrentToFirst();
 				SelectedLayout = (LayoutViewModel)view.CurrentItem;
 			}
@@ -116,7 +118,8 @@ namespace LayoutModule.ViewModels
 			{
 				layout.Users.Add(adminUser.UID);
 			}
-			var layoutDetailsViewModel = new LayoutPropertiesViewModel(layout, LayoutUsersViewModel);
+			var otherCaptions = Layouts.Select(x => x.Caption).ToList();
+			var layoutDetailsViewModel = new LayoutPropertiesViewModel(layout, LayoutUsersViewModel, otherCaptions);
 			if (DialogService.ShowModalWindow(layoutDetailsViewModel))
 				OnPaste(layoutDetailsViewModel.Layout);
 		}
@@ -143,7 +146,8 @@ namespace LayoutModule.ViewModels
 		private void OnEdit()
 		{
 			LayoutUsersViewModel.Update();
-			if (DialogService.ShowModalWindow(new LayoutPropertiesViewModel(SelectedLayout.Layout, LayoutUsersViewModel)))
+			var otherCaptions = Layouts.Select(x => x.Caption).Where(x => x != SelectedLayout.Layout.Caption).ToList();
+			if (DialogService.ShowModalWindow(new LayoutPropertiesViewModel(SelectedLayout.Layout, LayoutUsersViewModel, otherCaptions)))
 			{
 				SelectedLayout.Update();
 				MonitorLayoutViewModel.Update();
@@ -159,6 +163,7 @@ namespace LayoutModule.ViewModels
 		{
 			using (new WaitWrapper())
 				_layoutBuffer = Utils.Clone(SelectedLayout.Layout);
+			copyCounter = 0;
 		}
 		private bool CanCopy()
 		{
@@ -185,6 +190,7 @@ namespace LayoutModule.ViewModels
 				var viewModel = new LayoutViewModel(layout);
 				ClientManager.LayoutsConfiguration.Layouts.Add(layout);
 				Layouts.Add(viewModel);
+				SortLayouts();
 				SelectedLayout = viewModel;
 				ClientManager.LayoutsConfiguration.Update();
 				ServiceFactory.SaveService.LayoutsChanged = true;
@@ -193,8 +199,20 @@ namespace LayoutModule.ViewModels
 		private void RenewLayout(Layout layout)
 		{
 			layout.UID = Guid.NewGuid();
+			if (copyCounter == 0)
+			{
+				layout.Caption = string.Format("{0} - копия", layout.Caption);
+			}
+			else
+			{
+				layout.Caption = string.Format("{0} - копия({1})", layout.Caption, copyCounter);
+			}
+			copyCounter++;
 		}
-
+		void SortLayouts()
+		{
+			Layouts = new ObservableCollection<LayoutViewModel>(Layouts.OrderBy(x => x.Caption));
+		}
 		protected override void UpdateRibbonItems()
 		{
 			base.UpdateRibbonItems();

@@ -13,6 +13,8 @@ namespace GKModule.ViewModels
 	public class ZonesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
 		public static ZonesViewModel Current { get; private set; }
+		public GridLength TopPanelRowHeight { get; private set; }
+		public GridLength BottomPanelRowHeight { get; private set; }
 		public ZonesViewModel()
 		{
 			Current = this;
@@ -70,6 +72,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_isVisibleBottomPanel = value;
+				RowsHeightCalculate();
 				OnPropertyChanged(() => IsVisibleBottomPanel);
 			}
 		}
@@ -141,6 +144,19 @@ namespace GKModule.ViewModels
 
 			RootDevice = deviceViewModels.FirstOrDefault(x => x.Parent == null);
 			OnPropertyChanged(() => RootDevices);
+		}
+		void RowsHeightCalculate()
+		{
+			if (IsVisibleBottomPanel)
+			{
+				TopPanelRowHeight = new GridLength(3, GridUnitType.Star);
+				BottomPanelRowHeight = new GridLength(1, GridUnitType.Star);
+			}
+			else
+			{
+				TopPanelRowHeight = new GridLength(1, GridUnitType.Star);
+				BottomPanelRowHeight = new GridLength(1, GridUnitType.Auto);
+			}
 		}
 	}
 }
