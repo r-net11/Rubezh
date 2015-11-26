@@ -3,6 +3,8 @@ using System.Linq;
 using System.Windows.Media;
 using RubezhAPI.Models.Layouts;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
+using Infrastructure.Common.Windows;
 
 namespace LayoutModule.ViewModels
 {
@@ -15,12 +17,13 @@ namespace LayoutModule.ViewModels
 		public Layout Layout { get; private set; }
 		public LayoutUsersViewModel LayoutUsersViewModel { get; private set; }
 		public IPFilterViewModel IPFilterViewModel { get; private set; }
-
-		public LayoutPropertiesViewModel(Layout layout, LayoutUsersViewModel layoutUsersViewModel)
+		List<string> otherCaptions;
+		public LayoutPropertiesViewModel(Layout layout, LayoutUsersViewModel layoutUsersViewModel, List<string> otherCaptions)
 		{
 			Title = "Свойства элемента: Макет интерфейса ОЗ";
 			Layout = layout ?? new Layout();
 			LayoutUsersViewModel = layoutUsersViewModel;
+			this.otherCaptions = otherCaptions;
 			LayoutUsersViewModel.Update(Layout);
 			IPFilterViewModel = new IPFilterViewModel(Layout.HostNameOrAddressList);
 			CopyProperties();
@@ -142,18 +145,31 @@ namespace LayoutModule.ViewModels
 		}
 		protected override bool Save()
 		{
-			Layout.Caption = Caption;
-			Layout.Description = Description;
-			LayoutUsersViewModel.Save();
-			Layout.HostNameOrAddressList = IPFilterViewModel.GetModel();
-			Layout.SplitterColor = SplitterColor;
-			Layout.SplitterSize = SplitterSize;
-			Layout.BorderColor = BorderColor;
-			Layout.BorderThickness = BorderThickness;
-			Layout.BackgroundColor = BackgroundColor;
-			Layout.Padding = Padding;
-			Layout.IsRibbonEnabled = IsRibbonEnabled;
-			return base.Save();
+			if (IsValidate())
+			{
+				Layout.Caption = Caption;
+				Layout.Description = Description;
+				LayoutUsersViewModel.Save();
+				Layout.HostNameOrAddressList = IPFilterViewModel.GetModel();
+				Layout.SplitterColor = SplitterColor;
+				Layout.SplitterSize = SplitterSize;
+				Layout.BorderColor = BorderColor;
+				Layout.BorderThickness = BorderThickness;
+				Layout.BackgroundColor = BackgroundColor;
+				Layout.Padding = Padding;
+				Layout.IsRibbonEnabled = IsRibbonEnabled;
+				return base.Save();
+			}
+			return false;
+		}
+		bool IsValidate()
+		{
+			if (otherCaptions.Contains(Caption))
+			{
+				MessageBoxService.Show("Макет с таким именем уже существует.");
+				return false;
+			}
+			return true;
 		}
 	}
 }
