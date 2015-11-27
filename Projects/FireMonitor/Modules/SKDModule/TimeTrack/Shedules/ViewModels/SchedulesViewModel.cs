@@ -165,7 +165,15 @@ namespace SKDModule.ViewModels
 			var nightSettingsViewModel = new NightSettingsViewModel(ParentOrganisation.Organisation.UID);
 
 			if (DialogService.ShowModalWindow(nightSettingsViewModel) && SelectedItem != null)
-				SelectedItem.Update();
+			{
+				if (SelectedItem.IsOrganisation)
+					SelectedItem.Update();
+				else
+				{
+					var parentOrganisation = SelectedItem.GetAllParents().FirstOrDefault(x => x.IsOrganisation);
+					if (parentOrganisation != null) parentOrganisation.Update();
+				}
+			}
 		}
 		bool CanShowSettings()
 		{
