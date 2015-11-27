@@ -116,7 +116,7 @@ namespace GKModule.ViewModels
 		}
 		void OnGetUsers(List<GKUser> users)
 		{
-			Pmf.PmfUsers = new List<GKUser>(users);
+			Pmf.PmfUsers = new List<GKUser>(users.Where(x => x.IsActive));
 			ServiceFactory.SaveService.GKChanged = true;
 			Users = new ObservableCollection<PmfUserViewModel>(users.Select(x => new PmfUserViewModel(x)));
 			OnPropertyChanged(() => Users);
