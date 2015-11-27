@@ -29,9 +29,7 @@ namespace FiresecService
 				var resourceService = new ResourceService();
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
-				WindowThread = new Thread(new ThreadStart(OnWorkThread));
-				WindowThread.Name = "Main window";
-				WindowThread.Priority = ThreadPriority.Highest;
+				WindowThread = new Thread(OnWorkThread) {Name = "Main window", Priority = ThreadPriority.Highest};
 				WindowThread.SetApartmentState(ApartmentState.STA);
 				WindowThread.IsBackground = true;
 				WindowThread.Start();
