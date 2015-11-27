@@ -16,6 +16,7 @@ namespace GKProcessor
 			{
 				if (!isConnected)
 				{
+					DeviceBytesHelper.Ping(GkDatabase.RootDevice);
 					ConnectionLostCount++;
 					if (ConnectionLostCount < 3)
 						return;

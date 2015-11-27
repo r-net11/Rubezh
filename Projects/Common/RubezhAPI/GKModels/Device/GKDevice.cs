@@ -213,8 +213,8 @@ namespace RubezhAPI.GK
 			{
 				if (DriverType == GKDriverType.GK)
 				{
-					var ipAddress = GetGKIpAddress();
-					return ipAddress != null ? ipAddress : "";
+					var ipAddress = GetMainIpAddress();
+					return ipAddress ?? "";
 				}
 				if (!Driver.HasAddress)
 					return "";
@@ -542,6 +542,19 @@ namespace RubezhAPI.GK
 			if (DriverType == GKDriverType.GK)
 			{
 				var ipProperty = Properties.FirstOrDefault(x => x.Name == (UseReservedIP ? "ReservedIPAddress" : "IPAddress"));
+				if (ipProperty != null)
+				{
+					return ipProperty.StringValue;
+				}
+			}
+			return null;
+		}
+
+		string GetMainIpAddress()
+		{
+			if (DriverType == GKDriverType.GK)
+			{
+				var ipProperty = Properties.FirstOrDefault(x => x.Name == "IPAddress");
 				if (ipProperty != null)
 				{
 					return ipProperty.StringValue;
