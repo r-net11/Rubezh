@@ -30,9 +30,15 @@
 		<Property Id="WixUI_Mode" Value="Mondo" />
 		<Property Id="AgreeToLicense" Value="No" />
 		<Property Id="SETUPCHOICE" Value="Full" />
-		<Property Id="IS_SQLSERVER_USERNAME" Value="sa" />
-		<Property Id="IS_SQLSERVER_AUTHENTICATION" Value="0" />
-		<Property Id="SQLINSTANCE" Value="SQLEXPRESS" />
+		
+		<!-- Значения по умолчанию для свойств соединения с СУБД MS SQL Server -->
+		<Property Id="SQLSERVER_ADDRESS" Value="$(var.SQLServerAddressDefault)" />
+		<Property Id="SQLSERVER_PORT" Value="$(var.SQLServerPortDefault)" />
+		<Property Id="SQLSERVER_INSTANCENAME" Value="$(var.SQLServerInstanceNameDefault)" />
+		<Property Id="SQLSERVER_AUTHENTICATIONMODE" Value="$(var.SQLServerAuthenticationModeDefault)" />
+		<Property Id="SQLSERVER_LOGIN" Value="$(var.SQLServerLoginDefault)" />
+		<Property Id="SQLSERVER_PASSWORD" Value="$(var.SQLServerPasswordDefault)" />
+
 		<Property Id="INSTALLMODE" />
 		<Property Id="ALLUSERS" Value="1" Secure="yes" />
 

@@ -155,8 +155,10 @@
 			<Component Id="AppData.Manual_User.pdf">
 				<File Id="Server.Manual_User.pdf" Name="manual_user.pdf" Source="..\..\..\..\..\Deploy\Manual\" />
 			</Component>
-			<Component Id="Server.STRAZH_MODULE">
-				<File Id="AppData.StrazhSettings.xml" Name="StrazhSettings.xml" Source="..\..\..\..\..\Deploy\" />
+
+			<!-- Конфигурационный файл AppServerSettings.xml со значениями по умолчанию -->
+			<Component Id="AppData.AppServerSettings.xml">
+				<File Id="AppData.AppServerSettings.xml" Name="AppServerSettings.xml" Source="..\..\..\..\..\Deploy\" />
 			</Component>
 		</DirectoryRef>
 
