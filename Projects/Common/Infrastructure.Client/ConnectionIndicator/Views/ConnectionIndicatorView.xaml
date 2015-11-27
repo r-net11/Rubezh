@@ -8,6 +8,14 @@
 	d:DesignHeight="300"
 	d:DesignWidth="300"
 	mc:Ignorable="d">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/Controls;component/XamlImages/Ind_C-P.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/Controls;component/XamlImages/Ind_CxP.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
 	<Border
 		Name="_border"
 		Width="50"
