@@ -16,10 +16,10 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Цикл по списку")]
 		Foreach,
 
-		[DescriptionAttribute("Цикл For")]
+		[DescriptionAttribute("Цикл со счетчиком (For)")]
 		For,
 
-		[DescriptionAttribute("Цикл While")]
+		[DescriptionAttribute("Цикл с условием (While)")]
 		While,
 
 		[DescriptionAttribute("выйти из цикла")]
@@ -142,7 +142,7 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Импорт списка организаций")]
 		ImportOrganisationList,
 
-		[DescriptionAttribute("Ptz камеры")]
+		[DescriptionAttribute("Управление PTZ камерой")]
 		Ptz,
 
 		[DescriptionAttribute("Начать запись")]
