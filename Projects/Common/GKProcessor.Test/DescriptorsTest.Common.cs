@@ -386,7 +386,7 @@ namespace GKProcessor.Test
 		public void TestDependencyToGK()
 		{
 			var delay1 = new GKDelay();
-			delay1.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.On, DeviceUIDs = { gkDevice.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicator).UID } });
+			delay1.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.On, DeviceUIDs = { gkDevice.AllChildren.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicator).UID } });
 			GKManager.Delays.Add(delay1);
 			Compile();
 
@@ -398,7 +398,7 @@ namespace GKProcessor.Test
 		{
 			var delay1 = new GKDelay();
 			delay1.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.Failure, DeviceUIDs = { kauDevice1.UID } });
-			delay1.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.On, DeviceUIDs = { gkDevice.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicator).UID } });
+			delay1.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.On, DeviceUIDs = { gkDevice.AllChildren.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicator).UID } });
 			GKManager.Delays.Add(delay1);
 			Compile();
 
@@ -433,7 +433,7 @@ namespace GKProcessor.Test
 		public void TestKauCrossReference3()
 		{
 			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_HandDetector);
-			var gkReleDeice = gkDevice.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
+			var gkReleDeice = gkDevice.AllChildren.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
 			gkReleDeice.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.Fire2, DeviceUIDs = { device1.UID } });
 			Compile();
 			var deviceGKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == gkReleDeice);
@@ -447,7 +447,7 @@ namespace GKProcessor.Test
 			var zone = new GKZone();
 			GKManager.Zones.Add(zone);
 			device1.ZoneUIDs = new List<Guid>() { zone.UID };
-			var gkReleDeice = gkDevice.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
+			var gkReleDeice = gkDevice.AllChildren.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
 			gkReleDeice.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.Fire2, DeviceUIDs = { device1.UID } });
 			Compile();
 			var deviceGKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == gkReleDeice);
@@ -458,8 +458,8 @@ namespace GKProcessor.Test
 		[TestMethod]
 		public void TestGKLogic1()
 		{
-			var gkIndicatorDeice = gkDevice.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicator);
-			var gkReleDeice = gkDevice.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
+			var gkIndicatorDeice = gkDevice.AllChildren.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicator);
+			var gkReleDeice = gkDevice.AllChildren.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
 			gkReleDeice.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.On, DeviceUIDs = { gkIndicatorDeice.UID } });
 			Compile();
 			var deviceGKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == gkReleDeice);
@@ -470,7 +470,7 @@ namespace GKProcessor.Test
 		public void TestGKLogic2()
 		{
 			var kauIndicatorDeice = kauDevice1.Children.FirstOrDefault(x => x.DriverType == GKDriverType.KAUIndicator);
-			var gkReleDeice = gkDevice.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
+			var gkReleDeice = gkDevice.AllChildren.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
 			gkReleDeice.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.On, DeviceUIDs = { kauIndicatorDeice.UID } });
 			Compile();
 			var deviceGKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == gkReleDeice);
@@ -480,7 +480,7 @@ namespace GKProcessor.Test
 		[TestMethod]
 		public void TestGKLogic3()
 		{
-			var gkReleDeice = gkDevice.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
+			var gkReleDeice = gkDevice.AllChildren.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
 			gkReleDeice.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.On, DeviceUIDs = { kauDevice1.UID } });
 			Compile();
 			var deviceGKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == gkReleDeice);
@@ -490,7 +490,7 @@ namespace GKProcessor.Test
 		[TestMethod]
 		public void TestGKLogic4()
 		{
-			var gkReleDeice = gkDevice.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
+			var gkReleDeice = gkDevice.AllChildren.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
 			gkReleDeice.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.On, DeviceUIDs = { kauDevice1.UID, kauDevice2.UID } });
 			Compile();
 			var deviceGKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == gkReleDeice);
