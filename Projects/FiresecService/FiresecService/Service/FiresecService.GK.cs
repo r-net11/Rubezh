@@ -521,7 +521,11 @@ namespace FiresecService.Service
 
 						try
 						{
-							var usersCount = GKSKDHelper.GetUsersCount(device);
+							int usersCount = -1;
+                            var usersCountResult = GKSKDHelper.GetUsersCount(device);
+                            if (usersCountResult.HasError)
+                                return;
+                            usersCount = usersCountResult.Result;
 							var removeResult = GKSKDHelper.RemoveAllUsers(device, usersCount, progressCallback);
 							if (!removeResult)
 							{
