@@ -38,9 +38,17 @@ namespace FiresecService
 			}
 			catch (ConnectionFailureException e)
 			{
-				UILogger.Log("Не удалось подключиться к базе данных " + ConnectionString);
+				const string msg = "Не удалось подключиться к базе данных";
+				UILogger.Log(String.Format("{0} '{1}' ", msg, ConnectionString));
 				Logger.Error(e, "PatchManager.Patch_SKD");
-				BalloonHelper.ShowFromServer("Не удалось подключиться к базе данных");
+				BalloonHelper.ShowFromServer(msg);
+			}
+			catch (ExecutionFailureException e)
+			{
+				const string msg = "Возникла ошибка при работе с базой данных";
+				UILogger.Log(String.Format("{0}: {1}", msg, (e.InnerException == null) ? e.Message : e.InnerException.Message));
+				Logger.Error(e, "PatchManager.Patch_SKD");
+				BalloonHelper.ShowFromServer(msg);
 			}
 			catch (Exception e)
 			{
