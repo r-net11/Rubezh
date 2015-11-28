@@ -4,7 +4,6 @@
   <ServicePort>8000</ServicePort>
   <ReportServicePort>8800</ReportServicePort>
   <EnableRemoteConnections>false</EnableRemoteConnections>
-  <UseHasp>false</UseHasp>
   <DBServerAddress>.</DBServerAddress>
   <DBServerPort>1433</DBServerPort>
   <DBServerName>SQLEXPRESS</DBServerName>
