@@ -56,6 +56,6 @@
 		<DatePicker SelectedDate="{Binding EndDateTime, UpdateSourceTrigger=PropertyChanged}"
 					DisplayDate="{Binding EndDateTime, UpdateSourceTrigger=PropertyChanged}"
 					Grid.Row="5" Grid.Column="1" />
-		<TimePicker Grid.Row="6" Grid.Column="1" HorizontalAlignment="Center" TimeSpan="{Binding EndTime}" IsFullDay="True"/>
+		<TimePicker Grid.Row="6" Grid.Column="1" HorizontalAlignment="Center" TimeSpan="{Binding EndTime}" IsFullDay="True" />
 	</Grid>
 </UserControl>

@@ -106,6 +106,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			_wmf = null;
 			ImageBrush = null;
 			_imageChanged = true;
+			_svg = null;
 		}
 		bool CanRemovePicture()
 		{
@@ -163,6 +164,8 @@ namespace LayoutModule.LayoutParts.ViewModels
 					}
 				if (_svg != null)
 					properties.ReferenceSVGUID = ServiceFactoryBase.ContentService.AddContent(_svg);
+				else
+					properties.ReferenceSVGUID = null;
 				properties.Stretch = Stretch;
 				_layoutPartImageViewModel.ImageBrush = ImageBrush;
 				return true;
