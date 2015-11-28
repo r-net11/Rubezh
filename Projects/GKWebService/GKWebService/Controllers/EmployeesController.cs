@@ -231,7 +231,26 @@ namespace GKWebService.Controllers
 			return new JsonNetResult { Data = operationResult.Result };
 		}
 
-		private ShortEmployeeCardModel CreateCard(SKDCard card)
+        public ActionResult CardRemovalReason()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonNetResult DeleteCard(Guid id)
+        {
+            var operationResult = ClientManager.FiresecService.DeletedCard(new SKDCard {UID = id});
+            return new JsonNetResult { Data = !operationResult.HasError };
+        }
+
+        [HttpPost]
+        public JsonNetResult DeleteFromEmployee(Guid id, string employeeName, string reason)
+        {
+            var operationResult = ClientManager.FiresecService.DeleteCardFromEmployee(new SKDCard { UID = id }, employeeName, reason);
+            return new JsonNetResult { Data = !operationResult.HasError };
+        }
+
+        private ShortEmployeeCardModel CreateCard(SKDCard card)
 		{
 			var employeeCard = ShortEmployeeCardModel.Create(card);
 			var cardDoors = GetCardDoors(card);

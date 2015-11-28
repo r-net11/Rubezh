@@ -135,6 +135,7 @@
             data: "{'cardModel':" + data + ",'employeeName': '" + self.ParentViewModel.Name() + "','isNew': '" + self.IsNewCard() + "'}",
             success: function() {
                 self.EmployeeCardDetailsClose();
+                self.ParentViewModel.EmployeeCards.ReloadCards();
             },
             error: function(xhr, ajaxOptions, thrownError) {
                 alert("request failed");
