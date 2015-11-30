@@ -88,9 +88,7 @@
 
 		<Grid Grid.Column="2" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" DataContext="{Binding SelectedProcedure}" Margin="4, -50, 0, 0">
 			<Grid>
-				<WrapPanel Margin="0 14 0 0">
-					<Rectangle Width="280" Height="32" />
-					<!--<StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="280 14 0 0">-->
+				<StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="280 14 0 0">
 					<StackPanel Orientation="Horizontal">
 						<Button Content="Шаги" Command="{Binding ShowStepsCommand}" Width="120" Height="28">
 							<Button.Style>
@@ -160,8 +158,7 @@
 							</Button.Style>
 						</Button>
 					</StackPanel>
-				<!--</StackPanel>-->
-				</WrapPanel>
+				</StackPanel>
 				<Grid Visibility="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToVisibilityConverter},
 					ConverterParameter={x:Static procedures:MenuType.IsSteps}}">
 					<Views:StepsView DataContext="{Binding StepsViewModel}" IsVisibleChanged="StepsView_IsVisibleChanged" />

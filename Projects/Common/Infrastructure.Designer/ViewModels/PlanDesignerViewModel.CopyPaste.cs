@@ -8,7 +8,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using RubezhAPI.Models;
@@ -62,31 +61,24 @@ namespace Infrastructure.Designer.ViewModels
 		{
 			using (new WaitWrapper())
 			using (new TimeCounter("Command.Paste: {0}"))
-				if (NormalizeBuffer(container))
+				if (this.FitsCanvas(_buffer))
 				{
-					var designerItems = new List<DesignerItem>();
 					DesignerCanvas.Toolbox.SetDefault();
 					DesignerCanvas.DeselectAll();
-					var newItems = new List<DesignerItem>();
-					foreach (var elementBase in _buffer)
-					{
-						bool allowPaste = true;
-						if (elementBase is ElementGKDevice)
-						{
-							var elementGKDevice = elementBase as ElementGKDevice;
-							allowPaste = elementGKDevice.AllowMultipleVizualization
-								|| !DesignerCanvas.Items.Any(x => x.Element is ElementGKDevice && (x.Element as ElementGKDevice).ItemUID == elementGKDevice.ItemUID);
-						}
 
-						if (allowPaste)
+					var newElements = _buffer
+						.Where(element => AllowPaste(element))
+						.Select(element =>
 						{
-							var element = elementBase.Clone();
-							element.UID = Guid.NewGuid();
-							var designerItem = DesignerCanvas.CreateElement(element);
-							designerItems.Add(designerItem);
-							newItems.Add(designerItem);
-						}
-					}
+							var newElement = element.Clone();
+							newElement.UID = Guid.NewGuid();
+							return newElement;
+						})
+						.ToList();
+
+					this.NormalizeBuffer(container, newElements);
+					var newItems = newElements.Select(element => DesignerCanvas.CreateElement(element)).ToList();
+
 					newItems.ForEach(item => item.IsSelected = true);
 					ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Publish(DesignerCanvas.SelectedElements.ToList());
 					newItems.ForEach(item => item.IsSelected = true);
@@ -94,6 +86,21 @@ namespace Infrastructure.Designer.ViewModels
 					DesignerCanvas.DesignerChanged();
 				}
 		}
+
+		private bool AllowPaste(ElementBase element)
+		{
+			if (element is ElementGKDevice)
+			{
+				var elementGKDevice = element as ElementGKDevice;
+				return elementGKDevice.AllowMultipleVizualization
+					|| !DesignerCanvas.Items
+					.Select(item => item.Element)
+					.OfType<ElementGKDevice>()
+					.Any(device => device.ItemUID == elementGKDevice.ItemUID);
+			}
+			return true;
+		}
+
 		private bool CanPaste(IInputElement obj)
 		{
 			if (this.DesignerCanvas != null && this.DesignerCanvas.Toolbox != null)
@@ -104,33 +111,36 @@ namespace Infrastructure.Designer.ViewModels
 			return _buffer.Count > 0;
 		}
 
-		private bool NormalizeBuffer(IInputElement container)
+		private Rect GetBoundingRectangle(IEnumerable<ElementBase> elements)
 		{
-			if (_buffer.Count > 0)
+			IEnumerable<Rect> rectangles = _buffer.Select(element => element.GetRectangle());
+			double minLeft = rectangles.Min(rect => rect.Left);
+			double minTop = rectangles.Min(rect => rect.Top);
+			double maxRight = rectangles.Max(rect => rect.Left + rect.Width);
+			double maxBottom = rectangles.Max(rect => rect.Top + rect.Height);
+			return new Rect(minLeft, minTop, maxRight - minLeft, maxBottom - minTop);
+		}
+
+		private bool FitsCanvas(IEnumerable<ElementBase> elements)
+		{
+			Rect border = this.GetBoundingRectangle(elements);
+			if (border.Width > DesignerCanvas.CanvasWidth || border.Height > DesignerCanvas.CanvasHeight)
 			{
-				Point? point = container == null ? null : (Point?)Mouse.GetPosition(container);
-				double minLeft = double.MaxValue;
-				double minTop = double.MaxValue;
-				double maxRight = 0;
-				double maxBottom = 0;
-				foreach (var elementBase in _buffer)
-				{
-					Rect rect = elementBase.GetRectangle();
-					if (minLeft > rect.Left)
-						minLeft = rect.Left;
-					if (minTop > rect.Top)
-						minTop = rect.Top;
-					if (maxBottom < rect.Top + rect.Height)
-						maxBottom = rect.Top + rect.Height;
-					if (maxRight < rect.Left + rect.Width)
-						maxRight = rect.Left + rect.Width;
-				}
-				Rect border = new Rect(minLeft, minTop, maxRight - minLeft, maxBottom - minTop);
-				if (border.Width > DesignerCanvas.CanvasWidth || border.Height > DesignerCanvas.CanvasHeight)
-				{
-					MessageBoxService.Show("Размер вставляемого содержимого больше размеров плана");
-					return false;
-				}
+				MessageBoxService.Show("Размер вставляемого содержимого больше размеров плана");
+				return false;
+			}
+			return true;
+		}
+
+		private void NormalizeBuffer(IInputElement container, IEnumerable<ElementBase> elements)
+		{
+			if (elements.Count() > 0)
+			{
+				Rect border = this.GetBoundingRectangle(elements);
+				double minLeft = border.Left;
+				double minTop = border.Top;
+				double maxRight = border.Right;
+				double maxBottom = border.Bottom;
 				if (border.X < 0)
 					border.X = 0;
 				if (border.Y < 0)
@@ -139,18 +149,17 @@ namespace Infrastructure.Designer.ViewModels
 					border.X = DesignerCanvas.CanvasWidth - border.Width;
 				if (border.Y + border.Height > DesignerCanvas.CanvasHeight)
 					border.Y = DesignerCanvas.CanvasHeight - border.Height;
+
+				Point? point = container == null ? null : (Point?)Mouse.GetPosition(container);
 				if (point.HasValue)
 				{
 					border.X = point.Value.X + border.Width <= DesignerCanvas.CanvasWidth ? point.Value.X : DesignerCanvas.CanvasWidth - border.Width;
 					border.Y = point.Value.Y + border.Height <= DesignerCanvas.CanvasHeight ? point.Value.Y : DesignerCanvas.CanvasHeight - border.Height;
 				}
 				Vector shift = new Vector(border.X - minLeft, border.Y - minTop);
-				//if (shift.X == 0 && shift.Y == 0)
-				//	shift = new Vector(-minLeft / 2, -minTop / 2);
-				foreach (var elementBase in _buffer)
+				foreach (var elementBase in elements)
 					elementBase.Position += shift;
 			}
-			return true;
 		}
 	}
 }

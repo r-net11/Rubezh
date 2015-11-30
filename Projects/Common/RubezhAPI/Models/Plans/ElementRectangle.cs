@@ -10,7 +10,6 @@ namespace RubezhAPI.Models
 		public ElementRectangle()
 		{
 			PresentationName = "Прямоугольник";
-			ShowTooltip = true;
 		}
 
 		[DataMember]
