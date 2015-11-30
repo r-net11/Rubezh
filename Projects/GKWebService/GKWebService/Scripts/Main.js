@@ -113,6 +113,7 @@ var app = new function AppViewModel() {
     self.Menu.HR.Employees.EmployeeDetails = EmployeeDetailsViewModel();
     self.Menu.HR.Employees.EmployeeCardDetails = EmployeeCardDetailsViewModel(self.Menu.HR.Employees);
     self.Menu.HR.Employees.EmployeeCards = EmployeeCardsViewModel(self.Menu.HR.Employees);
+    self.Menu.HR.Employees.CardRemovalReason = CardRemovalReasonViewModel();
 
     return self;
 };

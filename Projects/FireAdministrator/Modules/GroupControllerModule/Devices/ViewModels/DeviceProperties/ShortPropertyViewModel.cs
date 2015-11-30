@@ -20,28 +20,32 @@ namespace GKModule.ViewModels
 		ushort _text;
 		public string Text
 		{
-			get 
+			get
 			{
 				double result = _text;
 				if (DriverProperty.Multiplier != 0)
 					result /= DriverProperty.Multiplier;
-				return result.ToString(); 
+				return result.ToString();
 			}
 			set
 			{
 				double doubleValue = -1;
-				if (double.TryParse(value.Replace(".", ","), 
+				if (double.TryParse(value.Replace(".", ","),
 									NumberStyles.Number,
-									CultureInfo.CreateSpecificCulture("ru-RU"), 
+									CultureInfo.CreateSpecificCulture("ru-RU"),
 									out doubleValue))
 				{
 					if (DriverProperty.Multiplier != 0)
 						doubleValue *= DriverProperty.Multiplier;
-					doubleValue = Math.Min(ushort.MaxValue, doubleValue);
+					if (doubleValue < DriverProperty.Min)
+					{
+						doubleValue = DriverProperty.Min;
+					}
+					doubleValue = Math.Min(DriverProperty.Max, doubleValue);
 					_text = (ushort)doubleValue;
 					Save(_text);
 				}
-				OnPropertyChanged(()=>Text);
+				OnPropertyChanged(() => Text);
 			}
 		}
 	}

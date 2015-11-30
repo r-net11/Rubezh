@@ -17,7 +17,7 @@ namespace FiresecService.Service
 			if (procedure != null)
 			{
 				var user = ProcedureExecutionContext.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == CurrentClientCredentials.UserName);
-				var result = AutomationProcessor.RunProcedure(procedure, args, null, user, null, clientUID);
+				AutomationProcessor.RunProcedure(procedure, args, null, user, null, clientUID);
 				return new OperationResult<bool>(true);
 			}
 			return OperationResult<bool>.FromError("Процедура не найдена");
@@ -99,6 +99,16 @@ namespace FiresecService.Service
 		public void ControlDelay(Guid uid, DelayCommandType commandType)
 		{
 			ProcedureHelper.ControlDelay(uid, commandType);
+		}
+
+		public void ControlPumpStation(Guid uid, PumpStationCommandType commandType)
+		{
+			ProcedureHelper.ControlPumpStation(uid, commandType);
+		}
+
+		public void ControlMPT(Guid uid, MPTCommandType commandType)
+		{
+			ProcedureHelper.ControlMPT(uid, commandType);
 		}
 
 		public void ExportJournalA(bool isExportJournal, bool isExportPassJournal, DateTime minDate, DateTime maxDate, string path)

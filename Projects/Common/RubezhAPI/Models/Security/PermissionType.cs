@@ -19,8 +19,8 @@ namespace RubezhAPI.Models
 		[DescriptionAttribute("Запись конфигурации в приборы")]
 		Adm_WriteDeviceConfig,
 
-		[DescriptionAttribute("Изменение ПО в приборах")]
-		Adm_ChangeDevicesSoft,
+		//[DescriptionAttribute("Изменение ПО в приборах")]
+		//Adm_ChangeDevicesSoft,
 
 		[DescriptionAttribute("Управление правами пользователей")]
 		Adm_Security,

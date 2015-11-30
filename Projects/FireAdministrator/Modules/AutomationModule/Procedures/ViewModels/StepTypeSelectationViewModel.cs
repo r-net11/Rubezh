@@ -133,6 +133,8 @@ namespace AutomationModule.ViewModels
 									new StepTypeViewModel(ProcedureStepType.ControlGKGuardZone),
 									new StepTypeViewModel(ProcedureStepType.ControlDirection),
 									new StepTypeViewModel(ProcedureStepType.ControlDelay),
+									new StepTypeViewModel(ProcedureStepType.ControlPumpStation),
+									new StepTypeViewModel(ProcedureStepType.ControlMPT),
 									new StepTypeViewModel(ProcedureStepType.ControlGKDoor)
 								}),
 							new StepTypeViewModel("Управление Видео", "/Controls;component/StepIcons/Control.png",

@@ -96,11 +96,11 @@ namespace Infrastructure.Automation
 			if (schedule.Year == -1 || schedule.Month == -1 || schedule.Day == -1 || schedule.Hour == -1 || schedule.Minute == -1 || schedule.Second == -1)
 				return false;
 			var scheduleDateTime = new DateTime(schedule.Year, schedule.Month, schedule.Day, schedule.Hour, schedule.Minute, schedule.Second);
-			var delta = (int)((dateTime - scheduleDateTime).TotalSeconds);
+			var delta = (dateTime - scheduleDateTime).TotalSeconds;
 			if (delta < 0)
 				return false;
 			var period = schedule.PeriodDay * 24 * 3600 + schedule.PeriodHour * 3600 + schedule.PeriodMinute * 60 + schedule.PeriodSecond;
-			return (delta % period == 0);
+			return ((int)delta % period == 0);
 		}
 
 		static void RunProcedures(AutomationSchedule schedule)
@@ -109,7 +109,7 @@ namespace Infrastructure.Automation
 				foreach (var scheduleProcedure in schedule.ScheduleProcedures)
 				{
 					var procedure = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
-					if (procedure != null && procedure.IsActive && procedure.ContextType == ProcedureExecutionContext.ContextType)
+					if (procedure != null && procedure.ContextType == ProcedureExecutionContext.ContextType)
 						AutomationProcessor.RunProcedure(procedure, scheduleProcedure.Arguments, null);
 				}
 		}

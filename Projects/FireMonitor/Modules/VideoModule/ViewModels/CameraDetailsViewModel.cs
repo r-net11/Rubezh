@@ -11,6 +11,8 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using RubezhAPI.Journal;
 using System;
+using RviClient;
+using System.Net;
 
 namespace VideoModule.ViewModels
 {
@@ -81,7 +83,7 @@ namespace VideoModule.ViewModels
 			try
 			{
 				//RviClient.RviClientHelper.SetPtzPreset(ClientManager.SystemConfiguration, Camera, SelectedPreset - 1);
-				RviClient.RviClientHelper.SetPtzPreset(ClientManager.SystemConfiguration, Camera, SelectedPreset);
+				RviClient.RviClientHelper.SetPtzPreset(ClientManager.SystemConfiguration.RviSettings, Camera, SelectedPreset);
 
 				var journalItem = new JournalItem()
 				{
@@ -110,6 +112,10 @@ namespace VideoModule.ViewModels
 		public bool IsSetPtzPreset
 		{
 			get { return CanSetPtzPreset(); }
+		}
+		public bool PrepareToTranslation(out IPEndPoint ipEndPoint, out int vendorId)
+		{
+			return RviClientHelper.PrepareToTranslation(ClientManager.SystemConfiguration.RviSettings, Camera, out ipEndPoint, out vendorId);
 		}
 
 		public class PlanViewModel : BaseViewModel

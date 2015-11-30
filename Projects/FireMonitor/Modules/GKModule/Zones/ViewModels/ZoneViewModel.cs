@@ -49,6 +49,7 @@ namespace GKModule.ViewModels
 				ShowOnPlanHelper.ShowZone(Zone);
 			else
 				DialogService.ShowWindow(new ZoneDetailsViewModel(Zone));
+			ZonesViewModel.Current.SelectedZone = this;
 		}
 		
 		public RelayCommand ShowOnPlanCommand { get; private set; }

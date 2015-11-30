@@ -228,7 +228,6 @@
     <Compile Include="TimePicker.xaml.cs">
       <DependentUpon>TimePicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MultiselectDataGrid.cs" />
     <Compile Include="XStateHelper.cs" />
     <Compile Include="TemplateSelectors\InterfaceTemplateSelector.cs" />
     <Compile Include="TextBoxHelper.cs" />
@@ -373,10 +372,6 @@
     <Page Include="Themes\SkyblueTheme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\TreeListStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\GrayTheme.xaml">
       <Generator>MSBuild:Compile</Generator>

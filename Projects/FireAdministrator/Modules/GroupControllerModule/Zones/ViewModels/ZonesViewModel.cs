@@ -94,7 +94,7 @@ namespace GKModule.ViewModels
 		ZoneDetailsViewModel OnAddResult()
 		{
 			var zoneDetailsViewModel = new ZoneDetailsViewModel();
-			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
+			if (ServiceFactory.DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
 				GKManager.AddZone(zoneDetailsViewModel.Zone);
 				var zoneViewModel = new ZoneViewModel(zoneDetailsViewModel.Zone);
@@ -128,7 +128,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedZone.Zone.PresentationName + " ?"))
+			if (ServiceFactory.MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedZone.Zone.PresentationName + " ?"))
 			{
 				var index = Zones.IndexOf(SelectedZone);
 				GKManager.RemoveZone(SelectedZone.Zone);
@@ -175,7 +175,7 @@ namespace GKModule.ViewModels
 			var zonesSettingsViewModel = new ZonesSettingsViewModel();
 			DialogService.ShowModalWindow(zonesSettingsViewModel);
 			if (SelectedZone != null)
-				ZoneDevices.Initialize(SelectedZone.Zone);
+				ZoneDevices.InitializeAvailableDevice();
 		}
 
 		public RelayCommand ShowDependencyItemsCommand { get; set; }

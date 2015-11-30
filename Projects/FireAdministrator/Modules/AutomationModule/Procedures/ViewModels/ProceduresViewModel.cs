@@ -26,10 +26,8 @@ namespace AutomationModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
-			CutCommand = new RelayCommand(OnCut, CanCopy);
 
 			Menu = new ProceduresMenuViewModel(this);
-			RegisterShortcuts();
 			SetRibbonItems();
 			IsRightPanelEnabled = true;
 			IsRightPanelVisible = false;
@@ -91,12 +89,6 @@ namespace AutomationModule.ViewModels
 			return SelectedProcedure != null;
 		}
 
-		public RelayCommand CutCommand { get; private set; }
-		private void OnCut()
-		{
-			OnCopy();
-			OnDelete();
-		}
 		void ReplaceStepUids(ProcedureStep step, Dictionary<Guid, Guid> dictionary)
 		{
 			step.UID = Guid.NewGuid();
@@ -342,6 +334,11 @@ namespace AutomationModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
+			if (MessageBoxService.ShowQuestion("Вы действительно хотите удалить процедуру?"))
+				DoDelete();
+		}
+		void DoDelete()
+		{
 			var index = Procedures.IndexOf(SelectedProcedure);
 			ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.Remove(SelectedProcedure.Procedure);
 			Procedures.Remove(SelectedProcedure);
@@ -435,16 +432,6 @@ namespace AutomationModule.ViewModels
 			base.OnShow();
 		}
 
-		void RegisterShortcuts()
-		{
-			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.C, ModifierKeys.Control), CopyCommand);
-			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.V, ModifierKeys.Control), PasteCommand);
-			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.N, ModifierKeys.Control), AddCommand);
-			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.Delete, ModifierKeys.Control), DeleteCommand);
-			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.X, ModifierKeys.Control), CutCommand);
-			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.E, ModifierKeys.Control), EditCommand);
-		}
-
 		private void SetRibbonItems()
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
@@ -454,7 +441,6 @@ namespace AutomationModule.ViewModels
 					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
 					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
 					new RibbonMenuItemViewModel("Копировать", CopyCommand, "BCopy"),
-					new RibbonMenuItemViewModel("Вырезать", CutCommand, "BCut"),
 					new RibbonMenuItemViewModel("Вставить", PasteCommand, "BPaste"),
 					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
 				}, "BEdit") { Order = 2 }

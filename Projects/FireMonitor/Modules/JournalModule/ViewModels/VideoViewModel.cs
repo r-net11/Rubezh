@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhClient;
@@ -18,8 +19,17 @@ namespace JournalModule.ViewModels
 			VideoPath = AppDataFolderHelper.GetTempFileName() + ".avi";
 			Title = "Видеофрагмент, связанный с событием";
 			string errorInformation;
-			HasVideo = RviClient.RviClientHelper.GetVideoFile(ClientManager.SystemConfiguration, eventUID, cameraUID, VideoPath, out errorInformation);
-			ErrorInformation = errorInformation;
+            var camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUID);
+			if (camera != null)
+			{
+				var rviSettings = ClientManager.SystemConfiguration.RviSettings;
+				HasVideo = RviClient.RviClientHelper.GetVideoFile(rviSettings, eventUID, camera, VideoPath, out errorInformation);
+				ErrorInformation = errorInformation;
+			}
+			else
+			{
+				ErrorInformation = "Не найдена камера";
+			}
 		}
 		public override bool OnClosing(bool isCanceled)
 		{

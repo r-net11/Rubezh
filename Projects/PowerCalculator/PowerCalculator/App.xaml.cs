@@ -4,6 +4,7 @@ using Infrastructure.Common.Windows;
 using PowerCalculator.ViewModels;
 using PowerCalculator.Views;
 using Infrastructure.Common.Theme;
+using Infrastructure.Common.Services;
 
 namespace PowerCalculator
 {
@@ -11,9 +12,8 @@ namespace PowerCalculator
 	{
 		protected override void OnStartup(StartupEventArgs e)
 		{
-			var resourceService = new ResourceService();
-			resourceService.AddResource(new ResourceDescription(typeof(App).Assembly, "DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
+			ServiceFactoryBase.ResourceService.AddResource(typeof(App).Assembly, "DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml");
 			ThemeHelper.LoadThemeFromRegister();
 
 			var mainView = new MainView();

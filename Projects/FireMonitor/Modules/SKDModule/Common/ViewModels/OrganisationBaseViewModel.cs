@@ -13,6 +13,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Common;
 using SKDModule.Events;
 using RubezhAPI;
+using System.Diagnostics;
 
 namespace SKDModule.ViewModels
 {
@@ -301,7 +302,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (MessageBoxService.ShowQuestion(string.Format("Вы уверены, что хотите архивировать {0}?", ItemRemovingName)))
+			if (ShowRemovingQuestion())
 			{
 				Remove();
 			}
@@ -322,6 +323,10 @@ namespace SKDModule.ViewModels
 				RemoveSelectedViewModel();
 			}
 			AfterRemove(model);
+		}
+		protected virtual bool ShowRemovingQuestion()
+		{
+			return MessageBoxService.ShowQuestion(string.Format("Вы уверены, что хотите архивировать {0}?", ItemRemovingName));
 		}
 		void RemoveSelectedViewModel()
 		{
@@ -449,6 +454,18 @@ namespace SKDModule.ViewModels
 			copy.Description = source.Description;
 			copy.OrganisationUID = ParentOrganisation.Organisation.UID;
 			return copy;
+		}
+
+		public bool ShowFromJournal(Guid uid)
+		{
+			var items = Organisations.SelectMany(x => x.GetAllChildren(false));
+			var selectedItem = items.FirstOrDefault(x => x.UID == uid);
+			if(selectedItem != null)
+			{
+				SelectedItem = selectedItem;
+				return true;
+			}
+			return false;
 		}
 	}
 }

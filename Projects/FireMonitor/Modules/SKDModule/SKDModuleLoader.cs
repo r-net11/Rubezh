@@ -14,7 +14,12 @@ using SKDModule.Reports.Providers;
 using SKDModule.ViewModels;
 using RubezhClient;
 using RubezhAPI.License;
-
+using RubezhAPI.Models;
+using System.Linq;
+using Infrastructure;
+using Infrastructure.Events;
+using System;
+using Infrastructure.Common.Services;
 namespace SKDModule
 {
 	public class SKDModuleLoader : ModuleBase, IReportProviderModule, ILayoutProviderModule, ISKDReportProviderModule
@@ -28,14 +33,37 @@ namespace SKDModule
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
+			IEnumerable<PermissionType> cardFielsPernissionType = new List<PermissionType>()
+			{
+				PermissionType.Oper_SKD_Employees_View,
+				PermissionType.Oper_SKD_Guests_View,
+				PermissionType.Oper_SKD_Departments_View,
+				PermissionType.Oper_SKD_Positions_View,
+				PermissionType.Oper_SKD_AdditionalColumns_View,
+				PermissionType.Oper_SKD_Cards_View,
+				PermissionType.Oper_SKD_AccessTemplates_View,
+				PermissionType.Oper_SKD_PassCards_View,
+				PermissionType.Oper_SKD_Organisations_View,
+			};
+
+			IEnumerable<PermissionType> timeTrackingPernissionType = new List<PermissionType>()
+			{
+				PermissionType.Oper_SKD_TimeTrack_DaySchedules_View,
+				PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_View,
+				PermissionType.Oper_SKD_TimeTrack_Holidays_View,
+				PermissionType.Oper_SKD_TimeTrack_Schedules_View,
+				PermissionType.Oper_SKD_TimeTrack_Report_View
+			};
+			bool isTimeTracking = timeTrackingPernissionType.Any(x=> ClientManager.CheckPermission(x));
+			bool isCardFiels = cardFielsPernissionType.Any(x => ClientManager.CheckPermission(x));
 			return new List<NavigationItem>
 				{
 				new NavigationItem("СКД", "SKDW",
 					new List<NavigationItem>()
 					{
-						new NavigationItem<ShowHREvent>(SKDTabItems.HRViewModel, "Картотека", "Kartoteka2W"),
-						new NavigationItem<ShowTimeTrackingEvent>(SKDTabItems.TimeTrackingTabsViewModel, "Учет рабочего времени", "TimeTrackingW")
-					}) { IsVisible = LicenseManager.CurrentLicenseInfo.HasSKD }
+						new NavigationItem<ShowHREvent>(SKDTabItems.HRViewModel, "Картотека", "Kartoteka2W"){IsVisible = isCardFiels},
+						new NavigationItem<ShowTimeTrackingEvent>(SKDTabItems.TimeTrackingTabsViewModel, "Учет рабочего времени", "TimeTrackingW"){IsVisible = isTimeTracking}
+					}) { IsVisible = LicenseManager.CurrentLicenseInfo.HasSKD && (isCardFiels || isTimeTracking)}
 				};
 		}
 
@@ -51,20 +79,19 @@ namespace SKDModule
 		public override void RegisterResource()
 		{
 			base.RegisterResource();
-			var resourceService = new ResourceService();
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "HR/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Employees/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Departments/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Positions/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "AdditionalColumns/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "AccessTemplates/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Organisations/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Verification/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Cards/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "TimeTrack/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PassCard/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PassCardDesigner/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Reports/DataTemplates/Dictionary.xaml"));
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "HR/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "Employees/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "Departments/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "Positions/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "AdditionalColumns/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "AccessTemplates/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "Organisations/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "Verification/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "Cards/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "TimeTrack/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "PassCard/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "PassCardDesigner/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "Reports/DataTemplates/Dictionary.xaml");
 			DesignerLoader.RegisterResource();
 		}
 
@@ -120,11 +147,21 @@ public class SKDTabItems
 		Filter.EmployeeFilter.UserUID = userUID;
 		HRViewModel = new HRViewModel(this);
 		TimeTrackingTabsViewModel = new TimeTrackingTabsViewModel(this);
+
+		ServiceFactory.Events.GetEvent<ShowJournalHREvent>().Unsubscribe(OnShowJournalHR);
+		ServiceFactory.Events.GetEvent<ShowJournalHREvent>().Subscribe(OnShowJournalHR);
 	}
 
 	public void Initialize()
 	{
 		HRViewModel.Initialize();
 		TimeTrackingTabsViewModel.Initialize();
+	}
+
+	void OnShowJournalHR(Guid uid)
+	{
+		if (HRViewModel.ShowFromJournal(uid))
+			return;
+		TimeTrackingTabsViewModel.ShowFromJournal(uid);
 	}
 }

@@ -107,10 +107,12 @@
     <Compile Include="Validation\Validator.Video.cs" />
     <Compile Include="Validation\VideoValidationError.cs" />
     <Compile Include="VideoModule.cs" />
+    <Compile Include="ViewModels\CameraSelectionViewModel.cs" />
     <Compile Include="ViewModels\CameraViewModel.cs" />
     <Compile Include="ViewModels\CamerasMenuViewModel.cs" />
     <Compile Include="ViewModels\CamerasViewModel.cs" />
     <Compile Include="ViewModels\CameraDetailsViewModel.cs" />
+    <Compile Include="ViewModels\CamerasSelectionViewModel.cs" />
     <Compile Include="ViewModels\DeviceSelectionViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartCameraViewModel.cs" />
@@ -118,7 +120,9 @@
     <Compile Include="ViewModels\LayoutPartPropertyCameraPageViewModel.cs" />
     <Compile Include="ViewModels\PreviewViewModel.cs" />
     <Compile Include="ViewModels\SettingsSelectionViewModel.cs" />
-    <Compile Include="ViewModels\ZonesSelectationViewModel.cs" />
+    <Compile Include="Views\CameraSelectionView.xaml.cs">
+      <DependentUpon>CameraSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CamerasMenuView.xaml.cs">
       <DependentUpon>CamerasMenuView.xaml</DependentUpon>
     </Compile>
@@ -127,6 +131,9 @@
     </Compile>
     <Compile Include="Views\CameraDetailsView.xaml.cs">
       <DependentUpon>CameraDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CamerasSelectionView.xaml.cs">
+      <DependentUpon>CamerasSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DeviceSelectionView.xaml.cs">
       <DependentUpon>DeviceSelectionView.xaml</DependentUpon>
@@ -142,9 +149,6 @@
     </Compile>
     <Compile Include="Views\SettingsSelectionView.xaml.cs">
       <DependentUpon>SettingsSelectionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ZonesSelectationView.xaml.cs">
-      <DependentUpon>ZonesSelectationView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -169,6 +173,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\CameraSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\CamerasMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -176,6 +184,10 @@
     <Page Include="Views\CameraDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CamerasSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\DeviceSelectionView.xaml">
       <SubType>Designer</SubType>
@@ -194,10 +206,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SettingsSelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ZonesSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

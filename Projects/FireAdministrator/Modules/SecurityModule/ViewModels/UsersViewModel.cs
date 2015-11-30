@@ -11,6 +11,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
+using Infrastructure.Events;
 
 namespace SecurityModule.ViewModels
 {
@@ -77,7 +78,7 @@ namespace SecurityModule.ViewModels
 		void OnDelete()
 		{
 			if (MessageBoxService.ShowQuestion(string.Format("Вы уверенны, что хотите удалить пользователя \"{0}\" из списка", SelectedUser.User.Name)))
-			{
+			{	
 				ClientManager.SecurityConfiguration.Users.Remove(SelectedUser.User);
 				Users.Remove(SelectedUser);
 

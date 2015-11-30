@@ -29,7 +29,7 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOff);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOn);
 

@@ -101,13 +101,22 @@ namespace RubezhAPI
 		public List<ValidationErrorType> IgnoredErrors { get; set; }
 
 		[DataMember]
-		public bool ShowOtherZonesDevices { get; set; }
+		public bool ShowZonesDevices { get; set; }
 
 		[DataMember]
 		public bool ShowDoorsDevices { get; set; }
 
 		[DataMember]
 		public bool ShowMPTsDevices { get; set; }
+
+		[DataMember]
+		public bool ShowGuardZonesDevices { get; set; }
+
+		[DataMember]
+		public bool ShowDoorsDevicesForZone { get; set; }
+
+		[DataMember]
+		public bool ShowMPTsDevicesForZone { get; set; }
 
 		public void SetDefaultModules()
 		{

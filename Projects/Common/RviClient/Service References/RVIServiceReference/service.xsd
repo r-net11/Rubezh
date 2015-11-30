@@ -2,6 +2,7 @@
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" />
   <xs:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Alarm" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Video" />
   <xs:element name="SessionInitialiazation">
     <xs:complexType>
       <xs:sequence>
@@ -237,6 +238,20 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Alarm" minOccurs="0" name="AlarmRuleCheckExistResult" nillable="true" type="q34:AlarmRuleCheckExistOut" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VideoStreamingStart">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Video" minOccurs="0" name="streamingStartIn" nillable="true" type="q35:ChannelStreamingStartIn" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VideoStreamingStartResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Video" minOccurs="0" name="VideoStreamingStartResult" nillable="true" type="q36:ChannelStreamingStartOut" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

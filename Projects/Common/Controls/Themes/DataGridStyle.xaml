@@ -221,7 +221,4 @@
 			</Trigger>
 		</Style.Triggers>
 	</Style>
-
-	<Style TargetType="{x:Type local:MultiselectDataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}">
-	</Style>
 </ResourceDictionary>

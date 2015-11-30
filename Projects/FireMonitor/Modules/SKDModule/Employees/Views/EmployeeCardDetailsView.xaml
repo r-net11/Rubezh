@@ -31,79 +31,80 @@
 						</ComboBox.ItemTemplate>
 					</ComboBox>
 
-					<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Конец действия" />
-					<Calendar Grid.Row="1" Grid.Column="1"  Margin="2" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#66ff9829" BorderThickness="2" IsTodayHighlighted="False" SelectionMode="SingleDate" 
-							  DisplayDate="{Binding EndDate}" SelectedDate="{Binding EndDate}"  />
-
-
+					<TextBlock Grid.Row="1" Grid.Column="0" Margin="2 4" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Конец действия" />
+					<DatePicker DisplayDate="{Binding EndDate}"
+								SelectedDate="{Binding EndDate}"
+								IsTodayHighlighted="False"
+								Grid.Row="1" Grid.Column="1"
+								Padding="0" Margin="2" />
 					<TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Text="Уровень доступа" Margin="2" />
-					<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding GKLevel}" Margin="2" />
+					<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding GKLevel}" Margin="2" MinWidth="0" />
 
 					<TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Text="График доступа" Margin="2" />
-                    <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding GKSchedules}" SelectedItem="{Binding SelectedGKSchedule}" Margin="2">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding No}" Margin="2" />
-                                    <TextBlock Text="{Binding Name}" Margin="2" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
+					<ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding GKSchedules}" SelectedItem="{Binding SelectedGKSchedule}" Margin="2">
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding No}" Margin="2" />
+									<TextBlock Text="{Binding Name}" Margin="2" />
+								</StackPanel>
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
 				</Grid>
 
-				<Grid IsEnabled="{Binding IsNewCard}">
+				<Grid IsEnabled="{Binding IsNewCard}" Margin="5">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="200" />
 						<ColumnDefinition Width="*" />
 					</Grid.ColumnDefinitions>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-					</Grid.RowDefinitions>
-					<TextBlock Grid.Row="0" Grid.Column="0" Text="Номер" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
-					<TextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Width="100" Margin="2" 
-							 IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding Number, UpdateSourceTrigger=PropertyChanged}" />
 
-					<CheckBox Grid.Row="1" Grid.Column="0" Content="Из списка деактивированных" IsChecked="{Binding UseStopList}" Foreground="White" VerticalAlignment="Center" Margin="2" />
-					<ComboBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Width="100" Margin="2"
-							  IsEnabled="{Binding UseStopList}" ItemsSource="{Binding StopListCards}" SelectedItem="{Binding SelectedStopListCard}" >
-						<ComboBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Margin="1" Text="{Binding Number}" />
-							</DataTemplate>
-						</ComboBox.ItemTemplate>
-					</ComboBox>
+					<StackPanel Grid.Column="0" Orientation="Vertical" Margin="4">
+						<RadioButton Foreground="White" HorizontalAlignment="Right" FlowDirection="RightToLeft" Name="manual" IsChecked="True">Ручной ввод</RadioButton>
+						<RadioButton Foreground="White" HorizontalAlignment="Right" FlowDirection="RightToLeft" Name="fromList" IsChecked="{Binding UseStopList}">Из списка деактивированных</RadioButton>
+						<RadioButton Foreground="White" HorizontalAlignment="Right" FlowDirection="RightToLeft" Name="fromReader" IsChecked="{Binding UseReader}">От контрольного считывателя</RadioButton>
+						<RadioButton Foreground="White" HorizontalAlignment="Right" FlowDirection="RightToLeft" Name="fromUSBReader">От USB-считывателя</RadioButton>
+					</StackPanel>
 
-					<CheckBox Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Content="От контрольного считывателя" Foreground="White" IsChecked="{Binding UseReader}" Margin="2" />
-					<TextBlock Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center">
-						<Hyperlink Command="{Binding ChangeReaderCommand}" Style="{StaticResource HyperlinkStyle}" IsEnabled="{Binding IsNewCard}">
-							<TextBlock Text="{Binding ReaderName}" />
-						</Hyperlink>
-					</TextBlock>
-
-					<Button Grid.Row="3" Grid.Column="1" Command="{Binding ShowUSBCardReaderCommand}" Content="От USB-считывателя" HorizontalAlignment="Left" Width="150" Margin="2" />
+					<StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Stretch" Margin="2">
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+							<TextBlock Text="Номер" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
+							<TextBox IsEnabled="{Binding Path=IsChecked, ElementName=manual}" Text="{Binding Number, UpdateSourceTrigger=PropertyChanged}"
+								 HorizontalAlignment="Left" Width="100" Margin="2" />
+						</StackPanel>
+						<ComboBox IsEnabled="{Binding UseStopList}" ItemsSource="{Binding StopListCards}" SelectedItem="{Binding SelectedStopListCard}" VerticalAlignment="Bottom"
+								  Visibility="{Binding Path=IsChecked, ElementName=fromList, Converter={StaticResource BoolToVisibilityConverter}}"
+								  HorizontalAlignment="Stretch" Margin="0 8 0 0">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Margin="1" Text="{Binding Number}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+						<Button Command="{Binding ChangeReaderCommand}" IsEnabled="{Binding IsNewCard}" Content="{Binding ReaderName}" VerticalAlignment="Bottom"
+							Visibility="{Binding Path=IsChecked, ElementName=fromReader, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0 8 0 0" />
+						<Button Command="{Binding ShowUSBCardReaderCommand}" Content="От USB-считывателя" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+							Visibility="{Binding Path=IsChecked, ElementName=fromUSBReader, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0 8 0 0" />
+					</StackPanel>
 				</Grid>
 			</StackPanel>
 		</TabItem>
-        <TabItem Header="Контроллеры" Visibility="{Binding CanSelectGKControllers, Converter={StaticResource BoolToVisibilityConverter}}">
-            <DataGrid ItemsSource="{Binding AvailableGKControllers}">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="*" Header="Контроллер">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding Device.PresentationName}" Margin="2" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </TabItem>
-        <TabItem Header="Точки доступа">
+		<TabItem Header="Контроллеры" Visibility="{Binding CanSelectGKControllers, Converter={StaticResource BoolToVisibilityConverter}}">
+			<DataGrid ItemsSource="{Binding AvailableGKControllers}">
+				<DataGrid.Columns>
+					<DataGridTemplateColumn Width="*" Header="Контроллер">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding Device.PresentationName}" Margin="2" />
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+		</TabItem>
+		<TabItem Header="Точки доступа">
 			<Views:AccessDoorsSelectationView DataContext="{Binding AccessDoorsSelectationViewModel}" />
 		</TabItem>
 		<TabItem Header="Шаблон доступа">

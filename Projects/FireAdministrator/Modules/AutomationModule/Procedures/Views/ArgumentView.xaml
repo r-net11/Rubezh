@@ -99,7 +99,21 @@
 						</Button.Style>
 					</Button>
 				</DockPanel>
-				<extToolkit:DateTimePicker Width="200" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.DateTime}}" Value="{Binding ExplicitValue.DateTimeValue, UpdateSourceTrigger=PropertyChanged}" />
+				
+				
+				<StackPanel Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.DateTime}}"
+							Grid.Column="1"
+							HorizontalAlignment="Right"
+							Orientation="Horizontal"
+							Width="200" Margin="2">
+					<DatePicker SelectedDate="{Binding ExplicitValue.DateTimeValue}"
+								DisplayDate="{Binding ExplicitValue.DateTimeValue}"
+								Height="26"
+								Padding="0"
+								Margin="0 0 5 0" />
+					<TimePicker TimeSpan="{Binding ExplicitValue.TimeValue}" Height="30" />
+				</StackPanel>
+
 				<StackPanel Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Enum}}">
 					<ComboBox Width="200" ItemsSource="{Binding ExplicitValue.StateTypeValues}" SelectedItem="{Binding ExplicitValue.StateTypeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.StateType}}">
 						<ComboBox.ItemTemplate>

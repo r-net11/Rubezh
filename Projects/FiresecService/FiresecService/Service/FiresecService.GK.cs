@@ -587,9 +587,9 @@ namespace FiresecService.Service
 			return OperationResult<List<GKUser>>.FromError("Прибор не найден в конфигурации");
 		}
 
-		public OperationResult<bool> WriteAllGKUsers(List<GKUser> users)
+		public OperationResult<bool> RewritePmfUsers(Guid uid, List<GKUser> users)
 		{
-			return GKSKDHelper.WriteAllUsers(users);
+			return GKSKDHelper.RewritePmfUsers(uid, users);
 		}
 		#endregion
 

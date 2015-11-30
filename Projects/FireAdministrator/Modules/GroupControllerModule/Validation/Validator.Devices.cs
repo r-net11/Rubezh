@@ -113,10 +113,26 @@ namespace GKModule.Validation
 					return;
 			}
 
-			if (device.Driver.HasZone)
+			if (device.Driver.HasZone && device.Driver.HasGuardZone)
 			{
 				if (device.Zones.Count == 0 && device.GuardZones.Count == 0)
 					AddError(device, "Устройство не подключено к зоне", ValidationErrorLevel.Warning);
+			}
+
+			else if (device.Driver.HasGuardZone )
+			{
+				if (device.GuardZones == null || device.GuardZones.Count == 0)
+				{
+					AddError(device, string.Format("Устройство не подключено к охраной зоне"), ValidationErrorLevel.Warning);
+				}
+			}
+
+			else if (device.Driver.HasZone)
+			{
+				if (device.Zones == null || device.Zones.Count == 0)
+				{
+					AddError(device, string.Format("Устройство не подключено к пожарной зоне"), ValidationErrorLevel.Warning);
+				}
 			}
 		}
 
@@ -221,7 +237,7 @@ namespace GKModule.Validation
 		{
 			if (device.IsInMPT && device.Door != null)
 			{
-				var mpt = GKManager.MPTs.FirstOrDefault(x => x.MPTDevices.Any(y => y.DeviceUID == device.UID && (y.MPTDeviceType == GKMPTDeviceType.Bomb || y.MPTDeviceType == GKMPTDeviceType.DoNotEnterBoard || y.MPTDeviceType == GKMPTDeviceType.ExitBoard || y.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard)));
+				var mpt = GKManager.MPTs.FirstOrDefault(x => x.MPTDevices.Any(y => y.DeviceUID == device.UID && (y.MPTDeviceType == GKMPTDeviceType.Bomb || y.MPTDeviceType == GKMPTDeviceType.DoNotEnterBoard || y.MPTDeviceType == GKMPTDeviceType.ExitBoard || y.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard || y.MPTDeviceType == GKMPTDeviceType.Speaker)));
 				 if(mpt!= null && (device.Door.LockDeviceUID == device.UID || device.Door.LockDeviceExitUID == device.UID ))
 				{
 					Errors.Add(new DeviceValidationError(device, string.Format("Устройство {0} не может учавствовать одновременно в {1} в качестве замка и в {2} в качестве {3}",device.PresentationName,device.Door.PresentationName, mpt.PresentationName , mpt.MPTDevices.FirstOrDefault(x=> x.DeviceUID == device.UID).MPTDeviceType.ToDescription()), ValidationErrorLevel.CannotWrite));
@@ -233,10 +249,10 @@ namespace GKModule.Validation
 		{
 			if (device.DriverType == GKDriverType.GK)
 			{
-				var kauChildren1 = device.Children.Where(x => x.Driver.IsKau && GKManager.GetKauLine(x) == 0).ToList();
+				var kauChildren1 = device.Children.Where(x => (x.Driver.IsKau || x.DriverType == GKDriverType.RSR2_GKMirror) && GKManager.GetKauLine(x) == 0).ToList();
 				ValidateKAUAddressFollowingInOneLine(kauChildren1);
 
-				var kauChildren2 = device.Children.Where(x => x.Driver.IsKau && GKManager.GetKauLine(x) == 1).ToList();
+				var kauChildren2 = device.Children.Where(x => (x.Driver.IsKau || x.DriverType == GKDriverType.RSR2_GKMirror) && GKManager.GetKauLine(x) == 1).ToList();
 				ValidateKAUAddressFollowingInOneLine(kauChildren2);
 			}
 		}
@@ -248,7 +264,7 @@ namespace GKModule.Validation
 				var kauDevice = kauChildren[i];
 				if (kauDevice.IntAddress != i + 1)
 				{
-					AddError(kauDevice, string.Format("Последовательность адресов КАУ, подключенных к ГК, должна быть неразрывна начиная с 1"), ValidationErrorLevel.CannotWrite);
+					AddError(kauDevice, string.Format("Последовательность адресов КАУ и ПМФ-ПМЕ, подключенных к ГК, должна быть неразрывна начиная с 1"), ValidationErrorLevel.CannotWrite);
 					break;
 				}
 			}

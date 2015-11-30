@@ -13,12 +13,14 @@ namespace RubezhDAL.DataClasses
 		DbService DbService;
 		DatabaseContext Context;
 		public OrganisationSynchroniser Synchroniser { get; private set; }
+		public OrgansiationListSynchroniser ListSynchroniser { get; private set; }
 
 		public OrganisationTranslator(DbService context)
 		{
 			DbService = context;
 			Context = DbService.Context;
 			Synchroniser = new OrganisationSynchroniser(Table, DbService);
+			ListSynchroniser = new OrgansiationListSynchroniser(Table, DbService);
 		}
 
 		public OperationResult<List<API.Organisation>> Get(API.OrganisationFilter filter)
@@ -381,13 +383,13 @@ namespace RubezhDAL.DataClasses
 
 		void MarkDeletedSQLQuery(string tableName, DateTime removalDate, Guid organisationUID)
 		{
-			var command = string.Format("UPDATE dbo.\"{0}\" SET \"RemovalDate\" = '{1}', \"IsDeleted\" = '1' WHERE \"IsDeleted\" = '0' AND \"OrganisationUID\" = '{2}'", tableName, removalDate, organisationUID);
+            var command = string.Format("UPDATE dbo.\"{0}\" SET \"RemovalDate\" = '{1}', \"IsDeleted\" = '1' WHERE \"IsDeleted\" = '0' AND \"OrganisationUID\" = '{2}'", tableName, removalDate.ToString("yyyyMMdd HH:mm:ss"), organisationUID);
 			Context.Database.ExecuteSqlCommand(command);
 		}
 
 		void RestoreSQLQuery(string tableName, DateTime removalDate, Guid organisationUID)
 		{
-			var command = string.Format("UPDATE dbo.\"{0}\" SET \"RemovalDate\" = NULL, \"IsDeleted\" = '0' WHERE \"IsDeleted\" = '1' AND \"OrganisationUID\" = '{2}' AND \"RemovalDate\" = '{1}'", tableName, removalDate, organisationUID);
+            var command = string.Format("UPDATE dbo.\"{0}\" SET \"RemovalDate\" = NULL, \"IsDeleted\" = '0' WHERE \"IsDeleted\" = '1' AND \"OrganisationUID\" = '{2}' AND \"RemovalDate\" = '{1}'", tableName, removalDate.ToString("yyyyMMdd HH:mm:ss"), organisationUID);
 			Context.Database.ExecuteSqlCommand(command);
 		}
 

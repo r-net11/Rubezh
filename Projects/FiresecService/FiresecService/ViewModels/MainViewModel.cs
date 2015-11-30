@@ -7,6 +7,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using GKProcessor;
 using RubezhAPI.License;
+using RubezhAPI;
 
 namespace FiresecService.ViewModels
 {
@@ -30,6 +31,7 @@ namespace FiresecService.ViewModels
 			LicenseViewModel = new LicenseViewModel();
 			LicenseManager.LicenseChanged += LicenseHelper_LicenseChanged;
 			GKLifecycleManager.GKLifecycleChangedEvent += On_GKLifecycleChangedEvent;
+			ClientPolls = new ObservableCollection<ClientPollViewModel>();
 			SetTitle();
 			Icon = @"../Server.ico";
 		}
@@ -259,6 +261,28 @@ namespace FiresecService.ViewModels
 			return gkViewModel;
 		}
 		#endregion GK
+
+		#region Polling
+		public ObservableCollection<ClientPollViewModel> ClientPolls { get; private set; }
+
+		public void OnPoll(Guid uid)
+		{
+			_dispatcher.Invoke((Action)(() =>
+				{
+					var clientInfo = FiresecService.Service.ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == uid);
+					var client = clientInfo == null ? "" : string.Format("{0} / {1} / {2}", clientInfo.ClientCredentials.ClientType.ToDescription(), clientInfo.ClientCredentials.ClientIpAddress, clientInfo.ClientCredentials.FriendlyUserName);
+					var clientPoll = ClientPolls.FirstOrDefault(x => x.Client == client && x.UID == uid);
+					if (clientPoll == null)
+					{
+						clientPoll = new ClientPollViewModel { UID = uid, Client = client };
+						clientPoll.FirstPollTime = clientPoll.LastPollTime = DateTime.Now;
+						ClientPolls.Add(clientPoll);
+					}
+					else
+						clientPoll.LastPollTime = DateTime.Now;
+				}));
+		}
+		#endregion
 
 		public override bool OnClosing(bool isCanceled)
 		{

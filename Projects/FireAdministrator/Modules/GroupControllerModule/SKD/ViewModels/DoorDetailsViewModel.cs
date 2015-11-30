@@ -291,6 +291,8 @@ namespace GKModule.ViewModels
 			Door.EnterLevel = EnterLevel;
 			Door.DoorType = SelectedDoorType;
 			Door.AntipassbackOn = AntipassbackOn;
+			if (SelectedDoorType == GKDoorType.OneWay)
+				Door.ExitZoneUID = Guid.Empty;
 			return base.Save();
 		}
 	}

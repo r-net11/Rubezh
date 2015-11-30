@@ -10,7 +10,6 @@ namespace GKModule.ViewModels
 	public class PmfUserViewModel : BaseViewModel
 	{
 		public GKUser User { get; private set; }
-		public string ExpirationDateString { get { return User.ExpirationDate.ToString(); } }
 		public PmfUserViewModel(GKUser user)
 		{
 			User = user;
@@ -20,7 +19,6 @@ namespace GKModule.ViewModels
 		{
 			User = user;
 			OnPropertyChanged(() => User);
-			OnPropertyChanged(() => ExpirationDateString);
 		}
 	}
 }

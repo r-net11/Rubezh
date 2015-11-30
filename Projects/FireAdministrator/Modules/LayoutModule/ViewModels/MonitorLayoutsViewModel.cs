@@ -12,13 +12,12 @@ using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using System.Windows.Input;
-using KeyboardKey = System.Windows.Input.Key;
 
 namespace LayoutModule.ViewModels
 {
 	public class MonitorLayoutsViewModel : MenuViewPartViewModel, ISelectable<Guid>, IInitializable
 	{
+		static int copyCounter;
 		public static MonitorLayoutsViewModel Instance { get; private set; }
 		public MonitorLayoutViewModel MonitorLayoutViewModel { get; private set; }
 		public LayoutUsersViewModel LayoutUsersViewModel { get; private set; }
@@ -30,16 +29,6 @@ namespace LayoutModule.ViewModels
 			SetRibbonItems();
 			Menu = new MonitorLayoutsMenuViewModel(this);
 			Instance = this;
-			RegisterShortcuts();
-		}
-		private void RegisterShortcuts()
-		{
-			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), LayoutCopyCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), LayoutPasteCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.Delete), CloseLayoutPartCommand);
 		}
 
 		#region ISelectable<Guid> Members
@@ -64,6 +53,7 @@ namespace LayoutModule.ViewModels
 				ListCollectionView view = (ListCollectionView)CollectionViewSource.GetDefaultView(Layouts);
 				foreach (var layout in ClientManager.LayoutsConfiguration.Layouts)
 					Layouts.Add(new LayoutViewModel(layout));
+				SortLayouts();
 				view.MoveCurrentToFirst();
 				SelectedLayout = (LayoutViewModel)view.CurrentItem;
 			}
@@ -106,8 +96,8 @@ namespace LayoutModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 
-			LayoutCopyCommand = new RelayCommand(OnLayoutCopy, CanLayoutCopy);
-			LayoutPasteCommand = new RelayCommand(OnLayoutPaste, CanLayoutPaste);
+			CopyCommand = new RelayCommand(OnCopy, CanCopy);
+			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			
 			_layoutBuffer = null;
 		}
@@ -128,20 +118,36 @@ namespace LayoutModule.ViewModels
 			{
 				layout.Users.Add(adminUser.UID);
 			}
-			var layoutDetailsViewModel = new LayoutPropertiesViewModel(layout, LayoutUsersViewModel);
+			var otherCaptions = Layouts.Select(x => x.Caption).ToList();
+			var layoutDetailsViewModel = new LayoutPropertiesViewModel(layout, LayoutUsersViewModel, otherCaptions);
 			if (DialogService.ShowModalWindow(layoutDetailsViewModel))
-				OnLayoutPaste(layoutDetailsViewModel.Layout);
+				OnPaste(layoutDetailsViewModel.Layout);
 		}
 		public RelayCommand DeleteCommand { get; private set; }
 		private void OnDelete()
 		{
 			if (MessageBoxService.ShowConfirmation(string.Format("Вы уверены, что хотите удалить макет '{0}'?", SelectedLayout.Caption)))
-				OnLayoutDelete();
+			{
+				using (new WaitWrapper())
+				{
+					var collection = (ListCollectionView)CollectionViewSource.GetDefaultView(Layouts);
+					var selectedLayout = SelectedLayout;
+					var index = collection.IndexOf(SelectedLayout);
+					Layouts.Remove(selectedLayout);
+					ClientManager.LayoutsConfiguration.Layouts.Remove(selectedLayout.Layout);
+					ClientManager.LayoutsConfiguration.Update();
+					ServiceFactory.SaveService.LayoutsChanged = true;
+					if (collection.Count > 0)
+						SelectedLayout = (LayoutViewModel)collection.GetItemAt(index >= collection.Count ? collection.Count - 1 : index);
+				}
+			}
 		}
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			if (DialogService.ShowModalWindow(new LayoutPropertiesViewModel(SelectedLayout.Layout, LayoutUsersViewModel)))
+			LayoutUsersViewModel.Update();
+			var otherCaptions = Layouts.Select(x => x.Caption).Where(x => x != SelectedLayout.Layout.Caption).ToList();
+			if (DialogService.ShowModalWindow(new LayoutPropertiesViewModel(SelectedLayout.Layout, LayoutUsersViewModel, otherCaptions)))
 			{
 				SelectedLayout.Update();
 				MonitorLayoutViewModel.Update();
@@ -152,26 +158,27 @@ namespace LayoutModule.ViewModels
 		{
 			return SelectedLayout != null;
 		}
-		public RelayCommand LayoutCopyCommand { get; private set; }
-		private void OnLayoutCopy()
+		public RelayCommand CopyCommand { get; private set; }
+		private void OnCopy()
 		{
 			using (new WaitWrapper())
 				_layoutBuffer = Utils.Clone(SelectedLayout.Layout);
+			copyCounter = 0;
 		}
-		private bool CanLayoutCopy()
+		private bool CanCopy()
 		{
 			return SelectedLayout != null;
 		}
-		public RelayCommand LayoutPasteCommand { get; private set; }
-		private void OnLayoutPaste()
+		public RelayCommand PasteCommand { get; private set; }
+		private void OnPaste()
 		{
-			OnLayoutPaste(_layoutBuffer, true);
+			OnPaste(_layoutBuffer, true);
 		}
-		private bool CanLayoutPaste()
+		private bool CanPaste()
 		{
 			return _layoutBuffer != null;
 		}
-		private void OnLayoutPaste(Layout layout, bool clone = false)
+		private void OnPaste(Layout layout, bool clone = false)
 		{
 			using (new WaitWrapper())
 			{
@@ -183,31 +190,29 @@ namespace LayoutModule.ViewModels
 				var viewModel = new LayoutViewModel(layout);
 				ClientManager.LayoutsConfiguration.Layouts.Add(layout);
 				Layouts.Add(viewModel);
+				SortLayouts();
 				SelectedLayout = viewModel;
 				ClientManager.LayoutsConfiguration.Update();
 				ServiceFactory.SaveService.LayoutsChanged = true;
 			}
 		}
-		private void OnLayoutDelete()
-		{
-			using (new WaitWrapper())
-			{
-				var collection = (ListCollectionView)CollectionViewSource.GetDefaultView(Layouts);
-				var selectedLayout = SelectedLayout;
-				var index = collection.IndexOf(SelectedLayout);
-				Layouts.Remove(selectedLayout);
-				ClientManager.LayoutsConfiguration.Layouts.Remove(selectedLayout.Layout);
-				ClientManager.LayoutsConfiguration.Update();
-				ServiceFactory.SaveService.LayoutsChanged = true;
-				if (collection.Count > 0)
-					SelectedLayout = (LayoutViewModel)collection.GetItemAt(index >= collection.Count ? collection.Count - 1 : index);
-			}
-		}
 		private void RenewLayout(Layout layout)
 		{
 			layout.UID = Guid.NewGuid();
+			if (copyCounter == 0)
+			{
+				layout.Caption = string.Format("{0} - копия", layout.Caption);
+			}
+			else
+			{
+				layout.Caption = string.Format("{0} - копия({1})", layout.Caption, copyCounter);
+			}
+			copyCounter++;
 		}
-
+		void SortLayouts()
+		{
+			Layouts = new ObservableCollection<LayoutViewModel>(Layouts.OrderBy(x => x.Caption));
+		}
 		protected override void UpdateRibbonItems()
 		{
 			base.UpdateRibbonItems();
@@ -221,8 +226,8 @@ namespace LayoutModule.ViewModels
 					new RibbonMenuItemViewModel("Добавить макет", AddCommand, "BAdd"),
 					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
 					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
-					new RibbonMenuItemViewModel("Копировать", LayoutCopyCommand, "BCopy") {IsNewGroup=true},
-					new RibbonMenuItemViewModel("Вставить", LayoutPasteCommand, true, "BPaste"),
+					new RibbonMenuItemViewModel("Копировать", CopyCommand, "BCopy") {IsNewGroup=true},
+					new RibbonMenuItemViewModel("Вставить", PasteCommand, true, "BPaste"),
 				}, "BLayouts") { Order = 2 }
 			};
 		}

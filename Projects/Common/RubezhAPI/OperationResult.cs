@@ -80,9 +80,11 @@ namespace RubezhAPI
 		public OperationResult()
 		{
 			HasError = false;
+			Warnings = new List<string>();
 		}
 
-		public OperationResult(string error)
+		public OperationResult(string error) 
+			: this()
 		{
 			HasError = true;
 			Error = error;
@@ -90,9 +92,13 @@ namespace RubezhAPI
 
 		public OperationResult(List<string> errors)
 		{
-			HasError = true;
 			if (errors != null && errors.Count > 0)
+			{
+				HasError = true;
 				Error = String.Join("\n", errors);
+			}
+			else
+				HasError = false;
 		}
 
 		[DataMember]
@@ -100,5 +106,10 @@ namespace RubezhAPI
 
 		[DataMember]
 		public string Error { get; set; }
+
+		[DataMember]
+		public List<string> Warnings { get; set; }
+
+		public bool HasWarnings { get { return Warnings.Count > 0; } }
 	}
 }

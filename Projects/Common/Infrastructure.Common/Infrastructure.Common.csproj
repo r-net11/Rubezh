@@ -182,11 +182,7 @@
     <Compile Include="TimeoutOperation.cs" />
     <Compile Include="Validation\PlanObjectValidationError.cs" />
     <Compile Include="Windows\ViewModels\BaseObjectViewModel.cs" />
-    <Compile Include="Windows\ViewModels\DateSelectionViewModel.cs" />
     <Compile Include="Windows\ViewModels\IEditingBaseViewModel.cs" />
-    <Compile Include="Windows\Views\DateSelectionView.xaml.cs">
-      <DependentUpon>DateSelectionView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Configuration\ModuleCollection.cs" />
     <Compile Include="Configuration\ModuleElement.cs" />
     <Compile Include="Configuration\ModuleSection.cs" />
@@ -227,8 +223,6 @@
     <Compile Include="Services\Layout\ILayoutProviderModule.cs" />
     <Compile Include="Services\Layout\LayoutPartDescription.cs" />
     <Compile Include="Services\Resources\IResourceService.cs" />
-    <Compile Include="Services\Resources\ResourceDescription.cs" />
-    <Compile Include="Services\Resources\ResourceHelper.cs" />
     <Compile Include="Services\Resources\ResourceService.cs" />
     <Compile Include="Services\Ribbon\IRibbonService.cs" />
     <Compile Include="Services\Ribbon\RibbonService.cs" />
@@ -384,10 +378,6 @@
     <Page Include="Windows\Views\ApplicationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\Views\DateSelectionView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\Views\RightContentView.xaml">
       <Generator>MSBuild:Compile</Generator>

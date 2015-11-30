@@ -19,9 +19,19 @@ namespace Infrastructure.Automation
 		public static List<Variable> GetAllVariables(Procedure procedure)
 		{
 			var allVariables = new List<Variable>(ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.GlobalVariables);
-			allVariables.AddRange(procedure.Variables);
-			allVariables.AddRange(procedure.Arguments);
+			allVariables.AddRange(GetLocalVariables(procedure));
 			return allVariables;
+		}
+
+		public static List<Variable> GetLocalVariables(Procedure procedure)
+		{
+			var localVariables = new List<Variable>();
+			if (procedure != null)
+			{
+				localVariables.AddRange(procedure.Variables);
+				localVariables.AddRange(procedure.Arguments);
+			}
+			return localVariables;
 		}
 
 		public static List<Variable> GetAllVariables(Procedure procedure, ExplicitType explicitType, ObjectType objectType = ObjectType.Device, EnumType enumType = EnumType.DriverType)
@@ -79,6 +89,10 @@ namespace Infrastructure.Automation
 				return new List<Property> { Property.Description, Property.Uid, Property.Name };
 			if (objectType == ObjectType.VideoDevice)
 				return new List<Property> { Property.Uid, Property.Name };
+			if (objectType == ObjectType.PumpStation)
+				return new List<Property> { Property.Uid, Property.No, Property.Delay, Property.Name };
+			if (objectType == ObjectType.MPT)
+				return new List<Property> { Property.Uid, Property.Description, Property.Name };
 			return new List<Property>();
 		}
 
@@ -192,6 +206,12 @@ namespace Infrastructure.Automation
 			var delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == uid);
 			if (delay != null)
 				return delay.PresentationName;
+			var pumpStation = GKManager.DeviceConfiguration.PumpStations.FirstOrDefault(x => x.UID == uid);
+			if (pumpStation != null)
+				return pumpStation.PresentationName;
+			var mpt = GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == uid);
+			if (mpt != null)
+				return mpt.PresentationName;
 			var organisation = OrganisationHelper.GetSingle(uid);
 			if (organisation != null)
 				return organisation.Name;

@@ -21,7 +21,6 @@
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,7 +50,7 @@
       <HintPath>..\packages\Magick.NET-Q16-AnyCPU.7.0.0.0018\lib\net40-client\Magick.NET-AnyCPU.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Magick.NET.Core">
+    <Reference Include="Magick.NET.Core, Version=7.0.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
       <HintPath>..\packages\Magick.NET-Q16-AnyCPU.7.0.0.0018\lib\net40-client\Magick.NET.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -233,6 +232,7 @@
     <Content Include="Content\Image\Icon\Header\window-normal.png" />
     <Resource Include="Content\Image\Icon\Hr\Organisation.png" />
     <Resource Include="Content\Image\Icon\Hr\Door.png" />
+    <Resource Include="Content\Image\Icon\Hr\zone.png" />
     <Content Include="Content\Image\Icon\Menu\archive.png" />
     <Content Include="Content\Image\Icon\Menu\Bug.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Add.png" />
@@ -266,6 +266,7 @@
       <DependentUpon>main.css</DependentUpon>
     </Content>
     <Content Include="Content\Site.css" />
+    <EmbeddedResource Include="Content\SvgIcons\GKDoor.txt" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -332,14 +333,14 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Clock.js" />
+    <Content Include="Scripts\d3\d3.js" />
+    <Content Include="Scripts\d3\d3.min.js" />
     <Content Include="Scripts\EmployeeCardDetails.js" />
     <Content Include="Scripts\HrFilter.js" />
     <Content Include="Scripts\EmployeeDetails.js" />
     <Content Include="Scripts\HR.js" />
     <Content Include="Scripts\HrEmployees.js" />
     <Content Include="Scripts\d3tip.js" />
-    <Content Include="Scripts\d3\d3.js" />
-    <Content Include="Scripts\d3\d3.min.js" />
     <Content Include="Scripts\HrEmployeeCards.js" />
     <Content Include="Scripts\i18n\datepicker-ru.js" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />
@@ -391,7 +392,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Scripts\d3\LICENSE" />
     <Content Include="Content\plan.less" />
     <Content Include="Content\Hr.less" />
     <Content Include="Content\Hr.css.map">
@@ -402,6 +402,7 @@
     </Content>
     <Content Include="Content\SaveCancelPopup.less" />
     <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\d3\LICENSE" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -428,6 +429,7 @@
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\report.js" />
+    <Content Include="Scripts\SKD\Employees\CardRemovalReasonViewModel.js" />
     <Content Include="Scripts\tooltips.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -446,26 +448,28 @@
     <Compile Include="Controllers\HrController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
-    <Compile Include="DataProviders\InernalConverter.cs" />
-    <Compile Include="DataProviders\PlansDataProvider.cs" />
-    <Compile Include="DataProviders\PlansUpdater.cs" />
-    <Compile Include="DataProviders\PlansUpdaterHub.cs" />
+    <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
+    <Compile Include="Utils\InernalConverter.cs" />
+    <Compile Include="DataProviders\Plan\PlansDataProvider.cs" />
+    <Compile Include="DataProviders\Plan\PlansUpdater.cs" />
+    <Compile Include="DataProviders\Plan\PlansUpdaterHub.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="JournalItemViewModel.cs" />
+    <Compile Include="Models\AccessDoorModel.cs" />
     <Compile Include="Models\ReadOnlyAccessDoorModel.cs" />
-    <Compile Include="Models\ElementHint.cs" />
+    <Compile Include="Models\Plan\ElementHint.cs" />
     <Compile Include="Models\EmployeeCardModel.cs" />
     <Compile Include="Models\GKControllerModel.cs" />
     <Compile Include="Models\ShortEmployeeCardModel.cs" />
     <Compile Include="Models\ShortEmployeeModel.cs" />
-    <Compile Include="Models\PlanElement.cs" />
-    <Compile Include="Models\PlanSimpl.cs" />
+    <Compile Include="Models\Plan\PlanElement.cs" />
+    <Compile Include="Models\Plan\PlanSimpl.cs" />
     <Compile Include="Models\ReportModel.cs" />
-    <Compile Include="Models\Shape.cs" />
-    <Compile Include="Models\ShapeTypesEnum.cs" />
-    <Compile Include="Models\HintLine.cs" />
+    <Compile Include="Models\Plan\Shape.cs" />
+    <Compile Include="Models\Plan\ShapeTypesEnum.cs" />
+    <Compile Include="Models\Plan\HintLine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\JsonNetResult .cs" />
@@ -498,6 +502,8 @@
     <Content Include="Views\Employees\EmployeeDetails.cshtml" />
     <Content Include="Views\Hr\HrFilter.cshtml" />
     <Content Include="Views\Home\FireZones.cshtml" />
+    <Content Include="Views\Employees\EmployeeCardDetails.cshtml" />
+    <Content Include="Views\Employees\CardRemovalReason.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -507,6 +513,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\SKD\Employees\" />
     <Folder Include="Views\Archive\" />
     <Folder Include="Views\Employee\" />
     <Folder Include="Views\FireZones\" />
@@ -568,18 +575,4 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-  </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Common;
-using RubezhAPI.Automation;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhAPI.SKD;
+﻿using Common;
+using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Elements;
-using GKProcessor;
+using RubezhAPI.Automation;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using RubezhAPI.Models.Layouts;
-using Infrastructure.Common.Windows;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace RubezhClient
 {
@@ -54,15 +52,15 @@ namespace RubezhClient
 
 		public static void GetConfiguration(string configurationFolderName)
 		{
-           try
+			try
 			{
 				var serverConfigDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
 				var configDirectory = AppDataFolderHelper.GetLocalFolder(configurationFolderName);
 				var contentDirectory = Path.Combine(configDirectory, "Content");
-                if (Directory.Exists(configDirectory))
-                {
-                    Directory.Delete(configDirectory, true);
-                }
+				if (Directory.Exists(configDirectory))
+				{
+					Directory.Delete(configDirectory, true);
+				}
 				Directory.CreateDirectory(configDirectory);
 				Directory.CreateDirectory(contentDirectory);
 				if (ServiceFactoryBase.ContentService != null)
@@ -95,7 +93,7 @@ namespace RubezhClient
 			}
 			catch (Exception e)
 			{
-                Logger.Error(e, "ClientManager.GetConfiguration");
+				Logger.Error(e, "ClientManager.GetConfiguration");
 				LoadingErrorManager.Add(e);
 			}
 		}
@@ -351,7 +349,9 @@ namespace RubezhClient
 			foreach (var plan in PlansConfiguration.AllPlans)
 			{
 				uids.Add(plan.BackgroundImageSource);
+				uids.Add(plan.BackgroundSVGImageSource);
 				plan.AllElements.ForEach(x => uids.Add(x.BackgroundImageSource));
+				plan.AllElements.ForEach(x => uids.Add(x.BackgroundSVGImageSource));
 			}
 			foreach (var layout in LayoutsConfiguration.Layouts)
 			{
@@ -361,13 +361,14 @@ namespace RubezhClient
 					{
 						var layoutPartImageProperties = part.Properties as LayoutPartImageProperties;
 						uids.Add(layoutPartImageProperties.ReferenceUID);
+						uids.Add(layoutPartImageProperties.ReferenceSVGUID);
 					}
 				}
 			}
-			SystemConfiguration.AutomationConfiguration.AutomationSounds.ForEach(x => uids.Add(x.Uid)); 
+			SystemConfiguration.AutomationConfiguration.AutomationSounds.ForEach(x => uids.Add(x.Uid));
 			uids.Remove(null);
 			uids.Remove(Guid.Empty);
-			ServiceFactoryBase.ContentService.RemoveAllBut(uids.Select(x=>x.Value.ToString()).ToList());
+			ServiceFactoryBase.ContentService.RemoveAllBut(uids.Select(x => x.Value.ToString()).ToList());
 		}
 	}
 }

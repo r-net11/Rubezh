@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Infrastructure;
+using Infrastructure.Automation;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.Automation;
+using RubezhClient;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
-using RubezhAPI.Automation;
-using RubezhClient;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -92,6 +92,8 @@ namespace AutomationModule.ViewModels
 						|| ((ObjectType == ObjectType.VideoDevice) && (ExplicitValue.Camera == null))
 						|| ((ObjectType == ObjectType.Zone) && (ExplicitValue.Zone == null))
 						|| ((ObjectType == ObjectType.Delay) && (ExplicitValue.Delay == null))
+						|| ((ObjectType == ObjectType.PumpStation) && (ExplicitValue.PumpStation == null))
+						|| ((ObjectType == ObjectType.MPT) && (ExplicitValue.MPT == null))
 						|| ((ObjectType == ObjectType.Organisation) && (ExplicitValue.Organisation == null)));
 			}
 		}
@@ -121,8 +123,9 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddVariableCommand { get; private set; }
 		void OnAddVariable()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(null, SelectedVariableScope == VariableScope.LocalVariable ? "локальная переменная" : "глобальная переменная",
-				SelectedVariableScope == VariableScope.LocalVariable ? "Добавить локальную переменную" : "Добавить глобальную переменную", 
+			var variableDetailsViewModel = new VariableDetailsViewModel(null,
+				SelectedVariableScope == VariableScope.LocalVariable ? AutomationHelper.GetLocalVariables(ProceduresViewModel.Current.SelectedProcedure.Procedure) : ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables,
+				SelectedVariableScope == VariableScope.LocalVariable ? "Добавить локальную переменную" : "Добавить глобальную переменную",
 				SelectedVariableScope == VariableScope.GlobalVariable);
 			variableDetailsViewModel.IsList = IsList;
 			variableDetailsViewModel.ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ExplicitTypes);
@@ -202,7 +205,12 @@ namespace AutomationModule.ViewModels
 		void OnChange(ExplicitValueViewModel explicitValueViewModel)
 		{
 			if (IsList)
-				ProcedureHelper.SelectObject(ObjectType, explicitValueViewModel);
+			{
+				var explicitValues = ExplicitValues.ToList();
+				ProcedureHelper.SelectObjects(ObjectType, ref explicitValues);
+				if (explicitValues != null)
+					ExplicitValues = new ObservableCollection<ExplicitValueViewModel>(explicitValues);
+			}
 			else
 				ProcedureHelper.SelectObject(ObjectType, ExplicitValue);
 			OnPropertyChanged(() => ExplicitValues);

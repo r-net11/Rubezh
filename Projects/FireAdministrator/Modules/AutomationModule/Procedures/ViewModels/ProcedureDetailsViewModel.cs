@@ -3,6 +3,7 @@ using RubezhAPI.Automation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Automation;
+using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
@@ -15,6 +16,9 @@ namespace AutomationModule.ViewModels
 			if (procedure == null)
 			{
 				Procedure = new Procedure { ContextType = ContextType.Server };
+				var i = 0;
+				do { i++; } while (ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.Any(x => x.Name == Procedure.Name + i));
+				Procedure.Name += i;
 				Title = "Создание процедуры";
 			}
 			else
@@ -129,6 +133,11 @@ namespace AutomationModule.ViewModels
 			if (string.IsNullOrEmpty(Name))
 			{
 				MessageBoxService.ShowWarning("Название не может быть пустым");
+				return false;
+			}
+			if (ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.Any(x => x.Name == Name && x.Uid != Procedure.Uid))
+			{
+				MessageBoxService.ShowWarning("Процедура с таким именем уже существует");
 				return false;
 			}
 			Procedure.Name = Name;

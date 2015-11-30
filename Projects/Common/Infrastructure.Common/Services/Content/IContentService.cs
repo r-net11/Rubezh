@@ -33,7 +33,7 @@ namespace Infrastructure.Common.Services.Content
 		void RemoveContent(string guid);
 
 		void Invalidate();
-        void Clear();
+		void Clear();
 		void Close();
 
 		void RemoveAllBut(IEnumerable<string> uids);

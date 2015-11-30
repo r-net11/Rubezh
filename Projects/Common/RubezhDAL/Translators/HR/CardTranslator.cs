@@ -170,7 +170,6 @@ namespace RubezhDAL.DataClasses
 			card.EmployeeUID = null;
 			card.EndDate = DateTime.Now;
 			card.CardDoors = new List<CardDoor>();
-			card.PassCardTemplateUID = null;
 			card.IsInStopList = true;
 			card.StopReason = reason;
 			card.EmployeeUID = null;
@@ -220,7 +219,6 @@ namespace RubezhDAL.DataClasses
 				var tableItem = Context.Cards.FirstOrDefault(x => x.UID == card.UID);
 				if (tableItem == null)
 					return new OperationResult("Карта не найдена в базе данных");
-				tableItem.PassCardTemplateUID = card.PassCardTemplateUID;
 				Context.SaveChanges();
 				return new OperationResult();
 			}
@@ -248,7 +246,6 @@ namespace RubezhDAL.DataClasses
 							EnterScheduleNo = x.EnterScheduleNo,
 							ExitScheduleNo = x.ExitScheduleNo
 						}).ToList(),
-					PassCardTemplateUID = tableItem.PassCardTemplateUID,
 					AccessTemplateUID = tableItem.AccessTemplateUID,
 					GKCardType = (RubezhAPI.GK.GKCardType)tableItem.GKCardType,
 					IsInStopList = tableItem.IsInStopList,
@@ -267,7 +264,6 @@ namespace RubezhDAL.DataClasses
 			tableItem.EmployeeUID = apiItem.EmployeeUID;
 			tableItem.EndDate = apiItem.EndDate;
 			tableItem.CardDoors = apiItem.CardDoors.Select(x => new CardDoor(x)).ToList();
-			tableItem.PassCardTemplateUID = apiItem.PassCardTemplateUID;
 			tableItem.AccessTemplateUID = apiItem.AccessTemplateUID;
 			tableItem.GKCardType = (int)apiItem.GKCardType;
 			tableItem.IsInStopList = apiItem.IsInStopList;
@@ -446,5 +442,23 @@ namespace RubezhDAL.DataClasses
 			
 		}
 		#endregion
+
+		public OperationResult RemoveAccessTemplate(List<Guid> uids)
+		{
+			try
+			{
+				var cards = Context.Cards.Where(x => uids.Any(y => y == x.UID));
+				foreach (var card in cards)
+				{
+					card.AccessTemplateUID = null;
+				}
+				Context.SaveChanges();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
 	}
 }

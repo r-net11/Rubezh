@@ -119,10 +119,10 @@ namespace RubezhAPI
 		OperationResult<bool> SaveAccessTemplate(AccessTemplate item, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedAccessTemplate(Guid uid, string name);
+		OperationResult MarkDeletedAccessTemplate(AccessTemplate item);
 
 		[OperationContract]
-		OperationResult RestoreAccessTemplate(Guid uid, string name);
+		OperationResult RestoreAccessTemplate(AccessTemplate item);
 		#endregion
 
 		#region Organisation

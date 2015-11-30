@@ -26,23 +26,13 @@ namespace RubezhClient.SKDHelpers
 
 		public static bool MarkDeleted(AccessTemplate accessTemplate)
 		{
-			return MarkDeleted(accessTemplate.UID, accessTemplate.Name);
+			var result = ClientManager.FiresecService.MarkDeletedAccessTemplate(accessTemplate);
+			return Common.ShowErrorIfExists(result);
 		}
 
 		public static bool Restore(AccessTemplate accessTemplate)
 		{
-			return Restore(accessTemplate.UID, accessTemplate.Name);
-		}
-
-		public static bool MarkDeleted(Guid uid, string name)
-		{
-			var result = ClientManager.FiresecService.MarkDeletedAccessTemplate(uid, name);
-			return Common.ShowErrorIfExists(result);
-		}
-
-		public static bool Restore(Guid uid, string name)
-		{
-			var operationResult = ClientManager.FiresecService.RestoreAccessTemplate(uid, name);
+			var operationResult = ClientManager.FiresecService.RestoreAccessTemplate(accessTemplate);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

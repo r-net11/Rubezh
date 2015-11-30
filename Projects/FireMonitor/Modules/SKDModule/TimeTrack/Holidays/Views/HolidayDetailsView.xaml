@@ -18,7 +18,7 @@
 		<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding AvailableHolidayTypes}" SelectedItem="{Binding HolidayType}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
-					<StackPanel Orientation="Horizontal">
+					<StackPanel>
 						<TextBlock Foreground="Black" Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 					</StackPanel>
 				</DataTemplate>
@@ -26,7 +26,9 @@
 		</ComboBox>
 
 		<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Дата" />
-		<Calendar Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" DisplayDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
+		<DatePicker SelectedDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}"
+					DisplayDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}"
+					Grid.Row="2" Grid.Column="1" />
 
 		<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Величина сокращения" />
 		<StackPanel Grid.Row="3" Grid.Column="1" Margin="3">
@@ -39,6 +41,9 @@
 		</StackPanel>
 
 		<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Дата переноса" />
-		<Calendar Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" DisplayDate="{Binding TransferDate, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsTransferDateEnabled}" SelectedDate="{Binding TransferDate, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
+		<DatePicker SelectedDate="{Binding TransferDate, UpdateSourceTrigger=PropertyChanged}"
+					DisplayDate="{Binding TransferDate, UpdateSourceTrigger=PropertyChanged}"
+					IsEnabled="{Binding IsTransferDateEnabled}"
+					Grid.Row="4" Grid.Column="1" />
 	</Grid>
 </UserControl>

@@ -68,25 +68,6 @@ namespace GKModule.ViewModels
 						child.IsExpanded = true;
 					}
 				}
-
-				//var gkDevices = AllDevices.Where(x => x.Driver.DriverType == GKDriverType.GK);
-				//foreach (var gkDevice in gkDevices)
-				//{
-				//	var gkIndicatorsGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа индикаторов", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicatorsGroup) });
-				//	var gkRelaysGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа реле", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKRelaysGroup) });
-				//	var gkIndicators = new List<DeviceViewModel>(gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKIndicator));
-				//	var gkRelays = new List<DeviceViewModel>(gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKRele));
-				//	foreach (var gkIndicator in gkIndicators)
-				//	{
-				//		gkIndicatorsGroupDevice.AddChild(gkIndicator);
-				//	}
-				//	foreach (var gkRelay in gkRelays)
-				//	{
-				//		gkRelaysGroupDevice.AddChild(gkRelay);
-				//	}
-				//	gkDevice.AddChildFirst(gkIndicatorsGroupDevice);
-				//	gkDevice.AddChildFirst(gkRelaysGroupDevice);
-				//}
 			}
 
 			foreach (var device in AllDevices)
@@ -212,23 +193,34 @@ namespace GKModule.ViewModels
 		public RelayCommand PasteCommand { get; private set; }
 		void OnPaste()
 		{
+			if (SelectedDevice.Device.IsConnectedToKAU)
+			{
+				var allChildren = SelectedDevice.Device.KAUShleifParent.AllChildren;
+				if (allChildren.Count + DevicesToCopy.Count > 255)
+				{
+					MessageBoxService.ShowWarning("Адрес устройства не может превышать 255");
+					return;
+				}
+			}
 			using (new WaitWrapper())
 			{
+				GKDevice device = null;
 				using (var cache = new ElementDeviceUpdater())
 				{
 					foreach (var deviceToCopy in DevicesToCopy)
 					{
 						var pasteDevice = GKManager.CopyDevice(deviceToCopy, isCut,true);
-						var device = PasteDevice(pasteDevice);
+						device = PasteDevice(pasteDevice);
 						if (device == null)
 							break;
 						device.UID = pasteDevice.UID;
 						if (device != null)
 						{
 							cache.UpdateDeviceBinding(device);
-							SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
 						}
 					}
+					if(device!= null)
+					SelectedDevice = AllDevices.FirstOrDefault(x=> x.Device.UID == device.UID);
 					if (SelectedDevice.Device.IsConnectedToKAU)
 					{
 						GKManager.RebuildRSR2Addresses(SelectedDevice.Device);
@@ -287,7 +279,7 @@ namespace GKModule.ViewModels
 				var allChildren = kauDeviceShleifdevice.AllChildren;
 				int maxAddress = 0;
 				if (allChildren.Count > 0)
-					maxAddress = allChildren.Max(x => x.IntAddress);
+					maxAddress = allChildren.Count();
 
 				var realDevicesCount = device.AllChildrenAndSelf.Count(x => x.IsRealDevice);
 

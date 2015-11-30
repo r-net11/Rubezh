@@ -50,8 +50,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ConfigurationTest.Zone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Zones.Test.cs" />
+    <Compile Include="ConfigurationTest.Device..cs" />
+    <Compile Include="ConfigurationTest.Common.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common\Common.csproj">
