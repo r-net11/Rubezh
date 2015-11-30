@@ -64,6 +64,13 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public void Clear()
+		{
+			GuardZoneDevice = new GKGuardZoneDevice { Device = GuardZoneDevice.Device, DeviceUID = GuardZoneDevice.DeviceUID };
+			if (!ActionTypes.Contains(SelectedActionType))
+				GuardZoneDevice.ActionType = ActionTypes.FirstOrDefault();
+		}
+
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{

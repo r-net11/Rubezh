@@ -1,5 +1,4 @@
-﻿using Controls;
-using System.Linq;
+﻿using System.Linq;
 using RubezhAPI.GK;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;

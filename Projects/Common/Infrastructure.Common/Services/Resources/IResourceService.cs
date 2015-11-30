@@ -1,8 +1,9 @@
 ﻿
+using System.Reflection;
 namespace Infrastructure.Common
 {
 	public interface IResourceService
 	{
-		void AddResource(ResourceDescription description);
+		void AddResource(Assembly callerAssembly, string name);
 	}
 }

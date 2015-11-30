@@ -314,14 +314,18 @@ namespace GKModule
 			{ DevicesViewModel.Properties = p as LayoutPartAdditionalProperties; return DevicesViewModel; });
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Zones, "Зоны", "Zones.png", (p) =>
 				{
-
 					var zonesViewModel = new ZonesViewModel();
 					zonesViewModel.Initialize();
 					zonesViewModel.Properties = p as LayoutPartAdditionalProperties;
 					return zonesViewModel;
 				});
 			yield return new LayoutPartPresenter(LayoutPartIdentities.GuardZones, "Охранные зоны", "Zones.png", (p) =>
-				{ GuardZonesViewModel.Properties = p as LayoutPartAdditionalProperties; return GuardZonesViewModel; });
+				{
+					var guardZonesViewModel = new GuardZonesViewModel();
+					guardZonesViewModel.Initialize();
+					guardZonesViewModel.Properties = p as LayoutPartAdditionalProperties;
+					return guardZonesViewModel;
+				});
 			yield return new LayoutPartPresenter(LayoutPartIdentities.GKSKDZones, "Зоны СКД", "Zones.png", (p) => SKDZonesViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Directions, "Направления", "Direction.png", (p) => DirectionsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.PumpStations, "НС", "PumpStation.png", (p) => PumpStationsViewModel);
@@ -339,6 +343,7 @@ namespace GKModule
 		{
 			yield return new DoorsReportProvider();
 			yield return new ReflectionReportProvider();
+			yield return new DevicesReportProvider();
 		}
 		#endregion
 	}

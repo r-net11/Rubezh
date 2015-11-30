@@ -155,7 +155,7 @@ namespace RubezhDAL.DataClasses
 			try
 			{
 				var result = new List<Guid>();
-				var tableItem = Table.Include(x => x.ChildDepartments.Select(y => y.Employees)).FirstOrDefault(x => x.UID == uid);
+				var tableItem = Table.Include(x => x.Employees).Include(x => x.ChildDepartments.Select(y => y.Employees)).FirstOrDefault(x => x.UID == uid);
 				result.AddRange(tableItem.Employees.Select(x => x.UID));
 				result.AddRange(tableItem.ChildDepartments.SelectMany(x => x.Employees.Select(y => y.UID)));
 				return new OperationResult<List<Guid>>(result);

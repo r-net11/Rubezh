@@ -87,7 +87,7 @@ namespace GKModule.ViewModels
 							new StateTypeViewModel(value, GKStateBit.Off),
 							new StateTypeViewModel(value, GKStateBit.TurningOn),
 							new StateTypeViewModel(value, GKStateBit.TurningOff),
-							new StateTypeViewModel(value, GKStateBit.Failure)
+							new StateTypeViewModel(value, GKStateBit.Failure),
 						};
 						break;
 

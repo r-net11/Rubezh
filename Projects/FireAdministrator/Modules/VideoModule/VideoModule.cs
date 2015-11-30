@@ -16,6 +16,7 @@ using VideoModule.Plans;
 using VideoModule.Validation;
 using VideoModule.ViewModels;
 using CamerasViewModel = VideoModule.ViewModels.CamerasViewModel;
+using System.Linq;
 
 namespace VideoModule
 {
@@ -26,6 +27,9 @@ namespace VideoModule
 
 		public override void CreateViewModels()
 		{
+			ServiceFactory.Events.GetEvent<SelectCameraEvent>().Subscribe(OnSelectCamera);
+			ServiceFactory.Events.GetEvent<SelectCamerasEvent>().Subscribe(OnSelectCameras);
+
 			CamerasViewModel = new CamerasViewModel();
 			_planExtension = new PlanExtension(CamerasViewModel);
 		}
@@ -47,7 +51,7 @@ namespace VideoModule
 		public override void RegisterResource()
 		{
 			base.RegisterResource();
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml");
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -63,12 +67,27 @@ namespace VideoModule
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Video, LayoutPartIdentities.CamerasList, 203, "Список камер", "Панель список камер", "BVideo.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Video, LayoutPartIdentities.CamerasList, 203, "Список камер", "Панель список камер", "BVideo.png", false);
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Video, LayoutPartIdentities.CameraVideo, 204, "Одна камера", "Панель видео с камеры", "BVideo.png")
 			{
 				Factory = (p) => new LayoutPartCameraViewModel(p as LayoutPartReferenceProperties),
 			};
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Video, LayoutPartIdentities.MultiCamera, 205, "Раскладка камер", "Панель раскладки камер", "BVideo.png", false);
+		}
+
+		void OnSelectCamera(SelectCameraEventArg selectCameraEventArg)
+		{
+			var cameraSelectionViewModel = new CameraSelectionViewModel(selectCameraEventArg.Camera);
+			selectCameraEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(cameraSelectionViewModel);
+			selectCameraEventArg.Camera = selectCameraEventArg.Cancel || cameraSelectionViewModel.SelectedCamera == null ?
+				null :
+				cameraSelectionViewModel.SelectedCamera.Camera;
+		}
+		void OnSelectCameras(SelectCamerasEventArg selectCamerasEventArg)
+		{
+			var camerasSelectionViewModel = new CamerasSelectionViewModel(selectCamerasEventArg.Cameras);
+			selectCamerasEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(camerasSelectionViewModel);
+			selectCamerasEventArg.Cameras = camerasSelectionViewModel.TargetCameras.ToList();
 		}
 	}
 }

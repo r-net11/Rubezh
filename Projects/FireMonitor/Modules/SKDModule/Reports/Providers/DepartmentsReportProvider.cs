@@ -11,7 +11,6 @@ namespace SKDModule.Reports.Providers
 		public DepartmentsReportProvider()
 			: base("Список подразделений организации", 415, SKDReportGroup.HR, PermissionType.Oper_Reports_Departments)
 		{
-
 		}
 
 		public override FilterModel InitializeFilterModel()

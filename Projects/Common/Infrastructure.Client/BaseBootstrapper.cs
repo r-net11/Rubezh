@@ -17,6 +17,7 @@ using Infrastructure.Common.Configuration;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Services;
 
 namespace Infrastructure.Client
 {
@@ -31,12 +32,11 @@ namespace Infrastructure.Client
 
 		protected virtual void RegisterResource()
 		{
-			ResourceService resourceService = new ResourceService();
-			resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(typeof(BaseBootstrapper).Assembly, "Login/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(typeof(BaseBootstrapper).Assembly, "Startup/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(typeof(AboutViewModel).Assembly, "About/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(typeof(LoginViewModel).Assembly, "DataTemplates/Dictionary.xaml"));
+			ServiceFactoryBase.ResourceService.AddResource(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(typeof(BaseBootstrapper).Assembly, "Login/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(typeof(BaseBootstrapper).Assembly, "Startup/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(typeof(AboutViewModel).Assembly, "About/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(typeof(LoginViewModel).Assembly, "DataTemplates/Dictionary.xaml");
 		}
 
 		protected void CreateModules()

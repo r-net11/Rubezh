@@ -99,6 +99,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			_newImage = false;
 			_drawing = null;
 			_wmf = null;
+			_svg = null;
 			UpdateImage();
 		}
 		bool CanRemovePicture()
@@ -127,6 +128,10 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			if (_svg != null)
 			{
 				_element.BackgroundSVGImageSource = ServiceFactoryBase.ContentService.AddContent(_svg);
+			}
+			else
+			{
+				_element.BackgroundSVGImageSource = null;
 			}
 			_element.BackgroundImageSource = _imageSource;
 			_element.BackgroundSourceName = _sourceName;
