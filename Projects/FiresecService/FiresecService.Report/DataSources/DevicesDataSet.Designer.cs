@@ -287,6 +287,8 @@ namespace FiresecService.Report.DataSources {
             
             private global::System.Data.DataColumn columnDescription;
             
+            private global::System.Data.DataColumn columnNumber;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public DataDataTable() {
@@ -354,6 +356,14 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn NumberColumn {
+                get {
+                    return this.columnNumber;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -389,13 +399,14 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DataRow AddDataRow(string PresentationName, string PresentationAddress, string PresentationZoneOrLogic, string Description) {
+            public DataRow AddDataRow(string PresentationName, string PresentationAddress, string PresentationZoneOrLogic, string Description, int Number) {
                 DataRow rowDataRow = ((DataRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         PresentationName,
                         PresentationAddress,
                         PresentationZoneOrLogic,
-                        Description};
+                        Description,
+                        Number};
                 rowDataRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDataRow);
                 return rowDataRow;
@@ -422,6 +433,7 @@ namespace FiresecService.Report.DataSources {
                 this.columnPresentationAddress = base.Columns["PresentationAddress"];
                 this.columnPresentationZoneOrLogic = base.Columns["PresentationZoneOrLogic"];
                 this.columnDescription = base.Columns["Description"];
+                this.columnNumber = base.Columns["Number"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -435,6 +447,8 @@ namespace FiresecService.Report.DataSources {
                 base.Columns.Add(this.columnPresentationZoneOrLogic);
                 this.columnDescription = new global::System.Data.DataColumn("Description", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDescription);
+                this.columnNumber = new global::System.Data.DataColumn("Number", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNumber);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -641,6 +655,22 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int Number {
+                get {
+                    try {
+                        return ((int)(this[this.tableData.NumberColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Number\' in table \'Data\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableData.NumberColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsPresentationNameNull() {
                 return this.IsNull(this.tableData.PresentationNameColumn);
             }
@@ -685,6 +715,18 @@ namespace FiresecService.Report.DataSources {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetDescriptionNull() {
                 this[this.tableData.DescriptionColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsNumberNull() {
+                return this.IsNull(this.tableData.NumberColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetNumberNull() {
+                this[this.tableData.NumberColumn] = global::System.Convert.DBNull;
             }
         }
         

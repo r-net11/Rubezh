@@ -42,8 +42,10 @@
 			this.xrTableCell6 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrTableCell7 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrControlStyle1 = new DevExpress.XtraReports.UI.XRControlStyle();
+			this.devicesDataSet1 = new FiresecService.Report.DataSources.DevicesDataSet();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.devicesDataSet1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
 			// 
 			// Detail
@@ -52,7 +54,7 @@
             this.xrTable1});
 			this.Detail.HeightF = 63.5F;
 			this.Detail.SortFields.AddRange(new DevExpress.XtraReports.UI.GroupField[] {
-            new DevExpress.XtraReports.UI.GroupField("PresentationName", DevExpress.XtraReports.UI.XRColumnSortOrder.Descending)});
+            new DevExpress.XtraReports.UI.GroupField("Number", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
 			// 
 			// GroupHeader1
 			// 
@@ -194,12 +196,18 @@
 			this.xrControlStyle1.Name = "xrControlStyle1";
 			this.xrControlStyle1.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 254F);
 			// 
+			// devicesDataSet1
+			// 
+			this.devicesDataSet1.DataSetName = "DevicesDataSet";
+			this.devicesDataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+			// 
 			// DevicesReport
 			// 
 			this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
             this.Detail,
             this.GroupHeader1});
 			this.DataMember = "Data";
+			this.DataSource = this.devicesDataSet1;
 			this.ExportOptions.PrintPreview.ActionAfterExport = DevExpress.XtraPrinting.ActionAfterExport.Open;
 			this.ExportOptions.PrintPreview.ShowOptionsBeforeExport = false;
 			this.Margins = new System.Drawing.Printing.Margins(201, 198, 350, 280);
@@ -210,6 +218,7 @@
 			this.Controls.SetChildIndex(this.Detail, 0);
 			((System.ComponentModel.ISupportInitialize)(this.xrTable2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.devicesDataSet1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
 		}
@@ -229,5 +238,6 @@
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell6;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell7;
 		private DevExpress.XtraReports.UI.XRControlStyle xrControlStyle1;
+		private DataSources.DevicesDataSet devicesDataSet1;
 	}
 }
