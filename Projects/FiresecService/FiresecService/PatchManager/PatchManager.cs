@@ -33,6 +33,8 @@ namespace FiresecService
 
 		private static void Patch_Journal(int no)
 		{
+			const string codePlace = "PatchManager.Patch_Journal";
+
 			try
 			{
 				var server = new Server(new ServerConnection(new SqlConnection(ConnectionString)));
@@ -42,7 +44,8 @@ namespace FiresecService
 				server.ConnectionContext.Disconnect();
 				if (!isExists)
 				{
-					var createStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/Journal/Create.sql"));
+					var createStream =
+						Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/Journal/Create.sql"));
 					using (var streamReader = new StreamReader(createStream.Stream))
 					{
 						commandText = streamReader.ReadToEnd();
@@ -51,7 +54,8 @@ namespace FiresecService
 					server.ConnectionContext.ExecuteNonQuery(commandText);
 					server.ConnectionContext.Disconnect();
 				}
-				var patchesStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/Journal/Patches.sql"));
+				var patchesStream =
+					Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/Journal/Patches.sql"));
 				using (var streamReader = new StreamReader(patchesStream.Stream))
 				{
 					commandText = streamReader.ReadToEnd();
@@ -62,18 +66,22 @@ namespace FiresecService
 			}
 			catch (ConnectionFailureException e)
 			{
-				UILogger.Log("Не удалось подключиться к базе данных " + ConnectionString);
-				Logger.Error(e, "PatchManager.Patch_Journal");
-				BalloonHelper.ShowFromServer("Не удалось подключиться к базе данных");
+				HandleConnectionFailureException(e, codePlace);
+			}
+			catch (ExecutionFailureException e)
+			{
+				HandleExecutionFailureException(e, codePlace);
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "PatchManager.Patch_Journal");
+				Logger.Error(e, codePlace);
 			}
 		}
 
 		private static void Patch_PassJournal(int no)
 		{
+			const string codePlace = "PatchManager.Patch_PassJournal";
+
 			try
 			{
 				var server = new Server(new ServerConnection(new SqlConnection(ConnectionString)));
@@ -83,7 +91,8 @@ namespace FiresecService
 				server.ConnectionContext.Disconnect();
 				if (!isExists)
 				{
-					var createStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/PassJournal/Create.sql"));
+					var createStream =
+						Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/PassJournal/Create.sql"));
 					using (var streamReader = new StreamReader(createStream.Stream))
 					{
 						commandText = streamReader.ReadToEnd();
@@ -92,7 +101,8 @@ namespace FiresecService
 					server.ConnectionContext.ExecuteNonQuery(commandText);
 					server.ConnectionContext.Disconnect();
 				}
-				var patchesStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/PassJournal/Patches.sql"));
+				var patchesStream =
+					Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/PassJournal/Patches.sql"));
 				using (var streamReader = new StreamReader(patchesStream.Stream))
 				{
 					commandText = streamReader.ReadToEnd();
@@ -103,13 +113,15 @@ namespace FiresecService
 			}
 			catch (ConnectionFailureException e)
 			{
-				UILogger.Log("Не удалось подключиться к базе данных " + ConnectionString);
-				Logger.Error(e, "PatchManager.Patch_PassJournal");
-				BalloonHelper.ShowFromServer("Не удалось подключиться к базе данных");
+				HandleConnectionFailureException(e, codePlace);
+			}
+			catch (ExecutionFailureException e)
+			{
+				HandleExecutionFailureException(e, codePlace);
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "PatchManager.Patch_PassJournal");
+				Logger.Error(e, codePlace);
 			}
 		}
 
@@ -165,6 +177,22 @@ namespace FiresecService
 				return new OperationResult(e.Message);
 			}
 			return new OperationResult();
+		}
+
+		private static void HandleConnectionFailureException(Exception e, string codePlace)
+		{
+			const string msg = "Не удалось подключиться к базе данных";
+			UILogger.Log(String.Format("[*] {0} '{1}' ", msg, ConnectionString));
+			Logger.Error(e, codePlace);
+			BalloonHelper.ShowFromServer(msg);
+		}
+
+		private static void HandleExecutionFailureException(Exception e, string codePlace)
+		{
+			const string msg = "Возникла ошибка при работе с базой данных";
+			UILogger.Log(String.Format("[*] {0}: {1}", msg, (e.InnerException == null) ? e.Message : e.InnerException.Message));
+			Logger.Error(e, codePlace);
+			BalloonHelper.ShowFromServer(msg);
 		}
 	}
 }
