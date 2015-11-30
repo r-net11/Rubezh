@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using System;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SecurityModule.ViewModels
 {
@@ -7,52 +8,65 @@ namespace SecurityModule.ViewModels
 		public RemoteMachineViewModel()
 		{
 			Title = "Задайте имя или адрес компьютера";
-			IsDnsName = true;
 		}
 
-		string _hostNameOrAddress;
+		private string _hostname;
+		public string Hostname
+		{
+			get { return _hostname; }
+			set
+			{
+				if (_hostname == value)
+					return;
+				_hostname = value;
+				OnPropertyChanged(() => Hostname);
+			}
+		}
+
+		private string _address;
+		public string Address
+		{
+			get { return _address; }
+			set
+			{
+				if (_address == value)
+					return;
+				_address = value;
+				OnPropertyChanged(() => Address);
+			}
+		}
+
 		public string HostNameOrAddress
 		{
-			get { return _hostNameOrAddress; }
-			set
-			{
-				_hostNameOrAddress = value;
-				OnPropertyChanged(() => HostNameOrAddress);
-			}
+			get { return (PcIdentificationMode == PcIdentificationMode.Hostname) ? Hostname : Address; }
 		}
 
-		bool _isIpAddress;
-		public bool IsIpAddress
+		private PcIdentificationMode _pcIdentificationMode;
+		public PcIdentificationMode PcIdentificationMode
 		{
-			get { return _isIpAddress; }
+			get { return _pcIdentificationMode; }
 			set
 			{
-				_isIpAddress = value;
-				if (_isIpAddress)
+				if (_pcIdentificationMode == value)
+					return;
+				_pcIdentificationMode = value;
+				switch (value)
 				{
-					HostNameOrAddress = string.Empty;
-					IsDnsName = false;
+					case PcIdentificationMode.Hostname:
+						Address = String.Empty;
+						break;
+					case PcIdentificationMode.IpAddress:
+						Hostname = String.Empty;
+						break;
 				}
-
-				OnPropertyChanged(() => IsIpAddress);
+				OnPropertyChanged(() => PcIdentificationMode);
 			}
 		}
+	}
 
-		bool _isDnsName;
-		public bool IsDnsName
-		{
-			get { return _isDnsName; }
-			set
-			{
-				_isDnsName = value;
-				if (_isDnsName)
-				{
-					HostNameOrAddress = string.Empty;
-					IsIpAddress = false;
-				}
-
-				OnPropertyChanged(() => IsDnsName);
-			}
-		}
+	public enum PcIdentificationMode
+	{
+		Hostname = 0,
+		IpAddress = 1
 	}
 }
