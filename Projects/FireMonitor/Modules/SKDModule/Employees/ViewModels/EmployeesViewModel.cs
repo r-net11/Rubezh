@@ -203,8 +203,7 @@ namespace SKDModule.ViewModels
 			base.OnEdit();
 			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Publish(SelectedItem.Model.UID);
 		}
-
-		
+	
 
 		void OnUpdateIsInGrid(object obj)
 		{

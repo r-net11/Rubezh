@@ -9,6 +9,7 @@ using RubezhAPI.SKD;
 using GKProcessor;
 using RubezhDAL;
 using System.Diagnostics;
+using RubezhClient;
 
 namespace FiresecService.Service
 {
@@ -497,6 +498,14 @@ namespace FiresecService.Service
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.CardTranslator.SavePassTemplate(card);
+			}
+		}
+
+		public OperationResult<List<GKUser>> GetDbDeviceUsers(Guid deviceUID, List<Guid> doorUIDs)
+		{
+			using (var databaseService = new RubezhDAL.DataClasses.DbService())
+			{
+				return databaseService.CardTranslator.GetDbDeviceUsers(deviceUID, doorUIDs);
 			}
 		}
 

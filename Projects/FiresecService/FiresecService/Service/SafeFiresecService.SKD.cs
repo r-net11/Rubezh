@@ -147,7 +147,11 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveCardTemplate(item));
 		}
-        #endregion
+		public OperationResult<List<GKUser>> GetDbDeviceUsers(Guid deviceUID, List<Guid> doorUIDs)
+		{
+			return SafeContext.Execute<OperationResult<List<GKUser>>>(() => FiresecService.GetDbDeviceUsers(deviceUID, doorUIDs));
+		}
+		#endregion
 
 		#region AccessTemplate
 		public OperationResult<List<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter)

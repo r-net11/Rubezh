@@ -477,9 +477,9 @@ namespace FiresecService.Service
 		}
 
 		#region Users
-		public OperationResult<bool> GKGetUsers(Guid gkDeviceUID)
+		public OperationResult<bool> GKGetUsers(Guid deviceUID)
 		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
+			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				var isGk = device.DriverType == GKDriverType.GK;
@@ -489,11 +489,11 @@ namespace FiresecService.Service
 						try
 						{
 							var users = GKSKDHelper.GetAllUsers(device, progressCallback);
-							FiresecService.NotifyOperationResult_GetAllUsers(users, isGk);
+							FiresecService.NotifyOperationResult_GetAllUsers(users, isGk, deviceUID);
 						}
 						catch (Exception e)
 						{
-							FiresecService.NotifyOperationResult_GetAllUsers(OperationResult<List<GKUser>>.FromError(e.Message), isGk);
+							FiresecService.NotifyOperationResult_GetAllUsers(OperationResult<List<GKUser>>.FromError(e.Message), isGk, deviceUID);
 						}
 					}
 				));

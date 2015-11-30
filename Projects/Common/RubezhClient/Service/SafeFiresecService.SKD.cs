@@ -96,7 +96,7 @@ namespace RubezhClient
 		{
 			return SafeContext.Execute<OperationResult<List<Guid>>>(() => FiresecService.GetPositionEmployees(uid));
 		}
-		
+
 		public OperationResult<Position> GetPositionDetails(Guid uid)
 		{
 			return SafeContext.Execute<OperationResult<Position>>(() => FiresecService.GetPositionDetails(uid));
@@ -139,7 +139,7 @@ namespace RubezhClient
 		#endregion
 
 		#region Card
-        public OperationResult<List<SKDCard>> GetCards(CardFilter filter)
+		public OperationResult<List<SKDCard>> GetCards(CardFilter filter)
 		{
 			return SafeContext.Execute<OperationResult<List<SKDCard>>>(() => FiresecService.GetCards(filter));
 		}
@@ -149,7 +149,7 @@ namespace RubezhClient
 		}
 		public OperationResult<List<SKDCard>> GetEmployeeCards(Guid employeeUID)
 		{
-            return SafeContext.Execute<OperationResult<List<SKDCard>>>(() => FiresecService.GetEmployeeCards(employeeUID));
+			return SafeContext.Execute<OperationResult<List<SKDCard>>>(() => FiresecService.GetEmployeeCards(employeeUID));
 		}
 		public OperationResult<bool> AddCard(SKDCard item, string employeeName)
 		{
@@ -171,7 +171,11 @@ namespace RubezhClient
 		{
 			return SafeContext.Execute(() => FiresecService.SaveCardTemplate(item));
 		}
-        #endregion
+		public OperationResult<List<GKUser>> GetDbDeviceUsers(Guid deviceUID, List<Guid> doorUIDs)
+		{
+			return SafeContext.Execute<OperationResult<List<GKUser>>>(() => FiresecService.GetDbDeviceUsers(deviceUID, doorUIDs));
+		}
+		#endregion
 
 		#region AccessTemplate
 		public OperationResult<List<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter)
@@ -297,10 +301,10 @@ namespace RubezhClient
 			return SafeContext.Execute(() => FiresecService.GenerateEmployeeDays());
 		}
 
-        public OperationResult GenerateJournal()
-        {
-            return SafeContext.Execute(() => FiresecService.GenerateJournal());
-        }
+		public OperationResult GenerateJournal()
+		{
+			return SafeContext.Execute(() => FiresecService.GenerateJournal());
+		}
 
 		public OperationResult GenerateTestData(bool isAscending)
 		{

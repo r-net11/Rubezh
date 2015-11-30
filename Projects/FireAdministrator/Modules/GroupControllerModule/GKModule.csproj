@@ -92,6 +92,7 @@
     <Compile Include="Descriptors\Views\DescriptorsMenuView.xaml.cs">
       <DependentUpon>DescriptorsMenuView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Devices\GkUsers\ViewModels\UserViewModel.cs" />
     <Compile Include="Devices\ViewModels\MirrorUserNewModel.cs" />
     <Compile Include="Devices\ViewModels\MirrorUserDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\MirrorUsersViewModel.cs" />
@@ -102,7 +103,7 @@
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ObjectsListViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ObjectViewModel.cs" />
-    <Compile Include="Devices\ViewModels\GKUsersViewModel.cs" />
+    <Compile Include="Devices\GkUsers\ViewModels\GKUsersViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\ClauseGroupViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\StateTypeViewModel.cs" />
     <Compile Include="Devices\ViewModels\MirrorViewModel.cs" />
@@ -122,7 +123,7 @@
     <Compile Include="Devices\Views\DevicesOnShleifView.xaml.cs">
       <DependentUpon>DevicesOnShleifView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\GKUsersView.xaml.cs">
+    <Compile Include="Devices\GkUsers\Views\GKUsersView.xaml.cs">
       <DependentUpon>GKUsersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\Logic\ClausesView.xaml.cs">
@@ -639,6 +640,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Devices\GkUsers\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Devices\Views\MirrorUserDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -659,7 +664,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\GKUsersView.xaml">
+    <Page Include="Devices\GkUsers\Views\GKUsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

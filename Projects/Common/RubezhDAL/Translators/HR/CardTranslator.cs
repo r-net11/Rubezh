@@ -460,5 +460,45 @@ namespace RubezhDAL.DataClasses
 				return new OperationResult(e.Message);
 			}
 		}
+
+		public OperationResult<List<RubezhAPI.GK.GKUser>> GetDbDeviceUsers(Guid deviceUID, List<Guid> deviceDoorUIDs)
+		{
+			try
+			{
+				var tableUsers = Table
+					.Include(x => x.Employee)
+					.Include(x => x.GKControllerUIDs)
+					.Include(x => x.CardDoors)
+					.Include(x => x.AccessTemplate.CardDoors)
+					.Where(x => x.GKControllerUIDs.Any(gkControllerUID => gkControllerUID.GKControllerUID == deviceUID)
+						|| x.CardDoors.Any(cardDoor => deviceDoorUIDs.Any( doorUID => doorUID == cardDoor.DoorUID)))
+					.Select(x => new 
+						{
+							ExpirationDate = x.EndDate,
+							FirstName = x.Employee.FirstName,
+							SecondName = x.Employee.SecondName,
+							LastName = x.Employee.LastName,
+							GkLevel = x.GKLevel,
+							GkLevelSchedule = x.GKLevelSchedule,
+							UserType = x.GKCardType,
+							Password = x.Number
+						})
+					.OrderBy(x => x.Password).ToList();
+				var users = tableUsers.Select(x => new RubezhAPI.GK.GKUser
+					{
+						ExpirationDate = x.ExpirationDate,
+						Fio = x.LastName + " " + x.FirstName + " " + x.SecondName,
+						GkLevel = (byte)x.GkLevel,
+						GkLevelSchedule = (byte)x.GkLevelSchedule,
+						Password = (uint)x.Password,
+						UserType = (RubezhAPI.GK.GKCardType)x.UserType
+					}).ToList();
+				return new OperationResult<List<RubezhAPI.GK.GKUser>>(users);
+			}
+			catch(Exception e)
+			{
+				return OperationResult<List<RubezhAPI.GK.GKUser>>.FromError(e.Message);
+			}
+		}
 	}
 }

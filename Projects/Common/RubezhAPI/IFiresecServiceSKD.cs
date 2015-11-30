@@ -109,6 +109,9 @@ namespace RubezhAPI
 
 		[OperationContract]
 		OperationResult SaveCardTemplate(SKDCard card);
+
+		[OperationContract]
+		OperationResult<List<GKUser>> GetDbDeviceUsers(Guid deviceUID, List<Guid> deviceUIDs);
 		#endregion
 
 		#region AccessTemplate
