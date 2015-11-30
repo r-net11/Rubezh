@@ -15,6 +15,7 @@ namespace FiresecService
 	{
 		private static void Patch_SKD()
 		{
+			const string codePlace = "PatchManager.Patch_SKD";
 			try
 			{
 				var server = new Server(new ServerConnection(new SqlConnection(ConnectionString)));
@@ -23,36 +24,18 @@ namespace FiresecService
 					CreateSKD(server);
 				}
 				PatchSKDInternal(server);
-
-				//var random = new Random();
-				//for (int i = 0; i < Int32.MaxValue; i++)
-				//{
-				//	var journalItem = new JournalItem();
-				//	journalItem.DeviceDateTime = DateTime.Now.AddMinutes(-i);
-				//	journalItem.SystemDateTime = DateTime.Now.AddMinutes(-i);
-				//	journalItem.JournalEventNameType = (JournalEventNameType)random.Next(100);
-				//	journalItem.JournalEventDescriptionType = (JournalEventDescriptionType)random.Next(100);
-				//	journalItem.ObjectUID = Guid.NewGuid();
-				//	DBHelper.Add(journalItem);
-				//}
 			}
 			catch (ConnectionFailureException e)
 			{
-				const string msg = "Не удалось подключиться к базе данных";
-				UILogger.Log(String.Format("{0} '{1}' ", msg, ConnectionString));
-				Logger.Error(e, "PatchManager.Patch_SKD");
-				BalloonHelper.ShowFromServer(msg);
+				HandleConnectionFailureException(e, codePlace);
 			}
 			catch (ExecutionFailureException e)
 			{
-				const string msg = "Возникла ошибка при работе с базой данных";
-				UILogger.Log(String.Format("{0}: {1}", msg, (e.InnerException == null) ? e.Message : e.InnerException.Message));
-				Logger.Error(e, "PatchManager.Patch_SKD");
-				BalloonHelper.ShowFromServer(msg);
+				HandleExecutionFailureException(e, codePlace);
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "PatchManager.Patch_SKD");
+				Logger.Error(e, codePlace);
 			}
 		}
 
