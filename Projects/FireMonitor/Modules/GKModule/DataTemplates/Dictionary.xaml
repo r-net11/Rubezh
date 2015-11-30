@@ -183,4 +183,8 @@
 		<Views:ReflectionPageView />
 	</DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:DevicesPageViewModel}">
+		<Views:DevicesPageView />
+	</DataTemplate>
+
 </ResourceDictionary>
