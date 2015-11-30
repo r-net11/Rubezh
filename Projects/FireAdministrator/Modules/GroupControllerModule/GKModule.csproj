@@ -92,7 +92,7 @@
     <Compile Include="Descriptors\Views\DescriptorsMenuView.xaml.cs">
       <DependentUpon>DescriptorsMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\GkUsers\ViewModels\UserViewModel.cs" />
+    <Compile Include="Devices\GkUsers\ViewModels\GKUserViewModel.cs" />
     <Compile Include="Devices\ViewModels\MirrorUserNewModel.cs" />
     <Compile Include="Devices\ViewModels\MirrorUserDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\MirrorUsersViewModel.cs" />

@@ -49,6 +49,8 @@ namespace GKModule.ViewModels
 			{
 				MessageBoxService.ShowWarning(result.Error, "Ошибка при перезаписи пользователей");
 			}
+			else
+				Close();
 		}
 
 		List<GKUser> UnionUsers(List<GKUser> deviceUsers, List<GKUser> dbUsers)
