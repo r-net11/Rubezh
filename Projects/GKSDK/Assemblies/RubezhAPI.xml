@@ -944,11 +944,6 @@
             Идентификаторы зон
             </summary>
         </member>
-        <member name="P:RubezhAPI.GK.GKDevice.GuardZoneUIDs">
-            <summary>
-            Идентификаторы охранных зон
-            </summary>
-        </member>
         <member name="P:RubezhAPI.GK.GKDevice.Logic">
             <summary>
             Логика сработки
@@ -1482,7 +1477,7 @@
         </member>
         <member name="P:RubezhAPI.GK.GKUser.GkNo">
             <summary>
-            Порядковый номер в ГК
+            Порядковый номер в ГК, при добавлении определяется автоматически
             </summary>
         </member>
         <member name="P:RubezhAPI.GK.GKUser.Password">
