@@ -26,6 +26,7 @@ using System.Text;
 using RubezhAPI.GK;
 using RubezhAPI.Models.Layouts;
 using LayoutModule.LayoutParts.ViewModels;
+using System.Linq;
 
 namespace GKModule
 {
@@ -52,19 +53,35 @@ namespace GKModule
 		{
 			ServiceFactory.Events.GetEvent<CreateGKZoneEvent>().Subscribe(OnCreateGKZone);
 			ServiceFactory.Events.GetEvent<EditGKZoneEvent>().Subscribe(OnEditGKZone);
+			ServiceFactory.Events.GetEvent<SelectGKZoneEvent>().Subscribe(OnSelectGKZone);
+			ServiceFactory.Events.GetEvent<SelectGKZonesEvent>().Subscribe(OnSelectGKZones);
 			ServiceFactory.Events.GetEvent<CreateGKGuardZoneEvent>().Subscribe(OnCreateGKGuardZone);
 			ServiceFactory.Events.GetEvent<EditGKGuardZoneEvent>().Subscribe(OnEditGKGuardZone);
+			ServiceFactory.Events.GetEvent<SelectGKGuardZoneEvent>().Subscribe(OnSelectGKGuardZone);
+			ServiceFactory.Events.GetEvent<SelectGKGuardZonesEvent>().Subscribe(OnSelectGKGuardZones);
 			ServiceFactory.Events.GetEvent<CreateGKSKDZoneEvent>().Subscribe(OnCreateSKDZone);
 			ServiceFactory.Events.GetEvent<EditGKSKDZoneEvent>().Subscribe(OnEditSKDZone);
 			ServiceFactory.Events.GetEvent<CreateGKDelayEvent>().Subscribe(OnCreateGKDelay);
 			ServiceFactory.Events.GetEvent<EditGKDelayEvent>().Subscribe(OnEditGKDelay);
+			ServiceFactory.Events.GetEvent<SelectGKDelayEvent>().Subscribe(OnSelectGKDelay);
+			ServiceFactory.Events.GetEvent<SelectGKDelaysEvent>().Subscribe(OnSelectGKDelays);
 			ServiceFactory.Events.GetEvent<CreateGKDirectionEvent>().Subscribe(OnCreateGKDirection);
 			ServiceFactory.Events.GetEvent<EditGKDirectionEvent>().Subscribe(OnEditGKDirection);
+			ServiceFactory.Events.GetEvent<SelectGKDirectionEvent>().Subscribe(OnSelectGKDirection);
+			ServiceFactory.Events.GetEvent<SelectGKDirectionsEvent>().Subscribe(OnSelectGKDirections);
 			ServiceFactory.Events.GetEvent<CreateGKMPTEvent>().Subscribe(OnCreateGKMPT);
 			ServiceFactory.Events.GetEvent<EditGKMPTEvent>().Subscribe(OnEditGKMPT);
+			ServiceFactory.Events.GetEvent<SelectGKMPTEvent>().Subscribe(OnSelectGKMPT);
+			ServiceFactory.Events.GetEvent<SelectGKMPTsEvent>().Subscribe(OnSelectGKMPTs);
 			ServiceFactory.Events.GetEvent<CreateGKDoorEvent>().Subscribe(OnCreateGKDoor);
 			ServiceFactory.Events.GetEvent<EditGKDoorEvent>().Subscribe(OnEditGKDoor);
+			ServiceFactory.Events.GetEvent<SelectGKDoorEvent>().Subscribe(OnSelectGKDoor);
+			ServiceFactory.Events.GetEvent<SelectGKDoorsEvent>().Subscribe(OnSelectGKDoors);
 			ServiceFactory.Events.GetEvent<CreateGKCodeEvent>().Subscribe(OnCreateGKCode);
+			ServiceFactory.Events.GetEvent<SelectGKDeviceEvent>().Subscribe(OnSelectGKDevice);
+			ServiceFactory.Events.GetEvent<SelectGKDevicesEvent>().Subscribe(OnSelectGKDevices);
+			ServiceFactory.Events.GetEvent<SelectGKPumpStationEvent>().Subscribe(OnSelectGKPumpStation);
+			ServiceFactory.Events.GetEvent<SelectGKPumpStationsEvent>().Subscribe(OnSelectGKPumpStations);
 
 			DevicesViewModel = new DevicesViewModel();
 			ParameterTemplatesViewModel = new ParameterTemplatesViewModel();
@@ -146,24 +163,23 @@ namespace GKModule
 		public override void RegisterResource()
 		{
 			base.RegisterResource();
-			var resourceService = new ResourceService();
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Delays/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Descriptors/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DeviceLibrary/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Devices/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Diagnostics/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Directions/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Guard/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Journal/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "MPTs/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "OPC/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Parameters/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PumpStation/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Selectation/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "SKD/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Devices/PmfUsers/DataTemplates/Dictionary.xaml"));
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Delays/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Descriptors/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "DeviceLibrary/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Devices/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Diagnostics/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Directions/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Guard/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Journal/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "MPTs/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OPC/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Parameters/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "PumpStation/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Selectation/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "SKD/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Devices/PmfUsers/DataTemplates/Dictionary.xaml");
 		}
 
 		#region IValidationModule Members
@@ -182,7 +198,21 @@ namespace GKModule
 		{
 			ZonesViewModel.EditZone(zoneUID);
 		}
-
+		void OnSelectGKZone(SelectGKZoneEventArg selectZoneEventArg)
+		{
+			var zoneSelectionViewModel = new ZoneSelectionViewModel(selectZoneEventArg.Zone);
+			selectZoneEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(zoneSelectionViewModel);
+			selectZoneEventArg.Zone = selectZoneEventArg.Cancel || zoneSelectionViewModel.SelectedZone == null ?
+				null :
+				zoneSelectionViewModel.SelectedZone.Zone;
+		}
+		void OnSelectGKZones(SelectGKZonesEventArg selectZonesEventArg)
+		{
+			var zonesSelectionViewModel = new ZonesSelectationViewModel(selectZonesEventArg.Zones);
+			selectZonesEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(zonesSelectionViewModel);
+			selectZonesEventArg.Zones = zonesSelectionViewModel.TargetZones.ToList();
+		}
+		
 		private void OnCreateGKGuardZone(CreateGKGuardZoneEventArg createZoneEventArg)
 		{
 			GuardZonesViewModel.CreateZone(createZoneEventArg);
@@ -190,6 +220,20 @@ namespace GKModule
 		private void OnEditGKGuardZone(Guid zoneUID)
 		{
 			GuardZonesViewModel.EditZone(zoneUID);
+		}
+		void OnSelectGKGuardZone(SelectGKGuardZoneEventArg selectGuardZoneEventArg)
+		{
+			var zoneSelectionViewModel = new GuardZoneSelectionViewModel(selectGuardZoneEventArg.GuardZone);
+			selectGuardZoneEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(zoneSelectionViewModel);
+			selectGuardZoneEventArg.GuardZone = selectGuardZoneEventArg.Cancel || zoneSelectionViewModel.SelectedZone == null ?
+				null :
+				zoneSelectionViewModel.SelectedZone.Zone;
+		}
+		void OnSelectGKGuardZones(SelectGKGuardZonesEventArg selectGuardZonesEventArg)
+		{
+			var zonesSelectionViewModel = new GuardZonesSelectationViewModel(selectGuardZonesEventArg.GuardZones);
+			selectGuardZonesEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(zonesSelectionViewModel);
+			selectGuardZonesEventArg.GuardZones = zonesSelectionViewModel.TargetZones.ToList();
 		}
 
 		public void OnCreateGKDelay(CreateGKDelayEventArgs createDelayEventArg)
@@ -201,6 +245,20 @@ namespace GKModule
 		{
 			DelaysViewModel.EditDelay(delayUID);
 		}
+		void OnSelectGKDelay(SelectGKDelayEventArg selectDelayEventArg)
+		{
+			var delaySelectionViewModel = new DelaySelectionViewModel(selectDelayEventArg.Delay);
+			selectDelayEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(delaySelectionViewModel);
+			selectDelayEventArg.Delay = selectDelayEventArg.Cancel || delaySelectionViewModel.SelectedDelay == null ?
+				null :
+				delaySelectionViewModel.SelectedDelay.Delay;
+		}
+		void OnSelectGKDelays(SelectGKDelaysEventArg selectDelaysEventArg)
+		{
+			var delaysSelectionViewModel = new DelaysSelectationViewModel(selectDelaysEventArg.Delays);
+			selectDelaysEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(delaysSelectionViewModel);
+			selectDelaysEventArg.Delays = delaysSelectionViewModel.TargetDelays.ToList();
+		}
 
 		private void OnCreateGKDirection(CreateGKDirectionEventArg createDirectionEventArg)
 		{
@@ -209,6 +267,20 @@ namespace GKModule
 		private void OnEditGKDirection(Guid directionUID)
 		{
 			DirectionsViewModel.EditDirection(directionUID);
+		}
+		void OnSelectGKDirection(SelectGKDirectionEventArg selectDirectionEventArg)
+		{
+			var directionSelectionViewModel = new DirectionSelectionViewModel(selectDirectionEventArg.Direction);
+			selectDirectionEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(directionSelectionViewModel);
+			selectDirectionEventArg.Direction = selectDirectionEventArg.Cancel || directionSelectionViewModel.SelectedDirection == null ?
+				null :
+				directionSelectionViewModel.SelectedDirection.Direction;
+		}
+		void OnSelectGKDirections(SelectGKDirectionsEventArg selectDirectionsEventArg)
+		{
+			var directionsSelectionViewModel = new DirectionsSelectationViewModel(selectDirectionsEventArg.Directions);
+			selectDirectionsEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(directionsSelectionViewModel);
+			selectDirectionsEventArg.Directions = directionsSelectionViewModel.TargetDirections.ToList();
 		}
 
 		private void OnCreateGKMPT(CreateGKMPTEventArg createMPTEventArg)
@@ -219,6 +291,20 @@ namespace GKModule
 		{
 			MPTsViewModel.EditMPT(mptUID);
 		}
+		void OnSelectGKMPT(SelectGKMPTEventArg selectMPTEventArg)
+		{
+			var mptSelectionViewModel = new MPTSelectionViewModel(selectMPTEventArg.MPT);
+			selectMPTEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(mptSelectionViewModel);
+			selectMPTEventArg.MPT = selectMPTEventArg.Cancel || mptSelectionViewModel.SelectedMPT == null ?
+				null :
+				mptSelectionViewModel.SelectedMPT.MPT;
+		}
+		void OnSelectGKMPTs(SelectGKMPTsEventArg selectMPTsEventArg)
+		{
+			var mptsSelectionViewModel = new MPTsSelectationViewModel(selectMPTsEventArg.MPTs);
+			selectMPTsEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(mptsSelectionViewModel);
+			selectMPTsEventArg.MPTs = mptsSelectionViewModel.TargetMPTs.ToList();
+		}
 
 		private void OnCreateGKDoor(CreateGKDoorEventArg createGKDoorEventArg)
 		{
@@ -228,6 +314,21 @@ namespace GKModule
 		{
 			DoorsViewModel.EditDoor(doorUID);
 		}
+		void OnSelectGKDoor(SelectGKDoorEventArg selectDoorEventArg)
+		{
+			var doorSelectionViewModel = new GKDoorSelectionViewModel(selectDoorEventArg.Door);
+			selectDoorEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(doorSelectionViewModel);
+			selectDoorEventArg.Door = selectDoorEventArg.Cancel || doorSelectionViewModel.SelectedDoor == null ?
+				null :
+				doorSelectionViewModel.SelectedDoor.Door;
+		}
+		void OnSelectGKDoors(SelectGKDoorsEventArg selectDoorsEventArg)
+		{
+			var doorsSelectionViewModel = new DoorsSelectationViewModel(selectDoorsEventArg.Doors);
+			selectDoorsEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(doorsSelectionViewModel);
+			selectDoorsEventArg.Doors = doorsSelectionViewModel.TargetDoors.ToList();
+		}
+
 		private void OnCreateSKDZone(CreateGKSKDZoneEventArg createZoneEventArg)
 		{
 			SKDZonesViewModel.CreateZone(createZoneEventArg);
@@ -239,6 +340,36 @@ namespace GKModule
 		private void OnCreateGKCode(CreateGKCodeEventArg createGKCodeEventArg)
 		{
 			CodesViewModel.CreateCode(createGKCodeEventArg);
+		}
+		
+		void OnSelectGKDevice(SelectGKDeviceEventArg selectDeviceEventArg)
+		{
+			var deviceSelectionViewModel = new DeviceSelectionViewModel(selectDeviceEventArg.Device);
+			selectDeviceEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(deviceSelectionViewModel);
+			selectDeviceEventArg.Device = selectDeviceEventArg.Cancel || deviceSelectionViewModel.SelectedDevice == null ?
+				null :
+				deviceSelectionViewModel.SelectedDevice.Device;
+		}
+		void OnSelectGKDevices(SelectGKDevicesEventArg selectDevicesEventArg)
+		{
+			var devicesSelectionViewModel = new DevicesSelectationViewModel(selectDevicesEventArg.Devices);
+			selectDevicesEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(devicesSelectionViewModel);
+			selectDevicesEventArg.Devices = devicesSelectionViewModel.DevicesList;
+		}
+
+		void OnSelectGKPumpStation(SelectGKPumpStationEventArg selectPumpStationEventArg)
+		{
+			var pumpStationSelectionViewModel = new PumpStationSelectionViewModel(selectPumpStationEventArg.PumpStation);
+			selectPumpStationEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(pumpStationSelectionViewModel);
+			selectPumpStationEventArg.PumpStation = selectPumpStationEventArg.Cancel || pumpStationSelectionViewModel.SelectedPumpStation == null ?
+				null :
+				pumpStationSelectionViewModel.SelectedPumpStation.PumpStation;
+		}
+		void OnSelectGKPumpStations(SelectGKPumpStationsEventArg selectPumpStationsEventArg)
+		{
+			var pumpStationsSelectionViewModel = new PumpStationsSelectationViewModel(selectPumpStationsEventArg.PumpStations);
+			selectPumpStationsEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(pumpStationsSelectionViewModel);
+			selectPumpStationsEventArg.PumpStations = pumpStationsSelectionViewModel.TargetPumpStations.ToList();
 		}
 
 		public override void AfterInitialize()
@@ -370,16 +501,16 @@ namespace GKModule
 		{
 			Converter<ILayoutProperties, BaseLayoutPartViewModel> factory = (p) => new LayoutPartWithAdditioanlPropertiesViewModel(p as LayoutPartAdditionalProperties);
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Indicator, 110, "Индикаторы", "Панель индикаторов состояния", "BAlarm.png", false, new LayoutPartSize() { PreferedSize = new Size(1000, 100) });
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.ConnectionIndicator, 111, "Индикатор связи", "Панель индикаторов связи", "BConnectionIndicator.png", true, new LayoutPartSize() { PreferedSize = new Size(50, 30) });
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Alarms, 112, "Состояния", "Панель состояний", "BAlarm.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.GDevices, 113, "Устройства", "Панель с устройствами", "BTree.png") { Factory = factory };
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Zones, 114, "Зоны", "Панель зон", "BZones.png") { Factory = factory };
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.GuardZones, 115, "Охранные зоны", "Панель охранных зон", "BZones.png") { Factory = factory };
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Directions, 116, "Направления", "Панель направления", "BDirection.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.PumpStations, 117, "НС", "Панель НС", "BPumpStation.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.MPTs, 118, "МПТ", "Панель МПТ", "BMPT.png") { Factory = factory };
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Delays, 119, "Задержки", "Панель задержек", "Delay.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Doors, 120, "Точки доступа", "Панель точек досткпа", "Door.png") { Factory = factory };
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.ConnectionIndicator, 111, "Индикатор связи", "Панель индикаторов связи", "BConnectionIndicator.png", false, new LayoutPartSize() { PreferedSize = new Size(50, 30) });
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Alarms, 112, "Состояния", "Панель состояний", "BAlarm.png", false);
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.GDevices, 113, "Устройства", "Панель с устройствами", "BTree.png",false) { Factory = factory };
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Zones, 114, "Зоны", "Панель зон", "BZones.png",false) { Factory = factory };
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.GuardZones, 115, "Охранные зоны", "Панель охранных зон", "BZones.png",false) { Factory = factory };
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Directions, 116, "Направления", "Панель направления", "BDirection.png",false);
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.PumpStations, 117, "НС", "Панель НС", "BPumpStation.png",false);
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.MPTs, 118, "МПТ", "Панель МПТ", "BMPT.png",false) { Factory = factory };
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Delays, 119, "Задержки", "Панель задержек", "Delay.png",false);
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Doors, 120, "Точки доступа", "Панель точек досткпа", "Door.png",false) { Factory = factory };
 		}
 		#endregion
 	}

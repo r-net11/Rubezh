@@ -14,10 +14,16 @@ namespace GKWebService.Models
 		public bool IsChecked { get; set; }
 		public bool IsSelected { get; set; }
 		public bool HasExit { get; private set; }
-		public List<CardScheduleItem> EnterSchedules { get; set; }
-		public CardScheduleItem SelectedEnterSchedule { get; set; }
-		public List<CardScheduleItem> ExitSchedules { get; set; }
-		public CardScheduleItem SelectedExitSchedule { get; set; }
+		public List<CardScheduleItemModel> EnterSchedules { get; set; }
+		public CardScheduleItemModel SelectedEnterSchedule { get; set; }
+		public int? SelectedEnterScheduleNo { get; set; }
+		public List<CardScheduleItemModel> ExitSchedules { get; set; }
+		public CardScheduleItemModel SelectedExitSchedule { get; set; }
+		public int? SelectedExitScheduleNo { get; set; }
+
+		public AccessDoorModel()
+		{
+		}
 
 		public AccessDoorModel(GKDoor door, List<CardDoor> cardDoors, List<GKSchedule> schedules)
 		{
@@ -25,40 +31,49 @@ namespace GKWebService.Models
 			PresentationName = door.PresentationName;
 			HasExit = door.DoorType != GKDoorType.OneWay;
 
-			EnterSchedules = new List<CardScheduleItem>();
-			ExitSchedules = new List<CardScheduleItem>();
+			EnterSchedules = new List<CardScheduleItemModel>();
+			ExitSchedules = new List<CardScheduleItemModel>();
 			if (schedules != null)
 			{
-				EnterSchedules = new List<CardScheduleItem>(from o in schedules
+				EnterSchedules = new List<CardScheduleItemModel>(from o in schedules
 																			orderby o.No ascending
-																			select new CardScheduleItem(o.No, o.Name));
-				ExitSchedules = new List<CardScheduleItem>(from o in schedules
+																			select new CardScheduleItemModel(o.No, o.Name));
+				ExitSchedules = new List<CardScheduleItemModel>(from o in schedules
 																		   orderby o.No ascending
-																		   select new CardScheduleItem(o.No, o.Name));
+																		   select new CardScheduleItemModel(o.No, o.Name));
 			}
 
 			var cardDoor = cardDoors.FirstOrDefault(x => x.DoorUID == DoorUID);
+			CardScheduleItemModel selectedEnterSchedule;
+			CardScheduleItemModel selectedExitSchedule;
 			if (cardDoor != null)
 			{
 				IsChecked = true;
-				SelectedEnterSchedule = EnterSchedules.FirstOrDefault(x => x.ScheduleNo == cardDoor.EnterScheduleNo);
-				if (SelectedEnterSchedule == null)
-					SelectedEnterSchedule = EnterSchedules.FirstOrDefault();
-				SelectedExitSchedule = ExitSchedules.FirstOrDefault(x => x.ScheduleNo == cardDoor.ExitScheduleNo);
-				if (SelectedExitSchedule == null)
-					SelectedExitSchedule = ExitSchedules.FirstOrDefault();
+				selectedEnterSchedule = EnterSchedules.FirstOrDefault(x => x.ScheduleNo == cardDoor.EnterScheduleNo);
+				if (selectedEnterSchedule == null)
+					selectedEnterSchedule = EnterSchedules.FirstOrDefault();
+				selectedExitSchedule = ExitSchedules.FirstOrDefault(x => x.ScheduleNo == cardDoor.ExitScheduleNo);
+				if (selectedExitSchedule == null)
+					selectedExitSchedule = ExitSchedules.FirstOrDefault();
 			}
 			else
 			{
-				SelectedEnterSchedule = EnterSchedules.FirstOrDefault();
-				SelectedExitSchedule = ExitSchedules.FirstOrDefault();
+				selectedEnterSchedule = EnterSchedules.FirstOrDefault();
+				selectedExitSchedule = ExitSchedules.FirstOrDefault();
 			}
+
+			SelectedEnterScheduleNo = (selectedEnterSchedule == null ? null : (int?)selectedEnterSchedule.ScheduleNo);
+			SelectedExitScheduleNo = (selectedExitSchedule == null ? null : (int?)selectedExitSchedule.ScheduleNo);
 		}
 	}
 
-	public class CardScheduleItem
+	public class CardScheduleItemModel
 	{
-		public CardScheduleItem(int scheduleNo, string name)
+		public CardScheduleItemModel()
+		{
+		}
+
+		public CardScheduleItemModel(int scheduleNo, string name)
 		{
 			ScheduleNo = scheduleNo;
 			Name = name;

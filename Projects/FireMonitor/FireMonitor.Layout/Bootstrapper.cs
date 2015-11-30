@@ -89,7 +89,7 @@ namespace FireMonitor.Layout
 
 				if (_layout == null)
 				{
-					ServiceFactory.ResourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
+					ServiceFactory.ResourceService.AddResource(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml");
 					_layout = SelectLayout(layouts);
 				}
 

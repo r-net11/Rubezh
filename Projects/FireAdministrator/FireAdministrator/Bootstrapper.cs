@@ -25,7 +25,7 @@ namespace FireAdministrator
 			LoadingErrorManager.Clear();
 			ServiceFactory.Initialize(new LayoutService(), new ValidationService());
 			var assembly = GetType().Assembly;
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(assembly, "DataTemplates/Dictionary.xaml"));
+			ServiceFactory.ResourceService.AddResource(assembly, "DataTemplates/Dictionary.xaml");
 			ServiceFactory.StartupService.Show();
 			if (ServiceFactory.StartupService.PerformLogin())
 			{
