@@ -35,8 +35,6 @@ namespace FireMonitor.Layout.ViewModels
 		public void UpdateLayout(LayoutModel layout)
 		{
 			Layout = layout;
-			if (Bootstrapper.ChangeLayout != null)
-				Bootstrapper.ChangeLayout(layout);
 			if (LayoutChanging != null)
 				LayoutChanging(this, EventArgs.Empty);
 			if (Layout != null && Manager != null)
