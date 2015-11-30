@@ -3,11 +3,14 @@ using RubezhAPI.Journal;
 using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
+using System.Windows;
 
 namespace JournalModule.ViewModels
 {
 	public class ConfirmationViewModel : DialogViewModel
 	{
+		static Window parentWindow;
 		DateTime StartDateTime = DateTime.Now;
 
 		public ConfirmationViewModel(JournalItem journalItem)
@@ -15,7 +18,10 @@ namespace JournalModule.ViewModels
 			Title = "Подтверждение критических событий";
 			ConfirmCommand = new RelayCommand(OnConfirm);
 			JournalItemViewModel = new JournalItemViewModel(journalItem);
-		}
+
+			if (parentWindow == null)
+				parentWindow = DialogService.GetActiveWindow();
+        }
 
 		public JournalItemViewModel JournalItemViewModel { get; private set; }
 
@@ -24,7 +30,12 @@ namespace JournalModule.ViewModels
 		{
 			Close();
 		}
-
+		public override void OnLoad()
+		{
+			Surface.Owner = parentWindow;
+			Surface.ShowInTaskbar = Surface.Owner == null;
+			Surface.WindowStartupLocation = Surface.Owner == null ? WindowStartupLocation.CenterScreen : WindowStartupLocation.CenterOwner;
+		}
 		public override void OnClosed()
 		{
 			var deltaSeconds = (int)(DateTime.Now - StartDateTime).TotalSeconds;
