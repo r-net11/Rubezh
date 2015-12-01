@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace GKModule.ViewModels
 {
-	class ReportFilterDeviceViewModel: TreeNodeViewModel<ReportFilterDeviceViewModel>
+	class ReportFilterDeviceViewModel : TreeNodeViewModel<ReportFilterDeviceViewModel>
 	{
 		public GKDevice Device { get; private set; }
 		public ReportFilterDeviceViewModel(GKDevice device)
@@ -23,15 +23,13 @@ namespace GKModule.ViewModels
 				{
 					child.IsChecked = value;
 				}
+				if (Parent != null)
 				{
-					if (Parent != null)
-					{
-						Parent.UpdateParent();
-					}
+					Parent.UpdateParent();
 				}
 			}
 		}
-		public void UpdateParent()
+		void UpdateParent()
 		{
 			_isChecked = Children.All(x => x.IsChecked);
 			OnPropertyChanged(() => IsChecked);

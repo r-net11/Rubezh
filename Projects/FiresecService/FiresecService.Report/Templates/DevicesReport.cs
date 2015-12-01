@@ -13,10 +13,6 @@ namespace FiresecService.Report.Templates
 		{
 			InitializeComponent();
 		}
-		protected override bool ForcedLandscape
-		{
-			get { return true; }
-		}
 		protected override bool IsNotDataBase
 		{
 			get { return true; }

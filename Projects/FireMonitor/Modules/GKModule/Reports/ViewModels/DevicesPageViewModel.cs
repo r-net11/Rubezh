@@ -84,11 +84,7 @@ namespace GKModule.ViewModels
 				return;
 			if (!filter.IsDefault)
 			{
-				foreach (var gkDevice in devicesFilter.SelectedDevices)
-				{
-					if (AllDevices.FirstOrDefault(x => x.Device == gkDevice) != null)
-						AllDevices.FirstOrDefault(x => x.Device == gkDevice).IsChecked = true;
-				}
+				AllDevices.ForEach(device => device.IsChecked = devicesFilter.SelectedDevices.Contains(device.Device));
 			}
 			else
 			{
