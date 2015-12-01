@@ -1419,6 +1419,24 @@ IF EXISTS(SELECT * FROM Patches WHERE Id='RemoveGKCardTypeColumn')
 GO
 IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='dbo' AND TABLE_NAME='GKScheduleDay')
 	BEGIN
+	exec [dbo].[sp_executesql] @statement = N'
+	CREATE PROCEDURE [dbo].[DropColumnDefaultConstraint]
+	(
+		@tableName VARCHAR(MAX),
+		@columnName VARCHAR(MAX)
+	)
+	AS
+	BEGIN
+	DECLARE @ConstraintName nvarchar(200)
+	SELECT @ConstraintName = UID 
+	FROM SYS.DEFAULT_CONSTRAINTS
+	WHERE PARENT_OBJECT_ID = OBJECT_ID(@tableName) 
+	AND PARENT_COLUMN_ID = (
+		SELECT column_id FROM sys.columns
+		WHERE NAME = @columnName AND object_id = OBJECT_ID(@tableName))
+	IF @ConstraintName IS NOT NULL
+		EXEC(''ALTER TABLE ''+@tableName+'' DROP CONSTRAINT '' + @ConstraintName)
+	END'
 		DROP TABLE GKScheduleDay
 	END
 GO
@@ -1429,6 +1447,24 @@ IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='dbo' AND T
 GO
 IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='dbo' AND TABLE_NAME='GKSchedule')
 	BEGIN
+	exec [dbo].[sp_executesql] @statement = N'
+	CREATE PROCEDURE [dbo].[DropColumnDefaultConstraintGKSchedule2]
+	(
+		@tableName VARCHAR(MAX),
+		@columnName VARCHAR(MAX)
+	)
+	AS
+	BEGIN
+	DECLARE @ConstraintName nvarchar(200)
+	SELECT @ConstraintName = name
+	FROM SYS.DEFAULT_CONSTRAINTS
+	WHERE PARENT_OBJECT_ID = OBJECT_ID(@tableName) 
+	AND PARENT_COLUMN_ID = (
+		SELECT column_id FROM sys.columns
+		WHERE NAME = @columnName AND object_id = OBJECT_ID(@tableName))
+	IF @ConstraintName IS NOT NULL
+		EXEC(''ALTER TABLE ''+@tableName+'' DROP CONSTRAINT '' + @ConstraintName)
+	END'
 		DROP TABLE GKSchedule
 	END
 GO
