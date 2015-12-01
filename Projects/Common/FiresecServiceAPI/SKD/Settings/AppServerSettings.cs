@@ -15,7 +15,6 @@ namespace FiresecAPI
 			EnableRemoteConnections = false;
 			UseHasp = false;
 			CreateNewDBOnOversize = true;
-			EnableOfflineLog = true;
 
 			DBServerAddress = ".";
 			DBServerPort = 1433;
