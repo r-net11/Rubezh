@@ -14,13 +14,13 @@
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="200" />
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
 				<Controls:ToolBarButton Grid.Column="0" Command="{Binding ShowFilterCommand}" ToolTip="Задать фильтр" ImageSource="Filter" IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}" />
 				<Controls:ToolBarButton Grid.Column="1" Command="{Binding RefreshCommand}" ToolTip="Обновить" ImageSource="Refresh" IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}" />
-				<StackPanel Grid.Column="2" HorizontalAlignment="Center"  Orientation="Horizontal" 
+				<StackPanel Grid.Column="2" HorizontalAlignment="Left" Orientation="Horizontal"
 							Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}" >
 					<Controls:SpinnerCogs VerticalAlignment="Center" />
 					<TextBlock Text="Загрузка" Style="{DynamicResource TextBlockDetailsStyle}" FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
