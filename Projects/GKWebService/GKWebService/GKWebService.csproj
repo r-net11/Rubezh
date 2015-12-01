@@ -21,6 +21,7 @@
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -105,19 +106,19 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Http, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
@@ -133,13 +134,13 @@
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
       <HintPath>..\packages\WebActivatorEx.2.0.6\lib\net40\WebActivatorEx.dll</HintPath>
       <Private>True</Private>
@@ -318,6 +319,7 @@
     <Content Include="Scripts\app\controllers\signalrCtrl.js" />
     <Content Include="Scripts\app\controllers\planCtrl.js" />
     <Content Include="Scripts\app\directives\d3Plan.js" />
+    <Content Include="Scripts\app\directives\ngJqGrid.js" />
     <Content Include="Scripts\app\services\signalrService.js" />
     <Content Include="Scripts\app\signalr\plansUpdaterHub.js" />
     <Content Include="Scripts\archive.js" />
@@ -447,7 +449,9 @@
     <Compile Include="Controllers\HrController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
     <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
+    <Compile Include="Models\FireZone\FireZone.cs" />
     <Compile Include="Utils\InernalConverter.cs" />
     <Compile Include="DataProviders\Plan\PlansDataProvider.cs" />
     <Compile Include="DataProviders\Plan\PlansUpdater.cs" />
