@@ -28,7 +28,13 @@ namespace StrazhModule.ViewModels
 			EnumProperties = new List<EnumPropertyViewModel>();
 			if (Device != null)
 			{
-				foreach (var driverProperty in Device.Driver.Properties)
+				foreach (var driverProperty in Device.Driver.Properties.Where(p => {
+					var propName = p.Name.ToLower();
+					return propName == "address"
+						|| propName == "port"
+						|| propName == "login"
+						|| propName == "password";
+				} ))
 				{
 					var property = Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 					if (property == null)

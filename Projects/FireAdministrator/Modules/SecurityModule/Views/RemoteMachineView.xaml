@@ -15,9 +15,9 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<RadioButton Grid.Column="0" Grid.Row="0" IsChecked="{Binding IsDnsName}" Content="Имя" Foreground="{DynamicResource ForegroundColorLight}" VerticalAlignment="Center" />
-				<TextBox Grid.Column="1" Grid.Row="0" MaxLength="100" Text="{Binding HostNameOrAddress}" IsEnabled="{Binding IsDnsName}" Margin="2" />
-				<RadioButton Grid.Column="0" Grid.Row="1" IsChecked="{Binding IsIpAddress}" Content="IP адрес" Foreground="{DynamicResource ForegroundColorLight}" VerticalAlignment="Center" />
+				<RadioButton Grid.Column="0" Grid.Row="0" GroupName="HostNameOrAddress" IsChecked="{Binding PcIdentificationMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='Hostname'}" Content="Имя" Foreground="{DynamicResource ForegroundColorLight}" VerticalAlignment="Center" />
+				<TextBox Grid.Column="1" Grid.Row="0" MaxLength="100" Text="{Binding Hostname}" IsEnabled="{Binding PcIdentificationMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='Hostname'}" Margin="2" />
+				<RadioButton Grid.Column="0" Grid.Row="1" GroupName="HostNameOrAddress" IsChecked="{Binding PcIdentificationMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='IpAddress'}" Content="IP адрес" Foreground="{DynamicResource ForegroundColorLight}" VerticalAlignment="Center" />
 				<TextBox Grid.Column="1" Grid.Row="1" Margin="2"
 					Name="addressEditor"
 					PreviewKeyDown="OnPreviewKeyDown"
@@ -29,8 +29,8 @@
 					PreviewDragLeave="OnPreviewDragLeave"
 					PreviewDragOver="OnPreviewDragOver"
 					PreviewDrop="OnPreviewDrop"
-					Text="{Binding HostNameOrAddress}"
-					IsEnabled="{Binding IsIpAddress}"
+					Text="{Binding Address}"
+					IsEnabled="{Binding PcIdentificationMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='IpAddress'}"
 					ContextMenu="{x:Null}">
 				</TextBox>
 

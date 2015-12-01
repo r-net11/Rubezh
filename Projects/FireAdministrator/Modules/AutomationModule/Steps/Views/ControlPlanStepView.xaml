@@ -11,11 +11,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="500"/>
-			<ColumnDefinition/>
-		</Grid.ColumnDefinitions>
-		<StackPanel Grid.Column="0">
+		<StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<Label Content="План" />
 				<ComboBox ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}">
@@ -50,40 +46,6 @@
 				<Label Content="Значение" />
 				<views:ArgumentView DataContext="{Binding ValueArgument}" />
 			</StackPanel>
-			
-			<StackPanel Orientation="Horizontal">
-				<Label Content="Всем клиентам" />
-				<CheckBox IsChecked="{Binding ForAllClients}" />
-			</StackPanel>
-
-			<StackPanel Orientation="Horizontal" Visibility="{Binding Path=ControlElementType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ControlElementType.Set}}" >
-				<Label Content="Восстанавливать" Width="108" Margin="2, 2, -6, 2" />
-				<CheckBox IsChecked="{Binding StoreOnServer}" IsEnabled="{Binding CanStoreOnServer}" />
-			</StackPanel>
-			
 		</StackPanel>
-		<Grid Grid.Column="1" Margin="2" DataContext="{Binding ProcedureLayoutCollectionViewModel}">
-			<DataGrid ItemsSource="{Binding LayoutItems}">
-				<DataGrid.Columns>
-					<DataGridTemplateColumn Header="Наименование макета" Width="*">
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<StackPanel Orientation="Horizontal">
-									<Grid Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Background="{DynamicResource BLayouts}" />
-									<TextBlock Text="{Binding Layout.Caption}" />
-								</StackPanel>
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Header="Использовать" Width="Auto">
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
-				</DataGrid.Columns>
-			</DataGrid>
-		</Grid>
 	</Grid>
 </UserControl>

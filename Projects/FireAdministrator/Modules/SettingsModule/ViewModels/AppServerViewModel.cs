@@ -95,19 +95,6 @@ namespace SettingsModule.ViewModels
 				ServiceAddress = "localhost";
 		}
 
-		private bool _useHasp;
-		public bool UseHasp
-		{
-			get { return _useHasp; }
-			set
-			{
-				if (_useHasp == value)
-					return;
-				_useHasp = value;
-				OnPropertyChanged(() => UseHasp);
-			}
-		}
-
 		private string _dbServerName;
 		public string DBServerName
 		{
@@ -245,7 +232,6 @@ namespace SettingsModule.ViewModels
 			ServicePort = settings.ServicePort;
 			ReportServicePort = settings.ReportServicePort;
 			EnableRemoteConnections = settings.EnableRemoteConnections;
-			UseHasp = settings.UseHasp;
 			CreateNewDBOnOversize = settings.CreateNewDBOnOversize;
 
 			// Параметры соединения с СУБД
@@ -267,7 +253,6 @@ namespace SettingsModule.ViewModels
 			settings.ServicePort = ServicePort;
 			settings.ReportServicePort = ReportServicePort;
 			settings.EnableRemoteConnections = EnableRemoteConnections;
-			settings.UseHasp = UseHasp;
 			settings.CreateNewDBOnOversize = CreateNewDBOnOversize;
 
 			// Параметры соединения с СУБД
