@@ -8,7 +8,7 @@ namespace FiresecService.Report
 	{
 		public static Guid GetDefaultOrganisation()
 		{
-			using (var connection = new SqlConnection(SKDDatabaseService.ConnectionString))
+			using (var connection = new SqlConnection(SKDDatabaseService.SkdConnectionString))
 			{
 				var command = new SqlCommand("SELECT TOP 1 UID FROM Organisation", connection);
 				connection.Open();
