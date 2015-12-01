@@ -53,15 +53,16 @@ namespace OpcDaServer
 				StringBuilder sb;
 				OpcDaDirectory directory;
 
-				segments.Add(TagId);
+				segments.Add(Name);
+				directory = Directory;
+				segments.Add(directory.DirectoryName);
 
 				// Получаем сегменты пути к тегу
-				do
+				while (!directory.IsRoot)
 				{
-					directory = Directory;
+					directory = directory.Directory;
 					segments.Add(directory.DirectoryName);
 				} 
-				while (!directory.IsRoot);
 
 				sb = new StringBuilder();
 				for (int i = (segments.Count - 1); i >= 0 ; i--)
@@ -69,7 +70,7 @@ namespace OpcDaServer
 					sb.Append(segments[i]);
 					if (i > 0)
 					{
-						sb.Append(@"/");
+						sb.Append(Spliter);
 					}
 				}
 

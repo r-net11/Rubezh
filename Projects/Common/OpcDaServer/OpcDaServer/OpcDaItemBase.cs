@@ -26,7 +26,11 @@ namespace OpcDaServer
 		/// <summary>
 		/// Наименование корневой директории тегов
 		/// </summary>
-		public const string RootDirectory = @"."; 
+		public const string RootDirectory = @".";
+		/// <summary>
+		/// Разделитель для сегментов пути к тегу
+		/// </summary>
+		public const string Spliter = @"\";
 
 		/// <summary>
 		/// 

@@ -35,7 +35,7 @@ namespace OpcDaServer
 			}
 			else
 			{
-				_directoryName = String.IsNullOrEmpty(directoryName) ? RootDirectory : _directoryName;
+				_directoryName = String.IsNullOrEmpty(directoryName) ? RootDirectory : directoryName;
 			}
 		}
 

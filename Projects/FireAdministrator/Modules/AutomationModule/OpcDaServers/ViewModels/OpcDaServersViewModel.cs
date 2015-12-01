@@ -19,6 +19,7 @@ namespace AutomationModule.ViewModels
 			Menu = new OpcDaServersMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+			EditCommand = new RelayCommand(OnEdit, CanEdit);
 
 			OpcDaServers = new ObservableCollection<OpcDaServerViewModel>();
 
@@ -28,22 +29,13 @@ namespace AutomationModule.ViewModels
 				var opcServerViewModel = new OpcDaServerViewModel(opcServer);
 				OpcDaServers.Add(opcServerViewModel);
 			}
-			
-			// Сейчас заглушка
-			//_opcDaServers = new ObservableCollection<OpcDaServerViewModel>(
-			//	OpcDaServer.OpcDaServer.GetRegistredServers()
-			//	.Select(serv => new OpcDaServerViewModel(serv)));
-
-			// Для отладки
-			//_opcDaServers.Add(new OpcDaServerViewModel(
-			//	new OpcDaServer.OpcDaServer{ Id = Guid.NewGuid(), ServerName = "TestServer" }));
 		}
 
 		#endregion
 
 		#region Fields And Properties
 
-		private ObservableCollection<OpcDaServerViewModel> _opcDaServers;
+		ObservableCollection<OpcDaServerViewModel> _opcDaServers;
 
 		public ObservableCollection<OpcDaServerViewModel> OpcDaServers
 		{
@@ -55,7 +47,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		private OpcDaServerViewModel _selectedOpcDaServer;
+		OpcDaServerViewModel _selectedOpcDaServer;
 
 		public OpcDaServerViewModel SelectedOpcDaServer
 		{
@@ -63,7 +55,18 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedOpcDaServer = value;
+				Tags = _selectedOpcDaServer == null ? null : _selectedOpcDaServer.Server.Tags;
 				OnPropertyChanged(() => SelectedOpcDaServer);
+			}
+		}
+
+		public RubezhAPI.Automation.OpcDaTag[] Tags 
+		{
+			get { return SelectedOpcDaServer == null ? null : SelectedOpcDaServer.Server.Tags; }
+			set 
+			{
+				SelectedOpcDaServer.Server.Tags = value; 
+				OnPropertyChanged(() => Tags); 
 			}
 		}
 
@@ -81,7 +84,7 @@ namespace AutomationModule.ViewModels
 
 		public RelayCommand AddCommand { get; private set; }
 
-		private void OnAdd()
+		void OnAdd()
 		{
 			//Cоздаём и передаём список отсутствующих в конфигурационном списке серверов
 			var list = OpcDaServer.OpcDaServer.GetRegistredServers();
@@ -109,17 +112,56 @@ namespace AutomationModule.ViewModels
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
-		private void OnDelete()
+		void OnDelete()
 		{
 			ClientManager.SystemConfiguration.AutomationConfiguration
-				.OpcDaServers.Remove(SelectedOpcDaServer.Base);
+				.OpcDaServers.Remove(SelectedOpcDaServer.Server);
 			ServiceFactory.SaveService.AutomationChanged = true;
 
 			OpcDaServers.Remove(SelectedOpcDaServer);
 			SelectedOpcDaServer = OpcDaServers.FirstOrDefault();
 		}
 
-		private bool CanDelete()
+		bool CanDelete()
+		{
+			return SelectedOpcDaServer != null;
+		}
+
+		/// <summary>
+		/// Редактируем список тегов OPC сервера
+		/// </summary>
+		public RelayCommand EditCommand { get; private set; }
+
+		void OnEdit()
+		{
+
+			var allTags = SelectedOpcDaServer.GetAllTagsFromOpcServer()
+				.Select(tag => new OpcDaEditingTagsTagViewModel(tag)).ToArray();
+
+			// Получаем список уже выбранных тегов
+			// и устанавливаем им признак
+			var tagsList = from a in allTags
+						   from s in SelectedOpcDaServer.Server.Tags
+						   where a.Tag.TagId == s.TagId
+						   select a;
+			foreach (var tag in tagsList)
+			{
+				tag.IsChecked = true;
+			}
+
+			var addingDialog = new OpcDaEditingTagsViewModel(allTags);
+
+			if (Infrastructure.Common.Windows.DialogService.ShowModalWindow(addingDialog))
+			{
+				Tags = (addingDialog.SelectedItems
+					.Select(x => x.Tag)).ToArray();
+				//ClientManager.SystemConfiguration.AutomationConfiguration
+				//	.OpcDaServers.Add(SelectedOpcDaServer.Server);
+				ServiceFactory.SaveService.AutomationChanged = true;
+			}
+		}
+
+		bool CanEdit()
 		{
 			return SelectedOpcDaServer != null;
 		}

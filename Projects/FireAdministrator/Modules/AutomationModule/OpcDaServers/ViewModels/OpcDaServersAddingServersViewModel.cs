@@ -12,11 +12,6 @@ namespace AutomationModule.ViewModels
 		{
 			Title = "Добавить серверы";
 
-			if (servers == null)
-			{
-				throw new ArgumentNullException("servers");
-			}
-
 			AllServers = new List<OpcDaServersAddingServerViewModel>(servers
 				.Select(server => new OpcDaServersAddingServerViewModel(server)));
 		}

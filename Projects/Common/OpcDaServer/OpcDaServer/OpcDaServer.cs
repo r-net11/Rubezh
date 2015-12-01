@@ -72,7 +72,9 @@ namespace OpcDaServer
 
 					//MessageBox.Show(ex.Message, "Ошибка");
 
-					throw;
+					// Для отладки
+					return rootDirectory = new OpcDaDirectory();
+					//throw;
 				}
 			}
 		}
@@ -119,6 +121,7 @@ namespace OpcDaServer
 			{
 				server.ChangeBrowsePosition(tagOPCBROWSEDIRECTION.OPC_BROWSE_DOWN, strName);
 				var childDirectory = new OpcDaDirectory(strName, parentDirectory);
+				parentDirectory.Tags.Add(childDirectory);
 				BuildTreeTags(ref childDirectory, server);
 				server.ChangeBrowsePosition(tagOPCBROWSEDIRECTION.OPC_BROWSE_UP, strName);
 				ptrEnum.RemoteNext(1, out strName, out cnt);

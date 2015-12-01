@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using OpcDaServer;
+using AutomationModule.OpcDaServers.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhClient;
 
 namespace AutomationModule.ViewModels
 {
@@ -11,22 +14,22 @@ namespace AutomationModule.ViewModels
 	{
 		#region Constructors
 
-		public OpcDaServerViewModel() { throw new NotImplementedException(); }
-
 		public OpcDaServerViewModel(RubezhAPI.Automation.OpcDaServer server)
 		{
-			Base = server;
+			Server = server;
 			ServerName = server.ServerName;
 			Id = server.Id;
+
+			#region Для отладки
+			//Server.Tags = GetAllTagsFromOpcServer();
+			#endregion
 		}
 
 		#endregion
 
 		#region Fields And Properties
 
-		//public OpcDaServer.OpcDaServer Base { get; private set; }
-		public RubezhAPI.Automation.OpcDaServer Base { get; protected set; }
-
+		public RubezhAPI.Automation.OpcDaServer Server { get; protected set; }
 		public string ServerName { get; protected set; }
 		public Guid Id { get; protected set; }
 
@@ -34,9 +37,42 @@ namespace AutomationModule.ViewModels
 		{
 			return new RubezhAPI.Automation.OpcDaServer 
 						{ 
-							ServerName = ServerName, 
-							Id = Id 
+							ServerName = ServerName,
+							Id = Id
 						};
+		}
+
+		public RubezhAPI.Automation.OpcDaTag[] GetAllTagsFromOpcServer()
+		{
+			var server = OpcDaServer.OpcDaServer.GetRegistredServers().First(s => s.Id == this.Id);
+
+			List<RubezhAPI.Automation.OpcDaTag> tags = new List<RubezhAPI.Automation.OpcDaTag>();
+
+			GetTags(ref tags, server.Tags);
+
+			return tags.ToArray();
+		}
+
+		void GetTags(ref List<RubezhAPI.Automation.OpcDaTag> tags, OpcDaServer.OpcDaDirectory directory)
+		{
+			foreach (var item in directory.Tags)
+			{
+				if (item.IsDirectory)
+				{
+					var dir = (OpcDaServer.OpcDaDirectory)item;
+					GetTags(ref tags, dir);
+				}
+				else
+				{
+					var tag = (OpcDaServer.OpcDaTag)item;
+					tags.Add(new RubezhAPI.Automation.OpcDaTag 
+					{ 
+						Path = tag.FullPath, 
+						TagId = tag.TagId, 
+						TagName = tag.Name, 
+					});
+				}
+			}
 		}
 
 		#endregion
