@@ -84,25 +84,43 @@ namespace FiresecService.Service
 
 		public OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter filter)
 		{
-			using (var databaseService = new RubezhDAL.DataClasses.DbService())
+			using (var dbService = new RubezhDAL.DataClasses.DbService())
 			{
-				return databaseService.JournalTranslator.GetFilteredJournalItems(filter);
+				return dbService.JournalTranslator.GetFilteredJournalItems(filter);
 			}
 		}
-
-		public OperationResult<List<JournalItem>> GetArchivePage(JournalFilter filter, int page)
+		
+		public OperationResult<bool> BeginGetJournal(JournalFilter filter)
 		{
-			using(var dbService = new RubezhDAL.DataClasses.DbService())
+			ServerTaskRunner.Add(null, "Чтение файла конфигурации ГК", new Action(() =>
 			{
-				return dbService.JournalTranslator.GetArchivePage(filter, page);
-			}
+				using (var dbService = new RubezhDAL.DataClasses.DbService())
+				{
+					var result = dbService.JournalTranslator.GetFilteredJournalItems(filter);
+					FiresecService.NotifyOperationResult_GetJournal(result);
+				}
+			}));
+			return new OperationResult<bool>(true);
+		}
+
+		public OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page)
+		{
+			ServerTaskRunner.Add(null, "Чтение файла конфигурации ГК", new Action(() =>
+			{
+				using (var dbService = new RubezhDAL.DataClasses.DbService())
+				{
+					var result = dbService.JournalTranslator.GetArchivePage(filter, page);
+					FiresecService.NotifyOperationResult_GetArchivePage(result, page);
+				}
+			}));
+			return new OperationResult<bool>(true);
 		}
 
 		public OperationResult<int> GetArchiveCount(JournalFilter filter)
 		{
-			using (var databaseService = new RubezhDAL.DataClasses.DbService())
+			using (var dbService = new RubezhDAL.DataClasses.DbService())
 			{
-				return databaseService.JournalTranslator.GetArchiveCount(filter);
+				return dbService.JournalTranslator.GetArchiveCount(filter);
 			}
 		}
 		#endregion
