@@ -119,8 +119,6 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Http, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
@@ -136,7 +134,6 @@
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
@@ -454,14 +451,18 @@
     <Compile Include="Controllers\HrController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
-	<Compile Include="Controllers\DepartmentsController.cs" />
+<<<<<<< HEAD
     <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
     <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
-	<Compile Include="Models\SKD\Common\OrganisationBaseViewModel.cs" />
     <Compile Include="Models\FireZone\FireZone.cs" />
+=======
+    <Compile Include="Controllers\DepartmentsController.cs" />
+    <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
+    <Compile Include="Models\SKD\Common\OrganisationBaseViewModel.cs" />
     <Compile Include="Models\SKD\Common\OrganisationElementBaseViewModel.cs" />
     <Compile Include="Models\SKD\Departments\DepartmentsViewModel.cs" />
     <Compile Include="Models\SKD\Departments\DepartmentViewModel.cs" />
+>>>>>>> d6ed62bebd57c68f1212e1f7e0161b9ad42e5dc2
     <Compile Include="Utils\InernalConverter.cs" />
     <Compile Include="DataProviders\Plan\PlansDataProvider.cs" />
     <Compile Include="DataProviders\Plan\PlansUpdater.cs" />
@@ -504,7 +505,6 @@
     <Content Include="Views\Hr\HrEmployees.cshtml" />
     <Content Include="Scripts\jquery.min.map" />
     <Content Include="Views\Home\Plan.cshtml" />
-    <Content Include="Views\Hr\HrDepartments.cshtml" />
     <Content Include="Views\Hr\Positions.cshtml" />
     <Content Include="Views\Hr\AdditionalColumnTypes.cshtml" />
     <Content Include="Views\Hr\Cards.cshtml" />
