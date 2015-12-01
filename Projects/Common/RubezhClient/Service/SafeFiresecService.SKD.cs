@@ -124,13 +124,17 @@ namespace RubezhClient
 		{
 			return SafeContext.Execute<OperationResult<List<JournalItem>>>(() => FiresecService.GetFilteredJournalItems(filter));
 		}
+		public OperationResult<bool> BeginGetJournal(JournalFilter filter)
+		{
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.BeginGetJournal(filter));
+		}
 		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
 		{
 			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.AddJournalItem(journalItem));
 		}
-		public OperationResult<List<JournalItem>> GetArchivePage(JournalFilter filter, int page)
+		public OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page)
 		{
-			return SafeContext.Execute<OperationResult<List<JournalItem>>>(() => FiresecService.GetArchivePage(filter, page));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.BeginGetArchivePage(filter, page));
 		}
 		public OperationResult<int> GetArchiveCount(JournalFilter filter)
 		{

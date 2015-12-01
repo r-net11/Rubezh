@@ -13,10 +13,6 @@ namespace FiresecService.Report.Templates
 		{
 			InitializeComponent();
 		}
-		protected override bool ForcedLandscape
-		{
-			get { return true; }
-		}
 		protected override bool IsNotDataBase
 		{
 			get { return true; }
@@ -36,6 +32,7 @@ namespace FiresecService.Report.Templates
 			var dataSet = new DevicesDataSet();
 			if (filter != null && filter.SelectedDevices != null)
 			{
+				var number = 0;
 				foreach (var selectedDevice in filter.SelectedDevices)
 				{
 					var device = devices.FirstOrDefault(x => x.UID == selectedDevice.UID);
@@ -51,7 +48,9 @@ namespace FiresecService.Report.Templates
 					dataRow.PresentationAddress = device.PresentationAddress;
 					dataRow.PresentationZoneOrLogic = GKManager.GetPresentationZoneOrLogic(device);
 					dataRow.Description = device.Description;
+					dataRow.Number = number;
 					dataSet.Data.Rows.Add(dataRow);
+					number++;
 				}
 			}
 			return dataSet;
