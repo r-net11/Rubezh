@@ -176,8 +176,7 @@ namespace GKModule.ViewModels
 				var deviceViewModel = device as GuardZoneDeviceViewModel;
 				if (deviceViewModel != null)
 				{
-					deviceViewModel.GuardZoneDevice.CodeReaderSettings = new GKCodeReaderSettings();
-					deviceViewModel.GuardZoneDevice.ActionType = GKGuardZoneDeviceActionType.SetGuard;
+					deviceViewModel.Clear();
 					deviceViewModels.Add(deviceViewModel);
 				}
 			}

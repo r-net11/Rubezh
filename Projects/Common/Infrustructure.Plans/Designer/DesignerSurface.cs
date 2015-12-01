@@ -180,8 +180,8 @@ namespace Infrustructure.Plans.Designer
 				var thickness = Border == null ? 0 : Border.Thickness;
 				dc.DrawRectangle(BackgroundBrush, Border, new Rect(-thickness / 2, -thickness / 2, RenderSize.Width + thickness, RenderSize.Height + thickness));
 				foreach (var item in _visuals)
-					if (item.IsVisibleLayout)
-						item.Render(dc);
+					//if (item.IsVisibleLayout)
+					item.Render(dc);
 				_designerCanvas.RenderForeground(dc);
 			}
 		}

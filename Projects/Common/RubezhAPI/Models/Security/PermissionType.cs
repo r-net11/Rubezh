@@ -115,6 +115,9 @@ namespace RubezhAPI.Models
 		[DescriptionAttribute("Список подразделений организации")]
 		Oper_Reports_Departments,
 
+		[DescriptionAttribute("Список устройств")]
+		Oper_Reports_Devices,
+
 		[DescriptionAttribute("Список должностей организации")]
 		Oper_Reports_Positions,
 

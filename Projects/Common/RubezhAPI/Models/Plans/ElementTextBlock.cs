@@ -26,7 +26,6 @@ namespace RubezhAPI.Models
 			FontBold = false;
 			Height = 22;
 			Width = 52;
-			ShowTooltip = true;
 		}
 
 		[DataMember]

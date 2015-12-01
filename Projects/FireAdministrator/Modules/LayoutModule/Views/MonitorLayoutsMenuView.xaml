@@ -4,7 +4,7 @@
 		<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit" ToolTip="Редактировать макет (Ctrl+E)" />
 		<ToolBarButton Command="{Binding DeleteCommand}" ImageSource="Delete" ToolTip="Удалить макет (Ctrl+Del)" />
 
-		<ToolBarButton Command="{Binding LayoutCopyCommand}" ImageSource="Copy" ToolTip="Копировать (Ctrl+C)" />
-		<ToolBarButton Command="{Binding LayoutPasteCommand}" ImageSource="Paste" ToolTip="Вставить (Ctrl+V)" />
+		<ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy" ToolTip="Копировать (Ctrl+C)" />
+		<ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste" ToolTip="Вставить (Ctrl+V)" />
 	</StackPanel>
 </UserControl>
