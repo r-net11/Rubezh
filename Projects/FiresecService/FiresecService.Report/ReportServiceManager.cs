@@ -25,8 +25,7 @@ namespace FiresecService.Report
 					if (!IsRunning)
 					{
 						_instance.RegisterFilters();
-						_instance.Open();
-						IsRunning = true;
+						IsRunning = _instance.Open();
 					}
 		}
 

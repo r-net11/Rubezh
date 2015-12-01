@@ -149,6 +149,7 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="AppServerHealthInfo.cs" />
     <Compile Include="AutomationCallback\DialogCallbackData.cs" />
     <Compile Include="AutomationCallback\PlanCallbackData.cs" />
     <Compile Include="AutomationCallback\ProcedureProperties.cs" />

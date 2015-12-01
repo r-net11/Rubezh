@@ -22,6 +22,7 @@ namespace FiresecClient
 		public static event Action<JournalItem> NewJournalItemEvent;
 		public static event Action<IEnumerable<JournalItem>, Guid> GetFilteredArchiveCompletedEvent;
 		public static event Action<SKDDeviceSearchInfo> NewSearchDeviceEvent;
+		public static event Action<AppServerHealthInfo> AppServerHealthInfoChangedEvent;
 
 		bool isConnected = true;
 		public bool SuspendPoll = false;
@@ -147,7 +148,13 @@ namespace FiresecClient
 							});
 						}
 						break;
-
+					case CallbackResultType.AppServerHealthInfoChanged:
+						SafeOperationCall(() =>
+						{
+							if (AppServerHealthInfoChangedEvent != null)
+								AppServerHealthInfoChangedEvent(callbackResult.AppServerHealthInfo);
+						});
+						break;
 				}
 			}
 		}

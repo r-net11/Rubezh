@@ -21,6 +21,62 @@ namespace FiresecService.Service
 	{
 		private ClientCredentials CurrentClientCredentials;
 
+		private ServiceHealthStatus _databaseServiceHealthStatus;
+
+		public ServiceHealthStatus DatabaseServiceHealthStatus
+		{
+			get { return _databaseServiceHealthStatus; }
+			set
+			{
+				if (_databaseServiceHealthStatus == value)
+					return;
+				_databaseServiceHealthStatus = value;
+				NotifyAppServerHealthInfoChanged(new AppServerHealthInfo
+				{
+					DatabaseServiceHealthStatus = _databaseServiceHealthStatus,
+					ReportServiceHealthStatus = ReportServiceHealthStatus,
+					AutomationServiceHealthStatus = AutomationServiceHealthStatus
+				});
+			}
+		}
+
+		private ServiceHealthStatus _reportServiceHealthStatus;
+
+		public ServiceHealthStatus ReportServiceHealthStatus {
+			get { return _reportServiceHealthStatus; }
+			set
+			{
+				if (_reportServiceHealthStatus == value)
+					return;
+				_reportServiceHealthStatus = value;
+				NotifyAppServerHealthInfoChanged(new AppServerHealthInfo
+				{
+					DatabaseServiceHealthStatus = DatabaseServiceHealthStatus,
+					ReportServiceHealthStatus = _reportServiceHealthStatus,
+					AutomationServiceHealthStatus = AutomationServiceHealthStatus
+				});
+			}
+		}
+
+		private ServiceHealthStatus _automationServiceHealthStatus;
+
+		public ServiceHealthStatus AutomationServiceHealthStatus
+		{
+			get { return _automationServiceHealthStatus; }
+			set
+			{
+				if (_automationServiceHealthStatus == value)
+					return;
+				_automationServiceHealthStatus = value;
+				NotifyAppServerHealthInfoChanged(new AppServerHealthInfo
+				{
+					DatabaseServiceHealthStatus = DatabaseServiceHealthStatus,
+					ReportServiceHealthStatus = ReportServiceHealthStatus,
+					AutomationServiceHealthStatus = _automationServiceHealthStatus
+				});
+			}
+		}
+
 		private void InitializeClientCredentials(ClientCredentials clientCredentials)
 		{
 			clientCredentials.ClientIpAddress = "127.0.0.1";

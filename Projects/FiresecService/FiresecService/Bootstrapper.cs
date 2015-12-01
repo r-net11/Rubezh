@@ -1,4 +1,5 @@
 ﻿using Common;
+using FiresecAPI;
 using FiresecService.Report;
 using FiresecService.Service;
 using FiresecService.ViewModels;
@@ -39,12 +40,15 @@ namespace FiresecService
 
 				ConfigurationCashHelper.Update();
 
+				ServiceHealthStatus databaseServiceHealthStatus;
 				try
 				{
 					PatchManager.Patch();
+					databaseServiceHealthStatus = ServiceHealthStatus.Alive;
 				}
 				catch (Exception)
 				{
+					databaseServiceHealthStatus = ServiceHealthStatus.Dead;
 					MessageBox.Show("Не удалось подключиться к базе данных");
 					Application.Current.MainWindow.Close();
 				}
@@ -72,13 +76,37 @@ namespace FiresecService
 					Application.Current.MainWindow.Close();
 				}
 
+				ServiceHealthStatus reportServiceHealthStatus;
 				UILogger.Log("Запуск сервиса отчетов");
 				ReportServiceManager.Run();
-				UILogger.Log("Сервис отчетов запущен" + ReportServiceManager.Address);
-				ReportServiceManager.Addresses.ForEach(UILogger.Log);
+				if (ReportServiceManager.IsRunning)
+				{
+					reportServiceHealthStatus = ServiceHealthStatus.Alive;
+					UILogger.Log("Сервис отчетов запущен" + ReportServiceManager.Address);
+					ReportServiceManager.Addresses.ForEach(UILogger.Log);
+				}
+				else
+				{
+					reportServiceHealthStatus = ServiceHealthStatus.Dead;
+					UILogger.Log("[*] Сервис отчетов не запущен");
+				}
 
+				ServiceHealthStatus automationServiceHealthStatus;
 				UILogger.Log("Запуск автоматизации");
-				ScheduleRunner.Start();
+				try
+				{
+					ScheduleRunner.Start();
+					automationServiceHealthStatus = ServiceHealthStatus.Alive;
+				}
+				catch (Exception)
+				{
+					automationServiceHealthStatus = ServiceHealthStatus.Dead;
+					UILogger.Log("[*] Автоматизация не запущена");
+				}
+
+				FiresecServiceManager.SafeFiresecService.FiresecService.DatabaseServiceHealthStatus = databaseServiceHealthStatus;
+				FiresecServiceManager.SafeFiresecService.FiresecService.ReportServiceHealthStatus = reportServiceHealthStatus;
+				FiresecServiceManager.SafeFiresecService.FiresecService.AutomationServiceHealthStatus = automationServiceHealthStatus;
 
 				UILogger.Log("Готово");
 				ProcedureRunner.RunOnServerRun();

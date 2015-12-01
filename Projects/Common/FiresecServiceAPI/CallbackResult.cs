@@ -35,6 +35,9 @@ namespace FiresecAPI
 
 		[DataMember]
 		public List<SKDDeviceSearchInfo> SearchDevices { get; set; }
+
+		[DataMember]
+		public AppServerHealthInfo AppServerHealthInfo { get; set; }
 	}
 
 	public enum CallbackResultType
@@ -46,6 +49,7 @@ namespace FiresecAPI
 		AutomationCallbackResult,
 		ConfigurationChanged,
 		Disconnecting,
-		NewSearchDevices
+		NewSearchDevices,
+		AppServerHealthInfoChanged
 	}
 }

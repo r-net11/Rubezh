@@ -90,12 +90,23 @@ namespace FiresecService.Service
 			};
 			CallbackManager.Add(callbackResult);
 		}
+
 		public static void NotifyNewSearchDevices(List<SKDDeviceSearchInfo> searchDevices)
 		{
 			var callbackResult = new CallbackResult()
 			{
 				CallbackResultType = CallbackResultType.NewSearchDevices,
 				SearchDevices = searchDevices
+			};
+			CallbackManager.Add(callbackResult);
+		}
+
+		private static void NotifyAppServerHealthInfoChanged(AppServerHealthInfo appServerHealthInfo)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.AppServerHealthInfoChanged,
+				AppServerHealthInfo = appServerHealthInfo
 			};
 			CallbackManager.Add(callbackResult);
 		}
