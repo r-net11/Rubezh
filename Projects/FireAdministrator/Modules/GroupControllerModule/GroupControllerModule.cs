@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Windows;
-using RubezhAPI;
-using RubezhAPI.Models;
-using RubezhClient;
 using GKModule.Events;
 using GKModule.Plans;
 using GKModule.Validation;
@@ -14,41 +8,47 @@ using Infrastructure.Client;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
-using Infrastructure.Common.Services;
-using System.IO;
 using Ionic.Zip;
-using System.Text;
-using RubezhAPI.GK;
-using RubezhAPI.Models.Layouts;
 using LayoutModule.LayoutParts.ViewModels;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.Models.Layouts;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
+using System.Windows;
 
 namespace GKModule
 {
 	public class GroupControllerModule : ModuleBase, IValidationModule, ILayoutDeclarationModule
 	{
-		DevicesViewModel DevicesViewModel;
-		ParameterTemplatesViewModel ParameterTemplatesViewModel;
-		ZonesViewModel ZonesViewModel;
-		DirectionsViewModel DirectionsViewModel;
-		PumpStationsViewModel PumpStationsViewModel;
-		MPTsViewModel MPTsViewModel;
-		DelaysViewModel DelaysViewModel;
-		CodesViewModel CodesViewModel;
-		GuardZonesViewModel GuardZonesViewModel;
-		DoorsViewModel DoorsViewModel;
-		SKDZonesViewModel SKDZonesViewModel;
-		LibraryViewModel DeviceLidraryViewModel;
-		OPCsViewModel OPCViewModel;
-		DescriptorsViewModel DescriptorsViewModel;
-		DiagnosticsViewModel DiagnosticsViewModel;
+		public DevicesViewModel DevicesViewModel { get; private set; }
+		public ParameterTemplatesViewModel ParameterTemplatesViewModel { get; private set; }
+		public ZonesViewModel ZonesViewModel { get; private set; }
+		public DirectionsViewModel DirectionsViewModel { get; private set; }
+		public PumpStationsViewModel PumpStationsViewModel { get; private set; }
+		public MPTsViewModel MPTsViewModel { get; private set; }
+		public DelaysViewModel DelaysViewModel { get; private set; }
+		public CodesViewModel CodesViewModel { get; private set; }
+		public GuardZonesViewModel GuardZonesViewModel { get; private set; }
+		public DoorsViewModel DoorsViewModel { get; private set; }
+		public SKDZonesViewModel SKDZonesViewModel { get; private set; }
+		public LibraryViewModel DeviceLidraryViewModel { get; private set; }
+		public OPCsViewModel OPCViewModel { get; private set; }
+		public DescriptorsViewModel DescriptorsViewModel { get; private set; }
+		public DiagnosticsViewModel DiagnosticsViewModel { get; private set; }
 		GKPlanExtension _planExtension;
-		
+
 		public override void CreateViewModels()
 		{
 			ServiceFactory.Events.GetEvent<CreateGKZoneEvent>().Subscribe(OnCreateGKZone);
@@ -116,10 +116,15 @@ namespace GKModule
 			DoorsViewModel.Initialize();
 			SKDZonesViewModel.Initialize();
 			OPCViewModel.Initialize();
+		}
+
+		public override void RegisterPlanExtension()
+		{
 			_planExtension.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 			_planExtension.Cache.BuildAllSafe();
 		}
+
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			return new List<NavigationItem>()
@@ -212,7 +217,7 @@ namespace GKModule
 			selectZonesEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(zonesSelectionViewModel);
 			selectZonesEventArg.Zones = zonesSelectionViewModel.TargetZones.ToList();
 		}
-		
+
 		private void OnCreateGKGuardZone(CreateGKGuardZoneEventArg createZoneEventArg)
 		{
 			GuardZonesViewModel.CreateZone(createZoneEventArg);
@@ -341,7 +346,7 @@ namespace GKModule
 		{
 			CodesViewModel.CreateCode(createGKCodeEventArg);
 		}
-		
+
 		void OnSelectGKDevice(SelectGKDeviceEventArg selectDeviceEventArg)
 		{
 			var deviceSelectionViewModel = new DeviceSelectionViewModel(selectDeviceEventArg.Device);
@@ -503,14 +508,14 @@ namespace GKModule
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Indicator, 110, "Индикаторы", "Панель индикаторов состояния", "BAlarm.png", false, new LayoutPartSize() { PreferedSize = new Size(1000, 100) });
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.ConnectionIndicator, 111, "Индикатор связи", "Панель индикаторов связи", "BConnectionIndicator.png", false, new LayoutPartSize() { PreferedSize = new Size(50, 30) });
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Alarms, 112, "Состояния", "Панель состояний", "BAlarm.png", false);
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.GDevices, 113, "Устройства", "Панель с устройствами", "BTree.png",false) { Factory = factory };
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Zones, 114, "Зоны", "Панель зон", "BZones.png",false) { Factory = factory };
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.GuardZones, 115, "Охранные зоны", "Панель охранных зон", "BZones.png",false) { Factory = factory };
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Directions, 116, "Направления", "Панель направления", "BDirection.png",false);
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.PumpStations, 117, "НС", "Панель НС", "BPumpStation.png",false);
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.MPTs, 118, "МПТ", "Панель МПТ", "BMPT.png",false) { Factory = factory };
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Delays, 119, "Задержки", "Панель задержек", "Delay.png",false);
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Doors, 120, "Точки доступа", "Панель точек досткпа", "Door.png",false) { Factory = factory };
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.GDevices, 113, "Устройства", "Панель с устройствами", "BTree.png", false) { Factory = factory };
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Zones, 114, "Зоны", "Панель зон", "BZones.png", false) { Factory = factory };
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.GuardZones, 115, "Охранные зоны", "Панель охранных зон", "BZones.png", false) { Factory = factory };
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Directions, 116, "Направления", "Панель направления", "BDirection.png", false);
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.PumpStations, 117, "НС", "Панель НС", "BPumpStation.png", false);
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.MPTs, 118, "МПТ", "Панель МПТ", "BMPT.png", false) { Factory = factory };
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Delays, 119, "Задержки", "Панель задержек", "Delay.png", false);
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Doors, 120, "Точки доступа", "Панель точек досткпа", "Door.png", false) { Factory = factory };
 		}
 		#endregion
 	}
