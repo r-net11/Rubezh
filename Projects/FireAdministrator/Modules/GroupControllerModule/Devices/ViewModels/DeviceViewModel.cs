@@ -271,7 +271,7 @@ namespace GKModule.ViewModels
 				return;
 			}
 
-			if (DialogService.ShowModalWindow(newDeviceViewModel))
+			if (ServiceFactory.DialogService.ShowModalWindow(newDeviceViewModel))
 			{
 				foreach (var addedDevice in newDeviceViewModel.AddedDevices)
 				{

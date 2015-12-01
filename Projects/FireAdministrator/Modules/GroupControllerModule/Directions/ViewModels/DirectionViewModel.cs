@@ -60,7 +60,7 @@ namespace GKModule.ViewModels
 		{
 			DirectionsViewModel.Current.SelectedDirection = this;
 			var logicViewModel = new LogicViewModel(Direction, Direction.Logic, true, hasStopClause: true);
-			if (DialogService.ShowModalWindow(logicViewModel))
+			if (ServiceFactory.DialogService.ShowModalWindow(logicViewModel))
 			{
 				GKManager.SetDirectionLogic(Direction, logicViewModel.GetModel());
 				OnPropertyChanged(() => PresentationLogic);

@@ -97,7 +97,7 @@ namespace GKModule.ViewModels
 		private DirectionDetailsViewModel OnAddResult()
 		{
 			var directionDetailsViewModel = new DirectionDetailsViewModel();
-			if (DialogService.ShowModalWindow(directionDetailsViewModel))
+			if (ServiceFactory.DialogService.ShowModalWindow(directionDetailsViewModel))
 			{
 				GKManager.AddDirection(directionDetailsViewModel.Direction);
 				var directionViewModel = new DirectionViewModel(directionDetailsViewModel.Direction);

@@ -7,6 +7,7 @@ using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure;
 
 namespace GKModule.ViewModels
 {
@@ -317,7 +318,7 @@ namespace GKModule.ViewModels
 					sourceDevices.Add(device);
 			}
 			var devicesSelectationViewModel = new DevicesSelectationViewModel(Devices, sourceDevices);
-			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
+			if (ServiceFactory.DialogService.ShowModalWindow(devicesSelectationViewModel))
 			{
 				Devices = devicesSelectationViewModel.DevicesList;
 				OnPropertyChanged(() => PresenrationDevices);
