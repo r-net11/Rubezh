@@ -74,10 +74,10 @@
 					<DataGridTemplateColumn Header="Зона или Логика" MinWidth="80">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding PresentationZone}" Visibility="{Binding HasZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}" TextWrapping="NoWrap" VerticalAlignment="Top" LineHeight="15" Margin="0 4 0 0" Cursor="Hand">
+								<TextBlock Text="{Binding PresentationZoneOrLogic}" Visibility="{Binding HasZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}" TextWrapping="NoWrap" VerticalAlignment="Top" LineHeight="15" Margin="0 4 0 0" Cursor="Hand">
 									<TextBlock.ToolTip>
 										<WrapPanel>
-											<TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" />
+											<TextBlock Text="{Binding PresentationZoneOrLogic}" TextWrapping="Wrap" />
 										</WrapPanel>
 									</TextBlock.ToolTip>
 								</TextBlock>
@@ -110,10 +110,10 @@
 					<DataGridTemplateColumn Header="Зона или Логика" MinWidth="80">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding PresentationZone}" Visibility="{Binding HasZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}" TextWrapping="NoWrap" VerticalAlignment="Top" LineHeight="15" Margin="0 4 0 0" Cursor="Hand">
+								<TextBlock Text="{Binding PresentationZoneOrLogic}" Visibility="{Binding HasZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}" TextWrapping="NoWrap" VerticalAlignment="Top" LineHeight="15" Margin="0 4 0 0" Cursor="Hand">
 									<TextBlock.ToolTip>
 										<WrapPanel>
-											<TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" />
+											<TextBlock Text="{Binding PresentationZoneOrLogic}" TextWrapping="Wrap" />
 										</WrapPanel>
 									</TextBlock.ToolTip>
 								</TextBlock>

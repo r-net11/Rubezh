@@ -15,7 +15,7 @@ namespace GKWebService.Controllers
             return View();
         }
 
-        public ActionResult HrDepartments()
+        public ActionResult Departments()
         {
             return View();
         }

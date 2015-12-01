@@ -119,6 +119,8 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Http, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
@@ -134,6 +136,7 @@
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
@@ -431,6 +434,8 @@
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\report.js" />
+    <Content Include="Scripts\SKD\Departments\DepartmentsViewModel.js" />
+    <Content Include="Scripts\SKD\Employees\CardRemovalReasonViewModel.js" />
     <Content Include="Scripts\tooltips.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -452,6 +457,9 @@
     <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
     <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
     <Compile Include="Models\FireZone\FireZone.cs" />
+    <Compile Include="Models\SKD\Common\OrganisationElementBaseViewModel.cs" />
+    <Compile Include="Models\SKD\Departments\DepartmentsViewModel.cs" />
+    <Compile Include="Models\SKD\Departments\DepartmentViewModel.cs" />
     <Compile Include="Utils\InernalConverter.cs" />
     <Compile Include="DataProviders\Plan\PlansDataProvider.cs" />
     <Compile Include="DataProviders\Plan\PlansUpdater.cs" />
@@ -506,6 +514,8 @@
     <Content Include="Views\Hr\HrFilter.cshtml" />
     <Content Include="Views\Home\FireZones.cshtml" />
     <Content Include="Views\Employees\EmployeeCardDetails.cshtml" />
+    <Content Include="Views\Employees\CardRemovalReason.cshtml" />
+    <Content Include="Views\Departments\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -515,6 +525,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\SKD\Employees\" />
     <Folder Include="Views\Archive\" />
     <Folder Include="Views\Employee\" />
     <Folder Include="Views\FireZones\" />

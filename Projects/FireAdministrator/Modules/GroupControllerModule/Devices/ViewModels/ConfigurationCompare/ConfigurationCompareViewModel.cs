@@ -172,9 +172,14 @@ namespace GKModule.ViewModels
 					}
 					else
 					{
-						if (sameObject1.PresentationZone != sameObject2.PresentationZone)
-							newObject.DifferenceDiscription = sameObject1.Device.Driver.HasZone ? "Не совпадает зона" : "Не совпадает логика срабатывания";
-						newObject.PresentationZone = sameObject1.PresentationZone;
+						if (sameObject1.PresentationZoneOrLogic != sameObject2.PresentationZoneOrLogic)
+						{
+							if (sameObject1.IsDevice)
+								newObject.DifferenceDiscription = sameObject1.Device.Driver.HasZone ? "Не совпадает зона" : "Не совпадает логика срабатывания";
+							else
+								newObject.DifferenceDiscription = "Не совпадает логика срабатывания";
+						}
+						newObject.PresentationZoneOrLogic = sameObject1.PresentationZoneOrLogic;
 						if (sameObject1.ObjectType == ObjectType.Zone)
 						{
 							newObject.DifferenceDiscription = GetZonesDifferences(sameObject1, sameObject2);

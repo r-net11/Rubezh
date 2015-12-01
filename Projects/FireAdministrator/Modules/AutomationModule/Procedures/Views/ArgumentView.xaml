@@ -3,7 +3,6 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:automation="clr-namespace:RubezhAPI.Automation;assembly=RubezhAPI"
 			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
-			 xmlns:p="clr-namespace:System.Windows.Controls.Primitives;assembly=PresentationFramework"
 			 xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit">
 	<UserControl.Resources>
 		<ResourceDictionary>
@@ -16,12 +15,17 @@
 					<Setter.Value>
 						<ControlTemplate TargetType="ComboBox">
 							<Grid>
-								<p:ToggleButton Name="ToggleButton" Grid.Column="2" ClickMode="Press" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Template="{StaticResource ComboBoxToggleButton}" />
+								<ToggleButton Name="ToggleButton" ClickMode="Press" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Template="{StaticResource ComboBoxToggleButton}" />
 								<ContentPresenter Name="ContentSite" Margin="3,3,23,3" HorizontalAlignment="Left" VerticalAlignment="Center" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" IsHitTestVisible="False" />
 								<TextBox x:Name="PART_EditableTextBox" Margin="3,3,23,3" HorizontalAlignment="Left" VerticalAlignment="Center" Background="Transparent" Focusable="True" IsReadOnly="{TemplateBinding IsReadOnly}" Style="{x:Null}" Template="{StaticResource ComboBoxTextBox}" Visibility="Hidden" />
 								<Popup Name="Popup" AllowsTransparency="True" Focusable="False" IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" PopupAnimation="Slide">
 									<Grid Name="DropDown" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}" SnapsToDevicePixels="True">
-										<Border x:Name="DropDownBorder" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="Black" BorderThickness="1" />
+										<Border x:Name="DropDownBorder"
+												Background="{DynamicResource WindowBackgroundBrush}"
+												BorderBrush="Black"
+												BorderThickness="1"
+												CornerRadius="4"
+												Margin="0 2 0 0"/>
 										<DockPanel Margin="4,6,4,6">
 											<Button Name="button" Command="{Binding AddVariableCommand}" Content="Создать" DockPanel.Dock="Bottom" Visibility="{Binding AddVariableVisibility, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
 											<ScrollViewer KeyboardNavigation.DirectionalNavigation="Cycle" SnapsToDevicePixels="True">
@@ -40,10 +44,6 @@
 								</Trigger>
 								<Trigger Property="IsGrouping" Value="true">
 									<Setter Property="ScrollViewer.CanContentScroll" Value="false" />
-								</Trigger>
-								<Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="true">
-									<Setter TargetName="DropDownBorder" Property="CornerRadius" Value="4" />
-									<Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0" />
 								</Trigger>
 								<Trigger Property="IsEditable" Value="true">
 									<Setter Property="IsTabStop" Value="false" />
@@ -67,24 +67,45 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<ComboBox Width="200" ItemsSource="{Binding LocalVariables}" SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource VariableComboBox}" Visibility="{Binding Path=SelectedVariableScope, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:VariableScope.LocalVariable}}" />
+		<ComboBox ItemsSource="{Binding LocalVariables}"
+				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
+				  Width="200"
+				  Style="{StaticResource VariableComboBox}"
+				  Visibility="{Binding Path=SelectedVariableScope, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:VariableScope.LocalVariable}}" />
 
-		<ComboBox Width="200" ItemsSource="{Binding GlobalVariables}" SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource VariableComboBox}" Visibility="{Binding Path=SelectedVariableScope, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:VariableScope.GlobalVariable}}" />
+		<ComboBox ItemsSource="{Binding GlobalVariables}"
+				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
+				  Width="200"
+				  Style="{StaticResource VariableComboBox}"
+				  Visibility="{Binding Path=SelectedVariableScope, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:VariableScope.GlobalVariable}}" />
 
 		<StackPanel Visibility="{Binding SelectedVariableScope, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:VariableScope.ExplicitValue}}">
 			<StackPanel Visibility="{Binding IsList, Converter={StaticResource InversedBoolToVisibilityConverter}}">
-				<extToolkit:IntegerUpDown Width="200" Maximum="{Binding ExplicitValue.MaxIntValue}" Minimum="{Binding ExplicitValue.MinIntValue}" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Integer}}" Value="{Binding ExplicitValue.IntValue, UpdateSourceTrigger=PropertyChanged}" />
-				<CheckBox Width="200" IsChecked="{Binding ExplicitValue.BoolValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Boolean}}" />
-				<DockPanel Width="202" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.String}}">
+				<extToolkit:IntegerUpDown Width="200" Maximum="{Binding ExplicitValue.MaxIntValue}" Minimum="{Binding ExplicitValue.MinIntValue}"
+										  Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Integer}}"
+										  Value="{Binding ExplicitValue.IntValue, UpdateSourceTrigger=PropertyChanged}" />
+				<CheckBox Width="200" IsChecked="{Binding ExplicitValue.BoolValue, UpdateSourceTrigger=PropertyChanged}"
+						  Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Boolean}}" />
+				<DockPanel Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.String}}"
+						   Width="202">
 					<TextBox Width="182" Text="{Binding ExplicitValue.StringValue, UpdateSourceTrigger=PropertyChanged}" />
-					<Button Width="20" Height="25" Margin="-5,0,0,0" Command="{Binding EditStringCommand}" Content="..." FontSize="20" Foreground="{DynamicResource ForegroundColorLight}">
+					<Button Command="{Binding EditStringCommand}"
+							Content="..."
+							FontSize="20"
+							Foreground="{DynamicResource ForegroundColorLight}"
+							Width="20" Height="25" Margin="-5,0,0,0">
 						<Button.Style>
 							<Style TargetType="Button">
 								<Setter Property="Template">
 									<Setter.Value>
 										<ControlTemplate TargetType="Button">
 											<Border Name="border" Background="Orange" BorderThickness="0" CornerRadius="0,3,3,0">
-												<ContentPresenter x:Name="contentPresenter" Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+												<ContentPresenter x:Name="contentPresenter"
+																  Margin="{TemplateBinding Padding}"
+																  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+																  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+																  Content="{TemplateBinding Content}"
+																  ContentTemplate="{TemplateBinding ContentTemplate}" />
 											</Border>
 											<ControlTemplate.Triggers>
 												<Trigger Property="UIElement.IsMouseOver" Value="True">

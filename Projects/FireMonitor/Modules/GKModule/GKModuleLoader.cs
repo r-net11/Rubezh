@@ -343,6 +343,7 @@ namespace GKModule
 		{
 			yield return new DoorsReportProvider();
 			yield return new ReflectionReportProvider();
+			yield return new DevicesReportProvider();
 		}
 		#endregion
 	}

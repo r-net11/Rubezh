@@ -1,5 +1,5 @@
-﻿using System;
-using RubezhAPI.GK;
+﻿using RubezhAPI.GK;
+using System;
 
 namespace GKProcessor
 {
@@ -19,6 +19,7 @@ namespace GKProcessor
 				IsPlaceable = true
 			};
 
+			driver.AvailableStateBits.Add(GKStateBit.Norm);
 			driver.AvailableStateBits.Add(GKStateBit.Off);
 			driver.AvailableStateBits.Add(GKStateBit.TurningOn);
 			driver.AvailableStateBits.Add(GKStateBit.TurningOff);
@@ -36,7 +37,7 @@ namespace GKProcessor
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOnNow_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.Stop_InManual);
-			
+
 			var property1 = new GKDriverProperty()
 			{
 				No = 0,
