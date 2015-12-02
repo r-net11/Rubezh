@@ -2,9 +2,9 @@
 
 namespace AutomationModule.Views
 {
-	public partial class OpcDaServersAddingServersView : UserControl
+	public partial class OpcDaMenuView : UserControl
 	{
-		public OpcDaServersAddingServersView()
+		public OpcDaMenuView()
 		{
 			InitializeComponent();
 		}

@@ -1,11 +1,12 @@
 ﻿using System;
 using Infrastructure.Common.Windows.ViewModels;
+using AutomationModule.Models;
 
 namespace AutomationModule.ViewModels
 {
-	public class OpcDaServersAddingServerViewModel : BaseViewModel
+	public class OpcDaAddingServerViewModel : BaseViewModel
 	{
-		public OpcDaServersAddingServerViewModel(OpcDaServerViewModel server)
+		public OpcDaAddingServerViewModel(OpcDaServerModel server)
 		{
 			if (server == null)
 			{
@@ -14,7 +15,7 @@ namespace AutomationModule.ViewModels
 			Server = server;
 		}
 
-		public OpcDaServerViewModel Server { get; private set; }
+		public OpcDaServerModel Server { get; private set; }
 
 		public bool IsSelected { get; set; }
 	}

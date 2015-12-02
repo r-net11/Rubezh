@@ -2,9 +2,9 @@
 
 namespace AutomationModule.ViewModels
 {
-	public class OpcDaServersMenuViewModel: BaseViewModel
+	public class OpcDaMenuViewModel: BaseViewModel
 	{
-		public OpcDaServersMenuViewModel(OpcDaServersViewModel contex)
+		public OpcDaMenuViewModel(OpcDaServersViewModel contex)
 		{
 			Context = contex;
 		}

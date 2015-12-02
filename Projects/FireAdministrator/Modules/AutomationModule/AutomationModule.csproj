@@ -126,19 +126,19 @@
     </Compile>
     <Compile Include="OpcDaServers\ViewModels\OpcDaEditingTagsViewModel.cs" />
     <Compile Include="OpcDaServers\ViewModels\OpcDaEditingTagViewModel.cs" />
-    <Compile Include="OpcDaServers\ViewModels\OpcDaServersAddingServerViewModel.cs" />
-    <Compile Include="OpcDaServers\ViewModels\OpcDaServersAddingServersViewModel.cs" />
+    <Compile Include="OpcDaServers\ViewModels\OpcDaAddingServerViewModel.cs" />
+    <Compile Include="OpcDaServers\ViewModels\OpcDaAddingServersViewModel.cs" />
     <Compile Include="OpcDaServers\ViewModels\OpcDaServersViewModel.cs" />
-    <Compile Include="OpcDaServers\ViewModels\OpcDaServerViewModel.cs" />
-    <Compile Include="OpcDaServers\ViewModels\OpcDaServersMenuViewModel.cs" />
+    <Compile Include="OpcDaServers\Models\OpcDaServer.cs" />
+    <Compile Include="OpcDaServers\ViewModels\OpcDaMenuViewModel.cs" />
     <Compile Include="OpcDaServers\Views\OpcDaEditingTagsView.xaml.cs">
       <DependentUpon>OpcDaEditingTagsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OpcDaServers\Views\OpcDaServersAddingServersView.xaml.cs">
-      <DependentUpon>OpcDaServersAddingServersView.xaml</DependentUpon>
+    <Compile Include="OpcDaServers\Views\OpcDaAddingServersView.xaml.cs">
+      <DependentUpon>OpcDaAddingServersView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OpcDaServers\Views\OpcDaServersMenuView.xaml.cs">
-      <DependentUpon>OpcDaServersMenuView.xaml</DependentUpon>
+    <Compile Include="OpcDaServers\Views\OpcDaMenuView.xaml.cs">
+      <DependentUpon>OpcDaMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OpcDaServers\Views\OpcDaServersView.xaml.cs">
       <DependentUpon>OpcDaServersView.xaml</DependentUpon>
@@ -609,11 +609,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OpcDaServers\Views\OpcDaServersAddingServersView.xaml">
+    <Page Include="OpcDaServers\Views\OpcDaAddingServersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OpcDaServers\Views\OpcDaServersMenuView.xaml">
+    <Page Include="OpcDaServers\Views\OpcDaMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -969,7 +969,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="OpcDaServers\Models\" />
     <Folder Include="Procedures\Converters\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

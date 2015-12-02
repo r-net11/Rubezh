@@ -3,35 +3,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 MinWidth="400" MinHeight="300">
-	<Grid>
-		<TreeList Focusable="True" SelectedTreeNode="{Binding SelectedItem}" Source="{Binding RootItems}" UIBehavior.ShowSelectionMark="False">
-			<TreeList.View>
-				<GridView>
+	
+	<TreeList Focusable="True" SelectedTreeNode="{Binding SelectedItem}" Source="{Binding RootItems}" UIBehavior.ShowSelectionMark="False">
+		<TreeList.View>
+			<GridView>
 
-					<GridViewColumn Width="250" Header="Тег">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<Grid>
-									<TextBlock Width="200" Margin="31 0 0 0" HorizontalAlignment="Stretch" VerticalAlignment="Center" 
-											   Text="{Binding ElementName}" />
-								</Grid>
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
+				<GridViewColumn Width="250" Header="Тег">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Width="200" Margin="31 0 0 0" HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+										Text="{Binding ElementName}" />
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
 				
-					<GridViewColumn Width="100" Header="Выбрано">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<Grid>
-									<CheckBox IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}"
-											  Visibility="{Binding IsTag, Converter={StaticResource BoolToVisibilityConverter}}" />
-								</Grid>
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-					
-				</GridView>
-			</TreeList.View>
-		</TreeList>
-	</Grid>
+				<GridViewColumn Width="100" Header="Выбрано">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<CheckBox IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}"
+										Visibility="{Binding IsTag, Converter={StaticResource BoolToVisibilityConverter}}" />
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
+		
+			</GridView>
+		</TreeList.View>
+	</TreeList>
+
 </UserControl>

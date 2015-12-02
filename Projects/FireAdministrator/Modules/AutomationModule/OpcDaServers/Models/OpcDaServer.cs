@@ -3,21 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 
-namespace AutomationModule.ViewModels
+namespace AutomationModule.Models
 {
-	public class OpcDaServerViewModel: BaseViewModel
+	public class OpcDaServerModel
 	{
 		#region Constructors
 
-		public OpcDaServerViewModel(RubezhAPI.Automation.OpcDaServer server)
+		public OpcDaServerModel(RubezhAPI.Automation.OpcDaServer server)
 		{
 			Server = server;
 			ServerName = server.ServerName;
 			Id = server.Id;
-
-			#region Для отладки
-			//Server.Tags = GetAllTagsFromOpcServer();
-			#endregion
 		}
 
 		#endregion

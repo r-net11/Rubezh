@@ -68,7 +68,6 @@ namespace AutomationModule.ViewModels
 			return base.Save();
 		}
 
-
 		public static OpcDaEditingTagsTreeElementViewModel BuildTagsTreeByPath(OpcDaEditingTagsTagViewModel[] tags)
 		{
 			// Добавляем корневой элемент
@@ -117,6 +116,5 @@ namespace AutomationModule.ViewModels
 			}
 			return (OpcDaEditingTagsTreeElementViewModel)tree;
 		}
-
 	}
 }

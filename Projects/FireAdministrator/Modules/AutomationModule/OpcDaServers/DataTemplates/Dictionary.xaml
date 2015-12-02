@@ -5,11 +5,11 @@
 	<DataTemplate DataType="{x:Type ViewModels:OpcDaServersViewModel}">
 		<Views:OpcDaServersView />
 	</DataTemplate>
-	<DataTemplate DataType="{x:Type ViewModels:OpcDaServersMenuViewModel}">
-		<Views:OpcDaServersMenuView />
+	<DataTemplate DataType="{x:Type ViewModels:OpcDaMenuViewModel}">
+		<Views:OpcDaMenuView />
 	</DataTemplate>
-	<DataTemplate DataType="{x:Type ViewModels:OpcDaServersAddingServersViewModel}">
-		<Views:OpcDaServersAddingServersView />
+	<DataTemplate DataType="{x:Type ViewModels:OpcDaAddingServersViewModel}">
+		<Views:OpcDaAddingServersView />
 	</DataTemplate>
 	<DataTemplate DataType="{x:Type ViewModels:OpcDaEditingTagsViewModel}">
 		<Views:OpcDaEditingTagsView />
