@@ -1,9 +1,10 @@
 ﻿using System.Data;
 using RubezhClient;
 using FiresecService.Report.DataSources;
-using System.Text;
+using RubezhAPI.GK;
 using RubezhAPI.SKD.ReportFilters;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace FiresecService.Report.Templates
 {
@@ -27,31 +28,32 @@ namespace FiresecService.Report.Templates
 		}
 		protected override DataSet CreateDataSet()
 		{
-			var filter = Filter as DevicesReportFilter;
-			var devices = GKManager.Devices;
 			var dataSet = new DevicesDataSet();
-			if (filter != null && filter.SelectedDevices != null)
+			var devices = GKManager.Devices.Where(device => device.Parent != null && 
+			(device.DriverType == GKDriverType.GK
+			|| device.DriverType == GKDriverType.RSR2_KAU
+			|| (device.AllParents.Exists(parent=>parent.DriverType == GKDriverType.RSR2_KAU_Shleif && !device.Parent.Driver.IsGroupDevice)))
+			&& device.DriverType != GKDriverType.KAUIndicator
+			&& device.DriverType != GKDriverType.RSR2_MVP_Part);
+			var dictionary = new Dictionary<string, int>();
+			foreach (var device in devices)
 			{
-				var number = 0;
-				foreach (var selectedDevice in filter.SelectedDevices)
+				var key = device.ShortName;
+				if (!dictionary.ContainsKey(key))
 				{
-					var device = devices.FirstOrDefault(x => x.UID == selectedDevice.UID);
-					var dataRow = dataSet.Data.NewDataRow();
-					var presentationName = new StringBuilder();
-					presentationName.Append(' ', device.AllParents.Count * 5);
-					if (device.AllChildren.Count > 0)
-						presentationName.Append(" - ");
-					else
-						presentationName.Append("   ");
-					presentationName.Append(device.PresentationName);
-					dataRow.PresentationName = presentationName.ToString();
-					dataRow.PresentationAddress = device.PresentationAddress;
-					dataRow.PresentationZoneOrLogic = GKManager.GetPresentationZoneOrLogic(device);
-					dataRow.Description = device.Description;
-					dataRow.Number = number;
-					dataSet.Data.Rows.Add(dataRow);
-					number++;
+					dictionary.Add(key, 1);
 				}
+				else
+				{
+					dictionary[key]++;
+				}
+			}
+			foreach (var item in dictionary)
+			{
+				var dataRow = dataSet.Data.NewDataRow();
+				dataRow.Nomination = item.Key;
+				dataRow.Number = item.Value;
+				dataSet.Data.Rows.Add(dataRow);
 			}
 			return dataSet;
 		}

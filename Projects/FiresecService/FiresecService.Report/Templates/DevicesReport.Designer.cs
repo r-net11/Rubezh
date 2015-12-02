@@ -32,14 +32,10 @@
 			this.xrTable2 = new DevExpress.XtraReports.UI.XRTable();
 			this.xrTableRow2 = new DevExpress.XtraReports.UI.XRTableRow();
 			this.xrTableCell8 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell3 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell4 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrTableCell5 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrTable1 = new DevExpress.XtraReports.UI.XRTable();
 			this.xrTableRow1 = new DevExpress.XtraReports.UI.XRTableRow();
 			this.xrTableCell1 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell2 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell6 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrTableCell7 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrControlStyle1 = new DevExpress.XtraReports.UI.XRControlStyle();
 			this.devicesDataSet1 = new FiresecService.Report.DataSources.DevicesDataSet();
@@ -89,8 +85,6 @@
 			this.xrTableRow2.BackColor = System.Drawing.Color.DarkGray;
 			this.xrTableRow2.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
             this.xrTableCell8,
-            this.xrTableCell3,
-            this.xrTableCell4,
             this.xrTableCell5});
 			this.xrTableRow2.Dpi = 254F;
 			this.xrTableRow2.Name = "xrTableRow2";
@@ -103,31 +97,15 @@
 			this.xrTableCell8.Dpi = 254F;
 			this.xrTableCell8.Name = "xrTableCell8";
 			this.xrTableCell8.Text = "Устройство";
-			this.xrTableCell8.Weight = 0.174993659398997D;
-			// 
-			// xrTableCell3
-			// 
-			this.xrTableCell3.CanGrow = false;
-			this.xrTableCell3.Dpi = 254F;
-			this.xrTableCell3.Name = "xrTableCell3";
-			this.xrTableCell3.Text = "Адрес";
-			this.xrTableCell3.Weight = 0.0764280742756606D;
-			// 
-			// xrTableCell4
-			// 
-			this.xrTableCell4.CanGrow = false;
-			this.xrTableCell4.Dpi = 254F;
-			this.xrTableCell4.Name = "xrTableCell4";
-			this.xrTableCell4.Text = "Зона или логика";
-			this.xrTableCell4.Weight = 0.115536899781053D;
+			this.xrTableCell8.Weight = 0.155439300248699D;
 			// 
 			// xrTableCell5
 			// 
 			this.xrTableCell5.CanGrow = false;
 			this.xrTableCell5.Dpi = 254F;
 			this.xrTableCell5.Name = "xrTableCell5";
-			this.xrTableCell5.Text = "Примичание";
-			this.xrTableCell5.Weight = 0.135884833893605D;
+			this.xrTableCell5.Text = "Количество";
+			this.xrTableCell5.Weight = 0.155439193043903D;
 			// 
 			// xrTable1
 			// 
@@ -139,15 +117,13 @@
 			this.xrTable1.OddStyleName = "xrControlStyle1";
 			this.xrTable1.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow1});
-			this.xrTable1.SizeF = new System.Drawing.SizeF(1700F, 63.5F);
+			this.xrTable1.SizeF = new System.Drawing.SizeF(1701F, 63.5F);
 			this.xrTable1.StylePriority.UseBorders = false;
 			// 
 			// xrTableRow1
 			// 
 			this.xrTableRow1.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
             this.xrTableCell1,
-            this.xrTableCell2,
-            this.xrTableCell6,
             this.xrTableCell7});
 			this.xrTableRow1.Dpi = 254F;
 			this.xrTableRow1.Name = "xrTableRow1";
@@ -156,39 +132,18 @@
 			// xrTableCell1
 			// 
 			this.xrTableCell1.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.PresentationName")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Nomination")});
 			this.xrTableCell1.Dpi = 254F;
 			this.xrTableCell1.Name = "xrTableCell1";
-			this.xrTableCell1.Weight = 0.516924525189736D;
-			// 
-			// xrTableCell2
-			// 
-			this.xrTableCell2.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.PresentationAddress")});
-			this.xrTableCell2.Dpi = 254F;
-			this.xrTableCell2.Name = "xrTableCell2";
-			this.xrTableCell2.StylePriority.UseTextAlignment = false;
-			this.xrTableCell2.Text = "xrTableCell2";
-			this.xrTableCell2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
-			this.xrTableCell2.Weight = 0.225765586619448D;
-			// 
-			// xrTableCell6
-			// 
-			this.xrTableCell6.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.PresentationZoneOrLogic")});
-			this.xrTableCell6.Dpi = 254F;
-			this.xrTableCell6.Name = "xrTableCell6";
-			this.xrTableCell6.StylePriority.UseTextAlignment = false;
-			this.xrTableCell6.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
-			this.xrTableCell6.Weight = 0.341291471185595D;
+			this.xrTableCell1.Weight = 0.458891658203233D;
 			// 
 			// xrTableCell7
 			// 
 			this.xrTableCell7.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Description")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Number")});
 			this.xrTableCell7.Dpi = 254F;
 			this.xrTableCell7.Name = "xrTableCell7";
-			this.xrTableCell7.Weight = 0.401398533964285D;
+			this.xrTableCell7.Weight = 0.459431400950788D;
 			// 
 			// xrControlStyle1
 			// 
@@ -228,14 +183,10 @@
 		private DevExpress.XtraReports.UI.XRTable xrTable2;
 		private DevExpress.XtraReports.UI.XRTableRow xrTableRow2;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell8;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell3;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell4;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell5;
 		private DevExpress.XtraReports.UI.XRTable xrTable1;
 		private DevExpress.XtraReports.UI.XRTableRow xrTableRow1;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell1;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell2;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell6;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell7;
 		private DevExpress.XtraReports.UI.XRControlStyle xrControlStyle1;
 		private DataSources.DevicesDataSet devicesDataSet1;
