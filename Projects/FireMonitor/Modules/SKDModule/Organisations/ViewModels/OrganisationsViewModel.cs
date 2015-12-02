@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using RubezhAPI.SKD;
-using RubezhClient;
-using RubezhClient.SKDHelpers;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
+using RubezhAPI.SKD;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using SKDModule.Events;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {
@@ -18,7 +16,7 @@ namespace SKDModule.ViewModels
 	{
 		LogicalDeletationType _logicalDeletationType;
 		public bool IsWithDeleted { get { return _logicalDeletationType == LogicalDeletationType.All; } }
-		
+
 		public OrganisationsViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
@@ -128,7 +126,7 @@ namespace SKDModule.ViewModels
 					currentUserViewModel.SetWithoutSave(true);
 				}
 				ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Publish(SelectedOrganisation.Organisation);
-            }
+			}
 		}
 		bool CanAdd()
 		{
@@ -166,7 +164,7 @@ namespace SKDModule.ViewModels
 		{
 			return SelectedOrganisation != null && !SelectedOrganisation.IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_AddRemove);
 		}
-		
+
 		public RelayCommand RestoreCommand { get; private set; }
 		void OnRestore()
 		{
@@ -211,7 +209,7 @@ namespace SKDModule.ViewModels
 		public bool ShowFromJournal(Guid uid)
 		{
 			var selectedItem = Organisations.FirstOrDefault(x => x.Organisation.UID == uid);
-			if(selectedItem != null)
+			if (selectedItem != null)
 			{
 				SelectedOrganisation = selectedItem;
 				return true;
