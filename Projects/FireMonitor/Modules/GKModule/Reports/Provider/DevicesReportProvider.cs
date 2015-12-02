@@ -4,7 +4,7 @@ using Infrastructure.Common.SKDReports;
 
 namespace GKModule.Reports.Providers
 {
-	class DevicesReportProvider : FilteredSKDReportProvider<DevicesReportFilter>
+	class DevicesReportProvider : FilteredSKDReportProvider<SKDReportFilter>
 	{
 		public DevicesReportProvider()
 			: base("Список устройств", 433, SKDReportGroup.Configuration, PermissionType.Oper_Reports_Devices)
