@@ -40,6 +40,8 @@
 
 				<File Id="Server.EntityFramework.dll"										Name="EntityFramework.dll"							Source="$(var.Server.TargetDir)" />
 				<File Id="Server.EntityFramework.SqlServer.dll"								Name="EntityFramework.SqlServer.dll"				Source="$(var.Server.TargetDir)" />
+				<File Id="Server.EntityFramework.BulkInsert.dll"							Name="EntityFramework.BulkInsert.dll"				Source="$(var.Server.TargetDir)" />
+				<File Id="Server.EntityFramework.MappingAPI.dll"							Name="EntityFramework.MappingAPI.dll"				Source="$(var.Server.TargetDir)" />
 
 				<File Id="Server.DevExpress.Data.v15.1.dll"									Name="DevExpress.Data.v15.1.dll"					Source="$(var.Server.DevExpress.TargetDir)" />
 				<File Id="Server.DevExpress.Printing.v15.1.Core.dll"						Name="DevExpress.Printing.v15.1.Core.dll"			Source="$(var.Server.DevExpress.TargetDir)" />
