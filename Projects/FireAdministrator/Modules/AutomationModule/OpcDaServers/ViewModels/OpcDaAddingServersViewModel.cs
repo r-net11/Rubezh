@@ -2,12 +2,13 @@
 using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using AutomationModule.Models;
+using RubezhAPI.Automation;
 
 namespace AutomationModule.ViewModels
 {
 	public class OpcDaAddingServersViewModel : SaveCancelDialogViewModel
 	{
-		public OpcDaAddingServersViewModel(IEnumerable<OpcDaServerModel> servers)
+		public OpcDaAddingServersViewModel(IEnumerable<RubezhAPI.Automation.OpcDaServer> servers)
 		{
 			Title = "Добавить серверы";
 
@@ -17,7 +18,7 @@ namespace AutomationModule.ViewModels
 
 		public List<OpcDaAddingServerViewModel> AllServers { get; private set; }
 
-		public OpcDaServerModel[] SelectedServers { get; private set; }
+		public RubezhAPI.Automation.OpcDaServer[] SelectedServers { get; private set; }
 
 		protected override bool Save()
 		{

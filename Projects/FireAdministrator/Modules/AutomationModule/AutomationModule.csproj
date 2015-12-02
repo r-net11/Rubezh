@@ -129,7 +129,7 @@
     <Compile Include="OpcDaServers\ViewModels\OpcDaAddingServerViewModel.cs" />
     <Compile Include="OpcDaServers\ViewModels\OpcDaAddingServersViewModel.cs" />
     <Compile Include="OpcDaServers\ViewModels\OpcDaServersViewModel.cs" />
-    <Compile Include="OpcDaServers\Models\OpcDaServer.cs" />
+    <Compile Include="OpcDaServers\Models\OpcDaServerHelper.cs" />
     <Compile Include="OpcDaServers\ViewModels\OpcDaMenuViewModel.cs" />
     <Compile Include="OpcDaServers\Views\OpcDaEditingTagsView.xaml.cs">
       <DependentUpon>OpcDaEditingTagsView.xaml</DependentUpon>

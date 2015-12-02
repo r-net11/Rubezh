@@ -6,6 +6,7 @@ using Infrastructure.Common;
 using Infrastructure;
 using RubezhClient;
 using AutomationModule.Models;
+using RubezhAPI.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -20,13 +21,12 @@ namespace AutomationModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 
-			OpcDaServers = new ObservableCollection<OpcDaServerModel>();
+			OpcDaServers = new ObservableCollection<RubezhAPI.Automation.OpcDaServer>();
 
 			// Загрузка сохранённого списка серверов
 			foreach (var opcServer in ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaServers)
 			{
-				var opcServerViewModel = new OpcDaServerModel(opcServer);
-				OpcDaServers.Add(opcServerViewModel);
+				OpcDaServers.Add(opcServer);
 			}
 		}
 
@@ -34,9 +34,9 @@ namespace AutomationModule.ViewModels
 
 		#region Fields And Properties
 
-		ObservableCollection<OpcDaServerModel> _opcDaServers;
+		ObservableCollection<RubezhAPI.Automation.OpcDaServer> _opcDaServers;
 
-		public ObservableCollection<OpcDaServerModel> OpcDaServers
+		public ObservableCollection<RubezhAPI.Automation.OpcDaServer> OpcDaServers
 		{
 			get { return _opcDaServers; }
 			set 
@@ -46,27 +46,27 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		OpcDaServerModel _selectedOpcDaServer;
+		RubezhAPI.Automation.OpcDaServer _selectedOpcDaServer;
 
-		public OpcDaServerModel SelectedOpcDaServer
+		public RubezhAPI.Automation.OpcDaServer SelectedOpcDaServer
 		{
 			get { return _selectedOpcDaServer; }
 			set
 			{
 				_selectedOpcDaServer = value;
-				Tags = _selectedOpcDaServer == null ? null : _selectedOpcDaServer.Server.Tags;
+				Tags = _selectedOpcDaServer == null ? null : _selectedOpcDaServer.Tags;
 				OnPropertyChanged(() => SelectedOpcDaServer);
 			}
 		}
 
 		public RubezhAPI.Automation.OpcDaTag[] Tags 
 		{
-			get { return SelectedOpcDaServer == null ? null : SelectedOpcDaServer.Server.Tags; }
+			get { return SelectedOpcDaServer == null ? null : SelectedOpcDaServer.Tags; }
 			set 
 			{
 				if (SelectedOpcDaServer != null)
 				{
-					SelectedOpcDaServer.Server.Tags = value;
+					SelectedOpcDaServer.Tags = value;
 					OnPropertyChanged(() => Tags);
 				}
 			}
@@ -88,11 +88,14 @@ namespace AutomationModule.ViewModels
 
 		void OnAdd()
 		{
-			List<OpcDaServerModel> notselectedServers;
+			List<RubezhAPI.Automation.OpcDaServer> notselectedServers;
 
 			//Cоздаём и передаём список отсутствующих в конфигурационном списке серверов
-			var list = OpcDaServer.OpcDaServer.GetRegistredServers().Select(x => new OpcDaServerModel(
-				new RubezhAPI.Automation.OpcDaServer { Id = x.Id, ServerName = x.ServerName })).ToList();
+			var list = OpcDaServer.OpcDaServer.GetRegistredServers().Select(x =>
+				new RubezhAPI.Automation.OpcDaServer { Id = x.Id, ServerName = x.ServerName }).ToList();
+
+			var k = list.Where(x => ClientManager.SystemConfiguration
+				.AutomationConfiguration.OpcDaServers.Any(y=>y.Id != x.Id));
 
 			if (OpcDaServers.Count == 0)
 			{
@@ -100,7 +103,7 @@ namespace AutomationModule.ViewModels
 			}
 			else
 			{
-				notselectedServers = new List<OpcDaServerModel>();
+				notselectedServers = new List<RubezhAPI.Automation.OpcDaServer>();
 
 				foreach (var item in list)
 				{
@@ -120,7 +123,7 @@ namespace AutomationModule.ViewModels
 				{
 					OpcDaServers.Add(server);
 					ClientManager.SystemConfiguration.AutomationConfiguration
-						.OpcDaServers.Add(server.ConvertTo());
+						.OpcDaServers.Add(server);
 					ServiceFactory.SaveService.AutomationChanged = true;
 				}
 			}
@@ -130,7 +133,7 @@ namespace AutomationModule.ViewModels
 		void OnDelete()
 		{
 			ClientManager.SystemConfiguration.AutomationConfiguration
-				.OpcDaServers.Remove(SelectedOpcDaServer.Server);
+				.OpcDaServers.Remove(SelectedOpcDaServer);
 			ServiceFactory.SaveService.AutomationChanged = true;
 
 			OpcDaServers.Remove(SelectedOpcDaServer);
@@ -149,14 +152,15 @@ namespace AutomationModule.ViewModels
 
 		void OnEdit()
 		{
-			var allTags = SelectedOpcDaServer.GetAllTagsFromOpcServer()
+			var allTags = OpcDaServerHelper.GetAllTagsFromOpcServer(
+				OpcDaServer.OpcDaServer.GetRegistredServers().First(x => x.Id == SelectedOpcDaServer.Id))
 				.Select(tag => new OpcDaEditingTagsTagViewModel(tag)).ToArray();
 
 			// Получаем список уже выбранных тегов
 			// и устанавливаем им признак
 			foreach (var x in allTags)
 			{ 
-				foreach(var y in SelectedOpcDaServer.Server.Tags)
+				foreach(var y in SelectedOpcDaServer.Tags)
 				{
 					if (x.Tag.TagId == y.TagId)
 					{
