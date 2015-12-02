@@ -1,34 +1,55 @@
 ﻿<UserControl
 	x:Class="SKDModule.Reports.Views.SchedulePageView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:layout="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
+	xmlns:viewModels="clr-namespace:SKDModule.ViewModels"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+	d:DesignWidth="300">
+	<UserControl.Resources>
+		<viewModels:CommonScheduleViewModelComparer x:Key="CommonScheduleViewModelComparer" />
+	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<ListView
-			Focusable="True"
-			ItemsSource="{Binding Schedules, Mode=OneWay}"
-			SortBehavior.CanUserSortColumns="True">
-			<ListView.View>
-				<GridView>
-					<GridViewColumn Header="Название">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<StackPanel Orientation="Horizontal">
-									<CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-									<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Shedule.png" />
-									<TextBlock Text="{Binding Item.Name}" VerticalAlignment="Center"/>
-								</StackPanel>
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-					<GridViewColumn DisplayMemberBinding="{Binding Item.Description}" Header="Примечание" />
-				</GridView>
-			</ListView.View>
-		</ListView>
+		<DataGrid
+			CanUserSortColumns="True"
+			ItemsSource="{Binding Schedules}">
+			<DataGrid.Columns>
+				<DataGridTemplateColumn Header="Название" Width="0.5*" SortMemberPath="Item.Name">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<CheckBox
+									Margin="2"
+									IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+								<Image
+									Width="16"
+									Margin="1 0"
+									VerticalAlignment="Center"
+									Source="/Controls;component/Images/Shedule.png" />
+								<TextBlock
+									Text="{Binding Item.Name}"
+									VerticalAlignment="Center"/>
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="Примечание" Width="*" SortMemberPath="Item.Description">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Item.Description}" VerticalAlignment="Center" />
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+		</DataGrid>
 		<StackPanel Grid.Row="1" Orientation="Horizontal">
 			<ToolBarButton Command="{Binding SelectAllCommand}" ImageSource="SelectAll" ToolTip="Выделить всё" />
 			<ToolBarButton Command="{Binding SelectNoneCommand}" ImageSource="SelectNone" ToolTip="Снять все выделения" />

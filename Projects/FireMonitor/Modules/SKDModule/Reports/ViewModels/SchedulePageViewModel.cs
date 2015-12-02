@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using Common;
-using FiresecAPI.GK;
+﻿using Common;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
-using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SKDModule.Reports.ViewModels
 {
@@ -64,7 +62,6 @@ namespace SKDModule.Reports.ViewModels
 
 		public CommonScheduleViewModel(Schedule skdSchedule)
 		{
-		//	No = gkSchedule.No;
 			Name = skdSchedule.Name;
 			Description = skdSchedule.Description;
 		}

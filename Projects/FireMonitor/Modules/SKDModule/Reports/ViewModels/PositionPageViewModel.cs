@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
-using Infrastructure;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Events;
 using SKDModule.ViewModels;
@@ -15,8 +15,8 @@ namespace SKDModule.Reports.ViewModels
 		{
 			Title = "Должности";
 			Filter = new PositionsFilterViewModel();
-			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
-			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Subscribe(OnUseArchive);
+			ServiceFactoryBase.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
+			ServiceFactoryBase.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Subscribe(OnUseArchive);
 			_OrganisationChangedSubscriber = new OrganisationChangedSubscriber(this);
 		}
 
@@ -32,7 +32,7 @@ namespace SKDModule.Reports.ViewModels
 			var filterArchive = filter as IReportFilterArchive;
 			_isWithDeleted = filterArchive != null && filterArchive.UseArchive;
 			var organisations = (filter as IReportFilterOrganisation).Organisations;
-			OrganisationUIDs = organisations != null ? organisations : new List<Guid>();
+			OrganisationUIDs = organisations ?? new List<Guid>();
 			InitializeFilter();
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
@@ -41,13 +41,13 @@ namespace SKDModule.Reports.ViewModels
 			if (positionFilter != null)
 				positionFilter.Positions = Filter.UIDs;
 		}
-		
+
 		void OnUseArchive(bool isWithDeleted)
 		{
 			_isWithDeleted = isWithDeleted;
 			InitializeFilter();
 		}
-		
+
 		public void InitializeFilter()
 		{
 			Filter.Initialize(_reportFilter == null ? null : _reportFilter.Positions, OrganisationUIDs, _isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active);

@@ -130,7 +130,7 @@ namespace Controls.TreeList
 
 		private static void DoSort(ListView listView, GridViewColumn column)
 		{
-			var tree = (TreeList)listView;
+			var tree = (TreeList)listView; //TODO: invalid cast exception
 			if (tree.Root.SortColumn != null)
 				SetSortDirection(tree.Root.SortColumn, null);
 			var comparer = GetSortComparer(column);

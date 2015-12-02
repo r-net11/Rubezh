@@ -1,29 +1,59 @@
-﻿<UserControl x:Class="SKDModule.Reports.Views.ScheduleSchemePageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<UserControl
+	x:Class="SKDModule.Reports.Views.ScheduleSchemePageView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:layout="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
+	xmlns:viewModels="clr-namespace:SKDModule.ViewModels">
+	<UserControl.Resources>
+		<viewModels:ScheduleSchemePageComparer x:Key="ScheduleSchemePageComparer" />
+	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<TreeList Name="_treeList" Grid.Row="0" Focusable="True" SortBehavior.CanUserSortColumns="True" Source="{Binding Schedules, Mode=OneWay}">
+		<TreeList
+			Name="_treeList"
+			Focusable="True"
+			SortBehavior.CanUserSortColumns="True"
+			layout:ListViewLayoutManager.Enabled="True"
+			Source="{Binding Schedules, Mode=OneWay}">
 			<TreeList.View>
 				<GridView>
-					<GridViewColumn Header="Название">
+					<GridViewColumn Header="Название" Width="150" SortBehavior.SortComparer="{StaticResource ScheduleSchemePageComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CanCheck, Converter={StaticResource BoolToVisibilityConverter}}" />
-									<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding CanCheck, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-									<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Shedule.png" Visibility="{Binding CanCheck, Converter={StaticResource BoolToVisibilityConverter}}" />
-									<TextBlock Style="{StaticResource IsDeletedStyle}" Text="{Binding Item.Name}" />
+									<CheckBox
+										Margin="2"
+										IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+										Visibility="{Binding CanCheck, Converter={StaticResource BoolToVisibilityConverter}}" />
+									<Image
+										Width="16"
+										Margin="1 0"
+										VerticalAlignment="Center"
+										Source="/Controls;component/Images/Organisation.png"
+										Visibility="{Binding CanCheck, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+									<Image
+										Width="16"
+										Margin="1 0"
+										VerticalAlignment="Center"
+										Source="/Controls;component/Images/Shedule.png"
+										Visibility="{Binding CanCheck, Converter={StaticResource BoolToVisibilityConverter}}" />
+									<TextBlock
+										Style="{StaticResource IsDeletedStyle}"
+										Text="{Binding Item.Name}" />
 								</StackPanel>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Примечание">
+					<GridViewColumn Header="Примечание" layout:ProportionalColumn.Width="1">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<TextBlock Style="{StaticResource IsDeletedStyle}" Text="{Binding Item.Description}" />
+									<TextBlock
+										Style="{StaticResource IsDeletedStyle}"
+										Text="{Binding Item.Description}" />
 								</StackPanel>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
@@ -31,9 +61,17 @@
 				</GridView>
 			</TreeList.View>
 		</TreeList>
-		<StackPanel Grid.Row="1" Orientation="Horizontal">
-			<ToolBarButton ImageSource="SelectAll" Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" />
-			<ToolBarButton ImageSource="SelectNone" Command="{Binding SelectNoneCommand}" ToolTip="Снять все выделения" />
+		<StackPanel
+			Grid.Row="1"
+			Orientation="Horizontal">
+			<ToolBarButton
+				ImageSource="SelectAll"
+				Command="{Binding SelectAllCommand}"
+				ToolTip="Выделить всё" />
+			<ToolBarButton
+				ImageSource="SelectNone"
+				Command="{Binding SelectNoneCommand}"
+				ToolTip="Снять все выделения" />
 		</StackPanel>
 	</Grid>
 </UserControl>

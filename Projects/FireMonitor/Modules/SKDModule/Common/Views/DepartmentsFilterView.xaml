@@ -5,9 +5,15 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+	xmlns:layoutManager="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
+	xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
 	d:DesignHeight="500"
 	d:DesignWidth="500"
 	mc:Ignorable="d">
+	<UserControl.Resources>
+		<viewModel:DepartmentFilterComparer x:Key="DepartmentFilterComparer" />
+		<viewModel:DepartmentFilterDescriptionComparer x:Key="DepartmentFilterDescriptionComparer" />
+	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
@@ -18,42 +24,37 @@
 		<tree:TreeList
 			Name="_treeList"
 			Focusable="True"
-			Source="{Binding Organisations,
-		                                Mode=OneWay}"
-			tree:SortBehavior.CanUserSortColumns="True">
+			Source="{Binding Organisations, Mode=OneWay}"
+			tree:SortBehavior.CanUserSortColumns="True"
+			layoutManager:ListViewLayoutManager.Enabled="True">
 			<tree:TreeList.View>
 				<GridView>
-					<GridViewColumn Width="300" Header="Название">
+					<GridViewColumn Width="300" Header="Название" tree:SortBehavior.SortComparer="{StaticResource DepartmentFilterComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<CheckBox
 										Margin="2"
-										IsChecked="{Binding IsChecked,
-									                              Mode=TwoWay,
-									                              UpdateSourceTrigger=PropertyChanged}"
-										Visibility="{Binding IsOrganisation,
-									                               Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+										IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+										Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 									<Image
 										Width="16"
 										Margin="1 0"
 										VerticalAlignment="Center"
 										Source="/Controls;component/Images/Organisation.png"
-										Visibility="{Binding IsOrganisation,
-									                            Converter={StaticResource BoolToVisibilityConverter}}" />
+										Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
 									<Image
 										Width="16"
 										Margin="1 0"
 										VerticalAlignment="Center"
 										Source="/Controls;component/Images/Department.png"
-										Visibility="{Binding IsOrganisation,
-									                            Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+										Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 									<TextBlock Style="{StaticResource IsDeletedStyle}" Text="{Binding Name}" />
 								</StackPanel>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Width="300" Header="Примечание">
+					<GridViewColumn Width="300" Header="Примечание" layoutManager:ProportionalColumn.Width="1" tree:SortBehavior.SortComparer="{StaticResource DepartmentFilterDescriptionComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">

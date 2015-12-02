@@ -373,6 +373,10 @@ namespace FiresecService.Report.Templates
 		{
 			var dataRow = ds.Data.NewDataRow();
 			var employee = dataProvider.GetEmployee(record.EmployeeUID);
+
+			if (employee == null)
+				return;
+
 			dataRow.Employee = employee.Name;
 			dataRow.Orgnisation = employee.Organisation;
 			dataRow.Department = employee.Department;

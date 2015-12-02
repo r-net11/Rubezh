@@ -313,6 +313,7 @@
     <Compile Include="Reports\Providers\EmployeeAccessReportProvider.cs" />
     <Compile Include="Reports\Providers\CardsReportProvider.cs" />
     <Compile Include="Reports\T13Report.cs" />
+    <Compile Include="Reports\ViewModels\CheckedItemComparer.cs" />
     <Compile Include="Reports\ViewModels\CheckedItemViewModel.cs" />
     <Compile Include="Reports\ViewModels\ReportFilterOrganisationViewModel.cs" />
     <Compile Include="Reports\ViewModels\ReportOrganisationsFilterViewModel.cs" />
