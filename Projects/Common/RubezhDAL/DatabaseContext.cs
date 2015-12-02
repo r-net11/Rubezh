@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Migrations;
 using System.Data.Common;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using System.Linq;
 
 namespace RubezhDAL.DataClasses
 {
@@ -24,7 +23,7 @@ namespace RubezhDAL.DataClasses
 		public DbSet<PassJournal> PassJournals { get; set; }
 		public DbSet<Journal> Journals { get; set; }
 		public DbSet<EmployeeDay> EmployeeDays { get; set; }
-        public DbSet<AccessTemplate> AccessTemplates { get; set; }
+		public DbSet<AccessTemplate> AccessTemplates { get; set; }
 		public DbSet<AdditionalColumn> AdditionalColumns { get; set; }
 		public DbSet<AdditionalColumnType> AdditionalColumnTypes { get; set; }
 		public DbSet<Card> Cards { get; set; }
@@ -73,14 +72,14 @@ namespace RubezhDAL.DataClasses
 		protected override void Seed(DatabaseContext context)
 		{
 
-			if(context.Organisations.Count() == 0)
+			if (context.Organisations.Count() == 0)
 			{
 				var organisation = new Organisation
 				{
 					UID = Guid.NewGuid(),
 					Name = "Организация",
 					Users = new List<OrganisationUser>
-					{  
+					{
 						new OrganisationUser { UID = Guid.NewGuid(), UserUID = new Guid("10e591fb-e017-442d-b176-f05756d984bb") }
 					}
 				};
@@ -90,8 +89,8 @@ namespace RubezhDAL.DataClasses
 			{
 				var neverDaySchedule = new GKDaySchedule { UID = Guid.NewGuid(), Name = "<Никогда>", No = 1 };
 				context.GKDaySchedules.Add(neverDaySchedule);
-				
-				var alwaysDaySchedule = new GKDaySchedule{ UID = Guid.NewGuid(), Name = "<Всегда>", No = 2 };
+
+				var alwaysDaySchedule = new GKDaySchedule { UID = Guid.NewGuid(), Name = "<Всегда>", No = 2 };
 				alwaysDaySchedule.GKDayScheduleParts.Add(new GKDaySchedulePart() { StartMilliseconds = 0, EndMilliseconds = (int)new TimeSpan(1, 0, 0, 0, 0).TotalMilliseconds });
 				context.GKDaySchedules.Add(alwaysDaySchedule);
 			}

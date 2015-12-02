@@ -1,10 +1,9 @@
-﻿using System;
+﻿using RubezhAPI;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using RubezhAPI;
 using API = RubezhAPI.SKD;
-using System.Diagnostics;
 
 namespace RubezhDAL.DataClasses
 {
@@ -78,12 +77,12 @@ namespace RubezhDAL.DataClasses
 					tableItem = new Organisation { UID = item.UID };
 					TranslateDetailsBack(item, tableItem);
 					Table.Add(tableItem);
-					var dayInterval = new DayInterval() 
+					var dayInterval = new DayInterval()
 					{
-						UID = Guid.NewGuid(), 
-						Name = "Выходной", 
-						DayIntervalParts = new List<DayIntervalPart>(), 
-						OrganisationUID = item.UID 
+						UID = Guid.NewGuid(),
+						Name = "Выходной",
+						DayIntervalParts = new List<DayIntervalPart>(),
+						OrganisationUID = item.UID
 					};
 					Context.DayIntervals.Add(dayInterval);
 				}
@@ -204,6 +203,7 @@ namespace RubezhDAL.DataClasses
 				UserUIDs = tableItem.Users.Select(x => x.UserUID).ToList(),
 				ChiefUID = tableItem.ChiefUID.GetValueOrDefault(),
 				HRChiefUID = tableItem.HRChiefUID.GetValueOrDefault(),
+				MaxGKLevel = tableItem.MaxGKLevel,
 			};
 		}
 
@@ -221,7 +221,9 @@ namespace RubezhDAL.DataClasses
 				ChiefUID = tableItem.ChiefUID.GetValueOrDefault(),
 				HRChiefUID = tableItem.HRChiefUID.GetValueOrDefault(),
 				Phone = tableItem.Phone,
-				Photo = tableItem.Photo != null ? tableItem.Photo.Translate() : null
+				Photo = tableItem.Photo != null ? tableItem.Photo.Translate() : null,
+				MaxGKLevel = tableItem.MaxGKLevel,
+
 			};
 		}
 
@@ -237,6 +239,7 @@ namespace RubezhDAL.DataClasses
 			tableItem.HRChiefUID = apiItem.HRChiefUID.EmptyToNull();
 			tableItem.Phone = apiItem.Phone;
 			tableItem.Photo = Photo.Create(apiItem.Photo);
+			tableItem.MaxGKLevel = apiItem.MaxGKLevel;
 		}
 
 		DbSet<Organisation> Table { get { return Context.Organisations; } }
@@ -383,13 +386,13 @@ namespace RubezhDAL.DataClasses
 
 		void MarkDeletedSQLQuery(string tableName, DateTime removalDate, Guid organisationUID)
 		{
-            var command = string.Format("UPDATE dbo.\"{0}\" SET \"RemovalDate\" = '{1}', \"IsDeleted\" = '1' WHERE \"IsDeleted\" = '0' AND \"OrganisationUID\" = '{2}'", tableName, removalDate.ToString("yyyyMMdd HH:mm:ss"), organisationUID);
+			var command = string.Format("UPDATE dbo.\"{0}\" SET \"RemovalDate\" = '{1}', \"IsDeleted\" = '1' WHERE \"IsDeleted\" = '0' AND \"OrganisationUID\" = '{2}'", tableName, removalDate.ToString("yyyyMMdd HH:mm:ss"), organisationUID);
 			Context.Database.ExecuteSqlCommand(command);
 		}
 
 		void RestoreSQLQuery(string tableName, DateTime removalDate, Guid organisationUID)
 		{
-            var command = string.Format("UPDATE dbo.\"{0}\" SET \"RemovalDate\" = NULL, \"IsDeleted\" = '0' WHERE \"IsDeleted\" = '1' AND \"OrganisationUID\" = '{2}' AND \"RemovalDate\" = '{1}'", tableName, removalDate.ToString("yyyyMMdd HH:mm:ss"), organisationUID);
+			var command = string.Format("UPDATE dbo.\"{0}\" SET \"RemovalDate\" = NULL, \"IsDeleted\" = '0' WHERE \"IsDeleted\" = '1' AND \"OrganisationUID\" = '{2}' AND \"RemovalDate\" = '{1}'", tableName, removalDate.ToString("yyyyMMdd HH:mm:ss"), organisationUID);
 			Context.Database.ExecuteSqlCommand(command);
 		}
 

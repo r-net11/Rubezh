@@ -20,10 +20,17 @@
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 
-					<TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{DynamicResource TextBlockDetailsStyle}" Text="Тип пропуска" Margin="2 4"
+					<TextBlock Text="Тип пропуска"
+							   Grid.Row="0" Grid.Column="0"
+							   HorizontalAlignment="Right"
+							   VerticalAlignment="Top"
+							   Style="{DynamicResource TextBlockDetailsStyle}"
+							   Margin="2 4"
 							   Visibility="{Binding CanChangeCardType, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<ComboBox Grid.Row="0" Grid.Column="1" Margin="2"
-							  ItemsSource="{Binding GKCardTypes}" SelectedItem="{Binding SelectedGKCardType}" Visibility="{Binding CanChangeCardType, Converter={StaticResource BoolToVisibilityConverter}}" >
+							  ItemsSource="{Binding GKCardTypes}"
+							  SelectedItem="{Binding SelectedGKCardType}"
+							  Visibility="{Binding CanChangeCardType, Converter={StaticResource BoolToVisibilityConverter}}" >
 						<ComboBox.ItemTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -37,11 +44,30 @@
 								IsTodayHighlighted="False"
 								Grid.Row="1" Grid.Column="1"
 								Padding="0" Margin="2" />
-					<TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Text="Уровень доступа" Margin="2" />
-					<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding GKLevel}" Margin="2" MinWidth="0" />
+					<TextBlock Text="Уровень доступа"
+							   Grid.Row="2" Grid.Column="0"
+							   HorizontalAlignment="Right"
+							   VerticalAlignment="Center"
+							   Style="{DynamicResource TextBlockDetailsStyle}"
+							   Visibility="{Binding IsGKLevelEditable, Converter={StaticResource BoolToVisibilityConverter}}"
+							   Margin="2" />
+					<TextBox Text="{Binding GKLevel, UpdateSourceTrigger=PropertyChanged}"
+							 Grid.Row="2" Grid.Column="1"
+							 Visibility="{Binding IsGKLevelEditable, Converter={StaticResource BoolToVisibilityConverter}}"
+							 Margin="2" />
 
-					<TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Text="График доступа" Margin="2" />
-					<ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding GKSchedules}" SelectedItem="{Binding SelectedGKSchedule}" Margin="2">
+					<TextBlock Text="График доступа"
+							   Grid.Row="3" Grid.Column="0"
+							   HorizontalAlignment="Right"
+							   VerticalAlignment="Center"
+							   Style="{DynamicResource TextBlockDetailsStyle}"
+							   Visibility="{Binding IsGKLevelEditable, Converter={StaticResource BoolToVisibilityConverter}}"
+							   Margin="2" />
+					<ComboBox ItemsSource="{Binding GKSchedules}"
+							  SelectedItem="{Binding SelectedGKSchedule}"
+							  Grid.Row="3" Grid.Column="1"
+							  Visibility="{Binding IsGKLevelEditable, Converter={StaticResource BoolToVisibilityConverter}}"
+							  Margin="2">
 						<ComboBox.ItemTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">

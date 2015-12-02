@@ -1,10 +1,6 @@
-﻿using System;
-using System.Data.Linq;
-using System.Linq.Expressions;
-using RubezhAPI;
-//using RubezhAPI.SKD;
-using LinqKit;
+﻿using RubezhAPI;
 using RubezhDAL.DataClasses;
+using System;
 using System.Data.Entity;
 using System.Linq;
 
@@ -21,6 +17,7 @@ namespace RubezhDAL
 				Name = item.Name,
 				Description = item.Description,
 				Phone = item.Phone,
+				MaxGKLevel = item.MaxGKLevel,
 
 				ChiefUID = GetUID(item.ChiefUID),
 				ChiefExternalKey = GetExternalKey(item.ChiefUID, item.Chief),
@@ -28,7 +25,7 @@ namespace RubezhDAL
 				HRChiefExternalKey = GetExternalKey(item.HRChiefUID, item.HRChief),
 			};
 		}
-				
+
 		protected override void UpdateForignKeys(RubezhAPI.SKD.ExportOrganisation exportItem, Organisation tableItem, OrganisationHRCash hrCash)
 		{
 			tableItem.ChiefUID = GetUIDbyExternalKey(exportItem.ChiefExternalKey, hrCash.Employees);
@@ -59,7 +56,7 @@ namespace RubezhDAL
 	{
 		public OrganisationSynchroniser(DbSet<Organisation> table, DbService databaseService) : base(table, databaseService) { }
 
-       protected override IQueryable<Organisation> GetFilteredItems(RubezhAPI.SKD.ExportFilter filter)
+		protected override IQueryable<Organisation> GetFilteredItems(RubezhAPI.SKD.ExportFilter filter)
 		{
 			return base.GetFilteredItems(filter).Where(x => x.UID == filter.OrganisationUID);
 		}
@@ -69,7 +66,7 @@ namespace RubezhDAL
 		DepartmentSynchroniser DepartmentSynchroniser { get { return _DatabaseService.DepartmentTranslator.Synchroniser; } }
 		Guid OrganisationUID;
 
-        public override OperationResult Export(RubezhAPI.SKD.ExportFilter filter)
+		public override OperationResult Export(RubezhAPI.SKD.ExportFilter filter)
 		{
 			try
 			{
@@ -93,7 +90,7 @@ namespace RubezhDAL
 			}
 		}
 
-        public override OperationResult Import(RubezhAPI.SKD.ImportFilter filter)
+		public override OperationResult Import(RubezhAPI.SKD.ImportFilter filter)
 		{
 			try
 			{
@@ -118,8 +115,8 @@ namespace RubezhDAL
 				return new OperationResult(e.Message);
 			}
 		}
-		
-        protected override string XmlHeaderName
+
+		protected override string XmlHeaderName
 		{
 			get { return "ExportOrganisation"; }
 		}
