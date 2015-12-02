@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using OpcDaServer;
-using AutomationModule.OpcDaServers.Models;
 using Infrastructure.Common.Windows.ViewModels;
-using RubezhClient;
 
 namespace AutomationModule.ViewModels
 {

@@ -124,7 +124,6 @@
     <Compile Include="ObjectSelection\Views\OrganisatonSelectionView.xaml.cs">
       <DependentUpon>OrganisatonSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OpcDaServers\Models\OpcDaTagsGroup.cs" />
     <Compile Include="OpcDaServers\ViewModels\OpcDaEditingTagsViewModel.cs" />
     <Compile Include="OpcDaServers\ViewModels\OpcDaEditingTagViewModel.cs" />
     <Compile Include="OpcDaServers\ViewModels\OpcDaServersAddingServerViewModel.cs" />
@@ -970,6 +969,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="OpcDaServers\Models\" />
     <Folder Include="Procedures\Converters\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
