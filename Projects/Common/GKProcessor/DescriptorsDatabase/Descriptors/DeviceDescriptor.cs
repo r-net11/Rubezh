@@ -87,6 +87,21 @@ namespace GKProcessor
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 			}
 
+			if (Device.DriverType == GKDriverType.RSR2_MAP4 && Device.Zones.Count > 0)
+			{
+				int count = 0;
+				foreach (var zone in Device.Zones)
+				{
+					Formula.AddGetBit(GKStateBit.Fire1, zone);
+					if (count > 0)
+						Formula.Add(FormulaOperationType.OR);
+					Formula.AddGetBit(GKStateBit.Fire2, zone);
+					Formula.Add(FormulaOperationType.OR);
+					count++;
+				}
+				Formula.AddPutBit(GKStateBit.Reset, Device);
+			}
+
 			if (Device.Door != null && (Device.Door.LockDeviceUID == Device.UID || Device.Door.LockDeviceExitUID == Device.UID))
 			{
 				switch (Device.Door.DoorType)
