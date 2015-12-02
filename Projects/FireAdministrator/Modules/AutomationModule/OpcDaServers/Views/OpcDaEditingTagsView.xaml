@@ -20,7 +20,7 @@
 				<GridViewColumn Width="100" Header="Выбрано">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
-							<CheckBox IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}"
+							<CheckBox IsChecked="{Binding IsChecked}"
 										Visibility="{Binding IsTag, Converter={StaticResource BoolToVisibilityConverter}}" />
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
@@ -29,5 +29,4 @@
 			</GridView>
 		</TreeList.View>
 	</TreeList>
-
 </UserControl>

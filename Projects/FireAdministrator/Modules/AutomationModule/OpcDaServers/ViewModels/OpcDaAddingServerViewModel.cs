@@ -18,6 +18,15 @@ namespace AutomationModule.ViewModels
 
 		public RubezhAPI.Automation.OpcDaServer Server { get; private set; }
 
-		public bool IsSelected { get; set; }
+		bool _isSelected;
+		public bool IsSelected 
+		{
+			get { return _isSelected; }
+			set
+			{
+				_isSelected = value;
+				OnPropertyChanged(() => IsSelected);
+			}
+		}
 	}
 }

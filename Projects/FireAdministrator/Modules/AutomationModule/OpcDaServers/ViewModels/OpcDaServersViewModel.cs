@@ -1,12 +1,11 @@
 ﻿using System.Collections.ObjectModel;
-using System.Collections.Generic;
 using System.Linq;
 using Infrastructure.ViewModels;
 using Infrastructure.Common;
 using Infrastructure;
 using RubezhClient;
 using AutomationModule.Models;
-using RubezhAPI.Automation;
+using Infrastructure.Common.Windows;
 
 namespace AutomationModule.ViewModels
 {
@@ -88,36 +87,14 @@ namespace AutomationModule.ViewModels
 
 		void OnAdd()
 		{
-			List<RubezhAPI.Automation.OpcDaServer> notselectedServers;
-
 			//Cоздаём и передаём список отсутствующих в конфигурационном списке серверов
 			var list = OpcDaServer.OpcDaServer.GetRegistredServers().Select(x =>
 				new RubezhAPI.Automation.OpcDaServer { Id = x.Id, ServerName = x.ServerName }).ToList();
 
-			var k = list.Where(x => ClientManager.SystemConfiguration
-				.AutomationConfiguration.OpcDaServers.Any(y=>y.Id != x.Id));
-
-			if (OpcDaServers.Count == 0)
-			{
-				notselectedServers = list;
-			}
-			else
-			{
-				notselectedServers = new List<RubezhAPI.Automation.OpcDaServer>();
-
-				foreach (var item in list)
-				{
-					var serv = OpcDaServers.FirstOrDefault(x => x.Id == item.Id);
-					if (serv == null)
-					{
-						notselectedServers.Add(item);
-					}
-				}
-			}
-
+			var notselectedServers = list.Where(x => !OpcDaServers.Any(y => y.Id == x.Id));
 			var addingDialog = new OpcDaAddingServersViewModel(notselectedServers);
 
-			if (Infrastructure.Common.Windows.DialogService.ShowModalWindow(addingDialog))
+			if (DialogService.ShowModalWindow(addingDialog))
 			{
 				foreach (var server in addingDialog.SelectedServers)
 				{
@@ -171,7 +148,7 @@ namespace AutomationModule.ViewModels
 
 			var addingDialog = new OpcDaEditingTagsViewModel(allTags);
 
-			if (Infrastructure.Common.Windows.DialogService.ShowModalWindow(addingDialog))
+			if (DialogService.ShowModalWindow(addingDialog))
 			{
 				Tags = (addingDialog.SelectedItems
 					.Select(x => x.Tag)).ToArray();

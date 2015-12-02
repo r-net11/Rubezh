@@ -34,6 +34,16 @@ namespace AutomationModule.ViewModels
 			ElementName = tag.TagName;
 		}
 		public OpcDaTag Tag { get; private set; }
-		public bool IsChecked { get; set; }
+
+		bool _isChecked;
+		public bool IsChecked 
+		{
+			get {return _isChecked; }
+			set
+			{
+				_isChecked = value;
+				OnPropertyChanged(() => IsChecked);
+			}
+		}
 	}
 }

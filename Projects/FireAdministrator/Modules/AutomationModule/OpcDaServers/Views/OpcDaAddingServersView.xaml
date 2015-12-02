@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 MinWidth="300" MinHeight="300">
 
-	<DataGrid Grid.Row="0" ItemsSource="{Binding AllServers}">
+	<DataGrid ItemsSource="{Binding AllServers}">
 		<DataGrid.Columns>
 			<DataGridTemplateColumn Header="Сервер" Width="*">
 				<DataGridTemplateColumn.CellTemplate>
