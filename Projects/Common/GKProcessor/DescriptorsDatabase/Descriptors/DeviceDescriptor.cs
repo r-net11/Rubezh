@@ -97,7 +97,10 @@ namespace GKProcessor
 						Formula.Add(FormulaOperationType.OR);
 					Formula.AddGetBit(GKStateBit.Fire2, zone);
 					Formula.Add(FormulaOperationType.OR);
+					Formula.AddGetBit(GKStateBit.Attention, zone);
+					Formula.Add(FormulaOperationType.OR);
 					count++;
+					Device.LinkToDescriptor(zone);
 				}
 				Formula.AddPutBit(GKStateBit.Reset, Device);
 			}
