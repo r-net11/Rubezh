@@ -7,6 +7,7 @@ using RubezhAPI.SKD;
 using Infrastructure.Common;
 using Ionic.Zip;
 using Infrastructure.Common.Windows;
+using RubezhAPI;
 
 namespace RubezhClient
 {

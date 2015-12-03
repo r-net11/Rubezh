@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using RubezhAPI.SKD;
 using RubezhClient;
+using RubezhAPI;
 
 namespace SKDModule.ViewModels
 {

@@ -2,6 +2,7 @@
 using RubezhAPI.GK;
 using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
 
 namespace AutomationModule.ViewModels
 {

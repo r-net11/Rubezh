@@ -6,6 +6,7 @@ using System.Threading;
 using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.GK;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {

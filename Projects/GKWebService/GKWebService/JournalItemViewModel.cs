@@ -10,6 +10,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhClient.SKDHelpers;
 using Infrastructure.Common.Windows;
+using RubezhAPI;
 
 namespace GKWebService
 {

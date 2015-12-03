@@ -4,6 +4,7 @@ using RubezhAPI.GK;
 using RubezhClient;
 using GKModule.DeviceProperties;
 using Infrastructure.Common.TreeList;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {

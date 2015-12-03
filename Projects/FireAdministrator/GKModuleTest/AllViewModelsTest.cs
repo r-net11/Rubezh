@@ -19,6 +19,7 @@ using GKModule;
 using Infrastructure.Common;
 using System.Reflection;
 using Infrastructure.Common.Ribbon;
+using RubezhAPI;
 namespace GKModuleTest
 {
 	[TestFixture]

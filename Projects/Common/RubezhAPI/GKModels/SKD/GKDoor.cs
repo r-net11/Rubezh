@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 using Common;
 using Entities.DeviceOriented;
 using Infrustructure.Plans.Interfaces;
-using RubezhClient;
+using RubezhAPI;
 using System.Linq;
 using System.Diagnostics;
 
