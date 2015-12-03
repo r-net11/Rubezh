@@ -46,7 +46,7 @@ namespace CustomAction
 
 		#region <Работа с файлом конфигурации AppServerSettings.xml>
 
-		private const string ConfigDir = "C:\\ProgramData\\Firesec2";
+		private const string ConfigDir = "C:\\ProgramData\\Strazh";
 		private const string ConfigFile = "AppServerSettings.xml";
 
 		#region <Переменные сессии и значения по умолчанию>
