@@ -28,6 +28,7 @@ namespace AutomationModule
 		private GlobalVariablesViewModel _globalVariablesViewModel;
 		private AutomationPlanExtension _planExtension;
 		private OpcDaServersViewModel _opcDaServersViewModel;
+		private OpcAdvosolViewModel _opcAdvosolViewModel;
 
 		public override void CreateViewModels()
 		{
@@ -38,6 +39,7 @@ namespace AutomationModule
 			_globalVariablesViewModel = new GlobalVariablesViewModel();
 			_planExtension = new AutomationPlanExtension(_proceduresViewModel);
 			_opcDaServersViewModel = new OpcDaServersViewModel();
+			_opcAdvosolViewModel = new OpcAdvosolViewModel();
 		}
 
 		public override void Initialize()
@@ -46,6 +48,8 @@ namespace AutomationModule
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			_soundsViewModel.Initialize();
 			_opcServersViewModel.Initialize();
+			_opcDaServersViewModel.Initialize();
+			_opcAdvosolViewModel.Initialize();
 			_proceduresViewModel.Initialize();
 			_schedulesViewModel.Initialize();
 			_globalVariablesViewModel.Initialize();
@@ -67,7 +71,8 @@ namespace AutomationModule
 							new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, "Глобальные переменные", "GlobalVariables"),
 							new NavigationItem<ShowAutomationSoundsEvent, Guid>(_soundsViewModel, "Звуки", "Music"),
 							new NavigationItem<ShowOPCServersEvent, Guid>(_opcServersViewModel, "OPC Сервера", "Settings2"),
-							new NavigationItem<ShowOpcDaServersEvent, Guid>(_opcDaServersViewModel, "OPC DA Серверы", "Settings2")
+							new NavigationItem<ShowOpcDaServersEvent, Guid>(_opcDaServersViewModel, "OPC DA Серверы", "Settings2"),
+							new NavigationItem<ShowOpcAdvosolEvent, Guid>(_opcAdvosolViewModel, "OPC DA от Advosol", "Settings2")
 						}) { IsExpanded = true },
 				};
 		}
@@ -89,6 +94,7 @@ namespace AutomationModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Layout/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "OpcDaServers/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "OpcAdvosolLib/DataTemplates/Dictionary.xaml"));
 		}
 
 		public IEnumerable<IValidationError> Validate()

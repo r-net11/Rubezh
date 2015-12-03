@@ -44,6 +44,12 @@
     <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
+    <Reference Include="OpcDaNetWPF.Net4">
+      <HintPath>C:\Program Files (x86)\Advosol\OPCDA.NET Client Component Evaluation\OpcDaNetWPF.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="OpcNetBase.Net4">
+      <HintPath>C:\Program Files (x86)\Advosol\OPCDA.NET Client Component Evaluation\OpcNetBase.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
@@ -87,6 +93,7 @@
     <Compile Include="Events\ShowAutomationSchedulesEvents.cs" />
     <Compile Include="Events\ShowAutomationSoundsEvent.cs" />
     <Compile Include="Events\ShowGlobalVariablesEvent.cs" />
+    <Compile Include="Events\ShowOpcAdvosolEvent.cs" />
     <Compile Include="Events\ShowOpcDaServersEvent.cs" />
     <Compile Include="Events\ShowProceduresEvent.cs" />
     <Compile Include="Events\ShowOPCServersEvent.cs" />
@@ -123,6 +130,10 @@
     </Compile>
     <Compile Include="ObjectSelection\Views\OrganisatonSelectionView.xaml.cs">
       <DependentUpon>OrganisatonSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpcAdvosolLib\ViewModels\OpcAdvosolViewModel.cs" />
+    <Compile Include="OpcAdvosolLib\Views\OpcAdvosolView.xaml.cs">
+      <DependentUpon>OpcAdvosolView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OpcDaServers\ViewModels\OpcDaEditingTagsViewModel.cs" />
     <Compile Include="OpcDaServers\ViewModels\OpcDaEditingTagViewModel.cs" />
@@ -605,6 +616,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="OpcAdvosolLib\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OpcAdvosolLib\Views\OpcAdvosolView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="OpcDaServers\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -977,7 +996,11 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="OpcAdvosolLib\Models\" />
     <Folder Include="Procedures\Converters\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="OpcAdvosolLib\Documents\Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
