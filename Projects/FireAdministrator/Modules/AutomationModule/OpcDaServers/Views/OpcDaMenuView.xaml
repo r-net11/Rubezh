@@ -6,5 +6,6 @@
 		<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить (Ctrl + N)" ImageSource="Add" />
 		<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить (Ctrl + Del)" ImageSource="Delete" />
 		<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать список тегов (Ctrl + E)" ImageSource="Edit" />
+		<ToolBarButton Command="{Binding ConnectCommand}" ToolTip="Подключиться к OPC серверу " ImageSource="Alarm_main_4_Off" />
 	</StackPanel>
 </UserControl>

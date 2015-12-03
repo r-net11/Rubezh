@@ -19,7 +19,7 @@ namespace AutomationModule.Models
 
 		static void GetTags(ref List<RubezhAPI.Automation.OpcDaTag> tags, OpcDaServer.OpcDaDirectory directory)
 		{
-			foreach (var item in directory.Tags)
+			foreach (var item in directory.Items)
 			{
 				if (item.IsDirectory)
 				{

@@ -9,8 +9,6 @@ namespace OpcDaServer
 	{
 		#region Constructors
 
-		private OpcDaDirectory() { throw new NotImplementedException(); }
-
 		/// <summary>
 		/// 
 		/// </summary>
@@ -59,12 +57,12 @@ namespace OpcDaServer
 			get { return _directoryName == RootDirectory; }
 		}
 
-		List<OpcDaItemBase> _tags = new List<OpcDaItemBase>();
+		List<OpcDaItemBase> _items = new List<OpcDaItemBase>();
 
 		/// <summary>
 		/// Список воложенных тегов и директорий
 		/// </summary>
-		public IList<OpcDaItemBase> Tags { get { return _tags; } }
+		public IList<OpcDaItemBase> Items { get { return _items; } }
 
 		#endregion
 	}

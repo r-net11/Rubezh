@@ -19,6 +19,7 @@ namespace AutomationModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			ConnectCommand = new RelayCommand(OnConnectToServer, CanConnectToServer);
 
 			OpcDaServers = new ObservableCollection<RubezhAPI.Automation.OpcDaServer>();
 
@@ -116,7 +117,6 @@ namespace AutomationModule.ViewModels
 			OpcDaServers.Remove(SelectedOpcDaServer);
 			SelectedOpcDaServer = OpcDaServers.FirstOrDefault();
 		}
-
 		bool CanDelete()
 		{
 			return SelectedOpcDaServer != null;
@@ -126,7 +126,6 @@ namespace AutomationModule.ViewModels
 		/// Редактируем список тегов OPC сервера
 		/// </summary>
 		public RelayCommand EditCommand { get; private set; }
-
 		void OnEdit()
 		{
 			var allTags = OpcDaServerHelper.GetAllTagsFromOpcServer(
@@ -155,8 +154,19 @@ namespace AutomationModule.ViewModels
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
-
 		bool CanEdit()
+		{
+			return SelectedOpcDaServer != null;
+		}
+
+		public RelayCommand ConnectCommand { get; private set; }
+		void OnConnectToServer()
+		{
+			OpcDaWorkWithServerViewModel vm = 
+				new OpcDaWorkWithServerViewModel(SelectedOpcDaServer);
+			DialogService.ShowModalWindow(vm);
+		}
+		bool CanConnectToServer()
 		{
 			return SelectedOpcDaServer != null;
 		}

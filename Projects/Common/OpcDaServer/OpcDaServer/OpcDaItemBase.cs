@@ -15,10 +15,6 @@ namespace OpcDaServer
 			_items = new List<OpcDaItemBase>();
 		}
 
-		#region Methods
-		
-		#endregion
-
 		#region Fields And Properties
 
 		protected List<OpcDaItemBase> _items;
@@ -43,6 +39,9 @@ namespace OpcDaServer
 		/// </summary>
 		public OpcDaDirectory Directory { get { return _directory; } }
 
+		#endregion
+
+		#region Methods
 		#endregion
 	}
 }
