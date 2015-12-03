@@ -5,9 +5,14 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+	xmlns:layout="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
+	xmlns:viewModels="clr-namespace:SKDModule.ViewModels"
 	d:DesignHeight="300"
 	d:DesignWidth="300"
 	mc:Ignorable="d">
+	<UserControl.Resources>
+		<viewModels:EmployeesFilterItemNameViewModelComparer x:Key="EmployeesFilterItemNameViewModelComparer" />
+	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
@@ -17,39 +22,37 @@
 		</Grid.RowDefinitions>
 		<tree:TreeList
 			Name="_treeList"
-			Grid.Row="0"
 			Focusable="True"
 			IsEnabled="{Binding IsSelection}"
-			Source="{Binding Organisations,
-		                                Mode=OneWay}"
-			tree:SortBehavior.CanUserSortColumns="True">
+			Source="{Binding Organisations, Mode=OneWay}"
+			tree:SortBehavior.CanUserSortColumns="True"
+			layout:ListViewLayoutManager.Enabled="True">
 			<tree:TreeList.View>
 				<GridView>
-					<GridViewColumn Width="400" Header="ФИО">
+					<GridViewColumn
+						Width="400"
+						Header="ФИО"
+						layout:ProportionalColumn.Width="1"
+						tree:SortBehavior.SortComparer="{StaticResource EmployeesFilterItemNameViewModelComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<CheckBox
 										Margin="2"
-										IsChecked="{Binding IsChecked,
-									                              Mode=TwoWay,
-									                              UpdateSourceTrigger=PropertyChanged}"
-										Visibility="{Binding IsOrganisation,
-									                               Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+										IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+										Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 									<Image
 										Width="16"
 										Margin="1 0"
 										VerticalAlignment="Center"
 										Source="/Controls;component/Images/Organisation.png"
-										Visibility="{Binding IsOrganisation,
-									                            Converter={StaticResource BoolToVisibilityConverter}}" />
+										Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
 									<Image
 										Width="16"
 										Margin="1 0"
 										VerticalAlignment="Center"
 										Source="/Controls;component/Images/Employee.png"
-										Visibility="{Binding IsOrganisation,
-									                            Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+										Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 									<TextBlock Style="{StaticResource IsDeletedStyle}" Text="{Binding Name}" />
 								</StackPanel>
 							</DataTemplate>
@@ -76,13 +79,11 @@
 			Margin="5"
 			Content="Поиск"
 			Foreground="White"
-			IsChecked="{Binding IsSearch,
-		                              Mode=TwoWay,
-		                              UpdateSourceTrigger=PropertyChanged}" />
+			IsChecked="{Binding IsSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 		<Grid Grid.Row="3" IsEnabled="{Binding IsSearch}">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="*" />
+				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
@@ -90,22 +91,16 @@
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 			<TextBlock
-				Grid.Row="0"
-				Grid.Column="0"
 				Margin="2"
 				HorizontalAlignment="Right"
 				Foreground="White"
 				Text="Фамилия" />
 			<TextBox
-				Grid.Row="0"
 				Grid.Column="1"
 				Margin="2"
-				Text="{Binding LastName,
-			                        UpdateSourceTrigger=PropertyChanged}" />
-
+				Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" />
 			<TextBlock
 				Grid.Row="1"
-				Grid.Column="0"
 				Margin="2"
 				HorizontalAlignment="Right"
 				Foreground="White"
@@ -114,12 +109,9 @@
 				Grid.Row="1"
 				Grid.Column="1"
 				Margin="2"
-				Text="{Binding FirstName,
-			                        UpdateSourceTrigger=PropertyChanged}" />
-
+				Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" />
 			<TextBlock
 				Grid.Row="2"
-				Grid.Column="0"
 				Margin="2"
 				HorizontalAlignment="Right"
 				Foreground="White"
@@ -128,8 +120,7 @@
 				Grid.Row="2"
 				Grid.Column="1"
 				Margin="2"
-				Text="{Binding SecondName,
-			                        UpdateSourceTrigger=PropertyChanged}" />
+				Text="{Binding SecondName, UpdateSourceTrigger=PropertyChanged}" />
 		</Grid>
 	</Grid>
 </UserControl>

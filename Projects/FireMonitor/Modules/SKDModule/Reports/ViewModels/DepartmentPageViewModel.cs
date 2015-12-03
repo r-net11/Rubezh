@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using FiresecAPI.SKD;
+﻿using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
-using Infrastructure;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Events;
 using SKDModule.ViewModels;
+using System;
+using System.Collections.Generic;
 
 namespace SKDModule.Reports.ViewModels
 {
@@ -15,8 +15,8 @@ namespace SKDModule.Reports.ViewModels
 		{
 			Title = "Подразделения";
 			Filter = new DepartmentsFilterViewModel();
-			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
-			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Subscribe(OnUseArchive);
+			ServiceFactoryBase.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
+			ServiceFactoryBase.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Subscribe(OnUseArchive);
 			_OrganisationChangedSubscriber = new OrganisationChangedSubscriber(this);
 		}
 
@@ -30,7 +30,7 @@ namespace SKDModule.Reports.ViewModels
 		{
 			_reportFilter = filter as IReportFilterDepartment;
 			var organisations = (filter as IReportFilterOrganisation).Organisations;
-			OrganisationUIDs = organisations != null ? organisations : new List<Guid>();
+			OrganisationUIDs = organisations ?? new List<Guid>();
 			var filterArchive = filter as IReportFilterArchive;
 			_isWithDeleted = filterArchive != null && filterArchive.UseArchive;
 			InitializeFilter();
@@ -46,7 +46,7 @@ namespace SKDModule.Reports.ViewModels
 			_isWithDeleted = isWithDeleted;
 			InitializeFilter();
 		}
-		
+
 		public void InitializeFilter()
 		{
 			Filter.Initialize(_reportFilter == null ? null : _reportFilter.Departments, OrganisationUIDs, _isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active);
@@ -66,8 +66,8 @@ namespace SKDModule.Reports.ViewModels
 		public OrganisationChangedSubscriber(IOrganisationItemsFilterPage parent)
 		{
 			_parent = parent;
-			ServiceFactory.Events.GetEvent<SKDReportOrganisationChangedEvent>().Unsubscribe(OnOrganisationChanged);
-			ServiceFactory.Events.GetEvent<SKDReportOrganisationChangedEvent>().Subscribe(OnOrganisationChanged);
+			ServiceFactoryBase.Events.GetEvent<SKDReportOrganisationChangedEvent>().Unsubscribe(OnOrganisationChanged);
+			ServiceFactoryBase.Events.GetEvent<SKDReportOrganisationChangedEvent>().Subscribe(OnOrganisationChanged);
 		}
 
 		void OnOrganisationChanged(List<Guid> organisationUIDs)

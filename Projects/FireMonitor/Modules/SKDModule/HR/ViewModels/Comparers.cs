@@ -3,6 +3,7 @@ using FiresecAPI;
 using FiresecAPI.SKD;
 using Infrastructure.Common.TreeList;
 using SKDModule.PassCardDesigner.ViewModels;
+using SKDModule.Reports.ViewModels;
 using DocumentType = SKDModule.Model.DocumentType;
 
 namespace SKDModule.ViewModels
@@ -231,5 +232,86 @@ namespace SKDModule.ViewModels
 			return string.Compare(x.TimeTrackDocumentType.ShortName, y.TimeTrackDocumentType.ShortName);
 		}
 	}
+
+	public class DepartmentFilterComparer : TreeNodeComparer<DepartmentFilterItemViewModel>
+	{
+		protected override int Compare(DepartmentFilterItemViewModel x, DepartmentFilterItemViewModel y)
+		{
+			if (x == null || y == null || x.IsOrganisation || y.IsOrganisation) return 0;
+			return string.Compare(x.Name, y.Name);
+		}
+	}
+	public class DepartmentFilterDescriptionComparer : TreeNodeComparer<DepartmentFilterItemViewModel>
+	{
+		protected override int Compare(DepartmentFilterItemViewModel x, DepartmentFilterItemViewModel y)
+		{
+			if (x == null || y == null || x.IsOrganisation || y.IsOrganisation) return 0;
+			return string.Compare(x.Description, y.Description);
+		}
+	}
+
+	public class EmployeesFilterItemNameViewModelComparer : TreeNodeComparer<EmployeesFilterItemViewModel>
+	{
+		protected override int Compare(EmployeesFilterItemViewModel x, EmployeesFilterItemViewModel y)
+		{
+			if (x == null || y == null || x.IsOrganisation || y.IsOrganisation) return 0;
+			return string.Compare(x.Name, y.Name);
+		}
+	}
+
+	public class CommonScheduleViewModelComparer : CheckedItemComparer<CheckedItemViewModel<CommonScheduleViewModel>>
+	{
+		protected override int Compare(CheckedItemViewModel<CommonScheduleViewModel> x, CheckedItemViewModel<CommonScheduleViewModel> y)
+		{
+			if (x == null || y == null || x.Item == null || y.Item == null) return 0;
+			return string.Compare(x.Item.Name, y.Item.Name);
+		}
+	}
+
+	public class ScheduleSchemePageComparer : TreeNodeComparer<TreeNodeItemViewModel>
+	{
+		protected override int Compare(TreeNodeItemViewModel x, TreeNodeItemViewModel y)
+		{
+			if (x == null || x.Item == null || y == null || y.Item == null) return 0;
+			return 0;
+		}
+	}
+
+	public class PositionFilterItemViewModelNameComparer : TreeNodeComparer<PositionFilterItemViewModel>
+	{
+		protected override int Compare(PositionFilterItemViewModel x, PositionFilterItemViewModel y)
+		{
+			if (x == null || y == null) return 0;
+			return string.Compare(x.Name, y.Name);
+		}
+	}
+
+	public class PositionFilterItemViewModelDescriptionComparer : TreeNodeComparer<PositionFilterItemViewModel>
+	{
+		protected override int Compare(PositionFilterItemViewModel x, PositionFilterItemViewModel y)
+		{
+			if (x == null || y == null) return 0;
+			return string.Compare(x.Description, y.Description);
+		}
+	}
+
+	public class DoorPageViewModelNameComparer : CheckedItemComparer<CheckedItemViewModel<SKDDoor>>
+	{
+		protected override int Compare(CheckedItemViewModel<SKDDoor> x, CheckedItemViewModel<SKDDoor> y)
+		{
+			if (x == null || x.Item == null || y == null || y.Item == null) return 0;
+			return string.Compare(x.Item.Name, y.Item.Name);
+		}
+	}
+
+	public class DoorPageViewModelDescriptionComparer : CheckedItemComparer<CheckedItemViewModel<SKDDoor>>
+	{
+		protected override int Compare(CheckedItemViewModel<SKDDoor> x, CheckedItemViewModel<SKDDoor> y)
+		{
+			if (x == null || x.Item == null || y == null || y.Item == null) return 0;
+			return string.Compare(x.Item.Description, y.Item.Description);
+		}
+	}
+
 	#endregion
 }

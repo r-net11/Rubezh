@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.SKDReports;
-using FiresecAPI.SKD.ReportFilters;
-using SKDModule.ViewModels;
-using System.Collections.ObjectModel;
+﻿using Common;
 using FiresecAPI.SKD;
+using FiresecAPI.SKD.ReportFilters;
 using Infrastructure.Common;
-using Common;
+using Infrastructure.Common.SKDReports;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SKDModule.Reports.ViewModels
 {

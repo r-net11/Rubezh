@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using FiresecAPI.SKD;
+﻿using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.CheckBoxList;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Events;
 using SKDModule.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SKDModule.Reports.ViewModels
 {
@@ -23,8 +23,8 @@ namespace SKDModule.Reports.ViewModels
 			CreateItemList();
 			SelectAllCommand = new RelayCommand(() => Organisations.Items.ForEach(item => item.IsChecked = true));
 			SelectNoneCommand = new RelayCommand(() => Organisations.Items.ForEach(item => item.IsChecked = false));
-			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
-			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Subscribe(OnUseArchive);
+			ServiceFactoryBase.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
+			ServiceFactoryBase.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Subscribe(OnUseArchive);
 		}
 
 		public bool AllowMultiple { get; set; }
@@ -56,7 +56,7 @@ namespace SKDModule.Reports.ViewModels
 		void CreateItemList(bool isWithDeleted = false)
 		{
 			Organisations = new ReportOrganisationsItemList { IsSingleSelection = !AllowMultiple };
-			var filter = new OrganisationFilter() { UserUID = FiresecManager.CurrentUser.UID };
+			var filter = new OrganisationFilter { UserUID = FiresecManager.CurrentUser.UID };
 			if (isWithDeleted)
 				filter.LogicalDeletationType = LogicalDeletationType.All;
 			var organisations = OrganisationHelper.Get(filter);
@@ -87,7 +87,7 @@ namespace SKDModule.Reports.ViewModels
 		public override void Update()
 		{
 			base.Update();
-			ServiceFactory.Events.GetEvent<SKDReportOrganisationChangedEvent>().Publish(Items.Where(x => x.IsChecked).Select(x => x.Organisation.UID).ToList());
+			ServiceFactoryBase.Events.GetEvent<SKDReportOrganisationChangedEvent>().Publish(Items.Where(x => x.IsChecked).Select(x => x.Organisation.UID).ToList());
 		}
 	}
 }
