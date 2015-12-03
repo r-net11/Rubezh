@@ -60,7 +60,6 @@ namespace FiresecService
 					Application.Current.MainWindow.Close();
 				}
 
-				ServerLoadHelper.SetStatus(FSServerState.Opened);
 				UILogger.Log("Создание конфигурации СКД");
 				try
 				{
@@ -111,7 +110,6 @@ namespace FiresecService
 
 		public static void Close()
 		{
-			ServerLoadHelper.SetStatus(FSServerState.Closed);
 			if (WindowThread != null)
 			{
 				WindowThread.Interrupt();

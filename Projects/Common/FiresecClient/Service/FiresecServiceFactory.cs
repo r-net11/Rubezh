@@ -28,12 +28,6 @@ namespace FiresecClient
 
 		private IFiresecService DoCreate(string serverAddress)
 		{
-			if (serverAddress.StartsWith("net.pipe:"))
-			{
-				if (!ServerLoadHelper.Load())
-					BalloonHelper.ShowFromAdm("Не удается соединиться с сервером");
-			}
-
 			var binding = BindingHelper.CreateBindingFromAddress(serverAddress);
 
 			var endpointAddress = new EndpointAddress(new Uri(serverAddress));
