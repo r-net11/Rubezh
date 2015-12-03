@@ -20,6 +20,7 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using GKModule.Plans.Designer;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
@@ -271,7 +272,7 @@ namespace GKModule.ViewModels
 				return;
 			}
 
-			if (DialogService.ShowModalWindow(newDeviceViewModel))
+			if (ServiceFactory.DialogService.ShowModalWindow(newDeviceViewModel))
 			{
 				foreach (var addedDevice in newDeviceViewModel.AddedDevices)
 				{

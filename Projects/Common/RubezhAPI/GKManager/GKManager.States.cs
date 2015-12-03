@@ -1,6 +1,6 @@
 ﻿using RubezhAPI.GK;
 
-namespace RubezhClient
+namespace RubezhAPI
 {
 	public partial class GKManager
 	{

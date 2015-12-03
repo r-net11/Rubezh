@@ -17,10 +17,13 @@ namespace RubezhAPI.Models.Layouts
 			Users = new List<Guid>();
 			Parts = new List<LayoutPart>();
 			HostNameOrAddressList = new List<string>();
-			Caption = "Макет";
 			SplitterSize = 4;
 			SplitterColor = Colors.Transparent;
 			IsRibbonEnabled = true;
+		}
+		public Layout(List<string> otherCaptions) : this()
+		{
+			Caption = CreateNewCaption(otherCaptions);
 		}
 
 		[DataMember]
@@ -59,6 +62,18 @@ namespace RubezhAPI.Models.Layouts
 		public LayoutPart GetLayoutPartByType(Guid typeUID)
 		{
 			return Parts.FirstOrDefault(item => item.DescriptionUID == typeUID);
+		}
+		string CreateNewCaption(List<string> otherCaptions)
+		{
+			var defaultCaption = "Новый макет";
+			var counter = 1;
+			var newCaption = defaultCaption;
+			while (otherCaptions.Contains(newCaption))
+			{
+				newCaption = string.Format("{0}({1})", defaultCaption, counter);
+				counter++;
+			}
+			return newCaption;
 		}
 	}
 }

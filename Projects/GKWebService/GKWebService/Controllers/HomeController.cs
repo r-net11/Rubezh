@@ -1,9 +1,15 @@
-﻿using GKWebService.Models;
+﻿using GKWebService.DataProviders.FireZones;
+using GKWebService.Models;
+using RubezhAPI.GK;
+using RubezhClient;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace GKWebService.Controllers
 {
@@ -43,6 +49,27 @@ namespace GKWebService.Controllers
         public ActionResult FireZones()
         {
             return View();
+        }
+
+        public JsonResult GetFireZonesData()
+        {
+            var obj = FireZonesDataProvider.Instance.GetFireZones().Devices;
+
+            foreach (var item in obj)
+            {
+                MemoryStream stream1 = new MemoryStream();
+                DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(GKDevice));
+                ser.WriteObject(stream1, item);
+                stream1.Position = 0;
+                StreamReader sr = new StreamReader(stream1);
+                var res = sr.ReadToEnd();
+            }
+            
+
+
+            var result = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

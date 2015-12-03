@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Xml.Serialization;
 using Infrustructure.Plans.Interfaces;
-using RubezhClient;
+using RubezhAPI;
 
 namespace RubezhAPI.GK
 {
@@ -323,7 +323,8 @@ namespace RubezhAPI.GK
 			}
 		}
 
-		[XmlIgnore]
+        //[XmlIgnore]
+        [DataMember]
 		public string ShortName
 		{
 			get
@@ -331,7 +332,8 @@ namespace RubezhAPI.GK
 				if (!string.IsNullOrEmpty(PredefinedName))
 					return PredefinedName;
 				return Driver.ShortName;
-			}
+			} 
+            set{}
 		}
 
 		[XmlIgnore]

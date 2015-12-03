@@ -17,6 +17,7 @@ using Infrastructure.Common.Reports;
 using JournalModule.Reports;
 using RubezhAPI.Models;
 using RubezhAPI.GK;
+using RubezhAPI;
 
 namespace JournalModule
 {
@@ -97,9 +98,27 @@ namespace JournalModule
 		{
 			SafeFiresecService.JournalItemsEvent -= new Action<List<JournalItem>, bool>(OnJournalItems);
 			SafeFiresecService.JournalItemsEvent += new Action<List<JournalItem>, bool>(OnJournalItems);
+			SafeFiresecService.CallbackOperationResultEvent -= new Action<CallbackOperationResult>(OnCallbackOperationResult);
+			SafeFiresecService.CallbackOperationResultEvent += new Action<CallbackOperationResult>(OnCallbackOperationResult);
 
 			JournalViewModel.SetJournalItems();
 			ArchiveViewModel.Update();
+		}
+
+		void OnCallbackOperationResult(CallbackOperationResult callbackOperationResult)
+		{
+			switch (callbackOperationResult.CallbackOperationResultType)
+			{
+				case CallbackOperationResultType.GetArchivePage:
+					ArchiveViewModel.OnNewPage(callbackOperationResult.JournalItems, callbackOperationResult.PageNo);
+					break;
+				case CallbackOperationResultType.GetJournal:
+					JournalViewModel.OnGetJournal(callbackOperationResult.JournalItems);
+					break;
+				default:
+					break;
+			}
+			
 		}
 
 		void OnJournalItems(List<JournalItem> journalItems, bool isNew)

@@ -131,6 +131,7 @@ namespace Infrastructure.Client
 				{
 					StartupService.Instance.DoStep(string.Format("Инициализация модуля {0}", module.Name));
 					module.Initialize();
+					module.RegisterPlanExtension();
 				}
 				catch (StartupCancellationException)
 				{

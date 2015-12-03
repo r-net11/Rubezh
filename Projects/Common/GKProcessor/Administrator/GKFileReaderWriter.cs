@@ -5,7 +5,7 @@ using System.Linq;
 using Common;
 using RubezhAPI;
 using RubezhAPI.GK;
-using RubezhClient;
+using RubezhAPI;
 using Infrastructure.Common;
 
 namespace GKProcessor

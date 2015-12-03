@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using RubezhAPI;
 using RubezhAPI.GK;
-using RubezhClient;
+using RubezhAPI;
 
 namespace GKProcessor
 {

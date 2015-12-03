@@ -11,6 +11,7 @@ using Infrastructure;
 using Infrastructure.Events;
 using System.ComponentModel;
 using System.Windows.Input;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {

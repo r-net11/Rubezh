@@ -21,33 +21,34 @@
 			NETFRAMEWORK40FULL
 		</Condition>
 		
-		<Icon Id="ProgramIcon.ico" SourceFile="Data\ProgramIcon.ico"/>
-		<Property Id="ARPPRODUCTICON" Value="ProgramIcon.ico" />
+		<Icon		Id="ProgramIcon.ico"				SourceFile="Data\ProgramIcon.ico"/>
+		<Property	Id="ARPPRODUCTICON"					Value="ProgramIcon.ico" />
 		
-		<Property Id="_BrowseProperty" Value="INSTALLLOCATION" />
-		<Property Id="SHORTCUT_PROGRAMMENU" Value="1" />
-		<Property Id="SHORTCUT_DESKTOP" Value="1" />
-		<Property Id="CHECKSQLSERVER" Value="0" />
-		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
-		<Property Id="INSTALLLEVEL" Value="1" />
-		<Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
-		<Property Id="WixUI_Mode" Value="Mondo" />
-		<Property Id="AgreeToLicense" Value="No" />
-		<Property Id="SETUPCHOICE" Value="Full" />
-		<Property Id="IS_SQLSERVER_USERNAME" Value="sa" />
-		<Property Id="IS_SQLSERVER_AUTHENTICATION" Value="0" />
-		<Property Id="SQLINSTANCE" Value="SQLEXPRESS" />
-		<Property Id="INSTALLMODE" />
-		<Property Id="ALLUSERS" Value="1" Secure="yes" />
-		<Property Id="IS_INSTALL_POSTGRE32" />
-		<Property Id="IS_INSTALL_POSTGRE64" />
+		<Property	Id="_BrowseProperty"				Value="INSTALLLOCATION" />
+		<Property	Id="SHORTCUT_PROGRAMMENU"			Value="1" />
+		<Property	Id="SHORTCUT_DESKTOP"				Value="1" />
+		<Property	Id="CHECKSQLSERVER"					Value="0" />
+		<Property	Id="WIXUI_INSTALLDIR"				Value="INSTALLLOCATION" />
+		<Property	Id="INSTALLLEVEL"					Value="1" />
+		<Property	Id="DefaultUIFont"					Value="WixUI_Font_Normal" />
+		<Property	Id="WixUI_Mode"						Value="Mondo" />
+		<Property	Id="AgreeToLicense"					Value="No" />
+		<Property	Id="SETUPCHOICE"					Value="Full" />
+		<Property	Id="IS_SQLSERVER_USERNAME"			Value="sa" />
+		<Property	Id="IS_SQLSERVER_AUTHENTICATION"	Value="0" />
+		<Property	Id="SQLINSTANCE"					Value="SQLEXPRESS" />
+		<Property	Id="ALLUSERS"						Value="1" Secure="yes" />
+		<Property	Id="INSTALLMODE" />
+		<Property	Id="IS_INSTALL_POSTGRE32" />
+		<Property	Id="IS_INSTALL_POSTGRE64" />
 
-		<Property Id="INSTALL_FIRESEC2" Secure="yes" />
-		<Property Id="INSTALL_OPC" Value="0" Secure="yes" />
-		<Property Id="INSTALL_GK" Value="0" Secure="yes" />
-		<Property Id="INSTALL_VIDEO" Value="0" Secure="yes" />
+		<Property	Id="INSTALL_FIRESEC2"				Secure="yes" />
+		
+		<Property	Id="INSTALL_OPC"					Value="0"	Secure="yes" />
+		<Property	Id="INSTALL_GK"						Value="0"	Secure="yes" />
+		<Property	Id="INSTALL_VIDEO"					Value="0"	Secure="yes" />
 
-		<Directory Id="TARGETDIR" Name="SourceDir">
+		<Directory	Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="SystemFolder"/>
 			<Directory Id="ProgramFilesFolder">
 				<Directory Id="INSTALLLOCATION" Name="Rubezh">

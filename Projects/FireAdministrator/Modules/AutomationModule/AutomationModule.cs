@@ -48,6 +48,10 @@ namespace AutomationModule
 			_schedulesViewModel.Initialize();
 			_globalVariablesViewModel.Initialize();
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
+		}
+
+		public override void RegisterPlanExtension()
+		{
 			_planExtension.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 			_planExtension.Cache.BuildAllSafe();

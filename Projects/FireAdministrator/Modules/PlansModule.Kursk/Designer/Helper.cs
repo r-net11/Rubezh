@@ -4,6 +4,7 @@ using System.Windows.Media;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhClient;
+using RubezhAPI;
 
 namespace PlansModule.Kursk.Designer
 {

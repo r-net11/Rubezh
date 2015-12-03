@@ -17,7 +17,7 @@ namespace LayoutModule.ViewModels
 {
 	public class MonitorLayoutsViewModel : MenuViewPartViewModel, ISelectable<Guid>, IInitializable
 	{
-		static int copyCounter;
+		static int _copyCounter;
 		public static MonitorLayoutsViewModel Instance { get; private set; }
 		public MonitorLayoutViewModel MonitorLayoutViewModel { get; private set; }
 		public LayoutUsersViewModel LayoutUsersViewModel { get; private set; }
@@ -112,13 +112,13 @@ namespace LayoutModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var layout = new Layout();
+			var otherCaptions = Layouts.Select(x => x.Caption).ToList();
+			var layout = new Layout(otherCaptions);
 			var adminUser = ClientManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == "adm");
 			if (adminUser != null)
 			{
 				layout.Users.Add(adminUser.UID);
 			}
-			var otherCaptions = Layouts.Select(x => x.Caption).ToList();
 			var layoutDetailsViewModel = new LayoutPropertiesViewModel(layout, LayoutUsersViewModel, otherCaptions);
 			if (DialogService.ShowModalWindow(layoutDetailsViewModel))
 				OnPaste(layoutDetailsViewModel.Layout);
@@ -163,7 +163,7 @@ namespace LayoutModule.ViewModels
 		{
 			using (new WaitWrapper())
 				_layoutBuffer = Utils.Clone(SelectedLayout.Layout);
-			copyCounter = 0;
+			_copyCounter = 0;
 		}
 		private bool CanCopy()
 		{
@@ -199,15 +199,15 @@ namespace LayoutModule.ViewModels
 		private void RenewLayout(Layout layout)
 		{
 			layout.UID = Guid.NewGuid();
-			if (copyCounter == 0)
+			if (_copyCounter == 0)
 			{
 				layout.Caption = string.Format("{0} - копия", layout.Caption);
 			}
 			else
 			{
-				layout.Caption = string.Format("{0} - копия({1})", layout.Caption, copyCounter);
+				layout.Caption = string.Format("{0} - копия({1})", layout.Caption, _copyCounter);
 			}
-			copyCounter++;
+			_copyCounter++;
 		}
 		void SortLayouts()
 		{
