@@ -22,7 +22,7 @@ namespace RubezhAPI.GK
 			OpenRegimeLogic = new GKLogic();
 			NormRegimeLogic = new GKLogic();
 			CloseRegimeLogic = new GKLogic();
-			Delay = 2;
+			Delay = 15;
 			Hold = 20;
 			PimEnter = new GKPim
 			{
