@@ -52,7 +52,7 @@
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="SystemFolder"/>
 			<Directory Id="ProgramFilesFolder">
-				<Directory Id="INSTALLLOCATION" Name="Rubezh">
+				<Directory Id="INSTALLLOCATION" Name="$(var.ProductInstallFolder)">
 					<Directory Id="SERVERLOCATION" Name="$(var.ServerName)">
 					</Directory>
 					<Directory Id="ADMINISTRATORLOCATION" Name="$(var.AdministratorName)">
