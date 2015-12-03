@@ -15,6 +15,7 @@ namespace AutomationModule.ViewModels
 		public ExplicitValuesViewModel()
 		{
 			EditListCommand = new RelayCommand(OnEditList);
+			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<ExplicitValueViewModel>(OnRemove);
 			ChangeCommand = new RelayCommand<ExplicitValueViewModel>(OnChange);
 			ExplicitValue = new ExplicitValueViewModel();
@@ -53,6 +54,17 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		bool _isSimpleType;
+		public bool IsSimpleType
+		{
+			get { return _isSimpleType; }
+			set
+			{
+				_isSimpleType = value;
+				OnPropertyChanged(() => IsSimpleType);
+			}
+		}
+
 		ExplicitType _explicitType;
 		public ExplicitType ExplicitType
 		{
@@ -61,6 +73,7 @@ namespace AutomationModule.ViewModels
 			{
 				if(_explicitType != value)
 				{
+					IsSimpleType = value != ExplicitType.Object;
 					ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
 					ExplicitValue = new ExplicitValueViewModel();
 				}
@@ -116,6 +129,14 @@ namespace AutomationModule.ViewModels
 					return;
 			if (explicitValues != null)
 				ExplicitValues = new ObservableCollection<ExplicitValueViewModel>(explicitValues);
+			OnPropertyChanged(() => ExplicitValues);
+		}
+
+		public RelayCommand AddCommand { get; private set; }
+		void OnAdd()
+		{
+			var explicitValueViewModel = new ExplicitValueViewModel();
+			ExplicitValues.Add(explicitValueViewModel);
 			OnPropertyChanged(() => ExplicitValues);
 		}
 
