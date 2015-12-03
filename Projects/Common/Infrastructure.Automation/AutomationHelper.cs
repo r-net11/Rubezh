@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using RubezhAPI.Automation;
-using RubezhClient;
 using System.Collections.ObjectModel;
 using RubezhAPI;
 using Property = RubezhAPI.Automation.Property;
-using RubezhClient.SKDHelpers;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhAPI.Journal;
@@ -119,7 +117,7 @@ namespace Infrastructure.Automation
 
 		public static string GetProcedureName(Guid procedureUid)
 		{
-			var procedure = ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == procedureUid);
+			var procedure = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == procedureUid);
 			return procedure == null ? "" : procedure.Name;
 		}
 
@@ -212,7 +210,7 @@ namespace Infrastructure.Automation
 			var mpt = GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == uid);
 			if (mpt != null)
 				return mpt.PresentationName;
-			var organisation = OrganisationHelper.GetSingle(uid);
+			var organisation = RubezhClient.SKDHelpers.OrganisationHelper.GetSingle(uid);
 			if (organisation != null)
 				return organisation.Name;
 			return "";

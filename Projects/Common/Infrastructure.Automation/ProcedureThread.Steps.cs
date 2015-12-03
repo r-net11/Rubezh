@@ -10,10 +10,8 @@ using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhAPI.Models;
-using RubezhClient;
 using Property = RubezhAPI.Automation.Property;
 using RubezhAPI.SKD;
-using RubezhClient.SKDHelpers;
 using System.Diagnostics;
 
 namespace Infrastructure.Automation
