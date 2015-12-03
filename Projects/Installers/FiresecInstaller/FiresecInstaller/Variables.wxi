@@ -8,9 +8,9 @@
 	<?define Codepage="1251" ?>
 	<?define BrandName="A.C.Tech"?>
 	<?define ProductInstallFolder="Strazh"?>
-	<?define ServerName="FiresecService"?>
-	<?define MonitorName="FireMonitor"?>
-	<?define AdministratorName="FireAdministrator"?>
+	<?define ServerName="StrazhService"?>
+	<?define MonitorName="StrazhMonitor"?>
+	<?define AdministratorName="StrazhAdmin"?>
 	<?define ConfigurationFolder="Configuration"?>
 	<?define SoundsFolder="Sounds"?>
 	<?define XslFilesFolder="XslFiles"?>
