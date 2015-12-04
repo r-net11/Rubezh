@@ -1,23 +1,23 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Windows;
-using Common;
+﻿using Common;
 using FireMonitor.ViewModels;
-using RubezhAPI.Models;
-using RubezhClient;
 using GKProcessor;
 using Infrastructure;
+using Infrastructure.Automation;
 using Infrastructure.Client;
+using Infrastructure.Client.Startup;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Windows.Threading;
-using Infrastructure.Client.Startup;
-using RubezhAPI.Journal;
-using Infrastructure.Automation;
 using RubezhAPI.Automation;
+using RubezhAPI.Journal;
+using RubezhAPI.Models;
+using RubezhClient;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace FireMonitor
 {
@@ -111,7 +111,7 @@ namespace FireMonitor
 						return false;
 					}
 
-					SafeFiresecService.ReconnectionErrorEvent += x => { ApplicationService.Invoke(OnReconnectionError, x); };
+					//SafeFiresecService.ReconnectionErrorEvent += x => { ApplicationService.Invoke(OnReconnectionError, x); };
 					SafeFiresecService.JournalItemsEvent += OnJournalItems;
 
 					ScheduleRunner.Start();
@@ -199,14 +199,14 @@ namespace FireMonitor
 			return new MonitorShellViewModel();
 		}
 
-		void OnReconnectionError(string error)
-		{
-			if (!MessageBoxService.ShowConfirmation(String.Format("Связь с сервером восстановлена после сбоя, однако подключение не удалось по причине:\n\"{0}\"\nПовторить попытку подключения?", error))
-				&& Application.Current != null)
-			{
-				Application.Current.Shutdown();
-			}
-		}
+		//void OnReconnectionError(string error)
+		//{
+		//	if (!MessageBoxService.ShowConfirmation(String.Format("Связь с сервером восстановлена после сбоя, однако подключение не удалось по причине:\n\"{0}\"\nПовторить попытку подключения?", error))
+		//		&& Application.Current != null)
+		//	{
+		//		Application.Current.Shutdown();
+		//	}
+		//}
 
 		void OnConfigurationChanged()
 		{

@@ -1,27 +1,24 @@
-﻿using System;
+﻿using Common;
+using RubezhAPI;
+using RubezhAPI.License;
+using RubezhAPI.Models;
+using System;
 using System.ServiceModel;
 using System.Windows.Threading;
-using Common;
-using RubezhAPI;
-using RubezhAPI.Models;
-using Infrastructure.Common;
-using RubezhAPI.License;
 
 namespace RubezhClient
 {
 	public partial class SafeFiresecService// : IFiresecService
 	{
 		FiresecServiceFactory FiresecServiceFactory;
-        public IFiresecService FiresecService { get; set; }
 		string _serverAddress;
 		ClientCredentials _clientCredentials;
 		bool IsDisconnecting = false;
 
 		public SafeFiresecService(string serverAddress)
 		{
-			FiresecServiceFactory = new RubezhClient.FiresecServiceFactory();
+			FiresecServiceFactory = new RubezhClient.FiresecServiceFactory(serverAddress);
 			_serverAddress = serverAddress;
-			FiresecService = FiresecServiceFactory.Create(serverAddress);
 
 			StartOperationQueueThread();
 			Dispatcher.CurrentDispatcher.ShutdownStarted += (s, e) =>
@@ -35,18 +32,14 @@ namespace RubezhClient
 			try
 			{
 				var result = func();
-				OnConnectionAppeared();
+				ConnectionAppeared();
 				if (result != null)
 					return result;
 			}
 			catch (Exception e)
 			{
 				LogException(e, methodName);
-				OnConnectionLost();
-                if (!Recover())
-                {
-                    FiresecServiceFactory.Dispose();
-                }
+				ConnectionLost();
 			}
 			return OperationResult<T>.FromError("Ошибка при при вызове операции");
 		}
@@ -56,7 +49,7 @@ namespace RubezhClient
 			try
 			{
 				var t = func();
-				OnConnectionAppeared();
+				ConnectionAppeared();
 				return t;
 			}
 			catch (ActionNotSupportedException)
@@ -64,11 +57,7 @@ namespace RubezhClient
 			catch (Exception e)
 			{
 				LogException(e, methodName);
-				OnConnectionLost();
-				if (reconnectOnException && !Recover())
-				{
-                    FiresecServiceFactory.Dispose();
-				}
+				ConnectionLost();
 			}
 			return default(T);
 		}
@@ -78,16 +67,12 @@ namespace RubezhClient
 			try
 			{
 				action();
-				OnConnectionAppeared();
+				ConnectionAppeared();
 			}
 			catch (Exception e)
 			{
 				LogException(e, methodName);
-				OnConnectionLost();
-				if (reconnectOnException && !Recover())
-				{
-                    FiresecServiceFactory.Dispose();
-				}
+				ConnectionLost();
 			}
 		}
 
@@ -127,56 +112,26 @@ namespace RubezhClient
 			}
 		}
 
-		public static event Action ConnectionLost;
-		void OnConnectionLost()
+		public static event Action OnConnectionLost;
+		void ConnectionLost()
 		{
 			if (isConnected == false)
 				return;
-			if (ConnectionLost != null)
-				ConnectionLost();
+			if (OnConnectionLost != null)
+				OnConnectionLost();
 			isConnected = false;
 		}
 
-		public static event Action ConnectionAppeared;
-		void OnConnectionAppeared()
+		public static event Action OnConnectionAppeared;
+		void ConnectionAppeared()
 		{
 			if (isConnected == true)
 				return;
 
-			if (ConnectionAppeared != null)
-				ConnectionAppeared();
+			if (OnConnectionAppeared != null)
+				OnConnectionAppeared();
 
 			isConnected = true;
-		}
-
-        public static event Action<string> ReconnectionErrorEvent;
-		bool Recover()
-		{
-			if (IsDisconnecting)
-				return false;
-
-			Logger.Error("SafeFiresecService.Recover");
-
-			SuspendPoll = true;
-			try
-			{
-				FiresecServiceFactory.Dispose();
-				FiresecServiceFactory = new RubezhClient.FiresecServiceFactory();
-				FiresecService = FiresecServiceFactory.Create(_serverAddress);
-                OperationResult<bool> operationResult = null;
-				TimeoutOperation.Execute(() => operationResult = FiresecService.Connect(FiresecServiceFactory.UID, _clientCredentials, false), TimeSpan.FromSeconds(30));
-				if (operationResult != null && operationResult.HasError && ReconnectionErrorEvent != null)
-                    ReconnectionErrorEvent(operationResult.Error);
-				return operationResult.Result;
-			}
-			catch
-			{
-				return false;
-			}
-			finally
-			{
-				SuspendPoll = false;
-			}
 		}
 
 		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew)
@@ -186,7 +141,9 @@ namespace RubezhClient
 			{
 				try
 				{
-					return FiresecService.Connect(uid, clientCredentials, isNew);
+					var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+					using (firesecService as IDisposable)
+						return firesecService.Connect(uid, clientCredentials, isNew);
 				}
 				//catch (EndpointNotFoundException) { }
 				//catch (System.IO.PipeException) { }
@@ -199,21 +156,23 @@ namespace RubezhClient
 			}, "Connect");
 		}
 
-        public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
-        {
-            return SafeOperationCall(() =>
-            {
-                try
-                {
-                    return FiresecService.GetLicenseInfo();
-                }
-                catch (Exception e)
-                {
+		public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
+		{
+			return SafeOperationCall(() =>
+			{
+				try
+				{
+					var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+					using (firesecService as IDisposable)
+						return firesecService.GetLicenseInfo();
+				}
+				catch (Exception e)
+				{
 					Logger.Error("Исключение при вызове RubezhClient.GetLicenseInfo " + e.GetType().Name.ToString());
-                }
-                return OperationResult<FiresecLicenseInfo>.FromError("Не удается получить лицензию от " + _serverAddress);
-            }, "GetLicenseInfo");
-        }
+				}
+				return OperationResult<FiresecLicenseInfo>.FromError("Не удается получить лицензию от " + _serverAddress);
+			}, "GetLicenseInfo");
+		}
 
 		public void Dispose()
 		{

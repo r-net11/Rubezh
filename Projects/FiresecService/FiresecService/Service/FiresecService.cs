@@ -1,12 +1,12 @@
-﻿using System;
-using System.ServiceModel;
-using System.ServiceModel.Channels;
-using Common;
+﻿using Common;
 using RubezhAPI;
 using RubezhAPI.Journal;
+using RubezhAPI.License;
 using RubezhAPI.Models;
 using RubezhDAL.DataClasses;
-using RubezhAPI.License;
+using System;
+using System.ServiceModel;
+using System.ServiceModel.Channels;
 
 namespace FiresecService.Service
 {
@@ -113,7 +113,7 @@ namespace FiresecService.Service
 				return databaseService.ResetDB();
 			}
 		}
-		
+
 		public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
 		{
 			return new OperationResult<FiresecLicenseInfo>(LicenseManager.CurrentLicenseInfo);

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using RubezhAPI;
+﻿using RubezhAPI;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
-using RubezhAPI.SKD;
-using System.IO;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 
 namespace FiresecService.Service
 {
@@ -20,12 +18,12 @@ namespace FiresecService.Service
 			var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == uid);
 			if (clientInfo != null)
 			{
-                clientInfo.LastPollDateTime = DateTime.Now;
+				clientInfo.LastPollDateTime = DateTime.Now;
 				var result = CallbackManager.Get(clientInfo);
 				if (result.Count == 0)
 				{
 					clientInfo.WaitEvent = new AutoResetEvent(false);
-					if (clientInfo.WaitEvent.WaitOne(TimeSpan.FromMinutes(5)))
+					if (clientInfo.WaitEvent.WaitOne(TimeSpan.FromMinutes(1)))
 					{
 						result = CallbackManager.Get(clientInfo);
 					}
@@ -75,7 +73,7 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-        public static void NotifyConfigurationChanged()
+		public static void NotifyConfigurationChanged()
 		{
 			var callbackResult = new CallbackResult()
 			{
