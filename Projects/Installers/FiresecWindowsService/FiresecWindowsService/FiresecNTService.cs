@@ -48,7 +48,7 @@ namespace FiresecNTService
             var processes = Process.GetProcesses();
             foreach (var process in processes)
             {
-                if (process.ProcessName == "FiresecService")
+				if (process.ProcessName == "StrazhService")
                 {
                     process.Kill();
                 }

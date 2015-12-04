@@ -19,14 +19,14 @@
 				<RegistryValue Value="Firecec-2 configuration file" Type="string" />
 
 				<RegistryKey Key="DefaultIcon" ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">
-					<RegistryValue Value="[ADMINISTRATORLOCATION]FireAdministrator.exe, 1" Type="string" />
+					<RegistryValue Value="[ADMINISTRATORLOCATION]StrazhAdmin.exe, 1" Type="string" />
 				</RegistryKey>
 
 				<RegistryKey Key="Shell" ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">
 					<RegistryKey Key="openfiresecconfiguration" ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">
 						<RegistryValue Value="Открыть файл конфигурации" Type="string" />
 						<RegistryKey Key="command" ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">
-							<RegistryValue Value="&quot;[ADMINISTRATORLOCATION]FireAdministrator.exe&quot; &quot;%1&quot;" Type="string" />
+							<RegistryValue Value="&quot;[ADMINISTRATORLOCATION]StrazhAdmin.exe&quot; &quot;%1&quot;" Type="string" />
 						</RegistryKey>
 					</RegistryKey>
 				</RegistryKey>

@@ -24,12 +24,10 @@ namespace CustomAction
 			{
 				try
 				{
-					if ((process.ProcessName == "FiresecService")
-						|| (process.ProcessName == "FireMonitor")
-						|| (process.ProcessName == "FireAdministrator")
-						|| (process.ProcessName == "Revisor")
-						|| (process.ProcessName == "GKOPCServer")
-						|| (process.ProcessName == "FiresecNTService"))
+					if ((process.ProcessName == "StrazhService")
+						|| (process.ProcessName == "StrazhMonitor")
+						|| (process.ProcessName == "StrazhAdmin")
+						|| (process.ProcessName == "Revisor"))
 					{
 						process.Kill();
 					}

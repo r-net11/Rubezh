@@ -2,10 +2,10 @@
 <Include>
   <?define AdministratorName="Администратор Страж" ?>
   <?define AdministratorDescription="Запускает Администратор Страж" ?>
-  <?define AdministratorInstallLocation="FireAdministrator" ?>
+  <?define AdministratorInstallLocation="StrazhAdmin" ?>
   <?define Administrator.TargetDir="..\..\..\..\..\FireAdministrator\bin\Release\"?>
-  <?define Administrator.TargetFileName="FireAdministrator.exe"?>
-  <?define Administrator.TargetPath="..\..\..\..\..\FireAdministrator\bin\Release\FireAdministrator.exe"?>
+  <?define Administrator.TargetFileName="StrazhAdmin.exe"?>
+  <?define Administrator.TargetPath="..\..\..\..\..\FireAdministrator\bin\Release\StrazhAdmin.exe"?>
   <?define Administrator.Deploy.TargetDir="..\..\..\..\..\Deploy\ConfigurationAdministrator\"?>
   <?define Administrator.DeployFirmware.TargetDir="..\..\..\..\..\Deploy\GKFirmware\"?>
   <?define Server.TargetDir="..\..\..\..\..\FiresecService\bin\Release\"?>
