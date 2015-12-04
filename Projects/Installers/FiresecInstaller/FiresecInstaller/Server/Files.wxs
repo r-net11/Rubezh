@@ -8,15 +8,15 @@
 		<DirectoryRef Id="SERVERLOCATION">
 			<Component Id="Server.AutorunComponent" Guid="72444C34-2199-4EB6-8697-96A3AE1C1096">
 				<RegistryKey Root="HKCU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" Action="none">
-					<RegistryValue KeyPath="yes" Name="FiresecService" Type="string" Value="[SERVERLOCATION]$(var.Server.TargetFileName)" />
+					<RegistryValue KeyPath="yes" Name="StrazhService" Type="string" Value="[SERVERLOCATION]$(var.Server.TargetFileName)" />
 				</RegistryKey>
 			</Component>
 
 			<Component Id="Server.Files" Guid="DF63AD3D-F414-49A1-86A5-79D635310E8D">
-				<File Id="Server.FiresecService.exe" Name="$(var.Server.TargetFileName)" Source="$(var.Server.TargetPath)" KeyPath="yes" />
-				<File Id="Server.FiresecService.exe.config" Name="FiresecService.exe.config" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.FiresecService.exe.manifest" Name="FiresecService.exe.manifest" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.FiresecService.Report.dll" Name="FiresecService.Report.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.StrazhService.exe" Name="$(var.Server.TargetFileName)" Source="$(var.Server.TargetPath)" KeyPath="yes" />
+				<File Id="Server.StrazhService.exe.config" Name="StrazhService.exe.config" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.StrazhService.exe.manifest" Name="StrazhService.exe.manifest" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.StrazhService.Report.dll" Name="StrazhService.Report.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Common.dll" Name="Common.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Common.TargetDir)" />
