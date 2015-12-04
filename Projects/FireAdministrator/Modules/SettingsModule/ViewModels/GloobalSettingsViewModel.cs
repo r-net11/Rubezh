@@ -47,7 +47,7 @@ namespace SettingsModule.ViewModels
 				var registryKey = Registry.CurrentUser.OpenSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
 				if (registryKey != null)
 				{
-					if (registryKey.GetValue("FiresecService") == null)
+					if (registryKey.GetValue("StrazhService") == null)
 						return false;
 					registryKey.Close();
 				}
@@ -60,11 +60,11 @@ namespace SettingsModule.ViewModels
 				{
 					if (value)
 					{
-						var path = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\FiresecService\FiresecService.exe");
-						registryKey.SetValue("FiresecService", path);
+						var path = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\StrazhService\StrazhService.exe");
+						registryKey.SetValue("StrazhService", path);
 					}
 					else
-						registryKey.DeleteValue("FiresecService");
+						registryKey.DeleteValue("StrazhService");
 					registryKey.Close();
 				}
 				OnPropertyChanged(() => IsServerAuto);

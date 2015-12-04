@@ -7,9 +7,10 @@
 	<?define Manufacturer="Компания СТРАЖ" ?>
 	<?define Codepage="1251" ?>
 	<?define BrandName="A.C.Tech"?>
-	<?define ServerName="FiresecService"?>
-	<?define MonitorName="FireMonitor"?>
-	<?define AdministratorName="FireAdministrator"?>
+	<?define ProductInstallFolder="Strazh"?>
+	<?define ServerName="StrazhService"?>
+	<?define MonitorName="StrazhMonitor"?>
+	<?define AdministratorName="StrazhAdmin"?>
 	<?define ConfigurationFolder="Configuration"?>
 	<?define SoundsFolder="Sounds"?>
 	<?define XslFilesFolder="XslFiles"?>

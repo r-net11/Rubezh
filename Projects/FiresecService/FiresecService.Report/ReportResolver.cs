@@ -9,7 +9,7 @@ namespace FiresecService.Report
 	[Export(typeof(IReportResolver))]
 	public class ReportResolver : IReportResolver
 	{
-		private const string ReportNameTemplate = @"FiresecService.Report.Templates.{0}, FiresecService.Report";
+		private const string ReportNameTemplate = @"FiresecService.Report.Templates.{0}, StrazhService.Report";
 		private const string ProviderSuffix = "Provider";
 
 		public ReportResolver()

@@ -5,9 +5,9 @@
 	<Fragment>
 		<DirectoryRef Id="MONITORLOCATION">
 			<Component Id="Monitor.Files" Guid="6FE1B80B-3E17-4D02-83F2-20E081B6F49B">
-				<File Id="Monitor.FireMonitor.exe" Name="$(var.Monitor.TargetFileName)" Source="$(var.Monitor.TargetPath)" KeyPath="yes" />
-				<File Id="Monitor.FireMonitor.exe.config" Name="FireMonitor.exe.config" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.FireMonitor.exe.manifest" Name="FireMonitor.exe.manifest" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.StrazhMonitor.exe" Name="$(var.Monitor.TargetFileName)" Source="$(var.Monitor.TargetPath)" KeyPath="yes" />
+				<File Id="Monitor.StrazhMonitor.exe.config" Name="StrazhMonitor.exe.config" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.StrazhMonitor.exe.manifest" Name="StrazhMonitor.exe.manifest" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.Infrastructure.Client.dll" Name="Infrastructure.Client.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Common.TargetDir)" />
@@ -18,9 +18,9 @@
 				<File Id="Monitor.DeviceControls.dll" Name="DeviceControls.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.RviClient.dll" Name="RviClient.dll" Source="$(var.Monitor.TargetDir)" />
 
-				<File Id="Monitor.FireMonitor.Layout.exe" Name="FireMonitor.Layout.exe" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.FireMonitor.Layout.exe.config" Name="FireMonitor.Layout.exe.config" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.FireMonitor.Layout.exe.manifest" Name="FireMonitor.Layout.exe.manifest" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.StrazhMonitor.Layout.exe" Name="StrazhMonitor.Layout.exe" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.StrazhMonitor.Layout.exe.config" Name="StrazhMonitor.Layout.exe.config" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.StrazhMonitor.Layout.exe.manifest" Name="StrazhMonitor.Layout.exe.manifest" Source="$(var.Monitor.TargetDir)" />
 
 				<File Id="Monitor.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.FiresecClient.dll" Name="FiresecClient.dll" Source="$(var.Common.TargetDir)" />

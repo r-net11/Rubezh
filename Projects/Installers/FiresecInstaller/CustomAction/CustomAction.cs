@@ -24,12 +24,10 @@ namespace CustomAction
 			{
 				try
 				{
-					if ((process.ProcessName == "FiresecService")
-						|| (process.ProcessName == "FireMonitor")
-						|| (process.ProcessName == "FireAdministrator")
-						|| (process.ProcessName == "Revisor")
-						|| (process.ProcessName == "GKOPCServer")
-						|| (process.ProcessName == "FiresecNTService"))
+					if ((process.ProcessName == "StrazhService")
+						|| (process.ProcessName == "StrazhMonitor")
+						|| (process.ProcessName == "StrazhAdmin")
+						|| (process.ProcessName == "Revisor"))
 					{
 						process.Kill();
 					}
@@ -46,7 +44,7 @@ namespace CustomAction
 
 		#region <Работа с файлом конфигурации AppServerSettings.xml>
 
-		private const string ConfigDir = "C:\\ProgramData\\Firesec2";
+		private const string ConfigDir = "C:\\ProgramData\\Strazh";
 		private const string ConfigFile = "AppServerSettings.xml";
 
 		#region <Переменные сессии и значения по умолчанию>

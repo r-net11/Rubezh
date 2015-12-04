@@ -82,7 +82,7 @@ namespace FireMonitor
 					}
 
 					//MutexHelper.KeepAlive();
-					if (Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost")
+					if (Process.GetCurrentProcess().ProcessName != "StrazhMonitor.vshost")
 					{
 						RegistrySettingsHelper.SetBool("isException", true);
 					}

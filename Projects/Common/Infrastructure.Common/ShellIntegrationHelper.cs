@@ -15,7 +15,7 @@ namespace Infrastructure.Common
 				var registryKey = Registry.CurrentUser.CreateSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
 				if (registryKey != null)
 				{
-					registryKey.DeleteValue("FiresecService");
+					registryKey.DeleteValue("StrazhService");
 					registryKey.DeleteValue("FSAgentServer");
 					registryKey.Close();
 				}

@@ -6,9 +6,9 @@
 
 		<DirectoryRef Id="ADMINISTRATORLOCATION">
 			<Component Id="Administrator.Files" Guid="F78F2E80-61E7-4AA3-9605-4AD05EF21975">
-				<File Id="Administrator.FireAdministrator.exe" Name="$(var.Administrator.TargetFileName)" Source="$(var.Administrator.TargetPath)" KeyPath="yes" />
-				<File Id="Administrator.FireAdministrator.exe.config" Name="FireAdministrator.exe.config" Source="$(var.Administrator.TargetDir)" />
-				<File Id="Administrator.FireAdministrator.exe.manifest" Name="FireAdministrator.exe.manifest" Source="$(var.Administrator.TargetDir)"/>
+				<File Id="Administrator.StrazhAdmin.exe" Name="$(var.Administrator.TargetFileName)" Source="$(var.Administrator.TargetPath)" KeyPath="yes" />
+				<File Id="Administrator.StrazhAdmin.exe.config" Name="StrazhAdmin.exe.config" Source="$(var.Administrator.TargetDir)" />
+				<File Id="Administrator.StrazhAdmin.exe.manifest" Name="StrazhAdmin.exe.manifest" Source="$(var.Administrator.TargetDir)"/>
 				<File Id="Administrator.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.Infrastructure.Client.dll" Name="Infrastructure.Client.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Administrator.TargetDir)" />

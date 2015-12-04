@@ -52,7 +52,7 @@
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="SystemFolder"/>
 			<Directory Id="ProgramFilesFolder">
-				<Directory Id="INSTALLLOCATION" Name="Rubezh">
+				<Directory Id="INSTALLLOCATION" Name="$(var.ProductInstallFolder)">
 					<Directory Id="SERVERLOCATION" Name="$(var.ServerName)">
 					</Directory>
 					<Directory Id="ADMINISTRATORLOCATION" Name="$(var.AdministratorName)">
@@ -85,7 +85,7 @@
 			</Directory>
 			<Directory Id="DesktopFolder" />
 			<Directory Id="CommonAppDataFolder" Name="CommonAppDataFolder">
-				<Directory Id="AppData.FiresecLocation" Name="Firesec2">
+				<Directory Id="AppData.FiresecLocation" Name="Strazh">
 					<Directory Id="AppData.ServerLocation" Name="Server">
 						<Directory Id="AppData.ServerLocation.Config" Name="Config">
 							<Directory Id="AppData.ServerLocation.Content" Name="Content" />
