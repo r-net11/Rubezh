@@ -48,8 +48,8 @@
 				
 				<File Id="Administrator.NLog.dll"										Name="NLog.dll"											Source="..\..\..\..\..\..\3rdParty\NLog.2.0.1.2\" />
 
-				<File Id="Administrator.Npgsql.dll"										Name="Npgsql.dll"										Source="..\..\..\..\..\..\3rdParty\Npgsql\" />
-				<File Id="Administrator.Npgsql.EntityFramework.dll"						Name="Npgsql.EntityFramework.dll"						Source="..\..\..\..\..\..\3rdParty\Npgsql\" />
+				<File Id="Administrator.Npgsql.dll"										Name="Npgsql.dll"										Source="$(var.Administrator.TargetDir)" />
+				<File Id="Administrator.Npgsql.EntityFramework.dll"						Name="Npgsql.EntityFramework.dll"						Source="$(var.Administrator.TargetDir)" />
 			</Component>
 
 			<Component Id="Administrator.DB" Guid="5619BD45-25EA-4635-8BBA-4D8E81F06B2F">
