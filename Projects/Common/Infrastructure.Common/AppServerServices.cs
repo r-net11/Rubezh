@@ -7,7 +7,7 @@ namespace Infrastructure.Common
 {
 	static class AppServerServices
 	{
-		public const string ServiceName = "FiresecService";
-		public const string ReportServiceName = "ReportFiresecService";
+		public const string ServiceName = "StrazhService";
+		public const string ReportServiceName = "ReportStrazhService";
 	}
 }
