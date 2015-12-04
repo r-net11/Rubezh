@@ -42,8 +42,10 @@ namespace GKWebService.Controllers
             return View();
         }
 
+        /*public JsonNetResult GetDepartmentDetails(Guid organisationId, Guid? id, Guid? parentDepartmentId)*/
         public JsonNetResult GetDepartmentDetails(Guid? id)
         {
+            /*var departmentModel = new DepartmentDetailsViewModel();*/
             Department department;
             if (id.HasValue)
             {

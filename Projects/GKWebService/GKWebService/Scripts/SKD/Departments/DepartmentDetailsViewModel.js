@@ -1,6 +1,7 @@
-﻿function DepartmentDetailsViewModel() {
+﻿function DepartmentDetailsViewModel(departmentSelectionViewModel) {
     var self = {};
 
+    self.DepartmentSelectionViewModel = departmentSelectionViewModel;
     self.Title = ko.observable();
     self.IsNew = ko.observable(false);
     self.Name = ko.observable();
@@ -30,8 +31,8 @@
                 self.Title("Создание подразделения");
                 self.IsNew = true;
                 self.ParentDepartmentUID(parentUID);
-                self.OrganisationUID(organisationUID);
             }
+            self.OrganisationUID(organisationUID);
             ShowBox('#department-details-box');
         });
     };
@@ -51,7 +52,7 @@
     };
 
     self.SelectDepartment = function () {
-
+        self.DepartmentSelectionViewModel.Init(self.OrganisationUID(), self.UID());
     };
 
     self.DepartmentDetailsClose = function () {
