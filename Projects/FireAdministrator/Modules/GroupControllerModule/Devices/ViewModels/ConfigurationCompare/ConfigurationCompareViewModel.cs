@@ -136,7 +136,7 @@ namespace GKModule.ViewModels
 			var unionObjects = CreateUnionObjectList(LocalObjectsViewModel.Objects, RemoteObjectsViewModel.Objects);
 			var unionObjects1 = CreateOneComparedObjectList(LocalObjectsViewModel.Objects, RemoteObjectsViewModel.Objects, unionObjects, true);
 			var unionObjects2 = CreateOneComparedObjectList(RemoteObjectsViewModel.Objects, LocalObjectsViewModel.Objects, unionObjects, false);
-			LocalObjectsViewModel.Objects = unionObjects1;
+            LocalObjectsViewModel.Objects = unionObjects1;
 			RemoteObjectsViewModel.Objects = unionObjects2;
 		}
 		List<ObjectViewModel> CreateUnionObjectList(List<ObjectViewModel> objects1, List<ObjectViewModel> objects2)
@@ -157,7 +157,7 @@ namespace GKModule.ViewModels
 			foreach (var unionObject in unionObjects)
 			{
 				var newObject = (ObjectViewModel)unionObject.Clone();
-				var sameObject1 = objects1.FirstOrDefault(x => x.Compare(x, unionObject) == 0);
+				var sameObject1 = objects1.FirstOrDefault(x => IsEqual(unionObject, x));
 				if (sameObject1 == null)
 				{
 					newObject.DifferenceDiscription = IsLocalConfig ? "Отсутствует в локальной конфигурации" : "Отсутствует в конфигурации прибора";
@@ -165,7 +165,7 @@ namespace GKModule.ViewModels
 				}
 				else
 				{
-					var sameObject2 = objects2.FirstOrDefault(x => x.Compare(x, unionObject) == 0);
+					var sameObject2 = objects2.FirstOrDefault(x => IsEqual(unionObject, x));
 					if (sameObject2 == null)
 					{
 						newObject.DifferenceDiscription = IsLocalConfig ? "Отсутствует в конфигурации прибора" : "Отсутствует в локальной конфигурации";
@@ -227,7 +227,6 @@ namespace GKModule.ViewModels
 			}
 			return unionObjects1;
 		}
-
 		string GetZonesDifferences(ObjectViewModel object1, ObjectViewModel object2)
 		{
 			var zonesDifferences = new StringBuilder();
@@ -439,6 +438,64 @@ namespace GKModule.ViewModels
 			}
 
 			return differences.ToString() == "" ? null : differences.ToString();
+		}
+		bool IsEqual(ObjectViewModel viewModel1, ObjectViewModel viewModel2)
+		{
+			if (viewModel1.ObjectType != viewModel2.ObjectType)
+				return false;
+
+			if (viewModel1.ObjectType == ObjectType.Device)
+			{
+				if (viewModel1.Device.DriverType == GKDriverType.GKIndicatorsGroup
+				|| viewModel1.Device.DriverType == GKDriverType.GKIndicator
+				|| viewModel1.Device.DriverType == GKDriverType.GKRelaysGroup
+				|| viewModel1.Device.DriverType == GKDriverType.GKRele)
+					return true;
+
+				//if (viewModel1.Device.UID == viewModel2.Device.UID)
+				//	return true;
+				//return false;
+
+				var kauIntAddress1 = viewModel1.KAUParent != null ? viewModel1.KAUParent.IntAddress : 0;
+				var kauIntAddress2 = viewModel2.KAUParent != null ? viewModel2.KAUParent.IntAddress : 0;
+				if (kauIntAddress1 != kauIntAddress2)
+					return false;
+
+				var deviceIntAddress1 = viewModel1.Device.IntAddress;
+				var deviceIntAddress2 = viewModel2.Device.IntAddress;
+				if (deviceIntAddress1 != deviceIntAddress2)
+                    return false;
+
+				if (viewModel1.Device.Driver.DriverType != viewModel2.Device.Driver.DriverType)
+					return false;
+				return true;
+			}
+
+			if (viewModel1.ObjectType == ObjectType.Zone)
+				return viewModel1.Zone.No == viewModel2.Zone.No;
+
+			if (viewModel1.ObjectType == ObjectType.Direction)
+				return viewModel1.Direction.No == viewModel2.Direction.No;
+
+			if (viewModel1.ObjectType == ObjectType.PumpStation)
+				return false;
+			
+			if (viewModel1.ObjectType == ObjectType.MPT)
+				return viewModel1.MPT.Name == viewModel2.MPT.Name;
+
+			if (viewModel1.ObjectType == ObjectType.Delay)
+				return viewModel1.Delay.Name==viewModel2.Delay.Name;
+
+			if (viewModel1.ObjectType == ObjectType.GuardZone)
+				return viewModel1.GuardZone.No == viewModel2.GuardZone.No;
+
+			if (viewModel1.ObjectType == ObjectType.Code)
+				return viewModel1.Code.No == viewModel2.Code.No;
+
+			if (viewModel1.ObjectType == ObjectType.Door)
+				return viewModel1.Door.No == viewModel2.Door.No;
+
+			return true;
 		}
 	}
 }

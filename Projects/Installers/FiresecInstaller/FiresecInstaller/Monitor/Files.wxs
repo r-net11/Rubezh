@@ -37,7 +37,7 @@
 				<File Id="Monitor.GKProcessor.dll"											Name="GKProcessor.dll"											Source="$(var.Common.TargetDir)" />
 				
 				<File Id="Monitor.WPFMediaKit.dll"											Name="WPFMediaKit.dll"											Source="..\..\..\..\..\..\3rdParty\" />
-				<File Id="Monitor.Xceed.Wpf.AvalonDock.dll"									Name="Xceed.Wpf.AvalonDock.dll"									Source="..\..\..\..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\" />
+				<File Id="Monitor.Xceed.Wpf.AvalonDock.dll"									Name="Xceed.Wpf.AvalonDock.dll"									Source="..\..\..\..\..\..\3rdParty\AvalonDock\Bin\Version2.0\Xceed.Wpf.AvalonDock\" />
 				<File Id="Monitor.Xceed.Wpf.Toolkit.dll"									Name="Xceed.Wpf.Toolkit.dll"									Source="..\..\..\..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\" />
 				<File Id="Monitor.SharpVectors.Converters.dll"								Name="SharpVectors.Converters.dll"								Source="..\..\..\..\..\..\3rdParty\SharpVectors\" />
 				<File Id="Monitor.SharpVectors.Core.dll"									Name="SharpVectors.Core.dll"									Source="..\..\..\..\..\..\3rdParty\SharpVectors\" />
