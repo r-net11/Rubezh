@@ -1,15 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading;
-using Common;
+﻿using Common;
+using Infrastructure.Common.Windows;
 using RubezhAPI;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
-using RubezhAPI.SKD;
-using Infrastructure.Common.Windows;
 using RubezhAPI.Models.Layouts;
+using System;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace RubezhClient
 {
@@ -22,10 +20,11 @@ namespace RubezhClient
 		public static event Action<AutomationCallbackResult> AutomationEvent;
 		public static event Action ConfigurationChangedEvent;
 		public static event Action<List<JournalItem>, bool> JournalItemsEvent;
-		
+
 		bool isConnected = true;
 		public bool SuspendPoll = false;
 		Thread PollThread;
+		int CallbackIndex;
 
 		public void StartPoll()
 		{
@@ -52,7 +51,6 @@ namespace RubezhClient
 
 		void OnPoll()
 		{
-			Poll(FiresecServiceFactory.UID);
 			while (true)
 			{
 				try
@@ -66,7 +64,7 @@ namespace RubezhClient
 						continue;
 					}
 
-					var callbackResults = Poll(FiresecServiceFactory.UID);
+					var callbackResults = Poll(FiresecServiceFactory.UID, CallbackIndex);
 					ProcessCallbackResult(callbackResults);
 				}
 				catch (Exception e)
@@ -80,8 +78,8 @@ namespace RubezhClient
 		{
 			if (callback.Data == null || callback.Data.LayoutFilter == null || ApplicationService.Shell == null)
 				return;
-			var layoutUID = ApplicationService.Shell.Layout == null ? 
-				Layout.NoLayoutUID : 
+			var layoutUID = ApplicationService.Shell.Layout == null ?
+				Layout.NoLayoutUID :
 				ApplicationService.Shell.Layout.UID;
 			if (callback.Data.LayoutFilter.LayoutsUIDs.Contains(layoutUID))
 				SafeOperationCall(() =>
@@ -98,6 +96,8 @@ namespace RubezhClient
 
 			foreach (var callbackResult in callbackResults)
 			{
+				if (CallbackIndex < callbackResult.Index)
+					CallbackIndex = callbackResult.Index;
 				switch (callbackResult.CallbackResultType)
 				{
 					case CallbackResultType.GKProgress:
@@ -133,7 +133,7 @@ namespace RubezhClient
 						break;
 
 					case CallbackResultType.AutomationCallbackResult:
-							ProcessAutomationCallback(callbackResult.AutomationCallbackResult);
+						ProcessAutomationCallback(callbackResult.AutomationCallbackResult);
 						break;
 
 					case CallbackResultType.NewEvents:

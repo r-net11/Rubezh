@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using RubezhAPI.AutomationCallback;
+﻿using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
-using RubezhAPI.SKD;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace RubezhAPI
 {
@@ -14,6 +12,12 @@ namespace RubezhAPI
 	[DataContract]
 	public class CallbackResult
 	{
+		/// <summary>
+		/// Индекс сообщения
+		/// </summary>
+		[DataMember]
+		public int Index { get; set; }
+
 		/// <summary>
 		/// Тип результата изменения
 		/// </summary>
@@ -29,7 +33,7 @@ namespace RubezhAPI
 		/// <summary>
 		/// Прогресс операций
 		/// </summary>
-        [DataMember]
+		[DataMember]
 		public GKProgressCallback GKProgressCallback { get; set; }
 
 		/// <summary>
@@ -60,7 +64,7 @@ namespace RubezhAPI
 		UpdateEvents,
 		AutomationCallbackResult,
 		ConfigurationChanged,
-	    Disconnecting,
+		Disconnecting,
 		OperationResult
 	}
 }

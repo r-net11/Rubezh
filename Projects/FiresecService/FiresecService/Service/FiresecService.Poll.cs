@@ -11,14 +11,14 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
-		public List<CallbackResult> Poll(Guid uid)
+		public List<CallbackResult> Poll(Guid uid, int callbackIndex)
 		{
-			global::FiresecService.ViewModels.MainViewModel.Current.OnPoll(uid);
-
 			var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == uid);
 			if (clientInfo != null)
 			{
 				clientInfo.LastPollDateTime = DateTime.Now;
+				clientInfo.CallbackIndex = callbackIndex;
+				global::FiresecService.ViewModels.MainViewModel.Current.OnPoll(uid);
 				var result = CallbackManager.Get(clientInfo);
 				if (result.Count == 0)
 				{
@@ -30,6 +30,7 @@ namespace FiresecService.Service
 				}
 				return result;
 			}
+			global::FiresecService.ViewModels.MainViewModel.Current.OnPoll(uid);
 			return new List<CallbackResult>();
 		}
 

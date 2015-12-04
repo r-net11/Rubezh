@@ -1,7 +1,7 @@
-﻿using System;
+﻿using RubezhAPI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using RubezhAPI;
 
 namespace FiresecService.Service
 {
@@ -16,11 +16,10 @@ namespace FiresecService.Service
 			{
 				CallbackResultItems.RemoveAll(x => (DateTime.Now - x.DateTime) > TimeSpan.FromMinutes(1));
 
-				Index++;
+				callbackResult.Index = ++Index;
 				var newCallbackResultItem = new CallbackResultItem()
 				{
 					CallbackResult = callbackResult,
-					Index = Index,
 					DateTime = DateTime.Now,
 					ClientUID = clientUID,
 				};
@@ -58,14 +57,13 @@ namespace FiresecService.Service
 				}
 				foreach (var callbackResultItem in CallbackResultItems)
 				{
-					if (callbackResultItem.Index > clientInfo.CallbackIndex)
+					if (callbackResultItem.CallbackResult.Index > clientInfo.CallbackIndex)
 					{
 						if ((callbackResultItem.CallbackResult.GKProgressCallback == null || !callbackResultItem.CallbackResult.GKProgressCallback.IsCanceled) &&
 							(!callbackResultItem.ClientUID.HasValue || callbackResultItem.ClientUID.Value == clientInfo.UID))
 							result.Add(callbackResultItem.CallbackResult);
 					}
 				}
-				clientInfo.CallbackIndex = Index;
 				return result;
 			}
 		}
@@ -74,7 +72,6 @@ namespace FiresecService.Service
 	public class CallbackResultItem
 	{
 		public CallbackResult CallbackResult { get; set; }
-		public int Index { get; set; }
 		public DateTime DateTime { get; set; }
 		public Guid? ClientUID { get; set; }
 	}

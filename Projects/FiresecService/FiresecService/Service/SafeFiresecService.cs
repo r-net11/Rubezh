@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.ServiceModel;
-using Common;
+﻿using Common;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
-using RubezhAPI.Models;
-using RubezhLicense;
 using RubezhAPI.License;
+using RubezhAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.ServiceModel;
 
 namespace FiresecService.Service
 {
@@ -104,9 +103,9 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.ResetDB(); }, "ResetDB");
 		}
 
-		public List<CallbackResult> Poll(Guid uid)
+		public List<CallbackResult> Poll(Guid uid, int callbackIndex)
 		{
-			return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.Poll(uid));
+			return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.Poll(uid, callbackIndex));
 		}
 
 		public SecurityConfiguration GetSecurityConfiguration()
@@ -427,7 +426,7 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => { return FiresecService.GetProperties(layoutUID); }, "GetProperties");
 		}
-				
+
 		public void SetVariableValue(Guid variableUid, object value)
 		{
 			SafeOperationCall(() => FiresecService.SetVariableValue(variableUid, value), "SetVariableValue");

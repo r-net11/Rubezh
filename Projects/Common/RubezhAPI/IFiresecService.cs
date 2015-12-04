@@ -1,10 +1,10 @@
-﻿using System;
+﻿using RubezhAPI.Journal;
+using RubezhAPI.License;
+using RubezhAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
-using RubezhAPI.Journal;
-using RubezhAPI.Models;
-using RubezhAPI.License;
 
 namespace RubezhAPI
 {
@@ -39,7 +39,7 @@ namespace RubezhAPI
 		/// <param name="uid">Идентификатор клиента</param>
 		/// <returns></returns>
 		[OperationContract]
-		List<CallbackResult> Poll(Guid uid);
+		List<CallbackResult> Poll(Guid uid, int callbackIndex);
 
 		[OperationContract]
 		string Test(string arg);

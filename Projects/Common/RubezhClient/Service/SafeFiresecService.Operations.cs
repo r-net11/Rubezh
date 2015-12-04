@@ -28,13 +28,13 @@ namespace RubezhClient
 			}, "GetServerState");
 		}
 
-		public List<CallbackResult> Poll(Guid uid)
+		public List<CallbackResult> Poll(Guid uid, int callbackIndex)
 		{
 			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(90));
 				using (firesecService as IDisposable)
-					return firesecService.Poll(uid);
+					return firesecService.Poll(uid, callbackIndex);
 			}, "Poll");
 		}
 
