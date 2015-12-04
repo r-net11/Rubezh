@@ -7,10 +7,13 @@ namespace GKProcessor
 	public class PumpStationDescriptor : BaseDescriptor
 	{
 		GKPumpStation PumpStation { get; set; }
+		GKPim GlobalPim { get; set; }
 
 		public PumpStationDescriptor(CommonDatabase database, GKPumpStation pumpStation)
 			: base(pumpStation)
 		{
+			if (database != null)
+				GlobalPim = database.GlobalPim;
 			DescriptorType = DescriptorType.PumpStation;
 			PumpStation = pumpStation;
 		}
@@ -30,6 +33,11 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.END);
 				return;
 			}
+
+
+			Formula.AddGetBit(GKStateBit.On, GlobalPim);
+			Formula.Add(FormulaOperationType.BR, 2, 1);
+			Formula.Add(FormulaOperationType.EXIT);
 
 			var hasAutomaticOffLogic = PumpStation.AutomaticOffLogic.OnClausesGroup.Clauses.Count + PumpStation.AutomaticOffLogic.OnClausesGroup.ClauseGroups.Count > 0;
 			var hasStartLogic = PumpStation.StartLogic.OnClausesGroup.Clauses.Count + PumpStation.StartLogic.OnClausesGroup.ClauseGroups.Count > 0;

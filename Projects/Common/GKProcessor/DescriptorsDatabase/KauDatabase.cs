@@ -14,6 +14,10 @@ namespace GKProcessor
 
 			AddChild(RootDevice);
 			Devices.ForEach(x => x.KauDatabaseParent = RootDevice);
+
+			GlobalPim = new GKPim { Name = "Глобальное включение автоматики " + "(" + kauDevice.PresentationName + ")", IsGlobalPim = true };
+			GlobalPim.DeviceUID = kauDevice.UID;
+			GlobalPimDescriptor = new PimDescriptor(GlobalPim);
 		}
 
 		void AddChild(GKDevice device)
@@ -90,6 +94,8 @@ namespace GKProcessor
 				var codeDescriptor = new CodeDescriptor(code);
 				Descriptors.Add(codeDescriptor);
 			}
+
+			Descriptors.Add(GlobalPimDescriptor);
 
 			ushort no = 1;
 			foreach (var descriptor in Descriptors)

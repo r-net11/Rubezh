@@ -23,6 +23,12 @@ namespace RubezhAPI.GK
 		public Guid UID { get; set; }
 
 		/// <summary>
+		/// Идентификатор Устройства (для глобального пима)
+		/// </summary>
+		[DataMember]
+		public Guid DeviceUID { get; set; }
+
+		/// <summary>
 		/// Номер
 		/// </summary>
 		[DataMember]

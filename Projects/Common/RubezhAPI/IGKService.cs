@@ -122,6 +122,12 @@ namespace RubezhAPI
 		void GKTurnOffNowInAutomatic(Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
+		void GKTurnOnNowGlobalPimsInAutomatic();
+
+		[OperationContract]
+		void GKTurnOffNowGlobalPimsInAutomatic();
+
+		[OperationContract]
 		void GKStop(Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]

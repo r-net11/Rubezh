@@ -315,6 +315,10 @@ namespace GKProcessor
 			{
 				Watcher.AddObjectStateToGKStates(gkStates, pim);
 			}
+			foreach (var pim in GKManager.GlobalPims)
+			{
+				Watcher.AddObjectStateToGKStates(gkStates, pim);
+			}
 			foreach (var guardZone in GKManager.GuardZones)
 			{
 				Watcher.AddObjectStateToGKStates(gkStates, guardZone);
@@ -443,6 +447,24 @@ namespace GKProcessor
 		{
 			Watcher.SendControlCommand(gkBase, GKStateBit.TurnOffNow_InAutomatic, "Выключить немедленно в автоматике");
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Выключить_немедленно_в_автоматическом_режиме, "", gkBase, userName);
+		}
+
+		public static void GKTurnOnNowGlobalPimsInAutomatic(string userName)
+		{
+			foreach (var globalPim in GKManager.GlobalPims)
+			{
+				Watcher.SendControlCommand(globalPim, GKStateBit.TurnOnNow_InAutomatic, "Включить немедленно в автоматике");
+				AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Включить_немедленно_в_автоматическом_режиме, "", globalPim, userName);
+			}
+		}
+
+		public static void GKTurnOffNowGlobalPimsInAutomatic(string userName)
+		{
+			foreach (var globalPim in GKManager.GlobalPims)
+			{
+				Watcher.SendControlCommand(globalPim, GKStateBit.TurnOffNow_InAutomatic, "Выключить немедленно в автоматике");
+				AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Выключить_немедленно_в_автоматическом_режиме, "", globalPim, userName);
+			}
 		}
 
 		public static void GKStop(GKBase gkBase, string userName)

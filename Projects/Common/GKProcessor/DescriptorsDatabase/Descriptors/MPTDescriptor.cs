@@ -9,10 +9,13 @@ namespace GKProcessor
 	public class MPTDescriptor : BaseDescriptor
 	{
 		GKMPT MPT { get; set; }
+		GKPim GlobalPim { get; set; }
 
 		public MPTDescriptor(CommonDatabase database, GKMPT mpt)
 			: base(mpt)
 		{
+			if (database != null)
+				GlobalPim = database.GlobalPim;
 			DescriptorType = DescriptorType.MPT;
 			MPT = mpt;
 			MPT.Hold = 10;
@@ -34,6 +37,10 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.END);
 				return;
 			}
+
+			Formula.AddGetBit(GKStateBit.On, GlobalPim);
+			Formula.Add(FormulaOperationType.BR, 2, 1);
+			Formula.Add(FormulaOperationType.EXIT);
 
 			if (MPT.MptLogic.StopClausesGroup.GetObjects().Count > 0)
 			{

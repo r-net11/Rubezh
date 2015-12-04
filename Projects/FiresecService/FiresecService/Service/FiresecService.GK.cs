@@ -383,6 +383,16 @@ namespace FiresecService.Service
 			}
 		}
 
+		public void GKTurnOnNowGlobalPimsInAutomatic()
+		{
+			GKProcessorManager.GKTurnOnNowGlobalPimsInAutomatic(UserName);
+		}
+
+		public void GKTurnOffNowGlobalPimsInAutomatic()
+		{
+			GKProcessorManager.GKTurnOffNowGlobalPimsInAutomatic(UserName);
+		}
+
 		public void GKStop(Guid uid, GKBaseObjectType objectType)
 		{
 			var gkBase = GetGKBase(uid, objectType);
