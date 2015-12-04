@@ -50,7 +50,6 @@
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
 				<ToolBarButton
@@ -62,13 +61,8 @@
 					Command="{Binding RefreshCommand}"
 					ImageSource="Refresh"
 					ToolTip="Обновить" />
-				<ToolBarButton
-					Grid.Column="2"
-					Command="{Binding PrintCommand}"
-					ImageSource="Print"
-					ToolTip="Печать" />
 				<StackPanel
-					Grid.Column="3"
+					Grid.Column="2"
 					DataContext="{Binding SelectedTimeTrack.DocumentsViewModel}"
 					Orientation="Horizontal">
 					<Separator
@@ -112,12 +106,12 @@
 						ToolTip="Удалить файл" />
 				</StackPanel>
 				<ToolBarButton
-					Grid.Column="4"
+					Grid.Column="3"
 					Command="{Binding ShowDocumentTypesCommand}"
 					ImageSource="Settings2"
 					ToolTip="Типы документов" />
 				<StackPanel
-					Grid.Column="5"
+					Grid.Column="4"
 					HorizontalAlignment="Right"
 					Margin="0 0 10 0"
 					Orientation="Horizontal">
