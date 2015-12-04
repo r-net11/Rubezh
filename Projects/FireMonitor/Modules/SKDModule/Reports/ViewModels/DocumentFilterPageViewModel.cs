@@ -45,6 +45,17 @@ namespace SKDModule.Reports.ViewModels
 			}
 		}
 
+		private bool _abcenseReasonable;
+		public bool AbcenseReasonable
+		{
+			get { return _abcenseReasonable; }
+			set
+			{
+				_abcenseReasonable = value;
+				OnPropertyChanged(() => AbcenseReasonable);
+			}
+		}
+
 		public override void LoadFilter(SKDReportFilter filter)
 		{
 			var documentFilter = filter as DocumentsReportFilter;
@@ -53,6 +64,7 @@ namespace SKDModule.Reports.ViewModels
 			Overtime = documentFilter.Overtime;
 			Presence = documentFilter.Presence;
 			Abcense = documentFilter.Abcense;
+			AbcenseReasonable = documentFilter.AbcenseReasonable;
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{
@@ -62,6 +74,7 @@ namespace SKDModule.Reports.ViewModels
 			documentFilter.Overtime = Overtime;
 			documentFilter.Presence = Presence;
 			documentFilter.Abcense = Abcense;
+			documentFilter.AbcenseReasonable = AbcenseReasonable;
 		}
 	}
 }

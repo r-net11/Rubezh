@@ -12,6 +12,7 @@ namespace FiresecAPI.SKD.ReportFilters
 			Overtime = true;
 			Presence = true;
 			Abcense = true;
+			AbcenseReasonable = true;
 		}
 
 		#region IReportFilterPeriod Members
@@ -68,5 +69,8 @@ namespace FiresecAPI.SKD.ReportFilters
 
 		[DataMember]
 		public bool Abcense { get; set; }
+
+		[DataMember]
+		public bool AbcenseReasonable { get; set; }
 	}
 }
