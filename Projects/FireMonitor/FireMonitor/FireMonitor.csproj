@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FireMonitor</RootNamespace>
-    <AssemblyName>FireMonitor</AssemblyName>
+    <AssemblyName>StrazhMonitor</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -58,7 +58,7 @@
     <ApplicationIcon>Monitor.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationManifest>FireMonitor.exe.manifest</ApplicationManifest>
+    <ApplicationManifest>StrazhMonitor.exe.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -160,7 +160,7 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="FireMonitor.exe.manifest">
+    <None Include="StrazhMonitor.exe.manifest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Properties\Settings.settings">
