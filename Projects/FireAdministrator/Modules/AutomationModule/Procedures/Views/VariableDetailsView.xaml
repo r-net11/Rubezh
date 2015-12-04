@@ -72,34 +72,6 @@
 							Text="{Binding Name,
 						                        UpdateSourceTrigger=PropertyChanged}" />
 				</StackPanel>
-
-				<StackPanel
-						Height="28"
-						Margin="2"
-						HorizontalAlignment="Right"
-						Orientation="Horizontal">
-					<Label HorizontalAlignment="Left" Content="Список" />
-					<CheckBox
-							Width="202"
-							Margin="2, 7, 0, 0"
-							HorizontalAlignment="Right"
-							IsChecked="{Binding IsList}"
-							IsEnabled="{Binding IsEditMode,
-						                              Converter={StaticResource InverseBooleanConverter}}" />
-				</StackPanel>
-
-				<StackPanel
-						Height="28"
-						Margin="2"
-						HorizontalAlignment="Right"
-						Orientation="Horizontal">
-					<Label HorizontalAlignment="Left" Content="Ссылка" />
-					<CheckBox
-							Width="202"
-							Margin="2, 7, 0, 0"
-							HorizontalAlignment="Right"
-							IsChecked="{Binding IsReference}" />
-				</StackPanel>
 			</StackPanel>
 
 			<Views:ExplicitValuesView
