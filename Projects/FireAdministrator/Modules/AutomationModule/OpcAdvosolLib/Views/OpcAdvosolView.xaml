@@ -2,6 +2,14 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<Grid>
-		
+		<StackPanel Grid.Row="0">			
+			<ComboBox ItemsSource="{Binding Computers}" SelectedItem="{Binding SelectedComputer}" 
+					  HorizontalAlignment="Left">
+			</ComboBox>
+			
+			<ComboBox ItemsSource="{Binding OpcServers}" SelectedItem="{Binding SelectedOpcServer}"
+				  HorizontalAlignment="Left">
+			</ComboBox>
+		</StackPanel>
 	</Grid>
 </UserControl>

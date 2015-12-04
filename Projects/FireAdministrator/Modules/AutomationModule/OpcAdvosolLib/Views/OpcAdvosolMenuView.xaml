@@ -1,0 +1,9 @@
+﻿<UserControl x:Class="AutomationModule.Views.OpcAdvosolMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	
+	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
+		<ToolBarButton Command="{Binding ConnectCommand}" ToolTip="Подключиться к OPC серверу (Ctrl + C)" ImageSource="Alarm_main_4_Off" />
+		<ToolBarButton Command="{Binding DisconnectCommand}" ToolTip="Отключиться от OPC сервера (Ctrl + S)" ImageSource="Delete" />
+	</StackPanel>
+</UserControl>
