@@ -45,7 +45,7 @@
 				<File Id="Server.WPFToolkit.Extended.dll"									Name="WPFToolkit.Extended.dll"						Source="..\..\..\..\..\..\3rdParty\WPF Toolkit\" />
 				<File Id="Server.WPFToolkit.dll"											Name="WPFToolkit.dll"								Source="..\..\..\..\..\..\3rdParty\WPF Toolkit\v3.5.50211.1\" />
 				<File Id="Server.System.Windows.Controls.Input.Toolkit.dll"					Name="System.Windows.Controls.Input.Toolkit.dll"	Source="..\..\..\..\..\..\3rdParty\WPF Toolkit\v3.5.50211.1\" />
-				<File Id="Server.Xceed.Wpf.AvalonDock.dll"									Name="Xceed.Wpf.AvalonDock.dll"						Source="..\..\..\..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\" />
+				<File Id="Server.Xceed.Wpf.AvalonDock.dll"									Name="Xceed.Wpf.AvalonDock.dll"						Source="..\..\..\..\..\..\3rdParty\AvalonDock\Bin\Version2.0\Xceed.Wpf.AvalonDock\" />
 				<File Id="Server.Xceed.Wpf.Toolkit.dll"										Name="Xceed.Wpf.Toolkit.dll"						Source="..\..\..\..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\" />
 
 				<File Id="Server.NLog.dll"													Name="NLog.dll"										Source="..\..\..\..\..\..\3rdParty\NLog.2.0.1.2\" />

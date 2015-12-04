@@ -28,7 +28,7 @@
 				<File Id="Administrator.GKProcessor.dll"								Name="GKProcessor.dll"									Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.RviClient.dll"									Name="RviClient.dll"									Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.RubezhLicense.dll"								Name="RubezhLicense.dll"								Source="$(var.Administrator.TargetDir)" />
-				<File Id="Administrator.Xceed.Wpf.AvalonDock.dll"						Name="Xceed.Wpf.AvalonDock.dll"							Source="..\..\..\..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\" />
+				<File Id="Administrator.Xceed.Wpf.AvalonDock.dll"						Name="Xceed.Wpf.AvalonDock.dll"							Source="..\..\..\..\..\..\3rdParty\AvalonDock\Bin\Version2.0\Xceed.Wpf.AvalonDock\" />
 				<File Id="Administrator.Microsoft.Practices.Prism.dll"					Name="Microsoft.Practices.Prism.dll"					Source="..\..\..\..\..\..\3rdParty\PRISM\Desktop\" />
 				<File Id="Administrator.Microsoft.Practices.Prism.UnityExtensions.dll"	Name="Microsoft.Practices.Prism.UnityExtensions.dll"	Source="..\..\..\..\..\..\3rdParty\PRISM\Desktop\" />
 				<File Id="Administrator.Microsoft.Practices.Unity.dll"					Name="Microsoft.Practices.Unity.dll"					Source="..\..\..\..\..\..\3rdParty\PRISM\Desktop\" />
