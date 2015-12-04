@@ -23,8 +23,8 @@ namespace Revisor
 				try
 				{
 					var isRunning = RegistrySettingsHelper.GetBool("FireMonitor.IsRunning");
-					var processes = Process.GetProcessesByName("FireMonitor");
-					var processes2 = Process.GetProcessesByName("FireMonitor.vshost");
+					var processes = Process.GetProcessesByName("StrazhMonitor");
+					var processes2 = Process.GetProcessesByName("StrazhMonitor.vshost");
 
 					if (isRunning && processes.Count() == 0)
 					{
