@@ -2,6 +2,7 @@
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.SKD;
 using RubezhClient;

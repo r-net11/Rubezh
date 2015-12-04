@@ -3,6 +3,7 @@ using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Elements;
+using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.GK;
 using RubezhAPI.Models;

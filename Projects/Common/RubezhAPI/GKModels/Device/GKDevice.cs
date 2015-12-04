@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Xml.Serialization;
 using Infrustructure.Plans.Interfaces;
-using RubezhClient;
+using RubezhAPI;
 
 namespace RubezhAPI.GK
 {

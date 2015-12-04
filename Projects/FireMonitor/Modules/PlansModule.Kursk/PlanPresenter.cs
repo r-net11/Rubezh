@@ -11,6 +11,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
 using PlansModule.Kursk.Painters;
+using RubezhAPI;
 
 namespace PlansModule.Kursk
 {

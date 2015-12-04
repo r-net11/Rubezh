@@ -1,5 +1,6 @@
 ﻿using GKProcessor;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhClient;

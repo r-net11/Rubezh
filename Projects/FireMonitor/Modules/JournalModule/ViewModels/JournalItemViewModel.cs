@@ -12,6 +12,7 @@ using Infrastructure.Events;
 using Microsoft.Practices.Prism.Events;
 using RubezhClient.SKDHelpers;
 using Infrastructure.Common.Windows;
+using RubezhAPI;
 
 namespace JournalModule.ViewModels
 {

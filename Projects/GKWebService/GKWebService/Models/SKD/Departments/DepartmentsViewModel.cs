@@ -45,7 +45,7 @@ namespace GKWebService.Models.SKD.Departments
                     var itemViewModel = new DepartmentViewModel();
                     itemViewModel.InitializeModel(parentViewModel.Organisation, child);
                     itemViewModel.Level = level;
-                    itemViewModel.ParentUID = itemViewModel.OrganisationUID;
+                    itemViewModel.ParentUID = parentViewModel.UID;
                     itemViewModel.IsLeaf = true;
                     parentViewModel.IsLeaf = false;
                     Organisations.Insert(index + 1, itemViewModel);

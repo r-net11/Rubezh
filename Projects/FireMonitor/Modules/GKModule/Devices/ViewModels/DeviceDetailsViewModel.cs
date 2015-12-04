@@ -15,6 +15,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using System.Collections.Generic;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {

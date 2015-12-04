@@ -6,7 +6,7 @@ using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhAPI.SKD;
-using RubezhClient;
+using RubezhAPI;
 using GKProcessor;
 using Infrastructure.Common;
 using Ionic.Zip;
