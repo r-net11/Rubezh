@@ -51,7 +51,8 @@ namespace FiresecService.Report.Templates
 
 					if (filter.Abcense && documentType.DocumentType == DocumentType.Absence ||
 					    filter.Presence && documentType.DocumentType == DocumentType.Presence ||
-					    filter.Overtime && documentType.DocumentType == DocumentType.Overtime)
+					    filter.Overtime && documentType.DocumentType == DocumentType.Overtime ||
+						filter.AbcenseReasonable && documentType.DocumentType == DocumentType.AbsenceReasonable)
 					{
 						var row = ds.Data.NewDataRow();
 						row.Employee = employee.Name;
