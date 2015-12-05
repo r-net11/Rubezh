@@ -10,6 +10,8 @@ namespace GKWebService.Models.SKD.Departments
     {
         public Department Department { get; set; }
 
-        public Department SelectedDepartment { get; set; }
+        public ShortDepartment SelectedDepartment { get; set; }
+
+        public bool IsDepartmentSelected { get; set; }
     }
 }

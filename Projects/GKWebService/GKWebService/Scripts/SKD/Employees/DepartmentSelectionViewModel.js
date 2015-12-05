@@ -5,7 +5,7 @@
         colModel: [
             { label: 'UID', name: 'UID', key: true, hidden: true, sortable: false },
             { label: 'ParentUID', name: 'ParentUID', hidden: true, sortable: false },
-            { label: 'Название', name: 'Model.Name', width: 100, hidden: false, sortable: false }
+            { label: 'Название', name: 'Name', width: 100, hidden: false, sortable: false }
         ],
         width: 630,
         height: 300,
@@ -13,7 +13,7 @@
         viewrecords: true,
 
         treeGrid: true,
-        ExpandColumn: "Model.Name",
+        ExpandColumn: "Name",
         treedatatype: "local",
         treeGridModel: "adjacency",
         loadonce: false,
@@ -31,6 +31,7 @@ function DepartmentSelectionViewModel() {
 
     self.Title = ko.observable();
     self.UID = ko.observable();
+    self.Name = ko.observable();
 
 
     self.Init = function (organisationUID, departmentUID, save) {
@@ -76,12 +77,26 @@ function DepartmentSelectionViewModel() {
 
         if (selected) {
             self.UID(id);
+            var rowData = $("#jqGridDepartmentSelection").getRowData(id);
+            self.Name(rowData.Name);
         }
     });
 
     self.OkClick = function () {
-        self.Save();
+        self.Save(self.UID(), self.Name());
+        $('#department-selection-box').fadeOut(300);
     };
+
+    self.Clear = function () {
+        self.Save(null, null);
+        $('#department-selection-box').fadeOut(300);
+    };
+
+    self.Add = function () {
+        var parentDepartment = (self.UID ? self.UID : null);
+        app.Menu.HR.Departments.DepartmentDetails.Init(self.OrganisationUID, null, parentDepartment, self.ReloadTree);
+    };
+
 
     self.Close = function () {
         $('#department-selection-box').fadeOut(300);

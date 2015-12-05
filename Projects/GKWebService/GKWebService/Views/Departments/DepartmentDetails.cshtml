@@ -15,12 +15,12 @@
                 <li class="active"><a href="" data-bind="click: function(data,event) { DepartmentDetailsPageClick(data, event, 'General'); }"><span>Основные</span></a></li>
                 <li><a href="" data-bind="click: function(data,event) { DepartmentDetailsPageClick(data, event, 'Photo'); }"><span>Логотип</span></a></li>
             </ul>
-            <div class="data-input" data-bind="visible:departmentDetailsPages.General">
-                <label for="Name"><span>Название</span><input type="text" name="Name" id="Name" data-bind="value: Name" value="" /></label>
-                <label for="Description"><span>Примечание</span><input type="text" name="Description" id="Description" data-bind="value: Description" value="" /></label>
-                <label for="Chief" data-bind="visible: !IsNew()"><span>Руководитель</span><a id="Chief" href=""><span data-bind="click: SelectChief">Нажмите для выбора</span></a></label>
-                <label for="SelectedDepartment"><span>Родительское подразделение</span><a id="SelectedDepartment" href=""><span data-bind="click: SelectDepartment">Нажмите для выбора</span></a></label>
-                <label for="Phone"><span>Телефон</span><input type="text" name="Phone" id="Phone" data-bind="value: Phone" value="" /></label>
+            <div class="data-input" data-bind="visible:departmentDetailsPages.General, with: Department">
+                    <label for="Name"><span>Название</span><input type="text" name="Name" id="Name" data-bind="value: Name" value="" /></label>
+                    <label for="Description"><span>Примечание</span><input type="text" name="Description" id="Description" data-bind="value: Description" value="" /></label>
+                    <label for="Chief" data-bind="visible: !$parent.IsNew()"><span>Руководитель</span><a id="Chief" href=""><span data-bind="click: $parent.SelectChief">Нажмите для выбора</span></a></label>
+                    <label for="SelectedDepartment"><span>Родительское подразделение</span><a id="SelectedDepartment" href=""><span data-bind="click: $parent.SelectDepartment, text: $parent.IsDepartmentSelected() ? $parent.SelectedDepartment().Name : 'Нажмите для выбора'"></span></a></label>
+                    <label for="Phone"><span>Телефон</span><input type="text" name="Phone" id="Phone" data-bind="value: Phone" value="" /></label>
             </div>
 
             <button class="submit ok-cancel-button" type="submit">OK</button>

@@ -9,7 +9,8 @@ namespace GKWebService.Models.SKD.Employees
     public class DepartmentSelectionItemViewModel
     {
         public Guid UID { get; set; }
-        public ShortDepartment Model { get; private set; }
+        public ShortDepartment Model { get; set; }
+        public string Name { get; set; }
         public bool IsExpanded { get; set; }
         public int Level { get; set; }
         public Guid ParentUID { get; set; }
@@ -24,6 +25,7 @@ namespace GKWebService.Models.SKD.Employees
         {
             Model = department;
             UID = Model.UID;
+            Name = Model.Name;
         }
     }
 }
