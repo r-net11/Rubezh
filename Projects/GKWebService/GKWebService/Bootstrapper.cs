@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows;
 using System.Diagnostics;
 using GKWebService.DataProviders;
 using RubezhAPI.Journal;
+using RubezhAPI;
 
 namespace GKWebService
 {

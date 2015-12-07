@@ -4,6 +4,7 @@ using System.Linq;
 using GKProcessor;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhClient;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {

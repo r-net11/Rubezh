@@ -1,6 +1,7 @@
 ﻿using RubezhClient;
 using Infrastructure.Common.Validation;
 using RubezhAPI.License;
+using RubezhAPI;
 
 namespace GKModule.Validation
 {

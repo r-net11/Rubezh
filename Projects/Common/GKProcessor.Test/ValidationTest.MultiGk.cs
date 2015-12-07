@@ -6,6 +6,7 @@ using RubezhClient;
 using GKModule.Validation;
 using Infrastructure.Common.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RubezhAPI;
 
 namespace GKProcessor.Test
 {

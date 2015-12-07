@@ -5,7 +5,6 @@ using System.Xml.Serialization;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.SKD;
-using RubezhClient;
 using RubezhDAL.DataClasses;
 
 namespace RubezhDAL

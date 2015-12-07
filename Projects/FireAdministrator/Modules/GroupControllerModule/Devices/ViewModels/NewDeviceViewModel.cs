@@ -5,6 +5,7 @@ using RubezhAPI.GK;
 using RubezhClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
 using System;
 using Infrastructure;
 

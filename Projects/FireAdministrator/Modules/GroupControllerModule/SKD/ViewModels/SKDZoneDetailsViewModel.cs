@@ -6,6 +6,7 @@ using RubezhAPI.GK;
 using RubezhClient;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {

@@ -35,7 +35,7 @@ namespace GKWebService.Models
             return model;
         }
 
-        public static ShortEmployeeModel CreateFromModel(ShortEmployee employee, IEnumerable<ShortEmployeeModel> organisations)
+        public static ShortEmployeeModel CreateFromModel(ShortEmployee employee, IEnumerable<ShortEmployeeModel> organisations = null)
         {
             var model = new ShortEmployeeModel();
             model.InitializeModel(employee, organisations);
@@ -77,10 +77,13 @@ namespace GKWebService.Models
             Level = 1;
             IsLeaf = true;
             IsExpanded = false;
-            var organisation = organisations.FirstOrDefault(o => o.UID == employee.OrganisationUID);
-            if (organisation != null)
-            {
-                organisation.IsLeaf = false;
+            if (organisations != null)
+            { 
+                var organisation = organisations.FirstOrDefault(o => o.UID == employee.OrganisationUID);
+                if (organisation != null)
+                {
+                    organisation.IsLeaf = false;
+                }
             }
         }
     }

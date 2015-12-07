@@ -279,13 +279,7 @@ namespace FiresecService.Report.DataSources {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class DataDataTable : global::System.Data.TypedTableBase<DataRow> {
             
-            private global::System.Data.DataColumn columnPresentationName;
-            
-            private global::System.Data.DataColumn columnPresentationAddress;
-            
-            private global::System.Data.DataColumn columnPresentationZoneOrLogic;
-            
-            private global::System.Data.DataColumn columnDescription;
+            private global::System.Data.DataColumn columnNomination;
             
             private global::System.Data.DataColumn columnNumber;
             
@@ -324,33 +318,9 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn PresentationNameColumn {
+            public global::System.Data.DataColumn NominationColumn {
                 get {
-                    return this.columnPresentationName;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn PresentationAddressColumn {
-                get {
-                    return this.columnPresentationAddress;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn PresentationZoneOrLogicColumn {
-                get {
-                    return this.columnPresentationZoneOrLogic;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn DescriptionColumn {
-                get {
-                    return this.columnDescription;
+                    return this.columnNomination;
                 }
             }
             
@@ -399,13 +369,10 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DataRow AddDataRow(string PresentationName, string PresentationAddress, string PresentationZoneOrLogic, string Description, int Number) {
+            public DataRow AddDataRow(string Nomination, int Number) {
                 DataRow rowDataRow = ((DataRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        PresentationName,
-                        PresentationAddress,
-                        PresentationZoneOrLogic,
-                        Description,
+                        Nomination,
                         Number};
                 rowDataRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDataRow);
@@ -429,24 +396,15 @@ namespace FiresecService.Report.DataSources {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
-                this.columnPresentationName = base.Columns["PresentationName"];
-                this.columnPresentationAddress = base.Columns["PresentationAddress"];
-                this.columnPresentationZoneOrLogic = base.Columns["PresentationZoneOrLogic"];
-                this.columnDescription = base.Columns["Description"];
+                this.columnNomination = base.Columns["Nomination"];
                 this.columnNumber = base.Columns["Number"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             private void InitClass() {
-                this.columnPresentationName = new global::System.Data.DataColumn("PresentationName", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnPresentationName);
-                this.columnPresentationAddress = new global::System.Data.DataColumn("PresentationAddress", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnPresentationAddress);
-                this.columnPresentationZoneOrLogic = new global::System.Data.DataColumn("PresentationZoneOrLogic", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnPresentationZoneOrLogic);
-                this.columnDescription = new global::System.Data.DataColumn("Description", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDescription);
+                this.columnNomination = new global::System.Data.DataColumn("Nomination", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNomination);
                 this.columnNumber = new global::System.Data.DataColumn("Number", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnNumber);
             }
@@ -591,65 +549,17 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string PresentationName {
+            public string Nomination {
                 get {
                     try {
-                        return ((string)(this[this.tableData.PresentationNameColumn]));
+                        return ((string)(this[this.tableData.NominationColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'PresentationName\' in table \'Data\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Nomination\' in table \'Data\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableData.PresentationNameColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string PresentationAddress {
-                get {
-                    try {
-                        return ((string)(this[this.tableData.PresentationAddressColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'PresentationAddress\' in table \'Data\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableData.PresentationAddressColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string PresentationZoneOrLogic {
-                get {
-                    try {
-                        return ((string)(this[this.tableData.PresentationZoneOrLogicColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'PresentationZoneOrLogic\' in table \'Data\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableData.PresentationZoneOrLogicColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Description {
-                get {
-                    try {
-                        return ((string)(this[this.tableData.DescriptionColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Description\' in table \'Data\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableData.DescriptionColumn] = value;
+                    this[this.tableData.NominationColumn] = value;
                 }
             }
             
@@ -671,50 +581,14 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsPresentationNameNull() {
-                return this.IsNull(this.tableData.PresentationNameColumn);
+            public bool IsNominationNull() {
+                return this.IsNull(this.tableData.NominationColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetPresentationNameNull() {
-                this[this.tableData.PresentationNameColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsPresentationAddressNull() {
-                return this.IsNull(this.tableData.PresentationAddressColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetPresentationAddressNull() {
-                this[this.tableData.PresentationAddressColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsPresentationZoneOrLogicNull() {
-                return this.IsNull(this.tableData.PresentationZoneOrLogicColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetPresentationZoneOrLogicNull() {
-                this[this.tableData.PresentationZoneOrLogicColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsDescriptionNull() {
-                return this.IsNull(this.tableData.DescriptionColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetDescriptionNull() {
-                this[this.tableData.DescriptionColumn] = global::System.Convert.DBNull;
+            public void SetNominationNull() {
+                this[this.tableData.NominationColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

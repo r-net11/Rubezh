@@ -22,6 +22,7 @@ using Microsoft.Win32;
 using KeyboardKey = System.Windows.Input.Key;
 using System.Xml.Serialization;
 using RubezhAPI.Journal;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {

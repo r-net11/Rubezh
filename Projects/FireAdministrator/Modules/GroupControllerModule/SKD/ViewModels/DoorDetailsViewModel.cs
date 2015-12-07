@@ -9,6 +9,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
@@ -206,10 +207,11 @@ namespace GKModule.ViewModels
 
 					if (value == GKDoorType.AirlockBooth || value == GKDoorType.Barrier)
 						Hold = 30;
+					Delay = 15;
 				}
 				if (value == GKDoorType.Turnstile)
 				{
-					Delay = 1;
+					Delay = 5;
 					Hold = 5;
 				}
 				_selectedDoorType = value;

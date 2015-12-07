@@ -4,7 +4,7 @@ using System.Linq;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.SKD;
-using RubezhClient;
+using RubezhAPI;
 using RubezhDAL;
 using System.Diagnostics;
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using RubezhClient;
+using RubezhAPI;
 using System;
 
 namespace RubezhAPI.GK
@@ -177,7 +177,7 @@ namespace RubezhAPI.GK
 
 			gkBases.ForEach(x => x.ClearDescriptor());
 			gkBases.ForEach(x => x.PrepareInputOutputDependences());
-			gkBases.ForEach(x => x.Invalidate(GKManager.DeviceConfiguration));
+			gkBases.ForEach(x => x.Invalidate(this));
 			gkBases.ForEach(x => x.IsChildDescriptorsReady = false);
 			gkBases.ForEach(x => x.CalculateAllChildDescriptors());
 

@@ -265,7 +265,7 @@ namespace GKModule
 						_mptsNavigationItem,
 						_skdZonesNavigationItem,
 						_doorsNavigationItem,
-						new NavigationItem("СКД", "tree", 
+						new NavigationItem("Графики", "tree", 
 							new List<NavigationItem>()
 							{
 								new NavigationItem<ShowGKDaySchedulesEvent, Guid>(DaySchedulesViewModel, "Дневные графики", "ShedulesDaylyW", null, null, Guid.Empty),

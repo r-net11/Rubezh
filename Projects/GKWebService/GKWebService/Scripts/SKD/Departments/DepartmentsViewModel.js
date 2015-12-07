@@ -8,7 +8,8 @@
             { label: 'OrganisationUID', name: 'OrganisationUID', hidden: true, sortable: false },
             { label: 'Название', name: 'Name', width: 100, hidden: false, sortable: false },
             { label: 'Примечание', name: 'Description', hidden: false, sortable: false },
-            { label: 'Телефон', name: 'Phone', hidden: false, sortable: false }
+            { label: 'Телефон', name: 'Model.Phone', hidden: false, sortable: false },
+            { label: 'IsDeleted', name: 'IsDeleted', hidden: true, sortable: false }
         ],
         width: jQuery(window).width() - 242,
         height: 300,
@@ -33,9 +34,15 @@ function DepartmentsViewModel() {
     var self = {};
 
     self.UID = ko.observable();
+    self.ParentUID = ko.observable();
     self.OrganisationUID = ko.observable();
     self.IsOrganisation = ko.observable(true);
     self.IsRowSelected = ko.observable(false);
+    self.IsDeleted = ko.observable();
+
+    self.CanEdit = ko.computed(function () {
+        return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation();
+    }, self);
 
     self.Init = function (filter) {
         self.Filter = filter;
@@ -68,6 +75,33 @@ function DepartmentsViewModel() {
         });
         $("#jqGridDepartments").trigger("reloadGrid");
         $("#jqGridDepartments").jqGrid("resetSelection");
+    };
+
+    $('#jqGridDepartments').on('jqGridSelectRow', function (event, id, selected) {
+
+        if (selected) {
+            var myGrid = $('#jqGridDepartments');
+
+            self.UID(id);
+            self.OrganisationUID(myGrid.jqGrid('getCell', id, 'OrganisationUID'));
+            self.ParentUID(myGrid.jqGrid('getCell', id, 'ParentUID'));
+            self.IsOrganisation(myGrid.jqGrid('getCell', id, 'IsOrganisation') == "true");
+            self.IsDeleted(myGrid.jqGrid('getCell', id, 'IsDeleted') == "true");
+
+/*
+            if (!self.IsOrganisation()) {
+                self.EmployeeCards.InitCards(self.OrganisationUID(), self.UID());
+            } else {
+                self.EmployeeCards.InitCards(self.OrganisationUID(), null);
+            }
+*/
+
+            self.IsRowSelected(true);
+        }
+    });
+
+    self.EditDepartmentClick = function (data, e, box) {
+        self.DepartmentDetails.Init(self.OrganisationUID(), self.UID(), self.ParentUID(), self.ReloadTree );
     };
 
     return self;

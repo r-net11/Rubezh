@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using RubezhAPI.GK;
-using RubezhClient;
-using GKImitator.Processor;
-using GKProcessor;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Journal;
-using System.Collections.Generic;
-using System.Windows.Input;
 
 namespace GKImitator.ViewModels
 {

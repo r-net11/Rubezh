@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Common;
-using RubezhClient;
+using RubezhAPI;
 
 namespace RubezhAPI.GK
 {
