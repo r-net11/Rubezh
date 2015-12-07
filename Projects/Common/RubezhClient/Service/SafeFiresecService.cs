@@ -44,7 +44,7 @@ namespace RubezhClient
 			return OperationResult<T>.FromError("Ошибка при при вызове операции");
 		}
 
-		T SafeOperationCall<T>(Func<T> func, string methodName, bool reconnectOnException = true)
+		T SafeOperationCall<T>(Func<T> func, string methodName)
 		{
 			try
 			{
@@ -62,7 +62,7 @@ namespace RubezhClient
 			return default(T);
 		}
 
-		void SafeOperationCall(Action action, string methodName, bool reconnectOnException = true)
+		void SafeOperationCall(Action action, string methodName)
 		{
 			try
 			{
@@ -76,17 +76,7 @@ namespace RubezhClient
 			}
 		}
 
-		static void SafeOperationCall(Action action)
-		{
-			try
-			{
-				action();
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "SafeFiresecService.SafeOperationCall");
-			}
-		}
+
 
 		void LogException(Exception e, string methodName)
 		{

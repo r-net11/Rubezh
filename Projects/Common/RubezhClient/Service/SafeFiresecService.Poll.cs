@@ -82,7 +82,7 @@ namespace RubezhClient
 				Layout.NoLayoutUID :
 				ApplicationService.Shell.Layout.UID;
 			if (callback.Data.LayoutFilter.LayoutsUIDs.Contains(layoutUID))
-				SafeOperationCall(() =>
+				SafeContext.Execute(() =>
 				{
 					if (AutomationEvent != null)
 						AutomationEvent(callback);
@@ -101,7 +101,7 @@ namespace RubezhClient
 				switch (callbackResult.CallbackResultType)
 				{
 					case CallbackResultType.GKProgress:
-						SafeOperationCall(() =>
+						SafeContext.Execute(() =>
 						{
 							if (GKProgressCallbackEvent != null)
 								GKProgressCallbackEvent(callbackResult.GKProgressCallback);
@@ -109,7 +109,7 @@ namespace RubezhClient
 						break;
 
 					case CallbackResultType.GKObjectStateChanged:
-						SafeOperationCall(() =>
+						SafeContext.Execute(() =>
 						{
 							if (GKCallbackResultEvent != null)
 								GKCallbackResultEvent(callbackResult.GKCallbackResult);
@@ -117,7 +117,7 @@ namespace RubezhClient
 						break;
 
 					case CallbackResultType.GKPropertyChanged:
-						SafeOperationCall(() =>
+						SafeContext.Execute(() =>
 						{
 							if (GKPropertyChangedEvent != null)
 								GKPropertyChangedEvent(callbackResult.GKPropertyChangedCallback);
@@ -125,7 +125,7 @@ namespace RubezhClient
 						break;
 
 					case CallbackResultType.OperationResult:
-						SafeOperationCall(() =>
+						SafeContext.Execute(() =>
 						{
 							if (CallbackOperationResultEvent != null)
 								CallbackOperationResultEvent(callbackResult.CallbackOperationResult);
@@ -138,7 +138,7 @@ namespace RubezhClient
 
 					case CallbackResultType.NewEvents:
 					case CallbackResultType.UpdateEvents:
-						SafeOperationCall(() =>
+						SafeContext.Execute(() =>
 						{
 							if (JournalItemsEvent != null)
 								JournalItemsEvent(callbackResult.JournalItems, callbackResult.CallbackResultType == CallbackResultType.NewEvents);
@@ -146,7 +146,7 @@ namespace RubezhClient
 						break;
 
 					case CallbackResultType.ConfigurationChanged:
-						SafeOperationCall(() =>
+						SafeContext.Execute(() =>
 						{
 							if (ConfigurationChangedEvent != null)
 								ConfigurationChangedEvent();
