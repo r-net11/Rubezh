@@ -16,6 +16,7 @@ using Infrustructure.Plans.Elements;
 using RubezhAPI.Models;
 using GKModule.Events;
 using RubezhAPI.GK;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {

@@ -10,13 +10,14 @@ namespace RubezhAPI.SKD
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public string Phone { get; set; }
-		public bool IsDeleted { get; set; } 
+		public bool IsDeleted { get; set; }
 		public DateTime RemovalDate { get; set; }
 
 		public Guid ChiefUID { get; set; }
 		public string ChiefExternalKey { get; set; }
 		public Guid HRChiefUID { get; set; }
 		public string HRChiefExternalKey { get; set; }
+		public int MaxGKLevel { get; set; }
 	}
 
 	public class ExportEmployee : IExportItem
@@ -42,7 +43,7 @@ namespace RubezhAPI.SKD
 		public DateTime RemovalDate { get; set; }
 		public DateTime LastEmployeeDayUpdate { get; set; }
 		public DateTime ScheduleStartDate { get; set; }
-		
+
 		public Guid OrganisationUID { get; set; }
 		public string OrganisationExternalKey { get; set; }
 		public Guid PositionUID { get; set; }
@@ -100,7 +101,7 @@ namespace RubezhAPI.SKD
 		public string StopReason { get; set; }
 		public string Password { get; set; }
 		public int UserTime { get; set; }
-		
+
 		public Guid OrganisationUID { get; set; }
 		public string OrganisationExternalKey { get; set; }
 		public Guid EmployeeUID { get; set; }

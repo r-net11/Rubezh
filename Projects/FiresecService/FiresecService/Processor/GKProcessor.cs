@@ -4,7 +4,7 @@ using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhAPI.SKD;
-using RubezhClient;
+using RubezhAPI;
 using GKProcessor;
 using RubezhDAL;
 using System.Collections.Generic;

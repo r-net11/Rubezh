@@ -13,6 +13,7 @@ using Infrastructure.Common.Windows;
 using Microsoft.Practices.Prism.Events;
 using Infrastructure.Common.BalloonTrayTip;
 using RubezhAPI.License;
+using RubezhAPI;
 
 namespace GKOPCServer
 {

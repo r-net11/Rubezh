@@ -6,13 +6,178 @@
   </Version>
   <Users>
     <User>
-      <UID>644cd7e2-21ae-4e0d-a12a-4955125102ae</UID>
-      <Name>Оператор (лайт)</Name>
-      <Login>operl</Login>
+      <UID>10e591fb-e017-442d-b176-f05756d984bb</UID>
+      <Name>Администратор</Name>
+      <Login>adm</Login>
       <PasswordHash>d41d8cd98f00b204e9800998ecf8427e</PasswordHash>
       <PermissionStrings>
+        <string>Adm_ViewConfig</string>
+        <string>Adm_SetNewConfig</string>
+        <string>Adm_WriteDeviceConfig</string>
+        <string>Adm_Security</string>
         <string>Oper_Login</string>
+        <string>Oper_Logout</string>
+        <string>Oper_LogoutWithoutPassword</string>
+        <string>Oper_NoAlarmConfirm</string>
+        <string>Oper_MayNotConfirmCommands</string>
+        <string>Oper_ScheduleSKD</string>
+        <string>Oper_Device_Control</string>
+        <string>Oper_Zone_Control</string>
+        <string>Oper_ZonesSKD</string>
+        <string>Oper_GuardZone_Control</string>
+        <string>Oper_ExtraGuardZone</string>
+        <string>Oper_Directions_Control</string>
+        <string>Oper_Door_Control</string>
+        <string>Oper_Full_Door_Control</string>
+        <string>Oper_MPT_Control</string>
+        <string>Oper_PIM_Control</string>
+        <string>Oper_Delay_Control</string>
+        <string>Oper_NS_Control</string>
+        <string>Oper_ChangeView</string>
+        <string>Oper_Reports_Doors</string>
+        <string>Oper_Reports_Mirror</string>
+        <string>Oper_Reports_Devices</string>
+        <string>Oper_Reports_Events</string>
+        <string>Oper_Reports_EmployeeRoot</string>
+        <string>Oper_Reports_Cards</string>
+        <string>Oper_Reports_Employees_Access</string>
+        <string>Oper_Reports_Employees_Rights</string>
+        <string>Oper_Reports_Departments</string>
+        <string>Oper_Reports_Positions</string>
+        <string>Oper_Reports_EmployeeZone</string>
+        <string>Oper_Reports_Employee</string>
+        <string>Oper_Reports_Discipline</string>
+        <string>Oper_Reports_Schedules</string>
+        <string>Oper_Reports_Documents</string>
+        <string>Oper_Reports_WorkTime</string>
+        <string>Oper_Reports_T13</string>
+        <string>Oper_SKD_Employees_View</string>
+        <string>Oper_SKD_Employees_Edit</string>
+        <string>Oper_SKD_Guests_View</string>
+        <string>Oper_SKD_Guests_Edit</string>
+        <string>Oper_SKD_Departments_View</string>
+        <string>Oper_SKD_Departments_Etit</string>
+        <string>Oper_SKD_Positions_View</string>
+        <string>Oper_SKD_Positions_Etit</string>
+        <string>Oper_SKD_AdditionalColumns_View</string>
+        <string>Oper_SKD_AdditionalColumns_Etit</string>
+        <string>Oper_SKD_Cards_View</string>
+        <string>Oper_SKD_Cards_Etit</string>
+        <string>Oper_SKD_Employees_Edit_CardType</string>
+        <string>Oper_SKD_AccessTemplates_View</string>
+        <string>Oper_SKD_AccessTemplates_Etit</string>
+        <string>Oper_SKD_PassCards_View</string>
+        <string>Oper_SKD_PassCards_Etit</string>
+        <string>Oper_SKD_Organisations_View</string>
+        <string>Oper_SKD_Organisations_Users</string>
+        <string>Oper_SKD_Organisations_Doors</string>
+        <string>Oper_SKD_Organisations_Edit</string>
+        <string>Oper_SKD_Organisations_AddRemove</string>
+        <string>Oper_SKD_TimeTrack_DaySchedules_View</string>
+        <string>Oper_SKD_TimeTrack_DaySchedules_Edit</string>
+        <string>Oper_SKD_TimeTrack_ScheduleSchemes_View</string>
+        <string>Oper_SKD_TimeTrack_ScheduleSchemes_Edit</string>
+        <string>Oper_SKD_TimeTrack_Holidays_View</string>
+        <string>Oper_SKD_TimeTrack_Holidays_Edit</string>
+        <string>Oper_SKD_TimeTrack_Schedules_View</string>
+        <string>Oper_SKD_TimeTrack_Schedules_Edit</string>
+        <string>Oper_SKD_TimeTrack_Report_View</string>
+        <string>Oper_SKD_TimeTrack_Parts_Edit</string>
+        <string>Oper_SKD_TimeTrack_Documents_Edit</string>
+        <string>Oper_SKD_TimeTrack_DocumentTypes_Edit</string>
+        <string>Oper_SKD_TimeTrack_NightSettings_Edit</string>
       </PermissionStrings>
+      <RemoreAccess>
+        <RemoteAccessType>RemoteAccessAllowed</RemoteAccessType>
+        <HostNameOrAddressList />
+      </RemoreAccess>
+    </User>
+    <User>
+      <UID>733fa93a-fafb-4a48-a030-0a373a4c6616</UID>
+      <Name>Инсталлятор</Name>
+      <Login>inst</Login>
+      <PasswordHash>d41d8cd98f00b204e9800998ecf8427e</PasswordHash>
+      <PermissionStrings>
+        <string>Adm_ViewConfig</string>
+        <string>Adm_SetNewConfig</string>
+        <string>Adm_WriteDeviceConfig</string>
+        <string>Adm_Security</string>
+        <string>Oper_Login</string>
+        <string>Oper_Logout</string>
+        <string>Oper_LogoutWithoutPassword</string>
+        <string>Oper_NoAlarmConfirm</string>
+        <string>Oper_MayNotConfirmCommands</string>
+        <string>Oper_ScheduleSKD</string>
+        <string>Oper_Device_Control</string>
+        <string>Oper_Zone_Control</string>
+        <string>Oper_ZonesSKD</string>
+        <string>Oper_GuardZone_Control</string>
+        <string>Oper_ExtraGuardZone</string>
+        <string>Oper_Directions_Control</string>
+        <string>Oper_Door_Control</string>
+        <string>Oper_Full_Door_Control</string>
+        <string>Oper_MPT_Control</string>
+        <string>Oper_PIM_Control</string>
+        <string>Oper_Delay_Control</string>
+        <string>Oper_NS_Control</string>
+        <string>Oper_ChangeView</string>
+        <string>Oper_Reports_Doors</string>
+        <string>Oper_Reports_Mirror</string>
+        <string>Oper_Reports_Devices</string>
+        <string>Oper_Reports_Events</string>
+        <string>Oper_Reports_EmployeeRoot</string>
+        <string>Oper_Reports_Cards</string>
+        <string>Oper_Reports_Employees_Access</string>
+        <string>Oper_Reports_Employees_Rights</string>
+        <string>Oper_Reports_Departments</string>
+        <string>Oper_Reports_Positions</string>
+        <string>Oper_Reports_EmployeeZone</string>
+        <string>Oper_Reports_Employee</string>
+        <string>Oper_Reports_Discipline</string>
+        <string>Oper_Reports_Schedules</string>
+        <string>Oper_Reports_Documents</string>
+        <string>Oper_Reports_WorkTime</string>
+        <string>Oper_Reports_T13</string>
+        <string>Oper_SKD_Employees_View</string>
+        <string>Oper_SKD_Employees_Edit</string>
+        <string>Oper_SKD_Guests_View</string>
+        <string>Oper_SKD_Guests_Edit</string>
+        <string>Oper_SKD_Departments_View</string>
+        <string>Oper_SKD_Departments_Etit</string>
+        <string>Oper_SKD_Positions_View</string>
+        <string>Oper_SKD_Positions_Etit</string>
+        <string>Oper_SKD_AdditionalColumns_View</string>
+        <string>Oper_SKD_AdditionalColumns_Etit</string>
+        <string>Oper_SKD_Cards_View</string>
+        <string>Oper_SKD_Cards_Etit</string>
+        <string>Oper_SKD_Employees_Edit_CardType</string>
+        <string>Oper_SKD_AccessTemplates_View</string>
+        <string>Oper_SKD_AccessTemplates_Etit</string>
+        <string>Oper_SKD_PassCards_View</string>
+        <string>Oper_SKD_PassCards_Etit</string>
+        <string>Oper_SKD_Organisations_View</string>
+        <string>Oper_SKD_Organisations_Users</string>
+        <string>Oper_SKD_Organisations_Doors</string>
+        <string>Oper_SKD_Organisations_Edit</string>
+        <string>Oper_SKD_Organisations_AddRemove</string>
+        <string>Oper_SKD_TimeTrack_DaySchedules_View</string>
+        <string>Oper_SKD_TimeTrack_DaySchedules_Edit</string>
+        <string>Oper_SKD_TimeTrack_ScheduleSchemes_View</string>
+        <string>Oper_SKD_TimeTrack_ScheduleSchemes_Edit</string>
+        <string>Oper_SKD_TimeTrack_Holidays_View</string>
+        <string>Oper_SKD_TimeTrack_Holidays_Edit</string>
+        <string>Oper_SKD_TimeTrack_Schedules_View</string>
+        <string>Oper_SKD_TimeTrack_Schedules_Edit</string>
+        <string>Oper_SKD_TimeTrack_Report_View</string>
+        <string>Oper_SKD_TimeTrack_Parts_Edit</string>
+        <string>Oper_SKD_TimeTrack_Documents_Edit</string>
+        <string>Oper_SKD_TimeTrack_DocumentTypes_Edit</string>
+        <string>Oper_SKD_TimeTrack_NightSettings_Edit</string>
+      </PermissionStrings>
+      <RemoreAccess>
+        <RemoteAccessType>RemoteAccessBanned</RemoteAccessType>
+        <HostNameOrAddressList />
+      </RemoreAccess>
     </User>
     <User>
       <UID>3aafca33-b452-4b29-bf49-0d3b3c1ac167</UID>
@@ -24,7 +189,6 @@
         <string>Oper_Logout</string>
         <string>Oper_SKD_Employees_View</string>
         <string>Oper_SKD_Employees_Edit</string>
-        <string>Oper_SKD_Employees_Edit_CardType</string>
         <string>Oper_SKD_Guests_View</string>
         <string>Oper_SKD_Guests_Edit</string>
         <string>Oper_SKD_Departments_View</string>
@@ -35,6 +199,7 @@
         <string>Oper_SKD_AdditionalColumns_Etit</string>
         <string>Oper_SKD_Cards_View</string>
         <string>Oper_SKD_Cards_Etit</string>
+        <string>Oper_SKD_Employees_Edit_CardType</string>
         <string>Oper_SKD_AccessTemplates_View</string>
         <string>Oper_SKD_AccessTemplates_Etit</string>
         <string>Oper_SKD_PassCards_View</string>
@@ -62,170 +227,12 @@
       </RemoreAccess>
     </User>
     <User>
-      <UID>10e591fb-e017-442d-b176-f05756d984bb</UID>
-      <Name>Администратор</Name>
-      <Login>adm</Login>
+      <UID>644cd7e2-21ae-4e0d-a12a-4955125102ae</UID>
+      <Name>Оператор (лайт)</Name>
+      <Login>operl</Login>
       <PasswordHash>d41d8cd98f00b204e9800998ecf8427e</PasswordHash>
       <PermissionStrings>
-        <string>Adm_ViewConfig</string>
-        <string>Adm_SetNewConfig</string>
-        <string>Adm_ChangeDevicesSoft</string>
-        <string>Adm_Security</string>
         <string>Oper_Login</string>
-        <string>Oper_Logout</string>
-        <string>Oper_LogoutWithoutPassword</string>
-        <string>Oper_NoAlarmConfirm</string>
-        <string>Oper_Device_Control</string>
-        <string>Oper_Zone_Control</string>
-        <string>Oper_GuardZone_Control</string>
-        <string>Oper_ExtraGuardZone</string>
-        <string>Oper_Directions_Control</string>
-        <string>Oper_Door_Control</string>
-        <string>Oper_MPT_Control</string>
-        <string>Oper_PIM_Control</string>
-        <string>Oper_Delay_Control</string>
-        <string>Oper_NS_Control</string>
-        <string>Oper_ChangeView</string>
-        <string>Oper_MayNotConfirmCommands</string>
-        <string>Oper_GKSchedules</string>
-        <string>Oper_Journal_View</string>
-        <string>Oper_Archive_View</string>
-        <string>Oper_Archive_Settings</string>
-        <string>Oper_Reports_Doors</string>
-        <string>Oper_Reports_Events</string>
-        <string>Oper_Reports_EmployeeRoot</string>
-        <string>Oper_Reports_Cards</string>
-        <string>Oper_Reports_Employees_Access</string>
-        <string>Oper_Reports_Employees_Rights</string>
-        <string>Oper_Reports_Departments</string>
-        <string>Oper_Reports_Positions</string>
-        <string>Oper_Reports_EmployeeZone</string>
-        <string>Oper_Reports_Employee</string>
-        <string>Oper_Reports_Discipline</string>
-        <string>Oper_Reports_Schedules</string>
-        <string>Oper_Reports_Documents</string>
-        <string>Oper_Reports_WorkTime</string>
-        <string>Oper_Reports_T13</string>
-        <string>Oper_SKD_Employees_View</string>
-        <string>Oper_SKD_Employees_Edit</string>
-        <string>Oper_SKD_Employees_Edit_CardType</string>
-        <string>Oper_SKD_Guests_View</string>
-        <string>Oper_SKD_Guests_Edit</string>
-        <string>Oper_SKD_Departments_View</string>
-        <string>Oper_SKD_Departments_Etit</string>
-        <string>Oper_SKD_Positions_View</string>
-        <string>Oper_SKD_Positions_Etit</string>
-        <string>Oper_SKD_AdditionalColumns_View</string>
-        <string>Oper_SKD_AdditionalColumns_Etit</string>
-        <string>Oper_SKD_Cards_View</string>
-        <string>Oper_SKD_Cards_Etit</string>
-        <string>Oper_SKD_AccessTemplates_View</string>
-        <string>Oper_SKD_AccessTemplates_Etit</string>
-        <string>Oper_SKD_PassCards_View</string>
-        <string>Oper_SKD_PassCards_Etit</string>
-        <string>Oper_SKD_Organisations_View</string>
-        <string>Oper_SKD_Organisations_Users</string>
-        <string>Oper_SKD_Organisations_Doors</string>
-        <string>Oper_SKD_Organisations_Edit</string>
-        <string>Oper_SKD_Organisations_AddRemove</string>
-        <string>Oper_SKD_TimeTrack_DaySchedules_View</string>
-        <string>Oper_SKD_TimeTrack_DaySchedules_Edit</string>
-        <string>Oper_SKD_TimeTrack_ScheduleSchemes_View</string>
-        <string>Oper_SKD_TimeTrack_ScheduleSchemes_Edit</string>
-        <string>Oper_SKD_TimeTrack_Holidays_View</string>
-        <string>Oper_SKD_TimeTrack_Holidays_Edit</string>
-        <string>Oper_SKD_TimeTrack_Schedules_View</string>
-        <string>Oper_SKD_TimeTrack_Schedules_Edit</string>
-        <string>Oper_SKD_TimeTrack_Report_View</string>
-        <string>Oper_SKD_TimeTrack_Parts_Edit</string>
-        <string>Oper_SKD_TimeTrack_Documents_Edit</string>
-        <string>Oper_SKD_TimeTrack_DocumentTypes_Edit</string>
-      </PermissionStrings>
-      <RemoreAccess>
-        <RemoteAccessType>RemoteAccessAllowed</RemoteAccessType>
-        <HostNameOrAddressList />
-      </RemoreAccess>
-    </User>
-    <User>
-      <UID>733fa93a-fafb-4a48-a030-0a373a4c6616</UID>
-      <Name>Инсталлятор</Name>
-      <Login>inst</Login>
-      <PasswordHash>d41d8cd98f00b204e9800998ecf8427e</PasswordHash>
-      <PermissionStrings>
-        <string>Adm_ViewConfig</string>
-        <string>Adm_SetNewConfig</string>
-        <string>Adm_WriteDeviceConfig</string>
-        <string>Adm_ChangeDevicesSoft</string>
-        <string>Adm_Security</string>
-        <string>Oper_Login</string>
-        <string>Oper_Logout</string>
-        <string>Oper_LogoutWithoutPassword</string>
-        <string>Oper_NoAlarmConfirm</string>
-        <string>Oper_Device_Control</string>
-        <string>Oper_Zone_Control</string>
-        <string>Oper_GuardZone_Control</string>
-        <string>Oper_ExtraGuardZone</string>
-        <string>Oper_Directions_Control</string>
-        <string>Oper_Door_Control</string>
-        <string>Oper_MPT_Control</string>
-        <string>Oper_PIM_Control</string>
-        <string>Oper_Delay_Control</string>
-        <string>Oper_NS_Control</string>
-        <string>Oper_ChangeView</string>
-        <string>Oper_MayNotConfirmCommands</string>
-        <string>Oper_GKSchedules</string>
-        <string>Oper_Journal_View</string>
-        <string>Oper_Archive_View</string>
-        <string>Oper_Archive_Settings</string>
-        <string>Oper_Reports_Doors</string>
-        <string>Oper_Reports_Events</string>
-        <string>Oper_Reports_EmployeeRoot</string>
-        <string>Oper_Reports_Cards</string>
-        <string>Oper_Reports_Employees_Access</string>
-        <string>Oper_Reports_Employees_Rights</string>
-        <string>Oper_Reports_Departments</string>
-        <string>Oper_Reports_Positions</string>
-        <string>Oper_Reports_EmployeeZone</string>
-        <string>Oper_Reports_Employee</string>
-        <string>Oper_Reports_Discipline</string>
-        <string>Oper_Reports_Schedules</string>
-        <string>Oper_Reports_Documents</string>
-        <string>Oper_Reports_WorkTime</string>
-        <string>Oper_Reports_T13</string>
-        <string>Oper_SKD_Employees_View</string>
-        <string>Oper_SKD_Employees_Edit</string>
-        <string>Oper_SKD_Employees_Edit_CardType</string>
-        <string>Oper_SKD_Guests_View</string>
-        <string>Oper_SKD_Guests_Edit</string>
-        <string>Oper_SKD_Departments_View</string>
-        <string>Oper_SKD_Departments_Etit</string>
-        <string>Oper_SKD_Positions_View</string>
-        <string>Oper_SKD_Positions_Etit</string>
-        <string>Oper_SKD_AdditionalColumns_View</string>
-        <string>Oper_SKD_AdditionalColumns_Etit</string>
-        <string>Oper_SKD_Cards_View</string>
-        <string>Oper_SKD_Cards_Etit</string>
-        <string>Oper_SKD_AccessTemplates_View</string>
-        <string>Oper_SKD_AccessTemplates_Etit</string>
-        <string>Oper_SKD_PassCards_View</string>
-        <string>Oper_SKD_PassCards_Etit</string>
-        <string>Oper_SKD_Organisations_View</string>
-        <string>Oper_SKD_Organisations_Users</string>
-        <string>Oper_SKD_Organisations_Doors</string>
-        <string>Oper_SKD_Organisations_Edit</string>
-        <string>Oper_SKD_Organisations_AddRemove</string>
-        <string>Oper_SKD_TimeTrack_DaySchedules_View</string>
-        <string>Oper_SKD_TimeTrack_DaySchedules_Edit</string>
-        <string>Oper_SKD_TimeTrack_ScheduleSchemes_View</string>
-        <string>Oper_SKD_TimeTrack_ScheduleSchemes_Edit</string>
-        <string>Oper_SKD_TimeTrack_Holidays_View</string>
-        <string>Oper_SKD_TimeTrack_Holidays_Edit</string>
-        <string>Oper_SKD_TimeTrack_Schedules_View</string>
-        <string>Oper_SKD_TimeTrack_Schedules_Edit</string>
-        <string>Oper_SKD_TimeTrack_Report_View</string>
-        <string>Oper_SKD_TimeTrack_Parts_Edit</string>
-        <string>Oper_SKD_TimeTrack_Documents_Edit</string>
-        <string>Oper_SKD_TimeTrack_DocumentTypes_Edit</string>
       </PermissionStrings>
       <RemoreAccess>
         <RemoteAccessType>RemoteAccessBanned</RemoteAccessType>

@@ -21,7 +21,7 @@ namespace LayoutModule.ViewModels
 		public LayoutPropertiesViewModel(Layout layout, LayoutUsersViewModel layoutUsersViewModel, List<string> otherCaptions)
 		{
 			Title = "Свойства элемента: Макет интерфейса ОЗ";
-			Layout = layout ?? new Layout();
+			Layout = layout ?? new Layout(otherCaptions);
 			LayoutUsersViewModel = layoutUsersViewModel;
 			this.otherCaptions = otherCaptions;
 			LayoutUsersViewModel.Update(Layout);

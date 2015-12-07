@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 using Common;
 using Entities.DeviceOriented;
 using Infrustructure.Plans.Interfaces;
-using RubezhClient;
+using RubezhAPI;
 using System.Linq;
 using System.Diagnostics;
 
@@ -22,7 +22,7 @@ namespace RubezhAPI.GK
 			OpenRegimeLogic = new GKLogic();
 			NormRegimeLogic = new GKLogic();
 			CloseRegimeLogic = new GKLogic();
-			Delay = 2;
+			Delay = 15;
 			Hold = 20;
 			PimEnter = new GKPim
 			{

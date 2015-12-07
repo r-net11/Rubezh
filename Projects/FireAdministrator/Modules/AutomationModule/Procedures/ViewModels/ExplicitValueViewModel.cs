@@ -1,6 +1,7 @@
 ﻿using Infrastructure;
 using Infrastructure.Automation;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;

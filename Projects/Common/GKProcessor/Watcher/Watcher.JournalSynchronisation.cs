@@ -1,6 +1,6 @@
 ﻿using System;
 using RubezhAPI;
-using RubezhClient;
+using RubezhAPI;
 using RubezhDAL;
 
 namespace GKProcessor

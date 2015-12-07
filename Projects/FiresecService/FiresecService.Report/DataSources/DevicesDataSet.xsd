@@ -15,10 +15,8 @@
         <xs:element name="Data" msprop:Generator_TableClassName="DataDataTable" msprop:Generator_TableVarName="tableData" msprop:Generator_RowChangedName="DataRowChanged" msprop:Generator_TablePropName="Data" msprop:Generator_RowDeletingName="DataRowDeleting" msprop:Generator_RowChangingName="DataRowChanging" msprop:Generator_RowEvHandlerName="DataRowChangeEventHandler" msprop:Generator_RowDeletedName="DataRowDeleted" msprop:Generator_RowClassName="DataRow" msprop:Generator_UserTableName="Data" msprop:Generator_RowEvArgName="DataRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="PresentationName" msprop:Generator_ColumnVarNameInTable="columnPresentationName" msprop:Generator_ColumnPropNameInRow="PresentationName" msprop:Generator_ColumnPropNameInTable="PresentationNameColumn" msprop:Generator_UserColumnName="PresentationName" type="xs:string" minOccurs="0" />
-              <xs:element name="PresentationAddress" msprop:Generator_ColumnVarNameInTable="columnPresentationAddress" msprop:Generator_ColumnPropNameInRow="PresentationAddress" msprop:Generator_ColumnPropNameInTable="PresentationAddressColumn" msprop:Generator_UserColumnName="PresentationAddress" type="xs:string" minOccurs="0" />
-              <xs:element name="PresentationZoneOrLogic" msprop:Generator_ColumnVarNameInTable="columnPresentationZoneOrLogic" msprop:Generator_ColumnPropNameInRow="PresentationZoneOrLogic" msprop:Generator_ColumnPropNameInTable="PresentationZoneOrLogicColumn" msprop:Generator_UserColumnName="PresentationZoneOrLogic" type="xs:string" minOccurs="0" />
-              <xs:element name="Description" msprop:Generator_ColumnVarNameInTable="columnDescription" msprop:Generator_ColumnPropNameInRow="Description" msprop:Generator_ColumnPropNameInTable="DescriptionColumn" msprop:Generator_UserColumnName="Description" type="xs:string" minOccurs="0" />
+              <xs:element name="Nomination" msprop:Generator_ColumnVarNameInTable="columnNomination" msprop:Generator_ColumnPropNameInRow="Nomination" msprop:Generator_ColumnPropNameInTable="NominationColumn" msprop:Generator_UserColumnName="Nomination" type="xs:string" minOccurs="0" />
+              <xs:element name="Number" msprop:Generator_ColumnVarNameInTable="columnNumber" msprop:Generator_ColumnPropNameInRow="Number" msprop:Generator_ColumnPropNameInTable="NumberColumn" msprop:Generator_UserColumnName="Number" type="xs:int" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

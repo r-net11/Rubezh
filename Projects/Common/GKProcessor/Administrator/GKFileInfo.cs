@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using RubezhAPI.GK;
 using Infrastructure.Common;
-using RubezhClient;
+using RubezhAPI;
 
 namespace GKProcessor
 {

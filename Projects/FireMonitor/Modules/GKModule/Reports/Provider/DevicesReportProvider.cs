@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using RubezhAPI.Models;
+﻿using RubezhAPI.Models;
 using RubezhAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
-using GKModule.ViewModels;
 
 namespace GKModule.Reports.Providers
 {
-	class DevicesReportProvider : FilteredSKDReportProvider<DevicesReportFilter>
+	class DevicesReportProvider : FilteredSKDReportProvider<SKDReportFilter>
 	{
 		public DevicesReportProvider()
 			: base("Список устройств", 433, SKDReportGroup.Configuration, PermissionType.Oper_Reports_Devices)
@@ -17,10 +15,6 @@ namespace GKModule.Reports.Providers
 			return new FilterModel
 			{
 				AllowSort = false,
-				Pages = new List<FilterContainerViewModel>
-				{
-					new DevicesPageViewModel()
-				}
 			};
 		}
 	}

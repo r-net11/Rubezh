@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using RubezhAPI;
 using RubezhAPI.Automation;
-using RubezhClient;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using RubezhAPI;
+using System.Linq;
 using Property = RubezhAPI.Automation.Property;
-using RubezhClient.SKDHelpers;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhAPI.Journal;
-using System.Windows.Media;
 
 namespace Infrastructure.Automation
 {
 	public static class AutomationHelper
-    {
+	{
 		public static List<Variable> GetAllVariables(Procedure procedure)
 		{
 			var allVariables = new List<Variable>(ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.GlobalVariables);
@@ -90,9 +84,9 @@ namespace Infrastructure.Automation
 			if (objectType == ObjectType.VideoDevice)
 				return new List<Property> { Property.Uid, Property.Name };
 			if (objectType == ObjectType.PumpStation)
-				return new List<Property> { Property.Uid, Property.No, Property.Delay, Property.Name };
+				return new List<Property> { Property.Uid, Property.No, Property.Delay, Property.Name, Property.State };
 			if (objectType == ObjectType.MPT)
-				return new List<Property> { Property.Uid, Property.Description, Property.Name };
+				return new List<Property> { Property.Uid, Property.Description, Property.Name, Property.State };
 			return new List<Property>();
 		}
 
@@ -119,7 +113,7 @@ namespace Infrastructure.Automation
 
 		public static string GetProcedureName(Guid procedureUid)
 		{
-			var procedure = ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == procedureUid);
+			var procedure = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == procedureUid);
 			return procedure == null ? "" : procedure.Name;
 		}
 
@@ -180,7 +174,7 @@ namespace Infrastructure.Automation
 			}
 			return "";
 		}
-		
+
 		static string UidToObjectName(Guid uid)
 		{
 			if (uid == Guid.Empty)
@@ -212,10 +206,10 @@ namespace Infrastructure.Automation
 			var mpt = GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == uid);
 			if (mpt != null)
 				return mpt.PresentationName;
-			var organisation = OrganisationHelper.GetSingle(uid);
+			var organisation = RubezhClient.SKDHelpers.OrganisationHelper.GetSingle(uid);
 			if (organisation != null)
 				return organisation.Name;
 			return "";
 		}
-    }
+	}
 }

@@ -1,5 +1,5 @@
 ﻿using RubezhAPI.GK;
-using RubezhClient;
+using RubezhAPI;
 using System.Collections.Generic;
 using System.Linq;
 

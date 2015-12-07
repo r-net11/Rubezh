@@ -4,7 +4,7 @@ using System.Linq;
 using Common;
 using RubezhAPI.GK;
 
-namespace RubezhClient
+namespace RubezhAPI
 {
 	public partial class GKManager
 	{

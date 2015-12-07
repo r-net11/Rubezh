@@ -14,6 +14,7 @@ using Infrastructure.Common.Services;
 using Infrustructure.Plans.Painters;
 using System.Windows.Shapes;
 using RubezhAPI.Models;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {

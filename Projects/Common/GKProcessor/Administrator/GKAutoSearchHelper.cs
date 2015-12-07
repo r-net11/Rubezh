@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using Common;
 using RubezhAPI;
 using RubezhAPI.GK;
-using RubezhClient;
+using RubezhAPI;
 
 namespace GKProcessor
 {

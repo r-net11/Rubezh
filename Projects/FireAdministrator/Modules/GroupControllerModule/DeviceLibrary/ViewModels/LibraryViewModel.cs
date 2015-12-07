@@ -11,6 +11,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Diagnostics;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {

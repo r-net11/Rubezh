@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Common;
-using RubezhClient;
+using RubezhAPI;
 using System.Linq;
 
 namespace RubezhAPI.GK

@@ -14,6 +14,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
@@ -190,7 +191,7 @@ namespace GKModule.ViewModels
 		public RelayCommand CopyLogicCommand { get; private set; }
 		void OnCopyLogic()
 		{
-			GKManager.CopyLogic(SelectedDelay.Delay.Logic, true, false, true, false, true);
+			GKManager.CopyLogic(SelectedDelay.Delay.Logic, true, false, true);
 		}
 
 		public RelayCommand PasteLogicCommand { get; private set; }

@@ -123,7 +123,8 @@
 				<RowDefinition Height="Auto"/>
 				<RowDefinition />
 			</Grid.RowDefinitions>
-			<ToolBarButton Grid.Row="0" HorizontalAlignment="Left" Command="{Binding EditListCommand}" ImageSource="Edit" ToolTip="Редактировать список" Height="32" Width="32" />
+			<ToolBarButton Grid.Row="0" HorizontalAlignment="Left" Command="{Binding EditListCommand}" ImageSource="Edit" ToolTip="Редактировать список" Height="32" Width="32" Visibility="{Binding IsSimpleType, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+			<ToolBarButton Grid.Row="0" HorizontalAlignment="Left" Command="{Binding AddCommand}" ImageSource="Add" ToolTip="Добавить элемент" Height="32" Width="32" Visibility="{Binding IsSimpleType, Converter={StaticResource BoolToVisibilityConverter}}" />
 			<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 				<ItemsControl ItemsSource="{Binding ExplicitValues}">
 					<ItemsControl.ItemTemplate>

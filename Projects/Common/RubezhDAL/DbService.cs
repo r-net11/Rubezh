@@ -1,5 +1,4 @@
 ﻿using RubezhAPI;
-using Infrastructure.Common;
 using System;
 using System.Linq;
 
@@ -27,18 +26,18 @@ namespace RubezhDAL.DataClasses
 		public ScheduleTranslator ScheduleTranslator { get; private set; }
 		public ScheduleSchemeTranslator ScheduleSchemeTranslator { get; private set; }
 		public TimeTrackTranslator TimeTrackTranslator { get; private set; }
-        public GKCardTranslator GKCardTranslator { get; private set; }
-        public GKMetadataTranslator GKMetadataTranslator { get; private set; }
-        public TimeTrackDocumentTypeTranslator TimeTrackDocumentTypeTranslator { get; private set; }
-        public TimeTrackDocumentTranslator TimeTrackDocumentTranslator { get; private set; }
-        public TestDataGenerator TestDataGenerator { get; private set; }
+		public GKCardTranslator GKCardTranslator { get; private set; }
+		public GKMetadataTranslator GKMetadataTranslator { get; private set; }
+		public TimeTrackDocumentTypeTranslator TimeTrackDocumentTypeTranslator { get; private set; }
+		public TimeTrackDocumentTranslator TimeTrackDocumentTranslator { get; private set; }
+		public TestDataGenerator TestDataGenerator { get; private set; }
 		public ImitatorUserTraslator ImitatorUserTraslator { get; private set; }
 		public ImitatorScheduleTranslator ImitatorScheduleTranslator { get; private set; }
 		public ImitatorJournalTranslator ImitatorJournalTranslator { get; private set; }
 
 		public static OperationResult<bool> ConnectionOperationResult { get; set; }
 
-        public DbService()
+		public DbService()
 		{
 			Context = new DatabaseContext(DbServiceHelper.CreateConnection());
 			Context.Database.CommandTimeout = 180;
@@ -60,18 +59,18 @@ namespace RubezhDAL.DataClasses
 			PositionTranslator = new PositionTranslator(this);
 			ScheduleTranslator = new ScheduleTranslator(this);
 			ScheduleSchemeTranslator = new ScheduleSchemeTranslator(this);
-            GKCardTranslator = new GKCardTranslator(this);
-            GKMetadataTranslator = new GKMetadataTranslator(this);
+			GKCardTranslator = new GKCardTranslator(this);
+			GKMetadataTranslator = new GKMetadataTranslator(this);
 			TimeTrackTranslator = new TimeTrackTranslator(this);
-            TimeTrackDocumentTypeTranslator = new TimeTrackDocumentTypeTranslator(this);
-            TimeTrackDocumentTranslator = new TimeTrackDocumentTranslator(this);
-            TestDataGenerator = new TestDataGenerator(this);
+			TimeTrackDocumentTypeTranslator = new TimeTrackDocumentTypeTranslator(this);
+			TimeTrackDocumentTranslator = new TimeTrackDocumentTranslator(this);
+			TestDataGenerator = new TestDataGenerator(this);
 			ImitatorUserTraslator = new ImitatorUserTraslator(this);
 			ImitatorScheduleTranslator = new ImitatorScheduleTranslator(this);
 			ImitatorJournalTranslator = new ImitatorJournalTranslator(this);
 		}
-        
-        public OperationResult ResetDB()
+
+		public OperationResult ResetDB()
 		{
 			try
 			{
