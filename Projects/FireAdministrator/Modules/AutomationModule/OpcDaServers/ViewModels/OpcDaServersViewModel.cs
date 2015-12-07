@@ -54,22 +54,16 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedOpcDaServer = value;
-				Tags = _selectedOpcDaServer == null ? null : _selectedOpcDaServer.Tags;
 				OnPropertyChanged(() => SelectedOpcDaServer);
+				OnPropertyChanged(() => Tags);
 			}
 		}
+
+
 
 		public RubezhAPI.Automation.OpcDaTag[] Tags 
 		{
 			get { return SelectedOpcDaServer == null ? null : SelectedOpcDaServer.Tags; }
-			set 
-			{
-				if (SelectedOpcDaServer != null)
-				{
-					SelectedOpcDaServer.Tags = value;
-					OnPropertyChanged(() => Tags);
-				}
-			}
 		}
 
 		#endregion
@@ -128,29 +122,13 @@ namespace AutomationModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var allTags = OpcDaServerHelper.GetAllTagsFromOpcServer(
-				OpcDaServer.OpcDaServer.GetRegistredServers().First(x => x.Id == SelectedOpcDaServer.Id))
-				.Select(tag => new OpcDaEditingTagsTagViewModel(tag)).ToArray();
-
-			// Получаем список уже выбранных тегов
-			// и устанавливаем им признак
-			foreach (var x in allTags)
-			{ 
-				foreach(var y in SelectedOpcDaServer.Tags)
-				{
-					if (x.Tag.TagId == y.TagId)
-					{
-						x.IsChecked = true;
-					}
-				}
-			}
-
-			var addingDialog = new OpcDaEditingTagsViewModel(allTags);
+			var addingDialog = new OpcDaEditingTagsViewModel(this);
 
 			if (DialogService.ShowModalWindow(addingDialog))
 			{
-				Tags = (addingDialog.SelectedItems
+				SelectedOpcDaServer.Tags = (addingDialog.SelectedItems
 					.Select(x => x.Tag)).ToArray();
+				OnPropertyChanged(() => Tags);
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}

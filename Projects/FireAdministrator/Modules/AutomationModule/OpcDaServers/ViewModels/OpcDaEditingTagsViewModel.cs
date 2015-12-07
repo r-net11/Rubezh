@@ -4,21 +4,34 @@ using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Automation;
 using Infrastructure.Common.TreeList;
+using AutomationModule.Models;
 
 namespace AutomationModule.ViewModels
 {
 	public class OpcDaEditingTagsViewModel : SaveCancelDialogViewModel
 	{
-		public OpcDaEditingTagsViewModel(OpcDaEditingTagsTagViewModel[] tags)
+		public OpcDaEditingTagsViewModel(OpcDaServersViewModel server)
 		{
 			Title = "Выбрать теги";
 
-			if (tags == null)
+			var allTags = OpcDaServerHelper.GetAllTagsFromOpcServer(
+				OpcDaServer.OpcDaServer.GetRegistredServers().First(x => x.Id == server.SelectedOpcDaServer.Id))
+				.Select(tag => new OpcDaEditingTagsTagViewModel(tag)).ToArray();
+
+			// Получаем список уже выбранных тегов
+			// и устанавливаем им признак
+			foreach (var x in allTags)
 			{
-				throw new ArgumentNullException("tagsTree");
+				foreach (var y in server.SelectedOpcDaServer.Tags)
+				{
+					if (x.Tag.TagId == y.TagId)
+					{
+						x.IsChecked = true;
+					}
+				}
 			}
-			_tags = tags;
-			RootItem = BuildTagsTreeByPath(tags);
+			_tags = allTags;
+			RootItem = BuildTagsTreeByPath(allTags);
 		}
 		
 		OpcDaEditingTagsTagViewModel[] _tags;
@@ -55,16 +68,7 @@ namespace AutomationModule.ViewModels
 
 		protected override bool Save()
 		{
-			var list = new List<OpcDaEditingTagsTagViewModel>();
-
-			foreach (var item in _tags)
-			{
-				if (item.IsChecked)
-				{
-					list.Add(item);
-				}
-			}
-			SelectedItems = list.ToArray();
+			SelectedItems = _tags.Where(x => x.IsChecked).ToArray();
 			return base.Save();
 		}
 
