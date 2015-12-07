@@ -152,18 +152,24 @@ namespace SecurityModule.ViewModels
 
 		void PreventAdminPermissions()
 		{
-			if (ClientManager.CurrentUser.UID == User.UID && ClientManager.CurrentUser.PermissionStrings.Contains(PermissionType.Adm_Security.ToString()))
+			if (ClientManager.CurrentUser.UID == User.UID && ClientManager.CurrentUser.HasPermission(PermissionType.Adm_Security))
 			{
-				var Adm_SecurityPermission = PermissionsViewModel.AllPermissions.FirstOrDefault(x => x.Name == PermissionType.Adm_Security.ToString());
+				var Adm_SecurityPermission = PermissionsViewModel.AllPermissions.FirstOrDefault(x => x.PermissionType == PermissionType.Adm_Security);
 				if (Adm_SecurityPermission != null)
 				{
 					Adm_SecurityPermission.IsChecked = true;
 				}
 
-				var Adm_SetNewConfigPermission = PermissionsViewModel.AllPermissions.FirstOrDefault(x => x.Name == PermissionType.Adm_SetNewConfig.ToString());
+				var Adm_SetNewConfigPermission = PermissionsViewModel.AllPermissions.FirstOrDefault(x => x.PermissionType == PermissionType.Adm_SetNewConfig);
 				if (Adm_SetNewConfigPermission != null)
 				{
 					Adm_SetNewConfigPermission.IsChecked = true;
+				}
+
+				var Adm_ViewConfigPermission = PermissionsViewModel.AllPermissions.FirstOrDefault(x => x.PermissionType == PermissionType.Adm_ViewConfig);
+				if (Adm_ViewConfigPermission != null)
+				{
+					Adm_ViewConfigPermission.IsChecked = true;
 				}
 			}
 		}
