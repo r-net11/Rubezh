@@ -38,6 +38,7 @@ function DepartmentSelectionViewModel() {
         self.OrganisationUID = organisationUID;
         self.DepartmentUID = departmentUID;
         self.Save = save;
+        self.UID(null);
         self.ReloadTree();
         if (departmentUID) {
             self.Title("Выбор родительского подразделения");

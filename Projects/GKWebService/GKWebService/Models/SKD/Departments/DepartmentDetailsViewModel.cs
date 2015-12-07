@@ -13,5 +13,9 @@ namespace GKWebService.Models.SKD.Departments
         public ShortDepartment SelectedDepartment { get; set; }
 
         public bool IsDepartmentSelected { get; set; }
+
+        public ShortEmployeeModel SelectedChief { get; set; }
+
+        public bool IsChiefSelected { get; set; }
     }
 }

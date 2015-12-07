@@ -75,6 +75,16 @@ namespace GKWebService.Controllers
             departmentModel.IsDepartmentSelected = departmentListResult.Result.Any();
             departmentModel.SelectedDepartment = departmentListResult.Result.FirstOrDefault() ?? new ShortDepartment();
 
+            var employeeFilter = new EmployeeFilter { LogicalDeletationType = LogicalDeletationType.All, UIDs = new List<Guid> { departmentModel.Department.ChiefUID }, IsAllPersonTypes = true };
+            var chiefResult = ClientManager.FiresecService.GetEmployeeList(employeeFilter);
+            if (chiefResult.HasError)
+            {
+                throw new InvalidOperationException(chiefResult.Error);
+            }
+            departmentModel.IsChiefSelected = chiefResult.Result.Any();
+            departmentModel.SelectedChief = chiefResult.Result.Select(e => ShortEmployeeModel.CreateFromModel(e)).FirstOrDefault() ?? new ShortEmployeeModel();
+
+
             departmentModel.Department.Photo = null;
             return new JsonNetResult { Data = departmentModel };
         }
@@ -90,6 +100,7 @@ namespace GKWebService.Controllers
             }
 
             departmentModel.Department.ParentDepartmentUID = departmentModel.IsDepartmentSelected ? departmentModel.SelectedDepartment.UID : Guid.Empty;
+            departmentModel.Department.ChiefUID = departmentModel.IsChiefSelected ? departmentModel.SelectedChief.UID : Guid.Empty;
 
             var operationResult = ClientManager.FiresecService.SaveDepartment(departmentModel.Department, isNew);
 
