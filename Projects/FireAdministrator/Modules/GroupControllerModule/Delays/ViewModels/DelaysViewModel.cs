@@ -191,7 +191,7 @@ namespace GKModule.ViewModels
 		public RelayCommand CopyLogicCommand { get; private set; }
 		void OnCopyLogic()
 		{
-			GKManager.CopyLogic(SelectedDelay.Delay.Logic, true, false, true, false, true);
+			GKManager.CopyLogic(SelectedDelay.Delay.Logic, true, false, true);
 		}
 
 		public RelayCommand PasteLogicCommand { get; private set; }
