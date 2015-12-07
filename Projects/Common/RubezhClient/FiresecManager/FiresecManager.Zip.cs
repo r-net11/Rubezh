@@ -28,7 +28,7 @@ namespace RubezhClient
 
 		static void LoadConfigFromDirectory(string unzipFolderPath)
 		{
-        	foreach (var zipConfigurationItem in ZipConfigurationIteАДМ. Ошибки и недочеты прав доступаmsCollection.GetWellKnownNames())
+        	foreach (var zipConfigurationItem in ZipConfigurationItemsCollection.GetWellKnownNames())
 			{
 				var configurationFileName = Path.Combine(unzipFolderPath, zipConfigurationItem);
 				if (File.Exists(configurationFileName))
