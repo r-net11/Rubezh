@@ -110,7 +110,7 @@ namespace FiresecService
 				ScheduleRunner.Start();
 				ServerTaskRunner.Start();
 				AutomationProcessor.RunOnServerRun();
-				ClientsManager.StartRemoveInactiveClients(TimeSpan.FromMinutes(10));
+				ClientsManager.StartRemoveInactiveClients(TimeSpan.FromDays(1));
 				UILogger.Log("Готово");
 				FiresecService.Service.FiresecService.ServerState = ServerState.Ready;
 			}

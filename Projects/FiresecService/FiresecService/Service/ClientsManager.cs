@@ -1,10 +1,9 @@
-﻿using System;
+﻿using FiresecService.ViewModels;
+using RubezhAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using RubezhAPI.Models;
-using FiresecService.ViewModels;
-using System.Threading.Tasks;
 
 namespace FiresecService.Service
 {
@@ -22,7 +21,6 @@ namespace FiresecService.Service
 			if (existingClientInfo != null)
 			{
 				Remove(existingClientInfo.UID);
-				Common.Logger.Error("Bug catching (RG-362). ClientsManager.Add");
 				result = false;
 			}
 
@@ -58,27 +56,27 @@ namespace FiresecService.Service
 			return null;
 		}
 
-        public static void StartRemoveInactiveClients(TimeSpan inactiveTime)
-        {
-            var thread = new Thread(() =>
-                {
-                    while (true)
-                    {
+		public static void StartRemoveInactiveClients(TimeSpan inactiveTime)
+		{
+			var thread = new Thread(() =>
+				{
+					while (true)
+					{
 						try
 						{
 							ClientInfos
 								.Where(x => x.LastPollDateTime != default(DateTime) && DateTime.Now - x.LastPollDateTime > inactiveTime)
 								.ToList()
-								.ForEach(x => { Remove(x.UID); Common.Logger.Error("Bug catching (RG-362). ClientsManager.StartRemoveInactiveClients"); });
+								.ForEach(x => Remove(x.UID));
 						}
 						catch { }
 
-                        Thread.Sleep((int)inactiveTime.TotalMilliseconds / 2);
-                    }
-                }) { Name = "RemoveInactiveClients", IsBackground = true };
-            
-            thread.Start();
-        }
+						Thread.Sleep((int)inactiveTime.TotalMilliseconds / 10);
+					}
+				}) { Name = "RemoveInactiveClients", IsBackground = true };
+
+			thread.Start();
+		}
 	}
 
 	public class ClientInfo
@@ -88,6 +86,6 @@ namespace FiresecService.Service
 		public int CallbackIndex { get; set; }
 		public AutoResetEvent WaitEvent = new AutoResetEvent(false);
 		public bool IsDisconnecting { get; set; }
-        public DateTime LastPollDateTime { get; set; }
+		public DateTime LastPollDateTime { get; set; }
 	}
 }

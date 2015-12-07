@@ -31,7 +31,7 @@ namespace FiresecService.Service
 				return result;
 			}
 			global::FiresecService.ViewModels.MainViewModel.Current.OnPoll(uid);
-			return new List<CallbackResult>();
+			return new List<CallbackResult> { new CallbackResult { CallbackResultType = CallbackResultType.ReconnectionRequired } };
 		}
 
 		public static void NotifyGKProgress(GKProgressCallback gkProgressCallback)

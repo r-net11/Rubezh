@@ -19,6 +19,7 @@ namespace RubezhClient
 		public static event Action<CallbackOperationResult> CallbackOperationResultEvent;
 		public static event Action<AutomationCallbackResult> AutomationEvent;
 		public static event Action ConfigurationChangedEvent;
+		public static event Action ReconnectionRequiredEvent;
 		public static event Action<List<JournalItem>, bool> JournalItemsEvent;
 
 		bool isConnected = true;
@@ -150,6 +151,14 @@ namespace RubezhClient
 						{
 							if (ConfigurationChangedEvent != null)
 								ConfigurationChangedEvent();
+						});
+						break;
+
+					case CallbackResultType.ReconnectionRequired:
+						SafeContext.Execute(() =>
+						{
+							if (ReconnectionRequiredEvent != null)
+								ReconnectionRequiredEvent();
 						});
 						break;
 				}

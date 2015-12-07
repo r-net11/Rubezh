@@ -65,6 +65,7 @@ namespace RubezhAPI
 		AutomationCallbackResult,
 		ConfigurationChanged,
 		Disconnecting,
-		OperationResult
+		OperationResult,
+		ReconnectionRequired
 	}
 }

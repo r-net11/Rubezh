@@ -97,6 +97,7 @@ namespace FireMonitor
 
 						result = Run();
 						SafeFiresecService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
+						SafeFiresecService.ReconnectionRequiredEvent += () => { ApplicationService.Invoke(OnReconnectionRequired); };
 
 						if (result)
 						{
@@ -111,7 +112,6 @@ namespace FireMonitor
 						return false;
 					}
 
-					//SafeFiresecService.ReconnectionErrorEvent += x => { ApplicationService.Invoke(OnReconnectionError, x); };
 					SafeFiresecService.JournalItemsEvent += OnJournalItems;
 
 					ScheduleRunner.Start();
@@ -199,15 +199,6 @@ namespace FireMonitor
 			return new MonitorShellViewModel();
 		}
 
-		//void OnReconnectionError(string error)
-		//{
-		//	if (!MessageBoxService.ShowConfirmation(String.Format("Связь с сервером восстановлена после сбоя, однако подключение не удалось по причине:\n\"{0}\"\nПовторить попытку подключения?", error))
-		//		&& Application.Current != null)
-		//	{
-		//		Application.Current.Shutdown();
-		//	}
-		//}
-
 		void OnConfigurationChanged()
 		{
 			var restartView = new RestartApplicationViewModel();
@@ -224,6 +215,32 @@ namespace FireMonitor
 				};
 				timer.Interval = TimeSpan.FromSeconds(restartView.Total);
 				timer.Start();
+			}
+		}
+		void OnReconnectionRequired()
+		{
+			try
+			{
+				ClientManager.FiresecService.SuspendPoll = true;
+				var clientCredentials = new ClientCredentials()
+				{
+					UserName = _login,
+					Password = _password,
+					ClientType = ClientType.Monitor,
+					ClientUID = FiresecServiceFactory.UID
+				};
+
+				var operationResult = ClientManager.FiresecService.Connect(FiresecServiceFactory.UID, clientCredentials);
+				if (operationResult.HasError)
+					Restart(_login, _password);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Bootstrapper.OnReconnectionRequired");
+			}
+			finally
+			{
+				ClientManager.FiresecService.SuspendPoll = false;
 			}
 		}
 		public void Restart(string login = null, string password = null)
