@@ -39,8 +39,8 @@ namespace GKModule.ViewModels
 			SetRegimeCloseCommand = new RelayCommand(OnSetRegimeClose);
 
 			Door = door;
-			State.StateChanged -= new Action(OnStateChanged);
-			State.StateChanged += new Action(OnStateChanged);
+			State.StateChanged -= OnStateChanged;
+			State.StateChanged += OnStateChanged;
 			InitializePlans();
 			Title = Door.PresentationName;
 		}
@@ -50,6 +50,8 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => ControlRegime);
 			OnPropertyChanged(() => IsControlRegime);
 			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => HasOffDelay);
+			OnPropertyChanged(() => HasHoldDelay);
 			CommandManager.InvalidateRequerySuggested();
 		}
 
@@ -74,6 +76,15 @@ namespace GKModule.ViewModels
 					continue;
 				}
 			}
+		}
+
+		public bool HasOffDelay
+		{
+			get { return State.StateClasses.Contains(XStateClass.TurningOff) && State.OffDelay > 0; }
+		}
+		public bool HasHoldDelay
+		{
+			get { return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0; }
 		}
 
 		public DeviceControlRegime ControlRegime

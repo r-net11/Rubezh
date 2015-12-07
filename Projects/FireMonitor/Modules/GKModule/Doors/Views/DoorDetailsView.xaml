@@ -13,19 +13,42 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<StackPanel Grid.Row="0" Orientation="Horizontal">
-			<Rectangle Fill="{Binding State.StateClass, Converter={StaticResource XStateClassToColorConverter2}}" StrokeThickness="2" Stroke="Black" Width="50" Height="50" Margin="0, 0, 5, 0" />
-			<ItemsControl ItemsSource="{Binding State.StateClasses}">
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<StackPanel Orientation="Horizontal">
-							<Image Source="{Binding ., Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-							<TextBlock Text="{Binding ., Converter={StaticResource XStateClassToSKDStringConverter}}" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Margin="5, 1, 1, 1" />
-						</StackPanel>
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-			</ItemsControl>
-		</StackPanel>
+		<Grid Grid.Row="0" Margin="0 0 0 5">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<StackPanel Grid.Row="0" Orientation="Horizontal">
+				<Rectangle Fill="{Binding State.StateClass, Converter={StaticResource XStateClassToColorConverter2}}" StrokeThickness="2" Stroke="Black" Width="50" Height="50" Margin="0, 0, 5, 0" />
+				<ItemsControl ItemsSource="{Binding State.StateClasses}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image Source="{Binding ., Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+								<TextBlock Text="{Binding ., Converter={StaticResource XStateClassToSKDStringConverter}}" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Margin="5, 1, 1, 1" />
+							</StackPanel>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</StackPanel>
+			<StackPanel Grid.Column="1" HorizontalAlignment="Right" TextBlock.Foreground="Red">
+				<StackPanel Visibility="{Binding HasOffDelay, Converter={StaticResource BoolToVisibilityConverter}}">
+					<TextBlock Text="Закрытие" Margin="2" />
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="{Binding State.OffDelay}" FontSize="24" Margin="2" />
+						<TextBlock Text="Сек" FontSize="24" Margin="2" />
+					</StackPanel>
+				</StackPanel>
+				<StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}">
+					<TextBlock Text="Удержание" Margin="2" />
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="{Binding State.HoldDelay}" FontSize="24" Margin="2" />
+						<TextBlock Text="Сек" FontSize="24" Margin="2" />
+					</StackPanel>
+				</StackPanel>
+			</StackPanel>
+		</Grid>
+
 		<TabControl Grid.Row="1">
 			<TabItem Header="Основные">
 				<ItemsControl Background="White">

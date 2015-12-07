@@ -301,6 +301,11 @@ namespace GKProcessor
 					OffDelay = additionalShortParameters[1];
 					HoldDelay = additionalShortParameters[2];
 				}
+				if (TypeNo == 0x104)
+				{
+					OffDelay = additionalShortParameters[0];
+					HoldDelay = additionalShortParameters[1];
+				}
 			}
 		}
 
