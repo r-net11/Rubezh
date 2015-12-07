@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Text;
+using FiresecAPI;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -21,7 +22,7 @@ namespace SettingsModule.ViewModels
 
 		private void InitializeAvailableIpAddresses()
 		{
-			var hostIpAdresses = NetworkHelper.GetHostIpAddresses();
+			var hostIpAdresses = FiresecManager.FiresecService.GetHostAvailableIpAdresses().Result;
 			hostIpAdresses.Add("localhost");
 			AvailableIpAddresses = new ObservableCollection<string>(hostIpAdresses);
 		}
@@ -221,12 +222,16 @@ namespace SettingsModule.ViewModels
 			CheckSqlServerConnectionCommand = new RelayCommand(OnCheckSqlServerConnection);
 			InitializeAvailableIpAddresses();
 			InitializeAvailableSqlServerAuthenticationModes();
-			ReadFromModel();
+			ReadFromServer();
 		}
 
-		private void ReadFromModel()
+		private void ReadFromServer()
 		{
-			var settings = AppServerSettingsHelper.AppServerSettings;
+			var result = FiresecManager.FiresecService.GetAppServerSettings();
+			if (result.HasError)
+				return;
+			
+			var settings = result.Result;
 
 			ServiceAddress = settings.ServiceAddress;
 			ServicePort = settings.ServicePort;
@@ -245,28 +250,28 @@ namespace SettingsModule.ViewModels
 			DBUserPwd = settings.DBUserPwd;
 		}
 
-		private void WriteToModel()
+		private void WriteToServer()
 		{
-			var settings = AppServerSettingsHelper.AppServerSettings;
-
-			settings.ServiceAddress = ServiceAddress;
-			settings.ServicePort = ServicePort;
-			settings.ReportServicePort = ReportServicePort;
-			settings.EnableRemoteConnections = EnableRemoteConnections;
-			settings.CreateNewDBOnOversize = CreateNewDBOnOversize;
-
-			// Параметры соединения с СУБД
-			settings.DBServerAddress = DBServerAddress;
-			settings.DBServerPort = DBServerPort;
-			settings.DBServerName = DBServerName;
-			settings.DBUseIntegratedSecurity = SqlServerAuthenticationMode == SqlServerAuthenticationMode.Windows;
-			settings.DBUserID = DBUserID;
-			settings.DBUserPwd = DBUserPwd;
+			var settings = new AppServerSettings
+			{
+				ServiceAddress = ServiceAddress,
+				ServicePort = ServicePort,
+				ReportServicePort = ReportServicePort,
+				EnableRemoteConnections = EnableRemoteConnections,
+				CreateNewDBOnOversize = CreateNewDBOnOversize,
+				DBServerAddress = DBServerAddress,
+				DBServerPort = DBServerPort,
+				DBServerName = DBServerName,
+				DBUseIntegratedSecurity = SqlServerAuthenticationMode == SqlServerAuthenticationMode.Windows,
+				DBUserID = DBUserID,
+				DBUserPwd = DBUserPwd
+			};
+			FiresecManager.FiresecService.SetAppServerSettings(settings);
 		}
 
 		public void Save()
 		{
-			WriteToModel();
+			WriteToServer();
 		}
 	}
 
@@ -274,7 +279,7 @@ namespace SettingsModule.ViewModels
 	{
 		[Description("Windows")]
 		Windows,
-		[Description("SQL Sever")]
+		[Description("SQL Server")]
 		SqlServer
 	}
 }

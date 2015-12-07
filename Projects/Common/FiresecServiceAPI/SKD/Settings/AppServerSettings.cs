@@ -57,6 +57,7 @@ namespace FiresecAPI
 		[DataMember]
 		public bool CreateNewDBOnOversize { get; set; }
 
+		[DataMember]
 		public bool EnableOfflineLog { get; set; }
 	}
 }

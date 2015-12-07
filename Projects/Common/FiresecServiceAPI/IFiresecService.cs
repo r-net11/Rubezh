@@ -85,6 +85,8 @@ namespace FiresecAPI
 
 		#endregion Files
 
+		#region <AppServerSettings>
+
 		/// <summary>
 		/// Проверяет доступность СУБД MS SQL Server
 		/// </summary>
@@ -97,5 +99,29 @@ namespace FiresecAPI
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		[OperationContract]
 		OperationResult<bool> CheckSqlServerConnection(string ipAddress, int ipPort, string instanceName, bool useIntegratedSecurity, string userID, string userPwd);
+
+		/// <summary>
+		/// Возвращает список доступных сетевых интерфейсов
+		/// </summary>
+		/// <returns>Список IP-адресов</returns>
+		[OperationContract]
+		OperationResult<List<string>> GetHostAvailableIpAdresses();
+
+		/// <summary>
+		/// Возвращает настройки Серевра приложений из файла "AppServerSettings.xml"
+		/// </summary>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		[OperationContract]
+		OperationResult<AppServerSettings> GetAppServerSettings();
+
+		/// <summary>
+		/// Записывает настройки Сервера приложений в файл "AppServerSettings"
+		/// </summary>
+		/// <param name="appServerSettings">Настройки Сервера приложений</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		[OperationContract]
+		OperationResult<bool> SetAppServerSettings(AppServerSettings appServerSettings);
+
+		#endregion </AppServerSettings>
 	}
 }

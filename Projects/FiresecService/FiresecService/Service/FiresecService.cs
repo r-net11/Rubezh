@@ -6,6 +6,7 @@ using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecService.ViewModels;
+using Infrastructure.Common;
 using SKDDriver;
 using SKDDriver.Translators;
 using System;
@@ -191,6 +192,8 @@ namespace FiresecService.Service
 			Processor.CancelProgress(progressCallbackUID, userName);
 		}
 
+		#region <AppServerSettings>
+
 		/// <summary>
 		/// Проверяет доступность СУБД MS SQL Server
 		/// </summary>
@@ -217,5 +220,52 @@ namespace FiresecService.Service
 			}
 			return new OperationResult<bool>(true);
 		}
+
+		/// <summary>
+		/// Возвращает список доступных на Сервере приложений IP-адресов
+		/// </summary>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<List<string>> GetHostAvailableIpAdresses()
+		{
+			var hostIpAddresses = NetworkHelper.GetHostIpAddresses();
+			hostIpAddresses.Add(NetworkHelper.Localhost);
+			return new OperationResult<List<string>>(hostIpAddresses);
+		}
+
+		/// <summary>
+		/// Возвращает настройки Серевра приложений из файла "AppServerSettings.xml"
+		/// </summary>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<AppServerSettings> GetAppServerSettings()
+		{
+			return new OperationResult<AppServerSettings>(AppServerSettingsHelper.AppServerSettings);
+		}
+
+		/// <summary>
+		/// Записывает настройки Сервера приложений в файл "AppServerSettings"
+		/// </summary>
+		/// <param name="appServerSettings">Настройки Сервера приложений</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<bool> SetAppServerSettings(AppServerSettings appServerSettings)
+		{
+			var currentAppServerSettings = AppServerSettingsHelper.AppServerSettings;
+			currentAppServerSettings.ServiceAddress = appServerSettings.ServiceAddress;
+			currentAppServerSettings.ServicePort = appServerSettings.ServicePort;
+			currentAppServerSettings.ReportServicePort = appServerSettings.ReportServicePort;
+			currentAppServerSettings.EnableRemoteConnections = appServerSettings.EnableRemoteConnections;
+			currentAppServerSettings.CreateNewDBOnOversize = appServerSettings.CreateNewDBOnOversize;
+			currentAppServerSettings.EnableOfflineLog = appServerSettings.EnableOfflineLog;
+
+			currentAppServerSettings.DBServerAddress = appServerSettings.DBServerAddress;
+			currentAppServerSettings.DBServerPort = appServerSettings.DBServerPort;
+			currentAppServerSettings.DBServerName = appServerSettings.DBServerName;
+			currentAppServerSettings.DBUseIntegratedSecurity = appServerSettings.DBUseIntegratedSecurity;
+			currentAppServerSettings.DBUserID = appServerSettings.DBUserID;
+			currentAppServerSettings.DBUserPwd = appServerSettings.DBUserPwd;
+			AppServerSettingsHelper.Save();
+			return new OperationResult<bool>(true);
+		}
+
+		#endregion </AppServerSettings>
 	}
 }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ServiceModel;
+using System.Windows.Documents;
 using System.Windows.Threading;
 using Common;
 using FiresecAPI;
@@ -204,6 +206,8 @@ namespace FiresecClient
 			FiresecServiceFactory.Dispose();
 		}
 
+		#region <AppServerSettings>
+
 		/// <summary>
 		/// Проверяет доступность СУБД MS SQL Server
 		/// </summary>
@@ -219,6 +223,36 @@ namespace FiresecClient
 		{
 			return SafeOperationCall(() => { return FiresecService.CheckSqlServerConnection(ipAddress, ipPort, instanceName, useIntegratedSecurity, userID, userPwd); }, "CheckSqlServerConnection");
 		}
+
+		/// <summary>
+		/// Возвращает список доступных на Сервере приложений IP-адресов
+		/// </summary>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<List<string>> GetHostAvailableIpAdresses()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetHostAvailableIpAdresses(); }, "GetServerAvailableIpAdresses");
+		}
+
+		/// <summary>
+		/// Возвращает настройки Серевра приложений из файла "AppServerSettings.xml"
+		/// </summary>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<AppServerSettings> GetAppServerSettings()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetAppServerSettings(); }, "GetAppServerSettings");
+		}
+
+		/// <summary>
+		/// Записывает настройки Сервера приложений в файл "AppServerSettings"
+		/// </summary>
+		/// <param name="appServerSettings">Настройки Сервера приложений</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<bool> SetAppServerSettings(AppServerSettings appServerSettings)
+		{
+			return SafeOperationCall(() => { return FiresecService.SetAppServerSettings(appServerSettings); }, "SetAppServerSettings");
+		}
+
+		#endregion </AppServerSettings>
 
 	}
 }
