@@ -78,9 +78,9 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew)
+		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials)
 		{
-			return SafeOperationCall(() => { return FiresecService.Connect(uid, clientCredentials, isNew); }, "Connect");
+			return SafeOperationCall(() => { return FiresecService.Connect(uid, clientCredentials); }, "Connect");
 		}
 
 		public void Disconnect(Guid uid)

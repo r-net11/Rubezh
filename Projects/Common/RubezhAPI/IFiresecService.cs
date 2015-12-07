@@ -17,10 +17,9 @@ namespace RubezhAPI
 		/// </summary>
 		/// <param name="uid">Уникальный идентификатор клиента</param>
 		/// <param name="clientCredentials">Данные подключаемого клиента</param>
-		/// <param name="isNew">Признак того, что это новое подключение, а не переподключение</param>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew);
+		OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials);
 
 		/// <summary>
 		/// Отсоединение от сервиса

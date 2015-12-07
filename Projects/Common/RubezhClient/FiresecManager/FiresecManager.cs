@@ -28,7 +28,7 @@ namespace RubezhClient
 				for (int i = 0; i < 3; i++)
 				{
 					FiresecService = new SafeFiresecService(serverAddress);
-					var operationResult = FiresecService.Connect(FiresecServiceFactory.UID, ClientCredentials, true);
+					var operationResult = FiresecService.Connect(FiresecServiceFactory.UID, ClientCredentials);
 					if (!operationResult.HasError)
 					{
 						error = null;

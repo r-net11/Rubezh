@@ -134,7 +134,7 @@ namespace RubezhClient
 			isConnected = true;
 		}
 
-		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew)
+		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials)
 		{
 			_clientCredentials = clientCredentials;
 			return SafeOperationCall(() =>
@@ -143,7 +143,7 @@ namespace RubezhClient
 				{
 					var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 					using (firesecService as IDisposable)
-						return firesecService.Connect(uid, clientCredentials, isNew);
+						return firesecService.Connect(uid, clientCredentials);
 				}
 				//catch (EndpointNotFoundException) { }
 				//catch (System.IO.PipeException) { }

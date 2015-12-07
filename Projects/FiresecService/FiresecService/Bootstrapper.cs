@@ -1,23 +1,22 @@
-﻿using System;
+﻿using Common;
+using FiresecService.Processor;
+using FiresecService.Report;
+using FiresecService.Service;
+using FiresecService.ViewModels;
+using Infrastructure.Automation;
+using Infrastructure.Common;
+using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common.Services;
+using Infrastructure.Common.Windows;
+using RubezhAPI;
+using RubezhAPI.Automation;
+using RubezhDAL.DataClasses;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading;
-using Common;
-using FiresecService.Report;
-using FiresecService.Service;
-using FiresecService.ViewModels;
-using Infrastructure.Common;
-using Infrastructure.Common.BalloonTrayTip;
-using Infrastructure.Common.Windows;
-using RubezhAPI;
-using RubezhDAL.DataClasses;
-using FiresecService.Processor;
-using Infrastructure.Automation;
-using RubezhAPI.AutomationCallback;
-using RubezhAPI.Automation;
-using System.Collections.Generic;
-using Infrastructure.Common.Services;
 
 namespace FiresecService
 {
@@ -45,24 +44,23 @@ namespace FiresecService
 
 				FiresecService.Service.FiresecService.ServerState = ServerState.Starting;
 
-                UILogger.Log("Проверка лицензии");
-                if (!FiresecLicenseProcessor.TryLoadLicense())
-                    UILogger.Log("Ошибка лицензии", true);
+				UILogger.Log("Проверка лицензии");
+				if (!FiresecLicenseProcessor.TryLoadLicense())
+					UILogger.Log("Ошибка лицензии", true);
 
 				UILogger.Log("Проверка соединения с БД");
 				using (var dbService = new DbService())
 				{
 					if (dbService.CheckConnection().HasError)
-					UILogger.Log("Ошибка соединения с БД", true);
+						UILogger.Log("Ошибка соединения с БД", true);
 				}
-				
-				UILogger.Log("Открытие хоста");
-				FiresecServiceManager.Open();
-				ServerLoadHelper.SetStatus(FSServerState.Opened);
 
 				UILogger.Log("Загрузка конфигурации");
 				ConfigurationCashHelper.Update();
 
+				UILogger.Log("Открытие хоста");
+				FiresecServiceManager.Open();
+				ServerLoadHelper.SetStatus(FSServerState.Opened);
 
 				ProcedureExecutionContext.Initialize(
 					ContextType.Server,
@@ -108,11 +106,11 @@ namespace FiresecService
 					UILogger.Log("Ошибка при запуске сервиса отчетов", true);
 					MainViewModel.SetReportAddress("<Ошибка>");
 				}
-								
+
 				ScheduleRunner.Start();
 				ServerTaskRunner.Start();
 				AutomationProcessor.RunOnServerRun();
-                ClientsManager.StartRemoveInactiveClients(TimeSpan.FromMinutes(10));
+				ClientsManager.StartRemoveInactiveClients(TimeSpan.FromMinutes(10));
 				UILogger.Log("Готово");
 				FiresecService.Service.FiresecService.ServerState = ServerState.Ready;
 			}
@@ -129,7 +127,7 @@ namespace FiresecService
 			var result = FiresecServiceManager.SafeFiresecService.GetOrganisations(new RubezhAPI.SKD.OrganisationFilter());
 			return result.HasError ? new List<RubezhAPI.SKD.Organisation>() : result.Result;
 		}
-		
+
 		private static void OnWorkThread()
 		{
 			try

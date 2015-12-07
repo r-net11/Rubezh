@@ -37,7 +37,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew)
+		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials)
 		{
 			if (DbService.ConnectionOperationResult.HasError && clientCredentials.ClientType != ClientType.Administrator)
 				return OperationResult<bool>.FromError("Отсутствует подключение к БД");
