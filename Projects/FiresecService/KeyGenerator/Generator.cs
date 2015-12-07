@@ -55,11 +55,14 @@ namespace KeyGenerator
 
 		private static void Serialize(string productKey, string userKey, string path)
 		{
-			var fs = new FileStream(path, FileMode.Create);
-
-			var formatter = new BinaryFormatter();
+			FileStream fs = null;
 			try
 			{
+
+			fs = new FileStream(path, FileMode.Create);
+
+			var formatter = new BinaryFormatter();
+
 				using (var myRijndael = Rijndael.Create())
 				{
 					var key = new Rfc2898DeriveBytes(userKey, new byte[8]); //Encoding.ASCII.GetBytes("path"));
@@ -71,14 +74,15 @@ namespace KeyGenerator
 					formatter.Serialize(fs, EncryptStringToBytes(productKey, myRijndael.Key, myRijndael.IV));
 				}
 			}
-			catch (SerializationException e)
+			catch (Exception e)
 			{
 				Console.WriteLine("Failed to serialize. Reason: " + e.Message);
 				throw;
 			}
 			finally
 			{
-				fs.Close();
+				if (fs != null)
+					fs.Close();
 			}
 		}
 
