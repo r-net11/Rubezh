@@ -137,8 +137,8 @@
 						<StackPanel Grid.Column="1">
 							<StackPanel IsEnabled="{Binding IsControlRegime}">
 								<Button Content="Открыть" Command="{Binding TurnOnCommand}" Width="200" Height="50" Margin="2" />
-								<Button Content="Открыть немедленно" Command="{Binding TurnOnNowCommand}" Width="200" Height="50" Margin="2" />
-								<Button Content="Закрыть немедленно" Command="{Binding TurnOffCommand}" Width="200" Height="50" Margin="2" />
+								<Button Content="Закрыть" Command="{Binding TurnOffCommand}" Width="200" Height="50" Margin="2" />
+								<Button Content="Закрыть немедленно" Command="{Binding TurnOffNowCommand}" Width="200" Height="50" Margin="2" />
 							</StackPanel>
 							<Button Content="Сброс" Command="{Binding ResetCommand}" Width="200" Height="50" Margin="2" />
 						</StackPanel>
