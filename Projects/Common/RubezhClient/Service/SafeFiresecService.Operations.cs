@@ -12,7 +12,7 @@ namespace RubezhClient
 		{
 			SafeOperationCall(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.Disconnect(uid);
 			}, "Disconnect");
@@ -22,7 +22,7 @@ namespace RubezhClient
 		{
 			return SafeOperationCall(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					return firesecService.GetServerState();
 			}, "GetServerState");
@@ -42,7 +42,7 @@ namespace RubezhClient
 		{
 			return SafeOperationCall(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					return firesecService.GetSecurityConfiguration();
 			}, "GetSecurityConfiguration");
@@ -59,7 +59,7 @@ namespace RubezhClient
 		{
 			return SafeOperationCall(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					return firesecService.GetFileNamesList(directory);
 			}, "GetFileNamesList");
@@ -69,7 +69,7 @@ namespace RubezhClient
 		{
 			return SafeOperationCall(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					return firesecService.GetDirectoryHash(directory);
 			}, "GetDirectoryHash");
@@ -79,7 +79,7 @@ namespace RubezhClient
 		{
 			return SafeOperationCall(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					return firesecService.GetServerAppDataFile(dirAndFileName);
 			}, "GetServerAppDataFile");
@@ -89,7 +89,7 @@ namespace RubezhClient
 		{
 			return SafeOperationCall(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					return firesecService.GetConfig();
 			}, "GetConfig");
@@ -99,7 +99,7 @@ namespace RubezhClient
 		{
 			SafeOperationCall(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.SetRemoteConfig(stream);
 			}, "SetRemoteConfig");
@@ -109,7 +109,7 @@ namespace RubezhClient
 		{
 			SafeOperationCall(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.SetLocalConfig();
 			}, "SetLocalConfig");
@@ -119,7 +119,7 @@ namespace RubezhClient
 		{
 			return SafeOperationCall(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					return firesecService.Test(arg);
 			}, "Test");
@@ -129,7 +129,7 @@ namespace RubezhClient
 		{
 			return SafeOperationCall(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					return firesecService.Ping();
 			}, "Ping");
@@ -139,7 +139,7 @@ namespace RubezhClient
 		{
 			return SafeOperationCall(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					return firesecService.ResetDB();
 			}, "ResetDB");

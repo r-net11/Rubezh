@@ -14,7 +14,7 @@ namespace RubezhClient
 		{
 			return SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					return firesecService.RunProcedure(FiresecServiceFactory.UID, procedureUID, args);
 			});
@@ -23,7 +23,7 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.ProcedureCallbackResponse(procedureThreadUID, value);
 			});
@@ -32,7 +32,7 @@ namespace RubezhClient
 		{
 			return SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					return firesecService.GetProperties(layoutUID);
 			});
@@ -42,7 +42,7 @@ namespace RubezhClient
 		{
 			return SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					return firesecService.GetVariable(variableUid);
 			});
@@ -52,7 +52,7 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.SetVariableValue(variableUid, value);
 			});
@@ -62,7 +62,7 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.AddJournalItemA(message);
 			});
@@ -72,7 +72,7 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.ControlGKDevice(deviceUid, command);
 			});
@@ -82,7 +82,7 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.StartRecord(cameraUid, journalItemUid, eventUid, timeout);
 			});
@@ -92,7 +92,7 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.StopRecord(cameraUid, eventUid);
 			});
@@ -102,7 +102,7 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.Ptz(cameraUid, ptzNumber);
 			});
@@ -112,7 +112,7 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.RviAlarm(name);
 			});
@@ -122,7 +122,7 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.ControlFireZone(uid, commandType);
 			});
@@ -132,7 +132,7 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.ControlGuardZone(uid, commandType);
 			});
@@ -142,7 +142,7 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.ControlDirection(uid, commandType);
 			});
@@ -152,7 +152,7 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.ControlGKDoor(uid, commandType);
 			});
@@ -162,7 +162,7 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.ControlDelay(uid, commandType);
 			});
@@ -172,7 +172,7 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.ControlPumpStation(uid, commandType);
 			});
@@ -182,7 +182,7 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.ControlMPT(uid, commandType);
 			});
@@ -192,7 +192,7 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.ExportJournalA(isExportJournal, isExportPassJournal, minDate, maxDate, path);
 			});
@@ -202,7 +202,7 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.ExportOrganisationA(isWithDeleted, organisationUid, path);
 			});
@@ -212,7 +212,7 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.ExportOrganisationListA(isWithDeleted, path);
 			});
@@ -222,7 +222,7 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.ExportConfigurationA(isExportDevices, isExportDoors, isExportZones, path);
 			});
@@ -232,7 +232,7 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.ImportOrganisationA(isWithDeleted, path);
 			});
@@ -242,7 +242,7 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 					firesecService.ImportOrganisationListA(isWithDeleted, path);
 			});

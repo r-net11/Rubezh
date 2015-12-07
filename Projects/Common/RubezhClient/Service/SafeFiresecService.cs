@@ -141,7 +141,7 @@ namespace RubezhClient
 			{
 				try
 				{
-					var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+					var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 					using (firesecService as IDisposable)
 						return firesecService.Connect(uid, clientCredentials, isNew);
 				}
@@ -162,7 +162,7 @@ namespace RubezhClient
 			{
 				try
 				{
-					var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(30));
+					var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 					using (firesecService as IDisposable)
 						return firesecService.GetLicenseInfo();
 				}
