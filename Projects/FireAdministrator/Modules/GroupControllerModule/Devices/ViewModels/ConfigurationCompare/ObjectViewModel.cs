@@ -228,7 +228,11 @@ namespace GKModule.ViewModels
 			}
 			if (object1.ObjectType == ObjectType.Delay)
 			{
-				return string.Compare(object1.Delay.Name, object2.Delay.Name);
+				if (object1.Delay.No > object2.Delay.No)
+					return 1;
+				if (object1.Delay.No < object2.Delay.No)
+					return -1;
+				return 0;
 			}
 
 			if (object1.ObjectType == ObjectType.GuardZone)
