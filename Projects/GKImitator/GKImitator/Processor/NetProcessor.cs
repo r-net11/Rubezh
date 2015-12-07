@@ -6,9 +6,9 @@ using System.Net.Sockets;
 using RubezhAPI.GK;
 using GKImitator.ViewModels;
 using GKProcessor;
-using RubezhClient;
 using RubezhDAL.DataClasses;
 using System.Diagnostics;
+using RubezhAPI;
 
 namespace GKImitator.Processor
 {
