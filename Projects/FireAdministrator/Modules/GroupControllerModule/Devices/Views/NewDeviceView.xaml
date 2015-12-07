@@ -41,19 +41,9 @@
 			</ListView.View>
 		</ListView>
 		<Grid Grid.Row="1">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="*" />
-			</Grid.ColumnDefinitions>
-			<StackPanel Grid.Column="1"  Visibility="{Binding SelectedDriver.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
-				<TextBlock Text="Начальный адрес" Style="{DynamicResource TextBlockDetailsStyle}" />
-                <extToolkit:IntegerUpDown Minimum="{Binding SelectedDriver.MinAddress}" Maximum="{Binding SelectedDriver.MaxAddress}" Value="{Binding StartAddress}" SelectAllOnGotFocus="True" Width="150" HorizontalAlignment="Left" />
-			</StackPanel>
-			<StackPanel Grid.Column="3" Visibility="{Binding SelectedDriver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+			<StackPanel Visibility="{Binding SelectedDriver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" Margin="0 5">
 				<TextBlock Text="Количество" Style="{DynamicResource TextBlockDetailsStyle}" />
-                <extToolkit:IntegerUpDown Minimum="{Binding SelectedDriver.MinAddress}" Maximum="{Binding SelectedDriver.MaxAddress}" Value="{Binding Count}" SelectAllOnGotFocus="True" Width="150" HorizontalAlignment="Left" />
+				<extToolkit:IntegerUpDown Minimum="{Binding MinAddress}" Maximum="{Binding MaxAddress}" Value="{Binding Count}" SelectAllOnGotFocus="True" Width="150" HorizontalAlignment="Left" />
 			</StackPanel>
 		</Grid>
 	</Grid>

@@ -103,8 +103,7 @@
     <Compile Include="Devices\ViewModels\Logic\ClauseGroupViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\StateTypeViewModel.cs" />
     <Compile Include="Devices\ViewModels\MirrorViewModel.cs" />
-    <Compile Include="Devices\ViewModels\RSR2NewDeviceViewModel.cs" />
-    <Compile Include="Devices\ViewModels\NewDeviceViewModelBase.cs" />
+    <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\SettingsViewModel.cs" />
     <Compile Include="Devices\ViewModels\UpdatedDeviceViewModel.cs" />
     <Compile Include="Devices\Views\MirrorUserDetailsView.xaml.cs">
@@ -131,8 +130,8 @@
     <Compile Include="Devices\Views\MirrorView.xaml.cs">
       <DependentUpon>MirrorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\RSR2NewDeviceView.xaml.cs">
-      <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\NewDeviceView.xaml.cs">
+      <DependentUpon>NewDeviceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -477,7 +476,6 @@
     <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceHelper.cs" />
-    <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="Selectation\Views\DeviceSelectationView.xaml.cs">
       <DependentUpon>DeviceSelectationView.xaml</DependentUpon>
     </Compile>
@@ -562,9 +560,6 @@
     </Compile>
     <Compile Include="Devices\Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Devices\Views\NewDeviceView.xaml.cs">
-      <DependentUpon>NewDeviceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Zones\Views\ZoneDetailsView.xaml.cs">
       <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
@@ -704,7 +699,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\RSR2NewDeviceView.xaml">
+    <Page Include="Devices\Views\NewDeviceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -893,10 +888,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Selectation\Views\ZonesSelectationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Devices\Views\NewDeviceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
