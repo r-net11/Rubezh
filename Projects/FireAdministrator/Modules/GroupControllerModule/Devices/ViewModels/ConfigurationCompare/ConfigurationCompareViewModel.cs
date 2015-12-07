@@ -484,7 +484,7 @@ namespace GKModule.ViewModels
 				return viewModel1.MPT.Name == viewModel2.MPT.Name;
 
 			if (viewModel1.ObjectType == ObjectType.Delay)
-				return viewModel1.Delay.Name==viewModel2.Delay.Name;
+				return viewModel1.Delay.No == viewModel2.Delay.No && viewModel1.Delay.Name == viewModel2.Delay.Name;
 
 			if (viewModel1.ObjectType == ObjectType.GuardZone)
 				return viewModel1.GuardZone.No == viewModel2.GuardZone.No;
