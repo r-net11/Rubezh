@@ -19,7 +19,7 @@ namespace GKModule.ViewModels
 
 			if (addAutoCreate)
 			{
-				if (device.Driver.IsGroupDevice)
+				if (device.Driver.IsGroupDevice && device.DriverType != GKDriverType.RSR2_OPSZ)
 				{
 					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
 
