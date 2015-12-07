@@ -1,9 +1,9 @@
-﻿function DepartmentDetailsViewModel() {
+﻿function DepartmentDetailsViewModel(departmentSelectionViewModel) {
     var self = {};
 
+    self.DepartmentSelectionViewModel = departmentSelectionViewModel;
     self.Title = ko.observable();
     self.IsNew = ko.observable(false);
-    self.Name = ko.observable();
 
     self.departmentDetailsPages = {
         General: ko.observable(true),
@@ -21,18 +21,18 @@
     });
 
     self.Init = function (organisationUID, uid, parentUID, okClick) {
-        $.getJSON("/Departments/GetDepartmentDetails/" + uid, function (dep) {
-            ko.mapping.fromJS(dep, {}, self);
-            self.OkClick = okClick;
-            if (uid) {
-                self.Title("Свойства подразделения: " + self.Name());
-            } else {
-                self.Title("Создание подразделения");
-                self.IsNew = true;
-                self.ParentDepartmentUID(parentUID);
-                self.OrganisationUID(organisationUID);
-            }
-            ShowBox('#department-details-box');
+        $.getJSON("/Departments/GetDepartmentDetails/",
+            { organisationId: organisationUID, id: uid, parentDepartmentId: parentUID },
+            function (dep) {
+                ko.mapping.fromJS(dep, {}, self);
+                self.OkClick = okClick;
+                if (uid) {
+                    self.Title("Свойства подразделения: " + self.Department.Name());
+                } else {
+                    self.Title("Создание подразделения");
+                    self.IsNew = true;
+                }
+                ShowBox('#department-details-box');
         });
     };
 
@@ -51,7 +51,15 @@
     };
 
     self.SelectDepartment = function () {
-
+        self.DepartmentSelectionViewModel.Init(self.Department.OrganisationUID(), self.Department.UID(), function (uid, name) {
+            if (uid) {
+                self.IsDepartmentSelected(true);
+                self.SelectedDepartment().UID(uid);
+                self.SelectedDepartment().Name(name);
+            } else {
+                self.IsDepartmentSelected(false);
+            }
+        });
     };
 
     self.DepartmentDetailsClose = function () {
@@ -64,7 +72,7 @@
             url: "Departments/DepartmentDetails",
             type: "post",
             contentType: "application/json",
-            data: "{'department':" + data + ",'isNew': '" + self.IsNew() + "'}",
+            data: "{'departmentModel':" + data + ",'isNew': '" + self.IsNew() + "'}",
             success: function (error) {
                 if (error) {
                     alert(error);

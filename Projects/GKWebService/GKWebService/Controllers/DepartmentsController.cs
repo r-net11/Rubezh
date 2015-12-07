@@ -42,36 +42,56 @@ namespace GKWebService.Controllers
             return View();
         }
 
-        public JsonNetResult GetDepartmentDetails(Guid? id)
+        public JsonNetResult GetDepartmentDetails(Guid? organisationId, Guid? id, Guid? parentDepartmentId)
         {
-            Department department;
+            var departmentModel = new DepartmentDetailsViewModel()
+            {
+                Department = new Department()
+            };
+
+            if (!organisationId.HasValue)
+            {
+                return new JsonNetResult { Data = departmentModel };
+            }
+
             if (id.HasValue)
             {
-                var operationResult = ClientManager.FiresecService.GetDepartmentDetails(id.Value);
-                department = operationResult.Result;
+                var departmentDetailsResult = ClientManager.FiresecService.GetDepartmentDetails(id.Value);
+                departmentModel.Department = departmentDetailsResult.Result;
             }
             else
             {
-                department = new Department
+                departmentModel.Department = new Department
                 {
-                    Name = "Новое подразделение"
+                    Name = "Новое подразделение",
+                    ParentDepartmentUID = parentDepartmentId ?? Guid.Empty,
+                    OrganisationUID = organisationId.Value
                 };
             }
-            department.Photo = null;
-            return new JsonNetResult { Data = department };
+
+            var filter = new DepartmentFilter();
+            filter.UIDs.Add(departmentModel.Department.ParentDepartmentUID);
+            var departmentListResult = ClientManager.FiresecService.GetDepartmentList(filter);
+            departmentModel.IsDepartmentSelected = departmentListResult.Result.Any();
+            departmentModel.SelectedDepartment = departmentListResult.Result.FirstOrDefault() ?? new ShortDepartment();
+
+            departmentModel.Department.Photo = null;
+            return new JsonNetResult { Data = departmentModel };
         }
 
         [HttpPost]
-        public JsonNetResult DepartmentDetails(Department department, bool isNew)
+        public JsonNetResult DepartmentDetails(DepartmentDetailsViewModel departmentModel, bool isNew)
         {
-            string error = DetailsValidateHelper.Validate(department);
+            string error = DetailsValidateHelper.Validate(departmentModel.Department);
 
             if (!string.IsNullOrEmpty(error))
             {
                 return new JsonNetResult {Data = error};
             }
 
-            var operationResult = ClientManager.FiresecService.SaveDepartment(department, isNew);
+            departmentModel.Department.ParentDepartmentUID = departmentModel.IsDepartmentSelected ? departmentModel.SelectedDepartment.UID : Guid.Empty;
+
+            var operationResult = ClientManager.FiresecService.SaveDepartment(departmentModel.Department, isNew);
 
             return new JsonNetResult {Data = operationResult.Error};
         }
