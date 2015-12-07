@@ -11,6 +11,7 @@ using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhClient.SKDHelpers;
 using GKWebService.Models;
+using GKWebService.Models.SKD.Employees;
 using GKWebService.Utils;
 
 namespace GKWebService.Controllers
@@ -248,6 +249,69 @@ namespace GKWebService.Controllers
         {
             var operationResult = ClientManager.FiresecService.DeleteCardFromEmployee(new SKDCard { UID = id }, employeeName, reason);
             return new JsonNetResult { Data = !operationResult.HasError };
+        }
+
+        public ActionResult DepartmentSelection()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult GetDepartments(Guid organisationUID, Guid? departmentUID)
+        {
+            var operationResult = ClientManager.FiresecService.GetDepartmentList(new DepartmentFilter
+            {
+                OrganisationUIDs = new List<Guid> { organisationUID },
+                ExceptUIDs = (departmentUID.HasValue && departmentUID.Value != Guid.Empty ? new List<Guid> { departmentUID.Value } : new List<Guid> ())
+            });
+
+            if (operationResult.HasError)
+            {
+                throw new InvalidOperationException(operationResult.Error);
+            }
+
+            var departments = new List<DepartmentSelectionItemViewModel>();
+            foreach (var rootItem in operationResult.Result.Where(d => d.ParentDepartmentUID == null || d.ParentDepartmentUID == Guid.Empty))
+            {
+                var itemViewModel = new DepartmentSelectionItemViewModel(rootItem);
+                itemViewModel.Level = 0;
+                itemViewModel.ParentUID = Guid.Empty;
+                itemViewModel.IsLeaf = true;
+                departments.Add(itemViewModel);
+                int index = departments.IndexOf(itemViewModel);
+                AddChildren(departments, itemViewModel, operationResult.Result, ref index);
+                itemViewModel.IsExpanded = !itemViewModel.IsLeaf;   // если был добавлен дочерний элемент, то разворачиваем
+            }
+
+            dynamic result = new
+            {
+                page = 1,
+                total = 100,
+                records = 100,
+                rows = departments,
+            };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        private void AddChildren(List<DepartmentSelectionItemViewModel> result, DepartmentSelectionItemViewModel parentViewModel, IEnumerable<ShortDepartment> models, ref int index)
+        {
+            if (parentViewModel.Model.ChildDepartments != null && parentViewModel.Model.ChildDepartments.Count > 0)
+            {
+                var children = models.Where(x => x.ParentDepartmentUID == parentViewModel.Model.UID).ToList();
+                foreach (var child in children)
+                {
+                    var itemViewModel = new DepartmentSelectionItemViewModel(child);
+                    itemViewModel.Level = parentViewModel.Level + 1;
+                    itemViewModel.ParentUID = parentViewModel.UID;
+                    itemViewModel.IsLeaf = true;
+                    parentViewModel.IsLeaf = false;
+                    result.Insert(index + 1, itemViewModel);
+                    index++;
+                    AddChildren(result, itemViewModel, models, ref index);
+                    itemViewModel.IsExpanded = !itemViewModel.IsLeaf;   // если был добавлен дочерний элемент, то разворачиваем
+                }
+            }
         }
 
         private ShortEmployeeCardModel CreateCard(SKDCard card)
