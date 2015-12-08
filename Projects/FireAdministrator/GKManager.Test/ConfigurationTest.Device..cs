@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhClient;
 using System;
@@ -218,12 +219,28 @@ namespace GKManager2.Test
 			Assert.IsTrue(device.Door == door);
 			Assert.IsTrue(door.OpenRegimeLogic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains( device.UID)));
 			Assert.IsTrue(door.CloseRegimeLogic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains(device.UID)));
-			
+
 			GKManager.RemoveDevice(device);
 			Assert.IsFalse(mpt.MptLogic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains(device.UID)));
+			Assert.IsFalse(mpt.InputDependentElements.Any(x => x.UID ==  device.UID));
 			Assert.IsFalse(pump.StartLogic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains(device.UID)));
+			Assert.IsFalse(pump.InputDependentElements.Any(x => x.UID == device.UID));
 			Assert.IsFalse(mpt.MPTDevices.Any(x => x.DeviceUID == device.UID));
 			Assert.IsFalse(pump.NSDevices.Contains(device));
+			Assert.IsFalse(door.InputDependentElements.Any(x => x.UID == device.UID));
+		}
+		[TestMethod]
+		public void RemoveGroupDeviceTest()
+		{
+			var device = AddDevice(kauDevice11, GKDriverType.RSR2_OPSZ);
+			GKManager.UpdateConfiguration();
+			var zone = new GKZone();
+			GKManager.AddZone(zone);
+			GKManager.AddDeviceToZone(device.Children[1], zone);
+			Assert.IsTrue(device.Children[1].Zones.Contains(zone));
+			Assert.IsTrue(zone.Devices.Contains(device.Children[1]));
+			GKManager.RemoveDevice(device);
+			Assert.IsFalse(zone.Devices.Any());
 		}
 	}
 }

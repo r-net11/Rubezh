@@ -113,7 +113,7 @@
 			this.lPeriod.LocationFloat = new DevExpress.Utils.PointFloat(0F, 220.4341F);
 			this.lPeriod.Name = "lPeriod";
 			this.lPeriod.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
-			this.lPeriod.SizeF = new System.Drawing.SizeF(1700F, 58.42001F);
+			this.lPeriod.SizeF = new System.Drawing.SizeF(1700F, 58.42F);
 			this.lPeriod.StylePriority.UseForeColor = false;
 			this.lPeriod.StylePriority.UseTextAlignment = false;
 			this.lPeriod.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;

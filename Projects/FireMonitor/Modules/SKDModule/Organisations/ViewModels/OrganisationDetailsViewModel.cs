@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhClient.SKDHelpers;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {
@@ -34,6 +34,7 @@ namespace SKDModule.ViewModels
 			{
 				Title = string.Format("Свойства организации: {0}", organisation.Name);
 				OrganisationDetails = OrganisationHelper.GetDetails(organisation.UID);
+
 			}
 			CopyProperties();
 			ChiefViewModel = new EmployeeSelectationViewModel(OrganisationDetails.ChiefUID, new EmployeeFilter { OrganisationUIDs = new List<Guid> { OrganisationDetails.UID } });
@@ -45,7 +46,8 @@ namespace SKDModule.ViewModels
 			Name = OrganisationDetails.Name;
 			Description = OrganisationDetails.Description;
 			Phone = OrganisationDetails.Phone;
-			if(OrganisationDetails.Photo != null)
+			MaxGKLevel = Organisation.MaxGKLevel;
+			if (OrganisationDetails.Photo != null)
 				PhotoData = OrganisationDetails.Photo.Data;
 		}
 
@@ -63,7 +65,19 @@ namespace SKDModule.ViewModels
 					UID = OrganisationDetails.UID,
 					DoorUIDs = OrganisationDetails.DoorUIDs,
 					UserUIDs = OrganisationDetails.UserUIDs,
+					MaxGKLevel = OrganisationDetails.MaxGKLevel,
 				};
+			}
+		}
+
+		int _maxGKLevel;
+		public int MaxGKLevel
+		{
+			get { return _maxGKLevel; }
+			set
+			{
+				_maxGKLevel = value;
+				OnPropertyChanged(() => MaxGKLevel);
 			}
 		}
 
@@ -101,6 +115,7 @@ namespace SKDModule.ViewModels
 		}
 
 		string _phone;
+
 		public string Phone
 		{
 			get { return _phone; }
@@ -137,6 +152,7 @@ namespace SKDModule.ViewModels
 			OrganisationDetails.ChiefUID = ChiefViewModel.SelectedEmployeeUID;
 			OrganisationDetails.HRChiefUID = HRChiefViewModel.SelectedEmployeeUID;
 			OrganisationDetails.Phone = Phone;
+			OrganisationDetails.MaxGKLevel = MaxGKLevel;
 			if (Validate())
 			{
 				if (IsNew)
@@ -162,6 +178,11 @@ namespace SKDModule.ViewModels
 			if (OrganisationDetails.Phone != null && OrganisationDetails.Phone.Length > 50)
 			{
 				MessageBoxService.Show("Значение поля 'Телефон' не может быть длиннее 50 символов");
+				return false;
+			}
+			if (OrganisationDetails.MaxGKLevel > 255 || OrganisationDetails.MaxGKLevel < 0)
+			{
+				MessageBoxService.Show("Значение поля 'Максимальный уровень доступа' должно быть в диапазоне от 0 до 255");
 				return false;
 			}
 			return true;

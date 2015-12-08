@@ -71,6 +71,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AllViewModelsTest.cs" />
+    <Compile Include="Mocks\MockDialogService.cs" />
+    <Compile Include="Mocks\MockMessageBoxService.cs" />
+    <Compile Include="Mocks\MockResourceService.cs" />
+    <Compile Include="Mocks\MockRibbonService.cs" />
     <Compile Include="ZonesTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

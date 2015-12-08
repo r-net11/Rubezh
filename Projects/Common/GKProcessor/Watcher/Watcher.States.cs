@@ -3,7 +3,7 @@ using System.Linq;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
-using RubezhClient;
+using RubezhAPI;
 
 namespace GKProcessor
 {
@@ -100,6 +100,10 @@ namespace GKProcessor
 			foreach (var guardZone in GKManager.GuardZones)
 			{
 				CheckDelay(guardZone);
+			}
+			foreach (var door in GKManager.Doors)
+			{
+				CheckDelay(door);
 			}
 		}
 

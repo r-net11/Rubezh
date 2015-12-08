@@ -5,6 +5,7 @@ using Infrastructure.Common.Validation;
 using System.Linq;
 using System;
 using GKModule.Events;
+using RubezhAPI;
 
 namespace GKModule.Validation
 {

@@ -26,6 +26,7 @@ using RubezhAPI.Models;
 using RubezhClient;
 using Point = System.Windows.Point;
 using Size = System.Drawing.Size;
+using RubezhAPI;
 
 #endregion
 

@@ -3,6 +3,7 @@ using System.Linq;
 using RubezhAPI.GK;
 using RubezhClient;
 using Infrastructure.Common.Validation;
+using RubezhAPI;
 
 namespace GKModule.Validation
 {

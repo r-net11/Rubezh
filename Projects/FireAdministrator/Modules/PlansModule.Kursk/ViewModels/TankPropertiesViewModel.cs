@@ -6,6 +6,7 @@ using RubezhAPI.Models;
 using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Kursk.Designer;
+using RubezhAPI;
 
 namespace PlansModule.Kursk.ViewModels
 {

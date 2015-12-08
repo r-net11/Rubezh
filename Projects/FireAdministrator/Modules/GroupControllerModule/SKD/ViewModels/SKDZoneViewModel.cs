@@ -10,6 +10,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.GK;
 using RubezhClient;
 using System.Collections.ObjectModel;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {

@@ -8,6 +8,7 @@ using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {

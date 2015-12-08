@@ -1,6 +1,6 @@
 ﻿using Common;
 using RubezhAPI.OPC;
-using RubezhClient;
+using RubezhAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
