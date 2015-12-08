@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using RubezhAPI.GK;
-using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -53,7 +52,7 @@ namespace GKModule.ViewModels
 			CompareObjectLists();
 			InitializeMismatchedIndexes();
 		}
-		
+
 		List<int> mismatchedIndexes;
 		void InitializeMismatchedIndexes()
 		{
@@ -136,7 +135,7 @@ namespace GKModule.ViewModels
 			var unionObjects = CreateUnionObjectList(LocalObjectsViewModel.Objects, RemoteObjectsViewModel.Objects);
 			var unionObjects1 = CreateOneComparedObjectList(LocalObjectsViewModel.Objects, RemoteObjectsViewModel.Objects, unionObjects, true);
 			var unionObjects2 = CreateOneComparedObjectList(RemoteObjectsViewModel.Objects, LocalObjectsViewModel.Objects, unionObjects, false);
-            LocalObjectsViewModel.Objects = unionObjects1;
+			LocalObjectsViewModel.Objects = unionObjects1;
 			RemoteObjectsViewModel.Objects = unionObjects2;
 		}
 		List<ObjectViewModel> CreateUnionObjectList(List<ObjectViewModel> objects1, List<ObjectViewModel> objects2)
@@ -257,18 +256,21 @@ namespace GKModule.ViewModels
 			bool delayDiff = object1.Direction.Delay != object2.Direction.Delay;
 			bool holdDiff = object1.Direction.Hold != object2.Direction.Hold;
 			bool regimeDiff = object1.Direction.DelayRegime != object2.Direction.DelayRegime;
-			if (delayDiff || holdDiff || regimeDiff)
+			bool logicDiff = GKManager.GetPresentationLogic(object1.Direction.Logic) != GKManager.GetPresentationLogic(object2.Direction.Logic);
+			if (delayDiff || holdDiff || regimeDiff || logicDiff)
 			{
 				if (directionsDifferences.Length != 0)
 					directionsDifferences.Append(". ");
 				directionsDifferences.Append("Не совпадают следующие параметры: ");
 				var parameters = new List<string>();
-				if(delayDiff)
+				if (delayDiff)
 					parameters.Add("Задержка");
 				if (holdDiff)
 					parameters.Add("Удержание");
 				if (regimeDiff)
 					parameters.Add("Режим работы");
+				if (logicDiff)
+					parameters.Add("Логика");
 				directionsDifferences.Append(String.Join(", ", parameters));
 			}
 			return directionsDifferences.ToString() == "" ? null : directionsDifferences.ToString();
@@ -294,11 +296,11 @@ namespace GKModule.ViewModels
 					pumpStationsDifferences.Append(". ");
 				pumpStationsDifferences.Append("Не совпадают следующие условия: ");
 				var logics = new List<string>();
-				if(startDiff)
+				if (startDiff)
 					logics.Add("Запуска");
-				if(stopDiff)
+				if (stopDiff)
 					logics.Add("Запрета пуска");
-				if(automaticDiff)
+				if (automaticDiff)
 					logics.Add("Отключения");
 				pumpStationsDifferences.Append(String.Join(", ", logics));
 			}
@@ -367,7 +369,8 @@ namespace GKModule.ViewModels
 			bool delayDiff = object1.Delay.DelayTime != object2.Delay.DelayTime;
 			bool holdDiff = object1.Delay.Hold != object2.Delay.Hold;
 			bool regimeDiff = object1.Delay.DelayRegime != object2.Delay.DelayRegime;
-			if (delayDiff || holdDiff || regimeDiff)
+			bool logicDiff = GKManager.GetPresentationLogic(object1.Delay.Logic) != GKManager.GetPresentationLogic(object2.Delay.Logic);
+			if (delayDiff || holdDiff || regimeDiff || logicDiff)
 			{
 				if (delaysDifferences.Length != 0)
 					delaysDifferences.Append(". ");
@@ -379,6 +382,8 @@ namespace GKModule.ViewModels
 					parameters.Add("Удержание");
 				if (regimeDiff)
 					parameters.Add("Режим работы");
+				if (logicDiff)
+					parameters.Add("Логика");
 				delaysDifferences.Append(String.Join(", ", parameters));
 			}
 			return delaysDifferences.ToString() == "" ? null : delaysDifferences.ToString();
@@ -464,7 +469,7 @@ namespace GKModule.ViewModels
 				var deviceIntAddress1 = viewModel1.Device.IntAddress;
 				var deviceIntAddress2 = viewModel2.Device.IntAddress;
 				if (deviceIntAddress1 != deviceIntAddress2)
-                    return false;
+					return false;
 
 				if (viewModel1.Device.Driver.DriverType != viewModel2.Device.Driver.DriverType)
 					return false;
@@ -479,12 +484,12 @@ namespace GKModule.ViewModels
 
 			if (viewModel1.ObjectType == ObjectType.PumpStation)
 				return false;
-			
+
 			if (viewModel1.ObjectType == ObjectType.MPT)
 				return viewModel1.MPT.Name == viewModel2.MPT.Name;
 
 			if (viewModel1.ObjectType == ObjectType.Delay)
-				return viewModel1.Delay.No == viewModel2.Delay.No && viewModel1.Delay.Name == viewModel2.Delay.Name;
+				return viewModel1.Delay.No == viewModel2.Delay.No;
 
 			if (viewModel1.ObjectType == ObjectType.GuardZone)
 				return viewModel1.GuardZone.No == viewModel2.GuardZone.No;
