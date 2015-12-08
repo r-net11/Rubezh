@@ -14,14 +14,12 @@ namespace RubezhClient
 {
 	public partial class ClientManager
 	{
-		public static void LoadFromZipFile(string fileName, string path = null, XDocument xmlDoc = null )
+		public static void LoadFromZipFile(string fileName)
 		{
 			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
 			var fileInfo = new FileInfo(fileName);
 			var unzipFolderPath = fileInfo.Directory.FullName;
 			zipFile.ExtractAll(unzipFolderPath);
-			if (xmlDoc != null && path!= null)
-				xmlDoc.Save(path);
 			zipFile.Dispose();
 			LoadConfigFromDirectory(unzipFolderPath);
 		}
