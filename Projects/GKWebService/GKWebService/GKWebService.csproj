@@ -237,6 +237,9 @@
     <Resource Include="Content\Image\Icon\Hr\Organisation.png" />
     <Resource Include="Content\Image\Icon\Hr\Door.png" />
     <Resource Include="Content\Image\Icon\Hr\zone.png" />
+    <Resource Include="Content\Image\Icon\Hr\Chief.png" />
+    <Content Include="Content\Image\Icon\Hr\ChiefW.png" />
+    <Content Include="Content\Image\Icon\Hr\Department.png" />
     <Content Include="Content\Image\Icon\Menu\archive.png" />
     <Content Include="Content\Image\Icon\Menu\Bug.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Add.png" />
@@ -436,6 +439,7 @@
     <Content Include="Scripts\report.js" />
     <Content Include="Scripts\SKD\Common\EmployeeSelectionDialogViewModel.js" />
     <Content Include="Scripts\SKD\Departments\DepartmentDetailsViewModel.js" />
+    <Content Include="Scripts\SKD\Departments\DepartmentEmployeeListViewModel.js" />
     <Content Include="Scripts\SKD\Departments\DepartmentsViewModel.js" />
     <Content Include="Scripts\SKD\Employees\DepartmentSelectionViewModel.js" />
     <Content Include="Scripts\SKD\Employees\CardRemovalReasonViewModel.js" />
@@ -527,6 +531,7 @@
     <Content Include="Views\Departments\DepartmentDetails.cshtml" />
     <Content Include="Views\Employees\DepartmentSelection.cshtml" />
     <Content Include="Views\Hr\EmployeeSelectionDialog.cshtml" />
+    <Content Include="Views\Departments\DepartmentEmployeeList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

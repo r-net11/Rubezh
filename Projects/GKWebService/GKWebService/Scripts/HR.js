@@ -21,7 +21,7 @@
         if (newValue) {
             self.Init();
             self.InitializeEmployeeFilter(self.Filter);
-            self.Departments.Init({});
+            self.Departments.Init(self.Filter);
         }
     });
 
