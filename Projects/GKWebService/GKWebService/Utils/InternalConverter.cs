@@ -14,12 +14,15 @@ using System.Windows.Media.Imaging;
 using RubezhAPI.GK;
 using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
+using System.Reflection;
+using System.Resources;
+using System.Drawing.Imaging;
 
 #endregion
 
 namespace GKWebService.Utils
 {
-	internal static class InernalConverter
+	internal static class InternalConverter
 	{
 		/// <summary>
 		///     Преобразует XAML Drawing/DrawingGroup в png base64 string
@@ -151,7 +154,49 @@ namespace GKWebService.Utils
 	        var attributes = memInfo[0].GetCustomAttributes(typeof (DescriptionAttribute), false);
 	        return ((DescriptionAttribute)attributes[0]).Description;
 	    }
-	}
+
+        /// <summary>
+        ///     Получение иконок для хинтов из ресурсов проекта Controls
+        /// </summary>
+        /// <param name="resName">Путь к ресурсу формата GKIcons/RSR2_Bush_Fire.png</param>
+        /// <returns></returns>
+        public static Tuple<string, System.Drawing.Size> GetImageResource(string resName)
+        {
+            resName = resName.Replace("/Controls;component/", "");
+            var assembly = Assembly.GetAssembly(typeof(Controls.AlarmButton));
+            var name =
+                assembly.GetManifestResourceNames().FirstOrDefault(n => n.EndsWith(".resources", StringComparison.Ordinal));
+            var resourceStream = assembly.GetManifestResourceStream(name);
+            if (resourceStream == null)
+            {
+                return new Tuple<string, System.Drawing.Size>("", new System.Drawing.Size());
+            }
+            byte[] values;
+            using (var reader = new ResourceReader(resourceStream))
+            {
+                string type;
+                reader.GetResourceData(resName.ToLowerInvariant(), out type, out values);
+            }
+
+            // Получили массив байтов ресурса, теперь преобразуем его в png bitmap, а потом снова в массив битов
+            // уже корректного формата, после чего преобразуем его в base64string для удобства обратного преобразования
+            // на клиенте
+
+            const int offset = 4;
+            var size = BitConverter.ToInt32(values, 0);
+            var value1 = new Bitmap(new MemoryStream(values, offset, size));
+            byte[] byteArray;
+            using (var stream = new MemoryStream())
+            {
+                value1.Save(stream, ImageFormat.Png);
+                stream.Close();
+
+                byteArray = stream.ToArray();
+            }
+
+            return new Tuple<string, System.Drawing.Size>(Convert.ToBase64String(byteArray), value1.Size);
+        }
+    }
 
 	public enum PathKind {
 		Line,

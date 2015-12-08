@@ -13,6 +13,7 @@ namespace GKProcessor
 				UID = new Guid("7e03462f-d397-449c-a7b7-48abed3579d1"),
 				Name = "Оповещатель cвето-звуковой",
 				ShortName = "ОПСЗ-RSR2",
+				GroupDeviceChildrenCount = 2,
 				IsGroupDevice = true,
 			};
 			driver.AutoCreateChildren.Add(GKDriverType.RSR2_OPKS);

@@ -66,7 +66,7 @@ namespace GKModuleTest
 		}
 
 		/// <summary>
-		/// В список зоно можн добавить зону и она добавится в конфигурацию
+		/// В список зон можно добавить зону и она добавится в конфигурацию
 		/// </summary>
 		[Test]
 		public void Add()
@@ -244,7 +244,7 @@ namespace GKModuleTest
 
 			Expect.Call(delegate { dialogService.ShowModalWindow(null); }).IgnoreArguments().Do(new ShowModalWindowDelegate(x =>
 			{
-				var newDeviceViewModel = x as RSR2NewDeviceViewModel;
+				var newDeviceViewModel = x as NewDeviceViewModel;
 				newDeviceViewModel.SelectedDriver = GKManager.Drivers.FirstOrDefault(y => y.DriverType == GKDriverType.RSR2_AM_1);
 				newDeviceViewModel.SaveCommand.Execute();
 				return x.CloseResult.Value;

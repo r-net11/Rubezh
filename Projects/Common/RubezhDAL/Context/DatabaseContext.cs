@@ -1,18 +1,66 @@
-﻿using System;
+﻿using Infrastructure.Common;
+using RubezhDAL.DataClasses;
+using RubezhDAL.DataContext;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Text;
 
-namespace RubezhDAL.DataClasses
+namespace RubezhDAL
 {
 	public class DatabaseContext : DbContext
 	{
+		public static bool IsPostgres { get { return GlobalSettingsHelper.GlobalSettings.DbType == RubezhAPI.DbType.Postgres; } }
 		public DatabaseContext(DbConnection connection)
 			: base(connection, true)
 		{
 			Database.SetInitializer<DatabaseContext>(new MigrateDatabaseToLatestVersion<DatabaseContext, Configuration>(true));
+		}
+
+		public void Seed()
+		{
+			if (Organisations.Count() == 0)
+			{
+				var organisation = new Organisation
+				{
+					UID = Guid.NewGuid(),
+					Name = "Организация",
+					Users = new List<OrganisationUser>
+					{  
+						new OrganisationUser 
+						{ 
+							UID = Guid.NewGuid(), 
+							UserUID = new Guid("10e591fb-e017-442d-b176-f05756d984bb") 
+						}
+					}
+				};
+				Organisations.Add(organisation);
+			}
+			if (GKDaySchedules.Count() == 0)
+			{
+				var neverDaySchedule = new GKDaySchedule
+				{
+					UID = Guid.NewGuid(),
+					Name = "<Никогда>",
+					No = 1
+				};
+				GKDaySchedules.Add(neverDaySchedule);
+
+				var alwaysDaySchedule = new GKDaySchedule
+				{
+					UID = Guid.NewGuid(),
+					Name = "<Всегда>",
+					No = 2
+				};
+				alwaysDaySchedule.GKDayScheduleParts.Add(new GKDaySchedulePart()
+					{
+						StartMilliseconds = 0,
+						EndMilliseconds = (int)new TimeSpan(1, 0, 0, 0, 0).TotalMilliseconds
+					});
+				GKDaySchedules.Add(alwaysDaySchedule);
+			}
 		}
 
 		public DbSet<GKSchedule> GKSchedules { get; set; }
@@ -58,43 +106,5 @@ namespace RubezhDAL.DataClasses
 		public DbSet<ImitatorSchedule> ImitatorSchedules { get; set; }
 		public DbSet<ImitatorSheduleInterval> ImitatorSheduleIntervals { get; set; }
 		public DbSet<ImitatorJournalItem> ImitatorJournalItems { get; set; }
-	}
-
-	internal sealed class Configuration : DbMigrationsConfiguration<DatabaseContext>
-	{
-		public Configuration()
-		{
-			AutomaticMigrationsEnabled = true;
-			AutomaticMigrationDataLossAllowed = true;
-			ContextKey = "SKDDriver.DataClasses.Configuration";
-		}
-
-		protected override void Seed(DatabaseContext context)
-		{
-
-			if (context.Organisations.Count() == 0)
-			{
-				var organisation = new Organisation
-				{
-					UID = Guid.NewGuid(),
-					Name = "Организация",
-					Users = new List<OrganisationUser>
-					{
-						new OrganisationUser { UID = Guid.NewGuid(), UserUID = new Guid("10e591fb-e017-442d-b176-f05756d984bb") }
-					}
-				};
-				context.Organisations.Add(organisation);
-			}
-			if (context.GKDaySchedules.Count() == 0)
-			{
-				var neverDaySchedule = new GKDaySchedule { UID = Guid.NewGuid(), Name = "<Никогда>", No = 1 };
-				context.GKDaySchedules.Add(neverDaySchedule);
-
-				var alwaysDaySchedule = new GKDaySchedule { UID = Guid.NewGuid(), Name = "<Всегда>", No = 2 };
-				alwaysDaySchedule.GKDayScheduleParts.Add(new GKDaySchedulePart() { StartMilliseconds = 0, EndMilliseconds = (int)new TimeSpan(1, 0, 0, 0, 0).TotalMilliseconds });
-				context.GKDaySchedules.Add(alwaysDaySchedule);
-			}
-			base.Seed(context);
-		}
 	}
 }

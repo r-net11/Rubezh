@@ -1,5 +1,6 @@
 ﻿using GKWebService.DataProviders.FireZones;
 using GKWebService.Models;
+using GKWebService.Models.FireZone;
 using RubezhAPI.GK;
 using RubezhClient;
 using System;
@@ -53,23 +54,29 @@ namespace GKWebService.Controllers
 
         public JsonResult GetFireZonesData()
         {
-            var obj = FireZonesDataProvider.Instance.GetFireZones().Devices;
+            //Получили данные с сервера
+            var zone = FireZonesDataProvider.Instance.GetFireZones();
 
-            foreach (var item in obj)
+            //Создали объект для передачи на клиент и заполняем его данными
+            FireZone data = new FireZone();
+            data.Fire1Count = zone.Fire1Count;
+            data.Fire2Count = zone.Fire2Count;
+
+            foreach (var deviceItem in zone.Devices)
             {
-                MemoryStream stream1 = new MemoryStream();
-                DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(GKDevice));
-                ser.WriteObject(stream1, item);
-                stream1.Position = 0;
-                StreamReader sr = new StreamReader(stream1);
-                var res = sr.ReadToEnd();
+                var device = deviceItem;
+
+                do
+                {
+                    data.devicesList.Add(new Device(device.Address, device.ImageSource, device.ShortName));
+                    device = device.Parent;
+                } while (device != null);
             }
-            
 
+            data.devicesList.Reverse();
 
-            var result = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
-
-            return Json(result, JsonRequestBehavior.AllowGet);
+            //Передаем данные на клиент
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -77,7 +84,7 @@ namespace GKWebService.Controllers
         {
             string error = null;
 
-            if(!login.Equals("admin") || !password.Equals("admin"))
+            if (!login.Equals("admin") || !password.Equals("admin"))
             {
                 error = "Неверный логин или пароль";
             }

@@ -33,7 +33,6 @@ namespace GKModuleTest
 
 		public void ShowWarning(string message, string title = null)
 		{
-			throw new NotImplementedException();
 		}
 
 		public void ShowException(Exception e, string title = null)
