@@ -97,26 +97,11 @@ namespace AutomationModule
 
 		public static ObservableCollection<T> GetEnumObs<T>()
 		{
-			// Убираем "мертвые" поля для EnumType
-			if (typeof(T) == typeof(EnumType))
-				return new ObservableCollection<T>(GetEnumList<T>());
-
 			return new ObservableCollection<T>(Enum.GetValues(typeof(T)).Cast<T>().ToList());
 		}
 
 		public static List<T> GetEnumList<T>()
 		{
-			// Убираем "мертвые" поля для EnumType
-			if (typeof(T) == typeof(EnumType))
-			{
-				var enumTypes = Enum.GetValues(typeof(EnumType)).Cast<EnumType>().Where(e =>
-					e != EnumType.StateType
-					&& e != EnumType.DriverType
-					&& e != EnumType.JournalEventDescriptionType
-					&& e != EnumType.JournalObjectType);
-				return new List<T>(enumTypes.Cast<T>().ToList());
-			}
-			
 			return new List<T>(Enum.GetValues(typeof(T)).Cast<T>());
 		}
 

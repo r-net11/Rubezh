@@ -107,13 +107,8 @@ namespace FiresecService
 								var zoneUID = readerdevice.Zone.UID;
 								using (var passJournalTranslator = new PassJournalTranslator())
 								{
-									passJournalTranslator.AddPassJournal(employeeUID, zoneUID, readerdevice);
+									passJournalTranslator.AddPassJournal(employeeUID, zoneUID);
 								}
-							}
-							else
-							{
-								Logger.Error(string.Format("readerdevice or zone is null in {0}, employeeUID is {1}, ObjectUID is {2}, readerdevice.Name is {3}",
-									DateTime.Now, employeeUID, journalItem.ObjectUID, readerdevice != null ? readerdevice.Name : "NULL"));
 							}
 						}
 					}

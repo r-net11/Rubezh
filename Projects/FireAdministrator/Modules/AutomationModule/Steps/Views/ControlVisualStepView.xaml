@@ -42,8 +42,18 @@
 		</StackPanel>
 
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Значение" />
+			<Label Content="Аргумент" />
 			<Views:ArgumentView DataContext="{Binding ValueArgument}" />
+		</StackPanel>
+
+		<StackPanel Orientation="Horizontal">
+			<Label Content="Всем клиентам" />
+			<CheckBox IsChecked="{Binding ForAllClients}" />
+		</StackPanel>
+
+		<StackPanel Orientation="Horizontal" Visibility="{Binding Path=ControlElementType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ControlElementType.Set}}" >
+			<Label Content="Восстанавливать" Width="108" Margin="2, 2, -6, 2" />
+			<CheckBox IsChecked="{Binding StoreOnServer}" IsEnabled="{Binding CanStoreOnServer}" />
 		</StackPanel>
 	</StackPanel>
 </UserControl>

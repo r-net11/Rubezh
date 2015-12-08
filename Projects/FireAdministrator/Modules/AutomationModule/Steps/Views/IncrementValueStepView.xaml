@@ -11,7 +11,7 @@
 			<Views:ArgumentView DataContext="{Binding ResultArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Операция" />
+			<Label Content="Значение" />
 			<ComboBox ItemsSource="{Binding IncrementTypes}" SelectedItem="{Binding SelectedIncrementType, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>

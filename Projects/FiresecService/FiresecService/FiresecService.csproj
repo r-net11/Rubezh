@@ -178,11 +178,7 @@
     <Compile Include="Service\FiresecServiceManager.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\RegistrationViewModel.cs" />
     <Compile Include="ViewModels\ServerMessageBoxViewModel.cs" />
-    <Compile Include="Views\RegistrationWindow.xaml.cs">
-      <DependentUpon>RegistrationWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\UILogger.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -196,10 +192,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\MainView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\RegistrationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -273,10 +265,6 @@
     <ProjectReference Include="..\FiresecService.Report\FiresecService.Report.csproj">
       <Project>{5D7E0293-7CA6-4123-85B6-5EB38CC4CE8C}</Project>
       <Name>FiresecService.Report</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\KeyGenerator\KeyGenerator.csproj">
-      <Project>{daab7f4f-33de-4a7d-b604-43233f8713e0}</Project>
-      <Name>KeyGenerator</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

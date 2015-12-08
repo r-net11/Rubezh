@@ -18,6 +18,7 @@
         <Condition Level="1">INSTALL_STRAZH</Condition>
         <ComponentRef Id="Administrator.STRAZH_MODULE" />
         <ComponentRef Id="Monitor.STRAZH_MODULE" />
+        <ComponentRef Id="Server.STRAZH_MODULE" />
       </Feature>
       <Feature Id="Video.Features" Title="Видео" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Видео">
         <Condition Level="1">INSTALL_VIDEO</Condition>

@@ -1,16 +1,11 @@
-﻿using System.Threading;
-using System.Windows.Threading;
-using Common;
+﻿using Common;
 using FiresecService;
-using FiresecService.ViewModels;
-using FiresecService.Views;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Theme;
 using System;
 using System.Diagnostics;
 using System.Windows;
-using KeyGenerator;
 
 namespace FiresecServiceRunner
 {
@@ -23,54 +18,22 @@ namespace FiresecServiceRunner
 		{
 			base.OnStartup(e);
 			ThemeHelper.LoadThemeFromRegister();
-			string prodKey = null;
-			try
+			ServerLoadHelper.SetLocation(System.Reflection.Assembly.GetExecutingAssembly().Location);
+			ServerLoadHelper.SetStatus(FSServerState.Opening);
+
+			using (new DoubleLaunchLocker(SignalId, WaitId, true))
 			{
-				prodKey = Generator.Load(Generator.GetProcessorID(), AppDataFolderHelper.GetFile("LicData.dat"));
-			}
-			catch (Exception ex)
-			{
-				Logger.Error(ex, "Исключение при вызове Generator.Load");
-			}
-			if (!Generator.VerifyProductKey(prodKey))
-			{
-				// Create a thread
-				var newWindowThread = new Thread(() =>
+				AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+				AppDomain.CurrentDomain.AssemblyLoad += new AssemblyLoadEventHandler(CurrentDomain_AssemblyLoad);
+				try
 				{
-					// Create our context, and install it:
-					SynchronizationContext.SetSynchronizationContext(
-						new DispatcherSynchronizationContext(
-							Dispatcher.CurrentDispatcher));
-					// Create and show the Window
-					var tempWindow = new RegistrationWindow {DataContext = new RegistrationViewModel()};
-					tempWindow.Closed += (s, er) => Dispatcher.CurrentDispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
-					tempWindow.Show();
-					// Start the Dispatcher Processing
-					System.Windows.Threading.Dispatcher.Run();
-				});
-				// Set the apartment state
-				newWindowThread.SetApartmentState(ApartmentState.STA);
-				// Make the thread a background thread
-				newWindowThread.IsBackground = true;
-				// Start the thread
-				newWindowThread.Start();
-			}
-			else
-			{
-				using (new DoubleLaunchLocker(SignalId, WaitId, true))
+					Bootstrapper.Run();
+				}
+				catch (Exception ex)
 				{
-					AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-					AppDomain.CurrentDomain.AssemblyLoad += new AssemblyLoadEventHandler(CurrentDomain_AssemblyLoad);
-					try
-					{
-						Bootstrapper.Run();
-					}
-					catch (Exception ex)
-					{
-						Logger.Error(ex, "App.OnStartup");
-						BalloonHelper.ShowFromServer("Ошибка во время загрузки");
-						return;
-					}
+					Logger.Error(ex, "App.OnStartup");
+					BalloonHelper.ShowFromServer("Ошибка во время загрузки");
+					return;
 				}
 			}
 		}

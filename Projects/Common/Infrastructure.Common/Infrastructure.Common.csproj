@@ -214,6 +214,7 @@
     <Compile Include="RegistrySettingsHelper.cs" />
     <Compile Include="LoadHelper\RevisorLoadHelper.cs" />
     <Compile Include="FSCP\ZipSerializeHelper.cs" />
+    <Compile Include="LoadHelper\ServerLoadHelper.cs" />
     <Compile Include="RelayCommand\DisabledRelayCommand.cs" />
     <Compile Include="RelayCommand\RelayCommandProvider.cs" />
     <Compile Include="Reports\IReportPdfProvider.cs" />

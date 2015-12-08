@@ -1,5 +1,4 @@
-﻿using System.Data.SqlClient;
-using ChinaSKDDriver;
+﻿using ChinaSKDDriver;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Journal;
@@ -189,33 +188,6 @@ namespace FiresecService.Service
 		public void CancelSKDProgress(Guid progressCallbackUID, string userName)
 		{
 			Processor.CancelProgress(progressCallbackUID, userName);
-		}
-
-		/// <summary>
-		/// Проверяет доступность СУБД MS SQL Server
-		/// </summary>
-		/// <param name="ipAddress">IP-адрес сервера СУБД</param>
-		/// <param name="ipPort">IP-порт сервера СУБД</param>
-		/// <param name="instanceName">Название именованной установки сервера СУБД</param>
-		/// <param name="useIntegratedSecurity">Метод аутентификации</param>
-		/// <param name="userID">Логин (только для SQL Server аутентификации)</param>
-		/// <param name="userPwd">Пароль (только для SQL Server аутентификации)</param>
-		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
-		public OperationResult<bool> CheckSqlServerConnection(string ipAddress, int ipPort, string instanceName, bool useIntegratedSecurity, string userID, string userPwd)
-		{
-			var connectionString = SKDDatabaseService.BuildConnectionString(ipAddress, ipPort, instanceName, "master", useIntegratedSecurity, userID, userPwd);
-			using (var connection = new SqlConnection(connectionString))
-			{
-				try
-				{
-					connection.Open();
-				}
-				catch (Exception e)
-				{
-					return OperationResult<bool>.FromError(e.Message);
-				}
-			}
-			return new OperationResult<bool>(true);
 		}
 	}
 }

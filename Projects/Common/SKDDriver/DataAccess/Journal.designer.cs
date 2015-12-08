@@ -35,8 +35,8 @@ namespace SKDDriver.DataAccess
     partial void DeleteJournal(Journal instance);
     #endregion
 		
-		public JournalDataContext() :
-		base(global::SKDDriver.Properties.Settings.Default.Journal_1ConnectionString, mappingSource)
+		public JournalDataContext() : 
+				base(global::SKDDriver.Properties.Settings.Default.Journal_1ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}

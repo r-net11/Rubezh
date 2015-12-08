@@ -198,24 +198,5 @@ namespace FiresecService.Service
 		}
 
 		#endregion Automation
-
-		/// <summary>
-		/// Проверяет доступность СУБД MS SQL Server
-		/// </summary>
-		/// <param name="ipAddress">IP-адрес сервера СУБД</param>
-		/// <param name="ipPort">IP-порт сервера СУБД</param>
-		/// <param name="instanceName">Название именованной установки сервера СУБД</param>
-		/// <param name="useIntegratedSecurity">Метод аутентификации</param>
-		/// <param name="userID">Логин (только для SQL Server аутентификации)</param>
-		/// <param name="userPwd">Пароль (только для SQL Server аутентификации)</param>
-		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
-		public OperationResult<bool> CheckSqlServerConnection(string ipAddress, int ipPort, string instanceName,
-			bool useIntegratedSecurity, string userID, string userPwd)
-		{
-			return SafeOperationCall(() =>
-			{
-				return FiresecService.CheckSqlServerConnection(ipAddress, ipPort, instanceName, useIntegratedSecurity, userID, userPwd);
-			}, "CheckSqlServerConnection");
-		}
 	}
 }

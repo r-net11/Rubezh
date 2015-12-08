@@ -1,7 +1,4 @@
-﻿using System.Data.SqlClient;
-using System.Text;
-using Infrastructure.Common;
-using SKDDriver.DataAccess;
+﻿using Infrastructure.Common;
 using SKDDriver.Translators;
 using System;
 
@@ -9,58 +6,21 @@ namespace SKDDriver
 {
 	public class SKDDatabaseService : IDisposable
 	{
-		public SKDDataContext Context { get; private set; }
+		public DataAccess.SKDDataContext Context { get; private set; }
 
-		/// <summary>
-		/// Возвращает строку соединения для MS SQL Server
-		/// </summary>
-		/// <param name="ipAddress">IP-адрес сервера СУБД</param>
-		/// <param name="ipPort">IP-порт сервера СУБД</param>
-		/// <param name="instanceName">Название инстанса сервера СУБД</param>
-		/// <param name="db">Имя базы данных</param>
-		/// <param name="useIntegratedSecurity">Режим аутентификации на сервере СУБД</param>
-		/// <param name="userID">Логин (для режима аутентификации посредством SQL Server)</param>
-		/// <param name="userPwd">Пароль (для режима аутентификации посредством SQL Server)</param>
-		/// <returns>Строка соединения для MS SQL Server</returns>
-		public static string BuildConnectionString(string ipAddress, int ipPort, string instanceName, string db, bool useIntegratedSecurity = true, string userID = null, string userPwd = null)
+		public static string ConnectionString
 		{
-			var csb = new SqlConnectionStringBuilder();
-			csb.DataSource = String.Format(@"{0}\{1},{2}", ipAddress, instanceName, ipPort);
-			csb.InitialCatalog = db;
-			csb.IntegratedSecurity = useIntegratedSecurity;
-			if (!csb.IntegratedSecurity)
+			get
 			{
-				csb.UserID = userID;
-				csb.Password = userPwd;
+				var serverName = AppServerSettingsHelper.AppServerSettings.DBServerName;
+				var connectionString = @"Data Source=.\" + serverName + ";Initial Catalog=SKD;Integrated Security=True;Language='English'";
+				return connectionString;
 			}
-			return csb.ConnectionString;
 		}
-
-		/// <summary>
-		/// Возвращает строку соединения к указанной базе с учетом настроенных в файле конфигурации прочих параметров соединения
-		/// </summary>
-		/// <param name="db">Название базы данных</param>
-		/// <returns>Строка соединения с базой данных СУБД</returns>
-		public static string GetConnectionString(string db)
-		{
-			return BuildConnectionString(
-				AppServerSettingsHelper.AppServerSettings.DBServerAddress,
-				AppServerSettingsHelper.AppServerSettings.DBServerPort,
-				AppServerSettingsHelper.AppServerSettings.DBServerName,
-				db,
-				AppServerSettingsHelper.AppServerSettings.DBUseIntegratedSecurity,
-				AppServerSettingsHelper.AppServerSettings.DBUserID,
-				AppServerSettingsHelper.AppServerSettings.DBUserPwd);
-		}
-
-		public static string MasterConnectionString { get { return GetConnectionString("master"); } }
-		public static string SkdConnectionString { get { return GetConnectionString("SKD"); } }
-		public static string JournalConnectionString { get { return GetConnectionString("Journal_1"); } }
-		public static string PassJournalConnectionString { get { return GetConnectionString("PassJournal_1"); } }
 
 		public SKDDatabaseService()
 		{
-			Context = new SKDDataContext(SkdConnectionString);
+			Context = new DataAccess.SKDDataContext(ConnectionString);
 
 			CardDoorTranslator = new CardDoorTranslator(this);
 			CardTranslator = new CardTranslator(this);

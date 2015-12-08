@@ -29,7 +29,7 @@ namespace SKDDriver.Translators
 			Context.Dispose();
 		}
 
-		public OperationResult AddPassJournal(Guid employeeUID, Guid zoneUID, SKDDevice readerDevice) //TODO: remove readerDevice parameter
+		public OperationResult AddPassJournal(Guid employeeUID, Guid zoneUID)
 		{
 			InvalidatePassJournal();
 
@@ -44,10 +44,6 @@ namespace SKDDriver.Translators
 					exitPassJournal.IsNeedAdjustment = exitPassJournal.ZoneUID == zoneUID;
 					exitPassJournal.IsNeedAdjustmentOriginal = exitPassJournal.IsNeedAdjustment;
 					exitPassJournal.IsOpen = default(bool);
-				}
-				else
-				{
-					Logger.Error(string.Format("exitPassJournal is null in {0}, zoneUID is {1}, employee UID is {2}, readerDeviceName is {3}", DateTime.Now, zoneUID, employeeUID, readerDevice.Name));
 				}
 				if (zoneUID != Guid.Empty)
 				{
@@ -70,7 +66,6 @@ namespace SKDDriver.Translators
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e.Message + string.Format("\nError in AddPassJournal() in {0}, zoneUID is {1}, employee UID is {2}", DateTime.Now, zoneUID, employeeUID));
 				return new OperationResult(e.Message);
 			}
 		}

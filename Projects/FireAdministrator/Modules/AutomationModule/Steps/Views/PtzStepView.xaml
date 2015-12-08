@@ -7,11 +7,11 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Камера" Width="140"/>
+			<Label Content="Камера" />
 			<Views:ArgumentView DataContext="{Binding CameraArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Номер предустановки" Width="140"/>
+			<Label Content="Номер PTZ" />
 			<Views:ArgumentView DataContext="{Binding PtzNumberArgument}" />
 		</StackPanel>
 	</StackPanel>
