@@ -1,14 +1,12 @@
-﻿using System;
+﻿using Common;
+using RubezhAPI;
+using RubezhAPI.License;
+using RubezhAPI.Models;
+using System;
 using System.Linq;
 using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
-using Common;
-using RubezhAPI;
-using RubezhAPI.Models;
-using Infrastructure.Common;
-using RubezhLicense;
-using RubezhAPI.License;
 
 namespace FiresecService.Service
 {
@@ -24,19 +22,19 @@ namespace FiresecService.Service
 			{
 				return OperationResult<bool>.FromError("У пользователя " + clientCredentials.UserName + " нет прав на подкючение к удаленному серверу c хоста: " + clientCredentials.ClientIpAddressAndPort);
 			}
-            if (!CheckClientsCount(clientCredentials))
-            {
-                return OperationResult<bool>.FromError("Сервер отказал в доступе в связи с отсутствием лицензии или достижением максимального количества клиентов");
-            }
+			if (!CheckClientsCount(clientCredentials))
+			{
+				return OperationResult<bool>.FromError("Сервер отказал в доступе в связи с отсутствием лицензии или достижением максимального количества клиентов");
+			}
 			return new OperationResult<bool>(true);
 		}
 
-        bool CheckClientsCount(ClientCredentials clientCredentials)
-        {
+		bool CheckClientsCount(ClientCredentials clientCredentials)
+		{
 			return clientCredentials.ClientType == ClientType.Administrator || !clientCredentials.IsRemote
-				|| ClientsManager.ClientInfos.Count(x => x.ClientCredentials.ClientType != ClientType.Administrator && x.ClientCredentials.IsRemote) 
+				|| ClientsManager.ClientInfos.Count(x => x.ClientCredentials.ClientType != ClientType.Administrator && x.ClientCredentials.IsRemote)
 				< LicenseManager.CurrentLicenseInfo.RemoteClientsCount;
-        }
+		}
 
 		bool CheckRemoteAccessPermissions(ClientCredentials clientCredentials)
 		{

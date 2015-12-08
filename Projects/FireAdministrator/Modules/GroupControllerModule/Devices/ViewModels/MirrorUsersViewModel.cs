@@ -1,14 +1,13 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RubezhClient;
-using RubezhAPI.GK;
+﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure;
+using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.GK;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace GKModule.ViewModels
 {
@@ -66,7 +65,7 @@ namespace GKModule.ViewModels
 				var mirrorUser = accessDetailsUserReflrctionViewModel.MirrorUser;
 				Users.Add(new MirrorUserNewModel(mirrorUser));
 				SelectedUser = Users.LastOrDefault();
-				
+
 			}
 		}
 
@@ -80,7 +79,7 @@ namespace GKModule.ViewModels
 				index = Math.Min(index, Users.Count - 1);
 				if (index > -1)
 					SelectedUser = Users[index];
-				
+
 			}
 		}
 
@@ -96,7 +95,7 @@ namespace GKModule.ViewModels
 					var mirrorUser = accessDetailsUserReflrctionViewModel.MirrorUser;
 					SelectedUser.Update(mirrorUser);
 				}
-				
+
 			}
 		}
 		public RelayCommand ReadCommand { get; private set; }
@@ -121,13 +120,13 @@ namespace GKModule.ViewModels
 		void Write()
 		{
 			var operationResult = ClientManager.FiresecService.GKWriteMirrorUsers(Device, Device.GKMirrorItem.MirrorUsers);
-			if(operationResult.HasError)
+			if (operationResult.HasError)
 				MessageBoxService.ShowWarning(operationResult.Error);
 		}
-		
+
 		protected override bool Save()
 		{
-			Device.GKMirrorItem.MirrorUsers = new List<MirrorUser>(Users.Select(x=>x.MirrorUser));
+			Device.GKMirrorItem.MirrorUsers = new List<MirrorUser>(Users.Select(x => x.MirrorUser));
 			ServiceFactory.SaveService.GKChanged = true;
 			return base.Save();
 		}

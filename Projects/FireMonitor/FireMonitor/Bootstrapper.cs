@@ -145,13 +145,13 @@ namespace FireMonitor
 			return result;
 		}
 
-		static List<RubezhAPI.SKD.Organisation> GetOrganisations()
+		static List<RubezhAPI.SKD.Organisation> GetOrganisations(Guid clientUID)
 		{
 			var result = ClientManager.FiresecService.GetOrganisations(new RubezhAPI.SKD.OrganisationFilter());
 			return result.HasError ? new List<RubezhAPI.SKD.Organisation>() : result.Result;
 		}
 
-		private void OnSynchronizeVariable(Variable variable, ContextType targetContextType)
+		private void OnSynchronizeVariable(Variable variable, ContextType targetContextType, Guid clientUID)
 		{
 			if (targetContextType == ContextType.Client)
 			{

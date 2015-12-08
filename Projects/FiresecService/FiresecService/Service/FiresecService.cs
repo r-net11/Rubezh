@@ -12,7 +12,7 @@ namespace FiresecService.Service
 {
 	[ServiceBehavior(MaxItemsInObjectGraph = Int32.MaxValue, UseSynchronizationContext = false,
 	InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
-	public partial class FiresecService : IFiresecService
+	public partial class FiresecService //: IFiresecService
 	{
 		ClientCredentials CurrentClientCredentials;
 		public static ServerState ServerState { get; set; }
@@ -69,12 +69,12 @@ namespace FiresecService.Service
 			ClientsManager.Remove(uid);
 		}
 
-		public OperationResult<ServerState> GetServerState()
+		public OperationResult<ServerState> GetServerState(Guid clientUID)
 		{
 			return new OperationResult<ServerState>(ServerState);
 		}
 
-		public string Test(string arg)
+		public string Test(string arg, Guid clientUID)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -83,12 +83,12 @@ namespace FiresecService.Service
 			return "Test";
 		}
 
-		public SecurityConfiguration GetSecurityConfiguration()
+		public SecurityConfiguration GetSecurityConfiguration(Guid clientUID)
 		{
 			return ConfigurationCashHelper.GetSecurityConfiguration();
 		}
 
-		public string Ping()
+		public string Ping(Guid clientUID)
 		{
 			try
 			{
@@ -105,7 +105,7 @@ namespace FiresecService.Service
 			return null;
 		}
 
-		public OperationResult ResetDB()
+		public OperationResult ResetDB(Guid clientUID)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -113,7 +113,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
+		public OperationResult<FiresecLicenseInfo> GetLicenseInfo(Guid clientUID)
 		{
 			return new OperationResult<FiresecLicenseInfo>(LicenseManager.CurrentLicenseInfo);
 		}

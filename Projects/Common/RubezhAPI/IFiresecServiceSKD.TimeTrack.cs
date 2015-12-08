@@ -1,100 +1,100 @@
-﻿using System;
+﻿using RubezhAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.ServiceModel;
-using RubezhAPI.SKD;
 
 namespace RubezhAPI
 {
 	public partial interface IFiresecServiceSKD
 	{
 		[OperationContract]
-		OperationResult<List<DayInterval>> GetDayIntervals(DayIntervalFilter filter);
+		OperationResult<List<DayInterval>> GetDayIntervals(DayIntervalFilter filter, Guid clientUID);
 		[OperationContract]
-		OperationResult<bool> SaveDayInterval(DayInterval item, bool isNew);
+		OperationResult<bool> SaveDayInterval(DayInterval item, bool isNew, Guid clientUID);
 		[OperationContract]
-		OperationResult MarkDeletedDayInterval(Guid uid, string name);
+		OperationResult MarkDeletedDayInterval(Guid uid, string name, Guid clientUID);
 		[OperationContract]
-		OperationResult RestoreDayInterval(Guid uid, string name);
+		OperationResult RestoreDayInterval(Guid uid, string name, Guid clientUID);
 
 		//[OperationContract]
-		//OperationResult<IEnumerable<DayIntervalPart>> GetDayIntervalParts(DayIntervalPartFilter filter);
+		//OperationResult<IEnumerable<DayIntervalPart>> GetDayIntervalParts(DayIntervalPartFilter filter, Guid clientUID);
 		//[OperationContract]
-		//OperationResult SaveDayIntervalPart(DayIntervalPart item, string name);
+		//OperationResult SaveDayIntervalPart(DayIntervalPart item, string name, Guid clientUID);
 		//[OperationContract]
-		//OperationResult RemoveDayIntervalPart(Guid uid, string name);
-		
-		[OperationContract]
-		OperationResult<List<Holiday>> GetHolidays(HolidayFilter filter);
-		[OperationContract]
-		OperationResult<bool> SaveHoliday(Holiday item, bool isNew);
-		[OperationContract]
-		OperationResult MarkDeletedHoliday(Guid uid, string name);
-		[OperationContract]
-		OperationResult RestoreHoliday(Guid uid, string name);
+		//OperationResult RemoveDayIntervalPart(Guid uid, string name, Guid clientUID);
 
 		[OperationContract]
-		OperationResult<List<ScheduleScheme>> GetScheduleSchemes(ScheduleSchemeFilter filter);
+		OperationResult<List<Holiday>> GetHolidays(HolidayFilter filter, Guid clientUID);
 		[OperationContract]
-		OperationResult<bool> SaveScheduleScheme(ScheduleScheme item, bool isNew);
+		OperationResult<bool> SaveHoliday(Holiday item, bool isNew, Guid clientUID);
 		[OperationContract]
-		OperationResult MarkDeletedScheduleScheme(Guid uid, string name);
+		OperationResult MarkDeletedHoliday(Guid uid, string name, Guid clientUID);
 		[OperationContract]
-		OperationResult RestoreScheduleScheme(Guid uid, string name);
+		OperationResult RestoreHoliday(Guid uid, string name, Guid clientUID);
+
+		[OperationContract]
+		OperationResult<List<ScheduleScheme>> GetScheduleSchemes(ScheduleSchemeFilter filter, Guid clientUID);
+		[OperationContract]
+		OperationResult<bool> SaveScheduleScheme(ScheduleScheme item, bool isNew, Guid clientUID);
+		[OperationContract]
+		OperationResult MarkDeletedScheduleScheme(Guid uid, string name, Guid clientUID);
+		[OperationContract]
+		OperationResult RestoreScheduleScheme(Guid uid, string name, Guid clientUID);
 
 		//[OperationContract]
-		//OperationResult<IEnumerable<ScheduleDayInterval>> GetSheduleDayIntervals(ScheduleDayIntervalFilter filter);
+		//OperationResult<IEnumerable<ScheduleDayInterval>> GetSheduleDayIntervals(ScheduleDayIntervalFilter filter, Guid clientUID);
 		//[OperationContract]
-		//OperationResult SaveSheduleDayInterval(ScheduleDayInterval item, string name);
+		//OperationResult SaveSheduleDayInterval(ScheduleDayInterval item, string name, Guid clientUID);
 		//[OperationContract]
-		//OperationResult RemoveSheduleDayInterval(Guid uid, string name);
+		//OperationResult RemoveSheduleDayInterval(Guid uid, string name, Guid clientUID);
 
 		[OperationContract]
-		OperationResult<List<Schedule>> GetSchedules(ScheduleFilter filter);
+		OperationResult<List<Schedule>> GetSchedules(ScheduleFilter filter, Guid clientUID);
 		[OperationContract]
-		OperationResult<bool> SaveSchedule(Schedule item, bool isNew);
+		OperationResult<bool> SaveSchedule(Schedule item, bool isNew, Guid clientUID);
 		[OperationContract]
-		OperationResult MarkDeletedSchedule(Guid uid, string name);
+		OperationResult MarkDeletedSchedule(Guid uid, string name, Guid clientUID);
 		[OperationContract]
-		OperationResult RestoreSchedule(Guid uid, string name);
+		OperationResult RestoreSchedule(Guid uid, string name, Guid clientUID);
 
 		//[OperationContract]
-		//OperationResult<IEnumerable<ScheduleZone>> GetScheduleZones(ScheduleZoneFilter filter);
+		//OperationResult<IEnumerable<ScheduleZone>> GetScheduleZones(ScheduleZoneFilter filter, Guid clientUID);
 		//[OperationContract]
-		//OperationResult SaveScheduleZone(ScheduleZone item, string name);
+		//OperationResult SaveScheduleZone(ScheduleZone item, string name, Guid clientUID);
 		//[OperationContract]
-		//OperationResult MarkDeletedScheduleZone(Guid uid, string name);
+		//OperationResult MarkDeletedScheduleZone(Guid uid, string name, Guid clientUID);
 
 		[OperationContract]
-		OperationResult<List<TimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime);
+		OperationResult<List<TimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime, Guid clientUID);
 		[OperationContract]
-		OperationResult AddTimeTrackDocument(TimeTrackDocument timeTrackDocument);
+		OperationResult AddTimeTrackDocument(TimeTrackDocument timeTrackDocument, Guid clientUID);
 		[OperationContract]
-		OperationResult EditTimeTrackDocument(TimeTrackDocument timeTrackDocument);
+		OperationResult EditTimeTrackDocument(TimeTrackDocument timeTrackDocument, Guid clientUID);
 		[OperationContract]
-		OperationResult RemoveTimeTrackDocument(Guid timeTrackDocumentUID);
+		OperationResult RemoveTimeTrackDocument(Guid timeTrackDocumentUID, Guid clientUID);
 
 		[OperationContract]
-		OperationResult<List<TimeTrackDocumentType>> GetTimeTrackDocumentTypes(Guid organisationUID);
+		OperationResult<List<TimeTrackDocumentType>> GetTimeTrackDocumentTypes(Guid organisationUID, Guid clientUID);
 		[OperationContract]
-		OperationResult AddTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType);
+		OperationResult AddTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType, Guid clientUID);
 		[OperationContract]
-		OperationResult EditTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType);
+		OperationResult EditTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType, Guid clientUID);
 		[OperationContract]
-		OperationResult RemoveTimeTrackDocumentType(Guid timeTrackDocumentTypeUID);
+		OperationResult RemoveTimeTrackDocumentType(Guid timeTrackDocumentTypeUID, Guid clientUID);
 
 		[OperationContract]
-		OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime enterTime, DateTime exitTime);
+		OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime enterTime, DateTime exitTime, Guid clientUID);
 		[OperationContract]
-		OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime enterTime, DateTime exitTime);
+		OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime enterTime, DateTime exitTime, Guid clientUID);
 		[OperationContract]
-		OperationResult DeletePassJournal(Guid uid);
+		OperationResult DeletePassJournal(Guid uid, Guid clientUID);
 		[OperationContract]
-		OperationResult DeleteAllPassJournalItems(Guid uid, DateTime enterTime, DateTime exitTime);
+		OperationResult DeleteAllPassJournalItems(Guid uid, DateTime enterTime, DateTime exitTime, Guid clientUID);
 
 		[OperationContract]
-		OperationResult<DateTime> GetPassJournalMinDate();
+		OperationResult<DateTime> GetPassJournalMinDate(Guid clientUID);
 		[OperationContract]
-		OperationResult<DateTime> GetCardsMinDate();
+		OperationResult<DateTime> GetCardsMinDate(Guid clientUID);
 
 	}
 }

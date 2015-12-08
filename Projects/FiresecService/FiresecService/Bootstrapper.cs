@@ -122,9 +122,9 @@ namespace FiresecService
 			}
 		}
 
-		static List<RubezhAPI.SKD.Organisation> GetOrganisations()
+		static List<RubezhAPI.SKD.Organisation> GetOrganisations(Guid clientUID)
 		{
-			var result = FiresecServiceManager.SafeFiresecService.GetOrganisations(new RubezhAPI.SKD.OrganisationFilter());
+			var result = FiresecServiceManager.SafeFiresecService.GetOrganisations(new RubezhAPI.SKD.OrganisationFilter(), clientUID);
 			return result.HasError ? new List<RubezhAPI.SKD.Organisation>() : result.Result;
 		}
 

@@ -1,28 +1,27 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using Common;
-using RubezhAPI.Journal;
+﻿using Common;
+using Infrastructure.Automation;
 using Infrastructure.Common;
 using Ionic.Zip;
-using System.Threading;
+using RubezhAPI.Journal;
 using System;
-using Infrastructure.Automation;
+using System.Collections.Generic;
+using System.IO;
 
 namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
-		public List<string> GetFileNamesList(string directory)
+		public List<string> GetFileNamesList(string directory, Guid clientUID)
 		{
 			return HashHelper.GetFileNamesList(AppDataFolderHelper.GetServerAppDataPath(directory));
 		}
 
-		public Dictionary<string, string> GetDirectoryHash(string directory)
+		public Dictionary<string, string> GetDirectoryHash(string directory, Guid clientUID)
 		{
 			return HashHelper.GetDirectoryHash(AppDataFolderHelper.GetServerAppDataPath(directory));
 		}
 
-		public Stream GetServerAppDataFile(string dirAndFileName)
+		public Stream GetServerAppDataFile(string dirAndFileName, Guid clientUID)
 		{
 			try
 			{
@@ -34,7 +33,7 @@ namespace FiresecService.Service
 			return Stream.Null;
 		}
 
-		public Stream GetServerFile(string filePath)
+		public Stream GetServerFile(string filePath, Guid clientUID)
 		{
 			try
 			{
@@ -45,7 +44,7 @@ namespace FiresecService.Service
 			return Stream.Null;
 		}
 
-		public Stream GetConfig()
+		public Stream GetConfig(Guid clientUID)
 		{
 			var configFilePath = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
 			if (!File.Exists(configFilePath))
@@ -55,7 +54,7 @@ namespace FiresecService.Service
 			return new FileStream(configFilePath, FileMode.Open, FileAccess.Read);
 		}
 
-		public void SetLocalConfig()
+		public void SetLocalConfig(Guid clientUID)
 		{
 			var configFileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
 			CreateZipConfigFromFiles();

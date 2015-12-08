@@ -24,7 +24,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetServerState();
+					return firesecService.GetServerState(FiresecServiceFactory.UID);
 			}, "GetServerState");
 		}
 
@@ -44,7 +44,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetSecurityConfiguration();
+					return firesecService.GetSecurityConfiguration(FiresecServiceFactory.UID);
 			}, "GetSecurityConfiguration");
 		}
 
@@ -61,7 +61,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetFileNamesList(directory);
+					return firesecService.GetFileNamesList(directory, FiresecServiceFactory.UID);
 			}, "GetFileNamesList");
 		}
 
@@ -71,7 +71,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetDirectoryHash(directory);
+					return firesecService.GetDirectoryHash(directory, FiresecServiceFactory.UID);
 			}, "GetDirectoryHash");
 		}
 
@@ -81,7 +81,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetServerAppDataFile(dirAndFileName);
+					return firesecService.GetServerAppDataFile(dirAndFileName, FiresecServiceFactory.UID);
 			}, "GetServerAppDataFile");
 		}
 
@@ -91,7 +91,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetConfig();
+					return firesecService.GetConfig(FiresecServiceFactory.UID);
 			}, "GetConfig");
 		}
 
@@ -111,7 +111,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.SetLocalConfig();
+					firesecService.SetLocalConfig(FiresecServiceFactory.UID);
 			}, "SetLocalConfig");
 		}
 
@@ -121,7 +121,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.Test(arg);
+					return firesecService.Test(arg, FiresecServiceFactory.UID);
 			}, "Test");
 		}
 
@@ -131,7 +131,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.Ping();
+					return firesecService.Ping(FiresecServiceFactory.UID);
 			}, "Ping");
 		}
 
@@ -141,7 +141,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.ResetDB();
+					return firesecService.ResetDB(FiresecServiceFactory.UID);
 			}, "ResetDB");
 		}
 	}

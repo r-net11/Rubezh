@@ -154,7 +154,7 @@ namespace RubezhClient
 				{
 					var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 					using (firesecService as IDisposable)
-						return firesecService.GetLicenseInfo();
+						return firesecService.GetLicenseInfo(FiresecServiceFactory.UID);
 				}
 				catch (Exception e)
 				{

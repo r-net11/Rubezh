@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using Common;
+﻿using Common;
 using RubezhAPI;
-using RubezhAPI.Models;
 using RubezhAPI.License;
+using RubezhAPI.Models;
+using System;
+using System.Linq;
 
 namespace RubezhClient
 {

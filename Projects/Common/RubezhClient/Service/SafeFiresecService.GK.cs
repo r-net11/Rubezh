@@ -15,7 +15,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.CancelGKProgress(progressCallbackUID, userName);
+					firesecService.CancelGKProgress(progressCallbackUID, userName, FiresecServiceFactory.UID);
 			}, "CancelGKProgress");
 		}
 
@@ -25,7 +25,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GKWriteConfiguration(device.UID);
+					return firesecService.GKWriteConfiguration(device.UID, FiresecServiceFactory.UID);
 			}, "GKWriteConfiguration");
 		}
 
@@ -35,7 +35,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GKReadConfiguration(device.UID);
+					return firesecService.GKReadConfiguration(device.UID, FiresecServiceFactory.UID);
 			}, "GKReadConfiguration");
 		}
 
@@ -45,7 +45,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GKReadConfigurationFromGKFile(device.UID);
+					return firesecService.GKReadConfigurationFromGKFile(device.UID, FiresecServiceFactory.UID);
 			}, "GKReadConfigurationFromGKFile");
 		}
 
@@ -55,7 +55,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetServerFile(filePath);
+					return firesecService.GetServerFile(filePath, FiresecServiceFactory.UID);
 			}, "GetServerFile");
 		}
 
@@ -65,7 +65,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GKAutoSearch(device.UID);
+					return firesecService.GKAutoSearch(device.UID, FiresecServiceFactory.UID);
 			}, "GKAutoSearch");
 		}
 
@@ -75,7 +75,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GKUpdateFirmware(device.UID, firmwareBytes);
+					return firesecService.GKUpdateFirmware(device.UID, firmwareBytes, FiresecServiceFactory.UID);
 			}, "GKUpdateFirmware");
 		}
 
@@ -85,7 +85,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GKSyncronyseTime(device.UID);
+					return firesecService.GKSyncronyseTime(device.UID, FiresecServiceFactory.UID);
 			}, "GKSyncronyseTime");
 		}
 
@@ -95,7 +95,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GKGetDeviceInfo(device.UID);
+					return firesecService.GKGetDeviceInfo(device.UID, FiresecServiceFactory.UID);
 			}, "GKGetDeviceInfo");
 		}
 
@@ -105,7 +105,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GKGetJournalItemsCount(device.UID);
+					return firesecService.GKGetJournalItemsCount(device.UID, FiresecServiceFactory.UID);
 			}, "GKGetJournalItemsCount");
 		}
 
@@ -115,7 +115,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GKReadJournalItem(device.UID, no);
+					return firesecService.GKReadJournalItem(device.UID, no, FiresecServiceFactory.UID);
 			}, "GKReadJournalItem");
 		}
 
@@ -125,7 +125,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GKSetSingleParameter(gkBase.UID, parameterBytes, deviceProperties);
+					return firesecService.GKSetSingleParameter(gkBase.UID, parameterBytes, FiresecServiceFactory.UID, deviceProperties);
 			}, "SetSingleParameter");
 		}
 
@@ -135,7 +135,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GKGetSingleParameter(gkBase.UID);
+					return firesecService.GKGetSingleParameter(gkBase.UID, FiresecServiceFactory.UID);
 			}, "GetSingleParameter");
 		}
 
@@ -145,7 +145,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GKRewriteAllSchedules(device.UID);
+					return firesecService.GKRewriteAllSchedules(device.UID, FiresecServiceFactory.UID);
 			}, "GKRewriteAllSchedules");
 		}
 
@@ -155,7 +155,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GKSetSchedule(schedule);
+					return firesecService.GKSetSchedule(schedule, FiresecServiceFactory.UID);
 			}, "GKSetSchedule");
 		}
 
@@ -165,7 +165,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GKGetUsers(device.UID);
+					return firesecService.GKGetUsers(device.UID, FiresecServiceFactory.UID);
 			}, "GKGetUsers");
 		}
 
@@ -175,7 +175,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GKRewriteUsers(device.UID);
+					return firesecService.GKRewriteUsers(device.UID, FiresecServiceFactory.UID);
 			}, "GKRewriteUsers");
 		}
 
@@ -185,7 +185,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GKReadMirrorUsers(device.UID);
+					return firesecService.GKReadMirrorUsers(device.UID, FiresecServiceFactory.UID);
 			}, "GKReadMirrorUsers");
 		}
 
@@ -195,7 +195,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GKWriteMirrorUsers(device.UID, mirrorUsers);
+					return firesecService.GKWriteMirrorUsers(device.UID, mirrorUsers, FiresecServiceFactory.UID);
 			}, "GKWriteMirrorUsers");
 		}
 
@@ -205,7 +205,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetGKUsers(deviceUID);
+					return firesecService.GetGKUsers(deviceUID, FiresecServiceFactory.UID);
 			}, "GetGKUsers");
 		}
 
@@ -215,7 +215,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.RewritePmfUsers(uid, users);
+					return firesecService.RewritePmfUsers(uid, users, FiresecServiceFactory.UID);
 			}, "RewritePmfUsers");
 		}
 
@@ -225,7 +225,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GKGKHash(device.UID);
+					return firesecService.GKGKHash(device.UID, FiresecServiceFactory.UID);
 			}, "GKGKHash");
 		}
 
@@ -235,7 +235,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GKGetStates();
+					return firesecService.GKGetStates(FiresecServiceFactory.UID);
 			}, "GKGetStates");
 		}
 
@@ -245,7 +245,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKExecuteDeviceCommand(device.UID, stateBit);
+					firesecService.GKExecuteDeviceCommand(device.UID, stateBit, FiresecServiceFactory.UID);
 			}, "GKExecuteDeviceCommand");
 		}
 
@@ -255,7 +255,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKReset(gkBase.UID, gkBase.ObjectType);
+					firesecService.GKReset(gkBase.UID, gkBase.ObjectType, FiresecServiceFactory.UID);
 			}, "GKReset");
 		}
 
@@ -265,7 +265,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKResetFire1(zone.UID);
+					firesecService.GKResetFire1(zone.UID, FiresecServiceFactory.UID);
 			}, "GKResetFire1");
 		}
 
@@ -275,7 +275,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKResetFire2(zone.UID);
+					firesecService.GKResetFire2(zone.UID, FiresecServiceFactory.UID);
 			}, "GKResetFire2");
 		}
 
@@ -285,7 +285,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKSetAutomaticRegime(gkBase.UID, gkBase.ObjectType);
+					firesecService.GKSetAutomaticRegime(gkBase.UID, gkBase.ObjectType, FiresecServiceFactory.UID);
 			}, "GKSetAutomaticRegime");
 		}
 
@@ -295,7 +295,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKSetManualRegime(gkBase.UID, gkBase.ObjectType);
+					firesecService.GKSetManualRegime(gkBase.UID, gkBase.ObjectType, FiresecServiceFactory.UID);
 			}, "GKSetManualRegime");
 		}
 
@@ -305,7 +305,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKSetIgnoreRegime(gkBase.UID, gkBase.ObjectType);
+					firesecService.GKSetIgnoreRegime(gkBase.UID, gkBase.ObjectType, FiresecServiceFactory.UID);
 			}, "GKTurnOn");
 		}
 
@@ -315,7 +315,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKTurnOn(gkBase.UID, gkBase.ObjectType);
+					firesecService.GKTurnOn(gkBase.UID, gkBase.ObjectType, FiresecServiceFactory.UID);
 			}, "GKTurnOn");
 		}
 
@@ -325,7 +325,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKTurnOnNow(gkBase.UID, gkBase.ObjectType);
+					firesecService.GKTurnOnNow(gkBase.UID, gkBase.ObjectType, FiresecServiceFactory.UID);
 			}, "GKTurnOnNow");
 		}
 
@@ -335,7 +335,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKTurnOnInAutomatic(gkBase.UID, gkBase.ObjectType);
+					firesecService.GKTurnOnInAutomatic(gkBase.UID, gkBase.ObjectType, FiresecServiceFactory.UID);
 			}, "GKTurnOnInAutomatic");
 		}
 
@@ -345,7 +345,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKTurnOnNowInAutomatic(gkBase.UID, gkBase.ObjectType);
+					firesecService.GKTurnOnNowInAutomatic(gkBase.UID, gkBase.ObjectType, FiresecServiceFactory.UID);
 			}, "GKTurnOnNowInAutomatic");
 		}
 
@@ -355,7 +355,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKTurnOff(gkBase.UID, gkBase.ObjectType);
+					firesecService.GKTurnOff(gkBase.UID, gkBase.ObjectType, FiresecServiceFactory.UID);
 			}, "GKTurnOff");
 		}
 
@@ -365,7 +365,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKTurnOffNow(gkBase.UID, gkBase.ObjectType);
+					firesecService.GKTurnOffNow(gkBase.UID, gkBase.ObjectType, FiresecServiceFactory.UID);
 			}, "GKTurnOffNow");
 		}
 
@@ -375,7 +375,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKTurnOffInAutomatic(gkBase.UID, gkBase.ObjectType);
+					firesecService.GKTurnOffInAutomatic(gkBase.UID, gkBase.ObjectType, FiresecServiceFactory.UID);
 			}, "GKTurnOffInAutomatic");
 		}
 
@@ -385,7 +385,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKTurnOffNowInAutomatic(gkBase.UID, gkBase.ObjectType);
+					firesecService.GKTurnOffNowInAutomatic(gkBase.UID, gkBase.ObjectType, FiresecServiceFactory.UID);
 			}, "GKTurnOffNowInAutomatic");
 		}
 
@@ -395,7 +395,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKStop(gkBase.UID, gkBase.ObjectType);
+					firesecService.GKStop(gkBase.UID, gkBase.ObjectType, FiresecServiceFactory.UID);
 			}, "GKStop");
 		}
 
@@ -405,7 +405,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKStartMeasureMonitoring(device.UID);
+					firesecService.GKStartMeasureMonitoring(device.UID, FiresecServiceFactory.UID);
 			}, "GKStartMeasureMonitoring");
 		}
 
@@ -415,7 +415,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKStopMeasureMonitoring(device.UID);
+					firesecService.GKStopMeasureMonitoring(device.UID, FiresecServiceFactory.UID);
 			}, "GKStopMeasureMonitoring");
 		}
 
@@ -425,7 +425,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GKGetReaderCode(device.UID);
+					return firesecService.GKGetReaderCode(device.UID, FiresecServiceFactory.UID);
 			}, "GKGetReaderCode");
 		}
 
@@ -435,7 +435,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKOpenSKDZone(zone.UID);
+					firesecService.GKOpenSKDZone(zone.UID, FiresecServiceFactory.UID);
 			}, "GKOpenSKDZone");
 		}
 
@@ -445,7 +445,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKCloseSKDZone(zone.UID);
+					firesecService.GKCloseSKDZone(zone.UID, FiresecServiceFactory.UID);
 			}, "GKCloseSKDZone");
 		}
 
@@ -455,7 +455,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetAlsMeasure(alsUid);
+					return firesecService.GetAlsMeasure(alsUid, FiresecServiceFactory.UID);
 			}, "GetAlsMeasure");
 		}
 

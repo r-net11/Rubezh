@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using System.Text.RegularExpressions;
-using RubezhAPI;
+﻿using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhAPI.Models;
-using Property = RubezhAPI.Automation.Property;
 using RubezhAPI.SKD;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
+using Property = RubezhAPI.Automation.Property;
 
 namespace Infrastructure.Automation
 {
@@ -21,7 +21,7 @@ namespace Infrastructure.Automation
 		void AddJournalItem(ProcedureStep procedureStep)
 		{
 			var messageValue = GetValue<object>(procedureStep.JournalArguments.MessageArgument);
-			ProcedureExecutionContext.AddJournalItem(AutomationHelper.GetStringValue(messageValue));
+			ProcedureExecutionContext.AddJournalItem(AutomationHelper.GetStringValue(messageValue), ClientUID);
 		}
 
 		bool Compare(ProcedureStep procedureStep)
@@ -311,9 +311,9 @@ namespace Infrastructure.Automation
 						break;
 					}
 			}
-			ProcedureExecutionContext.SynchronizeVariable(resultVariable, ContextType.Server);
+			ProcedureExecutionContext.SynchronizeVariable(resultVariable, ContextType.Server, ClientUID);
 		}
-				
+
 		void FindObjects(ProcedureStep procedureStep)
 		{
 			var findObjectArguments = procedureStep.FindObjectArguments;
@@ -333,7 +333,7 @@ namespace Infrastructure.Automation
 			if (item == null)
 				return;
 			var propertyValue = GetPropertyValue(getObjectPropertyArguments.Property, item);
-			ProcedureExecutionContext.SetVariableValue(target, propertyValue);
+			ProcedureExecutionContext.SetVariableValue(target, propertyValue, ClientUID);
 		}
 
 		Guid GetObjectUid(object item)
@@ -408,7 +408,7 @@ namespace Infrastructure.Automation
 						propertyValue = gkDelay.DelayRegime;
 						break;
 					case Property.Description:
-						propertyValue = gkDelay.Description == null ? "" : gkDelay.Description.Trim();;
+						propertyValue = gkDelay.Description == null ? "" : gkDelay.Description.Trim(); ;
 						break;
 					case Property.Uid:
 						propertyValue = gkDelay.UID.ToString();
@@ -641,7 +641,7 @@ namespace Infrastructure.Automation
 						break;
 				}
 			}
-			
+
 			return propertyValue;
 		}
 
@@ -668,11 +668,11 @@ namespace Infrastructure.Automation
 				case ObjectType.MPT:
 					return new List<GKMPT>(GKManager.DeviceConfiguration.MPTs);
 				case ObjectType.Organisation:
-					return new List<Organisation>(ProcedureExecutionContext.GetOrganisations());
+					return new List<Organisation>(ProcedureExecutionContext.GetOrganisations(ClientUID));
 			}
 			return new List<object>();
 		}
-		
+
 		object InitializeItem(Guid itemUid)
 		{
 			var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
@@ -706,12 +706,12 @@ namespace Infrastructure.Automation
 			var mpt = GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == itemUid);
 			if (mpt != null)
 				return mpt;
-			
+
 			var door = GKManager.Doors.FirstOrDefault(x => x.UID == itemUid);
 			if (door != null)
 				return door;
 
-			var organisations = ProcedureExecutionContext.GetOrganisations();
+			var organisations = ProcedureExecutionContext.GetOrganisations(ClientUID);
 			var organisation = organisations == null ? null : organisations.FirstOrDefault(x => x.UID == itemUid);
 			if (organisation != null)
 				return organisation;
@@ -814,7 +814,7 @@ namespace Infrastructure.Automation
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUid);
 			if (device == null)
 				return;
-			ProcedureExecutionContext.ControlGKDevice(device.UID, procedureStep.ControlGKDeviceArguments.Command);
+			ProcedureExecutionContext.ControlGKDevice(device.UID, procedureStep.ControlGKDeviceArguments.Command, ClientUID);
 		}
 
 		public void SetJournalItemGuid(ProcedureStep procedureStep)
@@ -850,12 +850,12 @@ namespace Infrastructure.Automation
 				case TimeType.Hour: timeout *= 3600; break;
 				case TimeType.Day: timeout *= 86400; break;
 			}
-			
+
 			if (JournalItem != null)
 			{
 				Guid eventUid = Guid.NewGuid();
 				SetValue(startRecordArguments.EventUIDArgument, eventUid);
-				ProcedureExecutionContext.StartRecord(cameraUid, JournalItem.UID , eventUid, timeout);
+				ProcedureExecutionContext.StartRecord(cameraUid, JournalItem.UID, eventUid, timeout, ClientUID);
 			}
 		}
 
@@ -864,7 +864,7 @@ namespace Infrastructure.Automation
 			var stopRecordArguments = procedureStep.StopRecordArguments;
 			var cameraUid = GetValue<Guid>(stopRecordArguments.CameraArgument);
 			var eventUid = GetValue<Guid>(stopRecordArguments.EventUIDArgument);
-			ProcedureExecutionContext.StopRecord(cameraUid, eventUid);
+			ProcedureExecutionContext.StopRecord(cameraUid, eventUid, ClientUID);
 		}
 
 		public void Ptz(ProcedureStep procedureStep)
@@ -872,14 +872,14 @@ namespace Infrastructure.Automation
 			var ptzArguments = procedureStep.PtzArguments;
 			var cameraUid = GetValue<Guid>(ptzArguments.CameraArgument);
 			var ptzNumber = GetValue<int>(ptzArguments.PtzNumberArgument);
-			ProcedureExecutionContext.Ptz(cameraUid, ptzNumber);
+			ProcedureExecutionContext.Ptz(cameraUid, ptzNumber, ClientUID);
 		}
 
 		public void RviAlarm(ProcedureStep procedureStep)
 		{
 			var rviAlarmArguments = procedureStep.RviAlarmArguments;
 			var name = GetValue<string>(rviAlarmArguments.NameArgument);
-			ProcedureExecutionContext.RviAlarm(name);
+			ProcedureExecutionContext.RviAlarm(name, ClientUID);
 		}
 
 		public void Now(ProcedureStep procedureStep)
@@ -899,49 +899,49 @@ namespace Infrastructure.Automation
 		{
 			var zoneUid = GetValue<Guid>(procedureStep.ControlGKFireZoneArguments.GKFireZoneArgument);
 			var zoneCommandType = procedureStep.ControlGKFireZoneArguments.ZoneCommandType;
-			ProcedureExecutionContext.ControlFireZone(zoneUid, zoneCommandType);
+			ProcedureExecutionContext.ControlFireZone(zoneUid, zoneCommandType, ClientUID);
 		}
 
 		void ControlGuardZone(ProcedureStep procedureStep)
 		{
 			var zoneUid = GetValue<Guid>(procedureStep.ControlGKGuardZoneArguments.GKGuardZoneArgument);
 			var guardZoneCommandType = procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType;
-			ProcedureExecutionContext.ControlGuardZone(zoneUid, guardZoneCommandType);
+			ProcedureExecutionContext.ControlGuardZone(zoneUid, guardZoneCommandType, ClientUID);
 		}
 
 		void ControlDirection(ProcedureStep procedureStep)
 		{
 			var directionUid = GetValue<Guid>(procedureStep.ControlDirectionArguments.DirectionArgument);
 			var directionCommandType = procedureStep.ControlDirectionArguments.DirectionCommandType;
-			ProcedureExecutionContext.ControlDirection(directionUid, directionCommandType);
+			ProcedureExecutionContext.ControlDirection(directionUid, directionCommandType, ClientUID);
 		}
 
 		void ControlGKDoor(ProcedureStep procedureStep)
 		{
 			var doorUid = GetValue<Guid>(procedureStep.ControlGKDoorArguments.DoorArgument);
 			var doorCommandType = procedureStep.ControlGKDoorArguments.DoorCommandType;
-			ProcedureExecutionContext.ControlGKDoor(doorUid, doorCommandType);
+			ProcedureExecutionContext.ControlGKDoor(doorUid, doorCommandType, ClientUID);
 		}
 
 		void ControlDelay(ProcedureStep procedureStep)
 		{
 			var delayUid = GetValue<Guid>(procedureStep.ControlDelayArguments.DelayArgument);
 			var delayCommandType = procedureStep.ControlDelayArguments.DelayCommandType;
-			ProcedureExecutionContext.ControlDelay(delayUid, delayCommandType);
+			ProcedureExecutionContext.ControlDelay(delayUid, delayCommandType, ClientUID);
 		}
 
 		void ControlPumpStation(ProcedureStep procedureStep)
 		{
 			var pumpStationUid = GetValue<Guid>(procedureStep.ControlPumpStationArguments.PumpStationArgument);
 			var pumpStationCommandType = procedureStep.ControlPumpStationArguments.PumpStationCommandType;
-			ProcedureExecutionContext.ControlPumpStation(pumpStationUid, pumpStationCommandType);
+			ProcedureExecutionContext.ControlPumpStation(pumpStationUid, pumpStationCommandType, ClientUID);
 		}
 
 		void ControlMPT(ProcedureStep procedureStep)
 		{
 			var mptUid = GetValue<Guid>(procedureStep.ControlMPTArguments.MPTArgument);
 			var mptCommandType = procedureStep.ControlMPTArguments.MPTCommandType;
-			ProcedureExecutionContext.ControlMPT(mptUid, mptCommandType);
+			ProcedureExecutionContext.ControlMPT(mptUid, mptCommandType, ClientUID);
 		}
 
 		void Pause(ProcedureStep procedureStep)
@@ -974,9 +974,9 @@ namespace Infrastructure.Automation
 			var variable = AllVariables.FirstOrDefault(x => x.Uid == incrementValueArguments.ResultArgument.VariableUid);
 			var value = GetValue<int>(incrementValueArguments.ResultArgument);
 			if (incrementValueArguments.IncrementType == IncrementType.Inc)
-				ProcedureExecutionContext.SetVariableValue(variable, value + 1);
+				ProcedureExecutionContext.SetVariableValue(variable, value + 1, ClientUID);
 			else
-				ProcedureExecutionContext.SetVariableValue(variable, value - 1);
+				ProcedureExecutionContext.SetVariableValue(variable, value - 1, ClientUID);
 		}
 
 		void GetRandomValue(ProcedureStep procedureStep)
@@ -997,7 +997,7 @@ namespace Infrastructure.Automation
 			variable.EnumType = changeListArguments.ItemArgument.EnumType;
 			variable.ObjectType = changeListArguments.ItemArgument.ObjectType;
 			var itemValue = GetValue<object>(changeListArguments.ItemArgument);
-			ProcedureExecutionContext.SetVariableValue(variable, itemValue);
+			ProcedureExecutionContext.SetVariableValue(variable, itemValue, ClientUID);
 			var explicitValue = variable.ExplicitValue;
 			if (listVariable != null)
 			{
@@ -1050,16 +1050,16 @@ namespace Infrastructure.Automation
 			var itemVariable = AllVariables.FirstOrDefault(x => x.Uid == getListItemArgument.ItemArgument.VariableUid);
 			if ((itemVariable != null) && (listVariable != null))
 			{
-				ProcedureExecutionContext.SynchronizeVariable(listVariable, ContextType.Client);
+				ProcedureExecutionContext.SynchronizeVariable(listVariable, ContextType.Client, ClientUID);
 				if (getListItemArgument.PositionType == PositionType.First)
-					ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues.FirstOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType));
+					ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues.FirstOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType), ClientUID);
 				if (getListItemArgument.PositionType == PositionType.Last)
-					ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues.LastOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType));
+					ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues.LastOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType), ClientUID);
 				if (getListItemArgument.PositionType == PositionType.ByIndex)
 				{
 					var indexValue = GetValue<int>(getListItemArgument.IndexArgument);
 					if (listVariable.ExplicitValues.Count > indexValue)
-						ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues[indexValue], itemVariable.ExplicitType, itemVariable.EnumType));
+						ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues[indexValue], itemVariable.ExplicitType, itemVariable.EnumType), ClientUID);
 				}
 			}
 		}
@@ -1083,7 +1083,7 @@ namespace Infrastructure.Automation
 					value = JournalItem.JournalObjectType;
 				if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalObjectUid)
 					value = JournalItem.ObjectUID.ToString();
-				ProcedureExecutionContext.SetVariableValue(resultVariable, value);
+				ProcedureExecutionContext.SetVariableValue(resultVariable, value, ClientUID);
 			}
 		}
 
@@ -1149,7 +1149,7 @@ namespace Infrastructure.Automation
 			var minDate = GetValue<DateTime>(arguments.MinDateArgument);
 			var maxDate = GetValue<DateTime>(arguments.MaxDateArgument);
 			var path = GetValue<string>(arguments.PathArgument);
-			ProcedureExecutionContext.ExportJournal(isExportJournal, isExportPassJournal, minDate, maxDate, path);
+			ProcedureExecutionContext.ExportJournal(isExportJournal, isExportPassJournal, minDate, maxDate, path, ClientUID);
 		}
 
 		void ExportOrganisation(ProcedureStep procedureStep)
@@ -1158,7 +1158,7 @@ namespace Infrastructure.Automation
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
 			var organisationUid = GetValue<Guid>(arguments.Organisation);
 			var path = GetValue<string>(arguments.PathArgument);
-			ProcedureExecutionContext.ExportOrganisation(isWithDeleted, organisationUid, path);
+			ProcedureExecutionContext.ExportOrganisation(isWithDeleted, organisationUid, path, ClientUID);
 		}
 
 		void ExportOrganisationList(ProcedureStep procedureStep)
@@ -1166,7 +1166,7 @@ namespace Infrastructure.Automation
 			var arguments = procedureStep.ImportOrganisationArguments;
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
 			var path = GetValue<string>(arguments.PathArgument);
-			ProcedureExecutionContext.ExportOrganisationList(isWithDeleted, path);
+			ProcedureExecutionContext.ExportOrganisationList(isWithDeleted, path, ClientUID);
 		}
 
 		void ExportConfiguration(ProcedureStep procedureStep)
@@ -1176,7 +1176,7 @@ namespace Infrastructure.Automation
 			var isExportDoors = GetValue<bool>(arguments.IsExportDoors);
 			var isExportZones = GetValue<bool>(arguments.IsExportZones);
 			var path = GetValue<string>(arguments.PathArgument);
-			ProcedureExecutionContext.ExportConfiguration(isExportDevices, isExportDoors, isExportZones, path);
+			ProcedureExecutionContext.ExportConfiguration(isExportDevices, isExportDoors, isExportZones, path, ClientUID);
 		}
 
 		void ImportOrganisation(ProcedureStep procedureStep)
@@ -1184,7 +1184,7 @@ namespace Infrastructure.Automation
 			var arguments = procedureStep.ImportOrganisationArguments;
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
 			var path = GetValue<string>(arguments.PathArgument);
-			ProcedureExecutionContext.ImportOrganisation(isWithDeleted, path);
+			ProcedureExecutionContext.ImportOrganisation(isWithDeleted, path, ClientUID);
 		}
 
 		void ImportOrganisationList(ProcedureStep procedureStep)
@@ -1192,19 +1192,19 @@ namespace Infrastructure.Automation
 			var arguments = procedureStep.ImportOrganisationArguments;
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
 			var path = GetValue<string>(arguments.PathArgument);
-			ProcedureExecutionContext.ImportOrganisationList(isWithDeleted, path);
+			ProcedureExecutionContext.ImportOrganisationList(isWithDeleted, path, ClientUID);
 		}
 
 		void SetValue(Argument argument, object propertyValue)
 		{
-			ProcedureExecutionContext.SetVariableValue(AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid), propertyValue);
+			ProcedureExecutionContext.SetVariableValue(AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid), propertyValue, ClientUID);
 		}
-		
+
 		T GetValue<T>(Argument argument)
 		{
 			return argument.VariableScope == VariableScope.ExplicitValue ?
 				(T)ProcedureExecutionContext.GetValue(argument.ExplicitValue, argument.ExplicitType, argument.EnumType) :
-				(T)ProcedureExecutionContext.GetVariableValue(AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid));
+				(T)ProcedureExecutionContext.GetVariableValue(AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid), ClientUID);
 		}
 
 		bool CheckGuid(string guidString)
