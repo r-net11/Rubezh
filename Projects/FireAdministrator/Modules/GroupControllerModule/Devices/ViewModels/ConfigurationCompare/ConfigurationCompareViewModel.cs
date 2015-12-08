@@ -483,7 +483,7 @@ namespace GKModule.ViewModels
 				return viewModel1.Direction.No == viewModel2.Direction.No;
 
 			if (viewModel1.ObjectType == ObjectType.PumpStation)
-				return false;
+				return viewModel1.PumpStation.No == viewModel2.PumpStation.No;
 
 			if (viewModel1.ObjectType == ObjectType.MPT)
 				return viewModel1.MPT.Name == viewModel2.MPT.Name;
