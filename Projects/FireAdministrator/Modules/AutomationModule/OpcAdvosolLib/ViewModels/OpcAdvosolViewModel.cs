@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Controls;
 using Infrastructure.ViewModels;
 using Infrastructure.Common;
 using OPCDA.NET;
@@ -27,7 +28,7 @@ namespace AutomationModule.ViewModels
 		#region Fields And Properties
 
 		OpcServer _activeOpcServer;
-		OpcDataBind _activeOpcServerBinding;
+		//OpcDataBind _activeOpcServerBinding;
 
 		string[] _opcServers;
 		public string[] OpcServers
@@ -71,6 +72,17 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		TreeViewItem[] _tags;
+		private TreeViewItem[] Tags 
+		{ 
+			get {return _tags; }
+			set 
+			{
+				_tags = value;
+				OnPropertyChanged(() => Tags);
+			} 
+		}
+
 		#endregion
 
 		#region Methods
@@ -108,6 +120,19 @@ namespace AutomationModule.ViewModels
 			{
 				_activeOpcServer = new OpcServer();
 				_activeOpcServer.Connect(SelectedComputer, SelectedOpcServer);
+				var browser = _activeOpcServer.AddBrowseTree();
+				var resultCode = browser.CreateTree();
+				if (HRESULTS.Succeeded(resultCode))
+				{
+					OpcAdvosolElementViewModel.ConvertTo(browser); 
+					// browser.Root();
+				}
+				else
+				{ 
+					throw new InvalidOperationException(string.Format(
+					"Ошибка - {0}. Не удалось получить структуру OPC сервера.", resultCode)); 
+				}
+
 			}
 			catch (Exception ex)
 			{

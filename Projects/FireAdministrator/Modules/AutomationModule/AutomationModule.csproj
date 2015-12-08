@@ -131,6 +131,9 @@
     <Compile Include="ObjectSelection\Views\OrganisatonSelectionView.xaml.cs">
       <DependentUpon>OrganisatonSelectionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OpcAdvosolLib\ViewModels\OpcAdvosolElementViewModel.cs" />
+    <Compile Include="OpcAdvosolLib\ViewModels\OpcAdvosolTagGroup.cs" />
+    <Compile Include="OpcAdvosolLib\ViewModels\OpcAdvosolTagViewModel.cs" />
     <Compile Include="OpcAdvosolLib\ViewModels\OpcAdvosolViewModel.cs" />
     <Compile Include="OpcAdvosolLib\ViewModels\OpcAdvosolMenuViewModel.cs" />
     <Compile Include="OpcAdvosolLib\Views\OpcAdvosolView.xaml.cs">
@@ -139,8 +142,10 @@
     <Compile Include="OpcAdvosolLib\Views\OpcAdvosolMenuView.xaml.cs">
       <DependentUpon>OpcAdvosolMenuView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OpcDaServers\ViewModels\OpcDaEditingTagsGroupViewModel.cs" />
+    <Compile Include="OpcDaServers\ViewModels\OpcDaEditingTagsTreeElementViewModel.cs" />
     <Compile Include="OpcDaServers\ViewModels\OpcDaEditingTagsViewModel.cs" />
-    <Compile Include="OpcDaServers\ViewModels\OpcDaEditingTagViewModel.cs" />
+    <Compile Include="OpcDaServers\ViewModels\OpcDaEditingTagsTagViewModel.cs" />
     <Compile Include="OpcDaServers\ViewModels\OpcDaAddingServerViewModel.cs" />
     <Compile Include="OpcDaServers\ViewModels\OpcDaAddingServersViewModel.cs" />
     <Compile Include="OpcDaServers\ViewModels\OpcDaServersViewModel.cs" />
