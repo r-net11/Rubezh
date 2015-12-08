@@ -29,7 +29,7 @@ namespace SKDDriver.Translators
 			Context.Dispose();
 		}
 
-		public OperationResult AddPassJournal(Guid employeeUID, Guid zoneUID)
+		public OperationResult AddPassJournal(Guid employeeUID, Guid zoneUID, SKDDevice readerDevice) //TODO: remove readerDevice parameter
 		{
 			InvalidatePassJournal();
 
@@ -44,6 +44,10 @@ namespace SKDDriver.Translators
 					exitPassJournal.IsNeedAdjustment = exitPassJournal.ZoneUID == zoneUID;
 					exitPassJournal.IsNeedAdjustmentOriginal = exitPassJournal.IsNeedAdjustment;
 					exitPassJournal.IsOpen = default(bool);
+				}
+				else
+				{
+					Logger.Error(string.Format("exitPassJournal is null in {0}, zoneUID is {1}, employee UID is {2}, readerDeviceName is {3}", DateTime.Now, zoneUID, employeeUID, readerDevice.Name));
 				}
 				if (zoneUID != Guid.Empty)
 				{
@@ -66,6 +70,7 @@ namespace SKDDriver.Translators
 			}
 			catch (Exception e)
 			{
+				Logger.Error(e.Message + string.Format("\nError in AddPassJournal() in {0}, zoneUID is {1}, employee UID is {2}", DateTime.Now, zoneUID, employeeUID));
 				return new OperationResult(e.Message);
 			}
 		}
@@ -164,7 +169,8 @@ namespace SKDDriver.Translators
 						IsNeedAdjustmentOriginal = item.IsNeedAdjustmentOriginal,
 						TimeTrackZone = new TimeTrackZone
 						{
-							UID = item.ZoneUID, Name = SKDManager.Zones.FirstOrDefault(x => x.UID == item.ZoneUID) != null ? SKDManager.Zones.FirstOrDefault(x => x.UID == item.ZoneUID).Name : string.Empty
+							UID = item.ZoneUID,
+							Name = SKDManager.Zones.FirstOrDefault(x => x.UID == item.ZoneUID) != null ? SKDManager.Zones.FirstOrDefault(x => x.UID == item.ZoneUID).Name : string.Empty
 						}
 					}));
 					resultDictionary.Add(el, tmpCollection);
@@ -179,7 +185,7 @@ namespace SKDDriver.Translators
 			var minIntervalsDate = dayTimeTrackParts.Where(x => x.EnterTimeOriginal.HasValue).DefaultIfEmpty().Min(x => x.EnterTimeOriginal != null ? x.EnterTimeOriginal.Value.Date : new DateTime()); //if min return false
 			var maxIntervalDate = dayTimeTrackParts.Where(x => x.ExitTimeOriginal.HasValue).DefaultIfEmpty().Max(x => x.ExitTimeOriginal != null ? x.ExitTimeOriginal.Value.Date : new DateTime());
 
-			if(minIntervalsDate.Date == currentDate.Date && maxIntervalDate.Date == currentDate.Date)
+			if (minIntervalsDate.Date == currentDate.Date && maxIntervalDate.Date == currentDate.Date)
 				return new OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>>();
 
 			//var originalIntervalsCollection = TrySetOriginalValuesToTimeTracks(new List<DayTimeTrackPart>(dayTimeTrackParts));
@@ -228,7 +234,7 @@ namespace SKDDriver.Translators
 					}
 				}
 				else if (linkedInterval.EnterTime < currentDayTimeTrackPart.ExitDateTime &&
-				          linkedInterval.ExitTime > currentDayTimeTrackPart.EnterDateTime)
+						  linkedInterval.ExitTime > currentDayTimeTrackPart.EnterDateTime)
 				{
 					resultCollection.Add(new DayTimeTrackPart
 					{
@@ -256,7 +262,6 @@ namespace SKDDriver.Translators
 					foreach (var intersectionElement in Context.PassJournals.Where(x => x.EmployeeUID == employee.UID)
 																			.Where(x => dayTimeTrackPart.EnterDateTime <= x.ExitTime && dayTimeTrackPart.ExitDateTime >= x.EnterTime)
 																			.Where(x => x.UID != dayTimeTrackPart.UID))
-
 					{
 						Context.PassJournals.DeleteOnSubmit(intersectionElement);
 					}
@@ -272,7 +277,7 @@ namespace SKDDriver.Translators
 					else if (!passJournalItem.NotTakeInCalculations && dayTimeTrackPart.NotTakeInCalculations)
 						setAdjustmentFlag = true;
 					if (passJournalItem.EnterTime != dayTimeTrackPart.EnterDateTime ||
-					    passJournalItem.ExitTime != dayTimeTrackPart.ExitDateTime)
+						passJournalItem.ExitTime != dayTimeTrackPart.ExitDateTime)
 						setBordersChangedFlag = true;
 
 					passJournalItem.ZoneUID = dayTimeTrackPart.TimeTrackZone.UID;
@@ -304,7 +309,7 @@ namespace SKDDriver.Translators
 
 		public OperationResult AddCustomPassJournal(DayTimeTrackPart dayTimeTrackPart, ShortEmployee employee)
 		{
-			if(dayTimeTrackPart == null) return new OperationResult("ERROR");
+			if (dayTimeTrackPart == null) return new OperationResult("ERROR");
 
 			var linkedIntervals = Context.PassJournals.Where(x => x.EmployeeUID == employee.UID && x.UID != dayTimeTrackPart.UID)
 				.Where(
@@ -312,7 +317,7 @@ namespace SKDDriver.Translators
 						dayTimeTrackPart.ExitDateTime > x.EnterTime
 						&& dayTimeTrackPart.EnterDateTime < x.ExitTime).ToList();
 
-			if(linkedIntervals.Any()) return new OperationResult("Данный интервал является пересекающимся");
+			if (linkedIntervals.Any()) return new OperationResult("Данный интервал является пересекающимся");
 
 			try
 			{
@@ -455,7 +460,7 @@ namespace SKDDriver.Translators
 					//seconds.Sort();
 					int hours = 4;
 					int pauseHours = 2;
-					for (var i = 0; i < count * 2; i ++)
+					for (var i = 0; i < count * 2; i++)
 					{
 						//var startTimeSpan = TimeSpan.FromSeconds(seconds[i]);
 						//var endTimeSpan = TimeSpan.FromSeconds(seconds[i + 1]);
@@ -464,7 +469,7 @@ namespace SKDDriver.Translators
 						{
 							UID = Guid.NewGuid(),
 							EmployeeUID = employee.UID,
-				//			ZoneUID = zoneUID,
+							//			ZoneUID = zoneUID,
 							ZoneUID = Guid.Parse(zoneUID),
 							EnterTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, hours, 5, 5),
 							ExitTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, (hours + 2), 5, 5)
@@ -493,7 +498,7 @@ namespace SKDDriver.Translators
 				var timeTrackPart = new TimeTrackPart
 				{
 					EnterDateTime = passJournal.EnterTime,
-					ExitDateTime =  passJournal.ExitTime,
+					ExitDateTime = passJournal.ExitTime,
 					ZoneUID = passJournal.ZoneUID,
 					IsForURVZone = schedule.ScheduleZones.Any(x => x.ZoneUID == passJournal.ZoneUID),
 					PassJournalUID = passJournal.UID,
