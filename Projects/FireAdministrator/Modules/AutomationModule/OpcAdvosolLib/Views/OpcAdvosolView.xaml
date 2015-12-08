@@ -18,9 +18,5 @@
 		
 		<!--<TreeList Grid.Column="1" Margin="3" Focusable="True" SelectedTreeNode="">
 		</TreeList>-->
-		<TreeView Grid.Column="1" Margin="3" Focusable="True" ItemsSource="{Binding Tags}">
-			<HierarchicalDataTemplate Template="{Binding Template}">
-			</HierarchicalDataTemplate>
-		</TreeView>
 	</Grid>
 </UserControl>
