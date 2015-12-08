@@ -49,9 +49,6 @@ namespace FiresecAPI.SKD
 		public int CloseTimeout { get; set; }
 
 		[DataMember]
-		public int OpenAlwaysTimeIndex { get; set; }
-
-		[DataMember]
 		public int HolidayTimeRecoNo { get; set; }
 
 		/// <summary>

@@ -393,7 +393,7 @@ namespace ChinaSKDDriver
 			// Close timeout
 			info.nCloseTimeout = doorConfiguration.CloseTimeout;
 			// Normally open period
-			info.nOpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
+			info.nOpenAlwaysTimeIndex = 255;
 			// Time holiday segment
 			info.nHolidayTimeRecoNo = 255;
 			// Intrusion alarm enabled
