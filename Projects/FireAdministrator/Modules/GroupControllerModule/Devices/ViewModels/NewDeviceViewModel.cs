@@ -33,13 +33,13 @@ namespace GKModule.ViewModels
 			Count = 1;
 		}
 		GKDevice RealParentDevice;
-	    DeviceViewModel ParentDeviceViewModel;
-        GKDevice ParentDevice;
+		DeviceViewModel ParentDeviceViewModel;
+		GKDevice ParentDevice;
 		public List<DeviceViewModel> AddedDevices { get; protected set; }
 		public ObservableCollection<GKDriver> Drivers { get; protected set; }
 		public ObservableCollection<byte> AvailableShleifs { get; protected set; }
-		public int MaxAddress { get; private set;}
-		public int MinAdderss { get; private set;}
+		public int MaxAddress { get; private set; }
+		public int MinAdderss { get; private set; }
 
 		int _count;
 		public int Count
@@ -105,7 +105,7 @@ namespace GKModule.ViewModels
 				return 0;
 		}
 
-		public  bool CreateDevices() 
+		public bool CreateDevices()
 		{
 			AddedDevices = new List<DeviceViewModel>();
 			if (ParentDevice.IsConnectedToKAU)
@@ -113,22 +113,22 @@ namespace GKModule.ViewModels
 				var address = GetAddress(RealParentDevice.KAUShleifParent.AllChildren);
 				if (address + Count * Math.Max(1, (int)SelectedDriver.GroupDeviceChildrenCount) > 255)
 				{
-					MessageBoxService.ShowWarning("При добавлении количество устройств на АЛС будет превышать 255");
+					ServiceFactory.MessageBoxService.ShowWarning("При добавлении количество устройств на АЛС будет превышать 255");
 					return false;
 				}
 
 				for (int i = 0; i < Count; i++)
 				{
+					GKDevice device = GKManager.AddChild(ParentDevice, null, SelectedDriver, 0);
+
 					if (RealParentDevice == ParentDevice)
 					{
-						GKDevice device = GKManager.AddChild(ParentDevice, null, SelectedDriver, 0);
 						var addedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
 						AddedDevices.Add(addedDevice);
 					}
 					else
 					{
-						GKDevice device = GKManager.AddChild(RealParentDevice, ParentDevice, SelectedDriver, 0);
-						var addedDevice = NewDeviceHelper.InsertDevice(device, ParentDeviceViewModel);
+						var addedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel, false);
 						if (AddedDevices.Count == 0)
 							AddedDevices.Add(addedDevice);
 						else
