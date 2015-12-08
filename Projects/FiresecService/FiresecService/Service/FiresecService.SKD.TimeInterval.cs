@@ -8,14 +8,14 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService// : IFiresecService
 	{
-		public OperationResult<List<DayInterval>> GetDayIntervals(DayIntervalFilter filter, Guid clientUID)
+		public OperationResult<List<DayInterval>> GetDayIntervals(Guid clientUID, DayIntervalFilter filter)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.DayIntervalTranslator.Get(filter);
 			}
 		}
-		public OperationResult<bool> SaveDayInterval(DayInterval item, bool isNew, Guid clientUID)
+		public OperationResult<bool> SaveDayInterval(Guid clientUID, DayInterval item, bool isNew)
 		{
 			if (isNew)
 				AddJournalMessage(JournalEventNameType.Добавление_нового_дневного_графика, item.Name, uid: item.UID);
@@ -26,7 +26,7 @@ namespace FiresecService.Service
 				return databaseService.DayIntervalTranslator.Save(item);
 			}
 		}
-		public OperationResult MarkDeletedDayInterval(Guid uid, string name, Guid clientUID)
+		public OperationResult MarkDeletedDayInterval(Guid clientUID, Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_дневного_графика, name, uid: uid);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -34,7 +34,7 @@ namespace FiresecService.Service
 				return databaseService.DayIntervalTranslator.MarkDeleted(uid);
 			}
 		}
-		public OperationResult RestoreDayInterval(Guid uid, string name, Guid clientUID)
+		public OperationResult RestoreDayInterval(Guid clientUID, Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Восстановление_дневного_графика, name, uid: uid);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -43,14 +43,14 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<List<Holiday>> GetHolidays(HolidayFilter filter, Guid clientUID)
+		public OperationResult<List<Holiday>> GetHolidays(Guid clientUID, HolidayFilter filter)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.HolidayTranslator.Get(filter);
 			}
 		}
-		public OperationResult<bool> SaveHoliday(Holiday item, bool isNew, Guid clientUID)
+		public OperationResult<bool> SaveHoliday(Guid clientUID, Holiday item, bool isNew)
 		{
 			if (isNew)
 				AddJournalMessage(JournalEventNameType.Добавление_нового_праздничного_дня, item.Name, uid: item.UID);
@@ -61,7 +61,7 @@ namespace FiresecService.Service
 				return databaseService.HolidayTranslator.Save(item);
 			}
 		}
-		public OperationResult MarkDeletedHoliday(Guid uid, string name, Guid clientUID)
+		public OperationResult MarkDeletedHoliday(Guid clientUID, Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_праздничного_дня, name, uid: uid);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -69,7 +69,7 @@ namespace FiresecService.Service
 				return databaseService.HolidayTranslator.MarkDeleted(uid);
 			}
 		}
-		public OperationResult RestoreHoliday(Guid uid, string name, Guid clientUID)
+		public OperationResult RestoreHoliday(Guid clientUID, Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Восстановление_праздничного_дня, name, uid: uid);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -78,7 +78,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<List<ScheduleScheme>> GetScheduleSchemes(ScheduleSchemeFilter filter, Guid clientUID)
+		public OperationResult<List<ScheduleScheme>> GetScheduleSchemes(Guid clientUID, ScheduleSchemeFilter filter)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -86,7 +86,7 @@ namespace FiresecService.Service
 				return result;
 			}
 		}
-		public OperationResult<bool> SaveScheduleScheme(ScheduleScheme item, bool isNew, Guid clientUID)
+		public OperationResult<bool> SaveScheduleScheme(Guid clientUID, ScheduleScheme item, bool isNew)
 		{
 			if (isNew)
 				AddJournalMessage(JournalEventNameType.Добавление_нового_графика_работы_сотрудника, item.Name, uid: item.UID);
@@ -97,7 +97,7 @@ namespace FiresecService.Service
 				return databaseService.ScheduleSchemeTranslator.Save(item);
 			}
 		}
-		public OperationResult MarkDeletedScheduleScheme(Guid uid, string name, Guid clientUID)
+		public OperationResult MarkDeletedScheduleScheme(Guid clientUID, Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_графика_работы_сотрудника, name, uid: uid);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -105,7 +105,7 @@ namespace FiresecService.Service
 				return databaseService.ScheduleSchemeTranslator.MarkDeleted(uid);
 			}
 		}
-		public OperationResult RestoreScheduleScheme(Guid uid, string name, Guid clientUID)
+		public OperationResult RestoreScheduleScheme(Guid clientUID, Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Восстановление_графика_работы_сотрудника, name, uid: uid);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -114,14 +114,14 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<List<Schedule>> GetSchedules(ScheduleFilter filter, Guid clientUID)
+		public OperationResult<List<Schedule>> GetSchedules(Guid clientUID, ScheduleFilter filter)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.ScheduleTranslator.Get(filter);
 			}
 		}
-		public OperationResult<bool> SaveSchedule(Schedule item, bool isNew, Guid clientUID)
+		public OperationResult<bool> SaveSchedule(Guid clientUID, Schedule item, bool isNew)
 		{
 			if (isNew)
 				AddJournalMessage(JournalEventNameType.Добавление_нового_графика_работы, item.Name, uid: item.UID);
@@ -132,7 +132,7 @@ namespace FiresecService.Service
 				return databaseService.ScheduleTranslator.Save(item);
 			}
 		}
-		public OperationResult MarkDeletedSchedule(Guid uid, string name, Guid clientUID)
+		public OperationResult MarkDeletedSchedule(Guid clientUID, Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_графика_работы, name, uid: uid);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -140,7 +140,7 @@ namespace FiresecService.Service
 				return databaseService.ScheduleTranslator.MarkDeleted(uid);
 			}
 		}
-		public OperationResult RestoreSchedule(Guid uid, string name, Guid clientUID)
+		public OperationResult RestoreSchedule(Guid clientUID, Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Восстановление_графика_работы, name, uid: uid);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -149,14 +149,14 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<List<TimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime, Guid clientUID)
+		public OperationResult<List<TimeTrackDocument>> GetTimeTrackDocument(Guid clientUID, Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.TimeTrackDocumentTranslator.Get(employeeUID, startDateTime, endDateTime);
 			}
 		}
-		public OperationResult AddTimeTrackDocument(TimeTrackDocument item, Guid clientUID)
+		public OperationResult AddTimeTrackDocument(Guid clientUID, TimeTrackDocument item)
 		{
 			AddJournalMessage(JournalEventNameType.Внесение_оправдательного_документа, item.DocumentNumber.ToString(), JournalEventDescriptionType.Редактирование, uid: item.UID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -164,7 +164,7 @@ namespace FiresecService.Service
 				return databaseService.TimeTrackDocumentTranslator.AddTimeTrackDocument(item);
 			}
 		}
-		public OperationResult EditTimeTrackDocument(TimeTrackDocument item, Guid clientUID)
+		public OperationResult EditTimeTrackDocument(Guid clientUID, TimeTrackDocument item)
 		{
 			AddJournalMessage(JournalEventNameType.Внесение_оправдательного_документа, item.DocumentNumber.ToString(), JournalEventDescriptionType.Редактирование, uid: item.UID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -172,7 +172,7 @@ namespace FiresecService.Service
 				return databaseService.TimeTrackDocumentTranslator.EditTimeTrackDocument(item);
 			}
 		}
-		public OperationResult RemoveTimeTrackDocument(Guid timeTrackDocumentUID, Guid clientUID)
+		public OperationResult RemoveTimeTrackDocument(Guid clientUID, Guid timeTrackDocumentUID)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -180,28 +180,28 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<List<TimeTrackDocumentType>> GetTimeTrackDocumentTypes(Guid organisationUID, Guid clientUID)
+		public OperationResult<List<TimeTrackDocumentType>> GetTimeTrackDocumentTypes(Guid clientUID, Guid organisationUID)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.TimeTrackDocumentTypeTranslator.Get(organisationUID);
 			}
 		}
-		public OperationResult AddTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType, Guid clientUID)
+		public OperationResult AddTimeTrackDocumentType(Guid clientUID, TimeTrackDocumentType timeTrackDocumentType)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.TimeTrackDocumentTypeTranslator.AddTimeTrackDocumentType(timeTrackDocumentType);
 			}
 		}
-		public OperationResult EditTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType, Guid clientUID)
+		public OperationResult EditTimeTrackDocumentType(Guid clientUID, TimeTrackDocumentType timeTrackDocumentType)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.TimeTrackDocumentTypeTranslator.EditTimeTrackDocumentType(timeTrackDocumentType);
 			}
 		}
-		public OperationResult RemoveTimeTrackDocumentType(Guid timeTrackDocumentTypeUID, Guid clientUID)
+		public OperationResult RemoveTimeTrackDocumentType(Guid clientUID, Guid timeTrackDocumentTypeUID)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -209,28 +209,28 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime enterTime, DateTime exitTime, Guid clientUID)
+		public OperationResult AddCustomPassJournal(Guid clientUID, Guid uid, Guid employeeUID, Guid zoneUID, DateTime enterTime, DateTime exitTime)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.PassJournalTranslator.AddCustomPassJournal(uid, employeeUID, zoneUID, enterTime, exitTime);
 			}
 		}
-		public OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime enterTime, DateTime exitTime, Guid clientUID)
+		public OperationResult EditPassJournal(Guid clientUID, Guid uid, Guid zoneUID, DateTime enterTime, DateTime exitTime)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.PassJournalTranslator.EditPassJournal(uid, zoneUID, enterTime, exitTime);
 			}
 		}
-		public OperationResult DeletePassJournal(Guid uid, Guid clientUID)
+		public OperationResult DeletePassJournal(Guid clientUID, Guid uid)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.PassJournalTranslator.DeletePassJournal(uid);
 			}
 		}
-		public OperationResult DeleteAllPassJournalItems(Guid uid, DateTime enterTime, DateTime exitTime, Guid clientUID)
+		public OperationResult DeleteAllPassJournalItems(Guid clientUID, Guid uid, DateTime enterTime, DateTime exitTime)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{

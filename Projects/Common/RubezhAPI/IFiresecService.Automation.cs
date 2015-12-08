@@ -15,51 +15,51 @@ namespace RubezhAPI
 		OperationResult<bool> RunProcedure(Guid clientUID, Guid procedureUID, List<Argument> args);
 		[OperationContract(IsOneWay = true)]
 		[ServiceKnownType(typeof(Color))]
-		void ProcedureCallbackResponse(Guid callbackUID, object value, Guid clientUID);
+		void ProcedureCallbackResponse(Guid clientUID, Guid callbackUID, object value);
 		[OperationContract]
-		ProcedureProperties GetProperties(Guid layoutUID, Guid clientUID);
+		ProcedureProperties GetProperties(Guid clientUID, Guid layoutUID);
 		[OperationContract(IsOneWay = true)]
 		[ServiceKnownType(typeof(Color))]
-		void SetVariableValue(Guid variableUid, object value, Guid clientUID);
+		void SetVariableValue(Guid clientUID, Guid variableUid, object value);
 		[OperationContract]
-		Variable GetVariable(Guid variableUid, Guid clientUID);
+		Variable GetVariable(Guid clientUID, Guid variableUid);
 		[OperationContract]
-		void AddJournalItemA(string message, Guid clientUID);
+		void AddJournalItemA(Guid clientUID, string message);
 		[OperationContract]
-		void ControlGKDevice(Guid deviceUid, GKStateBit command, Guid clientUID);
+		void ControlGKDevice(Guid clientUID, Guid deviceUid, GKStateBit command);
 		[OperationContract]
-		void StartRecord(Guid cameraUid, Guid? journalItemUid, Guid? eventUid, int timeout, Guid clientUID);
+		void StartRecord(Guid clientUID, Guid cameraUid, Guid? journalItemUid, Guid? eventUid, int timeout);
 		[OperationContract]
-		void StopRecord(Guid cameraUid, Guid eventUid, Guid clientUID);
+		void StopRecord(Guid clientUID, Guid cameraUid, Guid eventUid);
 		[OperationContract]
-		void Ptz(Guid cameraUid, int ptzNumber, Guid clientUID);
+		void Ptz(Guid clientUID, Guid cameraUid, int ptzNumber);
 		[OperationContract]
-		void RviAlarm(string name, Guid clientUID);
+		void RviAlarm(Guid clientUID, string name);
 		[OperationContract]
-		void ControlFireZone(Guid uid, ZoneCommandType commandType, Guid clientUID);
+		void ControlFireZone(Guid clientUID, Guid uid, ZoneCommandType commandType);
 		[OperationContract]
-		void ControlGuardZone(Guid uid, GuardZoneCommandType commandType, Guid clientUID);
+		void ControlGuardZone(Guid clientUID, Guid uid, GuardZoneCommandType commandType);
 		[OperationContract]
-		void ControlDirection(Guid uid, DirectionCommandType commandType, Guid clientUID);
+		void ControlDirection(Guid clientUID, Guid uid, DirectionCommandType commandType);
 		[OperationContract]
-		void ControlGKDoor(Guid uid, GKDoorCommandType commandType, Guid clientUID);
+		void ControlGKDoor(Guid clientUID, Guid uid, GKDoorCommandType commandType);
 		[OperationContract]
-		void ControlDelay(Guid uid, DelayCommandType commandType, Guid clientUID);
+		void ControlDelay(Guid clientUID, Guid uid, DelayCommandType commandType);
 		[OperationContract]
-		void ControlPumpStation(Guid uid, PumpStationCommandType commandType, Guid clientUID);
+		void ControlPumpStation(Guid clientUID, Guid uid, PumpStationCommandType commandType);
 		[OperationContract]
-		void ControlMPT(Guid uid, MPTCommandType commandType, Guid clientUID);
+		void ControlMPT(Guid clientUID, Guid uid, MPTCommandType commandType);
 		[OperationContract]
-		void ExportJournalA(bool isExportJournal, bool isExportPassJournal, DateTime minDate, DateTime maxDate, string path, Guid clientUID);
+		void ExportJournalA(Guid clientUID, bool isExportJournal, bool isExportPassJournal, DateTime minDate, DateTime maxDate, string path);
 		[OperationContract]
-		void ExportOrganisationA(bool isWithDeleted, Guid organisationUid, string path, Guid clientUID);
+		void ExportOrganisationA(Guid clientUID, bool isWithDeleted, Guid organisationUid, string path);
 		[OperationContract]
-		void ExportOrganisationListA(bool isWithDeleted, string path, Guid clientUID);
+		void ExportOrganisationListA(Guid clientUID, bool isWithDeleted, string path);
 		[OperationContract]
-		void ExportConfigurationA(bool isExportDevices, bool isExportDoors, bool isExportZones, string path, Guid clientUID);
+		void ExportConfigurationA(Guid clientUID, bool isExportDevices, bool isExportDoors, bool isExportZones, string path);
 		[OperationContract]
-		void ImportOrganisationA(bool isWithDeleted, string path, Guid clientUID);
+		void ImportOrganisationA(Guid clientUID, bool isWithDeleted, string path);
 		[OperationContract]
-		void ImportOrganisationListA(bool isWithDeleted, string path, Guid clientUID);
+		void ImportOrganisationListA(Guid clientUID, bool isWithDeleted, string path);
 	}
 }

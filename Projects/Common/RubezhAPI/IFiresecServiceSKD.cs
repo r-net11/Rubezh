@@ -12,192 +12,192 @@ namespace RubezhAPI
 	{
 		#region Employee
 		[OperationContract]
-		OperationResult<List<ShortEmployee>> GetEmployeeList(EmployeeFilter filter, Guid clientUID);
+		OperationResult<List<ShortEmployee>> GetEmployeeList(Guid clientUID, EmployeeFilter filter);
 
 		[OperationContract]
-		OperationResult<Employee> GetEmployeeDetails(Guid uid, Guid clientUID);
+		OperationResult<Employee> GetEmployeeDetails(Guid clientUID, Guid uid);
 
 		[OperationContract]
-		OperationResult<bool> SaveEmployee(Employee item, bool isNew, Guid clientUID);
+		OperationResult<bool> SaveEmployee(Guid clientUID, Employee item, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedEmployee(Guid uid, string name, bool isEmployee, Guid clientUID);
+		OperationResult MarkDeletedEmployee(Guid clientUID, Guid uid, string name, bool isEmployee);
 
 		[OperationContract]
-		OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate, Guid clientUID);
+		OperationResult<TimeTrackResult> GetTimeTracks(Guid clientUID, EmployeeFilter filter, DateTime startDate, DateTime endDate);
 
 		[OperationContract]
-		Stream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate, Guid clientUID);
+		Stream GetTimeTracksStream(Guid clientUID, EmployeeFilter filter, DateTime startDate, DateTime endDate);
 
 		[OperationContract]
-		OperationResult SaveEmployeeDepartment(Guid uid, Guid? departmentUid, string name, Guid clientUID);
+		OperationResult SaveEmployeeDepartment(Guid clientUID, Guid uid, Guid? departmentUid, string name);
 
 		[OperationContract]
-		OperationResult SaveEmployeePosition(Guid uid, Guid? positionUid, string name, Guid clientUID);
+		OperationResult SaveEmployeePosition(Guid clientUID, Guid uid, Guid? positionUid, string name);
 
 		[OperationContract]
-		OperationResult RestoreEmployee(Guid uid, string name, bool isEmployee, Guid clientUID);
+		OperationResult RestoreEmployee(Guid clientUID, Guid uid, string name, bool isEmployee);
 		#endregion
 
 		#region Department
 		[OperationContract]
-		OperationResult<List<ShortDepartment>> GetDepartmentList(DepartmentFilter filter, Guid clientUID);//
+		OperationResult<List<ShortDepartment>> GetDepartmentList(Guid clientUID, DepartmentFilter filter);//
 
 		[OperationContract]
-		OperationResult<Department> GetDepartmentDetails(Guid uid, Guid clientUID);//
+		OperationResult<Department> GetDepartmentDetails(Guid clientUID, Guid uid);//
 
 		[OperationContract]
-		OperationResult<bool> SaveDepartment(Department item, bool isNew, Guid clientUID);//
+		OperationResult<bool> SaveDepartment(Guid clientUID, Department item, bool isNew);//
 
 		[OperationContract]
-		OperationResult MarkDeletedDepartment(ShortDepartment department, Guid clientUID);//
+		OperationResult MarkDeletedDepartment(Guid clientUID, ShortDepartment department);//
 
 		[OperationContract]
-		OperationResult SaveDepartmentChief(Guid uid, Guid? chiefUID, string name, Guid clientUID);//
+		OperationResult SaveDepartmentChief(Guid clientUID, Guid uid, Guid? chiefUID, string name);//
 
 		[OperationContract]
-		OperationResult RestoreDepartment(ShortDepartment department, Guid clientUID);//
+		OperationResult RestoreDepartment(Guid clientUID, ShortDepartment department);//
 
 		[OperationContract]
-		OperationResult<List<Guid>> GetChildEmployeeUIDs(Guid uid, Guid clientUID);//
+		OperationResult<List<Guid>> GetChildEmployeeUIDs(Guid clientUID, Guid uid);//
 
 		[OperationContract]
-		OperationResult<List<Guid>> GetParentEmployeeUIDs(Guid uid, Guid clientUID);//
+		OperationResult<List<Guid>> GetParentEmployeeUIDs(Guid clientUID, Guid uid);//
 		#endregion
 
 		#region Position
 		[OperationContract]
-		OperationResult<List<ShortPosition>> GetPositionList(PositionFilter filter, Guid clientUID);
+		OperationResult<List<ShortPosition>> GetPositionList(Guid clientUID, PositionFilter filter);
 
 		[OperationContract]
-		OperationResult<List<Guid>> GetPositionEmployees(Guid uid, Guid clientUID);
+		OperationResult<List<Guid>> GetPositionEmployees(Guid clientUID, Guid uid);
 
 		[OperationContract]
-		OperationResult<Position> GetPositionDetails(Guid uid, Guid clientUID);
+		OperationResult<Position> GetPositionDetails(Guid clientUID, Guid uid);
 
 		[OperationContract]
-		OperationResult<bool> SavePosition(Position item, bool isNew, Guid clientUID);
+		OperationResult<bool> SavePosition(Guid clientUID, Position item, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedPosition(Guid uid, string name, Guid clientUID);
+		OperationResult MarkDeletedPosition(Guid clientUID, Guid uid, string name);
 
 		[OperationContract]
-		OperationResult RestorePosition(Guid uid, string name, Guid clientUID);
+		OperationResult RestorePosition(Guid clientUID, Guid uid, string name);
 		#endregion
 
 		#region Card
 		[OperationContract]
-		OperationResult<List<SKDCard>> GetCards(CardFilter filter, Guid clientUID);
+		OperationResult<List<SKDCard>> GetCards(Guid clientUID, CardFilter filter);
 
 		[OperationContract]
-		OperationResult<SKDCard> GetSingleCard(Guid uid, Guid clientUID);
+		OperationResult<SKDCard> GetSingleCard(Guid clientUID, Guid uid);
 
 		[OperationContract]
-		OperationResult<List<SKDCard>> GetEmployeeCards(Guid employeeUID, Guid clientUID);
+		OperationResult<List<SKDCard>> GetEmployeeCards(Guid clientUID, Guid employeeUID);
 
 		[OperationContract]
-		OperationResult<bool> AddCard(SKDCard item, string employeeName, Guid clientUID);
+		OperationResult<bool> AddCard(Guid clientUID, SKDCard item, string employeeName);
 
 		[OperationContract]
-		OperationResult<bool> EditCard(SKDCard item, string employeeName, Guid clientUID);
+		OperationResult<bool> EditCard(Guid clientUID, SKDCard item, string employeeName);
 
 		[OperationContract]
-		OperationResult<bool> DeleteCardFromEmployee(SKDCard item, string employeeName, Guid clientUID, string reason = null);
+		OperationResult<bool> DeleteCardFromEmployee(Guid clientUID, SKDCard item, string employeeName, string reason = null);
 
 		[OperationContract]
-		OperationResult DeletedCard(SKDCard card, Guid clientUID);
+		OperationResult DeletedCard(Guid clientUID, SKDCard card);
 
 		[OperationContract]
-		OperationResult SaveCardTemplate(SKDCard card, Guid clientUID);
+		OperationResult SaveCardTemplate(Guid clientUID, SKDCard card);
 		#endregion
 
 		#region AccessTemplate
 		[OperationContract]
-		OperationResult<List<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter, Guid clientUID);
+		OperationResult<List<AccessTemplate>> GetAccessTemplates(Guid clientUID, AccessTemplateFilter filter);
 
 		[OperationContract]
-		OperationResult<bool> SaveAccessTemplate(AccessTemplate item, bool isNew, Guid clientUID);
+		OperationResult<bool> SaveAccessTemplate(Guid clientUID, AccessTemplate item, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedAccessTemplate(AccessTemplate item, Guid clientUID);
+		OperationResult MarkDeletedAccessTemplate(Guid clientUID, AccessTemplate item);
 
 		[OperationContract]
-		OperationResult RestoreAccessTemplate(AccessTemplate item, Guid clientUID);
+		OperationResult RestoreAccessTemplate(Guid clientUID, AccessTemplate item);
 		#endregion
 
 		#region Organisation
 		[OperationContract]
-		OperationResult<List<Organisation>> GetOrganisations(OrganisationFilter filter, Guid clientUID);
+		OperationResult<List<Organisation>> GetOrganisations(Guid clientUID, OrganisationFilter filter);
 
 		[OperationContract]
-		OperationResult<bool> SaveOrganisation(OrganisationDetails Organisation, bool isNew, Guid clientUID);
+		OperationResult<bool> SaveOrganisation(Guid clientUID, OrganisationDetails Organisation, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedOrganisation(Guid uid, string name, Guid clientUID);
+		OperationResult MarkDeletedOrganisation(Guid clientUID, Guid uid, string name);
 
 		[OperationContract]
-		OperationResult AddOrganisationDoor(Organisation organisation, Guid doorUID, Guid clientUID);
+		OperationResult AddOrganisationDoor(Guid clientUID, Organisation organisation, Guid doorUID);
 
 		[OperationContract]
-		OperationResult RemoveOrganisationDoor(Organisation organisation, Guid doorUID, Guid clientUID);
+		OperationResult RemoveOrganisationDoor(Guid clientUID, Organisation organisation, Guid doorUID);
 
 		[OperationContract]
-		OperationResult SaveOrganisationUsers(Organisation organisation, Guid clientUID);
+		OperationResult SaveOrganisationUsers(Guid clientUID, Organisation organisation);
 
 		[OperationContract]
-		OperationResult<OrganisationDetails> GetOrganisationDetails(Guid uid, Guid clientUID);
+		OperationResult<OrganisationDetails> GetOrganisationDetails(Guid clientUID, Guid uid);
 
 		[OperationContract]
-		OperationResult SaveOrganisationChief(Guid uid, Guid? chiefUID, string name, Guid clientUID);
+		OperationResult SaveOrganisationChief(Guid clientUID, Guid uid, Guid? chiefUID, string name);
 
 		[OperationContract]
-		OperationResult SaveOrganisationHRChief(Guid uid, Guid? chiefUID, string name, Guid clientUID);
+		OperationResult SaveOrganisationHRChief(Guid clientUID, Guid uid, Guid? chiefUID, string name);
 
 		[OperationContract]
-		OperationResult RestoreOrganisation(Guid uid, string name, Guid clientUID);
+		OperationResult RestoreOrganisation(Guid clientUID, Guid uid, string name);
 
 		[OperationContract]
-		OperationResult<bool> IsAnyOrganisationItems(Guid uid, Guid clientUID);
+		OperationResult<bool> IsAnyOrganisationItems(Guid clientUID, Guid uid);
 
 		#endregion
 
 		#region AdditionalColumnType
 		[OperationContract]
-		OperationResult<List<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter, Guid clientUID);
+		OperationResult<List<AdditionalColumnType>> GetAdditionalColumnTypes(Guid clientUID, AdditionalColumnTypeFilter filter);
 
 		[OperationContract]
-		OperationResult<bool> SaveAdditionalColumnType(AdditionalColumnType item, bool isNew, Guid clientUID);
+		OperationResult<bool> SaveAdditionalColumnType(Guid clientUID, AdditionalColumnType item, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedAdditionalColumnType(Guid uid, string name, Guid clientUID);
+		OperationResult MarkDeletedAdditionalColumnType(Guid clientUID, Guid uid, string name);
 
 		[OperationContract]
-		OperationResult RestoreAdditionalColumnType(Guid uid, string name, Guid clientUID);
+		OperationResult RestoreAdditionalColumnType(Guid clientUID, Guid uid, string name);
 		#endregion
 
 		#region NightSettings
 		[OperationContract]
-		OperationResult<NightSettings> GetNightSettingsByOrganisation(Guid organisationUID, Guid clientUID);
+		OperationResult<NightSettings> GetNightSettingsByOrganisation(Guid clientUID, Guid organisationUID);
 
 		[OperationContract]
-		OperationResult SaveNightSettings(NightSettings nightSettings, Guid clientUID);
+		OperationResult SaveNightSettings(Guid clientUID, NightSettings nightSettings);
 		#endregion
 
 		#region PassCardTemplate
 		[OperationContract]
-		OperationResult<List<ShortPassCardTemplate>> GetPassCardTemplateList(PassCardTemplateFilter filter, Guid clientUID);
+		OperationResult<List<ShortPassCardTemplate>> GetPassCardTemplateList(Guid clientUID, PassCardTemplateFilter filter);
 
 		[OperationContract]
-		OperationResult<PassCardTemplate> GetPassCardTemplateDetails(Guid uid, Guid clientUID);
+		OperationResult<PassCardTemplate> GetPassCardTemplateDetails(Guid clientUID, Guid uid);
 
 		[OperationContract]
-		OperationResult<bool> SavePassCardTemplate(PassCardTemplate item, bool isNew, Guid clientUID);
+		OperationResult<bool> SavePassCardTemplate(Guid clientUID, PassCardTemplate item, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedPassCardTemplate(Guid uid, string name, Guid clientUID);
+		OperationResult MarkDeletedPassCardTemplate(Guid clientUID, Guid uid, string name);
 
 		[OperationContract]
-		OperationResult RestorePassCardTemplate(Guid uid, string name, Guid clientUID);
+		OperationResult RestorePassCardTemplate(Guid clientUID, Guid uid, string name);
 		#endregion
 
 		[OperationContract]
@@ -207,23 +207,23 @@ namespace RubezhAPI
 		OperationResult GenerateJournal(Guid clientUID);
 
 		[OperationContract]
-		OperationResult GenerateTestData(bool isAscending, Guid clientUID);
+		OperationResult GenerateTestData(Guid clientUID, bool isAscending);
 
 		[OperationContract]
-		OperationResult SaveJournalVideoUID(Guid journaItemUID, Guid videoUID, Guid cameraUID, Guid clientUID);
+		OperationResult SaveJournalVideoUID(Guid clientUID, Guid journaItemUID, Guid videoUID, Guid cameraUID);
 
 		[OperationContract]
-		OperationResult SaveJournalCameraUID(Guid journaItemUID, Guid CameraUID, Guid clientUID);
+		OperationResult SaveJournalCameraUID(Guid clientUID, Guid journaItemUID, Guid CameraUID);
 
 		#region GKSchedule
 		[OperationContract]
 		OperationResult<List<GKSchedule>> GetGKSchedules(Guid clientUID);
 
 		[OperationContract]
-		OperationResult<bool> SaveGKSchedule(GKSchedule item, bool isNew, Guid clientUID);
+		OperationResult<bool> SaveGKSchedule(Guid clientUID, GKSchedule item, bool isNew);
 
 		[OperationContract]
-		OperationResult<bool> DeleteGKSchedule(GKSchedule item, Guid clientUID);
+		OperationResult<bool> DeleteGKSchedule(Guid clientUID, GKSchedule item);
 		#endregion
 
 		#region GKDaySchedule
@@ -231,38 +231,38 @@ namespace RubezhAPI
 		OperationResult<List<GKDaySchedule>> GetGKDaySchedules(Guid clientUID);
 
 		[OperationContract]
-		OperationResult<bool> SaveGKDaySchedule(GKDaySchedule item, bool isNew, Guid clientUID);
+		OperationResult<bool> SaveGKDaySchedule(Guid clientUID, GKDaySchedule item, bool isNew);
 
 		[OperationContract]
-		OperationResult<bool> DeleteGKDaySchedule(GKDaySchedule item, Guid clientUID);
+		OperationResult<bool> DeleteGKDaySchedule(Guid clientUID, GKDaySchedule item);
 		#endregion
 
 		#region Export
 		[OperationContract]
-		OperationResult ExportOrganisation(ExportFilter filter, Guid clientUID);
+		OperationResult ExportOrganisation(Guid clientUID, ExportFilter filter);
 
 		[OperationContract]
-		OperationResult ImportOrganisation(ImportFilter filter, Guid clientUID);
+		OperationResult ImportOrganisation(Guid clientUID, ImportFilter filter);
 
 		[OperationContract]
-		OperationResult ExportOrganisationList(ExportFilter filter, Guid clientUID);
+		OperationResult ExportOrganisationList(Guid clientUID, ExportFilter filter);
 
 		[OperationContract]
-		OperationResult ImportOrganisationList(ImportFilter filter, Guid clientUID);
+		OperationResult ImportOrganisationList(Guid clientUID, ImportFilter filter);
 
 		[OperationContract]
-		OperationResult ExportJournal(JournalExportFilter filter, Guid clientUID);
+		OperationResult ExportJournal(Guid clientUID, JournalExportFilter filter);
 
 		[OperationContract]
-		OperationResult ExportConfiguration(ConfigurationExportFilter filter, Guid clientUID);
+		OperationResult ExportConfiguration(Guid clientUID, ConfigurationExportFilter filter);
 		#endregion
 
 		#region CurrentConsumption
 		[OperationContract]
-		OperationResult SaveCurrentConsumption(CurrentConsumption item, Guid clientUID);
+		OperationResult SaveCurrentConsumption(Guid clientUID, CurrentConsumption item);
 
 		[OperationContract]
-		OperationResult<List<CurrentConsumption>> GetCurrentConsumption(CurrentConsumptionFilter filter, Guid clientUID);
+		OperationResult<List<CurrentConsumption>> GetCurrentConsumption(Guid clientUID, CurrentConsumptionFilter filter);
 		#endregion
 	}
 }

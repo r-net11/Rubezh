@@ -21,12 +21,12 @@ namespace FiresecService.Service
 			}
 		}
 
-		public void CancelGKProgress(Guid progressCallbackUID, string userName, Guid clientUID)
+		public void CancelGKProgress(Guid clientUID, Guid progressCallbackUID, string userName)
 		{
 			GKProcessorManager.CancelGKProgress(progressCallbackUID, userName);
 		}
 
-		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID, Guid clientUID)
+		public OperationResult<bool> GKWriteConfiguration(Guid clientUID, Guid deviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -43,7 +43,7 @@ namespace FiresecService.Service
 			return OperationResult<bool>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
-		public OperationResult<GKDeviceConfiguration> GKReadConfiguration(Guid deviceUID, Guid clientUID)
+		public OperationResult<GKDeviceConfiguration> GKReadConfiguration(Guid clientUID, Guid deviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -53,7 +53,7 @@ namespace FiresecService.Service
 			return OperationResult<GKDeviceConfiguration>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
-		public OperationResult<bool> GKReadConfigurationFromGKFile(Guid deviceUID, Guid clientUID)
+		public OperationResult<bool> GKReadConfigurationFromGKFile(Guid clientUID, Guid deviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -70,7 +70,7 @@ namespace FiresecService.Service
 			return OperationResult<bool>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
-		public OperationResult<GKDevice> GKAutoSearch(Guid deviceUID, Guid clientUID)
+		public OperationResult<GKDevice> GKAutoSearch(Guid clientUID, Guid deviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -80,7 +80,7 @@ namespace FiresecService.Service
 			return OperationResult<GKDevice>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
-		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, List<byte> firmwareBytes, Guid clientUID)
+		public OperationResult<bool> GKUpdateFirmware(Guid clientUID, Guid deviceUID, List<byte> firmwareBytes)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -90,7 +90,7 @@ namespace FiresecService.Service
 			return OperationResult<bool>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
-		public OperationResult<bool> GKSyncronyseTime(Guid deviceUID, Guid clientUID)
+		public OperationResult<bool> GKSyncronyseTime(Guid clientUID, Guid deviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -103,7 +103,7 @@ namespace FiresecService.Service
 			return OperationResult<bool>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
-		public OperationResult<string> GKGetDeviceInfo(Guid deviceUID, Guid clientUID)
+		public OperationResult<string> GKGetDeviceInfo(Guid clientUID, Guid deviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -113,7 +113,7 @@ namespace FiresecService.Service
 			return OperationResult<string>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
-		public OperationResult<int> GKGetJournalItemsCount(Guid deviceUID, Guid clientUID)
+		public OperationResult<int> GKGetJournalItemsCount(Guid clientUID, Guid deviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -123,7 +123,7 @@ namespace FiresecService.Service
 			return OperationResult<int>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
-		public OperationResult<JournalItem> GKReadJournalItem(Guid deviceUID, int no, Guid clientUID)
+		public OperationResult<JournalItem> GKReadJournalItem(Guid clientUID, Guid deviceUID, int no)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -133,7 +133,7 @@ namespace FiresecService.Service
 			return OperationResult<JournalItem>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
-		public OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes, Guid clientUID, List<GKProperty> deviceProperties)
+		public OperationResult<bool> GKSetSingleParameter(Guid clientUID, Guid objectUID, List<byte> parameterBytes, List<GKProperty> deviceProperties)
 		{
 			GKBase gkBase = null;
 			gkBase = GKManager.Devices.FirstOrDefault(x => x.UID == objectUID);
@@ -174,7 +174,7 @@ namespace FiresecService.Service
 			return OperationResult<bool>.FromError("Не найден компонент в конфигурации");
 		}
 
-		public OperationResult<List<GKProperty>> GKGetSingleParameter(Guid objectUID, Guid clientUID)
+		public OperationResult<List<GKProperty>> GKGetSingleParameter(Guid clientUID, Guid objectUID)
 		{
 			GKBase gkBase = null;
 			gkBase = GKManager.Devices.FirstOrDefault(x => x.UID == objectUID);
@@ -210,7 +210,7 @@ namespace FiresecService.Service
 			return OperationResult<List<GKProperty>>.FromError("Не найден компонент в конфигурации");
 		}
 
-		public OperationResult<bool> GKRewriteAllSchedules(Guid deviceUID, Guid clientUID)
+		public OperationResult<bool> GKRewriteAllSchedules(Guid clientUID, Guid deviceUID)
 		{
 			if (RubezhDAL.DataClasses.DbService.ConnectionOperationResult.HasError)
 				return OperationResult<bool>.FromError("Отсутствует подключение к БД");
@@ -222,13 +222,13 @@ namespace FiresecService.Service
 			return OperationResult<bool>.FromError("Не найден ГК в конфигурации");
 		}
 
-		public OperationResult<bool> GKSetSchedule(GKSchedule schedule, Guid clientUID)
+		public OperationResult<bool> GKSetSchedule(Guid clientUID, GKSchedule schedule)
 		{
 			var result = GKScheduleHelper.SetSchedule(schedule);
 			return OperationResult<bool>.FromError(result.Error, true);
 		}
 
-		public OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID, Guid clientUID)
+		public OperationResult<List<byte>> GKGKHash(Guid clientUID, Guid gkDeviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
 			if (device != null)
@@ -243,7 +243,7 @@ namespace FiresecService.Service
 			return GKProcessorManager.GKGetStates();
 		}
 
-		public void GKExecuteDeviceCommand(Guid deviceUID, GKStateBit stateBit, Guid clientUID)
+		public void GKExecuteDeviceCommand(Guid clientUID, Guid deviceUID, GKStateBit stateBit)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -252,16 +252,16 @@ namespace FiresecService.Service
 			}
 		}
 
-		public void GKReset(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKReset(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			var gkBase = GetGKBase(uid, objectType, clientUID);
+			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
 				GKProcessorManager.GKReset(gkBase, UserName);
 			}
 		}
 
-		public void GKResetFire1(Guid zoneUID, Guid clientUID)
+		public void GKResetFire1(Guid clientUID, Guid zoneUID)
 		{
 			var zone = GKManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 			if (zone != null)
@@ -270,7 +270,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public void GKResetFire2(Guid zoneUID, Guid clientUID)
+		public void GKResetFire2(Guid clientUID, Guid zoneUID)
 		{
 			var zone = GKManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 			if (zone != null)
@@ -279,115 +279,115 @@ namespace FiresecService.Service
 			}
 		}
 
-		public void GKSetAutomaticRegime(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKSetAutomaticRegime(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			var gkBase = GetGKBase(uid, objectType, clientUID);
+			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
 				GKProcessorManager.GKSetAutomaticRegime(gkBase, UserName);
 			}
 		}
 
-		public void GKSetManualRegime(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKSetManualRegime(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			var gkBase = GetGKBase(uid, objectType, clientUID);
+			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
 				GKProcessorManager.GKSetManualRegime(gkBase, UserName);
 			}
 		}
 
-		public void GKSetIgnoreRegime(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKSetIgnoreRegime(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			var gkBase = GetGKBase(uid, objectType, clientUID);
+			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
 				GKProcessorManager.GKSetIgnoreRegime(gkBase, UserName);
 			}
 		}
 
-		public void GKTurnOn(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKTurnOn(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			var gkBase = GetGKBase(uid, objectType, clientUID);
+			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
 				GKProcessorManager.GKTurnOn(gkBase, UserName);
 			}
 		}
 
-		public void GKTurnOnNow(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKTurnOnNow(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			var xBase = GetGKBase(uid, objectType, clientUID);
+			var xBase = GetGKBase(clientUID, uid, objectType);
 			if (xBase != null)
 			{
 				GKProcessorManager.GKTurnOnNow(xBase, UserName);
 			}
 		}
 
-		public void GKTurnOnInAutomatic(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKTurnOnInAutomatic(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			var gkBase = GetGKBase(uid, objectType, clientUID);
+			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
 				GKProcessorManager.GKTurnOnInAutomatic(gkBase, UserName);
 			}
 		}
 
-		public void GKTurnOnNowInAutomatic(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKTurnOnNowInAutomatic(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			var xBase = GetGKBase(uid, objectType, clientUID);
+			var xBase = GetGKBase(clientUID, uid, objectType);
 			if (xBase != null)
 			{
 				GKProcessorManager.GKTurnOnNowInAutomatic(xBase, UserName);
 			}
 		}
 
-		public void GKTurnOff(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKTurnOff(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			var gkBase = GetGKBase(uid, objectType, clientUID);
+			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
 				GKProcessorManager.GKTurnOff(gkBase, UserName);
 			}
 		}
 
-		public void GKTurnOffNow(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKTurnOffNow(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			var gkBase = GetGKBase(uid, objectType, clientUID);
+			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
 				GKProcessorManager.GKTurnOffNow(gkBase, UserName);
 			}
 		}
 
-		public void GKTurnOffInAutomatic(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKTurnOffInAutomatic(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			var gkBase = GetGKBase(uid, objectType, clientUID);
+			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
 				GKProcessorManager.GKTurnOffInAutomatic(gkBase, UserName);
 			}
 		}
 
-		public void GKTurnOffNowInAutomatic(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKTurnOffNowInAutomatic(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			var gkBase = GetGKBase(uid, objectType, clientUID);
+			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
 				GKProcessorManager.GKTurnOffNowInAutomatic(gkBase, UserName);
 			}
 		}
 
-		public void GKStop(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKStop(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			var gkBase = GetGKBase(uid, objectType, clientUID);
+			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
 				GKProcessorManager.GKStop(gkBase, UserName);
 			}
 		}
 
-		GKBase GetGKBase(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		GKBase GetGKBase(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
 			switch (objectType)
 			{
@@ -413,7 +413,7 @@ namespace FiresecService.Service
 			return null;
 		}
 
-		public void GKStartMeasureMonitoring(Guid deviceUID, Guid clientUID)
+		public void GKStartMeasureMonitoring(Guid clientUID, Guid deviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -422,7 +422,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public void GKStopMeasureMonitoring(Guid deviceUID, Guid clientUID)
+		public void GKStopMeasureMonitoring(Guid clientUID, Guid deviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -431,7 +431,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<uint> GKGetReaderCode(Guid deviceUID, Guid clientUID)
+		public OperationResult<uint> GKGetReaderCode(Guid clientUID, Guid deviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -441,7 +441,7 @@ namespace FiresecService.Service
 			return OperationResult<uint>.FromError("Не найдено устройство в конфигурации");
 		}
 
-		public void GKOpenSKDZone(Guid zoneUID, Guid clientUID)
+		public void GKOpenSKDZone(Guid clientUID, Guid zoneUID)
 		{
 			var zone = GKManager.SKDZones.FirstOrDefault(x => x.UID == zoneUID);
 			if (zone != null)
@@ -450,7 +450,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public void GKCloseSKDZone(Guid zoneUID, Guid clientUID)
+		public void GKCloseSKDZone(Guid clientUID, Guid zoneUID)
 		{
 			var zone = GKManager.SKDZones.FirstOrDefault(x => x.UID == zoneUID);
 			if (zone != null)
@@ -459,7 +459,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<CurrentConsumption> GetAlsMeasure(Guid alsUid, Guid clientUID)
+		public OperationResult<CurrentConsumption> GetAlsMeasure(Guid clientUID, Guid alsUid)
 		{
 			try
 			{
@@ -472,7 +472,7 @@ namespace FiresecService.Service
 		}
 
 		#region Users
-		public OperationResult<bool> GKGetUsers(Guid gkDeviceUID, Guid clientUID)
+		public OperationResult<bool> GKGetUsers(Guid clientUID, Guid gkDeviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
 			if (device != null)
@@ -496,7 +496,7 @@ namespace FiresecService.Service
 			return OperationResult<bool>.FromError("Не найден ГК в конфигурации");
 		}
 
-		public OperationResult<bool> GKRewriteUsers(Guid deviceUID, Guid clientUID)
+		public OperationResult<bool> GKRewriteUsers(Guid clientUID, Guid deviceUID)
 		{
 			if (RubezhDAL.DataClasses.DbService.ConnectionOperationResult.HasError)
 				return OperationResult<bool>.FromError("Отсутствует подключение к БД");
@@ -572,7 +572,7 @@ namespace FiresecService.Service
 			return OperationResult<bool>.FromError("Не найден ГК в конфигурации");
 		}
 
-		public OperationResult<List<GKUser>> GetGKUsers(Guid deviceUID, Guid clientUID)
+		public OperationResult<List<GKUser>> GetGKUsers(Guid clientUID, Guid deviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -582,13 +582,13 @@ namespace FiresecService.Service
 			return OperationResult<List<GKUser>>.FromError("Прибор не найден в конфигурации");
 		}
 
-		public OperationResult<bool> RewritePmfUsers(Guid uid, List<GKUser> users, Guid clientUID)
+		public OperationResult<bool> RewritePmfUsers(Guid clientUID, Guid uid, List<GKUser> users)
 		{
 			return GKSKDHelper.RewritePmfUsers(uid, users);
 		}
 		#endregion
 
-		public OperationResult<List<MirrorUser>> GKReadMirrorUsers(Guid deviceUID, Guid clientUID)
+		public OperationResult<List<MirrorUser>> GKReadMirrorUsers(Guid clientUID, Guid deviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -599,7 +599,7 @@ namespace FiresecService.Service
 				return OperationResult<List<MirrorUser>>.FromError("Не найдено Отражение в конфигурации");
 		}
 
-		public OperationResult<bool> GKWriteMirrorUsers(Guid deviceUID, List<MirrorUser> mirrorUsers, Guid clientUID)
+		public OperationResult<bool> GKWriteMirrorUsers(Guid clientUID, Guid deviceUID, List<MirrorUser> mirrorUsers)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)

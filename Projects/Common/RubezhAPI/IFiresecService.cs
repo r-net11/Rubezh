@@ -19,14 +19,14 @@ namespace RubezhAPI
 		/// <param name="clientCredentials">Данные подключаемого клиента</param>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials);
+		OperationResult<bool> Connect(Guid clientUID, ClientCredentials clientCredentials);
 
 		/// <summary>
 		/// Отсоединение от сервиса
 		/// </summary>
 		/// <param name="uid">Идентификатор клиента</param>
 		[OperationContract(IsOneWay = true)]
-		void Disconnect(Guid uid);
+		void Disconnect(Guid clientUID);
 
 		[OperationContract]
 		OperationResult<ServerState> GetServerState(Guid clientUID);
@@ -39,10 +39,10 @@ namespace RubezhAPI
 		/// <param name="callbackIndex">Индекс последнего обработанного сообщения</param>
 		/// <returns></returns>
 		[OperationContract]
-		List<CallbackResult> Poll(Guid uid, int callbackIndex);
+		List<CallbackResult> Poll(Guid clientUID, int callbackIndex);
 
 		[OperationContract]
-		string Test(string arg, Guid clientUID);
+		string Test(Guid clientUID, string arg);
 
 		[OperationContract]
 		SecurityConfiguration GetSecurityConfiguration(Guid clientUID);
@@ -75,10 +75,10 @@ namespace RubezhAPI
 		/// <param name="journalFilter"></param>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter journalFilter, Guid clientUID);
+		OperationResult<List<JournalItem>> GetFilteredJournalItems(Guid clientUID, JournalFilter journalFilter);
 
 		[OperationContract]
-		OperationResult<bool> BeginGetJournal(JournalFilter journalFilter, Guid clientUID);
+		OperationResult<bool> BeginGetJournal(Guid clientUID, JournalFilter journalFilter);
 
 		/// <summary>
 		/// Добавление записи в журнал событий
@@ -86,7 +86,7 @@ namespace RubezhAPI
 		/// <param name="journalItem"></param>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<bool> AddJournalItem(JournalItem journalItem, Guid clientUID);
+		OperationResult<bool> AddJournalItem(Guid clientUID, JournalItem journalItem);
 
 		/// <summary>
 		/// Запрос списка событий на определенной странице
@@ -95,7 +95,7 @@ namespace RubezhAPI
 		/// <param name="page"></param>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page, Guid clientUID);
+		OperationResult<bool> BeginGetArchivePage(Guid clientUID, JournalFilter filter, int page);
 
 		/// <summary>
 		/// Запрос количества страниц событий по заданному фильтру
@@ -103,21 +103,21 @@ namespace RubezhAPI
 		/// <param name="filter"></param>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<int> GetArchiveCount(JournalFilter filter, Guid clientUID);
+		OperationResult<int> GetArchiveCount(Guid clientUID, JournalFilter filter);
 		#endregion
 
 		#region Files
 		[OperationContract]
-		List<string> GetFileNamesList(string directory, Guid clientUID);
+		List<string> GetFileNamesList(Guid clientUID, string directory);
 
 		[OperationContract]
-		Dictionary<string, string> GetDirectoryHash(string directory, Guid clientUID);
+		Dictionary<string, string> GetDirectoryHash(Guid clientUID, string directory);
 
 		[OperationContract]
-		Stream GetServerAppDataFile(string dirAndFileName, Guid clientUID);
+		Stream GetServerAppDataFile(Guid clientUID, string dirAndFileName);
 
 		[OperationContract]
-		Stream GetServerFile(string filePath, Guid clientUID);
+		Stream GetServerFile(Guid clientUID, string filePath);
 
 		[OperationContract]
 		Stream GetConfig(Guid clientUID);

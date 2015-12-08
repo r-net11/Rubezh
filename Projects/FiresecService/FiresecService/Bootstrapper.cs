@@ -13,7 +13,6 @@ using RubezhAPI.Automation;
 using RubezhDAL.DataClasses;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading;
@@ -124,7 +123,7 @@ namespace FiresecService
 
 		static List<RubezhAPI.SKD.Organisation> GetOrganisations(Guid clientUID)
 		{
-			var result = FiresecServiceManager.SafeFiresecService.GetOrganisations(new RubezhAPI.SKD.OrganisationFilter(), clientUID);
+			var result = FiresecServiceManager.SafeFiresecService.GetOrganisations(clientUID, new RubezhAPI.SKD.OrganisationFilter());
 			return result.HasError ? new List<RubezhAPI.SKD.Organisation>() : result.Result;
 		}
 

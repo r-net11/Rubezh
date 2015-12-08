@@ -151,7 +151,7 @@ namespace FireMonitor
 			return result.HasError ? new List<RubezhAPI.SKD.Organisation>() : result.Result;
 		}
 
-		private void OnSynchronizeVariable(Variable variable, ContextType targetContextType, Guid clientUID)
+		private void OnSynchronizeVariable(Guid clientUID, Variable variable, ContextType targetContextType)
 		{
 			if (targetContextType == ContextType.Client)
 			{

@@ -11,14 +11,14 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
-		public List<CallbackResult> Poll(Guid uid, int callbackIndex)
+		public List<CallbackResult> Poll(Guid clientUID, int callbackIndex)
 		{
-			var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == uid);
+			var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID);
 			if (clientInfo != null)
 			{
 				clientInfo.LastPollDateTime = DateTime.Now;
 				clientInfo.CallbackIndex = callbackIndex;
-				global::FiresecService.ViewModels.MainViewModel.Current.OnPoll(uid);
+				global::FiresecService.ViewModels.MainViewModel.Current.OnPoll(clientUID);
 				var result = CallbackManager.Get(clientInfo);
 				if (result.Count == 0)
 				{
@@ -30,7 +30,7 @@ namespace FiresecService.Service
 				}
 				return result;
 			}
-			global::FiresecService.ViewModels.MainViewModel.Current.OnPoll(uid);
+			global::FiresecService.ViewModels.MainViewModel.Current.OnPoll(clientUID);
 			return new List<CallbackResult> { new CallbackResult { CallbackResultType = CallbackResultType.ReconnectionRequired } };
 		}
 

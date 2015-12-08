@@ -13,16 +13,16 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetDayIntervals(filter, FiresecServiceFactory.UID);
+					return firesecService.GetDayIntervals(FiresecServiceFactory.UID, filter);
 			}, "GetDayIntervals");
 		}
 		public RubezhAPI.OperationResult<bool> SaveDayInterval(DayInterval item, bool isNew)
 		{
-			return SafeOperationCall<RubezhAPI.OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveDayInterval(item, isNew, FiresecServiceFactory.UID);
+					return firesecService.SaveDayInterval(FiresecServiceFactory.UID, item, isNew);
 			}, "SaveDayInterval");
 		}
 		public RubezhAPI.OperationResult MarkDeletedDayInterval(Guid uid, string name)
@@ -31,7 +31,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.MarkDeletedDayInterval(uid, name, FiresecServiceFactory.UID);
+					return firesecService.MarkDeletedDayInterval(FiresecServiceFactory.UID, uid, name);
 			}, "MarkDeletedDayInterval");
 		}
 		public RubezhAPI.OperationResult RestoreDayInterval(Guid uid, string name)
@@ -40,7 +40,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.RestoreDayInterval(uid, name, FiresecServiceFactory.UID);
+					return firesecService.RestoreDayInterval(FiresecServiceFactory.UID, uid, name);
 			}, "RestoreDayInterval");
 		}
 
@@ -71,20 +71,20 @@ namespace RubezhClient
 
 		public RubezhAPI.OperationResult<List<Holiday>> GetHolidays(HolidayFilter filter)
 		{
-			return SafeOperationCall<RubezhAPI.OperationResult<List<Holiday>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetHolidays(filter, FiresecServiceFactory.UID);
+					return firesecService.GetHolidays(FiresecServiceFactory.UID, filter);
 			}, "GetHolidays");
 		}
 		public RubezhAPI.OperationResult<bool> SaveHoliday(Holiday item, bool isNew)
 		{
-			return SafeOperationCall<RubezhAPI.OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveHoliday(item, isNew, FiresecServiceFactory.UID);
+					return firesecService.SaveHoliday(FiresecServiceFactory.UID, item, isNew);
 			}, "SaveHoliday");
 		}
 		public RubezhAPI.OperationResult MarkDeletedHoliday(Guid uid, string name)
@@ -93,7 +93,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.MarkDeletedHoliday(uid, name, FiresecServiceFactory.UID);
+					return firesecService.MarkDeletedHoliday(FiresecServiceFactory.UID, uid, name);
 			}, "MarkDeletedHoliday");
 		}
 		public RubezhAPI.OperationResult RestoreHoliday(Guid uid, string name)
@@ -102,26 +102,26 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.RestoreHoliday(uid, name, FiresecServiceFactory.UID);
+					return firesecService.RestoreHoliday(FiresecServiceFactory.UID, uid, name);
 			}, "RestoreHoliday");
 		}
 
 		public RubezhAPI.OperationResult<List<ScheduleScheme>> GetScheduleSchemes(ScheduleSchemeFilter filter)
 		{
-			return SafeOperationCall<RubezhAPI.OperationResult<List<ScheduleScheme>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetScheduleSchemes(filter, FiresecServiceFactory.UID);
+					return firesecService.GetScheduleSchemes(FiresecServiceFactory.UID, filter);
 			}, "GetScheduleSchemes");
 		}
 		public RubezhAPI.OperationResult<bool> SaveScheduleScheme(ScheduleScheme item, bool isNew)
 		{
-			return SafeOperationCall<RubezhAPI.OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveScheduleScheme(item, isNew, FiresecServiceFactory.UID);
+					return firesecService.SaveScheduleScheme(FiresecServiceFactory.UID, item, isNew);
 			}, "SaveScheduleScheme");
 		}
 		public RubezhAPI.OperationResult MarkDeletedScheduleScheme(Guid uid, string name)
@@ -130,7 +130,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.MarkDeletedScheduleScheme(uid, name, FiresecServiceFactory.UID);
+					return firesecService.MarkDeletedScheduleScheme(FiresecServiceFactory.UID, uid, name);
 			}, "MarkDeletedScheduleScheme");
 		}
 		public RubezhAPI.OperationResult RestoreScheduleScheme(Guid uid, string name)
@@ -139,7 +139,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.RestoreScheduleScheme(uid, name, FiresecServiceFactory.UID);
+					return firesecService.RestoreScheduleScheme(FiresecServiceFactory.UID, uid, name);
 			}, "RestoreScheduleScheme");
 		}
 
@@ -170,20 +170,20 @@ namespace RubezhClient
 
 		public RubezhAPI.OperationResult<List<Schedule>> GetSchedules(ScheduleFilter filter)
 		{
-			return SafeOperationCall<RubezhAPI.OperationResult<List<Schedule>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetSchedules(filter, FiresecServiceFactory.UID);
+					return firesecService.GetSchedules(FiresecServiceFactory.UID, filter);
 			}, "GetSchedules");
 		}
 		public RubezhAPI.OperationResult<bool> SaveSchedule(Schedule item, bool isNew)
 		{
-			return SafeOperationCall<RubezhAPI.OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveSchedule(item, isNew, FiresecServiceFactory.UID);
+					return firesecService.SaveSchedule(FiresecServiceFactory.UID, item, isNew);
 			}, "SaveSchedule");
 		}
 		public RubezhAPI.OperationResult MarkDeletedSchedule(Guid uid, string name)
@@ -192,7 +192,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.MarkDeletedSchedule(uid, name, FiresecServiceFactory.UID);
+					return firesecService.MarkDeletedSchedule(FiresecServiceFactory.UID, uid, name);
 			}, "MarkDeletedSchedule");
 		}
 		public RubezhAPI.OperationResult RestoreSchedule(Guid uid, string name)
@@ -201,7 +201,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.RestoreSchedule(uid, name, FiresecServiceFactory.UID);
+					return firesecService.RestoreSchedule(FiresecServiceFactory.UID, uid, name);
 			}, "RestoreSchedule");
 		}
 
@@ -232,11 +232,11 @@ namespace RubezhClient
 
 		public RubezhAPI.OperationResult<List<TimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
 		{
-			return SafeOperationCall<RubezhAPI.OperationResult<List<TimeTrackDocument>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetTimeTrackDocument(employeeUID, startDateTime, endDateTime, FiresecServiceFactory.UID);
+					return firesecService.GetTimeTrackDocument(FiresecServiceFactory.UID, employeeUID, startDateTime, endDateTime);
 			}, "GetTimeTrackDocument");
 		}
 		public OperationResult AddTimeTrackDocument(TimeTrackDocument timeTrackDocument)
@@ -245,7 +245,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.AddTimeTrackDocument(timeTrackDocument, FiresecServiceFactory.UID);
+					return firesecService.AddTimeTrackDocument(FiresecServiceFactory.UID, timeTrackDocument);
 			}, "AddTimeTrackDocument");
 		}
 		public OperationResult EditTimeTrackDocument(TimeTrackDocument timeTrackDocument)
@@ -254,7 +254,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.EditTimeTrackDocument(timeTrackDocument, FiresecServiceFactory.UID);
+					return firesecService.EditTimeTrackDocument(FiresecServiceFactory.UID, timeTrackDocument);
 			}, "EditTimeTrackDocument");
 		}
 		public OperationResult RemoveTimeTrackDocument(Guid timeTrackDocumentUID)
@@ -263,87 +263,87 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.RemoveTimeTrackDocument(timeTrackDocumentUID, FiresecServiceFactory.UID);
+					return firesecService.RemoveTimeTrackDocument(FiresecServiceFactory.UID, timeTrackDocumentUID);
 			}, "RemoveTimeTrackDocument");
 		}
 
 		public OperationResult<List<TimeTrackDocumentType>> GetTimeTrackDocumentTypes(Guid organisationUID)
 		{
-			return SafeOperationCall<OperationResult<List<TimeTrackDocumentType>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetTimeTrackDocumentTypes(organisationUID, FiresecServiceFactory.UID);
+					return firesecService.GetTimeTrackDocumentTypes(FiresecServiceFactory.UID, organisationUID);
 			}, "GetTimeTrackDocumentTypes");
 		}
 		public OperationResult AddTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType)
 		{
-			return SafeOperationCall<OperationResult>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.AddTimeTrackDocumentType(timeTrackDocumentType, FiresecServiceFactory.UID);
+					return firesecService.AddTimeTrackDocumentType(FiresecServiceFactory.UID, timeTrackDocumentType);
 			}, "AddTimeTrackDocumentType");
 		}
 		public OperationResult EditTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType)
 		{
-			return SafeOperationCall<OperationResult>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.EditTimeTrackDocumentType(timeTrackDocumentType, FiresecServiceFactory.UID);
+					return firesecService.EditTimeTrackDocumentType(FiresecServiceFactory.UID, timeTrackDocumentType);
 			}, "EditTimeTrackDocumentType");
 		}
 		public OperationResult RemoveTimeTrackDocumentType(Guid timeTrackDocumentTypeUID)
 		{
-			return SafeOperationCall<OperationResult>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.RemoveTimeTrackDocumentType(timeTrackDocumentTypeUID, FiresecServiceFactory.UID);
+					return firesecService.RemoveTimeTrackDocumentType(FiresecServiceFactory.UID, timeTrackDocumentTypeUID);
 			}, "RemoveTimeTrackDocumentType");
 		}
 
 		public OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime enterTime, DateTime exitTime)
 		{
-			return SafeOperationCall<OperationResult>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.AddCustomPassJournal(uid, employeeUID, zoneUID, enterTime, exitTime, FiresecServiceFactory.UID);
+					return firesecService.AddCustomPassJournal(FiresecServiceFactory.UID, uid, employeeUID, zoneUID, enterTime, exitTime);
 			}, "AddCustomPassJournal");
 		}
 		public OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime enterTime, DateTime exitTime)
 		{
-			return SafeOperationCall<OperationResult>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.EditPassJournal(uid, zoneUID, enterTime, exitTime, FiresecServiceFactory.UID);
+					return firesecService.EditPassJournal(FiresecServiceFactory.UID, uid, zoneUID, enterTime, exitTime);
 			}, "EditPassJournal");
 		}
 		public OperationResult DeletePassJournal(Guid uid)
 		{
-			return SafeOperationCall<OperationResult>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.DeletePassJournal(uid, FiresecServiceFactory.UID);
+					return firesecService.DeletePassJournal(FiresecServiceFactory.UID, uid);
 			}, "DeletePassJournal");
 		}
 		public OperationResult DeleteAllPassJournalItems(Guid uid, DateTime enterTime, DateTime exitTime)
 		{
-			return SafeOperationCall<OperationResult>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.DeleteAllPassJournalItems(uid, enterTime, exitTime, FiresecServiceFactory.UID);
+					return firesecService.DeleteAllPassJournalItems(FiresecServiceFactory.UID, uid, enterTime, exitTime);
 			}, "DeleteAllPassJournalItems");
 		}
 
 		public OperationResult<DateTime> GetPassJournalMinDate()
 		{
-			return SafeOperationCall<OperationResult<DateTime>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -352,7 +352,7 @@ namespace RubezhClient
 		}
 		public OperationResult<DateTime> GetCardsMinDate()
 		{
-			return SafeOperationCall<OperationResult<DateTime>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)

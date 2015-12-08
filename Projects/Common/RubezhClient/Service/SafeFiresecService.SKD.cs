@@ -17,7 +17,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetEmployeeList(filter, FiresecServiceFactory.UID);
+					return firesecService.GetEmployeeList(FiresecServiceFactory.UID, filter);
 			}, "GetEmployeeList");
 		}
 		public OperationResult<Employee> GetEmployeeDetails(Guid uid)
@@ -26,7 +26,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetEmployeeDetails(uid, FiresecServiceFactory.UID);
+					return firesecService.GetEmployeeDetails(FiresecServiceFactory.UID, uid);
 			}, "GetEmployeeDetails");
 		}
 		public OperationResult<bool> SaveEmployee(Employee item, bool isNew)
@@ -35,7 +35,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveEmployee(item, isNew, FiresecServiceFactory.UID);
+					return firesecService.SaveEmployee(FiresecServiceFactory.UID, item, isNew);
 			}, "SaveEmployee");
 		}
 		public OperationResult MarkDeletedEmployee(Guid uid, string name, bool isEmployee)
@@ -44,7 +44,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.MarkDeletedEmployee(uid, name, isEmployee, FiresecServiceFactory.UID);
+					return firesecService.MarkDeletedEmployee(FiresecServiceFactory.UID, uid, name, isEmployee);
 			}, "MarkDeletedEmployee");
 		}
 		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
@@ -53,7 +53,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetTimeTracks(filter, startDate, endDate, FiresecServiceFactory.UID);
+					return firesecService.GetTimeTracks(FiresecServiceFactory.UID, filter, startDate, endDate);
 			}, "GetTimeTracks");
 		}
 		public Stream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)
@@ -62,7 +62,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetTimeTracksStream(filter, startDate, endDate, FiresecServiceFactory.UID);
+					return firesecService.GetTimeTracksStream(FiresecServiceFactory.UID, filter, startDate, endDate);
 			}, "GetTimeTracksStream");
 			return result;
 		}
@@ -72,7 +72,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveEmployeeDepartment(uid, departmentUid, name, FiresecServiceFactory.UID);
+					return firesecService.SaveEmployeeDepartment(FiresecServiceFactory.UID, uid, departmentUid, name);
 			}, "SaveEmployeeDepartment");
 		}
 		public OperationResult SaveEmployeePosition(Guid uid, Guid? positionUid, string name)
@@ -81,7 +81,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveEmployeePosition(uid, positionUid, name, FiresecServiceFactory.UID);
+					return firesecService.SaveEmployeePosition(FiresecServiceFactory.UID, uid, positionUid, name);
 			}, "SaveEmployeePosition");
 		}
 		public OperationResult RestoreEmployee(Guid uid, string name, bool isEmployee)
@@ -90,7 +90,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.RestoreEmployee(uid, name, isEmployee, FiresecServiceFactory.UID);
+					return firesecService.RestoreEmployee(FiresecServiceFactory.UID, uid, name, isEmployee);
 			}, "RestoreEmployee");
 		}
 		#endregion
@@ -102,7 +102,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetDepartmentList(filter, FiresecServiceFactory.UID);
+					return firesecService.GetDepartmentList(FiresecServiceFactory.UID, filter);
 			}, "GetDepartmentList");
 		}
 		public OperationResult<Department> GetDepartmentDetails(Guid uid)
@@ -111,7 +111,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetDepartmentDetails(uid, FiresecServiceFactory.UID);
+					return firesecService.GetDepartmentDetails(FiresecServiceFactory.UID, uid);
 			}, "GetDepartmentDetails");
 		}
 		public OperationResult<bool> SaveDepartment(Department item, bool isNew)
@@ -120,7 +120,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveDepartment(item, isNew, FiresecServiceFactory.UID);
+					return firesecService.SaveDepartment(FiresecServiceFactory.UID, item, isNew);
 			}, "SaveDepartment");
 		}
 		public OperationResult MarkDeletedDepartment(ShortDepartment item)
@@ -129,7 +129,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.MarkDeletedDepartment(item, FiresecServiceFactory.UID);
+					return firesecService.MarkDeletedDepartment(FiresecServiceFactory.UID, item);
 			}, "MarkDeletedDepartment");
 		}
 		public OperationResult SaveDepartmentChief(Guid uid, Guid? chiefUID, string name)
@@ -138,7 +138,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveDepartmentChief(uid, chiefUID, name, FiresecServiceFactory.UID);
+					return firesecService.SaveDepartmentChief(FiresecServiceFactory.UID, uid, chiefUID, name);
 			}, "SaveDepartmentChief");
 		}
 		public OperationResult RestoreDepartment(ShortDepartment item)
@@ -147,7 +147,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.RestoreDepartment(item, FiresecServiceFactory.UID);
+					return firesecService.RestoreDepartment(FiresecServiceFactory.UID, item);
 			}, "RestoreDepartment");
 		}
 		public OperationResult<List<Guid>> GetChildEmployeeUIDs(Guid uid)
@@ -156,7 +156,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetChildEmployeeUIDs(uid, FiresecServiceFactory.UID);
+					return firesecService.GetChildEmployeeUIDs(FiresecServiceFactory.UID, uid);
 			}, "GetChildEmployeeUIDs");
 		}
 		public OperationResult<List<Guid>> GetParentEmployeeUIDs(Guid uid)
@@ -165,7 +165,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetParentEmployeeUIDs(uid, FiresecServiceFactory.UID);
+					return firesecService.GetParentEmployeeUIDs(FiresecServiceFactory.UID, uid);
 			}, "GetParentEmployeeUIDs");
 		}
 		#endregion
@@ -177,7 +177,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetPositionList(filter, FiresecServiceFactory.UID);
+					return firesecService.GetPositionList(FiresecServiceFactory.UID, filter);
 			}, "GetPositionList");
 		}
 
@@ -187,7 +187,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetPositionEmployees(uid, FiresecServiceFactory.UID);
+					return firesecService.GetPositionEmployees(FiresecServiceFactory.UID, uid);
 			}, "GetPositionEmployees");
 		}
 
@@ -197,7 +197,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetPositionDetails(uid, FiresecServiceFactory.UID);
+					return firesecService.GetPositionDetails(FiresecServiceFactory.UID, uid);
 			}, "GetPositionDetails");
 		}
 		public OperationResult<bool> SavePosition(Position item, bool isNew)
@@ -206,7 +206,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SavePosition(item, isNew, FiresecServiceFactory.UID);
+					return firesecService.SavePosition(FiresecServiceFactory.UID, item, isNew);
 			}, "SavePosition");
 		}
 		public OperationResult MarkDeletedPosition(Guid uid, string name)
@@ -215,7 +215,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.MarkDeletedPosition(uid, name, FiresecServiceFactory.UID);
+					return firesecService.MarkDeletedPosition(FiresecServiceFactory.UID, uid, name);
 			}, "MarkDeletedPosition");
 		}
 		public OperationResult RestorePosition(Guid uid, string name)
@@ -224,7 +224,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.RestorePosition(uid, name, FiresecServiceFactory.UID);
+					return firesecService.RestorePosition(FiresecServiceFactory.UID, uid, name);
 			}, "RestorePosition");
 		}
 		#endregion
@@ -245,7 +245,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetFilteredJournalItems(filter, FiresecServiceFactory.UID);
+					return firesecService.GetFilteredJournalItems(FiresecServiceFactory.UID, filter);
 			}, "GetFilteredJournalItems");
 		}
 		public OperationResult<bool> BeginGetJournal(JournalFilter filter)
@@ -254,7 +254,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.BeginGetJournal(filter, FiresecServiceFactory.UID);
+					return firesecService.BeginGetJournal(FiresecServiceFactory.UID, filter);
 			}, "BeginGetJournal");
 		}
 		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
@@ -263,7 +263,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.AddJournalItem(journalItem, FiresecServiceFactory.UID);
+					return firesecService.AddJournalItem(FiresecServiceFactory.UID, journalItem);
 			}, "AddJournalItem");
 		}
 		public OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page)
@@ -272,7 +272,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.BeginGetArchivePage(filter, page, FiresecServiceFactory.UID);
+					return firesecService.BeginGetArchivePage(FiresecServiceFactory.UID, filter, page);
 			}, "BeginGetArchivePage");
 		}
 		public OperationResult<int> GetArchiveCount(JournalFilter filter)
@@ -281,7 +281,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetArchiveCount(filter, FiresecServiceFactory.UID);
+					return firesecService.GetArchiveCount(FiresecServiceFactory.UID, filter);
 			}, "GetArchiveCount");
 		}
 		#endregion
@@ -293,7 +293,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetCards(filter, FiresecServiceFactory.UID);
+					return firesecService.GetCards(FiresecServiceFactory.UID, filter);
 			}, "GetCards");
 		}
 		public OperationResult<SKDCard> GetSingleCard(Guid uid)
@@ -302,7 +302,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetSingleCard(uid, FiresecServiceFactory.UID);
+					return firesecService.GetSingleCard(FiresecServiceFactory.UID, uid);
 			}, "GetSingleCard");
 		}
 		public OperationResult<List<SKDCard>> GetEmployeeCards(Guid employeeUID)
@@ -311,7 +311,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetEmployeeCards(employeeUID, FiresecServiceFactory.UID);
+					return firesecService.GetEmployeeCards(FiresecServiceFactory.UID, employeeUID);
 			}, "GetEmployeeCards");
 		}
 		public OperationResult<bool> AddCard(SKDCard item, string employeeName)
@@ -320,7 +320,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.AddCard(item, employeeName, FiresecServiceFactory.UID);
+					return firesecService.AddCard(FiresecServiceFactory.UID, item, employeeName);
 			}, "AddCard");
 		}
 		public OperationResult<bool> EditCard(SKDCard item, string employeeName)
@@ -329,7 +329,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.EditCard(item, employeeName, FiresecServiceFactory.UID);
+					return firesecService.EditCard(FiresecServiceFactory.UID, item, employeeName);
 			}, "EditCard");
 		}
 		public OperationResult<bool> DeleteCardFromEmployee(SKDCard item, string employeeName, string reason = null)
@@ -338,7 +338,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.DeleteCardFromEmployee(item, employeeName, FiresecServiceFactory.UID, reason);
+					return firesecService.DeleteCardFromEmployee(FiresecServiceFactory.UID, item, employeeName, reason);
 			}, "DeleteCardFromEmployee");
 		}
 		public OperationResult DeletedCard(SKDCard card)
@@ -347,7 +347,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.DeletedCard(card, FiresecServiceFactory.UID);
+					return firesecService.DeletedCard(FiresecServiceFactory.UID, card);
 			}, "DeletedCard");
 		}
 		public OperationResult SaveCardTemplate(SKDCard item)
@@ -356,7 +356,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveCardTemplate(item, FiresecServiceFactory.UID);
+					return firesecService.SaveCardTemplate(FiresecServiceFactory.UID, item);
 			}, "SaveCardTemplate");
 		}
 		#endregion
@@ -368,7 +368,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetAccessTemplates(filter, FiresecServiceFactory.UID);
+					return firesecService.GetAccessTemplates(FiresecServiceFactory.UID, filter);
 			}, "GetAccessTemplates");
 		}
 		public OperationResult<bool> SaveAccessTemplate(AccessTemplate item, bool isNew)
@@ -377,7 +377,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveAccessTemplate(item, isNew, FiresecServiceFactory.UID);
+					return firesecService.SaveAccessTemplate(FiresecServiceFactory.UID, item, isNew);
 			}, "SaveAccessTemplate");
 		}
 		public OperationResult MarkDeletedAccessTemplate(AccessTemplate item)
@@ -386,7 +386,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.MarkDeletedAccessTemplate(item, FiresecServiceFactory.UID);
+					return firesecService.MarkDeletedAccessTemplate(FiresecServiceFactory.UID, item);
 			}, "MarkDeletedAccessTemplate");
 		}
 		public OperationResult RestoreAccessTemplate(AccessTemplate item)
@@ -395,7 +395,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.RestoreAccessTemplate(item, FiresecServiceFactory.UID);
+					return firesecService.RestoreAccessTemplate(FiresecServiceFactory.UID, item);
 			}, "RestoreAccessTemplate");
 		}
 		#endregion
@@ -407,7 +407,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetOrganisations(filter, FiresecServiceFactory.UID);
+					return firesecService.GetOrganisations(FiresecServiceFactory.UID, filter);
 			}, "GetOrganisations");
 		}
 		public OperationResult<bool> SaveOrganisation(OrganisationDetails item, bool isNew)
@@ -416,7 +416,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveOrganisation(item, isNew, FiresecServiceFactory.UID);
+					return firesecService.SaveOrganisation(FiresecServiceFactory.UID, item, isNew);
 			}, "SaveOrganisation");
 		}
 		public OperationResult MarkDeletedOrganisation(Guid uid, string name)
@@ -425,7 +425,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.MarkDeletedOrganisation(uid, name, FiresecServiceFactory.UID);
+					return firesecService.MarkDeletedOrganisation(FiresecServiceFactory.UID, uid, name);
 			}, "MarkDeletedOrganisation");
 		}
 		public OperationResult AddOrganisationDoor(Organisation item, Guid doorUID)
@@ -434,7 +434,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.AddOrganisationDoor(item, doorUID, FiresecServiceFactory.UID);
+					return firesecService.AddOrganisationDoor(FiresecServiceFactory.UID, item, doorUID);
 			}, "AddOrganisationDoor");
 		}
 		public OperationResult RemoveOrganisationDoor(Organisation item, Guid doorUID)
@@ -443,7 +443,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.RemoveOrganisationDoor(item, doorUID, FiresecServiceFactory.UID);
+					return firesecService.RemoveOrganisationDoor(FiresecServiceFactory.UID, item, doorUID);
 			}, "RemoveOrganisationDoor");
 		}
 		public OperationResult SaveOrganisationUsers(Organisation item)
@@ -452,7 +452,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveOrganisationUsers(item, FiresecServiceFactory.UID);
+					return firesecService.SaveOrganisationUsers(FiresecServiceFactory.UID, item);
 			}, "SaveOrganisationUsers");
 		}
 		public OperationResult<OrganisationDetails> GetOrganisationDetails(Guid uid)
@@ -461,7 +461,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetOrganisationDetails(uid, FiresecServiceFactory.UID);
+					return firesecService.GetOrganisationDetails(FiresecServiceFactory.UID, uid);
 			}, "GetOrganisationDetails");
 		}
 		public OperationResult SaveOrganisationChief(Guid uid, Guid? chiefUID, string name)
@@ -470,7 +470,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveOrganisationChief(uid, chiefUID, name, FiresecServiceFactory.UID);
+					return firesecService.SaveOrganisationChief(FiresecServiceFactory.UID, uid, chiefUID, name);
 			}, "SaveOrganisationChief");
 		}
 		public OperationResult SaveOrganisationHRChief(Guid uid, Guid? chiefUID, string name)
@@ -479,7 +479,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveOrganisationHRChief(uid, chiefUID, name, FiresecServiceFactory.UID);
+					return firesecService.SaveOrganisationHRChief(FiresecServiceFactory.UID, uid, chiefUID, name);
 			}, "SaveOrganisationHRChief");
 		}
 		public OperationResult RestoreOrganisation(Guid uid, string name)
@@ -488,7 +488,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.RestoreOrganisation(uid, name, FiresecServiceFactory.UID);
+					return firesecService.RestoreOrganisation(FiresecServiceFactory.UID, uid, name);
 			}, "RestoreOrganisation");
 		}
 		public OperationResult<bool> IsAnyOrganisationItems(Guid uid)
@@ -497,7 +497,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.IsAnyOrganisationItems(uid, FiresecServiceFactory.UID);
+					return firesecService.IsAnyOrganisationItems(FiresecServiceFactory.UID, uid);
 			}, "IsAnyOrganisationItems");
 		}
 		#endregion
@@ -509,7 +509,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetAdditionalColumnTypes(filter, FiresecServiceFactory.UID);
+					return firesecService.GetAdditionalColumnTypes(FiresecServiceFactory.UID, filter);
 			}, "GetAdditionalColumnTypes");
 		}
 		public OperationResult<bool> SaveAdditionalColumnType(AdditionalColumnType item, bool isNew)
@@ -518,7 +518,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveAdditionalColumnType(item, isNew, FiresecServiceFactory.UID);
+					return firesecService.SaveAdditionalColumnType(FiresecServiceFactory.UID, item, isNew);
 			}, "SaveAdditionalColumnType");
 		}
 		public OperationResult MarkDeletedAdditionalColumnType(Guid uid, string name)
@@ -527,7 +527,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.MarkDeletedAdditionalColumnType(uid, name, FiresecServiceFactory.UID);
+					return firesecService.MarkDeletedAdditionalColumnType(FiresecServiceFactory.UID, uid, name);
 			}, "MarkDeletedAdditionalColumnType");
 		}
 		public OperationResult RestoreAdditionalColumnType(Guid uid, string name)
@@ -536,7 +536,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.RestoreAdditionalColumnType(uid, name, FiresecServiceFactory.UID);
+					return firesecService.RestoreAdditionalColumnType(FiresecServiceFactory.UID, uid, name);
 			}, "RestoreAdditionalColumnType");
 		}
 		#endregion
@@ -548,7 +548,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetNightSettingsByOrganisation(organisationUID, FiresecServiceFactory.UID);
+					return firesecService.GetNightSettingsByOrganisation(FiresecServiceFactory.UID, organisationUID);
 			}, "GetNightSettingsByOrganisation");
 		}
 		public OperationResult SaveNightSettings(NightSettings nightSettings)
@@ -557,7 +557,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveNightSettings(nightSettings, FiresecServiceFactory.UID);
+					return firesecService.SaveNightSettings(FiresecServiceFactory.UID, nightSettings);
 			}, "SaveNightSettings");
 		}
 		#endregion
@@ -569,7 +569,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetPassCardTemplateList(filter, FiresecServiceFactory.UID);
+					return firesecService.GetPassCardTemplateList(FiresecServiceFactory.UID, filter);
 			}, "GetPassCardTemplateList");
 		}
 		public OperationResult<PassCardTemplate> GetPassCardTemplateDetails(Guid uid)
@@ -578,7 +578,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetPassCardTemplateDetails(uid, FiresecServiceFactory.UID);
+					return firesecService.GetPassCardTemplateDetails(FiresecServiceFactory.UID, uid);
 			}, "GetPassCardTemplateDetails");
 		}
 		public OperationResult<bool> SavePassCardTemplate(PassCardTemplate item, bool isNew)
@@ -587,7 +587,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SavePassCardTemplate(item, isNew, FiresecServiceFactory.UID);
+					return firesecService.SavePassCardTemplate(FiresecServiceFactory.UID, item, isNew);
 			}, "SavePassCardTemplate");
 		}
 		public OperationResult MarkDeletedPassCardTemplate(Guid uid, string name)
@@ -596,7 +596,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.MarkDeletedPassCardTemplate(uid, name, FiresecServiceFactory.UID);
+					return firesecService.MarkDeletedPassCardTemplate(FiresecServiceFactory.UID, uid, name);
 			}, "MarkDeletedPassCardTemplate");
 		}
 		public OperationResult RestorePassCardTemplate(Guid uid, string name)
@@ -605,7 +605,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.RestorePassCardTemplate(uid, name, FiresecServiceFactory.UID);
+					return firesecService.RestorePassCardTemplate(FiresecServiceFactory.UID, uid, name);
 			}, "RestorePassCardTemplate");
 		}
 		#endregion
@@ -636,7 +636,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GenerateTestData(isAscending, FiresecServiceFactory.UID);
+					return firesecService.GenerateTestData(FiresecServiceFactory.UID, isAscending);
 			}, "GenerateTestData");
 		}
 
@@ -646,7 +646,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveJournalVideoUID(journalItemUID, videoUID, cameraUID, FiresecServiceFactory.UID);
+					return firesecService.SaveJournalVideoUID(FiresecServiceFactory.UID, journalItemUID, videoUID, cameraUID);
 			}, "SaveJournalVideoUID");
 		}
 
@@ -656,7 +656,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveJournalCameraUID(journalItemUID, CameraUID, FiresecServiceFactory.UID);
+					return firesecService.SaveJournalCameraUID(FiresecServiceFactory.UID, journalItemUID, CameraUID);
 			}, "SaveJournalCameraUID");
 		}
 
@@ -677,7 +677,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveGKSchedule(item, isNew, FiresecServiceFactory.UID);
+					return firesecService.SaveGKSchedule(FiresecServiceFactory.UID, item, isNew);
 			}, "SaveGKSchedule");
 		}
 
@@ -687,7 +687,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.DeleteGKSchedule(item, FiresecServiceFactory.UID);
+					return firesecService.DeleteGKSchedule(FiresecServiceFactory.UID, item);
 			}, "DeleteGKSchedule");
 		}
 		#endregion
@@ -709,7 +709,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveGKDaySchedule(item, isNew, FiresecServiceFactory.UID);
+					return firesecService.SaveGKDaySchedule(FiresecServiceFactory.UID, item, isNew);
 			}, "SaveGKDaySchedule");
 		}
 
@@ -719,7 +719,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.DeleteGKDaySchedule(item, FiresecServiceFactory.UID);
+					return firesecService.DeleteGKDaySchedule(FiresecServiceFactory.UID, item);
 			}, "DeleteGKDaySchedule");
 		}
 		#endregion
@@ -731,7 +731,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.ExportOrganisation(filter, FiresecServiceFactory.UID);
+					return firesecService.ExportOrganisation(FiresecServiceFactory.UID, filter);
 			}, "ExportOrganisation");
 		}
 		public OperationResult ImportOrganisation(ImportFilter filter)
@@ -740,7 +740,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.ImportOrganisation(filter, FiresecServiceFactory.UID);
+					return firesecService.ImportOrganisation(FiresecServiceFactory.UID, filter);
 			}, "ImportOrganisation");
 		}
 		public OperationResult ExportOrganisationList(ExportFilter filter)
@@ -749,7 +749,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.ExportOrganisationList(filter, FiresecServiceFactory.UID);
+					return firesecService.ExportOrganisationList(FiresecServiceFactory.UID, filter);
 			}, "ExportOrganisationList");
 		}
 		public OperationResult ImportOrganisationList(ImportFilter filter)
@@ -758,7 +758,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.ImportOrganisationList(filter, FiresecServiceFactory.UID);
+					return firesecService.ImportOrganisationList(FiresecServiceFactory.UID, filter);
 			}, "ImportOrganisationList");
 		}
 		public OperationResult ExportJournal(JournalExportFilter filter)
@@ -767,7 +767,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.ExportJournal(filter, FiresecServiceFactory.UID);
+					return firesecService.ExportJournal(FiresecServiceFactory.UID, filter);
 			}, "ExportJournal");
 		}
 		public OperationResult ExportConfiguration(ConfigurationExportFilter filter)
@@ -776,7 +776,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.ExportConfiguration(filter, FiresecServiceFactory.UID);
+					return firesecService.ExportConfiguration(FiresecServiceFactory.UID, filter);
 			}, "ExportConfiguration");
 		}
 		#endregion
@@ -788,7 +788,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.SaveCurrentConsumption(item, FiresecServiceFactory.UID);
+					return firesecService.SaveCurrentConsumption(FiresecServiceFactory.UID, item);
 			}, "SaveCurrentConsumption");
 		}
 		public OperationResult<List<CurrentConsumption>> GetCurrentConsumption(CurrentConsumptionFilter item)
@@ -797,7 +797,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetCurrentConsumption(item, FiresecServiceFactory.UID);
+					return firesecService.GetCurrentConsumption(FiresecServiceFactory.UID, item);
 			}, "GetCurrentConsumption");
 		}
 		#endregion

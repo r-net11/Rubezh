@@ -38,7 +38,7 @@ namespace FiresecService.Service
 			return ClientsManager.ClientInfos.Any(x => x.UID == clientUID);
 		}
 
-		OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> func, string operationName, Guid clientUID)
+		OperationResult<T> SafeOperationCall<T>(Guid clientUID, Func<OperationResult<T>> func, string operationName)
 		{
 			if (!CheckClient(clientUID)) throw new InvalidOperationException("Попытка вызова метода неавторизванным клиентом. OperationName = " + operationName);
 			try
@@ -55,7 +55,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		T SafeOperationCall<T>(Func<T> func, string operationName, Guid clientUID)
+		T SafeOperationCall<T>(Guid clientUID, Func<T> func, string operationName)
 		{
 			if (!CheckClient(clientUID)) throw new InvalidOperationException("Попытка вызова метода неавторизванным клиентом. OperationName = " + operationName);
 			try
@@ -72,7 +72,7 @@ namespace FiresecService.Service
 			return default(T);
 		}
 
-		void SafeOperationCall(Action action, string operationName, Guid clientUID)
+		void SafeOperationCall(Guid clientUID, Action action, string operationName)
 		{
 			if (!CheckClient(clientUID)) throw new InvalidOperationException("Попытка вызова метода неавторизванным клиентом. OperationName = " + operationName);
 			try
@@ -87,11 +87,11 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials)
+		public OperationResult<bool> Connect(Guid clientUID, ClientCredentials clientCredentials)
 		{
 			try
 			{
-				return FiresecService.Connect(uid, clientCredentials);
+				return FiresecService.Connect(clientUID, clientCredentials);
 			}
 			catch (Exception e)
 			{
@@ -100,11 +100,11 @@ namespace FiresecService.Service
 			}
 		}
 
-		public void Disconnect(Guid uid)
+		public void Disconnect(Guid clientUID)
 		{
 			try
 			{
-				FiresecService.Disconnect(uid);
+				FiresecService.Disconnect(clientUID);
 			}
 			catch (Exception e)
 			{
@@ -114,47 +114,47 @@ namespace FiresecService.Service
 
 		public OperationResult<ServerState> GetServerState(Guid clientUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetServerState(clientUID); }, "GetServerState", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GetServerState(clientUID); }, "GetServerState");
 		}
 
 		public string Ping(Guid clientUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.Ping(clientUID); }, "Ping", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.Ping(clientUID); }, "Ping");
 		}
 
 		public OperationResult ResetDB(Guid clientUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.ResetDB(clientUID); }, "ResetDB", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.ResetDB(clientUID); }, "ResetDB");
 		}
 
-		public List<CallbackResult> Poll(Guid uid, int callbackIndex)
+		public List<CallbackResult> Poll(Guid clientUID, int callbackIndex)
 		{
-			return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.Poll(uid, callbackIndex));
+			return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.Poll(clientUID, callbackIndex));
 		}
 
 		public SecurityConfiguration GetSecurityConfiguration(Guid clientUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetSecurityConfiguration(clientUID); }, "GetSecurityConfiguration", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GetSecurityConfiguration(clientUID); }, "GetSecurityConfiguration");
 		}
 
-		public List<string> GetFileNamesList(string directory, Guid clientUID)
+		public List<string> GetFileNamesList(Guid clientUID, string directory)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetFileNamesList(directory, clientUID); }, "GetFileNamesList", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GetFileNamesList(clientUID, directory); }, "GetFileNamesList");
 		}
 
-		public Dictionary<string, string> GetDirectoryHash(string directory, Guid clientUID)
+		public Dictionary<string, string> GetDirectoryHash(Guid clientUID, string directory)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetDirectoryHash(directory, clientUID); }, "GetDirectoryHash", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GetDirectoryHash(clientUID, directory); }, "GetDirectoryHash");
 		}
 
-		public System.IO.Stream GetServerAppDataFile(string dirAndFileName, Guid clientUID)
+		public System.IO.Stream GetServerAppDataFile(Guid clientUID, string dirAndFileName)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetServerAppDataFile(dirAndFileName, clientUID); }, "GetServerAppDataFile", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GetServerAppDataFile(clientUID, dirAndFileName); }, "GetServerAppDataFile");
 		}
 
 		public Stream GetConfig(Guid clientUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetConfig(clientUID); }, "GetConfig", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GetConfig(clientUID); }, "GetConfig");
 		}
 
 		public void SetRemoteConfig(Stream stream)
@@ -171,272 +171,272 @@ namespace FiresecService.Service
 
 		public void SetLocalConfig(Guid clientUID)
 		{
-			SafeOperationCall(() => { FiresecService.SetLocalConfig(clientUID); }, "SetLocalConfig", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.SetLocalConfig(clientUID); }, "SetLocalConfig");
 		}
 
-		public string Test(string arg, Guid clientUID)
+		public string Test(Guid clientUID, string arg)
 		{
-			return SafeOperationCall(() => { return FiresecService.Test(arg, clientUID); }, "Test", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.Test(clientUID, arg); }, "Test");
 		}
 
 		public OperationResult<FiresecLicenseInfo> GetLicenseInfo(Guid clientUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetLicenseInfo(clientUID); }, "GetLicenseInfo", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GetLicenseInfo(clientUID); }, "GetLicenseInfo");
 		}
 
 		#region Journal
 		public OperationResult<DateTime> GetMinJournalDateTime(Guid clientUID)
 		{
-			return SafeOperationCall(() => FiresecService.GetMinJournalDateTime(clientUID), "GetMinJournalDateTime", clientUID);
+			return SafeOperationCall(clientUID, () => FiresecService.GetMinJournalDateTime(clientUID), "GetMinJournalDateTime");
 		}
-		public OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter filter, Guid clientUID)
+		public OperationResult<List<JournalItem>> GetFilteredJournalItems(Guid clientUID, JournalFilter filter)
 		{
-			return SafeOperationCall(() => FiresecService.GetFilteredJournalItems(filter, clientUID), "GetFilteredJournalItems", clientUID);
+			return SafeOperationCall(clientUID, () => FiresecService.GetFilteredJournalItems(clientUID, filter), "GetFilteredJournalItems");
 		}
-		public OperationResult<bool> BeginGetJournal(JournalFilter filter, Guid clientUID)
+		public OperationResult<bool> BeginGetJournal(Guid clientUID, JournalFilter filter)
 		{
-			return SafeOperationCall(() => FiresecService.BeginGetJournal(filter, clientUID), "BeginGetJournal", clientUID);
+			return SafeOperationCall(clientUID, () => FiresecService.BeginGetJournal(clientUID, filter), "BeginGetJournal");
 		}
-		public OperationResult<bool> AddJournalItem(JournalItem journalItem, Guid clientUID)
+		public OperationResult<bool> AddJournalItem(Guid clientUID, JournalItem journalItem)
 		{
-			return SafeOperationCall(() => { return FiresecService.AddJournalItem(journalItem, clientUID); }, "AddJournalItem", clientUID);
-		}
-
-		public OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page, Guid clientUID)
-		{
-			return SafeOperationCall(() => FiresecService.BeginGetArchivePage(filter, page, clientUID), "BeginGetArchivePage", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.AddJournalItem(clientUID, journalItem); }, "AddJournalItem");
 		}
 
-		public OperationResult<int> GetArchiveCount(JournalFilter filter, Guid clientUID)
+		public OperationResult<bool> BeginGetArchivePage(Guid clientUID, JournalFilter filter, int page)
 		{
-			return SafeOperationCall(() => FiresecService.GetArchiveCount(filter, clientUID), "GetArchiveCount", clientUID);
+			return SafeOperationCall(clientUID, () => FiresecService.BeginGetArchivePage(clientUID, filter, page), "BeginGetArchivePage");
+		}
+
+		public OperationResult<int> GetArchiveCount(Guid clientUID, JournalFilter filter)
+		{
+			return SafeOperationCall(clientUID, () => FiresecService.GetArchiveCount(clientUID, filter), "GetArchiveCount");
 		}
 		#endregion
 
 		#region GK
 
-		public void CancelGKProgress(Guid progressCallbackUID, string userName, Guid clientUID)
+		public void CancelGKProgress(Guid clientUID, Guid progressCallbackUID, string userName)
 		{
-			SafeOperationCall(() => { FiresecService.CancelGKProgress(progressCallbackUID, userName, clientUID); }, "CancelGKProgress", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.CancelGKProgress(clientUID, progressCallbackUID, userName); }, "CancelGKProgress");
 		}
 
-		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID, Guid clientUID)
+		public OperationResult<bool> GKWriteConfiguration(Guid clientUID, Guid deviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKWriteConfiguration(deviceUID, clientUID); }, "GKWriteConfiguration", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GKWriteConfiguration(clientUID, deviceUID); }, "GKWriteConfiguration");
 		}
 
-		public OperationResult<GKDeviceConfiguration> GKReadConfiguration(Guid deviceUID, Guid clientUID)
+		public OperationResult<GKDeviceConfiguration> GKReadConfiguration(Guid clientUID, Guid deviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKReadConfiguration(deviceUID, clientUID); }, "GKReadConfiguration", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GKReadConfiguration(clientUID, deviceUID); }, "GKReadConfiguration");
 		}
 
-		public OperationResult<bool> GKReadConfigurationFromGKFile(Guid deviceUID, Guid clientUID)
+		public OperationResult<bool> GKReadConfigurationFromGKFile(Guid clientUID, Guid deviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKReadConfigurationFromGKFile(deviceUID, clientUID); }, "GKReadConfigurationFromGKFile", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GKReadConfigurationFromGKFile(clientUID, deviceUID); }, "GKReadConfigurationFromGKFile");
 		}
 
-		public Stream GetServerFile(string filePath, Guid clientUID)
+		public Stream GetServerFile(Guid clientUID, string filePath)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetServerFile(filePath, clientUID); }, "GetServerFile", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GetServerFile(clientUID, filePath); }, "GetServerFile");
 		}
 
-		public OperationResult<GKDevice> GKAutoSearch(Guid deviceUID, Guid clientUID)
+		public OperationResult<GKDevice> GKAutoSearch(Guid clientUID, Guid deviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKAutoSearch(deviceUID, clientUID); }, "GKAutoSearch", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GKAutoSearch(clientUID, deviceUID); }, "GKAutoSearch");
 		}
 
-		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, List<byte> firmwareBytes, Guid clientUID)
+		public OperationResult<bool> GKUpdateFirmware(Guid clientUID, Guid deviceUID, List<byte> firmwareBytes)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKUpdateFirmware(deviceUID, firmwareBytes, clientUID); }, "GKUpdateFirmware", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GKUpdateFirmware(clientUID, deviceUID, firmwareBytes); }, "GKUpdateFirmware");
 		}
 
-		public OperationResult<bool> GKSyncronyseTime(Guid deviceUID, Guid clientUID)
+		public OperationResult<bool> GKSyncronyseTime(Guid clientUID, Guid deviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKSyncronyseTime(deviceUID, clientUID); }, "GKSyncronyseTime", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GKSyncronyseTime(clientUID, deviceUID); }, "GKSyncronyseTime");
 		}
 
-		public OperationResult<string> GKGetDeviceInfo(Guid deviceUID, Guid clientUID)
+		public OperationResult<string> GKGetDeviceInfo(Guid clientUID, Guid deviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKGetDeviceInfo(deviceUID, clientUID); }, "GKGetDeviceInfo", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GKGetDeviceInfo(clientUID, deviceUID); }, "GKGetDeviceInfo");
 		}
 
-		public OperationResult<int> GKGetJournalItemsCount(Guid deviceUID, Guid clientUID)
+		public OperationResult<int> GKGetJournalItemsCount(Guid clientUID, Guid deviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKGetJournalItemsCount(deviceUID, clientUID); }, "GKGetJournalItemsCount", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GKGetJournalItemsCount(clientUID, deviceUID); }, "GKGetJournalItemsCount");
 		}
 
-		public OperationResult<JournalItem> GKReadJournalItem(Guid deviceUID, int no, Guid clientUID)
+		public OperationResult<JournalItem> GKReadJournalItem(Guid clientUID, Guid deviceUID, int no)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKReadJournalItem(deviceUID, no, clientUID); }, "GKReadJournalItem", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GKReadJournalItem(clientUID, deviceUID, no); }, "GKReadJournalItem");
 		}
 
-		public OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes, Guid clientUID, List<GKProperty> deviceProperties)
+		public OperationResult<bool> GKSetSingleParameter(Guid clientUID, Guid objectUID, List<byte> parameterBytes, List<GKProperty> deviceProperties)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKSetSingleParameter(objectUID, parameterBytes, clientUID, deviceProperties); }, "GKSetSingleParameter", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GKSetSingleParameter(clientUID, objectUID, parameterBytes, deviceProperties); }, "GKSetSingleParameter");
 		}
 
-		public OperationResult<List<GKProperty>> GKGetSingleParameter(Guid objectUID, Guid clientUID)
+		public OperationResult<List<GKProperty>> GKGetSingleParameter(Guid clientUID, Guid objectUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKGetSingleParameter(objectUID, clientUID); }, "GKGetSingleParameter", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GKGetSingleParameter(clientUID, objectUID); }, "GKGetSingleParameter");
 		}
 
-		public OperationResult<bool> GKRewriteAllSchedules(Guid gkDeviceUID, Guid clientUID)
+		public OperationResult<bool> GKRewriteAllSchedules(Guid clientUID, Guid gkDeviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKRewriteAllSchedules(gkDeviceUID, clientUID); }, "GKRewriteAllSchedules", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GKRewriteAllSchedules(clientUID, gkDeviceUID); }, "GKRewriteAllSchedules");
 		}
 
-		public OperationResult<bool> GKSetSchedule(GKSchedule schedule, Guid clientUID)
+		public OperationResult<bool> GKSetSchedule(Guid clientUID, GKSchedule schedule)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKSetSchedule(schedule, clientUID); }, "GKSetSchedule", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GKSetSchedule(clientUID, schedule); }, "GKSetSchedule");
 		}
 
-		public OperationResult<bool> GKGetUsers(Guid gkDeviceUID, Guid clientUID)
+		public OperationResult<bool> GKGetUsers(Guid clientUID, Guid gkDeviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKGetUsers(gkDeviceUID, clientUID); }, "GKGetUsers", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GKGetUsers(clientUID, gkDeviceUID); }, "GKGetUsers");
 		}
 
-		public OperationResult<bool> GKRewriteUsers(Guid gkDeviceUID, Guid clientUID)
+		public OperationResult<bool> GKRewriteUsers(Guid clientUID, Guid gkDeviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKRewriteUsers(gkDeviceUID, clientUID); }, "GKRewriteUsers", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GKRewriteUsers(clientUID, gkDeviceUID); }, "GKRewriteUsers");
 		}
 
-		public OperationResult<List<MirrorUser>> GKReadMirrorUsers(Guid deviceUID, Guid clientUID)
+		public OperationResult<List<MirrorUser>> GKReadMirrorUsers(Guid clientUID, Guid deviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKReadMirrorUsers(deviceUID, clientUID); }, "GKReadMirrorUsers", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GKReadMirrorUsers(clientUID, deviceUID); }, "GKReadMirrorUsers");
 		}
 
-		public OperationResult<bool> GKWriteMirrorUsers(Guid deviceUID, List<MirrorUser> mirrorUsers, Guid clientUID)
+		public OperationResult<bool> GKWriteMirrorUsers(Guid clientUID, Guid deviceUID, List<MirrorUser> mirrorUsers)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKWriteMirrorUsers(deviceUID, mirrorUsers, clientUID); }, "GKWriteMirrorUsers", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GKWriteMirrorUsers(clientUID, deviceUID, mirrorUsers); }, "GKWriteMirrorUsers");
 		}
 
-		public OperationResult<List<GKUser>> GetGKUsers(Guid deviceUID, Guid clientUID)
+		public OperationResult<List<GKUser>> GetGKUsers(Guid clientUID, Guid deviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetGKUsers(deviceUID, clientUID); }, "GetGKUsers", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GetGKUsers(clientUID, deviceUID); }, "GetGKUsers");
 		}
 
-		public OperationResult<bool> RewritePmfUsers(Guid uid, List<GKUser> users, Guid clientUID)
+		public OperationResult<bool> RewritePmfUsers(Guid clientUID, Guid uid, List<GKUser> users)
 		{
-			return SafeOperationCall(() => { return FiresecService.RewritePmfUsers(uid, users, clientUID); }, "RewritePmfUsers", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.RewritePmfUsers(clientUID, uid, users); }, "RewritePmfUsers");
 		}
 
-		public OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID, Guid clientUID)
+		public OperationResult<List<byte>> GKGKHash(Guid clientUID, Guid gkDeviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKGKHash(gkDeviceUID, clientUID); }, "GKGKHash", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GKGKHash(clientUID, gkDeviceUID); }, "GKGKHash");
 		}
 
 		public GKStates GKGetStates(Guid clientUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKGetStates(clientUID); }, "GKGetStates", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GKGetStates(clientUID); }, "GKGetStates");
 		}
-		public void GKExecuteDeviceCommand(Guid deviceUID, GKStateBit stateBit, Guid clientUID)
+		public void GKExecuteDeviceCommand(Guid clientUID, Guid deviceUID, GKStateBit stateBit)
 		{
-			SafeOperationCall(() => { FiresecService.GKExecuteDeviceCommand(deviceUID, stateBit, clientUID); }, "GKExecuteDeviceCommand", clientUID);
-		}
-
-		public void GKReset(Guid uid, GKBaseObjectType objectType, Guid clientUID)
-		{
-			SafeOperationCall(() => { FiresecService.GKReset(uid, objectType, clientUID); }, "GKReset", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.GKExecuteDeviceCommand(clientUID, deviceUID, stateBit); }, "GKExecuteDeviceCommand");
 		}
 
-		public void GKResetFire1(Guid zoneUID, Guid clientUID)
+		public void GKReset(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			SafeOperationCall(() => { FiresecService.GKResetFire1(zoneUID, clientUID); }, "GKResetFire1", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.GKReset(clientUID, uid, objectType); }, "GKReset");
 		}
 
-		public void GKResetFire2(Guid zoneUID, Guid clientUID)
+		public void GKResetFire1(Guid clientUID, Guid zoneUID)
 		{
-			SafeOperationCall(() => { FiresecService.GKResetFire2(zoneUID, clientUID); }, "GKResetFire2", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.GKResetFire1(clientUID, zoneUID); }, "GKResetFire1");
 		}
 
-		public void GKSetAutomaticRegime(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKResetFire2(Guid clientUID, Guid zoneUID)
 		{
-			SafeOperationCall(() => { FiresecService.GKSetAutomaticRegime(uid, objectType, clientUID); }, "GKSetAutomaticRegime", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.GKResetFire2(clientUID, zoneUID); }, "GKResetFire2");
 		}
 
-		public void GKSetManualRegime(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKSetAutomaticRegime(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			SafeOperationCall(() => { FiresecService.GKSetManualRegime(uid, objectType, clientUID); }, "GKSetManualRegime", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.GKSetAutomaticRegime(clientUID, uid, objectType); }, "GKSetAutomaticRegime");
 		}
 
-		public void GKSetIgnoreRegime(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKSetManualRegime(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			SafeOperationCall(() => { FiresecService.GKSetIgnoreRegime(uid, objectType, clientUID); }, "GKSetIgnoreRegime", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.GKSetManualRegime(clientUID, uid, objectType); }, "GKSetManualRegime");
 		}
 
-		public void GKTurnOn(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKSetIgnoreRegime(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			SafeOperationCall(() => { FiresecService.GKTurnOn(uid, objectType, clientUID); }, "GKTurnOn", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.GKSetIgnoreRegime(clientUID, uid, objectType); }, "GKSetIgnoreRegime");
 		}
 
-		public void GKTurnOnNow(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKTurnOn(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			SafeOperationCall(() => { FiresecService.GKTurnOnNow(uid, objectType, clientUID); }, "GKTurnOnNow", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.GKTurnOn(clientUID, uid, objectType); }, "GKTurnOn");
 		}
 
-		public void GKTurnOnInAutomatic(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKTurnOnNow(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			SafeOperationCall(() => { FiresecService.GKTurnOnInAutomatic(uid, objectType, clientUID); }, "GKTurnOnInAutomatic", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.GKTurnOnNow(clientUID, uid, objectType); }, "GKTurnOnNow");
 		}
 
-		public void GKTurnOnNowInAutomatic(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKTurnOnInAutomatic(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			SafeOperationCall(() => { FiresecService.GKTurnOnNowInAutomatic(uid, objectType, clientUID); }, "GKTurnOnNowInAutomatic", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.GKTurnOnInAutomatic(clientUID, uid, objectType); }, "GKTurnOnInAutomatic");
 		}
 
-		public void GKTurnOff(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKTurnOnNowInAutomatic(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			SafeOperationCall(() => { FiresecService.GKTurnOff(uid, objectType, clientUID); }, "GKTurnOff", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.GKTurnOnNowInAutomatic(clientUID, uid, objectType); }, "GKTurnOnNowInAutomatic");
 		}
 
-		public void GKTurnOffNow(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKTurnOff(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			SafeOperationCall(() => { FiresecService.GKTurnOffNow(uid, objectType, clientUID); }, "GKTurnOffNow", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.GKTurnOff(clientUID, uid, objectType); }, "GKTurnOff");
 		}
 
-		public void GKTurnOffInAutomatic(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKTurnOffNow(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			SafeOperationCall(() => { FiresecService.GKTurnOffInAutomatic(uid, objectType, clientUID); }, "GKTurnOffInAutomatic", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.GKTurnOffNow(clientUID, uid, objectType); }, "GKTurnOffNow");
 		}
 
-		public void GKTurnOffNowInAutomatic(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKTurnOffInAutomatic(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			SafeOperationCall(() => { FiresecService.GKTurnOffNowInAutomatic(uid, objectType, clientUID); }, "GKTurnOffNowInAutomatic", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.GKTurnOffInAutomatic(clientUID, uid, objectType); }, "GKTurnOffInAutomatic");
 		}
 
-		public void GKStop(Guid uid, GKBaseObjectType objectType, Guid clientUID)
+		public void GKTurnOffNowInAutomatic(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			SafeOperationCall(() => { FiresecService.GKStop(uid, objectType, clientUID); }, "GKStop", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.GKTurnOffNowInAutomatic(clientUID, uid, objectType); }, "GKTurnOffNowInAutomatic");
 		}
 
-		public void GKStartMeasureMonitoring(Guid deviceUID, Guid clientUID)
+		public void GKStop(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
-			SafeOperationCall(() => { FiresecService.GKStartMeasureMonitoring(deviceUID, clientUID); }, "GKStartMeasureMonitoring", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.GKStop(clientUID, uid, objectType); }, "GKStop");
 		}
 
-		public void GKStopMeasureMonitoring(Guid deviceUID, Guid clientUID)
+		public void GKStartMeasureMonitoring(Guid clientUID, Guid deviceUID)
 		{
-			SafeOperationCall(() => { FiresecService.GKStopMeasureMonitoring(deviceUID, clientUID); }, "GKStopMeasureMonitoring", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.GKStartMeasureMonitoring(clientUID, deviceUID); }, "GKStartMeasureMonitoring");
 		}
 
-		public OperationResult<uint> GKGetReaderCode(Guid deviceUID, Guid clientUID)
+		public void GKStopMeasureMonitoring(Guid clientUID, Guid deviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKGetReaderCode(deviceUID, clientUID); }, "GKGetReaderCode", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.GKStopMeasureMonitoring(clientUID, deviceUID); }, "GKStopMeasureMonitoring");
 		}
 
-		public void GKOpenSKDZone(Guid zoneUID, Guid clientUID)
+		public OperationResult<uint> GKGetReaderCode(Guid clientUID, Guid deviceUID)
 		{
-			SafeOperationCall(() => { FiresecService.GKOpenSKDZone(zoneUID, clientUID); }, "GKOpenSKDZone", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GKGetReaderCode(clientUID, deviceUID); }, "GKGetReaderCode");
 		}
 
-		public void GKCloseSKDZone(Guid zoneUID, Guid clientUID)
+		public void GKOpenSKDZone(Guid clientUID, Guid zoneUID)
 		{
-			SafeOperationCall(() => { FiresecService.GKCloseSKDZone(zoneUID, clientUID); }, "GKCloseSKDZone", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.GKOpenSKDZone(clientUID, zoneUID); }, "GKOpenSKDZone");
 		}
 
-		public OperationResult<CurrentConsumption> GetAlsMeasure(Guid alsUid, Guid clientUID)
+		public void GKCloseSKDZone(Guid clientUID, Guid zoneUID)
 		{
-			return SafeOperationCall(() => FiresecService.GetAlsMeasure(alsUid, clientUID), "GetAlsMeasure", clientUID);
+			SafeOperationCall(clientUID, () => { FiresecService.GKCloseSKDZone(clientUID, zoneUID); }, "GKCloseSKDZone");
+		}
+
+		public OperationResult<CurrentConsumption> GetAlsMeasure(Guid clientUID, Guid alsUid)
+		{
+			return SafeOperationCall(clientUID, () => FiresecService.GetAlsMeasure(clientUID, alsUid), "GetAlsMeasure");
 		}
 
 		#endregion
@@ -445,122 +445,122 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> RunProcedure(Guid clientUID, Guid procedureUID, List<Argument> args)
 		{
-			return SafeOperationCall(() => { return FiresecService.RunProcedure(clientUID, procedureUID, args); }, "RunProcedure", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.RunProcedure(clientUID, procedureUID, args); }, "RunProcedure");
 		}
 
-		public void ProcedureCallbackResponse(Guid procedureThreadUID, object value, Guid clientUID)
+		public void ProcedureCallbackResponse(Guid clientUID, Guid procedureThreadUID, object value)
 		{
-			SafeOperationCall(() => FiresecService.ProcedureCallbackResponse(procedureThreadUID, value, clientUID), "ProcedureCallbackResponse", clientUID);
+			SafeOperationCall(clientUID, () => FiresecService.ProcedureCallbackResponse(clientUID, procedureThreadUID, value), "ProcedureCallbackResponse");
 		}
 
-		public ProcedureProperties GetProperties(Guid layoutUID, Guid clientUID)
+		public ProcedureProperties GetProperties(Guid clientUID, Guid layoutUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetProperties(layoutUID, clientUID); }, "GetProperties", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GetProperties(clientUID, layoutUID); }, "GetProperties");
 		}
 
-		public void SetVariableValue(Guid variableUid, object value, Guid clientUID)
+		public void SetVariableValue(Guid clientUID, Guid variableUid, object value)
 		{
-			SafeOperationCall(() => FiresecService.SetVariableValue(variableUid, value, clientUID), "SetVariableValue", clientUID);
+			SafeOperationCall(clientUID, () => FiresecService.SetVariableValue(clientUID, variableUid, value), "SetVariableValue");
 		}
 
-		public Variable GetVariable(Guid variableUid, Guid clientUID)
+		public Variable GetVariable(Guid clientUID, Guid variableUid)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetVariable(variableUid, clientUID); }, "GetVariable", clientUID);
+			return SafeOperationCall(clientUID, () => { return FiresecService.GetVariable(clientUID, variableUid); }, "GetVariable");
 		}
 
-		public void AddJournalItemA(string message, Guid clientUID)
+		public void AddJournalItemA(Guid clientUID, string message)
 		{
-			SafeOperationCall(() => FiresecService.AddJournalItemA(message, clientUID), "AddJournalItem", clientUID);
+			SafeOperationCall(clientUID, () => FiresecService.AddJournalItemA(clientUID, message), "AddJournalItem");
 		}
 
-		public void ControlGKDevice(Guid deviceUid, GKStateBit command, Guid clientUID)
+		public void ControlGKDevice(Guid clientUID, Guid deviceUid, GKStateBit command)
 		{
-			SafeOperationCall(() => FiresecService.ControlGKDevice(deviceUid, command, clientUID), "ControlGKDevice", clientUID);
+			SafeOperationCall(clientUID, () => FiresecService.ControlGKDevice(clientUID, deviceUid, command), "ControlGKDevice");
 		}
 
-		public void StartRecord(Guid cameraUid, Guid? journalItemUid, Guid? eventUid, int timeout, Guid clientUID)
+		public void StartRecord(Guid clientUID, Guid cameraUid, Guid? journalItemUid, Guid? eventUid, int timeout)
 		{
-			SafeOperationCall(() => FiresecService.StartRecord(cameraUid, journalItemUid, eventUid, timeout, clientUID), "StartRecord", clientUID);
+			SafeOperationCall(clientUID, () => FiresecService.StartRecord(clientUID, cameraUid, journalItemUid, eventUid, timeout), "StartRecord");
 		}
 
-		public void StopRecord(Guid cameraUid, Guid eventUid, Guid clientUID)
+		public void StopRecord(Guid clientUID, Guid cameraUid, Guid eventUid)
 		{
-			SafeOperationCall(() => FiresecService.StopRecord(cameraUid, eventUid, clientUID), "StopRecord", clientUID);
+			SafeOperationCall(clientUID, () => FiresecService.StopRecord(clientUID, cameraUid, eventUid), "StopRecord");
 		}
 
-		public void Ptz(Guid cameraUid, int ptzNumber, Guid clientUID)
+		public void Ptz(Guid clientUID, Guid cameraUid, int ptzNumber)
 		{
-			SafeOperationCall(() => FiresecService.Ptz(cameraUid, ptzNumber, clientUID), "Ptz", clientUID);
+			SafeOperationCall(clientUID, () => FiresecService.Ptz(clientUID, cameraUid, ptzNumber), "Ptz");
 		}
 
-		public void RviAlarm(string name, Guid clientUID)
+		public void RviAlarm(Guid clientUID, string name)
 		{
-			SafeOperationCall(() => FiresecService.RviAlarm(name, clientUID), "RviAlarm", clientUID);
+			SafeOperationCall(clientUID, () => FiresecService.RviAlarm(clientUID, name), "RviAlarm");
 		}
 
-		public void ControlFireZone(Guid uid, ZoneCommandType commandType, Guid clientUID)
+		public void ControlFireZone(Guid clientUID, Guid uid, ZoneCommandType commandType)
 		{
-			SafeOperationCall(() => FiresecService.ControlFireZone(uid, commandType, clientUID), "ControlFireZone", clientUID);
+			SafeOperationCall(clientUID, () => FiresecService.ControlFireZone(clientUID, uid, commandType), "ControlFireZone");
 		}
 
-		public void ControlGuardZone(Guid uid, GuardZoneCommandType commandType, Guid clientUID)
+		public void ControlGuardZone(Guid clientUID, Guid uid, GuardZoneCommandType commandType)
 		{
-			SafeOperationCall(() => FiresecService.ControlGuardZone(uid, commandType, clientUID), "ControlGuardZone", clientUID);
+			SafeOperationCall(clientUID, () => FiresecService.ControlGuardZone(clientUID, uid, commandType), "ControlGuardZone");
 		}
 
-		public void ControlDirection(Guid uid, DirectionCommandType commandType, Guid clientUID)
+		public void ControlDirection(Guid clientUID, Guid uid, DirectionCommandType commandType)
 		{
-			SafeOperationCall(() => FiresecService.ControlDirection(uid, commandType, clientUID), "ControlDirection", clientUID);
+			SafeOperationCall(clientUID, () => FiresecService.ControlDirection(clientUID, uid, commandType), "ControlDirection");
 		}
 
-		public void ControlGKDoor(Guid uid, GKDoorCommandType commandType, Guid clientUID)
+		public void ControlGKDoor(Guid clientUID, Guid uid, GKDoorCommandType commandType)
 		{
-			SafeOperationCall(() => FiresecService.ControlGKDoor(uid, commandType, clientUID), "ControlGKDoor", clientUID);
+			SafeOperationCall(clientUID, () => FiresecService.ControlGKDoor(clientUID, uid, commandType), "ControlGKDoor");
 		}
 
-		public void ControlDelay(Guid uid, DelayCommandType commandType, Guid clientUID)
+		public void ControlDelay(Guid clientUID, Guid uid, DelayCommandType commandType)
 		{
-			SafeOperationCall(() => FiresecService.ControlDelay(uid, commandType, clientUID), "ControlDelay", clientUID);
+			SafeOperationCall(clientUID, () => FiresecService.ControlDelay(clientUID, uid, commandType), "ControlDelay");
 		}
 
-		public void ControlPumpStation(Guid uid, PumpStationCommandType commandType, Guid clientUID)
+		public void ControlPumpStation(Guid clientUID, Guid uid, PumpStationCommandType commandType)
 		{
-			SafeOperationCall(() => FiresecService.ControlPumpStation(uid, commandType, clientUID), "ControlPumpStation", clientUID);
+			SafeOperationCall(clientUID, () => FiresecService.ControlPumpStation(clientUID, uid, commandType), "ControlPumpStation");
 		}
 
-		public void ControlMPT(Guid uid, MPTCommandType commandType, Guid clientUID)
+		public void ControlMPT(Guid clientUID, Guid uid, MPTCommandType commandType)
 		{
-			SafeOperationCall(() => FiresecService.ControlMPT(uid, commandType, clientUID), "ControlMPT", clientUID);
+			SafeOperationCall(clientUID, () => FiresecService.ControlMPT(clientUID, uid, commandType), "ControlMPT");
 		}
 
-		public void ExportJournalA(bool isExportJournal, bool isExportPassJournal, DateTime minDate, DateTime maxDate, string path, Guid clientUID)
+		public void ExportJournalA(Guid clientUID, bool isExportJournal, bool isExportPassJournal, DateTime minDate, DateTime maxDate, string path)
 		{
-			SafeOperationCall(() => FiresecService.ExportJournalA(isExportJournal, isExportPassJournal, minDate, maxDate, path, clientUID), "ExportJournal", clientUID);
+			SafeOperationCall(clientUID, () => FiresecService.ExportJournalA(clientUID, isExportJournal, isExportPassJournal, minDate, maxDate, path), "ExportJournal");
 		}
 
-		public void ExportOrganisationA(bool isWithDeleted, Guid organisationUid, string path, Guid clientUID)
+		public void ExportOrganisationA(Guid clientUID, bool isWithDeleted, Guid organisationUid, string path)
 		{
-			SafeOperationCall(() => FiresecService.ExportOrganisationA(isWithDeleted, organisationUid, path, clientUID), "ExportOrganisation", clientUID);
+			SafeOperationCall(clientUID, () => FiresecService.ExportOrganisationA(clientUID, isWithDeleted, organisationUid, path), "ExportOrganisation");
 		}
 
-		public void ExportOrganisationListA(bool isWithDeleted, string path, Guid clientUID)
+		public void ExportOrganisationListA(Guid clientUID, bool isWithDeleted, string path)
 		{
-			SafeOperationCall(() => FiresecService.ExportOrganisationListA(isWithDeleted, path, clientUID), "ExportOrganisationList", clientUID);
+			SafeOperationCall(clientUID, () => FiresecService.ExportOrganisationListA(clientUID, isWithDeleted, path), "ExportOrganisationList");
 		}
 
-		public void ExportConfigurationA(bool isExportDevices, bool isExportDoors, bool isExportZones, string path, Guid clientUID)
+		public void ExportConfigurationA(Guid clientUID, bool isExportDevices, bool isExportDoors, bool isExportZones, string path)
 		{
-			SafeOperationCall(() => FiresecService.ExportConfigurationA(isExportDevices, isExportDoors, isExportZones, path, clientUID), "ExportConfiguration", clientUID);
+			SafeOperationCall(clientUID, () => FiresecService.ExportConfigurationA(clientUID, isExportDevices, isExportDoors, isExportZones, path), "ExportConfiguration");
 		}
 
-		public void ImportOrganisationA(bool isWithDeleted, string path, Guid clientUID)
+		public void ImportOrganisationA(Guid clientUID, bool isWithDeleted, string path)
 		{
-			SafeOperationCall(() => FiresecService.ImportOrganisationA(isWithDeleted, path, clientUID), "ImportOrganisation", clientUID);
+			SafeOperationCall(clientUID, () => FiresecService.ImportOrganisationA(clientUID, isWithDeleted, path), "ImportOrganisation");
 		}
 
-		public void ImportOrganisationListA(bool isWithDeleted, string path, Guid clientUID)
+		public void ImportOrganisationListA(Guid clientUID, bool isWithDeleted, string path)
 		{
-			SafeOperationCall(() => FiresecService.ImportOrganisationListA(isWithDeleted, path, clientUID), "ImportOrganisationList", clientUID);
+			SafeOperationCall(clientUID, () => FiresecService.ImportOrganisationListA(clientUID, isWithDeleted, path), "ImportOrganisationList");
 		}
 		#endregion
 	}

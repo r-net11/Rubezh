@@ -12,7 +12,7 @@ namespace FiresecService.Service
 {
 	[ServiceBehavior(MaxItemsInObjectGraph = Int32.MaxValue, UseSynchronizationContext = false,
 	InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
-	public partial class FiresecService //: IFiresecService
+	public partial class FiresecService
 	{
 		ClientCredentials CurrentClientCredentials;
 		public static ServerState ServerState { get; set; }
@@ -37,11 +37,11 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials)
+		public OperationResult<bool> Connect(Guid clientUID, ClientCredentials clientCredentials)
 		{
 			if (DbService.ConnectionOperationResult.HasError && clientCredentials.ClientType != ClientType.Administrator)
 				return OperationResult<bool>.FromError("Отсутствует подключение к БД");
-			clientCredentials.ClientUID = uid;
+			clientCredentials.ClientUID = clientUID;
 			InitializeClientCredentials(clientCredentials);
 
 			var operationResult = Authenticate(clientCredentials);
@@ -49,14 +49,14 @@ namespace FiresecService.Service
 				return operationResult;
 
 			CurrentClientCredentials = clientCredentials;
-			if (ClientsManager.Add(uid, clientCredentials))
+			if (ClientsManager.Add(clientUID, clientCredentials))
 				AddJournalMessage(JournalEventNameType.Вход_пользователя_в_систему, null);
 			return operationResult;
 		}
 
-		public void Disconnect(Guid uid)
+		public void Disconnect(Guid clientUID)
 		{
-			var clientInfo = ClientsManager.GetClientInfo(uid);
+			var clientInfo = ClientsManager.GetClientInfo(clientUID);
 			if (clientInfo != null)
 			{
 				clientInfo.IsDisconnecting = true;
@@ -66,7 +66,7 @@ namespace FiresecService.Service
 					AddJournalMessage(JournalEventNameType.Выход_пользователя_из_системы, null);
 				}
 			}
-			ClientsManager.Remove(uid);
+			ClientsManager.Remove(clientUID);
 		}
 
 		public OperationResult<ServerState> GetServerState(Guid clientUID)
@@ -74,7 +74,7 @@ namespace FiresecService.Service
 			return new OperationResult<ServerState>(ServerState);
 		}
 
-		public string Test(string arg, Guid clientUID)
+		public string Test(Guid clientUID, string arg)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{

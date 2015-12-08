@@ -154,7 +154,7 @@ namespace Infrastructure.Automation
 						foreach (var explicitValue in listVariable.ExplicitValues)
 						{
 							if (itemVariable != null)
-								ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(explicitValue, itemVariable.ExplicitType, itemVariable.EnumType), ClientUID);
+								ProcedureExecutionContext.SetVariableValue(ClientUID, itemVariable, ProcedureExecutionContext.GetValue(explicitValue, itemVariable.ExplicitType, itemVariable.EnumType));
 							foreach (var childStep in procedureStep.Children[0].Children)
 							{
 								var result = RunStep(childStep);

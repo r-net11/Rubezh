@@ -28,13 +28,13 @@ namespace RubezhClient
 			}, "GetServerState");
 		}
 
-		public List<CallbackResult> Poll(Guid uid, int callbackIndex)
+		public List<CallbackResult> Poll(Guid clientUID, int callbackIndex)
 		{
 			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(90));
 				using (firesecService as IDisposable)
-					return firesecService.Poll(uid, callbackIndex);
+					return firesecService.Poll(clientUID, callbackIndex);
 			}, "Poll");
 		}
 
@@ -61,7 +61,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetFileNamesList(directory, FiresecServiceFactory.UID);
+					return firesecService.GetFileNamesList(FiresecServiceFactory.UID, directory);
 			}, "GetFileNamesList");
 		}
 
@@ -71,7 +71,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetDirectoryHash(directory, FiresecServiceFactory.UID);
+					return firesecService.GetDirectoryHash(FiresecServiceFactory.UID, directory);
 			}, "GetDirectoryHash");
 		}
 
@@ -81,7 +81,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GetServerAppDataFile(dirAndFileName, FiresecServiceFactory.UID);
+					return firesecService.GetServerAppDataFile(FiresecServiceFactory.UID, dirAndFileName);
 			}, "GetServerAppDataFile");
 		}
 
@@ -121,7 +121,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.Test(arg, FiresecServiceFactory.UID);
+					return firesecService.Test(FiresecServiceFactory.UID, arg);
 			}, "Test");
 		}
 

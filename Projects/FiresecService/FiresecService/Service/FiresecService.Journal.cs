@@ -54,7 +54,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<bool> AddJournalItem(JournalItem journalItem, Guid clientUID)
+		public OperationResult<bool> AddJournalItem(Guid clientUID, JournalItem journalItem)
 		{
 			try
 			{
@@ -79,7 +79,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter filter, Guid clientUID)
+		public OperationResult<List<JournalItem>> GetFilteredJournalItems(Guid clientUID, JournalFilter filter)
 		{
 			using (var dbService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -87,7 +87,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<bool> BeginGetJournal(JournalFilter filter, Guid clientUID)
+		public OperationResult<bool> BeginGetJournal(Guid clientUID, JournalFilter filter)
 		{
 			ServerTaskRunner.Add(null, "Чтение файла конфигурации ГК", new Action(() =>
 			{
@@ -100,7 +100,7 @@ namespace FiresecService.Service
 			return new OperationResult<bool>(true);
 		}
 
-		public OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page, Guid clientUID)
+		public OperationResult<bool> BeginGetArchivePage(Guid clientUID, JournalFilter filter, int page)
 		{
 			ServerTaskRunner.Add(null, "Чтение файла конфигурации ГК", new Action(() =>
 			{
@@ -113,7 +113,7 @@ namespace FiresecService.Service
 			return new OperationResult<bool>(true);
 		}
 
-		public OperationResult<int> GetArchiveCount(JournalFilter filter, Guid clientUID)
+		public OperationResult<int> GetArchiveCount(Guid clientUID, JournalFilter filter)
 		{
 			using (var dbService = new RubezhDAL.DataClasses.DbService())
 			{

@@ -103,7 +103,7 @@ namespace AutomationModule
 						if (messageArguments.WithConfirmation)
 						{
 							var confirm = MessageBoxService.ShowConfirmation(messageArguments.Message, "Сообщение");
-							ProcedureExecutionContext.CallbackResponse(automationCallbackResult.ContextType, automationCallbackResult.CallbackUID, confirm, FiresecServiceFactory.UID);
+							ProcedureExecutionContext.CallbackResponse(FiresecServiceFactory.UID, automationCallbackResult.ContextType, automationCallbackResult.CallbackUID, confirm);
 						}
 						else
 							MessageBoxService.ShowExtended(messageArguments.Message, "Сообщение", messageArguments.IsModalWindow);

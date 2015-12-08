@@ -11,17 +11,17 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
-		public List<string> GetFileNamesList(string directory, Guid clientUID)
+		public List<string> GetFileNamesList(Guid clientUID, string directory)
 		{
 			return HashHelper.GetFileNamesList(AppDataFolderHelper.GetServerAppDataPath(directory));
 		}
 
-		public Dictionary<string, string> GetDirectoryHash(string directory, Guid clientUID)
+		public Dictionary<string, string> GetDirectoryHash(Guid clientUID, string directory)
 		{
 			return HashHelper.GetDirectoryHash(AppDataFolderHelper.GetServerAppDataPath(directory));
 		}
 
-		public Stream GetServerAppDataFile(string dirAndFileName, Guid clientUID)
+		public Stream GetServerAppDataFile(Guid clientUID, string dirAndFileName)
 		{
 			try
 			{
@@ -33,7 +33,7 @@ namespace FiresecService.Service
 			return Stream.Null;
 		}
 
-		public Stream GetServerFile(string filePath, Guid clientUID)
+		public Stream GetServerFile(Guid clientUID, string filePath)
 		{
 			try
 			{

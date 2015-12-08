@@ -15,7 +15,7 @@ namespace FiresecService
 {
 	public static class ProcedureHelper
 	{
-		public static void AddJournalItem(string message, Guid clientUID)
+		public static void AddJournalItem(Guid clientUID, string message)
 		{
 			var journalItem = new JournalItem()
 			{
@@ -26,12 +26,12 @@ namespace FiresecService
 			Service.FiresecService.AddCommonJournalItems(new List<JournalItem>() { journalItem });
 		}
 
-		public static void ControlGKDevice(Guid deviceUid, GKStateBit command, Guid clientUID)
+		public static void ControlGKDevice(Guid clientUID, Guid deviceUid, GKStateBit command)
 		{
-			FiresecServiceManager.SafeFiresecService.GKExecuteDeviceCommand(deviceUid, command, clientUID);
+			FiresecServiceManager.SafeFiresecService.GKExecuteDeviceCommand(clientUID, deviceUid, command);
 		}
 
-		public static void StartRecord(Guid cameraUid, Guid? journalItemUid, Guid? eventUid, int timeout, Guid clientUID)
+		public static void StartRecord(Guid clientUID, Guid cameraUid, Guid? journalItemUid, Guid? eventUid, int timeout)
 		{
 			var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
 			if (camera == null)
@@ -55,7 +55,7 @@ namespace FiresecService
 			RviClient.RviClientHelper.VideoRecordStart(ProcedureExecutionContext.SystemConfiguration.RviSettings, camera, eventUid.Value, timeout);
 		}
 
-		public static void StopRecord(Guid cameraUid, Guid eventUid, Guid clientUID)
+		public static void StopRecord(Guid clientUID, Guid cameraUid, Guid eventUid)
 		{
 			var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
 			if (camera == null)
@@ -63,7 +63,7 @@ namespace FiresecService
 			RviClient.RviClientHelper.VideoRecordStop(ProcedureExecutionContext.SystemConfiguration.RviSettings, camera, eventUid);
 		}
 
-		public static void Ptz(Guid cameraUid, int ptzNumber, Guid clientUID)
+		public static void Ptz(Guid clientUID, Guid cameraUid, int ptzNumber)
 		{
 			var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
 			if (camera == null)
@@ -71,160 +71,160 @@ namespace FiresecService
 			RviClient.RviClientHelper.SetPtzPreset(ProcedureExecutionContext.SystemConfiguration.RviSettings, camera, ptzNumber);
 		}
 
-		public static void RviAlarm(string name, Guid clientUID)
+		public static void RviAlarm(Guid clientUID, string name)
 		{
 			RviClient.RviClientHelper.AlarmRuleExecute(ProcedureExecutionContext.SystemConfiguration.RviSettings, name);
 		}
 
-		public static void ControlFireZone(Guid uid, ZoneCommandType commandType, Guid clientUID)
+		public static void ControlFireZone(Guid clientUID, Guid uid, ZoneCommandType commandType)
 		{
 			if (commandType == ZoneCommandType.Ignore)
-				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(uid, GKBaseObjectType.Zone, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(clientUID, uid, GKBaseObjectType.Zone);
 			if (commandType == ZoneCommandType.ResetIgnore)
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(uid, GKBaseObjectType.Zone, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(clientUID, uid, GKBaseObjectType.Zone);
 			if (commandType == ZoneCommandType.Reset)
-				FiresecServiceManager.SafeFiresecService.GKReset(uid, GKBaseObjectType.Zone, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKReset(clientUID, uid, GKBaseObjectType.Zone);
 		}
 
-		public static void ControlGuardZone(Guid uid, GuardZoneCommandType commandType, Guid clientUID)
+		public static void ControlGuardZone(Guid clientUID, Guid uid, GuardZoneCommandType commandType)
 		{
 			if (commandType == GuardZoneCommandType.Automatic)
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(uid, GKBaseObjectType.GuardZone, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(clientUID, uid, GKBaseObjectType.GuardZone);
 			if (commandType == GuardZoneCommandType.Ignore)
-				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(uid, GKBaseObjectType.GuardZone, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(clientUID, uid, GKBaseObjectType.GuardZone);
 			if (commandType == GuardZoneCommandType.Manual)
-				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(uid, GKBaseObjectType.GuardZone, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(clientUID, uid, GKBaseObjectType.GuardZone);
 			if (commandType == GuardZoneCommandType.Reset)
-				FiresecServiceManager.SafeFiresecService.GKReset(uid, GKBaseObjectType.GuardZone, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKReset(clientUID, uid, GKBaseObjectType.GuardZone);
 			if (commandType == GuardZoneCommandType.TurnOn)
-				FiresecServiceManager.SafeFiresecService.GKTurnOn(uid, GKBaseObjectType.GuardZone, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOn(clientUID, uid, GKBaseObjectType.GuardZone);
 			if (commandType == GuardZoneCommandType.TurnOnNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(uid, GKBaseObjectType.GuardZone, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(clientUID, uid, GKBaseObjectType.GuardZone);
 			if (commandType == GuardZoneCommandType.TurnOff)
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(uid, GKBaseObjectType.GuardZone, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOff(clientUID, uid, GKBaseObjectType.GuardZone);
 			if (commandType == GuardZoneCommandType.TurnOffNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffNow(uid, GKBaseObjectType.GuardZone, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOffNow(clientUID, uid, GKBaseObjectType.GuardZone);
 			if (commandType == GuardZoneCommandType.TurnOnInAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnInAutomatic(uid, GKBaseObjectType.GuardZone, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOnInAutomatic(clientUID, uid, GKBaseObjectType.GuardZone);
 			if (commandType == GuardZoneCommandType.TurnOnNowInAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnNowInAutomatic(uid, GKBaseObjectType.GuardZone, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOnNowInAutomatic(clientUID, uid, GKBaseObjectType.GuardZone);
 			if (commandType == GuardZoneCommandType.TurnOffInAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffInAutomatic(uid, GKBaseObjectType.GuardZone, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOffInAutomatic(clientUID, uid, GKBaseObjectType.GuardZone);
 			if (commandType == GuardZoneCommandType.TurnOffNowInAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffNowInAutomatic(uid, GKBaseObjectType.GuardZone, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOffNowInAutomatic(clientUID, uid, GKBaseObjectType.GuardZone);
 		}
 
-		public static void ControlDirection(Guid uid, DirectionCommandType commandType, Guid clientUID)
+		public static void ControlDirection(Guid clientUID, Guid uid, DirectionCommandType commandType)
 		{
 			if (commandType == DirectionCommandType.Automatic)
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(uid, GKBaseObjectType.Direction, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(clientUID, uid, GKBaseObjectType.Direction);
 			if (commandType == DirectionCommandType.ForbidStart)
-				FiresecServiceManager.SafeFiresecService.GKStop(uid, GKBaseObjectType.Direction, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKStop(clientUID, uid, GKBaseObjectType.Direction);
 			if (commandType == DirectionCommandType.Ignore)
-				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(uid, GKBaseObjectType.Direction, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(clientUID, uid, GKBaseObjectType.Direction);
 			if (commandType == DirectionCommandType.Manual)
-				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(uid, GKBaseObjectType.Direction, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(clientUID, uid, GKBaseObjectType.Direction);
 			if (commandType == DirectionCommandType.TurnOff)
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(uid, GKBaseObjectType.Direction, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOff(clientUID, uid, GKBaseObjectType.Direction);
 			if (commandType == DirectionCommandType.TurnOn)
-				FiresecServiceManager.SafeFiresecService.GKTurnOn(uid, GKBaseObjectType.Direction, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOn(clientUID, uid, GKBaseObjectType.Direction);
 			if (commandType == DirectionCommandType.TurnOnNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(uid, GKBaseObjectType.Direction, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(clientUID, uid, GKBaseObjectType.Direction);
 		}
 
-		public static void ControlGKDoor(Guid uid, GKDoorCommandType commandType, Guid clientUID)
+		public static void ControlGKDoor(Guid clientUID, Guid uid, GKDoorCommandType commandType)
 		{
 			var door = GKManager.Doors.FirstOrDefault(x => x.UID == uid);
 			if (door == null)
 				return;
 			if (commandType == GKDoorCommandType.Open)
-				FiresecServiceManager.SafeFiresecService.GKTurnOn(uid, GKBaseObjectType.Door, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOn(clientUID, uid, GKBaseObjectType.Door);
 			if (commandType == GKDoorCommandType.Close)
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(uid, GKBaseObjectType.Door, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOff(clientUID, uid, GKBaseObjectType.Door);
 			if (commandType == GKDoorCommandType.OpenInAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnInAutomatic(uid, GKBaseObjectType.Door, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOnInAutomatic(clientUID, uid, GKBaseObjectType.Door);
 			if (commandType == GKDoorCommandType.CloseInAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffInAutomatic(uid, GKBaseObjectType.Door, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOffInAutomatic(clientUID, uid, GKBaseObjectType.Door);
 			if (commandType == GKDoorCommandType.OpenNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(uid, GKBaseObjectType.Door, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(clientUID, uid, GKBaseObjectType.Door);
 			if (commandType == GKDoorCommandType.CloseNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffNow(uid, GKBaseObjectType.Door, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOffNow(clientUID, uid, GKBaseObjectType.Door);
 			if (commandType == GKDoorCommandType.OpenNowInAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnNowInAutomatic(uid, GKBaseObjectType.Door, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOnNowInAutomatic(clientUID, uid, GKBaseObjectType.Door);
 			if (commandType == GKDoorCommandType.CloseNowInAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffNowInAutomatic(uid, GKBaseObjectType.Door, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOffNowInAutomatic(clientUID, uid, GKBaseObjectType.Door);
 			if (commandType == GKDoorCommandType.OpenForever)
 			{
-				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(uid, GKBaseObjectType.Door, clientUID);
-				FiresecServiceManager.SafeFiresecService.GKTurnOn(uid, GKBaseObjectType.Door, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(clientUID, uid, GKBaseObjectType.Door);
+				FiresecServiceManager.SafeFiresecService.GKTurnOn(clientUID, uid, GKBaseObjectType.Door);
 			}
 			if (commandType == GKDoorCommandType.CloseForever)
 			{
-				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(uid, GKBaseObjectType.Door, clientUID);
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(uid, GKBaseObjectType.Door, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(clientUID, uid, GKBaseObjectType.Door);
+				FiresecServiceManager.SafeFiresecService.GKTurnOff(clientUID, uid, GKBaseObjectType.Door);
 			}
 			if (commandType == GKDoorCommandType.Norm)
 			{
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(uid, GKBaseObjectType.Door, clientUID);
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(uid, GKBaseObjectType.Door, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOff(clientUID, uid, GKBaseObjectType.Door);
+				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(clientUID, uid, GKBaseObjectType.Door);
 			}
 		}
 
-		public static void ControlDelay(Guid uid, DelayCommandType commandType, Guid clientUID)
+		public static void ControlDelay(Guid clientUID, Guid uid, DelayCommandType commandType)
 		{
 			if (commandType == DelayCommandType.Automatic)
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(uid, GKBaseObjectType.Delay, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(clientUID, uid, GKBaseObjectType.Delay);
 			if (commandType == DelayCommandType.Ignore)
-				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(uid, GKBaseObjectType.Delay, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(clientUID, uid, GKBaseObjectType.Delay);
 			if (commandType == DelayCommandType.Manual)
-				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(uid, GKBaseObjectType.Delay, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(clientUID, uid, GKBaseObjectType.Delay);
 			if (commandType == DelayCommandType.TurnOff)
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(uid, GKBaseObjectType.Delay, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOff(clientUID, uid, GKBaseObjectType.Delay);
 			if (commandType == DelayCommandType.TurnOn)
-				FiresecServiceManager.SafeFiresecService.GKTurnOn(uid, GKBaseObjectType.Delay, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOn(clientUID, uid, GKBaseObjectType.Delay);
 			if (commandType == DelayCommandType.TurnOnNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(uid, GKBaseObjectType.Delay, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(clientUID, uid, GKBaseObjectType.Delay);
 		}
 
-		public static void ControlPumpStation(Guid uid, PumpStationCommandType commandType, Guid clientUID)
+		public static void ControlPumpStation(Guid clientUID, Guid uid, PumpStationCommandType commandType)
 		{
 			if (commandType == PumpStationCommandType.Automatic)
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(uid, GKBaseObjectType.PumpStation, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(clientUID, uid, GKBaseObjectType.PumpStation);
 			if (commandType == PumpStationCommandType.Ignore)
-				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(uid, GKBaseObjectType.PumpStation, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(clientUID, uid, GKBaseObjectType.PumpStation);
 			if (commandType == PumpStationCommandType.Manual)
-				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(uid, GKBaseObjectType.PumpStation, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(clientUID, uid, GKBaseObjectType.PumpStation);
 			if (commandType == PumpStationCommandType.TurnOff)
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(uid, GKBaseObjectType.PumpStation, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOff(clientUID, uid, GKBaseObjectType.PumpStation);
 			if (commandType == PumpStationCommandType.TurnOn)
-				FiresecServiceManager.SafeFiresecService.GKTurnOn(uid, GKBaseObjectType.PumpStation, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOn(clientUID, uid, GKBaseObjectType.PumpStation);
 			if (commandType == PumpStationCommandType.Stop)
-				FiresecServiceManager.SafeFiresecService.GKStop(uid, GKBaseObjectType.PumpStation, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKStop(clientUID, uid, GKBaseObjectType.PumpStation);
 			if (commandType == PumpStationCommandType.ForbidStart)
-				FiresecServiceManager.SafeFiresecService.GKStop(uid, GKBaseObjectType.PumpStation, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKStop(clientUID, uid, GKBaseObjectType.PumpStation);
 		}
 
-		public static void ControlMPT(Guid uid, MPTCommandType commandType, Guid clientUID)
+		public static void ControlMPT(Guid clientUID, Guid uid, MPTCommandType commandType)
 		{
 			if (commandType == MPTCommandType.Automatic)
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(uid, GKBaseObjectType.MPT, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(clientUID, uid, GKBaseObjectType.MPT);
 			if (commandType == MPTCommandType.Ignore)
-				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(uid, GKBaseObjectType.MPT, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(clientUID, uid, GKBaseObjectType.MPT);
 			if (commandType == MPTCommandType.Manual)
-				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(uid, GKBaseObjectType.MPT, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(clientUID, uid, GKBaseObjectType.MPT);
 			if (commandType == MPTCommandType.TurnOff)
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(uid, GKBaseObjectType.MPT, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOff(clientUID, uid, GKBaseObjectType.MPT);
 			if (commandType == MPTCommandType.TurnOn)
-				FiresecServiceManager.SafeFiresecService.GKTurnOn(uid, GKBaseObjectType.MPT, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKTurnOn(clientUID, uid, GKBaseObjectType.MPT);
 			if (commandType == MPTCommandType.Stop)
-				FiresecServiceManager.SafeFiresecService.GKStop(uid, GKBaseObjectType.MPT, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKStop(clientUID, uid, GKBaseObjectType.MPT);
 			if (commandType == MPTCommandType.ForbidStart)
-				FiresecServiceManager.SafeFiresecService.GKStop(uid, GKBaseObjectType.MPT, clientUID);
+				FiresecServiceManager.SafeFiresecService.GKStop(clientUID, uid, GKBaseObjectType.MPT);
 		}
 
-		public static void ExportJournal(bool isExportJournal, bool isExportPassJournal, DateTime minDate, DateTime maxDate, string path, Guid clientUID)
+		public static void ExportJournal(Guid clientUID, bool isExportJournal, bool isExportPassJournal, DateTime minDate, DateTime maxDate, string path)
 		{
-			var result = FiresecServiceManager.SafeFiresecService.ExportJournal(
+			var result = FiresecServiceManager.SafeFiresecService.ExportJournal(clientUID,
 				new JournalExportFilter
 				{
 					IsExportJournal = isExportJournal,
@@ -232,67 +232,67 @@ namespace FiresecService
 					MaxDate = maxDate,
 					MinDate = minDate,
 					Path = path
-				}, clientUID);
+				});
 			if (result.HasError)
 				BalloonHelper.ShowFromServer("Экспорт журнала " + result.Error);
 		}
 
-		public static void ExportOrganisation(bool isWithDeleted, Guid organisationUid, string path, Guid clientUID)
+		public static void ExportOrganisation(Guid clientUID, bool isWithDeleted, Guid organisationUid, string path)
 		{
-			var result = FiresecServiceManager.SafeFiresecService.ExportOrganisation(
+			var result = FiresecServiceManager.SafeFiresecService.ExportOrganisation(clientUID,
 				new ExportFilter
 				{
 					IsWithDeleted = isWithDeleted,
 					OrganisationUID = organisationUid,
 					Path = path
-				}, clientUID);
+				});
 			if (result.HasError)
 				BalloonHelper.ShowFromServer(result.Error);
 		}
-		public static void ExportOrganisationList(bool isWithDeleted, string path, Guid clientUID)
+		public static void ExportOrganisationList(Guid clientUID, bool isWithDeleted, string path)
 		{
-			var result = FiresecServiceManager.SafeFiresecService.ExportOrganisationList(
+			var result = FiresecServiceManager.SafeFiresecService.ExportOrganisationList(clientUID,
 				new ExportFilter
 				{
 					IsWithDeleted = isWithDeleted,
 					Path = path
-				}, clientUID);
+				});
 			if (result.HasError)
 				BalloonHelper.ShowFromServer(result.Error);
 		}
 
-		public static void ExportConfiguration(bool isExportDevices, bool isExportDoors, bool isExportZones, string path, Guid clientUID)
+		public static void ExportConfiguration(Guid clientUID, bool isExportDevices, bool isExportDoors, bool isExportZones, string path)
 		{
-			var result = FiresecServiceManager.SafeFiresecService.ExportConfiguration(
+			var result = FiresecServiceManager.SafeFiresecService.ExportConfiguration(clientUID,
 				new ConfigurationExportFilter
 				{
 					IsExportDevices = isExportDevices,
 					IsExportDoors = isExportDoors,
 					IsExportZones = isExportZones,
 					Path = path
-				}, clientUID);
+				});
 			if (result.HasError)
 				BalloonHelper.ShowFromServer(result.Error);
 		}
-		public static void ImportOrganisation(bool isWithDeleted, string path, Guid clientUID)
+		public static void ImportOrganisation(Guid clientUID, bool isWithDeleted, string path)
 		{
-			var result = FiresecServiceManager.SafeFiresecService.ImportOrganisation(
+			var result = FiresecServiceManager.SafeFiresecService.ImportOrganisation(clientUID,
 				new ImportFilter
 				{
 					IsWithDeleted = isWithDeleted,
 					Path = path
-				}, clientUID);
+				});
 			if (result.HasError)
 				BalloonHelper.ShowFromServer(result.Error);
 		}
-		public static void ImportOrganisationList(bool isWithDeleted, string path, Guid clientUID)
+		public static void ImportOrganisationList(Guid clientUID, bool isWithDeleted, string path)
 		{
-			var result = FiresecServiceManager.SafeFiresecService.ImportOrganisationList(
+			var result = FiresecServiceManager.SafeFiresecService.ImportOrganisationList(clientUID,
 				new ImportFilter
 				{
 					IsWithDeleted = isWithDeleted,
 					Path = path
-				}, clientUID);
+				});
 			if (result.HasError)
 				BalloonHelper.ShowFromServer(result.Error);
 		}
