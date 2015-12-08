@@ -44,6 +44,9 @@
     <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
+    <Reference Include="OpcDaClientSdk40">
+      <HintPath>C:\Users\petrovdy\Documents\OPC DA AE HDA Client SDK .NET\binaries\NET40\OpcDaClientSdk40.dll</HintPath>
+    </Reference>
     <Reference Include="OpcDaNetWPF.Net4">
       <HintPath>C:\Program Files (x86)\Advosol\OPCDA.NET Client Component Evaluation\OpcDaNetWPF.Net4.dll</HintPath>
     </Reference>
@@ -75,6 +78,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Technosoftware.Logging40">
+      <HintPath>C:\Users\petrovdy\Documents\OPC DA AE HDA Client SDK .NET\binaries\NET40\Technosoftware.Logging40.dll</HintPath>
+    </Reference>
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
@@ -95,6 +101,7 @@
     <Compile Include="Events\ShowGlobalVariablesEvent.cs" />
     <Compile Include="Events\ShowOpcAdvosolEvent.cs" />
     <Compile Include="Events\ShowOpcDaServersEvent.cs" />
+    <Compile Include="Events\ShowOpcTechnosoftwareEvent.cs" />
     <Compile Include="Events\ShowProceduresEvent.cs" />
     <Compile Include="Events\ShowOPCServersEvent.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesMenuViewModel.cs" />
@@ -174,6 +181,14 @@
     <Compile Include="OPCServers\ViewModels\OPCTagViewModel.cs" />
     <Compile Include="OPCServers\Views\OPCSelectTagsView.xaml.cs">
       <DependentUpon>OPCSelectTagsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpcTechnosoftware\ViewModels\OpcTechnosoftwareMenuViewModel.cs" />
+    <Compile Include="OpcTechnosoftware\ViewModels\OpcTechnosoftwareViewModel.cs" />
+    <Compile Include="OpcTechnosoftware\Views\OpcTechnosoftwareMenuView.xaml.cs">
+      <DependentUpon>OpcTechnosoftwareMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpcTechnosoftware\Views\OpcTechnosoftwareView.xaml.cs">
+      <DependentUpon>OpcTechnosoftwareView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\AutomationPlanExtension.cs" />
     <Compile Include="Plans\InstrumentAdorners\ProcedureRectangleAdorner.cs" />
@@ -664,6 +679,18 @@
     <Page Include="OPCServers\Views\OPCSelectTagsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OpcTechnosoftware\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OpcTechnosoftware\Views\OpcTechnosoftwareMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpcTechnosoftware\Views\OpcTechnosoftwareView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Plans\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
