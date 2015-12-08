@@ -119,7 +119,7 @@ namespace GKModule.ViewModels
 
 				for (int i = 0; i < Count; i++)
 				{
-					GKDevice device = GKManager.AddChild(ParentDevice, null, SelectedDriver, 0);
+					GKDevice device = GKManager.AddChild(ParentDevice, RealParentDevice, SelectedDriver, 0);
 
 					if (RealParentDevice == ParentDevice)
 					{
