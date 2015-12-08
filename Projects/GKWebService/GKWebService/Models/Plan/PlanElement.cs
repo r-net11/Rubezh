@@ -42,11 +42,11 @@ namespace GKWebService.Models.Plan
 				rect.BottomLeft
 			};
 			var shape = new PlanElement {
-				Path = InernalConverter.PointsToPath(pt, PathKind.ClosedLine),
-				Border = InernalConverter.ConvertColor(item.BorderColor),
-				Fill = InernalConverter.ConvertColor(item.BackgroundColor),
-				BorderMouseOver = InernalConverter.ConvertColor(item.BorderColor),
-				FillMouseOver = InernalConverter.ConvertColor(item.BackgroundColor),
+				Path = InternalConverter.PointsToPath(pt, PathKind.ClosedLine),
+				Border = InternalConverter.ConvertColor(item.BorderColor),
+				Fill = InternalConverter.ConvertColor(item.BackgroundColor),
+				BorderMouseOver = InternalConverter.ConvertColor(item.BorderColor),
+				FillMouseOver = InternalConverter.ConvertColor(item.BackgroundColor),
 				Name = item.PresentationName,
 				Id = item.UID,
 				Hint = GetElementHint(item),
@@ -65,11 +65,11 @@ namespace GKWebService.Models.Plan
 				rect.BottomLeft
 			};
 			var shape = new PlanElement {
-				Path = InernalConverter.PointsToPath(pt, PathKind.Ellipse),
-				Border = InernalConverter.ConvertColor(item.BorderColor),
-				Fill = InernalConverter.ConvertColor(item.BackgroundColor),
-				BorderMouseOver = InernalConverter.ConvertColor(item.BorderColor),
-				FillMouseOver = InernalConverter.ConvertColor(item.BackgroundColor),
+				Path = InternalConverter.PointsToPath(pt, PathKind.Ellipse),
+				Border = InternalConverter.ConvertColor(item.BorderColor),
+				Fill = InternalConverter.ConvertColor(item.BackgroundColor),
+				BorderMouseOver = InternalConverter.ConvertColor(item.BorderColor),
+				FillMouseOver = InternalConverter.ConvertColor(item.BackgroundColor),
 				Name = item.PresentationName,
 				Id = item.UID,
 				Hint = GetElementHint(item),
@@ -81,11 +81,11 @@ namespace GKWebService.Models.Plan
 
 		public static PlanElement FromPolygon(ElementBasePolygon item) {
 			var shape = new PlanElement {
-				Path = InernalConverter.PointsToPath(item.Points, PathKind.ClosedLine),
-				Border = InernalConverter.ConvertColor(item.BorderColor),
-				Fill = InernalConverter.ConvertColor(item.BackgroundColor),
-				BorderMouseOver = InernalConverter.ConvertColor(item.BorderColor),
-				FillMouseOver = InernalConverter.ConvertColor(item.BackgroundColor),
+				Path = InternalConverter.PointsToPath(item.Points, PathKind.ClosedLine),
+				Border = InternalConverter.ConvertColor(item.BorderColor),
+				Fill = InternalConverter.ConvertColor(item.BackgroundColor),
+				BorderMouseOver = InternalConverter.ConvertColor(item.BorderColor),
+				FillMouseOver = InternalConverter.ConvertColor(item.BackgroundColor),
 				Name = item.PresentationName,
 				Id = item.UID,
 				BorderThickness = item.BorderThickness,
@@ -97,11 +97,11 @@ namespace GKWebService.Models.Plan
 
 		public static PlanElement FromPolyline(ElementBasePolyline item) {
 			var shape = new PlanElement {
-				Path = InernalConverter.PointsToPath(item.Points, PathKind.Line),
-				Border = InernalConverter.ConvertColor(item.BorderColor),
+				Path = InternalConverter.PointsToPath(item.Points, PathKind.Line),
+				Border = InternalConverter.ConvertColor(item.BorderColor),
 				Fill = System.Drawing.Color.Transparent,
-				BorderMouseOver = InernalConverter.ConvertColor(item.BorderColor),
-				FillMouseOver = InernalConverter.ConvertColor(item.BackgroundColor),
+				BorderMouseOver = InternalConverter.ConvertColor(item.BorderColor),
+				FillMouseOver = InternalConverter.ConvertColor(item.BackgroundColor),
 				Name = item.PresentationName,
 				Id = item.UID,
 				Hint = GetElementHint(item),
@@ -161,8 +161,8 @@ namespace GKWebService.Models.Plan
 
 			var shape = new PlanElement {
 				Path = path,
-				Border = InernalConverter.ConvertColor(Colors.Transparent),
-				Fill = InernalConverter.ConvertColor(item.ForegroundColor),
+				Border = InternalConverter.ConvertColor(Colors.Transparent),
+				Fill = InternalConverter.ConvertColor(item.ForegroundColor),
 				Name = item.PresentationName,
 				Id = item.UID,
 				Hint = GetElementHint(item),
@@ -188,8 +188,8 @@ namespace GKWebService.Models.Plan
 				Path = flatten.GetFlattenedPathGeometry().ToString(CultureInfo.InvariantCulture),
 				Border = System.Drawing.Color.FromKnownColor(color1),
 				Fill = System.Drawing.Color.FromKnownColor(color2),
-				BorderMouseOver = InernalConverter.ConvertColor(Colors.Transparent),
-				FillMouseOver = InernalConverter.ConvertColor(Colors.Transparent),
+				BorderMouseOver = InternalConverter.ConvertColor(Colors.Transparent),
+				FillMouseOver = InternalConverter.ConvertColor(Colors.Transparent),
 				Name = item.PresentationName,
 				Id = item.UID,
 				Hint = GetElementHint(item),
@@ -207,8 +207,8 @@ namespace GKWebService.Models.Plan
 				Path = flatten.GetFlattenedPathGeometry().ToString(CultureInfo.InvariantCulture),
 				Border = System.Drawing.Color.FromKnownColor(color1),
 				Fill = System.Drawing.Color.FromKnownColor(color2),
-				BorderMouseOver = InernalConverter.ConvertColor(Colors.Transparent),
-				FillMouseOver = InernalConverter.ConvertColor(Colors.Transparent),
+				BorderMouseOver = InternalConverter.ConvertColor(Colors.Transparent),
+				FillMouseOver = InternalConverter.ConvertColor(Colors.Transparent),
 				Name = item.PresentationName,
 				Id = item.UID,
 				Hint = GetElementHint(item),
@@ -260,14 +260,14 @@ namespace GKWebService.Models.Plan
 			var stateClasses = new string[state.StateClasses.Count];
 			for (var index = 0; index < state.StateClasses.Count; index++) {
 				var stateClass = state.StateClasses[index];
-				stateClasses[index] = InernalConverter.GetStateClassName(stateClass);
+				stateClasses[index] = InternalConverter.GetStateClassName(stateClass);
 			}
 
 			// Собираем обновление для передачи
 			var statusUpdate = new {
 				Id = state.UID,
 				Picture = pic,
-				StateClass = InernalConverter.GetStateClassName(state.StateClass),
+				StateClass = InternalConverter.GetStateClassName(state.StateClass),
 				StateClasses = stateClasses,
 				state.AdditionalStates
 			};
@@ -299,7 +299,7 @@ namespace GKWebService.Models.Plan
 							using (var stream = new MemoryStream(imageBytes)) {
 								surface = (Canvas)XamlServices.Load(stream);
 							}
-							return surface != null ? InernalConverter.XamlCanvasToPngBitmap(surface) : null;
+							return surface != null ? InternalConverter.XamlCanvasToPngBitmap(surface) : null;
 						});
 					Task.WaitAll(getBitmapTask);
 					if (getBitmapTask.Result == null) {
@@ -433,7 +433,7 @@ namespace GKWebService.Models.Plan
 				var stateWithPic =
 					deviceConfig.States.FirstOrDefault(s => s.StateClass == device.State.StateClass) ??
 					deviceConfig.States.FirstOrDefault(s => s.StateClass == XStateClass.No);
-				imagePath = device.ImageSource.Replace("/Controls;component/", "");
+                imagePath = device.ImageSource;//.Replace("/Controls;component/", "");
 			}
 			var gkDoor = item as ElementGKDoor;
 			if (gkDoor != null) {
@@ -443,49 +443,12 @@ namespace GKWebService.Models.Plan
 					return null;
 				}
 
-				imagePath = door.ImageSource.Replace("/Controls;component/", "");
+                imagePath = door.ImageSource;//.Replace("/Controls;component/", "");
 			}
 
-			var imageData = GetImageResource(imagePath);
+			var imageData = InternalConverter.GetImageResource(imagePath);
 
 			return imageData;
-		}
-
-		/// <summary>
-		///     Получение иконок для хинтов из ресурсов проекта Controls
-		/// </summary>
-		/// <param name="resName">Путь к ресурсу формата GKIcons/RSR2_Bush_Fire.png</param>
-		/// <returns></returns>
-		private static Tuple<string, Size> GetImageResource(string resName) {
-			var assembly = Assembly.GetAssembly(typeof (Controls.AlarmButton));
-			var name =
-				assembly.GetManifestResourceNames().FirstOrDefault(n => n.EndsWith(".resources", StringComparison.Ordinal));
-			var resourceStream = assembly.GetManifestResourceStream(name);
-			if (resourceStream == null) {
-				return new Tuple<string, Size>("", new Size());
-			}
-			byte[] values;
-			using (var reader = new ResourceReader(resourceStream)) {
-				string type;
-				reader.GetResourceData(resName.ToLowerInvariant(), out type, out values);
-			}
-
-			// Получили массив байтов ресурса, теперь преобразуем его в png bitmap, а потом снова в массив битов
-			// уже корректного формата, после чего преобразуем его в base64string для удобства обратного преобразования
-			// на клиенте
-
-			const int offset = 4;
-			var size = BitConverter.ToInt32(values, 0);
-			var value1 = new Bitmap(new MemoryStream(values, offset, size));
-			byte[] byteArray;
-			using (var stream = new MemoryStream()) {
-				value1.Save(stream, ImageFormat.Png);
-				stream.Close();
-
-				byteArray = stream.ToArray();
-			}
-
-			return new Tuple<string, Size>(Convert.ToBase64String(byteArray), value1.Size);
 		}
 	}
 }
