@@ -157,7 +157,7 @@ namespace FiresecService
 #if DEBUG
 			return;
 #else
-			Process.GetCurrentProcess().Kill();
+			System.Diagnostics.Process.GetCurrentProcess().Kill();
 #endif
 		}
 	}
