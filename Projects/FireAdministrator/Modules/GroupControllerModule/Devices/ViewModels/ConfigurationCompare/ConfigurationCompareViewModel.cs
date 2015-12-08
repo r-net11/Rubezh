@@ -117,6 +117,8 @@ namespace GKModule.ViewModels
 				LocalConfiguration.Codes.AddRange(RemoteConfiguration.Codes);
 				LocalConfiguration.Doors.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 				LocalConfiguration.Doors.AddRange(RemoteConfiguration.Doors);
+				LocalConfiguration.SKDZones.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
+				LocalConfiguration.SKDZones.AddRange(RemoteConfiguration.SKDZones);
 			}
 			ServiceFactory.SaveService.GKChanged = true;
 			GKManager.UpdateConfiguration();
