@@ -96,7 +96,7 @@ namespace RubezhAPI
 			return deviceTo;
 		}
 
-		public static GKDevice AddChild(GKDevice parentDevice, GKDevice previousDevice, GKDriver driver, int intAddress)
+		public static GKDevice AddChild(GKDevice parentDevice, GKDevice previousDevice, GKDriver driver, int intAddress, bool addAutoCreate = true)
 		{
 			var device = new GKDevice()
 			{
@@ -143,12 +143,12 @@ namespace RubezhAPI
 			}
 			else
 			{
-				AddAutoCreateChildren(device);
+				AddAutoCreateChildren(device, addAutoCreate);
 			}
 			return device;
 		}
 
-		public static void AddAutoCreateChildren(GKDevice device)
+		public static void AddAutoCreateChildren(GKDevice device, bool addAutoCreate = true)
 		{
 			foreach (var autoCreateDriverType in device.Driver.AutoCreateChildren)
 			{
@@ -158,7 +158,18 @@ namespace RubezhAPI
 					AddChild(device, null, autoCreateDriver, i);
 				}
 			}
+
+			if (addAutoCreate && device.Driver.IsGroupDevice && device.Children.Count == 0)
+			{
+				var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
+
+				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
+				{
+					var autoDevice = GKManager.AddChild(device, null, driver, device.IntAddress + i);
+				}
+			}
 		}
+
 
 		public static void SetDeviceLogic(GKDevice device, GKLogic logic, bool isNs = false)
 		{
