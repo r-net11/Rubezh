@@ -91,6 +91,14 @@ namespace FiresecService
 			try
 			{
 				var configDirectoryName = AppDataFolderHelper.GetServerAppDataPath("Config");
+				if (File.Exists(configDirectoryName + "\\SecurityConfiguration.xml"))
+				{
+					if (!File.Exists(AppDataFolderHelper.GetServerAppDataPath("Config\\..\\SecurityConfiguration.xml")))
+						File.Copy(configDirectoryName + "\\SecurityConfiguration.xml", AppDataFolderHelper.GetServerAppDataPath("Config\\..\\SecurityConfiguration.xml"));
+					File.Delete(configDirectoryName + "\\SecurityConfiguration.xml");
+				}
+				if (String.Equals(fileName, "SecurityConfiguration.xml"))
+					configDirectoryName = AppDataFolderHelper.GetServerAppDataPath("Config\\..");
 				var filePath = Path.Combine(configDirectoryName, fileName);
 
 				var stream = new FileStream(filePath, FileMode.Open);

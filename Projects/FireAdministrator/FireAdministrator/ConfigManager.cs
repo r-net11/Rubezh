@@ -100,7 +100,7 @@ namespace FireAdministrator
 				if (ServiceFactory.SaveService.GKChanged)
 					AddConfiguration(tempFolderName, "GKDeviceConfiguration.xml", GKManager.DeviceConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.SecurityChanged)
-					AddConfiguration(tempFolderName, "SecurityConfiguration.xml", ClientManager.SecurityConfiguration, 1, 1, true);
+					AddConfiguration(tempFolderName + "\\..", "SecurityConfiguration.xml", ClientManager.SecurityConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.GKLibraryChanged)
 					AddConfiguration(tempFolderName, "GKDeviceLibraryConfiguration.xml", GKManager.DeviceLibraryConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.LayoutsChanged)

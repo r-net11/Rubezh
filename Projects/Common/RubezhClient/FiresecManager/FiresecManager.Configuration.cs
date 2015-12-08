@@ -87,6 +87,12 @@ namespace RubezhClient
 						var file = Path.GetFileName(fileName);
 						File.Copy(fileName, Path.Combine(contentDirectory, file), true);
 					}
+
+					if (File.Exists(serverConfigDirectory + "\\..\\SecurityConfiguration.xml"))
+					{
+						File.Copy(serverConfigDirectory + "\\..\\SecurityConfiguration.xml", Path.Combine(configDirectory, "SecurityConfiguration.xml"), true);
+					}
+
 					LoadConfigFromDirectory(configDirectory);
 				}
 
