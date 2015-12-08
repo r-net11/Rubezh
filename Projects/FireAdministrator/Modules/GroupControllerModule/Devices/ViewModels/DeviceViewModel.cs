@@ -254,10 +254,6 @@ namespace GKModule.ViewModels
 		void OnAdd()
 		{
 			NewDeviceViewModel newDeviceViewModel = new NewDeviceViewModel(this);
-			////if (Device.IsConnectedToKAU)
-			////	newDeviceViewModel = new RSR2NewDeviceViewModel(this);
-			////else
-			//newDeviceViewModel = new RSR2NewDeviceViewModel(this);
 
 			if (newDeviceViewModel.Drivers.Count == 1)
 			{
@@ -283,7 +279,7 @@ namespace GKModule.ViewModels
 						addedDevice.IsExpanded = true;
 					}
 				}
-				//if (DevicesViewModel.Current.SelectedDevice.Device.DriverType == );
+				if (DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif || DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.RSR2_MVP_Part)
 				DevicesViewModel.Current.SelectedDevice.IsExpanded = true;
 				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevices.LastOrDefault();
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
