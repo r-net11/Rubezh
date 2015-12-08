@@ -4,6 +4,7 @@ using System.Windows.Documents;
 using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhClient;
 
@@ -62,7 +63,6 @@ namespace FireMonitor.ViewModels
 			{
 				ClientManager.FiresecService.GKTurnOffNowGlobalPimsInAutomatic();
 			}
-
 			else
 			{
 				ClientManager.FiresecService.GKTurnOnNowGlobalPimsInAutomatic();

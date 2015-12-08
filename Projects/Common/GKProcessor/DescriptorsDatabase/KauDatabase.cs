@@ -15,7 +15,7 @@ namespace GKProcessor
 			AddChild(RootDevice);
 			Devices.ForEach(x => x.KauDatabaseParent = RootDevice);
 
-			GlobalPim = new GKPim { Name = "Глобальное включение автоматики " + "(" + kauDevice.PresentationName + ")", IsGlobalPim = true };
+			GlobalPim = new GKPim { Name = "ГВА" + "(" + kauDevice.PresentationName + ")", IsGlobalPim = true };
 			GlobalPim.DeviceUID = kauDevice.UID;
 			GlobalPimDescriptor = new PimDescriptor(GlobalPim);
 		}
@@ -74,7 +74,7 @@ namespace GKProcessor
 
 			foreach (var pumpStation in GKManager.PumpStations.Where(x => x.KauDatabaseParent == RootDevice))
 			{
-				var pumpStationDescriptor = new PumpStationDescriptor(this, pumpStation);
+				var pumpStationDescriptor = new PumpStationDescriptor(GlobalPim, pumpStation);
 				Descriptors.Add(pumpStationDescriptor);
 
 				var pumpStationCreator = new PumpStationCreator(this, pumpStation, DatabaseType.Kau);
@@ -83,7 +83,7 @@ namespace GKProcessor
 
 			foreach (var mpt in GKManager.DeviceConfiguration.MPTs.Where(x => x.KauDatabaseParent == RootDevice))
 			{
-				var mptDescriptor = new MPTDescriptor(this, mpt);
+				var mptDescriptor = new MPTDescriptor(GlobalPim, mpt);
 				Descriptors.Add(mptDescriptor);
 
 				var mptCreator = new MPTCreator(mpt);

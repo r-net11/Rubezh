@@ -11,11 +11,10 @@ namespace GKProcessor
 		GKMPT MPT { get; set; }
 		GKPim GlobalPim { get; set; }
 
-		public MPTDescriptor(CommonDatabase database, GKMPT mpt)
+		public MPTDescriptor(GKPim globalPim, GKMPT mpt)
 			: base(mpt)
 		{
-			if (database != null)
-				GlobalPim = database.GlobalPim;
+			GlobalPim = globalPim;
 			DescriptorType = DescriptorType.MPT;
 			MPT = mpt;
 			MPT.Hold = 10;

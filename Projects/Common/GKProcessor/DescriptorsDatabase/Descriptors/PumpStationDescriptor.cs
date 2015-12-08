@@ -9,11 +9,10 @@ namespace GKProcessor
 		GKPumpStation PumpStation { get; set; }
 		GKPim GlobalPim { get; set; }
 
-		public PumpStationDescriptor(CommonDatabase database, GKPumpStation pumpStation)
+		public PumpStationDescriptor(GKPim globalPim, GKPumpStation pumpStation)
 			: base(pumpStation)
 		{
-			if (database != null)
-				GlobalPim = database.GlobalPim;
+			GlobalPim = globalPim;
 			DescriptorType = DescriptorType.PumpStation;
 			PumpStation = pumpStation;
 		}
@@ -33,7 +32,6 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.END);
 				return;
 			}
-
 
 			Formula.AddGetBit(GKStateBit.On, GlobalPim);
 			Formula.Add(FormulaOperationType.BR, 2, 1);
