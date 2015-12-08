@@ -31,14 +31,14 @@ namespace FireMonitor.ViewModels
 			OnStateChanged();
 		}
 
-		bool _isActivate;
-		public bool IsActivate
+		GlobalPimStatusType _globalPimStatusType;
+		public GlobalPimStatusType GlobalPimStatusType
 		{
-			get { return _isActivate; }
+			get { return _globalPimStatusType; }
 			set
 			{
-				_isActivate = value;
-				OnPropertyChanged(() => IsActivate);
+				_globalPimStatusType = value;
+				OnPropertyChanged(() => GlobalPimStatusType);
 			}
 		}
 
@@ -52,21 +52,39 @@ namespace FireMonitor.ViewModels
 		
 		void OnStateChanged()
 		{
-			IsActivate = State == XStateClass.On;
+			switch (State)
+			{
+				case XStateClass.On:
+					GlobalPimStatusType = GlobalPimStatusType.On;
+					break;
+				case XStateClass.Off:
+					GlobalPimStatusType = GlobalPimStatusType.Off;
+					break;
+				default:
+					GlobalPimStatusType = GlobalPimStatusType.Unknown;
+					break;
+			}
 		}
 
 		public RelayCommand ChangeGlobalPimActivationCommand { get; private set; }
 
 		void OnChangeGlobalPimActivation()
 		{
-			if (IsActivate)
+			if (GlobalPimStatusType == GlobalPimStatusType.On)
 			{
 				ClientManager.FiresecService.GKTurnOffNowGlobalPimsInAutomatic();
 			}
-			else
+			if (GlobalPimStatusType == GlobalPimStatusType.Off)
 			{
 				ClientManager.FiresecService.GKTurnOnNowGlobalPimsInAutomatic();
 			}
 		}
+	}
+
+	public enum GlobalPimStatusType
+	{
+		Unknown = 0,
+		On = 1,
+		Off = 2
 	}
 }

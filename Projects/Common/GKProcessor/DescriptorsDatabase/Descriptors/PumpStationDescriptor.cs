@@ -33,6 +33,7 @@ namespace GKProcessor
 				return;
 			}
 
+			PumpStation.LinkToDescriptor(GlobalPim);
 			Formula.AddGetBit(GKStateBit.On, GlobalPim);
 			Formula.Add(FormulaOperationType.BR, 2, 1);
 			Formula.Add(FormulaOperationType.EXIT);

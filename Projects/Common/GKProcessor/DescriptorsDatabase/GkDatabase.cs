@@ -25,7 +25,7 @@ namespace GKProcessor
 			}
 			Devices.ForEach(x => x.GkDatabaseParent = RootDevice);
 
-			GlobalPim = new GKPim { Name = "ГВА" + "(" + gkControllerDevice.PresentationName + ")", IsGlobalPim = true };
+			GlobalPim = new GKPim { Name = "Автоматика" + "(" + gkControllerDevice.PresentationName + ")", IsGlobalPim = true };
 			GlobalPim.DeviceUID = gkControllerDevice.UID;
 			GlobalPimDescriptor = new PimDescriptor(GlobalPim);
 		}
