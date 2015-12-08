@@ -22,9 +22,7 @@ namespace FiresecService
 		{
 			get
 			{
-				var serverName = AppServerSettingsHelper.AppServerSettings.DBServerName;
-				var connectionString = @"Data Source=.\" + serverName + ";Initial Catalog=master;Integrated Security=True;Language='English'";
-				return connectionString;
+				return SKDDatabaseService.MasterConnectionString;
 			}
 		}
 
@@ -39,28 +37,28 @@ namespace FiresecService
 			try
 			{
 				var server = new Server(new ServerConnection(new SqlConnection(ConnectionString)));
-				string commandText = @"SELECT name FROM sys.databases WHERE name = 'Journal_" + no.ToString() + "'";
-				var reader = server.ConnectionContext.ExecuteReader(commandText.ToString());
-				bool isExists = reader.Read();
+				var commandText = String.Format(@"SELECT name FROM sys.databases WHERE name = 'Journal_{0}'", no);
+				var reader = server.ConnectionContext.ExecuteReader(commandText);
+				var isExists = reader.Read();
 				server.ConnectionContext.Disconnect();
 				if (!isExists)
 				{
 					var createStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/Journal/Create.sql"));
-					using (StreamReader streamReader = new StreamReader(createStream.Stream))
+					using (var streamReader = new StreamReader(createStream.Stream))
 					{
 						commandText = streamReader.ReadToEnd();
 					}
-					commandText = commandText.Replace("Journal_0", "Journal_" + no.ToString());
-					server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
+					commandText = commandText.Replace("Journal_0", String.Format("Journal_{0}", no));
+					server.ConnectionContext.ExecuteNonQuery(commandText);
 					server.ConnectionContext.Disconnect();
 				}
 				var patchesStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/Journal/Patches.sql"));
-				using (StreamReader streamReader = new StreamReader(patchesStream.Stream))
+				using (var streamReader = new StreamReader(patchesStream.Stream))
 				{
 					commandText = streamReader.ReadToEnd();
 				}
-				commandText = commandText.Replace("Journal_0", "Journal_" + no.ToString());
-				server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
+				commandText = commandText.Replace("Journal_0", String.Format("Journal_{0}", no));
+				server.ConnectionContext.ExecuteNonQuery(commandText);
 				server.ConnectionContext.Disconnect();
 			}
 			catch (ConnectionFailureException e)
@@ -80,28 +78,28 @@ namespace FiresecService
 			try
 			{
 				var server = new Server(new ServerConnection(new SqlConnection(ConnectionString)));
-				string commandText = @"SELECT name FROM sys.databases WHERE name = 'PassJournal_" + no.ToString() + "'";
-				var reader = server.ConnectionContext.ExecuteReader(commandText.ToString());
-				bool isExists = reader.Read();
+				var commandText = String.Format(@"SELECT name FROM sys.databases WHERE name = 'PassJournal_{0}'", no);
+				var reader = server.ConnectionContext.ExecuteReader(commandText);
+				var isExists = reader.Read();
 				server.ConnectionContext.Disconnect();
 				if (!isExists)
 				{
 					var createStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/PassJournal/Create.sql"));
-					using (StreamReader streamReader = new StreamReader(createStream.Stream))
+					using (var streamReader = new StreamReader(createStream.Stream))
 					{
 						commandText = streamReader.ReadToEnd();
 					}
-					commandText = commandText.Replace("PassJournal_0", "PassJournal_" + no.ToString());
-					server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
+					commandText = commandText.Replace("PassJournal_0", String.Format("PassJournal_{0}", no));
+					server.ConnectionContext.ExecuteNonQuery(commandText);
 					server.ConnectionContext.Disconnect();
 				}
 				var patchesStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/PassJournal/Patches.sql"));
-				using (StreamReader streamReader = new StreamReader(patchesStream.Stream))
+				using (var streamReader = new StreamReader(patchesStream.Stream))
 				{
 					commandText = streamReader.ReadToEnd();
 				}
-				commandText = commandText.Replace("PassJournal_0", "PassJournal_" + no.ToString());
-				server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
+				commandText = commandText.Replace("PassJournal_0", String.Format("PassJournal_{0}", no));
+				server.ConnectionContext.ExecuteNonQuery(commandText);
 				server.ConnectionContext.Disconnect();
 			}
 			catch (ConnectionFailureException e)
@@ -127,7 +125,7 @@ namespace FiresecService
 						journalDBNo = 1;
 					Patch_Journal(journalDBNo);
 					skdDatabaseService.MetadataTranslator.AddJournalMetadata(journalDBNo, DateTime.Now, DateTime.Now);
-					JournalConnectionString = DBHelper.ConnectionString = @"Data Source=.\" + AppServerSettingsHelper.AppServerSettings.DBServerName + ";Initial Catalog=Journal_" + journalDBNo.ToString() + ";Integrated Security=True;Language='English'";
+					JournalConnectionString = DBHelper.ConnectionString = SKDDatabaseService.GetConnectionString(String.Format("Journal_{0}", journalDBNo));
 					JounalSynchroniser.ConnectionString = JournalConnectionString;
 					JounalTranslator.ConnectionString = JournalConnectionString;
 				}
@@ -139,7 +137,7 @@ namespace FiresecService
 						passJournalDBNo++;
 					Patch_PassJournal(passJournalDBNo);
 					skdDatabaseService.MetadataTranslator.AddPassJournalMetadata(passJournalDBNo, DateTime.Now, DateTime.Now);
-					PassJournalTranslator.ConnectionString = @"Data Source=.\" + AppServerSettingsHelper.AppServerSettings.DBServerName + ";Initial Catalog=PassJournal_" + passJournalDBNo.ToString() + ";Integrated Security=True;Language='English'";
+					PassJournalTranslator.ConnectionString = SKDDatabaseService.GetConnectionString(String.Format("PassJournal_{0}", passJournalDBNo));
 				}
 			}
 			catch (Exception e)

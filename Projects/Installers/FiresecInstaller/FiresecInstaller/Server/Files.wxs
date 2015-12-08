@@ -41,6 +41,8 @@
 				<File Id="Server.DevExpress.XtraReports.v14.1.dll" Name="DevExpress.XtraReports.v14.1.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.DevExpress.XtraReports.v14.1.Service.dll" Name="DevExpress.XtraReports.v14.1.Service.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.DevExpress.Xpo.v14.1.dll" Name="DevExpress.Xpo.v14.1.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.license.dll" Name="license.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.KeyGenerator.dll" Name="KeyGenerator.dll" Source="$(var.Server.TargetDir)" />
 			</Component>
 
 			<Component Id="Server.DB.Common" Guid="B596A2AE-21D9-48AA-8F7F-C0062E152994">
@@ -150,8 +152,10 @@
 			<Component Id="AppData.Manual_User.pdf">
 				<File Id="Server.Manual_User.pdf" Name="manual_user.pdf" Source="..\..\..\..\..\Deploy\Manual\" />
 			</Component>
-			<Component Id="Server.STRAZH_MODULE">
-				<File Id="AppData.StrazhSettings.xml" Name="StrazhSettings.xml" Source="..\..\..\..\..\Deploy\" />
+
+			<!-- Конфигурационный файл AppServerSettings.xml со значениями по умолчанию -->
+			<Component Id="AppData.AppServerSettings.xml">
+				<File Id="AppData.AppServerSettings.xml" Name="AppServerSettings.xml" Source="..\..\..\..\..\Deploy\" />
 			</Component>
 		</DirectoryRef>
 
