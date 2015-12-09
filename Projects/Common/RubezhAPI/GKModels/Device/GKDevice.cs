@@ -323,8 +323,7 @@ namespace RubezhAPI.GK
 			}
 		}
 
-        //[XmlIgnore]
-        [DataMember]
+        [XmlIgnore]
 		public string ShortName
 		{
 			get
@@ -333,7 +332,6 @@ namespace RubezhAPI.GK
 					return PredefinedName;
 				return Driver.ShortName;
 			} 
-            set{}
 		}
 
 		[XmlIgnore]

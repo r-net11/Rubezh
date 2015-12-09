@@ -88,7 +88,6 @@ namespace GKWebService.Controllers
             departmentModel.Department.Photo = null;
             return new JsonNetResult { Data = departmentModel };
         }
-
         [HttpPost]
         public JsonNetResult DepartmentDetails(DepartmentDetailsViewModel departmentModel, bool isNew)
         {
@@ -105,6 +104,44 @@ namespace GKWebService.Controllers
             var operationResult = ClientManager.FiresecService.SaveDepartment(departmentModel.Department, isNew);
 
             return new JsonNetResult {Data = operationResult.Error};
+        }
+
+        public ActionResult DepartmentEmployeeList()
+        {
+            return View();
+        }
+
+        public JsonResult GetDepartmentEmployeeList(Guid departmentId, Guid organisationId, bool isWithDeleted, Guid chiefId)
+        {
+            var filter = new EmployeeFilter
+            {
+                DepartmentUIDs = new List<Guid> { departmentId },
+                OrganisationUIDs = new List<Guid> { organisationId },
+                LogicalDeletationType = isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active
+            };
+            var operationResult = ClientManager.FiresecService.GetEmployeeList(filter);
+            if (operationResult.HasError)
+            {
+                throw new InvalidOperationException(operationResult.Error);
+            }
+
+            var employees = operationResult.Result.Select(e => ShortEmployeeModel.CreateFromModel(e)).ToList();
+
+            var chief = employees.FirstOrDefault(e => e.UID == chiefId);
+            if (chief != null)
+            {
+                chief.IsChief = true;
+            }
+
+            dynamic result = new
+            {
+                page = 1,
+                total = 100,
+                records = 100,
+                rows = employees,
+            };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

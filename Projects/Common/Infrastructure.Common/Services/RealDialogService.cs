@@ -7,10 +7,11 @@ using Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Services;
 
 namespace Infrastructure.Services
 {
-	public class MonitorDialogService : IDialogService
+	public class RealDialogService : IDialogService
 	{
 		public bool ShowModalWindow(WindowBaseViewModel windowBaseViewModel)
 		{

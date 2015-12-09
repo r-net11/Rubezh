@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 
-namespace Infrastructure.Services
+namespace Infrastructure.Common.Services
 {
 	public interface IMessageBoxService
 	{

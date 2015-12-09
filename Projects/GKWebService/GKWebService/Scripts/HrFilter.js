@@ -7,7 +7,7 @@
         ko.mapping.fromJS(data, {}, self);
     });
 
-    self.IsWithDeleted = ko.observable();
+    self.IsWithDeleted = ko.observable(false);
 
     self.InitFilter = function () {
         self.latestData = ko.mapping.toJS(self);
