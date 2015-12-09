@@ -182,6 +182,7 @@
     <Compile Include="OPCServers\Views\OPCSelectTagsView.xaml.cs">
       <DependentUpon>OPCSelectTagsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OpcTechnosoftware\Model\OpcServerStructure.cs" />
     <Compile Include="OpcTechnosoftware\ViewModels\OpcTechnosoftwareMenuViewModel.cs" />
     <Compile Include="OpcTechnosoftware\ViewModels\OpcTechnosoftwareViewModel.cs" />
     <Compile Include="OpcTechnosoftware\Views\OpcTechnosoftwareMenuView.xaml.cs">

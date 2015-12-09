@@ -6,15 +6,20 @@
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		
-		<StackPanel Grid.Column="0">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<Border Grid.Column="0" Grid.Row="0" Margin="3" Padding="3" BorderBrush="Blue" BorderThickness="2" CornerRadius="3">
+		<StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<ComboBox ItemsSource="{Binding HostNames}" SelectedItem="{Binding SelectedHost}" Margin="3" Padding="5, 0, 5, 0"/>
 				<Button Content="Обновить список машин" Command="{Binding GetHostNamesCommand}" Margin="3" Padding="5, 0, 5, 0"/>
 			</StackPanel>
 
 			<DataGrid ItemsSource="{Binding Servers}" SelectedItem="{Binding SelectedOpcServer}" 
-					  SelectionMode="Single" Width="Auto" Margin="3">
+					  SelectionMode="Single" Width="Auto" Margin="3" MinHeight="100">
 				<DataGrid.Columns>
 					<DataGridTextColumn IsReadOnly="True" Header="Server Name" Binding="{Binding ServerName}" Width="Auto" />
 					<DataGridTextColumn IsReadOnly="False" Header="Client Name" Binding="{Binding ClientName}" Width="Auto" />
@@ -29,12 +34,80 @@
 				<Button Content="Отключиться" Command="{Binding DisconnectCommand}" Margin="3" Padding="5, 0, 5, 0" />
 			</StackPanel>
 		</StackPanel>
-		
-		<StackPanel Grid.Column="1" Margin="3">
-			<TreeList>
-				
-			</TreeList>
-			<Button Content="Обновить структуру" Command="{Binding GetTagsAndGroupsCommand}" Margin="3" Padding="5, 0, 5, 0"/>
-		</StackPanel>
+		</Border>
+
+		<Border Grid.Column="1" Grid.Row="0" Margin="3" Padding="3" BorderBrush="Blue" BorderThickness="2" CornerRadius="3">
+			<StackPanel Margin="3">
+				<TreeView ItemsSource="{Binding TagsAndGroups.Items}" MinHeight="100">
+					<TreeView.ItemTemplate>
+						<HierarchicalDataTemplate ItemsSource="{Binding Items}">
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="{Binding Element.ItemName}" Margin="3" />
+								<CheckBox Margin="3" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+										  Visibility="{Binding Element.IsItem, Converter={StaticResource BoolToVisibilityConverter}}" />
+							</StackPanel>
+						</HierarchicalDataTemplate>
+					</TreeView.ItemTemplate>
+				</TreeView>
+				<Button Content="Обновить структуру" Command="{Binding GetTagsAndGroupsCommand}" Margin="3" Padding="5,0,5,0" />
+
+				<ComboBox ItemsSource="{Binding CheckedTags}" SelectedItem="{Binding SelectedElement}" Margin="3">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Element.Name}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+
+				<DataGrid ItemsSource="{Binding SelectedElement.Element.Properties}" Margin="3">
+					<DataGrid.Columns>
+						<DataGridTemplateColumn Header="Item Name">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ItemName}" Margin="3" />
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn Header="ID">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ID}" Margin="3" />
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn Header="Description">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Description}" Margin="3" />
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn Header="Value">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Value}" Margin="3" />
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn Header="Data Type">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding DataType}" Margin="3" />
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn Header="Result">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Result}" Margin="3" />
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+					</DataGrid.Columns>
+				</DataGrid>
+				<Button Content="Обновить список выбранных тегов" Command="{Binding GetCheckedTagsCommand}" 
+						Margin="3" Padding="5,0,5,0" />
+			</StackPanel>
+		</Border>
 	</Grid>
 </UserControl>

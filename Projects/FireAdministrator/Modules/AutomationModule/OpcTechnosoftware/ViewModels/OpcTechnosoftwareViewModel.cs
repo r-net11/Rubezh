@@ -7,6 +7,7 @@ using Infrastructure.ViewModels;
 using Infrastructure.Common;
 using OpcClientSdk;
 using OpcClientSdk.Da;
+using AutomationModule.Model;
 
 namespace AutomationModule.ViewModels
 {
@@ -23,11 +24,13 @@ namespace AutomationModule.ViewModels
 			ConnectCommand = new RelayCommand(OnConnect, CanConnect);
 			DisconnectCommand = new RelayCommand(OnDisconnect, CanDisconnect);
 			GetTagsAndGroupsCommand = new RelayCommand(OnGetTagsAndGroups, CanGetTagsAndGroups);
+			GetCheckedTagsCommand = new RelayCommand(OnGetCheckedTags, CanGetCheckedTags);
 		}
 
 		#endregion
 
 		#region Fields And Properties
+
 		public const string ROOT = @".";
 		public const string SPLITTER = @"\";
 		TsCDaServer _activeOpcServer;
@@ -76,10 +79,37 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		ObservableCollection<TsCDaBrowseElement> _tagsAndGroups = new ObservableCollection<TsCDaBrowseElement>();
-		public ObservableCollection<TsCDaBrowseElement> TagsAndGroups
+		OpcTechnosoftwareServerStructure _tagsAndGroups;
+		public OpcTechnosoftwareServerStructure TagsAndGroups
 		{
 			get { return _tagsAndGroups; }
+			private set
+			{
+				_tagsAndGroups = value;
+				OnPropertyChanged(() => TagsAndGroups);
+			}
+		}
+
+		IEnumerable<OpcTechnosoftwareElement> _checkedTags;
+		public IEnumerable<OpcTechnosoftwareElement> CheckedTags 
+		{
+			get { return _checkedTags; }
+			private set
+			{
+				_checkedTags = value;
+				OnPropertyChanged(() => CheckedTags);
+			}
+		}
+
+		OpcTechnosoftwareElement _selectedElement;
+		public OpcTechnosoftwareElement SelectedElement
+		{
+			get { return _selectedElement; }
+			set
+			{
+				_selectedElement = value;
+				OnPropertyChanged(() => SelectedElement);
+			}
 		}
 
 		#endregion
@@ -169,7 +199,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand GetHostNamesCommand { get; private set; }
 		void OnGetHostNames()
 		{
-			HostNames = GetHostNames();
+			WaitHelper.Execute(() => HostNames = GetHostNames());
 		}
 
 		public RelayCommand GetOpcServerListCommand { get; private set; }
@@ -215,18 +245,23 @@ namespace AutomationModule.ViewModels
 		void OnGetTagsAndGroups()
 		{
 			var elements = Browse();
- 			TagsAndGroups.Clear();
-			foreach (var item in elements)
-			{
-				TagsAndGroups.Add(item);
-			}
+			TagsAndGroups = new OpcTechnosoftwareServerStructure(elements);
 		}
 		bool CanGetTagsAndGroups()
 		{
 			return _activeOpcServer != null && _activeOpcServer.IsConnected;
 		}
 
-		#endregion
+		public RelayCommand GetCheckedTagsCommand { get; private set; }
+		void OnGetCheckedTags()
+		{
+			CheckedTags = TagsAndGroups.AllElements.Where(x => x.IsChecked).ToArray();
+		}
+		bool CanGetCheckedTags()
+		{
+			return TagsAndGroups != null;
+		}
 
+		#endregion
 	}
 }
