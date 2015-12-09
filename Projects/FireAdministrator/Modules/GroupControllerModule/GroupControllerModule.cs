@@ -32,21 +32,21 @@ namespace GKModule
 {
 	public class GroupControllerModule : ModuleBase, IValidationModule, ILayoutDeclarationModule
 	{
-		public DevicesViewModel DevicesViewModel { get; private set; }
-		public ParameterTemplatesViewModel ParameterTemplatesViewModel { get; private set; }
-		public ZonesViewModel ZonesViewModel { get; private set; }
-		public DirectionsViewModel DirectionsViewModel { get; private set; }
-		public PumpStationsViewModel PumpStationsViewModel { get; private set; }
-		public MPTsViewModel MPTsViewModel { get; private set; }
-		public DelaysViewModel DelaysViewModel { get; private set; }
-		public CodesViewModel CodesViewModel { get; private set; }
-		public GuardZonesViewModel GuardZonesViewModel { get; private set; }
-		public DoorsViewModel DoorsViewModel { get; private set; }
-		public SKDZonesViewModel SKDZonesViewModel { get; private set; }
-		public LibraryViewModel DeviceLidraryViewModel { get; private set; }
-		public OPCsViewModel OPCViewModel { get; private set; }
-		public DescriptorsViewModel DescriptorsViewModel { get; private set; }
-		public DiagnosticsViewModel DiagnosticsViewModel { get; private set; }
+		internal DevicesViewModel DevicesViewModel { get; private set; }
+		internal ParameterTemplatesViewModel ParameterTemplatesViewModel { get; private set; }
+		internal ZonesViewModel ZonesViewModel { get; private set; }
+		internal DirectionsViewModel DirectionsViewModel { get; private set; }
+		internal PumpStationsViewModel PumpStationsViewModel { get; private set; }
+		internal MPTsViewModel MPTsViewModel { get; private set; }
+		internal DelaysViewModel DelaysViewModel { get; private set; }
+		internal CodesViewModel CodesViewModel { get; private set; }
+		internal GuardZonesViewModel GuardZonesViewModel { get; private set; }
+		internal DoorsViewModel DoorsViewModel { get; private set; }
+		internal SKDZonesViewModel SKDZonesViewModel { get; private set; }
+		internal LibraryViewModel DeviceLidraryViewModel { get; private set; }
+		internal OPCsViewModel OPCViewModel { get; private set; }
+		internal DescriptorsViewModel DescriptorsViewModel { get; private set; }
+		internal DiagnosticsViewModel DiagnosticsViewModel { get; private set; }
 		GKPlanExtension _planExtension;
 
 		public override void CreateViewModels()
