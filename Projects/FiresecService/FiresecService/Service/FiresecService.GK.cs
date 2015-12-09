@@ -34,8 +34,8 @@ namespace FiresecService.Service
 				var progressCallback = new GKProgressCallback();
 				ServerTaskRunner.Add(progressCallback, "Запись конфигурации ГК", new Action(() =>
 				{
-					var result = GKProcessorManager.GKWriteConfiguration(device, UserName, progressCallback);
-					FiresecService.NotifyOperationResult_WriteConfiguration(result);
+					var result = GKProcessorManager.GKWriteConfiguration(device, UserName, progressCallback, clientUID);
+					FiresecService.NotifyOperationResult_WriteConfiguration(result, clientUID);
 				}
 				));
 				return new OperationResult<bool>(true);
@@ -48,7 +48,7 @@ namespace FiresecService.Service
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return GKProcessorManager.GKReadConfiguration(device, UserName);
+				return GKProcessorManager.GKReadConfiguration(device, UserName, clientUID);
 			}
 			return OperationResult<GKDeviceConfiguration>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
@@ -61,8 +61,8 @@ namespace FiresecService.Service
 				var progressCallback = new GKProgressCallback();
 				ServerTaskRunner.Add(progressCallback, "Чтение файла конфигурации ГК", new Action(() =>
 				{
-					var result = GKProcessorManager.GKReadConfigurationFromGKFile(device, UserName, progressCallback);
-					FiresecService.NotifyOperationResult_ReadConfigurationFromGKFile(result);
+					var result = GKProcessorManager.GKReadConfigurationFromGKFile(device, UserName, progressCallback, clientUID);
+					FiresecService.NotifyOperationResult_ReadConfigurationFromGKFile(result, clientUID);
 				}
 				));
 				return new OperationResult<bool>(true);
@@ -75,7 +75,7 @@ namespace FiresecService.Service
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return GKProcessorManager.GKAutoSearch(device, UserName);
+				return GKProcessorManager.GKAutoSearch(device, UserName, clientUID);
 			}
 			return OperationResult<GKDevice>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
@@ -85,7 +85,7 @@ namespace FiresecService.Service
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return GKProcessorManager.GKUpdateFirmware(device, firmwareBytes, UserName);
+				return GKProcessorManager.GKUpdateFirmware(device, firmwareBytes, UserName, clientUID);
 			}
 			return OperationResult<bool>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
@@ -167,7 +167,7 @@ namespace FiresecService.Service
 				var result = GKProcessorManager.GKSetSingleParameter(gkBase, parameterBytes);
 				if (deviceProperties != null)
 				{
-					FiresecService.NotifyGKParameterChanged(objectUID, deviceProperties);
+					FiresecService.NotifyGKParameterChanged(objectUID, deviceProperties, clientUID);
 				}
 				return result;
 			}
@@ -217,7 +217,7 @@ namespace FiresecService.Service
 			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (gkControllerDevice != null)
 			{
-				return GKScheduleHelper.RewriteAllSchedules(gkControllerDevice);
+				return GKScheduleHelper.RewriteAllSchedules(gkControllerDevice, clientUID);
 			}
 			return OperationResult<bool>.FromError("Не найден ГК в конфигурации");
 		}
@@ -482,12 +482,12 @@ namespace FiresecService.Service
 					{
 						try
 						{
-							var users = GKSKDHelper.GetAllUsers(device, progressCallback);
-							FiresecService.NotifyOperationResult_GetAllUsers(users);
+							var users = GKSKDHelper.GetAllUsers(device, progressCallback, clientUID);
+							FiresecService.NotifyOperationResult_GetAllUsers(users, clientUID);
 						}
 						catch (Exception e)
 						{
-							FiresecService.NotifyOperationResult_GetAllUsers(OperationResult<List<GKUser>>.FromError(e.Message));
+							FiresecService.NotifyOperationResult_GetAllUsers(OperationResult<List<GKUser>>.FromError(e.Message), clientUID);
 						}
 					}
 				));
@@ -516,11 +516,11 @@ namespace FiresecService.Service
 						try
 						{
 							var usersCount = GKSKDHelper.GetUsersCount(device);
-							var removeResult = GKSKDHelper.RemoveAllUsers(device, usersCount, progressCallback);
+							var removeResult = GKSKDHelper.RemoveAllUsers(device, usersCount, progressCallback, clientUID);
 							if (!removeResult)
 							{
 								GKProcessorManager.StopProgress(progressCallback);
-								FiresecService.NotifyOperationResult_RewriteUsers(OperationResult<bool>.FromError("Ошибка при удалении пользователя из ГК"));
+								FiresecService.NotifyOperationResult_RewriteUsers(OperationResult<bool>.FromError("Ошибка при удалении пользователя из ГК"), clientUID);
 								return;
 							}
 							progressCallback.Title = "Добавление пользователей прибора " + device.PresentationName;
@@ -555,11 +555,11 @@ namespace FiresecService.Service
 									}
 								}
 							}
-							FiresecService.NotifyOperationResult_RewriteUsers(new OperationResult<bool>(true));
+							FiresecService.NotifyOperationResult_RewriteUsers(new OperationResult<bool>(true), clientUID);
 						}
 						catch (Exception e)
 						{
-							FiresecService.NotifyOperationResult_RewriteUsers(OperationResult<bool>.FromError(e.Message));
+							FiresecService.NotifyOperationResult_RewriteUsers(OperationResult<bool>.FromError(e.Message), clientUID);
 						}
 						finally
 						{
@@ -577,14 +577,14 @@ namespace FiresecService.Service
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return GKSKDHelper.GetAllUsers(device, new GKProgressCallback());
+				return GKSKDHelper.GetAllUsers(device, new GKProgressCallback(), clientUID);
 			}
 			return OperationResult<List<GKUser>>.FromError("Прибор не найден в конфигурации");
 		}
 
 		public OperationResult<bool> RewritePmfUsers(Guid clientUID, Guid uid, List<GKUser> users)
 		{
-			return GKSKDHelper.RewritePmfUsers(uid, users);
+			return GKSKDHelper.RewritePmfUsers(uid, users, clientUID);
 		}
 		#endregion
 

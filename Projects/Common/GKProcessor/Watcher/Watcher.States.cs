@@ -1,9 +1,8 @@
-﻿using System;
-using System.Linq;
-using RubezhAPI;
+﻿using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
-using RubezhAPI;
+using System;
+using System.Linq;
 
 namespace GKProcessor
 {

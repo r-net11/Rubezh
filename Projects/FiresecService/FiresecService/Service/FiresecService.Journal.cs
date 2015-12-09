@@ -94,7 +94,7 @@ namespace FiresecService.Service
 				using (var dbService = new RubezhDAL.DataClasses.DbService())
 				{
 					var result = dbService.JournalTranslator.GetFilteredJournalItems(filter);
-					FiresecService.NotifyOperationResult_GetJournal(result);
+					FiresecService.NotifyOperationResult_GetJournal(result, clientUID);
 				}
 			}));
 			return new OperationResult<bool>(true);
@@ -107,7 +107,7 @@ namespace FiresecService.Service
 				using (var dbService = new RubezhDAL.DataClasses.DbService())
 				{
 					var result = dbService.JournalTranslator.GetArchivePage(filter, page);
-					FiresecService.NotifyOperationResult_GetArchivePage(result, page);
+					FiresecService.NotifyOperationResult_GetArchivePage(result, page, clientUID);
 				}
 			}));
 			return new OperationResult<bool>(true);

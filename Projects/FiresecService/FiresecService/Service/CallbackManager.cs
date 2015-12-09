@@ -37,7 +37,7 @@ namespace FiresecService.Service
 					}
 				}
 
-				ClientsManager.ClientInfos.ForEach(x => x.WaitEvent.Set());
+				ClientsManager.ClientInfos.ForEach(x => { if (!clientUID.HasValue || clientUID.Value == x.UID) x.WaitEvent.Set(); });
 			}
 		}
 

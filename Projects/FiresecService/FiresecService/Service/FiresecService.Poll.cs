@@ -34,14 +34,14 @@ namespace FiresecService.Service
 			return new List<CallbackResult> { new CallbackResult { CallbackResultType = CallbackResultType.ReconnectionRequired } };
 		}
 
-		public static void NotifyGKProgress(GKProgressCallback gkProgressCallback)
+		public static void NotifyGKProgress(GKProgressCallback gkProgressCallback, Guid? clientUID)
 		{
 			var callbackResult = new CallbackResult()
 			{
 				CallbackResultType = CallbackResultType.GKProgress,
 				GKProgressCallback = gkProgressCallback
 			};
-			CallbackManager.Add(callbackResult);
+			CallbackManager.Add(callbackResult, clientUID);
 		}
 
 		public static void NotifyGKObjectStateChanged(GKCallbackResult gkCallbackResult)
@@ -54,7 +54,7 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifyAutomation(AutomationCallbackResult automationCallbackResult, Guid? clientUID = null)
+		public static void NotifyAutomation(AutomationCallbackResult automationCallbackResult, Guid? clientUID)
 		{
 			var callbackResult = new CallbackResult()
 			{
@@ -83,7 +83,7 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifyGKParameterChanged(Guid objectUID, List<GKProperty> deviceProperties)
+		public static void NotifyGKParameterChanged(Guid objectUID, List<GKProperty> deviceProperties, Guid? clientUID)
 		{
 			var callbackResult = new CallbackResult()
 			{
@@ -97,7 +97,7 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifyOperationResult_GetAllUsers(OperationResult<List<GKUser>> result)
+		public static void NotifyOperationResult_GetAllUsers(OperationResult<List<GKUser>> result, Guid? clientUID)
 		{
 			var callbackResult = new CallbackResult()
 			{
@@ -110,10 +110,10 @@ namespace FiresecService.Service
 					Users = result.Result
 				}
 			};
-			CallbackManager.Add(callbackResult);
+			CallbackManager.Add(callbackResult, clientUID);
 		}
 
-		public static void NotifyOperationResult_RewriteUsers(OperationResult<bool> result)
+		public static void NotifyOperationResult_RewriteUsers(OperationResult<bool> result, Guid? clientUID)
 		{
 			var callbackResult = new CallbackResult()
 			{
@@ -125,10 +125,10 @@ namespace FiresecService.Service
 					HasError = result.HasError,
 				}
 			};
-			CallbackManager.Add(callbackResult);
+			CallbackManager.Add(callbackResult, clientUID);
 		}
 
-		public static void NotifyOperationResult_WriteConfiguration(OperationResult<bool> result)
+		public static void NotifyOperationResult_WriteConfiguration(OperationResult<bool> result, Guid? clientUID)
 		{
 			var callbackResult = new CallbackResult()
 			{
@@ -140,10 +140,10 @@ namespace FiresecService.Service
 					HasError = result.HasError,
 				}
 			};
-			CallbackManager.Add(callbackResult);
+			CallbackManager.Add(callbackResult, clientUID);
 		}
 
-		public static void NotifyOperationResult_ReadConfigurationFromGKFile(OperationResult<string> result)
+		public static void NotifyOperationResult_ReadConfigurationFromGKFile(OperationResult<string> result, Guid? clientUID)
 		{
 			var callbackResult = new CallbackResult()
 			{
@@ -156,10 +156,10 @@ namespace FiresecService.Service
 					FileName = result.Result
 				}
 			};
-			CallbackManager.Add(callbackResult);
+			CallbackManager.Add(callbackResult, clientUID);
 		}
 
-		public static void NotifyOperationResult_GetArchivePage(OperationResult<List<JournalItem>> result, int pageNo)
+		public static void NotifyOperationResult_GetArchivePage(OperationResult<List<JournalItem>> result, int pageNo, Guid? clientUID)
 		{
 			var callbackResult = new CallbackResult()
 			{
@@ -173,10 +173,10 @@ namespace FiresecService.Service
 					PageNo = pageNo
 				}
 			};
-			CallbackManager.Add(callbackResult);
+			CallbackManager.Add(callbackResult, clientUID);
 		}
 
-		public static void NotifyOperationResult_GetJournal(OperationResult<List<JournalItem>> result)
+		public static void NotifyOperationResult_GetJournal(OperationResult<List<JournalItem>> result, Guid? clientUID)
 		{
 			var callbackResult = new CallbackResult()
 			{
@@ -189,7 +189,7 @@ namespace FiresecService.Service
 					JournalItems = result.Result
 				}
 			};
-			CallbackManager.Add(callbackResult);
+			CallbackManager.Add(callbackResult, clientUID);
 		}
 	}
 }

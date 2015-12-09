@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using RubezhAPI;
+﻿using RubezhAPI;
 using RubezhAPI.GK;
-using RubezhAPI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GKProcessor
 {
@@ -15,9 +13,9 @@ namespace GKProcessor
 		/// </summary>
 		/// <param name="device"></param>
 		/// <returns></returns>
-		public static OperationResult<bool> RewriteAllSchedules(GKDevice device)
+		public static OperationResult<bool> RewriteAllSchedules(GKDevice device, Guid clientUID)
 		{
-			var progressCallback = GKProcessorManager.StartProgress("Перезапись графиков в " + device.PresentationName, "Стирание графиков", 1, false, GKProgressClientType.Administrator);
+			var progressCallback = GKProcessorManager.StartProgress("Перезапись графиков в " + device.PresentationName, "Стирание графиков", 1, false, GKProgressClientType.Administrator, clientUID);
 			var removeResult = RemoveAllSchedules(device);
 			if (removeResult.HasError)
 				return OperationResult<bool>.FromError(removeResult.Errors);
@@ -31,23 +29,23 @@ namespace GKProcessor
 				schedules = schedulesResult.Result;
 			}
 
-			progressCallback = GKProcessorManager.StartProgress("Запись графиков в " + device.PresentationName, "", schedules.Count + 1, false, GKProgressClientType.Administrator);
+			progressCallback = GKProcessorManager.StartProgress("Запись графиков в " + device.PresentationName, "", schedules.Count + 1, false, GKProgressClientType.Administrator, clientUID);
 			var emptySchedule = new GKSchedule();
 			emptySchedule.Name = "Никогда";
 			var setResult = GKSetSchedule(device, emptySchedule);
 			if (setResult.HasError)
 				return OperationResult<bool>.FromError(setResult.Errors);
-			GKProcessorManager.DoProgress("Запись пустого графика ", progressCallback);
+			GKProcessorManager.DoProgress("Запись пустого графика ", progressCallback, clientUID);
 			int i = 1;
 			foreach (var schedule in schedules)
 			{
 				setResult = GKSetSchedule(device, schedule);
 				if (setResult.HasError)
 					return OperationResult<bool>.FromError(setResult.Errors);
-				GKProcessorManager.DoProgress("Запись графика " + i, progressCallback);
+				GKProcessorManager.DoProgress("Запись графика " + i, progressCallback, clientUID);
 				i++;
 			}
-			GKProcessorManager.StopProgress(progressCallback);
+			GKProcessorManager.StopProgress(progressCallback, clientUID);
 			return new OperationResult<bool>(true);
 		}
 
@@ -111,10 +109,10 @@ namespace GKProcessor
 			}
 
 			int secondsPeriod = 0;
-			switch(schedule.ScheduleType)
+			switch (schedule.ScheduleType)
 			{
 				case GKScheduleType.Access:
-					switch(schedule.SchedulePeriodType)
+					switch (schedule.SchedulePeriodType)
 					{
 						case GKSchedulePeriodType.Weekly:
 						case GKSchedulePeriodType.Dayly:
