@@ -23,9 +23,7 @@ namespace FireMonitor
 {
 	public class Bootstrapper : BaseBootstrapper
 	{
-		private string _login;
-		private string _password;
-		private AutoActivationWatcher _watcher;
+		AutoActivationWatcher _watcher;
 
 		public bool Initialize()
 		{
@@ -35,10 +33,10 @@ namespace FireMonitor
 			ServiceFactory.Initialize(new LayoutService(), new SecurityService());
 			ServiceFactory.ResourceService.AddResource(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml");
 			ServiceFactory.StartupService.Show();
-			if (ServiceFactory.StartupService.PerformLogin(_login, _password))
+			if (ServiceFactory.StartupService.PerformLogin(Login, Password))
 			{
-				_login = ServiceFactory.StartupService.Login;
-				_password = ServiceFactory.StartupService.Password;
+				Login = ServiceFactory.StartupService.Login;
+				Password = ServiceFactory.StartupService.Password;
 				try
 				{
 					CreateModules();
@@ -224,15 +222,15 @@ namespace FireMonitor
 				ClientManager.FiresecService.SuspendPoll = true;
 				var clientCredentials = new ClientCredentials()
 				{
-					UserName = _login,
-					Password = _password,
+					UserName = Login,
+					Password = Password,
 					ClientType = ClientType.Monitor,
 					ClientUID = FiresecServiceFactory.UID
 				};
 
 				var operationResult = ClientManager.FiresecService.Connect(FiresecServiceFactory.UID, clientCredentials);
 				if (operationResult.HasError)
-					Restart(_login, _password);
+					Restart(Login, Password);
 			}
 			catch (Exception e)
 			{
@@ -257,28 +255,12 @@ namespace FireMonitor
 			}
 			if (login != null && password != null)
 			{
-				_login = login;
-				_password = password;
+				Login = login;
+				Password = password;
 			}
 			RestartApplication();
 		}
 
-		public void RestartApplication()
-		{
-			var processStartInfo = new ProcessStartInfo()
-			{
-				FileName = Application.ResourceAssembly.Location,
-				Arguments = GetRestartCommandLineArguments()
-			};
-			System.Diagnostics.Process.Start(processStartInfo);
-		}
-		protected virtual string GetRestartCommandLineArguments()
-		{
-			string commandLineArguments = null;
-			if (_login != null && _password != null)
-				commandLineArguments = "login='" + _login + "' password='" + _password + "'";
-			return commandLineArguments;
-		}
 		public virtual void InitializeCommandLineArguments(string[] args)
 		{
 			if (args != null)
@@ -289,13 +271,13 @@ namespace FireMonitor
 					{
 						if (arg.StartsWith("login='") && arg.EndsWith("'"))
 						{
-							_login = arg.Replace("login='", "");
-							_login = _login.Replace("'", "");
+							Login = arg.Replace("login='", "");
+							Login = Login.Replace("'", "");
 						}
 						if (arg.StartsWith("password='") && arg.EndsWith("'"))
 						{
-							_password = arg.Replace("password='", "");
-							_password = _password.Replace("'", "");
+							Password = arg.Replace("password='", "");
+							Password = Password.Replace("'", "");
 						}
 					}
 				}
