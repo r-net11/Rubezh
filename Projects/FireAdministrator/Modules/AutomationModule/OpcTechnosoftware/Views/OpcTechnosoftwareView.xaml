@@ -109,5 +109,76 @@
 						Margin="3" Padding="5,0,5,0" />
 			</StackPanel>
 		</Border>
+		
+		<Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="3" Padding="3" 
+				BorderBrush="Blue" BorderThickness="2" CornerRadius="3">
+			<StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<CheckBox IsChecked="{Binding Mode}"/>
+					<TextBlock Text="Режим работы: по подписке" />
+				</StackPanel>
+				
+				<DataGrid ItemsSource="{Binding ReadingResult}" Margin="3">
+					<DataGrid.Columns>
+						<DataGridTemplateColumn Header="ServerHandle">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ServerHandle}" Margin="3" />
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn Header="ClientHandle">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ClientHandle}" Margin="3" />
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn Header="ItemName">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ItemName}" Margin="3" />
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn Header="Value">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Value}" Margin="3" />
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn Header="Timestamp">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Timestamp}" Margin="3" />
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn Header="Quality">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Quality}" Margin="3" />
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn Header="Result">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Result}" Margin="3" />
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+					</DataGrid.Columns>
+				</DataGrid>
+				
+				<StackPanel Orientation="Horizontal">
+					<Button Content="Прочитать" Command="{Binding ReadTagsCommand}" Margin="3" />
+					<Button Content="Записать" Margin="3" />
+					<Button Content="Подписаться" Margin="3" />
+					<Button Content="Отменить подписку" Margin="3" />
+				</StackPanel>
+			</StackPanel>
+		</Border>
 	</Grid>
 </UserControl>

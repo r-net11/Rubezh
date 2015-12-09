@@ -25,6 +25,7 @@ namespace AutomationModule.ViewModels
 			DisconnectCommand = new RelayCommand(OnDisconnect, CanDisconnect);
 			GetTagsAndGroupsCommand = new RelayCommand(OnGetTagsAndGroups, CanGetTagsAndGroups);
 			GetCheckedTagsCommand = new RelayCommand(OnGetCheckedTags, CanGetCheckedTags);
+			ReadTagsCommand = new RelayCommand(OnReadTags, CanReadTags);
 		}
 
 		#endregion
@@ -101,14 +102,37 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+
 		OpcTechnosoftwareElement _selectedElement;
 		public OpcTechnosoftwareElement SelectedElement
 		{
 			get { return _selectedElement; }
 			set
-			{
+			{ 
 				_selectedElement = value;
 				OnPropertyChanged(() => SelectedElement);
+			}
+		}
+
+		bool _mode;
+		public bool Mode
+		{
+			get { return _mode; }
+			set
+			{
+				_mode = value;
+				OnPropertyChanged(() => Mode);
+			}
+		}
+
+		TsCDaItemValueResult[] _readingResult;
+		public TsCDaItemValueResult[] ReadingResult
+		{
+			get { return _readingResult; }
+			set 
+			{
+				_readingResult = value;
+				OnPropertyChanged(() => ReadingResult);
 			}
 		}
 
@@ -260,6 +284,20 @@ namespace AutomationModule.ViewModels
 		bool CanGetCheckedTags()
 		{
 			return TagsAndGroups != null;
+		}
+
+		public RelayCommand ReadTagsCommand { get; private set; }
+		void OnReadTags()
+		{
+			var tags = CheckedTags.Select(x => new TsCDaItem(new OpcItem(x.Element.ItemName))).ToArray();	
+			var result = _activeOpcServer.Read(tags);
+			ReadingResult = result;
+		}
+		bool CanReadTags()
+		{
+			return CheckedTags != null && CheckedTags.Count() > 0 && 
+				_activeOpcServer != null && _activeOpcServer.IsConnected &&
+				Mode == false;
 		}
 
 		#endregion
