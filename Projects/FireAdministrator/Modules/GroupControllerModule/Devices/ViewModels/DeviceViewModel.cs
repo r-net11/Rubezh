@@ -279,7 +279,8 @@ namespace GKModule.ViewModels
 						addedDevice.IsExpanded = true;
 					}
 				}
-				if (DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif || DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.RSR2_MVP_Part)
+				if (DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif || DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.RSR2_MVP_Part
+					|| DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.GK || DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.RSR2_GKMirror)
 				DevicesViewModel.Current.SelectedDevice.IsExpanded = true;
 				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevices.LastOrDefault();
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();

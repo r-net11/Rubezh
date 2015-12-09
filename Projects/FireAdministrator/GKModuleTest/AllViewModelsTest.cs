@@ -85,7 +85,7 @@ namespace GKModuleTest
 		[Test]
 		public void AddDevice()
 		{
-			SetMokForAdddevice(GKDriverType.RSR2_AM_1);
+			SetMokForNewDeviceViewModel(GKDriverType.RSR2_AM_1);
 			var devicesViewModel = GroupControllerModule.DevicesViewModel;
 			var selectedDevice = devicesViewModel.SelectedDevice = devicesViewModel.AllDevices.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif);
 			devicesViewModel.SelectedDevice.AddCommand.Execute();
@@ -95,10 +95,12 @@ namespace GKModuleTest
 			Assert.IsTrue(selectedDevice.Device.Children.All(x => x.Parent == selectedDevice.Device));
 			Assert.IsTrue(selectedDevice.Device.Children[0].IntAddress == 1);
 		}
-		[Test]
-		public void AddDevicePositiveValueForRSR()
+
+		[TestCase(GKDriverType.RSR2_AM_1)]
+		//[TestCase(GKDriverType.RSR2_AM_4)]
+		public void AddDevicePositiveValueForRSR(GKDriverType driverType)
 		{
-			SetMokForAdddevice(GKDriverType.RSR2_AM_1, 255);
+			SetMokForNewDeviceViewModel(driverType, 255);
 			var devicesViewModel = GroupControllerModule.DevicesViewModel;
 			var selectedDevice = devicesViewModel.SelectedDevice = devicesViewModel.AllDevices.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif);
 			devicesViewModel.SelectedDevice.AddCommand.Execute();
@@ -108,7 +110,7 @@ namespace GKModuleTest
 		[Test]
 		public void AddDeviceNegativeValueForRSR2()
 		{
-			SetMokForAdddevice(GKDriverType.RSR2_AM_1, 256);
+			SetMokForNewDeviceViewModel(GKDriverType.RSR2_AM_1, 256);
 			var devicesViewModel = GroupControllerModule.DevicesViewModel;
 			var selectedDevice = devicesViewModel.SelectedDevice = devicesViewModel.AllDevices.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif);
 			devicesViewModel.SelectedDevice.AddCommand.Execute();
@@ -118,7 +120,7 @@ namespace GKModuleTest
 		[Test]
 		public void AddDevicePositiveValueForGK()
 		{
-			SetMokForAdddevice(GKDriverType.RSR2_GKMirror,123);
+			SetMokForNewDeviceViewModel(GKDriverType.RSR2_GKMirror,123);
 			var devicesViewModel = GroupControllerModule.DevicesViewModel;
 			var selectedDevice = devicesViewModel.SelectedDevice = devicesViewModel.AllDevices.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.GK);
 			devicesViewModel.SelectedDevice.AddCommand.Execute();
@@ -128,23 +130,24 @@ namespace GKModuleTest
 		[Test]
 		public void AddDeviceNegativeValueForGK()
 		{
-			SetMokForAdddevice(GKDriverType.RSR2_GKMirror, 128);
+			SetMokForNewDeviceViewModel(GKDriverType.RSR2_GKMirror, 128);
 			var devicesViewModel = GroupControllerModule.DevicesViewModel;
 			var selectedDevice = devicesViewModel.SelectedDevice = devicesViewModel.AllDevices.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.GK);
 			devicesViewModel.SelectedDevice.AddCommand.Execute();
-			Assert.IsTrue(selectedDevice.Device.Children.Count() == 0);
+			Assert.IsTrue(selectedDevice.Device.Children.Count() == 4);
 		}
 
 
 		[Test]
 		public void AddGroupDevice()
 		{
-			SetMokForAdddevice(GKDriverType.RSR2_AM_4);
+			SetMokForNewDeviceViewModel(GKDriverType.RSR2_AM_4);
 			var devicesViewModel = GroupControllerModule.DevicesViewModel;
 			var selectedDevice = devicesViewModel.SelectedDevice = devicesViewModel.AllDevices.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif);
 			devicesViewModel.SelectedDevice.AddCommand.Execute();
 			Assert.IsTrue(selectedDevice.Children.Count() == 1);
 			Assert.IsTrue(selectedDevice.Device.Children[0].DriverType == GKDriverType.RSR2_AM_4);
+			Assert.IsTrue(selectedDevice.Device.Children[0].Children.Count == 4);
 			Assert.IsTrue(selectedDevice.Device.Children[0].Children.All(x => x.DriverType == GKDriverType.RSR2_AM_1));
 			Assert.IsTrue(selectedDevice.Device.Children.All(x => x.AllParents.Count == 4));
 			Assert.IsTrue(selectedDevice.Device.Children[0].Children.All(x => x.AllParents.Count == 5));
@@ -173,7 +176,7 @@ namespace GKModuleTest
 		[Test]
 		public void AddGroupDeviceOPSZ()
 		{
-			SetMokForAdddevice(GKDriverType.RSR2_OPSZ);
+			SetMokForNewDeviceViewModel(GKDriverType.RSR2_OPSZ);
 			var devicesViewModel = GroupControllerModule.DevicesViewModel;
 			devicesViewModel.OnShow();
 			var selectedDevice = devicesViewModel.SelectedDevice = devicesViewModel.AllDevices.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif);
@@ -188,7 +191,7 @@ namespace GKModuleTest
 		[Test]
 		public void AddKAU()
 		{
-			SetMokForAdddevice(GKDriverType.RSR2_KAU);
+			SetMokForNewDeviceViewModel(GKDriverType.RSR2_KAU);
 			var devicesViewModel = GroupControllerModule.DevicesViewModel;
 			devicesViewModel.OnShow();
 			var selectedDevice = devicesViewModel.SelectedDevice = devicesViewModel.AllDevices.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.GK);
@@ -202,7 +205,7 @@ namespace GKModuleTest
 		[Test]
 		public void AddMirror()
 		{
-			SetMokForAdddevice(GKDriverType.RSR2_GKMirror);
+			SetMokForNewDeviceViewModel(GKDriverType.RSR2_GKMirror);
 			var devicesViewModel = GroupControllerModule.DevicesViewModel;
 			devicesViewModel.OnShow();
 			var selectedDevice = devicesViewModel.SelectedDevice = devicesViewModel.AllDevices.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.GK);
@@ -221,19 +224,12 @@ namespace GKModuleTest
 		[Test]
 		public void AddMirrorItem()
 		{
-			SetMokForAdddevice(GKDriverType.RSR2_GKMirror);
+			SetMokForNewDeviceViewModel(GKDriverType.RSR2_GKMirror);
 			var devicesViewModel = GroupControllerModule.DevicesViewModel;
-			devicesViewModel.OnShow();
 			var selectedDevice = devicesViewModel.SelectedDevice = devicesViewModel.AllDevices.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.GK);
 			devicesViewModel.SelectedDevice.AddCommand.Execute();
-			MockDialogService.OnShowModal -= x =>
-			{
-				var newDeviceViewModel = x as NewDeviceViewModel;
-				newDeviceViewModel.SelectedDriver = GKManager.Drivers.FirstOrDefault(y => y.DriverType == GKDriverType.RSR2_GKMirror);
-				newDeviceViewModel.SaveCommand.Execute();
-			};
-			SetMokForAdddevice(GKDriverType.RSR2_GKMirrorFireZone);
-			devicesViewModel.OnShow();
+			ServiceFactory.DialogService = MockDialogService = new MockDialogService();
+			SetMokForNewDeviceViewModel(GKDriverType.RSR2_GKMirrorFireZone);
 			selectedDevice = devicesViewModel.SelectedDevice = devicesViewModel.AllDevices.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.RSR2_GKMirror);
 			devicesViewModel.SelectedDevice.AddCommand.Execute();
 			Assert.IsTrue(selectedDevice.Device.Children.Where(x=> x.Driver.HasMirror == true).Count() == 1);
@@ -247,7 +243,7 @@ namespace GKModuleTest
 			//Assert.IsTrue(selectedDevice.Device.Children.LastOrDefault().IntAddress - selectedDevice.Device.Children[count - 1].IntAddress == 1);
 		}
 
-		void SetMokForAdddevice(GKDriverType drivertype, int count = 1)
+		void SetMokForNewDeviceViewModel(GKDriverType drivertype, int count = 1)
 		{
 			MockDialogService.OnShowModal += x =>
 			{
