@@ -2,6 +2,7 @@
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
+using RubezhAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +42,12 @@ namespace FiresecService.Service
 				CallbackResultType = CallbackResultType.GKProgress,
 				GKProgressCallback = gkProgressCallback
 			};
-			CallbackManager.Add(callbackResult, clientUID);
+			ClientType? clientType = null;
+			if (gkProgressCallback != null)
+				clientType = gkProgressCallback.GKProgressClientType == GKProgressClientType.Administrator ?
+					ClientType.Administrator :
+					ClientType.Monitor;
+			CallbackManager.Add(callbackResult, clientType, clientUID);
 		}
 
 		public static void NotifyGKObjectStateChanged(GKCallbackResult gkCallbackResult)
@@ -51,7 +57,7 @@ namespace FiresecService.Service
 				CallbackResultType = CallbackResultType.GKObjectStateChanged,
 				GKCallbackResult = gkCallbackResult
 			};
-			CallbackManager.Add(callbackResult);
+			CallbackManager.Add(callbackResult, ClientType.Monitor);
 		}
 
 		public static void NotifyAutomation(AutomationCallbackResult automationCallbackResult, Guid? clientUID)
@@ -61,7 +67,7 @@ namespace FiresecService.Service
 				CallbackResultType = CallbackResultType.AutomationCallbackResult,
 				AutomationCallbackResult = automationCallbackResult,
 			};
-			CallbackManager.Add(callbackResult, clientUID);
+			CallbackManager.Add(callbackResult, ClientType.Monitor, clientUID);
 		}
 
 		public static void NotifyJournalItems(List<JournalItem> journalItems, bool isNew)
@@ -71,7 +77,7 @@ namespace FiresecService.Service
 				CallbackResultType = isNew ? CallbackResultType.NewEvents : CallbackResultType.UpdateEvents,
 				JournalItems = journalItems
 			};
-			CallbackManager.Add(callbackResult);
+			CallbackManager.Add(callbackResult, ClientType.Monitor);
 		}
 
 		public static void NotifyConfigurationChanged()
@@ -94,7 +100,7 @@ namespace FiresecService.Service
 					DeviceProperties = deviceProperties
 				}
 			};
-			CallbackManager.Add(callbackResult);
+			CallbackManager.Add(callbackResult, ClientType.Administrator);
 		}
 
 		public static void NotifyOperationResult_GetAllUsers(OperationResult<List<GKUser>> result, Guid? clientUID)
@@ -110,7 +116,7 @@ namespace FiresecService.Service
 					Users = result.Result
 				}
 			};
-			CallbackManager.Add(callbackResult, clientUID);
+			CallbackManager.Add(callbackResult, ClientType.Administrator, clientUID);
 		}
 
 		public static void NotifyOperationResult_RewriteUsers(OperationResult<bool> result, Guid? clientUID)
@@ -125,7 +131,7 @@ namespace FiresecService.Service
 					HasError = result.HasError,
 				}
 			};
-			CallbackManager.Add(callbackResult, clientUID);
+			CallbackManager.Add(callbackResult, ClientType.Administrator, clientUID);
 		}
 
 		public static void NotifyOperationResult_WriteConfiguration(OperationResult<bool> result, Guid? clientUID)
@@ -140,7 +146,7 @@ namespace FiresecService.Service
 					HasError = result.HasError,
 				}
 			};
-			CallbackManager.Add(callbackResult, clientUID);
+			CallbackManager.Add(callbackResult, ClientType.Administrator, clientUID);
 		}
 
 		public static void NotifyOperationResult_ReadConfigurationFromGKFile(OperationResult<string> result, Guid? clientUID)
@@ -156,7 +162,7 @@ namespace FiresecService.Service
 					FileName = result.Result
 				}
 			};
-			CallbackManager.Add(callbackResult, clientUID);
+			CallbackManager.Add(callbackResult, ClientType.Administrator, clientUID);
 		}
 
 		public static void NotifyOperationResult_GetArchivePage(OperationResult<List<JournalItem>> result, int pageNo, Guid? clientUID)
@@ -173,7 +179,7 @@ namespace FiresecService.Service
 					PageNo = pageNo
 				}
 			};
-			CallbackManager.Add(callbackResult, clientUID);
+			CallbackManager.Add(callbackResult, ClientType.Monitor, clientUID);
 		}
 
 		public static void NotifyOperationResult_GetJournal(OperationResult<List<JournalItem>> result, Guid? clientUID)
@@ -189,7 +195,7 @@ namespace FiresecService.Service
 					JournalItems = result.Result
 				}
 			};
-			CallbackManager.Add(callbackResult, clientUID);
+			CallbackManager.Add(callbackResult, ClientType.Monitor, clientUID);
 		}
 	}
 }

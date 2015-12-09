@@ -1,4 +1,5 @@
 ﻿using RubezhAPI;
+using RubezhAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace FiresecService.Service
 		static List<CallbackResultItem> CallbackResultItems = new List<CallbackResultItem>();
 		public static int Index { get; private set; }
 
-		public static void Add(CallbackResult callbackResult, Guid? clientUID = null)
+		public static void Add(CallbackResult callbackResult, ClientType? clientType = null, Guid? clientUID = null)
 		{
 			lock (CallbackResultItems)
 			{
@@ -21,7 +22,8 @@ namespace FiresecService.Service
 				{
 					CallbackResult = callbackResult,
 					DateTime = DateTime.Now,
-					ClientUID = clientUID,
+					ClientType = clientType,
+					ClientUID = clientUID
 				};
 				CallbackResultItems.Add(newCallbackResultItem);
 
@@ -37,7 +39,14 @@ namespace FiresecService.Service
 					}
 				}
 
-				ClientsManager.ClientInfos.ForEach(x => { if (!clientUID.HasValue || clientUID.Value == x.UID) x.WaitEvent.Set(); });
+				foreach (var clientInfo in ClientsManager.ClientInfos)
+				{
+					if (clientType.HasValue && clientType.Value != clientInfo.ClientCredentials.ClientType)
+						continue;
+					if (clientUID.HasValue && clientUID.Value != clientInfo.UID)
+						continue;
+					clientInfo.WaitEvent.Set();
+				}
 			}
 		}
 
@@ -59,9 +68,13 @@ namespace FiresecService.Service
 				{
 					if (callbackResultItem.CallbackResult.Index > clientInfo.CallbackIndex)
 					{
-						if ((callbackResultItem.CallbackResult.GKProgressCallback == null || !callbackResultItem.CallbackResult.GKProgressCallback.IsCanceled) &&
-							(!callbackResultItem.ClientUID.HasValue || callbackResultItem.ClientUID.Value == clientInfo.UID))
-							result.Add(callbackResultItem.CallbackResult);
+						if (callbackResultItem.ClientType.HasValue && callbackResultItem.ClientType.Value != clientInfo.ClientCredentials.ClientType)
+							continue;
+						if (callbackResultItem.ClientUID.HasValue && callbackResultItem.ClientUID.Value != clientInfo.UID)
+							continue;
+						if (callbackResultItem.CallbackResult.GKProgressCallback != null && callbackResultItem.CallbackResult.GKProgressCallback.IsCanceled)
+							continue;
+						result.Add(callbackResultItem.CallbackResult);
 					}
 				}
 				return result;
@@ -73,6 +86,7 @@ namespace FiresecService.Service
 	{
 		public CallbackResult CallbackResult { get; set; }
 		public DateTime DateTime { get; set; }
+		public ClientType? ClientType { get; set; }
 		public Guid? ClientUID { get; set; }
 	}
 }
