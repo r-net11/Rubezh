@@ -106,5 +106,59 @@ namespace GKWebService.Controllers
 
             return new JsonNetResult {Data = operationResult.Error};
         }
+
+        public ActionResult DepartmentEmployeeList()
+        {
+            return View();
+        }
+
+        public JsonResult GetDepartmentEmployeeList(Guid departmentId, Guid organisationId, bool isWithDeleted, Guid chiefId)
+        {
+            var filter = new EmployeeFilter
+            {
+                DepartmentUIDs = new List<Guid> { departmentId },
+                OrganisationUIDs = new List<Guid> { organisationId },
+                LogicalDeletationType = isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active
+            };
+            var operationResult = ClientManager.FiresecService.GetEmployeeList(filter);
+            if (operationResult.HasError)
+            {
+                throw new InvalidOperationException(operationResult.Error);
+            }
+
+            var employees = operationResult.Result.Select(e => ShortEmployeeModel.CreateFromModel(e)).ToList();
+
+            var chief = employees.FirstOrDefault(e => e.UID == chiefId);
+            if (chief != null)
+            {
+                chief.IsChief = true;
+            }
+
+            dynamic result = new
+            {
+                page = 1,
+                total = 100,
+                records = 100,
+                rows = employees,
+            };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult SaveEmployeeDepartment(Guid employeeUID, Guid? departmentUID, string name)
+        {
+            var operationResult = ClientManager.FiresecService.SaveEmployeeDepartment(employeeUID, departmentUID, name);
+
+            return Json(operationResult.HasError, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult SaveDepartmentChief(Guid departmentUID, Guid? employeeUID, string name)
+        {
+            var result = ClientManager.FiresecService.SaveDepartmentChief(departmentUID, employeeUID, name);
+
+            return Json(result.HasError, JsonRequestBehavior.AllowGet);
+        }
     }
 }

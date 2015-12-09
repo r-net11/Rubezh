@@ -4,10 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using EntityFramework.BulkInsert.Extensions;
-using System.Data.SqlClient;
-using EntityFramework.BulkInsert.Providers;
 using Infrastructure.Common;
 
 namespace RubezhDAL.DataClasses

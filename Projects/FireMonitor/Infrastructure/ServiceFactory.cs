@@ -8,6 +8,7 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Content;
 using Infrastructure.Common.Services.DragDrop;
 using Microsoft.Practices.Prism.Events;
+using Infrastructure.Services;
 
 namespace Infrastructure
 {
@@ -23,22 +24,14 @@ namespace Infrastructure
 				return _startupService;
 			}
 		}
-		public static AppSettings AppSettings { get; set; }
 		public static ILayoutService Layout { get; private set; }
 
-		public static void Initialize(ILayoutService ILayoutService, ISecurityService ISecurityService)
+		public static void Initialize(ILayoutService layoutService, ISecurityService securityService)
 		{
-			ServiceFactoryBase.Events = Events = new EventAggregator();
-			ServiceFactoryBase.SecurityService = SecurityService = ISecurityService;
-			Layout = ILayoutService;
+			ServiceFactoryBase.SecurityService = SecurityService = securityService;
+			Layout = layoutService;
 			ContentService = new ContentService("Monitor");
 			DragDropService = new DragDropService();
-		}
-
-		public static void SafeCall(Action action)
-		{
-			if (Application.Current != null && Application.Current.Dispatcher != null)
-				Application.Current.Dispatcher.BeginInvoke(action);
 		}
 	}
 }
