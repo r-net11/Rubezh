@@ -9,7 +9,7 @@ using RubezhAPI.License;
 
 namespace RubezhClient
 {
-	public partial class SafeFiresecService// : IFiresecService
+	public partial class SafeFiresecService : ISafeFiresecService
 	{
 		FiresecServiceFactory FiresecServiceFactory;
         public IFiresecService FiresecService { get; set; }

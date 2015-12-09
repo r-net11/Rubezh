@@ -1,12 +1,11 @@
 ﻿using Infrastructure.Common.Services;
-using Infrastructure.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GKModuleTest
+namespace SKDModuleTest.Mocks
 {
 	public class MockMessageBoxService : IMessageBoxService
 	{

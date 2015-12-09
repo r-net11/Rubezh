@@ -21,6 +21,12 @@ namespace RubezhDAL
 
 		public void Seed()
 		{
+			if (!IsPostgres)
+			{
+				string journalClusteredIndex = GetIndexName("UID", "Journals");
+				if (journalClusteredIndex != null)
+					SetPkNonclustered(journalClusteredIndex, "Journals");
+			}
 			if (Organisations.Count() == 0)
 			{
 				var organisation = new Organisation
@@ -61,6 +67,29 @@ namespace RubezhDAL
 					});
 				GKDaySchedules.Add(alwaysDaySchedule);
 			}
+		}
+
+		string GetIndexName(string columnName, string tableName, bool isClustered = true)
+		{
+			if (IsPostgres)
+				return null;
+			string query = string.Format(
+				"SELECT ind.name FROM sys.indexes ind " +
+				"INNER JOIN sys.index_columns ic ON  ind.object_id = ic.object_id and ind.index_id = ic.index_id " +
+				"INNER JOIN sys.columns col ON ic.object_id = col.object_id and ic.column_id = col.column_id " +
+				"INNER JOIN sys.tables t ON ind.object_id = t.object_id " +
+				"WHERE ind.type_desc = '{0}' and col.name = '{1}' and t.name = '{2}' ", isClustered ? "CLUSTERED" : "NONCLUSTERED", columnName, tableName);
+			return Database.SqlQuery<string>(query).FirstOrDefault();
+		}
+
+		void SetPkNonclustered(string keyName, string tableName)
+		{
+			if (IsPostgres || keyName == null)
+				return;
+			string query = string.Format("ALTER TABLE {0} DROP CONSTRAINT \"{1}\"" + 
+				"ALTER TABLE {0} ADD CONSTRAINT \"{1}\"" +
+				"PRIMARY KEY NONCLUSTERED (\"UID\")", tableName, keyName);
+			Database.ExecuteSqlCommand(query);
 		}
 
 		public DbSet<GKSchedule> GKSchedules { get; set; }

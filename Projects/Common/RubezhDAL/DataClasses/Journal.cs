@@ -10,7 +10,7 @@ namespace RubezhDAL.DataClasses
 		public Guid UID { get; set; }
 		public Guid? EmployeeUID { get; set; }
 		public Employee Employee { get; set; }
-		[Index(IsClustered = true)]
+		[Index]
 		public DateTime SystemDate { get; set; }
 		[Index]
 		public DateTime? DeviceDate { get; set; }

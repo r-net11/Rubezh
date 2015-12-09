@@ -74,6 +74,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubezhDAL", "..\Common\Rube
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubezhLicense", "..\Common\RubezhLicense\RubezhLicense.csproj", "{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2C052D4D-6DD3-490B-8816-B939B988324D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKDModuleTest", "SKDModuleTest\SKDModuleTest.csproj", "{E6C327AC-43D4-45F0-8C3C-7747F9E6C02D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -443,6 +447,18 @@ Global
 		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Release|x64.ActiveCfg = Release|Any CPU
 		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Release|x86.ActiveCfg = Release|Any CPU
+		{E6C327AC-43D4-45F0-8C3C-7747F9E6C02D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6C327AC-43D4-45F0-8C3C-7747F9E6C02D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6C327AC-43D4-45F0-8C3C-7747F9E6C02D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E6C327AC-43D4-45F0-8C3C-7747F9E6C02D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E6C327AC-43D4-45F0-8C3C-7747F9E6C02D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E6C327AC-43D4-45F0-8C3C-7747F9E6C02D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E6C327AC-43D4-45F0-8C3C-7747F9E6C02D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6C327AC-43D4-45F0-8C3C-7747F9E6C02D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6C327AC-43D4-45F0-8C3C-7747F9E6C02D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E6C327AC-43D4-45F0-8C3C-7747F9E6C02D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E6C327AC-43D4-45F0-8C3C-7747F9E6C02D}.Release|x64.ActiveCfg = Release|Any CPU
+		{E6C327AC-43D4-45F0-8C3C-7747F9E6C02D}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -471,5 +487,6 @@ Global
 		{AE2102F4-C2B3-4CA3-850F-69C93E23DFB7} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
 		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
 		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
+		{E6C327AC-43D4-45F0-8C3C-7747F9E6C02D} = {2C052D4D-6DD3-490B-8816-B939B988324D}
 	EndGlobalSection
 EndGlobal

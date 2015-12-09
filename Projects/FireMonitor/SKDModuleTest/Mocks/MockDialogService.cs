@@ -1,13 +1,12 @@
 ﻿using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GKModuleTest
+namespace SKDModuleTest.Mocks
 {
 	public class MockDialogService : IDialogService
 	{
@@ -18,7 +17,7 @@ namespace GKModuleTest
 		{
 			if (OnShowModal != null)
 				OnShowModal(windowBaseViewModel);
-			return windowBaseViewModel.CloseResult.Value;
+			return windowBaseViewModel.CloseResult == null ? false : windowBaseViewModel.CloseResult.Value;
 		}
 
 		public void ShowWindow(WindowBaseViewModel windowBaseViewModel)
