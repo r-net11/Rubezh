@@ -68,7 +68,12 @@ namespace FiresecService.Service
 			}
 			ClientsManager.Remove(clientUID);
 		}
-
+		public void LayoutChanged(Guid clientUID, Guid layoutUID)
+		{
+			var clientInfo = ClientsManager.GetClientInfo(clientUID);
+			if (clientInfo != null)
+				clientInfo.LayoutUID = layoutUID;
+		}
 		public OperationResult<ServerState> GetServerState(Guid clientUID)
 		{
 			return new OperationResult<ServerState>(ServerState);

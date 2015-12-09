@@ -84,9 +84,6 @@ namespace FireMonitor
 					GKDriversCreator.Create();
 					BeforeInitialize(true);
 
-					ServiceFactory.StartupService.DoStep("Старт полинга сервера");
-					ClientManager.StartPoll();
-
 					ServiceFactory.StartupService.DoStep("Проверка прав пользователя");
 					if (ClientManager.CheckPermission(PermissionType.Oper_Login))
 					{
@@ -109,6 +106,9 @@ namespace FireMonitor
 						ShutDown();
 						return false;
 					}
+
+					ServiceFactory.StartupService.DoStep("Старт полинга сервера");
+					ClientManager.StartPoll();
 
 					SafeFiresecService.JournalItemsEvent += OnJournalItems;
 

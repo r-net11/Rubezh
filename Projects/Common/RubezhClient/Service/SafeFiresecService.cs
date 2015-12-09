@@ -8,7 +8,7 @@ using System.Windows.Threading;
 
 namespace RubezhClient
 {
-	public partial class SafeFiresecService// : IFiresecService
+	public partial class SafeFiresecService
 	{
 		FiresecServiceFactory FiresecServiceFactory;
 		string _serverAddress;
@@ -150,6 +150,15 @@ namespace RubezhClient
 			}, "Connect");
 		}
 
+		public void LayoutChanged(Guid clientUID, Guid layoutUID)
+		{
+			SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					firesecService.LayoutChanged(clientUID, layoutUID);
+			}, "LayoutChanged");
+		}
 		public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
 		{
 			return SafeOperationCall(() =>

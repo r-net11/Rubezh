@@ -102,10 +102,10 @@ namespace Infrastructure.Automation
 			SecurityConfiguration = securityConfiguration;
 		}
 
-		public static void SendCallback(AutomationCallbackResult callback, Guid? userUid = null)
+		public static void SendCallback(AutomationCallbackResult callback, Guid? clientUID)
 		{
 			if (OnSendCallback != null)
-				OnSendCallback(callback, userUid);
+				OnSendCallback(callback, clientUID);
 		}
 
 		public static void CallbackResponse(Guid clientUID, ContextType contextType, Guid callbackUid, object value)

@@ -11,7 +11,7 @@ namespace FiresecService.Service
 		static List<CallbackResultItem> CallbackResultItems = new List<CallbackResultItem>();
 		public static int Index { get; private set; }
 
-		public static void Add(CallbackResult callbackResult, ClientType? clientType = null, Guid? clientUID = null)
+		public static void Add(CallbackResult callbackResult, ClientType? clientType = null, Guid? clientUID = null, IEnumerable<Guid> layoutUIDs = null)
 		{
 			lock (CallbackResultItems)
 			{
@@ -23,7 +23,8 @@ namespace FiresecService.Service
 					CallbackResult = callbackResult,
 					DateTime = DateTime.Now,
 					ClientType = clientType,
-					ClientUID = clientUID
+					ClientUID = clientUID,
+					LayoutUIDs = layoutUIDs
 				};
 				CallbackResultItems.Add(newCallbackResultItem);
 
@@ -44,6 +45,8 @@ namespace FiresecService.Service
 					if (clientType.HasValue && clientType.Value != clientInfo.ClientCredentials.ClientType)
 						continue;
 					if (clientUID.HasValue && clientUID.Value != clientInfo.UID)
+						continue;
+					if (layoutUIDs != null && !layoutUIDs.Contains(clientInfo.LayoutUID))
 						continue;
 					clientInfo.WaitEvent.Set();
 				}
@@ -72,6 +75,8 @@ namespace FiresecService.Service
 							continue;
 						if (callbackResultItem.ClientUID.HasValue && callbackResultItem.ClientUID.Value != clientInfo.UID)
 							continue;
+						if (callbackResultItem.LayoutUIDs != null && !callbackResultItem.LayoutUIDs.Contains(clientInfo.LayoutUID))
+							continue;
 						if (callbackResultItem.CallbackResult.GKProgressCallback != null && callbackResultItem.CallbackResult.GKProgressCallback.IsCanceled)
 							continue;
 						result.Add(callbackResultItem.CallbackResult);
@@ -88,5 +93,6 @@ namespace FiresecService.Service
 		public DateTime DateTime { get; set; }
 		public ClientType? ClientType { get; set; }
 		public Guid? ClientUID { get; set; }
+		public IEnumerable<Guid> LayoutUIDs { get; set; }
 	}
 }

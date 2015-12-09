@@ -1,10 +1,8 @@
 ﻿using Common;
-using Infrastructure.Common.Windows;
 using RubezhAPI;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
-using RubezhAPI.Models.Layouts;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -77,17 +75,11 @@ namespace RubezhClient
 
 		public static void ProcessAutomationCallback(AutomationCallbackResult callback, Guid? clientUid = null)
 		{
-			if (callback.Data == null || callback.Data.LayoutFilter == null || ApplicationService.Shell == null)
-				return;
-			var layoutUID = ApplicationService.Shell.Layout == null ?
-				Layout.NoLayoutUID :
-				ApplicationService.Shell.Layout.UID;
-			if (callback.Data.LayoutFilter.LayoutsUIDs.Contains(layoutUID))
-				SafeContext.Execute(() =>
-				{
-					if (AutomationEvent != null)
-						AutomationEvent(callback);
-				});
+			SafeContext.Execute(() =>
+			{
+				if (AutomationEvent != null)
+					AutomationEvent(callback);
+			});
 		}
 
 		void ProcessCallbackResult(List<CallbackResult> callbackResults)

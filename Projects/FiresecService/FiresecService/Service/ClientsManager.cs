@@ -87,5 +87,6 @@ namespace FiresecService.Service
 		public AutoResetEvent WaitEvent = new AutoResetEvent(false);
 		public bool IsDisconnecting { get; set; }
 		public DateTime LastPollDateTime { get; set; }
+		public Guid LayoutUID { get; set; }
 	}
 }

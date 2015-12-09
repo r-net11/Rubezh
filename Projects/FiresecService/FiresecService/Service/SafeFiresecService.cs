@@ -112,6 +112,10 @@ namespace FiresecService.Service
 			}
 		}
 
+		public void LayoutChanged(Guid clientUID, Guid layoutUID)
+		{
+			SafeOperationCall(clientUID, () => FiresecService.LayoutChanged(clientUID, layoutUID), "LayoutChanged");
+		}
 		public OperationResult<ServerState> GetServerState(Guid clientUID)
 		{
 			return SafeOperationCall(clientUID, () => { return FiresecService.GetServerState(clientUID); }, "GetServerState");

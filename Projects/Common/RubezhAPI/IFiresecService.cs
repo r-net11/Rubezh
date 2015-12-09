@@ -41,6 +41,9 @@ namespace RubezhAPI
 		[OperationContract]
 		List<CallbackResult> Poll(Guid clientUID, int callbackIndex);
 
+		[OperationContract(IsOneWay = true)]
+		void LayoutChanged(Guid clientUID, Guid layoutUID);
+
 		[OperationContract]
 		string Test(Guid clientUID, string arg);
 
