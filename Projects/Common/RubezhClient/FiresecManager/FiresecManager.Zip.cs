@@ -29,9 +29,6 @@ namespace RubezhClient
 				{
 					switch (zipConfigurationItem)
 					{
-						case "SecurityConfiguration.xml":
-							SecurityConfiguration = ZipSerializeHelper.DeSerialize<SecurityConfiguration>(configurationFileName, true);
-							break;
 						case "PlansConfiguration.xml":
 							PlansConfiguration = ZipSerializeHelper.DeSerialize<PlansConfiguration>(configurationFileName, true);
 							break;

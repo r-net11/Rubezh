@@ -65,7 +65,7 @@ namespace FiresecService
 
 		static SystemConfiguration GetSystemConfiguration()
 		{
-			var systemConfiguration = (SystemConfiguration)GetConfiguration("SystemConfiguration.xml", typeof(SystemConfiguration));
+			var systemConfiguration = (SystemConfiguration)GetConfiguration("Config\\SystemConfiguration.xml", typeof(SystemConfiguration));
 			if (systemConfiguration != null)
 			{
 				systemConfiguration.AfterLoad();
@@ -79,7 +79,7 @@ namespace FiresecService
 
 		static GKDeviceConfiguration GetDeviceConfiguration()
 		{
-			var deviceConfiguration = (GKDeviceConfiguration)GetConfiguration("GKDeviceConfiguration.xml", typeof(GKDeviceConfiguration));
+			var deviceConfiguration = (GKDeviceConfiguration)GetConfiguration("Config\\GKDeviceConfiguration.xml", typeof(GKDeviceConfiguration));
 			if (deviceConfiguration == null)
 				deviceConfiguration = new GKDeviceConfiguration();
 			deviceConfiguration.AfterLoad();
@@ -90,17 +90,8 @@ namespace FiresecService
 		{
 			try
 			{
-				var configDirectoryName = AppDataFolderHelper.GetServerAppDataPath("Config");
-				if (File.Exists(configDirectoryName + "\\SecurityConfiguration.xml"))
-				{
-					if (!File.Exists(AppDataFolderHelper.GetServerAppDataPath("Config\\..\\SecurityConfiguration.xml")))
-						File.Copy(configDirectoryName + "\\SecurityConfiguration.xml", AppDataFolderHelper.GetServerAppDataPath("Config\\..\\SecurityConfiguration.xml"));
-					File.Delete(configDirectoryName + "\\SecurityConfiguration.xml");
-				}
-				if (String.Equals(fileName, "SecurityConfiguration.xml"))
-					configDirectoryName = AppDataFolderHelper.GetServerAppDataPath("Config\\..");
+				var configDirectoryName = AppDataFolderHelper.GetServerAppDataPath();
 				var filePath = Path.Combine(configDirectoryName, fileName);
-
 				var stream = new FileStream(filePath, FileMode.Open);
 				var xmlSerializer = new XmlSerializer(type);
 				var versionedConfiguration = (VersionedConfiguration)xmlSerializer.Deserialize(stream);

@@ -55,6 +55,16 @@ namespace FiresecService.Service
 			return new FileStream(configFilePath, FileMode.Open, FileAccess.Read);
 		}
 
+		public Stream GetSecurityConfig()
+		{
+			var configFilePath = AppDataFolderHelper.GetServerAppDataPath("SecurityConfiguration.xml");
+			if (!File.Exists(configFilePath))
+			{
+				ReplaceSecurityConfiguration();
+			}
+			return new FileStream(configFilePath, FileMode.Open, FileAccess.Read);
+		}
+
 		public void SetLocalConfig()
 		{
 			var configFileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
@@ -104,6 +114,17 @@ namespace FiresecService.Service
 			RestartWithNewConfig();
 		}
 
+		public void SetSecurityConfiguration(Stream stream)
+		{
+			var configFileName = AppDataFolderHelper.GetServerAppDataPath("SecurityConfiguration.xml");
+			using (var configFileStream = File.Create(configFileName))
+			{
+				CopyStream(stream, configFileStream);
+			}
+			stream.Close();
+			RestartWithNewConfig();
+		}
+
 		public static void CopyStream(Stream input, Stream output)
 		{
 			var buffer = new byte[8 * 1024];
@@ -136,11 +157,22 @@ namespace FiresecService.Service
 
 			if (File.Exists(configFileName))
 				File.Delete(configFileName);
-
+			ReplaceSecurityConfiguration();
 			var zipFile = new ZipFile(configFileName);
 			zipFile.AddDirectory(configDirectory);
 			zipFile.Save(configFileName);
 			zipFile.Dispose();
+		}
+
+		static void ReplaceSecurityConfiguration()
+		{
+			var configDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
+			if (File.Exists(configDirectory + "\\SecurityConfiguration.xml"))
+			{
+				if (!File.Exists(AppDataFolderHelper.GetServerAppDataPath("Config\\..\\SecurityConfiguration.xml")))
+					File.Copy(configDirectory + "\\SecurityConfiguration.xml", AppDataFolderHelper.GetServerAppDataPath("Config\\..\\SecurityConfiguration.xml"));
+				File.Delete(configDirectory + "\\SecurityConfiguration.xml");
+			}
 		}
 	}
 }

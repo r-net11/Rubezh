@@ -52,12 +52,25 @@ namespace FireAdministrator
 						{
 							ClientManager.FiresecService.SetRemoteConfig(fileStream);
 						}
+						if (ServiceFactory.SaveService.SecurityChanged)
+						{
+							var tempSecurityFolderName = AppDataFolderHelper.GetTempFolder();
+							if (!Directory.Exists(tempSecurityFolderName))
+								Directory.CreateDirectory(tempSecurityFolderName);
+							AddConfiguration(tempSecurityFolderName, "SecurityConfiguration.xml", ClientManager.SecurityConfiguration, 1, 1, true);
+							using (var fileStream = new FileStream(Path.Combine(tempSecurityFolderName, "SecurityConfiguration.xml"), FileMode.Open))
+							{
+								ClientManager.FiresecService.SetSecurityConfiguration(fileStream);
+							}
+							Directory.Delete(tempSecurityFolderName, true);
+						}
 						File.Delete(tempFileName);
 					}
 					else
 					{
-					    SaveConfigToFile(true);
-					    ClientManager.FiresecService.SetLocalConfig();
+						SaveConfigToFile(true);
+						AddConfiguration(AppDataFolderHelper.GetServerAppDataPath(), "SecurityConfiguration.xml", ClientManager.SecurityConfiguration, 1, 1, true);
+						ClientManager.FiresecService.SetLocalConfig();
 					}
 				});
 				LoadingService.Close();
@@ -99,8 +112,6 @@ namespace FireAdministrator
 					AddConfiguration(tempFolderName, "SystemConfiguration.xml", ClientManager.SystemConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.GKChanged)
 					AddConfiguration(tempFolderName, "GKDeviceConfiguration.xml", GKManager.DeviceConfiguration, 1, 1, true);
-				if (ServiceFactory.SaveService.SecurityChanged)
-					AddConfiguration(tempFolderName + "\\..", "SecurityConfiguration.xml", ClientManager.SecurityConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.GKLibraryChanged)
 					AddConfiguration(tempFolderName, "GKDeviceLibraryConfiguration.xml", GKManager.DeviceLibraryConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.LayoutsChanged)

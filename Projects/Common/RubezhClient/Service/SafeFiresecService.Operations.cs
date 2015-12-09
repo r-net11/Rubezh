@@ -28,6 +28,11 @@ namespace RubezhClient
 			return SafeOperationCall(() => { return FiresecService.GetSecurityConfiguration(); }, "GetSecurityConfiguration");
 		}
 
+		public void SetSecurityConfiguration(Stream stream)
+		{
+			SafeOperationCall(() => FiresecService.SetSecurityConfiguration(stream), "SetSecurityConfiguration");
+		}
+
 		public T GetConfiguration<T>(string filename)
 			where T : VersionedConfiguration, new()
 		{

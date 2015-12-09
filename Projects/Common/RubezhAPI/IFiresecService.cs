@@ -48,6 +48,9 @@ namespace RubezhAPI
 		SecurityConfiguration GetSecurityConfiguration();
 
 		[OperationContract]
+		void SetSecurityConfiguration(Stream stream);
+
+		[OperationContract]
 		string Ping();
 
 		[OperationContract]
