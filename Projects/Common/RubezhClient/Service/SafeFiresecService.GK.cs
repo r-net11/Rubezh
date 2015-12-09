@@ -86,9 +86,9 @@ namespace RubezhClient
 			return SafeOperationCall(() => { return FiresecService.GKSetSchedule(schedule); }, "GKSetSchedule");
 		}
 
-		public OperationResult<bool> GKGetUsers(GKDevice device)
+		public OperationResult<bool> GKGetUsers(Guid deviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKGetUsers(device.UID); }, "GKGetUsers");
+			return SafeOperationCall(() => { return FiresecService.GKGetUsers(deviceUID); }, "GKGetUsers");
 		}
 
 		public OperationResult<bool> GKRewriteUsers(Guid deviceUID)

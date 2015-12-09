@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using RubezhAPI;
 using RubezhAPI.GK;
-using RubezhClient;
 
 namespace GKProcessor
 {

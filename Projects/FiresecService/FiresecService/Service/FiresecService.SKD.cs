@@ -9,7 +9,6 @@ using RubezhAPI.SKD;
 using GKProcessor;
 using RubezhDAL;
 using System.Diagnostics;
-using RubezhClient;
 
 namespace FiresecService.Service
 {

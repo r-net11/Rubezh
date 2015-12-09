@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RubezhClient;
 using RubezhAPI.GK;
 using System.Collections.Generic;
+using RubezhAPI;
 
 namespace GKProcessor.Test
 {

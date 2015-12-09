@@ -304,7 +304,7 @@ namespace GKModule.Models
 		public RelayCommand GetUsersCommand { get; private set; }
 		void OnGetUsers()
 		{
-			var result = ClientManager.FiresecService.GKGetUsers(SelectedDevice.Device);
+			var result = ClientManager.FiresecService.GKGetUsers(SelectedDevice.Device.UID);
 			if (result.HasError)
 			{
 				MessageBoxService.ShowWarning(result.Error, "Ошибка при получении пользователей");

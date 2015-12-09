@@ -40,7 +40,7 @@ namespace GKManager2.Test
 			GKManager.AddGuardZone(guardZone);
 #region forzone	
 			// проверка добавления устройства в зону
-			GKManager.AddDeviceToGuardZone(device, guardZone, guardZoneDevice);
+			GKManager.AddDeviceToGuardZone(guardZone, guardZoneDevice);
 			Assert.IsTrue(device.GuardZones.Contains(guardZone));
 			Assert.IsTrue(guardZone.GuardZoneDevices.Any(x => x.DeviceUID == device.UID));
 			Assert.IsTrue(device.InputDependentElements.Contains(guardZone));
@@ -75,7 +75,7 @@ namespace GKManager2.Test
 			Assert.IsFalse(guardZone.OutputDependentElements.Contains(device));
 #endregion
 			//удалениy зоны
-			GKManager.AddDeviceToGuardZone(device, guardZone, guardZoneDevice);
+			GKManager.AddDeviceToGuardZone(guardZone, guardZoneDevice);
 			GKManager.RemoveGuardZone(guardZone);
 			Assert.IsFalse(device.GuardZones.Any(x => x.UID == guardZone.UID));
 			Assert.IsFalse(device.InputDependentElements.Any(x => x.UID == guardZone.UID));
