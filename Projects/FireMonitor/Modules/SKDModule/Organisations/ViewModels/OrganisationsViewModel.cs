@@ -114,7 +114,7 @@ namespace SKDModule.ViewModels
 		void OnAdd()
 		{
 			var organisationDetailsViewModel = new OrganisationDetailsViewModel(this);
-			if (DialogService.ShowModalWindow(organisationDetailsViewModel))
+			if (ServiceFactory.DialogService.ShowModalWindow(organisationDetailsViewModel))
 			{
 				var organisation = organisationDetailsViewModel.Organisation;
 				var organisationViewModel = new OrganisationViewModel(organisation);
