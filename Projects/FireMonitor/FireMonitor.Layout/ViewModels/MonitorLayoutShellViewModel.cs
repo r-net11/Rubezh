@@ -35,7 +35,6 @@ namespace FireMonitor.Layout.ViewModels
 		private void LayoutChanging(object sender, EventArgs e)
 		{
 			Layout = LayoutContainer.Layout;
-			ClientManager.FiresecService.LayoutChanged(FiresecServiceFactory.UID, Layout == null ? Guid.Empty : Layout.UID);
 			UpdateRibbon();
 		}
 
@@ -114,8 +113,13 @@ namespace FireMonitor.Layout.ViewModels
 		public RelayCommand<LayoutModel> ChangeLayoutCommand { get; private set; }
 		void OnChangeLayout(LayoutModel layout)
 		{
-			ApplicationService.CloseAllWindows();
-			LayoutContainer.UpdateLayout(layout);
+			if (ClientManager.FiresecService.LayoutChanged(FiresecServiceFactory.UID, layout == null ? Guid.Empty : layout.UID))
+			{
+				ApplicationService.CloseAllWindows();
+				LayoutContainer.UpdateLayout(layout);
+			}
+			else
+				MessageBoxService.ShowError("Не удалось сменить шаблон. Возможно, отсутствует связь с сервером.");
 		}
 		bool CanChangeLayout(LayoutModel layout)
 		{

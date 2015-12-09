@@ -93,15 +93,9 @@ namespace FireMonitor.Layout
 					_layout = SelectLayout(layouts);
 				}
 
-				if (_layout != null)
-				{
+				return _layout == null ?
+					false :
 					ClientManager.FiresecService.LayoutChanged(FiresecServiceFactory.UID, _layout.UID);
-					return true;
-				}
-				else
-				{
-					return false;
-				}
 			}
 
 			MessageBoxService.ShowWarning("К сожалению, для Вас нет ни одного доступного макета!");

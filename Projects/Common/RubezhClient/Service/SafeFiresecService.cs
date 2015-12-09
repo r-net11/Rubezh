@@ -62,17 +62,19 @@ namespace RubezhClient
 			return default(T);
 		}
 
-		void SafeOperationCall(Action action, string methodName)
+		bool SafeOperationCall(Action action, string methodName)
 		{
 			try
 			{
 				action();
 				ConnectionAppeared();
+				return true;
 			}
 			catch (Exception e)
 			{
 				LogException(e, methodName);
 				ConnectionLost();
+				return false;
 			}
 		}
 
@@ -150,9 +152,9 @@ namespace RubezhClient
 			}, "Connect");
 		}
 
-		public void LayoutChanged(Guid clientUID, Guid layoutUID)
+		public bool LayoutChanged(Guid clientUID, Guid layoutUID)
 		{
-			SafeOperationCall(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
