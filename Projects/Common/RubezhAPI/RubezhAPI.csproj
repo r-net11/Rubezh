@@ -223,7 +223,7 @@
     <Compile Include="Journal\EventDescriptionAttributeHelper.cs" />
     <Compile Include="Journal\JournalEventNameType.cs" />
     <Compile Include="Journal\JournalSubsystemType.cs" />
-    <Compile Include="IFiresecService.Automation.cs" />
+    <Compile Include="IFiresecServiceAutomation.cs" />
     <Compile Include="IFiresecServiceSKD.TimeTrack.cs" />
     <Compile Include="GKCallbackResult.cs" />
     <Compile Include="GKProgressCallback.cs" />
