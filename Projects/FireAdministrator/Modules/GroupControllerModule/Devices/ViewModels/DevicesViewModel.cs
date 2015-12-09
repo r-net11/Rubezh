@@ -22,6 +22,7 @@ using Microsoft.Win32;
 using KeyboardKey = System.Windows.Input.Key;
 using System.Xml.Serialization;
 using RubezhAPI.Journal;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
@@ -68,7 +69,6 @@ namespace GKModule.ViewModels
 						child.IsExpanded = true;
 					}
 				}
-
 				var gkDevices = AllDevices.Where(x => x.Driver.DriverType == GKDriverType.GK || x.Driver.DriverType == GKDriverType.GKMirror);
 				foreach (var gkDevice in gkDevices)
 				{

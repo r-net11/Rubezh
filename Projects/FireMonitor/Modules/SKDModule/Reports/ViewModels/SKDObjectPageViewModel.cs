@@ -10,6 +10,7 @@ using RubezhAPI.SKD.ReportFilters;
 using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;
+using RubezhAPI;
 
 namespace SKDModule.Reports.ViewModels
 {

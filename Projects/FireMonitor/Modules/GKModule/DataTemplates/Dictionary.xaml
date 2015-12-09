@@ -179,8 +179,8 @@
 		<Views:ZonePageView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:ReflectionPageViewModel}">
-		<Views:ReflectionPageView />
-	</DataTemplate>
+    <DataTemplate DataType="{x:Type ViewModels:ReflectionPageViewModel}">
+        <Views:ReflectionPageView />
+    </DataTemplate>
 
 </ResourceDictionary>

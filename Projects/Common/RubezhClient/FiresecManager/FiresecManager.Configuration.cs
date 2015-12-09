@@ -3,6 +3,7 @@ using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Elements;
+using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
@@ -349,7 +350,9 @@ namespace RubezhClient
 			foreach (var plan in PlansConfiguration.AllPlans)
 			{
 				uids.Add(plan.BackgroundImageSource);
+				uids.Add(plan.BackgroundSVGImageSource);
 				plan.AllElements.ForEach(x => uids.Add(x.BackgroundImageSource));
+				plan.AllElements.ForEach(x => uids.Add(x.BackgroundSVGImageSource));
 			}
 			foreach (var layout in LayoutsConfiguration.Layouts)
 			{
@@ -359,13 +362,14 @@ namespace RubezhClient
 					{
 						var layoutPartImageProperties = part.Properties as LayoutPartImageProperties;
 						uids.Add(layoutPartImageProperties.ReferenceUID);
+						uids.Add(layoutPartImageProperties.ReferenceSVGUID);
 					}
 				}
 			}
-			SystemConfiguration.AutomationConfiguration.AutomationSounds.ForEach(x => uids.Add(x.Uid)); 
+			SystemConfiguration.AutomationConfiguration.AutomationSounds.ForEach(x => uids.Add(x.Uid));
 			uids.Remove(null);
 			uids.Remove(Guid.Empty);
-			ServiceFactoryBase.ContentService.RemoveAllBut(uids.Select(x=>x.Value.ToString()).ToList());
+			ServiceFactoryBase.ContentService.RemoveAllBut(uids.Select(x => x.Value.ToString()).ToList());
 		}
 	}
 }

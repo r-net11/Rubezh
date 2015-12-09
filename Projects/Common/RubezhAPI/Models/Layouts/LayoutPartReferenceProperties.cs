@@ -8,5 +8,6 @@ namespace RubezhAPI.Models.Layouts
 	{
 		[DataMember]
 		public Guid ReferenceUID { get; set; }
+		public Guid? ReferenceSVGUID { get; set; }
 	}
 }

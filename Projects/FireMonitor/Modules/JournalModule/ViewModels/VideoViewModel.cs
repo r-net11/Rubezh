@@ -20,9 +20,16 @@ namespace JournalModule.ViewModels
 			Title = "Видеофрагмент, связанный с событием";
 			string errorInformation;
             var camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUID);
-            var rviSettings = ClientManager.SystemConfiguration.RviSettings;
-			HasVideo = RviClient.RviClientHelper.GetVideoFile(rviSettings, eventUID, camera, VideoPath, out errorInformation);
-			ErrorInformation = errorInformation;
+			if (camera != null)
+			{
+				var rviSettings = ClientManager.SystemConfiguration.RviSettings;
+				HasVideo = RviClient.RviClientHelper.GetVideoFile(rviSettings, eventUID, camera, VideoPath, out errorInformation);
+				ErrorInformation = errorInformation;
+			}
+			else
+			{
+				ErrorInformation = "Не найдена камера";
+			}
 		}
 		public override bool OnClosing(bool isCanceled)
 		{

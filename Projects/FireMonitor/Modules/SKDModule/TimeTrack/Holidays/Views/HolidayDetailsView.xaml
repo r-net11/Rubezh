@@ -28,7 +28,6 @@
 		<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Дата" />
 		<DatePicker SelectedDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}"
 					DisplayDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}"
-					HorizontalAlignment="Left"
 					Grid.Row="2" Grid.Column="1" />
 
 		<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Величина сокращения" />
@@ -45,7 +44,6 @@
 		<DatePicker SelectedDate="{Binding TransferDate, UpdateSourceTrigger=PropertyChanged}"
 					DisplayDate="{Binding TransferDate, UpdateSourceTrigger=PropertyChanged}"
 					IsEnabled="{Binding IsTransferDateEnabled}"
-					HorizontalAlignment="Left"
 					Grid.Row="4" Grid.Column="1" />
 	</Grid>
 </UserControl>

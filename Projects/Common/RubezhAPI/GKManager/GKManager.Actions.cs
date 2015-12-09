@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RubezhAPI.GK;
 
-namespace RubezhClient
+namespace RubezhAPI
 {
 	public partial class GKManager
 	{
@@ -47,6 +47,7 @@ namespace RubezhClient
 				deviceGuardZone.GuardZone.GuardZoneDevices.Add(gkGuardZoneDevice);
 				deviceGuardZone.GuardZone.OnChanged();
 			}
+			device.ChangedLogic();
 			device.OnChanged();
 		}
 
@@ -100,7 +101,9 @@ namespace RubezhClient
 			if (guardZone != null)
 			{
 				guardZone.GuardZoneDevices.RemoveAll(x => x.DeviceUID == device.UID);
-				device.GuardZones.Remove(guardZone);
+				device.GuardZones.RemoveAll(x => x.UID == guardZone.UID);
+				guardZone.OutputDependentElements.RemoveAll(x => x.UID == device.UID);
+				device.InputDependentElements.RemoveAll(x => x.UID == guardZone.UID);
 				device.OnChanged();
 			}
 		}
@@ -114,31 +117,36 @@ namespace RubezhClient
 		/// Удаление устройства
 		/// </summary>
 		/// <param name="device"></param>
-		public static void RemoveDevice(GKDevice device)
+		public static List<GKDevice> RemoveDevice(GKDevice device)
 		{
-			var parentDevice = device.Parent;
-			foreach (var zone in device.Zones)
+			var allDevices = device.AllChildrenAndSelf;
+			foreach (var deviceItem in device.AllChildrenAndSelf)
 			{
-				zone.Devices.Remove(device);
-				zone.OnChanged();
-			}
+				//var parentDevice = device.Parent;
+				foreach (var zone in deviceItem.Zones)
+				{
+					zone.Devices.Remove(deviceItem);
+					zone.OnChanged();
+				}
 
-			parentDevice.Children.Remove(device);
-			Devices.Remove(device);
+				deviceItem.Parent.Children.Remove(deviceItem);
+				Devices.Remove(deviceItem);
 
-			device.InputDependentElements.ForEach(x =>
-			{
-				x.OutputDependentElements.Remove(device);
-				if (x is GKGuardZone)
+				deviceItem.InputDependentElements.ForEach(x =>
+				{
+					x.OutputDependentElements.Remove(deviceItem);
+					if (x is GKGuardZone)
+						x.Invalidate(GKManager.DeviceConfiguration);
+				});
+
+				deviceItem.OutputDependentElements.ForEach(x =>
+				{
+					x.InputDependentElements.Remove(deviceItem);
 					x.Invalidate(GKManager.DeviceConfiguration);
-			});
-
-			device.OutputDependentElements.ForEach(x =>
-			{
-				x.InputDependentElements.Remove(device);
-				x.Invalidate(GKManager.DeviceConfiguration);
-				x.OnChanged();
-			});
+					x.OnChanged();
+				});
+			}
+			return allDevices;
 		}
 
 		#region RebuildRSR2Addresses
@@ -171,7 +179,7 @@ namespace RubezhClient
 			if (mirrorParent != null)
 			{
 				int currentAddress = 1;
-				foreach (var device in mirrorParent.Children)
+				foreach (var device in mirrorParent.Children.Where(x=> x.Driver.HasMirror))
 				{
 					device.IntAddress = currentAddress;
 					if (!device.Driver.IsGroupDevice)
@@ -180,9 +188,7 @@ namespace RubezhClient
 					}
 					device.OnChanged();
 				}
-
 			}
-
 		}
 
 		static List<GKDevice> RebuildRSR2Addresses_Children;

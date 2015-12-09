@@ -1,5 +1,6 @@
 ﻿using RubezhAPI.GK;
 using System;
+using RubezhAPI.Journal;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
@@ -34,14 +35,23 @@ namespace RubezhAPI
 
 		[DataMember]
 		public string FileName { get; set; }
+
+		[DataMember]
+		public List<JournalItem> JournalItems { get; set; }
+
+		[DataMember]
+		public int PageNo { get; set; }
 	}
 
 	public enum CallbackOperationResultType
 	{
+		GetAllUsers,
 		GetGKUsers,
 		RewriteUsers,
 		WriteConfiguration,
 		ReadConfigurationFromGKFile,
 		GetPmfUsers
+		GetArchivePage,
+		GetJournal
 	}
 }

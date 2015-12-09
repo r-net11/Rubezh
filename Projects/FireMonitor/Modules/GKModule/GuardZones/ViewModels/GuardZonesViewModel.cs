@@ -6,12 +6,16 @@ using RubezhAPI.GK;
 using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Models.Layouts;
+using System.Windows;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
 	public class GuardZonesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
 		public static GuardZonesViewModel Current { get; private set; }
+		public GridLength TopPanelRowHeight { get; private set; }
+		public GridLength BottomPanelRowHeight { get; private set; }
 		public GuardZonesViewModel()
 		{
 			Current = this;
@@ -68,6 +72,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_isVisibleBottomPanel = value;
+				RowsHeightCalculate();
 				OnPropertyChanged(() => IsVisibleBottomPanel);
 			}
 		}
@@ -139,6 +144,19 @@ namespace GKModule.ViewModels
 
 			RootDevice = deviceViewModels.FirstOrDefault(x => x.Parent == null);
 			OnPropertyChanged(() => RootDevices);
+		}
+		void RowsHeightCalculate()
+		{
+			if (IsVisibleBottomPanel)
+			{
+				TopPanelRowHeight = new GridLength(3, GridUnitType.Star);
+				BottomPanelRowHeight = new GridLength(1, GridUnitType.Star);
+			}
+			else
+			{
+				TopPanelRowHeight = new GridLength(1, GridUnitType.Star);
+				BottomPanelRowHeight = new GridLength(1, GridUnitType.Auto);
+			}
 		}
 	}
 }

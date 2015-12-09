@@ -5,7 +5,7 @@ using RubezhAPI;
 using RubezhAPI.GK;
 using System.IO;
 
-namespace RubezhClient
+namespace RubezhAPI
 {
 	public partial class GKManager
 	{

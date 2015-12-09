@@ -8,10 +8,6 @@
 		<Views:NewDeviceView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:RSR2NewDeviceViewModel}">
-		<Views:RSR2NewDeviceView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:LogicViewModel}">
 		<Views:LogicView />
 	</DataTemplate>
@@ -55,5 +51,5 @@
 	<DataTemplate DataType="{x:Type ViewModels:MirrorUserDetailsViewModel}">
 		<Views:MirrorUserDetailsView />
 	</DataTemplate>
-
+	
 </ResourceDictionary>

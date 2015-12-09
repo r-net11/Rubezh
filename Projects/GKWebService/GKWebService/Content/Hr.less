@@ -54,6 +54,10 @@
 			&.paste {
 				background-image: url("Image/Icon/Menu/edit/Paste.png");
 			}
+
+			&.chiefw {
+				background-image: url("Image/Icon/Hr/ChiefW.png");
+			}
         }           
 }
 
@@ -101,7 +105,7 @@
     clear:left;
 }
 
-ul#EmployeeCardDetailsDoors {
+ul.SelectableList {
     border:1px solid black;
     border-radius: 5px;
     background: white;
@@ -113,10 +117,10 @@ ul#EmployeeCardDetailsDoors {
         color:black;
         font-weight:normal;
     }
-    label {
+    div {
         width:100%;
     }
-    li.active{
+    li.selected{
         .orangeGradientBackground;
         span {
             color:white;

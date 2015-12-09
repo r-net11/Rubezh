@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using RubezhAPI.GK;
 using System.Collections.ObjectModel;
 
-namespace RubezhClient
+namespace RubezhAPI
 {
 	public partial class GKManager
 	{

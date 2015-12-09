@@ -4,6 +4,7 @@ using System.Windows.Media;
 using RubezhAPI.GK;
 using RubezhClient;
 using Infrustructure.Plans.Devices;
+using RubezhAPI;
 
 namespace DeviceControls
 {

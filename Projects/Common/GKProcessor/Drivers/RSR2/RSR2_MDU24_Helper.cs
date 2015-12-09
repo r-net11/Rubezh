@@ -1,5 +1,5 @@
-﻿using System;
-using RubezhAPI.GK;
+﻿using RubezhAPI.GK;
+using System;
 
 namespace GKProcessor
 {
@@ -19,6 +19,7 @@ namespace GKProcessor
 				IsPlaceable = true
 			};
 
+			driver.AvailableStateBits.Add(GKStateBit.Norm);
 			driver.AvailableStateBits.Add(GKStateBit.Off);
 			driver.AvailableStateBits.Add(GKStateBit.TurningOn);
 			driver.AvailableStateBits.Add(GKStateBit.TurningOff);
@@ -36,7 +37,7 @@ namespace GKProcessor
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOnNow_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.Stop_InManual);
-			
+
 			var property1 = new GKDriverProperty()
 			{
 				No = 0,
@@ -107,8 +108,8 @@ namespace GKProcessor
 			};
 			driver.Properties.Add(property5);
 
-			driver.MeasureParameters.Add(new GKMeasureParameter { No = 1, Name = "Задержка", IsDelay = true, IsNotVisible = true});
-			driver.MeasureParameters.Add(new GKMeasureParameter { No = 2, Name = "Тип задержки", IsNotVisible = true}); // 1 - Задержка, 2 - Время хода
+			driver.MeasureParameters.Add(new GKMeasureParameter { No = 1, Name = "Задержка", IsDelay = true, IsNotVisible = true });
+			driver.MeasureParameters.Add(new GKMeasureParameter { No = 2, Name = "Тип задержки", IsNotVisible = true }); // 1 - Задержка, 2 - Время хода
 			driver.MeasureParameters.Add(new GKMeasureParameter { No = 3, Name = "Напряжение, В", Multiplier = 10 });
 
 			return driver;

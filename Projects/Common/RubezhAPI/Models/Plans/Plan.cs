@@ -1,10 +1,10 @@
+using Common;
+using Infrustructure.Plans.Elements;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Windows.Media;
 using System.Xml.Serialization;
-using Common;
-using Infrustructure.Plans.Elements;
 
 namespace RubezhAPI.Models
 {
@@ -80,6 +80,8 @@ namespace RubezhAPI.Models
 		public Guid? BackgroundImageSource { get; set; }
 		[DataMember]
 		public string BackgroundSourceName { get; set; }
+		[DataMember]
+		public Guid? BackgroundSVGImageSource { get; set; }
 		[DataMember]
 		public ResourceType ImageType { get; set; }
 

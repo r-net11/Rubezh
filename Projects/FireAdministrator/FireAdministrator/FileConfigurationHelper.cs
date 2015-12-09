@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Ionic.Zip;
 using Microsoft.Win32;
+using System.Xml.Linq;
 
 namespace FireAdministrator
 {
@@ -132,12 +133,14 @@ namespace FireAdministrator
 				{
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
 					var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/Configuration");
+					string path = Path.Combine(folderName, "SecurityConfiguration.xml");
+					XDocument xmlDoc = XDocument.Load(path);
 					var configFileName = Path.Combine(folderName, "Config.fscp");
 					if (Directory.Exists(folderName))
 						Directory.Delete(folderName, true);
 					Directory.CreateDirectory(folderName);
 					File.Copy(fileName, configFileName);
-					ClientManager.LoadFromZipFile(configFileName);
+					ClientManager.LoadFromZipFile(configFileName, path, xmlDoc);
 					ServiceFactory.ContentService.Invalidate();
 
 					ClientManager.UpdateConfiguration();

@@ -4,6 +4,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
+using RubezhAPI;
 
 namespace GKSDK
 {

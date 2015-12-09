@@ -5,11 +5,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Windows.Documents;
+using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhClient.SKDHelpers;
 using GKWebService.Models;
+using GKWebService.Models.SKD.Employees;
 using GKWebService.Utils;
 
 namespace GKWebService.Controllers
@@ -154,7 +156,14 @@ namespace GKWebService.Controllers
 		{
 			if (!organisationId.HasValue)
 			{
-				return new JsonNetResult { Data = new EmployeeCardModel() };
+				return new JsonNetResult { Data = new EmployeeCardModel
+					{
+						Card = new SKDCard(),
+						//SelectedStopListCard = new SKDCard(),
+						//SelectedSchedule = new GKSchedule(),
+						//SelectedAccessTemplate = new AccessTemplate(),
+					} 
+				};
 			}
 
 			SKDCard card;
@@ -167,7 +176,7 @@ namespace GKWebService.Controllers
 				card = new SKDCard
 				{
 					EndDate = DateTime.Now.AddYears(1),
-					GKCardType = GKCardType.Employee
+					GKCardType = GKCardType.Employee,
 				};
 			}
 
@@ -176,6 +185,7 @@ namespace GKWebService.Controllers
 			cardModel.Card = card;
 
 			cardModel.Schedules = ClientManager.FiresecService.GetGKSchedules().Result;
+			cardModel.SelectedScheduleNo = cardModel.Card.GKLevelSchedule;
 
 			var operationResult = ClientManager.FiresecService.GetCards(new CardFilter { DeactivationType = LogicalDeletationType.Deleted });
 			cardModel.StopListCards = operationResult.Result.Where(x => x.IsInStopList).ToList();
@@ -194,18 +204,117 @@ namespace GKWebService.Controllers
 				.Select(door => new AccessDoorModel(door, card.CardDoors, cardModel.Schedules))
 				.ToList();
 
+			var accessTemplateFilter = new AccessTemplateFilter { OrganisationUIDs = new List<Guid> { organisationId.Value } };
+			cardModel.AvailableAccessTemplates = new List<AccessTemplate> { new AccessTemplate { UID = Guid.Empty, Name = "<нет>" } }
+				.Concat(ClientManager.FiresecService.GetAccessTemplates(accessTemplateFilter).Result)
+				.ToList();
+			cardModel.SelectedAccessTemplate = cardModel.AvailableAccessTemplates.FirstOrDefault(x => x.UID == cardModel.Card.AccessTemplateUID);
+
 			return new JsonNetResult { Data = cardModel };
 		}
 
 		[HttpPost]
 		public JsonNetResult EmployeeCardDetails(EmployeeCardModel cardModel, string employeeName, bool isNew)
 		{
-			var operationResult = ClientManager.FiresecService.EditCard(cardModel.Card, employeeName);
+			cardModel.Save();
+
+			OperationResult<bool> operationResult;
+
+			if (isNew)
+			{
+				operationResult = ClientManager.FiresecService.AddCard(cardModel.Card, employeeName);
+			}
+			else
+			{
+				operationResult = ClientManager.FiresecService.EditCard(cardModel.Card, employeeName);
+			}
 
 			return new JsonNetResult { Data = operationResult.Result };
 		}
 
-		private ShortEmployeeCardModel CreateCard(SKDCard card)
+        public ActionResult CardRemovalReason()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonNetResult DeleteCard(Guid id)
+        {
+            var operationResult = ClientManager.FiresecService.DeletedCard(new SKDCard {UID = id});
+            return new JsonNetResult { Data = !operationResult.HasError };
+        }
+
+        [HttpPost]
+        public JsonNetResult DeleteFromEmployee(Guid id, string employeeName, string reason)
+        {
+            var operationResult = ClientManager.FiresecService.DeleteCardFromEmployee(new SKDCard { UID = id }, employeeName, reason);
+            return new JsonNetResult { Data = !operationResult.HasError };
+        }
+
+        public ActionResult DepartmentSelection()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult GetDepartments(Guid organisationUID, Guid? departmentUID)
+        {
+            var operationResult = ClientManager.FiresecService.GetDepartmentList(new DepartmentFilter
+            {
+                OrganisationUIDs = new List<Guid> { organisationUID },
+                ExceptUIDs = (departmentUID.HasValue && departmentUID.Value != Guid.Empty ? new List<Guid> { departmentUID.Value } : new List<Guid> ())
+            });
+
+            if (operationResult.HasError)
+            {
+                throw new InvalidOperationException(operationResult.Error);
+            }
+
+            var departments = new List<DepartmentSelectionItemViewModel>();
+            foreach (var rootItem in operationResult.Result.Where(d => d.ParentDepartmentUID == null || d.ParentDepartmentUID == Guid.Empty))
+            {
+                var itemViewModel = new DepartmentSelectionItemViewModel(rootItem);
+                itemViewModel.Level = 0;
+                itemViewModel.ParentUID = Guid.Empty;
+                itemViewModel.IsLeaf = true;
+                departments.Add(itemViewModel);
+                int index = departments.IndexOf(itemViewModel);
+                AddChildren(departments, itemViewModel, operationResult.Result, ref index);
+                itemViewModel.IsExpanded = !itemViewModel.IsLeaf;   // если был добавлен дочерний элемент, то разворачиваем
+            }
+
+            dynamic result = new
+            {
+                page = 1,
+                total = 100,
+                records = 100,
+                rows = departments,
+            };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        private void AddChildren(List<DepartmentSelectionItemViewModel> result, DepartmentSelectionItemViewModel parentViewModel, IEnumerable<ShortDepartment> models, ref int index)
+        {
+            if (parentViewModel.Model.ChildDepartments != null && parentViewModel.Model.ChildDepartments.Count > 0)
+            {
+                var children = models.Where(x => x.ParentDepartmentUID == parentViewModel.Model.UID).ToList();
+                foreach (var child in children)
+                {
+                    var itemViewModel = new DepartmentSelectionItemViewModel(child);
+                    itemViewModel.Level = parentViewModel.Level + 1;
+                    itemViewModel.ParentUID = parentViewModel.UID;
+                    itemViewModel.IsLeaf = true;
+                    parentViewModel.IsLeaf = false;
+                    result.Insert(index + 1, itemViewModel);
+                    index++;
+                    AddChildren(result, itemViewModel, models, ref index);
+                    itemViewModel.IsExpanded = !itemViewModel.IsLeaf;   // если был добавлен дочерний элемент, то разворачиваем
+                }
+            }
+        }
+
+        private ShortEmployeeCardModel CreateCard(SKDCard card)
 		{
 			var employeeCard = ShortEmployeeCardModel.Create(card);
 			var cardDoors = GetCardDoors(card);

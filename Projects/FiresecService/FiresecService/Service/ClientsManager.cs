@@ -22,6 +22,7 @@ namespace FiresecService.Service
 			if (existingClientInfo != null)
 			{
 				Remove(existingClientInfo.UID);
+				Common.Logger.Error("Bug catching (RG-362). ClientsManager.Add");
 				result = false;
 			}
 
@@ -68,7 +69,7 @@ namespace FiresecService.Service
 							ClientInfos
 								.Where(x => x.LastPollDateTime != default(DateTime) && DateTime.Now - x.LastPollDateTime > inactiveTime)
 								.ToList()
-								.ForEach(x => Remove(x.UID));
+								.ForEach(x => { Remove(x.UID); Common.Logger.Error("Bug catching (RG-362). ClientsManager.StartRemoveInactiveClients"); });
 						}
 						catch { }
 

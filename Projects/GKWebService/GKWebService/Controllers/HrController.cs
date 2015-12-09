@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GKWebService.Models;
 using GKWebService.Utils;
 using RubezhAPI.SKD;
+using RubezhClient;
 
 namespace GKWebService.Controllers
 {
@@ -15,7 +17,7 @@ namespace GKWebService.Controllers
             return View();
         }
 
-        public ActionResult HrDepartments()
+        public ActionResult Departments()
         {
             return View();
         }
@@ -50,7 +52,26 @@ namespace GKWebService.Controllers
             return View();
         }
 
-		public ActionResult HrFilter()
+        public ActionResult EmployeeSelectionDialog()
+        {
+            return View();
+        }
+
+        public JsonNetResult GetDepartmentEmployees(Guid id)
+        {
+            var filter = new EmployeeFilter {DepartmentUIDs = new List<Guid> {id}};
+            var operationResult = ClientManager.FiresecService.GetEmployeeList(filter);
+            if (operationResult.HasError)
+            {
+                throw new InvalidOperationException(operationResult.Error);
+            }
+
+            var employees = operationResult.Result.Select(e => ShortEmployeeModel.CreateFromModel(e));
+
+            return new JsonNetResult { Data = new {Employees = employees} };
+        }
+
+        public ActionResult HrFilter()
 		{
 			return View();
 		}

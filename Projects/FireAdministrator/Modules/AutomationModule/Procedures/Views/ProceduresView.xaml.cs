@@ -13,9 +13,12 @@ namespace AutomationModule.Views
 
 		private void StepsView_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
 		{
-			var element = (UIElement)sender;
-			element.Focusable = true;
-			Keyboard.Focus(element);
+			var element = sender as UIElement;
+			if (element != null)
+			{
+				element.Focusable = true;
+				Keyboard.Focus(element);
+			}
 		}
 	}
 }

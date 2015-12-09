@@ -2,7 +2,7 @@
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhAPI.SKD;
-using RubezhClient;
+using RubezhAPI;
 using FiresecService.Service;
 using Infrastructure.Automation;
 using Infrastructure.Common.BalloonTrayTip;

@@ -168,7 +168,7 @@ function EmployeesViewModel(parentViewModel) {
             ko.mapping.fromJS(emp, {}, self.EmployeeDetails);
             $.getJSON("/Employees/GetOrganisation/" + self.OrganisationUID(), function(org) {
                 self.EmployeeDetails.Organisation = org;
-                self.EmployeeDetails.Init(true, self.ParentViewModel.SelectedPersonType(), self);
+                self.EmployeeDetails.Init(true, self.ParentViewModel.SelectedPersonType(), self.ReloadTree);
                 ShowBox(box);
             });
         });
@@ -197,7 +197,7 @@ function EmployeesViewModel(parentViewModel) {
             ko.mapping.fromJS(emp, {}, self.EmployeeDetails);
             $.getJSON("/Employees/GetOrganisation/" + self.OrganisationUID(), function(org) {
                 self.EmployeeDetails.Organisation = org;
-                self.EmployeeDetails.Init(false, self.ParentViewModel.SelectedPersonType(), self);
+                self.EmployeeDetails.Init(false, self.ParentViewModel.SelectedPersonType(), self.ReloadTree);
                 ShowBox(box);
             });
         });

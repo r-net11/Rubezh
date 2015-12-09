@@ -14,6 +14,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Ionic.Zip;
 using Microsoft.Win32;
+using RubezhAPI;
 
 namespace FireAdministrator.ViewModels
 {

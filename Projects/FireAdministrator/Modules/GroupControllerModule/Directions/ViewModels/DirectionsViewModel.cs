@@ -17,6 +17,7 @@ using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using KeyboardKey = System.Windows.Input.Key;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
@@ -97,7 +98,7 @@ namespace GKModule.ViewModels
 		private DirectionDetailsViewModel OnAddResult()
 		{
 			var directionDetailsViewModel = new DirectionDetailsViewModel();
-			if (DialogService.ShowModalWindow(directionDetailsViewModel))
+			if (ServiceFactory.DialogService.ShowModalWindow(directionDetailsViewModel))
 			{
 				GKManager.AddDirection(directionDetailsViewModel.Direction);
 				var directionViewModel = new DirectionViewModel(directionDetailsViewModel.Direction);

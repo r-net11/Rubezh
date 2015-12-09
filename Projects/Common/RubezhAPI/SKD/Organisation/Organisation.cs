@@ -37,6 +37,9 @@ namespace RubezhAPI.SKD
 
 		[DataMember]
 		public Guid HRChiefUID { get; set; }
+
+		[DataMember]
+		public int MaxGKLevel { get; set; }
 	}
 
 	[DataContract]
@@ -75,5 +78,8 @@ namespace RubezhAPI.SKD
 
 		[DataMember]
 		public string Phone { get; set; }
+
+		[DataMember]
+		public int MaxGKLevel { get; set; }
 	}
 }

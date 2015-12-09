@@ -40,7 +40,7 @@ namespace SKDModule.ViewModels
 				item.IsChecked = true;
 			}
 		}
-		
+
 		public RelayCommand SelectNoneCommand { get; private set; }
 		void OnSelectNone()
 		{
@@ -51,9 +51,9 @@ namespace SKDModule.ViewModels
 		}
 
 		bool _canSelect;
-		public bool CanSelect 
-		{ 
-			get { return _canSelect; } 
+		public bool CanSelect
+		{
+			get { return _canSelect; }
 			set
 			{
 				_canSelect = value;

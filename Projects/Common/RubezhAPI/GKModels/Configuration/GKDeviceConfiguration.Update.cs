@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using RubezhClient;
+using RubezhAPI;
 using System.Diagnostics;
 
 namespace RubezhAPI.GK

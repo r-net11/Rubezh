@@ -13,6 +13,7 @@ using Microsoft.Win32;
 using System.Xml.Serialization;
 using RubezhAPI.Journal;
 using System.Collections.Generic;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {

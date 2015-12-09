@@ -11,6 +11,7 @@ using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Events;
+using RubezhAPI;
 
 namespace GKModule.Views
 {

@@ -23,6 +23,7 @@ namespace JournalModule.ViewModels
 		int _unreadCount;
 		public bool IsShowButtons { get; private set; }
 		public JournalFilter Filter { get; private set; }
+		public bool IsLoading { get; private set; }
 
 		public JournalViewModel(JournalFilter journalFilter = null)
 		{
@@ -49,18 +50,14 @@ namespace JournalModule.ViewModels
 
 		public void SetJournalItems()
 		{
-			
-			var result = ClientManager.FiresecService.GetFilteredJournalItems(Filter);
-			if (!result.HasError)
+			var result = ClientManager.FiresecService.BeginGetJournal(Filter);
+			if (result.HasError)
 			{
-				JournalItems = new ObservableCollection<JournalItemViewModel>();
-				foreach (var journalItem in result.Result)
-				{
-					var journalItemViewModel = new JournalItemViewModel(journalItem);
-					JournalItems.Add(journalItemViewModel);
-				}
-				SelectedJournal = JournalItems.FirstOrDefault();
+				MessageBoxService.Show(result.Error);
+				return;
 			}
+			IsLoading = true;
+			OnPropertyChanged(() => IsLoading);
 		}
 
 		ObservableCollection<JournalItemViewModel> _journalItems;
@@ -106,7 +103,7 @@ namespace JournalModule.ViewModels
 			{
 				if (!CheckFilter(journalItem))
 					continue;
-								
+
 				var journalItemViewModel = new JournalItemViewModel(journalItem);
 				if (JournalItems.Count > 0)
 					JournalItems.Insert(0, journalItemViewModel);
@@ -197,21 +194,28 @@ namespace JournalModule.ViewModels
 		public RelayCommand ShowFilterCommand { get; private set; }
 		void OnShowFilter()
 		{
-			ArchiveFilterViewModel archiveFilterViewModel = null;
-
-			var result = WaitHelper.Execute(() =>
+			var archiveFilterViewModel = new ArchiveFilterViewModel(Filter, isShowDateTime: false);
+			if (DialogService.ShowModalWindow(archiveFilterViewModel))
 			{
-				archiveFilterViewModel = new ArchiveFilterViewModel(Filter, false);
-			});
-
-			if (result)
-			{
-				if (DialogService.ShowModalWindow(archiveFilterViewModel))
-				{
-					Filter = archiveFilterViewModel.GetModel();
-					SetJournalItems();
-				}
+				Filter = archiveFilterViewModel.GetModel();
+				SetJournalItems();
 			}
+		}
+
+		public void OnGetJournal(List<JournalItem> list)
+		{
+			ApplicationService.BeginInvoke(() =>
+			{
+				JournalItems = new ObservableCollection<JournalItemViewModel>();
+				foreach (var journalItem in list)
+				{
+					var journalItemViewModel = new JournalItemViewModel(journalItem);
+					JournalItems.Add(journalItemViewModel);
+				}
+				SelectedJournal = JournalItems.FirstOrDefault();
+				IsLoading = false;
+				OnPropertyChanged(() => IsLoading);
+			});
 		}
 	}
 }

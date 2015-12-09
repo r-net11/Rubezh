@@ -12,6 +12,7 @@ namespace Infrastructure.Common
 		void RegisterResource();
 		bool BeforeInitialize(bool firstTime);
 		void Initialize();
+		void RegisterPlanExtension();
 		void AfterInitialize();
 		void CreateViewModels();
 		IEnumerable<NavigationItem> CreateNavigation();

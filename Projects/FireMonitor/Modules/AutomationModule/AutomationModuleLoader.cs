@@ -71,7 +71,7 @@ namespace AutomationModule
 		public override void RegisterResource()
 		{
 			base.RegisterResource();
-			ServiceFactoryBase.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "DataTemplates/Dictionary.xaml");
 		}
 		public override void Dispose()
 		{
@@ -158,6 +158,18 @@ namespace AutomationModule
 							var gkDoor = GKManager.Doors.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
 							if (gkDoor != null)
 								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDoorDetailsEvent>();
+							break;
+
+						case ObjectType.PumpStation:
+							var pumpStation = GKManager.PumpStations.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							if (pumpStation != null)
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKPumpStationDetailsEvent>();
+							break;
+
+						case ObjectType.MPT:
+							var mpt = GKManager.MPTs.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							if (mpt != null)
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKMPTDetailsEvent>();
 							break;
 					}
 					if (ShowObjectDetailsEvent != null)

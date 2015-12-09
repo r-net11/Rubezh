@@ -1,21 +1,20 @@
-﻿using System;
+﻿using Infrastructure;
+using Infrastructure.Automation;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.Automation;
+using RubezhClient;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
-using RubezhAPI.Automation;
-using RubezhClient;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
 	public class ArgumentViewModel : BaseViewModel
 	{
-		Procedure _procedure;
 		public const string EmptyText = "<пусто>";
 		public Action UpdateVariableScopeHandler { get; set; }
 		public Action UpdateVariableHandler { get; set; }
@@ -126,7 +125,7 @@ namespace AutomationModule.ViewModels
 		{
 			var variableDetailsViewModel = new VariableDetailsViewModel(null,
 				SelectedVariableScope == VariableScope.LocalVariable ? AutomationHelper.GetLocalVariables(ProceduresViewModel.Current.SelectedProcedure.Procedure) : ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables,
-				SelectedVariableScope == VariableScope.LocalVariable ? "Добавить локальную переменную" : "Добавить глобальную переменную", 
+				SelectedVariableScope == VariableScope.LocalVariable ? "Добавить локальную переменную" : "Добавить глобальную переменную",
 				SelectedVariableScope == VariableScope.GlobalVariable);
 			variableDetailsViewModel.IsList = IsList;
 			variableDetailsViewModel.ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ExplicitTypes);
@@ -206,7 +205,12 @@ namespace AutomationModule.ViewModels
 		void OnChange(ExplicitValueViewModel explicitValueViewModel)
 		{
 			if (IsList)
-				ProcedureHelper.SelectObject(ObjectType, explicitValueViewModel);
+			{
+				var explicitValues = ExplicitValues.ToList();
+				ProcedureHelper.SelectObjects(ObjectType, ref explicitValues);
+				if (explicitValues != null)
+					ExplicitValues = new ObservableCollection<ExplicitValueViewModel>(explicitValues);
+			}
 			else
 				ProcedureHelper.SelectObject(ObjectType, ExplicitValue);
 			OnPropertyChanged(() => ExplicitValues);
