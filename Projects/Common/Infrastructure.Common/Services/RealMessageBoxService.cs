@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common.Windows;
+﻿using Infrastructure.Common.Services;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Windows;
 
 namespace Infrastructure.Services
 {
-	public class MonitorMessageBoxService : IMessageBoxService
+	public class RealMessageBoxService : IMessageBoxService
 	{
 		public void Show(string message, string title = null)
 		{
