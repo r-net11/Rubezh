@@ -89,7 +89,7 @@ function EmployeeDetailsViewModel() {
                             "Employees/SaveHRChief",
                             function () {
                                 self.OkClick();
-                                EmployeeDetailsClose();
+                                self.EmployeeDetailsClose();
                             });
                     });
             },

@@ -20,6 +20,7 @@
             { label: 'OrganisationUID', name: 'OrganisationUID', hidden: true, sortable: false },
             { label: 'IsOrganisation', name: 'IsOrganisation', hidden: true, sortable: false },
             { label: 'Название', name: 'Name', width: 100, hidden: false, sortable: false, formatter: imageFormat },
+            { label: 'Name', name: 'NameData', width: 100, hidden: true, sortable: false },
             { label: 'Примечание', name: 'Description', hidden: false, sortable: false },
             { label: 'Телефон', name: 'Model.Phone', hidden: false, sortable: false },
             { label: 'ChiefUID', name: 'Model.ChiefUID', hidden: true, sortable: false },
@@ -50,6 +51,8 @@ function DepartmentsViewModel() {
     self.UID = ko.observable();
     self.ParentUID = ko.observable();
     self.OrganisationUID = ko.observable();
+    self.Name = ko.observable();
+    self.NameData = ko.observable();
     self.IsOrganisation = ko.observable(true);
     self.ChiefUID = ko.observable();
     self.IsRowSelected = ko.observable(false);
@@ -100,6 +103,8 @@ function DepartmentsViewModel() {
             self.UID(id);
             self.OrganisationUID(myGrid.jqGrid('getCell', id, 'OrganisationUID'));
             self.ParentUID(myGrid.jqGrid('getCell', id, 'ParentUID'));
+            self.Name(myGrid.jqGrid('getCell', id, 'Name'));
+            self.NameData(myGrid.jqGrid('getCell', id, 'NameData'));
             self.IsOrganisation(myGrid.jqGrid('getCell', id, 'IsOrganisation') == "true");
             self.ChiefUID(myGrid.jqGrid('getCell', id, 'Model.ChiefUID'));
             self.IsDeleted(myGrid.jqGrid('getCell', id, 'IsDeleted') == "true");
@@ -119,6 +124,11 @@ function DepartmentsViewModel() {
 
     self.EditDepartmentClick = function (data, e, box) {
         self.DepartmentDetails.Init(self.OrganisationUID(), self.UID(), self.ParentUID(), self.ReloadTree );
+    };
+
+    self.SetChief = function(chiefUID) {
+        $("#jqGridDepartments").setCell(self.UID(), "Model.ChiefUID", chiefUID);
+        self.ChiefUID(chiefUID);
     };
 
     return self;

@@ -128,10 +128,40 @@ function DepartmentEmployeeListViewModel(parentViewModel) {
         }
     });
 
-    self.Add = function (data, e, box) {
+    self.Add = function (data, e) {
+        $.getJSON("/Hr/GetEmptyDepartmentEmployees/" + self.ParentViewModel.OrganisationUID(), function (emp) {
+            ko.mapping.fromJS(emp, {}, app.Menu.HR.Common.EmployeeSelectionDialog);
+            app.Menu.HR.Common.EmployeeSelectionDialog.Init(function (employee) {
+                $.ajax({
+                    url: "Departments/SaveEmployeeDepartment",
+                    type: "post",
+                    contentType: "application/json",
+                    data: "{ 'employeeUID': '" + employee.UID() + "', 'departmentUID': '" + self.ParentViewModel.UID() + "', 'name': '" + employee.Name() + "' }",
+                    success: function (error) {
+                        self.ReloadTree();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert("request failed");
+                    }
+                });
+            }, true);
+            ShowBox('#employee-selection-box');
+        });
     };
 
     self.Remove = function (data, e) {
+        $.ajax({
+            url: "Departments/SaveEmployeeDepartment",
+            type: "post",
+            contentType: "application/json",
+            data: "{ 'employeeUID': '" + self.UID() + "', 'name': '" + self.Name() + "' }",
+            success: function (error) {
+                self.ReloadTree();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("request failed");
+            }
+        });
     };
 
     self.Edit = function (data, e) {
@@ -139,17 +169,43 @@ function DepartmentEmployeeListViewModel(parentViewModel) {
         $.getJSON("/Employees/GetEmployeeDetails/" + self.UID(), function (emp) {
             ko.mapping.fromJS(emp, {}, employeeDetails);
             $.getJSON("/Employees/GetOrganisation/" + self.OrganisationUID(), function (org) {
-                self.employeeDetails.Organisation = org;
-                self.employeeDetails.Init(false, "Employee", self.ReloadTree);
-                ShowBox(box);
+                employeeDetails.Organisation = org;
+                employeeDetails.Init(false, "Employee", self.ReloadTree);
+                ShowBox("#employee-details-box");
             });
         });
     };
 
     self.SetChief = function (data, e) {
+        $.ajax({
+            url: "Departments/SaveDepartmentChief",
+            type: "post",
+            contentType: "application/json",
+            data: "{ 'departmentUID': '" + self.ParentViewModel.UID() + "','employeeUID': '" + self.UID() + "', 'name': '" + self.ParentViewModel.NameData() + "' }",
+            success: function (error) {
+                self.ParentViewModel.SetChief(self.UID());
+                self.ReloadTree();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("request failed");
+            }
+        });
     };
 
     self.UnSetChief = function (data, e) {
+        $.ajax({
+            url: "Departments/SaveDepartmentChief",
+            type: "post",
+            contentType: "application/json",
+            data: "{ 'departmentUID': '" + self.ParentViewModel.UID() + "', 'name': '" + self.ParentViewModel.Name() + "' }",
+            success: function (error) {
+                self.ParentViewModel.SetChief("00000000-0000-0000-0000-000000000000");
+                self.ReloadTree();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("request failed");
+            }
+        });
     };
 
     return self;
