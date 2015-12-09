@@ -1,4 +1,16 @@
 ﻿$(document).ready(function () {
+    function imageFormat(cellvalue, options, rowObject) {
+        var newCellValue = cellvalue;
+        if (rowObject.IsDeleted) {
+            newCellValue = '<span style="opacity:0.5">' + newCellValue + '</span>';
+        };
+        if (rowObject.IsOrganisation) {
+            return '<img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/Hr/Organisation.png" />' + newCellValue;
+        } else {
+            return '<img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/Hr/Department.png" />' + newCellValue;
+        }
+    };
+
     $("#jqGridDepartments").jqGrid({
         datastr: null,
         datatype: "jsonstring",
@@ -6,13 +18,15 @@
             { label: 'UID', name: 'UID', key: true, hidden: true, sortable: false },
             { label: 'ParentUID', name: 'ParentUID', hidden: true, sortable: false },
             { label: 'OrganisationUID', name: 'OrganisationUID', hidden: true, sortable: false },
-            { label: 'Название', name: 'Name', width: 100, hidden: false, sortable: false },
+            { label: 'IsOrganisation', name: 'IsOrganisation', hidden: true, sortable: false },
+            { label: 'Название', name: 'Name', width: 100, hidden: false, sortable: false, formatter: imageFormat },
             { label: 'Примечание', name: 'Description', hidden: false, sortable: false },
             { label: 'Телефон', name: 'Model.Phone', hidden: false, sortable: false },
+            { label: 'ChiefUID', name: 'Model.ChiefUID', hidden: true, sortable: false },
             { label: 'IsDeleted', name: 'IsDeleted', hidden: true, sortable: false }
         ],
         width: jQuery(window).width() - 242,
-        height: 300,
+        height: 250,
         rowNum: 100,
         viewrecords: true,
 
@@ -37,6 +51,7 @@ function DepartmentsViewModel() {
     self.ParentUID = ko.observable();
     self.OrganisationUID = ko.observable();
     self.IsOrganisation = ko.observable(true);
+    self.ChiefUID = ko.observable();
     self.IsRowSelected = ko.observable(false);
     self.IsDeleted = ko.observable();
 
@@ -86,8 +101,10 @@ function DepartmentsViewModel() {
             self.OrganisationUID(myGrid.jqGrid('getCell', id, 'OrganisationUID'));
             self.ParentUID(myGrid.jqGrid('getCell', id, 'ParentUID'));
             self.IsOrganisation(myGrid.jqGrid('getCell', id, 'IsOrganisation') == "true");
+            self.ChiefUID(myGrid.jqGrid('getCell', id, 'Model.ChiefUID'));
             self.IsDeleted(myGrid.jqGrid('getCell', id, 'IsDeleted') == "true");
 
+            self.DepartmentEmployeeList.Init();
 /*
             if (!self.IsOrganisation()) {
                 self.EmployeeCards.InitCards(self.OrganisationUID(), self.UID());

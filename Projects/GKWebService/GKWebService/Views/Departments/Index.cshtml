@@ -8,4 +8,7 @@
     <table id="jqGridDepartments"></table>
 </div>
 
+<div data-bind="visible: !HR.Departments.IsOrganisation()">
+    @Html.Action("DepartmentEmployeeList")
+</div>
 @Html.Action("DepartmentDetails")
