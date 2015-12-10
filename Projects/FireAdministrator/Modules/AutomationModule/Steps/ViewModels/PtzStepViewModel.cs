@@ -12,9 +12,10 @@ namespace AutomationModule.ViewModels
 		{
 			PtzArguments = stepViewModel.Step.PtzArguments;
 			CameraArgument = new ArgumentViewModel(PtzArguments.CameraArgument, stepViewModel.Update, null);
-			PtzNumberArgument = new ArgumentViewModel(PtzArguments.PtzNumberArgument, stepViewModel.Update, null);
-			PtzNumberArgument.ExplicitValue.MinIntValue = 1;
-			PtzNumberArgument.ExplicitValue.MaxIntValue = 100;
+			PtzNumberArgument = new ArgumentViewModel(PtzArguments.PtzNumberArgument, stepViewModel.Update, null)
+			{
+				ExplicitValue = {MinIntValue = 1, MaxIntValue = 100, IntValue = 1}
+			};
 		}
 
 		public override void UpdateContent()

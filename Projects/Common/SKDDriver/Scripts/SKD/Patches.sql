@@ -1429,35 +1429,38 @@ IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='dbo' AND T
 GO
 IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='dbo' AND TABLE_NAME='GKSchedule')
 	BEGIN
-	IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE OBJECT_NAME(referenced_object_id) = 'GKSchedule')
-	BEGIN 
-	  DECLARE @stmt VARCHAR(300);
+		IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE OBJECT_NAME(referenced_object_id) = 'GKSchedule')
+			BEGIN 
+				DECLARE @stmt VARCHAR(300);
  
-	  -- Cursor to generate ALTER TABLE DROP CONSTRAINT statements  
-	  DECLARE cur CURSOR FOR
-		 SELECT 'ALTER TABLE ' + OBJECT_SCHEMA_NAME(parent_object_id) + '.' + OBJECT_NAME(parent_object_id) +
-						' DROP CONSTRAINT ' + name
-		 FROM sys.foreign_keys 
-		 WHERE       OBJECT_NAME(referenced_object_id) = 'GKSchedule';
+				-- Cursor to generate ALTER TABLE DROP CONSTRAINT statements  
+				DECLARE cur CURSOR FOR
+				SELECT 'ALTER TABLE ' + OBJECT_SCHEMA_NAME(parent_object_id) + '.' + OBJECT_NAME(parent_object_id) +
+				' DROP CONSTRAINT ' + name
+				FROM sys.foreign_keys 
+				WHERE	OBJECT_NAME(referenced_object_id) = 'GKSchedule';
  
-	   OPEN cur;
-	   FETCH cur INTO @stmt;
+				OPEN cur;
+				FETCH cur INTO @stmt;
  
-	   -- Drop each found foreign key constraint 
-	   WHILE @@FETCH_STATUS = 0
-		 BEGIN
-		   EXEC (@stmt);
-		   FETCH cur INTO @stmt;
-		 END
+				-- Drop each found foreign key constraint 
+				WHILE @@FETCH_STATUS = 0
+					BEGIN
+					EXEC (@stmt);
+					FETCH cur INTO @stmt;
+					END
  
-	  CLOSE cur;
-	  DEALLOCATE cur;
- 
-	  END
-	  END
-	  GO
-	DROP TABLE GKSchedule
+					CLOSE cur;
+					DEALLOCATE cur; 
+				END
+			END
+	GO
+	IF object_id('SKD..#GKSchedule') is not null
+		BEGIN
+			DROP TABLE GKSchedule
+		END
 GO
+
 IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='dbo' AND TABLE_NAME='ScheduleGKDaySchedule')
 	BEGIN
 		DROP TABLE ScheduleGKDaySchedule
