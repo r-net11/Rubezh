@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Infrastructure.Common.TreeList;
 using RubezhAPI.SKD;
 
 namespace GKWebService.Models.SKD.Common
@@ -23,7 +24,6 @@ namespace GKWebService.Models.SKD.Common
         public int Level { get; set; }
         public Guid ParentUID { get; set; }
         public bool IsLeaf { get; set; }
-
 
         public virtual void InitializeOrganisation(Organisation organisation)
         {

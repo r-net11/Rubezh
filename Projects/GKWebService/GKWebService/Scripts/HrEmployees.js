@@ -208,9 +208,10 @@ function EmployeesViewModel(parentViewModel) {
             var ids = $("#jqGridEmployees").getDataIDs();
             for (var i=0; i < ids.length; i++){
                 var rowData = $("#jqGridEmployees").getRowData(ids[i]);
-                if (rowData.IsDeleted != "true" &&
+                if (rowData.IsDeleted !== "true" &&
                     rowData.Name === self.Name() &&
-                    rowData.OrganisationUID === self.OrganisationUID()) {
+                    rowData.OrganisationUID === self.OrganisationUID() &&
+                    !rowData.IsOrganisation) {
                     alert("Существует неудалённый элемент с таким именем");
                     return;
                 }

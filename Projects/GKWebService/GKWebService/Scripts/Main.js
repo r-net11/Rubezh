@@ -169,8 +169,7 @@ function QuestionBoxViewModel() {
     };
 
     self.OnYesClick = function () {
-        self.YesClick();
-        CloseBox();
+        CloseBox(self.YesClick);
     };
 
     self.Close = function() {
@@ -202,9 +201,13 @@ function ShowBox(box) {
     return false;
 };
 
-function CloseBox() {
-    $('#mask , .save-cancel-popup').fadeOut(300, function () {
+function CloseBox(complete) {
+    $('.save-cancel-popup').fadeOut(300);
+    $('#mask').fadeOut(300, function () {
         $('#mask').remove();
+        if (complete) {
+            complete();
+        }
     });
 
     return false;

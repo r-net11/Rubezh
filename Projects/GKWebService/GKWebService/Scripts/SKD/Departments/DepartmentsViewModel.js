@@ -57,13 +57,30 @@ function DepartmentsViewModel() {
     self.ChiefUID = ko.observable();
     self.IsRowSelected = ko.observable(false);
     self.IsDeleted = ko.observable();
+    self.Clipboard = ko.observable();
 
+    self.CanAdd = ko.computed(function () {
+        return self.IsRowSelected() && !self.IsDeleted();
+    }, self);
+    self.CanRemove = ko.computed(function () {
+        return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation();
+    }, self);
     self.CanEdit = ko.computed(function () {
         return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation();
+    }, self);
+    self.CanCopy = ko.computed(function () {
+        return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation();
+    }, self);
+    self.CanPaste = ko.computed(function () {
+        return self.IsRowSelected() && !self.IsDeleted() && !self.Clipboard();
+    }, self);
+    self.CanRestore = ko.computed(function () {
+        return self.IsRowSelected() && self.IsDeleted() && !self.IsOrganisation();
     }, self);
 
     self.Init = function (filter) {
         self.Filter = filter;
+        self.Clipboard(null);
         self.ReloadTree();
     };
 
@@ -122,11 +139,79 @@ function DepartmentsViewModel() {
         }
     });
 
+    self.Add = function (data, e) {
+        self.DepartmentDetails.Init(self.OrganisationUID(), '', self.UID(), self.ReloadTree);
+    };
+
+    self.Remove = function (data, e) {
+        app.Header.QuestionBox.InitQuestionBox("Вы уверены, что хотите архивировать подразделение?", function () {
+            $.getJSON("/Departments/GetChildEmployeeUIDs/", { departmentId: self.UID() }, function (departmentUIDs) {
+                if (departmentUIDs.length > 0) {
+                    app.Header.QuestionBox.InitQuestionBox("Существуют привязанные к подразделению сотрудники. Продолжить?", function() {
+                        self.RemoveDepartment();
+                    });
+                } else {
+                    self.RemoveDepartment();
+                }
+            });
+        });
+    };
+
+    self.RemoveDepartment = function() {
+            $.ajax({
+                url: "Departments/MarkDeleted",
+                type: "post",
+                contentType: "application/json",
+                data: JSON.stringify({ "uid": self.UID() }),
+                success: function () {
+                    self.ReloadTree();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("request failed");
+                }
+            });
+    };
+
     self.EditDepartmentClick = function (data, e, box) {
         self.DepartmentDetails.Init(self.OrganisationUID(), self.UID(), self.ParentUID(), self.ReloadTree );
     };
 
-    self.SetChief = function(chiefUID) {
+    self.Copy = function (data, e) {
+    };
+
+    self.Paste = function (data, e) {
+    };
+
+    self.Restore = function (data, e) {
+        app.Header.QuestionBox.InitQuestionBox("Вы уверены, что хотите восстановить подразделение?", function () {
+            var ids = $("#jqGridDepartments").getDataIDs();
+            for (var i = 0; i < ids.length; i++) {
+                var rowData = $("#jqGridDepartments").getRowData(ids[i]);
+                if (rowData.IsDeleted !== "true" &&
+                    rowData.Name === self.Name() &&
+                    rowData.OrganisationUID === self.OrganisationUID() &&
+                    !rowData.IsOrganisation) {
+                    alert("Существует неудалённый элемент с таким именем");
+                    return;
+                }
+            }
+
+            $.ajax({
+                url: "Departments/Restore",
+                type: "post",
+                contentType: "application/json",
+                data: JSON.stringify({ "uid": self.UID() }),
+                success: function () {
+                    self.ReloadTree();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("request failed");
+                }
+            });
+        });
+    };
+
+    self.SetChief = function (chiefUID) {
         $("#jqGridDepartments").setCell(self.UID(), "Model.ChiefUID", chiefUID);
         self.ChiefUID(chiefUID);
     };
