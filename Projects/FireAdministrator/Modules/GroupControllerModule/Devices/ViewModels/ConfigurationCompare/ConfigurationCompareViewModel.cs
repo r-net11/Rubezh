@@ -22,18 +22,18 @@ namespace GKModule.ViewModels
 		public ObjectsListViewModel RemoteObjectsViewModel { get; set; }
 		internal static bool ConfigFromFile { get; private set; }
 		public string Error { get; private set; }
-		public bool CanChangeOrReplace { get; private set; }
+		public bool CanChangeOrOpenConfiguration { get; private set; }
 
 		public ConfigurationCompareViewModel(GKDeviceConfiguration localConfiguration, GKDeviceConfiguration remoteConfiguration, GKDevice device, string configFileName = "")
 		{
 			Title = "Сравнение конфигураций " + device.PresentationName;
-			ChangeCommand = new RelayCommand(OnChange);
-			ReplaceCommand = new RelayCommand(OnReplace);
+			ChangeCurrentGkCommand = new RelayCommand(OnChangeCurrentGk);
+			OpenGkConfigurationFileCommand = new RelayCommand(OnOpenGkConfigurationFile);
 			NextDifferenceCommand = new RelayCommand(OnNextDifference, CanNextDifference);
 			PreviousDifferenceCommand = new RelayCommand(OnPreviousDifference, CanPreviousDifference);
 
 			ConfigFileName = configFileName;
-			ConfigFromFile = CanChangeOrReplace = !string.IsNullOrEmpty(configFileName);
+			ConfigFromFile = CanChangeOrOpenConfiguration = !string.IsNullOrEmpty(configFileName);
 
 			LocalConfiguration = localConfiguration;
 			RemoteConfiguration = remoteConfiguration;
@@ -92,8 +92,8 @@ namespace GKModule.ViewModels
 			return mismatchedIndexes.Any(x => x < SelectedIndex);
 		}
 
-		public RelayCommand ChangeCommand { get; private set; }
-		void OnChange()
+		public RelayCommand ChangeCurrentGkCommand { get; private set; }
+		void OnChangeCurrentGk()
 		{
 			RemoteDevice.UID = LocalDevice.UID;
 			var rootDevice = LocalConfiguration.Devices.FirstOrDefault(x => x.UID == LocalDevice.Parent.UID);
@@ -123,8 +123,8 @@ namespace GKModule.ViewModels
 			Close(true);
 		}
 
-		public RelayCommand ReplaceCommand { get; private set; }
-		void OnReplace()
+		public RelayCommand OpenGkConfigurationFileCommand { get; private set; }
+		void OnOpenGkConfigurationFile()
 		{
 			ServiceFactory.Events.GetEvent<LoadFromFileEvent>().Publish(ConfigFileName);
 			Close(true);
