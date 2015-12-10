@@ -8,4 +8,7 @@
 	<DataTemplate DataType="{x:Type ViewModels:OpcTechnosoftwareMenuViewModel}">
 		<Views:OpcTechnosoftwareMenuView />
 	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:OpcTechnosoftWriteTagsViewModel}">
+		<Views:OpcTechnosoftWriteTagsView />
+	</DataTemplate>
 </ResourceDictionary>

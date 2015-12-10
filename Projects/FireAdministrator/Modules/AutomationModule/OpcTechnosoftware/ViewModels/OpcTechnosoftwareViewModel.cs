@@ -7,7 +7,8 @@ using Infrastructure.ViewModels;
 using Infrastructure.Common;
 using OpcClientSdk;
 using OpcClientSdk.Da;
-using AutomationModule.Model;
+using AutomationModule.Models;
+using Infrastructure.Common.Windows;
 
 namespace AutomationModule.ViewModels
 {
@@ -26,6 +27,7 @@ namespace AutomationModule.ViewModels
 			GetTagsAndGroupsCommand = new RelayCommand(OnGetTagsAndGroups, CanGetTagsAndGroups);
 			GetCheckedTagsCommand = new RelayCommand(OnGetCheckedTags, CanGetCheckedTags);
 			ReadTagsCommand = new RelayCommand(OnReadTags, CanReadTags);
+			WriteTagsCommand = new RelayCommand(OnWriteTags, CanWriteTags);
 		}
 
 		#endregion
@@ -135,6 +137,18 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => ReadingResult);
 			}
 		}
+
+		OpcTechnosoftwareElement _selectedTagForWrite;
+		public OpcTechnosoftwareElement SelectedTagForWrite
+		{
+			get { return _selectedTagForWrite; }
+			set 
+			{
+				_selectedTagForWrite = value;
+				OnPropertyChanged(() => SelectedTagForWrite);
+			}
+		}
+
 
 		#endregion
 
@@ -296,6 +310,20 @@ namespace AutomationModule.ViewModels
 		bool CanReadTags()
 		{
 			return CheckedTags != null && CheckedTags.Count() > 0 && 
+				_activeOpcServer != null && _activeOpcServer.IsConnected &&
+				Mode == false;
+		}
+
+		public RelayCommand WriteTagsCommand { get; private set; }
+		void OnWriteTags()
+		{
+			var array = CheckedTags.Select(x => x.Element).ToArray();
+			var vm = new OpcTechnosoftWriteTagsViewModel(_activeOpcServer, array);
+			DialogService.ShowModalWindow(vm);
+		}
+		bool CanWriteTags()
+		{
+			return CheckedTags != null && CheckedTags.Count() > 0 &&
 				_activeOpcServer != null && _activeOpcServer.IsConnected &&
 				Mode == false;
 		}

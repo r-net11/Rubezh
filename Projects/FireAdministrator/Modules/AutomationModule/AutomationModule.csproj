@@ -182,14 +182,20 @@
     <Compile Include="OPCServers\Views\OPCSelectTagsView.xaml.cs">
       <DependentUpon>OPCSelectTagsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OpcTechnosoftware\Model\OpcServerStructure.cs" />
+    <Compile Include="OpcTechnosoftware\Models\OpcServerStructure.cs" />
+    <Compile Include="OpcTechnosoftware\ViewModels\OpcTechnosoftwareTagValueBaseViewModel.cs" />
+    <Compile Include="OpcTechnosoftware\ViewModels\OpcTechnosoftwareTagValueBoolViewModel.cs" />
     <Compile Include="OpcTechnosoftware\ViewModels\OpcTechnosoftwareMenuViewModel.cs" />
     <Compile Include="OpcTechnosoftware\ViewModels\OpcTechnosoftwareViewModel.cs" />
+    <Compile Include="OpcTechnosoftware\ViewModels\OpcTechnosoftWriteTagsViewModel.cs" />
     <Compile Include="OpcTechnosoftware\Views\OpcTechnosoftwareMenuView.xaml.cs">
       <DependentUpon>OpcTechnosoftwareMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OpcTechnosoftware\Views\OpcTechnosoftwareView.xaml.cs">
       <DependentUpon>OpcTechnosoftwareView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpcTechnosoftware\Views\OpcTechnosoftWriteTagsView.xaml.cs">
+      <DependentUpon>OpcTechnosoftWriteTagsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\AutomationPlanExtension.cs" />
     <Compile Include="Plans\InstrumentAdorners\ProcedureRectangleAdorner.cs" />
@@ -690,6 +696,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="OpcTechnosoftware\Views\OpcTechnosoftwareView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpcTechnosoftware\Views\OpcTechnosoftWriteTagsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

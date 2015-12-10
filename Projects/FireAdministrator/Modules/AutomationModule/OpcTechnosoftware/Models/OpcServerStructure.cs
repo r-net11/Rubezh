@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OpcClientSdk.Da;
 
-namespace AutomationModule.Model
+namespace AutomationModule.Models
 {
 	public class OpcTechnosoftwareServerStructure
 	{
