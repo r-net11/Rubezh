@@ -88,6 +88,7 @@ namespace GKWebService.Controllers
             departmentModel.Department.Photo = null;
             return new JsonNetResult { Data = departmentModel };
         }
+
         [HttpPost]
         public JsonNetResult DepartmentDetails(DepartmentDetailsViewModel departmentModel, bool isNew)
         {
@@ -142,6 +143,22 @@ namespace GKWebService.Controllers
             };
 
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult SaveEmployeeDepartment(Guid employeeUID, Guid? departmentUID, string name)
+        {
+            var operationResult = ClientManager.FiresecService.SaveEmployeeDepartment(employeeUID, departmentUID, name);
+
+            return Json(operationResult.HasError, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult SaveDepartmentChief(Guid departmentUID, Guid? employeeUID, string name)
+        {
+            var result = ClientManager.FiresecService.SaveDepartmentChief(departmentUID, employeeUID, name);
+
+            return Json(result.HasError, JsonRequestBehavior.AllowGet);
         }
     }
 }

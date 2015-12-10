@@ -112,7 +112,6 @@
 					<File Id="Server.GKDeviceConfiguration.xml"								Name="GKDeviceConfiguration.xml"					Source="..\..\..\..\..\Deploy\ConfigurationService\Config\GKDeviceConfiguration.xml" />
 					<File Id="Server.LayoutsConfiguration.xml"								Name="LayoutsConfiguration.xml"						Source="..\..\..\..\..\Deploy\ConfigurationService\Config\LayoutsConfiguration.xml" />
 					<File Id="Server.PlansConfiguration.xml"								Name="PlansConfiguration.xml"						Source="..\..\..\..\..\Deploy\ConfigurationService\Config\PlansConfiguration.xml" />
-					<File Id="Server.SecurityConfiguration.xml"								Name="SecurityConfiguration.xml"					Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SecurityConfiguration.xml" />
 					<File Id="Server.SystemConfiguration.xml"								Name="SystemConfiguration.xml"						Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SystemConfiguration.xml" />
 					<File Id="Server.ZipConfigurationItemsCollection.xml"					Name="ZipConfigurationItemsCollection.xml"			Source="..\..\..\..\..\Deploy\ConfigurationService\Config\ZipConfigurationItemsCollection.xml" />
 				</Component>
@@ -121,6 +120,12 @@
 				</Component>
 			</Directory>
 		</DirectoryRef>
+
+    <DirectoryRef Id="AppData.ServerLocation">
+      <Component Id="AppData.ServerLocation.SecurityConfiguration" Guid="53B46190-51CB-4AAA-ACA0-BD9CB6C58494">
+        <File Id="Server.SecurityConfiguration.xml"								Name="SecurityConfiguration.xml"					Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SecurityConfiguration.xml" />
+      </Component>
+    </DirectoryRef>
 
 		<DirectoryRef Id="AppData.EmptyLocation">
 			<Component Id="Server.AppData.EmptyLocation" Guid="EBFF4919-E86E-48C2-88C7-C91E7133EE37">

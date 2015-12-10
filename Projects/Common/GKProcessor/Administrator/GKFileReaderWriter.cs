@@ -134,6 +134,12 @@ namespace GKProcessor
 					Error = "Невозможно завершить запись файла ";
 					gkLifecycleManager.AddItem("Ошибка");
 				}
+				var sendResultRead = SendManager.Send(gkControllerDevice, 4, 23, 256, new List<byte>(BitConverter.GetBytes(1)));
+				if (!gkFileInfo.InfoBlock.SequenceEqual(sendResultRead.Bytes))
+				{
+					Error = "Не удалось корректно записать информационный блок ";
+					gkLifecycleManager.AddItem("Ошибка");
+				}
 			}
 		}
 

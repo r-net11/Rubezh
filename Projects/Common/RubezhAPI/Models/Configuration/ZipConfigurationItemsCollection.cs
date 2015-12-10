@@ -33,7 +33,6 @@ namespace RubezhAPI.Models
 		public static List<string> GetWellKnownNames()
 		{
 			var names = new List<string>();
-			names.Add("SecurityConfiguration.xml");
 			names.Add("PlansConfiguration.xml");
 			names.Add("SystemConfiguration.xml");
 			names.Add("DriversConfiguration.xml");

@@ -111,7 +111,12 @@ namespace FiresecService.Service
 
 		public SecurityConfiguration GetSecurityConfiguration()
 		{
-			return SafeOperationCall(() => { return FiresecService.GetSecurityConfiguration(); }, "GetSecurityConfiguration");
+			return SafeOperationCall(() => FiresecService.GetSecurityConfiguration(), "GetSecurityConfiguration");
+		}
+
+		public void SetSecurityConfiguration(Stream stream)
+		{
+			SafeOperationCall(() => FiresecService.SetSecurityConfiguration(stream), "SetSecurityConfiguration");
 		}
 
 		public List<string> GetFileNamesList(string directory)

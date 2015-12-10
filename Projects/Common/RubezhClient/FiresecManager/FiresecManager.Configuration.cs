@@ -74,6 +74,7 @@ namespace RubezhClient
 					var stream = FiresecService.GetConfig();
 					CopyStream(stream, configFileStream);
 					LoadFromZipFile(configFileName);
+					SecurityConfiguration = FiresecService.GetSecurityConfiguration();
 				}
 				else
 				{
@@ -87,9 +88,15 @@ namespace RubezhClient
 						var file = Path.GetFileName(fileName);
 						File.Copy(fileName, Path.Combine(contentDirectory, file), true);
 					}
-					LoadConfigFromDirectory(configDirectory);
-				}
 
+					if (File.Exists(serverConfigDirectory + "\\..\\SecurityConfiguration.xml"))
+					{
+						File.Copy(serverConfigDirectory + "\\..\\SecurityConfiguration.xml", Path.Combine(configDirectory, "SecurityConfiguration.xml"), true);
+					}
+
+					LoadConfigFromDirectory(configDirectory);
+					SecurityConfiguration = ZipSerializeHelper.DeSerialize<SecurityConfiguration>(Path.Combine(configDirectory, "SecurityConfiguration.xml"), true);
+				}
 				UpdateConfiguration();
 			}
 			catch (Exception e)

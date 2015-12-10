@@ -4,9 +4,9 @@
     self.Employees = ko.observableArray();
     self.SelectedEmployee = ko.observable();
 
-    self.Init = function(okClick) {
+    self.Init = function(okClick, isRootModal) {
         self.OkClick = okClick;
-        
+        self.IsRootModal = isRootModal;
         self.SelectedEmployee(null);
     };
 
@@ -18,11 +18,19 @@
 
     self.Save = function () {
         self.OkClick(self.SelectedEmployee());
-        $('#employee-selection-box').fadeOut(300);
+        $('#employee-selection-box').fadeOut(300, function () {
+            if (self.IsRootModal) {
+                $('#mask').remove();
+            }
+        });
     };
 
     self.Close = function() {
-        $('#employee-selection-box').fadeOut(300);
+        $('#employee-selection-box').fadeOut(300, function () {
+            if (self.IsRootModal) {
+                $('#mask').remove();
+            }
+        });
     };
 
     return self;
