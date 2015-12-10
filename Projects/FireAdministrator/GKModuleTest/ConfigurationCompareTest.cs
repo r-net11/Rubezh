@@ -27,37 +27,6 @@ namespace GKModuleTest
 			RemoteAlsDevice = RemoteConfiguration.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif);
 		}
 		[Test]
-		public void CompareSKDZones()
-		{
-			Initialize();
-			var uid1 = Guid.NewGuid();
-			var uid2 = Guid.NewGuid();
-			var localSkdZone1 = CreateSKDZone(LocalConfiguration, "Зона 1", 1, uid1);
-			var localSkdZone2 = CreateSKDZone(LocalConfiguration, "Зона 2", 2, uid2);
-			var remoteSkdZone1 = CreateSKDZone(RemoteConfiguration, "Зона 1", 1, uid1);
-			var remoteSkdZone2 = CreateSKDZone(RemoteConfiguration, "Зона 2", 2, uid2);
-			var viewModel = new ConfigurationCompareViewModel(LocalConfiguration, RemoteConfiguration, LocalGkDevice);
-			var localHasDifferences = viewModel.LocalObjectsViewModel.Objects.Any(x => x.HasDifferences);
-			var remoteHasDifferences = viewModel.RemoteObjectsViewModel.Objects.Any(x => x.HasDifferences);
-			Assert.IsFalse(localHasDifferences);
-			Assert.IsFalse(remoteHasDifferences);
-
-			localSkdZone1.Name = "Другое название зоны";
-			viewModel = new ConfigurationCompareViewModel(LocalConfiguration, RemoteConfiguration, LocalGkDevice);
-			var localObserveSkdZone = viewModel.LocalObjectsViewModel.Objects.FirstOrDefault(x => x.SKDZone != null && x.SKDZone.UID == localSkdZone1.UID);
-			var remoteObserveSkdZone = viewModel.RemoteObjectsViewModel.Objects.FirstOrDefault(x => x.SKDZone != null && x.SKDZone.UID == remoteSkdZone1.UID);
-			Assert.IsTrue(localObserveSkdZone.DifferenceDiscription == "Не совпадает название");
-			Assert.IsTrue(remoteObserveSkdZone.DifferenceDiscription == "Не совпадает название");
-
-			remoteSkdZone1.Name = "Другое название зоны";
-			localSkdZone1.Name = "Зона 1";
-			viewModel = new ConfigurationCompareViewModel(LocalConfiguration, RemoteConfiguration, LocalGkDevice);
-			localObserveSkdZone = viewModel.LocalObjectsViewModel.Objects.FirstOrDefault(x => x.SKDZone != null && x.SKDZone.UID == localSkdZone1.UID);
-			remoteObserveSkdZone = viewModel.RemoteObjectsViewModel.Objects.FirstOrDefault(x => x.SKDZone != null && x.SKDZone.UID == remoteSkdZone1.UID);
-			Assert.IsTrue(localObserveSkdZone.DifferenceDiscription == "Не совпадает название");
-			Assert.IsTrue(remoteObserveSkdZone.DifferenceDiscription == "Не совпадает название");
-		}
-		[Test]
 		public void ComparePumpStations()
 		{
 			Initialize();
