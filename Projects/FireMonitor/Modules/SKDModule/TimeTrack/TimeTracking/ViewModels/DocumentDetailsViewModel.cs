@@ -15,6 +15,8 @@ namespace SKDModule.ViewModels
 {
 	public class DocumentDetailsViewModel : SaveCancelDialogViewModel
 	{
+		private bool _isNew = true;
+
 		#region Properties
 
 		public ICollectionView AvailableDocumentsCollectionView { get; private set; }
@@ -165,6 +167,7 @@ namespace SKDModule.ViewModels
 			else
 			{
 				Title = "Редактирование документа";
+				_isNew = false;
 			}
 			TimeTrackDocument = timeTrackDocument;
 			TimeTrackDocument.EmployeeUID = employeeGuid;
@@ -191,7 +194,8 @@ namespace SKDModule.ViewModels
 				.Subscribe(_ =>
 				{
 					AvailableDocumentsCollectionView.Refresh();
-					SelectedDocument = (TimeTrackDocument)AvailableDocumentsCollectionView.CurrentItem;
+					if (_isNew)
+						SelectedDocument = (TimeTrackDocument)AvailableDocumentsCollectionView.CurrentItem;
 					IsEnableAbsence = (SelectedDocument != null
 										&& SelectedDocument.TimeTrackDocumentType != null
 										&& SelectedDocument.TimeTrackDocumentType.DocumentType == DocumentType.Absence) ||
