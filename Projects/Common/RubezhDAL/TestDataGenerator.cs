@@ -92,8 +92,8 @@ namespace RubezhDAL.DataClasses
 			int totalOrganisations = 1;
 			int positionsPerOrganisation = 1000;
 			int rootDepartmentsPerOrganisation = 100;
-			int employeesPerOrganisation = 6500;
-			int cardsPerEmployee = 1;
+			int employeesPerOrganisation = 6600;
+			int cardsPerEmployee = 10;
 
 			int cardNumber = 0;
 			Context.Configuration.AutoDetectChangesEnabled = false;

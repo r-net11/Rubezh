@@ -57,11 +57,7 @@ namespace FireAdministrator
 							var tempSecurityFolderName = AppDataFolderHelper.GetTempFolder();
 							if (!Directory.Exists(tempSecurityFolderName))
 								Directory.CreateDirectory(tempSecurityFolderName);
-							AddConfiguration(tempSecurityFolderName, "SecurityConfiguration.xml", ClientManager.SecurityConfiguration, 1, 1, true);
-							using (var fileStream = new FileStream(Path.Combine(tempSecurityFolderName, "SecurityConfiguration.xml"), FileMode.Open))
-							{
-								ClientManager.FiresecService.SetSecurityConfiguration(fileStream);
-							}
+							ClientManager.FiresecService.SetSecurityConfiguration(ClientManager.SecurityConfiguration);
 							Directory.Delete(tempSecurityFolderName, true);
 						}
 						File.Delete(tempFileName);

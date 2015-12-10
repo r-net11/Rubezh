@@ -58,6 +58,13 @@ namespace FiresecService
 
 		public static SecurityConfiguration GetSecurityConfiguration()
 		{
+			var configDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
+			if (File.Exists(configDirectory + "\\SecurityConfiguration.xml"))
+			{
+				if (!File.Exists(AppDataFolderHelper.GetServerAppDataPath("Config\\..\\SecurityConfiguration.xml")))
+					File.Copy(configDirectory + "\\SecurityConfiguration.xml", AppDataFolderHelper.GetServerAppDataPath("Config\\..\\SecurityConfiguration.xml"));
+				File.Delete(configDirectory + "\\SecurityConfiguration.xml");
+			}
 			var securityConfiguration = (SecurityConfiguration)GetConfiguration("SecurityConfiguration.xml", typeof(SecurityConfiguration));
 			securityConfiguration.AfterLoad();
 			return securityConfiguration;
