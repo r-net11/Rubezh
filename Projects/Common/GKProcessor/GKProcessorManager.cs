@@ -65,6 +65,7 @@ namespace GKProcessor
 				UID = progressCallback.UID,
 				LastActiveDateTime = DateTime.Now,
 				GKProgressCallbackType = GKProgressCallbackType.Stop,
+				GKProgressClientType = progressCallback.GKProgressClientType
 			};
 			GKProgressCallbacks.Remove(gkProgressCallback);
 			OnGKCallbackResult(gkProgressCallback, clientUID);
