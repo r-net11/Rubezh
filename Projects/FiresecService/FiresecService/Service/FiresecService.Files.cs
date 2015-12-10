@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Common;
+using RubezhAPI;
 using RubezhAPI.Journal;
 using Infrastructure.Common;
 using Ionic.Zip;
 using System.Threading;
 using System;
 using Infrastructure.Automation;
+using RubezhAPI.Models;
 
 namespace FiresecService.Service
 {
@@ -114,14 +116,10 @@ namespace FiresecService.Service
 			RestartWithNewConfig();
 		}
 
-		public void SetSecurityConfiguration(Stream stream)
+		public void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
 		{
-			var configFileName = AppDataFolderHelper.GetServerAppDataPath("SecurityConfiguration.xml");
-			using (var configFileStream = File.Create(configFileName))
-			{
-				CopyStream(stream, configFileStream);
-			}
-			stream.Close();
+			securityConfiguration.Version = new ConfigurationVersion() { MinorVersion = 1, MajorVersion = 1 };
+			ZipSerializeHelper.Serialize(securityConfiguration, Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "SecurityConfiguration.xml"), true);
 			RestartWithNewConfig();
 		}
 

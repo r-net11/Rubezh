@@ -97,6 +97,7 @@ namespace RubezhClient
 		OperationResult<List<Schedule>> GetSchedules(ScheduleFilter filter);
 		OperationResult<List<ScheduleScheme>> GetScheduleSchemes(ScheduleSchemeFilter filter);
 		SecurityConfiguration GetSecurityConfiguration();
+		void SetSecurityConfiguration(SecurityConfiguration securityConfiguration);
 		Stream GetServerAppDataFile(string dirAndFileName);
 		Stream GetServerFile(string filePath);
 		OperationResult<ServerState> GetServerState();
