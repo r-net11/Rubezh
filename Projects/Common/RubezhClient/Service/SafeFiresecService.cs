@@ -135,11 +135,7 @@ namespace RubezhClient
 				{
 					var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 					using (firesecService as IDisposable)
-					{
-						var result = firesecService.Connect(uid, clientCredentials);
-						CallbackIndex = -1;
-						return result;
-					}
+						return firesecService.Connect(uid, clientCredentials);
 				}
 				//catch (EndpointNotFoundException) { }
 				//catch (System.IO.PipeException) { }

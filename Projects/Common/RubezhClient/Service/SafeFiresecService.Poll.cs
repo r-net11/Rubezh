@@ -23,7 +23,7 @@ namespace RubezhClient
 		bool isConnected = true;
 		public bool SuspendPoll = false;
 		Thread PollThread;
-		int CallbackIndex;
+		int CallbackIndex = -1;
 
 		public void StartPoll()
 		{
@@ -63,8 +63,8 @@ namespace RubezhClient
 						continue;
 					}
 
-					var callbackResults = Poll(FiresecServiceFactory.UID, CallbackIndex);
-					ProcessCallbackResult(callbackResults);
+					var pollResult = Poll(FiresecServiceFactory.UID, CallbackIndex);
+					ProcessPollResult(pollResult);
 				}
 				catch (Exception e)
 				{
@@ -82,15 +82,27 @@ namespace RubezhClient
 			});
 		}
 
-		void ProcessCallbackResult(List<CallbackResult> callbackResults)
+		void ProcessPollResult(PollResult pollResult)
 		{
-			if (callbackResults == null || callbackResults.Count == 0)
+			if (pollResult == null)
 				return;
 
-			foreach (var callbackResult in callbackResults)
+			CallbackIndex = pollResult.CallbackIndex;
+
+			//if (pollResult.IsDisconnecting) ;
+
+			if (pollResult.IsReconnectionRequired)
 			{
-				if (CallbackIndex < callbackResult.Index)
-					CallbackIndex = callbackResult.Index;
+				SafeContext.Execute(() =>
+				{
+					if (ReconnectionRequiredEvent != null)
+						ReconnectionRequiredEvent();
+				});
+				return;
+			}
+
+			foreach (var callbackResult in pollResult.CallbackResults)
+			{
 				switch (callbackResult.CallbackResultType)
 				{
 					case CallbackResultType.GKProgress:
@@ -143,14 +155,6 @@ namespace RubezhClient
 						{
 							if (ConfigurationChangedEvent != null)
 								ConfigurationChangedEvent();
-						});
-						break;
-
-					case CallbackResultType.ReconnectionRequired:
-						SafeContext.Execute(() =>
-						{
-							if (ReconnectionRequiredEvent != null)
-								ReconnectionRequiredEvent();
 						});
 						break;
 				}

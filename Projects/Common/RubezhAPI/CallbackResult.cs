@@ -63,9 +63,7 @@ namespace RubezhAPI
 		NewEvents,
 		UpdateEvents,
 		AutomationCallbackResult,
-		ConfigurationChanged,
-		Disconnecting,
 		OperationResult,
-		ReconnectionRequired
+		ConfigurationChanged
 	}
 }

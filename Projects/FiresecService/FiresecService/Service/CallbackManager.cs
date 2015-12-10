@@ -15,7 +15,10 @@ namespace FiresecService.Service
 		{
 			lock (CallbackResultItems)
 			{
-				CallbackResultItems.RemoveAll(x => (DateTime.Now - x.DateTime) > TimeSpan.FromMinutes(1));
+				var minIndex = ClientsManager.ClientInfos.Any() ?
+					ClientsManager.ClientInfos.Min(x => x.CallbackIndex) :
+					0;
+				CallbackResultItems.RemoveAll(x => x.CallbackResult.Index <= minIndex || (DateTime.Now - x.DateTime) > TimeSpan.FromDays(1));
 
 				callbackResult.Index = ++Index;
 				var newCallbackResultItem = new CallbackResultItem()
@@ -42,7 +45,7 @@ namespace FiresecService.Service
 
 				foreach (var clientInfo in ClientsManager.ClientInfos)
 				{
-					if (clientType.HasValue && clientType.Value != clientInfo.ClientCredentials.ClientType)
+					if (clientType.HasValue && (clientType.Value & clientInfo.ClientCredentials.ClientType) == ClientType.None)
 						continue;
 					if (clientUID.HasValue && clientUID.Value != clientInfo.UID)
 						continue;
@@ -53,25 +56,20 @@ namespace FiresecService.Service
 			}
 		}
 
-		public static List<CallbackResult> Get(ClientInfo clientInfo)
+		public static PollResult Get(ClientInfo clientInfo)
 		{
+			if (clientInfo.IsDisconnecting)
+				return GetDisconnecting();
+
 			lock (CallbackResultItems)
 			{
-				var result = new List<CallbackResult>();
-				if (clientInfo.IsDisconnecting)
-				{
-					var callbackResult = new CallbackResult()
-					{
-						CallbackResultType = CallbackResultType.Disconnecting
-					};
-					result.Add(callbackResult);
-					return result;
-				}
+				var result = new PollResult();
+				result.CallbackIndex = CallbackManager.Index;
 				foreach (var callbackResultItem in CallbackResultItems)
 				{
 					if (callbackResultItem.CallbackResult.Index > clientInfo.CallbackIndex)
 					{
-						if (callbackResultItem.ClientType.HasValue && callbackResultItem.ClientType.Value != clientInfo.ClientCredentials.ClientType)
+						if (callbackResultItem.ClientType.HasValue && (callbackResultItem.ClientType.Value & clientInfo.ClientCredentials.ClientType) == ClientType.None)
 							continue;
 						if (callbackResultItem.ClientUID.HasValue && callbackResultItem.ClientUID.Value != clientInfo.UID)
 							continue;
@@ -79,13 +77,44 @@ namespace FiresecService.Service
 							continue;
 						if (callbackResultItem.CallbackResult.GKProgressCallback != null && callbackResultItem.CallbackResult.GKProgressCallback.IsCanceled)
 							continue;
-						result.Add(callbackResultItem.CallbackResult);
+						if (clientInfo.CallbackIndex < callbackResultItem.CallbackResult.Index)
+							clientInfo.CallbackIndex = callbackResultItem.CallbackResult.Index;
+						result.CallbackResults.Add(callbackResultItem.CallbackResult);
 					}
 				}
 				return result;
 			}
 		}
+
+		public static PollResult GetReconnectionRequired()
+		{
+			return new PollResult
+			{
+				CallbackIndex = CallbackManager.Index,
+				IsReconnectionRequired = true
+			};
+		}
+
+		public static PollResult GetDisconnecting()
+		{
+			return new PollResult
+			{
+				CallbackIndex = CallbackManager.Index,
+				IsDisconnecting = true
+			};
+		}
+
+		//public static PollResult GetConfigurationChanged()
+		//{
+		//	return new PollResult
+		//	{
+		//		CallbackIndex = CallbackManager.Index,
+		//		IsConfigurationChanged = true
+		//	};
+		//}
 	}
+
+
 
 	public class CallbackResultItem
 	{

@@ -39,7 +39,7 @@ namespace RubezhAPI
 		/// <param name="callbackIndex">Индекс последнего обработанного сообщения</param>
 		/// <returns></returns>
 		[OperationContract]
-		List<CallbackResult> Poll(Guid clientUID, int callbackIndex);
+		PollResult Poll(Guid clientUID, int callbackIndex);
 
 		[OperationContract(IsOneWay = true)]
 		void LayoutChanged(Guid clientUID, Guid layoutUID);

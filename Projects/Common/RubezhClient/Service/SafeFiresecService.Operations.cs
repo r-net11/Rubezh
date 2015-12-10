@@ -28,7 +28,7 @@ namespace RubezhClient
 			}, "GetServerState");
 		}
 
-		public List<CallbackResult> Poll(Guid clientUID, int callbackIndex)
+		public PollResult Poll(Guid clientUID, int callbackIndex)
 		{
 			return SafeOperationCall(() =>
 			{
