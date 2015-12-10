@@ -12,16 +12,17 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
-		public List<CallbackResult> Poll(Guid clientUID, int callbackIndex)
+		public PollResult Poll(Guid clientUID, int callbackIndex)
 		{
 			var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID);
 			if (clientInfo != null)
 			{
 				clientInfo.LastPollDateTime = DateTime.Now;
-				clientInfo.CallbackIndex = callbackIndex;
+				if (clientInfo.CallbackIndex > callbackIndex && callbackIndex != -1)
+					clientInfo.CallbackIndex = callbackIndex;
 				global::FiresecService.ViewModels.MainViewModel.Current.OnPoll(clientUID);
 				var result = CallbackManager.Get(clientInfo);
-				if (result.Count == 0)
+				if (result.CallbackResults.Count == 0)
 				{
 					clientInfo.WaitEvent = new AutoResetEvent(false);
 					if (clientInfo.WaitEvent.WaitOne(TimeSpan.FromMinutes(1)))
@@ -32,7 +33,7 @@ namespace FiresecService.Service
 				return result;
 			}
 			global::FiresecService.ViewModels.MainViewModel.Current.OnPoll(clientUID);
-			return new List<CallbackResult> { new CallbackResult { CallbackResultType = CallbackResultType.ReconnectionRequired } };
+			return CallbackManager.GetReconnectionRequired();
 		}
 
 		public static void NotifyGKProgress(GKProgressCallback gkProgressCallback, Guid? clientUID)
@@ -46,7 +47,7 @@ namespace FiresecService.Service
 			if (gkProgressCallback != null)
 				clientType = gkProgressCallback.GKProgressClientType == GKProgressClientType.Administrator ?
 					ClientType.Administrator :
-					ClientType.Monitor;
+					ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other;
 			CallbackManager.Add(callbackResult, clientType, clientUID);
 		}
 
@@ -57,7 +58,7 @@ namespace FiresecService.Service
 				CallbackResultType = CallbackResultType.GKObjectStateChanged,
 				GKCallbackResult = gkCallbackResult
 			};
-			CallbackManager.Add(callbackResult, ClientType.Monitor);
+			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other);
 		}
 
 		public static void NotifyAutomation(AutomationCallbackResult automationCallbackResult, Guid? clientUID)
@@ -70,7 +71,7 @@ namespace FiresecService.Service
 			var layoutUIDs = automationCallbackResult != null && automationCallbackResult.Data != null && automationCallbackResult.Data.LayoutFilter != null ?
 				automationCallbackResult.Data.LayoutFilter.LayoutsUIDs :
 				null;
-			CallbackManager.Add(callbackResult, ClientType.Monitor, clientUID, layoutUIDs);
+			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other, clientUID, layoutUIDs);
 		}
 
 		public static void NotifyJournalItems(List<JournalItem> journalItems, bool isNew)
@@ -80,7 +81,7 @@ namespace FiresecService.Service
 				CallbackResultType = isNew ? CallbackResultType.NewEvents : CallbackResultType.UpdateEvents,
 				JournalItems = journalItems
 			};
-			CallbackManager.Add(callbackResult, ClientType.Monitor);
+			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other);
 		}
 
 		public static void NotifyConfigurationChanged()
@@ -89,7 +90,7 @@ namespace FiresecService.Service
 			{
 				CallbackResultType = CallbackResultType.ConfigurationChanged
 			};
-			CallbackManager.Add(callbackResult);
+			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other);
 		}
 
 		public static void NotifyGKParameterChanged(Guid objectUID, List<GKProperty> deviceProperties, Guid? clientUID)
@@ -103,7 +104,7 @@ namespace FiresecService.Service
 					DeviceProperties = deviceProperties
 				}
 			};
-			CallbackManager.Add(callbackResult, ClientType.Administrator);
+			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other);
 		}
 
 		public static void NotifyOperationResult_GetAllUsers(OperationResult<List<GKUser>> result, Guid? clientUID)
@@ -182,7 +183,7 @@ namespace FiresecService.Service
 					PageNo = pageNo
 				}
 			};
-			CallbackManager.Add(callbackResult, ClientType.Monitor, clientUID);
+			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other, clientUID);
 		}
 
 		public static void NotifyOperationResult_GetJournal(OperationResult<List<JournalItem>> result, Guid? clientUID)
@@ -198,7 +199,7 @@ namespace FiresecService.Service
 					JournalItems = result.Result
 				}
 			};
-			CallbackManager.Add(callbackResult, ClientType.Monitor, clientUID);
+			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other, clientUID);
 		}
 	}
 }
