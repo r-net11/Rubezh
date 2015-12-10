@@ -117,7 +117,7 @@ namespace GKModule.ViewModels
 				LocalConfiguration.Codes.AddRange(RemoteConfiguration.Codes);
 				LocalConfiguration.Doors.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 				LocalConfiguration.Doors.AddRange(RemoteConfiguration.Doors);
-				LocalConfiguration.SKDZones.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
+				LocalConfiguration.SKDZones.Clear();
 				LocalConfiguration.SKDZones.AddRange(RemoteConfiguration.SKDZones);
 			}
 			ServiceFactory.SaveService.GKChanged = true;
@@ -220,6 +220,11 @@ namespace GKModule.ViewModels
 						if (sameObject1.ObjectType == ObjectType.Door)
 						{
 							newObject.DifferenceDiscription = GetDoorsDifferences(sameObject1, sameObject2);
+							newObject.Name = sameObject1.Name;
+						}
+						if(sameObject1.ObjectType==ObjectType.SKDZone)
+						{
+							newObject.DifferenceDiscription = GetSKDZonesDifferences(sameObject1, sameObject2);
 							newObject.Name = sameObject1.Name;
 						}
 					}
@@ -446,6 +451,13 @@ namespace GKModule.ViewModels
 
 			return differences.ToString() == "" ? null : differences.ToString();
 		}
+        string GetSKDZonesDifferences(ObjectViewModel object1, ObjectViewModel object2)
+		{
+			var differences = new StringBuilder();
+			if (object1.Name != object2.Name)
+				differences.Append("Не совпадает название");
+			return differences.ToString();
+		}
 		bool IsEqual(ObjectViewModel viewModel1, ObjectViewModel viewModel2)
 		{
 			if (viewModel1.ObjectType != viewModel2.ObjectType)
@@ -501,6 +513,9 @@ namespace GKModule.ViewModels
 
 			if (viewModel1.ObjectType == ObjectType.Door)
 				return viewModel1.Door.No == viewModel2.Door.No;
+
+			if (viewModel1.ObjectType == ObjectType.SKDZone)
+				return viewModel1.SKDZone.No == viewModel2.SKDZone.No;
 
 			return true;
 		}
