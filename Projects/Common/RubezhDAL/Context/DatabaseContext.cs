@@ -69,7 +69,7 @@ namespace RubezhDAL
 			}
 		}
 
-		string GetIndexName(string columnName, string tableName, bool isClustered = true)
+		string GetIndexName(string columnName, string tableName)
 		{
 			if (IsPostgres)
 				return null;
@@ -78,7 +78,7 @@ namespace RubezhDAL
 				"INNER JOIN sys.index_columns ic ON  ind.object_id = ic.object_id and ind.index_id = ic.index_id " +
 				"INNER JOIN sys.columns col ON ic.object_id = col.object_id and ic.column_id = col.column_id " +
 				"INNER JOIN sys.tables t ON ind.object_id = t.object_id " +
-				"WHERE ind.type_desc = '{0}' and col.name = '{1}' and t.name = '{2}' ", isClustered ? "CLUSTERED" : "NONCLUSTERED", columnName, tableName);
+				"WHERE ind.type_desc = 'CLUSTERED' and col.name = '{0}' and t.name = '{1}' ", columnName, tableName);
 			return Database.SqlQuery<string>(query).FirstOrDefault();
 		}
 

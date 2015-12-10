@@ -71,7 +71,7 @@ namespace SKDModule.ViewModels
 		{
 			var employeeUIDs = PositionHelper.GetEmployeeUIDs(SelectedItem.Model.UID);
 			if(employeeUIDs == null || employeeUIDs.Count == 0 ||
-				MessageBoxService.ShowQuestion("Существуют привязанные к должности сотрудники. Продожить?"))
+				MessageBoxService.ShowQuestion("Существуют привязанные к должности сотрудники. Продолжить?"))
 			{
 				base.Remove();
 				foreach (var uid in employeeUIDs)

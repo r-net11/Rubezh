@@ -202,12 +202,12 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public void OnGetJournal(List<JournalItem> list)
+		public void OnGetJournal(List<JournalItem> journalItems)
 		{
 			ApplicationService.BeginInvoke(() =>
 			{
 				JournalItems = new ObservableCollection<JournalItemViewModel>();
-				foreach (var journalItem in list)
+				foreach (var journalItem in journalItems)
 				{
 					var journalItemViewModel = new JournalItemViewModel(journalItem);
 					JournalItems.Add(journalItemViewModel);
