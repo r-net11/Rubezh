@@ -44,6 +44,17 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		bool _onlyGKDeviceConfiguration;
+		public bool OnlyGKDeviceConfiguration
+		{
+			get { return _onlyGKDeviceConfiguration; }
+			set
+			{
+				_onlyGKDeviceConfiguration = value;
+				OnPropertyChanged(() => OnlyGKDeviceConfiguration);
+			}
+		}
+
 		protected override bool Save()
 		{
 			GKManager.DeviceConfiguration.GKNameGenerationType = SelectedNameGenerationType;
