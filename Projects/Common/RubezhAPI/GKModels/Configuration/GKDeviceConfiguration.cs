@@ -108,6 +108,12 @@ namespace RubezhAPI.GK
 		[DataMember]
 		public GKNameGenerationType GKNameGenerationType { get; set; }
 
+		/// <summary>
+		/// Писать только конфигурацию ГК
+		/// </summary>
+		[DataMember]
+		public bool OnlyGKDeviceConfiguration { get; set; }
+
 		[DataMember]
 		public OPCSettings OPCSettings { get; set; }
 

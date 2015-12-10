@@ -17,6 +17,7 @@ namespace GKModule.ViewModels
 			Title = "Настройка проекта";
 			NameGenerationTypes = new ObservableCollection<GKNameGenerationType>(Enum.GetValues(typeof(GKNameGenerationType)).Cast<GKNameGenerationType>());
 			SelectedNameGenerationType = GKManager.DeviceConfiguration.GKNameGenerationType;
+			OnlyGKDeviceConfiguration = GKManager.DeviceConfiguration.OnlyGKDeviceConfiguration;
 		}
 
 		public ObservableCollection<GKNameGenerationType> NameGenerationTypes { get; private set; }
@@ -29,6 +30,17 @@ namespace GKModule.ViewModels
 			{
 				_selectedNameGenerationType = value;
 				OnPropertyChanged(() => SelectedNameGenerationType);
+			}
+		}
+
+		bool _onlyGKDeviceConfiguration;
+		public bool OnlyGKDeviceConfiguration
+		{
+			get { return _onlyGKDeviceConfiguration; }
+			set
+			{
+				_onlyGKDeviceConfiguration = value;
+				OnPropertyChanged(() => OnlyGKDeviceConfiguration);
 			}
 		}
 	}

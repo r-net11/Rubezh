@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Ionic.Zip;
 using RubezhAPI.GK;
 using Infrastructure;
 using Infrastructure.Common;
@@ -18,6 +19,7 @@ namespace GKModule.ViewModels
 		GKDeviceConfiguration LocalConfiguration { get; set; }
 		GKDeviceConfiguration RemoteConfiguration { get; set; }
 		string ConfigFileName { get; set; }
+		bool OnlyGKDeviceConfiguration { get; set; }
 		public ObjectsListViewModel LocalObjectsViewModel { get; set; }
 		public ObjectsListViewModel RemoteObjectsViewModel { get; set; }
 		internal static bool ConfigFromFile { get; private set; }
@@ -28,12 +30,15 @@ namespace GKModule.ViewModels
 		{
 			Title = "Сравнение конфигураций " + device.PresentationName;
 			ChangeCurrentGkCommand = new RelayCommand(OnChangeCurrentGk);
-			OpenGkConfigurationFileCommand = new RelayCommand(OnOpenGkConfigurationFile);
+			OpenGkConfigurationFileCommand = new RelayCommand(OnOpenGkConfigurationFile, CanReplace);
 			NextDifferenceCommand = new RelayCommand(OnNextDifference, CanNextDifference);
 			PreviousDifferenceCommand = new RelayCommand(OnPreviousDifference, CanPreviousDifference);
 
 			ConfigFileName = configFileName;
 			ConfigFromFile = CanChangeOrOpenConfiguration = !string.IsNullOrEmpty(configFileName);
+
+			var remoteConfig = new ZipFile(ConfigFileName);
+			OnlyGKDeviceConfiguration  = remoteConfig.Entries.Count == 1;
 
 			LocalConfiguration = localConfiguration;
 			RemoteConfiguration = remoteConfiguration;
@@ -128,6 +133,11 @@ namespace GKModule.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<LoadFromFileEvent>().Publish(ConfigFileName);
 			Close(true);
+		}
+
+		public bool CanReplace()
+		{
+			return OnlyGKDeviceConfiguration;
 		}
 
 		public void CompareObjectLists()
