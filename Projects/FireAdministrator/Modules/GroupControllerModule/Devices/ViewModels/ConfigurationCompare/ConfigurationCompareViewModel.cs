@@ -137,7 +137,7 @@ namespace GKModule.ViewModels
 
 		public bool CanReplace()
 		{
-			return OnlyGKDeviceConfiguration;
+			return !OnlyGKDeviceConfiguration;
 		}
 
 		public void CompareObjectLists()
