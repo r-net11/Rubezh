@@ -52,6 +52,7 @@ namespace GKModule.ViewModels
 		public GKGuardZone GuardZone;
 		public GKCode Code;
 		public GKDoor Door;
+		public GKSKDZone SKDZone { get; private set; }
 		public string ImageSource { get; private set; }
 		public ObjectType ObjectType { get; private set; }
 		public GKDevice KAUParent { get; private set; }
@@ -164,6 +165,16 @@ namespace GKModule.ViewModels
 			ObjectType = ObjectType.Door;
 			SortingName = "k " + door.No;
 		}
+		public ObjectViewModel(GKSKDZone skdZone)
+		{
+			SKDZone = skdZone;
+			Name = skdZone.PresentationName;
+			ImageSource = skdZone.ImageSource;
+			Address = "";
+			PresentationZoneOrLogic = "";
+			ObjectType = ObjectType.SKDZone;
+			SortingName = "l " + skdZone.No;
+		}
 
 		int IComparable.CompareTo(object a)
 		{
@@ -261,6 +272,15 @@ namespace GKModule.ViewModels
 					return -1;
 				return 0;
 			}
+
+			if (object1.ObjectType == ObjectType.SKDZone)
+			{
+				if (object1.SKDZone.No > object2.SKDZone.No)
+					return 1;
+				if (object1.ObjectType == ObjectType.SKDZone)
+					return -1;
+				return 0;
+			}
 			return 0;
 		}
 	}
@@ -276,5 +296,6 @@ namespace GKModule.ViewModels
 		GuardZone = 6,
 		Code = 7,
 		Door = 8,
+		SKDZone = 9
 	}
 }

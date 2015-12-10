@@ -455,35 +455,42 @@ namespace GKModule
 									return;
 								}
 
-								var zipFile = ZipFile.Read(configFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
-								var fileInfo = new FileInfo(configFileName);
-								var unzipFolderPath = fileInfo.Directory.FullName;
-								zipFile.ExtractAll(unzipFolderPath);
-								zipFile.Dispose();
-								var configurationFileName = Path.Combine(unzipFolderPath, "GKDeviceConfiguration.xml");
-								if (!File.Exists(configurationFileName))
+								try
 								{
-									MessageBoxService.ShowError("Ошибка при распаковке файла");
-									return;
-								}
-								var deviceConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceConfiguration>(configurationFileName, true);
+									var zipFile = ZipFile.Read(configFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+									var fileInfo = new FileInfo(configFileName);
+									var unzipFolderPath = fileInfo.Directory.FullName;
+									zipFile.ExtractAll(unzipFolderPath);
+									zipFile.Dispose();
+									var configurationFileName = Path.Combine(unzipFolderPath, "GKDeviceConfiguration.xml");
+									if (!File.Exists(configurationFileName))
+									{
+										MessageBoxService.ShowError("Ошибка при распаковке файла");
+										return;
+									}
+									var deviceConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceConfiguration>(configurationFileName, true);
 
-								ConfigurationCompareViewModel configurationCompareViewModel = null;
-								WaitHelper.Execute(() =>
-								{
-									DescriptorsManager.Create();
-									deviceConfiguration.UpdateConfiguration();
-									deviceConfiguration.PrepareDescriptors();
-									configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, deviceConfiguration, DevicesViewModel.SelectedDevice.Device, configFileName);
-								});
-								//LoadingService.Close();
-								if (configurationCompareViewModel.Error != null)
-								{
-									MessageBoxService.ShowError(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
-									return;
+									ConfigurationCompareViewModel configurationCompareViewModel = null;
+									WaitHelper.Execute(() =>
+									{
+										DescriptorsManager.Create();
+										deviceConfiguration.UpdateConfiguration();
+										deviceConfiguration.PrepareDescriptors();
+										configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, deviceConfiguration, DevicesViewModel.SelectedDevice.Device, configFileName);
+									});
+									//LoadingService.Close();
+									if (configurationCompareViewModel.Error != null)
+									{
+										MessageBoxService.ShowError(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
+										return;
+									}
+									if (DialogService.ShowModalWindow(configurationCompareViewModel))
+										ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 								}
-								if (DialogService.ShowModalWindow(configurationCompareViewModel))
-									ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+								catch (Exception)
+								{
+									MessageBoxService.ShowWarning("Ошибка: файл конфигурации содержит неправильную сигнатуру");
+								}
 							}
 							else
 							{

@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Common;
+using RubezhAPI;
 using RubezhAPI.Journal;
 using Infrastructure.Common;
 using Ionic.Zip;
 using System.Threading;
 using System;
 using Infrastructure.Automation;
+using RubezhAPI.Models;
 
 namespace FiresecService.Service
 {
@@ -104,6 +106,12 @@ namespace FiresecService.Service
 			RestartWithNewConfig();
 		}
 
+		public void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
+		{
+			securityConfiguration.Version = new ConfigurationVersion() { MinorVersion = 1, MajorVersion = 1 };
+			ZipSerializeHelper.Serialize(securityConfiguration, Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "SecurityConfiguration.xml"), true);
+		}
+
 		public static void CopyStream(Stream input, Stream output)
 		{
 			var buffer = new byte[8 * 1024];
@@ -136,11 +144,22 @@ namespace FiresecService.Service
 
 			if (File.Exists(configFileName))
 				File.Delete(configFileName);
-
+			ReplaceSecurityConfiguration();
 			var zipFile = new ZipFile(configFileName);
 			zipFile.AddDirectory(configDirectory);
 			zipFile.Save(configFileName);
 			zipFile.Dispose();
+		}
+
+		static void ReplaceSecurityConfiguration()
+		{
+			var configDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
+			if (File.Exists(configDirectory + "\\SecurityConfiguration.xml"))
+			{
+				if (!File.Exists(AppDataFolderHelper.GetServerAppDataPath("Config\\..\\SecurityConfiguration.xml")))
+					File.Copy(configDirectory + "\\SecurityConfiguration.xml", AppDataFolderHelper.GetServerAppDataPath("Config\\..\\SecurityConfiguration.xml"));
+				File.Delete(configDirectory + "\\SecurityConfiguration.xml");
+			}
 		}
 	}
 }

@@ -96,7 +96,8 @@ namespace RubezhClient
 		ProcedureProperties GetProperties(Guid layoutUID);
 		OperationResult<List<Schedule>> GetSchedules(ScheduleFilter filter);
 		OperationResult<List<ScheduleScheme>> GetScheduleSchemes(ScheduleSchemeFilter filter);
-		SecurityConfiguration GetSecurityConfiguration();
+		OperationResult<SecurityConfiguration> GetSecurityConfiguration();
+		void SetSecurityConfiguration(SecurityConfiguration securityConfiguration);
 		Stream GetServerAppDataFile(string dirAndFileName);
 		Stream GetServerFile(string filePath);
 		OperationResult<ServerState> GetServerState();

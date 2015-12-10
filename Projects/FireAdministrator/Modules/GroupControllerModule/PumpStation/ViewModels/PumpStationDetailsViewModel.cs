@@ -261,6 +261,7 @@ namespace GKModule.ViewModels
 			PumpStation.Name = Name;
 			PumpStation.No = No;
 			PumpStation.Delay = Delay;
+			PumpStation.DelayRegime = DelayRegime;
 			PumpStation.Hold = Hold;
 			PumpStation.Description = Description;
 			PumpStation.NSPumpsCount = NSPumpsCount;

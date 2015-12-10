@@ -133,14 +133,12 @@ namespace FireAdministrator
 				{
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
 					var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/Configuration");
-					string path = Path.Combine(folderName, "SecurityConfiguration.xml");
-					XDocument xmlDoc = XDocument.Load(path);
 					var configFileName = Path.Combine(folderName, "Config.fscp");
 					if (Directory.Exists(folderName))
 						Directory.Delete(folderName, true);
 					Directory.CreateDirectory(folderName);
 					File.Copy(fileName, configFileName);
-					ClientManager.LoadFromZipFile(configFileName, path, xmlDoc);
+					ClientManager.LoadFromZipFile(configFileName);
 					ServiceFactory.ContentService.Invalidate();
 
 					ClientManager.UpdateConfiguration();
