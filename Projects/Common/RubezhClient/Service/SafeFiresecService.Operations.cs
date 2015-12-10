@@ -23,7 +23,7 @@ namespace RubezhClient
 			return SafeOperationCall(() => { return FiresecService.Poll(uid); }, "Poll");
 		}
 
-		public SecurityConfiguration GetSecurityConfiguration()
+		public OperationResult<SecurityConfiguration> GetSecurityConfiguration()
 		{
 			return SafeOperationCall(() => { return FiresecService.GetSecurityConfiguration(); }, "GetSecurityConfiguration");
 		}

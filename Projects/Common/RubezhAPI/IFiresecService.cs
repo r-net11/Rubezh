@@ -45,7 +45,7 @@ namespace RubezhAPI
 		string Test(string arg);
 
 		[OperationContract]
-		SecurityConfiguration GetSecurityConfiguration();
+		OperationResult<SecurityConfiguration> GetSecurityConfiguration();
 
 		[OperationContract]
 		void SetSecurityConfiguration(SecurityConfiguration securityConfiguration);

@@ -325,8 +325,6 @@ namespace GKModule.ViewModels
 			var settingsViewModel = new SettingsViewModel();
 			if (DialogService.ShowModalWindow(settingsViewModel))
 			{
-				GKManager.DeviceConfiguration.GKNameGenerationType = settingsViewModel.SelectedNameGenerationType;
-				GKManager.DeviceConfiguration.OnlyGKDeviceConfiguration = settingsViewModel.OnlyGKDeviceConfiguration;
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

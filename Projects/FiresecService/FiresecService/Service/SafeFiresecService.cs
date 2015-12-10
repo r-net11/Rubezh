@@ -109,7 +109,7 @@ namespace FiresecService.Service
 			return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.Poll(uid));
 		}
 
-		public SecurityConfiguration GetSecurityConfiguration()
+		public OperationResult<SecurityConfiguration> GetSecurityConfiguration()
 		{
 			return SafeOperationCall(() => FiresecService.GetSecurityConfiguration(), "GetSecurityConfiguration");
 		}

@@ -22,7 +22,9 @@ namespace FiresecService
 		{
 			CheckConfigDirectory();
 
-			SecurityConfiguration = GetSecurityConfiguration();
+			var result = GetSecurityConfiguration();
+			if (!result.HasError && result.Result != null)
+				SecurityConfiguration = result.Result;
 			SystemConfiguration = GetSystemConfiguration();
 			if (SystemConfiguration == null)
 				SystemConfiguration = new SystemConfiguration();
@@ -56,18 +58,27 @@ namespace FiresecService
 			}
 		}
 
-		public static SecurityConfiguration GetSecurityConfiguration()
+		public static OperationResult<SecurityConfiguration> GetSecurityConfiguration()
 		{
-			var configDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
-			if (File.Exists(configDirectory + "\\SecurityConfiguration.xml"))
+			string error = "";
+			var securityConfiguration = new SecurityConfiguration();
+			try
 			{
-				if (!File.Exists(AppDataFolderHelper.GetServerAppDataPath("Config\\..\\SecurityConfiguration.xml")))
-					File.Copy(configDirectory + "\\SecurityConfiguration.xml", AppDataFolderHelper.GetServerAppDataPath("Config\\..\\SecurityConfiguration.xml"));
-				File.Delete(configDirectory + "\\SecurityConfiguration.xml");
+				var configDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
+				if (File.Exists(configDirectory + "\\SecurityConfiguration.xml"))
+				{
+					if (!File.Exists(AppDataFolderHelper.GetServerAppDataPath("Config\\..\\SecurityConfiguration.xml")))
+						File.Copy(configDirectory + "\\SecurityConfiguration.xml", AppDataFolderHelper.GetServerAppDataPath("Config\\..\\SecurityConfiguration.xml"));
+					File.Delete(configDirectory + "\\SecurityConfiguration.xml");
+				}
+				securityConfiguration = (SecurityConfiguration)GetConfiguration("SecurityConfiguration.xml", typeof(SecurityConfiguration));
+				securityConfiguration.AfterLoad();
 			}
-			var securityConfiguration = (SecurityConfiguration)GetConfiguration("SecurityConfiguration.xml", typeof(SecurityConfiguration));
-			securityConfiguration.AfterLoad();
-			return securityConfiguration;
+			catch (Exception ex)
+			{
+				error = ex.Message;
+			}
+			return OperationResult<SecurityConfiguration>.FromError(error, securityConfiguration);
 		}
 
 		static SystemConfiguration GetSystemConfiguration()

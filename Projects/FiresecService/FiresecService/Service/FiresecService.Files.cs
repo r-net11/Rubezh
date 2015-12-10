@@ -57,16 +57,6 @@ namespace FiresecService.Service
 			return new FileStream(configFilePath, FileMode.Open, FileAccess.Read);
 		}
 
-		public Stream GetSecurityConfig()
-		{
-			var configFilePath = AppDataFolderHelper.GetServerAppDataPath("SecurityConfiguration.xml");
-			if (!File.Exists(configFilePath))
-			{
-				ReplaceSecurityConfiguration();
-			}
-			return new FileStream(configFilePath, FileMode.Open, FileAccess.Read);
-		}
-
 		public void SetLocalConfig()
 		{
 			var configFileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
@@ -120,7 +110,6 @@ namespace FiresecService.Service
 		{
 			securityConfiguration.Version = new ConfigurationVersion() { MinorVersion = 1, MajorVersion = 1 };
 			ZipSerializeHelper.Serialize(securityConfiguration, Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "SecurityConfiguration.xml"), true);
-			RestartWithNewConfig();
 		}
 
 		public static void CopyStream(Stream input, Stream output)
