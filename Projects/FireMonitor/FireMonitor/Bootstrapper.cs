@@ -84,27 +84,17 @@ namespace FireMonitor
 					GKDriversCreator.Create();
 					BeforeInitialize(true);
 
-					ServiceFactory.StartupService.DoStep("Проверка прав пользователя");
-					if (ClientManager.CheckPermission(PermissionType.Oper_Login))
-					{
-						ServiceFactory.StartupService.DoStep("Загрузка клиентских настроек");
-						ClientSettings.LoadSettings();
+					ServiceFactory.StartupService.DoStep("Загрузка клиентских настроек");
+					ClientSettings.LoadSettings();
 
-						result = Run();
-						SafeFiresecService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
-						SafeFiresecService.ReconnectionRequiredEvent += () => { ApplicationService.Invoke(OnReconnectionRequired); };
+					result = Run();
+					SafeFiresecService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
+					SafeFiresecService.ReconnectionRequiredEvent += () => { ApplicationService.Invoke(OnReconnectionRequired); };
 
-						if (result)
-						{
-							AterInitialize();
-							RunWatcher();
-						}
-					}
-					else
+					if (result)
 					{
-						MessageBoxService.Show("Нет прав на работу с программой");
-						ShutDown();
-						return false;
+						AterInitialize();
+						RunWatcher();
 					}
 
 					ServiceFactory.StartupService.DoStep("Старт полинга сервера");

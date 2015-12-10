@@ -56,16 +56,7 @@ namespace FireAdministrator
 					GKDriversCreator.Create();
 					BeforeInitialize(true);
 
-					ServiceFactory.StartupService.DoStep("Проверка прав пользователя");
-					if (ClientManager.CheckPermission(PermissionType.Adm_ViewConfig) == false)
-					{
-						MessageBoxService.Show("Нет прав на работу с программой");
-						ClientManager.Disconnect();
-						if (Application.Current != null)
-							Application.Current.Shutdown();
-						return;
-					}
-					else if (Application.Current != null)
+					if (Application.Current != null)
 					{
 						var shell = new AdministratorShellViewModel();
 						shell.LogoSource = "rubezhLogo";
