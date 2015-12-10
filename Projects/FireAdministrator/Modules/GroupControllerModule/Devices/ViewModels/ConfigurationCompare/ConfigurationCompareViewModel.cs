@@ -117,8 +117,6 @@ namespace GKModule.ViewModels
 				LocalConfiguration.Codes.AddRange(RemoteConfiguration.Codes);
 				LocalConfiguration.Doors.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 				LocalConfiguration.Doors.AddRange(RemoteConfiguration.Doors);
-				LocalConfiguration.SKDZones.Clear();
-				LocalConfiguration.SKDZones.AddRange(RemoteConfiguration.SKDZones);
 			}
 			ServiceFactory.SaveService.GKChanged = true;
 			GKManager.UpdateConfiguration();
@@ -220,11 +218,6 @@ namespace GKModule.ViewModels
 						if (sameObject1.ObjectType == ObjectType.Door)
 						{
 							newObject.DifferenceDiscription = GetDoorsDifferences(sameObject1, sameObject2);
-							newObject.Name = sameObject1.Name;
-						}
-						if(sameObject1.ObjectType==ObjectType.SKDZone)
-						{
-							newObject.DifferenceDiscription = GetSKDZonesDifferences(sameObject1, sameObject2);
 							newObject.Name = sameObject1.Name;
 						}
 					}
@@ -443,6 +436,20 @@ namespace GKModule.ViewModels
 				differences.Append("Не совпадает удержание");
 			}
 
+			if (object1.Door.EnterZoneUID != object2.Door.EnterZoneUID)
+			{
+				if (differences.Length != 0)
+					differences.Append(". ");
+				differences.Append("Не совпадает зона входа");
+			}
+
+			if (object1.Door.ExitZoneUID != object2.Door.ExitZoneUID)
+			{
+				if (differences.Length != 0)
+					differences.Append(". ");
+				differences.Append("Не совпадает зона выхода");
+			}
+
 			bool openLogicDiff = GKManager.GetPresentationLogic(object1.Door.OpenRegimeLogic) != GKManager.GetPresentationLogic(object2.Door.OpenRegimeLogic);
 			if (openLogicDiff)
 			{
@@ -450,13 +457,6 @@ namespace GKModule.ViewModels
 			}
 
 			return differences.ToString() == "" ? null : differences.ToString();
-		}
-        string GetSKDZonesDifferences(ObjectViewModel object1, ObjectViewModel object2)
-		{
-			var differences = new StringBuilder();
-			if (object1.Name != object2.Name)
-				differences.Append("Не совпадает название");
-			return differences.ToString();
 		}
 		bool IsEqual(ObjectViewModel viewModel1, ObjectViewModel viewModel2)
 		{

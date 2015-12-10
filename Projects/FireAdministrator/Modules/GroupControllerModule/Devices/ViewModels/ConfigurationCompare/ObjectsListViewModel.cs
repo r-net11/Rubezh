@@ -69,12 +69,6 @@ namespace GKModule.ViewModels
 					var objectViewModel = new ObjectViewModel(door);
 					Objects.Add(objectViewModel);
 				}
-			if (deviceConfiguration.SKDZones != null)
-				foreach (var skdZone in deviceConfiguration.SKDZones)
-				{
-					var objectViewModel = new ObjectViewModel(skdZone);
-					Objects.Add(objectViewModel);
-				}
 		}
 
 		public List<ObjectViewModel> Objects { get; set; }
