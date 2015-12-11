@@ -1,38 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema id="DisciplineDataSet" targetNamespace="http://tempuri.org/DisciplineDataSet.xsd" xmlns:mstns="http://tempuri.org/DisciplineDataSet.xsd" xmlns="http://tempuri.org/DisciplineDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
   <xs:annotation>
-	<xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
-	  <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
-		<Connections />
-		<Tables />
-		<Sources />
-	  </DataSource>
-	</xs:appinfo>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
   </xs:annotation>
   <xs:element name="DisciplineDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DisciplineDataSet" msprop:Generator_UserDSName="DisciplineDataSet">
-	<xs:complexType>
-	  <xs:choice minOccurs="0" maxOccurs="unbounded">
-		<xs:element name="Data" msprop:Generator_TableClassName="DataDataTable" msprop:Generator_TableVarName="tableData" msprop:Generator_TablePropName="Data" msprop:Generator_RowDeletingName="DataRowDeleting" msprop:Generator_RowChangingName="DataRowChanging" msprop:Generator_RowEvHandlerName="DataRowChangeEventHandler" msprop:Generator_RowDeletedName="DataRowDeleted" msprop:Generator_UserTableName="Data" msprop:Generator_RowChangedName="DataRowChanged" msprop:Generator_RowEvArgName="DataRowChangeEvent" msprop:Generator_RowClassName="DataRow">
-		  <xs:complexType>
-			<xs:sequence>
-			  <xs:element name="Date" msprop:Generator_ColumnVarNameInTable="columnDate" msprop:Generator_ColumnPropNameInRow="Date" msprop:Generator_ColumnPropNameInTable="DateColumn" msprop:Generator_UserColumnName="Date" type="xs:dateTime" minOccurs="0" />
-			  <xs:element name="FirstEnter" msprop:Generator_ColumnVarNameInTable="columnFirstEnter" msprop:Generator_ColumnPropNameInRow="FirstEnter" msprop:Generator_ColumnPropNameInTable="FirstEnterColumn" msprop:Generator_UserColumnName="FirstEnter" type="xs:duration" minOccurs="0" />
-			  <xs:element name="LastExit" msprop:Generator_ColumnVarNameInTable="columnLastExit" msprop:Generator_ColumnPropNameInRow="LastExit" msprop:Generator_ColumnPropNameInTable="LastExitColumn" msprop:Generator_UserColumnName="LastExit" type="xs:duration" minOccurs="0" />
-			  <xs:element name="Employee" msprop:Generator_ColumnVarNameInTable="columnEmployee" msprop:Generator_ColumnPropNameInRow="Employee" msprop:Generator_ColumnPropNameInTable="EmployeeColumn" msprop:Generator_UserColumnName="Employee" type="xs:string" minOccurs="0" />
-			  <xs:element name="Organisation" msprop:Generator_ColumnVarNameInTable="columnOrganisation" msprop:Generator_ColumnPropNameInRow="Organisation" msprop:Generator_ColumnPropNameInTable="OrganisationColumn" msprop:Generator_UserColumnName="Organisation" type="xs:string" minOccurs="0" />
-			  <xs:element name="Department" msprop:Generator_ColumnVarNameInTable="columnDepartment" msprop:Generator_ColumnPropNameInRow="Department" msprop:Generator_ColumnPropNameInTable="DepartmentColumn" msprop:Generator_UserColumnName="Department" type="xs:string" minOccurs="0" />
-			  <xs:element name="IsHoliday" msprop:Generator_ColumnVarNameInTable="columnIsHoliday" msprop:Generator_ColumnPropNameInRow="IsHoliday" msprop:Generator_ColumnPropNameInTable="IsHolidayColumn" msprop:Generator_UserColumnName="IsHoliday" type="xs:string" minOccurs="0" />
-			  <xs:element name="Late" msprop:Generator_ColumnVarNameInTable="columnLate" msprop:Generator_ColumnPropNameInRow="Late" msprop:Generator_ColumnPropNameInTable="LateColumn" msprop:Generator_UserColumnName="Late" type="xs:duration" minOccurs="0" />
-			  <xs:element name="EarlyLeave" msprop:Generator_ColumnVarNameInTable="columnEarlyLeave" msprop:Generator_ColumnPropNameInRow="EarlyLeave" msprop:Generator_ColumnPropNameInTable="EarlyLeaveColumn" msprop:Generator_UserColumnName="EarlyLeave" type="xs:duration" minOccurs="0" />
-			  <xs:element name="Absence" msprop:Generator_ColumnVarNameInTable="columnAbsence" msprop:Generator_ColumnPropNameInRow="Absence" msprop:Generator_ColumnPropNameInTable="AbsenceColumn" msprop:Generator_UserColumnName="Absence" type="xs:duration" minOccurs="0" />
-			  <xs:element name="Overtime" msprop:Generator_ColumnVarNameInTable="columnOvertime" msprop:Generator_ColumnPropNameInRow="Overtime" msprop:Generator_ColumnPropNameInTable="OvertimeColumn" msprop:Generator_UserColumnName="Overtime" type="xs:duration" minOccurs="0" />
-			  <xs:element name="DocumentName" msprop:Generator_ColumnVarNameInTable="columnDocumentName" msprop:Generator_ColumnPropNameInRow="DocumentName" msprop:Generator_ColumnPropNameInTable="DocumentNameColumn" msprop:Generator_UserColumnName="DocumentName" type="xs:string" minOccurs="0" />
-			  <xs:element name="DocumentNo" msprop:Generator_ColumnVarNameInTable="columnDocumentNo" msprop:Generator_ColumnPropNameInRow="DocumentNo" msprop:Generator_ColumnPropNameInTable="DocumentNoColumn" msprop:Generator_UserColumnName="DocumentNo" type="xs:string" minOccurs="0" />
-			  <xs:element name="DocumentDate" msprop:Generator_ColumnVarNameInTable="columnDocumentDate" msprop:Generator_ColumnPropNameInRow="DocumentDate" msprop:Generator_ColumnPropNameInTable="DocumentDateColumn" msprop:Generator_UserColumnName="DocumentDate" type="xs:dateTime" minOccurs="0" />
-			</xs:sequence>
-		  </xs:complexType>
-		</xs:element>
-	  </xs:choice>
-	</xs:complexType>
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Data" msprop:Generator_TableClassName="DataDataTable" msprop:Generator_TableVarName="tableData" msprop:Generator_TablePropName="Data" msprop:Generator_RowDeletingName="DataRowDeleting" msprop:Generator_RowChangingName="DataRowChanging" msprop:Generator_RowEvHandlerName="DataRowChangeEventHandler" msprop:Generator_RowDeletedName="DataRowDeleted" msprop:Generator_UserTableName="Data" msprop:Generator_RowChangedName="DataRowChanged" msprop:Generator_RowEvArgName="DataRowChangeEvent" msprop:Generator_RowClassName="DataRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Date" msprop:Generator_ColumnVarNameInTable="columnDate" msprop:Generator_ColumnPropNameInRow="Date" msprop:Generator_ColumnPropNameInTable="DateColumn" msprop:Generator_UserColumnName="Date" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Weekday" msprop:Generator_ColumnVarNameInTable="columnWeekday" msprop:Generator_ColumnPropNameInRow="Weekday" msprop:Generator_ColumnPropNameInTable="WeekdayColumn" msprop:Generator_UserColumnName="Weekday" type="xs:string" minOccurs="0" />
+              <xs:element name="FirstEnter" msprop:Generator_ColumnVarNameInTable="columnFirstEnter" msprop:Generator_ColumnPropNameInRow="FirstEnter" msprop:Generator_ColumnPropNameInTable="FirstEnterColumn" msprop:Generator_UserColumnName="FirstEnter" type="xs:string" minOccurs="0" />
+              <xs:element name="LastExit" msprop:Generator_ColumnVarNameInTable="columnLastExit" msprop:Generator_ColumnPropNameInRow="LastExit" msprop:Generator_ColumnPropNameInTable="LastExitColumn" msprop:Generator_UserColumnName="LastExit" type="xs:string" minOccurs="0" />
+              <xs:element name="Employee" msprop:Generator_ColumnVarNameInTable="columnEmployee" msprop:Generator_ColumnPropNameInRow="Employee" msprop:Generator_ColumnPropNameInTable="EmployeeColumn" msprop:Generator_UserColumnName="Employee" type="xs:string" minOccurs="0" />
+              <xs:element name="Organisation" msprop:Generator_ColumnVarNameInTable="columnOrganisation" msprop:Generator_ColumnPropNameInRow="Organisation" msprop:Generator_ColumnPropNameInTable="OrganisationColumn" msprop:Generator_UserColumnName="Organisation" type="xs:string" minOccurs="0" />
+              <xs:element name="Department" msprop:Generator_ColumnVarNameInTable="columnDepartment" msprop:Generator_ColumnPropNameInRow="Department" msprop:Generator_ColumnPropNameInTable="DepartmentColumn" msprop:Generator_UserColumnName="Department" type="xs:string" minOccurs="0" />
+              <xs:element name="Late" msprop:Generator_ColumnVarNameInTable="columnLate" msprop:Generator_ColumnPropNameInRow="Late" msprop:Generator_ColumnPropNameInTable="LateColumn" msprop:Generator_UserColumnName="Late" type="xs:string" minOccurs="0" />
+              <xs:element name="EarlyLeave" msprop:Generator_ColumnVarNameInTable="columnEarlyLeave" msprop:Generator_ColumnPropNameInRow="EarlyLeave" msprop:Generator_ColumnPropNameInTable="EarlyLeaveColumn" msprop:Generator_UserColumnName="EarlyLeave" type="xs:string" minOccurs="0" />
+              <xs:element name="Absence" msprop:Generator_ColumnVarNameInTable="columnAbsence" msprop:Generator_ColumnPropNameInRow="Absence" msprop:Generator_ColumnPropNameInTable="AbsenceColumn" msprop:Generator_UserColumnName="Absence" type="xs:string" minOccurs="0" />
+              <xs:element name="Overtime" msprop:Generator_ColumnVarNameInTable="columnOvertime" msprop:Generator_ColumnPropNameInRow="Overtime" msprop:Generator_ColumnPropNameInTable="OvertimeColumn" msprop:Generator_UserColumnName="Overtime" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
   </xs:element>
 </xs:schema>

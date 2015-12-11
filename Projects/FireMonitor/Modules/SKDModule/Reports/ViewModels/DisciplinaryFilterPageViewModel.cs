@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.SKDReports;
+﻿using Infrastructure.Common.SKDReports;
 using FiresecAPI.SKD.ReportFilters;
 
 namespace SKDModule.Reports.ViewModels
 {
 	public class DisciplinaryFilterPageViewModel : FilterContainerViewModel
 	{
-		public DisciplinaryFilterPageViewModel()
-		{
-			Title = "Фильтры";
-		}
-
+		#region Properties
 		private bool _showAllViolation;
 		public bool ShowAllViolation
 		{
@@ -24,36 +16,29 @@ namespace SKDModule.Reports.ViewModels
 				OnPropertyChanged(() => ShowAllViolation);
 			}
 		}
-		private bool _showDelay;
-		public bool ShowDelay
+
+		private bool _showLate;
+		public bool ShowLate
 		{
-			get { return _showDelay; }
+			get { return _showLate; }
 			set
 			{
-				_showDelay = value;
-				OnPropertyChanged(() => ShowDelay);
+				_showLate = value;
+				OnPropertyChanged(() => ShowLate);
 			}
 		}
-		private bool _showEarlуRetirement;
-		public bool ShowEarlуRetirement
+
+		private bool _showEarlуLeave;
+		public bool ShowEarlуLeave
 		{
-			get { return _showEarlуRetirement; }
+			get { return _showEarlуLeave; }
 			set
 			{
-				_showEarlуRetirement = value;
-				OnPropertyChanged(() => ShowEarlуRetirement);
+				_showEarlуLeave = value;
+				OnPropertyChanged(() => ShowEarlуLeave);
 			}
 		}
-		private bool _showTolerance;
-		public bool ShowTolerance
-		{
-			get { return _showTolerance; }
-			set
-			{
-				_showTolerance = value;
-				OnPropertyChanged(() => ShowTolerance);
-			}
-		}
+
 		private bool _showAbsence;
 		public bool ShowAbsence
 		{
@@ -64,6 +49,7 @@ namespace SKDModule.Reports.ViewModels
 				OnPropertyChanged(() => ShowAbsence);
 			}
 		}
+
 		private bool _showOvertime;
 		public bool ShowOvertime
 		{
@@ -74,36 +60,31 @@ namespace SKDModule.Reports.ViewModels
 				OnPropertyChanged(() => ShowOvertime);
 			}
 		}
-		private bool _showMissingtime;
-		public bool ShowMissingtime
+
+		private bool _showShiftedViolation;
+
+		public bool ShowShiftedViolation
 		{
-			get { return _showMissingtime; }
+			get { return _showShiftedViolation; }
 			set
 			{
-				_showMissingtime = value;
-				OnPropertyChanged(() => ShowMissingtime);
+				_showShiftedViolation = value;
+				OnPropertyChanged(() => ShowShiftedViolation);
 			}
 		}
-		private bool _showConfirmed;
-		public bool ShowConfirmed
+
+		#endregion
+
+		#region Constructors
+
+		public DisciplinaryFilterPageViewModel()
 		{
-			get { return _showConfirmed; }
-			set
-			{
-				_showConfirmed = value;
-				OnPropertyChanged(() => ShowConfirmed);
-			}
+			Title = "Фильтры";
 		}
-		private bool _showWithoutTolerance;
-		public bool ShowWithoutTolerance
-		{
-			get { return _showWithoutTolerance; }
-			set
-			{
-				_showWithoutTolerance = value;
-				OnPropertyChanged(() => ShowWithoutTolerance);
-			}
-		}	
+
+		#endregion
+
+		#region Override Methods
 
 		public override void LoadFilter(SKDReportFilter filter)
 		{
@@ -111,14 +92,11 @@ namespace SKDModule.Reports.ViewModels
 			if (disciplinaryFilter == null)
 				return;
 			ShowAllViolation = disciplinaryFilter.ShowAllViolation;
-			ShowDelay = disciplinaryFilter.ShowDelay;
-			ShowEarlуRetirement = disciplinaryFilter.ShowEarlуRetirement;
-			ShowTolerance = disciplinaryFilter.ShowTolerance;
+			ShowShiftedViolation = disciplinaryFilter.ShowShiftedViolation;
+			ShowLate = disciplinaryFilter.ShowLate;
+			ShowEarlуLeave = disciplinaryFilter.ShowEarlуLeave;
 			ShowAbsence = disciplinaryFilter.ShowAbsence;
 			ShowOvertime = disciplinaryFilter.ShowOvertime;
-			ShowMissingtime = disciplinaryFilter.ShowMissingtime;
-			ShowConfirmed = disciplinaryFilter.ShowConfirmed;
-			ShowWithoutTolerance = disciplinaryFilter.ShowWithoutTolerance;
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{
@@ -126,14 +104,13 @@ namespace SKDModule.Reports.ViewModels
 			if (disciplinaryFilter == null)
 				return;
 			disciplinaryFilter.ShowAllViolation = ShowAllViolation;
-			disciplinaryFilter.ShowDelay = ShowDelay;
-			disciplinaryFilter.ShowEarlуRetirement = ShowEarlуRetirement;
-			disciplinaryFilter.ShowTolerance = ShowTolerance;
+			disciplinaryFilter.ShowLate = ShowLate;
+			disciplinaryFilter.ShowEarlуLeave = ShowEarlуLeave;
 			disciplinaryFilter.ShowAbsence = ShowAbsence;
 			disciplinaryFilter.ShowOvertime = ShowOvertime;
-			disciplinaryFilter.ShowMissingtime = ShowMissingtime;
-			disciplinaryFilter.ShowConfirmed = ShowConfirmed;
-			disciplinaryFilter.ShowWithoutTolerance = ShowWithoutTolerance;
+			disciplinaryFilter.ShowShiftedViolation = ShowShiftedViolation;
 		}
+
+		#endregion
 	}
 }

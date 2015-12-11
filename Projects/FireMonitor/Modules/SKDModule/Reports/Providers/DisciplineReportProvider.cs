@@ -17,19 +17,10 @@ namespace SKDModule.Reports.Providers
 		{
 			return new FilterModel()
 			{
-				Columns = new Dictionary<string, string> 
-				{ 
+				Columns = new Dictionary<string, string>
+				{
 					{ "Date", "Дата" },
-					{ "FirstEnter", "Приход" },
-					{ "LastExit", "Уход" },
 					{ "Employee", "Сотрудник" },
-					{ "Organisation", "Организация" },
-					{ "Department", "Подразделение" },
-					{ "IsHoliday", "Р/В" },
-					{ "Late", "Опоздание" },
-					{ "EarlyLeave", "Уход раньше" },
-					{ "Absence", "Отсутствие" },
-					{ "Overtime", "Переработка" },
 				},
 				Pages = new List<FilterContainerViewModel>()
 				{
