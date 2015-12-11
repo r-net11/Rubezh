@@ -180,13 +180,12 @@ namespace FiresecService.Service
 					Error = result.Error,
 					HasError = result.HasError,
 					JournalItems = result.Result,
-					ClientUid = clientUid,
 				}
 			};
-			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other, clientUID);
+			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other, clientUid);
 		}
 
-		public static void NotifyOperationResult_GetJournal(OperationResult<List<JournalItem>> result, Guid clientUid)
+		public static void NotifyOperationResult_GetJournal(OperationResult<List<JournalItem>> result, Guid clientUid, Guid journalClientUid)
 		{
 			var callbackResult = new CallbackResult()
 			{
@@ -197,10 +196,10 @@ namespace FiresecService.Service
 					Error = result.Error,
 					HasError = result.HasError,
 					JournalItems = result.Result,
-					ClientUid = clientUid,
+					ClientUid = journalClientUid,
 				}
 			};
-			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other, clientUID);
+			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other, clientUid);
 		}
 	}
 }

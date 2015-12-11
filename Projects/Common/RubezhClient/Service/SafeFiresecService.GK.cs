@@ -179,16 +179,6 @@ namespace RubezhClient
 			}, "GKRewriteUsers");
 		}
 
-			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
-				using (firesecService as IDisposable)
-					return firesecService.GKReadMirrorUsers(FiresecServiceFactory.UID, device.UID);
-			}, "GKReadMirrorUsers");
-			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
-				using (firesecService as IDisposable)
-					return firesecService.GKWriteMirrorUsers(FiresecServiceFactory.UID, device.UID, mirrorUsers);
-			}, "GKWriteMirrorUsers");
 		public OperationResult<List<GKUser>> GetGKUsers(Guid deviceUID)
 		{
 			return SafeOperationCall(() =>

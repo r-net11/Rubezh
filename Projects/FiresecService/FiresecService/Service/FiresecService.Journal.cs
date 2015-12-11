@@ -87,14 +87,14 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<bool> BeginGetJournal(JournalFilter filter, Guid clientUid)
+		public OperationResult<bool> BeginGetJournal(JournalFilter filter, Guid clientUid, Guid journalClientUid)
 		{
 			ServerTaskRunner.Add(null, "Чтение журнала событий", () =>
 			{
 				using (var dbService = new RubezhDAL.DataClasses.DbService())
 				{
 					var result = dbService.JournalTranslator.GetFilteredJournalItems(filter);
-					FiresecService.NotifyOperationResult_GetJournal(result, clientUid);
+					FiresecService.NotifyOperationResult_GetJournal(result, clientUid, journalClientUid);
 				}
 			});
 			return new OperationResult<bool>(true);

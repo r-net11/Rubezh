@@ -250,11 +250,11 @@ namespace RubezhClient
 		}
 		public OperationResult<bool> BeginGetJournal(JournalFilter filter, Guid clientUid)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.BeginGetJournal(filter, clientUid));
+			return SafeOperationCall<OperationResult<bool>>(() => 
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.BeginGetJournal(FiresecServiceFactory.UID, filter);
+					return firesecService.BeginGetJournal(filter, FiresecServiceFactory.UID, clientUid);
 			}, "BeginGetJournal");
 		}
 		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
@@ -266,13 +266,13 @@ namespace RubezhClient
 					return firesecService.AddJournalItem(FiresecServiceFactory.UID, journalItem);
 			}, "AddJournalItem");
 		}
-		public OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page, Guid clientUid)
+		public OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.BeginGetArchivePage(filter, page, clientUid));
+			return SafeOperationCall<OperationResult<bool>>(() => 
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.BeginGetArchivePage(FiresecServiceFactory.UID, filter, page);
+					return firesecService.BeginGetArchivePage(filter, page, FiresecServiceFactory.UID);
 			}, "BeginGetArchivePage");
 		}
 		public OperationResult<int> GetArchiveCount(JournalFilter filter)

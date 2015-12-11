@@ -22,14 +22,12 @@ namespace JournalModule.ViewModels
 {
 	public class ArchiveViewModel : ViewPartViewModel, ILayoutPartContent
 	{
-		Guid _uid;
 		public static DateTime ArchiveFirstDate { get; private set; }
 		public JournalFilter Filter { get; private set; }
 		private LayoutPartContainerCollection _container;
 
 		public ArchiveViewModel()
 		{
-			_uid = Guid.NewGuid();
 			_container = new LayoutPartContainerCollection();
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
 			RefreshCommand = new RelayCommand(OnRefresh);
@@ -47,7 +45,7 @@ namespace JournalModule.ViewModels
 
 		void OnCallbackOperationResult(CallbackOperationResult callbackOperationResult)
 		{
-			if(callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.GetArchivePage && callbackOperationResult.ClientUid == _uid)
+			if(callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.GetArchivePage)
 			{
 				ApplicationService.BeginInvoke(() =>
 				{
@@ -287,7 +285,7 @@ namespace JournalModule.ViewModels
 
 		void QueryPage(int pageNo)
 		{
-			var result = ClientManager.FiresecService.BeginGetArchivePage(Filter, pageNo, _uid);
+			var result = ClientManager.FiresecService.BeginGetArchivePage(Filter, pageNo);
 			if (result.HasError)
 			{
 				MessageBoxService.Show(result.Error);

@@ -202,9 +202,9 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(clientUID, () => FiresecService.GetFilteredJournalItems(clientUID, filter), "GetFilteredJournalItems");
 		}
-		public OperationResult<bool> BeginGetJournal(JournalFilter filter, Guid clientUid)
+		public OperationResult<bool> BeginGetJournal(JournalFilter filter, Guid clientUid, Guid journalClientUid)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.BeginGetJournal(filter, clientUid));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.BeginGetJournal(filter, clientUid, journalClientUid));
 		}
 		public OperationResult<bool> AddJournalItem(Guid clientUID, JournalItem journalItem)
 		{

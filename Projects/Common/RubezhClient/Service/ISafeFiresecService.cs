@@ -22,7 +22,7 @@ namespace RubezhClient
 		void AddTask(Action task);
 		OperationResult AddTimeTrackDocument(TimeTrackDocument timeTrackDocument);
 		OperationResult AddTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType);
-		OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page, Guid clientUid);
+		OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page);
 		OperationResult<bool> BeginGetJournal(JournalFilter filter, Guid clientUid);
 		void CancelGKProgress(Guid progressCallbackUID, string userName);
 		OperationResult<bool> Connect(Guid clientUID, ClientCredentials clientCredentials);

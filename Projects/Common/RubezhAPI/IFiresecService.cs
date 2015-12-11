@@ -84,7 +84,7 @@ namespace RubezhAPI
 		OperationResult<List<JournalItem>> GetFilteredJournalItems(Guid clientUID, JournalFilter journalFilter);
 
 		[OperationContract]
-		OperationResult<bool> BeginGetJournal(JournalFilter journalFilter, Guid clentUid);
+		OperationResult<bool> BeginGetJournal(JournalFilter journalFilter, Guid clentUid, Guid journalClientUid);
 
 		/// <summary>
 		/// Добавление записи в журнал событий
