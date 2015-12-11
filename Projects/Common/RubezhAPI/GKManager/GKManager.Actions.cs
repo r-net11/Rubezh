@@ -270,15 +270,6 @@ namespace RubezhAPI
 
 			device.Children.Clear();
 			AddAutoCreateChildren(device);
-			if (driver.IsGroupDevice)
-			{
-				var groupDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
-
-				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
-				{
-					var autoDevice = GKManager.AddChild(device, null, groupDriver, (byte)(device.IntAddress + i));
-				}
-			}
 
 			if (changeZone)
 			{
