@@ -168,18 +168,18 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<List<JournalItem>>>(() => FiresecService.GetFilteredJournalItems(filter));
 		}
-		public OperationResult<bool> BeginGetJournal(JournalFilter filter)
+		public OperationResult<bool> BeginGetJournal(JournalFilter filter, Guid clientUid)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.BeginGetJournal(filter));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.BeginGetJournal(filter, clientUid));
 		}
 		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
 		{
 			return SafeOperationCall(() => { return FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
 		}
 
-		public OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page)
+		public OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page, Guid clientUid)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.BeginGetArchivePage(filter, page));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.BeginGetArchivePage(filter, page, clientUid));
 		}
 
 		public OperationResult<int> GetArchiveCount(JournalFilter filter)
@@ -273,16 +273,6 @@ namespace FiresecService.Service
 		public OperationResult<bool> GKRewriteUsers(Guid gkDeviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKRewriteUsers(gkDeviceUID); }, "GKRewriteUsers");
-		}
-
-		public OperationResult<List<MirrorUser>> GKReadMirrorUsers(Guid deviceUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.GKReadMirrorUsers(deviceUID); }, "GKReadMirrorUsers");
-		}
-
-		public OperationResult<bool> GKWriteMirrorUsers(Guid deviceUID, List<MirrorUser> mirrorUsers)
-		{
-			return SafeOperationCall(() => { return FiresecService.GKWriteMirrorUsers(deviceUID, mirrorUsers); }, "GKWriteMirrorUsers");
 		}
 
 		public OperationResult<List<GKUser>> GetGKUsers(Guid deviceUID)

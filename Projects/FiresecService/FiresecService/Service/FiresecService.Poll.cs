@@ -160,34 +160,35 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifyOperationResult_GetArchivePage(OperationResult<List<JournalItem>> result, int pageNo)
+		public static void NotifyOperationResult_GetArchivePage(OperationResult<List<JournalItem>> result, Guid clientUid)
 		{
 			var callbackResult = new CallbackResult()
 			{
 				CallbackResultType = CallbackResultType.OperationResult,
-				CallbackOperationResult = new CallbackOperationResult()
+				CallbackOperationResult = new CallbackOperationResult
 				{
 					CallbackOperationResultType = CallbackOperationResultType.GetArchivePage,
 					Error = result.Error,
 					HasError = result.HasError,
 					JournalItems = result.Result,
-					PageNo = pageNo
+					ClientUid = clientUid,
 				}
 			};
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifyOperationResult_GetJournal(OperationResult<List<JournalItem>> result)
+		public static void NotifyOperationResult_GetJournal(OperationResult<List<JournalItem>> result, Guid clientUid)
 		{
 			var callbackResult = new CallbackResult()
 			{
 				CallbackResultType = CallbackResultType.OperationResult,
-				CallbackOperationResult = new CallbackOperationResult()
+				CallbackOperationResult = new CallbackOperationResult
 				{
 					CallbackOperationResultType = CallbackOperationResultType.GetJournal,
 					Error = result.Error,
 					HasError = result.HasError,
-					JournalItems = result.Result
+					JournalItems = result.Result,
+					ClientUid = clientUid,
 				}
 			};
 			CallbackManager.Add(callbackResult);

@@ -22,8 +22,8 @@ namespace RubezhClient
 		void AddTask(Action task);
 		OperationResult AddTimeTrackDocument(TimeTrackDocument timeTrackDocument);
 		OperationResult AddTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType);
-		OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page);
-		OperationResult<bool> BeginGetJournal(JournalFilter filter);
+		OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page, Guid clientUid);
+		OperationResult<bool> BeginGetJournal(JournalFilter filter, Guid clientUid);
 		void CancelGKProgress(Guid progressCallbackUID, string userName);
 		OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew);
 		void ControlDelay(Guid uid, DelayCommandType commandType);
@@ -122,7 +122,6 @@ namespace RubezhClient
 		OperationResult<GKDeviceConfiguration> GKReadConfiguration(GKDevice device);
 		OperationResult<bool> GKReadConfigurationFromGKFile(GKDevice device);
 		OperationResult<JournalItem> GKReadJournalItem(GKDevice device, int no);
-		OperationResult<List<MirrorUser>> GKReadMirrorUsers(GKDevice device);
 		void GKReset(GKBase gkBase);
 		void GKResetFire1(GKZone zone);
 		void GKResetFire2(GKZone zone);
@@ -147,7 +146,6 @@ namespace RubezhClient
 		void GKTurnOnNowInAutomatic(GKBase gkBase);
 		OperationResult<bool> GKUpdateFirmware(GKDevice device, List<byte> firmwareBytes);
 		OperationResult<bool> GKWriteConfiguration(GKDevice device);
-		OperationResult<bool> GKWriteMirrorUsers(GKDevice device, List<MirrorUser> mirrorUsers);
 		OperationResult ImportOrganisation(ImportFilter filter);
 		void ImportOrganisation(bool isWithDeleted, string path);
 		OperationResult ImportOrganisationList(ImportFilter filter);
