@@ -34,8 +34,7 @@ namespace GKModule.ViewModels
 				dbUsers.AddRange(getDbUsersResult.Result);
 
 			var allUsers = UnionUsers(deviceUsers, dbUsers);
-			DeviceUsers = CreateCollection(allUsers, deviceUsers, dbUsers, isDevice: true);
-			DbUsers = CreateCollection(allUsers, dbUsers, deviceUsers, isDevice: false);
+			InitializeCollections(allUsers, deviceUsers, dbUsers);
 		}
 
 		public ObservableCollection<GKUserViewModel> DeviceUsers { get; private set; }
@@ -56,26 +55,51 @@ namespace GKModule.ViewModels
 
 		List<GKUser> UnionUsers(List<GKUser> deviceUsers, List<GKUser> dbUsers)
 		{
-			var result = new List<GKUser>(deviceUsers);
-			result.AddRange(dbUsers.Where(dbUser => !result.Any(deviceUser => dbUser.Password == deviceUser.Password)));
+			var result = new List<GKUser>();
+			foreach (var deviceUser in deviceUsers)
+			{
+				var user = deviceUser.Clone();
+				var dbUser = dbUsers.FirstOrDefault(x => x.Password == deviceUser.Password);
+				if (dbUser != null)
+					user.Descriptors.AddRange(dbUser.Descriptors);
+				else
+					result.Add(dbUser.Clone());
+				result.Add(user);
+			}
 			return result;
 		}
 
-		ObservableCollection<GKUserViewModel> CreateCollection(List<GKUser> allUsers, List<GKUser> users, List<GKUser> otherUsers, bool isDevice)
+		void InitializeCollections(List<GKUser> allUsers, List<GKUser> deviceUsers, List<GKUser> dbUsers)
 		{
-			var result = new ObservableCollection<GKUserViewModel>();
+			DeviceUsers = new ObservableCollection<GKUserViewModel>();
+			DbUsers = new ObservableCollection<GKUserViewModel>();
 			foreach (var user in allUsers)
 			{
-				var viewModel = new GKUserViewModel(user, isDevice);
-				bool isPresentInThis = users.Any(x => x.Password == user.Password);
-				bool isPresentInOther = otherUsers.Any(x => x.Password == user.Password);
-				if(isPresentInThis && !isPresentInOther)
-					viewModel.IsPresent= true;
-				if(!isPresentInThis && isPresentInOther)
-					viewModel.IsAbsent = true;
-				result.Add(viewModel);
+				var deviceViewModel = new GKUserViewModel(user, isDevice: true);
+				var dbViewModel = new GKUserViewModel(user, isDevice: false);
+				var deviceUser = deviceUsers.FirstOrDefault(x => x.Password == user.Password);
+				var dbUser = dbUsers.FirstOrDefault(x => x.Password == user.Password);
+
+				if (deviceUser != null && dbUser == null)
+				{
+					deviceViewModel.IsPresent = true;
+					dbViewModel.IsAbsent = true;
+				}
+				else if (deviceUser == null && dbUser != null)
+				{
+					deviceViewModel.IsAbsent = true;
+					dbViewModel.IsPresent = true;
+				}
+				else if (user.Descriptors.Count > 0 
+					&& (!user.Descriptors.Any(x => deviceUser.Descriptors.Any(y => y.DescriptorNo == x.DescriptorNo && y.ScheduleNo == x.ScheduleNo))
+						|| !user.Descriptors.Any(x => dbUser.Descriptors.Any(y => y.DescriptorNo == x.DescriptorNo && y.ScheduleNo == x.ScheduleNo))))
+				{
+					deviceViewModel.HasNonStructureDifferences = true;
+					dbViewModel.HasNonStructureDifferences = true;
+				}
+				DeviceUsers.Add(deviceViewModel);
+				DbUsers.Add(dbViewModel);
 			}
-			return result;
 		}
 	}
 }

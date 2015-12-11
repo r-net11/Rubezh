@@ -17,7 +17,8 @@ namespace GKModule.ViewModels
 		public bool IsDevice { get; private set; }
 		public bool IsPresent { get; set; }
 		public bool IsAbsent { get; set; }
-		public bool IsMissmatch { get { return IsPresent || IsAbsent; } }
+		public bool HasNonStructureDifferences { get; set; }
+		public bool IsMissmatch { get { return IsPresent || IsAbsent || HasNonStructureDifferences; } }
 
 		public string MissmatchText 
 		{ 
@@ -27,6 +28,8 @@ namespace GKModule.ViewModels
 					return "Отсутствует в системе";
 				if ((IsPresent && !IsDevice) || (IsAbsent && IsDevice))
 					return "Отсутствует в приборе";
+				if (HasNonStructureDifferences)
+					return "Не совпадает набор дескрипторов";
 				return "";
 			} 
 		}

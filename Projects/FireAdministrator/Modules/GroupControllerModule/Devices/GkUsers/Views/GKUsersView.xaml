@@ -34,6 +34,9 @@
 				<DataTrigger Binding ="{Binding IsAbsent}" Value="True">
 					<Setter Property="Opacity" Value="0.3" />
 				</DataTrigger>
+				<DataTrigger Binding ="{Binding HasNonStructureDifferences}" Value="True">
+					<Setter Property="Background" Value="LightPink" />
+				</DataTrigger >
 			</Style.Triggers>
 		</Style>
 	</UserControl.Resources>
@@ -48,77 +51,91 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Orientation="Horizontal" >
-			<ToolBarButton Command="{Binding RewriteUsersCommand}" ToolTip="Записать в прибор" ImageSource="ParametersWrite" />	
+			<ToolBarButton Command="{Binding RewriteUsersCommand}" ToolTip="Записать в прибор" ImageSource="ParametersWrite" />
 		</StackPanel>
-		<DataGrid Grid.Column="0" Grid.Row="1" Name="DataGrid1" 
+		<Grid Grid.Column="0" Grid.Row="1" >
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			<TextBlock Grid.Row="0" Text="В приборе" Margin="5" Foreground="{DynamicResource ForegroundColorWhite}" FontWeight="Bold" />
+			<DataGrid Grid.Row="1" Name="DataGrid1" 
 				  ScrollViewer.ScrollChanged="DataGrid1_ScrollChanged" Selector.SelectionChanged ="dataGrid1RowSelected" 
 				  ItemsSource="{Binding DbUsers}">
-			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Номер карты" Width="Auto">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding User.Password}" Margin="2" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="ФИО" Width="*">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding User.Fio}" Margin="2" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Тип" Width="Auto">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding User.UserType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-			</DataGrid.Columns>
-		</DataGrid>
+				<DataGrid.Columns>
+					<DataGridTemplateColumn Header="Номер карты" Width="Auto">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding User.Password}" Margin="2" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Header="ФИО" Width="*">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding User.Fio}" Margin="2" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Header="Тип" Width="Auto">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding User.UserType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+		</Grid>
+
 		<GridSplitter Grid.Column="1" Grid.Row="1" Width="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
-		<DataGrid Grid.Column="2" Grid.Row="1" Name="DataGrid2" 
+		<Grid Grid.Column="2" Grid.Row="1" >
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			<TextBlock Grid.Row="0" Text="В системе" Margin="5" Foreground="{DynamicResource ForegroundColorWhite}" FontWeight="Bold" />
+			<DataGrid Grid.Row="1" Name="DataGrid2" 
 				  ScrollViewer.ScrollChanged="DataGrid2_ScrollChanged" Selector.SelectionChanged ="dataGrid2RowSelected" 
 				  ItemsSource="{Binding DeviceUsers}">
-			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Номер карты" Width="Auto">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding User.Password}" Margin="2" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="ФИО" Width="*">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding User.Fio}" Margin="2" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Тип" Width="Auto">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding User.UserType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Номер на ГК" Width="Auto">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding User.GkNo}" Margin="2" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Активен" Width="Auto">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding User.IsActive, Converter={StaticResource BoolToYesNoConverter}}" Margin="2" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-			</DataGrid.Columns>
-		</DataGrid>
+				<DataGrid.Columns>
+					<DataGridTemplateColumn Header="Номер карты" Width="Auto">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding User.Password}" Margin="2" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Header="ФИО" Width="*">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding User.Fio}" Margin="2" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Header="Тип" Width="Auto">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding User.UserType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Header="Номер на ГК" Width="Auto">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding User.GkNo}" Margin="2" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Header="Активен" Width="Auto">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding User.IsActive, Converter={StaticResource BoolToYesNoConverter}}" Margin="2" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+		</Grid>
 	</Grid>
-	
 </UserControl>
