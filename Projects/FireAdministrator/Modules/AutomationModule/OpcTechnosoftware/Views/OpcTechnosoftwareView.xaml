@@ -180,8 +180,8 @@
 				<StackPanel Orientation="Horizontal">
 					<Button Content="Прочитать" Command="{Binding ReadTagsCommand}" Margin="3" />
 					<Button Content="Записать" Command="{Binding WriteTagsCommand}" Margin="3" />
-					<Button Content="Подписаться" Margin="3" />
-					<Button Content="Отменить подписку" Margin="3" />
+					<Button Content="Подписаться" Command="{Binding CreateSubscriptionCommand}" Margin="3" />
+					<Button Content="Отменить подписку" Command="{Binding CancelSubscriptionCommand}" Margin="3" />
 				</StackPanel>
 			</StackPanel>
 		</Border>

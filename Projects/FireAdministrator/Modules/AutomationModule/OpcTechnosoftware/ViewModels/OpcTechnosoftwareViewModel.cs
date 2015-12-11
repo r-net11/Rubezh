@@ -12,13 +12,16 @@ using Infrastructure.Common.Windows;
 
 namespace AutomationModule.ViewModels
 {
-	public class OpcTechnosoftwareViewModel : MenuViewPartViewModel
+	public class OpcTechnosoftwareViewModel : MenuViewPartViewModel, IDisposable
 	{
 		#region Constructors
 
 		public OpcTechnosoftwareViewModel()
 		{
 			Menu = new OpcTechnosoftwareMenuViewModel(this);
+
+			_dataChangeEventHandler =
+				new TsCDaDataChangedEventHandler(EventHandler_activeSubscription_DataChangedEvent);
 
 			GetHostNamesCommand = new RelayCommand(OnGetHostNames);
 			GetOpcServerListCommand = new RelayCommand(OnGetServerList, CanGetServerList);
@@ -28,6 +31,8 @@ namespace AutomationModule.ViewModels
 			GetCheckedTagsCommand = new RelayCommand(OnGetCheckedTags, CanGetCheckedTags);
 			ReadTagsCommand = new RelayCommand(OnReadTags, CanReadTags);
 			WriteTagsCommand = new RelayCommand(OnWriteTags, CanWriteTags);
+			CreateSubscriptionCommand = new RelayCommand(OnCreateSubscription, CanCreateSubscription);
+			CancelSubscriptionCommand = new RelayCommand(OnCancelSubscription, CanCancelSubscription);
 		}
 
 		#endregion
@@ -37,6 +42,8 @@ namespace AutomationModule.ViewModels
 		public const string ROOT = @".";
 		public const string SPLITTER = @"\";
 		TsCDaServer _activeOpcServer;
+		TsCDaSubscription _activeSubscription;
+		TsCDaDataChangedEventHandler _dataChangeEventHandler;
 
 		OpcServer[] _servers;
 		public OpcServer[] Servers
@@ -149,7 +156,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-
 		#endregion
 
 		#region Methods
@@ -204,7 +210,8 @@ namespace AutomationModule.ViewModels
 			return elementList.ToArray();
 		}
 
-		void BrowseChildren(OpcItem opcItem, TsCDaBrowseFilters filters, IList<TsCDaBrowseElement> elementList)
+		void BrowseChildren(OpcItem opcItem, TsCDaBrowseFilters filters, 
+			IList<TsCDaBrowseElement> elementList)
 		{
 			TsCDaBrowsePosition position;
 			OpcItem path;
@@ -222,12 +229,34 @@ namespace AutomationModule.ViewModels
 					{
 						//if (item.HasChildren)
 						//{
-							path = new OpcItem(item.ItemPath, item.Name);
-							BrowseChildren(path, filters, elementList);
+						path = new OpcItem(item.ItemPath, item.ItemName);
+						BrowseChildren(path, filters, elementList);
 						//}
 					}
 				}
 			}
+		}
+
+		public void Dispose()
+		{
+			if (Servers != null)
+			{
+				foreach (var server in Servers)
+				{
+					if (server.IsConnected)
+					{
+						server.Disconnect();
+					}
+					server.Dispose();
+				}
+			}
+		}
+
+		void EventHandler_activeSubscription_DataChangedEvent(object subscriptionHandle,
+			object requestHandle, TsCDaItemValueResult[] values)
+		{
+			// Обновляем данные
+			ReadingResult = values;
 		}
 
 		#endregion
@@ -254,7 +283,9 @@ namespace AutomationModule.ViewModels
 		void OnConnect()
 		{
 			_activeOpcServer = new TsCDaServer();
-			_activeOpcServer.Connect(SelectedOpcServer.Url.ToString());
+			var opcUrl = new OpcUrl(OpcSpecification.OPC_DA_20, OpcUrlScheme.DA, SelectedOpcServer.Url.ToString());
+			_activeOpcServer.Connect(opcUrl, null); // во второй параметр передаются данные для 
+													// авторизации пользователя на удалённом сервере
 		}
 		bool CanConnect()
 		{
@@ -326,6 +357,77 @@ namespace AutomationModule.ViewModels
 			return CheckedTags != null && CheckedTags.Count() > 0 &&
 				_activeOpcServer != null && _activeOpcServer.IsConnected &&
 				Mode == false;
+		}
+
+		public RelayCommand CreateSubscriptionCommand { get; private set; }
+		void OnCreateSubscription()
+		{
+			// Создаём объект подписки
+			var subscriptionState = new TsCDaSubscriptionState
+			{
+				Name = "MySubscription",
+				ClientHandle = "MySubscriptionId",
+				Deadband = 0,
+				UpdateRate = 1000,
+				KeepAlive = 10000
+			};
+			_activeSubscription = (TsCDaSubscription)_activeOpcServer.CreateSubscription(subscriptionState);
+
+			// Добавляем в объект подписки выбранные теги
+			var x = 0;
+			List<TsCDaItem> list = new List<TsCDaItem>();
+			foreach (var item in CheckedTags)
+			{
+				var tag = new TsCDaItem
+				{
+					ItemName = item.Element.ItemName,
+					ClientHandle = 100 + x // Уникальный Id определяемый пользователем
+				};
+				list.Add(tag);
+				++x;
+			}
+
+			// Добавляем теги и проверяем результат данной операции
+			var results = _activeSubscription.AddItems(list.ToArray());
+
+			var errors = results.Where(result => result.Result.IsError());
+
+			if (errors.Count() > 0)
+			{
+				StringBuilder msg = new StringBuilder();
+				msg.Append("Не удалось добавить теги для подписки. Возникли ошибки в тегах:");
+				foreach (var error in errors)
+				{
+ 					msg.Append(String.Format("ItemName={0} ClientHandle={1} Description={2}; ",
+						error.ItemName, error.ClientHandle, error.Result.Description()));
+				}
+				throw new InvalidOperationException(msg.ToString());
+			}
+
+			_activeSubscription.DataChangedEvent += _dataChangeEventHandler;
+
+		}
+
+		bool CanCreateSubscription()
+		{
+			return Mode == true &&
+				_activeOpcServer != null && _activeOpcServer.IsConnected
+ 				&& _activeSubscription == null
+				&& CheckedTags != null && CheckedTags.Count() > 1;
+		}
+
+		public RelayCommand CancelSubscriptionCommand { get; private set; }
+		void OnCancelSubscription()
+		{
+ 			//_activeSubscription.Cancel()
+			_activeOpcServer.CancelSubscription(_activeSubscription);
+			_activeSubscription.DataChangedEvent -= _dataChangeEventHandler;
+			_activeSubscription.Dispose();
+			_activeSubscription = null;
+		}
+		bool CanCancelSubscription()
+		{
+			return Mode == true && _activeSubscription != null;
 		}
 
 		#endregion
