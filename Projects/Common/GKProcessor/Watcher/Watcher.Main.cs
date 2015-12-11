@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using Common;
+﻿using Common;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
-using RubezhAPI;
-using Infrastructure.Common;
 using RubezhAPI.License;
+using System;
+using System.Linq;
+using System.Threading;
 
 namespace GKProcessor
 {
@@ -308,7 +306,7 @@ namespace GKProcessor
 
 					if (IsHashFailure)
 					{
-						gkLifecycleManager.SetError(gkFileInfo == null? "Ошибка" : "Не совпадает хэш");
+						gkLifecycleManager.SetError(gkFileInfo == null ? "Ошибка" : "Не совпадает хэш");
 						if (ReturnAfterWait(5000))
 							return false;
 						continue;

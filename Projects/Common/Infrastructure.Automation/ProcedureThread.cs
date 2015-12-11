@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using Common;
+﻿using Common;
 using RubezhAPI.Automation;
 using RubezhAPI.Journal;
 using RubezhAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 
 namespace Infrastructure.Automation
 {
 	public partial class ProcedureThread
 	{
 		public Guid UID { get; private set; }
-		public Guid? ClientUID { get; private set; }
+		public Guid ClientUID { get; private set; }
 		public ContextType ContextType { get; private set; }
 		public DateTime StartTime { get; private set; }
 		public bool IsAlive { get; set; }
@@ -30,7 +30,7 @@ namespace Infrastructure.Automation
 		public ProcedureThread(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, JournalItem journalItem = null, User user = null, Guid? clientUID = null)
 		{
 			UID = Guid.NewGuid();
-			ClientUID = clientUID;
+			ClientUID = clientUID.HasValue ? clientUID.Value : Guid.Empty;
 			ContextType = procedure.ContextType;
 			User = user;
 			IsAlive = true;
@@ -154,7 +154,7 @@ namespace Infrastructure.Automation
 						foreach (var explicitValue in listVariable.ExplicitValues)
 						{
 							if (itemVariable != null)
-								ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(explicitValue, itemVariable.ExplicitType, itemVariable.EnumType));
+								ProcedureExecutionContext.SetVariableValue(ClientUID, itemVariable, ProcedureExecutionContext.GetValue(explicitValue, itemVariable.ExplicitType, itemVariable.EnumType));
 							foreach (var childStep in procedureStep.Children[0].Children)
 							{
 								var result = RunStep(childStep);

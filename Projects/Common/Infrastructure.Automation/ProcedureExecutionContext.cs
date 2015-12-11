@@ -1,13 +1,13 @@
-﻿using RubezhAPI.AutomationCallback;
-using RubezhAPI.Models;
-using RubezhAPI.Automation;
-using System;
+﻿using RubezhAPI.Automation;
+using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
-using System.Windows.Media;
-using System.Linq;
-using System.Collections.Generic;
+using RubezhAPI.Models;
 using RubezhAPI.SKD;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Media;
 
 namespace Infrastructure.Automation
 {
@@ -16,56 +16,56 @@ namespace Infrastructure.Automation
 		public static ContextType ContextType { get; private set; }
 		public static SystemConfiguration SystemConfiguration { get; private set; }
 		public static SecurityConfiguration SecurityConfiguration { get; private set; }
-		
+
 		static event Action<AutomationCallbackResult, Guid?> OnSendCallback;
-		static event Action<Guid, object> OnCallbackResponse;
-		static event Action<Variable, ContextType> OnSynchronizeVariable;
-		static event Action<string> OnAddJournalItem;
-		static event Action<Guid, GKStateBit> OnControlGKDevice;
-		static event Action<Guid, Guid?, Guid?, int> OnStartRecord;
-		static event Action<Guid, Guid> OnStopRecord;
-		static event Action<Guid, int> OnPtz;
-		static event Action<string> OnRviAlarm;
-		static event Action<Guid, ZoneCommandType> OnControlFireZone;
-		static event Action<Guid, GuardZoneCommandType> OnControlGuardZone;
-		static event Action<Guid, DirectionCommandType> OnControlDirection;
-		static event Action<Guid, GKDoorCommandType> OnControlGKDoor;
-		static event Action<Guid, DelayCommandType> OnControlDelay;
-		static event Action<Guid, PumpStationCommandType> OnControlPumpStation;
-		static event Action<Guid, MPTCommandType> OnControlMPT;
-		static event Action<bool, bool, DateTime, DateTime, string> OnExportJournal;
-		static event Action<bool, Guid, string> OnExportOrganisation;
-		static event Action<bool, string> OnExportOrganisationList;
-		static event Action<bool, bool, bool, string> OnExportConfiguration;
-		static event Action<bool, string> OnImportOrganisation;
-		static event Action<bool, string> OnImportOrganisationList;
+		static event Action<Guid, Guid, object> OnCallbackResponse;
+		static event Action<Guid, Variable, ContextType> OnSynchronizeVariable;
+		static event Action<Guid, string> OnAddJournalItem;
+		static event Action<Guid, Guid, GKStateBit> OnControlGKDevice;
+		static event Action<Guid, Guid, Guid?, Guid?, int> OnStartRecord;
+		static event Action<Guid, Guid, Guid> OnStopRecord;
+		static event Action<Guid, Guid, int> OnPtz;
+		static event Action<Guid, string> OnRviAlarm;
+		static event Action<Guid, Guid, ZoneCommandType> OnControlFireZone;
+		static event Action<Guid, Guid, GuardZoneCommandType> OnControlGuardZone;
+		static event Action<Guid, Guid, DirectionCommandType> OnControlDirection;
+		static event Action<Guid, Guid, GKDoorCommandType> OnControlGKDoor;
+		static event Action<Guid, Guid, DelayCommandType> OnControlDelay;
+		static event Action<Guid, Guid, PumpStationCommandType> OnControlPumpStation;
+		static event Action<Guid, Guid, MPTCommandType> OnControlMPT;
+		static event Action<Guid, bool, bool, DateTime, DateTime, string> OnExportJournal;
+		static event Action<Guid, bool, Guid, string> OnExportOrganisation;
+		static event Action<Guid, bool, string> OnExportOrganisationList;
+		static event Action<Guid, bool, bool, bool, string> OnExportConfiguration;
+		static event Action<Guid, bool, string> OnImportOrganisation;
+		static event Action<Guid, bool, string> OnImportOrganisationList;
 		static GetOrganisationsEventHandler OnGetOrganisations;
 
-		public static void Initialize(ContextType contextType, 
-			SystemConfiguration systemConfiguration, 
-			SecurityConfiguration securityConfiguration, 
+		public static void Initialize(ContextType contextType,
+			SystemConfiguration systemConfiguration,
+			SecurityConfiguration securityConfiguration,
 			Action<AutomationCallbackResult, Guid?> onSendCallback = null,
-			Action<Guid, object> onCallbackResponse = null,
-			Action<Variable, ContextType> onSynchronizeVariable = null,
-			Action<string> onAddJournalItem = null,
-			Action<Guid, GKStateBit> onControlGKDevice = null,
-			Action<Guid, Guid?, Guid?, int> onStartRecord = null,
-			Action<Guid, Guid> onStopRecord = null,
-			Action<Guid, int> onPtz = null,
-			Action<string> onRviAlarm = null,
-			Action<Guid, ZoneCommandType> onControlFireZone = null,
-			Action<Guid, GuardZoneCommandType> onControlGuardZone = null,
-			Action<Guid, DirectionCommandType> onControlDirection = null,
-			Action<Guid, GKDoorCommandType> onControlGKDoor = null,
-			Action<Guid, DelayCommandType> onControlDelay = null,
-			Action<Guid, PumpStationCommandType> onControlPumpStation = null,
-			Action<Guid, MPTCommandType> onControlMPT = null,
-			Action<bool, bool, DateTime, DateTime, string> onExportJournal = null,
-			Action<bool, Guid, string> onExportOrganisation = null,
-			Action<bool, string> onExportOrganisationList = null,
-			Action<bool, bool, bool, string> onExportConfiguration = null,
-			Action<bool, string> onImportOrganisation = null,
-			Action<bool, string> onImportOrganisationList = null,
+			Action<Guid, Guid, object> onCallbackResponse = null,
+			Action<Guid, Variable, ContextType> onSynchronizeVariable = null,
+			Action<Guid, string> onAddJournalItem = null,
+			Action<Guid, Guid, GKStateBit> onControlGKDevice = null,
+			Action<Guid, Guid, Guid?, Guid?, int> onStartRecord = null,
+			Action<Guid, Guid, Guid> onStopRecord = null,
+			Action<Guid, Guid, int> onPtz = null,
+			Action<Guid, string> onRviAlarm = null,
+			Action<Guid, Guid, ZoneCommandType> onControlFireZone = null,
+			Action<Guid, Guid, GuardZoneCommandType> onControlGuardZone = null,
+			Action<Guid, Guid, DirectionCommandType> onControlDirection = null,
+			Action<Guid, Guid, GKDoorCommandType> onControlGKDoor = null,
+			Action<Guid, Guid, DelayCommandType> onControlDelay = null,
+			Action<Guid, Guid, PumpStationCommandType> onControlPumpStation = null,
+			Action<Guid, Guid, MPTCommandType> onControlMPT = null,
+			Action<Guid, bool, bool, DateTime, DateTime, string> onExportJournal = null,
+			Action<Guid, bool, Guid, string> onExportOrganisation = null,
+			Action<Guid, bool, string> onExportOrganisationList = null,
+			Action<Guid, bool, bool, bool, string> onExportConfiguration = null,
+			Action<Guid, bool, string> onImportOrganisation = null,
+			Action<Guid, bool, string> onImportOrganisationList = null,
 			GetOrganisationsEventHandler onGetOrganisations = null
 			)
 		{
@@ -102,13 +102,13 @@ namespace Infrastructure.Automation
 			SecurityConfiguration = securityConfiguration;
 		}
 
-		public static void SendCallback(AutomationCallbackResult callback, Guid? userUid = null)
+		public static void SendCallback(AutomationCallbackResult callback, Guid? clientUID)
 		{
 			if (OnSendCallback != null)
-				OnSendCallback(callback, userUid);
+				OnSendCallback(callback, clientUID);
 		}
 
-		public static void CallbackResponse(ContextType contextType, Guid callbackUid, object value)
+		public static void CallbackResponse(Guid clientUID, ContextType contextType, Guid callbackUid, object value)
 		{
 			if (contextType == ContextType)
 			{
@@ -117,127 +117,127 @@ namespace Infrastructure.Automation
 			else
 			{
 				if (OnCallbackResponse != null)
-					OnCallbackResponse(callbackUid, value);
+					OnCallbackResponse(clientUID, callbackUid, value);
 			}
 		}
 
-		public static void AddJournalItem(string message)
+		public static void AddJournalItem(Guid clientUID, string message)
 		{
 			if (OnAddJournalItem != null)
-				OnAddJournalItem(message);
+				OnAddJournalItem(clientUID, message);
 		}
 
-		public static void ControlGKDevice(Guid deviceUid, GKStateBit command)
+		public static void ControlGKDevice(Guid clientUID, Guid deviceUid, GKStateBit command)
 		{
 			if (OnControlGKDevice != null)
-				OnControlGKDevice(deviceUid, command);
+				OnControlGKDevice(clientUID, deviceUid, command);
 		}
 
-		public static void StartRecord(Guid cameraUid, Guid? journalItemUid, Guid? eventUid, int timeout)
+		public static void StartRecord(Guid clientUID, Guid cameraUid, Guid? journalItemUid, Guid? eventUid, int timeout)
 		{
 			if (OnStartRecord != null)
-				OnStartRecord(cameraUid, journalItemUid, eventUid, timeout);
+				OnStartRecord(clientUID, cameraUid, journalItemUid, eventUid, timeout);
 		}
 
-		public static void StopRecord(Guid cameraUid, Guid eventUid)
+		public static void StopRecord(Guid clientUID, Guid cameraUid, Guid eventUid)
 		{
 			if (OnStopRecord != null)
-				OnStopRecord(cameraUid, eventUid);
+				OnStopRecord(clientUID, cameraUid, eventUid);
 		}
 
-		public static void Ptz(Guid cameraUid, int ptzNumber)
+		public static void Ptz(Guid clientUID, Guid cameraUid, int ptzNumber)
 		{
 			if (OnPtz != null)
-				OnPtz(cameraUid, ptzNumber);
+				OnPtz(clientUID, cameraUid, ptzNumber);
 		}
 
-		public static void RviAlarm(string name)
+		public static void RviAlarm(Guid clientUID, string name)
 		{
 			if (OnRviAlarm != null)
-				OnRviAlarm(name);
+				OnRviAlarm(clientUID, name);
 		}
 
-		public static void ControlFireZone(Guid uid, ZoneCommandType commandType)
+		public static void ControlFireZone(Guid clientUID, Guid uid, ZoneCommandType commandType)
 		{
 			if (OnControlFireZone != null)
-				OnControlFireZone(uid, commandType);
+				OnControlFireZone(clientUID, uid, commandType);
 		}
-		public static void ControlGuardZone(Guid uid, GuardZoneCommandType commandType)
+		public static void ControlGuardZone(Guid clientUID, Guid uid, GuardZoneCommandType commandType)
 		{
 			if (OnControlGuardZone != null)
-				OnControlGuardZone(uid, commandType);
+				OnControlGuardZone(clientUID, uid, commandType);
 		}
-		public static void ControlDirection(Guid uid, DirectionCommandType commandType)
+		public static void ControlDirection(Guid clientUID, Guid uid, DirectionCommandType commandType)
 		{
 			if (OnControlDirection != null)
-				OnControlDirection(uid, commandType);
+				OnControlDirection(clientUID, uid, commandType);
 		}
-		public static void ControlGKDoor(Guid uid, GKDoorCommandType commandType)
+		public static void ControlGKDoor(Guid clientUID, Guid uid, GKDoorCommandType commandType)
 		{
 			if (OnControlGKDoor != null)
-				OnControlGKDoor(uid, commandType);
+				OnControlGKDoor(clientUID, uid, commandType);
 		}
-		public static void ControlDelay(Guid uid, DelayCommandType commandType)
+		public static void ControlDelay(Guid clientUID, Guid uid, DelayCommandType commandType)
 		{
 			if (OnControlDelay != null)
-				OnControlDelay(uid, commandType);
+				OnControlDelay(clientUID, uid, commandType);
 		}
 
-		public static void ControlPumpStation(Guid uid, PumpStationCommandType commandType)
+		public static void ControlPumpStation(Guid clientUID, Guid uid, PumpStationCommandType commandType)
 		{
 			if (OnControlPumpStation != null)
-				OnControlPumpStation(uid, commandType);
+				OnControlPumpStation(clientUID, uid, commandType);
 		}
 
-		public static void ControlMPT(Guid uid, MPTCommandType commandType)
+		public static void ControlMPT(Guid clientUID, Guid uid, MPTCommandType commandType)
 		{
 			if (OnControlMPT != null)
-				OnControlMPT(uid, commandType);
+				OnControlMPT(clientUID, uid, commandType);
 		}
 
-		public static void ExportJournal(bool isExportJournal, bool isExportPassJournal, DateTime minDate, DateTime maxDate, string path)
+		public static void ExportJournal(Guid clientUID, bool isExportJournal, bool isExportPassJournal, DateTime minDate, DateTime maxDate, string path)
 		{
 			if (OnExportJournal != null)
-				OnExportJournal(isExportJournal, isExportPassJournal, minDate, maxDate, path);
+				OnExportJournal(clientUID, isExportJournal, isExportPassJournal, minDate, maxDate, path);
 		}
-		public static void ExportOrganisation(bool isWithDeleted, Guid organisationUid, string path)
+		public static void ExportOrganisation(Guid clientUID, bool isWithDeleted, Guid organisationUid, string path)
 		{
 			if (OnExportOrganisation != null)
-				OnExportOrganisation(isWithDeleted, organisationUid, path);
+				OnExportOrganisation(clientUID, isWithDeleted, organisationUid, path);
 		}
-		public static void ExportOrganisationList(bool isWithDeleted, string path)
+		public static void ExportOrganisationList(Guid clientUID, bool isWithDeleted, string path)
 		{
 			if (OnExportOrganisationList != null)
-				OnExportOrganisationList(isWithDeleted, path);
+				OnExportOrganisationList(clientUID, isWithDeleted, path);
 		}
-		public static void ExportConfiguration(bool isExportDevices, bool isExportDoors, bool isExportZones, string path)
+		public static void ExportConfiguration(Guid clientUID, bool isExportDevices, bool isExportDoors, bool isExportZones, string path)
 		{
 			if (OnExportConfiguration != null)
-				OnExportConfiguration(isExportDevices, isExportDoors, isExportZones, path);
+				OnExportConfiguration(clientUID, isExportDevices, isExportDoors, isExportZones, path);
 		}
-		public static void ImportOrganisation(bool isWithDeleted, string path)
+		public static void ImportOrganisation(Guid clientUID, bool isWithDeleted, string path)
 		{
 			if (OnImportOrganisation != null)
-				OnImportOrganisation(isWithDeleted, path);
+				OnImportOrganisation(clientUID, isWithDeleted, path);
 		}
-		public static void ImportOrganisationList(bool isWithDeleted, string path)
+		public static void ImportOrganisationList(Guid clientUID, bool isWithDeleted, string path)
 		{
 			if (OnImportOrganisationList != null)
-				OnImportOrganisationList(isWithDeleted, path);
+				OnImportOrganisationList(clientUID, isWithDeleted, path);
 		}
 
-		public static void SynchronizeVariable(Variable variable, ContextType targetContextType)
+		public static void SynchronizeVariable(Guid clientUID, Variable variable, ContextType targetContextType)
 		{
 			if (variable.IsGlobal && variable.ContextType == ContextType.Server && OnSynchronizeVariable != null)
-				OnSynchronizeVariable(variable, targetContextType);
+				OnSynchronizeVariable(clientUID, variable, targetContextType);
 		}
-		
-		public static object GetVariableValue(Variable source)
+
+		public static object GetVariableValue(Guid clientUID, Variable source)
 		{
 			if (source == null)
 				return null;
 
-			SynchronizeVariable(source, ContextType.Client);
+			SynchronizeVariable(clientUID, source, ContextType.Client);
 			return GetValue(source.ExplicitValue, source.ExplicitType, source.EnumType);
 		}
 
@@ -324,8 +324,8 @@ namespace Infrastructure.Automation
 			}
 			return new object[0];
 		}
-		
-		public static void SetVariableValue(Variable target, object value)
+
+		public static void SetVariableValue(Guid clientUID, Variable target, object value)
 		{
 			if (target == null)
 				return;
@@ -392,14 +392,14 @@ namespace Infrastructure.Automation
 						target.ExplicitValue.ColorValue = (Color)value;
 				}
 			}
-			SynchronizeVariable(target, ContextType.Server);
+			SynchronizeVariable(clientUID, target, ContextType.Server);
 		}
 
-		public static List<Organisation> GetOrganisations()
+		public static List<Organisation> GetOrganisations(Guid clientUID)
 		{
-			return OnGetOrganisations == null ? null : OnGetOrganisations();
+			return OnGetOrganisations == null ? null : OnGetOrganisations(clientUID);
 		}
 	}
 
-	public delegate List<Organisation> GetOrganisationsEventHandler();
+	public delegate List<Organisation> GetOrganisationsEventHandler(Guid clientUID);
 }

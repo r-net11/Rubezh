@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using FireMonitor.Layout.ViewModels;
-using RubezhClient;
+﻿using FireMonitor.Layout.ViewModels;
 using Infrastructure;
+using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Shell = FireMonitor;
-using Infrastructure.Client.Layout;
 using RubezhAPI.License;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using Shell = FireMonitor;
 
 namespace FireMonitor.Layout
 {
@@ -34,7 +34,7 @@ namespace FireMonitor.Layout
 		protected override ShellViewModel CreateShell()
 		{
 			_monitorLayoutShellViewModel = new MonitorLayoutShellViewModel(_layout);
-			_monitorLayoutShellViewModel.LayoutContainer.LayoutChanged+= _LayoutChanging;
+			_monitorLayoutShellViewModel.LayoutContainer.LayoutChanged += _LayoutChanging;
 			return _layout == null ? base.CreateShell() : _monitorLayoutShellViewModel;
 		}
 
@@ -93,15 +93,13 @@ namespace FireMonitor.Layout
 					_layout = SelectLayout(layouts);
 				}
 
-				if (_layout == null)
-					return false;
+				return _layout == null ?
+					false :
+					ClientManager.FiresecService.LayoutChanged(FiresecServiceFactory.UID, _layout.UID);
 			}
-			if (_layout == null)
-			{
-				MessageBoxService.ShowWarning("К сожалению, для Вас нет ни одного доступного макета!");
-				return false;
-			}
-			return true;
+
+			MessageBoxService.ShowWarning("К сожалению, для Вас нет ни одного доступного макета!");
+			return false;
 		}
 
 		public static bool CheckLicense(RubezhAPI.Models.Layouts.Layout layout)

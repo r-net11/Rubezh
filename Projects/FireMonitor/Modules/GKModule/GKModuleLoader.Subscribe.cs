@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using RubezhAPI;
-using RubezhAPI.GK;
-using RubezhClient;
-using GKProcessor;
-using Infrastructure;
-using Infrastructure.Common;
+﻿using GKProcessor;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhClient;
+using System;
+using System.Linq;
 
 namespace GKModule
 {
@@ -34,8 +31,8 @@ namespace GKModule
 			SafeFiresecService.GKPropertyChangedEvent -= new Action<GKPropertyChangedCallback>(OnGKPropertyChanged);
 			SafeFiresecService.GKPropertyChangedEvent += new Action<GKPropertyChangedCallback>(OnGKPropertyChanged);
 
-			GKProcessorManager.GKProgressCallbackEvent -= new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
-			GKProcessorManager.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
+			GKProcessorManager.GKProgressCallbackEvent -= new Action<GKProgressCallback, Guid?>(OnGKProgressCallbackEvent);
+			GKProcessorManager.GKProgressCallbackEvent += new Action<GKProgressCallback, Guid?>(OnGKProgressCallbackEvent);
 
 			GKProcessorManager.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
 			GKProcessorManager.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
@@ -50,6 +47,10 @@ namespace GKModule
 		}
 
 		void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
+		{
+			OnGKProgressCallbackEvent(gkProgressCallback, null);
+		}
+		void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback, Guid? callbackUID)
 		{
 			ApplicationService.Invoke(() =>
 			{

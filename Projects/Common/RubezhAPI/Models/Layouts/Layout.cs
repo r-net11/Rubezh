@@ -9,8 +9,6 @@ namespace RubezhAPI.Models.Layouts
 	[DataContract]
 	public class Layout
 	{
-		static Guid _noLayoutUID = new Guid("AB973D0C-292B-4E47-BFD6-C9C1910F5557");
-		public static Guid NoLayoutUID { get { return _noLayoutUID; } }
 		public Layout()
 		{
 			UID = Guid.NewGuid();
@@ -21,7 +19,8 @@ namespace RubezhAPI.Models.Layouts
 			SplitterColor = Colors.Transparent;
 			IsRibbonEnabled = true;
 		}
-		public Layout(List<string> otherCaptions) : this()
+		public Layout(List<string> otherCaptions)
+			: this()
 		{
 			Caption = CreateNewCaption(otherCaptions);
 		}
