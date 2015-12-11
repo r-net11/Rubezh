@@ -23,6 +23,8 @@ namespace FiresecServiceRunner
 		{
 			base.OnStartup(e);
 			ThemeHelper.LoadThemeFromRegister();
+
+#if !LIC_FREE
 			string prodKey = null;
 			try
 			{
@@ -57,6 +59,7 @@ namespace FiresecServiceRunner
 			}
 			else
 			{
+#endif
 				using (new DoubleLaunchLocker(SignalId, WaitId, true))
 				{
 					AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
@@ -72,7 +75,9 @@ namespace FiresecServiceRunner
 						return;
 					}
 				}
+#if !LIC_FREE
 			}
+#endif
 		}
 
 		protected override void OnExit(ExitEventArgs e)

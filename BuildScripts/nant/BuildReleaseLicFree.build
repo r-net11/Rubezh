@@ -5,9 +5,10 @@
     <call target="BuildAll" />
   </target>
   <target name="BuildAll">
-    <delete dir="..\bin\A.C.Tech" />
+    <delete dir="..\bin\A.C.Tech\LicFree" />
     <msbuild project="..\..\Projects\FiresecService\FiresecService.sln">
       <property name="Configuration" value="Release" overwrite="True" />
+      <property name="DefineConstants" value="$(DefineConstants);LIC_FREE" overwrite="True" />
     </msbuild>
     <msbuild project="..\..\Projects\FireMonitor\FireMonitor.sln">
       <property name="Configuration" value="Release" overwrite="True" />
@@ -18,7 +19,7 @@
     <msbuild project="..\..\Projects\Installers\FiresecInstaller\FiresecInstaller.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
-    <copy todir="..\bin\A.C.Tech\">
+    <copy todir="..\bin\A.C.Tech\LicFree">
       <fileset basedir="..\..\Projects\Installers\FiresecInstaller\FiresecInstaller\bin\Release">
         <include name="**\*" />
       </fileset>
