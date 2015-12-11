@@ -96,25 +96,38 @@ namespace RubezhAPI
 			return deviceTo;
 		}
 
-		public static GKDevice AddChild(GKDevice parentDevice, GKDevice previousDevice, GKDriver driver, int intAddress, bool addAutoCreate = true)
+		public static GKDevice AddChild(GKDevice parentDevice, GKDevice previousDevice, GKDriver driver, int intAddress, bool isStartList = false)
 		{
 			var device = new GKDevice()
 			{
 				DriverUID = driver.UID,
 				Driver = driver,
 				IntAddress = intAddress,
-				Parent = parentDevice
+				Parent = previousDevice ==null ? parentDevice : previousDevice,
 			};
 			device.InitializeDefaultProperties();
 
 			if (previousDevice == null || parentDevice == previousDevice)
 			{
-				parentDevice.Children.Add(device);
+				if (isStartList)
+				{
+					parentDevice.Children.Insert(0, device);
+				}
+				else
+					parentDevice.Children.Add(device);
 			}
 			else
 			{
-				var index = parentDevice.Children.IndexOf(previousDevice);
-				parentDevice.Children.Insert(index + 1, device);
+				if (previousDevice != null)
+				{
+					var index = previousDevice.Children.IndexOf(parentDevice);
+					previousDevice.Children.Insert(index + 1, device);
+				}
+				else
+				{
+					var index = parentDevice.Children.IndexOf(previousDevice);
+					parentDevice.Children.Insert(index + 1, device);
+				}
 			}
 
 			if (driver.DriverType == GKDriverType.GK || driver.DriverType == GKDriverType.RSR2_GKMirror)
@@ -143,12 +156,12 @@ namespace RubezhAPI
 			}
 			else
 			{
-				AddAutoCreateChildren(device, addAutoCreate);
+				AddAutoCreateChildren(device);
 			}
 			return device;
 		}
 
-		public static void AddAutoCreateChildren(GKDevice device, bool addAutoCreate = true)
+		public static void AddAutoCreateChildren(GKDevice device)
 		{
 			foreach (var autoCreateDriverType in device.Driver.AutoCreateChildren)
 			{
@@ -159,13 +172,13 @@ namespace RubezhAPI
 				}
 			}
 
-			if (addAutoCreate && device.Driver.IsGroupDevice && device.Children.Count == 0)
+			if ( device.Driver.IsGroupDevice && device.Children.Count == 0)
 			{
 				var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
 
 				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
 				{
-					var autoDevice = GKManager.AddChild(device, null, driver, device.IntAddress + i);
+					 AddChild(device, null, driver, device.IntAddress + i);
 				}
 			}
 		}
