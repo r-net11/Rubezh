@@ -45,6 +45,10 @@ namespace FireAdministrator
 					ClientManager.FiresecService.GKAddMessage(JournalEventNameType.Применение_конфигурации, "");
 					LoadingService.Show("Применение конфигурации", "Применение конфигурации", 10);
 
+					if (ServiceFactory.SaveService.SecurityChanged)
+					{
+						ClientManager.FiresecService.SetSecurityConfiguration(ClientManager.SecurityConfiguration);
+					}
 					if (ConnectionSettingsManager.IsRemote)
 					{
 						var tempFileName = SaveConfigToFile(false);
@@ -56,8 +60,8 @@ namespace FireAdministrator
 					}
 					else
 					{
-					    SaveConfigToFile(true);
-					    ClientManager.FiresecService.SetLocalConfig();
+						SaveConfigToFile(true);
+						ClientManager.FiresecService.SetLocalConfig();
 					}
 				});
 				LoadingService.Close();
@@ -99,8 +103,6 @@ namespace FireAdministrator
 					AddConfiguration(tempFolderName, "SystemConfiguration.xml", ClientManager.SystemConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.GKChanged)
 					AddConfiguration(tempFolderName, "GKDeviceConfiguration.xml", GKManager.DeviceConfiguration, 1, 1, true);
-				if (ServiceFactory.SaveService.SecurityChanged)
-					AddConfiguration(tempFolderName, "SecurityConfiguration.xml", ClientManager.SecurityConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.GKLibraryChanged)
 					AddConfiguration(tempFolderName, "GKDeviceLibraryConfiguration.xml", GKManager.DeviceLibraryConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.LayoutsChanged)

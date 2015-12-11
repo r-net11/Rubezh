@@ -20,7 +20,7 @@ namespace GKModule.ViewModels
 			Devices = new ObservableCollection<DeviceParameterViewModel>();
 			foreach (var device in GKManager.Devices)
 			{
-				if (device.Driver.MeasureParameters.Where(x => !x.IsDelay).Count() > 0)
+				if (device.Driver.MeasureParameters.Count(x => !x.IsDelay) > 0)
 				{
 					var deviceParameterViewModel = new DeviceParameterViewModel(device);
 					Devices.Add(deviceParameterViewModel);
@@ -84,10 +84,6 @@ namespace GKModule.ViewModels
 		public override void OnHide()
 		{
 			CancelBackgroundWorker = true;
-			foreach (var deviceParameterViewModel in Devices)
-			{
-				ClientManager.FiresecService.GKStopMeasureMonitoring(deviceParameterViewModel.Device);
-			}
 		}
 	}
 }

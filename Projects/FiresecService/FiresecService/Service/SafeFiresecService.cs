@@ -136,9 +136,14 @@ namespace FiresecService.Service
 			return SafeContext.Execute(() => FiresecService.Poll(clientUID, callbackIndex));
 		}
 
-		public SecurityConfiguration GetSecurityConfiguration(Guid clientUID)
+		public OperationResult<SecurityConfiguration> GetSecurityConfiguration()
 		{
 			return SafeOperationCall(clientUID, () => { return FiresecService.GetSecurityConfiguration(clientUID); }, "GetSecurityConfiguration");
+		}
+
+		public void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
+		{
+			SafeOperationCall(() => FiresecService.SetSecurityConfiguration(securityConfiguration), "SetSecurityConfiguration");
 		}
 
 		public List<string> GetFileNamesList(Guid clientUID, string directory)

@@ -112,6 +112,7 @@ namespace LayoutModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
+			LayoutUsersViewModel.Update();
 			var otherCaptions = Layouts.Select(x => x.Caption).ToList();
 			var layout = new Layout(otherCaptions);
 			var adminUser = ClientManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == "adm");

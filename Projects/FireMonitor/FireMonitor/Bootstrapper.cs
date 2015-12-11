@@ -29,7 +29,6 @@ namespace FireMonitor
 		{
 			var result = true;
 			LoadingErrorManager.Clear();
-			AppConfigHelper.InitializeAppSettings();
 			ServiceFactory.Initialize(new LayoutService(), new SecurityService());
 			ServiceFactory.ResourceService.AddResource(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml");
 			ServiceFactory.StartupService.Show();

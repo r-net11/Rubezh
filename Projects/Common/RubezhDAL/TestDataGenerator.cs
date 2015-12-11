@@ -4,10 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using EntityFramework.BulkInsert.Extensions;
-using System.Data.SqlClient;
-using EntityFramework.BulkInsert.Providers;
 using Infrastructure.Common;
 
 namespace RubezhDAL.DataClasses
@@ -95,8 +92,8 @@ namespace RubezhDAL.DataClasses
 			int totalOrganisations = 1;
 			int positionsPerOrganisation = 1000;
 			int rootDepartmentsPerOrganisation = 100;
-			int employeesPerOrganisation = 6500;
-			int cardsPerEmployee = 1;
+			int employeesPerOrganisation = 6600;
+			int cardsPerEmployee = 10;
 
 			int cardNumber = 0;
 			Context.Configuration.AutoDetectChangesEnabled = false;

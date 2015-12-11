@@ -54,9 +54,9 @@ namespace GKWebService.DataProviders.Plan
 			var hint = new ElementHint();
 			hint.StateHintLines.Add(new HintLine { Text = plan.Description });
 			return new PlanElement {
-				Border = InernalConverter.ConvertColor(Colors.Black),
+				Border = InternalConverter.ConvertColor(Colors.Black),
 				BorderThickness = 0,
-				Fill = InernalConverter.ConvertColor(plan.BackgroundColor),
+				Fill = InternalConverter.ConvertColor(plan.BackgroundColor),
 				Id = plan.UID,
 				Name = plan.Caption,
 				Hint = hint,
@@ -221,7 +221,7 @@ namespace GKWebService.DataProviders.Plan
 			}
 			drawing.Freeze();
 
-			return InernalConverter.XamlDrawingToPngBase64String(width, height, drawing);
+			return InternalConverter.XamlDrawingToPngBase64String(width, height, drawing);
 		}
 
 		#region ctor, props

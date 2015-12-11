@@ -100,6 +100,10 @@ namespace GKProcessor
 			{
 				CheckDelay(guardZone);
 			}
+			foreach (var door in GKManager.Doors)
+			{
+				CheckDelay(door);
+			}
 		}
 
 		void CheckDelay(GKBase gkBase)

@@ -38,7 +38,7 @@ namespace RubezhClient
 			}, "Poll");
 		}
 
-		public SecurityConfiguration GetSecurityConfiguration()
+		public OperationResult<SecurityConfiguration> GetSecurityConfiguration()
 		{
 			return SafeOperationCall(() =>
 			{
@@ -46,6 +46,11 @@ namespace RubezhClient
 				using (firesecService as IDisposable)
 					return firesecService.GetSecurityConfiguration(FiresecServiceFactory.UID);
 			}, "GetSecurityConfiguration");
+		}
+
+		public void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
+		{
+			SafeOperationCall(() => FiresecService.SetSecurityConfiguration(securityConfiguration), "SetSecurityConfiguration");
 		}
 
 		public T GetConfiguration<T>(string filename)

@@ -21,7 +21,6 @@
         if (newValue) {
             self.Init();
             self.InitializeEmployeeFilter(self.Filter);
-            self.Departments.Init({});
         }
     });
 
@@ -38,6 +37,7 @@
     self.InitializeEmployeeFilter = function(filter) {
         filter.PersonType(self.SelectedPersonType());
         self.Employees.Init(filter);
+        self.Departments.Init(self.Filter);
     };
 
     self.HrPageClick = function(data, e, page) {

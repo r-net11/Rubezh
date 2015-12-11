@@ -1,4 +1,6 @@
 ﻿using GKProcessor;
+using Infrastructure.Common;
+using Ionic.Zip;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
@@ -32,10 +34,18 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				var progressCallback = new GKProgressCallback();
-				ServerTaskRunner.Add(progressCallback, "Запись конфигурации ГК", new Action(() =>
+				ServerTaskRunner.Add(progressCallback, "Запись конфигурации ГК", (() =>
 				{
-					var result = GKProcessorManager.GKWriteConfiguration(device, UserName, progressCallback, clientUID);
-					FiresecService.NotifyOperationResult_WriteConfiguration(result, clientUID);
+					if (GKManager.DeviceConfiguration.OnlyGKDeviceConfiguration)
+					{
+						var deviceConfigFileName = AppDataFolderHelper.GetServerAppDataPath("Config\\GKDeviceConfiguration.xml");
+						var zipDeviceConfigFileName = AppDataFolderHelper.GetServerAppDataPath("GKDeviceConfiguration.fscp");
+						var zipFile = new ZipFile(zipDeviceConfigFileName);
+						zipFile.AddFile(deviceConfigFileName, "");
+						zipFile.Save(zipDeviceConfigFileName);
+						zipFile.Dispose();
+					}
+					NotifyOperationResult_WriteConfiguration(result);
 				}
 				));
 				return new OperationResult<bool>(true);

@@ -1,5 +1,4 @@
-﻿using RubezhAPI.Models;
-using Infrastructure.Client.Login;
+﻿using Infrastructure.Client.Startup;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Content;
@@ -7,7 +6,7 @@ using Infrastructure.Common.Services.DragDrop;
 using Infrastructure.Common.Services.Ribbon;
 using Infrastructure.Services;
 using Microsoft.Practices.Prism.Events;
-using Infrastructure.Client.Startup;
+using RubezhAPI.Models;
 
 namespace Infrastructure
 {
@@ -24,18 +23,14 @@ namespace Infrastructure
 			}
 		}
 		
-		public static void Initialize(ILayoutService ILayoutService, IValidationService IValidationService)
+		public static void Initialize(ILayoutService layoutService, IValidationService validationService)
 		{
 			SaveService = new SaveService();
-			Events = new EventAggregator();
-			ResourceService = new ResourceService();
-			Layout = ILayoutService;
-			ValidationService = IValidationService;
+			Layout = layoutService;
+			ValidationService = validationService;
 			ContentService = new ContentService("Administrator");
 			DragDropService = new DragDropService();
 			RibbonService = new RibbonService();
-			DialogService = new MonitorDialogService();
-			MessageBoxService = new MonitorMessageBoxService();
 		}
 
 		public static SaveService SaveService { get; private set; }
@@ -43,7 +38,5 @@ namespace Infrastructure
 		public static IValidationService ValidationService { get; private set; }
 		public static MenuService MenuService { get; set; }
 		public static IRibbonService RibbonService { get; set; }
-		public static IDialogService DialogService { get; set; }
-		public static IMessageBoxService MessageBoxService { get; set; }
 	}
 }

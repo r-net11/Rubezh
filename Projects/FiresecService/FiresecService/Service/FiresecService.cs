@@ -88,7 +88,7 @@ namespace FiresecService.Service
 			return "Test";
 		}
 
-		public SecurityConfiguration GetSecurityConfiguration(Guid clientUID)
+		public OperationResult<SecurityConfiguration> GetSecurityConfiguration()
 		{
 			return ConfigurationCashHelper.GetSecurityConfiguration();
 		}

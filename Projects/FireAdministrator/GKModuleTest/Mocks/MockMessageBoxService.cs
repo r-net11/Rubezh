@@ -1,4 +1,5 @@
-﻿using Infrastructure.Services;
+﻿using Infrastructure.Common.Services;
+using Infrastructure.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,6 @@ namespace GKModuleTest
 
 		public void ShowWarning(string message, string title = null)
 		{
-			throw new NotImplementedException();
 		}
 
 		public void ShowException(Exception e, string title = null)

@@ -57,12 +57,12 @@ namespace VideoModule.ViewModels
 		public override void CopyProperties()
 		{
 			var properties = (LayoutPartReferenceProperties)_layoutPartCameraViewModel.Properties;
-			var camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(item => item.UID == properties.ReferenceUID); 
-			SelectedCamera = new CameraViewModel(CamerasViewModel.Current, camera);
+			var camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(item => item.UID == properties.ReferenceUID);
+			SelectedCamera = Cameras.FirstOrDefault(x => x.Camera == camera);
 		}
 		public override bool CanSave()
 		{
-			return (SelectedCamera.Camera != null);
+			return (SelectedCamera != null && SelectedCamera.Camera != null);
 		}
 		public override bool Save()
 		{
