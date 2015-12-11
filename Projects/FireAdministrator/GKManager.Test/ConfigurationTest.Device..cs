@@ -265,6 +265,7 @@ namespace GKManager2.Test
 		public void ChangeGroupDeviceWithLogicTest()
 		{
 			var device = AddDevice(kauDevice11, GKDriverType.RSR2_MDU);
+			var device_2 = AddDevice(kauDevice11, GKDriverType.RSR2_MDU);
 			GKManager.UpdateConfiguration();
 
 			var clause = new GKClause
@@ -280,6 +281,8 @@ namespace GKManager2.Test
 			GKManager.SetDelayLogic(delay, gkLogic);
 			GKManager.ChangeDriver(device, RSR2_AM_4_Group_Helper.Create());
 			Assert.IsTrue(device.DriverType == GKDriverType.RSR2_AM_4);
+			Assert.IsTrue(device.IntAddress ==1);
+			Assert.IsTrue(device_2.IntAddress == 5);
 			Assert.IsTrue(device.Children.Count == 4);
 			Assert.IsTrue(device.Driver.IsGroupDevice);
 			Assert.IsTrue(device.Driver.GroupDeviceChildrenCount == 4);
