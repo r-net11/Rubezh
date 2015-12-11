@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
-using GKModule.ViewModels;
+﻿using GKModule.ViewModels;
 using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
@@ -14,8 +6,14 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Microsoft.Win32;
 using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
+using System;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading;
 
 namespace GKModule.Models
 {

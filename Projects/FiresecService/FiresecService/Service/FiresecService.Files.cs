@@ -1,30 +1,29 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using Common;
-using RubezhAPI;
-using RubezhAPI.Journal;
+﻿using Common;
+using Infrastructure.Automation;
 using Infrastructure.Common;
 using Ionic.Zip;
-using System.Threading;
-using System;
-using Infrastructure.Automation;
+using RubezhAPI;
+using RubezhAPI.Journal;
 using RubezhAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
-		public List<string> GetFileNamesList(string directory)
+		public List<string> GetFileNamesList(Guid clientUID, string directory)
 		{
 			return HashHelper.GetFileNamesList(AppDataFolderHelper.GetServerAppDataPath(directory));
 		}
 
-		public Dictionary<string, string> GetDirectoryHash(string directory)
+		public Dictionary<string, string> GetDirectoryHash(Guid clientUID, string directory)
 		{
 			return HashHelper.GetDirectoryHash(AppDataFolderHelper.GetServerAppDataPath(directory));
 		}
 
-		public Stream GetServerAppDataFile(string dirAndFileName)
+		public Stream GetServerAppDataFile(Guid clientUID, string dirAndFileName)
 		{
 			try
 			{
@@ -36,7 +35,7 @@ namespace FiresecService.Service
 			return Stream.Null;
 		}
 
-		public Stream GetServerFile(string filePath)
+		public Stream GetServerFile(Guid clientUID, string filePath)
 		{
 			try
 			{
@@ -47,7 +46,7 @@ namespace FiresecService.Service
 			return Stream.Null;
 		}
 
-		public Stream GetConfig()
+		public Stream GetConfig(Guid clientUID)
 		{
 			var configFilePath = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
 			if (!File.Exists(configFilePath))
@@ -57,7 +56,7 @@ namespace FiresecService.Service
 			return new FileStream(configFilePath, FileMode.Open, FileAccess.Read);
 		}
 
-		public void SetLocalConfig()
+		public void SetLocalConfig(Guid clientUID)
 		{
 			var configFileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
 			CreateZipConfigFromFiles();
@@ -106,7 +105,7 @@ namespace FiresecService.Service
 			RestartWithNewConfig();
 		}
 
-		public void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
+		public void SetSecurityConfiguration(Guid clientUID, SecurityConfiguration securityConfiguration)
 		{
 			securityConfiguration.Version = new ConfigurationVersion() { MinorVersion = 1, MajorVersion = 1 };
 			ZipSerializeHelper.Serialize(securityConfiguration, Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "SecurityConfiguration.xml"), true);

@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using Common;
+﻿using Common;
 using RubezhAPI;
-using RubezhAPI.Models;
 using RubezhAPI.License;
+using RubezhAPI.Models;
+using System;
+using System.Linq;
 
 namespace RubezhClient
 {
@@ -28,7 +28,7 @@ namespace RubezhClient
 				for (int i = 0; i < 3; i++)
 				{
 					FiresecService = new SafeFiresecService(serverAddress);
-					var operationResult = FiresecService.Connect(FiresecServiceFactory.UID, ClientCredentials, true);
+					var operationResult = FiresecService.Connect(FiresecServiceFactory.UID, ClientCredentials);
 					if (!operationResult.HasError)
 					{
 						error = null;

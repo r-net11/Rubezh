@@ -30,7 +30,7 @@ namespace GKModule.ViewModels
 		{
 			Title = "Сравнение конфигураций " + device.PresentationName;
 			ChangeCurrentGkCommand = new RelayCommand(OnChangeCurrentGk);
-			OpenGkConfigurationFileCommand = new RelayCommand(OnOpenGkConfigurationFile, CanReplace);
+			OpenGkConfigurationFileCommand = new RelayCommand(OnOpenGkConfigurationFile, CanOpenGkConfigurationFile);
 			NextDifferenceCommand = new RelayCommand(OnNextDifference, CanNextDifference);
 			PreviousDifferenceCommand = new RelayCommand(OnPreviousDifference, CanPreviousDifference);
 
@@ -135,7 +135,7 @@ namespace GKModule.ViewModels
 			Close(true);
 		}
 
-		public bool CanReplace()
+		public bool CanOpenGkConfigurationFile()
 		{
 			return !OnlyGKDeviceConfiguration;
 		}
@@ -207,7 +207,7 @@ namespace GKModule.ViewModels
 						}
 						if (sameObject1.ObjectType == ObjectType.MPT)
 						{
-							newObject.DifferenceDiscription = GetMPTsDifferences(sameObject1, sameObject2, IsLocalConfig);
+							newObject.DifferenceDiscription = GetMPTsDifferences(sameObject1, sameObject2);
 							newObject.Name = sameObject1.Name;
 						}
 						if (sameObject1.ObjectType == ObjectType.Delay)
@@ -337,12 +337,14 @@ namespace GKModule.ViewModels
 			return pumpStationsDifferences.ToString() == "" ? null : pumpStationsDifferences.ToString();
 		}
 
-		string GetMPTsDifferences(ObjectViewModel object1, ObjectViewModel object2, bool isLocalConfig)
+		string GetMPTsDifferences(ObjectViewModel object1, ObjectViewModel object2)
 		{
 			var mptsDifferences = new StringBuilder();
 			if (object1.Name != object2.Name)
 				mptsDifferences.Append("Не совпадает название");
-			if (object1.MPT.MPTDevices.Select(x => x.Device).Any(nsDevice => object2.MPT.MPTDevices.Select(x => x.Device).All(x => new ObjectViewModel(x).Compare(new ObjectViewModel(x), new ObjectViewModel(nsDevice)) != 0)))
+			var devices1 = object1.MPT.MPTDevices.Select(x => x.Device);
+			var devices2 = object2.MPT.MPTDevices.Select(x => x.Device);
+			if (devices1.Any(nsDevice1 => devices2.All(nsDevice2 => !IsEqual(new ObjectViewModel(nsDevice1), new ObjectViewModel(nsDevice2)))))
 			{
 				if (mptsDifferences.Length != 0)
 					mptsDifferences.Append(". ");
@@ -351,21 +353,29 @@ namespace GKModule.ViewModels
 			bool startDiff = GKManager.GetPresentationLogic(object1.MPT.MptLogic.OnClausesGroup) != GKManager.GetPresentationLogic(object2.MPT.MptLogic.OnClausesGroup);
 			if (startDiff)
 			{
+				if (mptsDifferences.Length != 0)
+					mptsDifferences.Append(". ");
 				mptsDifferences.Append("Не совпадают условия включения");
 			}
 			bool stopDiff = GKManager.GetPresentationLogic(object1.MPT.MptLogic.OffClausesGroup) != GKManager.GetPresentationLogic(object2.MPT.MptLogic.OffClausesGroup);
 			if (stopDiff)
 			{
+				if (mptsDifferences.Length != 0)
+					mptsDifferences.Append(". ");
 				mptsDifferences.Append("Не совпадают условия выключения");
 			}
 			bool suspendDiff = GKManager.GetPresentationLogic(object1.MPT.MptLogic.StopClausesGroup) != GKManager.GetPresentationLogic(object2.MPT.MptLogic.StopClausesGroup);
 			if (suspendDiff)
 			{
+				if (mptsDifferences.Length != 0)
+					mptsDifferences.Append(". ");
 				mptsDifferences.Append("Не совпадают условия приостановки");
 			}
 			bool delayDiff = object1.MPT.Delay != object2.MPT.Delay;
 			if (delayDiff)
 			{
+				if (mptsDifferences.Length != 0)
+					mptsDifferences.Append(". ");
 				mptsDifferences.Append("Не совпадают задержки");
 			}
 			return mptsDifferences.ToString() == "" ? null : mptsDifferences.ToString();
@@ -463,6 +473,8 @@ namespace GKModule.ViewModels
 			bool openLogicDiff = GKManager.GetPresentationLogic(object1.Door.OpenRegimeLogic) != GKManager.GetPresentationLogic(object2.Door.OpenRegimeLogic);
 			if (openLogicDiff)
 			{
+				if (differences.Length != 0)
+					differences.Append(". ");
 				differences.Append("Не совпадают условия перевода в режим Всегда Включено");
 			}
 
@@ -480,10 +492,6 @@ namespace GKModule.ViewModels
 				|| viewModel1.Device.DriverType == GKDriverType.GKRelaysGroup
 				|| viewModel1.Device.DriverType == GKDriverType.GKRele)
 					return true;
-
-				//if (viewModel1.Device.UID == viewModel2.Device.UID)
-				//	return true;
-				//return false;
 
 				var kauIntAddress1 = viewModel1.KAUParent != null ? viewModel1.KAUParent.IntAddress : 0;
 				var kauIntAddress2 = viewModel2.KAUParent != null ? viewModel2.KAUParent.IntAddress : 0;

@@ -15,18 +15,20 @@ using Infrastructure.Common.Services.Layout;
 using System.Windows.Threading;
 using System;
 using Infrastructure.Common;
+using RubezhAPI;
 
 namespace JournalModule.ViewModels
 {
 	public class JournalViewModel : ViewPartViewModel, ILayoutPartContent
 	{
+		Guid _uid;
 		int _unreadCount;
 		public bool IsShowButtons { get; private set; }
 		public JournalFilter Filter { get; private set; }
-		public bool IsLoading { get; private set; }
-
+		
 		public JournalViewModel(JournalFilter journalFilter = null)
 		{
+			_uid = Guid.NewGuid();
 			_unreadCount = 0;
 			Filter = journalFilter;
 			if (Filter == null)
@@ -46,18 +48,48 @@ namespace JournalModule.ViewModels
 			ServiceFactory.Events.GetEvent<UpdateJournalItemsEvent>().Subscribe(OnUpdateJournalItems);
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
+			SafeFiresecService.CallbackOperationResultEvent -= new Action<CallbackOperationResult>(OnCallbackOperationResult);
+			SafeFiresecService.CallbackOperationResultEvent += new Action<CallbackOperationResult>(OnCallbackOperationResult);
+		}
+
+		private void OnCallbackOperationResult(CallbackOperationResult callbackOperationResult)
+		{
+			if (callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.GetJournal && callbackOperationResult.ClientUid == _uid)
+			{
+				ApplicationService.BeginInvoke(() =>
+				{
+					JournalItems = new ObservableCollection<JournalItemViewModel>();
+					foreach (var journalItem in callbackOperationResult.JournalItems)
+					{
+						var journalItemViewModel = new JournalItemViewModel(journalItem);
+						JournalItems.Add(journalItemViewModel);
+					}
+					SelectedJournal = JournalItems.FirstOrDefault();
+					IsLoading = false;
+				});
+			}
 		}
 
 		public void SetJournalItems()
 		{
-			var result = ClientManager.FiresecService.BeginGetJournal(Filter);
+			var result = ClientManager.FiresecService.BeginGetJournal(Filter, _uid);
 			if (result.HasError)
 			{
 				MessageBoxService.Show(result.Error);
 				return;
 			}
 			IsLoading = true;
-			OnPropertyChanged(() => IsLoading);
+		}
+
+		bool _isLoading;
+		public bool IsLoading
+		{
+			get { return _isLoading; }
+			private set
+			{
+				_isLoading = value;
+				OnPropertyChanged(() => IsLoading);
+			}
 		}
 
 		ObservableCollection<JournalItemViewModel> _journalItems;
@@ -200,22 +232,6 @@ namespace JournalModule.ViewModels
 				Filter = archiveFilterViewModel.GetModel();
 				SetJournalItems();
 			}
-		}
-
-		public void OnGetJournal(List<JournalItem> journalItems)
-		{
-			ApplicationService.BeginInvoke(() =>
-			{
-				JournalItems = new ObservableCollection<JournalItemViewModel>();
-				foreach (var journalItem in journalItems)
-				{
-					var journalItemViewModel = new JournalItemViewModel(journalItem);
-					JournalItems.Add(journalItemViewModel);
-				}
-				SelectedJournal = JournalItems.FirstOrDefault();
-				IsLoading = false;
-				OnPropertyChanged(() => IsLoading);
-			});
 		}
 	}
 }

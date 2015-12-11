@@ -1,24 +1,21 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Security;
-using RubezhAPI.GK;
-using RubezhClient;
-using GKProcessor;
+﻿using GKProcessor;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System;
-using Infrastructure;
 using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhClient;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace GKModule.ViewModels
 {
 	public class GuardZoneDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public GKGuardZone Zone;
-		public bool IsEdit { get; private set; }		
+		public bool IsEdit { get; private set; }
 		public GuardZoneDetailsViewModel(GKGuardZone zone = null)
 		{
 			ReadPropertiesCommand = new RelayCommand(OnReadProperties);
@@ -178,7 +175,7 @@ namespace GKModule.ViewModels
 		{
 			DescriptorsManager.Create();
 			if (!CompareLocalWithRemoteHashes())
-			    return;
+				return;
 
 			var result = ClientManager.FiresecService.GKGetSingleParameter(Zone);
 			if (!result.HasError && result.Result != null)
@@ -209,7 +206,7 @@ namespace GKModule.ViewModels
 
 			DescriptorsManager.Create();
 			if (!CompareLocalWithRemoteHashes())
-			    return;
+				return;
 
 			var baseDescriptor = ParametersHelper.GetBaseDescriptor(Zone);
 			if (baseDescriptor != null)

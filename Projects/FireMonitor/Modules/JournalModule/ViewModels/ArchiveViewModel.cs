@@ -16,6 +16,7 @@ using JournalModule.Events;
 using Infrastructure.Common.Services.Layout;
 using System.Diagnostics;
 using System.Windows.Threading;
+using RubezhAPI;
 
 namespace JournalModule.ViewModels
 {
@@ -38,6 +39,24 @@ namespace JournalModule.ViewModels
 
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
+			SafeFiresecService.CallbackOperationResultEvent -= new Action<CallbackOperationResult>(OnCallbackOperationResult);
+			SafeFiresecService.CallbackOperationResultEvent += new Action<CallbackOperationResult>(OnCallbackOperationResult);
+		}
+
+		void OnCallbackOperationResult(CallbackOperationResult callbackOperationResult)
+		{
+			if(callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.GetArchivePage)
+			{
+				ApplicationService.BeginInvoke(() =>
+				{
+					JournalItems = new ObservableCollection<JournalItemViewModel>();
+					foreach (var item in callbackOperationResult.JournalItems)
+					{
+						JournalItems.Add(new JournalItemViewModel(item));
+					}
+					IsLoading = false;
+				});
+			}
 		}
 
 		public void Initialize()
@@ -206,7 +225,16 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public bool IsLoading { get; private set; }
+		bool _isLoading;
+		public bool IsLoading 
+		{
+			get { return _isLoading; } 
+			private set
+			{
+				_isLoading = value;
+				OnPropertyChanged(() => IsLoading);
+			}
+		}
 
 		public void Update()
 		{
@@ -264,7 +292,6 @@ namespace JournalModule.ViewModels
 				return;
 			}
 			IsLoading = true;
-			OnPropertyChanged(() => IsLoading);
 		}
 
 		public List<JournalColumnType> AdditionalColumns
@@ -301,19 +328,5 @@ namespace JournalModule.ViewModels
 		}
 
 		#endregion
-
-		public void OnNewPage(List<JournalItem> journalItems, int pageNo)
-		{
-			ApplicationService.BeginInvoke(() =>
-			{
-				JournalItems = new ObservableCollection<JournalItemViewModel>();
-				foreach (var item in journalItems)
-				{
-					JournalItems.Add(new JournalItemViewModel(item));
-				}
-				IsLoading = false;
-				OnPropertyChanged(() => IsLoading);
-			});
-		}
 	}
 }

@@ -137,7 +137,7 @@ namespace RubezhDAL.DataClasses
 		{
 			try
 			{
-				var tableItems = GetFilteredJournalItemsInternal(filter).ToList();
+				var tableItems = BuildJournalQuery(filter).ToList();
 				var result = new List<JournalItem>(tableItems.Select(x => Translate(x)));
 				return new OperationResult<List<JournalItem>>(result);
 			}
@@ -152,7 +152,7 @@ namespace RubezhDAL.DataClasses
 		{
 			try
 			{
-				var tableItems = GetFilteredArchiveInternal(filter).ToList();
+				var tableItems = BuildArchiveQuery(filter).ToList();
 				var result = new List<JournalItem>(tableItems.Select(x => Translate(x)));
 				return new OperationResult<List<JournalItem>>(result);
 			}
@@ -167,9 +167,9 @@ namespace RubezhDAL.DataClasses
 		{
 			try
 			{
-				var query = GetFilteredArchiveInternal(filter);
-				query = query.Skip((page - 1) * filter.PageSize).Take(filter.PageSize);
-				var journalItems = query.ToList().Select(x => Translate(x)).ToList();
+				var query = BuildArchiveQuery(filter);
+				var tableItems = query.Skip((page - 1) * filter.PageSize).Take(filter.PageSize).ToList();
+				var journalItems = new List<JournalItem>(tableItems.Select(x => Translate(x))); ;
 				return new OperationResult<List<JournalItem>>(journalItems);
 			}
 			catch (Exception e)
@@ -182,7 +182,7 @@ namespace RubezhDAL.DataClasses
 		{
 			try
 			{
-				var query = GetFilteredArchiveInternal(filter);
+				var query = BuildArchiveQuery(filter);
 				var result = query.Count();
 				return new OperationResult<int>(result);
 			}
@@ -258,7 +258,7 @@ namespace RubezhDAL.DataClasses
 			};
 		}
 
-		IQueryable<Journal> GetFilteredJournalItemsInternal(JournalFilter filter)
+		IQueryable<Journal> BuildJournalQuery(JournalFilter filter)
 		{
 			IQueryable<Journal> result = Context.Journals;
 			if (filter.JournalEventNameTypes.Count > 0)
@@ -293,7 +293,7 @@ namespace RubezhDAL.DataClasses
 			return result;
 		}
 
-		IQueryable<Journal> GetFilteredArchiveInternal(JournalFilter filter)
+		IQueryable<Journal> BuildArchiveQuery(JournalFilter filter)
 		{
 			IQueryable<Journal> result = Context.Journals;
 			if (filter.JournalEventNameTypes.Count > 0)

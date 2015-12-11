@@ -1,8 +1,9 @@
 ﻿using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Automation;
-using System.Collections.ObjectModel;
 using RubezhClient;
+using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using LayoutModel = RubezhAPI.Models.Layouts.Layout;
 
@@ -15,7 +16,7 @@ namespace AutomationModule.ViewModels
 		{
 			Title = "Выбор макетов";
 			LayoutItems = new ObservableCollection<ProcedureLayoutItemViewModel>();
-			LayoutItems.Add(new ProcedureLayoutItemViewModel(ProcedureLayoutCollectionViewModel.NoLayout, procedureLayoutCollection.LayoutsUIDs.Contains(LayoutModel.NoLayoutUID)));
+			LayoutItems.Add(new ProcedureLayoutItemViewModel(ProcedureLayoutCollectionViewModel.NoLayout, procedureLayoutCollection.LayoutsUIDs.Contains(Guid.Empty)));
 			foreach (var layoutItem in ClientManager.LayoutsConfiguration.Layouts.Select(x => new ProcedureLayoutItemViewModel(x, procedureLayoutCollection.LayoutsUIDs.Contains(x.UID))))
 				LayoutItems.Add(layoutItem);
 		}

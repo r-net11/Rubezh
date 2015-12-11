@@ -1,4 +1,10 @@
-﻿using System;
+﻿using Infrastructure;
+using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Events;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -6,12 +12,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using RubezhAPI.GK;
-using RubezhClient;
-using Infrastructure;
-using Infrastructure.Common.BalloonTrayTip;
-using Infrastructure.Events;
-using RubezhAPI;
 
 namespace GKModule.Views
 {
@@ -28,8 +28,8 @@ namespace GKModule.Views
 			OnGKObjectsStateChangedEvent(true);
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Unsubscribe(OnGKObjectsStateChangedEvent);
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Subscribe(OnGKObjectsStateChangedEvent);
-			SafeFiresecService.ConnectionLost += OnService_ConnectionLost;
-			SafeFiresecService.ConnectionAppeared += OnService_ConnectionAppeared;
+			SafeFiresecService.OnConnectionLost += OnService_ConnectionLost;
+			SafeFiresecService.OnConnectionAppeared += OnService_ConnectionAppeared;
 		}
 
 		void OnService_ConnectionLost()
