@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using GKProcessor;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhClient;
@@ -241,6 +242,49 @@ namespace GKManager2.Test
 			Assert.IsTrue(zone.Devices.Contains(device.Children[1]));
 			GKManager.RemoveDevice(device);
 			Assert.IsFalse(zone.Devices.Any());
+		}
+
+		[TestMethod]
+		public void ChangeGroupDeviceWithZoneTest()
+		{
+			var device = AddDevice(kauDevice11, GKDriverType.RSR2_OPSZ);
+			GKManager.UpdateConfiguration();
+			var zone = new GKZone();
+			GKManager.AddZone(zone);
+			GKManager.AddDeviceToZone(device.Children[1], zone);
+			GKManager.ChangeDriver(device, RSR2_AM_1_Helper.Create());
+			Assert.IsTrue(device.DriverType == GKDriverType.RSR2_AM_1);
+			Assert.IsTrue(device.Children.Count ==0);
+			Assert.IsFalse(device.Driver.IsGroupDevice);
+			Assert.IsTrue(device.Driver.GroupDeviceChildrenCount == 0);
+			Assert.IsTrue(device.InputDependentElements.Count == 0);
+			Assert.IsTrue(zone.OutputDependentElements.Count == 0);
+
+		}
+		[TestMethod]
+		public void ChangeGroupDeviceWithLogicTest()
+		{
+			var device = AddDevice(kauDevice11, GKDriverType.RSR2_MDU);
+			GKManager.UpdateConfiguration();
+
+			var clause = new GKClause
+			{
+				ClauseOperationType = ClauseOperationType.AllDevices,
+				DeviceUIDs = { device.UID }
+			};
+
+			var gkLogic = new GKLogic();
+			gkLogic.OnClausesGroup.Clauses.Add(clause);
+			var delay = new GKDelay();
+			GKManager.AddDelay(delay);
+			GKManager.SetDelayLogic(delay, gkLogic);
+			GKManager.ChangeDriver(device, RSR2_AM_4_Group_Helper.Create());
+			Assert.IsTrue(device.DriverType == GKDriverType.RSR2_AM_4);
+			Assert.IsTrue(device.Children.Count == 4);
+			Assert.IsTrue(device.Driver.IsGroupDevice);
+			Assert.IsTrue(device.Driver.GroupDeviceChildrenCount == 4);
+			Assert.IsTrue(device.InputDependentElements.Count == 0);
+			Assert.IsTrue(delay.OutputDependentElements.Count == 0);
 		}
 	}
 }
