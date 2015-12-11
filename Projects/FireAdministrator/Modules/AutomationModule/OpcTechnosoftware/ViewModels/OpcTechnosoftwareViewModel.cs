@@ -22,6 +22,8 @@ namespace AutomationModule.ViewModels
 
 			_dataChangeEventHandler =
 				new TsCDaDataChangedEventHandler(EventHandler_activeSubscription_DataChangedEvent);
+			_serverShutdownEventHandler =
+				new OpcServerShutdownEventHandler(EventHandler_activeOpcServer_ServerShutdownEvent);
 
 			GetHostNamesCommand = new RelayCommand(OnGetHostNames);
 			GetOpcServerListCommand = new RelayCommand(OnGetServerList, CanGetServerList);
@@ -33,6 +35,7 @@ namespace AutomationModule.ViewModels
 			WriteTagsCommand = new RelayCommand(OnWriteTags, CanWriteTags);
 			CreateSubscriptionCommand = new RelayCommand(OnCreateSubscription, CanCreateSubscription);
 			CancelSubscriptionCommand = new RelayCommand(OnCancelSubscription, CanCancelSubscription);
+			GetServerStatusCommand = new RelayCommand(OnGetServerStatus, CanGetServerStatus);
 		}
 
 		#endregion
@@ -44,6 +47,7 @@ namespace AutomationModule.ViewModels
 		TsCDaServer _activeOpcServer;
 		TsCDaSubscription _activeSubscription;
 		TsCDaDataChangedEventHandler _dataChangeEventHandler;
+		OpcServerShutdownEventHandler _serverShutdownEventHandler;
 
 		OpcServer[] _servers;
 		public OpcServer[] Servers
@@ -111,7 +115,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-
 		OpcTechnosoftwareElement _selectedElement;
 		public OpcTechnosoftwareElement SelectedElement
 		{
@@ -153,6 +156,17 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedTagForWrite = value;
 				OnPropertyChanged(() => SelectedTagForWrite);
+			}
+		}
+
+		OpcServerStatus _serverStatus;
+		public OpcServerStatus ServerStatus 
+		{
+			get { return _serverStatus; }
+			private set 
+			{
+				_serverStatus = value;
+				OnPropertyChanged(() => ServerStatus);
 			}
 		}
 
@@ -252,6 +266,15 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		#endregion
+
+		#region Event Handlers
+
+		void EventHandler_activeOpcServer_ServerShutdownEvent(string reason)
+		{
+			DisconnectCommand.Execute();
+		}
+
 		void EventHandler_activeSubscription_DataChangedEvent(object subscriptionHandle,
 			object requestHandle, TsCDaItemValueResult[] values)
 		{
@@ -286,7 +309,10 @@ namespace AutomationModule.ViewModels
 			var opcUrl = new OpcUrl(OpcSpecification.OPC_DA_20, OpcUrlScheme.DA, SelectedOpcServer.Url.ToString());
 			_activeOpcServer.Connect(opcUrl, null); // во второй параметр передаются данные для 
 													// авторизации пользователя на удалённом сервере
+			_activeOpcServer.ServerShutdownEvent += EventHandler_activeOpcServer_ServerShutdownEvent;
+			
 		}
+
 		bool CanConnect()
 		{
 			return _activeOpcServer == null && SelectedOpcServer != null;
@@ -297,6 +323,11 @@ namespace AutomationModule.ViewModels
 		{
 			try
 			{
+				if (CancelSubscriptionCommand.CanExecute(null))
+				{
+					CancelSubscriptionCommand.Execute();
+				}
+				_activeOpcServer.ServerShutdownEvent -= EventHandler_activeOpcServer_ServerShutdownEvent;
 				_activeOpcServer.Disconnect();
 				_activeOpcServer = null;
 			}
@@ -407,13 +438,12 @@ namespace AutomationModule.ViewModels
 			_activeSubscription.DataChangedEvent += _dataChangeEventHandler;
 
 		}
-
 		bool CanCreateSubscription()
 		{
 			return Mode == true &&
 				_activeOpcServer != null && _activeOpcServer.IsConnected
  				&& _activeSubscription == null
-				&& CheckedTags != null && CheckedTags.Count() > 1;
+				&& CheckedTags != null && CheckedTags.Count() > 0;
 		}
 
 		public RelayCommand CancelSubscriptionCommand { get; private set; }
@@ -428,6 +458,16 @@ namespace AutomationModule.ViewModels
 		bool CanCancelSubscription()
 		{
 			return Mode == true && _activeSubscription != null;
+		}
+
+		public RelayCommand GetServerStatusCommand { get; private set; }
+		void OnGetServerStatus()
+		{
+			ServerStatus = _activeOpcServer.GetServerStatus();
+		}
+		bool CanGetServerStatus()
+		{
+			return _activeOpcServer != null && _activeOpcServer.IsConnected;
 		}
 
 		#endregion

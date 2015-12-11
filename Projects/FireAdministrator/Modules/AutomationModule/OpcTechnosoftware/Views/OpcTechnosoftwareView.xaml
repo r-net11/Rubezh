@@ -29,17 +29,64 @@
 					<DataGridTextColumn IsReadOnly="True" Header="Supported Specifications" Width="Auto" />
 				</DataGrid.Columns>
 			</DataGrid>
-			<StackPanel Orientation="Horizontal">
+				<Grid DataContext="{Binding ServerStatus}">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<TextBlock Grid.Column="0" Grid.Row="0" Text="Текущее время:" Margin="3" />
+					<TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding CurrentTime}" Margin="3" />
+					<TextBlock Grid.Column="0" Grid.Row="1" Text="Состояние:" Margin="3" />
+					<StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+						<TextBlock Text="{Binding ServerState}" Margin="3" />
+						<TextBlock Text="{Binding StatusInfo}" Margin="3" />
+					</StackPanel>
+					<TextBlock Grid.Column="0" Grid.Row="2" Text="Тип сервера:" Margin="3" />
+					<TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding ServerType}" Margin="3" />
+					<TextBlock Grid.Column="0" Grid.Row="3" Text="Group Count:" Margin="3" />
+					<TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding GroupCout}" Margin="3" />
+					<TextBlock Grid.Column="0" Grid.Row="4" Text="Last Update Time:" Margin="3" />
+					<TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding LastUpdateTime}" Margin="3" />
+					<TextBlock Grid.Column="0" Grid.Row="5" Text="Версия:" Margin="3" />
+					<StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal">
+						<TextBlock Text="{Binding MajorVersion}" Margin="3" />
+						<TextBlock Text="." />
+						<TextBlock Text="{Binding MinorVersion}" Margin="3" />
+					</StackPanel>
+					<TextBlock Grid.Column="0" Grid.Row="6" Text="Start Time:" Margin="3" />
+					<TextBlock Grid.Column="1" Grid.Row="6" Text="{Binding StartTime}" Margin="3" />
+					<TextBlock Grid.Column="0" Grid.Row="7" Text="Vendor Info:" Margin="3" />
+					<TextBlock Grid.Column="1" Grid.Row="7" Text="{Binding VendorInfo}" Margin="3" />
+					<TextBlock Grid.Column="0" Grid.Row="8" Text="Product Version:" Margin="3" />
+					<TextBlock Grid.Column="1" Grid.Row="8" Text="{Binding ProductVersion}" Margin="3" />
+					<TextBlock Grid.Column="0" Grid.Row="9" Text="Max Return Values:" Margin="3" />
+					<TextBlock Grid.Column="1" Grid.Row="9" Text="{Binding MaxReturnValues}" Margin="3" />
+				</Grid>
+				<TextBlock Text="{Binding LastUpdateTime}" Margin="3" />
+				<StackPanel Orientation="Horizontal">
 				<Button Content="Обновить список серверов" Command="{Binding GetOpcServerListCommand}" Margin="3" Padding="5, 0, 5, 0"/>
-				<Button Content="Подключиться" Command="{Binding ConnectCommand}" Margin="3" Padding="5, 0, 5, 0"/>
-				<Button Content="Отключиться" Command="{Binding DisconnectCommand}" Margin="3" Padding="5, 0, 5, 0" />
+				<Button Content="Подключиться" Command="{Binding ConnectCommand}" Margin="3" Padding="5,0,5,0"/>
+				<Button Content="Отключиться" Command="{Binding DisconnectCommand}" Margin="3" Padding="5,0,5,0" />
+				<Button Content="Состояние сервера" Command="{Binding GetServerStatusCommand}" Margin="3" Padding="5,0,5,0" />
 			</StackPanel>
 		</StackPanel>
 		</Border>
 		
 		<Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="3" Padding="3" BorderBrush="Blue" BorderThickness="2" CornerRadius="3">
 			<StackPanel Margin="3">
-				<TreeView ItemsSource="{Binding TagsAndGroups.Items}" MinHeight="100">
+				<TreeView ItemsSource="{Binding TagsAndGroups.Items}" MinHeight="100" VerticalContentAlignment="Stretch">
 					<TreeView.ItemTemplate>
 						<HierarchicalDataTemplate ItemsSource="{Binding Items}">
 							<StackPanel Orientation="Horizontal">
