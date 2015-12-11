@@ -25,18 +25,20 @@ namespace RubezhAPI.GK
 
 		public override void Invalidate(GKDeviceConfiguration deviceConfiguration)
 		{
+			var removedMPTDevices = new List<GKMPTDevice>();
 			foreach (var mptDevice in MPTDevices)
 			{
 				var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == mptDevice.DeviceUID);
-				mptDevice.Device = device;
 				if (device == null)
-					mptDevice.DeviceUID = Guid.Empty;
-				if (device != null)
+					removedMPTDevices.Add(mptDevice);
+				else
 				{
+					mptDevice.Device = device;
 					device.IsInMPT = true;
 					AddDependentElement(device);
 				}
 			}
+			removedMPTDevices.ForEach(x => MPTDevices.Remove(x));
 
 			UpdateLogic(deviceConfiguration);
 
