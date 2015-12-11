@@ -45,7 +45,8 @@ namespace FiresecService.Service
 						zipFile.Save(zipDeviceConfigFileName);
 						zipFile.Dispose();
 					}
-					NotifyOperationResult_WriteConfiguration(result);
+					var result = GKProcessorManager.GKWriteConfiguration(device, UserName, progressCallback, clientUID);
+					NotifyOperationResult_WriteConfiguration(result, clientUID);
 				}
 				));
 				return new OperationResult<bool>(true);

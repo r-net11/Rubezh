@@ -8,13 +8,13 @@ namespace RubezhClient
 {
 	public partial class SafeFiresecService
 	{
-		public void Disconnect(Guid uid)
+		public void Disconnect(Guid clientUID)
 		{
 			SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.Disconnect(uid);
+					firesecService.Disconnect(clientUID);
 			}, "Disconnect");
 		}
 
@@ -50,7 +50,12 @@ namespace RubezhClient
 
 		public void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
 		{
-			SafeOperationCall(() => FiresecService.SetSecurityConfiguration(securityConfiguration), "SetSecurityConfiguration");
+			SafeOperationCall(() =>
+				{
+					var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+					using (firesecService as IDisposable)
+						firesecService.SetSecurityConfiguration(FiresecServiceFactory.UID, securityConfiguration);
+				}, "SetSecurityConfiguration");
 		}
 
 		public T GetConfiguration<T>(string filename)

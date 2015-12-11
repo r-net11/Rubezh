@@ -56,27 +56,27 @@ namespace FireMonitor
 						ClientManager.SystemConfiguration,
 						ClientManager.SecurityConfiguration,
 						SafeFiresecService.ProcessAutomationCallback,
-						ClientManager.FiresecService.ProcedureCallbackResponse,
+						((SafeFiresecService)ClientManager.FiresecService).ProcedureCallbackResponse,
 						OnSynchronizeVariable,
-						ClientManager.FiresecService.AddJournalItem,
-						ClientManager.FiresecService.ControlGKDevice,
-						ClientManager.FiresecService.StartRecord,
-						ClientManager.FiresecService.StopRecord,
-						ClientManager.FiresecService.Ptz,
-						ClientManager.FiresecService.RviAlarm,
-						ClientManager.FiresecService.ControlFireZone,
-						ClientManager.FiresecService.ControlGuardZone,
-						ClientManager.FiresecService.ControlDirection,
-						ClientManager.FiresecService.ControlGKDoor,
-						ClientManager.FiresecService.ControlDelay,
-						ClientManager.FiresecService.ControlPumpStation,
-						ClientManager.FiresecService.ControlMPT,
-						ClientManager.FiresecService.ExportJournal,
-						ClientManager.FiresecService.ExportOrganisation,
-						ClientManager.FiresecService.ExportOrganisationList,
-						ClientManager.FiresecService.ExportConfiguration,
-						ClientManager.FiresecService.ImportOrganisation,
-						ClientManager.FiresecService.ImportOrganisationList,
+						((SafeFiresecService)ClientManager.FiresecService).AddJournalItem,
+						((SafeFiresecService)ClientManager.FiresecService).ControlGKDevice,
+						((SafeFiresecService)ClientManager.FiresecService).StartRecord,
+						((SafeFiresecService)ClientManager.FiresecService).StopRecord,
+						((SafeFiresecService)ClientManager.FiresecService).Ptz,
+						((SafeFiresecService)ClientManager.FiresecService).RviAlarm,
+						((SafeFiresecService)ClientManager.FiresecService).ControlFireZone,
+						((SafeFiresecService)ClientManager.FiresecService).ControlGuardZone,
+						((SafeFiresecService)ClientManager.FiresecService).ControlDirection,
+						((SafeFiresecService)ClientManager.FiresecService).ControlGKDoor,
+						((SafeFiresecService)ClientManager.FiresecService).ControlDelay,
+						((SafeFiresecService)ClientManager.FiresecService).ControlPumpStation,
+						((SafeFiresecService)ClientManager.FiresecService).ControlMPT,
+						((SafeFiresecService)ClientManager.FiresecService).ExportJournal,
+						((SafeFiresecService)ClientManager.FiresecService).ExportOrganisation,
+						((SafeFiresecService)ClientManager.FiresecService).ExportOrganisationList,
+						((SafeFiresecService)ClientManager.FiresecService).ExportConfiguration,
+						((SafeFiresecService)ClientManager.FiresecService).ImportOrganisation,
+						((SafeFiresecService)ClientManager.FiresecService).ImportOrganisationList,
 						GetOrganisations
 						);
 
@@ -208,7 +208,7 @@ namespace FireMonitor
 		{
 			try
 			{
-				ClientManager.FiresecService.SuspendPoll = true;
+				((SafeFiresecService)ClientManager.FiresecService).SuspendPoll = true;
 				var clientCredentials = new ClientCredentials()
 				{
 					UserName = Login,
@@ -227,7 +227,7 @@ namespace FireMonitor
 			}
 			finally
 			{
-				ClientManager.FiresecService.SuspendPoll = false;
+				((SafeFiresecService)ClientManager.FiresecService).SuspendPoll = false;
 			}
 		}
 		public void Restart(string login = null, string password = null)

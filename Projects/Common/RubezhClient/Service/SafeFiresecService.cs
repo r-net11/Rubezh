@@ -8,9 +8,10 @@ using System.Windows.Threading;
 
 namespace RubezhClient
 {
-	public partial class SafeFiresecService
+	public partial class SafeFiresecService : ISafeFiresecService
 	{
 		FiresecServiceFactory FiresecServiceFactory;
+		public IFiresecService FiresecService { get; set; }
 		string _serverAddress;
 		ClientCredentials _clientCredentials;
 		bool IsDisconnecting = false;
@@ -126,7 +127,7 @@ namespace RubezhClient
 			isConnected = true;
 		}
 
-		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials)
+		public OperationResult<bool> Connect(Guid clientUID, ClientCredentials clientCredentials)
 		{
 			_clientCredentials = clientCredentials;
 			return SafeOperationCall(() =>
@@ -135,7 +136,7 @@ namespace RubezhClient
 				{
 					var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 					using (firesecService as IDisposable)
-						return firesecService.Connect(uid, clientCredentials);
+						return firesecService.Connect(clientUID, clientCredentials);
 				}
 				//catch (EndpointNotFoundException) { }
 				//catch (System.IO.PipeException) { }

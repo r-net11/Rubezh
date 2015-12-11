@@ -1,13 +1,13 @@
 ﻿using Common;
 using Infrastructure.Automation;
-using RubezhAPI;
 using Infrastructure.Common;
 using Ionic.Zip;
+using RubezhAPI;
 using RubezhAPI.Journal;
+using RubezhAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using RubezhAPI.Models;
 
 namespace FiresecService.Service
 {
@@ -105,7 +105,7 @@ namespace FiresecService.Service
 			RestartWithNewConfig();
 		}
 
-		public void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
+		public void SetSecurityConfiguration(Guid clientUID, SecurityConfiguration securityConfiguration)
 		{
 			securityConfiguration.Version = new ConfigurationVersion() { MinorVersion = 1, MajorVersion = 1 };
 			ZipSerializeHelper.Serialize(securityConfiguration, Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "SecurityConfiguration.xml"), true);

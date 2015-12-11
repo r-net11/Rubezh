@@ -48,10 +48,10 @@ namespace RubezhAPI
 		string Test(Guid clientUID, string arg);
 
 		[OperationContract]
-		OperationResult<SecurityConfiguration> GetSecurityConfiguration();
+		OperationResult<SecurityConfiguration> GetSecurityConfiguration(Guid clientUID);
 
 		[OperationContract]
-		void SetSecurityConfiguration(SecurityConfiguration securityConfiguration);
+		void SetSecurityConfiguration(Guid clientUID, SecurityConfiguration securityConfiguration);
 
 		[OperationContract]
 		string Ping(Guid clientUID);

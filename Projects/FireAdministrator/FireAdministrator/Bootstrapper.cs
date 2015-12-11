@@ -109,7 +109,7 @@ namespace FireAdministrator
 		{
 			try
 			{
-				ClientManager.FiresecService.SuspendPoll = true;
+				((SafeFiresecService)ClientManager.FiresecService).SuspendPoll = true;
 				var clientCredentials = new ClientCredentials()
 				{
 					UserName = Login,
@@ -128,7 +128,7 @@ namespace FireAdministrator
 			}
 			finally
 			{
-				ClientManager.FiresecService.SuspendPoll = false;
+				((SafeFiresecService)ClientManager.FiresecService).SuspendPoll = false;
 			}
 		}
 		public void Restart(string login = null, string password = null)
