@@ -240,6 +240,7 @@
     <Resource Include="Content\Image\Icon\Hr\Chief.png" />
     <Content Include="Content\Image\Icon\Hr\ChiefW.png" />
     <Content Include="Content\Image\Icon\Hr\Department.png" />
+    <Resource Include="Content\Image\Icon\Hr\Position.png" />
     <Content Include="Content\Image\Icon\Menu\archive.png" />
     <Content Include="Content\Image\Icon\Menu\Bug.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Add.png" />
@@ -443,6 +444,8 @@
     <Content Include="Scripts\SKD\Departments\DepartmentsViewModel.js" />
     <Content Include="Scripts\SKD\Employees\DepartmentSelectionViewModel.js" />
     <Content Include="Scripts\SKD\Employees\CardRemovalReasonViewModel.js" />
+    <Content Include="Scripts\SKD\Positions\PositionDetailsViewModel.js" />
+    <Content Include="Scripts\SKD\Positions\PositionsViewModel.js" />
     <Content Include="Scripts\tooltips.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -460,19 +463,23 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HrController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
+    <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
     <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
-	<Compile Include="Models\SKD\Common\DetailsValidateHelper.cs" />
+    <Compile Include="Models\SKD\Common\DetailsValidateHelper.cs" />
     <Compile Include="Models\FireZone\Device.cs" />
     <Compile Include="Models\SKD\Common\OrganisationBaseViewModel.cs" />
     <Compile Include="Models\FireZone\FireZone.cs" />
     <Compile Include="Models\SKD\Common\OrganisationElementBaseViewModel.cs" />
     <Compile Include="Models\SKD\Departments\DepartmentDetailsViewModel.cs" />
+    <Compile Include="Models\SKD\Positions\PositionDetailsViewModel.cs" />
+    <Compile Include="Models\SKD\Positions\PositionsViewModel.cs" />
     <Compile Include="Models\SKD\Departments\DepartmentsViewModel.cs" />
+    <Compile Include="Models\SKD\Positions\PositionViewModel.cs" />
     <Compile Include="Models\SKD\Departments\DepartmentViewModel.cs" />
-	<Compile Include="Models\SKD\Employees\DepartmentSelectionItemViewModel.cs" />
+    <Compile Include="Models\SKD\Employees\DepartmentSelectionItemViewModel.cs" />
     <Compile Include="Utils\InternalConverter.cs" />
     <Compile Include="DataProviders\Plan\PlansDataProvider.cs" />
     <Compile Include="DataProviders\Plan\PlansUpdater.cs" />
@@ -533,6 +540,8 @@
     <Content Include="Views\Employees\DepartmentSelection.cshtml" />
     <Content Include="Views\Hr\EmployeeSelectionDialog.cshtml" />
     <Content Include="Views\Departments\DepartmentEmployeeList.cshtml" />
+    <Content Include="Views\Positions\Index.cshtml" />
+    <Content Include="Views\Positions\PositionDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

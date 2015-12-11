@@ -38,6 +38,7 @@
         filter.PersonType(self.SelectedPersonType());
         self.Employees.Init(filter);
         self.Departments.Init(self.Filter);
+        self.Positions.Init(self.Filter);
     };
 
     self.HrPageClick = function(data, e, page) {
