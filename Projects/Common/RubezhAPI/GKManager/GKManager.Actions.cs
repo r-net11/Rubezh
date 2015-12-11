@@ -306,7 +306,7 @@ namespace RubezhAPI
 			device.InputDependentElements = new List<GKBase>();
 			device.OutputDependentElements = new List<GKBase>();
 			device.IsInMPT = false;
-		
+			RebuildRSR2Addresses(device);
 			return true;
 		}
 
