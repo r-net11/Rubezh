@@ -74,7 +74,12 @@ namespace RubezhClient
 					var stream = FiresecService.GetConfig();
 					CopyStream(stream, configFileStream);
 					LoadFromZipFile(configFileName);
-					SecurityConfiguration = FiresecService.GetSecurityConfiguration();
+					
+					var result = FiresecService.GetSecurityConfiguration();
+					if (!result.HasError && result.Result != null)
+					{
+						SecurityConfiguration = result.Result;
+					}
 				}
 				else
 				{

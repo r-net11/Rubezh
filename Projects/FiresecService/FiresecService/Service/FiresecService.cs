@@ -1,18 +1,18 @@
-﻿using System;
-using System.ServiceModel;
-using System.ServiceModel.Channels;
-using Common;
+﻿using Common;
 using RubezhAPI;
 using RubezhAPI.Journal;
+using RubezhAPI.License;
 using RubezhAPI.Models;
 using RubezhDAL.DataClasses;
-using RubezhAPI.License;
+using System;
+using System.ServiceModel;
+using System.ServiceModel.Channels;
 
 namespace FiresecService.Service
 {
 	[ServiceBehavior(MaxItemsInObjectGraph = Int32.MaxValue, UseSynchronizationContext = false,
 	InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
-	public partial class FiresecService : IFiresecService
+	public partial class FiresecService
 	{
 		ClientCredentials CurrentClientCredentials;
 		public static ServerState ServerState { get; set; }
@@ -37,11 +37,11 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew)
+		public OperationResult<bool> Connect(Guid clientUID, ClientCredentials clientCredentials)
 		{
 			if (DbService.ConnectionOperationResult.HasError && clientCredentials.ClientType != ClientType.Administrator)
 				return OperationResult<bool>.FromError("Отсутствует подключение к БД");
-			clientCredentials.ClientUID = uid;
+			clientCredentials.ClientUID = clientUID;
 			InitializeClientCredentials(clientCredentials);
 
 			var operationResult = Authenticate(clientCredentials);
@@ -49,14 +49,14 @@ namespace FiresecService.Service
 				return operationResult;
 
 			CurrentClientCredentials = clientCredentials;
-			if (ClientsManager.Add(uid, clientCredentials))
+			if (ClientsManager.Add(clientUID, clientCredentials))
 				AddJournalMessage(JournalEventNameType.Вход_пользователя_в_систему, null);
 			return operationResult;
 		}
 
-		public void Disconnect(Guid uid)
+		public void Disconnect(Guid clientUID)
 		{
-			var clientInfo = ClientsManager.GetClientInfo(uid);
+			var clientInfo = ClientsManager.GetClientInfo(clientUID);
 			if (clientInfo != null)
 			{
 				clientInfo.IsDisconnecting = true;
@@ -66,16 +66,20 @@ namespace FiresecService.Service
 					AddJournalMessage(JournalEventNameType.Выход_пользователя_из_системы, null);
 				}
 			}
-			ClientsManager.Remove(uid);
-			Logger.Error("Bug catching (RG-362). FiresecService.Disconnect");
+			ClientsManager.Remove(clientUID);
 		}
-
-		public OperationResult<ServerState> GetServerState()
+		public void LayoutChanged(Guid clientUID, Guid layoutUID)
+		{
+			var clientInfo = ClientsManager.GetClientInfo(clientUID);
+			if (clientInfo != null)
+				clientInfo.LayoutUID = layoutUID;
+		}
+		public OperationResult<ServerState> GetServerState(Guid clientUID)
 		{
 			return new OperationResult<ServerState>(ServerState);
 		}
 
-		public string Test(string arg)
+		public string Test(Guid clientUID, string arg)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -84,12 +88,12 @@ namespace FiresecService.Service
 			return "Test";
 		}
 
-		public SecurityConfiguration GetSecurityConfiguration()
+		public OperationResult<SecurityConfiguration> GetSecurityConfiguration(Guid clientUID)
 		{
 			return ConfigurationCashHelper.GetSecurityConfiguration();
 		}
 
-		public string Ping()
+		public string Ping(Guid clientUID)
 		{
 			try
 			{
@@ -106,15 +110,15 @@ namespace FiresecService.Service
 			return null;
 		}
 
-		public OperationResult ResetDB()
+		public OperationResult ResetDB(Guid clientUID)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.ResetDB();
 			}
 		}
-		
-		public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
+
+		public OperationResult<FiresecLicenseInfo> GetLicenseInfo(Guid clientUID)
 		{
 			return new OperationResult<FiresecLicenseInfo>(LicenseManager.CurrentLicenseInfo);
 		}

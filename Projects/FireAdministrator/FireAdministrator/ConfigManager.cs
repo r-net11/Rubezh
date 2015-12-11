@@ -45,6 +45,10 @@ namespace FireAdministrator
 					ClientManager.FiresecService.GKAddMessage(JournalEventNameType.Применение_конфигурации, "");
 					LoadingService.Show("Применение конфигурации", "Применение конфигурации", 10);
 
+					if (ServiceFactory.SaveService.SecurityChanged)
+					{
+						ClientManager.FiresecService.SetSecurityConfiguration(ClientManager.SecurityConfiguration);
+					}
 					if (ConnectionSettingsManager.IsRemote)
 					{
 						var tempFileName = SaveConfigToFile(false);
@@ -52,20 +56,11 @@ namespace FireAdministrator
 						{
 							ClientManager.FiresecService.SetRemoteConfig(fileStream);
 						}
-						if (ServiceFactory.SaveService.SecurityChanged)
-						{
-							var tempSecurityFolderName = AppDataFolderHelper.GetTempFolder();
-							if (!Directory.Exists(tempSecurityFolderName))
-								Directory.CreateDirectory(tempSecurityFolderName);
-							ClientManager.FiresecService.SetSecurityConfiguration(ClientManager.SecurityConfiguration);
-							Directory.Delete(tempSecurityFolderName, true);
-						}
 						File.Delete(tempFileName);
 					}
 					else
 					{
 						SaveConfigToFile(true);
-						AddConfiguration(AppDataFolderHelper.GetServerAppDataPath(), "SecurityConfiguration.xml", ClientManager.SecurityConfiguration, 1, 1, true);
 						ClientManager.FiresecService.SetLocalConfig();
 					}
 				});

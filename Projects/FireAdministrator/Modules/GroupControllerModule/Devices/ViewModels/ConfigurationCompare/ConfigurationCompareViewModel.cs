@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Ionic.Zip;
 using RubezhAPI.GK;
 using Infrastructure;
 using Infrastructure.Common;
@@ -18,22 +19,26 @@ namespace GKModule.ViewModels
 		GKDeviceConfiguration LocalConfiguration { get; set; }
 		GKDeviceConfiguration RemoteConfiguration { get; set; }
 		string ConfigFileName { get; set; }
+		bool OnlyGKDeviceConfiguration { get; set; }
 		public ObjectsListViewModel LocalObjectsViewModel { get; set; }
 		public ObjectsListViewModel RemoteObjectsViewModel { get; set; }
 		internal static bool ConfigFromFile { get; private set; }
 		public string Error { get; private set; }
-		public bool CanChangeOrReplace { get; private set; }
+		public bool CanChangeOrOpenConfiguration { get; private set; }
 
 		public ConfigurationCompareViewModel(GKDeviceConfiguration localConfiguration, GKDeviceConfiguration remoteConfiguration, GKDevice device, string configFileName = "")
 		{
 			Title = "Сравнение конфигураций " + device.PresentationName;
-			ChangeCommand = new RelayCommand(OnChange);
-			ReplaceCommand = new RelayCommand(OnReplace);
+			ChangeCurrentGkCommand = new RelayCommand(OnChangeCurrentGk);
+			OpenGkConfigurationFileCommand = new RelayCommand(OnOpenGkConfigurationFile, CanOpenGkConfigurationFile);
 			NextDifferenceCommand = new RelayCommand(OnNextDifference, CanNextDifference);
 			PreviousDifferenceCommand = new RelayCommand(OnPreviousDifference, CanPreviousDifference);
 
 			ConfigFileName = configFileName;
-			ConfigFromFile = CanChangeOrReplace = !string.IsNullOrEmpty(configFileName);
+			ConfigFromFile = CanChangeOrOpenConfiguration = !string.IsNullOrEmpty(configFileName);
+
+			var remoteConfig = new ZipFile(ConfigFileName);
+			OnlyGKDeviceConfiguration  = remoteConfig.Entries.Count == 1;
 
 			LocalConfiguration = localConfiguration;
 			RemoteConfiguration = remoteConfiguration;
@@ -92,8 +97,8 @@ namespace GKModule.ViewModels
 			return mismatchedIndexes.Any(x => x < SelectedIndex);
 		}
 
-		public RelayCommand ChangeCommand { get; private set; }
-		void OnChange()
+		public RelayCommand ChangeCurrentGkCommand { get; private set; }
+		void OnChangeCurrentGk()
 		{
 			RemoteDevice.UID = LocalDevice.UID;
 			var rootDevice = LocalConfiguration.Devices.FirstOrDefault(x => x.UID == LocalDevice.Parent.UID);
@@ -117,19 +122,22 @@ namespace GKModule.ViewModels
 				LocalConfiguration.Codes.AddRange(RemoteConfiguration.Codes);
 				LocalConfiguration.Doors.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 				LocalConfiguration.Doors.AddRange(RemoteConfiguration.Doors);
-				LocalConfiguration.SKDZones.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
-				LocalConfiguration.SKDZones.AddRange(RemoteConfiguration.SKDZones);
 			}
 			ServiceFactory.SaveService.GKChanged = true;
 			GKManager.UpdateConfiguration();
 			Close(true);
 		}
 
-		public RelayCommand ReplaceCommand { get; private set; }
-		void OnReplace()
+		public RelayCommand OpenGkConfigurationFileCommand { get; private set; }
+		void OnOpenGkConfigurationFile()
 		{
 			ServiceFactory.Events.GetEvent<LoadFromFileEvent>().Publish(ConfigFileName);
 			Close(true);
+		}
+
+		public bool CanOpenGkConfigurationFile()
+		{
+			return !OnlyGKDeviceConfiguration;
 		}
 
 		public void CompareObjectLists()
@@ -438,6 +446,20 @@ namespace GKModule.ViewModels
 				differences.Append("Не совпадает удержание");
 			}
 
+			if (object1.Door.EnterZoneUID != object2.Door.EnterZoneUID)
+			{
+				if (differences.Length != 0)
+					differences.Append(". ");
+				differences.Append("Не совпадает зона входа");
+			}
+
+			if (object1.Door.ExitZoneUID != object2.Door.ExitZoneUID)
+			{
+				if (differences.Length != 0)
+					differences.Append(". ");
+				differences.Append("Не совпадает зона выхода");
+			}
+
 			bool openLogicDiff = GKManager.GetPresentationLogic(object1.Door.OpenRegimeLogic) != GKManager.GetPresentationLogic(object2.Door.OpenRegimeLogic);
 			if (openLogicDiff)
 			{
@@ -501,6 +523,9 @@ namespace GKModule.ViewModels
 
 			if (viewModel1.ObjectType == ObjectType.Door)
 				return viewModel1.Door.No == viewModel2.Door.No;
+
+			if (viewModel1.ObjectType == ObjectType.SKDZone)
+				return viewModel1.SKDZone.No == viewModel2.SKDZone.No;
 
 			return true;
 		}

@@ -2,6 +2,7 @@
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using System;
 using LayoutModel = RubezhAPI.Models.Layouts.Layout;
 
 namespace AutomationModule.ViewModels
@@ -28,7 +29,7 @@ namespace AutomationModule.ViewModels
 		}
 		bool CanNavigate()
 		{
-			return Layout.UID != LayoutModel.NoLayoutUID;
+			return Layout.UID != Guid.Empty;
 		}
 	}
 }

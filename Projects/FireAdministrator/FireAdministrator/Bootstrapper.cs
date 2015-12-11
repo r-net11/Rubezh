@@ -1,20 +1,20 @@
-﻿using System;
-using System.Windows;
-using Common;
+﻿using Common;
 using FireAdministrator.ViewModels;
-using RubezhAPI;
-using RubezhAPI.Models;
-using RubezhClient;
 using GKProcessor;
 using Infrastructure;
+using Infrastructure.Automation;
 using Infrastructure.Client;
 using Infrastructure.Client.Startup;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrastructure.Services;
+using RubezhAPI;
 using RubezhAPI.Automation;
-using Infrastructure.Automation;
+using RubezhAPI.Models;
+using RubezhClient;
+using System;
+using System.Windows;
 
 namespace FireAdministrator
 {
@@ -29,6 +29,8 @@ namespace FireAdministrator
 			ServiceFactory.StartupService.Show();
 			if (ServiceFactory.StartupService.PerformLogin())
 			{
+				Login = ServiceFactory.StartupService.Login;
+				Password = ServiceFactory.StartupService.Password;
 				try
 				{
 					ServiceFactory.StartupService.DoStep("Загрузка лицензии");
@@ -54,16 +56,7 @@ namespace FireAdministrator
 					GKDriversCreator.Create();
 					BeforeInitialize(true);
 
-					ServiceFactory.StartupService.DoStep("Проверка прав пользователя");
-					if (ClientManager.CheckPermission(PermissionType.Adm_ViewConfig) == false)
-					{
-						MessageBoxService.Show("Нет прав на работу с программой");
-						ClientManager.Disconnect();
-						if (Application.Current != null)
-							Application.Current.Shutdown();
-						return;
-					}
-					else if (Application.Current != null)
+					if (Application.Current != null)
 					{
 						var shell = new AdministratorShellViewModel();
 						shell.LogoSource = "rubezhLogo";
@@ -82,7 +75,8 @@ namespace FireAdministrator
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(OnConfigurationClosed);
 
 					SafeFiresecService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
-					
+					SafeFiresecService.ReconnectionRequiredEvent += () => { ApplicationService.Invoke(OnReconnectionRequired); };
+
 					MutexHelper.KeepAlive();
 				}
 				catch (StartupCancellationException)
@@ -110,6 +104,51 @@ namespace FireAdministrator
 		{
 			ClientManager.GetLicense();
 			ProcedureExecutionContext.UpdateConfiguration(ClientManager.SystemConfiguration, ClientManager.SecurityConfiguration);
+		}
+		void OnReconnectionRequired()
+		{
+			try
+			{
+				((SafeFiresecService)ClientManager.FiresecService).SuspendPoll = true;
+				var clientCredentials = new ClientCredentials()
+				{
+					UserName = Login,
+					Password = Password,
+					ClientType = ClientType.Administrator,
+					ClientUID = FiresecServiceFactory.UID
+				};
+
+				var operationResult = ClientManager.FiresecService.Connect(FiresecServiceFactory.UID, clientCredentials);
+				if (operationResult.HasError)
+					Restart(Login, Password);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Bootstrapper.OnReconnectionRequired");
+			}
+			finally
+			{
+				((SafeFiresecService)ClientManager.FiresecService).SuspendPoll = false;
+			}
+		}
+		public void Restart(string login = null, string password = null)
+		{
+			using (new WaitWrapper())
+			{
+				ApplicationService.ApplicationWindow.IsEnabled = false;
+				ServiceFactory.ContentService.Invalidate();
+				ClientManager.FiresecService.StopPoll();
+				LoadingErrorManager.Clear();
+				ApplicationService.CloseAllWindows();
+				ServiceFactory.Layout.Close();
+				ApplicationService.ShutDown();
+			}
+			if (login != null && password != null)
+			{
+				Login = login;
+				Password = password;
+			}
+			RestartApplication();
 		}
 		void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
 		{

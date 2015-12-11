@@ -1,36 +1,61 @@
-﻿using System;
+﻿using RubezhAPI;
+using RubezhAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using RubezhAPI;
-using RubezhAPI.Models;
 
 namespace RubezhClient
 {
 	public partial class SafeFiresecService
-	{	 
-		public void Disconnect(Guid uid)
+	{
+		public void Disconnect(Guid clientUID)
 		{
-			SafeOperationCall(() => { FiresecService.Disconnect(uid); }, "Disconnect");
+			SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					firesecService.Disconnect(clientUID);
+			}, "Disconnect");
 		}
-		
+
 		public OperationResult<ServerState> GetServerState()
 		{
-			return SafeOperationCall(() => { return FiresecService.GetServerState(); }, "GetServerState");
+			return SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					return firesecService.GetServerState(FiresecServiceFactory.UID);
+			}, "GetServerState");
 		}
 
-		public List<CallbackResult> Poll(Guid uid)
+		public PollResult Poll(Guid clientUID, int callbackIndex)
 		{
-			return SafeOperationCall(() => { return FiresecService.Poll(uid); }, "Poll");
+			return SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromSeconds(90));
+				using (firesecService as IDisposable)
+					return firesecService.Poll(clientUID, callbackIndex);
+			}, "Poll");
 		}
 
-		public SecurityConfiguration GetSecurityConfiguration()
+		public OperationResult<SecurityConfiguration> GetSecurityConfiguration()
 		{
-			return SafeOperationCall(() => { return FiresecService.GetSecurityConfiguration(); }, "GetSecurityConfiguration");
+			return SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					return firesecService.GetSecurityConfiguration(FiresecServiceFactory.UID);
+			}, "GetSecurityConfiguration");
 		}
 
 		public void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
 		{
-			SafeOperationCall(() => FiresecService.SetSecurityConfiguration(securityConfiguration), "SetSecurityConfiguration");
+			SafeOperationCall(() =>
+				{
+					var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+					using (firesecService as IDisposable)
+						firesecService.SetSecurityConfiguration(FiresecServiceFactory.UID, securityConfiguration);
+				}, "SetSecurityConfiguration");
 		}
 
 		public T GetConfiguration<T>(string filename)
@@ -42,47 +67,92 @@ namespace RubezhClient
 
 		public List<string> GetFileNamesList(string directory)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetFileNamesList(directory); }, "GetFileNamesList");
+			return SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					return firesecService.GetFileNamesList(FiresecServiceFactory.UID, directory);
+			}, "GetFileNamesList");
 		}
 
 		public Dictionary<string, string> GetDirectoryHash(string directory)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetDirectoryHash(directory); }, "GetDirectoryHash");
+			return SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					return firesecService.GetDirectoryHash(FiresecServiceFactory.UID, directory);
+			}, "GetDirectoryHash");
 		}
 
 		public System.IO.Stream GetServerAppDataFile(string dirAndFileName)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetServerAppDataFile(dirAndFileName); }, "GetServerAppDataFile");
+			return SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					return firesecService.GetServerAppDataFile(FiresecServiceFactory.UID, dirAndFileName);
+			}, "GetServerAppDataFile");
 		}
 
 		public Stream GetConfig()
 		{
-			return SafeOperationCall(() => { return FiresecService.GetConfig(); }, "GetConfig");
+			return SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					return firesecService.GetConfig(FiresecServiceFactory.UID);
+			}, "GetConfig");
 		}
 
 		public void SetRemoteConfig(Stream stream)
 		{
-			SafeOperationCall(() => { FiresecService.SetRemoteConfig(stream); }, "SetRemoteConfig");
+			SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					firesecService.SetRemoteConfig(stream);
+			}, "SetRemoteConfig");
 		}
 
 		public void SetLocalConfig()
 		{
-			SafeOperationCall(() => { FiresecService.SetLocalConfig(); }, "SetLocalConfig");
+			SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					firesecService.SetLocalConfig(FiresecServiceFactory.UID);
+			}, "SetLocalConfig");
 		}
 
 		public string Test(string arg)
 		{
-			return SafeOperationCall(() => { return FiresecService.Test(arg); }, "Test");
+			return SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					return firesecService.Test(FiresecServiceFactory.UID, arg);
+			}, "Test");
 		}
 
 		public string Ping()
 		{
-			return SafeOperationCall(() => { return FiresecService.Ping(); }, "Ping");
+			return SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					return firesecService.Ping(FiresecServiceFactory.UID);
+			}, "Ping");
 		}
 
 		public OperationResult ResetDB()
 		{
-			return SafeOperationCall(() => { return FiresecService.ResetDB(); }, "ResetDB");
+			return SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					return firesecService.ResetDB(FiresecServiceFactory.UID);
+			}, "ResetDB");
 		}
 	}
 }

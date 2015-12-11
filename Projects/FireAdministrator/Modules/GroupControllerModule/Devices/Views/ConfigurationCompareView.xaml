@@ -124,9 +124,9 @@
 			</DataGrid>
 		</Grid>
 		<StackPanel Grid.Row="1" Orientation="Horizontal" >
-			<StackPanel Orientation="Horizontal" Visibility="{Binding CanChangeOrReplace, Converter={StaticResource BoolToVisibilityConverter}}">
-				<Button Content="Заменить текущую конфигурацию" Command="{Binding ChangeCommand}" HorizontalAlignment="Left" Width="250" Margin="2" />
-				<Button Content="Заменить всю конфигурацию" Command="{Binding ReplaceCommand}" HorizontalAlignment="Left" Width="250" Margin="2" />
+			<StackPanel Orientation="Horizontal" Visibility="{Binding CanChangeOrOpenConfiguration, Converter={StaticResource BoolToVisibilityConverter}}">
+				<!--<Button Content="Заменить для текущего ГК" Command="{Binding ChangeCurrentGkCommand}" HorizontalAlignment="Left" Width="250" Margin="2" />-->
+                <Button Content="Открыть конфигурацию из файла ГК" Command="{Binding OpenGkConfigurationFileCommand}" HorizontalAlignment="Left" Width="250" Margin="2" />
 			</StackPanel>
 			<ToolBarButton ImageSource="nextDifference"  ToolTip="Следующее несовпадение" Command="{Binding NextDifferenceCommand}" HorizontalAlignment="Left" Margin="2" />
 			<ToolBarButton ImageSource="previousDifference"  ToolTip="Предыдущее несовпадение" Command="{Binding PreviousDifferenceCommand}" HorizontalAlignment="Left" Margin="2" />

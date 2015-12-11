@@ -1,13 +1,13 @@
-﻿using System;
+﻿using GKProcessor;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
+using RubezhAPI.License;
+using RubezhAPI.Models;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Threading;
-using RubezhAPI.Models;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using GKProcessor;
-using RubezhAPI.License;
-using RubezhAPI;
 
 namespace FiresecService.ViewModels
 {
@@ -269,17 +269,20 @@ namespace FiresecService.ViewModels
 		{
 			_dispatcher.Invoke((Action)(() =>
 				{
+					var now = DateTime.Now;
 					var clientInfo = FiresecService.Service.ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == uid);
 					var client = clientInfo == null ? "" : string.Format("{0} / {1} / {2}", clientInfo.ClientCredentials.ClientType.ToDescription(), clientInfo.ClientCredentials.ClientIpAddress, clientInfo.ClientCredentials.FriendlyUserName);
 					var clientPoll = ClientPolls.FirstOrDefault(x => x.Client == client && x.UID == uid);
 					if (clientPoll == null)
 					{
 						clientPoll = new ClientPollViewModel { UID = uid, Client = client };
-						clientPoll.FirstPollTime = clientPoll.LastPollTime = DateTime.Now;
+						clientPoll.FirstPollTime = now;
 						ClientPolls.Add(clientPoll);
 					}
-					else
-						clientPoll.LastPollTime = DateTime.Now;
+					if (clientInfo != null)
+						clientPoll.CallbackIndex = clientInfo.CallbackIndex;
+					clientPoll.LastPollTime = now;
+
 				}));
 		}
 		#endregion

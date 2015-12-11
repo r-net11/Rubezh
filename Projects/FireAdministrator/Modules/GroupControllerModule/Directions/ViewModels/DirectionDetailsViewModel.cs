@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using RubezhAPI.GK;
-using RubezhClient;
-using GKProcessor;
+﻿using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace GKModule.ViewModels
 {
@@ -224,7 +224,7 @@ namespace GKModule.ViewModels
 
 		bool CompareLocalWithRemoteHashes()
 		{
-			if(Direction.GkDatabaseParent == null)
+			if (Direction.GkDatabaseParent == null)
 			{
 				MessageBoxService.ShowError("Направление не относится ни к одному ГК");
 				return false;

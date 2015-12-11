@@ -183,7 +183,6 @@
     <Compile Include="SKDReports\ISKDReportProviderModule.cs" />
     <Compile Include="SKDReports\SKDReportGroup.cs" />
     <Compile Include="SKDReports\SKDReportProvider.cs" />
-    <Compile Include="TimeoutOperation.cs" />
     <Compile Include="Validation\PlanObjectValidationError.cs" />
     <Compile Include="Windows\ViewModels\BaseObjectViewModel.cs" />
     <Compile Include="Windows\ViewModels\IEditingBaseViewModel.cs" />

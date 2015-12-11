@@ -25,7 +25,7 @@ namespace RubezhClient
 		OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page, Guid clientUid);
 		OperationResult<bool> BeginGetJournal(JournalFilter filter, Guid clientUid);
 		void CancelGKProgress(Guid progressCallbackUID, string userName);
-		OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew);
+		OperationResult<bool> Connect(Guid clientUID, ClientCredentials clientCredentials);
 		void ControlDelay(Guid uid, DelayCommandType commandType);
 		void ControlDirection(Guid uid, DirectionCommandType commandType);
 		void ControlFireZone(Guid uid, ZoneCommandType commandType);
@@ -40,7 +40,7 @@ namespace RubezhClient
 		OperationResult<bool> DeleteGKDaySchedule(GKDaySchedule item);
 		OperationResult<bool> DeleteGKSchedule(GKSchedule item);
 		OperationResult DeletePassJournal(Guid uid);
-		void Disconnect(Guid uid);
+		void Disconnect(Guid clientUID);
 		void Dispose();
 		OperationResult<bool> EditCard(SKDCard item, string employeeName);
 		OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime enterTime, DateTime exitTime);
@@ -96,7 +96,7 @@ namespace RubezhClient
 		ProcedureProperties GetProperties(Guid layoutUID);
 		OperationResult<List<Schedule>> GetSchedules(ScheduleFilter filter);
 		OperationResult<List<ScheduleScheme>> GetScheduleSchemes(ScheduleSchemeFilter filter);
-		SecurityConfiguration GetSecurityConfiguration();
+		OperationResult<SecurityConfiguration> GetSecurityConfiguration();
 		void SetSecurityConfiguration(SecurityConfiguration securityConfiguration);
 		Stream GetServerAppDataFile(string dirAndFileName);
 		Stream GetServerFile(string filePath);
@@ -151,6 +151,7 @@ namespace RubezhClient
 		OperationResult ImportOrganisationList(ImportFilter filter);
 		void ImportOrganisationList(bool isWithDeleted, string path);
 		OperationResult<bool> IsAnyOrganisationItems(Guid uid);
+		bool LayoutChanged(Guid clientUID, Guid layoutUID);
 		OperationResult MarkDeletedAccessTemplate(AccessTemplate item);
 		OperationResult MarkDeletedAdditionalColumnType(Guid uid, string name);
 		OperationResult MarkDeletedDayInterval(Guid uid, string name);
@@ -163,7 +164,7 @@ namespace RubezhClient
 		OperationResult MarkDeletedSchedule(Guid uid, string name);
 		OperationResult MarkDeletedScheduleScheme(Guid uid, string name);
 		string Ping();
-		List<CallbackResult> Poll(Guid uid);
+		PollResult Poll(Guid clientUID, int callbackIndex);
 		void ProcedureCallbackResponse(Guid procedureThreadUID, object value);
 		void Ptz(Guid cameraUid, int ptzNumber);
 		OperationResult RemoveOrganisationDoor(Organisation item, Guid doorUID);

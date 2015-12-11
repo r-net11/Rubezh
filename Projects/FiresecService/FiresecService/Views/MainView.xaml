@@ -129,6 +129,7 @@
 						<DataGridTextColumn Binding="{Binding UID}" Header="Идентификатор" Width="*" />
 						<DataGridTextColumn Binding="{Binding FirstPollTime, StringFormat='dd.MM.yyyy HH:mm:ss'}" Header="Первый поллинг" Width="Auto" />
 						<DataGridTextColumn Binding="{Binding LastPollTime, StringFormat='dd.MM.yyyy HH:mm:ss'}" Header="Последний поллинг" Width="Auto" />
+						<DataGridTextColumn Binding="{Binding CallbackIndex}" Header="Индекс" Width="Auto" />
 					</DataGrid.Columns>
 				</DataGrid>
 			</TabItem>

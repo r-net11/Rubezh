@@ -1,16 +1,16 @@
+using FireMonitor.ViewModels;
+using Infrastructure.Common;
+using Infrastructure.Common.Ribbon;
+using Infrastructure.Common.Windows;
+using RubezhAPI.AutomationCallback;
+using RubezhAPI.Models;
+using RubezhClient;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
-using FireMonitor.ViewModels;
-using RubezhAPI.Models;
-using RubezhClient;
-using Infrastructure.Common;
-using Infrastructure.Common.Ribbon;
-using Infrastructure.Common.Windows;
 using LayoutModel = RubezhAPI.Models.Layouts.Layout;
-using RubezhAPI.AutomationCallback;
 
 namespace FireMonitor.Layout.ViewModels
 {
@@ -75,10 +75,10 @@ namespace FireMonitor.Layout.ViewModels
 		private void AddRibbonItem()
 		{
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить пользователя", ChangeUserCommand, "BUser") { Order = 0 });
-			
+
 			var ip = ConnectionSettingsManager.IsRemote ? null : ClientManager.GetIP();
-			var layouts = ClientManager.LayoutsConfiguration.Layouts.Where(layout => 
-				layout.Users.Contains(ClientManager.CurrentUser.UID) && 
+			var layouts = ClientManager.LayoutsConfiguration.Layouts.Where(layout =>
+				layout.Users.Contains(ClientManager.CurrentUser.UID) &&
 				(ip == null || layout.HostNameOrAddressList.Contains(ip)) &&
 				Bootstrapper.CheckLicense(layout)).OrderBy(item => item.Caption);
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить шаблон",
@@ -113,8 +113,13 @@ namespace FireMonitor.Layout.ViewModels
 		public RelayCommand<LayoutModel> ChangeLayoutCommand { get; private set; }
 		void OnChangeLayout(LayoutModel layout)
 		{
-			ApplicationService.CloseAllWindows();
-			LayoutContainer.UpdateLayout(layout);
+			if (ClientManager.FiresecService.LayoutChanged(FiresecServiceFactory.UID, layout == null ? Guid.Empty : layout.UID))
+			{
+				ApplicationService.CloseAllWindows();
+				LayoutContainer.UpdateLayout(layout);
+			}
+			else
+				MessageBoxService.ShowError("Не удалось сменить шаблон. Возможно, отсутствует связь с сервером.");
 		}
 		bool CanChangeLayout(LayoutModel layout)
 		{
