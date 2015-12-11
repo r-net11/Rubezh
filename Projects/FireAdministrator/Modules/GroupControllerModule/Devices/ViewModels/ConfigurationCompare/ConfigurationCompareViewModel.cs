@@ -30,7 +30,7 @@ namespace GKModule.ViewModels
 		{
 			Title = "Сравнение конфигураций " + device.PresentationName;
 			ChangeCurrentGkCommand = new RelayCommand(OnChangeCurrentGk);
-			OpenGkConfigurationFileCommand = new RelayCommand(OnOpenGkConfigurationFile, CanReplace);
+			OpenGkConfigurationFileCommand = new RelayCommand(OnOpenGkConfigurationFile, CanOpenGkConfigurationFile);
 			NextDifferenceCommand = new RelayCommand(OnNextDifference, CanNextDifference);
 			PreviousDifferenceCommand = new RelayCommand(OnPreviousDifference, CanPreviousDifference);
 
@@ -135,7 +135,7 @@ namespace GKModule.ViewModels
 			Close(true);
 		}
 
-		public bool CanReplace()
+		public bool CanOpenGkConfigurationFile()
 		{
 			return !OnlyGKDeviceConfiguration;
 		}

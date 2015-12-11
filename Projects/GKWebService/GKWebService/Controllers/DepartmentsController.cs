@@ -144,6 +144,17 @@ namespace GKWebService.Controllers
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        public JsonNetResult GetChildEmployeeUIDs(Guid departmentId)
+        {
+            var operationResult = ClientManager.FiresecService.GetChildEmployeeUIDs(departmentId);
+
+            if (operationResult.HasError)
+            {
+                throw new InvalidOperationException(operationResult.Error);
+            }
+
+            return new JsonNetResult { Data = operationResult.Result};
+        }
 
         [HttpPost]
         public JsonResult SaveEmployeeDepartment(Guid employeeUID, Guid? departmentUID, string name)
@@ -159,6 +170,39 @@ namespace GKWebService.Controllers
             var result = ClientManager.FiresecService.SaveDepartmentChief(departmentUID, employeeUID, name);
 
             return Json(result.HasError, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonNetResult MarkDeleted(Guid uid)
+        {
+            var getDepartmentsResult = ClientManager.FiresecService.GetDepartmentList(new DepartmentFilter {UIDs = new List<Guid> { uid } });
+            if (getDepartmentsResult.HasError)
+            {
+                throw new InvalidOperationException(getDepartmentsResult.Error);
+            }
+            var department = getDepartmentsResult.Result.FirstOrDefault();
+
+            var operationResult = ClientManager.FiresecService.MarkDeletedDepartment(department);
+            return new JsonNetResult { Data = operationResult != null && operationResult.HasError && !operationResult.Error.Contains("Ошибка БД") };
+        }
+
+        [HttpPost]
+        public JsonNetResult Restore(Guid uid)
+        {
+            var filter = new DepartmentFilter
+            {
+                UIDs = new List<Guid> { uid },
+                LogicalDeletationType = LogicalDeletationType.All
+            };
+            var getDepartmentsResult = ClientManager.FiresecService.GetDepartmentList(filter);
+            if (getDepartmentsResult.HasError)
+            {
+                throw new InvalidOperationException(getDepartmentsResult.Error);
+            }
+            var department = getDepartmentsResult.Result.FirstOrDefault();
+
+            var operationResult = ClientManager.FiresecService.RestoreDepartment(department);
+            return new JsonNetResult { Data = operationResult != null && operationResult.HasError && !operationResult.Error.Contains("Ошибка БД") };
         }
     }
 }
