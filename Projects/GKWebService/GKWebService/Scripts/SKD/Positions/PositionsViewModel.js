@@ -122,14 +122,14 @@ function PositionsViewModel() {
             self.IsOrganisation(myGrid.jqGrid('getCell', id, 'IsOrganisation') == "true");
             self.IsDeleted(myGrid.jqGrid('getCell', id, 'IsDeleted') == "true");
 
-            //self.PositionEmployeeList.Init();
+            self.PositionEmployeeList.Init();
 
             self.IsRowSelected(true);
         }
     });
 
     self.Add = function (data, e) {
-        self.DepartmentDetails.Init(self.OrganisationUID(), '', self.UID(), self.ReloadTree);
+        self.PositionDetails.Init(self.OrganisationUID(), '', self.UID(), self.ReloadTree);
     };
 
     self.Remove = function (data, e) {

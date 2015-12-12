@@ -74,6 +74,17 @@ namespace GKWebService.Controllers
             return GetEmployees(filter);
         }
 
+        public JsonNetResult GetEmptyPositionEmployees(Guid id)
+        {
+            var filter = new EmployeeFilter
+            {
+                OrganisationUIDs = new List<Guid> {id},
+                IsEmptyPosition = true
+            };
+
+            return GetEmployees(filter);
+        }
+
         private JsonNetResult GetEmployees(EmployeeFilter filter)
         {
             var operationResult = ClientManager.FiresecService.GetEmployeeList(filter);

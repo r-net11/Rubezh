@@ -64,5 +64,45 @@ namespace GKWebService.Controllers
 
             return new JsonNetResult { Data = error };
         }
+
+        public ActionResult PositionEmployeeList()
+        {
+            return View();
+        }
+
+        public JsonResult GetPositionEmployeeList(Guid positionId, Guid organisationId, bool isWithDeleted)
+        {
+            var filter = new EmployeeFilter
+            {
+                PositionUIDs = new List<Guid> { positionId },
+                OrganisationUIDs = new List<Guid> { organisationId },
+                LogicalDeletationType = isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active
+            };
+            var operationResult = ClientManager.FiresecService.GetEmployeeList(filter);
+            if (operationResult.HasError)
+            {
+                throw new InvalidOperationException(operationResult.Error);
+            }
+
+            var employees = operationResult.Result.Select(e => ShortEmployeeModel.CreateFromModel(e)).ToList();
+
+            dynamic result = new
+            {
+                page = 1,
+                total = 100,
+                records = 100,
+                rows = employees,
+            };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult SaveEmployeePosition(Guid employeeUID, Guid? positionUID, string name)
+        {
+            var operationResult = ClientManager.FiresecService.SaveEmployeePosition(employeeUID, positionUID, name);
+
+            return Json(operationResult.HasError, JsonRequestBehavior.AllowGet);
+        }
     }
 }
