@@ -59,7 +59,7 @@ namespace SKDModule.ViewModels
 		void OnAdd()
 		{
 			var dayIntervalPartDetailsViewModel = new DayIntervalPartDetailsViewModel(Model);
-			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel) && DayIntervalPartHelper.Save(dayIntervalPartDetailsViewModel.DayIntervalPart, Model.Name))
+			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel))
 			{
 				var dayIntervalPart = dayIntervalPartDetailsViewModel.DayIntervalPart;
 				Model.DayIntervalParts.Add(dayIntervalPart);
@@ -93,7 +93,7 @@ namespace SKDModule.ViewModels
 			var dayIntervalPartDetailsViewModel = new DayIntervalPartDetailsViewModel(Model, SelectedDayIntervalPart.DayIntervalPart);
 			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel))
 			{
-				DayIntervalPartHelper.Save(SelectedDayIntervalPart.DayIntervalPart, Model.Name);
+				DayIntervalPartHelper.Save(SelectedDayIntervalPart.DayIntervalPart, false, Model.Name);
 				Model.DayIntervalParts.RemoveAll(x => x.UID == SelectedDayIntervalPart.DayIntervalPart.UID);
 				Model.DayIntervalParts.Add(SelectedDayIntervalPart.DayIntervalPart);
 				SelectedDayIntervalPart.Update();

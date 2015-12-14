@@ -34,9 +34,9 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.GetDayIntervalParts(filter));
 		}
 
-		public OperationResult SaveDayIntervalPart(DayIntervalPart item, string name)
+		public OperationResult SaveDayIntervalPart(DayIntervalPart item, bool isNew, string name)
 		{
-			return SafeContext.Execute(() => FiresecService.SaveDayIntervalPart(item, name));
+			return SafeContext.Execute(() => FiresecService.SaveDayIntervalPart(item, isNew, name));
 		}
 
 		public OperationResult RemoveDayIntervalPart(DayIntervalPart item, string name)

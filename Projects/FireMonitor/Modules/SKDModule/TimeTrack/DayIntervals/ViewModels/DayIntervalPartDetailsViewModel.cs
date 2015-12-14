@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -76,7 +77,7 @@ namespace SKDModule.ViewModels
 			DayIntervalPart.BeginTime = BeginTime;
 			DayIntervalPart.EndTime = EndTime;
 			DayIntervalPart.TransitionType = BeginTime < EndTime ? DayIntervalPartTransitionType.Day : DayIntervalPartTransitionType.Night;
-			return true;
+			return DayIntervalPartHelper.Save(DayIntervalPart, _isNew, _dayInterval.Name);
 		}
 		#endregion
 

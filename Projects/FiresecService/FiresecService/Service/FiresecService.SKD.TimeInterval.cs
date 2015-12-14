@@ -3,6 +3,7 @@ using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
+using FiresecService.Service.Validators;
 using SKDDriver;
 using SKDDriver.Translators;
 using System;
@@ -31,14 +32,28 @@ namespace FiresecService.Service
 
 		public OperationResult SaveDayInterval(DayInterval item, bool isNew)
 		{
-			if (isNew)
-				AddJournalMessage(JournalEventNameType.Добавление_нового_дневного_графика, item.Name, uid: item.UID);
-			else
-				AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
+			// Валидируем дневной график
+			var result = DayIntervalValidator.ValidateAddingOrEditing(item, isNew);
+			if (result.HasError)
+				return result;
+			
+			// Сохраняем дневной график
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.DayIntervalTranslator.Save(item);
+				result = databaseService.DayIntervalTranslator.Save(item);
 			}
+			if (result.HasError)
+				return result;
+			
+			// Генерируем соответствующую запись в журнале событий
+			if (isNew)
+				// для нового дневного графика
+				AddJournalMessage(JournalEventNameType.Добавление_нового_дневного_графика, item.Name, uid: item.UID);
+			else
+				// для отредактированного дневного графика
+				AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
+
+			return result;
 		}
 
 		public OperationResult MarkDeletedDayInterval(Guid uid, string name)
@@ -67,13 +82,24 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult SaveDayIntervalPart(DayIntervalPart item, string name)
+		public OperationResult SaveDayIntervalPart(DayIntervalPart item, bool isNew, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика, name, JournalEventDescriptionType.Редактирование, uid: item.UID);
+			// Валидируем временной интервал дневного графика
+			var result = DayIntervalValidator.ValidateAddingOrEditingDayIntervalPart(item, isNew);
+			if (result.HasError)
+				return result;
+
+			// Сохраняем временной интервал дневного графика
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.DayIntervalPartTranslator.Save(item);
+				result = databaseService.DayIntervalPartTranslator.Save(item);
 			}
+			
+			// Вставляем соответствующую запись в журнал событий
+			if (!result.HasError)
+				AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика, name, JournalEventDescriptionType.Редактирование, uid: item.UID);
+			
+			return result;
 		}
 
 		public OperationResult RemoveDayIntervalPart(Guid uid, string name)
