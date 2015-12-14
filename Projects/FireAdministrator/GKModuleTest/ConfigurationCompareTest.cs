@@ -66,6 +66,29 @@ namespace GKModuleTest
 			Assert.IsTrue(remotePumpStation.IsAbsent == true && remotePumpStation.IsPresent == false);
 		}
 		[Test]
+		public void ComparePumpStationNsDevices()
+		{
+			Initialize();
+			var localPs = CreatePumpStation(LocalConfiguration);
+			var remotePs = CreatePumpStation(RemoteConfiguration);
+			var remoteNsDevice = CreateBushDrenazhDevice(RemoteAlsDevice);
+			remotePs.NSDevices.Add(remoteNsDevice);
+			remotePs.NSDeviceUIDs.Add(remoteNsDevice.UID);
+			var viewModel = new ConfigurationCompareViewModel(LocalConfiguration, RemoteConfiguration, LocalGkDevice);
+			Assert.IsTrue(viewModel.LocalObjectsViewModel.Objects.FirstOrDefault(x => x.PumpStation != null && x.PumpStation.No == localPs.No).DifferenceDiscription == "Не совпадают насосы");
+			Assert.IsTrue(viewModel.RemoteObjectsViewModel.Objects.FirstOrDefault(x => x.PumpStation != null && x.PumpStation.No == remotePs.No).DifferenceDiscription == "Не совпадают насосы");
+
+			remotePs.NSDevices.Remove(remoteNsDevice);
+			remotePs.NSDeviceUIDs.Remove(remoteNsDevice.UID);
+			remotePs.Invalidate(RemoteConfiguration);
+			var localNsDevice = CreateBushDrenazhDevice(LocalAlsDevice);
+			localPs.NSDevices.Add(localNsDevice);
+			localPs.NSDeviceUIDs.Add(localNsDevice.UID);
+			viewModel = new ConfigurationCompareViewModel(LocalConfiguration, RemoteConfiguration, LocalGkDevice);
+			Assert.IsTrue(viewModel.LocalObjectsViewModel.Objects.FirstOrDefault(x => x.PumpStation != null && x.PumpStation.No == localPs.No).DifferenceDiscription == "Не совпадают насосы");
+			Assert.IsTrue(viewModel.RemoteObjectsViewModel.Objects.FirstOrDefault(x => x.PumpStation != null && x.PumpStation.No == remotePs.No).DifferenceDiscription == "Не совпадают насосы");
+		}
+		[Test]
 		public void CompareMPTs()
 		{
 			Initialize();
@@ -91,7 +114,7 @@ namespace GKModuleTest
 			var remoteMptDevice = CreateMptDevice(CreateAm1(RemoteAlsDevice));
             remoteMpt.MPTDevices.Add(remoteMptDevice);
 			viewModel = new ConfigurationCompareViewModel(LocalConfiguration, RemoteConfiguration, LocalGkDevice);
-			Assert.IsTrue(viewModel.LocalObjectsViewModel.Objects.FirstOrDefault(x => x.MPT != null && x.MPT.Name == localMpt.Name).DifferenceDiscription == string.Empty);
+			Assert.IsTrue(viewModel.LocalObjectsViewModel.Objects.FirstOrDefault(x => x.MPT != null && x.MPT.Name == localMpt.Name).DifferenceDiscription == "Не совпадают устройства");
 			Assert.IsTrue(viewModel.RemoteObjectsViewModel.Objects.FirstOrDefault(x => x.MPT != null && x.MPT.Name == remoteMpt.Name).DifferenceDiscription == "Не совпадают устройства");
 
 			remoteMpt.MPTDevices.Remove(remoteMptDevice);
@@ -99,7 +122,7 @@ namespace GKModuleTest
 			localMpt.MPTDevices.Add(CreateMptDevice(CreateAm1(LocalAlsDevice)));
 			viewModel = new ConfigurationCompareViewModel(LocalConfiguration, RemoteConfiguration, LocalGkDevice);
 			Assert.IsTrue(viewModel.LocalObjectsViewModel.Objects.FirstOrDefault(x => x.MPT != null && x.MPT.Name == localMpt.Name).DifferenceDiscription == "Не совпадают устройства");
-			Assert.IsTrue(viewModel.RemoteObjectsViewModel.Objects.FirstOrDefault(x => x.MPT != null && x.MPT.Name == remoteMpt.Name).DifferenceDiscription == string.Empty);
+			Assert.IsTrue(viewModel.RemoteObjectsViewModel.Objects.FirstOrDefault(x => x.MPT != null && x.MPT.Name == remoteMpt.Name).DifferenceDiscription == "Не совпадают устройства");
 		}
 		GKDeviceConfiguration CreateConfiguration()
 		{
@@ -137,6 +160,13 @@ namespace GKModuleTest
 			var am1Device = new GKDevice { DriverUID = am1Driver.UID };
 			alsDevice.Children.Add(am1Device);
 			return am1Device;
+		}
+		GKDevice CreateBushDrenazhDevice(GKDevice alsDevice)
+		{
+			var bushDrenazhDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_Bush_Drenazh);
+			var bushDrenazhDevice = new GKDevice { DriverUID = bushDrenazhDriver.UID };
+			alsDevice.Children.Add(bushDrenazhDevice);
+			return bushDrenazhDevice;
 		}
 		GKSKDZone CreateSKDZone(GKDeviceConfiguration deviceConfiguration, string name, int no, Guid uid)
 		{
@@ -176,9 +206,7 @@ namespace GKModuleTest
 		GKPumpStation CreatePumpStation(GKDeviceConfiguration deviceConfiguration)
 		{
 			var alsDevice = deviceConfiguration.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif);
-			var bushDrenazhDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_Bush_Drenazh);
-			var bushDrenazhDevice = new GKDevice { DriverUID = bushDrenazhDriver.UID };
-			alsDevice.Children.Add(bushDrenazhDevice);
+			var bushDrenazhDevice = CreateBushDrenazhDevice(alsDevice);
 			var am1Device = CreateAm1(alsDevice);
 			var logic = CreateLogic(am1Device);
 			var pumpStation = new GKPumpStation
