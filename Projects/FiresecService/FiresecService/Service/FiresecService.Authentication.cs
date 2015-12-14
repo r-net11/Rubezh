@@ -78,7 +78,7 @@ namespace FiresecService.Service
 			else if (clientCredentials.ClientType == ClientType.Monitor)
 				permission = PermissionType.Oper_Login;
 			if (!permission.HasValue)
-				return false;
+				return true;
 			var user = ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.UserName);
 			return user == null ? false : user.HasPermission(permission.Value);
 		}

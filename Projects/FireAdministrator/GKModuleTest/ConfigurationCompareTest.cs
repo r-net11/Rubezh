@@ -65,6 +65,42 @@ namespace GKModuleTest
 			Assert.IsTrue(remotePumpStation.DifferenceDiscription == "Отсутствует в конфигурации прибора");
 			Assert.IsTrue(remotePumpStation.IsAbsent == true && remotePumpStation.IsPresent == false);
 		}
+		[Test]
+		public void CompareMPTs()
+		{
+			Initialize();
+			var localMpt = CreateMPT(LocalConfiguration);
+			var remoteMpt = CreateMPT(RemoteConfiguration);
+			var viewModel = new ConfigurationCompareViewModel(LocalConfiguration, RemoteConfiguration, LocalGkDevice);
+            Assert.IsFalse(viewModel.LocalObjectsViewModel.Objects.Any(x => x.HasDifferences));
+			Assert.IsFalse(viewModel.RemoteObjectsViewModel.Objects.Any(x => x.HasDifferences));
+
+			var localMptDevice = localMpt.MPTDevices.FirstOrDefault();
+			LocalConfiguration.Devices.Remove(localMptDevice.Device);
+			localMpt.Invalidate(LocalConfiguration);
+			viewModel = new ConfigurationCompareViewModel(LocalConfiguration, RemoteConfiguration, LocalGkDevice);
+			var localMptViewModel = viewModel.LocalObjectsViewModel.Objects.FirstOrDefault(x => x.MPT != null && x.MPT.Name == localMpt.Name);
+			Assert.IsTrue(viewModel.LocalObjectsViewModel.Objects.Any(x => x.HasDifferences));
+			Assert.IsTrue(viewModel.RemoteObjectsViewModel.Objects.Any(x => x.HasDifferences));
+			Assert.IsTrue(viewModel.LocalObjectsViewModel.Objects.FirstOrDefault(x => x.MPT != null && x.MPT.Name == localMpt.Name).DifferenceDiscription == "Отсутствует в локальной конфигурации");
+			Assert.IsTrue(viewModel.RemoteObjectsViewModel.Objects.FirstOrDefault(x => x.MPT != null && x.MPT.Name == remoteMpt.Name).DifferenceDiscription == "Отсутствует в локальной конфигурации");
+
+			Initialize();
+			localMpt = CreateMPT(LocalConfiguration);
+			remoteMpt = CreateMPT(RemoteConfiguration);
+			var remoteMptDevice = CreateMptDevice(CreateAm1(RemoteAlsDevice));
+            remoteMpt.MPTDevices.Add(remoteMptDevice);
+			viewModel = new ConfigurationCompareViewModel(LocalConfiguration, RemoteConfiguration, LocalGkDevice);
+			Assert.IsTrue(viewModel.LocalObjectsViewModel.Objects.FirstOrDefault(x => x.MPT != null && x.MPT.Name == localMpt.Name).DifferenceDiscription == null);
+			Assert.IsTrue(viewModel.RemoteObjectsViewModel.Objects.FirstOrDefault(x => x.MPT != null && x.MPT.Name == remoteMpt.Name).DifferenceDiscription == "Не совпадают устройства");
+
+			remoteMpt.MPTDevices.Remove(remoteMptDevice);
+			remoteMpt.Invalidate(RemoteConfiguration);
+			localMpt.MPTDevices.Add(CreateMptDevice(CreateAm1(LocalAlsDevice)));
+			viewModel = new ConfigurationCompareViewModel(LocalConfiguration, RemoteConfiguration, LocalGkDevice);
+			Assert.IsTrue(viewModel.LocalObjectsViewModel.Objects.FirstOrDefault(x => x.MPT != null && x.MPT.Name == localMpt.Name).DifferenceDiscription == "Не совпадают устройства");
+			Assert.IsTrue(viewModel.RemoteObjectsViewModel.Objects.FirstOrDefault(x => x.MPT != null && x.MPT.Name == remoteMpt.Name).DifferenceDiscription == null);
+		}
 		GKDeviceConfiguration CreateConfiguration()
 		{
 			var newConfiguration = new GKDeviceConfiguration();
@@ -88,6 +124,7 @@ namespace GKModuleTest
 			newConfiguration.UpdateConfiguration();
 			return newConfiguration;
 		}
+
 		GKDevice CreateCardReader()
 		{
 			var cardReaderDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_CardReader);
@@ -156,6 +193,26 @@ namespace GKModuleTest
 			pumpStation.NSDeviceUIDs.Add(bushDrenazhDevice.UID);
 			deviceConfiguration.PumpStations.Add(pumpStation);
 			return pumpStation;
+		}
+		GKMPT CreateMPT(GKDeviceConfiguration deviceConfiguration, string name = "МПТ 1", int no = 1)
+		{
+			var mpt = new GKMPT()
+			{
+				Name = name,
+				No = no
+			};
+			var am1Device = CreateAm1(deviceConfiguration.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif));
+            mpt.MPTDevices.Add(CreateMptDevice(am1Device));
+			deviceConfiguration.MPTs.Add(mpt);
+            return mpt;
+		}
+		GKMPTDevice CreateMptDevice(GKDevice device, GKMPTDeviceType mptDeviceType = GKMPTDeviceType.Speaker)
+		{
+			var mptDevice = new GKMPTDevice();
+			mptDevice.MPTDeviceType = mptDeviceType;
+			mptDevice.Device = device;
+			mptDevice.DeviceUID = device.UID;
+			return mptDevice;
 		}
 		GKLogic CreateLogic(GKDevice device)
 		{

@@ -54,7 +54,6 @@ namespace GKModule.ViewModels
 			GenerateForDetectorDevicesCommand = new RelayCommand(GenerateForDetectorDevices);
 			GenerateForPerformersDevicesCommand = new RelayCommand(GenerateForPerformersDevices);
 			GenerateMPTCommand = new RelayCommand(GenerateMPTs);
-			ShowAccessUserReflectionCommand = new RelayCommand(ShowAccessUserReflection);
 			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
 			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
 			PmfUsersCommand = new RelayCommand(OnPmfUsers, CanPmfUsers);
@@ -515,14 +514,6 @@ namespace GKModule.ViewModels
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
-		}
-
-		public RelayCommand ShowAccessUserReflectionCommand { get; private set; }
-		void ShowAccessUserReflection()
-		{
-			var accessUserReflrctionViewModel = new MirrorUsersViewModel(Device);
-			DialogService.ShowModalWindow(accessUserReflrctionViewModel);
-			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
