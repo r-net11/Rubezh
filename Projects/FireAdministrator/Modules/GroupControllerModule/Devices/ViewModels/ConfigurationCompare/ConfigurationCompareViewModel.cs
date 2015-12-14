@@ -291,7 +291,7 @@ namespace GKModule.ViewModels
 			var pumpStationsDifferences = new StringBuilder();
 			if (object1.Name != object2.Name)
 				pumpStationsDifferences.Append("Не совпадает название");
-			if (object1.PumpStation.NSDevices.Any(nsDevice1 => object2.PumpStation.NSDevices.All(nsDevice2 => !IsEqual(new ObjectViewModel(nsDevice1), new ObjectViewModel(nsDevice2))))
+			if (object1.PumpStation.NSDevices.Any(nsDevice1 => object2.PumpStation.NSDevices.All(nsDevice2 => !IsEqualDevice(nsDevice1,nsDevice2)))
 				|| object1.PumpStation.NSDevices.Count < object2.PumpStation.NSDevices.Count)
 			{
 				if (pumpStationsDifferences.Length != 0)
@@ -345,7 +345,7 @@ namespace GKModule.ViewModels
 				mptsDifferences.Add("Не совпадает название");
 			var devices1 = object1.MPT.MPTDevices.Select(x => x.Device);
 			var devices2 = object2.MPT.MPTDevices.Select(x => x.Device);
-			if (devices1.Any(nsDevice1 => devices2.All(nsDevice2 => !IsEqual(new ObjectViewModel(nsDevice1), new ObjectViewModel(nsDevice2))))
+			if (devices1.Any(nsDevice1 => devices2.All(nsDevice2 => !IsEqualDevice(nsDevice1,nsDevice2)))
 				|| devices1.Count() < devices2.Count())
 			{
 				mptsDifferences.Add("Не совпадают устройства");
