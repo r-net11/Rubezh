@@ -253,10 +253,6 @@ namespace GKModule.ViewModels
 		void OnAdd()
 		{
 			NewDeviceViewModel newDeviceViewModel = new NewDeviceViewModel(this);
-			////if (Device.IsConnectedToKAU)
-			////	newDeviceViewModel = new RSR2NewDeviceViewModel(this);
-			////else
-			//newDeviceViewModel = new RSR2NewDeviceViewModel(this);
 
 			if (newDeviceViewModel.Drivers.Count == 1)
 			{
@@ -282,7 +278,8 @@ namespace GKModule.ViewModels
 						addedDevice.IsExpanded = true;
 					}
 				}
-				//if (DevicesViewModel.Current.SelectedDevice.Device.DriverType == );
+				if (DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif || DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.RSR2_MVP_Part
+					|| DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.GK || DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.RSR2_GKMirror)
 				DevicesViewModel.Current.SelectedDevice.IsExpanded = true;
 				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevices.LastOrDefault();
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
@@ -820,16 +817,19 @@ namespace GKModule.ViewModels
 			{
 				if (Device.DriverType != value.DriverType)
 				{
-					if (!GKManager.ChangeDriver(Device, value))
+					var device = GKManager.ChangeDriver(Device, value);
+					if (device == null)
 					{
 						MessageBoxService.ShowWarning("Невозможно сменить тип устройства");
 						return;
 					}
+					Device = device;
 					Nodes.Clear();
 					foreach (var childDevice in Device.Children)
 					{
 						DevicesViewModel.Current.AddDevice(childDevice, this);
 					}
+
 					OnPropertyChanged(() => Device);
 					OnPropertyChanged(() => Driver);
 					OnPropertyChanged(() => Children);

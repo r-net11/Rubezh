@@ -16,10 +16,9 @@ namespace GKModule.ViewModels
 	{
 		public NewDeviceViewModel(DeviceViewModel deviceViewModel)
 		{
-			Title = "Новое устройство";
+			Title = "Добавление устройства";
 			ParentDeviceViewModel = deviceViewModel;
 			ParentDevice = ParentDeviceViewModel.Device;
-			AvailableShleifs = new ObservableCollection<byte>();
 			AddedDevices = new List<DeviceViewModel>();
 			if (ParentDevice.IsConnectedToKAU)
 			{
@@ -33,24 +32,13 @@ namespace GKModule.ViewModels
 			Count = 1;
 		}
 		GKDevice RealParentDevice;
-	    DeviceViewModel ParentDeviceViewModel;
-        GKDevice ParentDevice;
+		DeviceViewModel ParentDeviceViewModel;
+		GKDevice ParentDevice;
 		public List<DeviceViewModel> AddedDevices { get; protected set; }
 		public ObservableCollection<GKDriver> Drivers { get; protected set; }
-		public ObservableCollection<byte> AvailableShleifs { get; protected set; }
-		public int MaxAddress { get; private set;}
-		public int MinAdderss { get; private set;}
-
-		int _count;
-		public int Count
-		{
-			get { return _count; }
-			set
-			{
-				_count = value;
-				OnPropertyChanged(() => Count);
-			}
-		}
+		public int MaxAddress { get; private set; }
+		public int MinAddress { get; private set; }
+		public bool AddInStartlList { get; set; }
 
 		GKDriver _selectedDriver;
 		public GKDriver SelectedDriver
@@ -61,15 +49,26 @@ namespace GKModule.ViewModels
 				_selectedDriver = value;
 				if (ParentDevice.IsConnectedToKAU)
 				{
-					MinAdderss = 1;
+					MinAddress = 1;
 					MaxAddress = 255;
 				}
 				else
 				{
-					MinAdderss = value.MinAddress;
+					MinAddress = value.MinAddress;
 					MaxAddress = value.MaxAddress;
 				}
 				OnPropertyChanged(() => SelectedDriver);
+			}
+		}
+
+		int _count;
+		public int Count
+		{
+			get { return _count; }
+			set
+			{
+				_count = value;
+				OnPropertyChanged(() => Count);
 			}
 		}
 
@@ -97,67 +96,45 @@ namespace GKModule.ViewModels
 			return sortedDrivers.ToList();
 		}
 
-		public int GetAddress(IEnumerable<GKDevice> children)
-		{
-			if (children.Count() > 0)
-				return children.Max(x => x.IntAddress);
-			else
-				return 0;
-		}
-
-		public  bool CreateDevices() 
+		public bool ShowCheckBox { get { return ParentDevice.DriverType == GKDriverType.RSR2_KAU_Shleif || ParentDevice.DriverType == GKDriverType.RSR2_MVP_Part; } }
+		public bool CreateDevices()
 		{
 			AddedDevices = new List<DeviceViewModel>();
-			if (ParentDevice.IsConnectedToKAU)
+			var startAddress = RealParentDevice == null ? GKManager.GetAddress(ParentDevice.Children.Where(x => x.Driver.HasAddress)) : GKManager.GetAddress(ParentDevice.Children.Where(x => x.Driver.HasAddress));
+
+			if (RealParentDevice != null)
 			{
-				var address = GetAddress(RealParentDevice.KAUShleifParent.AllChildren);
-				if (address + Count * Math.Max(1, (int)SelectedDriver.GroupDeviceChildrenCount) > 255)
+				if (Count + startAddress * Math.Max(1, (int)SelectedDriver.GroupDeviceChildrenCount) > 255)
 				{
-					MessageBoxService.ShowWarning("При добавлении количество устройств на АЛС будет превышать 255");
+					ServiceFactory.MessageBoxService.ShowWarning("При добавлении количество устройств на АЛС максимально допустимое значения в 255");
 					return false;
 				}
-
-				for (int i = 0; i < Count; i++)
-				{
-					if (RealParentDevice == ParentDevice)
-					{
-						GKDevice device = GKManager.AddChild(ParentDevice, null, SelectedDriver, 0);
-						var addedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
-						AddedDevices.Add(addedDevice);
-					}
-					else
-					{
-						GKDevice device = GKManager.AddChild(RealParentDevice, ParentDevice, SelectedDriver, 0);
-						var addedDevice = NewDeviceHelper.InsertDevice(device, ParentDeviceViewModel);
-						if (AddedDevices.Count == 0)
-							AddedDevices.Add(addedDevice);
-						else
-							AddedDevices.Insert(0, addedDevice);
-					}
-				}
-
-				GKManager.RebuildRSR2Addresses(ParentDevice);
-				//if (RealParentDevice != ParentDevice)
-				//	AddedDevices.Reverse();
-				return true;
 			}
 			else
 			{
-				var address = GetAddress(ParentDevice.Children.Where(x => x.Driver.HasAddress));
-				if (Count + address > SelectedDriver.MaxAddress && SelectedDriver.HasAddress)
+				if (Count + startAddress > SelectedDriver.MaxAddress && SelectedDriver.HasAddress)
 				{
 					ServiceFactory.MessageBoxService.ShowWarning("При добавлении устройств количество будет превышать максимально допустимое значения в " + SelectedDriver.MaxAddress.ToString());
 					return false;
 				}
-
-				for (int i = 1; i <= Count; i++)
-				{
-					GKDevice device = GKManager.AddChild(ParentDevice, null, SelectedDriver, address + i);
-					var addedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
-					AddedDevices.Add(addedDevice);
-				}
-				return true;
 			}
+
+			for (int i = 1; i <= Count; i++)
+			{
+				var address = RealParentDevice == null ? startAddress + i : 0;
+				GKDevice device = GKManager.AddChild(ParentDevice, RealParentDevice, SelectedDriver, address, AddInStartlList);
+				if (RealParentDevice == null || RealParentDevice == ParentDevice)
+					AddedDevices.Add(NewDeviceHelper.AddDevice(device, ParentDeviceViewModel, isStartList:AddInStartlList));
+				else
+				{
+					var addedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel, false);
+					AddedDevices.Insert(0, addedDevice);
+				}
+			}
+			if (RealParentDevice != null)
+				GKManager.RebuildRSR2Addresses(ParentDevice);
+
+			return true;
 		}
 
 		protected override bool CanSave()
