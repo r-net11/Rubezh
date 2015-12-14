@@ -1,4 +1,5 @@
-﻿using FiresecAPI.SKD;
+﻿using System.Linq;
+using FiresecAPI.SKD;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -818,5 +819,49 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 		}
 
 		#endregion
+
+		[Test]
+		public void CalculateIsCrossNightDeltaWithSameDateTimes()
+		{
+			//Arrange
+			var dayTimeTrack = new DayTimeTrack();
+			var plannedTimeTrackParts = new List<TimeTrackPart>
+			{
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + new TimeSpan(0, 0, 0),
+					ExitDateTime = TIME.Date.Date + new TimeSpan(8, 0, 0)
+				},
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + new TimeSpan(18, 0, 0),
+					ExitDateTime = TIME.Date.Date + new TimeSpan(23, 59, 59)
+				}
+			};
+
+			var realTimeTrackParts = new List<TimeTrackPart>
+			{
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + new TimeSpan(18, 0, 0),
+					ExitDateTime = TIME.Date.Date + new TimeSpan(23, 59, 59),
+					IsForURVZone = true
+				}
+			};
+
+			dayTimeTrack.PlannedTimeTrackParts = plannedTimeTrackParts;
+			dayTimeTrack.RealTimeTrackParts = realTimeTrackParts;
+			dayTimeTrack.RealTimeTrackPartsForCalculates = realTimeTrackParts;
+
+			//Act
+			dayTimeTrack.Calculate();
+			var result = dayTimeTrack.CombinedTimeTrackParts
+						.Where(x => x.EnterDateTime.TimeOfDay == x.ExitDateTime.GetValueOrDefault().TimeOfDay && x.Delta != new TimeSpan())
+						.Select(x => x.Delta)
+						.ToList();
+
+			//Assert
+			Assert.That(result, Is.EqualTo(new List<TimeSpan>()));
+		}
 	}
 }
