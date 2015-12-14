@@ -339,47 +339,37 @@ namespace GKModule.ViewModels
 
 		string GetMPTsDifferences(ObjectViewModel object1, ObjectViewModel object2)
 		{
-			var mptsDifferences = new StringBuilder();
+			var mptsDifferences = new List<string>();
 			if (object1.Name != object2.Name)
-				mptsDifferences.Append("Не совпадает название");
+				mptsDifferences.Add("Не совпадает название");
 			var devices1 = object1.MPT.MPTDevices.Select(x => x.Device);
 			var devices2 = object2.MPT.MPTDevices.Select(x => x.Device);
 			if (devices1.Any(nsDevice1 => devices2.All(nsDevice2 => !IsEqual(new ObjectViewModel(nsDevice1), new ObjectViewModel(nsDevice2)))))
 			{
-				if (mptsDifferences.Length != 0)
-					mptsDifferences.Append(". ");
-				mptsDifferences.Append("Не совпадают устройства");
+				mptsDifferences.Add("Не совпадают устройства");
 			}
 			bool startDiff = GKManager.GetPresentationLogic(object1.MPT.MptLogic.OnClausesGroup) != GKManager.GetPresentationLogic(object2.MPT.MptLogic.OnClausesGroup);
 			if (startDiff)
 			{
-				if (mptsDifferences.Length != 0)
-					mptsDifferences.Append(". ");
-				mptsDifferences.Append("Не совпадают условия включения");
+				mptsDifferences.Add("Не совпадают условия включения");
 			}
 			bool stopDiff = GKManager.GetPresentationLogic(object1.MPT.MptLogic.OffClausesGroup) != GKManager.GetPresentationLogic(object2.MPT.MptLogic.OffClausesGroup);
 			if (stopDiff)
 			{
-				if (mptsDifferences.Length != 0)
-					mptsDifferences.Append(". ");
-				mptsDifferences.Append("Не совпадают условия выключения");
+				mptsDifferences.Add("Не совпадают условия выключения");
 			}
 			bool suspendDiff = GKManager.GetPresentationLogic(object1.MPT.MptLogic.StopClausesGroup) != GKManager.GetPresentationLogic(object2.MPT.MptLogic.StopClausesGroup);
 			if (suspendDiff)
 			{
-				if (mptsDifferences.Length != 0)
-					mptsDifferences.Append(". ");
-				mptsDifferences.Append("Не совпадают условия приостановки");
+				mptsDifferences.Add("Не совпадают условия приостановки");
 			}
 			bool delayDiff = object1.MPT.Delay != object2.MPT.Delay;
 			if (delayDiff)
 			{
-				if (mptsDifferences.Length != 0)
-					mptsDifferences.Append(". ");
-				mptsDifferences.Append("Не совпадают задержки");
+				mptsDifferences.Add("Не совпадают задержки");
 			}
-			return mptsDifferences.ToString() == "" ? null : mptsDifferences.ToString();
-		}
+			return String.Join(". ", mptsDifferences);
+        }
 
 		string GetDelaysDifferences(ObjectViewModel object1, ObjectViewModel object2)
 		{
@@ -425,14 +415,12 @@ namespace GKModule.ViewModels
 
 		string GetCodesDifferences(ObjectViewModel object1, ObjectViewModel object2)
 		{
-			var differences = new StringBuilder();
+			var differences = new List<string>();
 			if (object1.Name != object2.Name)
-				differences.Append("Не совпадает название");
+				differences.Add("Не совпадает название");
 			if (object1.Code.Password != object2.Code.Password)
 			{
-				if (differences.Length != 0)
-					differences.Append(". ");
-				differences.Append("Не совпадает пароль");
+				differences.Add("Не совпадает пароль");
 			}
 			return differences.ToString() == "" ? null : differences.ToString();
 		}
@@ -440,45 +428,31 @@ namespace GKModule.ViewModels
 
 		string GetDoorsDifferences(ObjectViewModel object1, ObjectViewModel object2)
 		{
-			var differences = new StringBuilder();
+			var differences = new List<string>();
 			if (object1.Name != object2.Name)
-				differences.Append("Не совпадает название");
+				differences.Add("Не совпадает название");
 			if (object1.Door.Delay != object2.Door.Delay)
 			{
-				if (differences.Length != 0)
-					differences.Append(". ");
-				differences.Append("Не совпадает задержка");
+				differences.Add("Не совпадает задержка");
 			}
 			if (object1.Door.Hold != object2.Door.Hold)
 			{
-				if (differences.Length != 0)
-					differences.Append(". ");
-				differences.Append("Не совпадает удержание");
+				differences.Add("Не совпадает удержание");
 			}
-
 			if (object1.Door.EnterZoneUID != object2.Door.EnterZoneUID)
 			{
-				if (differences.Length != 0)
-					differences.Append(". ");
-				differences.Append("Не совпадает зона входа");
+				differences.Add("Не совпадает зона входа");
 			}
-
 			if (object1.Door.ExitZoneUID != object2.Door.ExitZoneUID)
 			{
-				if (differences.Length != 0)
-					differences.Append(". ");
-				differences.Append("Не совпадает зона выхода");
+				differences.Add("Не совпадает зона выхода");
 			}
-
 			bool openLogicDiff = GKManager.GetPresentationLogic(object1.Door.OpenRegimeLogic) != GKManager.GetPresentationLogic(object2.Door.OpenRegimeLogic);
 			if (openLogicDiff)
 			{
-				if (differences.Length != 0)
-					differences.Append(". ");
-				differences.Append("Не совпадают условия перевода в режим Всегда Включено");
+				differences.Add("Не совпадают условия перевода в режим Всегда Включено");
 			}
-
-			return differences.ToString() == "" ? null : differences.ToString();
+			return string.Join(". ", differences);
 		}
 		bool IsEqual(ObjectViewModel viewModel1, ObjectViewModel viewModel2)
 		{

@@ -91,7 +91,7 @@ namespace GKModuleTest
 			var remoteMptDevice = CreateMptDevice(CreateAm1(RemoteAlsDevice));
             remoteMpt.MPTDevices.Add(remoteMptDevice);
 			viewModel = new ConfigurationCompareViewModel(LocalConfiguration, RemoteConfiguration, LocalGkDevice);
-			Assert.IsTrue(viewModel.LocalObjectsViewModel.Objects.FirstOrDefault(x => x.MPT != null && x.MPT.Name == localMpt.Name).DifferenceDiscription == null);
+			Assert.IsTrue(viewModel.LocalObjectsViewModel.Objects.FirstOrDefault(x => x.MPT != null && x.MPT.Name == localMpt.Name).DifferenceDiscription == string.Empty);
 			Assert.IsTrue(viewModel.RemoteObjectsViewModel.Objects.FirstOrDefault(x => x.MPT != null && x.MPT.Name == remoteMpt.Name).DifferenceDiscription == "Не совпадают устройства");
 
 			remoteMpt.MPTDevices.Remove(remoteMptDevice);
@@ -99,7 +99,7 @@ namespace GKModuleTest
 			localMpt.MPTDevices.Add(CreateMptDevice(CreateAm1(LocalAlsDevice)));
 			viewModel = new ConfigurationCompareViewModel(LocalConfiguration, RemoteConfiguration, LocalGkDevice);
 			Assert.IsTrue(viewModel.LocalObjectsViewModel.Objects.FirstOrDefault(x => x.MPT != null && x.MPT.Name == localMpt.Name).DifferenceDiscription == "Не совпадают устройства");
-			Assert.IsTrue(viewModel.RemoteObjectsViewModel.Objects.FirstOrDefault(x => x.MPT != null && x.MPT.Name == remoteMpt.Name).DifferenceDiscription == null);
+			Assert.IsTrue(viewModel.RemoteObjectsViewModel.Objects.FirstOrDefault(x => x.MPT != null && x.MPT.Name == remoteMpt.Name).DifferenceDiscription == string.Empty);
 		}
 		GKDeviceConfiguration CreateConfiguration()
 		{
