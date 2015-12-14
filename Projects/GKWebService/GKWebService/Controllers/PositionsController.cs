@@ -104,5 +104,31 @@ namespace GKWebService.Controllers
 
             return Json(operationResult.HasError, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonNetResult GetChildEmployeeUIDs(Guid positionId)
+        {
+            var operationResult = ClientManager.FiresecService.GetPositionEmployees(positionId);
+
+            if (operationResult.HasError)
+            {
+                throw new InvalidOperationException(operationResult.Error);
+            }
+
+            return new JsonNetResult { Data = operationResult.Result };
+        }
+
+        [HttpPost]
+        public JsonNetResult MarkDeleted(Guid uid, string name)
+        {
+            var operationResult = ClientManager.FiresecService.MarkDeletedPosition(uid, name);
+            return new JsonNetResult { Data = operationResult != null && operationResult.HasError && !operationResult.Error.Contains("Ошибка БД") };
+        }
+
+        [HttpPost]
+        public JsonNetResult Restore(Guid uid, string name)
+        {
+            var operationResult = ClientManager.FiresecService.RestorePosition(uid, name);
+            return new JsonNetResult { Data = operationResult != null && operationResult.HasError && !operationResult.Error.Contains("Ошибка БД") };
+        }
     }
 }

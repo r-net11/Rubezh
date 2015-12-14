@@ -32,10 +32,10 @@
         <div class="icon add" data-bind="click: Positions.CanAdd() ? function(data,event) { Positions.Add(data, event); } : null, css: {disabled: !Positions.CanAdd()}"></div>
         <div class="icon delete" data-bind="click: Positions.CanRemove() ? function(data,event) { Positions.Remove(data, event); } : null, css: {disabled: !Positions.CanRemove()}"></div>
         <div class="icon edit" title="Редактировать" data-bind="click: Positions.CanEdit() ? function(data,event) { Positions.Edit(data, event); } : null, css: {disabled: !Positions.CanEdit()}"></div>
-        <div class="icon copy"></div>
-        <div class="icon paste"></div>
-        <div class="icon redo"></div>
-        <div class="icon filter"></div>
+        <div class="icon copy" title="Копировать" data-bind="click: Positions.CanCopy() ? function(data,event) { Positions.Copy(data, event); } : null, css: {disabled: !Positions.CanCopy()}"></div>
+        <div class="icon paste" title="Вставить" data-bind="click: Positions.CanPaste() ? function(data,event) { Positions.Paste(data, event); } : null, css: {disabled: !Positions.CanPaste()}"></div>
+        <div class="icon redo"  title="Восстановить" data-bind="visible:Filter.IsWithDeleted, click: Positions.CanRestore() ? function(data,event) { Positions.Restore(data, event); } : null, css: {disabled: !Positions.CanRestore()}"></div>
+        <div class="icon filter" data-bind="click:function(data,event) { EditFilter(data, event, '#filter-box'); }, attr: {title: 'Фильтр'}"></div>
     </div>
     <div class="HrToolbar" data-bind="visible:hrPages.AdditionalColumnTypes">
         <div class="icon add"></div>
