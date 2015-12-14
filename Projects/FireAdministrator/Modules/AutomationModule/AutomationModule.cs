@@ -30,6 +30,7 @@ namespace AutomationModule
 		private OpcDaServersViewModel _opcDaServersViewModel;
 		private OpcAdvosolViewModel _opcAdvosolViewModel;
 		private OpcTechnosoftwareViewModel _opcTechnosoftwareViewModel;
+		private OpcDaClientViewModel _opcDaClientViewModel;
 
 		public override void CreateViewModels()
 		{
@@ -42,6 +43,7 @@ namespace AutomationModule
 			_opcDaServersViewModel = new OpcDaServersViewModel();
 			_opcAdvosolViewModel = new OpcAdvosolViewModel();
 			_opcTechnosoftwareViewModel = new OpcTechnosoftwareViewModel();
+			_opcDaClientViewModel = new OpcDaClientViewModel();
 		}
 
 		public override void Initialize()
@@ -61,6 +63,7 @@ namespace AutomationModule
 			_planExtension.Cache.BuildAllSafe();
 			_opcDaServersViewModel.Initialize();
 			_opcTechnosoftwareViewModel.Initialize();
+			_opcDaClientViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -76,7 +79,8 @@ namespace AutomationModule
 							new NavigationItem<ShowOPCServersEvent, Guid>(_opcServersViewModel, "OPC Сервера", "Settings2"),
 							new NavigationItem<ShowOpcDaServersEvent, Guid>(_opcDaServersViewModel, "OPC DA Серверы", "Settings2"),
 							new NavigationItem<ShowOpcAdvosolEvent, Guid>(_opcAdvosolViewModel, "OPC DA от Advosol", "Settings2"),
-							new NavigationItem<ShowOpcTechnosoftwareEvent, Guid>(_opcTechnosoftwareViewModel, "OPC DA on Technosoftware", "Settings2")
+							new NavigationItem<ShowOpcTechnosoftwareEvent, Guid>(_opcTechnosoftwareViewModel, "OPC DA on Technosoftware", "Settings2"),
+							new NavigationItem<ShowOpcDaClientEvent, Guid>(_opcDaClientViewModel, "OPC DA Клиент", "Settings2")
 						}) { IsExpanded = true },
 				};
 		}
@@ -100,6 +104,7 @@ namespace AutomationModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "OpcDaServers/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "OpcAdvosolLib/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "OpcTechnosoftware/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "OpcDaClient/DataTemplates/Dictionary.xaml"));
 		}
 
 		public IEnumerable<IValidationError> Validate()

@@ -310,7 +310,6 @@ namespace AutomationModule.ViewModels
 			_activeOpcServer.Connect(opcUrl, null); // во второй параметр передаются данные для 
 													// авторизации пользователя на удалённом сервере
 			_activeOpcServer.ServerShutdownEvent += EventHandler_activeOpcServer_ServerShutdownEvent;
-			
 		}
 
 		bool CanConnect()

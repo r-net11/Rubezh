@@ -100,6 +100,7 @@
     <Compile Include="Events\ShowAutomationSoundsEvent.cs" />
     <Compile Include="Events\ShowGlobalVariablesEvent.cs" />
     <Compile Include="Events\ShowOpcAdvosolEvent.cs" />
+    <Compile Include="Events\ShowOpcDaClientEvent.cs" />
     <Compile Include="Events\ShowOpcDaServersEvent.cs" />
     <Compile Include="Events\ShowOpcTechnosoftwareEvent.cs" />
     <Compile Include="Events\ShowProceduresEvent.cs" />
@@ -148,6 +149,18 @@
     </Compile>
     <Compile Include="OpcAdvosolLib\Views\OpcAdvosolMenuView.xaml.cs">
       <DependentUpon>OpcAdvosolMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpcDaClient\ViewModels\OpcDaClientAddingServersViewModel.cs" />
+    <Compile Include="OpcDaClient\ViewModels\OpcDaClientMenuViewModel.cs" />
+    <Compile Include="OpcDaClient\ViewModels\OpcDaClientViewModel.cs" />
+    <Compile Include="OpcDaClient\Views\OpcDaClientAddingServersView.xaml.cs">
+      <DependentUpon>OpcDaClientAddingServersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpcDaClient\Views\OpcDaClientMenuView.xaml.cs">
+      <DependentUpon>OpcDaClientMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpcDaClient\Views\OpcDaClientView.xaml.cs">
+      <DependentUpon>OpcDaClientView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OpcDaServers\ViewModels\OpcDaEditingTagsGroupViewModel.cs" />
     <Compile Include="OpcDaServers\ViewModels\OpcDaEditingTagsTreeElementViewModel.cs" />
@@ -658,6 +671,22 @@
     <Page Include="OpcAdvosolLib\Views\OpcAdvosolMenuView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OpcDaClient\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OpcDaClient\Views\OpcDaClientAddingServersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpcDaClient\Views\OpcDaClientMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpcDaClient\Views\OpcDaClientView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="OpcDaServers\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>

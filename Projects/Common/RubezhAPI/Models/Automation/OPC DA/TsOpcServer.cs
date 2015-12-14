@@ -5,20 +5,15 @@ using System.Runtime.Serialization;
 namespace RubezhAPI.Automation
 {
 	[DataContract]
-	public class OpcDaServer
+	public class TsOpcServer
 	{
-		public OpcDaServer()
+		public TsOpcServer()
 		{
-			Id = Guid.NewGuid();
-			ServerName = "Название OPC DA сервера";
 			Tags = new OpcDaTag[0];
 		}
 
 		[DataMember]
 		public string ServerName { get; set; }
-
-		[DataMember]
-		public Guid Id { get; set; }
 
 		/// <summary>
 		/// Путь к хост-компьютеру на котором установлен данный сервер 
@@ -34,5 +29,7 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public OpcDaTag[] Tags { get; set; }
+
+		public bool IsChecked { get; set; }
 	}
 }

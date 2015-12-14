@@ -4,7 +4,6 @@ using Infrastructure.ViewModels;
 using Infrastructure.Common;
 using Infrastructure;
 using RubezhClient;
-using AutomationModule.Models;
 using Infrastructure.Common.Windows;
 
 namespace AutomationModule.ViewModels
@@ -58,8 +57,6 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => Tags);
 			}
 		}
-
-
 
 		public RubezhAPI.Automation.OpcDaTag[] Tags 
 		{

@@ -185,6 +185,7 @@
     <Compile Include="Models\Automation\EnumType.cs" />
     <Compile Include="Models\Automation\OPC DA\OpcDaServer.cs" />
     <Compile Include="Models\Automation\OPC DA\OpcDaTag.cs" />
+    <Compile Include="Models\Automation\OPC DA\TsOpcServer.cs" />
     <Compile Include="Models\Automation\OPC\OPCTag.cs" />
     <Compile Include="Models\Automation\OPC\OPCServer.cs" />
     <Compile Include="Models\Automation\PropertyCopy.cs" />
