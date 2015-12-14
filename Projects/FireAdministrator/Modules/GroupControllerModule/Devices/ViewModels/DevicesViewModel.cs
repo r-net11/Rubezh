@@ -276,34 +276,19 @@ namespace GKModule.ViewModels
 				return null;
 			if (SelectedDevice.Device.IsConnectedToKAU)
 			{
-				var kauDeviceShleifdevice = SelectedDevice.Device.KAUShleifParent;
-				var allChildren = kauDeviceShleifdevice.AllChildren;
-				int maxAddress = 0;
-				if (allChildren.Count > 0)
-					maxAddress = allChildren.Count();
-
-				var realDevicesCount = device.AllChildrenAndSelf.Count(x => x.IsRealDevice);
-
-				if (maxAddress + realDevicesCount > 255)
-				{
-					MessageBoxService.ShowWarning("Адрес устройства не может превышать 255");
-					return null;
-				}
-
+				int maxAddress = GKManager.GetAddress(SelectedDevice.Device.KAUShleifParent.AllChildren);
 				if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU_Shleif || SelectedDevice.Device.DriverType == GKDriverType.RSR2_MVP_Part)
 				{
-					var addedDevice = GKManager.AddChild(SelectedDevice.Device, null, device.Driver, maxAddress, false);
+					var addedDevice = GKManager.AddChild(SelectedDevice.Device, null, device.Driver, maxAddress);
 					GKManager.CopyDevice(device, addedDevice);
-					addedDevice.IntAddress = maxAddress;
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(addedDevice, SelectedDevice);
 					AllDevices.Add(addedDeviceViewModel);
 					return addedDevice;
 				}
 				else
 				{
-					var addedDevice = GKManager.AddChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, maxAddress, false);
+					var addedDevice = GKManager.AddChild(SelectedDevice.Parent.Device, null, device.Driver, maxAddress);
 					GKManager.CopyDevice(device, addedDevice);
-					addedDevice.IntAddress = maxAddress;
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(addedDevice, SelectedDevice,false);
 					AllDevices.Add(addedDeviceViewModel);
 					return addedDevice;

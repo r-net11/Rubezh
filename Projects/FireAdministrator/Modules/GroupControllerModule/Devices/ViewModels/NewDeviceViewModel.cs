@@ -96,18 +96,11 @@ namespace GKModule.ViewModels
 			return sortedDrivers.ToList();
 		}
 
-		public int GetAddress(IEnumerable<GKDevice> children)
-		{
-			if (children.Count() > 0)
-				return children.Max(x => x.IntAddress);
-			else
-				return 0;
-		}
 		public bool ShowCheckBox { get { return ParentDevice.DriverType == GKDriverType.RSR2_KAU_Shleif || ParentDevice.DriverType == GKDriverType.RSR2_MVP_Part; } }
 		public bool CreateDevices()
 		{
 			AddedDevices = new List<DeviceViewModel>();
-			var startAddress = RealParentDevice == null ? GetAddress(ParentDevice.Children.Where(x => x.Driver.HasAddress)) : GetAddress(ParentDevice.Children.Where(x => x.Driver.HasAddress));
+			var startAddress = RealParentDevice == null ? GKManager.GetAddress(ParentDevice.Children.Where(x => x.Driver.HasAddress)) : GKManager.GetAddress(ParentDevice.Children.Where(x => x.Driver.HasAddress));
 
 			if (RealParentDevice != null)
 			{
