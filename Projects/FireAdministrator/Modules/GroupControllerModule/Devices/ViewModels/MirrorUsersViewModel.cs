@@ -101,27 +101,27 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadCommand { get; private set; }
 		void Read()
 		{
-			var operationResult = ClientManager.FiresecService.GKReadMirrorUsers(Device);
-			if (operationResult.HasError)
-				MessageBoxService.ShowWarning(operationResult.Error);
-			else
-			{
-				Users = new ObservableCollection<MirrorUserNewModel>();
-				foreach (var mirrorUser in operationResult.Result)
-				{
-					var mirrorUserNewModel = new MirrorUserNewModel(mirrorUser);
-					Users.Add(mirrorUserNewModel);
-				}
-				SelectedUser = Users.LastOrDefault();
-			}
+			//var operationResult = ClientManager.FiresecService.GKReadMirrorUsers(Device);
+			//if (operationResult.HasError)
+			//	MessageBoxService.ShowWarning(operationResult.Error);
+			//else
+			//{
+			//	Users = new ObservableCollection<MirrorUserNewModel>();
+			//	foreach (var mirrorUser in operationResult.Result)
+			//	{
+			//		var mirrorUserNewModel = new MirrorUserNewModel(mirrorUser);
+			//		Users.Add(mirrorUserNewModel);
+			//	}
+			//	SelectedUser = Users.LastOrDefault();
+			//}
 		}
 
 		public RelayCommand WriteCommand { get; private set; }
 		void Write()
 		{
-			var operationResult = ClientManager.FiresecService.GKWriteMirrorUsers(Device, Device.GKMirrorItem.MirrorUsers);
-			if (operationResult.HasError)
-				MessageBoxService.ShowWarning(operationResult.Error);
+			//var operationResult = ClientManager.FiresecService.GKWriteMirrorUsers(Device, Device.GKMirrorItem.MirrorUsers);
+			//if (operationResult.HasError)
+			//	MessageBoxService.ShowWarning(operationResult.Error);
 		}
 
 		protected override bool Save()

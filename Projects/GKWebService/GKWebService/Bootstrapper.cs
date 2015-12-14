@@ -47,7 +47,7 @@ namespace GKWebService
 
 	    private static void SubscribeOnServiceStateEvents() {
 	        SafeFiresecService.ConfigurationChangedEvent += SafeFiresecServiceOnConfigurationChangedEvent;
-            SafeFiresecService.ConnectionAppeared += SafeFiresecServiceOnConnectionAppeared;
+            SafeFiresecService.OnConnectionAppeared += SafeFiresecServiceOnConnectionAppeared;
 	    }
 
 	    private static void SafeFiresecServiceOnConnectionAppeared() {
