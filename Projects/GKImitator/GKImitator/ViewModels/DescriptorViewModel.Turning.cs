@@ -274,7 +274,7 @@ namespace GKImitator.ViewModels
 				{
 					CurrentOffDelay = OffDelay;
 				}
-				TurningState = TurningState.None;
+				TurningState = TurningState.TurningOff;
 				TurnOff();
 			}
 		}
