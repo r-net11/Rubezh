@@ -1,28 +1,25 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using Common;
+﻿using GKProcessor;
+using Infrastructure.Common;
+using RubezhAPI;
 using RubezhAPI.GK;
+using RubezhAPI.Journal;
 using RubezhAPI.Models;
 using RubezhClient;
-using GKProcessor;
-using Infrastructure.Common;
-using Infrastructure.Common.Services;
-using Infrastructure.Common.Windows;
+using System;
 using System.Diagnostics;
-using GKWebService.DataProviders;
-using RubezhAPI.Journal;
-using RubezhAPI;
+using System.Linq;
+using System.Threading;
 
 namespace GKWebService
 {
 	public static class Bootstrapper
 	{
-        private static object syncBootstrapper = new object();
+		private static object syncBootstrapper = new object();
 
-		public static void Run() {
+		public static void Run()
+		{
 
-		    SubscribeOnServiceStateEvents();
+			SubscribeOnServiceStateEvents();
 
 			for (int i = 1; i <= 10; i++)
 			{
@@ -36,33 +33,37 @@ namespace GKWebService
 					return;
 				}
 			}
-            
+
 			InitServer();
 		}
 
-	    private static void InitServer() {
-	        InitializeGK();
-	        ClientManager.StartPoll();
-	    }
+		private static void InitServer()
+		{
+			InitializeGK();
+			ClientManager.StartPoll();
+		}
 
-	    private static void SubscribeOnServiceStateEvents() {
-	        SafeFiresecService.ConfigurationChangedEvent += SafeFiresecServiceOnConfigurationChangedEvent;
+		private static void SubscribeOnServiceStateEvents()
+		{
+			SafeFiresecService.ConfigurationChangedEvent += SafeFiresecServiceOnConfigurationChangedEvent;
             SafeFiresecService.OnConnectionAppeared += SafeFiresecServiceOnConnectionAppeared;
-	    }
+		}
 
-	    private static void SafeFiresecServiceOnConnectionAppeared() {
-            //InitServer();
-            //PlansUpdater.Instance.
-	    }
+		private static void SafeFiresecServiceOnConnectionAppeared()
+		{
+			//InitServer();
+			//PlansUpdater.Instance.
+		}
 
-	    private static void SafeFiresecServiceOnConfigurationChangedEvent() {
-            //InitServer();
-	    }
+		private static void SafeFiresecServiceOnConfigurationChangedEvent()
+		{
+			//InitServer();
+		}
 
-	    static void InitializeGK()
+		static void InitializeGK()
 		{
 			ClientManager.GetConfiguration("GKOPC/Configuration");
-            
+
 			GKDriversCreator.Create();
 			GKManager.UpdateConfiguration();
 			GKManager.CreateStates();
@@ -177,38 +178,38 @@ namespace GKWebService
 
 		static void ShowAllObjects()
 		{
-            //foreach(var device in GKManager.Devices)
-            //{
-            //    Trace.WriteLine(device.PresentationName);
-            //}
-            //foreach (var zone in GKManager.Zones)
-            //{
-            //    Trace.WriteLine(zone.PresentationName);
-            //}
-            //foreach (var direction in GKManager.Directions)
-            //{
-            //    Trace.WriteLine(direction.PresentationName);
-            //}
-            //foreach (var delay in GKManager.Delays)
-            //{
-            //    Trace.WriteLine(delay.PresentationName);
-            //}
-            //foreach (var mpt in GKManager.MPTs)
-            //{
-            //    Trace.WriteLine(mpt.PresentationName);
-            //}
-            //foreach (var pumpStation in GKManager.PumpStations)
-            //{
-            //    Trace.WriteLine(pumpStation.PresentationName);
-            //}
-            //foreach (var guardZone in GKManager.GuardZones)
-            //{
-            //    Trace.WriteLine(guardZone.PresentationName);
-            //}
-            //foreach (var door in GKManager.Doors)
-            //{
-            //    Trace.WriteLine(door.PresentationName);
-            //}
+			//foreach(var device in GKManager.Devices)
+			//{
+			//    Trace.WriteLine(device.PresentationName);
+			//}
+			//foreach (var zone in GKManager.Zones)
+			//{
+			//    Trace.WriteLine(zone.PresentationName);
+			//}
+			//foreach (var direction in GKManager.Directions)
+			//{
+			//    Trace.WriteLine(direction.PresentationName);
+			//}
+			//foreach (var delay in GKManager.Delays)
+			//{
+			//    Trace.WriteLine(delay.PresentationName);
+			//}
+			//foreach (var mpt in GKManager.MPTs)
+			//{
+			//    Trace.WriteLine(mpt.PresentationName);
+			//}
+			//foreach (var pumpStation in GKManager.PumpStations)
+			//{
+			//    Trace.WriteLine(pumpStation.PresentationName);
+			//}
+			//foreach (var guardZone in GKManager.GuardZones)
+			//{
+			//    Trace.WriteLine(guardZone.PresentationName);
+			//}
+			//foreach (var door in GKManager.Doors)
+			//{
+			//    Trace.WriteLine(door.PresentationName);
+			//}
 		}
 	}
 }
