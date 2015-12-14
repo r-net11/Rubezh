@@ -96,38 +96,37 @@ namespace RubezhAPI
 			return deviceTo;
 		}
 
-		public static GKDevice AddChild(GKDevice parentDevice, GKDevice previousDevice, GKDriver driver, int intAddress, bool isStartList = false)
+		public static GKDevice AddChild(GKDevice parentDevice, GKDevice previousDevice, GKDriver driver, int intAddress, bool isStartList = false, int? indexForCangeDevice = null)
 		{
 			var device = new GKDevice()
 			{
 				DriverUID = driver.UID,
 				Driver = driver,
 				IntAddress = intAddress,
-				Parent = previousDevice ==null ? parentDevice : previousDevice,
+				Parent = previousDevice == null ? parentDevice : previousDevice,
 			};
 			device.InitializeDefaultProperties();
-
-			if (previousDevice == null || parentDevice == previousDevice)
+			if (!indexForCangeDevice.HasValue)
 			{
-				if (isStartList)
+				if (previousDevice == null || parentDevice == previousDevice)
 				{
-					parentDevice.Children.Insert(0, device);
+					if (isStartList)
+					{
+						parentDevice.Children.Insert(0, device);
+					}
+					else
+						parentDevice.Children.Add(device);
 				}
 				else
-					parentDevice.Children.Add(device);
-			}
-			else
-			{
-				if (previousDevice != null)
 				{
 					var index = previousDevice.Children.IndexOf(parentDevice);
 					previousDevice.Children.Insert(index + 1, device);
 				}
-				else
-				{
-					var index = parentDevice.Children.IndexOf(previousDevice);
-					parentDevice.Children.Insert(index + 1, device);
-				}
+			}
+
+			else
+			{
+				parentDevice.Children.Insert(indexForCangeDevice.Value, device);
 			}
 
 			if (driver.DriverType == GKDriverType.GK || driver.DriverType == GKDriverType.RSR2_GKMirror)
