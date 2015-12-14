@@ -526,9 +526,10 @@ namespace GKModule.ViewModels
 			if (kauIntAddress1 != kauIntAddress2)
 				return false;
 
-			var deviceIntAddress1 = device1.IntAddress;
-			var deviceIntAddress2 = device2.IntAddress;
-			if (deviceIntAddress1 != deviceIntAddress2)
+			if (device1.ShleifNo != device2.ShleifNo)
+				return false;
+
+			if (device1.IntAddress != device2.IntAddress)
 				return false;
 
 			if (device1.Driver.DriverType != device2.Driver.DriverType)
