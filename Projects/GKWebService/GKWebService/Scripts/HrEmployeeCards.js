@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+﻿function InitGridDoors() {
     $("#jqGridDoors").jqGrid({
         datastr: null,
         datatype: "jsonstring",
@@ -12,11 +12,13 @@
         rowNum: 100,
         viewrecords: true,
     });
-});
+};
 
 
 function EmployeeCardsViewModel(parentViewModel) {
     var self = {};
+
+    InitGridDoors();
 
     self.EmployeesParentViewModel = parentViewModel;
     self.IsCardClicked = ko.observable(false);
