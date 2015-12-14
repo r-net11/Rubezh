@@ -9,6 +9,7 @@ using RubezhClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common;
 using RubezhAPI;
+using System.Diagnostics;
 
 namespace GKModule.ViewModels
 {
@@ -62,10 +63,13 @@ namespace GKModule.ViewModels
 				var dbUser = dbUsers.FirstOrDefault(x => x.Password == deviceUser.Password);
 				if (dbUser != null)
 					user.Descriptors.AddRange(dbUser.Descriptors);
-				else
-					result.Add(dbUser.Clone());
 				result.Add(user);
 			}
+			var dbUsersToAdd = dbUsers
+				.Where(dbUser => 
+					!result.Any(x => x.Password == dbUser.Password))
+				.Select(x => x.Clone());
+			result.AddRange(dbUsersToAdd);
 			return result;
 		}
 
@@ -90,9 +94,13 @@ namespace GKModule.ViewModels
 					deviceViewModel.IsAbsent = true;
 					dbViewModel.IsPresent = true;
 				}
-				else if (user.Descriptors.Count > 0 
-					&& (!user.Descriptors.Any(x => deviceUser.Descriptors.Any(y => y.DescriptorNo == x.DescriptorNo && y.ScheduleNo == x.ScheduleNo))
-						|| !user.Descriptors.Any(x => dbUser.Descriptors.Any(y => y.DescriptorNo == x.DescriptorNo && y.ScheduleNo == x.ScheduleNo))))
+				else if (user.Descriptors.Count > 0
+					&& (user.Descriptors
+							.Any(x => 
+								!deviceUser.Descriptors.Any(y => y.DescriptorNo == x.DescriptorNo && y.ScheduleNo == x.ScheduleNo))
+						|| user.Descriptors
+							.Any(x => 
+								!dbUser.Descriptors.Any(y => y.DescriptorNo == x.DescriptorNo && y.ScheduleNo == x.ScheduleNo))))
 				{
 					deviceViewModel.HasNonStructureDifferences = true;
 					dbViewModel.HasNonStructureDifferences = true;

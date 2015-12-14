@@ -24,9 +24,14 @@ namespace GKModule.ViewModels
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
+			GKManager.Doors.RemoveAll(x => true);
 			var doorNo = 1;
-			var shleifDevice = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif && x.IntAddress == 1);
-			AddDevicesOnSchleif(shleifDevice, ref doorNo);
+			var shleifDevices = GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif && (x.IntAddress == 1));
+				//|| x.IntAddress == 8));
+			foreach (var shleifDevice in shleifDevices)
+			{
+				AddDevicesOnSchleif(shleifDevice, ref doorNo);	
+			}
 			
 			GKManager.UpdateConfiguration();
 			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
@@ -36,7 +41,7 @@ namespace GKModule.ViewModels
 		void AddDevicesOnSchleif(GKDevice shleifDevice, ref int doorNo)
 		{
 			shleifDevice.Children = new List<GKDevice>();
-			for (int i = 0; i < 80; i++)
+			for (int i = 0; i < 54; i++)
 			{
 				var cardReaderDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_CardReader);
 				var rmDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_RM_1);
