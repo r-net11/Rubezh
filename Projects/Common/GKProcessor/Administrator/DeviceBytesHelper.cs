@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Common;
+using RubezhAPI;
+using RubezhAPI.GK;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-using Common;
-using RubezhAPI;
-using RubezhAPI.GK;
 
 namespace GKProcessor
 {
@@ -79,14 +79,14 @@ namespace GKProcessor
 			}
 		}
 
-		public static bool GoToTechnologicalRegime(GKDevice device, GKProgressCallback progressCallback)
+		public static bool GoToTechnologicalRegime(GKDevice device, GKProgressCallback progressCallback, Guid clientUID)
 		{
 			using (var gkLifecycleManager = new GKLifecycleManager(device, "Переход в технологический режим"))
 			{
 				if (IsInTechnologicalRegime(device))
 					return true;
 
-				GKProcessorManager.DoProgress(device.PresentationName + " Переход в технологический режим", progressCallback);
+				GKProcessorManager.DoProgress(device.PresentationName + " Переход в технологический режим", progressCallback, clientUID);
 				SendManager.Send(device, 0, 14, 0, null, device.DriverType == GKDriverType.GK);
 				for (int i = 0; i < 10; i++)
 				{
@@ -118,11 +118,11 @@ namespace GKProcessor
 			return false;
 		}
 
-		public static bool EraseDatabase(GKDevice device, GKProgressCallback progressCallback)
+		public static bool EraseDatabase(GKDevice device, GKProgressCallback progressCallback, Guid clientUID)
 		{
 			using (var gkLifecycleManager = new GKLifecycleManager(device, "Стирание базы данных"))
 			{
-				GKProcessorManager.DoProgress(device.PresentationName + " Стирание базы данных", progressCallback);
+				GKProcessorManager.DoProgress(device.PresentationName + " Стирание базы данных", progressCallback, clientUID);
 				for (int i = 0; i < 3; i++)
 				{
 					if (progressCallback.IsCanceled)
@@ -141,12 +141,12 @@ namespace GKProcessor
 			}
 		}
 
-		public static bool GoToWorkingRegime(GKDevice device, GKProgressCallback progressCallback, bool waitUntillStart = true)
+		public static bool GoToWorkingRegime(GKDevice device, GKProgressCallback progressCallback, Guid clientUID, bool waitUntillStart = true)
 		{
 			using (var gkLifecycleManager = new GKLifecycleManager(device, "Переход в рабочий режим"))
 			{
 				progressCallback.IsCanceled = false;
-				GKProcessorManager.DoProgress(device.PresentationName + " Переход в рабочий режим", progressCallback);
+				GKProcessorManager.DoProgress(device.PresentationName + " Переход в рабочий режим", progressCallback, clientUID);
 				if (progressCallback.IsCanceled)
 					return true;
 				SendManager.Send(device, 0, 11, 0, null, device.DriverType == GKDriverType.GK);

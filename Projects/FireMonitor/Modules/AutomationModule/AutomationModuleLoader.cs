@@ -1,20 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using AutomationModule.Events;
 using AutomationModule.Plans;
 using AutomationModule.ViewModels;
-using RubezhAPI;
-using RubezhAPI.Automation;
-using RubezhAPI.AutomationCallback;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhAPI.Models.Layouts;
-using RubezhAPI.SKD;
-using RubezhClient;
-using GKModule.Events;
 using Infrastructure;
+using Infrastructure.Automation;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
@@ -23,10 +11,19 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Infrastructure.Models;
 using Infrustructure.Plans.Events;
 using Microsoft.Practices.Prism.Events;
-using Infrastructure.Automation;
+using RubezhAPI;
+using RubezhAPI.Automation;
+using RubezhAPI.AutomationCallback;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.Models.Layouts;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace AutomationModule
 {
@@ -106,76 +103,76 @@ namespace AutomationModule
 						if (messageArguments.WithConfirmation)
 						{
 							var confirm = MessageBoxService.ShowConfirmation(messageArguments.Message, "Сообщение");
-							ProcedureExecutionContext.CallbackResponse(automationCallbackResult.ContextType, automationCallbackResult.CallbackUID, confirm);
+							ProcedureExecutionContext.CallbackResponse(FiresecServiceFactory.UID, automationCallbackResult.ContextType, automationCallbackResult.CallbackUID, confirm);
 						}
 						else
 							MessageBoxService.ShowExtended(messageArguments.Message, "Сообщение", messageArguments.IsModalWindow);
 					});
 					break;
 				case AutomationCallbackType.Property:
-				{
-					var propertyArguments = (PropertyCallBackData) automationCallbackResult.Data;
-					var ShowObjectDetailsEvent = new CompositePresentationEvent<Guid>();
-					switch (propertyArguments.ObjectType)
 					{
-						case ObjectType.Device:
-							var device = GKManager.Devices.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (device != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>();
-							break;
+						var propertyArguments = (PropertyCallBackData)automationCallbackResult.Data;
+						var ShowObjectDetailsEvent = new CompositePresentationEvent<Guid>();
+						switch (propertyArguments.ObjectType)
+						{
+							case ObjectType.Device:
+								var device = GKManager.Devices.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+								if (device != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>();
+								break;
 
-						case ObjectType.Zone:
-							var zone = GKManager.Zones.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (zone != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKZoneDetailsEvent>();
-							break;
+							case ObjectType.Zone:
+								var zone = GKManager.Zones.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+								if (zone != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKZoneDetailsEvent>();
+								break;
 
-						case ObjectType.Direction:
-							var direction = GKManager.Directions.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (direction != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDirectionDetailsEvent>();
-							break;
+							case ObjectType.Direction:
+								var direction = GKManager.Directions.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+								if (direction != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDirectionDetailsEvent>();
+								break;
 
-						case ObjectType.Delay:
-							var delay = GKManager.Delays.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (delay != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDelayDetailsEvent>();
-							break;
+							case ObjectType.Delay:
+								var delay = GKManager.Delays.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+								if (delay != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDelayDetailsEvent>();
+								break;
 
-						case ObjectType.GuardZone:
-							var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (guardZone != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKGuardZoneDetailsEvent>();
-							break;
+							case ObjectType.GuardZone:
+								var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+								if (guardZone != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKGuardZoneDetailsEvent>();
+								break;
 
-						case ObjectType.VideoDevice:
-							var videoDevice = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (videoDevice != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowCameraDetailsEvent>();
-							break;
+							case ObjectType.VideoDevice:
+								var videoDevice = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+								if (videoDevice != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowCameraDetailsEvent>();
+								break;
 
-						case ObjectType.GKDoor:
-							var gkDoor = GKManager.Doors.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (gkDoor != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDoorDetailsEvent>();
-							break;
+							case ObjectType.GKDoor:
+								var gkDoor = GKManager.Doors.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+								if (gkDoor != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDoorDetailsEvent>();
+								break;
 
-						case ObjectType.PumpStation:
-							var pumpStation = GKManager.PumpStations.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (pumpStation != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKPumpStationDetailsEvent>();
-							break;
+							case ObjectType.PumpStation:
+								var pumpStation = GKManager.PumpStations.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+								if (pumpStation != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKPumpStationDetailsEvent>();
+								break;
 
-						case ObjectType.MPT:
-							var mpt = GKManager.MPTs.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (mpt != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKMPTDetailsEvent>();
-							break;
+							case ObjectType.MPT:
+								var mpt = GKManager.MPTs.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+								if (mpt != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKMPTDetailsEvent>();
+								break;
+						}
+						if (ShowObjectDetailsEvent != null)
+							ApplicationService.BeginInvoke(() => ShowObjectDetailsEvent.Publish(propertyArguments.ObjectUid));
 					}
-					if (ShowObjectDetailsEvent != null)
-						ApplicationService.BeginInvoke(() => ShowObjectDetailsEvent.Publish(propertyArguments.ObjectUid));
-				}
-				break;
+					break;
 			}
 		}
 

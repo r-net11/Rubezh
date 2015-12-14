@@ -35,11 +35,11 @@ function EmployeeDetailsViewModel() {
         return names.join(" ");
     };
 
-    self.Init = function (isNew, personType, parentViewModel) {
+    self.Init = function (isNew, personType, okClick) {
         self.IsNew = isNew;
         self.IsEmployee(personType === "Employee");
         self.Type(personType);
-        self.ParentViewModel = parentViewModel;
+        self.OkClick = okClick;
         if (isNew) {
             self.Title(self.IsEmployee() ? "Добавить сотрудника" : "Добавить посетителя");
             self.OrganisationUID(self.Organisation.UID);
@@ -88,8 +88,8 @@ function EmployeeDetailsViewModel() {
                             self.Organisation.HRChiefUID,
                             "Employees/SaveHRChief",
                             function () {
-                                self.ParentViewModel.ReloadTree();
-                                EmployeeDetailsClose();
+                                self.OkClick();
+                                self.EmployeeDetailsClose();
                             });
                     });
             },

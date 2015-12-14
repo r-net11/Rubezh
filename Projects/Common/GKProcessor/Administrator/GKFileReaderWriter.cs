@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Common;
+using Infrastructure.Common;
+using RubezhAPI;
+using RubezhAPI.GK;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Common;
-using RubezhAPI;
-using RubezhAPI.GK;
-using RubezhAPI;
-using Infrastructure.Common;
 
 namespace GKProcessor
 {
@@ -14,9 +13,9 @@ namespace GKProcessor
 	{
 		public string Error { get; private set; }
 
-		public OperationResult<string> ReadConfigFileFromGK(GKDevice gkControllerDevice, GKProgressCallback progressCallback)
+		public OperationResult<string> ReadConfigFileFromGK(GKDevice gkControllerDevice, GKProgressCallback progressCallback, Guid clientUID)
 		{
-			progressCallback = GKProcessorManager.StartProgress("Чтение конфигурационного файла из " + gkControllerDevice.PresentationName, "Проверка связи", 1, true, GKProgressClientType.Administrator);
+			progressCallback = GKProcessorManager.StartProgress("Чтение конфигурационного файла из " + gkControllerDevice.PresentationName, "Проверка связи", 1, true, GKProgressClientType.Administrator, clientUID);
 			try
 			{
 				using (var gkLifecycleManager = new GKLifecycleManager(gkControllerDevice, "Чтение файла ГК"))
@@ -31,12 +30,12 @@ namespace GKProcessor
 
 					var allbytes = new List<byte>();
 					uint i = 2;
-					progressCallback = GKProcessorManager.StartProgress("Чтение конфигурационного файла из " + gkControllerDevice.PresentationName, "", (int)(gkFileInfo.FileSize / 256), true, GKProgressClientType.Administrator);
+					progressCallback = GKProcessorManager.StartProgress("Чтение конфигурационного файла из " + gkControllerDevice.PresentationName, "", (int)(gkFileInfo.FileSize / 256), true, GKProgressClientType.Administrator, clientUID);
 					while (true)
 					{
 						if (progressCallback.IsCanceled)
 							return OperationResult<string>.FromError("Операция отменена");
-						GKProcessorManager.DoProgress("Чтение блока данных " + i, progressCallback);
+						GKProcessorManager.DoProgress("Чтение блока данных " + i, progressCallback, clientUID);
 						gkLifecycleManager.Progress((int)i, (int)(gkFileInfo.FileSize / 256));
 
 						var data = new List<byte>(BitConverter.GetBytes(i++));
@@ -79,11 +78,11 @@ namespace GKProcessor
 			finally
 			{
 				if (progressCallback != null)
-					GKProcessorManager.StopProgress(progressCallback);
+					GKProcessorManager.StopProgress(progressCallback, clientUID);
 			}
 		}
 
-		public void WriteFileToGK(GKDevice gkControllerDevice)
+		public void WriteFileToGK(GKDevice gkControllerDevice, Guid clientUID)
 		{
 			using (var gkLifecycleManager = new GKLifecycleManager(gkControllerDevice, "Запись файла в ГК"))
 			{
@@ -103,11 +102,11 @@ namespace GKProcessor
 					return;
 				}
 
-				var progressCallback = GKProcessorManager.StartProgress("Запись файла в " + gkControllerDevice.PresentationName, null, bytesList.Count / 256, false, GKProgressClientType.Administrator);
+				var progressCallback = GKProcessorManager.StartProgress("Запись файла в " + gkControllerDevice.PresentationName, null, bytesList.Count / 256, false, GKProgressClientType.Administrator, clientUID);
 				for (var i = 0; i < bytesList.Count; i += 256)
 				{
 					gkLifecycleManager.Progress(i + 1, bytesList.Count);
-					GKProcessorManager.DoProgress("Запись блока данных " + i + 1, progressCallback);
+					GKProcessorManager.DoProgress("Запись блока данных " + i + 1, progressCallback, clientUID);
 
 					var bytesBlock = BitConverter.GetBytes((uint)(i / 256 + 1)).ToList();
 					bytesBlock.AddRange(bytesList.GetRange(i, Math.Min(256, bytesList.Count - i)));
@@ -132,6 +131,12 @@ namespace GKProcessor
 				if (sendResult.HasError || !endResult)
 				{
 					Error = "Невозможно завершить запись файла ";
+					gkLifecycleManager.AddItem("Ошибка");
+				}
+				var sendResultRead = SendManager.Send(gkControllerDevice, 4, 23, 256, new List<byte>(BitConverter.GetBytes(1)));
+				if (!gkFileInfo.InfoBlock.SequenceEqual(sendResultRead.Bytes))
+				{
+					Error = "Не удалось корректно записать информационный блок ";
 					gkLifecycleManager.AddItem("Ошибка");
 				}
 			}

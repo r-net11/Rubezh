@@ -1,7 +1,7 @@
-﻿using System;
+﻿using RubezhAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using RubezhAPI.SKD;
 
 namespace RubezhClient.SKDHelpers
 {
@@ -41,7 +41,8 @@ namespace RubezhClient.SKDHelpers
 				return null;
 			var operationResult = ClientManager.FiresecService.GetAdditionalColumnTypes(new AdditionalColumnTypeFilter
 			{
-				UIDs = new List<System.Guid> { uid.Value }, LogicalDeletationType = LogicalDeletationType.All
+				UIDs = new List<System.Guid> { uid.Value },
+				LogicalDeletationType = LogicalDeletationType.All
 			});
 			var result = Common.ShowErrorIfExists(operationResult);
 			if (result != null && result.Count > 0)
@@ -68,5 +69,5 @@ namespace RubezhClient.SKDHelpers
 				});
 			return Common.ShowErrorIfExists(result);
 		}
-}
+	}
 }

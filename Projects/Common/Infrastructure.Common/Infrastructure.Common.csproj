@@ -161,6 +161,8 @@
     <Compile Include="Navigation\ShowOnPlanArgs.cs" />
     <Compile Include="Ribbon\RibbonViewModel.cs" />
     <Compile Include="Services\DragDrop\DragCorrectionEventArgs.cs" />
+    <Compile Include="Services\IDialogService.cs" />
+    <Compile Include="Services\IMessageBoxService.cs" />
     <Compile Include="Services\Layout\BaseLayoutPartViewModel.cs" />
     <Compile Include="Services\Layout\ILayoutPartContainer.cs" />
     <Compile Include="Services\Layout\ILayoutPartContent.cs" />
@@ -171,6 +173,8 @@
     <Compile Include="Services\Layout\LayoutPartPropertyAccess.cs" />
     <Compile Include="Services\Layout\LayoutPartPropertyPageViewModel.cs" />
     <Compile Include="Services\Layout\LayoutPartPropertyType.cs" />
+    <Compile Include="Services\RealDialogService.cs" />
+    <Compile Include="Services\RealMessageBoxService.cs" />
     <Compile Include="SKDReports\FilterContainerViewModel.cs" />
     <Compile Include="SKDReports\FilteredSKDReportProvider.cs" />
     <Compile Include="SKDReports\FilterModel.cs" />
@@ -179,7 +183,6 @@
     <Compile Include="SKDReports\ISKDReportProviderModule.cs" />
     <Compile Include="SKDReports\SKDReportGroup.cs" />
     <Compile Include="SKDReports\SKDReportProvider.cs" />
-    <Compile Include="TimeoutOperation.cs" />
     <Compile Include="Validation\PlanObjectValidationError.cs" />
     <Compile Include="Windows\ViewModels\BaseObjectViewModel.cs" />
     <Compile Include="Windows\ViewModels\IEditingBaseViewModel.cs" />

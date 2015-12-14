@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Ionic.Zip;
 using RubezhAPI.GK;
-using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -19,22 +19,26 @@ namespace GKModule.ViewModels
 		GKDeviceConfiguration LocalConfiguration { get; set; }
 		GKDeviceConfiguration RemoteConfiguration { get; set; }
 		string ConfigFileName { get; set; }
+		bool OnlyGKDeviceConfiguration { get; set; }
 		public ObjectsListViewModel LocalObjectsViewModel { get; set; }
 		public ObjectsListViewModel RemoteObjectsViewModel { get; set; }
 		internal static bool ConfigFromFile { get; private set; }
 		public string Error { get; private set; }
-		public bool CanChangeOrReplace { get; private set; }
+		public bool CanChangeOrOpenConfiguration { get; private set; }
 
 		public ConfigurationCompareViewModel(GKDeviceConfiguration localConfiguration, GKDeviceConfiguration remoteConfiguration, GKDevice device, string configFileName = "")
 		{
 			Title = "Сравнение конфигураций " + device.PresentationName;
-			ChangeCommand = new RelayCommand(OnChange);
-			ReplaceCommand = new RelayCommand(OnReplace);
+			ChangeCurrentGkCommand = new RelayCommand(OnChangeCurrentGk);
+			OpenGkConfigurationFileCommand = new RelayCommand(OnOpenGkConfigurationFile, CanOpenGkConfigurationFile);
 			NextDifferenceCommand = new RelayCommand(OnNextDifference, CanNextDifference);
 			PreviousDifferenceCommand = new RelayCommand(OnPreviousDifference, CanPreviousDifference);
 
 			ConfigFileName = configFileName;
-			ConfigFromFile = CanChangeOrReplace = !string.IsNullOrEmpty(configFileName);
+			ConfigFromFile = CanChangeOrOpenConfiguration = !string.IsNullOrEmpty(configFileName);
+
+			var remoteConfig = new ZipFile(ConfigFileName);
+			OnlyGKDeviceConfiguration = remoteConfig.Entries.Count == 1;
 
 			LocalConfiguration = localConfiguration;
 			RemoteConfiguration = remoteConfiguration;
@@ -53,7 +57,7 @@ namespace GKModule.ViewModels
 			CompareObjectLists();
 			InitializeMismatchedIndexes();
 		}
-		
+
 		List<int> mismatchedIndexes;
 		void InitializeMismatchedIndexes()
 		{
@@ -93,8 +97,8 @@ namespace GKModule.ViewModels
 			return mismatchedIndexes.Any(x => x < SelectedIndex);
 		}
 
-		public RelayCommand ChangeCommand { get; private set; }
-		void OnChange()
+		public RelayCommand ChangeCurrentGkCommand { get; private set; }
+		void OnChangeCurrentGk()
 		{
 			RemoteDevice.UID = LocalDevice.UID;
 			var rootDevice = LocalConfiguration.Devices.FirstOrDefault(x => x.UID == LocalDevice.Parent.UID);
@@ -124,11 +128,16 @@ namespace GKModule.ViewModels
 			Close(true);
 		}
 
-		public RelayCommand ReplaceCommand { get; private set; }
-		void OnReplace()
+		public RelayCommand OpenGkConfigurationFileCommand { get; private set; }
+		void OnOpenGkConfigurationFile()
 		{
 			ServiceFactory.Events.GetEvent<LoadFromFileEvent>().Publish(ConfigFileName);
 			Close(true);
+		}
+
+		public bool CanOpenGkConfigurationFile()
+		{
+			return !OnlyGKDeviceConfiguration;
 		}
 
 		public void CompareObjectLists()
@@ -136,7 +145,7 @@ namespace GKModule.ViewModels
 			var unionObjects = CreateUnionObjectList(LocalObjectsViewModel.Objects, RemoteObjectsViewModel.Objects);
 			var unionObjects1 = CreateOneComparedObjectList(LocalObjectsViewModel.Objects, RemoteObjectsViewModel.Objects, unionObjects, true);
 			var unionObjects2 = CreateOneComparedObjectList(RemoteObjectsViewModel.Objects, LocalObjectsViewModel.Objects, unionObjects, false);
-            LocalObjectsViewModel.Objects = unionObjects1;
+			LocalObjectsViewModel.Objects = unionObjects1;
 			RemoteObjectsViewModel.Objects = unionObjects2;
 		}
 		List<ObjectViewModel> CreateUnionObjectList(List<ObjectViewModel> objects1, List<ObjectViewModel> objects2)
@@ -198,7 +207,7 @@ namespace GKModule.ViewModels
 						}
 						if (sameObject1.ObjectType == ObjectType.MPT)
 						{
-							newObject.DifferenceDiscription = GetMPTsDifferences(sameObject1, sameObject2, IsLocalConfig);
+							newObject.DifferenceDiscription = GetMPTsDifferences(sameObject1, sameObject2);
 							newObject.Name = sameObject1.Name;
 						}
 						if (sameObject1.ObjectType == ObjectType.Delay)
@@ -257,18 +266,21 @@ namespace GKModule.ViewModels
 			bool delayDiff = object1.Direction.Delay != object2.Direction.Delay;
 			bool holdDiff = object1.Direction.Hold != object2.Direction.Hold;
 			bool regimeDiff = object1.Direction.DelayRegime != object2.Direction.DelayRegime;
-			if (delayDiff || holdDiff || regimeDiff)
+			bool logicDiff = GKManager.GetPresentationLogic(object1.Direction.Logic) != GKManager.GetPresentationLogic(object2.Direction.Logic);
+			if (delayDiff || holdDiff || regimeDiff || logicDiff)
 			{
 				if (directionsDifferences.Length != 0)
 					directionsDifferences.Append(". ");
 				directionsDifferences.Append("Не совпадают следующие параметры: ");
 				var parameters = new List<string>();
-				if(delayDiff)
+				if (delayDiff)
 					parameters.Add("Задержка");
 				if (holdDiff)
 					parameters.Add("Удержание");
 				if (regimeDiff)
 					parameters.Add("Режим работы");
+				if (logicDiff)
+					parameters.Add("Логика");
 				directionsDifferences.Append(String.Join(", ", parameters));
 			}
 			return directionsDifferences.ToString() == "" ? null : directionsDifferences.ToString();
@@ -279,11 +291,12 @@ namespace GKModule.ViewModels
 			var pumpStationsDifferences = new StringBuilder();
 			if (object1.Name != object2.Name)
 				pumpStationsDifferences.Append("Не совпадает название");
-			if (object1.PumpStation.NSDevices.Any(nsDevice => object2.PumpStation.NSDevices.All(x => new ObjectViewModel(x).Compare(new ObjectViewModel(x), new ObjectViewModel(nsDevice)) != 0)))
+			if (object1.PumpStation.NSDevices.Any(nsDevice1 => object2.PumpStation.NSDevices.All(nsDevice2 => !IsEqualDevice(nsDevice1,nsDevice2)))
+				|| object1.PumpStation.NSDevices.Count < object2.PumpStation.NSDevices.Count)
 			{
 				if (pumpStationsDifferences.Length != 0)
 					pumpStationsDifferences.Append(". ");
-				pumpStationsDifferences.Append("Не совпадает количество насосов");
+				pumpStationsDifferences.Append("Не совпадают насосы");
 			}
 			bool startDiff = GKManager.GetPresentationLogic(object1.PumpStation.StartLogic) != GKManager.GetPresentationLogic(object2.PumpStation.StartLogic);
 			bool stopDiff = GKManager.GetPresentationLogic(object1.PumpStation.StopLogic) != GKManager.GetPresentationLogic(object2.PumpStation.StopLogic);
@@ -294,11 +307,11 @@ namespace GKModule.ViewModels
 					pumpStationsDifferences.Append(". ");
 				pumpStationsDifferences.Append("Не совпадают следующие условия: ");
 				var logics = new List<string>();
-				if(startDiff)
+				if (startDiff)
 					logics.Add("Запуска");
-				if(stopDiff)
+				if (stopDiff)
 					logics.Add("Запрета пуска");
-				if(automaticDiff)
+				if (automaticDiff)
 					logics.Add("Отключения");
 				pumpStationsDifferences.Append(String.Join(", ", logics));
 			}
@@ -325,38 +338,39 @@ namespace GKModule.ViewModels
 			return pumpStationsDifferences.ToString() == "" ? null : pumpStationsDifferences.ToString();
 		}
 
-		string GetMPTsDifferences(ObjectViewModel object1, ObjectViewModel object2, bool isLocalConfig)
+		string GetMPTsDifferences(ObjectViewModel object1, ObjectViewModel object2)
 		{
-			var mptsDifferences = new StringBuilder();
+			var mptsDifferences = new List<string>();
 			if (object1.Name != object2.Name)
-				mptsDifferences.Append("Не совпадает название");
-			if (object1.MPT.MPTDevices.Select(x => x.Device).Any(nsDevice => object2.MPT.MPTDevices.Select(x => x.Device).All(x => new ObjectViewModel(x).Compare(new ObjectViewModel(x), new ObjectViewModel(nsDevice)) != 0)))
+				mptsDifferences.Add("Не совпадает название");
+			var devices1 = object1.MPT.MPTDevices.Select(x => x.Device);
+			var devices2 = object2.MPT.MPTDevices.Select(x => x.Device);
+			if (devices1.Any(nsDevice1 => devices2.All(nsDevice2 => !IsEqualDevice(nsDevice1,nsDevice2)))
+				|| devices1.Count() < devices2.Count())
 			{
-				if (mptsDifferences.Length != 0)
-					mptsDifferences.Append(". ");
-				mptsDifferences.Append("Не совпадают устройства");
+				mptsDifferences.Add("Не совпадают устройства");
 			}
 			bool startDiff = GKManager.GetPresentationLogic(object1.MPT.MptLogic.OnClausesGroup) != GKManager.GetPresentationLogic(object2.MPT.MptLogic.OnClausesGroup);
 			if (startDiff)
 			{
-				mptsDifferences.Append("Не совпадают условия включения");
+				mptsDifferences.Add("Не совпадают условия включения");
 			}
 			bool stopDiff = GKManager.GetPresentationLogic(object1.MPT.MptLogic.OffClausesGroup) != GKManager.GetPresentationLogic(object2.MPT.MptLogic.OffClausesGroup);
 			if (stopDiff)
 			{
-				mptsDifferences.Append("Не совпадают условия выключения");
+				mptsDifferences.Add("Не совпадают условия выключения");
 			}
 			bool suspendDiff = GKManager.GetPresentationLogic(object1.MPT.MptLogic.StopClausesGroup) != GKManager.GetPresentationLogic(object2.MPT.MptLogic.StopClausesGroup);
 			if (suspendDiff)
 			{
-				mptsDifferences.Append("Не совпадают условия приостановки");
+				mptsDifferences.Add("Не совпадают условия приостановки");
 			}
 			bool delayDiff = object1.MPT.Delay != object2.MPT.Delay;
 			if (delayDiff)
 			{
-				mptsDifferences.Append("Не совпадают задержки");
+				mptsDifferences.Add("Не совпадают задержки");
 			}
-			return mptsDifferences.ToString() == "" ? null : mptsDifferences.ToString();
+			return String.Join(". ", mptsDifferences);
 		}
 
 		string GetDelaysDifferences(ObjectViewModel object1, ObjectViewModel object2)
@@ -367,7 +381,8 @@ namespace GKModule.ViewModels
 			bool delayDiff = object1.Delay.DelayTime != object2.Delay.DelayTime;
 			bool holdDiff = object1.Delay.Hold != object2.Delay.Hold;
 			bool regimeDiff = object1.Delay.DelayRegime != object2.Delay.DelayRegime;
-			if (delayDiff || holdDiff || regimeDiff)
+			bool logicDiff = GKManager.GetPresentationLogic(object1.Delay.Logic) != GKManager.GetPresentationLogic(object2.Delay.Logic);
+			if (delayDiff || holdDiff || regimeDiff || logicDiff)
 			{
 				if (delaysDifferences.Length != 0)
 					delaysDifferences.Append(". ");
@@ -379,6 +394,8 @@ namespace GKModule.ViewModels
 					parameters.Add("Удержание");
 				if (regimeDiff)
 					parameters.Add("Режим работы");
+				if (logicDiff)
+					parameters.Add("Логика");
 				delaysDifferences.Append(String.Join(", ", parameters));
 			}
 			return delaysDifferences.ToString() == "" ? null : delaysDifferences.ToString();
@@ -400,14 +417,12 @@ namespace GKModule.ViewModels
 
 		string GetCodesDifferences(ObjectViewModel object1, ObjectViewModel object2)
 		{
-			var differences = new StringBuilder();
+			var differences = new List<string>();
 			if (object1.Name != object2.Name)
-				differences.Append("Не совпадает название");
+				differences.Add("Не совпадает название");
 			if (object1.Code.Password != object2.Code.Password)
 			{
-				if (differences.Length != 0)
-					differences.Append(". ");
-				differences.Append("Не совпадает пароль");
+				differences.Add("Не совпадает пароль");
 			}
 			return differences.ToString() == "" ? null : differences.ToString();
 		}
@@ -415,29 +430,42 @@ namespace GKModule.ViewModels
 
 		string GetDoorsDifferences(ObjectViewModel object1, ObjectViewModel object2)
 		{
-			var differences = new StringBuilder();
+			var differences = new List<string>();
 			if (object1.Name != object2.Name)
-				differences.Append("Не совпадает название");
+				differences.Add("Не совпадает название");
+			if (object1.Door.DoorType != object2.Door.DoorType)
+			{
+				differences.Add("Не совпадает тип");
+			}
+
+			if (!IsEqualDevice(object1.Door.EnterDevice, object2.Door.EnterDevice) || !IsEqualDevice(object1.Door.ExitDevice, object2.Door.ExitDevice)
+				|| !IsEqualDevice(object1.Door.LockDevice, object2.Door.LockDevice) || !IsEqualDevice(object1.Door.LockDeviceExit, object2.Door.LockDeviceExit)
+				|| !IsEqualDevice(object1.Door.LockControlDevice, object2.Door.LockControlDevice) || !IsEqualDevice(object1.Door.LockControlDeviceExit, object2.Door.LockControlDeviceExit))
+			{
+				differences.Add("Не совпадают устройства");
+			}
 			if (object1.Door.Delay != object2.Door.Delay)
 			{
-				if (differences.Length != 0)
-					differences.Append(". ");
-				differences.Append("Не совпадает задержка");
+				differences.Add("Не совпадает задержка");
 			}
 			if (object1.Door.Hold != object2.Door.Hold)
 			{
-				if (differences.Length != 0)
-					differences.Append(". ");
-				differences.Append("Не совпадает удержание");
+				differences.Add("Не совпадает удержание");
 			}
-
+			if (object1.Door.EnterZoneUID != object2.Door.EnterZoneUID)
+			{
+				differences.Add("Не совпадает зона входа");
+			}
+			if (object1.Door.ExitZoneUID != object2.Door.ExitZoneUID)
+			{
+				differences.Add("Не совпадает зона выхода");
+			}
 			bool openLogicDiff = GKManager.GetPresentationLogic(object1.Door.OpenRegimeLogic) != GKManager.GetPresentationLogic(object2.Door.OpenRegimeLogic);
 			if (openLogicDiff)
 			{
-				differences.Append("Не совпадают условия перевода в режим Всегда Включено");
+				differences.Add("Не совпадают условия перевода в режим Всегда Включено");
 			}
-
-			return differences.ToString() == "" ? null : differences.ToString();
+			return string.Join(". ", differences);
 		}
 		bool IsEqual(ObjectViewModel viewModel1, ObjectViewModel viewModel2)
 		{
@@ -446,29 +474,7 @@ namespace GKModule.ViewModels
 
 			if (viewModel1.ObjectType == ObjectType.Device)
 			{
-				if (viewModel1.Device.DriverType == GKDriverType.GKIndicatorsGroup
-				|| viewModel1.Device.DriverType == GKDriverType.GKIndicator
-				|| viewModel1.Device.DriverType == GKDriverType.GKRelaysGroup
-				|| viewModel1.Device.DriverType == GKDriverType.GKRele)
-					return true;
-
-				//if (viewModel1.Device.UID == viewModel2.Device.UID)
-				//	return true;
-				//return false;
-
-				var kauIntAddress1 = viewModel1.KAUParent != null ? viewModel1.KAUParent.IntAddress : 0;
-				var kauIntAddress2 = viewModel2.KAUParent != null ? viewModel2.KAUParent.IntAddress : 0;
-				if (kauIntAddress1 != kauIntAddress2)
-					return false;
-
-				var deviceIntAddress1 = viewModel1.Device.IntAddress;
-				var deviceIntAddress2 = viewModel2.Device.IntAddress;
-				if (deviceIntAddress1 != deviceIntAddress2)
-                    return false;
-
-				if (viewModel1.Device.Driver.DriverType != viewModel2.Device.Driver.DriverType)
-					return false;
-				return true;
+				return IsEqualDevice(viewModel1.Device, viewModel2.Device);
 			}
 
 			if (viewModel1.ObjectType == ObjectType.Zone)
@@ -478,13 +484,13 @@ namespace GKModule.ViewModels
 				return viewModel1.Direction.No == viewModel2.Direction.No;
 
 			if (viewModel1.ObjectType == ObjectType.PumpStation)
-				return false;
-			
+				return viewModel1.PumpStation.No == viewModel2.PumpStation.No;
+
 			if (viewModel1.ObjectType == ObjectType.MPT)
-				return viewModel1.MPT.Name == viewModel2.MPT.Name;
+				return viewModel1.MPT.No == viewModel2.MPT.No;
 
 			if (viewModel1.ObjectType == ObjectType.Delay)
-				return viewModel1.Delay.No == viewModel2.Delay.No && viewModel1.Delay.Name == viewModel2.Delay.Name;
+				return viewModel1.Delay.No == viewModel2.Delay.No;
 
 			if (viewModel1.ObjectType == ObjectType.GuardZone)
 				return viewModel1.GuardZone.No == viewModel2.GuardZone.No;
@@ -495,6 +501,39 @@ namespace GKModule.ViewModels
 			if (viewModel1.ObjectType == ObjectType.Door)
 				return viewModel1.Door.No == viewModel2.Door.No;
 
+			if (viewModel1.ObjectType == ObjectType.SKDZone)
+				return viewModel1.SKDZone.No == viewModel2.SKDZone.No;
+
+			return true;
+		}
+		bool IsEqualDevice(GKDevice device1, GKDevice device2)
+		{
+			if (device1 == null && device2 == null)
+				return true;
+			if (device1 == null && device2  !=null)
+				return false;
+			if (device1 != null && device2 == null)
+				return false;
+
+			if (device1.DriverType == GKDriverType.GKIndicatorsGroup
+			|| device1.DriverType == GKDriverType.GKIndicator
+			|| device1.DriverType == GKDriverType.GKRelaysGroup
+			|| device1.DriverType == GKDriverType.GKRele)
+				return true;
+
+			var kauIntAddress1 = device1.KAUParent != null ? device1.KAUParent.IntAddress : 0;
+			var kauIntAddress2 = device2.KAUParent != null ? device2.KAUParent.IntAddress : 0;
+			if (kauIntAddress1 != kauIntAddress2)
+				return false;
+
+			if (device1.ShleifNo != device2.ShleifNo)
+				return false;
+
+			if (device1.IntAddress != device2.IntAddress)
+				return false;
+
+			if (device1.Driver.DriverType != device2.Driver.DriverType)
+				return false;
 			return true;
 		}
 	}

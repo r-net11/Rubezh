@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Common;
+﻿using Common;
 using RubezhAPI;
 using RubezhAPI.GK;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GKProcessor
 {
@@ -16,11 +16,11 @@ namespace GKProcessor
 			Errors = new List<string>();
 		}
 
-		public void WriteConfig(GKDevice gkControllerDevice, GKProgressCallback progressCallback)
+		public void WriteConfig(GKDevice gkControllerDevice, GKProgressCallback progressCallback, Guid clientUID)
 		{
 			Errors = new List<string>();
 
-			progressCallback = GKProcessorManager.StartProgress("Запись конфигурации", "Проверка связи", 1, false, GKProgressClientType.Administrator);
+			progressCallback = GKProcessorManager.StartProgress("Запись конфигурации", "Проверка связи", 1, false, GKProgressClientType.Administrator, clientUID);
 			try
 			{
 				var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkControllerDevice.UID);
@@ -61,15 +61,15 @@ namespace GKProcessor
 						kauDatabases.ForEach(x => { summaryDescriptorsCount += 3 + x.Descriptors.Count; });
 
 						var title = "Запись конфигурации в " + gkDatabase.RootDevice.PresentationName + (i > 0 ? " Попытка " + (i + 1) : "");
-						progressCallback = GKProcessorManager.StartProgress(title, "", summaryDescriptorsCount, false, GKProgressClientType.Administrator);
-						var result = DeviceBytesHelper.GoToTechnologicalRegime(gkDatabase.RootDevice, progressCallback);
+						progressCallback = GKProcessorManager.StartProgress(title, "", summaryDescriptorsCount, false, GKProgressClientType.Administrator, clientUID);
+						var result = DeviceBytesHelper.GoToTechnologicalRegime(gkDatabase.RootDevice, progressCallback, clientUID);
 						if (!result)
 						{
 							Errors.Add("Не удалось перевести " + gkControllerDevice.PresentationName + " в технологический режим\nУстройство не доступно, либо вашего IP адреса нет в списке разрешенного адреса ГК");
 							continue;
 						}
 
-						result = DeviceBytesHelper.EraseDatabase(gkDatabase.RootDevice, progressCallback);
+						result = DeviceBytesHelper.EraseDatabase(gkDatabase.RootDevice, progressCallback, clientUID);
 						if (!result)
 						{
 							Errors.Add("Не удалось стереть базу данных ГК");
@@ -78,26 +78,26 @@ namespace GKProcessor
 
 						foreach (var kauDatabase in kauDatabases)
 						{
-							result = DeviceBytesHelper.GoToTechnologicalRegime(kauDatabase.RootDevice, progressCallback);
+							result = DeviceBytesHelper.GoToTechnologicalRegime(kauDatabase.RootDevice, progressCallback, clientUID);
 							if (!result)
 							{
 								Errors.Add("Не удалось перевести КАУ в технологический режим");
 								continue;
 							}
 
-							if (!DeviceBytesHelper.EraseDatabase(kauDatabase.RootDevice, progressCallback))
+							if (!DeviceBytesHelper.EraseDatabase(kauDatabase.RootDevice, progressCallback, clientUID))
 							{
 								Errors.Add("Не удалось стереть базу данных КАУ");
 								continue;
 							}
 
-							if (!WriteConfigToDevice(kauDatabase, progressCallback))
+							if (!WriteConfigToDevice(kauDatabase, progressCallback, clientUID))
 							{
 								Errors.Add("Не удалось записать дескриптор КАУ");
 							}
 						}
 
-						result = WriteConfigToDevice(gkDatabase, progressCallback);
+						result = WriteConfigToDevice(gkDatabase, progressCallback, clientUID);
 						if (!result)
 						{
 							Errors.Add("Не удалось записать дескриптор ГК");
@@ -106,18 +106,18 @@ namespace GKProcessor
 
 
 						var gkFileReaderWriter = new GKFileReaderWriter();
-						gkFileReaderWriter.WriteFileToGK(gkControllerDevice);
+						gkFileReaderWriter.WriteFileToGK(gkControllerDevice, clientUID);
 						if (gkFileReaderWriter.Error != null)
 						{
 							Errors.Add(gkFileReaderWriter.Error);
 							break;
 						}
 
-						if (kauDatabases.Any(x => !DeviceBytesHelper.GoToWorkingRegime(x.RootDevice, progressCallback)))
+						if (kauDatabases.Any(x => !DeviceBytesHelper.GoToWorkingRegime(x.RootDevice, progressCallback, clientUID)))
 						{
 							Errors.Add("Не удалось перевести КАУ в рабочий режим");
 						}
-						if (!DeviceBytesHelper.GoToWorkingRegime(gkDatabase.RootDevice, progressCallback, false))
+						if (!DeviceBytesHelper.GoToWorkingRegime(gkDatabase.RootDevice, progressCallback, clientUID, false))
 						{
 							Errors.Add("Не удалось перевести ГК в рабочий режим");
 						}
@@ -138,11 +138,11 @@ namespace GKProcessor
 			finally
 			{
 				if (progressCallback != null)
-					GKProcessorManager.StopProgress(progressCallback);
+					GKProcessorManager.StopProgress(progressCallback, clientUID);
 			}
 		}
 
-		bool WriteConfigToDevice(CommonDatabase commonDatabase, GKProgressCallback progressCallback)
+		bool WriteConfigToDevice(CommonDatabase commonDatabase, GKProgressCallback progressCallback, Guid clientUID)
 		{
 			using (var gkLifecycleManager = new GKLifecycleManager(commonDatabase.RootDevice, "Запись дескрипторов"))
 			{
@@ -151,7 +151,7 @@ namespace GKProcessor
 					var descriptor = commonDatabase.Descriptors[descriptorNo];
 					gkLifecycleManager.Progress(descriptorNo + 1, commonDatabase.Descriptors.Count);
 					var progressStage = commonDatabase.RootDevice.PresentationName + ": запись " + descriptor.GKBase.PresentationName + " " + "(" + descriptor.GetDescriptorNo() + ")" + " из " + commonDatabase.Descriptors.Count;
-					GKProcessorManager.DoProgress(progressStage, progressCallback);
+					GKProcessorManager.DoProgress(progressStage, progressCallback, clientUID);
 
 					var packs = CreateDescriptors(descriptor);
 					foreach (var pack in packs)
@@ -163,7 +163,7 @@ namespace GKProcessor
 							{
 								if (i >= 9)
 								{
-									GKProcessorManager.StopProgress(progressCallback);
+									GKProcessorManager.StopProgress(progressCallback, clientUID);
 									gkLifecycleManager.AddItem("Ошибка");
 									return false;
 								}
@@ -173,7 +173,7 @@ namespace GKProcessor
 						}
 					}
 				}
-				GKProcessorManager.DoProgress(commonDatabase.RootDevice.PresentationName + " Запись завершающего дескриптора", progressCallback);
+				GKProcessorManager.DoProgress(commonDatabase.RootDevice.PresentationName + " Запись завершающего дескриптора", progressCallback, clientUID);
 				WriteEndDescriptor(commonDatabase);
 				return true;
 			}

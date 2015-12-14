@@ -205,7 +205,7 @@ namespace SKDModule.ViewModels
 		{
 			var employeeUIDs = DepartmentHelper.GetChildEmployeeUIDs(SelectedItem.UID);
 			if (employeeUIDs == null || employeeUIDs.Count() == 0 ||
-				MessageBoxService.ShowQuestion("Существуют привязанные к подразделению сотрудники. Продожить?"))
+				MessageBoxService.ShowQuestion("Существуют привязанные к подразделению сотрудники. Продолжить?"))
 			{
 				base.Remove();
 				if (IsWithDeleted)

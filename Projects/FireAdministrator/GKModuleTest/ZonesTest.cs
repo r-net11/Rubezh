@@ -4,7 +4,6 @@ using GKModule.ViewModels;
 using Infrastructure;
 using GKModule.Plans;
 using Infrastructure.Common.Windows;
-using Rhino.Mocks;
 using Infrastructure.Services;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhClient;
@@ -20,6 +19,7 @@ using Infrastructure.Common;
 using System.Reflection;
 using Infrastructure.Common.Ribbon;
 using RubezhAPI;
+using Infrastructure.Common.Services;
 
 namespace GKModuleTest
 {
@@ -40,6 +40,10 @@ namespace GKModuleTest
 		GKDevice kauDevice21;
 		GKDevice kauDevice22;
 
+		GroupControllerModule GroupControllerModule;
+		MockDialogService MockDialogService;
+		MockMessageBoxService MockMessageBoxService;
+
 		[SetUp]
 		public void CreateConfiguration()
 		{
@@ -58,6 +62,22 @@ namespace GKModuleTest
 			GKManager.UpdateConfiguration();
 			ClientManager.PlansConfiguration = new PlansConfiguration();
 			ClientManager.PlansConfiguration.AllPlans = new List<Plan>();
+
+			ServiceFactory.Initialize(null, null);
+			ServiceFactory.ResourceService = new MockResourceService();
+			ServiceFactory.DialogService = MockDialogService = new MockDialogService();
+			ServiceFactory.MessageBoxService = MockMessageBoxService = new MockMessageBoxService();
+			ServiceFactory.MenuService = new MenuService(x => { ;});
+			ServiceFactory.RibbonService = new MockRibbonService();
+
+			CreateGroupControllerModule();
+		}
+
+		void CreateGroupControllerModule()
+		{
+			GroupControllerModule = new GroupControllerModule();
+			GroupControllerModule.CreateViewModels();
+			GroupControllerModule.Initialize();
 		}
 
 		GKDevice AddDevice(GKDevice device, GKDriverType driverType)
@@ -66,33 +86,19 @@ namespace GKModuleTest
 		}
 
 		/// <summary>
-		/// В список зоно можн добавить зону и она добавится в конфигурацию
+		/// В список зон можно добавить зону и она добавится в конфигурацию
 		/// </summary>
 		[Test]
 		public void Add()
 		{
-			var mockRepository = new MockRepository();
-			var dialogService = mockRepository.StrictMock<IDialogService>();
-			Expect.Call(delegate { dialogService.ShowModalWindow(null); }).IgnoreArguments().Do(new ShowModalWindowDelegate(x =>
+			MockDialogService.OnShowModal += x =>
 			{
 				(x as ZoneDetailsViewModel).Name = "Test Zone";
 				(x as ZoneDetailsViewModel).SaveCommand.Execute();
 
-				return x.CloseResult.Value;
-			}));
-			var messageBoxService = mockRepository.StrictMock<IMessageBoxService>();
-			Expect.Call(delegate { messageBoxService.ShowQuestion(null, null); }).IgnoreArguments().Do(new ShowQuestionDelegate((x, y) =>
-			{
-				return true;
-			}));
-			mockRepository.ReplayAll();
+			};
 
-			ServiceFactory.Initialize(null, null);
-			ServiceFactory.DialogService = dialogService;
-			ServiceFactory.MessageBoxService = messageBoxService;
-			ServiceFactory.MenuService = new MenuService(x => { ;});
-			ServiceFactory.RibbonService = mockRepository.StrictMock<IRibbonService>();
-			var gkPlanExtension = new GKPlanExtension(null, null, null, null, null, null, null, null);
+			MockMessageBoxService.ShowConfirmationResult = true;
 
 			var zonesViewModel = new ZonesViewModel();
 			zonesViewModel.Initialize();
@@ -118,26 +124,11 @@ namespace GKModuleTest
 		[Test]
 		public void AddCancel()
 		{
-			var mockRepository = new MockRepository();
-			var dialogService = mockRepository.StrictMock<IDialogService>();
-			Expect.Call(delegate { dialogService.ShowModalWindow(null); }).IgnoreArguments().Do(new ShowModalWindowDelegate(x =>
+			MockDialogService.OnShowModal += x =>
 			{
 				(x as ZoneDetailsViewModel).CancelCommand.Execute();
-				return x.CloseResult.Value;
-			}));
-			var messageBoxService = mockRepository.StrictMock<IMessageBoxService>();
-			Expect.Call(delegate { messageBoxService.ShowQuestion(null, null); }).IgnoreArguments().Do(new ShowQuestionDelegate((x, y) =>
-			{
-				return true;
-			}));
-			mockRepository.ReplayAll();
 
-			ServiceFactory.Initialize(null, null);
-			ServiceFactory.DialogService = dialogService;
-			ServiceFactory.MessageBoxService = messageBoxService;
-			ServiceFactory.MenuService = new MenuService(x => { ;});
-			ServiceFactory.RibbonService = mockRepository.StrictMock<IRibbonService>();
-			var gkPlanExtension = new GKPlanExtension(null, null, null, null, null, null, null, null);
+			};
 
 			var zonesViewModel = new ZonesViewModel();
 			zonesViewModel.Initialize();
@@ -156,18 +147,6 @@ namespace GKModuleTest
 		[Test]
 		public void AddDeviceToNoZone()
 		{
-			var mockRepository = new MockRepository();
-			var dialogService = mockRepository.StrictMock<IDialogService>();
-			var messageBoxService = mockRepository.StrictMock<IMessageBoxService>();
-			mockRepository.ReplayAll();
-
-			ServiceFactory.Initialize(null, null);
-			ServiceFactory.DialogService = dialogService;
-			ServiceFactory.MessageBoxService = messageBoxService;
-			ServiceFactory.MenuService = new MenuService(x => { ;});
-			ServiceFactory.RibbonService = mockRepository.StrictMock<IRibbonService>();
-			var gkPlanExtension = new GKPlanExtension(null, null, null, null, null, null, null, null);
-
 			AddDevice(kauDevice11, GKDriverType.RSR2_SmokeDetector);
 			AddDevice(kauDevice11, GKDriverType.RSR2_SmokeDetector);
 			AddDevice(kauDevice11, GKDriverType.RSR2_SmokeDetector);
@@ -186,18 +165,6 @@ namespace GKModuleTest
 		[Test]
 		public void AddDeviceToZone()
 		{
-			var mockRepository = new MockRepository();
-			var dialogService = mockRepository.StrictMock<IDialogService>();
-			var messageBoxService = mockRepository.StrictMock<IMessageBoxService>();
-			mockRepository.ReplayAll();
-
-			ServiceFactory.Initialize(null, null);
-			ServiceFactory.DialogService = dialogService;
-			ServiceFactory.MessageBoxService = messageBoxService;
-			ServiceFactory.MenuService = new MenuService(x => { ;});
-			ServiceFactory.RibbonService = mockRepository.StrictMock<IRibbonService>();
-			var gkPlanExtension = new GKPlanExtension(null, null, null, null, null, null, null, null);
-
 			var device1 = AddDevice(kauDevice11, GKDriverType.RSR2_SmokeDetector);
 			var device2 = AddDevice(kauDevice11, GKDriverType.RSR2_SmokeDetector);
 			var device3 = AddDevice(kauDevice11, GKDriverType.RSR2_SmokeDetector);
@@ -221,45 +188,14 @@ namespace GKModuleTest
 		/// Тест на создание всех вьюмоделей
 		/// </summary>
 		[Test]
-		[STAThread]
 		public void AllViewModelsTest()
 		{
-			var mockRepository = new MockRepository();
-			var dialogService = mockRepository.StrictMock<IDialogService>();
-			var messageBoxService = mockRepository.StrictMock<IMessageBoxService>();
-			var resourceService = mockRepository.StrictMock<IResourceService>();
-			Expect.Call(delegate { resourceService.AddResource(null, null); }).IgnoreArguments().Do(new AddResourceDelegate((x, y) =>
-			{
-				;
-			})).Repeat.Any();
-			var ribbonService = mockRepository.StrictMock<IRibbonService>();
-			Expect.Call(delegate { ribbonService.AddRibbonItems((IEnumerable<RibbonMenuItemViewModel>)null); }).IgnoreArguments().Do(new AddRibbonItemsDelegate1((x) =>
-			{
-				;
-			})).Repeat.Any();
-			Expect.Call(delegate { ribbonService.AddRibbonItems((RibbonMenuItemViewModel[])null); }).IgnoreArguments().Do(new AddRibbonItemsDelegate2((x) =>
-			{
-				;
-			})).Repeat.Any();
-
-			Expect.Call(delegate { dialogService.ShowModalWindow(null); }).IgnoreArguments().Do(new ShowModalWindowDelegate(x =>
+			MockDialogService.OnShowModal += x =>
 			{
 				var newDeviceViewModel = x as NewDeviceViewModel;
 				newDeviceViewModel.SelectedDriver = GKManager.Drivers.FirstOrDefault(y => y.DriverType == GKDriverType.RSR2_AM_1);
 				newDeviceViewModel.SaveCommand.Execute();
-				return x.CloseResult.Value;
-			}));
-
-			ServiceFactory.Initialize(null, null);
-			ServiceFactory.ResourceService = resourceService;
-			ServiceFactory.DialogService = dialogService;
-			ServiceFactory.MessageBoxService = messageBoxService;
-			ServiceFactory.MenuService = new MenuService(x => { ;});
-			ServiceFactory.RibbonService = ribbonService;
-
-			mockRepository.ReplayAll();
-
-			//AddDevice(kauDevice11, GKDriverType.RSR2_AM_1);
+			};
 
 			var groupControllerModule = new GroupControllerModule();
 			groupControllerModule.CreateViewModels();

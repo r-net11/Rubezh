@@ -1,15 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading;
-using Common;
+﻿using Common;
 using RubezhAPI;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
-using RubezhAPI.SKD;
-using Infrastructure.Common.Windows;
-using RubezhAPI.Models.Layouts;
+using System;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace RubezhClient
 {
@@ -21,11 +17,13 @@ namespace RubezhClient
 		public static event Action<CallbackOperationResult> CallbackOperationResultEvent;
 		public static event Action<AutomationCallbackResult> AutomationEvent;
 		public static event Action ConfigurationChangedEvent;
+		public static event Action ReconnectionRequiredEvent;
 		public static event Action<List<JournalItem>, bool> JournalItemsEvent;
-		
+
 		bool isConnected = true;
 		public bool SuspendPoll = false;
 		Thread PollThread;
+		int CallbackIndex = -1;
 
 		public void StartPoll()
 		{
@@ -52,7 +50,6 @@ namespace RubezhClient
 
 		void OnPoll()
 		{
-			Poll(FiresecServiceFactory.UID);
 			while (true)
 			{
 				try
@@ -66,8 +63,8 @@ namespace RubezhClient
 						continue;
 					}
 
-					var callbackResults = Poll(FiresecServiceFactory.UID);
-					ProcessCallbackResult(callbackResults);
+					var pollResult = Poll(FiresecServiceFactory.UID, CallbackIndex);
+					ProcessPollResult(pollResult);
 				}
 				catch (Exception e)
 				{
@@ -78,30 +75,38 @@ namespace RubezhClient
 
 		public static void ProcessAutomationCallback(AutomationCallbackResult callback, Guid? clientUid = null)
 		{
-			if (callback.Data == null || callback.Data.LayoutFilter == null || ApplicationService.Shell == null)
-				return;
-			var layoutUID = ApplicationService.Shell.Layout == null ? 
-				Layout.NoLayoutUID : 
-				ApplicationService.Shell.Layout.UID;
-			if (callback.Data.LayoutFilter.LayoutsUIDs.Contains(layoutUID))
-				SafeOperationCall(() =>
-				{
-					if (AutomationEvent != null)
-						AutomationEvent(callback);
-				});
+			SafeContext.Execute(() =>
+			{
+				if (AutomationEvent != null)
+					AutomationEvent(callback);
+			});
 		}
 
-		void ProcessCallbackResult(List<CallbackResult> callbackResults)
+		void ProcessPollResult(PollResult pollResult)
 		{
-			if (callbackResults == null || callbackResults.Count == 0)
+			if (pollResult == null)
 				return;
 
-			foreach (var callbackResult in callbackResults)
+			CallbackIndex = pollResult.CallbackIndex;
+
+			//if (pollResult.IsDisconnecting) ;
+
+			if (pollResult.IsReconnectionRequired)
+			{
+				SafeContext.Execute(() =>
+				{
+					if (ReconnectionRequiredEvent != null)
+						ReconnectionRequiredEvent();
+				});
+				return;
+			}
+
+			foreach (var callbackResult in pollResult.CallbackResults)
 			{
 				switch (callbackResult.CallbackResultType)
 				{
 					case CallbackResultType.GKProgress:
-						SafeOperationCall(() =>
+						SafeContext.Execute(() =>
 						{
 							if (GKProgressCallbackEvent != null)
 								GKProgressCallbackEvent(callbackResult.GKProgressCallback);
@@ -109,7 +114,7 @@ namespace RubezhClient
 						break;
 
 					case CallbackResultType.GKObjectStateChanged:
-						SafeOperationCall(() =>
+						SafeContext.Execute(() =>
 						{
 							if (GKCallbackResultEvent != null)
 								GKCallbackResultEvent(callbackResult.GKCallbackResult);
@@ -117,7 +122,7 @@ namespace RubezhClient
 						break;
 
 					case CallbackResultType.GKPropertyChanged:
-						SafeOperationCall(() =>
+						SafeContext.Execute(() =>
 						{
 							if (GKPropertyChangedEvent != null)
 								GKPropertyChangedEvent(callbackResult.GKPropertyChangedCallback);
@@ -125,7 +130,7 @@ namespace RubezhClient
 						break;
 
 					case CallbackResultType.OperationResult:
-						SafeOperationCall(() =>
+						SafeContext.Execute(() =>
 						{
 							if (CallbackOperationResultEvent != null)
 								CallbackOperationResultEvent(callbackResult.CallbackOperationResult);
@@ -133,12 +138,12 @@ namespace RubezhClient
 						break;
 
 					case CallbackResultType.AutomationCallbackResult:
-							ProcessAutomationCallback(callbackResult.AutomationCallbackResult);
+						ProcessAutomationCallback(callbackResult.AutomationCallbackResult);
 						break;
 
 					case CallbackResultType.NewEvents:
 					case CallbackResultType.UpdateEvents:
-						SafeOperationCall(() =>
+						SafeContext.Execute(() =>
 						{
 							if (JournalItemsEvent != null)
 								JournalItemsEvent(callbackResult.JournalItems, callbackResult.CallbackResultType == CallbackResultType.NewEvents);
@@ -146,7 +151,7 @@ namespace RubezhClient
 						break;
 
 					case CallbackResultType.ConfigurationChanged:
-						SafeOperationCall(() =>
+						SafeContext.Execute(() =>
 						{
 							if (ConfigurationChangedEvent != null)
 								ConfigurationChangedEvent();

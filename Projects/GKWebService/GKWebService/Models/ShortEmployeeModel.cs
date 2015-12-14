@@ -27,6 +27,7 @@ namespace GKWebService.Models
         public bool IsExpanded { get; set; }
         public bool IsDeleted { get; set; }
         public string RemovalDate { get; set; }
+        public bool IsChief { get; set; }
 
         public static ShortEmployeeModel CreateFromOrganisation(Organisation organisation)
         {

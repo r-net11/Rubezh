@@ -1,16 +1,16 @@
-﻿using System;
-using System.Linq;
-using Common;
+﻿using Common;
 using RubezhAPI;
-using RubezhAPI.Models;
 using RubezhAPI.License;
+using RubezhAPI.Models;
+using System;
+using System.Linq;
 
 namespace RubezhClient
 {
 	public partial class ClientManager
 	{
-		public static ClientCredentials ClientCredentials { get; private set; }
-		public static SafeFiresecService FiresecService { get; private set; }
+		static ClientCredentials ClientCredentials { get; set; }
+		public static ISafeFiresecService FiresecService { get; internal set; }
 
 		public static string Connect(ClientType clientType, string serverAddress, string login, string password)
 		{
@@ -28,7 +28,7 @@ namespace RubezhClient
 				for (int i = 0; i < 3; i++)
 				{
 					FiresecService = new SafeFiresecService(serverAddress);
-					var operationResult = FiresecService.Connect(FiresecServiceFactory.UID, ClientCredentials, true);
+					var operationResult = FiresecService.Connect(FiresecServiceFactory.UID, ClientCredentials);
 					if (!operationResult.HasError)
 					{
 						error = null;
@@ -72,7 +72,7 @@ namespace RubezhClient
 			return FiresecService.Ping();
 		}
 
-		static string _userLogin;
+		internal static string _userLogin;
 		public static User CurrentUser
 		{
 			get { return SecurityConfiguration.Users.FirstOrDefault(x => x.Login == _userLogin); }

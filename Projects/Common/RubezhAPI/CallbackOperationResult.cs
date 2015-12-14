@@ -1,5 +1,6 @@
 ﻿using RubezhAPI.GK;
 using RubezhAPI.Journal;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
@@ -33,7 +34,8 @@ namespace RubezhAPI
 		public List<JournalItem> JournalItems { get; set; }
 
 		[DataMember]
-		public int PageNo { get; set; }
+		public Guid ClientUid { get; set; }
+		 
 	}
 
 	public enum CallbackOperationResultType

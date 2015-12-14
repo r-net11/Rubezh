@@ -60,6 +60,33 @@ namespace GKWebService.Controllers
         public JsonNetResult GetDepartmentEmployees(Guid id)
         {
             var filter = new EmployeeFilter {DepartmentUIDs = new List<Guid> {id}};
+            return GetEmployees(filter);
+        }
+
+        public JsonNetResult GetEmptyDepartmentEmployees(Guid id)
+        {
+            var filter = new EmployeeFilter
+            {
+                OrganisationUIDs = new List<Guid> {id},
+                IsEmptyDepartment = true
+            };
+
+            return GetEmployees(filter);
+        }
+
+        public JsonNetResult GetEmptyPositionEmployees(Guid id)
+        {
+            var filter = new EmployeeFilter
+            {
+                OrganisationUIDs = new List<Guid> {id},
+                IsEmptyPosition = true
+            };
+
+            return GetEmployees(filter);
+        }
+
+        private JsonNetResult GetEmployees(EmployeeFilter filter)
+        {
             var operationResult = ClientManager.FiresecService.GetEmployeeList(filter);
             if (operationResult.HasError)
             {
@@ -68,7 +95,7 @@ namespace GKWebService.Controllers
 
             var employees = operationResult.Result.Select(e => ShortEmployeeModel.CreateFromModel(e));
 
-            return new JsonNetResult { Data = new {Employees = employees} };
+            return new JsonNetResult { Data = new { Employees = employees } };
         }
 
         public ActionResult HrFilter()

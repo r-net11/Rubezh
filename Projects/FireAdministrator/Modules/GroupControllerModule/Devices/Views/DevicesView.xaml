@@ -32,7 +32,6 @@
 				<Controls:IconedMenuItem Text="Извещательные устройства" Command="{Binding GenerateForDetectorDevicesCommand}" />
 				<Controls:IconedMenuItem Text="Направления" Command="{Binding GenerateDirectionsCommand}" />
 			</Controls:IconedMenuItem>
-			<Controls:IconedMenuItem  ImageSource="BPaste" Command="{Binding ShowAccessUserReflectionCommand}" Text="Права чтение/запись" Visibility="{Binding IsEdit,  Converter={StaticResource BoolToVisibilityConverter}}" />
 			<Separator />
 			<Controls:IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить дочернее устройство (Ctrl+N)" />
 			<Controls:IconedMenuItem Command="{Binding AddToParentCommand}" ImageSource="BAddChild" Text="Добавить к родительскому устройству (Ctrl+M)" />

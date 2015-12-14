@@ -1,14 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using GKProcessor;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhAPI.SKD;
-using RubezhAPI;
-using GKProcessor;
-using RubezhDAL;
+using System;
 using System.Collections.Generic;
-using Infrastructure.Automation;
+using System.Linq;
 
 namespace FiresecService
 {
@@ -16,8 +13,8 @@ namespace FiresecService
 	{
 		public static void Create()
 		{
-			GKProcessorManager.GKProgressCallbackEvent -= new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
-			GKProcessorManager.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
+			GKProcessorManager.GKProgressCallbackEvent -= new Action<GKProgressCallback, Guid?>(OnGKProgressCallbackEvent);
+			GKProcessorManager.GKProgressCallbackEvent += new Action<GKProgressCallback, Guid?>(OnGKProgressCallbackEvent);
 			GKProcessorManager.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResultEvent);
 			GKProcessorManager.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResultEvent);
 		}
@@ -39,9 +36,9 @@ namespace FiresecService
 			Start();
 		}
 
-		static void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
+		static void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback, Guid? clientUID)
 		{
-			FiresecService.Service.FiresecService.NotifyGKProgress(gkProgressCallback);
+			FiresecService.Service.FiresecService.NotifyGKProgress(gkProgressCallback, clientUID);
 		}
 
 		static void OnGKCallbackResultEvent(GKCallbackResult gkCallbackResult)

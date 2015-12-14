@@ -4,7 +4,6 @@ using GKModule.ViewModels;
 using Infrastructure;
 using GKModule.Plans;
 using Infrastructure.Common.Windows;
-using Rhino.Mocks;
 using Infrastructure.Services;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhClient;
@@ -68,9 +67,6 @@ namespace GKModuleTest
 			ServiceFactory.MessageBoxService = MockMessageBoxService = new MockMessageBoxService();
 			ServiceFactory.MenuService = new MenuService(x => { ;});
 			ServiceFactory.RibbonService = new MockRibbonService();
-
-			var mockRepository = new MockRepository();
-			mockRepository.ReplayAll();
 
 			CreateGroupControllerModule();
 		}

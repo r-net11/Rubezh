@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Infrastructure.Common.TreeList;
 using RubezhAPI.SKD;
 
 namespace GKWebService.Models.SKD.Common
@@ -17,12 +18,12 @@ namespace GKWebService.Models.SKD.Common
         public Guid OrganisationUID { get; set; }
         public string RemovalDate { get; set; }
         public string Name { get; set; }
+        public string NameData { get; set; }
         public string Description { get; set; }
         public bool IsExpanded { get; set; }
         public int Level { get; set; }
         public Guid ParentUID { get; set; }
         public bool IsLeaf { get; set; }
-
 
         public virtual void InitializeOrganisation(Organisation organisation)
         {
@@ -30,6 +31,7 @@ namespace GKWebService.Models.SKD.Common
             OrganisationUID = organisation.UID;
             UID = organisation.UID;
             Name = organisation.Name;
+            NameData = organisation.Name;
             Description = organisation.Description;
             IsOrganisation = true;
             IsExpanded = true;
@@ -44,6 +46,7 @@ namespace GKWebService.Models.SKD.Common
             Model = model;
             UID = model.UID;
             Name = model.Name;
+            NameData = model.Name;
             Description = model.Description;
             IsOrganisation = false;
             IsDeleted = model.IsDeleted;
