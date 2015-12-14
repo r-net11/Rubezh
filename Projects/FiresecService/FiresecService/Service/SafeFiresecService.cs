@@ -202,18 +202,18 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(clientUID, () => FiresecService.GetFilteredJournalItems(clientUID, filter), "GetFilteredJournalItems");
 		}
-		public OperationResult<bool> BeginGetJournal(Guid clientUID, JournalFilter filter)
+		public OperationResult<bool> BeginGetJournal(JournalFilter filter, Guid clientUid, Guid journalClientUid)
 		{
-			return SafeOperationCall(clientUID, () => FiresecService.BeginGetJournal(clientUID, filter), "BeginGetJournal");
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.BeginGetJournal(filter, clientUid, journalClientUid));
 		}
 		public OperationResult<bool> AddJournalItem(Guid clientUID, JournalItem journalItem)
 		{
 			return SafeOperationCall(clientUID, () => { return FiresecService.AddJournalItem(clientUID, journalItem); }, "AddJournalItem");
 		}
 
-		public OperationResult<bool> BeginGetArchivePage(Guid clientUID, JournalFilter filter, int page)
+		public OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page, Guid clientUid)
 		{
-			return SafeOperationCall(clientUID, () => FiresecService.BeginGetArchivePage(clientUID, filter, page), "BeginGetArchivePage");
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.BeginGetArchivePage(filter, page, clientUid));
 		}
 
 		public OperationResult<int> GetArchiveCount(Guid clientUID, JournalFilter filter)
@@ -307,16 +307,6 @@ namespace FiresecService.Service
 		public OperationResult<bool> GKRewriteUsers(Guid clientUID, Guid gkDeviceUID)
 		{
 			return SafeOperationCall(clientUID, () => { return FiresecService.GKRewriteUsers(clientUID, gkDeviceUID); }, "GKRewriteUsers");
-		}
-
-		public OperationResult<List<MirrorUser>> GKReadMirrorUsers(Guid clientUID, Guid deviceUID)
-		{
-			return SafeOperationCall(clientUID, () => { return FiresecService.GKReadMirrorUsers(clientUID, deviceUID); }, "GKReadMirrorUsers");
-		}
-
-		public OperationResult<bool> GKWriteMirrorUsers(Guid clientUID, Guid deviceUID, List<MirrorUser> mirrorUsers)
-		{
-			return SafeOperationCall(clientUID, () => { return FiresecService.GKWriteMirrorUsers(clientUID, deviceUID, mirrorUsers); }, "GKWriteMirrorUsers");
 		}
 
 		public OperationResult<List<GKUser>> GetGKUsers(Guid clientUID, Guid deviceUID)

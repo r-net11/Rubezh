@@ -169,37 +169,37 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult, ClientType.Administrator, clientUID);
 		}
 
-		public static void NotifyOperationResult_GetArchivePage(OperationResult<List<JournalItem>> result, int pageNo, Guid? clientUID)
+		public static void NotifyOperationResult_GetArchivePage(OperationResult<List<JournalItem>> result, Guid clientUid)
 		{
 			var callbackResult = new CallbackResult()
 			{
 				CallbackResultType = CallbackResultType.OperationResult,
-				CallbackOperationResult = new CallbackOperationResult()
+				CallbackOperationResult = new CallbackOperationResult
 				{
 					CallbackOperationResultType = CallbackOperationResultType.GetArchivePage,
 					Error = result.Error,
 					HasError = result.HasError,
 					JournalItems = result.Result,
-					PageNo = pageNo
 				}
 			};
-			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other, clientUID);
+			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other, clientUid);
 		}
 
-		public static void NotifyOperationResult_GetJournal(OperationResult<List<JournalItem>> result, Guid? clientUID)
+		public static void NotifyOperationResult_GetJournal(OperationResult<List<JournalItem>> result, Guid clientUid, Guid journalClientUid)
 		{
 			var callbackResult = new CallbackResult()
 			{
 				CallbackResultType = CallbackResultType.OperationResult,
-				CallbackOperationResult = new CallbackOperationResult()
+				CallbackOperationResult = new CallbackOperationResult
 				{
 					CallbackOperationResultType = CallbackOperationResultType.GetJournal,
 					Error = result.Error,
 					HasError = result.HasError,
-					JournalItems = result.Result
+					JournalItems = result.Result,
+					ClientUid = journalClientUid,
 				}
 			};
-			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other, clientUID);
+			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other, clientUid);
 		}
 	}
 }

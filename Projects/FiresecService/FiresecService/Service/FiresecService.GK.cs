@@ -598,27 +598,5 @@ namespace FiresecService.Service
 			return GKSKDHelper.RewritePmfUsers(uid, users, clientUID);
 		}
 		#endregion
-
-		public OperationResult<List<MirrorUser>> GKReadMirrorUsers(Guid clientUID, Guid deviceUID)
-		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				return OperationResult<List<MirrorUser>>.FromError("метод не реализован");
-			}
-			else
-				return OperationResult<List<MirrorUser>>.FromError("Не найдено Отражение в конфигурации");
-		}
-
-		public OperationResult<bool> GKWriteMirrorUsers(Guid clientUID, Guid deviceUID, List<MirrorUser> mirrorUsers)
-		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				return OperationResult<bool>.FromError("метод не реализован");
-			}
-			else
-				return OperationResult<bool>.FromError("Не найдено Отражение в конфигурации");
-		}
 	}
 }

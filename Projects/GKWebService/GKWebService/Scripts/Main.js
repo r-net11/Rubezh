@@ -120,6 +120,10 @@ var app = new function AppViewModel() {
     self.Menu.HR.Departments = DepartmentsViewModel();
     self.Menu.HR.Departments.DepartmentDetails = DepartmentDetailsViewModel(self.Menu.HR.Employees.DepartmentSelection);
     self.Menu.HR.Departments.DepartmentEmployeeList = DepartmentEmployeeListViewModel(self.Menu.HR.Departments);
+    self.Menu.HR.Positions = PositionsViewModel();
+    self.Menu.HR.Positions.PositionDetails = PositionDetailsViewModel();
+    self.Menu.HR.Positions.PositionEmployeeList = PositionEmployeeListViewModel(self.Menu.HR.Positions);
+
 
     return self;
 };

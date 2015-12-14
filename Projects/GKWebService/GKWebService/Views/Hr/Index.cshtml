@@ -31,7 +31,7 @@
     <div class="HrToolbar" data-bind="visible:hrPages.Positions">
         <div class="icon add"></div>
         <div class="icon delete"></div>
-        <div class="icon edit"></div>
+        <div class="icon edit" title="Редактировать" data-bind="click: Positions.CanEdit() ? function(data,event) { Positions.Edit(data, event); } : null, css: {disabled: !Positions.CanEdit()}"></div>
         <div class="icon copy"></div>
         <div class="icon paste"></div>
         <div class="icon redo"></div>
@@ -96,7 +96,7 @@
 
 <div data-bind="visible:HR.hrPages.Employees">@Html.Action("Index", "Employees")</div>
 <div data-bind="visible:HR.hrPages.Departments">@Html.Action("Index", "Departments")</div>
-<div data-bind="visible:HR.hrPages.Positions">@Html.Action("Positions")</div>
+<div data-bind="visible:HR.hrPages.Positions">@Html.Action("Index", "Positions")</div>
 <div data-bind="visible:HR.hrPages.AdditionalColumnTypes">@Html.Action("AdditionalColumnTypes")</div>
 <div data-bind="visible:HR.hrPages.Cards">@Html.Action("Cards")</div>
 <div data-bind="visible:HR.hrPages.AccessTemplates">@Html.Action("AccessTemplates")</div>

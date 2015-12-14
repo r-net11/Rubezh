@@ -87,29 +87,29 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<bool> BeginGetJournal(Guid clientUID, JournalFilter filter)
+		public OperationResult<bool> BeginGetJournal(JournalFilter filter, Guid clientUid, Guid journalClientUid)
 		{
-			ServerTaskRunner.Add(null, "Чтение файла конфигурации ГК", new Action(() =>
+			ServerTaskRunner.Add(null, "Чтение журнала событий", () =>
 			{
 				using (var dbService = new RubezhDAL.DataClasses.DbService())
 				{
 					var result = dbService.JournalTranslator.GetFilteredJournalItems(filter);
-					FiresecService.NotifyOperationResult_GetJournal(result, clientUID);
+					FiresecService.NotifyOperationResult_GetJournal(result, clientUid, journalClientUid);
 				}
-			}));
+			});
 			return new OperationResult<bool>(true);
 		}
 
-		public OperationResult<bool> BeginGetArchivePage(Guid clientUID, JournalFilter filter, int page)
+		public OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page, Guid clientUid)
 		{
-			ServerTaskRunner.Add(null, "Чтение файла конфигурации ГК", new Action(() =>
+			ServerTaskRunner.Add(null, "Чтение архива", () =>
 			{
 				using (var dbService = new RubezhDAL.DataClasses.DbService())
 				{
 					var result = dbService.JournalTranslator.GetArchivePage(filter, page);
-					FiresecService.NotifyOperationResult_GetArchivePage(result, page, clientUID);
+					FiresecService.NotifyOperationResult_GetArchivePage(result, clientUid);
 				}
-			}));
+			});
 			return new OperationResult<bool>(true);
 		}
 

@@ -84,7 +84,7 @@ namespace RubezhAPI
 		OperationResult<List<JournalItem>> GetFilteredJournalItems(Guid clientUID, JournalFilter journalFilter);
 
 		[OperationContract]
-		OperationResult<bool> BeginGetJournal(Guid clientUID, JournalFilter journalFilter);
+		OperationResult<bool> BeginGetJournal(JournalFilter journalFilter, Guid clentUid, Guid journalClientUid);
 
 		/// <summary>
 		/// Добавление записи в журнал событий
@@ -101,7 +101,7 @@ namespace RubezhAPI
 		/// <param name="page"></param>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<bool> BeginGetArchivePage(Guid clientUID, JournalFilter filter, int page);
+		OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page, Guid clentUid);
 
 		/// <summary>
 		/// Запрос количества страниц событий по заданному фильтру

@@ -58,12 +58,6 @@ namespace RubezhAPI
 		OperationResult<bool> GKRewriteUsers(Guid clientUID, Guid gkDeviceUID);
 
 		[OperationContract]
-		OperationResult<List<MirrorUser>> GKReadMirrorUsers(Guid clientUID, Guid gkDeviceUID);
-
-		[OperationContract]
-		OperationResult<bool> GKWriteMirrorUsers(Guid clientUID, Guid gkDeviceUID, List<MirrorUser> mirrorUsers);
-
-		[OperationContract]
 		OperationResult<List<GKUser>> GetGKUsers(Guid clientUID, Guid deviceUID);
 
 		[OperationContract]
