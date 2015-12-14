@@ -300,7 +300,9 @@ namespace GKModuleTest
 			var zone = new GKZone();
 			GKManager.AddZone(zone);
 			GKManager.AddDeviceToZone(selectedDevice.Device.Children[0], zone);
-			GKManager.ChangeDriver(selectedDevice.Device.Children[0], RSR2_AM_4_Group_Helper.Create());
+			selectedDevice = devicesViewModel.AllDevices.FirstOrDefault(x => x.Device == selectedDevice.Device.Children[0]);
+			selectedDevice.Driver = RSR2_AM_4_Group_Helper.Create();
+			selectedDevice = devicesViewModel.SelectedDevice = devicesViewModel.AllDevices.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif);
 			Assert.IsTrue(selectedDevice.Device.Children.Count(x=> x.DriverType == GKDriverType.RSR2_AM_4) == 1);	
 			Assert.IsTrue(selectedDevice.Device.Children[1].IntAddress == 5);
 			Assert.IsTrue(zone.Devices.Count==0);
@@ -331,7 +333,9 @@ namespace GKModuleTest
 			GKManager.AddDelay(delay);
 			GKManager.SetDelayLogic(delay, gkLogic);
 			GKManager.SetDeviceLogic(selectedDevice.Device.Children[0], gkLogic);
-			GKManager.ChangeDriver(selectedDevice.Device.Children[0], RSR2_RM_2_Helper.Create());
+			selectedDevice = devicesViewModel.AllDevices.FirstOrDefault(x => x.Device == selectedDevice.Device.Children[0]);
+			selectedDevice.Driver =  RSR2_RM_2_Helper.Create();
+			selectedDevice = devicesViewModel.SelectedDevice = devicesViewModel.AllDevices.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif);
 			var device = selectedDevice.Device.Children[0];
 			Assert.IsTrue(device.DriverType == GKDriverType.RSR2_RM_2);
 			Assert.IsTrue(device.Logic.GetObjects().Count == 0);
@@ -346,7 +350,7 @@ namespace GKModuleTest
 			var devicesViewModel = GroupControllerModule.DevicesViewModel;
 			var selectedDevice = devicesViewModel.SelectedDevice = devicesViewModel.AllDevices.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif);
 			devicesViewModel.SelectedDevice.AddCommand.Execute();
-			Assert.IsFalse(GKManager.ChangeDriver(selectedDevice.Device.Children[0], RSR2_AM_4_Group_Helper.Create()));
+			Assert.IsNull(GKManager.ChangeDriver(selectedDevice.Device.Children[0], RSR2_AM_4_Group_Helper.Create()));
 			Assert.IsTrue(selectedDevice.Device.Children.Max(x => x.IntAddress) == 255);
 			Assert.IsTrue(selectedDevice.Device.Children.Count == 255);
 		}
