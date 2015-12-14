@@ -7,6 +7,8 @@ using OpcClientSdk.Da;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Automation;
+using RubezhClient;
+using Infrastructure;
 
 namespace AutomationModule.ViewModels
 {
@@ -80,8 +82,10 @@ namespace AutomationModule.ViewModels
 				if (item.IsChecked)
 				{
 					_opcDaServersViewModel.OpcDaServers.Add(item);
+					ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.Add(item);
 				}
 			}
+			ServiceFactory.SaveService.AutomationChanged = true;
 			return base.Save();
 		}
 
