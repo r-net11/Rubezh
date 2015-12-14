@@ -22,9 +22,13 @@ namespace FiresecService.Service
 			{
 				return OperationResult<bool>.FromError("У пользователя " + clientCredentials.UserName + " нет прав на подкючение к удаленному серверу c хоста: " + clientCredentials.ClientIpAddressAndPort);
 			}
-			if (!CheckPermissions(clientCredentials))
+			if (!CheckUserPermissions(clientCredentials))
 			{
 				return OperationResult<bool>.FromError("У пользователя " + clientCredentials.UserName + " нет прав на работу с программой");
+			}
+			if (!CheckSingleAdministrator(clientCredentials))
+			{
+				return OperationResult<bool>.FromError("К серверу уже подключен другой экземпляр Администратора");
 			}
 			if (!CheckClientsCount(clientCredentials))
 			{
@@ -70,7 +74,7 @@ namespace FiresecService.Service
 			return false;
 		}
 
-		bool CheckPermissions(ClientCredentials clientCredentials)
+		bool CheckUserPermissions(ClientCredentials clientCredentials)
 		{
 			PermissionType? permission = null;
 			if (clientCredentials.ClientType == ClientType.Administrator)
@@ -78,9 +82,20 @@ namespace FiresecService.Service
 			else if (clientCredentials.ClientType == ClientType.Monitor)
 				permission = PermissionType.Oper_Login;
 			if (!permission.HasValue)
-				return false;
+				return true;
 			var user = ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.UserName);
 			return user == null ? false : user.HasPermission(permission.Value);
+		}
+
+		bool CheckSingleAdministrator(ClientCredentials clientCredentials)
+		{
+			if (clientCredentials.ClientType != ClientType.Administrator)
+				return true;
+			var administrators = ClientsManager.ClientInfos.Where(x => x.ClientCredentials.ClientType == ClientType.Administrator).ToList();
+			if (administrators.Count > 1)
+				return false;
+			var administrator = administrators.FirstOrDefault();
+			return administrator == null || administrator.ClientCredentials.UniqueId == clientCredentials.UniqueId;
 		}
 
 		bool CheckHostIps(ClientCredentials clientCredentials, string hostNameOrIpAddress)

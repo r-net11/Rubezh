@@ -1,4 +1,4 @@
-﻿$(document).ready(function() {
+﻿var InitGridDepartmentSelection = function() {
     $("#jqGridDepartmentSelection").jqGrid({
         datastr: null,
         datatype: "jsonstring",
@@ -24,10 +24,12 @@
             expanded_field: "IsExpanded"
         }
     });
-});
+};
 
 function DepartmentSelectionViewModel() {
     var self = {};
+
+    InitGridDepartmentSelection();
 
     self.Title = ko.observable();
     self.UID = ko.observable();

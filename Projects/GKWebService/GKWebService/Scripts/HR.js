@@ -1,9 +1,32 @@
 ﻿function HRViewModel(parentViewModel) {
     var self = {};
 
+    self.loaded = ko.observable(false);
     self.ParentViewModel = parentViewModel;
 
     self.Init = function () {
+        if (!self.loaded()) {
+            $("div#HR").load("Hr/Index", function () {
+                self.Filter = FilterViewModel(self);
+                self.Common = {};
+                self.Common.EmployeeSelectionDialog = EmployeeSelectionDialogViewModel();
+                self.Employees = EmployeesViewModel(self);
+                self.Employees.EmployeeDetails = EmployeeDetailsViewModel();
+                self.Employees.EmployeeCardDetails = EmployeeCardDetailsViewModel(self.Employees);
+                self.Employees.DepartmentSelection = DepartmentSelectionViewModel();
+                self.Employees.EmployeeCards = EmployeeCardsViewModel(self.Employees);
+                self.Employees.CardRemovalReason = CardRemovalReasonViewModel();
+                self.Departments = DepartmentsViewModel();
+                self.Departments.DepartmentDetails = DepartmentDetailsViewModel(self.Employees.DepartmentSelection);
+                self.Departments.DepartmentEmployeeList = DepartmentEmployeeListViewModel(self.Departments);
+                self.Positions = PositionsViewModel();
+                self.Positions.PositionDetails = PositionDetailsViewModel();
+                self.Positions.PositionEmployeeList = PositionEmployeeListViewModel(self.Positions);
+                ko.applyBindings(app.Menu, $("div#HR")[0]);
+                self.loaded(true);
+                self.InitializeEmployeeFilter(self.Filter);
+            });
+        }
     };
 
     self.hrPages = {
@@ -20,7 +43,6 @@
     self.ParentViewModel.pages["HR"].subscribe(function (newValue) {
         if (newValue) {
             self.Init();
-            self.InitializeEmployeeFilter(self.Filter);
         }
     });
 

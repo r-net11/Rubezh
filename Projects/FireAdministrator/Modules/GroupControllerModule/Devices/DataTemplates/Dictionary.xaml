@@ -44,16 +44,4 @@
 		<Views:DevicesListView />
 	</DataTemplate>
 	
-	<DataTemplate DataType="{x:Type ViewModels:MirrorViewModel}">
-		<Views:MirrorView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:MirrorUsersViewModel}">
-		<Views:MirrorUsersView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:MirrorUserDetailsViewModel}">
-		<Views:MirrorUserDetailsView />
-	</DataTemplate>
-	
 </ResourceDictionary>

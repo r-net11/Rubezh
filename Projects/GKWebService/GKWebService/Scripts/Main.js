@@ -108,22 +108,6 @@ var app = new function AppViewModel() {
     self.Menu.Report = ReportViewModel();
     self.Menu.Archive = ArchiveViewModel();
     self.Menu.HR = HRViewModel(self.Menu);
-    self.Menu.HR.Filter = FilterViewModel(self.Menu.HR);
-    self.Menu.HR.Common = {};
-    self.Menu.HR.Common.EmployeeSelectionDialog = EmployeeSelectionDialogViewModel();
-    self.Menu.HR.Employees = EmployeesViewModel(self.Menu.HR);
-    self.Menu.HR.Employees.EmployeeDetails = EmployeeDetailsViewModel();
-    self.Menu.HR.Employees.EmployeeCardDetails = EmployeeCardDetailsViewModel(self.Menu.HR.Employees);
-    self.Menu.HR.Employees.DepartmentSelection = DepartmentSelectionViewModel();
-    self.Menu.HR.Employees.EmployeeCards = EmployeeCardsViewModel(self.Menu.HR.Employees);
-    self.Menu.HR.Employees.CardRemovalReason = CardRemovalReasonViewModel();
-    self.Menu.HR.Departments = DepartmentsViewModel();
-    self.Menu.HR.Departments.DepartmentDetails = DepartmentDetailsViewModel(self.Menu.HR.Employees.DepartmentSelection);
-    self.Menu.HR.Departments.DepartmentEmployeeList = DepartmentEmployeeListViewModel(self.Menu.HR.Departments);
-    self.Menu.HR.Positions = PositionsViewModel();
-    self.Menu.HR.Positions.PositionDetails = PositionDetailsViewModel();
-    self.Menu.HR.Positions.PositionEmployeeList = PositionEmployeeListViewModel(self.Menu.HR.Positions);
-
 
     return self;
 };

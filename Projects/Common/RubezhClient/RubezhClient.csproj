@@ -127,6 +127,7 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="GetStringValueHelper.cs" />
     <Compile Include="FiresecManager\FiresecManager.Zip.cs" />
     <Compile Include="FiresecManager\SKDHelpers\AdditionalColumnTypeHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\CardHelper.cs" />

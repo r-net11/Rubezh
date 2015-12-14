@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using Infrastructure.Automation;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Automation;
 using RubezhClient;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Automation;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
