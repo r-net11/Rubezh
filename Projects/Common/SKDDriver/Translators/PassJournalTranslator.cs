@@ -36,9 +36,10 @@ namespace SKDDriver.Translators
 			try
 			{
 				var exitPassJournal = Context.PassJournals.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.ExitTime == null);
+				var tmpDateTime = DateTime.Now;
+
 				if (exitPassJournal != null)
 				{
-					var tmpDateTime = DateTime.Now;
 					exitPassJournal.ExitTime = tmpDateTime;
 					exitPassJournal.ExitTimeOriginal = tmpDateTime;
 					exitPassJournal.IsNeedAdjustment = exitPassJournal.ZoneUID == zoneUID;
@@ -47,8 +48,6 @@ namespace SKDDriver.Translators
 				}
 				if (zoneUID != Guid.Empty)
 				{
-					var tmpDateTime = DateTime.Now;
-
 					var enterPassJournal = new PassJournal //TODO:
 					{
 						UID = Guid.NewGuid(),
