@@ -274,7 +274,7 @@ namespace GKImitator.ViewModels
 				{
 					CurrentOffDelay = OffDelay;
 				}
-				TurningState = TurningState.None;
+				TurningState = TurningState.TurningOff;
 				TurnOff();
 			}
 		}
@@ -359,6 +359,7 @@ namespace GKImitator.ViewModels
 					var journalItem = new ImitatorJournalItem(2, 9, 5, 0);
 					AddJournalItem(journalItem);
 					RecalculateOutputLogic();
+					OnResetFire12();
 				}
 			}
 		}
@@ -378,6 +379,7 @@ namespace GKImitator.ViewModels
 				var journalItem = new ImitatorJournalItem(2, 9, 3, 3);
 				AddJournalItem(journalItem);
 				RecalculateOutputLogic();
+				OnResetFire12();
 			}
 		}
 

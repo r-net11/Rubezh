@@ -13,16 +13,6 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
-		string UserName
-		{
-			get
-			{
-				if (CurrentClientCredentials != null)
-					return CurrentClientCredentials.FriendlyUserName;
-				return "<Нет>";
-			}
-		}
-
 		public void CancelGKProgress(Guid clientUID, Guid progressCallbackUID, string userName)
 		{
 			GKProcessorManager.CancelGKProgress(progressCallbackUID, userName);
@@ -45,7 +35,7 @@ namespace FiresecService.Service
 						zipFile.Save(zipDeviceConfigFileName);
 						zipFile.Dispose();
 					}
-					var result = GKProcessorManager.GKWriteConfiguration(device, UserName, progressCallback, clientUID);
+					var result = GKProcessorManager.GKWriteConfiguration(device, GetUserName(clientUID), progressCallback, clientUID);
 					NotifyOperationResult_WriteConfiguration(result, clientUID);
 				}
 				));
@@ -59,7 +49,7 @@ namespace FiresecService.Service
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return GKProcessorManager.GKReadConfiguration(device, UserName, clientUID);
+				return GKProcessorManager.GKReadConfiguration(device, GetUserName(clientUID), clientUID);
 			}
 			return OperationResult<GKDeviceConfiguration>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
@@ -72,7 +62,7 @@ namespace FiresecService.Service
 				var progressCallback = new GKProgressCallback();
 				ServerTaskRunner.Add(progressCallback, "Чтение файла конфигурации ГК", new Action(() =>
 				{
-					var result = GKProcessorManager.GKReadConfigurationFromGKFile(device, UserName, progressCallback, clientUID);
+					var result = GKProcessorManager.GKReadConfigurationFromGKFile(device, GetUserName(clientUID), progressCallback, clientUID);
 					FiresecService.NotifyOperationResult_ReadConfigurationFromGKFile(result, clientUID);
 				}
 				));
@@ -86,7 +76,7 @@ namespace FiresecService.Service
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return GKProcessorManager.GKAutoSearch(device, UserName, clientUID);
+				return GKProcessorManager.GKAutoSearch(device, GetUserName(clientUID), clientUID);
 			}
 			return OperationResult<GKDevice>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
@@ -96,7 +86,7 @@ namespace FiresecService.Service
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return GKProcessorManager.GKUpdateFirmware(device, firmwareBytes, UserName, clientUID);
+				return GKProcessorManager.GKUpdateFirmware(device, firmwareBytes, GetUserName(clientUID), clientUID);
 			}
 			return OperationResult<bool>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
@@ -106,7 +96,7 @@ namespace FiresecService.Service
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				var result = GKProcessorManager.GKSyncronyseTime(device, UserName);
+				var result = GKProcessorManager.GKSyncronyseTime(device, GetUserName(clientUID));
 				if (result)
 					return new OperationResult<bool>(true);
 				return OperationResult<bool>.FromError("Устройство недоступно", false);
@@ -119,7 +109,7 @@ namespace FiresecService.Service
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return new OperationResult<string>(GKProcessorManager.GKGetDeviceInfo(device, UserName));
+				return new OperationResult<string>(GKProcessorManager.GKGetDeviceInfo(device, GetUserName(clientUID)));
 			}
 			return OperationResult<string>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
@@ -259,7 +249,7 @@ namespace FiresecService.Service
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				GKProcessorManager.GKExecuteDeviceCommand(device, stateBit, UserName);
+				GKProcessorManager.GKExecuteDeviceCommand(device, stateBit, GetUserName(clientUID));
 			}
 		}
 
@@ -268,7 +258,7 @@ namespace FiresecService.Service
 			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
-				GKProcessorManager.GKReset(gkBase, UserName);
+				GKProcessorManager.GKReset(gkBase, GetUserName(clientUID));
 			}
 		}
 
@@ -277,7 +267,7 @@ namespace FiresecService.Service
 			var zone = GKManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 			if (zone != null)
 			{
-				GKProcessorManager.GKResetFire1(zone, UserName);
+				GKProcessorManager.GKResetFire1(zone, GetUserName(clientUID));
 			}
 		}
 
@@ -286,7 +276,7 @@ namespace FiresecService.Service
 			var zone = GKManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 			if (zone != null)
 			{
-				GKProcessorManager.GKResetFire2(zone, UserName);
+				GKProcessorManager.GKResetFire2(zone, GetUserName(clientUID));
 			}
 		}
 
@@ -295,7 +285,7 @@ namespace FiresecService.Service
 			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
-				GKProcessorManager.GKSetAutomaticRegime(gkBase, UserName);
+				GKProcessorManager.GKSetAutomaticRegime(gkBase, GetUserName(clientUID));
 			}
 		}
 
@@ -304,7 +294,7 @@ namespace FiresecService.Service
 			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
-				GKProcessorManager.GKSetManualRegime(gkBase, UserName);
+				GKProcessorManager.GKSetManualRegime(gkBase, GetUserName(clientUID));
 			}
 		}
 
@@ -313,7 +303,7 @@ namespace FiresecService.Service
 			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
-				GKProcessorManager.GKSetIgnoreRegime(gkBase, UserName);
+				GKProcessorManager.GKSetIgnoreRegime(gkBase, GetUserName(clientUID));
 			}
 		}
 
@@ -322,7 +312,7 @@ namespace FiresecService.Service
 			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
-				GKProcessorManager.GKTurnOn(gkBase, UserName);
+				GKProcessorManager.GKTurnOn(gkBase, GetUserName(clientUID));
 			}
 		}
 
@@ -331,7 +321,7 @@ namespace FiresecService.Service
 			var xBase = GetGKBase(clientUID, uid, objectType);
 			if (xBase != null)
 			{
-				GKProcessorManager.GKTurnOnNow(xBase, UserName);
+				GKProcessorManager.GKTurnOnNow(xBase, GetUserName(clientUID));
 			}
 		}
 
@@ -340,7 +330,7 @@ namespace FiresecService.Service
 			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
-				GKProcessorManager.GKTurnOnInAutomatic(gkBase, UserName);
+				GKProcessorManager.GKTurnOnInAutomatic(gkBase, GetUserName(clientUID));
 			}
 		}
 
@@ -349,7 +339,7 @@ namespace FiresecService.Service
 			var xBase = GetGKBase(clientUID, uid, objectType);
 			if (xBase != null)
 			{
-				GKProcessorManager.GKTurnOnNowInAutomatic(xBase, UserName);
+				GKProcessorManager.GKTurnOnNowInAutomatic(xBase, GetUserName(clientUID));
 			}
 		}
 
@@ -358,7 +348,7 @@ namespace FiresecService.Service
 			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
-				GKProcessorManager.GKTurnOff(gkBase, UserName);
+				GKProcessorManager.GKTurnOff(gkBase, GetUserName(clientUID));
 			}
 		}
 
@@ -367,7 +357,7 @@ namespace FiresecService.Service
 			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
-				GKProcessorManager.GKTurnOffNow(gkBase, UserName);
+				GKProcessorManager.GKTurnOffNow(gkBase, GetUserName(clientUID));
 			}
 		}
 
@@ -376,7 +366,7 @@ namespace FiresecService.Service
 			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
-				GKProcessorManager.GKTurnOffInAutomatic(gkBase, UserName);
+				GKProcessorManager.GKTurnOffInAutomatic(gkBase, GetUserName(clientUID));
 			}
 		}
 
@@ -385,7 +375,7 @@ namespace FiresecService.Service
 			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
-				GKProcessorManager.GKTurnOffNowInAutomatic(gkBase, UserName);
+				GKProcessorManager.GKTurnOffNowInAutomatic(gkBase, GetUserName(clientUID));
 			}
 		}
 
@@ -394,7 +384,7 @@ namespace FiresecService.Service
 			var gkBase = GetGKBase(clientUID, uid, objectType);
 			if (gkBase != null)
 			{
-				GKProcessorManager.GKStop(gkBase, UserName);
+				GKProcessorManager.GKStop(gkBase, GetUserName(clientUID));
 			}
 		}
 

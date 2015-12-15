@@ -17,7 +17,7 @@ namespace RubezhClient
 		public static event Action<CallbackOperationResult> CallbackOperationResultEvent;
 		public static event Action<AutomationCallbackResult> AutomationEvent;
 		public static event Action ConfigurationChangedEvent;
-		public static event Action ReconnectionRequiredEvent;
+		public static event Action RestartEvent;
 		public static event Action<List<JournalItem>, bool> JournalItemsEvent;
 
 		bool isConnected = true;
@@ -89,75 +89,73 @@ namespace RubezhClient
 
 			CallbackIndex = pollResult.CallbackIndex;
 
-			//if (pollResult.IsDisconnecting) ;
-
 			if (pollResult.IsReconnectionRequired)
 			{
-				SafeContext.Execute(() =>
-				{
-					if (ReconnectionRequiredEvent != null)
-						ReconnectionRequiredEvent();
-				});
+				Reconnect();
 				return;
 			}
 
 			foreach (var callbackResult in pollResult.CallbackResults)
 			{
-				switch (callbackResult.CallbackResultType)
+				SafeContext.Execute(() =>
 				{
-					case CallbackResultType.GKProgress:
-						SafeContext.Execute(() =>
-						{
+					switch (callbackResult.CallbackResultType)
+					{
+						case CallbackResultType.GKProgress:
 							if (GKProgressCallbackEvent != null)
 								GKProgressCallbackEvent(callbackResult.GKProgressCallback);
-						});
-						break;
+							break;
 
-					case CallbackResultType.GKObjectStateChanged:
-						SafeContext.Execute(() =>
-						{
+						case CallbackResultType.GKObjectStateChanged:
 							if (GKCallbackResultEvent != null)
 								GKCallbackResultEvent(callbackResult.GKCallbackResult);
-						});
-						break;
+							break;
 
-					case CallbackResultType.GKPropertyChanged:
-						SafeContext.Execute(() =>
-						{
+						case CallbackResultType.GKPropertyChanged:
 							if (GKPropertyChangedEvent != null)
 								GKPropertyChangedEvent(callbackResult.GKPropertyChangedCallback);
-						});
-						break;
+							break;
 
-					case CallbackResultType.OperationResult:
-						SafeContext.Execute(() =>
-						{
+						case CallbackResultType.OperationResult:
 							if (CallbackOperationResultEvent != null)
 								CallbackOperationResultEvent(callbackResult.CallbackOperationResult);
-						});
-						break;
+							break;
 
-					case CallbackResultType.AutomationCallbackResult:
-						ProcessAutomationCallback(callbackResult.AutomationCallbackResult);
-						break;
+						case CallbackResultType.AutomationCallbackResult:
+							ProcessAutomationCallback(callbackResult.AutomationCallbackResult);
+							break;
 
-					case CallbackResultType.NewEvents:
-					case CallbackResultType.UpdateEvents:
-						SafeContext.Execute(() =>
-						{
+						case CallbackResultType.NewEvents:
+						case CallbackResultType.UpdateEvents:
 							if (JournalItemsEvent != null)
 								JournalItemsEvent(callbackResult.JournalItems, callbackResult.CallbackResultType == CallbackResultType.NewEvents);
-						});
-						break;
+							break;
 
-					case CallbackResultType.ConfigurationChanged:
-						SafeContext.Execute(() =>
-						{
+						case CallbackResultType.ConfigurationChanged:
 							if (ConfigurationChangedEvent != null)
 								ConfigurationChangedEvent();
-						});
-						break;
-				}
+							break;
+					}
+				});
+			}
+		}
+
+		void Reconnect()
+		{
+			try
+			{
+				SuspendPoll = true;
+				var operationResult = ClientManager.FiresecService.Connect(ClientManager.ClientCredentials);
+				if (operationResult.HasError && RestartEvent != null)
+					RestartEvent();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "SafeFiresecService.Reconnect");
+			}
+			finally
+			{
+				SuspendPoll = false;
 			}
 		}
 	}
