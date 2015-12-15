@@ -7,7 +7,7 @@ namespace FiresecAPI.Models
 	{
 		public RviSettings()
 		{
-			Ip = "172.16.5.7";
+			Ip = "localhost";
 			Port = 8000;
 			Login = "strazh";
 			Password = "strazh12345";

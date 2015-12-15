@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FiresecService</RootNamespace>
-    <AssemblyName>FiresecService</AssemblyName>
+    <AssemblyName>StrazhService</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -59,7 +59,7 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
-    <ApplicationManifest>FiresecService.exe.manifest</ApplicationManifest>
+    <ApplicationManifest>StrazhService.exe.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
@@ -222,7 +222,7 @@
       <SubType>Designer</SubType>
     </None>
     <Compile Include="Automation\ProcedureThread.Callback.cs" />
-    <None Include="FiresecService.exe.manifest">
+    <None Include="StrazhService.exe.manifest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Properties\Resources.resx">

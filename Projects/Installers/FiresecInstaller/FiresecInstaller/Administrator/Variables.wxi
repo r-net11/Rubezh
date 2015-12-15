@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
-  <?define AdministratorName="Администратор Страж" ?>
-  <?define AdministratorDescription="Запускает Администратор Страж" ?>
-  <?define AdministratorInstallLocation="FireAdministrator" ?>
+  <?define AdministratorName="Администратор A.C.Tech" ?>
+  <?define AdministratorDescription="Запускает Администратор A.C.Tech" ?>
+  <?define AdministratorInstallLocation="StrazhAdmin" ?>
   <?define Administrator.TargetDir="..\..\..\..\..\FireAdministrator\bin\Release\"?>
-  <?define Administrator.TargetFileName="FireAdministrator.exe"?>
-  <?define Administrator.TargetPath="..\..\..\..\..\FireAdministrator\bin\Release\FireAdministrator.exe"?>
+  <?define Administrator.TargetFileName="StrazhAdmin.exe"?>
+  <?define Administrator.TargetPath="..\..\..\..\..\FireAdministrator\bin\Release\StrazhAdmin.exe"?>
   <?define Administrator.Deploy.TargetDir="..\..\..\..\..\Deploy\ConfigurationAdministrator\"?>
   <?define Administrator.DeployFirmware.TargetDir="..\..\..\..\..\Deploy\GKFirmware\"?>
   <?define Server.TargetDir="..\..\..\..\..\FiresecService\bin\Release\"?>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
-	<?define MonitorName="Оперативная задача Страж" ?>
-	<?define MonitorDescription="Запускает оперативную задача Страж" ?>
-	<?define LayoutMonitorName="Оперативная задача Страж с макетами" ?>
-	<?define LayoutMonitorDescription="Запускает оперативную задачу Страж с макетами" ?>
+	<?define MonitorName="Оперативная задача A.C.Tech" ?>
+	<?define MonitorDescription="Запускает оперативную задача A.C.Tech" ?>
+	<?define LayoutMonitorName="Оперативная задача A.C.Tech с макетами" ?>
+	<?define LayoutMonitorDescription="Запускает оперативную задачу A.C.Tech с макетами" ?>
 	<?define Monitor.TargetDir="..\..\..\..\..\FireMonitor\bin\Release\"?>
-	<?define Monitor.TargetFileName="FireMonitor.exe"?>
-	<?define LayoutMonitor.TargetFileName="FireMonitor.Layout.exe"?>
-	<?define Monitor.TargetPath="..\..\..\..\..\FireMonitor\bin\Release\FireMonitor.exe"?>
+	<?define Monitor.TargetFileName="StrazhMonitor.exe"?>
+	<?define LayoutMonitor.TargetFileName="StrazhMonitor.Layout.exe"?>
+	<?define Monitor.TargetPath="..\..\..\..\..\FireMonitor\bin\Release\StrazhMonitor.exe"?>
 	<?define Server.TargetDir="..\..\..\..\..\FiresecService\bin\Release\"?>
 	<?define Common.TargetDir="..\..\..\..\..\FireAdministrator\bin\Release\"?>
 	<?define VSSDll.TargetDir="..\..\..\..\..\..\3rdParty\RVI_VSS\"?>

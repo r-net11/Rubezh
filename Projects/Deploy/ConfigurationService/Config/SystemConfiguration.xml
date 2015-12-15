@@ -25,50 +25,13 @@
       <BeeperType>None</BeeperType>
       <IsContinious>false</IsContinious>
     </Sound>
-    <Sound>
-      <StateClass>Fire1</StateClass>
-      <BeeperType>None</BeeperType>
-      <IsContinious>false</IsContinious>
-    </Sound>
-    <Sound>
-      <StateClass>Fire2</StateClass>
-      <BeeperType>None</BeeperType>
-      <IsContinious>false</IsContinious>
-    </Sound>
-    <Sound>
-      <StateClass>AutoOff</StateClass>
-      <BeeperType>None</BeeperType>
-      <IsContinious>false</IsContinious>
-    </Sound>
-    <Sound>
-      <StateClass>Failure</StateClass>
-      <BeeperType>None</BeeperType>
-      <IsContinious>false</IsContinious>
-    </Sound>
-    <Sound>
-      <StateClass>Ignore</StateClass>
-      <BeeperType>None</BeeperType>
-      <IsContinious>false</IsContinious>
-    </Sound>
-    <Sound>
-      <StateClass>TurningOff</StateClass>
-      <BeeperType>None</BeeperType>
-      <IsContinious>false</IsContinious>
-    </Sound>
-    <Sound>
-      <StateClass>TurningOn</StateClass>
-      <BeeperType>None</BeeperType>
-      <IsContinious>false</IsContinious>
-    </Sound>
   </Sounds>
   <JournalFilters />
   <RviSettings>
-    <Ip>172.16.5.7</Ip>
+    <Ip>localhost</Ip>
     <Port>8000</Port>
     <Login>strazh</Login>
     <Password>strazh12345</Password>
-    <DllsPath>..\VLC\</DllsPath>
-    <PluginsPath>..\VLC\plugins\</PluginsPath>
   </RviSettings>
   <Cameras />
   <Devices />

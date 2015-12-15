@@ -266,7 +266,6 @@ namespace ChinaSKDDriver
 				doorConfiguration.CloseTimeout = nativeDoorConfiguration.CloseTimeout;
 				doorConfiguration.HandicapTimeout.nCloseTimeout = nativeDoorConfiguration.HandicapTimeout.nCloseTimeout;
 
-				doorConfiguration.OpenAlwaysTimeIndex = nativeDoorConfiguration.OpenAlwaysTimeIndex;
 				doorConfiguration.HolidayTimeRecoNo = nativeDoorConfiguration.HolidayTimeRecoNo;
 				doorConfiguration.IsRepeatEnterAlarmEnable = nativeDoorConfiguration.IsRepeatEnterAlarmEnable;
 				doorConfiguration.DoorDayIntervalsCollection = nativeDoorConfiguration.DoorDayIntervalsCollection;
@@ -320,7 +319,7 @@ namespace ChinaSKDDriver
 				nativeDoorConfiguration.IsDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
 				nativeDoorConfiguration.CloseTimeout = doorConfiguration.CloseTimeout;
 
-				nativeDoorConfiguration.OpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
+				nativeDoorConfiguration.OpenAlwaysTimeIndex = 255;
 				nativeDoorConfiguration.HolidayTimeRecoNo = doorConfiguration.HolidayTimeRecoNo;
 				nativeDoorConfiguration.IsRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable;
 				nativeDoorConfiguration.DoorDayIntervalsCollection = doorConfiguration.DoorDayIntervalsCollection;

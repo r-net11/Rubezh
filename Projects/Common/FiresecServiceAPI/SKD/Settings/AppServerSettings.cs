@@ -13,7 +13,6 @@ namespace FiresecAPI
 			ServicePort = 8000;
 			ReportServicePort = 8800;
 			EnableRemoteConnections = false;
-			UseHasp = false;
 			CreateNewDBOnOversize = true;
 
 			DBServerAddress = ".";
@@ -35,9 +34,6 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool EnableRemoteConnections { get; set; }
-
-		[DataMember]
-		public bool UseHasp { get; set; }
 
 		[DataMember]
 		public string DBServerAddress { get; set; }

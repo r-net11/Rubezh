@@ -15,7 +15,7 @@ xmlns:wix="http://schemas.microsoft.com/wix/2006/wi">
 	<xsl:key name="service-search" match="wix:Component[contains(wix:File/@Source, '.dll.config')]" use="@Id" />
 	<xsl:key name="service-search" match="wix:Component[contains(wix:File/@Source, '.vshost.exe')]" use="@Id" />
 	<xsl:key name="service-search" match="wix:Component[contains(wix:File/@Source, 'app.confing')]" use="@Id" />
-	<xsl:key name="service-search" match="wix:Component[wix:File/@Source = '$(var.FireMonitor.TargetDir)\FireMonitor.exe']" use="@Id" />
+	<xsl:key name="service-search" match="wix:Component[wix:File/@Source = '$(var.FireMonitor.TargetDir)\StrazhMonitor.exe']" use="@Id" />
 	<xsl:template match="wix:Component[key('service-search', @Id)]" />
 	<xsl:template match="wix:ComponentRef[key('service-search', @Id)]" />
 </xsl:stylesheet>
