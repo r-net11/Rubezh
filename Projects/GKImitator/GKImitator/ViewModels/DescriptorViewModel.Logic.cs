@@ -53,6 +53,15 @@ namespace GKImitator.ViewModels
 			}
 		}
 
+		public void RecalculateCurrentLogic()
+		{
+			var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == GKBase.GKDescriptorNo);
+			if (descriptorViewModel != null)
+			{
+				descriptorViewModel.RecalculateLogic();
+			}
+		}
+
 		void RecalculateLogic()
 		{
 			if (Regime == Regime.Ignore)
@@ -442,7 +451,7 @@ namespace GKImitator.ViewModels
 							OnTurnOffNow();
 						}
 					}
-					if (GKBase is GKGuardZone && stateBitVale.Key == GKStateBit.Attention)
+					if (GKBase is GKGuardZone && stateBitVale.Key == GKStateBit.Attention && StateBits.Any(x => x.StateBit == GKStateBit.On && x.IsActive))
 					{
 						if (Regime == Regime.Automatic)
 						{
