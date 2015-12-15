@@ -31,14 +31,15 @@ namespace SKDDriver.Translators
 
 		public OperationResult AddPassJournal(Guid employeeUID, Guid zoneUID, SKDDevice readerDevice) //TODO: remove readerDevice parameter
 		{
-			InvalidatePassJournal();
-
 			try
 			{
+				Logger.Error(string.Format("[AddPassJournal] input params: employeeUID is {0}, zoneUID is {1}, readerDevice is {2}", employeeUID, zoneUID, readerDevice.Name));
 				var exitPassJournal = Context.PassJournals.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.ExitTime == null);
+				var tmpDateTime = DateTime.Now;
+
 				if (exitPassJournal != null)
 				{
-					var tmpDateTime = DateTime.Now;
+					Logger.Error(string.Format("[AddPassJournal] exitPassJournal is NOT null. Params: employeeUID is {0}, zoneUID is {1}, readerDevice is {2}", employeeUID, zoneUID, readerDevice.Name));
 					exitPassJournal.ExitTime = tmpDateTime;
 					exitPassJournal.ExitTimeOriginal = tmpDateTime;
 					exitPassJournal.IsNeedAdjustment = exitPassJournal.ZoneUID == zoneUID;
@@ -47,12 +48,11 @@ namespace SKDDriver.Translators
 				}
 				else
 				{
-					Logger.Error(string.Format("exitPassJournal is null in {0}, zoneUID is {1}, employee UID is {2}, readerDeviceName is {3}", DateTime.Now, zoneUID, employeeUID, readerDevice.Name));
+					Logger.Error(string.Format("[AddPassJournal] exitPassJournal is null in {0}, zoneUID is {1}, employee UID is {2}, readerDeviceName is {3}", DateTime.Now, zoneUID, employeeUID, readerDevice.Name));
 				}
 				if (zoneUID != Guid.Empty)
 				{
-					var tmpDateTime = DateTime.Now;
-
+					Logger.Error(string.Format("[AddPassJournal] Insert new item. Params: employeeUID is {0}, zoneUID is {1}, readerDevice is {2}", employeeUID, zoneUID, readerDevice.Name));
 					var enterPassJournal = new PassJournal //TODO:
 					{
 						UID = Guid.NewGuid(),
@@ -65,7 +65,20 @@ namespace SKDDriver.Translators
 					};
 					Context.PassJournals.InsertOnSubmit(enterPassJournal);
 				}
+				else
+				{
+					Logger.Error(string.Format("[AddPassJournal] zoneUID is null. Params: zoneUID is {0}, employee UID is {1}, readerDeviceName is {2}", zoneUID, employeeUID, readerDevice.Name));
+				}
 				Context.SubmitChanges();
+				Logger.Error(string.Format("[AddPassJournal] After submitting changes. Params: employeeUID is {0}, zoneUID is {1}, exitPassJournal == null {2}, exitPassJournal.UID is {3}, exitPassJournal.EnterTime is {4}, exitPassJournal.ExitTime is {5}",
+							employeeUID,
+							zoneUID,
+							exitPassJournal == null ? "true" : "false",
+							exitPassJournal == null ? string.Empty : exitPassJournal.UID.ToString(),
+							exitPassJournal == null ? string.Empty : exitPassJournal.EnterTime.ToString(),
+							exitPassJournal == null ? string.Empty : exitPassJournal.ExitTime.GetValueOrDefault().ToString())
+				);
+
 				return new OperationResult();
 			}
 			catch (Exception e)
