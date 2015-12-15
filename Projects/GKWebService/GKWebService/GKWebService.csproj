@@ -444,6 +444,8 @@
     <Content Include="Scripts\SKD\Departments\DepartmentsViewModel.js" />
     <Content Include="Scripts\SKD\Employees\DepartmentSelectionViewModel.js" />
     <Content Include="Scripts\SKD\Employees\CardRemovalReasonViewModel.js" />
+    <Content Include="Scripts\SKD\Organisations\OrganisationsViewModel.js" />
+    <Content Include="Scripts\SKD\Organisations\OrganisationDetailsViewModel.js" />
     <Content Include="Scripts\SKD\Positions\PositionEmployeeListViewModel.js" />
     <Content Include="Scripts\SKD\Positions\PositionDetailsViewModel.js" />
     <Content Include="Scripts\SKD\Positions\PositionsViewModel.js" />
@@ -463,6 +465,7 @@
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HrController.cs" />
+    <Compile Include="Controllers\OrganisationsController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
@@ -475,6 +478,7 @@
     <Compile Include="Models\FireZone\FireZone.cs" />
     <Compile Include="Models\SKD\Common\OrganisationElementBaseViewModel.cs" />
     <Compile Include="Models\SKD\Departments\DepartmentDetailsViewModel.cs" />
+    <Compile Include="Models\SKD\Organisations\OrganisationDetailsViewModel.cs" />
     <Compile Include="Models\SKD\Positions\PositionDetailsViewModel.cs" />
     <Compile Include="Models\SKD\Positions\PositionsViewModel.cs" />
     <Compile Include="Models\SKD\Departments\DepartmentsViewModel.cs" />
@@ -544,6 +548,8 @@
     <Content Include="Views\Positions\Index.cshtml" />
     <Content Include="Views\Positions\PositionDetails.cshtml" />
     <Content Include="Views\Positions\PositionEmployeeList.cshtml" />
+    <Content Include="Views\Organisations\Index.cshtml" />
+    <Content Include="Views\Organisations\OrganisationDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

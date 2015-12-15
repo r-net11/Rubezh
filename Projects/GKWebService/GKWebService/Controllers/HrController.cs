@@ -63,6 +63,12 @@ namespace GKWebService.Controllers
             return GetEmployees(filter);
         }
 
+        public JsonNetResult GetOrganisationEmployees(Guid id)
+        {
+            var filter = new EmployeeFilter {OrganisationUIDs = new List<Guid> {id}};
+            return GetEmployees(filter);
+        }
+
         public JsonNetResult GetEmptyDepartmentEmployees(Guid id)
         {
             var filter = new EmployeeFilter
