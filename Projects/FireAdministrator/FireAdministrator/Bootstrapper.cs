@@ -11,7 +11,6 @@ using Infrastructure.Events;
 using Infrastructure.Services;
 using RubezhAPI;
 using RubezhAPI.Automation;
-using RubezhAPI.Models;
 using RubezhClient;
 using System;
 using System.Windows;
@@ -75,7 +74,7 @@ namespace FireAdministrator
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(OnConfigurationClosed);
 
 					SafeFiresecService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
-					SafeFiresecService.ReconnectionRequiredEvent += () => { ApplicationService.Invoke(OnReconnectionRequired); };
+					SafeFiresecService.RestartEvent += () => { ApplicationService.Invoke(Restart); };
 
 					MutexHelper.KeepAlive();
 				}
@@ -105,31 +104,9 @@ namespace FireAdministrator
 			ClientManager.GetLicense();
 			ProcedureExecutionContext.UpdateConfiguration(ClientManager.SystemConfiguration, ClientManager.SecurityConfiguration);
 		}
-		void OnReconnectionRequired()
+		void Restart()
 		{
-			try
-			{
-				((SafeFiresecService)ClientManager.FiresecService).SuspendPoll = true;
-				var clientCredentials = new ClientCredentials()
-				{
-					UserName = Login,
-					Password = Password,
-					ClientType = ClientType.Administrator,
-					ClientUID = FiresecServiceFactory.UID
-				};
-
-				var operationResult = ClientManager.FiresecService.Connect(FiresecServiceFactory.UID, clientCredentials);
-				if (operationResult.HasError)
-					Restart(Login, Password);
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Bootstrapper.OnReconnectionRequired");
-			}
-			finally
-			{
-				((SafeFiresecService)ClientManager.FiresecService).SuspendPoll = false;
-			}
+			Restart(Login, Password);
 		}
 		public void Restart(string login = null, string password = null)
 		{

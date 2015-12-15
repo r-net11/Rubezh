@@ -16,7 +16,7 @@ namespace FiresecService.Service
 		void AddJournalMessage(JournalEventNameType journalEventNameType, string objectName, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL, string userName = null, Guid? uid = null)
 		{
 			var journalItem = CreateJournalItem(journalEventNameType, objectName, journalEventDescriptionType, uid);
-			journalItem.UserName = userName != null ? userName : UserName;
+			journalItem.UserName = userName;
 			AddCommonJournalItems(new List<JournalItem>() { journalItem });
 		}
 
@@ -58,7 +58,7 @@ namespace FiresecService.Service
 		{
 			try
 			{
-				journalItem.UserName = UserName;
+				journalItem.UserName = GetUserName(clientUID);
 				journalItem.JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalItem.JournalEventNameType);
 				AddCommonJournalItems(new List<JournalItem>() { journalItem });
 			}

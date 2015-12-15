@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using Common;
-using RubezhAPI.Models;
-using RubezhClient;
+﻿using Common;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.Models;
+using RubezhClient;
+using System.Linq;
 
 namespace SecurityModule.ViewModels
 {
@@ -49,9 +49,9 @@ namespace SecurityModule.ViewModels
 			Login = User.Login;
 			Name = User.Name;
 
-			RemoteAccess = (IsNew || User.RemoreAccess == null) ?
+			RemoteAccess = (IsNew || User.RemoteAccess == null) ?
 				new RemoteAccessViewModel(new RemoteAccess() { RemoteAccessType = RemoteAccessType.RemoteAccessBanned }) :
-				new RemoteAccessViewModel(User.RemoreAccess);
+				new RemoteAccessViewModel(User.RemoteAccess);
 		}
 
 		PermissionsViewModel _permissionsViewModel;
@@ -194,7 +194,7 @@ namespace SecurityModule.ViewModels
 
 			PreventAdminPermissions();
 			User.PermissionStrings = PermissionsViewModel.GetPermissionStrings();
-			User.RemoreAccess = RemoteAccess.GetModel();
+			User.RemoteAccess = RemoteAccess.GetModel();
 		}
 
 		protected override bool Save()

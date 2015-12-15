@@ -14,14 +14,12 @@ namespace FiresecService.Service
 	InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
 	public partial class FiresecService
 	{
-		ClientCredentials CurrentClientCredentials;
 		public static ServerState ServerState { get; set; }
 
 		void InitializeClientCredentials(ClientCredentials clientCredentials)
 		{
 			clientCredentials.ClientIpAddress = "127.0.0.1";
 			clientCredentials.ClientIpAddressAndPort = "127.0.0.1:0";
-			clientCredentials.UserName = clientCredentials.UserName;
 			try
 			{
 				if (OperationContext.Current.IncomingMessageProperties.Keys.Contains(RemoteEndpointMessageProperty.Name))
@@ -37,20 +35,18 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<bool> Connect(Guid clientUID, ClientCredentials clientCredentials)
+		public OperationResult<bool> Connect(ClientCredentials clientCredentials)
 		{
 			if (DbService.ConnectionOperationResult.HasError && clientCredentials.ClientType != ClientType.Administrator)
 				return OperationResult<bool>.FromError("Отсутствует подключение к БД");
-			clientCredentials.ClientUID = clientUID;
 			InitializeClientCredentials(clientCredentials);
 
 			var operationResult = Authenticate(clientCredentials);
 			if (operationResult.HasError)
 				return operationResult;
 
-			CurrentClientCredentials = clientCredentials;
-			if (ClientsManager.Add(clientUID, clientCredentials))
-				AddJournalMessage(JournalEventNameType.Вход_пользователя_в_систему, null);
+			if (ClientsManager.Add(clientCredentials))
+				AddJournalMessage(JournalEventNameType.Вход_пользователя_в_систему, null, userName: clientCredentials.FriendlyUserName);
 			return operationResult;
 		}
 
@@ -59,11 +55,10 @@ namespace FiresecService.Service
 			var clientInfo = ClientsManager.GetClientInfo(clientUID);
 			if (clientInfo != null)
 			{
-				clientInfo.IsDisconnecting = true;
 				clientInfo.WaitEvent.Set();
 				if (clientInfo.ClientCredentials != null)
 				{
-					AddJournalMessage(JournalEventNameType.Выход_пользователя_из_системы, null);
+					AddJournalMessage(JournalEventNameType.Выход_пользователя_из_системы, null, userName: GetUserName(clientUID));
 				}
 			}
 			ClientsManager.Remove(clientUID);

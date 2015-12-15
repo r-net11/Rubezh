@@ -1,10 +1,9 @@
-﻿using RubezhAPI.Journal;
-using RubezhLicense;
-using GKProcessor;
+﻿using GKProcessor;
 using Infrastructure.Common;
+using RubezhAPI.Journal;
+using RubezhAPI.License;
 using System;
 using System.Threading;
-using RubezhAPI.License;
 
 namespace FiresecService.Processor
 {

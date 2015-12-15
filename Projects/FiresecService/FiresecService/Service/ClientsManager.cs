@@ -11,9 +11,9 @@ namespace FiresecService.Service
 	{
 		public static List<ClientInfo> ClientInfos = new List<ClientInfo>();
 
-		public static bool Add(Guid uid, ClientCredentials clientCredentials)
+		public static bool Add(ClientCredentials clientCredentials)
 		{
-			if (ClientInfos.Any(x => x.UID == uid))
+			if (ClientInfos.Any(x => x.UID == clientCredentials.ClientUID))
 				return false;
 
 			var result = true;
@@ -25,7 +25,7 @@ namespace FiresecService.Service
 			}
 
 			var clientInfo = new ClientInfo();
-			clientInfo.UID = uid;
+			clientInfo.UID = clientCredentials.ClientUID;
 			clientInfo.ClientCredentials = clientCredentials;
 			clientInfo.CallbackIndex = CallbackManager.Index;
 			ClientInfos.Add(clientInfo);
@@ -44,16 +44,6 @@ namespace FiresecService.Service
 		public static ClientInfo GetClientInfo(Guid uid)
 		{
 			return ClientInfos.FirstOrDefault(x => x.UID == uid);
-		}
-
-		public static ClientCredentials GetClientCredentials(Guid uid)
-		{
-			var clientInfo = ClientInfos.FirstOrDefault(x => x.UID == uid);
-			if (clientInfo != null)
-			{
-				return clientInfo.ClientCredentials;
-			}
-			return null;
 		}
 
 		public static void StartRemoveInactiveClients(TimeSpan inactiveTime)
@@ -85,7 +75,6 @@ namespace FiresecService.Service
 		public ClientCredentials ClientCredentials { get; set; }
 		public int CallbackIndex { get; set; }
 		public AutoResetEvent WaitEvent = new AutoResetEvent(false);
-		public bool IsDisconnecting { get; set; }
 		public DateTime LastPollDateTime { get; set; }
 		public Guid LayoutUID { get; set; }
 	}
