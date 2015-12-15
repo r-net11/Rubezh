@@ -400,19 +400,26 @@ namespace GKImitator.ViewModels
 			var hasZoneBitsChanged = false;
 			if (GKBase is GKZone)
 			{
-				if (stateBitVales.ContainsKey(GKStateBit.Fire2) && stateBitVales[GKStateBit.Fire2])
+				if (stateBitVales.Any(x => x.Key == GKStateBit.Fire2 && x.Value))
 				{
 					stateBitVales[GKStateBit.Fire1] = false;
 					stateBitVales[GKStateBit.Attention] = false;
 					hasZoneBitsChanged = true;
 				}
-				else if (stateBitVales.ContainsKey(GKStateBit.Fire1) && stateBitVales[GKStateBit.Fire1])
+				else if (stateBitVales.Any(x => x.Key == GKStateBit.Fire1 && x.Value))
 				{
 					stateBitVales[GKStateBit.Attention] = false;
 					hasZoneBitsChanged = true;
 				}
-				else if (stateBitVales.ContainsKey(GKStateBit.Attention) && stateBitVales[GKStateBit.Attention])
+				else if (stateBitVales.Any(x => x.Key == GKStateBit.Attention && x.Value))
 				{
+					hasZoneBitsChanged = true;
+				}
+				else
+				{
+					stateBitVales[GKStateBit.Attention] = false;
+					stateBitVales[GKStateBit.Fire1] = false;
+					stateBitVales[GKStateBit.Fire2] = false;
 					hasZoneBitsChanged = true;
 				}
 			}
