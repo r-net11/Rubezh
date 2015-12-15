@@ -34,7 +34,13 @@ namespace SKDDriver.Translators
 			try
 			{
 				Logger.Error(string.Format("[AddPassJournal] input params: employeeUID is {0}, zoneUID is {1}, readerDevice is {2}", employeeUID, zoneUID, readerDevice.Name));
-				var exitPassJournal = Context.PassJournals.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.ExitTime == null);
+
+				var testExitPassJournals = Context.PassJournals.Where(x => x.EmployeeUID == employeeUID && x.ExitTime == null); //TODO: Only for testing. Don't forget to remove it.
+				Logger.Error(string.Format("[AddPassJournal] TEST count of OpenedIntervals is {0}, employeeUID is {1}, zoneUID is {2}, readerDevice is {3}", testExitPassJournals.Count(), employeeUID, zoneUID, readerDevice.Name));
+
+				var exitPassJournal = Context.PassJournals.LastOrDefault(x => x.EmployeeUID == employeeUID && x.ExitTime == null);
+				Logger.Error(string.Format("[AddPassJournal] Finded interval UID is {0}, enterTime is {1}, exitTime is {2} employeeUID is {3}, zoneUID is {4}", exitPassJournal == null ? string.Empty : exitPassJournal.UID.ToString(), exitPassJournal == null ? string.Empty : exitPassJournal.EnterTime.ToString(), exitPassJournal == null ? string.Empty : exitPassJournal.ExitTime.GetValueOrDefault().ToString(), employeeUID, zoneUID));
+
 				var tmpDateTime = DateTime.Now;
 
 				if (exitPassJournal != null)
