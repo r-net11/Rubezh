@@ -18,9 +18,9 @@ namespace FiresecService.Service
 		public OperationResult<bool> SaveDayInterval(Guid clientUID, DayInterval item, bool isNew)
 		{
 			if (isNew)
-				AddJournalMessage(JournalEventNameType.Добавление_нового_дневного_графика, item.Name, uid: item.UID);
+				AddJournalMessage(JournalEventNameType.Добавление_нового_дневного_графика, item.Name, item.UID, clientUID);
 			else
-				AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
+				AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.DayIntervalTranslator.Save(item);
@@ -28,7 +28,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedDayInterval(Guid clientUID, Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_дневного_графика, name, uid: uid);
+			AddJournalMessage(JournalEventNameType.Удаление_дневного_графика, name, uid, clientUID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.DayIntervalTranslator.MarkDeleted(uid);
@@ -36,7 +36,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult RestoreDayInterval(Guid clientUID, Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Восстановление_дневного_графика, name, uid: uid);
+			AddJournalMessage(JournalEventNameType.Восстановление_дневного_графика, name, uid, clientUID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.DayIntervalTranslator.Restore(uid);
@@ -53,9 +53,9 @@ namespace FiresecService.Service
 		public OperationResult<bool> SaveHoliday(Guid clientUID, Holiday item, bool isNew)
 		{
 			if (isNew)
-				AddJournalMessage(JournalEventNameType.Добавление_нового_праздничного_дня, item.Name, uid: item.UID);
+				AddJournalMessage(JournalEventNameType.Добавление_нового_праздничного_дня, item.Name, item.UID, clientUID);
 			else
-				AddJournalMessage(JournalEventNameType.Редактирование_праздничного_дня, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
+				AddJournalMessage(JournalEventNameType.Редактирование_праздничного_дня, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.HolidayTranslator.Save(item);
@@ -63,7 +63,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedHoliday(Guid clientUID, Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_праздничного_дня, name, uid: uid);
+			AddJournalMessage(JournalEventNameType.Удаление_праздничного_дня, name, uid, clientUID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.HolidayTranslator.MarkDeleted(uid);
@@ -71,7 +71,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult RestoreHoliday(Guid clientUID, Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Восстановление_праздничного_дня, name, uid: uid);
+			AddJournalMessage(JournalEventNameType.Восстановление_праздничного_дня, name, uid, clientUID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.HolidayTranslator.Restore(uid);
@@ -89,9 +89,9 @@ namespace FiresecService.Service
 		public OperationResult<bool> SaveScheduleScheme(Guid clientUID, ScheduleScheme item, bool isNew)
 		{
 			if (isNew)
-				AddJournalMessage(JournalEventNameType.Добавление_нового_графика_работы_сотрудника, item.Name, uid: item.UID);
+				AddJournalMessage(JournalEventNameType.Добавление_нового_графика_работы_сотрудника, item.Name, item.UID, clientUID);
 			else
-				AddJournalMessage(JournalEventNameType.Редактирование_графика_работы_сотрудника, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
+				AddJournalMessage(JournalEventNameType.Редактирование_графика_работы_сотрудника, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.ScheduleSchemeTranslator.Save(item);
@@ -99,7 +99,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedScheduleScheme(Guid clientUID, Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_графика_работы_сотрудника, name, uid: uid);
+			AddJournalMessage(JournalEventNameType.Удаление_графика_работы_сотрудника, name, uid, clientUID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.ScheduleSchemeTranslator.MarkDeleted(uid);
@@ -107,7 +107,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult RestoreScheduleScheme(Guid clientUID, Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Восстановление_графика_работы_сотрудника, name, uid: uid);
+			AddJournalMessage(JournalEventNameType.Восстановление_графика_работы_сотрудника, name, uid, clientUID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.ScheduleSchemeTranslator.Restore(uid);
@@ -124,9 +124,9 @@ namespace FiresecService.Service
 		public OperationResult<bool> SaveSchedule(Guid clientUID, Schedule item, bool isNew)
 		{
 			if (isNew)
-				AddJournalMessage(JournalEventNameType.Добавление_нового_графика_работы, item.Name, uid: item.UID);
+				AddJournalMessage(JournalEventNameType.Добавление_нового_графика_работы, item.Name, item.UID, clientUID);
 			else
-				AddJournalMessage(JournalEventNameType.Редактирование_графика_работы, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
+				AddJournalMessage(JournalEventNameType.Редактирование_графика_работы, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.ScheduleTranslator.Save(item);
@@ -134,7 +134,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedSchedule(Guid clientUID, Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_графика_работы, name, uid: uid);
+			AddJournalMessage(JournalEventNameType.Удаление_графика_работы, name, uid, clientUID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.ScheduleTranslator.MarkDeleted(uid);
@@ -142,7 +142,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult RestoreSchedule(Guid clientUID, Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Восстановление_графика_работы, name, uid: uid);
+			AddJournalMessage(JournalEventNameType.Восстановление_графика_работы, name, uid, clientUID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.ScheduleTranslator.Restore(uid);
@@ -158,7 +158,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult AddTimeTrackDocument(Guid clientUID, TimeTrackDocument item)
 		{
-			AddJournalMessage(JournalEventNameType.Внесение_оправдательного_документа, item.DocumentNumber.ToString(), JournalEventDescriptionType.Редактирование, uid: item.UID);
+			AddJournalMessage(JournalEventNameType.Внесение_оправдательного_документа, item.DocumentNumber.ToString(), item.UID, clientUID, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.TimeTrackDocumentTranslator.AddTimeTrackDocument(item);
@@ -166,7 +166,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult EditTimeTrackDocument(Guid clientUID, TimeTrackDocument item)
 		{
-			AddJournalMessage(JournalEventNameType.Внесение_оправдательного_документа, item.DocumentNumber.ToString(), JournalEventDescriptionType.Редактирование, uid: item.UID);
+			AddJournalMessage(JournalEventNameType.Внесение_оправдательного_документа, item.DocumentNumber.ToString(), item.UID, clientUID, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.TimeTrackDocumentTranslator.EditTimeTrackDocument(item);

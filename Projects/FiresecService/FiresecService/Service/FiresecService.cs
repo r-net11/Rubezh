@@ -5,6 +5,7 @@ using RubezhAPI.License;
 using RubezhAPI.Models;
 using RubezhDAL.DataClasses;
 using System;
+using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 
@@ -15,6 +16,18 @@ namespace FiresecService.Service
 	public partial class FiresecService
 	{
 		public static ServerState ServerState { get; set; }
+
+		static string GetUserName(Guid? clientUID)
+		{
+			var clientInfo = clientUID.HasValue ? ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID.Value) : null;
+			return clientInfo == null ? "<Нет>" : clientInfo.ClientCredentials.FriendlyUserName;
+		}
+
+		static string GetLogin(Guid clientUID)
+		{
+			var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID);
+			return clientInfo == null ? null : clientInfo.ClientCredentials.Login;
+		}
 
 		void InitializeClientCredentials(ClientCredentials clientCredentials)
 		{
@@ -46,7 +59,7 @@ namespace FiresecService.Service
 				return operationResult;
 
 			if (ClientsManager.Add(clientCredentials))
-				AddJournalMessage(JournalEventNameType.Вход_пользователя_в_систему, null, userName: clientCredentials.FriendlyUserName);
+				AddJournalMessage(JournalEventNameType.Вход_пользователя_в_систему, null, null, clientCredentials.ClientUID);
 			return operationResult;
 		}
 
@@ -58,7 +71,7 @@ namespace FiresecService.Service
 				clientInfo.WaitEvent.Set();
 				if (clientInfo.ClientCredentials != null)
 				{
-					AddJournalMessage(JournalEventNameType.Выход_пользователя_из_системы, null, userName: GetUserName(clientUID));
+					AddJournalMessage(JournalEventNameType.Выход_пользователя_из_системы, null, null, clientUID);
 				}
 			}
 			ClientsManager.Remove(clientUID);

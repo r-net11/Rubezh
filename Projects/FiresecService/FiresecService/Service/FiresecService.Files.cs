@@ -124,7 +124,7 @@ namespace FiresecService.Service
 
 		void RestartWithNewConfig()
 		{
-			AddJournalMessage(JournalEventNameType.Применение_конфигурации, null);
+			AddJournalMessage(JournalEventNameType.Применение_конфигурации, null, null, null);
 			ServerState = RubezhAPI.ServerState.Restarting;
 			ConfigurationCashHelper.Update();
 			GKProcessor.SetNewConfig();

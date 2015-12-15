@@ -40,19 +40,18 @@ namespace RubezhAPI.GK
 				UID = GuidHelper.CreateOn(UID, 2)
 			};
 		}
-
-		Tuple<GKDevice, Guid> InvalidateDoorDevice(Guid deviceUid, GKDeviceConfiguration deviceCongiguration)
+		GKDevice InvalidateDoorDevice(Guid deviceUid, GKDeviceConfiguration deviceCongiguration)
 		{
 			if (deviceUid != Guid.Empty)
 			{
 				var device = deviceCongiguration.Devices.Find(x => x.UID == deviceUid);
 				if (device == null)
-					return new Tuple<GKDevice, Guid>(null, Guid.Empty);
+					return null;
 				device.Door = this;
 				AddDependentElement(device);
-				return new Tuple<GKDevice, Guid>(device, deviceUid);
+				return device;
 			}
-			return new Tuple<GKDevice, Guid>(null, Guid.Empty);
+			return null;
 		}
 		//void InvalidateDoorZones(GKDeviceConfiguration deviceConfiguration)
 		//{
@@ -68,26 +67,26 @@ namespace RubezhAPI.GK
 			NormRegimeLogic.GetObjects().ForEach(AddDependentElement);
 			CloseRegimeLogic.GetObjects().ForEach(AddDependentElement);
 
-			EnterDevice = InvalidateDoorDevice(EnterDeviceUID, deviceConfiguration).Item1;
-			EnterDeviceUID = InvalidateDoorDevice(EnterDeviceUID, deviceConfiguration).Item2;
-			ExitDevice = InvalidateDoorDevice(ExitDeviceUID, deviceConfiguration).Item1;
-			ExitDeviceUID = InvalidateDoorDevice(ExitDeviceUID, deviceConfiguration).Item2;
-			LockDevice = InvalidateDoorDevice(LockDeviceUID, deviceConfiguration).Item1;
-			LockDeviceUID = InvalidateDoorDevice(LockDeviceUID, deviceConfiguration).Item2;
-			LockControlDevice = InvalidateDoorDevice(LockControlDeviceUID, deviceConfiguration).Item1;
-			LockControlDeviceUID = InvalidateDoorDevice(LockControlDeviceUID, deviceConfiguration).Item2;
+			EnterDevice = InvalidateDoorDevice(EnterDeviceUID, deviceConfiguration);
+			EnterDeviceUID = EnterDevice != null ? EnterDevice.UID : Guid.Empty;
+			ExitDevice = InvalidateDoorDevice(ExitDeviceUID, deviceConfiguration);
+			ExitDeviceUID = ExitDevice != null ? ExitDevice.UID : Guid.Empty;
+			LockDevice = InvalidateDoorDevice(LockDeviceUID, deviceConfiguration);
+			LockDeviceUID = LockDevice != null ? LockDevice.UID : Guid.Empty;
+			LockControlDevice = InvalidateDoorDevice(LockControlDeviceUID, deviceConfiguration);
+			LockControlDeviceUID = LockControlDevice != null ? LockControlDevice.UID : Guid.Empty;
 
 			if (DoorType == GKDoorType.AirlockBooth)
 			{
-				EnterButton = InvalidateDoorDevice(EnterButtonUID, deviceConfiguration).Item1;
-				EnterButtonUID = InvalidateDoorDevice(EnterButtonUID, deviceConfiguration).Item2;
-				ExitButton = InvalidateDoorDevice(ExitButtonUID, deviceConfiguration).Item1;
-				ExitButtonUID = InvalidateDoorDevice(ExitButtonUID, deviceConfiguration).Item2;
+				EnterButton = InvalidateDoorDevice(EnterButtonUID, deviceConfiguration);
+				EnterButtonUID = EnterButton != null ? EnterButton.UID : Guid.Empty;
+				ExitButton = InvalidateDoorDevice(ExitButtonUID, deviceConfiguration);
+				ExitButtonUID = ExitButton != null ? ExitButton.UID : Guid.Empty;
 			}
 			if (DoorType == GKDoorType.AirlockBooth || DoorType == GKDoorType.Barrier)
 			{
-				LockControlDeviceExit = InvalidateDoorDevice(LockControlDeviceExitUID, deviceConfiguration).Item1;
-				LockControlDeviceExitUID = InvalidateDoorDevice(LockControlDeviceExitUID, deviceConfiguration).Item2;
+				LockControlDeviceExit = InvalidateDoorDevice(LockControlDeviceExitUID, deviceConfiguration);
+				LockControlDeviceExitUID = LockControlDeviceExit != null ? LockControlDeviceExit.UID : Guid.Empty;
 			}
 			if (DoorType == GKDoorType.Barrier || DoorType == GKDoorType.Turnstile || DoorType == GKDoorType.OneWay || DoorType == GKDoorType.TwoWay)
 			{
@@ -103,8 +102,8 @@ namespace RubezhAPI.GK
 			}
 			if (DoorType == GKDoorType.AirlockBooth || DoorType == GKDoorType.Barrier || DoorType == GKDoorType.Turnstile)
 			{
-				LockDeviceExit = InvalidateDoorDevice(LockDeviceExitUID, deviceConfiguration).Item1;
-				LockDeviceExitUID = InvalidateDoorDevice(LockDeviceExitUID, deviceConfiguration).Item2;
+				LockDeviceExit = InvalidateDoorDevice(LockDeviceExitUID, deviceConfiguration);
+				LockDeviceExitUID = LockDeviceExit != null ? LockDeviceExit.UID : Guid.Empty;
 			}
 			if (DoorType == GKDoorType.OneWay || DoorType == GKDoorType.TwoWay)
 			{

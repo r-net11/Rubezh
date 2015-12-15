@@ -13,18 +13,6 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
-		string GetUserName(Guid clientUID)
-		{
-			var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID);
-			return clientInfo == null ? "<Нет>" : clientInfo.ClientCredentials.FriendlyUserName;
-		}
-
-		string GetLogin(Guid clientUID)
-		{
-			var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID);
-			return clientInfo == null ? null : clientInfo.ClientCredentials.Login;
-		}
-
 		public void CancelGKProgress(Guid clientUID, Guid progressCallbackUID, string userName)
 		{
 			GKProcessorManager.CancelGKProgress(progressCallbackUID, userName);
