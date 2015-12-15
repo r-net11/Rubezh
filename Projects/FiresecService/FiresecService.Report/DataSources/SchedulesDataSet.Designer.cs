@@ -297,9 +297,13 @@ namespace FiresecService.Report.DataSources {
             
             private global::System.Data.DataColumn columnFirstEnterLastExit;
             
-            private global::System.Data.DataColumn columnDelay;
+            private global::System.Data.DataColumn columnAllowedLate;
             
-            private global::System.Data.DataColumn columnLeaveBefore;
+            private global::System.Data.DataColumn columnAllowedEarlyLeave;
+            
+            private global::System.Data.DataColumn columnAllowedAbsence;
+            
+            private global::System.Data.DataColumn columnAllowedOvertime;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -408,17 +412,33 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn DelayColumn {
+            public global::System.Data.DataColumn AllowedLateColumn {
                 get {
-                    return this.columnDelay;
+                    return this.columnAllowedLate;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn LeaveBeforeColumn {
+            public global::System.Data.DataColumn AllowedEarlyLeaveColumn {
                 get {
-                    return this.columnLeaveBefore;
+                    return this.columnAllowedEarlyLeave;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn AllowedAbsenceColumn {
+                get {
+                    return this.columnAllowedAbsence;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn AllowedOvertimeColumn {
+                get {
+                    return this.columnAllowedOvertime;
                 }
             }
             
@@ -459,7 +479,7 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DataRow AddDataRow(string Employee, string Organisation, string Department, string Position, string Schedule, string ScheduleType, string BaseSchedule, bool UseHoliday, bool FirstEnterLastExit, int Delay, int LeaveBefore) {
+            public DataRow AddDataRow(string Employee, string Organisation, string Department, string Position, string Schedule, string ScheduleType, string BaseSchedule, bool UseHoliday, bool FirstEnterLastExit, string AllowedLate, string AllowedEarlyLeave, string AllowedAbsence, string AllowedOvertime) {
                 DataRow rowDataRow = ((DataRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Employee,
@@ -471,8 +491,10 @@ namespace FiresecService.Report.DataSources {
                         BaseSchedule,
                         UseHoliday,
                         FirstEnterLastExit,
-                        Delay,
-                        LeaveBefore};
+                        AllowedLate,
+                        AllowedEarlyLeave,
+                        AllowedAbsence,
+                        AllowedOvertime};
                 rowDataRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDataRow);
                 return rowDataRow;
@@ -504,8 +526,10 @@ namespace FiresecService.Report.DataSources {
                 this.columnBaseSchedule = base.Columns["BaseSchedule"];
                 this.columnUseHoliday = base.Columns["UseHoliday"];
                 this.columnFirstEnterLastExit = base.Columns["FirstEnterLastExit"];
-                this.columnDelay = base.Columns["Delay"];
-                this.columnLeaveBefore = base.Columns["LeaveBefore"];
+                this.columnAllowedLate = base.Columns["AllowedLate"];
+                this.columnAllowedEarlyLeave = base.Columns["AllowedEarlyLeave"];
+                this.columnAllowedAbsence = base.Columns["AllowedAbsence"];
+                this.columnAllowedOvertime = base.Columns["AllowedOvertime"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -529,10 +553,14 @@ namespace FiresecService.Report.DataSources {
                 base.Columns.Add(this.columnUseHoliday);
                 this.columnFirstEnterLastExit = new global::System.Data.DataColumn("FirstEnterLastExit", typeof(bool), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnFirstEnterLastExit);
-                this.columnDelay = new global::System.Data.DataColumn("Delay", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDelay);
-                this.columnLeaveBefore = new global::System.Data.DataColumn("LeaveBefore", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnLeaveBefore);
+                this.columnAllowedLate = new global::System.Data.DataColumn("AllowedLate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAllowedLate);
+                this.columnAllowedEarlyLeave = new global::System.Data.DataColumn("AllowedEarlyLeave", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAllowedEarlyLeave);
+                this.columnAllowedAbsence = new global::System.Data.DataColumn("AllowedAbsence", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAllowedAbsence);
+                this.columnAllowedOvertime = new global::System.Data.DataColumn("AllowedOvertime", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAllowedOvertime);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -819,33 +847,65 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int Delay {
+            public string AllowedLate {
                 get {
                     try {
-                        return ((int)(this[this.tableData.DelayColumn]));
+                        return ((string)(this[this.tableData.AllowedLateColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Delay\' in table \'Data\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'AllowedLate\' in table \'Data\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableData.DelayColumn] = value;
+                    this[this.tableData.AllowedLateColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int LeaveBefore {
+            public string AllowedEarlyLeave {
                 get {
                     try {
-                        return ((int)(this[this.tableData.LeaveBeforeColumn]));
+                        return ((string)(this[this.tableData.AllowedEarlyLeaveColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'LeaveBefore\' in table \'Data\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'AllowedEarlyLeave\' in table \'Data\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableData.LeaveBeforeColumn] = value;
+                    this[this.tableData.AllowedEarlyLeaveColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string AllowedAbsence {
+                get {
+                    try {
+                        return ((string)(this[this.tableData.AllowedAbsenceColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AllowedAbsence\' in table \'Data\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableData.AllowedAbsenceColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string AllowedOvertime {
+                get {
+                    try {
+                        return ((string)(this[this.tableData.AllowedOvertimeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AllowedOvertime\' in table \'Data\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableData.AllowedOvertimeColumn] = value;
                 }
             }
             
@@ -959,26 +1019,50 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsDelayNull() {
-                return this.IsNull(this.tableData.DelayColumn);
+            public bool IsAllowedLateNull() {
+                return this.IsNull(this.tableData.AllowedLateColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetDelayNull() {
-                this[this.tableData.DelayColumn] = global::System.Convert.DBNull;
+            public void SetAllowedLateNull() {
+                this[this.tableData.AllowedLateColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsLeaveBeforeNull() {
-                return this.IsNull(this.tableData.LeaveBeforeColumn);
+            public bool IsAllowedEarlyLeaveNull() {
+                return this.IsNull(this.tableData.AllowedEarlyLeaveColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetLeaveBeforeNull() {
-                this[this.tableData.LeaveBeforeColumn] = global::System.Convert.DBNull;
+            public void SetAllowedEarlyLeaveNull() {
+                this[this.tableData.AllowedEarlyLeaveColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsAllowedAbsenceNull() {
+                return this.IsNull(this.tableData.AllowedAbsenceColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetAllowedAbsenceNull() {
+                this[this.tableData.AllowedAbsenceColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsAllowedOvertimeNull() {
+                return this.IsNull(this.tableData.AllowedOvertimeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetAllowedOvertimeNull() {
+                this[this.tableData.AllowedOvertimeColumn] = global::System.Convert.DBNull;
             }
         }
         
