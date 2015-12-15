@@ -65,11 +65,11 @@
 			<ToolBarButton
 				Command="{Binding SelectAllCommand}"
 				ImageSource="SelectAll"
-				ToolTip="Выделить всё" />
+				ToolTip="Выбрать все" />
 			<ToolBarButton
 				Command="{Binding SelectNoneCommand}"
 				ImageSource="SelectNone"
-				ToolTip="Снять все выделения" />
+				ToolTip="Отменить выбор" />
 		</StackPanel>
 		<CheckBox
 			Grid.Row="2"

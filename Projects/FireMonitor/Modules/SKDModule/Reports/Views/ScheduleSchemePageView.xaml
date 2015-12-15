@@ -32,8 +32,8 @@
 			</TreeList.View>
 		</TreeList>
 		<StackPanel Grid.Row="1" Orientation="Horizontal">
-			<ToolBarButton ImageSource="SelectAll" Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" />
-			<ToolBarButton ImageSource="SelectNone" Command="{Binding SelectNoneCommand}" ToolTip="Снять все выделения" />
+			<ToolBarButton ImageSource="SelectAll" Command="{Binding SelectAllCommand}" ToolTip="Выбрать все" />
+			<ToolBarButton ImageSource="SelectNone" Command="{Binding SelectNoneCommand}" ToolTip="Отменить выбор" />
 		</StackPanel>
 	</Grid>
 </UserControl>
