@@ -511,7 +511,7 @@ namespace RubezhDAL.DataClasses
 								DescriptorNo = door.EnterDevice.GKDescriptorNo, 
 								ScheduleNo = cardDoor.EnterScheduleNo
 							});
-						if(door.ExitDevice != null)
+						if(door.DoorType != GKAPI.GKDoorType.OneWay && door.ExitDevice != null)
 							user.Descriptors.Add(
 								new GKAPI.GKUserDescriptor
 								{ 

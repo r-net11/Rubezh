@@ -26,7 +26,7 @@ namespace GKModule.ViewModels
 		{
 			GKManager.Doors.RemoveAll(x => true);
 			var doorNo = 1;
-			var shleifDevices = GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif && (x.IntAddress == 1));
+			var shleifDevices = GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif && (x.IntAddress == -1));
 				//|| x.IntAddress == 8));
 			foreach (var shleifDevice in shleifDevices)
 			{

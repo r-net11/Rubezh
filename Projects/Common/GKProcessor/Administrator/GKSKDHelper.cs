@@ -244,9 +244,10 @@ namespace GKProcessor
 					packIndex++;
 					if (packIndex == 0)
 					{
+						var gkNo = BytesHelper.SubstructShort(pack, 1);
 						user = new GKUser
 						{
-							GkNo = BytesHelper.SubstructShort(pack, 1),
+							GkNo = gkNo,
 							UserType = (GKCardType)pack[3],
 							IsActive = pack[4] == 0,
 							Fio = BytesHelper.BytesToStringDescription(pack, 5),
@@ -258,13 +259,10 @@ namespace GKProcessor
 							if (deviceNo == 0)
 								break;
 							var scheduleNo = pack[185 + l];
-							user.Descriptors.Add(new GKUserDescriptor 
-								{ 
-									DescriptorNo = deviceNo, 
-									ScheduleNo = scheduleNo 
-								});
+							user.Descriptors.Add(new GKUserDescriptor { DescriptorNo = deviceNo, ScheduleNo = scheduleNo });
 						}
 						users.Add(user);
+						Trace.WriteLine(user.GkNo + " " + user.Fio);
 					}
 					else
 					{
@@ -274,14 +272,22 @@ namespace GKProcessor
 							if (deviceNo == 0)
 								break;
 							var scheduleNo = pack[169 + l];
-							user.Descriptors.Add(new GKUserDescriptor 
-								{ 
-									DescriptorNo = deviceNo, 
-									ScheduleNo = scheduleNo 
-								});
+							user.Descriptors.Add(new GKUserDescriptor { DescriptorNo = deviceNo, ScheduleNo = scheduleNo });
 						}
 					}
+					
+					int k = 0;
+					foreach (var inputByte in pack)
+					{
+						if (inputByte != 0)
+							Trace.WriteLine(k + " " + inputByte);
+						else
+							Trace.WriteLine(k + " 000000");
+						k++;
+					}
+					Trace.WriteLine("-");
 				}
+				
 				if (progressCallback.IsCanceled)
 				{
 					return OperationResult<List<GKUser>>.FromError("Операция отменена", users);
