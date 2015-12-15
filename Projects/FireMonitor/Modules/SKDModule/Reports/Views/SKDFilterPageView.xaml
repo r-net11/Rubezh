@@ -53,11 +53,11 @@
 			<ToolBarButton
 				ImageSource="SelectAll"
 				Command="{Binding SelectAllCommand}"
-				ToolTip="Выделить всё" />
+				ToolTip="Выбрать все" />
 			<ToolBarButton
 				ImageSource="SelectNone"
 				Command="{Binding SelectNoneCommand}"
-				ToolTip="Снять все выделения" />
+				ToolTip="Отменить выбор" />
 		</StackPanel>
 	</Grid>
 </UserControl>
