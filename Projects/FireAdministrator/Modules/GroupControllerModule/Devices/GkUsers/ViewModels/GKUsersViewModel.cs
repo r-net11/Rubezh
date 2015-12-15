@@ -21,7 +21,8 @@ namespace GKModule.ViewModels
 		{
 			Title = "Пользователи ГК";
 			RewriteUsersCommand = new RelayCommand(OnRewriteUsers);
-			
+			PreviousConflictCommand = new RelayCommand(OnPreviousConflict);
+			NextConflictCommand = new RelayCommand(OnNextConflict);
 			_deviceUID = deviceUID;
 			var deviceDoorUIDs = GKManager.Doors
 				.Where(x => x.EnterDevice.GKParent.UID == _deviceUID || x.ExitDevice.GKParent.UID == _deviceUID)
@@ -52,6 +53,18 @@ namespace GKModule.ViewModels
 			}
 			else
 				Close();
+		}
+
+		public RelayCommand PreviousConflictCommand { get; private set; }
+		void OnPreviousConflict()
+		{
+			;
+		}
+
+		public RelayCommand NextConflictCommand { get; private set; }
+		void OnNextConflict()
+		{
+			;
 		}
 
 		List<GKUser> UnionUsers(List<GKUser> deviceUsers, List<GKUser> dbUsers)

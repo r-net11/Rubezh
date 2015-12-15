@@ -1,9 +1,9 @@
 ﻿<UserControl x:Class="GKModule.Views.GKUsersView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 MinWidth="1200" MinHeight="600">
 	<UserControl.Resources>
-
 		<Style x:Key="DataGridCellStyle" TargetType="{x:Type DataGridCell}">
 			<Style.Setters>
 				<Setter Property="Template">
@@ -52,6 +52,8 @@
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Orientation="Horizontal" >
 			<ToolBarButton Command="{Binding RewriteUsersCommand}" ToolTip="Записать в прибор" ImageSource="ParametersWrite" />
+			<Controls:ToolBarButton Command="{Binding PreviousConflictCommand}" ImageSource="Left"  ToolTip="Предыдущий конфликт" />
+			<Controls:ToolBarButton Command="{Binding NextConflictCommand}" ImageSource="Right"  ToolTip="Следующий конфликт" />
 		</StackPanel>
 		<Grid Grid.Column="0" Grid.Row="1" >
 			<Grid.RowDefinitions>
