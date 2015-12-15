@@ -55,6 +55,8 @@ namespace GKImitator.ViewModels
 
 		void RecalculateLogic()
 		{
+			if (Regime == Regime.Ignore)
+				return;
 			var stack = new List<int>();
 			var stateBitVales = new Dictionary<GKStateBit, bool>();
 
