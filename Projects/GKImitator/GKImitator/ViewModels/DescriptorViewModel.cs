@@ -91,6 +91,7 @@ namespace GKImitator.ViewModels
 			var journalItem = new ImitatorJournalItem(2, 10, 0, 0);
 			AddJournalItem(journalItem);
 			RecalculateOutputLogic();
+			RecalculateCurrentLogic();
 		}
 
 		public bool CanSetAutomaticRegime
