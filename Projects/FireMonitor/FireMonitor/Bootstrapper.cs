@@ -158,7 +158,7 @@ namespace FireMonitor
 		{
 			if (isNew)
 				foreach (var journalItem in journalItems)
-					AutomationProcessor.RunOnJournal(journalItem);
+					AutomationProcessor.RunOnJournal(journalItem, ClientManager.CurrentUser, FiresecServiceFactory.UID);
 		}
 
 		static void ShutDown()
