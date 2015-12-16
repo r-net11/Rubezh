@@ -29,7 +29,7 @@
                     </Grid.RowDefinitions>
                     <mediaSourcePlayer:MediaPlayer x:Name="MediaSourcePlayer"/>
                     <StackPanel Grid.Row="1" Orientation="Horizontal" Visibility="{Binding IsSetPtzPreset, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
-                        <Button Content="Перевод в предустановку" Command="{Binding SetPtzPresetCommand}" Width="200" Margin="2" />
+						<Button Content="Перевод в предустановку" BorderBrush="#D8FFFFFF" Command="{Binding SetPtzPresetCommand}" Width="200" Margin="2" />
                         <ComboBox ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}" Margin="2">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>

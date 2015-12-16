@@ -27,8 +27,8 @@
 			<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding DefaultGateway}" Margin="2" />
 
 			<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
-				<Button Content="Считать" Command="{Binding ReadCommand}" Width="150" Margin="2" />
-				<Button Content="Записать" Command="{Binding WriteCommand}" Width="150" Margin="2" />
+				<Button Content="Считать" Command="{Binding ReadCommand}" BorderBrush="#D8FFFFFF" Width="150" Margin="2" />
+				<Button Content="Записать" Command="{Binding WriteCommand}" BorderBrush="#D8FFFFFF" Width="150" Margin="2" />
 			</StackPanel>
 		</Grid>
 	</Border>

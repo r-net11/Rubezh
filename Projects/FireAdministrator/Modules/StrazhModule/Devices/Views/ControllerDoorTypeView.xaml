@@ -45,8 +45,8 @@
 					<TextBlock Grid.Column="1" Text="При смене типа точки доступа на контроллере он будет недоступен в течение нескольких секунд. Остальные настройки в этом окне следует производить только после записи этого параметра."  Foreground="{DynamicResource ForegroundColorLight}" TextWrapping="Wrap" Margin="5"/>
 				</Grid>
 				<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 2">
-					<Button Content="Считать" Command="{Binding ReadDoorTypeFromControllerCommand}" Width="100" Margin="2" />
-					<Button Content="Записать" Command="{Binding WriteDoorTypeToControllerCommand}" Width="100" Margin="2" />
+					<Button Content="Считать" Command="{Binding ReadDoorTypeFromControllerCommand}" BorderBrush="#D8FFFFFF" Width="100" Margin="2" />
+					<Button Content="Записать" Command="{Binding WriteDoorTypeToControllerCommand}" BorderBrush="#D8FFFFFF" Width="100" Margin="2" />
 				</StackPanel>
 			</Grid>
 			<Separator Grid.Row="1" Style="{x:Null}" BorderBrush="LightBlue" BorderThickness="5" Margin="10 0"/>
@@ -104,8 +104,8 @@
 					</Grid>
 				</Grid>
 				<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 2">
-					<Button Content="Считать" Command="{Binding ReadFromControllerCommand}" Width="100" Margin="2" />
-					<Button Content="Записать" Command="{Binding WriteToControllerCommand}" Width="100" Margin="2" />
+					<Button Content="Считать" Command="{Binding ReadFromControllerCommand}" BorderBrush="#D8FFFFFF" Width="100" Margin="2" />
+					<Button Content="Записать" Command="{Binding WriteToControllerCommand}" BorderBrush="#D8FFFFFF" Width="100" Margin="2" />
 				</StackPanel>
 			</Grid>
 		</Grid>

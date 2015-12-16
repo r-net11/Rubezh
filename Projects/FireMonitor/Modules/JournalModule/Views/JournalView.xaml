@@ -311,6 +311,7 @@
 					<Button
 						Grid.Row="7"
 						Grid.Column="1"
+						BorderBrush="#D8FFFFFF"
 						Width="100"
 						Margin="2"
 						Command="{Binding ShowVideoCommand}"
