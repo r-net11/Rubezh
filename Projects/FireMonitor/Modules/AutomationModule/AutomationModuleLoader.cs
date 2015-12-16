@@ -46,7 +46,11 @@ namespace AutomationModule
 
 		public override void Initialize()
 		{
-			_proceduresNavigationItem.IsVisible = ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.Count > 0;
+#if DEBUG
+			_proceduresNavigationItem.IsVisible = true;
+#else
+			_proceduresNavigationItem.IsVisible = false;
+#endif
 			ProceduresViewModel.Initialize();
 			_planPresenter.Initialize();
 			ServiceFactoryBase.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
@@ -54,6 +58,7 @@ namespace AutomationModule
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
+
 			_proceduresNavigationItem = new NavigationItem<ShowAutomationEvent, object>(ProceduresViewModel, ModuleType.ToDescription(), "Video1");
 			return new List<NavigationItem>
 			{

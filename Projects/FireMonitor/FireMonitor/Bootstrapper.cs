@@ -8,6 +8,7 @@ using Infrastructure.Client.Startup;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 using RubezhAPI.Automation;
 using RubezhAPI.Journal;
 using RubezhClient;
@@ -98,6 +99,8 @@ namespace FireMonitor
 					ServiceFactory.StartupService.DoStep("Старт полинга сервера");
 					ClientManager.StartPoll();
 
+					LoadPlansProperties();
+
 					SafeFiresecService.JournalItemsEvent += OnJournalItems;
 
 					ScheduleRunner.Start();
@@ -129,6 +132,16 @@ namespace FireMonitor
 				return false;
 			}
 			return result;
+		}
+
+		void LoadPlansProperties()
+		{
+			var properties = ClientManager.FiresecService.GetProperties(Guid.Empty);
+			if (properties != null)
+			{
+				if (properties.PlanProperties != null)
+					ServiceFactory.Events.GetEvent<ChangePlanPropertiesEvent>().Publish(properties.PlanProperties);
+			}
 		}
 
 		static List<RubezhAPI.SKD.Organisation> GetOrganisations(Guid clientUID)
