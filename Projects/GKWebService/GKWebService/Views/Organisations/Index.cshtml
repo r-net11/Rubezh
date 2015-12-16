@@ -1,0 +1,18 @@
+﻿
+@{
+    Layout = null;
+}
+<div data-bind="with: HR.Organisations">
+    <ul id="OrganisationList" class="SelectableList" data-bind="foreach: Organisations">
+        <li>
+            <div data-bind="click: function(data,event) { $parent.OrganisationClick(data, event, $data);}">
+                <label>
+                    <img src="~/Content/Image/Icon/Hr/Organisation.png"/>
+                    <span data-bind="text: Name"></span>
+                </label>
+            </div>
+        </li>
+    </ul>
+</div>
+
+@Html.Action("OrganisationDetails")
