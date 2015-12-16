@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using GKWebService.Models;
 using GKWebService.Models.SKD.Organisations;
 using GKWebService.Utils;
+using RubezhAPI;
 using RubezhAPI.SKD;
 using RubezhClient;
 
@@ -54,6 +55,35 @@ namespace GKWebService.Controllers
             var error = organisation.Save(isNew);
 
             return new JsonNetResult { Data = error };
+        }
+
+        public JsonNetResult GetOrganisationUsers(Organisation organisation)
+        {
+            var users = ClientManager.SecurityConfiguration.Users.Select(u => new OrganisationUserViewModel(organisation, u));
+
+            return new JsonNetResult { Data = new {Users = users } };
+        }
+
+        [HttpPost]
+        public JsonNetResult SetUsersChecked(Organisation organisation, OrganisationUserViewModel user)
+        {
+            organisation = user.SetUserChecked(organisation);
+
+            return new JsonNetResult { Data = organisation };
+        }
+        public JsonNetResult GetOrganisationDoors(Organisation organisation)
+        {
+            var doors = GKManager.DeviceConfiguration.Doors.Select(u => new OrganisationDoorViewModel(organisation, u));
+
+            return new JsonNetResult { Data = new {Doors = doors } };
+        }
+
+        [HttpPost]
+        public JsonNetResult SetDoorsChecked(Organisation organisation, OrganisationDoorViewModel door)
+        {
+            organisation = door.SetDoorChecked(organisation);
+
+            return new JsonNetResult { Data = organisation };
         }
     }
 }

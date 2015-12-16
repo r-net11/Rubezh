@@ -65,6 +65,14 @@ namespace GKWebService.Controllers
             return new JsonNetResult { Data = error };
         }
 
+        [HttpPost]
+        public JsonNetResult PositionPaste(PositionDetailsViewModel position)
+        {
+            var error = position.Paste();
+
+            return new JsonNetResult { Data = error };
+        }
+
         public ActionResult PositionEmployeeList()
         {
             return View();
