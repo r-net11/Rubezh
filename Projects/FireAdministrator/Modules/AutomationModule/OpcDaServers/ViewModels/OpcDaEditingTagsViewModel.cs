@@ -13,7 +13,7 @@ namespace AutomationModule.ViewModels
 			Title = "Выбрать теги";
 
 			var allTags = OpcDaServerHelper.GetAllTagsFromOpcServer(
-				OpcDaServer.OpcDaServer.GetRegistredServers().First(x => x.Id == server.SelectedOpcDaServer.Id))
+				OpcFoundation.OpcDaServer.GetRegistredServers().First(x => x.Id == server.SelectedOpcDaServer.Id))
 				.Select(tag => new OpcDaEditingTagsTagViewModel(tag)).ToArray();
 
 			// Получаем список уже выбранных тегов
@@ -88,7 +88,7 @@ namespace AutomationModule.ViewModels
 					{
 						if (tree == null)
 						{
-							tree = new OpcDaEditingTagsGroupViewModel(OpcDaServer.OpcDaTag.RootDirectory);
+							tree = new OpcDaEditingTagsGroupViewModel(OpcFoundation.OpcDaTag.RootDirectory);
 						}
 						currentNode = tree;
 					}

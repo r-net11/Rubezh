@@ -80,7 +80,7 @@ namespace AutomationModule.ViewModels
 		void OnAdd()
 		{
 			//Cоздаём и передаём список отсутствующих в конфигурационном списке серверов
-			var list = OpcDaServer.OpcDaServer.GetRegistredServers().Select(x =>
+			var list = OpcFoundation.OpcDaServer.GetRegistredServers().Select(x =>
 				new RubezhAPI.Automation.OpcDaServer { Id = x.Id, ServerName = x.ServerName }).ToList();
 
 			var notselectedServers = list.Where(x => !OpcDaServers.Any(y => y.Id == x.Id));

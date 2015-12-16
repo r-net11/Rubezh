@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using opcproxy;
 
-namespace OpcDaServer
+namespace OpcFoundation
 {
 	public class OpcDaTagValue
 	{

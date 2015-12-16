@@ -30,9 +30,9 @@ namespace AutomationModule.ViewModels
 
 		#region Fields And Properties
 
-		ObservableCollection<TsOpcServer> _opcDaServers =
-			new ObservableCollection<TsOpcServer>();
-		public ObservableCollection<TsOpcServer> OpcDaServers
+		ObservableCollection<OpcDaServer> _opcDaServers =
+			new ObservableCollection<OpcDaServer>();
+		public ObservableCollection<OpcDaServer> OpcDaServers
 		{
 			get { return _opcDaServers; }
 			private set
@@ -42,8 +42,8 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		TsOpcServer _selectedOpcServer;
-		public TsOpcServer SelectedOpcServer
+		OpcDaServer _selectedOpcServer;
+		public OpcDaServer SelectedOpcServer
 		{
 			get { return _selectedOpcServer; }
 			set 

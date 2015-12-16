@@ -49,8 +49,8 @@ namespace AutomationModule.ViewModels
 		public string Login { get; set; }
 		public string Password { get; set; }
 
-		public TsOpcServer[] _opcServers;
-		public TsOpcServer[] OpcDaServers 
+		public OpcDaServer[] _opcServers;
+		public OpcDaServer[] OpcDaServers 
 		{
 			get { return _opcServers; }
 			set
@@ -107,7 +107,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand GetOpcServerListCommand { get; private set; }
 		void OnGetOpcServerList()
 		{
-			List<TsOpcServer> serverList = new List<TsOpcServer>();
+			List<OpcDaServer> serverList = new List<OpcDaServer>();
 
 			var login = Login == null ? String.Empty : Login.Trim();
 			var pswd = Password == null ? String.Empty : Password.Trim();
@@ -117,7 +117,7 @@ namespace AutomationModule.ViewModels
 				var servers = (RemoteConnectionIsEnabled ? 
 					OpcDiscovery.GetServers(OpcSpecification.OPC_DA_20, SelectedHost, new OpcUserIdentity(login, pswd)) :
 					OpcDiscovery.GetServers(OpcSpecification.OPC_DA_20))
-					.Select(srv => new TsOpcServer
+					.Select(srv => new OpcDaServer
 										{
 											IsChecked = false,
 											Login = login,

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using OpcEnumLib;
 using opcproxy;
 
-namespace OpcDaServer
+namespace OpcFoundation
 {
 	/// <summary>
 	/// OPC DA сервер

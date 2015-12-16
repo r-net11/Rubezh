@@ -38,7 +38,7 @@ namespace RubezhAPI.Automation
 		public List<OpcDaServer> OpcDaServers { get; set; }
 
 		[DataMember]
-		public List<TsOpcServer> OpcDaTsServers { get; set; }
+		public List<OpcDaServer> OpcDaTsServers { get; set; }
 
 		public void UpdateConfiguration()
 		{

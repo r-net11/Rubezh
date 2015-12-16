@@ -9,8 +9,6 @@ namespace RubezhAPI.Automation
 	{
 		public OpcDaServer()
 		{
-			Id = Guid.NewGuid();
-			ServerName = "Название OPC DA сервера";
 			Tags = new OpcDaTag[0];
 		}
 
@@ -34,5 +32,7 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public OpcDaTag[] Tags { get; set; }
+
+		public bool IsChecked { get; set; }
 	}
 }

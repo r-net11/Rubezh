@@ -9,26 +9,26 @@ namespace AutomationModule.Models
 	{
 		#region Methods
 
-		public static RubezhAPI.Automation.OpcDaTag[] GetAllTagsFromOpcServer(OpcDaServer.OpcDaServer server)
+		public static RubezhAPI.Automation.OpcDaTag[] GetAllTagsFromOpcServer(OpcFoundation.OpcDaServer server)
 		{
-			var srv = OpcDaServer.OpcDaServer.GetRegistredServers().First(s => s.Id == server.Id);
+			var srv = OpcFoundation.OpcDaServer.GetRegistredServers().First(s => s.Id == server.Id);
 			List<RubezhAPI.Automation.OpcDaTag> tags = new List<RubezhAPI.Automation.OpcDaTag>();
 			GetTags(ref tags, srv.Tags);
 			return tags.ToArray();
 		}
 
-		static void GetTags(ref List<RubezhAPI.Automation.OpcDaTag> tags, OpcDaServer.OpcDaDirectory directory)
+		static void GetTags(ref List<RubezhAPI.Automation.OpcDaTag> tags, OpcFoundation.OpcDaDirectory directory)
 		{
 			foreach (var item in directory.Items)
 			{
 				if (item.IsDirectory)
 				{
-					var dir = (OpcDaServer.OpcDaDirectory)item;
+					var dir = (OpcFoundation.OpcDaDirectory)item;
 					GetTags(ref tags, dir);
 				}
 				else
 				{
-					var tag = (OpcDaServer.OpcDaTag)item;
+					var tag = (OpcFoundation.OpcDaTag)item;
 					tags.Add(new RubezhAPI.Automation.OpcDaTag
 					{
 						Path = tag.FullPath,

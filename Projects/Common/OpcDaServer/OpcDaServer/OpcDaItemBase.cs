@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OpcDaServer
+namespace OpcFoundation
 {
 	/// <summary>
 	/// Тег или директория OPC DA сервера

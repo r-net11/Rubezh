@@ -18,7 +18,7 @@ namespace AutomationModule.ViewModels
 			Title = "Взаимодействие с OPC Сервером";
 			try
 			{
-				ActiveServer = OpcDaServer.OpcDaServer.GetRegistredServers()
+				ActiveServer = OpcFoundation.OpcDaServer.GetRegistredServers()
 					.FirstOrDefault(x => x.Id == server.Id);
 				if (ActiveServer != null)
 				{
@@ -41,8 +41,8 @@ namespace AutomationModule.ViewModels
 		#region Fields And Properties
 		RubezhAPI.Automation.OpcDaServer ServerSettings { get; set; }
 
-		OpcDaServer.OpcDaServer _activeServer;
-		public OpcDaServer.OpcDaServer ActiveServer
+		OpcFoundation.OpcDaServer _activeServer;
+		public OpcFoundation.OpcDaServer ActiveServer
 		{
 			get { return _activeServer; }
 			private set
@@ -52,8 +52,8 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		List<OpcDaServer.OpcDaTagValue> _values;
-		public List<OpcDaServer.OpcDaTagValue> Values
+		List<OpcFoundation.OpcDaTagValue> _values;
+		public List<OpcFoundation.OpcDaTagValue> Values
 		{
 			get { return _values; }
 			private set 
@@ -69,7 +69,7 @@ namespace AutomationModule.ViewModels
 
 		void ReadTags()
 		{
-			List<OpcDaServer.OpcDaTagValue> list = new List<OpcDaServer.OpcDaTagValue>();
+			List<OpcFoundation.OpcDaTagValue> list = new List<OpcFoundation.OpcDaTagValue>();
 
 			foreach (var tag in ServerSettings.Tags)
 			{
