@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using Infrastructure.ViewModels;
 using Infrastructure.Common;
 using RubezhClient;
 using Infrastructure.Common.Windows;
+using RubezhAPI.Automation;
+using AutomationModule.Models;
+using Infrastructure;
 
 namespace AutomationModule.ViewModels
 {
@@ -29,9 +30,9 @@ namespace AutomationModule.ViewModels
 
 		#region Fields And Properties
 
-		ObservableCollection<RubezhAPI.Automation.TsOpcServer> _opcDaServers =
-			new ObservableCollection<RubezhAPI.Automation.TsOpcServer>();
-		public ObservableCollection<RubezhAPI.Automation.TsOpcServer> OpcDaServers
+		ObservableCollection<TsOpcServer> _opcDaServers =
+			new ObservableCollection<TsOpcServer>();
+		public ObservableCollection<TsOpcServer> OpcDaServers
 		{
 			get { return _opcDaServers; }
 			private set
@@ -41,14 +42,38 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		RubezhAPI.Automation.OpcDaServer _selectedOpcServer;
-		public RubezhAPI.Automation.OpcDaServer SelectedOpcServer
+		TsOpcServer _selectedOpcServer;
+		public TsOpcServer SelectedOpcServer
 		{
 			get { return _selectedOpcServer; }
 			set 
 			{ 
 				_selectedOpcServer = value;
 				OnPropertyChanged(() => SelectedOpcServer);
+				SelectedTags = _selectedOpcServer.Tags;
+			}
+		}
+
+		TsOpcTagsStructure _tags;
+
+		public TsOpcTagsStructure Tags
+		{
+			get { return _tags; }
+			set 
+			{
+				_tags = value;
+				OnPropertyChanged(() => Tags);
+			}
+		}
+
+		OpcDaTag[] _selectedTags;
+		public OpcDaTag[] SelectedTags
+		{
+			get { return _selectedTags; }
+			set 
+			{ 
+				_selectedTags = value;
+				OnPropertyChanged(() => SelectedTags);
 			}
 		}
 
@@ -87,12 +112,28 @@ namespace AutomationModule.ViewModels
 		bool CanAddOpcServer() { return OpcDaServers != null; }
 
 		public RelayCommand RemoveOpcServerCommand { get; private set; }
-		void OnRemoveOpcServer() { }
-		bool CanRemoveOpcServer() { return false; }
+		void OnRemoveOpcServer() 
+		{
+			ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.Remove(SelectedOpcServer);
+			OpcDaServers.Remove(SelectedOpcServer);
+			ServiceFactory.SaveService.AutomationChanged = true;
+			SelectedOpcServer = OpcDaServers.FirstOrDefault();
+		}
+		bool CanRemoveOpcServer() { return SelectedOpcServer != null; }
 
 		public RelayCommand EditTagListCommand { get; private set; }
-		void OnEditTagList() { }
-		bool CanEditTagList() { return false; }
+		void OnEditTagList() 
+		{
+			var editingTagList = new OpcDaClientEditingTagsViewModel(this);
+			DialogService.ShowModalWindow(editingTagList);
+
+			var server = ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers
+				.FirstOrDefault(x => x == SelectedOpcServer);
+			server.Tags = SelectedTags;
+			ServiceFactory.SaveService.AutomationChanged = true;
+
+		}
+		bool CanEditTagList() { return SelectedOpcServer != null; }
 
 		#endregion
 	}

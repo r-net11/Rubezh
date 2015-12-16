@@ -5,14 +5,14 @@ using OpcClientSdk.Da;
 
 namespace AutomationModule.Models
 {
-	public class OpcTechnosoftwareServerStructure
+	public class TsOpcTagsStructure
 	{
 		#region Constructors
 
-		public OpcTechnosoftwareServerStructure(TsCDaBrowseElement[] elements)
+		public TsOpcTagsStructure(TsCDaBrowseElement[] elements)
 		{
-			var list = elements.Select(x => new OpcTechnosoftwareElement(this, x));
-			_allItems = new List<OpcTechnosoftwareElement>(list);
+			var list = elements.Select(x => new TsOpcElement(this, x));
+			_allItems = new List<TsOpcElement>(list);
 		}
 
 		#endregion
@@ -26,11 +26,11 @@ namespace AutomationModule.Models
 
 		#region Fields And Properties
 
-		List<OpcTechnosoftwareElement> _allItems;
+		List<TsOpcElement> _allItems;
 
-		public OpcTechnosoftwareElement[] AllElements { get { return _allItems.ToArray(); } }
+		public TsOpcElement[] AllElements { get { return _allItems.ToArray(); } }
 
-		public OpcTechnosoftwareElement[] Items 
+		public TsOpcElement[] Items 
 		{
 			get
 			{
@@ -48,39 +48,24 @@ namespace AutomationModule.Models
 		/// </summary>
 		/// <param name="element">null - корневая группа</param>
 		/// <returns></returns>
-		public OpcTechnosoftwareElement[] GetChildrenInGroup(OpcTechnosoftwareElement element = null)
+		public TsOpcElement[] GetChildrenInGroup(TsOpcElement element = null)
 		{
 			if (element == null)
 			{
-				element = new OpcTechnosoftwareElement(this,  
+				element = new TsOpcElement(this,  
 					new TsCDaBrowseElement { IsItem = false, HasChildren = true, ItemPath = ROOT + SPLITTER });
 			}
 
 			if (element.Element.IsItem)
 			{
 				// Таг не может содержать вложенных элементов
-				return new OpcTechnosoftwareElement[0];
+				return new TsOpcElement[0];
 			}
 
 			var result = _allItems.Where(x => x.Element.ItemPath.StartsWith(element.Element.ItemPath) &&
 				GetSegmentsOfPath(x.Element).Length == (GetSegmentsOfPath(element.Element).Length + 1)).ToArray();
 			return result;
 		}
-
-		//public TsCDaBrowseElement[] GetChildrenInGroup(TsCDaBrowseElement group)
-		//{
-		//	if (group.IsItem)
-		//	{
-		//		// Таг не может содержать вложенных элементов
-		//		return new TsCDaBrowseElement[0];
-		//	}
-
-		//	var result = _allItems
-		//		.Where(x => x.Element.ItemPath.StartsWith(group.ItemPath) &&
-		//				GetSegmentsOfPath(x.Element).Length == (GetSegmentsOfPath(group).Length + 1))
-		//		.Select(y => y.Element).ToArray();
-		//	return result;
-		//}
 
 		string[] GetSegmentsOfPath(TsCDaBrowseElement element)
 		{
@@ -91,11 +76,11 @@ namespace AutomationModule.Models
 		#endregion
 	}
 
-	public class OpcTechnosoftwareElement
+	public class TsOpcElement
 	{
 		#region Constructors
 
-		public OpcTechnosoftwareElement(OpcTechnosoftwareServerStructure owner, 
+		public TsOpcElement(TsOpcTagsStructure owner, 
 			TsCDaBrowseElement element)
 		{
 			if (owner == null)
@@ -114,17 +99,15 @@ namespace AutomationModule.Models
 
 		#region Fields And Properties
 
-		OpcTechnosoftwareServerStructure _owner;
+		TsOpcTagsStructure _owner;
 		
 		TsCDaBrowseElement _element;
 		public TsCDaBrowseElement Element { get { return _element; } }
 
-		public OpcTechnosoftwareElement[] Items
+		public TsOpcElement[] Items
 		{
 			get 
 			{
-				//return _owner.GetChildrenInGroup(_element)
-				//	.Select(x => new OpcTechnosoftwareElement(_owner, x)).ToArray();
 				return _owner.GetChildrenInGroup(this);
 			}
 		}

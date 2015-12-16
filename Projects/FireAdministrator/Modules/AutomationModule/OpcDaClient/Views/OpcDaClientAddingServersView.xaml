@@ -15,14 +15,22 @@
 						<RowDefinition />
 						<RowDefinition />
 						<RowDefinition />
+						<RowDefinition />
 					</Grid.RowDefinitions>
-					<TextBlock Grid.Column="0" Grid.Row="0" Text="Выбрать хост" Margin="3" />
-					<ComboBox Grid.Column="1" Grid.Row="0" ItemsSource="{Binding HostNames}" SelectedItem="{Binding SelectedHost}" Margin="3" />
-					<TextBlock Grid.Column="0" Grid.Row="1" Text="Login:" Margin="3" />
-					<TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Login}" Margin="3" />
-					<TextBlock Grid.Column="0" Grid.Row="2" Text="Password:" Margin="3" />
-					<TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Password}" Margin="3" />
-					<Button Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Content="Получить список OPC DA серверов" 
+					<TextBlock Grid.Column="0" Grid.Row="0" Text="Подключение к удалённому сереру" Margin="3" />
+					<CheckBox Grid.Column="1" Grid.Row="0" 
+							 IsChecked="{Binding RemoteConnectionIsEnabled, UpdateSourceTrigger=PropertyChanged}" />
+					<TextBlock Grid.Column="0" Grid.Row="1" Text="Выбрать хост" Margin="3" />
+					<ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding HostNames}" 
+							 SelectedItem="{Binding SelectedHost}"
+							 IsEnabled="{Binding RemoteConnectionIsEnabled}" Margin="3" />
+					<TextBlock Grid.Column="0" Grid.Row="2" Text="Login:" Margin="3" />
+					<TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Login}" 
+							 IsEnabled="{Binding RemoteConnectionIsEnabled}" Margin="3" />
+					<TextBlock Grid.Column="0" Grid.Row="3" Text="Password:" Margin="3" />
+					<TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Password}" 
+							 IsEnabled="{Binding RemoteConnectionIsEnabled}" Margin="3" />
+					<Button Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Content="Получить список OPC DA серверов" 
 							Command="{Binding GetOpcServerListCommand}" Margin="3" />
 				</Grid>
 			</GroupBox>

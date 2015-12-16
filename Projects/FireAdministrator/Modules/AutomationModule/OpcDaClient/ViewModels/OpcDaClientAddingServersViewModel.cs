@@ -66,6 +66,17 @@ namespace AutomationModule.ViewModels
 			get { return OpcDaServers != null; }
 		}
 
+		private bool _remoteConnectionIsEnabled;
+		public bool RemoteConnectionIsEnabled
+		{
+			get { return _remoteConnectionIsEnabled; }
+			set 
+			{
+				_remoteConnectionIsEnabled = value;
+				OnPropertyChanged(() => RemoteConnectionIsEnabled);
+			}
+		} 
+
 		#endregion
 
 		#region Methods
@@ -101,31 +112,47 @@ namespace AutomationModule.ViewModels
 			var login = Login == null ? String.Empty : Login.Trim();
 			var pswd = Password == null ? String.Empty : Password.Trim();
 
-			var servers = OpcDiscovery.GetServers(OpcSpecification.OPC_DA_20, SelectedHost,
-				new OpcUserIdentity(login, pswd))
-				.Select(srv => new TsOpcServer
-					{ 
-						IsChecked = false,
-						Login = login,
-						Password = pswd,
-						ServerName = srv.ServerName,
-						Url = srv.Url.ToString()
-					});
-
-			foreach(var server in servers)
+			try
 			{
-				if (!_opcDaServersViewModel.OpcDaServers
-					.Any(x => x.Url == server.Url && 
-						x.ServerName == server.ServerName))
+				var servers = (RemoteConnectionIsEnabled ? 
+					OpcDiscovery.GetServers(OpcSpecification.OPC_DA_20, SelectedHost, new OpcUserIdentity(login, pswd)) :
+					OpcDiscovery.GetServers(OpcSpecification.OPC_DA_20))
+					.Select(srv => new TsOpcServer
+										{
+											IsChecked = false,
+											Login = login,
+											Password = pswd,
+											ServerName = srv.ServerName,
+											Url = srv.Url.ToString()
+										});
+
+				foreach (var server in servers)
 				{
-					serverList.Add(server);
+					if (!_opcDaServersViewModel.OpcDaServers
+						.Any(x => x.Url == server.Url &&
+							x.ServerName == server.ServerName))
+					{
+						serverList.Add(server);
+					}
 				}
+				OpcDaServers = serverList.ToArray();
 			}
-			OpcDaServers = serverList.ToArray();
+			catch (Exception ex)
+			{
+				string msg;
+				msg = ex.InnerException != null ?
+					String.Format("Исключение: {0} ; Внутреннее исключение: {1}", ex.Message, ex.InnerException.Message) :
+					ex.Message;
+					
+				System.Windows.MessageBox.Show(msg, "Ошибка", 
+					System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+			}
 		}
 		bool CanGetOpcServerList()
 		{
-			return !string.IsNullOrEmpty(SelectedHost);
+			return RemoteConnectionIsEnabled ?
+				!string.IsNullOrEmpty(SelectedHost) :
+				true;
 		}
 
 		#endregion

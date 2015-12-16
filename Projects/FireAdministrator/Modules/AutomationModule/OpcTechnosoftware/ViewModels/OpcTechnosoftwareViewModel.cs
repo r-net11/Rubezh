@@ -93,8 +93,8 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		OpcTechnosoftwareServerStructure _tagsAndGroups;
-		public OpcTechnosoftwareServerStructure TagsAndGroups
+		TsOpcTagsStructure _tagsAndGroups;
+		public TsOpcTagsStructure TagsAndGroups
 		{
 			get { return _tagsAndGroups; }
 			private set
@@ -104,8 +104,8 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		IEnumerable<OpcTechnosoftwareElement> _checkedTags;
-		public IEnumerable<OpcTechnosoftwareElement> CheckedTags 
+		IEnumerable<TsOpcElement> _checkedTags;
+		public IEnumerable<TsOpcElement> CheckedTags 
 		{
 			get { return _checkedTags; }
 			private set
@@ -115,8 +115,8 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		OpcTechnosoftwareElement _selectedElement;
-		public OpcTechnosoftwareElement SelectedElement
+		TsOpcElement _selectedElement;
+		public TsOpcElement SelectedElement
 		{
 			get { return _selectedElement; }
 			set
@@ -148,8 +148,8 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		OpcTechnosoftwareElement _selectedTagForWrite;
-		public OpcTechnosoftwareElement SelectedTagForWrite
+		TsOpcElement _selectedTagForWrite;
+		public TsOpcElement SelectedTagForWrite
 		{
 			get { return _selectedTagForWrite; }
 			set 
@@ -344,7 +344,7 @@ namespace AutomationModule.ViewModels
 		void OnGetTagsAndGroups()
 		{
 			var elements = Browse();
-			TagsAndGroups = new OpcTechnosoftwareServerStructure(elements);
+			TagsAndGroups = new TsOpcTagsStructure(elements);
 		}
 		bool CanGetTagsAndGroups()
 		{

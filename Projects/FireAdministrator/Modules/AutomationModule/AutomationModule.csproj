@@ -151,10 +151,15 @@
       <DependentUpon>OpcAdvosolMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OpcDaClient\ViewModels\OpcDaClientAddingServersViewModel.cs" />
+    <Compile Include="OpcDaClient\ViewModels\OpcDaClientEditingTagsViewModel.cs" />
+    <Compile Include="OpcDaClient\ViewModels\OpcDaClientElementViewModel.cs" />
     <Compile Include="OpcDaClient\ViewModels\OpcDaClientMenuViewModel.cs" />
     <Compile Include="OpcDaClient\ViewModels\OpcDaClientViewModel.cs" />
     <Compile Include="OpcDaClient\Views\OpcDaClientAddingServersView.xaml.cs">
       <DependentUpon>OpcDaClientAddingServersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpcDaClient\Views\OpcDaClientEditingTagsView.xaml.cs">
+      <DependentUpon>OpcDaClientEditingTagsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OpcDaClient\Views\OpcDaClientMenuView.xaml.cs">
       <DependentUpon>OpcDaClientMenuView.xaml</DependentUpon>
@@ -677,6 +682,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="OpcDaClient\Views\OpcDaClientAddingServersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpcDaClient\Views\OpcDaClientEditingTagsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
