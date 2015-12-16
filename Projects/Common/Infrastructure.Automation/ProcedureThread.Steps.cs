@@ -1259,9 +1259,12 @@ namespace Infrastructure.Automation
 
 		T GetValue<T>(Argument argument)
 		{
-			return argument.VariableScope == VariableScope.ExplicitValue ?
-				(T)ProcedureExecutionContext.GetValue(argument.ExplicitValue, argument.ExplicitType, argument.EnumType) :
-				(T)ProcedureExecutionContext.GetVariableValue(ClientUID, AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid));
+			var result = argument.VariableScope == VariableScope.ExplicitValue ?
+				ProcedureExecutionContext.GetValue(argument.ExplicitValue, argument.ExplicitType, argument.EnumType) :
+				ProcedureExecutionContext.GetVariableValue(ClientUID, AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid));
+			if (result is string && typeof(T) == typeof(Guid))
+				result = CheckGuid(result.ToString()) ? new Guid(result.ToString()) : Guid.Empty;
+			return (T)result;
 		}
 
 		bool CheckGuid(string guidString)
