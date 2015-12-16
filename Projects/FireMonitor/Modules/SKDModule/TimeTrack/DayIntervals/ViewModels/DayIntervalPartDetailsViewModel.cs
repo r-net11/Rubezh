@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using EntitiesValidation;
+using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
@@ -71,93 +73,67 @@ namespace SKDModule.ViewModels
 		#region Commands
 		protected override bool Save()
 		{
-			if (!Validate())
-				return false;
-
 			DayIntervalPart.BeginTime = BeginTime;
 			DayIntervalPart.EndTime = EndTime;
 			DayIntervalPart.TransitionType = BeginTime < EndTime ? DayIntervalPartTransitionType.Day : DayIntervalPartTransitionType.Night;
+
+			var validationResult = Validate();
+			if (validationResult.HasError)
+			{
+				MessageBoxService.ShowWarning(validationResult.Error);
+				return false;
+			}
+
 			return DayIntervalPartHelper.Save(DayIntervalPart, _isNew, _dayInterval.Name);
 		}
 		#endregion
 
 		#region Methods
-		bool Validate()
+		private OperationResult<bool> Validate()
 		{
-			var dayIntervalParts = CloneDayIntervalPart();
-
-			var currentDateTime = TimeSpan.Zero;
-			foreach (var dayIntervalPart in dayIntervalParts)
-			{
-				if (dayIntervalPart.BeginTime < currentDateTime)
-				{
-					MessageBoxService.ShowWarning("Интервалы должны идти последовательно");
-					return false;
-				}
-				currentDateTime = dayIntervalPart.BeginTime;
-			}
-
-			currentDateTime = TimeSpan.Zero;
-			foreach (var dayIntervalPart in dayIntervalParts)
-			{
-				var beginTime = dayIntervalPart.BeginTime;
-				var endTime = dayIntervalPart.EndTime;
-				if (dayIntervalPart.TransitionType != DayIntervalPartTransitionType.Day)
-					endTime = endTime.Add(TimeSpan.FromDays(1));
-				if (beginTime < currentDateTime)
-				{
-					MessageBoxService.ShowWarning("Последовательность интервалов не должна быть пересекающейся");
-					return false;
-				}
-				if (beginTime == currentDateTime)
-				{
-					MessageBoxService.ShowWarning("Пауза между интервалами не должна быть нулевой");
-					return false;
-				}
-				currentDateTime = beginTime;
-				if (endTime == currentDateTime)
-				{
-					MessageBoxService.ShowWarning("Интервал не может иметь нулевую длительность");
-					return false;
-				}
-				currentDateTime = endTime;
-			}
-			return true;
+			return _isNew ? ValidateAdding() : ValidateEditing();
 		}
 
-		List<DayIntervalPart> CloneDayIntervalPart()
+		private OperationResult<bool> ValidateAdding()
 		{
-			var dayIntervalParts = _dayInterval.DayIntervalParts
-				.Select(dayIntervalPart => new DayIntervalPart
-				{
-					UID = dayIntervalPart.UID,
-					BeginTime = dayIntervalPart.BeginTime,
-					EndTime = dayIntervalPart.EndTime,
-					TransitionType = dayIntervalPart.TransitionType,
-					DayIntervalUID = dayIntervalPart.DayIntervalUID,
-				})
-				.ToList();
+			// Время начала интервала равно времени окончания?
+			var validationesult = DayIntervalPartValidator.ValidateNewDayIntervalPartLength(DayIntervalPart);
+			if (validationesult.HasError)
+				return validationesult;
 
-			if (_isNew)
-			{
-				var newEmployeeDayIntervalPart = new DayIntervalPart
-				{
-					BeginTime = BeginTime,
-					EndTime = EndTime,
-					DayIntervalUID = _dayInterval.UID,
-				};
-				dayIntervalParts.Add(newEmployeeDayIntervalPart);
-			}
-			else
-			{
-				var deitingDayIntervalPart = dayIntervalParts.FirstOrDefault(x => x.UID == DayIntervalPart.UID);
-				if (deitingDayIntervalPart != null)
-				{
-					deitingDayIntervalPart.BeginTime = BeginTime;
-					deitingDayIntervalPart.EndTime = EndTime;
-				}
-			}
-			return dayIntervalParts;
+			// Добавляемый интервал заканчивается ранее, чем уже добавленные интервалы?
+			validationesult = DayIntervalPartValidator.ValidateNewDayIntervalPartOrder(DayIntervalPart, _dayInterval.DayIntervalParts);
+			if (validationesult.HasError)
+				return validationesult;
+
+			// Добавляемый интервал пересекается с уже добавленными интервалами?
+			validationesult = DayIntervalPartValidator.ValidateNewDayIntervalPartIntersection(DayIntervalPart, _dayInterval.DayIntervalParts);
+			if (validationesult.HasError)
+				return validationesult;
+
+			return new OperationResult<bool>(true);
+		}
+
+		private OperationResult<bool> ValidateEditing()
+		{
+			// Время начала интервала равно времени окончания?
+			var validationesult = DayIntervalPartValidator.ValidateNewDayIntervalPartLength(DayIntervalPart);
+			if (validationesult.HasError)
+				return validationesult;
+
+			var otherDayIntervalParts = _dayInterval.DayIntervalParts.Where(dayIntervalPart => dayIntervalPart.UID != DayIntervalPart.UID);
+
+			// Редактируемый интервал заканчивается ранее, чем остальные интервалы?
+			validationesult = DayIntervalPartValidator.ValidateNewDayIntervalPartOrder(DayIntervalPart, otherDayIntervalParts);
+			if (validationesult.HasError)
+				return validationesult;
+
+			// Редактируемый интервал пересекается с остальными интервалами?
+			validationesult = DayIntervalPartValidator.ValidateNewDayIntervalPartIntersection(DayIntervalPart, otherDayIntervalParts);
+			if (validationesult.HasError)
+				return validationesult;
+
+			return new OperationResult<bool>(true);
 		}
 		#endregion
 	}

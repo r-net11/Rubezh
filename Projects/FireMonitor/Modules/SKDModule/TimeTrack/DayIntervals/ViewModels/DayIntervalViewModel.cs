@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Common;
+using EntitiesValidation;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -77,6 +78,13 @@ namespace SKDModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
+			var validationResult = DayIntervalPartValidator.ValidateGeneralDayIntervalPartsLengthOnEditingOrDeleting(Model.DayIntervalParts.Where(dayIntervalPart => dayIntervalPart.UID != SelectedDayIntervalPart.DayIntervalPart.UID), Model.SlideTime);
+			if (validationResult.HasError)
+			{
+				MessageBoxService.ShowWarning(validationResult.Error);
+				return;
+			}
+			
 			if (!DayIntervalPartHelper.Remove(SelectedDayIntervalPart.DayIntervalPart, Model.Name)) return;
 
 			Model.DayIntervalParts.RemoveAll(x => x.UID == SelectedDayIntervalPart.DayIntervalPart.UID);
