@@ -53,13 +53,6 @@ namespace RubezhAPI.GK
 			}
 			return null;
 		}
-		//void InvalidateDoorZones(GKDeviceConfiguration deviceConfiguration)
-		//{
-		//	var enterZoneUid = deviceConfiguration.Doors.Find(x => x.UID == UID).EnterZoneUID;
-		//	var exitZoneUid = deviceConfiguration.Doors.Find(x => x.UID ==).ExitZoneUID;
-		//	var enterZone = deviceConfiguration.Zones.Find(x => x.UID == enterZoneUid);
-
-		//}
 		public override void Invalidate(GKDeviceConfiguration deviceConfiguration)
 		{
 			UpdateLogic(deviceConfiguration);
