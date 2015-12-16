@@ -1,10 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using Infrastructure.Client.Layout.ViewModels;
-using RubezhAPI.Models.Layouts;
+﻿using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common.Services.Layout;
-using RubezhClient;
+using RubezhAPI.Models.Layouts;
+using System.Collections.Generic;
 namespace AutomationModule.Layout.ViewModels
 {
 	public class LayoutPartProcedureViewModel : LayoutPartTitleViewModel
@@ -14,7 +11,6 @@ namespace AutomationModule.Layout.ViewModels
 		public LayoutPartProcedureViewModel(LayoutPartProcedureProperties properties)
 		{
 			_properties = properties ?? new LayoutPartProcedureProperties();
-			UpdateLayoutPart();
 		}
 
 		public override ILayoutProperties Properties
@@ -28,14 +24,6 @@ namespace AutomationModule.Layout.ViewModels
 				yield return new LayoutPartPropertyProcedurePageViewModel(this);
 				yield return new LayoutPartPropertyProcedurePageStyleViewModel(this);
 			}
-		}
-
-		public string ProcedureTitle { get; private set; }
-
-		public void UpdateLayoutPart()
-		{
-			ProcedureTitle = ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.Where(item => item.Uid == _properties.ReferenceUID).Select(item => item.Name).FirstOrDefault() ?? "Процедура";
-			OnPropertyChanged(() => ProcedureTitle);
 		}
 	}
 }
