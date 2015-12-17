@@ -36,11 +36,34 @@
 		</Grid.RowDefinitions>
 		<TabControl Grid.Row="0" Background="{DynamicResource AlternativeBackgroundBrush}">
 			<TabItem Header="Соединения">
+				<TabItem.Resources>
+					<ContextMenu x:Key="ConnectonsContextMenu">
+						<IconedMenuItem Command="{Binding RemoveCommand}" ImageSource="BClose" Text="Разорвать соединение" />
+					</ContextMenu>
+				</TabItem.Resources>
 				<DataGrid ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}">
 					<DataGrid.Columns>
-						<DataGridTextColumn Binding="{Binding ClientType}" Header="Тип" />
-						<DataGridTextColumn Binding="{Binding IpAddress}" Header="Адрес" />
-						<DataGridTextColumn Width="*" Binding="{Binding FriendlyUserName}" Header="Пользователь" />
+						<DataGridTemplateColumn Header="Тип">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ClientType}" ContextMenu="{StaticResource ConnectonsContextMenu}" />
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn Header="Адрес" >
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding IpAddress}" ContextMenu="{StaticResource ConnectonsContextMenu}" />
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn Width="*" Header="Пользователь" >
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding FriendlyUserName}" ContextMenu="{StaticResource ConnectonsContextMenu}" />
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
 					</DataGrid.Columns>
 				</DataGrid>
 			</TabItem>
@@ -121,6 +144,17 @@
 						</ItemsControl>
 					</ScrollViewer>
 				</Grid>
+			</TabItem>
+			<TabItem Header="Поллинг">
+				<DataGrid ItemsSource="{Binding ClientPolls}">
+					<DataGrid.Columns>
+						<DataGridTextColumn Binding="{Binding Client}" Header="Клиент" Width="Auto" />
+						<DataGridTextColumn Binding="{Binding UID}" Header="Идентификатор" Width="*" />
+						<DataGridTextColumn Binding="{Binding FirstPollTime, StringFormat='dd.MM.yyyy HH:mm:ss'}" Header="Первый поллинг" Width="Auto" />
+						<DataGridTextColumn Binding="{Binding LastPollTime, StringFormat='dd.MM.yyyy HH:mm:ss'}" Header="Последний поллинг" Width="Auto" />
+						<DataGridTextColumn Binding="{Binding CallbackIndex}" Header="Индекс" Width="Auto" />
+					</DataGrid.Columns>
+				</DataGrid>
 			</TabItem>
 			<TabItem Header="Операции" DataContext="{Binding ServerTasksViewModel}">
 				<DataGrid ItemsSource="{Binding ServerTasks}" SelectedItem="{Binding SelectedServerTask}">

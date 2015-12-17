@@ -14,6 +14,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
@@ -50,10 +51,7 @@ namespace GKModule.ViewModels
 
 		public void Initialize()
 		{
-			Delays = GKManager.Delays == null ? new ObservableCollection<DelayViewModel>() : new ObservableCollection<DelayViewModel>(
-				from delay in GKManager.Delays
-				orderby delay.No
-				select new DelayViewModel(delay));
+			Delays = GKManager.Delays == null ? new ObservableCollection<DelayViewModel>() : new ObservableCollection<DelayViewModel>(GKManager.Delays.OrderBy(x => x.No).Select(x => new DelayViewModel(x)));
 			SelectedDelay = Delays.FirstOrDefault();
 		}
 
@@ -136,25 +134,25 @@ namespace GKModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые задержки ?"))
 			{
-				var emptyDelays = Delays.Where(x => !x.Delay.Logic.GetObjects().Any()).ToList();
-
-				if (emptyDelays.Any())
+				GetEmptyDelays().ForEach(x =>
 				{
-					for (var i = emptyDelays.Count() - 1; i >= 0; i--)
-					{
-						GKManager.RemoveDelay(emptyDelays.ElementAt(i).Delay);
-						Delays.Remove(emptyDelays.ElementAt(i));
-					}
+					GKManager.RemoveDelay(x.Delay);
+					Delays.Remove(x);
+				});
 
-					SelectedDelay = Delays.FirstOrDefault();
-					ServiceFactory.SaveService.GKChanged = true;
-				}
+				SelectedDelay = Delays.FirstOrDefault();
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
 		bool CanDeleteAllEmpty()
 		{
-			return Delays.Any(x => !x.Delay.Logic.GetObjects().Any());
+			return GetEmptyDelays().Any();
+		}
+
+		List <DelayViewModel> GetEmptyDelays()
+		{
+			return Delays.Where(x => !x.Delay.Logic.GetObjects().Any()).ToList();
 		}
 
 		GKDelay _delayToCopy;
@@ -190,7 +188,7 @@ namespace GKModule.ViewModels
 		public RelayCommand CopyLogicCommand { get; private set; }
 		void OnCopyLogic()
 		{
-			GKManager.CopyLogic(SelectedDelay.Delay.Logic, true, false, true, false, true);
+			GKManager.CopyLogic(SelectedDelay.Delay.Logic, true, false, true);
 		}
 
 		public RelayCommand PasteLogicCommand { get; private set; }

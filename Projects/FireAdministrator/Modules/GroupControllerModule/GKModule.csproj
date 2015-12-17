@@ -38,9 +38,6 @@
     <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\3rdParty\DotNetZipLib-DevKit-v1.9\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="Loya.Dameer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\3rdParty\Loya.Dameer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -92,9 +89,6 @@
     <Compile Include="Descriptors\Views\DescriptorsMenuView.xaml.cs">
       <DependentUpon>DescriptorsMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\ViewModels\MirrorUserNewModel.cs" />
-    <Compile Include="Devices\ViewModels\MirrorUserDetailsViewModel.cs" />
-    <Compile Include="Devices\ViewModels\MirrorUsersViewModel.cs" />
     <Compile Include="Devices\ViewModels\AutoSearchDevicesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesListViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesOnShleifViewModel.cs" />
@@ -106,13 +100,9 @@
     <Compile Include="Devices\ViewModels\Logic\ClauseGroupViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\StateTypeViewModel.cs" />
     <Compile Include="Devices\ViewModels\MirrorViewModel.cs" />
-    <Compile Include="Devices\ViewModels\RSR2NewDeviceViewModel.cs" />
-    <Compile Include="Devices\ViewModels\NewDeviceViewModelBase.cs" />
+    <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\SettingsViewModel.cs" />
     <Compile Include="Devices\ViewModels\UpdatedDeviceViewModel.cs" />
-    <Compile Include="Devices\Views\MirrorUserDetailsView.xaml.cs">
-      <DependentUpon>MirrorUserDetailsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Devices\Views\AutoSearchDevicesView.xaml.cs">
       <DependentUpon>AutoSearchDevicesView.xaml</DependentUpon>
     </Compile>
@@ -128,14 +118,11 @@
     <Compile Include="Devices\Views\Logic\ClausesView.xaml.cs">
       <DependentUpon>ClausesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\MirrorUsersView.xaml.cs">
-      <DependentUpon>MirrorUsersView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Devices\Views\MirrorView.xaml.cs">
       <DependentUpon>MirrorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\RSR2NewDeviceView.xaml.cs">
-      <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\NewDeviceView.xaml.cs">
+      <DependentUpon>NewDeviceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -298,17 +285,24 @@
       <DependentUpon>PmfUserDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Selectation\ViewModels\AnyZonesSelectionViewModel.cs" />
+    <Compile Include="Selectation\ViewModels\DelaySelectionViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DependencyItemsViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DependencyItemViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DeviceGuardZoneViewModel.cs" />
+    <Compile Include="Selectation\ViewModels\DeviceSelectionViewModel.cs" />
+    <Compile Include="Selectation\ViewModels\DirectionSelectionViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DirectionsSelectationViewModel.cs" />
     <Compile Include="Devices\Views\ConfigurationCompareView.xaml.cs">
       <DependentUpon>ConfigurationCompareView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Selectation\ViewModels\DeviceSelectationViewModel.cs" />
+    <Compile Include="Selectation\ViewModels\GKDoorSelectionViewModel.cs" />
+    <Compile Include="Selectation\ViewModels\GuardZoneSelectionViewModel.cs" />
     <Compile Include="Selectation\ViewModels\GuardZonesWithFuncSelectationViewModel.cs" />
+    <Compile Include="Selectation\ViewModels\MPTSelectionViewModel.cs" />
     <Compile Include="Selectation\ViewModels\MPTsSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DelaysSelectationViewModel.cs" />
+    <Compile Include="Selectation\ViewModels\PumpStationSelectionViewModel.cs" />
     <Compile Include="Selectation\ViewModels\PumpStationsSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\SKDZoneSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DoorsSelectationViewModel.cs" />
@@ -316,8 +310,23 @@
     <Compile Include="Selectation\Views\AnyZonesSelectionView.xaml.cs">
       <DependentUpon>AnyZonesSelectionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Selectation\Views\DelaySelectionView.xaml.cs">
+      <DependentUpon>DelaySelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Selectation\Views\DependencyItemsView.xaml.cs">
       <DependentUpon>DependencyItemsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Selectation\Views\DeviceSelectionView.xaml.cs">
+      <DependentUpon>DeviceSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Selectation\Views\DirectionSelectionView.xaml.cs">
+      <DependentUpon>DirectionSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Selectation\Views\GKDoorSelectionView.xaml.cs">
+      <DependentUpon>GKDoorSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Selectation\Views\GuardZoneSelectionView.xaml.cs">
+      <DependentUpon>GuardZoneSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Selectation\Views\GuardZonesSelectationView.xaml.cs">
       <DependentUpon>GuardZonesSelectationView.xaml</DependentUpon>
@@ -392,11 +401,20 @@
     <Compile Include="Selectation\Views\GuardZonesWithFuncSelectationView.xaml.cs">
       <DependentUpon>GuardZonesWithFuncSelectationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Selectation\Views\MPTSelectionView.xaml.cs">
+      <DependentUpon>MPTSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Selectation\Views\PumpStationSelectionView.xaml.cs">
+      <DependentUpon>PumpStationSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Selectation\Views\PumpStationsSelectationView.xaml.cs">
       <DependentUpon>PumpStationsSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Selectation\Views\SKDZoneSelectationView.xaml.cs">
       <DependentUpon>SKDZoneSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Selectation\Views\ZoneSelectionView.xaml.cs">
+      <DependentUpon>ZoneSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Selectation\Views\ZonesSelectationView.xaml.cs">
       <DependentUpon>ZonesSelectationView.xaml</DependentUpon>
@@ -449,7 +467,6 @@
     <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceHelper.cs" />
-    <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="Selectation\Views\DeviceSelectationView.xaml.cs">
       <DependentUpon>DeviceSelectationView.xaml</DependentUpon>
     </Compile>
@@ -521,6 +538,7 @@
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDeviceViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneSelectionViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesSettingsViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesViewModel.cs" />
@@ -533,9 +551,6 @@
     </Compile>
     <Compile Include="Devices\Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Devices\Views\NewDeviceView.xaml.cs">
-      <DependentUpon>NewDeviceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Zones\Views\ZoneDetailsView.xaml.cs">
       <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
@@ -639,10 +654,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Devices\Views\MirrorUserDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Devices\Views\AddressEdiotor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -667,15 +678,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\MirrorUsersView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Devices\Views\MirrorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\RSR2NewDeviceView.xaml">
+    <Page Include="Devices\Views\NewDeviceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -803,9 +810,29 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Selectation\Views\DelaySelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Selectation\Views\DependencyItemsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Selectation\Views\DeviceSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Selectation\Views\DirectionSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Selectation\Views\GKDoorSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Selectation\Views\GuardZoneSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Selectation\Views\GuardZonesSelectationView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -823,6 +850,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Selectation\Views\MPTSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Selectation\Views\PumpStationSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Selectation\Views\PumpStationsSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -831,11 +866,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Selectation\Views\ZonesSelectationView.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Selectation\Views\ZoneSelectionView.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Devices\Views\NewDeviceView.xaml">
+    <Page Include="Selectation\Views\ZonesSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

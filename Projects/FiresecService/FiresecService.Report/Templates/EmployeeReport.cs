@@ -19,11 +19,6 @@ namespace FiresecService.Report.Templates
 		/// <summary>
 		/// Альбомная ориентация листа согласно требованиям http://172.16.6.113:26000/pages/viewpage.action?pageId=6948166
 		/// </summary>
-		protected override bool ForcedLandscape
-		{
-			get { return false; }
-		}
-
 		public override string ReportTitle
 		{
 			get { return "Справка о " + (GetFilter<EmployeeReportFilter>().IsEmployee ? "сотруднике" : "посетителе"); }
@@ -118,7 +113,7 @@ namespace FiresecService.Report.Templates
 		{
 			var currentRow = GetCurrentRow<EmployeeDataSet.DataRow>();
 			xrLeftTable.BeginInit();
-			for (; xrLeftTable.Rows.Count > 3; )
+			for (; xrLeftTable.Rows.Count > 3;)
 				xrLeftTable.Rows.RemoveAt(3);
 			var cardRows = currentRow.GetPassCardsRows();
 			foreach (var cardRow in cardRows)
@@ -136,8 +131,8 @@ namespace FiresecService.Report.Templates
 		private void AddRowToLeftTable(string text1, string text2)
 		{
 			var row = new XRTableRow();
-			if(!GetFilter<EmployeeReportFilter>().IsEmployee )
-			row.BackColor = System.Drawing.Color.LightGray;
+			if (!GetFilter<EmployeeReportFilter>().IsEmployee)
+				row.BackColor = System.Drawing.Color.LightGray;
 			if (xrLeftTable.Rows.Count % 2 == 0)
 				row.StyleName = "OddRowStyle";
 			xrLeftTable.Rows.Add(row);

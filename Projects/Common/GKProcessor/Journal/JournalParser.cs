@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
-using RubezhClient;
+using RubezhAPI;
 using RubezhDAL;
 
 namespace GKProcessor
@@ -38,12 +38,18 @@ namespace GKProcessor
 
 			GKObjectNo = BytesHelper.SubstructShort(bytes, 4);
 			JournalItem.ObjectUID = gkControllerDevice.UID;
+			var ControllerAddress = BytesHelper.SubstructShort(bytes, 32 + 10);
+			if (ControllerAddress != 0x200)
+			{
+				var kauDevice = gkControllerDevice.AllChildren.FirstOrDefault(x => x.Driver.IsKau && x.IntAddress == ControllerAddress);
+				if (kauDevice != null)
+					JournalItem.ObjectUID = kauDevice.UID;
+			}
 			InitializeFromObjectUID(gkControllerDevice);
 			var kauObjectNo = BytesHelper.SubstructShort(bytes, 54);
 
 			InitializeDateTime(bytes);
 
-			var ControllerAddress = BytesHelper.SubstructShort(bytes, 32 + 10);
 			JournalSourceType = (JournalSourceType)(int)(bytes[32 + 12]);
 			var code = bytes[32 + 13];
 

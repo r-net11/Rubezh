@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using RubezhAPI.Automation;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.Automation;
+using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
@@ -20,7 +20,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand RunCommand { get; private set; }
 		void OnRun()
 		{
-			ProcedureHelper.Run(Procedure, ArgumentsViewModel.Arguments.Select(x => x.Argument).ToList());
+			ProcedureHelper.Run(Procedure, ArgumentsViewModel.Arguments.Select(x => x.Argument).ToList(), RubezhClient.ClientManager.CurrentUser);
 		}
 
 		public string Name

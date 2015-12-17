@@ -56,7 +56,7 @@ namespace SKDModule.ViewModels
 
 		protected override void Remove()
 		{
-			if (SelectedItem.Cards.Count() == 0 || MessageBoxService.ShowQuestion("Привязанные к сотруднику пропуска будут деактивированы. Продожить?"))
+			if (SelectedItem.Cards.Count() == 0 || MessageBoxService.ShowQuestion("Привязанные к сотруднику пропуска будут деактивированы. Продолжить?"))
 			{
 				var cardUIDs = SelectedItem.Cards.Select(x => x.UID);
 				base.Remove();

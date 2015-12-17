@@ -43,10 +43,9 @@ namespace SKDModule.PassCard.ViewModels
 			_organisation = OrganisationHelper.GetDetails(_employee.OrganisationUID);
 			_passCardCanvas = new PassCardCanvas();
 			PassCardTemplates = new ObservableCollection<ShortPassCardTemplate>(PassCardTemplateHelper.GetByOrganisation(_organisation.UID));
-			SelectedPassCardTemplate = PassCardTemplates.FirstOrDefault();
-
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
+			SelectedPassCardTemplate = PassCardTemplates.FirstOrDefault();
 		}
 
 		public ObservableCollection<ShortPassCardTemplate> PassCardTemplates { get; private set; }

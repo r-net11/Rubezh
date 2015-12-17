@@ -1,9 +1,8 @@
-﻿using System;
+﻿using RubezhAPI;
+using RubezhAPI.GK;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using RubezhAPI;
-using RubezhAPI.GK;
-using RubezhClient;
 
 namespace GKProcessor
 {
@@ -12,9 +11,9 @@ namespace GKProcessor
 		GKDevice KauDevice { get; set; }
 		List<int> descriptorAddresses;
 
-		override public bool ReadConfiguration(GKDevice kauDevice)
+		override public bool ReadConfiguration(GKDevice kauDevice, Guid clientUID)
 		{
-			KauDevice = (GKDevice) kauDevice.Clone();
+			KauDevice = (GKDevice)kauDevice.Clone();
 			KauDevice.Children = new List<GKDevice>();
 			descriptorAddresses = new List<int>();
 			for (int i = 0; i < 8; i++)
@@ -26,10 +25,10 @@ namespace GKProcessor
 				KauDevice.Children.Add(shleif);
 			}
 			DeviceConfiguration = new GKDeviceConfiguration { RootDevice = KauDevice };
-			var progressCallback = GKProcessorManager.StartProgress("Чтение конфигурации " + kauDevice.PresentationName, "", descriptorAddresses.Count + 2, true, GKProgressClientType.Administrator);
+			var progressCallback = GKProcessorManager.StartProgress("Чтение конфигурации " + kauDevice.PresentationName, "", descriptorAddresses.Count + 2, true, GKProgressClientType.Administrator, clientUID);
 			GKProcessorManager.DoProgress("Перевод КАУ в технологический режим", progressCallback);
-			if (!DeviceBytesHelper.GoToTechnologicalRegime(kauDevice, progressCallback))
-				{ Error = "Не удалось перевести КАУ в технологический режим"; return false; }
+			if (!DeviceBytesHelper.GoToTechnologicalRegime(kauDevice, progressCallback, clientUID))
+			{ Error = "Не удалось перевести КАУ в технологический режим"; return false; }
 			GKProcessorManager.DoProgress("Получение дескрипторов устройств", progressCallback);
 			if (GetDescriptorAddresses(kauDevice))
 			{
@@ -47,7 +46,7 @@ namespace GKProcessor
 				}
 			}
 			GKProcessorManager.DoProgress("Перевод КАУ в рабочий режим", progressCallback);
-			DeviceBytesHelper.GoToWorkingRegime(kauDevice, progressCallback);
+			DeviceBytesHelper.GoToWorkingRegime(kauDevice, progressCallback, clientUID);
 			GKProcessorManager.StopProgress(progressCallback);
 			return String.IsNullOrEmpty(Error);
 		}

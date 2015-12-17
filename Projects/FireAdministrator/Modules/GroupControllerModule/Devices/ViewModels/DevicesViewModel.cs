@@ -22,6 +22,7 @@ using Microsoft.Win32;
 using KeyboardKey = System.Windows.Input.Key;
 using System.Xml.Serialization;
 using RubezhAPI.Journal;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
@@ -67,25 +68,6 @@ namespace GKModule.ViewModels
 					{
 						child.IsExpanded = true;
 					}
-				}
-
-				var gkDevices = AllDevices.Where(x => x.Driver.DriverType == GKDriverType.GK || x.Driver.DriverType == GKDriverType.GKMirror);
-				foreach (var gkDevice in gkDevices)
-				{
-					var gkIndicatorsGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа индикаторов", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicatorsGroup) });
-					var gkRelaysGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа реле", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKRelaysGroup) });
-					var gkIndicators = new List<DeviceViewModel>(gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKIndicator));
-					var gkRelays = new List<DeviceViewModel>(gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKRele));
-					foreach (var gkIndicator in gkIndicators)
-					{
-						gkIndicatorsGroupDevice.AddChild(gkIndicator);
-					}
-					foreach (var gkRelay in gkRelays)
-					{
-						gkRelaysGroupDevice.AddChild(gkRelay);
-					}
-					gkDevice.AddChildFirst(gkIndicatorsGroupDevice);
-					gkDevice.AddChildFirst(gkRelaysGroupDevice);
 				}
 			}
 
@@ -294,35 +276,20 @@ namespace GKModule.ViewModels
 				return null;
 			if (SelectedDevice.Device.IsConnectedToKAU)
 			{
-				var kauDeviceShleifdevice = SelectedDevice.Device.KAUShleifParent;
-				var allChildren = kauDeviceShleifdevice.AllChildren;
-				int maxAddress = 0;
-				if (allChildren.Count > 0)
-					maxAddress = allChildren.Count();
-
-				var realDevicesCount = device.AllChildrenAndSelf.Count(x => x.IsRealDevice);
-
-				if (maxAddress + realDevicesCount > 255)
-				{
-					MessageBoxService.ShowWarning("Адрес устройства не может превышать 255");
-					return null;
-				}
-
+				int maxAddress = GKManager.GetAddress(SelectedDevice.Device.KAUShleifParent.AllChildren);
 				if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU_Shleif || SelectedDevice.Device.DriverType == GKDriverType.RSR2_MVP_Part)
 				{
 					var addedDevice = GKManager.AddChild(SelectedDevice.Device, null, device.Driver, maxAddress);
 					GKManager.CopyDevice(device, addedDevice);
-					addedDevice.IntAddress = maxAddress;
-					var addedDeviceViewModel = NewDeviceHelper.AddDevice(addedDevice, SelectedDevice, false);
+					var addedDeviceViewModel = NewDeviceHelper.AddDevice(addedDevice, SelectedDevice);
 					AllDevices.Add(addedDeviceViewModel);
 					return addedDevice;
 				}
 				else
 				{
-					var addedDevice = GKManager.AddChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, maxAddress);
+					var addedDevice = GKManager.AddChild(SelectedDevice.Parent.Device, null, device.Driver, maxAddress);
 					GKManager.CopyDevice(device, addedDevice);
-					addedDevice.IntAddress = maxAddress;
-					var addedDeviceViewModel = NewDeviceHelper.InsertDevice(addedDevice, SelectedDevice,false);
+					var addedDeviceViewModel = NewDeviceHelper.AddDevice(addedDevice, SelectedDevice,false);
 					AllDevices.Add(addedDeviceViewModel);
 					return addedDevice;
 				}
@@ -343,7 +310,6 @@ namespace GKModule.ViewModels
 			var settingsViewModel = new SettingsViewModel();
 			if (DialogService.ShowModalWindow(settingsViewModel))
 			{
-				GKManager.DeviceConfiguration.GKNameGenerationType = settingsViewModel.SelectedNameGenerationType;
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

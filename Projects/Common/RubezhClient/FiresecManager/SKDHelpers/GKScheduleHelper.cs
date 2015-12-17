@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using Infrastructure.Common.Windows;
 using RubezhAPI.GK;
-using Infrastructure.Common.Windows;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RubezhClient.SKDHelpers
 {

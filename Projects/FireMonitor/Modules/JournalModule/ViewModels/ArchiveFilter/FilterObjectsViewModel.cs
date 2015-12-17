@@ -8,6 +8,7 @@ using RubezhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
 using RubezhClient;
+using RubezhAPI;
 
 namespace JournalModule.ViewModels
 {

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using RubezhAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using RubezhAPI.SKD;
 
 namespace RubezhClient.SKDHelpers
 {
@@ -22,7 +22,7 @@ namespace RubezhClient.SKDHelpers
 		{
 			return Restore(item.UID, item.Name);
 		}
-		
+
 		public static bool MarkDeleted(Guid uid, string name)
 		{
 			var operationResult = ClientManager.FiresecService.MarkDeletedDayInterval(uid, name);

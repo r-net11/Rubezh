@@ -108,11 +108,6 @@ var app = new function AppViewModel() {
     self.Menu.Report = ReportViewModel();
     self.Menu.Archive = ArchiveViewModel();
     self.Menu.HR = HRViewModel(self.Menu);
-    self.Menu.HR.Filter = FilterViewModel(self.Menu.HR);
-    self.Menu.HR.Employees = EmployeesViewModel(self.Menu.HR);
-    self.Menu.HR.Employees.EmployeeDetails = EmployeeDetailsViewModel();
-    self.Menu.HR.Employees.EmployeeCardDetails = EmployeeCardDetailsViewModel(self.Menu.HR.Employees);
-    self.Menu.HR.Employees.EmployeeCards = EmployeeCardsViewModel(self.Menu.HR.Employees);
 
     return self;
 };
@@ -162,8 +157,7 @@ function QuestionBoxViewModel() {
     };
 
     self.OnYesClick = function () {
-        self.YesClick();
-        CloseBox();
+        CloseBox(self.YesClick);
     };
 
     self.Close = function() {
@@ -195,9 +189,13 @@ function ShowBox(box) {
     return false;
 };
 
-function CloseBox() {
-    $('#mask , .save-cancel-popup').fadeOut(300, function () {
+function CloseBox(complete) {
+    $('.save-cancel-popup').fadeOut(300);
+    $('#mask').fadeOut(300, function () {
         $('#mask').remove();
+        if (complete) {
+            complete();
+        }
     });
 
     return false;

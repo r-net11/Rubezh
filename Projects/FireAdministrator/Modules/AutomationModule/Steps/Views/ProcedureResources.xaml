@@ -16,11 +16,6 @@
 		<Setter Property="Margin" Value="2" />
 		<Setter Property="Height" Value="25" />
 	</Style>
-	<Style BasedOn="{StaticResource {x:Type extToolkit:DateTimePicker}}" TargetType="{x:Type extToolkit:DateTimePicker}">
-		<Setter Property="Width" Value="163" />
-		<Setter Property="Margin" Value="2" />
-		<Setter Property="Height" Value="25" />
-	</Style>
 	<Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type TextBox}">
 		<Setter Property="Width" Value="163" />
 		<Setter Property="Margin" Value="2" />

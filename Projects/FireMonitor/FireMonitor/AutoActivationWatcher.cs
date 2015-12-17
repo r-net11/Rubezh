@@ -12,6 +12,7 @@ using RubezhAPI.SKD;
 using Infrastructure.Common.Windows;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
+using RubezhAPI;
 
 namespace FireMonitor
 {

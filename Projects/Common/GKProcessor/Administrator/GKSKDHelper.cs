@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using RubezhAPI;
+﻿using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.SKD;
-using RubezhClient;
-using RubezhDAL;
-using System.Diagnostics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace GKProcessor
 {
 	public static class GKSKDHelper
 	{
-		public static OperationResult<bool> AddOrEditCard(GKControllerCardSchedule controllerCardSchedule, 
+		public static OperationResult<bool> AddOrEditCard(GKControllerCardSchedule controllerCardSchedule,
 			SKDCard card, string employeeName, int gkCardNo = 0, bool isNew = true, RubezhDAL.DataClasses.DbService dbService = null)
 		{
 			if (gkCardNo == 0)
@@ -39,7 +36,7 @@ namespace GKProcessor
 				Password = card.Number,
 				UserType = card.GKCardType
 			};
-			
+
 			var result = AddOrEditUser(user, controllerCardSchedule.ControllerDevice, isNew, controllerCardSchedule.CardSchedules);
 			if (result.HasError)
 				return result;
@@ -56,7 +53,7 @@ namespace GKProcessor
 		{
 			if (allCardSchedules == null)
 				allCardSchedules = new List<GKCardSchedule>();
-			
+
 			var bytes = new List<byte>();
 			bytes.AddRange(BytesHelper.ShortToBytes(user.GkNo));
 			bytes.Add((byte)user.UserType);
@@ -195,9 +192,9 @@ namespace GKProcessor
 			return new OperationResult<bool>(true);
 		}
 
-		public static OperationResult<List<GKUser>> GetAllUsers(GKDevice device, GKProgressCallback progressCallback)
+		public static OperationResult<List<GKUser>> GetAllUsers(GKDevice device, GKProgressCallback progressCallback, Guid clientUID)
 		{
-			progressCallback = GKProcessorManager.StartProgress("Чтение пользователей прибора " + device.PresentationName, "", 65535, true, GKProgressClientType.Administrator);
+			progressCallback = GKProcessorManager.StartProgress("Чтение пользователей прибора " + device.PresentationName, "", 65535, true, GKProgressClientType.Administrator, clientUID);
 			var users = new List<GKUser>();
 
 			for (int i = 1; i <= 65535; i++)
@@ -230,10 +227,10 @@ namespace GKProcessor
 				{
 					return OperationResult<List<GKUser>>.FromError("Операция отменена", users);
 				}
-				GKProcessorManager.DoProgress("Пользователь " + i, progressCallback);
+				GKProcessorManager.DoProgress("Пользователь " + i, progressCallback, clientUID);
 			}
 
-			GKProcessorManager.StopProgress(progressCallback);
+			GKProcessorManager.StopProgress(progressCallback, clientUID);
 			return new OperationResult<List<GKUser>>(users);
 		}
 
@@ -269,30 +266,30 @@ namespace GKProcessor
         {
             if(progressCallback != null)
                 progressCallback = GKProcessorManager.StartProgress("Подсчёт числа пользователей на приборе", "", 16, true, GKProgressClientType.Administrator);
-            int minNo = 0;
-            int maxNo = 65535;
-            int currentNo = 65535 / 2;
-            int delta = currentNo / 2;
-            while (maxNo - minNo > 1)
-            {
-                var bytes = new List<byte>();
-                bytes.Add(0);
-                bytes.AddRange(BytesHelper.ShortToBytes((ushort)(currentNo)));
+			int minNo = 0;
+			int maxNo = 65535;
+			int currentNo = 65535 / 2;
+			int delta = currentNo / 2;
+			while (maxNo - minNo > 1)
+			{
+				var bytes = new List<byte>();
+				bytes.Add(0);
+				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(currentNo)));
 
-                var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 24, 0, bytes);
-                if (sendResult.HasError || sendResult.Bytes.Count == 0)
-                {
-                    maxNo = currentNo;
-                    currentNo = currentNo - delta;
-                }
-                else
-                {
-                    minNo = currentNo;
-                    currentNo = currentNo + delta;
-                }
-                delta = delta / 2;
-                if (delta == 0)
-                    delta = 1;
+				var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 24, 0, bytes);
+				if (sendResult.HasError || sendResult.Bytes.Count == 0)
+				{
+					maxNo = currentNo;
+					currentNo = currentNo - delta;
+				}
+				else
+				{
+					minNo = currentNo;
+					currentNo = currentNo + delta;
+				}
+				delta = delta / 2;
+				if (delta == 0)
+					delta = 1;
                 if (progressCallback != null)
                 {
                     GKProcessorManager.DoProgress("", progressCallback);
@@ -303,9 +300,9 @@ namespace GKProcessor
             if (progressCallback != null)
                 GKProcessorManager.StopProgress(progressCallback);
             return new OperationResult<int>(minNo);
-        }
+		}
 
-		public static bool RemoveAllUsers(GKDevice device, int usersCount, GKProgressCallback progressCallback)
+		public static bool RemoveAllUsers(GKDevice device, int usersCount, GKProgressCallback progressCallback, Guid clientUID)
 		{
 			var removeAllUsersInternalResult = RemoveAllUsersInternal(device, usersCount, progressCallback);
             if(removeAllUsersInternalResult.HasError)
@@ -316,7 +313,7 @@ namespace GKProcessor
 
 			using (var skdDatabaseService = new RubezhDAL.DataClasses.DbService())
 			{
-				GKProcessorManager.DoProgress("Удаление пользователей прибора из БД", progressCallback);
+				GKProcessorManager.DoProgress("Удаление пользователей прибора из БД", progressCallback, clientUID);
 				skdDatabaseService.GKCardTranslator.RemoveAll(device.GetGKIpAddress(), cardsCount);
 			}
 			return true;
@@ -366,10 +363,10 @@ namespace GKProcessor
 			foreach (var cardSchedule in cardSchedules)
 			{
 				var gkParent = cardSchedule.Device.GKParent;
-				if(gkParent != null)
+				if (gkParent != null)
 				{
 					var controllerCardSchedule = controllerCardSchedules.FirstOrDefault(x => x.ControllerDevice.UID == gkParent.UID);
-					if(controllerCardSchedule == null)
+					if (controllerCardSchedule == null)
 					{
 						controllerCardSchedule = new GKControllerCardSchedule();
 						controllerCardSchedule.ControllerDevice = gkParent;

@@ -6,7 +6,7 @@ using System.Text;
 using System.Xml.Serialization;
 using Common;
 using Infrustructure.Plans.Interfaces;
-using RubezhClient;
+using RubezhAPI;
 
 namespace RubezhAPI.GK
 {
@@ -67,17 +67,17 @@ namespace RubezhAPI.GK
 				Zones = zones;
 				ZoneUIDs = zoneUIDs;
 			}
-			//if (Driver.HasGuardZone)
-			//{
-			//	var guardZones = new List<GKGuardZone>();
+			if (Driver.HasGuardZone)
+			{
+				var guardZones = new List<GKGuardZone>();
 
-			//	foreach (var guardZone in deviceConfiguration.GuardZones.Where(x => GuardZones.Any(y=> y.UID == x.UID)))
-			//	{
-			//			guardZones.Add(guardZone);
-			//			AddDependentElement(guardZone);
-			//	}
-			//	GuardZones = guardZones;
-			//}
+				foreach (var guardZone in deviceConfiguration.GuardZones.Where(x => x.GuardZoneDevices.Any(y=> y.DeviceUID ==UID)))
+				{
+					guardZones.Add(guardZone);
+					AddDependentElement(guardZone);
+				}
+				GuardZones = guardZones;
+			}
 			if (Driver.HasMirror)
 			{
 				switch (DriverType)
@@ -352,7 +352,7 @@ namespace RubezhAPI.GK
 			}
 		}
 
-		[XmlIgnore]
+        [XmlIgnore]
 		public string ShortName
 		{
 			get
@@ -360,7 +360,7 @@ namespace RubezhAPI.GK
 				if (!string.IsNullOrEmpty(PredefinedName))
 					return PredefinedName;
 				return Driver.ShortName;
-			}
+			} 
 		}
 
 		[XmlIgnore]

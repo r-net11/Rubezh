@@ -13,6 +13,7 @@ using RubezhClient;
 using System.Collections.ObjectModel;
 using Infrastructure.Common;
 using Infrastructure.Automation;
+using RubezhAPI;
 
 namespace AutomationModule.ViewModels
 {

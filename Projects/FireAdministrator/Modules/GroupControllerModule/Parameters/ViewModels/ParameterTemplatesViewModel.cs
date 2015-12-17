@@ -11,6 +11,7 @@ using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {

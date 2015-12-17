@@ -1,12 +1,10 @@
 ﻿using System.IO;
 using System.Text;
-using Common;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
-using RubezhAPI.SKD;
 using Infrastructure.Common;
 using Ionic.Zip;
-using Infrastructure.Common.Windows;
+using RubezhAPI;
 
 namespace RubezhClient
 {
@@ -31,9 +29,6 @@ namespace RubezhClient
 				{
 					switch (zipConfigurationItem)
 					{
-						case "SecurityConfiguration.xml":
-							SecurityConfiguration = ZipSerializeHelper.DeSerialize<SecurityConfiguration>(configurationFileName, true);
-							break;
 						case "PlansConfiguration.xml":
 							PlansConfiguration = ZipSerializeHelper.DeSerialize<PlansConfiguration>(configurationFileName, true);
 							break;

@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Ionic.Zip;
 using Microsoft.Win32;
+using System.Xml.Linq;
 
 namespace FireAdministrator
 {

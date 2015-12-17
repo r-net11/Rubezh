@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using RubezhAPI.GK;
-using RubezhClient;
 using GKImitator.Processor;
 using GKProcessor;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using RubezhAPI.Journal;
 using System.Collections.Generic;
 using System.Diagnostics;
 using RubezhDAL.DataClasses;
@@ -57,8 +53,19 @@ namespace GKImitator.ViewModels
 			}
 		}
 
+		public void RecalculateCurrentLogic()
+		{
+			var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == GKBase.GKDescriptorNo);
+			if (descriptorViewModel != null)
+			{
+				descriptorViewModel.RecalculateLogic();
+			}
+		}
+
 		void RecalculateLogic()
 		{
+			if (Regime == Regime.Ignore)
+				return;
 			var stack = new List<int>();
 			var stateBitVales = new Dictionary<GKStateBit, bool>();
 
@@ -387,25 +394,35 @@ namespace GKImitator.ViewModels
 						break;
 				}
 
-				Trace.WriteLine(formulaOperation.FormulaOperationType + "\t" + string.Join(" ", stack));
+				if (formulaOperation.FormulaOperationType == FormulaOperationType.PUTBIT)
+					Trace.WriteLine(formulaOperation.FormulaOperationType + "\t" + string.Join(" ", (GKStateBit) formulaOperation.FirstOperand));
+				else
+					Trace.WriteLine(formulaOperation.FormulaOperationType + "\t" + string.Join(" ", stack));
 			}
 
 			var hasZoneBitsChanged = false;
 			if (GKBase is GKZone)
 			{
-				if (stateBitVales.ContainsKey(GKStateBit.Fire2) && stateBitVales[GKStateBit.Fire2])
+				if (stateBitVales.Any(x => x.Key == GKStateBit.Fire2 && x.Value))
 				{
 					stateBitVales[GKStateBit.Fire1] = false;
 					stateBitVales[GKStateBit.Attention] = false;
 					hasZoneBitsChanged = true;
 				}
-				else if (stateBitVales.ContainsKey(GKStateBit.Fire1) && stateBitVales[GKStateBit.Fire1])
+				else if (stateBitVales.Any(x => x.Key == GKStateBit.Fire1 && x.Value))
 				{
 					stateBitVales[GKStateBit.Attention] = false;
 					hasZoneBitsChanged = true;
 				}
-				else if (stateBitVales.ContainsKey(GKStateBit.Attention) && stateBitVales[GKStateBit.Attention])
+				else if (stateBitVales.Any(x => x.Key == GKStateBit.Attention && x.Value))
 				{
+					hasZoneBitsChanged = true;
+				}
+				else
+				{
+					stateBitVales[GKStateBit.Attention] = false;
+					stateBitVales[GKStateBit.Fire1] = false;
+					stateBitVales[GKStateBit.Fire2] = false;
 					hasZoneBitsChanged = true;
 				}
 			}
@@ -444,7 +461,7 @@ namespace GKImitator.ViewModels
 							OnTurnOffNow();
 						}
 					}
-					if (GKBase is GKGuardZone && stateBitVale.Key == GKStateBit.Attention)
+					if (GKBase is GKGuardZone && stateBitVale.Key == GKStateBit.Attention && StateBits.Any(x => x.StateBit == GKStateBit.On && x.IsActive))
 					{
 						if (Regime == Regime.Automatic)
 						{

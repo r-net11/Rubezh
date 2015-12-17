@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Common.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhClient;
 using System;
@@ -50,20 +51,6 @@ namespace GKProcessor.Test
 			var errors = Validate();
 			Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Дублируются устройства, входящие в МПТ"));
 		}
-
-		/// <summary>
-		/// Устройства МПТ должны иметь настроенные устройства
-		/// </summary>
-		[TestMethod]
-		public void ValidateEmptyMPTDeviceDevice()
-		{
-			var mpt = new GKMPT();
-			mpt.MPTDevices.Add(new GKMPTDevice { MPTDeviceType = GKMPTDeviceType.Bomb });
-			GKManager.AddMPT(mpt);
-			var errors = Validate();
-			Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Не настроено устройство МПТ"));
-		}
-
 		/// <summary>
 		/// Устройства МПТ должны быть определенного типа. Например, такое может произойти при смене типа
 		/// </summary>

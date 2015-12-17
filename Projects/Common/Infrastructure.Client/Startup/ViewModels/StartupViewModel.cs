@@ -293,7 +293,8 @@ namespace Infrastructure.Client.Startup.ViewModels
 					isCurrentClientAutoconnect = false;
 					break;
 			}
-			if (IsConnected && !isCurrentClientAutoconnect && (Settings.Default.UserName != _startupLoginViewModel.UserName || Settings.Default.Password != (_startupLoginViewModel.SavePassword ? _startupLoginViewModel.Password : string.Empty)))
+
+			if (IsConnected && !isCurrentClientAutoconnect && (Settings.Default.UserName != _startupLoginViewModel.UserName || Settings.Default.Password != (_startupLoginViewModel.SavePassword ? _startupLoginViewModel.Password : string.Empty) || Settings.Default.SavePassword != _startupLoginViewModel.SavePassword))
 			{
 				Settings.Default.UserName = _startupLoginViewModel.UserName;
 				Settings.Default.Password = _startupLoginViewModel.SavePassword ? _startupLoginViewModel.Password : string.Empty;

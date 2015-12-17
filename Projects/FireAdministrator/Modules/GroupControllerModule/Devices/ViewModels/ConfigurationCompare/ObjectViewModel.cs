@@ -2,6 +2,7 @@
 using RubezhAPI.GK;
 using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
@@ -9,9 +10,10 @@ namespace GKModule.ViewModels
 	{
 		public string Name { get; set; }
 		public string Address { get; set; }
-		public string PresentationZone { get; set; }
+		public string PresentationZoneOrLogic { get; set; }
 		public bool IsAbsent { get; set; }
 		public bool IsPresent { get; set; }
+		public bool IsDevice { get; private set; }
 		public bool HasNonStructureDifferences
 		{
 			get
@@ -34,7 +36,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				return !String.IsNullOrEmpty(PresentationZone);
+				return !String.IsNullOrEmpty(PresentationZoneOrLogic);
 			}
 		}
 
@@ -50,8 +52,10 @@ namespace GKModule.ViewModels
 		public GKGuardZone GuardZone;
 		public GKCode Code;
 		public GKDoor Door;
+		public GKSKDZone SKDZone { get; private set; }
 		public string ImageSource { get; private set; }
 		public ObjectType ObjectType { get; private set; }
+		public GKDevice KAUParent { get; private set; }
 		public object Clone()
 		{
 			return MemberwiseClone();
@@ -60,11 +64,13 @@ namespace GKModule.ViewModels
 		public ObjectViewModel(GKDevice device)
 		{
 			Device = device;
+			IsDevice = true;
 			Name = device.ShortName;
 			Address = device.DottedPresentationAddress;
-			PresentationZone = device.IsNotUsed ? "" : GKManager.GetPresentationZoneOrLogic(Device);
+			PresentationZoneOrLogic = device.IsNotUsed ? "" : GKManager.GetPresentationZoneAndGuardZoneOrLogic(Device);
 			ImageSource = "/Controls;component/GKIcons/" + device.DriverType + ".png";
 			ObjectType = ObjectType.Device;
+			KAUParent = device.KAUParent;
 			SortingName = "a " +
 				(device.KAUParent != null ? device.KAUParent.IntAddress * 256 * 256 * 256 : 0) +
 				(device.ShleifNo * 256 * 256) +
@@ -78,7 +84,7 @@ namespace GKModule.ViewModels
 			Name = zone.PresentationName;
 			ImageSource = "/Controls;component/Images/Zone.png";
 			Address = "";
-			PresentationZone = "";
+			PresentationZoneOrLogic = "";
 			ObjectType = ObjectType.Zone;
 			SortingName = "b " + zone.No;
 		}
@@ -89,7 +95,7 @@ namespace GKModule.ViewModels
 			Name = direction.PresentationName;
 			ImageSource = "/Controls;component/Images/Blue_Direction.png";
 			Address = "";
-			PresentationZone = "";
+			PresentationZoneOrLogic = GKManager.GetPresentationLogic(direction.Logic);
 			ObjectType = ObjectType.Direction;
 			SortingName = "c " + direction.No;
 		}
@@ -100,7 +106,7 @@ namespace GKModule.ViewModels
 			Name = pumpStation.PresentationName;
 			ImageSource = "/Controls;component/Images/BPumpStation.png";
 			Address = "";
-			PresentationZone = "";
+			PresentationZoneOrLogic = "";
 			ObjectType = ObjectType.PumpStation;
 			SortingName = "d " + pumpStation.No;
 		}
@@ -111,7 +117,7 @@ namespace GKModule.ViewModels
 			Name = mpt.PresentationName;
 			ImageSource = "/Controls;component/Images/BMPT.png";
 			Address = "";
-			PresentationZone = "";
+			PresentationZoneOrLogic = "";
 			ObjectType = ObjectType.MPT;
 			SortingName = "e " + mpt.No;
 		}
@@ -122,7 +128,7 @@ namespace GKModule.ViewModels
 			Name = delay.PresentationName;
 			ImageSource = "/Controls;component/Images/Delay.png";
 			Address = "";
-			PresentationZone = "";
+			PresentationZoneOrLogic = GKManager.GetPresentationLogic(delay.Logic);
 			ObjectType = ObjectType.Delay;
 			SortingName = "f " + delay.No;
 		}
@@ -133,7 +139,7 @@ namespace GKModule.ViewModels
 			Name = guardZone.PresentationName;
 			ImageSource = "/Controls;component/Images/GuardZone.png";
 			Address = "";
-			PresentationZone = "";
+			PresentationZoneOrLogic = "";
 			ObjectType = ObjectType.GuardZone;
 			SortingName = "g " + guardZone.No;
 		}
@@ -144,7 +150,7 @@ namespace GKModule.ViewModels
 			Name = code.PresentationName;
 			ImageSource = "/Controls;component/Images/Code.png";
 			Address = "";
-			PresentationZone = "";
+			PresentationZoneOrLogic = "";
 			ObjectType = ObjectType.Code;
 			SortingName = "h " + code.No;
 		}
@@ -155,9 +161,19 @@ namespace GKModule.ViewModels
 			Name = door.PresentationName;
 			ImageSource = "/Controls;component/Images/Door.png";
 			Address = "";
-			PresentationZone = "";
+			PresentationZoneOrLogic = "";
 			ObjectType = ObjectType.Door;
 			SortingName = "k " + door.No;
+		}
+		public ObjectViewModel(GKSKDZone skdZone)
+		{
+			SKDZone = skdZone;
+			Name = skdZone.PresentationName;
+			ImageSource = skdZone.ImageSource;
+			Address = "";
+			PresentationZoneOrLogic = "";
+			ObjectType = ObjectType.SKDZone;
+			SortingName = "l " + skdZone.No;
 		}
 
 		int IComparable.CompareTo(object a)
@@ -228,7 +244,11 @@ namespace GKModule.ViewModels
 			}
 			if (object1.ObjectType == ObjectType.Delay)
 			{
-				return string.Compare(object1.Delay.Name, object2.Delay.Name);
+				if (object1.Delay.No > object2.Delay.No)
+					return 1;
+				if (object1.Delay.No < object2.Delay.No)
+					return -1;
+				return 0;
 			}
 
 			if (object1.ObjectType == ObjectType.GuardZone)
@@ -257,6 +277,15 @@ namespace GKModule.ViewModels
 					return -1;
 				return 0;
 			}
+
+			if (object1.ObjectType == ObjectType.SKDZone)
+			{
+				if (object1.SKDZone.No > object2.SKDZone.No)
+					return 1;
+				if (object1.ObjectType == ObjectType.SKDZone)
+					return -1;
+				return 0;
+			}
 			return 0;
 		}
 	}
@@ -272,5 +301,6 @@ namespace GKModule.ViewModels
 		GuardZone = 6,
 		Code = 7,
 		Door = 8,
+		SKDZone = 9
 	}
 }

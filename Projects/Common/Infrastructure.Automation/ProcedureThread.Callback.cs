@@ -48,7 +48,7 @@ namespace Infrastructure.Automation
 
 		private Guid? GetClientUID(UIArguments arguments)
 		{
-			return arguments.ForAllClients ? null : ClientUID;
+			return arguments.ForAllClients ? null : (Guid?)ClientUID;
 		}
 		private ProcedureLayoutCollection GetLayoutFilter(UIArguments arguments)
 		{

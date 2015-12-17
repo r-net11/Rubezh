@@ -47,7 +47,7 @@ namespace LayoutModule
 		public override void RegisterResource()
 		{
 			base.RegisterResource();
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "LayoutParts/DataTemplates/Dictionary.xaml"));
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "LayoutParts/DataTemplates/Dictionary.xaml");
 		}
 
 		public override bool BeforeInitialize(bool firstTime)

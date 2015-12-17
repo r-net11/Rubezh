@@ -10,7 +10,6 @@ namespace RubezhAPI.Models
 		public ElementEllipse()
 		{
 			PresentationName = "Эллипс";
-			ShowTooltip = true;
 		}
 
 		[DataMember]

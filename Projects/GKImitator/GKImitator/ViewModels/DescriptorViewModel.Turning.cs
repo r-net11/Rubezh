@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
 using RubezhAPI.GK;
-using RubezhClient;
 using GKImitator.Processor;
-using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using RubezhAPI.Journal;
 using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels
@@ -169,9 +164,9 @@ namespace GKImitator.ViewModels
 					changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
 					if (changed)
 					{
-						RecalculateOutputLogic();
 						var journalItem = new ImitatorJournalItem(2, 9, 2, 0);
 						AddJournalItem(journalItem);
+						RecalculateOutputLogic();
 					}
 
 					if (HoldDelay > 0)
@@ -247,7 +242,7 @@ namespace GKImitator.ViewModels
 		public RelayCommand TurnOnCommand { get; private set; }
 		void OnTurnOn()
 		{
-			if (HasTurnOn)
+			if (HasTurnOn && TurningState != TurningState.TurningOn)
 			{
 				if (OnDelay > 0)
 				{
@@ -273,13 +268,13 @@ namespace GKImitator.ViewModels
 		public RelayCommand TurnOffCommand { get; private set; }
 		void OnTurnOff()
 		{
-			if (HasTurnOff)
+			if (HasTurnOff && TurningState != TurningState.TurningOff)
 			{
 				if (OffDelay > 0)
 				{
 					CurrentOffDelay = OffDelay;
 				}
-				TurningState = TurningState.None;
+				TurningState = TurningState.TurningOff;
 				TurnOff();
 			}
 		}
@@ -307,6 +302,8 @@ namespace GKImitator.ViewModels
 
 		void TurnOn()
 		{
+			CurrentOffDelay = 0;
+			CurrentHoldDelay = 0;
 			if (OnDelay == 0)
 			{
 				TurnOnNow();
@@ -348,6 +345,8 @@ namespace GKImitator.ViewModels
 
 		void TurnOff()
 		{
+			CurrentOnDelay = 0;
+			CurrentHoldDelay = 0;
 			if (OffDelay == 0)
 			{
 				TurnOffNow();
@@ -364,6 +363,9 @@ namespace GKImitator.ViewModels
 					var journalItem = new ImitatorJournalItem(2, 9, 5, 0);
 					AddJournalItem(journalItem);
 					RecalculateOutputLogic();
+					// Сброс пожара
+					SetStateBit(GKStateBit.Fire1, false);
+					SetStateBit(GKStateBit.Fire2, false);
 				}
 			}
 		}
@@ -383,6 +385,10 @@ namespace GKImitator.ViewModels
 				var journalItem = new ImitatorJournalItem(2, 9, 3, 3);
 				AddJournalItem(journalItem);
 				RecalculateOutputLogic();
+
+				// Сброс пожара
+				SetStateBit(GKStateBit.Fire1, false);
+				SetStateBit(GKStateBit.Fire2, false);
 			}
 		}
 

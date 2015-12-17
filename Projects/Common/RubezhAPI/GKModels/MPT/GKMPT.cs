@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Infrustructure.Plans.Interfaces;
-using RubezhClient;
+using RubezhAPI;
 using System.Linq;
 
 namespace RubezhAPI.GK
@@ -25,18 +25,19 @@ namespace RubezhAPI.GK
 
 		public override void Invalidate(GKDeviceConfiguration deviceConfiguration)
 		{
+			var newMPTDevices = new List<GKMPTDevice>();
 			foreach (var mptDevice in MPTDevices)
 			{
 				var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == mptDevice.DeviceUID);
-				mptDevice.Device = device;
-				if (device == null)
-					mptDevice.DeviceUID = Guid.Empty;
 				if (device != null)
 				{
+					newMPTDevices.Add(mptDevice);
+					mptDevice.Device = device;
 					device.IsInMPT = true;
 					AddDependentElement(device);
 				}
 			}
+			MPTDevices = newMPTDevices;
 
 			UpdateLogic(deviceConfiguration);
 

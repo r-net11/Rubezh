@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+﻿function InitGridDoors() {
     $("#jqGridDoors").jqGrid({
         datastr: null,
         datatype: "jsonstring",
@@ -12,11 +12,13 @@
         rowNum: 100,
         viewrecords: true,
     });
-});
+};
 
 
 function EmployeeCardsViewModel(parentViewModel) {
     var self = {};
+
+    InitGridDoors();
 
     self.EmployeesParentViewModel = parentViewModel;
     self.IsCardClicked = ko.observable(false);
@@ -34,15 +36,20 @@ function EmployeeCardsViewModel(parentViewModel) {
         }
     });
 
-    self.InitCards = function (organisationUID, employeeUID) {
-        self.OrganisationUID = organisationUID;
+    self.ReloadCards = function () {
         self.IsCardClicked(false);
 
-        if (employeeUID != null) {
-            $.getJSON("Employees/GetEmployeeCards/" + employeeUID, function(cards) {
+        if (self.EmployeeUID != null) {
+            $.getJSON("Employees/GetEmployeeCards/" + self.EmployeeUID, function (cards) {
                 ko.mapping.fromJS(cards, {}, self);
             });
         }
+    };
+
+    self.InitCards = function (organisationUID, employeeUID) {
+        self.OrganisationUID = organisationUID;
+        self.EmployeeUID = employeeUID;
+        self.ReloadCards();
     };
 
     self.CanAddCard = ko.computed(function () {
@@ -78,8 +85,48 @@ function EmployeeCardsViewModel(parentViewModel) {
     };
 
     self.AddEmployeeCardClick = function (data, e, box) {
-        self.EmployeesParentViewModel.EmployeeCardDetails.InitEmployeeCardDetails(self.OrganisationUID, null, false);
+        self.EmployeesParentViewModel.EmployeeCardDetails.InitEmployeeCardDetails(self.OrganisationUID, null, true);
         ShowBox(box);
+    };
+
+    self.RemoveEmployeeCardClick = function (data, e) {
+        var cardRemovalReason = self.EmployeesParentViewModel.CardRemovalReason;
+        cardRemovalReason.Init(function () {
+            if (cardRemovalReason.RemoveIsChecked()) {
+                var r = confirm("Вы уверены, что хотите удалить карту?");
+                if (r) {
+                    $.ajax({
+                        url: "Employees/DeleteCard",
+                        type: "post",
+                        contentType: "application/json",
+                        data: "{'id':'" + self.Card.UID() + "'}",
+                        success: function () {
+                            CloseBox();
+                            self.ReloadCards();
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert("request failed");
+                        },
+                    });
+                }
+            }
+            if (cardRemovalReason.DeactivateIsChecked()) {
+                $.ajax({
+                    url: "Employees/DeleteFromEmployee",
+                    type: "post",
+                    contentType: "application/json",
+                    data: "{'id': '" + self.Card.UID() + "','employeeName': '" + self.EmployeesParentViewModel.Name() + "','reason': '" + cardRemovalReason.RemovalReason() + "'}",
+                    success: function () {
+                        CloseBox();
+                        self.ReloadCards();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert("request failed");
+                    },
+                });
+            }
+        });
+        ShowBox("#card-removal-reason-box");
     };
 
     return self;

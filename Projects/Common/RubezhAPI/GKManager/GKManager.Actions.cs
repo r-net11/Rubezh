@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RubezhAPI.GK;
 
-namespace RubezhClient
+namespace RubezhAPI
 {
 	public partial class GKManager
 	{
@@ -47,6 +47,7 @@ namespace RubezhClient
 				deviceGuardZone.GuardZone.GuardZoneDevices.Add(gkGuardZoneDevice);
 				deviceGuardZone.GuardZone.OnChanged();
 			}
+			device.ChangedLogic();
 			device.OnChanged();
 		}
 
@@ -100,7 +101,9 @@ namespace RubezhClient
 			if (guardZone != null)
 			{
 				guardZone.GuardZoneDevices.RemoveAll(x => x.DeviceUID == device.UID);
-				device.GuardZones.Remove(guardZone);
+				device.GuardZones.RemoveAll(x => x.UID == guardZone.UID);
+				guardZone.OutputDependentElements.RemoveAll(x => x.UID == device.UID);
+				device.InputDependentElements.RemoveAll(x => x.UID == guardZone.UID);
 				device.OnChanged();
 			}
 		}
@@ -114,31 +117,36 @@ namespace RubezhClient
 		/// Удаление устройства
 		/// </summary>
 		/// <param name="device"></param>
-		public static void RemoveDevice(GKDevice device)
+		public static List<GKDevice> RemoveDevice(GKDevice device)
 		{
-			var parentDevice = device.Parent;
-			foreach (var zone in device.Zones)
+			var allDevices = device.AllChildrenAndSelf;
+			foreach (var deviceItem in device.AllChildrenAndSelf)
 			{
-				zone.Devices.Remove(device);
-				zone.OnChanged();
-			}
+				//var parentDevice = device.Parent;
+				deviceItem.Parent.Children.Remove(deviceItem);
+				Devices.Remove(deviceItem);
 
-			parentDevice.Children.Remove(device);
-			Devices.Remove(device);
+				foreach (var zone in deviceItem.Zones)
+				{
+					zone.Devices.Remove(deviceItem);
+					zone.OnChanged();
+				}
+				
+				deviceItem.InputDependentElements.ForEach(x =>
+				{
+					x.OutputDependentElements.Remove(deviceItem);
+					if (x is GKGuardZone)
+						x.Invalidate(GKManager.DeviceConfiguration);
+				});
 
-			device.InputDependentElements.ForEach(x =>
-			{
-				x.OutputDependentElements.Remove(device);
-				if (x is GKGuardZone)
+				deviceItem.OutputDependentElements.ForEach(x =>
+				{
+					x.InputDependentElements.Remove(deviceItem);
 					x.Invalidate(GKManager.DeviceConfiguration);
-			});
-
-			device.OutputDependentElements.ForEach(x =>
-			{
-				x.InputDependentElements.Remove(device);
-				x.Invalidate(GKManager.DeviceConfiguration);
-				x.OnChanged();
-			});
+					x.OnChanged();
+				});
+			}
+			return allDevices;
 		}
 
 		#region RebuildRSR2Addresses
@@ -171,7 +179,7 @@ namespace RubezhClient
 			if (mirrorParent != null)
 			{
 				int currentAddress = 1;
-				foreach (var device in mirrorParent.Children)
+				foreach (var device in mirrorParent.Children.Where(x=> x.Driver.HasMirror))
 				{
 					device.IntAddress = currentAddress;
 					if (!device.Driver.IsGroupDevice)
@@ -180,9 +188,7 @@ namespace RubezhClient
 					}
 					device.OnChanged();
 				}
-
 			}
-
 		}
 
 		static List<GKDevice> RebuildRSR2Addresses_Children;
@@ -198,117 +204,22 @@ namespace RubezhClient
 		}
 		#endregion
 
-		public static bool ChangeDriver(GKDevice device, GKDriver driver)
+		public static GKDevice ChangeDriver(GKDevice device, GKDriver driver)
 		{
-			var kauShleifParent = device.KAUShleifParent;
-			if (kauShleifParent != null)
-			{
-				var maxAddress = 0;
-				if (kauShleifParent.Children.Count > 0)
-				{
-					maxAddress = kauShleifParent.Children.Max(x => x.IntAddress);
-				}
-				if (maxAddress + (driver.GroupDeviceChildrenCount > 0 ? driver.GroupDeviceChildrenCount : 1) - 1 > 255)
-				{
-					return false;
-				}
-			}
+			if (GetAddress(device.Parent.Children) * Math.Max(1, (int)driver.GroupDeviceChildrenCount) > 255)
+				return null;
 
-			foreach (var gkBase in device.OutputDependentElements)
-			{
-				gkBase.InputDependentElements.Remove(device);
-				gkBase.OnChanged();
-			}
-			foreach (var gkBase in device.InputDependentElements)
-			{
-				gkBase.OutputDependentElements.Remove(device);
-				gkBase.OnChanged();
-			}
-			if (device.Children != null)
-			{
-				device.Children.ForEach(x =>
-				{
-					GKManager.Devices.Remove(x);
-					x.OutputDependentElements.ForEach(y =>
-					{
-						y.InputDependentElements.Remove(x);
-						y.ChangedLogic();
-						y.OnChanged();
-					});
-					x.InputDependentElements.ForEach(y =>
-					{
-						y.OutputDependentElements.Remove(x);
-						if (y is GKGuardZone)
-						{
-							y.Invalidate(GKManager.DeviceConfiguration);
-						}
-						if (y is GKZone)
-						{
-							GKManager.Zones.ForEach(zone =>
-							{
-								if (zone == y)
-									zone.Devices.Remove(x);
-							});
-						}
-					});
-				});
-			}
+			var index = device.Parent.Children.IndexOf(device);
+			GKManager.RemoveDevice(device);
+			return GKManager.AddChild(device.Parent, null, driver, 0, indexForCangeDevice: index);
+		}
 
-			var changeZone = !(device.Driver.HasZone && driver.HasLogic);
-			device.Driver = driver;
-			device.DriverUID = driver.UID;
-			if (driver.IsRangeEnabled)
-				device.IntAddress = driver.MinAddress;
-
-			device.Children.Clear();
-			AddAutoCreateChildren(device);
-			if (driver.IsGroupDevice)
-			{
-				var groupDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
-
-				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
-				{
-					var autoDevice = GKManager.AddChild(device, null, groupDriver, (byte)(device.IntAddress + i));
-				}
-			}
-
-			if (changeZone)
-			{
-				RemoveDeviceFromZone(device, null);
-				device.Zones.ForEach(x => x.Devices.Remove(device));
-				SetDeviceLogic (device, new GKLogic());
-			}
-
-			device.Properties = new List<GKProperty>();
-			Guid oldUID = device.UID;
-			device.UID = Guid.NewGuid();
-
-			device.OnUIDChanged(oldUID, device.UID);
-
-			device.OutputDependentElements.ForEach(x =>
-			{
-				x.Invalidate(GKManager.DeviceConfiguration);
-				x.OnChanged();
-			});
-
-			device.InputDependentElements.ForEach(x =>
-			{
-				if (x is GKGuardZone)
-				{
-					x.Invalidate(GKManager.DeviceConfiguration);
-					x.OnChanged();
-				}
-				x.UpdateLogic(GKManager.DeviceConfiguration);
-				x.OnChanged();
-			});
-			device.Zones = new List<GKZone>();
-			device.ZoneUIDs = new List<Guid>();
-			device.GuardZones = new List<GKGuardZone>();
-			device.InputDependentElements = new List<GKBase>();
-			device.OutputDependentElements = new List<GKBase>();
-			device.IsInMPT = false;
-		
-			return true;
+		public static int GetAddress(IEnumerable<GKDevice> children)
+		{
+			if (children.Count() > 0)
+				return children.Max(x => x.IntAddress);
+			else
+				return 0;
 		}
 
 		public static void RemoveSKDZone(GKSKDZone zone)

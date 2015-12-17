@@ -8,11 +8,13 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
 	public class MPTViewModel : BaseViewModel
 	{
+		bool _isEdited;
 		public GKMPT MPT { get; private set; }
 
 		public MPTViewModel(GKMPT mpt)
@@ -63,15 +65,26 @@ namespace GKModule.ViewModels
 		void OnAdd()
 		{
 			var mptDeviceTypeSelectationViewModel = new MPTDeviceTypeSelectationViewModel();
+			_isEdited = false;
 			if (DialogService.ShowModalWindow(mptDeviceTypeSelectationViewModel))
 			{
+				var oldSelectedDevice = SelectedDevice;
 				var mptDevice = new GKMPTDevice();
-				MPT.MPTDevices.Add(mptDevice);
 				mptDevice.MPTDeviceType = mptDeviceTypeSelectationViewModel.SelectedMPTDeviceType.MPTDeviceType;
 				var mptDeviceViewModel = new MPTDeviceViewModel(mptDevice);
-				Devices.Add(mptDeviceViewModel);
 				SelectedDevice = mptDeviceViewModel;
-				ServiceFactory.SaveService.GKChanged = true;
+				OnEdit();
+				if (_isEdited)
+				{
+					MPT.MPTDevices.Add(mptDevice);
+					Devices.Add(mptDeviceViewModel);
+					ServiceFactory.SaveService.GKChanged = true;
+					MPT.ChangedLogic();
+				}
+				else
+				{
+					SelectedDevice = oldSelectedDevice;
+				}
 			}
 		}
 
@@ -104,6 +117,7 @@ namespace GKModule.ViewModels
 				SelectedDevice.MPTDevicePropertiesViewModel = new MPTDevicePropertiesViewModel(selectedDevice, false);
 				MPT.ChangedLogic();
 				ServiceFactory.SaveService.GKChanged = true;
+				_isEdited = selectedDevice != null;
 			}
 		}
 
