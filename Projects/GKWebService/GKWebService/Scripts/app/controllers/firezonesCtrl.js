@@ -1,8 +1,15 @@
 ﻿(function () {
     'use strict';
 
-    var app = angular.module('canvasApp.controllers').controller('firezonesCtrl', [
-        '$scope', function ($scope) {
+    var app = angular.module('canvasApp.controllers').controller('firezonesCtrl',
+        function ($scope, $http) {
+
+            $http.get('home/GetFireZonesData').success(function (data, status, headers, config) {
+                $scope.result = JSON.parse(data);
+                var dataSource = $scope.result;
+                $scope.data = [{ device: dataSource.Fire1Count, address: dataSource.Fire2Count, logic: dataSource.UID, note: "" }];
+            });
+
 
             $scope.config = {
                 datatype: "local",
@@ -15,46 +22,13 @@
                     { name: 'note', index: 'note', width: 780, sortable: false }]
             };
 
-            $scope.data =
-                [{ device: "device1", address: "addr1", logic: "", note: "note1" },
-                { device: "device2", address: "addr2", logic: "", note: "note2" },
-                { device: "device3", address: "addr3", logic: "", note: "note3" },
-                { device: "device4", address: "addr4", logic: "", note: "note4" },
-                { device: "device5", address: "addr5", logic: "", note: "note5" }];
+            $scope.data = {};
+
+           
+
+
         }
-    ]);
+    );
 
-
-
-    app.directive('ngJqGrid', function () {
-        return {
-            restrict: 'E',
-            scope: {
-                config: '=',
-                data: '=',
-            },
-            link: function (scope, element, attrs) {
-                var table;
-
-                scope.$watch('config', function (newValue) {
-                    element.children().empty();
-                    table = angular.element('<table></table>');
-                    element.append(table);
-                    $(table).jqGrid(newValue);
-                });
-
-                scope.$watch('data', function (newValue, oldValue) {
-                    var i;
-                    for (i = oldValue.length - 1; i >= 0; i--) {
-                        $(table).jqGrid('delRowData', i);
-                    }
-                    for (i = 0; i < newValue.length; i++) {
-                        $(table).jqGrid('addRowData', i, newValue[i]);
-                    }
-                });
-            }
-        };
-    });
-
-
+           
 }());

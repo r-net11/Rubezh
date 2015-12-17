@@ -31,6 +31,8 @@ namespace Infrastructure.Automation
 		static event Action<Guid, DirectionCommandType> OnControlDirection;
 		static event Action<Guid, GKDoorCommandType> OnControlGKDoor;
 		static event Action<Guid, DelayCommandType> OnControlDelay;
+		static event Action<Guid, PumpStationCommandType> OnControlPumpStation;
+		static event Action<Guid, MPTCommandType> OnControlMPT;
 		static event Action<bool, bool, DateTime, DateTime, string> OnExportJournal;
 		static event Action<bool, Guid, string> OnExportOrganisation;
 		static event Action<bool, string> OnExportOrganisationList;
@@ -56,6 +58,8 @@ namespace Infrastructure.Automation
 			Action<Guid, DirectionCommandType> onControlDirection = null,
 			Action<Guid, GKDoorCommandType> onControlGKDoor = null,
 			Action<Guid, DelayCommandType> onControlDelay = null,
+			Action<Guid, PumpStationCommandType> onControlPumpStation = null,
+			Action<Guid, MPTCommandType> onControlMPT = null,
 			Action<bool, bool, DateTime, DateTime, string> onExportJournal = null,
 			Action<bool, Guid, string> onExportOrganisation = null,
 			Action<bool, string> onExportOrganisationList = null,
@@ -81,6 +85,8 @@ namespace Infrastructure.Automation
 			OnControlDirection += onControlDirection;
 			OnControlGKDoor += onControlGKDoor;
 			OnControlDelay += onControlDelay;
+			OnControlPumpStation += onControlPumpStation;
+			OnControlMPT += onControlMPT;
 			OnExportJournal += onExportJournal;
 			OnExportOrganisation += onExportOrganisation;
 			OnExportOrganisationList += onExportOrganisationList;
@@ -175,6 +181,18 @@ namespace Infrastructure.Automation
 		{
 			if (OnControlDelay != null)
 				OnControlDelay(uid, commandType);
+		}
+
+		public static void ControlPumpStation(Guid uid, PumpStationCommandType commandType)
+		{
+			if (OnControlPumpStation != null)
+				OnControlPumpStation(uid, commandType);
+		}
+
+		public static void ControlMPT(Guid uid, MPTCommandType commandType)
+		{
+			if (OnControlMPT != null)
+				OnControlMPT(uid, commandType);
 		}
 
 		public static void ExportJournal(bool isExportJournal, bool isExportPassJournal, DateTime minDate, DateTime maxDate, string path)

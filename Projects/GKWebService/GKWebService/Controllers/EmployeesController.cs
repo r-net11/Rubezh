@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Windows.Documents;
+using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.SKD;
 using RubezhClient;
@@ -154,7 +155,14 @@ namespace GKWebService.Controllers
 		{
 			if (!organisationId.HasValue)
 			{
-				return new JsonNetResult { Data = new EmployeeCardModel() };
+				return new JsonNetResult { Data = new EmployeeCardModel
+					{
+						Card = new SKDCard(),
+						//SelectedStopListCard = new SKDCard(),
+						//SelectedSchedule = new GKSchedule(),
+						//SelectedAccessTemplate = new AccessTemplate(),
+					} 
+				};
 			}
 
 			SKDCard card;
@@ -167,7 +175,7 @@ namespace GKWebService.Controllers
 				card = new SKDCard
 				{
 					EndDate = DateTime.Now.AddYears(1),
-					GKCardType = GKCardType.Employee
+					GKCardType = GKCardType.Employee,
 				};
 			}
 
@@ -176,6 +184,7 @@ namespace GKWebService.Controllers
 			cardModel.Card = card;
 
 			cardModel.Schedules = ClientManager.FiresecService.GetGKSchedules().Result;
+			cardModel.SelectedScheduleNo = cardModel.Card.GKLevelSchedule;
 
 			var operationResult = ClientManager.FiresecService.GetCards(new CardFilter { DeactivationType = LogicalDeletationType.Deleted });
 			cardModel.StopListCards = operationResult.Result.Where(x => x.IsInStopList).ToList();
@@ -194,18 +203,54 @@ namespace GKWebService.Controllers
 				.Select(door => new AccessDoorModel(door, card.CardDoors, cardModel.Schedules))
 				.ToList();
 
+			var accessTemplateFilter = new AccessTemplateFilter { OrganisationUIDs = new List<Guid> { organisationId.Value } };
+			cardModel.AvailableAccessTemplates = new List<AccessTemplate> { new AccessTemplate { UID = Guid.Empty, Name = "<нет>" } }
+				.Concat(ClientManager.FiresecService.GetAccessTemplates(accessTemplateFilter).Result)
+				.ToList();
+			cardModel.SelectedAccessTemplate = cardModel.AvailableAccessTemplates.FirstOrDefault(x => x.UID == cardModel.Card.AccessTemplateUID);
+
 			return new JsonNetResult { Data = cardModel };
 		}
 
 		[HttpPost]
 		public JsonNetResult EmployeeCardDetails(EmployeeCardModel cardModel, string employeeName, bool isNew)
 		{
-			var operationResult = ClientManager.FiresecService.EditCard(cardModel.Card, employeeName);
+			cardModel.Save();
+
+			OperationResult<bool> operationResult;
+
+			if (isNew)
+			{
+				operationResult = ClientManager.FiresecService.AddCard(cardModel.Card, employeeName);
+			}
+			else
+			{
+				operationResult = ClientManager.FiresecService.EditCard(cardModel.Card, employeeName);
+			}
 
 			return new JsonNetResult { Data = operationResult.Result };
 		}
 
-		private ShortEmployeeCardModel CreateCard(SKDCard card)
+        public ActionResult CardRemovalReason()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonNetResult DeleteCard(Guid id)
+        {
+            var operationResult = ClientManager.FiresecService.DeletedCard(new SKDCard {UID = id});
+            return new JsonNetResult { Data = !operationResult.HasError };
+        }
+
+        [HttpPost]
+        public JsonNetResult DeleteFromEmployee(Guid id, string employeeName, string reason)
+        {
+            var operationResult = ClientManager.FiresecService.DeleteCardFromEmployee(new SKDCard { UID = id }, employeeName, reason);
+            return new JsonNetResult { Data = !operationResult.HasError };
+        }
+
+        private ShortEmployeeCardModel CreateCard(SKDCard card)
 		{
 			var employeeCard = ShortEmployeeCardModel.Create(card);
 			var cardDoors = GetCardDoors(card);

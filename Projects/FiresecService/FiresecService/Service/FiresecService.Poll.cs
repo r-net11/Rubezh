@@ -15,6 +15,8 @@ namespace FiresecService.Service
 	{
 		public List<CallbackResult> Poll(Guid uid)
 		{
+			global::FiresecService.ViewModels.MainViewModel.Current.OnPoll(uid);
+
 			var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == uid);
 			if (clientInfo != null)
 			{
@@ -153,6 +155,39 @@ namespace FiresecService.Service
 					Error = result.Error,
 					HasError = result.HasError,
 					FileName = result.Result
+				}
+			};
+			CallbackManager.Add(callbackResult);
+		}
+
+		public static void NotifyOperationResult_GetArchivePage(OperationResult<List<JournalItem>> result, int pageNo)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.OperationResult,
+				CallbackOperationResult = new CallbackOperationResult()
+				{
+					CallbackOperationResultType = CallbackOperationResultType.GetArchivePage,
+					Error = result.Error,
+					HasError = result.HasError,
+					JournalItems = result.Result,
+					PageNo = pageNo
+				}
+			};
+			CallbackManager.Add(callbackResult);
+		}
+
+		public static void NotifyOperationResult_GetJournal(OperationResult<List<JournalItem>> result)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.OperationResult,
+				CallbackOperationResult = new CallbackOperationResult()
+				{
+					CallbackOperationResultType = CallbackOperationResultType.GetJournal,
+					Error = result.Error,
+					HasError = result.HasError,
+					JournalItems = result.Result
 				}
 			};
 			CallbackManager.Add(callbackResult);

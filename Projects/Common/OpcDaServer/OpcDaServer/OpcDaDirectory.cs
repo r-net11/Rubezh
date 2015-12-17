@@ -7,8 +7,6 @@ namespace OpcFoundation
 {
 	public class OpcDaDirectory: OpcDaItemBase
 	{
-		#region Constructors
-
 		/// <summary>
 		/// 
 		/// </summary>
@@ -37,11 +35,6 @@ namespace OpcFoundation
 			}
 		}
 
-		#endregion
-
-		#region Fields And Properties
-
-		string _directoryName;
 		public string DirectoryName
 		{
 			get { return _directoryName; }
@@ -63,7 +56,5 @@ namespace OpcFoundation
 		/// Список воложенных тегов и директорий
 		/// </summary>
 		public IList<OpcDaItemBase> Items { get { return _items; } }
-
-		#endregion
 	}
 }

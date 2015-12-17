@@ -68,7 +68,7 @@ namespace RubezhAPI
 		OperationResult<List<GKUser>> GetGKUsers(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<bool> WriteAllGKUsers(List<GKUser> users);
+		OperationResult<bool> RewritePmfUsers(Guid uid, List<GKUser> users);
 
 		[OperationContract]
 		OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID);

@@ -101,7 +101,6 @@
     <Compile Include="Events\ShowGlobalVariablesEvent.cs" />
     <Compile Include="Events\ShowOpcAdvosolEvent.cs" />
     <Compile Include="Events\ShowOpcDaClientEvent.cs" />
-    <Compile Include="Events\ShowOpcDaServersEvent.cs" />
     <Compile Include="Events\ShowOpcTechnosoftwareEvent.cs" />
     <Compile Include="Events\ShowProceduresEvent.cs" />
     <Compile Include="Events\ShowOPCServersEvent.cs" />
@@ -124,20 +123,6 @@
     </Compile>
     <Compile Include="Layout\Views\LayoutPartPropertyProcedurePageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyProcedurePageView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ObjectSelection\ViewModels\DelaySelectionViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\DelayViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\GKDoorSelectionViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\OrganisationSelectionViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\OrganisationViewModel.cs" />
-    <Compile Include="ObjectSelection\Views\DelaySelectionView.xaml.cs">
-      <DependentUpon>DelaySelectionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ObjectSelection\Views\GKDoorSelectionView.xaml.cs">
-      <DependentUpon>GKDoorSelectionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ObjectSelection\Views\OrganisatonSelectionView.xaml.cs">
-      <DependentUpon>OrganisatonSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OpcAdvosolLib\ViewModels\OpcAdvosolElementViewModel.cs" />
     <Compile Include="OpcAdvosolLib\ViewModels\OpcAdvosolTagGroup.cs" />
@@ -166,31 +151,6 @@
     </Compile>
     <Compile Include="OpcDaClient\Views\OpcDaClientView.xaml.cs">
       <DependentUpon>OpcDaClientView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="OpcDaServers\ViewModels\OpcDaEditingTagsGroupViewModel.cs" />
-    <Compile Include="OpcDaServers\ViewModels\OpcDaEditingTagsTreeElementViewModel.cs" />
-    <Compile Include="OpcDaServers\ViewModels\OpcDaEditingTagsViewModel.cs" />
-    <Compile Include="OpcDaServers\ViewModels\OpcDaEditingTagsTagViewModel.cs" />
-    <Compile Include="OpcDaServers\ViewModels\OpcDaAddingServerViewModel.cs" />
-    <Compile Include="OpcDaServers\ViewModels\OpcDaAddingServersViewModel.cs" />
-    <Compile Include="OpcDaServers\ViewModels\OpcDaServersViewModel.cs" />
-    <Compile Include="OpcDaServers\Models\OpcDaServerHelper.cs" />
-    <Compile Include="OpcDaServers\ViewModels\OpcDaMenuViewModel.cs" />
-    <Compile Include="OpcDaServers\ViewModels\OpcDaWorkWithServerViewModel.cs" />
-    <Compile Include="OpcDaServers\Views\OpcDaEditingTagsView.xaml.cs">
-      <DependentUpon>OpcDaEditingTagsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="OpcDaServers\Views\OpcDaAddingServersView.xaml.cs">
-      <DependentUpon>OpcDaAddingServersView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="OpcDaServers\Views\OpcDaMenuView.xaml.cs">
-      <DependentUpon>OpcDaMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="OpcDaServers\Views\OpcDaServersView.xaml.cs">
-      <DependentUpon>OpcDaServersView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="OpcDaServers\Views\OpcDaWorkWithServerView.xaml.cs">
-      <DependentUpon>OpcDaWorkWithServerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OPCServers\ViewModels\Client.cs" />
     <Compile Include="OPCServers\ViewModels\ConfigClass.cs" />
@@ -241,6 +201,8 @@
       <DependentUpon>VariableView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\ViewModels\ControlDelayStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ControlMPTStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ControlPumpStationStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlGKDoorStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlPlanStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlVisualStepViewModel.cs" />
@@ -268,23 +230,15 @@
     <Compile Include="Steps\ViewModels\NowStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\PtzStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\RandomStepViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\DirectionSelectionViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\DoorViewModel.cs" />
     <Compile Include="Procedures\ViewModels\FilterSelectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\FilterViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\GuardZoneSelectionViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\CameraSelectionViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\CameraViewModel.cs" />
     <Compile Include="Steps\ViewModels\ConditionStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlDirectionStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlGKDeviceStepViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\DeviceSelectionViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlGKFireZoneStepViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ConditionsViewModel.cs" />
     <Compile Include="Steps\ViewModels\ArithmeticStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlGKGuardZoneStepViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\DirectionViewModel.cs" />
     <Compile Include="Steps\ViewModels\FindObjectStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ForeachStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetObjectPropertyStepViewModel.cs" />
@@ -301,7 +255,6 @@
     <Compile Include="Steps\ViewModels\SetValueStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\LayoutViewModel.cs" />
     <Compile Include="Procedures\ViewModels\VariablesMenuViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\ZoneSelectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeTemplateSelector.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureDetailsViewModel.cs" />
@@ -313,24 +266,14 @@
     <Compile Include="Procedures\ViewModels\VariableDetailsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\VariablesViewModel.cs" />
     <Compile Include="Procedures\ViewModels\VariableViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\ZoneViewModel.cs" />
     <Compile Include="Procedures\Views\ArgumentDetailsView.xaml.cs">
       <DependentUpon>ArgumentDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\ArgumentsView.xaml.cs">
       <DependentUpon>ArgumentsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ObjectSelection\Views\CameraSelectionView.xaml.cs">
-      <DependentUpon>CameraSelectionView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Procedures\Views\ConditionsView.xaml.cs">
       <DependentUpon>ConditionsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ObjectSelection\Views\DirectionSelectionView.xaml.cs">
-      <DependentUpon>DirectionSelectionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ObjectSelection\Views\GuardZoneSelectionView.xaml.cs">
-      <DependentUpon>GuardZoneSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\ViewModels\StartRecordStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\StopRecordStepViewModel.cs" />
@@ -343,6 +286,12 @@
     </Compile>
     <Compile Include="Steps\Views\ControlDelayStepView.xaml.cs">
       <DependentUpon>ControlDelayStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ControlMPTStepView.xaml.cs">
+      <DependentUpon>ControlMPTStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ControlPumpStationStepView.xaml.cs">
+      <DependentUpon>ControlPumpStationStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ControlDirectionStepView.xaml.cs">
       <DependentUpon>ControlDirectionStepView.xaml</DependentUpon>
@@ -364,9 +313,6 @@
     </Compile>
     <Compile Include="Steps\Views\ConditionStepView.xaml.cs">
       <DependentUpon>ConditionStepView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ObjectSelection\Views\DeviceSelectionView.xaml.cs">
-      <DependentUpon>DeviceSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ControlGKDoorStepView.xaml.cs">
       <DependentUpon>ControlGKDoorStepView.xaml</DependentUpon>
@@ -485,9 +431,6 @@
     <Compile Include="Procedures\Views\VariablesView.xaml.cs">
       <DependentUpon>VariablesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ObjectSelection\Views\ZoneSelectionView.xaml.cs">
-      <DependentUpon>ZoneSelectionView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AutomationModule.cs" />
     <Compile Include="Schedules\ViewModels\ProcedureSelectionViewModel.cs" />
@@ -579,10 +522,6 @@
       <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
       <Name>Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\OpcDaServer\OpcDaServer\OpcDaServer.csproj">
-      <Project>{f15ca571-230c-4116-ac49-86c095014282}</Project>
-      <Name>OpcDaServer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\RubezhClient\RubezhClient.csproj">
       <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
       <Name>RubezhClient</Name>
@@ -653,18 +592,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ObjectSelection\Views\DelaySelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ObjectSelection\Views\GKDoorSelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ObjectSelection\Views\OrganisatonSelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="OpcAdvosolLib\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -694,30 +621,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="OpcDaClient\Views\OpcDaClientView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="OpcDaServers\DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="OpcDaServers\Views\OpcDaEditingTagsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="OpcDaServers\Views\OpcDaAddingServersView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="OpcDaServers\Views\OpcDaMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="OpcDaServers\Views\OpcDaServersView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="OpcDaServers\Views\OpcDaWorkWithServerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -784,6 +687,14 @@
     <Page Include="Steps\Views\ControlDelayStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ControlMPTStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Steps\Views\ControlPumpStationStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Steps\Views\ControlGKDoorStepView.xaml">
       <SubType>Designer</SubType>
@@ -857,19 +768,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ObjectSelection\Views\CameraSelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Procedures\Views\ConditionsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ObjectSelection\Views\DirectionSelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ObjectSelection\Views\GuardZoneSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -898,10 +797,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\ConditionStepView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ObjectSelection\Views\DeviceSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -990,10 +885,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\VariablesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ObjectSelection\Views\ZoneSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1090,6 +981,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="OpcAdvosolLib\Documents\Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

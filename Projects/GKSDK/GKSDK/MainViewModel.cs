@@ -62,8 +62,8 @@ namespace GKSDK
 			SafeFiresecService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
 			SafeFiresecService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
 
-			SafeFiresecService.NewJournalItemsEvent -= OnNewJournalItems;
-			SafeFiresecService.NewJournalItemsEvent += OnNewJournalItems;
+			SafeFiresecService.JournalItemsEvent -= OnNewJournalItems;
+			SafeFiresecService.JournalItemsEvent += OnNewJournalItems;
 
 			ClientManager.StartPoll();
 		}
@@ -82,12 +82,15 @@ namespace GKSDK
 			});
 		}
 
-		public void OnNewJournalItems(List<JournalItem> journalItems)
+		public void OnNewJournalItems(List<JournalItem> journalItems, bool isNew)
 		{
-			ApplicationService.Invoke(() =>
+			if (isNew)
 			{
-				JournalsViewModel.OnNewJournalItems(journalItems);
-			});
+				ApplicationService.Invoke(() =>
+				{
+					JournalsViewModel.OnNewJournalItems(journalItems);
+				});
+			}
 		}
 
 		void CopyGKStates(GKStates gkStates)

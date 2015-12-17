@@ -264,6 +264,14 @@ namespace Infrastructure.Automation
 					ControlDelay(procedureStep);
 					break;
 
+				case ProcedureStepType.ControlPumpStation:
+					ControlPumpStation(procedureStep);
+					break;
+
+				case ProcedureStepType.ControlMPT:
+					ControlMPT(procedureStep);
+					break;
+
 				case ProcedureStepType.IncrementValue:
 					IncrementValue(procedureStep);
 					break;

@@ -117,22 +117,27 @@ namespace RubezhClient
 				parentDevice.Children.Insert(index + 1, device);
 			}
 
-			if (driver.DriverType == GKDriverType.GK)
+			if (driver.DriverType == GKDriverType.GK || driver.DriverType == GKDriverType.RSR2_GKMirror)
 			{
-				var indicatorDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicator);
-				var releDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
+				var indicatorsGroupDriver = Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicatorsGroup);
+				var relaysGroupDriver = Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKRelaysGroup);
+				var indicatorDriver = Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicator);
+				var releDriver = Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
+
+				AddChild(device, null, indicatorsGroupDriver, 1);
+				AddChild(device, null, relaysGroupDriver, 1);
 
 				for (byte i = 2; i <= 11; i++)
 				{
-					AddChild(device, null, indicatorDriver, i);
+					AddChild(device.Children[0], null, indicatorDriver, i);
 				}
 				for (byte i = 12; i <= 16; i++)
 				{
-					AddChild(device, null, releDriver, i);
+					AddChild(device.Children[1], null, releDriver, i);
 				}
 				for (byte i = 17; i <= 22; i++)
 				{
-					AddChild(device, null, indicatorDriver, i);
+					AddChild(device.Children[0], null, indicatorDriver, i);
 				}
 				DeviceConfiguration.UpdateGKPredefinedName(device);
 			}

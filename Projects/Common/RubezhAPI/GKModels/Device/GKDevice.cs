@@ -30,6 +30,7 @@ namespace RubezhAPI.GK
 
 			Zones = new List<GKZone>();
 			GuardZones = new List<GKGuardZone>();
+			PmfUsers = new List<GKUser>();
 		}
 
 		public override void Invalidate(GKDeviceConfiguration deviceConfiguration)
@@ -66,17 +67,17 @@ namespace RubezhAPI.GK
 				Zones = zones;
 				ZoneUIDs = zoneUIDs;
 			}
-			//if (Driver.HasGuardZone)
-			//{
-			//	var guardZones = new List<GKGuardZone>();
+			if (Driver.HasGuardZone)
+			{
+				var guardZones = new List<GKGuardZone>();
 
-			//	foreach (var guardZone in deviceConfiguration.GuardZones.Where(x => GuardZones.Any(y=> y.UID == x.UID)))
-			//	{
-			//			guardZones.Add(guardZone);
-			//			AddDependentElement(guardZone);
-			//	}
-			//	GuardZones = guardZones;
-			//}
+				foreach (var guardZone in deviceConfiguration.GuardZones.Where(x => x.GuardZoneDevices.Any(y=> y.DeviceUID ==UID)))
+				{
+					guardZones.Add(guardZone);
+					AddDependentElement(guardZone);
+				}
+				GuardZones = guardZones;
+			}
 		}
 
 		public override void UpdateLogic(GKDeviceConfiguration deviceConfiguration)
@@ -185,6 +186,9 @@ namespace RubezhAPI.GK
 		/// </summary>
 		[DataMember]
 		public GKMirrorItem GKMirrorItem { get; set; }
+
+		[DataMember]
+		public List<GKUser> PmfUsers { get; set; }
 
 
 		[XmlIgnore]
@@ -319,7 +323,8 @@ namespace RubezhAPI.GK
 			}
 		}
 
-		[XmlIgnore]
+        //[XmlIgnore]
+        [DataMember]
 		public string ShortName
 		{
 			get
@@ -327,7 +332,8 @@ namespace RubezhAPI.GK
 				if (!string.IsNullOrEmpty(PredefinedName))
 					return PredefinedName;
 				return Driver.ShortName;
-			}
+			} 
+            set{}
 		}
 
 		[XmlIgnore]

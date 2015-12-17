@@ -44,38 +44,6 @@
 		<Views:FilterSelectionView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:DeviceSelectionViewModel}">
-		<Views:DeviceSelectionView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:ZoneSelectionViewModel}">
-		<Views:ZoneSelectionView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:GuardZoneSelectionViewModel}">
-		<Views:GuardZoneSelectionView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:CameraSelectionViewModel}">
-		<Views:CameraSelectionView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:DelaySelectionViewModel}">
-		<Views:DelaySelectionView />
-	</DataTemplate>
-	
-	<DataTemplate DataType="{x:Type ViewModels:DirectionSelectionViewModel}">
-		<Views:DirectionSelectionView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:GKDoorSelectionViewModel}">
-		<Views:GKDoorSelectionView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:OrganisationSelectionViewModel}">
-		<Views:OrganisationSelectionView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:ProcedureLayoutsSelectionViewModel}">
 		<Views:ProcedureLayoutsSelectionView />
 	</DataTemplate>
@@ -150,6 +118,14 @@
 
 	<DataTemplate x:Key="controlDelayTemplate">
 		<Views:ControlDelayStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="controlPumpStationTemplate">
+		<Views:ControlPumpStationStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="controlMPTTemplate">
+		<Views:ControlMPTStepView />
 	</DataTemplate>
 
 	<DataTemplate x:Key="getObjectPropertyTemplate">
@@ -266,6 +242,8 @@
 										 ControlGKDeviceTemplate="{StaticResource controlGKDeviceTemplate}"
 										 ControlGKFireZoneTemplate="{StaticResource controlGKFireZoneTemplate}"
 										 ControlGKGuardZoneTemplate="{StaticResource controlGKGuardZoneTemplate}"
+										 ControlPumpStationTemplate="{StaticResource controlPumpStationTemplate}"
+										 ControlMPTTemplate="{StaticResource controlMPTTemplate}"
 										 ControlPlanTemplate="{StaticResource controlPlanTemplate}"
 										 ControlVisualTemplate="{StaticResource controlVisualTemplate}"
 										 FindObjectTemplate="{StaticResource findObjectTemplate}"

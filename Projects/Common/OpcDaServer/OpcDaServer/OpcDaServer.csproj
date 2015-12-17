@@ -30,11 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Interop.OpcEnumLib, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>Library\Interop.OpcEnumLib.dll</HintPath>
-    </Reference>
     <Reference Include="opcproxy, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -58,8 +53,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\readme.txt" />
-    <Content Include="Library\Interop.OpcEnumLib.dll" />
     <Content Include="Library\opcproxy.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="OpcEnumLib">
+      <Guid>{13486D43-4821-11D2-A494-3CB306C10000}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Documents\cmd.bat" />

@@ -17,6 +17,7 @@ using Infrastructure.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.Automation;
 using System.Collections.Generic;
+using Infrastructure.Common.Services;
 
 namespace FiresecService
 {
@@ -32,9 +33,8 @@ namespace FiresecService
 			{
 				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 				Logger.Trace(SystemInfo.GetString());
-				var resourceService = new ResourceService();
-				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
-				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
+				ServiceFactoryBase.ResourceService.AddResource(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml");
+				ServiceFactoryBase.ResourceService.AddResource(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml");
 				WindowThread = new Thread(new ThreadStart(OnWorkThread));
 				WindowThread.Name = "Main window";
 				WindowThread.Priority = ThreadPriority.Highest;
@@ -82,6 +82,8 @@ namespace FiresecService
 					ProcedureHelper.ControlDirection,
 					ProcedureHelper.ControlGKDoor,
 					ProcedureHelper.ControlDelay,
+					ProcedureHelper.ControlPumpStation,
+					ProcedureHelper.ControlMPT,
 					ProcedureHelper.ExportJournal,
 					ProcedureHelper.ExportOrganisation,
 					ProcedureHelper.ExportOrganisationList,

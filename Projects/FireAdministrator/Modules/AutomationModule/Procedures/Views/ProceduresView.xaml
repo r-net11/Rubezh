@@ -159,7 +159,6 @@
 						</Button>
 					</StackPanel>
 				</StackPanel>
-
 				<Grid Visibility="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToVisibilityConverter},
 					ConverterParameter={x:Static procedures:MenuType.IsSteps}}">
 					<Views:StepsView DataContext="{Binding StepsViewModel}" IsVisibleChanged="StepsView_IsVisibleChanged" />

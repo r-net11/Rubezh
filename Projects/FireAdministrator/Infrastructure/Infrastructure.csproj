@@ -88,6 +88,26 @@
     <Compile Include="Events\EditValidationEvent.cs" />
     <Compile Include="Events\LoadFromFileEvent.cs" />
     <Compile Include="Events\RemoveGKDeviceEvent.cs" />
+    <Compile Include="Events\SelectGKDelayEvent.cs" />
+    <Compile Include="Events\SelectGKDirectionEvent.cs" />
+    <Compile Include="Events\SelectGKDoorEvent.cs" />
+    <Compile Include="Events\SelectGKGuardZoneEvent.cs" />
+    <Compile Include="Events\SelectGKMPTEvent.cs" />
+    <Compile Include="Events\SelectGKPumpStationEvent.cs" />
+    <Compile Include="Events\SelectGKDeviceEvent.cs" />
+    <Compile Include="Events\SelectGKDelaysEvent.cs" />
+    <Compile Include="Events\SelectGKDirectionsEvent.cs" />
+    <Compile Include="Events\SelectGKDoorsEvent.cs" />
+    <Compile Include="Events\SelectGKGuardZonesEvent.cs" />
+    <Compile Include="Events\SelectGKMPTsEvent.cs" />
+    <Compile Include="Events\SelectGKPumpStationsEvent.cs" />
+    <Compile Include="Events\SelectGKDevicesEvent.cs" />
+    <Compile Include="Events\SelectOrganisationEvent.cs" />
+    <Compile Include="Events\SelectCameraEvent.cs" />
+    <Compile Include="Events\SelectOrganisationsEvent.cs" />
+    <Compile Include="Events\SelectCamerasEvent.cs" />
+    <Compile Include="Events\SelectGKZonesEvent.cs" />
+    <Compile Include="Events\SelectGKZoneEvent.cs" />
     <Compile Include="Events\ShowMonitorLayoutEvent.cs" />
     <Compile Include="Events\SetNewConfigurationEvent.cs" />
     <Compile Include="Events\ShowPlanElementEvent.cs" />
@@ -99,7 +119,9 @@
     <Compile Include="Events\ShowUsersEvent.cs" />
     <Compile Include="Events\ShowVideoEvent.cs" />
     <Compile Include="Events\ShowGKDeviceEvent.cs" />
+    <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\ILayoutService.cs" />
+    <Compile Include="Services\IMessageBoxService.cs" />
     <Compile Include="Services\IProgressService.cs" />
     <Compile Include="Services\IValidationResult.cs" />
     <Compile Include="Services\IValidationService.cs" />
@@ -117,8 +139,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Services\MenuService.cs" />
+    <Compile Include="Services\MonitorMessageBoxService.cs" />
     <Compile Include="Services\SaveService.cs" />
     <Compile Include="ServiceFactory.cs" />
+    <Compile Include="Services\MonitorDialogService.cs" />
     <Compile Include="ViewModels\MenuViewPartViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

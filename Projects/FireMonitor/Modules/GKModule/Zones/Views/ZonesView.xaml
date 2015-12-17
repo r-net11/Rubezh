@@ -5,10 +5,10 @@
 			 xmlns:Views="clr-namespace:GKModule.Views">
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="*" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
+            <RowDefinition Height="{Binding TopPanelRowHeight}"/>
+            <RowDefinition Height="Auto"  />
+            <RowDefinition Height="{Binding BottomPanelRowHeight}" />
+        </Grid.RowDefinitions>
 		<Border Grid.Row="0" Margin="0, 5, 0, 0" Background="{DynamicResource BackgroundBrush}" BorderThickness="0" CornerRadius="5">
 			<Grid>
 				<Grid.RowDefinitions>
@@ -63,9 +63,9 @@
 												<IconedMenuItem ImageSource="BTurnOff" Text="Отключить все устройства" Command="{Binding SetIgnoreAllCommand}" />
 												<IconedMenuItem ImageSource="BResetIgnore" Text="Снять отключение всех устройств" Command="{Binding ResetIgnoreAllCommand}" />
 												<IconedMenuItem ImageSource="BReset" Text="Сбросить" Command="{Binding ResetFireCommand}" />
-												<IconedMenuItem ImageSource="BMap"  Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+												<IconedMenuItem ImageSource="BMap" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
 												<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
-												<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+												<IconedMenuItem ImageSource="BSettings" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
 											</ContextMenu>
 										</Grid.ContextMenu>
 										<Grid.InputBindings>

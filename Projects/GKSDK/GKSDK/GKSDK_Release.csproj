@@ -101,6 +101,7 @@
     <Compile Include="JournalsViewModel.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SKDViewModel.cs" />
     <Compile Include="ZonesViewModel.cs" />
     <Compile Include="ZoneViewModel.cs" />
     <Page Include="MainWindow.xaml">

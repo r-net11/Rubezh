@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Media;
 using System.Xml.Serialization;
-using Common;
 
 namespace Infrustructure.Plans.Elements
 {
@@ -77,6 +77,9 @@ namespace Infrustructure.Plans.Elements
 		}
 		[XmlIgnore]
 		public abstract ElementType Type { get; }
+
+		public Guid? BackgroundSVGImageSource { get; set; }
+
 		public abstract Rect GetRectangle();
 		protected abstract void SetPosition(Point point);
 

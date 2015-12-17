@@ -34,7 +34,6 @@ namespace Infrastructure.Common.Windows.Views
 		}
 		public WindowBaseView(WindowBaseViewModel model)
 		{
-			ContentRendered += new EventHandler(WindowBaseView_ContentRendered);
 			if (model != null)
 			{
 				_model = model;
@@ -43,10 +42,6 @@ namespace Infrastructure.Common.Windows.Views
 			}
 			InitializeComponent();
 			Loaded += (s, e) => MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
-		}
-
-		private void WindowBaseView_ContentRendered(object sender, EventArgs e)
-		{
 		}
 
 		protected override void OnSourceInitialized(EventArgs e)

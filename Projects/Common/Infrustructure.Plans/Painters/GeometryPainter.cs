@@ -69,8 +69,7 @@ namespace Infrustructure.Plans.Painters
 		{
 			if (Geometry == null)
 				Invalidate();
-			if (!this.Element.IsHidden)
-				InnerDraw(drawingContext);
+			InnerDraw(drawingContext);
 		}
 		public virtual void Invalidate()
 		{

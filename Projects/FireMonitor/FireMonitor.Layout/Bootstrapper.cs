@@ -19,7 +19,6 @@ namespace FireMonitor.Layout
 		private Guid? _layoutID;
 		private RubezhAPI.Models.Layouts.Layout _layout;
 		private MonitorLayoutShellViewModel _monitorLayoutShellViewModel;
-
 		public Bootstrapper()
 		{
 			_layout = null;
@@ -35,6 +34,7 @@ namespace FireMonitor.Layout
 		protected override ShellViewModel CreateShell()
 		{
 			_monitorLayoutShellViewModel = new MonitorLayoutShellViewModel(_layout);
+			_monitorLayoutShellViewModel.LayoutContainer.LayoutChanged+= _LayoutChanging;
 			return _layout == null ? base.CreateShell() : _monitorLayoutShellViewModel;
 		}
 
@@ -75,8 +75,8 @@ namespace FireMonitor.Layout
 		{
 			_layout = null;
 			var ip = ConnectionSettingsManager.IsRemote ? ClientManager.GetIP() : null;
-			var layouts = ClientManager.LayoutsConfiguration.Layouts.Where(layout => 
-				layout.Users.Contains(ClientManager.CurrentUser.UID) && 
+			var layouts = ClientManager.LayoutsConfiguration.Layouts.Where(layout =>
+				layout.Users.Contains(ClientManager.CurrentUser.UID) &&
 				(ip == null || layout.HostNameOrAddressList.Count == 0 || layout.HostNameOrAddressList.Contains(ip)) &&
 				CheckLicense(layout)).ToList();
 			if (layouts.Count > 0)
@@ -89,7 +89,7 @@ namespace FireMonitor.Layout
 
 				if (_layout == null)
 				{
-					ServiceFactory.ResourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
+					ServiceFactory.ResourceService.AddResource(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml");
 					_layout = SelectLayout(layouts);
 				}
 
@@ -106,7 +106,7 @@ namespace FireMonitor.Layout
 
 		public static bool CheckLicense(RubezhAPI.Models.Layouts.Layout layout)
 		{
-			return !layout.Parts.Any(x=>
+			return !layout.Parts.Any(x =>
 				!LicenseManager.CurrentLicenseInfo.HasFirefighting && (
 				x.DescriptionUID == LayoutPartIdentities.PumpStations ||
 				x.DescriptionUID == LayoutPartIdentities.MPTs
@@ -129,6 +129,11 @@ namespace FireMonitor.Layout
 				x.DescriptionUID == LayoutPartIdentities.CameraVideo ||
 				x.DescriptionUID == LayoutPartIdentities.MultiCamera
 				));
+		}
+
+		void _LayoutChanging(object sender, EventArgs e)
+		{
+			_layout = _monitorLayoutShellViewModel.LayoutContainer.Layout;
 		}
 	}
 }

@@ -53,7 +53,7 @@ namespace FiresecService
 						}
 					}
 				}
-			RviClient.RviClientHelper.VideoRecordStart(ProcedureExecutionContext.SystemConfiguration, camera, eventUid.Value, timeout);
+			RviClient.RviClientHelper.VideoRecordStart(ProcedureExecutionContext.SystemConfiguration.RviSettings, camera, eventUid.Value, timeout);
 		}
 
 		public static void StopRecord(Guid cameraUid, Guid eventUid)
@@ -61,7 +61,7 @@ namespace FiresecService
 			var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
 			if (camera == null)
 				return;
-			RviClient.RviClientHelper.VideoRecordStop(ProcedureExecutionContext.SystemConfiguration, camera, eventUid);
+			RviClient.RviClientHelper.VideoRecordStop(ProcedureExecutionContext.SystemConfiguration.RviSettings, camera, eventUid);
 		}
 
 		public static void Ptz(Guid cameraUid, int ptzNumber)
@@ -69,12 +69,12 @@ namespace FiresecService
 			var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
 			if (camera == null)
 				return;
-			RviClient.RviClientHelper.SetPtzPreset(ProcedureExecutionContext.SystemConfiguration, camera, ptzNumber);
+			RviClient.RviClientHelper.SetPtzPreset(ProcedureExecutionContext.SystemConfiguration.RviSettings, camera, ptzNumber);
 		}
 
 		public static void RviAlarm(string name)
 		{
-			RviClient.RviClientHelper.AlarmRuleExecute(ProcedureExecutionContext.SystemConfiguration, name);
+			RviClient.RviClientHelper.AlarmRuleExecute(ProcedureExecutionContext.SystemConfiguration.RviSettings, name);
 		}
 
 		public static void ControlFireZone(Guid uid, ZoneCommandType commandType)
@@ -185,6 +185,42 @@ namespace FiresecService
 				FiresecServiceManager.SafeFiresecService.GKTurnOn(uid, GKBaseObjectType.Delay);
 			if (commandType == DelayCommandType.TurnOnNow)
 				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(uid, GKBaseObjectType.Delay);
+		}
+
+		public static void ControlPumpStation(Guid uid, PumpStationCommandType commandType)
+		{
+			if (commandType == PumpStationCommandType.Automatic)
+				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(uid, GKBaseObjectType.PumpStation);
+			if (commandType == PumpStationCommandType.Ignore)
+				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(uid, GKBaseObjectType.PumpStation);
+			if (commandType == PumpStationCommandType.Manual)
+				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(uid, GKBaseObjectType.PumpStation);
+			if (commandType == PumpStationCommandType.TurnOff)
+				FiresecServiceManager.SafeFiresecService.GKTurnOff(uid, GKBaseObjectType.PumpStation);
+			if (commandType == PumpStationCommandType.TurnOn)
+				FiresecServiceManager.SafeFiresecService.GKTurnOn(uid, GKBaseObjectType.PumpStation);
+			if (commandType == PumpStationCommandType.Stop)
+				FiresecServiceManager.SafeFiresecService.GKStop(uid, GKBaseObjectType.PumpStation);
+			if (commandType == PumpStationCommandType.ForbidStart)
+				FiresecServiceManager.SafeFiresecService.GKStop(uid, GKBaseObjectType.PumpStation);
+		}
+
+		public static void ControlMPT(Guid uid, MPTCommandType commandType)
+		{
+			if (commandType == MPTCommandType.Automatic)
+				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(uid, GKBaseObjectType.MPT);
+			if (commandType == MPTCommandType.Ignore)
+				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(uid, GKBaseObjectType.MPT);
+			if (commandType == MPTCommandType.Manual)
+				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(uid, GKBaseObjectType.MPT);
+			if (commandType == MPTCommandType.TurnOff)
+				FiresecServiceManager.SafeFiresecService.GKTurnOff(uid, GKBaseObjectType.MPT);
+			if (commandType == MPTCommandType.TurnOn)
+				FiresecServiceManager.SafeFiresecService.GKTurnOn(uid, GKBaseObjectType.MPT);
+			if (commandType == MPTCommandType.Stop)
+				FiresecServiceManager.SafeFiresecService.GKStop(uid, GKBaseObjectType.MPT);
+			if (commandType == MPTCommandType.ForbidStart)
+				FiresecServiceManager.SafeFiresecService.GKStop(uid, GKBaseObjectType.MPT);
 		}
 
 		public static void ExportJournal(bool isExportJournal, bool isExportPassJournal, DateTime minDate, DateTime maxDate, string path)

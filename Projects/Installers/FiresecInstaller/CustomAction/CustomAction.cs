@@ -1,8 +1,7 @@
-﻿using System.Diagnostics;
-using Microsoft.Deployment.WindowsInstaller;
-using System;
-using System.Windows;
+﻿using Microsoft.Deployment.WindowsInstaller;
 using Microsoft.Win32;
+using System;
+using System.Diagnostics;
 
 namespace CustomAction
 {
@@ -27,9 +26,8 @@ namespace CustomAction
 						process.Kill();
 					}
 				}
-				catch(Exception e)
+				catch (Exception)
 				{
-					//MessageBox.Show(e.ToString());
 				}
 			}
 			return ActionResult.Success;
@@ -53,7 +51,7 @@ namespace CustomAction
 					session["IS_INSTALL_POSTGRE64"] = "1";
 				if (isInstall && !is64)
 					session["IS_INSTALL_POSTGRE32"] = "1";
-				
+
 			}
 			catch (Exception)
 			{

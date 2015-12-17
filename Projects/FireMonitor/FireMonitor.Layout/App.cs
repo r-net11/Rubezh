@@ -20,9 +20,7 @@ namespace FireMonitor.Layout
 		{
 			ServiceFactory.StartupService.Run();
 			var app = new App();
-			var resourceLocater = new ResourceDescription(typeof(UIBehavior).Assembly, "Themes/Styles.xaml");
-			app.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = resourceLocater.Source });
-			app.Resources.Add(typeof(Rectangle), new Style(typeof(Rectangle)));
+			ServiceFactory.ResourceService.AddResource(typeof(UIBehavior).Assembly, "Themes/Styles.xaml");
 			app.Run();
 		}
 	}

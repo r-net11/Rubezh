@@ -223,8 +223,6 @@
     <Compile Include="Services\Layout\ILayoutProviderModule.cs" />
     <Compile Include="Services\Layout\LayoutPartDescription.cs" />
     <Compile Include="Services\Resources\IResourceService.cs" />
-    <Compile Include="Services\Resources\ResourceDescription.cs" />
-    <Compile Include="Services\Resources\ResourceHelper.cs" />
     <Compile Include="Services\Resources\ResourceService.cs" />
     <Compile Include="Services\Ribbon\IRibbonService.cs" />
     <Compile Include="Services\Ribbon\RibbonService.cs" />

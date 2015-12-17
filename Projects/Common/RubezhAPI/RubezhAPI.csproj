@@ -188,6 +188,8 @@
     <Compile Include="Models\Automation\OPC\OPCTag.cs" />
     <Compile Include="Models\Automation\OPC\OPCServer.cs" />
     <Compile Include="Models\Automation\PropertyCopy.cs" />
+    <Compile Include="Models\Automation\StepArguments\ControlMPTArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ControlPumpStationArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\TimeType.cs" />
     <Compile Include="Models\Automation\StepArguments\ChangeListArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\CheckPermissionArguments.cs" />
@@ -277,6 +279,7 @@
     <Compile Include="Models\Video\RviSettings.cs" />
     <Compile Include="ServerState.cs" />
     <Compile Include="SKD\Organisation\ExportOrganisation.cs" />
+    <Compile Include="SKD\ReportFilters\DevicesReportFilter.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterReflection.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterUser.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterEmployeeAndVisitor.cs" />
