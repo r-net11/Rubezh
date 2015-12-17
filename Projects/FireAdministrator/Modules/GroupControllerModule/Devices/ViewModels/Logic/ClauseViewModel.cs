@@ -313,8 +313,6 @@ namespace GKModule.ViewModels
 			var sourceDevices = new List<GKDevice>();
 			foreach (var device in GKManager.Devices)
 			{
-				if (device.IsNotUsed)
-					continue;
 				if (device.Driver.AvailableStateBits.Contains(SelectedStateType.StateBit))
 					sourceDevices.Add(device);
 			}
