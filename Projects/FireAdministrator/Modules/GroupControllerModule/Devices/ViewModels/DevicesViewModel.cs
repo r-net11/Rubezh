@@ -196,8 +196,7 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedDevice.Device.IsConnectedToKAU)
 			{
-				var allChildren = SelectedDevice.Device.KAUShleifParent.AllChildren;
-				if (allChildren.Count + DevicesToCopy.Count > 255)
+				if (SelectedDevice.Device.KAUShleifParent.AllChildren.Count + DevicesToCopy.Count > 255)
 				{
 					MessageBoxService.ShowWarning("Адрес устройства не может превышать 255");
 					return;
@@ -232,6 +231,7 @@ namespace GKModule.ViewModels
 				GKManager.DeviceConfiguration.Update();
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
 				GKPlanExtension.Instance.InvalidateCanvas();
+				SelectedDevice.Device.AllChildrenAndSelf.ForEach(x => x.OnChanged());
 				ServiceFactory.SaveService.GKChanged = true;
 				isCut = false;
 			}
@@ -279,17 +279,19 @@ namespace GKModule.ViewModels
 				int maxAddress = GKManager.GetAddress(SelectedDevice.Device.KAUShleifParent.AllChildren);
 				if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU_Shleif || SelectedDevice.Device.DriverType == GKDriverType.RSR2_MVP_Part)
 				{
-					var addedDevice = GKManager.AddChild(SelectedDevice.Device, null, device.Driver, maxAddress);
+					var addedDevice = GKManager.AddDevice(SelectedDevice.Device, device.Driver, maxAddress);
 					GKManager.CopyDevice(device, addedDevice);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(addedDevice, SelectedDevice);
+					addedDeviceViewModel.IsExpanded = true;
 					AllDevices.Add(addedDeviceViewModel);
 					return addedDevice;
 				}
 				else
 				{
-					var addedDevice = GKManager.AddChild(SelectedDevice.Parent.Device, null, device.Driver, maxAddress);
+					var addedDevice = GKManager.AddDevice(SelectedDevice.Parent.Device, device.Driver, maxAddress);
 					GKManager.CopyDevice(device, addedDevice);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(addedDevice, SelectedDevice,false);
+					addedDeviceViewModel.IsExpanded = true;
 					AllDevices.Add(addedDeviceViewModel);
 					return addedDevice;
 				}
