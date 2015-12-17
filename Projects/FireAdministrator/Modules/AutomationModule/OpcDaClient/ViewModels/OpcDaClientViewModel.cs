@@ -50,7 +50,7 @@ namespace AutomationModule.ViewModels
 			{ 
 				_selectedOpcServer = value;
 				OnPropertyChanged(() => SelectedOpcServer);
-				SelectedTags = _selectedOpcServer.Tags;
+				SelectedTags = _selectedOpcServer == null ? null : _selectedOpcServer.Tags;
 			}
 		}
 
