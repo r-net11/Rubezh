@@ -170,18 +170,22 @@ function PositionsViewModel() {
     };
 
     self.Copy = function (data, e) {
-        self.Clipboard({ "Position": { "Name": self.Name(), "Description": self.Description()}});
+        self.Clipboard({ "Position": { "Name": self.NameData(), "Description": self.Description()}});
     };
 
     self.Paste = function (data, e) {
-        self.Clipboard.OrganisationUID = self.OrganisationUID();
+        self.Clipboard().Position.OrganisationUID = self.OrganisationUID();
         $.ajax({
-            url: "Positions/PositionDetails",
+            url: "Positions/PositionPaste",
             type: "post",
             contentType: "application/json",
-            data: JSON.stringify({ "position": self.Clipboard(), "isNew": true }),
-            success: function () {
-                self.ReloadTree();
+            data: JSON.stringify({ "position": self.Clipboard() }),
+            success: function (error) {
+                if (error) {
+                    alert(error);
+                } else {
+                    self.ReloadTree();
+                };
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert("request failed");

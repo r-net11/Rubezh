@@ -3,6 +3,8 @@
 
     self.Organisations = ko.observableArray();
     self.SelectedOrganisation = ko.observable();
+    self.Users = ko.observableArray();
+    self.Doors = ko.observableArray();
 
     self.CanAdd = ko.computed(function () {
         return self.SelectedOrganisation() && !self.SelectedOrganisation().IsDeleted();
@@ -22,7 +24,22 @@
         self.ReloadOrganisationList();
     };
 
-    self.ReloadOrganisationList = function() {
+    self.organisationPages = {
+        Users: ko.observable(true),
+        Doors: ko.observable(false),
+    };
+
+    self.OrganisationPageClick = function (data, e, page) {
+        for (var propertyName in self.organisationPages) {
+            self.organisationPages[propertyName](false);
+        }
+
+        self.organisationPages[page](!self.organisationPages[page]());
+        $('div#OrganisationsRightPanelTabs li').removeClass("active");
+        $(e.currentTarget).parent().addClass("active");
+    };
+
+    self.ReloadOrganisationList = function () {
         $.getJSON("/Organisations/GetOrganisations/",
             ko.mapping.toJSON(self.Filter),
             function (organisations) {
@@ -34,6 +51,55 @@
         $('ul#OrganisationList li').removeClass("selected");
         $(e.currentTarget).parent().addClass("selected");
         self.SelectedOrganisation(organisation);
+        $.ajax({
+            url: "/Organisations/GetOrganisationUsers/",
+            type: "post",
+            contentType: "application/json",
+            data: ko.mapping.toJSON(self.SelectedOrganisation()),
+            success: function (users) {
+                ko.mapping.fromJS(users, {}, self);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("request failed");
+            }
+        });
+    };
+
+    self.UserClick = function (data, e, user) {
+        $('ul#OrganisationUsers li').removeClass("selected");
+        $(e.currentTarget).parent().addClass("selected");
+        $.ajax({
+            url: "/Organisations/SetUsersChecked/",
+            type: "post",
+            contentType: "application/json",
+            //dataType: "json",
+            async: false,
+            data: "{'organisation':" + ko.mapping.toJSON(self.SelectedOrganisation()) + ",'user': " + ko.mapping.toJSON(user) + "}",
+            success: function (users) {
+                self.SelectedOrganisation().UserUIDs(users.UserUIDs);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("request failed");
+            }
+        });
+    };
+
+    self.DoorClick = function (data, e, door) {
+        $('ul#OrganisationDoors li').removeClass("selected");
+        $(e.currentTarget).parent().addClass("selected");
+        $.ajax({
+            url: "/Organisations/SetDoorsChecked/",
+            type: "post",
+            contentType: "application/json",
+            async: false,
+            data: "{'organisation':" + ko.mapping.toJSON(self.SelectedOrganisation()) + ",'door': " + ko.mapping.toJSON(door) + "}",
+            success: function (doors) {
+                self.SelectedOrganisation().DoorUIDs(doors.DoorUIDs);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("request failed");
+            }
+        });
     };
 
     self.Add = function (data, e) {

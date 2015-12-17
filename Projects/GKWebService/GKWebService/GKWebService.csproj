@@ -241,6 +241,7 @@
     <Content Include="Content\Image\Icon\Hr\ChiefW.png" />
     <Content Include="Content\Image\Icon\Hr\Department.png" />
     <Resource Include="Content\Image\Icon\Hr\Position.png" />
+    <Resource Include="Content\Image\Icon\Hr\SKDUser.png" />
     <Content Include="Content\Image\Icon\Menu\archive.png" />
     <Content Include="Content\Image\Icon\Menu\Bug.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Add.png" />
@@ -472,6 +473,7 @@
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
     <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
+    <Compile Include="Models\SKD\Common\CopyHelper.cs" />
     <Compile Include="Models\SKD\Common\DetailsValidateHelper.cs" />
     <Compile Include="Models\FireZone\Device.cs" />
     <Compile Include="Models\SKD\Common\OrganisationBaseViewModel.cs" />
@@ -479,6 +481,8 @@
     <Compile Include="Models\SKD\Common\OrganisationElementBaseViewModel.cs" />
     <Compile Include="Models\SKD\Departments\DepartmentDetailsViewModel.cs" />
     <Compile Include="Models\SKD\Organisations\OrganisationDetailsViewModel.cs" />
+    <Compile Include="Models\SKD\Organisations\OrganisationDoorViewModel.cs" />
+    <Compile Include="Models\SKD\Organisations\OrganisationUserViewModel.cs" />
     <Compile Include="Models\SKD\Positions\PositionDetailsViewModel.cs" />
     <Compile Include="Models\SKD\Positions\PositionsViewModel.cs" />
     <Compile Include="Models\SKD\Departments\DepartmentsViewModel.cs" />

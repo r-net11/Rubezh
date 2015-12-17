@@ -48,5 +48,21 @@ namespace GKWebService.Models.SKD.Positions
             var operationResult = ClientManager.FiresecService.SavePosition(Position, isNew);
             return operationResult.Error;
         }
+
+        public string Paste()
+        {
+            var filter = new PositionFilter { OrganisationUIDs = new List<Guid> { Position.OrganisationUID }};
+            var getPositionsResult = ClientManager.FiresecService.GetPositionList(filter);
+            if (getPositionsResult.HasError)
+            {
+                return getPositionsResult.Error;
+            }
+
+            var positions = getPositionsResult.Result;
+
+            Position.Name = CopyHelper.CopyName(Position.Name, positions.Select(x => x.Name));
+
+            return Save(true);
+        }
     }
 }
