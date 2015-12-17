@@ -143,12 +143,12 @@ namespace GKModule.ViewModels
 		{
 			if (No <= 0)
 			{
-				MessageBoxService.Show("Номер должен быть положительным числом");
+                ServiceFactory.MessageBoxService.Show("Номер должен быть положительным числом");
 				return false;
 			}
 			if (Direction.No != No && GKManager.Directions.Any(x => x.No == No))
 			{
-				MessageBoxService.Show("Направление с таким номером уже существует");
+				ServiceFactory.MessageBoxService.Show("Направление с таким номером уже существует");
 				return false;
 			}
 

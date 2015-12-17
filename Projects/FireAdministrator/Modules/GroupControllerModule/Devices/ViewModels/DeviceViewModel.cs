@@ -8,7 +8,6 @@ using Common;
 using DeviceControls;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
-using RubezhClient;
 using GKModule.Events;
 using GKModule.Plans;
 using Infrastructure;
@@ -325,7 +324,7 @@ namespace GKModule.ViewModels
 		{
 			return !(Driver.IsAutoCreate || Parent == null || Parent.Driver.IsGroupDevice);
 		}
-		public void Remove(bool updateParameters)
+		public void Remove(bool isSingleRemove)
 		{
 			var allDevices = GKManager.RemoveDevice(Device);
 			foreach (var device in allDevices)
@@ -335,18 +334,11 @@ namespace GKModule.ViewModels
 			using (var cache = new ElementDeviceUpdater())
 				cache.ResetDevices(allDevices);
 
-			if (updateParameters)
+			if (Parent != null)
 			{
-				if (Parent != null)
-				{
-					Parent.Device.OnAUParametersChanged();
-				}
-			}
-
-			var parent = Parent;
-			if (parent != null)
-			{
+				var parent = Parent;
 				var index = DevicesViewModel.Current.SelectedDevice.VisualIndex;
+				parent.Device.OnAUParametersChanged();
 				parent.Nodes.Remove(this);
 				parent.Update();
 				index = Math.Min(index, parent.ChildrenCount - 1);
@@ -354,7 +346,8 @@ namespace GKModule.ViewModels
 				{
 					DevicesViewModel.Current.AllDevices.Remove(childDeviceViewModel);
 				}
-				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
+				if (isSingleRemove)
+					DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
 			GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
 			ServiceFactory.SaveService.GKChanged = true;

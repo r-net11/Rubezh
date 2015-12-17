@@ -394,7 +394,10 @@ namespace GKImitator.ViewModels
 						break;
 				}
 
-				Trace.WriteLine(formulaOperation.FormulaOperationType + "\t" + string.Join(" ", stack));
+				if (formulaOperation.FormulaOperationType == FormulaOperationType.PUTBIT)
+					Trace.WriteLine(formulaOperation.FormulaOperationType + "\t" + string.Join(" ", (GKStateBit) formulaOperation.FirstOperand));
+				else
+					Trace.WriteLine(formulaOperation.FormulaOperationType + "\t" + string.Join(" ", stack));
 			}
 
 			var hasZoneBitsChanged = false;
