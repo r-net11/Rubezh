@@ -97,7 +97,7 @@ namespace GKModule.ViewModels
 		}
 		private DirectionDetailsViewModel OnAddResult()
 		{
-			var directionDetailsViewModel = new DirectionDetailsViewModel();
+            var directionDetailsViewModel = new DirectionDetailsViewModel();
 			if (ServiceFactory.DialogService.ShowModalWindow(directionDetailsViewModel))
 			{
 				GKManager.AddDirection(directionDetailsViewModel.Direction);
@@ -119,7 +119,7 @@ namespace GKModule.ViewModels
 		void OnEdit(GKDirection direction)
 		{
 			var directionDetailsViewModel = new DirectionDetailsViewModel(direction);
-			if (DialogService.ShowModalWindow(directionDetailsViewModel))
+			if (ServiceFactory.DialogService.ShowModalWindow(directionDetailsViewModel))
 			{
 				SelectedDirection.Update();
 				GKManager.EditDirection(SelectedDirection.Direction);
@@ -130,7 +130,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить направление " + SelectedDirection.Direction.PresentationName + " ?"))
+			if (ServiceFactory.MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить направление " + SelectedDirection.Direction.PresentationName + " ?"))
 			{
 				var index = Directions.IndexOf(SelectedDirection);
 				GKManager.RemoveDirection(SelectedDirection.Direction);
@@ -146,7 +146,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteAllEmptyCommand { get; private set; }
 		void OnDeleteAllEmpty()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые направления ?"))
+			if (ServiceFactory.MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые направления ?"))
 			{
 				GetEmptyDirections().ForEach(x =>
 				{

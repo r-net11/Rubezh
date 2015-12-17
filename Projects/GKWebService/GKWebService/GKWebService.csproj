@@ -241,6 +241,7 @@
     <Content Include="Content\Image\Icon\Hr\ChiefW.png" />
     <Content Include="Content\Image\Icon\Hr\Department.png" />
     <Resource Include="Content\Image\Icon\Hr\Position.png" />
+    <Resource Include="Content\Image\Icon\Hr\SKDUser.png" />
     <Content Include="Content\Image\Icon\Menu\archive.png" />
     <Content Include="Content\Image\Icon\Menu\Bug.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Add.png" />
@@ -444,6 +445,8 @@
     <Content Include="Scripts\SKD\Departments\DepartmentsViewModel.js" />
     <Content Include="Scripts\SKD\Employees\DepartmentSelectionViewModel.js" />
     <Content Include="Scripts\SKD\Employees\CardRemovalReasonViewModel.js" />
+    <Content Include="Scripts\SKD\Organisations\OrganisationsViewModel.js" />
+    <Content Include="Scripts\SKD\Organisations\OrganisationDetailsViewModel.js" />
     <Content Include="Scripts\SKD\Positions\PositionEmployeeListViewModel.js" />
     <Content Include="Scripts\SKD\Positions\PositionDetailsViewModel.js" />
     <Content Include="Scripts\SKD\Positions\PositionsViewModel.js" />
@@ -463,18 +466,23 @@
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HrController.cs" />
+    <Compile Include="Controllers\OrganisationsController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
     <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
+    <Compile Include="Models\SKD\Common\CopyHelper.cs" />
     <Compile Include="Models\SKD\Common\DetailsValidateHelper.cs" />
     <Compile Include="Models\FireZone\Device.cs" />
     <Compile Include="Models\SKD\Common\OrganisationBaseViewModel.cs" />
     <Compile Include="Models\FireZone\FireZone.cs" />
     <Compile Include="Models\SKD\Common\OrganisationElementBaseViewModel.cs" />
     <Compile Include="Models\SKD\Departments\DepartmentDetailsViewModel.cs" />
+    <Compile Include="Models\SKD\Organisations\OrganisationDetailsViewModel.cs" />
+    <Compile Include="Models\SKD\Organisations\OrganisationDoorViewModel.cs" />
+    <Compile Include="Models\SKD\Organisations\OrganisationUserViewModel.cs" />
     <Compile Include="Models\SKD\Positions\PositionDetailsViewModel.cs" />
     <Compile Include="Models\SKD\Positions\PositionsViewModel.cs" />
     <Compile Include="Models\SKD\Departments\DepartmentsViewModel.cs" />
@@ -544,6 +552,8 @@
     <Content Include="Views\Positions\Index.cshtml" />
     <Content Include="Views\Positions\PositionDetails.cshtml" />
     <Content Include="Views\Positions\PositionEmployeeList.cshtml" />
+    <Content Include="Views\Organisations\Index.cshtml" />
+    <Content Include="Views\Organisations\OrganisationDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -20,6 +20,15 @@ namespace RubezhAPI.Automation
 
 	public enum GKDoorCommandType
 	{
+		[Description("Автоматика")]
+		Automatic,
+
+		[Description("Ручное")]
+		Manual,
+
+		[Description("Отключить")]
+		Ignore,
+
 		[Description("Открыть дверь")]
 		Open,
 

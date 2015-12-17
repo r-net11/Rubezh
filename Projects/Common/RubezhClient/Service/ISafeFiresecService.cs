@@ -25,7 +25,7 @@ namespace RubezhClient
 		OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page);
 		OperationResult<bool> BeginGetJournal(JournalFilter filter, Guid clientUid);
 		void CancelGKProgress(Guid progressCallbackUID, string userName);
-		OperationResult<bool> Connect(Guid clientUID, ClientCredentials clientCredentials);
+		OperationResult<bool> Connect(ClientCredentials clientCredentials);
 		void ControlDelay(Guid uid, DelayCommandType commandType);
 		void ControlDirection(Guid uid, DirectionCommandType commandType);
 		void ControlFireZone(Guid uid, ZoneCommandType commandType);

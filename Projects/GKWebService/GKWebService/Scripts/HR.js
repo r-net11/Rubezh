@@ -22,6 +22,8 @@
                 self.Positions = PositionsViewModel();
                 self.Positions.PositionDetails = PositionDetailsViewModel();
                 self.Positions.PositionEmployeeList = PositionEmployeeListViewModel(self.Positions);
+                self.Organisations = OrganisationsViewModel();
+                self.Organisations.OrganisationDetails = OrganisationDetailsViewModel();
                 ko.applyBindings(app.Menu, $("div#HR")[0]);
                 self.loaded(true);
                 self.InitializeEmployeeFilter(self.Filter);
@@ -61,6 +63,7 @@
         self.Employees.Init(filter);
         self.Departments.Init(self.Filter);
         self.Positions.Init(self.Filter);
+        self.Organisations.Init(self.Filter);
     };
 
     self.HrPageClick = function(data, e, page) {

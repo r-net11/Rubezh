@@ -21,7 +21,7 @@
     };
 
     self.Cancel = function() {
-        ko.mapping.fromJS(latestData, {}, self);
+        ko.mapping.fromJS(self.latestData, {}, self);
         self.IsWithDeleted(self.latestIsWithDeleted);
         self.Close();
     };

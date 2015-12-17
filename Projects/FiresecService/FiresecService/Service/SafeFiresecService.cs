@@ -87,11 +87,11 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<bool> Connect(Guid clientUID, ClientCredentials clientCredentials)
+		public OperationResult<bool> Connect(ClientCredentials clientCredentials)
 		{
 			try
 			{
-				return FiresecService.Connect(clientUID, clientCredentials);
+				return FiresecService.Connect(clientCredentials);
 			}
 			catch (Exception e)
 			{

@@ -554,6 +554,7 @@ namespace GKImitator.ViewModels
 				HasTurnOn = true;
 				HasTurnOnNow = true;
 				HasTurnOff = true;
+				HasTurnOffNow = true;
 				AddStateBit(GKStateBit.On);
 				AddStateBit(GKStateBit.Off, true);
 				AddStateBit(GKStateBit.TurningOn);
@@ -563,6 +564,7 @@ namespace GKImitator.ViewModels
 				HasOnDelay = true;
 				HasHoldDelay = true;
 				HasOffDelay = true;
+				HasReset = true;
 			}
 		}
 	}

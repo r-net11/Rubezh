@@ -13,22 +13,10 @@ namespace RubezhAPI
 		public int CallbackIndex { get; set; }
 
 		/// <summary>
-		/// Клиент отключается
-		/// </summary>
-		[DataMember]
-		public bool IsDisconnecting { get; set; }
-
-		/// <summary>
 		/// Требуется перезапуск клиента
 		/// </summary>
 		[DataMember]
 		public bool IsReconnectionRequired { get; set; }
-
-		/// <summary>
-		/// Изменена конфигурация
-		/// </summary>
-		//[DataMember]
-		//public bool IsConfigurationChanged { get; set; }
 
 		/// <summary>
 		/// Набор изменений для отправки клиенту

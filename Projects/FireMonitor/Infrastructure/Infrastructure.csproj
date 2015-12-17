@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="ClientSettings.cs" />
     <Compile Include="Events\ChangePlanPropertiesEvent.cs" />
+    <Compile Include="Events\ControlPlanEvent.cs" />
     <Compile Include="Events\GKObjectsPropertyChangedEvent.cs" />
     <Compile Include="Events\ShowObject\ShowHREvent.cs" />
     <Compile Include="Events\UpdateJournalItemsEvent.cs" />

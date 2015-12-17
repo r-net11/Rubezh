@@ -19,7 +19,7 @@ namespace GKImitator.ViewModels
 		public GKBase GKBase { get { return GKBaseDescriptor.GKBase; } }
 		public int DescriptorNo { get; private set; }
 		public ushort TypeNo { get; private set; }
-		List<ushort> AdditionalShortParameters;
+		readonly List<ushort> AdditionalShortParameters;
 
 		public DescriptorViewModel(BaseDescriptor descriptor)
 		{
@@ -91,6 +91,7 @@ namespace GKImitator.ViewModels
 			var journalItem = new ImitatorJournalItem(2, 10, 0, 0);
 			AddJournalItem(journalItem);
 			RecalculateOutputLogic();
+			RecalculateCurrentLogic();
 		}
 
 		public bool CanSetAutomaticRegime
@@ -120,6 +121,9 @@ namespace GKImitator.ViewModels
 			Regime = Regime.Ignore;
 			SetStateBit(GKStateBit.Norm, false);
 			SetStateBit(GKStateBit.Ignore, true);
+			SetStateBit(GKStateBit.Attention, false);
+			SetStateBit(GKStateBit.Fire1, false);
+			SetStateBit(GKStateBit.Fire2, false);
 			var journalItem = new ImitatorJournalItem(2, 10, 2, 0);
 			AddJournalItem(journalItem);
 			RecalculateOutputLogic();

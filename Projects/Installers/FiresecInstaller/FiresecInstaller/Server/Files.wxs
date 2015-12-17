@@ -121,7 +121,7 @@
 		</DirectoryRef>
 
 		<DirectoryRef Id="AppData.ServerLocation">
-			<Component Id="AppData.ServerLocation.SecurityConfiguration" Guid="53B46190-51CB-4AAA-ACA0-BD9CB6C58494">
+		<Component Id="AppData.ServerLocation.SecurityConfiguration" Guid="53B46190-51CB-4AAA-ACA0-BD9CB6C58494" Permanent='yes' NeverOverwrite='yes'>
 				<File Id="Server.SecurityConfiguration.xml"								Name="SecurityConfiguration.xml"					Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SecurityConfiguration.xml" />
 			</Component>
 		</DirectoryRef>
