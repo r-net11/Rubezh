@@ -302,6 +302,8 @@ namespace GKImitator.ViewModels
 
 		void TurnOn()
 		{
+			CurrentOffDelay = 0;
+			CurrentHoldDelay = 0;
 			if (OnDelay == 0)
 			{
 				TurnOnNow();
@@ -343,6 +345,8 @@ namespace GKImitator.ViewModels
 
 		void TurnOff()
 		{
+			CurrentOnDelay = 0;
+			CurrentHoldDelay = 0;
 			if (OffDelay == 0)
 			{
 				TurnOffNow();
