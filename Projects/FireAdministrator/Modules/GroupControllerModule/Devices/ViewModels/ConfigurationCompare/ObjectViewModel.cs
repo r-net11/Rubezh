@@ -67,7 +67,7 @@ namespace GKModule.ViewModels
 			IsDevice = true;
 			Name = device.ShortName;
 			Address = device.DottedPresentationAddress;
-			PresentationZoneOrLogic = device.IsNotUsed ? "" : GKManager.GetPresentationZoneAndGuardZoneOrLogic(Device);
+			PresentationZoneOrLogic = GKManager.GetPresentationZoneAndGuardZoneOrLogic(Device);
 			ImageSource = "/Controls;component/GKIcons/" + device.DriverType + ".png";
 			ObjectType = ObjectType.Device;
 			KAUParent = device.KAUParent;

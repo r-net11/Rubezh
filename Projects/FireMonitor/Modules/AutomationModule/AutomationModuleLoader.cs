@@ -178,6 +178,23 @@ namespace AutomationModule
 							ApplicationService.BeginInvoke(() => ShowObjectDetailsEvent.Publish(propertyArguments.ObjectUid));
 					}
 					break;
+				case AutomationCallbackType.GetPlanProperty:
+					var controlPlanEventArg = new ControlPlanEventArg
+					{
+						ControlElementType = ControlElementType.Get,
+						PlanCallbackData = (PlanCallbackData)automationCallbackResult.Data
+					};
+					ServiceFactory.Events.GetEvent<ControlPlanEvent>().Publish(controlPlanEventArg);
+					ProcedureExecutionContext.CallbackResponse(FiresecServiceFactory.UID, automationCallbackResult.ContextType, automationCallbackResult.CallbackUID, controlPlanEventArg.PlanCallbackData.Value);
+					break;
+				case AutomationCallbackType.SetPlanProperty:
+					controlPlanEventArg = new ControlPlanEventArg
+					{
+						ControlElementType = ControlElementType.Set,
+						PlanCallbackData = (PlanCallbackData)automationCallbackResult.Data
+					};
+					ServiceFactory.Events.GetEvent<ControlPlanEvent>().Publish(controlPlanEventArg);
+					break;
 			}
 		}
 

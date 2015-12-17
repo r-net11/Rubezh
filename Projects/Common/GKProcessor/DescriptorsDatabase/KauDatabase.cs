@@ -18,9 +18,6 @@ namespace GKProcessor
 
 		void AddChild(GKDevice device)
 		{
-			if (device.IsNotUsed)
-				return;
-
 			if (device.IsRealDevice)
 				Devices.Add(device);
 
