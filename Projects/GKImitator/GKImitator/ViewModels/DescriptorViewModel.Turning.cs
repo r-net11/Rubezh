@@ -242,7 +242,7 @@ namespace GKImitator.ViewModels
 		public RelayCommand TurnOnCommand { get; private set; }
 		void OnTurnOn()
 		{
-			if (HasTurnOn)
+			if (HasTurnOn && TurningState != TurningState.TurningOn)
 			{
 				if (OnDelay > 0)
 				{
@@ -268,7 +268,7 @@ namespace GKImitator.ViewModels
 		public RelayCommand TurnOffCommand { get; private set; }
 		void OnTurnOff()
 		{
-			if (HasTurnOff)
+			if (HasTurnOff && TurningState != TurningState.TurningOff)
 			{
 				if (OffDelay > 0)
 				{
