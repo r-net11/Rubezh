@@ -124,25 +124,22 @@ namespace GKModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые НС ?"))
 			{
-
-				var emptyPumpStations = PumpStations.Where(x => !x.PumpStation.StopLogic.GetObjects().Any() && !x.PumpStation.StartLogic.GetObjects().Any() && !x.PumpStation.NSDevices.Any() && !x.PumpStation.AutomaticOffLogic.GetObjects().Any());
-				if (emptyPumpStations.Any())
-				{
-					
-					for (var i = emptyPumpStations.Count()-1; i >= 0; i--)
+				GetEmptyPumpStations().ForEach(x =>
 					{
-						GKManager.RemovePumpStation(emptyPumpStations.ElementAt(i).PumpStation);
-						PumpStations.Remove(emptyPumpStations.ElementAt(i));
-					}
-
-					SelectedPumpStation = PumpStations.FirstOrDefault();
-					ServiceFactory.SaveService.GKChanged = true;		
-				}
+						GKManager.RemovePumpStation(x.PumpStation);
+						PumpStations.Remove(x);
+					});
+				SelectedPumpStation = PumpStations.FirstOrDefault();
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 		bool CanDeleteAllEmpty()
 		{
-			return PumpStations.Any(x => !x.PumpStation.StopLogic.GetObjects().Any() && !x.PumpStation.StartLogic.GetObjects().Any() && !x.PumpStation.NSDevices.Any() && !x.PumpStation.AutomaticOffLogic.GetObjects().Any());
+			return GetEmptyPumpStations().Any();
+		}
+		List<PumpStationViewModel> GetEmptyPumpStations()
+		{
+			return PumpStations.Where(x => !x.PumpStation.InputDependentElements.Any()).ToList();
 		}
 
 		public RelayCommand ChangePumpDevicesCommand { get; private set; }

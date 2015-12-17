@@ -14,17 +14,22 @@ namespace FiresecService.Service
 	{
 		OperationResult<bool> Authenticate(ClientCredentials clientCredentials)
 		{
-			if (!CheckLogin(clientCredentials))
+			var user = ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.Login);
+			if (!CheckLogin(clientCredentials, user))
 			{
 				return OperationResult<bool>.FromError("Неверный логин или пароль");
 			}
-			if (!CheckRemoteAccessPermissions(clientCredentials))
+			if (!CheckRemoteAccessPermissions(clientCredentials, user))
 			{
-				return OperationResult<bool>.FromError("У пользователя " + clientCredentials.UserName + " нет прав на подкючение к удаленному серверу c хоста: " + clientCredentials.ClientIpAddressAndPort);
+				return OperationResult<bool>.FromError("У пользователя " + clientCredentials.Login + " нет прав на подкючение к удаленному серверу c хоста: " + clientCredentials.ClientIpAddressAndPort);
 			}
-			if (!CheckPermissions(clientCredentials))
+			if (!CheckUserPermissions(clientCredentials, user))
 			{
-				return OperationResult<bool>.FromError("У пользователя " + clientCredentials.UserName + " нет прав на работу с программой");
+				return OperationResult<bool>.FromError("У пользователя " + clientCredentials.Login + " нет прав на работу с программой");
+			}
+			if (!CheckSingleAdministrator(clientCredentials))
+			{
+				return OperationResult<bool>.FromError("К серверу уже подключен другой экземпляр Администратора");
 			}
 			if (!CheckClientsCount(clientCredentials))
 			{
@@ -40,14 +45,14 @@ namespace FiresecService.Service
 				< LicenseManager.CurrentLicenseInfo.RemoteClientsCount;
 		}
 
-		bool CheckRemoteAccessPermissions(ClientCredentials clientCredentials)
+		bool CheckRemoteAccessPermissions(ClientCredentials clientCredentials, User user)
 		{
 			if (CheckHostIps(clientCredentials, "localhost"))
 				return true;
 			if (CheckHostIps(clientCredentials, "127.0.0.1"))
 				return true;
 
-			var remoteAccessPermissions = ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.UserName).RemoreAccess;
+			var remoteAccessPermissions = user.RemoteAccess;
 			if (remoteAccessPermissions == null)
 				return false;
 
@@ -70,7 +75,7 @@ namespace FiresecService.Service
 			return false;
 		}
 
-		bool CheckPermissions(ClientCredentials clientCredentials)
+		bool CheckUserPermissions(ClientCredentials clientCredentials, User user)
 		{
 			PermissionType? permission = null;
 			if (clientCredentials.ClientType == ClientType.Administrator)
@@ -78,9 +83,19 @@ namespace FiresecService.Service
 			else if (clientCredentials.ClientType == ClientType.Monitor)
 				permission = PermissionType.Oper_Login;
 			if (!permission.HasValue)
-				return false;
-			var user = ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.UserName);
+				return true;
 			return user == null ? false : user.HasPermission(permission.Value);
+		}
+
+		bool CheckSingleAdministrator(ClientCredentials clientCredentials)
+		{
+			if (clientCredentials.ClientType != ClientType.Administrator)
+				return true;
+			var administrators = ClientsManager.ClientInfos.Where(x => x.ClientCredentials.ClientType == ClientType.Administrator).ToList();
+			if (administrators.Count > 1)
+				return false;
+			var administrator = administrators.FirstOrDefault();
+			return administrator == null || administrator.ClientCredentials.UniqueId == clientCredentials.UniqueId;
 		}
 
 		bool CheckHostIps(ClientCredentials clientCredentials, string hostNameOrIpAddress)
@@ -97,25 +112,22 @@ namespace FiresecService.Service
 			}
 		}
 
-		bool CheckLogin(ClientCredentials clientCredentials)
+		bool CheckLogin(ClientCredentials clientCredentials, User user)
 		{
-			var user = ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.UserName);
+			if (user == null)
 			{
-				if (user == null)
-				{
-					return false;
-				}
-				if (!HashHelper.CheckPass(clientCredentials.Password, user.PasswordHash))
-				{
-					return false;
-				}
+				return false;
+			}
+			if (!HashHelper.CheckPass(clientCredentials.Password, user.PasswordHash))
+			{
+				return false;
 			}
 
-			SetUserFullName(clientCredentials);
+			SetUserFullName(clientCredentials, user);
 			return true;
 		}
 
-		void SetUserFullName(ClientCredentials clientCredentials)
+		void SetUserFullName(ClientCredentials clientCredentials, User user)
 		{
 			string userIp = "127.0.0.1";
 			try
@@ -132,8 +144,7 @@ namespace FiresecService.Service
 			if (addressList.Any(ip => ip.ToString() == userIp))
 				userIp = "localhost";
 
-			var user = ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.UserName);
-			clientCredentials.FriendlyUserName = user.Name;// +" (" + userIp + ")";
+			clientCredentials.FriendlyUserName = user.Name;
 		}
 	}
 }

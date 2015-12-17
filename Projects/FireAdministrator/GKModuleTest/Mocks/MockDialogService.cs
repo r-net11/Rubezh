@@ -18,7 +18,7 @@ namespace GKModuleTest
 		{
 			if (OnShowModal != null)
 				OnShowModal(windowBaseViewModel);
-			return windowBaseViewModel.CloseResult.Value;
+			return windowBaseViewModel.CloseResult == null ? false : windowBaseViewModel.CloseResult.Value;
 		}
 
 		public void ShowWindow(WindowBaseViewModel windowBaseViewModel)

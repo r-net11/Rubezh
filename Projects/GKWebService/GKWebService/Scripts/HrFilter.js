@@ -3,8 +3,14 @@
 
     self.HRViewModel = parentViewModel;
 
-    $.getJSON("/HR/GetFilter/", function (data) {
-        ko.mapping.fromJS(data, {}, self);
+    $.ajax({
+        dataType: "json",
+        url: "/HR/GetFilter/",
+        async: false,
+        data: null,
+        success: function (data) {
+            ko.mapping.fromJS(data, {}, self);
+        }
     });
 
     self.IsWithDeleted = ko.observable(false);
@@ -15,7 +21,7 @@
     };
 
     self.Cancel = function() {
-        ko.mapping.fromJS(latestData, {}, self);
+        ko.mapping.fromJS(self.latestData, {}, self);
         self.IsWithDeleted(self.latestIsWithDeleted);
         self.Close();
     };

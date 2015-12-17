@@ -154,26 +154,25 @@ namespace GKModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?"))
 			{
-				var emptyZones = Zones.Where(x => !x.Zone.GuardZoneDevices.Any());
-
-				if (emptyZones.Any())
+				GetEmptyZones().ForEach(x =>
 				{
-					for (var i = emptyZones.Count() - 1; i >= 0; i--)
-					{
-						GKManager.RemoveGuardZone(emptyZones.ElementAt(i).Zone);
-						Zones.Remove(emptyZones.ElementAt(i));
-					}
-					SelectedZone = Zones.FirstOrDefault();
-					ServiceFactory.SaveService.GKChanged = true;
-				}
+					GKManager.RemoveGuardZone(x.Zone);
+					Zones.Remove(x);
+				});
+				SelectedZone = Zones.FirstOrDefault();
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
 		bool CanDeleteAllEmpty()
 		{
-			return Zones.Any(x => !x.Zone.GuardZoneDevices.Any());
+			return GetEmptyZones().Any();
 		}
 
+		List<GuardZoneViewModel> GetEmptyZones()
+		{
+			return Zones.Where(x => !x.Zone.GuardZoneDevices.Any()).ToList();
+		}
 		public RelayCommand ShowSettingsCommand { get; private set; }
 		void OnShowSettings()
 		{

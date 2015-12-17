@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+﻿function InitGridPositionEmployeeList() {
     function imageFormat(cellvalue, options, rowObject) {
         var newCellValue = cellvalue;
         if (rowObject.IsDeleted) {
@@ -28,10 +28,12 @@
         rowNum: 100,
         viewrecords: true
     });
-});
+};
 
 function PositionEmployeeListViewModel(parentViewModel) {
     var self = {};
+
+    InitGridPositionEmployeeList();
 
     self.ParentViewModel = parentViewModel;
 

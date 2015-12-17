@@ -96,25 +96,37 @@ namespace RubezhAPI
 			return deviceTo;
 		}
 
-		public static GKDevice AddChild(GKDevice parentDevice, GKDevice previousDevice, GKDriver driver, int intAddress)
+		public static GKDevice AddChild(GKDevice parentDevice, GKDevice previousDevice, GKDriver driver, int intAddress, bool isStartList = false, int? indexForCangeDevice = null)
 		{
 			var device = new GKDevice()
 			{
 				DriverUID = driver.UID,
 				Driver = driver,
 				IntAddress = intAddress,
-				Parent = parentDevice
+				Parent = previousDevice == null ? parentDevice : previousDevice,
 			};
 			device.InitializeDefaultProperties();
-
-			if (previousDevice == null || parentDevice == previousDevice)
+			if (!indexForCangeDevice.HasValue)
 			{
-				parentDevice.Children.Add(device);
+				if (previousDevice == null || parentDevice == previousDevice)
+				{
+					if (isStartList)
+					{
+						parentDevice.Children.Insert(0, device);
+					}
+					else
+						parentDevice.Children.Add(device);
+				}
+				else
+				{
+					var index = previousDevice.Children.IndexOf(parentDevice);
+					previousDevice.Children.Insert(index + 1, device);
+				}
 			}
+
 			else
 			{
-				var index = parentDevice.Children.IndexOf(previousDevice);
-				parentDevice.Children.Insert(index + 1, device);
+				parentDevice.Children.Insert(indexForCangeDevice.Value, device);
 			}
 
 			if (driver.DriverType == GKDriverType.GK || driver.DriverType == GKDriverType.RSR2_GKMirror)
@@ -158,7 +170,18 @@ namespace RubezhAPI
 					AddChild(device, null, autoCreateDriver, i);
 				}
 			}
+
+			if ( device.Driver.IsGroupDevice && device.Children.Count == 0)
+			{
+				var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
+
+				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
+				{
+					 AddChild(device, null, driver, device.IntAddress + i);
+				}
+			}
 		}
+
 
 		public static void SetDeviceLogic(GKDevice device, GKLogic logic, bool isNs = false)
 		{

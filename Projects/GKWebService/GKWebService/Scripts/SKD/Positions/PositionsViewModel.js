@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+﻿function InitGridPositions() {
     function imageFormat(cellvalue, options, rowObject) {
         var newCellValue = cellvalue;
         if (rowObject.IsDeleted) {
@@ -41,16 +41,19 @@
             expanded_field: "IsExpanded"
         }
     });
-});
+};
 
 function PositionsViewModel() {
     var self = {};
+
+    InitGridPositions();
 
     self.UID = ko.observable();
     self.ParentUID = ko.observable();
     self.OrganisationUID = ko.observable();
     self.Name = ko.observable();
     self.NameData = ko.observable();
+    self.Description = ko.observable();
     self.IsOrganisation = ko.observable(true);
     self.IsRowSelected = ko.observable(false);
     self.IsDeleted = ko.observable();
@@ -69,7 +72,7 @@ function PositionsViewModel() {
         return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation();
     }, self);
     self.CanPaste = ko.computed(function () {
-        return self.IsRowSelected() && !self.IsDeleted() && !self.Clipboard();
+        return self.IsRowSelected() && !self.IsDeleted() && self.Clipboard();
     }, self);
     self.CanRestore = ko.computed(function () {
         return self.IsRowSelected() && self.IsDeleted() && !self.IsOrganisation();
@@ -119,6 +122,7 @@ function PositionsViewModel() {
             self.ParentUID(myGrid.jqGrid('getCell', id, 'ParentUID'));
             self.Name(myGrid.jqGrid('getCell', id, 'Name'));
             self.NameData(myGrid.jqGrid('getCell', id, 'NameData'));
+            self.Description(myGrid.jqGrid('getCell', id, 'Description'));
             self.IsOrganisation(myGrid.jqGrid('getCell', id, 'IsOrganisation') == "true");
             self.IsDeleted(myGrid.jqGrid('getCell', id, 'IsDeleted') == "true");
 
@@ -129,29 +133,29 @@ function PositionsViewModel() {
     });
 
     self.Add = function (data, e) {
-        self.PositionDetails.Init(self.OrganisationUID(), '', self.UID(), self.ReloadTree);
+        self.PositionDetails.Init(self.OrganisationUID(), '', self.ReloadTree);
     };
 
     self.Remove = function (data, e) {
-        app.Header.QuestionBox.InitQuestionBox("Вы уверены, что хотите архивировать подразделение?", function () {
-            $.getJSON("/Departments/GetChildEmployeeUIDs/", { departmentId: self.UID() }, function (departmentUIDs) {
-                if (departmentUIDs.length > 0) {
-                    app.Header.QuestionBox.InitQuestionBox("Существуют привязанные к подразделению сотрудники. Продолжить?", function() {
-                        self.RemoveDepartment();
+        app.Header.QuestionBox.InitQuestionBox("Вы уверены, что хотите архивировать должность?", function () {
+            $.getJSON("/Positions/GetChildEmployeeUIDs/", { positionId: self.UID() }, function (employeeUIDs) {
+                if (employeeUIDs.length > 0) {
+                    app.Header.QuestionBox.InitQuestionBox("Существуют привязанные к должности сотрудники. Продолжить?", function() {
+                        self.RemovePosition();
                     });
                 } else {
-                    self.RemoveDepartment();
+                    self.RemovePosition();
                 }
             });
         });
     };
 
-    self.RemoveDepartment = function() {
+    self.RemovePosition = function() {
             $.ajax({
-                url: "Departments/MarkDeleted",
+                url: "Positions/MarkDeleted",
                 type: "post",
                 contentType: "application/json",
-                data: JSON.stringify({ "uid": self.UID() }),
+                data: JSON.stringify({ "uid": self.UID(), "name": self.Name() }),
                 success: function () {
                     self.ReloadTree();
                 },
@@ -166,16 +170,34 @@ function PositionsViewModel() {
     };
 
     self.Copy = function (data, e) {
+        self.Clipboard({ "Position": { "Name": self.NameData(), "Description": self.Description()}});
     };
 
     self.Paste = function (data, e) {
+        self.Clipboard().Position.OrganisationUID = self.OrganisationUID();
+        $.ajax({
+            url: "Positions/PositionPaste",
+            type: "post",
+            contentType: "application/json",
+            data: JSON.stringify({ "position": self.Clipboard() }),
+            success: function (error) {
+                if (error) {
+                    alert(error);
+                } else {
+                    self.ReloadTree();
+                };
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("request failed");
+            }
+        });
     };
 
     self.Restore = function (data, e) {
-        app.Header.QuestionBox.InitQuestionBox("Вы уверены, что хотите восстановить подразделение?", function () {
-            var ids = $("#jqGridDepartments").getDataIDs();
+        app.Header.QuestionBox.InitQuestionBox("Вы уверены, что хотите восстановить должность?", function () {
+            var ids = $("#jqGridPositions").getDataIDs();
             for (var i = 0; i < ids.length; i++) {
-                var rowData = $("#jqGridDepartments").getRowData(ids[i]);
+                var rowData = $("#jqGridPositions").getRowData(ids[i]);
                 if (rowData.IsDeleted !== "true" &&
                     rowData.Name === self.Name() &&
                     rowData.OrganisationUID === self.OrganisationUID() &&
@@ -186,10 +208,10 @@ function PositionsViewModel() {
             }
 
             $.ajax({
-                url: "Departments/Restore",
+                url: "Positions/Restore",
                 type: "post",
                 contentType: "application/json",
-                data: JSON.stringify({ "uid": self.UID() }),
+                data: JSON.stringify({ "uid": self.UID(), "name": self.Name() }),
                 success: function () {
                     self.ReloadTree();
                 },

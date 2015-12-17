@@ -8,9 +8,9 @@ using Infrastructure.Client.Startup;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 using RubezhAPI.Automation;
 using RubezhAPI.Journal;
-using RubezhAPI.Models;
 using RubezhClient;
 using System;
 using System.Collections.Generic;
@@ -88,7 +88,7 @@ namespace FireMonitor
 
 					result = Run();
 					SafeFiresecService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
-					SafeFiresecService.ReconnectionRequiredEvent += () => { ApplicationService.Invoke(OnReconnectionRequired); };
+					SafeFiresecService.RestartEvent += () => { ApplicationService.Invoke(Restart); };
 
 					if (result)
 					{
@@ -98,6 +98,8 @@ namespace FireMonitor
 
 					ServiceFactory.StartupService.DoStep("Старт полинга сервера");
 					ClientManager.StartPoll();
+
+					LoadPlansProperties();
 
 					SafeFiresecService.JournalItemsEvent += OnJournalItems;
 
@@ -132,6 +134,16 @@ namespace FireMonitor
 			return result;
 		}
 
+		void LoadPlansProperties()
+		{
+			var properties = ClientManager.FiresecService.GetProperties(Guid.Empty);
+			if (properties != null)
+			{
+				if (properties.PlanProperties != null)
+					ServiceFactory.Events.GetEvent<ChangePlanPropertiesEvent>().Publish(properties.PlanProperties);
+			}
+		}
+
 		static List<RubezhAPI.SKD.Organisation> GetOrganisations(Guid clientUID)
 		{
 			var result = ClientManager.FiresecService.GetOrganisations(new RubezhAPI.SKD.OrganisationFilter());
@@ -159,7 +171,7 @@ namespace FireMonitor
 		{
 			if (isNew)
 				foreach (var journalItem in journalItems)
-					AutomationProcessor.RunOnJournal(journalItem);
+					AutomationProcessor.RunOnJournal(journalItem, ClientManager.CurrentUser, FiresecServiceFactory.UID);
 		}
 
 		static void ShutDown()
@@ -204,31 +216,9 @@ namespace FireMonitor
 				timer.Start();
 			}
 		}
-		void OnReconnectionRequired()
+		void Restart()
 		{
-			try
-			{
-				((SafeFiresecService)ClientManager.FiresecService).SuspendPoll = true;
-				var clientCredentials = new ClientCredentials()
-				{
-					UserName = Login,
-					Password = Password,
-					ClientType = ClientType.Monitor,
-					ClientUID = FiresecServiceFactory.UID
-				};
-
-				var operationResult = ClientManager.FiresecService.Connect(FiresecServiceFactory.UID, clientCredentials);
-				if (operationResult.HasError)
-					Restart(Login, Password);
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Bootstrapper.OnReconnectionRequired");
-			}
-			finally
-			{
-				((SafeFiresecService)ClientManager.FiresecService).SuspendPoll = false;
-			}
+			Restart(Login, Password);
 		}
 		public void Restart(string login = null, string password = null)
 		{

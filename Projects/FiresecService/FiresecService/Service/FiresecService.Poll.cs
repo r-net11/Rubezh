@@ -14,13 +14,13 @@ namespace FiresecService.Service
 	{
 		public PollResult Poll(Guid clientUID, int callbackIndex)
 		{
+			global::FiresecService.ViewModels.MainViewModel.Current.OnPoll(clientUID);
 			var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID);
 			if (clientInfo != null)
 			{
 				clientInfo.LastPollDateTime = DateTime.Now;
 				if (clientInfo.CallbackIndex > callbackIndex && callbackIndex != -1)
 					clientInfo.CallbackIndex = callbackIndex;
-				global::FiresecService.ViewModels.MainViewModel.Current.OnPoll(clientUID);
 				var result = CallbackManager.Get(clientInfo);
 				if (result.CallbackResults.Count == 0)
 				{
@@ -32,8 +32,11 @@ namespace FiresecService.Service
 				}
 				return result;
 			}
-			global::FiresecService.ViewModels.MainViewModel.Current.OnPoll(clientUID);
-			return CallbackManager.GetReconnectionRequired();
+			return new PollResult
+			{
+				CallbackIndex = CallbackManager.Index,
+				IsReconnectionRequired = true
+			}; ;
 		}
 
 		public static void NotifyGKProgress(GKProgressCallback gkProgressCallback, Guid? clientUID)

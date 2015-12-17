@@ -34,13 +34,15 @@
 						<Controls:EditorPresenter>
 							<Controls:EditorPresenter.ViewTemplate>
 								<ControlTemplate>
-									<TextBlock MinWidth="100" VerticalAlignment="Center" Cursor="Hand" Text="{Binding EditingPresentationZone}" TextWrapping="NoWrap"
+									<TextBlock MinWidth="100" VerticalAlignment="Top" Cursor="Hand" Text="{Binding EditingPresentationZone}" TextWrapping="NoWrap" Margin="0 4 0 0"
 											   Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
 										<TextBlock.InputBindings>
 											<MouseBinding Command="{Binding ShowZoneOrLogicCommand}" MouseAction="LeftClick" />
 										</TextBlock.InputBindings>
 										<TextBlock.ToolTip>
+											<WrapPanel>
 											<TextBlock Text="{Binding EditingPresentationZone}" TextWrapping="Wrap" />
+											</WrapPanel>
 										</TextBlock.ToolTip>
 										<TextBlock.Style>
 											<Style TargetType="TextBlock">

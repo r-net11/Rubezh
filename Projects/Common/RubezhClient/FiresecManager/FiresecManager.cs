@@ -9,7 +9,7 @@ namespace RubezhClient
 {
 	public partial class ClientManager
 	{
-		static ClientCredentials ClientCredentials { get; set; }
+		public static ClientCredentials ClientCredentials { get; private set; }
 		public static ISafeFiresecService FiresecService { get; internal set; }
 
 		public static string Connect(ClientType clientType, string serverAddress, string login, string password)
@@ -18,7 +18,7 @@ namespace RubezhClient
 			{
 				ClientCredentials = new ClientCredentials()
 				{
-					UserName = login,
+					Login = login,
 					Password = password,
 					ClientType = clientType,
 					ClientUID = FiresecServiceFactory.UID
@@ -28,7 +28,7 @@ namespace RubezhClient
 				for (int i = 0; i < 3; i++)
 				{
 					FiresecService = new SafeFiresecService(serverAddress);
-					var operationResult = FiresecService.Connect(FiresecServiceFactory.UID, ClientCredentials);
+					var operationResult = FiresecService.Connect(ClientCredentials);
 					if (!operationResult.HasError)
 					{
 						error = null;

@@ -1,14 +1,14 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using Infrastructure.Automation;
+using Infrastructure.Common.Services;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Events;
+using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.Models;
 using RubezhClient;
 using System.Collections.Generic;
-using Infrustructure.Plans.Elements;
-using Infrastructure.Common.Services;
-using Infrustructure.Plans.Events;
-using RubezhAPI;
-using Infrastructure.Automation;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
@@ -19,7 +19,8 @@ namespace AutomationModule.ViewModels
 		public ProcedureLayoutCollectionViewModel ProcedureLayoutCollectionViewModel { get; private set; }
 		public ControlElementType ControlElementType { get; private set; }
 
-		public ControlPlanStepViewModel(StepViewModel stepViewModel, ControlElementType controlElementType) : base(stepViewModel)
+		public ControlPlanStepViewModel(StepViewModel stepViewModel, ControlElementType controlElementType)
+			: base(stepViewModel)
 		{
 			ControlPlanArguments = stepViewModel.Step.ControlPlanArguments;
 			ControlElementType = controlElementType;

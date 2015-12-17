@@ -71,6 +71,7 @@ namespace GKImitator.ViewModels
 			var journalItem = new ImitatorJournalItem(2, 14, 0, 0);
 			AddJournalItem(journalItem);
 			RecalculateOutputLogic();
+			RecalculateCurrentLogic();
 		}
 
 		public bool HasReset { get; private set; }

@@ -58,9 +58,6 @@ namespace FiresecService.Service
 
 		public static PollResult Get(ClientInfo clientInfo)
 		{
-			if (clientInfo.IsDisconnecting)
-				return GetDisconnecting();
-
 			lock (CallbackResultItems)
 			{
 				var result = new PollResult();
@@ -85,33 +82,6 @@ namespace FiresecService.Service
 				return result;
 			}
 		}
-
-		public static PollResult GetReconnectionRequired()
-		{
-			return new PollResult
-			{
-				CallbackIndex = CallbackManager.Index,
-				IsReconnectionRequired = true
-			};
-		}
-
-		public static PollResult GetDisconnecting()
-		{
-			return new PollResult
-			{
-				CallbackIndex = CallbackManager.Index,
-				IsDisconnecting = true
-			};
-		}
-
-		//public static PollResult GetConfigurationChanged()
-		//{
-		//	return new PollResult
-		//	{
-		//		CallbackIndex = CallbackManager.Index,
-		//		IsConfigurationChanged = true
-		//	};
-		//}
 	}
 
 

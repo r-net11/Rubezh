@@ -78,7 +78,8 @@ namespace GKModule.ViewModels
 				{
 					MPT.MPTDevices.Add(mptDevice);
 					Devices.Add(mptDeviceViewModel);
-					ServiceFactory.SaveService.GKChanged = true; 
+					ServiceFactory.SaveService.GKChanged = true;
+					MPT.ChangedLogic();
 				}
 				else
 				{

@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+﻿function InitGridDepartments() {
     function imageFormat(cellvalue, options, rowObject) {
         var newCellValue = cellvalue;
         if (rowObject.IsDeleted) {
@@ -43,10 +43,12 @@
             expanded_field: "IsExpanded"
         }
     });
-});
+};
 
 function DepartmentsViewModel() {
     var self = {};
+
+    InitGridDepartments();
 
     self.UID = ko.observable();
     self.ParentUID = ko.observable();

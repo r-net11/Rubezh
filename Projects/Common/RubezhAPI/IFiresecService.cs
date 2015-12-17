@@ -19,7 +19,7 @@ namespace RubezhAPI
 		/// <param name="clientCredentials">Данные подключаемого клиента</param>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<bool> Connect(Guid clientUID, ClientCredentials clientCredentials);
+		OperationResult<bool> Connect(ClientCredentials clientCredentials);
 
 		/// <summary>
 		/// Отсоединение от сервиса

@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using RubezhAPI.Automation;
-using Infrastructure;
-using Infrastructure.Common.Windows.ViewModels;
-using System.Linq.Expressions;
-using RubezhAPI;
-using RubezhAPI.GK;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Automation;
+using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.Automation;
+using RubezhClient;
+using System;
+using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels
 {
@@ -135,14 +129,14 @@ namespace AutomationModule.ViewModels
 			{
 				var description = "";
 				if (!IsList)
-					description = AutomationHelper.GetStringValue(Argument.ExplicitValue, Argument.ExplicitType, Argument.EnumType);
+					description = GetStringValueHelper.GetStringValue(Argument.ExplicitValue, Argument.ExplicitType, Argument.EnumType);
 				else
 				{
 					if (Argument.ExplicitValues.Count == 0)
 						return "Пустой список";
 					foreach (var explicitValue in Argument.ExplicitValues)
 					{
-						description += AutomationHelper.GetStringValue(explicitValue, Argument.ExplicitType, Argument.EnumType) + ", ";
+						description += GetStringValueHelper.GetStringValue(explicitValue, Argument.ExplicitType, Argument.EnumType) + ", ";
 					}
 				}
 				description = description.TrimEnd(',', ' ');
