@@ -262,7 +262,6 @@ namespace GKProcessor
 							user.Descriptors.Add(new GKUserDescriptor { DescriptorNo = deviceNo, ScheduleNo = scheduleNo });
 						}
 						users.Add(user);
-						Trace.WriteLine(user.GkNo + " " + user.Fio);
 					}
 					else
 					{
@@ -275,17 +274,6 @@ namespace GKProcessor
 							user.Descriptors.Add(new GKUserDescriptor { DescriptorNo = deviceNo, ScheduleNo = scheduleNo });
 						}
 					}
-					
-					int k = 0;
-					foreach (var inputByte in pack)
-					{
-						if (inputByte != 0)
-							Trace.WriteLine(k + " " + inputByte);
-						else
-							Trace.WriteLine(k + " 000000");
-						k++;
-					}
-					Trace.WriteLine("-");
 				}
 				
 				if (progressCallback.IsCanceled)
