@@ -4,7 +4,7 @@
 	<Style TargetType="{x:Type Button}">
 		<Setter Property="Foreground" Value="White" />
 		<Setter Property="SnapsToDevicePixels" Value="True" />
-		<Setter Property="BorderBrush" Value="#7F264459" />
+		<Setter Property="BorderBrush" Value="#4C264459" />
 		<Setter Property="Height" Value="25" />
 		<Setter Property="Template">
 			<Setter.Value>
