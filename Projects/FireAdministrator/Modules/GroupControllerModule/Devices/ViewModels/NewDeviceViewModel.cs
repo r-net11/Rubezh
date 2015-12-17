@@ -97,11 +97,7 @@ namespace GKModule.ViewModels
 		public bool CreateDevices()
 		{
 			AddedDevices = new List<DeviceViewModel>();
-			int startAddress;
-			if (RealParentDevice!= null && RealParentDevice.DriverType == GKDriverType.RSR2_MVP_Part)
-				startAddress = GKManager.GetAddress(RealParentDevice.KAUShleifParent.AllChildren);
-			else
-			 startAddress = RealParentDevice == null ? GKManager.GetAddress(ParentDevice.Children.Where(x=> x.Driver.HasAddress)) : GKManager.GetAddress(RealParentDevice.AllChildren);
+			var startAddress = RealParentDevice == null ? GKManager.GetAddress(ParentDevice.Children.Where(x=> x.Driver.HasAddress)) : GKManager.GetAddress(RealParentDevice.KAUShleifParent.AllChildren);
 
 			if (RealParentDevice != null)
 			{
