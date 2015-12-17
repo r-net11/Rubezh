@@ -28,37 +28,41 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			float[] columnsWidth = { 0F, 0F, 0F, 0F, 0F, 200F, 0F, 0F, 200F, 0F, 0F };
+			float[] columnsWidth = { 196F, 240F, 150F, 0F, 0F, 210F, 0F, 0F, 200F, 0F, 0F };
 
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SchedulesReport));
 			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
 			this.xrTable1 = new DevExpress.XtraReports.UI.XRTable();
 			this.xrTableRow1 = new DevExpress.XtraReports.UI.XRTableRow();
-			this.xrTableCell3 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell4 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell5 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell6 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell18 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell16 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell19 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell17 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell20 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell22 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell7 = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellEmployeeData = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellOrganisationData = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellDepartmentData = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellPositionData = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCell1ScheduleData = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellScheduleTypeData = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellBaseScheduleData = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellUseHolidayValueData = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellFirstEnterLastExitValueData = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellAllowedLateData = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellAllowedEarlyLeaveData = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellAbsenceData = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellOvertimeData = new DevExpress.XtraReports.UI.XRTableCell();
 			this.GroupHeader1 = new DevExpress.XtraReports.UI.GroupHeaderBand();
 			this.xrTable2 = new DevExpress.XtraReports.UI.XRTable();
 			this.xrTableRow2 = new DevExpress.XtraReports.UI.XRTableRow();
-			this.xrTableCell10 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell11 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell12 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell13 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell8 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell1 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell9 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell2 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell15 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell21 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell14 = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellEmployeeHeader = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellOrganisationHeader = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCell1DepartmentHeader = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellPositionHeader = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellScheduleHeader = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellScheduleTypeHeader = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellBaseScheduleHeader = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellUseHolidayValueHeader = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellFirstEnterLastExitValueHeader = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellAllowedLateHeader = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellAllowedEarlyLeaveHeader = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellAbsenceHeader = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCellOvertimeHeader = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrControlStyle1 = new DevExpress.XtraReports.UI.XRControlStyle();
 			this.FirstEnterLastExitValue = new DevExpress.XtraReports.UI.CalculatedField();
 			this.UseHolidayValue = new DevExpress.XtraReports.UI.CalculatedField();
@@ -94,128 +98,153 @@
 			// xrTableRow1
 			//
 			this.xrTableRow1.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
-            this.xrTableCell3,
-            this.xrTableCell4,
-            this.xrTableCell5,
-            this.xrTableCell6,
-            this.xrTableCell18,
-            this.xrTableCell16,
-            this.xrTableCell19,
-            this.xrTableCell17,
-            this.xrTableCell20,
-            this.xrTableCell22,
-            this.xrTableCell7});
+            this.xrTableCellEmployeeData,
+            this.xrTableCellOrganisationData,
+            this.xrTableCellDepartmentData,
+            this.xrTableCellPositionData,
+            this.xrTableCell1ScheduleData,
+            this.xrTableCellScheduleTypeData,
+            this.xrTableCellBaseScheduleData,
+            this.xrTableCellUseHolidayValueData,
+            this.xrTableCellFirstEnterLastExitValueData,
+            this.xrTableCellAllowedLateData,
+            this.xrTableCellAllowedEarlyLeaveData,
+			this.xrTableCellAbsenceData,
+			this.xrTableCellOvertimeData});
 			this.xrTableRow1.Dpi = 254F;
 			this.xrTableRow1.Name = "xrTableRow1";
 			this.xrTableRow1.Weight = 11.5D;
 			//
-			// xrTableCell3
+			// xrTableCellEmployeeData
 			//
-			this.xrTableCell3.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+			this.xrTableCellEmployeeData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Employee")});
-			this.xrTableCell3.Dpi = 254F;
-			this.xrTableCell3.Name = "xrTableCell3";
-			this.xrTableCell3.Weight = 0.12426037128155046D;
+			this.xrTableCellEmployeeData.Dpi = 254F;
+			this.xrTableCellEmployeeData.Name = "xrTableCellEmployeeData";
+			this.xrTableCellEmployeeData.WidthF = columnsWidth[0];
+			//this.xrTableCellEmployeeData.Weight = 0.12426037128155046D;
 			//this.xrTableCell3.WidthF = columnsWidth[0];
 			//
-			// xrTableCell4
+			// xrTableCellOrganisationData
 			//
-			this.xrTableCell4.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+			this.xrTableCellOrganisationData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Organisation")});
-			this.xrTableCell4.Dpi = 254F;
-			this.xrTableCell4.Name = "xrTableCell4";
-			this.xrTableCell4.Weight = 0.12426030988523948D;
-			//this.xrTableCell4.WidthF = columnsWidth[1];
+			this.xrTableCellOrganisationData.Dpi = 254F;
+			this.xrTableCellOrganisationData.Name = "xrTableCellOrganisationData";
+			this.xrTableCellOrganisationData.WidthF = columnsWidth[1];
+			//this.xrTableCellOrganisationData.WidthF = columnsWidth[1];
 			//
-			// xrTableCell5
+			// xrTableCellDepartmentData
 			//
-			this.xrTableCell5.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+			this.xrTableCellDepartmentData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Department")});
-			this.xrTableCell5.Dpi = 254F;
-			this.xrTableCell5.Name = "xrTableCell5";
-			this.xrTableCell5.Weight = 0.12426037308732431D;
-			//this.xrTableCell5.WidthF = columnsWidth[2];
+			this.xrTableCellDepartmentData.Dpi = 254F;
+			this.xrTableCellDepartmentData.Name = "xrTableCellDepartmentData";
+			this.xrTableCellDepartmentData.WidthF = columnsWidth[1];
+			//this.xrTableCellDepartmentData.WidthF = columnsWidth[2];
 			//
-			// xrTableCell6
+			// xrTableCellPositionData
 			//
-			this.xrTableCell6.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+			this.xrTableCellPositionData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Position")});
-			this.xrTableCell6.Dpi = 254F;
-			this.xrTableCell6.Name = "xrTableCell6";
-			this.xrTableCell6.Text = "xrTableCell6";
-			this.xrTableCell6.Weight = 0.12426039836815829D;
-			//this.xrTableCell6.WidthF = columnsWidth[3];
+			this.xrTableCellPositionData.Dpi = 254F;
+			this.xrTableCellPositionData.Name = "xrTableCellPositionData";
+			//	this.xrTableCellPositionData.Text = "xrTableCell6";
+			this.xrTableCellPositionData.WidthF = columnsWidth[0];
+			//this.xrTableCellPositionData.WidthF = columnsWidth[3];
 			//
-			// xrTableCell18
+			// xrTableCell1ScheduleData
 			//
-			this.xrTableCell18.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+			this.xrTableCell1ScheduleData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Schedule")});
-			this.xrTableCell18.Dpi = 254F;
-			this.xrTableCell18.Name = "xrTableCell18";
-			this.xrTableCell18.Weight = 0.099408294858311791D;
-			//this.xrTableCell18.WidthF = columnsWidth[4];
+			this.xrTableCell1ScheduleData.Dpi = 254F;
+			this.xrTableCell1ScheduleData.Name = "xrTableCell1ScheduleData";
+			this.xrTableCell1ScheduleData.WidthF = columnsWidth[0];
+			//this.xrTableCell1ScheduleData.WidthF = columnsWidth[4];
 			//
-			// xrTableCell16
+			// xrTableCellScheduleTypeData
 			//
-			this.xrTableCell16.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+			this.xrTableCellScheduleTypeData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.ScheduleType")});
-			this.xrTableCell16.Dpi = 254F;
-			this.xrTableCell16.Name = "xrTableCell16";
-			//this.xrTableCell16.Weight = 0.0994083454199797D;
-			this.xrTableCell16.WidthF = columnsWidth[5];
+			this.xrTableCellScheduleTypeData.Dpi = 254F;
+			this.xrTableCellScheduleTypeData.Name = "xrTableCellScheduleTypeData";
+			//this.xrTableCellScheduleTypeData.Weight = 0.0994083454199797D;
+			this.xrTableCellScheduleTypeData.WidthF = columnsWidth[5];
 			//
-			// xrTableCell19
+			// xrTableCellBaseScheduleData
 			//
-			this.xrTableCell19.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+			this.xrTableCellBaseScheduleData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.BaseSchedule")});
-			this.xrTableCell19.Dpi = 254F;
-			this.xrTableCell19.Name = "xrTableCell19";
-			this.xrTableCell19.Weight = 0.099408340002658108D;
-			//this.xrTableCell19.WidthF = columnsWidth[6];
+			this.xrTableCellBaseScheduleData.Dpi = 254F;
+			this.xrTableCellBaseScheduleData.Name = "xrTableCellBaseScheduleData";
+			this.xrTableCellBaseScheduleData.WidthF = columnsWidth[0];
+			//this.xrTableCellBaseScheduleData.WidthF = columnsWidth[6];
 			//
-			// xrTableCell17
+			// xrTableCellUseHolidayValueData
 			//
-			this.xrTableCell17.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+			this.xrTableCellUseHolidayValueData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.UseHolidayValue")});
-			this.xrTableCell17.Dpi = 254F;
-			this.xrTableCell17.Name = "xrTableCell17";
-			this.xrTableCell17.StylePriority.UseTextAlignment = false;
-			this.xrTableCell17.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-			this.xrTableCell17.Weight = 0.0662720936430982D;
-			//this.xrTableCell17.WidthF = columnsWidth[7];
+			this.xrTableCellUseHolidayValueData.Dpi = 254F;
+			this.xrTableCellUseHolidayValueData.Name = "xrTableCellUseHolidayValueData";
+			this.xrTableCellUseHolidayValueData.StylePriority.UseTextAlignment = false;
+			this.xrTableCellUseHolidayValueData.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+			this.xrTableCellUseHolidayValueData.WidthF = columnsWidth[2];
+			//this.xrTableCellUseHolidayValueData.WidthF = columnsWidth[7];
 			//
-			// xrTableCell20
+			// xrTableCellFirstEnterLastExitValueData
 			//
-			this.xrTableCell20.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+			this.xrTableCellFirstEnterLastExitValueData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.FirstEnterLastExitValue")});
-			this.xrTableCell20.Dpi = 254F;
-			this.xrTableCell20.Name = "xrTableCell20";
-			this.xrTableCell20.StylePriority.UseTextAlignment = false;
-			this.xrTableCell20.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-			//this.xrTableCell20.Weight = 0.066272295889769808D;
-			this.xrTableCell20.WidthF = columnsWidth[8];
+			this.xrTableCellFirstEnterLastExitValueData.Dpi = 254F;
+			this.xrTableCellFirstEnterLastExitValueData.Name = "xrTableCellFirstEnterLastExitValueData";
+			this.xrTableCellFirstEnterLastExitValueData.StylePriority.UseTextAlignment = false;
+			this.xrTableCellFirstEnterLastExitValueData.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+			//this.xrTableCellFirstEnterLastExitValueData.Weight = 0.066272295889769808D;
+			this.xrTableCellFirstEnterLastExitValueData.WidthF = columnsWidth[8];
 			//
-			// xrTableCell22
+			// xrTableCellAllowedLateData
 			//
-			this.xrTableCell22.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Delay")});
-			this.xrTableCell22.Dpi = 254F;
-			this.xrTableCell22.Name = "xrTableCell22";
-			this.xrTableCell22.StylePriority.UseTextAlignment = false;
-			this.xrTableCell22.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-			this.xrTableCell22.Weight = 0.074556007159532173D;
-			//this.xrTableCell22.WidthF = columnsWidth[9];
+			this.xrTableCellAllowedLateData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.AllowedLate")});
+			this.xrTableCellAllowedLateData.Dpi = 254F;
+			this.xrTableCellAllowedLateData.Name = "xrTableCellAllowedLateData";
+			this.xrTableCellAllowedLateData.StylePriority.UseTextAlignment = false;
+			this.xrTableCellAllowedLateData.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+			this.xrTableCellAllowedLateData.WidthF = columnsWidth[0];
+			//this.xrTableCellAllowedLateData.WidthF = columnsWidth[9];
 			//
-			// xrTableCell7
+			// xrTableCellAllowedEarlyLeaveData
 			//
-			this.xrTableCell7.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.LeaveBefore")});
-			this.xrTableCell7.Dpi = 254F;
-			this.xrTableCell7.Name = "xrTableCell7";
-			this.xrTableCell7.StylePriority.UseTextAlignment = false;
-			this.xrTableCell7.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-			this.xrTableCell7.Weight = 0.0745562473274547D;
-			//this.xrTableCell7.WidthF = columnsWidth[10];
+			this.xrTableCellAllowedEarlyLeaveData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.AllowedEarlyLeave")});
+			this.xrTableCellAllowedEarlyLeaveData.Dpi = 254F;
+			this.xrTableCellAllowedEarlyLeaveData.Name = "xrTableCellAllowedEarlyLeaveData";
+			this.xrTableCellAllowedEarlyLeaveData.StylePriority.UseTextAlignment = false;
+			this.xrTableCellAllowedEarlyLeaveData.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+			this.xrTableCellAllowedEarlyLeaveData.WidthF = columnsWidth[0];
+			//this.xrTableCellAllowedEarlyLeaveData.WidthF = columnsWidth[10];
+			//
+			// xrTableCellAbsenceData
+			//
+			this.xrTableCellAbsenceData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.AllowedAbsence")});
+			this.xrTableCellAbsenceData.Dpi = 254F;
+			this.xrTableCellAbsenceData.Name = "xrTableCellAbsenceData";
+			this.xrTableCellAbsenceData.StylePriority.UseTextAlignment = false;
+			this.xrTableCellAbsenceData.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+			this.xrTableCellAbsenceData.WidthF = columnsWidth[0];
+			//this.xrTableCellAbsenceData.WidthF = columnsWidth[10];
+			//
+			// xrTableCellOvertimeData
+			//
+			this.xrTableCellOvertimeData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.AllowedOvertime")});
+			this.xrTableCellOvertimeData.Dpi = 254F;
+			this.xrTableCellOvertimeData.Name = "xrTableCellOvertimeData";
+			this.xrTableCellOvertimeData.StylePriority.UseTextAlignment = false;
+			this.xrTableCellOvertimeData.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+			this.xrTableCellOvertimeData.WidthF = columnsWidth[0];
+			//this.xrTableCellOvertimeData.WidthF = columnsWidth[10];
 			//
 			// GroupHeader1
 			//
@@ -254,17 +283,19 @@
 			//
 			this.xrTableRow2.BackColor = System.Drawing.Color.DarkGray;
 			this.xrTableRow2.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
-            this.xrTableCell10,
-            this.xrTableCell11,
-            this.xrTableCell12,
-            this.xrTableCell13,
-            this.xrTableCell8,
-            this.xrTableCell1,
-            this.xrTableCell9,
-            this.xrTableCell2,
-            this.xrTableCell15,
-            this.xrTableCell21,
-            this.xrTableCell14});
+            this.xrTableCellEmployeeHeader,
+            this.xrTableCellOrganisationHeader,
+            this.xrTableCell1DepartmentHeader,
+            this.xrTableCellPositionHeader,
+            this.xrTableCellScheduleHeader,
+            this.xrTableCellScheduleTypeHeader,
+            this.xrTableCellBaseScheduleHeader,
+            this.xrTableCellUseHolidayValueHeader,
+            this.xrTableCellFirstEnterLastExitValueHeader,
+            this.xrTableCellAllowedLateHeader,
+            this.xrTableCellAllowedEarlyLeaveHeader,
+			this.xrTableCellAbsenceHeader,
+			this.xrTableCellOvertimeHeader});
 			this.xrTableRow2.Dpi = 254F;
 			this.xrTableRow2.Name = "xrTableRow2";
 			this.xrTableRow2.Padding = new DevExpress.XtraPrinting.PaddingInfo(3, 3, 3, 3, 254F);
@@ -273,93 +304,109 @@
 			this.xrTableRow2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
 			this.xrTableRow2.Weight = 11.5D;
 			//
-			// xrTableCell10
+			// xrTableCellEmployeeHeader
 			//
-			this.xrTableCell10.Dpi = 254F;
-			this.xrTableCell10.Name = "xrTableCell10";
-			this.xrTableCell10.Text = "Сотрудник";
-			this.xrTableCell10.Weight = 0.1242603586411335D;
-			//this.xrTableCell10.WidthF = columnsWidth[0];
+			this.xrTableCellEmployeeHeader.Dpi = 254F;
+			this.xrTableCellEmployeeHeader.Name = "xrTableCellEmployeeHeader";
+			this.xrTableCellEmployeeHeader.Text = "Сотрудник";
+			this.xrTableCellEmployeeHeader.WidthF = columnsWidth[0];
+			//this.xrTableCellEmployeeHeader.WidthF = columnsWidth[0];
 			//
-			// xrTableCell11
+			// xrTableCellOrganisationHeader
 			//
-			this.xrTableCell11.Dpi = 254F;
-			this.xrTableCell11.Name = "xrTableCell11";
-			this.xrTableCell11.Text = "Организация";
-			this.xrTableCell11.Weight = 0.12426036044690736D;
-			//this.xrTableCell11.WidthF = columnsWidth[1];
+			this.xrTableCellOrganisationHeader.Dpi = 254F;
+			this.xrTableCellOrganisationHeader.Name = "xrTableCellOrganisationHeader";
+			this.xrTableCellOrganisationHeader.Text = "Организация";
+			this.xrTableCellOrganisationHeader.WidthF = columnsWidth[1];
+			//this.xrTableCellOrganisationHeader.WidthF = columnsWidth[1];
 			//
-			// xrTableCell12
+			// xrTableCell1DepartmentHeader
 			//
-			this.xrTableCell12.Dpi = 254F;
-			this.xrTableCell12.Name = "xrTableCell12";
-			this.xrTableCell12.Text = "Подразделение";
-			this.xrTableCell12.Weight = 0.12426036044690737D;
-			//this.xrTableCell12.WidthF = columnsWidth[2];
+			this.xrTableCell1DepartmentHeader.Dpi = 254F;
+			this.xrTableCell1DepartmentHeader.Name = "xrTableCell1DepartmentHeader";
+			this.xrTableCell1DepartmentHeader.Text = "Подразделение";
+			this.xrTableCell1DepartmentHeader.WidthF = columnsWidth[1];
+			//this.xrTableCell1DepartmentHeader.WidthF = columnsWidth[2];
 			//
-			// xrTableCell13
+			// xrTableCellPositionHeader
 			//
-			this.xrTableCell13.Dpi = 254F;
-			this.xrTableCell13.Name = "xrTableCell13";
-			this.xrTableCell13.Text = "Должность";
-			this.xrTableCell13.Weight = 0.12426034780649035D;
-			//this.xrTableCell13.WidthF = columnsWidth[3];
+			this.xrTableCellPositionHeader.Dpi = 254F;
+			this.xrTableCellPositionHeader.Name = "xrTableCellPositionHeader";
+			this.xrTableCellPositionHeader.Text = "Должность";
+			this.xrTableCellPositionHeader.WidthF = columnsWidth[0];
+			//this.xrTableCellPositionHeader.WidthF = columnsWidth[3];
 			//
-			// xrTableCell8
+			// xrTableCellScheduleHeader
 			//
-			this.xrTableCell8.Dpi = 254F;
-			this.xrTableCell8.Name = "xrTableCell8";
-			this.xrTableCell8.Text = "График работы";
-			this.xrTableCell8.Weight = 0.099408282217894814D;
-			//this.xrTableCell8.WidthF = columnsWidth[4];
+			this.xrTableCellScheduleHeader.Dpi = 254F;
+			this.xrTableCellScheduleHeader.Name = "xrTableCellScheduleHeader";
+			this.xrTableCellScheduleHeader.Text = "График работы";
+			this.xrTableCellScheduleHeader.WidthF = columnsWidth[0];
+			//this.xrTableCellScheduleHeader.WidthF = columnsWidth[4];
 			//
-			// xrTableCell1
+			// xrTableCellScheduleTypeHeader
 			//
-			this.xrTableCell1.Dpi = 254F;
-			this.xrTableCell1.Name = "xrTableCell1";
-			this.xrTableCell1.Text = "Тип графика";
-			//this.xrTableCell1.Weight = 0.099408282217894856D;
-			this.xrTableCell1.WidthF = columnsWidth[5];
+			this.xrTableCellScheduleTypeHeader.Dpi = 254F;
+			this.xrTableCellScheduleTypeHeader.Name = "xrTableCellScheduleTypeHeader";
+			this.xrTableCellScheduleTypeHeader.Text = "Тип графика";
+			//this.xrTableCellScheduleTypeHeader.Weight = 0.099408282217894856D;
+			this.xrTableCellScheduleTypeHeader.WidthF = columnsWidth[5];
 			//
-			// xrTableCell9
+			// xrTableCellBaseScheduleHeader
 			//
-			this.xrTableCell9.Dpi = 254F;
-			this.xrTableCell9.Name = "xrTableCell9";
-			this.xrTableCell9.Text = "Базовый график";
-			this.xrTableCell9.Weight = 0.0994082831207817D;
-			//this.xrTableCell9.WidthF = columnsWidth[6];
+			this.xrTableCellBaseScheduleHeader.Dpi = 254F;
+			this.xrTableCellBaseScheduleHeader.Name = "xrTableCellBaseScheduleHeader";
+			this.xrTableCellBaseScheduleHeader.Text = "Базовый график";
+			this.xrTableCellBaseScheduleHeader.WidthF = columnsWidth[0];
+			//this.xrTableCellBaseScheduleHeader.WidthF = columnsWidth[6];
 			//
-			// xrTableCell2
+			// xrTableCellUseHolidayValueHeader
 			//
-			this.xrTableCell2.Dpi = 254F;
-			this.xrTableCell2.Name = "xrTableCell2";
-			this.xrTableCell2.Text = "Не учит. праздн.";
-			this.xrTableCell2.Weight = 0.066272188446225511D;
-			//this.xrTableCell2.WidthF = columnsWidth[7];
+			this.xrTableCellUseHolidayValueHeader.Dpi = 254F;
+			this.xrTableCellUseHolidayValueHeader.Name = "xrTableCellUseHolidayValueHeader";
+			this.xrTableCellUseHolidayValueHeader.Text = "Не учит. праздн.";
+			this.xrTableCellUseHolidayValueHeader.WidthF = columnsWidth[2];
+			//this.xrTableCellUseHolidayValueHeader.WidthF = columnsWidth[7];
 			//
-			// xrTableCell15
+			// xrTableCellFirstEnterLastExitValueHeader
 			//
-			this.xrTableCell15.Dpi = 254F;
-			this.xrTableCell15.Name = "xrTableCell15";
-			this.xrTableCell15.Text = "Первый вход Последний выход";
-			//this.xrTableCell15.Weight = 0.066272188446225511D;
-			this.xrTableCell15.WidthF = columnsWidth[8];
+			this.xrTableCellFirstEnterLastExitValueHeader.Dpi = 254F;
+			this.xrTableCellFirstEnterLastExitValueHeader.Name = "xrTableCellFirstEnterLastExitValueHeader";
+			this.xrTableCellFirstEnterLastExitValueHeader.Text = "Учит. только первый вход и последний выход";
+			//this.xrTableCellFirstEnterLastExitValueHeader.Weight = 0.066272188446225511D;
+			this.xrTableCellFirstEnterLastExitValueHeader.WidthF = columnsWidth[8];
 			//
-			// xrTableCell21
+			// xrTableCellAllowedLateHeader
 			//
-			this.xrTableCell21.Dpi = 254F;
-			this.xrTableCell21.Name = "xrTableCell21";
-			this.xrTableCell21.Text = "Опоздание не более чем на";
-			this.xrTableCell21.Weight = 0.074556212566308025D;
-			//this.xrTableCell21.WidthF = columnsWidth[9];
+			this.xrTableCellAllowedLateHeader.Dpi = 254F;
+			this.xrTableCellAllowedLateHeader.Name = "xrTableCellAllowedLateHeader";
+			this.xrTableCellAllowedLateHeader.Text = "Не учит. опоздания меньше";
+			this.xrTableCellAllowedLateHeader.WidthF = columnsWidth[0];
+			//this.xrTableCellAllowedLateHeader.WidthF = columnsWidth[9];
 			//
-			// xrTableCell14
+			// xrTableCellAllowedEarlyLeaveHeader
 			//
-			this.xrTableCell14.Dpi = 254F;
-			this.xrTableCell14.Name = "xrTableCell14";
-			this.xrTableCell14.Text = "Уход раньше не более чем на";
-			this.xrTableCell14.Weight = 0.074556212566308025D;
-			//this.xrTableCell14.WidthF = columnsWidth[10];
+			this.xrTableCellAllowedEarlyLeaveHeader.Dpi = 254F;
+			this.xrTableCellAllowedEarlyLeaveHeader.Name = "xrTableCellAllowedEarlyLeaveHeader";
+			this.xrTableCellAllowedEarlyLeaveHeader.Text = "Не учит. ранний уход меньше";
+			this.xrTableCellAllowedEarlyLeaveHeader.WidthF = columnsWidth[0];
+			//this.xrTableCellAllowedEarlyLeaveHeader.WidthF = columnsWidth[10];
+			//
+			// xrTableCellAbsenceHeader
+			//
+			this.xrTableCellAbsenceHeader.Dpi = 254F;
+			this.xrTableCellAbsenceHeader.Name = "xrTableCellAbsenceHeader";
+			this.xrTableCellAbsenceHeader.Text = "Не учит. отсутствие меньше";
+			this.xrTableCellAbsenceHeader.WidthF = columnsWidth[0];
+			//this.xrTableCellAbsenceHeader.WidthF = columnsWidth[10];
+			//
+			// xrTableCellOvertimeHeader
+			//
+			this.xrTableCellOvertimeHeader.Dpi = 254F;
+			this.xrTableCellOvertimeHeader.Name = "xrTableCellOvertimeHeader";
+			this.xrTableCellOvertimeHeader.Text = "Не учит. переработку меньше";
+			this.xrTableCellOvertimeHeader.WidthF = columnsWidth[0];
+			//this.xrTableCellOvertimeHeader.WidthF = columnsWidth[10];
 			//
 			// xrControlStyle1
 			//
@@ -411,31 +458,35 @@
 		private DevExpress.XtraReports.UI.GroupHeaderBand GroupHeader1;
 		private DevExpress.XtraReports.UI.XRTable xrTable1;
 		private DevExpress.XtraReports.UI.XRTableRow xrTableRow1;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell3;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell4;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell5;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell6;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell7;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellEmployeeData;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellOrganisationData;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellDepartmentData;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellPositionData;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellAllowedEarlyLeaveData;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellAbsenceData;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellOvertimeData;
 		private DevExpress.XtraReports.UI.XRTable xrTable2;
 		private DevExpress.XtraReports.UI.XRTableRow xrTableRow2;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell10;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell11;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell12;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell13;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell14;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellEmployeeHeader;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellOrganisationHeader;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell1DepartmentHeader;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellPositionHeader;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellAllowedEarlyLeaveHeader;
 		private DevExpress.XtraReports.UI.XRControlStyle xrControlStyle1;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell18;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell16;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell19;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell17;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell20;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell22;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell8;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell1;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell9;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell2;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell15;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell21;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell1ScheduleData;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellScheduleTypeData;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellBaseScheduleData;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellUseHolidayValueData;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellFirstEnterLastExitValueData;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellAllowedLateData;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellScheduleHeader;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellScheduleTypeHeader;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellBaseScheduleHeader;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellUseHolidayValueHeader;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellFirstEnterLastExitValueHeader;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellAllowedLateHeader;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellAbsenceHeader;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCellOvertimeHeader;
 		private DevExpress.XtraReports.UI.CalculatedField FirstEnterLastExitValue;
 		private DevExpress.XtraReports.UI.CalculatedField UseHolidayValue;
 	}
