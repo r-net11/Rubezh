@@ -164,9 +164,9 @@ namespace GKImitator.ViewModels
 					changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
 					if (changed)
 					{
-						RecalculateOutputLogic();
 						var journalItem = new ImitatorJournalItem(2, 9, 2, 0);
 						AddJournalItem(journalItem);
+						RecalculateOutputLogic();
 					}
 
 					if (HoldDelay > 0)
