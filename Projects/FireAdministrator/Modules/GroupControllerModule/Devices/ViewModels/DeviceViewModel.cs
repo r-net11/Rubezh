@@ -324,7 +324,7 @@ namespace GKModule.ViewModels
 		{
 			return !(Driver.IsAutoCreate || Parent == null || Parent.Driver.IsGroupDevice);
 		}
-		public void Remove(bool updateParent)
+		public void Remove(bool isSingleRemove)
 		{
 			var allDevices = GKManager.RemoveDevice(Device);
 			foreach (var device in allDevices)
@@ -338,18 +338,16 @@ namespace GKModule.ViewModels
 			{
 				var parent = Parent;
 				var index = DevicesViewModel.Current.SelectedDevice.VisualIndex;
-				if (updateParent)
-				{
-					parent.Device.OnAUParametersChanged();
-					parent.Nodes.Remove(this);
-					parent.Update();
-				}
+				parent.Device.OnAUParametersChanged();
+				parent.Nodes.Remove(this);
+				parent.Update();
 				index = Math.Min(index, parent.ChildrenCount - 1);
 				foreach (var childDeviceViewModel in GetAllChildren(true))
 				{
 					DevicesViewModel.Current.AllDevices.Remove(childDeviceViewModel);
 				}
-				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
+				if (isSingleRemove)
+					DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
 			GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
 			ServiceFactory.SaveService.GKChanged = true;

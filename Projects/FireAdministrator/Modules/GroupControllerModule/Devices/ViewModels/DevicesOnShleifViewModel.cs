@@ -81,31 +81,16 @@ namespace GKModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			var shleifDeviceViewModel = DevicesViewModel.Current.AllDevices.Find(x => x.Device.UID == ShleifDevice.UID);
-			var newNodes = new List<DeviceViewModel>();
 			foreach (var deviceOnShleif in Devices)
 			{
 				var deviceViewModel = DevicesViewModel.Current.AllDevices.Find(x => x.Device.UID == deviceOnShleif.Device.UID);
-				if (deviceViewModel != null)
+				if (deviceViewModel != null && deviceOnShleif.IsActive)
 				{
-					if (deviceOnShleif.IsActive)
-					{
 						deviceViewModel.Remove(false);
-					}
-					else
-					{
-						newNodes.Add(deviceViewModel);
-                    }
 				}
 			}
-			shleifDeviceViewModel.Nodes.Clear();
-			newNodes.ForEach(x => shleifDeviceViewModel.Nodes.Add(x));
-			ShleifDevice.OnAUParametersChanged();
-			shleifDeviceViewModel.Update();
-
 			if (ShleifDevice.KAUParent != null)
 				GKManager.RebuildRSR2Addresses(ShleifDevice);
-
 			Devices = new ObservableCollection<DeviceOnShleifViewModel>(Devices.Where(x => !x.IsActive));
 			OnPropertyChanged(() => Devices);
 		}
