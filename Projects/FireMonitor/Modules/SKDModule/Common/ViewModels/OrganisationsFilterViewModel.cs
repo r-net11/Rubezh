@@ -11,22 +11,22 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationsFilterViewModel : BaseViewModel
 	{
-		public CheckBoxItemList<FilterOrganisationViewModel> Organisations { get; private set; }
+		public CheckBoxItemList<FilterOrganisationItem> Organisations { get; private set; }
 		public List<Guid> UIDs { get { return Organisations.Items.Where(x => x.IsChecked).Select(x => x.Organisation.UID).ToList(); } }
-		
+
 		public OrganisationsFilterViewModel(bool isWithDeleted = false)
 		{
-			Organisations = new CheckBoxItemList<FilterOrganisationViewModel>();
-			var filter = new OrganisationFilter() { UserUID = FiresecManager.CurrentUser.UID };
+			Organisations = new CheckBoxItemList<FilterOrganisationItem>();
+			var filter = new OrganisationFilter { UserUID = FiresecManager.CurrentUser.UID };
 			if (isWithDeleted)
 				filter.LogicalDeletationType = LogicalDeletationType.All;
 			var organisations = OrganisationHelper.Get(filter);
 			if (organisations != null)
 			{
-				Organisations = new CheckBoxItemList<FilterOrganisationViewModel>();
+				Organisations = new CheckBoxItemList<FilterOrganisationItem>();
 				foreach (var organisation in organisations)
 				{
-					Organisations.Add(new FilterOrganisationViewModel(organisation));
+					Organisations.Add(new FilterOrganisationItem(organisation));
 				}
 			}
 		}

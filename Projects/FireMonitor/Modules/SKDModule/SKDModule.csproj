@@ -493,7 +493,7 @@
       <DependentUpon>CardsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\ViewModels\FilterBaseViewModel.cs" />
-    <Compile Include="Common\ViewModels\FilterOrganizationViewModel.cs" />
+    <Compile Include="Common\ViewModels\FilterOrganizationItem.cs" />
     <Compile Include="Common\ViewModels\OrganizationFilterBaseViewModel.cs" />
     <Compile Include="Common\Views\FilterMarkDeletedTabItem.xaml.cs">
       <DependentUpon>FilterMarkDeletedTabItem.xaml</DependentUpon>

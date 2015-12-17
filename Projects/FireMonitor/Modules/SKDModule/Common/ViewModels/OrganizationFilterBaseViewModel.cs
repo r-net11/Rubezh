@@ -10,24 +10,27 @@ namespace SKDModule.ViewModels
 	public class OrganisationFilterBaseViewModel<T> : FilterBaseViewModel<T>
 		where T : OrganisationFilterBase
 	{
-		public CheckBoxItemList<FilterOrganisationViewModel> Organisations { get; private set; }
+		public CheckBoxItemList<FilterOrganisationItem> Organisations { get; private set; }
 
 		public OrganisationFilterBaseViewModel(T filter, bool allowMultiple = true)
 			: base(filter)
 		{
 			var organisations = OrganisationHelper.GetByCurrentUser();
-			Organisations = new CheckBoxItemList<FilterOrganisationViewModel> { IsSingleSelection = !allowMultiple };
+			Organisations = new CheckBoxItemList<FilterOrganisationItem> { IsSingleSelection = !allowMultiple };
 			if (organisations != null)
 			{
 				foreach (var organisation in organisations)
 				{
-					Organisations.Add(new FilterOrganisationViewModel(organisation));
+					Organisations.Add(new FilterOrganisationItem(organisation));
 				}
 			}
 
 			foreach (var organisation in Organisations.Items)
 			{
 				organisation.IsChecked = Filter.OrganisationUIDs.Any(x => x == organisation.Organisation.UID);
+
+				if (organisation.IsChecked && Organisations.IsSingleSelection)
+					break;
 			}
 		}
 

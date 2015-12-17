@@ -3,7 +3,7 @@ using Infrastructure.Common.CheckBoxList;
 
 namespace SKDModule.ViewModels
 {
-	public class ReportFilterOrganisationViewModel : CheckBoxItemViewModel
+	public class ReportFilterOrganisationViewModel : CheckBoxItem
 	{
 		public Organisation Organisation { get; private set; }
 		public string Name { get; private set; }

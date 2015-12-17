@@ -13,9 +13,7 @@
 			<RadioButton
 				Margin="2 0"
 				VerticalAlignment="Center"
-				IsChecked="{Binding IsChecked,
-			                                 Mode=TwoWay,
-			                                 UpdateSourceTrigger=PropertyChanged}">
+				IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 				<StackPanel Orientation="Horizontal">
 					<Image
 						Width="16"
@@ -29,14 +27,11 @@
 				</StackPanel>
 			</RadioButton>
 		</DataTemplate>
-
 		<DataTemplate x:Key="CheckBoxDataTemplate">
 			<CheckBox
 				Margin="2 0"
 				VerticalAlignment="Center"
-				IsChecked="{Binding IsChecked,
-			                              Mode=TwoWay,
-			                              UpdateSourceTrigger=PropertyChanged}">
+				IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 				<StackPanel Orientation="Horizontal">
 					<Image
 						Width="16"
@@ -50,15 +45,12 @@
 				</StackPanel>
 			</CheckBox>
 		</DataTemplate>
-
 		<DataTemplate x:Key="FullTemplate">
 			<ContentControl Content="{Binding }">
 				<ContentControl.Style>
 					<Style TargetType="{x:Type ContentControl}">
-
 						<!--  Default Template  -->
 						<Setter Property="ContentTemplate" Value="{StaticResource CheckBoxDataTemplate}" />
-
 						<!--  Triggers to change Template  -->
 						<Style.Triggers>
 							<DataTrigger Binding="{Binding IsCheckBoxes, ElementName=_this, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="False">
@@ -70,7 +62,6 @@
 			</ContentControl>
 		</DataTemplate>
 	</UserControl.Resources>
-
 	<DataGrid ItemsSource="{Binding Organisations.Items}">
 		<DataGrid.Columns>
 			<DataGridTemplateColumn
