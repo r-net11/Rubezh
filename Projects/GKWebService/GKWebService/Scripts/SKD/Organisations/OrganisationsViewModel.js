@@ -40,11 +40,18 @@
     };
 
     self.ReloadOrganisationList = function () {
-        $.getJSON("/Organisations/GetOrganisations/",
-            ko.mapping.toJSON(self.Filter),
-            function (organisations) {
-                ko.mapping.fromJS(organisations, {}, self);
-            });
+        $.ajax({
+            url: "/Organisations/GetOrganisations/",
+            type: "post",
+            contentType: "application/json",
+            data: ko.mapping.toJSON(self.Filter),
+            success: function (data) {
+                ko.mapping.fromJS(data, {}, self);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("request failed");
+            },
+        });
     };
 
     self.OrganisationClick = function(data, e, organisation) {
@@ -58,6 +65,18 @@
             data: ko.mapping.toJSON(self.SelectedOrganisation()),
             success: function (users) {
                 ko.mapping.fromJS(users, {}, self);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("request failed");
+            }
+        });
+        $.ajax({
+            url: "/Organisations/GetOrganisationDoors/",
+            type: "post",
+            contentType: "application/json",
+            data: ko.mapping.toJSON(self.SelectedOrganisation()),
+            success: function (doors) {
+                ko.mapping.fromJS(doors, {}, self);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert("request failed");
@@ -87,6 +106,34 @@
     self.DoorClick = function (data, e, door) {
         $('ul#OrganisationDoors li').removeClass("selected");
         $(e.currentTarget).parent().addClass("selected");
+
+        if (!door.IsChecked()) {
+            $.ajax({
+                url: "/Organisations/IsDoorLinked/",
+                type: "post",
+                contentType: "application/json",
+                async: false,
+                data: "{'organisationId': '" + self.SelectedOrganisation().UID() + "','door': " + ko.mapping.toJSON(door) + "}",
+                success: function (isDoorLinked) {
+                    if (isDoorLinked) {
+                        app.Header.QuestionBox.InitQuestionBox("Существуют карты, шаблоны доступа или графики, привязанные к данной точке доступа.<br/>Вы уверены, что хотите снять права с точки доступа?", function() {
+                            self.SetDoorChecked(door);
+                        });
+                    } else {
+                        self.SetDoorChecked(door);
+                    };
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("request failed");
+                }
+            });
+        } else {
+            self.SetDoorChecked(door);
+        };
+
+    };
+
+    self.SetDoorChecked = function(door) {
         $.ajax({
             url: "/Organisations/SetDoorsChecked/",
             type: "post",

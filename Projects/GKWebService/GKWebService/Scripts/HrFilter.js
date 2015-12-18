@@ -15,6 +15,10 @@
 
     self.IsWithDeleted = ko.observable(false);
 
+    self.Update = function() {
+        self.LogicalDeletationType(self.IsWithDeleted() ? "All" : "Active");
+    };
+
     self.InitFilter = function () {
         self.latestData = ko.mapping.toJS(self);
         self.latestIsWithDeleted = self.IsWithDeleted();
@@ -36,7 +40,7 @@
     };
 
     self.Save = function () {
-        self.LogicalDeletationType(self.IsWithDeleted() ? "All" : "Active");
+        self.Update();
         self.HRViewModel.InitializeEmployeeFilter(self);
         self.Close();
     };

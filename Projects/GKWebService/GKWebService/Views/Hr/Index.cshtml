@@ -73,8 +73,8 @@
         <div class="icon delete"></div>
         <div class="icon edit" title="Редактировать" data-bind="click: Organisations.CanEdit() ? function(data,event) { Organisations.Edit(data, event); } : null, css: {disabled: !Organisations.CanEdit()}"></div>
         <div class="icon redo"></div>
-        <div class="icon add"></div>
-        <div class="icon delete"></div>
+        <div class="icon add" title="Скрыть архивные сведения" data-bind="visible: Filter.IsWithDeleted, click: ChangeIsDeleted"></div>
+        <div class="icon delete" title="Отображать архивные сведения" data-bind="visible: !Filter.IsWithDeleted(), click: ChangeIsDeleted"></div>
     </div>
 
     <select id="SelectPersonType" data-bind="visible:hrPages.Employees, value: SelectedPersonType, event:{ change: PersonTypeChanged}">

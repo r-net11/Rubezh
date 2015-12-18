@@ -85,5 +85,13 @@ namespace GKWebService.Controllers
 
             return new JsonNetResult { Data = organisation };
         }
+
+        [HttpPost]
+        public JsonNetResult IsDoorLinked(Guid organisationId, OrganisationDoorViewModel door)
+        {
+            var result = door.IsDoorLinked(organisationId);
+
+            return new JsonNetResult { Data = result };
+        }
     }
 }
