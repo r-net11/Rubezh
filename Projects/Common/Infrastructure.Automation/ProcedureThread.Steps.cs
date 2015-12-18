@@ -232,6 +232,29 @@ namespace Infrastructure.Automation
 			}
 		}
 
+		void HttpRequest(ProcedureStep procedureStep)
+		{
+			var httpRequestArguments = procedureStep.HttpRequestArguments;
+			var url = GetValue<string>(httpRequestArguments.UrlArgument);
+			var content = GetValue<string>(httpRequestArguments.ContentArgument);
+			var responseVariable = AllVariables.FirstOrDefault(x => x.Uid == httpRequestArguments.ResponseArgument.VariableUid);
+			var webClient = new WebClient();
+			webClient.Encoding = System.Text.Encoding.UTF8;
+			var response = "";
+			switch (httpRequestArguments.HttpMethod)
+			{
+				case HttpMethod.Get:
+					response = webClient.DownloadString(url);
+					break;
+
+				case HttpMethod.Post:
+					response = webClient.UploadString(url, content);
+					break;
+			}
+
+			SetValue(httpRequestArguments.ResponseArgument, response);
+		}
+
 		void Calculate(ProcedureStep procedureStep)
 		{
 			var arithmeticArguments = procedureStep.ArithmeticArguments;
