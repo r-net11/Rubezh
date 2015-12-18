@@ -85,7 +85,7 @@ namespace FiresecService.Service
 		public OperationResult SaveDayIntervalPart(DayIntervalPart item, bool isNew, string name)
 		{
 			// Валидируем временной интервал дневного графика
-			var result = DayIntervalValidator.ValidateAddingOrEditingDayIntervalPart(item, isNew);
+			var result = DayIntervalPartValidator.ValidateAddingOrEditing(item, isNew);
 			if (result.HasError)
 				return result;
 
@@ -104,11 +104,22 @@ namespace FiresecService.Service
 
 		public OperationResult RemoveDayIntervalPart(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_дневного_графика, name, uid: uid);
+			// Валидируем удаляемый временной интервал дневного графика
+			var result = DayIntervalPartValidator.ValidateDeleting(uid);
+			if (result.HasError)
+				return result;
+			
+			// Удаляем временной интервал дневного графика
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.DayIntervalPartTranslator.Delete(uid);
+				result = databaseService.DayIntervalPartTranslator.Delete(uid);
 			}
+
+			// Вставляем соответствующую запись в журнал событий
+			if (!result.HasError)
+				AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика, name, uid: uid);
+	
+			return result;
 		}
 
 		public OperationResult<IEnumerable<Holiday>> GetHolidays(HolidayFilter filter)

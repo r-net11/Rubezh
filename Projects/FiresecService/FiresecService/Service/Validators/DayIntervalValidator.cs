@@ -107,29 +107,5 @@ namespace FiresecService.Service.Validators
 
 			return new OperationResult();
 		}
-
-		public static OperationResult ValidateAddingOrEditingDayIntervalPart(DayIntervalPart dayIntervalPart, bool isNew)
-		{
-			return isNew ? ValidateAddingDayIntervalPart(dayIntervalPart) : ValidateEditingDayIntervalPart(dayIntervalPart);
-		}
-
-		private static OperationResult ValidateAddingDayIntervalPart(DayIntervalPart dayIntervalPart)
-		{
-			OperationResult<DayInterval> operationResult;
-			using (var databaseService = new SKDDatabaseService())
-			{
-				operationResult = databaseService.DayIntervalTranslator.GetSingle(dayIntervalPart.DayIntervalUID);
-			}
-			if (operationResult.HasError)
-				return new OperationResult(operationResult.Error);
-
-
-			return new OperationResult();
-		}
-
-		private static OperationResult ValidateEditingDayIntervalPart(DayIntervalPart dayIntervalPart)
-		{
-			return new OperationResult();
-		}
 	}
 }

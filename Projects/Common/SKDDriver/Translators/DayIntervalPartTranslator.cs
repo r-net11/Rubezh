@@ -88,5 +88,16 @@ namespace SKDDriver.Translators
 		{
 			return list.Select(item => Translate(item)).ToList();
 		}
+
+		/// <summary>
+		/// Получить коллекцию прочих временных интервалов для дневного графика
+		/// </summary>
+		/// <param name="dayIntervalPart">Текущий временной интервал, для дневного графика которого ищутся прочие временные интервалы</param>
+		/// <returns>Коллекция временных интервалов дневного графика</returns>
+		public IEnumerable<DayIntervalPart> GetOtherDayIntervalParts(DayIntervalPart dayIntervalPart)
+		{
+			return TranslateAll(Context.DayIntervalParts.Where(
+				x => x.DayIntervalUID == dayIntervalPart.DayIntervalUID && x.UID != dayIntervalPart.UID));
+		}
 	}
 }
