@@ -146,6 +146,7 @@ namespace FiresecService.Service
 		public OperationResult ConnectToOpcDaServer(OpcDaServer server)
 		{
 			var item = FindOpcDaServer(server);
+			
 			if (item != null)
 			{
 				if (!item.IsConnected)
@@ -157,11 +158,9 @@ namespace FiresecService.Service
 			{
 				item = new TsCDaServer();
 				item.Connect(new OpcUrl(OpcSpecification.OPC_DA_20, OpcUrlScheme.DA, server.Url), null);
-
+				_OpcDaServerPool.Add(item);
 			}
 
-			//TODO: Подписываемся на теги
-			// TsCDaSubscriptionState
 			return new OperationResult { HasError = false, Error = null, Warnings = null };
 		}
 

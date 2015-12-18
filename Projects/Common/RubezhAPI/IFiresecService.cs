@@ -139,13 +139,15 @@ namespace RubezhAPI
 		/// зарегистрированных в системе
 		/// </summary>
 		/// <returns></returns>
-		string[] GetOpcDaServerNames();
+		[OperationContract]
+		OperationResult<string[]> GetOpcDaServerNames();
 
 		/// <summary>
 		/// Возвращает структуру сервера (группы и теги) для указанного сервера
 		/// </summary>
 		/// <param name="server">Наименование сервера</param>
 		/// <returns></returns>
+		[OperationContract]
 		OperationResult<OpcDaServer> GetOpcDaServerGroupAndTags(OpcDaServer server);
 
 		/// <summary>
@@ -154,6 +156,7 @@ namespace RubezhAPI
 		/// </summary>
 		/// <param name="server">OPC DA сервер для подключения</param>
 		/// <returns></returns>
+		[OperationContract]
 		OperationResult ConnectToOpcDaServer(OpcDaServer server);
 
 		/// <summary>
@@ -162,6 +165,7 @@ namespace RubezhAPI
 		/// </summary>
 		/// <param name="server"></param>
 		/// <returns></returns>
+		[OperationContract]
 		OperationResult DisconnectFromOpcDaServer(OpcDaServer server);
 
 		/// <summary>
@@ -169,6 +173,7 @@ namespace RubezhAPI
 		/// </summary>
 		/// <param name="server"></param>
 		/// <returns></returns>
+		[OperationContract]
 		OperationResult<OpcServerStatus> GetOpcDaServerStatus(OpcDaServer server);
 
 		/// <summary>
@@ -176,6 +181,7 @@ namespace RubezhAPI
 		/// </summary>
 		/// <param name="server"></param>
 		/// <returns></returns>
+		[OperationContract]
 		OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(OpcDaServer server);
 
 		/// <summary>
@@ -184,7 +190,8 @@ namespace RubezhAPI
 		/// <param name="server"></param>
 		/// <param name="tagValues"></param>
 		/// <returns></returns>
-		OperationResult WriteOpcDaServerTags(OpcDaServer server, TsCDaItemValueResult[] tagValues);
+		[OperationContract]
+		OperationResult WriteOpcDaServerTags(OpcDaServer server, TsCDaItemValue[] tagValues);
 		#endregion
 	}
 }

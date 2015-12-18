@@ -135,6 +135,10 @@
     <Reference Include="Npgsql.EntityFrameworkLegacy">
       <HintPath>..\..\..\3rdParty\Npgsql\Npgsql.EntityFrameworkLegacy.dll</HintPath>
     </Reference>
+    <Reference Include="OpcClientSdk40, Version=7.1.0.1, Culture=neutral, PublicKeyToken=aaf49bf92e1a676f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\petrovdy\Documents\OPC DA AE HDA Client SDK .NET\binaries\NET40\OpcClientSdk40.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />

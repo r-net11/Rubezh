@@ -11,6 +11,8 @@ using RubezhAPI.Journal;
 using RubezhAPI.Models;
 using RubezhLicense;
 using RubezhAPI.License;
+using OpcClientSdk.Da;
+using OpcClientSdk;
 
 namespace FiresecService.Service
 {
@@ -532,6 +534,45 @@ namespace FiresecService.Service
 		{
 			SafeOperationCall(() => FiresecService.ImportOrganisationListA(isWithDeleted, path), "ImportOrganisationList");
 		}
+		#endregion
+
+		#region OPC DA Server
+
+		public OperationResult<string[]> GetOpcDaServerNames()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetOpcDaServerNames(); }, "GetOpcDaServerNames");
+		}
+
+		public OperationResult<OpcDaServer> GetOpcDaServerGroupAndTags(OpcDaServer server)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetOpcDaServerGroupAndTags(server); }, "GetOpcDaServerGroupAndTags"); 
+		}
+
+		public OperationResult ConnectToOpcDaServer(OpcDaServer server)
+		{
+			return SafeOperationCall(() => { return FiresecService.ConnectToOpcDaServer(server); }, "ConnectToOpcDaServer");
+		}
+
+		public OperationResult DisconnectFromOpcDaServer(OpcDaServer server)
+		{
+			return SafeOperationCall(() => { return FiresecService.DisconnectFromOpcDaServer(server); }, "DisconnectFromOpcDaServer");
+		}
+
+		public OperationResult<OpcServerStatus> GetOpcDaServerStatus(OpcDaServer server)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetOpcDaServerStatus(server); }, "GetOpcDaServerStatus");
+		}
+
+		public OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(OpcDaServer server)
+		{
+			return SafeOperationCall(() => { return FiresecService.ReadOpcDaServerTags(server); }, "ReadOpcDaServerTags");
+		}
+
+		public OperationResult WriteOpcDaServerTags(OpcDaServer server, TsCDaItemValue[] tagValues)
+		{
+			return SafeOperationCall(() => { return FiresecService.WriteOpcDaServerTags(server, tagValues); }, "WriteOpcDaServerTags");
+		}
+
 		#endregion
 	}
 }
