@@ -473,7 +473,7 @@ namespace FiresecAPI.SKD
 					timeTrackPartItem = new TimeTrackPart
 					{
 						EnterDateTime = timeTrackPart.EnterDateTime,
-						ExitDateTime = Date.AddDays(1).AddTicks(-1), //23.59.59.9999999
+						ExitDateTime = Date.AddDays(1).AddSeconds(-1), //23.59.59.9999999
 						TimeTrackPartType = timeTrackPart.TimeTrackPartType,
 						ZoneUID = timeTrackPart.ZoneUID,
 						StartsInPreviousDay = timeTrackPart.StartsInPreviousDay,
@@ -519,7 +519,7 @@ namespace FiresecAPI.SKD
 					timeTrackPartItem = new TimeTrackPart
 					{
 						EnterDateTime = Date, //00:00
-						ExitDateTime = Date.AddDays(1).AddTicks(-1), //23.59.59.9999999
+						ExitDateTime = Date.AddDays(1).AddSeconds(-1), //23.59.59.9999999
 						TimeTrackPartType = timeTrackPart.TimeTrackPartType,
 						ZoneUID = timeTrackPart.ZoneUID,
 						StartsInPreviousDay = timeTrackPart.StartsInPreviousDay,

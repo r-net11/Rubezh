@@ -35,7 +35,7 @@
 			<TextBlock Grid.Row="3" Grid.Column="0" Text="Подтверждение пароля" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
 			<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding PasswordConfirmation}" Margin="2" />
 
-			<Button Grid.Row="4" Grid.Column="1" Command="{Binding SetPasswordCommand}" Content="Изменить пароль" Width="150" HorizontalAlignment="Right" Margin="2" />
+			<Button Grid.Row="4" Grid.Column="1" Command="{Binding SetPasswordCommand}" BorderBrush="#D8FFFFFF" Content="Изменить пароль" Width="150" HorizontalAlignment="Right" Margin="2" />
 		</Grid>
 	</Border>
 </UserControl>

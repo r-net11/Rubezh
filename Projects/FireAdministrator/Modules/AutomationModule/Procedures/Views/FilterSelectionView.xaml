@@ -32,11 +32,11 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-
-		<TextBlock Grid.Row="1" Margin="0 25 0 -25">
-			<Hyperlink Command="{Binding CreateFilterCommand}" Style="{StaticResource HyperlinkStyle}">
-				<TextBlock Text="Создать фильтр" />
-			</Hyperlink>
-		</TextBlock>
+		<Button
+			Grid.Row="1"
+			Margin="0 30 0 -30"
+			HorizontalAlignment="Left"
+			Width="120"
+			Command="{Binding CreateFilterCommand}" Content="Создать фильтр" />
 	</Grid>
 </UserControl>

@@ -155,7 +155,7 @@
     <Compile Include="AppDataFolderHelper.cs" />
     <Compile Include="AppServerServices.cs" />
     <Compile Include="CheckBoxList\ChechBoxItemList.cs" />
-    <Compile Include="CheckBoxList\CheckBoxItemViewModel.cs" />
+    <Compile Include="CheckBoxList\CheckBoxItem.cs" />
     <Compile Include="CheckBoxList\ICheckBoxItem.cs" />
     <Compile Include="AppServerConnectionManager.cs" />
     <Compile Include="ConnectionSettingsManager.cs" />

@@ -86,7 +86,7 @@
 					<RowDefinition Height="Auto"/>
 					<RowDefinition/>
 				</Grid.RowDefinitions>
-				<Button Grid.Row="0" Content="Просмотр видео" Command="{Binding PlayCommand}" VerticalAlignment="Center" Margin="2"/>
+				<Button Grid.Row="0" BorderBrush="#D8FFFFFF" Content="Просмотр видео" Command="{Binding PlayCommand}" VerticalAlignment="Center" Margin="2"/>
 				<mediaSourcePlayer:MediaPlayer
 					Grid.Row="1"
 					x:Name="MediaSourcePlayer"

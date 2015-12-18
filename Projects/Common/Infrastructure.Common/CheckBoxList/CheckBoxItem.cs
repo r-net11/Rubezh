@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Common.CheckBoxList
 {
-	public abstract class CheckBoxItemViewModel : BaseViewModel, ICheckBoxItem
+	public abstract class CheckBoxItem : BaseViewModel, ICheckBoxItem
 	{
 		private bool _isChecked;
 

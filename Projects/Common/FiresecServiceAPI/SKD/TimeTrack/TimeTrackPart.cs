@@ -105,7 +105,7 @@ namespace FiresecAPI.SKD
 				if (!ExitDateTime.HasValue) return TimeSpan.Zero;
 
 				var result = ExitDateTime.Value.TimeOfDay - EnterDateTime.TimeOfDay;
-				var isCrossNight = ExitDateTime.Value.TimeOfDay >= new TimeSpan(23, 59, 59);
+				var isCrossNight = ExitDateTime.Value.TimeOfDay >= new TimeSpan(23, 59, 59) && ExitDateTime.GetValueOrDefault().TimeOfDay != EnterDateTime.TimeOfDay;
 				if (isCrossNight)
 					result += new TimeSpan(0, 0, 1); //TODO:
 				return result;

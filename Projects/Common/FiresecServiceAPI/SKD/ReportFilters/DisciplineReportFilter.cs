@@ -9,14 +9,11 @@ namespace FiresecAPI.SKD.ReportFilters
 	{
 		public DisciplineReportFilter()
 		{
-			ShowDelay = true;
-			ShowEarlуRetirement = true;
-			ShowTolerance = true;
+			ShowLate = true;
+			ShowEarlуLeave = true;
 			ShowAbsence = true;
 			ShowOvertime = true;
-			ShowMissingtime = true;
-			ShowConfirmed = true;
-			ShowWithoutTolerance = true;
+			ShowAllViolation = true;
 		}
 
 		#region IReportFilterPeriod Members
@@ -76,27 +73,18 @@ namespace FiresecAPI.SKD.ReportFilters
 		public bool ShowAllViolation { get; set; }
 
 		[DataMember]
-		public bool ShowDelay { get; set; }
+		public bool ShowShiftedViolation { get; set; }
 
 		[DataMember]
-		public bool ShowEarlуRetirement { get; set; }
+		public bool ShowLate { get; set; }
 
 		[DataMember]
-		public bool ShowTolerance { get; set; }
+		public bool ShowEarlуLeave { get; set; }
 
 		[DataMember]
 		public bool ShowAbsence { get; set; }
 
 		[DataMember]
 		public bool ShowOvertime { get; set; }
-
-		[DataMember]
-		public bool ShowMissingtime { get; set; }
-
-		[DataMember]
-		public bool ShowConfirmed { get; set; }
-
-		[DataMember]
-		public bool ShowWithoutTolerance { get; set; }
 	}
 }

@@ -124,7 +124,7 @@
 								</ComboBox>
 							</Grid>
 						</Grid>
-						
+
 					</GroupBox>-->
 				</StackPanel>
 			</TabItem>
@@ -184,8 +184,8 @@
 		<TextBlock Grid.Row="1"  Text="Альтернативные время удержания и время закрытия используются с пропусками, для которых задействован режим &quot;Использовать альтернативные параметры временных задержек замка&quot;" TextWrapping="Wrap" Foreground="{DynamicResource ForegroundColorLight}" Width="480" Margin="5" />
 
 		<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-			<Button Content="Считать" Command="{Binding GetDoorConfigurationCommand}" Width="100" Margin="0 4 4 0" />
-			<Button Content="Записать" Command="{Binding SetDoorConfigurationCommand}" Width="100" Margin="0 4 0 0" />
+			<Button Content="Считать" Command="{Binding GetDoorConfigurationCommand}" BorderBrush="#D8FFFFFF" Width="100" Margin="0 4 4 0" />
+			<Button Content="Записать" Command="{Binding SetDoorConfigurationCommand}" BorderBrush="#D8FFFFFF" Width="100" Margin="0 4 0 0" />
 		</StackPanel>
 	</Grid>
 </UserControl>

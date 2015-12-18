@@ -51,8 +51,8 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<StackPanel Grid.Row="1" Orientation="Horizontal">
-			<ToolBarButton Command="{Binding SelectAllCommand}" ImageSource="SelectAll" ToolTip="Выделить всё" />
-			<ToolBarButton Command="{Binding SelectNoneCommand}" ImageSource="SelectNone" ToolTip="Снять все выделения" />
+			<ToolBarButton Command="{Binding SelectAllCommand}" ImageSource="SelectAll" ToolTip="Выбрать все" />
+			<ToolBarButton Command="{Binding SelectNoneCommand}" ImageSource="SelectNone" ToolTip="Отменить выбор" />
 		</StackPanel>
 	</Grid>
 </UserControl>
