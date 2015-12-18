@@ -58,20 +58,26 @@ namespace FiresecService.Service
 
 		public OperationResult MarkDeletedDayInterval(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_дневного_графика, name, uid: uid);
+			OperationResult operationResult;
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.DayIntervalTranslator.MarkDeleted(uid);
+				operationResult = databaseService.DayIntervalTranslator.MarkDeleted(uid);
 			}
+			if (!operationResult.HasError)
+				AddJournalMessage(JournalEventNameType.Удаление_дневного_графика, name, uid: uid);
+			return operationResult;
 		}
 
 		public OperationResult RestoreDayInterval(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Восстановление_дневного_графика, name, uid: uid);
+			OperationResult operationResult;
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.DayIntervalTranslator.Restore(uid);
+				operationResult = databaseService.DayIntervalTranslator.Restore(uid);
 			}
+			if (!operationResult.HasError)
+				AddJournalMessage(JournalEventNameType.Восстановление_дневного_графика, name, uid: uid);
+			return operationResult;
 		}
 
 		public OperationResult<IEnumerable<DayIntervalPart>> GetDayIntervalParts(DayIntervalPartFilter filter)
