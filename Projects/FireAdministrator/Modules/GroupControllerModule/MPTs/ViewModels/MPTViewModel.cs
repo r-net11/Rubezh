@@ -14,7 +14,6 @@ namespace GKModule.ViewModels
 {
 	public class MPTViewModel : BaseViewModel
 	{
-		bool _isEdited;
 		public GKMPT MPT { get; private set; }
 
 		public MPTViewModel(GKMPT mpt)
@@ -24,7 +23,7 @@ namespace GKModule.ViewModels
 			ChangeStopLogicCommand = new RelayCommand(OnChangeStopLogic);
 			ChangeSuspendLogicCommand = new RelayCommand(OnChangeSuspendLogic);
 			AddCommand = new RelayCommand(OnAdd);
-			EditCommand = new RelayCommand(OnEdit, () => SelectedDevice != null);
+			EditCommand = new RelayCommand(() => OnEdit(), () => SelectedDevice != null);
 			DeleteCommand = new RelayCommand(OnDelete, () => SelectedDevice != null);
 			EditPropertiesCommand = new RelayCommand(OnEditProperties, CanEditProperties);
 
@@ -65,31 +64,24 @@ namespace GKModule.ViewModels
 		void OnAdd()
 		{
 			var mptDeviceTypeSelectationViewModel = new MPTDeviceTypeSelectationViewModel();
-			_isEdited = false;
 			if (DialogService.ShowModalWindow(mptDeviceTypeSelectationViewModel))
 			{
-				var oldSelectedDevice = SelectedDevice;
 				var mptDevice = new GKMPTDevice();
 				mptDevice.MPTDeviceType = mptDeviceTypeSelectationViewModel.SelectedMPTDeviceType.MPTDeviceType;
 				var mptDeviceViewModel = new MPTDeviceViewModel(mptDevice);
 				SelectedDevice = mptDeviceViewModel;
-				OnEdit();
-				if (_isEdited)
+				if (OnEdit())
 				{
 					MPT.MPTDevices.Add(mptDevice);
 					Devices.Add(mptDeviceViewModel);
 					ServiceFactory.SaveService.GKChanged = true;
 					MPT.ChangedLogic();
 				}
-				else
-				{
-					SelectedDevice = oldSelectedDevice;
-				}
 			}
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
+		bool OnEdit()
 		{
 			var devices = new List<GKDevice>();
 			foreach (var device in GKManager.Devices)
@@ -117,8 +109,9 @@ namespace GKModule.ViewModels
 				SelectedDevice.MPTDevicePropertiesViewModel = new MPTDevicePropertiesViewModel(selectedDevice, false);
 				MPT.ChangedLogic();
 				ServiceFactory.SaveService.GKChanged = true;
-				_isEdited = selectedDevice != null;
+				return selectedDevice != null;
 			}
+			return false;
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
