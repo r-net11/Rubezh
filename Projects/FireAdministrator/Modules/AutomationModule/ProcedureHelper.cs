@@ -133,23 +133,6 @@ namespace AutomationModule
 				ServiceFactory.Events.GetEvent<SelectOrganisationEvent>().Publish(selectGKOrganisationEventArg);
 				if (!selectGKOrganisationEventArg.Cancel)
 					currentExplicitValue.UidValue = selectGKOrganisationEventArg.Organisation == null ? Guid.Empty : selectGKOrganisationEventArg.Organisation.UID;
-
-			if (objectType == ObjectType.PumpStation)
-			{
-				var pumpStationSelectionViewModel = new PumpStationSelectionViewModel(currentExplicitValue.PumpStation);
-				if (DialogService.ShowModalWindow(pumpStationSelectionViewModel))
-				{
-					currentExplicitValue.UidValue = pumpStationSelectionViewModel.SelectedPumpStation != null ? pumpStationSelectionViewModel.SelectedPumpStation.PumpStation.UID : Guid.Empty;
-					return true;
-				}
-			}
-
-			if (objectType == ObjectType.MPT)
-			{
-				var mptSelectionViewModel = new MPTSelectionViewModel(currentExplicitValue.MPT);
-				if (DialogService.ShowModalWindow(mptSelectionViewModel))
-				{
-					currentExplicitValue.UidValue = mptSelectionViewModel.SelectedMPT != null ? mptSelectionViewModel.SelectedMPT.MPT.UID : Guid.Empty;
 				return true;
 			}
 			return false;

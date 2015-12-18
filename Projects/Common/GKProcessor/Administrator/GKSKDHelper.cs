@@ -395,7 +395,7 @@ namespace GKProcessor
 			return controllerCardSchedules;
 		}
 
-		public static OperationResult<bool> RewritePmfUsers(Guid deviceUID, List<GKUser> users, GKProgressCallback progressCallback)
+		public static OperationResult<bool> RewritePmfUsers(Guid clientUid, Guid deviceUID, List<GKUser> users, GKProgressCallback progressCallback)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)

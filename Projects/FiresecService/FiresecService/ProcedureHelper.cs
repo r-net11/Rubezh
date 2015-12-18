@@ -212,42 +212,6 @@ namespace FiresecService
 				FiresecServiceManager.SafeFiresecService.GKTurnOffNowInAutomatic(clientUID, uid, GKBaseObjectType.Delay);
 		}
 
-		public static void ControlPumpStation(Guid uid, PumpStationCommandType commandType)
-		{
-			if (commandType == PumpStationCommandType.Automatic)
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(uid, GKBaseObjectType.PumpStation);
-			if (commandType == PumpStationCommandType.Ignore)
-				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(uid, GKBaseObjectType.PumpStation);
-			if (commandType == PumpStationCommandType.Manual)
-				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(uid, GKBaseObjectType.PumpStation);
-			if (commandType == PumpStationCommandType.TurnOff)
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(uid, GKBaseObjectType.PumpStation);
-			if (commandType == PumpStationCommandType.TurnOn)
-				FiresecServiceManager.SafeFiresecService.GKTurnOn(uid, GKBaseObjectType.PumpStation);
-			if (commandType == PumpStationCommandType.Stop)
-				FiresecServiceManager.SafeFiresecService.GKStop(uid, GKBaseObjectType.PumpStation);
-			if (commandType == PumpStationCommandType.ForbidStart)
-				FiresecServiceManager.SafeFiresecService.GKStop(uid, GKBaseObjectType.PumpStation);
-		}
-
-		public static void ControlMPT(Guid uid, MPTCommandType commandType)
-		{
-			if (commandType == MPTCommandType.Automatic)
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(uid, GKBaseObjectType.MPT);
-			if (commandType == MPTCommandType.Ignore)
-				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(uid, GKBaseObjectType.MPT);
-			if (commandType == MPTCommandType.Manual)
-				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(uid, GKBaseObjectType.MPT);
-			if (commandType == MPTCommandType.TurnOff)
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(uid, GKBaseObjectType.MPT);
-			if (commandType == MPTCommandType.TurnOn)
-				FiresecServiceManager.SafeFiresecService.GKTurnOn(uid, GKBaseObjectType.MPT);
-			if (commandType == MPTCommandType.Stop)
-				FiresecServiceManager.SafeFiresecService.GKStop(uid, GKBaseObjectType.MPT);
-			if (commandType == MPTCommandType.ForbidStart)
-				FiresecServiceManager.SafeFiresecService.GKStop(uid, GKBaseObjectType.MPT);
-		}
-
 		public static void ControlPumpStation(Guid clientUID, Guid uid, PumpStationCommandType commandType)
 		{
 			if (commandType == PumpStationCommandType.Automatic)

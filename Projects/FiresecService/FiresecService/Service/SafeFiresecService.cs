@@ -522,16 +522,6 @@ namespace FiresecService.Service
 			SafeOperationCall(clientUID, () => FiresecService.ControlDelay(clientUID, uid, commandType), "ControlDelay");
 		}
 
-		public void ControlPumpStation(Guid uid, PumpStationCommandType commandType)
-		{
-			SafeOperationCall(() => FiresecService.ControlPumpStation(uid, commandType), "ControlPumpStation");
-		}
-
-		public void ControlMPT(Guid uid, MPTCommandType commandType)
-		{
-			SafeOperationCall(() => FiresecService.ControlMPT(uid, commandType), "ControlMPT");
-		}
-
 		public void ControlPumpStation(Guid clientUID, Guid uid, PumpStationCommandType commandType)
 		{
 			SafeOperationCall(clientUID, () => FiresecService.ControlPumpStation(clientUID, uid, commandType), "ControlPumpStation");

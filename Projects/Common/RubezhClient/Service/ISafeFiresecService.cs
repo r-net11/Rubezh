@@ -79,7 +79,6 @@ namespace RubezhClient
 		OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter filter);
 		OperationResult<List<GKDaySchedule>> GetGKDaySchedules();
 		OperationResult<List<GKSchedule>> GetGKSchedules();
-		OperationResult<List<GKUser>> GetGKUsers(Guid deviceUID);
 		OperationResult<List<Holiday>> GetHolidays(HolidayFilter filter);
 		OperationResult<FiresecLicenseInfo> GetLicenseInfo();
 		OperationResult<DateTime> GetMinJournalDateTime();

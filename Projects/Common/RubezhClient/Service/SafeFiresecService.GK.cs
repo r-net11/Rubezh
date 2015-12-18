@@ -179,12 +179,6 @@ namespace RubezhClient
 			}, "GKRewriteUsers");
 		}
 
-			return SafeOperationCall(() =>
-			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
-				using (firesecService as IDisposable)
-					return firesecService.GetGKUsers(FiresecServiceFactory.UID, deviceUID);
-			}, "GetGKUsers");
 		public OperationResult<bool> RewritePmfUsers(Guid uid, List<GKUser> users)
 		{
 			return SafeOperationCall(() =>

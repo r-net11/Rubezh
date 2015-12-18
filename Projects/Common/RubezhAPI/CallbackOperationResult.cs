@@ -41,11 +41,11 @@ namespace RubezhAPI
 	public enum CallbackOperationResultType
 	{
 		GetAllUsers,
-		GetGKUsers,
 		RewriteUsers,
 		WriteConfiguration,
 		ReadConfigurationFromGKFile,
 		GetArchivePage,
-		GetJournal
+		GetJournal,
+		GetPmfUsers
 	}
 }

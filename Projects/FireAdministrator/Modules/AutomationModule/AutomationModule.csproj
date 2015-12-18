@@ -239,9 +239,7 @@
     <Compile Include="Steps\Views\ControlDelayStepView.xaml.cs">
       <DependentUpon>ControlDelayStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Steps\Views\ControlMPTStepView.xaml.cs">
-      <DependentUpon>ControlMPTStepView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Steps\Views\ControlMPTStepView.xaml.cs" />
     <Compile Include="Steps\Views\ControlPumpStationStepView.xaml.cs">
       <DependentUpon>ControlPumpStationStepView.xaml</DependentUpon>
     </Compile>
@@ -599,14 +597,6 @@
     <Page Include="Steps\Views\ControlDelayStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Steps\Views\ControlMPTStepView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Steps\Views\ControlPumpStationStepView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Steps\Views\ControlMPTStepView.xaml">
       <Generator>MSBuild:Compile</Generator>

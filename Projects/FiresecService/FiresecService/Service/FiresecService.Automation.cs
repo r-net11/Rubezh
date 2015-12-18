@@ -103,15 +103,6 @@ namespace FiresecService.Service
 
 		public void ControlPumpStation(Guid clientUID, Guid uid, PumpStationCommandType commandType)
 		{
-			ProcedureHelper.ControlPumpStation(uid, commandType);
-		}
-
-		public void ControlMPT(Guid uid, MPTCommandType commandType)
-		{
-			ProcedureHelper.ControlMPT(uid, commandType);
-		}
-
-		{
 			ProcedureHelper.ControlPumpStation(clientUID, uid, commandType);
 		}
 

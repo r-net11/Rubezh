@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using RubezhAPI;
 using RubezhAPI.GK;
-using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels

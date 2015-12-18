@@ -1,4 +1,5 @@
-﻿using RubezhAPI;
+﻿using Common;
+using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
@@ -335,16 +336,6 @@ namespace RubezhClient
 		public void ControlMPT(Guid uid, MPTCommandType commandType)
 		{
 			ControlMPT(FiresecServiceFactory.UID, uid, commandType);
-		}
-
-		public void ControlPumpStation(Guid uid, PumpStationCommandType commandType)
-		{
-			SafeContext.Execute(() => FiresecService.ControlPumpStation(uid, commandType));
-		}
-
-		public void ControlMPT(Guid uid, MPTCommandType commandType)
-		{
-			SafeContext.Execute(() => FiresecService.ControlMPT(uid, commandType));
 		}
 
 		public void ExportJournal(bool isExportJournal, bool isExportPassJournal, DateTime minDate, DateTime maxDate, string path)

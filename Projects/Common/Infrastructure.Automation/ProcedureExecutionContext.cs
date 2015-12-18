@@ -183,18 +183,6 @@ namespace Infrastructure.Automation
 				OnControlDelay(clientUID, uid, commandType);
 		}
 
-		public static void ControlPumpStation(Guid uid, PumpStationCommandType commandType)
-		{
-			if (OnControlPumpStation != null)
-				OnControlPumpStation(uid, commandType);
-		}
-
-		public static void ControlMPT(Guid uid, MPTCommandType commandType)
-		{
-			if (OnControlMPT != null)
-				OnControlMPT(uid, commandType);
-		}
-
 		public static void ControlPumpStation(Guid clientUID, Guid uid, PumpStationCommandType commandType)
 		{
 			if (OnControlPumpStation != null)
