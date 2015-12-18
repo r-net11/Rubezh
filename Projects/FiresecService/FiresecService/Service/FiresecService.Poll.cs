@@ -110,17 +110,18 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other);
 		}
 
-		public static void NotifyOperationResult_GetAllUsers(OperationResult<List<GKUser>> result, Guid? clientUID)
+		public static void NotifyOperationResult_GetAllUsers(OperationResult<List<GKUser>> result, bool isGk, Guid? clientUID, Guid deviceUID)
 		{
 			var callbackResult = new CallbackResult()
 			{
 				CallbackResultType = CallbackResultType.OperationResult,
 				CallbackOperationResult = new CallbackOperationResult()
 				{
-					CallbackOperationResultType = CallbackOperationResultType.GetAllUsers,
+					CallbackOperationResultType = isGk ? CallbackOperationResultType.GetGKUsers : CallbackOperationResultType.GetPmfUsers,
 					Error = result.Error,
 					HasError = result.HasError,
-					Users = result.Result
+					Users = result.Result, 
+					DeviceUID = deviceUID
 				}
 			};
 			CallbackManager.Add(callbackResult, ClientType.Administrator, clientUID);

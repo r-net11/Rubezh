@@ -1,4 +1,5 @@
 ﻿using RubezhAPI.GK;
+using System;
 using RubezhAPI.Journal;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,12 @@ namespace RubezhAPI
 		[DataMember]
 		public List<GKUser> Users { get; set; }
 
+		/// <summary>
+		/// Прибор, с которого читаются пользователи
+		/// </summary>
+		[DataMember]
+		public Guid DeviceUID { get; set; }
+
 		[DataMember]
 		public string FileName { get; set; }
 
@@ -40,12 +47,12 @@ namespace RubezhAPI
 
 	public enum CallbackOperationResultType
 	{
-		GetAllUsers,
-		GetGKUsers,
 		RewriteUsers,
 		WriteConfiguration,
 		ReadConfigurationFromGKFile,
 		GetArchivePage,
-		GetJournal
+		GetJournal,
+		GetPmfUsers,
+		GetGKUsers
 	}
 }

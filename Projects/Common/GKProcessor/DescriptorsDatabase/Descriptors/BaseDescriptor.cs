@@ -63,6 +63,14 @@ namespace GKProcessor
 					Address.AddRange(BytesHelper.ShortToBytes(PhysicalAdress));
 					break;
 
+				case DatabaseType.Mirror:
+					ControllerAdress = 0x200;
+					AdressOnController = GKBase.KAUDescriptorNo;
+					Address.AddRange(BytesHelper.ShortToBytes(ControllerAdress));
+					Address.AddRange(BytesHelper.ShortToBytes(AdressOnController));
+					Address.AddRange(BytesHelper.ShortToBytes(PhysicalAdress));
+					break;
+
 				case DatabaseType.Kau:
 					Address.AddRange(BytesHelper.ShortToBytes(PhysicalAdress));
 					break;
@@ -86,7 +94,7 @@ namespace GKProcessor
 				}
 			}
 
-			if (DatabaseType == DatabaseType.Kau)
+			if (DatabaseType == DatabaseType.Kau || DatabaseType == DatabaseType.Mirror)
 			{
 				foreach (var outputGKBase in GKBase.OutputDescriptors.Where(x => x.KauDatabaseParent == GKBase.KauDatabaseParent))
 				{
@@ -100,6 +108,7 @@ namespace GKProcessor
 			switch (DatabaseType)
 			{
 				case DatabaseType.Gk:
+				case DatabaseType.Mirror:
 					Description = BytesHelper.StringDescriptionToBytes(GKBase.GetGKDescriptorName(GKManager.DeviceConfiguration.GKNameGenerationType));
 					break;
 
@@ -115,6 +124,7 @@ namespace GKProcessor
 			switch (DatabaseType)
 			{
 				case DatabaseType.Gk:
+				case DatabaseType.Mirror:
 					offsetToParameters = 2 + 6 + 32 + 2 + 2 + InputDependenses.Count + 2 + OutputDependenses.Count + FormulaBytes.Count;
 					break;
 
@@ -141,7 +151,7 @@ namespace GKProcessor
 			AllBytes.AddRange(Address);
 			AllBytes.AddRange(Description);
 			AllBytes.AddRange(Offset);
-			if (DatabaseType == DatabaseType.Gk)
+			if (DatabaseType == DatabaseType.Gk || DatabaseType == DatabaseType.Mirror)
 			{
 				AllBytes.AddRange(InputDependensesCount);
 				AllBytes.AddRange(InputDependenses);
@@ -161,6 +171,7 @@ namespace GKProcessor
 					return GKBase.GKDescriptorNo;
 
 				case DatabaseType.Kau:
+				case DatabaseType.Mirror:
 					return GKBase.KAUDescriptorNo;
 			}
 			return 0;

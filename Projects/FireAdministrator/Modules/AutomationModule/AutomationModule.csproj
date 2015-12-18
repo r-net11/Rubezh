@@ -109,6 +109,16 @@
     <Compile Include="Layout\Views\LayoutPartPropertyProcedurePageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyProcedurePageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ObjectSelection\ViewModels\MPTSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\PumpStationSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\MPTViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\PumpStationViewModel.cs" />
+    <Compile Include="ObjectSelection\Views\MPTSelectionView.xaml.cs">
+      <DependentUpon>MPTSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\PumpStationSelectionView.xaml.cs">
+      <DependentUpon>PumpStationSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="OPCServers\ViewModels\Client.cs" />
     <Compile Include="OPCServers\ViewModels\ConfigClass.cs" />
     <Compile Include="OPCServers\ViewModels\TagViewModel.cs" />
@@ -228,12 +238,6 @@
     </Compile>
     <Compile Include="Steps\Views\ControlDelayStepView.xaml.cs">
       <DependentUpon>ControlDelayStepView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Steps\Views\ControlMPTStepView.xaml.cs">
-      <DependentUpon>ControlMPTStepView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Steps\Views\ControlPumpStationStepView.xaml.cs">
-      <DependentUpon>ControlPumpStationStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ControlDirectionStepView.xaml.cs">
       <DependentUpon>ControlDirectionStepView.xaml</DependentUpon>
@@ -430,6 +434,12 @@
     <Compile Include="Steps\Views\NowStepView.xaml.cs">
       <DependentUpon>NowStepView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Steps\Views\ControlMPTStepView.xaml.cs">
+      <DependentUpon>ControlMPTStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ControlPumpStationStepView.xaml.cs">
+      <DependentUpon>ControlPumpStationStepView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Validation\GlobalVariableValidationError.cs" />
     <Compile Include="Validation\ProcedureStepValidationError.cs" />
     <Compile Include="Validation\ProcedureValidationError.cs" />
@@ -534,6 +544,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ObjectSelection\Views\MPTSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ObjectSelection\Views\PumpStationSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="OPCServers\Views\OPCSelectTagsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -581,14 +599,6 @@
     <Page Include="Steps\Views\ControlDelayStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Steps\Views\ControlMPTStepView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Steps\Views\ControlPumpStationStepView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Steps\Views\ControlGKDoorStepView.xaml">
       <SubType>Designer</SubType>
@@ -855,6 +865,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Steps\Views\NowStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ControlMPTStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ControlPumpStationStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

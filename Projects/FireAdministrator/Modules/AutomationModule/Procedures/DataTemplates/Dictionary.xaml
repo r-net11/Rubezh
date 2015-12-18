@@ -44,6 +44,14 @@
 		<Views:FilterSelectionView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:PumpStationSelectionViewModel}">
+		<Views:PumpStationSelectionView />
+	</DataTemplate>
+	
+	<DataTemplate DataType="{x:Type ViewModels:MPTSelectionViewModel}">
+		<Views:MPTSelectionView />
+	</DataTemplate>
+	
 	<DataTemplate DataType="{x:Type ViewModels:ProcedureLayoutsSelectionViewModel}">
 		<Views:ProcedureLayoutsSelectionView />
 	</DataTemplate>

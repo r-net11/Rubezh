@@ -134,25 +134,25 @@ namespace RubezhAPI.GK
 		RSR2_GuardDetectorSound = 69,
 
 		[Description("Отражение ГК")]
-		RSR2_GKMirror = 70,
+		GKMirror = 70,
 
-		[Description("Извещательные устройства")]
-		RSR2_GKMirrorDetectorsDevice = 71,
+		[Description("Образ извещательных устройств")]
+		DetectorDevicesMirror = 71,
 
-		[Description("Пожарные зоны")]
-		RSR2_GKMirrorFireZone = 72,
+		[Description("Образ пожарных зон")]
+		FireZonesMirror = 72,
 
-		[Description("Исполнительные устройства")]
-		RSR2_GKMirrorPerformersDevice = 73,
+		[Description("Образ исполнительных устройств")]
+		ControlDevicesMirror = 73,
 
-		[Description("Зоны пожара тушения")]
-		RSR2_GKMirrorFightFireZone = 74,
+		[Description("Образ зон пожаротушения")]
+		FirefightingZonesMirror = 74,
 
-		[Description("Охранные зоны")]
-		RSR2_GKMirrorGuardZone = 75,
+		[Description("Образ охранных зон")]
+		GuardZonesMirror = 75,
 
-		[Description("Направления")]
-		RSR2_GKMirrorDirection = 76,
+		[Description("Образ направлений")]
+		DirectionsMirror = 76,
 
 		[Description("Группа индикаторов")]
 		GKIndicatorsGroup = 77,

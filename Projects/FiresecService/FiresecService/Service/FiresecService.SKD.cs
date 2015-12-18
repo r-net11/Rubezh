@@ -500,6 +500,14 @@ namespace FiresecService.Service
 			}
 		}
 
+		public OperationResult<List<GKUser>> GetDbDeviceUsers(Guid deviceUID, List<Guid> doorUIDs)
+		{
+			using (var databaseService = new RubezhDAL.DataClasses.DbService())
+			{
+				return databaseService.CardTranslator.GetDbDeviceUsers(deviceUID, doorUIDs);
+			}
+		}
+
 		#endregion
 
 		#region AccessTemplate

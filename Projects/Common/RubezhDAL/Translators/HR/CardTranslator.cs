@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using RubezhAPI;
-using API = RubezhAPI.SKD;
+using SKDAPI = RubezhAPI.SKD;
+using GKAPI = RubezhAPI.GK;
 using System.Threading;
 using System.Diagnostics;
 
 namespace RubezhDAL.DataClasses
 {
-	public class CardTranslator : ITranslatorGet<Card, API.SKDCard, API.CardFilter>
+	public class CardTranslator : ITranslatorGet<Card, SKDAPI.SKDCard, SKDAPI.CardFilter>
 	{
 		DatabaseContext Context { get { return DbService.Context; } }
 		public DbSet<Card> Table { get { return Context.Cards; } }
@@ -19,7 +20,7 @@ namespace RubezhDAL.DataClasses
 		{
 			DbService = dbService;
 		}
-		OperationResult<bool> CanSave(API.SKDCard item)
+		OperationResult<bool> CanSave(SKDAPI.SKDCard item)
 		{
 			if (item == null)
 				return OperationResult<bool>.FromError("Попытка сохранить пустую запись");
@@ -37,7 +38,7 @@ namespace RubezhDAL.DataClasses
 			return Context.Cards.Include(x => x.CardDoors).Include(x => x.Employee).Include(x => x.AccessTemplate).Include(x => x.GKControllerUIDs);
 		}
 
-		public IQueryable<Card> GetFilteredTableItems(API.CardFilter filter, IQueryable<Card> tableItems)
+		public IQueryable<Card> GetFilteredTableItems(SKDAPI.CardFilter filter, IQueryable<Card> tableItems)
 		{
 			if (filter.EmployeeFilter != null)
 			{
@@ -47,9 +48,9 @@ namespace RubezhDAL.DataClasses
 			}
 			if (filter.UIDs != null && filter.UIDs.Count > 0)
 				tableItems = tableItems.Where(x => filter.UIDs.Contains(x.UID));
-			if (filter.DeactivationType == API.LogicalDeletationType.Deleted)
+			if (filter.DeactivationType == SKDAPI.LogicalDeletationType.Deleted)
 				tableItems = tableItems.Where(x => x.IsInStopList);
-			if (filter.DeactivationType == API.LogicalDeletationType.Active)
+			if (filter.DeactivationType == SKDAPI.LogicalDeletationType.Active)
 				tableItems = tableItems.Where(x => !x.IsInStopList);
 			if (filter.IsWithEndDate)
 			{
@@ -59,49 +60,49 @@ namespace RubezhDAL.DataClasses
 			return tableItems.OrderBy(x => x.UID);
 		}
 
-		public OperationResult<List<API.SKDCard>> Get(API.CardFilter filter)
+		public OperationResult<List<SKDAPI.SKDCard>> Get(SKDAPI.CardFilter filter)
 		{
 			try
 			{
 				var tableItems = GetFilteredTableItems(filter, GetTableItems());
 				var result = GetAPIItems(tableItems).ToList();
-				return new OperationResult<List<API.SKDCard>>(result);
+				return new OperationResult<List<SKDAPI.SKDCard>>(result);
 			}
 			catch (System.Exception e)
 			{
-				return OperationResult<List<API.SKDCard>>.FromError(e.Message);
+				return OperationResult<List<SKDAPI.SKDCard>>.FromError(e.Message);
 			}
 		}
 
-		public OperationResult<List<API.SKDCard>> GetEmployeeCards(Guid employeeUID)
+		public OperationResult<List<SKDAPI.SKDCard>> GetEmployeeCards(Guid employeeUID)
 		{
 			try
 			{
 				var tableItems = GetTableItems().Where(x => x.EmployeeUID == employeeUID);
 				var result = GetAPIItems(tableItems).ToList();
-				return new OperationResult<List<API.SKDCard>>(result);
+				return new OperationResult<List<SKDAPI.SKDCard>>(result);
 			}
 			catch (System.Exception e)
 			{
-				return OperationResult<List<API.SKDCard>>.FromError(e.Message);
+				return OperationResult<List<SKDAPI.SKDCard>>.FromError(e.Message);
 			}
 		}
 
-		public OperationResult<List<API.SKDCard>> GetByAccessTemplateUID(Guid accessTemplateUID)
+		public OperationResult<List<SKDAPI.SKDCard>> GetByAccessTemplateUID(Guid accessTemplateUID)
 		{
 			try
 			{
 				var tableItems = GetTableItems().Where(x => x.AccessTemplateUID == accessTemplateUID);
 				var result = GetAPIItems(tableItems).ToList();
-				return new OperationResult<List<API.SKDCard>>(result);
+				return new OperationResult<List<SKDAPI.SKDCard>>(result);
 			}
 			catch (System.Exception e)
 			{
-				return OperationResult<List<API.SKDCard>>.FromError(e.Message);
+				return OperationResult<List<SKDAPI.SKDCard>>.FromError(e.Message);
 			}
 		}
 
-		public OperationResult<bool> Save(API.SKDCard item)
+		public OperationResult<bool> Save(SKDAPI.SKDCard item)
 		{
 			try
 			{
@@ -147,7 +148,7 @@ namespace RubezhDAL.DataClasses
 			}
 		}
 
-		public OperationResult ToStopList(API.SKDCard item, string reason = null)
+		public OperationResult ToStopList(SKDAPI.SKDCard item, string reason = null)
 		{
 			try
 			{
@@ -178,7 +179,7 @@ namespace RubezhDAL.DataClasses
 			card.GKLevelSchedule = 0;
 		}
 
-		public OperationResult Delete(API.SKDCard item)
+		public OperationResult Delete(SKDAPI.SKDCard item)
 		{
 			try
 			{
@@ -196,23 +197,23 @@ namespace RubezhDAL.DataClasses
 			}
 		}
 
-		public OperationResult<API.SKDCard> GetSingle(Guid? uid)
+		public OperationResult<SKDAPI.SKDCard> GetSingle(Guid? uid)
 		{
 			try
 			{
 				if (uid == null)
-					return new OperationResult<API.SKDCard>(null);
+					return new OperationResult<SKDAPI.SKDCard>(null);
 				var tableItems = GetTableItems().Where(x => x.UID == uid);
 				var result = GetAPIItems(tableItems).FirstOrDefault();
-				return new OperationResult<API.SKDCard>(result);
+				return new OperationResult<SKDAPI.SKDCard>(result);
 			}
 			catch (System.Exception e)
 			{
-				return OperationResult<API.SKDCard>.FromError(e.Message);
+				return OperationResult<SKDAPI.SKDCard>.FromError(e.Message);
 			}
 		}
 
-		public OperationResult SavePassTemplate(API.SKDCard card)
+		public OperationResult SavePassTemplate(SKDAPI.SKDCard card)
 		{
 			try
 			{
@@ -278,7 +279,7 @@ namespace RubezhDAL.DataClasses
 			}).ToList();
 		}
 
-		public Card CreateCard(API.SKDCard apiItem)
+		public Card CreateCard(SKDAPI.SKDCard apiItem)
 		{
 			var tableItem = new Card { UID = apiItem.UID };
 			TranslateBack(apiItem, tableItem);
@@ -318,7 +319,7 @@ namespace RubezhDAL.DataClasses
 			}
 		}
 
-		public OperationResult<List<API.CardAccessTemplateDoors>> GetAccessTemplateDoorsByOrganisation(Guid organisationUID)
+		public OperationResult<List<SKDAPI.CardAccessTemplateDoors>> GetAccessTemplateDoorsByOrganisation(Guid organisationUID)
 		{
 			try
 			{
@@ -326,7 +327,7 @@ namespace RubezhDAL.DataClasses
 					.Include(x => x.Employee)
 					.Include(x => x.AccessTemplate)
 					.Include(x => x.AccessTemplate.CardDoors)
-					.Select(tableItem => new API.CardAccessTemplateDoors
+					.Select(tableItem => new SKDAPI.CardAccessTemplateDoors
 						{
 							CardUID = tableItem.UID,
 							CardDoors = tableItem.AccessTemplate.CardDoors.Select(x => new RubezhAPI.SKD.CardDoor
@@ -339,11 +340,11 @@ namespace RubezhDAL.DataClasses
 									ExitScheduleNo = x.ExitScheduleNo
 								}).ToList()
 						}).ToList();
-				return new OperationResult<List<API.CardAccessTemplateDoors>>(result);
+				return new OperationResult<List<SKDAPI.CardAccessTemplateDoors>>(result);
 			}
 			catch (Exception e)
 			{
-				return OperationResult<List<API.CardAccessTemplateDoors>>.FromError(e.Message);
+				return OperationResult<List<SKDAPI.CardAccessTemplateDoors>>.FromError(e.Message);
 			}
 		}
 
@@ -353,7 +354,7 @@ namespace RubezhDAL.DataClasses
 			try
 			{
 				DeleteAllPendingCards(cardUID, controllerUID);
-				InsertPendingCard(cardUID, controllerUID, API.PendingCardAction.Add);
+				InsertPendingCard(cardUID, controllerUID, SKDAPI.PendingCardAction.Add);
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -367,10 +368,10 @@ namespace RubezhDAL.DataClasses
 			try
 			{
 				if (Context.PendingCards.Any(x => x.CardUID == cardUID && x.ControllerUID == controllerUID &&
-					(x.Action == (int)API.PendingCardAction.Add || x.Action == (int)API.PendingCardAction.Edit)))
+					(x.Action == (int)SKDAPI.PendingCardAction.Add || x.Action == (int)SKDAPI.PendingCardAction.Edit)))
 					return new OperationResult();
 				DeleteAllPendingCards(cardUID, controllerUID);
-				InsertPendingCard(cardUID, controllerUID, API.PendingCardAction.Edit);
+				InsertPendingCard(cardUID, controllerUID, SKDAPI.PendingCardAction.Edit);
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -386,13 +387,13 @@ namespace RubezhDAL.DataClasses
 				var pendingCard = Context.PendingCards.FirstOrDefault(x => x.CardUID == cardUID && x.ControllerUID == controllerUID);
 				if (pendingCard == null)
 				{
-					InsertPendingCard(cardUID, controllerUID, API.PendingCardAction.Delete);
+					InsertPendingCard(cardUID, controllerUID, SKDAPI.PendingCardAction.Delete);
 					return new OperationResult();
 				}
 				DeleteAllPendingCards(cardUID, controllerUID);
-				if ((API.PendingCardAction)pendingCard.Action != API.PendingCardAction.Add)
+				if ((SKDAPI.PendingCardAction)pendingCard.Action != SKDAPI.PendingCardAction.Add)
 				{
-					InsertPendingCard(cardUID, controllerUID, API.PendingCardAction.Delete);
+					InsertPendingCard(cardUID, controllerUID, SKDAPI.PendingCardAction.Delete);
 				}
 				return new OperationResult();
 			}
@@ -416,7 +417,7 @@ namespace RubezhDAL.DataClasses
 			Context.SaveChanges();
 		}
 
-		void InsertPendingCard(Guid? cardUID, Guid controllerUID, API.PendingCardAction action)
+		void InsertPendingCard(Guid? cardUID, Guid controllerUID, SKDAPI.PendingCardAction action)
 		{
 			var pendingCard = new DataClasses.PendingCard
 			{
@@ -458,6 +459,74 @@ namespace RubezhDAL.DataClasses
 			catch (Exception e)
 			{
 				return new OperationResult(e.Message);
+			}
+		}
+
+		public OperationResult<List<GKAPI.GKUser>> GetDbDeviceUsers(Guid deviceUID, List<Guid> deviceDoorUIDs)
+		{
+			try
+			{
+				var tableUsers = Table
+					.Include(x => x.Employee)
+					.Include(x => x.GKControllerUIDs)
+					.Include(x => x.CardDoors)
+					.Include(x => x.AccessTemplate.CardDoors)
+					.Select(x => new
+						{
+							ExpirationDate = x.EndDate,
+							FirstName = x.Employee.FirstName,
+							SecondName = x.Employee.SecondName,
+							LastName = x.Employee.LastName,
+							GkLevel = x.GKLevel,
+							GkLevelSchedule = x.GKLevelSchedule,
+							UserType = x.GKCardType,
+							Password = x.Number,
+							CardDoors = x.CardDoors,
+							GKControllerUIDs = x.GKControllerUIDs
+						})
+					.OrderBy(x => x.Password)
+					.ToList();
+				var filteredTableUsers = tableUsers
+					.Where(x => x.GKControllerUIDs.Any(gkControllerUID => gkControllerUID.GKControllerUID == deviceUID)
+						|| x.CardDoors.Any(cardDoor => deviceDoorUIDs.Any( doorUID => doorUID == cardDoor.DoorUID)));
+				var users = new List<GKAPI.GKUser>();
+				foreach (var tableUser in filteredTableUsers)
+				{
+					var user = new GKAPI.GKUser
+					{
+						ExpirationDate = tableUser.ExpirationDate,
+						Fio = tableUser.LastName + " " + tableUser.FirstName + " " + tableUser.SecondName,
+						GkLevel = (byte)tableUser.GkLevel,
+						GkLevelSchedule = (byte)tableUser.GkLevelSchedule,
+						Password = (uint)tableUser.Password,
+						UserType = (GKAPI.GKCardType)tableUser.UserType
+					};
+					foreach (var cardDoor in tableUser.CardDoors)
+					{
+						var door = GKManager.Doors.FirstOrDefault(x => x.UID == cardDoor.DoorUID);
+						user.Descriptors.Add(
+							new GKAPI.GKUserDescriptor
+							{ 
+								GKDoor = door, 
+								DescriptorNo = door.EnterDevice.GKDescriptorNo, 
+								ScheduleNo = cardDoor.EnterScheduleNo
+							});
+						if(door.DoorType != GKAPI.GKDoorType.OneWay && door.ExitDevice != null)
+							user.Descriptors.Add(
+								new GKAPI.GKUserDescriptor
+								{ 
+									GKDoor = door,
+									DescriptorNo = door.ExitDevice.GKDescriptorNo,
+									ScheduleNo = cardDoor.ExitScheduleNo
+								});
+					}
+					users.Add(user);
+				}
+				return new OperationResult<List<GKAPI.GKUser>>(users);
+			}
+			catch(Exception e)
+			{
+				return OperationResult<List<GKAPI.GKUser>>.FromError(e.Message);
 			}
 		}
 	}

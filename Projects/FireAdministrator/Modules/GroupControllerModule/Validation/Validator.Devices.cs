@@ -249,10 +249,10 @@ namespace GKModule.Validation
 		{
 			if (device.DriverType == GKDriverType.GK)
 			{
-				var kauChildren1 = device.Children.Where(x => (x.Driver.IsKau || x.DriverType == GKDriverType.RSR2_GKMirror) && GKManager.GetKauLine(x) == 0).ToList();
+				var kauChildren1 = device.Children.Where(x => (x.Driver.IsKau || x.DriverType == GKDriverType.GKMirror) && GKManager.GetKauLine(x) == 0).ToList();
 				ValidateKAUAddressFollowingInOneLine(kauChildren1);
 
-				var kauChildren2 = device.Children.Where(x => (x.Driver.IsKau || x.DriverType == GKDriverType.RSR2_GKMirror) && GKManager.GetKauLine(x) == 1).ToList();
+				var kauChildren2 = device.Children.Where(x => (x.Driver.IsKau || x.DriverType == GKDriverType.GKMirror) && GKManager.GetKauLine(x) == 1).ToList();
 				ValidateKAUAddressFollowingInOneLine(kauChildren2);
 			}
 		}
