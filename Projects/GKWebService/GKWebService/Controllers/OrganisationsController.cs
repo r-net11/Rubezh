@@ -93,5 +93,29 @@ namespace GKWebService.Controllers
 
             return new JsonNetResult { Data = result };
         }
+
+        [HttpPost]
+        public JsonNetResult MarkDeleted(Guid uid, string name)
+        {
+            var operationResult = ClientManager.FiresecService.MarkDeletedOrganisation(uid, name);
+            return new JsonNetResult { Data = operationResult != null && operationResult.HasError && !operationResult.Error.Contains("Ошибка БД") };
+        }
+
+        public JsonNetResult IsAnyOrganisationItems(Guid uid)
+        {
+            var operationResult = ClientManager.FiresecService.IsAnyOrganisationItems(uid);
+            if (operationResult.HasError)
+            {
+                throw new InvalidOperationException(operationResult.Error);
+            }
+            return new JsonNetResult { Data = operationResult.Result};
+        }
+
+        [HttpPost]
+        public JsonNetResult Restore(Guid uid, string name)
+        {
+            var operationResult = ClientManager.FiresecService.RestoreOrganisation(uid, name);
+            return new JsonNetResult { Data = operationResult != null && operationResult.HasError && !operationResult.Error.Contains("Ошибка БД") };
+        }
     }
 }
