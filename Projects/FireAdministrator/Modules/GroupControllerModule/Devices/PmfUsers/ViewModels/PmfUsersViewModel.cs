@@ -107,7 +107,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
-			var result = ClientManager.FiresecService.GKGetUsers(Pmf.UID);
+			var result = ClientManager.FiresecService.GKGetUsers(Pmf);
 			if (result.HasError)
 			{
 				MessageBoxService.Show(result.Error);

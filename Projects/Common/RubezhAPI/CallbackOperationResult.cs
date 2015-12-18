@@ -52,6 +52,7 @@ namespace RubezhAPI
 		ReadConfigurationFromGKFile,
 		GetArchivePage,
 		GetJournal,
-		GetPmfUsers
+		GetPmfUsers,
+		GetGKUsers
 	}
 }

@@ -169,13 +169,13 @@ namespace RubezhClient
 			}, "GKGetUsers");
 		}
 
-		public OperationResult<bool> GKRewriteUsers(GKDevice device)
+		public OperationResult<bool> GKRewriteUsers(Guid deviceUid)
 		{
 			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.GKRewriteUsers(FiresecServiceFactory.UID, device.UID);
+					return firesecService.GKRewriteUsers(FiresecServiceFactory.UID, deviceUid);
 			}, "GKRewriteUsers");
 		}
 

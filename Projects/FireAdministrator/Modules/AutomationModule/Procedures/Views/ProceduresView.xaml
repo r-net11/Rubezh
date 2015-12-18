@@ -87,7 +87,6 @@
 		<GridSplitter Grid.Column="1" Background="Transparent" HorizontalAlignment="Stretch"/>
 
 		<Grid Grid.Column="2" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" DataContext="{Binding SelectedProcedure}" Margin="4, -50, 0, 0">
-			<Grid>
 				<StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="280 14 0 0">
 					<StackPanel Orientation="Horizontal">
 						<Button Content="Шаги" Command="{Binding ShowStepsCommand}" Width="120" Height="28">
@@ -174,8 +173,7 @@
 					ConverterParameter={x:Static procedures:MenuType.IsConditions}}">
 					<Views:ConditionsView DataContext="{Binding ConditionsViewModel}" />
 				</Grid>
-
-			</Grid>
+			</StackPanel>
 		</Grid>
 	</Grid>
 </UserControl>

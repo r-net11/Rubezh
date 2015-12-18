@@ -1,4 +1,5 @@
-﻿using RubezhAPI;
+﻿using Common;
+using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhAPI.SKD;
@@ -361,7 +362,7 @@ namespace RubezhClient
 		}
 		public OperationResult<List<GKUser>> GetDbDeviceUsers(Guid deviceUID, List<Guid> doorUIDs)
 		{
-			return SafeContext.Execute<OperationResult<List<GKUser>>>(() => FiresecService.GetDbDeviceUsers(deviceUID, doorUIDs));
+			return SafeContext.Execute(() => FiresecService.GetDbDeviceUsers(deviceUID, doorUIDs));
 		}
 		#endregion
 

@@ -33,9 +33,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Automation", "..\Common\Infrastructure.Automation\Infrastructure.Automation.csproj", "{AE2102F4-C2B3-4CA3-850F-69C93E23DFB7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubezhDAL", "..\Common\RubezhDAL\RubezhDAL.csproj", "{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE} = {0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

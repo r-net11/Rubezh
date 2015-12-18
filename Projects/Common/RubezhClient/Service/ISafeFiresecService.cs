@@ -115,7 +115,7 @@ namespace RubezhClient
 		OperationResult<uint> GKGetReaderCode(GKDevice device);
 		OperationResult<List<GKProperty>> GKGetSingleParameter(GKBase gkBase);
 		GKStates GKGetStates();
-		OperationResult<bool> GKGetUsers(Guid deviceUID);
+		OperationResult<bool> GKGetUsers(GKDevice device);
 		OperationResult<List<GKUser>> GetDbDeviceUsers(Guid deviceUID, List<Guid> doorUIDs);
 		OperationResult<List<byte>> GKGKHash(GKDevice device);
 		void GKOpenSKDZone(GKSKDZone zone);
