@@ -1,9 +1,11 @@
 ﻿using System;
 using Microsoft.Practices.Prism.Events;
+using System.Collections.Generic;
+using RubezhAPI.GK;
 
 namespace GKModule.Events
 {
-	public class ShowPmfUsersEvent : CompositePresentationEvent<object>
+	public class GetPmfUsersEvent : CompositePresentationEvent<List<GKUser>>
 	{
 	}
 }

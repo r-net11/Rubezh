@@ -22,7 +22,7 @@ namespace JournalModule.ViewModels
 
 		public void Initialize(JournalFilter filter)
 		{
-			AllFilters.ForEach(x => x.IsChecked=false);
+			AllFilters.ForEach(x => x.IsChecked = false);
 
 			foreach (var journalObjectType in filter.JournalObjectTypes)
 			{
@@ -190,10 +190,7 @@ namespace JournalModule.ViewModels
 
 			foreach (var childDevice in device.Children)
 			{
-				if (!childDevice.IsNotUsed)
-				{
-					AddGKDeviceInternal(childDevice, deviceViewModel);
-				}
+				AddGKDeviceInternal(childDevice, deviceViewModel);
 			}
 			return deviceViewModel;
 		}

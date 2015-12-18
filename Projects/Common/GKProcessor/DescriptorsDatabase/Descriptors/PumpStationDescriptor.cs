@@ -31,6 +31,9 @@ namespace GKProcessor
 				return;
 			}
 
+			var mirrorParents = PumpStation.GetMirrorParents();
+			Formula.AddMirrorLogic(PumpStation, mirrorParents);
+
 			var hasAutomaticOffLogic = PumpStation.AutomaticOffLogic.OnClausesGroup.Clauses.Count + PumpStation.AutomaticOffLogic.OnClausesGroup.ClauseGroups.Count > 0;
 			var hasStartLogic = PumpStation.StartLogic.OnClausesGroup.Clauses.Count + PumpStation.StartLogic.OnClausesGroup.ClauseGroups.Count > 0;
 			var hasStopLogic = PumpStation.StopLogic.OnClausesGroup.Clauses.Count + PumpStation.StopLogic.OnClausesGroup.ClauseGroups.Count > 0;

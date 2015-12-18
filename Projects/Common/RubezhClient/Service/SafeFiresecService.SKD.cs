@@ -1,4 +1,5 @@
-﻿using RubezhAPI;
+﻿using Common;
+using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhAPI.SKD;
@@ -358,6 +359,10 @@ namespace RubezhClient
 				using (firesecService as IDisposable)
 					return firesecService.SaveCardTemplate(FiresecServiceFactory.UID, item);
 			}, "SaveCardTemplate");
+		}
+		public OperationResult<List<GKUser>> GetDbDeviceUsers(Guid deviceUID, List<Guid> doorUIDs)
+		{
+			return SafeContext.Execute(() => FiresecService.GetDbDeviceUsers(deviceUID, doorUIDs));
 		}
 		#endregion
 
