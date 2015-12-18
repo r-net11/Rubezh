@@ -10,6 +10,7 @@
 		<DataGrid Grid.Column="0" ItemsSource="{Binding OpcDaServers}" SelectedItem="{Binding SelectedOpcServer}" Margin="3">
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="Название" Binding="{Binding ServerName}" IsReadOnly="True" />
+				<DataGridTextColumn Header="UID" Binding="{Binding Uid}" IsReadOnly="True" />
 				<DataGridTextColumn Header="URL" Binding="{Binding Url}" IsReadOnly="True" />
 				<DataGridTextColumn Header="Login" Binding="{Binding Login}" IsReadOnly="True" />
 				<DataGridTextColumn Header="Password" Binding="{Binding Password}" IsReadOnly="True" />
@@ -19,6 +20,7 @@
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="Название" Binding="{Binding TagName}" IsReadOnly="True" />
 				<DataGridTextColumn Header="Путь" Binding="{Binding Path}" IsReadOnly="True" />
+				<DataGridTextColumn Header="UID" Binding="{Binding Uid}" IsReadOnly="True" />
 			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>

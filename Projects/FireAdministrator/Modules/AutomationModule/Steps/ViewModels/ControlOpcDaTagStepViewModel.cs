@@ -32,7 +32,7 @@ namespace AutomationModule.ViewModels
 				_selectedOpcDaServer = value;
 				if (_selectedOpcDaServer != null)
 				{
-					ControlOpcDaTagArguments.OpcDaServerUID = _selectedOpcDaServer.Id;
+					ControlOpcDaTagArguments.OpcDaServerUID = _selectedOpcDaServer.Uid;
 					OpcDaTags = new ObservableCollection<OpcDaTag>(_selectedOpcDaServer.Tags);
 				}
 				else
@@ -58,7 +58,7 @@ namespace AutomationModule.ViewModels
 			var allServers = new List<OpcDaServer>(ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaServers);
 			allServers.AddRange(ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers);
 			OpcDaServers = new ObservableCollection<OpcDaServer>(allServers);
-			SelectedOpcDaServer = OpcDaServers.FirstOrDefault(x => x.Id == ControlOpcDaTagArguments.OpcDaServerUID);
+			SelectedOpcDaServer = OpcDaServers.FirstOrDefault(x => x.Uid == ControlOpcDaTagArguments.OpcDaServerUID);
 			OnPropertyChanged(() => OpcDaServers);
 		}
 

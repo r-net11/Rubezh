@@ -92,6 +92,7 @@ namespace AutomationModule.ViewModels
 			{
 				if (item.IsChecked)
 				{
+					item.Uid = Guid.NewGuid();
 					_opcDaServersViewModel.OpcDaServers.Add(item);
 					ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.Add(item);
 				}

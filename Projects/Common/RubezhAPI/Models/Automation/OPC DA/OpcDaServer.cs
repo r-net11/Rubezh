@@ -16,7 +16,7 @@ namespace RubezhAPI.Automation
 		public string ServerName { get; set; }
 
 		[DataMember]
-		public Guid Id { get; set; }
+		public Guid Uid { get; set; }
 
 		/// <summary>
 		/// Путь к хост-компьютеру на котором установлен данный сервер 

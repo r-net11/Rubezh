@@ -259,5 +259,40 @@ namespace FiresecService.Service
 				return databaseService.CardTranslator.GetMinDate();
 			}
 		}
+
+		public string[] GetOpcDaServerNames()
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult<RubezhAPI.Automation.OpcDaServer> GetOpcDaServerGroupAndTags(string serverName)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult ConnectToOpcDaServer(RubezhAPI.Automation.OpcDaServer server)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult DisconnectFromOpcDaServer(RubezhAPI.Automation.OpcDaServer server)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult<OpcClientSdk.OpcServerStatus> GetOpcDaServerStatus(RubezhAPI.Automation.OpcDaServer server)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult<OpcClientSdk.Da.TsCDaItemValueResult[]> ReadOpcDaServerTags(RubezhAPI.Automation.OpcDaServer server)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult WriteOpcDaServerTags(RubezhAPI.Automation.OpcDaServer server, OpcClientSdk.Da.TsCDaItemValueResult[] tagValues)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

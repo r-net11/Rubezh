@@ -99,12 +99,31 @@ namespace AutomationModule.ViewModels
 
 		public override void OnClosed()
 		{
+			var result = new List<OpcDaTag>();
+
 			var checkedItems = TagsAndGroups.AllElements
 				.Where(x => x.IsChecked)
 				.Select(y => new OpcDaTag { TagName = y.Element.ItemName, Path = y.Element.ItemPath })
 				.ToArray();
 
-			OpcDaClientViewModel.SelectedTags = checkedItems;
+			foreach (var item in checkedItems)
+			{
+				var tag = OpcDaClientViewModel.SelectedTags
+					.FirstOrDefault(x => x.TagName == item.TagName && x.Path == item.Path);
+
+				if (tag == null)
+				{
+					item.Uid = Guid.NewGuid();
+					result.Add(item);
+				}
+				else
+				{
+					result.Add(tag);
+				}
+
+			}
+
+			OpcDaClientViewModel.SelectedTags = result.ToArray();
 
 			Dispose();
 			base.OnClosed();

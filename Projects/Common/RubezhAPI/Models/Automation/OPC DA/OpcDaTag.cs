@@ -8,6 +8,8 @@ namespace RubezhAPI.Automation
 	public class OpcDaTag
 	{
 		[DataMember]
+		public Guid Uid { get; set; }
+		[DataMember]
 		public string TagId { get; set; }
 		[DataMember]
 		public string TagName { get; set; }
