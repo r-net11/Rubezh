@@ -123,10 +123,7 @@ namespace GKModule.ViewModels
 
 			foreach (var childDevice in device.Children)
 			{
-				if (!childDevice.IsNotUsed)
-				{
-					AddDeviceInternal(childDevice, deviceViewModel);
-				}
+				AddDeviceInternal(childDevice, deviceViewModel);
 			}
 			return deviceViewModel;
 		}
