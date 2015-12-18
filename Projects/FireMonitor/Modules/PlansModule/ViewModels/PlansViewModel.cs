@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Media;
-using Common;
-using RubezhAPI.Automation;
-using RubezhAPI.AutomationCallback;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhAPI.Models.Layouts;
-using RubezhClient;
+﻿using Common;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -18,6 +7,17 @@ using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using RubezhAPI.Automation;
+using RubezhAPI.AutomationCallback;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.Models.Layouts;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Media;
 
 namespace PlansModule.ViewModels
 {
@@ -43,7 +43,9 @@ namespace PlansModule.ViewModels
 			ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
 			ServiceFactory.Events.GetEvent<ChangePlanPropertiesEvent>().Unsubscribe(OnChangePlanProperties);
 			ServiceFactory.Events.GetEvent<ChangePlanPropertiesEvent>().Subscribe(OnChangePlanProperties);
-			
+			ServiceFactory.Events.GetEvent<ControlPlanEvent>().Unsubscribe(OnControlPlan);
+			ServiceFactory.Events.GetEvent<ControlPlanEvent>().Subscribe(OnControlPlan);
+
 			_initialized = false;
 			if (_properties.Type != LayoutPartPlansType.Single)
 			{
@@ -70,8 +72,20 @@ namespace PlansModule.ViewModels
 				PlanTreeViewModel.Initialize();
 			_initialized = true;
 			OnSelectedPlanChanged();
-			SafeFiresecService.AutomationEvent -= OnAutomationCallback;
-			SafeFiresecService.AutomationEvent += OnAutomationCallback;
+		}
+
+		void OnControlPlan(ControlPlanEventArg controlPlanEventArg)
+		{
+			switch (controlPlanEventArg.ControlElementType)
+			{
+				case ControlElementType.Get:
+					GetPlanProperty(controlPlanEventArg.PlanCallbackData);
+					break;
+				case ControlElementType.Set:
+					SetPlanProperty(controlPlanEventArg.PlanCallbackData);
+					break;
+			}
+
 		}
 
 		private void OnSelectPlan(Guid planUID)
@@ -177,18 +191,7 @@ namespace PlansModule.ViewModels
 			foreach (var property in properties)
 				SetPlanProperty(property);
 		}
-		private void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)
-		{
-			switch (automationCallbackResult.AutomationCallbackType)
-			{
-				case AutomationCallbackType.SetPlanProperty:
-					SetPlanProperty((PlanCallbackData)automationCallbackResult.Data);
-					break;
-				case AutomationCallbackType.GetPlanProperty:
-					GetPlanProperty((PlanCallbackData)automationCallbackResult.Data, automationCallbackResult.CallbackUID);
-					break;
-			}
-		}
+
 		private void SetPlanProperty(PlanCallbackData data)
 		{
 			var element = GetElement(data);
@@ -265,7 +268,7 @@ namespace PlansModule.ViewModels
 				}
 			});
 		}
-		private void GetPlanProperty(PlanCallbackData data, Guid callbackUID)
+		void GetPlanProperty(PlanCallbackData data)
 		{
 			var value = new object();
 			var element = GetElement(data);
@@ -333,7 +336,7 @@ namespace PlansModule.ViewModels
 						break;
 				}
 			}
-			ClientManager.FiresecService.ProcedureCallbackResponse(callbackUID, value);
+			data.Value = value;
 		}
 		private ElementBase GetElement(PlanCallbackData data)
 		{

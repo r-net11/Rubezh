@@ -26,7 +26,6 @@ namespace RubezhAPI.GK
 			NSLogic = new GKLogic();
 			PlanElementUIDs = new List<Guid>();
 			GKReflectionItem = new GKReflectionItem();
-			IsNotUsed = false;
 			AllowMultipleVizualization = false;
 			Zones = new List<GKZone>();
 			GuardZones = new List<GKGuardZone>();
@@ -191,9 +190,6 @@ namespace RubezhAPI.GK
 		/// </summary>
 		[DataMember]
 		public GKLogic NSLogic { get; set; }
-
-		[DataMember]
-		public bool IsNotUsed { get; set; }
 
 		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }

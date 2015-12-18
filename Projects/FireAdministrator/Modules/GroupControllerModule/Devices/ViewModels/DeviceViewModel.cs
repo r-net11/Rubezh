@@ -8,7 +8,6 @@ using Common;
 using DeviceControls;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
-using RubezhClient;
 using GKModule.Events;
 using GKModule.Plans;
 using Infrastructure;
@@ -133,10 +132,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				return GKManager.Doors.Any(x => x.EnterDeviceUID == Device.UID || x.ExitDeviceUID == Device.UID
-					|| x.EnterButtonUID == Device.UID || x.ExitButtonUID == Device.UID
-					|| x.LockDeviceUID == Device.UID || x.LockDeviceExitUID == Device.UID
-					|| x.LockControlDeviceUID == Device.UID || x.LockControlDeviceExitUID == Device.UID);
+				return GKManager.Doors.Any(x => x.InputDependentElements.Any(y => y.UID == Device.UID));
 			}
 		}
 
@@ -232,23 +228,6 @@ namespace GKModule.ViewModels
 
 		public bool CanUpdateDescriptorName { get; set; }
 
-		public bool IsUsed
-		{
-			get { return !Device.IsNotUsed; }
-			set
-			{
-				Device.IsNotUsed = !value;
-				GKManager.SetDeviceLogic(Device, new GKLogic());
-				OnPropertyChanged(() => IsUsed);
-				OnPropertyChanged(() => ShowOnPlan);
-				OnPropertyChanged(() => PresentationZone);
-				OnPropertyChanged(() => EditingPresentationZone);
-				OnPropertyChanged(() => GuardPresentationZone);
-				OnPropertyChanged(() => IsFireAndGuard);
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
@@ -343,7 +322,7 @@ namespace GKModule.ViewModels
 		{
 			return !(Driver.IsAutoCreate || Parent == null || Parent.Driver.IsGroupDevice);
 		}
-		public void Remove(bool updateParameters)
+		public void Remove(bool isSingleRemove)
 		{
 			var allDevices = GKManager.RemoveDevice(Device);
 			foreach (var device in allDevices)
@@ -353,18 +332,11 @@ namespace GKModule.ViewModels
 			using (var cache = new ElementDeviceUpdater())
 				cache.ResetDevices(allDevices);
 
-			if (updateParameters)
+			if (Parent != null)
 			{
-				if (Parent != null)
-				{
-					Parent.Device.OnAUParametersChanged();
-				}
-			}
-
-			var parent = Parent;
-			if (parent != null)
-			{
+				var parent = Parent;
 				var index = DevicesViewModel.Current.SelectedDevice.VisualIndex;
+				parent.Device.OnAUParametersChanged();
 				parent.Nodes.Remove(this);
 				parent.Update();
 				index = Math.Min(index, parent.ChildrenCount - 1);
@@ -372,7 +344,8 @@ namespace GKModule.ViewModels
 				{
 					DevicesViewModel.Current.AllDevices.Remove(childDeviceViewModel);
 				}
-				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
+				if (isSingleRemove)
+					DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
 			GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
 			ServiceFactory.SaveService.GKChanged = true;
@@ -408,12 +381,11 @@ namespace GKModule.ViewModels
 				foreach (var zone in zonesSelectationViewModel.TargetZones)
 				{
 					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.FireZonesMirror);
-					GKDevice device = GKManager.AddChild(Device, null, driver, 0);
+					GKDevice device = GKManager.AddDevice(Device, driver, 0);
 					device.GKReflectionItem.ZoneUIDs.Add(zone.UID);
 					device.GKReflectionItem.Zones.Add(zone);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
-
 				}
 				GKManager.RebuildRSR2Addresses(Device);
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
@@ -430,12 +402,11 @@ namespace GKModule.ViewModels
 				foreach (var zone in guardZonesSelectationViewModel.TargetZones)
 				{
 					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GuardZonesMirror);
-					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
+					GKDevice device = GKManager.AddDevice(Device, driver, 0);
 					device.GKReflectionItem.GuardZoneUIDs.Add(zone.UID);
 					device.GKReflectionItem.GuardZones.Add(zone);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
-
 				}
 				GKManager.RebuildRSR2Addresses(Device);
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
@@ -452,12 +423,11 @@ namespace GKModule.ViewModels
 				foreach (var direction in directionsSelectationViewModel.TargetDirections)
 				{
 					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.DirectionsMirror);
-					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
+					GKDevice device = GKManager.AddDevice(Device, driver, 0);
 					device.GKReflectionItem.DiretionUIDs.Add(direction.UID);
 					device.GKReflectionItem.Diretions.Add(direction);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
-
 				}
 				GKManager.RebuildRSR2Addresses(Device);
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
@@ -474,12 +444,11 @@ namespace GKModule.ViewModels
 				foreach (var detectordevice in deviceSelectationViewMode.Devices)
 				{
 					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.DetectorDevicesMirror);
-					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
+					GKDevice device = GKManager.AddDevice(Device, driver, 0);
 					device.GKReflectionItem.DeviceUIDs.Add(detectordevice.UID);
 					device.GKReflectionItem.Devices.Add(detectordevice);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
-
 				}
 				GKManager.RebuildRSR2Addresses(Device);
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
@@ -496,12 +465,11 @@ namespace GKModule.ViewModels
 				foreach (var performerdevice in deviceSelectationViewMode.Devices)
 				{
 					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.ControlDevicesMirror);
-					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
+					GKDevice device = GKManager.AddDevice(Device, driver, 0);
 					device.GKReflectionItem.DeviceUIDs.Add(performerdevice.UID);
 					device.GKReflectionItem.Devices.Add(performerdevice);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
-
 				}
 				GKManager.RebuildRSR2Addresses(Device);
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
@@ -518,12 +486,11 @@ namespace GKModule.ViewModels
 				foreach (var mpt in mPTsSelectationViewModel.TargetMPTs)
 				{
 					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.FirefightingZonesMirror);
-					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
+					GKDevice device = GKManager.AddDevice(Device, driver, 0);
 					device.GKReflectionItem.MPTUIDs.Add(mpt.UID);
 					device.GKReflectionItem.MPTs.Add(mpt);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
-
 				}
 				GKManager.RebuildRSR2Addresses(Device);
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
@@ -544,8 +511,6 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (Device.IsNotUsed)
-					return null;
 				return GKManager.GetPresentationZoneOrLogic(Device);
 			}
 		}
@@ -554,8 +519,6 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (Device.IsNotUsed)
-					return null;
 				if (!(Driver.HasZone && Driver.HasGuardZone))
 					return null;
 				return GKManager.GetPresentationGuardZone(Device);
@@ -566,8 +529,6 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (Device.IsNotUsed)
-					return null;
 				var presentationZone = GKManager.GetPresentationZoneAndGuardZoneOrLogic(Device);
 				IsLogicGrayed = string.IsNullOrEmpty(presentationZone);
 				if (string.IsNullOrEmpty(presentationZone))
@@ -605,7 +566,7 @@ namespace GKModule.ViewModels
 		}
 		public bool ShowOnPlan
 		{
-			get { return !Device.IsNotUsed && (Device.Driver.IsDeviceOnShleif || Device.Children.Count > 0); }
+			get { return  Device.Driver.IsDeviceOnShleif || Device.Children.Any(); }
 		}
 		public VisualizationState VisualizationState
 		{
@@ -675,7 +636,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowLogic()
 		{
-			return Driver.HasLogic && !Device.IsNotUsed && !Device.IsInMPT && !IsInPumpStation;
+			return Driver.HasLogic && !Device.IsInMPT && !IsInPumpStation;
 		}
 
 		public RelayCommand ShowZonesCommand { get; private set; }
@@ -712,11 +673,11 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowZones()
 		{
-			return (Driver.HasZone || Driver.HasGuardZone) && !Device.IsNotUsed;
+			return Driver.HasZone || Driver.HasGuardZone;
 		}
 		bool CanShowReflection()
 		{
-			return Driver.HasMirror && !Device.IsNotUsed;
+			return Driver.HasMirror;
 		}
 		void OnShowReflection()
 		{
@@ -859,7 +820,9 @@ namespace GKModule.ViewModels
 
 					GKManager.RebuildRSR2Addresses(Device);
 					GKManager.DeviceConfiguration.Update();
+					DevicesViewModel.Current.SelectedDevice.IsExpanded = true;
 					Update();
+					
 					ServiceFactory.SaveService.GKChanged = true;
 				}
 			}
@@ -914,7 +877,7 @@ namespace GKModule.ViewModels
 			return Device.Parent != null;
 		}
 
-		public bool IsBold { get; set; }
+		//public bool IsBold { get; set; }
 
 		public string MPTName
 		{
@@ -929,10 +892,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var door = GKManager.Doors.FirstOrDefault(x => x.EnterDeviceUID == Device.UID || x.ExitDeviceUID == Device.UID
-					|| x.EnterButtonUID == Device.UID || x.ExitButtonUID == Device.UID
-					|| x.LockDeviceUID == Device.UID || x.LockDeviceExitUID == Device.UID
-					|| x.LockControlDeviceUID == Device.UID || x.LockControlDeviceExitUID == Device.UID);
+				var door = GKManager.Doors.FirstOrDefault(x => x.InputDependentElements.Any(y => y.UID == Device.UID));
 				if (door != null)
 					return door.Name;
 				return null;
@@ -954,10 +914,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowDoorCommand { get; private set; }
 		void OnShowDoor()
 		{
-			var door = GKManager.Doors.FirstOrDefault(x => x.EnterDeviceUID == Device.UID || x.ExitDeviceUID == Device.UID
-					|| x.EnterButtonUID == Device.UID || x.ExitButtonUID == Device.UID
-					|| x.LockDeviceUID == Device.UID || x.LockDeviceExitUID == Device.UID
-					|| x.LockControlDeviceUID == Device.UID || x.LockControlDeviceExitUID == Device.UID);
+			var door = GKManager.Doors.FirstOrDefault(x => x.InputDependentElements.Any(y => y.UID == Device.UID));
 			if (door != null)
 				ServiceFactoryBase.Events.GetEvent<ShowGKDoorEvent>().Publish(door.UID);
 		}

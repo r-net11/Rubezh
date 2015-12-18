@@ -119,7 +119,7 @@ namespace RubezhAPI
 		/// <param name="device"></param>
 		public static List<GKDevice> RemoveDevice(GKDevice device)
 		{
-			var allDevices = device.AllChildrenAndSelf;
+			//var allDevices = device.AllChildrenAndSelf;
 			foreach (var deviceItem in device.AllChildrenAndSelf)
 			{
 				//var parentDevice = device.Parent;
@@ -146,7 +146,7 @@ namespace RubezhAPI
 					x.OnChanged();
 				});
 			}
-			return allDevices;
+			return device.AllChildrenAndSelf;
 		}
 
 		#region RebuildRSR2Addresses
@@ -206,12 +206,12 @@ namespace RubezhAPI
 
 		public static GKDevice ChangeDriver(GKDevice device, GKDriver driver)
 		{
-			if (GetAddress(device.Parent.Children) * Math.Max(1, (int)driver.GroupDeviceChildrenCount) > 255)
+			if ((GetAddress(device.Parent.AllChildren)-1) + Math.Max(1, (int)driver.GroupDeviceChildrenCount) > 255)
 				return null;
 
 			var index = device.Parent.Children.IndexOf(device);
 			GKManager.RemoveDevice(device);
-			return GKManager.AddChild(device.Parent, null, driver, 0, indexForCangeDevice: index);
+			return GKManager.AddDevice(device.Parent, driver, 0, index);
 		}
 
 		public static int GetAddress(IEnumerable<GKDevice> children)

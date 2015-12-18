@@ -189,10 +189,7 @@ namespace FiltersModule.ViewModels
 
 			foreach (var childDevice in device.Children)
 			{
-				if (!childDevice.IsNotUsed)
-				{
-					AddGKDeviceInternal(childDevice, deviceViewModel);
-				}
+				AddGKDeviceInternal(childDevice, deviceViewModel);
 			}
 			return deviceViewModel;
 		}

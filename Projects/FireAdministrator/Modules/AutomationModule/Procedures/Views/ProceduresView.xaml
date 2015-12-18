@@ -55,9 +55,9 @@
 	</UserControl.Resources>
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="7*" MinWidth="300" />
-			<ColumnDefinition Width= "1" />
-			<ColumnDefinition Width="15*" MinWidth="400"/>
+			<ColumnDefinition Width="300" MinWidth="300" />
+			<ColumnDefinition Width= "4" />
+			<ColumnDefinition Width="*"/>
 		</Grid.ColumnDefinitions>
 		<Grid>
 			<Grid.RowDefinitions>
