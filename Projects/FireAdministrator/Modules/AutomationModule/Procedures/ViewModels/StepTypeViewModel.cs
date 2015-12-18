@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Infrastructure.Common.TreeList;
 using RubezhAPI;
 using RubezhAPI.Automation;
-using Infrastructure.Common.TreeList;
+using System.Collections.Generic;
 
 namespace AutomationModule.ViewModels
 {
@@ -22,10 +22,11 @@ namespace AutomationModule.ViewModels
 				|| (procedureStepType == ProcedureStepType.ControlGKFireZone) || (procedureStepType == ProcedureStepType.ControlGKGuardZone)
 				|| (procedureStepType == ProcedureStepType.ControlPumpStation) || (procedureStepType == ProcedureStepType.ControlMPT)
 				|| (procedureStepType == ProcedureStepType.ControlDelay) || (procedureStepType == ProcedureStepType.Ptz)
-				|| (procedureStepType == ProcedureStepType.StartRecord) || (procedureStepType == ProcedureStepType.StopRecord) || (procedureStepType == ProcedureStepType.RviAlarm))
+				|| (procedureStepType == ProcedureStepType.StartRecord) || (procedureStepType == ProcedureStepType.StopRecord) || (procedureStepType == ProcedureStepType.RviAlarm)
+				|| (procedureStepType == ProcedureStepType.ControlOpcDaTagGet) || (procedureStepType == ProcedureStepType.ControlOpcDaTagSet))
 				ImageSource = "/Controls;component/StepIcons/Control.png";
-			else if ((procedureStepType == ProcedureStepType.ExportJournal) || (procedureStepType == ProcedureStepType.ExportOrganisation) 
-				|| (procedureStepType == ProcedureStepType.ExportConfiguration)	|| (procedureStepType == ProcedureStepType.ExportOrganisationList))
+			else if ((procedureStepType == ProcedureStepType.ExportJournal) || (procedureStepType == ProcedureStepType.ExportOrganisation)
+				|| (procedureStepType == ProcedureStepType.ExportConfiguration) || (procedureStepType == ProcedureStepType.ExportOrganisationList))
 				ImageSource = "/Controls;component/StepIcons/Export.png";
 			else if ((procedureStepType == ProcedureStepType.ImportOrganisation) || (procedureStepType == ProcedureStepType.ImportOrganisationList))
 				ImageSource = "/Controls;component/StepIcons/Import.png";

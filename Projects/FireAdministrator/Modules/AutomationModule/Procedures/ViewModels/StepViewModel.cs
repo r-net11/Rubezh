@@ -1,6 +1,6 @@
-﻿using RubezhAPI.Automation;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common.TreeList;
+using RubezhAPI.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -22,7 +22,8 @@ namespace AutomationModule.ViewModels
 				|| (step.ProcedureStepType == ProcedureStepType.ControlGKFireZone) || (step.ProcedureStepType == ProcedureStepType.ControlGKGuardZone)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlPumpStation) || (step.ProcedureStepType == ProcedureStepType.ControlMPT)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlDelay) || (step.ProcedureStepType == ProcedureStepType.Ptz)
-				|| (step.ProcedureStepType == ProcedureStepType.StartRecord) || (step.ProcedureStepType == ProcedureStepType.StopRecord) || (step.ProcedureStepType == ProcedureStepType.RviAlarm))
+				|| (step.ProcedureStepType == ProcedureStepType.StartRecord) || (step.ProcedureStepType == ProcedureStepType.StopRecord) || (step.ProcedureStepType == ProcedureStepType.RviAlarm)
+				|| (step.ProcedureStepType == ProcedureStepType.ControlOpcDaTagGet) || (step.ProcedureStepType == ProcedureStepType.ControlOpcDaTagSet))
 				ImageSource = "/Controls;component/StepIcons/Control.png";
 			else
 				ImageSource = "/Controls;component/StepIcons/" + step.ProcedureStepType + ".png";
@@ -222,6 +223,14 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.Now:
 					Content = new NowStepViewModel(this);
+					break;
+
+				case ProcedureStepType.ControlOpcDaTagGet:
+					Content = new ControlOpcDaTagStepViewModel(this, ControlElementType.Get);
+					break;
+
+				case ProcedureStepType.ControlOpcDaTagSet:
+					Content = new ControlOpcDaTagStepViewModel(this, ControlElementType.Set);
 					break;
 			}
 			UpdateContent();

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Automation;
-using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
 
 namespace AutomationModule.ViewModels
 {
@@ -145,6 +145,12 @@ namespace AutomationModule.ViewModels
 									new StepTypeViewModel(ProcedureStepType.Ptz),
 									new StepTypeViewModel(ProcedureStepType.RviAlarm),
 								}),
+						}),
+					new StepTypeViewModel("OPC DA Сервер", "/Controls;component/StepIcons/Control.png",
+						new List<StepTypeViewModel>
+						{
+							new StepTypeViewModel(ProcedureStepType.ControlOpcDaTagGet),
+							new StepTypeViewModel(ProcedureStepType.ControlOpcDaTagSet)
 						}),
 					new StepTypeViewModel("Обмен данными", "/Controls;component/StepIcons/Export.png",
 						new List<StepTypeViewModel>

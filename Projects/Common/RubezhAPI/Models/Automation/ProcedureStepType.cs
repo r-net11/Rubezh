@@ -170,6 +170,12 @@ namespace RubezhAPI.Automation
 		RviAlarm,
 
 		[DescriptionAttribute("Получить текущие дату и время")]
-		Now
+		Now,
+
+		[DescriptionAttribute("Чтение значения OPC DA Тэга")]
+		ControlOpcDaTagGet,
+
+		[DescriptionAttribute("Установка значения OPC DA Тэга")]
+		ControlOpcDaTagSet,
 	}
 }

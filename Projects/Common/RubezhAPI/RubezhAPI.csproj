@@ -151,6 +151,8 @@
     <Compile Include="AutomationCallback\PropertyCallBackData.cs" />
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
     <Compile Include="CallbackOperationResult.cs" />
+    <Compile Include="Models\Automation\StepArguments\ControlElementType.cs" />
+    <Compile Include="Models\Automation\StepArguments\ControlOpcDaTagArguments.cs" />
     <Compile Include="GKManager\GKManager.Delays.cs" />
     <Compile Include="GKManager\GKManager.PumpStations.cs" />
     <Compile Include="GKManager\GKManager.MPTs.cs" />

@@ -234,6 +234,47 @@ namespace Infrastructure.Automation
 			}
 		}
 
+		void ControlOpcDaTag(ProcedureStep procedureStep, ControlElementType controlElementType)
+		{
+			//var controlPlanArguments = procedureStep.ControlPlanArguments;
+			//var callbackType = new AutomationCallbackType();
+			//object value = null;
+
+			//if (controlElementType == ControlElementType.Get)
+			//	callbackType = AutomationCallbackType.GetPlanProperty;
+			//if (controlElementType == ControlElementType.Set)
+			//{
+			//	callbackType = AutomationCallbackType.SetPlanProperty;
+			//	value = GetValue<object>(controlPlanArguments.ValueArgument);
+			//	if (value is int && (int)value < 0)
+			//		return;
+			//}
+
+			//var automationCallbackResult = new AutomationCallbackResult()
+			//{
+			//	AutomationCallbackType = callbackType,
+			//	Data = new PlanCallbackData()
+			//	{
+			//		PlanUid = controlPlanArguments.PlanUid,
+			//		ElementUid = controlPlanArguments.ElementUid,
+			//		ElementPropertyType = controlPlanArguments.ElementPropertyType,
+			//		Value = value,
+			//	},
+			//};
+			//switch (controlElementType)
+			//{
+			//	case ControlElementType.Get:
+			//		value = SendCallback(controlPlanArguments, automationCallbackResult, true);
+			//		SetValue(controlPlanArguments.ValueArgument, value);
+			//		break;
+			//	case ControlElementType.Set:
+			//		SendCallback(controlPlanArguments, automationCallbackResult);
+			//		if (controlPlanArguments.ForAllClients)
+			//			ProcedurePropertyCache.SetProperty((PlanCallbackData)automationCallbackResult.Data);
+			//		break;
+			//}
+		}
+
 		void Calculate(ProcedureStep procedureStep)
 		{
 			var arithmeticArguments = procedureStep.ArithmeticArguments;

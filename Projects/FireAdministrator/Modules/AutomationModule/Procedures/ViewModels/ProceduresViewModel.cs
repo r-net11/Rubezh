@@ -1,17 +1,16 @@
+using Common;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Ribbon;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.ViewModels;
+using RubezhAPI.Automation;
+using RubezhClient;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
-using Common;
-using RubezhAPI.Automation;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Ribbon;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.ViewModels;
-using RubezhClient;
-using Infrastructure.Common.Windows;
 
 namespace AutomationModule.ViewModels
 {
@@ -265,6 +264,10 @@ namespace AutomationModule.ViewModels
 					break;
 				case ProcedureStepType.Now:
 					ReplaceVariableUid(step.NowArguments.ResultArgument, dictionary);
+					break;
+				case ProcedureStepType.ControlOpcDaTagGet:
+				case ProcedureStepType.ControlOpcDaTagSet:
+					ReplaceVariableUid(step.ControlOpcDaTagArguments.ValueArgument, dictionary);
 					break;
 			}
 			foreach (var childStep in step.Children)

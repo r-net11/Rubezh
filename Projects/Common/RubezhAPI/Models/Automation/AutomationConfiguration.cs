@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RubezhAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using RubezhAPI.Models;
 
 namespace RubezhAPI.Automation
 {
@@ -410,6 +410,24 @@ namespace RubezhAPI.Automation
 					}
 				case ProcedureStepType.Now:
 					InvalidateArgument(procedure, step.NowArguments.ResultArgument);
+					break;
+				case ProcedureStepType.ControlOpcDaTagGet:
+				case ProcedureStepType.ControlOpcDaTagSet:
+					var controlOpcDaTagArguments = step.ControlOpcDaTagArguments;
+					//if (ConfigurationCash.PlansConfiguration == null || ConfigurationCash.PlansConfiguration.AllPlans == null)
+					//	return;
+					//var plan = ConfigurationCash.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == controlPlanArguments.PlanUid);
+					//if (plan == null)
+					//{
+					//	controlPlanArguments.PlanUid = Guid.Empty;
+					//	controlPlanArguments.ElementUid = Guid.Empty;
+					//}
+					//else
+					//{
+					//	if (plan.AllElements.All(x => x.UID != controlPlanArguments.ElementUid))
+					//		controlPlanArguments.ElementUid = Guid.Empty;
+					//}
+					InvalidateArgument(procedure, controlOpcDaTagArguments.ValueArgument);
 					break;
 			}
 		}

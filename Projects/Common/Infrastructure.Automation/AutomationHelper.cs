@@ -15,7 +15,7 @@ using System.Windows.Media;
 namespace Infrastructure.Automation
 {
 	public static class AutomationHelper
-    {
+	{
 		public static List<Variable> GetAllVariables(Procedure procedure)
 		{
 			var allVariables = new List<Variable>(ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.GlobalVariables);
@@ -217,5 +217,5 @@ namespace Infrastructure.Automation
 				return organisation.Name;
 			return "";
 		}
-    }
+	}
 }

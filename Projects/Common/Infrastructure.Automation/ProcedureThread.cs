@@ -387,6 +387,14 @@ namespace Infrastructure.Automation
 				case ProcedureStepType.RunProgram:
 					RunProgram(procedureStep);
 					break;
+
+				case ProcedureStepType.ControlOpcDaTagGet:
+					ControlOpcDaTag(procedureStep, ControlElementType.Get);
+					break;
+
+				case ProcedureStepType.ControlOpcDaTagSet:
+					ControlOpcDaTag(procedureStep, ControlElementType.Set);
+					break;
 			}
 			return Result.Normal;
 		}

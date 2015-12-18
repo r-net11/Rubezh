@@ -44,8 +44,9 @@
     <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
-    <Reference Include="OpcDaClientSdk40">
-      <HintPath>C:\Users\petrovdy\Documents\OPC DA AE HDA Client SDK .NET\binaries\NET40\OpcDaClientSdk40.dll</HintPath>
+    <Reference Include="OpcClientSdk40, Version=7.1.0.1, Culture=neutral, PublicKeyToken=aaf49bf92e1a676f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\zabelloda\Documents\Downloads\NET40\NET40\OpcClientSdk40.dll</HintPath>
     </Reference>
     <Reference Include="OpcDaNetWPF.Net4">
       <HintPath>C:\Program Files (x86)\Advosol\OPCDA.NET Client Component Evaluation\OpcDaNetWPF.Net4.dll</HintPath>
@@ -202,9 +203,10 @@
     </Compile>
     <Compile Include="Steps\ViewModels\ControlDelayStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlMPTStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ControlPlanStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlPumpStationStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlGKDoorStepViewModel.cs" />
-    <Compile Include="Steps\ViewModels\ControlPlanStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ControlOpcDaTagStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlVisualStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ExplicitTypeViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ExplicitValuesViewModel.cs" />
@@ -289,6 +291,9 @@
     </Compile>
     <Compile Include="Steps\Views\ControlMPTStepView.xaml.cs">
       <DependentUpon>ControlMPTStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ControlOpcDaTagStepView.xaml.cs">
+      <DependentUpon>ControlOpcDaTagStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ControlPumpStationStepView.xaml.cs">
       <DependentUpon>ControlPumpStationStepView.xaml</DependentUpon>
@@ -689,6 +694,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\ControlMPTStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Steps\Views\ControlOpcDaTagStepView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

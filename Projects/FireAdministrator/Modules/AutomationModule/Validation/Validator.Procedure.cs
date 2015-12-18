@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Infrastructure.Common;
+using Infrastructure.Common.Validation;
+using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhClient;
-using Infrastructure.Common.Validation;
-using Infrastructure.Common;
-using RubezhAPI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AutomationModule.Validation
 {
@@ -351,7 +351,7 @@ namespace AutomationModule.Validation
 						if (!ValidateArgument(step, arguments.MinDateArgument))
 							break;
 						ValidateArgument(step, arguments.PathArgument);
-							break;
+						break;
 					}
 				case ProcedureStepType.ExportConfiguration:
 					{
@@ -437,6 +437,15 @@ namespace AutomationModule.Validation
 						var nowArguments = step.NowArguments;
 						ValidateArgument(step, nowArguments.ResultArgument);
 					}
+					break;
+				case ProcedureStepType.ControlOpcDaTagGet:
+				case ProcedureStepType.ControlOpcDaTagSet:
+					var controlOpcDaTagArguments = step.ControlOpcDaTagArguments;
+					ValidateArgument(step, controlOpcDaTagArguments.ValueArgument);
+					if (controlOpcDaTagArguments.OpcDaServerUID == Guid.Empty)
+						Errors.Add(new ProcedureStepValidationError(step, "Не выбран OPC DA Сервер", ValidationErrorLevel.CannotSave));
+					else if (controlOpcDaTagArguments.OpcDaTagUID == Guid.Empty)
+						Errors.Add(new ProcedureStepValidationError(step, "Не выбран тэг", ValidationErrorLevel.CannotSave));
 					break;
 			}
 			foreach (var childStep in step.Children)
