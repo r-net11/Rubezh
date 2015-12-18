@@ -20,7 +20,7 @@
 			</StackPanel>
 
 			<DataGrid ItemsSource="{Binding Servers}" SelectedItem="{Binding SelectedOpcServer}" 
-					  SelectionMode="Single" Width="Auto" Margin="3" MinHeight="100">
+					  SelectionMode="Single" Width="Auto" Margin="3" MinHeight="50" MaxHeight="100">
 				<DataGrid.Columns>
 					<DataGridTextColumn IsReadOnly="True" Header="Server Name" Binding="{Binding ServerName}" Width="Auto" />
 					<DataGridTextColumn IsReadOnly="False" Header="Client Name" Binding="{Binding ClientName}" Width="Auto" />
@@ -111,7 +111,7 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 
-				<DataGrid ItemsSource="{Binding SelectedElement.Element.Properties}" Margin="3">
+				<DataGrid ItemsSource="{Binding SelectedElement.Element.Properties}" Margin="3" MaxHeight="100">
 					<DataGrid.Columns>
 						<DataGridTemplateColumn Header="Item Name">
 							<DataGridTemplateColumn.CellTemplate>
