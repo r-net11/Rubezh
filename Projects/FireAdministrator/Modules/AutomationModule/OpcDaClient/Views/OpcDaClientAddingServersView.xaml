@@ -3,8 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 MinHeight="300" MinWidth="600" Height="Auto">
 	<Grid>
-		<StackPanel>
-			<GroupBox Header="Хосты" Margin="3">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		
+		<GroupBox Grid.Row="0" Header="Хосты" Margin="3">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
@@ -18,34 +22,42 @@
 						<RowDefinition />
 					</Grid.RowDefinitions>
 					<TextBlock Grid.Column="0" Grid.Row="0" Text="Подключение к удалённому сереру" Margin="3" />
-					<CheckBox Grid.Column="1" Grid.Row="0" 
+					<CheckBox Grid.Column="1" Grid.Row="0" Name="CheckBoxRemoteConnectionEnabled"
 							 IsChecked="{Binding RemoteConnectionIsEnabled, UpdateSourceTrigger=PropertyChanged}" />
-					<TextBlock Grid.Column="0" Grid.Row="1" Text="Выбрать хост" Margin="3" />
-					<ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding HostNames}" 
+					<TextBlock Grid.Column="0" Grid.Row="1" 
+							 Visibility="{Binding ElementName=CheckBoxRemoteConnectionEnabled, Path=IsChecked, Converter={StaticResource BoolToVisibilityConverter}}" 
+							 Text="Выбрать хост" Margin="3" />
+					<ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding HostNames}"
+							 Visibility="{Binding ElementName=CheckBoxRemoteConnectionEnabled, Path=IsChecked, Converter={StaticResource BoolToVisibilityConverter}}"
 							 SelectedItem="{Binding SelectedHost}"
 							 IsEnabled="{Binding RemoteConnectionIsEnabled}" Margin="3" />
-					<TextBlock Grid.Column="0" Grid.Row="2" Text="Login:" Margin="3" />
-					<TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Login}" 
-							 IsEnabled="{Binding RemoteConnectionIsEnabled}" Margin="3" />
-					<TextBlock Grid.Column="0" Grid.Row="3" Text="Password:" Margin="3" />
-					<TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Password}" 
+				<TextBlock Grid.Column="0" Grid.Row="2" 
+							 Visibility="{Binding ElementName=CheckBoxRemoteConnectionEnabled, Path=IsChecked, Converter={StaticResource BoolToVisibilityConverter}}"
+							 Text="Login:" Margin="3" />
+				<TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Login}" 
+							 IsEnabled="{Binding RemoteConnectionIsEnabled}"
+							 Visibility="{Binding ElementName=CheckBoxRemoteConnectionEnabled, Path=IsChecked, Converter={StaticResource BoolToVisibilityConverter}}"
+							 Margin="3" />
+					<TextBlock Grid.Column="0" Grid.Row="3" Text="Password:"
+							 Visibility="{Binding ElementName=CheckBoxRemoteConnectionEnabled, Path=IsChecked, Converter={StaticResource BoolToVisibilityConverter}}"
+							 Margin="3" />
+					<TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Password}"
+							 Visibility="{Binding ElementName=CheckBoxRemoteConnectionEnabled, Path=IsChecked, Converter={StaticResource BoolToVisibilityConverter}}"
 							 IsEnabled="{Binding RemoteConnectionIsEnabled}" Margin="3" />
 					<Button Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Content="Получить список OPC DA серверов" 
 							Command="{Binding GetOpcServerListCommand}" Margin="3" />
 				</Grid>
 			</GroupBox>
-			<GroupBox Header="OPC DA Серверы" Margin="3" 
+		<GroupBox Grid.Row="1" Header="OPC DA Серверы" Margin="3" 
 					  Visibility="{Binding OpcServersTableIsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-				<StackPanel>
-					<DataGrid ItemsSource="{Binding OpcDaServers}" IsReadOnly="False" MinHeight="50" Margin="3">
-						<DataGrid.Columns>
-							<DataGridTextColumn Header="Наименование" Binding="{Binding ServerName}" IsReadOnly="True" />
-							<DataGridCheckBoxColumn Header="Выбрать" Binding="{Binding IsChecked}" IsReadOnly="False" />
-							<DataGridTextColumn Header="URL" Binding="{Binding Url}" IsReadOnly="True" />
-						</DataGrid.Columns>
-					</DataGrid>
-				</StackPanel>
-			</GroupBox>
-		</StackPanel>
+				<DataGrid ItemsSource="{Binding OpcDaServers}" IsReadOnly="False" MinHeight="50" 
+						  Margin="3">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Наименование" Binding="{Binding ServerName}" IsReadOnly="True" />
+						<DataGridCheckBoxColumn Header="Выбрать" Binding="{Binding IsChecked}" IsReadOnly="False" />
+						<DataGridTextColumn Header="URL" Binding="{Binding Url}" IsReadOnly="True" />
+					</DataGrid.Columns>
+				</DataGrid>
+		</GroupBox>
 	</Grid>
 </UserControl>
