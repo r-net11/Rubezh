@@ -16,7 +16,6 @@
 		<viewModel:AccessTemplateViewModelNameComparer x:Key="AccessTemplateViewModelNameComparer" />
 		<viewModel:AccessTemplateViewModelDescriptionComparer x:Key="AccessTemplateViewModelDescriptionComparer" />
 	</UserControl.Resources>
-
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" MinHeight="200" />
@@ -30,7 +29,8 @@
 			ItemActivatedCommand="{Binding EditCommand}"
 			SelectedTreeNode="{Binding SelectedItem}"
 			Source="{Binding Organisations}"
-			tree:SortBehavior.CanUserSortColumns="True">
+			tree:SortBehavior.CanUserSortColumns="True"
+			tree:SortBehavior.DefaultSortComparer="{StaticResource AccessTemplateViewModelNameComparer}">
 			<tree:TreeList.View>
 				<GridView>
 					<GridViewColumn
@@ -75,7 +75,6 @@
 				</GridView>
 			</tree:TreeList.View>
 		</tree:TreeList>
-
 		<GridSplitter
 			Grid.Row="1"
 			Height="5"

@@ -76,7 +76,7 @@
 						<MultiDataTrigger>
 							<MultiDataTrigger.Conditions>
 								<Condition Binding="{Binding Path=Column.(tree:SortBehavior.CanUseSort), RelativeSource={RelativeSource Self}}" Value="true" />
-								<Condition Binding="{Binding Path=Column.(tree:SortBehavior.SortDirection), RelativeSource={RelativeSource Self}}" Value="Ascending" />
+								<Condition Binding="{Binding Path=Column.(tree:SortBehavior.SortDirection), RelativeSource={RelativeSource Self}}" Value="Descending" />
 							</MultiDataTrigger.Conditions>
 							<MultiDataTrigger.Setters>
 								<Setter TargetName="arrow" Property="Data" Value="M 0,5 L 10,5 L 5,0" />
@@ -86,7 +86,7 @@
 						<MultiDataTrigger>
 							<MultiDataTrigger.Conditions>
 								<Condition Binding="{Binding Path=Column.(tree:SortBehavior.CanUseSort), RelativeSource={RelativeSource Self}}" Value="true" />
-								<Condition Binding="{Binding Path=Column.(tree:SortBehavior.SortDirection), RelativeSource={RelativeSource Self}}" Value="Descending" />
+								<Condition Binding="{Binding Path=Column.(tree:SortBehavior.SortDirection), RelativeSource={RelativeSource Self}}" Value="Ascending" />
 							</MultiDataTrigger.Conditions>
 							<MultiDataTrigger.Setters>
 								<Setter TargetName="arrow" Property="Data" Value="M 0,0 L 5,5 L 10,0" />

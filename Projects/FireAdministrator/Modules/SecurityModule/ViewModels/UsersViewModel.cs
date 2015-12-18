@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using Common;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -29,7 +30,7 @@ namespace SecurityModule.ViewModels
 
 		public void Initialize()
 		{
-			Users = new ObservableCollection<UserViewModel>();
+			Users = new SortableObservableCollection<UserViewModel>();
 			if (FiresecManager.SecurityConfiguration.Users != null)
 			{
 				foreach (var user in FiresecManager.SecurityConfiguration.Users)
@@ -38,8 +39,8 @@ namespace SecurityModule.ViewModels
 			SelectedUser = Users.FirstOrDefault();
 		}
 
-		ObservableCollection<UserViewModel> _users;
-		public ObservableCollection<UserViewModel> Users
+		SortableObservableCollection<UserViewModel> _users;
+		public SortableObservableCollection<UserViewModel> Users
 		{
 			get { return _users; }
 			set
@@ -125,6 +126,13 @@ namespace SecurityModule.ViewModels
 					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
 				}, "BEdit") { Order = 2 }
 			};
+		}
+
+		public override void OnShow()
+		{
+			if (Users != null)
+				Users.Sort(x => x.User != null ? x.User.Name : string.Empty);
+			base.OnShow();
 		}
 	}
 }

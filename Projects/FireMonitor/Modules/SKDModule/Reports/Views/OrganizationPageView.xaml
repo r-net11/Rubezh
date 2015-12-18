@@ -4,8 +4,17 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:component="clr-namespace:System.ComponentModel;assembly=WindowsBase"
     mc:Ignorable="d"
-    d:DesignHeight="300" d:DesignWidth="300">
+    d:DesignHeight="300"
+	d:DesignWidth="300">
+	<UserControl.Resources>
+		<CollectionViewSource x:Key="cvsOrganisationViewSource" Source="{Binding Organisations.Items}">
+			<CollectionViewSource.SortDescriptions>
+				<component:SortDescription PropertyName="Name" />
+			</CollectionViewSource.SortDescriptions>
+		</CollectionViewSource>
+	</UserControl.Resources>
 	<Grid>
 		<Grid.Resources>
 			<FrameworkElement x:Key="ProxyElement" DataContext="{Binding}" />
@@ -19,7 +28,7 @@
 			Visibility="Collapsed" />
 		<DataGrid
 			x:Name="Grid"
-			ItemsSource="{Binding Organisations.Items}"
+			ItemsSource="{Binding Source={StaticResource cvsOrganisationViewSource}}"
 			CanUserSortColumns="True">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn

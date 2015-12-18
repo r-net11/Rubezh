@@ -15,10 +15,10 @@ namespace SKDModule.Reports.Providers
 
 		public override FilterModel GetFilterModel()
 		{
-			return new FilterModel()
+			return new FilterModel
 			{
-				Columns = new Dictionary<string, string> 
-				{ 
+				Columns = new Dictionary<string, string>
+				{
 					{ "SystemDateTime", "Дата и время в системе" },
 					{ "DeviceDateTime", "Дата и время на устройстве" },
 					{ "Name", "Название" },
@@ -26,7 +26,7 @@ namespace SKDModule.Reports.Providers
 					{ "User", "Пользователь" },
 					{ "System", "Подсистема" },
 				},
-				Pages = new List<FilterContainerViewModel>()
+				Pages = new List<FilterContainerViewModel>
 				{
 					new EventTypePageViewModel(),
 					new SKDObjectPageViewModel(),

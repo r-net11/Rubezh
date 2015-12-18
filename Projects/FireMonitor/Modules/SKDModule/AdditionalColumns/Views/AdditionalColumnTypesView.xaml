@@ -12,18 +12,21 @@
 		<viewModel:AdditionalColumnTypeViewModelDataTypeComparer x:Key="AdditionalColumnTypeViewModelDataTypeComparer" />
 		<Converters:DataTypeToStringConverter x:Key="DataTypeToStringConverter" />
 	</UserControl.Resources>
-
 	<tree:TreeList
 		Name="_treeList"
 		Focusable="True"
 		ctr:ListViewLayoutManager.Enabled="True"
 		tree:SortBehavior.CanUserSortColumns="True"
+		tree:SortBehavior.DefaultSortComparer="{StaticResource AdditionalColumnTypeViewModelNameComparer}"
 		Source="{Binding Organisations}"
 		SelectedTreeNode="{Binding SelectedItem}"
-		ItemActivatedCommand="{Binding EditCommand}" >
+		ItemActivatedCommand="{Binding EditCommand}">
 		<tree:TreeList.View>
 			<GridView>
-				<GridViewColumn Header="Название" Width="300" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelNameComparer}">
+				<GridViewColumn
+					Header="Название"
+					Width="300"
+					tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelNameComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">

@@ -7,12 +7,18 @@
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 	xmlns:layoutManager="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
 	xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
+	xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 	d:DesignHeight="500"
 	d:DesignWidth="500"
 	mc:Ignorable="d">
 	<UserControl.Resources>
 		<viewModel:DepartmentFilterComparer x:Key="DepartmentFilterComparer" />
 		<viewModel:DepartmentFilterDescriptionComparer x:Key="DepartmentFilterDescriptionComparer" />
+		<CollectionViewSource x:Key="cvsDepartments" Source="{Binding Organisations}">
+			<CollectionViewSource.SortDescriptions>
+				<componentModel:SortDescription PropertyName="Name" />
+			</CollectionViewSource.SortDescriptions>
+		</CollectionViewSource>
 	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -24,12 +30,16 @@
 		<tree:TreeList
 			Name="_treeList"
 			Focusable="True"
-			Source="{Binding Organisations, Mode=OneWay}"
+			Source="{Binding Source={StaticResource cvsDepartments}, IsAsync=True}"
 			tree:SortBehavior.CanUserSortColumns="True"
+			tree:SortBehavior.DefaultSortComparer="{StaticResource DepartmentFilterComparer}"
 			layoutManager:ListViewLayoutManager.Enabled="True">
 			<tree:TreeList.View>
 				<GridView>
-					<GridViewColumn Width="300" Header="Название" tree:SortBehavior.SortComparer="{StaticResource DepartmentFilterComparer}">
+					<GridViewColumn
+						Width="300"
+						Header="Название"
+						tree:SortBehavior.SortComparer="{StaticResource DepartmentFilterComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">

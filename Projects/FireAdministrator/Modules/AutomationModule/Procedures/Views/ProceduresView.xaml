@@ -30,14 +30,14 @@
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-			<XDataGrid 
-				ContextMenu="{StaticResource ProcedureContextMenu}" 
-				ItemsSource="{Binding Procedures}" 
-				SelectedItem="{Binding SelectedProcedure}" 
+			<XDataGrid
+				ContextMenu="{StaticResource ProcedureContextMenu}"
+				ItemsSource="{Binding Procedures}"
+				SelectedItem="{Binding SelectedProcedure}"
 				IsReadOnly="False">
 				<DataGrid.Columns>
-					<DataGridTemplateColumn 
-						Header="Название" 
+					<DataGridTemplateColumn
+						Header="Название"
 						SortMemberPath="Name"
 						Width="*">
 						<DataGridTemplateColumn.CellTemplate>

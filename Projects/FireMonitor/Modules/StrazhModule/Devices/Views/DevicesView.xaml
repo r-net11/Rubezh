@@ -33,7 +33,8 @@
 				SelectedTreeNode="{Binding SelectedDevice}"
 				ListViewManager:ListViewLayoutManager.Enabled="True"
 				Source="{Binding Source={StaticResource cvsRootDevices}}"
-				tree:SortBehavior.CanUserSortColumns="True">
+				tree:SortBehavior.CanUserSortColumns="True"
+				tree:SortBehavior.DefaultSortComparer="{StaticResource DeviceViewModelDeviceComparer}">
 				<tree:TreeList.View>
 					<GridView>
 						<GridViewColumn

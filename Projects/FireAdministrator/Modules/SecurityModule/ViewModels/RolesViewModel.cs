@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using Common;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -29,14 +30,14 @@ namespace SecurityModule.ViewModels
 
 		public void Initialize()
 		{
-			Roles = new ObservableCollection<RoleViewModel>();
+			Roles = new SortableObservableCollection<RoleViewModel>();
 			foreach (var role in FiresecManager.SecurityConfiguration.UserRoles)
 				Roles.Add(new RoleViewModel(role));
 			SelectedRole = Roles.FirstOrDefault();
 		}
 
-		ObservableCollection<RoleViewModel> _roles;
-		public ObservableCollection<RoleViewModel> Roles
+		SortableObservableCollection<RoleViewModel> _roles;
+		public SortableObservableCollection<RoleViewModel> Roles
 		{
 			get { return _roles; }
 			set
@@ -111,13 +112,20 @@ namespace SecurityModule.ViewModels
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
 			{
-				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>
 				{
 					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
 					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
 					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
 				}, "BEdit") { Order = 2 }
 			};
+		}
+
+		public override void OnShow()
+		{
+			if(Roles != null)
+				Roles.Sort(x => x.Role != null ? x.Role.Name : string.Empty);
+			base.OnShow();
 		}
 	}
 }

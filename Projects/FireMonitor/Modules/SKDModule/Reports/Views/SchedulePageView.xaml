@@ -4,13 +4,16 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:layout="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
-	xmlns:viewModels="clr-namespace:SKDModule.ViewModels"
+	xmlns:component="clr-namespace:System.ComponentModel;assembly=WindowsBase"
     mc:Ignorable="d"
     d:DesignHeight="300"
 	d:DesignWidth="300">
 	<UserControl.Resources>
-		<viewModels:CommonScheduleViewModelComparer x:Key="CommonScheduleViewModelComparer" />
+		<CollectionViewSource x:Key="cvsSchedules" Source="{Binding Schedules}">
+			<CollectionViewSource.SortDescriptions>
+				<component:SortDescription PropertyName="Item.Name" />
+			</CollectionViewSource.SortDescriptions>
+		</CollectionViewSource>
 	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -20,7 +23,7 @@
 		</Grid.RowDefinitions>
 		<DataGrid
 			CanUserSortColumns="True"
-			ItemsSource="{Binding Schedules}">
+			ItemsSource="{Binding Source={StaticResource cvsSchedules}}">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Header="Название" Width="0.5*" SortMemberPath="Item.Name">
 					<DataGridTemplateColumn.CellTemplate>

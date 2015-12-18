@@ -49,8 +49,7 @@
 				Command="{Binding RestoreCommand}"
 				ImageSource="Redo"
 				ToolTip="Восстановить"
-				Visibility="{Binding IsWithDeleted,
-			                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+				Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 		</StackPanel>
 		<tree:TreeList
 			x:Name="_treeList"
@@ -60,6 +59,7 @@
 			ItemActivatedCommand="{Binding EditCommand}"
 			SelectedTreeNode="{Binding SelectedItem}"
 			Source="{Binding Organisations}"
+			tree:SortBehavior.DefaultSortComparer="{StaticResource DayIntervalViewModelNameComparer}"
 			tree:SortBehavior.CanUserSortColumns="True">
 			<tree:TreeList.View>
 				<GridView>
@@ -143,9 +143,9 @@
 				<DataGridTemplateColumn Width="*" Header="Начало">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock 
-								Margin="5 0 0 0" 
-								Style="{StaticResource IsDeletedTimeTrackStyle}" 
+							<TextBlock
+								Margin="5 0 0 0"
+								Style="{StaticResource IsDeletedTimeTrackStyle}"
 								Text="{Binding Path=BeginTime, StringFormat=hh\\-mm}" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -153,9 +153,9 @@
 				<DataGridTemplateColumn Width="*" Header="Конец">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock 
-								Margin="5 0 0 0" 
-								Style="{StaticResource IsDeletedTimeTrackStyle}" 
+							<TextBlock
+								Margin="5 0 0 0"
+								Style="{StaticResource IsDeletedTimeTrackStyle}"
 								Text="{Binding Path=EndTime, StringFormat=hh\\-mm}" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -163,9 +163,9 @@
 				<DataGridTemplateColumn Width="*" Header="Переход">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock 
+							<TextBlock
 								Margin="5 0 0 0"
-								Style="{StaticResource IsDeletedTimeTrackStyle}" 
+								Style="{StaticResource IsDeletedTimeTrackStyle}"
 								Text="{Binding IntervalTransitionType, Converter={StaticResource EnumToDescriptionConverter}}" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>

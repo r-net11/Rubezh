@@ -43,5 +43,20 @@ namespace Common
 			}
 			return description;
 		}
+
+		/// <summary>
+		/// Получает атрибут поля
+		/// </summary>
+		/// <typeparam name="T">Тип атрибута, который хотим получить</typeparam>
+		/// <param name="enumVal">Значение Enum</param>
+		/// <returns>Атрибут типа T, который содержится в значении enumVal</returns>
+		/// <example>JournalSubsystemType type = myEnumVariable.GetAttributeOfType<EventNameAttribute>().JournalSubsystemType;</example>
+		public static T GetAttributeOfType<T>(this Enum enumVal) where T : Attribute
+		{
+			var type = enumVal.GetType();
+			var memInfo = type.GetMember(enumVal.ToString());
+			var attributes = memInfo[0].GetCustomAttributes(typeof(T), false);
+			return (attributes.Length > 0) ? (T)attributes[0] : null;
+		}
 	}
 }

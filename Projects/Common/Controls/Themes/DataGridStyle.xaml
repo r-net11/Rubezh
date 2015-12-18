@@ -38,6 +38,7 @@
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="Foreground" Value="{DynamicResource ForegroundColorLight}" />
 		<Setter Property="BorderBrush" Value="Black" />
+		<Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
 		<Setter Property="BorderThickness" Value="0" />
 		<Setter Property="Template">
 			<Setter.Value>
@@ -46,7 +47,7 @@
 						<dg:DataGridHeaderBorder x:Name="headerBorder" Height="30" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" IsClickable="{TemplateBinding CanUserSort}" IsHovered="{TemplateBinding IsMouseOver}" IsPressed="{TemplateBinding IsPressed}" Padding="{TemplateBinding Padding}" SeparatorBrush="{TemplateBinding SeparatorBrush}" SeparatorVisibility="{TemplateBinding SeparatorVisibility}" SortDirection="{TemplateBinding SortDirection}">
 							<Grid>
 								<Border Margin="5 0" VerticalAlignment="Center" BorderThickness="0" TextBlock.FontFamily="Arial" TextBlock.FontSize="12" TextBlock.FontWeight="Bold">
-									<ContentPresenter />
+									<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
 								</Border>
 								<Path x:Name="arrow" Margin="0,0,2,0" HorizontalAlignment="Right" Data="M 0,5 L 10,5 L 5,0" VerticalAlignment="Center" Fill="{DynamicResource HighlightedBackgoundBrush}" StrokeThickness="1" Visibility="Collapsed" />
 							</Grid>
@@ -55,11 +56,11 @@
 						<Thumb x:Name="PART_RightHeaderGripper" HorizontalAlignment="Right" Style="{StaticResource ColumnHeaderLeftGripperStyle}" />
 					</Grid>
 					<ControlTemplate.Triggers>
-						<Trigger Property="SortDirection" Value="Ascending">
+						<Trigger Property="SortDirection" Value="Descending">
 							<Setter TargetName="arrow" Property="Data" Value="M 0,5 L 10,5 L 5,0" />
 							<Setter TargetName="arrow" Property="Visibility" Value="Visible" />
 						</Trigger>
-						<Trigger Property="SortDirection" Value="Descending">
+						<Trigger Property="SortDirection" Value="Ascending">
 							<Setter TargetName="arrow" Property="Data" Value="M 0,0 L 5,5 L 10,0" />
 							<Setter TargetName="arrow" Property="Visibility" Value="Visible" />
 						</Trigger>

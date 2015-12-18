@@ -1,4 +1,5 @@
-﻿using FiresecAPI.Models;
+﻿using Common;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -9,7 +10,6 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using VideoModule.Plans;
@@ -38,8 +38,8 @@ namespace VideoModule.ViewModels
 
 		public static CamerasViewModel Current { get; private set; }
 
-		private ObservableCollection<CameraViewModel> _cameras;
-		public ObservableCollection<CameraViewModel> Cameras
+		private SortableObservableCollection<CameraViewModel> _cameras;
+		public SortableObservableCollection<CameraViewModel> Cameras
 		{
 			get { return _cameras; }
 			set
@@ -121,7 +121,7 @@ namespace VideoModule.ViewModels
 
 		public void Initialize()
 		{
-			Cameras = new ObservableCollection<CameraViewModel>();
+			Cameras = new SortableObservableCollection<CameraViewModel>();
 			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
 			{
 				var cameraViewModel = new CameraViewModel(this, camera);
@@ -190,6 +190,18 @@ namespace VideoModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+		}
+
+		#endregion
+
+		#region Overrides
+
+		public override void OnShow()
+		{
+			base.OnShow();
+
+			if (Cameras != null)
+				Cameras.Sort(x => x.Camera != null ? x.Camera.Name : string.Empty);
 		}
 
 		#endregion

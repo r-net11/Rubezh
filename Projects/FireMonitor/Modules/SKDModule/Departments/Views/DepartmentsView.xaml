@@ -24,7 +24,8 @@
 			ItemActivatedCommand="{Binding EditCommand}"
 			SelectedTreeNode="{Binding SelectedItem}"
 			Source="{Binding Organisations}"
-			tree:SortBehavior.CanUserSortColumns="True">
+			tree:SortBehavior.CanUserSortColumns="True"
+			tree:SortBehavior.DefaultSortComparer="{StaticResource DepartmentViewModelNameComparer}">
 			<tree:TreeList.View>
 				<GridView>
 					<GridViewColumn
