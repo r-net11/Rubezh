@@ -166,7 +166,7 @@
 				BorderBrush="Blue" BorderThickness="2" CornerRadius="3">
 			<StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<CheckBox IsChecked="{Binding Mode}"/>
+					<CheckBox IsChecked="{Binding AsyncReadingEnbaled}"/>
 					<TextBlock Text="Режим работы: по подписке" />
 				</StackPanel>
 				

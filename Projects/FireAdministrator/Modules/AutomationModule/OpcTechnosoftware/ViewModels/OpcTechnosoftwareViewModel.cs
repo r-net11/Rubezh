@@ -127,13 +127,13 @@ namespace AutomationModule.ViewModels
 		}
 
 		bool _mode;
-		public bool Mode
+		public bool AsyncReadingEnbaled
 		{
 			get { return _mode; }
 			set
 			{
 				_mode = value;
-				OnPropertyChanged(() => Mode);
+				OnPropertyChanged(() => AsyncReadingEnbaled);
 			}
 		}
 
@@ -364,7 +364,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand ReadTagsCommand { get; private set; }
 		void OnReadTags()
 		{
-			var tags = CheckedTags.Select(x => new TsCDaItem(new OpcItem(x.Element.ItemName))).ToArray();	
+			var tags = CheckedTags.Select(x => new TsCDaItem(new OpcItem(x.Element.ItemName))).ToArray();
 			var result = _activeOpcServer.Read(tags);
 			ReadingResult = result;
 		}
@@ -372,7 +372,7 @@ namespace AutomationModule.ViewModels
 		{
 			return CheckedTags != null && CheckedTags.Count() > 0 && 
 				_activeOpcServer != null && _activeOpcServer.IsConnected &&
-				Mode == false;
+				AsyncReadingEnbaled == false;
 		}
 
 		public RelayCommand WriteTagsCommand { get; private set; }
@@ -386,7 +386,7 @@ namespace AutomationModule.ViewModels
 		{
 			return CheckedTags != null && CheckedTags.Count() > 0 &&
 				_activeOpcServer != null && _activeOpcServer.IsConnected &&
-				Mode == false;
+				AsyncReadingEnbaled == false;
 		}
 
 		public RelayCommand CreateSubscriptionCommand { get; private set; }
@@ -439,7 +439,7 @@ namespace AutomationModule.ViewModels
 		}
 		bool CanCreateSubscription()
 		{
-			return Mode == true &&
+			return AsyncReadingEnbaled == true &&
 				_activeOpcServer != null && _activeOpcServer.IsConnected
  				&& _activeSubscription == null
 				&& CheckedTags != null && CheckedTags.Count() > 0;
@@ -456,7 +456,7 @@ namespace AutomationModule.ViewModels
 		}
 		bool CanCancelSubscription()
 		{
-			return Mode == true && _activeSubscription != null;
+			return AsyncReadingEnbaled == true && _activeSubscription != null;
 		}
 
 		public RelayCommand GetServerStatusCommand { get; private set; }

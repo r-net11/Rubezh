@@ -144,10 +144,9 @@ namespace RubezhAPI
 		/// <summary>
 		/// Возвращает структуру сервера (группы и теги) для указанного сервера
 		/// </summary>
-		/// <param name="serverName">Наименование сервера 
-		/// (полученного при помощи GetOpcDaServerNames())</param>
+		/// <param name="server">Наименование сервера</param>
 		/// <returns></returns>
-		OperationResult<OpcDaServer> GetOpcDaServerGroupAndTags(string serverName);
+		OperationResult<OpcDaServer> GetOpcDaServerGroupAndTags(OpcDaServer server);
 
 		/// <summary>
 		/// Подключается к указанному OPC DA серверу и
