@@ -38,6 +38,10 @@ namespace GKImitator.ViewModels
 			{
 				propertiesViewModel = new DoorPropertiesViewModel(GKBase as GKDoor);
 			}
+			if (GKBase is GKPumpStation)
+			{
+				propertiesViewModel = new PumpStationPropertiesViewModel(GKBase as GKPumpStation);
+			}
 			if (GKBase is GKCode)
 			{
 				propertiesViewModel = new CodePropertiesViewModel(GKBase as GKCode);
@@ -94,6 +98,16 @@ namespace GKImitator.ViewModels
 					delay.DelayTime = properties[0].Value;
 					delay.Hold = properties[1].Value;
 					delay.DelayRegime = (DelayRegime)properties[2].Value;
+				}
+			}
+
+			var pumpStation = GKBaseDescriptor.GKBase as GKPumpStation;
+			if (pumpStation != null)
+			{
+				if (properties.Count >= 3)
+				{
+					pumpStation.Delay = properties[0].Value;
+					pumpStation.Hold = properties[1].Value;
 				}
 			}
 
@@ -172,7 +186,7 @@ namespace GKImitator.ViewModels
 			if (binProperties.Count >= 3)
 			{
 				if (GKBaseDescriptor.DescriptorType == DescriptorType.Direction || GKBaseDescriptor.DescriptorType == DescriptorType.Delay
-					|| GKBaseDescriptor.DescriptorType == DescriptorType.GuardZone)
+					|| GKBaseDescriptor.DescriptorType == DescriptorType.GuardZone || GKBaseDescriptor.DescriptorType == DescriptorType.PumpStation)
 				{
 					properties.Add(new GKProperty() { Value = binProperties[0].Value });
 					properties.Add(new GKProperty() { Value = binProperties[1].Value });
