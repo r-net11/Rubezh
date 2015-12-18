@@ -5,6 +5,9 @@ using System.ServiceModel;
 using RubezhAPI.Journal;
 using RubezhAPI.Models;
 using RubezhAPI.License;
+using RubezhAPI.Automation;
+using OpcClientSdk;
+using OpcClientSdk.Da;
 
 namespace RubezhAPI
 {
@@ -127,6 +130,62 @@ namespace RubezhAPI
 
 		[OperationContract]
 		void SetLocalConfig();
+		#endregion
+
+		#region OPC DA
+
+		/// <summary>
+		/// Возвращает список имен OPC DA серверов, 
+		/// зарегистрированных в системе
+		/// </summary>
+		/// <returns></returns>
+		string[] GetOpcDaServerNames();
+
+		/// <summary>
+		/// Возвращает структуру сервера (группы и теги) для указанного сервера
+		/// </summary>
+		/// <param name="serverName">Наименование сервера 
+		/// (полученного при помощи GetOpcDaServerNames())</param>
+		/// <returns></returns>
+		OperationResult<OpcDaServer> GetOpcDaServerGroupAndTags(string serverName);
+
+		/// <summary>
+		/// Подключается к указанному OPC DA серверу и
+		/// подписывается на получение значений тегов указанных в модели
+		/// </summary>
+		/// <param name="server">OPC DA сервер для подключения</param>
+		/// <returns></returns>
+		OperationResult ConnectToOpcDaServer(OpcDaServer server);
+
+		/// <summary>
+		/// Отключается от указанного OPC DA сервера и
+		/// прекращает подписку на получение значениий тегов
+		/// </summary>
+		/// <param name="server"></param>
+		/// <returns></returns>
+		OperationResult DisconnectFromOpcDaServer(OpcDaServer server);
+
+		/// <summary>
+		/// Возвращает описание и текущий статус сервера
+		/// </summary>
+		/// <param name="server"></param>
+		/// <returns></returns>
+		OperationResult<OpcServerStatus> GetOpcDaServerStatus(OpcDaServer server);
+
+		/// <summary>
+		/// Возвращает значения тегов
+		/// </summary>
+		/// <param name="server"></param>
+		/// <returns></returns>
+		OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(OpcDaServer server);
+
+		/// <summary>
+		/// Записывает новое значение указанных тегов
+		/// </summary>
+		/// <param name="server"></param>
+		/// <param name="tagValues"></param>
+		/// <returns></returns>
+		OperationResult WriteOpcDaServerTags(OpcDaServer server, TsCDaItemValueResult[] tagValues);
 		#endregion
 	}
 }

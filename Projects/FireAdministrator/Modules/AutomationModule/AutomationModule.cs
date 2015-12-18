@@ -94,7 +94,6 @@ namespace AutomationModule
 		public override void RegisterResource()
 		{
 			base.RegisterResource();
-			//var resourceService = new ResourceService();
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Sounds/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OPCServers/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Procedures/DataTemplates/Dictionary.xaml");
@@ -107,18 +106,6 @@ namespace AutomationModule
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcAdvosolLib/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcTechnosoftware/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcDaClient/DataTemplates/Dictionary.xaml");
-
-			//resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Sounds/DataTemplates/Dictionary.xaml"));
-			//resourceService.AddResource(new ResourceDescription(GetType().Assembly, "OPCServers/DataTemplates/Dictionary.xaml"));
-			//resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Procedures/DataTemplates/Dictionary.xaml"));
-			//resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Schedules/DataTemplates/Dictionary.xaml"));
-			//resourceService.AddResource(new ResourceDescription(GetType().Assembly, "GlobalVariables/DataTemplates/Dictionary.xaml"));
-			//resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Layout/DataTemplates/Dictionary.xaml"));
-			//resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
-			//resourceService.AddResource(new ResourceDescription(GetType().Assembly, "OpcDaServers/DataTemplates/Dictionary.xaml"));
-			//resourceService.AddResource(new ResourceDescription(GetType().Assembly, "OpcAdvosolLib/DataTemplates/Dictionary.xaml"));
-			//resourceService.AddResource(new ResourceDescription(GetType().Assembly, "OpcTechnosoftware/DataTemplates/Dictionary.xaml"));
-			//resourceService.AddResource(new ResourceDescription(GetType().Assembly, "OpcDaClient/DataTemplates/Dictionary.xaml"));
 		}
 
 		public IEnumerable<IValidationError> Validate()
