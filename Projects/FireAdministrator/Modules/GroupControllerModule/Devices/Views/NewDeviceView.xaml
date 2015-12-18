@@ -46,14 +46,11 @@
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
-			<StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0 5">
-				<TextBlock Text="Количество" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<extToolkit:IntegerUpDown Minimum="{Binding MinAddress}" Maximum="{Binding MaxAddress}" Value="{Binding Count}" SelectAllOnGotFocus="True" Width="150" HorizontalAlignment="Left" />
-			</StackPanel>
-				<StackPanel Grid.Column="1" Visibility="{Binding ShowCheckBox, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" Margin="4 5">
-					<CheckBox IsChecked="{Binding AddInStartlList, Mode=TwoWay}" VerticalAlignment="Center"/>
-					<TextBlock Text="в начало списка" Style="{DynamicResource TextBlockDetailsStyle}" />
+				<StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0 5">
+					<TextBlock Text="Количество" Style="{DynamicResource TextBlockDetailsStyle}" />
+					<extToolkit:IntegerUpDown Minimum="{Binding MinAddress}" Maximum="{Binding MaxAddress}" Value="{Binding Count}" SelectAllOnGotFocus="True" Width="150" HorizontalAlignment="Left" />
 				</StackPanel>
+				<CheckBox Grid.Column="1" IsChecked="{Binding AddInStartlList, Mode=TwoWay}" VerticalAlignment= "Center" Visibility="{Binding ShowCheckBox, Converter={StaticResource BoolToVisibilityConverter}}" Content="в начало списка" Foreground="{StaticResource ForegroundColorLight}"  Margin="5" />
 			</Grid>
 		</Grid>
 	</Grid>

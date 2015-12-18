@@ -35,7 +35,7 @@ namespace GKModule.ViewModels
 					var autoCreateDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
 					for (byte i = autoCreateDriver.MinAddress; i <= autoCreateDriver.MaxAddress; i++)
 					{
-						GKManager.AddChild(device, null, autoCreateDriver, i);
+						GKManager.AddDevice(device, autoCreateDriver, i);
 					}
 				}
 			var deviceViewModel = new DeviceViewModel(device);

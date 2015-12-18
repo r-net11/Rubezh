@@ -81,5 +81,11 @@
         ShowBox(box);
     };
 
+    self.ChangeIsDeleted = function(data, e) {
+        self.Filter.IsWithDeleted(!self.Filter.IsWithDeleted());
+        self.Filter.Update();
+        self.InitializeEmployeeFilter(self.Filter);
+    };
+
     return self;
 }
