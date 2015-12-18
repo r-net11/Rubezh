@@ -359,6 +359,10 @@ namespace RubezhClient
 					return firesecService.SaveCardTemplate(FiresecServiceFactory.UID, item);
 			}, "SaveCardTemplate");
 		}
+		public OperationResult<List<GKUser>> GetDbDeviceUsers(Guid deviceUID, List<Guid> doorUIDs)
+		{
+			return SafeContext.Execute<OperationResult<List<GKUser>>>(() => FiresecService.GetDbDeviceUsers(deviceUID, doorUIDs));
+		}
 		#endregion
 
 		#region AccessTemplate

@@ -70,50 +70,62 @@ namespace GKProcessor
 			var secondsPeriod = (new DateTime(user.ExpirationDate.Year, user.ExpirationDate.Month, user.ExpirationDate.Day) - new DateTime(2000, 1, 1)).TotalSeconds;
 			bytes.AddRange(BytesHelper.IntToBytes((int)secondsPeriod));
 
-			for (int packNo = 0; packNo < 65535; packNo++)
+			if (allCardSchedules.Count == 0)
 			{
-				var startCardScheduleNo = 0;
-				var cardScheduleCount = 68;
-				if (packNo > 0)
+				var bytesCount = bytes.Count;
+				for (int i = 0; i < 256 - bytesCount; i++)
 				{
-					startCardScheduleNo = 68 + (packNo - 1) * 84;
-					cardScheduleCount = 84;
-				}
-				var cardSchedules = allCardSchedules.Skip(startCardScheduleNo).Take(cardScheduleCount).ToList();
-				if (cardSchedules.Count == 0)
-					break;
-				foreach (var cardSchedule in cardSchedules)
-				{
-					bytes.AddRange(BytesHelper.ShortToBytes(cardSchedule.Device.GKDescriptorNo));
-				}
-				for (int i = 0; i < cardScheduleCount - cardSchedules.Count; i++)
-				{
-					bytes.Add(0);
-					bytes.Add(0);
-				}
-				foreach (var cardSchedule in cardSchedules)
-				{
-					bytes.Add((byte)cardSchedule.ScheduleNo);
-				}
-				for (int i = 0; i < cardScheduleCount - cardSchedules.Count; i++)
-				{
-					bytes.Add(0);
-				}
-
-				bytes.Add(0);
-				bytes.Add(0);
-
-				if (startCardScheduleNo + cardScheduleCount < allCardSchedules.Count)
-				{
-					bytes.AddRange(BytesHelper.ShortToBytes((ushort)(packNo + 1)));
-				}
-				else
-				{
-					bytes.Add(0);
 					bytes.Add(0);
 				}
 			}
+			else
+			{
+				for (int packNo = 0; packNo < 65535; packNo++)
+				{
+					var startCardScheduleNo = 0;
+					var cardScheduleCount = 68;
+					if (packNo > 0)
+					{
+						startCardScheduleNo = 68 + (packNo - 1) * 84;
+						cardScheduleCount = 84;
+					}
+					var cardSchedules = allCardSchedules.Skip(startCardScheduleNo).Take(cardScheduleCount).ToList();
+					if (cardSchedules.Count == 0)
+					{
+						break;
+					}
+					foreach (var cardSchedule in cardSchedules)
+					{
+						bytes.AddRange(BytesHelper.ShortToBytes(cardSchedule.Device.GKDescriptorNo));
+					}
+					for (int i = 0; i < cardScheduleCount - cardSchedules.Count; i++)
+					{
+						bytes.Add(0);
+						bytes.Add(0);
+					}
+					foreach (var cardSchedule in cardSchedules)
+					{
+						bytes.Add((byte)cardSchedule.ScheduleNo);
+					}
+					for (int i = 0; i < cardScheduleCount - cardSchedules.Count; i++)
+					{
+						bytes.Add(0);
+					}
 
+					bytes.Add(0);
+					bytes.Add(0);
+
+					if (startCardScheduleNo + cardScheduleCount < allCardSchedules.Count)
+					{
+						bytes.AddRange(BytesHelper.ShortToBytes((ushort)(packNo + 1)));
+					}
+					else
+					{
+						bytes.Add(0);
+						bytes.Add(0);
+					}
+				}
+			}
 			var packs = new List<List<byte>>();
 			for (int packNo = 0; packNo <= bytes.Count / 256; packNo++)
 			{
@@ -196,40 +208,77 @@ namespace GKProcessor
 		{
 			progressCallback = GKProcessorManager.StartProgress("Чтение пользователей прибора " + device.PresentationName, "", 65535, true, GKProgressClientType.Administrator, clientUID);
 			var users = new List<GKUser>();
-
 			for (int i = 1; i <= 65535; i++)
 			{
-				var bytes = new List<byte>();
-				bytes.Add(0);
-				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(i)));
-
-				var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 24, 0, bytes);
-                if (sendResult.HasError && device.DriverType != GKDriverType.GKMirror)
-                {
-                    return OperationResult<List<GKUser>>.FromError("Во время выполнения операции возникла ошибка", users);
-                }
-				if (sendResult.Bytes.Count == 0)
+				byte j = 0;
+				bool hasResponse = true;
+				var bytePacks = new List<List<byte>>();
+				while (true)
 				{
-					break;
+					var bytes = new List<byte>();
+					bytes.Add(j);
+					bytes.AddRange(BytesHelper.ShortToBytes((ushort)(i)));
+					var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 24, 0, bytes);
+					if (sendResult.HasError && device.DriverType != GKDriverType.GKMirror)
+					{
+						return OperationResult<List<GKUser>>.FromError("Во время выполнения операции возникла ошибка", users);
+					}
+					if (sendResult.Bytes.Count == 0)
+					{
+						if (j == 0)
+							hasResponse = false;
+						break;
+					}
+					bytePacks.Add(sendResult.Bytes);
+					j++;
 				}
-
-				var gkNo = BytesHelper.SubstructShort(sendResult.Bytes, 1);
-				var user = new GKUser
+				if (!hasResponse)
+					break;
+				int packIndex = -1;
+				GKUser user = null;
+				foreach (var pack in bytePacks)
 				{
-					GkNo = gkNo,
-					UserType = (GKCardType)sendResult.Bytes[3],
-					IsActive = sendResult.Bytes[4] == 0,
-					Fio = BytesHelper.BytesToStringDescription(sendResult.Bytes, 5),
-					Password = (uint)BytesHelper.SubstructInt(sendResult.Bytes, 37)
-				};
-				users.Add(user);
+					packIndex++;
+					if (packIndex == 0)
+					{
+						var gkNo = BytesHelper.SubstructShort(pack, 1);
+						user = new GKUser
+						{
+							GkNo = gkNo,
+							UserType = (GKCardType)pack[3],
+							IsActive = pack[4] == 0,
+							Fio = BytesHelper.BytesToStringDescription(pack, 5),
+							Password = (uint)BytesHelper.SubstructInt(pack, 37)
+						};
+						for (int l = 0; l < 68; l++)
+						{
+							var deviceNo = BytesHelper.SubstructShort(pack, 49 + l * 2);
+							if (deviceNo == 0)
+								break;
+							var scheduleNo = pack[185 + l];
+							user.Descriptors.Add(new GKUserDescriptor { DescriptorNo = deviceNo, ScheduleNo = scheduleNo });
+						}
+						users.Add(user);
+					}
+					else
+					{
+						for (int l = 0; l < 84; l++)
+						{
+							var deviceNo = BytesHelper.SubstructShort(pack, 1 + l * 2);
+							if (deviceNo == 0)
+								break;
+							var scheduleNo = pack[169 + l];
+							user.Descriptors.Add(new GKUserDescriptor { DescriptorNo = deviceNo, ScheduleNo = scheduleNo });
+						}
+					}
+				}
+				
 				if (progressCallback.IsCanceled)
 				{
 					return OperationResult<List<GKUser>>.FromError("Операция отменена", users);
 				}
 				GKProcessorManager.DoProgress("Пользователь " + i, progressCallback, clientUID);
 			}
-
 			GKProcessorManager.StopProgress(progressCallback, clientUID);
 			return new OperationResult<List<GKUser>>(users);
 		}

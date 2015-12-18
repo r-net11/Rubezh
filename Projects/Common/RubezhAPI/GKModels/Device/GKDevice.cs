@@ -352,7 +352,7 @@ namespace RubezhAPI.GK
 			}
 		}
 
-        [XmlIgnore]
+		[XmlIgnore]
 		public string ShortName
 		{
 			get

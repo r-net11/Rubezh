@@ -115,7 +115,8 @@ namespace RubezhClient
 		OperationResult<uint> GKGetReaderCode(GKDevice device);
 		OperationResult<List<GKProperty>> GKGetSingleParameter(GKBase gkBase);
 		GKStates GKGetStates();
-		OperationResult<bool> GKGetUsers(GKDevice device);
+		OperationResult<bool> GKGetUsers(Guid deviceUID);
+		OperationResult<List<GKUser>> GetDbDeviceUsers(Guid deviceUID, List<Guid> doorUIDs);
 		OperationResult<List<byte>> GKGKHash(GKDevice device);
 		void GKOpenSKDZone(GKSKDZone zone);
 		OperationResult<GKDeviceConfiguration> GKReadConfiguration(GKDevice device);
@@ -125,7 +126,7 @@ namespace RubezhClient
 		void GKResetFire1(GKZone zone);
 		void GKResetFire2(GKZone zone);
 		OperationResult<bool> GKRewriteAllSchedules(GKDevice device);
-		OperationResult<bool> GKRewriteUsers(GKDevice device);
+		OperationResult<bool> GKRewriteUsers(Guid deviceUID);
 		void GKSetAutomaticRegime(GKBase gkBase);
 		void GKSetIgnoreRegime(GKBase gkBase);
 		void GKSetManualRegime(GKBase gkBase);

@@ -117,10 +117,11 @@ namespace FiresecService.Service
 				CallbackResultType = CallbackResultType.OperationResult,
 				CallbackOperationResult = new CallbackOperationResult()
 				{
-					CallbackOperationResultType = isGk ? CallbackOperationResultType.GetAllUsers : CallbackOperationResultType.GetPmfUsers,
+					CallbackOperationResultType = isGk ? CallbackOperationResultType.GetGKUsers : CallbackOperationResultType.GetPmfUsers,
 					Error = result.Error,
 					HasError = result.HasError,
-					Users = result.Result
+					Users = result.Result, 
+					DeviceUID = deviceUID
 				}
 			};
 			CallbackManager.Add(callbackResult, ClientType.Administrator, clientUID);

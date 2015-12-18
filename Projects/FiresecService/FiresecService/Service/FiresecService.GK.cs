@@ -475,7 +475,7 @@ namespace FiresecService.Service
 		#region Users
 		public OperationResult<bool> GKGetUsers(Guid clientUID, Guid gkDeviceUID)
 		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
+			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				var isGk = device.DriverType == GKDriverType.GK;

@@ -302,7 +302,7 @@ namespace GKModule.Models
 		public RelayCommand GetUsersCommand { get; private set; }
 		void OnGetUsers()
 		{
-			var result = ClientManager.FiresecService.GKGetUsers(SelectedDevice.Device);
+			var result = ClientManager.FiresecService.GKGetUsers(SelectedDevice.Device.UID);
 			if (result.HasError)
 			{
 				MessageBoxService.ShowWarning(result.Error, "Ошибка при получении пользователей");
@@ -317,7 +317,7 @@ namespace GKModule.Models
 		public RelayCommand RewriteUsersCommand { get; private set; }
 		void OnRewriteUsers()
 		{
-			var result = ClientManager.FiresecService.GKRewriteUsers(SelectedDevice.Device);
+			var result = ClientManager.FiresecService.GKRewriteUsers(SelectedDevice.Device.UID);
 			if (result.HasError)
 			{
 				MessageBoxService.ShowWarning(result.Error, "Ошибка при перезаписи пользователей");
