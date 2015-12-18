@@ -154,6 +154,7 @@
     </Compile>
     <Compile Include="Steps\ViewModels\ControlDelayStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlMPTStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\HttpRequestStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlPumpStationStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlGKDoorStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlPlanStepViewModel.cs" />
@@ -238,6 +239,9 @@
     </Compile>
     <Compile Include="Steps\Views\ControlDelayStepView.xaml.cs">
       <DependentUpon>ControlDelayStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\HttpRequestStepView.xaml.cs">
+      <DependentUpon>HttpRequestStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ControlDirectionStepView.xaml.cs">
       <DependentUpon>ControlDirectionStepView.xaml</DependentUpon>
@@ -600,6 +604,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Steps\Views\HttpRequestStepView.xaml">
     <Page Include="Steps\Views\ControlGKDoorStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
