@@ -25,7 +25,7 @@
 			</MenuItem>
 		</Menu>
 		<StackPanel Orientation="Horizontal" Visibility="{Binding IsMainMenuVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-			<connectionIndicator:ConnectionIndicatorView />
+			<connectionIndicator:ConnectionIndicatorView ShowBaloon="True" BaloonHeaderText="Администратор"/>
 			<Separator Style="{StaticResource VerticalSeparatorStyle}" Margin="7 7" Opacity="0.6" BorderBrush="LightBlue" BorderThickness="5" />
 			<ToolBarButton Command="{Binding CreateNewCommand}" ImageSource="New" ToolTip="Создать новую конфигурацию" />
 			<ToolBarButton Command="{Binding LoadFromFileCommand}" ImageSource="Load" ToolTip="Открыть конфигурацию из файла" />
