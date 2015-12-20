@@ -109,9 +109,56 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
+        public ActionResult OrganisationsFilter()
+		{
+			return View();
+		}
+
+        public JsonResult GetOrganisationsFilter(bool isWithDeleted)
+        {
+            var filter = new OrganisationFilter { UserUID = ClientManager.CurrentUser.UID };
+            if (isWithDeleted)
+            {
+                filter.LogicalDeletationType = LogicalDeletationType.All;
+            }
+
+            var organisationsResult = ClientManager.FiresecService.GetOrganisations(filter);
+            if (organisationsResult.HasError)
+            {
+                throw new InvalidOperationException(organisationsResult.Error);
+            }
+
+            dynamic result = new
+            {
+                page = 1,
+                total = 100,
+                records = 100,
+                rows = organisationsResult.Result,
+            };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult DepartmentsFilter()
+		{
+			return View();
+		}
+
+        public ActionResult PositionsFilter()
+		{
+			return View();
+		}
+
+        public ActionResult EmployeesFilter()
+		{
+			return View();
+		}
+
 		public JsonNetResult GetFilter(Guid? id)
 		{
 			return new JsonNetResult { Data = new EmployeeFilter() };
 		}
+
+
 	}
 }
