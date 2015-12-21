@@ -12,7 +12,7 @@ namespace GKModule.ViewModels
 	{
 		public MPTDeviceSelectationViewModel(GKMPTDeviceType selectedGkMptDeviceType)
 		{
-			Title = "Выбор типа устройства";
+			Title = "Настройка устройства МПТ";
 
 			AvailableMPTDeviceTypes = new ObservableCollection<MPTDeviceTypeViewModel>();
 			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(GKMPTDeviceType.DoNotEnterBoard));
