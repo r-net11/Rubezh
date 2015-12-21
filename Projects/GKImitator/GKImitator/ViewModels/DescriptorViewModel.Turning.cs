@@ -20,7 +20,7 @@ namespace GKImitator.ViewModels
 		ushort GuardZoneAlarmDelay { get; set; }
 		DelayRegime? DelayRegime { get; set; }
 
-		void InitializeDelays()
+		public void InitializeDelays()
 		{
 			var device = GKBase as GKDevice;
 			if (device != null)
