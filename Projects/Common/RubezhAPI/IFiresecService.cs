@@ -140,7 +140,7 @@ namespace RubezhAPI
 		/// </summary>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<string[]> GetOpcDaServerNames();
+		OperationResult<OpcDaServer[]> GetOpcDaServers();
 
 		/// <summary>
 		/// Возвращает структуру сервера (группы и теги) для указанного сервера

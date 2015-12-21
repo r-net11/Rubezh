@@ -134,13 +134,18 @@ namespace FiresecService.Service
 		/// </summary>
 		List<TsCDaSubscription> _OpcDaSubscriptions = new List<TsCDaSubscription>();
 
-		public OperationResult<string[]> GetOpcDaServerNames()
+		public OperationResult<OpcDaServer[]> GetOpcDaServers()
 		{
-			return new OperationResult<string[]> 
-			{ 
-				Errors = null, 
-				Result = OpcDiscovery.GetHostNames().ToArray() 
-			};
+			return new OperationResult<OpcDaServer[]>(OpcDiscovery.GetServers(OpcSpecification.OPC_DA_20)
+				.Select(srv => new OpcDaServer
+					{
+						IsChecked = false,
+						Login = string.Empty,
+						Password = string.Empty,
+						ServerName = srv.ServerName,
+						Url = srv.Url.ToString()
+					})
+				.ToArray()); 
 		}
 
 		public OperationResult ConnectToOpcDaServer(OpcDaServer server)

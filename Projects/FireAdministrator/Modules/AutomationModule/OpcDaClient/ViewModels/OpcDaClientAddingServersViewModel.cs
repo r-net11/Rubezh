@@ -23,7 +23,8 @@ namespace AutomationModule.ViewModels
 			_opcDaServersViewModel = vm;
 			GetOpcServerListCommand = new RelayCommand(OnGetOpcServerList, CanGetOpcServerList);
 
-			WaitHelper.Execute(GetHostNames);
+			//WaitHelper.Execute(GetHostNames);
+			WaitHelper.Execute(OnGetOpcServerList);
 		}
 
 		#endregion
@@ -32,19 +33,19 @@ namespace AutomationModule.ViewModels
 
 		OpcDaClientViewModel _opcDaServersViewModel;
 
-		public string[] HostNames { get; private set; }
+		//public string[] HostNames { get; private set; }
 
-		string _selectedHost;
+		//string _selectedHost;
 
-		public string SelectedHost
-		{
-			get { return _selectedHost; }
-			set 
-			{ 
-				_selectedHost = value;
-				OnPropertyChanged(() => SelectedHost);
-			}
-		}
+		//public string SelectedHost
+		//{
+		//	get { return _selectedHost; }
+		//	set 
+		//	{ 
+		//		_selectedHost = value;
+		//		OnPropertyChanged(() => SelectedHost);
+		//	}
+		//}
 
 		public string Login { get; set; }
 		public string Password { get; set; }
@@ -81,10 +82,10 @@ namespace AutomationModule.ViewModels
 
 		#region Methods
 
-		void GetHostNames()
-		{
-			HostNames = OpcDiscovery.GetHostNames().ToArray(); 
-		}
+		//void GetHostNames()
+		//{
+		//	HostNames = OpcDiscovery.GetHostNames().ToArray();
+		//}
 
 		protected override bool Save()
 		{
@@ -115,17 +116,8 @@ namespace AutomationModule.ViewModels
 
 			try
 			{
-				var servers = (RemoteConnectionIsEnabled ? 
-					OpcDiscovery.GetServers(OpcSpecification.OPC_DA_20, SelectedHost, new OpcUserIdentity(login, pswd)) :
-					OpcDiscovery.GetServers(OpcSpecification.OPC_DA_20))
-					.Select(srv => new OpcDaServer
-										{
-											IsChecked = false,
-											Login = login,
-											Password = pswd,
-											ServerName = srv.ServerName,
-											Url = srv.Url.ToString()
-										});
+				var result = ClientManager.FiresecService.GetOpcDaServers();
+				var servers = result.HasError ? new OpcDaServer[0] : result.Result;
 
 				foreach (var server in servers)
 				{
@@ -151,9 +143,10 @@ namespace AutomationModule.ViewModels
 		}
 		bool CanGetOpcServerList()
 		{
-			return RemoteConnectionIsEnabled ?
-				!string.IsNullOrEmpty(SelectedHost) :
-				true;
+			//return RemoteConnectionIsEnabled ?
+			//	!string.IsNullOrEmpty(SelectedHost) :
+			//	true;
+			return true;
 		}
 
 		#endregion

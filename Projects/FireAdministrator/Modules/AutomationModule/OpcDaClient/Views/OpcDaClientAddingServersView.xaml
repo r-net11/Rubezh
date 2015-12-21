@@ -8,46 +8,6 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		
-		<GroupBox Grid.Row="0" Header="Хосты" Margin="3">
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*" />
-						<ColumnDefinition Width="*" />
-					</Grid.ColumnDefinitions>
-					<Grid.RowDefinitions>
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-					</Grid.RowDefinitions>
-					<TextBlock Grid.Column="0" Grid.Row="0" Text="Подключение к удалённому сереру" Margin="3" />
-					<CheckBox Grid.Column="1" Grid.Row="0" Name="CheckBoxRemoteConnectionEnabled"
-							 IsChecked="{Binding RemoteConnectionIsEnabled, UpdateSourceTrigger=PropertyChanged}" />
-					<TextBlock Grid.Column="0" Grid.Row="1" 
-							 Visibility="{Binding ElementName=CheckBoxRemoteConnectionEnabled, Path=IsChecked, Converter={StaticResource BoolToVisibilityConverter}}" 
-							 Text="Выбрать хост" Margin="3" />
-					<ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding HostNames}"
-							 Visibility="{Binding ElementName=CheckBoxRemoteConnectionEnabled, Path=IsChecked, Converter={StaticResource BoolToVisibilityConverter}}"
-							 SelectedItem="{Binding SelectedHost}"
-							 IsEnabled="{Binding RemoteConnectionIsEnabled}" Margin="3" />
-				<TextBlock Grid.Column="0" Grid.Row="2" 
-							 Visibility="{Binding ElementName=CheckBoxRemoteConnectionEnabled, Path=IsChecked, Converter={StaticResource BoolToVisibilityConverter}}"
-							 Text="Login:" Margin="3" />
-				<TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Login}" 
-							 IsEnabled="{Binding RemoteConnectionIsEnabled}"
-							 Visibility="{Binding ElementName=CheckBoxRemoteConnectionEnabled, Path=IsChecked, Converter={StaticResource BoolToVisibilityConverter}}"
-							 Margin="3" />
-					<TextBlock Grid.Column="0" Grid.Row="3" Text="Password:"
-							 Visibility="{Binding ElementName=CheckBoxRemoteConnectionEnabled, Path=IsChecked, Converter={StaticResource BoolToVisibilityConverter}}"
-							 Margin="3" />
-					<TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Password}"
-							 Visibility="{Binding ElementName=CheckBoxRemoteConnectionEnabled, Path=IsChecked, Converter={StaticResource BoolToVisibilityConverter}}"
-							 IsEnabled="{Binding RemoteConnectionIsEnabled}" Margin="3" />
-					<Button Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Content="Получить список OPC DA серверов" 
-							Command="{Binding GetOpcServerListCommand}" Margin="3" />
-				</Grid>
-			</GroupBox>
 		<GroupBox Grid.Row="1" Header="OPC DA Серверы" Margin="3" 
 					  Visibility="{Binding OpcServersTableIsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
 				<DataGrid ItemsSource="{Binding OpcDaServers}" IsReadOnly="False" MinHeight="50" 

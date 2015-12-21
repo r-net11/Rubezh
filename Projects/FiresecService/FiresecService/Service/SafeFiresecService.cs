@@ -538,9 +538,9 @@ namespace FiresecService.Service
 
 		#region OPC DA Server
 
-		public OperationResult<string[]> GetOpcDaServerNames()
+		public OperationResult<OpcDaServer[]> GetOpcDaServers()
 		{
-			return SafeOperationCall(() => { return FiresecService.GetOpcDaServerNames(); }, "GetOpcDaServerNames");
+			return SafeOperationCall(() => { return FiresecService.GetOpcDaServers(); }, "GetOpcDaServerNames");
 		}
 
 		public OperationResult<OpcDaServer> GetOpcDaServerGroupAndTags(OpcDaServer server)

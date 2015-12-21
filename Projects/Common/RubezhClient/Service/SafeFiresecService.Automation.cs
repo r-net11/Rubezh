@@ -127,6 +127,14 @@ namespace RubezhClient
 		{
 			SafeContext.Execute(() => FiresecService.ImportOrganisationListA(isWithDeleted, path));
 		}
-				
+
+		#region OPC DA Server
+
+		public OperationResult<OpcDaServer[]> GetOpcDaServers()
+		{
+			return SafeContext.Execute(() => FiresecService.GetOpcDaServers());
+		}
+
+		#endregion
 	}
 }
