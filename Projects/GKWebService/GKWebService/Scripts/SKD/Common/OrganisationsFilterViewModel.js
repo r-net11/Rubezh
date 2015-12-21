@@ -31,8 +31,6 @@ function OrganisationsFilterViewModel() {
 
     InitGridOrganisationsFilter();
 
-    self.UID = ko.observable();
-
     self.Init = function (isWithDeleted, uids) {
         self.IsWithDeleted = isWithDeleted;
         self.UIDs = uids;
@@ -57,7 +55,7 @@ function OrganisationsFilterViewModel() {
         $("#jqGridOrganisationsFilter").jqGrid("resetSelection");
         var ids = $("#jqGridOrganisationsFilter").getDataIDs();
         for (var i = 0; i < ids.length; i++) {
-            $("#jqGridOrganisationsFilter").setCell(ids[i], "IsChecked", "False");
+            $("#jqGridOrganisationsFilter").setCell(ids[i], "IsChecked", self.UIDs.indexOf(ids[i]) === -1 ? "False" : "True");
         }
     };
 

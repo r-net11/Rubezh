@@ -27,13 +27,19 @@
     };
 
     self.IsWithDeleted.subscribe(function(newValue) {
-        self.OrganisationsFilter.Init(newValue);
+        self.OrganisationsFilter.Init(newValue, self.OrganisationUIDs());
+        self.DepartmentsFilter.Init(newValue, self.DepartmentUIDs());
+        self.PositionsFilter.Init(self.IsWithDeleted(), self.PositionUIDs());
+        self.EmployeesFilter.Init(self.IsWithDeleted(), self.UIDs());
     });
 
     self.InitFilter = function () {
         self.latestData = ko.mapping.toJS(self);
         self.latestIsWithDeleted = self.IsWithDeleted();
-        self.OrganisationsFilter.Init(self.IsWithDeleted());
+        self.OrganisationsFilter.Init(self.IsWithDeleted(), self.OrganisationUIDs());
+        self.DepartmentsFilter.Init(self.IsWithDeleted(), self.DepartmentUIDs());
+        self.PositionsFilter.Init(self.IsWithDeleted(), self.PositionUIDs());
+        self.EmployeesFilter.Init(self.IsWithDeleted(), self.UIDs());
     };
 
     self.FilterPageClick = function (data, e, page) {
@@ -63,6 +69,10 @@
 
     self.Save = function () {
         self.Update();
+        self.OrganisationUIDs(self.OrganisationsFilter.GetChecked());
+        self.DepartmentUIDs(self.DepartmentsFilter.GetChecked());
+        self.PositionUIDs(self.PositionsFilter.GetChecked());
+        self.UIDs(self.EmployeesFilter.GetChecked());
         self.HRViewModel.InitializeEmployeeFilter(self);
         self.Close();
     };

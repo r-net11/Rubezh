@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using GKWebService.Models;
+using GKWebService.Models.SKD.Departments;
+using GKWebService.Models.SKD.Positions;
 using GKWebService.Utils;
 using RubezhAPI.SKD;
 using RubezhClient;
@@ -144,21 +146,103 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
+        public JsonResult GetDepartmentsFilter(bool isWithDeleted)
+        {
+            var filter = new DepartmentFilter { UserUID = ClientManager.CurrentUser.UID };
+            if (isWithDeleted)
+            {
+                filter.LogicalDeletationType = LogicalDeletationType.All;
+            }
+
+            var departmentViewModel = new DepartmentsViewModel();
+            departmentViewModel.Initialize(filter);
+
+            dynamic result = new
+            {
+                page = 1,
+                total = 100,
+                records = 100,
+                rows = departmentViewModel.Organisations,
+            };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult PositionsFilter()
 		{
 			return View();
 		}
+
+        public JsonResult GetPositionsFilter(bool isWithDeleted)
+        {
+            var filter = new PositionFilter { UserUID = ClientManager.CurrentUser.UID };
+            if (isWithDeleted)
+            {
+                filter.LogicalDeletationType = LogicalDeletationType.All;
+            }
+
+            var positionViewModel = new PositionsViewModel();
+            positionViewModel.Initialize(filter);
+
+            dynamic result = new
+            {
+                page = 1,
+                total = 100,
+                records = 100,
+                rows = positionViewModel.Organisations,
+            };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult EmployeesFilter()
 		{
 			return View();
 		}
 
-		public JsonNetResult GetFilter(Guid? id)
+        public JsonResult GetEmployeesFilter(EmployeeFilter employeeFilter)
+        {
+            var employeeModels = new List<ShortEmployeeModel>();
+
+            var organisationFilter = new OrganisationFilter { LogicalDeletationType = employeeFilter.LogicalDeletationType };
+            var organisations = ClientManager.FiresecService.GetOrganisations(organisationFilter).Result;
+            var initializedOrganisations = InitializeOrganisations(organisations);
+
+            var employees = ClientManager.FiresecService.GetEmployeeList(employeeFilter).Result;
+            var initializedEmployees = InitializeEmployees(employees, initializedOrganisations);
+
+            foreach (var organisation in initializedOrganisations)
+            {
+                employeeModels.Add(organisation);
+                employeeModels.AddRange(initializedEmployees.Where(e => e.OrganisationUID == organisation.UID));
+            }
+
+            dynamic result = new
+            {
+                page = 1,
+                total = 100,
+                records = 100,
+                rows = employeeModels,
+            };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonNetResult GetFilter(Guid? id)
 		{
 			return new JsonNetResult { Data = new EmployeeFilter() };
 		}
 
+        private List<ShortEmployeeModel> InitializeEmployees(IEnumerable<ShortEmployee> employees, IEnumerable<ShortEmployeeModel> organisations)
+        {
+            return employees.Select(e => ShortEmployeeModel.CreateFromModel(e, organisations)).ToList();
+        }
 
-	}
+        private List<ShortEmployeeModel> InitializeOrganisations(IEnumerable<Organisation> organisations)
+        {
+            return organisations.Select(ShortEmployeeModel.CreateFromOrganisation).ToList();
+        }
+
+
+    }
 }
