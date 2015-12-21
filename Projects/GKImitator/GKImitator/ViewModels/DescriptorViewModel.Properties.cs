@@ -115,6 +115,16 @@ namespace GKImitator.ViewModels
 				}
 			}
 
+			var door = GKBaseDescriptor.GKBase as GKDoor;
+			if (door != null)
+			{
+				if (properties.Count >= 3)
+				{
+					door.Delay = properties[0].Value;
+					door.Hold = properties[1].Value;
+				}
+			}
+
 			var journalItem = new ImitatorJournalItem(2, 13, 0, 0);
 			AddJournalItem(journalItem);
 		}
@@ -190,7 +200,8 @@ namespace GKImitator.ViewModels
 			if (binProperties.Count >= 3)
 			{
 				if (GKBaseDescriptor.DescriptorType == DescriptorType.Direction || GKBaseDescriptor.DescriptorType == DescriptorType.Delay
-					|| GKBaseDescriptor.DescriptorType == DescriptorType.GuardZone || GKBaseDescriptor.DescriptorType == DescriptorType.PumpStation)
+					|| GKBaseDescriptor.DescriptorType == DescriptorType.GuardZone || GKBaseDescriptor.DescriptorType == DescriptorType.PumpStation
+					|| GKBaseDescriptor.DescriptorType == DescriptorType.Door)
 				{
 					properties.Add(new GKProperty() { Value = binProperties[0].Value });
 					properties.Add(new GKProperty() { Value = binProperties[1].Value });
