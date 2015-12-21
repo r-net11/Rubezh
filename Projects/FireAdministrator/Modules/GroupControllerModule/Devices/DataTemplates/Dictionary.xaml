@@ -39,5 +39,9 @@
 	<DataTemplate DataType="{x:Type ViewModels:DevicesListViewModel}">
 		<Views:DevicesListView />
 	</DataTemplate>
-	
+
+	<DataTemplate DataType="{x:Type ViewModels:MirrorViewModel}">
+		<Views:MirrorView />
+	</DataTemplate>
+
 </ResourceDictionary>
