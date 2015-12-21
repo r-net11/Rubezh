@@ -24,7 +24,7 @@ namespace RubezhAPI
 		[OperationContract]
 		Variable GetVariable(Guid clientUID, Guid variableUid);
 		[OperationContract]
-		void AddJournalItemA(Guid clientUID, string message);
+		void AddJournalItemA(Guid clientUID, string message, Guid? objectUID = null);
 		[OperationContract]
 		void ControlGKDevice(Guid clientUID, Guid deviceUid, GKStateBit command);
 		[OperationContract]

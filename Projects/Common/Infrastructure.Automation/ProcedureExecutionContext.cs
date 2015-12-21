@@ -20,7 +20,7 @@ namespace Infrastructure.Automation
 		static event Action<AutomationCallbackResult, Guid?> OnSendCallback;
 		static event Action<Guid, Guid, object> OnCallbackResponse;
 		static event Action<Guid, Variable, ContextType> OnSynchronizeVariable;
-		static event Action<Guid, string> OnAddJournalItem;
+		static event Action<Guid, string, Guid?> OnAddJournalItem;
 		static event Action<Guid, Guid, GKStateBit> OnControlGKDevice;
 		static event Action<Guid, Guid, Guid?, Guid?, int> OnStartRecord;
 		static event Action<Guid, Guid, Guid> OnStopRecord;
@@ -47,7 +47,7 @@ namespace Infrastructure.Automation
 			Action<AutomationCallbackResult, Guid?> onSendCallback = null,
 			Action<Guid, Guid, object> onCallbackResponse = null,
 			Action<Guid, Variable, ContextType> onSynchronizeVariable = null,
-			Action<Guid, string> onAddJournalItem = null,
+			Action<Guid, string, Guid?> onAddJournalItem = null,
 			Action<Guid, Guid, GKStateBit> onControlGKDevice = null,
 			Action<Guid, Guid, Guid?, Guid?, int> onStartRecord = null,
 			Action<Guid, Guid, Guid> onStopRecord = null,
@@ -121,10 +121,10 @@ namespace Infrastructure.Automation
 			}
 		}
 
-		public static void AddJournalItem(Guid clientUID, string message)
+		public static void AddJournalItem(Guid clientUID, string message, Guid? objectUID = null)
 		{
 			if (OnAddJournalItem != null)
-				OnAddJournalItem(clientUID, message);
+				OnAddJournalItem(clientUID, message, objectUID);
 		}
 
 		public static void ControlGKDevice(Guid clientUID, Guid deviceUid, GKStateBit command)
