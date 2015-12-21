@@ -42,6 +42,10 @@ namespace GKImitator.ViewModels
 			{
 				propertiesViewModel = new PumpStationPropertiesViewModel(GKBase as GKPumpStation);
 			}
+			if (GKBase is GKMPT)
+			{
+				propertiesViewModel = new MPTPropertiesViewModel(GKBase as GKMPT);
+			}
 			if (GKBase is GKCode)
 			{
 				propertiesViewModel = new CodePropertiesViewModel(GKBase as GKCode);

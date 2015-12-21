@@ -98,6 +98,7 @@
     <Compile Include="ViewModels\Properties\DirectionPropertiesViewModel.cs" />
     <Compile Include="ViewModels\Properties\EnumPropertyViewModel.cs" />
     <Compile Include="ViewModels\Properties\DevicePropertiesViewModel.cs" />
+    <Compile Include="ViewModels\Properties\MPTPropertiesViewModel.cs" />
     <Compile Include="ViewModels\Properties\PumpStationPropertiesViewModel.cs" />
     <Compile Include="ViewModels\Properties\ShortPropertyViewModel.cs" />
     <Compile Include="ViewModels\Properties\DelayPropertiesViewModel.cs" />
@@ -141,6 +142,9 @@
     </Compile>
     <Compile Include="Views\MeasureView.xaml.cs">
       <DependentUpon>MeasureView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MPTPropertiesView.xaml.cs">
+      <DependentUpon>MPTPropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PumpStationPropertiesView.xaml.cs">
       <DependentUpon>PumpStationPropertiesView.xaml</DependentUpon>
@@ -192,6 +196,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MeasureView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MPTPropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
