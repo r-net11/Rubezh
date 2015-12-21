@@ -301,10 +301,13 @@ namespace Infrastructure.Automation
 						value2 = new TimeSpan();
 						switch (arithmeticArguments.TimeType)
 						{
-							case TimeType.Sec:
+							case TimeType.Millisecond:
+								value2 = TimeSpan.FromMilliseconds(GetValue<int>(arithmeticArguments.Argument2));
+								break;
+							case TimeType.Second:
 								value2 = TimeSpan.FromSeconds(GetValue<int>(arithmeticArguments.Argument2));
 								break;
-							case TimeType.Min:
+							case TimeType.Minute:
 								value2 = TimeSpan.FromMinutes(GetValue<int>(arithmeticArguments.Argument2));
 								break;
 							case TimeType.Hour:
@@ -926,7 +929,7 @@ namespace Infrastructure.Automation
 			var timeout = GetValue<int>(startRecordArguments.TimeoutArgument);
 			switch (startRecordArguments.TimeType)
 			{
-				case TimeType.Min: timeout *= 60; break;
+				case TimeType.Minute: timeout *= 60; break;
 				case TimeType.Hour: timeout *= 3600; break;
 				case TimeType.Day: timeout *= 86400; break;
 			}
@@ -1030,10 +1033,13 @@ namespace Infrastructure.Automation
 			var pause = new TimeSpan();
 			switch (pauseArguments.TimeType)
 			{
-				case TimeType.Sec:
+				case TimeType.Millisecond:
+					pause = TimeSpan.FromMilliseconds(GetValue<int>(pauseArguments.PauseArgument));
+					break;
+				case TimeType.Second:
 					pause = TimeSpan.FromSeconds(GetValue<int>(pauseArguments.PauseArgument));
 					break;
-				case TimeType.Min:
+				case TimeType.Minute:
 					pause = TimeSpan.FromMinutes(GetValue<int>(pauseArguments.PauseArgument));
 					break;
 				case TimeType.Hour:
@@ -1043,7 +1049,7 @@ namespace Infrastructure.Automation
 					pause = TimeSpan.FromDays(GetValue<int>(pauseArguments.PauseArgument));
 					break;
 			}
-			if (AutoResetEvent.WaitOne(TimeSpan.FromSeconds(pause.TotalSeconds)))
+			if (AutoResetEvent.WaitOne(pause))
 			{
 			}
 		}

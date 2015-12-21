@@ -111,10 +111,13 @@ namespace Infrastructure.Automation
 				{
 					switch (procedureThread.TimeType)
 					{
-						case TimeType.Sec:
+						case TimeType.Millisecond:
+							timeOut = TimeSpan.FromMilliseconds(procedureThread.TimeOut);
+							break;
+						case TimeType.Second:
 							timeOut = TimeSpan.FromSeconds(procedureThread.TimeOut);
 							break;
-						case TimeType.Min:
+						case TimeType.Minute:
 							timeOut = TimeSpan.FromMinutes(procedureThread.TimeOut);
 							break;
 						case TimeType.Hour:
