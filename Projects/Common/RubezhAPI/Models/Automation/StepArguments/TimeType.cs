@@ -5,13 +5,13 @@ namespace RubezhAPI.Automation
 	public enum TimeType
 	{
 		[Description("миллисекунд")]
-		Millisecond = -1,
+		Millisec = -1,
 
 		[Description("секунд")]
-		Second = 0,
+		Sec = 0,
 
 		[Description("минут")]
-		Minute = 1,
+		Min = 1,
 
 		[Description("часов")]
 		Hour = 2,

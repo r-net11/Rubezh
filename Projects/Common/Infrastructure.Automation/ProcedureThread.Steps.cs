@@ -301,13 +301,13 @@ namespace Infrastructure.Automation
 						value2 = new TimeSpan();
 						switch (arithmeticArguments.TimeType)
 						{
-							case TimeType.Millisecond:
+							case TimeType.Millisec:
 								value2 = TimeSpan.FromMilliseconds(GetValue<int>(arithmeticArguments.Argument2));
 								break;
-							case TimeType.Second:
+							case TimeType.Sec:
 								value2 = TimeSpan.FromSeconds(GetValue<int>(arithmeticArguments.Argument2));
 								break;
-							case TimeType.Minute:
+							case TimeType.Min:
 								value2 = TimeSpan.FromMinutes(GetValue<int>(arithmeticArguments.Argument2));
 								break;
 							case TimeType.Hour:
@@ -926,13 +926,16 @@ namespace Infrastructure.Automation
 		{
 			var startRecordArguments = procedureStep.StartRecordArguments;
 			var cameraUid = GetValue<Guid>(startRecordArguments.CameraArgument);
-			var timeout = GetValue<int>(startRecordArguments.TimeoutArgument);
-			switch (startRecordArguments.TimeType)
+			if (LicenseManager.CurrentLicenseInfo.HasVideo)
 			{
-				case TimeType.Minute: timeout *= 60; break;
-				case TimeType.Hour: timeout *= 3600; break;
-				case TimeType.Day: timeout *= 86400; break;
-			}
+				var timeout = GetValue<int>(startRecordArguments.TimeoutArgument);
+				switch (startRecordArguments.TimeType)
+				{
+					case TimeType.Millisec: timeout = (int)((double)timeout * 0.001); break;
+					case TimeType.Min: timeout *= 60; break;
+					case TimeType.Hour: timeout *= 3600; break;
+					case TimeType.Day: timeout *= 86400; break;
+				}
 
 			if (JournalItem != null)
 			{
@@ -1033,13 +1036,13 @@ namespace Infrastructure.Automation
 			var pause = new TimeSpan();
 			switch (pauseArguments.TimeType)
 			{
-				case TimeType.Millisecond:
+				case TimeType.Millisec:
 					pause = TimeSpan.FromMilliseconds(GetValue<int>(pauseArguments.PauseArgument));
 					break;
-				case TimeType.Second:
+				case TimeType.Sec:
 					pause = TimeSpan.FromSeconds(GetValue<int>(pauseArguments.PauseArgument));
 					break;
-				case TimeType.Minute:
+				case TimeType.Min:
 					pause = TimeSpan.FromMinutes(GetValue<int>(pauseArguments.PauseArgument));
 					break;
 				case TimeType.Hour:
