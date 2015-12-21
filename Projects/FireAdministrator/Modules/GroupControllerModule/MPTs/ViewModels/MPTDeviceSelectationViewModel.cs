@@ -2,12 +2,15 @@
 using System.Linq;
 using RubezhAPI.GK;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
+using RubezhAPI;
+using System;
 
 namespace GKModule.ViewModels
 {
-	public class MPTDeviceTypeSelectationViewModel : SaveCancelDialogViewModel
+	public class MPTDeviceSelectationViewModel : SaveCancelDialogViewModel
 	{
-		public MPTDeviceTypeSelectationViewModel()
+		public MPTDeviceSelectationViewModel(GKMPTDeviceType selectedGkMptDeviceType)
 		{
 			Title = "Выбор типа устройства";
 
@@ -21,7 +24,17 @@ namespace GKModule.ViewModels
 			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(GKMPTDeviceType.HandAutomaticOn));
 			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(GKMPTDeviceType.HandAutomaticOff));
 			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(GKMPTDeviceType.Bomb));
-			SelectedMPTDeviceType = AvailableMPTDeviceTypes.FirstOrDefault();
+			SelectedMPTDeviceType = AvailableMPTDeviceTypes.FirstOrDefault(x => x.MPTDeviceType == selectedGkMptDeviceType);
+		}
+		DeviceSelectationViewModel _deviceSelectationViewModel;
+		public DeviceSelectationViewModel DeviceSelectationViewModel
+		{
+			get { return _deviceSelectationViewModel; }
+			set
+			{
+				_deviceSelectationViewModel = value;
+				OnPropertyChanged(() => DeviceSelectationViewModel);
+			}
 		}
 
 		public ObservableCollection<MPTDeviceTypeViewModel> AvailableMPTDeviceTypes { get; private set; }
@@ -33,13 +46,23 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedMPTDeviceType = value;
+
+				var devices = new List<GKDevice>();
+				foreach (var device in GKManager.Devices)
+				{
+					if (GKMPTDevice.GetAvailableMPTDriverTypes(_selectedMPTDeviceType.MPTDeviceType).Any(x => device.DriverType == x))
+						if (!device.IsInMPT || device.Driver.IsCardReaderOrCodeReader)
+							devices.Add(device);
+				}
+				DeviceSelectationViewModel = new DeviceSelectationViewModel(null, devices);
+
 				OnPropertyChanged(() => SelectedMPTDeviceType);
 			}
 		}
 
 		protected override bool CanSave()
 		{
-			return SelectedMPTDeviceType != null;
+			return SelectedMPTDeviceType != null && DeviceSelectationViewModel.SelectedDevice != null;
 		}
 	}
 }
