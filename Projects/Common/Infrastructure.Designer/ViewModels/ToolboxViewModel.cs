@@ -169,6 +169,13 @@ namespace Infrastructure.Designer.ViewModels
 					ImageSource="Font",
 					ToolTip="Текст",
 					Index = 1005,
+					Adorner = new TextBlockAdorner(DesignerCanvas),
+				},
+				new InstrumentViewModel()
+				{
+					ImageSource="Font",
+					ToolTip="Ввод",
+					Index = 1006,
 					Adorner = new TextBoxAdorner(DesignerCanvas),
 				},
 				new InstrumentViewModel()

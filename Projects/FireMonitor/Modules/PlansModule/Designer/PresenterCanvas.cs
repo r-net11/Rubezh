@@ -6,6 +6,8 @@ using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
+using System.Windows.Controls;
+using System.Windows;
 
 namespace PlansModule.Designer
 {
@@ -53,9 +55,16 @@ namespace PlansModule.Designer
 			Add(presenterItem);
 			return presenterItem;
 		}
-		public MonitorSubPlanPresenterItem CreateMonitorPresenterItem(ElementBase elementBase)
+		public MonitorSubPlanPresenterItem CreateMonitorPresenterItem(ElementSubPlan elementBase)
 		{
 			var presenterItem = new MonitorSubPlanPresenterItem(elementBase);
+			Add(presenterItem);
+			return presenterItem;
+		}
+
+		public MonitorTextBoxPresenterItem CreateMonitorTextBoxPresenterItem(ElementTextBox elementBase)
+		{
+			var presenterItem = new MonitorTextBoxPresenterItem(elementBase);
 			Add(presenterItem);
 			return presenterItem;
 		}
