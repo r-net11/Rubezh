@@ -46,9 +46,9 @@ namespace FiresecService.Service
 		}
 
 
-		public void AddJournalItemA(Guid clientUID, string message)
+		public void AddJournalItemA(Guid clientUID, string message, Guid? objectUID = null)
 		{
-			ProcedureHelper.AddJournalItem(clientUID, message);
+			ProcedureHelper.AddJournalItem(clientUID, message, objectUID);
 		}
 
 		public void ControlGKDevice(Guid clientUID, Guid deviceUid, GKStateBit command)

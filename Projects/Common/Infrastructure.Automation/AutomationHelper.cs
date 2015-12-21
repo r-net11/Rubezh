@@ -167,12 +167,14 @@ namespace Infrastructure.Automation
 
 		public static ObservableCollection<T> GetEnumObs<T>()
 		{
-			return new ObservableCollection<T>(Enum.GetValues(typeof (T)).Cast<T>().ToList());
+			return new ObservableCollection<T>(GetEnumList<T>());
 		}
 
 		public static List<T> GetEnumList<T>()
 		{
-			return new List<T>(Enum.GetValues(typeof (T)).Cast<T>());
+			var result = new List<T>(Enum.GetValues(typeof (T)).Cast<T>());
+			result.Sort();
+			return result;
 		}
 
 		public static string GetProcedureName(Guid procedureUid)
