@@ -72,13 +72,13 @@ namespace StrazhModule.Validation
 					var maskProperty = device.Properties.FirstOrDefault(x => x.Name == "Mask");
 					if (maskProperty == null || !SKDManager.ValidateIPAddress(maskProperty.StringValue))
 					{
-						Errors.Add(new DeviceValidationError(device, "Не верно задана маска подсети", ValidationErrorLevel.CannotSave));
+						Errors.Add(new DeviceValidationError(device, "Не верно задана маска подсети", ValidationErrorLevel.Warning));
 					}
 
 					var gatewayProperty = device.Properties.FirstOrDefault(x => x.Name == "Gateway");
 					if (gatewayProperty == null || !SKDManager.ValidateIPAddress(gatewayProperty.StringValue))
 					{
-						Errors.Add(new DeviceValidationError(device, "Не верно задан шлюз по умолчанию", ValidationErrorLevel.CannotSave));
+						Errors.Add(new DeviceValidationError(device, "Не верно задан шлюз по умолчанию", ValidationErrorLevel.Warning));
 					}
 
 					var loginProperty = device.Properties.FirstOrDefault(x => x.Name == "Login");

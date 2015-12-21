@@ -13,7 +13,7 @@ namespace FiresecAPI.SKD
 				Name = "Address",
 				Caption = "Адрес",
 				DriverPropertyType = SKDDriverType.StringType,
-				StringDefault = "192.168.0.1"
+				StringDefault = "192.168.0.2"
 			};
 			properties.Add(addressProperty);
 
@@ -49,7 +49,7 @@ namespace FiresecAPI.SKD
 				Name = "Mask",
 				Caption = "Маска подсети",
 				DriverPropertyType = SKDDriverType.StringType,
-				StringDefault = "255.255.255.255"
+				StringDefault = "255.255.255.0"
 			};
 			properties.Add(maskProperty);
 
