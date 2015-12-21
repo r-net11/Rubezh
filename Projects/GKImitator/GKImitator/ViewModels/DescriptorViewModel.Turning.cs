@@ -164,9 +164,9 @@ namespace GKImitator.ViewModels
 					changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
 					if (changed)
 					{
-						RecalculateOutputLogic();
 						var journalItem = new ImitatorJournalItem(2, 9, 2, 0);
 						AddJournalItem(journalItem);
+						RecalculateOutputLogic();
 					}
 
 					if (HoldDelay > 0)
@@ -242,7 +242,7 @@ namespace GKImitator.ViewModels
 		public RelayCommand TurnOnCommand { get; private set; }
 		void OnTurnOn()
 		{
-			if (HasTurnOn)
+			if (HasTurnOn && TurningState != TurningState.TurningOn)
 			{
 				if (OnDelay > 0)
 				{
@@ -268,7 +268,7 @@ namespace GKImitator.ViewModels
 		public RelayCommand TurnOffCommand { get; private set; }
 		void OnTurnOff()
 		{
-			if (HasTurnOff)
+			if (HasTurnOff && TurningState != TurningState.TurningOff)
 			{
 				if (OffDelay > 0)
 				{
@@ -302,6 +302,8 @@ namespace GKImitator.ViewModels
 
 		void TurnOn()
 		{
+			CurrentOffDelay = 0;
+			CurrentHoldDelay = 0;
 			if (OnDelay == 0)
 			{
 				TurnOnNow();
@@ -343,6 +345,8 @@ namespace GKImitator.ViewModels
 
 		void TurnOff()
 		{
+			CurrentOnDelay = 0;
+			CurrentHoldDelay = 0;
 			if (OffDelay == 0)
 			{
 				TurnOffNow();

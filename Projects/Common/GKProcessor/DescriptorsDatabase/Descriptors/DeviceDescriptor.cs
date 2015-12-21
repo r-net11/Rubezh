@@ -31,12 +31,14 @@ namespace GKProcessor
 		public override void BuildFormula()
 		{
 			Formula = new FormulaBuilder();
-			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) ||
-			    (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
+			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
 			{
 				Formula.Add(FormulaOperationType.END);
 				return;
 			}
+
+			var mirrorParents = Device.GetMirrorParents();
+			Formula.AddMirrorLogic(Device, mirrorParents);
 
 			if (CreateMPTLogic())
 				return;
@@ -177,6 +179,11 @@ namespace GKProcessor
 				return;
 			}
 
+			if (DatabaseType == DatabaseType.Gk && (Device.DriverType == GKDriverType.GKMirror || (Device.Parent!=null && Device.Parent.DriverType == GKDriverType.GKMirror)))
+			{
+				return;
+			}
+
 			Device.Properties = (from i in Device.Driver.Properties join o in Device.Properties on i.Name equals o.Name select o).ToList();
 
 			foreach (var property in Device.Properties)
@@ -269,7 +276,6 @@ namespace GKProcessor
 
 		void CreateAutomaticOffBoards(GKMPT mpt)
 		{
-			Formula = new FormulaBuilder();
 			Formula.AddGetBit(GKStateBit.Norm, mpt);
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
@@ -280,7 +286,6 @@ namespace GKProcessor
 
 		void CreateOnDevices(GKMPT mpt)
 		{
-			Formula = new FormulaBuilder();
 			Formula.AddGetBit(GKStateBit.TurningOn, mpt);
 			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 			Formula.AddGetBit(GKStateBit.Off, mpt);
@@ -290,7 +295,6 @@ namespace GKProcessor
 
 		void CreateBombDevices(GKMPT mpt)
 		{
-			Formula = new FormulaBuilder();
 			Formula.AddGetBit(GKStateBit.On, mpt);
 			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 			Formula.AddGetBit(GKStateBit.Off, mpt);

@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Services;
 
 namespace Infrastructure.Common
 {
@@ -53,7 +54,7 @@ namespace Infrastructure.Common
 			catch (Exception e)
 			{
 				Logger.Error(e, "RelayCommand.ForceExecute");
-				MessageBoxService.ShowException(e, "При выполнении операции возникло исключение");
+				ServiceFactoryBase.MessageBoxService.ShowException(e, "При выполнении операции возникло исключение");
 			}
 		}
 
@@ -129,7 +130,7 @@ namespace Infrastructure.Common
 			catch (Exception e)
 			{
 				Logger.Error(e, "RelayCommand.ForceExecute");
-				MessageBoxService.ShowException(e, "При выполнении операции возникло исключение");
+				ServiceFactoryBase.MessageBoxService.ShowException(e, "При выполнении операции возникло исключение");
 			}
 		}
 

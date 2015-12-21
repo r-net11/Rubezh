@@ -26,12 +26,6 @@ namespace GKModuleTest
 	[TestFixture]
 	public class DirectionTest
 	{
-		delegate bool ShowModalWindowDelegate(WindowBaseViewModel windowBaseViewModel);
-		delegate bool ShowQuestionDelegate(string message, string title = null);
-		delegate void AddResourceDelegate(Assembly callerAssembly, string name);
-		delegate void AddRibbonItemsDelegate1(IEnumerable<RibbonMenuItemViewModel> ribbonMenuItems);
-		delegate void AddRibbonItemsDelegate2(params RibbonMenuItemViewModel[] ribbonMenuItems);
-
 		GKDevice gkDevice1;
 		GKDevice kauDevice11;
 		GKDevice kauDevice12;

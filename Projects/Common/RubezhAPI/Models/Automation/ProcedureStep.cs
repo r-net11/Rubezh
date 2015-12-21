@@ -56,6 +56,7 @@ namespace RubezhAPI.Automation
 			RviAlarmArguments = new RviAlarmArguments();
 			ControlGKDoorArguments = new ControlGKDoorArguments();
 			NowArguments = new NowArguments();
+			HttpRequestArguments = new HttpRequestArguments();
 		}
 
 		[XmlIgnore]
@@ -129,10 +130,10 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public ControlDelayArguments ControlDelayArguments { get; set; }
-		
+
 		[DataMember]
 		public ControlPumpStationArguments ControlPumpStationArguments { get; set; }
-		
+
 		[DataMember]
 		public ControlMPTArguments ControlMPTArguments { get; set; }
 
@@ -173,7 +174,7 @@ namespace RubezhAPI.Automation
 		public ShowPropertyArguments ShowPropertyArguments { get; set; }
 
 		[DataMember]
-		public ExportJournalArguments ExportJournalArguments { get; set; } 
+		public ExportJournalArguments ExportJournalArguments { get; set; }
 
 		[DataMember]
 		public ExportOrganisationArguments ExportOrganisationArguments { get; set; }
@@ -182,7 +183,7 @@ namespace RubezhAPI.Automation
 		public ExportConfigurationArguments ExportConfigurationArguments { get; set; }
 
 		[DataMember]
-		public ImportOrganisationArguments ImportOrganisationArguments { get; set; } 
+		public ImportOrganisationArguments ImportOrganisationArguments { get; set; }
 
 		[DataMember]
 		public GenerateGuidArguments GenerateGuidArguments { get; set; }
@@ -195,17 +196,20 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public StartRecordArguments StartRecordArguments { get; set; }
-		
+
 		[DataMember]
 		public StopRecordArguments StopRecordArguments { get; set; }
 
 		[DataMember]
 		public RviAlarmArguments RviAlarmArguments { get; set; }
-		
+
 		[DataMember]
 		public ControlGKDoorArguments ControlGKDoorArguments { get; set; }
 
 		[DataMember]
 		public NowArguments NowArguments { get; set; }
+
+		[DataMember]
+		public HttpRequestArguments HttpRequestArguments { get; set; }
 	}
 }

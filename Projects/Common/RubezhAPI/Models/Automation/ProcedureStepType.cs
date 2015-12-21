@@ -170,6 +170,9 @@ namespace RubezhAPI.Automation
 		RviAlarm,
 
 		[DescriptionAttribute("Получить текущие дату и время")]
-		Now
+		Now,
+
+		[DescriptionAttribute("HTTP запрос")]
+		HttpRequest
 	}
 }

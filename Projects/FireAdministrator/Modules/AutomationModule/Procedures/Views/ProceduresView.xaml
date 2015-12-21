@@ -175,7 +175,6 @@
 					ConverterParameter={x:Static procedures:MenuType.IsConditions}}">
 					<Views:ConditionsView DataContext="{Binding ConditionsViewModel}" />
 				</Grid>
-
 			</Grid>
 		</Grid>
 	</Grid>

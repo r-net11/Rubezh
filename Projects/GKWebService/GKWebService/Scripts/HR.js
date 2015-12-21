@@ -8,6 +8,7 @@
         if (!self.loaded()) {
             $("div#HR").load("Hr/Index", function () {
                 self.Filter = FilterViewModel(self);
+                self.Filter.OrganisationsFilter = OrganisationsFilterViewModel(self);
                 self.Common = {};
                 self.Common.EmployeeSelectionDialog = EmployeeSelectionDialogViewModel();
                 self.Employees = EmployeesViewModel(self);

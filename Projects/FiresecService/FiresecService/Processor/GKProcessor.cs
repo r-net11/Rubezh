@@ -13,10 +13,10 @@ namespace FiresecService
 	{
 		public static void Create()
 		{
-			GKProcessorManager.GKProgressCallbackEvent -= new Action<GKProgressCallback, Guid?>(OnGKProgressCallbackEvent);
-			GKProcessorManager.GKProgressCallbackEvent += new Action<GKProgressCallback, Guid?>(OnGKProgressCallbackEvent);
-			GKProcessorManager.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResultEvent);
-			GKProcessorManager.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResultEvent);
+			GKProcessorManager.GKProgressCallbackEvent -= OnGKProgressCallbackEvent;
+			GKProcessorManager.GKProgressCallbackEvent += OnGKProgressCallbackEvent;
+			GKProcessorManager.GKCallbackResultEvent -= OnGKCallbackResultEvent;
+			GKProcessorManager.GKCallbackResultEvent += OnGKCallbackResultEvent;
 		}
 
 		public static void Start()

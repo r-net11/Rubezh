@@ -110,7 +110,7 @@ namespace RubezhAPI
 			else
 				parentDevice.Children.Insert(index.Value, device);
 			
-			if (driver.DriverType == GKDriverType.GK || driver.DriverType == GKDriverType.RSR2_GKMirror)
+			if (driver.DriverType == GKDriverType.GK || driver.DriverType == GKDriverType.GKMirror)
 			{
 				var indicatorsGroupDriver = Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicatorsGroup);
 				var relaysGroupDriver = Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKRelaysGroup);

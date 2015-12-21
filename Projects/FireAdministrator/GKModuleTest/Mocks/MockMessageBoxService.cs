@@ -1,10 +1,12 @@
 ﻿using Infrastructure.Common.Services;
 using Infrastructure.Services;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GKModuleTest
 {
@@ -14,7 +16,6 @@ namespace GKModuleTest
 
 		public void Show(string message, string title = null)
 		{
-            throw new NotImplementedException();
 		}
 
 		public bool ShowQuestion(string message, string title = null)
@@ -24,12 +25,11 @@ namespace GKModuleTest
 
 		public bool ShowConfirmation(string message, string title = null)
 		{
-			throw new NotImplementedException();
+			return true;
 		}
 
 		public void ShowError(string message, string title = null)
 		{
-			throw new NotImplementedException();
 		}
 
 		public void ShowWarning(string message, string title = null)
@@ -38,47 +38,45 @@ namespace GKModuleTest
 
 		public void ShowException(Exception e, string title = null)
 		{
-			throw new NotImplementedException();
+			StringAssert.DoesNotMatch("При выполнении операции возникло исключение", title);
 		}
 
-		public System.Windows.MessageBoxResult ShowExtended(string message, string title = null, bool isModal = true)
+		public MessageBoxResult ShowExtended(string message, string title = null, bool isModal = true)
 		{
-			throw new NotImplementedException();
+			return MessageBoxResult.OK;
 		}
 
-		public System.Windows.MessageBoxResult ShowQuestionExtended(string message, string title = null)
+		public MessageBoxResult ShowQuestionExtended(string message, string title = null)
 		{
-			throw new NotImplementedException();
+			return MessageBoxResult.OK;
 		}
 
-		public System.Windows.MessageBoxResult ShowConfirmationExtended(string message, string title = null)
+		public MessageBoxResult ShowConfirmationExtended(string message, string title = null)
 		{
-			throw new NotImplementedException();
+			return MessageBoxResult.OK;
 		}
 
-		public System.Windows.MessageBoxResult ShowErrorExtended(string message, string title = null)
+		public MessageBoxResult ShowErrorExtended(string message, string title = null)
 		{
-			throw new NotImplementedException();
+			return MessageBoxResult.OK;
 		}
 
-		public System.Windows.MessageBoxResult ShowWarningExtended(string message, string title = null)
+		public MessageBoxResult ShowWarningExtended(string message, string title = null)
 		{
-			throw new NotImplementedException();
+			return MessageBoxResult.OK;
 		}
 
-		public System.Windows.MessageBoxResult ShowExceptionExtended(Exception e, string title = null)
+		public MessageBoxResult ShowExceptionExtended(Exception e, string title = null)
 		{
-			throw new NotImplementedException();
+			return MessageBoxResult.OK;
 		}
 
 		public void SetMessageBoxHandler(Action<Infrastructure.Common.Windows.ViewModels.MessageBoxViewModel, bool> handler)
 		{
-			throw new NotImplementedException();
 		}
 
 		public void ResetMessageBoxHandler()
 		{
-			throw new NotImplementedException();
 		}
 	}
 }

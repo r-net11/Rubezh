@@ -440,6 +440,7 @@
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\report.js" />
     <Content Include="Scripts\SKD\Common\EmployeeSelectionDialogViewModel.js" />
+    <Content Include="Scripts\SKD\Common\OrganisationsFilterViewModel.js" />
     <Content Include="Scripts\SKD\Departments\DepartmentDetailsViewModel.js" />
     <Content Include="Scripts\SKD\Departments\DepartmentEmployeeListViewModel.js" />
     <Content Include="Scripts\SKD\Departments\DepartmentsViewModel.js" />
@@ -554,6 +555,10 @@
     <Content Include="Views\Positions\PositionEmployeeList.cshtml" />
     <Content Include="Views\Organisations\Index.cshtml" />
     <Content Include="Views\Organisations\OrganisationDetails.cshtml" />
+    <Content Include="Views\Hr\OrganisationsFilter.cshtml" />
+    <Content Include="Views\Hr\DepartmentsFilter.cshtml" />
+    <Content Include="Views\Hr\PositionsFilter.cshtml" />
+    <Content Include="Views\Hr\EmployeesFilter.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

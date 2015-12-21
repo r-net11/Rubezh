@@ -47,6 +47,7 @@
             data: ko.mapping.toJSON(self.Filter),
             success: function (data) {
                 ko.mapping.fromJS(data, {}, self);
+                self.SelectedOrganisation(null);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert("request failed");
@@ -150,29 +151,29 @@
     };
 
     self.Add = function (data, e) {
-        self.PositionDetails.Init(self.OrganisationUID(), '', self.ReloadTree);
+        self.OrganisationDetails.Init(null, self.ReloadOrganisationList);
     };
 
     self.Remove = function (data, e) {
-        app.Header.QuestionBox.InitQuestionBox("Вы уверены, что хотите архивировать должность?", function () {
-            $.getJSON("/Positions/GetChildEmployeeUIDs/", { positionId: self.UID() }, function (employeeUIDs) {
-                if (employeeUIDs.length > 0) {
-                    app.Header.QuestionBox.InitQuestionBox("Существуют привязанные к должности сотрудники. Продолжить?", function() {
-                        self.RemovePosition();
+        app.Header.QuestionBox.InitQuestionBox("Вы уверены, что хотите удалить огранизацию?", function () {
+            $.getJSON("/Organisations/IsAnyOrganisationItems/", { uid: self.SelectedOrganisation().UID() }, function (isAnyOrganisationItems) {
+                if (isAnyOrganisationItems) {
+                    app.Header.QuestionBox.InitQuestionBox("Привязанные к организации объекты будут также архивированы. Продолжить?", function () {
+                        self.RemoveOrganisation();
                     });
                 } else {
-                    self.RemovePosition();
+                    self.RemoveOrganisation();
                 }
             });
         });
     };
 
-    self.RemovePosition = function() {
+    self.RemoveOrganisation = function() {
             $.ajax({
-                url: "Positions/MarkDeleted",
+                url: "Organisations/MarkDeleted",
                 type: "post",
                 contentType: "application/json",
-                data: JSON.stringify({ "uid": self.UID(), "name": self.Name() }),
+                data: JSON.stringify({ "uid": self.SelectedOrganisation().UID(), "name": self.SelectedOrganisation().Name() }),
                 success: function () {
                     self.ReloadOrganisationList();
                 },
@@ -187,27 +188,13 @@
     };
 
     self.Restore = function (data, e) {
-        app.Header.QuestionBox.InitQuestionBox("Вы уверены, что хотите восстановить должность?", function () {
-            var ids = $("#jqGridPositions").getDataIDs();
-            for (var i = 0; i < ids.length; i++) {
-                var rowData = $("#jqGridPositions").getRowData(ids[i]);
-                if (rowData.IsDeleted !== "true" &&
-                    rowData.Name === self.Name() &&
-                    rowData.OrganisationUID === self.OrganisationUID() &&
-                    !rowData.IsOrganisation) {
-                    alert("Существует неудалённый элемент с таким именем");
-                    return;
-                }
-            }
-
+        app.Header.QuestionBox.InitQuestionBox("Вы уверены, что хотите восстановить огранизацию?", function () {
             $.ajax({
-                url: "Positions/Restore",
+                url: "Organisations/Restore",
                 type: "post",
                 contentType: "application/json",
-                data: JSON.stringify({ "uid": self.UID(), "name": self.Name() }),
-                success: function () {
-                    self.ReloadTree();
-                },
+                data: JSON.stringify({ "uid": self.SelectedOrganisation().UID(), "name": self.SelectedOrganisation().Name() }),
+                success: self.ReloadOrganisationList,
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert("request failed");
                 }
