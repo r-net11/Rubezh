@@ -322,7 +322,7 @@ namespace GKModule.ViewModels
 		{
 			return !(Driver.IsAutoCreate || Parent == null || Parent.Driver.IsGroupDevice);
 		}
-		public void Remove(bool isSingleRemove)
+		public void Remove(bool changeSelectedDevice)
 		{
 			var allDevices = GKManager.RemoveDevice(Device);
 			foreach (var device in allDevices)
@@ -344,7 +344,7 @@ namespace GKModule.ViewModels
 				{
 					DevicesViewModel.Current.AllDevices.Remove(childDeviceViewModel);
 				}
-				if (isSingleRemove)
+				if (changeSelectedDevice)
 					DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
 			GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();

@@ -36,6 +36,7 @@ namespace RubezhAPI.Models
 			ElementRectangles = new List<ElementRectangle>();
 			ElementEllipses = new List<ElementEllipse>();
 			ElementTextBlocks = new List<ElementTextBlock>();
+			ElementTextBoxes = new List<ElementTextBox>();
 			ElementPolygons = new List<ElementPolygon>();
 			ElementPolylines = new List<ElementPolyline>();
 
@@ -91,6 +92,8 @@ namespace RubezhAPI.Models
 		public List<ElementEllipse> ElementEllipses { get; set; }
 		[DataMember]
 		public List<ElementTextBlock> ElementTextBlocks { get; set; }
+		[DataMember]
+		public List<ElementTextBox> ElementTextBoxes { get; set; }
 		[DataMember]
 		public List<ElementPolygon> ElementPolygons { get; set; }
 		[DataMember]
@@ -167,6 +170,8 @@ namespace RubezhAPI.Models
 				foreach (var element in ElementPolygons)
 					yield return element;
 				foreach (var element in ElementTextBlocks)
+					yield return element;
+				foreach (var element in ElementTextBoxes)
 					yield return element;
 				foreach (var element in ElementExtensions)
 					yield return element;

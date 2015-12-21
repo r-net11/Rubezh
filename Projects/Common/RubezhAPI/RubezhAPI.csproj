@@ -152,6 +152,7 @@
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
     <Compile Include="CallbackOperationResult.cs" />
     <Compile Include="Models\Automation\StepArguments\HttpRequestArguments.cs" />
+    <Compile Include="Models\Plans\ElementTextBox.cs" />
     <Compile Include="PollResult.cs" />
     <Compile Include="GKManager\GKManager.Delays.cs" />
     <Compile Include="GKManager\GKManager.PumpStations.cs" />

@@ -59,15 +59,24 @@ namespace PlansModule.ViewModels
 		{
 			foreach (var elementBase in PlanEnumerator.EnumeratePrimitives(Plan))
 			{
-				var presenterItem = DesignerCanvas.CreatePresenterItem(elementBase);
-				var painter = PrimitivePainterFactory.CreatePainter(this.DesignerCanvas, elementBase);
-				presenterItem.OverridePainter(painter);
+				if (!(elementBase is ElementTextBox))
+				{
+					var presenterItem = DesignerCanvas.CreatePresenterItem(elementBase);
+					var painter = PrimitivePainterFactory.CreatePainter(this.DesignerCanvas, elementBase);
+					presenterItem.OverridePainter(painter);
+				}
 			}
 
 			foreach (var elementBase in Plan.ElementSubPlans)
 			{
 				var presenterItem = DesignerCanvas.CreateMonitorPresenterItem(elementBase);
 				presenterItem.OverridePainter(new MonitorSubPlanPainter(presenterItem, elementBase.PlanUID));
+			}
+
+			foreach(var elementBase in Plan.ElementTextBoxes)
+			{
+				var presenterItem = DesignerCanvas.CreateMonitorTextBoxPresenterItem(elementBase);
+				presenterItem.OverridePainter(new MonitorTextBoxPainter(presenterItem));
 			}
 
 			foreach (var planPresenter in _plansViewModel.PlanPresenters)

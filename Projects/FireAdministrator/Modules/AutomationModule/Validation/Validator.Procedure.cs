@@ -2,6 +2,7 @@
 using Infrastructure.Common.Validation;
 using RubezhAPI;
 using RubezhAPI.Automation;
+using RubezhAPI.License;
 using RubezhClient;
 using System;
 using System.Collections.Generic;
@@ -179,6 +180,8 @@ namespace AutomationModule.Validation
 
 				case ProcedureStepType.ControlGKFireZone:
 					{
+						if (!LicenseManager.CurrentLicenseInfo.HasFirefighting)
+							Errors.Add(new ProcedureStepValidationError(step, "Отсутствует лицензия для выполнения шага " + step.Name, ValidationErrorLevel.Warning));
 						var controlGKFireZoneArguments = step.ControlGKFireZoneArguments;
 						ValidateArgument(step, controlGKFireZoneArguments.GKFireZoneArgument);
 					}
@@ -186,6 +189,8 @@ namespace AutomationModule.Validation
 
 				case ProcedureStepType.ControlGKGuardZone:
 					{
+						if (!LicenseManager.CurrentLicenseInfo.HasGuard)
+							Errors.Add(new ProcedureStepValidationError(step, "Отсутствует лицензия для выполнения шага " + step.Name, ValidationErrorLevel.Warning));
 						var controlGKGuardZoneArguments = step.ControlGKGuardZoneArguments;
 						ValidateArgument(step, controlGKGuardZoneArguments.GKGuardZoneArgument);
 					}
@@ -200,6 +205,8 @@ namespace AutomationModule.Validation
 
 				case ProcedureStepType.ControlGKDoor:
 					{
+						if (!LicenseManager.CurrentLicenseInfo.HasSKD)
+							Errors.Add(new ProcedureStepValidationError(step, "Отсутствует лицензия для выполнения шага " + step.Name, ValidationErrorLevel.Warning));
 						var controlGKDoorArguments = step.ControlGKDoorArguments;
 						ValidateArgument(step, controlGKDoorArguments.DoorArgument);
 					}
@@ -402,6 +409,8 @@ namespace AutomationModule.Validation
 
 				case ProcedureStepType.Ptz:
 					{
+						if (!LicenseManager.CurrentLicenseInfo.HasVideo)
+							Errors.Add(new ProcedureStepValidationError(step, "Отсутствует лицензия для выполнения шага " + step.Name, ValidationErrorLevel.Warning));
 						var arguments = step.PtzArguments;
 						if (!ValidateArgument(step, arguments.CameraArgument))
 							break;
@@ -410,6 +419,8 @@ namespace AutomationModule.Validation
 					}
 				case ProcedureStepType.StartRecord:
 					{
+						if (!LicenseManager.CurrentLicenseInfo.HasVideo)
+							Errors.Add(new ProcedureStepValidationError(step, "Отсутствует лицензия для выполнения шага " + step.Name, ValidationErrorLevel.Warning));
 						var arguments = step.StartRecordArguments;
 						if (!ValidateArgument(step, arguments.CameraArgument))
 							break;
@@ -420,6 +431,8 @@ namespace AutomationModule.Validation
 					}
 				case ProcedureStepType.StopRecord:
 					{
+						if (!LicenseManager.CurrentLicenseInfo.HasVideo)
+							Errors.Add(new ProcedureStepValidationError(step, "Отсутствует лицензия для выполнения шага " + step.Name, ValidationErrorLevel.Warning));
 						var arguments = step.StopRecordArguments;
 						if (!ValidateArgument(step, arguments.CameraArgument))
 							break;
@@ -428,6 +441,8 @@ namespace AutomationModule.Validation
 					}
 				case ProcedureStepType.RviAlarm:
 					{
+						if (!LicenseManager.CurrentLicenseInfo.HasVideo)
+							Errors.Add(new ProcedureStepValidationError(step, "Отсутствует лицензия для выполнения шага " + step.Name, ValidationErrorLevel.Warning));
 						var arguments = step.RviAlarmArguments;
 						ValidateArgument(step, arguments.NameArgument);
 						break;
