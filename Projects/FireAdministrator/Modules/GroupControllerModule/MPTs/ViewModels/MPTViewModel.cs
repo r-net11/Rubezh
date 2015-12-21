@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using RubezhAPI.GK;
-using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -65,12 +63,11 @@ namespace GKModule.ViewModels
 		{
 			var selectedGkMptDeviceType = isNew ? GKMPTDeviceType.DoNotEnterBoard : SelectedDevice.MPTDeviceType;
 			var mptDeviceTypeSelectationViewModel = new MPTDeviceSelectationViewModel(selectedGkMptDeviceType);
-			if (DialogService.ShowModalWindow(mptDeviceTypeSelectationViewModel))
+			if (ServiceFactory.DialogService.ShowModalWindow(mptDeviceTypeSelectationViewModel))
 			{
 				if (isNew)
 				{
 					var mptDevice = new GKMPTDevice();
-					mptDevice.MPTDeviceType = mptDeviceTypeSelectationViewModel.SelectedMPTDeviceType.MPTDeviceType;
 					var mptDeviceViewModel = new MPTDeviceViewModel(mptDevice);
 					SelectedDevice = mptDeviceViewModel;
 					MPT.MPTDevices.Add(mptDevice);
@@ -84,6 +81,7 @@ namespace GKModule.ViewModels
 				var selectedDevice = mptDeviceTypeSelectationViewModel.DeviceSelectationViewModel.SelectedDevice;
 				SelectedDevice.MPTDevice.Device = selectedDevice;
 				SelectedDevice.MPTDevice.DeviceUID = selectedDevice != null ? selectedDevice.UID : Guid.Empty;
+				SelectedDevice.MPTDevice.MPTDeviceType = mptDeviceTypeSelectationViewModel.SelectedMPTDeviceType.MPTDeviceType;
 				GKManager.DeviceConfiguration.SetMPTDefaultProperty(selectedDevice, SelectedDevice.MPTDeviceType);
 				GKManager.DeviceConfiguration.SetIsMPT(SelectedDevice.MPTDevice);
 				SelectedDevice.Device = selectedDevice;
@@ -91,6 +89,7 @@ namespace GKModule.ViewModels
 				SelectedDevice.MPTDevicePropertiesViewModel = new MPTDevicePropertiesViewModel(selectedDevice, false);
 				MPT.ChangedLogic();
 				ServiceFactory.SaveService.GKChanged = true;
+				Update();
 			}
 		}
 
