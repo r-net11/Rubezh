@@ -543,7 +543,7 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GetOpcDaServers(); }, "GetOpcDaServerNames");
 		}
 
-		public OperationResult<OpcDaServer> GetOpcDaServerGroupAndTags(OpcDaServer server)
+		public OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(OpcDaServer server)
 		{
 			return SafeOperationCall(() => { return FiresecService.GetOpcDaServerGroupAndTags(server); }, "GetOpcDaServerGroupAndTags"); 
 		}

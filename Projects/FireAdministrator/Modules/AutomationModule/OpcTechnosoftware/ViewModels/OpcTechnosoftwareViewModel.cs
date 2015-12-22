@@ -7,8 +7,8 @@ using Infrastructure.ViewModels;
 using Infrastructure.Common;
 using OpcClientSdk;
 using OpcClientSdk.Da;
-using AutomationModule.Models;
 using Infrastructure.Common.Windows;
+using RubezhAPI.Automation;
 
 namespace AutomationModule.ViewModels
 {

@@ -67,7 +67,7 @@ namespace AutomationModule.ViewModels
 			get
 			{
 				return "OPC DA Сервер: " + (SelectedOpcDaServer != null ? SelectedOpcDaServer.ServerName : "<пусто>") +
-					"; Тэг: " + (SelectedOpcDaTag != null ? SelectedOpcDaTag.TagName : "<пусто>") +
+					"; Тэг: " + (SelectedOpcDaTag != null ? SelectedOpcDaTag.ElementName : "<пусто>") +
 					"; Операция: " + ControlElementType.ToDescription() +
 					"; Значение: " + ValueArgument.Description;
 			}

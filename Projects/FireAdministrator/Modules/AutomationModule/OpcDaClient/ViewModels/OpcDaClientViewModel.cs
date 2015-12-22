@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Infrastructure.ViewModels;
@@ -6,7 +7,6 @@ using Infrastructure.Common;
 using RubezhClient;
 using Infrastructure.Common.Windows;
 using RubezhAPI.Automation;
-using AutomationModule.Models;
 using Infrastructure;
 
 namespace AutomationModule.ViewModels
@@ -51,6 +51,13 @@ namespace AutomationModule.ViewModels
 				_selectedOpcServer = value;
 				OnPropertyChanged(() => SelectedOpcServer);
 				SelectedTags = _selectedOpcServer == null ? null : _selectedOpcServer.Tags;
+				if (SelectedTags != null)
+				{
+					foreach (var tag in SelectedTags)
+					{
+						tag.IsChecked = true;
+					}
+				}
 			}
 		}
 
@@ -84,7 +91,10 @@ namespace AutomationModule.ViewModels
 		void LoadConfig()
 		{
 			OpcDaServers.Clear();
-
+			if (ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers == null)
+			{
+				ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers = new List<OpcDaServer>(); 
+			}
 			foreach (var opcServer in ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers)
 			{
 				OpcDaServers.Add(opcServer);

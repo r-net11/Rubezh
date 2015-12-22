@@ -32,14 +32,14 @@ namespace AutomationModule.ViewModels
 				SelectedTag = RootTag;
 				/*foreach (var child in RootTag.Children)
 				{
----					if (child.Tag.DriverType == GKDriverType.GK)
+					if (child.Tag.DriverType == GKDriverType.GK)
 						child.IsExpanded = true;
 				}*/
 			}
 
 			/*foreach (var tag in AllTags)
 			{
---				if (tag.Device.DriverType == GKDriverType.RSR2_KAU)
+				if (tag.Device.DriverType == GKDriverType.RSR2_KAU)
 					tag.ExpandToThis();
 			}*/
 

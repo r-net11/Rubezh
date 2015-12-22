@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using OpcClientSdk.Da;
 using Infrastructure.Common.Windows.ViewModels;
-using AutomationModule.Models;
 using Infrastructure.Common;
 
 namespace AutomationModule.ViewModels

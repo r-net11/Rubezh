@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OpcClientSdk.Da;
 
-namespace AutomationModule.Models
+namespace RubezhAPI.Automation
 {
 	public class TsOpcTagsStructure
 	{

@@ -5,6 +5,8 @@ using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
+using OpcClientSdk;
+using OpcClientSdk.Da;
 
 namespace RubezhClient
 {
@@ -133,6 +135,21 @@ namespace RubezhClient
 		public OperationResult<OpcDaServer[]> GetOpcDaServers()
 		{
 			return SafeContext.Execute(() => FiresecService.GetOpcDaServers());
+		}
+
+		public OperationResult ConnectToOpcDaServer(OpcDaServer server)
+		{
+			return SafeContext.Execute(() => FiresecService.ConnectToOpcDaServer(server));
+		}
+
+		public OperationResult DisconnectFromOpcDaServer(OpcDaServer server)
+		{
+			return SafeContext.Execute(() => FiresecService.DisconnectFromOpcDaServer(server));
+		}
+
+		public OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(OpcDaServer server)
+		{
+			return SafeContext.Execute(() => FiresecService.GetOpcDaServerGroupAndTags(server));
 		}
 
 		#endregion

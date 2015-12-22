@@ -217,9 +217,9 @@ namespace FiresecService.Service
 			return result;
 		}
 
-		public OperationResult<OpcDaServer> GetOpcDaServerGroupAndTags(OpcDaServer server)
+		public OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(OpcDaServer server)
 		{
-			OperationResult<OpcDaServer> result;
+			OperationResult<OpcDaElement[]> result;
 
 			var item = FindOpcDaServer(server);
 
@@ -227,15 +227,18 @@ namespace FiresecService.Service
 			{
 				if (item.IsConnected)
 				{
-					result = new OperationResult<OpcDaServer>
-					{
-						Errors = null,
-						Result =  Browse(item)
-					};
+					var tags = Browse(item)
+						.Select(tag => 
+						{
+							return tag.IsItem ? (OpcDaElement)(new OpcDaTag { Path = tag.ItemPath, ElementName = tag.ItemName }) :
+								(OpcDaElement)(new OpcDaGroup { Path = tag.ItemPath, ElementName = tag.ItemName });
+						})
+						.ToArray();
+					result = new OperationResult<OpcDaElement[]>(tags);
 				}
 				else
 				{
-					result = new OperationResult<OpcDaServer>
+					result = new OperationResult<OpcDaElement[]>
 					{
 						Errors = new List<string> { string.Format("OPC DA сервер {0} не подключен", server.ServerName) },
 						Result = null
@@ -244,13 +247,69 @@ namespace FiresecService.Service
 			}
 			else
 			{
-				result = new OperationResult<OpcDaServer>
+				result = new OperationResult<OpcDaElement[]>
 				{
 					Errors = new List<string> { string.Format("OPC DA сервер {0} не найден", server.ServerName) },
 					Result = null
 				};
 			}
 			return result;
+		}
+
+		TsCDaBrowseElement[] Browse(TsCDaServer server)
+		{
+			TsCDaBrowseFilters filters;
+			List<TsCDaBrowseElement> elementList;
+			TsCDaBrowseElement[] elements;
+			TsCDaBrowsePosition position;
+			OpcItem path = new OpcItem();
+
+			filters = new TsCDaBrowseFilters();
+			filters.BrowseFilter = TsCDaBrowseFilter.All;
+			filters.ReturnAllProperties = true;
+			filters.ReturnPropertyValues = true;
+
+			elementList = new List<TsCDaBrowseElement>();
+
+			elements = server.Browse(path, filters, out position);
+
+			foreach (var item in elements)
+			{
+				item.ItemPath = OpcDaTag.ROOT + OpcDaTag.SPLITTER + item.ItemName;
+				elementList.Add(item);
+
+				if (!item.IsItem)
+				{
+					path = new OpcItem(item.ItemPath, item.Name);
+					BrowseChildren(path, filters, elementList, server);
+				}
+
+			}
+			return elementList.ToArray();
+		}
+
+		void BrowseChildren(OpcItem opcItem, TsCDaBrowseFilters filters,
+			IList<TsCDaBrowseElement> elementList, TsCDaServer server)
+		{
+			TsCDaBrowsePosition position;
+			OpcItem path;
+
+			var elements = server.Browse(opcItem, filters, out position);
+
+			if (elements != null)
+			{
+				foreach (var item in elements)
+				{
+					item.ItemPath = opcItem.ItemPath + OpcDaTag.SPLITTER + item.ItemName;
+					elementList.Add(item);
+
+					if (!item.IsItem)
+					{
+						path = new OpcItem(item.ItemPath, item.ItemName);
+						BrowseChildren(path, filters, elementList, server);
+					}
+				}
+			}
 		}
 
 		public OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(OpcDaServer server)
@@ -263,7 +322,7 @@ namespace FiresecService.Service
 			{
 				if (srv.IsConnected)
 				{
-					var tags = server.Tags.Select(x => new TsCDaItem(new OpcItem(x.TagName))).ToArray();
+					var tags = server.Tags.Select(x => new TsCDaItem(new OpcItem(x.ElementName))).ToArray();
 					var readingResult = srv.Read(tags);
 					result = new OperationResult<TsCDaItemValueResult[]>(readingResult);
 				}
@@ -321,44 +380,6 @@ namespace FiresecService.Service
 		{
 			return _OpcDaServerPool.FirstOrDefault(x =>
 				x.Url.ToString() == server.Url && x.ServerName == server.ServerName);
-		}
-
-		OpcDaServer Browse(TsCDaServer server)
-		{
-			TsCDaBrowseFilters filters;
-			List<TsCDaBrowseElement> elementList;
-			TsCDaBrowseElement[] elements;
-			TsCDaBrowsePosition position;
-			OpcItem path = new OpcItem();
-
-			filters = new TsCDaBrowseFilters();
-			filters.BrowseFilter = TsCDaBrowseFilter.All;
-			filters.ReturnAllProperties = true;
-			filters.ReturnPropertyValues = true;
-
-			elementList = new List<TsCDaBrowseElement>();
-
-			elements = server.Browse(path, filters, out position);
-
-			foreach (var item in elements)
-			{
-				item.ItemPath = OpcDaTag.ROOT + OpcDaTag.SPLITTER + item.ItemName;
-				elementList.Add(item);
-
-				if (!item.IsItem)
-				{
-					path = new OpcItem(item.ItemPath, item.Name);
-					BrowseChildren(server, path, filters, elementList);
-				}
-			}
-
-			return new OpcDaServer
-			{ 
-				ServerName = server.ServerName, 
-				Url = server.Url.ToString(),
-				Tags = elementList.Select(x => new OpcDaTag { TagName = x.ItemName, Path = x.ItemPath }).ToArray()
-			};
-
 		}
 
 		void BrowseChildren(TsCDaServer server, OpcItem opcItem, TsCDaBrowseFilters filters,

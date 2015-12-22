@@ -148,7 +148,7 @@ namespace RubezhAPI
 		/// <param name="server">Наименование сервера</param>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<OpcDaServer> GetOpcDaServerGroupAndTags(OpcDaServer server);
+		OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(OpcDaServer server);
 
 		/// <summary>
 		/// Подключается к указанному OPC DA серверу и

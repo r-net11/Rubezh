@@ -161,7 +161,6 @@
     <Compile Include="OPCServers\Views\OPCSelectTagsView.xaml.cs">
       <DependentUpon>OPCSelectTagsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OpcTechnosoftware\Models\OpcServerStructure.cs" />
     <Compile Include="OpcTechnosoftware\ViewModels\OpcTechnosoftwareTagValueBaseViewModel.cs" />
     <Compile Include="OpcTechnosoftware\ViewModels\OpcTechnosoftwareTagValueBoolViewModel.cs" />
     <Compile Include="OpcTechnosoftware\ViewModels\OpcTechnosoftwareMenuViewModel.cs" />
@@ -986,6 +985,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="OpcAdvosolLib\Models\" />
+    <Folder Include="OpcTechnosoftware\Models\" />
     <Folder Include="Procedures\Converters\" />
   </ItemGroup>
   <ItemGroup>
