@@ -201,8 +201,15 @@ namespace RubezhAPI.GK
 		public bool AllowMultipleVizualization { get; set; }
 
 		/// <summary>
+		/// Игнорировать отсутствие логики срабатывания
+		/// </summary>
+		[DataMember]
+		public bool IgnoreLogicLack { get; set; }
+
+		/// <summary>
 		/// Проектный адрес
 		/// </summary>
+		/// 
 		[DataMember]
 		public string ProjectAddress { get; set; }
 
@@ -214,7 +221,8 @@ namespace RubezhAPI.GK
 
 		[DataMember]
 		public List<GKUser> PmfUsers { get; set; }
-
+		[DataMember]
+		public bool IsIgnoredChangesOnPlan { get; set; }
 
 		[XmlIgnore]
 		public byte ShleifNo

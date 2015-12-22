@@ -29,8 +29,11 @@ namespace GKModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			foreach (var deviceInZone in DeviceInZones)
+			{
 				if (deviceInZone.IsActive)
 					deviceInZone.Activate();
+				deviceInZone.Device.IsIgnoredChangesOnPlan = deviceInZone.IsIgnoredChangesOnPlan;
+			}
 			return base.Save();
 		}
 	}
@@ -53,6 +56,7 @@ namespace GKModule.Plans.ViewModels
 			NewZoneName = zone == null ? string.Empty : zone.PresentationName;
 			zone = Device.ZoneUIDs.Count == 1 && _zoneMap.ContainsKey(Device.ZoneUIDs[0]) ? _zoneMap[Device.ZoneUIDs[0]] : null;
 			OldZoneName = zone == null ? string.Empty : zone.PresentationName;
+			IsIgnoredChangesOnPlan = device.IsIgnoredChangesOnPlan;
 		}
 
 		public void Activate()
@@ -82,7 +86,21 @@ namespace GKModule.Plans.ViewModels
 			set
 			{
 				_isActive = value;
+				if (_isActive)
+					IsIgnoredChangesOnPlan = false;
 				OnPropertyChanged(() => IsActive);
+			}
+		}
+		bool _isIgnoredChangesOnPlan;
+		public bool IsIgnoredChangesOnPlan
+		{
+			get { return _isIgnoredChangesOnPlan; }
+			set
+			{
+				_isIgnoredChangesOnPlan = value;
+				if (_isIgnoredChangesOnPlan)
+					IsActive = false;
+				OnPropertyChanged(() => IsIgnoredChangesOnPlan);
 			}
 		}
 	}
