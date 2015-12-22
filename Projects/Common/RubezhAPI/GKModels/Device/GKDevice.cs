@@ -214,7 +214,8 @@ namespace RubezhAPI.GK
 
 		[DataMember]
 		public List<GKUser> PmfUsers { get; set; }
-
+		[DataMember]
+		public bool IsIgnoredChangesOnPlan { get; set; }
 
 		[XmlIgnore]
 		public byte ShleifNo
