@@ -53,7 +53,15 @@ namespace AutomationModule.Layout.ViewModels
 		}
 		public override bool Save()
 		{
-			return true;
+			var properties = _layoutPartViewModel.Properties as LayoutPartProcedureProperties;
+			if (properties != null)
+			{
+				properties.ReferenceUID = SelectedProcedure.Uid;
+				properties.Text = _layoutPartViewModel.Title;
+				_layoutPartViewModel.UpdateLayoutPart();
+				return true;
+			}
+			return false;
 		}
 	}
 }
