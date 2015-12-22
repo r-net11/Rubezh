@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
 using AutomationModule.Events;
 using AutomationModule.Layout.ViewModels;
 using AutomationModule.Plans;
 using AutomationModule.Validation;
 using AutomationModule.ViewModels;
-using RubezhAPI;
-using RubezhAPI.Models;
-using RubezhAPI.Models.Layouts;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
@@ -16,6 +11,11 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
 using Infrustructure.Plans.Events;
+using RubezhAPI;
+using RubezhAPI.Models;
+using RubezhAPI.Models.Layouts;
+using System;
+using System.Collections.Generic;
 
 namespace AutomationModule
 {
@@ -103,9 +103,6 @@ namespace AutomationModule
 			{
 				Factory = (p) => new LayoutPartProcedureViewModel(p as LayoutPartProcedureProperties),
 			};
-#if DEBUG
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Automation, 159, "Процедуры", "Панель процедуры", "BProcedures.png");
-#endif
 		}
 
 		#endregion
