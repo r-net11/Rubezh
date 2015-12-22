@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Windows.Documents;
 using RubezhAPI.GK;
 using GKImitator.Processor;
 using GKProcessor;
@@ -62,6 +63,7 @@ namespace GKImitator.ViewModels
 			}
 		}
 
+		List<Tuple<int, int>> usersCurrentZones { get; set; }
 		void RecalculateLogic()
 		{
 			if (Regime == Regime.Ignore)
@@ -164,6 +166,11 @@ namespace GKImitator.ViewModels
 						break;
 
 					case FormulaOperationType.PUTP:
+						var cardNo = stack.LastOrDefault();
+						stack.RemoveAt(stack.Count - 1);
+						var zoneNo = stack.LastOrDefault();
+						stack.RemoveAt(stack.Count - 1);
+						usersCurrentZones.Add(new Tuple<int, int> (cardNo, zoneNo));
 						break;
 
 					case FormulaOperationType.OR:
@@ -273,6 +280,14 @@ namespace GKImitator.ViewModels
 						break;
 
 					case FormulaOperationType.TSTP:
+						cardNo = stack.LastOrDefault();
+						stack.RemoveAt(stack.Count - 1);
+						zoneNo = formulaOperation.SecondOperand;
+						var userCurrentZoneNo = usersCurrentZones.FirstOrDefault(x => x.Item1 == cardNo).Item2;
+						if (userCurrentZoneNo != zoneNo)
+							stack.AddRange(new List<int>{cardNo, 1});
+						else
+							stack.Add(0);
 						break;
 
 					case FormulaOperationType.CMPKOD:
@@ -306,6 +321,7 @@ namespace GKImitator.ViewModels
 						break;
 
 					case FormulaOperationType.ACS:
+					case FormulaOperationType.ACSP:
 						var level = formulaOperation.FirstOperand;
 
 						var isAccess = false;
@@ -348,7 +364,10 @@ namespace GKImitator.ViewModels
 							}
 						}
 
-						stack.Add(isAccess ? 1 : 0);
+						if (formulaOperation.FormulaOperationType == FormulaOperationType.ACS)
+							stack.Add(isAccess ? 1 : 0);
+						else
+							stack.AddRange(new List<int>{CurrentCardNo, isAccess ? 1 : 0});
 
 						break;
 
@@ -384,13 +403,18 @@ namespace GKImitator.ViewModels
 						}
 						break;
 
-					case FormulaOperationType.ACSP:
-						break;
-
 					case FormulaOperationType.PUTMEMB:
+						var newZoneNo = stack.LastOrDefault();
+						stack.RemoveAt(stack.Count - 1);
+						cardNo = stack.LastOrDefault();
+						stack.RemoveAt(stack.Count - 1);
+						usersCurrentZones.RemoveAll(x => x.Item1 == cardNo);
+						usersCurrentZones.Add(new Tuple<int, int>(cardNo, newZoneNo));
 						break;
 
 					case FormulaOperationType.GETMEMB:
+						zoneNo = usersCurrentZones.FirstOrDefault(x => x.Item1 == CurrentCardNo).Item2;
+						stack.AddRange(new List<int> { CurrentCardNo, zoneNo });
 						break;
 				}
 
