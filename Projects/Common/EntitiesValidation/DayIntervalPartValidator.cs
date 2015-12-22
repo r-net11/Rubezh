@@ -20,7 +20,15 @@ namespace EntitiesValidation
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public static OperationResult<bool> ValidateNewDayIntervalPartOrder(DayIntervalPart newDayIntervalPart, IEnumerable<DayIntervalPart> existingDayIntervalParts)
 		{
-			return existingDayIntervalParts.Any(existingDayIntervalPart => existingDayIntervalPart.EndTime >= newDayIntervalPart.EndTime)
+			var endTime = newDayIntervalPart.TransitionType == DayIntervalPartTransitionType.Day
+				? newDayIntervalPart.EndTime
+				: newDayIntervalPart.EndTime.Add(TimeSpan.FromDays(1));
+			var existingEndTimes = existingDayIntervalParts.Select(
+				existingDayIntervalPart => existingDayIntervalPart.TransitionType == DayIntervalPartTransitionType.Day
+				? existingDayIntervalPart.EndTime
+				: existingDayIntervalPart.EndTime.Add(TimeSpan.FromDays(1))).ToList();
+
+			return existingEndTimes.Any(x => x >= endTime)
 				? OperationResult<bool>.FromError("Интервалы должны идти последовательно")
 				: new OperationResult<bool>(true);
 		}
@@ -33,7 +41,11 @@ namespace EntitiesValidation
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public static OperationResult<bool> ValidateNewDayIntervalPartIntersection(DayIntervalPart newDayIntervalPart, IEnumerable<DayIntervalPart> existingDayIntervalParts)
 		{
-			return existingDayIntervalParts.Any(existingDayIntervalPart => existingDayIntervalPart.EndTime >= newDayIntervalPart.BeginTime)
+			var existingEndTimes = existingDayIntervalParts.Select(
+				existingDayIntervalPart => existingDayIntervalPart.TransitionType == DayIntervalPartTransitionType.Day
+				? existingDayIntervalPart.EndTime
+				: existingDayIntervalPart.EndTime.Add(TimeSpan.FromDays(1))).ToList();
+			return existingEndTimes.Any(x => x >= newDayIntervalPart.BeginTime)
 				? OperationResult<bool>.FromError("Интервалы не должны пересекаться")
 				: new OperationResult<bool>(true);
 		}
@@ -120,7 +132,7 @@ namespace EntitiesValidation
 
 			var monthOrSlideScheduleSchemes = scheduleSchemes.Where(
 				scheduleScheme => scheduleScheme.Type == ScheduleSchemeType.Month
-				|| scheduleScheme.Type == ScheduleSchemeType.SlideDay);
+				|| scheduleScheme.Type == ScheduleSchemeType.SlideDay).ToList();
 			if (!monthOrSlideScheduleSchemes.Any())
 				return new OperationResult<bool>(true);
 
