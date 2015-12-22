@@ -269,28 +269,40 @@ namespace FiresecService.Service
 
 		public OperationResult AddTimeTrackDocument(TimeTrackDocument item)
 		{
-			AddJournalMessage(JournalEventNameType.Внесение_оправдательного_документа, item.DocumentNumber.ToString(), JournalEventDescriptionType.Редактирование, uid: item.UID);
+			OperationResult operationResult;
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.TimeTrackDocumentTranslator.AddTimeTrackDocument(item);
+				operationResult = databaseService.TimeTrackDocumentTranslator.AddTimeTrackDocument(item);
 			}
+			if (!operationResult.HasError)
+				AddJournalMessage(JournalEventNameType.AddTimeTrackDocument, item.JournalEventName, uid: item.UID);
+			return operationResult;
 		}
 
 		public OperationResult EditTimeTrackDocument(TimeTrackDocument item)
 		{
-			AddJournalMessage(JournalEventNameType.Внесение_оправдательного_документа, item.DocumentNumber.ToString(), JournalEventDescriptionType.Редактирование, uid: item.UID);
+			OperationResult operationResult;
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.TimeTrackDocumentTranslator.EditTimeTrackDocument(item);
+				operationResult = databaseService.TimeTrackDocumentTranslator.EditTimeTrackDocument(item);
 			}
+			if (!operationResult.HasError)
+				AddJournalMessage(JournalEventNameType.EditTimeTrackDocument, item.JournalEventName, uid: item.UID);
+			return operationResult;
 		}
 
 		public OperationResult RemoveTimeTrackDocument(Guid timeTrackDocumentUID)
 		{
+			OperationResult operationResult;
+			TimeTrackDocument timeTrackDocument;
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.TimeTrackDocumentTranslator.RemoveTimeTrackDocument(timeTrackDocumentUID);
+				timeTrackDocument = databaseService.TimeTrackDocumentTranslator.Get(timeTrackDocumentUID);
+				operationResult = databaseService.TimeTrackDocumentTranslator.RemoveTimeTrackDocument(timeTrackDocumentUID);
 			}
+			if (!operationResult.HasError && timeTrackDocument != null)
+				AddJournalMessage(JournalEventNameType.RemoveTimeTrackDocument, timeTrackDocument.JournalEventName, uid: timeTrackDocument.UID);
+			return operationResult;
 		}
 
 		public OperationResult<List<TimeTrackDocumentType>> GetTimeTrackDocumentTypes(Guid organisationUID)

@@ -178,5 +178,29 @@ namespace SKDDriver.Translators
 			}
 			return new OperationResult();
 		}
+
+		private TimeTrackDocument Translate(DataAccess.TimeTrackDocument tableItem)
+		{
+			return new TimeTrackDocument()
+			{
+				UID = tableItem.UID,
+				EmployeeUID = tableItem.EmployeeUID,
+				StartDateTime = tableItem.StartDateTime,
+				EndDateTime = tableItem.EndDateTime,
+				DocumentCode = tableItem.DocumentCode,
+				Comment = tableItem.Comment,
+				FileName = tableItem.FileName,
+				DocumentDateTime = tableItem.DocumentDateTime,
+				IsOutside = tableItem.IsOutside,
+				DocumentNumber = tableItem.DocumentNumber,
+				TimeTrackDocumentType = DatabaseService.TimeTrackDocumentTypeTranslator.Get(tableItem.DocumentCode)
+			};
+		}
+
+		public TimeTrackDocument Get(Guid timeTrackDocumentUID)
+		{
+			var tableItem = Context.TimeTrackDocuments.FirstOrDefault(x => x.UID == timeTrackDocumentUID);
+			return tableItem == null ? null : Translate(tableItem);
+		}
 	}
 }
