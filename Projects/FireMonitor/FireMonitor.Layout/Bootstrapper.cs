@@ -1,10 +1,8 @@
 ﻿using FireMonitor.Layout.ViewModels;
 using Infrastructure;
-using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using RubezhAPI.License;
 using RubezhClient;
 using System;
 using System.Collections.Generic;
@@ -77,8 +75,7 @@ namespace FireMonitor.Layout
 			var ip = ConnectionSettingsManager.IsRemote ? ClientManager.GetIP() : null;
 			var layouts = ClientManager.LayoutsConfiguration.Layouts.Where(layout =>
 				layout.Users.Contains(ClientManager.CurrentUser.UID) &&
-				(ip == null || layout.HostNameOrAddressList.Count == 0 || layout.HostNameOrAddressList.Contains(ip)) &&
-				CheckLicense(layout)).ToList();
+				(ip == null || layout.HostNameOrAddressList.Count == 0 || layout.HostNameOrAddressList.Contains(ip))).ToList();
 			if (layouts.Count > 0)
 			{
 				if (_layoutID.HasValue)
@@ -100,33 +97,6 @@ namespace FireMonitor.Layout
 
 			MessageBoxService.ShowWarning("К сожалению, для Вас нет ни одного доступного макета!");
 			return false;
-		}
-
-		public static bool CheckLicense(RubezhAPI.Models.Layouts.Layout layout)
-		{
-			return !layout.Parts.Any(x =>
-				!LicenseManager.CurrentLicenseInfo.HasFirefighting && (
-				x.DescriptionUID == LayoutPartIdentities.PumpStations ||
-				x.DescriptionUID == LayoutPartIdentities.MPTs
-				)
-				||
-				!LicenseManager.CurrentLicenseInfo.HasGuard && (
-				x.DescriptionUID == LayoutPartIdentities.GuardZones
-				)
-				||
-				!LicenseManager.CurrentLicenseInfo.HasSKD && (
-				x.DescriptionUID == LayoutPartIdentities.Doors ||
-				x.DescriptionUID == LayoutPartIdentities.GKSKDZones ||
-				x.DescriptionUID == LayoutPartIdentities.SKDVerification ||
-				x.DescriptionUID == LayoutPartIdentities.SKDHR ||
-				x.DescriptionUID == LayoutPartIdentities.SKDTimeTracking
-				)
-				||
-				!LicenseManager.CurrentLicenseInfo.HasVideo && (
-				x.DescriptionUID == LayoutPartIdentities.CamerasList ||
-				x.DescriptionUID == LayoutPartIdentities.CameraVideo ||
-				x.DescriptionUID == LayoutPartIdentities.MultiCamera
-				));
 		}
 
 		void _LayoutChanging(object sender, EventArgs e)
