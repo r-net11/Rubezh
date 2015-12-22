@@ -485,6 +485,13 @@ namespace GKImitator.ViewModels
 							OnTurnOffNow();
 						}
 					}
+					if (stateBitVale.Key == GKStateBit.Fire1)
+					{
+						if (Regime == Regime.Automatic)
+						{
+							OnSetFire1();
+						}
+					}
 					if (GKBase is GKGuardZone && stateBitVale.Key == GKStateBit.Attention && StateBits.Any(x => x.StateBit == GKStateBit.On && x.IsActive))
 					{
 						if (Regime == Regime.Automatic)

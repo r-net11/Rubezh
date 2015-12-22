@@ -1,4 +1,6 @@
-﻿using RubezhAPI.GK;
+﻿using System;
+using System.Linq;
+using RubezhAPI.GK;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhDAL.DataClasses;
@@ -79,11 +81,15 @@ namespace GKImitator.ViewModels
 		public RelayCommand SetFire1Command { get; private set; }
 		void OnSetFire1()
 		{
-			SetStateBit(GKStateBit.Fire1, true);
-			SetStateBit(GKStateBit.Fire2, false);
-			var journalItem = new ImitatorJournalItem(2, 2, 0, 0);
-			AddJournalItem(journalItem);
-			RecalculateOutputLogic();
+			var fireState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire1);
+			if (HasFire12 && fireState != null && !fireState.IsActive)
+			{
+				SetStateBit(GKStateBit.Fire1, true);
+				SetStateBit(GKStateBit.Fire2, false);
+				var journalItem = new ImitatorJournalItem(2, 2, 0, 0);
+				AddJournalItem(journalItem);
+				RecalculateOutputLogic();
+			}
 		}
 
 		public RelayCommand SetFire2Command { get; private set; }
