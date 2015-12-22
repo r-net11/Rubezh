@@ -3,7 +3,6 @@ using NUnit.Framework;
 using RubezhAPI.GK;
 using System.Linq;
 using RubezhAPI;
-using System.Collections.Generic;
 using GKProcessor;
 using Infrastructure;
 using GKModule;
@@ -48,8 +47,8 @@ namespace GKModuleTest
 			{
 				var mptDeviceSelectationViewModel = x as MPTDeviceSelectationViewModel;
 				mptDeviceSelectationViewModel.SelectedMPTDeviceType = new MPTDeviceTypeViewModel(GKMPTDeviceType.HandStart);
-				mptDeviceSelectationViewModel.DeviceSelectationViewModel.SelectedDevice =
-					mptDeviceSelectationViewModel.DeviceSelectationViewModel.Devices.FirstOrDefault(device => device.UID == am1Device.UID);
+				mptDeviceSelectationViewModel.SelectedDevice =
+					mptDeviceSelectationViewModel.Devices.FirstOrDefault(device => device.UID == am1Device.UID);
 				mptDeviceSelectationViewModel.SaveCommand.Execute();
 			};
 			mptViewModel.AddCommand.Execute();
@@ -89,8 +88,8 @@ namespace GKModuleTest
 			{
 				var mptDeviceSelectationViewModel = x as MPTDeviceSelectationViewModel;
 				mptDeviceSelectationViewModel.SelectedMPTDeviceType = new MPTDeviceTypeViewModel(GKMPTDeviceType.DoNotEnterBoard);
-				mptDeviceSelectationViewModel.DeviceSelectationViewModel.SelectedDevice =
-					mptDeviceSelectationViewModel.DeviceSelectationViewModel.Devices.FirstOrDefault(device => device.UID == rm1Device.UID);
+				mptDeviceSelectationViewModel.SelectedDevice =
+					mptDeviceSelectationViewModel.Devices.FirstOrDefault(device => device.UID == rm1Device.UID);
                 mptDeviceSelectationViewModel.SaveCommand.Execute();
 			};
 			mptViewModel.EditCommand.Execute();
@@ -119,8 +118,8 @@ namespace GKModuleTest
 			{
 				var mptDeviceSelectationViewModel = x as MPTDeviceSelectationViewModel;
 				mptDeviceSelectationViewModel.SelectedMPTDeviceType = new MPTDeviceTypeViewModel(GKMPTDeviceType.HandStart);
-				Assert.IsTrue(mptDeviceSelectationViewModel.DeviceSelectationViewModel.Devices.Count == 1 
-					&& mptDeviceSelectationViewModel.DeviceSelectationViewModel.Devices.Contains(am1Device2));
+				Assert.IsTrue(mptDeviceSelectationViewModel.Devices.Count == 1 
+					&& mptDeviceSelectationViewModel.Devices.Contains(am1Device2));
 			};
 			mptViewModel.AddCommand.Execute();
 		}
@@ -145,8 +144,9 @@ namespace GKModuleTest
 			{
 				var mptDeviceSelectationViewModel = x as MPTDeviceSelectationViewModel;
 				mptDeviceSelectationViewModel.SelectedMPTDeviceType = new MPTDeviceTypeViewModel(GKMPTDeviceType.HandStart);
-				Assert.IsTrue(mptDeviceSelectationViewModel.DeviceSelectationViewModel.Devices.Count == 1
-					&& mptDeviceSelectationViewModel.DeviceSelectationViewModel.Devices.Contains(am1Device3));
+				Assert.IsTrue(mptDeviceSelectationViewModel.Devices.Count == 2
+					&& mptDeviceSelectationViewModel.Devices.Contains(am1Device1)
+					&& mptDeviceSelectationViewModel.Devices.Contains(am1Device3));
 			};
 			mptViewModel1.EditCommand.Execute();
 		}

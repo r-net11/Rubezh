@@ -21,7 +21,7 @@ namespace FireMonitor.Layout.ViewModels
 		{
 			LayoutPart = layoutPart;
 			LayoutPartPresenter = layoutPartPresenter;
-			Content = LayoutPartPresenter.CreateContent(LayoutPart.Properties);
+			Content = LayoutPartPresenter.CreateContent((ILayoutProperties)LayoutPart.Properties);
 			IconSource = LayoutPartPresenter.IconSource;
 			Title = LayoutPart.Title ?? LayoutPartPresenter.Name;
 			if (Content is ILayoutPartContent)

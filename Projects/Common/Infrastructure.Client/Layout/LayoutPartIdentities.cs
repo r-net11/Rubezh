@@ -17,7 +17,6 @@ namespace Infrastructure.Client.Layout
 		public static readonly Guid Reports = new Guid("{AF658FD9-1EDF-4418-AB5F-AC32426ED114}");
 		public static readonly Guid Diagnostics = new Guid("{FD516EB7-CF78-4783-AFD4-08AC7A840550}");
 		public static readonly Guid AutomationProcedure = new Guid("{13E8F574-38C6-460E-83CE-50574BDE5115}");
-		public static readonly Guid Automation = new Guid("{2F91D187-752A-4AF2-918F-7A3F1AD3C62D}");
 
 		public static readonly Guid Indicator = new Guid("{8B0BF10A-AD4C-48CC-B1D0-ADF39552B936}");
 		public static readonly Guid Alarms = new Guid("{A8C3AA98-2684-41E8-8248-BD27E206DB81}");

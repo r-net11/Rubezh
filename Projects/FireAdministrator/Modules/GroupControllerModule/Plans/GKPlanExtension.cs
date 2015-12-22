@@ -666,7 +666,7 @@ namespace GKModule.Plans
 									var isInZone = zones.Any(x => x.ZoneUID == device.ZoneUIDs[0]);
 									if (!isInZone)
 									{
-										if (!deviceInZones.ContainsKey(device))
+										if (!deviceInZones.ContainsKey(device) && !device.IsIgnoredChangesOnPlan)
 											deviceInZones.Add(device, GetTopZoneUID(zones));
 									}
 									else
@@ -674,6 +674,7 @@ namespace GKModule.Plans
 										handledDevices.Add(device);
 										if (deviceInZones.ContainsKey(device))
 											deviceInZones.Remove(device);
+										device.IsIgnoredChangesOnPlan = false;
 									}
 									break;
 							}

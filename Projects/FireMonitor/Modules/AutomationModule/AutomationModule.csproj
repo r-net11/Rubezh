@@ -115,7 +115,6 @@
     <Compile Include="ViewModels\LayoutTextBoxPartViewModel.cs" />
     <Compile Include="ViewModels\ProcedureArgumentsViewModel.cs" />
     <Compile Include="ViewModels\LayoutProcedurePartViewModel.cs" />
-    <Compile Include="ViewModels\ProceduresViewModel.cs" />
     <Compile Include="ViewModels\ProcedureTooltipViewModel.cs" />
     <Compile Include="ViewModels\ProcedureViewModel.cs" />
     <Compile Include="ViewModels\ArgumentViewModel.cs" />
@@ -145,9 +144,6 @@
     </Compile>
     <Compile Include="Views\ProcedureArgumentsView.xaml.cs">
       <DependentUpon>ProcedureArgumentsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ProceduresView.xaml.cs">
-      <DependentUpon>ProceduresView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ArgumentsView.xaml.cs">
       <DependentUpon>ArgumentsView.xaml</DependentUpon>
@@ -229,10 +225,6 @@
     <Page Include="Views\ProcedureResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ProceduresView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ArgumentsView.xaml">
       <SubType>Designer</SubType>

@@ -44,7 +44,7 @@ namespace GKModule.Validation
 					ValidateDeviceZone(device);
 					ValidateGuardDeviceZone(device);
 				}
-				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.DeviceHaveNoLogic))
+				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.DeviceHaveNoLogic) && !device.IgnoreLogicLack)
 					ValidateLogic(device);
 				ValidateGKNotEmptyChildren(device);
 				ValidateParametersMinMax(device);

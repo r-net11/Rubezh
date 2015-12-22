@@ -62,7 +62,8 @@ namespace GKModule.ViewModels
 		void OnEdit(bool isNew)
 		{
 			var selectedGkMptDeviceType = isNew ? GKMPTDeviceType.DoNotEnterBoard : SelectedDevice.MPTDeviceType;
-			var mptDeviceSelectationViewModel = new MPTDeviceSelectationViewModel(selectedGkMptDeviceType);
+			var device = isNew ? null : SelectedDevice.Device;
+			var mptDeviceSelectationViewModel = new MPTDeviceSelectationViewModel(device ,selectedGkMptDeviceType);
 			if (ServiceFactory.DialogService.ShowModalWindow(mptDeviceSelectationViewModel))
 			{
 				if (isNew)
@@ -78,7 +79,7 @@ namespace GKModule.ViewModels
 				{
 					ChangeIsInMPT(SelectedDevice.MPTDevice.Device, false);
 				}
-				var selectedDevice = mptDeviceSelectationViewModel.DeviceSelectationViewModel.SelectedDevice;
+				var selectedDevice = mptDeviceSelectationViewModel.SelectedDevice;
 				SelectedDevice.MPTDevice.Device = selectedDevice;
 				SelectedDevice.MPTDevice.DeviceUID = selectedDevice != null ? selectedDevice.UID : Guid.Empty;
 				SelectedDevice.MPTDevice.MPTDeviceType = mptDeviceSelectationViewModel.SelectedMPTDeviceType.MPTDeviceType;

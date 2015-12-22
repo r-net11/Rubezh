@@ -1,9 +1,7 @@
-using AutomationModule.Events;
 using AutomationModule.Plans;
 using AutomationModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Automation;
-using Infrastructure.Client;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
@@ -30,13 +28,11 @@ namespace AutomationModule
 	public class AutomationModuleLoader : ModuleBase, ILayoutProviderModule
 	{
 		PlanPresenter _planPresenter;
-		ProceduresViewModel ProceduresViewModel;
 		NavigationItem _proceduresNavigationItem;
 
 		public override void CreateViewModels()
 		{
 			_planPresenter = new PlanPresenter();
-			ProceduresViewModel = new ProceduresViewModel();
 			ProcessShedule();
 		}
 
@@ -46,26 +42,14 @@ namespace AutomationModule
 
 		public override void Initialize()
 		{
-#if DEBUG
-			_proceduresNavigationItem.IsVisible = true;
-#else
-			_proceduresNavigationItem.IsVisible = false;
-#endif
-			ProceduresViewModel.Initialize();
 			_planPresenter.Initialize();
 			ServiceFactoryBase.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-
-			_proceduresNavigationItem = new NavigationItem<ShowAutomationEvent, object>(ProceduresViewModel, ModuleType.ToDescription(), "Video1");
-			return new List<NavigationItem>
-			{
-				_proceduresNavigationItem
-			};
+			return new List<NavigationItem>();
 		}
-
 		public override ModuleType ModuleType
 		{
 			get { return ModuleType.Automation; }
@@ -201,9 +185,6 @@ namespace AutomationModule
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-#if DEBUG
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Automation, "Процедураы", "Procedure.png", p => ProceduresViewModel);
-#endif
 			yield return new LayoutPartPresenter(LayoutPartIdentities.AutomationProcedure, "Процедура", "Procedure.png", p => new LayoutProcedurePartViewModel((LayoutPartProcedureProperties)p));
 			yield return new LayoutPartPresenter(LayoutPartIdentities.TextBlock, "Метка", "Text.png", p => new LayoutTextBlockPartViewModel((LayoutPartTextProperties)p));
 			yield return new LayoutPartPresenter(LayoutPartIdentities.TextBox, "Текстовое поле", "Text.png", p => new LayoutTextBoxPartViewModel((LayoutPartTextProperties)p));

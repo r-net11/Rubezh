@@ -481,7 +481,7 @@ namespace GKModule
 										MessageBoxService.ShowError("Ошибка при распаковке файла");
 										return;
 									}
-									var deviceConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceConfiguration>(configurationFileName, true);
+									var deviceConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceConfiguration>(configurationFileName);
 
 									ConfigurationCompareViewModel configurationCompareViewModel = null;
 									WaitHelper.Execute(() =>
