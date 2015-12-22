@@ -99,7 +99,7 @@ namespace AutomationModule
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.AutomationProcedure, 160, "Процедура", "Выпонить процедуру", "BProcedures.png")
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.AutomationProcedure, 160, "Процедура", "Выполнить процедуру", "BProcedures.png")
 			{
 				Factory = (p) => new LayoutPartProcedureViewModel(p as LayoutPartProcedureProperties),
 			};
