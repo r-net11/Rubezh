@@ -108,7 +108,7 @@ namespace FiresecService.Service
 		public void SetSecurityConfiguration(Guid clientUID, SecurityConfiguration securityConfiguration)
 		{
 			securityConfiguration.Version = new ConfigurationVersion() { MinorVersion = 1, MajorVersion = 1 };
-			ZipSerializeHelper.Serialize(securityConfiguration, Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "SecurityConfiguration.xml"), true);
+			ZipSerializeHelper.Serialize(securityConfiguration, Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "SecurityConfiguration.xml"));
 		}
 
 		public static void CopyStream(Stream input, Stream output)
