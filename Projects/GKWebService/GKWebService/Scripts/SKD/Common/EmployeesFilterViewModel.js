@@ -27,7 +27,7 @@
             { label: 'IsDeleted', name: 'IsDeleted', hidden: true, sortable: false }
         ],
         width: 620,
-        height: 500,
+        height: 350,
         rowNum: 100,
         viewrecords: true,
 
@@ -48,11 +48,20 @@
 function EmployeesFilterViewModel() {
     var self = {};
 
+    self.IsSearch = ko.observable(false);
+    self.LastName = ko.observable();
+    self.FirstName = ko.observable();
+    self.SecondName = ko.observable();
+
     InitGridEmployeesFilter();
 
-    self.Init = function (isWithDeleted, uids) {
+    self.Init = function (isWithDeleted, uids, lastName, firstName, secondName) {
         self.IsWithDeleted = isWithDeleted;
         self.UIDs = uids;
+        self.LastName(lastName);
+        self.FirstName(firstName);
+        self.SecondName(secondName);
+        self.IsSearch(lastName || firstName || secondName);
         self.ReloadTree();
     };
 
@@ -85,7 +94,6 @@ function EmployeesFilterViewModel() {
         });
         return result;
     }
-
 
     return self;
 }

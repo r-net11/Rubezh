@@ -22,7 +22,7 @@ namespace GKWebService.Controllers
 
         public JsonResult GetOrganisations(OrganisationFilter filter)
         {
-            var result = ClientManager.FiresecService.GetOrganisations(filter);
+            var result = ClientManager.FiresecService.GetOrganisations(new OrganisationFilter { LogicalDeletationType = filter.LogicalDeletationType});
 
             if (result.HasError)
             {

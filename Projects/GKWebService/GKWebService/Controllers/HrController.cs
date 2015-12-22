@@ -200,15 +200,15 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
-        public JsonResult GetEmployeesFilter(EmployeeFilter employeeFilter)
+        public JsonResult GetEmployeesFilter(bool isWithDeleted)
         {
             var employeeModels = new List<ShortEmployeeModel>();
 
-            var organisationFilter = new OrganisationFilter { LogicalDeletationType = employeeFilter.LogicalDeletationType };
+            var organisationFilter = new OrganisationFilter { LogicalDeletationType = isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active };
             var organisations = ClientManager.FiresecService.GetOrganisations(organisationFilter).Result;
             var initializedOrganisations = InitializeOrganisations(organisations);
 
-            var employees = ClientManager.FiresecService.GetEmployeeList(employeeFilter).Result;
+            var employees = ClientManager.FiresecService.GetEmployeeList(new EmployeeFilter { LogicalDeletationType = isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active }).Result;
             var initializedEmployees = InitializeEmployees(employees, initializedOrganisations);
 
             foreach (var organisation in initializedOrganisations)

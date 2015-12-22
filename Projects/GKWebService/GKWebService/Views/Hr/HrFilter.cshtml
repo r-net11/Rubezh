@@ -30,7 +30,11 @@
                 @Html.Action("EmployeesFilter")
             </div>
 
-            <label><input type="checkbox" name="IsWithDeleted" data-bind="checked: IsWithDeleted" value="">Отображать архивные сведения</label><br/>
+            <div style="clear: both"></div>
+            <div class="data-input">
+                <label style="word-wrap: normal"><span><input type="checkbox" name="IsWithDeleted" id="IsWithDeleted" data-bind="checked: IsWithDeleted" value="" /><label for="IsWithDeleted">Отображать архивные данные</label></span></label>
+            </div>
+            <div style="clear: both"></div>
             <button class="submit ok-cancel-button" type="submit">OK</button>
         </form>
     </div>

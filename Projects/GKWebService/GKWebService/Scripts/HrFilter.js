@@ -30,7 +30,7 @@
         self.OrganisationsFilter.Init(newValue, self.OrganisationUIDs());
         self.DepartmentsFilter.Init(newValue, self.DepartmentUIDs());
         self.PositionsFilter.Init(self.IsWithDeleted(), self.PositionUIDs());
-        self.EmployeesFilter.Init(self.IsWithDeleted(), self.UIDs());
+        self.EmployeesFilter.Init(self.IsWithDeleted(), self.UIDs(), self.LastName(), self.FirstName(), self.SecondName());
     });
 
     self.InitFilter = function () {
@@ -39,7 +39,7 @@
         self.OrganisationsFilter.Init(self.IsWithDeleted(), self.OrganisationUIDs());
         self.DepartmentsFilter.Init(self.IsWithDeleted(), self.DepartmentUIDs());
         self.PositionsFilter.Init(self.IsWithDeleted(), self.PositionUIDs());
-        self.EmployeesFilter.Init(self.IsWithDeleted(), self.UIDs());
+        self.EmployeesFilter.Init(self.IsWithDeleted(), self.UIDs(), self.LastName(), self.FirstName(), self.SecondName());
     };
 
     self.FilterPageClick = function (data, e, page) {
@@ -72,7 +72,17 @@
         self.OrganisationUIDs(self.OrganisationsFilter.GetChecked());
         self.DepartmentUIDs(self.DepartmentsFilter.GetChecked());
         self.PositionUIDs(self.PositionsFilter.GetChecked());
-        self.UIDs(self.EmployeesFilter.GetChecked());
+        if (self.EmployeesFilter.IsSearch()) {
+            self.LastName(self.EmployeesFilter.LastName());
+            self.FirstName(self.EmployeesFilter.FirstName());
+            self.SecondName(self.EmployeesFilter.SecondName());
+            self.UIDs([]);
+        } else {
+            self.UIDs(self.EmployeesFilter.GetChecked());
+            self.LastName("");
+            self.FirstName("");
+            self.SecondName("");
+        }
         self.HRViewModel.InitializeEmployeeFilter(self);
         self.Close();
     };
