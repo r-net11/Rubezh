@@ -444,6 +444,10 @@ namespace GKImitator.ViewModels
 						HasAutomaticRegime = true;
 						HasManualRegime = true;
 						HasIgnoreRegime = true;
+						HasTurnOn = true;
+						HasTurnOff = true;
+						AddStateBit(GKStateBit.On);
+						AddStateBit(GKStateBit.Off, true);
 						break;
 
 					case GKDriverType.RSR2_CardReader:
@@ -460,6 +464,10 @@ namespace GKImitator.ViewModels
 						HasAutomaticRegime = true;
 						HasManualRegime = true;
 						HasIgnoreRegime = true;
+						HasTurnOn = true;
+						HasTurnOff = true;
+						AddStateBit(GKStateBit.On);
+						AddStateBit(GKStateBit.Off, true);
 						break;
 
 				}

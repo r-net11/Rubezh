@@ -245,7 +245,7 @@ namespace GKImitator.ViewModels
 		{
 			var onState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On);
 			var turningOnState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn);
-			if (HasTurnOn && onState != null && !onState.IsActive && turningOnState != null && !turningOnState.IsActive)
+			if (HasTurnOn && onState != null && !onState.IsActive && (turningOnState == null || !turningOnState.IsActive))
 			{
 				if (OnDelay > 0)
 				{
@@ -264,7 +264,7 @@ namespace GKImitator.ViewModels
 		{
 			var onState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On);
 			var turningOnState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn);
-			if (HasTurnOn && onState != null && !onState.IsActive && turningOnState != null && !turningOnState.IsActive)
+			if (HasTurnOn && onState != null && !onState.IsActive && (turningOnState == null || !turningOnState.IsActive))
 			{
 				TurnOnNow();
 			}
@@ -275,7 +275,7 @@ namespace GKImitator.ViewModels
 		{
 			var offState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Off);
 			var turningOffState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOff);
-			if (HasTurnOn && offState != null && !offState.IsActive && turningOffState != null && !turningOffState.IsActive)
+			if (HasTurnOn && offState != null && !offState.IsActive && (turningOffState == null || !turningOffState.IsActive))
 			{
 				if (OffDelay > 0)
 				{
@@ -291,7 +291,7 @@ namespace GKImitator.ViewModels
 		{
 			var offState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Off);
 			var turningOffState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOff);
-			if (HasTurnOn && offState != null && !offState.IsActive && turningOffState != null && !turningOffState.IsActive)
+			if (HasTurnOn && offState != null && !offState.IsActive && (turningOffState == null || !turningOffState.IsActive))
 			{
 				TurnOffNow();
 			}
