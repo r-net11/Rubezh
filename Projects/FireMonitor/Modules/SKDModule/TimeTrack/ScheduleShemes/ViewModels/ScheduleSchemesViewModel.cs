@@ -88,6 +88,26 @@ namespace SKDModule.ViewModels
 		{
 			return _dayIntervals.ContainsKey(organisationUID) ? _dayIntervals[organisationUID] : new ObservableCollection<DayInterval>();
 		}
+		
+		public ObservableCollection<DayInterval> GetDayIntervals(Guid organisationUID, ScheduleSchemeType scheduleSchemeType)
+		{
+			IEnumerable<DayInterval> dayIntervals = null;
+			switch (scheduleSchemeType)
+			{
+				case ScheduleSchemeType.Week:
+					dayIntervals = GetDayIntervals(organisationUID).Where(x => !x.DayIntervalParts.Any(y => y.TransitionType == DayIntervalPartTransitionType.Night));
+					break;
+				case ScheduleSchemeType.Month:
+					dayIntervals = GetDayIntervals(organisationUID).Where(x => x.SlideTime == TimeSpan.Zero && !x.DayIntervalParts.Any(y => y.TransitionType == DayIntervalPartTransitionType.Night));
+					break;
+				case ScheduleSchemeType.SlideDay:
+					dayIntervals = GetDayIntervals(organisationUID).Where(x => x.SlideTime == TimeSpan.Zero);
+					break;
+			}
+			return dayIntervals == null
+				? new ObservableCollection<DayInterval>()
+				: new ObservableCollection<DayInterval>(dayIntervals);
+		}
 
 		public void Select(Guid scheduleSchemelUID)
 		{

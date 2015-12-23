@@ -52,7 +52,7 @@ namespace SKDModule.ViewModels
 		public SortableObservableCollection<SheduleDayIntervalViewModel> SheduleDayIntervals { get; private set; }
 		public ObservableCollection<DayInterval> DayIntervals
 		{
-			get { return ScheduleSchemesViewModel.GetDayIntervals(Organisation.UID); }
+			get { return ScheduleSchemesViewModel.GetDayIntervals(Organisation.UID, Model.Type); }
 		}
 
 		public bool IsSlide
