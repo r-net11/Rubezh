@@ -1283,6 +1283,8 @@ namespace Infrastructure.Automation
 				PropertyCopy.Copy(
 					sourceVariable != null ? sourceVariable.ExplicitValue : setValueArguments.SourceArgument.ExplicitValue,
 					targetVariable.ExplicitValue);
+
+			targetVariable.OnExplicitValueChanged();
 		}
 
 		void ExportJournal(ProcedureStep procedureStep)

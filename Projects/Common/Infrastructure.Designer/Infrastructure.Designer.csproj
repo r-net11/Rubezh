@@ -84,6 +84,7 @@
     <Compile Include="ElementProperties\Views\TextBoxPropertiesView.xaml.cs">
       <DependentUpon>TextBoxPropertiesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events\EditPlanElementBindingEvent.cs" />
     <Compile Include="GridLineController.cs" />
     <Compile Include="DesignerCanvasHelper.cs" />
     <Compile Include="ElementProperties\ViewModels\EllipsePropertiesViewModel.cs" />
