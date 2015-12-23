@@ -231,6 +231,7 @@ namespace GKImitator.ViewModels
 					SetStateBit(GKStateBit.Fire1, true);
 					var journalItem = new ImitatorJournalItem(2, 2, 0, 0);
 					AddJournalItem(journalItem);
+					RecalculateOutputLogic();
 				}
 				else
 				{
