@@ -52,22 +52,24 @@ function EmployeesFilterViewModel() {
     self.LastName = ko.observable();
     self.FirstName = ko.observable();
     self.SecondName = ko.observable();
+    self.SelectedPersonType = ko.observable();
 
     InitGridEmployeesFilter();
 
-    self.Init = function (isWithDeleted, uids, lastName, firstName, secondName) {
+    self.Init = function (isWithDeleted, uids, lastName, firstName, secondName, selectedPersonType) {
         self.IsWithDeleted = isWithDeleted;
         self.UIDs = uids;
         self.LastName(lastName);
         self.FirstName(firstName);
         self.SecondName(secondName);
         self.IsSearch(lastName || firstName || secondName);
+        self.SelectedPersonType(selectedPersonType);
         self.ReloadTree();
     };
 
     self.ReloadTree = function () {
         $.getJSON("/Hr/GetEmployeesFilter/",
-            { isWithDeleted: self.IsWithDeleted },
+            { isWithDeleted: self.IsWithDeleted, selectedPersonType: self.SelectedPersonType() },
             function (orgs) {
                 self.UpdateTree(orgs);
             });
