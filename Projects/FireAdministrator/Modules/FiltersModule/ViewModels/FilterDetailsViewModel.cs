@@ -32,7 +32,6 @@ namespace FiltersModule.ViewModels
 		{
 			Name = Filter.Name;
 			Description = Filter.Description;
-			LastItemsCount = Filter.LastItemsCount;
 		}
 
 		string _name;
@@ -56,18 +55,6 @@ namespace FiltersModule.ViewModels
 				OnPropertyChanged(() => Description);
 			}
 		}
-
-		int _lastItemsCount;
-		public int LastItemsCount
-		{
-			get { return _lastItemsCount; }
-			set
-			{
-				_lastItemsCount = value;
-				OnPropertyChanged(() => LastItemsCount);
-			}
-		}
-
 		protected override bool Save()
 		{
 			if (string.IsNullOrEmpty(Name))
@@ -78,7 +65,6 @@ namespace FiltersModule.ViewModels
 
 			Filter.Name = Name;
 			Filter.Description = Description;
-			Filter.LastItemsCount = LastItemsCount;
 
 			var namesFilter = NamesViewModel.GetModel();
 			Filter.JournalSubsystemTypes = namesFilter.JournalSubsystemTypes;
