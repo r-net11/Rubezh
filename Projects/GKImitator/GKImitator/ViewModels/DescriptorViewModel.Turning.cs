@@ -335,6 +335,7 @@ namespace GKImitator.ViewModels
 
 		void TurnOnNow()
 		{
+			TurningState = TurningState.None;
 			CurrentOnDelay = 0;
 			CurrentHoldDelay = 0;
 			CurrentOffDelay = 0;
@@ -381,6 +382,7 @@ namespace GKImitator.ViewModels
 
 		void TurnOffNow()
 		{
+			TurningState = TurningState.None;
 			CurrentOnDelay = 0;
 			CurrentHoldDelay = 0;
 			CurrentOffDelay = 0;
