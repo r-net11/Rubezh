@@ -2,6 +2,7 @@
 using System.Runtime.Serialization;
 using RubezhAPI.Models;
 using Infrustructure.Plans.Elements;
+using System.Xml.Serialization;
 
 namespace RubezhAPI.SKD
 {
@@ -17,6 +18,7 @@ namespace RubezhAPI.SKD
 		[DataMember]
 		public Guid AdditionalColumnUID { get; set; }
 
+		[XmlIgnore]
 		public Guid OrganisationUID { get; set; }
 
 		public override void UpdateZLayer()

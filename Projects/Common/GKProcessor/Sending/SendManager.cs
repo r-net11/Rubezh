@@ -10,7 +10,7 @@ using RubezhAPI;
 
 namespace GKProcessor
 {
-	//[DebuggerStepThrough]
+	[DebuggerStepThrough]
 	public static class SendManager
 	{
 		static object locker = new object();

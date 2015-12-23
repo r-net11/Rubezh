@@ -60,6 +60,7 @@ namespace GKModule.ViewModels
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
 			AllowMultipleVizualizationCommand = new RelayCommand<bool>(OnAllowMultipleVizualizationCommand, CanAllowMultipleVizualizationCommand);
+			IgnoreLogicLackCommand = new RelayCommand<bool>(OnIgnoreLogicLackCommand, CanIgnoreLogicLackCommand);
 			IsEdit = device.Driver.IsEditMirror;
 			Device = device;
 			PropertiesViewModel = new PropertiesViewModel(Device);
@@ -322,7 +323,7 @@ namespace GKModule.ViewModels
 		{
 			return !(Driver.IsAutoCreate || Parent == null || Parent.Driver.IsGroupDevice);
 		}
-		public void Remove(bool isSingleRemove)
+		public void Remove(bool changeSelectedDevice)
 		{
 			var allDevices = GKManager.RemoveDevice(Device);
 			foreach (var device in allDevices)
@@ -344,7 +345,7 @@ namespace GKModule.ViewModels
 				{
 					DevicesViewModel.Current.AllDevices.Remove(childDeviceViewModel);
 				}
-				if (isSingleRemove)
+				if (changeSelectedDevice)
 					DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
 			GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
@@ -617,6 +618,18 @@ namespace GKModule.ViewModels
 		private bool CanAllowMultipleVizualizationCommand(bool isAllow)
 		{
 			return Device.AllowMultipleVizualization != isAllow;
+		}
+		public RelayCommand<bool> IgnoreLogicLackCommand { get; private set; }
+		void OnIgnoreLogicLackCommand(bool isIgnore)
+		{
+			Device.IgnoreLogicLack = isIgnore;
+			Device.OnChanged();
+			Update();
+			ServiceFactory.SaveService.GKChanged = true;
+		}
+		bool CanIgnoreLogicLackCommand(bool isIgnore)
+		{
+			return Device.IgnoreLogicLack != isIgnore;
 		}
 
 		#region Zone and Logic

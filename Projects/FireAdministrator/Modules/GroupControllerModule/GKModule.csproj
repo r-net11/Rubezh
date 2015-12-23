@@ -230,7 +230,7 @@
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ConfigurationCompareViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTCodeReaderDetailsViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTDevicePropertiesViewModel.cs" />
-    <Compile Include="MPTs\ViewModels\MPTDeviceTypeSelectationViewModel.cs" />
+    <Compile Include="MPTs\ViewModels\MPTDeviceSelectationViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTDeviceTypeViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTDeviceViewModel.cs" />
     <Compile Include="MPTs\Views\MPTCodeReaderDetailsView.xaml.cs">
@@ -239,8 +239,8 @@
     <Compile Include="MPTs\Views\MPTDevicePropertiesView.xaml.cs">
       <DependentUpon>MPTDevicePropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MPTs\Views\MPTDeviceTypeSelectationView.xaml.cs">
-      <DependentUpon>MPTDeviceTypeSelectationView.xaml</DependentUpon>
+    <Compile Include="MPTs\Views\MPTDeviceSelectationView.xaml.cs">
+      <DependentUpon>MPTDeviceSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OPC\ViewModels\OPCDetailsViewModel.cs" />
     <Compile Include="OPC\ViewModels\OPCItemViewModel.cs" />
@@ -763,7 +763,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MPTs\Views\MPTDeviceTypeSelectationView.xaml">
+    <Page Include="MPTs\Views\MPTDeviceSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

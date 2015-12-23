@@ -98,19 +98,19 @@ namespace FireAdministrator
 				TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
 				if (ServiceFactory.SaveService.PlansChanged)
-					AddConfiguration(tempFolderName, "PlansConfiguration.xml", ClientManager.PlansConfiguration, 1, 1, true);
+					AddConfiguration(tempFolderName, "PlansConfiguration.xml", ClientManager.PlansConfiguration);
 				if (ServiceFactory.SaveService.SoundsChanged || ServiceFactory.SaveService.FilterChanged || ServiceFactory.SaveService.CamerasChanged || ServiceFactory.SaveService.EmailsChanged || ServiceFactory.SaveService.AutomationChanged)
-					AddConfiguration(tempFolderName, "SystemConfiguration.xml", ClientManager.SystemConfiguration, 1, 1, true);
+					AddConfiguration(tempFolderName, "SystemConfiguration.xml", ClientManager.SystemConfiguration);
 				if (ServiceFactory.SaveService.GKChanged)
-					AddConfiguration(tempFolderName, "GKDeviceConfiguration.xml", GKManager.DeviceConfiguration, 1, 1, true);
+					AddConfiguration(tempFolderName, "GKDeviceConfiguration.xml", GKManager.DeviceConfiguration);
 				if (ServiceFactory.SaveService.GKLibraryChanged)
-					AddConfiguration(tempFolderName, "GKDeviceLibraryConfiguration.xml", GKManager.DeviceLibraryConfiguration, 1, 1, true);
+					AddConfiguration(tempFolderName, "GKDeviceLibraryConfiguration.xml", GKManager.DeviceLibraryConfiguration);
 				if (ServiceFactory.SaveService.LayoutsChanged)
-					AddConfiguration(tempFolderName, "LayoutsConfiguration.xml", ClientManager.LayoutsConfiguration, 1, 1, false);
+					AddConfiguration(tempFolderName, "LayoutsConfiguration.xml", ClientManager.LayoutsConfiguration);
 
 				if (!isLocal)
 				{
-					AddConfiguration(tempFolderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1, true);
+					AddConfiguration(tempFolderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection);
 				}
 
 				var destinationImagesDirectory = AppDataFolderHelper.GetFolder(Path.Combine(tempFolderName, "Content"));
@@ -153,14 +153,14 @@ namespace FireAdministrator
 
 		static ZipConfigurationItemsCollection TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
-		static void AddConfiguration(string folderName, string name, VersionedConfiguration configuration, int minorVersion, int majorVersion, bool useXml)
+		static void AddConfiguration(string folderName, string name, VersionedConfiguration configuration, int minorVersion = 1, int majorVersion = 1)
 		{
 			configuration.BeforeSave();
 			configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };
 			var filePath = Path.Combine(folderName, name);
 			if (File.Exists(filePath))
 				File.Delete(filePath);
-			ZipSerializeHelper.Serialize(configuration, filePath, useXml);
+			ZipSerializeHelper.Serialize(configuration, filePath);
 			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}
 

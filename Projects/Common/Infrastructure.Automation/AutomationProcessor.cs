@@ -111,6 +111,9 @@ namespace Infrastructure.Automation
 				{
 					switch (procedureThread.TimeType)
 					{
+						case TimeType.Millisec:
+							timeOut = TimeSpan.FromMilliseconds(procedureThread.TimeOut);
+							break;
 						case TimeType.Sec:
 							timeOut = TimeSpan.FromSeconds(procedureThread.TimeOut);
 							break;

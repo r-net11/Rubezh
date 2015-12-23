@@ -467,9 +467,9 @@ namespace FiresecService.Service
 			return SafeOperationCall(clientUID, () => { return FiresecService.GetVariable(clientUID, variableUid); }, "GetVariable");
 		}
 
-		public void AddJournalItemA(Guid clientUID, string message)
+		public void AddJournalItemA(Guid clientUID, string message, Guid? objectUID = null)
 		{
-			SafeOperationCall(clientUID, () => FiresecService.AddJournalItemA(clientUID, message), "AddJournalItem");
+			SafeOperationCall(clientUID, () => FiresecService.AddJournalItemA(clientUID, message, objectUID), "AddJournalItem");
 		}
 
 		public void ControlGKDevice(Guid clientUID, Guid deviceUid, GKStateBit command)

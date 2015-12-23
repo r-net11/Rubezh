@@ -1,5 +1,4 @@
-﻿using Common;
-using RubezhAPI;
+﻿using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
@@ -58,13 +57,13 @@ namespace RubezhClient
 			}, "SetVariableValue");
 		}
 
-		public void AddJournalItem(Guid clientUID, string message)
+		public void AddJournalItem(Guid clientUID, string message, Guid? objectUID = null)
 		{
 			SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.AddJournalItemA(clientUID, message);
+					firesecService.AddJournalItemA(clientUID, message, objectUID);
 			}, "AddJournalItem");
 		}
 

@@ -448,5 +448,10 @@ namespace Infrastructure.Automation
 				i++;
 			}
 		}
+
+		bool HasPermission(PermissionType permissionType)
+		{
+			return User == null ? false : User.HasPermission(permissionType);
+		}
 	}
 }

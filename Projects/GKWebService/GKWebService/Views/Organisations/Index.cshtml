@@ -8,7 +8,7 @@
             <div data-bind="click: function(data,event) { $parent.OrganisationClick(data, event, $data);}">
                 <label>
                     <img src="~/Content/Image/Icon/Hr/Organisation.png"/>
-                    <span data-bind="text: Name"></span>
+                    <span data-bind="text: Name, css: {IsDeleted: IsDeleted}"></span>
                 </label>
             </div>
         </li>
