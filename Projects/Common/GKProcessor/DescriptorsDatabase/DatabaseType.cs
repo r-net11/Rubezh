@@ -3,6 +3,7 @@
 	public enum DatabaseType
 	{
 		Gk,
-		Kau
+		Kau,
+		Mirror
 	}
 }

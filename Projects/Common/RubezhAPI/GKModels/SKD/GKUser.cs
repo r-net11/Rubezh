@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
@@ -12,6 +14,7 @@ namespace RubezhAPI.GK
 			GkLevel = 0;
 			GkLevelSchedule = 0;
 			IsActive = true;
+			Descriptors = new List<GKUserDescriptor>();
 		}
 
 		/// <summary>
@@ -46,5 +49,35 @@ namespace RubezhAPI.GK
 
 		[DataMember]
 		public byte GkLevelSchedule { get; set; }
+
+		[DataMember]
+		public List<GKUserDescriptor> Descriptors { get; set; }
+
+		public GKUser Clone()
+		{
+			return new GKUser
+			{
+				Descriptors = new List<GKUserDescriptor>(Descriptors),
+				ExpirationDate = ExpirationDate,
+				Fio = Fio,
+				GkLevel = GkLevel,
+				GkLevelSchedule = GkLevelSchedule,
+				GkNo = GkNo,
+				IsActive = IsActive,
+				Password = Password,
+				UserType = UserType
+			};
+		}
+
+	}
+
+	public class GKUserDescriptor
+	{
+		public ushort DescriptorNo { get; set; }
+		public int ScheduleNo { get; set; }
+		/// <summary>
+		/// Точка доступа, для считанных из ГК пользователей не заполняется
+		/// </summary>
+		public GKDoor GKDoor { get; set; }
 	}
 }

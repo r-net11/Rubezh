@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml.Serialization;
+using Common;
 using Infrustructure.Plans.Interfaces;
 using RubezhAPI;
 
@@ -24,10 +25,8 @@ namespace RubezhAPI.GK
 			Logic = new GKLogic();
 			NSLogic = new GKLogic();
 			PlanElementUIDs = new List<Guid>();
-			GKMirrorItem = new GKMirrorItem();
-			IsNotUsed = false;
+			GKReflectionItem = new GKReflectionItem();
 			AllowMultipleVizualization = false;
-
 			Zones = new List<GKZone>();
 			GuardZones = new List<GKGuardZone>();
 			PmfUsers = new List<GKUser>();
@@ -77,6 +76,35 @@ namespace RubezhAPI.GK
 					AddDependentElement(guardZone);
 				}
 				GuardZones = guardZones;
+			}
+			if (Driver.HasMirror)
+			{
+				switch (DriverType)
+				{ 
+					case GKDriverType.DetectorDevicesMirror:
+						GKReflectionItem.Devices.ForEach(AddDependentElement);
+						break;
+					case GKDriverType.ControlDevicesMirror:
+						GKReflectionItem.Devices.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						GKReflectionItem.Delays.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						GKReflectionItem.MPTs.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						GKReflectionItem.NSs.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						break;
+					case GKDriverType.DirectionsMirror:
+						GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						break;
+					case GKDriverType.FireZonesMirror:
+						GKReflectionItem.Zones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						break;
+					case GKDriverType.FirefightingZonesMirror:
+						GKReflectionItem.Zones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						break;
+					case GKDriverType.GuardZonesMirror:
+						GKReflectionItem.GuardZones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						break;
+				}
 			}
 		}
 
@@ -164,9 +192,6 @@ namespace RubezhAPI.GK
 		public GKLogic NSLogic { get; set; }
 
 		[DataMember]
-		public bool IsNotUsed { get; set; }
-
-		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
 
 		/// <summary>
@@ -176,8 +201,15 @@ namespace RubezhAPI.GK
 		public bool AllowMultipleVizualization { get; set; }
 
 		/// <summary>
+		/// Игнорировать отсутствие логики срабатывания
+		/// </summary>
+		[DataMember]
+		public bool IgnoreLogicLack { get; set; }
+
+		/// <summary>
 		/// Проектный адрес
 		/// </summary>
+		/// 
 		[DataMember]
 		public string ProjectAddress { get; set; }
 
@@ -185,11 +217,12 @@ namespace RubezhAPI.GK
 		/// Отражение объекта ГК
 		/// </summary>
 		[DataMember]
-		public GKMirrorItem GKMirrorItem { get; set; }
+		public GKReflectionItem GKReflectionItem { get; set; }
 
 		[DataMember]
 		public List<GKUser> PmfUsers { get; set; }
-
+		[DataMember]
+		public bool IsIgnoredChangesOnPlan { get; set; }
 
 		[XmlIgnore]
 		public byte ShleifNo
@@ -323,7 +356,7 @@ namespace RubezhAPI.GK
 			}
 		}
 
-        [XmlIgnore]
+		[XmlIgnore]
 		public string ShortName
 		{
 			get
@@ -525,7 +558,7 @@ namespace RubezhAPI.GK
 			{
 				var allParents = AllParents;
 				allParents.Add(this);
-				return allParents.LastOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirror);
+				return allParents.LastOrDefault(x => x.DriverType == GKDriverType.GKMirror);
 			}
 		}
 

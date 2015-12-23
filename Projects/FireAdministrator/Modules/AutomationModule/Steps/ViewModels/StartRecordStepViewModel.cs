@@ -1,7 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using RubezhAPI.Automation;
+﻿using Infrastructure.Automation;
 using RubezhAPI;
-using Infrastructure.Automation;
+using RubezhAPI.Automation;
+using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels
 {
@@ -12,7 +12,8 @@ namespace AutomationModule.ViewModels
 		public ArgumentViewModel EventUIDArgument { get; set; }
 		public ArgumentViewModel TimeoutArgument { get; set; }
 
-		public StartRecordStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
+		public StartRecordStepViewModel(StepViewModel stepViewModel)
+			: base(stepViewModel)
 		{
 			StartRecordArguments = stepViewModel.Step.StartRecordArguments;
 			EventUIDArgument = new ArgumentViewModel(StartRecordArguments.EventUIDArgument, stepViewModel.Update, UpdateContent);
@@ -44,10 +45,10 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return string.Format("Камера: {0} Идентификатор: {1} Длительность: {2} {3}", 
-					CameraArgument.Description, 
-					EventUIDArgument.Description, 
-					TimeoutArgument.Description, 
+				return string.Format("Камера: {0} Идентификатор: {1} Длительность: {2} {3}",
+					CameraArgument.Description,
+					EventUIDArgument.Description,
+					TimeoutArgument.Description,
 					SelectedTimeType.ToDescription());
 			}
 		}

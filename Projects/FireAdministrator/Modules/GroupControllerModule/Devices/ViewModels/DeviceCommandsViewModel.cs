@@ -62,7 +62,7 @@ namespace GKModule.Models
 
 		bool CanShowInfo()
 		{
-			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKau || SelectedDevice.Device.DriverType == GKDriverType.GK));
+			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKau || SelectedDevice.Device.DriverType == GKDriverType.GK || SelectedDevice.Device.DriverType == GKDriverType.GKMirror));
 		}
 
 		public RelayCommand SynchroniseTimeCommand { get; private set; }
@@ -83,7 +83,7 @@ namespace GKModule.Models
 		}
 		bool CanSynchroniseTime()
 		{
-			return (SelectedDevice != null && SelectedDevice.Device.DriverType == GKDriverType.GK);
+			return (SelectedDevice != null && (SelectedDevice.Device.DriverType == GKDriverType.GK || SelectedDevice.Device.DriverType == GKDriverType.GKMirror));
 		}
 
 		public RelayCommand ReadJournalCommand { get; private set; }
@@ -207,7 +207,7 @@ namespace GKModule.Models
 
 		bool CanReadConfiguration()
 		{
-			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKau || SelectedDevice.Driver.DriverType == GKDriverType.GK));
+			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKau || SelectedDevice.Driver.DriverType == GKDriverType.GK || SelectedDevice.Device.DriverType == GKDriverType.GKMirror));
 		}
 
 		bool CanReadConfigFile()
@@ -317,7 +317,7 @@ namespace GKModule.Models
 		public RelayCommand RewriteUsersCommand { get; private set; }
 		void OnRewriteUsers()
 		{
-			var result = ClientManager.FiresecService.GKRewriteUsers(SelectedDevice.Device);
+			var result = ClientManager.FiresecService.GKRewriteUsers(SelectedDevice.Device.UID);
 			if (result.HasError)
 			{
 				MessageBoxService.ShowWarning(result.Error, "Ошибка при перезаписи пользователей");

@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using RubezhAPI;
 using RubezhAPI.Models.Layouts;
-using RubezhAPI.SKD;
 using Infrastructure.Common.Services.Layout;
 using RubezhClient;
 using RubezhAPI.Journal;
+using Infrastructure;
 
 namespace FiltersModule.ViewModels
 {
 	public class LayoutPartPropertyJournalPageViewModel : LayoutPartPropertyPageViewModel
 	{
+		int oldLastItemsCount;
 		private LayoutPartJournalViewModel _layoutPartJournalViewModel;
 
 		public LayoutPartPropertyJournalPageViewModel(LayoutPartJournalViewModel layoutPartFilterViewModel)
@@ -38,8 +38,25 @@ namespace FiltersModule.ViewModels
 			set
 			{
 				_selectedFilter = value;
+				LastItemsCount = SelectedFilter != null ? SelectedFilter.LastItemsCount : JournalFilter.DefaultLastItemsCount;
+				oldLastItemsCount = LastItemsCount;
 				OnPropertyChanged(() => SelectedFilter);
+				OnPropertyChanged(() => IsLastItemsCountEnabled);
 			}
+		}
+		int _lastItemsCount;
+		public int LastItemsCount
+		{
+			get { return _lastItemsCount; }
+			set
+			{
+				_lastItemsCount = value;
+				OnPropertyChanged(() => LastItemsCount);
+			}
+		}
+		public bool IsLastItemsCountEnabled
+		{
+			get { return SelectedFilter != null; }
 		}
 
 		public override string Header
@@ -58,10 +75,14 @@ namespace FiltersModule.ViewModels
 		public override bool Save()
 		{
 			var properties = (LayoutPartReferenceProperties)_layoutPartJournalViewModel.Properties;
-			if ((SelectedFilter == null && properties.ReferenceUID != Guid.Empty) || (SelectedFilter != null && properties.ReferenceUID != SelectedFilter.UID))
+			var hasChanges = properties.ReferenceUID != SelectedFilter.UID || oldLastItemsCount != LastItemsCount;
+			if ((SelectedFilter == null && properties.ReferenceUID != Guid.Empty) || (SelectedFilter != null && hasChanges))
 			{
 				properties.ReferenceUID = SelectedFilter == null ? Guid.Empty : SelectedFilter.UID;
+				if (SelectedFilter != null)
+					SelectedFilter.LastItemsCount = LastItemsCount;
 				_layoutPartJournalViewModel.UpdateLayoutPart(SelectedFilter);
+				ServiceFactory.SaveService.FilterChanged = true;
 				return true;
 			}
 			return false;

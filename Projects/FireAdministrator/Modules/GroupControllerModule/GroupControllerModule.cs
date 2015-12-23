@@ -185,6 +185,7 @@ namespace GKModule
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "SKD/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Devices/PmfUsers/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Devices/GkUsers/DataTemplates/Dictionary.xaml");
 		}
 
 		#region IValidationModule Members
@@ -391,17 +392,29 @@ namespace GKModule
 				{
 					LoadingService.Close();
 
-					if (callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.GetAllUsers)
+					if (callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.GetGKUsers)
 					{
 						if (!callbackOperationResult.HasError)
 						{
 							GKUsersViewModel gkUsersViewModel = null;
 							WaitHelper.Execute(() =>
 							{
-								gkUsersViewModel = new GKUsersViewModel(callbackOperationResult.Users);
+								gkUsersViewModel = new GKUsersViewModel(callbackOperationResult.Users, callbackOperationResult.DeviceUID);
 							});
 							//LoadingService.Close();
 							DialogService.ShowModalWindow(gkUsersViewModel);
+						}
+						else
+						{
+							//LoadingService.Close();
+							MessageBoxService.ShowWarning(callbackOperationResult.Error, "Ошибка при перезаписи пользователей");
+						}
+					}
+					if (callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.GetPmfUsers)
+					{
+						if (!callbackOperationResult.HasError)
+						{
+							ServiceFactoryBase.Events.GetEvent<GetPmfUsersEvent>().Publish(callbackOperationResult.Users);
 						}
 						else
 						{
@@ -468,7 +481,7 @@ namespace GKModule
 										MessageBoxService.ShowError("Ошибка при распаковке файла");
 										return;
 									}
-									var deviceConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceConfiguration>(configurationFileName, true);
+									var deviceConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceConfiguration>(configurationFileName);
 
 									ConfigurationCompareViewModel configurationCompareViewModel = null;
 									WaitHelper.Execute(() =>

@@ -10,6 +10,7 @@
 		RectangleZone,
 		SubPlan,
 		TextBlock,
-		NotPrimitive,
+		TextBox,
+		NotPrimitive
 	}
 }

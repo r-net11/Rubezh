@@ -13,14 +13,46 @@
         }
     });
 
+    self.filterPages = {
+        Organisations: ko.observable(true),
+        Departments: ko.observable(false),
+        Positions: ko.observable(false),
+        Employees: ko.observable(false)
+    };
+
     self.IsWithDeleted = ko.observable(false);
+
+    self.Update = function() {
+        self.LogicalDeletationType(self.IsWithDeleted() ? "All" : "Active");
+    };
+
+    self.IsWithDeleted.subscribe(function(newValue) {
+        self.OrganisationsFilter.Init(newValue, self.OrganisationUIDs());
+        self.DepartmentsFilter.Init(newValue, self.DepartmentUIDs());
+        self.PositionsFilter.Init(self.IsWithDeleted(), self.PositionUIDs());
+        self.EmployeesFilter.Init(self.IsWithDeleted(), self.UIDs(), self.LastName(), self.FirstName(), self.SecondName());
+    });
 
     self.InitFilter = function () {
         self.latestData = ko.mapping.toJS(self);
         self.latestIsWithDeleted = self.IsWithDeleted();
+        self.OrganisationsFilter.Init(self.IsWithDeleted(), self.OrganisationUIDs());
+        self.DepartmentsFilter.Init(self.IsWithDeleted(), self.DepartmentUIDs());
+        self.PositionsFilter.Init(self.IsWithDeleted(), self.PositionUIDs());
+        self.EmployeesFilter.Init(self.IsWithDeleted(), self.UIDs(), self.LastName(), self.FirstName(), self.SecondName());
     };
 
-    self.Cancel = function() {
+    self.FilterPageClick = function (data, e, page) {
+        for (var propertyName in self.filterPages) {
+            self.filterPages[propertyName](false);
+        }
+
+        self.filterPages[page](!self.filterPages[page]());
+        $('div#filter-box li').removeClass("active");
+        $(e.currentTarget).parent().addClass("active");
+    };
+
+    self.Cancel = function () {
         ko.mapping.fromJS(self.latestData, {}, self);
         self.IsWithDeleted(self.latestIsWithDeleted);
         self.Close();
@@ -36,7 +68,21 @@
     };
 
     self.Save = function () {
-        self.LogicalDeletationType(self.IsWithDeleted() ? "All" : "Active");
+        self.Update();
+        self.OrganisationUIDs(self.OrganisationsFilter.GetChecked());
+        self.DepartmentUIDs(self.DepartmentsFilter.GetChecked());
+        self.PositionUIDs(self.PositionsFilter.GetChecked());
+        if (self.EmployeesFilter.IsSearch()) {
+            self.LastName(self.EmployeesFilter.LastName());
+            self.FirstName(self.EmployeesFilter.FirstName());
+            self.SecondName(self.EmployeesFilter.SecondName());
+            self.UIDs([]);
+        } else {
+            self.UIDs(self.EmployeesFilter.GetChecked());
+            self.LastName("");
+            self.FirstName("");
+            self.SecondName("");
+        }
         self.HRViewModel.InitializeEmployeeFilter(self);
         self.Close();
     };

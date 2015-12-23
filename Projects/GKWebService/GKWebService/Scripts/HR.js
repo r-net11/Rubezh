@@ -8,6 +8,10 @@
         if (!self.loaded()) {
             $("div#HR").load("Hr/Index", function () {
                 self.Filter = FilterViewModel(self);
+                self.Filter.OrganisationsFilter = OrganisationsFilterViewModel();
+                self.Filter.DepartmentsFilter = DepartmentsFilterViewModel();
+                self.Filter.PositionsFilter = PositionsFilterViewModel();
+                self.Filter.EmployeesFilter = EmployeesFilterViewModel();
                 self.Common = {};
                 self.Common.EmployeeSelectionDialog = EmployeeSelectionDialogViewModel();
                 self.Employees = EmployeesViewModel(self);
@@ -79,6 +83,12 @@
     self.EditFilter = function (data, e, box) {
         self.Filter.InitFilter();
         ShowBox(box);
+    };
+
+    self.ChangeIsDeleted = function(data, e) {
+        self.Filter.IsWithDeleted(!self.Filter.IsWithDeleted());
+        self.Filter.Update();
+        self.InitializeEmployeeFilter(self.Filter);
     };
 
     return self;

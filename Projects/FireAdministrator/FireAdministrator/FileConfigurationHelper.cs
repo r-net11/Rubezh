@@ -64,11 +64,11 @@ namespace FireAdministrator
 
 			TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
-			AddConfiguration(folderName, "PlansConfiguration.xml", ClientManager.PlansConfiguration, 1, 1, true);
-			AddConfiguration(folderName, "SystemConfiguration.xml", ClientManager.SystemConfiguration, 1, 1, true);
-			AddConfiguration(folderName, "GKDeviceConfiguration.xml", GKManager.DeviceConfiguration, 1, 1, true);
-			AddConfiguration(folderName, "LayoutsConfiguration.xml", ClientManager.LayoutsConfiguration, 1, 1, false);
-			AddConfiguration(folderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1, true);
+			AddConfiguration(folderName, "PlansConfiguration.xml", ClientManager.PlansConfiguration);
+			AddConfiguration(folderName, "SystemConfiguration.xml", ClientManager.SystemConfiguration);
+			AddConfiguration(folderName, "GKDeviceConfiguration.xml", GKManager.DeviceConfiguration);
+			AddConfiguration(folderName, "LayoutsConfiguration.xml", ClientManager.LayoutsConfiguration);
+			AddConfiguration(folderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection);
 
 			var destinationImagesDirectory = AppDataFolderHelper.GetFolder(Path.Combine(folderName, "Content"));
 			if (Directory.Exists(ServiceFactory.ContentService.ContentFolder))
@@ -94,11 +94,11 @@ namespace FireAdministrator
 
 		static ZipConfigurationItemsCollection TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
-		static void AddConfiguration(string folderName, string name, VersionedConfiguration configuration, int minorVersion, int majorVersion, bool useXml)
+		static void AddConfiguration(string folderName, string name, VersionedConfiguration configuration, int minorVersion = 1, int majorVersion = 1)
 		{
 			configuration.BeforeSave();
 			configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };
-			ZipSerializeHelper.Serialize(configuration, Path.Combine(folderName, name), useXml);
+			ZipSerializeHelper.Serialize(configuration, Path.Combine(folderName, name));
 
 			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}

@@ -35,7 +35,7 @@ namespace GKModule.ViewModels
 					var autoCreateDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
 					for (byte i = autoCreateDriver.MinAddress; i <= autoCreateDriver.MaxAddress; i++)
 					{
-						GKManager.AddChild(device, null, autoCreateDriver, i);
+						GKManager.AddDevice(device, autoCreateDriver, i);
 					}
 				}
 			var deviceViewModel = new DeviceViewModel(device);
@@ -86,7 +86,7 @@ namespace GKModule.ViewModels
 				LocalDevice.Children.RemoveAll(x => x.DriverType == GKDriverType.RSR2_KAU);
 				foreach (var kauChild in RemoteDevice.Children)
 				{
-					if (kauChild.DriverType == GKDriverType.RSR2_KAU)
+					if (kauChild.DriverType == GKDriverType.RSR2_KAU || kauChild.DriverType == GKDriverType.GKMirror)
 					{
 						LocalDevice.Children.Add(kauChild);
 					}

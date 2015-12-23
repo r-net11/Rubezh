@@ -80,6 +80,10 @@
     <Compile Include="DesignerItems\DesignerItemShape.cs" />
     <Compile Include="DesignerCanvas.cs" />
     <Compile Include="DesignerItemFactory.cs" />
+    <Compile Include="ElementProperties\ViewModels\TextBoxPropertiesViewModel.cs" />
+    <Compile Include="ElementProperties\Views\TextBoxPropertiesView.xaml.cs">
+      <DependentUpon>TextBoxPropertiesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GridLineController.cs" />
     <Compile Include="DesignerCanvasHelper.cs" />
     <Compile Include="ElementProperties\ViewModels\EllipsePropertiesViewModel.cs" />
@@ -116,6 +120,7 @@
     <Compile Include="InstrumentAdorners\RectangleAdorner.cs" />
     <Compile Include="InstrumentAdorners\RemoveButton.cs" />
     <Compile Include="InstrumentAdorners\RubberbandAdorner.cs" />
+    <Compile Include="InstrumentAdorners\TextBlockAdorner.cs" />
     <Compile Include="InstrumentAdorners\TextBoxAdorner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\InstrumentGroupViewModel.cs" />
@@ -195,6 +200,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="ElementProperties\Views\TextBoxPropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ElementProperties\Views\TextBlockPropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

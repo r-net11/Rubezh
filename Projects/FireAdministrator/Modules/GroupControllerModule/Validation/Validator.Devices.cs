@@ -37,8 +37,6 @@ namespace GKModule.Validation
 
 			foreach (var device in GKManager.Devices)
 			{
-				if (device.IsNotUsed)
-					continue;
 				ValidateObjectOnlyOnOneGK(device);
 				ValidateIPAddress(device);
 				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.DeviceNotConnected))
@@ -46,11 +44,11 @@ namespace GKModule.Validation
 					ValidateDeviceZone(device);
 					ValidateGuardDeviceZone(device);
 				}
-				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.DeviceHaveNoLogic))
+				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.DeviceHaveNoLogic) && !device.IgnoreLogicLack)
 					ValidateLogic(device);
 				ValidateGKNotEmptyChildren(device);
 				ValidateParametersMinMax(device);
-				ValidateNotUsedLogic(device);
+				//ValidateNotUsedLogic(device);
 				ValidateRSR2AddressFollowing(device);
 				ValidateKAUAddressFollowing(device);
 				ValidateGuardDevice(device);
@@ -188,17 +186,17 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateNotUsedLogic(GKDevice device)
-		{
-			foreach (var clause in device.Logic.OnClausesGroup.Clauses)
-			{
-				foreach (var clauseDevices in clause.Devices)
-				{
-					if (clauseDevices.IsNotUsed)
-						AddError(device, "В логике задействованы неиспользуемые устройства", ValidationErrorLevel.CannotSave);
-				}
-			}
-		}
+		//void ValidateNotUsedLogic(GKDevice device)
+		//{
+		//	foreach (var clause in device.Logic.OnClausesGroup.Clauses)
+		//	{
+		//		foreach (var clauseDevices in clause.Devices)
+		//		{
+		//			if (clauseDevices.IsNotUsed)
+		//				AddError(device, "В логике задействованы неиспользуемые устройства", ValidationErrorLevel.CannotSave);
+		//		}
+		//	}
+		//}
 
 		void ValidateDeviceRangeAddress(GKDevice device)
 		{
@@ -249,10 +247,10 @@ namespace GKModule.Validation
 		{
 			if (device.DriverType == GKDriverType.GK)
 			{
-				var kauChildren1 = device.Children.Where(x => (x.Driver.IsKau || x.DriverType == GKDriverType.RSR2_GKMirror) && GKManager.GetKauLine(x) == 0).ToList();
+				var kauChildren1 = device.Children.Where(x => (x.Driver.IsKau || x.DriverType == GKDriverType.GKMirror) && GKManager.GetKauLine(x) == 0).ToList();
 				ValidateKAUAddressFollowingInOneLine(kauChildren1);
 
-				var kauChildren2 = device.Children.Where(x => (x.Driver.IsKau || x.DriverType == GKDriverType.RSR2_GKMirror) && GKManager.GetKauLine(x) == 1).ToList();
+				var kauChildren2 = device.Children.Where(x => (x.Driver.IsKau || x.DriverType == GKDriverType.GKMirror) && GKManager.GetKauLine(x) == 1).ToList();
 				ValidateKAUAddressFollowingInOneLine(kauChildren2);
 			}
 		}

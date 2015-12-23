@@ -9,7 +9,7 @@ namespace GKProcessor
 	{
 		public KauDatabase(GKDevice kauDevice)
 		{
-			DatabaseType = DatabaseType.Kau;
+			DatabaseType = kauDevice.DriverType == GKDriverType.GKMirror ? DatabaseType.Mirror : DatabaseType.Kau;
 			RootDevice = kauDevice;
 
 			AddChild(RootDevice);
@@ -18,9 +18,6 @@ namespace GKProcessor
 
 		void AddChild(GKDevice device)
 		{
-			if (device.IsNotUsed)
-				return;
-
 			if (device.IsRealDevice)
 				Devices.Add(device);
 
@@ -35,8 +32,10 @@ namespace GKProcessor
 			Descriptors = new List<BaseDescriptor>();
 			foreach (var device in Devices)
 			{
-				var deviceDescriptor = new DeviceDescriptor(device);
-				Descriptors.Add(deviceDescriptor);
+				if (device.Driver.HasMirror)
+					Descriptors.Add(new MirrorDescriptor(device));
+				else
+					Descriptors.Add(new DeviceDescriptor(device));
 			}
 
 			foreach (var zone in GKManager.Zones.Where(x => x.KauDatabaseParent == RootDevice))
@@ -95,7 +94,7 @@ namespace GKProcessor
 			foreach (var descriptor in Descriptors)
 			{
 				descriptor.No = descriptor.GKBase.KAUDescriptorNo = no++;
-				descriptor.DatabaseType = DatabaseType.Kau;
+				descriptor.DatabaseType = RootDevice.DriverType == GKDriverType.GKMirror ? DatabaseType.Mirror : DatabaseType.Kau;
 				descriptor.GKBase.KauDatabaseParent = RootDevice; // для автосгенерированных объектов
 			}
 			foreach (var descriptor in Descriptors)

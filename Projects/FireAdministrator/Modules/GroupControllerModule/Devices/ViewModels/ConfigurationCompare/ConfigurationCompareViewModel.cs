@@ -316,10 +316,11 @@ namespace GKModule.ViewModels
 				pumpStationsDifferences.Append(String.Join(", ", logics));
 			}
 			bool delayDiff = object1.PumpStation.Delay != object2.PumpStation.Delay;
+			bool regimeDiff = object1.PumpStation.DelayRegime != object2.PumpStation.DelayRegime;
 			bool holdDiff = object1.PumpStation.Hold != object2.PumpStation.Hold;
 			bool nsPumpsCountDiff = object1.PumpStation.NSPumpsCount != object2.PumpStation.NSPumpsCount;
 			bool nsDeltaTimeDiff = object1.PumpStation.NSDeltaTime != object2.PumpStation.NSDeltaTime;
-			if (delayDiff || holdDiff || nsPumpsCountDiff || nsDeltaTimeDiff)
+			if (delayDiff || regimeDiff || holdDiff || nsPumpsCountDiff || nsDeltaTimeDiff)
 			{
 				if (pumpStationsDifferences.Length != 0)
 					pumpStationsDifferences.Append(". ");
@@ -327,6 +328,8 @@ namespace GKModule.ViewModels
 				var parameters = new List<string>();
 				if (delayDiff)
 					parameters.Add("Задержка");
+				if (regimeDiff)
+					parameters.Add("Режим после удержания");
 				if (holdDiff)
 					parameters.Add("Время тушения");
 				if (nsPumpsCountDiff)

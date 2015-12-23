@@ -10,13 +10,11 @@ namespace RubezhDAL.DataClasses
 {
 	public class DepartmentTranslator : OrganisationItemTranslatorBase<Department, API.Department, API.DepartmentFilter>
 	{
-		DataContractSerializer _serializer;
 		public DepartmentShortTranslator ShortTranslator { get; private set; }
 		public DepartmentSynchroniser Synchroniser { get; private set; }
 		public DepartmentTranslator(DbService context)
 			: base(context)
 		{
-			_serializer = new DataContractSerializer(typeof(API.Department));
 			ShortTranslator = new DepartmentShortTranslator(this);
 			Synchroniser = new DepartmentSynchroniser(Table, DbService);
 		}

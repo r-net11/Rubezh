@@ -21,6 +21,7 @@ namespace Infrastructure.Client.Plans
 				.Concat(plan.ElementRectangles)
 				.Concat(plan.ElementEllipses)
 				.Concat(plan.ElementTextBlocks)
+				.Concat(plan.ElementTextBoxes)
 				.Concat(plan.ElementPolygons)
 				.Concat(plan.ElementPolylines);
 		}

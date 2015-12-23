@@ -89,6 +89,7 @@
     <Compile Include="Descriptors\Views\DescriptorsMenuView.xaml.cs">
       <DependentUpon>DescriptorsMenuView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Devices\GkUsers\ViewModels\GKUserViewModel.cs" />
     <Compile Include="Devices\ViewModels\AutoSearchDevicesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesListViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesOnShleifViewModel.cs" />
@@ -96,7 +97,7 @@
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ObjectsListViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ObjectViewModel.cs" />
-    <Compile Include="Devices\ViewModels\GKUsersViewModel.cs" />
+    <Compile Include="Devices\GkUsers\ViewModels\GKUsersViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\ClauseGroupViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\StateTypeViewModel.cs" />
     <Compile Include="Devices\ViewModels\MirrorViewModel.cs" />
@@ -112,7 +113,7 @@
     <Compile Include="Devices\Views\DevicesOnShleifView.xaml.cs">
       <DependentUpon>DevicesOnShleifView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\GKUsersView.xaml.cs">
+    <Compile Include="Devices\GkUsers\Views\GKUsersView.xaml.cs">
       <DependentUpon>GKUsersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\Logic\ClausesView.xaml.cs">
@@ -229,7 +230,7 @@
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ConfigurationCompareViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTCodeReaderDetailsViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTDevicePropertiesViewModel.cs" />
-    <Compile Include="MPTs\ViewModels\MPTDeviceTypeSelectationViewModel.cs" />
+    <Compile Include="MPTs\ViewModels\MPTDeviceSelectationViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTDeviceTypeViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTDeviceViewModel.cs" />
     <Compile Include="MPTs\Views\MPTCodeReaderDetailsView.xaml.cs">
@@ -238,8 +239,8 @@
     <Compile Include="MPTs\Views\MPTDevicePropertiesView.xaml.cs">
       <DependentUpon>MPTDevicePropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MPTs\Views\MPTDeviceTypeSelectationView.xaml.cs">
-      <DependentUpon>MPTDeviceTypeSelectationView.xaml</DependentUpon>
+    <Compile Include="MPTs\Views\MPTDeviceSelectationView.xaml.cs">
+      <DependentUpon>MPTDeviceSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OPC\ViewModels\OPCDetailsViewModel.cs" />
     <Compile Include="OPC\ViewModels\OPCItemViewModel.cs" />
@@ -654,6 +655,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Devices\GkUsers\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Devices\Views\AddressEdiotor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -670,7 +675,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\GKUsersView.xaml">
+    <Page Include="Devices\GkUsers\Views\GKUsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -758,7 +763,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MPTs\Views\MPTDeviceTypeSelectationView.xaml">
+    <Page Include="MPTs\Views\MPTDeviceSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

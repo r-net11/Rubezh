@@ -3,6 +3,7 @@ using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
+using RubezhAPI.License;
 using RubezhAPI.Models;
 using RubezhAPI.SKD;
 using System;
@@ -94,6 +95,14 @@ namespace Infrastructure.Automation
 		{
 			var showPropertyArguments = procedureStep.ShowPropertyArguments;
 			var objectUid = GetValue<Guid>(showPropertyArguments.ObjectArgument);
+			if (showPropertyArguments.ObjectType == ObjectType.Zone && !LicenseManager.CurrentLicenseInfo.HasFirefighting ||
+				showPropertyArguments.ObjectType == ObjectType.GuardZone && !LicenseManager.CurrentLicenseInfo.HasGuard ||
+				showPropertyArguments.ObjectType == ObjectType.GKDoor && !LicenseManager.CurrentLicenseInfo.HasSKD ||
+				showPropertyArguments.ObjectType == ObjectType.VideoDevice && !LicenseManager.CurrentLicenseInfo.HasVideo)
+			{
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Показать свойства объекта\" заблокировано в связи с отсутствием лицензии", objectUid);
+				return;
+			}
 			var automationCallbackResult = new AutomationCallbackResult()
 			{
 				AutomationCallbackType = AutomationCallbackType.Property,
@@ -232,6 +241,29 @@ namespace Infrastructure.Automation
 			}
 		}
 
+		void HttpRequest(ProcedureStep procedureStep)
+		{
+			var httpRequestArguments = procedureStep.HttpRequestArguments;
+			var url = GetValue<string>(httpRequestArguments.UrlArgument);
+			var content = GetValue<string>(httpRequestArguments.ContentArgument);
+			var responseVariable = AllVariables.FirstOrDefault(x => x.Uid == httpRequestArguments.ResponseArgument.VariableUid);
+			var webClient = new WebClient();
+			webClient.Encoding = System.Text.Encoding.UTF8;
+			var response = "";
+			switch (httpRequestArguments.HttpMethod)
+			{
+				case HttpMethod.Get:
+					response = webClient.DownloadString(url);
+					break;
+
+				case HttpMethod.Post:
+					response = webClient.UploadString(url, content);
+					break;
+			}
+
+			SetValue(httpRequestArguments.ResponseArgument, response);
+		}
+
 		void Calculate(ProcedureStep procedureStep)
 		{
 			var arithmeticArguments = procedureStep.ArithmeticArguments;
@@ -278,6 +310,9 @@ namespace Infrastructure.Automation
 						value2 = new TimeSpan();
 						switch (arithmeticArguments.TimeType)
 						{
+							case TimeType.Millisec:
+								value2 = TimeSpan.FromMilliseconds(GetValue<int>(arithmeticArguments.Argument2));
+								break;
 							case TimeType.Sec:
 								value2 = TimeSpan.FromSeconds(GetValue<int>(arithmeticArguments.Argument2));
 								break;
@@ -900,20 +935,27 @@ namespace Infrastructure.Automation
 		{
 			var startRecordArguments = procedureStep.StartRecordArguments;
 			var cameraUid = GetValue<Guid>(startRecordArguments.CameraArgument);
-			var timeout = GetValue<int>(startRecordArguments.TimeoutArgument);
-			switch (startRecordArguments.TimeType)
+			if (LicenseManager.CurrentLicenseInfo.HasVideo)
 			{
-				case TimeType.Min: timeout *= 60; break;
-				case TimeType.Hour: timeout *= 3600; break;
-				case TimeType.Day: timeout *= 86400; break;
-			}
+				var timeout = GetValue<int>(startRecordArguments.TimeoutArgument);
+				switch (startRecordArguments.TimeType)
+				{
+					case TimeType.Millisec: timeout = (int)((double)timeout * 0.001); break;
+					case TimeType.Min: timeout *= 60; break;
+					case TimeType.Hour: timeout *= 3600; break;
+					case TimeType.Day: timeout *= 86400; break;
+				}
 
-			if (JournalItem != null)
-			{
-				Guid eventUid = Guid.NewGuid();
-				SetValue(startRecordArguments.EventUIDArgument, eventUid);
-				ProcedureExecutionContext.StartRecord(ClientUID, cameraUid, JournalItem.UID, eventUid, timeout);
+				if (JournalItem != null)
+				{
+
+					Guid eventUid = Guid.NewGuid();
+					SetValue(startRecordArguments.EventUIDArgument, eventUid);
+					ProcedureExecutionContext.StartRecord(ClientUID, cameraUid, JournalItem.UID, eventUid, timeout);
+				}
 			}
+			else
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Начать запись\" заблокировано в связи с отсутствием лицензии", cameraUid);
 		}
 
 		private void StopRecord(ProcedureStep procedureStep)
@@ -921,7 +963,10 @@ namespace Infrastructure.Automation
 			var stopRecordArguments = procedureStep.StopRecordArguments;
 			var cameraUid = GetValue<Guid>(stopRecordArguments.CameraArgument);
 			var eventUid = GetValue<Guid>(stopRecordArguments.EventUIDArgument);
-			ProcedureExecutionContext.StopRecord(ClientUID, cameraUid, eventUid);
+			if (LicenseManager.CurrentLicenseInfo.HasVideo)
+				ProcedureExecutionContext.StopRecord(ClientUID, cameraUid, eventUid);
+			else
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Остановить запись\" заблокировано в связи с отсутствием лицензии", cameraUid);
 		}
 
 		public void Ptz(ProcedureStep procedureStep)
@@ -929,14 +974,20 @@ namespace Infrastructure.Automation
 			var ptzArguments = procedureStep.PtzArguments;
 			var cameraUid = GetValue<Guid>(ptzArguments.CameraArgument);
 			var ptzNumber = GetValue<int>(ptzArguments.PtzNumberArgument);
-			ProcedureExecutionContext.Ptz(ClientUID, cameraUid, ptzNumber);
+			if (LicenseManager.CurrentLicenseInfo.HasVideo)
+				ProcedureExecutionContext.Ptz(ClientUID, cameraUid, ptzNumber);
+			else
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Ptz камеры\" заблокировано в связи с отсутствием лицензии", cameraUid);
 		}
 
 		public void RviAlarm(ProcedureStep procedureStep)
 		{
 			var rviAlarmArguments = procedureStep.RviAlarmArguments;
 			var name = GetValue<string>(rviAlarmArguments.NameArgument);
-			ProcedureExecutionContext.RviAlarm(ClientUID, name);
+			if (LicenseManager.CurrentLicenseInfo.HasVideo)
+				ProcedureExecutionContext.RviAlarm(ClientUID, name);
+			else
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Вызвать тревогу в RVI Оператор\" заблокировано в связи с отсутствием лицензии");
 		}
 
 		public void Now(ProcedureStep procedureStep)
@@ -956,6 +1007,17 @@ namespace Infrastructure.Automation
 		{
 			var zoneUid = GetValue<Guid>(procedureStep.ControlGKFireZoneArguments.GKFireZoneArgument);
 			var zoneCommandType = procedureStep.ControlGKFireZoneArguments.ZoneCommandType;
+			if (!LicenseManager.CurrentLicenseInfo.HasFirefighting)
+			{
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление пожарной зоной\" заблокировано в связи с отсутствием лицензии", zoneUid);
+				return;
+			}
+			if (!HasPermission(PermissionType.Oper_Zone_Control))
+			{
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление пожарной зоной\" заблокировано в связи с отсутствием прав пользователя", zoneUid);
+				return;
+			}
+
 			ProcedureExecutionContext.ControlFireZone(ClientUID, zoneUid, zoneCommandType);
 		}
 
@@ -963,6 +1025,17 @@ namespace Infrastructure.Automation
 		{
 			var zoneUid = GetValue<Guid>(procedureStep.ControlGKGuardZoneArguments.GKGuardZoneArgument);
 			var guardZoneCommandType = procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType;
+			if (!LicenseManager.CurrentLicenseInfo.HasGuard)
+			{
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление охранной зоной\" заблокировано в связи с отсутствием лицензии", zoneUid);
+				return;
+			}
+			if (!HasPermission(PermissionType.Oper_GuardZone_Control))
+			{
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление охранной зоной\" заблокировано в связи с отсутствием прав пользователя", zoneUid);
+				return;
+			}
+
 			ProcedureExecutionContext.ControlGuardZone(ClientUID, zoneUid, guardZoneCommandType);
 		}
 
@@ -977,6 +1050,17 @@ namespace Infrastructure.Automation
 		{
 			var doorUid = GetValue<Guid>(procedureStep.ControlGKDoorArguments.DoorArgument);
 			var doorCommandType = procedureStep.ControlGKDoorArguments.DoorCommandType;
+			if (!LicenseManager.CurrentLicenseInfo.HasSKD)
+			{
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление точкой доступа ГК\" заблокировано в связи с отсутствием лицензии", doorUid);
+				return;
+			}
+			if (!HasPermission(PermissionType.Oper_ZonesSKD))
+			{
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление точкой доступа ГК\" заблокировано в связи с отсутствием прав пользователя", doorUid);
+				return;
+			}
+
 			ProcedureExecutionContext.ControlGKDoor(ClientUID, doorUid, doorCommandType);
 		}
 
@@ -1007,6 +1091,9 @@ namespace Infrastructure.Automation
 			var pause = new TimeSpan();
 			switch (pauseArguments.TimeType)
 			{
+				case TimeType.Millisec:
+					pause = TimeSpan.FromMilliseconds(GetValue<int>(pauseArguments.PauseArgument));
+					break;
 				case TimeType.Sec:
 					pause = TimeSpan.FromSeconds(GetValue<int>(pauseArguments.PauseArgument));
 					break;
@@ -1020,7 +1107,7 @@ namespace Infrastructure.Automation
 					pause = TimeSpan.FromDays(GetValue<int>(pauseArguments.PauseArgument));
 					break;
 			}
-			if (AutoResetEvent.WaitOne(TimeSpan.FromSeconds(pause.TotalSeconds)))
+			if (AutoResetEvent.WaitOne(pause))
 			{
 			}
 		}

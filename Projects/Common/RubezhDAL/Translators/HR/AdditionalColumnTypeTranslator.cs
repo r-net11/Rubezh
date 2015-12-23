@@ -11,12 +11,9 @@ namespace RubezhDAL.DataClasses
 {
 	public class AdditionalColumnTypeTranslator : OrganisationItemTranslatorBase<AdditionalColumnType, API.AdditionalColumnType, API.AdditionalColumnTypeFilter>
 	{
-		DataContractSerializer _serializer;
-
 		public AdditionalColumnTypeTranslator(DbService context)
 			: base(context)
 		{
-			_serializer = new DataContractSerializer(typeof(API.AdditionalColumnType));
 		}
 
 		public override DbSet<AdditionalColumnType> Table
@@ -37,13 +34,6 @@ namespace RubezhDAL.DataClasses
 		public override void TranslateBack(API.AdditionalColumnType apiItem, AdditionalColumnType tableItem)
 		{
 			base.TranslateBack(apiItem, tableItem);
-			using (var ms = new MemoryStream())
-			{
-				_serializer.WriteObject(ms, apiItem);
-				tableItem.DataType = (int)apiItem.DataType;
-				tableItem.PersonType = (int)apiItem.PersonType;
-				tableItem.IsInGrid = apiItem.IsInGrid;
-			}
 		}
 
 		protected override IEnumerable<API.AdditionalColumnType> GetAPIItems(IQueryable<AdditionalColumnType> tableItems)

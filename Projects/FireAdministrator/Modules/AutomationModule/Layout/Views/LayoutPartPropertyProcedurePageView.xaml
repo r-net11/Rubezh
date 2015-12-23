@@ -1,5 +1,5 @@
 <UserControl x:Class="AutomationModule.Layout.Views.LayoutPartPropertyProcedurePageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:inf="clr-namespace:Infrastructure.Common.Windows.Views;assembly=Infrastructure.Common">
-	<ListView ItemsSource="{Binding Procedures}" SelectedItem="{Binding SelectedProcedure}">
+	<ListView ItemsSource="{Binding Procedures}" SelectedItem="{Binding SelectedProcedure}" UIBehavior.ShowSelectionMark="True" UIBehavior.IsActiveSelectionMark="True">
 		<ListView.Resources>
 			<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 				<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource AncestorType={x:Type inf:SaveCancelDialogView}}, Mode=OneTime}" MouseAction="LeftDoubleClick" />

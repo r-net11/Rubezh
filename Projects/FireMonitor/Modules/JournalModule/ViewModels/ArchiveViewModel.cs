@@ -39,8 +39,8 @@ namespace JournalModule.ViewModels
 
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
-			SafeFiresecService.CallbackOperationResultEvent -= new Action<CallbackOperationResult>(OnCallbackOperationResult);
-			SafeFiresecService.CallbackOperationResultEvent += new Action<CallbackOperationResult>(OnCallbackOperationResult);
+			SafeFiresecService.CallbackOperationResultEvent -= OnCallbackOperationResult;
+			SafeFiresecService.CallbackOperationResultEvent += OnCallbackOperationResult;
 		}
 
 		void OnCallbackOperationResult(CallbackOperationResult callbackOperationResult)
