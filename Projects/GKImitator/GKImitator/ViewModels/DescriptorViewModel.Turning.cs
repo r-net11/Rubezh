@@ -20,7 +20,7 @@ namespace GKImitator.ViewModels
 		ushort GuardZoneAlarmDelay { get; set; }
 		DelayRegime? DelayRegime { get; set; }
 
-		void InitializeDelays()
+		public void InitializeDelays()
 		{
 			var device = GKBase as GKDevice;
 			if (device != null)
@@ -242,7 +242,9 @@ namespace GKImitator.ViewModels
 		public RelayCommand TurnOnCommand { get; private set; }
 		void OnTurnOn()
 		{
-			if (HasTurnOn && TurningState != TurningState.TurningOn)
+			var onState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On);
+			var turningOnState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn);
+			if (HasTurnOn && onState != null && !onState.IsActive && turningOnState != null && !turningOnState.IsActive)
 			{
 				if (OnDelay > 0)
 				{
@@ -259,7 +261,9 @@ namespace GKImitator.ViewModels
 		public RelayCommand TurnOnNowCommand { get; private set; }
 		void OnTurnOnNow()
 		{
-			if (HasTurnOnNow)
+			var onState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On);
+			var turningOnState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn);
+			if (HasTurnOn && onState != null && !onState.IsActive && turningOnState != null && !turningOnState.IsActive)
 			{
 				TurnOnNow();
 			}
@@ -268,7 +272,9 @@ namespace GKImitator.ViewModels
 		public RelayCommand TurnOffCommand { get; private set; }
 		void OnTurnOff()
 		{
-			if (HasTurnOff && TurningState != TurningState.TurningOff)
+			var offState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Off);
+			var turningOffState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOff);
+			if (HasTurnOn && offState != null && !offState.IsActive && turningOffState != null && !turningOffState.IsActive)
 			{
 				if (OffDelay > 0)
 				{
@@ -282,7 +288,9 @@ namespace GKImitator.ViewModels
 		public RelayCommand TurnOffNowCommand { get; private set; }
 		void OnTurnOffNow()
 		{
-			if (HasTurnOffNow)
+			var offState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Off);
+			var turningOffState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOff);
+			if (HasTurnOn && offState != null && !offState.IsActive && turningOffState != null && !turningOffState.IsActive)
 			{
 				TurnOffNow();
 			}

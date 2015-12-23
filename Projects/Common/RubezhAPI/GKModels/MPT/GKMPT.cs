@@ -105,7 +105,7 @@ namespace RubezhAPI.GK
 		[XmlIgnore]
 		public override string ImageSource
 		{
-			get { return "/Controls;component/Images/Pim.png"; }
+			get { return "/Controls;component/Images/BMPT.png"; }
 		}
 
 		[DataMember]

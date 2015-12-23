@@ -362,7 +362,12 @@ namespace RubezhClient
 		}
 		public OperationResult<List<GKUser>> GetDbDeviceUsers(Guid deviceUID, List<Guid> doorUIDs)
 		{
-			return SafeContext.Execute(() => FiresecService.GetDbDeviceUsers(deviceUID, doorUIDs));
+			return SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					return firesecService.GetDbDeviceUsers(deviceUID, doorUIDs);
+			}, "GetDbDeviceUsers");
 		}
 		#endregion
 
