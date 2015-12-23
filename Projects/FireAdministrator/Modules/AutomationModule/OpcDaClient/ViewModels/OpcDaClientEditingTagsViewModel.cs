@@ -62,7 +62,7 @@ namespace AutomationModule.ViewModels
 				}
 			}
 		}
-		
+
 		#endregion
 
 		#region Fields And Properties
@@ -99,8 +99,6 @@ namespace AutomationModule.ViewModels
 
 		protected override bool Save()
 		{
-			//var result = new List<OpcDaTag>();
-
 			var checkedItems = Elements
 				.Where(x => x.IsTag)
 				.Select(x => (OpcDaTag)x)

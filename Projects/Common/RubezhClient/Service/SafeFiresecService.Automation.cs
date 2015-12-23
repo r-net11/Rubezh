@@ -152,6 +152,11 @@ namespace RubezhClient
 			return SafeContext.Execute(() => FiresecService.GetOpcDaServerGroupAndTags(server));
 		}
 
+		public OperationResult<OpcServerStatus> GetOpcDaServerStatus(OpcDaServer server)
+		{
+			return SafeContext.Execute(() => FiresecService.GetOpcDaServerStatus(server));
+		}
+
 		#endregion
 	}
 }

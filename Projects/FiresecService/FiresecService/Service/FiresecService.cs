@@ -125,6 +125,7 @@ namespace FiresecService.Service
 		}
 
 		#region OPC DA Servers
+
 		/// <summary>
 		/// Пул OPC сереверов
 		/// </summary>
@@ -199,11 +200,7 @@ namespace FiresecService.Service
 			{
 				if (item.IsConnected)
 				{
-					result = new OperationResult<OpcServerStatus>
-					{
-						Errors = null,
-						Result = item.GetServerStatus()
-					};
+					result = new OperationResult<OpcServerStatus>(item.GetServerStatus());
 				}
 				else
 				{
@@ -230,8 +227,7 @@ namespace FiresecService.Service
 					var tags = Browse(item)
 						.Select(tag => 
 						{
-							return tag.IsItem ? (OpcDaElement)(new OpcDaTag { Path = tag.ItemPath, ElementName = tag.ItemName }) :
-								(OpcDaElement)(new OpcDaGroup { Path = tag.ItemPath, ElementName = tag.ItemName });
+							return tag.IsItem ? OpcDaElement.Create(tag) : OpcDaElement.Create(tag);
 						})
 						.ToArray();
 					result = new OperationResult<OpcDaElement[]>(tags);

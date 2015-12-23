@@ -10,18 +10,10 @@ namespace AutomationModule.ViewModels
 		/// 
 		/// </summary>
 		/// <param name="element">если null - корневая группа</param>
-		//public OpcDaClientElementViewModel(TsOpcElement element = null)
-		//{
-		//	Element = element;
-		//}
 		public OpcDaClientElementViewModel(OpcDaElement element = null)
 		{
 			Element = element;
 		}
-
-		//public bool IsTag { get { return Element == null ? false : Element.Element.IsItem; } }
-		//public string ElementName { get { return Element == null ? TsOpcTagsStructure.ROOT : Element.Element.ItemName; } }
-		//public TsOpcElement Element { get; private set; }
 
 		public OpcDaElement Element { get; private set; }
 
@@ -56,13 +48,6 @@ namespace AutomationModule.ViewModels
 
 			return root;
 		}
-
-		//public OpcDaClientElementViewModel GetAllChildren()
-		//{
-		//	var root = GetRootItem(this);
-
-		//	root.GetAllChildren(false);
-		//}
 
 		/// <summary>
 		/// Ищет и возвращает корневой элемент (корневая группа тегов) 

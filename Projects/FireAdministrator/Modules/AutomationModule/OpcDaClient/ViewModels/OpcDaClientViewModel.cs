@@ -8,6 +8,8 @@ using RubezhClient;
 using Infrastructure.Common.Windows;
 using RubezhAPI.Automation;
 using Infrastructure;
+using System.Text;
+using OpcClientSdk;
 
 namespace AutomationModule.ViewModels
 {
@@ -22,6 +24,7 @@ namespace AutomationModule.ViewModels
 			AddOpcServerCommand = new RelayCommand(OnAddOpcServer, CanAddOpcServer);
 			RemoveOpcServerCommand = new RelayCommand(OnRemoveOpcServer, CanRemoveOpcServer);
 			EditTagListCommand = new RelayCommand(OnEditTagList, CanEditTagList);
+			GetServerStatus = new RelayCommand(OnGetServerStatus, CanGetServerStatus);
 
 			LoadConfig();
 		}
@@ -62,7 +65,6 @@ namespace AutomationModule.ViewModels
 		}
 
 		TsOpcTagsStructure _tags;
-
 		public TsOpcTagsStructure Tags
 		{
 			get { return _tags; }
@@ -100,15 +102,19 @@ namespace AutomationModule.ViewModels
 				OpcDaServers.Add(opcServer);
 			}
 		}
+		
 		void SaveConfig()
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 
 		public void Initialize() { }
 
 		public void Dispose() { }
 
+		//OpcServerStatus GetServerStatus()
+		//{ 
+		//}
 		#endregion
 
 		#region Commands
@@ -144,6 +150,67 @@ namespace AutomationModule.ViewModels
 
 		}
 		bool CanEditTagList() { return SelectedOpcServer != null; }
+
+		public RelayCommand GetServerStatus { get; private set; }
+		void OnGetServerStatus()
+		{
+			string statusInfo;
+
+			// Получаем список групп и тегов с сервера
+			var resultConnect = ClientManager.FiresecService
+				.ConnectToOpcDaServer(SelectedOpcServer);
+
+			if (resultConnect.HasError)
+			{
+				statusInfo = string.Format("Ошибка: {0}", resultConnect.Error);
+			}
+			else
+			{
+				var result = ClientManager.FiresecService
+					.GetOpcDaServerStatus(SelectedOpcServer);
+
+				if (result.HasError)
+				{
+					statusInfo = string.Format("Ошибка: {0}", result.Error);
+				}
+				else
+				{
+					var sb = new StringBuilder();
+
+					sb.Append("Производитель: ");
+					sb.Append(result.Result.VendorInfo);
+					sb.Append(Environment.NewLine);
+
+					sb.Append("Статус: ");
+					sb.Append(result.Result.ServerState.ToString());
+					sb.Append(Environment.NewLine);
+
+					sb.Append("Версия ПО: ");
+					sb.Append(result.Result.ProductVersion);
+					sb.Append(Environment.NewLine);
+
+					sb.Append("Дата и время на сервере: ");
+					sb.Append(result.Result.CurrentTime.ToLocalTime());
+					sb.Append(Environment.NewLine);
+
+					sb.Append("Дата и время запуска сервера: ");
+					sb.Append(result.Result.StartTime.ToLocalTime());
+					sb.Append(Environment.NewLine);
+
+					sb.Append("Дата и время последней связи с клиентом: ");
+					sb.Append(result.Result.LastUpdateTime.ToLocalTime());
+					sb.Append(Environment.NewLine);
+
+					statusInfo = sb.ToString();
+				}
+
+				var resultDisconnect = ClientManager.FiresecService
+					.DisconnectFromOpcDaServer(SelectedOpcServer);
+			}
+
+			MessageBoxService.Show(statusInfo, "Состояние OPC сервера");
+		}
+		bool CanGetServerStatus() { return SelectedOpcServer != null; }
 
 		#endregion
 	}

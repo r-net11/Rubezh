@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-
+using OpcClientSdk.Da;
 
 namespace RubezhAPI.Automation
 {
@@ -12,12 +12,13 @@ namespace RubezhAPI.Automation
 	[KnownType(typeof(OpcDaGroup))]
 	public abstract class OpcDaElement
 	{
+		#region Propeties
+
 		[DataMember]
 		public string Path { get; set; }
 		[DataMember]
 		public string ElementName { get; set; }
 		public abstract bool IsTag { get; } // protected set; }
-
 		public bool IsRoot
 		{
 			get
@@ -33,9 +34,17 @@ namespace RubezhAPI.Automation
 				}
 			}
 		}
+		
+		#endregion
+
+		#region Constants
 
 		public const string ROOT = ".";
 		public const string SPLITTER = @"\";
+
+		#endregion
+
+		#region Methods
 
 		public static string[] GetGroupNamesAndCheckFormatFromPath(OpcDaElement element)
 		{
@@ -69,5 +78,29 @@ namespace RubezhAPI.Automation
 			}
 			return segments;
 		}
+
+		/// <summary>
+		/// Создаёт на основе указанного объетка, OpcDaTag или OpcDaGroup
+		/// </summary>
+		/// <param name="element"></param>
+		/// <returns></returns>
+		public static OpcDaElement Create(TsCDaBrowseElement element)
+		{
+			if (element.IsItem)
+			{
+				return new OpcDaTag(element);
+			}
+			else
+			{
+				return new OpcDaGroup { Path = element.ItemPath, ElementName = element.ItemName };
+			}
+		}
+
+		protected static TsCDaItemProperty GetProperty(TsCDaBrowseElement element, TsDaPropertyID propertyId)
+		{
+			return element.Properties.FirstOrDefault(x => x.ID == propertyId);
+		}
+
+		#endregion
 	}
 }
