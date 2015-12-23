@@ -62,6 +62,7 @@ namespace SKDModule.ViewModels
 		protected abstract PermissionType Permission { get; }
 		bool IsEditAllowed { get { return ClientManager.CheckPermission(Permission); } }
 		public TFilter Filter { get { return _filter; } }
+		public IEnumerable<TModel> Models { get { return Organisations.SelectMany(x => x.GetAllChildren(false)).Select(x => x.Model); } }
 		
 		protected virtual void InitializeModels(IEnumerable<TModel> models)
 		{
@@ -83,7 +84,7 @@ namespace SKDModule.ViewModels
 		{
 			TModel result = null;
 			var detailsViewModel = new TDetailsViewModel();
-			if (detailsViewModel.Initialize(organisation, model, this) && DialogService.ShowModalWindow(detailsViewModel))
+			if (detailsViewModel.Initialize(organisation, model, this) && ServiceFactory.DialogService.ShowModalWindow(detailsViewModel))
 				result = detailsViewModel.Model;
 			else
 				return null;
@@ -120,7 +121,12 @@ namespace SKDModule.ViewModels
 
 		protected virtual bool InitializeOrganisations(TFilter filter)
 		{
-			var organisationFilter = new OrganisationFilter { UIDs = filter.OrganisationUIDs, UserUID = ClientManager.CurrentUser.UID, LogicalDeletationType = filter.LogicalDeletationType };
+			var organisationFilter = new OrganisationFilter 
+				{ 
+					UIDs = filter.OrganisationUIDs, 
+					UserUID = ClientManager.CurrentUser.UID, 
+					LogicalDeletationType = filter.LogicalDeletationType 
+				};
 			var organisations = OrganisationHelper.Get(organisationFilter);
 			if (organisations == null)
 				return false;
@@ -213,7 +219,11 @@ namespace SKDModule.ViewModels
 						{
 							organisationViewModel.RemoveChild(child);
 						}
-						var filter = new TFilter { OrganisationUIDs = new List<Guid> { organisationUID }, LogicalDeletationType = LogicalDeletationType.All };
+						var filter = new TFilter 
+							{ 
+								OrganisationUIDs = new List<Guid> { organisationUID }, 
+								LogicalDeletationType = LogicalDeletationType.All 
+							};
 						var models = GetModels(filter);
 						if (models != null)
 						{
@@ -229,7 +239,11 @@ namespace SKDModule.ViewModels
 					{
 						var organisationViewModel = new TViewModel();
 						organisationViewModel.InitializeOrganisation(organisation, this);
-						var filter = new TFilter { OrganisationUIDs = new List<Guid> { organisationUID }, LogicalDeletationType = LogicalDeletationType.All };
+						var filter = new TFilter 
+							{ 
+								OrganisationUIDs = new List<Guid> { organisationUID }, 
+								LogicalDeletationType = LogicalDeletationType.All 
+							};
 						var models = GetModels(filter);
 						if (models != null)
 						{

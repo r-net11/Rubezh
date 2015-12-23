@@ -182,7 +182,11 @@ namespace RubezhDAL.DataClasses
 		{
 			try
 			{
-				var card = Context.Cards.Include(x => x.CardDoors).Include(x => x.PendingCards).FirstOrDefault(x => x.UID == item.UID);
+				var card = Context.Cards
+					.Include(x => x.CardDoors)
+					.Include(x => x.PendingCards)
+					.Include(x => x.GKControllerUIDs)
+					.FirstOrDefault(x => x.UID == item.UID);
 				if (card != null)
 				{
 					Context.Cards.Remove(card);
