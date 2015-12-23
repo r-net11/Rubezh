@@ -63,9 +63,11 @@ namespace SKDModule.PassCardDesigner.ViewModels
 				switch (column.DataType)
 				{
 					case AdditionalColumnDataType.Text:
-						PassCardTemplate.ElementTextProperties = PassCardTemplate.ElementTextProperties.FindAll(x => x.AdditionalColumnUID != column.UID); break;
+						PassCardTemplate.ElementTextProperties = PassCardTemplate.ElementTextProperties.FindAll(x => x.AdditionalColumnUID != column.UID);
+						break;
 					case AdditionalColumnDataType.Graphics:
-						PassCardTemplate.ElementImageProperties = PassCardTemplate.ElementImageProperties.FindAll(x => x.AdditionalColumnUID != column.UID); break;
+						PassCardTemplate.ElementImageProperties = PassCardTemplate.ElementImageProperties.FindAll(x => x.AdditionalColumnUID != column.UID);
+						break;
 				}
 				PassCardTemplateHelper.Save(PassCardTemplate, false);
 			}

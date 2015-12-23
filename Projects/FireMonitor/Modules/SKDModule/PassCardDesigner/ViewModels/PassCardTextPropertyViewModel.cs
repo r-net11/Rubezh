@@ -5,6 +5,7 @@ using RubezhAPI;
 using RubezhAPI.SKD;
 using RubezhClient.SKDHelpers;
 using Infrastructure.Designer.ElementProperties.ViewModels;
+using System.Collections.Generic;
 
 namespace SKDModule.PassCardDesigner.ViewModels
 {
@@ -58,12 +59,13 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			{
 				LogicalDeletationType = LogicalDeletationType.Active,
 				Type = AdditionalColumnDataType.Text,
-				OrganisationUIDs = new System.Collections.Generic.List<Guid> { ((ElementPassCardTextProperty)ElementTextBlock).OrganisationUID }
+				OrganisationUIDs = new List<Guid> { ((ElementPassCardTextProperty)ElementTextBlock).OrganisationUID }
 			};
 			AdditionalColumnTypes = new ObservableCollection<AdditionalColumnType>(AdditionalColumnTypeHelper.Get(filter));
 			base.CopyProperties();
 			SelectedPropertyType = ((ElementPassCardTextProperty)ElementTextBlock).PropertyType;
-			SelectedAdditionalColumnType = SelectedPropertyType == PassCardTextPropertyType.Additional ? AdditionalColumnTypes.FirstOrDefault(item => item.UID == ((ElementPassCardTextProperty)ElementTextBlock).AdditionalColumnUID) : null;
+			SelectedAdditionalColumnType = SelectedPropertyType == PassCardTextPropertyType.Additional ? 
+					AdditionalColumnTypes.FirstOrDefault(item => item.UID == ((ElementPassCardTextProperty)ElementTextBlock).AdditionalColumnUID) : null;
 		}
 		protected override bool Save()
 		{

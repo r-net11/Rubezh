@@ -340,7 +340,7 @@ namespace SKDModule.ViewModels
 		}
 		protected virtual bool ShowRemovingQuestion()
 		{
-			return MessageBoxService.ShowQuestion(string.Format("Вы уверены, что хотите архивировать {0}?", ItemRemovingName));
+			return ServiceFactory.MessageBoxService.ShowQuestion(string.Format("Вы уверены, что хотите архивировать {0}?", ItemRemovingName));
 		}
 		void RemoveSelectedViewModel()
 		{
@@ -372,7 +372,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RestoreCommand { get; private set; }
 		void OnRestore()
 		{
-			if (MessageBoxService.ShowQuestion(string.Format("Вы уверены, что хотите восстановить {0}?", ItemRemovingName)))
+			if (ServiceFactory.MessageBoxService.ShowQuestion(string.Format("Вы уверены, что хотите восстановить {0}?", ItemRemovingName)))
 			{
 				Restore();
 			}
@@ -381,9 +381,9 @@ namespace SKDModule.ViewModels
 		{
 			if (!SelectedItem.IsDeleted)
 				return;
-			if (Organisations.FirstOrDefault(x => x.OrganisationUID == SelectedItem.OrganisationUID).GetAllChildren().Any(x => x.Name == SelectedItem.Name && !x.IsDeleted))
+			if (SelectedItem.Parent.Children.Any(x => x.Name == SelectedItem.Name && !x.IsDeleted))
 			{
-				MessageBoxService.Show("Существует неудалённый элемент с таким именем");
+				ServiceFactory.MessageBoxService.Show("Существует неудалённый элемент с таким именем");
 				return;
 			}
 			var restoreResult = Restore(SelectedItem.Model);
@@ -428,7 +428,7 @@ namespace SKDModule.ViewModels
 		{
 			if (SelectedItem.Name.Length > 46)
 			{
-				MessageBoxService.Show("Название копируемой записи должно быть короче 47 символов");
+				ServiceFactory.MessageBoxService.Show("Название копируемой записи должно быть короче 47 символов");
 			}
 			else
 			{

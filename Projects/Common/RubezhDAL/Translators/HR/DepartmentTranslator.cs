@@ -24,7 +24,7 @@ namespace RubezhDAL.DataClasses
 			get { return Context.Departments; }
 		}
 
-		public override System.Linq.IQueryable<Department> GetTableItems()
+		public override IQueryable<Department> GetTableItems()
 		{
 			return base.GetTableItems().Include(x => x.Photo).Include(x => x.ChildDepartments);
 		}
@@ -126,8 +126,7 @@ namespace RubezhDAL.DataClasses
 			}
 			foreach (var item in items)
 			{
-				item.IsDeleted = true;
-				item.RemovalDate = tableItem.RemovalDate;
+				item.IsDeleted = false;
 			}
 		}
 
