@@ -28,7 +28,7 @@ namespace FiresecServiceRunner
 			string prodKey = null;
 			try
 			{
-				prodKey = Generator.Load(Generator.GetProcessorID(), AppDataFolderHelper.GetFile("LicData.dat"));
+				prodKey = Generator.Load(Generator.GetSerialKey(), AppDataFolderHelper.GetFile("LicData.dat"));
 			}
 			catch (Exception ex)
 			{
