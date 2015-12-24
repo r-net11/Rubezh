@@ -273,25 +273,6 @@
 					IsChecked="{Binding RunRevisor}" />
 			</Grid>
 		</TabItem>
-		<TabItem DataContext="{Binding ModulesViewModel}" Header="Модули">
-			<DataGrid
-				Margin="2"
-				IsReadOnly="False"
-				ItemsSource="{Binding Modules}">
-				<DataGrid.Columns>
-					<DataGridTemplateColumn Width="1*" Header="Наименование">
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<StackPanel IsEnabled="{Binding CanChange}" Orientation="Horizontal">
-									<CheckBox Margin="5 2" IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-									<TextBlock Margin="2 0" Text="{Binding Description}" />
-								</StackPanel>
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
-				</DataGrid.Columns>
-			</DataGrid>
-		</TabItem>
 		<TabItem Header="Сброс" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Border
 				Margin="2"
