@@ -31,7 +31,7 @@ namespace FiresecService.ViewModels
 
 		public RegistrationViewModel()
 		{
-			UserKey = Generator.GetProcessorID();
+			UserKey = Generator.GetSerialKey();
 		}
 
 		//protected override bool Save()
