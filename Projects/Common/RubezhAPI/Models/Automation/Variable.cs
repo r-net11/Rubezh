@@ -49,5 +49,12 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public bool IsReference { get; set; }
+
+		public event Action ExplicitValueChanged;
+		public void OnExplicitValueChanged()
+		{
+			if (ExplicitValueChanged != null)
+				ExplicitValueChanged();
+		}
 	}
 }

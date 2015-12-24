@@ -72,6 +72,31 @@ namespace PlansModule.ViewModels
 				PlanTreeViewModel.Initialize();
 			_initialized = true;
 			OnSelectedPlanChanged();
+
+			foreach (var plan in PlanTreeViewModel.AllPlans)
+			{
+				foreach (var element in plan.Plan.AllElements)
+				{
+					foreach (var planElementBindingItem in element.PlanElementBindingItems)
+					{
+						var glabalVariable = ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid == planElementBindingItem.GlobalVariableUID);
+						if (glabalVariable != null)
+						{
+							glabalVariable.ExplicitValueChanged += () =>
+							{
+								var planCallbackData = new PlanCallbackData()
+								{
+									ElementPropertyType = ElementPropertyType.BorderThickness,
+									Value = glabalVariable.ExplicitValue.IntValue,
+									ElementUid = element.UID,
+									PlanUid = plan.Plan.UID
+								};
+								SetPlanProperty(planCallbackData);
+							};
+						}
+					}
+				}
+			}
 		}
 
 		void OnControlPlan(ControlPlanEventArg controlPlanEventArg)
@@ -85,7 +110,6 @@ namespace PlansModule.ViewModels
 					SetPlanProperty(controlPlanEventArg.PlanCallbackData);
 					break;
 			}
-
 		}
 
 		private void OnSelectPlan(Guid planUID)

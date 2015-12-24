@@ -17,6 +17,7 @@ using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.ViewModels;
 using RubezhClient;
+using Infrastructure.Designer.Events;
 
 namespace PlansModule
 {
@@ -33,6 +34,7 @@ namespace PlansModule
 			ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(OnConfigurationClosedEvent);
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Subscribe(OnRegisterPlanExtension);
 			ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Subscribe(OnConfigurationSavingEvent);
+			ServiceFactory.Events.GetEvent<EditPlanElementBindingEvent>().Subscribe(OnEditPlanElementBindingEvent);
 			_plansViewModel = new PlansViewModel();
 			ApplicationService.Starting += (s, e) => ShowRightContent();
 		}
@@ -72,6 +74,13 @@ namespace PlansModule
 		{
 			_plansViewModel.PlanDesignerViewModel.Save();
 		}
+
+		void OnEditPlanElementBindingEvent(EditPlanElementBindingEventArgs editPlanElementBindingEventArgs)
+		{
+			var planPropertyBindingViewModel = new PlanPropertyBindingViewModel(editPlanElementBindingEventArgs.PlanElementBindingItem);
+			ServiceFactory.DialogService.ShowModalWindow(planPropertyBindingViewModel);
+		}
+
 		private void OnConfigurationClosedEvent(object obj)
 		{
 			PainterCache.Dispose();
