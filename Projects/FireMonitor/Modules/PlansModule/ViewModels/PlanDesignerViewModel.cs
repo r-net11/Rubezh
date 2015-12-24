@@ -12,24 +12,28 @@ using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Presenter;
 using PlansModule.Designer;
 using PlansModule.Primitives;
+using RubezhAPI.Models.Layouts;
 
 namespace PlansModule.ViewModels
 {
 	public class PlanDesignerViewModel : BaseViewModel, IPlanDesignerViewModel
 	{
 		public double Zoom = 1;
-		public double DeviceZoom = DesignerItem.DefaultPointSize;
 		private PlansViewModel _plansViewModel;
 		private FlushAdorner _flushAdorner;
 		public PlanViewModel PlanViewModel { get; private set; }
+		public double DeviceZoom { get; set; }
 		public Plan Plan { get; private set; }
 		private PresenterCanvas DesignerCanvas { get; set; }
 
-		public PlanDesignerViewModel(PlansViewModel plansViewModel)
+		public PlanDesignerViewModel(PlansViewModel plansViewModel, LayoutPartPlansProperties properties)
 		{
 			_plansViewModel = plansViewModel;
 			DesignerCanvas = new PresenterCanvas();
 			_flushAdorner = new FlushAdorner(DesignerCanvas);
+			ShowZoomSliders = properties.ShowZoomSliders;
+			DeviceZoom = properties.DeviceZoom;
+			AllowChangePlanZoom = properties.AllowChangePlanZoom;
 		}
 
 		public void SelectPlan(PlanViewModel planViewModel)
@@ -121,8 +125,13 @@ namespace PlansModule.ViewModels
 		}
 		public bool AllowScalePoint
 		{
-			get { return true; }
+			get
+			{
+				return ShowZoomSliders;
+			}
 		}
+		public bool AllowChangePlanZoom { get; set; }
+		public bool ShowZoomSliders { get; set; }
 		public bool FullScreenSize
 		{
 			get { return true; }
