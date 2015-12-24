@@ -423,7 +423,7 @@
 			// UseHolidayValue
 			//
 			this.UseHolidayValue.DataMember = "Data";
-			this.UseHolidayValue.Expression = " Iif([UseHoliday] == True, \'Да\' , \'Нет\')";
+			this.UseHolidayValue.Expression = " Iif([UseHoliday] != True, \'Да\' , \'Нет\')";
 			this.UseHolidayValue.Name = "UseHolidayValue";
 			//
 			// SchedulesReport
