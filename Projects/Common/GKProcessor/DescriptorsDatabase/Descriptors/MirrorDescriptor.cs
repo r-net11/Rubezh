@@ -15,6 +15,7 @@ namespace GKProcessor
 			{
 				Device.LinkToDescriptor(gkBase);
 			}
+			Device.LinkToDescriptor(Device);
 		}
 
 		public override void Build()
@@ -90,20 +91,9 @@ namespace GKProcessor
 					}
 				}
 				Formula.AddPutWord(false, Device);
-				count = 0;
-				foreach (var gkBase in Device.GKReflectionItem.GKBases)
-				{
-					Formula.AddGetWord(true, gkBase);
-					count++;
-					if (count > 1)
-					{
-						Formula.Add(FormulaOperationType.OR);
-					}
-				}
 			}
 
 			Formula.Add(FormulaOperationType.CONST, 0, 0x400);
-			Formula.Add(FormulaOperationType.OR);
 			Formula.AddPutWord(true, Device);
 		}
 	}

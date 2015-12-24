@@ -104,18 +104,20 @@ namespace GKProcessor
 			if (mirrorParents != null && mirrorParents.Count > 0)
 			{
 				int count = 0;
+				int mirrorParentsCount = mirrorParents.Count;
 				foreach (var mirrorParent in mirrorParents)
 				{
-					AddGetWord(true, mirrorParent);
+					if (count > 0)
+						Add(FormulaOperationType.BR, 1, 0);
 					count++;
-					if (count > 1)
-					{
-						Add(FormulaOperationType.OR);
-					}
+					AddGetWord(true, mirrorParent);
+					Add(FormulaOperationType.CONST, 0, 0xF800);
+					Add(FormulaOperationType.AND);
+					Add(FormulaOperationType.DUP);
+					Add(FormulaOperationType.CONST, 0, 0);
+					Add(FormulaOperationType.EQ);
+					Add(FormulaOperationType.BR, 1, (ushort)((mirrorParentsCount - count) * 8));
 				}
-				Add(FormulaOperationType.CONST, 0, 0xF800);
-				Add(FormulaOperationType.AND);
-
 
 				if (gkBase is GKDevice || gkBase is GKDirection || gkBase is GKDelay || gkBase is GKPumpStation || gkBase is GKMPT)
 				{
