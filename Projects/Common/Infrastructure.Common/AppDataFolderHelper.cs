@@ -111,5 +111,10 @@ namespace Infrastructure.Common
 
 			return Path.Combine(AppDataFolderName, folderName, fileName);
 		}
+
+		public static string GetAttachmentsFolder()
+		{
+			return Path.Combine(AppDataFolderName, "Attachments");
+		}
 	}
 }

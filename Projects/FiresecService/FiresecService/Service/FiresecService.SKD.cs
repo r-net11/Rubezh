@@ -3,6 +3,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using Infrastructure.Common;
 using SKDDriver;
 using SKDDriver.Translators;
 using System;
@@ -2001,5 +2002,69 @@ namespace FiresecService.Service
 		}
 
 		#endregion Export
+
+		/// <summary>
+		/// Выгружает файл на Сервер приложений
+		/// </summary>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<Guid> UploadFile(AttachedFileMetadata fileMetadata)
+		{
+			var fileNameGuid = Guid.NewGuid();
+			var dir = AppDataFolderHelper.GetAttachmentsFolder();
+			try
+			{
+				if (!Directory.Exists(dir))
+					Directory.CreateDirectory(dir);
+				var filePath = Path.Combine(dir, fileNameGuid.ToString());
+				File.WriteAllBytes(filePath, fileMetadata.Data);
+			}
+			catch (Exception e)
+			{
+				return OperationResult<Guid>.FromError(e.Message);
+			}
+			return new OperationResult<Guid>(fileNameGuid);
+		}
+
+		/// <summary>
+		/// Загружает файл с Сервера приложений
+		/// </summary>
+		/// <param name="fileUID">Идентификатор файла</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<AttachedFileMetadata> DownloadFile(Guid fileUID)
+		{
+			var fileName = Path.Combine(AppDataFolderHelper.GetAttachmentsFolder(), fileUID.ToString());
+			try
+			{
+				var data = File.ReadAllBytes(fileName);
+				return new OperationResult<AttachedFileMetadata>(new AttachedFileMetadata
+				{
+					FileName = "123.dat",
+					Data = data
+				});
+			}
+			catch (Exception e)
+			{
+				return OperationResult<AttachedFileMetadata>.FromError(e.Message);
+			}
+		}
+
+		/// <summary>
+		/// Удаляет файл из хранилища на Сервере приложений
+		/// </summary>
+		/// <param name="fileUID">Идентификатор файла</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<bool> RemoveFile(Guid fileUID)
+		{
+			var fileName = Path.Combine(AppDataFolderHelper.GetAttachmentsFolder(), fileUID.ToString());
+			try
+			{
+				File.Delete(fileName);
+			}
+			catch (Exception e)
+			{
+				return OperationResult<bool>.FromError(e.Message);
+			}
+			return new OperationResult<bool>();
+		}
 	}
 }
