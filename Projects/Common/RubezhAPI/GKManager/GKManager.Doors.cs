@@ -33,7 +33,7 @@ namespace RubezhAPI
 			door.OutputDependentElements.ForEach(x =>
 			{
 				x.InputDependentElements.Remove(door);
-				x.UpdateLogic(GKManager.DeviceConfiguration);
+				x.UpdateLogic(DeviceConfiguration);
 				x.OnChanged();
 			});
 			door.OnChanged();

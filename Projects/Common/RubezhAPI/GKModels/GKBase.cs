@@ -154,7 +154,7 @@ namespace RubezhAPI.GK
 				LinkLogic(device, device.Logic.StopClausesGroup);
 				if (device.IsInMPT)
 				{
-					var deviceMPTs = new List<GKMPT>(GKManager.MPTs.FindAll(x => x.MPTDevices.FindAll(y => y.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard
+					var deviceMPTs = new List<GKMPT>(GKManager.DeviceConfiguration.MPTs.FindAll(x => x.MPTDevices.FindAll(y => y.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard
 						|| y.MPTDeviceType == GKMPTDeviceType.Bomb || y.MPTDeviceType == GKMPTDeviceType.DoNotEnterBoard || y.MPTDeviceType == GKMPTDeviceType.ExitBoard
 						|| y.MPTDeviceType == GKMPTDeviceType.Speaker).Any(z => z.Device == device)));
 					foreach (var deviceMPT in deviceMPTs)
@@ -171,12 +171,12 @@ namespace RubezhAPI.GK
 					}
 				}
 
-				foreach (var deviceDoor in GKManager.Doors.Where(x => x.LockDevice == device))
+				foreach (var deviceDoor in GKManager.DeviceConfiguration.Doors.Where(x => x.LockDevice == device))
 				{
 					device.LinkToDescriptor(deviceDoor);
 				}
 
-				foreach (var devicePumpStation in GKManager.PumpStations.Where(x => x.NSDevices.Contains(device)))
+				foreach (var devicePumpStation in GKManager.DeviceConfiguration.PumpStations.Where(x => x.NSDevices.Contains(device)))
 				{
 					device.LinkToDescriptor(devicePumpStation);
 					LinkLogic(device, device.NSLogic.OnClausesGroup);

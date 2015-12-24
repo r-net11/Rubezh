@@ -32,7 +32,7 @@ namespace RubezhAPI
 			direction.OutputDependentElements.ForEach(x =>
 			{
 				x.InputDependentElements.Remove(direction);
-				x.UpdateLogic(GKManager.DeviceConfiguration);
+				x.UpdateLogic(DeviceConfiguration);
 				x.OnChanged();
 			});
 			direction.OnChanged();

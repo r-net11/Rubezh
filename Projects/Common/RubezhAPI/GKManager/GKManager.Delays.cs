@@ -32,7 +32,7 @@ namespace RubezhAPI
 			delay.OutputDependentElements.ForEach(x =>
 			{
 				x.InputDependentElements.Remove(delay);
-				x.UpdateLogic(GKManager.DeviceConfiguration);
+				x.UpdateLogic(DeviceConfiguration);
 				x.OnChanged();
 			});
 		}
