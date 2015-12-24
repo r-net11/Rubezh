@@ -30,8 +30,6 @@ namespace SKDModule
 
 		public override void CreateViewModels()
 		{
-			ServiceFactory.Layout.AddToolbarItem(new ConnectionIndicatorViewModel());
-
 			HRViewModel = new HRViewModel();
 			DayIntervalsViewModel = new DayIntervalsViewModel();
 			ScheduleSchemesViewModel = new ScheduleSchemesViewModel();

@@ -52,5 +52,10 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public string FileName { get; set; }
+
+		public string JournalEventName
+		{
+			get { return String.Format("Оправдательный документ {0} ({1}) от {2}", TimeTrackDocumentType == null ? null : TimeTrackDocumentType.ShortName, TimeTrackDocumentType == null ? null : TimeTrackDocumentType.Code.ToString(), DocumentDateTime.ToString("d")); }
+		}
 	}
 }

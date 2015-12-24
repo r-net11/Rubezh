@@ -28,13 +28,8 @@ namespace StrazhModule.ViewModels
 			EnumProperties = new List<EnumPropertyViewModel>();
 			if (Device != null)
 			{
-				foreach (var driverProperty in Device.Driver.Properties.Where(p => {
-					var propName = p.Name.ToLower();
-					return propName == "address"
-						|| propName == "port"
-						|| propName == "login"
-						|| propName == "password";
-				} ))
+				var uiVisibleProperties = new[] { "address", "port", "login", "password" };
+				foreach (var driverProperty in Device.Driver.Properties)
 				{
 					var property = Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 					if (property == null)
@@ -47,20 +42,23 @@ namespace StrazhModule.ViewModels
 						Device.Properties.Add(property);
 					}
 
-					switch (driverProperty.DriverPropertyType)
+					if (uiVisibleProperties.Any(x => x == driverProperty.Name.ToLower()))
 					{
-						case SKDDriverType.StringType:
-							StringProperties.Add(new StringPropertyViewModel(driverProperty, Device));
-							break;
-						case SKDDriverType.IntType:
-							ShortProperties.Add(new ShortPropertyViewModel(driverProperty, Device));
-							break;
-						case SKDDriverType.BoolType:
-							BoolProperties.Add(new BoolPropertyViewModel(driverProperty, Device));
-							break;
-						case SKDDriverType.EnumType:
-							EnumProperties.Add(new EnumPropertyViewModel(driverProperty, Device));
-							break;
+						switch (driverProperty.DriverPropertyType)
+						{
+							case SKDDriverType.StringType:
+								StringProperties.Add(new StringPropertyViewModel(driverProperty, Device));
+								break;
+							case SKDDriverType.IntType:
+								ShortProperties.Add(new ShortPropertyViewModel(driverProperty, Device));
+								break;
+							case SKDDriverType.BoolType:
+								BoolProperties.Add(new BoolPropertyViewModel(driverProperty, Device));
+								break;
+							case SKDDriverType.EnumType:
+								EnumProperties.Add(new EnumPropertyViewModel(driverProperty, Device));
+								break;
+						}
 					}
 
 					HasAUParameters = true;

@@ -242,7 +242,7 @@ namespace FiresecAPI.Journal
 		Добавление_нового_шаблона_пропуска = 171,
 
 		[EventName(JournalSubsystemType.SKD, "Внесение оправдательного документа", XStateClass.Info)]
-		Внесение_оправдательного_документа = 172,
+		AddTimeTrackDocument = 172,
 
 		[EventName(JournalSubsystemType.SKD, "Удаление сотрудника", XStateClass.Info)]
 		Удаление_сотрудника = 184,
@@ -432,5 +432,11 @@ namespace FiresecAPI.Journal
 
 		[EventName(JournalSubsystemType.SKD, "Сброс ограничения на повторный проход для всех точек доступа", XStateClass.Info)]
 		Сброс_антипессбэка_для_всех_ТД = 249,
+
+		[EventName(JournalSubsystemType.SKD, "Редактирование оправдательного документа", XStateClass.Info)]
+		EditTimeTrackDocument = 250,
+
+		[EventName(JournalSubsystemType.SKD, "Удаление оправдательного документа", XStateClass.Info)]
+		RemoveTimeTrackDocument = 251,
 	}
 }

@@ -18,6 +18,21 @@ namespace Infrastructure.Client.ConnectionIndicator.Views
 	/// </summary>
 	public partial class ConnectionIndicatorView : INotifyPropertyChanged
 	{
+		public static readonly DependencyProperty ShowBaloonProperty = DependencyProperty.Register("ShowBaloon", typeof(bool), typeof(ConnectionIndicatorView), new UIPropertyMetadata(null));
+		public static readonly DependencyProperty BaloonHeaderTextProperty = DependencyProperty.Register("BaloonHeaderText", typeof(string), typeof(ConnectionIndicatorView), new UIPropertyMetadata(null));
+
+		public bool ShowBaloon
+		{
+			get { return (bool) GetValue(ShowBaloonProperty); }
+			set { SetValue(ShowBaloonProperty, value);}
+		}
+
+		public string BaloonHeaderText
+		{
+			get { return (string) GetValue(BaloonHeaderTextProperty); }
+			set { SetValue(BaloonHeaderTextProperty, value); }
+		}
+
 		public ConnectionIndicatorView()
 		{
 			InitializeComponent();
@@ -94,7 +109,8 @@ namespace Infrastructure.Client.ConnectionIndicator.Views
 					_border.SetResourceReference(Border.BackgroundProperty, "HighlightedBackgoundBrush");
 					_border.Background = Brushes.DarkOrange;
 					_image.Opacity = 1;
-					BalloonHelper.ShowFromMonitor(text);
+					if (ShowBaloon)
+						BalloonHelper.Show(BaloonHeaderText, text, Brushes.Black, Brushes.Cornsilk);
 				}
 				_image.BeginAnimation(VisibilityProperty, GetAnimation(value));
 			}

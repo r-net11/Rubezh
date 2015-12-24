@@ -71,10 +71,10 @@
 							</Grid>
 
 							<TextBlock Grid.Row="3" Grid.Column="0" Text="Время удержания, мс" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
-							<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding UnlockHoldInterval, UpdateSourceTrigger=PropertyChanged}" Minimum="2000" Maximum="34464" Margin="2" />
+							<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding UnlockHoldInterval, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="34464" Margin="2" />
 
 							<TextBlock Grid.Row="4" Grid.Column="0" Text="Альтернативное время удержания, мс" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
-							<extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding HandicapUnlockHoldInterval, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+							<extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding HandicapUnlockHoldInterval, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Margin="2" />
 
 							<TextBlock Grid.Row="5" Grid.Column="0" Text="Тревога по принуждению" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
 							<CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding IsDuressAlarmEnable}" Margin="2" />
@@ -173,7 +173,7 @@
 								<extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding CloseTimeout, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="34464" IsEnabled="{Binding IsDoorNotClosedAlarmEnable}" Margin="2" />
 
 								<TextBlock Grid.Row="1" Grid.Column="0" Text="Альтернативное время закрытия, с" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
-								<extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding HandicapCloseTimeout, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsDoorNotClosedAlarmEnable}" Margin="2" />
+								<extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding HandicapCloseTimeout, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsDoorNotClosedAlarmEnable}" Minimum="0" Margin="2" />
 							</Grid>
 						</Grid>
 					</GroupBox>

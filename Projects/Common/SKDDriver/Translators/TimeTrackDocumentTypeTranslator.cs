@@ -213,5 +213,25 @@ namespace SKDDriver.Translators
 			}
 			return new OperationResult();
 		}
+
+		public TimeTrackDocumentType Get(int code)
+		{
+			var tableItem = Context.TimeTrackDocumentTypes.FirstOrDefault(x => x.DocumentCode == code);
+			return tableItem == null ? null : Translate(tableItem);
+		}
+
+		private TimeTrackDocumentType Translate(DataAccess.TimeTrackDocumentType tableItem)
+		{
+			return new TimeTrackDocumentType
+			{
+				UID = tableItem.UID,
+				Name = tableItem.Name,
+				ShortName = tableItem.ShortName,
+				Code = tableItem.DocumentCode,
+				DocumentType = (DocumentType)tableItem.DocumentType,
+				OrganisationUID = tableItem.OrganisationUID,
+				IsSystem = tableItem.IsSystem
+			};
+		}
 	}
 }
