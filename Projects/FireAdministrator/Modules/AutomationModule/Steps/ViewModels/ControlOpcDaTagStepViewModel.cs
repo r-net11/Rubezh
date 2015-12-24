@@ -41,7 +41,16 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<OpcDaTag> OpcDaTags { get; private set; }
+		ObservableCollection<OpcDaTag> _opcDaTags;
+		public ObservableCollection<OpcDaTag> OpcDaTags
+		{
+			get { return _opcDaTags; }
+			set
+			{
+				_opcDaTags = value;
+				OnPropertyChanged(() => OpcDaTags);
+			}
+		}
 		OpcDaTag _selectedOpcDaTag;
 		public OpcDaTag SelectedOpcDaTag
 		{
@@ -49,7 +58,30 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedOpcDaTag = value;
+				if (_selectedOpcDaTag != null)
+					ControlOpcDaTagArguments.OpcDaTagUID = _selectedOpcDaTag.Uid;
+				else
+					ControlOpcDaTagArguments.OpcDaTagUID = Guid.Empty;
+				ValueArgument.Update(Procedure, GetExplicitType(_selectedOpcDaTag), isList: false);
 				OnPropertyChanged(() => SelectedOpcDaTag);
+			}
+		}
+
+		ExplicitType GetExplicitType(OpcDaTag opcDaTag)
+		{
+			switch (opcDaTag.TypeNameOfValue)
+			{
+				case "System.String":
+					return ExplicitType.String;
+				case "System.Boolean":
+					return ExplicitType.Boolean;
+				case "System.DateTime":
+					return ExplicitType.DateTime;
+				case "System.Int16":
+				case "System.Int32":
+				case "System.Int64":
+				default:
+					return ExplicitType.Integer;
 			}
 		}
 

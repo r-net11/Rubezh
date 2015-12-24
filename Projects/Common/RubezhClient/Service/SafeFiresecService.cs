@@ -1,18 +1,20 @@
-﻿using System;
+﻿using Common;
+using Infrastructure.Common;
+using OpcClientSdk.Da;
+using RubezhAPI;
+using RubezhAPI.Automation;
+using RubezhAPI.License;
+using RubezhAPI.Models;
+using System;
 using System.ServiceModel;
 using System.Windows.Threading;
-using Common;
-using RubezhAPI;
-using RubezhAPI.Models;
-using Infrastructure.Common;
-using RubezhAPI.License;
 
 namespace RubezhClient
 {
 	public partial class SafeFiresecService// : IFiresecService
 	{
 		FiresecServiceFactory FiresecServiceFactory;
-        public IFiresecService FiresecService { get; set; }
+		public IFiresecService FiresecService { get; set; }
 		string _serverAddress;
 		ClientCredentials _clientCredentials;
 		bool IsDisconnecting = false;
@@ -43,10 +45,10 @@ namespace RubezhClient
 			{
 				LogException(e, methodName);
 				OnConnectionLost();
-                if (!Recover())
-                {
-                    FiresecServiceFactory.Dispose();
-                }
+				if (!Recover())
+				{
+					FiresecServiceFactory.Dispose();
+				}
 			}
 			return OperationResult<T>.FromError("Ошибка при при вызове операции");
 		}
@@ -67,7 +69,7 @@ namespace RubezhClient
 				OnConnectionLost();
 				if (reconnectOnException && !Recover())
 				{
-                    FiresecServiceFactory.Dispose();
+					FiresecServiceFactory.Dispose();
 				}
 			}
 			return default(T);
@@ -86,7 +88,7 @@ namespace RubezhClient
 				OnConnectionLost();
 				if (reconnectOnException && !Recover())
 				{
-                    FiresecServiceFactory.Dispose();
+					FiresecServiceFactory.Dispose();
 				}
 			}
 		}
@@ -149,7 +151,7 @@ namespace RubezhClient
 			isConnected = true;
 		}
 
-        public static event Action<string> ReconnectionErrorEvent;
+		public static event Action<string> ReconnectionErrorEvent;
 		bool Recover()
 		{
 			if (IsDisconnecting)
@@ -163,10 +165,10 @@ namespace RubezhClient
 				FiresecServiceFactory.Dispose();
 				FiresecServiceFactory = new RubezhClient.FiresecServiceFactory();
 				FiresecService = FiresecServiceFactory.Create(_serverAddress);
-                OperationResult<bool> operationResult = null;
+				OperationResult<bool> operationResult = null;
 				TimeoutOperation.Execute(() => operationResult = FiresecService.Connect(FiresecServiceFactory.UID, _clientCredentials, false), TimeSpan.FromSeconds(30));
 				if (operationResult != null && operationResult.HasError && ReconnectionErrorEvent != null)
-                    ReconnectionErrorEvent(operationResult.Error);
+					ReconnectionErrorEvent(operationResult.Error);
 				return operationResult.Result;
 			}
 			catch
@@ -199,21 +201,21 @@ namespace RubezhClient
 			}, "Connect");
 		}
 
-        public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
-        {
-            return SafeOperationCall(() =>
-            {
-                try
-                {
-                    return FiresecService.GetLicenseInfo();
-                }
-                catch (Exception e)
-                {
+		public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
+		{
+			return SafeOperationCall(() =>
+			{
+				try
+				{
+					return FiresecService.GetLicenseInfo();
+				}
+				catch (Exception e)
+				{
 					Logger.Error("Исключение при вызове RubezhClient.GetLicenseInfo " + e.GetType().Name.ToString());
-                }
-                return OperationResult<FiresecLicenseInfo>.FromError("Не удается получить лицензию от " + _serverAddress);
-            }, "GetLicenseInfo");
-        }
+				}
+				return OperationResult<FiresecLicenseInfo>.FromError("Не удается получить лицензию от " + _serverAddress);
+			}, "GetLicenseInfo");
+		}
 
 		public void Dispose()
 		{
@@ -221,6 +223,40 @@ namespace RubezhClient
 			Disconnect(FiresecServiceFactory.UID);
 			StopPoll();
 			FiresecServiceFactory.Dispose();
+		}
+
+
+		public OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(OpcDaServer server)
+		{
+			return SafeOperationCall(() =>
+			{
+				try
+				{
+					return FiresecService.ReadOpcDaServerTags(server);
+				}
+				catch (Exception e)
+				{
+					Logger.Error("Исключение при вызове RubezhClient.ReadOpcDaServerTags " + e.GetType().Name.ToString());
+				}
+				return OperationResult<TsCDaItemValueResult[]>.FromError("Не удается прочитать значения тегов сервера " + server.ServerName);
+			}, "ReadOpcDaServerTags");
+		}
+
+		public OperationResult WriteOpcDaServerTags(OpcDaServer server, TsCDaItemValue[] tagValues)
+		{
+			return SafeOperationCall(() =>
+			{
+				try
+				{
+					FiresecService.WriteOpcDaServerTags(server, tagValues);
+					return new OperationResult();
+				}
+				catch (Exception e)
+				{
+					Logger.Error("Исключение при вызове RubezhClient.WriteOpcDaServerTags " + e.GetType().Name.ToString());
+				}
+				return new OperationResult("Не удается прочитать значения тегов сервера " + server.ServerName);
+			}, "WriteOpcDaServerTags");
 		}
 	}
 }

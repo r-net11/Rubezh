@@ -123,7 +123,7 @@
       <HintPath>..\..\..\3rdParty\RVIVSS\Entities.dll</HintPath>
     </Reference>
     <Reference Include="OpcClientSdk40">
-      <HintPath>C:\Users\petrovdy\Documents\OPC DA AE HDA Client SDK .NET\binaries\NET40\OpcClientSdk40.dll</HintPath>
+      <HintPath>..\..\..\3rdParty\OPC\OpcClientSdk40.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

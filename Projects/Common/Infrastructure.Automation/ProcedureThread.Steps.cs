@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using System.Text.RegularExpressions;
-using RubezhAPI;
+﻿using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhAPI.Models;
-using RubezhClient;
-using Property = RubezhAPI.Automation.Property;
 using RubezhAPI.SKD;
-using RubezhClient.SKDHelpers;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
+using Property = RubezhAPI.Automation.Property;
 
 namespace Infrastructure.Automation
 {
@@ -236,43 +235,45 @@ namespace Infrastructure.Automation
 
 		void ControlOpcDaTag(ProcedureStep procedureStep, ControlElementType controlElementType)
 		{
-			//var controlPlanArguments = procedureStep.ControlPlanArguments;
-			//var callbackType = new AutomationCallbackType();
-			//object value = null;
-
-			//if (controlElementType == ControlElementType.Get)
-			//	callbackType = AutomationCallbackType.GetPlanProperty;
-			//if (controlElementType == ControlElementType.Set)
-			//{
-			//	callbackType = AutomationCallbackType.SetPlanProperty;
-			//	value = GetValue<object>(controlPlanArguments.ValueArgument);
-			//	if (value is int && (int)value < 0)
-			//		return;
-			//}
-
-			//var automationCallbackResult = new AutomationCallbackResult()
-			//{
-			//	AutomationCallbackType = callbackType,
-			//	Data = new PlanCallbackData()
-			//	{
-			//		PlanUid = controlPlanArguments.PlanUid,
-			//		ElementUid = controlPlanArguments.ElementUid,
-			//		ElementPropertyType = controlPlanArguments.ElementPropertyType,
-			//		Value = value,
-			//	},
-			//};
-			//switch (controlElementType)
-			//{
-			//	case ControlElementType.Get:
-			//		value = SendCallback(controlPlanArguments, automationCallbackResult, true);
-			//		SetValue(controlPlanArguments.ValueArgument, value);
-			//		break;
-			//	case ControlElementType.Set:
-			//		SendCallback(controlPlanArguments, automationCallbackResult);
-			//		if (controlPlanArguments.ForAllClients)
-			//			ProcedurePropertyCache.SetProperty((PlanCallbackData)automationCallbackResult.Data);
-			//		break;
-			//}
+			var controlOpcDaTagArguments = procedureStep.ControlOpcDaTagArguments;
+			var valueVariable = AllVariables.FirstOrDefault(x => x.Uid == controlOpcDaTagArguments.ValueArgument.VariableUid);
+			if (valueVariable != null)
+			{
+				switch (controlElementType)
+				{
+					case ControlElementType.Get:
+						var value = ProcedureExecutionContext.GetOpcDaTagValue(Guid.Empty, controlOpcDaTagArguments.OpcDaServerUID, controlOpcDaTagArguments.OpcDaTagUID);
+						if (value != null)
+						{
+							bool isChanged = true;
+							switch (valueVariable.ExplicitType)
+							{
+								case ExplicitType.Boolean:
+									valueVariable.ExplicitValue.BoolValue = (bool)value;
+									break;
+								case ExplicitType.DateTime:
+									valueVariable.ExplicitValue.DateTimeValue = (DateTime)value;
+									break;
+								case ExplicitType.Integer:
+									valueVariable.ExplicitValue.IntValue = (int)value;
+									break;
+								case ExplicitType.String:
+									valueVariable.ExplicitValue.StringValue = value.ToString();
+									break;
+								default:
+									isChanged = false;
+									break;
+							}
+							if (isChanged)
+								ProcedureExecutionContext.SynchronizeVariable(valueVariable, ContextType.Server);
+						}
+						break;
+					case ControlElementType.Set:
+						value = GetValue<object>(controlOpcDaTagArguments.ValueArgument);
+						ProcedureExecutionContext.SetOpcDaTagValue(Guid.Empty, controlOpcDaTagArguments.OpcDaServerUID, controlOpcDaTagArguments.OpcDaTagUID, value);
+						break;
+				}
+			}
 		}
 
 		void Calculate(ProcedureStep procedureStep)
@@ -356,7 +357,7 @@ namespace Infrastructure.Automation
 			}
 			ProcedureExecutionContext.SynchronizeVariable(resultVariable, ContextType.Server);
 		}
-				
+
 		void FindObjects(ProcedureStep procedureStep)
 		{
 			var findObjectArguments = procedureStep.FindObjectArguments;
@@ -451,7 +452,7 @@ namespace Infrastructure.Automation
 						propertyValue = gkDelay.DelayRegime;
 						break;
 					case Property.Description:
-						propertyValue = gkDelay.Description == null ? "" : gkDelay.Description.Trim();;
+						propertyValue = gkDelay.Description == null ? "" : gkDelay.Description.Trim();
 						break;
 					case Property.Uid:
 						propertyValue = gkDelay.UID.ToString();
@@ -684,7 +685,7 @@ namespace Infrastructure.Automation
 						break;
 				}
 			}
-			
+
 			return propertyValue;
 		}
 
@@ -715,7 +716,7 @@ namespace Infrastructure.Automation
 			}
 			return new List<object>();
 		}
-		
+
 		object InitializeItem(Guid itemUid)
 		{
 			var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
@@ -749,7 +750,7 @@ namespace Infrastructure.Automation
 			var mpt = GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == itemUid);
 			if (mpt != null)
 				return mpt;
-			
+
 			var door = GKManager.Doors.FirstOrDefault(x => x.UID == itemUid);
 			if (door != null)
 				return door;
@@ -893,12 +894,12 @@ namespace Infrastructure.Automation
 				case TimeType.Hour: timeout *= 3600; break;
 				case TimeType.Day: timeout *= 86400; break;
 			}
-			
+
 			if (JournalItem != null)
 			{
 				Guid eventUid = Guid.NewGuid();
 				SetValue(startRecordArguments.EventUIDArgument, eventUid);
-				ProcedureExecutionContext.StartRecord(cameraUid, JournalItem.UID , eventUid, timeout);
+				ProcedureExecutionContext.StartRecord(cameraUid, JournalItem.UID, eventUid, timeout);
 			}
 		}
 
@@ -1242,7 +1243,7 @@ namespace Infrastructure.Automation
 		{
 			ProcedureExecutionContext.SetVariableValue(AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid), propertyValue);
 		}
-		
+
 		T GetValue<T>(Argument argument)
 		{
 			return argument.VariableScope == VariableScope.ExplicitValue ?

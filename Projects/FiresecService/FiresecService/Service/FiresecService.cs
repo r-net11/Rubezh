@@ -190,7 +190,7 @@ namespace FiresecService.Service
 			
 			if (item == null)
 			{
- 				result = new OperationResult<OpcServerStatus>
+				result = new OperationResult<OpcServerStatus>
 				{
 					Errors = new List<string> { string.Format("OPC DA сервер {0} не найден", server.ServerName) },
 					Result = null

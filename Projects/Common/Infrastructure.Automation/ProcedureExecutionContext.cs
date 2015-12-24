@@ -1,13 +1,13 @@
-﻿using RubezhAPI.AutomationCallback;
-using RubezhAPI.Models;
-using RubezhAPI.Automation;
-using System;
+﻿using RubezhAPI.Automation;
+using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
-using System.Windows.Media;
-using System.Linq;
-using System.Collections.Generic;
+using RubezhAPI.Models;
 using RubezhAPI.SKD;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Media;
 
 namespace Infrastructure.Automation
 {
@@ -16,7 +16,7 @@ namespace Infrastructure.Automation
 		public static ContextType ContextType { get; private set; }
 		public static SystemConfiguration SystemConfiguration { get; private set; }
 		public static SecurityConfiguration SecurityConfiguration { get; private set; }
-		
+
 		static event Action<AutomationCallbackResult, Guid?> OnSendCallback;
 		static event Action<Guid, object> OnCallbackResponse;
 		static event Action<Variable, ContextType> OnSynchronizeVariable;
@@ -40,10 +40,12 @@ namespace Infrastructure.Automation
 		static event Action<bool, string> OnImportOrganisation;
 		static event Action<bool, string> OnImportOrganisationList;
 		static GetOrganisationsEventHandler OnGetOrganisations;
+		static GetOpcDaTagValueEventHandler OnGetOpcDaTagValue;
+		static SetOpcDaTagValueEventHandler OnSetOpcDaTagValue;
 
-		public static void Initialize(ContextType contextType, 
-			SystemConfiguration systemConfiguration, 
-			SecurityConfiguration securityConfiguration, 
+		public static void Initialize(ContextType contextType,
+			SystemConfiguration systemConfiguration,
+			SecurityConfiguration securityConfiguration,
 			Action<AutomationCallbackResult, Guid?> onSendCallback = null,
 			Action<Guid, object> onCallbackResponse = null,
 			Action<Variable, ContextType> onSynchronizeVariable = null,
@@ -66,7 +68,9 @@ namespace Infrastructure.Automation
 			Action<bool, bool, bool, string> onExportConfiguration = null,
 			Action<bool, string> onImportOrganisation = null,
 			Action<bool, string> onImportOrganisationList = null,
-			GetOrganisationsEventHandler onGetOrganisations = null
+			GetOrganisationsEventHandler onGetOrganisations = null,
+			GetOpcDaTagValueEventHandler onGetOpcDaTagValue = null,
+			SetOpcDaTagValueEventHandler onSetOpcDaTagValue = null
 			)
 		{
 			UpdateConfiguration(systemConfiguration, securityConfiguration);
@@ -94,6 +98,8 @@ namespace Infrastructure.Automation
 			OnImportOrganisation += onImportOrganisation;
 			OnImportOrganisationList += onImportOrganisationList;
 			OnGetOrganisations = onGetOrganisations;
+			OnGetOpcDaTagValue = onGetOpcDaTagValue;
+			OnSetOpcDaTagValue = onSetOpcDaTagValue;
 		}
 
 		public static void UpdateConfiguration(SystemConfiguration systemConfiguration, SecurityConfiguration securityConfiguration)
@@ -231,7 +237,7 @@ namespace Infrastructure.Automation
 			if (variable.IsGlobal && variable.ContextType == ContextType.Server && OnSynchronizeVariable != null)
 				OnSynchronizeVariable(variable, targetContextType);
 		}
-		
+
 		public static object GetVariableValue(Variable source)
 		{
 			if (source == null)
@@ -324,7 +330,7 @@ namespace Infrastructure.Automation
 			}
 			return new object[0];
 		}
-		
+
 		public static void SetVariableValue(Variable target, object value)
 		{
 			if (target == null)
@@ -399,7 +405,19 @@ namespace Infrastructure.Automation
 		{
 			return OnGetOrganisations == null ? null : OnGetOrganisations();
 		}
+
+		public static object GetOpcDaTagValue(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID)
+		{
+			return OnGetOpcDaTagValue == null ? null : OnGetOpcDaTagValue(clientUID, opcDaServerUID, opcDaTagUID);
+		}
+
+		public static bool SetOpcDaTagValue(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID, object value)
+		{
+			return OnSetOpcDaTagValue == null ? false : OnSetOpcDaTagValue(clientUID, opcDaServerUID, opcDaTagUID, value);
+		}
 	}
 
 	public delegate List<Organisation> GetOrganisationsEventHandler();
+	public delegate object GetOpcDaTagValueEventHandler(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID);
+	public delegate bool SetOpcDaTagValueEventHandler(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID, object value);
 }

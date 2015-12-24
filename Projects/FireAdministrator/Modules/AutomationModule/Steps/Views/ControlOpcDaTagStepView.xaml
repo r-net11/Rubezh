@@ -36,7 +36,7 @@
 		<ComboBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" ItemsSource="{Binding OpcDaTags}" SelectedItem="{Binding SelectedOpcDaTag}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
-					<TextBlock Text="{Binding TagName}" />
+					<TextBlock Text="{Binding ElementName}" />
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>

@@ -1,23 +1,24 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using System.Threading;
-using Common;
+﻿using Common;
+using FiresecService.Processor;
 using FiresecService.Report;
 using FiresecService.Service;
 using FiresecService.ViewModels;
+using Infrastructure.Automation;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
-using Infrastructure.Common.Windows;
-using RubezhAPI;
-using RubezhDAL.DataClasses;
-using FiresecService.Processor;
-using Infrastructure.Automation;
-using RubezhAPI.AutomationCallback;
-using RubezhAPI.Automation;
-using System.Collections.Generic;
 using Infrastructure.Common.Services;
+using Infrastructure.Common.Windows;
+using OpcClientSdk.Da;
+using RubezhAPI;
+using RubezhAPI.Automation;
+using RubezhDAL.DataClasses;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
 
 namespace FiresecService
 {
@@ -45,17 +46,17 @@ namespace FiresecService
 
 				FiresecService.Service.FiresecService.ServerState = ServerState.Starting;
 
-                UILogger.Log("Проверка лицензии");
-                if (!FiresecLicenseProcessor.TryLoadLicense())
-                    UILogger.Log("Ошибка лицензии", true);
+				UILogger.Log("Проверка лицензии");
+				if (!FiresecLicenseProcessor.TryLoadLicense())
+					UILogger.Log("Ошибка лицензии", true);
 
 				UILogger.Log("Проверка соединения с БД");
 				using (var dbService = new DbService())
 				{
 					if (dbService.CheckConnection().HasError)
-					UILogger.Log("Ошибка соединения с БД", true);
+						UILogger.Log("Ошибка соединения с БД", true);
 				}
-				
+
 				UILogger.Log("Открытие хоста");
 				FiresecServiceManager.Open();
 				ServerLoadHelper.SetStatus(FSServerState.Opened);
@@ -90,7 +91,9 @@ namespace FiresecService
 					ProcedureHelper.ExportConfiguration,
 					ProcedureHelper.ImportOrganisation,
 					ProcedureHelper.ImportOrganisationList,
-					GetOrganisations
+					GetOrganisations,
+					GetOpcDaTagValue,
+					SetOpcDaTagValue
 					);
 
 				GKProcessor.Create();
@@ -108,11 +111,11 @@ namespace FiresecService
 					UILogger.Log("Ошибка при запуске сервиса отчетов", true);
 					MainViewModel.SetReportAddress("<Ошибка>");
 				}
-								
+
 				ScheduleRunner.Start();
 				ServerTaskRunner.Start();
 				AutomationProcessor.RunOnServerRun();
-                ClientsManager.StartRemoveInactiveClients(TimeSpan.FromMinutes(10));
+				ClientsManager.StartRemoveInactiveClients(TimeSpan.FromMinutes(10));
 				UILogger.Log("Готово");
 				FiresecService.Service.FiresecService.ServerState = ServerState.Ready;
 			}
@@ -124,12 +127,58 @@ namespace FiresecService
 			}
 		}
 
+		static object GetOpcDaTagValue(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID)
+		{
+			var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
+			if (opcDaServer == null)
+				opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
+			if (opcDaServer == null)
+				return null;
+
+			var opcDaTag = opcDaServer.Tags.FirstOrDefault(x => x.Uid == opcDaTagUID);
+			if (opcDaTag == null)
+				return null;
+
+			var tagsValues = FiresecServiceManager.SafeFiresecService.ReadOpcDaServerTags(opcDaServer);
+			if (tagsValues.HasError)
+				return null;
+
+			var tagValue = tagsValues.Result.FirstOrDefault(x => x.ItemPath == opcDaTag.Path && x.ItemName == opcDaTag.ElementName);
+			return tagValue == null ? null : tagValue.Value;
+		}
+
+		static bool SetOpcDaTagValue(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID, object value)
+		{
+			var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
+			if (opcDaServer == null)
+				opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
+			if (opcDaServer == null)
+				return false;
+
+			var opcDaTag = opcDaServer.Tags.FirstOrDefault(x => x.Uid == opcDaTagUID);
+			if (opcDaTag == null)
+				return false;
+
+			var result = FiresecServiceManager.SafeFiresecService.WriteOpcDaServerTags(opcDaServer,
+				new TsCDaItemValue[] 
+				{ 
+					new TsCDaItemValue 
+					{ 
+						ItemPath = opcDaTag.Path, 
+						ItemName = opcDaTag.ElementName, 
+						Value = value 
+					} 
+				});
+
+			return !result.HasError;
+		}
+
 		static List<RubezhAPI.SKD.Organisation> GetOrganisations()
 		{
 			var result = FiresecServiceManager.SafeFiresecService.GetOrganisations(new RubezhAPI.SKD.OrganisationFilter());
 			return result.HasError ? new List<RubezhAPI.SKD.Organisation>() : result.Result;
 		}
-		
+
 		private static void OnWorkThread()
 		{
 			try
