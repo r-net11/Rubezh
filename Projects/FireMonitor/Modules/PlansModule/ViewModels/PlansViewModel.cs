@@ -30,12 +30,12 @@ namespace PlansModule.ViewModels
 		public PlanDesignerViewModel PlanDesignerViewModel { get; private set; }
 
 		public PlansViewModel(List<IPlanPresenter<Plan, XStateClass>> planPresenters)
-			: this(planPresenters, new LayoutPartPlansProperties() { Type = LayoutPartPlansType.All })
+			: this(planPresenters, new LayoutPartPlansProperties { Type = LayoutPartPlansType.All, AllowChangePlanZoom = true, ShowZoomSliders = true })
 		{
 		}
 		public PlansViewModel(List<IPlanPresenter<Plan, XStateClass>> planPresenters, LayoutPartPlansProperties properties)
 		{
-			_properties = properties ?? new LayoutPartPlansProperties() { Type = LayoutPartPlansType.All };
+			_properties = properties ?? new LayoutPartPlansProperties { Type = LayoutPartPlansType.All };
 			PlanPresenters = planPresenters;
 			ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Subscribe(OnNavigate);
 			ServiceFactory.Events.GetEvent<ShowElementEvent>().Subscribe(OnShowElement);
@@ -62,7 +62,7 @@ namespace PlansModule.ViewModels
 			}
 			else
 				PlanNavigationWidth = GridLength.Auto;
-			PlanDesignerViewModel = new PlanDesignerViewModel(this);
+			PlanDesignerViewModel = new PlanDesignerViewModel(this, properties);
 		}
 
 		public void Initialize()

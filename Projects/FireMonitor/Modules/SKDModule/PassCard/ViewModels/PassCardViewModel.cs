@@ -214,6 +214,15 @@ namespace SKDModule.PassCard.ViewModels
 		{
 			get { return false; }
 		}
+		public bool ShowZoomSliders
+		{
+			get { return true; }
+		}
+		public bool AllowChangePlanZoom
+		{
+			get { return true; }
+		}
+		public double DeviceZoom { get; set; }
 		public bool FullScreenSize
 		{
 			get { return false; }

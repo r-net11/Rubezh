@@ -22,11 +22,6 @@ namespace Infrastructure.Client.Plans
 		{
 			InitializeComponent();
 
-			var deviceZoom = RegistrySettingsHelper.GetDouble(DeviceZoomSetting);
-			if (deviceZoom == 0)
-				deviceZoom = 30;
-			deviceSlider.Value = deviceZoom;
-
 			_scrollViewer.PreviewMouseDown += OnMouseMiddleDown;
 			_scrollViewer.PreviewMouseUp += OnMouseMiddleUp;
 			_scrollViewer.PreviewMouseMove += OnMiddleMouseMove;
@@ -70,6 +65,11 @@ namespace Infrastructure.Client.Plans
 		{
 			_locked = false;
 			var viewModel = (IPlanDesignerViewModel)DataContext;
+			var deviceZoom = RegistrySettingsHelper.GetDouble(DeviceZoomSetting);
+			if (deviceZoom == 0)
+				deviceZoom = 50;
+			if (viewModel.DeviceZoom == 0)
+				deviceSlider.Value = deviceZoom;
 			viewModel.Updated += (s, ee) => Reset();
 			Reset();
 			_scrollViewer.VerticalScrollBarVisibility = viewModel.AlwaysShowScroll ? ScrollBarVisibility.Visible : ScrollBarVisibility.Auto;
@@ -92,7 +92,8 @@ namespace Infrastructure.Client.Plans
 
 		private void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
 		{
-			if (!((IPlanDesignerViewModel)DataContext).HasPermissionsToScale)
+			var dataContext = (IPlanDesignerViewModel)DataContext;
+			if (!dataContext.HasPermissionsToScale || !dataContext.AllowChangePlanZoom)
 				return;
 			lastMousePositionOnTarget = Mouse.GetPosition(_grid);
 			if (e.Delta != 0)
