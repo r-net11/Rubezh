@@ -1,13 +1,12 @@
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+using Common;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using Infrastructure;
-using Common;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.ViewModels;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SoundsModule.ViewModels
 {
@@ -110,6 +109,8 @@ namespace SoundsModule.ViewModels
 
 		public override void OnShow()
 		{
+			if (Sounds != null)
+				Sounds.Sort(x => x.SoundName);
 			base.OnShow();
 		}
 

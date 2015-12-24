@@ -26,7 +26,8 @@
 			Focusable="True"
 			Source="{Binding Organisations, Mode=OneWay}"
 			layout:ListViewLayoutManager.Enabled="True"
-			tree:SortBehavior.CanUserSortColumns="True">
+			tree:SortBehavior.CanUserSortColumns="True"
+			tree:SortBehavior.DefaultSortComparer="{StaticResource PositionFilterItemViewModelNameComparer}">
 			<tree:TreeList.View>
 				<GridView>
 					<GridViewColumn Width="300" Header="Название" tree:SortBehavior.SortComparer="{StaticResource PositionFilterItemViewModelNameComparer}">

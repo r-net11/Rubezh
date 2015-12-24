@@ -1,10 +1,7 @@
-﻿using System;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
-using FiresecClient;
+﻿using FiresecAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
@@ -14,21 +11,39 @@ namespace StrazhModule.ViewModels
 {
 	public class DeviceViewModel : TreeNodeViewModel<DeviceViewModel>
 	{
+		#region Properties
 		public SKDDevice Device { get; private set; }
+
 		public SKDDeviceState State
 		{
 			get { return Device.State; }
 		}
 
 		public DeviceStateViewModel DeviceStateViewModel { get; private set; }
+
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
+
+		public string PresentationAddress
+		{
+			get { return Device.Address; }
+		}
+
+		public bool IsEnabled { get; private set; }
+
+		public bool IsLock
+		{
+			get { return Device.DriverType == SKDDriverType.Lock; }
+		}
+		#endregion
+
+		#region Constructors
 
 		public DeviceViewModel(SKDDevice device)
 		{
 			Device = device;
 			DeviceStateViewModel = new DeviceStateViewModel(State);
-			State.StateChanged -= new Action(OnStateChanged);
-			State.StateChanged += new Action(OnStateChanged);
+			State.StateChanged -= OnStateChanged;
+			State.StateChanged += OnStateChanged;
 			OnStateChanged();
 
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(Device);
@@ -52,23 +67,17 @@ namespace StrazhModule.ViewModels
 			IsEnabled = Device.IsEnabled;
 		}
 
+		#endregion
+
+		#region Methods
+
 		void OnStateChanged()
 		{
 			OnPropertyChanged(() => State);
 			OnPropertyChanged(() => DeviceStateViewModel);
 		}
 
-		public string PresentationAddress
-		{
-			get { return Device.Address; }
-		}
-
-		public bool IsEnabled { get; private set; }
-
-		public bool IsLock
-		{
-			get { return Device.DriverType == SKDDriverType.Lock; }
-		}
+		#endregion
 
 		#region <Zone>
 
@@ -82,7 +91,7 @@ namespace StrazhModule.ViewModels
 		public RelayCommand ShowZoneCommand { get; private set; }
 		void OnShowZone()
 		{
-			ServiceFactory.Events.GetEvent<ShowSKDZoneEvent>().Publish(Device.Zone.UID);
+			ServiceFactoryBase.Events.GetEvent<ShowSKDZoneEvent>().Publish(Device.Zone.UID);
 		}
 		bool CanShowZone()
 		{
@@ -90,6 +99,8 @@ namespace StrazhModule.ViewModels
 		}
 
 		#endregion </Zone>
+
+		#region Commands
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		private void OnShowOnPlan()
@@ -104,11 +115,11 @@ namespace StrazhModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		private void OnShowJournal()
 		{
-			var showSKDArchiveEventArgs = new ShowArchiveEventArgs()
+			var showSKDArchiveEventArgs = new ShowArchiveEventArgs
 			{
 				SKDDevice = Device
 			};
-			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
+			ServiceFactoryBase.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
 		}
 		private bool CanShowJournal()
 		{
@@ -185,6 +196,8 @@ namespace StrazhModule.ViewModels
 			return DeviceCommander.CanClearPromptWarning(Device);
 		}
 
+		#endregion
+
 		#region <Door>
 
 		public SKDDoor Door
@@ -200,7 +213,7 @@ namespace StrazhModule.ViewModels
 		public RelayCommand ShowDoorCommand { get; private set; }
 		void OnShowDoor()
 		{
-			ServiceFactory.Events.GetEvent<ShowSKDDoorEvent>().Publish(Device.Door.UID);
+			ServiceFactoryBase.Events.GetEvent<ShowSKDDoorEvent>().Publish(Device.Door.UID);
 		}
 		bool CanShowDoor()
 		{

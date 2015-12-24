@@ -4,13 +4,11 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 	xmlns:Conv="clr-namespace:Controls.Converters;assembly=Controls"
-	xmlns:Converters="clr-namespace:StrazhModule.Converters"
 	xmlns:Views="clr-namespace:StrazhModule.Views"
 	xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 	xmlns:ctrl="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
 	xmlns:viewModel="clr-namespace:StrazhModule.ViewModels">
-
 	<UserControl.Resources>
 		<Conv:SwitchConverter x:Key="Tooltip" Else="{x:Null}">
 			<Conv:SwitchCase Then="Устройство может быть размещено на плане" When="Multiple" />
@@ -47,7 +45,6 @@
 		<viewModel:DeviceViewModelAddressComparer x:Key="DeviceViewModelAddressComparer" />
 		<viewModel:DeviceViewModelZoneComparer x:Key="DeviceViewModelZoneComparer" />
 	</UserControl.Resources>
-
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" MinHeight="200" />
@@ -62,7 +59,8 @@
 			SelectedTreeNode="{Binding SelectedDevice}"
 			Source="{Binding RootDevices}"
 			ctrl:ListViewLayoutManager.Enabled="True"
-			tree:SortBehavior.CanUserSortColumns="True">
+			tree:SortBehavior.CanUserSortColumns="True"
+			tree:SortBehavior.DefaultSortComparer="{StaticResource DeviceViewModelDeviceComparer}">
 			<tree:TreeList.Resources>
 				<Style
 					x:Key="{x:Type ComboBox}"

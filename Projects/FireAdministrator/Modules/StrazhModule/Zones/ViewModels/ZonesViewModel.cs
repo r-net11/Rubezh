@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using Common;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
@@ -40,7 +42,7 @@ namespace StrazhModule.ViewModels
 
 		public void Initialize()
 		{
-			Zones = new ObservableCollection<ZoneViewModel>();
+			Zones = new SortableObservableCollection<ZoneViewModel>();
 			foreach (var zone in SKDManager.Zones.OrderBy(x => x.No))
 			{
 				var zoneViewModel = new ZoneViewModel(zone);
@@ -49,8 +51,8 @@ namespace StrazhModule.ViewModels
 			SelectedZone = Zones.FirstOrDefault();
 		}
 
-		ObservableCollection<ZoneViewModel> _zones;
-		public ObservableCollection<ZoneViewModel> Zones
+		SortableObservableCollection<ZoneViewModel> _zones;
+		public SortableObservableCollection<ZoneViewModel> Zones
 		{
 			get { return _zones; }
 			set
@@ -70,7 +72,7 @@ namespace StrazhModule.ViewModels
 				OnPropertyChanged(() => SelectedZone);
 				UpdateRibbonItems();
 				if (!_lockSelection && _selectedZone != null && _selectedZone.Zone.PlanElementUIDs.Count > 0)
-					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedZone.Zone.PlanElementUIDs);
+					ServiceFactoryBase.Events.GetEvent<FindElementEvent>().Publish(_selectedZone.Zone.PlanElementUIDs);
 			}
 		}
 
@@ -151,15 +153,15 @@ namespace StrazhModule.ViewModels
 
 		void SubscribeEvents()
 		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
 		void OnZoneChanged(Guid zoneUID)
 		{
@@ -204,12 +206,11 @@ namespace StrazhModule.ViewModels
 
 		public override void OnShow()
 		{
+			if(Zones != null)
+				Zones.Sort(x => x.Name);
+
 			SelectedZone = SelectedZone;
 			base.OnShow();
-		}
-		public override void OnHide()
-		{
-			base.OnHide();
 		}
 
 		protected override void UpdateRibbonItems()
@@ -221,9 +222,9 @@ namespace StrazhModule.ViewModels
 		}
 		void SetRibbonItems()
 		{
-			RibbonItems = new List<RibbonMenuItemViewModel>()
+			RibbonItems = new List<RibbonMenuItemViewModel>
 			{
-				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>
 				{
 					new RibbonMenuItemViewModel("Добавить", "BAdd"),
 					new RibbonMenuItemViewModel("Редактировать", "BEdit"),

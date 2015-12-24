@@ -80,7 +80,7 @@ namespace StrazhModule.ViewModels
 
 		public DeviceViewModel[] RootDevices
 		{
-			get { return new DeviceViewModel[] { RootDevice }; }
+			get { return new[] { RootDevice }; }
 		}
 
 		void BuildTree()

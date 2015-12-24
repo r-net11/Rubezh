@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using Common;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
@@ -41,7 +42,7 @@ namespace StrazhModule.ViewModels
 
 		public void Initialize()
 		{
-			Doors = new ObservableCollection<DoorViewModel>();
+			Doors = new SortableObservableCollection<DoorViewModel>();
 			foreach (var door in SKDManager.SKDConfiguration.Doors.OrderBy(x => x.No))
 			{
 				var doorViewModel = new DoorViewModel(door);
@@ -50,8 +51,8 @@ namespace StrazhModule.ViewModels
 			SelectedDoor = Doors.FirstOrDefault();
 		}
 
-		ObservableCollection<DoorViewModel> _doors;
-		public ObservableCollection<DoorViewModel> Doors
+		SortableObservableCollection<DoorViewModel> _doors;
+		public SortableObservableCollection<DoorViewModel> Doors
 		{
 			get { return _doors; }
 			set
@@ -166,6 +167,9 @@ namespace StrazhModule.ViewModels
 
 		public override void OnShow()
 		{
+			if(Doors != null)
+				Doors.Sort(x => x.Name);
+
 			base.OnShow();
 			SelectedDoor = SelectedDoor;
 		}

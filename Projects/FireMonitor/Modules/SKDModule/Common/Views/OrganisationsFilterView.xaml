@@ -4,6 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 	x:Name="_this"
 	d:DesignHeight="400"
 	d:DesignWidth="400"
@@ -11,7 +12,7 @@
 	<UserControl.Resources>
 		<DataTemplate x:Key="RadioButtonDataTemplate">
 			<RadioButton
-				Margin="2 0"
+				Margin="5 0 0 0"
 				VerticalAlignment="Center"
 				IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 				<StackPanel Orientation="Horizontal">
@@ -29,7 +30,7 @@
 		</DataTemplate>
 		<DataTemplate x:Key="CheckBoxDataTemplate">
 			<CheckBox
-				Margin="2 0"
+				Margin="5 0 0 0"
 				VerticalAlignment="Center"
 				IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 				<StackPanel Orientation="Horizontal">
@@ -61,18 +62,28 @@
 				</ContentControl.Style>
 			</ContentControl>
 		</DataTemplate>
+		<CollectionViewSource x:Key="cvsOrganisations" Source="{Binding Organisations.Items}">
+			<CollectionViewSource.SortDescriptions>
+				<componentModel:SortDescription PropertyName="Name" />
+			</CollectionViewSource.SortDescriptions>
+		</CollectionViewSource>
 	</UserControl.Resources>
-	<DataGrid ItemsSource="{Binding Organisations.Items}">
+	<DataGrid ItemsSource="{Binding Source={StaticResource cvsOrganisations}, IsAsync=True}" CanUserSortColumns="True">
 		<DataGrid.Columns>
 			<DataGridTemplateColumn
 				Width="*"
 				CellTemplate="{StaticResource FullTemplate}"
-				Header="Название" />
-			<DataGridTemplateColumn Width="*" Header="Примечание">
+				SortMemberPath="Name"
+				Header="Название">
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn
+				Width="*"
+				Header="Примечание"
+				SortMemberPath="Description">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<TextBlock
-							Margin="2"
+							Margin="5"
 							VerticalAlignment="Center"
 							Text="{Binding Description}" />
 					</DataTemplate>

@@ -22,9 +22,9 @@
 			ctr:ListViewLayoutManager.Enabled="True"
 			ItemActivatedCommand="{Binding EditCommand}"
 			SelectedTreeNode="{Binding SelectedItem}"
-			Source="{Binding Organisations,
-		                                Mode=OneWay}"
-			tree:SortBehavior.CanUserSortColumns="True">
+			Source="{Binding Organisations, Mode=OneWay}"
+			tree:SortBehavior.CanUserSortColumns="True"
+			tree:SortBehavior.DefaultSortComparer="{StaticResource PositionViewModelNameComparer}">
 			<tree:TreeList.View>
 				<GridView>
 					<GridViewColumn

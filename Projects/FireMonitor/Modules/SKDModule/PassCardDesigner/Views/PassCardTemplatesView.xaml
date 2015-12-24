@@ -8,13 +8,13 @@
 		<viewModel:PassCardTemplateViewModelNameComparer x:Key="PassCardTemplateViewModelNameComparer" />
 		<viewModel:PassCardTemplateViewModelDescriptionComparer x:Key="PassCardTemplateViewModelDescriptionComparer" />
 	</UserControl.Resources>
-
 	<TreeList
 		Name="_treeList"
 		Focusable="True"
 		ctr:ListViewLayoutManager.Enabled="True"
 		SelectedTreeNode="{Binding SelectedItem}"
 		SortBehavior.CanUserSortColumns="True"
+		SortBehavior.DefaultSortComparer="{StaticResource PassCardTemplateViewModelNameComparer}"
 		Source="{Binding Organisations}">
 		<TreeList.View>
 			<GridView>
