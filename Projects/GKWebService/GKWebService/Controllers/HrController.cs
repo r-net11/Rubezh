@@ -79,8 +79,20 @@ namespace GKWebService.Controllers
                 CanSelectCards,
                 CanSelectAccessTemplates,
                 CanSelectPassCardTemplates,
-                CanSelectOrganisations
-            } };
+                CanSelectOrganisations,
+                IsEmployeesEditAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_Edit),
+                IsGuestEditAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Guests_Edit),
+                IsDepartmentsEditAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Departments_Etit),
+                IsPositionsEditAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Positions_Etit),
+                IsEmployeesViewAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_View),
+                IsEmployeesEditCardTypeAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_Edit_CardType),
+                IsCardsEditAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Cards_Etit),
+                IsOrganisationsDoorsAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_Doors),
+                IsOrganisationsUsersAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_Users),
+                IsOrganisationsAddRemoveAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_AddRemove),
+                IsOrganisationsEditAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_Edit),
+            }
+            };
         }
 
         private bool CanSelectEmployees

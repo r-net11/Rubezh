@@ -7,20 +7,24 @@
     self.Doors = ko.observableArray();
 
     self.CanAdd = ko.computed(function () {
-        return self.SelectedOrganisation() && !self.SelectedOrganisation().IsDeleted();
+        return self.SelectedOrganisation() && !self.SelectedOrganisation().IsDeleted() && app.Menu.HR.IsOrganisationsAddRemoveAllowed();
     }, self);
     self.CanRemove = ko.computed(function () {
-        return self.SelectedOrganisation() && !self.SelectedOrganisation().IsDeleted();
+        return self.SelectedOrganisation() && !self.SelectedOrganisation().IsDeleted() && app.Menu.HR.IsOrganisationsAddRemoveAllowed();
     }, self);
     self.CanEdit = ko.computed(function () {
-        return self.SelectedOrganisation() && !self.SelectedOrganisation().IsDeleted();
+        return self.SelectedOrganisation() && !self.SelectedOrganisation().IsDeleted() && app.Menu.HR.IsOrganisationsEditAllowed();
     }, self);
     self.CanRestore = ko.computed(function () {
-        return self.SelectedOrganisation() && self.SelectedOrganisation().IsDeleted();
+        return self.SelectedOrganisation() && self.SelectedOrganisation().IsDeleted() && app.Menu.HR.IsOrganisationsAddRemoveAllowed();
     }, self);
+    self.CanSelectDoors = ko.observable(false);
+    self.CanSelectUsers = ko.observable(false);
 
     self.Init = function (filter) {
         self.Filter = filter;
+        self.CanSelectDoors(app.Menu.HR.IsOrganisationsDoorsAllowed());
+        self.CanSelectUsers(app.Menu.HR.IsOrganisationsUsersAllowed());
         self.ReloadOrganisationList();
     };
 

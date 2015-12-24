@@ -53,11 +53,11 @@ function EmployeeCardsViewModel(parentViewModel) {
     };
 
     self.CanAddCard = ko.computed(function () {
-        return !self.EmployeesParentViewModel.IsOrganisation() && !self.EmployeesParentViewModel.IsDeleted();
+        return app.Menu.HR.IsCardsEditAllowed() && !self.EmployeesParentViewModel.IsOrganisation() && !self.EmployeesParentViewModel.IsDeleted();
     }, self);
 
     self.CanEditCard = ko.computed(function () {
-        return true;
+        return app.Menu.HR.IsCardsEditAllowed();
     }, self);
 
     self.CardClick = function (data, e, card) {
