@@ -1,9 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Management;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
+using System.Windows.Forms;
 using AppSoftware.LicenceEngine.Common;
 using AppSoftware.LicenceEngine.KeyVerification;
 
@@ -11,22 +13,61 @@ namespace KeyGenerator
 {
 	public static class Generator
 	{
-		/// <summary>
-		/// Получает идентификатор процессора
-		/// </summary>
-		/// <returns>Идентификатор процессора</returns>
-		public static string GetProcessorID()
+		private static string RunQuery(string tableName, string methodName)
 		{
-			var processorID = string.Empty;
-			const string query = "SELECT ProcessorId FROM Win32_Processor";
-			var managementObjectSearcher = new ManagementObjectSearcher(query);
-			var collection = managementObjectSearcher.Get();
-			foreach (ManagementObject managementObject in collection)
+			var mos = new ManagementObjectSearcher("Select * from Win32_" + tableName);
+			foreach (ManagementObject mo in mos.Get())
 			{
-				processorID = (string)managementObject["ProcessorId"];
+				try
+				{
+					return mo[methodName].ToString();
+				}
+				catch (Exception e)
+				{
+					MessageBox.Show(e.ToString());
+				}
 			}
-			return (processorID);
+
+			return string.Empty;
 		}
+
+		public static string GetSerialKey()
+		{
+			var resultKey = string.Empty;
+			while (true)
+			{
+				resultKey += RunQuery("BaseBoard", "Product");
+				resultKey += RunQuery("BIOS", "Version");
+				resultKey += RunQuery("OperatingSystem", "SerialNumber");
+				resultKey += RunQuery("Processor", "ProcessorId");
+
+				resultKey = RemoveUseLess(resultKey);
+
+				if (resultKey.Length >= 25)
+				{
+					return resultKey.Substring(0, 25).ToUpper();
+				}
+				if (!resultKey.Any())
+					return string.Empty;
+			}
+		}
+
+		private static string RemoveUseLess(string st)
+		{
+			for (var i = st.Length - 1; i >= 0; i--)
+			{
+				var ch = char.ToUpper(st[i]);
+
+				if ((ch < 'A' || ch > 'Z')
+					&& (ch < '0' || ch > '9'))
+				{
+					st = st.Remove(i, 1);
+				}
+			}
+			return st;
+		}
+
+
 
 		public static bool VerifyProductKey(string productKey)
 		{
