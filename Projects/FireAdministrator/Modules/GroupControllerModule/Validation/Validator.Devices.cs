@@ -48,7 +48,6 @@ namespace GKModule.Validation
 					ValidateLogic(device);
 				ValidateGKNotEmptyChildren(device);
 				ValidateParametersMinMax(device);
-				//ValidateNotUsedLogic(device);
 				ValidateRSR2AddressFollowing(device);
 				ValidateKAUAddressFollowing(device);
 				ValidateGuardDevice(device);
@@ -185,18 +184,6 @@ namespace GKModule.Validation
 				}
 			}
 		}
-
-		//void ValidateNotUsedLogic(GKDevice device)
-		//{
-		//	foreach (var clause in device.Logic.OnClausesGroup.Clauses)
-		//	{
-		//		foreach (var clauseDevices in clause.Devices)
-		//		{
-		//			if (clauseDevices.IsNotUsed)
-		//				AddError(device, "В логике задействованы неиспользуемые устройства", ValidationErrorLevel.CannotSave);
-		//		}
-		//	}
-		//}
 
 		void ValidateDeviceRangeAddress(GKDevice device)
 		{
