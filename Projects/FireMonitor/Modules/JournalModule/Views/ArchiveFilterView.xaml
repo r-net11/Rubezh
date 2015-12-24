@@ -34,7 +34,7 @@
 					Width="100"
 					Margin="2"
 					Command="{Binding SaveCommand}"
-					Content="Ok"
+					Content="ОК"
 					IsDefault="True" />
 				<Button
 					Width="100"
