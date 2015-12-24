@@ -180,6 +180,10 @@ namespace RubezhAPI.GK
 							break;
 					}
 				}
+				if (device.DriverType == GKDriverType.RSR2_MAP4)
+				{
+					device.ChildDescriptors.AddRange(new List<GKBase>(device.Zones));
+				}
 				gkBases.Add(device);
 			}
 
