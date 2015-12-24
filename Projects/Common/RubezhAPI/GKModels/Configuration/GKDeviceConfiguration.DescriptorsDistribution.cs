@@ -10,9 +10,9 @@ namespace RubezhAPI.GK
 		{
 			Codes.ForEach(x => x.ChildDescriptors = new List<GKBase>());
 			Devices.ForEach(x => x.ChildDescriptors = new List<GKBase>());
-			Zones.ForEach(x => x.ChildDescriptors = new List<GKBase>());
-			Directions.ForEach(x => x.ChildDescriptors = new List<GKBase>());
-			Delays.ForEach(x => x.ChildDescriptors = new List<GKBase>());
+			Zones.ForEach(x => x.ChildDescriptors = new List<GKBase>(x.Devices));
+			Directions.ForEach(x => x.ChildDescriptors = new List<GKBase>(x.Logic.GetObjects()));
+			Delays.ForEach(x => x.ChildDescriptors = new List<GKBase>(x.Logic.GetObjects()));
 			GuardZones.ForEach(x => x.ChildDescriptors = new List<GKBase>());
 			PumpStations.ForEach(x => x.ChildDescriptors = new List<GKBase>());
 			MPTs.ForEach(x => x.ChildDescriptors = new List<GKBase>());
