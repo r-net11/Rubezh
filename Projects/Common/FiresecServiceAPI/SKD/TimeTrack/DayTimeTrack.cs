@@ -798,12 +798,12 @@ namespace FiresecAPI.SKD
 			timeTrackPart.TimeTrackPartType = TimeTrackType.Absence; //Отсутствие
 
 			//Если учитывается первый вход-последний выход и проход в рамках графика, то "Отсутствие в рамках графика"
-			if (realTimeTrackParts
-				.Any(x => x.EnterDateTime.TimeOfDay >= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay)
-				&& isOnlyFirstEnter)
-			{
-				return TimeTrackType.AbsenceInsidePlan;
-			}
+			//if (realTimeTrackParts
+			//	.Any(x => x.EnterDateTime.TimeOfDay >= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay)
+			//	&& isOnlyFirstEnter)
+			//{
+			//	return TimeTrackType.AbsenceInsidePlan;
+			//}
 
 			if (plannedTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay == timeTrackPart.EnterDateTime.TimeOfDay) && //TODO: describe it
 				plannedTimeTrackParts.All(x => x.ExitDateTime.Value.TimeOfDay != timeTrackPart.ExitDateTime.Value.TimeOfDay) &&

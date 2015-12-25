@@ -16,9 +16,6 @@ namespace FiresecAPI.SKD
 		[Description("Отсутствие")]
 		Absence,
 
-		[Description("Отсутствие в рамках графика")]
-		AbsenceInsidePlan,
-
 		[Description("Опоздание")]
 		Late,
 
