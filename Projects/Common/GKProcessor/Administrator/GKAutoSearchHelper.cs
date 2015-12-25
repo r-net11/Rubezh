@@ -122,6 +122,7 @@ namespace GKProcessor
 								kauDevice.Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKMirror);
 								if (kauDevice.Driver != null)
 									kauDevice.DriverUID = kauDevice.Driver.UID;
+								GKManager.AddAutoCreateChildren(kauDevice);
 							}
 							gkDevice.Children.Add(kauDevice);
 						}
