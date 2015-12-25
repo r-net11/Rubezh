@@ -471,9 +471,7 @@
 							Grid.Column="2"
 							Margin="5"
 							VerticalAlignment="Center"
-							Text="{Binding BalanceTimeSpan,
-						                          Converter={StaticResource TimeSpanToStringConverter},
-						                          FallbackValue=00.00}">
+							Text="{Binding BalanceTimeSpan, Converter={StaticResource TimeSpanToStringConverter}, FallbackValue=00.00}">
 							<TextBlock.Style>
 								<Style>
 									<Style.Triggers>
@@ -504,9 +502,7 @@
 							Grid.Column="2"
 							Margin="5"
 							VerticalAlignment="Center"
-							Text="{Binding PresentTimeSpan,
-						                          Converter={StaticResource TimeSpanToStringConverter},
-						                          FallbackValue=00.00}">
+							Text="{Binding PresentTimeSpan, Converter={StaticResource TimeSpanToStringConverter}, FallbackValue=00.00}">
 							<TextBlock.Style>
 								<Style>
 									<Style.Triggers>
