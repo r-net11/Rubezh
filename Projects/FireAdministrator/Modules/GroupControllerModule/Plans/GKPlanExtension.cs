@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Media;
-using Common;
+﻿using Common;
 using DeviceControls;
-using RubezhAPI;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
 using GKModule.Events;
 using GKModule.Plans.Designer;
 using GKModule.Plans.InstrumentAdorners;
@@ -26,6 +17,15 @@ using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Interfaces;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Services;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Media;
 
 namespace GKModule.Plans
 {
@@ -666,7 +666,7 @@ namespace GKModule.Plans
 									var isInZone = zones.Any(x => x.ZoneUID == device.ZoneUIDs[0]);
 									if (!isInZone)
 									{
-										if (!deviceInZones.ContainsKey(device) && !device.IsIgnoredChangesOnPlan)
+										if (!deviceInZones.ContainsKey(device) && !device.AllowBeOutsideZone)
 											deviceInZones.Add(device, GetTopZoneUID(zones));
 									}
 									else
@@ -674,7 +674,7 @@ namespace GKModule.Plans
 										handledDevices.Add(device);
 										if (deviceInZones.ContainsKey(device))
 											deviceInZones.Remove(device);
-										device.IsIgnoredChangesOnPlan = false;
+										device.AllowBeOutsideZone = false;
 									}
 									break;
 							}
