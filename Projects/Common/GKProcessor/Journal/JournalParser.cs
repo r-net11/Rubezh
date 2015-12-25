@@ -466,7 +466,7 @@ namespace GKProcessor
 					}
 					break;
 			}
-
+			JournalItem.JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(JournalItem.JournalEventNameType);
 			InitializeMAMessage();
 		}
 

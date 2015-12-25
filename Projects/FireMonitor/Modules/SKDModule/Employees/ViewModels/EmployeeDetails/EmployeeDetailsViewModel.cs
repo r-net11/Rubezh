@@ -43,16 +43,12 @@ namespace SKDModule.ViewModels
 			
 			Genders = new ObservableCollection<Gender>();
 			foreach (Gender item in Enum.GetValues(typeof(Gender)))
-			{
 				Genders.Add(item);
-			}
-
+			
 			DocumentTypes = new ObservableCollection<EmployeeDocumentType>();
 			foreach (EmployeeDocumentType item in Enum.GetValues(typeof(EmployeeDocumentType)))
-			{
 				DocumentTypes.Add(item);
-			}
-
+			
 			_organisation = OrganisationHelper.GetSingle(organisationUID);
 			_personType = personType;
 			IsEmployee = _personType == PersonType.Employee;
@@ -154,9 +150,15 @@ namespace SKDModule.ViewModels
 					OrganisationUID = _organisation.UID
 				};
 				if (SelectedDepartment != null)
+				{
 					result.DepartmentName = SelectedDepartment.Name;
+					result.IsDepartmentDeleted = SelectedDepartment.IsDeleted;
+				}
 				if (SelectedPosition != null)
+				{
 					result.PositionName = SelectedPosition.Name;
+					result.IsPositionDeleted = SelectedPosition.IsDeleted;
+				}
 				foreach (var item in Employee.AdditionalColumns.Where(x => x.DataType == AdditionalColumnDataType.Text))
 				{
 					result.TextColumns.Add(new TextColumn { ColumnTypeUID = item.AdditionalColumnTypeUID, Text = item.TextData });
@@ -571,7 +573,7 @@ namespace SKDModule.ViewModels
 		void OnSelectSchedule()
 		{
 			var scheduleSelectionViewModel = new ScheduleSelectionViewModel(Employee, SelectedSchedule, ScheduleStartDate);
-			if (DialogService.ShowModalWindow(scheduleSelectionViewModel))
+			if (ServiceFactory.DialogService.ShowModalWindow(scheduleSelectionViewModel))
 			{
 				if (scheduleSelectionViewModel.SelectedSchedule != null)
 				{
@@ -592,9 +594,10 @@ namespace SKDModule.ViewModels
 		public RelayCommand SelectDepartmentCommand { get; private set; }
 		void OnSelectDepartment()
 		{
-			var departmentSelectionViewModel = new DepartmentSelectionViewModel(Employee.OrganisationUID, SelectedDepartment != null ? SelectedDepartment.UID : Guid.Empty);
+			var departmentSelectionViewModel = new DepartmentSelectionViewModel(Employee.OrganisationUID, 
+				SelectedDepartment != null ? SelectedDepartment.UID : Guid.Empty);
 			departmentSelectionViewModel.Initialize();
-			if (DialogService.ShowModalWindow(departmentSelectionViewModel))
+			if (ServiceFactory.DialogService.ShowModalWindow(departmentSelectionViewModel))
 			{
 				if(departmentSelectionViewModel.SelectedDepartment != null)
 					SelectedDepartment = new EmployeeItem 
@@ -612,7 +615,7 @@ namespace SKDModule.ViewModels
 		void OnSelectPosition()
 		{
 			var positionSelectionViewModel = new PositionSelectionViewModel(Employee, SelectedPosition);
-			if (DialogService.ShowModalWindow(positionSelectionViewModel))
+			if (ServiceFactory.DialogService.ShowModalWindow(positionSelectionViewModel))
 			{
 				if (positionSelectionViewModel.SelectedPosition != null)
 					SelectedPosition = new EmployeeItem
@@ -631,11 +634,11 @@ namespace SKDModule.ViewModels
 		{
 			if (SelectedDepartment == null)
 			{
-				MessageBoxService.Show("Выберите подразделение");
+				ServiceFactory.MessageBoxService.Show("Выберите подразделение");
 				return;
 			}
 			var escortSelectionViewModel = new EscortSelectionViewModel(SelectedDepartment, SelectedEscort, _organisation.UID);
-			if (DialogService.ShowModalWindow(escortSelectionViewModel))
+			if (ServiceFactory.DialogService.ShowModalWindow(escortSelectionViewModel))
 			{
 				SelectedEscort = escortSelectionViewModel.SelectedEmployee;
 			}
@@ -762,47 +765,47 @@ namespace SKDModule.ViewModels
 				return false;
 			if(Employee.FirstName.Length > 50)
 			{
-				MessageBoxService.Show("Значение поля 'Имя' не может быть длиннее 50 символов");
+				ServiceFactory.MessageBoxService.Show("Значение поля 'Имя' не может быть длиннее 50 символов");
 				return false;
 			}
 			if (Employee.TabelNo != null && Employee.TabelNo.Length > 40)
 			{
-				MessageBoxService.Show("Значение поля 'Табельный номер' не может быть длиннее 40 символов");
+				ServiceFactory.MessageBoxService.Show("Значение поля 'Табельный номер' не может быть длиннее 40 символов");
 				return false;
 			}
 			if (Employee.SecondName != null && Employee.SecondName.Length > 50)
 			{
-				MessageBoxService.Show("Значение поля 'Отчество' не может быть длиннее 50 символов");
+				ServiceFactory.MessageBoxService.Show("Значение поля 'Отчество' не может быть длиннее 50 символов");
 				return false;
 			}
 			if (Employee.LastName != null && Employee.LastName.Length > 50)
 			{
-				MessageBoxService.Show("Значение поля 'Фамилия' не может быть длиннее 50 символов");
+				ServiceFactory.MessageBoxService.Show("Значение поля 'Фамилия' не может быть длиннее 50 символов");
 				return false;
 			}
 			if (Employee.DocumentNumber != null && Employee.DocumentNumber.Length > 50)
 			{
-				MessageBoxService.Show("Значение поля 'Номер документа' не может быть длиннее 50 символов");
+				ServiceFactory.MessageBoxService.Show("Значение поля 'Номер документа' не может быть длиннее 50 символов");
 				return false;
 			}
 			if (Employee.Phone != null && Employee.Phone.Length > 50)
 			{
-				MessageBoxService.Show("Значение поля 'Телефон' не может быть длиннее 50 символов");
+				ServiceFactory.MessageBoxService.Show("Значение поля 'Телефон' не может быть длиннее 50 символов");
 				return false;
 			}
 			if (Employee.DocumentGivenBy != null && Employee.DocumentGivenBy.Length > 4000)
 			{
-				MessageBoxService.Show("Значение поля 'Документ выдан' не может быть длиннее 4000 символов");
+				ServiceFactory.MessageBoxService.Show("Значение поля 'Документ выдан' не может быть длиннее 4000 символов");
 				return false;
 			}
 			if (Employee.BirthPlace != null && Employee.BirthPlace.Length > 4000)
 			{
-				MessageBoxService.Show("Значение поля 'Место рождения' не может быть длиннее 4000 символов");
+				ServiceFactory.MessageBoxService.Show("Значение поля 'Место рождения' не может быть длиннее 4000 символов");
 				return false;
 			}
 			if (Employee.Citizenship != null && Employee.Citizenship.Length > 4000)
 			{
-				MessageBoxService.Show("Значение поля 'Гражданство' не может быть длиннее 4000 символов");
+				ServiceFactory.MessageBoxService.Show("Значение поля 'Гражданство' не может быть длиннее 4000 символов");
 				return false;
 			}
 			return true;

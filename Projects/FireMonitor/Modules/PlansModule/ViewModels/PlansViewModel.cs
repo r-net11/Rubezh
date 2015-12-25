@@ -30,12 +30,12 @@ namespace PlansModule.ViewModels
 		public PlanDesignerViewModel PlanDesignerViewModel { get; private set; }
 
 		public PlansViewModel(List<IPlanPresenter<Plan, XStateClass>> planPresenters)
-			: this(planPresenters, new LayoutPartPlansProperties() { Type = LayoutPartPlansType.All })
+			: this(planPresenters, new LayoutPartPlansProperties { Type = LayoutPartPlansType.All, AllowChangePlanZoom = true, ShowZoomSliders = true })
 		{
 		}
 		public PlansViewModel(List<IPlanPresenter<Plan, XStateClass>> planPresenters, LayoutPartPlansProperties properties)
 		{
-			_properties = properties ?? new LayoutPartPlansProperties() { Type = LayoutPartPlansType.All };
+			_properties = properties ?? new LayoutPartPlansProperties { Type = LayoutPartPlansType.All };
 			PlanPresenters = planPresenters;
 			ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Subscribe(OnNavigate);
 			ServiceFactory.Events.GetEvent<ShowElementEvent>().Subscribe(OnShowElement);
@@ -62,7 +62,7 @@ namespace PlansModule.ViewModels
 			}
 			else
 				PlanNavigationWidth = GridLength.Auto;
-			PlanDesignerViewModel = new PlanDesignerViewModel(this);
+			PlanDesignerViewModel = new PlanDesignerViewModel(this, properties);
 		}
 
 		public void Initialize()
@@ -72,6 +72,31 @@ namespace PlansModule.ViewModels
 				PlanTreeViewModel.Initialize();
 			_initialized = true;
 			OnSelectedPlanChanged();
+
+			foreach (var plan in PlanTreeViewModel.AllPlans)
+			{
+				foreach (var element in plan.Plan.AllElements)
+				{
+					foreach (var planElementBindingItem in element.PlanElementBindingItems)
+					{
+						var glabalVariable = ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid == planElementBindingItem.GlobalVariableUID);
+						if (glabalVariable != null)
+						{
+							glabalVariable.ExplicitValueChanged += () =>
+							{
+								var planCallbackData = new PlanCallbackData()
+								{
+									ElementPropertyType = ElementPropertyType.BorderThickness,
+									Value = glabalVariable.ExplicitValue.IntValue,
+									ElementUid = element.UID,
+									PlanUid = plan.Plan.UID
+								};
+								SetPlanProperty(planCallbackData);
+							};
+						}
+					}
+				}
+			}
 		}
 
 		void OnControlPlan(ControlPlanEventArg controlPlanEventArg)
@@ -85,7 +110,6 @@ namespace PlansModule.ViewModels
 					SetPlanProperty(controlPlanEventArg.PlanCallbackData);
 					break;
 			}
-
 		}
 
 		private void OnSelectPlan(Guid planUID)
@@ -163,7 +187,7 @@ namespace PlansModule.ViewModels
 
 		public bool IsPlanTreeVisible
 		{
-			get { return !GlobalSettingsHelper.GlobalSettings.Monitor_HidePlansTree && PlanTreeViewModel != null; }
+			get { return  PlanTreeViewModel != null; }
 		}
 
 		public override void OnShow()

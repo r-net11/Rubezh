@@ -21,13 +21,13 @@ namespace RubezhDAL.DataClasses
 			get { return Context.AdditionalColumnTypes; }
 		}
 
-		public override System.Linq.IQueryable<AdditionalColumnType> GetFilteredTableItems(API.AdditionalColumnTypeFilter filter, System.Linq.IQueryable<AdditionalColumnType> tableItems)
+		public override IQueryable<AdditionalColumnType> GetFilteredTableItems(API.AdditionalColumnTypeFilter filter, IQueryable<AdditionalColumnType> tableItems)
 		{
 			var filteredTableItems = base.GetFilteredTableItems(filter, tableItems);
 			if(filter.Type.HasValue)
-			{
 				filteredTableItems = filteredTableItems.Where(x => x.DataType == (int)filter.Type.Value);
-			}
+			if(filter.IsInGrid != null)
+				filteredTableItems = filteredTableItems.Where(x => x.IsInGrid);
 			return filteredTableItems;
 		}
 
@@ -36,7 +36,7 @@ namespace RubezhDAL.DataClasses
 			base.TranslateBack(apiItem, tableItem);
 		}
 
-		protected override IEnumerable<API.AdditionalColumnType> GetAPIItems(System.Linq.IQueryable<AdditionalColumnType> tableItems)
+		protected override IEnumerable<API.AdditionalColumnType> GetAPIItems(IQueryable<AdditionalColumnType> tableItems)
 		{
 			return tableItems.Select(tableItem => new API.AdditionalColumnType
 			{

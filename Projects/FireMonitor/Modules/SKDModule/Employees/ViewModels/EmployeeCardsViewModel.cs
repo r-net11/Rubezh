@@ -30,8 +30,9 @@ namespace SKDModule.ViewModels
 			if (!_employeeViewModel.IsOrganisation)
 			{
 				var cards = CardHelper.GetByEmployee(_employeeViewModel.Model.UID);
-				foreach (var item in cards)
-					Cards.Add(new EmployeeCardViewModel(_employeeViewModel.Organisation, this, item));
+				if(cards != null)
+					foreach (var item in cards)
+						Cards.Add(new EmployeeCardViewModel(_employeeViewModel.Organisation, this, item));
 				SelectedCard = Cards.FirstOrDefault();
 			}
 			_updateOrganisationDoorsEventSubscriber = new UpdateOrganisationDoorsEventSubscriber<EmployeeCardViewModel>(this);

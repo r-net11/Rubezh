@@ -21,6 +21,7 @@
     };
 
     self.IsWithDeleted = ko.observable(false);
+    self.IsShowPositions = ko.observable(false);
 
     self.Update = function() {
         self.LogicalDeletationType(self.IsWithDeleted() ? "All" : "Active");
@@ -33,23 +34,42 @@
         self.EmployeesFilter.Init(self.IsWithDeleted(), self.UIDs(), self.LastName(), self.FirstName(), self.SecondName());
     });
 
+    self.IsNotEmpty = ko.computed(function() {
+        return self.FirstName() ||
+				self.LastName() ||
+				self.SecondName() ||
+				self.DepartmentUIDs().length !== 0 ||
+				self.PositionUIDs().length !== 0 ||
+				self.ScheduleUIDs().length !== 0 ||
+				self.OrganisationUIDs().length !== 0 ||
+				self.UIDs().length !== 0;
+    });
+
     self.InitFilter = function () {
         self.latestData = ko.mapping.toJS(self);
         self.latestIsWithDeleted = self.IsWithDeleted();
+        self.IsShowPositions(self.HRViewModel.SelectedPersonType() === "Employee");
         self.OrganisationsFilter.Init(self.IsWithDeleted(), self.OrganisationUIDs());
         self.DepartmentsFilter.Init(self.IsWithDeleted(), self.DepartmentUIDs());
         self.PositionsFilter.Init(self.IsWithDeleted(), self.PositionUIDs());
-        self.EmployeesFilter.Init(self.IsWithDeleted(), self.UIDs(), self.LastName(), self.FirstName(), self.SecondName());
+        self.EmployeesFilter.Init(self.IsWithDeleted(), self.UIDs(), self.LastName(), self.FirstName(), self.SecondName(), self.HRViewModel.SelectedPersonType());
+
+        self.ActivatePage($('div#filter-box li').first(), 'Organisations');
     };
 
-    self.FilterPageClick = function (data, e, page) {
+    self.ActivatePage = function (pageElement, pageName) {
         for (var propertyName in self.filterPages) {
             self.filterPages[propertyName](false);
         }
 
-        self.filterPages[page](!self.filterPages[page]());
+        self.filterPages[pageName](!self.filterPages[pageName]());
         $('div#filter-box li').removeClass("active");
-        $(e.currentTarget).parent().addClass("active");
+        $(pageElement).addClass("active");
+    };
+
+
+    self.FilterPageClick = function (data, e, page) {
+        self.ActivatePage($(e.currentTarget).parent(), page);
     };
 
     self.Cancel = function () {

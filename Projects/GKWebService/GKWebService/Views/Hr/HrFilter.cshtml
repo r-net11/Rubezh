@@ -13,8 +13,8 @@
             <ul class="tab">
                 <li class="active"><a href="" data-bind="click: function(data,event) { FilterPageClick(data, event, 'Organisations'); }"><span>Организации</span></a></li>
                 <li><a href="" data-bind="click: function(data,event) { FilterPageClick(data, event, 'Departments'); }"><span>Подразделения</span></a></li>
-                <li><a href="" data-bind="click: function(data,event) { FilterPageClick(data, event, 'Positions'); }"><span>Должности</span></a></li>
-                <li><a href="" data-bind="click: function(data,event) { FilterPageClick(data, event, 'Employees'); }"><span>Сотрудники</span></a></li>
+                <li><a href="" data-bind="click: function(data,event) { FilterPageClick(data, event, 'Positions'); }, visible: IsShowPositions"><span>Должности</span></a></li>
+                <li><a href="" data-bind="click: function(data,event) { FilterPageClick(data, event, 'Employees'); }"><span data-bind="text: HRViewModel.EmployeesHeader"></span></a></li>
             </ul>
 
             <div data-bind="visible:filterPages.Organisations">

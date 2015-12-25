@@ -11,5 +11,11 @@ namespace RubezhAPI.Models.Layouts
 		public List<Guid> Plans { get; set; }
 		[DataMember]
 		public LayoutPartPlansType Type { get; set; }
+		[DataMember]
+		public bool ShowZoomSliders { get; set; }
+		[DataMember]
+		public double DeviceZoom { get; set; }
+		[DataMember]
+		public bool AllowChangePlanZoom { get; set; }
 	}
 }

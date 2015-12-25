@@ -16,7 +16,7 @@ namespace PlansModule.ViewModels
 		{
 			Title = "Планы";
 			IconSource = LayoutPartDescription.IconPath + "CMap.png";
-			_properties = properties ?? new LayoutPartPlansProperties();
+			_properties = properties ?? new LayoutPartPlansProperties { DeviceZoom = 30 };
 			UpdateLayoutPart();
 		}
 

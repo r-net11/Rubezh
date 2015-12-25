@@ -62,23 +62,27 @@ function DepartmentsViewModel() {
     self.Clipboard = ko.observable();
 
     self.CanAdd = ko.computed(function () {
-        return self.IsRowSelected() && !self.IsDeleted();
+        return self.IsRowSelected() && !self.IsDeleted() && app.Menu.HR.IsDepartmentsEditAllowed();
     }, self);
     self.CanRemove = ko.computed(function () {
-        return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation();
+        return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation() && app.Menu.HR.IsDepartmentsEditAllowed();
     }, self);
     self.CanEdit = ko.computed(function () {
-        return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation();
+        return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation() && app.Menu.HR.IsDepartmentsEditAllowed();
     }, self);
     self.CanCopy = ko.computed(function () {
-        return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation();
+        return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation() && app.Menu.HR.IsDepartmentsEditAllowed();
     }, self);
     self.CanPaste = ko.computed(function () {
-        return self.IsRowSelected() && !self.IsDeleted() && !self.Clipboard();
+        return self.IsRowSelected() && !self.IsDeleted() && self.Clipboard() && app.Menu.HR.IsDepartmentsEditAllowed();
     }, self);
     self.CanRestore = ko.computed(function () {
-        return self.IsRowSelected() && self.IsDeleted() && !self.IsOrganisation();
+        return self.IsRowSelected() && self.IsDeleted() && !self.IsOrganisation() && app.Menu.HR.IsDepartmentsEditAllowed();
     }, self);
+    self.IsShowEmployeeList = ko.computed(function () {
+        return !self.IsOrganisation() && app.Menu.HR.IsEmployeesViewAllowed();
+    }, self);
+
 
     self.Init = function (filter) {
         self.Filter = filter;

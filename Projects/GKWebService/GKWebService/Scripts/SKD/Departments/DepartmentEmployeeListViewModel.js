@@ -62,19 +62,19 @@ function DepartmentEmployeeListViewModel(parentViewModel) {
     self.IsRowSelected = ko.observable(false);
     self.IsChief = ko.observable(false);
     self.CanAdd = ko.computed(function () {
-        return !self.ParentViewModel.IsDeleted();
+        return !self.ParentViewModel.IsDeleted() && app.Menu.HR.IsEmployeesEditAllowed();
     }, self);
     self.CanRemove = ko.computed(function () {
-        return self.IsRowSelected() && !self.IsDeleted() && !self.ParentViewModel.IsDeleted();
+        return self.IsRowSelected() && !self.IsDeleted() && !self.ParentViewModel.IsDeleted() && app.Menu.HR.IsEmployeesEditAllowed();
     }, self);
     self.CanEdit = ko.computed(function () {
-        return self.IsRowSelected() && !self.IsDeleted() && !self.ParentViewModel.IsDeleted();
+        return self.IsRowSelected() && !self.IsDeleted() && !self.ParentViewModel.IsDeleted() && app.Menu.HR.IsEmployeesEditAllowed();
     }, self);
     self.CanSetChief = ko.computed(function () {
-        return self.IsRowSelected() && !self.IsDeleted() && !self.IsChief() && !self.ParentViewModel.IsDeleted();
+        return self.IsRowSelected() && !self.IsDeleted() && !self.IsChief() && !self.ParentViewModel.IsDeleted() && app.Menu.HR.IsDepartmentsEditAllowed();
     }, self);
     self.CanUnSetChief = ko.computed(function () {
-        return self.IsRowSelected() && !self.IsDeleted() && self.IsChief() && !self.ParentViewModel.IsDeleted();
+        return self.IsRowSelected() && !self.IsDeleted() && self.IsChief() && !self.ParentViewModel.IsDeleted() && app.Menu.HR.IsDepartmentsEditAllowed();
     }, self);
 
     self.Init = function () {
@@ -93,7 +93,7 @@ function DepartmentEmployeeListViewModel(parentViewModel) {
             },
             function (empList) {
                 self.UpdateTree(empList);
-        });
+            });
     };
 
     self.UpdateTree = function (data) {
