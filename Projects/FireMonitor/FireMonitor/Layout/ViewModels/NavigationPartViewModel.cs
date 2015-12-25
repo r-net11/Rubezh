@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace FireMonitor.Layout.ViewModels
 {
 	public class NavigationPartViewModel : BaseViewModel
 	{
-		private MonitorLayoutShellViewModel _monitorLayoutShellViewModel;
-		public NavigationPartViewModel(MonitorLayoutShellViewModel monitorLayoutShellViewModel)
+		private ShellViewModel _shellViewModel;
+		public NavigationPartViewModel(ShellViewModel monitorLayoutShellViewModel)
 		{
 			var properties = new List<string>()
 			{
@@ -17,8 +17,8 @@ namespace FireMonitor.Layout.ViewModels
 				"MinimizeCommand",
 				"TextVisibility",
 			};
-			_monitorLayoutShellViewModel = monitorLayoutShellViewModel;
-			_monitorLayoutShellViewModel.PropertyChanged += (s, e) =>
+			_shellViewModel = monitorLayoutShellViewModel;
+			_shellViewModel.PropertyChanged += (s, e) =>
 			{
 				if (properties.Contains(e.PropertyName))
 					OnPropertyChanged(e.PropertyName);
@@ -28,15 +28,15 @@ namespace FireMonitor.Layout.ViewModels
 
 		public ReadOnlyCollection<NavigationItem> NavigationItems
 		{
-			get { return _monitorLayoutShellViewModel.NavigationItems; }
+			get { return _shellViewModel.NavigationItems; }
 		}
 		public RelayCommand<MinimizeTarget> MinimizeCommand
 		{
-			get { return _monitorLayoutShellViewModel.MinimizeCommand; }
+			get { return _shellViewModel.MinimizeCommand; }
 		}
 		public bool TextVisibility
 		{
-			get { return _monitorLayoutShellViewModel.TextVisibility; }
+			get { return _shellViewModel.TextVisibility; }
 		}
 	}
 }
