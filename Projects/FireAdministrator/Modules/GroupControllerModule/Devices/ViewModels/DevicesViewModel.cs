@@ -196,7 +196,15 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedDevice.Device.IsConnectedToKAU)
 			{
-				if (SelectedDevice.Device.KAUShleifParent.AllChildren.Count + DevicesToCopy.Count > 255)
+				var count = 0;
+				DevicesToCopy.ForEach(x =>
+					{
+						count += x.AllChildren.Where(y => !y.Driver.IsGroupDevice && y.Driver.HasAddress).Count();
+						if (!x.Driver.IsGroupDevice && x.Driver.HasAddress)
+							count += 1;
+					});
+
+				if (GKManager.GetAddress(SelectedDevice.Device.KAUShleifParent.AllChildren) + count > 255)
 				{
 					MessageBoxService.ShowWarning("Адрес устройства не может превышать 255");
 					return;
@@ -290,7 +298,7 @@ namespace GKModule.ViewModels
 				}
 				else
 				{
-					var index = SelectedDevice.Device.Parent.AllChildren.IndexOf(SelectedDevice.Device) + 1;
+					var index = SelectedDevice.Device.Parent.Children.IndexOf(SelectedDevice.Device) + 1;
 					var addedDevice = GKManager.AddDevice(SelectedDevice.Parent.Device, device.Driver, 0, index);
 					GKManager.CopyDevice(device, addedDevice);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(addedDevice, SelectedDevice, false);
