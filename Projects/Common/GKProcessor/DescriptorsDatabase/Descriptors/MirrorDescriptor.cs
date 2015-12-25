@@ -66,17 +66,6 @@ namespace GKProcessor
 					Formula.Add(FormulaOperationType.OR);
 				}
 				Formula.AddPutWord(false, Device);
-
-				count = 0;
-				foreach (var gkBase in Device.GKReflectionItem.Diretions)
-				{
-					Formula.AddGetWord(true, gkBase);
-					count++;
-					if (count > 1)
-					{
-						Formula.Add(FormulaOperationType.OR);
-					}
-				}
 			}
 			else
 			{
