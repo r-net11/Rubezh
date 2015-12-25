@@ -863,5 +863,41 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			//Assert
 			Assert.That(result, Is.EqualTo(new List<TimeSpan>()));
 		}
+
+		#region AdjustmentCombinedTimeTracks
+		[Test]
+		public void CalculateEarlyLeaveTimeForScheduleWithNorm()
+		{
+			//Arrange
+			var dayTimeTrack = new DayTimeTrack {SlideTime = TimeSpan.FromHours(8)};
+			var plannedTimeTrackPart = new List<TimeTrackPart>
+			{
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date + TimeSpan.FromHours(9),
+					ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
+				}
+			};
+			var realTimeTrackPart = new List<TimeTrackPart>
+			{
+				new TimeTrackPart
+				{
+
+					EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+					ExitDateTime = TIME.Date + TimeSpan.FromHours(10),
+					IsForURVZone = true
+				}
+			};
+			dayTimeTrack.RealTimeTrackParts = realTimeTrackPart;
+			dayTimeTrack.PlannedTimeTrackParts = plannedTimeTrackPart;
+			//Act
+			dayTimeTrack.Calculate();
+			//Assert
+			var totalEarlyLeave = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.EarlyLeave);
+			if (totalEarlyLeave != null)
+				Assert.AreEqual(totalEarlyLeave.TimeSpan, TimeSpan.FromHours(7));
+
+		}
+		#endregion
 	}
 }
