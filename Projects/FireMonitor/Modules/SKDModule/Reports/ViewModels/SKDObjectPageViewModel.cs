@@ -30,24 +30,21 @@ namespace SKDModule.Reports.ViewModels
 		{
 			RootFilters = new ObservableCollection<SKDObjectViewModel>();
 
-			var skdViewModel = new SKDObjectViewModel(JournalSubsystemType.SKD);
-			skdViewModel.IsExpanded = true;
+			var skdViewModel = new SKDObjectViewModel(JournalSubsystemType.SKD) {IsExpanded = true};
 			RootFilters.Add(skdViewModel);
 
 			var skdDevicesViewModel = new SKDObjectViewModel(JournalObjectType.SKDDevice);
 			skdViewModel.AddChild(skdDevicesViewModel);
-			foreach (var childDevice in SKDManager.SKDConfiguration.RootDevice.Children)
+			foreach (var childDevice in SKDManager.SKDConfiguration.RootDevice.Children.OrderBy(x => x.Name))
 				AddSKDDeviceInternal(childDevice, skdDevicesViewModel);
 
 			var skdZonesViewModel = new SKDObjectViewModel(JournalObjectType.SKDZone);
 			skdViewModel.AddChild(skdZonesViewModel);
-			foreach (var zone in SKDManager.Zones)
-				skdZonesViewModel.AddChild(new SKDObjectViewModel(zone));
+			skdZonesViewModel.AddChildren(SKDManager.Zones.OrderBy(x => x.Name).Select(x => new SKDObjectViewModel(x)));
 
 			var skdDoorsViewModel = new SKDObjectViewModel(JournalObjectType.SKDDoor);
 			skdViewModel.AddChild(skdDoorsViewModel);
-			foreach (var door in SKDManager.Doors)
-				skdDoorsViewModel.AddChild(new SKDObjectViewModel(door));
+			skdDoorsViewModel.AddChildren(SKDManager.Doors.OrderBy(x => x.Name).Select(x => new SKDObjectViewModel(x)));
 		}
 		private SKDObjectViewModel AddSKDDeviceInternal(SKDDevice device, SKDObjectViewModel parentDeviceViewModel)
 		{

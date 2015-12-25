@@ -26,6 +26,7 @@
 			IsEnabled="{Binding IsSelection}"
 			Source="{Binding Organisations, Mode=OneWay}"
 			tree:SortBehavior.CanUserSortColumns="True"
+			tree:SortBehavior.DefaultSortComparer="{StaticResource EmployeesFilterItemNameViewModelComparer}"
 			layout:ListViewLayoutManager.Enabled="True">
 			<tree:TreeList.View>
 				<GridView>

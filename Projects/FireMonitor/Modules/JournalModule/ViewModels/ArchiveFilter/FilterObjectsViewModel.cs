@@ -1,12 +1,10 @@
-﻿using System;
+﻿using FiresecAPI.Journal;
+using FiresecAPI.SKD;
+using Infrastructure.Common.Windows.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
 
 namespace JournalModule.ViewModels
 {
@@ -20,33 +18,12 @@ namespace JournalModule.ViewModels
 
 		public void Initialize(ArchiveFilter filter)
 		{
-			AllFilters.ForEach(x => x.SetIsChecked(false));
 			foreach (var subsystemType in filter.JournalSubsystemTypes)
 			{
 				var filterNameViewModel = RootFilters.FirstOrDefault(x => x.IsSubsystem && x.JournalSubsystemType == subsystemType);
 				if (filterNameViewModel != null)
 				{
 					filterNameViewModel.IsChecked = true;
-				}
-			}
-			foreach (var journalObjectType in filter.JournalObjectTypes)
-			{
-				var filterNameViewModel = AllFilters.FirstOrDefault(x => x.IsObjectGroup && x.JournalObjectType == journalObjectType);
-				if (filterNameViewModel != null)
-				{
-					filterNameViewModel.IsChecked = true;
-				}
-			}
-			foreach (var uid in filter.ObjectUIDs)
-			{
-				if (uid != Guid.Empty)
-				{
-					var filterNameViewModel = AllFilters.FirstOrDefault(x => x.UID == uid);
-					if (filterNameViewModel != null)
-					{
-						filterNameViewModel.IsChecked = true;
-						filterNameViewModel.ExpandToThis();
-					}
 				}
 			}
 		}
@@ -85,8 +62,6 @@ namespace JournalModule.ViewModels
 			return filter;
 		}
 
-		public List<FilterObjectViewModel> AllFilters;
-
 		public ObservableCollection<FilterObjectViewModel> RootFilters { get; private set; }
 
 		FilterObjectViewModel _selectedFilter;
@@ -103,45 +78,42 @@ namespace JournalModule.ViewModels
 		void BuildTree()
 		{
 			RootFilters = new ObservableCollection<FilterObjectViewModel>();
-			AllFilters = new List<FilterObjectViewModel>();
 
-			var skdViewModel = new FilterObjectViewModel(JournalSubsystemType.SKD);
-			skdViewModel.IsExpanded = true;
+			var skdViewModel = new FilterObjectViewModel(JournalSubsystemType.SKD) {IsExpanded = true};
 			RootFilters.Add(skdViewModel);
 
 			var skdDevicesViewModel = new FilterObjectViewModel(JournalObjectType.SKDDevice);
-			AddChild(skdViewModel, skdDevicesViewModel);
-			foreach (var childDevice in SKDManager.SKDConfiguration.RootDevice.Children)
+			skdViewModel.AddChild(skdDevicesViewModel);
+			foreach (var childDevice in SKDManager.SKDConfiguration.RootDevice.Children.OrderBy(x => x.Name))
 			{
 				AddSKDDeviceInternal(childDevice, skdDevicesViewModel);
 			}
 
 			var skdZonesViewModel = new FilterObjectViewModel(JournalObjectType.SKDZone);
-			AddChild(skdViewModel, skdZonesViewModel);
-			foreach (var zone in SKDManager.Zones)
+			skdViewModel.AddChild(skdZonesViewModel);
+			foreach (var zone in SKDManager.Zones.OrderBy(x => x.Name))
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(zone);
-				AddChild(skdZonesViewModel, filterObjectViewModel);
+				skdZonesViewModel.AddChild(filterObjectViewModel);
 			}
 
 			var skdDoorsViewModel = new FilterObjectViewModel(JournalObjectType.SKDDoor);
-			AddChild(skdViewModel, skdDoorsViewModel);
-			foreach (var door in SKDManager.Doors)
+			skdViewModel.AddChild(skdDoorsViewModel);
+			foreach (var door in SKDManager.Doors.OrderBy(x => x.Name))
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(door);
-				AddChild(skdDoorsViewModel, filterObjectViewModel);
+				skdDoorsViewModel.AddChild(filterObjectViewModel);
 			}
 
-			var videoViewModel = new FilterObjectViewModel(JournalSubsystemType.Video);
-			videoViewModel.IsExpanded = true;
+			var videoViewModel = new FilterObjectViewModel(JournalSubsystemType.Video) {IsExpanded = true};
 			RootFilters.Add(videoViewModel);
 
 			var videoDevicesViewModel = new FilterObjectViewModel(JournalObjectType.VideoDevice);
-			AddChild(videoViewModel, videoDevicesViewModel);
-			foreach (var camera in FiresecClient.FiresecManager.SystemConfiguration.Cameras)
+			videoViewModel.AddChild(videoDevicesViewModel);
+			foreach (var camera in FiresecClient.FiresecManager.SystemConfiguration.Cameras.OrderBy(x => x.Name))
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(camera);
-				AddChild(videoDevicesViewModel, filterObjectViewModel);
+				videoDevicesViewModel.AddChild(filterObjectViewModel);
 			}
 		}
 
@@ -149,7 +121,8 @@ namespace JournalModule.ViewModels
 		{
 			var deviceViewModel = new FilterObjectViewModel(device);
 			if (parentDeviceViewModel != null)
-				AddChild(parentDeviceViewModel, deviceViewModel);
+				parentDeviceViewModel.AddChild(deviceViewModel);
+				//AddChild(parentDeviceViewModel, deviceViewModel);
 
 			foreach (var childDevice in device.Children)
 			{
@@ -158,10 +131,9 @@ namespace JournalModule.ViewModels
 			return deviceViewModel;
 		}
 
-		void AddChild(FilterObjectViewModel parentDeviceViewModel, FilterObjectViewModel childDeviceViewModel)
-		{
-			parentDeviceViewModel.AddChild(childDeviceViewModel);
-			AllFilters.Add(childDeviceViewModel);
-		}
+		//void AddChild(FilterObjectViewModel parentDeviceViewModel, FilterObjectViewModel childDeviceViewModel)
+		//{
+		//	parentDeviceViewModel.AddChild(childDeviceViewModel);
+		//}
 	}
 }

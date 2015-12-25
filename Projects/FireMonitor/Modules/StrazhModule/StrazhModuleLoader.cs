@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using FiresecAPI.Events;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
-using FiresecAPI.Models.Layouts;
 using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
@@ -12,16 +8,17 @@ using Infrastructure.Client;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
-using Infrastructure.Common.Reports;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
-using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Designer;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using StrazhModule.Plans;
 using StrazhModule.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace StrazhModule
 {

@@ -24,10 +24,14 @@
 		SelectedTreeNode="{Binding SelectedCard}"
 		Source="{Binding RootItemsArray}"
 		ctr:ListViewLayoutManager.Enabled="True"
-		tree:SortBehavior.CanUserSortColumns="True">
+		tree:SortBehavior.CanUserSortColumns="True"
+		tree:SortBehavior.DefaultSortComparer="{StaticResource CardViewModelNumberComparer}">
 		<tree:TreeList.View>
 			<GridView>
-                <GridViewColumn Header="Номер" Width="300" tree:SortBehavior.SortComparer="{StaticResource CardViewModelNumberComparer}">
+                <GridViewColumn
+					Header="Номер"
+					Width="300"
+					tree:SortBehavior.SortComparer="{StaticResource CardViewModelNumberComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">

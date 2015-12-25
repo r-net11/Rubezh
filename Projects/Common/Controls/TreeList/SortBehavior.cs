@@ -93,14 +93,14 @@ namespace Controls.TreeList
 
 		private static void OnDefaultSortComparerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-			var listView = (ListView)d;
-			if (e.NewValue != null)
-			{
-				if (listView.IsLoaded)
-					DoInitialSort(listView);
-				else
-					listView.Loaded += OnLoaded;
-			}
+			var listView = d as ListView;
+
+			if (listView == null || e.NewValue == null) return;
+
+			if (listView.IsLoaded)
+				DoInitialSort(listView);
+			else
+				listView.Loaded += OnLoaded;
 		}
 
 		private static void OnLoaded(object sender, RoutedEventArgs e)

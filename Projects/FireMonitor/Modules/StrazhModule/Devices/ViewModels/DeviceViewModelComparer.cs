@@ -1,4 +1,6 @@
-﻿using Infrastructure.Common.TreeList;
+﻿using Common;
+using FiresecAPI.SKD;
+using Infrastructure.Common.TreeList;
 
 namespace StrazhModule.ViewModels
 {
@@ -6,21 +8,25 @@ namespace StrazhModule.ViewModels
 	{
 		protected override int Compare(DeviceViewModel x, DeviceViewModel y)
 		{
-			return string.Compare(x.Device.Driver.ShortName, y.Device.Driver.ShortName);
+			if (!x.Device.Driver.IsController || !y.Device.Driver.IsController) return 0;
+
+			return string.Compare(x.Device.Name, y.Device.Name);
 		}
 	}
 	public class DeviceViewModelAddressComparer : TreeNodeComparer<DeviceViewModel>
 	{
 		protected override int Compare(DeviceViewModel x, DeviceViewModel y)
 		{
-			if (x.Device.Address != y.Device.Address)
+			System.Net.IPAddress firstIP;
+			System.Net.IPAddress secondIP;
+
+			if (System.Net.IPAddress.TryParse(x.Device.Address, out firstIP)
+				&& System.Net.IPAddress.TryParse(y.Device.Address, out secondIP))
 			{
-				return string.Compare(x.Device.Address, y.Device.Address);
+				return firstIP.Compare(secondIP);
 			}
-			else
-			{
-				return 0;
-			}
+
+			return 0;
 		}
 	}
 	public class DeviceViewModelZoneComparer : TreeNodeComparer<DeviceViewModel>

@@ -1,15 +1,16 @@
-﻿using System.Linq;
-using System.Reflection;
-using Controls.Converters;
+﻿using Controls.Converters;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using Infrastructure.Common.TreeList;
+using System.Linq;
+using System.Reflection;
 
 namespace SKDModule.Reports.ViewModels
 {
 	public class EventTypeViewModel : TreeNodeViewModel<EventTypeViewModel>
 	{
+		#region
 		public EventTypeViewModel(JournalSubsystemType journalSubsystemType)
 		{
 			JournalSubsystemType = journalSubsystemType;
@@ -40,7 +41,9 @@ namespace SKDModule.Reports.ViewModels
 			}
 			IsSubsystem = false;
 		}
+		#endregion
 
+		#region Properties
 		public JournalEventNameType JournalEventNameType { get; private set; }
 		public string Name { get; private set; }
 		public string ImageSource { get; private set; }
@@ -71,11 +74,15 @@ namespace SKDModule.Reports.ViewModels
 				}
 			}
 		}
+		#endregion
 
+		#region Methods
 		public void SetIsChecked(bool value)
 		{
 			_isChecked = value;
 			OnPropertyChanged(() => IsChecked);
 		}
+
+		#endregion
 	}
 }

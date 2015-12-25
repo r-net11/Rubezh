@@ -1,8 +1,8 @@
-<UserControl x:Class="StrazhModule.Views.ZonesView"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Views="clr-namespace:StrazhModule.Views">
-
+<UserControl
+	x:Class="StrazhModule.Views.ZonesView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Views="clr-namespace:StrazhModule.Views">
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" MinWidth="200" />
@@ -80,7 +80,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Header="Контроллер" Width="Auto">
+					<DataGridTemplateColumn Header="Контроллер" Width="0.4*">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">

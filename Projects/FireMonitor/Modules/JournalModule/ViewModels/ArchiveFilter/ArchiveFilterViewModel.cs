@@ -1,5 +1,4 @@
-﻿using System;
-using FiresecAPI.Journal;
+﻿using FiresecAPI.Journal;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;

@@ -7,7 +7,7 @@
 	<DockPanel LastChildFill="True">
 		<StackPanel Margin="0,11,11,0" HorizontalAlignment="Right" DockPanel.Dock="Bottom" Orientation="Horizontal">
 			<Button Width="100" Margin="10,0,0,0" Command="{Binding CopyCommand}" Content="Копировать" Visibility="{Binding IsException, Converter={StaticResource BoolToVisibilityConverter}}" />
-			<Button Width="100" Margin="10,0,0,0" Command="{Binding OkCommand}" Content="Ok" IsDefault="True" Visibility="{Binding IsOkButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<Button Width="100" Margin="10,0,0,0" Command="{Binding OkCommand}" Content="ОК" IsDefault="True" Visibility="{Binding IsOkButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
 			<Button Width="100" Margin="10,0,0,0" Command="{Binding YesCommand}" Content="Да" IsDefault="True" Visibility="{Binding IsYesButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
 			<Button Width="100" Margin="10,0,0,0" Command="{Binding NoCommand}" Content="Нет" Visibility="{Binding IsNoButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
 			<Button Width="100" Margin="10,0,0,0" Command="{Binding CancelCommand}" Content="Отмена" Visibility="{Binding IsCancelButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />

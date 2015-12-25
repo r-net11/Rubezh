@@ -2,7 +2,6 @@
 using Common;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FiresecAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
 using System.Collections.ObjectModel;
@@ -24,25 +23,28 @@ namespace SKDModule.Reports.ViewModels
 		public RelayCommand SelectAllCommand { get; private set; }
 		public RelayCommand SelectNoneCommand { get; private set; }
 		public ObservableCollection<EventTypeViewModel> RootFilters { get; private set; }
+
+		private IEnumerable<EventTypeViewModel> GetEventsByType(JournalSubsystemType inputType)
+		{
+			return (Enum.GetValues(typeof (JournalEventNameType))
+				.Cast<JournalEventNameType>()
+				.Where(x => x != JournalEventNameType.NULL)
+				.Where(journalEventNameType => journalEventNameType.GetAttributeOfType<EventNameAttribute>().JournalSubsystemType == inputType)
+				.Select(journalEventNameType => new EventTypeViewModel(journalEventNameType)))
+				.OrderBy(x => x.Name)
+				.ToList();
+		}
+
 		private void BuildTree()
 		{
-			RootFilters = new ObservableCollection<EventTypeViewModel>();
-			RootFilters.Add(new EventTypeViewModel(JournalSubsystemType.System));
-			RootFilters.Add(new EventTypeViewModel(JournalSubsystemType.SKD));
-			foreach (JournalEventNameType enumValue in Enum.GetValues(typeof(JournalEventNameType)))
-				if (enumValue != JournalEventNameType.NULL)
-				{
-					var eventTypeViewModel = new EventTypeViewModel(enumValue);
-					switch (eventTypeViewModel.JournalSubsystemType)
-					{
-						case JournalSubsystemType.System:
-							RootFilters[0].AddChild(eventTypeViewModel);
-							break;
-						case JournalSubsystemType.SKD:
-							RootFilters[1].AddChild(eventTypeViewModel);
-							break;
-					}
-				}
+			RootFilters = new ObservableCollection<EventTypeViewModel>
+			{
+				new EventTypeViewModel(JournalSubsystemType.System),
+				new EventTypeViewModel(JournalSubsystemType.SKD)
+			};
+
+			RootFilters[0].AddChildren(GetEventsByType(JournalSubsystemType.System));
+			RootFilters[1].AddChildren(GetEventsByType(JournalSubsystemType.SKD));
 		}
 
 		public override void LoadFilter(SKDReportFilter filter)

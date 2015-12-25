@@ -4,9 +4,17 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:component="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 	d:DesignHeight="600"
 	d:DesignWidth="600"
 	mc:Ignorable="d">
+	<UserControl.Resources>
+		<CollectionViewSource x:Key="cvsUsers" Source="{Binding Users}">
+			<CollectionViewSource.SortDescriptions>
+				<component:SortDescription PropertyName="Item.Login" />
+			</CollectionViewSource.SortDescriptions>
+		</CollectionViewSource>
+	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
@@ -14,7 +22,7 @@
 		</Grid.RowDefinitions>
 		<DataGrid
 			CanUserSortColumns="True"
-			ItemsSource="{Binding Users}">
+			ItemsSource="{Binding Source={StaticResource cvsUsers}}">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn
 					Header="Логин"

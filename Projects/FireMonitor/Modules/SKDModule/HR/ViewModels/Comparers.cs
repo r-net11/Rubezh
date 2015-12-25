@@ -1,5 +1,6 @@
 ﻿using System;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using Infrastructure.Common.TreeList;
 using SKDModule.PassCardDesigner.ViewModels;
@@ -237,7 +238,7 @@ namespace SKDModule.ViewModels
 	{
 		protected override int Compare(DepartmentFilterItemViewModel x, DepartmentFilterItemViewModel y)
 		{
-			if (x == null || y == null || x.IsOrganisation || y.IsOrganisation) return 0;
+			if (x == null || y == null) return 0;
 			return string.Compare(x.Name, y.Name);
 		}
 	}
@@ -245,7 +246,7 @@ namespace SKDModule.ViewModels
 	{
 		protected override int Compare(DepartmentFilterItemViewModel x, DepartmentFilterItemViewModel y)
 		{
-			if (x == null || y == null || x.IsOrganisation || y.IsOrganisation) return 0;
+			if (x == null || y == null) return 0;
 			return string.Compare(x.Description, y.Description);
 		}
 	}
@@ -254,7 +255,7 @@ namespace SKDModule.ViewModels
 	{
 		protected override int Compare(EmployeesFilterItemViewModel x, EmployeesFilterItemViewModel y)
 		{
-			if (x == null || y == null || x.IsOrganisation || y.IsOrganisation) return 0;
+			if (x == null || y == null) return 0;
 			return string.Compare(x.Name, y.Name);
 		}
 	}
@@ -272,8 +273,12 @@ namespace SKDModule.ViewModels
 	{
 		protected override int Compare(TreeNodeItemViewModel x, TreeNodeItemViewModel y)
 		{
-			if (x == null || x.Item == null || y == null || y.Item == null) return 0;
-			return 0;
+			if (x == null || y == null || x.Item == null || y.Item == null) return 0;
+
+			var valueX = x.Item.GetType().GetProperty("Name").GetValue(x.Item, null);
+			var valueY = y.Item.GetType().GetProperty("Name").GetValue(y.Item, null);
+
+			return string.Compare(valueX.ToString(), valueY.ToString());
 		}
 	}
 

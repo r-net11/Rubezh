@@ -35,7 +35,7 @@
 							<Setter.Value>
 								<ControlTemplate>
 									<TextBox
-										x:Name="PART_TextBox" 
+										x:Name="PART_TextBox"
 										Text="{Binding Path=SelectedDate, StringFormat = {}{0:yyyy}, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}"
 										IsReadOnly="True"/>
 								</ControlTemplate>
@@ -73,7 +73,6 @@
 				                                    Converter={StaticResource BoolToVisibilityConverter}}" />
 			</StackPanel>
 		</StackPanel>
-
 		<tree:TreeList
 			Name="_treeList"
 			Grid.Row="1"
@@ -82,7 +81,8 @@
 			SelectedTreeNode="{Binding SelectedItem}"
 			Source="{Binding Organisations}"
 			ctr:ListViewLayoutManager.Enabled="True"
-			tree:SortBehavior.CanUserSortColumns="True">
+			tree:SortBehavior.CanUserSortColumns="True"
+			tree:SortBehavior.DefaultSortComparer="{StaticResource HolidayViewModelNameComparer}">
 			<tree:TreeList.View>
 				<GridView>
 					<GridViewColumn

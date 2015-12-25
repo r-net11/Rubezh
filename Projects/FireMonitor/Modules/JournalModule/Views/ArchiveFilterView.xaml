@@ -34,7 +34,7 @@
 					Width="100"
 					Margin="2"
 					Command="{Binding SaveCommand}"
-					Content="Ok"
+					Content="ОК"
 					IsDefault="True" />
 				<Button
 					Width="100"
@@ -124,8 +124,12 @@
 			<TabItem Header="Событие" DataContext="{Binding FilterNamesViewModel}">
 				<tree:TreeList
 					layout:ListViewLayoutManager.Enabled="True"
-					Focusable="False" Source="{Binding RootFilters}"
+					Focusable="False"
+					Source="{Binding RootFilters}"
 					SelectedTreeNode="{Binding SelectedFilter}"
+					ScrollViewer.IsDeferredScrollingEnabled="True"
+					VirtualizingStackPanel.IsVirtualizing="True"
+					VirtualizingStackPanel.VirtualizationMode="Recycling"
 					tree:SortBehavior.CanUserSortColumns="False"
 					Margin="-5">
 					<tree:TreeList.View>
@@ -158,9 +162,12 @@
 				<tree:TreeList
 					layout:ListViewLayoutManager.Enabled="True"
 					Focusable="False"
-					Source="{Binding RootFilters}"
+					Source="{Binding RootFilters, IsAsync=True}"
 					SelectedTreeNode="{Binding SelectedFilter}"
 					tree:SortBehavior.CanUserSortColumns="False"
+					ScrollViewer.IsDeferredScrollingEnabled="True"
+					VirtualizingStackPanel.IsVirtualizing="True"
+					VirtualizingStackPanel.VirtualizationMode="Recycling"
 					Margin="-5">
 					<tree:TreeList.View>
 						<GridView>

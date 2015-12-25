@@ -5,12 +5,18 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:viewModels="clr-namespace:SKDModule.ViewModels"
+	xmlns:component="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 	d:DesignHeight="600"
 	d:DesignWidth="600"
 	mc:Ignorable="d">
 	<UserControl.Resources>
 		<viewModels:DoorPageViewModelNameComparer x:Key="DoorPageViewModelNameComparer" />
 		<viewModels:DoorPageViewModelDescriptionComparer x:Key="DoorPageViewModelDescriptionComparer" />
+		<CollectionViewSource x:Key="cvsDoorPageView" Source="{Binding Doors}">
+			<CollectionViewSource.SortDescriptions>
+				<component:SortDescription PropertyName="Item.Name" />
+			</CollectionViewSource.SortDescriptions>
+		</CollectionViewSource>
 	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -18,7 +24,7 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<DataGrid
-			ItemsSource="{Binding Doors}"
+			ItemsSource="{Binding Source={StaticResource cvsDoorPageView}}"
 			CanUserSortColumns="True">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Header="Название" SortMemberPath="Item.Name" Width="0.5*">

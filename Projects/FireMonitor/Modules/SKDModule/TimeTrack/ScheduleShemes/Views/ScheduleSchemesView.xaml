@@ -65,7 +65,8 @@
 				ItemActivatedCommand="{Binding EditCommand}"
 				SelectedTreeNode="{Binding SelectedItem}"
 				Source="{Binding Organisations}"
-				tree:SortBehavior.CanUserSortColumns="True">
+				tree:SortBehavior.CanUserSortColumns="True"
+				tree:SortBehavior.DefaultSortComparer="{StaticResource ScheduleShemeViewModelNameComparer}">
 				<tree:TreeList.View>
 					<GridView>
 						<GridViewColumn

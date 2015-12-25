@@ -16,11 +16,12 @@
 			Name="_treeList"
 			Focusable="True"
 			SortBehavior.CanUserSortColumns="True"
+			SortBehavior.DefaultSortComparer="{StaticResource ScheduleSchemePageComparer}"
 			layout:ListViewLayoutManager.Enabled="True"
-			Source="{Binding Schedules, Mode=OneWay}">
+			Source="{Binding Schedules}">
 			<TreeList.View>
 				<GridView>
-					<GridViewColumn Header="Название" Width="150" SortBehavior.SortComparer="{StaticResource ScheduleSchemePageComparer}">
+					<GridViewColumn Header="Название" Width="180" SortBehavior.SortComparer="{StaticResource ScheduleSchemePageComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">

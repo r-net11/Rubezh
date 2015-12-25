@@ -1,4 +1,6 @@
-﻿using Common;
+﻿using System.Linq.Expressions;
+using Common;
+using Infrastructure.Common.BalloonTrayTip.ViewModels;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -102,6 +104,7 @@ namespace Infrastructure.Common.TreeList
 					return -1;
 				if (ParentNode == Root)
 					return 0;
+				if (ParentNode == null) return 0;
 				return ParentNode.Level + 1;
 			}
 		}
@@ -437,6 +440,14 @@ namespace Infrastructure.Common.TreeList
 		public void AddChild(T item)
 		{
 			Nodes.Add(item);
+		}
+
+		public void AddChildren(IEnumerable<T> itemCollection)
+		{
+			foreach (var item in itemCollection)
+			{
+				AddChild(item);
+			}
 		}
 
 		public void AddChildFirst(T item)
