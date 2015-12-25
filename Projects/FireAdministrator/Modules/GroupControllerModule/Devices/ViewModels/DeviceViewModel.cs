@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
-using System.Windows.Shapes;
-using Common;
+﻿using Common;
 using DeviceControls;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
 using GKModule.Events;
 using GKModule.Plans;
+using GKModule.Plans.Designer;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -18,8 +11,15 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
-using GKModule.Plans.Designer;
 using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Shapes;
 
 namespace GKModule.ViewModels
 {
@@ -60,7 +60,7 @@ namespace GKModule.ViewModels
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
 			AllowMultipleVizualizationCommand = new RelayCommand<bool>(OnAllowMultipleVizualizationCommand, CanAllowMultipleVizualizationCommand);
-			IgnoreLogicLackCommand = new RelayCommand<bool>(OnIgnoreLogicLackCommand, CanIgnoreLogicLackCommand);
+			IgnoreLogicValidationCommand = new RelayCommand<bool>(OnIgnoreLogicValidationCommand, CanIgnoreLogicValidationCommand);
 			IsEdit = device.Driver.IsEditMirror;
 			Device = device;
 			PropertiesViewModel = new PropertiesViewModel(Device);
@@ -278,7 +278,7 @@ namespace GKModule.ViewModels
 				}
 				if (DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif || DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.RSR2_MVP_Part
 					|| DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.GK || DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.GKMirror)
-				DevicesViewModel.Current.SelectedDevice.IsExpanded = true;
+					DevicesViewModel.Current.SelectedDevice.IsExpanded = true;
 				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevices.LastOrDefault();
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
 				ServiceFactory.SaveService.GKChanged = true;
@@ -567,7 +567,7 @@ namespace GKModule.ViewModels
 		}
 		public bool ShowOnPlan
 		{
-			get { return  Device.Driver.IsDeviceOnShleif || Device.Children.Any(); }
+			get { return Device.Driver.IsDeviceOnShleif || Device.Children.Any(); }
 		}
 		public VisualizationState VisualizationState
 		{
@@ -619,17 +619,15 @@ namespace GKModule.ViewModels
 		{
 			return Device.AllowMultipleVizualization != isAllow;
 		}
-		public RelayCommand<bool> IgnoreLogicLackCommand { get; private set; }
-		void OnIgnoreLogicLackCommand(bool isIgnore)
+		public RelayCommand<bool> IgnoreLogicValidationCommand { get; private set; }
+		void OnIgnoreLogicValidationCommand(bool isIgnore)
 		{
-			Device.IgnoreLogicLack = isIgnore;
-			Device.OnChanged();
-			Update();
+			Device.IgnoreLogicValidation = isIgnore;
 			ServiceFactory.SaveService.GKChanged = true;
 		}
-		bool CanIgnoreLogicLackCommand(bool isIgnore)
+		bool CanIgnoreLogicValidationCommand(bool isIgnore)
 		{
-			return Device.IgnoreLogicLack != isIgnore;
+			return Device.IgnoreLogicValidation != isIgnore;
 		}
 
 		#region Zone and Logic
@@ -835,7 +833,7 @@ namespace GKModule.ViewModels
 					GKManager.DeviceConfiguration.Update();
 					DevicesViewModel.Current.SelectedDevice.IsExpanded = true;
 					Update();
-					
+
 					ServiceFactory.SaveService.GKChanged = true;
 				}
 			}

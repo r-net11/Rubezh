@@ -96,6 +96,10 @@
     <Reference Include="WPFToolkit.Extended">
       <HintPath>..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
     </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\AvalonDock\Bin\Version2.0\Xceed.Wpf.AvalonDock\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
     <Reference Include="Xceed.Wpf.Toolkit">
       <HintPath>..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
@@ -113,6 +117,38 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AutoActivationWatcher.cs" />
+    <Compile Include="Layout\ViewModels\ContentPartViewModel.cs" />
+    <Compile Include="Layout\ViewModels\EmptyPartViewModel.cs" />
+    <Compile Include="Layout\ViewModels\ImagePartViewModel.cs" />
+    <Compile Include="Layout\ViewModels\LayoutContainer.cs" />
+    <Compile Include="Layout\ViewModels\LayoutDialogViewModel.cs" />
+    <Compile Include="Layout\ViewModels\LayoutPartViewModel.cs" />
+    <Compile Include="Layout\ViewModels\LayoutUpdateStrategy.cs" />
+    <Compile Include="Layout\ViewModels\NavigationPartViewModel.cs" />
+    <Compile Include="Layout\ViewModels\TemplateContainerPartViewModel.cs" />
+    <Compile Include="Layout\ViewModels\TimePresenterViewModel.cs" />
+    <Compile Include="Layout\Views\ContentPartView.xaml.cs">
+      <DependentUpon>ContentPartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Layout\Views\EmptyPartView.xaml.cs">
+      <DependentUpon>EmptyPartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Layout\Views\ImagePartView.xaml.cs">
+      <DependentUpon>ImagePartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Layout\Views\LayoutDialogView.xaml.cs">
+      <DependentUpon>LayoutDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Layout\Views\LayoutPartView.xaml.cs">
+      <DependentUpon>LayoutPartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Layout\Views\TemplateContainerPartView.xaml.cs">
+      <DependentUpon>TemplateContainerPartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Layout\Views\TimePresenterView.xaml.cs">
+      <DependentUpon>TimePresenterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MonitorLayoutModule.cs" />
     <Compile Include="ViewModels\AutoActivationViewModel.cs" />
     <Compile Include="ViewModels\MonitorShellViewModel.cs" />
     <Compile Include="ViewModels\RestartApplicationViewModel.cs" />
@@ -177,6 +213,38 @@
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Layout\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Layout\Views\ContentPartView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Layout\Views\EmptyPartView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Layout\Views\ImagePartView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Layout\Views\LayoutDialogView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Layout\Views\LayoutPartView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Layout\Views\TemplateContainerPartView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Layout\Views\TimePresenterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AutoActivationView.xaml">
       <SubType>Designer</SubType>

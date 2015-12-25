@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using RubezhAPI.GK;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using RubezhAPI.GK;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace GKModule.ViewModels
 {
@@ -20,8 +20,8 @@ namespace GKModule.ViewModels
 			ChangeStartLogicCommand = new RelayCommand(OnChangeStartLogic);
 			ChangeStopLogicCommand = new RelayCommand(OnChangeStopLogic);
 			ChangeSuspendLogicCommand = new RelayCommand(OnChangeSuspendLogic);
-			AddCommand = new RelayCommand(()=>OnEdit(true));
-			EditCommand = new RelayCommand(() => OnEdit(false), () => SelectedDevice != null);
+			AddCommand = new RelayCommand(OnAdd);
+			EditCommand = new RelayCommand(OnEdit, () => SelectedDevice != null);
 			DeleteCommand = new RelayCommand(OnDelete, () => SelectedDevice != null);
 			EditPropertiesCommand = new RelayCommand(OnEditProperties, CanEditProperties);
 
@@ -32,7 +32,6 @@ namespace GKModule.ViewModels
 				var deviceViewModel = new MPTDeviceViewModel(mptDevice);
 				Devices.Add(deviceViewModel);
 			}
-			SelectedDevice = Devices.FirstOrDefault();
 			Update();
 		}
 
@@ -58,39 +57,24 @@ namespace GKModule.ViewModels
 			}
 		}
 		public RelayCommand AddCommand { get; private set; }
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit(bool isNew)
+		public void OnAdd()
 		{
-			var selectedGkMptDeviceType = isNew ? GKMPTDeviceType.DoNotEnterBoard : SelectedDevice.MPTDeviceType;
-			var device = isNew ? null : SelectedDevice.Device;
-			var mptDeviceSelectationViewModel = new MPTDeviceSelectationViewModel(device ,selectedGkMptDeviceType);
+			var mptDeviceSelectationViewModel = new MPTDeviceSelectationViewModel();
 			if (ServiceFactory.DialogService.ShowModalWindow(mptDeviceSelectationViewModel))
 			{
-				if (isNew)
-				{
-					var mptDevice = new GKMPTDevice();
-					var mptDeviceViewModel = new MPTDeviceViewModel(mptDevice);
-					SelectedDevice = mptDeviceViewModel;
-					MPT.MPTDevices.Add(mptDevice);
-					Devices.Add(mptDeviceViewModel);
-				}
-
-				if (SelectedDevice.MPTDevice.Device != null)
-				{
-					ChangeIsInMPT(SelectedDevice.MPTDevice.Device, false);
-				}
-				var selectedDevice = mptDeviceSelectationViewModel.SelectedDevice;
-				SelectedDevice.MPTDevice.Device = selectedDevice;
-				SelectedDevice.MPTDevice.DeviceUID = selectedDevice != null ? selectedDevice.UID : Guid.Empty;
-				SelectedDevice.MPTDevice.MPTDeviceType = mptDeviceSelectationViewModel.SelectedMPTDeviceType.MPTDeviceType;
-				GKManager.DeviceConfiguration.SetMPTDefaultProperty(selectedDevice, SelectedDevice.MPTDeviceType);
-				GKManager.DeviceConfiguration.SetIsMPT(SelectedDevice.MPTDevice);
-				SelectedDevice.Device = selectedDevice;
-				ChangeIsInMPT(SelectedDevice.MPTDevice.Device, true);
-				SelectedDevice.MPTDevicePropertiesViewModel = new MPTDevicePropertiesViewModel(selectedDevice, false);
-				MPT.ChangedLogic();
-				ServiceFactory.SaveService.GKChanged = true;
-				Update();
+				var mptDevice = mptDeviceSelectationViewModel.MptDevice;
+				SelectedDevice = new MPTDeviceViewModel(mptDevice);
+				MPT.MPTDevices.Add(mptDevice);
+				UpdateMptDevice(mptDevice);
+			}
+		}
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
+		{
+			var mptDeviceSelectationViewModel = new MPTDeviceSelectationViewModel(SelectedDevice.MPTDevice);
+			if (ServiceFactory.DialogService.ShowModalWindow(mptDeviceSelectationViewModel))
+			{
+				UpdateMptDevice(mptDeviceSelectationViewModel.MptDevice);
 			}
 		}
 
@@ -138,20 +122,30 @@ namespace GKModule.ViewModels
 		public void Update()
 		{
 			this.VisualizationState = MPT.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (MPT.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
+			var oldSelectedDeviceUID = SelectedDevice != null ? SelectedDevice.MPTDevice.DeviceUID : Guid.NewGuid();
 			Devices = new ObservableCollection<MPTDeviceViewModel>();
 			foreach (var mptDevice in MPT.MPTDevices)
 			{
 				var deviceViewModel = new MPTDeviceViewModel(mptDevice);
 				Devices.Add(deviceViewModel);
 			}
-			SelectedDevice = Devices.FirstOrDefault();
+			SelectedDevice = Devices.FirstOrDefault(x => x.MPTDevice.DeviceUID == oldSelectedDeviceUID) ?? Devices.FirstOrDefault();
 			OnPropertyChanged(() => MPT);
 			OnPropertyChanged(() => Devices);
 			OnPropertyChanged(() => StartPresentationName);
 			OnPropertyChanged(() => StopPresentationName);
 			OnPropertyChanged(() => SuspendPresentationName);
 		}
-
+		void UpdateMptDevice(GKMPTDevice mptDevice)
+		{
+			var device = mptDevice.Device;
+			GKManager.DeviceConfiguration.SetMPTDefaultProperty(device, mptDevice.MPTDeviceType);
+			GKManager.DeviceConfiguration.SetIsMPT(mptDevice);
+			ChangeIsInMPT(mptDevice.Device, true);
+			MPT.ChangedLogic();
+			Update();
+			ServiceFactory.SaveService.GKChanged = true;
+		}
 		public RelayCommand ChangeStartLogicCommand { get; private set; }
 		void OnChangeStartLogic()
 		{

@@ -7,37 +7,5 @@
 	<DataTemplate DataType="{x:Type Windows:ShellViewModel}">
 		<Views:MonitorLayoutShellView />
 	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:LayoutPartViewModel}">
-		<Views:LayoutPartView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:NavigationPartViewModel}">
-		<navigation:NavigationView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:ContentPartViewModel}">
-		<Views:ContentPartView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:EmptyPartViewModel}">
-		<Views:EmptyPartView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:ImagePartViewModel}">
-		<Views:ImagePartView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:TemplateContainerPartViewModel}">
-		<Views:TemplateContainerPartView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:TimePresenterViewModel}">
-		<Views:TimePresenterView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:LayoutDialogViewModel}">
-		<Views:LayoutDialogView />
-	</DataTemplate>
 	
 </ResourceDictionary>

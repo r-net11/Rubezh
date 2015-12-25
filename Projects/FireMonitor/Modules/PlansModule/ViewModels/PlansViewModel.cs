@@ -73,26 +73,29 @@ namespace PlansModule.ViewModels
 			_initialized = true;
 			OnSelectedPlanChanged();
 
-			foreach (var plan in PlanTreeViewModel.AllPlans)
+			if (PlanTreeViewModel != null)
 			{
-				foreach (var element in plan.Plan.AllElements)
+				foreach (var plan in PlanTreeViewModel.AllPlans)
 				{
-					foreach (var planElementBindingItem in element.PlanElementBindingItems)
+					foreach (var element in plan.Plan.AllElements)
 					{
-						var glabalVariable = ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid == planElementBindingItem.GlobalVariableUID);
-						if (glabalVariable != null)
+						foreach (var planElementBindingItem in element.PlanElementBindingItems)
 						{
-							glabalVariable.ExplicitValueChanged += () =>
+							var glabalVariable = ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid == planElementBindingItem.GlobalVariableUID);
+							if (glabalVariable != null)
 							{
-								var planCallbackData = new PlanCallbackData()
+								glabalVariable.ExplicitValueChanged += () =>
 								{
-									ElementPropertyType = ElementPropertyType.BorderThickness,
-									Value = glabalVariable.ExplicitValue.IntValue,
-									ElementUid = element.UID,
-									PlanUid = plan.Plan.UID
+									var planCallbackData = new PlanCallbackData()
+									{
+										ElementPropertyType = ElementPropertyType.BorderThickness,
+										Value = glabalVariable.ExplicitValue.IntValue,
+										ElementUid = element.UID,
+										PlanUid = plan.Plan.UID
+									};
+									SetPlanProperty(planCallbackData);
 								};
-								SetPlanProperty(planCallbackData);
-							};
+							}
 						}
 					}
 				}
