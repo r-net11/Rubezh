@@ -153,7 +153,6 @@ namespace RubezhAPI
 				if (device.Driver.IsGroupDevice && device.Children.Count == 0)
 				{
 					var driver = Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
-
 					for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
 					{
 						AddDevice(device, driver, device.IntAddress + i);
