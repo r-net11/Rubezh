@@ -89,8 +89,8 @@ namespace PlansModule.ViewModels
 
 		public void Initialize()
 		{
-
 			Helper.ThreadMetod();
+			SelectedPlan = null;
 			Plans = new ObservableCollection<PlanViewModel>();
 			foreach (var plan in ClientManager.PlansConfiguration.Plans)
 				AddPlan(plan, null);
@@ -155,17 +155,17 @@ namespace PlansModule.ViewModels
 						Helper.Plan = value.Plan;
 						Helper.Flag = false;
 					}
-					OnPropertyChanged(() => SelectedPlan);
-					DesignerCanvas.Toolbox.IsEnabled = SelectedPlan.PlanFolder == null;
-					PlanDesignerViewModel.Save();
-					PlanDesignerViewModel.Initialize( value.PlanFolder != null ? null : value.Plan);
-					if (!Helper.WiteHandle.SafeWaitHandle.IsClosed && !Helper.Flag)
-					Helper.WiteHandle.Set();
-					ElementsViewModel.Update();
-					DesignerCanvas.Toolbox.SetDefault();
-					DesignerCanvas.DeselectAll();
-					UpdateTabIndex();
 				}
+				OnPropertyChanged(() => SelectedPlan);
+				DesignerCanvas.Toolbox.IsEnabled = SelectedPlan != null && SelectedPlan.PlanFolder == null;
+				PlanDesignerViewModel.Save();
+				PlanDesignerViewModel.Initialize(value == null || value.PlanFolder != null ? null : value.Plan);
+				if (!Helper.WiteHandle.SafeWaitHandle.IsClosed && !Helper.Flag)
+					Helper.WiteHandle.Set();
+				ElementsViewModel.Update();
+				DesignerCanvas.Toolbox.SetDefault();
+				DesignerCanvas.DeselectAll();
+				UpdateTabIndex();
 			}
 		}
 
