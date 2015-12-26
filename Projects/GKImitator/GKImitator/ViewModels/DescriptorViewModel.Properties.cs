@@ -125,6 +125,17 @@ namespace GKImitator.ViewModels
 				}
 			}
 
+			var guardZone = GKBaseDescriptor.GKBase as GKGuardZone;
+			if (guardZone != null)
+			{
+				if (properties.Count >= 3)
+				{
+					guardZone.SetDelay = properties[0].Value;
+					guardZone.ResetDelay = properties[1].Value;
+					guardZone.AlarmDelay = properties[2].Value;
+				}
+			}
+
 			var journalItem = new ImitatorJournalItem(2, 13, 0, 0);
 			AddJournalItem(journalItem);
 		}

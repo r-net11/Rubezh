@@ -1,9 +1,11 @@
 ﻿using Common;
+using Infrastructure.Common.Windows;
 using RubezhAPI;
 using RubezhAPI.License;
 using RubezhAPI.Models;
 using System;
 using System.ServiceModel;
+using System.Threading;
 using System.Windows.Threading;
 
 namespace RubezhClient
@@ -41,6 +43,8 @@ namespace RubezhClient
 			{
 				LogException(e, methodName);
 				ConnectionLost();
+				if (e is TimeoutException)
+					ShowTimeoutException(methodName);
 			}
 			return OperationResult<T>.FromError("Ошибка при при вызове операции");
 		}
@@ -59,7 +63,10 @@ namespace RubezhClient
 			{
 				LogException(e, methodName);
 				ConnectionLost();
+				if (e is TimeoutException)
+					ShowTimeoutException(methodName);
 			}
+
 			return default(T);
 		}
 
@@ -75,11 +82,19 @@ namespace RubezhClient
 			{
 				LogException(e, methodName);
 				ConnectionLost();
+				if (e is TimeoutException)
+					ShowTimeoutException(methodName);
 				return false;
 			}
 		}
 
-
+		void ShowTimeoutException(string methodName)
+		{
+			new Thread(() =>
+				ApplicationService.Invoke(() =>
+					MessageBoxService.ShowError("Превышено время ожидания выполнения операции " + methodName))
+					).Start();
+		}
 
 		void LogException(Exception e, string methodName)
 		{

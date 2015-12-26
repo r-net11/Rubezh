@@ -1,12 +1,10 @@
-﻿using System;
+﻿using Infrustructure.Plans.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml.Serialization;
-using Common;
-using Infrustructure.Plans.Interfaces;
-using RubezhAPI;
 
 namespace RubezhAPI.GK
 {
@@ -70,7 +68,7 @@ namespace RubezhAPI.GK
 			{
 				var guardZones = new List<GKGuardZone>();
 
-				foreach (var guardZone in deviceConfiguration.GuardZones.Where(x => x.GuardZoneDevices.Any(y=> y.DeviceUID ==UID)))
+				foreach (var guardZone in deviceConfiguration.GuardZones.Where(x => x.GuardZoneDevices.Any(y => y.DeviceUID == UID)))
 				{
 					guardZones.Add(guardZone);
 					AddDependentElement(guardZone);
@@ -80,7 +78,7 @@ namespace RubezhAPI.GK
 			if (Driver.HasMirror)
 			{
 				switch (DriverType)
-				{ 
+				{
 					case GKDriverType.DetectorDevicesMirror:
 						GKReflectionItem.Devices.ForEach(AddDependentElement);
 						break;
@@ -204,7 +202,7 @@ namespace RubezhAPI.GK
 		/// Игнорировать отсутствие логики срабатывания
 		/// </summary>
 		[DataMember]
-		public bool IgnoreLogicLack { get; set; }
+		public bool IgnoreLogicValidation { get; set; }
 
 		/// <summary>
 		/// Проектный адрес
@@ -222,7 +220,7 @@ namespace RubezhAPI.GK
 		[DataMember]
 		public List<GKUser> PmfUsers { get; set; }
 		[DataMember]
-		public bool IsIgnoredChangesOnPlan { get; set; }
+		public bool AllowBeOutsideZone { get; set; }
 
 		[XmlIgnore]
 		public byte ShleifNo
@@ -335,7 +333,7 @@ namespace RubezhAPI.GK
 		{
 			get
 			{
-				if (DriverType == GKDriverType.GK) 
+				if (DriverType == GKDriverType.GK)
 				{
 					return Address;
 				}
@@ -364,7 +362,7 @@ namespace RubezhAPI.GK
 				if (!string.IsNullOrEmpty(PredefinedName))
 					return PredefinedName;
 				return Driver.ShortName;
-			} 
+			}
 		}
 
 		[XmlIgnore]

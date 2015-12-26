@@ -69,7 +69,7 @@ namespace GKModule.ViewModels
 		{
 			DelaysViewModel.Current.SelectedDelay = this;
 			var logicViewModel = new LogicViewModel(Delay, Delay.Logic, true);
-			if (DialogService.ShowModalWindow(logicViewModel))
+			if (ServiceFactory.DialogService.ShowModalWindow(logicViewModel))
 			{
 				GKManager.SetDelayLogic(Delay, logicViewModel.GetModel());
 				OnPropertyChanged(() => PresentationLogic);

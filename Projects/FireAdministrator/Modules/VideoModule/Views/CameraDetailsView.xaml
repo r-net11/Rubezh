@@ -42,15 +42,11 @@
 					Command ="{Binding PlayCommand}"
 					Padding="4"/>
 
-				<mediaSourcePlayer:MediaPlayer
+                <mediaSourcePlayer:MediaPlayer
 					x:Name="MediaSourcePlayer"
 					Grid.Row="5"
 					Grid.ColumnSpan="2"
-					Width="400"
-					Height="300"
-					Margin="5"
-					VerticalAlignment="Top">
-				</mediaSourcePlayer:MediaPlayer>
+					OriginalAspectRatio="True" />
 			</Grid>
 		</TabItem>
 	</TabControl>

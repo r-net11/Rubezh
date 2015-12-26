@@ -39,13 +39,13 @@
 			<Controls:IconedMenuItem Command="{Binding SelectCommand}" ImageSource="BSelect" Text="Выбрать" />
 			<Controls:IconedMenuItem Command="{Binding ShowAsListCommand}" ImageSource="BSelect" Text="Показать списком" />
 			<Controls:IconedMenuItem Command="{Binding ShowLogicCommand}" ImageSource="BLogic" Text="Настройка логики исполнительного устройства" />
-			<Controls:IconedMenuItem Command="{Binding ShowPropertiesCommand}" ImageSource="BSettings" Text="Вставить (Ctrl+V)" />
+			<Controls:IconedMenuItem Command="{Binding ShowPropertiesCommand}" ImageSource="BSettings" Text="Показать свойства" />
 			<Separator Visibility="{Binding Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}" />
 			<Controls:IconedMenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource True}" ImageSource="Eye2" Text="Разрешить множественную визуализацию" />
 			<Controls:IconedMenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource False}" ImageSource="Eye3" Text="Запретить множественную визуализацию" />
 			<Separator />
-            <Controls:IconedMenuItem Command="{Binding IgnoreLogicLackCommand}" CommandParameter="{StaticResource True}" ImageSource="Eye2" Text="Игнорировать отсутствие логики срабатывания" />
-            <Controls:IconedMenuItem Command="{Binding IgnoreLogicLackCommand}" CommandParameter="{StaticResource False}" ImageSource="Eye3" Text="Отображать отсутствие логики срабатывания" />
+            <Controls:IconedMenuItem Command="{Binding IgnoreLogicValidationCommand}" CommandParameter="{StaticResource True}" ImageSource="Eye2" Text="Игнорировать отсутствие логики срабатывания" />
+            <Controls:IconedMenuItem Command="{Binding IgnoreLogicValidationCommand}" CommandParameter="{StaticResource False}" ImageSource="Eye3" Text="Отображать отсутствие логики срабатывания" />
             <Separator />
             <Controls:IconedMenuItem Command ="{Binding ShowDependencyItemsCommand}" Text="Список зависящих объектов" />
 			<Controls:IconedMenuItem ImageSource="BParametersReadWrite" Text="Параметры">

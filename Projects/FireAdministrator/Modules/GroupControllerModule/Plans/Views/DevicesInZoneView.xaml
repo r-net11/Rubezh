@@ -3,7 +3,7 @@
 	<DataGrid IsReadOnly="False" ItemsSource="{Binding DeviceInZones}">
 		<DataGrid.Columns>
 			<DataGridCheckBoxColumn Width="Auto" Binding="{Binding IsActive, UpdateSourceTrigger=PropertyChanged}" Header="Изменить" />
-            <DataGridCheckBoxColumn Width="Auto" Binding="{Binding IsIgnoredChangesOnPlan, UpdateSourceTrigger=PropertyChanged}" Header="Запомнить" />
+            <DataGridCheckBoxColumn Width="Auto" Binding="{Binding AllowBeOutsideZone, UpdateSourceTrigger=PropertyChanged}" Header="Запомнить" />
             <DataGridTemplateColumn Width="Auto" Header="Устройство">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>

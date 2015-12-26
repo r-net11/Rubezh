@@ -1,4 +1,5 @@
-﻿using GKProcessor;
+﻿using System.IO;
+using GKProcessor;
 using Infrastructure.Common;
 using Ionic.Zip;
 using RubezhAPI;
@@ -30,6 +31,8 @@ namespace FiresecService.Service
 					{
 						var deviceConfigFileName = AppDataFolderHelper.GetServerAppDataPath("Config\\GKDeviceConfiguration.xml");
 						var zipDeviceConfigFileName = AppDataFolderHelper.GetServerAppDataPath("GKDeviceConfiguration.fscp");
+						if (File.Exists(zipDeviceConfigFileName))
+							File.Delete(zipDeviceConfigFileName);
 						var zipFile = new ZipFile(zipDeviceConfigFileName);
 						zipFile.AddFile(deviceConfigFileName, "");
 						zipFile.Save(zipDeviceConfigFileName);
