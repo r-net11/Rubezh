@@ -23,12 +23,12 @@ namespace SKDModule.PassCard.ViewModels
 {
 	public class PassCardViewModel : DialogViewModel, IPlanDesignerViewModel
 	{
-		private PassCardCanvas _passCardCanvas;
-		private Employee _employee;
-		private Department _department;
-		private Position _position;
-		private OrganisationDetails _organisation;
-		private SKDCard _card;
+		PassCardCanvas _passCardCanvas;
+		Employee _employee;
+		Department _department;
+		Position _position;
+		OrganisationDetails _organisation;
+		SKDCard _card;
 
 		public PassCardViewModel(Guid employeeUID, SKDCard card)
 		{
@@ -50,7 +50,7 @@ namespace SKDModule.PassCard.ViewModels
 
 		public ObservableCollection<ShortPassCardTemplate> PassCardTemplates { get; private set; }
 
-		private ShortPassCardTemplate _selectedPassCardTemplate;
+		ShortPassCardTemplate _selectedPassCardTemplate;
 		public ShortPassCardTemplate SelectedPassCardTemplate
 		{
 			get { return _selectedPassCardTemplate; }
@@ -68,7 +68,7 @@ namespace SKDModule.PassCard.ViewModels
 		}
 
 		public RelayCommand PrintCommand { get; private set; }
-		private void OnPrint()
+		void OnPrint()
 		{
 			var dialog = new PrintDialog();
 			if (dialog.ShowDialog() == true)
@@ -82,12 +82,12 @@ namespace SKDModule.PassCard.ViewModels
 				_passCardCanvas.Arrange(rect);
 			}
 		}
-		private bool CanPrint()
+		bool CanPrint()
 		{
 			return SelectedPassCardTemplate != null;
 		}
 
-		private void InternalCreatePassCard()
+		void InternalCreatePassCard()
 		{
 			using (new WaitWrapper())
 				if (SelectedPassCardTemplate != null)
@@ -105,12 +105,12 @@ namespace SKDModule.PassCard.ViewModels
 					_passCardCanvas.Refresh();
 				}
 		}
-		private void Update()
+		void Update()
 		{
 			if (Updated != null)
 				Updated(this, EventArgs.Empty);
 		}
-		private IEnumerable<ElementBase> EnumerateElements(PassCardTemplate passCardTemplate)
+		IEnumerable<ElementBase> EnumerateElements(PassCardTemplate passCardTemplate)
 		{
 			foreach (var elementTextProperty in passCardTemplate.ElementTextProperties)
 			{
@@ -134,7 +134,7 @@ namespace SKDModule.PassCard.ViewModels
 				yield return elementPolyline;
 		}
 
-		private void ResolveTextProperty(ElementPassCardTextProperty elementTextProperty)
+		void ResolveTextProperty(ElementPassCardTextProperty elementTextProperty)
 		{
 			elementTextProperty.PresentationName = GetEnumDescription(elementTextProperty.PropertyType);
 			switch (elementTextProperty.PropertyType)
@@ -177,7 +177,7 @@ namespace SKDModule.PassCard.ViewModels
 					break;
 			}
 		}
-		private void ResolveImageProperty(ElementPassCardImageProperty elementImageProperty)
+		void ResolveImageProperty(ElementPassCardImageProperty elementImageProperty)
 		{
 			elementImageProperty.PresentationName = GetEnumDescription(elementImageProperty.PropertyType);
 			//elementImageProperty.BackgroundColor = Colors.Transparent;
@@ -185,7 +185,7 @@ namespace SKDModule.PassCard.ViewModels
 			//elementImageProperty.BackgroundImageSource = null;
 		}
 
-		private string GetEnumDescription(Enum value)
+		string GetEnumDescription(Enum value)
 		{
 			FieldInfo fi = value.GetType().GetField(value.ToString());
 			DescriptionAttribute[] attributes =
@@ -247,7 +247,7 @@ namespace SKDModule.PassCard.ViewModels
 
 		#endregion
 
-		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
+		void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{
 			if (args.DesignerCanvas != _passCardCanvas)
 				return;

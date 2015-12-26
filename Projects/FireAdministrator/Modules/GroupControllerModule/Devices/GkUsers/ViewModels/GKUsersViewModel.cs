@@ -21,8 +21,8 @@ namespace GKModule.ViewModels
 		{
 			Title = "Пользователи ГК";
 			RewriteUsersCommand = new RelayCommand(OnRewriteUsers);
-			PreviousConflictCommand = new RelayCommand(OnPreviousConflict);
-			NextConflictCommand = new RelayCommand(OnNextConflict);
+			PreviousConflictCommand = new RelayCommand(OnPreviousConflict, CanPreviousConflict);
+			NextConflictCommand = new RelayCommand(OnNextConflict, CanNextConflict);
 			_deviceUID = deviceUID;
 			var deviceDoorUIDs = GKManager.Doors
 				.Where(x => x.EnterDevice.GKParent.UID == _deviceUID || x.ExitDevice.GKParent.UID == _deviceUID)
@@ -37,10 +37,33 @@ namespace GKModule.ViewModels
 
 			var allUsers = UnionUsers(deviceUsers, dbUsers);
 			InitializeCollections(allUsers, deviceUsers, dbUsers);
+			CurrentIndex = 0;
 		}
 
+		GKUserViewModel _selectedDeviceUser;
+		public GKUserViewModel SelectedDeviceUser
+		{
+			get { return _selectedDeviceUser; }
+			set
+			{
+				_selectedDeviceUser = value;
+				OnPropertyChanged(() => SelectedDeviceUser);
+			}
+		}
+		
 		public ObservableCollection<GKUserViewModel> DeviceUsers { get; private set; }
 
+		GKUserViewModel _selectedDbUser;
+		public GKUserViewModel SelectedDbUser
+		{
+			get { return _selectedDbUser; }
+			set
+			{
+				_selectedDbUser = value;
+				OnPropertyChanged(() => SelectedDbUser);
+			}
+		}
+		
 		public ObservableCollection<GKUserViewModel> DbUsers { get; private set; }
 
 		public RelayCommand RewriteUsersCommand { get; private set; }
@@ -55,16 +78,42 @@ namespace GKModule.ViewModels
 				Close();
 		}
 
+		int CurrentIndex
+		{
+			get 
+			{ 
+				return DeviceUsers.IndexOf(SelectedDeviceUser); 
+			}
+			set
+			{
+				if (DeviceUsers.Count > value)
+				{
+					SelectedDeviceUser = DeviceUsers[value];
+					SelectedDbUser = DbUsers[value];
+				}
+			}
+		}
+
+		List<int> MismatchedIndexes { get { return DeviceUsers.Where(x => x.IsMissmatch).Select(x => DeviceUsers.IndexOf(x)).ToList(); } }
+
 		public RelayCommand PreviousConflictCommand { get; private set; }
 		void OnPreviousConflict()
 		{
-			;
+			CurrentIndex = MismatchedIndexes.LastOrDefault(x => x < CurrentIndex);
 		}
-
+		bool CanPreviousConflict()
+		{
+			return MismatchedIndexes.Any(x => x < CurrentIndex);
+		}
+		
 		public RelayCommand NextConflictCommand { get; private set; }
 		void OnNextConflict()
 		{
-			;
+			CurrentIndex = MismatchedIndexes.FirstOrDefault(x => x > CurrentIndex);
+		}
+		bool CanNextConflict()
+		{
+			return MismatchedIndexes.Any(x => x > CurrentIndex);
 		}
 
 		List<GKUser> UnionUsers(List<GKUser> deviceUsers, List<GKUser> dbUsers)
