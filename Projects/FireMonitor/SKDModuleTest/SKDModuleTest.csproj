@@ -49,6 +49,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DepartmentsTest.cs" />
+    <Compile Include="EmployeesTest.cs" />
     <Compile Include="Mocks\MockDialogService.cs" />
     <Compile Include="Mocks\MockMessageBoxService.cs" />
     <Compile Include="OrganisationsTest.cs" />

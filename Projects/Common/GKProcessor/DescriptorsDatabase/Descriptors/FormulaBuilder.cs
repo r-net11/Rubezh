@@ -71,9 +71,19 @@ namespace GKProcessor
 			AddWithGKBase(FormulaOperationType.GETBIT, (byte)stateBit, gkBase);
 		}
 
+		public void AddGetWord(bool isHiword, GKBase gkBase)
+		{
+			AddWithGKBase(FormulaOperationType.GETWORD, (byte)(isHiword ? 1 : 0), gkBase);
+		}
+
 		public void AddPutBit(GKStateBit stateBit, GKBase gkBase)
 		{
 			AddWithGKBase(FormulaOperationType.PUTBIT, (byte)stateBit, gkBase);
+		}
+
+		public void AddPutWord(bool isHiword, GKBase gkBase)
+		{
+			AddWithGKBase(FormulaOperationType.PUTWORD, (byte)(isHiword ? 1 : 0), gkBase);
 		}
 
 		public void AddArgumentPutBit(byte bit, GKBase gkBase)
@@ -87,6 +97,81 @@ namespace GKProcessor
 			AddPutBit(GKStateBit.TurnOn_InAutomatic, gkBase);
 			Add(FormulaOperationType.COM);
 			AddPutBit(GKStateBit.TurnOff_InAutomatic, gkBase);
+		}
+
+		public void AddMirrorLogic(GKBase gkBase, List<GKDevice> mirrorParents)
+		{
+			if (mirrorParents != null && mirrorParents.Count > 0)
+			{
+				int count = 0;
+				int mirrorParentsCount = mirrorParents.Count;
+				foreach (var mirrorParent in mirrorParents)
+				{
+					if (count > 0)
+						Add(FormulaOperationType.BR, 1, 0);
+					count++;
+					AddGetWord(true, mirrorParent);
+					Add(FormulaOperationType.CONST, 0, 0xF800);
+					Add(FormulaOperationType.AND);
+					Add(FormulaOperationType.DUP);
+					Add(FormulaOperationType.CONST, 0, 0);
+					Add(FormulaOperationType.EQ);
+					Add(FormulaOperationType.BR, 1, (ushort)((mirrorParentsCount - count) * 8));
+				}
+
+				if (gkBase is GKDevice || gkBase is GKDirection || gkBase is GKDelay || gkBase is GKPumpStation || gkBase is GKMPT)
+				{
+					Add(FormulaOperationType.DUP);
+					Add(FormulaOperationType.CONST, 0, 0x800);
+					Add(FormulaOperationType.EQ);
+					AddPutBit(GKStateBit.SetRegime_Automatic, gkBase);
+				}
+
+				if (gkBase is GKDevice || gkBase is GKDirection || gkBase is GKDelay || gkBase is GKPumpStation || gkBase is GKMPT)
+				{
+					Add(FormulaOperationType.DUP);
+					Add(FormulaOperationType.CONST, 0, 0x1000);
+					Add(FormulaOperationType.EQ);
+					AddPutBit(GKStateBit.SetRegime_Manual, gkBase);
+				}
+
+				if (gkBase is GKGuardZone)
+				{
+					Add(FormulaOperationType.DUP);
+					Add(FormulaOperationType.CONST, 0, 0x2000);
+					Add(FormulaOperationType.EQ);
+					AddPutBit(GKStateBit.TurnOn_InAutomatic, gkBase);
+				}
+
+				if (gkBase is GKGuardZone)
+				{
+					Add(FormulaOperationType.CONST, 0, 0x2800);
+					Add(FormulaOperationType.EQ);
+					AddPutBit(GKStateBit.TurnOff_InAutomatic, gkBase);
+				}
+
+				if (gkBase is GKZone)
+				{
+					Add(FormulaOperationType.CONST, 0, 0x4000);
+					Add(FormulaOperationType.EQ);
+					AddPutBit(GKStateBit.Reset, gkBase);
+				}
+
+				if (gkBase is GKDevice || gkBase is GKDirection || gkBase is GKDelay || gkBase is GKPumpStation || gkBase is GKMPT)
+				{
+					Add(FormulaOperationType.DUP);
+					Add(FormulaOperationType.CONST, 0, 0x4800);
+					Add(FormulaOperationType.EQ);
+					AddPutBit(GKStateBit.TurnOn_InManual, gkBase);
+				}
+
+				if (gkBase is GKDevice || gkBase is GKDirection || gkBase is GKDelay || gkBase is GKPumpStation || gkBase is GKMPT)
+				{
+					Add(FormulaOperationType.CONST, 0, 0x5000);
+					Add(FormulaOperationType.EQ);
+					AddPutBit(GKStateBit.TurnOff_InManual, gkBase);
+				}
+			}
 		}
 
 		public void AddClauseFormula(GKClauseGroup clauseGroup)
@@ -246,12 +331,12 @@ namespace GKProcessor
 						case FormulaOperationType.GETBIT:
 						case FormulaOperationType.GETBYTE:
 						case FormulaOperationType.ACS:
+						case FormulaOperationType.GETWORD:
 							branch.StackValues.Add(null);
 							branch.CalculateStackDepth();
 							branch.CurrentFormulaNo += 1;
 							break;
 
-						case FormulaOperationType.GETWORD:
 						case FormulaOperationType.KOD:
 						case FormulaOperationType.GETMEMB:
 							branch.StackValues.Add(null);
@@ -274,12 +359,12 @@ namespace GKProcessor
 						case FormulaOperationType.SUB:
 						case FormulaOperationType.XOR:
 						case FormulaOperationType.CMPKOD:
+						case FormulaOperationType.PUTWORD:
 							branch.RemoveLast();
 							branch.CalculateStackDepth();
 							branch.CurrentFormulaNo += 1;
 							break;
-
-						case FormulaOperationType.PUTWORD:
+						
 						case FormulaOperationType.PUTP:
 						case FormulaOperationType.PUTMEMB:
 							branch.RemoveLast();

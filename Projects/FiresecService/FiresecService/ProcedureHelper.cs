@@ -15,7 +15,7 @@ namespace FiresecService
 {
 	public static class ProcedureHelper
 	{
-		public static void AddJournalItem(Guid clientUID, string message)
+		public static void AddJournalItem(Guid clientUID, string message, Guid? objectUID = null)
 		{
 			var journalItem = new JournalItem()
 			{
@@ -23,7 +23,107 @@ namespace FiresecService
 				JournalEventNameType = JournalEventNameType.Сообщение_автоматизации,
 				DescriptionText = message
 			};
+			if (objectUID.HasValue)
+			{
+				string objectName;
+				JournalObjectType journalObjectType;
+				if (GetObjectInfo(objectUID.Value, out objectName, out journalObjectType))
+				{
+					journalItem.ObjectUID = objectUID.Value;
+					journalItem.ObjectName = objectName;
+					journalItem.JournalObjectType = journalObjectType;
+				}
+			}
 			Service.FiresecService.AddCommonJournalItems(new List<JournalItem>() { journalItem }, clientUID);
+		}
+
+		static bool GetObjectInfo(Guid objectUID, out string objectName, out JournalObjectType journalObjectType)
+		{
+			var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == objectUID);
+			if (device != null)
+			{
+				objectName = device.Name;
+				journalObjectType = JournalObjectType.GKDevice;
+				return true;
+			}
+
+			var zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == objectUID);
+			if (zone != null)
+			{
+				objectName = zone.Name;
+				journalObjectType = JournalObjectType.GKZone;
+				return true;
+			}
+
+			var guardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == objectUID);
+			if (guardZone != null)
+			{
+				objectName = guardZone.Name;
+				journalObjectType = JournalObjectType.GKGuardZone;
+				return true;
+			}
+
+			var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == objectUID);
+			if (camera != null)
+			{
+				objectName = camera.Name;
+				journalObjectType = JournalObjectType.VideoDevice;
+				return true;
+			}
+
+			var direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == objectUID);
+			if (direction != null)
+			{
+				objectName = direction.Name;
+				journalObjectType = JournalObjectType.GKDirection;
+				return true;
+			}
+
+			var delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == objectUID);
+			if (delay != null)
+			{
+				objectName = delay.Name;
+				journalObjectType = JournalObjectType.GKDelay;
+				return true;
+			}
+
+			var pumpStation = GKManager.DeviceConfiguration.PumpStations.FirstOrDefault(x => x.UID == objectUID);
+			if (pumpStation != null)
+			{
+				objectName = pumpStation.Name;
+				journalObjectType = JournalObjectType.GKPumpStation;
+				return true;
+			}
+
+			var mpt = GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == objectUID);
+			if (mpt != null)
+			{
+				objectName = mpt.Name;
+				journalObjectType = JournalObjectType.GKMPT;
+				return true;
+			}
+
+			var door = GKManager.Doors.FirstOrDefault(x => x.UID == objectUID);
+			if (door != null)
+			{
+				objectName = door.Name;
+				journalObjectType = JournalObjectType.GKDoor;
+				return true;
+			}
+
+			var organisations = ProcedureExecutionContext.GetOrganisations(Guid.Empty);
+			var organisation = organisations == null ? null : organisations.FirstOrDefault(x => x.UID == objectUID);
+			if (organisation != null)
+			{
+				objectName = organisation.Name;
+				journalObjectType = JournalObjectType.None;
+				return true;
+			}
+
+			objectName = "";
+			journalObjectType = JournalObjectType.None;
+			return false;
+
 		}
 
 		public static void ControlGKDevice(Guid clientUID, Guid deviceUid, GKStateBit command)

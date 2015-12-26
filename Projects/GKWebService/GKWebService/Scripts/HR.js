@@ -4,10 +4,24 @@
     self.loaded = ko.observable(false);
     self.ParentViewModel = parentViewModel;
 
+    $.ajax({
+        dataType: "json",
+        url: "Hr/GetHr",
+        async: false,
+        data: null,
+        success: function (data) {
+            ko.mapping.fromJS(data, {}, self);
+        }
+    });
+
     self.Init = function () {
         if (!self.loaded()) {
             $("div#HR").load("Hr/Index", function () {
                 self.Filter = FilterViewModel(self);
+                self.Filter.OrganisationsFilter = OrganisationsFilterViewModel();
+                self.Filter.DepartmentsFilter = DepartmentsFilterViewModel();
+                self.Filter.PositionsFilter = PositionsFilterViewModel();
+                self.Filter.EmployeesFilter = EmployeesFilterViewModel();
                 self.Common = {};
                 self.Common.EmployeeSelectionDialog = EmployeeSelectionDialogViewModel();
                 self.Employees = EmployeesViewModel(self);
@@ -24,15 +38,36 @@
                 self.Positions.PositionEmployeeList = PositionEmployeeListViewModel(self.Positions);
                 self.Organisations = OrganisationsViewModel();
                 self.Organisations.OrganisationDetails = OrganisationDetailsViewModel();
+
+                if (self.CanSelectEmployees()) {
+                    self.ActivatePage($('div#HR>ul>li#HrPageEmployees'), 'Employees');
+                } else if (self.CanSelectDepartments()) {
+                    self.ActivatePage($('div#HR>ul>li#HrPageDepartments'), 'Departments');
+                } else if (self.CanSelectPositions()) {
+                    self.ActivatePage($('div#HR>ul>li#HrPagePositions'), 'Positions');
+                } else if (self.CanSelectAdditionalColumns()) {
+                    self.ActivatePage($('div#HR>ul>li#HrPageAdditionalColumns'), 'AdditionalColumns');
+                } else if (self.CanSelectCards()) {
+                    self.ActivatePage($('div#HR>ul>li#HrPageCards'), 'Cards');
+                } else if (self.CanSelectAccessTemplates()) {
+                    self.ActivatePage($('div#HR>ul>li#HrPageAccessTemplates'), 'AccessTemplates');
+                } else if (self.CanSelectPassCardTemplates()) {
+                    self.ActivatePage($('div#HR>ul>li#HrPagePassCardTemplates'), 'PassCardTemplates');
+                } else if (self.CanSelectOrganisations()) {
+                    self.ActivatePage($('div#HR>ul>li#HrPageOrganisations'), 'Organisations');
+                }
+
                 ko.applyBindings(app.Menu, $("div#HR")[0]);
+
                 self.loaded(true);
+
                 self.InitializeEmployeeFilter(self.Filter);
             });
         }
     };
 
     self.hrPages = {
-        Employees: ko.observable(true),
+        Employees: ko.observable(false),
         Departments: ko.observable(false),
         Positions: ko.observable(false),
         AdditionalColumnTypes: ko.observable(false),
@@ -48,13 +83,13 @@
         }
     });
 
-    self.SelectedPersonType = ko.observable("Employee");
-
     self.EmployeesHeader = ko.computed(function () {
-        return self.SelectedPersonType() == "Employee" ? "Сотрудники" : "Посетители";
+        return self.SelectedPersonType() === "Employee" ? "Сотрудники" : "Посетители";
     }, self);
 
-    self.PersonTypeChanged = function(obj, event) {
+    self.PersonTypeChanged = function (obj, event) {
+        self.Filter.UIDs([]);
+        self.Filter.PositionUIDs([]);
         self.InitializeEmployeeFilter(self.Filter);
     };
 
@@ -66,14 +101,18 @@
         self.Organisations.Init(self.Filter);
     };
 
-    self.HrPageClick = function(data, e, page) {
+    self.ActivatePage = function (pageElement, pageName) {
         for (var propertyName in self.hrPages) {
             self.hrPages[propertyName](false);
         }
 
-        self.hrPages[page](!self.hrPages[page]());
-        $('div#HR li').removeClass("active");
-        $(e.currentTarget).parent().addClass("active");
+        self.hrPages[pageName](!self.hrPages[pageName]());
+        $('div#HR>ul>li').removeClass("active");
+        $(pageElement).addClass("active");
+    };
+
+    self.HrPageClick = function(data, e, page) {
+        self.ActivatePage($(e.currentTarget).parent(), page);
     };
 
     self.EditFilter = function (data, e, box) {

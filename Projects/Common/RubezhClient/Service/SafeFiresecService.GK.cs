@@ -23,7 +23,7 @@ namespace RubezhClient
 		{
 			return SafeOperationCall(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(60));
 				using (firesecService as IDisposable)
 					return firesecService.GKWriteConfiguration(FiresecServiceFactory.UID, device.UID);
 			}, "GKWriteConfiguration");
@@ -33,7 +33,7 @@ namespace RubezhClient
 		{
 			return SafeOperationCall(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(30));
 				using (firesecService as IDisposable)
 					return firesecService.GKReadConfiguration(FiresecServiceFactory.UID, device.UID);
 			}, "GKReadConfiguration");
@@ -43,7 +43,7 @@ namespace RubezhClient
 		{
 			return SafeOperationCall(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(30));
 				using (firesecService as IDisposable)
 					return firesecService.GKReadConfigurationFromGKFile(FiresecServiceFactory.UID, device.UID);
 			}, "GKReadConfigurationFromGKFile");
@@ -53,7 +53,7 @@ namespace RubezhClient
 		{
 			return SafeOperationCall(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(30));
 				using (firesecService as IDisposable)
 					return firesecService.GetServerFile(FiresecServiceFactory.UID, filePath);
 			}, "GetServerFile");
@@ -63,7 +63,7 @@ namespace RubezhClient
 		{
 			return SafeOperationCall(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(120));
 				using (firesecService as IDisposable)
 					return firesecService.GKAutoSearch(FiresecServiceFactory.UID, device.UID);
 			}, "GKAutoSearch");
@@ -73,7 +73,7 @@ namespace RubezhClient
 		{
 			return SafeOperationCall(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(30));
 				using (firesecService as IDisposable)
 					return firesecService.GKUpdateFirmware(FiresecServiceFactory.UID, device.UID, firmwareBytes);
 			}, "GKUpdateFirmware");
@@ -163,37 +163,27 @@ namespace RubezhClient
 		{
 			return SafeOperationCall(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(100));
 				using (firesecService as IDisposable)
 					return firesecService.GKGetUsers(FiresecServiceFactory.UID, device.UID);
 			}, "GKGetUsers");
 		}
 
-		public OperationResult<bool> GKRewriteUsers(GKDevice device)
+		public OperationResult<bool> GKRewriteUsers(Guid deviceUid)
 		{
 			return SafeOperationCall(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(1000));
 				using (firesecService as IDisposable)
-					return firesecService.GKRewriteUsers(FiresecServiceFactory.UID, device.UID);
+					return firesecService.GKRewriteUsers(FiresecServiceFactory.UID, deviceUid);
 			}, "GKRewriteUsers");
-		}
-
-		public OperationResult<List<GKUser>> GetGKUsers(Guid deviceUID)
-		{
-			return SafeOperationCall(() =>
-			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
-				using (firesecService as IDisposable)
-					return firesecService.GetGKUsers(FiresecServiceFactory.UID, deviceUID);
-			}, "GetGKUsers");
 		}
 
 		public OperationResult<bool> RewritePmfUsers(Guid uid, List<GKUser> users)
 		{
 			return SafeOperationCall(() =>
 			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(1000));
 				using (firesecService as IDisposable)
 					return firesecService.RewritePmfUsers(FiresecServiceFactory.UID, uid, users);
 			}, "RewritePmfUsers");

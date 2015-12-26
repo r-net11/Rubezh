@@ -387,6 +387,10 @@ namespace Infrastructure.Automation
 				case ProcedureStepType.RunProgram:
 					RunProgram(procedureStep);
 					break;
+
+				case ProcedureStepType.HttpRequest:
+					HttpRequest(procedureStep);
+					break;
 			}
 			return Result.Normal;
 		}
@@ -443,6 +447,11 @@ namespace Infrastructure.Automation
 				}
 				i++;
 			}
+		}
+
+		bool HasPermission(PermissionType permissionType)
+		{
+			return User == null ? false : User.HasPermission(permissionType);
 		}
 	}
 }

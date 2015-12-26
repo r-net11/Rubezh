@@ -88,16 +88,19 @@ function EmployeesViewModel(parentViewModel) {
         return "Редактировать " + self.ItemRemovingName();
     }, self);
     self.CanAdd = ko.computed(function() {
-        return self.IsRowSelected() && !self.IsDeleted();
+        return self.IsRowSelected() && !self.IsDeleted() && self.IsEditAllowed();
     }, self);
     self.CanRemove = ko.computed(function () {
-        return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation();
+        return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation() && self.IsEditAllowed();
     }, self);
     self.CanEdit = ko.computed(function() {
-        return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation();
+        return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation() && self.IsEditAllowed();
     }, self);
     self.CanRestore = ko.computed(function () {
-        return self.IsRowSelected() && self.IsDeleted() && !self.IsOrganisation();
+        return self.IsRowSelected() && self.IsDeleted() && !self.IsOrganisation() && self.IsEditAllowed();
+    }, self);
+    self.IsEditAllowed = ko.computed(function () {
+        return self.IsGuest() ? app.Menu.HR.IsGuestEditAllowed : app.Menu.HR.IsEmployeesEditAllowed;
     }, self);
 
     self.Init = function(filter) {

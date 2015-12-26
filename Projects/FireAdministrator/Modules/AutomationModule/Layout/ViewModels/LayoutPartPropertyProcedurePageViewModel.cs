@@ -1,9 +1,12 @@
-﻿using Infrastructure.Common.Services.Layout;
-using RubezhAPI.Automation;
-using RubezhAPI.Models.Layouts;
-using RubezhClient;
-using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using Infrastructure.Common.Services.Layout;
+using System.Collections.ObjectModel;
+using RubezhAPI.Automation;
+using RubezhClient;
+using RubezhAPI.Models.Layouts;
 
 namespace AutomationModule.Layout.ViewModels
 {
@@ -53,7 +56,14 @@ namespace AutomationModule.Layout.ViewModels
 		}
 		public override bool Save()
 		{
-			return true;
+			var properties = (LayoutPartReferenceProperties)_layoutPartViewModel.Properties;
+			if (properties.ReferenceUID != SelectedProcedure.Uid)
+			{
+				properties.ReferenceUID = SelectedProcedure.Uid;
+				_layoutPartViewModel.UpdateLayoutPart();
+				return true;
+			}
+			return false;
 		}
 	}
 }

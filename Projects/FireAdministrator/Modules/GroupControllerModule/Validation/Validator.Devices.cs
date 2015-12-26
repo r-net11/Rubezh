@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using RubezhAPI.GK;
-using RubezhClient;
-using GKProcessor;
+﻿using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Validation;
 using RubezhAPI;
+using RubezhAPI.GK;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GKModule.Validation
 {
@@ -44,7 +42,7 @@ namespace GKModule.Validation
 					ValidateDeviceZone(device);
 					ValidateGuardDeviceZone(device);
 				}
-				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.DeviceHaveNoLogic))
+				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.DeviceHaveNoLogic) && !device.IgnoreLogicValidation)
 					ValidateLogic(device);
 				ValidateGKNotEmptyChildren(device);
 				ValidateParametersMinMax(device);
@@ -116,7 +114,7 @@ namespace GKModule.Validation
 					AddError(device, "Устройство не подключено к зоне", ValidationErrorLevel.Warning);
 			}
 
-			else if (device.Driver.HasGuardZone )
+			else if (device.Driver.HasGuardZone)
 			{
 				if (device.GuardZones == null || device.GuardZones.Count == 0)
 				{
@@ -141,7 +139,7 @@ namespace GKModule.Validation
 			if (device.DriverType == GKDriverType.GKRele)
 				return;
 
-			if (device.Driver.HasLogic && !device.Driver.IgnoreHasLogic && !GKManager.Doors.Any(x=> x.LockDevice == device || x.LockDeviceExit == device))
+			if (device.Driver.HasLogic && !device.Driver.IgnoreHasLogic && !GKManager.Doors.Any(x => x.LockDevice == device || x.LockDeviceExit == device))
 			{
 				if (device.Logic.OnClausesGroup.Clauses.Count == 0)
 					AddError(device, "Отсутствует логика срабатывания исполнительного устройства", ValidationErrorLevel.Warning);
@@ -223,9 +221,9 @@ namespace GKModule.Validation
 			if (device.IsInMPT && device.Door != null)
 			{
 				var mpt = GKManager.MPTs.FirstOrDefault(x => x.MPTDevices.Any(y => y.DeviceUID == device.UID && (y.MPTDeviceType == GKMPTDeviceType.Bomb || y.MPTDeviceType == GKMPTDeviceType.DoNotEnterBoard || y.MPTDeviceType == GKMPTDeviceType.ExitBoard || y.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard || y.MPTDeviceType == GKMPTDeviceType.Speaker)));
-				 if(mpt!= null && (device.Door.LockDeviceUID == device.UID || device.Door.LockDeviceExitUID == device.UID ))
+				if (mpt != null && (device.Door.LockDeviceUID == device.UID || device.Door.LockDeviceExitUID == device.UID))
 				{
-					Errors.Add(new DeviceValidationError(device, string.Format("Устройство {0} не может учавствовать одновременно в {1} в качестве замка и в {2} в качестве {3}",device.PresentationName,device.Door.PresentationName, mpt.PresentationName , mpt.MPTDevices.FirstOrDefault(x=> x.DeviceUID == device.UID).MPTDeviceType.ToDescription()), ValidationErrorLevel.CannotWrite));
+					Errors.Add(new DeviceValidationError(device, string.Format("Устройство {0} не может учавствовать одновременно в {1} в качестве замка и в {2} в качестве {3}", device.PresentationName, device.Door.PresentationName, mpt.PresentationName, mpt.MPTDevices.FirstOrDefault(x => x.DeviceUID == device.UID).MPTDeviceType.ToDescription()), ValidationErrorLevel.CannotWrite));
 				}
 			}
 		}
@@ -234,10 +232,10 @@ namespace GKModule.Validation
 		{
 			if (device.DriverType == GKDriverType.GK)
 			{
-				var kauChildren1 = device.Children.Where(x => (x.Driver.IsKau || x.DriverType == GKDriverType.RSR2_GKMirror) && GKManager.GetKauLine(x) == 0).ToList();
+				var kauChildren1 = device.Children.Where(x => (x.Driver.IsKau || x.DriverType == GKDriverType.GKMirror) && GKManager.GetKauLine(x) == 0).ToList();
 				ValidateKAUAddressFollowingInOneLine(kauChildren1);
 
-				var kauChildren2 = device.Children.Where(x => (x.Driver.IsKau || x.DriverType == GKDriverType.RSR2_GKMirror) && GKManager.GetKauLine(x) == 1).ToList();
+				var kauChildren2 = device.Children.Where(x => (x.Driver.IsKau || x.DriverType == GKDriverType.GKMirror) && GKManager.GetKauLine(x) == 1).ToList();
 				ValidateKAUAddressFollowingInOneLine(kauChildren2);
 			}
 		}

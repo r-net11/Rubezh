@@ -109,8 +109,13 @@ namespace RubezhAPI
 				parentDevice.Children.Add(device);
 			else
 				parentDevice.Children.Insert(index.Value, device);
-			
-			if (driver.DriverType == GKDriverType.GK || driver.DriverType == GKDriverType.RSR2_GKMirror)
+			AddAutoCreateChildren(device);
+			return device;
+		}
+
+		public static void AddAutoCreateChildren(GKDevice device)
+		{
+			if (device.Driver.DriverType == GKDriverType.GK || device.Driver.DriverType == GKDriverType.GKMirror)
 			{
 				var indicatorsGroupDriver = Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicatorsGroup);
 				var relaysGroupDriver = Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKRelaysGroup);
@@ -136,21 +141,14 @@ namespace RubezhAPI
 			}
 			else
 			{
-				AddAutoCreateChildren(device);
-			}
-			return device;
-		}
-
-		public static void AddAutoCreateChildren(GKDevice device)
-		{
-			foreach (var autoCreateDriverType in device.Driver.AutoCreateChildren)
-			{
-				var autoCreateDriver = Drivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
-				for (byte i = autoCreateDriver.MinAddress; i <= autoCreateDriver.MaxAddress; i++)
+				foreach (var autoCreateDriverType in device.Driver.AutoCreateChildren)
 				{
-					AddDevice(device, autoCreateDriver, i);
+				var autoCreateDriver = Drivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
+					for (byte i = autoCreateDriver.MinAddress; i <= autoCreateDriver.MaxAddress; i++)
+					{
+						AddDevice(device, autoCreateDriver, i);
+					}
 				}
-			}
 
 			if (device.Driver.IsGroupDevice && device.Children.Count == 0)
 			{

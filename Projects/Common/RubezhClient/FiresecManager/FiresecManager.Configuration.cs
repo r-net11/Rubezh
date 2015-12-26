@@ -100,7 +100,7 @@ namespace RubezhClient
 					}
 
 					LoadConfigFromDirectory(configDirectory);
-					SecurityConfiguration = ZipSerializeHelper.DeSerialize<SecurityConfiguration>(Path.Combine(configDirectory, "SecurityConfiguration.xml"), true);
+					SecurityConfiguration = ZipSerializeHelper.DeSerialize<SecurityConfiguration>(Path.Combine(configDirectory, "SecurityConfiguration.xml"));
 				}
 				UpdateConfiguration();
 			}

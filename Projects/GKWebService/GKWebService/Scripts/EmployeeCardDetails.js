@@ -52,7 +52,7 @@
                 }
 
                 self.IsGuest(self.ParentViewModel.IsGuest());
-                self.CanChangeCardType(!self.IsGuest());
+                self.CanChangeCardType(!self.IsGuest() && app.Menu.HR.IsEmployeesEditCardTypeAllowed());
                 self.SelectedGCCardType(self.Card.GKCardType());
 
                 if (self.SelectedScheduleNo()) {

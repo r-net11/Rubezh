@@ -56,11 +56,6 @@ namespace RubezhClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static IEnumerable<AdditionalColumnType> GetByCurrentUser()
-		{
-			return Get(new AdditionalColumnTypeFilter() { UserUID = ClientManager.CurrentUser.UID });
-		}
-
 		public static IEnumerable<AdditionalColumnType> GetByOrganisation(Guid organisationUID)
 		{
 			var result = ClientManager.FiresecService.GetAdditionalColumnTypes(new AdditionalColumnTypeFilter

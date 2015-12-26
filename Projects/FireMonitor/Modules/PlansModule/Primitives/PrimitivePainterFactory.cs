@@ -54,6 +54,7 @@ namespace PlansModule.Primitives
 			{ Primitive.Rectangle, (canvas, element) => new RectanglePainter(canvas, element) },
 			{ Primitive.Ellipse, (canvas, element) => new ElipsePainter(canvas, element) },
 			{ Primitive.TextBlock, (canvas, element) => new TextBlockPainter(canvas, element) },
+			{ Primitive.TextBox, (canvas, element) => new TextBoxPainter(canvas, element) },
 			{ Primitive.Polygon, (canvas, element) => new PolygonPainter(canvas, element) },
 			{ Primitive.Polyline, (canvas, element) => new PolylinePainter(canvas, element) },
 		};
@@ -65,6 +66,5 @@ namespace PlansModule.Primitives
 		{
 			public bool ShowTooltip { get; set; }
 		}
-
 	}
 }

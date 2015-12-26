@@ -14,8 +14,6 @@ namespace FireAdministrator
 		{
 			using (new WaitWrapper())
 			{
-				DescriptorsManager.Create();
-
 				ServiceFactory.Layout.ShowFooter(null);
 				var validationErrorsViewModel = new ValidationErrorsViewModel();
 				foreach (var module in ApplicationService.Modules)

@@ -13,7 +13,7 @@ namespace SKDModuleTest.Mocks
 
 		public void Show(string message, string title = null)
 		{
-			throw new NotImplementedException();
+			return;
 		}
 
 		public bool ShowQuestion(string message, string title = null)

@@ -63,7 +63,7 @@ namespace GKProcessor
 		public GKDevice AutoSearch(GKDevice gkControllerDevice, Guid clientUID)
 		{
 			var gkDevice = GKManager.CopyDevice(gkControllerDevice, false);
-			gkDevice.Children.RemoveAll(x => x.Driver.IsKau);
+			gkDevice.Children.RemoveAll(x => x.Driver.IsKau || x.DriverType == GKDriverType.GKMirror);
 
 			var progressCallback = GKProcessorManager.StartProgress("Автопоиск устройств на " + gkControllerDevice.PresentationName, "Проверка связи", 1, true, GKProgressClientType.Administrator, clientUID);
 			var pingResult = DeviceBytesHelper.Ping(gkControllerDevice);
@@ -91,31 +91,45 @@ namespace GKProcessor
 					GKProcessorManager.DoProgress("Поиск КАУ с адресом " + i, progressCallback, clientUID);
 					var kauDevice = new GKDevice();
 					kauDevice.Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU);
-					kauDevice.DriverUID = kauDevice.Driver.UID;
-					kauDevice.Parent = gkControllerDevice;
-					kauDevice.IntAddress = i;
-					kauDevice.Properties.Add(new GKProperty() { Name = "Mode", Value = 0 });
-					GKManager.AddAutoCreateChildren(kauDevice);
-
-					var result1 = SendManager.Send(kauDevice, 0, 1, 1);
-					if (!result1.HasError)
+					if (kauDevice.Driver != null)
 					{
-						var sendResult = SendManager.Send(kauDevice, 2, 12, 32, BytesHelper.ShortToBytes(1));
-						if (!sendResult.HasError && sendResult.Bytes.Count == 32)
+						kauDevice.DriverUID = kauDevice.Driver.UID;
+						kauDevice.Parent = gkControllerDevice;
+						kauDevice.IntAddress = i;
+						kauDevice.Properties.Add(new GKProperty {Name = "Mode", Value = 0});
+
+						var result1 = SendManager.Send(kauDevice, 0, 1, 1);
+						var parameters = SendManager.Send(kauDevice, 2, 9, ushort.MaxValue, BytesHelper.ShortToBytes(1)).Bytes;
+						if (!result1.HasError && parameters != null)
 						{
-							var alsParameterByte = sendResult.Bytes[27];
-							kauDevice.Properties.Add(new GKProperty() { Name = "als12", Value = (ushort)(alsParameterByte & 0x03) });
-							kauDevice.Properties.Add(new GKProperty() { Name = "als34", Value = (ushort)(alsParameterByte & 0x0C) });
-							kauDevice.Properties.Add(new GKProperty() { Name = "als56", Value = (ushort)(alsParameterByte & 0x30) });
-							kauDevice.Properties.Add(new GKProperty() { Name = "als78", Value = (ushort)(alsParameterByte & 0xC0) });
-						}
+							if (parameters.Count == 0x10)
+							{
+								var sendResult = SendManager.Send(kauDevice, 2, 12, 32, BytesHelper.ShortToBytes(1));
+								if (!sendResult.HasError && sendResult.Bytes.Count == 32)
+								{
+									var alsParameterByte = sendResult.Bytes[27];
+									kauDevice.Properties.Add(new GKProperty {Name = "als12", Value = (ushort) (alsParameterByte & 0x03)});
+									kauDevice.Properties.Add(new GKProperty {Name = "als34", Value = (ushort) (alsParameterByte & 0x0C)});
+									kauDevice.Properties.Add(new GKProperty {Name = "als56", Value = (ushort) (alsParameterByte & 0x30)});
+									kauDevice.Properties.Add(new GKProperty {Name = "als78", Value = (ushort) (alsParameterByte & 0xC0)});
+									GKManager.AddAutoCreateChildren(kauDevice);
+									kauDevices.Add(kauDevice);
+								}
+							}
 
-						kauDevices.Add(kauDevice);
-						gkDevice.Children.Add(kauDevice);
-					}
-					else
-					{
-						break;
+							else
+							{
+								kauDevice.Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKMirror);
+								if (kauDevice.Driver != null)
+									kauDevice.DriverUID = kauDevice.Driver.UID;
+								GKManager.AddAutoCreateChildren(kauDevice);
+							}
+							gkDevice.Children.Add(kauDevice);
+						}
+						else
+						{
+							break;
+						}
 					}
 				}
 
@@ -201,11 +215,9 @@ namespace GKProcessor
 							Error = "Операция отменена";
 							return false;
 						}
-						var waitTime = 1000 / (i + 1);
-						result2 = SendManager.Send(kauDevice, 3, 0x86, 6, bytes, true, false, waitTime);
+						result2 = SendManager.Send(kauDevice, 3, 0x86, 6, bytes, true, false, 3000);
 						if (!result2.HasError)
 							break;
-						Thread.Sleep(waitTime);
 					}
 					if (!result2.HasError)
 					{
@@ -223,7 +235,8 @@ namespace GKProcessor
 								devices.Add(device);
 
 								var deviceGroup = deviceGroups.FirstOrDefault(x => x.SerialNo == serialNo);
-								if (deviceGroup == null || (serialNo == 0 || serialNo == -1) || (driver.DriverType != GKDriverType.RSR2_AM_1 && driver.DriverType != GKDriverType.RSR2_MAP4 && driver.DriverType != GKDriverType.RSR2_MVK8 && driver.DriverType != GKDriverType.RSR2_RM_1))
+								if (deviceGroup == null || (serialNo == 0 || serialNo == -1) || (driver.DriverType != GKDriverType.RSR2_AM_1 && driver.DriverType != GKDriverType.RSR2_MAP4
+									&& driver.DriverType != GKDriverType.RSR2_MVK8 && driver.DriverType != GKDriverType.RSR2_RM_1 && driver.DriverType != GKDriverType.RSR2_OPKZ))
 								{
 									deviceGroup = new DeviceGroup();
 									deviceGroup.SerialNo = serialNo;
@@ -266,6 +279,10 @@ namespace GKProcessor
 								groupDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_RM_2);
 							else
 								groupDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_RM_4);
+						}
+						if (firstDeviceInGroup.Driver.DriverType == GKDriverType.RSR2_OPKS)
+						{
+							groupDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_OPSZ);
 						}
 
 						var groupDevice = new GKDevice();

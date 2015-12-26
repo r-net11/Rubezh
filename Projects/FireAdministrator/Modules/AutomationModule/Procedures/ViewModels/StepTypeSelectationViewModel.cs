@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Automation;
-using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
 
 namespace AutomationModule.ViewModels
 {
@@ -149,6 +149,7 @@ namespace AutomationModule.ViewModels
 					new StepTypeViewModel("Обмен данными", "/Controls;component/StepIcons/Export.png",
 						new List<StepTypeViewModel>
 						{
+							new StepTypeViewModel(ProcedureStepType.HttpRequest),
 							new StepTypeViewModel(ProcedureStepType.ExportJournal),
 							new StepTypeViewModel(ProcedureStepType.ExportConfiguration),
 							new StepTypeViewModel(ProcedureStepType.ExportOrganisation),

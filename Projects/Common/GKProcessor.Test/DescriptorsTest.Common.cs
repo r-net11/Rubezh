@@ -47,7 +47,7 @@ namespace GKProcessor.Test
 			Kau2Database = DescriptorsManager.KauDatabases.FirstOrDefault(x => x.RootDevice == kauDevice2);
 			Assert.IsNotNull(Kau2Database);
 			var descriptorErrors = DescriptorsManager.Check().ToList();
-			Assert.IsTrue(descriptorErrors.Count() == 0);
+			Assert.IsTrue(!descriptorErrors.Any());
 		}
 
 		void CheckDeviceLogicOnGK(GKDevice device)
@@ -148,6 +148,30 @@ namespace GKProcessor.Test
 			Compile();
 
 			CheckDeviceLogicOnGK(device3);
+		}
+
+		[TestMethod]
+		public void TestAMPLogicInZoneOnGK()
+		{
+			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_MAP4);
+			var device2 = AddDevice(kauDevice2, GKDriverType.RSR2_MAP4);
+			var zone = new GKZone();
+			GKManager.Zones.Add(zone);
+			device1.ZoneUIDs.Add(zone.UID);
+			device2.ZoneUIDs.Add(zone.UID);
+			Compile();
+			CheckDeviceLogicOnGK(device1);
+		}
+
+		[TestMethod]
+		public void TestAMPLogicInZoneOnKau()
+		{
+			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_MAP4);
+			var zone = new GKZone();
+			GKManager.Zones.Add(zone);
+			device1.ZoneUIDs.Add(zone.UID);
+			Compile();
+			CheckDeviceLogicOnKau(device1);
 		}
 
 		[TestMethod]

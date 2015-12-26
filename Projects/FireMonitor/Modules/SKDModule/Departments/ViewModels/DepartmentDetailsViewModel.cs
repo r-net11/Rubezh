@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using RubezhAPI.SKD;
 using RubezhClient.SKDHelpers;
@@ -17,24 +18,38 @@ namespace SKDModule.ViewModels
 		public EmployeeSelectationViewModel ChiefViewModel { get; private set; }
 		public bool IsNew { get; private set; }
 		List<TinyDepartment> _childDepartments;
+		/// <summary>
+		/// Подразделения, принадлежащие выбранной организации
+		/// </summary>
+		IEnumerable<ShortDepartment> _orgianisationDepartments;
 
-		public DepartmentDetailsViewModel()
-		{
-			
-		}
+		public DepartmentDetailsViewModel() : base() { 	}
 
+		/// <summary>
+		/// Инициализатор для картотеки
+		/// </summary>
+		/// <param name="organisation"></param>
+		/// <param name="shortDepartment"></param>
+		/// <param name="parentViewModel"></param>
+		/// <returns></returns>
 		public bool Initialize(Organisation organisation, ShortDepartment shortDepartment, ViewPartViewModel parentViewModel)
 		{
-			InitializeInternal(organisation.UID, shortDepartment, (parentViewModel as DepartmentsViewModel).SelectedItem.Model);
+			var departmentsViewModel = parentViewModel as DepartmentsViewModel;
+			InitializeInternal(organisation.UID, shortDepartment, departmentsViewModel.SelectedItem.Model, departmentsViewModel.Models);
 			return true;
 		}
 
-		public void Initialize(Guid organisationUID, ShortDepartment parentDepartment)
+		/// <summary>
+		/// Инициализатор для создания нового подразделения вне картотеки
+		/// </summary>
+		/// <param name="organisationUID"></param>
+		/// <param name="parentDepartment"></param>
+		public void Initialize(Guid organisationUID, ShortDepartment parentDepartment, IEnumerable<ShortDepartment> organisationDepartments)
 		{
-			InitializeInternal(organisationUID, null, parentDepartment);
+			InitializeInternal(organisationUID, null, parentDepartment, organisationDepartments);
 		}
 
-		void InitializeInternal(Guid organisationUID, ShortDepartment department, ShortDepartment parentDepartment)
+		void InitializeInternal(Guid organisationUID, ShortDepartment department, ShortDepartment parentDepartment, IEnumerable<ShortDepartment> organisationDepartments)
 		{
 			OrganisationUID = organisationUID;
 			if (department == null)
@@ -54,11 +69,13 @@ namespace SKDModule.ViewModels
 			{
 				Department = DepartmentHelper.GetDetails(department.UID);
 				Title = string.Format("Свойства подразделения: {0}", Department.Name);
-				_childDepartments = new List<TinyDepartment>();
+				
 			}
 			CopyProperties();
 			ChiefViewModel = new EmployeeSelectationViewModel(Department.ChiefUID, new EmployeeFilter { DepartmentUIDs = new List<Guid> { Department.UID } });
 			SelectDepartmentCommand = new RelayCommand(OnSelectDepartment);
+			_childDepartments = new List<TinyDepartment>();
+			_orgianisationDepartments = organisationDepartments != null ? organisationDepartments : new List<ShortDepartment>();
 		}
 
 		public void CopyProperties()
@@ -175,6 +192,18 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public bool ValidateAndSave()
+		{
+			if (!DetailsValidateHelper.Validate(Model))
+				return false;
+			if(_orgianisationDepartments.Any(x => x.ParentDepartmentUID == Department.ParentDepartmentUID && x.Name == Department.Name))
+			{
+				ServiceFactory.MessageBoxService.Show("Невозможно добавить подразделение с совпадающим именем");
+				return false;
+			}
+			return DepartmentHelper.Save(Department, IsNew);
+		}
+
 		protected override bool Save()
 		{
 			Department.Name = Name;
@@ -185,9 +214,7 @@ namespace SKDModule.ViewModels
 			Department.ChiefUID = ChiefViewModel.SelectedEmployeeUID;
 			Department.ParentDepartmentUID = SelectedDepartment != null ? SelectedDepartment.UID : Guid.Empty;
 			Department.Phone = Phone;
-			if (!DetailsValidateHelper.Validate(Model))
-				return false;
-			var saveResult = DepartmentHelper.Save(Department, IsNew);
+			var saveResult = ValidateAndSave();
 			if (saveResult)
 			{
 				ServiceFactory.Events.GetEvent<ChangeDepartmentChiefEvent>().Publish(Department);

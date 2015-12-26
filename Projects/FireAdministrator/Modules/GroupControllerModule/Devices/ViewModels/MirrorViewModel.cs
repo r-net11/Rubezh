@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using Common;
+using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,17 +16,17 @@ namespace GKModule.ViewModels
 		{
 			switch (device.Driver.DriverType)
 			{
-				case GKDriverType.RSR2_GKMirrorFireZone:
+				case GKDriverType.FireZonesMirror:
 					HasFireZones = true;
 					IsFireZones = true;
 					break;
 
-				case GKDriverType.RSR2_GKMirrorGuardZone:
+				case GKDriverType.GuardZonesMirror:
 					HasGuardZones = true;
 					IsGuardZones = true;
 					break;
 
-				case GKDriverType.RSR2_GKMirrorPerformersDevice:
+				case GKDriverType.ControlDevicesMirror:
 					HasMPT = true;
 					HasDevices = true;
 					HasDirections = true;
@@ -34,18 +35,18 @@ namespace GKModule.ViewModels
 					IsDirections = true;
 					break;
 
-				case GKDriverType.RSR2_GKMirrorFightFireZone:
+				case GKDriverType.FirefightingZonesMirror:
 					HasDirections = true;
 					HasFireZones = true;
 					IsDirections = true;
 					break;
 
-				case GKDriverType.RSR2_GKMirrorDirection:
+				case GKDriverType.DirectionsMirror:
 					HasDirections = true;
 					IsDirections = true;
 					break;
 
-				case GKDriverType.RSR2_GKMirrorDetectorsDevice:
+				case GKDriverType.DetectorDevicesMirror:
 					HasDevices = true;
 					IsDevices = true;
 					break;
@@ -53,27 +54,27 @@ namespace GKModule.ViewModels
 
 			Title = "Выбор настройки отражения";
 			Device = device;
-			var zones = GKManager.Zones.Where(x => Device.GKMirrorItem.ZoneUIDs.Contains(x.UID)).ToList();
+			var zones = GKManager.Zones.Where(x => Device.GKReflectionItem.ZoneUIDs.Contains(x.UID)).ToList();
 			ZonesSelectationViewModel = new ZonesSelectationViewModel(zones, true);
-			var guardzones = GKManager.GuardZones.Where(x => Device.GKMirrorItem.GuardZoneUIDs.Contains(x.UID)).ToList();
+			var guardzones = GKManager.GuardZones.Where(x => Device.GKReflectionItem.GuardZoneUIDs.Contains(x.UID)).ToList();
 			GuardZonesSelectationViewModel = new GuardZonesSelectationViewModel(guardzones);
-			var directions = GKManager.Directions.Where(x => Device.GKMirrorItem.DiretionUIDs.Contains(x.UID)).ToList();
+			var directions = GKManager.Directions.Where(x => Device.GKReflectionItem.DiretionUIDs.Contains(x.UID)).ToList();
 			DirectionsSelectationViewModel = new DirectionsSelectationViewModel(directions);
-			var delays = GKManager.Delays.Where(x => Device.GKMirrorItem.DelayUIDs.Contains(x.UID)).ToList();
+			var delays = GKManager.Delays.Where(x => Device.GKReflectionItem.DelayUIDs.Contains(x.UID)).ToList();
 			DelaysSelectationViewModel = new DelaysSelectationViewModel(delays);
-			if (device.Driver.DriverType == GKDriverType.RSR2_GKMirrorDetectorsDevice)
+			if (device.Driver.DriverType == GKDriverType.DetectorDevicesMirror)
 			{
-				var devices = GKManager.Devices.Where(x => Device.GKMirrorItem.DeviceUIDs.Contains(x.UID)).ToList();
+				var devices = GKManager.Devices.Where(x => Device.GKReflectionItem.DeviceUIDs.Contains(x.UID)).ToList();
 				DevicesSelectationViewModel = new DevicesSelectationViewModel(devices, GKManager.Devices.Where(x=> x.Driver.HasZone).ToList());
 			}
-			if (device.Driver.DriverType == GKDriverType.RSR2_GKMirrorPerformersDevice)
+			if (device.Driver.DriverType == GKDriverType.ControlDevicesMirror)
 			{
-				var devices = GKManager.Devices.Where(x => Device.GKMirrorItem.DeviceUIDs.Contains(x.UID)).ToList();
+				var devices = GKManager.Devices.Where(x => Device.GKReflectionItem.DeviceUIDs.Contains(x.UID)).ToList();
 				DevicesSelectationViewModel = new DevicesSelectationViewModel(devices, GKManager.Devices.Where(x => x.Driver.IsControlDevice).ToList());
 			}
-			var ns = GKManager.PumpStations.Where(x => Device.GKMirrorItem.NSUIDs.Contains(x.UID)).ToList();
+			var ns = GKManager.PumpStations.Where(x => Device.GKReflectionItem.NSUIDs.Contains(x.UID)).ToList();
 			PumpStationsSelectationViewModel = new PumpStationsSelectationViewModel(ns);
-			var mpts = GKManager.MPTs.Where(x => Device.GKMirrorItem.MPTUIDs.Contains(x.UID)).ToList();
+			var mpts = GKManager.MPTs.Where(x => Device.GKReflectionItem.MPTUIDs.Contains(x.UID)).ToList();
 			MPTsSelectationViewModel = new MPTsSelectationViewModel(mpts);
 		}
 
@@ -123,39 +124,16 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			Device.GKMirrorItem.ZoneUIDs = ZonesSelectationViewModel.TargetZones.Select(x => x.UID).ToList();
-
-			Device.GKMirrorItem.Zones = ZonesSelectationViewModel.TargetZones.ToList();
-
-			Device.GKMirrorItem.GuardZoneUIDs = GuardZonesSelectationViewModel.TargetZones.Select(x=> x.UID).ToList();
-
-			Device.GKMirrorItem.GuardZones = GuardZonesSelectationViewModel.TargetZones.ToList();
-
-			Device.GKMirrorItem.DiretionUIDs = DirectionsSelectationViewModel.TargetDirections.Select(x => x.UID).ToList();
-
-			Device.GKMirrorItem.Diretions = DirectionsSelectationViewModel.TargetDirections.ToList();
-
-			Device.GKMirrorItem.DelayUIDs = DelaysSelectationViewModel.TargetDelays.Select(x => x.UID).ToList();
-
-			Device.GKMirrorItem.Delays = DelaysSelectationViewModel.TargetDelays.ToList();
-
+			GKManager.ClearMirror(Device);
+			ZonesSelectationViewModel.TargetZones.ForEach(x => GKManager.AddToMirror(x, Device));
+			GuardZonesSelectationViewModel.TargetZones.ForEach(x => GKManager.AddToMirror(x, Device));
+			DirectionsSelectationViewModel.TargetDirections.ForEach(x => GKManager.AddToMirror(x, Device));
+			DelaysSelectationViewModel.TargetDelays.ForEach(x => GKManager.AddToMirror(x, Device));
 			if (DevicesSelectationViewModel != null)
-			{
-				Device.GKMirrorItem.DeviceUIDs = DevicesSelectationViewModel.Devices.Select(x => x.UID).ToList();
-
-				Device.GKMirrorItem.Devices = DevicesSelectationViewModel.Devices.ToList();
-			}
-			Device.GKMirrorItem.NSUIDs = PumpStationsSelectationViewModel.TargetPumpStations.Select(x => x.UID).ToList();
-
-			Device.GKMirrorItem.NSs = PumpStationsSelectationViewModel.TargetPumpStations.ToList();
-
-			Device.GKMirrorItem.MPTUIDs = MPTsSelectationViewModel.TargetMPTs.Select(x => x.UID).ToList();
-
-			Device.GKMirrorItem.MPTs = MPTsSelectationViewModel.TargetMPTs.ToList();
-
+				DevicesSelectationViewModel.Devices.ForEach(x => GKManager.AddToMirror(x, Device));
+			PumpStationsSelectationViewModel.TargetPumpStations.ForEach(x => GKManager.AddToMirror(x, Device));
+			MPTsSelectationViewModel.TargetMPTs.ForEach(x => GKManager.AddToMirror(x, Device));
 			return base.Save();
-			
 		}
-
 	}
 }

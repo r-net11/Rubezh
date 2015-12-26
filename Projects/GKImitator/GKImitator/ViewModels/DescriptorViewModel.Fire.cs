@@ -1,4 +1,6 @@
-﻿using RubezhAPI.GK;
+﻿using System;
+using System.Linq;
+using RubezhAPI.GK;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhDAL.DataClasses;
@@ -9,15 +11,15 @@ namespace GKImitator.ViewModels
 	{
 		public void InitializeFire()
 		{
-			SetFireSmokeCommand = new RelayCommand(OnSetFireSmoke);
-			SetFireTemperatureCommand = new RelayCommand(OnSetFireTemperature);
-			SetFireTemperatureGradientCommand = new RelayCommand(OnSetFireTemperatureGradient);
-			SetFireHeandDetectorCommand = new RelayCommand(OnSetFireHeandDetector);
-			ResetFireCommand = new RelayCommand(OnResetFire);
+			SetFireSmokeCommand = new RelayCommand(OnSetFireSmoke, CanSetFire);
+			SetFireTemperatureCommand = new RelayCommand(OnSetFireTemperature, CanSetFire);
+			SetFireTemperatureGradientCommand = new RelayCommand(OnSetFireTemperatureGradient, CanSetFire);
+			SetFireHeandDetectorCommand = new RelayCommand(OnSetFireHeandDetector, CanSetFire);
+			ResetFireCommand = new RelayCommand(OnResetFire, CanSetFire);
 
-			SetFire1Command = new RelayCommand(OnSetFire1);
-			SetFire2Command = new RelayCommand(OnSetFire2);
-			ResetFire12Command = new RelayCommand(OnResetFire12);
+			SetFire1Command = new RelayCommand(OnSetFire1, CanSetFire);
+			SetFire2Command = new RelayCommand(OnSetFire2, CanSetFire);
+			ResetFire12Command = new RelayCommand(OnResetFire12, CanSetFire);
 		}
 
 		public bool HasSetFireSmoke { get; private set; }
@@ -79,11 +81,15 @@ namespace GKImitator.ViewModels
 		public RelayCommand SetFire1Command { get; private set; }
 		void OnSetFire1()
 		{
-			SetStateBit(GKStateBit.Fire1, true);
-			SetStateBit(GKStateBit.Fire2, false);
-			var journalItem = new ImitatorJournalItem(2, 2, 0, 0);
-			AddJournalItem(journalItem);
-			RecalculateOutputLogic();
+			var fireState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire1);
+			if (HasFire12 && fireState != null && !fireState.IsActive)
+			{
+				SetStateBit(GKStateBit.Fire1, true);
+				SetStateBit(GKStateBit.Fire2, false);
+				var journalItem = new ImitatorJournalItem(2, 2, 0, 0);
+				AddJournalItem(journalItem);
+				RecalculateOutputLogic();
+			}
 		}
 
 		public RelayCommand SetFire2Command { get; private set; }
@@ -106,6 +112,11 @@ namespace GKImitator.ViewModels
 			RecalculateOutputLogic();
 		}
 
+		bool CanSetFire()
+		{
+			var ignoreState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Ignore);
+			return ignoreState == null || !ignoreState.IsActive;
+		}
 		public bool HasFire12 { get; private set; }
 	}
 }

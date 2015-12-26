@@ -38,6 +38,14 @@ namespace GKImitator.ViewModels
 			{
 				propertiesViewModel = new DoorPropertiesViewModel(GKBase as GKDoor);
 			}
+			if (GKBase is GKPumpStation)
+			{
+				propertiesViewModel = new PumpStationPropertiesViewModel(GKBase as GKPumpStation);
+			}
+			if (GKBase is GKMPT)
+			{
+				propertiesViewModel = new MPTPropertiesViewModel(GKBase as GKMPT);
+			}
 			if (GKBase is GKCode)
 			{
 				propertiesViewModel = new CodePropertiesViewModel(GKBase as GKCode);
@@ -94,6 +102,37 @@ namespace GKImitator.ViewModels
 					delay.DelayTime = properties[0].Value;
 					delay.Hold = properties[1].Value;
 					delay.DelayRegime = (DelayRegime)properties[2].Value;
+				}
+			}
+
+			var pumpStation = GKBaseDescriptor.GKBase as GKPumpStation;
+			if (pumpStation != null)
+			{
+				if (properties.Count >= 3)
+				{
+					pumpStation.Delay = properties[0].Value;
+					pumpStation.Hold = properties[1].Value;
+				}
+			}
+
+			var door = GKBaseDescriptor.GKBase as GKDoor;
+			if (door != null)
+			{
+				if (properties.Count >= 3)
+				{
+					door.Delay = properties[0].Value;
+					door.Hold = properties[1].Value;
+				}
+			}
+
+			var guardZone = GKBaseDescriptor.GKBase as GKGuardZone;
+			if (guardZone != null)
+			{
+				if (properties.Count >= 3)
+				{
+					guardZone.SetDelay = properties[0].Value;
+					guardZone.ResetDelay = properties[1].Value;
+					guardZone.AlarmDelay = properties[2].Value;
 				}
 			}
 
@@ -172,7 +211,8 @@ namespace GKImitator.ViewModels
 			if (binProperties.Count >= 3)
 			{
 				if (GKBaseDescriptor.DescriptorType == DescriptorType.Direction || GKBaseDescriptor.DescriptorType == DescriptorType.Delay
-					|| GKBaseDescriptor.DescriptorType == DescriptorType.GuardZone)
+					|| GKBaseDescriptor.DescriptorType == DescriptorType.GuardZone || GKBaseDescriptor.DescriptorType == DescriptorType.PumpStation
+					|| GKBaseDescriptor.DescriptorType == DescriptorType.Door)
 				{
 					properties.Add(new GKProperty() { Value = binProperties[0].Value });
 					properties.Add(new GKProperty() { Value = binProperties[1].Value });

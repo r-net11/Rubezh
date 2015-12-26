@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using RubezhAPI;
 using System;
 
 namespace RubezhAPI.GK
@@ -11,39 +9,22 @@ namespace RubezhAPI.GK
 		public void PrepareDescriptors()
 		{
 			Codes.ForEach(x => x.ChildDescriptors = new List<GKBase>());
-			var gkBases = new List<GKBase>();
-			foreach (var device in Devices)
-			{
-				device.ChildDescriptors = device.Logic.GetObjects();
-				gkBases.Add(device);
-			}
+			Devices.ForEach(x => x.ChildDescriptors = new List<GKBase>());
+			Zones.ForEach(x => x.ChildDescriptors = new List<GKBase>(x.Devices));
+			Directions.ForEach(x => x.ChildDescriptors = new List<GKBase>(x.Logic.GetObjects()));
+			Delays.ForEach(x => x.ChildDescriptors = new List<GKBase>(x.Logic.GetObjects()));
+			GuardZones.ForEach(x => x.ChildDescriptors = new List<GKBase>());
+			PumpStations.ForEach(x => x.ChildDescriptors = new List<GKBase>());
+			MPTs.ForEach(x => x.ChildDescriptors = new List<GKBase>());
+			Doors.ForEach(x => x.ChildDescriptors = new List<GKBase>());
 
-			foreach (var zone in Zones)
-			{
-				zone.ChildDescriptors = new List<GKBase>(zone.Devices);
-				gkBases.Add(zone);
-			}
-
-			foreach (var direction in Directions)
-			{
-				direction.ChildDescriptors = direction.Logic.GetObjects();
-				gkBases.Add(direction);
-			}
-
-			foreach (var delay in Delays)
-			{
-				delay.ChildDescriptors = delay.Logic.GetObjects();
-				gkBases.Add(delay);
-			}
-
-			foreach (var code in Codes)
-			{
-				gkBases.Add(code);
-			}
+			var gkBases = Zones.Cast<GKBase>().ToList();
+			gkBases.AddRange(Directions);
+			gkBases.AddRange(Delays);
+			gkBases.AddRange(Codes);
 
 			foreach (var guardZone in GuardZones)
 			{
-				guardZone.ChildDescriptors = new List<GKBase>();
 				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
 				{
 					guardZone.ChildDescriptors.Add(guardZoneDevice.Device);
@@ -74,7 +55,6 @@ namespace RubezhAPI.GK
 
 			foreach (var pumpStation in PumpStations)
 			{
-				pumpStation.ChildDescriptors = new List<GKBase>();
 				pumpStation.ChildDescriptors.AddRange(pumpStation.StartLogic.GetObjects());
 				pumpStation.ChildDescriptors.AddRange(pumpStation.StopLogic.GetObjects());
 				pumpStation.ChildDescriptors.AddRange(pumpStation.AutomaticOffLogic.GetObjects());
@@ -90,7 +70,6 @@ namespace RubezhAPI.GK
 
 			foreach (var mpt in MPTs)
 			{
-				mpt.ChildDescriptors = new List<GKBase>();
 				mpt.ChildDescriptors.AddRange(mpt.MptLogic.GetObjects());
 				foreach (var mptDevice in mpt.MPTDevices)
 				{
@@ -119,7 +98,6 @@ namespace RubezhAPI.GK
 
 			foreach (var door in Doors)
 			{
-				door.ChildDescriptors = new List<GKBase>();
 				door.ChildDescriptors.AddRange(door.OpenRegimeLogic.GetObjects());
 				door.ChildDescriptors.AddRange(door.NormRegimeLogic.GetObjects());
 				door.ChildDescriptors.AddRange(door.CloseRegimeLogic.GetObjects());
@@ -127,25 +105,21 @@ namespace RubezhAPI.GK
 				if (door.EnterDevice != null)
 				{
 					door.ChildDescriptors.Add(door.EnterDevice);
-					//door.EnterDevice.ChildDescriptors.Add(door);
 				}
 
 				if (door.ExitDevice != null)
 				{
 					door.ChildDescriptors.Add(door.ExitDevice);
-					//door.ExitDevice.ChildDescriptors.Add(door);
 				}
 
 				if (door.EnterButton != null)
 				{
 					door.ChildDescriptors.Add(door.EnterButton);
-					//door.EnterButton.ChildDescriptors.Add(door);
 				}
 
 				if (door.ExitButton != null)
 				{
 					door.ChildDescriptors.Add(door.ExitButton);
-					//door.ExitButton.ChildDescriptors.Add(door);
 				}
 
 				if (door.LockDevice != null)
@@ -163,16 +137,54 @@ namespace RubezhAPI.GK
 				if (door.LockControlDevice != null)
 				{
 					door.ChildDescriptors.Add(door.LockControlDevice);
-					//door.LockControlDevice.ChildDescriptors.Add(door);
 				}
 
 				if (door.LockControlDeviceExit != null)
 				{
 					door.ChildDescriptors.Add(door.LockControlDeviceExit);
-					//door.LockControlDeviceExit.ChildDescriptors.Add(door);
 				}
 
 				gkBases.Add(door);
+			}
+
+			foreach (var device in Devices)
+			{
+				device.ChildDescriptors.AddRange(device.Logic.GetObjects());
+				if (device.Driver.HasMirror)
+				{
+					switch (device.DriverType)
+					{
+						case GKDriverType.DetectorDevicesMirror:
+							device.GKReflectionItem.Devices.ForEach(x => device.ChildDescriptors.Add(x));
+							break;
+
+						case GKDriverType.ControlDevicesMirror:
+							device.GKReflectionItem.Devices.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
+							device.GKReflectionItem.Diretions.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
+							device.GKReflectionItem.Delays.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
+							device.GKReflectionItem.MPTs.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
+							device.GKReflectionItem.NSs.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
+							break;
+						case GKDriverType.DirectionsMirror:
+							device.GKReflectionItem.Diretions.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
+							break;
+						case GKDriverType.FireZonesMirror:
+							device.GKReflectionItem.Zones.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
+							break;
+						case GKDriverType.FirefightingZonesMirror:
+							device.GKReflectionItem.Zones.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
+							device.GKReflectionItem.Diretions.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
+							break;
+						case GKDriverType.GuardZonesMirror:
+							device.GKReflectionItem.GuardZones.ForEach(x => { x.ChildDescriptors.Add(device); device.ChildDescriptors.Add(x); });
+							break;
+					}
+				}
+				if (device.DriverType == GKDriverType.RSR2_MAP4)
+				{
+					device.ChildDescriptors.AddRange(new List<GKBase>(device.Zones));
+				}
+				gkBases.Add(device);
 			}
 
 			gkBases.ForEach(x => x.ClearDescriptor());

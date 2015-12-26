@@ -22,7 +22,7 @@ namespace GKWebService.Controllers
 
         public JsonResult GetOrganisations(OrganisationFilter filter)
         {
-            var result = ClientManager.FiresecService.GetOrganisations(filter);
+            var result = ClientManager.FiresecService.GetOrganisations(new OrganisationFilter { LogicalDeletationType = filter.LogicalDeletationType});
 
             if (result.HasError)
             {
@@ -92,6 +92,30 @@ namespace GKWebService.Controllers
             var result = door.IsDoorLinked(organisationId);
 
             return new JsonNetResult { Data = result };
+        }
+
+        [HttpPost]
+        public JsonNetResult MarkDeleted(Guid uid, string name)
+        {
+            var operationResult = ClientManager.FiresecService.MarkDeletedOrganisation(uid, name);
+            return new JsonNetResult { Data = operationResult != null && operationResult.HasError && !operationResult.Error.Contains("Ошибка БД") };
+        }
+
+        public JsonNetResult IsAnyOrganisationItems(Guid uid)
+        {
+            var operationResult = ClientManager.FiresecService.IsAnyOrganisationItems(uid);
+            if (operationResult.HasError)
+            {
+                throw new InvalidOperationException(operationResult.Error);
+            }
+            return new JsonNetResult { Data = operationResult.Result};
+        }
+
+        [HttpPost]
+        public JsonNetResult Restore(Guid uid, string name)
+        {
+            var operationResult = ClientManager.FiresecService.RestoreOrganisation(uid, name);
+            return new JsonNetResult { Data = operationResult != null && operationResult.HasError && !operationResult.Error.Contains("Ошибка БД") };
         }
     }
 }

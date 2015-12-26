@@ -1,4 +1,5 @@
-﻿using GKProcessor;
+﻿using System.IO;
+using GKProcessor;
 using Infrastructure.Common;
 using Ionic.Zip;
 using RubezhAPI;
@@ -30,6 +31,8 @@ namespace FiresecService.Service
 					{
 						var deviceConfigFileName = AppDataFolderHelper.GetServerAppDataPath("Config\\GKDeviceConfiguration.xml");
 						var zipDeviceConfigFileName = AppDataFolderHelper.GetServerAppDataPath("GKDeviceConfiguration.fscp");
+						if (File.Exists(zipDeviceConfigFileName))
+							File.Delete(zipDeviceConfigFileName);
 						var zipFile = new ZipFile(zipDeviceConfigFileName);
 						zipFile.AddFile(deviceConfigFileName, "");
 						zipFile.Save(zipDeviceConfigFileName);
@@ -478,20 +481,20 @@ namespace FiresecService.Service
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
 			if (device != null)
 			{
+				var isGk = device.DriverType == GKDriverType.GK;
 				var progressCallback = new GKProgressCallback();
-				ServerTaskRunner.Add(progressCallback, "Чтение пользователей прибора", new Action(() =>
+				ServerTaskRunner.Add(progressCallback, "Чтение пользователей прибора", () =>
+				{
+					try
 					{
-						try
-						{
-							var users = GKSKDHelper.GetAllUsers(device, progressCallback, clientUID);
-							FiresecService.NotifyOperationResult_GetAllUsers(users, clientUID);
-						}
-						catch (Exception e)
-						{
-							FiresecService.NotifyOperationResult_GetAllUsers(OperationResult<List<GKUser>>.FromError(e.Message), clientUID);
-						}
+						var users = GKSKDHelper.GetAllUsers(device, progressCallback, clientUID);
+						NotifyOperationResult_GetAllUsers(users, isGk, clientUID, device.UID);
 					}
-				));
+					catch (Exception e)
+					{
+						NotifyOperationResult_GetAllUsers(OperationResult<List<GKUser>>.FromError(e.Message), isGk, clientUID, device.UID);
+					}
+				});
 				return new OperationResult<bool>(true);
 			}
 			return OperationResult<bool>.FromError("Не найден ГК в конфигурации");
@@ -516,12 +519,15 @@ namespace FiresecService.Service
 
 						try
 						{
-							var usersCount = GKSKDHelper.GetUsersCount(device);
+							var usersCountResult = GKSKDHelper.GetUsersCount(device);
+							if (usersCountResult.HasError)
+								return;
+							var usersCount = usersCountResult.Result;
 							var removeResult = GKSKDHelper.RemoveAllUsers(device, usersCount, progressCallback, clientUID);
 							if (!removeResult)
 							{
 								GKProcessorManager.StopProgress(progressCallback);
-								FiresecService.NotifyOperationResult_RewriteUsers(OperationResult<bool>.FromError("Ошибка при удалении пользователя из ГК"), clientUID);
+								NotifyOperationResult_RewriteUsers(OperationResult<bool>.FromError("Ошибка при удалении пользователя из ГК"), clientUID);
 								return;
 							}
 							progressCallback.Title = "Добавление пользователей прибора " + device.PresentationName;
@@ -585,8 +591,23 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> RewritePmfUsers(Guid clientUID, Guid uid, List<GKUser> users)
 		{
-			return GKSKDHelper.RewritePmfUsers(uid, users, clientUID);
+			var progressCallback = new GKProgressCallback();
+			ServerTaskRunner.Add(progressCallback, "Чтение пользователей прибора", new Action(() =>
+			{
+				try
+				{
+					var result = GKSKDHelper.RewritePmfUsers(clientUID, uid, users, progressCallback);
+					FiresecService.NotifyOperationResult_RewriteUsers(result, clientUID);
+				}
+				catch (Exception e)
+				{
+					NotifyOperationResult_RewriteUsers(OperationResult<bool>.FromError(e.Message), clientUID);
+				}
+			}
+			));
+			return new OperationResult<bool>(true);
 		}
+
 		#endregion
 	}
 }

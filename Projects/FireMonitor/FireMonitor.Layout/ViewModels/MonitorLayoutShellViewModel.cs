@@ -29,6 +29,7 @@ namespace FireMonitor.Layout.ViewModels
 			ChangeUserCommand = new RelayCommand(OnChangeUser, CanChangeUser);
 			ChangeLayoutCommand = new RelayCommand<LayoutModel>(OnChangeLayout, CanChangeLayout);
 			Icon = @"..\Monitor.Layout.ico";
+			ListenAutomationEvents();
 		}
 
 		public LayoutContainer LayoutContainer { get; private set; }
@@ -79,8 +80,7 @@ namespace FireMonitor.Layout.ViewModels
 			var ip = ConnectionSettingsManager.IsRemote ? null : ClientManager.GetIP();
 			var layouts = ClientManager.LayoutsConfiguration.Layouts.Where(layout =>
 				layout.Users.Contains(ClientManager.CurrentUser.UID) &&
-				(ip == null || layout.HostNameOrAddressList.Contains(ip)) &&
-				Bootstrapper.CheckLicense(layout)).OrderBy(item => item.Caption);
+				(ip == null || layout.HostNameOrAddressList.Contains(ip))).OrderBy(item => item.Caption);
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить шаблон",
 				new ObservableCollection<RibbonMenuItemViewModel>(layouts.Select(item => new RibbonMenuItemViewModel(item.Caption, ChangeLayoutCommand, item, "BLayouts", item.Description))),
 				"BLayouts") { Order = 1 });
@@ -131,7 +131,7 @@ namespace FireMonitor.Layout.ViewModels
 			SafeFiresecService.AutomationEvent -= OnAutomationCallback;
 			SafeFiresecService.AutomationEvent += OnAutomationCallback;
 		}
-		private void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)
+		void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)
 		{
 			if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.GetVisualProperty || automationCallbackResult.AutomationCallbackType == AutomationCallbackType.SetVisualProperty)
 			{
@@ -158,8 +158,6 @@ namespace FireMonitor.Layout.ViewModels
 						ClientManager.FiresecService.ProcedureCallbackResponse(automationCallbackResult.CallbackUID, value);
 				}
 			}
-			else if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.Dialog)
-				LayoutDialogViewModel.Show((DialogCallbackData)automationCallbackResult.Data);
 		}
 	}
 }

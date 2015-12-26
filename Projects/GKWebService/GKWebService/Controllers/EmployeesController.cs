@@ -80,7 +80,7 @@ namespace GKWebService.Controllers
         {
             var employeeModels = new List<ShortEmployeeModel>();
     
-			var organisationFilter = new OrganisationFilter ();
+			var organisationFilter = new OrganisationFilter { UIDs = employeeFilter.OrganisationUIDs, UserUID = ClientManager.CurrentUser.UID, LogicalDeletationType = employeeFilter.LogicalDeletationType };
 			var organisations = ClientManager.FiresecService.GetOrganisations(organisationFilter).Result;
 			var initializedOrganisations = InitializeOrganisations(organisations);
 

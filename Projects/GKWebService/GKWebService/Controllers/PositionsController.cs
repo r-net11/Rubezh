@@ -23,7 +23,11 @@ namespace GKWebService.Controllers
         public JsonResult GetOrganisations(PositionFilter positionFilter)
         {
             var positionsViewModel = new PositionsViewModel();
-            positionsViewModel.Initialize(positionFilter);
+            positionsViewModel.Initialize(new PositionFilter
+            {
+                OrganisationUIDs = positionFilter.OrganisationUIDs,
+                LogicalDeletationType = positionFilter.LogicalDeletationType
+            });
 
             dynamic result = new
             {

@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Threading;
 using System.Xml.Serialization;
 
 namespace RubezhAPI.GK
 {
 	[DataContract]
-	public class GKMirrorItem
+	public class GKReflectionItem
 	{
-		public GKMirrorItem()
+		public GKReflectionItem()
 		{
 			ZoneUIDs = new List<Guid>();
 			GuardZoneUIDs = new List<Guid>();
@@ -20,13 +21,30 @@ namespace RubezhAPI.GK
 			NSUIDs = new List<Guid>();
 			MPTUIDs = new List<Guid>();
 			Zones = new List<GKZone>();
-			Diretions = new List<GKDirection>();
 			GuardZones = new List<GKGuardZone>();
 			Devices = new List<GKDevice>();
 			Delays = new List<GKDelay>();
+			Diretions = new List<GKDirection>();
 			NSs = new List<GKPumpStation>();
 			MPTs = new List<GKMPT>();
 			MirrorUsers = new List<MirrorUser>();
+		}
+
+		[XmlIgnore]
+		public List<GKBase> GKBases
+		{
+			get
+			{
+				var gkBases = new List<GKBase>();
+				gkBases.AddRange(Zones);
+				gkBases.AddRange(GuardZones);
+				gkBases.AddRange(Devices);
+				gkBases.AddRange(Delays);
+				gkBases.AddRange(Diretions);
+				gkBases.AddRange(NSs);
+				gkBases.AddRange(MPTs);
+				return gkBases;
+			}
 		}
 
 		[XmlIgnore]

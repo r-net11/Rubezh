@@ -7,11 +7,8 @@ using RubezhAPI.SKD;
 using RubezhClient;
 using SKDModule.ViewModels;
 using SKDModuleTest.Mocks;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SKDModuleTest
 {
@@ -26,10 +23,7 @@ namespace SKDModuleTest
 		public void Initialize()
 		{
 			ClientManager.SecurityConfiguration = new SecurityConfiguration();
-			User = new User()
-			{
-				Login = "adm"
-			};
+			User = new User { Login = "adm" };
 			ClientManager.SecurityConfiguration.Users.Add(User);
 			ClientManager._userLogin = "adm";
 
@@ -42,7 +36,11 @@ namespace SKDModuleTest
 		public void ViewOrganisationTest()
 		{
 			var mock = new Mock<ISafeFiresecService>();
-			mock.Setup(x => x.GetOrganisations(It.IsAny<OrganisationFilter>())).Returns(() => new OperationResult<List<Organisation>>() { Result = new List<Organisation>() { new Organisation() { Name = "Test" } } });
+			mock.Setup(x => x.GetOrganisations(It.IsAny<OrganisationFilter>())).Returns(() => 
+				new OperationResult<List<Organisation>>() 
+				{ 
+					Result = new List<Organisation> { new Organisation { Name = "Test" } } 
+				});
 			ClientManager.FiresecService = mock.Object;
 
 			var organisationsViewModel = new OrganisationsViewModel();
@@ -77,6 +75,30 @@ namespace SKDModuleTest
 			organisationsViewModel.AddCommand.Execute();
 			Assert.IsTrue(organisationsViewModel.Organisations.Count == 1);
 			Assert.IsTrue(organisationsViewModel.SelectedOrganisation.Organisation.Name == "Test");
+		}
+
+		[Test]
+		public void UnSetCurrentUserTest()
+		{
+			var user1 = new User{ Login = "adm1" };
+			var user2 = new User{ Login = "adm2" };
+			ClientManager.SecurityConfiguration.Users = new List<RubezhAPI.Models.User>{ user1, user2 };
+			ClientManager._userLogin = "adm1";
+			var organisation = new Organisation();
+			var mock = new Mock<ISafeFiresecService>();
+			mock.Setup(x => x.GetOrganisations(It.IsAny<OrganisationFilter>())).Returns<OrganisationFilter>(filter =>
+			{
+				return new OperationResult<List<Organisation>>(new List<Organisation> { organisation });
+			});
+			ClientManager.FiresecService = mock.Object;
+
+			var organisationsViewModel = new OrganisationsViewModel();
+			organisationsViewModel.Initialize(LogicalDeletationType.All);
+			var organisationViewModel = organisationsViewModel.Organisations.FirstOrDefault();
+			var currentUserViewModel = organisationsViewModel.OrganisationUsersViewModel.Items.FirstOrDefault(x => x.User.UID == ClientManager.CurrentUser.UID);
+			Assert.IsFalse(currentUserViewModel.CanChange);
+			var otherUserViewModel = organisationsViewModel.OrganisationUsersViewModel.Items.FirstOrDefault(x => x.User.UID != ClientManager.CurrentUser.UID);
+			Assert.IsTrue(otherUserViewModel.CanChange);
 		}
 	}
 }
