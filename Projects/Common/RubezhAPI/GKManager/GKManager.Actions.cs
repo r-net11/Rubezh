@@ -206,7 +206,10 @@ namespace RubezhAPI
 
 		public static GKDevice ChangeDriver(GKDevice device, GKDriver driver)
 		{
-			if ((GetAddress(device.Parent.AllChildren) - device.AllChildrenAndSelf.Count) + Math.Max(1, (int)driver.GroupDeviceChildrenCount) > 255)
+			var count = device.AllChildren.Where(y => !y.Driver.IsGroupDevice && y.Driver.HasAddress).Count();
+						if (!device.Driver.IsGroupDevice && device.Driver.HasAddress)
+							count += 1;
+			if ((GetAddress(device.KAUShleifParent.AllChildren) - count) + Math.Max(1, (int)driver.GroupDeviceChildrenCount) > 255)
 				return null;
 
 			var index = device.Parent.Children.IndexOf(device);
