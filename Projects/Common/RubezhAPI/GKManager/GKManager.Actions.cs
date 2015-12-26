@@ -210,7 +210,7 @@ namespace RubezhAPI
 			if ((GetAddress(device.Parent.AllChildren) - device.AllChildrenAndSelf.Count) + Math.Max(1, (int)driver.GroupDeviceChildrenCount) > 255)
 				return null;
 
-			var index = device.Parent.AllChildren.IndexOf(device);
+			var index = device.Parent.Children.IndexOf(device);
 			RemoveDevice(device);
 			return AddDevice(device.Parent, driver, 0, index);
 		}
