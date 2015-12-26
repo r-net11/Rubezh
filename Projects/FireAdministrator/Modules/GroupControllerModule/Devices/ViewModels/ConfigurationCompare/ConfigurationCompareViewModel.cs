@@ -427,7 +427,7 @@ namespace GKModule.ViewModels
 			{
 				differences.Add("Не совпадает пароль");
 			}
-			return differences.ToString() == "" ? null : differences.ToString();
+			return string.Join(". ", differences);
 		}
 
 
