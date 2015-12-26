@@ -143,20 +143,21 @@ namespace RubezhAPI
 			{
 				foreach (var autoCreateDriverType in device.Driver.AutoCreateChildren)
 				{
-				var autoCreateDriver = Drivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
+					var autoCreateDriver = Drivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
 					for (byte i = autoCreateDriver.MinAddress; i <= autoCreateDriver.MaxAddress; i++)
 					{
 						AddDevice(device, autoCreateDriver, i);
 					}
 				}
 
-			if (device.Driver.IsGroupDevice && device.Children.Count == 0)
-			{
-				var driver = Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
-
-				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
+				if (device.Driver.IsGroupDevice && device.Children.Count == 0)
 				{
-					AddDevice(device, driver, device.IntAddress + i);
+					var driver = Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
+
+					for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
+					{
+						AddDevice(device, driver, device.IntAddress + i);
+					}
 				}
 			}
 		}
