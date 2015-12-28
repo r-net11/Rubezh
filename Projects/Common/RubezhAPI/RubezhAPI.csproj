@@ -150,7 +150,9 @@
     <Compile Include="AutomationCallback\ProcedureProperties.cs" />
     <Compile Include="AutomationCallback\PropertyCallBackData.cs" />
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
+    <Compile Include="Bindable.cs" />
     <Compile Include="CallbackOperationResult.cs" />
+    <Compile Include="IBindable.cs" />
     <Compile Include="Models\Automation\StepArguments\HttpRequestArguments.cs" />
     <Compile Include="Models\Plans\ElementTextBox.cs" />
     <Compile Include="PollResult.cs" />

@@ -81,15 +81,15 @@ namespace PlansModule.ViewModels
 					{
 						foreach (var planElementBindingItem in element.PlanElementBindingItems)
 						{
-							var glabalVariable = ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid == planElementBindingItem.GlobalVariableUID);
-							if (glabalVariable != null)
+							var globalVariable = ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid == planElementBindingItem.GlobalVariableUID);
+							if (globalVariable != null)
 							{
-								glabalVariable.ExplicitValueChanged += () =>
+								globalVariable.ValueChanged += () =>
 								{
 									var planCallbackData = new PlanCallbackData()
 									{
 										ElementPropertyType = ElementPropertyType.BorderThickness,
-										Value = glabalVariable.ExplicitValue.IntValue,
+										Value = globalVariable.ExplicitValue.IntValue,
 										ElementUid = element.UID,
 										PlanUid = plan.Plan.UID
 									};

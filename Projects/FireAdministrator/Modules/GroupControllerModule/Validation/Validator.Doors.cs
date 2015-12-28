@@ -180,13 +180,20 @@ namespace GKModule.Validation
 			{
 				if (door.LockControlDevice == null)
 				{
-					if (door.DoorType != GKDoorType.Barrier)
-						AddError(door, "У точки доступа отсутствует датчик контроля двери на на вход", ValidationErrorLevel.Warning);
+					if (door.DoorType == GKDoorType.Turnstile)
+						AddError(door, "У точки доступа отсутствует датчик проварота", ValidationErrorLevel.Warning);
+					else if (door.DoorType == GKDoorType.Barrier)
+						AddError(door, "У точки доступа отсутствует датчик въезда", ValidationErrorLevel.Warning);
+					else
+						AddError(door, "У точки доступа отсутствует датчик контроля двери", ValidationErrorLevel.Warning);
+
 				}
-				if (door.DoorType == GKDoorType.AirlockBooth)
+				if (door.LockControlDeviceExit == null)
 				{
-					if (door.LockControlDeviceExit == null)
+					if (door.DoorType == GKDoorType.AirlockBooth)
 						AddError(door, "У точки доступа отсутствует датчик контроля двери на выход", ValidationErrorLevel.Warning);
+					if (door.DoorType == GKDoorType.Barrier)
+						AddError(door, "У точки доступа отсутствует датчик контроля выезда", ValidationErrorLevel.Warning);
 				}
 			}
 		}

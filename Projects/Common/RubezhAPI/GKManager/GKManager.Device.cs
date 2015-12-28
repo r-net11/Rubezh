@@ -20,7 +20,7 @@ namespace RubezhAPI
 
 			if (paste)
 			{
-				foreach (var guardZone in GKManager.GuardZones)
+				foreach (var guardZone in GuardZones)
 				{
 					var guardZones = newDevice.GuardZones.FirstOrDefault(x => x.UID == guardZone.UID);
 					if (guardZones != null)
@@ -143,7 +143,7 @@ namespace RubezhAPI
 			{
 				foreach (var autoCreateDriverType in device.Driver.AutoCreateChildren)
 				{
-					var autoCreateDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
+					var autoCreateDriver = Drivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
 					for (byte i = autoCreateDriver.MinAddress; i <= autoCreateDriver.MaxAddress; i++)
 					{
 						AddDevice(device, autoCreateDriver, i);
@@ -152,8 +152,7 @@ namespace RubezhAPI
 
 				if (device.Driver.IsGroupDevice && device.Children.Count == 0)
 				{
-					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
-
+					var driver = Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
 					for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
 					{
 						AddDevice(device, driver, device.IntAddress + i);
