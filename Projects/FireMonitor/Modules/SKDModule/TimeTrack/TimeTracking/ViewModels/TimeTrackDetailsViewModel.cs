@@ -381,7 +381,7 @@ namespace SKDModule.ViewModels
 
 		private bool CanAddFile()
 		{
-			return SelectedDocument != null && SelectedDocument.Document != null;
+			return SelectedDocument != null && SelectedDocument.Document != null && !SelectedDocument.HasFile;
 		}
 
 		public bool CanRemovePart()
