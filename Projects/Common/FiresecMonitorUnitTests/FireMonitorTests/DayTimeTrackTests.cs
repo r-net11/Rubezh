@@ -604,6 +604,147 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 		#region IsOnlyFirstEnter Tests
 
 		[Test]
+		public void IsOnlyFirstEnterEarlyLeave()
+		{
+			//Arrange
+			var realTimeTrackParts = new List<TimeTrackPart>
+			{
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(9),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(11),
+					IsForURVZone = true
+				},
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(12),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(14),
+					IsForURVZone = true
+				}
+			};
+
+			var plannedTimeTrackParts = new List<TimeTrackPart>
+			{
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(9),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(18)
+				}
+			};
+
+			var dayTimeTrack = new DayTimeTrack
+			{
+				IsOnlyFirstEnter = true,
+				RealTimeTrackParts = realTimeTrackParts,
+				PlannedTimeTrackParts = plannedTimeTrackParts
+			};
+			//Act
+			dayTimeTrack.Calculate();
+			//Assert
+			var firstOrDefault = dayTimeTrack.CombinedTimeTrackParts.FirstOrDefault(x => x.EnterDateTime.TimeOfDay == TimeSpan.FromHours(14));
+			if (firstOrDefault != null)
+				Assert.AreEqual(firstOrDefault.TimeTrackPartType, TimeTrackType.EarlyLeave);
+		}
+
+		[Test]
+		public void IsOnlyFirstEnterPresence()
+		{
+			//Arrange
+			var realTimeTrackParts = new List<TimeTrackPart>
+			{
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(9),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(11),
+					IsForURVZone = true
+				},
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(12),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(14),
+					IsForURVZone = true
+				},
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(16),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(18),
+					IsForURVZone = true
+				}
+			};
+
+			var plannedTimeTrackParts = new List<TimeTrackPart>
+			{
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(9),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(18)
+				}
+			};
+
+			var dayTimeTrack = new DayTimeTrack
+			{
+				IsOnlyFirstEnter = true,
+				RealTimeTrackParts = realTimeTrackParts,
+				PlannedTimeTrackParts = plannedTimeTrackParts
+			};
+			//Act
+			dayTimeTrack.Calculate();
+			//Assert
+			var firstOrDefault = dayTimeTrack.CombinedTimeTrackParts.FirstOrDefault(x => x.EnterDateTime.TimeOfDay == TimeSpan.FromHours(11));
+			if (firstOrDefault != null)
+				Assert.AreEqual(firstOrDefault.TimeTrackPartType, TimeTrackType.Presence);
+		}
+
+		[Test]
+		public void IsOnlyFirstEnterOvertime()
+		{
+			//Arrange
+			var realTimeTrackParts = new List<TimeTrackPart>
+			{
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(9),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(11),
+					IsForURVZone = true
+				},
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(12),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(14),
+					IsForURVZone = true
+				},
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(16),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(18),
+					IsForURVZone = true
+				}
+			};
+
+			var plannedTimeTrackParts = new List<TimeTrackPart>
+			{
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(9),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(18)
+				}
+			};
+
+			var dayTimeTrack = new DayTimeTrack
+			{
+				IsOnlyFirstEnter = true,
+				RealTimeTrackParts = realTimeTrackParts,
+				PlannedTimeTrackParts = plannedTimeTrackParts
+			};
+			//Act
+			dayTimeTrack.Calculate();
+			//Assert
+			var firstOrDefault = dayTimeTrack.CombinedTimeTrackParts.FirstOrDefault(x => x.EnterDateTime.TimeOfDay == TimeSpan.FromHours(17));
+			if (firstOrDefault != null)
+				Assert.AreEqual(firstOrDefault.TimeTrackPartType, TimeTrackType.Overtime);
+		}
+
+		[Test]
 		public void IsOnlyFirstEnterFalseTest()
 		{
 			var timeTrackPart = new TimeTrackPart
