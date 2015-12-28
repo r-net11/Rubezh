@@ -5,7 +5,12 @@ using System.Text;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using SKDDriver;
+using SKDDriver.DataAccess;
+using SKDDriver.Translators;
+using DayInterval = FiresecAPI.SKD.DayInterval;
+using DayIntervalPart = FiresecAPI.SKD.DayIntervalPart;
 using DayIntervalPartCommonValidator = EntitiesValidation.DayIntervalPartValidator;
+using ScheduleScheme = FiresecAPI.SKD.ScheduleScheme;
 
 namespace FiresecService.Service.Validators
 {
@@ -30,7 +35,7 @@ namespace FiresecService.Service.Validators
 		private static OperationResult ValidateAdding(DayIntervalPart dayIntervalPart)
 		{
 			// Базовая валидация
-			var validationResult = ValidateCommon(dayIntervalPart);
+			var validationResult = ValidateAddingCommon(dayIntervalPart);
 			if (validationResult.HasError)
 				return validationResult;
 
@@ -47,7 +52,7 @@ namespace FiresecService.Service.Validators
 		private static OperationResult ValidateEditing(DayIntervalPart dayIntervalPart)
 		{
 			// Базовая валидация
-			var validationResult = ValidateCommon(dayIntervalPart);
+			var validationResult = ValidateEditingCommon(dayIntervalPart);
 			if (validationResult.HasError)
 				return validationResult;
 
@@ -91,6 +96,33 @@ namespace FiresecService.Service.Validators
 			return new OperationResult();
 		}
 
+		private static OperationResult ValidateDayIntervalPartWithTransitionOnAddingOrEditing(DayIntervalPart dayIntervalPart)
+		{
+			DayInterval dayInterval = null;
+			using (var databaseService = new SKDDatabaseService())
+			{
+				dayInterval = databaseService.DayIntervalTranslator.GetDayInterval(dayIntervalPart);
+			}
+			if (dayInterval == null)
+				return new OperationResult("Ошибка валидации временного интервала дневного графика");
+
+			var operationResult = DayIntervalPartCommonValidator.ValidateDayIntervalPartWithTransitionOnAddingOrEditing(dayIntervalPart, dayInterval.SlideTime);
+			if (operationResult.HasError)
+				return new OperationResult(operationResult.Errors);
+			return new OperationResult();
+		}
+
+		private static OperationResult ValidateAddingCommon(DayIntervalPart dayIntervalPart)
+		{
+			// Базовая валидация
+			var validationResult = ValidateCommon(dayIntervalPart);
+			if (validationResult.HasError)
+				return validationResult;
+
+			// Если значение в поле "Обязательная продолжительность скользящего графика" > 0, то добавить интервал с переходом на следующие сутки нельзя
+			return ValidateDayIntervalPartWithTransitionOnAddingOrEditing(dayIntervalPart);
+		}
+
 		private static OperationResult ValidateAddingComplex(DayIntervalPart dayIntervalPart)
 		{
 			var error = String.Format("Ошибка валидации по связям при добавлении временного интервала дневного графика");
@@ -128,10 +160,36 @@ namespace FiresecService.Service.Validators
 						"Для добавления интервала с переходом необходимо удалить связи дневного графика со следующими недельными или месячными графиками:\n\n{0}",
 						weekOrMonthScheduleSchemesStr));
 			}
-			// Если добавляемый интервал не является переходным, выходим
-			if (dayIntervalPart.TransitionType != DayIntervalPartTransitionType.Night)
-				return new OperationResult();
-			return new OperationResult("Для добавления интервала с переходом необходимо установить в поле \"Суммарная продолжительность интервалов дневного графика\" значение 0");
+			return new OperationResult();
+		}
+
+		private static OperationResult ValidateEditingCommon(DayIntervalPart dayIntervalPart)
+		{
+			// Базовая валидация
+			var validationResult = ValidateCommon(dayIntervalPart);
+			if (validationResult.HasError)
+				return validationResult;
+
+			// Если значение в поле "Обязательная продолжительность скользящего графика" > 0, то добавить интервал с переходом на следующие сутки нельзя
+			var dayIntervalPartWithTransitionValidationResult = ValidateDayIntervalPartWithTransitionOnAddingOrEditing(dayIntervalPart);
+			if (dayIntervalPartWithTransitionValidationResult.HasError)
+				return dayIntervalPartWithTransitionValidationResult;
+			
+			// Суммарная продолжительность интервалов дневного графика меньше значения в поле "Обязательная продолжительность скользящего графика"?
+			DayInterval dayInterval;
+			IEnumerable<DayIntervalPart> otherDayIntervalParts;
+			using (var databaseService = new SKDDatabaseService())
+			{
+				dayInterval = databaseService.DayIntervalTranslator.GetDayInterval(dayIntervalPart);
+				otherDayIntervalParts = databaseService.DayIntervalPartTranslator.GetOtherDayIntervalParts(dayIntervalPart);
+			}
+			var dayIntervalParts = new List<DayIntervalPart>();
+			dayIntervalParts.Add(dayIntervalPart);
+			dayIntervalParts.AddRange(otherDayIntervalParts);
+			var lengthValidationResult = DayIntervalPartCommonValidator.ValidateGeneralDayIntervalPartsLengthOnEditingOrDeleting(dayIntervalParts, dayInterval.SlideTime);
+			if (lengthValidationResult.HasError)
+				return new OperationResult(lengthValidationResult.Errors);
+			return new OperationResult();
 		}
 
 		private static OperationResult ValidateEditingComplex(DayIntervalPart dayIntervalPart)
@@ -171,20 +229,7 @@ namespace FiresecService.Service.Validators
 						"Для добавления интервала с переходом необходимо удалить связи дневного графика со следующими недельными или месячными графиками:\n\n{0}",
 						weekOrMonthScheduleSchemesStr));
 				}
-				// Если редактируемый интервал является переходным, выходим
-				if (dayIntervalPart.TransitionType == DayIntervalPartTransitionType.Night)
-					return
-						new OperationResult(
-							"Для добавления интервала с переходом необходимо установить в поле \"Суммарная продолжительность интервалов дневного графика\" значение 0");
 
-				// Суммарная продолжительность интервалов дневного графика меньше значения в поле "Обязательная продолжительность скользящего графика"?
-				var otherDayIntervalParts = databaseService.DayIntervalPartTranslator.GetOtherDayIntervalParts(dayIntervalPart);
-				var dayIntervalParts = new List<DayIntervalPart>();
-				dayIntervalParts.Add(dayIntervalPart);
-				dayIntervalParts.AddRange(otherDayIntervalParts);
-				var lengthValidationResult = DayIntervalPartCommonValidator.ValidateGeneralDayIntervalPartsLengthOnEditingOrDeleting(dayIntervalParts, dayInterval.SlideTime);
-				if (lengthValidationResult.HasError)
-					return new OperationResult(lengthValidationResult.Errors);
 				return new OperationResult();
 			}
 		}
@@ -196,8 +241,9 @@ namespace FiresecService.Service.Validators
 		/// <returns></returns>
 		public static OperationResult ValidateDeleting(Guid dayIntervalPartUID)
 		{
-			var error = String.Format("Не возможно удалить временной интервал с UID='{0}", dayIntervalPartUID);
+			var error = String.Format("Ошибка валидации временного интервала UID='{0}", dayIntervalPartUID);
 			OperationResult<DayInterval> dayIntervalOperationResult;
+			DayInterval dayInterval;
 			using (var databaseService = new SKDDatabaseService())
 			{
 				var dayIntervalPartOperationResult = databaseService.DayIntervalPartTranslator.GetSingle(dayIntervalPartUID);
@@ -207,18 +253,14 @@ namespace FiresecService.Service.Validators
 				var dayIntervalPart = dayIntervalPartOperationResult.Result;
 				if (dayIntervalPart == null)
 					return new OperationResult(error);
-				dayIntervalOperationResult = databaseService.DayIntervalTranslator.GetSingle(dayIntervalPart.DayIntervalUID);
+				dayInterval = databaseService.DayIntervalTranslator.GetDayInterval(dayIntervalPart);
 			}
-			if (dayIntervalOperationResult.HasError)
-				return new OperationResult(dayIntervalOperationResult.Errors);
-
-			var dayInterval = dayIntervalOperationResult.Result;
 			if (dayInterval == null)
 				return new OperationResult(error);
 
 			var validationResult =
 				DayIntervalPartCommonValidator.ValidateGeneralDayIntervalPartsLengthOnEditingOrDeleting(
-					dayInterval.DayIntervalParts, dayInterval.SlideTime);
+					dayInterval.DayIntervalParts.Where(x => x.UID != dayIntervalPartUID), dayInterval.SlideTime);
 			if (validationResult.HasError)
 				return new OperationResult(validationResult.Errors);
 			

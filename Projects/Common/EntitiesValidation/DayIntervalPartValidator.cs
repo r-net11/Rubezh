@@ -106,7 +106,7 @@ namespace EntitiesValidation
 		/// <param name="dayIntervalPart">Добавляемый интервал</param>
 		/// <param name="slideTime">Обязательная продолжительность скользящего графика</param>
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
-		public static OperationResult<bool> ValidateDayIntervalPartWithTransitionOnAdding(DayIntervalPart dayIntervalPart, TimeSpan slideTime)
+		public static OperationResult<bool> ValidateDayIntervalPartWithTransitionOnAddingOrEditing(DayIntervalPart dayIntervalPart, TimeSpan slideTime)
 		{
 			// Если "Обязательная продолжительность скользящего графика" = 0, ничего не делаем
 			if (slideTime == TimeSpan.Zero)
