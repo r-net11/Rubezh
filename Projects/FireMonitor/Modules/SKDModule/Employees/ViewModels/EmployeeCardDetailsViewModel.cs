@@ -468,7 +468,7 @@ namespace SKDModule.ViewModels
 			resultCard.DeactivationControllerUID = DeactivationControllerUID;
 			resultCard.DeactivationControllerUID = DeactivationControllerUID;
 			resultCard.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
-			resultCard.CardDoors.ForEach(x => x.CardUID = Card.UID);
+			resultCard.CardDoors.ForEach(x => x.CardUID = resultCard.UID);
 			resultCard.OrganisationUID = Organisation.UID;
 			resultCard.HolderUID = _employee.UID;
 			resultCard.EmployeeName = _employee.Name;
