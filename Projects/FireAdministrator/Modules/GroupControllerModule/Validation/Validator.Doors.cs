@@ -20,7 +20,7 @@ namespace GKModule.Validation
 			{
 				ValidateDoorHasNoDevices(door);
 				ValidateDoorHasWrongDevices(door);
-				ValidateLockControlDevice(door);
+				//ValidateLockControlDevice(door);
 				ValidateLockProperties(door);
 				ValidateLockLogic(door);
 			}
@@ -101,37 +101,50 @@ namespace GKModule.Validation
 		{
 			if (door.AntipassbackOn)
 			{
-				if (door.DoorType != GKDoorType.Barrier)
+				if (door.LockControlDevice == null)
 				{
-					if (door.LockControlDevice == null)
-					{
-						if (door.DoorType == GKDoorType.Turnstile)
-							AddError(door, "При включенном Antipassback, отсутствует датчик проворота", ValidationErrorLevel.CannotWrite);
-						else
-							AddError(door, "При включенном Antipassback, отсутствует датчик контроля двери", ValidationErrorLevel.CannotWrite);
-					}
-					if (door.LockControlDeviceExit == null)
-					{
-						if (door.DoorType == GKDoorType.AirlockBooth)
-							AddError(door, "При включенном Antipassback, отсутствует датчик контроля двери на выход",
-								ValidationErrorLevel.CannotWrite);
-					}
+					if (door.DoorType == GKDoorType.Turnstile)
+						AddError(door, "При включенном Antipassback, отсутствует датчик проворота", ValidationErrorLevel.CannotWrite);
+					else if (door.DoorType == GKDoorType.Barrier)
+						AddError(door, "При включенном Antipassback, отсутствует датчик датчик въезда", ValidationErrorLevel.CannotWrite);
+					else
+						AddError(door, "При включенном Antipassback, отсутствует датчик контроля двери", ValidationErrorLevel.CannotWrite);
+
 				}
+				if (door.LockControlDeviceExit == null)
+				{
+					if (door.DoorType == GKDoorType.AirlockBooth)
+						AddError(door, "При включенном Antipassback, отсутствует датчик контроля двери на выход", ValidationErrorLevel.CannotWrite);
+					if (door.DoorType == GKDoorType.Barrier)
+						AddError(door, "При включенном Antipassback, отсутствует датчик датчик Выеезда", ValidationErrorLevel.CannotWrite);
+				}
+
 				if (door.EnterZoneUID == Guid.Empty)
 					AddError(door, "При включенном Antipassback, отсутствует зона на вход", ValidationErrorLevel.CannotWrite);
 				if (door.DoorType != GKDoorType.OneWay && door.ExitZoneUID == Guid.Empty)
 					AddError(door, "При включенном Antipassback, отсутствует зона на выход", ValidationErrorLevel.CannotWrite);
 			}
-
-			if (door.DoorType == GKDoorType.Barrier)
+			else
 			{
-				if (door.LockControlDevice == null)
+				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.SensorNotConnected))
 				{
-					AddError(door, "Для шлагбаума должен быть задан датчик контроля на въезд", ValidationErrorLevel.CannotWrite);
-				}
-				if (door.LockControlDeviceExit == null)
-				{
-					AddError(door, "Для шлагбаума должен быть задан датчик контроля на выезд", ValidationErrorLevel.CannotWrite);
+					if (door.LockControlDevice == null)
+					{
+						if (door.DoorType == GKDoorType.Turnstile)
+							AddError(door, "У точки доступа отсутствует датчик проварота", ValidationErrorLevel.Warning);
+						else if (door.DoorType == GKDoorType.Barrier)
+							AddError(door, "У точки доступа отсутствует датчик въезда", ValidationErrorLevel.Warning);
+						else
+							AddError(door, "У точки доступа отсутствует датчик контроля двери", ValidationErrorLevel.Warning);
+
+					}
+					if (door.LockControlDeviceExit == null)
+					{
+						if (door.DoorType == GKDoorType.AirlockBooth)
+							AddError(door, "У точки доступа отсутствует датчик контроля двери на выход", ValidationErrorLevel.Warning);
+						if (door.DoorType == GKDoorType.Barrier)
+							AddError(door, "У точки доступа отсутствует датчик контроля выезда", ValidationErrorLevel.Warning);
+					}
 				}
 			}
 		}
@@ -176,26 +189,8 @@ namespace GKModule.Validation
 				if (door.DoorType == GKDoorType.AirlockBooth)
 					AddError(door, "К точке доступа не подключена кнопка на выход", ValidationErrorLevel.CannotWrite);
 			}
-			if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.SensorNotConnected))
-			{
-				if (door.LockControlDevice == null)
-				{
-					if (door.DoorType == GKDoorType.Turnstile)
-						AddError(door, "У точки доступа отсутствует датчик проварота", ValidationErrorLevel.Warning);
-					else if (door.DoorType == GKDoorType.Barrier)
-						AddError(door, "У точки доступа отсутствует датчик въезда", ValidationErrorLevel.Warning);
-					else
-						AddError(door, "У точки доступа отсутствует датчик контроля двери", ValidationErrorLevel.Warning);
 
-				}
-				if (door.LockControlDeviceExit == null)
-				{
-					if (door.DoorType == GKDoorType.AirlockBooth)
-						AddError(door, "У точки доступа отсутствует датчик контроля двери на выход", ValidationErrorLevel.Warning);
-					if (door.DoorType == GKDoorType.Barrier)
-						AddError(door, "У точки доступа отсутствует датчик контроля выезда", ValidationErrorLevel.Warning);
-				}
-			}
+			ValidateLockControlDevice(door);
 		}
 
 		void ValidateDoorOtherLock(GKDoor door)
