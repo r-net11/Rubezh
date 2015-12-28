@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel;
-using System.Runtime.Serialization;
 
 namespace RubezhAPI.Models
 {
 	public enum PermissionType
 	{
+		//TODO: Убрать [XmlEnum("All")]. Временное решение для совместимости конфигураций. Забелло
+		[System.Xml.Serialization.XmlEnum("All")]
 		[DescriptionAttribute("Администратор")]
 		Adm_All,
 
