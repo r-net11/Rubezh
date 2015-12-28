@@ -393,6 +393,7 @@ namespace Infrastructure.Automation
 				}
 			}
 			SynchronizeVariable(clientUID, target, ContextType.Server);
+			target.OnValueChanged();
 		}
 
 		public static List<Organisation> GetOrganisations(Guid clientUID)

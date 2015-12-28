@@ -1270,21 +1270,15 @@ namespace Infrastructure.Automation
 		void SetValue(ProcedureStep procedureStep)
 		{
 			var setValueArguments = procedureStep.SetValueArguments;
-			var sourceVariable = AllVariables.FirstOrDefault(x => x.Uid == setValueArguments.SourceArgument.VariableUid);
-			var targetVariable = AllVariables.FirstOrDefault(x => x.Uid == setValueArguments.TargetArgument.VariableUid);
-			if (targetVariable == null)
-				return;
+			var value = GetValue<object>(setValueArguments.SourceArgument);
 			if (setValueArguments.ExplicitType == ExplicitType.String)
-			{
-				var value = GetValue<object>(setValueArguments.SourceArgument);
-				targetVariable.ExplicitValue.StringValue = value.GetType().IsEnum ? ((Enum)value).ToDescription() : value.ToString();
-			}
-			else
-				PropertyCopy.Copy(
-					sourceVariable != null ? sourceVariable.ExplicitValue : setValueArguments.SourceArgument.ExplicitValue,
-					targetVariable.ExplicitValue);
+				value = GetStringValue(value);
+			SetValue(setValueArguments.TargetArgument, value);
+		}
 
-			targetVariable.OnExplicitValueChanged();
+		void SetValue(Argument argument, object value)
+		{
+			ProcedureExecutionContext.SetVariableValue(ClientUID, AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid), value);
 		}
 
 		void ExportJournal(ProcedureStep procedureStep)
@@ -1339,11 +1333,6 @@ namespace Infrastructure.Automation
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
 			var path = GetValue<string>(arguments.PathArgument);
 			ProcedureExecutionContext.ImportOrganisationList(ClientUID, isWithDeleted, path);
-		}
-
-		void SetValue(Argument argument, object propertyValue)
-		{
-			ProcedureExecutionContext.SetVariableValue(ClientUID, AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid), propertyValue);
 		}
 
 		T GetValue<T>(Argument argument)
