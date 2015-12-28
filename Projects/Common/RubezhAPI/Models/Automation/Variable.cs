@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace RubezhAPI.Automation
 {
 	[DataContract]
-	public class Variable
+	public class Variable : Bindable
 	{
 		public Variable()
 		{
@@ -31,7 +31,7 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public EnumType EnumType { get; set; }
-		
+
 		[DataMember]
 		public string Name { get; set; }
 
@@ -49,12 +49,5 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public bool IsReference { get; set; }
-
-		public event Action ExplicitValueChanged;
-		public void OnExplicitValueChanged()
-		{
-			if (ExplicitValueChanged != null)
-				ExplicitValueChanged();
-		}
 	}
 }
