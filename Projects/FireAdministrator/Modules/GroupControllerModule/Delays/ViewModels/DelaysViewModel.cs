@@ -88,7 +88,7 @@ namespace GKModule.ViewModels
 		private DelayDetailsViewModel OnAdd()
 		{
 			var delayDetailsViewModel = new DelayDetailsViewModel();
-			if (DialogService.ShowModalWindow(delayDetailsViewModel))
+			if (ServiceFactory.DialogService.ShowModalWindow(delayDetailsViewModel))
 			{
 				GKManager.AddDelay(delayDetailsViewModel.Delay);
 				var delayViewModel = new DelayViewModel(delayDetailsViewModel.Delay);
@@ -105,7 +105,7 @@ namespace GKModule.ViewModels
 		private void OnEdit(GKDelay delay)
 		{
 			var delayDetailsViewModel = new DelayDetailsViewModel(delay);
-			if (DialogService.ShowModalWindow(delayDetailsViewModel))
+			if (ServiceFactory.DialogService.ShowModalWindow(delayDetailsViewModel))
 			{
 				GKManager.EditDelay(SelectedDelay.Delay);
 				SelectedDelay.Update();
@@ -116,7 +116,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить задержку " + SelectedDelay.Delay.PresentationName + " ?"))
+			if (ServiceFactory.MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить задержку " + SelectedDelay.Delay.PresentationName + " ?"))
 			{
 				var index = Delays.IndexOf(SelectedDelay);
 				GKManager.RemoveDelay(SelectedDelay.Delay);
@@ -132,7 +132,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteAllEmptyCommand { get; private set; }
 		void OnDeleteAllEmpty()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые задержки ?"))
+			if (ServiceFactory.MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые задержки ?"))
 			{
 				GetEmptyDelays().ForEach(x =>
 				{

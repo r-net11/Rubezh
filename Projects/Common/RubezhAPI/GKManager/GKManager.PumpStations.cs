@@ -50,7 +50,7 @@ namespace RubezhAPI
 			pumpStation.OutputDependentElements.ForEach(x =>
 			{
 				x.InputDependentElements.Remove(pumpStation);
-				x.UpdateLogic(GKManager.DeviceConfiguration);
+				x.UpdateLogic(DeviceConfiguration);
 				x.OnChanged();
 			});
 		}

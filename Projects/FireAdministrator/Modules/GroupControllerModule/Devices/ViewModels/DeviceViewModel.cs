@@ -641,7 +641,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				GKManager.SetDeviceLogic(Device, logicViewModel.GetModel());
-				OnPropertyChanged(() => PresentationZone);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -814,6 +813,7 @@ namespace GKModule.ViewModels
 						return;
 					}
 					Device = device;
+					Device.Changed += OnChanged;
 					Nodes.Clear();
 					foreach (var childDevice in Device.Children)
 					{

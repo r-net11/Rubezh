@@ -51,7 +51,7 @@ namespace GKModule.ViewModels
 
 		public string PresentationZone
 		{
-			get { return GKManager.GetPresentationZoneOrLogic(Device); }
+			get { return GKManager.GetPresentationZoneAndGuardZoneOrLogic(Device); }
 		}
 
 		public string PresentationLogic

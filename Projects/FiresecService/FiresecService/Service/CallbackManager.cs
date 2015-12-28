@@ -1,4 +1,5 @@
 ﻿using RubezhAPI;
+using RubezhAPI.AutomationCallback;
 using RubezhAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -34,13 +35,26 @@ namespace FiresecService.Service
 				if (callbackResult.CallbackResultType == CallbackResultType.GKProgress)
 				{
 					var callbackResultItem = CallbackResultItems.FirstOrDefault(x => x.CallbackResult.GKProgressCallback != null && x.CallbackResult.GKProgressCallback.UID == callbackResult.GKProgressCallback.UID);
-					if (callbackResultItem != null)
-					{
-						if (callbackResult.GKProgressCallback.LastActiveDateTime > callbackResultItem.CallbackResult.GKProgressCallback.LastActiveDateTime)
+					if (callbackResultItem != null && callbackResult.GKProgressCallback.LastActiveDateTime > callbackResultItem.CallbackResult.GKProgressCallback.LastActiveDateTime)
+						CallbackResultItems.Remove(callbackResultItem);
+				}
+
+				if (callbackResult.AutomationCallbackResult != null && callbackResult.AutomationCallbackResult.Data is PlanCallbackData)
+				{
+					var callbackResultData = callbackResult.AutomationCallbackResult.Data as PlanCallbackData;
+					foreach (var callbackResultItem in CallbackResultItems)
+						if (callbackResultItem.CallbackResult.AutomationCallbackResult != null && callbackResultItem.CallbackResult.AutomationCallbackResult.Data is PlanCallbackData)
 						{
-							CallbackResultItems.Remove(callbackResultItem);
-						}
-					}
+							var callbackResuultItemData = callbackResultItem.CallbackResult.AutomationCallbackResult.Data as PlanCallbackData;
+							if (callbackResultData.ElementUid == callbackResuultItemData.ElementUid &&
+								callbackResultData.ElementPropertyType == callbackResuultItemData.ElementPropertyType &&
+								callbackResultData.ElementUid == callbackResuultItemData.ElementUid &&
+								callbackResult.AutomationCallbackResult.CallbackUID != callbackResultItem.CallbackResult.AutomationCallbackResult.CallbackUID)
+							{
+								CallbackResultItems.Remove(callbackResultItem);
+								break;
+							}
+						};
 				}
 
 				foreach (var clientInfo in ClientsManager.ClientInfos)

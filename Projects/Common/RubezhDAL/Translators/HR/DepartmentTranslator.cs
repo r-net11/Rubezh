@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Runtime.Serialization;
 using RubezhAPI;
 using API = RubezhAPI.SKD;
 

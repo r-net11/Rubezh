@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="AllViewModelsTest.cs" />
     <Compile Include="ConfigurationCompareTest.cs" />
+    <Compile Include="DelaysTest.cs" />
     <Compile Include="DirectionTest.cs" />
     <Compile Include="Mocks\MockDialogService.cs" />
     <Compile Include="Mocks\MockMessageBoxService.cs" />
