@@ -140,7 +140,7 @@ namespace FiresecAPI.SKD
 																							DocumentTrackParts);
 			if (SlideTime != TimeSpan.Zero)
 			{
-				CombinedTimeTrackParts = AdjustmentCombinedTimeTracks(CombinedTimeTrackParts, PlannedTimeTrackParts, RealTimeTrackParts, SlideTime);
+				CombinedTimeTrackParts = AdjustmentCombinedTimeTracks(CombinedTimeTrackParts, PlannedTimeTrackParts, SlideTime);
 				CombinedTimeTrackParts = TransferPresentToOvertime(CombinedTimeTrackParts, SlideTime);
 			}
 
@@ -398,7 +398,7 @@ namespace FiresecAPI.SKD
 			return result;
 		}
 
-		private List<TimeTrackPart> AdjustmentCombinedTimeTracks(List<TimeTrackPart> combinedTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts, TimeSpan slideTime)
+		private List<TimeTrackPart> AdjustmentCombinedTimeTracks(List<TimeTrackPart> combinedTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts, TimeSpan slideTime)
 		{
 			var sumPlannedTime = GetSummOfPlannedTimeTrackParts(plannedTimeTrackParts); //Суммарное время графика
 
@@ -433,7 +433,7 @@ namespace FiresecAPI.SKD
 
 						if (differWithPlannedTime.TotalSeconds < 0 && el.TimeTrackPartType == TimeTrackType.EarlyLeave)
 						{
-							el.ExitDateTime += differWithPlannedTime;
+							el.ExitDateTime = el.EnterDateTime - differWithPlannedTime;
 							differWithPlannedTime = default(TimeSpan);
 							resultedCombinedCollection.Add(el);
 						}
