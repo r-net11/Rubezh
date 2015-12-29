@@ -131,7 +131,7 @@ namespace GKModule.Validation
 					if (door.LockControlDevice == null)
 					{
 						if (door.DoorType == GKDoorType.Turnstile)
-							AddError(door, "У точки доступа отсутствует датчик проварота", ValidationErrorLevel.Warning);
+							AddError(door, "У точки доступа отсутствует датчик проворота", ValidationErrorLevel.Warning);
 						else if (door.DoorType == GKDoorType.Barrier)
 							AddError(door, "У точки доступа отсутствует датчик въезда", ValidationErrorLevel.Warning);
 						else
