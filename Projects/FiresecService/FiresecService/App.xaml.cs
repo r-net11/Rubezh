@@ -25,39 +25,39 @@ namespace FiresecServiceRunner
 			ThemeHelper.LoadThemeFromRegister();
 
 #if !LIC_FREE
-			string prodKey = null;
-			try
-			{
-				prodKey = Generator.Load(Generator.GetProcessorID(), AppDataFolderHelper.GetFile("LicData.dat"));
-			}
-			catch (Exception ex)
-			{
-				Logger.Error(ex, "Исключение при вызове Generator.Load");
-			}
-			if (!Generator.VerifyProductKey(prodKey))
-			{
-				// Create a thread
-				var newWindowThread = new Thread(() =>
-				{
-					// Create our context, and install it:
-					SynchronizationContext.SetSynchronizationContext(
-						new DispatcherSynchronizationContext(
-							Dispatcher.CurrentDispatcher));
-					// Create and show the Window
-					var tempWindow = new RegistrationWindow {DataContext = new RegistrationViewModel()};
-					tempWindow.Closed += (s, er) => Dispatcher.CurrentDispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
-					tempWindow.Show();
-					// Start the Dispatcher Processing
-					System.Windows.Threading.Dispatcher.Run();
-				});
-				// Set the apartment state
-				newWindowThread.SetApartmentState(ApartmentState.STA);
-				// Make the thread a background thread
-				newWindowThread.IsBackground = true;
-				// Start the thread
-				newWindowThread.Start();
-			}
-			else
+			//string prodKey = null;
+			//try
+			//{
+			//	prodKey = Generator.Load(Generator.GetProcessorID(), AppDataFolderHelper.GetFile("LicData.dat"));
+			//}
+			//catch (Exception ex)
+			//{
+			//	Logger.Error(ex, "Исключение при вызове Generator.Load");
+			//}
+			//if (!Generator.VerifyProductKey(prodKey))
+			//{
+			//	// Create a thread
+			//	var newWindowThread = new Thread(() =>
+			//	{
+			//		// Create our context, and install it:
+			//		SynchronizationContext.SetSynchronizationContext(
+			//			new DispatcherSynchronizationContext(
+			//				Dispatcher.CurrentDispatcher));
+			//		// Create and show the Window
+			//		var tempWindow = new RegistrationWindow {DataContext = new RegistrationViewModel()};
+			//		tempWindow.Closed += (s, er) => Dispatcher.CurrentDispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
+			//		tempWindow.Show();
+			//		// Start the Dispatcher Processing
+			//		System.Windows.Threading.Dispatcher.Run();
+			//	});
+			//	// Set the apartment state
+			//	newWindowThread.SetApartmentState(ApartmentState.STA);
+			//	// Make the thread a background thread
+			//	newWindowThread.IsBackground = true;
+			//	// Start the thread
+			//	newWindowThread.Start();
+			//}
+			//else
 			{
 #endif
 				using (new DoubleLaunchLocker(SignalId, WaitId, true))

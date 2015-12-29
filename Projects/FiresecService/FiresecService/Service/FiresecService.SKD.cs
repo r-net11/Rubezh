@@ -2003,68 +2003,101 @@ namespace FiresecService.Service
 
 		#endregion Export
 
+		#region <Attachment>
+
 		/// <summary>
 		/// Выгружает файл на Сервер приложений
 		/// </summary>
+		/// <param name="attachment">Метаданные выгружаемого файла</param>
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
-		public OperationResult<Guid> UploadFile(AttachedFileMetadata fileMetadata)
+		public OperationResult<Guid> UploadFile(Attachment attachment)
 		{
-			var fileNameGuid = Guid.NewGuid();
 			var dir = AppDataFolderHelper.GetAttachmentsFolder();
 			try
 			{
+				// Сохраняем файл в хранилище
 				if (!Directory.Exists(dir))
 					Directory.CreateDirectory(dir);
-				var filePath = Path.Combine(dir, fileNameGuid.ToString());
-				File.WriteAllBytes(filePath, fileMetadata.Data);
+				var filePath = Path.Combine(dir, attachment.UID.ToString());
+				File.WriteAllBytes(filePath, attachment.Data);
+				
+				// Сохраняем метаданные сохраненного файла
+				OperationResult operationResult;
+				using (var databaseService = new SKDDatabaseService())
+				{
+					operationResult = databaseService.AttachmentTranslator.Save(attachment);
+				}
+				if (operationResult.HasError)
+					return OperationResult<Guid>.FromError(String.Format("Ошибка передачи файла '{0}'", attachment.FileName));
 			}
 			catch (Exception e)
 			{
-				return OperationResult<Guid>.FromError(e.Message);
+				return OperationResult<Guid>.FromError(String.Format("В процессе передачи файла '{0}' произошла ошибка:\n{1}", attachment.FileName, e.Message));
 			}
-			return new OperationResult<Guid>(fileNameGuid);
+			return new OperationResult<Guid>(attachment.UID);
 		}
 
 		/// <summary>
 		/// Загружает файл с Сервера приложений
 		/// </summary>
-		/// <param name="fileUID">Идентификатор файла</param>
+		/// <param name="attachmentUID">Идентификатор метаданных загружаемого файла</param>
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
-		public OperationResult<AttachedFileMetadata> DownloadFile(Guid fileUID)
+		public OperationResult<Attachment> DownloadFile(Guid attachmentUID)
 		{
-			var fileName = Path.Combine(AppDataFolderHelper.GetAttachmentsFolder(), fileUID.ToString());
+			var fileName = Path.Combine(AppDataFolderHelper.GetAttachmentsFolder(), attachmentUID.ToString());
 			try
 			{
-				var data = File.ReadAllBytes(fileName);
-				return new OperationResult<AttachedFileMetadata>(new AttachedFileMetadata
+				Attachment attachment;
+				using (var databaseService = new SKDDatabaseService())
 				{
-					FileName = "123.dat",
-					Data = data
-				});
+					var operationResult = databaseService.AttachmentTranslator.GetSingle(attachmentUID);
+					if (operationResult.HasError)
+						return OperationResult<Attachment>.FromError("Ошибка получения файла");
+					attachment = operationResult.Result;
+				}
+				attachment.Data = File.ReadAllBytes(fileName);
+				return new OperationResult<Attachment>(attachment);
 			}
 			catch (Exception e)
 			{
-				return OperationResult<AttachedFileMetadata>.FromError(e.Message);
+				return OperationResult<Attachment>.FromError(e.Message);
 			}
 		}
 
 		/// <summary>
 		/// Удаляет файл из хранилища на Сервере приложений
 		/// </summary>
-		/// <param name="fileUID">Идентификатор файла</param>
+		/// <param name="attachmentUID">Идентификатор метаданных удаляемого файла</param>
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
-		public OperationResult<bool> RemoveFile(Guid fileUID)
+		public OperationResult<bool> RemoveFile(Guid attachmentUID)
 		{
-			var fileName = Path.Combine(AppDataFolderHelper.GetAttachmentsFolder(), fileUID.ToString());
+			var fileName = Path.Combine(AppDataFolderHelper.GetAttachmentsFolder(), attachmentUID.ToString());
 			try
 			{
+				// Удаляем файл из хранилища
 				File.Delete(fileName);
+				
+				// Удаляем метаинформацию удаленного файла
+				using (var databaseService = new SKDDatabaseService())
+				{
+					var getSingleOperationResult = databaseService.AttachmentTranslator.GetSingle(attachmentUID);
+					if (getSingleOperationResult.HasError)
+						return OperationResult<bool>.FromError("Ошибка удаления файла");
+
+					var attachmentFileName = getSingleOperationResult.Result.FileName;
+
+					var deleteOperationResult = databaseService.AttachmentTranslator.Delete(attachmentUID);
+					if (deleteOperationResult.HasError)
+						return OperationResult<bool>.FromError(String.Format("Ошибка удаления файла '{0}'", attachmentFileName));
+				}
 			}
 			catch (Exception e)
 			{
-				return OperationResult<bool>.FromError(e.Message);
+				return OperationResult<bool>.FromError(String.Format("В процессе удаления файла возника ошибка:\n{0}", e.Message));
 			}
 			return new OperationResult<bool>();
 		}
+		
+		#endregion </Attachment>
 	}
 }

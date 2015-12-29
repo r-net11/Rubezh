@@ -110,12 +110,12 @@ namespace SKDModule.Model
 					return;
 				}
 
-				var fileMetadata = new AttachedFileMetadata
+				var attachment = new Attachment
 				{
 					FileName = new FileInfo(fileName).Name,
 					Data = File.ReadAllBytes(fileName)
 				};
-				var operationResult = FiresecManager.FiresecService.UploadFile(fileMetadata);
+				var operationResult = FiresecManager.FiresecService.UploadFile(attachment);
 
 				if (operationResult.HasError)
 				{

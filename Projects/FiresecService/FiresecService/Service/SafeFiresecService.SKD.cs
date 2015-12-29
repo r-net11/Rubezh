@@ -664,30 +664,31 @@ namespace FiresecService.Service
 		/// <summary>
 		/// Выгружает файл на Сервер приложений
 		/// </summary>
+		/// <param name="attachment">Метаданные выгружаемого файла</param>
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
-		public OperationResult<Guid> UploadFile(AttachedFileMetadata fileMetadata)
+		public OperationResult<Guid> UploadFile(Attachment attachment)
 		{
-			return SafeOperationCall(() => FiresecService.UploadFile(fileMetadata), "UploadFile");
+			return SafeOperationCall(() => FiresecService.UploadFile(attachment), "UploadFile");
 		}
 
 		/// <summary>
 		/// Загружает файл с Сервера приложений
 		/// </summary>
-		/// <param name="fileUID">Идентификатор файла</param>
+		/// <param name="attachmentUID">Идентификатор метаданных загружаемого файла</param>
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
-		public OperationResult<AttachedFileMetadata> DownloadFile(Guid fileUID)
+		public OperationResult<Attachment> DownloadFile(Guid attachmentUID)
 		{
-			return SafeOperationCall(() => FiresecService.DownloadFile(fileUID), "DownloadFile");
+			return SafeOperationCall(() => FiresecService.DownloadFile(attachmentUID), "DownloadFile");
 		}
 
 		/// <summary>
 		/// Удаляет файл из хранилища на Сервере приложений
 		/// </summary>
-		/// <param name="fileUID">Идентификатор файла</param>
+		/// <param name="attachmentUID">Идентификатор метаданных удаляемого файла</param>
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
-		public OperationResult<bool> RemoveFile(Guid fileUID)
+		public OperationResult<bool> RemoveFile(Guid attachmentUID)
 		{
-			return SafeOperationCall(() => FiresecService.RemoveFile(fileUID), "RemoveFile");
+			return SafeOperationCall(() => FiresecService.RemoveFile(attachmentUID), "RemoveFile");
 		}
 	}
 }
