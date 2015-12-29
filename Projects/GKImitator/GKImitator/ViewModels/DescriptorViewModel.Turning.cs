@@ -16,6 +16,7 @@ namespace GKImitator.ViewModels
 
 		ushort OnDelay { get; set; }
 		ushort HoldDelay { get; set; }
+		ushort HoldOffDelay { get; set; }
 		ushort OffDelay { get; set; }
 		ushort GuardZoneAlarmDelay { get; set; }
 		DelayRegime? DelayRegime { get; set; }
@@ -35,11 +36,24 @@ namespace GKImitator.ViewModels
 				{
 					HoldDelay = property.Value;
 				}
+				else
+				{
+					property = device.Properties.FirstOrDefault(x => x.Name == "Время удержания на включение, с");
+					if (property != null)
+						HoldDelay = property.Value;
+					property = device.Properties.FirstOrDefault(x => x.Name == "Время удержания на выключение, с");
+					if (property != null)
+						HoldOffDelay = property.Value;
+				}
 				property = device.Properties.FirstOrDefault(x => x.Name == "Задержка на выключение, с");
 				if (property != null)
 				{
 					OffDelay = property.Value;
 				}
+				property = device.Properties.FirstOrDefault(x => x.Name == "Режим после удержания включенного состояния");
+				if (property != null)
+					DelayRegime = property.Value == 0 ? RubezhAPI.GK.DelayRegime.Off: RubezhAPI.GK.DelayRegime.On;
+
 			}
 			var direction = GKBase as GKDirection;
 			if (direction != null)
@@ -192,16 +206,20 @@ namespace GKImitator.ViewModels
 						{
 							TurnOffNow();
 						}
-					}
-					else
-					{
-						if (OffDelay > 0)
+						if (DelayRegime.Value == RubezhAPI.GK.DelayRegime.On)
 						{
-							CurrentOffDelay = OffDelay;
-							TurningState = TurningState.TurningOff;
-							TurnOff();
+							TurnOnNow();
 						}
 					}
+					//else
+					//{
+					//	if (OffDelay > 0)
+					//	{
+					//		CurrentOffDelay = OffDelay;
+					//		TurningState = TurningState.TurningOff;
+					//		TurnOff();
+					//	}
+					//}
 				}
 				else
 				{
@@ -214,7 +232,23 @@ namespace GKImitator.ViewModels
 				if (CurrentOffDelay == 0)
 				{
 					TurningState = TurningState.None;
-					TurnOffNow();
+					var changed = false;
+					changed = SetStateBit(GKStateBit.On, false) || changed;
+					changed = SetStateBit(GKStateBit.TurningOn, false) || changed;
+					changed = SetStateBit(GKStateBit.Off, true) || changed;
+					changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
+					if (changed)
+					{
+						var journalItem = new ImitatorJournalItem(2, 9, 3, 3);
+						AddJournalItem(journalItem);
+						RecalculateOutputLogic();
+					}
+
+					if (HoldOffDelay > 0)
+					{
+						CurrentHoldDelay = HoldOffDelay;
+						TurningState = TurningState.Holding;
+					}
 				}
 				else
 				{
