@@ -1,9 +1,9 @@
-﻿using System;
+﻿using RubezhAPI;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using RubezhAPI;
 using API = RubezhAPI.SKD;
-using System.Collections.Generic;
 
 namespace RubezhDAL.DataClasses
 {
@@ -12,7 +12,8 @@ namespace RubezhDAL.DataClasses
 		TimeSpan _daySeconds = new TimeSpan(0, 23, 59, 59, 59);// 86400;
 
 		public DayIntervalTranslator(DbService context)
-			: base(context) { }
+			: base(context)
+		{ }
 		public override DbSet<DayInterval> Table
 		{
 			get { return Context.DayIntervals; }
@@ -34,8 +35,8 @@ namespace RubezhDAL.DataClasses
 		{
 			var tableItem = new DayIntervalPart();
 			tableItem.UID = apiItem.UID;
-			tableItem.BeginTimeSpan = apiItem.BeginTime;
-			tableItem.EndTimeSpan = apiItem.EndTime;
+			tableItem.BeginTimeTotalSeconds = apiItem.BeginTime.TotalSeconds;
+			tableItem.EndTimeTotalSeconds = apiItem.EndTime.TotalSeconds;
 			tableItem.Number = apiItem.Number;
 			return tableItem;
 		}
@@ -46,7 +47,7 @@ namespace RubezhDAL.DataClasses
 				return OperationResult<bool>.FromError("Попытка сохранить пустую запись");
 			if (dayInterval.UID == Guid.Empty)
 				return OperationResult<bool>.FromError("Не указана организация");
-			bool hasSameName = Table.Any(x => 
+			bool hasSameName = Table.Any(x =>
 				x.OrganisationUID == dayInterval.OrganisationUID &&
 				!x.IsDeleted &&
 				x.Name == dayInterval.Name &&
@@ -71,7 +72,7 @@ namespace RubezhDAL.DataClasses
 				{
 					var otherBeginTime = interval.BeginTime;
 					var otherEndTime = interval.EndTime;
-					if (interval.TransitionType!=API.DayIntervalPartTransitionType.Day)
+					if (interval.TransitionType != API.DayIntervalPartTransitionType.Day)
 						otherEndTime = otherEndTime.Add(_daySeconds);
 					if ((otherBeginTime >= beginTime && otherBeginTime <= endTime) || (otherEndTime >= beginTime && otherEndTime <= endTime))
 						return OperationResult<bool>.FromError("Последовательность интервалов не должна быть пересекающейся");
@@ -100,10 +101,10 @@ namespace RubezhDAL.DataClasses
 				{
 					UID = x.UID,
 					DayIntervalUID = x.DayIntervalUID.Value,
-					BeginTime = x.BeginTimeSpan,
+					BeginTimeTotalSeconds = x.BeginTimeTotalSeconds,
 					Number = x.Number,
-					TransitionType = x.EndTimeSpan < x.BeginTimeSpan  ? API.DayIntervalPartTransitionType.Night : API.DayIntervalPartTransitionType.Day,
-					EndTime = x.EndTimeSpan
+					TransitionType = x.EndTimeTotalSeconds < x.BeginTimeTotalSeconds ? API.DayIntervalPartTransitionType.Night : API.DayIntervalPartTransitionType.Day,
+					EndTimeTotalSeconds = x.EndTimeTotalSeconds
 				}).OrderBy(x => x.Number).ToList()
 			});
 		}
