@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Infrastructure.Common;
+using RubezhAPI;
+using RubezhAPI.SKD;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using RubezhAPI;
-using RubezhAPI.SKD;
-using Infrastructure.Common;
-using System.Data.Entity;
 
 namespace RubezhDAL.DataClasses
 {
@@ -16,7 +16,7 @@ namespace RubezhDAL.DataClasses
 		public TimeTrackTranslator(RubezhDAL.DataClasses.DbService databaseService)
 		{
 			Context = databaseService.Context;
-            DbService = databaseService;
+			DbService = databaseService;
 		}
 
 		DbService DbService;
@@ -26,7 +26,7 @@ namespace RubezhDAL.DataClasses
 		{
 			try
 			{
-                var operationResult = DbService.EmployeeTranslator.ShortTranslator.Get(filter);
+				var operationResult = DbService.EmployeeTranslator.ShortTranslator.Get(filter);
 				if (operationResult.HasError)
 					return OperationResult<TimeTrackResult>.FromError(operationResult.Errors);
 
@@ -121,7 +121,7 @@ namespace RubezhDAL.DataClasses
 		}
 		TimeTrackEmployeeResult GetEmployeeTimeTrack(Employee employee, DateTime startDate, DateTime endDate, List<PassJournal> passJournals)
 		{
-			
+
 			if (employee == null)
 				return new TimeTrackEmployeeResult("Не найден сотрудник");
 
@@ -181,7 +181,7 @@ namespace RubezhDAL.DataClasses
 			return timeTrackEmployeeResult;
 		}
 
-        PlannedTimeTrackPart GetPlannedTimeTrackPart(Employee employee, Schedule schedule, ScheduleScheme scheduleScheme, IEnumerable<ScheduleDay> days, DateTime date, bool ignoreHolidays, IEnumerable<Holiday> holidays)
+		PlannedTimeTrackPart GetPlannedTimeTrackPart(Employee employee, Schedule schedule, ScheduleScheme scheduleScheme, IEnumerable<ScheduleDay> days, DateTime date, bool ignoreHolidays, IEnumerable<Holiday> holidays)
 		{
 			var scheduleSchemeType = (ScheduleSchemeType)scheduleScheme.Type;
 
@@ -210,7 +210,7 @@ namespace RubezhDAL.DataClasses
 			var dayInterval = day.DayInterval;
 			if (day.DayInterval == null || day.DayInterval.IsDeleted)
 				return new PlannedTimeTrackPart("Не найден дневной интервал");
-			
+
 			TimeTrackPart nightTimeTrackPart = null;
 			ScheduleDay previousDay = null;
 			if (dayNo > 0)
@@ -225,19 +225,19 @@ namespace RubezhDAL.DataClasses
 					if (previousDayInterval != null && !previousDayInterval.IsDeleted)
 					{
 						var previousIntervals = previousDayInterval.DayIntervalParts;
-						var nightInterval = previousIntervals.FirstOrDefault(x => x.EndTimeSpan < x.BeginTimeSpan);
+						var nightInterval = previousIntervals.FirstOrDefault(x => x.EndTimeTotalSeconds < x.BeginTimeTotalSeconds);
 						if (nightInterval != null)
 						{
 							nightTimeTrackPart = new TimeTrackPart();
 							nightTimeTrackPart.StartTime = new TimeSpan();
-							nightTimeTrackPart.EndTime = nightInterval.EndTimeSpan;
+							nightTimeTrackPart.EndTime = new TimeSpan(0, 0, 0, (int)nightInterval.EndTimeTotalSeconds);
 							nightTimeTrackPart.StartsInPreviousDay = true;
 							nightTimeTrackPart.DayName = previousDayInterval.Name;
 						}
 					}
 				}
 			}
-			
+
 			var result = new PlannedTimeTrackPart();
 			if (dayInterval != null)
 				result.SlideTime = dayInterval.SlideTimeSpan;
@@ -269,13 +269,13 @@ namespace RubezhDAL.DataClasses
 				foreach (var tableInterval in dayInterval.DayIntervalParts)
 				{
 					var timeTrackPart = new TimeTrackPart();
-					timeTrackPart.StartTime = tableInterval.BeginTimeSpan;
-					if (tableInterval.EndTimeSpan < tableInterval.BeginTimeSpan)
+					timeTrackPart.StartTime = new TimeSpan(0, 0, 0, (int)tableInterval.BeginTimeTotalSeconds);
+					if (tableInterval.EndTimeTotalSeconds < tableInterval.BeginTimeTotalSeconds)
 						timeTrackPart.EndsInNextDay = true;
 					if (timeTrackPart.EndsInNextDay)
-						timeTrackPart.EndTime = new TimeSpan(24,0,0);
+						timeTrackPart.EndTime = new TimeSpan(24, 0, 0);
 					else
-						timeTrackPart.EndTime = tableInterval.EndTimeSpan;
+						timeTrackPart.EndTime = new TimeSpan(0, 0, 0, (int)tableInterval.EndTimeTotalSeconds);
 					timeTrackPart.DayName = dayInterval.Name;
 					result.TimeTrackParts.Add(timeTrackPart);
 				}
@@ -287,13 +287,13 @@ namespace RubezhDAL.DataClasses
 			}
 			if (result.HolidayReduction > 0)
 			{
-				var reductionTimeSpan = TimeSpan.FromSeconds(result.HolidayReduction);				
+				var reductionTimeSpan = TimeSpan.FromSeconds(result.HolidayReduction);
 				switch (result.SlideTime.TotalSeconds > reductionTimeSpan.TotalSeconds)
 				{
 					case true: result.SlideTime -= reductionTimeSpan; break;
 					case false: result.SlideTime = TimeSpan.Zero; break;
 				}
-				while (reductionTimeSpan.TotalSeconds > 0 && result.TimeTrackParts.Count>0)
+				while (reductionTimeSpan.TotalSeconds > 0 && result.TimeTrackParts.Count > 0)
 				{
 					var lastTimeTrack = result.TimeTrackParts.LastOrDefault();
 					if (lastTimeTrack != null)

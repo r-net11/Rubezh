@@ -1,5 +1,6 @@
 ﻿using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Ionic.Zip;
@@ -30,7 +31,7 @@ namespace GKModule.ViewModels
 		{
 			Title = "Сравнение конфигураций " + device.PresentationName;
 			ChangeCurrentGkCommand = new RelayCommand(OnChangeCurrentGk);
-			LoadConfigurationFromFileCommand = new RelayCommand(OnLoadConfigurationFromFile, CanLoadConfigurationFromFile);
+			LoadConfigurationFromFileCommand = new RelayCommand(OnLoadConfigurationFromFile);
 			NextDifferenceCommand = new RelayCommand(OnNextDifference, CanNextDifference);
 			PreviousDifferenceCommand = new RelayCommand(OnPreviousDifference, CanPreviousDifference);
 
@@ -131,15 +132,15 @@ namespace GKModule.ViewModels
 		public RelayCommand LoadConfigurationFromFileCommand { get; private set; }
 		void OnLoadConfigurationFromFile()
 		{
-			ServiceFactory.Events.GetEvent<LoadFromFileEvent>().Publish(ConfigFileName);
-			Close(true);
+			var result = true;
+			if (OnlyGKDeviceConfiguration)
+				result = MessageBoxService.ShowQuestion("Файл содержит только конфигурацию устройств. При его открытии будут утеряны макеты и планы.\nОткрыть файл?");
+			if (result)
+			{
+				ServiceFactory.Events.GetEvent<LoadFromFileEvent>().Publish(ConfigFileName);
+				Close(true);
+			}
 		}
-
-		public bool CanLoadConfigurationFromFile()
-		{
-			return !OnlyGKDeviceConfiguration;
-		}
-
 		public void CompareObjectLists()
 		{
 			var unionObjects = CreateUnionObjectList(LocalObjectsViewModel.Objects, RemoteObjectsViewModel.Objects);

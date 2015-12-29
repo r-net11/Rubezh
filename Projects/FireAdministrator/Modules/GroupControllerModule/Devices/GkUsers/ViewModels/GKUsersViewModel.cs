@@ -141,11 +141,11 @@ namespace GKModule.ViewModels
 			DbUsers = new ObservableCollection<GKUserViewModel>();
 			foreach (var user in allUsers)
 			{
-				var deviceViewModel = new GKUserViewModel(user, isDevice: true);
-				var dbViewModel = new GKUserViewModel(user, isDevice: false);
 				var deviceUser = deviceUsers.FirstOrDefault(x => x.Password == user.Password);
 				var dbUser = dbUsers.FirstOrDefault(x => x.Password == user.Password);
-
+				var deviceViewModel = new GKUserViewModel(deviceUser, isDevice: true);
+				var dbViewModel = new GKUserViewModel(dbUser, isDevice: false);
+				
 				if (deviceUser != null && dbUser == null)
 				{
 					deviceViewModel.IsPresent = true;
@@ -164,8 +164,17 @@ namespace GKModule.ViewModels
 							.Any(x => 
 								!dbUser.Descriptors.Any(y => y.DescriptorNo == x.DescriptorNo && y.ScheduleNo == x.ScheduleNo))))
 				{
-					deviceViewModel.HasNonStructureDifferences = true;
-					dbViewModel.HasNonStructureDifferences = true;
+					deviceViewModel.IsDescriptorMissmatch = true;
+					dbViewModel.IsDescriptorMissmatch = true;
+				}
+				else if (deviceUser.Fio != dbUser.Fio ||
+					deviceUser.IsActive != dbUser.IsActive ||
+					deviceUser.UserType != dbUser.UserType ||
+					deviceUser.GkLevel != dbUser.GkLevel ||
+					deviceUser.GkLevelSchedule != dbUser.GkLevelSchedule)
+				{
+					deviceViewModel.IsNonStructureMissmatch = true;
+					dbViewModel.IsNonStructureMissmatch = true;
 				}
 				DeviceUsers.Add(deviceViewModel);
 				DbUsers.Add(dbViewModel);

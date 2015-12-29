@@ -198,6 +198,7 @@ namespace GKModule.Models
 		public RelayCommand ReadConfigFileCommand { get; private set; }
 		void OnReadConfigFile()
 		{
+			_devicesViewModel.DeviceToCompareConfiguration = SelectedDevice.Device;
 			var result = ClientManager.FiresecService.GKReadConfigurationFromGKFile(SelectedDevice.Device);
 			if (result.HasError)
 			{

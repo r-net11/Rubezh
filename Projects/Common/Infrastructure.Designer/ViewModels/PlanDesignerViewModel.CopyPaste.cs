@@ -11,13 +11,14 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using RubezhAPI.Models;
+using Infrastructure.Designer.Events;
 
 namespace Infrastructure.Designer.ViewModels
 {
 	public partial class PlanDesignerViewModel : BaseViewModel
 	{
 		private List<ElementBase> _buffer;
-
+		public bool Flag { get; set; }
 		private void InitializeCopyPasteCommands()
 		{
 			CopyCommand = new RelayCommand(OnCopy, CanCopyCut);
@@ -92,11 +93,8 @@ namespace Infrastructure.Designer.ViewModels
 			if (element is ElementGKDevice)
 			{
 				var elementGKDevice = element as ElementGKDevice;
-				return elementGKDevice.AllowMultipleVizualization
-					|| !DesignerCanvas.Items
-					.Select(item => item.Element)
-					.OfType<ElementGKDevice>()
-					.Any(device => device.ItemUID == elementGKDevice.ItemUID);
+				ServiceFactoryBase.Events.GetEvent<CheckOnlyOneValue>().Publish(elementGKDevice.DeviceUID);
+				return elementGKDevice.AllowMultipleVizualization || Flag;
 			}
 			return true;
 		}

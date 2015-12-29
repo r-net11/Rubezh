@@ -196,7 +196,7 @@ namespace SKDModule.ViewModels
 		{
 			if (!DetailsValidateHelper.Validate(Model))
 				return false;
-			if(_orgianisationDepartments.Any(x => x.ParentDepartmentUID == Department.ParentDepartmentUID && x.Name == Department.Name))
+			if(_orgianisationDepartments.Any(x => x.ParentDepartmentUID == Department.ParentDepartmentUID && x.OrganisationUID == Department.OrganisationUID && x.Name == Department.Name))
 			{
 				ServiceFactory.MessageBoxService.Show("Невозможно добавить подразделение с совпадающим именем");
 				return false;
