@@ -63,6 +63,17 @@ namespace SKDModule.Model
 			}
 		}
 
+		private string _originalFileName;
+		public string OriginalFileName
+		{
+			get { return _originalFileName; }
+			set
+			{
+				this.RaiseAndSetIfChanged(ref _originalFileName, value);
+				Document.OriginalFileName = _originalFileName;
+			}
+		}
+
 		private bool _hasFile;
 		public bool HasFile
 		{
@@ -124,6 +135,7 @@ namespace SKDModule.Model
 				}
 
 				FileName = operationResult.Result.ToString();
+				OriginalFileName = attachment.FileName;
 				if (AcceptDocumentChanges())
 				{
 					ServiceFactoryBase.Events.GetEvent<EditDocumentEvent>().Publish(Document);
@@ -195,6 +207,7 @@ namespace SKDModule.Model
 			StartDateTime = Document.StartDateTime.ToString("yyyy-MM-dd HH:mm");
 			EndDateTime = Document.EndDateTime.ToString("yyyy-MM-dd HH:mm");
 			FileName = Document.FileName;
+			OriginalFileName = Document.OriginalFileName;
 			//	_fileName = Document.FileName;
 
 			//	OnPropertyChanged(() => Name);
