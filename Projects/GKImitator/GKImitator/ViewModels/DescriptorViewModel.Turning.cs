@@ -339,6 +339,9 @@ namespace GKImitator.ViewModels
 				if (TurningState == TurningState.TurningOn)
 				{
 					TurningState = TurningState.Paused;
+					var turningOnState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn);
+					if (turningOnState != null)
+						turningOnState.IsActive = false;
 				}
 			}
 		}
