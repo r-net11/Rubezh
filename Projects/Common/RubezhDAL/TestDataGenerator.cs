@@ -330,7 +330,7 @@ namespace RubezhDAL.DataClasses
                             var dayIntervalParts = scheduleScheme.ScheduleDays.FirstOrDefault(x => x.Number == dayNo).DayInterval.DayIntervalParts;
                             foreach (var dayIntervalPart in dayIntervalParts)
                             {
-								employeeDay.DayIntervalsString += dayIntervalPart.BeginTimeSpan + "-" + dayIntervalPart.EndTimeSpan + ";";
+								employeeDay.DayIntervalsString += dayIntervalPart.BeginTimeTotalSeconds + "-" + dayIntervalPart.EndTimeTotalSeconds + ";";
                             }
                             employee.LastEmployeeDayUpdate = employeeDay.Date;
                             Context.SaveChanges();
