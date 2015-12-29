@@ -47,7 +47,7 @@ namespace RubezhAPI
 					stringbuilderDevice.Append("устройсва: ");
 					foreach (var item in device.GKReflectionItem.Devices)
 					   {
-						   stringbuilderDevice.Append(item.ShortName + ", "); 
+						stringbuilderDevice.Append(item.PresentationName + (item == device.GKReflectionItem.Devices.LastOrDefault()?"" :", ")); 
 	                   }
 					list.Add(stringbuilderDevice);
 				}
