@@ -34,18 +34,14 @@ namespace EntitiesValidation
 		}
 
 		/// <summary>
-		/// Проверяем что добавляемый интервал не должен пересекаться с уже добавленными интервалами
+		/// Проверяем что текущий интервал не должен пересекаться с остальными интервалами
 		/// </summary>
-		/// <param name="newDayIntervalPart">Добавляемый интервал</param>
-		/// <param name="existingDayIntervalParts">Уже добавленные интервалы</param>
+		/// <param name="dayIntervalPart">Текущий интервал</param>
+		/// <param name="otherDayIntervalParts">Остальные интервалы</param>
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
-		public static OperationResult<bool> ValidateNewDayIntervalPartIntersection(DayIntervalPart newDayIntervalPart, IEnumerable<DayIntervalPart> existingDayIntervalParts)
+		public static OperationResult<bool> ValidateNewDayIntervalPartIntersection(DayIntervalPart dayIntervalPart, IEnumerable<DayIntervalPart> otherDayIntervalParts)
 		{
-			var existingEndTimes = existingDayIntervalParts.Select(
-				existingDayIntervalPart => existingDayIntervalPart.TransitionType == DayIntervalPartTransitionType.Day
-				? existingDayIntervalPart.EndTime
-				: existingDayIntervalPart.EndTime.Add(TimeSpan.FromDays(1))).ToList();
-			return existingEndTimes.Any(x => x >= newDayIntervalPart.BeginTime)
+			return otherDayIntervalParts.Any(x => x.HasIntersectionWith(dayIntervalPart))
 				? OperationResult<bool>.FromError("Интервалы не должны пересекаться")
 				: new OperationResult<bool>(true);
 		}
@@ -57,7 +53,7 @@ namespace EntitiesValidation
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public static OperationResult<bool> ValidateNewDayIntervalPartLength(DayIntervalPart dayIntervalPart)
 		{
-			return dayIntervalPart.EndTime == dayIntervalPart.BeginTime
+			return dayIntervalPart.IsZeroLength()
 				? OperationResult<bool>.FromError("Интервал не может иметь нулевую продолжительность")
 				: new OperationResult<bool>();
 		}

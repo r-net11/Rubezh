@@ -76,22 +76,17 @@ namespace FiresecService.Service.Validators
 			IEnumerable<DayIntervalPart> otherDayIntervalParts;
 			using (var databaseService = new SKDDatabaseService())
 			{
-				otherDayIntervalParts = databaseService.DayIntervalPartTranslator.GetOtherDayIntervalParts(dayIntervalPart);
+				otherDayIntervalParts = databaseService.DayIntervalPartTranslator.GetOtherDayIntervalParts(dayIntervalPart).ToList();
 			}
 			
 			// Если другие временные интервалы отсутствуют, то дальше не выполняем проверку
-			if (!otherDayIntervalParts.Any())
-				return new OperationResult();
-
-			// Временной интервал заканчивается ранее, чем остальные интервалы?
-			var validationesult = DayIntervalPartCommonValidator.ValidateNewDayIntervalPartOrder(dayIntervalPart, otherDayIntervalParts);
-			if (validationesult.HasError)
-				return new OperationResult(validationesult.Errors);
-
-			// Временной интервал пересекается с остальными интервалами?
-			validationesult = DayIntervalPartCommonValidator.ValidateNewDayIntervalPartIntersection(dayIntervalPart, otherDayIntervalParts);
-			if (validationesult.HasError)
-				return new OperationResult(validationesult.Errors);
+			if (otherDayIntervalParts.Any())
+			{
+				// Временной интервал пересекается с остальными интервалами?
+				validationResult = DayIntervalPartCommonValidator.ValidateNewDayIntervalPartIntersection(dayIntervalPart, otherDayIntervalParts);
+				if (validationResult.HasError)
+					return new OperationResult(validationResult.Errors);
+			}
 
 			return new OperationResult();
 		}
@@ -118,6 +113,20 @@ namespace FiresecService.Service.Validators
 			var validationResult = ValidateCommon(dayIntervalPart);
 			if (validationResult.HasError)
 				return validationResult;
+
+			IEnumerable<DayIntervalPart> otherDayIntervalParts;
+			using (var databaseService = new SKDDatabaseService())
+			{
+				otherDayIntervalParts = databaseService.DayIntervalPartTranslator.GetOtherDayIntervalParts(dayIntervalPart).ToList();
+			}
+
+			if (otherDayIntervalParts.Any())
+			{
+				// Добавляемый временной интервал заканчивается ранее, чем остальные интервалы?
+				var validationesult = DayIntervalPartCommonValidator.ValidateNewDayIntervalPartOrder(dayIntervalPart, otherDayIntervalParts);
+				if (validationesult.HasError)
+					return new OperationResult(validationesult.Errors);
+			}
 
 			// Если значение в поле "Обязательная продолжительность скользящего графика" > 0, то добавить интервал с переходом на следующие сутки нельзя
 			return ValidateDayIntervalPartWithTransitionOnAddingOrEditing(dayIntervalPart);

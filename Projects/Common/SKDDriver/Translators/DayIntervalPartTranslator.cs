@@ -29,28 +29,6 @@ namespace SKDDriver.Translators
 			return result;
 		}
 
-		protected override OperationResult CanSave(DayIntervalPart item)
-		{
-			var result = base.CanSave(item);
-			if (result.HasError)
-				return result;
-			var beginTime = item.BeginTime.TotalSeconds;
-			var endTime = item.EndTime.TotalSeconds;
-			if (item.TransitionType != DayIntervalPartTransitionType.Day)
-				endTime += DaySeconds;
-			if (beginTime == endTime)
-				return new OperationResult("Интервал не может иметь нулевую длительность");
-			var intervals = Table.Where(x => x.DayIntervalUID == item.DayIntervalUID && x.UID != item.UID);
-			if (intervals.Count() == 0 && item.BeginTime.TotalSeconds >= DaySeconds)
-				return new OperationResult("Последовательность интервалов не может начинаться со следующего дня");
-			if (beginTime > endTime)
-				return new OperationResult("Время окончания интервала должно быть позже времени начала");
-			foreach (var interval in intervals)
-				if ((interval.BeginTime >= beginTime && interval.BeginTime <= endTime) || (interval.EndTime >= beginTime && interval.EndTime <= endTime))
-					return new OperationResult("Последовательность интервалов не должна быть пересекающейся");
-			return new OperationResult();
-		}
-
 		protected override DayIntervalPart Translate(DataAccess.DayIntervalPart tableItem)
 		{
 			var apiItem = base.Translate(tableItem);

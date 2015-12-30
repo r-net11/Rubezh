@@ -124,9 +124,9 @@ namespace SKDModule.ViewModels
 			var otherDayIntervalParts = _dayInterval.DayIntervalParts.Where(dayIntervalPart => dayIntervalPart.UID != DayIntervalPart.UID);
 
 			// Редактируемый интервал заканчивается ранее, чем остальные интервалы?
-			validationesult = DayIntervalPartValidator.ValidateNewDayIntervalPartOrder(DayIntervalPart, otherDayIntervalParts);
-			if (validationesult.HasError)
-				return validationesult;
+			//validationesult = DayIntervalPartValidator.ValidateNewDayIntervalPartOrder(DayIntervalPart, otherDayIntervalParts);
+			//if (validationesult.HasError)
+			//	return validationesult;
 
 			// Редактируемый интервал пересекается с остальными интервалами?
 			validationesult = DayIntervalPartValidator.ValidateNewDayIntervalPartIntersection(DayIntervalPart, otherDayIntervalParts);
