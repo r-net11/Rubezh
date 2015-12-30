@@ -224,12 +224,15 @@ namespace GKModule.ViewModels
 						device.UID = pasteDevice.UID;
 						cache.UpdateDeviceBinding(device);
 					}
-					if (device.IsConnectedToKAU)
+					if (device != null)
 					{
-						GKManager.UpdateConfiguration();
-						SelectedDevice.Device.ChangedLogic();
+						if (device.IsConnectedToKAU)
+						{
+							GKManager.UpdateConfiguration();
+							SelectedDevice.Device.ChangedLogic();
+						}
+						SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
 					}
-					SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
 				}
 				GKManager.DeviceConfiguration.Update();
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
