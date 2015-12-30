@@ -16,10 +16,10 @@
 		</Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="Задержка на постановку, с" HorizontalAlignment="Right" />
-        <extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding SetDelay}" Minimum="1" Maximum="65535" Margin="2" />
+        <extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding SetDelay}" Minimum="0" Maximum="65535" Margin="2" />
 
         <Label Grid.Row="1" Grid.Column="0" Content="Задержка на снятие, с" HorizontalAlignment="Right" />
-        <extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding ResetDelay}" Minimum="1" Maximum="65535" Margin="2" />
+        <extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding ResetDelay}" Minimum="0" Maximum="65535" Margin="2" />
 
         <Label Grid.Row="2" Grid.Column="0" Content="Задержка на тревогу, с" HorizontalAlignment="Right" />
         <extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding AlarmDelay}" Minimum="1" Maximum="65535" Margin="2" />

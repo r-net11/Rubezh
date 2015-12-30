@@ -435,9 +435,20 @@ namespace GKImitator.ViewModels
 						HasManualRegime = true;
 						HasIgnoreRegime = true;
 						HasCard = true;
+						HasTurnOn = true;
+						HasTurnOff = true;
+						HasTurnOnNow = true;
+						HasTurnOffNow = true;
 						AddStateBit(GKStateBit.Attention);
 						AddStateBit(GKStateBit.Fire1);
 						AddStateBit(GKStateBit.Fire2);
+						AddStateBit(GKStateBit.On);
+						AddStateBit(GKStateBit.TurningOn);
+						AddStateBit(GKStateBit.Off, true);
+						AddStateBit(GKStateBit.TurningOff);
+						HasOnDelay = true;
+						HasHoldDelay = true;
+						HasOffDelay = true;
 						break;
 
 					case GKDriverType.RSR2_GuardDetector:
@@ -455,9 +466,20 @@ namespace GKImitator.ViewModels
 						HasManualRegime = true;
 						HasIgnoreRegime = true;
 						HasCard = true;
+						HasTurnOn = true;
+						HasTurnOff = true;
+						HasTurnOnNow = true;
+						HasTurnOffNow = true;
+						AddStateBit(GKStateBit.On);
+						AddStateBit(GKStateBit.TurningOn);
+						AddStateBit(GKStateBit.Off, true);
+						AddStateBit(GKStateBit.TurningOff);
 						AddStateBit(GKStateBit.Attention);
 						AddStateBit(GKStateBit.Fire1);
 						AddStateBit(GKStateBit.Fire2);
+						HasOnDelay = true;
+						HasHoldDelay = true;
+						HasOffDelay = true;
 						break;
 
 					case GKDriverType.RSR2_GuardDetectorSound:
