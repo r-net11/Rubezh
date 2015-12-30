@@ -58,8 +58,7 @@ namespace FireMonitor
 					ClientManager.GetConfiguration("Monitor/Configuration");
 					ProcedureExecutionContext.Initialize(
 						ContextType.Client,
-						ClientManager.SystemConfiguration,
-						ClientManager.SecurityConfiguration,
+						() => { return ClientManager.SystemConfiguration; },
 						SafeFiresecService.ProcessAutomationCallback,
 						((SafeFiresecService)ClientManager.FiresecService).ProcedureCallbackResponse,
 						OnSynchronizeVariable,
@@ -146,6 +145,16 @@ namespace FireMonitor
 		{
 			if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.Dialog)
 				LayoutDialogViewModel.Show((DialogCallbackData)automationCallbackResult.Data);
+			if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.GlobalVariable)
+			{
+				var data = automationCallbackResult.Data as GlobalVariableCallBackData;
+				if (data != null)
+				{
+					var variable = ProcedureExecutionContext.GlobalVariables.FirstOrDefault(x => x.Uid == data.VariableUID);
+					ProcedureExecutionContext.SetVariableValue(variable, data.Value, null);
+				}
+			}
+
 		}
 
 		void LoadPlansProperties()
@@ -164,21 +173,9 @@ namespace FireMonitor
 			return result.HasError ? new List<RubezhAPI.SKD.Organisation>() : result.Result;
 		}
 
-		private void OnSynchronizeVariable(Guid clientUID, Variable variable, ContextType targetContextType)
+		private void OnSynchronizeVariable(Guid clientUID, Variable variable)
 		{
-			if (targetContextType == ContextType.Client)
-			{
-				var remoteVariable = ClientManager.FiresecService.GetVariable(variable.Uid);
-				if (remoteVariable != null)
-				{
-					variable.ExplicitValue = remoteVariable.ExplicitValue;
-					variable.ExplicitValues = remoteVariable.ExplicitValues;
-				}
-			}
-			else
-			{
-				ClientManager.FiresecService.SetVariableValue(variable.Uid, ProcedureExecutionContext.GetValue(variable));
-			}
+			ClientManager.FiresecService.SetVariableValue(variable.Uid, ProcedureExecutionContext.GetValue(variable));
 		}
 
 		private void OnJournalItems(List<JournalItem> journalItems, bool isNew)

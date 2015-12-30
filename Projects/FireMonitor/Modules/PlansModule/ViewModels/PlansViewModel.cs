@@ -1,5 +1,6 @@
 ﻿using Common;
 using Infrastructure;
+using Infrastructure.Automation;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -81,7 +82,7 @@ namespace PlansModule.ViewModels
 					{
 						foreach (var planElementBindingItem in element.PlanElementBindingItems)
 						{
-							var globalVariable = ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid == planElementBindingItem.GlobalVariableUID);
+							var globalVariable = ProcedureExecutionContext.GlobalVariables.FirstOrDefault(x => x.Uid == planElementBindingItem.GlobalVariableUID);
 							if (globalVariable != null)
 							{
 								globalVariable.ValueChanged += () =>
@@ -190,7 +191,7 @@ namespace PlansModule.ViewModels
 
 		public bool IsPlanTreeVisible
 		{
-			get { return  PlanTreeViewModel != null; }
+			get { return PlanTreeViewModel != null; }
 		}
 
 		public override void OnShow()

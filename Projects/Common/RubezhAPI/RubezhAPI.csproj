@@ -145,9 +145,11 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="AutomationCallback\UIAutomationCallbackData.cs" />
     <Compile Include="AutomationCallback\DialogCallbackData.cs" />
     <Compile Include="AutomationCallback\PlanCallbackData.cs" />
     <Compile Include="AutomationCallback\ProcedureProperties.cs" />
+    <Compile Include="AutomationCallback\GlobalVariableCallBackData.cs" />
     <Compile Include="AutomationCallback\PropertyCallBackData.cs" />
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
     <Compile Include="Bindable.cs" />
@@ -214,7 +216,6 @@
     <Compile Include="Models\Automation\StepArguments\ControlGKGuardZoneArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\IncrementValueArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\NowArguments.cs" />
-    <Compile Include="Models\Automation\StepArguments\ProcedureLayoutCollection.cs" />
     <Compile Include="Models\Automation\StepArguments\PtzArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\RandomArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\RunProgramArguments.cs" />

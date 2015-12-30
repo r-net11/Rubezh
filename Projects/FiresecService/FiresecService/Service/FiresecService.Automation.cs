@@ -13,10 +13,10 @@ namespace FiresecService.Service
 	{
 		public OperationResult<bool> RunProcedure(Guid clientUID, Guid procedureUID, List<Argument> args)
 		{
-			var procedure = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == procedureUID);
+			var procedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == procedureUID);
 			if (procedure != null)
 			{
-				var user = ProcedureExecutionContext.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == GetLogin(clientUID));
+				var user = ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == GetLogin(clientUID));
 				AutomationProcessor.RunProcedure(procedure, args, null, user, null, clientUID);
 				return new OperationResult<bool>(true);
 			}
@@ -35,16 +35,10 @@ namespace FiresecService.Service
 
 		public void SetVariableValue(Guid clientUID, Guid variableUid, object value)
 		{
-			var variable = GetVariable(clientUID, variableUid);
+			var variable = ProcedureExecutionContext.GlobalVariables.FirstOrDefault(x => x.Uid == variableUid);
 			if (variable != null)
-				ProcedureExecutionContext.SetVariableValue(clientUID, variable, value);
+				ProcedureExecutionContext.SetVariableValue(variable, value, clientUID);
 		}
-
-		public Variable GetVariable(Guid clientUID, Guid variableUid)
-		{
-			return ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid == variableUid);
-		}
-
 
 		public void AddJournalItemA(Guid clientUID, string message, Guid? objectUID = null)
 		{

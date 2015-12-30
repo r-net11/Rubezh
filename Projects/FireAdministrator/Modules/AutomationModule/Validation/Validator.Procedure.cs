@@ -471,7 +471,7 @@ namespace AutomationModule.Validation
 			localVariables.AddRange(new List<Variable>(Procedure.Arguments));
 			if (argument.VariableScope == VariableScope.GlobalVariable)
 			{
-				var variable = ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid != argument.VariableUid);
+				var variable = ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);
 				if (variable == null)
 				{
 					Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы", ValidationErrorLevel.CannotSave));

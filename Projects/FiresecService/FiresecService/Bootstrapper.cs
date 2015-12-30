@@ -10,6 +10,7 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using RubezhAPI;
 using RubezhAPI.Automation;
+using RubezhAPI.AutomationCallback;
 using RubezhDAL.DataClasses;
 using System;
 using System.Collections.Generic;
@@ -63,8 +64,7 @@ namespace FiresecService
 
 				ProcedureExecutionContext.Initialize(
 					ContextType.Server,
-					ConfigurationCashHelper.SystemConfiguration,
-					ConfigurationCashHelper.SecurityConfiguration,
+					() => { return ConfigurationCashHelper.SystemConfiguration; },
 					Service.FiresecService.NotifyAutomation,
 					null,
 					null,
@@ -112,6 +112,7 @@ namespace FiresecService
 				ClientsManager.StartRemoveInactiveClients(TimeSpan.FromDays(1));
 				UILogger.Log("Готово");
 				FiresecService.Service.FiresecService.ServerState = ServerState.Ready;
+				FiresecService.Service.FiresecService.AfterConnect += FiresecService_AfterConnect;
 			}
 			catch (Exception e)
 			{
@@ -119,6 +120,22 @@ namespace FiresecService
 				UILogger.Log("Ошибка при запуске сервера", true);
 				Close();
 			}
+		}
+
+		static void FiresecService_AfterConnect(Guid clientUID)
+		{
+			foreach (var variable in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables)
+				FiresecService.Service.FiresecService.NotifyAutomation(new AutomationCallbackResult
+					{
+						CallbackUID = Guid.NewGuid(),
+						ContextType = ContextType.Server,
+						AutomationCallbackType = AutomationCallbackType.GlobalVariable,
+						Data = new GlobalVariableCallBackData
+						{
+							VariableUID = variable.Uid,
+							Value = variable.Value
+						}
+					}, clientUID);
 		}
 
 		static List<RubezhAPI.SKD.Organisation> GetOrganisations(Guid clientUID)

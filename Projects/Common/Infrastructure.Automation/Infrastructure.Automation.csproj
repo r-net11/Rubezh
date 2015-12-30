@@ -47,6 +47,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="AutomationHelper.cs" />
+    <Compile Include="ProcedureExecutionContext.Delegates.cs" />
     <Compile Include="ProcedureExecutionContext.cs" />
     <Compile Include="AutomationProcessor.cs" />
     <Compile Include="ProcedurePropertyCache.cs" />
