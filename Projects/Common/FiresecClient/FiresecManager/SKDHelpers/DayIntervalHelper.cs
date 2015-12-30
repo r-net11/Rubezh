@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.SKD;
+using Infrastructure.Common.Windows;
 
 namespace FiresecClient.SKDHelpers
 {
@@ -10,7 +11,12 @@ namespace FiresecClient.SKDHelpers
 		public static bool Save(DayInterval dayInterval, bool isNew)
 		{
 			var operationResult = FiresecManager.FiresecService.SaveDayInterval(dayInterval, isNew);
-			return Common.ShowErrorIfExists(operationResult);
+			if (operationResult.HasError)
+			{
+				MessageBoxService.ShowWarning(message: operationResult.Error, width: 400, height: 180);
+				return false;
+			}
+			return true;
 		}
 
 		public static bool MarkDeleted(DayInterval item)

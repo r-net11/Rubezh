@@ -1,4 +1,5 @@
-﻿using FiresecAPI.SKD;
+﻿using System.Collections.Generic;
+using FiresecAPI.SKD;
 using LinqKit;
 using System;
 using System.Linq;
@@ -64,6 +65,29 @@ namespace SKDDriver.Translators
 			tableItem.Type = (int)apiItem.Type;
 			tableItem.DaysCount = apiItem.DaysCount;
 			DatabaseService.ScheduleDayIntervalTranslator.Save(apiItem.DayIntervals);
+		}
+
+		public IEnumerable<ScheduleScheme> TranslateAll(IEnumerable<DataAccess.ScheduleScheme> scheduleSchemes)
+		{
+			return scheduleSchemes.Select(item => Translate(item)).ToList();
+		}
+
+		public IEnumerable<ScheduleScheme> GetScheduleSchemes(DayInterval dayInterval)
+		{
+			var scheduleSchemesUids = Context.ScheduleDays.Where(x => x.DayIntervalUID == dayInterval.UID)
+				.Select(y => y.ScheduleSchemeUID)
+				.Distinct();
+			var scheduleSchemes = Context.ScheduleSchemes.Where(x => scheduleSchemesUids.Any(y => y == x.UID));
+			return DatabaseService.ScheduleSchemeTranslator.TranslateAll(scheduleSchemes);
+		}
+
+		public IEnumerable<ScheduleScheme> GetScheduleSchemes(DayIntervalPart dayIntervalPart)
+		{
+			var scheduleSchemesUids = Context.ScheduleDays.Where(x => x.DayIntervalUID == dayIntervalPart.DayIntervalUID)
+				.Select(y => y.ScheduleSchemeUID)
+				.Distinct();
+			var scheduleSchemes = Context.ScheduleSchemes.Where(x => scheduleSchemesUids.Any(y => y == x.UID));
+			return DatabaseService.ScheduleSchemeTranslator.TranslateAll(scheduleSchemes);
 		}
 	}
 }

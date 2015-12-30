@@ -87,9 +87,9 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
-				if (_parentViewModel != null)
-					return _parentViewModel.GetDayIntervals(Organisation.UID);
-				return new ObservableCollection<DayInterval>();
+				return _parentViewModel == null 
+					? new ObservableCollection<DayInterval>()
+					: _parentViewModel.GetDayIntervals(Organisation.UID, SelectedScheduleSchemeType);
 			}
 		}
 

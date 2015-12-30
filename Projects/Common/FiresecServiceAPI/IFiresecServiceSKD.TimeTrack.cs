@@ -25,7 +25,7 @@ namespace FiresecAPI
 		OperationResult<IEnumerable<DayIntervalPart>> GetDayIntervalParts(DayIntervalPartFilter filter);
 
 		[OperationContract]
-		OperationResult SaveDayIntervalPart(DayIntervalPart item, string name);
+		OperationResult SaveDayIntervalPart(DayIntervalPart item, bool isNew, string name);
 
 		[OperationContract]
 		OperationResult RemoveDayIntervalPart(Guid uid, string name);

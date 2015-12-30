@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrazhModule", "Modules\Str
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecMonitorUnitTests", "..\Common\FiresecMonitorUnitTests\FiresecMonitorUnitTests.csproj", "{41498CE8-63D7-4EEA-970E-41B77995EE21}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntitiesValidation", "..\Common\EntitiesValidation\EntitiesValidation.csproj", "{D8450C23-4958-41C1-A4BD-3C46218F8AEA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -358,6 +360,18 @@ Global
 		{41498CE8-63D7-4EEA-970E-41B77995EE21}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{41498CE8-63D7-4EEA-970E-41B77995EE21}.Release|x64.ActiveCfg = Release|Any CPU
 		{41498CE8-63D7-4EEA-970E-41B77995EE21}.Release|x86.ActiveCfg = Release|Any CPU
+		{D8450C23-4958-41C1-A4BD-3C46218F8AEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8450C23-4958-41C1-A4BD-3C46218F8AEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8450C23-4958-41C1-A4BD-3C46218F8AEA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D8450C23-4958-41C1-A4BD-3C46218F8AEA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D8450C23-4958-41C1-A4BD-3C46218F8AEA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D8450C23-4958-41C1-A4BD-3C46218F8AEA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D8450C23-4958-41C1-A4BD-3C46218F8AEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8450C23-4958-41C1-A4BD-3C46218F8AEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8450C23-4958-41C1-A4BD-3C46218F8AEA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D8450C23-4958-41C1-A4BD-3C46218F8AEA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D8450C23-4958-41C1-A4BD-3C46218F8AEA}.Release|x64.ActiveCfg = Release|Any CPU
+		{D8450C23-4958-41C1-A4BD-3C46218F8AEA}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -381,5 +395,6 @@ Global
 		{112658EB-3244-4922-AEF7-6376E688B7A7} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
 		{E339DA4C-E87B-4932-9D6D-926F62041CFF} = {7C5CB4A0-7F30-446F-96ED-0E3693176556}
 		{41498CE8-63D7-4EEA-970E-41B77995EE21} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
+		{D8450C23-4958-41C1-A4BD-3C46218F8AEA} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
 	EndGlobalSection
 EndGlobal

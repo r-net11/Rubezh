@@ -22,6 +22,7 @@
 				<File Id="Server.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Common.TargetDir)" />
+				<File Id="Server.EntitiesValidation.dll" Name="EntitiesValidation.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.NLog.dll" Name="NLog.dll" Source="..\..\..\..\..\..\3rdParty\NLog.2.0.1.2\" />
 				<File Id="Server.hasp_net_windows.dll" Name="hasp_net_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />

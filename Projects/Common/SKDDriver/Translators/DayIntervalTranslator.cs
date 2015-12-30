@@ -50,5 +50,10 @@ namespace SKDDriver.Translators
 			tableItem.SlideTime = (int)apiItem.SlideTime.TotalSeconds;
 			DatabaseService.DayIntervalPartTranslator.Save(apiItem.DayIntervalParts);
 		}
+
+		public DayInterval GetDayInterval(DayIntervalPart dayIntervalPart)
+		{
+			return Translate(Context.DayIntervals.FirstOrDefault(x => x.UID == dayIntervalPart.DayIntervalUID));
+		}
 	}
 }

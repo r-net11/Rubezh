@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Common;
+using EntitiesValidation;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -59,7 +60,7 @@ namespace SKDModule.ViewModels
 		void OnAdd()
 		{
 			var dayIntervalPartDetailsViewModel = new DayIntervalPartDetailsViewModel(Model);
-			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel) && DayIntervalPartHelper.Save(dayIntervalPartDetailsViewModel.DayIntervalPart, Model.Name))
+			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel))
 			{
 				var dayIntervalPart = dayIntervalPartDetailsViewModel.DayIntervalPart;
 				Model.DayIntervalParts.Add(dayIntervalPart);
@@ -77,6 +78,13 @@ namespace SKDModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
+			var validationResult = DayIntervalPartValidator.ValidateGeneralDayIntervalPartsLengthOnEditingOrDeleting(Model.DayIntervalParts.Where(dayIntervalPart => dayIntervalPart.UID != SelectedDayIntervalPart.DayIntervalPart.UID), Model.SlideTime);
+			if (validationResult.HasError)
+			{
+				MessageBoxService.ShowWarning(validationResult.Error);
+				return;
+			}
+			
 			if (!DayIntervalPartHelper.Remove(SelectedDayIntervalPart.DayIntervalPart, Model.Name)) return;
 
 			Model.DayIntervalParts.RemoveAll(x => x.UID == SelectedDayIntervalPart.DayIntervalPart.UID);
@@ -93,7 +101,7 @@ namespace SKDModule.ViewModels
 			var dayIntervalPartDetailsViewModel = new DayIntervalPartDetailsViewModel(Model, SelectedDayIntervalPart.DayIntervalPart);
 			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel))
 			{
-				DayIntervalPartHelper.Save(SelectedDayIntervalPart.DayIntervalPart, Model.Name);
+				DayIntervalPartHelper.Save(SelectedDayIntervalPart.DayIntervalPart, false, Model.Name);
 				Model.DayIntervalParts.RemoveAll(x => x.UID == SelectedDayIntervalPart.DayIntervalPart.UID);
 				Model.DayIntervalParts.Add(SelectedDayIntervalPart.DayIntervalPart);
 				SelectedDayIntervalPart.Update();
