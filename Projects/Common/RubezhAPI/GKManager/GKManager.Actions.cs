@@ -152,16 +152,53 @@ namespace RubezhAPI
 		#region RebuildRSR2Addresses
 		public static void RebuildRSR2Addresses(GKDevice parentDevice)
 		{
-			var kauParent = parentDevice.KAUParent;
-			if (kauParent != null)
+			if (parentDevice.KAUShleifParent != null)
 			{
-				foreach (var shliefDevice in kauParent.Children)
-				{
-					RebuildRSR2Addresses_Children = new List<GKDevice>();
-					RebuildRSR2Addresses_AddChild(shliefDevice);
+				RebuildRSR2Addresses_Children = new List<GKDevice>();
+				RebuildRSR2Addresses_AddChild(parentDevice.KAUShleifParent);
 
-					byte currentAddress = 1;
-					foreach (var device in RebuildRSR2Addresses_Children)
+				byte currentAddress = 1;
+				foreach (var device in RebuildRSR2Addresses_Children)
+				{
+					device.IntAddress = currentAddress;
+					if (!device.Driver.IsGroupDevice)
+					{
+						currentAddress++;
+					}
+					device.OnChanged();
+				}
+				RebuildRSR2Addresses_Children.FindAll(x => x.Driver.IsGroupDevice).ForEach(x => x.OnChanged());
+			}
+			else
+			{
+				var kauParent = parentDevice.KAUParent;
+				if (kauParent != null)
+				{
+					foreach (var shliefDevice in kauParent.Children)
+					{
+						RebuildRSR2Addresses_Children = new List<GKDevice>();
+						RebuildRSR2Addresses_AddChild(shliefDevice);
+
+						byte currentAddress = 1;
+						foreach (var device in RebuildRSR2Addresses_Children)
+						{
+							device.IntAddress = currentAddress;
+							if (!device.Driver.IsGroupDevice)
+							{
+								currentAddress++;
+							}
+							device.OnChanged();
+						}
+
+						RebuildRSR2Addresses_Children.FindAll(x => x.Driver.IsGroupDevice).ForEach(x => x.OnChanged());
+					}
+				}
+
+				var mirrorParent = parentDevice.MirrorParent;
+				if (mirrorParent != null)
+				{
+					int currentAddress = 1;
+					foreach (var device in mirrorParent.Children.Where(x => x.Driver.HasMirror))
 					{
 						device.IntAddress = currentAddress;
 						if (!device.Driver.IsGroupDevice)
@@ -170,23 +207,6 @@ namespace RubezhAPI
 						}
 						device.OnChanged();
 					}
-
-					RebuildRSR2Addresses_Children.FindAll(x => x.Driver.IsGroupDevice).ForEach(x => x.OnChanged());
-				}
-			}
-
-			var mirrorParent = parentDevice.MirrorParent;
-			if (mirrorParent != null)
-			{
-				int currentAddress = 1;
-				foreach (var device in mirrorParent.Children.Where(x=> x.Driver.HasMirror))
-				{
-					device.IntAddress = currentAddress;
-					if (!device.Driver.IsGroupDevice)
-					{
-						currentAddress++;
-					}
-					device.OnChanged();
 				}
 			}
 		}
