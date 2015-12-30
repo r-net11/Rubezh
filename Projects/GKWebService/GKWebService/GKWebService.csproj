@@ -242,6 +242,7 @@
     <Content Include="Content\Image\Icon\Hr\Department.png" />
     <Resource Include="Content\Image\Icon\Hr\Position.png" />
     <Resource Include="Content\Image\Icon\Hr\SKDUser.png" />
+    <Resource Include="Content\Image\Icon\Hr\load.png" />
     <Content Include="Content\Image\Icon\Menu\archive.png" />
     <Content Include="Content\Image\Icon\Menu\Bug.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Add.png" />
@@ -439,6 +440,7 @@
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\report.js" />
+    <Content Include="Scripts\SKD\Common\PhotoSelectionViewModel.js" />
     <Content Include="Scripts\SKD\Common\EmployeesFilterViewModel.js" />
     <Content Include="Scripts\SKD\Common\PositionsFilterViewModel.js" />
     <Content Include="Scripts\SKD\Common\EmployeeSelectionDialogViewModel.js" />
@@ -484,6 +486,7 @@
     <Compile Include="Models\FireZone\FireZone.cs" />
     <Compile Include="Models\SKD\Common\OrganisationElementBaseViewModel.cs" />
     <Compile Include="Models\SKD\Departments\DepartmentDetailsViewModel.cs" />
+    <Compile Include="Models\SKD\Employees\EmployeeDetailsViewModel.cs" />
     <Compile Include="Models\SKD\Organisations\OrganisationDetailsViewModel.cs" />
     <Compile Include="Models\SKD\Organisations\OrganisationDoorViewModel.cs" />
     <Compile Include="Models\SKD\Organisations\OrganisationUserViewModel.cs" />
@@ -562,6 +565,7 @@
     <Content Include="Views\Hr\DepartmentsFilter.cshtml" />
     <Content Include="Views\Hr\PositionsFilter.cshtml" />
     <Content Include="Views\Hr\EmployeesFilter.cshtml" />
+    <Content Include="Views\Hr\PhotoSelection.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

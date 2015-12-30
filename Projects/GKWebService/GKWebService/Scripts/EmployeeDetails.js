@@ -31,24 +31,24 @@ function EmployeeDetailsViewModel() {
     });
 
     self.FIO = function () {
-        var names = [self.LastName(), self.FirstName(), self.SecondName()];
+        var names = [self.Employee.LastName(), self.Employee.FirstName(), self.Employee.SecondName()];
         return names.join(" ");
     };
 
     self.Init = function (isNew, personType, okClick) {
         self.IsNew = isNew;
         self.IsEmployee(personType === "Employee");
-        self.Type(personType);
+        self.Employee.Type(personType);
         self.OkClick = okClick;
         if (isNew) {
             self.Title(self.IsEmployee() ? "Добавить сотрудника" : "Добавить посетителя");
-            self.OrganisationUID(self.Organisation.UID);
+            self.Employee.OrganisationUID(self.Organisation.UID);
             self.IsOrganisationChief(false);
             self.IsOrganisationHRChief(false);
         } else {
             self.Title((self.IsEmployee() ? "Свойства сотрудника: " : "Свойства посетителя: ") + self.FIO());
-            self.IsOrganisationChief(self.Organisation.ChiefUID == self.UID());
-            self.IsOrganisationHRChief(self.Organisation.HRChiefUID == self.UID());
+            self.IsOrganisationChief(self.Organisation.ChiefUID == self.Employee.UID());
+            self.IsOrganisationHRChief(self.Organisation.HRChiefUID == self.Employee.UID());
         }
     };
 
@@ -101,9 +101,9 @@ function EmployeeDetailsViewModel() {
 
     self.SaveChief = function (isOrganisationChief, organisationChiefUID, url, success) {
         var uid;
-        if (isOrganisationChief && organisationChiefUID != self.UID()) {
+        if (isOrganisationChief && organisationChiefUID != self.Employee.UID()) {
             uid = self.UID();
-        } else if (!isOrganisationChief && organisationChiefUID == self.UID()) {
+        } else if (!isOrganisationChief && organisationChiefUID == self.Employee.UID()) {
             uid = "";
         }
         if (uid != undefined) {

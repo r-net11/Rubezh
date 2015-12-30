@@ -60,6 +60,11 @@ namespace GKWebService.Controllers
             return View();
         }
 
+        public ActionResult PhotoSelection()
+        {
+            return View();
+        }
+
         public JsonNetResult GetHr()
         {
             var personTypes = new List<string>();

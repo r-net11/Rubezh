@@ -23,6 +23,9 @@
                 <label for="SelectedDepartment"><span>Родительское подразделение</span><a id="SelectedDepartment" href=""><span data-bind="click: $parent.SelectDepartment, text: $parent.IsDepartmentSelected() ? $parent.SelectedDepartment().Name : 'Нажмите для выбора'"></span></a></label>
                 <label for="Phone"><span>Телефон</span><input type="text" name="Phone" id="Phone" data-bind="value: Phone" value=""/></label>
             </div>
+            <div data-bind="visible:departmentDetailsPages.Photo">
+                <div data-bind="template: { name: 'PhotoSelectionTemplate', data: {PhotoData: PhotoData} }"></div>
+            </div>
 
             <button class="submit ok-cancel-button" type="submit">OK</button>
         </form>

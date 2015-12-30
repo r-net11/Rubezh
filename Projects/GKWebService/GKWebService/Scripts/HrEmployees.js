@@ -75,6 +75,7 @@ function EmployeesViewModel(parentViewModel) {
     self.RemovalDate = ko.observable();
     self.IsDeleted = ko.observable();
     self.IsRowSelected = ko.observable(false);
+    self.PhotoData = ko.observable();
     self.ItemRemovingName = ko.computed(function() {
         return self.IsGuest() ? "посетителя" : "сотрудника";
     }, self);
@@ -157,6 +158,12 @@ function EmployeesViewModel(parentViewModel) {
             self.OrganisationName(myGrid.jqGrid('getCell', id, 'OrganisationName'));
             self.RemovalDate(myGrid.jqGrid('getCell', id, 'RemovalDate'));
             self.IsDeleted(myGrid.jqGrid('getCell', id, 'IsDeleted') == "true");
+
+            if (!self.IsOrganisation()) {
+                $.getJSON("/Employees/GetEmployeePhoto/" + self.UID(), function (photo) {
+                    self.PhotoData(photo);
+                });
+            }
 
             if (!self.IsOrganisation()) {
                 self.EmployeeCards.InitCards(self.OrganisationUID(), self.UID());

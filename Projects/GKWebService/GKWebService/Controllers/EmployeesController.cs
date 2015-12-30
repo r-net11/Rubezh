@@ -30,33 +30,23 @@ namespace GKWebService.Controllers
 
 		public JsonNetResult GetEmployeeDetails(Guid? id)
 		{
-			Employee employee;
-			if (id.HasValue)
-			{
-				var operationResult = ClientManager.FiresecService.GetEmployeeDetails(id.Value);
-				employee = operationResult.Result;
-			}
-			else
-			{
-				employee = new Employee();
-				employee.BirthDate = DateTime.Now;
-				employee.CredentialsStartDate = DateTime.Now;
-				employee.DocumentGivenDate = DateTime.Now;
-				employee.DocumentValidTo = DateTime.Now;
-				employee.RemovalDate = DateTime.Now;
-				employee.ScheduleStartDate = DateTime.Now;
-			}
-			employee.Photo = null;
-			employee.AdditionalColumns.ForEach(c => c.Photo = null);
-			return new JsonNetResult { Data = employee };
+            var employeeModel = new EmployeeDetailsViewModel()
+            {
+                Employee = new Employee(),
+            };
+
+            employeeModel.Initialize(id);
+
+
+            return new JsonNetResult { Data = employeeModel };
 		}
 
 		[HttpPost]
-		public JsonNetResult EmployeeDetails(Employee employee, bool isNew)
-        {
-			var operationResult = ClientManager.FiresecService.SaveEmployee(employee, isNew);
+		public JsonNetResult EmployeeDetails(EmployeeDetailsViewModel employee, bool isNew)
+		{
+		    var error = employee.Save(isNew);
 
-			return new JsonNetResult { Data = operationResult.Result };
+			return new JsonNetResult { Data = error };
         }
 
         [HttpPost]
@@ -104,7 +94,14 @@ namespace GKWebService.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-		[HttpPost]
+        public JsonNetResult GetEmployeePhoto(Guid id)
+        {
+            var employeeModel = new EmployeeDetailsViewModel();
+            employeeModel.Initialize(id);
+            return new JsonNetResult { Data = employeeModel.PhotoData ?? string.Empty};
+        }
+
+        [HttpPost]
 		public JsonNetResult MarkDeleted(Guid uid, string name, bool isOrganisation)
 		{
 			var operationResult = ClientManager.FiresecService.MarkDeletedEmployee(uid, name, !isOrganisation);

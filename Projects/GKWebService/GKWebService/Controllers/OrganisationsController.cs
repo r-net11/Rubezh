@@ -41,7 +41,7 @@ namespace GKWebService.Controllers
         {
             var organisationModel = new OrganisationDetailsViewModel()
             {
-                Organisation = new OrganisationDetails()
+                Organisation = new OrganisationDetails(),
             };
 
             organisationModel.Initialize(id);

@@ -19,6 +19,9 @@
                     <label for="Name"><span>Название</span><input type="text" name="Name" id="Name" data-bind="value: Name" value=""/></label>
                     <label for="Description"><span>Примечание</span><input type="text" name="Description" id="Description" data-bind="value: Description" value=""/></label>
                 </div>
+                <div data-bind="visible:positionDetailsPages.Photo">
+                    <div data-bind="template: { name: 'PhotoSelectionTemplate', data: {PhotoData: PhotoData} }"></div>
+                </div>
 
                 <button class="submit ok-cancel-button" type="submit">OK</button>
             </form>

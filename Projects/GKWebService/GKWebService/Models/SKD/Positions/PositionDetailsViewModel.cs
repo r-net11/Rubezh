@@ -13,6 +13,7 @@ namespace GKWebService.Models.SKD.Positions
     public class PositionDetailsViewModel
     {
         public Position Position { get; set; }
+        public string PhotoData { get; set; }
         public void Initialize(Guid orgnaisationUID, Guid? positionUID = null)
         {
             var isNew = positionUID == null;
@@ -33,11 +34,27 @@ namespace GKWebService.Models.SKD.Positions
                 }
                 Position = operationResult.Result;
             }
-            Position.Photo = null;
+            if (Position.Photo != null && Position.Photo.Data != null)
+            {
+                PhotoData = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Position.Photo.Data));
+                Position.Photo.Data = null;
+            }
+
         }
 
         public string Save(bool isNew)
         {
+            if ((PhotoData != null && PhotoData.Length > 0) || Position.Photo != null)
+            {
+                Position.Photo = new Photo();
+                byte[] data = null;
+                if (PhotoData != null)
+                {
+                    data = Convert.FromBase64String(PhotoData.Remove(0, "data:image/gif;base64,".Length));
+                }
+                Position.Photo.Data = data;
+            }
+
             string error = DetailsValidateHelper.Validate(Position);
 
             if (!string.IsNullOrEmpty(error))

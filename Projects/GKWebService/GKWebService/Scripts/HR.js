@@ -24,6 +24,7 @@
                 self.Filter.EmployeesFilter = EmployeesFilterViewModel();
                 self.Common = {};
                 self.Common.EmployeeSelectionDialog = EmployeeSelectionDialogViewModel();
+                self.Common.PhotoSelection = PhotoSelectionViewModel();
                 self.Employees = EmployeesViewModel(self);
                 self.Employees.EmployeeDetails = EmployeeDetailsViewModel();
                 self.Employees.EmployeeCardDetails = EmployeeCardDetailsViewModel(self.Employees);

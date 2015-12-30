@@ -22,6 +22,8 @@ namespace GKWebService.Models.SKD.Organisations
 
         public ShortEmployeeModel SelectedHRChief { get; set; }
 
+        public string PhotoData { get; set; }
+
         public void Initialize(Guid? id)
         {
             var isNew = id == null;
@@ -43,7 +45,12 @@ namespace GKWebService.Models.SKD.Organisations
                 }
                 Organisation = operationResult.Result;
             }
-            Organisation.Photo = null;
+
+            if (Organisation.Photo != null && Organisation.Photo.Data != null)
+            {
+                PhotoData = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Organisation.Photo.Data));
+                Organisation.Photo.Data = null;
+            }
 
             var filter = new EmployeeFilter { LogicalDeletationType = LogicalDeletationType.All, UIDs = new List<Guid> { Organisation.ChiefUID }, IsAllPersonTypes = true };
             var chiefOperationResult = ClientManager.FiresecService.GetEmployeeList(filter);
@@ -73,6 +80,17 @@ namespace GKWebService.Models.SKD.Organisations
             if (IsHRChiefSelected)
             {
                 Organisation.HRChiefUID = SelectedHRChief.UID;
+            }
+
+            if ((PhotoData != null && PhotoData.Length > 0) || Organisation.Photo != null)
+            {
+                Organisation.Photo = new Photo();
+                byte[] data = null;
+                if (PhotoData != null)
+                {
+                    data = Convert.FromBase64String(PhotoData.Remove(0, "data:image/gif;base64,".Length));
+                }
+                Organisation.Photo.Data = data;
             }
             var operationResult = ClientManager.FiresecService.SaveOrganisation(Organisation, isNew);
             return operationResult.Error;
