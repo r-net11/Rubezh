@@ -113,16 +113,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public TimeSpan AbsenceInsidePlanTimeSpan
-		{
-			get
-			{
-				if (DayTimeTrack == null || DayTimeTrack.Totals == null) return default(TimeSpan);
-				var absenceInsidePlan = DayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.AbsenceInsidePlan);
-				return absenceInsidePlan != null ? absenceInsidePlan.TimeSpan : default(TimeSpan);
-			}
-		}
-
 		public TimeSpan LateTimeSpan
 		{
 			get

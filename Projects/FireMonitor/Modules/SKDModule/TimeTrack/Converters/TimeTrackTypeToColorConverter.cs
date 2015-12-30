@@ -24,10 +24,6 @@ namespace SKDModule.Converters
 				case TimeTrackType.Absence:
 					return new SolidColorBrush(Colors.Red);
 
-
-				case TimeTrackType.AbsenceInsidePlan:
-					return new SolidColorBrush(Colors.Pink);
-
 				case TimeTrackType.Late:
 					return new SolidColorBrush(Colors.SkyBlue);
 

@@ -161,35 +161,6 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			Assert.IsTrue(type == TimeTrackType.Absence);
 		}
 
-		[Test]
-		public void GetTimeTrackTypeAbsenceInsidePlanTimeTrackType()
-		{
-			//Arrange
-			const bool isOnlyFirstEnter = true;
-			var dayTimeTrack = new DayTimeTrack();
-			var plannedTimeInterval = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(9), TIME.Date + TimeSpan.FromHours(18));
-
-			var realTimeTrackPart = new TimeTrackPart { EnterDateTime = TIME.Date + TimeSpan.FromHours(9), ExitDateTime = TIME.Date + TimeSpan.FromHours(10) };
-			var realTimeTrackPart2 = new TimeTrackPart { EnterDateTime = TIME.Date + TimeSpan.FromHours(13), ExitDateTime = TIME.Date + TimeSpan.FromHours(15) };
-			var realTimeTrackPart3 = new TimeTrackPart { EnterDateTime = TIME.Date + TimeSpan.FromHours(15), ExitDateTime = TIME.Date + TimeSpan.FromHours(19) };
-			var plannedTimeTrackPart = new TimeTrackPart
-			{
-				EnterDateTime = plannedTimeInterval.StartTime,
-				ExitDateTime = plannedTimeInterval.EndTime
-			};
-
-			var realTimeTrackPartsCollection = new List<TimeTrackPart> { realTimeTrackPart, realTimeTrackPart2, realTimeTrackPart3 };
-			var plannedTimeTrackPartCollection = new List<TimeTrackPart> { plannedTimeTrackPart };
-
-			//Act
-			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection, realTimeTrackPartsCollection, isOnlyFirstEnter, plannedTimeInterval,
-				new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(11), TIME.Date + TimeSpan.FromHours(12)));
-
-			//Assert
-			Assert.IsTrue(type == TimeTrackType.AbsenceInsidePlan);
-		}
-
-
 		#endregion
 
 		#region GetDeltaForTimeTrack Tests
@@ -261,46 +232,6 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.Presence,
-				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
-				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
-			};
-			const bool isHoliday = true;
-
-			//Act
-			var dayTimeTrack = new DayTimeTrack();
-			var result = dayTimeTrack.GetDeltaForTimeTrack(timeTrackPart, isHoliday);
-
-			//Assert
-			Assert.AreEqual(result.Hours, 10);
-		}
-
-		[Test]
-		public void GetDeltaForAbsenceInsidePlanTimeTrackType()
-		{
-			//Arrange
-			var timeTrackPart = new TimeTrackPart
-			{
-				TimeTrackPartType = TimeTrackType.AbsenceInsidePlan,
-				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
-				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
-			};
-			const bool isHoliday = default(bool);
-
-			//Act
-			var dayTimeTrack = new DayTimeTrack();
-			var result = dayTimeTrack.GetDeltaForTimeTrack(timeTrackPart, isHoliday);
-
-			//Assert
-			Assert.AreEqual(result.Hours, 10);
-		}
-
-		[Test]
-		public void GetDeltaForAbsenceInsidePlanHolidayTimeTrackType()
-		{
-			//Arrange
-			var timeTrackPart = new TimeTrackPart
-			{
-				TimeTrackPartType = TimeTrackType.AbsenceInsidePlan,
 				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
 				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
 			};
@@ -522,27 +453,6 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 		}
 
 		[Test]
-		public void GetBalanceForAbsenceInsidePlanTimeTrackType()
-		{
-			//Arrange
-			var timeTrackPart = new TimeTrackPart
-			{
-				TimeTrackPartType = TimeTrackType.AbsenceInsidePlan,
-				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
-				ExitDateTime = TIME.Date + TimeSpan.FromHours(15)
-			};
-
-			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
-
-			//Act
-			var dayTimeTrack = new DayTimeTrack();
-			var result = dayTimeTrack.GetBalance(timeTrackPart, slideTimeSeconds);
-
-			//Assert
-			Assert.AreEqual(result, TimeSpan.Zero);
-		}
-
-		[Test]
 		public void GetBalanceForLateTimeTrackType()
 		{
 			//Arrange
@@ -694,50 +604,144 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 		#region IsOnlyFirstEnter Tests
 
 		[Test]
-		public void IsOnlyFirstEnterTrueTest()
+		public void IsOnlyFirstEnterEarlyLeave()
 		{
-			var timeTrackPart = new TimeTrackPart
+			//Arrange
+			var realTimeTrackParts = new List<TimeTrackPart>
 			{
-				EnterDateTime = TIME.Date + TimeSpan.FromHours(11),
-				ExitDateTime = TIME.Date + TimeSpan.FromHours(15)
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(9),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(11),
+					IsForURVZone = true
+				},
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(12),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(14),
+					IsForURVZone = true
+				}
 			};
-
-			var combinedTimeTrackPart = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(11),
-				TIME.Date + TimeSpan.FromHours(15));
 
 			var plannedTimeTrackParts = new List<TimeTrackPart>
 			{
 				new TimeTrackPart
 				{
-					EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
-					ExitDateTime = TIME.Date + TimeSpan.FromHours(17)
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(9),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(18)
 				}
 			};
 
+			var dayTimeTrack = new DayTimeTrack
+			{
+				IsOnlyFirstEnter = true,
+				RealTimeTrackParts = realTimeTrackParts,
+				PlannedTimeTrackParts = plannedTimeTrackParts
+			};
+			//Act
+			dayTimeTrack.Calculate();
+			//Assert
+			var firstOrDefault = dayTimeTrack.CombinedTimeTrackParts.FirstOrDefault(x => x.EnterDateTime.TimeOfDay == TimeSpan.FromHours(14));
+			if (firstOrDefault != null)
+				Assert.AreEqual(firstOrDefault.TimeTrackPartType, TimeTrackType.EarlyLeave);
+		}
+
+		[Test]
+		public void IsOnlyFirstEnterPresence()
+		{
+			//Arrange
 			var realTimeTrackParts = new List<TimeTrackPart>
 			{
 				new TimeTrackPart
 				{
-					EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
-					ExitDateTime = TIME.Date + TimeSpan.FromHours(10)
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(9),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(11),
+					IsForURVZone = true
 				},
 				new TimeTrackPart
 				{
-					EnterDateTime = TIME.Date + TimeSpan.FromHours(15),
-					ExitDateTime = TIME.Date + TimeSpan.FromHours(17)
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(12),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(14),
+					IsForURVZone = true
+				},
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(16),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(18),
+					IsForURVZone = true
 				}
 			};
 
-			DayTimeTrack.ScheduleInterval schedulePlannedInterval = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(8), TIME.Date + TimeSpan.FromHours(17));
-			DayTimeTrack.ScheduleInterval combinedInterval = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(8), TIME.Date + TimeSpan.FromHours(17));
+			var plannedTimeTrackParts = new List<TimeTrackPart>
+			{
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(9),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(18)
+				}
+			};
 
+			var dayTimeTrack = new DayTimeTrack
+			{
+				IsOnlyFirstEnter = true,
+				RealTimeTrackParts = realTimeTrackParts,
+				PlannedTimeTrackParts = plannedTimeTrackParts
+			};
+			//Act
+			dayTimeTrack.Calculate();
+			//Assert
+			var firstOrDefault = dayTimeTrack.CombinedTimeTrackParts.FirstOrDefault(x => x.EnterDateTime.TimeOfDay == TimeSpan.FromHours(11));
+			if (firstOrDefault != null)
+				Assert.AreEqual(firstOrDefault.TimeTrackPartType, TimeTrackType.Presence);
+		}
 
-			bool isOnlyFirstEnter = true; //Check it
+		[Test]
+		public void IsOnlyFirstEnterOvertime()
+		{
+			//Arrange
+			var realTimeTrackParts = new List<TimeTrackPart>
+			{
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(9),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(11),
+					IsForURVZone = true
+				},
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(12),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(14),
+					IsForURVZone = true
+				},
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(16),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(18),
+					IsForURVZone = true
+				}
+			};
 
-			var dayTimeTrack = new DayTimeTrack();
-			var result = dayTimeTrack.GetTimeTrackType(timeTrackPart, plannedTimeTrackParts, realTimeTrackParts, isOnlyFirstEnter,
-				schedulePlannedInterval, combinedTimeTrackPart);
-			Assert.AreEqual(result, TimeTrackType.AbsenceInsidePlan);
+			var plannedTimeTrackParts = new List<TimeTrackPart>
+			{
+				new TimeTrackPart
+				{
+					EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(9),
+					ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(18)
+				}
+			};
+
+			var dayTimeTrack = new DayTimeTrack
+			{
+				IsOnlyFirstEnter = true,
+				RealTimeTrackParts = realTimeTrackParts,
+				PlannedTimeTrackParts = plannedTimeTrackParts
+			};
+			//Act
+			dayTimeTrack.Calculate();
+			//Assert
+			var firstOrDefault = dayTimeTrack.CombinedTimeTrackParts.FirstOrDefault(x => x.EnterDateTime.TimeOfDay == TimeSpan.FromHours(17));
+			if (firstOrDefault != null)
+				Assert.AreEqual(firstOrDefault.TimeTrackPartType, TimeTrackType.Overtime);
 		}
 
 		[Test]

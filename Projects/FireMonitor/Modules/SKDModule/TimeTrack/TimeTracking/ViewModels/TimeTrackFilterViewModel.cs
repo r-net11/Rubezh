@@ -44,7 +44,6 @@ namespace SKDModule.ViewModels
 				new TimeTrackTypeFilterItem(TimeTrackType.Balance),
 				new TimeTrackTypeFilterItem(TimeTrackType.Presence),
 				new TimeTrackTypeFilterItem(TimeTrackType.Absence),
-				new TimeTrackTypeFilterItem(TimeTrackType.AbsenceInsidePlan),
 				new TimeTrackTypeFilterItem(TimeTrackType.Late),
 				new TimeTrackTypeFilterItem(TimeTrackType.EarlyLeave),
 				new TimeTrackTypeFilterItem(TimeTrackType.Overtime),
