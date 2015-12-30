@@ -21,6 +21,7 @@ namespace FiresecAPI.SKD
 			CombinedTimeTrackParts = new List<TimeTrackPart>();
 			Documents = new List<TimeTrackDocument>();
 			Totals = new List<TimeTrackTotal>();
+			RealTimeTrackPartsForDrawing = new List<TimeTrackPart>();
 		}
 
 		public DayTimeTrack(string error)
@@ -104,6 +105,8 @@ namespace FiresecAPI.SKD
 
 		public List<TimeTrackTotal> Totals { get; set; }
 
+		public List<TimeTrackPart> RealTimeTrackPartsForDrawing { get; set; }
+
 		/// <summary>
 		/// Интервалы, которые служат для отображения в графике "Итого".
 		/// Коллекция данных интервалов добавлена в связи с необходимостью корректно отображать интервалы, переходящие через сутки,
@@ -136,8 +139,7 @@ namespace FiresecAPI.SKD
 			CrossNightTimeTrackParts = CalculateCrossNightTimeTrackParts(RealTimeTrackParts, Date);
 			RealTimeTrackParts = RealTimeTrackParts.OrderBy(x => x.EnterDateTime).ThenBy(x => x.ExitDateTime).ToList();
 			RealTimeTrackPartsForCalculates = GetRealTimeTracksForCalculate(RealTimeTrackParts.Where(x => x.ExitDateTime.HasValue && x.IsForURVZone && !x.NotTakeInCalculations));
-			CombinedTimeTrackParts = CalculateCombinedTimeTrackParts(PlannedTimeTrackParts, RealTimeTrackPartsForCalculates,
-																							DocumentTrackParts);
+			CombinedTimeTrackParts = CalculateCombinedTimeTrackParts(PlannedTimeTrackParts, RealTimeTrackPartsForCalculates, DocumentTrackParts);
 			if (SlideTime != TimeSpan.Zero)
 			{
 				CombinedTimeTrackParts = AdjustmentCombinedTimeTracks(CombinedTimeTrackParts, PlannedTimeTrackParts, SlideTime);
@@ -158,6 +160,26 @@ namespace FiresecAPI.SKD
 			Totals = GetTotalBalance(Totals);
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
 			CalculateLetterCode();
+			RealTimeTrackPartsForDrawing = GetRealTimeTrackPartsForDrawing(RealTimeTrackParts, IsOnlyFirstEnter);
+		}
+
+		private List<TimeTrackPart> GetRealTimeTrackPartsForDrawing(List<TimeTrackPart> realTimeTrackParts, bool isOnlyFirstEnter)
+		{
+			if (!isOnlyFirstEnter) return realTimeTrackParts;
+
+			var realTimeTrackPartsForUrv = realTimeTrackParts.Where(x => x.IsForURVZone).ToList();
+
+			if (!realTimeTrackPartsForUrv.Any()) return realTimeTrackParts;
+
+			return new List<TimeTrackPart>
+			{
+				new TimeTrackPart
+				{
+					EnterDateTime = realTimeTrackPartsForUrv.Min(x => x.EnterDateTime),
+					ExitDateTime = realTimeTrackPartsForUrv.Max(x => x.ExitDateTime),
+					TimeTrackPartType = TimeTrackType.Presence
+				}
+			};
 		}
 
 		private void CalculateNightTimeSpans(NightSettings nightSettings)
