@@ -22,8 +22,6 @@ namespace RubezhAPI
 		[ServiceKnownType(typeof(Color))]
 		void SetVariableValue(Guid clientUID, Guid variableUid, object value);
 		[OperationContract]
-		Variable GetVariable(Guid clientUID, Guid variableUid);
-		[OperationContract]
 		void AddJournalItemA(Guid clientUID, string message, Guid? objectUID = null);
 		[OperationContract]
 		void ControlGKDevice(Guid clientUID, Guid deviceUid, GKStateBit command);

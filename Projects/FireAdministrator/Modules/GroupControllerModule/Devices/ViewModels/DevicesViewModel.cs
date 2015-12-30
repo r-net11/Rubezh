@@ -1,12 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Windows.Input;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
 using GKModule.Models;
 using GKModule.Plans;
 using GKModule.Plans.Designer;
@@ -19,16 +10,25 @@ using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Microsoft.Win32;
-using KeyboardKey = System.Windows.Input.Key;
-using System.Xml.Serialization;
-using RubezhAPI.Journal;
 using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
+using RubezhAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Windows.Input;
+using System.Xml.Serialization;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
 	public class DevicesViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public static DevicesViewModel Current { get; private set; }
+		public GKDevice DeviceToCompareConfiguration { get; set; }
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
 		bool _lockSelection = false;
 
@@ -196,7 +196,15 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedDevice.Device.IsConnectedToKAU)
 			{
-				if (SelectedDevice.Device.KAUShleifParent.AllChildren.Count + DevicesToCopy.Count > 255)
+				var count = 0;
+				DevicesToCopy.ForEach(x =>
+					{
+						count += x.AllChildren.Where(y => !y.Driver.IsGroupDevice && y.Driver.HasAddress).Count();
+						if (!x.Driver.IsGroupDevice && x.Driver.HasAddress)
+							count += 1;
+					});
+
+				if (GKManager.GetAddress(SelectedDevice.Device.KAUShleifParent.AllChildren) + count > 255)
 				{
 					MessageBoxService.ShowWarning("Адрес устройства не может превышать 255");
 					return;
@@ -209,7 +217,7 @@ namespace GKModule.ViewModels
 				{
 					foreach (var deviceToCopy in DevicesToCopy)
 					{
-						var pasteDevice = GKManager.CopyDevice(deviceToCopy, isCut,true);
+						var pasteDevice = GKManager.CopyDevice(deviceToCopy, isCut, true);
 						device = PasteDevice(pasteDevice);
 						if (device == null)
 							break;
@@ -219,13 +227,15 @@ namespace GKModule.ViewModels
 							cache.UpdateDeviceBinding(device);
 						}
 					}
-					if(device!= null)
-					SelectedDevice = AllDevices.FirstOrDefault(x=> x.Device.UID == device.UID);
-					if (SelectedDevice.Device.IsConnectedToKAU)
+					if (device != null)
 					{
-						GKManager.RebuildRSR2Addresses(SelectedDevice.Device);
-						GKManager.UpdateConfiguration();
-						SelectedDevice.Device.ChangedLogic();
+						if (device.IsConnectedToKAU)
+						{
+							GKManager.RebuildRSR2Addresses(SelectedDevice.Device);
+							GKManager.UpdateConfiguration();
+							SelectedDevice.Device.ChangedLogic();
+						}
+						SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
 					}
 				}
 				GKManager.DeviceConfiguration.Update();
@@ -279,7 +289,7 @@ namespace GKModule.ViewModels
 				int maxAddress = GKManager.GetAddress(SelectedDevice.Device.KAUShleifParent.AllChildren);
 				if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU_Shleif || SelectedDevice.Device.DriverType == GKDriverType.RSR2_MVP_Part)
 				{
-					var addedDevice = GKManager.AddDevice(SelectedDevice.Device, device.Driver, maxAddress);
+					var addedDevice = GKManager.AddDevice(SelectedDevice.Device, device.Driver, 0);
 					GKManager.CopyDevice(device, addedDevice);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(addedDevice, SelectedDevice);
 					addedDeviceViewModel.IsExpanded = true;
@@ -288,9 +298,10 @@ namespace GKModule.ViewModels
 				}
 				else
 				{
-					var addedDevice = GKManager.AddDevice(SelectedDevice.Parent.Device, device.Driver, maxAddress);
+					var index = SelectedDevice.Device.Parent.Children.IndexOf(SelectedDevice.Device) + 1;
+					var addedDevice = GKManager.AddDevice(SelectedDevice.Parent.Device, device.Driver, 0, index);
 					GKManager.CopyDevice(device, addedDevice);
-					var addedDeviceViewModel = NewDeviceHelper.AddDevice(addedDevice, SelectedDevice,false);
+					var addedDeviceViewModel = NewDeviceHelper.AddDevice(addedDevice, SelectedDevice, false);
 					addedDeviceViewModel.IsExpanded = true;
 					AllDevices.Add(addedDeviceViewModel);
 					return addedDevice;
@@ -504,11 +515,11 @@ namespace GKModule.ViewModels
 
 						new RibbonMenuItemViewModel("Копировать параметры из устройства в систему", "BLeft"),
 						new RibbonMenuItemViewModel("Копировать параметры из всех дочерних устройств в систему", "BLeftLeft"),
-						
+
 						new RibbonMenuItemViewModel("Копировать параметры", "BCopy"),
 						new RibbonMenuItemViewModel("Вставить параметры", "BPaste"),
 						new RibbonMenuItemViewModel("Вставить параметры во все дочерние устройства", "BPasteAll"),
-						
+
 						new RibbonMenuItemViewModel("Применить шаблон", "BBriefcase"),
 						new RibbonMenuItemViewModel("Применить шаблон ко всем дочерним устройствам", "BBriefcaseAll"),
 					}, "BParametersReadWrite"),

@@ -151,6 +151,30 @@ namespace GKProcessor.Test
 		}
 
 		[TestMethod]
+		public void TestAMPLogicInZoneOnGK()
+		{
+			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_MAP4);
+			var device2 = AddDevice(kauDevice2, GKDriverType.RSR2_MAP4);
+			var zone = new GKZone();
+			GKManager.Zones.Add(zone);
+			device1.ZoneUIDs.Add(zone.UID);
+			device2.ZoneUIDs.Add(zone.UID);
+			Compile();
+			CheckDeviceLogicOnGK(device1);
+		}
+
+		[TestMethod]
+		public void TestAMPLogicInZoneOnKau()
+		{
+			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_MAP4);
+			var zone = new GKZone();
+			GKManager.Zones.Add(zone);
+			device1.ZoneUIDs.Add(zone.UID);
+			Compile();
+			CheckDeviceLogicOnKau(device1);
+		}
+
+		[TestMethod]
 		public void TestDirectionLogicOnKau()
 		{
 			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_HandDetector);

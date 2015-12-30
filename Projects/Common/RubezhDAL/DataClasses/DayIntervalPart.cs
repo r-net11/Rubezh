@@ -12,9 +12,9 @@ namespace RubezhDAL.DataClasses
 		public Guid? DayIntervalUID { get; set; }
 		public DayInterval DayInterval { get; set; }
 
-		public TimeSpan BeginTimeSpan { get; set; }
+		public double BeginTimeTotalSeconds { get; set; }
 
-		public TimeSpan EndTimeSpan { get; set; }
+		public double EndTimeTotalSeconds { get; set; }
 
 		public int Number { get; set; }
 	}

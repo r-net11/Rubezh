@@ -1,4 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace RubezhAPI.Automation
 {
@@ -7,12 +9,12 @@ namespace RubezhAPI.Automation
 	{
 		public UIArguments()
 		{
-			LayoutFilter = new ProcedureLayoutCollection();
+			LayoutFilter = new List<Guid>();
 			ForAllClients = true;
 		}
 
 		[DataMember]
-		public ProcedureLayoutCollection LayoutFilter { get; set; }
+		public List<Guid> LayoutFilter { get; set; }
 
 		[DataMember]
 		public bool ForAllClients { get; set; }

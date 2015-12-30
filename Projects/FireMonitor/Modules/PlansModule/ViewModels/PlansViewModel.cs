@@ -1,5 +1,6 @@
 ﻿using Common;
 using Infrastructure;
+using Infrastructure.Automation;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -73,26 +74,29 @@ namespace PlansModule.ViewModels
 			_initialized = true;
 			OnSelectedPlanChanged();
 
-			foreach (var plan in PlanTreeViewModel.AllPlans)
+			if (PlanTreeViewModel != null)
 			{
-				foreach (var element in plan.Plan.AllElements)
+				foreach (var plan in PlanTreeViewModel.AllPlans)
 				{
-					foreach (var planElementBindingItem in element.PlanElementBindingItems)
+					foreach (var element in plan.Plan.AllElements)
 					{
-						var glabalVariable = ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid == planElementBindingItem.GlobalVariableUID);
-						if (glabalVariable != null)
+						foreach (var planElementBindingItem in element.PlanElementBindingItems)
 						{
-							glabalVariable.ExplicitValueChanged += () =>
+							var globalVariable = ProcedureExecutionContext.GlobalVariables.FirstOrDefault(x => x.Uid == planElementBindingItem.GlobalVariableUID);
+							if (globalVariable != null)
 							{
-								var planCallbackData = new PlanCallbackData()
+								globalVariable.ValueChanged += () =>
 								{
-									ElementPropertyType = ElementPropertyType.BorderThickness,
-									Value = glabalVariable.ExplicitValue.IntValue,
-									ElementUid = element.UID,
-									PlanUid = plan.Plan.UID
+									var planCallbackData = new PlanCallbackData()
+									{
+										ElementPropertyType = ElementPropertyType.BorderThickness,
+										Value = globalVariable.ExplicitValue.IntValue,
+										ElementUid = element.UID,
+										PlanUid = plan.Plan.UID
+									};
+									SetPlanProperty(planCallbackData);
 								};
-								SetPlanProperty(planCallbackData);
-							};
+							}
 						}
 					}
 				}
@@ -187,7 +191,7 @@ namespace PlansModule.ViewModels
 
 		public bool IsPlanTreeVisible
 		{
-			get { return  PlanTreeViewModel != null; }
+			get { return PlanTreeViewModel != null; }
 		}
 
 		public override void OnShow()

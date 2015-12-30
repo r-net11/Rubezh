@@ -1,4 +1,5 @@
 ﻿using Common;
+using FireMonitor.Layout.ViewModels;
 using FireMonitor.ViewModels;
 using GKProcessor;
 using Infrastructure;
@@ -10,6 +11,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using RubezhAPI.Automation;
+using RubezhAPI.AutomationCallback;
 using RubezhAPI.Journal;
 using RubezhClient;
 using System;
@@ -25,12 +27,15 @@ namespace FireMonitor
 	{
 		AutoActivationWatcher _watcher;
 
+		public static ShellViewModel ShellViewModel { get; private set; }
+
 		public bool Initialize()
 		{
 			var result = true;
 			LoadingErrorManager.Clear();
 			ServiceFactory.Initialize(new LayoutService(), new SecurityService());
 			ServiceFactory.ResourceService.AddResource(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(typeof(Bootstrapper).Assembly, "Layout/DataTemplates/Dictionary.xaml");
 			ServiceFactory.StartupService.Show();
 			if (ServiceFactory.StartupService.PerformLogin(Login, Password))
 			{
@@ -53,8 +58,7 @@ namespace FireMonitor
 					ClientManager.GetConfiguration("Monitor/Configuration");
 					ProcedureExecutionContext.Initialize(
 						ContextType.Client,
-						ClientManager.SystemConfiguration,
-						ClientManager.SecurityConfiguration,
+						() => { return ClientManager.SystemConfiguration; },
 						SafeFiresecService.ProcessAutomationCallback,
 						((SafeFiresecService)ClientManager.FiresecService).ProcedureCallbackResponse,
 						OnSynchronizeVariable,
@@ -96,6 +100,9 @@ namespace FireMonitor
 						RunWatcher();
 					}
 
+					SafeFiresecService.AutomationEvent -= OnAutomationCallback;
+					SafeFiresecService.AutomationEvent += OnAutomationCallback;
+
 					ServiceFactory.StartupService.DoStep("Старт полинга сервера");
 					ClientManager.StartPoll();
 
@@ -134,6 +141,22 @@ namespace FireMonitor
 			return result;
 		}
 
+		void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)
+		{
+			if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.Dialog)
+				LayoutDialogViewModel.Show((DialogCallbackData)automationCallbackResult.Data);
+			if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.GlobalVariable)
+			{
+				var data = automationCallbackResult.Data as GlobalVariableCallBackData;
+				if (data != null)
+				{
+					var variable = ProcedureExecutionContext.GlobalVariables.FirstOrDefault(x => x.Uid == data.VariableUID);
+					ProcedureExecutionContext.SetVariableValue(variable, data.Value, null);
+				}
+			}
+
+		}
+
 		void LoadPlansProperties()
 		{
 			var properties = ClientManager.FiresecService.GetProperties(Guid.Empty);
@@ -150,21 +173,9 @@ namespace FireMonitor
 			return result.HasError ? new List<RubezhAPI.SKD.Organisation>() : result.Result;
 		}
 
-		private void OnSynchronizeVariable(Guid clientUID, Variable variable, ContextType targetContextType)
+		private void OnSynchronizeVariable(Guid clientUID, Variable variable)
 		{
-			if (targetContextType == ContextType.Client)
-			{
-				var remoteVariable = ClientManager.FiresecService.GetVariable(variable.Uid);
-				if (remoteVariable != null)
-				{
-					variable.ExplicitValue = remoteVariable.ExplicitValue;
-					variable.ExplicitValues = remoteVariable.ExplicitValues;
-				}
-			}
-			else
-			{
-				ClientManager.FiresecService.SetVariableValue(variable.Uid, ProcedureExecutionContext.GetValue(variable));
-			}
+			ClientManager.FiresecService.SetVariableValue(variable.Uid, ProcedureExecutionContext.GetValue(variable));
 		}
 
 		private void OnJournalItems(List<JournalItem> journalItems, bool isNew)
@@ -184,10 +195,10 @@ namespace FireMonitor
 		protected virtual bool Run()
 		{
 			var result = true;
-			var shell = CreateShell();
-			((LayoutService)ServiceFactory.Layout).SetToolbarViewModel((ToolbarViewModel)shell.Toolbar);
+			ShellViewModel = CreateShell();
+			((LayoutService)ServiceFactory.Layout).SetToolbarViewModel((ToolbarViewModel)ShellViewModel.Toolbar);
 			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new SoundViewModel());
-			if (!RunShell(shell))
+			if (!RunShell(ShellViewModel))
 				result = false;
 			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new UserViewModel(this));
 			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new AutoActivationViewModel());

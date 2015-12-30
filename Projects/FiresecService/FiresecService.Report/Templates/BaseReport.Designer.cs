@@ -209,7 +209,7 @@
 			this.Dpi = 254F;
 			this.ExportOptions.PrintPreview.ActionAfterExport = DevExpress.XtraPrinting.ActionAfterExport.Open;
 			this.ExportOptions.PrintPreview.ShowOptionsBeforeExport = false;
-			this.Margins = new System.Drawing.Printing.Margins(200, 200, 350, 280);
+			this.Margins = new System.Drawing.Printing.Margins(201, 196, 350, 280);
 			this.PageHeight = 2970;
 			this.PageWidth = 2100;
 			this.PaperKind = System.Drawing.Printing.PaperKind.A4;

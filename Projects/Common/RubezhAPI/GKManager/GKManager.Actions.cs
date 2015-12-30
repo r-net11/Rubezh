@@ -71,7 +71,7 @@ namespace RubezhAPI
 		public static void AddDeviceToGuardZone(GKGuardZone guardZone ,GKGuardZoneDevice guardZoneDevice)
 		{
 			var device = guardZoneDevice.Device;
-			guardZone.GuardZoneDevices.Add(guardZoneDevice);
+				guardZone.GuardZoneDevices.Add(guardZoneDevice);
 			if (!device.GuardZones.Contains(guardZone))
 				device.GuardZones.Add(guardZone);
 			if (!device.InputDependentElements.Contains(guardZone))
@@ -131,18 +131,18 @@ namespace RubezhAPI
 					zone.Devices.Remove(deviceItem);
 					zone.OnChanged();
 				}
-				
+
 				deviceItem.InputDependentElements.ForEach(x =>
 				{
 					x.OutputDependentElements.Remove(deviceItem);
 					if (x is GKGuardZone)
-						x.Invalidate(GKManager.DeviceConfiguration);
+						x.Invalidate(DeviceConfiguration);
 				});
 
 				deviceItem.OutputDependentElements.ForEach(x =>
 				{
 					x.InputDependentElements.Remove(deviceItem);
-					x.Invalidate(GKManager.DeviceConfiguration);
+					x.Invalidate(DeviceConfiguration);
 					x.OnChanged();
 				});
 			}
@@ -206,12 +206,15 @@ namespace RubezhAPI
 
 		public static GKDevice ChangeDriver(GKDevice device, GKDriver driver)
 		{
-			if ((GetAddress(device.Parent.AllChildren)-1) + Math.Max(1, (int)driver.GroupDeviceChildrenCount) > 255)
+			var count = device.AllChildren.Where(y => !y.Driver.IsGroupDevice && y.Driver.HasAddress).Count();
+						if (!device.Driver.IsGroupDevice && device.Driver.HasAddress)
+							count += 1;
+			if ((GetAddress(device.KAUShleifParent.AllChildren) - count) + Math.Max(1, (int)driver.GroupDeviceChildrenCount) > 255)
 				return null;
 
 			var index = device.Parent.Children.IndexOf(device);
-			GKManager.RemoveDevice(device);
-			return GKManager.AddDevice(device.Parent, driver, 0, index);
+			RemoveDevice(device);
+			return AddDevice(device.Parent, driver, 0, index);
 		}
 
 		public static int GetAddress(IEnumerable<GKDevice> children)

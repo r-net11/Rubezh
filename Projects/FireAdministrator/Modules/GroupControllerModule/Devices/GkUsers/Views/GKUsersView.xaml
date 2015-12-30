@@ -34,8 +34,11 @@
 				<DataTrigger Binding ="{Binding IsAbsent}" Value="True">
 					<Setter Property="Opacity" Value="0.3" />
 				</DataTrigger>
-				<DataTrigger Binding ="{Binding HasNonStructureDifferences}" Value="True">
+				<DataTrigger Binding ="{Binding IsDescriptorMissmatch}" Value="True">
 					<Setter Property="Background" Value="LightPink" />
+				</DataTrigger >
+				<DataTrigger Binding ="{Binding IsNonStructureMissmatch}" Value="True">
+					<Setter Property="Background" Value="PeachPuff" />
 				</DataTrigger >
 			</Style.Triggers>
 		</Style>
@@ -60,10 +63,11 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-			<TextBlock Grid.Row="0" Text="В приборе" Margin="5" Foreground="{DynamicResource ForegroundColorWhite}" FontWeight="Bold" />
+			<TextBlock Grid.Row="0" Text="В системе" Margin="5" Foreground="{DynamicResource ForegroundColorWhite}" FontWeight="Bold" />
 			<DataGrid Grid.Row="1" Name="DataGrid1" 
 				  ScrollViewer.ScrollChanged="DataGrid1_ScrollChanged" Selector.SelectionChanged ="dataGrid1RowSelected" 
-				  ItemsSource="{Binding DbUsers}">
+				  ItemsSource="{Binding DbUsers}"
+					 SelectedItem="{Binding SelectedDbUser}">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Номер карты" Width="Auto">
 						<DataGridTemplateColumn.CellTemplate>
@@ -96,10 +100,11 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-			<TextBlock Grid.Row="0" Text="В системе" Margin="5" Foreground="{DynamicResource ForegroundColorWhite}" FontWeight="Bold" />
+			<TextBlock Grid.Row="0" Text="В приборе" Margin="5" Foreground="{DynamicResource ForegroundColorWhite}" FontWeight="Bold" />
 			<DataGrid Grid.Row="1" Name="DataGrid2" 
 				  ScrollViewer.ScrollChanged="DataGrid2_ScrollChanged" Selector.SelectionChanged ="dataGrid2RowSelected" 
-				  ItemsSource="{Binding DeviceUsers}">
+				  ItemsSource="{Binding DeviceUsers}"
+					  SelectedItem="{Binding SelectedDeviceUser}">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Номер карты" Width="Auto">
 						<DataGridTemplateColumn.CellTemplate>

@@ -1,4 +1,10 @@
-﻿using System;
+﻿using Infrastructure;
+using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
+using RubezhClient;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -6,15 +12,9 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using RubezhClient;
-using Infrastructure.Common.Services.Layout;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using LayoutModel = RubezhAPI.Models.Layouts.Layout;
-using Infrastructure;
-using Infrastructure.Events;
 
 namespace FireMonitor.Layout.ViewModels
 {
@@ -57,15 +57,8 @@ namespace FireMonitor.Layout.ViewModels
 		{
 			var list = new List<LayoutPartViewModel>();
 			var map = new Dictionary<Guid, ILayoutPartPresenter>();
-			var shellViewModel = _viewModel as MonitorLayoutShellViewModel;
 			foreach (var module in ApplicationService.Modules)
 			{
-				if (shellViewModel != null)
-				{
-					var monitorModule = module as MonitorLayoutModule;
-					if (monitorModule != null)
-						monitorModule.MonitorLayoutShellViewModel = shellViewModel;
-				}
 				var layoutProviderModule = module as ILayoutProviderModule;
 				if (layoutProviderModule != null)
 					foreach (var layoutPart in layoutProviderModule.GetLayoutParts())

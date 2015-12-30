@@ -248,6 +248,12 @@
     <Compile Include="Templates\DoorsReport.Designer.cs">
       <DependentUpon>DoorsReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="Templates\EmployeeZonesReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\EmployeeZonesReport.Designer.cs">
+      <DependentUpon>EmployeeZonesReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Templates\ReflectionReport .cs">
       <SubType>Component</SubType>
     </Compile>
@@ -320,12 +326,6 @@
     <Compile Include="Templates\PositionsReport.Designer.cs">
       <DependentUpon>PositionsReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Templates\EmployeeZonesReport.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Templates\EmployeeZonesReport.Designer.cs">
-      <DependentUpon>EmployeeZonesReport.cs</DependentUpon>
-    </Compile>
     <Compile Include="Templates\EmployeeReport.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -378,6 +378,9 @@
       <DependentUpon>DoorsReport.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Templates\EmployeeZonesReport.resx">
+      <DependentUpon>EmployeeZonesReport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Templates\ReflectionReport .resx">
       <DependentUpon>ReflectionReport .cs</DependentUpon>
     </EmbeddedResource>
@@ -411,9 +414,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Templates\PositionsReport.resx">
       <DependentUpon>PositionsReport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Templates\EmployeeZonesReport.resx">
-      <DependentUpon>EmployeeZonesReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Templates\EmployeeReport.resx">
       <DependentUpon>EmployeeReport.cs</DependentUpon>

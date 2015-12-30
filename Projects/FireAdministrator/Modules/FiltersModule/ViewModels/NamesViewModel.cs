@@ -119,26 +119,19 @@ namespace FiltersModule.ViewModels
 			var filter = new JournalFilter();
 			foreach (var rootFilter in RootNames)
 			{
-				if (rootFilter.IsChecked)
+				foreach (var nameViewModel in rootFilter.Children)
 				{
-					filter.JournalSubsystemTypes.Add(rootFilter.JournalSubsystemType);
-				}
-				else
-				{
-					foreach (var nameViewModel in rootFilter.Children)
+					if (nameViewModel.IsChecked)
 					{
-						if (nameViewModel.IsChecked)
+						filter.JournalEventNameTypes.Add(nameViewModel.JournalEventNameType);
+					}
+					else
+					{
+						foreach (var descriptionViewModel in nameViewModel.Children)
 						{
-							filter.JournalEventNameTypes.Add(nameViewModel.JournalEventNameType);
-						}
-						else
-						{
-							foreach (var descriptionViewModel in nameViewModel.Children)
+							if (descriptionViewModel.IsChecked)
 							{
-								if (descriptionViewModel.IsChecked)
-								{
-									filter.JournalEventDescriptionTypes.Add(descriptionViewModel.JournalEventDescriptionType);
-								}
+								filter.JournalEventDescriptionTypes.Add(descriptionViewModel.JournalEventDescriptionType);
 							}
 						}
 					}

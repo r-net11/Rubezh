@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
+using RubezhAPI.GK;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
-using Infrastructure.Common.Windows.ViewModels;
-using RubezhAPI;
 
 namespace GKModule.Plans.ViewModels
 {
@@ -32,7 +30,7 @@ namespace GKModule.Plans.ViewModels
 			{
 				if (deviceInZone.IsActive)
 					deviceInZone.Activate();
-				deviceInZone.Device.IsIgnoredChangesOnPlan = deviceInZone.IsIgnoredChangesOnPlan;
+				deviceInZone.Device.AllowBeOutsideZone = deviceInZone.AllowBeOutsideZone;
 			}
 			return base.Save();
 		}
@@ -56,7 +54,7 @@ namespace GKModule.Plans.ViewModels
 			NewZoneName = zone == null ? string.Empty : zone.PresentationName;
 			zone = Device.ZoneUIDs.Count == 1 && _zoneMap.ContainsKey(Device.ZoneUIDs[0]) ? _zoneMap[Device.ZoneUIDs[0]] : null;
 			OldZoneName = zone == null ? string.Empty : zone.PresentationName;
-			IsIgnoredChangesOnPlan = device.IsIgnoredChangesOnPlan;
+			AllowBeOutsideZone = device.AllowBeOutsideZone;
 		}
 
 		public void Activate()
@@ -69,14 +67,14 @@ namespace GKModule.Plans.ViewModels
 				GKManager.AddDeviceToZone(Device, zone);
 		}
 
-		public bool HasNewZone 
-		{ 
-			get { return !string.IsNullOrEmpty(NewZoneName); } 
+		public bool HasNewZone
+		{
+			get { return !string.IsNullOrEmpty(NewZoneName); }
 		}
 
-		public bool HasOldZone 
-		{ 
-			get { return !string.IsNullOrEmpty(OldZoneName); } 
+		public bool HasOldZone
+		{
+			get { return !string.IsNullOrEmpty(OldZoneName); }
 		}
 
 		bool _isActive;
@@ -87,20 +85,20 @@ namespace GKModule.Plans.ViewModels
 			{
 				_isActive = value;
 				if (_isActive)
-					IsIgnoredChangesOnPlan = false;
+					AllowBeOutsideZone = false;
 				OnPropertyChanged(() => IsActive);
 			}
 		}
-		bool _isIgnoredChangesOnPlan;
-		public bool IsIgnoredChangesOnPlan
+		bool _allowBeOutsideZone;
+		public bool AllowBeOutsideZone
 		{
-			get { return _isIgnoredChangesOnPlan; }
+			get { return _allowBeOutsideZone; }
 			set
 			{
-				_isIgnoredChangesOnPlan = value;
-				if (_isIgnoredChangesOnPlan)
+				_allowBeOutsideZone = value;
+				if (_allowBeOutsideZone)
 					IsActive = false;
-				OnPropertyChanged(() => IsIgnoredChangesOnPlan);
+				OnPropertyChanged(() => AllowBeOutsideZone);
 			}
 		}
 	}

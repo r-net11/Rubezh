@@ -37,7 +37,7 @@ namespace FiresecService.Service
 				databaseService.JournalTranslator.AddRange(journalItems);
 			}
 			FiresecService.NotifyJournalItems(journalItems, true);
-			var user = clientUID.HasValue ? ProcedureExecutionContext.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == GetLogin(clientUID.Value)) : null;
+			var user = clientUID.HasValue ? ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == GetLogin(clientUID.Value)) : null;
 			foreach (var journalItem in journalItems)
 			{
 				AutomationProcessor.RunOnJournal(journalItem, user, clientUID);

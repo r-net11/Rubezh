@@ -146,7 +146,7 @@ namespace GKModule.ViewModels
 			}
 			if (GKManager.Delays.Any(x => x.No == No && x.UID != Delay.UID))
 			{
-				MessageBoxService.Show("Задержка с таким номером уже существует");
+				ServiceFactory.MessageBoxService.Show("Задержка с таким номером уже существует");
 				return false;
 			}
 

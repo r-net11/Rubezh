@@ -21,8 +21,8 @@ namespace GKModule.ViewModels
 		{
 			Title = "Пользователи ГК";
 			RewriteUsersCommand = new RelayCommand(OnRewriteUsers);
-			PreviousConflictCommand = new RelayCommand(OnPreviousConflict);
-			NextConflictCommand = new RelayCommand(OnNextConflict);
+			PreviousConflictCommand = new RelayCommand(OnPreviousConflict, CanPreviousConflict);
+			NextConflictCommand = new RelayCommand(OnNextConflict, CanNextConflict);
 			_deviceUID = deviceUID;
 			var deviceDoorUIDs = GKManager.Doors
 				.Where(x => x.EnterDevice.GKParent.UID == _deviceUID || x.ExitDevice.GKParent.UID == _deviceUID)
@@ -37,10 +37,33 @@ namespace GKModule.ViewModels
 
 			var allUsers = UnionUsers(deviceUsers, dbUsers);
 			InitializeCollections(allUsers, deviceUsers, dbUsers);
+			CurrentIndex = 0;
 		}
 
+		GKUserViewModel _selectedDeviceUser;
+		public GKUserViewModel SelectedDeviceUser
+		{
+			get { return _selectedDeviceUser; }
+			set
+			{
+				_selectedDeviceUser = value;
+				OnPropertyChanged(() => SelectedDeviceUser);
+			}
+		}
+		
 		public ObservableCollection<GKUserViewModel> DeviceUsers { get; private set; }
 
+		GKUserViewModel _selectedDbUser;
+		public GKUserViewModel SelectedDbUser
+		{
+			get { return _selectedDbUser; }
+			set
+			{
+				_selectedDbUser = value;
+				OnPropertyChanged(() => SelectedDbUser);
+			}
+		}
+		
 		public ObservableCollection<GKUserViewModel> DbUsers { get; private set; }
 
 		public RelayCommand RewriteUsersCommand { get; private set; }
@@ -55,16 +78,42 @@ namespace GKModule.ViewModels
 				Close();
 		}
 
+		int CurrentIndex
+		{
+			get 
+			{ 
+				return DeviceUsers.IndexOf(SelectedDeviceUser); 
+			}
+			set
+			{
+				if (DeviceUsers.Count > value)
+				{
+					SelectedDeviceUser = DeviceUsers[value];
+					SelectedDbUser = DbUsers[value];
+				}
+			}
+		}
+
+		List<int> MismatchedIndexes { get { return DeviceUsers.Where(x => x.IsMissmatch).Select(x => DeviceUsers.IndexOf(x)).ToList(); } }
+
 		public RelayCommand PreviousConflictCommand { get; private set; }
 		void OnPreviousConflict()
 		{
-			;
+			CurrentIndex = MismatchedIndexes.LastOrDefault(x => x < CurrentIndex);
 		}
-
+		bool CanPreviousConflict()
+		{
+			return MismatchedIndexes.Any(x => x < CurrentIndex);
+		}
+		
 		public RelayCommand NextConflictCommand { get; private set; }
 		void OnNextConflict()
 		{
-			;
+			CurrentIndex = MismatchedIndexes.FirstOrDefault(x => x > CurrentIndex);
+		}
+		bool CanNextConflict()
+		{
+			return MismatchedIndexes.Any(x => x > CurrentIndex);
 		}
 
 		List<GKUser> UnionUsers(List<GKUser> deviceUsers, List<GKUser> dbUsers)
@@ -92,11 +141,11 @@ namespace GKModule.ViewModels
 			DbUsers = new ObservableCollection<GKUserViewModel>();
 			foreach (var user in allUsers)
 			{
-				var deviceViewModel = new GKUserViewModel(user, isDevice: true);
-				var dbViewModel = new GKUserViewModel(user, isDevice: false);
 				var deviceUser = deviceUsers.FirstOrDefault(x => x.Password == user.Password);
 				var dbUser = dbUsers.FirstOrDefault(x => x.Password == user.Password);
-
+				var deviceViewModel = new GKUserViewModel(deviceUser, isDevice: true);
+				var dbViewModel = new GKUserViewModel(dbUser, isDevice: false);
+				
 				if (deviceUser != null && dbUser == null)
 				{
 					deviceViewModel.IsPresent = true;
@@ -115,8 +164,17 @@ namespace GKModule.ViewModels
 							.Any(x => 
 								!dbUser.Descriptors.Any(y => y.DescriptorNo == x.DescriptorNo && y.ScheduleNo == x.ScheduleNo))))
 				{
-					deviceViewModel.HasNonStructureDifferences = true;
-					dbViewModel.HasNonStructureDifferences = true;
+					deviceViewModel.IsDescriptorMissmatch = true;
+					dbViewModel.IsDescriptorMissmatch = true;
+				}
+				else if (deviceUser.Fio != dbUser.Fio ||
+					deviceUser.IsActive != dbUser.IsActive ||
+					deviceUser.UserType != dbUser.UserType ||
+					deviceUser.GkLevel != dbUser.GkLevel ||
+					deviceUser.GkLevelSchedule != dbUser.GkLevelSchedule)
+				{
+					deviceViewModel.IsNonStructureMissmatch = true;
+					dbViewModel.IsNonStructureMissmatch = true;
 				}
 				DeviceUsers.Add(deviceViewModel);
 				DbUsers.Add(dbViewModel);

@@ -167,8 +167,8 @@ namespace RubezhDAL.DataClasses
 		{
 			try
 			{
-				var query = BuildArchiveQuery(filter);
-				var tableItems = query.Skip((page - 1) * filter.PageSize).Take(filter.PageSize).ToList();
+				var query = BuildArchiveQuery(filter).Skip((page - 1) * filter.PageSize).Take(filter.PageSize);
+				var tableItems = query.ToList();
 				var journalItems = new List<JournalItem>(tableItems.Select(x => Translate(x))); ;
 				return new OperationResult<List<JournalItem>>(journalItems);
 			}

@@ -346,7 +346,7 @@ namespace Infrastructure.Automation
 						break;
 					}
 			}
-			ProcedureExecutionContext.SynchronizeVariable(ClientUID, resultVariable, ContextType.Server);
+			ProcedureExecutionContext.SynchronizeVariable(resultVariable, ClientUID);
 		}
 
 		void FindObjects(ProcedureStep procedureStep)
@@ -368,7 +368,7 @@ namespace Infrastructure.Automation
 			if (item == null)
 				return;
 			var propertyValue = GetPropertyValue(getObjectPropertyArguments.Property, item);
-			ProcedureExecutionContext.SetVariableValue(ClientUID, target, propertyValue);
+			ProcedureExecutionContext.SetVariableValue(target, propertyValue, ClientUID);
 		}
 
 		Guid GetObjectUid(object item)
@@ -1118,9 +1118,9 @@ namespace Infrastructure.Automation
 			var variable = AllVariables.FirstOrDefault(x => x.Uid == incrementValueArguments.ResultArgument.VariableUid);
 			var value = GetValue<int>(incrementValueArguments.ResultArgument);
 			if (incrementValueArguments.IncrementType == IncrementType.Inc)
-				ProcedureExecutionContext.SetVariableValue(ClientUID, variable, value + 1);
+				ProcedureExecutionContext.SetVariableValue(variable, value + 1, ClientUID);
 			else
-				ProcedureExecutionContext.SetVariableValue(ClientUID, variable, value - 1);
+				ProcedureExecutionContext.SetVariableValue(variable, value - 1, ClientUID);
 		}
 
 		void GetRandomValue(ProcedureStep procedureStep)
@@ -1141,7 +1141,7 @@ namespace Infrastructure.Automation
 			variable.EnumType = changeListArguments.ItemArgument.EnumType;
 			variable.ObjectType = changeListArguments.ItemArgument.ObjectType;
 			var itemValue = GetValue<object>(changeListArguments.ItemArgument);
-			ProcedureExecutionContext.SetVariableValue(ClientUID, variable, itemValue);
+			ProcedureExecutionContext.SetVariableValue(variable, itemValue, ClientUID);
 			var explicitValue = variable.ExplicitValue;
 			if (listVariable != null)
 			{
@@ -1192,18 +1192,18 @@ namespace Infrastructure.Automation
 			var getListItemArgument = procedureStep.GetListItemArguments;
 			var listVariable = AllVariables.FirstOrDefault(x => x.Uid == getListItemArgument.ListArgument.VariableUid);
 			var itemVariable = AllVariables.FirstOrDefault(x => x.Uid == getListItemArgument.ItemArgument.VariableUid);
-			if ((itemVariable != null) && (listVariable != null))
+			if (itemVariable != null && listVariable != null)
 			{
-				ProcedureExecutionContext.SynchronizeVariable(ClientUID, listVariable, ContextType.Client);
+				ProcedureExecutionContext.SynchronizeVariable(listVariable, ClientUID);
 				if (getListItemArgument.PositionType == PositionType.First)
-					ProcedureExecutionContext.SetVariableValue(ClientUID, itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues.FirstOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType));
+					ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues.FirstOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType), ClientUID);
 				if (getListItemArgument.PositionType == PositionType.Last)
-					ProcedureExecutionContext.SetVariableValue(ClientUID, itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues.LastOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType));
+					ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues.LastOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType), ClientUID);
 				if (getListItemArgument.PositionType == PositionType.ByIndex)
 				{
 					var indexValue = GetValue<int>(getListItemArgument.IndexArgument);
 					if (listVariable.ExplicitValues.Count > indexValue)
-						ProcedureExecutionContext.SetVariableValue(ClientUID, itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues[indexValue], itemVariable.ExplicitType, itemVariable.EnumType));
+						ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues[indexValue], itemVariable.ExplicitType, itemVariable.EnumType), ClientUID);
 				}
 			}
 		}
@@ -1227,7 +1227,7 @@ namespace Infrastructure.Automation
 					value = JournalItem.JournalObjectType;
 				if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalObjectUid)
 					value = JournalItem.ObjectUID.ToString();
-				ProcedureExecutionContext.SetVariableValue(ClientUID, resultVariable, value);
+				ProcedureExecutionContext.SetVariableValue(resultVariable, value, ClientUID);
 			}
 		}
 
@@ -1270,21 +1270,15 @@ namespace Infrastructure.Automation
 		void SetValue(ProcedureStep procedureStep)
 		{
 			var setValueArguments = procedureStep.SetValueArguments;
-			var sourceVariable = AllVariables.FirstOrDefault(x => x.Uid == setValueArguments.SourceArgument.VariableUid);
-			var targetVariable = AllVariables.FirstOrDefault(x => x.Uid == setValueArguments.TargetArgument.VariableUid);
-			if (targetVariable == null)
-				return;
+			var value = GetValue<object>(setValueArguments.SourceArgument);
 			if (setValueArguments.ExplicitType == ExplicitType.String)
-			{
-				var value = GetValue<object>(setValueArguments.SourceArgument);
-				targetVariable.ExplicitValue.StringValue = value.GetType().IsEnum ? ((Enum)value).ToDescription() : value.ToString();
-			}
-			else
-				PropertyCopy.Copy(
-					sourceVariable != null ? sourceVariable.ExplicitValue : setValueArguments.SourceArgument.ExplicitValue,
-					targetVariable.ExplicitValue);
+				value = GetStringValue(value);
+			SetValue(setValueArguments.TargetArgument, value);
+		}
 
-			targetVariable.OnExplicitValueChanged();
+		void SetValue(Argument argument, object value)
+		{
+			ProcedureExecutionContext.SetVariableValue(AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid), value, ClientUID);
 		}
 
 		void ExportJournal(ProcedureStep procedureStep)
@@ -1339,11 +1333,6 @@ namespace Infrastructure.Automation
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
 			var path = GetValue<string>(arguments.PathArgument);
 			ProcedureExecutionContext.ImportOrganisationList(ClientUID, isWithDeleted, path);
-		}
-
-		void SetValue(Argument argument, object propertyValue)
-		{
-			ProcedureExecutionContext.SetVariableValue(ClientUID, AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid), propertyValue);
 		}
 
 		T GetValue<T>(Argument argument)

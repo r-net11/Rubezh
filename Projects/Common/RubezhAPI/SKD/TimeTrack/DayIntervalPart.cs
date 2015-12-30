@@ -11,15 +11,24 @@ namespace RubezhAPI.SKD
 			BeginTime = new TimeSpan(0, 0, 0);
 			EndTime = new TimeSpan(0, 0, 0);
 		}
-
+		public double BeginTimeTotalSeconds { private get; set; }
+		public double EndTimeTotalSeconds { private get; set; }
 		[DataMember]
 		public Guid DayIntervalUID { get; set; }
 
 		[DataMember]
-		public TimeSpan BeginTime { get; set; }
+		public TimeSpan BeginTime
+		{
+			get { return new TimeSpan(0, 0, 0, (int)BeginTimeTotalSeconds); }
+			set { BeginTimeTotalSeconds = value.TotalSeconds; }
+		}
 
 		[DataMember]
-		public TimeSpan EndTime { get; set; }
+		public TimeSpan EndTime
+		{
+			get { return new TimeSpan(0, 0, 0, (int)EndTimeTotalSeconds); }
+			set { EndTimeTotalSeconds = value.TotalSeconds; }
+		}
 
 		[DataMember]
 		public DayIntervalPartTransitionType TransitionType { get; set; }

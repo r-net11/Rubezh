@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Threading;
-using RubezhAPI.Automation;
+﻿using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace Infrastructure.Automation
 {
@@ -16,8 +17,8 @@ namespace Infrastructure.Automation
 		{
 			callback.CallbackUID = Guid.NewGuid();
 			callback.ContextType = this.ContextType;
-			if (callback.Data != null)
-				callback.Data.LayoutFilter = GetLayoutFilter(arguments);
+			if (callback.Data is UIAutomationCallbackData)
+				(callback.Data as UIAutomationCallbackData).LayoutFilter = GetLayoutFilter(arguments);
 			_callbackResponse = null;
 			if (withResponse)
 			{
@@ -48,11 +49,11 @@ namespace Infrastructure.Automation
 
 		private Guid? GetClientUID(UIArguments arguments)
 		{
-			return arguments.ForAllClients ? null : (Guid?)ClientUID;
+			return arguments == null || arguments.ForAllClients ? null : (Guid?)ClientUID;
 		}
-		private ProcedureLayoutCollection GetLayoutFilter(UIArguments arguments)
+		private List<Guid> GetLayoutFilter(UIArguments arguments)
 		{
-			return arguments.LayoutFilter == null || arguments.LayoutFilter.LayoutsUIDs == null || arguments.LayoutFilter.LayoutsUIDs.Count == 0 ? null : arguments.LayoutFilter;
+			return arguments == null || arguments.LayoutFilter == null || arguments.LayoutFilter.Count == 0 ? null : arguments.LayoutFilter;
 		}
 	}
 }

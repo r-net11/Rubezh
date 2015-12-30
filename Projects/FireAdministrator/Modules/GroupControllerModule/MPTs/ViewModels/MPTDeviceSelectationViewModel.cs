@@ -1,25 +1,24 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using RubezhAPI.GK;
-using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.Generic;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using RubezhAPI.GK;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace GKModule.ViewModels
 {
 	public class MPTDeviceSelectationViewModel : SaveCancelDialogViewModel
 	{
-		GKDevice _selectedDevice;
+		GKDevice oldSelectedDevice;
+		public GKMPTDevice MptDevice { get; set; }
 		public ObservableCollection<GKDevice> Devices { get { return DeviceSelectationViewModel.Devices; } }
 		public GKDevice SelectedDevice
 		{
 			get { return DeviceSelectationViewModel.SelectedDevice; }
 			set { DeviceSelectationViewModel.SelectedDevice = value; }
 		}
-		public MPTDeviceSelectationViewModel(GKDevice selectedDevice,GKMPTDeviceType selectedGkMptDeviceType)
+		public MPTDeviceSelectationViewModel(GKMPTDevice mptDevice = null)
 		{
-			Title = "Настройка устройства МПТ";
-
 			AvailableMPTDeviceTypes = new ObservableCollection<MPTDeviceTypeViewModel>();
 			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(GKMPTDeviceType.DoNotEnterBoard));
 			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(GKMPTDeviceType.ExitBoard));
@@ -30,8 +29,22 @@ namespace GKModule.ViewModels
 			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(GKMPTDeviceType.HandAutomaticOn));
 			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(GKMPTDeviceType.HandAutomaticOff));
 			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(GKMPTDeviceType.Bomb));
-			_selectedDevice = selectedDevice;
-			SelectedMPTDeviceType = AvailableMPTDeviceTypes.FirstOrDefault(x => x.MPTDeviceType == selectedGkMptDeviceType);
+			if (mptDevice == null)
+			{
+				Title = "Создание устройства МПТ";
+				MptDevice = new GKMPTDevice { MPTDeviceType = AvailableMPTDeviceTypes.First().MPTDeviceType };
+			}
+			else
+			{
+				Title = "Настройка устройства МПТ";
+				MptDevice = mptDevice;
+			}
+			CopyProperties();
+		}
+		void CopyProperties()
+		{
+			oldSelectedDevice = MptDevice.Device;
+			SelectedMPTDeviceType = AvailableMPTDeviceTypes.FirstOrDefault(x => x.MPTDeviceType == MptDevice.MPTDeviceType);
 		}
 		DeviceSelectationViewModel _deviceSelectationViewModel;
 		public DeviceSelectationViewModel DeviceSelectationViewModel
@@ -58,14 +71,21 @@ namespace GKModule.ViewModels
 				foreach (var device in GKManager.Devices)
 				{
 					if (GKMPTDevice.GetAvailableMPTDriverTypes(_selectedMPTDeviceType.MPTDeviceType).Any(x => device.DriverType == x))
-						if (!(device.IsInMPT && device != _selectedDevice) || device.Driver.IsCardReaderOrCodeReader)
+						if (!(device.IsInMPT && device != oldSelectedDevice) || device.Driver.IsCardReaderOrCodeReader)
 							devices.Add(device);
 				}
-				DeviceSelectationViewModel = new DeviceSelectationViewModel(_selectedDevice, devices);
+				DeviceSelectationViewModel = new DeviceSelectationViewModel(oldSelectedDevice, devices);
 				OnPropertyChanged(() => SelectedMPTDeviceType);
 			}
 		}
-
+		protected override bool Save()
+		{
+			MPTViewModel.ChangeIsInMPT(oldSelectedDevice, false);
+			MptDevice.Device = SelectedDevice;
+			MptDevice.DeviceUID = SelectedDevice.UID;
+			MptDevice.MPTDeviceType = SelectedMPTDeviceType.MPTDeviceType;
+			return base.Save();
+		}
 		protected override bool CanSave()
 		{
 			return SelectedMPTDeviceType != null && SelectedDevice != null;

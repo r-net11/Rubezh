@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
+using Ionic.Zip;
+using RubezhAPI;
+using RubezhAPI.GK;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ionic.Zip;
-using RubezhAPI.GK;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
-using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
@@ -30,7 +31,7 @@ namespace GKModule.ViewModels
 		{
 			Title = "Сравнение конфигураций " + device.PresentationName;
 			ChangeCurrentGkCommand = new RelayCommand(OnChangeCurrentGk);
-			OpenGkConfigurationFileCommand = new RelayCommand(OnOpenGkConfigurationFile, CanOpenGkConfigurationFile);
+			LoadConfigurationFromFileCommand = new RelayCommand(OnLoadConfigurationFromFile);
 			NextDifferenceCommand = new RelayCommand(OnNextDifference, CanNextDifference);
 			PreviousDifferenceCommand = new RelayCommand(OnPreviousDifference, CanPreviousDifference);
 
@@ -128,18 +129,18 @@ namespace GKModule.ViewModels
 			Close(true);
 		}
 
-		public RelayCommand OpenGkConfigurationFileCommand { get; private set; }
-		void OnOpenGkConfigurationFile()
+		public RelayCommand LoadConfigurationFromFileCommand { get; private set; }
+		void OnLoadConfigurationFromFile()
 		{
-			ServiceFactory.Events.GetEvent<LoadFromFileEvent>().Publish(ConfigFileName);
-			Close(true);
+			var result = true;
+			if (OnlyGKDeviceConfiguration)
+				result = MessageBoxService.ShowQuestion("Файл содержит только конфигурацию устройств. При его открытии будут утеряны макеты и планы.\nОткрыть файл?");
+			if (result)
+			{
+				ServiceFactory.Events.GetEvent<LoadFromFileEvent>().Publish(ConfigFileName);
+				Close(true);
+			}
 		}
-
-		public bool CanOpenGkConfigurationFile()
-		{
-			return !OnlyGKDeviceConfiguration;
-		}
-
 		public void CompareObjectLists()
 		{
 			var unionObjects = CreateUnionObjectList(LocalObjectsViewModel.Objects, RemoteObjectsViewModel.Objects);
@@ -291,7 +292,7 @@ namespace GKModule.ViewModels
 			var pumpStationsDifferences = new StringBuilder();
 			if (object1.Name != object2.Name)
 				pumpStationsDifferences.Append("Не совпадает название");
-			if (object1.PumpStation.NSDevices.Any(nsDevice1 => object2.PumpStation.NSDevices.All(nsDevice2 => !IsEqualDevice(nsDevice1,nsDevice2)))
+			if (object1.PumpStation.NSDevices.Any(nsDevice1 => object2.PumpStation.NSDevices.All(nsDevice2 => !IsEqualDevice(nsDevice1, nsDevice2)))
 				|| object1.PumpStation.NSDevices.Count < object2.PumpStation.NSDevices.Count)
 			{
 				if (pumpStationsDifferences.Length != 0)
@@ -348,7 +349,7 @@ namespace GKModule.ViewModels
 				mptsDifferences.Add("Не совпадает название");
 			var devices1 = object1.MPT.MPTDevices.Select(x => x.Device);
 			var devices2 = object2.MPT.MPTDevices.Select(x => x.Device);
-			if (devices1.Any(nsDevice1 => devices2.All(nsDevice2 => !IsEqualDevice(nsDevice1,nsDevice2)))
+			if (devices1.Any(nsDevice1 => devices2.All(nsDevice2 => !IsEqualDevice(nsDevice1, nsDevice2)))
 				|| devices1.Count() < devices2.Count())
 			{
 				mptsDifferences.Add("Не совпадают устройства");
@@ -427,7 +428,7 @@ namespace GKModule.ViewModels
 			{
 				differences.Add("Не совпадает пароль");
 			}
-			return differences.ToString() == "" ? null : differences.ToString();
+			return string.Join(". ", differences);
 		}
 
 
@@ -513,7 +514,7 @@ namespace GKModule.ViewModels
 		{
 			if (device1 == null && device2 == null)
 				return true;
-			if (device1 == null && device2  !=null)
+			if (device1 == null && device2 != null)
 				return false;
 			if (device1 != null && device2 == null)
 				return false;

@@ -5,6 +5,11 @@ using Infrastructure.Common;
 using Infrustructure.Plans.Designer;
 using PlansModule.Designer;
 using PlansModule.InstrumentAdorners;
+using Infrastructure;
+using System.Linq;
+using Infrastructure.Designer.Events;
+using System;
+using RubezhClient;
 
 namespace PlansModule.ViewModels
 {
@@ -15,6 +20,8 @@ namespace PlansModule.ViewModels
 
 		public PlanDesignerViewModel(PlansViewModel plansViewModel)
 		{
+			ServiceFactory.Events.GetEvent<CheckOnlyOneValue>().Subscribe(OnCheck);
+
 			PlansViewModel = plansViewModel;
 			DesignerCanvas = new DesignerCanvas(this);
 			DesignerCanvas.Toolbox.IsRightPanel = true;
@@ -55,6 +62,11 @@ namespace PlansModule.ViewModels
 				}
 			}
 			ResetHistory();
+		}
+
+		void OnCheck(Guid uid)
+		{
+			Flag = !ClientManager.PlansConfiguration.AllPlans.Any(x => x.ElementGKDevices.Any(y => y.DeviceUID == uid));
 		}
 
 		public override void RegisterDesignerItem(DesignerItem designerItem)
