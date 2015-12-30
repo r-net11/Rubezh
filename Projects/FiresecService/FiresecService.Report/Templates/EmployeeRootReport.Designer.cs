@@ -28,172 +28,257 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.GroupHeader1 = new DevExpress.XtraReports.UI.GroupHeaderBand();
-			this.xrTable1 = new DevExpress.XtraReports.UI.XRTable();
-			this.xrTableRow1 = new DevExpress.XtraReports.UI.XRTableRow();
-			this.xrTableCell1 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell2 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.employeeRootDataSet1 = new FiresecService.Report.DataSources.EmployeeRootDataSet();
-			this.xrTable2 = new DevExpress.XtraReports.UI.XRTable();
-			this.xrTableRow2 = new DevExpress.XtraReports.UI.XRTableRow();
-			this.xrTableCell3 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrTableCell5 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrControlStyle1 = new DevExpress.XtraReports.UI.XRControlStyle();
-			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.employeeRootDataSet1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.xrTable2)).BeginInit();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EmployeeRootReport));
+			PositionOrEscortLabel = new DevExpress.XtraReports.UI.XRLabel();
+			OrganisationLabel = new DevExpress.XtraReports.UI.XRLabel();
+			EmployeeNameLabel = new DevExpress.XtraReports.UI.XRLabel();
+			DepartmentLabel = new DevExpress.XtraReports.UI.XRLabel();
+			DetailReport = new DevExpress.XtraReports.UI.DetailReportBand();
+			Detail1 = new DevExpress.XtraReports.UI.DetailBand();
+			DataTable = new DevExpress.XtraReports.UI.XRTable();
+			DataRow = new DevExpress.XtraReports.UI.XRTableRow();
+			DateTimeCell = new DevExpress.XtraReports.UI.XRTableCell();
+			ZoneCell = new DevExpress.XtraReports.UI.XRTableCell();
+			GroupHeader1 = new DevExpress.XtraReports.UI.GroupHeaderBand();
+			HeaderTable = new DevExpress.XtraReports.UI.XRTable();
+			HeaderRow = new DevExpress.XtraReports.UI.XRTableRow();
+			DateTimeHeaderCell = new DevExpress.XtraReports.UI.XRTableCell();
+			ZoneHeaderCell = new DevExpress.XtraReports.UI.XRTableCell();
+			xrControlStyle1 = new DevExpress.XtraReports.UI.XRControlStyle();
+			((System.ComponentModel.ISupportInitialize)(DataTable)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(HeaderTable)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
 			// 
 			// Detail
 			// 
-			this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.xrTable2});
-			this.Detail.HeightF = 63.5F;
+			Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+			PositionOrEscortLabel,
+			OrganisationLabel,
+			EmployeeNameLabel,
+			DepartmentLabel});
+			Detail.Dpi = 254F;
+			Detail.HeightF = 152F;
+			Detail.KeepTogether = true;
+			Detail.KeepTogetherWithDetailReports = true;
+			Detail.Name = "Detail";
+			// 
+			// EmployeeNameLabel
+			// 
+			EmployeeNameLabel.Dpi = 254F;
+			EmployeeNameLabel.LocationFloat = new DevExpress.Utils.PointFloat(25.40002F, 25.40002F);
+			EmployeeNameLabel.Name = "EmployeeNameLabel";
+			EmployeeNameLabel.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
+			EmployeeNameLabel.SizeF = new System.Drawing.SizeF(824.5997F, 50.8F);
+			EmployeeNameLabel.StylePriority.UseTextAlignment = false;
+			EmployeeNameLabel.Text = "EmployeeNameLabel";
+			EmployeeNameLabel.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
+			//
+			//PositionOrEscortLabel
+			//
+			PositionOrEscortLabel.Dpi = 254F;
+			PositionOrEscortLabel.LocationFloat = new DevExpress.Utils.PointFloat(868.5206F, 88.90002F);
+			PositionOrEscortLabel.Name = "PositionOrEscortLabel";
+			PositionOrEscortLabel.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
+			PositionOrEscortLabel.SizeF = new System.Drawing.SizeF(831.4792F, 50.8F);
+			PositionOrEscortLabel.StylePriority.UseTextAlignment = false;
+			PositionOrEscortLabel.Text = "PositionOrEscortLabel";
+			PositionOrEscortLabel.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
+			// 
+			// OrganisationLabel
+			// 
+			OrganisationLabel.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Organisation", "Организация: {0}")});
+			OrganisationLabel.Dpi = 254F;
+			OrganisationLabel.LocationFloat = new DevExpress.Utils.PointFloat(25.40002F, 88.90002F);
+			OrganisationLabel.Name = "OrganisationLabel";
+			OrganisationLabel.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
+			OrganisationLabel.SizeF = new System.Drawing.SizeF(824.5997F, 50.8F);
+			OrganisationLabel.StylePriority.UseTextAlignment = false;
+			OrganisationLabel.Text = "OrganisationLabel";
+			OrganisationLabel.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
+			// 
+			// DepartmentLabel
+			// 
+			DepartmentLabel.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Department", "Подразделение: {0}")});
+			DepartmentLabel.Dpi = 254F;
+			DepartmentLabel.LocationFloat = new DevExpress.Utils.PointFloat(868.5206F, 25.40002F);
+			DepartmentLabel.Name = "DepartmentLabel";
+			DepartmentLabel.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
+			DepartmentLabel.SizeF = new System.Drawing.SizeF(831.4792F, 50.8F);
+			DepartmentLabel.StylePriority.UseTextAlignment = false;
+			DepartmentLabel.Text = "DepartmentLabel";
+			DepartmentLabel.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
+			// 
+			// DetailReport
+			// 
+			DetailReport.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
+			Detail1,
+			GroupHeader1});
+			DetailReport.DataMember = "Employee.Employee_Data";
+			DetailReport.Dpi = 254F;
+			DetailReport.Level = 0;
+			DetailReport.Name = "DetailReport";
+			DetailReport.PageBreak = DevExpress.XtraReports.UI.PageBreak.AfterBand;
+			DetailReport.ReportPrintOptions.DetailCountOnEmptyDataSource = 0;
+			// 
+			// Detail1
+			// 
+			Detail1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+			DataTable});
+			Detail1.Dpi = 254F;
+			Detail1.HeightF = 64F;
+			Detail1.Name = "Detail1";
+			Detail1.SortFields.AddRange(new DevExpress.XtraReports.UI.GroupField[] {
+			new DevExpress.XtraReports.UI.GroupField("DateTime", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
+			// 
+			// DataTable
+			// 
+			DataTable.Borders = ((DevExpress.XtraPrinting.BorderSide)(((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Right)
+			| DevExpress.XtraPrinting.BorderSide.Bottom)));
+			DataTable.Dpi = 254F;
+			DataTable.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
+			DataTable.Name = "DataTable";
+			DataTable.OddStyleName = "xrControlStyle1";
+			DataTable.Padding = new DevExpress.XtraPrinting.PaddingInfo(3, 3, 3, 3, 254F);
+			DataTable.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
+			DataRow});
+			DataTable.SizeF = new System.Drawing.SizeF(1700F, 63.5F);
+			DataTable.StylePriority.UseBorders = false;
+			DataTable.StylePriority.UsePadding = false;
+			DataTable.StylePriority.UseTextAlignment = false;
+			DataTable.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
+			// 
+			// DataRow
+			// 
+			//DataRow.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
+			//DateTimeCell,
+			//AccessPointCell,
+			//ZoneCell,
+			//PassCell});
+			DataRow.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
+			DateTimeCell,
+			ZoneCell});
+			DataRow.Dpi = 254F;
+			DataRow.Name = "DataRow";
+			DataRow.Weight = 11.5D;
+			// 
+			// DateTimeCell
+			// 
+			DateTimeCell.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Employee_Data.DateTime", "{0:dd.MM.yyyy H:mm:ss}")});
+			DateTimeCell.Dpi = 254F;
+			DateTimeCell.Name = "DateTimeCell";
+			DateTimeCell.StylePriority.UseTextAlignment = false;
+			DateTimeCell.WidthF = 600F;
+			// 
+			// ZoneCell
+			// 
+			ZoneCell.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Employee_Data.Zone")});
+			ZoneCell.Dpi = 254F;
+			ZoneCell.Name = "ZoneCell";
+			ZoneCell.WidthF = 1100F;
 			// 
 			// GroupHeader1
 			// 
-			this.GroupHeader1.BackColor = System.Drawing.Color.LightGray;
-			this.GroupHeader1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.xrTable1});
-			this.GroupHeader1.Dpi = 254F;
-			this.GroupHeader1.GroupUnion = DevExpress.XtraReports.UI.GroupUnion.WithFirstDetail;
-			this.GroupHeader1.HeightF = 64F;
-			this.GroupHeader1.KeepTogether = true;
-			this.GroupHeader1.Name = "GroupHeader1";
-			this.GroupHeader1.RepeatEveryPage = true;
-			this.GroupHeader1.StylePriority.UseBackColor = false;
+			GroupHeader1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+			HeaderTable});
+			GroupHeader1.Dpi = 254F;
+			GroupHeader1.GroupUnion = DevExpress.XtraReports.UI.GroupUnion.WithFirstDetail;
+			GroupHeader1.HeightF = 64F;
+			GroupHeader1.KeepTogether = true;
+			GroupHeader1.Name = "GroupHeader1";
+			GroupHeader1.RepeatEveryPage = true;
 			// 
-			// xrTable1
+			// HeaderTable
 			// 
-			this.xrTable1.BackColor = System.Drawing.Color.DarkGray;
-			this.xrTable1.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
-            | DevExpress.XtraPrinting.BorderSide.Right) 
-            | DevExpress.XtraPrinting.BorderSide.Bottom)));
-			this.xrTable1.Dpi = 254F;
-			this.xrTable1.KeepTogether = true;
-			this.xrTable1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0.4999695F);
-			this.xrTable1.Name = "xrTable1";
-			this.xrTable1.Padding = new DevExpress.XtraPrinting.PaddingInfo(3, 3, 3, 3, 254F);
-			this.xrTable1.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
-            this.xrTableRow1});
-			this.xrTable1.SizeF = new System.Drawing.SizeF(1700F, 63.5F);
-			this.xrTable1.StylePriority.UseBorders = false;
-			this.xrTable1.StylePriority.UsePadding = false;
-			this.xrTable1.StylePriority.UseTextAlignment = false;
-			this.xrTable1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+			HeaderTable.BackColor = System.Drawing.Color.DarkGray;
+			HeaderTable.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top)
+			| DevExpress.XtraPrinting.BorderSide.Right)
+			| DevExpress.XtraPrinting.BorderSide.Bottom)));
+			HeaderTable.Dpi = 254F;
+			HeaderTable.KeepTogether = true;
+			HeaderTable.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
+			HeaderTable.Name = "HeaderTable";
+			HeaderTable.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
+			HeaderRow});
+			HeaderTable.SizeF = new System.Drawing.SizeF(1700F, 63.5F);
+			HeaderTable.StylePriority.UseBackColor = false;
+			HeaderTable.StylePriority.UseBorders = false;
+			HeaderTable.StylePriority.UseTextAlignment = false;
+			HeaderTable.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
 			// 
-			// xrTableRow1
+			// HeaderRow
 			// 
-			this.xrTableRow1.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
-            this.xrTableCell1,
-            this.xrTableCell2});
-			this.xrTableRow1.Dpi = 254F;
-			this.xrTableRow1.Name = "xrTableRow1";
-			this.xrTableRow1.Weight = 11.5D;
+			HeaderRow.BackColor = System.Drawing.Color.DarkGray;
+			HeaderRow.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
+			DateTimeHeaderCell,
+			ZoneHeaderCell});
+			HeaderRow.Dpi = 254F;
+			HeaderRow.Name = "HeaderRow";
+			HeaderRow.Padding = new DevExpress.XtraPrinting.PaddingInfo(3, 3, 3, 3, 254F);
+			HeaderRow.StylePriority.UsePadding = false;
+			HeaderRow.StylePriority.UseTextAlignment = false;
+			HeaderRow.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+			HeaderRow.Weight = 11.5D;
 			// 
-			// xrTableCell1
+			// DateTimeHeaderCell
 			// 
-			this.xrTableCell1.Dpi = 254F;
-			this.xrTableCell1.Name = "xrTableCell1";
-			this.xrTableCell1.Text = "Дата/время прохода";
-			this.xrTableCell1.Weight = 0.12032424464473662D;
+			DateTimeHeaderCell.Dpi = 254F;
+			DateTimeHeaderCell.Name = "DateTimeHeaderCell";
+			DateTimeHeaderCell.Text = "Дата/время прохода";
+			//DateTimeHeaderCell.Weight = 0.29D;
+			DateTimeHeaderCell.WidthF = 600F;
 			// 
-			// xrTableCell2
+			// ZoneHeaderCell
 			// 
-			this.xrTableCell2.Dpi = 254F;
-			this.xrTableCell2.Name = "xrTableCell2";
-			this.xrTableCell2.Text = "Зона";
-			this.xrTableCell2.Weight = 0.18736806304757139D;
-			// 
-			// employeeRootDataSet1
-			// 
-			this.employeeRootDataSet1.DataSetName = "EmployeeRootDataSet";
-			this.employeeRootDataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-			// 
-			// xrTable2
-			// 
-			this.xrTable2.Borders = ((DevExpress.XtraPrinting.BorderSide)(((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Right) 
-            | DevExpress.XtraPrinting.BorderSide.Bottom)));
-			this.xrTable2.Dpi = 254F;
-			this.xrTable2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
-			this.xrTable2.Name = "xrTable2";
-			this.xrTable2.OddStyleName = "xrControlStyle1";
-			this.xrTable2.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
-            this.xrTableRow2});
-			this.xrTable2.SizeF = new System.Drawing.SizeF(1700F, 63.5F);
-			this.xrTable2.StylePriority.UseBorders = false;
-			// 
-			// xrTableRow2
-			// 
-			this.xrTableRow2.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
-            this.xrTableCell3,
-            this.xrTableCell5});
-			this.xrTableRow2.Dpi = 254F;
-			this.xrTableRow2.Name = "xrTableRow2";
-			this.xrTableRow2.Weight = 0.567901234567901D;
-			// 
-			// xrTableCell3
-			// 
-			this.xrTableCell3.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.DateTime")});
-			this.xrTableCell3.Dpi = 254F;
-			this.xrTableCell3.Name = "xrTableCell3";
-			this.xrTableCell3.StylePriority.UseTextAlignment = false;
-			this.xrTableCell3.Text = "xrTableCell3";
-			this.xrTableCell3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
-			this.xrTableCell3.Weight = 0.21178606106767542D;
-			// 
-			// xrTableCell5
-			// 
-			this.xrTableCell5.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Zone")});
-			this.xrTableCell5.Dpi = 254F;
-			this.xrTableCell5.Name = "xrTableCell5";
-			this.xrTableCell5.StylePriority.UseTextAlignment = false;
-			this.xrTableCell5.Text = "xrTableCell5";
-			this.xrTableCell5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
-			this.xrTableCell5.Weight = 0.32979176409223865D;
+			ZoneHeaderCell.Dpi = 254F;
+			ZoneHeaderCell.Name = "ZoneHeaderCell";
+			ZoneHeaderCell.Text = "Зона";
+			ZoneHeaderCell.WidthF = 1100F;
 			// 
 			// xrControlStyle1
 			// 
-			this.xrControlStyle1.BackColor = System.Drawing.Color.LightGray;
-			this.xrControlStyle1.Name = "xrControlStyle1";
-			this.xrControlStyle1.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 254F);
+			xrControlStyle1.BackColor = System.Drawing.Color.LightGray;
+			xrControlStyle1.Name = "xrControlStyle1";
+			xrControlStyle1.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 254F);
 			// 
 			// EmployeeRootReport
 			// 
-			this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
-            this.Detail,
-            this.GroupHeader1});
-			this.DataMember = "Data";
-			this.DataSource = this.employeeRootDataSet1;
-			this.DataSourceSchema = null;
-			this.ExportOptions.PrintPreview.ActionAfterExport = DevExpress.XtraPrinting.ActionAfterExport.Open;
-			this.ExportOptions.PrintPreview.ShowOptionsBeforeExport = false;
-			this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
-            this.xrControlStyle1});
-			this.Version = "15.1";
-			this.Controls.SetChildIndex(this.GroupHeader1, 0);
-			this.Controls.SetChildIndex(this.Detail, 0);
-			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.employeeRootDataSet1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.xrTable2)).EndInit();
+			Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
+			DetailReport});
+			DataMember = "Employee";
+			DataSourceSchema = resources.GetString("$DataSourceSchema");
+			ExportOptions.PrintPreview.ActionAfterExport = DevExpress.XtraPrinting.ActionAfterExport.Open;
+			ExportOptions.PrintPreview.ShowOptionsBeforeExport = false;
+			StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
+			xrControlStyle1});
+			Version = "14.1";
+			Controls.SetChildIndex(DetailReport, 0);
+			Controls.SetChildIndex(Detail, 0);
+			((System.ComponentModel.ISupportInitialize)(DataTable)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(HeaderTable)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
 		}
 
 		#endregion
-
-		private DevExpress.XtraReports.UI.GroupHeaderBand GroupHeader1;
-		private DevExpress.XtraReports.UI.XRTable xrTable1;
-		private DevExpress.XtraReports.UI.XRTableRow xrTableRow1;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell1;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell2;
-		private DataSources.EmployeeRootDataSet employeeRootDataSet1;
-		private DevExpress.XtraReports.UI.XRTable xrTable2;
-		private DevExpress.XtraReports.UI.XRTableRow xrTableRow2;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell3;
-		private DevExpress.XtraReports.UI.XRTableCell xrTableCell5;
-		private DevExpress.XtraReports.UI.XRControlStyle xrControlStyle1;
+		DevExpress.XtraReports.UI.XRLabel PositionOrEscortLabel;
+		DevExpress.XtraReports.UI.XRLabel OrganisationLabel;
+		DevExpress.XtraReports.UI.XRLabel EmployeeNameLabel;
+		DevExpress.XtraReports.UI.XRLabel DepartmentLabel;
+		DevExpress.XtraReports.UI.DetailReportBand DetailReport;
+		DevExpress.XtraReports.UI.DetailBand Detail1;
+		DevExpress.XtraReports.UI.GroupHeaderBand GroupHeader1;
+		DevExpress.XtraReports.UI.XRTable HeaderTable;
+		DevExpress.XtraReports.UI.XRTableRow HeaderRow;
+		DevExpress.XtraReports.UI.XRTableCell DateTimeHeaderCell;
+		DevExpress.XtraReports.UI.XRTableCell ZoneHeaderCell;
+		DevExpress.XtraReports.UI.XRTable DataTable;
+		DevExpress.XtraReports.UI.XRTableRow DataRow;
+		DevExpress.XtraReports.UI.XRTableCell DateTimeCell;
+		DevExpress.XtraReports.UI.XRTableCell ZoneCell;
+		DevExpress.XtraReports.UI.XRControlStyle xrControlStyle1;
 	}
 }
