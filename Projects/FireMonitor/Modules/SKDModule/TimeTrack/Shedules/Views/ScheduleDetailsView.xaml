@@ -126,7 +126,8 @@
 					Width="70"
 					VerticalAlignment="Center"
 					IsEnabled="{Binding IsEnabledAllowLate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-					Value="{Binding AllowedLate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					Value="{Binding AllowedLate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+					Minimum="0" />
 				<CheckBox
 					Grid.Row="1"
 					Grid.Column="1"
@@ -143,7 +144,8 @@
 					Margin="5"
 					VerticalAlignment="Center"
 					IsEnabled="{Binding IsAllowAbsent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-					Value="{Binding AllowedAbsentLowThan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					Value="{Binding AllowedAbsentLowThan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+					Minimum="0" />
 				<CheckBox
 					Grid.Row="2"
 					Grid.Column="1"
@@ -160,7 +162,8 @@
 					Margin="5"
 					VerticalAlignment="Center"
 					IsEnabled="{Binding IsEnabledAllowEarlyLeave, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-					Value="{Binding AllowedEarlyLeave, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					Value="{Binding AllowedEarlyLeave, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+					Minimum="0" />
 				<CheckBox
 					Grid.Row="3"
 					Grid.Column="1"
@@ -177,7 +180,8 @@
 					Margin="5"
 					VerticalAlignment="Center"
 					IsEnabled="{Binding IsEnabledOvertime, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-					Value="{Binding NotAllowOvertimeLowerThan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					Value="{Binding NotAllowOvertimeLowerThan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+					Minimum="0" />
 			</Grid>
 		</Grid>
 	</Grid>
