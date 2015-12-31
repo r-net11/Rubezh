@@ -1518,3 +1518,19 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsNightSettingsEnabledColumn
 		INSERT INTO Patches (Id) VALUES ('AddIsNightSettingsEnabledColumn')
 	END
 GO 
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Attachment')
+BEGIN
+	IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Attachment')
+	BEGIN
+		CREATE TABLE [dbo].[Attachment](
+			[UID] [uniqueidentifier] NOT NULL,
+			[Name] [varchar](255) NOT NULL,
+		CONSTRAINT [PK_Attachment] PRIMARY KEY CLUSTERED 
+		(
+			[UID] ASC
+		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+		) ON [PRIMARY]
+		INSERT INTO Patches (Id) VALUES ('Attachment')
+	END
+END
+GO

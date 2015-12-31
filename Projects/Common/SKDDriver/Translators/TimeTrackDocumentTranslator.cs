@@ -68,26 +68,34 @@ namespace SKDDriver.Translators
 			{
 				var tableTimeTrackDocuments = tableItems
 					.Where(x => x.EmployeeUID == employee.UID &&
-					((x.StartDateTime.Date >= startDateTime && x.StartDateTime.Date <= endDateTime) ||
-					 (x.EndDateTime.Date >= startDateTime && x.EndDateTime.Date <= endDateTime) ||
-					 (startDateTime >= x.StartDateTime.Date && startDateTime <= x.EndDateTime.Date) ||
-					 (endDateTime >= x.StartDateTime.Date && endDateTime <= x.EndDateTime.Date)));
+					            ((x.StartDateTime.Date >= startDateTime && x.StartDateTime.Date <= endDateTime) ||
+					             (x.EndDateTime.Date >= startDateTime && x.EndDateTime.Date <= endDateTime) ||
+					             (startDateTime >= x.StartDateTime.Date && startDateTime <= x.EndDateTime.Date) ||
+					             (endDateTime >= x.StartDateTime.Date && endDateTime <= x.EndDateTime.Date)));
 
-				var docsList = tableTimeTrackDocuments.Select(tableDoc => new TimeTrackDocument
+				var docsList = tableTimeTrackDocuments.Select(tableDoc =>
 				{
-					UID = tableDoc.UID,
-					EmployeeUID = tableDoc.EmployeeUID,
-					StartDateTime = tableDoc.StartDateTime,
-					EndDateTime = tableDoc.EndDateTime,
-					DocumentCode = tableDoc.DocumentCode,
-					Comment = tableDoc.Comment,
-					DocumentDateTime = tableDoc.DocumentDateTime,
-					DocumentNumber = tableDoc.DocumentNumber,
-					FileName = tableDoc.FileName,
-					IsOutside = tableDoc.IsOutside,
-					TimeTrackDocumentType = documentTypes.FirstOrDefault(x => x.Code == tableDoc.DocumentCode)
-				})
-				.ToList();
+					var result = new TimeTrackDocument
+					{
+						UID = tableDoc.UID,
+						EmployeeUID = tableDoc.EmployeeUID,
+						StartDateTime = tableDoc.StartDateTime,
+						EndDateTime = tableDoc.EndDateTime,
+						DocumentCode = tableDoc.DocumentCode,
+						Comment = tableDoc.Comment,
+						DocumentDateTime = tableDoc.DocumentDateTime,
+						DocumentNumber = tableDoc.DocumentNumber,
+						FileName = tableDoc.FileName,
+						IsOutside = tableDoc.IsOutside,
+						TimeTrackDocumentType = documentTypes.FirstOrDefault(x => x.Code == tableDoc.DocumentCode)
+					};
+
+					var attachment = Context.Attachments.FirstOrDefault(x => x.UID.ToString() == result.FileName);
+					if (attachment != null)
+						result.OriginalFileName = attachment.Name;
+		
+					return result;
+				}).ToList();
 
 				return new OperationResult<List<TimeTrackDocument>>(docsList);
 			}
@@ -181,7 +189,7 @@ namespace SKDDriver.Translators
 
 		private TimeTrackDocument Translate(DataAccess.TimeTrackDocument tableItem)
 		{
-			return new TimeTrackDocument()
+			var result = new TimeTrackDocument
 			{
 				UID = tableItem.UID,
 				EmployeeUID = tableItem.EmployeeUID,
@@ -195,6 +203,12 @@ namespace SKDDriver.Translators
 				DocumentNumber = tableItem.DocumentNumber,
 				TimeTrackDocumentType = DatabaseService.TimeTrackDocumentTypeTranslator.Get(tableItem.DocumentCode)
 			};
+
+			var attachment = Context.Attachments.FirstOrDefault(x => x.UID.ToString() == result.FileName);
+			if (attachment != null)
+				result.OriginalFileName = attachment.Name;
+
+			return result;
 		}
 
 		public TimeTrackDocument Get(Guid timeTrackDocumentUID)

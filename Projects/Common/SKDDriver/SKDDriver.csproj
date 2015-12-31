@@ -86,6 +86,7 @@
     <Compile Include="Synchronisers\PositionSynchroniser.cs" />
     <Compile Include="Translators\AdditionalColumnTranslator.cs" />
     <Compile Include="Translators\AdditionalColumnTypeTranslator.cs" />
+    <Compile Include="Translators\AttachmentTranslator.cs" />
     <Compile Include="Translators\Base\EmployeeTranslatorBase.cs" />
     <Compile Include="Translators\Base\IsDeletedTranslator.cs" />
     <Compile Include="Synchronisers\Synchroniser.cs" />

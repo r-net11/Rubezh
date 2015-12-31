@@ -44,7 +44,7 @@ namespace FiresecServiceRunner
 						new DispatcherSynchronizationContext(
 							Dispatcher.CurrentDispatcher));
 					// Create and show the Window
-					var tempWindow = new RegistrationWindow {DataContext = new RegistrationViewModel()};
+					var tempWindow = new RegistrationWindow { DataContext = new RegistrationViewModel() };
 					tempWindow.Closed += (s, er) => Dispatcher.CurrentDispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
 					tempWindow.Show();
 					// Start the Dispatcher Processing
