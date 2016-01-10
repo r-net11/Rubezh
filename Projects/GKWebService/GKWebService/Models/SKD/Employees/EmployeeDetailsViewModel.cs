@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using GKWebService.DataProviders.SKD;
 using RubezhAPI.SKD;
 using RubezhClient;
 
@@ -17,8 +18,8 @@ namespace GKWebService.Models.SKD.Employees
         {
             if (id.HasValue)
             {
-                var operationResult = ClientManager.FiresecService.GetEmployeeDetails(id.Value);
-                Employee = operationResult.Result;
+                var operationResult = EmployeeHelper.GetDetails(id.Value);
+                Employee = operationResult;
             }
             else
             {
@@ -38,7 +39,7 @@ namespace GKWebService.Models.SKD.Employees
             Employee.AdditionalColumns.ForEach(c => c.Photo = null);
         }
 
-        public string Save(bool isNew)
+        public bool Save(bool isNew)
         {
             if ((PhotoData != null && PhotoData.Length > 0) || Employee.Photo != null)
             {
@@ -50,8 +51,8 @@ namespace GKWebService.Models.SKD.Employees
                 }
                 Employee.Photo.Data = data;
             }
-            var operationResult = ClientManager.FiresecService.SaveEmployee(Employee, isNew);
-            return operationResult.Error;
+            var operationResult = EmployeeHelper.Save(Employee, isNew);
+            return operationResult;
         }
     }
 }

@@ -100,7 +100,7 @@ function PositionsViewModel() {
                 self.UpdateTree(data);
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert("request failed");
+                ShowError(xhr.responseText);
             },
         });
     };
@@ -149,6 +149,9 @@ function PositionsViewModel() {
                 } else {
                     self.RemovePosition();
                 }
+            })
+            .fail(function (jqxhr, textStatus, error) {
+                ShowError(jqxhr.responseText);
             });
         });
     };
@@ -163,7 +166,7 @@ function PositionsViewModel() {
                     self.ReloadTree();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    alert("request failed");
+                    ShowError(xhr.responseText);
                 }
             });
     };
@@ -184,14 +187,10 @@ function PositionsViewModel() {
             contentType: "application/json",
             data: JSON.stringify({ "position": self.Clipboard() }),
             success: function (error) {
-                if (error) {
-                    alert(error);
-                } else {
                     self.ReloadTree();
-                };
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert("request failed");
+                ShowError(xhr.responseText);
             }
         });
     };
@@ -219,7 +218,7 @@ function PositionsViewModel() {
                     self.ReloadTree();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    alert("request failed");
+                    ShowError(xhr.responseText);
                 }
             });
         });

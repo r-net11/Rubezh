@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using GKWebService.DataProviders.SKD;
 using GKWebService.Models.SKD.Common;
 using GKWebService.Utils;
 using RubezhAPI.SKD;
 using RubezhClient;
-using RubezhClient.SKDHelpers;
 
 namespace GKWebService.Models.SKD.Organisations
 {
@@ -38,12 +38,7 @@ namespace GKWebService.Models.SKD.Organisations
             }
             else
             {
-                var operationResult = ClientManager.FiresecService.GetOrganisationDetails(id.Value);
-                if (operationResult.HasError)
-                {
-                    throw new InvalidOperationException(operationResult.Error);
-                }
-                Organisation = operationResult.Result;
+                Organisation = OrganisationHelper.GetDetails(id.Value);
             }
 
             if (Organisation.Photo != null && Organisation.Photo.Data != null)
@@ -53,25 +48,17 @@ namespace GKWebService.Models.SKD.Organisations
             }
 
             var filter = new EmployeeFilter { LogicalDeletationType = LogicalDeletationType.All, UIDs = new List<Guid> { Organisation.ChiefUID }, IsAllPersonTypes = true };
-            var chiefOperationResult = ClientManager.FiresecService.GetEmployeeList(filter);
-            if (chiefOperationResult.HasError)
-            {
-                throw new InvalidOperationException(chiefOperationResult.Error);
-            }
-            IsChiefSelected = chiefOperationResult.Result.Any();
-            SelectedChief = chiefOperationResult.Result.Select(e => ShortEmployeeModel.CreateFromModel(e)).FirstOrDefault() ?? new ShortEmployeeModel();
+            var chiefOperationResult = EmployeeHelper.Get(filter);
+            IsChiefSelected = chiefOperationResult.Any();
+            SelectedChief = chiefOperationResult.Select(e => ShortEmployeeModel.CreateFromModel(e)).FirstOrDefault() ?? new ShortEmployeeModel();
 
             filter.UIDs = new List<Guid> {Organisation.HRChiefUID};
-            var hrChiefOperationResult = ClientManager.FiresecService.GetEmployeeList(filter);
-            if (hrChiefOperationResult.HasError)
-            {
-                throw new InvalidOperationException(hrChiefOperationResult.Error);
-            }
-            IsHRChiefSelected = hrChiefOperationResult.Result.Any();
-            SelectedHRChief = hrChiefOperationResult.Result.Select(e => ShortEmployeeModel.CreateFromModel(e)).FirstOrDefault() ?? new ShortEmployeeModel();
+            var hrChiefOperationResult = EmployeeHelper.Get(filter);
+            IsHRChiefSelected = hrChiefOperationResult.Any();
+            SelectedHRChief = hrChiefOperationResult.Select(e => ShortEmployeeModel.CreateFromModel(e)).FirstOrDefault() ?? new ShortEmployeeModel();
         }
 
-        public string Save(bool isNew)
+        public bool Save(bool isNew)
         {
             if (IsChiefSelected)
             {
@@ -92,8 +79,8 @@ namespace GKWebService.Models.SKD.Organisations
                 }
                 Organisation.Photo.Data = data;
             }
-            var operationResult = ClientManager.FiresecService.SaveOrganisation(Organisation, isNew);
-            return operationResult.Error;
+            var result = OrganisationHelper.Save(Organisation, isNew);
+            return result;
         }
     }
 }

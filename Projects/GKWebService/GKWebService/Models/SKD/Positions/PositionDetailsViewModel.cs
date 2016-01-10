@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using GKWebService.DataProviders.SKD;
 using GKWebService.Models.SKD.Common;
 using GKWebService.Utils;
 using RubezhAPI.SKD;
 using RubezhClient;
-using RubezhClient.SKDHelpers;
 
 namespace GKWebService.Models.SKD.Positions
 {
@@ -27,12 +27,8 @@ namespace GKWebService.Models.SKD.Positions
             }
             else
             {
-                var operationResult = ClientManager.FiresecService.GetPositionDetails(positionUID.Value);
-                if (operationResult.HasError)
-                {
-                    throw new InvalidOperationException(operationResult.Error);
-                }
-                Position = operationResult.Result;
+                var operationResult = PositionHelper.GetDetails(positionUID.Value);
+                Position = operationResult;
             }
             if (Position.Photo != null && Position.Photo.Data != null)
             {
@@ -42,7 +38,7 @@ namespace GKWebService.Models.SKD.Positions
 
         }
 
-        public string Save(bool isNew)
+        public bool Save(bool isNew)
         {
             if ((PhotoData != null && PhotoData.Length > 0) || Position.Photo != null)
             {
@@ -59,23 +55,19 @@ namespace GKWebService.Models.SKD.Positions
 
             if (!string.IsNullOrEmpty(error))
             {
-                return error;
+                throw new InvalidOperationException(error);
             }
 
-            var operationResult = ClientManager.FiresecService.SavePosition(Position, isNew);
-            return operationResult.Error;
+            var operationResult = PositionHelper.Save(Position, isNew);
+            return operationResult;
         }
 
-        public string Paste()
+        public bool Paste()
         {
             var filter = new PositionFilter { OrganisationUIDs = new List<Guid> { Position.OrganisationUID }};
-            var getPositionsResult = ClientManager.FiresecService.GetPositionList(filter);
-            if (getPositionsResult.HasError)
-            {
-                return getPositionsResult.Error;
-            }
+            var getPositionsResult = PositionHelper.Get(filter);
 
-            var positions = getPositionsResult.Result;
+            var positions = getPositionsResult;
 
             Position.Name = CopyHelper.CopyName(Position.Name, positions.Select(x => x.Name));
 

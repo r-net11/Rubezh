@@ -36,7 +36,10 @@
                     self.IsNew(true);
                 }
                 ShowBox('#organisation-details-box');
-        });
+            })
+        .fail(function(jqxhr, textStatus, error) {
+                ShowError(jqxhr.responseText);
+            });
     };
 
     self.OrganisationDetailsPageClick = function (data, e, page) {
@@ -61,8 +64,10 @@
                 }
             });
             ShowBox('#employee-selection-box');
+        })
+        .fail(function (jqxhr, textStatus, error) {
+            ShowError(jqxhr.responseText);
         });
-
     };
 
     self.SelectHRChief = function () {
@@ -77,6 +82,9 @@
                 }
             });
             ShowBox('#employee-selection-box');
+        })
+        .fail(function (jqxhr, textStatus, error) {
+            ShowError(jqxhr.responseText);
         });
     };
 
@@ -92,16 +100,13 @@
             contentType: "application/json",
             data: "{'organisation':" + data + ",'isNew': '" + self.IsNew() + "'}",
             success: function (error) {
-                if (error) {
-                    alert(error);
-                };
                 if (self.OkClick) {
                     self.OkClick();
                 }
                 CloseBox();
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert("request failed");
+                ShowError(xhr.responseText);
             }
         });
     };

@@ -63,7 +63,10 @@ function PositionsFilterViewModel() {
             { isWithDeleted: self.IsWithDeleted },
             function (orgs) {
                 self.UpdateTree(orgs);
-            });
+            })
+        .fail(function(jqxhr, textStatus, error) {
+            ShowError(jqxhr.responseText);
+        });
     };
 
     self.UpdateTree = function (data) {

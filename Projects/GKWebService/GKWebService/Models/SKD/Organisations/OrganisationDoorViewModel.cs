@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using GKWebService.DataProviders.SKD;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhAPI.SKD;
 using RubezhClient;
-using RubezhClient.SKDHelpers;
 
 namespace GKWebService.Models.SKD.Organisations
 {
@@ -37,11 +37,7 @@ namespace GKWebService.Models.SKD.Organisations
             {
                 if (!organisation.DoorUIDs.Contains(DoorUID))
                     organisation.DoorUIDs.Add(DoorUID);
-                var saveResult = ClientManager.FiresecService.AddOrganisationDoor(organisation, DoorUID);
-                if (saveResult.HasError)
-                {
-                    throw new InvalidOperationException(saveResult.Error);
-                }
+                OrganisationHelper.AddDoor(organisation, DoorUID);
             }
             else
             {
@@ -52,32 +48,20 @@ namespace GKWebService.Models.SKD.Organisations
                 foreach (var card in linkedCards)
                 {
                     card.CardDoors.RemoveAll(x => x.DoorUID == DoorUID);
-                    var editCardResult = ClientManager.FiresecService.EditCard(card, organisation.Name);
-                    if (editCardResult.HasError)
-                    {
-                        throw new InvalidOperationException(editCardResult.Error);
-                    }
+                    CardHelper.Edit(card, organisation.Name);
                 }
 
                 foreach (var accessTemplate in linkedAccessTemplates)
                 {
                     accessTemplate.CardDoors.RemoveAll(x => x.DoorUID == DoorUID);
-                    var saveAccessTemplateResult = ClientManager.FiresecService.SaveAccessTemplate(accessTemplate, false);
-                    if (saveAccessTemplateResult.HasError)
-                    {
-                        throw new InvalidOperationException(saveAccessTemplateResult.Error);
-                    }
+                    AccessTemplateHelper.Save(accessTemplate, false);
                 }
 
                 if (organisation.DoorUIDs.Contains(DoorUID))
                 {
                     organisation.DoorUIDs.Remove(DoorUID);
                 }
-                var removeResult = ClientManager.FiresecService.RemoveOrganisationDoor(organisation, DoorUID);
-                if (removeResult.HasError)
-                {
-                    throw new InvalidOperationException(removeResult.Error);
-                }
+                OrganisationHelper.RemoveDoor(organisation, DoorUID);
             }
 
             return organisation;
@@ -94,35 +78,23 @@ namespace GKWebService.Models.SKD.Organisations
 
         private List<AccessTemplate> GetLinkedAccessTemplates(Guid organisationId)
         {
-            var accessTemplatesResult = ClientManager.FiresecService.GetAccessTemplates(new AccessTemplateFilter());
-            if (accessTemplatesResult.HasError)
-            {
-                throw new InvalidOperationException(accessTemplatesResult.Error);
-            }
-            var linkedAccessTemplates = accessTemplatesResult.Result.Where(x => !x.IsDeleted && x.OrganisationUID == organisationId && x.CardDoors.Any(y => y.DoorUID == DoorUID)).ToList();
+            var accessTemplatesResult = AccessTemplateHelper.Get(new AccessTemplateFilter());
+            var linkedAccessTemplates = accessTemplatesResult.Where(x => !x.IsDeleted && x.OrganisationUID == organisationId && x.CardDoors.Any(y => y.DoorUID == DoorUID)).ToList();
             return linkedAccessTemplates;
         }
 
         private List<SKDCard> GetLinkedCards(Guid organisationId)
         {
             List<SKDCard> linkedCards;
-            var cardsResult = ClientManager.FiresecService.GetCards(new CardFilter());
-            if (cardsResult.HasError)
-            {
-                throw new InvalidOperationException(cardsResult.Error);
-            }
-            linkedCards = cardsResult.Result.Where(x => x.OrganisationUID == organisationId && x.CardDoors.Any(y => y.DoorUID == DoorUID)).ToList();
+            var cardsResult = CardHelper.Get(new CardFilter());
+            linkedCards = cardsResult.Where(x => x.OrganisationUID == organisationId && x.CardDoors.Any(y => y.DoorUID == DoorUID)).ToList();
             return linkedCards;
         }
 
         private bool HasLinkedSchedules(Guid organisationId)
         {
-            var operationResult = ClientManager.FiresecService.GetSchedules(new ScheduleFilter());
-            if (operationResult.HasError)
-            {
-                throw new InvalidOperationException(operationResult.Error);
-            }
-            return operationResult.Result.Any(x => x.OrganisationUID == organisationId && x.Zones.Any(y => y.DoorUID == DoorUID));
+            var operationResult = ScheduleHelper.Get(new ScheduleFilter());
+            return operationResult.Any(x => x.OrganisationUID == organisationId && x.Zones.Any(y => y.DoorUID == DoorUID));
         }
     }
 }

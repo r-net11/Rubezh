@@ -72,6 +72,9 @@
                 } else {
                     
                 }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                ShowError(xhr.responseText);
             }
         });
     };
@@ -137,9 +140,9 @@
                 self.EmployeeCardDetailsClose();
                 self.ParentViewModel.EmployeeCards.ReloadCards();
             },
-            error: function(xhr, ajaxOptions, thrownError) {
-                alert("request failed");
-            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                ShowError(xhr.responseText);
+            }
         });
     };
 

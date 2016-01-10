@@ -42,6 +42,9 @@ function EmployeeCardsViewModel(parentViewModel) {
         if (self.EmployeeUID != null) {
             $.getJSON("Employees/GetEmployeeCards/" + self.EmployeeUID, function (cards) {
                 ko.mapping.fromJS(cards, {}, self);
+            })
+            .fail(function (jqxhr, textStatus, error) {
+                ShowError(jqxhr.responseText);
             });
         }
     };
@@ -105,7 +108,7 @@ function EmployeeCardsViewModel(parentViewModel) {
                             self.ReloadCards();
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
-                            alert("request failed");
+                            ShowError(xhr.responseText);
                         },
                     });
                 }
@@ -121,7 +124,7 @@ function EmployeeCardsViewModel(parentViewModel) {
                         self.ReloadCards();
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
-                        alert("request failed");
+                        ShowError(xhr.responseText);
                     },
                 });
             }

@@ -479,6 +479,15 @@
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
     <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
+    <Compile Include="DataProviders\SKD\AccessTemplateHelper.cs" />
+    <Compile Include="DataProviders\SKD\CardHelper.cs" />
+    <Compile Include="DataProviders\SKD\Common.cs" />
+    <Compile Include="DataProviders\SKD\DepartmentHelper.cs" />
+    <Compile Include="DataProviders\SKD\EmployeeHelper.cs" />
+    <Compile Include="DataProviders\SKD\GKScheduleHelper.cs" />
+    <Compile Include="DataProviders\SKD\OrganisationHelper.cs" />
+    <Compile Include="DataProviders\SKD\PositionHelper.cs" />
+    <Compile Include="DataProviders\SKD\ScheduleHelper.cs" />
     <Compile Include="Models\SKD\Common\CopyHelper.cs" />
     <Compile Include="Models\SKD\Common\DetailsValidateHelper.cs" />
     <Compile Include="Models\FireZone\Device.cs" />
@@ -496,6 +505,7 @@
     <Compile Include="Models\SKD\Positions\PositionViewModel.cs" />
     <Compile Include="Models\SKD\Departments\DepartmentViewModel.cs" />
     <Compile Include="Models\SKD\Employees\DepartmentSelectionItemViewModel.cs" />
+    <Compile Include="Utils\ErrorHandlerAttribute.cs" />
     <Compile Include="Utils\InternalConverter.cs" />
     <Compile Include="DataProviders\Plan\PlansDataProvider.cs" />
     <Compile Include="DataProviders\Plan\PlansUpdater.cs" />

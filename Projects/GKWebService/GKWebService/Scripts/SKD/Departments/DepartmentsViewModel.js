@@ -103,7 +103,7 @@ function DepartmentsViewModel() {
                 self.UpdateTree(data);
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert("request failed");
+                ShowError(xhr.responseText);
             },
         });
     };
@@ -159,6 +159,9 @@ function DepartmentsViewModel() {
                 } else {
                     self.RemoveDepartment();
                 }
+            })
+            .fail(function (jqxhr, textStatus, error) {
+                ShowError(jqxhr.responseText);
             });
         });
     };
@@ -173,7 +176,7 @@ function DepartmentsViewModel() {
                     self.ReloadTree();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    alert("request failed");
+                    ShowError(xhr.responseText);
                 }
             });
     };
@@ -211,7 +214,7 @@ function DepartmentsViewModel() {
                     self.ReloadTree();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    alert("request failed");
+                    ShowError(xhr.responseText);
                 }
             });
         });

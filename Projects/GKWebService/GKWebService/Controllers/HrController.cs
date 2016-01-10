@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GKWebService.DataProviders.SKD;
 using GKWebService.Models;
 using GKWebService.Models.SKD.Departments;
 using GKWebService.Models.SKD.Positions;
@@ -65,6 +66,7 @@ namespace GKWebService.Controllers
             return View();
         }
 
+        [ErrorHandler]
         public JsonNetResult GetHr()
         {
             var personTypes = new List<string>();
@@ -143,18 +145,21 @@ namespace GKWebService.Controllers
             get { return ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Organisations_View); }
         }
 
+        [ErrorHandler]
         public JsonNetResult GetDepartmentEmployees(Guid id)
         {
             var filter = new EmployeeFilter {DepartmentUIDs = new List<Guid> {id}};
             return GetEmployees(filter);
         }
 
+        [ErrorHandler]
         public JsonNetResult GetOrganisationEmployees(Guid id)
         {
             var filter = new EmployeeFilter {OrganisationUIDs = new List<Guid> {id}};
             return GetEmployees(filter);
         }
 
+        [ErrorHandler]
         public JsonNetResult GetEmptyDepartmentEmployees(Guid id)
         {
             var filter = new EmployeeFilter
@@ -166,6 +171,7 @@ namespace GKWebService.Controllers
             return GetEmployees(filter);
         }
 
+        [ErrorHandler]
         public JsonNetResult GetEmptyPositionEmployees(Guid id)
         {
             var filter = new EmployeeFilter
@@ -179,13 +185,9 @@ namespace GKWebService.Controllers
 
         private JsonNetResult GetEmployees(EmployeeFilter filter)
         {
-            var operationResult = ClientManager.FiresecService.GetEmployeeList(filter);
-            if (operationResult.HasError)
-            {
-                throw new InvalidOperationException(operationResult.Error);
-            }
+            var operationResult = EmployeeHelper.Get(filter);
 
-            var employees = operationResult.Result.Select(e => ShortEmployeeModel.CreateFromModel(e));
+            var employees = operationResult.Select(e => ShortEmployeeModel.CreateFromModel(e));
 
             return new JsonNetResult { Data = new { Employees = employees } };
         }
@@ -200,6 +202,7 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
+        [ErrorHandler]
         public JsonResult GetOrganisationsFilter(bool isWithDeleted)
         {
             var filter = new OrganisationFilter { UserUID = ClientManager.CurrentUser.UID };
@@ -208,18 +211,14 @@ namespace GKWebService.Controllers
                 filter.LogicalDeletationType = LogicalDeletationType.All;
             }
 
-            var organisationsResult = ClientManager.FiresecService.GetOrganisations(filter);
-            if (organisationsResult.HasError)
-            {
-                throw new InvalidOperationException(organisationsResult.Error);
-            }
+            var organisationsResult = OrganisationHelper.Get(filter);
 
             dynamic result = new
             {
                 page = 1,
                 total = 100,
                 records = 100,
-                rows = organisationsResult.Result,
+                rows = organisationsResult,
             };
 
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -230,6 +229,7 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
+        [ErrorHandler]
         public JsonResult GetDepartmentsFilter(bool isWithDeleted)
         {
             var filter = new DepartmentFilter { UserUID = ClientManager.CurrentUser.UID };
@@ -257,6 +257,7 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
+        [ErrorHandler]
         public JsonResult GetPositionsFilter(bool isWithDeleted)
         {
             var filter = new PositionFilter { UserUID = ClientManager.CurrentUser.UID };
@@ -284,19 +285,20 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
+        [ErrorHandler]
         public JsonResult GetEmployeesFilter(bool isWithDeleted, PersonType selectedPersonType)
         {
             var employeeModels = new List<ShortEmployeeModel>();
 
             var organisationFilter = new OrganisationFilter { LogicalDeletationType = isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active };
-            var organisations = ClientManager.FiresecService.GetOrganisations(organisationFilter).Result;
+            var organisations = OrganisationHelper.Get(organisationFilter);
             var initializedOrganisations = InitializeOrganisations(organisations);
 
-            var employees = ClientManager.FiresecService.GetEmployeeList(new EmployeeFilter
+            var employees = EmployeeHelper.Get(new EmployeeFilter
             {
                 LogicalDeletationType = isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active,
                 PersonType = selectedPersonType
-            }).Result;
+            });
             var initializedEmployees = InitializeEmployees(employees, initializedOrganisations);
 
             foreach (var organisation in initializedOrganisations)
@@ -316,6 +318,7 @@ namespace GKWebService.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [ErrorHandler]
         public JsonNetResult GetFilter(Guid? id)
 		{
 			return new JsonNetResult { Data = new EmployeeFilter() };

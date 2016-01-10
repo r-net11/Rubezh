@@ -60,8 +60,8 @@ function DepartmentSelectionViewModel() {
                 self.UpdateTree(data);
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert("request failed");
-            },
+                ShowError(xhr.responseText);
+            }
         });
 
     };

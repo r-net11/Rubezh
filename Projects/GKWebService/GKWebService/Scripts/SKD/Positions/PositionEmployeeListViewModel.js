@@ -72,6 +72,9 @@ function PositionEmployeeListViewModel(parentViewModel) {
             },
             function (empList) {
                 self.UpdateTree(empList);
+        })
+        .fail(function (jqxhr, textStatus, error) {
+            ShowError(jqxhr.responseText);
         });
     };
 
@@ -117,11 +120,14 @@ function PositionEmployeeListViewModel(parentViewModel) {
                         self.ReloadTree();
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
-                        alert("request failed");
+                        ShowError(xhr.responseText);
                     }
                 });
             }, true);
             ShowBox('#employee-selection-box');
+        })
+        .fail(function (jqxhr, textStatus, error) {
+            ShowError(jqxhr.responseText);
         });
     };
 
@@ -135,7 +141,7 @@ function PositionEmployeeListViewModel(parentViewModel) {
                 self.ReloadTree();
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert("request failed");
+                ShowError(xhr.responseText);
             }
         });
     };
@@ -148,7 +154,13 @@ function PositionEmployeeListViewModel(parentViewModel) {
                 employeeDetails.Organisation = org;
                 employeeDetails.Init(false, "Employee", self.ReloadTree);
                 ShowBox("#employee-details-box");
+            })
+            .fail(function (jqxhr, textStatus, error) {
+                ShowError(jqxhr.responseText);
             });
+        })
+        .fail(function (jqxhr, textStatus, error) {
+            ShowError(jqxhr.responseText);
         });
     };
 

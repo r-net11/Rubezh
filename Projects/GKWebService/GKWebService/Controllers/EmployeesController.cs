@@ -5,11 +5,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Windows.Documents;
+using GKWebService.DataProviders.SKD;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.SKD;
 using RubezhClient;
-using RubezhClient.SKDHelpers;
 using GKWebService.Models;
 using GKWebService.Models.SKD.Employees;
 using GKWebService.Utils;
@@ -28,7 +28,8 @@ namespace GKWebService.Controllers
             return View();
         }
 
-		public JsonNetResult GetEmployeeDetails(Guid? id)
+        [ErrorHandler]
+        public JsonNetResult GetEmployeeDetails(Guid? id)
 		{
             var employeeModel = new EmployeeDetailsViewModel()
             {
@@ -42,7 +43,8 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
-		public JsonNetResult EmployeeDetails(EmployeeDetailsViewModel employee, bool isNew)
+        [ErrorHandler]
+        public JsonNetResult EmployeeDetails(EmployeeDetailsViewModel employee, bool isNew)
 		{
 		    var error = employee.Save(isNew);
 
@@ -50,31 +52,34 @@ namespace GKWebService.Controllers
         }
 
         [HttpPost]
+        [ErrorHandler]
 		public JsonNetResult SaveChief(SaveChiefParams @params)
         {
-			var result = ClientManager.FiresecService.SaveOrganisationChief(@params.OrganisationUID, @params.EmployeeUID, @params.OrganisationName);
+			var result = OrganisationHelper.SaveChief(@params.OrganisationUID, @params.EmployeeUID, @params.OrganisationName);
 
-			return new JsonNetResult { Data = !result.HasError };
+			return new JsonNetResult { Data = result };
         }
 
         [HttpPost]
-		public JsonNetResult SaveHRChief(SaveChiefParams @params)
+        [ErrorHandler]
+        public JsonNetResult SaveHRChief(SaveChiefParams @params)
         {
-			var result = ClientManager.FiresecService.SaveOrganisationHRChief(@params.OrganisationUID, @params.EmployeeUID, @params.OrganisationName);
+			var result = OrganisationHelper.SaveHRChief(@params.OrganisationUID, @params.EmployeeUID, @params.OrganisationName);
 
-			return new JsonNetResult { Data = !result.HasError };
+			return new JsonNetResult { Data = result };
 		}
 
 		[HttpPost]
+        [ErrorHandler]
 		public JsonResult GetOrganisations(EmployeeFilter employeeFilter)
         {
             var employeeModels = new List<ShortEmployeeModel>();
     
 			var organisationFilter = new OrganisationFilter { UIDs = employeeFilter.OrganisationUIDs, UserUID = ClientManager.CurrentUser.UID, LogicalDeletationType = employeeFilter.LogicalDeletationType };
-			var organisations = ClientManager.FiresecService.GetOrganisations(organisationFilter).Result;
+			var organisations = OrganisationHelper.Get(organisationFilter);
 			var initializedOrganisations = InitializeOrganisations(organisations);
 
-			var employees = ClientManager.FiresecService.GetEmployeeList(employeeFilter).Result;
+			var employees = EmployeeHelper.Get(employeeFilter);
 			var initializedEmployees = InitializeEmployees(employees, initializedOrganisations);
 			
 	        foreach (var organisation in initializedOrganisations)
@@ -94,6 +99,7 @@ namespace GKWebService.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [ErrorHandler]
         public JsonNetResult GetEmployeePhoto(Guid id)
         {
             var employeeModel = new EmployeeDetailsViewModel();
@@ -102,25 +108,28 @@ namespace GKWebService.Controllers
         }
 
         [HttpPost]
-		public JsonNetResult MarkDeleted(Guid uid, string name, bool isOrganisation)
+        [ErrorHandler]
+        public JsonNetResult MarkDeleted(Guid uid, string name, bool isOrganisation)
 		{
-			var operationResult = ClientManager.FiresecService.MarkDeletedEmployee(uid, name, !isOrganisation);
-			return new JsonNetResult { Data = operationResult != null && operationResult.HasError && !operationResult.Error.Contains("Ошибка БД") };
+			var operationResult = EmployeeHelper.MarkDeleted(uid, name, !isOrganisation);
+			return new JsonNetResult { Data = operationResult };
 		}
 
 		[HttpPost]
-		public JsonNetResult Restore(Guid uid, string name, bool isOrganisation)
+        [ErrorHandler]
+        public JsonNetResult Restore(Guid uid, string name, bool isOrganisation)
 		{
-			var result = ClientManager.FiresecService.RestoreEmployee(uid, name, !isOrganisation);
-			return new JsonNetResult { Data = !result.HasError };
+			var result = EmployeeHelper.Restore(uid, name, !isOrganisation);
+			return new JsonNetResult { Data = result };
 		}
 
+        [ErrorHandler]
         public JsonNetResult GetOrganisation(Guid? id)
         {
 			var filter = new OrganisationFilter();
 			filter.UIDs.Add(id.Value);
-			var operationResult = ClientManager.FiresecService.GetOrganisations(filter);
-			return new JsonNetResult { Data = operationResult.Result.FirstOrDefault() };
+			var operationResult = OrganisationHelper.Get(filter);
+			return new JsonNetResult { Data = operationResult.FirstOrDefault() };
         }
 
         private List<ShortEmployeeModel> InitializeEmployees(IEnumerable<ShortEmployee> employees, IEnumerable<ShortEmployeeModel> organisations)
@@ -133,23 +142,25 @@ namespace GKWebService.Controllers
             return organisations.Select(ShortEmployeeModel.CreateFromOrganisation).ToList();
         }
 
-		public JsonNetResult GetEmployeeCards(Guid? id)
+        [ErrorHandler]
+        public JsonNetResult GetEmployeeCards(Guid? id)
 		{
 			var cards = new List<ShortEmployeeCardModel>();
 			if (id.HasValue)
 			{
-				var operationResult = ClientManager.FiresecService.GetEmployeeCards(id.Value);
-				cards.AddRange(operationResult.Result.Select(CreateCard));
+				var operationResult = CardHelper.GetByEmployee(id.Value);
+				cards.AddRange(operationResult.Select(CreateCard));
 			}
 			return new JsonNetResult { Data = new {Cards = cards}};
 		}
 
-		public ActionResult EmployeeCardDetails()
+        public ActionResult EmployeeCardDetails()
 		{
 			return View();
 		}
 
-		public JsonNetResult GetEmployeeCardDetails(Guid? organisationId, Guid? cardId)
+        [ErrorHandler]
+        public JsonNetResult GetEmployeeCardDetails(Guid? organisationId, Guid? cardId)
 		{
 			if (!organisationId.HasValue)
 			{
@@ -166,7 +177,7 @@ namespace GKWebService.Controllers
 			SKDCard card;
 			if (cardId.HasValue)
 			{
-				card = ClientManager.FiresecService.GetSingleCard(cardId.Value).Result;
+				card = CardHelper.GetSingle(cardId.Value);
 			}
 			else
 			{
@@ -181,11 +192,11 @@ namespace GKWebService.Controllers
 
 			cardModel.Card = card;
 
-			cardModel.Schedules = ClientManager.FiresecService.GetGKSchedules().Result;
+			cardModel.Schedules = GKScheduleHelper.GetSchedules();
 			cardModel.SelectedScheduleNo = cardModel.Card.GKLevelSchedule;
 
-			var operationResult = ClientManager.FiresecService.GetCards(new CardFilter { DeactivationType = LogicalDeletationType.Deleted });
-			cardModel.StopListCards = operationResult.Result.Where(x => x.IsInStopList).ToList();
+			var operationResult = CardHelper.Get(new CardFilter { DeactivationType = LogicalDeletationType.Deleted });
+			cardModel.StopListCards = operationResult.Where(x => x.IsInStopList).ToList();
 
 			cardModel.AvailableGKControllers = GKManager.Devices.Where(x => x.DriverType == GKDriverType.GK)
 																.Select(d =>
@@ -195,7 +206,7 @@ namespace GKWebService.Controllers
 																	return new GKControllerModel(d.UID, isChecked, d.PresentationName);
 																}).ToList();
 
-			var organisation = ClientManager.FiresecService.GetOrganisations(new OrganisationFilter {UIDs = new List<Guid>{organisationId.Value}}).Result.FirstOrDefault();
+			var organisation = OrganisationHelper.Get(new OrganisationFilter {UIDs = new List<Guid>{organisationId.Value}}).FirstOrDefault();
 
 			cardModel.Doors = GKManager.DeviceConfiguration.Doors.Where(door => organisation.DoorUIDs.Any(y => y == door.UID))
 				.Select(door => new AccessDoorModel(door, card.CardDoors, cardModel.Schedules))
@@ -203,7 +214,7 @@ namespace GKWebService.Controllers
 
 			var accessTemplateFilter = new AccessTemplateFilter { OrganisationUIDs = new List<Guid> { organisationId.Value } };
 			cardModel.AvailableAccessTemplates = new List<AccessTemplate> { new AccessTemplate { UID = Guid.Empty, Name = "<нет>" } }
-				.Concat(ClientManager.FiresecService.GetAccessTemplates(accessTemplateFilter).Result)
+				.Concat(AccessTemplateHelper.Get(accessTemplateFilter))
 				.ToList();
 			cardModel.SelectedAccessTemplate = cardModel.AvailableAccessTemplates.FirstOrDefault(x => x.UID == cardModel.Card.AccessTemplateUID);
 
@@ -211,22 +222,23 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
-		public JsonNetResult EmployeeCardDetails(EmployeeCardModel cardModel, string employeeName, bool isNew)
+        [ErrorHandler]
+        public JsonNetResult EmployeeCardDetails(EmployeeCardModel cardModel, string employeeName, bool isNew)
 		{
 			cardModel.Save();
 
-			OperationResult<bool> operationResult;
+			bool operationResult;
 
 			if (isNew)
 			{
-				operationResult = ClientManager.FiresecService.AddCard(cardModel.Card, employeeName);
+				operationResult = CardHelper.Add(cardModel.Card, employeeName);
 			}
 			else
 			{
-				operationResult = ClientManager.FiresecService.EditCard(cardModel.Card, employeeName);
+				operationResult = CardHelper.Edit(cardModel.Card, employeeName);
 			}
 
-			return new JsonNetResult { Data = operationResult.Result };
+			return new JsonNetResult { Data = operationResult };
 		}
 
         public ActionResult CardRemovalReason()
@@ -235,17 +247,19 @@ namespace GKWebService.Controllers
         }
 
         [HttpPost]
+        [ErrorHandler]
         public JsonNetResult DeleteCard(Guid id)
         {
-            var operationResult = ClientManager.FiresecService.DeletedCard(new SKDCard {UID = id});
-            return new JsonNetResult { Data = !operationResult.HasError };
+            var operationResult = CardHelper.Delete(new SKDCard {UID = id});
+            return new JsonNetResult { Data = !operationResult };
         }
 
         [HttpPost]
+        [ErrorHandler]
         public JsonNetResult DeleteFromEmployee(Guid id, string employeeName, string reason)
         {
-            var operationResult = ClientManager.FiresecService.DeleteCardFromEmployee(new SKDCard { UID = id }, employeeName, reason);
-            return new JsonNetResult { Data = !operationResult.HasError };
+            var operationResult = CardHelper.DeleteFromEmployee(new SKDCard { UID = id }, employeeName, reason);
+            return new JsonNetResult { Data = !operationResult };
         }
 
         public ActionResult DepartmentSelection()
@@ -254,21 +268,17 @@ namespace GKWebService.Controllers
         }
 
         [HttpPost]
+        [ErrorHandler]
         public JsonResult GetDepartments(Guid organisationUID, Guid? departmentUID)
         {
-            var operationResult = ClientManager.FiresecService.GetDepartmentList(new DepartmentFilter
+            var operationResult = DepartmentHelper.Get(new DepartmentFilter
             {
                 OrganisationUIDs = new List<Guid> { organisationUID },
                 ExceptUIDs = (departmentUID.HasValue && departmentUID.Value != Guid.Empty ? new List<Guid> { departmentUID.Value } : new List<Guid> ())
             });
 
-            if (operationResult.HasError)
-            {
-                throw new InvalidOperationException(operationResult.Error);
-            }
-
             var departments = new List<DepartmentSelectionItemViewModel>();
-            foreach (var rootItem in operationResult.Result.Where(d => d.ParentDepartmentUID == null || d.ParentDepartmentUID == Guid.Empty))
+            foreach (var rootItem in operationResult.Where(d => d.ParentDepartmentUID == null || d.ParentDepartmentUID == Guid.Empty))
             {
                 var itemViewModel = new DepartmentSelectionItemViewModel(rootItem);
                 itemViewModel.Level = 0;
@@ -276,7 +286,7 @@ namespace GKWebService.Controllers
                 itemViewModel.IsLeaf = true;
                 departments.Add(itemViewModel);
                 int index = departments.IndexOf(itemViewModel);
-                AddChildren(departments, itemViewModel, operationResult.Result, ref index);
+                AddChildren(departments, itemViewModel, operationResult, ref index);
                 itemViewModel.IsExpanded = !itemViewModel.IsLeaf;   // если был добавлен дочерний элемент, то разворачиваем
             }
 
@@ -325,8 +335,8 @@ namespace GKWebService.Controllers
 			cardDoors.AddRange(card.CardDoors);
 			if (card.AccessTemplateUID != null)
 			{
-				var result = ClientManager.FiresecService.GetAccessTemplates(new AccessTemplateFilter());
-				var accessTemplates = result.Result;
+				var result = AccessTemplateHelper.Get(new AccessTemplateFilter());
+				var accessTemplates = result;
 				if (accessTemplates != null)
 				{
 					var accessTemplate = accessTemplates.FirstOrDefault(x => x.UID == card.AccessTemplateUID);
@@ -345,10 +355,10 @@ namespace GKWebService.Controllers
 
 		List<ReadOnlyAccessDoorModel> InitializeDoors(IEnumerable<CardDoor> cardDoors)
 		{
-			var operationResult = ClientManager.FiresecService.GetGKSchedules();
-			if (operationResult.Result != null)
-				operationResult.Result.ForEach(x => x.ScheduleParts = x.ScheduleParts.OrderBy(y => y.DayNo).ToList());
-			var schedules = operationResult.Result;
+			var operationResult = GKScheduleHelper.GetSchedules();
+			if (operationResult != null)
+				operationResult.ForEach(x => x.ScheduleParts = x.ScheduleParts.OrderBy(y => y.DayNo).ToList());
+			var schedules = operationResult;
 			var doors = new List<ReadOnlyAccessDoorModel>();
 			var gkDoors = from cardDoor in cardDoors
 						  join gkDoor in GKManager.DeviceConfiguration.Doors on cardDoor.DoorUID equals gkDoor.UID

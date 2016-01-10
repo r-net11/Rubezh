@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using GKWebService.DataProviders.SKD;
 using RubezhAPI.Models;
 using RubezhAPI.SKD;
 using RubezhClient;
-using RubezhClient.SKDHelpers;
 
 namespace GKWebService.Models.SKD.Organisations
 {
@@ -39,11 +39,7 @@ namespace GKWebService.Models.SKD.Organisations
                     organisation.UserUIDs.Remove(User.UID);
             }
 
-            var result = ClientManager.FiresecService.SaveOrganisationUsers(organisation);
-            if (result.HasError)
-            {
-                throw new InvalidOperationException(result.Error);
-            }
+            OrganisationHelper.SaveUsers(organisation);
 
             return organisation;
         }
