@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GKWebService.DataProviders.SKD;
 using GKWebService.Models;
 using GKWebService.Models.SKD.Organisations;
 using GKWebService.Utils;
@@ -20,16 +21,12 @@ namespace GKWebService.Controllers
             return View();
         }
 
+        [ErrorHandler]
         public JsonResult GetOrganisations(OrganisationFilter filter)
         {
-            var result = ClientManager.FiresecService.GetOrganisations(new OrganisationFilter { LogicalDeletationType = filter.LogicalDeletationType});
+            var result = OrganisationHelper.Get(new OrganisationFilter { LogicalDeletationType = filter.LogicalDeletationType});
 
-            if (result.HasError)
-            {
-                throw new InvalidOperationException(result.Error);
-            }
-
-            return Json(new { Organisations = result.Result }, JsonRequestBehavior.AllowGet);
+            return Json(new { Organisations = result }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult OrganisationDetails()
@@ -37,11 +34,12 @@ namespace GKWebService.Controllers
             return View();
         }
 
+        [ErrorHandler]
         public JsonNetResult GetOrganisationDetails(Guid? id)
         {
             var organisationModel = new OrganisationDetailsViewModel()
             {
-                Organisation = new OrganisationDetails()
+                Organisation = new OrganisationDetails(),
             };
 
             organisationModel.Initialize(id);
@@ -50,6 +48,7 @@ namespace GKWebService.Controllers
         }
 
         [HttpPost]
+        [ErrorHandler]
         public JsonNetResult OrganisationDetails(OrganisationDetailsViewModel organisation, bool isNew)
         {
             var error = organisation.Save(isNew);
@@ -57,6 +56,7 @@ namespace GKWebService.Controllers
             return new JsonNetResult { Data = error };
         }
 
+        [ErrorHandler]
         public JsonNetResult GetOrganisationUsers(Organisation organisation)
         {
             var users = ClientManager.SecurityConfiguration.Users.Select(u => new OrganisationUserViewModel(organisation, u));
@@ -65,12 +65,15 @@ namespace GKWebService.Controllers
         }
 
         [HttpPost]
+        [ErrorHandler]
         public JsonNetResult SetUsersChecked(Organisation organisation, OrganisationUserViewModel user)
         {
             organisation = user.SetUserChecked(organisation);
 
             return new JsonNetResult { Data = organisation };
         }
+
+        [ErrorHandler]
         public JsonNetResult GetOrganisationDoors(Organisation organisation)
         {
             var doors = GKManager.DeviceConfiguration.Doors.Select(u => new OrganisationDoorViewModel(organisation, u));
@@ -79,6 +82,7 @@ namespace GKWebService.Controllers
         }
 
         [HttpPost]
+        [ErrorHandler]
         public JsonNetResult SetDoorsChecked(Organisation organisation, OrganisationDoorViewModel door)
         {
             organisation = door.SetDoorChecked(organisation);
@@ -87,6 +91,7 @@ namespace GKWebService.Controllers
         }
 
         [HttpPost]
+        [ErrorHandler]
         public JsonNetResult IsDoorLinked(Guid organisationId, OrganisationDoorViewModel door)
         {
             var result = door.IsDoorLinked(organisationId);
@@ -95,27 +100,26 @@ namespace GKWebService.Controllers
         }
 
         [HttpPost]
+        [ErrorHandler]
         public JsonNetResult MarkDeleted(Guid uid, string name)
         {
-            var operationResult = ClientManager.FiresecService.MarkDeletedOrganisation(uid, name);
-            return new JsonNetResult { Data = operationResult != null && operationResult.HasError && !operationResult.Error.Contains("Ошибка БД") };
+            var operationResult = OrganisationHelper.MarkDeleted(uid, name);
+            return new JsonNetResult { Data = operationResult };
         }
 
+        [ErrorHandler]
         public JsonNetResult IsAnyOrganisationItems(Guid uid)
         {
-            var operationResult = ClientManager.FiresecService.IsAnyOrganisationItems(uid);
-            if (operationResult.HasError)
-            {
-                throw new InvalidOperationException(operationResult.Error);
-            }
-            return new JsonNetResult { Data = operationResult.Result};
+            var operationResult = OrganisationHelper.IsAnyItems(uid);
+            return new JsonNetResult { Data = operationResult};
         }
 
         [HttpPost]
+        [ErrorHandler]
         public JsonNetResult Restore(Guid uid, string name)
         {
-            var operationResult = ClientManager.FiresecService.RestoreOrganisation(uid, name);
-            return new JsonNetResult { Data = operationResult != null && operationResult.HasError && !operationResult.Error.Contains("Ошибка БД") };
+            var operationResult = OrganisationHelper.Restore(uid, name);
+            return new JsonNetResult { Data = operationResult };
         }
     }
 }

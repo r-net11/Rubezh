@@ -88,6 +88,12 @@ namespace FiresecService.Service
 							continue;
 						if (callbackResultItem.CallbackResult.GKProgressCallback != null && callbackResultItem.CallbackResult.GKProgressCallback.IsCanceled)
 							continue;
+						if (callbackResultItem.CallbackResult.AutomationCallbackResult != null && callbackResultItem.CallbackResult.AutomationCallbackResult.Data is GlobalVariableCallBackData)
+						{
+							var data = callbackResultItem.CallbackResult.AutomationCallbackResult.Data as GlobalVariableCallBackData;
+							if (data.InitialClientUID.HasValue && data.InitialClientUID.Value == clientInfo.UID)
+								continue;
+						}
 						if (clientInfo.CallbackIndex < callbackResultItem.CallbackResult.Index)
 							clientInfo.CallbackIndex = callbackResultItem.CallbackResult.Index;
 						result.CallbackResults.Add(callbackResultItem.CallbackResult);

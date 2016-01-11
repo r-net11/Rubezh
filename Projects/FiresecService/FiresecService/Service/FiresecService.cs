@@ -17,6 +17,8 @@ namespace FiresecService.Service
 	{
 		public static ServerState ServerState { get; set; }
 
+		public static event Action<Guid> AfterConnect;
+
 		static string GetUserName(Guid? clientUID)
 		{
 			var clientInfo = clientUID.HasValue ? ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID.Value) : null;
@@ -60,6 +62,8 @@ namespace FiresecService.Service
 
 			if (ClientsManager.Add(clientCredentials))
 				AddJournalMessage(JournalEventNameType.Вход_пользователя_в_систему, null, null, clientCredentials.ClientUID);
+			if (AfterConnect != null)
+				AfterConnect(clientCredentials.ClientUID);
 			return operationResult;
 		}
 

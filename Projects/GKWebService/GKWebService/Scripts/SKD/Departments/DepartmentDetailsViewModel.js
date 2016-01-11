@@ -34,6 +34,9 @@
                     self.IsNew(true);
                 }
                 ShowBox('#department-details-box');
+        })
+        .fail(function (jqxhr, textStatus, error) {
+            ShowError(jqxhr.responseText);
         });
     };
 
@@ -59,6 +62,9 @@
                 }
             });
             ShowBox('#employee-selection-box');
+        })
+        .fail(function (jqxhr, textStatus, error) {
+            ShowError(jqxhr.responseText);
         });
 
     };
@@ -87,16 +93,13 @@
             contentType: "application/json",
             data: "{'departmentModel':" + data + ",'isNew': '" + self.IsNew() + "'}",
             success: function (error) {
-                if (error) {
-                    alert(error);
-                };
                 if (self.OkClick) {
                     self.OkClick();
                 }
                 CloseBox();
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert("request failed");
+                ShowError(xhr.responseText);
             }
         });
     };

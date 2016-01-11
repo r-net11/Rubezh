@@ -71,9 +71,8 @@ namespace FiresecService.Service
 				CallbackResultType = CallbackResultType.AutomationCallbackResult,
 				AutomationCallbackResult = automationCallbackResult,
 			};
-			var layoutUIDs = automationCallbackResult != null && automationCallbackResult.Data != null && automationCallbackResult.Data.LayoutFilter != null ?
-				automationCallbackResult.Data.LayoutFilter.LayoutsUIDs :
-				null;
+			var uiData = automationCallbackResult != null ? automationCallbackResult.Data as UIAutomationCallbackData : null;
+			var layoutUIDs = uiData != null ? uiData.LayoutFilter : null;
 			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other, clientUID, layoutUIDs);
 		}
 
@@ -120,7 +119,7 @@ namespace FiresecService.Service
 					CallbackOperationResultType = isGk ? CallbackOperationResultType.GetGKUsers : CallbackOperationResultType.GetPmfUsers,
 					Error = result.Error,
 					HasError = result.HasError,
-					Users = result.Result, 
+					Users = result.Result,
 					DeviceUID = deviceUID
 				}
 			};

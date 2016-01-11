@@ -462,11 +462,6 @@ namespace FiresecService.Service
 			SafeOperationCall(clientUID, () => FiresecService.SetVariableValue(clientUID, variableUid, value), "SetVariableValue");
 		}
 
-		public Variable GetVariable(Guid clientUID, Guid variableUid)
-		{
-			return SafeOperationCall(clientUID, () => { return FiresecService.GetVariable(clientUID, variableUid); }, "GetVariable");
-		}
-
 		public void AddJournalItemA(Guid clientUID, string message, Guid? objectUID = null)
 		{
 			SafeOperationCall(clientUID, () => FiresecService.AddJournalItemA(clientUID, message, objectUID), "AddJournalItem");

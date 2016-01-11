@@ -167,6 +167,14 @@ function QuestionBoxViewModel() {
     return self;
 };
 
+function ShowError(responseText) {
+    if (responseText && JSON.parse(responseText).errorText) {
+        alert(JSON.parse(responseText).errorText);
+    } else {
+        alert('Ошибка');
+    }
+}
+
 function ShowBox(box) {
     //Fade in the Popup
     $(box).fadeIn(300, function () {

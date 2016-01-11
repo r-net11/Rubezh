@@ -81,9 +81,9 @@ namespace GKImitator.ViewModels
 				var descriptorNo = formulaOperation.SecondOperand;
 				DescriptorViewModel descriptorViewModel = null;
 				if (IsKauDecriptor)
-					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.KAUDescriptorNo == descriptorNo);
+					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.KAUDescriptorNo == descriptorNo && x.GKBase == formulaOperation.GKBaseSecondOperand);
 				else
-					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo);
+					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo && x.GKBase == formulaOperation.GKBaseSecondOperand);
 
 				switch (formulaOperation.FormulaOperationType)
 				{
@@ -490,6 +490,20 @@ namespace GKImitator.ViewModels
 						if (Regime == Regime.Automatic)
 						{
 							OnSetFire1();
+						}
+					}
+					if (stateBitVale.Key == GKStateBit.SetRegime_Manual)
+					{
+						if (Regime == Regime.Automatic)
+						{
+							OnSetManualRegime();
+						}
+					}
+					if (stateBitVale.Key == GKStateBit.Stop_InManual)
+					{
+						if (Regime == Regime.Automatic)
+						{
+							OnPauseTurnOn();
 						}
 					}
 					if (GKBase is GKGuardZone && stateBitVale.Key == GKStateBit.Attention && StateBits.Any(x => x.StateBit == GKStateBit.On && x.IsActive))

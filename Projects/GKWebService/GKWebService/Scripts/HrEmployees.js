@@ -75,6 +75,7 @@ function EmployeesViewModel(parentViewModel) {
     self.RemovalDate = ko.observable();
     self.IsDeleted = ko.observable();
     self.IsRowSelected = ko.observable(false);
+    self.PhotoData = ko.observable();
     self.ItemRemovingName = ko.computed(function() {
         return self.IsGuest() ? "посетителя" : "сотрудника";
     }, self);
@@ -122,7 +123,7 @@ function EmployeesViewModel(parentViewModel) {
                 self.UpdateTree(data);
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert("request failed");
+                ShowError(xhr.responseText);
             },
         });
 
@@ -159,6 +160,15 @@ function EmployeesViewModel(parentViewModel) {
             self.IsDeleted(myGrid.jqGrid('getCell', id, 'IsDeleted') == "true");
 
             if (!self.IsOrganisation()) {
+                $.getJSON("/Employees/GetEmployeePhoto/" + self.UID(), function (photo) {
+                    self.PhotoData(photo);
+                })
+                .fail(function (jqxhr, textStatus, error) {
+                    ShowError(jqxhr.responseText);
+                });
+            }
+
+            if (!self.IsOrganisation()) {
                 self.EmployeeCards.InitCards(self.OrganisationUID(), self.UID());
             } else {
                 self.EmployeeCards.InitCards(self.OrganisationUID(), null);
@@ -175,7 +185,13 @@ function EmployeesViewModel(parentViewModel) {
                 self.EmployeeDetails.Organisation = org;
                 self.EmployeeDetails.Init(true, self.ParentViewModel.SelectedPersonType(), self.ReloadTree);
                 ShowBox(box);
+            })
+            .fail(function (jqxhr, textStatus, error) {
+                ShowError(jqxhr.responseText);
             });
+        })
+        .fail(function (jqxhr, textStatus, error) {
+            ShowError(jqxhr.responseText);
         });
     };
 
@@ -204,7 +220,13 @@ function EmployeesViewModel(parentViewModel) {
                 self.EmployeeDetails.Organisation = org;
                 self.EmployeeDetails.Init(false, self.ParentViewModel.SelectedPersonType(), self.ReloadTree);
                 ShowBox(box);
+            })
+            .fail(function (jqxhr, textStatus, error) {
+                ShowError(jqxhr.responseText);
             });
+        })
+        .fail(function (jqxhr, textStatus, error) {
+            ShowError(jqxhr.responseText);
         });
     };
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GKWebService.DataProviders.SKD;
 using GKWebService.Models;
 using GKWebService.Models.SKD.Departments;
 using GKWebService.Models.SKD.Positions;
@@ -20,6 +21,7 @@ namespace GKWebService.Controllers
             return View();
         }
 
+        [ErrorHandler]
         public JsonResult GetOrganisations(PositionFilter positionFilter)
         {
             var positionsViewModel = new PositionsViewModel();
@@ -44,6 +46,7 @@ namespace GKWebService.Controllers
             return View();
         }
 
+        [ErrorHandler]
         public JsonNetResult GetPositionDetails(Guid? organisationId, Guid? id)
         {
             var positionModel = new PositionDetailsViewModel()
@@ -62,6 +65,7 @@ namespace GKWebService.Controllers
         }
 
         [HttpPost]
+        [ErrorHandler]
         public JsonNetResult PositionDetails(PositionDetailsViewModel position, bool isNew)
         {
             var error = position.Save(isNew);
@@ -70,6 +74,7 @@ namespace GKWebService.Controllers
         }
 
         [HttpPost]
+        [ErrorHandler]
         public JsonNetResult PositionPaste(PositionDetailsViewModel position)
         {
             var error = position.Paste();
@@ -82,6 +87,7 @@ namespace GKWebService.Controllers
             return View();
         }
 
+        [ErrorHandler]
         public JsonResult GetPositionEmployeeList(Guid positionId, Guid organisationId, bool isWithDeleted)
         {
             var filter = new EmployeeFilter
@@ -90,13 +96,8 @@ namespace GKWebService.Controllers
                 OrganisationUIDs = new List<Guid> { organisationId },
                 LogicalDeletationType = isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active
             };
-            var operationResult = ClientManager.FiresecService.GetEmployeeList(filter);
-            if (operationResult.HasError)
-            {
-                throw new InvalidOperationException(operationResult.Error);
-            }
-
-            var employees = operationResult.Result.Select(e => ShortEmployeeModel.CreateFromModel(e)).ToList();
+            var operationResult = EmployeeHelper.Get(filter);
+            var employees = operationResult.Select(e => ShortEmployeeModel.CreateFromModel(e)).ToList();
 
             dynamic result = new
             {
@@ -110,37 +111,36 @@ namespace GKWebService.Controllers
         }
 
         [HttpPost]
+        [ErrorHandler]
         public JsonResult SaveEmployeePosition(Guid employeeUID, Guid? positionUID, string name)
         {
-            var operationResult = ClientManager.FiresecService.SaveEmployeePosition(employeeUID, positionUID, name);
+            var operationResult = EmployeeHelper.SetPosition(employeeUID, positionUID, name);
 
-            return Json(operationResult.HasError, JsonRequestBehavior.AllowGet);
+            return Json(operationResult, JsonRequestBehavior.AllowGet);
         }
 
+        [ErrorHandler]
         public JsonNetResult GetChildEmployeeUIDs(Guid positionId)
         {
-            var operationResult = ClientManager.FiresecService.GetPositionEmployees(positionId);
+            var operationResult = PositionHelper.GetEmployeeUIDs(positionId);
 
-            if (operationResult.HasError)
-            {
-                throw new InvalidOperationException(operationResult.Error);
-            }
-
-            return new JsonNetResult { Data = operationResult.Result };
+            return new JsonNetResult { Data = operationResult };
         }
 
         [HttpPost]
+        [ErrorHandler]
         public JsonNetResult MarkDeleted(Guid uid, string name)
         {
-            var operationResult = ClientManager.FiresecService.MarkDeletedPosition(uid, name);
-            return new JsonNetResult { Data = operationResult != null && operationResult.HasError && !operationResult.Error.Contains("Ошибка БД") };
+            var operationResult = PositionHelper.MarkDeleted(uid, name);
+            return new JsonNetResult { Data = operationResult };
         }
 
         [HttpPost]
+        [ErrorHandler]
         public JsonNetResult Restore(Guid uid, string name)
         {
-            var operationResult = ClientManager.FiresecService.RestorePosition(uid, name);
-            return new JsonNetResult { Data = operationResult != null && operationResult.HasError && !operationResult.Error.Contains("Ошибка БД") };
+            var operationResult = PositionHelper.Restore(uid, name);
+            return new JsonNetResult { Data = operationResult };
         }
     }
 }
