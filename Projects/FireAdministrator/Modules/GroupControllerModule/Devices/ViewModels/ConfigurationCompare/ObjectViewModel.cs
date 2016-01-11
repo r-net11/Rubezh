@@ -1,8 +1,7 @@
-﻿using System;
-using RubezhAPI.GK;
-using RubezhClient;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using RubezhAPI.GK;
+using System;
 
 namespace GKModule.ViewModels
 {
@@ -205,11 +204,15 @@ namespace GKModule.ViewModels
 				else if (device2.MirrorParent != null)
 					intAddress2 = device2.MirrorParent.IntAddress;
 
-				var orderNo1 = (intAddress1 * 256 * 256 * 256) + (device1.ShleifNo * 256 * 256) + (!device1.Driver.IsKau ? device1.IntAddress * 256 : 0) + device1.Driver.DriverType;
-				var orderNo2 = (intAddress2 * 256 * 256 * 256) + (device2.ShleifNo * 256 * 256) + (!device2.Driver.IsKau ? device2.IntAddress * 256 : 0) + device2.Driver.DriverType;
+				var orderNo1 = (intAddress1 * 256 * 256 * 256) + (device1.ShleifNo * 256 * 256) + (!device1.Driver.IsKau && !device1.Driver.IsEditMirror && device1.Driver.DriverType != GKDriverType.GKIndicator ? device1.IntAddress * 256 : 0) + device1.Driver.DriverType;
+				var orderNo2 = (intAddress2 * 256 * 256 * 256) + (device2.ShleifNo * 256 * 256) + (!device2.Driver.IsKau && !device2.Driver.IsEditMirror && device1.Driver.DriverType != GKDriverType.GKIndicator ? device2.IntAddress * 256 : 0) + device2.Driver.DriverType;
 				if (orderNo1 > orderNo2)
 					return 1;
 				if (orderNo1 < orderNo2)
+					return -1;
+				if (device1.IntAddress > device2.IntAddress)
+					return 1;
+				if (device1.IntAddress < device2.IntAddress)
 					return -1;
 				return 0;
 			}
