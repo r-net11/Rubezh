@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyGenerator", "KeyGenerato
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntitiesValidation", "..\Common\EntitiesValidation\EntitiesValidation.csproj", "{D8450C23-4958-41C1-A4BD-3C46218F8AEA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntitiesValidation.UnitTests", "..\Common\EntitiesValidation.UnitTests\EntitiesValidation.UnitTests.csproj", "{BFF758A2-4ABA-4BBC-8015-EBFF72C1F308}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -249,6 +251,20 @@ Global
 		{D8450C23-4958-41C1-A4BD-3C46218F8AEA}.Release|Win32.ActiveCfg = Release|Any CPU
 		{D8450C23-4958-41C1-A4BD-3C46218F8AEA}.Release|x64.ActiveCfg = Release|Any CPU
 		{D8450C23-4958-41C1-A4BD-3C46218F8AEA}.Release|x86.ActiveCfg = Release|Any CPU
+		{BFF758A2-4ABA-4BBC-8015-EBFF72C1F308}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFF758A2-4ABA-4BBC-8015-EBFF72C1F308}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFF758A2-4ABA-4BBC-8015-EBFF72C1F308}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BFF758A2-4ABA-4BBC-8015-EBFF72C1F308}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BFF758A2-4ABA-4BBC-8015-EBFF72C1F308}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{BFF758A2-4ABA-4BBC-8015-EBFF72C1F308}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BFF758A2-4ABA-4BBC-8015-EBFF72C1F308}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BFF758A2-4ABA-4BBC-8015-EBFF72C1F308}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFF758A2-4ABA-4BBC-8015-EBFF72C1F308}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFF758A2-4ABA-4BBC-8015-EBFF72C1F308}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BFF758A2-4ABA-4BBC-8015-EBFF72C1F308}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BFF758A2-4ABA-4BBC-8015-EBFF72C1F308}.Release|Win32.ActiveCfg = Release|Any CPU
+		{BFF758A2-4ABA-4BBC-8015-EBFF72C1F308}.Release|x64.ActiveCfg = Release|Any CPU
+		{BFF758A2-4ABA-4BBC-8015-EBFF72C1F308}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -264,5 +280,6 @@ Global
 		{112658EB-3244-4922-AEF7-6376E688B7A7} = {55FE10AF-A462-4908-B710-8824101701E1}
 		{4420A1AA-1787-4FA1-8363-8FA5C07AC2A1} = {55FE10AF-A462-4908-B710-8824101701E1}
 		{D8450C23-4958-41C1-A4BD-3C46218F8AEA} = {55FE10AF-A462-4908-B710-8824101701E1}
+		{BFF758A2-4ABA-4BBC-8015-EBFF72C1F308} = {55FE10AF-A462-4908-B710-8824101701E1}
 	EndGlobalSection
 EndGlobal

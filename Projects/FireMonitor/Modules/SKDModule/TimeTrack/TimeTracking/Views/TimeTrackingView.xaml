@@ -366,7 +366,7 @@
 					<DataGridTemplateColumn Width="150" Header="Файл">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Margin="2 0" Text="{Binding FileName}" />
+								<TextBlock Margin="2 0" Text="{Binding OriginalFileName}" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>

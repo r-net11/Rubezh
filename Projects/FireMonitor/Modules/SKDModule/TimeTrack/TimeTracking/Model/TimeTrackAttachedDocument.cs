@@ -1,4 +1,5 @@
-﻿using FiresecAPI.SKD;
+﻿using FiresecAPI;
+using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -62,6 +63,17 @@ namespace SKDModule.Model
 			}
 		}
 
+		private string _originalFileName;
+		public string OriginalFileName
+		{
+			get { return _originalFileName; }
+			set
+			{
+				this.RaiseAndSetIfChanged(ref _originalFileName, value);
+				Document.OriginalFileName = _originalFileName;
+			}
+		}
+
 		private bool _hasFile;
 		public bool HasFile
 		{
@@ -101,9 +113,6 @@ namespace SKDModule.Model
 			var openFileDialog = new OpenFileDialog();
 			if (openFileDialog.ShowDialog() == true)
 			{
-				var docsDirectory = AppDataFolderHelper.GetFolder("Documents");
-				if (!Directory.Exists(docsDirectory))
-					Directory.CreateDirectory(docsDirectory);
 				var fileName = openFileDialog.FileName;
 				var length = new FileInfo(fileName).Length;
 				if (length > mb50)
@@ -111,17 +120,22 @@ namespace SKDModule.Model
 					MessageBoxService.Show("Размер загружаемого файла не должен превышать 50 мб");
 					return;
 				}
-				var files = Directory.GetFiles(docsDirectory).Select(Path.GetFileName);
-				var newFileName = CopyHelper.CopyFileName(openFileDialog.SafeFileName, files);
-				if (newFileName.Length >= allowedLenght)
+
+				var attachment = new Attachment
 				{
-					MessageBoxService.Show("Имя файла не может быть длиннее 100 символов");
+					FileName = new FileInfo(fileName).Name,
+					Data = File.ReadAllBytes(fileName)
+				};
+				var operationResult = FiresecManager.FiresecService.UploadFile(attachment);
+
+				if (operationResult.HasError)
+				{
+					MessageBoxService.ShowWarning(String.Format("Ошибка передачи файла {0}:\n\n{1}", fileName, operationResult.Error));
 					return;
 				}
-				var newFullFileName = Path.Combine(docsDirectory, newFileName);
-				File.Copy(fileName, newFullFileName);
-				FileName = newFileName;
 
+				FileName = operationResult.Result.ToString();
+				OriginalFileName = attachment.FileName;
 				if (AcceptDocumentChanges())
 				{
 					ServiceFactoryBase.Events.GetEvent<EditDocumentEvent>().Publish(Document);
@@ -131,36 +145,36 @@ namespace SKDModule.Model
 
 		public void OpenFile()
 		{
-			var fileName = AppDataFolderHelper.GetFileInFolder("Documents", FileName);
-			if (File.Exists(fileName))
+			var operationResult = FiresecManager.FiresecService.DownloadFile(new Guid(FileName));
+			if (operationResult.HasError)
 			{
-				try
-				{
-					Process.Start(fileName);
-				}
-				catch (Exception e)
-				{
-					MessageBoxService.ShowWarning(e.Message, "Предупреждение");
-					//	ShowOpenWithDialog(fileName);
-				}
+				MessageBoxService.ShowWarning(operationResult.Error);
+				return;
 			}
-			else
-				MessageBoxService.Show("Файл не существует");
+
+			try
+			{
+				var dir = AppDataFolderHelper.GetFolder("Temp");
+				var filePath = Path.Combine(dir, operationResult.Result.FileName);
+				File.WriteAllBytes(filePath, operationResult.Result.Data);
+				Process.Start(filePath);
+			}
+			catch (Exception e)
+			{
+				MessageBoxService.ShowWarning(e.Message);
+			}
 		}
 
 		public void RemoveFile()
 		{
-			if (!MessageBoxService.ShowQuestion("Вы действительно хотите удалить файл оправдательного документа?")) return;
+			if (!MessageBoxService.ShowQuestion("Вы действительно хотите удалить файл оправдательного документа?"))
+				return;
 
-			var fileName = AppDataFolderHelper.GetFileInFolder("Documents", FileName);
-			if (File.Exists(fileName))
-			{
-				File.Delete(fileName);
-			}
-			else
-				MessageBoxService.Show("Файл не существует");
+			var operationResult = FiresecManager.FiresecService.RemoveFile(new Guid(FileName));
+			if (operationResult.HasError)
+				MessageBoxService.ShowWarning(operationResult.Error);
+			
 			FileName = null;
-
 			if (AcceptDocumentChanges())
 			{
 				ServiceFactoryBase.Events.GetEvent<EditDocumentEvent>().Publish(Document);
@@ -193,6 +207,7 @@ namespace SKDModule.Model
 			StartDateTime = Document.StartDateTime.ToString("yyyy-MM-dd HH:mm");
 			EndDateTime = Document.EndDateTime.ToString("yyyy-MM-dd HH:mm");
 			FileName = Document.FileName;
+			OriginalFileName = Document.OriginalFileName;
 			//	_fileName = Document.FileName;
 
 			//	OnPropertyChanged(() => Name);

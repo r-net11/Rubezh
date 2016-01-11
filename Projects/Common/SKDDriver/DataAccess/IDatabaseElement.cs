@@ -77,4 +77,6 @@ namespace SKDDriver.DataAccess
 	{
 		public string Name { get { return LastName + " " + FirstName + (SecondName != null ? " " + SecondName : ""); } }
 	}
+
+	public partial class Attachment : IDatabaseElement { }
 }

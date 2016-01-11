@@ -428,5 +428,29 @@ namespace FiresecAPI
 		OperationResult ExportConfiguration(ConfigurationExportFilter filter);
 
 		#endregion Export
+
+		/// <summary>
+		/// Выгружает файл на Сервер приложений
+		/// </summary>
+		/// <param name="attachment">Метаданные выгружаемого файла</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		[OperationContract]
+		OperationResult<Guid> UploadFile(Attachment attachment);
+
+		/// <summary>
+		/// Загружает файл с Сервера приложений
+		/// </summary>
+		/// <param name="attachmentUID">Идентификатор метаданных загружаемого файла</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		[OperationContract]
+		OperationResult<Attachment> DownloadFile(Guid attachmentUID);
+
+		/// <summary>
+		/// Удаляет файл из хранилища на Сервере приложений
+		/// </summary>
+		/// <param name="attachmentUID">Идентификатор метаданных удаляемого файла</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		[OperationContract]
+		OperationResult<bool> RemoveFile(Guid attachmentUID);
 	}
 }

@@ -660,5 +660,35 @@ namespace FiresecService.Service
 		}
 
 		#endregion Export
+
+		/// <summary>
+		/// Выгружает файл на Сервер приложений
+		/// </summary>
+		/// <param name="attachment">Метаданные выгружаемого файла</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<Guid> UploadFile(Attachment attachment)
+		{
+			return SafeOperationCall(() => FiresecService.UploadFile(attachment), "UploadFile");
+		}
+
+		/// <summary>
+		/// Загружает файл с Сервера приложений
+		/// </summary>
+		/// <param name="attachmentUID">Идентификатор метаданных загружаемого файла</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<Attachment> DownloadFile(Guid attachmentUID)
+		{
+			return SafeOperationCall(() => FiresecService.DownloadFile(attachmentUID), "DownloadFile");
+		}
+
+		/// <summary>
+		/// Удаляет файл из хранилища на Сервере приложений
+		/// </summary>
+		/// <param name="attachmentUID">Идентификатор метаданных удаляемого файла</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<bool> RemoveFile(Guid attachmentUID)
+		{
+			return SafeOperationCall(() => FiresecService.RemoveFile(attachmentUID), "RemoveFile");
+		}
 	}
 }

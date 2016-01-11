@@ -50,8 +50,17 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public TimeTrackDocumentType TimeTrackDocumentType { get; set; }
 
+		/// <summary>
+		/// Имя файла после помещения в хранилище
+		/// </summary>
 		[DataMember]
 		public string FileName { get; set; }
+
+		/// <summary>
+		/// Оригинальное имя файла, до помещения в хранилище
+		/// </summary>
+		[DataMember]
+		public string OriginalFileName { get; set; }
 
 		public string JournalEventName
 		{
