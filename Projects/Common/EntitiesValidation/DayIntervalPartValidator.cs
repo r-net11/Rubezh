@@ -55,7 +55,7 @@ namespace EntitiesValidation
 		{
 			return dayIntervalPart.IsZeroLength()
 				? OperationResult<bool>.FromError("Интервал не может иметь нулевую продолжительность")
-				: new OperationResult<bool>();
+				: new OperationResult<bool>(true);
 		}
 
 		/// <summary>

@@ -14,7 +14,12 @@ namespace FiresecAPI.SKD
 		/// <returns>true - длина временного интервала равна 0, false - длина временного интервала отлична от 0</returns>
 		public static bool IsZeroLength(this DayIntervalPart dayIntervalPart)
 		{
-			return dayIntervalPart.EndTime == dayIntervalPart.BeginTime;
+			var beginTime = dayIntervalPart.BeginTime;
+			var endTime = dayIntervalPart.TransitionType == DayIntervalPartTransitionType.Night
+				? dayIntervalPart.EndTime.Add(TimeSpan.FromDays(1))
+				: dayIntervalPart.EndTime;
+
+			return endTime == beginTime;
 		}
 
 		public static bool HasIntersectionWith(this DayIntervalPart dayIntervalPart, DayIntervalPart otherDayIntervalPart)
