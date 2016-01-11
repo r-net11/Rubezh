@@ -70,7 +70,7 @@ namespace SKDModule.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Нельзя закрыть интервал. Интервал был закрыт ранее автоматически.
+        ///   Looks up a localized string similar to Нельзя закрыть интервал. Интервал был закрыт ранее..
         /// </summary>
         internal static string ForceClosingFailedMessage {
             get {

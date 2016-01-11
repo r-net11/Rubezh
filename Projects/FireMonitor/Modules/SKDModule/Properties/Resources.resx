@@ -121,7 +121,7 @@
     <value>Введенные в окне редактирования интервала сведения не будут сохранены. Продолжить отмену внесения изменений?</value>
   </data>
   <data name="ForceClosingFailedMessage" xml:space="preserve">
-    <value>Нельзя закрыть интервал. Интервал был закрыт ранее автоматически</value>
+    <value>Нельзя закрыть интервал. Интервал был закрыт ранее.</value>
   </data>
   <data name="RemoveDocumentTypeMessage" xml:space="preserve">
     <value>Вы уверены, что хотите удалить вид документа?</value>
