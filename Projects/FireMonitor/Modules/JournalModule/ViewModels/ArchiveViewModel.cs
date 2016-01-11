@@ -214,6 +214,7 @@ namespace JournalModule.ViewModels
 			get { return _currentPageNumber; }
 			set
 			{
+				JournalItems = new ObservableCollection<JournalItemViewModel>();
 				if (value < 1)
 					_currentPageNumber = 1;
 				if (value > TotalPageNumber)

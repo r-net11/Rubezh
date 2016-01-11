@@ -161,6 +161,7 @@ namespace GKProcessor
 										if (employee != null)
 										{
 											JournalItem.ObjectName = employee.Result.Name;
+											JournalItem.ObjectUID = employee.Result.UID;
 										}
 									}
 								}
@@ -216,6 +217,7 @@ namespace GKProcessor
 										if (employee != null)
 										{
 											JournalItem.ObjectName = employee.Result.Name;
+											JournalItem.ObjectUID = employee.Result.UID;
 										}
 									}
 								}
