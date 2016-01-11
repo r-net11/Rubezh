@@ -5,9 +5,11 @@
     $("#ValidTo").datepicker();
 });
 
-function EmployeeDetailsViewModel() {
+function EmployeeDetailsViewModel(parentViewModel) {
     var self = {};
 
+    self.EmptyGuid = '00000000-0000-0000-0000-000000000000';
+    self.ParentViewModel = parentViewModel;
     self.Title = ko.observable();
     self.IsEmployee = ko.observable(true);
 
@@ -29,6 +31,10 @@ function EmployeeDetailsViewModel() {
             ko.mapping.fromJS(data, {}, self);
         }
     });
+
+    self.IsPositionSelected = ko.computed(function () {
+        return self.Employee.PositionUID() !== self.EmptyGuid;
+    }, self);
 
     self.FIO = function () {
         var names = [self.Employee.LastName(), self.Employee.FirstName(), self.Employee.SecondName()];
@@ -130,8 +136,16 @@ function EmployeeDetailsViewModel() {
         }
     };
 
-    self.SelectPosition = function() {
-        EmployeeDetailsClose();
+    self.SelectPosition = function () {
+        self.ParentViewModel.PositionSelection.Init(self.Employee.OrganisationUID(), self.Employee.UID(), function (uid, name) {
+            if (uid) {
+                self.Employee.PositionUID(uid);
+                self.Employee.PositionName(name);
+            } else {
+                self.Employee.PositionUID(self.EmptyGuid);
+                self.Employee.PositionName(null);
+            }
+        });
     };
 
     self.SelectDepartment = function() {
