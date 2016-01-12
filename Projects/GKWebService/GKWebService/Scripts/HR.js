@@ -26,9 +26,10 @@
                 self.Common.EmployeeSelectionDialog = EmployeeSelectionDialogViewModel();
                 self.Common.PhotoSelection = PhotoSelectionViewModel();
                 self.Employees = EmployeesViewModel(self);
-                self.Employees.EmployeeDetails = EmployeeDetailsViewModel();
+                self.Employees.EmployeeDetails = EmployeeDetailsViewModel(self.Employees);
                 self.Employees.EmployeeCardDetails = EmployeeCardDetailsViewModel(self.Employees);
                 self.Employees.DepartmentSelection = DepartmentSelectionViewModel();
+                self.Employees.PositionSelection = PositionSelectionViewModel();
                 self.Employees.EmployeeCards = EmployeeCardsViewModel(self.Employees);
                 self.Employees.CardRemovalReason = CardRemovalReasonViewModel();
                 self.Departments = DepartmentsViewModel();

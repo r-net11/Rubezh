@@ -21,7 +21,7 @@
                 <label for="LastName"><span>Фамилия</span><input type="text" name="LastName" id="LastName" data-bind="value: LastName" value="" /></label>
                 <label for="FirstName"><span>Имя</span><input type="text" name="FirstName" id="FirstName" data-bind="value: FirstName" value="" /></label>
                 <label for="SecondName"><span>Отчество</span><input type="text" name="SecondName" data-bind="value: SecondName" value="" /></label>
-                <label for="Position" data-bind="visible: $parent.IsEmployee"><span>Должность</span><a id="Position" href=""><span data-bind="click: $parent.SelectPosition">Нажмите для выбора должности</span></a></label>
+                <label for="Position" data-bind="visible: $parent.IsEmployee"><span>Должность</span><a id="Position" href=""><span data-bind="click: $parent.SelectPosition, text: $parent.IsPositionSelected() ? PositionName() : 'Нажмите для выбора должности'"></span></a></label>
                 <label for="Department"><span>Подразделение</span><a id="Department" href=""><span data-bind="click: $parent.SelectDepartment">Нажмите для выбора подразделения</span></a></label>
                 <label for="Escort" data-bind="visible: !$parent.IsEmployee()"><span>Сопровождающий</span><a id="Escort" href=""><span data-bind="click: $parent.SelectEscort">Нажмите для выбора сопровождающего</span></a></label>
                 <label for="Description" data-bind="visible: !$parent.IsEmployee()"><span>Примечание</span><input type="text" name="Description" data-bind="value: Description" value="" /></label>
