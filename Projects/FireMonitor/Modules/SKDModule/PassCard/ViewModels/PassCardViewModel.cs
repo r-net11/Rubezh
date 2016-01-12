@@ -36,9 +36,9 @@ namespace SKDModule.PassCard.ViewModels
 			_card = card;
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);
 			_employee = EmployeeHelper.GetDetails(employeeUID);
-			if (_employee.DepartmentUID != Guid.Empty)
+			if (_employee.DepartmentUID != Guid.Empty && !_employee.IsDepartmentDeleted)
 				_department = DepartmentHelper.GetDetails(_employee.DepartmentUID);
-			if (_employee.PositionUID != Guid.Empty)
+			if (_employee.PositionUID != Guid.Empty && !_employee.IsPositionDeleted)
 				_position = PositionHelper.GetDetails(_employee.PositionUID);
 			_organisation = OrganisationHelper.GetDetails(_employee.OrganisationUID);
 			_passCardCanvas = new PassCardCanvas();
@@ -143,8 +143,7 @@ namespace SKDModule.PassCard.ViewModels
 					elementTextProperty.Text = _employee.BirthDate.ToShortDateString();
 					break;
 				case PassCardTextPropertyType.Department:
-					if (_department != null)
-						elementTextProperty.Text = _department.Name;
+					elementTextProperty.Text = _department != null ? _department.Name : "";
 					break;
 				case PassCardTextPropertyType.EndDate:
 					elementTextProperty.Text = _card.EndDate.ToShortDateString();
@@ -159,8 +158,7 @@ namespace SKDModule.PassCard.ViewModels
 					elementTextProperty.Text = _organisation.Name;
 					break;
 				case PassCardTextPropertyType.Position:
-					if (_position != null)
-						elementTextProperty.Text = _position.Name;
+					elementTextProperty.Text = _position != null ? _position.Name : "";
 					break;
 				case PassCardTextPropertyType.SecondName:
 					elementTextProperty.Text = _employee.SecondName;
