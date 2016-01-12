@@ -475,6 +475,7 @@ namespace RubezhDAL.DataClasses
 					.Include(x => x.GKControllerUIDs)
 					.Include(x => x.CardDoors)
 					.Include(x => x.AccessTemplate.CardDoors)
+					.Where(x => !x.IsInStopList)
 					.Select(x => new
 						{
 							ExpirationDate = x.EndDate,
