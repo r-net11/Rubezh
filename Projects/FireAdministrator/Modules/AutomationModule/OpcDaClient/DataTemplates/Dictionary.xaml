@@ -14,4 +14,7 @@
 	<DataTemplate DataType="{x:Type ViewModels:OpcDaClientEditingTagsViewModel}">
 		<Views:OpcDaClientEditingTagsView />
 	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:OpcDaClientReadWriteTagsViewModel}">
+		<Views:OpcDaClientReadWriteView />
+	</DataTemplate>
 </ResourceDictionary>

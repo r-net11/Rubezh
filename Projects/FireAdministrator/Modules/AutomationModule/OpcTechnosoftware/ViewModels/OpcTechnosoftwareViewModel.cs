@@ -92,7 +92,7 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => SelectedHost);
 			}
 		}
-
+		 
 		TsOpcTagsStructure _tagsAndGroups;
 		public TsOpcTagsStructure TagsAndGroups
 		{
@@ -120,7 +120,7 @@ namespace AutomationModule.ViewModels
 		{
 			get { return _selectedElement; }
 			set
-			{ 
+			{
 				_selectedElement = value;
 				OnPropertyChanged(() => SelectedElement);
 			}

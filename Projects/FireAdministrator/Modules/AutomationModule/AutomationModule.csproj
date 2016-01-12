@@ -140,7 +140,7 @@
     <Compile Include="OpcDaClient\ViewModels\OpcDaClientEditingTagsViewModel.cs" />
     <Compile Include="OpcDaClient\ViewModels\OpcDaClientElementViewModel.cs" />
     <Compile Include="OpcDaClient\ViewModels\OpcDaClientMenuViewModel.cs" />
-    <Compile Include="OpcDaClient\ViewModels\OpcDaClientServerStatusViewModel.cs" />
+    <Compile Include="OpcDaClient\ViewModels\OpcDaClientReadWriteTagsViewModel.cs" />
     <Compile Include="OpcDaClient\ViewModels\OpcDaClientViewModel.cs" />
     <Compile Include="OpcDaClient\Views\OpcDaClientAddingServersView.xaml.cs">
       <DependentUpon>OpcDaClientAddingServersView.xaml</DependentUpon>
@@ -150,6 +150,9 @@
     </Compile>
     <Compile Include="OpcDaClient\Views\OpcDaClientMenuView.xaml.cs">
       <DependentUpon>OpcDaClientMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpcDaClient\Views\OpcDaClientReadWriteView.xaml.cs">
+      <DependentUpon>OpcDaClientReadWriteView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OpcDaClient\Views\OpcDaClientView.xaml.cs">
       <DependentUpon>OpcDaClientView.xaml</DependentUpon>
@@ -622,6 +625,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="OpcDaClient\Views\OpcDaClientMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpcDaClient\Views\OpcDaClientReadWriteView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

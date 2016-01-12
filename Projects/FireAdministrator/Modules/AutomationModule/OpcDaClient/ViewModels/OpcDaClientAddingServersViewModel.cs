@@ -23,7 +23,6 @@ namespace AutomationModule.ViewModels
 			_opcDaServersViewModel = vm;
 			GetOpcServerListCommand = new RelayCommand(OnGetOpcServerList, CanGetOpcServerList);
 
-			//WaitHelper.Execute(GetHostNames);
 			WaitHelper.Execute(OnGetOpcServerList);
 		}
 
@@ -32,20 +31,6 @@ namespace AutomationModule.ViewModels
 		#region Fields And Properties
 
 		OpcDaClientViewModel _opcDaServersViewModel;
-
-		//public string[] HostNames { get; private set; }
-
-		//string _selectedHost;
-
-		//public string SelectedHost
-		//{
-		//	get { return _selectedHost; }
-		//	set 
-		//	{ 
-		//		_selectedHost = value;
-		//		OnPropertyChanged(() => SelectedHost);
-		//	}
-		//}
 
 		public string Login { get; set; }
 		public string Password { get; set; }
@@ -81,11 +66,6 @@ namespace AutomationModule.ViewModels
 		#endregion
 
 		#region Methods
-
-		//void GetHostNames()
-		//{
-		//	HostNames = OpcDiscovery.GetHostNames().ToArray();
-		//}
 
 		protected override bool Save()
 		{
@@ -141,13 +121,7 @@ namespace AutomationModule.ViewModels
 					System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
 			}
 		}
-		bool CanGetOpcServerList()
-		{
-			//return RemoteConnectionIsEnabled ?
-			//	!string.IsNullOrEmpty(SelectedHost) :
-			//	true;
-			return true;
-		}
+		bool CanGetOpcServerList() { return true; }
 
 		#endregion
 	}

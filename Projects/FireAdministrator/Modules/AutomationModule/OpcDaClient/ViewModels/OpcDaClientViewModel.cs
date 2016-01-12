@@ -10,6 +10,7 @@ using RubezhAPI.Automation;
 using Infrastructure;
 using System.Text;
 using OpcClientSdk;
+using RubezhAPI;
 
 namespace AutomationModule.ViewModels
 {
@@ -24,7 +25,8 @@ namespace AutomationModule.ViewModels
 			AddOpcServerCommand = new RelayCommand(OnAddOpcServer, CanAddOpcServer);
 			RemoveOpcServerCommand = new RelayCommand(OnRemoveOpcServer, CanRemoveOpcServer);
 			EditTagListCommand = new RelayCommand(OnEditTagList, CanEditTagList);
-			GetServerStatus = new RelayCommand(OnGetServerStatus, CanGetServerStatus);
+			GetServerStatusCommand = new RelayCommand(OnGetServerStatus, CanGetServerStatus);
+			ReadWriteTagsCommand = new RelayCommand(OnReadWriteTags, CanReadWriteTags);
 
 			LoadConfig();
 		}
@@ -112,9 +114,6 @@ namespace AutomationModule.ViewModels
 
 		public void Dispose() { }
 
-		//OpcServerStatus GetServerStatus()
-		//{ 
-		//}
 		#endregion
 
 		#region Commands
@@ -151,14 +150,18 @@ namespace AutomationModule.ViewModels
 		}
 		bool CanEditTagList() { return SelectedOpcServer != null; }
 
-		public RelayCommand GetServerStatus { get; private set; }
+		public RelayCommand GetServerStatusCommand { get; private set; }
 		void OnGetServerStatus()
 		{
 			string statusInfo;
+			OperationResult resultConnect = null;
+			OperationResult<OpcServerStatus> result = null;
 
-			// Получаем список групп и тегов с сервера
-			var resultConnect = ClientManager.FiresecService
-				.ConnectToOpcDaServer(SelectedOpcServer);
+			WaitHelper.Execute(() =>
+			{
+				resultConnect = ClientManager.FiresecService
+					.ConnectToOpcDaServer(SelectedOpcServer);
+			});
 
 			if (resultConnect.HasError)
 			{
@@ -166,8 +169,11 @@ namespace AutomationModule.ViewModels
 			}
 			else
 			{
-				var result = ClientManager.FiresecService
-					.GetOpcDaServerStatus(SelectedOpcServer);
+				WaitHelper.Execute(() =>
+				{
+					result = ClientManager.FiresecService
+						.GetOpcDaServerStatus(SelectedOpcServer);
+				});
 
 				if (result.HasError)
 				{
@@ -211,6 +217,14 @@ namespace AutomationModule.ViewModels
 			MessageBoxService.Show(statusInfo, "Состояние OPC сервера");
 		}
 		bool CanGetServerStatus() { return SelectedOpcServer != null; }
+
+		public RelayCommand ReadWriteTagsCommand { get; private set; }
+		void OnReadWriteTags()
+		{
+			var readWriteWindow = new OpcDaClientReadWriteTagsViewModel(this);
+			DialogService.ShowModalWindow(readWriteWindow);
+		}
+		bool CanReadWriteTags() { return SelectedOpcServer != null; }
 
 		#endregion
 	}
