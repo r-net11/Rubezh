@@ -66,6 +66,11 @@ namespace GKImitator.ViewModels
 						OnTurnOffNow();
 					break;
 
+				case GKStateBit.Stop_InManual:
+					if (Regime == Regime.Manual)
+						OnPauseTurnOn();
+					break;
+
 				case GKStateBit.Fire1:
 				case GKStateBit.Fire2:
 				case GKStateBit.Reset:

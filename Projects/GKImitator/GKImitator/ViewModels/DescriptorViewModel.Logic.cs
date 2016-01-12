@@ -499,6 +499,27 @@ namespace GKImitator.ViewModels
 							OnSetManualRegime();
 						}
 					}
+					if (stateBitVale.Key == GKStateBit.SetRegime_Automatic)
+					{
+						if (Regime == Regime.Manual)
+						{
+							OnSetAutomaticRegime();
+						}
+					}
+					if (stateBitVale.Key == GKStateBit.TurnOn_InManual)
+					{
+						if (Regime == Regime.Manual)
+						{
+							OnTurnOn();
+						}
+					}
+					if (stateBitVale.Key == GKStateBit.TurnOff_InManual)
+					{
+						if (Regime == Regime.Manual)
+						{
+							OnTurnOff();
+						}
+					}
 					if (stateBitVale.Key == GKStateBit.Stop_InManual)
 					{
 						if (Regime == Regime.Automatic)
