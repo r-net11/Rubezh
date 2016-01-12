@@ -12,6 +12,7 @@ using RubezhAPI.SKD;
 using RubezhClient;
 using GKWebService.Models;
 using GKWebService.Models.SKD.Employees;
+using GKWebService.Models.SKD.Positions;
 using GKWebService.Utils;
 
 namespace GKWebService.Controllers
@@ -296,6 +297,28 @@ namespace GKWebService.Controllers
                 total = 100,
                 records = 100,
                 rows = departments,
+            };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult PositionSelection()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ErrorHandler]
+        public JsonResult GetPositions(Guid organisationUID, Guid? positionUID)
+        {
+            var positions = PositionHelper.GetByOrganisation(organisationUID);
+
+            dynamic result = new
+            {
+                page = 1,
+                total = 100,
+                records = 100,
+                rows = positions,
             };
 
             return Json(result, JsonRequestBehavior.AllowGet);
