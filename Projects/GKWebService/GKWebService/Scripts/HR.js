@@ -30,6 +30,7 @@
                 self.Employees.EmployeeCardDetails = EmployeeCardDetailsViewModel(self.Employees);
                 self.Employees.DepartmentSelection = DepartmentSelectionViewModel();
                 self.Employees.PositionSelection = PositionSelectionViewModel();
+                self.Employees.ScheduleSelection = ScheduleSelectionViewModel();
                 self.Employees.EmployeeCards = EmployeeCardsViewModel(self.Employees);
                 self.Employees.CardRemovalReason = CardRemovalReasonViewModel();
                 self.Departments = DepartmentsViewModel();

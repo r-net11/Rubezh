@@ -160,6 +160,18 @@ namespace GKWebService.Controllers
         }
 
         [ErrorHandler]
+        public JsonNetResult GetOrganisationDepartmentEmployees(Guid organisationId, Guid? departmentId)
+        {
+            var filter = new EmployeeFilter();
+            if (departmentId.HasValue && departmentId.Value != Guid.Empty)
+            {
+                filter.DepartmentUIDs.Add(departmentId.Value);
+            }
+            filter.OrganisationUIDs.Add(organisationId);
+            return GetEmployees(filter);
+        }
+
+        [ErrorHandler]
         public JsonNetResult GetEmptyDepartmentEmployees(Guid id)
         {
             var filter = new EmployeeFilter

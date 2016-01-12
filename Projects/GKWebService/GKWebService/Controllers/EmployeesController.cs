@@ -268,7 +268,6 @@ namespace GKWebService.Controllers
             return View();
         }
 
-        [HttpPost]
         [ErrorHandler]
         public JsonResult GetDepartments(Guid organisationUID, Guid? departmentUID)
         {
@@ -302,12 +301,24 @@ namespace GKWebService.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult ScheduleSelection()
+        {
+            return View();
+        }
+
+        [ErrorHandler]
+        public JsonNetResult GetSchedules(Guid organisationUID)
+        {
+            var schedules = ScheduleHelper.GetByOrganisation(organisationUID);
+
+            return new JsonNetResult { Data = new { Schedules = schedules }  };
+        }
+
         public ActionResult PositionSelection()
         {
             return View();
         }
 
-        [HttpPost]
         [ErrorHandler]
         public JsonResult GetPositions(Guid organisationUID, Guid? positionUID)
         {
