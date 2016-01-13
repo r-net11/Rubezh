@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using GKWebService.DataProviders.SKD;
 using GKWebService.Models;
 using GKWebService.Models.SKD.Departments;
+using GKWebService.Models.SKD.Employees;
 using GKWebService.Models.SKD.Positions;
 using GKWebService.Utils;
 using RubezhAPI.Models;
@@ -300,31 +301,21 @@ namespace GKWebService.Controllers
         [ErrorHandler]
         public JsonResult GetEmployeesFilter(bool isWithDeleted, PersonType selectedPersonType)
         {
-            var employeeModels = new List<ShortEmployeeModel>();
-
-            var organisationFilter = new OrganisationFilter { LogicalDeletationType = isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active };
-            var organisations = OrganisationHelper.Get(organisationFilter);
-            var initializedOrganisations = InitializeOrganisations(organisations);
-
-            var employees = EmployeeHelper.Get(new EmployeeFilter
+            var employeeFilter = new EmployeeFilter
             {
                 LogicalDeletationType = isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active,
                 PersonType = selectedPersonType
-            });
-            var initializedEmployees = InitializeEmployees(employees, initializedOrganisations);
+            };
 
-            foreach (var organisation in initializedOrganisations)
-            {
-                employeeModels.Add(organisation);
-                employeeModels.AddRange(initializedEmployees.Where(e => e.OrganisationUID == organisation.UID));
-            }
+            var employeesViewModel = new EmployeesViewModel();
+            employeesViewModel.Initialize(employeeFilter);
 
             dynamic result = new
             {
                 page = 1,
                 total = 100,
                 records = 100,
-                rows = employeeModels,
+                rows = employeesViewModel.Organisations,
             };
 
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -335,17 +326,5 @@ namespace GKWebService.Controllers
 		{
 			return new JsonNetResult { Data = new EmployeeFilter() };
 		}
-
-        private List<ShortEmployeeModel> InitializeEmployees(IEnumerable<ShortEmployee> employees, IEnumerable<ShortEmployeeModel> organisations)
-        {
-            return employees.Select(e => ShortEmployeeModel.CreateFromModel(e, organisations)).ToList();
-        }
-
-        private List<ShortEmployeeModel> InitializeOrganisations(IEnumerable<Organisation> organisations)
-        {
-            return organisations.Select(ShortEmployeeModel.CreateFromOrganisation).ToList();
-        }
-
-
     }
 }

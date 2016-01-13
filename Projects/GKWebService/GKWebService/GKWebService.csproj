@@ -498,6 +498,8 @@
     <Compile Include="Models\SKD\Common\OrganisationElementBaseViewModel.cs" />
     <Compile Include="Models\SKD\Departments\DepartmentDetailsViewModel.cs" />
     <Compile Include="Models\SKD\Employees\EmployeeDetailsViewModel.cs" />
+    <Compile Include="Models\SKD\Employees\EmployeesViewModel.cs" />
+    <Compile Include="Models\SKD\Employees\EmployeeViewModel.cs" />
     <Compile Include="Models\SKD\Organisations\OrganisationDetailsViewModel.cs" />
     <Compile Include="Models\SKD\Organisations\OrganisationDoorViewModel.cs" />
     <Compile Include="Models\SKD\Organisations\OrganisationUserViewModel.cs" />

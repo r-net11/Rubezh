@@ -70,31 +70,18 @@ namespace GKWebService.Controllers
 			return new JsonNetResult { Data = result };
 		}
 
-		[HttpPost]
         [ErrorHandler]
 		public JsonResult GetOrganisations(EmployeeFilter employeeFilter)
         {
-            var employeeModels = new List<ShortEmployeeModel>();
-    
-			var organisationFilter = new OrganisationFilter { UIDs = employeeFilter.OrganisationUIDs, UserUID = ClientManager.CurrentUser.UID, LogicalDeletationType = employeeFilter.LogicalDeletationType };
-			var organisations = OrganisationHelper.Get(organisationFilter);
-			var initializedOrganisations = InitializeOrganisations(organisations);
-
-			var employees = EmployeeHelper.Get(employeeFilter);
-			var initializedEmployees = InitializeEmployees(employees, initializedOrganisations);
-			
-	        foreach (var organisation in initializedOrganisations)
-	        {
-				employeeModels.Add(organisation);
-		        employeeModels.AddRange(initializedEmployees.Where(e => e.OrganisationUID == organisation.UID));
-			}
+            var employeesViewModel = new EmployeesViewModel();
+            employeesViewModel.Initialize(employeeFilter);
 
             dynamic result = new
             {
                 page = 1,
                 total = 100,
                 records = 100,
-                rows = employeeModels,
+                rows = employeesViewModel.Organisations,
             };
 
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -131,16 +118,6 @@ namespace GKWebService.Controllers
 			filter.UIDs.Add(id.Value);
 			var operationResult = OrganisationHelper.Get(filter);
 			return new JsonNetResult { Data = operationResult.FirstOrDefault() };
-        }
-
-        private List<ShortEmployeeModel> InitializeEmployees(IEnumerable<ShortEmployee> employees, IEnumerable<ShortEmployeeModel> organisations)
-        {
-            return employees.Select(e => ShortEmployeeModel.CreateFromModel(e, organisations)).ToList();
-        }
-
-        private List<ShortEmployeeModel> InitializeOrganisations(IEnumerable<Organisation> organisations)
-        {
-            return organisations.Select(ShortEmployeeModel.CreateFromOrganisation).ToList();
         }
 
         [ErrorHandler]
