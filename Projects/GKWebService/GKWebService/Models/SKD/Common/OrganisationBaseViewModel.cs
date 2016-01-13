@@ -18,22 +18,6 @@ namespace GKWebService.Models.SKD.Common
 
         protected Guid _clipboardUID;
 
-        /*
-        public TViewModel ParentOrganisation
-        {
-            get
-            {
-                if (SelectedItem == null || SelectedItem.IsOrganisation)
-                    return SelectedItem;
-                return SelectedItem.GetAllParents().FirstOrDefault(x => x.IsOrganisation);
-            }
-        }
-        */
-
-        //protected abstract bool Add(TModel item);
-
-        //public TViewModel SelectedItem { get; set; }
-
         public List<TViewModel> Organisations { get; private set; }
 
         public TFilter Filter { get; set; }
@@ -98,34 +82,5 @@ namespace GKWebService.Models.SKD.Common
             }
             return true;
         }
-
-/*
-        protected virtual TModel CopyModel(TModel source)
-        {
-            var copy = new TModel();
-            copy.UID = Guid.NewGuid();
-            copy.Name = source.Name;
-            copy.Description = source.Description;
-            copy.OrganisationUID = ParentOrganisation.Organisation.UID;
-            return copy;
-        }
-
-        protected virtual void OnCopy()
-        {
-            if (SelectedItem.Name.Length > 46)
-            {
-                throw new InvalidOperationException("Название копируемой записи должно быть короче 47 символов");
-            }
-            else
-            {
-                _clipboard = CopyModel(SelectedItem.Model);
-                _clipboardUID = SelectedItem.Model.UID;
-            }
-        }
-
-        protected virtual void OnPaste()
-        {
-        }
-*/
     }
 }
