@@ -16,8 +16,8 @@ namespace FiresecServiceRunner
 {
 	public partial class App : Application
 	{
-		private const string SignalId = "{9C3B6318-48BB-40D0-9249-CA7D9365CDA5}";
-		private const string WaitId = "{254FBDB4-7632-42A8-B2C2-27176EF7E60C}";
+		private const string SignalId = "{59CFC4B4-BA41-4F34-9C41-1CA3851D7019}";
+		private const string WaitId = "{6023CC31-322E-4A74-86FD-E851C2E6C20C}";
 
 		protected override void OnStartup(StartupEventArgs e)
 		{

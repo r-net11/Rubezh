@@ -12,8 +12,8 @@ namespace FireAdministrator
 {
 	public partial class App : Application
 	{
-		private const string SignalId = "{8599F876-2147-4694-A822-B24E36D7F92F}";
-		private const string WaitId = "{07193C2C-CE04-478C-880A-49AB239C6550}";
+		private const string SignalId = "{134E850D-5534-4BE6-92E1-C0698375678B}";
+		private const string WaitId = "{41D511C6-4F6E-442E-8B2C-50BB3FCE6A32}";
 		private Bootstrapper _bootstrapper;
 
 		protected override void OnStartup(StartupEventArgs e)
