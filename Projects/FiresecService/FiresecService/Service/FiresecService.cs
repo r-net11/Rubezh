@@ -111,15 +111,6 @@ namespace FiresecService.Service
 			ClientsManager.Remove(uid);
 		}
 
-		public string InsertPassJournalTestData(string arg)
-		{
-			using (var passJournalTranslator = new PassJournalTranslator())
-			{
-				passJournalTranslator.InsertPassJournalTestData(arg);
-			}
-			return "Test";
-		}
-
 		public void NotifyClientsOnConfigurationChanged()
 		{
 			NotifyConfigurationChanged();

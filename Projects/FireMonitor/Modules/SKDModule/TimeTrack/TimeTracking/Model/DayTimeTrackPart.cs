@@ -4,7 +4,6 @@ using FiresecClient;
 using ReactiveUI;
 using ReactiveUI.Xaml;
 using SKDModule.Helpers;
-using SKDModule.ViewModels;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -189,6 +188,14 @@ namespace SKDModule.Model
 			set { this.RaiseAndSetIfChanged(ref _isNeedAdjustmentOriginal, value); }
 		}
 
+		private TimeTrackActions _timeTrackActions;
+
+		public TimeTrackActions TimeTrackActions
+		{
+			get { return _timeTrackActions; }
+			set { this.RaiseAndSetIfChanged(ref _timeTrackActions, value); }
+		}
+
 		#endregion
 
 		#region Constructors
@@ -197,6 +204,7 @@ namespace SKDModule.Model
 		{
 			if (dayTimeTrackPart == null) return;
 
+			TimeTrackActions = dayTimeTrackPart.TimeTrackActions;
 			IsRemoveAllIntersections = dayTimeTrackPart.IsRemoveAllIntersections;
 			AdjustmentDate = dayTimeTrackPart.AdjustmentDate;
 			CorrectedBy = dayTimeTrackPart.CorrectedBy;
@@ -220,19 +228,6 @@ namespace SKDModule.Model
 				TimeTrackZone = new TimeTrackZone(dayTimeTrackPart.TimeTrackZone);
 			}
 			UID = dayTimeTrackPart.UID;
-		}
-
-		public DayTimeTrackPart(TimeTrackPartDetailsViewModel timeTrackPartDetailsViewModel) : this()
-		{
-			//UID = timeTrackPartDetailsViewModel.UID;
-			//Update(
-			//	timeTrackPartDetailsViewModel.EnterDateTime + timeTrackPartDetailsViewModel.EnterTime,
-			//	timeTrackPartDetailsViewModel.EnterDateTime + timeTrackPartDetailsViewModel.ExitTime,
-			//	timeTrackPartDetailsViewModel.SelectedZone,
-			//	timeTrackPartDetailsViewModel.NotTakeInCalculations,
-			//	timeTrackPartDetailsViewModel.IsManuallyAdded,
-			//	DateTime.Now.ToString(CultureInfo.CurrentUICulture),
-			//	FiresecManager.CurrentUser.Name);
 		}
 
 		public DayTimeTrackPart(TimeTrackPart timeTrackPart, ShortEmployee employee) : this()
@@ -281,6 +276,17 @@ namespace SKDModule.Model
 				AdjustmentDate = dateTimeNow;
 				CorrectedBy = currentUser.Name;
 				CorrectedByUID = currentUser.UID;
+				if (NotTakeInCalculations && ((TimeTrackActions & TimeTrackActions.Adding) != TimeTrackActions.Adding))
+				{
+					TimeTrackActions &= ~TimeTrackActions.TurnOffCalculation;
+					TimeTrackActions |= TimeTrackActions.TurnOnCalculation;
+				}
+				else
+				{
+					TimeTrackActions &= ~TimeTrackActions.TurnOnCalculation;
+					TimeTrackActions |= TimeTrackActions.TurnOffCalculation;
+				}
+
 			});
 		}
 
@@ -335,6 +341,7 @@ namespace SKDModule.Model
 			var timeTrackPart = new FiresecAPI.SKD.DayTimeTrackPart
 			{
 				UID = UID,
+				TimeTrackActions = TimeTrackActions,
 				AdjustmentDate = AdjustmentDate,
 				CorrectedBy = CorrectedBy,
 				CorrectedByUID = CorrectedByUID,

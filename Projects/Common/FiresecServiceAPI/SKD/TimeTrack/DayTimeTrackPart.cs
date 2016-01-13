@@ -60,6 +60,9 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public bool NotTakeInCalculationsOriginal { get; set; }
 
+		[DataMember]
+		public TimeTrackActions TimeTrackActions { get; set; }
+
 		#endregion
 	}
 }

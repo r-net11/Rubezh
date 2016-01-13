@@ -201,9 +201,9 @@ namespace FiresecService.Service
 			return SafeContext.Execute(() => FiresecService.GetMissedIntervals(currentDate, currentEmployee));
 		}
 
-		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser, IEnumerable<DayTimeTrackPart> removedDayTimeTrackParts )
+		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser, IEnumerable<DayTimeTrackPart> removedDayTimeTrackParts, DateTime? resetAdjustmentsDate)
 		{
-			return SafeContext.Execute(() => FiresecService.SaveAllTimeTracks(collectionToSave, employee, currentUser, removedDayTimeTrackParts));
+			return SafeContext.Execute(() => FiresecService.SaveAllTimeTracks(collectionToSave, employee, currentUser, removedDayTimeTrackParts, resetAdjustmentsDate));
 		}
 
 		public OperationResult DeletePassJournal(Guid uid)

@@ -151,11 +151,6 @@ namespace FiresecService.Service
 			SafeOperationCall(() => { FiresecService.SetLocalConfig(); }, "SetLocalConfig");
 		}
 
-		public string InsertPassJournalTestData(string arg)
-		{
-			return SafeOperationCall(() => { return FiresecService.InsertPassJournalTestData(arg); }, "InsertPassJournalTestData");
-		}
-
 		#region Journal
 
 		public OperationResult<DateTime> GetMinJournalDateTime()
