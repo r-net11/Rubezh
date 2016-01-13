@@ -36,6 +36,23 @@ function EmployeeDetailsViewModel(parentViewModel) {
         return self.Employee.PositionUID() !== self.EmptyGuid;
     }, self);
 
+    self.IsDepartmentSelected = ko.computed(function () {
+        return self.Employee.DepartmentUID() !== self.EmptyGuid;
+    }, self);
+
+    self.IsEscortSelected = ko.computed(function () {
+        return self.Employee.EscortUID() && self.Employee.EscortUID() !== self.EmptyGuid;
+    }, self);
+
+    self.IsScheduleSelected = ko.computed(function () {
+        return self.Employee.ScheduleUID() && self.Employee.ScheduleUID() !== self.EmptyGuid;
+    }, self);
+
+    self.ScheduleName = ko.computed(function () {
+        var date = $.datepicker.parseDate("yy-mm-dd", self.Employee.ScheduleStartDate().split("T")[0]);
+        return self.Employee.ScheduleName() + ' с ' + $.datepicker.formatDate("dd.mm.yy", date);
+    }, self);
+
     self.FIO = function () {
         var names = [self.Employee.LastName(), self.Employee.FirstName(), self.Employee.SecondName()];
         return names.join(" ");
@@ -100,7 +117,7 @@ function EmployeeDetailsViewModel(parentViewModel) {
                     });
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert("request failed");
+                ShowError(xhr.responseText);
             },
         });
     };
@@ -128,7 +145,7 @@ function EmployeeDetailsViewModel(parentViewModel) {
                     success();
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
-                    alert("request failed");
+                    ShowError(xhr.responseText);
                 },
             });
         } else {
@@ -149,15 +166,58 @@ function EmployeeDetailsViewModel(parentViewModel) {
     };
 
     self.SelectDepartment = function() {
-        EmployeeDetailsClose();
+        self.ParentViewModel.DepartmentSelection.Init(self.Employee.OrganisationUID(), null, function (uid, name) {
+            if (uid) {
+                self.Employee.DepartmentUID(uid);
+                self.Employee.DepartmentName(name);
+            } else {
+                self.Employee.DepartmentUID(self.EmptyGuid);
+                self.Employee.DepartmentName(null);
+            }
+        });
     };
 
     self.SelectEscort = function() {
-        EmployeeDetailsClose();
+        $.getJSON("/Hr/GetOrganisationDepartmentEmployees/",
+            {'organisationId': self.Employee.OrganisationUID() , 'departmentId': self.Employee.DepartmentUID() },
+            function (emp) {
+                ko.mapping.fromJS(emp, {}, app.Menu.HR.Common.EmployeeSelectionDialog);
+                app.Menu.HR.Common.EmployeeSelectionDialog.Init(function (employee) {
+                    if (employee) {
+                        self.Employee.EscortUID(employee.UID());
+                        self.Employee.EscortName(employee.Name());
+                    } else {
+                        self.Employee.EscortUID(self.EmptyGuid);
+                        self.Employee.EscortName(null);
+                    }
+                });
+            ShowBox('#employee-selection-box');
+        })
+        .fail(function (jqxhr, textStatus, error) {
+            ShowError(jqxhr.responseText);
+        });
     };
 
     self.SelectSchedule = function() {
-        EmployeeDetailsClose();
+        $.getJSON("/Employees/GetSchedules/",
+            { 'organisationUID': self.Employee.OrganisationUID() },
+            function (emp) {
+                ko.mapping.fromJS(emp, {}, app.Menu.HR.Employees.ScheduleSelection);
+                app.Menu.HR.Employees.ScheduleSelection.Init(self.Employee.ScheduleStartDate(), function (schedule, scheduleStartDate) {
+                    if (schedule) {
+                        self.Employee.ScheduleUID(schedule.UID());
+                        self.Employee.ScheduleName(schedule.Name());
+                    } else {
+                        self.Employee.ScheduleUID(self.EmptyGuid);
+                        self.Employee.ScheduleName(null);
+                    }
+                    self.Employee.ScheduleStartDate(scheduleStartDate);
+                });
+                ShowBox('#schedule-selection-box');
+            })
+        .fail(function (jqxhr, textStatus, error) {
+            ShowError(jqxhr.responseText);
+        });
     };
 
     return self;

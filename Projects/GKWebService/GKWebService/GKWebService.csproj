@@ -449,6 +449,7 @@
     <Content Include="Scripts\SKD\Departments\DepartmentDetailsViewModel.js" />
     <Content Include="Scripts\SKD\Departments\DepartmentEmployeeListViewModel.js" />
     <Content Include="Scripts\SKD\Departments\DepartmentsViewModel.js" />
+    <Content Include="Scripts\SKD\Employees\ScheduleSelectionViewModel.js" />
     <Content Include="Scripts\SKD\Employees\PositionSelectionViewModel.js" />
     <Content Include="Scripts\SKD\Employees\DepartmentSelectionViewModel.js" />
     <Content Include="Scripts\SKD\Employees\CardRemovalReasonViewModel.js" />
@@ -578,6 +579,7 @@
     <Content Include="Views\Hr\EmployeesFilter.cshtml" />
     <Content Include="Views\Hr\PhotoSelection.cshtml" />
     <Content Include="Views\Employees\PositionSelection.cshtml" />
+    <Content Include="Views\Employees\ScheduleSelection.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
