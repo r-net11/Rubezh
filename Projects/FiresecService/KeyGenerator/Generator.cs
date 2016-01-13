@@ -5,7 +5,6 @@ using System.Management;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
-using System.Windows.Forms;
 using AppSoftware.LicenceEngine.Common;
 using AppSoftware.LicenceEngine.KeyVerification;
 
@@ -18,14 +17,8 @@ namespace KeyGenerator
 			var mos = new ManagementObjectSearcher("Select * from Win32_" + tableName);
 			foreach (ManagementObject mo in mos.Get())
 			{
-				try
-				{
-					return mo[methodName].ToString();
-				}
-				catch (Exception e)
-				{
-					MessageBox.Show(e.ToString());
-				}
+				var result = mo[methodName];
+				return result == null ? string.Empty : mo[methodName].ToString();
 			}
 
 			return string.Empty;
