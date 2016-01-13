@@ -13,7 +13,6 @@
 	xmlns:viewModels="clr-namespace:SKDModule.ViewModels"
 	Width="1100"
 	Height="600"
-	DataContextChanged="TimeTrackDetailsView_OnDataContextChanged"
 	d:DataContext="{d:DesignInstance viewModels:TimeTrackDetailsViewModel}"
 	mc:Ignorable="d">
 	<UserControl.Resources>
@@ -81,9 +80,7 @@
 						Margin="2"
 						Language="ru-RU"
 						ItemsSource="{Binding DayTimeTrackPartsCollection, IsAsync=True}"
-						SelectedItem="{Binding SelectedDayTimeTrackPart,
-					                                 Mode=TwoWay,
-					                                 UpdateSourceTrigger=PropertyChanged}">
+						SelectedItem="{Binding SelectedDayTimeTrackPart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 						<DataGrid.Columns>
 							<DataGridTemplateColumn Width="40" Header="№">
 								<DataGridTemplateColumn.CellTemplate>

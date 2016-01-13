@@ -36,7 +36,7 @@ namespace FiresecService.Service
 			var result = DayIntervalValidator.ValidateAddingOrEditing(item, isNew);
 			if (result.HasError)
 				return result;
-			
+
 			// Сохраняем дневной график
 			using (var databaseService = new SKDDatabaseService())
 			{
@@ -101,11 +101,11 @@ namespace FiresecService.Service
 			{
 				result = databaseService.DayIntervalPartTranslator.Save(item);
 			}
-			
+
 			// Вставляем соответствующую запись в журнал событий
 			if (!result.HasError)
 				AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика, name, uid: item.UID);
-			
+
 			return result;
 		}
 
@@ -115,7 +115,7 @@ namespace FiresecService.Service
 			var result = DayIntervalPartValidator.ValidateDeleting(uid);
 			if (result.HasError)
 				return result;
-			
+
 			// Удаляем временной интервал дневного графика
 			using (var databaseService = new SKDDatabaseService())
 			{
@@ -125,7 +125,7 @@ namespace FiresecService.Service
 			// Вставляем соответствующую запись в журнал событий
 			if (!result.HasError)
 				AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика, name, uid: uid);
-	
+
 			return result;
 		}
 
@@ -458,59 +458,90 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser, IEnumerable<DayTimeTrackPart> removedDayTimeTrackParts)
+		private void SetJournalMessageForTimeTrackPart(DayTimeTrackPart dayTimeTrackPart, ShortEmployee employee, User currentUser, DateTime? resetAdjustmentDate)
+		{
+			if (resetAdjustmentDate.HasValue) return;
+
+			if ((dayTimeTrackPart.TimeTrackActions & TimeTrackActions.Adding) == TimeTrackActions.Adding)
+			{
+				AddJournalMessage(JournalEventNameType.Добавление_интервала,
+								"Интервал рабочего времени (" + employee.FIO + ")",
+								JournalEventDescriptionType.NULL,
+								"Интервал добавлен (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
+								currentUser.Name);
+			}
+			if ((dayTimeTrackPart.TimeTrackActions & TimeTrackActions.EditBorders) == TimeTrackActions.EditBorders)
+			{
+				AddJournalMessage(JournalEventNameType.Изменение_границы_интервала,
+								"Интервал рабочего времени (" + employee.FIO + ")",
+								JournalEventDescriptionType.NULL,
+								"Границы интервала изменены (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
+								currentUser.Name);
+			}
+			if ((dayTimeTrackPart.TimeTrackActions & TimeTrackActions.Remove) == TimeTrackActions.Remove)
+			{
+				AddJournalMessage(JournalEventNameType.Удаление_интервала,
+					null, JournalEventDescriptionType.Удаление,
+					"Интервал удален (" + dayTimeTrackPart.EnterDateTime + "-" + dayTimeTrackPart.ExitDateTime + ", зона" + dayTimeTrackPart.TimeTrackZone.Name + ")");
+			}
+			if ((dayTimeTrackPart.TimeTrackActions & TimeTrackActions.TurnOffCalculation) == TimeTrackActions.TurnOffCalculation)
+			{
+				AddJournalMessage(JournalEventNameType.Снятие_неУчитывать_в_расчетах,
+								"Интервал рабочего времени (" + employee.FIO + ")",
+								JournalEventDescriptionType.NULL,
+								"Интервал добавлен в расчеты (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
+								currentUser.Name);
+			}
+			if ((dayTimeTrackPart.TimeTrackActions & TimeTrackActions.TurnOnCalculation) == TimeTrackActions.TurnOnCalculation)
+			{
+				AddJournalMessage(JournalEventNameType.Установка_неУчитывать_в_расчетах,
+								"Интервал рабочего времени (" + employee.FIO + ")",
+								JournalEventDescriptionType.NULL,
+								"Интервал исключен из расчетов (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
+								currentUser.Name);
+			}
+		}
+
+		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser, IEnumerable<DayTimeTrackPart> removedDayTimeTrackParts, DateTime? resetAdjustmentsDate)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
-				if (removedDayTimeTrackParts.Any()) databaseService.PassJournalTranslator.RemoveSelectedIntervals(removedDayTimeTrackParts);
+				if (removedDayTimeTrackParts.Any())
+				{
+					foreach (var removedDayTimeTrackPart in removedDayTimeTrackParts)
+					{
+						if (!DeletePassJournal(removedDayTimeTrackPart.UID).HasError)
+						{
+							SetJournalMessageForTimeTrackPart(removedDayTimeTrackPart, employee, currentUser, resetAdjustmentsDate);
+						}
+					}
+				}
 
 				foreach (var dayTimeTrackPart in collectionToSave)
 				{
 					if (dayTimeTrackPart.IsNew)
 					{
-						databaseService.PassJournalTranslator.AddCustomPassJournal(dayTimeTrackPart, employee);
-						AddJournalMessage(JournalEventNameType.Добавление_интервала,
-										"Интервал рабочего времени (" + employee.FIO + ")",
-										JournalEventDescriptionType.NULL,
-										"Интервал добавлен (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
-										currentUser.Name);
+						if (!databaseService.PassJournalTranslator.AddCustomPassJournal(dayTimeTrackPart, employee).HasError)
+						{
+							SetJournalMessageForTimeTrackPart(dayTimeTrackPart, employee, currentUser, resetAdjustmentsDate);
+						}
 
 					}
 					else
 					{
-						bool? setAdjustmentFlag;
-						bool setBordersChangedFlag;
-						bool setForceClosedFlag;
-
-						databaseService.PassJournalTranslator.EditPassJournal(dayTimeTrackPart, employee, out setAdjustmentFlag, out setBordersChangedFlag, out setForceClosedFlag);
-
-						if (setAdjustmentFlag == true && !setForceClosedFlag)
-							AddJournalMessage(JournalEventNameType.Установка_неУчитывать_в_расчетах,
-										"Интервал рабочего времени (" + employee.FIO + ")",
-										JournalEventDescriptionType.NULL,
-										"Интервал исключен из расчетов (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
-										currentUser.Name);
-						else if(setAdjustmentFlag == false)
-							AddJournalMessage(JournalEventNameType.Снятие_неУчитывать_в_расчетах,
-										"Интервал рабочего времени (" + employee.FIO + ")",
-										JournalEventDescriptionType.NULL,
-										"Интервал добавлен в расчеты (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
-										currentUser.Name);
-
-						if (setForceClosedFlag)
-							AddJournalMessage(JournalEventNameType.Закрытие_интервала,
-										"Интервал рабочего времени (" + employee.FIO + ")",
-										JournalEventDescriptionType.NULL,
-										"Интервал принудительно закрыт (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
-										currentUser.Name);
-						else if (setBordersChangedFlag)
-							AddJournalMessage(JournalEventNameType.Изменение_границы_интервала,
-										"Интервал рабочего времени (" + employee.FIO + ")",
-										JournalEventDescriptionType.NULL,
-										"Границы интервала изменены (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
-										currentUser.Name);
+						if (!databaseService.PassJournalTranslator.EditPassJournal(dayTimeTrackPart, employee).HasError)
+						{
+							SetJournalMessageForTimeTrackPart(dayTimeTrackPart, employee, currentUser, resetAdjustmentsDate);
+						}
 					}
 				}
+
+				if(resetAdjustmentsDate.HasValue)
+					AddJournalMessage(JournalEventNameType.ResetAdjustmentInterval,
+								employee.FIO,
+								descriptionText: "Сброс корректировок " + resetAdjustmentsDate.Value.Date.ToShortDateString(),
+								userName: currentUser.Name);
+
 				return new OperationResult();
 			}
 		}

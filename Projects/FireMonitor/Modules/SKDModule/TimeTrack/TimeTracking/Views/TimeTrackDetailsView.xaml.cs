@@ -198,17 +198,5 @@ namespace SKDModule.Views
 			}
 			TimeLineGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.5, GridUnitType.Star) });
 		}
-
-		private void TimeTrackDetailsView_OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-		{
-			var vm = (TimeTrackDetailsViewModel) e.NewValue;
-			vm.RefreshGridHandler += vm_RefreshGridHandler;
-		}
-
-		void vm_RefreshGridHandler(object sender, EventArgs e)
-		{
-			//Refresh();
-
-		}
 	}
 }

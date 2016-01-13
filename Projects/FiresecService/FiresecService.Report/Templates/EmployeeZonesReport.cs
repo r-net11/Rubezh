@@ -362,8 +362,8 @@ namespace FiresecService.Report.Templates
 			var employees = dataProvider.GetEmployees(filter);
 			var zoneMap = SKDManager.Zones.ToDictionary(zone => zone.UID, zone => zone.Name);
 
-			var enterJournal = dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesLastEnterPassJournal(
-				employees.Select(item => item.UID), filter.Zones, filter.ReportDateTime);
+			var enterJournal = dataProvider.DatabaseService.PassJournalTranslator
+				.GetEmployeesLastEnterPassJournal(employees.Select(item => item.UID), filter.Zones, filter.ReportDateTime);
 			foreach (var record in enterJournal)
 				AddRecord(dataProvider, dataSet, record, filter, true, zoneMap);
 			return dataSet;

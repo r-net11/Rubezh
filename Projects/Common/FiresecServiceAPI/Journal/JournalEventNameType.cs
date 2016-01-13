@@ -438,5 +438,8 @@ namespace FiresecAPI.Journal
 
 		[EventName(JournalSubsystemType.SKD, "Удаление оправдательного документа", XStateClass.Info)]
 		RemoveTimeTrackDocument = 251,
+
+		[EventName(JournalSubsystemType.SKD, "Сброс корректировок", XStateClass.Info)]
+		ResetAdjustmentInterval = 252,
 	}
 }

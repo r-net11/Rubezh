@@ -75,11 +75,6 @@ namespace FiresecClient
 			SafeOperationCall(() => { FiresecService.SetLocalConfig(); }, "SetLocalConfig");
 		}
 
-		public string InsertPassJournalTestData(string arg)
-		{
-			return SafeOperationCall(() => FiresecService.InsertPassJournalTestData(arg), "InsertPassJournalTestData");
-		}
-
 		public string Ping()
 		{
 			return SafeOperationCall(() => { return FiresecService.Ping(); }, "Ping");

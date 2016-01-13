@@ -24,7 +24,7 @@ namespace SKDModule.ViewModels
 
 		#region Properties
 
-		public DayTimeTrackPart DayTimeTrackPart { get; set; }
+		public DayTimeTrackPart DayTimeTrackPart { get; set; } //TODO: try to remove it
 
 		private TimeTrackZone CurrentZone { get; set; }
 
@@ -118,7 +118,8 @@ namespace SKDModule.ViewModels
 					ExitDateTime = inputTimeTrackPart.ExitDateTime.GetValueOrDefault().Date,
 					EnterTime = inputTimeTrackPart.EnterTime,
 					ExitTime = inputTimeTrackPart.ExitTime,
-					TimeTrackZone = inputTimeTrackPart.TimeTrackZone
+					TimeTrackZone = inputTimeTrackPart.TimeTrackZone,
+					TimeTrackActions = inputTimeTrackPart.TimeTrackActions
 				};
 
 				NotTakeInCalculations = inputTimeTrackPart.NotTakeInCalculations;
@@ -133,7 +134,8 @@ namespace SKDModule.ViewModels
 					UID = Guid.NewGuid(),
 					EnterDateTime = dayTimeTrack.Date,
 					ExitDateTime = dayTimeTrack.Date,
-					IsManuallyAdded = true
+					IsManuallyAdded = true,
+					TimeTrackActions = TimeTrackActions.Adding
 				};
 
 				Title = "Добавить проход";
@@ -167,14 +169,32 @@ namespace SKDModule.ViewModels
 			if (IsNew) return true;
 
 			DayTimeTrackPart.TimeTrackZone = CurrentZone;
-			DayTimeTrackPart.EnterDateTime = CurrentTimeTrackPart.EnterDateTime.GetValueOrDefault().Date +
-			                                 CurrentTimeTrackPart.EnterTime;
-			DayTimeTrackPart.ExitDateTime = CurrentTimeTrackPart.ExitDateTime.GetValueOrDefault().Date +
-			                                CurrentTimeTrackPart.ExitTime;
+
 			DayTimeTrackPart.CorrectedBy = FiresecManager.CurrentUser.Name;
 			DayTimeTrackPart.AdjustmentDate = DateTime.Now;
 			DayTimeTrackPart.CorrectedByUID = FiresecManager.CurrentUser.UID;
-			DayTimeTrackPart.NotTakeInCalculations = NotTakeInCalculations;
+
+			if (DayTimeTrackPart.NotTakeInCalculations != NotTakeInCalculations)
+			{
+				DayTimeTrackPart.NotTakeInCalculations = NotTakeInCalculations;
+
+				if (NotTakeInCalculations)
+					DayTimeTrackPart.TimeTrackActions |= TimeTrackActions.TurnOnCalculation;
+				else
+					DayTimeTrackPart.TimeTrackActions |= TimeTrackActions.TurnOffCalculation;
+			}
+
+			if ((DayTimeTrackPart.EnterDateTime != CurrentTimeTrackPart.EnterDateTime.GetValueOrDefault().Date + CurrentTimeTrackPart.EnterTime)
+				||
+				(DayTimeTrackPart.ExitDateTime != CurrentTimeTrackPart.ExitDateTime.GetValueOrDefault().Date + CurrentTimeTrackPart.ExitTime))
+			{
+				DayTimeTrackPart.EnterDateTime = CurrentTimeTrackPart.EnterDateTime.GetValueOrDefault().Date +
+											 CurrentTimeTrackPart.EnterTime;
+				DayTimeTrackPart.ExitDateTime = CurrentTimeTrackPart.ExitDateTime.GetValueOrDefault().Date +
+												CurrentTimeTrackPart.ExitTime;
+				DayTimeTrackPart.TimeTrackActions |= TimeTrackActions.EditBorders;
+			}
+
 			DayTimeTrackPart.IsNeedAdjustment = default(bool);
 
 			return true;
