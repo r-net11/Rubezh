@@ -17,8 +17,8 @@ namespace FireMonitor
 {
 	public partial class App : Application
 	{
-		private const string SignalId = "{B8150ECC-9433-4535-89AA-5BF6EF631575}";
-		private const string WaitId = "{358D5240-9A07-4134-9EAF-8D7A54BCA81F}";
+		private const string SignalId = "{56E74882-C633-45CD-BE94-DCDEE52846BE}";
+		private const string WaitId = "{38A602C9-D6F2-424B-B0FA-97E1B133C473}";
 		private Bootstrapper _bootstrapper;
 		public bool IsClosingOnException { get; private set; }
 
