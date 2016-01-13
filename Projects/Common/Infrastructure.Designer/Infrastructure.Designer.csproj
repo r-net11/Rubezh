@@ -74,6 +74,7 @@
     <Compile Include="Adorners\ResizeChromePoint.cs" />
     <Compile Include="Adorners\ResizeChromeRectangle.cs" />
     <Compile Include="Adorners\ResizeChromeShape.cs" />
+    <Compile Include="DesignerClipboard.cs" />
     <Compile Include="DesignerItems\DesignerItemBase.cs" />
     <Compile Include="DesignerItems\DesignerItemPoint.cs" />
     <Compile Include="DesignerItems\DesignerItemRectangle.cs" />
