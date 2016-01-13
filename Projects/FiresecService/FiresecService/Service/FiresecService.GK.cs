@@ -102,7 +102,7 @@ namespace FiresecService.Service
 				var result = GKProcessorManager.GKSyncronyseTime(device, GetUserName(clientUID));
 				if (result)
 					return new OperationResult<bool>(true);
-				return OperationResult<bool>.FromError("Устройство недоступно", false);
+				return OperationResult<bool>.FromError("Устройство недоступно или IP-адрес компьютера отсутствует в списке разрешенных адресов прибора", false);
 			}
 			return OperationResult<bool>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
