@@ -1,5 +1,6 @@
 ﻿using Common;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -24,6 +25,7 @@ namespace Infrustructure.Plans.Elements
 			ImageType = ResourceType.Image;
 			IsLocked = false;
 			IsHidden = false;
+			PlanElementBindingItems = new List<PlanElementBindingItem>();
 		}
 
 		[XmlIgnore]
@@ -55,6 +57,8 @@ namespace Infrustructure.Plans.Elements
 		public bool IsLocked { get; set; }
 		[DataMember]
 		public bool IsHidden { get; set; }
+
+		public List<PlanElementBindingItem> PlanElementBindingItems { get; set; }
 
 		[XmlIgnore]
 		public bool AllowTransparent

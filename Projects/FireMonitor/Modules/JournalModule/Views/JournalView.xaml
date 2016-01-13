@@ -13,9 +13,17 @@
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
-				<Controls:ToolBarButton Grid.Column="0" Command="{Binding ShowFilterCommand}" ToolTip="Задать фильтр" ImageSource="Filter" />
+				<Controls:ToolBarButton Grid.Column="0" HorizontalAlignment="Left" ToolTip="Задать фильтр" ImageSource="Filter" 
+									Command="{Binding ShowFilterCommand}" IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}" />
+				<StackPanel Grid.Column="1" HorizontalAlignment="Center"  Orientation="Horizontal" 
+							Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}" >
+					<Controls:SpinnerCogs VerticalAlignment="Center" />
+					<TextBlock Text="Загрузка" Style="{DynamicResource TextBlockDetailsStyle}" FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
+				</StackPanel>
 			</Grid>
+			
 		</Border>
 		<Views:JournalViewInternal Grid.Row="1" Margin="0 5 0 0" />
 	</Grid>

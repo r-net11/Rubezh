@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using RubezhAPI.GK;
-using RubezhClient;
+using RubezhAPI;
 
 namespace GKProcessor
 {
@@ -31,12 +31,14 @@ namespace GKProcessor
 		public override void BuildFormula()
 		{
 			Formula = new FormulaBuilder();
-			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) ||
-			    (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
+			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
 			{
 				Formula.Add(FormulaOperationType.END);
 				return;
 			}
+
+			var mirrorParents = Device.GetMirrorParents();
+			Formula.AddMirrorLogic(Device, mirrorParents);
 
 			if (CreateMPTLogic())
 				return;
@@ -85,6 +87,24 @@ namespace GKProcessor
 				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 				Formula.AddGetBit(GKStateBit.Off, Device.GuardZones.FirstOrDefault());
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
+			}
+
+			if (Device.DriverType == GKDriverType.RSR2_MAP4 && Device.Zones.Count > 0)
+			{
+				int count = 0;
+				foreach (var zone in Device.Zones)
+				{
+					Formula.AddGetBit(GKStateBit.Fire1, zone);
+					if (count > 0)
+						Formula.Add(FormulaOperationType.OR);
+					Formula.AddGetBit(GKStateBit.Fire2, zone);
+					Formula.Add(FormulaOperationType.OR);
+					Formula.AddGetBit(GKStateBit.Attention, zone);
+					Formula.Add(FormulaOperationType.OR);
+					count++;
+					Device.LinkToDescriptor(zone);
+				}
+				Formula.AddPutBit(GKStateBit.Reset, Device);
 			}
 
 			if (Device.Door != null && (Device.Door.LockDeviceUID == Device.UID || Device.Door.LockDeviceExitUID == Device.UID))
@@ -155,6 +175,11 @@ namespace GKProcessor
 			var binProperties = new List<BinProperty>();
 
 			if (DatabaseType == DatabaseType.Gk && Device.Driver.IsDeviceOnShleif)
+			{
+				return;
+			}
+
+			if (DatabaseType == DatabaseType.Gk && (Device.DriverType == GKDriverType.GKMirror || (Device.Parent!=null && Device.Parent.DriverType == GKDriverType.GKMirror)))
 			{
 				return;
 			}
@@ -251,7 +276,6 @@ namespace GKProcessor
 
 		void CreateAutomaticOffBoards(GKMPT mpt)
 		{
-			Formula = new FormulaBuilder();
 			Formula.AddGetBit(GKStateBit.Norm, mpt);
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
@@ -262,7 +286,6 @@ namespace GKProcessor
 
 		void CreateOnDevices(GKMPT mpt)
 		{
-			Formula = new FormulaBuilder();
 			Formula.AddGetBit(GKStateBit.TurningOn, mpt);
 			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 			Formula.AddGetBit(GKStateBit.Off, mpt);
@@ -272,7 +295,6 @@ namespace GKProcessor
 
 		void CreateBombDevices(GKMPT mpt)
 		{
-			Formula = new FormulaBuilder();
 			Formula.AddGetBit(GKStateBit.On, mpt);
 			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 			Formula.AddGetBit(GKStateBit.Off, mpt);

@@ -47,6 +47,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="AutomationHelper.cs" />
+    <Compile Include="ProcedureExecutionContext.Delegates.cs" />
     <Compile Include="ProcedureExecutionContext.cs" />
     <Compile Include="AutomationProcessor.cs" />
     <Compile Include="ProcedurePropertyCache.cs" />
@@ -64,10 +65,6 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{fe37b6d4-73e5-40f2-a770-a974561430b8}</Project>
       <Name>Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RubezhClient\RubezhClient.csproj">
-      <Project>{f46953e0-ca12-4659-ae8c-88241b541f6c}</Project>
-      <Name>RubezhClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrustructure.Plans\Infrustructure.Plans.csproj">
       <Project>{da2a8431-7328-4ae8-926f-e191700577a1}</Project>

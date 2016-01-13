@@ -17,6 +17,7 @@ using GKModule.Plans;
 using KeyboardKey = System.Windows.Input.Key;
 using RubezhClient;
 using RubezhAPI.GK;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {

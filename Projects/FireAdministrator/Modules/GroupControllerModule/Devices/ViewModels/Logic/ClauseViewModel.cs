@@ -7,6 +7,8 @@ using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
@@ -87,7 +89,7 @@ namespace GKModule.ViewModels
 							new StateTypeViewModel(value, GKStateBit.Off),
 							new StateTypeViewModel(value, GKStateBit.TurningOn),
 							new StateTypeViewModel(value, GKStateBit.TurningOff),
-							new StateTypeViewModel(value, GKStateBit.Failure)
+							new StateTypeViewModel(value, GKStateBit.Failure),
 						};
 						break;
 
@@ -311,13 +313,11 @@ namespace GKModule.ViewModels
 			var sourceDevices = new List<GKDevice>();
 			foreach (var device in GKManager.Devices)
 			{
-				if (device.IsNotUsed)
-					continue;
 				if (device.Driver.AvailableStateBits.Contains(SelectedStateType.StateBit))
 					sourceDevices.Add(device);
 			}
 			var devicesSelectationViewModel = new DevicesSelectationViewModel(Devices, sourceDevices);
-			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
+			if (ServiceFactory.DialogService.ShowModalWindow(devicesSelectationViewModel))
 			{
 				Devices = devicesSelectationViewModel.DevicesList;
 				OnPropertyChanged(() => PresenrationDevices);

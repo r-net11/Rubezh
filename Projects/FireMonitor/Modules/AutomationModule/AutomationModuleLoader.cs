@@ -1,21 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using AutomationModule.Events;
 using AutomationModule.Plans;
 using AutomationModule.ViewModels;
-using RubezhAPI;
-using RubezhAPI.Automation;
-using RubezhAPI.AutomationCallback;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhAPI.Models.Layouts;
-using RubezhAPI.SKD;
-using RubezhClient;
-using GKModule.Events;
 using Infrastructure;
-using Infrastructure.Client;
+using Infrastructure.Automation;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
@@ -23,23 +9,30 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Infrastructure.Models;
 using Infrustructure.Plans.Events;
 using Microsoft.Practices.Prism.Events;
-using Infrastructure.Automation;
+using RubezhAPI;
+using RubezhAPI.Automation;
+using RubezhAPI.AutomationCallback;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.Models.Layouts;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace AutomationModule
 {
 	public class AutomationModuleLoader : ModuleBase, ILayoutProviderModule
 	{
 		PlanPresenter _planPresenter;
-		ProceduresViewModel ProceduresViewModel;
 		NavigationItem _proceduresNavigationItem;
 
 		public override void CreateViewModels()
 		{
 			_planPresenter = new PlanPresenter();
-			ProceduresViewModel = new ProceduresViewModel();
 			ProcessShedule();
 		}
 
@@ -49,21 +42,14 @@ namespace AutomationModule
 
 		public override void Initialize()
 		{
-			_proceduresNavigationItem.IsVisible = ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.Count > 0;
-			ProceduresViewModel.Initialize();
 			_planPresenter.Initialize();
 			ServiceFactoryBase.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_proceduresNavigationItem = new NavigationItem<ShowAutomationEvent, object>(ProceduresViewModel, ModuleType.ToDescription(), "Video1");
-			return new List<NavigationItem>
-			{
-				_proceduresNavigationItem
-			};
+			return new List<NavigationItem>();
 		}
-
 		public override ModuleType ModuleType
 		{
 			get { return ModuleType.Automation; }
@@ -106,85 +92,99 @@ namespace AutomationModule
 						if (messageArguments.WithConfirmation)
 						{
 							var confirm = MessageBoxService.ShowConfirmation(messageArguments.Message, "Сообщение");
-							ProcedureExecutionContext.CallbackResponse(automationCallbackResult.ContextType, automationCallbackResult.CallbackUID, confirm);
+							ProcedureExecutionContext.CallbackResponse(FiresecServiceFactory.UID, automationCallbackResult.ContextType, automationCallbackResult.CallbackUID, confirm);
 						}
 						else
 							MessageBoxService.ShowExtended(messageArguments.Message, "Сообщение", messageArguments.IsModalWindow);
 					});
 					break;
 				case AutomationCallbackType.Property:
-				{
-					var propertyArguments = (PropertyCallBackData) automationCallbackResult.Data;
-					var ShowObjectDetailsEvent = new CompositePresentationEvent<Guid>();
-					switch (propertyArguments.ObjectType)
 					{
-						case ObjectType.Device:
-							var device = GKManager.Devices.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (device != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>();
-							break;
+						var propertyArguments = (PropertyCallBackData)automationCallbackResult.Data;
+						var ShowObjectDetailsEvent = new CompositePresentationEvent<Guid>();
+						switch (propertyArguments.ObjectType)
+						{
+							case ObjectType.Device:
+								var device = GKManager.Devices.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+								if (device != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>();
+								break;
 
-						case ObjectType.Zone:
-							var zone = GKManager.Zones.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (zone != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKZoneDetailsEvent>();
-							break;
+							case ObjectType.Zone:
+								var zone = GKManager.Zones.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+								if (zone != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKZoneDetailsEvent>();
+								break;
 
-						case ObjectType.Direction:
-							var direction = GKManager.Directions.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (direction != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDirectionDetailsEvent>();
-							break;
+							case ObjectType.Direction:
+								var direction = GKManager.Directions.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+								if (direction != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDirectionDetailsEvent>();
+								break;
 
-						case ObjectType.Delay:
-							var delay = GKManager.Delays.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (delay != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDelayDetailsEvent>();
-							break;
+							case ObjectType.Delay:
+								var delay = GKManager.Delays.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+								if (delay != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDelayDetailsEvent>();
+								break;
 
-						case ObjectType.GuardZone:
-							var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (guardZone != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKGuardZoneDetailsEvent>();
-							break;
+							case ObjectType.GuardZone:
+								var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+								if (guardZone != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKGuardZoneDetailsEvent>();
+								break;
 
-						case ObjectType.VideoDevice:
-							var videoDevice = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (videoDevice != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowCameraDetailsEvent>();
-							break;
+							case ObjectType.VideoDevice:
+								var videoDevice = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+								if (videoDevice != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowCameraDetailsEvent>();
+								break;
 
-						case ObjectType.GKDoor:
-							var gkDoor = GKManager.Doors.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (gkDoor != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDoorDetailsEvent>();
-							break;
+							case ObjectType.GKDoor:
+								var gkDoor = GKManager.Doors.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+								if (gkDoor != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDoorDetailsEvent>();
+								break;
 
-						case ObjectType.PumpStation:
-							var pumpStation = GKManager.PumpStations.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (pumpStation != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKPumpStationDetailsEvent>();
-							break;
+							case ObjectType.PumpStation:
+								var pumpStation = GKManager.PumpStations.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+								if (pumpStation != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKPumpStationDetailsEvent>();
+								break;
 
-						case ObjectType.MPT:
-							var mpt = GKManager.MPTs.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (mpt != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKMPTDetailsEvent>();
-							break;
+							case ObjectType.MPT:
+								var mpt = GKManager.MPTs.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+								if (mpt != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKMPTDetailsEvent>();
+								break;
+						}
+						if (ShowObjectDetailsEvent != null)
+							ApplicationService.BeginInvoke(() => ShowObjectDetailsEvent.Publish(propertyArguments.ObjectUid));
 					}
-					if (ShowObjectDetailsEvent != null)
-						ApplicationService.BeginInvoke(() => ShowObjectDetailsEvent.Publish(propertyArguments.ObjectUid));
-				}
-				break;
+					break;
+				case AutomationCallbackType.GetPlanProperty:
+					var controlPlanEventArg = new ControlPlanEventArg
+					{
+						ControlElementType = ControlElementType.Get,
+						PlanCallbackData = (PlanCallbackData)automationCallbackResult.Data
+					};
+					ServiceFactory.Events.GetEvent<ControlPlanEvent>().Publish(controlPlanEventArg);
+					ProcedureExecutionContext.CallbackResponse(FiresecServiceFactory.UID, automationCallbackResult.ContextType, automationCallbackResult.CallbackUID, controlPlanEventArg.PlanCallbackData.Value);
+					break;
+				case AutomationCallbackType.SetPlanProperty:
+					controlPlanEventArg = new ControlPlanEventArg
+					{
+						ControlElementType = ControlElementType.Set,
+						PlanCallbackData = (PlanCallbackData)automationCallbackResult.Data
+					};
+					ServiceFactory.Events.GetEvent<ControlPlanEvent>().Publish(controlPlanEventArg);
+					break;
 			}
 		}
 
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-#if DEBUG
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Automation, "Процедураы", "Procedure.png", p => ProceduresViewModel);
-#endif
 			yield return new LayoutPartPresenter(LayoutPartIdentities.AutomationProcedure, "Процедура", "Procedure.png", p => new LayoutProcedurePartViewModel((LayoutPartProcedureProperties)p));
 			yield return new LayoutPartPresenter(LayoutPartIdentities.TextBlock, "Метка", "Text.png", p => new LayoutTextBlockPartViewModel((LayoutPartTextProperties)p));
 			yield return new LayoutPartPresenter(LayoutPartIdentities.TextBox, "Текстовое поле", "Text.png", p => new LayoutTextBoxPartViewModel((LayoutPartTextProperties)p));

@@ -91,6 +91,7 @@ namespace RubezhAPI
 		}
 
 		public OperationResult(List<string> errors)
+			: this()
 		{
 			if (errors != null && errors.Count > 0)
 			{

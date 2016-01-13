@@ -1,6 +1,6 @@
-﻿using System;
+﻿using RubezhAPI.SKD;
+using System;
 using System.Collections.Generic;
-using RubezhAPI.SKD;
 
 namespace RubezhClient.SKDHelpers
 {

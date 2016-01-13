@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using RubezhAPI.GK;
 using Infrastructure.Common;
-using RubezhClient;
+using RubezhAPI;
 
 namespace GKProcessor
 {
@@ -105,7 +105,11 @@ namespace GKProcessor
 		}
 		void InitializeFileBytes()
 		{
-			var fileStream = File.OpenRead(Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp"));
+			FileStream fileStream;
+			if (GKManager.DeviceConfiguration.OnlyGKDeviceConfiguration)
+				fileStream = File.OpenRead(Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "GKDeviceConfiguration.fscp"));
+			else
+				fileStream = File.OpenRead(Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp"));
 			FileSize = fileStream.Length;
 			FileBytes = File.ReadAllBytes(fileStream.Name).ToList();
 			fileStream.Close();

@@ -6,7 +6,7 @@ using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhAPI.SKD;
-using RubezhClient;
+using RubezhAPI;
 using GKProcessor;
 using Infrastructure.Common;
 using Ionic.Zip;
@@ -22,7 +22,9 @@ namespace FiresecService
 		{
 			CheckConfigDirectory();
 
-			SecurityConfiguration = GetSecurityConfiguration();
+			var result = GetSecurityConfiguration();
+			if (!result.HasError && result.Result != null)
+				SecurityConfiguration = result.Result;
 			SystemConfiguration = GetSystemConfiguration();
 			if (SystemConfiguration == null)
 				SystemConfiguration = new SystemConfiguration();
@@ -56,16 +58,32 @@ namespace FiresecService
 			}
 		}
 
-		public static SecurityConfiguration GetSecurityConfiguration()
+		public static OperationResult<SecurityConfiguration> GetSecurityConfiguration()
 		{
-			var securityConfiguration = (SecurityConfiguration)GetConfiguration("SecurityConfiguration.xml", typeof(SecurityConfiguration));
-			securityConfiguration.AfterLoad();
-			return securityConfiguration;
+			string error = "";
+			var securityConfiguration = new SecurityConfiguration();
+			try
+			{
+				var configDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
+				if (File.Exists(configDirectory + "\\SecurityConfiguration.xml"))
+				{
+					if (!File.Exists(AppDataFolderHelper.GetServerAppDataPath("Config\\..\\SecurityConfiguration.xml")))
+						File.Copy(configDirectory + "\\SecurityConfiguration.xml", AppDataFolderHelper.GetServerAppDataPath("Config\\..\\SecurityConfiguration.xml"));
+					File.Delete(configDirectory + "\\SecurityConfiguration.xml");
+				}
+				securityConfiguration = (SecurityConfiguration)GetConfiguration("SecurityConfiguration.xml", typeof(SecurityConfiguration));
+				securityConfiguration.AfterLoad();
+			}
+			catch (Exception ex)
+			{
+				error = ex.Message;
+			}
+			return OperationResult<SecurityConfiguration>.FromError(error, securityConfiguration);
 		}
 
 		static SystemConfiguration GetSystemConfiguration()
 		{
-			var systemConfiguration = (SystemConfiguration)GetConfiguration("SystemConfiguration.xml", typeof(SystemConfiguration));
+			var systemConfiguration = (SystemConfiguration)GetConfiguration("Config\\SystemConfiguration.xml", typeof(SystemConfiguration));
 			if (systemConfiguration != null)
 			{
 				systemConfiguration.AfterLoad();
@@ -79,7 +97,7 @@ namespace FiresecService
 
 		static GKDeviceConfiguration GetDeviceConfiguration()
 		{
-			var deviceConfiguration = (GKDeviceConfiguration)GetConfiguration("GKDeviceConfiguration.xml", typeof(GKDeviceConfiguration));
+			var deviceConfiguration = (GKDeviceConfiguration)GetConfiguration("Config\\GKDeviceConfiguration.xml", typeof(GKDeviceConfiguration));
 			if (deviceConfiguration == null)
 				deviceConfiguration = new GKDeviceConfiguration();
 			deviceConfiguration.AfterLoad();
@@ -90,9 +108,8 @@ namespace FiresecService
 		{
 			try
 			{
-				var configDirectoryName = AppDataFolderHelper.GetServerAppDataPath("Config");
+				var configDirectoryName = AppDataFolderHelper.GetServerAppDataPath();
 				var filePath = Path.Combine(configDirectoryName, fileName);
-
 				var stream = new FileStream(filePath, FileMode.Open);
 				var xmlSerializer = new XmlSerializer(type);
 				var versionedConfiguration = (VersionedConfiguration)xmlSerializer.Deserialize(stream);

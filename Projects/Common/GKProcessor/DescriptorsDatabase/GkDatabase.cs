@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using RubezhAPI.GK;
-using RubezhClient;
+using RubezhAPI;
 
 namespace GKProcessor
 {
@@ -16,7 +16,7 @@ namespace GKProcessor
 			RootDevice = gkControllerDevice;
 
 			AddDevice(gkControllerDevice);
-			foreach (var device in gkControllerDevice.Children)
+			foreach (var device in gkControllerDevice.AllChildren)
 			{
 				if (device.DriverType == GKDriverType.GKIndicator || device.DriverType == GKDriverType.GKRele)
 				{
@@ -42,8 +42,10 @@ namespace GKProcessor
 
 			foreach (var device in Devices)
 			{
-				var deviceDescriptor = new DeviceDescriptor(device);
-				Descriptors.Add(deviceDescriptor);
+				if (device.Driver.HasMirror)
+					Descriptors.Add(new MirrorDescriptor(device));
+				else
+					Descriptors.Add(new DeviceDescriptor(device));
 			}
 
 			AddKauLogicObjects();

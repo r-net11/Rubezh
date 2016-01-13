@@ -4,7 +4,7 @@ using System.Linq;
 using Common;
 using RubezhAPI.GK;
 
-namespace RubezhClient
+namespace RubezhAPI
 {
 	public partial class GKManager
 	{
@@ -87,7 +87,7 @@ namespace RubezhClient
 		public static ushort GetKauLine(GKDevice device)
 		{
 			ushort lineNo = 0;
-			if (device.Driver.IsKau || device.DriverType == GKDriverType.RSR2_GKMirror)
+			if (device.Driver.IsKau || device.DriverType == GKDriverType.GKMirror)
 			{
 				var modeProperty = device.Properties.FirstOrDefault(x => x.Name == "Mode");
 				if (modeProperty != null)
@@ -108,13 +108,14 @@ namespace RubezhClient
 					break;
 
 				case GKDriverType.RSR2_KAU:
+				case GKDriverType.GKMirror:
 					gkControllerDevice = device.Parent;
 					break;
 
 				default:
 					{
-						Logger.Error("GKManager.GetIpAddress Получить IP адрес можно только у ГК или в КАУ");
-						throw new Exception("Получить IP адрес можно только у ГК или в КАУ");
+						Logger.Error("GKManager.GetIpAddress Получить IP адрес можно только у ГК или в КАУ или в ПМФ");
+						throw new Exception("Получить IP адрес можно только у ГК или в КАУ или в ПМФ");
 					}
 			}
 			var ipAddress = gkControllerDevice.GetGKIpAddress();

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
 using RubezhAPI.GK;
-using RubezhClient;
 using GKImitator.Processor;
-using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using RubezhAPI.Journal;
 using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels
@@ -21,11 +16,12 @@ namespace GKImitator.ViewModels
 
 		ushort OnDelay { get; set; }
 		ushort HoldDelay { get; set; }
+		ushort HoldOffDelay { get; set; }
 		ushort OffDelay { get; set; }
 		ushort GuardZoneAlarmDelay { get; set; }
 		DelayRegime? DelayRegime { get; set; }
 
-		void InitializeDelays()
+		public void InitializeDelays()
 		{
 			var device = GKBase as GKDevice;
 			if (device != null)
@@ -40,11 +36,24 @@ namespace GKImitator.ViewModels
 				{
 					HoldDelay = property.Value;
 				}
+				else
+				{
+					property = device.Properties.FirstOrDefault(x => x.Name == "Время удержания на включение, с");
+					if (property != null)
+						HoldDelay = property.Value;
+					property = device.Properties.FirstOrDefault(x => x.Name == "Время удержания на выключение, с");
+					if (property != null)
+						HoldOffDelay = property.Value;
+				}
 				property = device.Properties.FirstOrDefault(x => x.Name == "Задержка на выключение, с");
 				if (property != null)
 				{
 					OffDelay = property.Value;
 				}
+				property = device.Properties.FirstOrDefault(x => x.Name == "Режим после удержания включенного состояния");
+				if (property != null)
+					DelayRegime = property.Value == 0 ? RubezhAPI.GK.DelayRegime.Off: RubezhAPI.GK.DelayRegime.On;
+
 			}
 			var direction = GKBase as GKDirection;
 			if (direction != null)
@@ -169,9 +178,9 @@ namespace GKImitator.ViewModels
 					changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
 					if (changed)
 					{
-						RecalculateOutputLogic();
 						var journalItem = new ImitatorJournalItem(2, 9, 2, 0);
 						AddJournalItem(journalItem);
+						RecalculateOutputLogic();
 					}
 
 					if (HoldDelay > 0)
@@ -197,16 +206,20 @@ namespace GKImitator.ViewModels
 						{
 							TurnOffNow();
 						}
-					}
-					else
-					{
-						if (OffDelay > 0)
+						if (DelayRegime.Value == RubezhAPI.GK.DelayRegime.On)
 						{
-							CurrentOffDelay = OffDelay;
-							TurningState = TurningState.TurningOff;
-							TurnOff();
+							TurnOnNow();
 						}
 					}
+					//else
+					//{
+					//	if (OffDelay > 0)
+					//	{
+					//		CurrentOffDelay = OffDelay;
+					//		TurningState = TurningState.TurningOff;
+					//		TurnOff();
+					//	}
+					//}
 				}
 				else
 				{
@@ -219,7 +232,23 @@ namespace GKImitator.ViewModels
 				if (CurrentOffDelay == 0)
 				{
 					TurningState = TurningState.None;
-					TurnOffNow();
+					var changed = false;
+					changed = SetStateBit(GKStateBit.On, false) || changed;
+					changed = SetStateBit(GKStateBit.TurningOn, false) || changed;
+					changed = SetStateBit(GKStateBit.Off, true) || changed;
+					changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
+					if (changed)
+					{
+						var journalItem = new ImitatorJournalItem(2, 9, 3, 3);
+						AddJournalItem(journalItem);
+						RecalculateOutputLogic();
+					}
+
+					if (HoldOffDelay > 0)
+					{
+						CurrentHoldDelay = HoldOffDelay;
+						TurningState = TurningState.Holding;
+					}
 				}
 				else
 				{
@@ -236,6 +265,7 @@ namespace GKImitator.ViewModels
 					SetStateBit(GKStateBit.Fire1, true);
 					var journalItem = new ImitatorJournalItem(2, 2, 0, 0);
 					AddJournalItem(journalItem);
+					RecalculateOutputLogic();
 				}
 				else
 				{
@@ -247,7 +277,9 @@ namespace GKImitator.ViewModels
 		public RelayCommand TurnOnCommand { get; private set; }
 		void OnTurnOn()
 		{
-			if (HasTurnOn)
+			var onState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On);
+			var turningOnState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn);
+			if (HasTurnOn && onState != null && !onState.IsActive && (turningOnState == null || !turningOnState.IsActive))
 			{
 				if (OnDelay > 0)
 				{
@@ -264,7 +296,9 @@ namespace GKImitator.ViewModels
 		public RelayCommand TurnOnNowCommand { get; private set; }
 		void OnTurnOnNow()
 		{
-			if (HasTurnOnNow)
+			var onState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On);
+			var turningOnState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn);
+			if (HasTurnOn && onState != null && !onState.IsActive && (turningOnState == null || !turningOnState.IsActive))
 			{
 				TurnOnNow();
 			}
@@ -273,13 +307,15 @@ namespace GKImitator.ViewModels
 		public RelayCommand TurnOffCommand { get; private set; }
 		void OnTurnOff()
 		{
-			if (HasTurnOff)
+			var offState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Off);
+			var turningOffState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOff);
+			if (HasTurnOn && offState != null && !offState.IsActive && (turningOffState == null || !turningOffState.IsActive))
 			{
 				if (OffDelay > 0)
 				{
 					CurrentOffDelay = OffDelay;
 				}
-				TurningState = TurningState.None;
+				TurningState = TurningState.TurningOff;
 				TurnOff();
 			}
 		}
@@ -287,7 +323,9 @@ namespace GKImitator.ViewModels
 		public RelayCommand TurnOffNowCommand { get; private set; }
 		void OnTurnOffNow()
 		{
-			if (HasTurnOffNow)
+			var offState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Off);
+			var turningOffState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOff);
+			if (HasTurnOn && offState != null && !offState.IsActive && (turningOffState == null || !turningOffState.IsActive))
 			{
 				TurnOffNow();
 			}
@@ -301,12 +339,17 @@ namespace GKImitator.ViewModels
 				if (TurningState == TurningState.TurningOn)
 				{
 					TurningState = TurningState.Paused;
+					var turningOnState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn);
+					if (turningOnState != null)
+						turningOnState.IsActive = false;
 				}
 			}
 		}
 
 		void TurnOn()
 		{
+			CurrentOffDelay = 0;
+			CurrentHoldDelay = 0;
 			if (OnDelay == 0)
 			{
 				TurnOnNow();
@@ -329,6 +372,7 @@ namespace GKImitator.ViewModels
 
 		void TurnOnNow()
 		{
+			TurningState = TurningState.None;
 			CurrentOnDelay = 0;
 			CurrentHoldDelay = 0;
 			CurrentOffDelay = 0;
@@ -348,6 +392,8 @@ namespace GKImitator.ViewModels
 
 		void TurnOff()
 		{
+			CurrentOnDelay = 0;
+			CurrentHoldDelay = 0;
 			if (OffDelay == 0)
 			{
 				TurnOffNow();
@@ -364,12 +410,16 @@ namespace GKImitator.ViewModels
 					var journalItem = new ImitatorJournalItem(2, 9, 5, 0);
 					AddJournalItem(journalItem);
 					RecalculateOutputLogic();
+					// Сброс пожара
+					SetStateBit(GKStateBit.Fire1, false);
+					SetStateBit(GKStateBit.Fire2, false);
 				}
 			}
 		}
 
 		void TurnOffNow()
 		{
+			TurningState = TurningState.None;
 			CurrentOnDelay = 0;
 			CurrentHoldDelay = 0;
 			CurrentOffDelay = 0;
@@ -383,6 +433,10 @@ namespace GKImitator.ViewModels
 				var journalItem = new ImitatorJournalItem(2, 9, 3, 3);
 				AddJournalItem(journalItem);
 				RecalculateOutputLogic();
+
+				// Сброс пожара
+				SetStateBit(GKStateBit.Fire1, false);
+				SetStateBit(GKStateBit.Fire2, false);
 			}
 		}
 

@@ -3,7 +3,7 @@
 namespace RubezhAPI.AutomationCallback
 {
 	[DataContract]
-	public class MessageCallbackData : AutomationCallbackData
+	public class MessageCallbackData : UIAutomationCallbackData
 	{
 		[DataMember]
 		public string Message { get; set; }

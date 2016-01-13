@@ -10,5 +10,8 @@ namespace RubezhAPI.SKD
 
 		[DataMember]
 		public PersonType PersonType { get; set; }
+
+		[DataMember]
+		public bool? IsInGrid { get; set; }
 	}
 }

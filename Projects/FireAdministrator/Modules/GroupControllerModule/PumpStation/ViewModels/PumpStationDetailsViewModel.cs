@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using RubezhAPI.GK;
-using RubezhClient;
-using GKProcessor;
+﻿using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace GKModule.ViewModels
 {
@@ -260,6 +261,7 @@ namespace GKModule.ViewModels
 			PumpStation.Name = Name;
 			PumpStation.No = No;
 			PumpStation.Delay = Delay;
+			PumpStation.DelayRegime = DelayRegime;
 			PumpStation.Hold = Hold;
 			PumpStation.Description = Description;
 			PumpStation.NSPumpsCount = NSPumpsCount;

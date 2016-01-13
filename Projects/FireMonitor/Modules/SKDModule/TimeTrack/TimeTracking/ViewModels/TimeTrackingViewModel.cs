@@ -55,10 +55,11 @@ namespace SKDModule.ViewModels
 			//UpdateGrid();
 		}
 
+		Guid _chiefUID;
+		Guid _departmentChiefUID;
+		Guid _hrChiefUID;
+
 		SortableObservableCollection<TimeTrackViewModel> _timeTracks;
-		Guid chiefUID;
-		Guid departmentChiefUID;
-		Guid hrChiefUID;
 		public SortableObservableCollection<TimeTrackViewModel> TimeTracks
 		{
 			get { return _timeTracks; }
@@ -114,20 +115,23 @@ namespace SKDModule.ViewModels
 		public RelayCommand RefreshCommand { get; private set; }
 		void OnRefresh()
 		{
-			var stopwatch = new Stopwatch();
-			stopwatch.Start();
 			UpdateGrid();
-			stopwatch.Stop();
-			Trace.WriteLine("OnRefresh time " + stopwatch.Elapsed.ToString());
 		}
 
 		public RelayCommand PrintCommand { get; private set; }
 		void OnPrint()
 		{
+			ValidatePrint();
+			var reportSettingsViewModel = new ReportSettingsViewModel(TimeTrackFilter, TimeTrackEmployeeResults, _chiefUID, _departmentChiefUID, _hrChiefUID);
+			DialogService.ShowModalWindow(reportSettingsViewModel);
+		}
+
+		public bool ValidatePrint()
+		{
 			if (TimeTracks.Count == 0)
 			{
 				MessageBoxService.ShowWarning("В отчете нет ни одного сотрудника");
-				return;
+				return false;
 			}
 			var organisationUIDs = new HashSet<Guid>();
 			var departmentNames = new HashSet<string>();
@@ -139,28 +143,25 @@ namespace SKDModule.ViewModels
 				if (string.IsNullOrEmpty(timeTrack.ShortEmployee.DepartmentName))
 				{
 					MessageBoxService.ShowWarning("Сотрудник " + timeTrack.ShortEmployee.FIO + " не относится ни к одному из подразделений");
-					return;
+					return false;
 				}
 				departmentNames.Add(timeTrack.ShortEmployee.DepartmentName);
 			}
 			if (organisationUIDs.Count > 1)
 			{
-				MessageBoxService.ShowWarning("В отчете должны дыть сотрудники только из одной организации");
-				return;
+				MessageBoxService.ShowWarning("В отчете должны быть сотрудники только из одной организации");
+				return false;
 			}
 			if (departmentNames.Count > 1)
 			{
-				MessageBoxService.ShowWarning("В отчете должны дыть сотрудники только из одного подразделения");
-				return;
+				MessageBoxService.ShowWarning("В отчете должны быть сотрудники только из одного подразделения");
+				return false;
 			}
-
 			if (TimeTrackFilter.StartDate.Date.Month < TimeTrackFilter.EndDate.Date.Month || TimeTrackFilter.StartDate.Date.Year < TimeTrackFilter.EndDate.Date.Year)
 			{
 				MessageBoxService.ShowWarning("В отчете содержаться данные за несколько месяцев. Будут показаны данные только за первый месяц");
 			}
-
-			var reportSettingsViewModel = new ReportSettingsViewModel(TimeTrackFilter, TimeTrackEmployeeResults, chiefUID, departmentChiefUID, hrChiefUID);
-			DialogService.ShowModalWindow(reportSettingsViewModel);
+			return true;
 		}
 		bool CanPrint()
 		{
@@ -256,9 +257,9 @@ namespace SKDModule.ViewModels
 				var department = DepartmentHelper.GetSingleShort(depUID);
 				Guid orgUID = department.OrganisationUID;
 				var organisation = OrganisationHelper.GetSingle(orgUID);
-				chiefUID = organisation.ChiefUID;
-				hrChiefUID = organisation.HRChiefUID;
-				departmentChiefUID = department.ChiefUID;
+				_chiefUID = organisation.ChiefUID;
+				_hrChiefUID = organisation.HRChiefUID;
+				_departmentChiefUID = department.ChiefUID;
 			}
 		}
 		#region DocumentEvents

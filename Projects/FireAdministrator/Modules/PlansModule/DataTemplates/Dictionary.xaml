@@ -31,5 +31,9 @@
 	<DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyPlansPageViewModel}">
 		<Views:LayoutPartPropertyPlansPageView />
 	</DataTemplate>
-	
+
+	<DataTemplate DataType="{x:Type ViewModels:PlanPropertyBindingViewModel}">
+		<Views:PlanPropertyBindingView />
+	</DataTemplate>
+
 </ResourceDictionary>

@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using System.Windows.Media;
 using RubezhAPI.Models;
 using Infrustructure.Plans.Elements;
+using System.Xml.Serialization;
 
 namespace RubezhAPI.SKD
 {
@@ -23,8 +24,10 @@ namespace RubezhAPI.SKD
 		[DataMember]
 		public string Text { get; set; }
 
+		[XmlIgnore]
 		public Guid OrganisationUID { get; set; }
 
+		[XmlIgnore]
 		public override Primitive Primitive
 		{
 			get { return Primitive.NotPrimitive; }

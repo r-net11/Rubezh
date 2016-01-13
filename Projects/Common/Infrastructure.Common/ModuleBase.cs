@@ -37,12 +37,11 @@ namespace Infrastructure.Common
 			return true;
 		}
 
-		public virtual void AfterInitialize()
-		{
-		}
+		public virtual void AfterInitialize() { }
 
 		public abstract void CreateViewModels();
 		public abstract void Initialize();
+		public virtual void RegisterPlanExtension() { }
 		public abstract IEnumerable<NavigationItem> CreateNavigation();
 
 		#endregion

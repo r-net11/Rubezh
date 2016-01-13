@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using RubezhAPI;
+﻿using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
-using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GKProcessor
 {
@@ -14,19 +12,19 @@ namespace GKProcessor
 		#region Callback
 		public static List<GKProgressCallback> GKProgressCallbacks = new List<GKProgressCallback>();
 
-		public static void CancelGKProgress(Guid progressCallbackUID, string userName)
+		public static void CancelGKProgress(Guid progressCallbackUID, string userName, Guid? clientUID = null)
 		{
 			var progressCallback = GKProgressCallbacks.FirstOrDefault(x => x.UID == progressCallbackUID);
 			if (progressCallback != null)
 			{
 				progressCallback.IsCanceled = true;
 				progressCallback.CancelizationDateTime = DateTime.Now;
-				StopProgress(progressCallback);
+				StopProgress(progressCallback, clientUID);
 				AddGKMessage(JournalEventNameType.Отмена_операции, JournalEventDescriptionType.NULL, progressCallback.Title, null, userName);
 			}
 		}
 
-		public static GKProgressCallback StartProgress(string title, string text, int stepCount, bool canCancel, GKProgressClientType progressClientType)
+		public static GKProgressCallback StartProgress(string title, string text, int stepCount, bool canCancel, GKProgressClientType progressClientType, Guid? clientUID = null)
 		{
 			var gkProgressCallback = new GKProgressCallback
 			{
@@ -38,11 +36,11 @@ namespace GKProcessor
 				GKProgressClientType = progressClientType
 			};
 			GKProgressCallbacks.Add(gkProgressCallback);
-			OnGKCallbackResult(gkProgressCallback);
+			OnGKCallbackResult(gkProgressCallback, clientUID);
 			return gkProgressCallback;
 		}
 
-		public static void DoProgress(string text, GKProgressCallback progressCallback)
+		public static void DoProgress(string text, GKProgressCallback progressCallback, Guid? clientUID = null)
 		{
 			progressCallback.CurrentStep++;
 			var gkProgressCallback = new GKProgressCallback
@@ -57,31 +55,32 @@ namespace GKProcessor
 				CanCancel = progressCallback.CanCancel,
 				GKProgressClientType = progressCallback.GKProgressClientType
 			};
-			OnGKCallbackResult(gkProgressCallback);
+			OnGKCallbackResult(gkProgressCallback, clientUID);
 		}
 
-		public static void StopProgress(GKProgressCallback progressCallback)
+		public static void StopProgress(GKProgressCallback progressCallback, Guid? clientUID = null)
 		{
 			var gkProgressCallback = new GKProgressCallback
 			{
 				UID = progressCallback.UID,
 				LastActiveDateTime = DateTime.Now,
 				GKProgressCallbackType = GKProgressCallbackType.Stop,
+				GKProgressClientType = progressCallback.GKProgressClientType
 			};
 			GKProgressCallbacks.Remove(gkProgressCallback);
-			OnGKCallbackResult(gkProgressCallback);
+			OnGKCallbackResult(gkProgressCallback, clientUID);
 		}
 
-		static void OnGKCallbackResult(GKProgressCallback gkProgressCallback)
+		static void OnGKCallbackResult(GKProgressCallback gkProgressCallback, Guid? clientUID)
 		{
 			GKProgressCallbacks.RemoveAll(x => x.IsCanceled && (DateTime.Now - x.CancelizationDateTime).TotalMinutes > 5);
 			if (gkProgressCallback.GKProgressCallbackType == GKProgressCallbackType.Stop || !gkProgressCallback.IsCanceled)
 			{
 				if (GKProgressCallbackEvent != null)
-					GKProgressCallbackEvent(gkProgressCallback);
+					GKProgressCallbackEvent(gkProgressCallback, clientUID);
 			}
 		}
-		public static event Action<GKProgressCallback> GKProgressCallbackEvent;
+		public static event Action<GKProgressCallback, Guid?> GKProgressCallbackEvent;
 
 		public static void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
 		{
@@ -158,14 +157,14 @@ namespace GKProcessor
 		#endregion
 
 		#region Operations
-		public static OperationResult<bool> GKWriteConfiguration(GKDevice device, string userName, GKProgressCallback progressCallback)
+		public static OperationResult<bool> GKWriteConfiguration(GKDevice device, string userName, GKProgressCallback progressCallback, Guid clientUID)
 		{
 			AddGKMessage(JournalEventNameType.Запись_конфигурации_в_прибор, JournalEventDescriptionType.NULL, "", device, userName);
 
 			Stop();
 			GKSyncronyseTime(device, userName);
 			var gkDescriptorsWriter = new GkDescriptorsWriter();
-			gkDescriptorsWriter.WriteConfig(device, progressCallback);
+			gkDescriptorsWriter.WriteConfig(device, progressCallback, clientUID);
 			Start();
 
 			if (gkDescriptorsWriter.Errors.Count > 0)
@@ -180,41 +179,58 @@ namespace GKProcessor
 			return new OperationResult<bool>(true);
 		}
 
-		public static OperationResult<GKDeviceConfiguration> GKReadConfiguration(GKDevice device, string userName)
+		public static OperationResult<GKDeviceConfiguration> GKReadConfiguration(GKDevice device, string userName, Guid clientUID)
 		{
 			AddGKMessage(JournalEventNameType.Чтение_конфигурации_из_прибора, JournalEventDescriptionType.NULL, "", device, userName);
 			Stop();
-			var descriptorReader = device.Driver.IsKau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
-			descriptorReader.ReadConfiguration(device);
+			DescriptorReaderBase descriptorReader;
+			if (device.Driver.IsKau)
+			{
+				descriptorReader = new KauDescriptorsReaderBase();
+				descriptorReader.ReadConfiguration(device, clientUID);
+				return OperationResult<GKDeviceConfiguration>.FromError(descriptorReader.Error, descriptorReader.DeviceConfiguration);
+			}
+			if (device.Driver.DriverType == GKDriverType.GK)
+			{
+				descriptorReader = new GkDescriptorsReaderBase();
+				descriptorReader.ReadConfiguration(device, clientUID);
+				return OperationResult<GKDeviceConfiguration>.FromError(descriptorReader.Error, descriptorReader.DeviceConfiguration);
+			}
+			if (device.Driver.DriverType == GKDriverType.GKMirror)
+			{
+				descriptorReader = new MirrorDescriptorsReader();
+				descriptorReader.ReadConfiguration(device, clientUID);
+				return OperationResult<GKDeviceConfiguration>.FromError(descriptorReader.Error, descriptorReader.DeviceConfiguration);
+			}
 			Start();
-			return OperationResult<GKDeviceConfiguration>.FromError(descriptorReader.Error, descriptorReader.DeviceConfiguration);
+			return OperationResult<GKDeviceConfiguration>.FromError("Для данного типа устройства запрещено чтение дескрипторов");
 		}
 
-		public static OperationResult<string> GKReadConfigurationFromGKFile(GKDevice device, string userName, GKProgressCallback progressCallback)
+		public static OperationResult<string> GKReadConfigurationFromGKFile(GKDevice device, string userName, GKProgressCallback progressCallback, Guid clientUID)
 		{
 			AddGKMessage(JournalEventNameType.Чтение_конфигурации_из_прибора, JournalEventDescriptionType.NULL, "", device, userName);
 			SuspendMonitoring(device);
 			var gkFileReaderWriter = new GKFileReaderWriter();
-			var filePath = gkFileReaderWriter.ReadConfigFileFromGK(device, progressCallback);
+			var filePath = gkFileReaderWriter.ReadConfigFileFromGK(device, progressCallback, clientUID);
 			ResumeMonitoring(device);
 			return filePath;
 		}
 
-		public static OperationResult<GKDevice> GKAutoSearch(GKDevice device, string userName)
+		public static OperationResult<GKDevice> GKAutoSearch(GKDevice device, string userName, Guid clientUID)
 		{
 			AddGKMessage(JournalEventNameType.Автопоиск, JournalEventDescriptionType.NULL, "", device, userName);
 			SuspendMonitoring(device);
 			var gkAutoSearchHelper = new GKAutoSearchHelper();
-			var newDevice = device.DriverType == GKDriverType.GK ? gkAutoSearchHelper.AutoSearch(device) : gkAutoSearchHelper.KauAutoSearch(device);
+			var newDevice = device.DriverType == GKDriverType.GK ? gkAutoSearchHelper.AutoSearch(device, clientUID) : gkAutoSearchHelper.KauAutoSearch(device, clientUID);
 			ResumeMonitoring(device);
 			return OperationResult<GKDevice>.FromError(gkAutoSearchHelper.Error, newDevice);
 		}
 
-		public static OperationResult<bool> GKUpdateFirmware(GKDevice device, List<byte> firmwareBytes, string userName)
+		public static OperationResult<bool> GKUpdateFirmware(GKDevice device, List<byte> firmwareBytes, string userName, Guid clientUID)
 		{
 			Stop();
 			var firmwareUpdateHelper = new FirmwareUpdateHelper();
-			string updateResult = firmwareUpdateHelper.Update(device, firmwareBytes, userName);
+			string updateResult = firmwareUpdateHelper.Update(device, firmwareBytes, userName, clientUID);
 			Start();
 			if (updateResult != null)
 				return OperationResult<bool>.FromError(updateResult, false);
@@ -576,7 +592,7 @@ namespace GKProcessor
 					journalObjectType = JournalObjectType.GKPumpStation;
 				}
 			}
-			
+
 			var journalItem = new JournalItem
 			{
 				SystemDateTime = DateTime.Now,

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using RubezhAPI;
+using RubezhAPI.AutomationCallback;
+using RubezhAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using RubezhAPI;
 
 namespace FiresecService.Service
 {
@@ -10,72 +12,106 @@ namespace FiresecService.Service
 		static List<CallbackResultItem> CallbackResultItems = new List<CallbackResultItem>();
 		public static int Index { get; private set; }
 
-		public static void Add(CallbackResult callbackResult, Guid? clientUID = null)
+		public static void Add(CallbackResult callbackResult, ClientType? clientType = null, Guid? clientUID = null, IEnumerable<Guid> layoutUIDs = null)
 		{
 			lock (CallbackResultItems)
 			{
-				CallbackResultItems.RemoveAll(x => (DateTime.Now - x.DateTime) > TimeSpan.FromMinutes(1));
+				var minIndex = ClientsManager.ClientInfos.Any() ?
+					ClientsManager.ClientInfos.Min(x => x.CallbackIndex) :
+					0;
+				CallbackResultItems.RemoveAll(x => x.CallbackResult.Index <= minIndex || (DateTime.Now - x.DateTime) > TimeSpan.FromDays(1));
 
-				Index++;
+				callbackResult.Index = ++Index;
 				var newCallbackResultItem = new CallbackResultItem()
 				{
 					CallbackResult = callbackResult,
-					Index = Index,
 					DateTime = DateTime.Now,
+					ClientType = clientType,
 					ClientUID = clientUID,
+					LayoutUIDs = layoutUIDs
 				};
 				CallbackResultItems.Add(newCallbackResultItem);
 
 				if (callbackResult.CallbackResultType == CallbackResultType.GKProgress)
 				{
 					var callbackResultItem = CallbackResultItems.FirstOrDefault(x => x.CallbackResult.GKProgressCallback != null && x.CallbackResult.GKProgressCallback.UID == callbackResult.GKProgressCallback.UID);
-					if (callbackResultItem != null)
-					{
-						if (callbackResult.GKProgressCallback.LastActiveDateTime > callbackResultItem.CallbackResult.GKProgressCallback.LastActiveDateTime)
-						{
-							CallbackResultItems.Remove(callbackResultItem);
-						}
-					}
+					if (callbackResultItem != null && callbackResult.GKProgressCallback.LastActiveDateTime > callbackResultItem.CallbackResult.GKProgressCallback.LastActiveDateTime)
+						CallbackResultItems.Remove(callbackResultItem);
 				}
 
-				ClientsManager.ClientInfos.ForEach(x => x.WaitEvent.Set());
+				if (callbackResult.AutomationCallbackResult != null && callbackResult.AutomationCallbackResult.Data is PlanCallbackData)
+				{
+					var callbackResultData = callbackResult.AutomationCallbackResult.Data as PlanCallbackData;
+					foreach (var callbackResultItem in CallbackResultItems)
+						if (callbackResultItem.CallbackResult.AutomationCallbackResult != null && callbackResultItem.CallbackResult.AutomationCallbackResult.Data is PlanCallbackData)
+						{
+							var callbackResuultItemData = callbackResultItem.CallbackResult.AutomationCallbackResult.Data as PlanCallbackData;
+							if (callbackResultData.ElementUid == callbackResuultItemData.ElementUid &&
+								callbackResultData.ElementPropertyType == callbackResuultItemData.ElementPropertyType &&
+								callbackResultData.ElementUid == callbackResuultItemData.ElementUid &&
+								callbackResult.AutomationCallbackResult.CallbackUID != callbackResultItem.CallbackResult.AutomationCallbackResult.CallbackUID)
+							{
+								CallbackResultItems.Remove(callbackResultItem);
+								break;
+							}
+						};
+				}
+
+				foreach (var clientInfo in ClientsManager.ClientInfos)
+				{
+					if (clientType.HasValue && (clientType.Value & clientInfo.ClientCredentials.ClientType) == ClientType.None)
+						continue;
+					if (clientUID.HasValue && clientUID.Value != clientInfo.UID)
+						continue;
+					if (layoutUIDs != null && !layoutUIDs.Contains(clientInfo.LayoutUID))
+						continue;
+					clientInfo.WaitEvent.Set();
+				}
 			}
 		}
 
-		public static List<CallbackResult> Get(ClientInfo clientInfo)
+		public static PollResult Get(ClientInfo clientInfo)
 		{
 			lock (CallbackResultItems)
 			{
-				var result = new List<CallbackResult>();
-				if (clientInfo.IsDisconnecting)
-				{
-					var callbackResult = new CallbackResult()
-					{
-						CallbackResultType = CallbackResultType.Disconnecting
-					};
-					result.Add(callbackResult);
-					return result;
-				}
+				var result = new PollResult();
+				result.CallbackIndex = CallbackManager.Index;
 				foreach (var callbackResultItem in CallbackResultItems)
 				{
-					if (callbackResultItem.Index > clientInfo.CallbackIndex)
+					if (callbackResultItem.CallbackResult.Index > clientInfo.CallbackIndex)
 					{
-						if ((callbackResultItem.CallbackResult.GKProgressCallback == null || !callbackResultItem.CallbackResult.GKProgressCallback.IsCanceled) &&
-							(!callbackResultItem.ClientUID.HasValue || callbackResultItem.ClientUID.Value == clientInfo.UID))
-							result.Add(callbackResultItem.CallbackResult);
+						if (callbackResultItem.ClientType.HasValue && (callbackResultItem.ClientType.Value & clientInfo.ClientCredentials.ClientType) == ClientType.None)
+							continue;
+						if (callbackResultItem.ClientUID.HasValue && callbackResultItem.ClientUID.Value != clientInfo.UID)
+							continue;
+						if (callbackResultItem.LayoutUIDs != null && !callbackResultItem.LayoutUIDs.Contains(clientInfo.LayoutUID))
+							continue;
+						if (callbackResultItem.CallbackResult.GKProgressCallback != null && callbackResultItem.CallbackResult.GKProgressCallback.IsCanceled)
+							continue;
+						if (callbackResultItem.CallbackResult.AutomationCallbackResult != null && callbackResultItem.CallbackResult.AutomationCallbackResult.Data is GlobalVariableCallBackData)
+						{
+							var data = callbackResultItem.CallbackResult.AutomationCallbackResult.Data as GlobalVariableCallBackData;
+							if (data.InitialClientUID.HasValue && data.InitialClientUID.Value == clientInfo.UID)
+								continue;
+						}
+						if (clientInfo.CallbackIndex < callbackResultItem.CallbackResult.Index)
+							clientInfo.CallbackIndex = callbackResultItem.CallbackResult.Index;
+						result.CallbackResults.Add(callbackResultItem.CallbackResult);
 					}
 				}
-				clientInfo.CallbackIndex = Index;
 				return result;
 			}
 		}
 	}
 
+
+
 	public class CallbackResultItem
 	{
 		public CallbackResult CallbackResult { get; set; }
-		public int Index { get; set; }
 		public DateTime DateTime { get; set; }
+		public ClientType? ClientType { get; set; }
 		public Guid? ClientUID { get; set; }
+		public IEnumerable<Guid> LayoutUIDs { get; set; }
 	}
 }

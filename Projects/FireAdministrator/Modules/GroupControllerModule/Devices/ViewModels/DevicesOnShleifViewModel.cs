@@ -2,19 +2,21 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using RubezhAPI.GK;
-using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
 	public class DevicesOnShleifViewModel : DialogViewModel
 	{
+		private List<GKDevice> _devicesToCopy { get; set; }
 		public GKDevice ShleifDevice { get; private set; }
+		public ObservableCollection<DeviceOnShleifViewModel> Devices { get; private set; }
 
 		public DevicesOnShleifViewModel(GKDevice shleifDevice)
 		{
-			Title = "Выбор устройств на АЛС " + shleifDevice.PresentationName;
+			Title = "Выбор устройств на " + shleifDevice.PresentationName;
 			ShleifDevice = shleifDevice;
 			SelectAllCommand = new RelayCommand(OnSelectAll);
 			DeSelectAllCommand = new RelayCommand(OnDeSelectAll);
@@ -30,9 +32,7 @@ namespace GKModule.ViewModels
 				Devices.Add(deviceOnShleifViewModel);
 			}
 		}
-
-		private List<GKDevice> _devicesToCopy { get; set; }
-
+		public RelayCommand CutCommand { get; set; }
 		void OnCut()
 		{
 			_devicesToCopy.Clear();
@@ -46,10 +46,6 @@ namespace GKModule.ViewModels
 			DevicesViewModel.Current.DevicesToCopy = _devicesToCopy;
 			OnRemove();
 		}
-
-		public List<GKDevice> CopyDevices { get; private set; }
-		public ObservableCollection<DeviceOnShleifViewModel> Devices { get; private set; }
-
 		public RelayCommand SelectAllCommand { get; private set; }
 		void OnSelectAll()
 		{
@@ -87,25 +83,17 @@ namespace GKModule.ViewModels
 		{
 			foreach (var deviceOnShleif in Devices)
 			{
-				if (deviceOnShleif.IsActive)
+				var deviceViewModel = DevicesViewModel.Current.AllDevices.Find(x => x.Device.UID == deviceOnShleif.Device.UID);
+				if (deviceViewModel != null && deviceOnShleif.IsActive)
 				{
-					var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == deviceOnShleif.Device.UID);
-					if (deviceViewModel != null)
-					{
 						deviceViewModel.Remove(false);
-					}
 				}
 			}
-			ShleifDevice.OnAUParametersChanged();
-
 			if (ShleifDevice.KAUParent != null)
 				GKManager.RebuildRSR2Addresses(ShleifDevice);
-
 			Devices = new ObservableCollection<DeviceOnShleifViewModel>(Devices.Where(x => !x.IsActive));
 			OnPropertyChanged(() => Devices);
 		}
-
-		public RelayCommand CutCommand { get; set; }
 	}
 
 	public class DeviceOnShleifViewModel : BaseViewModel

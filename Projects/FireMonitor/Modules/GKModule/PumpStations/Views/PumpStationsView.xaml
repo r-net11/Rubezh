@@ -118,7 +118,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTextColumn Binding="{Binding PresentationZoneWithNS}" Header="Дополнительное условие включения" MinWidth="100" Width="*" />
+					<DataGridTextColumn Binding="{Binding PresentationNSLogic}" Header="Дополнительное условие включения" MinWidth="100" Width="*" />
 				</DataGrid.Columns>
 				<DataGrid.RowStyle>
 					<Style TargetType="{x:Type DataGridRow}">

@@ -1,5 +1,5 @@
-﻿using System;
-using RubezhAPI.SKD;
+﻿using RubezhAPI.SKD;
+using System;
 
 namespace RubezhClient.SKDHelpers
 {

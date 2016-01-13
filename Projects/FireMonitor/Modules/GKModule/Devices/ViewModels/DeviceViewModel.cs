@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using System.Collections.Generic;
 using System;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
@@ -50,16 +51,14 @@ namespace GKModule.ViewModels
 
 		public string PresentationZone
 		{
-			get { return GKManager.GetPresentationZoneOrLogic(Device); }
+			get { return GKManager.GetPresentationZoneAndGuardZoneOrLogic(Device); }
 		}
 
 		public string PresentationLogic
 		{
 			get
 			{
-				if (Device.Driver.HasLogic)
-					return GKManager.GetPresentationZoneOrLogic(Device);
-				return null;
+					return GKManager.GetPresentationLogic(Device.Logic);
 			}
 		}
 
@@ -74,11 +73,11 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public string PresentationZoneWithNS
+		public string PresentationNSLogic
 		{
 			get
 			{
-				return GKManager.GetPresentationZoneOrLogic(Device);
+				return GKManager.GetPresentationLogic(Device.NSLogic);
 			}
 		}
 

@@ -1,6 +1,6 @@
-﻿using RubezhAPI.Automation;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common.TreeList;
+using RubezhAPI.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -222,6 +222,10 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.Now:
 					Content = new NowStepViewModel(this);
+					break;
+
+				case ProcedureStepType.HttpRequest:
+					Content = new HttpRequestStepViewModel(this);
 					break;
 			}
 			UpdateContent();

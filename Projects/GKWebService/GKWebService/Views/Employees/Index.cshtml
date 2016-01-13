@@ -28,15 +28,29 @@
     </div><!-- .left-sidebar -->
     <div class="HrCardDoorsPanel">
         <div data-bind="visible: !EmployeeCards.IsCardSelected()">
-            <div><span>Фамилия</span><label data-bind="text: LastName"></label></div>
-            <div><span>Имя</span><label data-bind="text: FirstName"></label></div>
-            <div><span>Отчество</span><label data-bind="text: SecondName"></label></div>
-            <div><span>Телефон</span><label data-bind="text: Phone"></label></div>
-            <div data-bind="visible: IsGuest"><span>Примечание</span><label data-bind="text: Description"></label></div>
-            <div data-bind="visible: !IsGuest()"><span>Должность</span><label data-bind="text: PositionName"></label></div>
-            <div><span>Подразделение</span><label data-bind="text: DepartmentName"></label></div>
-            <div><span>Организация</span><label data-bind="text: OrganisationName"></label></div>
-            <div data-bind="visible: IsDeleted"><span>Дата удаления</span><label data-bind="text: RemovalDate"></label></div>
+            <div style="width: 50%; float: left">
+                <div><span>Фамилия</span><label data-bind="text: LastName"></label>
+                </div>
+                <div><span>Имя</span><label data-bind="text: FirstName"></label>
+                </div>
+                <div><span>Отчество</span><label data-bind="text: SecondName"></label>
+                </div>
+                <div><span>Телефон</span><label data-bind="text: Phone"></label>
+                </div>
+                <div data-bind="visible: IsGuest"><span>Примечание</span><label data-bind="text: Description"></label>
+                </div>
+                <div data-bind="visible: !IsGuest()"><span>Должность</span><label data-bind="text: PositionName"></label>
+                </div>
+                <div><span>Подразделение</span><label data-bind="text: DepartmentName"></label>
+                </div>
+                <div><span>Организация</span><label data-bind="text: OrganisationName"></label>
+                </div>
+                <div data-bind="visible: IsDeleted"><span>Дата удаления</span><label data-bind="text: RemovalDate"></label>
+                </div>
+            </div>
+            <div style="width: 50%; float: left">
+                <img data-bind="attr: {src: PhotoData}" />
+            </div>
         </div>
         <div data-bind="visible: EmployeeCards.IsCardSelected">
             <table id="jqGridDoors"></table>
@@ -45,6 +59,5 @@
 </div>
 
 
-@Html.Action("EmployeeDetails")
 @Html.Action("EmployeeCardDetails")
 @Html.Action("CardRemovalReason")

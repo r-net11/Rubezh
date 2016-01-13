@@ -1,7 +1,7 @@
-﻿using System;
+﻿using RubezhAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using RubezhAPI.SKD;
 
 namespace RubezhClient.SKDHelpers
 {
@@ -26,7 +26,7 @@ namespace RubezhClient.SKDHelpers
 		public static bool MarkDeleted(Guid uid, string name, bool isEmployee)
 		{
 			var operationResult = ClientManager.FiresecService.MarkDeletedEmployee(uid, name, isEmployee);
-			if (operationResult != null && operationResult.HasError &&!operationResult.Error.Contains("Ошибка БД"))
+			if (operationResult != null && operationResult.HasError && !operationResult.Error.Contains("Ошибка БД"))
 				return true;
 			return Common.ShowErrorIfExists(operationResult);
 		}
@@ -49,7 +49,8 @@ namespace RubezhClient.SKDHelpers
 				return null;
 			var filter = new EmployeeFilter { LogicalDeletationType = LogicalDeletationType.All, UIDs = new List<Guid> { uid.Value }, IsAllPersonTypes = true };
 			var operationResult = ClientManager.FiresecService.GetEmployeeList(filter);
-			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
+			var result = Common.ShowErrorIfExists(operationResult);
+			return result != null ? result.FirstOrDefault() : null;
 		}
 
 		public static Employee GetDetails(Guid? uid)
@@ -86,13 +87,13 @@ namespace RubezhClient.SKDHelpers
 		public static bool SetDepartment(Guid employeeUID, Guid? departmentUID, string name)
 		{
 			var operationResult = ClientManager.FiresecService.SaveEmployeeDepartment(employeeUID, departmentUID, name);
-			return Common.ShowErrorIfExists(operationResult); 
+			return Common.ShowErrorIfExists(operationResult);
 		}
 
 		public static bool SetPosition(Guid employeeUID, Guid? positionUID, string name)
 		{
 			var operationResult = ClientManager.FiresecService.SaveEmployeePosition(employeeUID, positionUID, name);
-			return Common.ShowErrorIfExists(operationResult); 
+			return Common.ShowErrorIfExists(operationResult);
 		}
 
 	}

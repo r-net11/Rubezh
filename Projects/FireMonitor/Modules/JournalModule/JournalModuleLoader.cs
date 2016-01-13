@@ -17,6 +17,7 @@ using Infrastructure.Common.Reports;
 using JournalModule.Reports;
 using RubezhAPI.Models;
 using RubezhAPI.GK;
+using RubezhAPI;
 
 namespace JournalModule
 {
@@ -97,7 +98,7 @@ namespace JournalModule
 		{
 			SafeFiresecService.JournalItemsEvent -= new Action<List<JournalItem>, bool>(OnJournalItems);
 			SafeFiresecService.JournalItemsEvent += new Action<List<JournalItem>, bool>(OnJournalItems);
-
+			
 			JournalViewModel.SetJournalItems();
 			ArchiveViewModel.Update();
 		}

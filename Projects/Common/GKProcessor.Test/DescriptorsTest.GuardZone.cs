@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RubezhClient;
 using RubezhAPI.GK;
+using RubezhAPI;
 
 namespace GKProcessor.Test
 {
@@ -153,7 +154,15 @@ namespace GKProcessor.Test
 			var code = new GKCode();
 			GKManager.DeviceConfiguration.Codes.Add(code);
 			var guardZone = new GKGuardZone();
-			guardZone.GuardZoneDevices.Add(new GKGuardZoneDevice() { DeviceUID = device1.UID, CodeReaderSettings = new GKCodeReaderSettings() { SetGuardSettings = new GKCodeReaderSettingsPart() { CodeReaderEnterType = GKCodeReaderEnterType.CodeAndOne, CodeUIDs = { code.UID } } } });
+			var guardZoneDevice = new GKGuardZoneDevice
+			{
+				DeviceUID = device1.UID,
+				CodeReaderSettings = new GKCodeReaderSettings
+				{
+					SetGuardSettings = new GKCodeReaderSettingsPart {CodeReaderEnterType = GKCodeReaderEnterType.CodeAndOne, CodeUIDs = {code.UID}}
+				}
+			};
+			GKManager.AddDeviceToGuardZone(guardZone, guardZoneDevice);
 			GKManager.GuardZones.Add(guardZone);
 			Compile();
 

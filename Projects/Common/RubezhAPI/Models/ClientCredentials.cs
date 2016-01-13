@@ -7,7 +7,7 @@ namespace RubezhAPI.Models
 	public class ClientCredentials
 	{
 		[DataMember]
-		public string UserName { get; set; }
+		public string Login { get; set; }
 
 		[DataMember]
 		public string Password { get; set; }

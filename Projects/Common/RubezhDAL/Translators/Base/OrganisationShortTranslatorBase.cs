@@ -19,5 +19,21 @@ namespace RubezhDAL.DataClasses
 		{
 			return ParentTranslator.Table.Include(x => x.Organisation.Users);
 		}
+
+		public OperationResult<TShort> GetSingle(Guid? uid)
+		{
+			try
+			{
+				if (uid == null)
+					return new OperationResult<TShort>(null);
+				var tableItems = GetTableItems().Where(x => x.UID == uid.Value);
+				var result = GetAPIItems(tableItems).FirstOrDefault();
+				return new OperationResult<TShort>(result);
+			}
+			catch (System.Exception e)
+			{
+				return OperationResult<TShort>.FromError(e.Message);
+			}
+		}
 	}
 }

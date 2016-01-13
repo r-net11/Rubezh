@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Configuration;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Windows;
-using Common;
-using RubezhClient;
+﻿using Common;
 using Infrastructure.Client.Login.ViewModels;
 using Infrastructure.Client.Properties;
 using Infrastructure.Client.Startup;
@@ -15,14 +6,26 @@ using Infrastructure.Common;
 using Infrastructure.Common.About.ViewModels;
 using Infrastructure.Common.Configuration;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Services;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Configuration;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Windows;
 
 namespace Infrastructure.Client
 {
 	public class BaseBootstrapper
 	{
+		public string Login { get; set; }
+		public string Password { get; set; }
 		private List<IModule> _modules;
 		public BaseBootstrapper()
 		{
@@ -131,6 +134,7 @@ namespace Infrastructure.Client
 				{
 					StartupService.Instance.DoStep(string.Format("Инициализация модуля {0}", module.Name));
 					module.Initialize();
+					module.RegisterPlanExtension();
 				}
 				catch (StartupCancellationException)
 				{
@@ -194,17 +198,17 @@ namespace Infrastructure.Client
 							continue;
 						string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, moduleElement.AssemblyFile);
 						if (File.Exists(path))
-                        {
+						{
 							Assembly assembly = GetAssemblyByFileName(path);
 							if (assembly != null)
 								InvestigateAssembly(assembly);
 						}
-                        else
-                        {
-                            var message = string.Format("Не найден файл модуля {0}", moduleElement.AssemblyFile);
-                            Logger.Error(message);
-                            //MessageBoxService.ShowError(message);
-                        }
+						else
+						{
+							var message = string.Format("Не найден файл модуля {0}", moduleElement.AssemblyFile);
+							Logger.Error(message);
+							//MessageBoxService.ShowError(message);
+						}
 					}
 					catch (StartupCancellationException)
 					{
@@ -254,6 +258,23 @@ namespace Infrastructure.Client
 			foreach (Type t in assembly.GetExportedTypes())
 				if (typeof(IModule).IsAssignableFrom(t) && t.GetConstructor(new Type[0]) != null)
 					_modules.Add((IModule)Activator.CreateInstance(t, new object[0]));
+		}
+
+		public void RestartApplication()
+		{
+			var processStartInfo = new ProcessStartInfo()
+			{
+				FileName = Application.ResourceAssembly.Location,
+				Arguments = GetRestartCommandLineArguments()
+			};
+			Process.Start(processStartInfo);
+		}
+		protected virtual string GetRestartCommandLineArguments()
+		{
+			string commandLineArguments = null;
+			if (Login != null && Password != null)
+				commandLineArguments = "login='" + Login + "' password='" + Password + "'";
+			return commandLineArguments;
 		}
 	}
 }

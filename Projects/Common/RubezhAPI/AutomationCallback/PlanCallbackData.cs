@@ -1,11 +1,11 @@
-﻿using System;
+﻿using RubezhAPI.Automation;
+using System;
 using System.Runtime.Serialization;
-using RubezhAPI.Automation;
 
 namespace RubezhAPI.AutomationCallback
 {
 	[DataContract]
-	public class PlanCallbackData : AutomationCallbackData
+	public class PlanCallbackData : UIAutomationCallbackData
 	{
 		[DataMember]
 		public Guid PlanUid { get; set; }

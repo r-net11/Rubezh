@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Common;
-using RubezhClient;
+using RubezhAPI;
 
 namespace RubezhAPI.GK
 {
@@ -83,6 +83,8 @@ namespace RubezhAPI.GK
 		public virtual string GetGKDescriptorName(GKNameGenerationType gkNameGenerationType)
 		{
 			var result = PresentationName;
+			if (result == null)
+				return "";
 			if (result.Length > 32)
 				result = result.Substring(0, 32);
 			return result.TrimEnd(' ');
@@ -154,7 +156,7 @@ namespace RubezhAPI.GK
 				LinkLogic(device, device.Logic.StopClausesGroup);
 				if (device.IsInMPT)
 				{
-					var deviceMPTs = new List<GKMPT>(GKManager.MPTs.FindAll(x => x.MPTDevices.FindAll(y => y.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard
+					var deviceMPTs = new List<GKMPT>(GKManager.DeviceConfiguration.MPTs.FindAll(x => x.MPTDevices.FindAll(y => y.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard
 						|| y.MPTDeviceType == GKMPTDeviceType.Bomb || y.MPTDeviceType == GKMPTDeviceType.DoNotEnterBoard || y.MPTDeviceType == GKMPTDeviceType.ExitBoard
 						|| y.MPTDeviceType == GKMPTDeviceType.Speaker).Any(z => z.Device == device)));
 					foreach (var deviceMPT in deviceMPTs)
@@ -171,15 +173,45 @@ namespace RubezhAPI.GK
 					}
 				}
 
-				foreach (var deviceDoor in GKManager.Doors.Where(x => x.LockDevice == device))
+				foreach (var deviceDoor in GKManager.DeviceConfiguration.Doors.Where(x => x.LockDevice == device))
 				{
 					device.LinkToDescriptor(deviceDoor);
 				}
 
-				foreach (var devicePumpStation in GKManager.PumpStations.Where(x => x.NSDevices.Contains(device)))
+				foreach (var devicePumpStation in GKManager.DeviceConfiguration.PumpStations.Where(x => x.NSDevices.Contains(device)))
 				{
 					device.LinkToDescriptor(devicePumpStation);
 					LinkLogic(device, device.NSLogic.OnClausesGroup);
+				}
+
+				if (device.Driver.HasMirror)
+				{
+					switch (device.DriverType)
+					{
+						case GKDriverType.DetectorDevicesMirror:
+							device.GKReflectionItem.Devices.ForEach(x => LinkToDescriptor(x));
+							break;
+						case GKDriverType.ControlDevicesMirror:
+							device.GKReflectionItem.Devices.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							device.GKReflectionItem.Diretions.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							device.GKReflectionItem.Delays.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							device.GKReflectionItem.MPTs.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							device.GKReflectionItem.NSs.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							break;
+						case GKDriverType.DirectionsMirror:
+							device.GKReflectionItem.Diretions.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							break;
+						case GKDriverType.FireZonesMirror:
+							device.GKReflectionItem.Zones.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							break;
+						case GKDriverType.FirefightingZonesMirror:
+							device.GKReflectionItem.Zones.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							device.GKReflectionItem.Diretions.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							break;
+						case GKDriverType.GuardZonesMirror:
+							device.GKReflectionItem.GuardZones.ForEach(x => { x.LinkToDescriptor(this); LinkToDescriptor(x); });
+							break;
+					}
 				}
 			}
 
@@ -323,12 +355,18 @@ namespace RubezhAPI.GK
 
 		public void ClearDescriptor()
 		{
-			InputDependentElements = new List<GKBase>();
+			//InputDependentElements = new List<GKBase>();
 			OutputDependentElements = new List<GKBase>();
 			InputDescriptors = new List<GKBase>();
 			OutputDescriptors = new List<GKBase>();
 			KauParents = new HashSet<GKDevice>();
 			GkParents = new HashSet<GKDevice>();
+		}
+
+		public List<GKDevice> GetMirrorParents()
+		{
+			var mirrorParents = InputDependentElements.FindAll(x => x is GKDevice && (x as GKDevice).Driver.HasMirror).Cast<GKDevice>();
+			return new List<GKDevice>(mirrorParents);
 		}
 
 		[XmlIgnore]

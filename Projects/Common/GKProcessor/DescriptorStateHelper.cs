@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using RubezhAPI.GK;
-using RubezhClient;
+using RubezhAPI;
 using System.Diagnostics;
 
 namespace GKProcessor
@@ -300,6 +300,11 @@ namespace GKProcessor
 					OnDelay = additionalShortParameters[0];
 					OffDelay = additionalShortParameters[1];
 					HoldDelay = additionalShortParameters[2];
+				}
+				if (TypeNo == 0x104)
+				{
+					OffDelay = additionalShortParameters[0];
+					HoldDelay = additionalShortParameters[1];
 				}
 			}
 		}

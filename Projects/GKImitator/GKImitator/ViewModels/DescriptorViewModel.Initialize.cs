@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using RubezhAPI.GK;
-using RubezhClient;
-using GKImitator.Processor;
-using GKProcessor;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Journal;
-using System.Collections.Generic;
-using System.Windows.Input;
 
 namespace GKImitator.ViewModels
 {
@@ -442,15 +435,30 @@ namespace GKImitator.ViewModels
 						HasManualRegime = true;
 						HasIgnoreRegime = true;
 						HasCard = true;
+						HasTurnOn = true;
+						HasTurnOff = true;
+						HasTurnOnNow = true;
+						HasTurnOffNow = true;
 						AddStateBit(GKStateBit.Attention);
 						AddStateBit(GKStateBit.Fire1);
 						AddStateBit(GKStateBit.Fire2);
+						AddStateBit(GKStateBit.On);
+						AddStateBit(GKStateBit.TurningOn);
+						AddStateBit(GKStateBit.Off, true);
+						AddStateBit(GKStateBit.TurningOff);
+						HasOnDelay = true;
+						HasHoldDelay = true;
+						HasOffDelay = true;
 						break;
 
 					case GKDriverType.RSR2_GuardDetector:
 						HasAutomaticRegime = true;
 						HasManualRegime = true;
 						HasIgnoreRegime = true;
+						HasTurnOn = true;
+						HasTurnOff = true;
+						AddStateBit(GKStateBit.On);
+						AddStateBit(GKStateBit.Off, true);
 						break;
 
 					case GKDriverType.RSR2_CardReader:
@@ -458,15 +466,30 @@ namespace GKImitator.ViewModels
 						HasManualRegime = true;
 						HasIgnoreRegime = true;
 						HasCard = true;
+						HasTurnOn = true;
+						HasTurnOff = true;
+						HasTurnOnNow = true;
+						HasTurnOffNow = true;
+						AddStateBit(GKStateBit.On);
+						AddStateBit(GKStateBit.TurningOn);
+						AddStateBit(GKStateBit.Off, true);
+						AddStateBit(GKStateBit.TurningOff);
 						AddStateBit(GKStateBit.Attention);
 						AddStateBit(GKStateBit.Fire1);
 						AddStateBit(GKStateBit.Fire2);
+						HasOnDelay = true;
+						HasHoldDelay = true;
+						HasOffDelay = true;
 						break;
 
 					case GKDriverType.RSR2_GuardDetectorSound:
 						HasAutomaticRegime = true;
 						HasManualRegime = true;
 						HasIgnoreRegime = true;
+						HasTurnOn = true;
+						HasTurnOff = true;
+						AddStateBit(GKStateBit.On);
+						AddStateBit(GKStateBit.Off, true);
 						break;
 
 				}
@@ -551,6 +574,8 @@ namespace GKImitator.ViewModels
 				HasOnDelay = true;
 				HasHoldDelay = true;
 				HasOffDelay = true;
+				HasReset = true;
+				HasFire12 = true;
 			}
 
 			if (GKBase is GKGuardZone)
@@ -561,6 +586,7 @@ namespace GKImitator.ViewModels
 				HasTurnOn = true;
 				HasTurnOnNow = true;
 				HasTurnOff = true;
+				HasTurnOffNow = true;
 				AddStateBit(GKStateBit.On);
 				AddStateBit(GKStateBit.Off, true);
 				AddStateBit(GKStateBit.TurningOn);
@@ -570,6 +596,7 @@ namespace GKImitator.ViewModels
 				HasOnDelay = true;
 				HasHoldDelay = true;
 				HasOffDelay = true;
+				HasReset = true;
 			}
 		}
 	}

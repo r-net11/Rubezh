@@ -10,6 +10,7 @@ using RubezhAPI.SKD.ReportFilters;
 using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;
+using RubezhAPI;
 
 namespace SKDModule.Reports.ViewModels
 {
@@ -34,7 +35,7 @@ namespace SKDModule.Reports.ViewModels
 			gkViewModel.IsExpanded = true;
 			RootFilters.Add(gkViewModel);
 
-			var video =  new SKDObjectViewModel(JournalSubsystemType.Video);
+			var video = new SKDObjectViewModel(JournalSubsystemType.Video);
 			video.IsExpanded = true;
 			RootFilters.Add(video);
 
@@ -73,7 +74,7 @@ namespace SKDModule.Reports.ViewModels
 			foreach (var mpt in GKManager.MPTs)
 				gkMPTsViewModel.AddChild(new SKDObjectViewModel(mpt));
 
-			var gkPumpsViewModel= new SKDObjectViewModel(JournalObjectType.GKPumpStation);
+			var gkPumpsViewModel = new SKDObjectViewModel(JournalObjectType.GKPumpStation);
 			gkViewModel.AddChild(gkPumpsViewModel);
 			foreach (var pump in GKManager.PumpStations)
 				gkPumpsViewModel.AddChild(new SKDObjectViewModel(pump));
@@ -95,8 +96,7 @@ namespace SKDModule.Reports.ViewModels
 			if (parentDeviceViewModel != null)
 				parentDeviceViewModel.AddChild(deviceViewModel);
 			foreach (var childDevice in device.Children)
-				if (!childDevice.IsNotUsed)
-					AddGKDeviceInternal(childDevice, deviceViewModel);
+				AddGKDeviceInternal(childDevice, deviceViewModel);
 			return deviceViewModel;
 		}
 

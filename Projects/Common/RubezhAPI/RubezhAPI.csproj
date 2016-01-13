@@ -145,12 +145,19 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="AutomationCallback\UIAutomationCallbackData.cs" />
     <Compile Include="AutomationCallback\DialogCallbackData.cs" />
     <Compile Include="AutomationCallback\PlanCallbackData.cs" />
     <Compile Include="AutomationCallback\ProcedureProperties.cs" />
+    <Compile Include="AutomationCallback\GlobalVariableCallBackData.cs" />
     <Compile Include="AutomationCallback\PropertyCallBackData.cs" />
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
+    <Compile Include="Bindable.cs" />
     <Compile Include="CallbackOperationResult.cs" />
+    <Compile Include="IBindable.cs" />
+    <Compile Include="Models\Automation\StepArguments\HttpRequestArguments.cs" />
+    <Compile Include="Models\Plans\ElementTextBox.cs" />
+    <Compile Include="PollResult.cs" />
     <Compile Include="GKManager\GKManager.Delays.cs" />
     <Compile Include="GKManager\GKManager.PumpStations.cs" />
     <Compile Include="GKManager\GKManager.MPTs.cs" />
@@ -209,7 +216,6 @@
     <Compile Include="Models\Automation\StepArguments\ControlGKGuardZoneArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\IncrementValueArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\NowArguments.cs" />
-    <Compile Include="Models\Automation\StepArguments\ProcedureLayoutCollection.cs" />
     <Compile Include="Models\Automation\StepArguments\PtzArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\RandomArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\RunProgramArguments.cs" />
@@ -223,7 +229,7 @@
     <Compile Include="Journal\EventDescriptionAttributeHelper.cs" />
     <Compile Include="Journal\JournalEventNameType.cs" />
     <Compile Include="Journal\JournalSubsystemType.cs" />
-    <Compile Include="IFiresecService.Automation.cs" />
+    <Compile Include="IFiresecServiceAutomation.cs" />
     <Compile Include="IFiresecServiceSKD.TimeTrack.cs" />
     <Compile Include="GKCallbackResult.cs" />
     <Compile Include="GKProgressCallback.cs" />

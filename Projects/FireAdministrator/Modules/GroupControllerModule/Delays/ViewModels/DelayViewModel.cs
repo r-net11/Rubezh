@@ -6,6 +6,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
@@ -67,8 +68,8 @@ namespace GKModule.ViewModels
 		void OnShowLogic()
 		{
 			DelaysViewModel.Current.SelectedDelay = this;
-			var logicViewModel = new LogicViewModel(Delay, Delay.Logic, true, hasStopClause: true);
-			if (DialogService.ShowModalWindow(logicViewModel))
+			var logicViewModel = new LogicViewModel(Delay, Delay.Logic, true);
+			if (ServiceFactory.DialogService.ShowModalWindow(logicViewModel))
 			{
 				GKManager.SetDelayLogic(Delay, logicViewModel.GetModel());
 				OnPropertyChanged(() => PresentationLogic);

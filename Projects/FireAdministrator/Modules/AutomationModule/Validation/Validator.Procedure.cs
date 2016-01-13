@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Infrastructure.Common;
+using Infrastructure.Common.Validation;
+using RubezhAPI;
+using RubezhAPI.Automation;
+using RubezhAPI.License;
+using RubezhClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using RubezhAPI.Automation;
-using RubezhClient;
-using Infrastructure.Common.Validation;
-using Infrastructure.Common;
-using RubezhAPI;
 
 namespace AutomationModule.Validation
 {
@@ -20,7 +21,7 @@ namespace AutomationModule.Validation
 			{
 				Procedure = procedure;
 				foreach (var procedureStep in procedure.Steps)
-					ValidateStep(procedureStep);
+					ValidateStep(procedure, procedureStep);
 
 				if (nameList.Contains(procedure.Name))
 					Errors.Add(new ProcedureValidationError(procedure, "Процедура с таким именем уже существует " + procedure.Name, ValidationErrorLevel.CannotSave));
@@ -44,7 +45,7 @@ namespace AutomationModule.Validation
 			}
 		}
 
-		void ValidateStep(ProcedureStep step)
+		void ValidateStep(Procedure procedure, ProcedureStep step)
 		{
 			switch (step.ProcedureStepType)
 			{
@@ -59,20 +60,20 @@ namespace AutomationModule.Validation
 				case ProcedureStepType.ShowMessage:
 					{
 						var showMessageArguments = step.ShowMessageArguments;
-						ValidateArgument(step, showMessageArguments.MessageArgument);
+						ValidateArgument(procedure, step, showMessageArguments.MessageArgument);
 						if (showMessageArguments.WithConfirmation)
-							ValidateArgument(step, showMessageArguments.ConfirmationValueArgument);
+							ValidateArgument(procedure, step, showMessageArguments.ConfirmationValueArgument);
 					}
 					break;
 
 				case ProcedureStepType.Arithmetics:
 					{
 						var arithmeticArguments = step.ArithmeticArguments;
-						if (!ValidateArgument(step, arithmeticArguments.Argument1))
+						if (!ValidateArgument(procedure, step, arithmeticArguments.Argument1))
 							break;
-						if (!ValidateArgument(step, arithmeticArguments.Argument2))
+						if (!ValidateArgument(procedure, step, arithmeticArguments.Argument2))
 							break;
-						ValidateArgument(step, arithmeticArguments.ResultArgument);
+						ValidateArgument(procedure, step, arithmeticArguments.ResultArgument);
 					}
 					break;
 
@@ -82,9 +83,9 @@ namespace AutomationModule.Validation
 						var conditionArguments = step.ConditionArguments;
 						foreach (var condition in conditionArguments.Conditions)
 						{
-							if (!ValidateArgument(step, condition.Argument1))
+							if (!ValidateArgument(procedure, step, condition.Argument1))
 								break;
-							ValidateArgument(step, condition.Argument2);
+							ValidateArgument(procedure, step, condition.Argument2);
 						}
 					}
 					break;
@@ -92,18 +93,18 @@ namespace AutomationModule.Validation
 				case ProcedureStepType.AddJournalItem:
 					{
 						var journalArguments = step.JournalArguments;
-						ValidateArgument(step, journalArguments.MessageArgument);
+						ValidateArgument(procedure, step, journalArguments.MessageArgument);
 					}
 					break;
 
 				case ProcedureStepType.FindObjects:
 					{
 						var findObjectArguments = step.FindObjectArguments;
-						if (!ValidateArgument(step, findObjectArguments.ResultArgument))
+						if (!ValidateArgument(procedure, step, findObjectArguments.ResultArgument))
 							break;
 						foreach (var findObjectCondition in findObjectArguments.FindObjectConditions)
 						{
-							if (!ValidateArgument(step, findObjectCondition.SourceArgument))
+							if (!ValidateArgument(procedure, step, findObjectCondition.SourceArgument))
 								break;
 						}
 					}
@@ -112,29 +113,29 @@ namespace AutomationModule.Validation
 				case ProcedureStepType.Foreach:
 					{
 						var foreachArguments = step.ForeachArguments;
-						if (!ValidateArgument(step, foreachArguments.ItemArgument))
+						if (!ValidateArgument(procedure, step, foreachArguments.ItemArgument))
 							break;
-						ValidateArgument(step, foreachArguments.ListArgument);
+						ValidateArgument(procedure, step, foreachArguments.ListArgument);
 					}
 					break;
 
 				case ProcedureStepType.For:
 					{
 						var forArguments = step.ForArguments;
-						if (!ValidateArgument(step, forArguments.IndexerArgument))
+						if (!ValidateArgument(procedure, step, forArguments.IndexerArgument))
 							break;
-						if (!ValidateArgument(step, forArguments.InitialValueArgument))
+						if (!ValidateArgument(procedure, step, forArguments.InitialValueArgument))
 							break;
-						if (!ValidateArgument(step, forArguments.ValueArgument))
+						if (!ValidateArgument(procedure, step, forArguments.ValueArgument))
 							break;
-						ValidateArgument(step, forArguments.IteratorArgument);
+						ValidateArgument(procedure, step, forArguments.IteratorArgument);
 					}
 					break;
 
 				case ProcedureStepType.Pause:
 					{
 						var pauseArguments = step.PauseArguments;
-						ValidateArgument(step, pauseArguments.PauseArgument);
+						ValidateArgument(procedure, step, pauseArguments.PauseArgument);
 					}
 					break;
 
@@ -144,23 +145,23 @@ namespace AutomationModule.Validation
 						if (ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.All(x => x.Uid != procedureSelectionArguments.ScheduleProcedure.ProcedureUid))
 							Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы" + step.Name, ValidationErrorLevel.CannotSave));
 						foreach (var argument in procedureSelectionArguments.ScheduleProcedure.Arguments)
-							ValidateArgument(step, argument);
+							ValidateArgument(procedure, step, argument);
 					}
 					break;
 
 				case ProcedureStepType.SetValue:
 					{
 						var setValueArguments = step.SetValueArguments;
-						if (!ValidateArgument(step, setValueArguments.SourceArgument))
+						if (!ValidateArgument(procedure, step, setValueArguments.SourceArgument))
 							break;
-						ValidateArgument(step, setValueArguments.TargetArgument);
+						ValidateArgument(procedure, step, setValueArguments.TargetArgument);
 					}
 					break;
 
 				case ProcedureStepType.IncrementValue:
 					{
 						var incrementValueArguments = step.IncrementValueArguments;
-						ValidateArgument(step, incrementValueArguments.ResultArgument);
+						ValidateArgument(procedure, step, incrementValueArguments.ResultArgument);
 					}
 					break;
 
@@ -172,140 +173,146 @@ namespace AutomationModule.Validation
 							var gkDevice = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == controlGKDeviceArguments.GKDeviceArgument.ExplicitValue.UidValue);
 							if (gkDevice != null && gkDevice.Logic.OnClausesGroup.Clauses.Count > 0)
 								Errors.Add(new ProcedureStepValidationError(step, "Исполнительное устройство содержит собственную логику" + step.Name, ValidationErrorLevel.Warning));
-							ValidateArgument(step, controlGKDeviceArguments.GKDeviceArgument);
+							ValidateArgument(procedure, step, controlGKDeviceArguments.GKDeviceArgument);
 						}
 					}
 					break;
 
 				case ProcedureStepType.ControlGKFireZone:
 					{
+						if (!LicenseManager.CurrentLicenseInfo.HasFirefighting)
+							Errors.Add(new ProcedureStepValidationError(step, "Отсутствует лицензия для выполнения шага " + step.Name, ValidationErrorLevel.Warning));
 						var controlGKFireZoneArguments = step.ControlGKFireZoneArguments;
-						ValidateArgument(step, controlGKFireZoneArguments.GKFireZoneArgument);
+						ValidateArgument(procedure, step, controlGKFireZoneArguments.GKFireZoneArgument);
 					}
 					break;
 
 				case ProcedureStepType.ControlGKGuardZone:
 					{
+						if (!LicenseManager.CurrentLicenseInfo.HasGuard)
+							Errors.Add(new ProcedureStepValidationError(step, "Отсутствует лицензия для выполнения шага " + step.Name, ValidationErrorLevel.Warning));
 						var controlGKGuardZoneArguments = step.ControlGKGuardZoneArguments;
-						ValidateArgument(step, controlGKGuardZoneArguments.GKGuardZoneArgument);
+						ValidateArgument(procedure, step, controlGKGuardZoneArguments.GKGuardZoneArgument);
 					}
 					break;
 
 				case ProcedureStepType.ControlDirection:
 					{
 						var controlDirectionArguments = step.ControlDirectionArguments;
-						ValidateArgument(step, controlDirectionArguments.DirectionArgument);
+						ValidateArgument(procedure, step, controlDirectionArguments.DirectionArgument);
 					}
 					break;
 
 				case ProcedureStepType.ControlGKDoor:
 					{
+						if (!LicenseManager.CurrentLicenseInfo.HasSKD)
+							Errors.Add(new ProcedureStepValidationError(step, "Отсутствует лицензия для выполнения шага " + step.Name, ValidationErrorLevel.Warning));
 						var controlGKDoorArguments = step.ControlGKDoorArguments;
-						ValidateArgument(step, controlGKDoorArguments.DoorArgument);
+						ValidateArgument(procedure, step, controlGKDoorArguments.DoorArgument);
 					}
 					break;
 
 				case ProcedureStepType.ControlDelay:
 					{
 						var controlDelayArguments = step.ControlDelayArguments;
-						ValidateArgument(step, controlDelayArguments.DelayArgument);
+						ValidateArgument(procedure, step, controlDelayArguments.DelayArgument);
 					}
 					break;
 
 				case ProcedureStepType.GetObjectProperty:
 					{
 						var getObjectPropertyArguments = step.GetObjectPropertyArguments;
-						if (!ValidateArgument(step, getObjectPropertyArguments.ObjectArgument))
+						if (!ValidateArgument(procedure, step, getObjectPropertyArguments.ObjectArgument))
 							break;
-						ValidateArgument(step, getObjectPropertyArguments.ResultArgument);
+						ValidateArgument(procedure, step, getObjectPropertyArguments.ResultArgument);
 					}
 					break;
 
 				case ProcedureStepType.SendEmail:
 					{
 						var sendEmailArguments = step.SendEmailArguments;
-						if (!ValidateArgument(step, sendEmailArguments.EMailAddressFromArgument))
+						if (!ValidateArgument(procedure, step, sendEmailArguments.EMailAddressFromArgument))
 							break;
-						if (!ValidateArgument(step, sendEmailArguments.EMailAddressToArgument))
+						if (!ValidateArgument(procedure, step, sendEmailArguments.EMailAddressToArgument))
 							break;
-						if (!ValidateArgument(step, sendEmailArguments.EMailContentArgument))
+						if (!ValidateArgument(procedure, step, sendEmailArguments.EMailContentArgument))
 							break;
-						if (!ValidateArgument(step, sendEmailArguments.EMailTitleArgument))
+						if (!ValidateArgument(procedure, step, sendEmailArguments.EMailTitleArgument))
 							break;
-						if (!ValidateArgument(step, sendEmailArguments.SmtpArgument))
+						if (!ValidateArgument(procedure, step, sendEmailArguments.SmtpArgument))
 							break;
-						if (!ValidateArgument(step, sendEmailArguments.LoginArgument))
+						if (!ValidateArgument(procedure, step, sendEmailArguments.LoginArgument))
 							break;
-						if (!ValidateArgument(step, sendEmailArguments.PasswordArgument))
+						if (!ValidateArgument(procedure, step, sendEmailArguments.PasswordArgument))
 							break;
-						ValidateArgument(step, sendEmailArguments.PortArgument);
+						ValidateArgument(procedure, step, sendEmailArguments.PortArgument);
 					}
 					break;
 
 				case ProcedureStepType.RunProgram:
 					{
 						var RunProgramArguments = step.RunProgramArguments;
-						if (!ValidateArgument(step, RunProgramArguments.ParametersArgument))
+						if (!ValidateArgument(procedure, step, RunProgramArguments.ParametersArgument))
 							break;
-						ValidateArgument(step, RunProgramArguments.PathArgument);
+						ValidateArgument(procedure, step, RunProgramArguments.PathArgument);
 					}
 					break;
 
 				case ProcedureStepType.Random:
 					{
 						var randomArguments = step.RandomArguments;
-						ValidateArgument(step, randomArguments.MaxValueArgument);
+						ValidateArgument(procedure, step, randomArguments.MaxValueArgument);
 					}
 					break;
 				case ProcedureStepType.ChangeList:
 					{
 						var changeListArguments = step.ChangeListArguments;
-						if (!ValidateArgument(step, changeListArguments.ItemArgument))
+						if (!ValidateArgument(procedure, step, changeListArguments.ItemArgument))
 							break;
-						ValidateArgument(step, changeListArguments.ListArgument);
+						ValidateArgument(procedure, step, changeListArguments.ListArgument);
 					}
 					break;
 
 				case ProcedureStepType.CheckPermission:
 					{
 						var checkPermissionArguments = step.CheckPermissionArguments;
-						if (!ValidateArgument(step, checkPermissionArguments.PermissionArgument))
+						if (!ValidateArgument(procedure, step, checkPermissionArguments.PermissionArgument))
 							break;
-						ValidateArgument(step, checkPermissionArguments.ResultArgument);
+						ValidateArgument(procedure, step, checkPermissionArguments.ResultArgument);
 					}
 					break;
 
 				case ProcedureStepType.GetJournalItem:
 					{
 						var getJournalItemArguments = step.GetJournalItemArguments;
-						ValidateArgument(step, getJournalItemArguments.ResultArgument);
+						ValidateArgument(procedure, step, getJournalItemArguments.ResultArgument);
 					}
 					break;
 
 				case ProcedureStepType.GetListCount:
 					{
 						var getListCountArgument = step.GetListCountArguments;
-						if (!ValidateArgument(step, getListCountArgument.ListArgument))
+						if (!ValidateArgument(procedure, step, getListCountArgument.ListArgument))
 							break;
-						ValidateArgument(step, getListCountArgument.CountArgument);
+						ValidateArgument(procedure, step, getListCountArgument.CountArgument);
 					}
 					break;
 
 				case ProcedureStepType.GetListItem:
 					{
 						var getListItemArgument = step.GetListItemArguments;
-						if (!ValidateArgument(step, getListItemArgument.ListArgument))
+						if (!ValidateArgument(procedure, step, getListItemArgument.ListArgument))
 							break;
-						if (!ValidateArgument(step, getListItemArgument.ItemArgument))
+						if (!ValidateArgument(procedure, step, getListItemArgument.ItemArgument))
 							break;
 						if (getListItemArgument.PositionType == PositionType.ByIndex)
-							ValidateArgument(step, getListItemArgument.IndexArgument);
+							ValidateArgument(procedure, step, getListItemArgument.IndexArgument);
 					}
 					break;
 				case ProcedureStepType.ControlVisualGet:
 				case ProcedureStepType.ControlVisualSet:
 					var controlVisualArguments = step.ControlVisualArguments;
-					if (!ValidateArgument(step, controlVisualArguments.Argument))
+					if (!ValidateArgument(procedure, step, controlVisualArguments.Argument))
 						break;
 					if (controlVisualArguments.Layout == Guid.Empty)
 						Errors.Add(new ProcedureStepValidationError(step, "Не выбран макет", ValidationErrorLevel.CannotSave));
@@ -317,7 +324,7 @@ namespace AutomationModule.Validation
 				case ProcedureStepType.ControlPlanGet:
 				case ProcedureStepType.ControlPlanSet:
 					var controlPlanArguments = step.ControlPlanArguments;
-					ValidateArgument(step, controlPlanArguments.ValueArgument);
+					ValidateArgument(procedure, step, controlPlanArguments.ValueArgument);
 					if (controlPlanArguments.PlanUid == Guid.Empty)
 						Errors.Add(new ProcedureStepValidationError(step, "Не выбран план", ValidationErrorLevel.CannotSave));
 					else if (controlPlanArguments.ElementUid == Guid.Empty)
@@ -330,129 +337,152 @@ namespace AutomationModule.Validation
 				case ProcedureStepType.GenerateGuid:
 					{
 						var generateGuidArguments = step.GenerateGuidArguments;
-						ValidateArgument(step, generateGuidArguments.ResultArgument);
+						ValidateArgument(procedure, step, generateGuidArguments.ResultArgument);
 					}
 					break;
 				case ProcedureStepType.SetJournalItemGuid:
 					{
 						var setJournalItemGuidArguments = step.SetJournalItemGuidArguments;
-						ValidateArgument(step, setJournalItemGuidArguments.ValueArgument);
+						ValidateArgument(procedure, step, setJournalItemGuidArguments.ValueArgument);
 					}
 					break;
 				case ProcedureStepType.ExportJournal:
 					{
 						var arguments = step.ExportJournalArguments;
-						if (!ValidateArgument(step, arguments.IsExportJournalArgument))
+						if (!ValidateArgument(procedure, step, arguments.IsExportJournalArgument))
 							break;
-						if (!ValidateArgument(step, arguments.IsExportPassJournalArgument))
+						if (!ValidateArgument(procedure, step, arguments.IsExportPassJournalArgument))
 							break;
-						if (!ValidateArgument(step, arguments.MaxDateArgument))
+						if (!ValidateArgument(procedure, step, arguments.MaxDateArgument))
 							break;
-						if (!ValidateArgument(step, arguments.MinDateArgument))
+						if (!ValidateArgument(procedure, step, arguments.MinDateArgument))
 							break;
-						ValidateArgument(step, arguments.PathArgument);
-							break;
+						ValidateArgument(procedure, step, arguments.PathArgument);
+						break;
 					}
 				case ProcedureStepType.ExportConfiguration:
 					{
 						var arguments = step.ExportConfigurationArguments;
-						if (!ValidateArgument(step, arguments.IsExportDevices))
+						if (!ValidateArgument(procedure, step, arguments.IsExportDevices))
 							break;
-						if (!ValidateArgument(step, arguments.IsExportDoors))
+						if (!ValidateArgument(procedure, step, arguments.IsExportDoors))
 							break;
-						if (!ValidateArgument(step, arguments.IsExportZones))
+						if (!ValidateArgument(procedure, step, arguments.IsExportZones))
 							break;
-						ValidateArgument(step, arguments.PathArgument);
+						ValidateArgument(procedure, step, arguments.PathArgument);
 						break;
 					}
 				case ProcedureStepType.ExportOrganisation:
 					{
 						var arguments = step.ExportOrganisationArguments;
-						if (!ValidateArgument(step, arguments.IsWithDeleted))
+						if (!ValidateArgument(procedure, step, arguments.IsWithDeleted))
 							break;
-						if (!ValidateArgument(step, arguments.Organisation))
+						if (!ValidateArgument(procedure, step, arguments.Organisation))
 							break;
-						ValidateArgument(step, arguments.PathArgument);
+						ValidateArgument(procedure, step, arguments.PathArgument);
 						break;
 					}
 				case ProcedureStepType.ExportOrganisationList:
 					{
 						var arguments = step.ImportOrganisationArguments;
-						if (!ValidateArgument(step, arguments.IsWithDeleted))
+						if (!ValidateArgument(procedure, step, arguments.IsWithDeleted))
 							break;
-						ValidateArgument(step, arguments.PathArgument);
+						ValidateArgument(procedure, step, arguments.PathArgument);
 						break;
 					}
 				case ProcedureStepType.ImportOrganisationList:
 					{
 						var arguments = step.ImportOrganisationArguments;
-						if (!ValidateArgument(step, arguments.IsWithDeleted))
+						if (!ValidateArgument(procedure, step, arguments.IsWithDeleted))
 							break;
-						ValidateArgument(step, arguments.PathArgument);
+						ValidateArgument(procedure, step, arguments.PathArgument);
 						break;
 					}
 				case ProcedureStepType.ImportOrganisation:
 					{
 						var arguments = step.ImportOrganisationArguments;
-						if (!ValidateArgument(step, arguments.IsWithDeleted))
+						if (!ValidateArgument(procedure, step, arguments.IsWithDeleted))
 							break;
-						ValidateArgument(step, arguments.PathArgument);
+						ValidateArgument(procedure, step, arguments.PathArgument);
 						break;
 					}
 
 				case ProcedureStepType.Ptz:
 					{
+						if (!LicenseManager.CurrentLicenseInfo.HasVideo)
+							Errors.Add(new ProcedureStepValidationError(step, "Отсутствует лицензия для выполнения шага " + step.Name, ValidationErrorLevel.Warning));
 						var arguments = step.PtzArguments;
-						if (!ValidateArgument(step, arguments.CameraArgument))
+						if (!ValidateArgument(procedure, step, arguments.CameraArgument))
 							break;
-						ValidateArgument(step, arguments.PtzNumberArgument);
+						ValidateArgument(procedure, step, arguments.PtzNumberArgument);
 						break;
 					}
 				case ProcedureStepType.StartRecord:
 					{
+						if (!LicenseManager.CurrentLicenseInfo.HasVideo)
+							Errors.Add(new ProcedureStepValidationError(step, "Отсутствует лицензия для выполнения шага " + step.Name, ValidationErrorLevel.Warning));
 						var arguments = step.StartRecordArguments;
-						if (!ValidateArgument(step, arguments.CameraArgument))
+						if (!ValidateArgument(procedure, step, arguments.CameraArgument))
 							break;
-						if (!ValidateArgument(step, arguments.EventUIDArgument))
+						if (!ValidateArgument(procedure, step, arguments.EventUIDArgument))
 							break;
-						ValidateArgument(step, arguments.TimeoutArgument);
+						ValidateArgument(procedure, step, arguments.TimeoutArgument);
 						break;
 					}
 				case ProcedureStepType.StopRecord:
 					{
+						if (!LicenseManager.CurrentLicenseInfo.HasVideo)
+							Errors.Add(new ProcedureStepValidationError(step, "Отсутствует лицензия для выполнения шага " + step.Name, ValidationErrorLevel.Warning));
 						var arguments = step.StopRecordArguments;
-						if (!ValidateArgument(step, arguments.CameraArgument))
+						if (!ValidateArgument(procedure, step, arguments.CameraArgument))
 							break;
-						ValidateArgument(step, arguments.EventUIDArgument);
+						ValidateArgument(procedure, step, arguments.EventUIDArgument);
 						break;
 					}
 				case ProcedureStepType.RviAlarm:
 					{
+						if (!LicenseManager.CurrentLicenseInfo.HasVideo)
+							Errors.Add(new ProcedureStepValidationError(step, "Отсутствует лицензия для выполнения шага " + step.Name, ValidationErrorLevel.Warning));
 						var arguments = step.RviAlarmArguments;
-						ValidateArgument(step, arguments.NameArgument);
+						ValidateArgument(procedure, step, arguments.NameArgument);
 						break;
 					}
 				case ProcedureStepType.Now:
 					{
 						var nowArguments = step.NowArguments;
-						ValidateArgument(step, nowArguments.ResultArgument);
+						ValidateArgument(procedure, step, nowArguments.ResultArgument);
 					}
+					break;
+				case ProcedureStepType.HttpRequest:
+					var httpRequestArguments = step.HttpRequestArguments;
+					ValidateArgument(procedure, step, httpRequestArguments.UrlArgument);
+					if (httpRequestArguments.HttpMethod == HttpMethod.Post)
+						ValidateArgument(procedure, step, httpRequestArguments.ContentArgument);
+					ValidateArgument(procedure, step, httpRequestArguments.ResponseArgument);
 					break;
 			}
 			foreach (var childStep in step.Children)
-				ValidateStep(childStep);
+				ValidateStep(procedure, childStep);
 		}
 
-		bool ValidateArgument(ProcedureStep step, Argument argument)
+		bool ValidateArgument(Procedure procedure, ProcedureStep step, Argument argument)
 		{
 			var localVariables = new List<Variable>(Procedure.Variables);
 			localVariables.AddRange(new List<Variable>(Procedure.Arguments));
 			if (argument.VariableScope == VariableScope.GlobalVariable)
-				if (ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.All(x => x.Uid != argument.VariableUid))
+			{
+				var variable = ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);
+				if (variable == null)
 				{
 					Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы", ValidationErrorLevel.CannotSave));
 					return false;
 				}
+				else if (variable.ContextType == ContextType.Client && procedure.ContextType == ContextType.Server)
+				{
+					Errors.Add(new ProcedureStepValidationError(step, "Глобальная переменная \"" + variable.Name + "\" будет определена на сервере, т.к. контекст исполнения процедуры - сервер", ValidationErrorLevel.Warning));
+					return false;
+				}
+			}
 			if (argument.VariableScope == VariableScope.LocalVariable)
 				if (localVariables.All(x => x.Uid != argument.VariableUid))
 				{

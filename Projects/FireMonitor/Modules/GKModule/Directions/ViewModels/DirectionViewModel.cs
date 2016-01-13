@@ -7,6 +7,7 @@ using Infrastructure.Events;
 using RubezhClient;
 using System.Collections.Generic;
 using System;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {

@@ -2,55 +2,33 @@
 using System.Linq;
 using RubezhAPI.GK;
 using RubezhClient;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
 	public static class NewDeviceHelper
 	{
-		public static DeviceViewModel AddDevice(GKDevice device, DeviceViewModel parentDeviceViewModel, bool addAutoCreate = true)
+		public static DeviceViewModel AddDevice(GKDevice device, DeviceViewModel parentDeviceViewModel, bool isAddDevice = true, bool isStartList = false)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
-			parentDeviceViewModel.AddChild(deviceViewModel);
-
-			foreach (var childDevice in device.Children)
+			if (isAddDevice)
 			{
-				AddDevice(childDevice, deviceViewModel, addAutoCreate);
-			}
-
-			if (addAutoCreate)
-			{
-				if (device.Driver.IsGroupDevice)
+				if (isStartList)
+					parentDeviceViewModel.AddChildFirst(deviceViewModel);
+				else
+					parentDeviceViewModel.AddChild(deviceViewModel);
+				foreach (var childDevice in device.Children)
 				{
-					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
-
-					for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
-					{
-						var autoDevice = GKManager.AddChild(device, null, driver, (byte)(device.IntAddress + i));
-						AddDevice(autoDevice, deviceViewModel, addAutoCreate);
-					}
+					AddDevice(childDevice, deviceViewModel);
 				}
 			}
-			return deviceViewModel;
-		}
-
-		public static DeviceViewModel InsertDevice(GKDevice device, DeviceViewModel parentDeviceViewModel, bool addAutoCreate = true)
-		{
-			var deviceViewModel = new DeviceViewModel(device);
-			parentDeviceViewModel.InsertChild(deviceViewModel);
-
-			foreach (var childDevice in device.Children)
+			else
 			{
-				AddDevice(childDevice, deviceViewModel, addAutoCreate);
-			}
+				parentDeviceViewModel.InsertChild(deviceViewModel);
 
-			if (device.Driver.IsGroupDevice && device.Children.Count == 0)
-			{
-				var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
-
-				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
+				foreach (var childDevice in device.Children)
 				{
-					var autoDevice = GKManager.AddChild(device, null, driver, (byte)(device.IntAddress + i));
-					AddDevice(autoDevice, deviceViewModel);
+					AddDevice(childDevice, deviceViewModel, !isAddDevice);
 				}
 			}
 			return deviceViewModel;

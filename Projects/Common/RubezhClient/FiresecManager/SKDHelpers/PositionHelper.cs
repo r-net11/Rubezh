@@ -1,7 +1,7 @@
-﻿using System;
+﻿using RubezhAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using RubezhAPI.SKD;
 
 namespace RubezhClient.SKDHelpers
 {
@@ -20,7 +20,7 @@ namespace RubezhClient.SKDHelpers
 
 		public static bool Restore(ShortPosition item)
 		{
-			return Restore(item.UID, item.Name); 
+			return Restore(item.UID, item.Name);
 		}
 
 		public static bool MarkDeleted(Guid uid, string name)

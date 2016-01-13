@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RubezhDAL.DataClasses
 {
-    public class Organisation : IExternalKey
+	public class Organisation : IExternalKey
 	{
 		public Organisation()
 		{
@@ -24,7 +24,7 @@ namespace RubezhDAL.DataClasses
 			PassCardTemplates = new List<PassCardTemplate>();
 			TimeTrackDocumnetTypes = new List<TimeTrackDocumentType>();
 		}
-		
+
 		[Key]
 		public Guid UID { get; set; }
 
@@ -54,7 +54,7 @@ namespace RubezhDAL.DataClasses
 
 		public ICollection<NightSetting> NightSettings { get; set; }
 
-        [InverseProperty("Organisation")]
+		[InverseProperty("Organisation")]
 		public ICollection<Employee> Employees { get; set; }
 
 		public ICollection<AdditionalColumnType> AdditionalColumnTypes { get; set; }
@@ -80,5 +80,6 @@ namespace RubezhDAL.DataClasses
 		public string Phone { get; set; }
 		[MaxLength(50)]
 		public string ExternalKey { get; set; }
+		public int MaxGKLevel { get; set; }
 	}
 }

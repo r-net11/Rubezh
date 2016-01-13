@@ -2,6 +2,7 @@
 using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
 
 namespace GKSDK
 {
