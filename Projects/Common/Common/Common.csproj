@@ -144,6 +144,8 @@
   <ItemGroup>
     <Compile Include="AssemblyHelper.cs" />
     <Compile Include="AssemblyInfoCommon.cs" />
+    <Compile Include="Clipboard.cs" />
+    <Compile Include="ClipboardSourceAction.cs" />
     <Compile Include="ColorUtilities.cs" />
     <Compile Include="EnumHelper.cs" />
     <Compile Include="EnvironmentParameters.cs" />

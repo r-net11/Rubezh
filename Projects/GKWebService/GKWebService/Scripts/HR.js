@@ -39,6 +39,7 @@
                 self.Positions = PositionsViewModel();
                 self.Positions.PositionDetails = PositionDetailsViewModel();
                 self.Positions.PositionEmployeeList = PositionEmployeeListViewModel(self.Positions);
+                self.AccessTemplates = AccessTemplatesViewModel();
                 self.Organisations = OrganisationsViewModel();
                 self.Organisations.OrganisationDetails = OrganisationDetailsViewModel();
 
@@ -101,6 +102,7 @@
         self.Employees.Init(filter);
         self.Departments.Init(self.Filter);
         self.Positions.Init(self.Filter);
+        self.AccessTemplates.Init(self.Filter);
         self.Organisations.Init(self.Filter);
     };
 

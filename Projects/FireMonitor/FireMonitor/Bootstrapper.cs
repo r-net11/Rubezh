@@ -144,7 +144,13 @@ namespace FireMonitor
 		void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)
 		{
 			if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.Dialog)
-				LayoutDialogViewModel.Show((DialogCallbackData)automationCallbackResult.Data);
+			{
+				var data = automationCallbackResult.Data as DialogCallbackData;
+				var layoutUID = GetLayoutUID();
+				if (layoutUID.HasValue && data != null && data.LayoutFilter != null && data.LayoutFilter.Contains(layoutUID.Value))
+					LayoutDialogViewModel.Show(data);
+				return;
+			}
 			if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.GlobalVariable)
 			{
 				var data = automationCallbackResult.Data as GlobalVariableCallBackData;
@@ -155,6 +161,11 @@ namespace FireMonitor
 				}
 			}
 
+		}
+
+		protected virtual Guid? GetLayoutUID()
+		{
+			return Guid.Empty;
 		}
 
 		void LoadPlansProperties()

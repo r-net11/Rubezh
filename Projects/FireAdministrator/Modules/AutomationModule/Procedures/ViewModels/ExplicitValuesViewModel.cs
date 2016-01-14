@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using RubezhAPI.Automation;
 using Infrastructure.Common;
 using System.Linq;
+using Infrastructure.Common.Windows;
+using Infrastructure;
 
 namespace AutomationModule.ViewModels
 {
@@ -14,7 +16,8 @@ namespace AutomationModule.ViewModels
 
 		public ExplicitValuesViewModel()
 		{
-			EditListCommand = new RelayCommand(OnEditList);
+            EditStringCommand = new RelayCommand(OnEditString);
+            EditListCommand = new RelayCommand(OnEditList);
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<ExplicitValueViewModel>(OnRemove);
 			ChangeCommand = new RelayCommand<ExplicitValueViewModel>(OnChange);
@@ -24,6 +27,7 @@ namespace AutomationModule.ViewModels
 
 		public ExplicitValuesViewModel(ExplicitValue explicitValue, List<ExplicitValue> explicitValues, bool isList, ExplicitType explicitType, EnumType enumType, ObjectType objectType)
 		{
+            EditStringCommand = new RelayCommand(OnEditString);
 			EditListCommand = new RelayCommand(OnEditList);
 			RemoveCommand = new RelayCommand<ExplicitValueViewModel>(OnRemove);
 			ChangeCommand = new RelayCommand<ExplicitValueViewModel>(OnChange);
@@ -120,7 +124,15 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public RelayCommand EditListCommand { get; private set; }
+        public RelayCommand EditStringCommand { get; private set; }
+        void OnEditString()
+        {
+            var stringDetailsViewModel = new StringDetailsViewModel(ExplicitValue.StringValue);
+            if (DialogService.ShowModalWindow(stringDetailsViewModel))
+                ExplicitValue.StringValue = stringDetailsViewModel.StringValue;
+        }
+
+        public RelayCommand EditListCommand { get; private set; }
 		void OnEditList()
 		{
 			var explicitValues = ExplicitValues.ToList();

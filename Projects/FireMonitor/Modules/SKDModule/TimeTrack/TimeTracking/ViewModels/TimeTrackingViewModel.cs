@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using Common;
-using RubezhAPI.SKD;
-using RubezhClient;
+﻿using Common;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
+using RubezhAPI.Models;
+using RubezhAPI.SKD;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using SKDModule.Events;
 using SKDModule.Model;
-using RubezhClient.SKDHelpers;
-using RubezhAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.Serialization;
 
 namespace SKDModule.ViewModels
 {
@@ -121,9 +118,11 @@ namespace SKDModule.ViewModels
 		public RelayCommand PrintCommand { get; private set; }
 		void OnPrint()
 		{
-			ValidatePrint();
-			var reportSettingsViewModel = new ReportSettingsViewModel(TimeTrackFilter, TimeTrackEmployeeResults, _chiefUID, _departmentChiefUID, _hrChiefUID);
-			DialogService.ShowModalWindow(reportSettingsViewModel);
+			if (ValidatePrint())
+			{
+				var reportSettingsViewModel = new ReportSettingsViewModel(TimeTrackFilter, TimeTrackEmployeeResults, _chiefUID, _departmentChiefUID, _hrChiefUID);
+				DialogService.ShowModalWindow(reportSettingsViewModel);
+			}
 		}
 
 		public bool ValidatePrint()
