@@ -7,6 +7,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition />
@@ -14,8 +15,16 @@
 		</Grid.ColumnDefinitions>
 		<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Задержка, с" />
 		<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="Удержание, с" />
-
+		<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Режим после удержани" />
+		
 		<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" />
 		<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Hold, UpdateSourceTrigger=PropertyChanged}" />
+		<ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding AvailableDelayRegimeTypes}" SelectedItem="{Binding DelayRegime}" Margin="2">
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
 	</Grid>
 </UserControl>
