@@ -1,32 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DevExpress.Xpf.Printing;
-using DevExpress.DocumentServices.ServiceModel.Client;
-using DevExpress.DocumentServices.ServiceModel.ServiceOperations;
+﻿using Common;
 using DevExpress.DocumentServices.ServiceModel.DataContracts;
-using System.Collections.ObjectModel;
-using Common;
-using System.ServiceModel;
+using DevExpress.DocumentServices.ServiceModel.ServiceOperations;
+using DevExpress.Xpf.Printing;
 using Infrastructure.Common.Windows;
+using System;
+using System.Collections.ObjectModel;
+using System.ServiceModel;
 using System.Windows.Threading;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace ReportsModule.ViewModels
 {
 	public class XReportServicePreviewModel : ReportServicePreviewModel
 	{
 		private const int ClientPingPeriod = 300;
-		private DispatcherTimer _holdTimer;
+		private readonly DispatcherTimer _holdTimer;
 
 		public XReportServicePreviewModel()
-			: base()
 		{
-			_holdTimer = new DispatcherTimer();
-			_holdTimer.Interval = TimeSpan.FromSeconds(ClientPingPeriod);
-			_holdTimer.IsEnabled = false;
+			_holdTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(ClientPingPeriod), IsEnabled = false};
 			_holdTimer.Tick += PingClient;
 		}
 
@@ -41,7 +32,7 @@ namespace ReportsModule.ViewModels
 			set
 			{
 				int intValue;
-				if (int.TryParse(value, out intValue) && intValue >= 1 && intValue <= this.PageCount)
+				if (int.TryParse(value, out intValue) && intValue >= 1 && intValue <= PageCount)
 					CurrentPageNumber = intValue;
 				RaisePropertyChanged(() => SelectedPage);
 			}
@@ -103,14 +94,16 @@ namespace ReportsModule.ViewModels
 		private ReadOnlyCollection<double> _zoomValues;
 		protected override ReadOnlyCollection<double> ZoomValues
 		{
-			get { return _zoomValues ?? (_zoomValues = new ReadOnlyCollection<double>(new double[] { 10.0, 25.0, 50.0, 75.0, 100.0, 150.0, 200.0, 300.0, 400.0, 500.0 })); }
+			get { return _zoomValues ?? (_zoomValues = new ReadOnlyCollection<double>(new[] { 10.0, 25.0, 50.0, 75.0, 100.0, 150.0, 200.0, 300.0, 400.0, 500.0 })); }
 		}
 
 		private void ResetClient()
 		{
 			var clientField = typeof(ReportServicePreviewModel).GetField("client", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-			clientField.SetValue(this, null);
+			if (clientField != null)
+				clientField.SetValue(this, null);
 		}
+
 		private void HoldClient(bool isHold)
 		{
 			if (isHold)
@@ -124,7 +117,7 @@ namespace ReportsModule.ViewModels
 			{
 				Client.GetBuildStatusAsync(DocumentId, null);
 			}
-			catch (Exception ex)
+			catch (Exception ex) //TODO: Need to specity the type of exception and throw it
 			{
 				Logger.Error(ex);
 			}
