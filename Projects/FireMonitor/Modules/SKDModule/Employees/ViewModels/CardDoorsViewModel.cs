@@ -28,6 +28,8 @@ namespace SKDModule.ViewModels
 
 		void InitializeDoors()
 		{
+			if (CardDoors == null) return;
+
 			Doors = new SortableObservableCollection<ReadOnlyAccessDoorViewModel>();
 			foreach (var cardDoor in CardDoors)
 			{
