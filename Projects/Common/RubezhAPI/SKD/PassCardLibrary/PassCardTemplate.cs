@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Windows.Media;
+using System.Xml.Serialization;
 
 namespace RubezhAPI.SKD
 {
@@ -79,12 +80,13 @@ namespace RubezhAPI.SKD
 		[DataMember]
 		public List<PassCardImage> PassCardImages { get; set; }
 
+		[XmlIgnore]
 		public bool AllowTransparent
 		{
 			get { return true; }
 		}
 
-
+		[XmlIgnore]
 		public string Name
 		{
 			get { return Caption; }

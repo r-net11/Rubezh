@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RubezhClient
+namespace RubezhAPI
 {
 	public partial class GKManager
 	{
@@ -33,7 +33,7 @@ namespace RubezhClient
 			door.OutputDependentElements.ForEach(x =>
 			{
 				x.InputDependentElements.Remove(door);
-				x.UpdateLogic(GKManager.DeviceConfiguration);
+				x.UpdateLogic(DeviceConfiguration);
 				x.OnChanged();
 			});
 			door.OnChanged();

@@ -19,6 +19,10 @@ namespace PlansModule.Kursk
 		public override void Initialize()
 		{
 			_planExtension.Initialize();
+		}
+
+		public override void RegisterPlanExtension()
+		{
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 		}
 		public override ModuleType ModuleType

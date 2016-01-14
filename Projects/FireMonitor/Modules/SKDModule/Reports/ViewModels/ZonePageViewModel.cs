@@ -11,6 +11,7 @@ using Infrastructure.Common;
 using Common;
 using RubezhAPI.GK;
 using RubezhClient;
+using RubezhAPI;
 
 namespace SKDModule.Reports.ViewModels
 {

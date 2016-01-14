@@ -9,8 +9,8 @@ namespace GKProcessor
 		{
 			var driver = new GKDriver()
 			{
-				DriverTypeNo = 0x999,
-				DriverType = GKDriverType.RSR2_GKMirror,
+				DriverTypeNo = 0x102,
+				DriverType = GKDriverType.GKMirror,
 				UID = new Guid("72B08282-457D-4e7b-B86F-EBCC0CC4EF03"),
 				Name = "ПМФ-ПМЕ",
 				ShortName = "ПМФ-ПМЕ",
@@ -23,12 +23,12 @@ namespace GKProcessor
 				IsPlaceable = true,
 				IsEditMirror = true
 			};
-			driver.Children.Add(GKDriverType.RSR2_GKMirrorDetectorsDevice);
-			driver.Children.Add(GKDriverType.RSR2_GKMirrorFireZone);
-			driver.Children.Add(GKDriverType.RSR2_GKMirrorPerformersDevice);
-			driver.Children.Add(GKDriverType.RSR2_GKMirrorGuardZone);
-			driver.Children.Add(GKDriverType.RSR2_GKMirrorFightFireZone);
-			driver.Children.Add(GKDriverType.RSR2_GKMirrorDirection);
+			driver.Children.Add(GKDriverType.DetectorDevicesMirror);
+			driver.Children.Add(GKDriverType.FireZonesMirror);
+			driver.Children.Add(GKDriverType.ControlDevicesMirror);
+			driver.Children.Add(GKDriverType.GuardZonesMirror);
+			driver.Children.Add(GKDriverType.FirefightingZonesMirror);
+			driver.Children.Add(GKDriverType.DirectionsMirror);
 
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
 			driver.AvailableStateClasses.Add(XStateClass.Unknown);
@@ -51,16 +51,32 @@ namespace GKProcessor
 			modeProperty.Parameters.Add(new GKDriverPropertyParameter() { Name = "Резервная", Value = 1 });
 			driver.Properties.Add(modeProperty);
 
+
 			driver.Properties.Add(
 				new GKDriverProperty()
 				{
 					No = 0,
+					Name = "ConnectionLostCount",
+					Caption = "Неответы",
+					ToolTip = "Неответы",
+					Min = 0,
+					Max = 10,
+					Default = 3,
+					DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
+					IsAUParameter = true
+				}
+				);
+
+			driver.Properties.Add(
+				new GKDriverProperty()
+				{
+					No = 1,
 					Name = "Parameter 0",
 					Caption = "Порог питания, В",
 					ToolTip = "",
-					Min = 100,
+					Min = 10,
 					Max = 240,
-					Default = 180,
+					Default = 30,
 					DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
 					IsAUParameter = true,
 					Multiplier = 10,
@@ -70,13 +86,13 @@ namespace GKProcessor
 			driver.Properties.Add(
 				new GKDriverProperty()
 				{
-					No = 1,
+					No = 2,
 					Name = "Parameter 1",
 					Caption = "Яркость, %",
 					ToolTip = "",
 					Min = 1,
 					Max = 100,
-					Default = 50,
+					Default = 100,
 					DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
 					IsAUParameter = true,
 					IsLowByte = true

@@ -331,11 +331,14 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.RtcSetDateTime">
             <summary>Sets the shim of Mercury203.set_Rtc(DateTime value)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WriteActiveTariffByteBoolean">
+            <summary>Sets the shim of Mercury203.WriteActiveTariff(Byte value, Boolean isExternalCall)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WriteAddressUInt32UInt32Boolean">
             <summary>Sets the shim of Mercury203.WriteAddress(UInt32 addr, UInt32 newaddr, Boolean isExternalCall)</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WriteAmountOfActiveTariffByteBoolean">
-            <summary>Sets the shim of Mercury203.WriteAmountOfActiveTariff(Byte value, Boolean isExternalCall)</summary>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WriteAmountOfActiveTariffsByteBoolean">
+            <summary>Sets the shim of Mercury203.WriteAmountOfActiveTariffs(Byte value, Boolean isExternalCall)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.WriteDateTimeDateTimeBoolean">
             <summary>Sets the shim of Mercury203.WriteDateTime(DateTime value, Boolean isExternalCall)</summary>
@@ -427,11 +430,14 @@
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.RtcSetDateTime">
             <summary>Sets the shim of Mercury203.set_Rtc(DateTime value)</summary>
         </member>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.WriteActiveTariffByteBoolean">
+            <summary>Sets the shim of Mercury203.WriteActiveTariff(Byte value, Boolean isExternalCall)</summary>
+        </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.WriteAddressUInt32UInt32Boolean">
             <summary>Sets the shim of Mercury203.WriteAddress(UInt32 addr, UInt32 newaddr, Boolean isExternalCall)</summary>
         </member>
-        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.WriteAmountOfActiveTariffByteBoolean">
-            <summary>Sets the shim of Mercury203.WriteAmountOfActiveTariff(Byte value, Boolean isExternalCall)</summary>
+        <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.WriteAmountOfActiveTariffsByteBoolean">
+            <summary>Sets the shim of Mercury203.WriteAmountOfActiveTariffs(Byte value, Boolean isExternalCall)</summary>
         </member>
         <member name="P:ResursNetwork.Incotex.Models.Fakes.ShimMercury203.AllInstances.WriteDateTimeDateTimeBoolean">
             <summary>Sets the shim of Mercury203.WriteDateTime(DateTime value, Boolean isExternalCall)</summary>

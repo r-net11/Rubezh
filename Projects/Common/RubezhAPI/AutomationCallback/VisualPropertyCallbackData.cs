@@ -1,11 +1,11 @@
-﻿using System;
+﻿using RubezhAPI.Automation;
+using System;
 using System.Runtime.Serialization;
-using RubezhAPI.Automation;
 
 namespace RubezhAPI.AutomationCallback
 {
 	[DataContract]
-	public class VisualPropertyCallbackData : AutomationCallbackData
+	public class VisualPropertyCallbackData : UIAutomationCallbackData
 	{
 		[DataMember]
 		public Guid LayoutPart { get; set; }

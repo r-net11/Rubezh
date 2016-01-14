@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using RubezhAPI.GK;
-using RubezhClient;
+﻿using RubezhAPI.GK;
 using GKImitator.Processor;
-using GKProcessor;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using RubezhAPI.Journal;
 using System.Windows.Input;
 
 namespace GKImitator.ViewModels
@@ -73,10 +66,14 @@ namespace GKImitator.ViewModels
 						OnTurnOffNow();
 					break;
 
+				case GKStateBit.Stop_InManual:
+					if (Regime == Regime.Manual)
+						OnPauseTurnOn();
+					break;
+
 				case GKStateBit.Fire1:
 				case GKStateBit.Fire2:
 				case GKStateBit.Reset:
-					if (Regime == Regime.Automatic)
 						OnResetFire();
 					break;
 			}

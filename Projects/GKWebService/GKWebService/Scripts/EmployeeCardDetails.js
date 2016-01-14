@@ -52,7 +52,7 @@
                 }
 
                 self.IsGuest(self.ParentViewModel.IsGuest());
-                self.CanChangeCardType(!self.IsGuest());
+                self.CanChangeCardType(!self.IsGuest() && app.Menu.HR.IsEmployeesEditCardTypeAllowed());
                 self.SelectedGCCardType(self.Card.GKCardType());
 
                 if (self.SelectedScheduleNo()) {
@@ -72,6 +72,9 @@
                 } else {
                     
                 }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                ShowError(xhr.responseText);
             }
         });
     };
@@ -135,10 +138,11 @@
             data: "{'cardModel':" + data + ",'employeeName': '" + self.ParentViewModel.Name() + "','isNew': '" + self.IsNewCard() + "'}",
             success: function() {
                 self.EmployeeCardDetailsClose();
+                self.ParentViewModel.EmployeeCards.ReloadCards();
             },
-            error: function(xhr, ajaxOptions, thrownError) {
-                alert("request failed");
-            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                ShowError(xhr.responseText);
+            }
         });
     };
 

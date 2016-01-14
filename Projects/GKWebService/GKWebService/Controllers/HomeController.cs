@@ -1,9 +1,16 @@
-﻿using GKWebService.Models;
+﻿using GKWebService.DataProviders.FireZones;
+using GKWebService.Models;
+using GKWebService.Models.FireZone;
+using RubezhAPI.GK;
+using RubezhClient;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace GKWebService.Controllers
 {
@@ -45,12 +52,39 @@ namespace GKWebService.Controllers
             return View();
         }
 
+        public JsonResult GetFireZonesData()
+        {
+            //Получили данные с сервера
+            var zone = FireZonesDataProvider.Instance.GetFireZones();
+
+            //Создали объект для передачи на клиент и заполняем его данными
+            FireZone data = new FireZone();
+            data.Fire1Count = zone.Fire1Count;
+            data.Fire2Count = zone.Fire2Count;
+
+            foreach (var deviceItem in zone.Devices)
+            {
+                var device = deviceItem;
+
+                do
+                {
+                    data.devicesList.Add(new Device(device.Address, device.ImageSource, device.ShortName));
+                    device = device.Parent;
+                } while (device != null);
+            }
+
+            data.devicesList.Reverse();
+
+            //Передаем данные на клиент
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public JsonResult Logon(string login, string password)
         {
             string error = null;
 
-            if(!login.Equals("admin") || !password.Equals("admin"))
+            if (!login.Equals("admin") || !password.Equals("admin"))
             {
                 error = "Неверный логин или пароль";
             }

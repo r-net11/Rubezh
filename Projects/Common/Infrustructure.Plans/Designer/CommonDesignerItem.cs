@@ -27,6 +27,10 @@ namespace Infrustructure.Plans.Designer
 
 		public event Action<CommonDesignerItem> UpdateProperties;
 
+
+		public Control WPFControl { get; set; }
+
+
 		private string _title;
 		public string Title
 		{

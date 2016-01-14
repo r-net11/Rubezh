@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Media;
-using Common;
-using RubezhAPI.Automation;
-using RubezhAPI.AutomationCallback;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhAPI.Models.Layouts;
-using RubezhClient;
+﻿using Common;
 using Infrastructure;
+using Infrastructure.Automation;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -18,6 +8,17 @@ using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using RubezhAPI.Automation;
+using RubezhAPI.AutomationCallback;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.Models.Layouts;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Media;
 
 namespace PlansModule.ViewModels
 {
@@ -30,12 +31,12 @@ namespace PlansModule.ViewModels
 		public PlanDesignerViewModel PlanDesignerViewModel { get; private set; }
 
 		public PlansViewModel(List<IPlanPresenter<Plan, XStateClass>> planPresenters)
-			: this(planPresenters, new LayoutPartPlansProperties() { Type = LayoutPartPlansType.All })
+			: this(planPresenters, new LayoutPartPlansProperties { Type = LayoutPartPlansType.All, AllowChangePlanZoom = true, ShowZoomSliders = true })
 		{
 		}
 		public PlansViewModel(List<IPlanPresenter<Plan, XStateClass>> planPresenters, LayoutPartPlansProperties properties)
 		{
-			_properties = properties ?? new LayoutPartPlansProperties() { Type = LayoutPartPlansType.All };
+			_properties = properties ?? new LayoutPartPlansProperties { Type = LayoutPartPlansType.All };
 			PlanPresenters = planPresenters;
 			ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Subscribe(OnNavigate);
 			ServiceFactory.Events.GetEvent<ShowElementEvent>().Subscribe(OnShowElement);
@@ -43,7 +44,9 @@ namespace PlansModule.ViewModels
 			ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
 			ServiceFactory.Events.GetEvent<ChangePlanPropertiesEvent>().Unsubscribe(OnChangePlanProperties);
 			ServiceFactory.Events.GetEvent<ChangePlanPropertiesEvent>().Subscribe(OnChangePlanProperties);
-			
+			ServiceFactory.Events.GetEvent<ControlPlanEvent>().Unsubscribe(OnControlPlan);
+			ServiceFactory.Events.GetEvent<ControlPlanEvent>().Subscribe(OnControlPlan);
+
 			_initialized = false;
 			if (_properties.Type != LayoutPartPlansType.Single)
 			{
@@ -60,7 +63,7 @@ namespace PlansModule.ViewModels
 			}
 			else
 				PlanNavigationWidth = GridLength.Auto;
-			PlanDesignerViewModel = new PlanDesignerViewModel(this);
+			PlanDesignerViewModel = new PlanDesignerViewModel(this, properties);
 		}
 
 		public void Initialize()
@@ -70,8 +73,47 @@ namespace PlansModule.ViewModels
 				PlanTreeViewModel.Initialize();
 			_initialized = true;
 			OnSelectedPlanChanged();
-			SafeFiresecService.AutomationEvent -= OnAutomationCallback;
-			SafeFiresecService.AutomationEvent += OnAutomationCallback;
+
+			if (PlanTreeViewModel != null)
+			{
+				foreach (var plan in PlanTreeViewModel.AllPlans)
+				{
+					foreach (var element in plan.Plan.AllElements)
+					{
+						foreach (var planElementBindingItem in element.PlanElementBindingItems)
+						{
+							var globalVariable = ProcedureExecutionContext.GlobalVariables.FirstOrDefault(x => x.Uid == planElementBindingItem.GlobalVariableUID);
+							if (globalVariable != null)
+							{
+								globalVariable.ValueChanged += () =>
+								{
+									var planCallbackData = new PlanCallbackData()
+									{
+										ElementPropertyType = ElementPropertyType.BorderThickness,
+										Value = globalVariable.ExplicitValue.IntValue,
+										ElementUid = element.UID,
+										PlanUid = plan.Plan.UID
+									};
+									SetPlanProperty(planCallbackData);
+								};
+							}
+						}
+					}
+				}
+			}
+		}
+
+		void OnControlPlan(ControlPlanEventArg controlPlanEventArg)
+		{
+			switch (controlPlanEventArg.ControlElementType)
+			{
+				case ControlElementType.Get:
+					GetPlanProperty(controlPlanEventArg.PlanCallbackData);
+					break;
+				case ControlElementType.Set:
+					SetPlanProperty(controlPlanEventArg.PlanCallbackData);
+					break;
+			}
 		}
 
 		private void OnSelectPlan(Guid planUID)
@@ -149,7 +191,7 @@ namespace PlansModule.ViewModels
 
 		public bool IsPlanTreeVisible
 		{
-			get { return !GlobalSettingsHelper.GlobalSettings.Monitor_HidePlansTree && PlanTreeViewModel != null; }
+			get { return PlanTreeViewModel != null; }
 		}
 
 		public override void OnShow()
@@ -177,18 +219,7 @@ namespace PlansModule.ViewModels
 			foreach (var property in properties)
 				SetPlanProperty(property);
 		}
-		private void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)
-		{
-			switch (automationCallbackResult.AutomationCallbackType)
-			{
-				case AutomationCallbackType.SetPlanProperty:
-					SetPlanProperty((PlanCallbackData)automationCallbackResult.Data);
-					break;
-				case AutomationCallbackType.GetPlanProperty:
-					GetPlanProperty((PlanCallbackData)automationCallbackResult.Data, automationCallbackResult.CallbackUID);
-					break;
-			}
-		}
+
 		private void SetPlanProperty(PlanCallbackData data)
 		{
 			var element = GetElement(data);
@@ -265,7 +296,7 @@ namespace PlansModule.ViewModels
 				}
 			});
 		}
-		private void GetPlanProperty(PlanCallbackData data, Guid callbackUID)
+		void GetPlanProperty(PlanCallbackData data)
 		{
 			var value = new object();
 			var element = GetElement(data);
@@ -333,7 +364,7 @@ namespace PlansModule.ViewModels
 						break;
 				}
 			}
-			ClientManager.FiresecService.ProcedureCallbackResponse(callbackUID, value);
+			data.Value = value;
 		}
 		private ElementBase GetElement(PlanCallbackData data)
 		{

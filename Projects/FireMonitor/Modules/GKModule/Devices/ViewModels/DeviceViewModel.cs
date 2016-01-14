@@ -1,20 +1,22 @@
-﻿using System.Linq;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using System.Collections.Generic;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GKModule.ViewModels
 {
 	public class DeviceViewModel : TreeNodeViewModel<DeviceViewModel>
 	{
 		public GKDevice Device { get; private set; }
+		public string GkDescriptorName { get; private set; }
 		public GKState State
 		{
 			get { return Device.State; }
@@ -26,6 +28,7 @@ namespace GKModule.ViewModels
 		public DeviceViewModel(GKDevice device)
 		{
 			Device = device;
+			GkDescriptorName = Device.GetGKDescriptorName(GKManager.DeviceConfiguration.GKNameGenerationType);
 			DeviceStateViewModel = new DeviceStateViewModel(State, device.Driver.IsAm);
 			State.StateChanged += OnStateChanged;
 			OnStateChanged();
@@ -50,16 +53,14 @@ namespace GKModule.ViewModels
 
 		public string PresentationZone
 		{
-			get { return GKManager.GetPresentationZoneOrLogic(Device); }
+			get { return GKManager.GetPresentationZoneAndGuardZoneOrLogic(Device); }
 		}
 
 		public string PresentationLogic
 		{
 			get
 			{
-				if (Device.Driver.HasLogic)
-					return GKManager.GetPresentationZoneOrLogic(Device);
-				return null;
+				return GKManager.GetPresentationLogic(Device.Logic);
 			}
 		}
 
@@ -74,11 +75,11 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public string PresentationZoneWithNS
+		public string PresentationNSLogic
 		{
 			get
 			{
-				return GKManager.GetPresentationZoneOrLogic(Device);
+				return GKManager.GetPresentationLogic(Device.NSLogic);
 			}
 		}
 

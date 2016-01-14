@@ -1,17 +1,16 @@
-﻿using System;
-using System.Linq;
-using RubezhAPI.GK;
-using RubezhAPI.Journal;
-using RubezhAPI.Models;
-using RubezhAPI.SKD;
-using RubezhClient;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Events;
-using RubezhClient.SKDHelpers;
-using Infrastructure.Common.Windows;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
+using RubezhAPI.Models;
+using RubezhClient;
+using System;
+using System.Linq;
 
 namespace JournalModule.ViewModels
 {
@@ -77,7 +76,7 @@ namespace JournalModule.ViewModels
 					Device = GKManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 					if (Device != null)
 					{
-						ObjectName = Device.PresentationName;
+						ObjectName = Device.GetGKDescriptorName(GKManager.DeviceConfiguration.GKNameGenerationType);
 						ObjectImageSource = Device.Driver.ImageSource;
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>();

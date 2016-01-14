@@ -1,42 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Common;
-using RubezhAPI.Models;
-using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Events;
-using PlansModule.Designer;
 using Infrastructure.Common.Services;
+using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Interfaces;
+using PlansModule.Designer;
+using RubezhAPI.Models;
+using RubezhClient;
 
 namespace PlansModule.ViewModels
 {
 	public partial class PlansViewModel
 	{
-		private Plan _planBuffer;
+		private PlansClipboard clipboard = new PlansClipboard();
 
 		private void InitializeCopyPaste()
 		{
 			PlanCopyCommand = new RelayCommand(OnPlanCopy, CanPlanCopyCut);
 			PlanCutCommand = new RelayCommand(OnPlanCut, CanPlanCopyCut);
 			PlanPasteCommand = new RelayCommand<bool>(OnPlanPaste, CanPlanPaste);
-			_planBuffer = null;
 		}
 
 		public RelayCommand PlanCopyCommand { get; private set; }
 		private void OnPlanCopy()
 		{
 			using (new WaitWrapper())
-				_planBuffer = Utils.Clone(SelectedPlan.Plan);
+			{
+				this.clipboard.Buffer = Utils.Clone(SelectedPlan.Plan);
+				this.clipboard.SourceAction = ClipboardSourceAction.Copy;
+			}
 		}
 		public RelayCommand PlanCutCommand { get; private set; }
 		private void OnPlanCut()
 		{
 			using (new WaitWrapper())
 			{
-				_planBuffer = SelectedPlan.Plan;
+				this.clipboard.Buffer = SelectedPlan.Plan;
+				this.clipboard.SourceAction = ClipboardSourceAction.Cut;
 				OnPlanRemove(true);
 			}
 		}
@@ -48,13 +50,33 @@ namespace PlansModule.ViewModels
 		public RelayCommand<bool> PlanPasteCommand { get; private set; }
 		private void OnPlanPaste(bool isRoot)
 		{
-			var copy = Utils.Clone(_planBuffer);
+			var copy = Utils.Clone(this.clipboard.Buffer);
+			if (this.clipboard.SourceAction == ClipboardSourceAction.Copy)
+			{
+				var elements = copy.ElementGKDevices.Cast<IElementReference>()
+					.Union(copy.ElementGKDoors)
+					.Union(copy.ElementPolygonGKDelays)
+					.Union(copy.ElementPolygonGKDirections)
+					.Union(copy.ElementPolygonGKGuardZones)
+					.Union(copy.ElementPolygonGKMPTs)
+					.Union(copy.ElementPolygonGKSKDZones)
+					.Union(copy.ElementPolygonGKZones)
+					.Union(copy.ElementRectangleGKDelays)
+					.Union(copy.ElementRectangleGKDirections)
+					.Union(copy.ElementRectangleGKGuardZones)
+					.Union(copy.ElementRectangleGKMPTs)
+					.Union(copy.ElementRectangleGKSKDZones)
+					.Union(copy.ElementRectangleGKZones);
+				foreach (var element in elements)
+					element.ItemUID = Guid.Empty;
+			}
 			RenewPlan(copy);
 			OnPlanPaste(copy, isRoot);
 		}
 		private bool CanPlanPaste(bool isRoot)
 		{
-			return _planBuffer != null && SelectedPlan != null;
+			return (this.clipboard.Buffer != null)
+				&& (SelectedPlan != null);
 		}
 
 		private void OnPlanPaste(Plan plan, bool isRoot)
@@ -85,7 +107,7 @@ namespace PlansModule.ViewModels
 				var plan = SelectedPlan.Plan;
 				var index = Plans.IndexOf(selectedPlan);
 				var oldIndex = selectedPlan.Index;
-				
+
 				DesignerCanvas.IsLocked = true;
 				DesignerCanvas.RemoveAll();
 				if (parent == null)
@@ -119,14 +141,14 @@ namespace PlansModule.ViewModels
 					if (parent.ChildrenCount == 0)
 					{
 						SelectedPlan = parent;
-					} 
+					}
 					else
 					{
 						if (oldIndex == 0)
 						{
-						SelectedPlan = parent.Children.ToArray()[oldIndex];
+							SelectedPlan = parent.Children.ToArray()[oldIndex];
 						}
-						else SelectedPlan = parent.Children.ToArray()[oldIndex-1];
+						else SelectedPlan = parent.Children.ToArray()[oldIndex - 1];
 					}
 					parent.Update();
 					parent.IsExpanded = true;

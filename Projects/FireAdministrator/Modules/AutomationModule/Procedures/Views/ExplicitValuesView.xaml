@@ -24,14 +24,58 @@
 
 				<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.String}}" HorizontalAlignment="Right" Height="28">
 					<TextBlock Text="Значение" Style="{DynamicResource TextBlockDetailsStyle}" />
-					<TextBox Text="{Binding ExplicitValue.StringValue, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Width="200" Margin="2" />
-				</StackPanel>
+                    <DockPanel Width="200" Margin="2">
+                        <TextBox Width="182" Text="{Binding ExplicitValue.StringValue, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
+                        <Button Command="{Binding EditStringCommand}"
+							Content="..."
+							FontSize="20"
+							Foreground="{DynamicResource ForegroundColorLight}"
+							Width="20" Height="25" Margin="-5,0,0,0">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Name="border" Background="Orange" BorderThickness="0" CornerRadius="0,3,3,0">
+                                                    <ContentPresenter x:Name="contentPresenter"
+																  Margin="{TemplateBinding Padding}"
+																  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+																  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+																  Content="{TemplateBinding Content}"
+																  ContentTemplate="{TemplateBinding ContentTemplate}" />
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="UIElement.IsMouseOver" Value="True">
+                                                        <Setter TargetName="border" Property="Border.Background" Value="{DynamicResource HighlightedBackgoundBrush}" />
+                                                        <Setter TargetName="border" Property="Border.BorderBrush" Value="{DynamicResource PressedBackgroundBrush}" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </DockPanel>
+                </StackPanel>
 
-				<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.DateTime}}" HorizontalAlignment="Right" Height="28"  >
+				<StackPanel Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.DateTime}}"
+							HorizontalAlignment="Center"
+							Orientation="Horizontal"
+							Margin="2">
+					
 					<TextBlock Text="Значение" Style="{DynamicResource TextBlockDetailsStyle}" />
-					<extToolkit:DateTimePicker Value = "{Binding ExplicitValue.DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" />
+					
+					<StackPanel Margin="2" HorizontalAlignment="Center" Orientation="Horizontal">
+						<DatePicker SelectedDate="{Binding ExplicitValue.DateTimeValue}"
+								DisplayDate="{Binding ExplicitValue.DateTimeValue}"
+								Height="26"
+								Padding="0"
+								Margin="0 0 5 0" />
+						<TimePicker TimeSpan="{Binding ExplicitValue.TimeValue}" Height="30" />
+					</StackPanel>
+					
 				</StackPanel>
-
 				<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:ExplicitType.Enum}}" HorizontalAlignment="Right" Height="28">
 					<TextBlock Text="Значение" Style="{DynamicResource TextBlockDetailsStyle}" />
@@ -111,7 +155,8 @@
 				<RowDefinition Height="Auto"/>
 				<RowDefinition />
 			</Grid.RowDefinitions>
-			<ToolBarButton Grid.Row="0" HorizontalAlignment="Left" Command="{Binding AddCommand}" ImageSource="Add" ToolTip="Добавить объект" Height="32" Width="32" />
+			<ToolBarButton Grid.Row="0" HorizontalAlignment="Left" Command="{Binding EditListCommand}" ImageSource="Edit" ToolTip="Редактировать список" Height="32" Width="32" Visibility="{Binding IsSimpleType, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+			<ToolBarButton Grid.Row="0" HorizontalAlignment="Left" Command="{Binding AddCommand}" ImageSource="Add" ToolTip="Добавить элемент" Height="32" Width="32" Visibility="{Binding IsSimpleType, Converter={StaticResource BoolToVisibilityConverter}}" />
 			<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 				<ItemsControl ItemsSource="{Binding ExplicitValues}">
 					<ItemsControl.ItemTemplate>
@@ -142,8 +187,12 @@
 								</TextBlock>
 								<CheckBox Grid.Column="1" IsChecked="{Binding BoolValue}" Margin="0,7,0,0"  HorizontalAlignment="Right" VerticalAlignment="Top"
 									Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Boolean}}"/>
-								<extToolkit:DateTimePicker Grid.Column="1" Value = "{Binding DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" HorizontalAlignment="Right"
-									Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.DateTime}}" />
+								<StackPanel Grid.Column="1" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.DateTime}}"
+											Width="200" Margin="2" HorizontalAlignment="Right">
+									<DatePicker SelectedDate="{Binding DateTimeValue}" DisplayDate="{Binding DateTimeValue}" />
+									<TimePicker TimeSpan="{Binding DateTimeValue}" />
+								</StackPanel>
+								
 								<extToolkit:IntegerUpDown Grid.Column="1" Width="200" Value="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" HorizontalAlignment="Right" 
 									Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Integer}}" />
 								<TextBox Grid.Column="1"  Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" HorizontalAlignment="Right" VerticalContentAlignment="Center"

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using RubezhAPI.GK;
-using RubezhClient;
+using RubezhAPI;
 
 namespace GKProcessor
 {
@@ -21,8 +21,8 @@ namespace GKProcessor
 
 		public override void Build()
 		{
-			DeviceType = BytesHelper.ShortToBytes((ushort)0x106);
-			SetAddress((ushort)0);
+			DeviceType = BytesHelper.ShortToBytes(0x106);
+			SetAddress(0);
 			SetPropertiesBytes();
 		}
 
@@ -34,6 +34,9 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.END);
 				return;
 			}
+
+			var mirrorParents = MPT.GetMirrorParents();
+			Formula.AddMirrorLogic(MPT, mirrorParents);
 
 			if (MPT.MptLogic.StopClausesGroup.GetObjects().Count > 0)
 			{

@@ -45,6 +45,7 @@
       <HintPath>..\..\FiresecService\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DotNetZipLib-DevKit-v1.9\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -98,6 +99,8 @@
     <Compile Include="ViewModels\Properties\DirectionPropertiesViewModel.cs" />
     <Compile Include="ViewModels\Properties\EnumPropertyViewModel.cs" />
     <Compile Include="ViewModels\Properties\DevicePropertiesViewModel.cs" />
+    <Compile Include="ViewModels\Properties\MPTPropertiesViewModel.cs" />
+    <Compile Include="ViewModels\Properties\PumpStationPropertiesViewModel.cs" />
     <Compile Include="ViewModels\Properties\ShortPropertyViewModel.cs" />
     <Compile Include="ViewModels\Properties\DelayPropertiesViewModel.cs" />
     <Compile Include="ViewModels\Properties\GuardZonePropertiesViewModel.cs" />
@@ -140,6 +143,12 @@
     </Compile>
     <Compile Include="Views\MeasureView.xaml.cs">
       <DependentUpon>MeasureView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MPTPropertiesView.xaml.cs">
+      <DependentUpon>MPTPropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PumpStationPropertiesView.xaml.cs">
+      <DependentUpon>PumpStationPropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SchedulesView.xaml.cs">
       <DependentUpon>SchedulesView.xaml</DependentUpon>
@@ -188,6 +197,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MeasureView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MPTPropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PumpStationPropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

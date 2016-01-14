@@ -4,7 +4,6 @@ using System.Xml.Serialization;
 using Common;
 using RubezhAPI;
 using RubezhAPI.GK;
-using RubezhClient;
 using GKProcessor;
 using Infrastructure.Common;
 using Ionic.Zip;

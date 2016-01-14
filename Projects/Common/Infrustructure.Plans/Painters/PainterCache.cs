@@ -6,6 +6,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Common;
 using Infrustructure.Plans.Elements;
+using System.Threading;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -57,13 +58,16 @@ namespace Infrustructure.Plans.Painters
 			_pens.Clear();
 			_pictureBrushes.Clear();
 		}
-
+		static object locker = new object();
 		public static void CacheBrush(IElementBackground element)
 		{
-			if (element.BackgroundImageSource.HasValue && !_pictureBrushes.ContainsKey(element.BackgroundImageSource.Value))
+			lock (locker)
 			{
-				var brush = GetBrush(element.BackgroundImageSource.Value, element.ImageType);
-				_pictureBrushes.Add(element.BackgroundImageSource.Value, brush);
+				if (element.BackgroundImageSource.HasValue && !_pictureBrushes.ContainsKey(element.BackgroundImageSource.Value))
+				{
+					var brush = GetBrush(element.BackgroundImageSource.Value, element.ImageType);
+					_pictureBrushes.Add(element.BackgroundImageSource.Value, brush);
+				}
 			}
 		}
 		public static Brush GetBrush(Color color)
@@ -181,7 +185,9 @@ namespace Infrustructure.Plans.Painters
 		{
 			if (element.BackgroundImageSource.HasValue)
 			{
+				if (element.BackgroundImageSource.HasValue && !_pictureBrushes.ContainsKey(element.BackgroundImageSource.Value))
 				CacheBrush(element);
+
 				return _pictureBrushes[element.BackgroundImageSource.Value];
 				//return GetBrush(element.BackgroundImageSource.Value);
 			}

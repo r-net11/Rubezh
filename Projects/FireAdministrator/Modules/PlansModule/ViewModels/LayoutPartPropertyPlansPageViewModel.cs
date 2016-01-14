@@ -76,6 +76,36 @@ namespace PlansModule.ViewModels
 					SelectedPlan = null;
 			}
 		}
+		bool _showZoomSliders;
+		public bool ShowZoomSliders
+		{
+			get { return _showZoomSliders; }
+			set
+			{
+				_showZoomSliders = value;
+				OnPropertyChanged(() => ShowZoomSliders); 
+			}
+		}
+		double _deviceZoom;
+		public double DeviceZoom
+		{
+			get { return _deviceZoom; }
+			set
+			{
+				_deviceZoom = value;
+				OnPropertyChanged(() => DeviceZoom);
+			}
+		}
+		bool _allowChangePlanZoom;
+		public bool AllowChangePlanZoom
+		{
+			get { return _allowChangePlanZoom; }
+			set
+			{
+				_allowChangePlanZoom = value;
+				OnPropertyChanged(() => AllowChangePlanZoom);
+			}
+		}
 
 		public override string Header
 		{
@@ -84,6 +114,9 @@ namespace PlansModule.ViewModels
 		public override void CopyProperties()
 		{
 			var properties = (LayoutPartPlansProperties)_layoutPartPlansViewModel.Properties;
+			ShowZoomSliders = properties.ShowZoomSliders;
+			DeviceZoom = properties.DeviceZoom;
+			AllowChangePlanZoom = properties.AllowChangePlanZoom;
 			Type = properties.Type;
 			switch (Type)
 			{
@@ -123,10 +156,17 @@ namespace PlansModule.ViewModels
 					break;
 			}
 			var properties = (LayoutPartPlansProperties)_layoutPartPlansViewModel.Properties;
-			if (properties.Type != Type || (properties.Type != LayoutPartPlansType.All && !properties.Plans.OrderBy(item => item).SequenceEqual(list.OrderBy(item => item))))
+			var hasChanges = properties.Type != Type 
+				|| properties.ShowZoomSliders != ShowZoomSliders 
+				|| properties.DeviceZoom != DeviceZoom
+				||properties.AllowChangePlanZoom != AllowChangePlanZoom;
+            if (hasChanges || (properties.Type != LayoutPartPlansType.All && !properties.Plans.OrderBy(item => item).SequenceEqual(list.OrderBy(item => item))))
 			{
 				properties.Type = Type;
 				properties.Plans = list;
+				properties.ShowZoomSliders = ShowZoomSliders;
+				properties.DeviceZoom = DeviceZoom;
+				properties.AllowChangePlanZoom = AllowChangePlanZoom;
 				_layoutPartPlansViewModel.UpdateLayoutPart();
 				return true;
 			}

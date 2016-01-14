@@ -27,13 +27,8 @@
 						<RowDefinition Height="*" />
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
-					<mediaSourcePlayer:MediaPlayer
-						Grid.Row="0"
-						x:Name="MediaSourcePlayer"
-						Width="400"
-						Height="300"
-						OriginalAspectRatio="True">
-					</mediaSourcePlayer:MediaPlayer>
+					<mediaSourcePlayer:MediaPlayer Grid.Row="0" x:Name="MediaSourcePlayer" OriginalAspectRatio="True" />
+
                     <StackPanel Grid.Row="1" Orientation="Horizontal" Visibility="{Binding IsSetPtzPreset, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
                         <Button Content="Перевод в предустановку" Command="{Binding SetPtzPresetCommand}" Width="200" Margin="2" />
                         <ComboBox ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}" Margin="2">

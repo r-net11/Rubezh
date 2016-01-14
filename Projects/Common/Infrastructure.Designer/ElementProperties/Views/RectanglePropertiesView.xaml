@@ -27,7 +27,10 @@
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding PresentationName, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalContentAlignment="Center" />
 				<xc:ColorPicker Grid.Row="1" Grid.Column="1" Margin="2" SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" />
 				<xc:ColorPicker Grid.Row="2" Grid.Column="1" Margin="2" SelectedColor="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" />
-				<TextBox Grid.Row="3" Grid.Column="1" Margin="2" Text="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" />
+				<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+					<TextBox Text="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" Margin="2" HorizontalAlignment="Stretch" />
+					<Button Content="..." Command="{Binding BindStrokeThicknessCommand}" Width="30" Margin="2" />
+				</StackPanel>
                 <CheckBox Grid.Row="4" Grid.Column="1" Margin="2" IsChecked="{Binding ShowTooltip}" />
 			</Grid>
 		</TabItem>

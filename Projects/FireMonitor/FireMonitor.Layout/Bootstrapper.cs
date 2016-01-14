@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using FireMonitor.Layout.ViewModels;
-using RubezhClient;
+﻿using FireMonitor.Layout.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using Shell = FireMonitor;
-using Infrastructure.Client.Layout;
-using RubezhAPI.License;
 
 namespace FireMonitor.Layout
 {
@@ -19,12 +17,9 @@ namespace FireMonitor.Layout
 		private Guid? _layoutID;
 		private RubezhAPI.Models.Layouts.Layout _layout;
 		private MonitorLayoutShellViewModel _monitorLayoutShellViewModel;
-		public delegate void Change(RubezhAPI.Models.Layouts.Layout layout);
-		public static Change ChangeLayout{get;set;}
 		public Bootstrapper()
 		{
 			_layout = null;
-			ChangeLayout = CahngeLayout;
 		}
 
 		protected override bool Run()
@@ -37,7 +32,13 @@ namespace FireMonitor.Layout
 		protected override ShellViewModel CreateShell()
 		{
 			_monitorLayoutShellViewModel = new MonitorLayoutShellViewModel(_layout);
+			_monitorLayoutShellViewModel.LayoutContainer.LayoutChanged += _LayoutChanging;
 			return _layout == null ? base.CreateShell() : _monitorLayoutShellViewModel;
+		}
+
+		protected override Guid? GetLayoutUID()
+		{
+			return _layoutID;
 		}
 
 		private RubezhAPI.Models.Layouts.Layout SelectLayout(List<RubezhAPI.Models.Layouts.Layout> layouts)
@@ -77,10 +78,9 @@ namespace FireMonitor.Layout
 		{
 			_layout = null;
 			var ip = ConnectionSettingsManager.IsRemote ? ClientManager.GetIP() : null;
-			var layouts = ClientManager.LayoutsConfiguration.Layouts.Where(layout => 
-				layout.Users.Contains(ClientManager.CurrentUser.UID) && 
-				(ip == null || layout.HostNameOrAddressList.Count == 0 || layout.HostNameOrAddressList.Contains(ip)) &&
-				CheckLicense(layout)).ToList();
+			var layouts = ClientManager.LayoutsConfiguration.Layouts.Where(layout =>
+				layout.Users.Contains(ClientManager.CurrentUser.UID) &&
+				(ip == null || layout.HostNameOrAddressList.Count == 0 || layout.HostNameOrAddressList.Contains(ip))).ToList();
 			if (layouts.Count > 0)
 			{
 				if (_layoutID.HasValue)
@@ -91,51 +91,22 @@ namespace FireMonitor.Layout
 
 				if (_layout == null)
 				{
-					ServiceFactory.ResourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
+					ServiceFactory.ResourceService.AddResource(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml");
 					_layout = SelectLayout(layouts);
 				}
 
-				if (_layout == null)
-					return false;
+				return _layout == null ?
+					false :
+					ClientManager.FiresecService.LayoutChanged(FiresecServiceFactory.UID, _layout.UID);
 			}
-			if (_layout == null)
-			{
-				MessageBoxService.ShowWarning("К сожалению, для Вас нет ни одного доступного макета!");
-				return false;
-			}
-			return true;
+
+			MessageBoxService.ShowWarning("К сожалению, для Вас нет ни одного доступного макета!");
+			return false;
 		}
 
-		public static bool CheckLicense(RubezhAPI.Models.Layouts.Layout layout)
+		void _LayoutChanging(object sender, EventArgs e)
 		{
-			return !layout.Parts.Any(x=>
-				!LicenseManager.CurrentLicenseInfo.HasFirefighting && (
-				x.DescriptionUID == LayoutPartIdentities.PumpStations ||
-				x.DescriptionUID == LayoutPartIdentities.MPTs
-				)
-				||
-				!LicenseManager.CurrentLicenseInfo.HasGuard && (
-				x.DescriptionUID == LayoutPartIdentities.GuardZones
-				)
-				||
-				!LicenseManager.CurrentLicenseInfo.HasSKD && (
-				x.DescriptionUID == LayoutPartIdentities.Doors ||
-				x.DescriptionUID == LayoutPartIdentities.GKSKDZones ||
-				x.DescriptionUID == LayoutPartIdentities.SKDVerification ||
-				x.DescriptionUID == LayoutPartIdentities.SKDHR ||
-				x.DescriptionUID == LayoutPartIdentities.SKDTimeTracking
-				)
-				||
-				!LicenseManager.CurrentLicenseInfo.HasVideo && (
-				x.DescriptionUID == LayoutPartIdentities.CamerasList ||
-				x.DescriptionUID == LayoutPartIdentities.CameraVideo ||
-				x.DescriptionUID == LayoutPartIdentities.MultiCamera
-				));
-		}
-
-		void CahngeLayout(RubezhAPI.Models.Layouts.Layout layout)
-		{
-			_layout = layout;
+			_layout = _monitorLayoutShellViewModel.LayoutContainer.Layout;
 		}
 	}
 }

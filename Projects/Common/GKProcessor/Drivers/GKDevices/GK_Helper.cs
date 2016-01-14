@@ -21,7 +21,7 @@ namespace GKProcessor
 			driver.AutoCreateChildren.Add(GKDriverType.GKIndicatorsGroup);
 			driver.AutoCreateChildren.Add(GKDriverType.GKRelaysGroup);
 			driver.Children.Add(GKDriverType.RSR2_KAU);
-			driver.Children.Add(GKDriverType.RSR2_GKMirror);
+			driver.Children.Add(GKDriverType.GKMirror);
 
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
 			driver.AvailableStateClasses.Add(XStateClass.Unknown);

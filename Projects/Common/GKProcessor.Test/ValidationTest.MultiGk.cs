@@ -6,6 +6,7 @@ using RubezhClient;
 using GKModule.Validation;
 using Infrastructure.Common.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RubezhAPI;
 
 namespace GKProcessor.Test
 {
@@ -36,8 +37,8 @@ namespace GKProcessor.Test
 			GKManager.GuardZones.Add(guardZone);
 			guardZone.GuardZoneDevices.Add(guardZoneDevice1);
 			guardZone.GuardZoneDevices.Add(guardZoneDevice2);
-			GKManager.AddDeviceToGuardZone(device1, guardZone);
-			GKManager.AddDeviceToGuardZone(device2, guardZone);
+			GKManager.AddDeviceToGuardZone(guardZone, guardZoneDevice1);
+			GKManager.AddDeviceToGuardZone(guardZone, guardZoneDevice2);
 			var validator = new Validator();
 			var errors = validator.Validate();
 			Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Содержится в нескольких ГК"));

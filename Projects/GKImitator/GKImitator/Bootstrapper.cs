@@ -1,6 +1,7 @@
 ﻿using GKImitator.ViewModels;
 using GKImitator.Views;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 
 namespace GKImitator
@@ -9,9 +10,8 @@ namespace GKImitator
 	{
 		public static void Run()
 		{
-			var resourceService = new ResourceService();
-			resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
+			ServiceFactoryBase.ResourceService.AddResource(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml");
 
 			var mainViewModel = new MainViewModel();
 			var mainView = new MainView();

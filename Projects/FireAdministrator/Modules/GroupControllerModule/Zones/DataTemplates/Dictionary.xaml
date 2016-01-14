@@ -15,4 +15,5 @@
 	<DataTemplate DataType="{x:Type ViewModels:ZonesSettingsViewModel}">
 		<Views:ZonesSettingsView />
 	</DataTemplate>
+
 </ResourceDictionary>

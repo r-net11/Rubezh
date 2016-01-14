@@ -1,10 +1,9 @@
-﻿using System;
+﻿using FiresecService.ViewModels;
+using RubezhAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using RubezhAPI.Models;
-using FiresecService.ViewModels;
-using System.Threading.Tasks;
 
 namespace FiresecService.Service
 {
@@ -12,9 +11,9 @@ namespace FiresecService.Service
 	{
 		public static List<ClientInfo> ClientInfos = new List<ClientInfo>();
 
-		public static bool Add(Guid uid, ClientCredentials clientCredentials)
+		public static bool Add(ClientCredentials clientCredentials)
 		{
-			if (ClientInfos.Any(x => x.UID == uid))
+			if (ClientInfos.Any(x => x.UID == clientCredentials.ClientUID))
 				return false;
 
 			var result = true;
@@ -22,14 +21,13 @@ namespace FiresecService.Service
 			if (existingClientInfo != null)
 			{
 				Remove(existingClientInfo.UID);
-				Common.Logger.Info("Bug catching (RG-362). ClientsManager.Add");
 				result = false;
 			}
 
 			var clientInfo = new ClientInfo();
-			clientInfo.UID = uid;
+			clientInfo.UID = clientCredentials.ClientUID;
 			clientInfo.ClientCredentials = clientCredentials;
-			//clientInfo.CallbackIndex = CallbackManager.Index;
+			clientInfo.CallbackIndex = CallbackManager.Index;
 			ClientInfos.Add(clientInfo);
 
 			MainViewModel.Current.AddClient(clientCredentials);
@@ -48,37 +46,27 @@ namespace FiresecService.Service
 			return ClientInfos.FirstOrDefault(x => x.UID == uid);
 		}
 
-		public static ClientCredentials GetClientCredentials(Guid uid)
+		public static void StartRemoveInactiveClients(TimeSpan inactiveTime)
 		{
-			var clientInfo = ClientInfos.FirstOrDefault(x => x.UID == uid);
-			if (clientInfo != null)
-			{
-				return clientInfo.ClientCredentials;
-			}
-			return null;
-		}
-
-        public static void StartRemoveInactiveClients(TimeSpan inactiveTime)
-        {
-            var thread = new Thread(() =>
-                {
-                    while (true)
-                    {
+			var thread = new Thread(() =>
+				{
+					while (true)
+					{
 						try
 						{
 							ClientInfos
 								.Where(x => x.LastPollDateTime != default(DateTime) && DateTime.Now - x.LastPollDateTime > inactiveTime)
 								.ToList()
-								.ForEach(x => { Remove(x.UID); Common.Logger.Info("Bug catching (RG-362). ClientsManager.StartRemoveInactiveClients"); });
+								.ForEach(x => Remove(x.UID));
 						}
 						catch { }
 
-                        Thread.Sleep((int)inactiveTime.TotalMilliseconds / 2);
-                    }
-                }) { Name = "RemoveInactiveClients", IsBackground = true };
-            
-            thread.Start();
-        }
+						Thread.Sleep((int)inactiveTime.TotalMilliseconds / 10);
+					}
+				}) { Name = "RemoveInactiveClients", IsBackground = true };
+
+			thread.Start();
+		}
 	}
 
 	public class ClientInfo
@@ -87,7 +75,7 @@ namespace FiresecService.Service
 		public ClientCredentials ClientCredentials { get; set; }
 		public int CallbackIndex { get; set; }
 		public AutoResetEvent WaitEvent = new AutoResetEvent(false);
-		public bool IsDisconnecting { get; set; }
-        public DateTime LastPollDateTime { get; set; }
+		public DateTime LastPollDateTime { get; set; }
+		public Guid LayoutUID { get; set; }
 	}
 }

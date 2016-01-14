@@ -18,6 +18,7 @@ namespace Infrustructure.Plans.Painters
 			{Primitive.RectangleZone, typeof(RectangleZonePainter)},
 			{Primitive.SubPlan, typeof(SubPlanPainter)},
 			{Primitive.TextBlock, typeof(TextBlockPainter)},
+			{Primitive.TextBox, typeof(TextBoxPainter)},
 		};
 		public static IPainter Create(CommonDesignerCanvas designerCanvas, ElementBase element)
 		{

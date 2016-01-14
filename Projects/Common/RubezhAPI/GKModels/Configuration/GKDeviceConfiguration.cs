@@ -1,6 +1,6 @@
 ﻿using Common;
 using RubezhAPI.OPC;
-using RubezhClient;
+using RubezhAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -108,6 +108,12 @@ namespace RubezhAPI.GK
 		[DataMember]
 		public GKNameGenerationType GKNameGenerationType { get; set; }
 
+		/// <summary>
+		/// Писать только конфигурацию ГК
+		/// </summary>
+		[DataMember]
+		public bool OnlyGKDeviceConfiguration { get; set; }
+
 		[DataMember]
 		public OPCSettings OPCSettings { get; set; }
 
@@ -148,7 +154,7 @@ namespace RubezhAPI.GK
 		{
 			foreach (var device in Devices)
 			{
-				if (device.DriverType == GKDriverType.RSR2_KAU || device.DriverType == GKDriverType.RSR2_GKMirror)
+				if (device.DriverType == GKDriverType.RSR2_KAU || device.DriverType == GKDriverType.GKMirror)
 				{
 					GKManager.RebuildRSR2Addresses(device);
 				}

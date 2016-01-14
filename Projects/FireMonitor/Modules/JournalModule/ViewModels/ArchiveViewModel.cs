@@ -15,6 +15,8 @@ using Infrastructure.Models;
 using JournalModule.Events;
 using Infrastructure.Common.Services.Layout;
 using System.Diagnostics;
+using System.Windows.Threading;
+using RubezhAPI;
 
 namespace JournalModule.ViewModels
 {
@@ -34,11 +36,27 @@ namespace JournalModule.ViewModels
 			PreviousPageCommand = new RelayCommand(OnPreviousPage, CanPreviousPage);
 			NextPageCommand = new RelayCommand(OnNextPage, CanNextPage);
 			LastPageCommand = new RelayCommand(OnLastPage, CanLastPage);
-			
+
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
-			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
-			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
+			SafeFiresecService.CallbackOperationResultEvent -= OnCallbackOperationResult;
+			SafeFiresecService.CallbackOperationResultEvent += OnCallbackOperationResult;
+		}
+
+		void OnCallbackOperationResult(CallbackOperationResult callbackOperationResult)
+		{
+			if(callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.GetArchivePage)
+			{
+				ApplicationService.BeginInvoke(() =>
+				{
+					JournalItems = new ObservableCollection<JournalItemViewModel>();
+					foreach (var item in callbackOperationResult.JournalItems)
+					{
+						JournalItems.Add(new JournalItemViewModel(item));
+					}
+					IsLoading = false;
+				});
+			}
 		}
 
 		public void Initialize()
@@ -145,7 +163,7 @@ namespace JournalModule.ViewModels
 		}
 		bool CanFirstPage()
 		{
-			return CurrentPageNumber > 1;
+			return CurrentPageNumber > 1 && !IsLoading;
 		}
 
 		public RelayCommand PreviousPageCommand { get; private set; }
@@ -155,7 +173,7 @@ namespace JournalModule.ViewModels
 		}
 		bool CanPreviousPage()
 		{
-			return CurrentPageNumber > 1;
+			return CurrentPageNumber > 1 && !IsLoading;
 		}
 
 		public RelayCommand NextPageCommand { get; private set; }
@@ -165,7 +183,7 @@ namespace JournalModule.ViewModels
 		}
 		bool CanNextPage()
 		{
-			return CurrentPageNumber < TotalPageNumber;
+			return CurrentPageNumber < TotalPageNumber && !IsLoading;
 		}
 
 		public RelayCommand LastPageCommand { get; private set; }
@@ -175,7 +193,7 @@ namespace JournalModule.ViewModels
 		}
 		bool CanLastPage()
 		{
-			return CurrentPageNumber < TotalPageNumber;
+			return CurrentPageNumber < TotalPageNumber && !IsLoading;
 		}
 
 		int _totalPageNumber;
@@ -196,6 +214,7 @@ namespace JournalModule.ViewModels
 			get { return _currentPageNumber; }
 			set
 			{
+				JournalItems = new ObservableCollection<JournalItemViewModel>();
 				if (value < 1)
 					_currentPageNumber = 1;
 				if (value > TotalPageNumber)
@@ -203,7 +222,18 @@ namespace JournalModule.ViewModels
 				else
 					_currentPageNumber = value;
 				OnPropertyChanged(() => CurrentPageNumber);
-				GetJournalItems();
+				QueryPage(_currentPageNumber);
+			}
+		}
+
+		bool _isLoading;
+		public bool IsLoading 
+		{
+			get { return _isLoading; } 
+			private set
+			{
+				_isLoading = value;
+				OnPropertyChanged(() => IsLoading);
 			}
 		}
 
@@ -241,7 +271,7 @@ namespace JournalModule.ViewModels
 				}
 
 				var countResult = ClientManager.FiresecService.GetArchiveCount(Filter);
-				if(!countResult.HasError)
+				if (!countResult.HasError)
 				{
 					TotalPageNumber = countResult.Result / Filter.PageSize + 1;
 					CurrentPageNumber = 1;
@@ -254,17 +284,15 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		void GetJournalItems()
+		void QueryPage(int pageNo)
 		{
-			var journalItemsResult = ClientManager.FiresecService.GetArchivePage(Filter, CurrentPageNumber);
-			if (!journalItemsResult.HasError)
+			var result = ClientManager.FiresecService.BeginGetArchivePage(Filter, pageNo);
+			if (result.HasError)
 			{
-				JournalItems = new ObservableRangeCollection<JournalItemViewModel>();
-				foreach (var item in journalItemsResult.Result)
-				{
-					JournalItems.Add(new JournalItemViewModel(item));
-				}
+				MessageBoxService.Show(result.Error);
+				return;
 			}
+			IsLoading = true;
 		}
 
 		public List<JournalColumnType> AdditionalColumns

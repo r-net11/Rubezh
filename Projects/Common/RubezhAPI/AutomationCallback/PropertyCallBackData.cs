@@ -1,11 +1,11 @@
-﻿using System;
+﻿using RubezhAPI.Automation;
+using System;
 using System.Runtime.Serialization;
-using RubezhAPI.Automation;
 
 namespace RubezhAPI.AutomationCallback
 {
 	[DataContract]
-	public class PropertyCallBackData : AutomationCallbackData
+	public class PropertyCallBackData : UIAutomationCallbackData
 	{
 		[DataMember]
 		public ObjectType ObjectType { get; set; }

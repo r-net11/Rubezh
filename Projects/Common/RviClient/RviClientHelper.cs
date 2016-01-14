@@ -18,7 +18,7 @@ namespace RviClient
 			var devices = new List<Device>();
 			var binding = new NetTcpBinding(SecurityMode.None);
 			binding.OpenTimeout = TimeSpan.FromMinutes(10);
-			binding.SendTimeout = TimeSpan.FromMinutes(10);
+			binding.SendTimeout = TimeSpan.FromMinutes(2);
 			binding.ReceiveTimeout = TimeSpan.FromMinutes(10);
 			binding.MaxReceivedMessageSize = Int32.MaxValue;
 			binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
@@ -292,11 +292,6 @@ namespace RviClient
 		{
 			try
 			{
-				if (camera == null)
-				{
-					errorInformation = "Не найдена камера.";
-					return false;
-				}
 				using (IntegrationClient client = CreateIntegrationClient(rviSettings))
 				{
 					var sessionUID = Guid.NewGuid();

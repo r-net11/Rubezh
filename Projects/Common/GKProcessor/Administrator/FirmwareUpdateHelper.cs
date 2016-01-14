@@ -1,10 +1,10 @@
-﻿using System;
+﻿using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using RubezhAPI;
-using RubezhAPI.GK;
-using RubezhAPI.Journal;
 
 namespace GKProcessor
 {
@@ -12,27 +12,27 @@ namespace GKProcessor
 	{
 		public GKProgressCallback ProgressCallback { get; private set; }
 
-		public string Update(GKDevice device, List<byte> firmWareBytes, string userName)
+		public string Update(GKDevice device, List<byte> firmWareBytes, string userName, Guid clientUID)
 		{
 			GKProcessorManager.AddGKMessage(JournalEventNameType.Обновление_ПО_прибора, JournalEventDescriptionType.NULL, "", device, userName);
-			ProgressCallback = GKProcessorManager.StartProgress("Обновление прошивки " + device.PresentationName, "", firmWareBytes.Count / 256, false, GKProgressClientType.Administrator);
-			GKProcessorManager.DoProgress("Проверка связи " + device.PresentationName, ProgressCallback);
+			ProgressCallback = GKProcessorManager.StartProgress("Обновление прошивки " + device.PresentationName, "", firmWareBytes.Count / 256, false, GKProgressClientType.Administrator, clientUID);
+			GKProcessorManager.DoProgress("Проверка связи " + device.PresentationName, ProgressCallback, clientUID);
 			if (DeviceBytesHelper.Ping(device).HasError)
 			{
 				return "Устройство " + device.PresentationName + " недоступно";
-				
+
 			}
-			if (!DeviceBytesHelper.GoToTechnologicalRegime(device, ProgressCallback))
+			if (!DeviceBytesHelper.GoToTechnologicalRegime(device, ProgressCallback, clientUID))
 			{
 				return "Не удалось перевести " + device.PresentationName + " в технологический режим\n" +
 						"Устройство не доступно, либо вашего IP адреса нет в списке разрешенного адреса ГК";
-				
+
 			}
-			GKProcessorManager.DoProgress("Удаление программы " + device.PresentationName, ProgressCallback);
+			GKProcessorManager.DoProgress("Удаление программы " + device.PresentationName, ProgressCallback, clientUID);
 			if (!Clear(device))
 			{
 				return "Устройство " + device.PresentationName + " недоступно";
-				
+
 			}
 			var data = new List<byte>();
 			var offset = 0;
@@ -40,7 +40,7 @@ namespace GKProcessor
 				offset = 0x10000;
 			for (int i = 0; i < firmWareBytes.Count; i = i + 0x100)
 			{
-				GKProcessorManager.DoProgress("Запись блока данных " + i / 0x100 + 1, ProgressCallback);
+				GKProcessorManager.DoProgress("Запись блока данных " + i / 0x100 + 1, ProgressCallback, clientUID);
 				data = new List<byte>(BitConverter.GetBytes(i + offset));
 				data.AddRange(firmWareBytes.GetRange(i, 0x100));
 				for (int j = 0; j < 10; j++)
@@ -54,7 +54,7 @@ namespace GKProcessor
 					}
 				}
 			}
-			if (!DeviceBytesHelper.GoToWorkingRegime(device, ProgressCallback))
+			if (!DeviceBytesHelper.GoToWorkingRegime(device, ProgressCallback, clientUID))
 			{
 				return "Не удалось перевести " + device.PresentationName + " в рабочий режим\n" +
 						"Устройство не доступно, либо вашего " +

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using RubezhAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using RubezhAPI.SKD;
 
 namespace RubezhClient.SKDHelpers
 {
@@ -33,8 +33,8 @@ namespace RubezhClient.SKDHelpers
 
 		public static IEnumerable<ShortDepartment> GetByOrganisation(Guid organisationUID)
 		{
-			var result = ClientManager.FiresecService.GetDepartmentList(new DepartmentFilter 
-				{ 
+			var result = ClientManager.FiresecService.GetDepartmentList(new DepartmentFilter
+				{
 					OrganisationUIDs = new List<Guid> { organisationUID },
 				});
 			return Common.ShowErrorIfExists(result);
@@ -57,13 +57,13 @@ namespace RubezhClient.SKDHelpers
 		{
 			return SaveChief(model.UID, chiefUID, model.Name);
 		}
-		
+
 		public static bool SaveChief(Guid uid, Guid? chiefUID, string name)
 		{
 			var result = ClientManager.FiresecService.SaveDepartmentChief(uid, chiefUID, name);
 			return Common.ShowErrorIfExists(result);
 		}
-		
+
 		public static ShortDepartment GetSingleShort(Guid uid)
 		{
 			var filter = new DepartmentFilter();

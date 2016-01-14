@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using GKProcessor;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhClient;
 using System;
@@ -39,7 +41,7 @@ namespace GKManager2.Test
 			GKManager.AddGuardZone(guardZone);
 #region forzone	
 			// проверка добавления устройства в зону
-			GKManager.AddDeviceToGuardZone(device, guardZone, guardZoneDevice);
+			GKManager.AddDeviceToGuardZone(guardZone, guardZoneDevice);
 			Assert.IsTrue(device.GuardZones.Contains(guardZone));
 			Assert.IsTrue(guardZone.GuardZoneDevices.Any(x => x.DeviceUID == device.UID));
 			Assert.IsTrue(device.InputDependentElements.Contains(guardZone));
@@ -74,7 +76,7 @@ namespace GKManager2.Test
 			Assert.IsFalse(guardZone.OutputDependentElements.Contains(device));
 #endregion
 			//удалениy зоны
-			GKManager.AddDeviceToGuardZone(device, guardZone, guardZoneDevice);
+			GKManager.AddDeviceToGuardZone(guardZone, guardZoneDevice);
 			GKManager.RemoveGuardZone(guardZone);
 			Assert.IsFalse(device.GuardZones.Any(x => x.UID == guardZone.UID));
 			Assert.IsFalse(device.InputDependentElements.Any(x => x.UID == guardZone.UID));
@@ -218,12 +220,74 @@ namespace GKManager2.Test
 			Assert.IsTrue(device.Door == door);
 			Assert.IsTrue(door.OpenRegimeLogic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains( device.UID)));
 			Assert.IsTrue(door.CloseRegimeLogic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains(device.UID)));
-			
+
 			GKManager.RemoveDevice(device);
 			Assert.IsFalse(mpt.MptLogic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains(device.UID)));
+			Assert.IsFalse(mpt.InputDependentElements.Any(x => x.UID ==  device.UID));
 			Assert.IsFalse(pump.StartLogic.OnClausesGroup.Clauses.Any(x => x.DeviceUIDs.Contains(device.UID)));
+			Assert.IsFalse(pump.InputDependentElements.Any(x => x.UID == device.UID));
 			Assert.IsFalse(mpt.MPTDevices.Any(x => x.DeviceUID == device.UID));
 			Assert.IsFalse(pump.NSDevices.Contains(device));
+			Assert.IsFalse(door.InputDependentElements.Any(x => x.UID == device.UID));
 		}
+		[TestMethod]
+		public void RemoveGroupDeviceTest()
+		{
+			var device = AddDevice(kauDevice11, GKDriverType.RSR2_OPSZ);
+			GKManager.UpdateConfiguration();
+			var zone = new GKZone();
+			GKManager.AddZone(zone);
+			GKManager.AddDeviceToZone(device.Children[1], zone);
+			Assert.IsTrue(device.Children[1].Zones.Contains(zone));
+			Assert.IsTrue(zone.Devices.Contains(device.Children[1]));
+			GKManager.RemoveDevice(device);
+			Assert.IsFalse(zone.Devices.Any());
+		}
+
+		//[TestMethod]
+		//public void ChangeGroupDeviceWithZoneTest()
+		//{
+		//	var device = AddDevice(kauDevice11, GKDriverType.RSR2_OPSZ);
+		//	GKManager.UpdateConfiguration();
+		//	var zone = new GKZone();
+		//	GKManager.AddZone(zone);
+		//	GKManager.AddDeviceToZone(device.Children[1], zone);
+		//	GKManager.ChangeDriver(device, RSR2_AM_1_Helper.Create());
+		//	Assert.IsTrue(device.DriverType == GKDriverType.RSR2_AM_1);
+		//	Assert.IsTrue(device.Children.Count ==0);
+		//	Assert.IsFalse(device.Driver.IsGroupDevice);
+		//	Assert.IsTrue(device.Driver.GroupDeviceChildrenCount == 0);
+		//	Assert.IsTrue(device.InputDependentElements.Count == 0);
+		//	Assert.IsTrue(zone.OutputDependentElements.Count == 0);
+
+		//}
+		//[TestMethod]
+		//public void ChangeGroupDeviceWithLogicTest()
+		//{
+		//	var device = AddDevice(kauDevice11, GKDriverType.RSR2_MDU);
+		//	var device_2 = AddDevice(kauDevice11, GKDriverType.RSR2_MDU);
+		//	GKManager.UpdateConfiguration();
+
+		//	var clause = new GKClause
+		//	{
+		//		ClauseOperationType = ClauseOperationType.AllDevices,
+		//		DeviceUIDs = { device.UID }
+		//	};
+
+		//	var gkLogic = new GKLogic();
+		//	gkLogic.OnClausesGroup.Clauses.Add(clause);
+		//	var delay = new GKDelay();
+		//	GKManager.AddDelay(delay);
+		//	GKManager.SetDelayLogic(delay, gkLogic);
+		//	GKManager.ChangeDriver(device, RSR2_AM_4_Group_Helper.Create());
+		//	Assert.IsTrue(device.DriverType == GKDriverType.RSR2_AM_4);
+		//	Assert.IsTrue(device.IntAddress ==1);
+		//	Assert.IsTrue(device_2.IntAddress == 5);
+		//	Assert.IsTrue(device.Children.Count == 4);
+		//	Assert.IsTrue(device.Driver.IsGroupDevice);
+		//	Assert.IsTrue(device.Driver.GroupDeviceChildrenCount == 4);
+		//	Assert.IsTrue(device.InputDependentElements.Count == 0);
+		//	Assert.IsTrue(delay.OutputDependentElements.Count == 0);
+		//}
 	}
 }

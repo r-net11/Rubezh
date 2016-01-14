@@ -17,10 +17,8 @@ namespace GKModule.Validation
 			foreach (var zone in GKManager.Zones)
 			{
 				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.ZoneSensorQuantity))
-				{
 					ValidateZoneDetectorCount(zone);
 					ValidateZoneFire1Fire2Count(zone);
-				}
 			}
 		}
 

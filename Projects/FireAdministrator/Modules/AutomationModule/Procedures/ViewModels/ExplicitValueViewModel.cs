@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Windows.Media;
+﻿using Infrastructure;
+using Infrastructure.Automation;
+using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
@@ -10,9 +9,11 @@ using RubezhAPI.Models;
 using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhClient.SKDHelpers;
-using Infrastructure;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Automation;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Windows.Media;
 
 namespace AutomationModule.ViewModels
 {
@@ -130,7 +131,19 @@ namespace AutomationModule.ViewModels
 			get { return ExplicitValue.DateTimeValue; }
 			set
 			{
-				ExplicitValue.DateTimeValue = value;
+				var tmp = ExplicitValue.DateTimeValue;
+				ExplicitValue.DateTimeValue = new DateTime(value.Year, value.Month, value.Day, tmp.Hour, tmp.Minute, 0);
+				OnPropertyChanged(() => DateTimeValue);
+			}
+		}
+
+		public TimeSpan TimeValue
+		{
+			get { return ExplicitValue.DateTimeValue.TimeOfDay; }
+			set
+			{
+				var tmp = ExplicitValue.DateTimeValue;
+				ExplicitValue.DateTimeValue = new DateTime(tmp.Year, tmp.Month, tmp.Day, value.Hours, value.Minutes, 0);
 				OnPropertyChanged(() => DateTimeValue);
 			}
 		}

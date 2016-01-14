@@ -6,6 +6,7 @@ using RubezhClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
+using RubezhClient;
 
 namespace SKDModule.ViewModels
 {
@@ -55,5 +56,7 @@ namespace SKDModule.ViewModels
 			_isChecked = value;
 			OnPropertyChanged(() => IsChecked);
 		}
+
+		public bool CanChange { get { return User.UID != ClientManager.CurrentUser.UID; } }
 	}
 }

@@ -1,23 +1,42 @@
-﻿using System;
-using System.ServiceModel;
-using System.ServiceModel.Description;
-using Common;
-using RubezhAPI;
+﻿using Common;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
+using RubezhAPI;
+using System;
+using System.ServiceModel;
+using System.ServiceModel.Description;
 
 namespace RubezhClient
 {
 	public class FiresecServiceFactory
 	{
 		public static Guid UID = Guid.NewGuid();
-		ChannelFactory<IFiresecService> ChannelFactory;
+		ChannelFactory<IFiresecService> _channelFactory;
+		string _serverAddress;
 
-		public IFiresecService Create(string serverAddress)
+		public FiresecServiceFactory(string serverAddress)
+		{
+			_serverAddress = serverAddress;
+			var binding = BindingHelper.CreateBindingFromAddress(serverAddress);
+
+			var endpointAddress = new EndpointAddress(new Uri(serverAddress));
+			_channelFactory = new ChannelFactory<IFiresecService>(binding, endpointAddress);
+
+			foreach (OperationDescription operationDescription in _channelFactory.Endpoint.Contract.Operations)
+			{
+				DataContractSerializerOperationBehavior dataContractSerializerOperationBehavior = operationDescription.Behaviors.Find<DataContractSerializerOperationBehavior>() as DataContractSerializerOperationBehavior;
+				if (dataContractSerializerOperationBehavior != null)
+					dataContractSerializerOperationBehavior.MaxItemsInObjectGraph = Int32.MaxValue;
+			}
+
+			_channelFactory.Open();
+		}
+
+		public IFiresecService Create(TimeSpan operationTimeout)
 		{
 			try
 			{
-				return DoCreate(serverAddress);
+				return DoCreate(operationTimeout);
 			}
 			catch (Exception e)
 			{
@@ -26,30 +45,16 @@ namespace RubezhClient
 			return null;
 		}
 
-		private IFiresecService DoCreate(string serverAddress)
+		private IFiresecService DoCreate(TimeSpan operationTimeout)
 		{
-			if (serverAddress.StartsWith("net.pipe:"))
+			if (_serverAddress.StartsWith("net.pipe:"))
 			{
 				if (!ServerLoadHelper.Load())
 					BalloonHelper.ShowFromAdm("Не удается соединиться с сервером");
 			}
 
-			var binding = BindingHelper.CreateBindingFromAddress(serverAddress);
-
-			var endpointAddress = new EndpointAddress(new Uri(serverAddress));
-			ChannelFactory = new ChannelFactory<IFiresecService>(binding, endpointAddress);
-
-			foreach (OperationDescription operationDescription in ChannelFactory.Endpoint.Contract.Operations)
-			{
-				DataContractSerializerOperationBehavior dataContractSerializerOperationBehavior = operationDescription.Behaviors.Find<DataContractSerializerOperationBehavior>() as DataContractSerializerOperationBehavior;
-				if (dataContractSerializerOperationBehavior != null)
-					dataContractSerializerOperationBehavior.MaxItemsInObjectGraph = Int32.MaxValue;
-			}
-
-			ChannelFactory.Open();
-
-			IFiresecService firesecService = ChannelFactory.CreateChannel();
-			(firesecService as IContextChannel).OperationTimeout = TimeSpan.FromMinutes(100);
+			IFiresecService firesecService = _channelFactory.CreateChannel();
+			(firesecService as IContextChannel).OperationTimeout = operationTimeout;
 			return firesecService;
 		}
 
@@ -57,19 +62,19 @@ namespace RubezhClient
 		{
 			try
 			{
-				if (ChannelFactory != null)
+				if (_channelFactory != null)
 				{
 					try
 					{
-						ChannelFactory.Close();
+						_channelFactory.Close();
 					}
 					catch { }
 					try
 					{
-						ChannelFactory.Abort();
+						_channelFactory.Abort();
 					}
 					catch { }
-					ChannelFactory = null;
+					_channelFactory = null;
 				}
 			}
 			catch (Exception e)

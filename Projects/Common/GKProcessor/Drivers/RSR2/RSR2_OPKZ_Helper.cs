@@ -1,5 +1,5 @@
-﻿using System;
-using RubezhAPI.GK;
+﻿using RubezhAPI.GK;
+using System;
 
 namespace GKProcessor
 {
@@ -12,13 +12,14 @@ namespace GKProcessor
 				DriverTypeNo = 0xEC,
 				DriverType = GKDriverType.RSR2_OPKZ,
 				UID = new Guid("8a277079-341b-4933-beb7-4e34b58199d7"),
-				Name = "Оповещатель звуковой адресный комбинированный", 
+				Name = "Оповещатель звуковой адресный комбинированный",
 				ShortName = "ОПКЗ-R2",
 				IsControlDevice = true,
 				HasLogic = true,
 				IsPlaceable = true,
 			};
 
+			driver.AvailableStateBits.Add(GKStateBit.Norm);
 			driver.AvailableStateBits.Add(GKStateBit.Off);
 			GKDriversHelper.AddControlAvailableStates(driver);
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Test);

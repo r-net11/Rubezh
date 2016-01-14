@@ -14,6 +14,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Ionic.Zip;
 using Microsoft.Win32;
+using RubezhAPI;
 
 namespace FireAdministrator.ViewModels
 {
@@ -68,7 +69,7 @@ namespace FireAdministrator.ViewModels
 				Logger.Error("FiresecManager.LoadFromZipFile zipConfigurationItemsCollectionFileName file not found");
 				return;
 			}
-			var zipConfigurationItemsCollection = ZipSerializeHelper.DeSerialize<ZipConfigurationItemsCollection>(zipConfigurationItemsCollectionFileName, true);
+			var zipConfigurationItemsCollection = ZipSerializeHelper.DeSerialize<ZipConfigurationItemsCollection>(zipConfigurationItemsCollectionFileName);
 			if (zipConfigurationItemsCollection == null)
 			{
 				Logger.Error("FiresecManager.LoadFromZipFile zipConfigurationItemsCollection == null");
@@ -83,11 +84,11 @@ namespace FireAdministrator.ViewModels
 					switch (zipConfigurationItem.Name)
 					{
 						case "PlansConfiguration.xml":
-							PlansConfiguration = ZipSerializeHelper.DeSerialize<PlansConfiguration>(configurationFileName, true);
+							PlansConfiguration = ZipSerializeHelper.DeSerialize<PlansConfiguration>(configurationFileName);
 							break;
 
 						case "GKDeviceConfiguration.xml":
-							GKDeviceConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceConfiguration>(configurationFileName, true);
+							GKDeviceConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceConfiguration>(configurationFileName);
 							break;
 					}
 				}

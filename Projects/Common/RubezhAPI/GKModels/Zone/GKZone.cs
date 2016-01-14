@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using RubezhClient;
+using RubezhAPI;
 using Infrustructure.Plans.Interfaces;
 using System.Linq;
 

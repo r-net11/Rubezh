@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using RubezhAPI.GK;
-using RubezhClient;
-using GKProcessor;
+﻿using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 
 namespace GKModule.ViewModels
 {
@@ -121,7 +122,7 @@ namespace GKModule.ViewModels
 				if (HasAUProperties && IsEditableDevice(Device))
 				{
 					CopyParametersFromTemplate(parameterTemplateSelectationViewModel.SelectedParameterTemplate, Device);
-					PropertiesViewModel.Update(); 
+					PropertiesViewModel.Update();
 				}
 			}
 			UpdateDeviceParameterMissmatch();
@@ -151,7 +152,7 @@ namespace GKModule.ViewModels
 						CopyParametersFromTemplate(parameterTemplateSelectationViewModel.SelectedParameterTemplate, device);
 						var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
 						if (deviceViewModel != null)
-							deviceViewModel.PropertiesViewModel.Update(); 
+							deviceViewModel.PropertiesViewModel.Update();
 					}
 				}
 			}

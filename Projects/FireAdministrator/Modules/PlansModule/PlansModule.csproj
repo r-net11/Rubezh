@@ -154,10 +154,12 @@
     <Compile Include="ElementProperties\Views\SubPlanPropertiesView.xaml.cs">
       <DependentUpon>SubPlanPropertiesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlansClipboard.cs" />
     <Compile Include="Validation\PlanElementValidationError.cs" />
     <Compile Include="ViewModels\LayoutPartPlansViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartPropertyPlansPageViewModel.cs" />
     <Compile Include="ViewModels\PlanDesignerViewModel.cs" />
+    <Compile Include="ViewModels\PlanPropertyBindingViewModel.cs" />
     <Compile Include="ViewModels\PlansTreeViewModel.cs" />
     <Compile Include="ViewModels\PlansViewModel.PlanExtension.cs" />
     <Compile Include="ViewModels\PlansViewModel.CopyPaste.cs" />
@@ -183,6 +185,9 @@
     </Compile>
     <Compile Include="Views\LayoutPartPropertyPlansPageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyPlansPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlanPropertyBindingView.xaml.cs">
+      <DependentUpon>PlanPropertyBindingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PlansTreeView.xaml.cs">
       <DependentUpon>PlansTreeView.xaml</DependentUpon>
@@ -262,6 +267,10 @@
     <Page Include="Views\LayoutPartPropertyPlansPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlanPropertyBindingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\PlansTreeView.xaml">
       <SubType>Designer</SubType>

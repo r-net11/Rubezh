@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace Common
 {
@@ -10,12 +11,12 @@ namespace Common
 		public static T Clone<T>(T obj)
 			where T : class
 		{
-			var serializer = new DataContractSerializer(typeof(T), null, int.MaxValue, false, true, null);
+			var serializer = new XmlSerializer(typeof(T));
 			using (var ms = new MemoryStream())
 			{
-				serializer.WriteObject(ms, obj);
+				serializer.Serialize(ms, obj);
 				ms.Position = 0;
-				return (T)serializer.ReadObject(ms);
+				return (T)serializer.Deserialize(ms);
 			}
 		}
 

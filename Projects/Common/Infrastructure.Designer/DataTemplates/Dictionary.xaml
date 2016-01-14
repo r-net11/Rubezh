@@ -20,6 +20,10 @@
 		<ElementPropertiesViews:TextBlockPropertiesView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ElementPropertiesViewModels:TextBoxPropertiesViewModel}">
+		<ElementPropertiesViews:TextBoxPropertiesView />
+	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ElementPropertiesViewModels:ImagePropertiesViewModel}">
 		<ElementPropertiesViews:ImagePropertiesView />
 	</DataTemplate>
