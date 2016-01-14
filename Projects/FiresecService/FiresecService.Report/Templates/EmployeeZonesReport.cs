@@ -132,7 +132,7 @@ namespace FiresecService.Report.Templates
 			//
 			// xrTableCell12
 			//
-			xrTableCell12.DataBindings.AddRange(new[] {new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Period", "{0:%h\\:mm}")});
+			xrTableCell12.DataBindings.AddRange(new[] {new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Period")});
 			xrTableCell12.Dpi = 254F;
 			xrTableCell12.Name = "xrTableCell12";
 			xrTableCell12.Weight = 0.105D;
@@ -262,7 +262,7 @@ namespace FiresecService.Report.Templates
 			//
 			xrTableCell4.Dpi = 254F;
 			xrTableCell4.Name = "xrTableCell4";
-			xrTableCell4.Text = "Длительность пребывания, ч.";
+			xrTableCell4.Text = "Длительность пребывания";
 			xrTableCell4.Weight = 0.105D;
 			//
 			// xrTableCell5
@@ -375,15 +375,16 @@ namespace FiresecService.Report.Templates
 			dataRow.Zone = zoneMap.ContainsKey(record.ZoneUID) ? zoneMap[record.ZoneUID] : "Зона не найдена";
 			dataRow.EnterDateTime = record.EnterTime;
 
+			TimeSpan periodTimeSpanValue;
 			if (record.ExitTime.HasValue)
 			{
 				dataRow.ExitDateTime = record.ExitTime.Value;
-				dataRow.Period = dataRow.ExitDateTime - dataRow.EnterDateTime;
+				periodTimeSpanValue = dataRow.ExitDateTime - dataRow.EnterDateTime;
 			}
 			else
-			{
-				dataRow.Period = DateTime.Now - record.EnterTime;
-			}
+				periodTimeSpanValue = DateTime.Now - record.EnterTime;
+
+			dataRow.Period = string.Format("{0} ч. {1} м. {2} с.", (int)periodTimeSpanValue.TotalHours, periodTimeSpanValue.Minutes, periodTimeSpanValue.Seconds);
 
 			if (!filter.IsEmployee)
 			{
