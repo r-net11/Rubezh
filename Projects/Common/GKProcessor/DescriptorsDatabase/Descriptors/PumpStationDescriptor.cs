@@ -7,10 +7,12 @@ namespace GKProcessor
 	public class PumpStationDescriptor : BaseDescriptor
 	{
 		GKPumpStation PumpStation { get; set; }
+		GKPim GlobalPim { get; set; }
 
-		public PumpStationDescriptor(CommonDatabase database, GKPumpStation pumpStation)
+		public PumpStationDescriptor(GKPim globalPim, GKPumpStation pumpStation)
 			: base(pumpStation)
 		{
+			GlobalPim = globalPim;
 			DescriptorType = DescriptorType.PumpStation;
 			PumpStation = pumpStation;
 		}
@@ -30,6 +32,11 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.END);
 				return;
 			}
+
+			PumpStation.LinkToDescriptor(GlobalPim);
+			Formula.AddGetBit(GKStateBit.On, GlobalPim);
+			Formula.Add(FormulaOperationType.BR, 2, 1);
+			Formula.Add(FormulaOperationType.EXIT);
 
 			var mirrorParents = PumpStation.GetMirrorParents();
 			Formula.AddMirrorLogic(PumpStation, mirrorParents);

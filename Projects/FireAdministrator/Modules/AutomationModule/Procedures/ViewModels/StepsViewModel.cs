@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using Common;
-using RubezhAPI.Automation;
+﻿using Common;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using RubezhAPI.Automation;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
@@ -106,7 +106,7 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => SelectedStep);
 			}
 		}
-#region TEST
+		#region TEST
 
 		bool TestValidate()
 		{
@@ -139,7 +139,7 @@ namespace AutomationModule.ViewModels
 			foreach (var childViewModel in parentViewModel.Children)
 				AddChildPlainProcedureSteps(childViewModel, allSteps);
 		}
-#endregion
+		#endregion
 
 		void BuildTree()
 		{
@@ -168,11 +168,11 @@ namespace AutomationModule.ViewModels
 		}
 		#endregion
 
-		ProcedureStep _stepToCopy;
+		//ProcedureStep _stepToCopy;
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{
-			_stepToCopy = SelectedStep.Step;
+			ProceduresViewModel.StepToCopy = SelectedStep.Step;
 		}
 
 		public RelayCommand CutCommand { get; private set; }
@@ -190,7 +190,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand PasteCommand { get; private set; }
 		void OnPaste()
 		{
-			var stepViewModel = new StepViewModel(this, Utils.Clone(_stepToCopy), Procedure);
+			var stepViewModel = new StepViewModel(this, Utils.Clone(ProceduresViewModel.StepToCopy), Procedure);
 			Add(stepViewModel);
 			foreach (var childStep in stepViewModel.Step.Children)
 			{
@@ -201,7 +201,7 @@ namespace AutomationModule.ViewModels
 
 		bool CanPaste()
 		{
-			return _stepToCopy != null;
+			return ProceduresViewModel.StepToCopy != null;
 		}
 
 		void PasteRecursively(ProcedureStep step, StepViewModel parentStepViewModel = null)
@@ -253,7 +253,7 @@ namespace AutomationModule.ViewModels
 			SelectedStep = stepViewModel;
 			SelectedStep.ExpandToThis();
 		}
-				
+
 		public RelayCommand AddStepCommand { get; private set; }
 		void OnAddStep()
 		{

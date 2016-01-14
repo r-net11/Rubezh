@@ -1,4 +1,7 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.GK;
 
 namespace GKImitator.ViewModels
@@ -13,6 +16,8 @@ namespace GKImitator.ViewModels
 			PumpStation = pumpStation;
 			Delay = PumpStation.Delay;
 			Hold = PumpStation.Hold;
+			DelayRegime = PumpStation.DelayRegime;
+			AvailableDelayRegimeTypes = new List<DelayRegime>(Enum.GetValues(typeof(DelayRegime)).Cast<DelayRegime>());
 		}
 
 		ushort _delay;
@@ -37,10 +42,23 @@ namespace GKImitator.ViewModels
 			}
 		}
 
+		public List<DelayRegime> AvailableDelayRegimeTypes { get; private set; }
+		DelayRegime _delayRegime;
+		public DelayRegime DelayRegime
+		{
+			get { return _delayRegime; }
+			set
+			{
+				_delayRegime = value;
+				OnPropertyChanged(() => DelayRegime);
+			}
+		}
+
 		protected override bool Save()
 		{
 			PumpStation.Delay = Delay;
 			PumpStation.Hold = Hold;
+			PumpStation.DelayRegime = DelayRegime;
 			return base.Save();
 		}
 	}

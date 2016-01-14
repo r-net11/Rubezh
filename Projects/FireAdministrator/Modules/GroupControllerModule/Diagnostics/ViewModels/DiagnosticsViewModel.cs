@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
+using Ionic.Zip;
 using RubezhAPI.GK;
 using RubezhClient;
 using Infrastructure;
@@ -19,8 +22,39 @@ namespace GKModule.ViewModels
 		{
 			TestCommand = new RelayCommand(OnTest);
 			AddAllDoorsToCardCommand = new RelayCommand(OnAddAllDoorsToCard);
+			TestIonicZipCommand = new RelayCommand(OnTestIonicZip);
 		}
 
+		public RelayCommand TestIonicZipCommand { get; private set; }
+		void OnTestIonicZip()
+		{
+			var buffer = new byte[917504];
+			foreach (var i in buffer)
+			{
+				buffer[i] = (byte)'a';
+			}
+
+			using (var zippedStream = new MemoryStream())
+			{
+				using (var zip = new ZipFile(Encoding.UTF8))
+				{
+					// uncommenting the following line can be used as a work-around
+					// zip.ParallelDeflateThreshold = -1;
+					zip.AddEntry("entry.txt", buffer);
+					zip.Save(zippedStream);
+				}
+				zippedStream.Position = 0;
+
+				using (var zip = ZipFile.Read(zippedStream))
+				{
+					using (var ms = new MemoryStream())
+					{
+						// This line throws a BadReadException
+						zip.Entries.First().Extract(ms);
+					}
+				}
+			}
+		}
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{

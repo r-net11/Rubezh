@@ -36,6 +36,11 @@ namespace FireMonitor.Layout
 			return _layout == null ? base.CreateShell() : _monitorLayoutShellViewModel;
 		}
 
+		protected override Guid? GetLayoutUID()
+		{
+			return _layoutID;
+		}
+
 		private RubezhAPI.Models.Layouts.Layout SelectLayout(List<RubezhAPI.Models.Layouts.Layout> layouts)
 		{
 			layouts.Sort((x, y) => string.Compare(x.Caption, y.Caption));

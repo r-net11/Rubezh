@@ -15,7 +15,6 @@ namespace PlansModule.ViewModels
 	public partial class PlansViewModel
 	{
 		private PlansClipboard clipboard = new PlansClipboard();
-		//private Plan _planBuffer;
 
 		private void InitializeCopyPaste()
 		{

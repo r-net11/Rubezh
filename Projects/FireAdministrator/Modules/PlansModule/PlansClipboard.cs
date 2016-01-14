@@ -3,7 +3,7 @@ using RubezhAPI.Models;
 
 namespace PlansModule
 {
-	public class PlansClipboard :Clipboard<Plan>
+	public class PlansClipboard : Clipboard<Plan>
 	{
 		protected override void OnClear()
 		{

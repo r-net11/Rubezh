@@ -5,6 +5,7 @@
 				<StackPanel>
 					<Button Command="{Binding TestCommand}" Content="Добавить устройства к существующим АЛС" Width="300" Margin="2" />
 					<Button Command="{Binding AddAllDoorsToCardCommand}" Content="Привязать все точки доступа к пропуску" Width="300" Margin="2" />
+					<Button Command="{Binding TestIonicZipCommand}" Content="Проверить IonicZip" Width="300" Margin="2" />
 				</StackPanel>
 			</Border>
 		</TabItem>
