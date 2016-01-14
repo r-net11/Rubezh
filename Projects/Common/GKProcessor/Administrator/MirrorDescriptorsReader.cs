@@ -17,7 +17,7 @@ namespace GKProcessor
 
 			var progressCallback = GKProcessorManager.StartProgress("Чтение конфигурации " + mirrorDevice.PresentationName, "Проверка связи", 2, true, GKProgressClientType.Administrator);
 			var result = DeviceBytesHelper.Ping(mirrorDevice);
-			if (!result)
+			if (result.HasError)
 			{
 				Error = "Устройство " + mirrorDevice.PresentationName + " недоступно";
 				return false;
