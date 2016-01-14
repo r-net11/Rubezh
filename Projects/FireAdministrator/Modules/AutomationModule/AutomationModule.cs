@@ -27,7 +27,6 @@ namespace AutomationModule
 		private SchedulesViewModel _schedulesViewModel;
 		private GlobalVariablesViewModel _globalVariablesViewModel;
 		private AutomationPlanExtension _planExtension;
-		private OpcAdvosolViewModel _opcAdvosolViewModel;
 		private OpcTechnosoftwareViewModel _opcTechnosoftwareViewModel;
 		private OpcDaClientViewModel _opcDaClientViewModel;
 
@@ -39,7 +38,6 @@ namespace AutomationModule
 			_schedulesViewModel = new SchedulesViewModel();
 			_globalVariablesViewModel = new GlobalVariablesViewModel();
 			_planExtension = new AutomationPlanExtension(_proceduresViewModel);
-			_opcAdvosolViewModel = new OpcAdvosolViewModel();
 			_opcTechnosoftwareViewModel = new OpcTechnosoftwareViewModel();
 			_opcDaClientViewModel = new OpcDaClientViewModel();
 		}
@@ -51,7 +49,6 @@ namespace AutomationModule
 			_soundsViewModel.Initialize();
 			_opcServersViewModel.Initialize();
 			//_opcDaServersViewModel.Initialize();
-			_opcAdvosolViewModel.Initialize();
 			_proceduresViewModel.Initialize();
 			_schedulesViewModel.Initialize();
 			_globalVariablesViewModel.Initialize();
@@ -79,7 +76,6 @@ namespace AutomationModule
 							new NavigationItem<ShowAutomationSoundsEvent, Guid>(_soundsViewModel, "Звуки", "Music"),
 							new NavigationItem<ShowOPCServersEvent, Guid>(_opcServersViewModel, "OPC Сервера", "Settings2"),
 							//new NavigationItem<ShowOpcDaServersEvent, Guid>(_opcDaServersViewModel, "OPC DA Серверы", "Settings2"),
-							new NavigationItem<ShowOpcAdvosolEvent, Guid>(_opcAdvosolViewModel, "OPC DA от Advosol", "Settings2"),
 							new NavigationItem<ShowOpcTechnosoftwareEvent, Guid>(_opcTechnosoftwareViewModel, "OPC DA on Technosoftware", "Settings2"),
 							new NavigationItem<ShowOpcDaClientEvent, Guid>(_opcDaClientViewModel, "OPC DA Клиент", "Settings2")
 						}) { IsExpanded = true },
@@ -101,9 +97,7 @@ namespace AutomationModule
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "GlobalVariables/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Layout/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml");
-
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcDaServers/DataTemplates/Dictionary.xaml");
-			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcAdvosolLib/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcTechnosoftware/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcDaClient/DataTemplates/Dictionary.xaml");
 		}
