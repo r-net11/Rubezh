@@ -30,6 +30,7 @@
                 self.Employees.EmployeeCardDetails = EmployeeCardDetailsViewModel(self.Employees);
                 self.Employees.DepartmentSelection = DepartmentSelectionViewModel();
                 self.Employees.PositionSelection = PositionSelectionViewModel();
+                self.Employees.ScheduleSelection = ScheduleSelectionViewModel();
                 self.Employees.EmployeeCards = EmployeeCardsViewModel(self.Employees);
                 self.Employees.CardRemovalReason = CardRemovalReasonViewModel();
                 self.Departments = DepartmentsViewModel();
@@ -38,6 +39,7 @@
                 self.Positions = PositionsViewModel();
                 self.Positions.PositionDetails = PositionDetailsViewModel();
                 self.Positions.PositionEmployeeList = PositionEmployeeListViewModel(self.Positions);
+                self.AccessTemplates = AccessTemplatesViewModel();
                 self.Organisations = OrganisationsViewModel();
                 self.Organisations.OrganisationDetails = OrganisationDetailsViewModel();
 
@@ -100,6 +102,7 @@
         self.Employees.Init(filter);
         self.Departments.Init(self.Filter);
         self.Positions.Init(self.Filter);
+        self.AccessTemplates.Init(self.Filter);
         self.Organisations.Init(self.Filter);
     };
 

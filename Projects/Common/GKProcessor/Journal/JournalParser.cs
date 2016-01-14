@@ -160,8 +160,7 @@ namespace GKProcessor
 										var employee = databaseService.EmployeeTranslator.GetSingle(employeeUID);
 										if (employee != null)
 										{
-											JournalItem.ObjectName = employee.Result.Name;
-											JournalItem.ObjectUID = employee.Result.UID;
+											JournalItem.UserName = employee.Result.Name;
 										}
 									}
 								}
@@ -216,8 +215,7 @@ namespace GKProcessor
 										var employee = databaseService.EmployeeTranslator.GetSingle(employeeUID);
 										if (employee != null)
 										{
-											JournalItem.ObjectName = employee.Result.Name;
-											JournalItem.ObjectUID = employee.Result.UID;
+											JournalItem.UserName = employee.Result.Name;
 										}
 									}
 								}

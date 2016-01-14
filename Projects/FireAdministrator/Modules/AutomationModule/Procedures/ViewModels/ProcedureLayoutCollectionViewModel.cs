@@ -50,7 +50,8 @@ namespace AutomationModule.ViewModels
 			if (DialogService.ShowModalWindow(procedureLayoutsSelectionViewModel))
 			{
 				Layouts = new ObservableCollection<LayoutViewModel>(procedureLayoutsSelectionViewModel.LayoutItems.Where(x => x.IsChecked).Select(x => new LayoutViewModel(x.Layout)));
-				ProcedureLayoutCollection = Layouts.Select(x => x.Layout.UID).ToList();
+				ProcedureLayoutCollection.Clear();
+				ProcedureLayoutCollection.AddRange(Layouts.Select(x => x.Layout.UID));
 			}
 		}
 	}

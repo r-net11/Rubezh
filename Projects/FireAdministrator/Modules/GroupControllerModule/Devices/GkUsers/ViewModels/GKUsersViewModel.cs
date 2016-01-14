@@ -35,6 +35,7 @@ namespace GKModule.ViewModels
 			else
 				dbUsers.AddRange(getDbUsersResult.Result);
 
+			deviceUsers = deviceUsers.Where(x => x.IsActive).ToList();
 			var allUsers = UnionUsers(deviceUsers, dbUsers);
 			InitializeCollections(allUsers, deviceUsers, dbUsers);
 			CurrentIndex = 0;

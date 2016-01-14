@@ -16,6 +16,7 @@ namespace AutomationModule.ViewModels
 {
 	public class ProceduresViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
+		public static ProcedureStep StepToCopy { get; set; }
 		public static ProceduresViewModel Current { get; private set; }
 		public ProceduresViewModel()
 		{

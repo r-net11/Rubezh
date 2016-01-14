@@ -11,20 +11,18 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using RubezhAPI.Models;
-using Infrastructure.Designer.Events;
 
 namespace Infrastructure.Designer.ViewModels
 {
 	public partial class PlanDesignerViewModel : BaseViewModel
 	{
-		private List<ElementBase> _buffer;
-		public bool Flag { get; set; }
+		private DesignerClipboard clipboard = new DesignerClipboard();
+
 		private void InitializeCopyPasteCommands()
 		{
 			CopyCommand = new RelayCommand(OnCopy, CanCopyCut);
 			CutCommand = new RelayCommand(OnCut, CanCopyCut);
 			PasteCommand = new RelayCommand<IInputElement>(OnPaste, CanPaste);
-			_buffer = new List<ElementBase>();
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
@@ -33,11 +31,12 @@ namespace Infrastructure.Designer.ViewModels
 			using (new WaitWrapper())
 			{
 				NormalizeZIndex();
-				_buffer = new List<ElementBase>();
+				this.clipboard.Clear();
+				this.clipboard.SourceAction = ClipboardSourceAction.Copy;
 				foreach (var designerItem in DesignerCanvas.SelectedItems)
 				{
 					designerItem.UpdateElementProperties();
-					_buffer.Add(designerItem.Element);
+					this.clipboard.Buffer.Add(designerItem.Element);
 				}
 			}
 		}
@@ -47,6 +46,7 @@ namespace Infrastructure.Designer.ViewModels
 			using (new WaitWrapper())
 			{
 				OnCopy();
+				this.clipboard.SourceAction = ClipboardSourceAction.Cut;
 				DesignerCanvas.RemoveAllSelected();
 				DesignerCanvas.DesignerChanged();
 
@@ -62,12 +62,12 @@ namespace Infrastructure.Designer.ViewModels
 		{
 			using (new WaitWrapper())
 			using (new TimeCounter("Command.Paste: {0}"))
-				if (this.FitsCanvas(_buffer))
+				if (this.FitsCanvas(this.clipboard.Buffer))
 				{
 					DesignerCanvas.Toolbox.SetDefault();
 					DesignerCanvas.DeselectAll();
 
-					var newElements = _buffer
+					var newElements = this.clipboard.Buffer
 						.Where(element => AllowPaste(element))
 						.Select(element =>
 						{
@@ -85,16 +85,25 @@ namespace Infrastructure.Designer.ViewModels
 					newItems.ForEach(item => item.IsSelected = true);
 					MoveToFrontCommand.Execute();
 					DesignerCanvas.DesignerChanged();
+					this.clipboard.SourceAction = ClipboardSourceAction.Copy;
 				}
 		}
 
 		private bool AllowPaste(ElementBase element)
 		{
-			if (element is ElementGKDevice)
+			if (!(element is ElementGKDevice))
+				return true;
+
+			var elementGKDevice = element as ElementGKDevice;
+			bool deviceExistsOnCanvas = DesignerCanvas.Items
+				.Select(item => item.Element)
+				.OfType<ElementGKDevice>()
+				.Any(device => device.ItemUID == elementGKDevice.ItemUID);
+
+			if (!elementGKDevice.AllowMultipleVizualization)
 			{
-				var elementGKDevice = element as ElementGKDevice;
-				ServiceFactoryBase.Events.GetEvent<CheckOnlyOneValue>().Publish(elementGKDevice.DeviceUID);
-				return elementGKDevice.AllowMultipleVizualization || Flag;
+				if (deviceExistsOnCanvas || this.clipboard.SourceAction == ClipboardSourceAction.Copy)
+					return false;
 			}
 			return true;
 		}
@@ -106,12 +115,12 @@ namespace Infrastructure.Designer.ViewModels
 				if (!this.DesignerCanvas.Toolbox.IsEnabled)
 					return false;
 			}
-			return _buffer.Count > 0;
+			return this.clipboard.Buffer.Count > 0;
 		}
 
 		private Rect GetBoundingRectangle(IEnumerable<ElementBase> elements)
 		{
-			IEnumerable<Rect> rectangles = _buffer.Select(element => element.GetRectangle());
+			IEnumerable<Rect> rectangles = this.clipboard.Buffer.Select(element => element.GetRectangle());
 			double minLeft = rectangles.Min(rect => rect.Left);
 			double minTop = rectangles.Min(rect => rect.Top);
 			double maxRight = rectangles.Max(rect => rect.Left + rect.Width);
