@@ -186,6 +186,7 @@
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
     <Compile Include="Processor\FiresecLicenseProcessor.cs" />
     <Compile Include="Processor\GKProcessor.cs" />
+    <Compile Include="Processor\OpcDaServersProcessor.cs" />
     <Compile Include="Processor\ServerTaskRunner.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />

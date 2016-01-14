@@ -81,7 +81,6 @@ namespace AutomationModule.ViewModels
 
 		public static OpcTechnosoftwareTagValueBaseViewModel Create(TsCDaBrowseElement tag)
 		{
-
 			var property = tag.Properties.First(x => x.ID == TsDaProperty.DATATYPE);
 
 			if ((Type)property.Value == typeof(Boolean))

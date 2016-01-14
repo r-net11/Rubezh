@@ -157,15 +157,15 @@ namespace RubezhClient
 			return SafeContext.Execute(() => FiresecService.GetOpcDaServerStatus(server));
 		}
 
-		public OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(OpcDaServer server)
-		{
-			return SafeContext.Execute(() => FiresecService.ReadOpcDaServerTags(server));
-		}
+		//public OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(OpcDaServer server)
+		//{
+		//	return SafeContext.Execute(() => FiresecService.ReadOpcDaServerTags(server));
+		//}
 		
-		public OperationResult WriteOpcDaServerTags(OpcDaServer server, TsCDaItemValue[] tagValues)
-		{ 
-			return SafeContext.Execute(() => FiresecService.WriteOpcDaServerTags(server, tagValues));
-		}
+		//public OperationResult WriteOpcDaServerTags(OpcDaServer server, TsCDaItemValue[] tagValues)
+		//{ 
+		//	return SafeContext.Execute(() => FiresecService.WriteOpcDaServerTags(server, tagValues));
+		//}
 
 		#endregion
 	}

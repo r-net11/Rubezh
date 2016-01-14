@@ -278,6 +278,7 @@ namespace AutomationModule.ViewModels
 		void EventHandler_activeSubscription_DataChangedEvent(object subscriptionHandle,
 			object requestHandle, TsCDaItemValueResult[] values)
 		{
+			// Через параметр subscriptionHandle передаётся subscriptionState.ClientHandle
 			// Обновляем данные
 			ReadingResult = values;
 		}
@@ -435,7 +436,6 @@ namespace AutomationModule.ViewModels
 			}
 
 			_activeSubscription.DataChangedEvent += _dataChangeEventHandler;
-
 		}
 		bool CanCreateSubscription()
 		{

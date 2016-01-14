@@ -7,6 +7,7 @@ namespace RubezhAPI.Automation
 {
 	[DataContract]
 	[KnownType(typeof(TsDaAccessRights))]
+	//[KnownType(typeof(OpcDaTagValue))]
 	public class OpcDaTag: OpcDaElement
 	{
 		#region Constructors
@@ -62,6 +63,11 @@ namespace RubezhAPI.Automation
 		/// </summary>
 		[DataMember]
 		public Single ScanRate { get; set; }
+		/// <summary>
+		/// Значение тега
+		/// </summary>
+		//[DataMember]
+		//public OpcDaTagValue Value { get; set; }
 
 		public override bool IsTag
 		{
