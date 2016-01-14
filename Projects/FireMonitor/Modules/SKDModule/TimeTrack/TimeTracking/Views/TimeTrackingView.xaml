@@ -132,13 +132,11 @@
 						MinHeight="25"
 						HorizontalContentAlignment="Center"
 						VerticalContentAlignment="Stretch"
+						Validation.ErrorTemplate="{x:Null}"
 						ContextMenu="{x:Null}"
 						FontSize="20"
 						VerticalAlignment="Center"
-						Text="{Binding PageNumber,
-					                        Mode=TwoWay,
-					                        FallbackValue=0,
-					                        UpdateSourceTrigger=PropertyChanged}" />
+						Text="{Binding PageNumber, Mode=TwoWay, FallbackValue=0, UpdateSourceTrigger=PropertyChanged}" />
 					<TextBlock
 						VerticalAlignment="Center"
 						FontSize="20"
