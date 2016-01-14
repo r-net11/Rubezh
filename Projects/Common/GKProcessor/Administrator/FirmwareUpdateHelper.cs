@@ -17,7 +17,7 @@ namespace GKProcessor
 			GKProcessorManager.AddGKMessage(JournalEventNameType.Обновление_ПО_прибора, JournalEventDescriptionType.NULL, "", device, userName);
 			ProgressCallback = GKProcessorManager.StartProgress("Обновление прошивки " + device.PresentationName, "", firmWareBytes.Count / 256, false, GKProgressClientType.Administrator, clientUID);
 			GKProcessorManager.DoProgress("Проверка связи " + device.PresentationName, ProgressCallback, clientUID);
-			if (!DeviceBytesHelper.Ping(device))
+			if (DeviceBytesHelper.Ping(device).HasError)
 			{
 				return "Устройство " + device.PresentationName + " недоступно";
 
