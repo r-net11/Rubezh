@@ -359,6 +359,16 @@ namespace RubezhClient
 			}, "GKTurnOffNowInAutomatic");
 		}
 
+		public void GKTurnOnNowGlobalPimsInAutomatic()
+		{
+			SafeOperationCall(() => FiresecService.GKTurnOnNowGlobalPimsInAutomatic(FiresecServiceFactory.UID), "GKTurnOnNowGlobalPimsInAutomatic");
+		}
+
+		public void GKTurnOffNowGlobalPimsInAutomatic()
+		{
+			SafeOperationCall(() => FiresecService.GKTurnOffNowGlobalPimsInAutomatic(FiresecServiceFactory.UID), "GKTurnOffNowGlobalPimsInAutomatic");
+		}
+
 		public void GKStop(GKBase gkBase)
 		{
 			SafeOperationCall(() =>

@@ -208,9 +208,10 @@ namespace FireMonitor
 			var result = true;
 			ShellViewModel = CreateShell();
 			((LayoutService)ServiceFactory.Layout).SetToolbarViewModel((ToolbarViewModel)ShellViewModel.Toolbar);
-			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new SoundViewModel());
 			if (!RunShell(ShellViewModel))
 				result = false;
+			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new GlobalPimActivationViewModel());
+			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new SoundViewModel());
 			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new UserViewModel(this));
 			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new AutoActivationViewModel());
 			return result;

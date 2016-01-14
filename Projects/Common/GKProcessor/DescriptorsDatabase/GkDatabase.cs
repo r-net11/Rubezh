@@ -24,6 +24,10 @@ namespace GKProcessor
 				}
 			}
 			Devices.ForEach(x => x.GkDatabaseParent = RootDevice);
+
+			GlobalPim = new GKPim { Name = "Автоматика" + "(" + gkControllerDevice.PresentationName + ")", IsGlobalPim = true };
+			GlobalPim.DeviceUid = gkControllerDevice.UID;
+			GlobalPimDescriptor = new PimDescriptor(GlobalPim);
 		}
 
 		void AddDevice(GKDevice device)
@@ -81,7 +85,7 @@ namespace GKProcessor
 
 			foreach (var pumpStation in GKManager.PumpStations.Where(x => x.GkDatabaseParent == RootDevice && x.KauDatabaseParent == null))
 			{
-				var pumpStationDescriptor = new PumpStationDescriptor(this, pumpStation);
+				var pumpStationDescriptor = new PumpStationDescriptor(GlobalPim, pumpStation);
 				Descriptors.Add(pumpStationDescriptor);
 
 				var pumpStationCreator = new PumpStationCreator(this, pumpStation, DatabaseType.Gk);
@@ -90,7 +94,7 @@ namespace GKProcessor
 
 			foreach (var mpt in GKManager.DeviceConfiguration.MPTs.Where(x => x.GkDatabaseParent == RootDevice && x.KauDatabaseParent == null))
 			{
-				var mptDescriptor = new MPTDescriptor(this, mpt);
+				var mptDescriptor = new MPTDescriptor(GlobalPim, mpt);
 				Descriptors.Add(mptDescriptor);
 
 				var mptCreator = new MPTCreator(mpt);
@@ -119,6 +123,8 @@ namespace GKProcessor
 					Descriptors.Add(doorDescriptor.DoorPimDescriptorCrossing);
 				}
 			}
+
+			Descriptors.Add(GlobalPimDescriptor);
 
 			ushort no = 1;
 			foreach (var descriptor in Descriptors)
@@ -178,10 +184,10 @@ namespace GKProcessor
 						Descriptors.Add(new DelayDescriptor(gkBase as GKDelay) { IsFormulaGeneratedOutside = true });
 
 					if (gkBase is GKPumpStation)
-						Descriptors.Add(new PumpStationDescriptor(this, gkBase as GKPumpStation) { IsFormulaGeneratedOutside = true });
+						Descriptors.Add(new PumpStationDescriptor(GlobalPim, gkBase as GKPumpStation) { IsFormulaGeneratedOutside = true });
 
 					if (gkBase is GKMPT)
-						Descriptors.Add(new MPTDescriptor(this, gkBase as GKMPT) { IsFormulaGeneratedOutside = true });
+						Descriptors.Add(new MPTDescriptor(GlobalPim, gkBase as GKMPT) { IsFormulaGeneratedOutside = true });
 
 					if (gkBase is GKPim)
 						Descriptors.Add(new PimDescriptor(gkBase as GKPim) { IsFormulaGeneratedOutside = true });

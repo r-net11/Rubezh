@@ -169,6 +169,7 @@
 		<ResourceDictionary Source="../XamlImages/Procedure.xaml" />
 		<ResourceDictionary Source="../XamlImages/PumpStation.xaml" />
 		<ResourceDictionary Source="../XamlImages/read.xaml" />
+		<ResourceDictionary Source="../XamlImages/RAlarm_main_5_Info.xaml" />
 		<ResourceDictionary Source="../XamlImages/Rectangle.xaml" />
 		<ResourceDictionary Source="../XamlImages/Redo.xaml" />
 		<ResourceDictionary Source="../XamlImages/Refresh.xaml" />
