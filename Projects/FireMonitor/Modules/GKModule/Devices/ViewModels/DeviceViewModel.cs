@@ -1,21 +1,22 @@
-﻿using System.Linq;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using System.Collections.Generic;
-using System;
 using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GKModule.ViewModels
 {
 	public class DeviceViewModel : TreeNodeViewModel<DeviceViewModel>
 	{
 		public GKDevice Device { get; private set; }
+		public string GkDescriptorName { get; private set; }
 		public GKState State
 		{
 			get { return Device.State; }
@@ -27,6 +28,7 @@ namespace GKModule.ViewModels
 		public DeviceViewModel(GKDevice device)
 		{
 			Device = device;
+			GkDescriptorName = Device.GetGKDescriptorName(GKManager.DeviceConfiguration.GKNameGenerationType);
 			DeviceStateViewModel = new DeviceStateViewModel(State, device.Driver.IsAm);
 			State.StateChanged += OnStateChanged;
 			OnStateChanged();
@@ -58,7 +60,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-					return GKManager.GetPresentationLogic(Device.Logic);
+				return GKManager.GetPresentationLogic(Device.Logic);
 			}
 		}
 

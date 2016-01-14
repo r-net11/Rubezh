@@ -76,7 +76,7 @@ namespace JournalModule.ViewModels
 					Device = GKManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 					if (Device != null)
 					{
-						ObjectName = Device.GetGKDescriptorName(GKManager.DeviceConfiguration.GKNameGenerationType); ;
+						ObjectName = Device.GetGKDescriptorName(GKManager.DeviceConfiguration.GKNameGenerationType);
 						ObjectImageSource = Device.Driver.ImageSource;
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>();
