@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using GKWebService.DataProviders.SKD;
 using GKWebService.Models;
+using GKWebService.Models.SKD.AccessTemplates;
 using GKWebService.Models.SKD.Positions;
 using GKWebService.Utils;
 using RubezhAPI.SKD;
@@ -48,5 +49,34 @@ namespace GKWebService.Controllers
             return new JsonNetResult { Data = doors };
         }
 
+        public ActionResult AccessTemplateDetails()
+        {
+            return View();
+        }
+
+        [ErrorHandler]
+        public JsonNetResult GetAccessTemplateDetails(Guid? organisationId, Guid? id)
+        {
+            var accessTemplateDetailsViewModel = new AccessTemplateDetailsViewModel()
+            {
+                AccessTemplate = new AccessTemplate()
+            };
+
+            if (organisationId.HasValue)
+            {
+                accessTemplateDetailsViewModel.Initialize(organisationId.Value, id);
+            }
+
+            return new JsonNetResult { Data = accessTemplateDetailsViewModel };
+        }
+
+        [HttpPost]
+        [ErrorHandler]
+        public JsonNetResult AccessTemplateDetails(AccessTemplateDetailsViewModel accessTemplate, bool isNew)
+        {
+            var result = accessTemplate.Save(isNew);
+
+            return new JsonNetResult { Data = result };
+        }
     }
 }

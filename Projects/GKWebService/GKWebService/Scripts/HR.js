@@ -40,6 +40,7 @@
                 self.Positions.PositionDetails = PositionDetailsViewModel();
                 self.Positions.PositionEmployeeList = PositionEmployeeListViewModel(self.Positions);
                 self.AccessTemplates = AccessTemplatesViewModel();
+                self.AccessTemplates.AccessTemplateDetails = AccessTemplateDetailsViewModel();
                 self.Organisations = OrganisationsViewModel();
                 self.Organisations.OrganisationDetails = OrganisationDetailsViewModel();
 
