@@ -66,7 +66,7 @@ namespace PlansModule.ViewModels
 
 		void OnCheck(Guid uid)
 		{
-			Flag = !ClientManager.PlansConfiguration.AllPlans.Any(x => x.ElementGKDevices.Any(y => y.DeviceUID == uid));
+			//Flag = !ClientManager.PlansConfiguration.AllPlans.Any(x => x.ElementGKDevices.Any(y => y.DeviceUID == uid));
 		}
 
 		public override void RegisterDesignerItem(DesignerItem designerItem)
