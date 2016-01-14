@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Runtime.Serialization;
 using RubezhAPI;
 using API = RubezhAPI.SKD;
 
@@ -10,13 +9,11 @@ namespace RubezhDAL.DataClasses
 {
 	public class DepartmentTranslator : OrganisationItemTranslatorBase<Department, API.Department, API.DepartmentFilter>
 	{
-		DataContractSerializer _serializer;
 		public DepartmentShortTranslator ShortTranslator { get; private set; }
 		public DepartmentSynchroniser Synchroniser { get; private set; }
 		public DepartmentTranslator(DbService context)
 			: base(context)
 		{
-			_serializer = new DataContractSerializer(typeof(API.Department));
 			ShortTranslator = new DepartmentShortTranslator(this);
 			Synchroniser = new DepartmentSynchroniser(Table, DbService);
 		}
@@ -26,7 +23,7 @@ namespace RubezhDAL.DataClasses
 			get { return Context.Departments; }
 		}
 
-		public override System.Linq.IQueryable<Department> GetTableItems()
+		public override IQueryable<Department> GetTableItems()
 		{
 			return base.GetTableItems().Include(x => x.Photo).Include(x => x.ChildDepartments);
 		}
@@ -128,8 +125,7 @@ namespace RubezhDAL.DataClasses
 			}
 			foreach (var item in items)
 			{
-				item.IsDeleted = true;
-				item.RemovalDate = tableItem.RemovalDate;
+				item.IsDeleted = false;
 			}
 		}
 
@@ -155,7 +151,7 @@ namespace RubezhDAL.DataClasses
 			try
 			{
 				var result = new List<Guid>();
-				var tableItem = Table.Include(x => x.ChildDepartments.Select(y => y.Employees)).FirstOrDefault(x => x.UID == uid);
+				var tableItem = Table.Include(x => x.Employees).Include(x => x.ChildDepartments.Select(y => y.Employees)).FirstOrDefault(x => x.UID == uid);
 				result.AddRange(tableItem.Employees.Select(x => x.UID));
 				result.AddRange(tableItem.ChildDepartments.SelectMany(x => x.Employees.Select(y => y.UID)));
 				return new OperationResult<List<Guid>>(result);

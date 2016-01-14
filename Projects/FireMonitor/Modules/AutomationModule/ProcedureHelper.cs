@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using RubezhAPI.Automation;
-using RubezhClient;
-using Infrastructure.Common.Windows;
-using AutomationModule.ViewModels;
-using Infrastructure.Common;
-using System.Threading;
+﻿using AutomationModule.ViewModels;
 using Infrastructure.Automation;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using RubezhAPI.Automation;
+using RubezhAPI.Models;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace AutomationModule
 {
@@ -76,7 +77,7 @@ namespace AutomationModule
 			return false;
 		}
 
-		public static void Run(Procedure procedure, List<Argument> args = null)
+		public static void Run(Procedure procedure, List<Argument> args = null, User user = null)
 		{
 			if (args == null)
 				args = new List<Argument>();
@@ -85,7 +86,7 @@ namespace AutomationModule
 				var thread = new Thread(() =>
 					{
 						if (procedure.ContextType == ContextType.Client)
-							AutomationProcessor.RunProcedure(procedure, args, null);
+							AutomationProcessor.RunProcedure(procedure, args, null, user, null, FiresecServiceFactory.UID);
 						else
 							ClientManager.FiresecService.RunProcedure(procedure.Uid, args);
 					}

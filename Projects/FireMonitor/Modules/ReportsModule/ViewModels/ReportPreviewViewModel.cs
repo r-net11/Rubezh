@@ -118,7 +118,7 @@ namespace ReportsModule.ViewModels
 		}
 		private string GetXaml()
 		{
-			StreamResourceInfo info = Application.GetResourceStream(ResourceHelper.ComposeResourceUri(_reportProvider.GetType().Assembly, _reportProvider.Template));
+			StreamResourceInfo info = Application.GetResourceStream(ResourceService.ComposeResourceUri(_reportProvider.GetType().Assembly, _reportProvider.Template));
 			using (var reader = new StreamReader(info.Stream))
 				return reader.ReadToEnd();
 		}

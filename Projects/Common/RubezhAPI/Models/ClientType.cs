@@ -3,19 +3,22 @@ namespace RubezhAPI.Models
 {
 	public enum ClientType
 	{
+		[Description("-")]
+		None = 0,
+
 		[Description("Администратор")]
-		Administrator = 0,
+		Administrator = 1,
 
 		[Description("Оперативная задача")]
-		Monitor = 1,
+		Monitor = 2,
 
 		[Description("OPC Сервер")]
-		OPC = 2,
+		OPC = 4,
 
 		[Description("Веб-сервер")]
-		WebService = 3,
+		WebService = 8,
 
 		[Description("Другой")]
-		Other = 4
+		Other = 16
 	}
 }

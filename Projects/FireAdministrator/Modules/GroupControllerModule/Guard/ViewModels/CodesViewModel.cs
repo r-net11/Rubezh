@@ -13,6 +13,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
 using RubezhAPI.GK;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {

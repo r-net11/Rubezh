@@ -7,7 +7,7 @@ using RubezhAPI.SKD;
 using RubezhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using RubezhDAL;
-using RubezhClient;
+using RubezhAPI;
 using RubezhAPI.GK;
 
 namespace FiresecService.Report.Templates

@@ -7,7 +7,7 @@ using Common;
 
 namespace Infrustructure.Plans.Designer
 {
-	public class DesignerSurface : Panel
+	public class DesignerSurface : Canvas
 	{
 		private List<CommonDesignerItem> _visuals;
 		private IVisualItem _visualItemOver;
@@ -32,17 +32,16 @@ namespace Infrustructure.Plans.Designer
 		{
 			get { return _visuals; }
 		}
-		protected override int VisualChildrenCount
-		{
-			get { return 0; }
-		}
-		protected override Visual GetVisualChild(int index)
-		{
-			return null;
-		}
 		internal void AddDesignerItem(CommonDesignerItem visual)
 		{
-			_visuals.Add(visual);
+			if (visual.WPFControl != null)
+			{
+				Children.Add(visual.WPFControl);
+			}
+			else
+			{
+				_visuals.Add(visual);
+			}
 			_isZIndexValid = false;
 		}
 		internal void DeleteDesignerItem(CommonDesignerItem visual)
@@ -180,8 +179,8 @@ namespace Infrustructure.Plans.Designer
 				var thickness = Border == null ? 0 : Border.Thickness;
 				dc.DrawRectangle(BackgroundBrush, Border, new Rect(-thickness / 2, -thickness / 2, RenderSize.Width + thickness, RenderSize.Height + thickness));
 				foreach (var item in _visuals)
-					if (item.IsVisibleLayout)
-						item.Render(dc);
+				//if (item.IsVisibleLayout)
+					item.Render(dc);
 				_designerCanvas.RenderForeground(dc);
 			}
 		}

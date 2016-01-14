@@ -1,27 +1,28 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
-using RubezhAPI.Automation;
-using System.Collections.ObjectModel;
+﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using LayoutModel = RubezhAPI.Models.Layouts.Layout;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 
 namespace AutomationModule.ViewModels
 {
 	public class ProcedureLayoutCollectionViewModel : BaseViewModel
 	{
-		static LayoutModel _noLayout = new LayoutModel { Caption = "<Без макетов>", UID = LayoutModel.NoLayoutUID };
+		static LayoutModel _noLayout = new LayoutModel { Caption = "<Без макетов>", UID = Guid.Empty };
 		public static LayoutModel NoLayout { get { return _noLayout; } }
-		public ProcedureLayoutCollection ProcedureLayoutCollection { get; private set; }
+		public List<Guid> ProcedureLayoutCollection { get; private set; }
 
-		public ProcedureLayoutCollectionViewModel(ProcedureLayoutCollection procedureLayoutCollection)
+		public ProcedureLayoutCollectionViewModel(List<Guid> procedureLayoutCollection)
 		{
 			ProcedureLayoutCollection = procedureLayoutCollection;
 			Layouts = new ObservableCollection<LayoutViewModel>();
-			if (procedureLayoutCollection.LayoutsUIDs.Contains(LayoutModel.NoLayoutUID))
+			if (procedureLayoutCollection.Contains(Guid.Empty))
 				Layouts.Add(new LayoutViewModel(NoLayout));
-			foreach (var layoutUID in procedureLayoutCollection.LayoutsUIDs)
+			foreach (var layoutUID in procedureLayoutCollection)
 			{
 				var layout = ClientManager.LayoutsConfiguration.Layouts.FirstOrDefault(x => x.UID == layoutUID);
 				if (layout != null)
@@ -49,7 +50,8 @@ namespace AutomationModule.ViewModels
 			if (DialogService.ShowModalWindow(procedureLayoutsSelectionViewModel))
 			{
 				Layouts = new ObservableCollection<LayoutViewModel>(procedureLayoutsSelectionViewModel.LayoutItems.Where(x => x.IsChecked).Select(x => new LayoutViewModel(x.Layout)));
-				ProcedureLayoutCollection.LayoutsUIDs = Layouts.Select(x => x.Layout.UID).ToList();
+				ProcedureLayoutCollection.Clear();
+				ProcedureLayoutCollection.AddRange(Layouts.Select(x => x.Layout.UID));
 			}
 		}
 	}

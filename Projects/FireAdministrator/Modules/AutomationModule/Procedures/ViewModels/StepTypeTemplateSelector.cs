@@ -22,6 +22,8 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ControlGKGuardZoneTemplate { get; set; }
 		public DataTemplate ControlDirectionTemplate { get; set; }
 		public DataTemplate ControlGKDoorTemplate { get; set; }
+		public DataTemplate ControlPumpStationTemplate { get; set; }
+		public DataTemplate ControlMPTTemplate { get; set; }
 		public DataTemplate GetObjectPropertyTemplate { get; set; }
 		public DataTemplate SendEmailTemplate { get; set; }
 		public DataTemplate RunProgramTemplate { get; set; }
@@ -36,7 +38,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ShowDialogTemplate { get; set; }
 		public DataTemplate ControlDelayTemplate { get; set; }
 		public DataTemplate ShowPropertyTemplate { get; set; }
-		public DataTemplate ExportJournalTemplate { get; set;}
+		public DataTemplate ExportJournalTemplate { get; set; }
 		public DataTemplate GenerateGuidTemplate { get; set; }
 		public DataTemplate ExportOrganisationTemplate { get; set; }
 		public DataTemplate ExportConfigurationTemplate { get; set; }
@@ -49,6 +51,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate StopRecordTemplate { get; set; }
 		public DataTemplate RviAlarmTemplate { get; set; }
 		public DataTemplate NowTemplate { get; set; }
+		public DataTemplate HttpRequestTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -86,6 +89,10 @@ namespace AutomationModule.ViewModels
 				return ControlDirectionTemplate;
 			if (item is ControlGKDoorStepViewModel)
 				return ControlGKDoorTemplate;
+			if (item is ControlPumpStationStepViewModel)
+				return ControlPumpStationTemplate;
+			if (item is ControlMPTStepViewModel)
+				return ControlMPTTemplate;
 			if (item is ControlDelayStepViewModel)
 				return ControlDelayTemplate;
 			if (item is GetObjectPropertyStepViewModel)
@@ -140,6 +147,8 @@ namespace AutomationModule.ViewModels
 				return RviAlarmTemplate;
 			if (item is NowStepViewModel)
 				return NowTemplate;
+			if (item is HttpRequestStepViewModel)
+				return HttpRequestTemplate;
 			return null;
 		}
 	}

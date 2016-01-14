@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using RubezhClient;
 using System;
 
 namespace RubezhAPI.GK
@@ -11,34 +9,22 @@ namespace RubezhAPI.GK
 		public void PrepareDescriptors()
 		{
 			Codes.ForEach(x => x.ChildDescriptors = new List<GKBase>());
-			var gkBases = new List<GKBase>();
+			Devices.ForEach(x => x.ChildDescriptors = new List<GKBase>());
+			Zones.ForEach(x => x.ChildDescriptors = new List<GKBase>(x.Devices));
+			Directions.ForEach(x => x.ChildDescriptors = new List<GKBase>(x.Logic.GetObjects()));
+			Delays.ForEach(x => x.ChildDescriptors = new List<GKBase>(x.Logic.GetObjects()));
+			GuardZones.ForEach(x => x.ChildDescriptors = new List<GKBase>());
+			PumpStations.ForEach(x => x.ChildDescriptors = new List<GKBase>());
+			MPTs.ForEach(x => x.ChildDescriptors = new List<GKBase>());
+			Doors.ForEach(x => x.ChildDescriptors = new List<GKBase>());
 
-			foreach (var zone in Zones)
-			{
-				zone.ChildDescriptors = new List<GKBase>(zone.Devices);
-				gkBases.Add(zone);
-			}
-
-			foreach (var direction in Directions)
-			{
-				direction.ChildDescriptors = direction.Logic.GetObjects();
-				gkBases.Add(direction);
-			}
-
-			foreach (var delay in Delays)
-			{
-				delay.ChildDescriptors = delay.Logic.GetObjects();
-				gkBases.Add(delay);
-			}
-
-			foreach (var code in Codes)
-			{
-				gkBases.Add(code);
-			}
+			var gkBases = Zones.Cast<GKBase>().ToList();
+			gkBases.AddRange(Directions);
+			gkBases.AddRange(Delays);
+			gkBases.AddRange(Codes);
 
 			foreach (var guardZone in GuardZones)
 			{
-				guardZone.ChildDescriptors = new List<GKBase>();
 				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
 				{
 					guardZone.ChildDescriptors.Add(guardZoneDevice.Device);
@@ -69,7 +55,6 @@ namespace RubezhAPI.GK
 
 			foreach (var pumpStation in PumpStations)
 			{
-				pumpStation.ChildDescriptors = new List<GKBase>();
 				pumpStation.ChildDescriptors.AddRange(pumpStation.StartLogic.GetObjects());
 				pumpStation.ChildDescriptors.AddRange(pumpStation.StopLogic.GetObjects());
 				pumpStation.ChildDescriptors.AddRange(pumpStation.AutomaticOffLogic.GetObjects());
@@ -85,7 +70,6 @@ namespace RubezhAPI.GK
 
 			foreach (var mpt in MPTs)
 			{
-				mpt.ChildDescriptors = new List<GKBase>();
 				mpt.ChildDescriptors.AddRange(mpt.MptLogic.GetObjects());
 				foreach (var mptDevice in mpt.MPTDevices)
 				{
@@ -114,7 +98,6 @@ namespace RubezhAPI.GK
 
 			foreach (var door in Doors)
 			{
-				door.ChildDescriptors = new List<GKBase>();
 				door.ChildDescriptors.AddRange(door.OpenRegimeLogic.GetObjects());
 				door.ChildDescriptors.AddRange(door.NormRegimeLogic.GetObjects());
 				door.ChildDescriptors.AddRange(door.CloseRegimeLogic.GetObjects());
@@ -197,12 +180,16 @@ namespace RubezhAPI.GK
 							break;
 					}
 				}
+				if (device.DriverType == GKDriverType.RSR2_MAP4)
+				{
+					device.ChildDescriptors.AddRange(new List<GKBase>(device.Zones));
+				}
 				gkBases.Add(device);
 			}
 
 			gkBases.ForEach(x => x.ClearDescriptor());
 			gkBases.ForEach(x => x.PrepareInputOutputDependences());
-			gkBases.ForEach(x => x.Invalidate(GKManager.DeviceConfiguration));
+			gkBases.ForEach(x => x.Invalidate(this));
 			gkBases.ForEach(x => x.IsChildDescriptorsReady = false);
 			gkBases.ForEach(x => x.CalculateAllChildDescriptors());
 

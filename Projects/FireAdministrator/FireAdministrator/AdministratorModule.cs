@@ -36,7 +36,7 @@ namespace FireAdministrator
 		{
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Navigation, 2, "Навигатор", "Панель навигации", "BTree.png", false, new LayoutPartSize() { PreferedSize = new Size(150, 500) });
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Content, 3, "Контейнер", "Контейнер содержания", "BLayouts.png", false);
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.TimePresenter, 5, "Часы", "Панель отображающая время", "BTime.png", true, new LayoutPartSize() { PreferedSize = new Size(220, 30) })
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.TimePresenter, 5, "Часы", "Панель отображающая время", "BTime.png", false, new LayoutPartSize() { PreferedSize = new Size(220, 30) })
 			{
 				Factory = (p) => new LayoutPartTimeViewModel(p as LayoutPartTimeProperties),
 			};

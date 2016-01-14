@@ -6,9 +6,9 @@ using System.Net.Sockets;
 using RubezhAPI.GK;
 using GKImitator.ViewModels;
 using GKProcessor;
-using RubezhClient;
 using RubezhDAL.DataClasses;
 using System.Diagnostics;
+using RubezhAPI;
 
 namespace GKImitator.Processor
 {
@@ -133,13 +133,21 @@ namespace GKImitator.Processor
 					if (databaseType == DatabaseType.Gk)
 					{
 						descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.GKDescriptorNo == descriptorNo);
-						descriptorViewModel.SetParameters(byteData.Skip(7).ToList());
+						if (descriptorViewModel != null)
+						{
+							descriptorViewModel.SetParameters(byteData.Skip(7).ToList());
+							descriptorViewModel.InitializeDelays();
+						}
 						return new List<byte>();
 					}
 					if (databaseType == DatabaseType.Kau)
 					{
 						descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.KAUDescriptorNo == descriptorNo);
-						descriptorViewModel.SetParameters(byteData.Skip(7).ToList());
+						if (descriptorViewModel != null)
+						{
+							descriptorViewModel.SetParameters(byteData.Skip(7).ToList());
+							descriptorViewModel.InitializeDelays();
+						}
 						return new List<byte>();
 					}
 					return null;

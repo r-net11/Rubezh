@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Automation;
-using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
 
 namespace AutomationModule.ViewModels
 {
@@ -133,6 +133,8 @@ namespace AutomationModule.ViewModels
 									new StepTypeViewModel(ProcedureStepType.ControlGKGuardZone),
 									new StepTypeViewModel(ProcedureStepType.ControlDirection),
 									new StepTypeViewModel(ProcedureStepType.ControlDelay),
+									new StepTypeViewModel(ProcedureStepType.ControlPumpStation),
+									new StepTypeViewModel(ProcedureStepType.ControlMPT),
 									new StepTypeViewModel(ProcedureStepType.ControlGKDoor)
 								}),
 							new StepTypeViewModel("Управление Видео", "/Controls;component/StepIcons/Control.png",
@@ -147,6 +149,7 @@ namespace AutomationModule.ViewModels
 					new StepTypeViewModel("Обмен данными", "/Controls;component/StepIcons/Export.png",
 						new List<StepTypeViewModel>
 						{
+							new StepTypeViewModel(ProcedureStepType.HttpRequest),
 							new StepTypeViewModel(ProcedureStepType.ExportJournal),
 							new StepTypeViewModel(ProcedureStepType.ExportConfiguration),
 							new StepTypeViewModel(ProcedureStepType.ExportOrganisation),

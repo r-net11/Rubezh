@@ -83,7 +83,7 @@ namespace VideoModule.ViewModels
 			try
 			{
 				//RviClient.RviClientHelper.SetPtzPreset(ClientManager.SystemConfiguration, Camera, SelectedPreset - 1);
-				RviClient.RviClientHelper.SetPtzPreset(ClientManager.SystemConfiguration, Camera, SelectedPreset);
+				RviClient.RviClientHelper.SetPtzPreset(ClientManager.SystemConfiguration.RviSettings, Camera, SelectedPreset);
 
 				var journalItem = new JournalItem()
 				{
@@ -115,7 +115,7 @@ namespace VideoModule.ViewModels
 		}
 		public bool PrepareToTranslation(out IPEndPoint ipEndPoint, out int vendorId)
 		{
-			return RviClientHelper.PrepareToTranslation(ClientManager.SystemConfiguration, Camera, out ipEndPoint, out vendorId);
+			return RviClientHelper.PrepareToTranslation(ClientManager.SystemConfiguration.RviSettings, Camera, out ipEndPoint, out vendorId);
 		}
 
 		public class PlanViewModel : BaseViewModel

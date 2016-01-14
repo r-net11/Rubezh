@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
@@ -17,12 +18,12 @@ namespace RubezhAPI.Automation
 			get
 			{
 				CheckFilter();
-				return LayoutFilter.LayoutsUIDs[0];
+				return LayoutFilter[0];
 			}
 			set
 			{
 				CheckFilter();
-				LayoutFilter.LayoutsUIDs[0] = value;
+				LayoutFilter[0] = value;
 			}
 		}
 
@@ -38,9 +39,9 @@ namespace RubezhAPI.Automation
 		private void CheckFilter()
 		{
 			if (LayoutFilter == null)
-				LayoutFilter = new ProcedureLayoutCollection();
-			if (LayoutFilter.LayoutsUIDs.Count == 0)
-				LayoutFilter.LayoutsUIDs.Add(Guid.Empty);
+				LayoutFilter = new List<Guid>();
+			if (LayoutFilter.Count == 0)
+				LayoutFilter.Add(Guid.Empty);
 		}
 	}
 

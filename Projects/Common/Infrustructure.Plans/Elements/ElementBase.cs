@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Common;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Media;
 using System.Xml.Serialization;
-using Common;
 
 namespace Infrustructure.Plans.Elements
 {
@@ -24,6 +25,7 @@ namespace Infrustructure.Plans.Elements
 			ImageType = ResourceType.Image;
 			IsLocked = false;
 			IsHidden = false;
+			PlanElementBindingItems = new List<PlanElementBindingItem>();
 		}
 
 		[XmlIgnore]
@@ -56,6 +58,8 @@ namespace Infrustructure.Plans.Elements
 		[DataMember]
 		public bool IsHidden { get; set; }
 
+		public List<PlanElementBindingItem> PlanElementBindingItems { get; set; }
+
 		[XmlIgnore]
 		public bool AllowTransparent
 		{
@@ -77,6 +81,9 @@ namespace Infrustructure.Plans.Elements
 		}
 		[XmlIgnore]
 		public abstract ElementType Type { get; }
+
+		public Guid? BackgroundSVGImageSource { get; set; }
+
 		public abstract Rect GetRectangle();
 		protected abstract void SetPosition(Point point);
 

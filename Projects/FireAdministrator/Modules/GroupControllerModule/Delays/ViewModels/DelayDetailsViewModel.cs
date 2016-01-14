@@ -1,14 +1,15 @@
-﻿using System;
+﻿using GKProcessor;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhClient;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using RubezhAPI.GK;
-using RubezhClient;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using GKProcessor;
-using Infrastructure;
 
 namespace GKModule.ViewModels
 {
@@ -145,7 +146,7 @@ namespace GKModule.ViewModels
 			}
 			if (GKManager.Delays.Any(x => x.No == No && x.UID != Delay.UID))
 			{
-				MessageBoxService.Show("Задержка с таким номером уже существует");
+				ServiceFactory.MessageBoxService.Show("Задержка с таким номером уже существует");
 				return false;
 			}
 

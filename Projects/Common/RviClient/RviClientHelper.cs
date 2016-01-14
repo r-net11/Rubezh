@@ -13,12 +13,12 @@ namespace RviClient
 {
 	public static class RviClientHelper
 	{
-		static IntegrationClient CreateIntegrationClient(SystemConfiguration systemConfiguration)
+		static IntegrationClient CreateIntegrationClient(RviSettings rviSettings)
 		{
 			var devices = new List<Device>();
 			var binding = new NetTcpBinding(SecurityMode.None);
 			binding.OpenTimeout = TimeSpan.FromMinutes(10);
-			binding.SendTimeout = TimeSpan.FromMinutes(10);
+			binding.SendTimeout = TimeSpan.FromMinutes(2);
 			binding.ReceiveTimeout = TimeSpan.FromMinutes(10);
 			binding.MaxReceivedMessageSize = Int32.MaxValue;
 			binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
@@ -31,17 +31,17 @@ namespace RviClient
 			binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
 			binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
 			binding.Security.Message.ClientCredentialType = MessageCredentialType.Windows;
-			var ip = systemConfiguration.RviSettings.Ip;
-			var port = systemConfiguration.RviSettings.Port;
-			var login = systemConfiguration.RviSettings.Login;
-			var password = systemConfiguration.RviSettings.Password;
+			var ip = rviSettings.Ip;
+			var port = rviSettings.Port;
+			var login = rviSettings.Login;
+			var password = rviSettings.Password;
 			var endpointAddress = new EndpointAddress(new Uri("net.tcp://" + ip + ":" + port + "/Integration"));
 
 			var client = new IntegrationClient(binding, endpointAddress);
 			return client;
 		}
 
-		static IntegrationVideoStreamingClient CreateIntegrationVideoStreamingClient(SystemConfiguration systemConfiguration)
+		static IntegrationVideoStreamingClient CreateIntegrationVideoStreamingClient(RviSettings rviSettings)
 		{
 			var binding = new NetTcpBinding(SecurityMode.None);
 			binding.TransferMode = TransferMode.Streamed;
@@ -59,21 +59,21 @@ namespace RviClient
 			binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
 			binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
 			binding.Security.Message.ClientCredentialType = MessageCredentialType.Windows;
-			var ip = systemConfiguration.RviSettings.Ip;
-			var port = systemConfiguration.RviSettings.Port;
-			var login = systemConfiguration.RviSettings.Login;
-			var password = systemConfiguration.RviSettings.Password;
+			var ip = rviSettings.Ip;
+			var port = rviSettings.Port;
+			var login = rviSettings.Login;
+			var password = rviSettings.Password;
 			var endpointAddress = new EndpointAddress(new Uri("net.tcp://" + ip + ":" + port + "/IntegrationVideoStreaming"));
 
 			var client = new IntegrationVideoStreamingClient(binding, endpointAddress);
 			return client;
 		}
 
-		public static List<Device> GetDevices(SystemConfiguration systemConfiguration)
+		public static List<Device> GetDevices(RviSettings rviSettings)
 		{
 			var devices = new List<Device>();
 
-			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+			using (IntegrationClient client = CreateIntegrationClient(rviSettings))
 			{
 				var sessionUID = Guid.NewGuid();
 
@@ -83,8 +83,8 @@ namespace RviClient
 					Request = Guid.NewGuid(),
 					Session = sessionUID
 				};
-				sessionInitialiazationIn.Login = systemConfiguration.RviSettings.Login;
-				sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;
+				sessionInitialiazationIn.Login = rviSettings.Login;
+				sessionInitialiazationIn.Password = rviSettings.Password;
 				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
 				//var errorMessage = sessionInitialiazationOut.Header.HeaderResponseMessage.Information;
 
@@ -112,9 +112,9 @@ namespace RviClient
 			return devices;
 		}
 
-		public static void GetSnapshot(SystemConfiguration systemConfiguration, Camera camera)
+		public static void GetSnapshot(RviSettings rviSettings, Camera camera)
 		{
-			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+			using (IntegrationClient client = CreateIntegrationClient(rviSettings))
 			{
 				var sessionUID = Guid.NewGuid();
 
@@ -124,8 +124,8 @@ namespace RviClient
 					Request = Guid.NewGuid(),
 					Session = sessionUID
 				};
-				sessionInitialiazationIn.Login = systemConfiguration.RviSettings.Login;
-				sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;
+				sessionInitialiazationIn.Login = rviSettings.Login;
+				sessionInitialiazationIn.Password = rviSettings.Password;
 				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
 
 				var snapshotDoIn = new SnapshotDoIn();
@@ -162,9 +162,9 @@ namespace RviClient
 			}
 		}
 
-		public static void SetPtzPreset(SystemConfiguration systemConfiguration, Camera camera, int number)
+		public static void SetPtzPreset(RviSettings rviSettings, Camera camera, int number)
 		{
-			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+			using (IntegrationClient client = CreateIntegrationClient(rviSettings))
 			{
 				var sessionUID = Guid.NewGuid();
 
@@ -174,8 +174,8 @@ namespace RviClient
 					Request = Guid.NewGuid(),
 					Session = sessionUID
 				};
-				sessionInitialiazationIn.Login = systemConfiguration.RviSettings.Login;
-				sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;
+				sessionInitialiazationIn.Login = rviSettings.Login;
+				sessionInitialiazationIn.Password = rviSettings.Password;
 				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
 
 				var ptzPresetIn = new PtzPresetIn();
@@ -199,11 +199,11 @@ namespace RviClient
 			}
 		}
 
-		public static void VideoRecordStart(SystemConfiguration systemConfiguration, Camera camera, Guid eventUID, int timeout)
+		public static void VideoRecordStart(RviSettings rviSettings, Camera camera, Guid eventUID, int timeout)
 		{
 			try
 			{
-				using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+				using (IntegrationClient client = CreateIntegrationClient(rviSettings))
 				{
 					var sessionUID = Guid.NewGuid();
 
@@ -213,8 +213,8 @@ namespace RviClient
 						Request = Guid.NewGuid(),
 						Session = sessionUID
 					};
-					sessionInitialiazationIn.Login = systemConfiguration.RviSettings.Login;
-					sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;
+					sessionInitialiazationIn.Login = rviSettings.Login;
+					sessionInitialiazationIn.Password = rviSettings.Password;
 					var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
 
 					var videoRecordStartIn = new VideoRecordStartIn();
@@ -244,11 +244,11 @@ namespace RviClient
 			}
 		}
 
-		public static void VideoRecordStop(SystemConfiguration systemConfiguration, Camera camera, Guid eventUID)
+		public static void VideoRecordStop(RviSettings rviSettings, Camera camera, Guid eventUID)
 		{
 			try
 			{
-				using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+				using (IntegrationClient client = CreateIntegrationClient(rviSettings))
 				{
 					var sessionUID = Guid.NewGuid();
 
@@ -258,8 +258,8 @@ namespace RviClient
 						Request = Guid.NewGuid(),
 						Session = sessionUID
 					};
-					sessionInitialiazationIn.Login = systemConfiguration.RviSettings.Login;
-					sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;
+					sessionInitialiazationIn.Login = rviSettings.Login;
+					sessionInitialiazationIn.Password = rviSettings.Password;
 					var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
 
 					var videoRecordStopIn = new VideoRecordStopIn();
@@ -288,17 +288,11 @@ namespace RviClient
 			}
 		}
 
-		public static bool GetVideoFile(SystemConfiguration systemConfiguration, Guid eventUID, Guid cameraUid, string videoPath, out string errorInformation)
+		public static bool GetVideoFile(RviSettings rviSettings, Guid eventUID, Camera camera, string videoPath, out string errorInformation)
 		{
 			try
 			{
-				var camera = systemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
-				if (camera == null)
-				{
-					errorInformation = "Не найдена камера.";
-					return false;
-				}
-				using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+				using (IntegrationClient client = CreateIntegrationClient(rviSettings))
 				{
 					var sessionUID = Guid.NewGuid();
 
@@ -308,11 +302,11 @@ namespace RviClient
 						Request = Guid.NewGuid(),
 						Session = sessionUID
 					};
-					sessionInitialiazationIn.Login = systemConfiguration.RviSettings.Login;
-					sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;
+					sessionInitialiazationIn.Login = rviSettings.Login;
+					sessionInitialiazationIn.Password = rviSettings.Password;
 					var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
 
-					using (IntegrationVideoStreamingClient streamingClient = CreateIntegrationVideoStreamingClient(systemConfiguration))
+					using (IntegrationVideoStreamingClient streamingClient = CreateIntegrationVideoStreamingClient(rviSettings))
 					{
 						System.IO.Stream stream = null;
 						var requestUID = new Guid();
@@ -340,12 +334,12 @@ namespace RviClient
 				return false;
 			}
 		}
-		public static bool PrepareToTranslation(SystemConfiguration systemConfiguration, Camera camera, out IPEndPoint ipEndPoint, out int vendorId)
+		public static bool PrepareToTranslation(RviSettings rviSettings, Camera camera, out IPEndPoint ipEndPoint, out int vendorId)
 		{
 			ipEndPoint = null;
 			vendorId = -1;
 
-			var devices = GetDevices(systemConfiguration);
+			var devices = GetDevices(rviSettings);
 			var device = devices.FirstOrDefault(d => d.Guid == camera.RviDeviceUID);
 
 			if (device == null)
@@ -358,7 +352,7 @@ namespace RviClient
 
 			vendorId = channel.Vendor;
 
-			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+			using (IntegrationClient client = CreateIntegrationClient(rviSettings))
 			{
 				var sessionUID = Guid.NewGuid();
 
@@ -368,8 +362,8 @@ namespace RviClient
 					Request = Guid.NewGuid(),
 					Session = sessionUID
 				};
-				sessionInitialiazationIn.Login = systemConfiguration.RviSettings.Login;
-				sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;
+				sessionInitialiazationIn.Login = rviSettings.Login;
+				sessionInitialiazationIn.Password = rviSettings.Password;
 				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
 				//var errorMessage = sessionInitialiazationOut.Header.HeaderResponseMessage.Information;
 
@@ -398,9 +392,9 @@ namespace RviClient
 			return true;
 		}
 
-		public static void AlarmRuleExecute(SystemConfiguration systemConfiguration, string ruleName)
+		public static void AlarmRuleExecute(RviSettings rviSettings, string ruleName)
 		{
-			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+			using (IntegrationClient client = CreateIntegrationClient(rviSettings))
 			{
 				var sessionUID = Guid.NewGuid();
 
@@ -410,8 +404,8 @@ namespace RviClient
 					Request = Guid.NewGuid(),
 					Session = sessionUID
 				};
-				sessionInitialiazationIn.Login = systemConfiguration.RviSettings.Login;
-				sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;
+				sessionInitialiazationIn.Login = rviSettings.Login;
+				sessionInitialiazationIn.Password = rviSettings.Password;
 				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
 
 				var alarmRulesIn = new AlarmRulesIn();

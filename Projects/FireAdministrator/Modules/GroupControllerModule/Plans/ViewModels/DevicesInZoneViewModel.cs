@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
+using RubezhAPI.GK;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.Plans.ViewModels
 {
@@ -28,8 +27,11 @@ namespace GKModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			foreach (var deviceInZone in DeviceInZones)
+			{
 				if (deviceInZone.IsActive)
 					deviceInZone.Activate();
+				deviceInZone.Device.AllowBeOutsideZone = deviceInZone.AllowBeOutsideZone;
+			}
 			return base.Save();
 		}
 	}
@@ -52,6 +54,7 @@ namespace GKModule.Plans.ViewModels
 			NewZoneName = zone == null ? string.Empty : zone.PresentationName;
 			zone = Device.ZoneUIDs.Count == 1 && _zoneMap.ContainsKey(Device.ZoneUIDs[0]) ? _zoneMap[Device.ZoneUIDs[0]] : null;
 			OldZoneName = zone == null ? string.Empty : zone.PresentationName;
+			AllowBeOutsideZone = device.AllowBeOutsideZone;
 		}
 
 		public void Activate()
@@ -64,14 +67,14 @@ namespace GKModule.Plans.ViewModels
 				GKManager.AddDeviceToZone(Device, zone);
 		}
 
-		public bool HasNewZone 
-		{ 
-			get { return !string.IsNullOrEmpty(NewZoneName); } 
+		public bool HasNewZone
+		{
+			get { return !string.IsNullOrEmpty(NewZoneName); }
 		}
 
-		public bool HasOldZone 
-		{ 
-			get { return !string.IsNullOrEmpty(OldZoneName); } 
+		public bool HasOldZone
+		{
+			get { return !string.IsNullOrEmpty(OldZoneName); }
 		}
 
 		bool _isActive;
@@ -81,7 +84,21 @@ namespace GKModule.Plans.ViewModels
 			set
 			{
 				_isActive = value;
+				if (_isActive)
+					AllowBeOutsideZone = false;
 				OnPropertyChanged(() => IsActive);
+			}
+		}
+		bool _allowBeOutsideZone;
+		public bool AllowBeOutsideZone
+		{
+			get { return _allowBeOutsideZone; }
+			set
+			{
+				_allowBeOutsideZone = value;
+				if (_allowBeOutsideZone)
+					IsActive = false;
+				OnPropertyChanged(() => AllowBeOutsideZone);
 			}
 		}
 	}

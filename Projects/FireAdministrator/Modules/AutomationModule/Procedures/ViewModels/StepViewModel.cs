@@ -1,6 +1,6 @@
-﻿using RubezhAPI.Automation;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common.TreeList;
+using RubezhAPI.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -20,6 +20,7 @@ namespace AutomationModule.ViewModels
 			if ((step.ProcedureStepType == ProcedureStepType.ControlDirection)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlGKDevice) || (step.ProcedureStepType == ProcedureStepType.ControlGKDoor)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlGKFireZone) || (step.ProcedureStepType == ProcedureStepType.ControlGKGuardZone)
+				|| (step.ProcedureStepType == ProcedureStepType.ControlPumpStation) || (step.ProcedureStepType == ProcedureStepType.ControlMPT)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlDelay) || (step.ProcedureStepType == ProcedureStepType.Ptz)
 				|| (step.ProcedureStepType == ProcedureStepType.StartRecord) || (step.ProcedureStepType == ProcedureStepType.StopRecord) || (step.ProcedureStepType == ProcedureStepType.RviAlarm))
 				ImageSource = "/Controls;component/StepIcons/Control.png";
@@ -105,6 +106,14 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.ControlDelay:
 					Content = new ControlDelayStepViewModel(this);
+					break;
+
+				case ProcedureStepType.ControlPumpStation:
+					Content = new ControlPumpStationStepViewModel(this);
+					break;
+
+				case ProcedureStepType.ControlMPT:
+					Content = new ControlMPTStepViewModel(this);
 					break;
 
 				case ProcedureStepType.GetObjectProperty:
@@ -213,6 +222,10 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.Now:
 					Content = new NowStepViewModel(this);
+					break;
+
+				case ProcedureStepType.HttpRequest:
+					Content = new HttpRequestStepViewModel(this);
 					break;
 			}
 			UpdateContent();

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Media;
+﻿using Infrastructure.Designer.ElementProperties.ViewModels;
 using RubezhAPI;
 using RubezhAPI.SKD;
 using RubezhClient.SKDHelpers;
-using Infrastructure.Designer.ElementProperties.ViewModels;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Media;
 
 namespace SKDModule.PassCardDesigner.ViewModels
 {
@@ -76,7 +76,8 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			base.CopyProperties();
 			var element = (ElementPassCardImageProperty)ElementRectangle;
 			SelectedPropertyType = element.PropertyType;
-			SelectedAdditionalColumnType = SelectedPropertyType == PassCardImagePropertyType.Additional ? AdditionalColumnTypes.FirstOrDefault(item => item.UID == element.AdditionalColumnUID) : null;
+			SelectedAdditionalColumnType = SelectedPropertyType == PassCardImagePropertyType.Additional ?
+				AdditionalColumnTypes.FirstOrDefault(item => item.UID == element.AdditionalColumnUID) : null;
 			SelectedStretch = element.Stretch;
 		}
 		protected override bool Save()

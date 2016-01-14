@@ -39,6 +39,17 @@ namespace GKProcessor
 			driver.Properties.Add(
 				new GKDriverProperty()
 				{
+					Name = "ReservedIPAddress",
+					Caption = "Резервный IP адрес",
+					ToolTip = "Резервный IP адрес",
+					DriverPropertyType = GKDriverPropertyTypeEnum.StringType,
+					IsAUParameter = false
+				}
+				);
+
+			driver.Properties.Add(
+				new GKDriverProperty()
+				{
 					Name = "PollInterval",
 					Caption = "Интервал опроса, мс",
 					ToolTip = "Интервал опроса, мс",

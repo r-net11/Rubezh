@@ -19,6 +19,12 @@ namespace RubezhAPI.Automation
 		[DescriptionAttribute("Охранная зона")]
 		GuardZone,
 
+		[DescriptionAttribute("Насосная станция")]
+		PumpStation,
+
+		[DescriptionAttribute("МПТ")]
+		MPT,
+
 		[DescriptionAttribute("Видеоустройство")]
 		VideoDevice,
 

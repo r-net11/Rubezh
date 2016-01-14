@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using RubezhAPI.GK;
-using RubezhClient;
+using RubezhAPI;
 
 namespace GKProcessor
 {
@@ -34,24 +34,6 @@ namespace GKProcessor
 			KauDatabases.ForEach(x => x.BuildObjects());
 			GkDatabases.ForEach(x => x.BuildObjects());
 			CreateDynamicObjectsInGKManager();
-
-			//using (var textWriter = new System.IO.StreamWriter(@"D:\Bytes.txt"))
-			//{
-			//	foreach (var database in GkDatabases)
-			//	{
-			//		foreach (var descriptor in database.Descriptors)
-			//		{
-			//			textWriter.WriteLine(BytesHelper.BytesToString(descriptor.AllBytes));
-			//		}
-			//	}
-			//	foreach (var database in KauDatabases)
-			//	{
-			//		foreach (var descriptor in database.Descriptors)
-			//		{
-			//			textWriter.WriteLine(BytesHelper.BytesToString(descriptor.AllBytes));
-			//		}
-			//	}
-			//}
 		}
 
 		public static void CreateDynamicObjectsInGKManager()

@@ -1,6 +1,6 @@
 ﻿using System;
 using RubezhAPI.Journal;
-using RubezhClient;
+using RubezhAPI;
 
 namespace GKProcessor
 {
@@ -16,6 +16,7 @@ namespace GKProcessor
 			{
 				if (!isConnected)
 				{
+					DeviceBytesHelper.Ping(GkDatabase.RootDevice);
 					ConnectionLostCount++;
 					if (ConnectionLostCount < 3)
 						return;
@@ -45,6 +46,10 @@ namespace GKProcessor
 						var gkFileReaderWriter = new GKFileReaderWriter();
 						var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
 						IsHashFailure = gkFileInfo == null || !GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash1);
+						if (!IsHashFailure)
+						{
+							GetAllStates();
+						}
 					}
 
 					foreach (var descriptor in GkDatabase.Descriptors)

@@ -8,6 +8,7 @@ using RubezhAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhClient;
+using RubezhAPI;
 
 namespace FiltersModule.ViewModels
 {
@@ -188,10 +189,7 @@ namespace FiltersModule.ViewModels
 
 			foreach (var childDevice in device.Children)
 			{
-				if (!childDevice.IsNotUsed)
-				{
-					AddGKDeviceInternal(childDevice, deviceViewModel);
-				}
+				AddGKDeviceInternal(childDevice, deviceViewModel);
 			}
 			return deviceViewModel;
 		}

@@ -38,7 +38,7 @@ namespace RubezhDAL.DataClasses
 
         public int GetFreeGKNo(string gkIPAddress, uint cardNo, out bool isNew)
         {
-            var gkCard = Context.GKCards.FirstOrDefault(x => x.IpAddress == gkIPAddress && x.CardNo == (int)cardNo);
+			var gkCard = Context.GKCards.FirstOrDefault(x => x.IpAddress == gkIPAddress && x.CardNo == (int)cardNo && x.IsActive);
             if (gkCard != null)
             {
                 isNew = false;

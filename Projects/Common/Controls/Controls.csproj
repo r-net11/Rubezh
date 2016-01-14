@@ -228,7 +228,6 @@
     <Compile Include="TimePicker.xaml.cs">
       <DependentUpon>TimePicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MultiselectDataGrid.cs" />
     <Compile Include="XStateHelper.cs" />
     <Compile Include="TemplateSelectors\InterfaceTemplateSelector.cs" />
     <Compile Include="TextBoxHelper.cs" />
@@ -2648,6 +2647,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="GKIcons\DirectionsMirror.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\HttpRequest.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

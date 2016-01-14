@@ -43,10 +43,16 @@ namespace SKDModule.ViewModels
 		public void InitializeAdditionalColumns()
 		{
 			AdditionalColumnNames = new ObservableCollection<string>();
-			var columnTypes = AdditionalColumnTypeHelper.GetByCurrentUser();
+			var columnFilter = new AdditionalColumnTypeFilter
+			{
+				Type = AdditionalColumnDataType.Text,
+				OrganisationUIDs = Organisations.Select(x => x.UID).ToList(),
+				IsInGrid = true
+			};
+			var columnTypes = AdditionalColumnTypeHelper.Get(columnFilter);
 			if (columnTypes == null)
 				return;
-			AdditionalColumnTypes = columnTypes.Where(x => x.DataType == AdditionalColumnDataType.Text && x.IsInGrid).ToList();
+			AdditionalColumnTypes = columnTypes.ToList();
 			foreach (var columnType in AdditionalColumnTypes)
 			{
 				AdditionalColumnNames.Add(columnType.Name);
@@ -56,7 +62,7 @@ namespace SKDModule.ViewModels
 
 		protected override void Remove()
 		{
-			if (SelectedItem.Cards.Count() == 0 || MessageBoxService.ShowQuestion("Привязанные к сотруднику пропуска будут деактивированы. Продожить?"))
+			if (SelectedItem.Cards.Count() == 0 || MessageBoxService.ShowQuestion("Привязанные к сотруднику пропуска будут деактивированы. Продолжить?"))
 			{
 				var cardUIDs = SelectedItem.Cards.Select(x => x.UID);
 				base.Remove();
@@ -203,9 +209,7 @@ namespace SKDModule.ViewModels
 			base.OnEdit();
 			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Publish(SelectedItem.Model.UID);
 		}
-
-		
-
+	
 		void OnUpdateIsInGrid(object obj)
 		{
 			InitializeAdditionalColumns();

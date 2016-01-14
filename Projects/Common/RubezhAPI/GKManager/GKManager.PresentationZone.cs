@@ -5,7 +5,7 @@ using RubezhAPI;
 using RubezhAPI.GK;
 using System.IO;
 
-namespace RubezhClient
+namespace RubezhAPI
 {
 	public partial class GKManager
 	{
@@ -23,7 +23,7 @@ namespace RubezhClient
 					{
 						var zones = new List<ModelBase>(device.GKReflectionItem.Zones);
 						stringbuilderZones.Append("пожарные зоны: ");
-						stringbuilderZones.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.Zones), new List<ModelBase>(device.GKReflectionItem.Zones)));
+						stringbuilderZones.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.Zones), new List<ModelBase>(Zones)));
 					}
 					list.Add(stringbuilderZones);
 				}
@@ -37,7 +37,7 @@ namespace RubezhClient
 					if (device.GKReflectionItem.GuardZones.Count > 1)
 					{
 						stringbiulderGuardZones.Append("охранные зоны: ");
-						stringbiulderGuardZones.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.GuardZones), new List<ModelBase>(device.GKReflectionItem.GuardZones)));
+						stringbiulderGuardZones.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.GuardZones), new List<ModelBase>(GuardZones)));
 					}
 					list.Add(stringbiulderGuardZones);
 				}
@@ -47,7 +47,7 @@ namespace RubezhClient
 					stringbuilderDevice.Append("устройсва: ");
 					foreach (var item in device.GKReflectionItem.Devices)
 					   {
-						   stringbuilderDevice.Append(item.ShortName + ", "); 
+						stringbuilderDevice.Append(item.PresentationName + (item == device.GKReflectionItem.Devices.LastOrDefault()?"" :", ")); 
 	                   }
 					list.Add(stringbuilderDevice);
 				}
@@ -61,7 +61,7 @@ namespace RubezhClient
 					if (device.GKReflectionItem.Delays.Count > 1)
 					{
 						stringbuilderDalays.Append("задержки: ");
-						stringbuilderDalays.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.Delays), new List<ModelBase>(device.GKReflectionItem.Delays)));
+						stringbuilderDalays.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.Delays), new List<ModelBase>(Delays)));
 					}
 					list.Add(stringbuilderDalays);
 				}
@@ -76,7 +76,7 @@ namespace RubezhClient
 					if (device.GKReflectionItem.Diretions.Count > 1)
 					{
 						stringbuilderDerictions.Append("направления: ");
-						stringbuilderDerictions.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.Diretions), new List<ModelBase>(device.GKReflectionItem.Diretions)));
+						stringbuilderDerictions.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.Diretions), new List<ModelBase>(Directions)));
 					}
 					list.Add(stringbuilderDerictions);
 				}
@@ -90,7 +90,7 @@ namespace RubezhClient
 					if (device.GKReflectionItem.MPTs.Count > 1)
 					{
 						stringboilderMPTs.Append("МПТ: ");
-						stringboilderMPTs.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.MPTs), new List<ModelBase>(device.GKReflectionItem.MPTs)));
+						stringboilderMPTs.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.MPTs), new List<ModelBase>(MPTs)));
 					}
 					list.Add(stringboilderMPTs);
 				}
@@ -105,7 +105,7 @@ namespace RubezhClient
 					if (device.GKReflectionItem.NSs.Count > 1)
 					{
 						stringbuilderNSs.Append("НС: ");
-						stringbuilderNSs.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.NSs), new List<ModelBase>(device.GKReflectionItem.NSs)));					
+						stringbuilderNSs.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.NSs), new List<ModelBase>(PumpStations)));					
 					}
 					list.Add(stringbuilderNSs);					
 				}	
@@ -127,8 +127,8 @@ namespace RubezhClient
 
 				else if (device.Zones.Count + device.GuardZones.Count > 1)
 				{
-					var allZones = new List<ModelBase>(device.Zones);
-					allZones.AddRange(new List<ModelBase>(device.GuardZones));
+					//var allZones = new List<ModelBase>(device.Zones);
+					//allZones.AddRange(new List<ModelBase>(device.GuardZones));
 					stringBuilder.Append("зоны: ");
 					if (device.Zones.Count > 0)
 						stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.Zones), new List<ModelBase>(Zones)));

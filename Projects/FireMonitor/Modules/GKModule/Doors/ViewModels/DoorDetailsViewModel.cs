@@ -30,8 +30,8 @@ namespace GKModule.ViewModels
 			SetManualStateCommand = new RelayCommand(OnSetManualState, CanSetManualState);
 			SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState, CanSetIgnoreState);
 			TurnOnCommand = new RelayCommand(OnTurnOn);
-			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
+			TurnOffNowCommand = new RelayCommand(OnTurnOffNow);
 			ResetCommand = new RelayCommand(OnReset);
 
 			SetRegimeNormCommand = new RelayCommand(OnSetRegimeNorm);
@@ -39,8 +39,8 @@ namespace GKModule.ViewModels
 			SetRegimeCloseCommand = new RelayCommand(OnSetRegimeClose);
 
 			Door = door;
-			State.StateChanged -= new Action(OnStateChanged);
-			State.StateChanged += new Action(OnStateChanged);
+			State.StateChanged -= OnStateChanged;
+			State.StateChanged += OnStateChanged;
 			InitializePlans();
 			Title = Door.PresentationName;
 		}
@@ -50,6 +50,8 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => ControlRegime);
 			OnPropertyChanged(() => IsControlRegime);
 			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => HasOffDelay);
+			OnPropertyChanged(() => HasHoldDelay);
 			CommandManager.InvalidateRequerySuggested();
 		}
 
@@ -74,6 +76,15 @@ namespace GKModule.ViewModels
 					continue;
 				}
 			}
+		}
+
+		public bool HasOffDelay
+		{
+			get { return State.StateClasses.Contains(XStateClass.TurningOff) && State.OffDelay > 0; }
+		}
+		public bool HasHoldDelay
+		{
+			get { return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0; }
 		}
 
 		public DeviceControlRegime ControlRegime
@@ -143,21 +154,21 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand TurnOnNowCommand { get; private set; }
-		void OnTurnOnNow()
-		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				ClientManager.FiresecService.GKTurnOnNow(Door);
-			}
-		}
-
 		public RelayCommand TurnOffCommand { get; private set; }
 		void OnTurnOff()
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
 				ClientManager.FiresecService.GKTurnOff(Door);
+			}
+		}
+
+		public RelayCommand TurnOffNowCommand { get; private set; }
+		void OnTurnOffNow()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				ClientManager.FiresecService.GKTurnOffNow(Door);
 			}
 		}
 

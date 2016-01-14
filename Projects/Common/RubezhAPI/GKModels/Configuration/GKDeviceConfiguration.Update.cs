@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using RubezhClient;
+using RubezhAPI;
 using System.Diagnostics;
 
 namespace RubezhAPI.GK
@@ -171,7 +171,7 @@ namespace RubezhAPI.GK
 				foreach (var deviceUID in clause.DeviceUIDs)
 				{
 					var device = Devices.FirstOrDefault(x => x.UID == deviceUID);
-					if (device != null && !device.IsNotUsed)
+					if (device != null)
 					{
 						deviceUIDs.Add(deviceUID);
 						clause.Devices.Add(device);

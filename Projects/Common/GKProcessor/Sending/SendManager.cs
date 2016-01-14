@@ -5,11 +5,11 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using RubezhAPI.GK;
-using RubezhClient;
+using RubezhAPI;
 
 namespace GKProcessor
 {
-	//[DebuggerStepThrough]
+	[DebuggerStepThrough]
 	public static class SendManager
 	{
 		static List<SendClient> SendClients = new List<SendClient>();

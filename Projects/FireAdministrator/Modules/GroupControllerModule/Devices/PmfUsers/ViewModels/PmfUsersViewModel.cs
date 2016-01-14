@@ -1,4 +1,5 @@
-﻿using Infrastructure;
+﻿using GKModule.Events;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -26,6 +27,8 @@ namespace GKModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			WriteCommand = new RelayCommand(OnWrite);
 			ReadCommand = new RelayCommand(OnRead);
+			ServiceFactory.Events.GetEvent<GetPmfUsersEvent>().Unsubscribe(OnGetUsers);
+			ServiceFactory.Events.GetEvent<GetPmfUsersEvent>().Subscribe(OnGetUsers);
 			
 			if(pmf == null || pmf.DriverType != GKDriverType.GKMirror)
 			{
@@ -104,15 +107,18 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
-			var result = ClientManager.FiresecService.GetGKUsers(Pmf.UID);
+			var result = ClientManager.FiresecService.GKGetUsers(Pmf);
 			if (result.HasError)
 			{
 				MessageBoxService.Show(result.Error);
 				return;
 			}
-			Pmf.PmfUsers = new List<GKUser>(result.Result);
+		}
+		void OnGetUsers(List<GKUser> users)
+		{
+			Pmf.PmfUsers = new List<GKUser>(users.Where(x => x.IsActive));
 			ServiceFactory.SaveService.GKChanged = true;
-			Users = new ObservableCollection<PmfUserViewModel>(result.Result.Select(x => new PmfUserViewModel(x)));
+			Users = new ObservableCollection<PmfUserViewModel>(users.Select(x => new PmfUserViewModel(x)));
 			OnPropertyChanged(() => Users);
 		}
 	}

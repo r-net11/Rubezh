@@ -6,6 +6,7 @@ using System.Linq;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
@@ -62,6 +63,13 @@ namespace GKModule.ViewModels
 				OnPropertyChanged(() => SelectedActionType);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
+		}
+
+		public void Clear()
+		{
+			GuardZoneDevice = new GKGuardZoneDevice { Device = GuardZoneDevice.Device, DeviceUID = GuardZoneDevice.DeviceUID };
+			if (!ActionTypes.Contains(SelectedActionType))
+				GuardZoneDevice.ActionType = ActionTypes.FirstOrDefault();
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

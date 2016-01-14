@@ -14,6 +14,10 @@ namespace GKWebService.Models
 
 		public string PresentationName { get; set; }
 
+		public GKControllerModel()
+		{
+		}
+
 		public GKControllerModel(Guid UID, bool isChecked, string presentationName)
 		{
 			this.UID = UID;

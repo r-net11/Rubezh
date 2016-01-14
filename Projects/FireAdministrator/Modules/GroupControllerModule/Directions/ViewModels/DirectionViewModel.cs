@@ -7,6 +7,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
@@ -60,7 +61,7 @@ namespace GKModule.ViewModels
 		{
 			DirectionsViewModel.Current.SelectedDirection = this;
 			var logicViewModel = new LogicViewModel(Direction, Direction.Logic, true, hasStopClause: true);
-			if (DialogService.ShowModalWindow(logicViewModel))
+			if (ServiceFactory.DialogService.ShowModalWindow(logicViewModel))
 			{
 				GKManager.SetDirectionLogic(Direction, logicViewModel.GetModel());
 				OnPropertyChanged(() => PresentationLogic);

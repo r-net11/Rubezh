@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RubezhClient;
 using RubezhAPI.GK;
 using System.Collections.Generic;
+using RubezhAPI;
 
 namespace GKProcessor.Test
 {
@@ -24,14 +25,14 @@ namespace GKProcessor.Test
 			GKManager.DeviceConfiguration = new GKDeviceConfiguration();
 			GKDriversCreator.Create();
 			var systemDevice = GKManager.DeviceConfiguration.RootDevice = new GKDevice() { DriverUID = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.System).UID };
-			gkDevice = GKManager.AddChild(systemDevice, null, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GK), 0);
-			kauDevice1 = GKManager.AddChild(gkDevice, null, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU), 1);
-			kauDevice2 = GKManager.AddChild(gkDevice, null, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU), 2);
+			gkDevice = GKManager.AddDevice(systemDevice, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GK), 0);
+			kauDevice1 = GKManager.AddDevice(gkDevice, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU), 1);
+			kauDevice2 = GKManager.AddDevice(gkDevice, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU), 2);
 		}
 
 		GKDevice AddDevice(GKDevice device, GKDriverType driverType)
 		{
-			return GKManager.AddChild(device.Children[1], null, GKManager.Drivers.FirstOrDefault(x => x.DriverType == driverType), 0);
+			return GKManager.AddDevice(device.Children[1], GKManager.Drivers.FirstOrDefault(x => x.DriverType == driverType), 0);
 		}
 
 		void Compile()
@@ -147,6 +148,30 @@ namespace GKProcessor.Test
 			Compile();
 
 			CheckDeviceLogicOnGK(device3);
+		}
+
+		[TestMethod]
+		public void TestAMPLogicInZoneOnGK()
+		{
+			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_MAP4);
+			var device2 = AddDevice(kauDevice2, GKDriverType.RSR2_MAP4);
+			var zone = new GKZone();
+			GKManager.Zones.Add(zone);
+			device1.ZoneUIDs.Add(zone.UID);
+			device2.ZoneUIDs.Add(zone.UID);
+			Compile();
+			CheckDeviceLogicOnGK(device1);
+		}
+
+		[TestMethod]
+		public void TestAMPLogicInZoneOnKau()
+		{
+			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_MAP4);
+			var zone = new GKZone();
+			GKManager.Zones.Add(zone);
+			device1.ZoneUIDs.Add(zone.UID);
+			Compile();
+			CheckDeviceLogicOnKau(device1);
 		}
 
 		[TestMethod]

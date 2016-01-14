@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Common;
+using Infrustructure.Plans.Elements;
+using RubezhAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Windows.Media;
-using Common;
-using RubezhAPI.Models;
-using Infrustructure.Plans.Elements;
+using System.Xml.Serialization;
 
 namespace RubezhAPI.SKD
 {
@@ -54,6 +55,8 @@ namespace RubezhAPI.SKD
 		[DataMember]
 		public Guid? BackgroundImageSource { get; set; }
 		[DataMember]
+		public Guid? BackgroundSVGImageSource { get; set; }
+		[DataMember]
 		public string BackgroundSourceName { get; set; }
 		[DataMember]
 		public ResourceType ImageType { get; set; }
@@ -77,12 +80,13 @@ namespace RubezhAPI.SKD
 		[DataMember]
 		public List<PassCardImage> PassCardImages { get; set; }
 
+		[XmlIgnore]
 		public bool AllowTransparent
 		{
 			get { return true; }
 		}
 
-
+		[XmlIgnore]
 		public string Name
 		{
 			get { return Caption; }

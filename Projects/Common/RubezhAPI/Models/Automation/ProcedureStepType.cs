@@ -106,6 +106,12 @@ namespace RubezhAPI.Automation
 		[DescriptionAttribute("Управление задержкой")]
 		ControlDelay,
 
+		[DescriptionAttribute("Управление насосной станцией")]
+		ControlPumpStation,
+
+		[DescriptionAttribute("Управление МПТ")]
+		ControlMPT,
+
 		[DescriptionAttribute("Чтение свойства визуального элемента")]
 		ControlVisualGet,
 
@@ -164,6 +170,9 @@ namespace RubezhAPI.Automation
 		RviAlarm,
 
 		[DescriptionAttribute("Получить текущие дату и время")]
-		Now
+		Now,
+
+		[DescriptionAttribute("HTTP запрос")]
+		HttpRequest
 	}
 }

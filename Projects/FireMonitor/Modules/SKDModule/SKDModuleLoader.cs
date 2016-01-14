@@ -1,30 +1,31 @@
-using System.Collections.Generic;
-using RubezhAPI.Models.Layouts;
+using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Reports;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Designer;
+using Infrastructure.Events;
+using RubezhAPI.License;
+using RubezhAPI.Models;
+using RubezhAPI.Models.Layouts;
+using RubezhClient;
 using SKDModule.Events;
 using SKDModule.Reports;
 using SKDModule.Reports.Providers;
 using SKDModule.ViewModels;
-using RubezhClient;
-using RubezhAPI.License;
-using RubezhAPI.Models;
-using System.Linq;
-using Infrastructure;
-using Infrastructure.Events;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 namespace SKDModule
 {
 	public class SKDModuleLoader : ModuleBase, IReportProviderModule, ILayoutProviderModule, ISKDReportProviderModule
 	{
-		SKDTabItems SKDTabItems; 
-		
+		SKDTabItems SKDTabItems;
+
 		public override void CreateViewModels()
 		{
 			SKDTabItems = new SKDTabItems();
@@ -53,7 +54,7 @@ namespace SKDModule
 				PermissionType.Oper_SKD_TimeTrack_Schedules_View,
 				PermissionType.Oper_SKD_TimeTrack_Report_View
 			};
-			bool isTimeTracking = timeTrackingPernissionType.Any(x=> ClientManager.CheckPermission(x));
+			bool isTimeTracking = timeTrackingPernissionType.Any(x => ClientManager.CheckPermission(x));
 			bool isCardFiels = cardFielsPernissionType.Any(x => ClientManager.CheckPermission(x));
 			return new List<NavigationItem>
 				{
@@ -78,20 +79,19 @@ namespace SKDModule
 		public override void RegisterResource()
 		{
 			base.RegisterResource();
-			var resourceService = new ResourceService();
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "HR/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Employees/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Departments/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Positions/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "AdditionalColumns/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "AccessTemplates/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Organisations/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Verification/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Cards/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "TimeTrack/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PassCard/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PassCardDesigner/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Reports/DataTemplates/Dictionary.xaml"));
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "HR/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "Employees/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "Departments/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "Positions/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "AdditionalColumns/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "AccessTemplates/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "Organisations/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "Verification/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "Cards/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "TimeTrack/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "PassCard/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "PassCardDesigner/DataTemplates/Dictionary.xaml");
+			ServiceFactoryBase.ResourceService.AddResource(GetType().Assembly, "Reports/DataTemplates/Dictionary.xaml");
 			DesignerLoader.RegisterResource();
 		}
 
@@ -108,9 +108,12 @@ namespace SKDModule
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHR, "Картотека", "Levels.png", (p) => SKDTabItems.HRViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Верификация", "Tree.png", (p) => new VerificationViewModel(p as LayoutPartReferenceProperties));
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeTracking, "Учет рабочего времени", "Tree.png", (p) => SKDTabItems.TimeTrackingTabsViewModel);
+			if (LicenseManager.CurrentLicenseInfo.HasSKD)
+			{
+				yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHR, "Картотека", "Levels.png", (p) => SKDTabItems.HRViewModel);
+				yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Верификация", "Tree.png", (p) => new VerificationViewModel(p as LayoutPartReferenceProperties));
+				yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeTracking, "Учет рабочего времени", "Tree.png", (p) => SKDTabItems.TimeTrackingTabsViewModel);
+			}
 		}
 		#endregion
 

@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using Common;
-using RubezhAPI.Models;
-using RubezhClient;
+﻿using Common;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.Models;
+using RubezhClient;
+using System.Linq;
 
 namespace SecurityModule.ViewModels
 {
@@ -49,9 +49,9 @@ namespace SecurityModule.ViewModels
 			Login = User.Login;
 			Name = User.Name;
 
-			RemoteAccess = (IsNew || User.RemoreAccess == null) ?
+			RemoteAccess = (IsNew || User.RemoteAccess == null) ?
 				new RemoteAccessViewModel(new RemoteAccess() { RemoteAccessType = RemoteAccessType.RemoteAccessBanned }) :
-				new RemoteAccessViewModel(User.RemoreAccess);
+				new RemoteAccessViewModel(User.RemoteAccess);
 		}
 
 		PermissionsViewModel _permissionsViewModel;
@@ -152,18 +152,24 @@ namespace SecurityModule.ViewModels
 
 		void PreventAdminPermissions()
 		{
-			if (ClientManager.CurrentUser.UID == User.UID && ClientManager.CurrentUser.PermissionStrings.Contains(PermissionType.Adm_Security.ToString()))
+			if (ClientManager.CurrentUser.UID == User.UID && ClientManager.CurrentUser.HasPermission(PermissionType.Adm_Security))
 			{
-				var Adm_SecurityPermission = PermissionsViewModel.AllPermissions.FirstOrDefault(x => x.Name == PermissionType.Adm_Security.ToString());
+				var Adm_SecurityPermission = PermissionsViewModel.AllPermissions.FirstOrDefault(x => x.PermissionType == PermissionType.Adm_Security);
 				if (Adm_SecurityPermission != null)
 				{
 					Adm_SecurityPermission.IsChecked = true;
 				}
 
-				var Adm_SetNewConfigPermission = PermissionsViewModel.AllPermissions.FirstOrDefault(x => x.Name == PermissionType.Adm_SetNewConfig.ToString());
+				var Adm_SetNewConfigPermission = PermissionsViewModel.AllPermissions.FirstOrDefault(x => x.PermissionType == PermissionType.Adm_SetNewConfig);
 				if (Adm_SetNewConfigPermission != null)
 				{
 					Adm_SetNewConfigPermission.IsChecked = true;
+				}
+
+				var Adm_ViewConfigPermission = PermissionsViewModel.AllPermissions.FirstOrDefault(x => x.PermissionType == PermissionType.Adm_ViewConfig);
+				if (Adm_ViewConfigPermission != null)
+				{
+					Adm_ViewConfigPermission.IsChecked = true;
 				}
 			}
 		}
@@ -188,7 +194,7 @@ namespace SecurityModule.ViewModels
 
 			PreventAdminPermissions();
 			User.PermissionStrings = PermissionsViewModel.GetPermissionStrings();
-			User.RemoreAccess = RemoteAccess.GetModel();
+			User.RemoteAccess = RemoteAccess.GetModel();
 		}
 
 		protected override bool Save()

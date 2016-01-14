@@ -1,22 +1,20 @@
-﻿using System;
+﻿using Common;
+using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common.Services;
+using Infrastructure.Common.Theme;
+using Infrastructure.Common.Windows;
+using Microsoft.Win32;
+using Resurs.ViewModels;
+using Resurs.Views;
+using ResursAPI;
+using ResursAPI.License;
+using ResursDAL;
+using ResursRunner;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Threading;
-using Common;
-using Resurs.Service;
-using Resurs.ViewModels;
-using Infrastructure.Common;
-using Infrastructure.Common.BalloonTrayTip;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Theme;
 using System.Windows.Forms;
-using ResursRunner;
-using Microsoft.Win32;
-using Resurs.Views;
-using ResursDAL;
-using ResursAPI;
-using ResursAPI.License;
 
 namespace Resurs
 {
@@ -32,16 +30,15 @@ namespace Resurs
 				AddToAutorun();
 				ThemeHelper.LoadThemeFromRegister();
 				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-				var resourceService = new ResourceService();
-				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
-				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Main/DataTemplates/Dictionary.xaml"));
-				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Devices/DataTemplates/Dictionary.xaml"));
-				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Consumers/DataTemplates/Dictionary.xaml"));
-				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Reports/DataTemplates/Dictionary.xaml"));
-				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Users/DataTemplates/Dictionary.xaml"));
-				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "JournalEvents/DataTemplates/Dictionary.xaml"));
-				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Tariffs/DataTemplates/Dictionary.xaml"));
-				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Deposits/DataTemplates/Dictionary.xaml"));
+				ServiceFactoryBase.ResourceService.AddResource(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml");
+				ServiceFactoryBase.ResourceService.AddResource(typeof(Bootstrapper).Assembly, "Main/DataTemplates/Dictionary.xaml");
+				ServiceFactoryBase.ResourceService.AddResource(typeof(Bootstrapper).Assembly, "Devices/DataTemplates/Dictionary.xaml");
+				ServiceFactoryBase.ResourceService.AddResource(typeof(Bootstrapper).Assembly, "Consumers/DataTemplates/Dictionary.xaml");
+				ServiceFactoryBase.ResourceService.AddResource(typeof(Bootstrapper).Assembly, "Reports/DataTemplates/Dictionary.xaml");
+				ServiceFactoryBase.ResourceService.AddResource(typeof(Bootstrapper).Assembly, "Users/DataTemplates/Dictionary.xaml");
+				ServiceFactoryBase.ResourceService.AddResource(typeof(Bootstrapper).Assembly, "JournalEvents/DataTemplates/Dictionary.xaml");
+				ServiceFactoryBase.ResourceService.AddResource(typeof(Bootstrapper).Assembly, "Tariffs/DataTemplates/Dictionary.xaml");
+				ServiceFactoryBase.ResourceService.AddResource(typeof(Bootstrapper).Assembly, "Deposits/DataTemplates/Dictionary.xaml");
 
 				LicenseManager.CurrentLicenseInfo = LicenseManager.TryLoad(FolderHelper.GetFile("Resurs.license"));
 				if (LicenseManager.CurrentLicenseInfo == null)

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using RubezhAPI;
 using RubezhAPI.GK;
-using RubezhClient;
 
 namespace GKProcessor
 {
@@ -11,14 +10,14 @@ namespace GKProcessor
 	{
 		GKDevice MirrorDevice;
 
-		override public bool ReadConfiguration(GKDevice mirrorDevice)
+		override public bool ReadConfiguration(GKDevice mirrorDevice, Guid clientUID)
 		{
 			MirrorDevice = (GKDevice)mirrorDevice.Clone();
 			MirrorDevice.Children = new List<GKDevice>();
 
 			var progressCallback = GKProcessorManager.StartProgress("Чтение конфигурации " + mirrorDevice.PresentationName, "Проверка связи", 2, true, GKProgressClientType.Administrator);
 			var result = DeviceBytesHelper.Ping(mirrorDevice);
-			if (!result)
+			if (result.HasError)
 			{
 				Error = "Устройство " + mirrorDevice.PresentationName + " недоступно";
 				return false;
@@ -26,17 +25,17 @@ namespace GKProcessor
 
 			DeviceConfiguration = new GKDeviceConfiguration { RootDevice = MirrorDevice };
 			GKProcessorManager.DoProgress("Перевод ПМФ в технологический режим", progressCallback);
-			if (!DeviceBytesHelper.GoToTechnologicalRegime(mirrorDevice, progressCallback))
+			if (!DeviceBytesHelper.GoToTechnologicalRegime(mirrorDevice, progressCallback, clientUID))
 			{
 				Error = "Не удалось перевести " + mirrorDevice.PresentationName + " в технологический режим";
 				GKProcessorManager.StopProgress(progressCallback);
 				return false;
 			}
 
-			ReadConfiguration(mirrorDevice, progressCallback);
+			ReadConfiguration(mirrorDevice);
 
 			GKProcessorManager.DoProgress("Перевод ПМФ в рабочий режим", progressCallback);
-			if (!DeviceBytesHelper.GoToWorkingRegime(mirrorDevice, progressCallback))
+			if (!DeviceBytesHelper.GoToWorkingRegime(mirrorDevice, progressCallback, clientUID))
 			{
 				Error = "Не удалось перевести  " + mirrorDevice.PresentationName + " в рабочий режим в заданное время";
 			}
@@ -44,9 +43,9 @@ namespace GKProcessor
 			return Error == null;
 		}
 
-		void ReadConfiguration(GKDevice mirrorDevice, GKProgressCallback progressCallback)
+		void ReadConfiguration(GKDevice mirrorDevice)
 		{
-			progressCallback = GKProcessorManager.StartProgress("Чтение конфигурации " + mirrorDevice.PresentationName, "", 1, true, GKProgressClientType.Administrator);
+			var progressCallback = GKProcessorManager.StartProgress("Чтение конфигурации " + mirrorDevice.PresentationName, "", 1, true, GKProgressClientType.Administrator);
 			ushort descriptorNo = 0;
 			while (true)
 			{

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RubezhClient
+namespace RubezhAPI
 {
 	public partial class GKManager
 	{
@@ -29,10 +29,10 @@ namespace RubezhClient
 				x.InputDependentElements.Remove(zone);
 				if (x is GKDevice)
 				{
-					x.Invalidate(GKManager.DeviceConfiguration);
+					x.Invalidate(DeviceConfiguration);
 					x.OnChanged();
 				}
-				x.UpdateLogic(GKManager.DeviceConfiguration);
+				x.UpdateLogic(DeviceConfiguration);
 				x.OnChanged();
 			});
 

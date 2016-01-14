@@ -74,10 +74,10 @@
 					<DataGridTemplateColumn Header="Зона или Логика" MinWidth="80">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding PresentationZone}" Visibility="{Binding HasZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}" TextWrapping="NoWrap" VerticalAlignment="Top" LineHeight="15" Margin="0 4 0 0" Cursor="Hand">
+								<TextBlock Text="{Binding PresentationZoneOrLogic}" Visibility="{Binding HasZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}" TextWrapping="NoWrap" VerticalAlignment="Top" LineHeight="15" Margin="0 4 0 0" Cursor="Hand">
 									<TextBlock.ToolTip>
 										<WrapPanel>
-											<TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" />
+											<TextBlock Text="{Binding PresentationZoneOrLogic}" TextWrapping="Wrap" />
 										</WrapPanel>
 									</TextBlock.ToolTip>
 								</TextBlock>
@@ -110,10 +110,10 @@
 					<DataGridTemplateColumn Header="Зона или Логика" MinWidth="80">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding PresentationZone}" Visibility="{Binding HasZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}" TextWrapping="NoWrap" VerticalAlignment="Top" LineHeight="15" Margin="0 4 0 0" Cursor="Hand">
+								<TextBlock Text="{Binding PresentationZoneOrLogic}" Visibility="{Binding HasZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}" TextWrapping="NoWrap" VerticalAlignment="Top" LineHeight="15" Margin="0 4 0 0" Cursor="Hand">
 									<TextBlock.ToolTip>
 										<WrapPanel>
-											<TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" />
+											<TextBlock Text="{Binding PresentationZoneOrLogic}" TextWrapping="Wrap" />
 										</WrapPanel>
 									</TextBlock.ToolTip>
 								</TextBlock>
@@ -124,9 +124,9 @@
 			</DataGrid>
 		</Grid>
 		<StackPanel Grid.Row="1" Orientation="Horizontal" >
-			<StackPanel Orientation="Horizontal" Visibility="{Binding CanChangeOrReplace, Converter={StaticResource BoolToVisibilityConverter}}">
-				<Button Content="Заменить текущую конфигурацию" Command="{Binding ChangeCommand}" HorizontalAlignment="Left" Width="250" Margin="2" />
-				<Button Content="Заменить всю конфигурацию" Command="{Binding ReplaceCommand}" HorizontalAlignment="Left" Width="250" Margin="2" />
+			<StackPanel Orientation="Horizontal" Visibility="{Binding CanChangeOrOpenConfiguration, Converter={StaticResource BoolToVisibilityConverter}}">
+				<!--<Button Content="Заменить для текущего ГК" Command="{Binding ChangeCurrentGkCommand}" HorizontalAlignment="Left" Width="250" Margin="2" />-->
+                <Button Content="Открыть конфигурацию из файла ГК" Command="{Binding LoadConfigurationFromFileCommand}" HorizontalAlignment="Left" Width="250" Margin="2" />
 			</StackPanel>
 			<ToolBarButton ImageSource="nextDifference"  ToolTip="Следующее несовпадение" Command="{Binding NextDifferenceCommand}" HorizontalAlignment="Left" Margin="2" />
 			<ToolBarButton ImageSource="previousDifference"  ToolTip="Предыдущее несовпадение" Command="{Binding PreviousDifferenceCommand}" HorizontalAlignment="Left" Margin="2" />

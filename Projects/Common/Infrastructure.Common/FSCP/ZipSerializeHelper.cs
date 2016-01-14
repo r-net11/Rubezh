@@ -33,26 +33,15 @@ namespace Infrastructure.Common
 			return configuration;
 		}
 
-		public static bool Serialize<T>(T configuration, string fileName, bool useXml)
+		public static bool Serialize<T>(T configuration, string fileName)
 			where T : VersionedConfiguration
 		{
 			try
 			{
-				if (useXml)
+				var xmlSerializer = new XmlSerializer(configuration.GetType());
+				using (var fileStream = new FileStream(fileName, FileMode.Create))
 				{
-					var xmlSerializer = new XmlSerializer(configuration.GetType());
-					using (var fileStream = new FileStream(fileName, FileMode.Create))
-					{
-						xmlSerializer.Serialize(fileStream, configuration);
-					}
-				}
-				else
-				{
-					var dataContractSerializer = new DataContractSerializer(configuration.GetType());
-					using (var fileStream = new FileStream(fileName, FileMode.Create))
-					{
-						dataContractSerializer.WriteObject(fileStream, configuration);
-					}
+					xmlSerializer.Serialize(fileStream, configuration);
 				}
 			}
 			catch (Exception e)
@@ -63,24 +52,15 @@ namespace Infrastructure.Common
 			return true;
 		}
 
-		public static T DeSerialize<T>(string fileName, bool useXml)
+		public static T DeSerialize<T>(string fileName)
 			 where T : VersionedConfiguration, new()
 		{
 			try
 			{
 				using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
 				{
-					T configuration = null;
-					if (useXml)
-					{
-						var xmlSerializer = new XmlSerializer(typeof(T));
-						configuration = (T)xmlSerializer.Deserialize(fileStream);
-                    }
-					else
-					{
-						var dataContractSerializer = new DataContractSerializer(typeof(T));
-						configuration = (T)dataContractSerializer.ReadObject(fileStream);
-					}
+					var xmlSerializer = new XmlSerializer(typeof(T));
+					T configuration = (T)xmlSerializer.Deserialize(fileStream);
 					fileStream.Close();
 					configuration.ValidateVersion();
 					configuration.AfterLoad();
@@ -89,7 +69,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
-                Logger.Error("ZipSerializeHelper.DeSerialize " + fileName + " " + e.Message);
+				Logger.Error("ZipSerializeHelper.DeSerialize " + fileName + " " + e.Message);
 				return new T();
 			}
 		}

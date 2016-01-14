@@ -125,13 +125,16 @@
     </Compile>
     <Compile Include="DataSetHelper.cs" />
     <Compile Include="DataSourceService.cs" />
+    <Compile Include="DataSources\DevicesDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DevicesDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DataSources\EmployeeAccessDataSet.cs">
       <DependentUpon>EmployeeAccessDataSet.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="DataSources\EmployeeDataSet.cs">
       <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="DataSources\EventsDataSet.cs">
       <DependentUpon>EventsDataSet.xsd</DependentUpon>
@@ -188,7 +191,6 @@
     </Compile>
     <Compile Include="DataSources\ReflectioDataSet.cs">
       <DependentUpon>ReflectioDataSet.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="DataSources\ReflectioDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -222,6 +224,12 @@
     <Compile Include="Model\OrganisationBaseObjectInfo.cs" />
     <Compile Include="Model\TreeItemObject.cs" />
     <Compile Include="SqlBuilder.cs" />
+    <Compile Include="Templates\DevicesReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\DevicesReport.Designer.cs">
+      <DependentUpon>DevicesReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Templates\EmployeeRootReport.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -239,6 +247,12 @@
     </Compile>
     <Compile Include="Templates\DoorsReport.Designer.cs">
       <DependentUpon>DoorsReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\EmployeeZonesReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\EmployeeZonesReport.Designer.cs">
+      <DependentUpon>EmployeeZonesReport.cs</DependentUpon>
     </Compile>
     <Compile Include="Templates\ReflectionReport .cs">
       <SubType>Component</SubType>
@@ -312,12 +326,6 @@
     <Compile Include="Templates\PositionsReport.Designer.cs">
       <DependentUpon>PositionsReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Templates\EmployeeZonesReport.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Templates\EmployeeZonesReport.Designer.cs">
-      <DependentUpon>EmployeeZonesReport.cs</DependentUpon>
-    </Compile>
     <Compile Include="Templates\EmployeeReport.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -357,6 +365,9 @@
     <EmbeddedResource Include="Templates\BaseReport.resx">
       <DependentUpon>BaseReport.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Templates\DevicesReport.resx">
+      <DependentUpon>DevicesReport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Templates\EmployeeRootReport.resx">
       <DependentUpon>EmployeeRootReport.cs</DependentUpon>
     </EmbeddedResource>
@@ -366,6 +377,9 @@
     <EmbeddedResource Include="Templates\DoorsReport.resx">
       <DependentUpon>DoorsReport.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\EmployeeZonesReport.resx">
+      <DependentUpon>EmployeeZonesReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Templates\ReflectionReport .resx">
       <DependentUpon>ReflectionReport .cs</DependentUpon>
@@ -401,9 +415,6 @@
     <EmbeddedResource Include="Templates\PositionsReport.resx">
       <DependentUpon>PositionsReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Templates\EmployeeZonesReport.resx">
-      <DependentUpon>EmployeeZonesReport.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Templates\EmployeeReport.resx">
       <DependentUpon>EmployeeReport.cs</DependentUpon>
     </EmbeddedResource>
@@ -412,6 +423,17 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="DataSources\DevicesDataSet.xsc">
+      <DependentUpon>DevicesDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="DataSources\DevicesDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DevicesDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataSources\DevicesDataSet.xss">
+      <DependentUpon>DevicesDataSet.xsd</DependentUpon>
+    </None>
     <None Include="DataSources\EventsDataSet.xsc">
       <DependentUpon>EventsDataSet.xsd</DependentUpon>
       <SubType>Designer</SubType>

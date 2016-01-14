@@ -2,7 +2,7 @@
 using System.Linq;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
-using RubezhClient;
+using RubezhAPI;
 using RubezhDAL;
 
 namespace GKProcessor
@@ -104,7 +104,8 @@ namespace GKProcessor
 						GKDevice device = descriptor.GKBase as GKDevice;
 						foreach(var parent in device.AllParents)
 						{
-							if(parent.Driver.IsGroupDevice || parent.DriverType == GKDriverType.RSR2_KAU_Shleif || parent.DriverType == GKDriverType.RSR2_MVP_Part)
+							if (parent.Driver.IsGroupDevice || parent.DriverType == GKDriverType.RSR2_KAU_Shleif || parent.DriverType == GKDriverType.RSR2_MVP_Part
+								|| parent.DriverType == GKDriverType.GKIndicatorsGroup || parent.DriverType == GKDriverType.GKRelaysGroup)
 								OnObjectStateChanged(parent);
 						}
 					}

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using RubezhAPI.SKD.ReportFilters;
-using RubezhClient.SKDHelpers;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using RubezhAPI.SKD.ReportFilters;
+using RubezhClient.SKDHelpers;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace ReportsModule.ViewModels
 {
@@ -196,8 +196,8 @@ namespace ReportsModule.ViewModels
 					{
 						case ReportPeriodType.Day:
 							_isLoaded = false;
-							DateTimeFrom = DateTime.Today;
-							DateTimeTo = DateTime.Now;
+							DateTimeFrom = DateTime.Today.AddDays(-1);
+							DateTimeTo = DateTime.Today.AddSeconds(-1);
 							_isLoaded = true;
 							break;
 						case ReportPeriodType.Week:
@@ -208,7 +208,7 @@ namespace ReportsModule.ViewModels
 							break;
 						case ReportPeriodType.Month:
 							_isLoaded = false;
-							DateTimeFrom = new DateTime(DateTime.Today.Year, DateTime.Today.Month -1, 1);
+							DateTimeFrom = new DateTime(DateTime.Today.Year, DateTime.Today.Month - 1, 1);
 							DateTimeTo = DateTimeFrom.AddDays(DateTime.DaysInMonth(DateTimeFrom.Year, DateTimeFrom.Month) - 1);
 							_isLoaded = true;
 							break;
@@ -256,7 +256,7 @@ namespace ReportsModule.ViewModels
 
 		//public DateTime MaxDate { get { return DateTime.Now; } }
 		public DateTime MaxDate { get { return DateTime.Today.AddDays(1).AddSeconds(-1); } }
-		
+
 		private bool _hasArchive;
 		public bool HasArchive
 		{

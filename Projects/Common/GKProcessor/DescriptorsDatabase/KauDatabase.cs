@@ -1,5 +1,5 @@
 ﻿using RubezhAPI.GK;
-using RubezhClient;
+using RubezhAPI;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,9 +18,6 @@ namespace GKProcessor
 
 		void AddChild(GKDevice device)
 		{
-			if (device.IsNotUsed)
-				return;
-
 			if (device.IsRealDevice)
 				Devices.Add(device);
 

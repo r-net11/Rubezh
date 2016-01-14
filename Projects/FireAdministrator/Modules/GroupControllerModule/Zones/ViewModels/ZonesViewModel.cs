@@ -17,6 +17,7 @@ using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using KeyboardKey = System.Windows.Input.Key;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
@@ -149,24 +150,23 @@ namespace GKModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?"))
 			{
-				var emptyZones = Zones.Where(x => !x.Zone.Devices.Any()).ToList();
-
-				if (emptyZones.Any())
-				{
-					foreach (var emptyZone in emptyZones)
+				GetEmptyZones().ForEach(x =>
 					{
-						GKManager.RemoveZone(emptyZone.Zone);
-						Zones.Remove(emptyZone);
-					}
+						GKManager.RemoveZone(x.Zone);
+						Zones.Remove(x);
+					});
 					SelectedZone = Zones.FirstOrDefault();
 					ServiceFactory.SaveService.GKChanged = true;
-				}
 			}
 		}
 
 		bool CanDeleteAllEmpty()
 		{
-			return Zones.Any(x => !x.Zone.Devices.Any());
+			return GetEmptyZones().Any();
+		}
+		List<ZoneViewModel> GetEmptyZones()
+		{
+			return Zones.Where(x => !x.Zone.Devices.Any()).ToList();
 		}
 
 		public RelayCommand ShowSettingsCommand { get; private set; }

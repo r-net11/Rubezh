@@ -8,6 +8,7 @@ using Common;
 using RubezhAPI.GK;
 using RubezhClient;
 using Graybox.OPC.ServerToolkit.CLRWrapper;
+using RubezhAPI;
 
 namespace GKOPCServer
 {

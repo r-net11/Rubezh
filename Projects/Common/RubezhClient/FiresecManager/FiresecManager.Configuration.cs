@@ -3,6 +3,7 @@ using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Elements;
+using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
@@ -73,6 +74,12 @@ namespace RubezhClient
 					var stream = FiresecService.GetConfig();
 					CopyStream(stream, configFileStream);
 					LoadFromZipFile(configFileName);
+					
+					var result = FiresecService.GetSecurityConfiguration();
+					if (!result.HasError && result.Result != null)
+					{
+						SecurityConfiguration = result.Result;
+					}
 				}
 				else
 				{
@@ -86,9 +93,15 @@ namespace RubezhClient
 						var file = Path.GetFileName(fileName);
 						File.Copy(fileName, Path.Combine(contentDirectory, file), true);
 					}
-					LoadConfigFromDirectory(configDirectory);
-				}
 
+					if (File.Exists(serverConfigDirectory + "\\..\\SecurityConfiguration.xml"))
+					{
+						File.Copy(serverConfigDirectory + "\\..\\SecurityConfiguration.xml", Path.Combine(configDirectory, "SecurityConfiguration.xml"), true);
+					}
+
+					LoadConfigFromDirectory(configDirectory);
+					SecurityConfiguration = ZipSerializeHelper.DeSerialize<SecurityConfiguration>(Path.Combine(configDirectory, "SecurityConfiguration.xml"));
+				}
 				UpdateConfiguration();
 			}
 			catch (Exception e)
@@ -349,7 +362,9 @@ namespace RubezhClient
 			foreach (var plan in PlansConfiguration.AllPlans)
 			{
 				uids.Add(plan.BackgroundImageSource);
+				uids.Add(plan.BackgroundSVGImageSource);
 				plan.AllElements.ForEach(x => uids.Add(x.BackgroundImageSource));
+				plan.AllElements.ForEach(x => uids.Add(x.BackgroundSVGImageSource));
 			}
 			foreach (var layout in LayoutsConfiguration.Layouts)
 			{
@@ -359,13 +374,14 @@ namespace RubezhClient
 					{
 						var layoutPartImageProperties = part.Properties as LayoutPartImageProperties;
 						uids.Add(layoutPartImageProperties.ReferenceUID);
+						uids.Add(layoutPartImageProperties.ReferenceSVGUID);
 					}
 				}
 			}
-			SystemConfiguration.AutomationConfiguration.AutomationSounds.ForEach(x => uids.Add(x.Uid)); 
+			SystemConfiguration.AutomationConfiguration.AutomationSounds.ForEach(x => uids.Add(x.Uid));
 			uids.Remove(null);
 			uids.Remove(Guid.Empty);
-			ServiceFactoryBase.ContentService.RemoveAllBut(uids.Select(x=>x.Value.ToString()).ToList());
+			ServiceFactoryBase.ContentService.RemoveAllBut(uids.Select(x => x.Value.ToString()).ToList());
 		}
 	}
 }

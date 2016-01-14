@@ -1,134 +1,138 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Infrastructure.Automation;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
-using Infrastructure.Automation;
 using RubezhAPI.GK;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FiresecService.Service
 {
-	public partial class FiresecService : IFiresecService
+	public partial class FiresecService
 	{
 		public OperationResult<bool> RunProcedure(Guid clientUID, Guid procedureUID, List<Argument> args)
 		{
-			var procedure = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == procedureUID);
+			var procedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == procedureUID);
 			if (procedure != null)
 			{
-				var user = ProcedureExecutionContext.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == CurrentClientCredentials.UserName);
+				var user = ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == GetLogin(clientUID));
 				AutomationProcessor.RunProcedure(procedure, args, null, user, null, clientUID);
 				return new OperationResult<bool>(true);
 			}
 			return OperationResult<bool>.FromError("Процедура не найдена");
 		}
 
-		public void ProcedureCallbackResponse(Guid callbackUID, object value)
+		public void ProcedureCallbackResponse(Guid clientUID, Guid callbackUID, object value)
 		{
 			ProcedureThread.CallbackResponse(callbackUID, value);
 		}
 
-		public ProcedureProperties GetProperties(Guid layoutUID)
+		public ProcedureProperties GetProperties(Guid clientUID, Guid layoutUID)
 		{
 			return ProcedurePropertyCache.GetProcedureProperties(layoutUID);
 		}
-		
-		public void SetVariableValue(Guid variableUid, object value)
+
+		public void SetVariableValue(Guid clientUID, Guid variableUid, object value)
 		{
-			var variable = GetVariable(variableUid);
+			var variable = ProcedureExecutionContext.GlobalVariables.FirstOrDefault(x => x.Uid == variableUid);
 			if (variable != null)
-				ProcedureExecutionContext.SetVariableValue(variable, value);
-		}
-		
-		public Variable GetVariable(Guid variableUid)
-		{
-			return ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid == variableUid);
+				ProcedureExecutionContext.SetVariableValue(variable, value, clientUID);
 		}
 
-
-		public void AddJournalItemA(string message)
+		public void AddJournalItemA(Guid clientUID, string message, Guid? objectUID = null)
 		{
-			ProcedureHelper.AddJournalItem(message);
+			ProcedureHelper.AddJournalItem(clientUID, message, objectUID);
 		}
 
-		public void ControlGKDevice(Guid deviceUid, GKStateBit command)
+		public void ControlGKDevice(Guid clientUID, Guid deviceUid, GKStateBit command)
 		{
-			ProcedureHelper.ControlGKDevice(deviceUid, command);
+			ProcedureHelper.ControlGKDevice(clientUID, deviceUid, command);
 		}
 
-		public void StartRecord(Guid cameraUid, Guid? journalItemUid, Guid? eventUid, int timeout)
+		public void StartRecord(Guid clientUID, Guid cameraUid, Guid? journalItemUid, Guid? eventUid, int timeout)
 		{
-			ProcedureHelper.StartRecord(cameraUid, journalItemUid, eventUid, timeout);
+			ProcedureHelper.StartRecord(clientUID, cameraUid, journalItemUid, eventUid, timeout);
 		}
 
-		public void StopRecord(Guid cameraUid, Guid eventUid)
+		public void StopRecord(Guid clientUID, Guid cameraUid, Guid eventUid)
 		{
-			ProcedureHelper.StopRecord(cameraUid, eventUid);
+			ProcedureHelper.StopRecord(clientUID, cameraUid, eventUid);
 		}
 
-		public void Ptz(Guid cameraUid, int ptzNumber)
+		public void Ptz(Guid clientUID, Guid cameraUid, int ptzNumber)
 		{
-			ProcedureHelper.Ptz(cameraUid, ptzNumber);
+			ProcedureHelper.Ptz(clientUID, cameraUid, ptzNumber);
 		}
 
-		public void RviAlarm(string name)
+		public void RviAlarm(Guid clientUID, string name)
 		{
-			ProcedureHelper.RviAlarm(name);
+			ProcedureHelper.RviAlarm(clientUID, name);
 		}
 
-		public void ControlFireZone(Guid uid, ZoneCommandType commandType)
+		public void ControlFireZone(Guid clientUID, Guid uid, ZoneCommandType commandType)
 		{
-			ProcedureHelper.ControlFireZone(uid, commandType);
+			ProcedureHelper.ControlFireZone(clientUID, uid, commandType);
 		}
 
-		public void ControlGuardZone(Guid uid, GuardZoneCommandType commandType)
+		public void ControlGuardZone(Guid clientUID, Guid uid, GuardZoneCommandType commandType)
 		{
-			ProcedureHelper.ControlGuardZone(uid, commandType);
+			ProcedureHelper.ControlGuardZone(clientUID, uid, commandType);
 		}
 
-		public void ControlDirection(Guid uid, DirectionCommandType commandType)
+		public void ControlDirection(Guid clientUID, Guid uid, DirectionCommandType commandType)
 		{
-			ProcedureHelper.ControlDirection(uid, commandType);
+			ProcedureHelper.ControlDirection(clientUID, uid, commandType);
 		}
 
-		public void ControlGKDoor(Guid uid, GKDoorCommandType commandType)
+		public void ControlGKDoor(Guid clientUID, Guid uid, GKDoorCommandType commandType)
 		{
-			ProcedureHelper.ControlGKDoor(uid, commandType);
+			ProcedureHelper.ControlGKDoor(clientUID, uid, commandType);
 		}
 
-		public void ControlDelay(Guid uid, DelayCommandType commandType)
+		public void ControlDelay(Guid clientUID, Guid uid, DelayCommandType commandType)
 		{
-			ProcedureHelper.ControlDelay(uid, commandType);
+			ProcedureHelper.ControlDelay(clientUID, uid, commandType);
 		}
 
-		public void ExportJournalA(bool isExportJournal, bool isExportPassJournal, DateTime minDate, DateTime maxDate, string path)
+		public void ControlPumpStation(Guid clientUID, Guid uid, PumpStationCommandType commandType)
 		{
-			ProcedureHelper.ExportJournal(isExportJournal, isExportPassJournal, minDate, maxDate, path);
+			ProcedureHelper.ControlPumpStation(clientUID, uid, commandType);
 		}
 
-		public void ExportOrganisationA(bool isWithDeleted, Guid organisationUid, string path)
+		public void ControlMPT(Guid clientUID, Guid uid, MPTCommandType commandType)
 		{
-			ProcedureHelper.ExportOrganisation(isWithDeleted, organisationUid, path);
+			ProcedureHelper.ControlMPT(clientUID, uid, commandType);
 		}
 
-		public void ExportOrganisationListA(bool isWithDeleted, string path)
+		public void ExportJournalA(Guid clientUID, bool isExportJournal, bool isExportPassJournal, DateTime minDate, DateTime maxDate, string path)
 		{
-			ProcedureHelper.ExportOrganisationList(isWithDeleted, path);
+			ProcedureHelper.ExportJournal(clientUID, isExportJournal, isExportPassJournal, minDate, maxDate, path);
 		}
 
-		public void ExportConfigurationA(bool isExportDevices, bool isExportDoors, bool isExportZones, string path)
+		public void ExportOrganisationA(Guid clientUID, bool isWithDeleted, Guid organisationUid, string path)
 		{
-			ProcedureHelper.ExportConfiguration(isExportDevices, isExportDoors, isExportZones, path);
+			ProcedureHelper.ExportOrganisation(clientUID, isWithDeleted, organisationUid, path);
 		}
 
-		public void ImportOrganisationA(bool isWithDeleted, string path)
+		public void ExportOrganisationListA(Guid clientUID, bool isWithDeleted, string path)
 		{
-			ProcedureHelper.ImportOrganisation(isWithDeleted, path);
+			ProcedureHelper.ExportOrganisationList(clientUID, isWithDeleted, path);
 		}
 
-		public void ImportOrganisationListA(bool isWithDeleted, string path)
+		public void ExportConfigurationA(Guid clientUID, bool isExportDevices, bool isExportDoors, bool isExportZones, string path)
 		{
-			ProcedureHelper.ImportOrganisationList(isWithDeleted, path);
+			ProcedureHelper.ExportConfiguration(clientUID, isExportDevices, isExportDoors, isExportZones, path);
+		}
+
+		public void ImportOrganisationA(Guid clientUID, bool isWithDeleted, string path)
+		{
+			ProcedureHelper.ImportOrganisation(clientUID, isWithDeleted, path);
+		}
+
+		public void ImportOrganisationListA(Guid clientUID, bool isWithDeleted, string path)
+		{
+			ProcedureHelper.ImportOrganisationList(clientUID, isWithDeleted, path);
 		}
 	}
 }

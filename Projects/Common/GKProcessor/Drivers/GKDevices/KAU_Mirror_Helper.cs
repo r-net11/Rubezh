@@ -23,9 +23,6 @@ namespace GKProcessor
 				IsPlaceable = true,
 				IsEditMirror = true
 			};
-			driver.AutoCreateChildren.Add(GKDriverType.GKIndicator);
-			driver.AutoCreateChildren.Add(GKDriverType.GKRele);
-
 			driver.Children.Add(GKDriverType.DetectorDevicesMirror);
 			driver.Children.Add(GKDriverType.FireZonesMirror);
 			driver.Children.Add(GKDriverType.ControlDevicesMirror);
