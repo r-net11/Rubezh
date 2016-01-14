@@ -403,14 +403,14 @@ namespace FiresecService.Service
 			SafeOperationCall(clientUID, () => { FiresecService.GKTurnOffNowInAutomatic(clientUID, uid, objectType); }, "GKTurnOffNowInAutomatic");
 		}
 
-		public void GKTurnOnNowGlobalPimsInAutomatic()
+		public void GKTurnOnNowGlobalPimsInAutomatic(Guid clientUID)
 		{
-			SafeOperationCall(() => FiresecService.GKTurnOnNowGlobalPimsInAutomatic(), "GKTurnOnNowGlobalPimsInAutomatic");
+			SafeOperationCall(clientUID, () => FiresecService.GKTurnOnNowGlobalPimsInAutomatic(clientUID), "GKTurnOnNowGlobalPimsInAutomatic");
 		}
 
-		public void GKTurnOffNowGlobalPimsInAutomatic()
+		public void GKTurnOffNowGlobalPimsInAutomatic(Guid clientUID)
 		{
-			SafeOperationCall(() => FiresecService.GKTurnOffNowGlobalPimsInAutomatic(), "GKTurnOffNowGlobalPimsInAutomatic");
+			SafeOperationCall(clientUID, () => FiresecService.GKTurnOffNowGlobalPimsInAutomatic(clientUID), "GKTurnOffNowGlobalPimsInAutomatic");
 		}
 
 		public void GKStop(Guid clientUID, Guid uid, GKBaseObjectType objectType)

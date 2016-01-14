@@ -116,7 +116,7 @@ namespace RubezhAPI.GK
 		{
 			Pim = pim;
 			UID = pim.UID;
-			ReferenceUid = pim.DeviceUID;
+			ReferenceUid = pim.DeviceUid;
 			BaseObjectType = GKBaseObjectType.Pim;
 		}
 

@@ -121,15 +121,13 @@ namespace RubezhAPI
 		void GKStartMeasureMonitoring(Guid clientUID, Guid deviceUID);
 
 		[OperationContract]
-		void GKTurnOnNowGlobalPimsInAutomatic();
+		void GKTurnOnNowGlobalPimsInAutomatic(Guid clientUID);
+
+		[OperationContract]
+		void GKTurnOffNowGlobalPimsInAutomatic(Guid clientUID);
 		
 		[OperationContract]
 		void GKStopMeasureMonitoring(Guid clientUID, Guid deviceUID);
-
-		[OperationContract]
-		void GKTurnOffNowGlobalPimsInAutomatic();
-
-		[OperationContract]
 
 		[OperationContract]
 		OperationResult<uint> GKGetReaderCode(Guid clientUID, Guid deviceUID);
