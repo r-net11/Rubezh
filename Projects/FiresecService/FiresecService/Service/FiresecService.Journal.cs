@@ -1,13 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading;
+﻿using Infrastructure.Automation;
 using RubezhAPI;
 using RubezhAPI.Journal;
-using RubezhAPI.SKD;
 using RubezhDAL.DataClasses;
-using System.Diagnostics;
-using Infrastructure.Automation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 
 namespace FiresecService.Service
 {
@@ -16,54 +14,43 @@ namespace FiresecService.Service
 		public static Thread CurrentThread;
 
 		#region Add
-		void AddJournalMessage(JournalEventNameType journalEventNameType, string objectName, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL, string userName = null, Guid? uid = null)
+		public static void AddJournalMessage(JournalEventNameType journalEventNameType, string objectName, Guid? objectUID, Guid? clientUID, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL)
 		{
-			var journalItem = CreateJournalItem(journalEventNameType, objectName, journalEventDescriptionType, uid); 
-			journalItem.UserName = userName != null ? userName : UserName;
-			AddCommonJournalItems(new List<JournalItem>() { journalItem });
-		}
-
-		public static void InsertJournalMessage(JournalEventNameType journalEventNameType, string objectName, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL, string userName = null, Guid? uid = null)
-		{
-			var journalItem = CreateJournalItem(journalEventNameType, objectName, journalEventDescriptionType, uid);
-			journalItem.UserName = userName;
-			AddCommonJournalItems(new List<JournalItem>() { journalItem });
-		}
-
-		static JournalItem CreateJournalItem(JournalEventNameType journalEventNameType, string objectName, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL, Guid? uid = null)
-		{
-			return new JournalItem()
+			var journalItem = new JournalItem()
 			{
 				SystemDateTime = DateTime.Now,
 				JournalEventNameType = journalEventNameType,
 				JournalEventDescriptionType = journalEventDescriptionType,
 				JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalEventNameType),
 				JournalObjectType = JournalObjectType.None,
-				ObjectUID = uid != null ? uid.Value : Guid.Empty,
+				ObjectUID = objectUID != null ? objectUID.Value : Guid.Empty,
 				ObjectName = objectName,
+				UserName = GetUserName(clientUID)
 			};
+			AddCommonJournalItems(new List<JournalItem>() { journalItem }, clientUID);
 		}
 
-		public static void AddCommonJournalItems(List<JournalItem> journalItems)
+		public static void AddCommonJournalItems(List<JournalItem> journalItems, Guid? clientUID)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				databaseService.JournalTranslator.AddRange(journalItems);
 			}
 			FiresecService.NotifyJournalItems(journalItems, true);
+			var user = clientUID.HasValue ? ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == GetLogin(clientUID.Value)) : null;
 			foreach (var journalItem in journalItems)
 			{
-				AutomationProcessor.RunOnJournal(journalItem);
+				AutomationProcessor.RunOnJournal(journalItem, user, clientUID);
 			}
 		}
 
-		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
+		public OperationResult<bool> AddJournalItem(Guid clientUID, JournalItem journalItem)
 		{
 			try
 			{
-				journalItem.UserName = UserName;
+				journalItem.UserName = GetUserName(clientUID);
 				journalItem.JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalItem.JournalEventNameType);
-				AddCommonJournalItems(new List<JournalItem>() { journalItem });
+				AddCommonJournalItems(new List<JournalItem>() { journalItem }, clientUID);
 			}
 			catch (Exception e)
 			{
@@ -74,7 +61,7 @@ namespace FiresecService.Service
 		#endregion
 
 		#region Get
-		public OperationResult<DateTime> GetMinJournalDateTime()
+		public OperationResult<DateTime> GetMinJournalDateTime(Guid clientUID)
 		{
 			using (var dbService = new DbService())
 			{
@@ -82,41 +69,41 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter filter)
+		public OperationResult<List<JournalItem>> GetFilteredJournalItems(Guid clientUID, JournalFilter filter)
 		{
 			using (var dbService = new RubezhDAL.DataClasses.DbService())
 			{
 				return dbService.JournalTranslator.GetFilteredJournalItems(filter);
 			}
 		}
-		
-		public OperationResult<bool> BeginGetJournal(JournalFilter filter)
+
+		public OperationResult<bool> BeginGetJournal(JournalFilter filter, Guid clientUid, Guid journalClientUid)
 		{
-			ServerTaskRunner.Add(null, "Чтение файла конфигурации ГК", new Action(() =>
+			ServerTaskRunner.Add(null, "Чтение журнала событий", () =>
 			{
 				using (var dbService = new RubezhDAL.DataClasses.DbService())
 				{
 					var result = dbService.JournalTranslator.GetFilteredJournalItems(filter);
-					FiresecService.NotifyOperationResult_GetJournal(result);
+					FiresecService.NotifyOperationResult_GetJournal(result, clientUid, journalClientUid);
 				}
-			}));
+			});
 			return new OperationResult<bool>(true);
 		}
 
-		public OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page)
+		public OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page, Guid clientUid)
 		{
-			ServerTaskRunner.Add(null, "Чтение файла конфигурации ГК", new Action(() =>
+			ServerTaskRunner.Add(null, "Чтение архива", () =>
 			{
 				using (var dbService = new RubezhDAL.DataClasses.DbService())
 				{
 					var result = dbService.JournalTranslator.GetArchivePage(filter, page);
-					FiresecService.NotifyOperationResult_GetArchivePage(result, page);
+					FiresecService.NotifyOperationResult_GetArchivePage(result, clientUid);
 				}
-			}));
+			});
 			return new OperationResult<bool>(true);
 		}
 
-		public OperationResult<int> GetArchiveCount(JournalFilter filter)
+		public OperationResult<int> GetArchiveCount(Guid clientUID, JournalFilter filter)
 		{
 			using (var dbService = new RubezhDAL.DataClasses.DbService())
 			{

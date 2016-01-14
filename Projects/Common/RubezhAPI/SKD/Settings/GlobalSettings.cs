@@ -95,9 +95,6 @@ namespace RubezhAPI
 		public bool Monitor_F4_Enabled { get; set; }
 
 		[DataMember]
-		public bool Monitor_HidePlansTree { get; set; }
-
-		[DataMember]
 		public List<ValidationErrorType> IgnoredErrors { get; set; }
 
 		[DataMember]

@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+﻿function InitGridDoors() {
     $("#jqGridDoors").jqGrid({
         datastr: null,
         datatype: "jsonstring",
@@ -12,11 +12,13 @@
         rowNum: 100,
         viewrecords: true,
     });
-});
+};
 
 
 function EmployeeCardsViewModel(parentViewModel) {
     var self = {};
+
+    InitGridDoors();
 
     self.EmployeesParentViewModel = parentViewModel;
     self.IsCardClicked = ko.observable(false);
@@ -40,6 +42,9 @@ function EmployeeCardsViewModel(parentViewModel) {
         if (self.EmployeeUID != null) {
             $.getJSON("Employees/GetEmployeeCards/" + self.EmployeeUID, function (cards) {
                 ko.mapping.fromJS(cards, {}, self);
+            })
+            .fail(function (jqxhr, textStatus, error) {
+                ShowError(jqxhr.responseText);
             });
         }
     };
@@ -51,11 +56,11 @@ function EmployeeCardsViewModel(parentViewModel) {
     };
 
     self.CanAddCard = ko.computed(function () {
-        return !self.EmployeesParentViewModel.IsOrganisation() && !self.EmployeesParentViewModel.IsDeleted();
+        return app.Menu.HR.IsCardsEditAllowed() && !self.EmployeesParentViewModel.IsOrganisation() && !self.EmployeesParentViewModel.IsDeleted();
     }, self);
 
     self.CanEditCard = ko.computed(function () {
-        return true;
+        return app.Menu.HR.IsCardsEditAllowed();
     }, self);
 
     self.CardClick = function (data, e, card) {
@@ -103,7 +108,7 @@ function EmployeeCardsViewModel(parentViewModel) {
                             self.ReloadCards();
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
-                            alert("request failed");
+                            ShowError(xhr.responseText);
                         },
                     });
                 }
@@ -119,7 +124,7 @@ function EmployeeCardsViewModel(parentViewModel) {
                         self.ReloadCards();
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
-                        alert("request failed");
+                        ShowError(xhr.responseText);
                     },
                 });
             }

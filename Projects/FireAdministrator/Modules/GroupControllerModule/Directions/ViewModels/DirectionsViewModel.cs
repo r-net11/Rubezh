@@ -97,7 +97,7 @@ namespace GKModule.ViewModels
 		}
 		private DirectionDetailsViewModel OnAddResult()
 		{
-			var directionDetailsViewModel = new DirectionDetailsViewModel();
+            var directionDetailsViewModel = new DirectionDetailsViewModel();
 			if (ServiceFactory.DialogService.ShowModalWindow(directionDetailsViewModel))
 			{
 				GKManager.AddDirection(directionDetailsViewModel.Direction);
@@ -119,7 +119,7 @@ namespace GKModule.ViewModels
 		void OnEdit(GKDirection direction)
 		{
 			var directionDetailsViewModel = new DirectionDetailsViewModel(direction);
-			if (DialogService.ShowModalWindow(directionDetailsViewModel))
+			if (ServiceFactory.DialogService.ShowModalWindow(directionDetailsViewModel))
 			{
 				SelectedDirection.Update();
 				GKManager.EditDirection(SelectedDirection.Direction);
@@ -130,7 +130,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить направление " + SelectedDirection.Direction.PresentationName + " ?"))
+			if (ServiceFactory.MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить направление " + SelectedDirection.Direction.PresentationName + " ?"))
 			{
 				var index = Directions.IndexOf(SelectedDirection);
 				GKManager.RemoveDirection(SelectedDirection.Direction);
@@ -146,26 +146,26 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteAllEmptyCommand { get; private set; }
 		void OnDeleteAllEmpty()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые направления ?"))
+			if (ServiceFactory.MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые направления ?"))
 			{
-				var emptyDirections = Directions.Where(x => !x.Direction.Logic.GetObjects().Any());
-
-				if (emptyDirections.Any())
+				GetEmptyDirections().ForEach(x =>
 				{
-					for (var i = emptyDirections.Count() - 1; i >= 0; i--)
-					{
-						GKManager.RemoveDirection(emptyDirections.ElementAt(i).Direction);
-						Directions.Remove(emptyDirections.ElementAt(i));
-					}
-					SelectedDirection = Directions.FirstOrDefault();
-					ServiceFactory.SaveService.GKChanged = true;
-				}
+					GKManager.RemoveDirection(x.Direction);
+					Directions.Remove(x);
+				});
+
+				SelectedDirection = Directions.FirstOrDefault();
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
 		bool CanDeleteAllEmpty()
 		{
-			return Directions.Any(x => !x.Direction.Logic.GetObjects().Any());
+			return GetEmptyDirections().Any();
+		}
+		List<DirectionViewModel> GetEmptyDirections()
+		{
+			return Directions.Where(x => !x.Direction.Logic.GetObjects().Any()).ToList();
 		}
 
 		GKDirection _directionToCopy;

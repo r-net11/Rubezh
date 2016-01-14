@@ -1,12 +1,9 @@
 ﻿using System.IO;
 using System.Text;
-using Common;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
-using RubezhAPI.SKD;
 using Infrastructure.Common;
 using Ionic.Zip;
-using Infrastructure.Common.Windows;
 using RubezhAPI;
 
 namespace RubezhClient
@@ -32,23 +29,20 @@ namespace RubezhClient
 				{
 					switch (zipConfigurationItem)
 					{
-						case "SecurityConfiguration.xml":
-							SecurityConfiguration = ZipSerializeHelper.DeSerialize<SecurityConfiguration>(configurationFileName, true);
-							break;
 						case "PlansConfiguration.xml":
-							PlansConfiguration = ZipSerializeHelper.DeSerialize<PlansConfiguration>(configurationFileName, true);
+							PlansConfiguration = ZipSerializeHelper.DeSerialize<PlansConfiguration>(configurationFileName);
 							break;
 						case "SystemConfiguration.xml":
-							SystemConfiguration = ZipSerializeHelper.DeSerialize<SystemConfiguration>(configurationFileName, true);
+							SystemConfiguration = ZipSerializeHelper.DeSerialize<SystemConfiguration>(configurationFileName);
 							break;
 						case "GKDeviceConfiguration.xml":
-							GKManager.DeviceConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceConfiguration>(configurationFileName, true);
+							GKManager.DeviceConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceConfiguration>(configurationFileName);
 							break;
 						case "GKDeviceLibraryConfiguration.xml":
-							GKManager.DeviceLibraryConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceLibraryConfiguration>(configurationFileName, true);
+							GKManager.DeviceLibraryConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceLibraryConfiguration>(configurationFileName);
 							break;
 						case "LayoutsConfiguration.xml":
-							LayoutsConfiguration = ZipSerializeHelper.DeSerialize<LayoutsConfiguration>(configurationFileName, false);
+							LayoutsConfiguration = ZipSerializeHelper.DeSerialize<LayoutsConfiguration>(configurationFileName);
 							break;
 					}
 				}

@@ -1,4 +1,4 @@
-﻿$(document).ready(function() {
+﻿var InitGridDepartmentSelection = function() {
     $("#jqGridDepartmentSelection").jqGrid({
         datastr: null,
         datatype: "jsonstring",
@@ -24,10 +24,12 @@
             expanded_field: "IsExpanded"
         }
     });
-});
+};
 
 function DepartmentSelectionViewModel() {
     var self = {};
+
+    InitGridDepartmentSelection();
 
     self.Title = ko.observable();
     self.UID = ko.observable();
@@ -38,6 +40,7 @@ function DepartmentSelectionViewModel() {
         self.OrganisationUID = organisationUID;
         self.DepartmentUID = departmentUID;
         self.Save = save;
+        self.UID(null);
         self.ReloadTree();
         if (departmentUID) {
             self.Title("Выбор родительского подразделения");
@@ -57,8 +60,8 @@ function DepartmentSelectionViewModel() {
                 self.UpdateTree(data);
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert("request failed");
-            },
+                ShowError(xhr.responseText);
+            }
         });
 
     };

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Runtime.Serialization;
 
 namespace RubezhAPI.Journal
@@ -8,6 +7,7 @@ namespace RubezhAPI.Journal
 	[DataContract]
 	public class JournalFilter
 	{
+		public static int DefaultLastItemsCount { get { return 100; } }
 		public JournalFilter()
 		{
 			UID = Guid.NewGuid();
@@ -21,7 +21,7 @@ namespace RubezhAPI.Journal
 			ObjectUIDs = new List<Guid>();
 			EmployeeUIDs = new List<Guid>();
             Users = new List<string>();
-			LastItemsCount = 100;
+			LastItemsCount = DefaultLastItemsCount;
 		}
 
 		[DataMember]

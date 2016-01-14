@@ -20,6 +20,7 @@ using Infrastructure.Events;
 using Infrastructure.Common.Navigation;
 using System.Windows.Input;
 using Controls.Menu.ViewModels;
+using System.Threading;
 
 namespace PlansModule.ViewModels
 {
@@ -30,7 +31,7 @@ namespace PlansModule.ViewModels
 
 		public ElementsViewModel ElementsViewModel { get; private set; }
 		public PlansTreeViewModel PlansTreeViewModel { get; private set; }
-
+		
 		public PlansViewModel()
 		{
 			ServiceFactory.Events.GetEvent<ShowPlanElementEvent>().Subscribe(OnShowElement);
@@ -47,7 +48,7 @@ namespace PlansModule.ViewModels
 			AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
 			AddFolderCommand = new RelayCommand(OnAddFolder);
 			AddSubFolderCommand = new RelayCommand(OnAddSubFolder, CanAddEditRemove);
-
+		
 			LayerGroupService.Instance.RegisterGroup(Helper.SubPlanAlias, "Ссылки на планы");
 			ServiceFactory.Events.GetEvent<DesignerItemFactoryEvent>().Subscribe((e) =>
 			{
@@ -88,14 +89,7 @@ namespace PlansModule.ViewModels
 
 		public void Initialize()
 		{
-			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
-			{
-				if (plan.BackgroundImageSource.HasValue && !ServiceFactory.ContentService.CheckIfExists(plan.BackgroundImageSource.Value.ToString()))
-					plan.BackgroundImageSource = null;
-				Helper.UpgradeBackground(plan);
-				foreach (var elementBase in PlanEnumerator.Enumerate(plan))
-					Helper.UpgradeBackground(elementBase);
-			}
+			Helper.ThreadMetod();
 			SelectedPlan = null;
 			Plans = new ObservableCollection<PlanViewModel>();
 			foreach (var plan in ClientManager.PlansConfiguration.Plans)
@@ -154,10 +148,20 @@ namespace PlansModule.ViewModels
 			set
 			{
 				_selectedPlan = value;
+				if (value != null)
+				{
+					if (value.Plan != null && !Helper.Plans.Contains(value.Plan))
+					{
+						Helper.Plan = value.Plan;
+						Helper.Flag = false;
+					}
+				}
 				OnPropertyChanged(() => SelectedPlan);
 				DesignerCanvas.Toolbox.IsEnabled = SelectedPlan != null && SelectedPlan.PlanFolder == null;
 				PlanDesignerViewModel.Save();
 				PlanDesignerViewModel.Initialize(value == null || value.PlanFolder != null ? null : value.Plan);
+				if (!Helper.WiteHandle.SafeWaitHandle.IsClosed && !Helper.Flag)
+					Helper.WiteHandle.Set();
 				ElementsViewModel.Update();
 				DesignerCanvas.Toolbox.SetDefault();
 				DesignerCanvas.DeselectAll();
@@ -311,6 +315,7 @@ namespace PlansModule.ViewModels
 			if (plan != null)
 				SelectedPlan = plan;
 		}
+
 		private void OnShowElement(ShowOnPlanArgs<Guid> arg)
 		{
 			DesignerCanvas.Toolbox.SetDefault();

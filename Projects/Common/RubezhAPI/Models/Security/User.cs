@@ -29,7 +29,7 @@ namespace RubezhAPI.Models
 		public List<string> PermissionStrings { get; set; }
 
 		[DataMember]
-		public RemoteAccess RemoreAccess { get; set; }
+		public RemoteAccess RemoteAccess { get; set; }
 
 		public bool HasPermission(PermissionType permissionType)
 		{

@@ -70,15 +70,15 @@ namespace RubezhAPI.GK
 				device.ClearClauseDependencies();
 				device.Zones = new List<GKZone>();
 				device.GuardZones = new List<GKGuardZone>();
-				if (device.GKMirrorItem != null)
+				if (device.GKReflectionItem != null)
 				{
-					device.GKMirrorItem.Delays = new List<GKDelay>();
-					device.GKMirrorItem.Devices = new List<GKDevice>();
-					device.GKMirrorItem.Diretions = new List<GKDirection>();
-					device.GKMirrorItem.GuardZones = new List<GKGuardZone>();
-					device.GKMirrorItem.NSs = new List<GKPumpStation>();
-					device.GKMirrorItem.Zones = new List<GKZone>();
-					device.GKMirrorItem.MPTs = new List<GKMPT>();
+					device.GKReflectionItem.Delays = new List<GKDelay>();
+					device.GKReflectionItem.Devices = new List<GKDevice>();
+					device.GKReflectionItem.Diretions = new List<GKDirection>();
+					device.GKReflectionItem.GuardZones = new List<GKGuardZone>();
+					device.GKReflectionItem.NSs = new List<GKPumpStation>();
+					device.GKReflectionItem.Zones = new List<GKZone>();
+					device.GKReflectionItem.MPTs = new List<GKMPT>();
 					device.Door = null;
 				}
 			}
@@ -171,7 +171,7 @@ namespace RubezhAPI.GK
 				foreach (var deviceUID in clause.DeviceUIDs)
 				{
 					var device = Devices.FirstOrDefault(x => x.UID == deviceUID);
-					if (device != null && !device.IsNotUsed)
+					if (device != null)
 					{
 						deviceUIDs.Add(deviceUID);
 						clause.Devices.Add(device);
@@ -296,7 +296,7 @@ namespace RubezhAPI.GK
 			{
 				if (device.Driver.HasMirror)
 				{
-					if (device.GKMirrorItem != null)
+					if (device.GKReflectionItem != null)
 					{
 						var zoneUIDs = new List<Guid>();
 						var guardzoneUIDs = new List<Guid>();
@@ -306,82 +306,82 @@ namespace RubezhAPI.GK
 						var MPTUIDs = new List<Guid>();
 						var directionUIDs = new List<Guid>();
 
-						foreach (var guardzoneUID in device.GKMirrorItem.GuardZoneUIDs)
+						foreach (var guardzoneUID in device.GKReflectionItem.GuardZoneUIDs)
 						{
 							var zone = GuardZones.FirstOrDefault(x => x.UID == guardzoneUID);
 							if (zone != null)
 							{
 								guardzoneUIDs.Add(guardzoneUID);
-								device.GKMirrorItem.GuardZones.Add(zone);
+								device.GKReflectionItem.GuardZones.Add(zone);
 							}
 						}
-						device.GKMirrorItem.GuardZoneUIDs = guardzoneUIDs;
+						device.GKReflectionItem.GuardZoneUIDs = guardzoneUIDs;
 
-						foreach (var zoneUID in device.GKMirrorItem.ZoneUIDs)
+						foreach (var zoneUID in device.GKReflectionItem.ZoneUIDs)
 						{
 							var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
 							if (zone != null)
 							{
 								zoneUIDs.Add(zoneUID);
-								device.GKMirrorItem.Zones.Add(zone);
+								device.GKReflectionItem.Zones.Add(zone);
 							}
 						}
-						device.GKMirrorItem.ZoneUIDs = zoneUIDs;
+						device.GKReflectionItem.ZoneUIDs = zoneUIDs;
 
-						foreach (var delayUID in device.GKMirrorItem.DelayUIDs)
+						foreach (var delayUID in device.GKReflectionItem.DelayUIDs)
 						{
 							var delay = Delays.FirstOrDefault(x => x.UID == delayUID);
 							if (delay != null)
 							{
 								delayUIDs.Add(delayUID);
-								device.GKMirrorItem.Delays.Add(delay);
+								device.GKReflectionItem.Delays.Add(delay);
 							}
 						}
-						device.GKMirrorItem.DelayUIDs = delayUIDs;
+						device.GKReflectionItem.DelayUIDs = delayUIDs;
 
-						foreach (var deviceUID in device.GKMirrorItem.DeviceUIDs)
+						foreach (var deviceUID in device.GKReflectionItem.DeviceUIDs)
 						{
 							var _delice = Devices.FirstOrDefault(x => x.UID == deviceUID);
 							if (_delice != null)
 							{
 								deviceUIDs.Add(deviceUID);
-								device.GKMirrorItem.Devices.Add(_delice);
+								device.GKReflectionItem.Devices.Add(_delice);
 							}
 						}
-						device.GKMirrorItem.DeviceUIDs = deviceUIDs;
+						device.GKReflectionItem.DeviceUIDs = deviceUIDs;
 
-						foreach (var pumpUID in device.GKMirrorItem.NSUIDs)
+						foreach (var pumpUID in device.GKReflectionItem.NSUIDs)
 						{
 							var pumps = PumpStations.FirstOrDefault(x => x.UID == pumpUID);
 							if (pumps != null)
 							{
 								pumpUIDs.Add(pumpUID);
-								device.GKMirrorItem.NSs.Add(pumps);
+								device.GKReflectionItem.NSs.Add(pumps);
 							}
 						}
-						device.GKMirrorItem.NSUIDs = pumpUIDs;
+						device.GKReflectionItem.NSUIDs = pumpUIDs;
 
-						foreach (var mptUID in device.GKMirrorItem.MPTUIDs)
+						foreach (var mptUID in device.GKReflectionItem.MPTUIDs)
 						{
 							var mpts = MPTs.FirstOrDefault(x => x.UID == mptUID);
 							if (mpts != null)
 							{
 								MPTUIDs.Add(mptUID);
-								device.GKMirrorItem.MPTs.Add(mpts);
+								device.GKReflectionItem.MPTs.Add(mpts);
 							}
 						}
-						device.GKMirrorItem.MPTUIDs = MPTUIDs;
+						device.GKReflectionItem.MPTUIDs = MPTUIDs;
 
-						foreach (var directionUID in device.GKMirrorItem.DiretionUIDs)
+						foreach (var directionUID in device.GKReflectionItem.DiretionUIDs)
 						{
 							var directions = Directions.FirstOrDefault(x => x.UID == directionUID);
 							if (directions != null)
 							{
 								directionUIDs.Add(directionUID);
-								device.GKMirrorItem.Diretions.Add(directions);
+								device.GKReflectionItem.Diretions.Add(directions);
 							}
 						}
-						device.GKMirrorItem.DiretionUIDs = directionUIDs;
+						device.GKReflectionItem.DiretionUIDs = directionUIDs;
 					}
 				}
 			}
@@ -409,7 +409,7 @@ namespace RubezhAPI.GK
 
 		public void UpdateGKPredefinedName(GKDevice device)
 		{
-			if (device.DriverType == GKDriverType.GK || device.DriverType == GKDriverType.RSR2_GKMirror)
+			if (device.DriverType == GKDriverType.GK || device.DriverType == GKDriverType.GKMirror)
 			{
 				var indicatorsGroupDevice = device.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicatorsGroup);
 				var relaysGroupDevice = device.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKRelaysGroup);

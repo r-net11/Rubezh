@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -13,63 +12,74 @@ namespace GKProcessor
 	[DebuggerStepThrough]
 	public static class SendManager
 	{
-		static object locker = new object();
+		static List<SendClient> SendClients = new List<SendClient>();
 
 		public static SendResult Send(GKDevice device, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true, bool sleepInsteadOfRecieve = false, int receiveTimeout = 2000)
 		{
-			lock (locker)
+			if ((device == null) || (device.Driver == null))
 			{
-				if ((device == null) || (device.Driver == null))
-				{
-					return new SendResult("Неизвестное устройство");
-				}
+				return new SendResult("Неизвестное устройство");
+			}
 
-				byte whom = 0;
+			byte whom = 0;
 
-				switch (device.DriverType)
-				{
-					case GKDriverType.GK:
-						whom = 2;
-						break;
+			switch (device.DriverType)
+			{
+				case GKDriverType.GK:
+					whom = 2;
+					break;
 
-					case GKDriverType.RSR2_KAU:
-						whom = 4;
-						var modeProperty = device.Properties.FirstOrDefault(x => x.Name == "Mode");
-						if (modeProperty != null)
+				case GKDriverType.RSR2_KAU:
+				case GKDriverType.GKMirror:
+					whom = 4;
+					var modeProperty = device.Properties.FirstOrDefault(x => x.Name == "Mode");
+					if (modeProperty != null)
+					{
+						switch (modeProperty.Value)
 						{
-							switch (modeProperty.Value)
-							{
-								case 0:
-									whom = 4;
-									break;
+							case 0:
+								whom = 4;
+								break;
 
-								case 1:
-									whom = 5;
-									break;
+							case 1:
+								whom = 5;
+								break;
 
-								default:
-									throw new Exception("Неизвестный тип линии");
-							}
+							default:
+								throw new Exception("Неизвестный тип линии");
 						}
-						break;
+					}
+					break;
 
-					default:
-						throw new Exception("Команду можно отправлять только в ГК или в КАУ");
-				}
-				var bytes = new List<byte>();
-				bytes.Add(whom);
-				bytes.Add((byte)device.IntAddress);
-				bytes.AddRange(ToBytes(length));
-				bytes.Add(command);
-				if (data != null)
-					bytes.AddRange(data);
+				default:
+					throw new Exception("Команду можно отправлять только в ГК, в КАУ или в ПМФ");
+			}
+			var bytes = new List<byte>();
+			bytes.Add(whom);
+			bytes.Add((byte)device.IntAddress);
+			bytes.AddRange(ToBytes(length));
+			bytes.Add(command);
+			if (data != null)
+				bytes.AddRange(data);
 
-				string ipAddress = GKManager.GetIpAddress(device);
-				if (string.IsNullOrEmpty(ipAddress))
-				{
-					return new SendResult("Не задан адрес ГК");
-				}
+			string ipAddress = GKManager.GetIpAddress(device);
+			if (string.IsNullOrEmpty(ipAddress))
+			{
+				return new SendResult("Не задан адрес ГК");
+			}
+
+			var sendClient = SendClients.FirstOrDefault(x => x.IpAddress == ipAddress);
+			if (sendClient == null || DateTime.Now.Subtract(sendClient.ExecuteTime).Seconds > 10)
+			{
+				SendClients.Remove(sendClient);
+				sendClient = new SendClient(ipAddress);
+				SendClients.Add(sendClient);
+			}
+
+			lock (sendClient.locker)
+			{
 				var resultBytes = SendBytes(ipAddress, bytes, inputLenght, hasAnswer, sleepInsteadOfRecieve, receiveTimeout);
+				sendClient.ExecuteTime = DateTime.Now;
 				return resultBytes;
 			}
 		}

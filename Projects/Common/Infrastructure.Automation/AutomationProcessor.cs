@@ -1,11 +1,11 @@
-﻿using System;
+﻿using RubezhAPI.Automation;
+using RubezhAPI.Journal;
+using RubezhAPI.Models;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using RubezhAPI.Automation;
-using RubezhAPI.Journal;
-using RubezhAPI.Models;
 
 namespace Infrastructure.Automation
 {
@@ -28,7 +28,7 @@ namespace Infrastructure.Automation
 			_checkThread.Start();
 		}
 
-		public static void RunOnJournal(JournalItem journalItem)
+		public static void RunOnJournal(JournalItem journalItem, User user, Guid? clientUID)
 		{
 			if (ProcedureExecutionContext.SystemConfiguration == null)
 				return;
@@ -57,7 +57,7 @@ namespace Infrastructure.Automation
 							continue;
 						if (filter.ObjectUIDs.Count > 0 && !filter.ObjectUIDs.Contains(journalItem.ObjectUID))
 							continue;
-						RunProcedure(procedure, new List<Argument>(), null, null, journalItem);
+						RunProcedure(procedure, new List<Argument>(), null, user, journalItem, clientUID);
 					}
 				}
 			}
@@ -111,6 +111,9 @@ namespace Infrastructure.Automation
 				{
 					switch (procedureThread.TimeType)
 					{
+						case TimeType.Millisec:
+							timeOut = TimeSpan.FromMilliseconds(procedureThread.TimeOut);
+							break;
 						case TimeType.Sec:
 							timeOut = TimeSpan.FromSeconds(procedureThread.TimeOut);
 							break;

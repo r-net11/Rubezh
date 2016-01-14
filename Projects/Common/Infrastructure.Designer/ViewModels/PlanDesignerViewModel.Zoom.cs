@@ -6,8 +6,7 @@ namespace Infrastructure.Designer.ViewModels
 	public partial class PlanDesignerViewModel : BaseViewModel
 	{
 		public double Zoom = 1;
-		public double DeviceZoom = DesignerItem.DefaultPointSize;
-
+		public double DeviceZoom { get; set;}
 		public void ChangeZoom(double zoom)
 		{
 			Zoom = zoom;

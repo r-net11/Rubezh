@@ -41,7 +41,7 @@ namespace GKProcessor
 			var ControllerAddress = BytesHelper.SubstructShort(bytes, 32 + 10);
 			if (ControllerAddress != 0x200)
 			{
-				var kauDevice = gkControllerDevice.AllChildren.FirstOrDefault(x => x.Driver.IsKau && x.IntAddress == ControllerAddress);
+				var kauDevice = gkControllerDevice.AllChildren.FirstOrDefault(x => (x.Driver.IsKau || x.DriverType == GKDriverType.GKMirror) && x.IntAddress == ControllerAddress);
 				if (kauDevice != null)
 					JournalItem.ObjectUID = kauDevice.UID;
 			}
@@ -466,7 +466,7 @@ namespace GKProcessor
 					}
 					break;
 			}
-
+			JournalItem.JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(JournalItem.JournalEventNameType);
 			InitializeMAMessage();
 		}
 

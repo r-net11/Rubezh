@@ -9,6 +9,7 @@
 		SetPlanProperty,
 		GetPlanProperty,
 		Dialog,
-		Property
+		Property,
+		GlobalVariable
 	}
 }

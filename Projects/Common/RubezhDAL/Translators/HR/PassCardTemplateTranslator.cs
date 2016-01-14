@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 using API = RubezhAPI.SKD;
 
 namespace RubezhDAL.DataClasses
@@ -14,13 +15,13 @@ namespace RubezhDAL.DataClasses
 	/// </summary>
 	public class PassCardTemplateTranslator : OrganisationItemTranslatorBase<PassCardTemplate, API.PassCardTemplate, API.PassCardTemplateFilter>
 	{
-		DataContractSerializer _serializer;
+		XmlSerializer _serializer;
 		public PassCardTemplateShortTranslator ShortTranslator { get; private set; }
 
 		public PassCardTemplateTranslator(DbService context)
 			: base(context)
 		{
-			_serializer = new DataContractSerializer(typeof(API.PassCardTemplate));
+			_serializer = new XmlSerializer(typeof(API.PassCardTemplate));
 			ShortTranslator = new PassCardTemplateShortTranslator(this);
 		}
 
@@ -53,7 +54,7 @@ namespace RubezhDAL.DataClasses
 				return null;
 			using (var ms = new MemoryStream(tableItem.Data.ToArray()))
 			{
-				var result = (API.PassCardTemplate)_serializer.ReadObject(ms);
+				var result = (API.PassCardTemplate)_serializer.Deserialize(ms);
 				return result;
 			}
 		}
@@ -63,7 +64,7 @@ namespace RubezhDAL.DataClasses
 			base.TranslateBack(apiItem, tableItem);
 			using (var ms = new MemoryStream())
 			{
-				_serializer.WriteObject(ms, apiItem);
+				_serializer.Serialize(ms, apiItem);
 				tableItem.Data = ms.ToArray();
 			}
 		}

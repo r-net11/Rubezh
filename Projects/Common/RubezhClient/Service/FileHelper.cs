@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Common;
+using Infrastructure.Common;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Common;
-using Infrastructure.Common;
 
 namespace RubezhClient
 {

@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Infrustructure.Plans.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml.Serialization;
-using Infrustructure.Plans.Interfaces;
-using RubezhAPI;
 
 namespace RubezhAPI.GK
 {
@@ -24,10 +23,8 @@ namespace RubezhAPI.GK
 			Logic = new GKLogic();
 			NSLogic = new GKLogic();
 			PlanElementUIDs = new List<Guid>();
-			GKMirrorItem = new GKMirrorItem();
-			IsNotUsed = false;
+			GKReflectionItem = new GKReflectionItem();
 			AllowMultipleVizualization = false;
-
 			Zones = new List<GKZone>();
 			GuardZones = new List<GKGuardZone>();
 			PmfUsers = new List<GKUser>();
@@ -71,12 +68,41 @@ namespace RubezhAPI.GK
 			{
 				var guardZones = new List<GKGuardZone>();
 
-				foreach (var guardZone in deviceConfiguration.GuardZones.Where(x => x.GuardZoneDevices.Any(y=> y.DeviceUID ==UID)))
+				foreach (var guardZone in deviceConfiguration.GuardZones.Where(x => x.GuardZoneDevices.Any(y => y.DeviceUID == UID)))
 				{
 					guardZones.Add(guardZone);
 					AddDependentElement(guardZone);
 				}
 				GuardZones = guardZones;
+			}
+			if (Driver.HasMirror)
+			{
+				switch (DriverType)
+				{
+					case GKDriverType.DetectorDevicesMirror:
+						GKReflectionItem.Devices.ForEach(AddDependentElement);
+						break;
+					case GKDriverType.ControlDevicesMirror:
+						GKReflectionItem.Devices.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						GKReflectionItem.Delays.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						GKReflectionItem.MPTs.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						GKReflectionItem.NSs.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						break;
+					case GKDriverType.DirectionsMirror:
+						GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						break;
+					case GKDriverType.FireZonesMirror:
+						GKReflectionItem.Zones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						break;
+					case GKDriverType.FirefightingZonesMirror:
+						GKReflectionItem.Zones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						break;
+					case GKDriverType.GuardZonesMirror:
+						GKReflectionItem.GuardZones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+						break;
+				}
 			}
 		}
 
@@ -164,9 +190,6 @@ namespace RubezhAPI.GK
 		public GKLogic NSLogic { get; set; }
 
 		[DataMember]
-		public bool IsNotUsed { get; set; }
-
-		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
 
 		/// <summary>
@@ -176,8 +199,15 @@ namespace RubezhAPI.GK
 		public bool AllowMultipleVizualization { get; set; }
 
 		/// <summary>
+		/// Игнорировать отсутствие логики срабатывания
+		/// </summary>
+		[DataMember]
+		public bool IgnoreLogicValidation { get; set; }
+
+		/// <summary>
 		/// Проектный адрес
 		/// </summary>
+		/// 
 		[DataMember]
 		public string ProjectAddress { get; set; }
 
@@ -185,11 +215,12 @@ namespace RubezhAPI.GK
 		/// Отражение объекта ГК
 		/// </summary>
 		[DataMember]
-		public GKMirrorItem GKMirrorItem { get; set; }
+		public GKReflectionItem GKReflectionItem { get; set; }
 
 		[DataMember]
 		public List<GKUser> PmfUsers { get; set; }
-
+		[DataMember]
+		public bool AllowBeOutsideZone { get; set; }
 
 		[XmlIgnore]
 		public byte ShleifNo
@@ -213,8 +244,8 @@ namespace RubezhAPI.GK
 			{
 				if (DriverType == GKDriverType.GK)
 				{
-					var ipAddress = GetGKIpAddress();
-					return ipAddress != null ? ipAddress : "";
+					var ipAddress = GetMainIpAddress();
+					return ipAddress ?? "";
 				}
 				if (!Driver.HasAddress)
 					return "";
@@ -302,7 +333,7 @@ namespace RubezhAPI.GK
 		{
 			get
 			{
-				if (DriverType == GKDriverType.GK) 
+				if (DriverType == GKDriverType.GK)
 				{
 					return Address;
 				}
@@ -323,8 +354,7 @@ namespace RubezhAPI.GK
 			}
 		}
 
-        //[XmlIgnore]
-        [DataMember]
+		[XmlIgnore]
 		public string ShortName
 		{
 			get
@@ -332,8 +362,7 @@ namespace RubezhAPI.GK
 				if (!string.IsNullOrEmpty(PredefinedName))
 					return PredefinedName;
 				return Driver.ShortName;
-			} 
-            set{}
+			}
 		}
 
 		[XmlIgnore]
@@ -527,7 +556,7 @@ namespace RubezhAPI.GK
 			{
 				var allParents = AllParents;
 				allParents.Add(this);
-				return allParents.LastOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirror);
+				return allParents.LastOrDefault(x => x.DriverType == GKDriverType.GKMirror);
 			}
 		}
 
@@ -537,11 +566,26 @@ namespace RubezhAPI.GK
 			get { return KAUParent != null; }
 		}
 
+		public bool UseReservedIP { get; set; }
+
 		public string GetGKIpAddress()
 		{
 			if (DriverType == GKDriverType.GK)
 			{
-				var ipProperty = this.Properties.FirstOrDefault(x => x.Name == "IPAddress");
+				var ipProperty = Properties.FirstOrDefault(x => x.Name == (UseReservedIP ? "ReservedIPAddress" : "IPAddress"));
+				if (ipProperty != null)
+				{
+					return ipProperty.StringValue;
+				}
+			}
+			return null;
+		}
+
+		string GetMainIpAddress()
+		{
+			if (DriverType == GKDriverType.GK)
+			{
+				var ipProperty = Properties.FirstOrDefault(x => x.Name == "IPAddress");
 				if (ipProperty != null)
 				{
 					return ipProperty.StringValue;

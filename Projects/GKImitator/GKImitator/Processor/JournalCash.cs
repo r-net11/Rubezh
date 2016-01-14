@@ -8,6 +8,7 @@ namespace GKImitator.Processor
 {
 	public static class JournalCash
 	{
+		static Object lockObject = new Object();
 		static List<ImitatorJournalItem> ImitatorJournalItems;
 		public static int Count { get; private set; }
 
@@ -35,7 +36,11 @@ namespace GKImitator.Processor
 
 		public static ImitatorJournalItem GetByGKNo(int gkNo)
 		{
-			var imitatorJournalItem = ImitatorJournalItems.FirstOrDefault(x => x.GkNo == gkNo);
+			ImitatorJournalItem imitatorJournalItem;
+			lock (lockObject)
+			{
+				imitatorJournalItem = ImitatorJournalItems.FirstOrDefault(x => x.GkNo == gkNo);
+			}
 			if (imitatorJournalItem == null)
 			{
 				using (var dbService = new DbService())
@@ -48,10 +53,13 @@ namespace GKImitator.Processor
 
 		public static void Add(ImitatorJournalItem imitatorJournalItem)
 		{
-			ImitatorJournalItems.Add(imitatorJournalItem);
-			if (ImitatorJournalItems.Count > 1000)
-				ImitatorJournalItems.RemoveAt(0);
-			Count = imitatorJournalItem.GkNo;
+			lock (lockObject)
+			{
+				ImitatorJournalItems.Add(imitatorJournalItem);
+				if (ImitatorJournalItems.Count > 1000)
+					ImitatorJournalItems.RemoveAt(0);
+				Count = imitatorJournalItem.GkNo;
+			}
 		}
 	}
 }

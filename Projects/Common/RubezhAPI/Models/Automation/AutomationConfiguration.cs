@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RubezhAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using RubezhAPI.Models;
 
 namespace RubezhAPI.Automation
 {
@@ -403,6 +403,12 @@ namespace RubezhAPI.Automation
 					}
 				case ProcedureStepType.Now:
 					InvalidateArgument(procedure, step.NowArguments.ResultArgument);
+					break;
+				case ProcedureStepType.HttpRequest:
+					var httpRequestArguments = step.HttpRequestArguments;
+					InvalidateArgument(procedure, httpRequestArguments.UrlArgument);
+					InvalidateArgument(procedure, httpRequestArguments.ContentArgument);
+					InvalidateArgument(procedure, httpRequestArguments.ResponseArgument);
 					break;
 			}
 		}

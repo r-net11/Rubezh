@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.ServiceModel;
-using RubezhAPI.GK;
+﻿using RubezhAPI.GK;
 using RubezhAPI.Journal;
+using System;
+using System.Collections.Generic;
+using System.ServiceModel;
 
 namespace RubezhAPI
 {
@@ -11,141 +10,137 @@ namespace RubezhAPI
 	public interface IGKService
 	{
 		[OperationContract]
-		void CancelGKProgress(Guid progressCallbackUID, string userName);
+		void CancelGKProgress(Guid clientUID, Guid progressCallbackUID, string userName);
 
 		[OperationContract]
-		OperationResult<bool> GKWriteConfiguration(Guid deviceUID);
+		OperationResult<bool> GKWriteConfiguration(Guid clientUID, Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<GKDeviceConfiguration> GKReadConfiguration(Guid deviceUID);
+		OperationResult<GKDeviceConfiguration> GKReadConfiguration(Guid clientUID, Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<bool> GKReadConfigurationFromGKFile(Guid deviceUID);
+		OperationResult<bool> GKReadConfigurationFromGKFile(Guid clientUID, Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<GKDevice> GKAutoSearch(Guid deviceUID);
+		OperationResult<GKDevice> GKAutoSearch(Guid clientUID, Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<bool> GKUpdateFirmware(Guid deviceUID, List<byte> firmwareBytes);
+		OperationResult<bool> GKUpdateFirmware(Guid clientUID, Guid deviceUID, List<byte> firmwareBytes);
 
 		[OperationContract]
-		OperationResult<bool> GKSyncronyseTime(Guid deviceUID);
+		OperationResult<bool> GKSyncronyseTime(Guid clientUID, Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<string> GKGetDeviceInfo(Guid deviceUID);
+		OperationResult<string> GKGetDeviceInfo(Guid clientUID, Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<int> GKGetJournalItemsCount(Guid deviceUID);
+		OperationResult<int> GKGetJournalItemsCount(Guid clientUID, Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<JournalItem> GKReadJournalItem(Guid deviceUID, int no);
+		OperationResult<JournalItem> GKReadJournalItem(Guid clientUID, Guid deviceUID, int no);
 
 		[OperationContract]
-		OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes, List<GKProperty> deviceProperties);
+		OperationResult<bool> GKSetSingleParameter(Guid clientUID, Guid objectUID, List<byte> parameterBytes, List<GKProperty> deviceProperties);
 
 		[OperationContract]
-		OperationResult<List<GKProperty>> GKGetSingleParameter(Guid objectUID);
+		OperationResult<List<GKProperty>> GKGetSingleParameter(Guid clientUID, Guid objectUID);
 
 		[OperationContract]
-		OperationResult<bool> GKRewriteAllSchedules(Guid gkDeviceUID);
+		OperationResult<bool> GKRewriteAllSchedules(Guid clientUID, Guid gkDeviceUID);
 
 		[OperationContract]
-		OperationResult<bool> GKSetSchedule(GKSchedule schedule);
+		OperationResult<bool> GKSetSchedule(Guid clientUID, GKSchedule schedule);
 
 		[OperationContract]
-		OperationResult<bool> GKGetUsers(Guid gkDeviceUID);
+		OperationResult<bool> GKGetUsers(Guid clientUID, Guid gkDeviceUID);
 
 		[OperationContract]
-		OperationResult<bool> GKRewriteUsers(Guid gkDeviceUID);
+		OperationResult<bool> GKRewriteUsers(Guid clientUID, Guid gkDeviceUID);
 
 		[OperationContract]
-		OperationResult<List<MirrorUser>> GKReadMirrorUsers(Guid gkDeviceUID);
+		OperationResult<List<GKUser>> GetGKUsers(Guid clientUID, Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<bool> GKWriteMirrorUsers(Guid gkDeviceUID,List<MirrorUser> mirrorUsers);
+		OperationResult<bool> RewritePmfUsers(Guid clientUID, Guid uid, List<GKUser> users);
 
 		[OperationContract]
-		OperationResult<List<GKUser>> GetGKUsers(Guid deviceUID);
+		OperationResult<List<byte>> GKGKHash(Guid clientUID, Guid gkDeviceUID);
 
 		[OperationContract]
-		OperationResult<bool> RewritePmfUsers(Guid uid, List<GKUser> users);
+		GKStates GKGetStates(Guid clientUID);
 
 		[OperationContract]
-		OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID);
+		void GKExecuteDeviceCommand(Guid clientUID, Guid deviceUID, GKStateBit stateBit);
 
 		[OperationContract]
-		GKStates GKGetStates();
+		void GKReset(Guid clientUID, Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKExecuteDeviceCommand(Guid deviceUID, GKStateBit stateBit);
+		void GKResetFire1(Guid clientUID, Guid zoneUID);
 
 		[OperationContract]
-		void GKReset(Guid uid, GKBaseObjectType objectType);
+		void GKResetFire2(Guid clientUID, Guid zoneUID);
 
 		[OperationContract]
-		void GKResetFire1(Guid zoneUID);
+		void GKSetAutomaticRegime(Guid clientUID, Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKResetFire2(Guid zoneUID);
+		void GKSetManualRegime(Guid clientUID, Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKSetAutomaticRegime(Guid uid, GKBaseObjectType objectType);
+		void GKSetIgnoreRegime(Guid clientUID, Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKSetManualRegime(Guid uid, GKBaseObjectType objectType);
+		void GKTurnOn(Guid clientUID, Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKSetIgnoreRegime(Guid uid, GKBaseObjectType objectType);
+		void GKTurnOnNow(Guid clientUID, Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKTurnOn(Guid uid, GKBaseObjectType objectType);
+		void GKTurnOnInAutomatic(Guid clientUID, Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKTurnOnNow(Guid uid, GKBaseObjectType objectType);
+		void GKTurnOnNowInAutomatic(Guid clientUID, Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKTurnOnInAutomatic(Guid uid, GKBaseObjectType objectType);
+		void GKTurnOff(Guid clientUID, Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKTurnOnNowInAutomatic(Guid uid, GKBaseObjectType objectType);
+		void GKTurnOffNow(Guid clientUID, Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKTurnOff(Guid uid, GKBaseObjectType objectType);
+		void GKTurnOffInAutomatic(Guid clientUID, Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKTurnOffNow(Guid uid, GKBaseObjectType objectType);
+		void GKTurnOffNowInAutomatic(Guid clientUID, Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKTurnOffInAutomatic(Guid uid, GKBaseObjectType objectType);
+		void GKStop(Guid clientUID, Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKTurnOffNowInAutomatic(Guid uid, GKBaseObjectType objectType);
+		void GKStartMeasureMonitoring(Guid clientUID, Guid deviceUID);
 
 		[OperationContract]
 		void GKTurnOnNowGlobalPimsInAutomatic();
+		
+		[OperationContract]
+		void GKStopMeasureMonitoring(Guid clientUID, Guid deviceUID);
 
 		[OperationContract]
 		void GKTurnOffNowGlobalPimsInAutomatic();
 
 		[OperationContract]
-		void GKStop(Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKStartMeasureMonitoring(Guid deviceUID);
+		OperationResult<uint> GKGetReaderCode(Guid clientUID, Guid deviceUID);
 
 		[OperationContract]
-		void GKStopMeasureMonitoring(Guid deviceUID);
+		void GKOpenSKDZone(Guid clientUID, Guid zoneUID);
 
 		[OperationContract]
-		OperationResult<uint> GKGetReaderCode(Guid deviceUID);
+		void GKCloseSKDZone(Guid clientUID, Guid zoneUID);
 
 		[OperationContract]
-		void GKOpenSKDZone(Guid zoneUID);
-
-		[OperationContract]
-		void GKCloseSKDZone(Guid zoneUID);
-
-		[OperationContract]
-		OperationResult<CurrentConsumption> GetAlsMeasure(Guid alsUid);
+		OperationResult<CurrentConsumption> GetAlsMeasure(Guid clientUID, Guid alsUid);
 	}
 }

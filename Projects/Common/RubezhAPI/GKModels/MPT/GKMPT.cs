@@ -25,18 +25,19 @@ namespace RubezhAPI.GK
 
 		public override void Invalidate(GKDeviceConfiguration deviceConfiguration)
 		{
+			var newMPTDevices = new List<GKMPTDevice>();
 			foreach (var mptDevice in MPTDevices)
 			{
 				var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == mptDevice.DeviceUID);
-				mptDevice.Device = device;
-				if (device == null)
-					mptDevice.DeviceUID = Guid.Empty;
 				if (device != null)
 				{
+					newMPTDevices.Add(mptDevice);
+					mptDevice.Device = device;
 					device.IsInMPT = true;
 					AddDependentElement(device);
 				}
 			}
+			MPTDevices = newMPTDevices;
 
 			UpdateLogic(deviceConfiguration);
 
@@ -104,7 +105,7 @@ namespace RubezhAPI.GK
 		[XmlIgnore]
 		public override string ImageSource
 		{
-			get { return "/Controls;component/Images/Pim.png"; }
+			get { return "/Controls;component/Images/BMPT.png"; }
 		}
 
 		[DataMember]

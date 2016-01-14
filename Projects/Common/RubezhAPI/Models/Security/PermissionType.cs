@@ -4,9 +4,8 @@ namespace RubezhAPI.Models
 {
 	public enum PermissionType
 	{
-		[DescriptionAttribute("Все")]
-		All,
-
+		//TODO: Убрать [XmlEnum("All")]. Временное решение для совместимости конфигураций. Забелло
+		[System.Xml.Serialization.XmlEnum("All")]
 		[DescriptionAttribute("Администратор")]
 		Adm_All,
 
@@ -24,9 +23,6 @@ namespace RubezhAPI.Models
 
 		[DescriptionAttribute("Управление правами пользователей")]
 		Adm_Security,
-
-		[DescriptionAttribute("ОЗ")]
-		Oper_All,
 
 		[DescriptionAttribute("Вход")]
 		Oper_Login,
@@ -78,9 +74,6 @@ namespace RubezhAPI.Models
 
 		[DescriptionAttribute("Разрешить не подтверждать команды паролем")]
 		Oper_MayNotConfirmCommands,
-
-		[DescriptionAttribute("СКД")]
-		Oper_SKD,
 
 		[DescriptionAttribute("Управление особо охраняемыми охранными зонами")]
 		Oper_ExtraGuardZone,

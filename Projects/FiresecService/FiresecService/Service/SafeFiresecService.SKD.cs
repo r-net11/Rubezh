@@ -1,367 +1,371 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Common;
+﻿using Common;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.SKD;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace FiresecService.Service
 {
 	public partial class SafeFiresecService
 	{
 		#region Employee
-		public OperationResult<List<ShortEmployee>> GetEmployeeList(EmployeeFilter filter)
+		public OperationResult<List<ShortEmployee>> GetEmployeeList(Guid clientUID, EmployeeFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<List<ShortEmployee>>>(() => FiresecService.GetEmployeeList(filter));
+			return SafeOperationCall(clientUID, () => FiresecService.GetEmployeeList(clientUID, filter), "GetEmployeeList");
 		}
-		public OperationResult<Employee> GetEmployeeDetails(Guid uid)
+		public OperationResult<Employee> GetEmployeeDetails(Guid clientUID, Guid uid)
 		{
-			return SafeContext.Execute<OperationResult<Employee>>(() => FiresecService.GetEmployeeDetails(uid));
+			return SafeOperationCall(clientUID, () => FiresecService.GetEmployeeDetails(clientUID, uid), "GetEmployeeDetails");
 		}
-		public OperationResult<bool> SaveEmployee(Employee item, bool isNew)
+		public OperationResult<bool> SaveEmployee(Guid clientUID, Employee item, bool isNew)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SaveEmployee(item, isNew));
+			return SafeOperationCall(clientUID, () => FiresecService.SaveEmployee(clientUID, item, isNew), "SaveEmployee");
 		}
-		public OperationResult MarkDeletedEmployee(Guid uid, string name, bool isEmployee)
+		public OperationResult MarkDeletedEmployee(Guid clientUID, Guid uid, string name, bool isEmployee)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedEmployee(uid, name, isEmployee));
+			return SafeOperationCall(clientUID, () => FiresecService.MarkDeletedEmployee(clientUID, uid, name, isEmployee), "MarkDeletedEmployee");
 		}
-		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
+		public OperationResult<TimeTrackResult> GetTimeTracks(Guid clientUID, EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
-			var result = SafeContext.Execute<OperationResult<TimeTrackResult>>(() => FiresecService.GetTimeTracks(filter, startDate, endDate));
+			var result = SafeOperationCall(clientUID, () => FiresecService.GetTimeTracks(clientUID, filter, startDate, endDate), "GetTimeTracks");
 			return result;
 		}
-		public Stream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)
+		public Stream GetTimeTracksStream(Guid clientUID, EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
-			var result = SafeContext.Execute<Stream>(() => FiresecService.GetTimeTracksStream(filter, startDate, endDate));
+			var result = SafeOperationCall(clientUID, () => FiresecService.GetTimeTracksStream(clientUID, filter, startDate, endDate), "GetTimeTracksStream");
 			return result;
 		}
-		public OperationResult SaveEmployeeDepartment(Guid uid, Guid? departmentUid, string name)
+		public OperationResult SaveEmployeeDepartment(Guid clientUID, Guid uid, Guid? departmentUid, string name)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployeeDepartment(uid, departmentUid, name));
+			return SafeOperationCall(clientUID, () => FiresecService.SaveEmployeeDepartment(clientUID, uid, departmentUid, name), "SaveEmployeeDepartment");
 		}
-		public OperationResult SaveEmployeePosition(Guid uid, Guid? positionUid, string name)
+		public OperationResult SaveEmployeePosition(Guid clientUID, Guid uid, Guid? positionUid, string name)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployeePosition(uid, positionUid, name));
+			return SafeOperationCall(clientUID, () => FiresecService.SaveEmployeePosition(clientUID, uid, positionUid, name), "SaveEmployeePosition");
 		}
-		public OperationResult RestoreEmployee(Guid uid, string name, bool isEmployee)
+		public OperationResult RestoreEmployee(Guid clientUID, Guid uid, string name, bool isEmployee)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreEmployee(uid, name, isEmployee));
+			return SafeOperationCall(clientUID, () => FiresecService.RestoreEmployee(clientUID, uid, name, isEmployee), "RestoreEmployee");
 		}
-        #endregion
+		#endregion
 
 		#region Department
-		public OperationResult<List<ShortDepartment>> GetDepartmentList(DepartmentFilter filter)
+		public OperationResult<List<ShortDepartment>> GetDepartmentList(Guid clientUID, DepartmentFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<List<ShortDepartment>>>(() => FiresecService.GetDepartmentList(filter));
+			return SafeOperationCall(clientUID, () => FiresecService.GetDepartmentList(clientUID, filter), "GetDepartmentList");
 		}
-		public OperationResult<Department> GetDepartmentDetails(Guid uid)
+		public OperationResult<Department> GetDepartmentDetails(Guid clientUID, Guid uid)
 		{
-			return SafeContext.Execute<OperationResult<Department>>(() => FiresecService.GetDepartmentDetails(uid));
+			return SafeOperationCall(clientUID, () => FiresecService.GetDepartmentDetails(clientUID, uid), "GetDepartmentDetails");
 		}
-		public OperationResult<bool> SaveDepartment(Department item, bool isNew)
+		public OperationResult<bool> SaveDepartment(Guid clientUID, Department item, bool isNew)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SaveDepartment(item, isNew));
+			return SafeOperationCall(clientUID, () => FiresecService.SaveDepartment(clientUID, item, isNew), "SaveDepartment");
 		}
-		public OperationResult MarkDeletedDepartment(ShortDepartment department)
+		public OperationResult MarkDeletedDepartment(Guid clientUID, ShortDepartment department)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDepartment(department));
+			return SafeOperationCall(clientUID, () => FiresecService.MarkDeletedDepartment(clientUID, department), "MarkDeletedDepartment");
 		}
-		public OperationResult SaveDepartmentChief(Guid uid, Guid? chiefUID, string name)
+		public OperationResult SaveDepartmentChief(Guid clientUID, Guid uid, Guid? chiefUID, string name)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDepartmentChief(uid, chiefUID, name));
+			return SafeOperationCall(clientUID, () => FiresecService.SaveDepartmentChief(clientUID, uid, chiefUID, name), "SaveDepartmentChief");
 		}
-		public OperationResult RestoreDepartment(ShortDepartment department)
+		public OperationResult RestoreDepartment(Guid clientUID, ShortDepartment department)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreDepartment(department));
+			return SafeOperationCall(clientUID, () => FiresecService.RestoreDepartment(clientUID, department), "RestoreDepartment");
 		}
-		public OperationResult<List<Guid>> GetChildEmployeeUIDs(Guid uid)
+		public OperationResult<List<Guid>> GetChildEmployeeUIDs(Guid clientUID, Guid uid)
 		{
-			return SafeContext.Execute<OperationResult<List<Guid>>>(() => FiresecService.GetChildEmployeeUIDs(uid));
+			return SafeOperationCall(clientUID, () => FiresecService.GetChildEmployeeUIDs(clientUID, uid), "GetChildEmployeeUIDs");
 		}
-		public OperationResult<List<Guid>> GetParentEmployeeUIDs(Guid uid)
+		public OperationResult<List<Guid>> GetParentEmployeeUIDs(Guid clientUID, Guid uid)
 		{
-			return SafeContext.Execute<OperationResult<List<Guid>>>(() => FiresecService.GetParentEmployeeUIDs(uid));
+			return SafeOperationCall(clientUID, () => FiresecService.GetParentEmployeeUIDs(clientUID, uid), "GetParentEmployeeUIDs");
 		}
 		#endregion
 
 		#region Position
-		public OperationResult<List<ShortPosition>> GetPositionList(PositionFilter filter)
+		public OperationResult<List<ShortPosition>> GetPositionList(Guid clientUID, PositionFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<List<ShortPosition>>>(() => FiresecService.GetPositionList(filter));
+			return SafeOperationCall(clientUID, () => FiresecService.GetPositionList(clientUID, filter), "GetPositionList");
 		}
-		public OperationResult<List<Guid>> GetPositionEmployees(Guid uid)
+		public OperationResult<List<Guid>> GetPositionEmployees(Guid clientUID, Guid uid)
 		{
-			return SafeContext.Execute<OperationResult<List<Guid>>>(() => FiresecService.GetPositionEmployees(uid));
+			return SafeOperationCall(clientUID, () => FiresecService.GetPositionEmployees(clientUID, uid), "GetPositionEmployees");
 		}
-		public OperationResult<Position> GetPositionDetails(Guid uid)
+		public OperationResult<Position> GetPositionDetails(Guid clientUID, Guid uid)
 		{
-			return SafeContext.Execute<OperationResult<Position>>(() => FiresecService.GetPositionDetails(uid));
+			return SafeOperationCall(clientUID, () => FiresecService.GetPositionDetails(clientUID, uid), "GetPositionDetails");
 		}
-		public OperationResult<bool> SavePosition(Position item, bool isNew)
+		public OperationResult<bool> SavePosition(Guid clientUID, Position item, bool isNew)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SavePosition(item, isNew));
+			return SafeOperationCall(clientUID, () => FiresecService.SavePosition(clientUID, item, isNew), "SavePosition");
 		}
-		public OperationResult MarkDeletedPosition(Guid uid, string name)
+		public OperationResult MarkDeletedPosition(Guid clientUID, Guid uid, string name)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedPosition(uid, name));
+			return SafeOperationCall(clientUID, () => FiresecService.MarkDeletedPosition(clientUID, uid, name), "MarkDeletedPosition");
 		}
 
-		public OperationResult RestorePosition(Guid uid, string name)
+		public OperationResult RestorePosition(Guid clientUID, Guid uid, string name)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.RestorePosition(uid, name));
+			return SafeOperationCall(clientUID, () => FiresecService.RestorePosition(clientUID, uid, name), "RestorePosition");
 		}
 		#endregion
 
 		#region Card
-		public OperationResult<List<SKDCard>> GetCards(CardFilter filter)
+		public OperationResult<List<SKDCard>> GetCards(Guid clientUID, CardFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<List<SKDCard>>>(() => FiresecService.GetCards(filter));
+			return SafeOperationCall(clientUID, () => FiresecService.GetCards(clientUID, filter), "GetCards");
 		}
-		public OperationResult<SKDCard> GetSingleCard(Guid uid)
+		public OperationResult<SKDCard> GetSingleCard(Guid clientUID, Guid uid)
 		{
-			return SafeContext.Execute<OperationResult<SKDCard>>(() => FiresecService.GetSingleCard(uid));
+			return SafeOperationCall(clientUID, () => FiresecService.GetSingleCard(clientUID, uid), "GetSingleCard");
 		}
-        public OperationResult<List<SKDCard>> GetEmployeeCards(Guid employeeUID)
+		public OperationResult<List<SKDCard>> GetEmployeeCards(Guid clientUID, Guid employeeUID)
 		{
-            return SafeContext.Execute<OperationResult<List<SKDCard>>>(() => FiresecService.GetEmployeeCards(employeeUID));
+			return SafeOperationCall(clientUID, () => FiresecService.GetEmployeeCards(clientUID, employeeUID), "GetEmployeeCards");
 		}
-		public OperationResult<bool> AddCard(SKDCard item, string employeeName)
+		public OperationResult<bool> AddCard(Guid clientUID, SKDCard item, string employeeName)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.AddCard(item, employeeName));
+			return SafeOperationCall(clientUID, () => FiresecService.AddCard(clientUID, item, employeeName), "AddCard");
 		}
-		public OperationResult<bool> EditCard(SKDCard item, string employeeName)
+		public OperationResult<bool> EditCard(Guid clientUID, SKDCard item, string employeeName)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.EditCard(item, employeeName));
+			return SafeOperationCall(clientUID, () => FiresecService.EditCard(clientUID, item, employeeName), "EditCard");
 		}
-		public OperationResult<bool> DeleteCardFromEmployee(SKDCard item, string employeeName, string reason = null)
+		public OperationResult<bool> DeleteCardFromEmployee(Guid clientUID, SKDCard item, string employeeName, string reason = null)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.DeleteCardFromEmployee(item, employeeName, reason));
+			return SafeOperationCall(clientUID, () => FiresecService.DeleteCardFromEmployee(clientUID, item, employeeName, reason), "DeleteCardFromEmployee");
 		}
-		public OperationResult DeletedCard(SKDCard card)
+		public OperationResult DeletedCard(Guid clientUID, SKDCard card)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.DeletedCard(card));
+			return SafeOperationCall(clientUID, () => FiresecService.DeletedCard(clientUID, card), "DeletedCard");
 		}
-		public OperationResult SaveCardTemplate(SKDCard item)
+		public OperationResult SaveCardTemplate(Guid clientUID, SKDCard item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveCardTemplate(item));
+			return SafeOperationCall(clientUID, () => FiresecService.SaveCardTemplate(clientUID, item), "SaveCardTemplate");
 		}
-        #endregion
+		public OperationResult<List<GKUser>> GetDbDeviceUsers(Guid deviceUID, List<Guid> doorUIDs)
+		{
+			return SafeContext.Execute<OperationResult<List<GKUser>>>(() => FiresecService.GetDbDeviceUsers(deviceUID, doorUIDs));
+		}
+		#endregion
 
 		#region AccessTemplate
-		public OperationResult<List<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter)
+		public OperationResult<List<AccessTemplate>> GetAccessTemplates(Guid clientUID, AccessTemplateFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<List<AccessTemplate>>>(() => FiresecService.GetAccessTemplates(filter));
+			return SafeOperationCall(clientUID, () => FiresecService.GetAccessTemplates(clientUID, filter), "GetAccessTemplates");
 		}
-		public OperationResult<bool> SaveAccessTemplate(AccessTemplate item, bool isNew)
+		public OperationResult<bool> SaveAccessTemplate(Guid clientUID, AccessTemplate item, bool isNew)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SaveAccessTemplate(item, isNew));
+			return SafeOperationCall(clientUID, () => FiresecService.SaveAccessTemplate(clientUID, item, isNew), "SaveAccessTemplate");
 		}
-		public OperationResult MarkDeletedAccessTemplate(AccessTemplate item)
+		public OperationResult MarkDeletedAccessTemplate(Guid clientUID, AccessTemplate item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedAccessTemplate(item));
+			return SafeOperationCall(clientUID, () => FiresecService.MarkDeletedAccessTemplate(clientUID, item), "MarkDeletedAccessTemplate");
 		}
-		public OperationResult RestoreAccessTemplate(AccessTemplate item)
+		public OperationResult RestoreAccessTemplate(Guid clientUID, AccessTemplate item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreAccessTemplate(item));
+			return SafeOperationCall(clientUID, () => FiresecService.RestoreAccessTemplate(clientUID, item), "RestoreAccessTemplate");
 		}
 		#endregion
 
 		#region Organisation
-		public OperationResult<List<Organisation>> GetOrganisations(OrganisationFilter filter)
+		public OperationResult<List<Organisation>> GetOrganisations(Guid clientUID, OrganisationFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<List<Organisation>>>(() => FiresecService.GetOrganisations(filter));
+			return SafeOperationCall(clientUID, () => FiresecService.GetOrganisations(clientUID, filter), "GetOrganisations");
 		}
-		public OperationResult<bool> SaveOrganisation(OrganisationDetails item, bool isNew)
+		public OperationResult<bool> SaveOrganisation(Guid clientUID, OrganisationDetails item, bool isNew)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SaveOrganisation(item, isNew));
+			return SafeOperationCall(clientUID, () => FiresecService.SaveOrganisation(clientUID, item, isNew), "SaveOrganisation");
 		}
-		public OperationResult MarkDeletedOrganisation(Guid uid, string name)
+		public OperationResult MarkDeletedOrganisation(Guid clientUID, Guid uid, string name)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedOrganisation(uid, name));
+			return SafeOperationCall(clientUID, () => FiresecService.MarkDeletedOrganisation(clientUID, uid, name), "MarkDeletedOrganisation");
 		}
-		public OperationResult AddOrganisationDoor(Organisation organisation, Guid doorUID)
+		public OperationResult AddOrganisationDoor(Guid clientUID, Organisation organisation, Guid doorUID)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.AddOrganisationDoor(organisation, doorUID));
+			return SafeOperationCall(clientUID, () => FiresecService.AddOrganisationDoor(clientUID, organisation, doorUID), "AddOrganisationDoor");
 		}
-		public OperationResult RemoveOrganisationDoor(Organisation organisation, Guid doorUID)
+		public OperationResult RemoveOrganisationDoor(Guid clientUID, Organisation organisation, Guid doorUID)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.RemoveOrganisationDoor(organisation, doorUID));
+			return SafeOperationCall(clientUID, () => FiresecService.RemoveOrganisationDoor(clientUID, organisation, doorUID), "RemoveOrganisationDoor");
 		}
-		public OperationResult SaveOrganisationUsers(Organisation organisation)
+		public OperationResult SaveOrganisationUsers(Guid clientUID, Organisation organisation)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationUsers(organisation));
+			return SafeOperationCall(clientUID, () => FiresecService.SaveOrganisationUsers(clientUID, organisation), "SaveOrganisationUsers");
 		}
-		public OperationResult<OrganisationDetails> GetOrganisationDetails(Guid uid)
+		public OperationResult<OrganisationDetails> GetOrganisationDetails(Guid clientUID, Guid uid)
 		{
-			return SafeContext.Execute<OperationResult<OrganisationDetails>>(() => FiresecService.GetOrganisationDetails(uid));
+			return SafeOperationCall(clientUID, () => FiresecService.GetOrganisationDetails(clientUID, uid), "GetOrganisationDetails");
 		}
-		public OperationResult SaveOrganisationChief(Guid uid, Guid? chiefUID, string name)
+		public OperationResult SaveOrganisationChief(Guid clientUID, Guid uid, Guid? chiefUID, string name)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationChief(uid, chiefUID, name));
+			return SafeOperationCall(clientUID, () => FiresecService.SaveOrganisationChief(clientUID, uid, chiefUID, name), "SaveOrganisationChief");
 		}
-		public OperationResult SaveOrganisationHRChief(Guid uid, Guid? chiefUID, string name)
+		public OperationResult SaveOrganisationHRChief(Guid clientUID, Guid uid, Guid? chiefUID, string name)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationHRChief(uid, chiefUID, name));
+			return SafeOperationCall(clientUID, () => FiresecService.SaveOrganisationHRChief(clientUID, uid, chiefUID, name), "SaveOrganisationHRChief");
 		}
-		public OperationResult RestoreOrganisation(Guid uid, string name)
+		public OperationResult RestoreOrganisation(Guid clientUID, Guid uid, string name)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreOrganisation(uid, name));
+			return SafeOperationCall(clientUID, () => FiresecService.RestoreOrganisation(clientUID, uid, name), "RestoreOrganisation");
 		}
-		public OperationResult<bool> IsAnyOrganisationItems(Guid uid)
+		public OperationResult<bool> IsAnyOrganisationItems(Guid clientUID, Guid uid)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.IsAnyOrganisationItems(uid));
+			return SafeOperationCall(clientUID, () => FiresecService.IsAnyOrganisationItems(clientUID, uid), "IsAnyOrganisationItems");
 		}
 		#endregion
 
 		#region AdditionalColumnType
-		public OperationResult<List<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
+		public OperationResult<List<AdditionalColumnType>> GetAdditionalColumnTypes(Guid clientUID, AdditionalColumnTypeFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<List<AdditionalColumnType>>>(() => FiresecService.GetAdditionalColumnTypes(filter));
+			return SafeOperationCall(clientUID, () => FiresecService.GetAdditionalColumnTypes(clientUID, filter), "GetAdditionalColumnTypes");
 		}
-		public OperationResult<bool> SaveAdditionalColumnType(AdditionalColumnType item, bool isNew)
+		public OperationResult<bool> SaveAdditionalColumnType(Guid clientUID, AdditionalColumnType item, bool isNew)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SaveAdditionalColumnType(item, isNew));
+			return SafeOperationCall(clientUID, () => FiresecService.SaveAdditionalColumnType(clientUID, item, isNew), "SaveAdditionalColumnType");
 		}
-		public OperationResult MarkDeletedAdditionalColumnType(Guid uid, string name)
+		public OperationResult MarkDeletedAdditionalColumnType(Guid clientUID, Guid uid, string name)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedAdditionalColumnType(uid, name));
+			return SafeOperationCall(clientUID, () => FiresecService.MarkDeletedAdditionalColumnType(clientUID, uid, name), "MarkDeletedAdditionalColumnType");
 		}
-		public OperationResult RestoreAdditionalColumnType(Guid uid, string name)
+		public OperationResult RestoreAdditionalColumnType(Guid clientUID, Guid uid, string name)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreAdditionalColumnType(uid, name));
+			return SafeOperationCall(clientUID, () => FiresecService.RestoreAdditionalColumnType(clientUID, uid, name), "RestoreAdditionalColumnType");
 		}
 		#endregion
 
 		#region NightSettings
-		public OperationResult<NightSettings> GetNightSettingsByOrganisation(Guid organisationUID)
+		public OperationResult<NightSettings> GetNightSettingsByOrganisation(Guid clientUID, Guid organisationUID)
 		{
-			return SafeContext.Execute<OperationResult<NightSettings>>(() => FiresecService.GetNightSettingsByOrganisation(organisationUID));
+			return SafeOperationCall(clientUID, () => FiresecService.GetNightSettingsByOrganisation(clientUID, organisationUID), "GetNightSettingsByOrganisation");
 		}
-		public OperationResult SaveNightSettings(NightSettings nightSettings)
+		public OperationResult SaveNightSettings(Guid clientUID, NightSettings nightSettings)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveNightSettings(nightSettings));
+			return SafeOperationCall(clientUID, () => FiresecService.SaveNightSettings(clientUID, nightSettings), "SaveNightSettings");
 		}
 		#endregion
 
 		#region PassCardTemplate
-		public OperationResult<List<ShortPassCardTemplate>> GetPassCardTemplateList(PassCardTemplateFilter filter)
+		public OperationResult<List<ShortPassCardTemplate>> GetPassCardTemplateList(Guid clientUID, PassCardTemplateFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<List<ShortPassCardTemplate>>>(() => FiresecService.GetPassCardTemplateList(filter));
+			return SafeOperationCall(clientUID, () => FiresecService.GetPassCardTemplateList(clientUID, filter), "GetPassCardTemplateList");
 		}
-		public OperationResult<PassCardTemplate> GetPassCardTemplateDetails(Guid uid)
+		public OperationResult<PassCardTemplate> GetPassCardTemplateDetails(Guid clientUID, Guid uid)
 		{
-			return SafeContext.Execute<OperationResult<PassCardTemplate>>(() => FiresecService.GetPassCardTemplateDetails(uid));
+			return SafeOperationCall(clientUID, () => FiresecService.GetPassCardTemplateDetails(clientUID, uid), "GetPassCardTemplateDetails");
 		}
-		public OperationResult<bool> SavePassCardTemplate(PassCardTemplate item, bool isNew)
+		public OperationResult<bool> SavePassCardTemplate(Guid clientUID, PassCardTemplate item, bool isNew)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SavePassCardTemplate(item, isNew));
+			return SafeOperationCall(clientUID, () => FiresecService.SavePassCardTemplate(clientUID, item, isNew), "SavePassCardTemplate");
 		}
-		public OperationResult MarkDeletedPassCardTemplate(Guid uid, string name)
+		public OperationResult MarkDeletedPassCardTemplate(Guid clientUID, Guid uid, string name)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedPassCardTemplate(uid, name));
+			return SafeOperationCall(clientUID, () => FiresecService.MarkDeletedPassCardTemplate(clientUID, uid, name), "MarkDeletedPassCardTemplate");
 		}
-		public OperationResult RestorePassCardTemplate(Guid uid, string name)
+		public OperationResult RestorePassCardTemplate(Guid clientUID, Guid uid, string name)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.RestorePassCardTemplate(uid, name));
+			return SafeOperationCall(clientUID, () => FiresecService.RestorePassCardTemplate(clientUID, uid, name), "RestorePassCardTemplate");
 		}
 		#endregion
 
-		public OperationResult GenerateEmployeeDays()
+		public OperationResult GenerateEmployeeDays(Guid clientUID)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.GenerateEmployeeDays());
+			return SafeOperationCall(clientUID, () => FiresecService.GenerateEmployeeDays(clientUID), "GenerateEmployeeDays");
 		}
 
-        public OperationResult GenerateJournal()
-        {
-            return SafeContext.Execute<OperationResult>(() => FiresecService.GenerateJournal());
-        }
-
-		public OperationResult GenerateTestData(bool isAscending)
+		public OperationResult GenerateJournal(Guid clientUID)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.GenerateTestData(isAscending));
+			return SafeOperationCall(clientUID, () => FiresecService.GenerateJournal(clientUID), "GenerateJournal");
 		}
 
-		public OperationResult SaveJournalVideoUID(Guid journalItemUID, Guid videoUID, Guid cameraUID)
+		public OperationResult GenerateTestData(Guid clientUID, bool isAscending)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveJournalVideoUID(journalItemUID, videoUID, cameraUID));
+			return SafeOperationCall(clientUID, () => FiresecService.GenerateTestData(clientUID, isAscending), "GenerateTestData");
 		}
 
-		public OperationResult SaveJournalCameraUID(Guid journalItemUID, Guid CameraUID)
+		public OperationResult SaveJournalVideoUID(Guid clientUID, Guid journalItemUID, Guid videoUID, Guid cameraUID)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveJournalCameraUID(journalItemUID, CameraUID));
+			return SafeOperationCall(clientUID, () => FiresecService.SaveJournalVideoUID(clientUID, journalItemUID, videoUID, cameraUID), "SaveJournalVideoUID");
+		}
+
+		public OperationResult SaveJournalCameraUID(Guid clientUID, Guid journalItemUID, Guid CameraUID)
+		{
+			return SafeOperationCall(clientUID, () => FiresecService.SaveJournalCameraUID(clientUID, journalItemUID, CameraUID), "SaveJournalCameraUID");
 		}
 
 		#region GKSchedule
-		public OperationResult<List<GKSchedule>> GetGKSchedules()
+		public OperationResult<List<GKSchedule>> GetGKSchedules(Guid clientUID)
 		{
-			return SafeContext.Execute<OperationResult<List<GKSchedule>>>(() => FiresecService.GetGKSchedules());
+			return SafeOperationCall(clientUID, () => FiresecService.GetGKSchedules(clientUID), "GetGKSchedules");
 		}
 
-		public OperationResult<bool> SaveGKSchedule(GKSchedule item, bool isNew)
+		public OperationResult<bool> SaveGKSchedule(Guid clientUID, GKSchedule item, bool isNew)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SaveGKSchedule(item, isNew));
+			return SafeOperationCall(clientUID, () => FiresecService.SaveGKSchedule(clientUID, item, isNew), "SaveGKSchedule");
 		}
 
-		public OperationResult<bool> DeleteGKSchedule(GKSchedule item)
+		public OperationResult<bool> DeleteGKSchedule(Guid clientUID, GKSchedule item)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.DeleteGKSchedule(item));
+			return SafeOperationCall(clientUID, () => FiresecService.DeleteGKSchedule(clientUID, item), "DeleteGKSchedule");
 		}
 		#endregion
 
 		#region GKDaySchedule
-		public OperationResult<List<GKDaySchedule>> GetGKDaySchedules()
+		public OperationResult<List<GKDaySchedule>> GetGKDaySchedules(Guid clientUID)
 		{
-			return SafeContext.Execute<OperationResult<List<GKDaySchedule>>>(() => FiresecService.GetGKDaySchedules());
+			return SafeOperationCall(clientUID, () => FiresecService.GetGKDaySchedules(clientUID), "GetGKDaySchedules");
 		}
 
-		public OperationResult<bool> SaveGKDaySchedule(GKDaySchedule item, bool isNew)
+		public OperationResult<bool> SaveGKDaySchedule(Guid clientUID, GKDaySchedule item, bool isNew)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SaveGKDaySchedule(item, isNew));
+			return SafeOperationCall(clientUID, () => FiresecService.SaveGKDaySchedule(clientUID, item, isNew), "SaveGKDaySchedule");
 		}
 
-		public OperationResult<bool> DeleteGKDaySchedule(GKDaySchedule item)
+		public OperationResult<bool> DeleteGKDaySchedule(Guid clientUID, GKDaySchedule item)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.DeleteGKDaySchedule(item));
+			return SafeOperationCall(clientUID, () => FiresecService.DeleteGKDaySchedule(clientUID, item), "DeleteGKDaySchedule");
 		}
 		#endregion
 
 		#region Export
-		public OperationResult ExportOrganisation(ExportFilter filter)
+		public OperationResult ExportOrganisation(Guid clientUID, ExportFilter filter)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.ExportOrganisation(filter));
+			return SafeOperationCall(clientUID, () => FiresecService.ExportOrganisation(clientUID, filter), "ExportOrganisation");
 		}
-		public OperationResult ImportOrganisation(ImportFilter filter)
+		public OperationResult ImportOrganisation(Guid clientUID, ImportFilter filter)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.ImportOrganisation(filter));
+			return SafeOperationCall(clientUID, () => FiresecService.ImportOrganisation(clientUID, filter), "ImportOrganisation");
 		}
-		public OperationResult ExportOrganisationList(ExportFilter filter)
+		public OperationResult ExportOrganisationList(Guid clientUID, ExportFilter filter)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.ExportOrganisationList(filter));
+			return SafeOperationCall(clientUID, () => FiresecService.ExportOrganisationList(clientUID, filter), "ExportOrganisationList");
 		}
-		public OperationResult ImportOrganisationList(ImportFilter filter)
+		public OperationResult ImportOrganisationList(Guid clientUID, ImportFilter filter)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.ImportOrganisationList(filter));
+			return SafeOperationCall(clientUID, () => FiresecService.ImportOrganisationList(clientUID, filter), "ImportOrganisationList");
 		}
-		public OperationResult ExportJournal(JournalExportFilter filter)
+		public OperationResult ExportJournal(Guid clientUID, JournalExportFilter filter)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.ExportJournal(filter));
+			return SafeOperationCall(clientUID, () => FiresecService.ExportJournal(clientUID, filter), "ExportJournal");
 		}
-		public OperationResult ExportConfiguration(ConfigurationExportFilter filter)
+		public OperationResult ExportConfiguration(Guid clientUID, ConfigurationExportFilter filter)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.ExportConfiguration(filter));
+			return SafeOperationCall(clientUID, () => FiresecService.ExportConfiguration(clientUID, filter), "ExportConfiguration");
 		}
 		#endregion
 
 		#region CurrentConsumption
-		public OperationResult SaveCurrentConsumption(CurrentConsumption item)
+		public OperationResult SaveCurrentConsumption(Guid clientUID, CurrentConsumption item)
 		{
-			return SafeContext.Execute(() => FiresecService.SaveCurrentConsumption(item));
+			return SafeOperationCall(clientUID, () => FiresecService.SaveCurrentConsumption(clientUID, item), "SaveCurrentConsumption");
 		}
-		public OperationResult<List<CurrentConsumption>> GetCurrentConsumption(CurrentConsumptionFilter item)
+		public OperationResult<List<CurrentConsumption>> GetCurrentConsumption(Guid clientUID, CurrentConsumptionFilter item)
 		{
-			return SafeContext.Execute(() => FiresecService.GetCurrentConsumption(item));
+			return SafeOperationCall(clientUID, () => FiresecService.GetCurrentConsumption(clientUID, item), "GetCurrentConsumption");
 		}
 		#endregion
 	}

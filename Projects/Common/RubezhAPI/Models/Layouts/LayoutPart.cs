@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace RubezhAPI.Models.Layouts
 {
 	[DataContract]
-	[KnownType(typeof(LayoutPartImageProperties))]
-	[KnownType(typeof(LayoutPartPlansProperties))]
-	[KnownType(typeof(LayoutPartReferenceProperties))]
-	[KnownType(typeof(LayoutPartProcedureProperties))]
-	[KnownType(typeof(LayoutPartTimeProperties))]
-	[KnownType(typeof(LayoutPartTextProperties))]
-	[KnownType(typeof(LayoutPartAdditionalProperties))]
 	public class LayoutPart
 	{
 		public LayoutPart()
@@ -24,6 +18,13 @@ namespace RubezhAPI.Models.Layouts
 		[DataMember]
 		public Guid DescriptionUID { get; set; }
 		[DataMember]
-		public ILayoutProperties Properties { get; set; }
+		[XmlElement("LayoutPartImageProperties", Type = typeof(LayoutPartImageProperties))]
+		[XmlElement("LayoutPartPlansProperties", Type = typeof(LayoutPartPlansProperties))]
+		[XmlElement("LayoutPartReferenceProperties", Type = typeof(LayoutPartReferenceProperties))]
+		[XmlElement("LayoutPartProcedureProperties", Type = typeof(LayoutPartProcedureProperties))]
+		[XmlElement("LayoutPartTimeProperties", Type = typeof(LayoutPartTimeProperties))]
+		[XmlElement("LayoutPartTextProperties", Type = typeof(LayoutPartTextProperties))]
+		[XmlElement("LayoutPartAdditionalProperties", Type = typeof(LayoutPartAdditionalProperties))]
+		public object Properties { get; set; }
 	}
 }

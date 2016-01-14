@@ -23,8 +23,8 @@ namespace GKProcessor
 
 		public override void Build()
 		{
-			DeviceType = BytesHelper.ShortToBytes((ushort)0x106);
-			SetAddress((ushort)0);
+			DeviceType = BytesHelper.ShortToBytes(0x106);
+			SetAddress(0);
 			SetPropertiesBytes();
 		}
 
@@ -37,10 +37,8 @@ namespace GKProcessor
 				return;
 			}
 
-			MPT.LinkToDescriptor(GlobalPim);
-			Formula.AddGetBit(GKStateBit.On, GlobalPim);
-			Formula.Add(FormulaOperationType.BR, 2, 1);
-			Formula.Add(FormulaOperationType.EXIT);
+			var mirrorParents = MPT.GetMirrorParents();
+			Formula.AddMirrorLogic(MPT, mirrorParents);
 
 			if (MPT.MptLogic.StopClausesGroup.GetObjects().Count > 0)
 			{

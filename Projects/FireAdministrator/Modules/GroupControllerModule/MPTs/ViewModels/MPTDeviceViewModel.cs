@@ -1,17 +1,16 @@
-﻿using System.Linq;
-using RubezhAPI.GK;
-using RubezhClient;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using RubezhAPI.GK;
+using System.Linq;
 
 namespace GKModule.ViewModels
 {
 	public class MPTDeviceViewModel : BaseViewModel
 	{
-		public GKMPTDevice MPTDevice { get; private set; }
+		public GKMPTDevice MPTDevice { get; set; }
 		public bool IsCodeReader { get; set; }
 
 		public MPTDeviceViewModel(GKMPTDevice mptDevice)
@@ -54,8 +53,6 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (Device.IsNotUsed)
-					return null;
 				return GKManager.GetPresentationZoneOrLogic(Device);
 			}
 		}

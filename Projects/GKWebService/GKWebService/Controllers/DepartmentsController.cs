@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GKWebService.DataProviders.SKD;
 using GKWebService.Models;
 using GKWebService.Models.SKD.Common;
 using GKWebService.Models.SKD.Departments;
@@ -21,11 +22,15 @@ namespace GKWebService.Controllers
         }
 
         [HttpPost]
+        [ErrorHandler]
         public JsonResult GetOrganisations(DepartmentFilter departmentFilter)
         {
             var departmentViewModel = new DepartmentsViewModel();
-            departmentViewModel.Initialize(departmentFilter);
-
+            departmentViewModel.Initialize(new DepartmentFilter
+            {
+                OrganisationUIDs = departmentFilter.OrganisationUIDs,
+                LogicalDeletationType = departmentFilter.LogicalDeletationType
+            });
             dynamic result = new
             {
                 page = 1,
@@ -42,6 +47,7 @@ namespace GKWebService.Controllers
             return View();
         }
 
+        [ErrorHandler]
         public JsonNetResult GetDepartmentDetails(Guid? organisationId, Guid? id, Guid? parentDepartmentId)
         {
             var departmentModel = new DepartmentDetailsViewModel()
@@ -54,46 +60,105 @@ namespace GKWebService.Controllers
                 return new JsonNetResult { Data = departmentModel };
             }
 
-            if (id.HasValue)
-            {
-                var departmentDetailsResult = ClientManager.FiresecService.GetDepartmentDetails(id.Value);
-                departmentModel.Department = departmentDetailsResult.Result;
-            }
-            else
-            {
-                departmentModel.Department = new Department
-                {
-                    Name = "Новое подразделение",
-                    ParentDepartmentUID = parentDepartmentId ?? Guid.Empty,
-                    OrganisationUID = organisationId.Value
-                };
-            }
+            departmentModel.Initialize(organisationId, id, parentDepartmentId);
 
-            var filter = new DepartmentFilter();
-            filter.UIDs.Add(departmentModel.Department.ParentDepartmentUID);
-            var departmentListResult = ClientManager.FiresecService.GetDepartmentList(filter);
-            departmentModel.IsDepartmentSelected = departmentListResult.Result.Any();
-            departmentModel.SelectedDepartment = departmentListResult.Result.FirstOrDefault() ?? new ShortDepartment();
-
-            departmentModel.Department.Photo = null;
             return new JsonNetResult { Data = departmentModel };
         }
 
         [HttpPost]
+        [ErrorHandler]
         public JsonNetResult DepartmentDetails(DepartmentDetailsViewModel departmentModel, bool isNew)
         {
-            string error = DetailsValidateHelper.Validate(departmentModel.Department);
+            var error = departmentModel.Save(isNew);
+            return new JsonNetResult {Data = error };
+        }
 
-            if (!string.IsNullOrEmpty(error))
+        public ActionResult DepartmentEmployeeList()
+        {
+            return View();
+        }
+
+        [ErrorHandler]
+        public JsonResult GetDepartmentEmployeeList(Guid departmentId, Guid organisationId, bool isWithDeleted, Guid chiefId)
+        {
+            var filter = new EmployeeFilter
             {
-                return new JsonNetResult {Data = error};
+                DepartmentUIDs = new List<Guid> { departmentId },
+                OrganisationUIDs = new List<Guid> { organisationId },
+                LogicalDeletationType = isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active
+            };
+            var operationResult = EmployeeHelper.Get(filter);
+
+            var employees = operationResult.Select(e => ShortEmployeeModel.CreateFromModel(e)).ToList();
+
+            var chief = employees.FirstOrDefault(e => e.UID == chiefId);
+            if (chief != null)
+            {
+                chief.IsChief = true;
             }
 
-            departmentModel.Department.ParentDepartmentUID = departmentModel.IsDepartmentSelected ? departmentModel.SelectedDepartment.UID : Guid.Empty;
+            dynamic result = new
+            {
+                page = 1,
+                total = 100,
+                records = 100,
+                rows = employees,
+            };
 
-            var operationResult = ClientManager.FiresecService.SaveDepartment(departmentModel.Department, isNew);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
-            return new JsonNetResult {Data = operationResult.Error};
+        [ErrorHandler]
+        public JsonNetResult GetChildEmployeeUIDs(Guid departmentId)
+        {
+            var operationResult = DepartmentHelper.GetChildEmployeeUIDs(departmentId);
+
+            return new JsonNetResult { Data = operationResult};
+        }
+
+        [HttpPost]
+        [ErrorHandler]
+        public JsonResult SaveEmployeeDepartment(Guid employeeUID, Guid? departmentUID, string name)
+        {
+            var operationResult = EmployeeHelper.SetDepartment(employeeUID, departmentUID, name);
+
+            return Json(operationResult, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [ErrorHandler]
+        public JsonResult SaveDepartmentChief(Guid departmentUID, Guid? employeeUID, string name)
+        {
+            var result = DepartmentHelper.SaveChief(departmentUID, employeeUID, name);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [ErrorHandler]
+        public JsonNetResult MarkDeleted(Guid uid)
+        {
+            var getDepartmentsResult = DepartmentHelper.Get(new DepartmentFilter {UIDs = new List<Guid> { uid } });
+            var department = getDepartmentsResult.FirstOrDefault();
+
+            var operationResult = DepartmentHelper.MarkDeleted(department);
+            return new JsonNetResult { Data = operationResult };
+        }
+
+        [HttpPost]
+        [ErrorHandler]
+        public JsonNetResult Restore(Guid uid)
+        {
+            var filter = new DepartmentFilter
+            {
+                UIDs = new List<Guid> { uid },
+                LogicalDeletationType = LogicalDeletationType.All
+            };
+            var getDepartmentsResult = DepartmentHelper.Get(filter);
+            var department = getDepartmentsResult.FirstOrDefault();
+
+            var operationResult = DepartmentHelper.Restore(department);
+            return new JsonNetResult { Data = operationResult };
         }
     }
 }

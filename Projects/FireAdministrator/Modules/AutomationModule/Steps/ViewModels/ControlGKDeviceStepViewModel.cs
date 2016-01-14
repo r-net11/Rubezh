@@ -1,10 +1,10 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using Infrastructure.Automation;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.GK;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using Infrastructure.Automation;
+using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
@@ -123,6 +123,14 @@ namespace AutomationModule.ViewModels
 					return GKStateBit.ForbidStart_InManual;
 				case CommandType.TurnOffNow_InManual:
 					return GKStateBit.TurnOffNow_InManual;
+				case CommandType.TurnOn_InAutomatic:
+					return GKStateBit.TurnOn_InAutomatic;
+				case CommandType.TurnOnNow_InAutomatic:
+					return GKStateBit.TurnOnNow_InAutomatic;
+				case CommandType.TurnOff_InAutomatic:
+					return GKStateBit.TurnOff_InAutomatic;
+				case CommandType.TurnOffNow_InAutomatic:
+					return GKStateBit.TurnOffNow_InAutomatic;
 				default:
 					return new GKStateBit();
 			}
@@ -154,6 +162,14 @@ namespace AutomationModule.ViewModels
 						return CommandType.ForbidStart_InManual;
 					case GKStateBit.TurnOffNow_InManual:
 						return CommandType.TurnOffNow_InManual;
+					case GKStateBit.TurnOn_InAutomatic:
+						return CommandType.TurnOn_InAutomatic;
+					case GKStateBit.TurnOnNow_InAutomatic:
+						return CommandType.TurnOnNow_InAutomatic;
+					case GKStateBit.TurnOff_InAutomatic:
+						return CommandType.TurnOff_InAutomatic;
+					case GKStateBit.TurnOffNow_InAutomatic:
+						return CommandType.TurnOffNow_InAutomatic;
 					default:
 						return CommandType.Unknown;
 				}
@@ -208,6 +224,18 @@ namespace AutomationModule.ViewModels
 
 		[Description("Выключить немедленно")]
 		TurnOffNow_InManual,
+
+		[Description("Включить в автоматическом режиме")]
+		TurnOn_InAutomatic,
+
+		[Description("Включить немедленно в автоматическом режиме")]
+		TurnOnNow_InAutomatic,
+
+		[Description("Выключить в автоматическом режиме")]
+		TurnOff_InAutomatic,
+
+		[Description("Выключить немедленно в автоматическом режиме")]
+		TurnOffNow_InAutomatic,
 
 		[Description("Остановить")]
 		Stop_InManual,

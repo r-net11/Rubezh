@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Automation;
 using RubezhClient;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
@@ -28,7 +27,7 @@ namespace AutomationModule.ViewModels
 				if (DialogService.ShowModalWindow(viewModel))
 					args = viewModel.ArgumentViewModels.Arguments.Select(x => x.Argument).ToList();
 			}
-			ProcedureHelper.Run(procedure, args);
+			ProcedureHelper.Run(procedure, args, ClientManager.CurrentUser);
 		}
 	}
 }

@@ -72,6 +72,7 @@ namespace SKDModule.ViewModels
 		}
 
 		List<DepartmentSelectionItemViewModel> AllDepartments { get; set; }
+		IEnumerable<ShortDepartment> Models { get { return AllDepartments.Select(x => x.Department); } }
 
 		public ObservableCollection<DepartmentSelectionItemViewModel> RootDepartments { get; private set; }
 
@@ -89,13 +90,12 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			
 			ShortDepartment parentDepartment = null;
 			var hasParentDepartment = SelectedDepartment != null;
 			if (hasParentDepartment)
 				parentDepartment = SelectedDepartment.Department;
 			var departmentDetailsViewModel = new DepartmentDetailsViewModel();
-			departmentDetailsViewModel.Initialize(_organisationUID, parentDepartment);
+			departmentDetailsViewModel.Initialize(_organisationUID, parentDepartment, Models);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
 				var department = departmentDetailsViewModel.Model;

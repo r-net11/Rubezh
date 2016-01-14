@@ -1,10 +1,9 @@
-﻿using RubezhAPI.Journal;
-using RubezhLicense;
-using GKProcessor;
+﻿using GKProcessor;
 using Infrastructure.Common;
+using RubezhAPI.Journal;
+using RubezhAPI.License;
 using System;
 using System.Threading;
-using RubezhAPI.License;
 
 namespace FiresecService.Processor
 {
@@ -29,9 +28,9 @@ namespace FiresecService.Processor
 					waitHandler.Set();
 
 				if (LicenseManager.CurrentLicenseInfo.LicenseMode == LicenseMode.HasLicense)
-					FiresecService.Service.FiresecService.InsertJournalMessage(JournalEventNameType.Лицензия_обнаружена, null, JournalEventDescriptionType.NULL);
+					FiresecService.Service.FiresecService.AddJournalMessage(JournalEventNameType.Лицензия_обнаружена, null, null, null);
 				else
-					FiresecService.Service.FiresecService.InsertJournalMessage(JournalEventNameType.Отсутствует_лицензия, null, JournalEventDescriptionType.NULL);
+					FiresecService.Service.FiresecService.AddJournalMessage(JournalEventNameType.Отсутствует_лицензия, null, null, null);
 				DiagnosticsManager.Add("LicenseMode=" + LicenseManager.CurrentLicenseInfo.LicenseMode);
 			}
 			FiresecService.Service.FiresecService.NotifyConfigurationChanged();

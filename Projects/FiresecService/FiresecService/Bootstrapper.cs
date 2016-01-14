@@ -1,23 +1,22 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using System.Threading;
-using Common;
+﻿using Common;
+using FiresecService.Processor;
 using FiresecService.Report;
 using FiresecService.Service;
 using FiresecService.ViewModels;
+using Infrastructure.Automation;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using RubezhAPI;
-using RubezhDAL.DataClasses;
-using FiresecService.Processor;
-using Infrastructure.Automation;
-using RubezhAPI.AutomationCallback;
 using RubezhAPI.Automation;
+using RubezhAPI.AutomationCallback;
+using RubezhDAL.DataClasses;
+using System;
 using System.Collections.Generic;
-using Infrastructure.Common.Services;
+using System.IO;
+using System.Reflection;
+using System.Threading;
 
 namespace FiresecService
 {
@@ -45,29 +44,27 @@ namespace FiresecService
 
 				FiresecService.Service.FiresecService.ServerState = ServerState.Starting;
 
-                UILogger.Log("Проверка лицензии");
-                if (!FiresecLicenseProcessor.TryLoadLicense())
-                    UILogger.Log("Ошибка лицензии", true);
+				UILogger.Log("Проверка лицензии");
+				if (!FiresecLicenseProcessor.TryLoadLicense())
+					UILogger.Log("Ошибка лицензии", true);
 
 				UILogger.Log("Проверка соединения с БД");
 				using (var dbService = new DbService())
 				{
 					if (dbService.CheckConnection().HasError)
-					UILogger.Log("Ошибка соединения с БД", true);
+						UILogger.Log("Ошибка соединения с БД", true);
 				}
-				
-				UILogger.Log("Открытие хоста");
-				FiresecServiceManager.Open();
-				ServerLoadHelper.SetStatus(FSServerState.Opened);
 
 				UILogger.Log("Загрузка конфигурации");
 				ConfigurationCashHelper.Update();
 
+				UILogger.Log("Открытие хоста");
+				FiresecServiceManager.Open();
+				ServerLoadHelper.SetStatus(FSServerState.Opened);
 
 				ProcedureExecutionContext.Initialize(
 					ContextType.Server,
-					ConfigurationCashHelper.SystemConfiguration,
-					ConfigurationCashHelper.SecurityConfiguration,
+					() => { return ConfigurationCashHelper.SystemConfiguration; },
 					Service.FiresecService.NotifyAutomation,
 					null,
 					null,
@@ -108,13 +105,14 @@ namespace FiresecService
 					UILogger.Log("Ошибка при запуске сервиса отчетов", true);
 					MainViewModel.SetReportAddress("<Ошибка>");
 				}
-								
+
 				ScheduleRunner.Start();
 				ServerTaskRunner.Start();
 				AutomationProcessor.RunOnServerRun();
-                ClientsManager.StartRemoveInactiveClients(TimeSpan.FromMinutes(10));
+				ClientsManager.StartRemoveInactiveClients(TimeSpan.FromDays(1));
 				UILogger.Log("Готово");
 				FiresecService.Service.FiresecService.ServerState = ServerState.Ready;
+				FiresecService.Service.FiresecService.AfterConnect += FiresecService_AfterConnect;
 			}
 			catch (Exception e)
 			{
@@ -124,12 +122,28 @@ namespace FiresecService
 			}
 		}
 
-		static List<RubezhAPI.SKD.Organisation> GetOrganisations()
+		static void FiresecService_AfterConnect(Guid clientUID)
 		{
-			var result = FiresecServiceManager.SafeFiresecService.GetOrganisations(new RubezhAPI.SKD.OrganisationFilter());
+			foreach (var variable in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables)
+				FiresecService.Service.FiresecService.NotifyAutomation(new AutomationCallbackResult
+					{
+						CallbackUID = Guid.NewGuid(),
+						ContextType = ContextType.Server,
+						AutomationCallbackType = AutomationCallbackType.GlobalVariable,
+						Data = new GlobalVariableCallBackData
+						{
+							VariableUID = variable.Uid,
+							Value = variable.Value
+						}
+					}, clientUID);
+		}
+
+		static List<RubezhAPI.SKD.Organisation> GetOrganisations(Guid clientUID)
+		{
+			var result = FiresecServiceManager.SafeFiresecService.GetOrganisations(clientUID, new RubezhAPI.SKD.OrganisationFilter());
 			return result.HasError ? new List<RubezhAPI.SKD.Organisation>() : result.Result;
 		}
-		
+
 		private static void OnWorkThread()
 		{
 			try
@@ -160,7 +174,7 @@ namespace FiresecService
 #if DEBUG
 			return;
 #else
-			Process.GetCurrentProcess().Kill();
+			System.Diagnostics.Process.GetCurrentProcess().Kill();
 #endif
 		}
 	}

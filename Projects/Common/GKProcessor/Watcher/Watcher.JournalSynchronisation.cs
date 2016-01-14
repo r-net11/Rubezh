@@ -1,7 +1,5 @@
-﻿using System;
-using RubezhAPI;
-using RubezhAPI;
-using RubezhDAL;
+﻿using RubezhAPI;
+using System;
 
 namespace GKProcessor
 {
@@ -11,7 +9,7 @@ namespace GKProcessor
 		{
 			var gkIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice);
 			var localLastDBNo = -1;
-            using (var skdDatabaseService = new RubezhDAL.DataClasses.DbService())
+			using (var skdDatabaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				localLastDBNo = skdDatabaseService.GKMetadataTranslator.GetLastJournalNo(gkIpAddress);
 			}

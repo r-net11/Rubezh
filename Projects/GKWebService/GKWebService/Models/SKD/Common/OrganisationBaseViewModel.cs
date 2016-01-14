@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
+using GKWebService.DataProviders.SKD;
 using RubezhAPI.SKD;
 using RubezhClient;
 
@@ -13,6 +14,10 @@ namespace GKWebService.Models.SKD.Common
         where TModel : class, IOrganisationElement, new()
         where TFilter : OrganisationFilterBase, new()
     {
+        protected TModel _clipboard;
+
+        protected Guid _clipboardUID;
+
         public List<TViewModel> Organisations { get; private set; }
 
         public TFilter Filter { get; set; }
@@ -63,7 +68,7 @@ namespace GKWebService.Models.SKD.Common
         protected virtual bool InitializeOrganisations(TFilter filter)
         {
             var organisationFilter = new OrganisationFilter { UIDs = filter.OrganisationUIDs, UserUID = ClientManager.CurrentUser.UID, LogicalDeletationType = filter.LogicalDeletationType };
-            var organisations = ClientManager.FiresecService.GetOrganisations(organisationFilter).Result;
+            var organisations = OrganisationHelper.Get(organisationFilter);
             if (organisations == null)
                 return false;
             Organisations = new List<TViewModel>();

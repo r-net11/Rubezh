@@ -130,7 +130,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить МПТ " + SelectedMPT.MPT.PresentationName + " ?"))
+			if (ServiceFactory.MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить МПТ " + SelectedMPT.MPT.PresentationName + " ?"))
 			{
 				foreach (var mptDevice in SelectedMPT.MPT.MPTDevices)
 				{
@@ -152,26 +152,24 @@ namespace GKModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые МПТ ?"))
 			{
-				var emptyMPTs = MPTs.Where(x => !x.MPT.MPTDevices.Any() && !x.MPT.MptLogic.GetObjects().Any());
-
-				if (emptyMPTs.Any())
-				{
-					for (var i = emptyMPTs.Count() - 1; i >= 0; i--)
+				GetEmptyMPTs().ForEach(x =>
 					{
-						GKManager.RemoveMPT(emptyMPTs.ElementAt(i).MPT);
-						MPTs.Remove(emptyMPTs.ElementAt(i));
-					}
-					SelectedMPT = MPTs.FirstOrDefault();
-					ServiceFactory.SaveService.GKChanged = true;
-				}
+						GKManager.RemoveMPT(x.MPT);
+						MPTs.Remove(x);
+					});
+				SelectedMPT = MPTs.FirstOrDefault();
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
 		bool CanDeleteAllEmpty()
 		{
-			return MPTs.Any(x => !x.MPT.MPTDevices.Any() && !x.MPT.MptLogic.GetObjects().Any());
+			return GetEmptyMPTs().Any();
 		}
-
+		List<MPTViewModel> GetEmptyMPTs()
+		{
+			return MPTs.Where(x => !x.MPT.MPTDevices.Any() && !x.MPT.MptLogic.GetObjects().Any()).ToList();
+		}
 		public RelayCommand CopyLogicCommand { get; private set; }
 		void OnCopyLogic()
 		{

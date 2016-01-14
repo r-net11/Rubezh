@@ -32,21 +32,21 @@ namespace GKModule
 {
 	public class GroupControllerModule : ModuleBase, IValidationModule, ILayoutDeclarationModule
 	{
-		public DevicesViewModel DevicesViewModel { get; private set; }
-		public ParameterTemplatesViewModel ParameterTemplatesViewModel { get; private set; }
-		public ZonesViewModel ZonesViewModel { get; private set; }
-		public DirectionsViewModel DirectionsViewModel { get; private set; }
-		public PumpStationsViewModel PumpStationsViewModel { get; private set; }
-		public MPTsViewModel MPTsViewModel { get; private set; }
-		public DelaysViewModel DelaysViewModel { get; private set; }
-		public CodesViewModel CodesViewModel { get; private set; }
-		public GuardZonesViewModel GuardZonesViewModel { get; private set; }
-		public DoorsViewModel DoorsViewModel { get; private set; }
-		public SKDZonesViewModel SKDZonesViewModel { get; private set; }
-		public LibraryViewModel DeviceLidraryViewModel { get; private set; }
-		public OPCsViewModel OPCViewModel { get; private set; }
-		public DescriptorsViewModel DescriptorsViewModel { get; private set; }
-		public DiagnosticsViewModel DiagnosticsViewModel { get; private set; }
+		internal DevicesViewModel DevicesViewModel { get; private set; }
+		internal ParameterTemplatesViewModel ParameterTemplatesViewModel { get; private set; }
+		internal ZonesViewModel ZonesViewModel { get; private set; }
+		internal DirectionsViewModel DirectionsViewModel { get; private set; }
+		internal PumpStationsViewModel PumpStationsViewModel { get; private set; }
+		internal MPTsViewModel MPTsViewModel { get; private set; }
+		internal DelaysViewModel DelaysViewModel { get; private set; }
+		internal CodesViewModel CodesViewModel { get; private set; }
+		internal GuardZonesViewModel GuardZonesViewModel { get; private set; }
+		internal DoorsViewModel DoorsViewModel { get; private set; }
+		internal SKDZonesViewModel SKDZonesViewModel { get; private set; }
+		internal LibraryViewModel DeviceLidraryViewModel { get; private set; }
+		internal OPCsViewModel OPCViewModel { get; private set; }
+		internal DescriptorsViewModel DescriptorsViewModel { get; private set; }
+		internal DiagnosticsViewModel DiagnosticsViewModel { get; private set; }
 		GKPlanExtension _planExtension;
 
 		public override void CreateViewModels()
@@ -134,7 +134,7 @@ namespace GKModule
 					new NavigationItem<ShowGKDeviceEvent, Guid>(DevicesViewModel, "Устройства", "Tree", null, null, Guid.Empty),
 					new NavigationItem<ShowGKParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","Briefcase", null, null, Guid.Empty),
 					new NavigationItemEx<ShowGKZoneEvent, Guid>(ZonesViewModel, "Пожарные зоны", "Zones", null, null, Guid.Empty),
-                    new NavigationItem<ShowGKDirectionEvent, Guid>(DirectionsViewModel, "Направления", "Direction", null, null, Guid.Empty),
+					new NavigationItem<ShowGKDirectionEvent, Guid>(DirectionsViewModel, "Направления", "Direction", null, null, Guid.Empty),
 					new NavigationItem<ShowGKPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "PumpStation", null, null, Guid.Empty),
 					new NavigationItem<ShowGKMPTEvent, Guid>(MPTsViewModel, "МПТ", "MPT", null, null, Guid.Empty),
 					new NavigationItem<ShowXDelayEvent, Guid>(DelaysViewModel, "Задержки", "Watch", null, null, Guid.Empty),
@@ -185,6 +185,7 @@ namespace GKModule
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "SKD/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Devices/PmfUsers/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Devices/GkUsers/DataTemplates/Dictionary.xaml");
 		}
 
 		#region IValidationModule Members
@@ -391,17 +392,29 @@ namespace GKModule
 				{
 					LoadingService.Close();
 
-					if (callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.GetAllUsers)
+					if (callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.GetGKUsers)
 					{
 						if (!callbackOperationResult.HasError)
 						{
 							GKUsersViewModel gkUsersViewModel = null;
 							WaitHelper.Execute(() =>
 							{
-								gkUsersViewModel = new GKUsersViewModel(callbackOperationResult.Users);
+								gkUsersViewModel = new GKUsersViewModel(callbackOperationResult.Users, callbackOperationResult.DeviceUID);
 							});
 							//LoadingService.Close();
 							DialogService.ShowModalWindow(gkUsersViewModel);
+						}
+						else
+						{
+							//LoadingService.Close();
+							MessageBoxService.ShowWarning(callbackOperationResult.Error, "Ошибка при перезаписи пользователей");
+						}
+					}
+					if (callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.GetPmfUsers)
+					{
+						if (!callbackOperationResult.HasError)
+						{
+							ServiceFactoryBase.Events.GetEvent<GetPmfUsersEvent>().Publish(callbackOperationResult.Users);
 						}
 						else
 						{
@@ -455,35 +468,42 @@ namespace GKModule
 									return;
 								}
 
-								var zipFile = ZipFile.Read(configFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
-								var fileInfo = new FileInfo(configFileName);
-								var unzipFolderPath = fileInfo.Directory.FullName;
-								zipFile.ExtractAll(unzipFolderPath);
-								zipFile.Dispose();
-								var configurationFileName = Path.Combine(unzipFolderPath, "GKDeviceConfiguration.xml");
-								if (!File.Exists(configurationFileName))
+								try
 								{
-									MessageBoxService.ShowError("Ошибка при распаковке файла");
-									return;
-								}
-								var deviceConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceConfiguration>(configurationFileName, true);
+									var zipFile = ZipFile.Read(configFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+									var fileInfo = new FileInfo(configFileName);
+									var unzipFolderPath = fileInfo.Directory.FullName;
+									zipFile.ExtractAll(unzipFolderPath);
+									zipFile.Dispose();
+									var configurationFileName = Path.Combine(unzipFolderPath, "GKDeviceConfiguration.xml");
+									if (!File.Exists(configurationFileName))
+									{
+										MessageBoxService.ShowError("Ошибка при распаковке файла");
+										return;
+									}
+									var deviceConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceConfiguration>(configurationFileName);
 
-								ConfigurationCompareViewModel configurationCompareViewModel = null;
-								WaitHelper.Execute(() =>
-								{
-									DescriptorsManager.Create();
-									deviceConfiguration.UpdateConfiguration();
-									deviceConfiguration.PrepareDescriptors();
-									configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, deviceConfiguration, DevicesViewModel.SelectedDevice.Device, configFileName);
-								});
-								//LoadingService.Close();
-								if (configurationCompareViewModel.Error != null)
-								{
-									MessageBoxService.ShowError(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
-									return;
+									ConfigurationCompareViewModel configurationCompareViewModel = null;
+									WaitHelper.Execute(() =>
+									{
+										DescriptorsManager.Create();
+										deviceConfiguration.UpdateConfiguration();
+										deviceConfiguration.PrepareDescriptors();
+										configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, deviceConfiguration, DevicesViewModel.DeviceToCompareConfiguration, configFileName);
+									});
+									//LoadingService.Close();
+									if (configurationCompareViewModel.Error != null)
+									{
+										MessageBoxService.ShowError(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
+										return;
+									}
+									if (DialogService.ShowModalWindow(configurationCompareViewModel))
+										ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 								}
-								if (DialogService.ShowModalWindow(configurationCompareViewModel))
-									ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+								catch (Exception)
+								{
+									MessageBoxService.ShowWarning("Ошибка: файл конфигурации содержит неправильную сигнатуру");
+								}
 							}
 							else
 							{
