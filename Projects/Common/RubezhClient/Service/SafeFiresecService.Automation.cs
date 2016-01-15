@@ -137,15 +137,15 @@ namespace RubezhClient
 			return SafeContext.Execute(() => FiresecService.GetOpcDaServers());
 		}
 
-		public OperationResult ConnectToOpcDaServer(OpcDaServer server)
-		{
-			return SafeContext.Execute(() => FiresecService.ConnectToOpcDaServer(server));
-		}
+		//public OperationResult ConnectToOpcDaServer(OpcDaServer server)
+		//{
+		//	return SafeContext.Execute(() => FiresecService.ConnectToOpcDaServer(server));
+		//}
 
-		public OperationResult DisconnectFromOpcDaServer(OpcDaServer server)
-		{
-			return SafeContext.Execute(() => FiresecService.DisconnectFromOpcDaServer(server));
-		}
+		//public OperationResult DisconnectFromOpcDaServer(OpcDaServer server)
+		//{
+		//	return SafeContext.Execute(() => FiresecService.DisconnectFromOpcDaServer(server));
+		//}
 
 		public OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(OpcDaServer server)
 		{

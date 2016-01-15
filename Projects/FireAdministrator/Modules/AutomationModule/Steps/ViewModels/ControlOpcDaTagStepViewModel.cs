@@ -87,7 +87,7 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			var allServers = new List<OpcDaServer>(ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaServers);
+			var allServers = new List<OpcDaServer>(ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers);
 			allServers.AddRange(ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers);
 			OpcDaServers = new ObservableCollection<OpcDaServer>(allServers);
 			SelectedOpcDaServer = OpcDaServers.FirstOrDefault(x => x.Uid == ControlOpcDaTagArguments.OpcDaServerUID);

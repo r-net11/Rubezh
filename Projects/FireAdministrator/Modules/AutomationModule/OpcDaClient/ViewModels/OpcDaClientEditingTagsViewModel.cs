@@ -21,13 +21,13 @@ namespace AutomationModule.ViewModels
 			OpcDaClientViewModel = vm;
 
 			// Получаем список групп и тегов с сервера
-			var resultConnect = ClientManager.FiresecService
-				.ConnectToOpcDaServer(OpcDaClientViewModel.SelectedOpcServer);
+			//var resultConnect = ClientManager.FiresecService
+			//	.ConnectToOpcDaServer(OpcDaClientViewModel.SelectedOpcServer);
 
-			if (resultConnect.HasError)
-			{
-				return;
-			}
+			//if (resultConnect.HasError)
+			//{
+			//	return;
+			//}
 			
 			var result = ClientManager.FiresecService
 				.GetOpcDaServerGroupAndTags(OpcDaClientViewModel.SelectedOpcServer);
@@ -43,8 +43,8 @@ namespace AutomationModule.ViewModels
 				RootElement = OpcDaClientElementViewModel.Create(result.Result);
 			}
 
-			var resultDisconnect = ClientManager.FiresecService
-				.DisconnectFromOpcDaServer(OpcDaClientViewModel.SelectedOpcServer);
+			//var resultDisconnect = ClientManager.FiresecService
+			//	.DisconnectFromOpcDaServer(OpcDaClientViewModel.SelectedOpcServer);
 
 			var children = RootElement.GetAllChildren(false).Where(x => x.Element.IsTag);
 

@@ -34,11 +34,11 @@ namespace FiresecService.Processor
 			TsCDaItemValue x = new TsCDaItemValue();
 			
 			OpcDaServers =
-				ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.OpcDaServers.ToArray();
+				ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.ToArray();
 
 			foreach (var server in OpcDaServers)
 			{
-				var url = new OpcUrl(OpcSpecification.OPC_DA_20, OpcUrlScheme.DA, server.Url.ToString());
+				var url = new OpcUrl(OpcSpecification.OPC_DA_20, OpcUrlScheme.DA, server.Url);
 				var opcServer = new TsCDaServer();
 				opcServer.Connect(url, null);
 				opcServer.ServerShutdownEvent += EventHandler_ServerShutdownEvent;
@@ -127,16 +127,132 @@ namespace FiresecService.Processor
 			}
 		}
 
-		public static OpcServerStatus[] GetServerStatuses()
+		public static OpcDaServer[] GetOpcDaServers()
 		{
-			List<OpcServerStatus> statuses = new List<OpcServerStatus>();
+			return (OpcDiscovery.GetServers(OpcSpecification.OPC_DA_20)
+				.Select(srv => new OpcDaServer
+				{
+					IsChecked = false,
+					Login = string.Empty,
+					Password = string.Empty,
+					ServerName = srv.ServerName,
+					Url = srv.Url.ToString()
+				})
+				.ToArray());
+		}
 
-			foreach (var server in _opcServers)
+		public static OpcServerStatus GetServerStatus(OpcDaServer server)
+		{
+			var opcServer = _opcServers.FirstOrDefault(x => x.ServerName == server.ServerName);
+
+			if (opcServer == null)
 			{
-				statuses.Add(server.GetServerStatus());
+				return null;
 			}
+			else
+			{
+				return opcServer.IsConnected ? opcServer.GetServerStatus() : null;
+			}
+		}
 
-			return statuses.ToArray();
+		static TsCDaBrowseElement[] Browse(TsCDaServer server)
+		{
+			TsCDaBrowseFilters filters;
+			List<TsCDaBrowseElement> elementList;
+			TsCDaBrowseElement[] elements;
+			TsCDaBrowsePosition position;
+			OpcItem path = new OpcItem();
+
+			filters = new TsCDaBrowseFilters();
+			filters.BrowseFilter = TsCDaBrowseFilter.All;
+			filters.ReturnAllProperties = true;
+			filters.ReturnPropertyValues = true;
+
+			elementList = new List<TsCDaBrowseElement>();
+
+			elements = server.Browse(path, filters, out position);
+
+			foreach (var item in elements)
+			{
+				item.ItemPath = OpcDaTag.ROOT + OpcDaTag.SPLITTER + item.ItemName;
+				elementList.Add(item);
+
+				if (!item.IsItem)
+				{
+					path = new OpcItem(item.ItemPath, item.Name);
+					BrowseChildren(path, filters, elementList, server);
+				}
+
+			}
+			return elementList.ToArray();
+		}
+
+		static void BrowseChildren(OpcItem opcItem, TsCDaBrowseFilters filters,
+			IList<TsCDaBrowseElement> elementList, TsCDaServer server)
+		{
+			TsCDaBrowsePosition position;
+			OpcItem path;
+
+			var elements = server.Browse(opcItem, filters, out position);
+
+			if (elements != null)
+			{
+				foreach (var item in elements)
+				{
+					item.ItemPath = opcItem.ItemPath + OpcDaTag.SPLITTER + item.ItemName;
+					elementList.Add(item);
+
+					if (!item.IsItem)
+					{
+						path = new OpcItem(item.ItemPath, item.ItemName);
+						BrowseChildren(path, filters, elementList, server);
+					}
+				}
+			}
+		}
+
+		public static OpcDaElement[] GetOpcDaServerGroupAndTags(OpcDaServer server)
+		{
+			OpcDaElement[] result;
+			var opcServer = _opcServers.FirstOrDefault(x => x.ServerName == server.ServerName);
+
+			if (opcServer == null)
+			{
+				opcServer = (TsCDaServer)OpcDiscovery.GetServers(OpcSpecification.OPC_DA_20)
+					.FirstOrDefault(y => y.ServerName == server.ServerName);
+
+				if (opcServer == null)
+				{
+					result = null;
+				}
+				else
+				{
+					opcServer.Connect(new OpcUrl(OpcSpecification.OPC_DA_20, OpcUrlScheme.DA, server.Url), null);
+					result = Browse(opcServer).Select(tag =>
+					{
+						return tag.IsItem ? OpcDaElement.Create(tag) : OpcDaElement.Create(tag);
+					})
+					.ToArray(); ;
+					opcServer.Disconnect();
+				}
+			}
+			else
+			{
+				if (opcServer.IsConnected)
+				{
+					result = Browse(opcServer)
+						.Select(tag =>
+						{
+							return tag.IsItem ? OpcDaElement.Create(tag) : OpcDaElement.Create(tag);
+						})
+						.ToArray();
+				}
+				else
+				{
+					result = null;
+				}
+			}
+			return result;
 		}
 
 		public static void WriteTag(Guid serverId, Guid tagId, object value)
@@ -166,10 +282,11 @@ namespace FiresecService.Processor
 		static void EventHandler_Subscription_DataChangedEvent(object subscriptionHandle, 
 			object requestHandle, TsCDaItemValueResult[] values)
 		{
+			var subscr = _subscriptions.FirstOrDefault(sbs => sbs.ClientHandle == subscriptionHandle);
+			var server = _opcServers.FirstOrDefault(srv => srv.ServerName == subscr.Server.ServerName).ServerName;
+
 			if (values.Length > 0)
 			{
-				var subscr = _subscriptions.FirstOrDefault(sbs => sbs.ServerHandle == values[0].ServerHandle);
-				var server = _opcServers.FirstOrDefault(srv => srv.ServerName == subscr.Server.ServerName).ServerName;
 
 				foreach (var result in values)
 				{

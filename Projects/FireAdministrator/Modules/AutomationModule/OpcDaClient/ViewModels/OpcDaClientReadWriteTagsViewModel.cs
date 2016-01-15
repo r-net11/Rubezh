@@ -46,25 +46,25 @@ namespace AutomationModule.ViewModels
 		
 		void ConnectToServer()
 		{
-			var result = ClientManager.FiresecService.ConnectToOpcDaServer(OpcServer);
+			//var result = ClientManager.FiresecService.ConnectToOpcDaServer(OpcServer);
 
-			if (result.HasError)
-			{
-				MessageBoxService.Show(string.Format(
-					"Ошибка при подключении к серверу: ", result.Error));
-				Close(false); // Завершаем работу окна
-			}
+			//if (result.HasError)
+			//{
+			//	MessageBoxService.Show(string.Format(
+			//		"Ошибка при подключении к серверу: ", result.Error));
+			//	Close(false); // Завершаем работу окна
+			//}
 		}
 
 		void DisconnectFromServer()
 		{
-			var result = ClientManager.FiresecService.DisconnectFromOpcDaServer(OpcServer);
+			//var result = ClientManager.FiresecService.DisconnectFromOpcDaServer(OpcServer);
 
-			if (result.HasError)
-			{
-				MessageBoxService.Show(string.Format(
-					"Ошибка при отключении от сервера: ", result.Error));
-			}
+			//if (result.HasError)
+			//{
+			//	MessageBoxService.Show(string.Format(
+			//		"Ошибка при отключении от сервера: ", result.Error));
+			//}
 		}
 
 		public override void OnClosed()

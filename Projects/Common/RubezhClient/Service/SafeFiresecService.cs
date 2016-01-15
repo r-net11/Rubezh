@@ -228,35 +228,39 @@ namespace RubezhClient
 
 		public OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(OpcDaServer server)
 		{
-			return SafeOperationCall(() =>
-			{
-				try
-				{
-					return FiresecService.ReadOpcDaServerTags(server);
-				}
-				catch (Exception e)
-				{
-					Logger.Error("Исключение при вызове RubezhClient.ReadOpcDaServerTags " + e.GetType().Name.ToString());
-				}
-				return OperationResult<TsCDaItemValueResult[]>.FromError("Не удается прочитать значения тегов сервера " + server.ServerName);
-			}, "ReadOpcDaServerTags");
+			throw new NotImplementedException();
+
+			//return SafeOperationCall(() =>
+			//{
+			//	try
+			//	{
+			//		return FiresecService.ReadOpcDaServerTags(server);
+			//	}
+			//	catch (Exception e)
+			//	{
+			//		Logger.Error("Исключение при вызове RubezhClient.ReadOpcDaServerTags " + e.GetType().Name.ToString());
+			//	}
+			//	return OperationResult<TsCDaItemValueResult[]>.FromError("Не удается прочитать значения тегов сервера " + server.ServerName);
+			//}, "ReadOpcDaServerTags");
 		}
 
 		public OperationResult WriteOpcDaServerTags(OpcDaServer server, TsCDaItemValue[] tagValues)
 		{
-			return SafeOperationCall(() =>
-			{
-				try
-				{
-					FiresecService.WriteOpcDaServerTags(server, tagValues);
-					return new OperationResult();
-				}
-				catch (Exception e)
-				{
-					Logger.Error("Исключение при вызове RubezhClient.WriteOpcDaServerTags " + e.GetType().Name.ToString());
-				}
-				return new OperationResult("Не удается прочитать значения тегов сервера " + server.ServerName);
-			}, "WriteOpcDaServerTags");
+			throw new NotImplementedException();
+
+			//return SafeOperationCall(() =>
+			//{
+			//	try
+			//	{
+			//		FiresecService.WriteOpcDaServerTags(server, tagValues);
+			//		return new OperationResult();
+			//	}
+			//	catch (Exception e)
+			//	{
+			//		Logger.Error("Исключение при вызове RubezhClient.WriteOpcDaServerTags " + e.GetType().Name.ToString());
+			//	}
+			//	return new OperationResult("Не удается прочитать значения тегов сервера " + server.ServerName);
+			//}, "WriteOpcDaServerTags");
 		}
 	}
 }

@@ -117,6 +117,8 @@ namespace FiresecService
 				AutomationProcessor.RunOnServerRun();
 				ClientsManager.StartRemoveInactiveClients(TimeSpan.FromMinutes(10));
 				UILogger.Log("Готово");
+				OpcDaServersProcessor.Start();
+				UILogger.Log("Запуск OPC DA");
 				FiresecService.Service.FiresecService.ServerState = ServerState.Ready;
 			}
 			catch (Exception e)
@@ -129,7 +131,7 @@ namespace FiresecService
 
 		static object GetOpcDaTagValue(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID)
 		{
-			var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
+			var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
 			if (opcDaServer == null)
 				opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
 			if (opcDaServer == null)
@@ -149,7 +151,7 @@ namespace FiresecService
 
 		static bool SetOpcDaTagValue(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID, object value)
 		{
-			var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
+			var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
 			if (opcDaServer == null)
 				opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
 			if (opcDaServer == null)

@@ -157,17 +157,17 @@ namespace AutomationModule.ViewModels
 			OperationResult resultConnect = null;
 			OperationResult<OpcServerStatus> result = null;
 
-			WaitHelper.Execute(() =>
-			{
-				resultConnect = ClientManager.FiresecService
-					.ConnectToOpcDaServer(SelectedOpcServer);
-			});
+			//WaitHelper.Execute(() =>
+			//{
+			//	resultConnect = ClientManager.FiresecService
+			//		.ConnectToOpcDaServer(SelectedOpcServer);
+			//});
 
-			if (resultConnect.HasError)
-			{
-				statusInfo = string.Format("Ошибка: {0}", resultConnect.Error);
-			}
-			else
+			//if (resultConnect.HasError)
+			//{
+			//	statusInfo = string.Format("Ошибка: {0}", resultConnect.Error);
+			//}
+			//else
 			{
 				WaitHelper.Execute(() =>
 				{
@@ -210,8 +210,8 @@ namespace AutomationModule.ViewModels
 					statusInfo = sb.ToString();
 				}
 
-				var resultDisconnect = ClientManager.FiresecService
-					.DisconnectFromOpcDaServer(SelectedOpcServer);
+				//var resultDisconnect = ClientManager.FiresecService
+				//	.DisconnectFromOpcDaServer(SelectedOpcServer);
 			}
 
 			MessageBoxService.Show(statusInfo, "Состояние OPC сервера");

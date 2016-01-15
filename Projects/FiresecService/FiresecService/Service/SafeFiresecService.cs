@@ -548,15 +548,15 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GetOpcDaServerGroupAndTags(server); }, "GetOpcDaServerGroupAndTags"); 
 		}
 
-		public OperationResult ConnectToOpcDaServer(OpcDaServer server)
-		{
-			return SafeOperationCall(() => { return FiresecService.ConnectToOpcDaServer(server); }, "ConnectToOpcDaServer");
-		}
+		//public OperationResult ConnectToOpcDaServer(OpcDaServer server)
+		//{
+		//	return SafeOperationCall(() => { return FiresecService.ConnectToOpcDaServer(server); }, "ConnectToOpcDaServer");
+		//}
 
-		public OperationResult DisconnectFromOpcDaServer(OpcDaServer server)
-		{
-			return SafeOperationCall(() => { return FiresecService.DisconnectFromOpcDaServer(server); }, "DisconnectFromOpcDaServer");
-		}
+		//public OperationResult DisconnectFromOpcDaServer(OpcDaServer server)
+		//{
+		//	return SafeOperationCall(() => { return FiresecService.DisconnectFromOpcDaServer(server); }, "DisconnectFromOpcDaServer");
+		//}
 
 		public OperationResult<OpcServerStatus> GetOpcDaServerStatus(OpcDaServer server)
 		{
@@ -565,12 +565,16 @@ namespace FiresecService.Service
 
 		public OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(OpcDaServer server)
 		{
-			return SafeOperationCall(() => { return FiresecService.ReadOpcDaServerTags(server); }, "ReadOpcDaServerTags");
+			throw new NotImplementedException();
+
+			//return SafeOperationCall(() => { return FiresecService.ReadOpcDaServerTags(server); }, "ReadOpcDaServerTags");
 		}
 
 		public OperationResult WriteOpcDaServerTags(OpcDaServer server, TsCDaItemValue[] tagValues)
 		{
-			return SafeOperationCall(() => { return FiresecService.WriteOpcDaServerTags(server, tagValues); }, "WriteOpcDaServerTags");
+			throw new NotImplementedException();
+
+			//return SafeOperationCall(() => { return FiresecService.WriteOpcDaServerTags(server, tagValues); }, "WriteOpcDaServerTags");
 		}
 
 		#endregion
