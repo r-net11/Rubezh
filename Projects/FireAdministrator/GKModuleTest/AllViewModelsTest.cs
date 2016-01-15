@@ -312,6 +312,46 @@ namespace GKModuleTest
 			Assert.IsTrue(selectedDevice.Device.Children.Where(x => x.Driver.HasMirror == true).LastOrDefault().IntAddress == 2);
 		}
 		[Test]
+		public void AddPositivMVP()
+		{ 
+			SetMokForNewDeviceViewModel(GKDriverType.RSR2_AM_4,63);
+			var devicesViewModel = GroupControllerModule.DevicesViewModel;
+			var selectedDevice = devicesViewModel.SelectedDevice = devicesViewModel.AllDevices.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif);
+			devicesViewModel.SelectedDevice.AddCommand.Execute();
+			Assert.IsTrue(selectedDevice.Device.AllChildren.Max(x=> x.IntAddress) == 252);
+			ServiceFactory.DialogService = MockDialogService = new MockDialogService();
+			SetMokForNewDeviceViewModel(GKDriverType.RSR2_MVP);
+			devicesViewModel.SelectedDevice.AddCommand.Execute();
+			Assert.IsTrue(selectedDevice.Device.AllChildren.Max(x => x.IntAddress) == 253);
+			ServiceFactory.DialogService = MockDialogService = new MockDialogService();
+			SetMokForNewDeviceViewModel(GKDriverType.RSR2_AM_2);
+			selectedDevice = devicesViewModel.SelectedDevice = devicesViewModel.AllDevices.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.RSR2_MVP_Part);
+			devicesViewModel.SelectedDevice.AddCommand.Execute();
+			Assert.IsTrue(selectedDevice.Device.AllChildren.Count == 3);
+			Assert.IsTrue(devicesViewModel.AllDevices.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif).Device.AllChildren.Max(x => x.IntAddress) == 255);
+		}
+
+		[Test]
+		public void AddNegativMVP()
+		{
+			SetMokForNewDeviceViewModel(GKDriverType.RSR2_AM_4, 63);
+			var devicesViewModel = GroupControllerModule.DevicesViewModel;
+			var selectedDevice = devicesViewModel.SelectedDevice = devicesViewModel.AllDevices.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif);
+			devicesViewModel.SelectedDevice.AddCommand.Execute();
+			Assert.IsTrue(selectedDevice.Device.AllChildren.Max(x => x.IntAddress) == 252);
+			ServiceFactory.DialogService = MockDialogService = new MockDialogService();
+			SetMokForNewDeviceViewModel(GKDriverType.RSR2_MVP);
+			devicesViewModel.SelectedDevice.AddCommand.Execute();
+			Assert.IsTrue(selectedDevice.Device.AllChildren.Max(x => x.IntAddress) == 253);
+			ServiceFactory.DialogService = MockDialogService = new MockDialogService();
+			SetMokForNewDeviceViewModel(GKDriverType.RSR2_AM_4);
+			selectedDevice = devicesViewModel.SelectedDevice = devicesViewModel.AllDevices.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.RSR2_MVP_Part);
+			devicesViewModel.SelectedDevice.AddCommand.Execute();
+			Assert.IsTrue(selectedDevice.Device.AllChildren.Count == 0);
+			Assert.IsTrue(devicesViewModel.AllDevices.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif).Device.AllChildren.Max(x => x.IntAddress) == 253);
+		}
+
+		[Test]
 		public void ChangeGroupDeviceWithZoneTest()
 		{
 			SetMokForNewDeviceViewModel(GKDriverType.RSR2_AM_1,3);
