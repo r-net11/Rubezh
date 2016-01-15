@@ -4,6 +4,7 @@ using RubezhAPI.GK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Threading;
 
 namespace GKProcessor
@@ -26,7 +27,7 @@ namespace GKProcessor
 				}
 
 				var pingResult = DeviceBytesHelper.Ping(newKauDevice.GKParent);
-				if (!pingResult)
+				if (pingResult.HasError)
 				{
 					if (progressCallback != null)
 						GKProcessorManager.StopProgress(progressCallback, clientUID);
@@ -34,7 +35,7 @@ namespace GKProcessor
 					return null;
 				}
 				var pingResult2 = DeviceBytesHelper.Ping(newKauDevice);
-				if (!pingResult2)
+				if (pingResult2.HasError)
 				{
 					if (progressCallback != null)
 						GKProcessorManager.StopProgress(progressCallback, clientUID);
@@ -67,7 +68,7 @@ namespace GKProcessor
 
 			var progressCallback = GKProcessorManager.StartProgress("Автопоиск устройств на " + gkControllerDevice.PresentationName, "Проверка связи", 1, true, GKProgressClientType.Administrator, clientUID);
 			var pingResult = DeviceBytesHelper.Ping(gkControllerDevice);
-			if (!pingResult)
+			if (pingResult.HasError)
 			{
 				if (progressCallback != null)
 					GKProcessorManager.StopProgress(progressCallback, clientUID);
@@ -98,7 +99,7 @@ namespace GKProcessor
 						kauDevice.IntAddress = i;
 						kauDevice.Properties.Add(new GKProperty {Name = "Mode", Value = 0});
 
-						var result1 = SendManager.Send(kauDevice, 0, 1, 1);
+						var result1 = DeviceBytesHelper.Ping(kauDevice);
 						var parameters = SendManager.Send(kauDevice, 2, 9, ushort.MaxValue, BytesHelper.ShortToBytes(1)).Bytes;
 						if (!result1.HasError && parameters != null)
 						{

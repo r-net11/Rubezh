@@ -240,6 +240,10 @@ namespace AutomationModule.ViewModels
 					ReplaceVariableUid(step.ControlPlanArguments.ValueArgument, dictionary);
 					break;
 				case ProcedureStepType.ShowDialog:
+					ReplaceVariableUid(step.ShowDialogArguments.WindowIDArgument, dictionary);
+					break;
+				case ProcedureStepType.CloseDialog:
+					ReplaceVariableUid(step.CloseDialogArguments.WindowIDArgument, dictionary);
 					break;
 				case ProcedureStepType.GenerateGuid:
 					ReplaceVariableUid(step.GenerateGuidArguments.ResultArgument, dictionary);

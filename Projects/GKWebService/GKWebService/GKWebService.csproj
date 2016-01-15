@@ -442,6 +442,7 @@
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\report.js" />
     <Content Include="Scripts\SKD\AccessTemplates\AccessTemplatesViewModel.js" />
+    <Content Include="Scripts\SKD\AccessTemplates\AccessTemplateDetailsViewModel.js" />
     <Content Include="Scripts\SKD\Common\PhotoSelectionViewModel.js" />
     <Content Include="Scripts\SKD\Common\EmployeesFilterViewModel.js" />
     <Content Include="Scripts\SKD\Common\PositionsFilterViewModel.js" />
@@ -493,6 +494,7 @@
     <Compile Include="DataProviders\SKD\OrganisationHelper.cs" />
     <Compile Include="DataProviders\SKD\PositionHelper.cs" />
     <Compile Include="DataProviders\SKD\ScheduleHelper.cs" />
+    <Compile Include="Models\SKD\AccessTemplates\AccessTemplateDetailsViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplatesViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateViewModel.cs" />
     <Compile Include="Models\SKD\Common\CopyHelper.cs" />
@@ -588,6 +590,7 @@
     <Content Include="Views\Employees\PositionSelection.cshtml" />
     <Content Include="Views\Employees\ScheduleSelection.cshtml" />
     <Content Include="Views\AccessTemplates\Index.cshtml" />
+    <Content Include="Views\AccessTemplates\AccessTemplateDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -334,6 +334,9 @@ namespace AutomationModule.Validation
 					if (step.ShowDialogArguments.Layout == Guid.Empty)
 						Errors.Add(new ProcedureStepValidationError(step, "Не выбран макет", ValidationErrorLevel.CannotSave));
 					break;
+				case ProcedureStepType.CloseDialog:
+					ValidateArgument(procedure, step, step.CloseDialogArguments.WindowIDArgument);
+					break;
 				case ProcedureStepType.GenerateGuid:
 					{
 						var generateGuidArguments = step.GenerateGuidArguments;

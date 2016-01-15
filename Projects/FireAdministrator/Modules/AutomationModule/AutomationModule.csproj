@@ -203,6 +203,7 @@
     <Compile Include="Steps\ViewModels\RunProgramStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\SendEmailStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\SetJournalItemGuidStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\CloseDialogStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ShowDialogStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ShowMessageStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\SetValueStepViewModel.cs" />
@@ -305,6 +306,9 @@
     </Compile>
     <Compile Include="Steps\Views\SetJournalItemGuidStepView.xaml.cs">
       <DependentUpon>SetJournalItemGuidStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\CloseDialogStepView.xaml.cs">
+      <DependentUpon>CloseDialogStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ShowDialogStepView.xaml.cs">
       <DependentUpon>ShowDialogStepView.xaml</DependentUpon>
@@ -604,7 +608,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-	<Page Include="Steps\Views\HttpRequestStepView.xaml">
+    <Page Include="Steps\Views\HttpRequestStepView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -655,6 +659,10 @@
     <Page Include="Steps\Views\SetJournalItemGuidStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\CloseDialogStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Steps\Views\ShowDialogStepView.xaml">
       <Generator>MSBuild:Compile</Generator>

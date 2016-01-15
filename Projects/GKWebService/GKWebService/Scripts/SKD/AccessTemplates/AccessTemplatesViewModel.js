@@ -107,6 +107,7 @@ function AccessTemplatesViewModel() {
     self.ReloadTree = function () {
         self.IsOrganisation(true);
         self.IsRowSelected(false);
+        self.ReloadDoors();
 
         $.ajax({
             url: "/AccessTemplates/GetOrganisations",
@@ -211,7 +212,7 @@ function AccessTemplatesViewModel() {
     };
 
     self.Edit = function (data, e) {
-        self.PositionDetails.Init(self.OrganisationUID(), self.UID(), self.ReloadTree );
+        self.AccessTemplateDetails.Init(self.OrganisationUID(), self.UID(), self.ReloadTree );
     };
 
     self.Copy = function (data, e) {

@@ -1553,6 +1553,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="XamlImages\RAlarm_main_5_Info.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="XamlImages\read.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -2650,6 +2654,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="StepIcons\HttpRequest.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\CloseDialog.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

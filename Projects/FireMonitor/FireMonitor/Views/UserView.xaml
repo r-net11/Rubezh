@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="FireMonitor.Views.UserView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<Button Command="{Binding ChangeUserCommand}" Background="{DynamicResource User}" Height="40" Width="40">
+	<Button Command="{Binding ChangeUserCommand}" Background="{DynamicResource User}"  Width="34" Height="34">
 		<Button.ToolTip>
 			<StackPanel>
 				<TextBlock Text="Сменить пользователя" />

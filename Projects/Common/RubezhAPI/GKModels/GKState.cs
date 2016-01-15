@@ -12,6 +12,9 @@ namespace RubezhAPI.GK
 		public Guid UID { get; set; }
 
 		[DataMember]
+		public Guid ReferenceUid { get; set; }
+
+		[DataMember]
 		public List<XStateClass> StateClasses { get; set; }
 
 		[DataMember]
@@ -113,6 +116,7 @@ namespace RubezhAPI.GK
 		{
 			Pim = pim;
 			UID = pim.UID;
+			ReferenceUid = pim.DeviceUid;
 			BaseObjectType = GKBaseObjectType.Pim;
 		}
 

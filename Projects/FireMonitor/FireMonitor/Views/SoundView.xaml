@@ -2,7 +2,7 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-	<Button Name="Button" Command="{Binding PlaySoundCommand}" ToolTip="Вкл/Выкл звук">
+	<Button Name="Button" Command="{Binding PlaySoundCommand}" ToolTip="Вкл/Выкл звук" Width="34" Height="34">
 		<Button.Style>
 			<Style BasedOn="{StaticResource ToolBarButtonStyle}" TargetType="{x:Type Button}">
 				<Setter Property="Template">

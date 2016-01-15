@@ -364,8 +364,10 @@ namespace RubezhAPI.Automation
 					}
 					break;
 				case ProcedureStepType.ShowDialog:
-					{
-					}
+					InvalidateArgument(step.ShowDialogArguments.WindowIDArgument);
+					break;
+				case ProcedureStepType.CloseDialog:
+					InvalidateArgument(step.CloseDialogArguments.WindowIDArgument);
 					break;
 				case ProcedureStepType.GenerateGuid:
 					InvalidateArgument(procedure, step.GenerateGuidArguments.ResultArgument);

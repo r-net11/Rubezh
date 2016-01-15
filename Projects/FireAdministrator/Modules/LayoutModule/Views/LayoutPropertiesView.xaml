@@ -41,7 +41,7 @@
 					</Grid.RowDefinitions>
 					<DataGrid Grid.Row="0" ItemsSource="{Binding HostNameOrAddressList}" SelectedItem="{Binding SelectedHostNameOrAddress}">
 						<DataGrid.Columns>
-							<DataGridTextColumn Width="*" Binding="{Binding .}" Header="IP адрес или имя компьютнра" />
+							<DataGridTextColumn Width="*" Binding="{Binding .}" Header="IP адрес или имя компьютера" />
 						</DataGrid.Columns>
 					</DataGrid>
 					<StackPanel Grid.Row="1" HorizontalAlignment="Left" Orientation="Horizontal">

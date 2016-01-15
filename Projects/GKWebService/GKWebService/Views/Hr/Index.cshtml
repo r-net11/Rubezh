@@ -48,7 +48,7 @@
     <div class="HrToolbar" data-bind="visible:hrPages.AccessTemplates">
         <div class="icon add"></div>
         <div class="icon delete"></div>
-        <div class="icon edit"></div>
+        <div class="icon edit" title="Редактировать" data-bind="click: AccessTemplates.CanEdit() ? function(data,event) { AccessTemplates.Edit(data, event); } : null, css: {disabled: !AccessTemplates.CanEdit()}"></div>
         <div class="icon copy"></div>
         <div class="icon paste"></div>
         <div class="icon redo"></div>
