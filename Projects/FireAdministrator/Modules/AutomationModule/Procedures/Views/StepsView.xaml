@@ -35,15 +35,15 @@
 					<Setter Property="MinWidth" Value="0" />
 					<Setter Property="MinHeight" Value="0" />
 				</Style>
-				<Style TargetType="{x:Type TreeListItem}" BasedOn="{StaticResource {x:Type tree:TreeListItem}}">
+				<Style TargetType="{x:Type TreeList}" BasedOn="{StaticResource {x:Type tree:TreeList}}">
 					<Setter Property="ContextMenu">
 						<Setter.Value>
 							<ContextMenu>
-								<IconedMenuItem Command="{Binding StepsViewModel.AddStepCommand}" ImageSource="BAdd" Text="Добавить функкцию" />
-								<IconedMenuItem Command="{Binding StepsViewModel.DeleteCommand}" ImageSource="BDelete" Text="Удалить функцию" />
-								<IconedMenuItem Command="{Binding StepsViewModel.CopyCommand}" ImageSource="BCopy" Text="Копировать" />
-								<IconedMenuItem Command="{Binding StepsViewModel.CutCommand}" ImageSource="BCut" Text="Вырезать" />
-								<IconedMenuItem Command="{Binding StepsViewModel.PasteCommand}" ImageSource="BPaste" Text="Вставить" />
+								<IconedMenuItem Command="{Binding AddStepCommand}" ImageSource="BAdd" Text="Добавить функцию" />
+								<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete" Text="Удалить функцию" />
+								<IconedMenuItem Command="{Binding CopyCommand}" ImageSource="BCopy" Text="Копировать" />
+								<IconedMenuItem Command="{Binding CutCommand}" ImageSource="BCut" Text="Вырезать" />
+								<IconedMenuItem Command="{Binding PasteCommand}" ImageSource="BPaste" Text="Вставить" />
 							</ContextMenu>
 						</Setter.Value>
 					</Setter>

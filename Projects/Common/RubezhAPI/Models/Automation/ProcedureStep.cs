@@ -42,6 +42,7 @@ namespace RubezhAPI.Automation
 			ControlVisualArguments = new ControlVisualArguments();
 			ControlPlanArguments = new ControlPlanArguments();
 			ShowDialogArguments = new ShowDialogArguments();
+			CloseDialogArguments = new CloseDialogArguments();
 			ControlDelayArguments = new ControlDelayArguments();
 			ShowPropertyArguments = new ShowPropertyArguments();
 			ExportJournalArguments = new ExportJournalArguments();
@@ -169,6 +170,8 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public ShowDialogArguments ShowDialogArguments { get; set; }
+		[DataMember]
+		public CloseDialogArguments CloseDialogArguments { get; set; }
 
 		[DataMember]
 		public ShowPropertyArguments ShowPropertyArguments { get; set; }

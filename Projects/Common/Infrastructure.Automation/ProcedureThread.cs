@@ -324,6 +324,10 @@ namespace Infrastructure.Automation
 					ShowDialog(procedureStep);
 					break;
 
+				case ProcedureStepType.CloseDialog:
+					CloseDialog(procedureStep);
+					break;
+
 				case ProcedureStepType.ShowProperty:
 					ShowProperty(procedureStep);
 					break;
