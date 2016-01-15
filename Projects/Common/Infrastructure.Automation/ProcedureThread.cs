@@ -1,5 +1,6 @@
 ﻿using Common;
 using RubezhAPI.Automation;
+using RubezhAPI.AutomationCallback;
 using RubezhAPI.Journal;
 using RubezhAPI.Models;
 using System;
@@ -39,11 +40,11 @@ namespace Infrastructure.Automation
 			TimeType = procedure.TimeType;
 			AutoResetEvent = new AutoResetEvent(false);
 			Steps = procedure.Steps;
-			AllVariables = new List<Variable>(Utils.Clone(procedure.Variables));
+			AllVariables = Utils.Clone(procedure.Variables);
 			var procedureArguments = Utils.Clone(procedure.Arguments);
 			InitializeArguments(procedureArguments, arguments, callingProcedureVariables);
 			AllVariables.AddRange(procedureArguments);
-			AllVariables.AddRange(ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.GlobalVariables);
+			AllVariables.AddRange(ProcedureExecutionContext.GlobalVariables);
 			Thread = new Thread(() => RunInThread(arguments))
 			{
 				Name = string.Format("ProcedureThread [{0}]", UID),
@@ -150,11 +151,11 @@ namespace Infrastructure.Automation
 					var foreachArguments = procedureStep.ForeachArguments;
 					var listVariable = AllVariables.FirstOrDefault(x => x.Uid == foreachArguments.ListArgument.VariableUid);
 					var itemVariable = AllVariables.FirstOrDefault(x => x.Uid == foreachArguments.ItemArgument.VariableUid);
-					if (listVariable != null)
-						foreach (var explicitValue in listVariable.ExplicitValues)
+					if (listVariable != null && listVariable.IsList)
+						foreach (var listVariableItem in listVariable.Value as object[])
 						{
 							if (itemVariable != null)
-								ProcedureExecutionContext.SetVariableValue(ClientUID, itemVariable, ProcedureExecutionContext.GetValue(explicitValue, itemVariable.ExplicitType, itemVariable.EnumType));
+								ProcedureExecutionContext.SetVariableValue(itemVariable, listVariableItem, ClientUID);
 							foreach (var childStep in procedureStep.Children[0].Children)
 							{
 								var result = RunStep(childStep);
@@ -323,6 +324,10 @@ namespace Infrastructure.Automation
 					ShowDialog(procedureStep);
 					break;
 
+				case ProcedureStepType.CloseDialog:
+					CloseDialog(procedureStep);
+					break;
+
 				case ProcedureStepType.ShowProperty:
 					ShowProperty(procedureStep);
 					break;
@@ -393,6 +398,20 @@ namespace Infrastructure.Automation
 					break;
 			}
 			return Result.Normal;
+		}
+
+		void SetVariableValue(Variable target, object value, Guid? initialClientUID)
+		{
+			SendCallback(null, new AutomationCallbackResult
+			{
+				AutomationCallbackType = AutomationCallbackType.GlobalVariable,
+				Data = new GlobalVariableCallBackData
+				{
+					VariableUID = target.Uid,
+					Value = value
+				}
+			});
+			ProcedureExecutionContext.SetVariableValue(target, value, initialClientUID);
 		}
 
 		enum Result

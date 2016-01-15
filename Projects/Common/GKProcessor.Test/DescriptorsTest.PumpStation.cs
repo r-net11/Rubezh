@@ -78,5 +78,59 @@ namespace GKProcessor.Test
 
 			CheckDeviceLogicOnGK(device2);
 		}
+
+		[TestMethod]
+		public void TestPumpStationWithGlobalPimOnKau()
+		{
+			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_HandDetector);
+			var device2 = AddDevice(kauDevice1, GKDriverType.RSR2_Bush_Fire);
+			var device3 = AddDevice(kauDevice1, GKDriverType.RSR2_Bush_Fire);
+			var clause = new GKClause()
+			{
+				ClauseOperationType = ClauseOperationType.AllDevices,
+				StateType = GKStateBit.Failure
+			};
+			clause.DeviceUIDs.Add(device1.UID);
+			var pumpStation = new GKPumpStation()
+			{
+				NSDeviceUIDs = { device2.UID, device3.UID }
+			};
+			pumpStation.StartLogic.OnClausesGroup.Clauses.Add(clause);
+			GKManager.PumpStations.Add(pumpStation);
+			Compile();
+
+			var globalPimDescriptor = Kau1Database.Descriptors.FirstOrDefault(x => (x.GKBase is GKPim) && (x.GKBase as GKPim).IsGlobalPim);
+			Assert.IsNotNull(globalPimDescriptor);
+			var pumpStationDescriptor = Kau1Database.Descriptors.FirstOrDefault(x => (x.GKBase == pumpStation));
+			Assert.IsNotNull(pumpStationDescriptor);
+			Assert.IsTrue(pumpStationDescriptor.Formula.FormulaOperations.Any(x => x.GKBaseSecondOperand == globalPimDescriptor.GKBase));
+		}
+
+		[TestMethod]
+		public void TestPumpStationWithGlobalPimOnGk()
+		{
+			var device1 = AddDevice(kauDevice2, GKDriverType.RSR2_HandDetector);
+			var device2 = AddDevice(kauDevice1, GKDriverType.RSR2_Bush_Fire);
+			var device3 = AddDevice(kauDevice1, GKDriverType.RSR2_Bush_Fire);
+			var clause = new GKClause()
+			{
+				ClauseOperationType = ClauseOperationType.AllDevices,
+				StateType = GKStateBit.Failure
+			};
+			clause.DeviceUIDs.Add(device1.UID);
+			var pumpStation = new GKPumpStation()
+			{
+				NSDeviceUIDs = { device2.UID, device3.UID }
+			};
+			pumpStation.StartLogic.OnClausesGroup.Clauses.Add(clause);
+			GKManager.PumpStations.Add(pumpStation);
+			Compile();
+
+			var globalPimDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => (x.GKBase is GKPim) && (x.GKBase as GKPim).IsGlobalPim && x.GKBase.KauDatabaseParent == null);
+			Assert.IsNotNull(globalPimDescriptor);
+			var pumpStationDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => (x.GKBase == pumpStation));
+			Assert.IsNotNull(pumpStationDescriptor);
+			Assert.IsTrue(pumpStationDescriptor.Formula.FormulaOperations.Any(x => x.GKBaseSecondOperand == globalPimDescriptor.GKBase));
+		}
 	}
 }

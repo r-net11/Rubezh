@@ -403,6 +403,16 @@ namespace FiresecService.Service
 			SafeOperationCall(clientUID, () => { FiresecService.GKTurnOffNowInAutomatic(clientUID, uid, objectType); }, "GKTurnOffNowInAutomatic");
 		}
 
+		public void GKTurnOnNowGlobalPimsInAutomatic(Guid clientUID)
+		{
+			SafeOperationCall(clientUID, () => FiresecService.GKTurnOnNowGlobalPimsInAutomatic(clientUID), "GKTurnOnNowGlobalPimsInAutomatic");
+		}
+
+		public void GKTurnOffNowGlobalPimsInAutomatic(Guid clientUID)
+		{
+			SafeOperationCall(clientUID, () => FiresecService.GKTurnOffNowGlobalPimsInAutomatic(clientUID), "GKTurnOffNowGlobalPimsInAutomatic");
+		}
+
 		public void GKStop(Guid clientUID, Guid uid, GKBaseObjectType objectType)
 		{
 			SafeOperationCall(clientUID, () => { FiresecService.GKStop(clientUID, uid, objectType); }, "GKStop");
@@ -460,11 +470,6 @@ namespace FiresecService.Service
 		public void SetVariableValue(Guid clientUID, Guid variableUid, object value)
 		{
 			SafeOperationCall(clientUID, () => FiresecService.SetVariableValue(clientUID, variableUid, value), "SetVariableValue");
-		}
-
-		public Variable GetVariable(Guid clientUID, Guid variableUid)
-		{
-			return SafeOperationCall(clientUID, () => { return FiresecService.GetVariable(clientUID, variableUid); }, "GetVariable");
 		}
 
 		public void AddJournalItemA(Guid clientUID, string message, Guid? objectUID = null)

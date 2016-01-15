@@ -475,6 +475,7 @@ namespace RubezhDAL.DataClasses
 					.Include(x => x.GKControllerUIDs)
 					.Include(x => x.CardDoors)
 					.Include(x => x.AccessTemplate.CardDoors)
+					.Where(x => !x.IsInStopList)
 					.Select(x => new
 						{
 							ExpirationDate = x.EndDate,
@@ -496,10 +497,15 @@ namespace RubezhDAL.DataClasses
 				var users = new List<GKAPI.GKUser>();
 				foreach (var tableUser in filteredTableUsers)
 				{
+					var fio = tableUser.LastName != null ? tableUser.LastName : "";
+					if (tableUser.FirstName != null && tableUser.FirstName != "")
+						fio += " " + tableUser.FirstName;
+					if (tableUser.SecondName != null && tableUser.SecondName != "")
+						fio += " " + tableUser.SecondName;
 					var user = new GKAPI.GKUser
 					{
 						ExpirationDate = tableUser.ExpirationDate,
-						Fio = tableUser.LastName + " " + tableUser.FirstName + " " + tableUser.SecondName,
+						Fio = fio,
 						GkLevel = (byte)tableUser.GkLevel,
 						GkLevelSchedule = (byte)tableUser.GkLevelSchedule,
 						Password = (uint)tableUser.Password,

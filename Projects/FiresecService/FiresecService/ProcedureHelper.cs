@@ -63,7 +63,7 @@ namespace FiresecService
 				return true;
 			}
 
-			var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == objectUID);
+			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == objectUID);
 			if (camera != null)
 			{
 				objectName = camera.Name;
@@ -133,13 +133,13 @@ namespace FiresecService
 
 		public static void StartRecord(Guid clientUID, Guid cameraUid, Guid? journalItemUid, Guid? eventUid, int timeout)
 		{
-			var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
+			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
 			if (camera == null)
 				return;
 			if (journalItemUid.HasValue)
 				using (var dbService = new DbService())
 				{
-					var operationResult = dbService.JournalTranslator.GetFilteredJournalItems(new JournalFilter() { UID = journalItemUid.Value });
+					var operationResult = dbService.JournalTranslator.GetFilteredJournalItems(new JournalFilter() { ItemUID = journalItemUid.Value });
 					if (!operationResult.HasError)
 					{
 						var journalItem = operationResult.Result.FirstOrDefault();
@@ -152,28 +152,28 @@ namespace FiresecService
 						}
 					}
 				}
-			RviClient.RviClientHelper.VideoRecordStart(ProcedureExecutionContext.SystemConfiguration.RviSettings, camera, eventUid.Value, timeout);
+			RviClient.RviClientHelper.VideoRecordStart(ConfigurationCashHelper.SystemConfiguration.RviSettings, camera, eventUid.Value, timeout);
 		}
 
 		public static void StopRecord(Guid clientUID, Guid cameraUid, Guid eventUid)
 		{
-			var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
+			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
 			if (camera == null)
 				return;
-			RviClient.RviClientHelper.VideoRecordStop(ProcedureExecutionContext.SystemConfiguration.RviSettings, camera, eventUid);
+			RviClient.RviClientHelper.VideoRecordStop(ConfigurationCashHelper.SystemConfiguration.RviSettings, camera, eventUid);
 		}
 
 		public static void Ptz(Guid clientUID, Guid cameraUid, int ptzNumber)
 		{
-			var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
+			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
 			if (camera == null)
 				return;
-			RviClient.RviClientHelper.SetPtzPreset(ProcedureExecutionContext.SystemConfiguration.RviSettings, camera, ptzNumber);
+			RviClient.RviClientHelper.SetPtzPreset(ConfigurationCashHelper.SystemConfiguration.RviSettings, camera, ptzNumber);
 		}
 
 		public static void RviAlarm(Guid clientUID, string name)
 		{
-			RviClient.RviClientHelper.AlarmRuleExecute(ProcedureExecutionContext.SystemConfiguration.RviSettings, name);
+			RviClient.RviClientHelper.AlarmRuleExecute(ConfigurationCashHelper.SystemConfiguration.RviSettings, name);
 		}
 
 		public static void ControlFireZone(Guid clientUID, Guid uid, ZoneCommandType commandType)

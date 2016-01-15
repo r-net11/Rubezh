@@ -18,8 +18,6 @@ namespace GKProcessor
 				HasAddress = false,
 				IsPlaceable = true
 			};
-			driver.AutoCreateChildren.Add(GKDriverType.GKIndicatorsGroup);
-			driver.AutoCreateChildren.Add(GKDriverType.GKRelaysGroup);
 			driver.Children.Add(GKDriverType.RSR2_KAU);
 			driver.Children.Add(GKDriverType.GKMirror);
 
@@ -33,6 +31,17 @@ namespace GKProcessor
 					Name = "IPAddress",
 					Caption = "IP адрес",
 					ToolTip = "IP адрес",
+					DriverPropertyType = GKDriverPropertyTypeEnum.StringType,
+					IsAUParameter = false
+				}
+				);
+
+			driver.Properties.Add(
+				new GKDriverProperty()
+				{
+					Name = "ReservedIPAddress",
+					Caption = "Резервный IP адрес",
+					ToolTip = "Резервный IP адрес",
 					DriverPropertyType = GKDriverPropertyTypeEnum.StringType,
 					IsAUParameter = false
 				}

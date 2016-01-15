@@ -499,6 +499,27 @@ namespace GKImitator.ViewModels
 							OnSetManualRegime();
 						}
 					}
+					if (stateBitVale.Key == GKStateBit.SetRegime_Automatic)
+					{
+						if (Regime == Regime.Manual)
+						{
+							OnSetAutomaticRegime();
+						}
+					}
+					if (stateBitVale.Key == GKStateBit.TurnOn_InManual)
+					{
+						if (Regime == Regime.Manual)
+						{
+							OnTurnOn();
+						}
+					}
+					if (stateBitVale.Key == GKStateBit.TurnOff_InManual)
+					{
+						if (Regime == Regime.Manual)
+						{
+							OnTurnOff();
+						}
+					}
 					if (stateBitVale.Key == GKStateBit.Stop_InManual)
 					{
 						if (Regime == Regime.Automatic)
@@ -506,9 +527,13 @@ namespace GKImitator.ViewModels
 							OnPauseTurnOn();
 						}
 					}
-					if (GKBase is GKGuardZone && stateBitVale.Key == GKStateBit.Attention && StateBits.Any(x => x.StateBit == GKStateBit.On && x.IsActive))
+					if (GKBase is GKGuardZone && stateBitVale.Key == GKStateBit.Attention)
 					{
-						if (Regime == Regime.Automatic)
+						var oNstateBit = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On);
+						var attentionStateBit = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Attention);
+						var fire1 = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire1);
+						if (Regime == Regime.Automatic && oNstateBit != null && oNstateBit.IsActive
+							&& attentionStateBit != null && !attentionStateBit.IsActive && fire1 != null && !fire1.IsActive)
 						{
 							SetGuardAlarm();
 						}

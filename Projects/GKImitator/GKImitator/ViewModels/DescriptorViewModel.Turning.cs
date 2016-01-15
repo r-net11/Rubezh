@@ -407,12 +407,12 @@ namespace GKImitator.ViewModels
 				changed = SetStateBit(GKStateBit.TurningOff, true) || changed;
 				if (changed)
 				{
+					// Сброс пожара
+					OnResetFire();
+
 					var journalItem = new ImitatorJournalItem(2, 9, 5, 0);
 					AddJournalItem(journalItem);
 					RecalculateOutputLogic();
-					// Сброс пожара
-					SetStateBit(GKStateBit.Fire1, false);
-					SetStateBit(GKStateBit.Fire2, false);
 				}
 			}
 		}
@@ -430,13 +430,12 @@ namespace GKImitator.ViewModels
 			changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
 			if (changed)
 			{
+				// Сброс пожара
+				OnResetFire();
+
 				var journalItem = new ImitatorJournalItem(2, 9, 3, 3);
 				AddJournalItem(journalItem);
 				RecalculateOutputLogic();
-
-				// Сброс пожара
-				SetStateBit(GKStateBit.Fire1, false);
-				SetStateBit(GKStateBit.Fire2, false);
 			}
 		}
 

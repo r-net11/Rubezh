@@ -1,19 +1,19 @@
-﻿using System;
+﻿using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.AutomationCallback;
+using RubezhClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using RubezhAPI.AutomationCallback;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using RubezhClient;
 
 namespace FireMonitor.Layout.ViewModels
 {
 	public class LayoutDialogViewModel : DialogViewModel
 	{
-		public DialogCallbackData Data { get; private set; }
+		static Dictionary<LayoutDialogViewModel, string> _dialogs = new Dictionary<LayoutDialogViewModel, string>();
+		public ShowDialogCallbackData Data { get; private set; }
 
-		public static void Show(DialogCallbackData data)
+		public static void Show(ShowDialogCallbackData data)
 		{
 			var windowViewModel = new LayoutDialogViewModel(data.Layout)
 			{
@@ -36,6 +36,19 @@ namespace FireMonitor.Layout.ViewModels
 					DialogService.ShowWindow(windowViewModel);
 
 			});
+			if (data.WindowID != null)
+				_dialogs.Add(windowViewModel, data.WindowID);
+		}
+
+		public static void Close(CloseDialogCallbackData data)
+		{
+			if (data.WindowID != null)
+				while (_dialogs.ContainsValue(data.WindowID))
+				{
+					var item = _dialogs.FirstOrDefault(x => x.Value == data.WindowID);
+					ApplicationService.Invoke(() => item.Key.Close());
+					_dialogs.Remove(item.Key);
+				}
 		}
 
 		public LayoutDialogViewModel(Guid layoutUID)

@@ -37,16 +37,6 @@ namespace RubezhClient
 			}, "GetProperties");
 		}
 
-		public Variable GetVariable(Guid clientUID, Guid variableUid)
-		{
-			return SafeOperationCall(() =>
-			{
-				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
-				using (firesecService as IDisposable)
-					return firesecService.GetVariable(clientUID, variableUid);
-			}, "GetVariable");
-		}
-
 		public void SetVariableValue(Guid clientUID, Guid variableUid, object value)
 		{
 			SafeOperationCall(() =>
@@ -260,11 +250,6 @@ namespace RubezhClient
 		public ProcedureProperties GetProperties(Guid layoutUID)
 		{
 			return GetProperties(FiresecServiceFactory.UID, layoutUID);
-		}
-
-		public Variable GetVariable(Guid variableUid)
-		{
-			return GetVariable(FiresecServiceFactory.UID, variableUid);
 		}
 
 		public void SetVariableValue(Guid variableUid, object value)

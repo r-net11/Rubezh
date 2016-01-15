@@ -334,6 +334,9 @@ namespace AutomationModule.Validation
 					if (step.ShowDialogArguments.Layout == Guid.Empty)
 						Errors.Add(new ProcedureStepValidationError(step, "Не выбран макет", ValidationErrorLevel.CannotSave));
 					break;
+				case ProcedureStepType.CloseDialog:
+					ValidateArgument(procedure, step, step.CloseDialogArguments.WindowIDArgument);
+					break;
 				case ProcedureStepType.GenerateGuid:
 					{
 						var generateGuidArguments = step.GenerateGuidArguments;
@@ -471,7 +474,7 @@ namespace AutomationModule.Validation
 			localVariables.AddRange(new List<Variable>(Procedure.Arguments));
 			if (argument.VariableScope == VariableScope.GlobalVariable)
 			{
-				var variable = ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid != argument.VariableUid);
+				var variable = ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);
 				if (variable == null)
 				{
 					Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы", ValidationErrorLevel.CannotSave));

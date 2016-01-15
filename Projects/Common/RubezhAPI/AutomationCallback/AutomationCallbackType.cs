@@ -8,7 +8,9 @@
 		GetVisualProperty,
 		SetPlanProperty,
 		GetPlanProperty,
-		Dialog,
-		Property
+		ShowDialog,
+		CloseDialog,
+		Property,
+		GlobalVariable
 	}
 }

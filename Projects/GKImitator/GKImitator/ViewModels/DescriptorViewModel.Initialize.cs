@@ -68,7 +68,6 @@ namespace GKImitator.ViewModels
 
 					case GKDriverType.RSR2_HandDetector:
 						HasAutomaticRegime = true;
-						HasManualRegime = true;
 						HasIgnoreRegime = true;
 						AddStateBit(GKStateBit.Fire2);
 						HasSetFireHeandDetector = true;

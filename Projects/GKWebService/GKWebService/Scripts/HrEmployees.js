@@ -18,18 +18,18 @@
             { label: 'UID', name: 'UID', key: true, hidden: true, sortable: false },
             { label: 'ParentUID', name: 'ParentUID', hidden: true, sortable: false },
             { label: 'OrganisationUID', name: 'OrganisationUID', hidden: true, sortable: false },
-            { label: 'ФИО', name: 'FIO', width: 100, sortable: false, formatter: imageFormat },
-            { label: 'Name', name: 'Name', width: 100, hidden: true, sortable: false},
-            { label: 'Подразделение', name: 'DepartmentName', width: 100, sortable: false },
+            { label: 'ФИО', name: 'Name', width: 100, sortable: false, formatter: imageFormat },
+            { label: 'Name', name: 'NameData', width: 100, hidden: true, sortable: false},
+            { label: 'Подразделение', name: 'Model.DepartmentName', width: 100, sortable: false },
             { label: 'IsOrganisation', name: 'IsOrganisation', hidden: true, sortable: false },
-            { label: 'LastName', name: 'LastName', hidden: true, sortable: false },
-            { label: 'FirstName', name: 'FirstName', hidden: true, sortable: false },
-            { label: 'SecondName', name: 'SecondName', hidden: true, sortable: false },
-            { label: 'Phone', name: 'Phone', hidden: true, sortable: false },
+            { label: 'LastName', name: 'Model.LastName', hidden: true, sortable: false },
+            { label: 'FirstName', name: 'Model.FirstName', hidden: true, sortable: false },
+            { label: 'SecondName', name: 'Model.SecondName', hidden: true, sortable: false },
+            { label: 'Phone', name: 'Model.Phone', hidden: true, sortable: false },
             { label: 'Description', name: 'Description', hidden: true, sortable: false },
-            { label: 'PositionName', name: 'PositionName', hidden: true, sortable: false },
-            { label: 'DepartmentName', name: 'DepartmentName', hidden: true, sortable: false },
-            { label: 'OrganisationName', name: 'OrganisationName', hidden: true, sortable: false },
+            { label: 'PositionName', name: 'Model.PositionName', hidden: true, sortable: false },
+            { label: 'DepartmentName', name: 'Model.DepartmentName', hidden: true, sortable: false },
+            { label: 'OrganisationName', name: 'Model.OrganisationName', hidden: true, sortable: false },
             { label: 'RemovalDate', name: 'RemovalDate', hidden: true, sortable: false },
             { label: 'IsDeleted', name: 'IsDeleted', hidden: true, sortable: false }
         ],
@@ -39,7 +39,7 @@
         viewrecords: true,
 
         treeGrid: true,
-        ExpandColumn: "FIO",
+        ExpandColumn: "Name",
         treedatatype: "local",
         treeGridModel: "adjacency",
         loadonce: false,
@@ -75,6 +75,7 @@ function EmployeesViewModel(parentViewModel) {
     self.RemovalDate = ko.observable();
     self.IsDeleted = ko.observable();
     self.IsRowSelected = ko.observable(false);
+    self.PhotoData = ko.observable();
     self.ItemRemovingName = ko.computed(function() {
         return self.IsGuest() ? "посетителя" : "сотрудника";
     }, self);
@@ -122,7 +123,7 @@ function EmployeesViewModel(parentViewModel) {
                 self.UpdateTree(data);
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert("request failed");
+                ShowError(xhr.responseText);
             },
         });
 
@@ -145,18 +146,27 @@ function EmployeesViewModel(parentViewModel) {
 
             self.UID(id);
             self.OrganisationUID(myGrid.jqGrid('getCell', id, 'OrganisationUID'));
-            self.DepartmentName(myGrid.jqGrid('getCell', id, 'DepartmentName'));
+            self.DepartmentName(myGrid.jqGrid('getCell', id, 'Model.DepartmentName'));
             self.IsOrganisation(myGrid.jqGrid('getCell', id, 'IsOrganisation') == "true");
-            self.LastName(myGrid.jqGrid('getCell', id, 'LastName'));
-            self.FirstName(myGrid.jqGrid('getCell', id, 'FirstName'));
-            self.SecondName(myGrid.jqGrid('getCell', id, 'SecondName'));
-            self.Name(myGrid.jqGrid('getCell', id, 'Name'));
-            self.Phone(myGrid.jqGrid('getCell', id, 'Phone'));
+            self.LastName(myGrid.jqGrid('getCell', id, 'Model.LastName'));
+            self.FirstName(myGrid.jqGrid('getCell', id, 'Model.FirstName'));
+            self.SecondName(myGrid.jqGrid('getCell', id, 'Model.SecondName'));
+            self.Name(myGrid.jqGrid('getCell', id, 'NameData'));
+            self.Phone(myGrid.jqGrid('getCell', id, 'Model.Phone'));
             self.Description(myGrid.jqGrid('getCell', id, 'Description'));
-            self.PositionName(myGrid.jqGrid('getCell', id, 'PositionName'));
-            self.OrganisationName(myGrid.jqGrid('getCell', id, 'OrganisationName'));
+            self.PositionName(myGrid.jqGrid('getCell', id, 'Model.PositionName'));
+            self.OrganisationName(myGrid.jqGrid('getCell', id, 'Model.OrganisationName'));
             self.RemovalDate(myGrid.jqGrid('getCell', id, 'RemovalDate'));
             self.IsDeleted(myGrid.jqGrid('getCell', id, 'IsDeleted') == "true");
+
+            if (!self.IsOrganisation()) {
+                $.getJSON("/Employees/GetEmployeePhoto/" + self.UID(), function (photo) {
+                    self.PhotoData(photo);
+                })
+                .fail(function (jqxhr, textStatus, error) {
+                    ShowError(jqxhr.responseText);
+                });
+            }
 
             if (!self.IsOrganisation()) {
                 self.EmployeeCards.InitCards(self.OrganisationUID(), self.UID());
@@ -175,7 +185,13 @@ function EmployeesViewModel(parentViewModel) {
                 self.EmployeeDetails.Organisation = org;
                 self.EmployeeDetails.Init(true, self.ParentViewModel.SelectedPersonType(), self.ReloadTree);
                 ShowBox(box);
+            })
+            .fail(function (jqxhr, textStatus, error) {
+                ShowError(jqxhr.responseText);
             });
+        })
+        .fail(function (jqxhr, textStatus, error) {
+            ShowError(jqxhr.responseText);
         });
     };
 
@@ -204,7 +220,13 @@ function EmployeesViewModel(parentViewModel) {
                 self.EmployeeDetails.Organisation = org;
                 self.EmployeeDetails.Init(false, self.ParentViewModel.SelectedPersonType(), self.ReloadTree);
                 ShowBox(box);
+            })
+            .fail(function (jqxhr, textStatus, error) {
+                ShowError(jqxhr.responseText);
             });
+        })
+        .fail(function (jqxhr, textStatus, error) {
+            ShowError(jqxhr.responseText);
         });
     };
 

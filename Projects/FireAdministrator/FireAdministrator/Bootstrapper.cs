@@ -48,8 +48,7 @@ namespace FireAdministrator
 					ClientManager.GetConfiguration("Administrator/Configuration");
 					ProcedureExecutionContext.Initialize(
 						ContextType.Client,
-						ClientManager.SystemConfiguration,
-						ClientManager.SecurityConfiguration
+						() => { return ClientManager.SystemConfiguration; }
 						);
 
 					GKDriversCreator.Create();
@@ -102,7 +101,6 @@ namespace FireAdministrator
 		void OnConfigurationChanged()
 		{
 			ClientManager.GetLicense();
-			ProcedureExecutionContext.UpdateConfiguration(ClientManager.SystemConfiguration, ClientManager.SecurityConfiguration);
 		}
 		void Restart()
 		{
@@ -163,7 +161,6 @@ namespace FireAdministrator
 			LoadingErrorManager.Clear();
 			ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
 			ServiceFactory.ContentService.Invalidate();
-			ProcedureExecutionContext.UpdateConfiguration(ClientManager.SystemConfiguration, ClientManager.SecurityConfiguration);
 			InitializeModules();
 			LoadingService.Close();
 		}

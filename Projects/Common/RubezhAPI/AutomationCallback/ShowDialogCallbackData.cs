@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace RubezhAPI.AutomationCallback
 {
 	[DataContract]
-	public class DialogCallbackData : AutomationCallbackData
+	public class ShowDialogCallbackData : UIAutomationCallbackData
 	{
 		[DataMember]
 		public Guid Layout { get; set; }
@@ -34,5 +34,8 @@ namespace RubezhAPI.AutomationCallback
 		public double Left { get; set; }
 		[DataMember]
 		public double Top { get; set; }
+		[DataMember]
+		public string WindowID { get; set; }
+
 	}
 }

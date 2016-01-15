@@ -29,8 +29,9 @@
 							HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
 					<Controls:ToolBarButton Command="{Binding FirstPageCommand}" ImageSource="LeftLeft"  ToolTip="Начальная страница" />
 					<Controls:ToolBarButton Command="{Binding PreviousPageCommand}" ImageSource="Left"  ToolTip="Предыдущая страница" />
-					<TextBox ContextMenu="{x:Null}" Height="30" MinWidth="25" MinHeight="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontSize="20" 
-							 IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding CurrentPageNumber}" />
+					<TextBox Name="pageNumberTextBox" ContextMenu="{x:Null}" Height="30" MinWidth="25" MinHeight="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontSize="20" 
+							 IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding CurrentPageNumber}" 
+							 KeyDown="pageNumberTextBox_KeyDown"/>
 					<Label VerticalContentAlignment="Center" Content="/" FontSize="20" />
 					<Label VerticalContentAlignment="Center" Content="{Binding TotalPageNumber}" FontSize="20" />
 					<Controls:ToolBarButton Command="{Binding NextPageCommand}" ImageSource="Right"  ToolTip="Следующая страница" />

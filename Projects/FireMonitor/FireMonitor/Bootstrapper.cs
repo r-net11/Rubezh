@@ -58,8 +58,7 @@ namespace FireMonitor
 					ClientManager.GetConfiguration("Monitor/Configuration");
 					ProcedureExecutionContext.Initialize(
 						ContextType.Client,
-						ClientManager.SystemConfiguration,
-						ClientManager.SecurityConfiguration,
+						() => { return ClientManager.SystemConfiguration; },
 						SafeFiresecService.ProcessAutomationCallback,
 						((SafeFiresecService)ClientManager.FiresecService).ProcedureCallbackResponse,
 						OnSynchronizeVariable,
@@ -144,8 +143,37 @@ namespace FireMonitor
 
 		void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)
 		{
-			if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.Dialog)
-				LayoutDialogViewModel.Show((DialogCallbackData)automationCallbackResult.Data);
+			if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.ShowDialog)
+			{
+				var data = automationCallbackResult.Data as ShowDialogCallbackData;
+				var layoutUID = GetLayoutUID();
+				if (layoutUID.HasValue && data != null && data.LayoutFilter != null && data.LayoutFilter.Contains(layoutUID.Value))
+					LayoutDialogViewModel.Show(data);
+				return;
+			}
+			if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.CloseDialog)
+			{
+				var data = automationCallbackResult.Data as CloseDialogCallbackData;
+				var layoutUID = GetLayoutUID();
+				if (layoutUID.HasValue && data != null && data.LayoutFilter != null && data.LayoutFilter.Contains(layoutUID.Value))
+					LayoutDialogViewModel.Close(data);
+				return;
+			}
+			if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.GlobalVariable)
+			{
+				var data = automationCallbackResult.Data as GlobalVariableCallBackData;
+				if (data != null)
+				{
+					var variable = ProcedureExecutionContext.GlobalVariables.FirstOrDefault(x => x.Uid == data.VariableUID);
+					ProcedureExecutionContext.SetVariableValue(variable, data.Value, null);
+				}
+			}
+
+		}
+
+		protected virtual Guid? GetLayoutUID()
+		{
+			return Guid.Empty;
 		}
 
 		void LoadPlansProperties()
@@ -164,21 +192,9 @@ namespace FireMonitor
 			return result.HasError ? new List<RubezhAPI.SKD.Organisation>() : result.Result;
 		}
 
-		private void OnSynchronizeVariable(Guid clientUID, Variable variable, ContextType targetContextType)
+		private void OnSynchronizeVariable(Guid clientUID, Variable variable)
 		{
-			if (targetContextType == ContextType.Client)
-			{
-				var remoteVariable = ClientManager.FiresecService.GetVariable(variable.Uid);
-				if (remoteVariable != null)
-				{
-					variable.ExplicitValue = remoteVariable.ExplicitValue;
-					variable.ExplicitValues = remoteVariable.ExplicitValues;
-				}
-			}
-			else
-			{
-				ClientManager.FiresecService.SetVariableValue(variable.Uid, ProcedureExecutionContext.GetValue(variable));
-			}
+			ClientManager.FiresecService.SetVariableValue(variable.Uid, ProcedureExecutionContext.GetValue(variable));
 		}
 
 		private void OnJournalItems(List<JournalItem> journalItems, bool isNew)
@@ -200,9 +216,10 @@ namespace FireMonitor
 			var result = true;
 			ShellViewModel = CreateShell();
 			((LayoutService)ServiceFactory.Layout).SetToolbarViewModel((ToolbarViewModel)ShellViewModel.Toolbar);
-			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new SoundViewModel());
 			if (!RunShell(ShellViewModel))
 				result = false;
+			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new GlobalPimActivationViewModel());
+			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new SoundViewModel());
 			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new UserViewModel(this));
 			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new AutoActivationViewModel());
 			return result;

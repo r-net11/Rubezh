@@ -102,7 +102,7 @@ namespace FiresecService.Service
 				var result = GKProcessorManager.GKSyncronyseTime(device, GetUserName(clientUID));
 				if (result)
 					return new OperationResult<bool>(true);
-				return OperationResult<bool>.FromError("Устройство недоступно", false);
+				return OperationResult<bool>.FromError("Устройство недоступно или IP-адрес компьютера отсутствует в списке разрешенных адресов прибора", false);
 			}
 			return OperationResult<bool>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
@@ -380,6 +380,16 @@ namespace FiresecService.Service
 			{
 				GKProcessorManager.GKTurnOffNowInAutomatic(gkBase, GetUserName(clientUID));
 			}
+		}
+
+		public void GKTurnOnNowGlobalPimsInAutomatic(Guid clientUID)
+		{
+			GKProcessorManager.GKTurnOnNowGlobalPimsInAutomatic(GetUserName(clientUID));
+		}
+
+		public void GKTurnOffNowGlobalPimsInAutomatic(Guid clientUID)
+		{
+			GKProcessorManager.GKTurnOffNowGlobalPimsInAutomatic(GetUserName(clientUID));
 		}
 
 		public void GKStop(Guid clientUID, Guid uid, GKBaseObjectType objectType)

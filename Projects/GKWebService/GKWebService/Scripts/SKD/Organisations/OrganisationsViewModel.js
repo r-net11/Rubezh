@@ -54,7 +54,7 @@
                 self.SelectedOrganisation(null);
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert("request failed");
+                ShowError(xhr.responseText);
             },
         });
     };
@@ -72,7 +72,7 @@
                 ko.mapping.fromJS(users, {}, self);
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert("request failed");
+                ShowError(xhr.responseText);
             }
         });
         $.ajax({
@@ -84,7 +84,7 @@
                 ko.mapping.fromJS(doors, {}, self);
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert("request failed");
+                ShowError(xhr.responseText);
             }
         });
     };
@@ -103,7 +103,7 @@
                 self.SelectedOrganisation().UserUIDs(users.UserUIDs);
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert("request failed");
+                ShowError(xhr.responseText);
             }
         });
     };
@@ -129,7 +129,7 @@
                     };
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    alert("request failed");
+                    ShowError(xhr.responseText);
                 }
             });
         } else {
@@ -149,7 +149,7 @@
                 self.SelectedOrganisation().DoorUIDs(doors.DoorUIDs);
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert("request failed");
+                ShowError(xhr.responseText);
             }
         });
     };
@@ -168,6 +168,9 @@
                 } else {
                     self.RemoveOrganisation();
                 }
+            })
+            .fail(function (jqxhr, textStatus, error) {
+                ShowError(jqxhr.responseText);
             });
         });
     };
@@ -182,7 +185,7 @@
                     self.ReloadOrganisationList();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    alert("request failed");
+                    ShowError(xhr.responseText);
                 }
             });
     };
@@ -200,7 +203,7 @@
                 data: JSON.stringify({ "uid": self.SelectedOrganisation().UID(), "name": self.SelectedOrganisation().Name() }),
                 success: self.ReloadOrganisationList,
                 error: function (xhr, ajaxOptions, thrownError) {
-                    alert("request failed");
+                    ShowError(xhr.responseText);
                 }
             });
         });

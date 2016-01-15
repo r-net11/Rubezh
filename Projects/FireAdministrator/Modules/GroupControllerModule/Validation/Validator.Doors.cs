@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using RubezhAPI.GK;
-using RubezhClient;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Validation;
-using System;
-using Infrastructure.Common;
 using RubezhAPI;
+using RubezhAPI.GK;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GKModule.Validation
 {
@@ -106,7 +105,7 @@ namespace GKModule.Validation
 					if (door.DoorType == GKDoorType.Turnstile)
 						AddError(door, "При включенном Antipassback, отсутствует датчик проворота", ValidationErrorLevel.CannotWrite);
 					else if (door.DoorType == GKDoorType.Barrier)
-						AddError(door, "При включенном Antipassback, отсутствует датчик датчик въезда", ValidationErrorLevel.CannotWrite);
+						AddError(door, "При включенном Antipassback, отсутствует датчик контроля въезда", ValidationErrorLevel.CannotWrite);
 					else
 						AddError(door, "При включенном Antipassback, отсутствует датчик контроля двери", ValidationErrorLevel.CannotWrite);
 
@@ -116,7 +115,7 @@ namespace GKModule.Validation
 					if (door.DoorType == GKDoorType.AirlockBooth)
 						AddError(door, "При включенном Antipassback, отсутствует датчик контроля двери на выход", ValidationErrorLevel.CannotWrite);
 					if (door.DoorType == GKDoorType.Barrier)
-						AddError(door, "При включенном Antipassback, отсутствует датчик датчик Выеезда", ValidationErrorLevel.CannotWrite);
+						AddError(door, "При включенном Antipassback, отсутствует датчик контроля выезда", ValidationErrorLevel.CannotWrite);
 				}
 
 				if (door.EnterZoneUID == Guid.Empty)
@@ -133,7 +132,7 @@ namespace GKModule.Validation
 						if (door.DoorType == GKDoorType.Turnstile)
 							AddError(door, "У точки доступа отсутствует датчик проворота", ValidationErrorLevel.Warning);
 						else if (door.DoorType == GKDoorType.Barrier)
-							AddError(door, "У точки доступа отсутствует датчик въезда", ValidationErrorLevel.Warning);
+							AddError(door, "У точки доступа отсутствует датчик контроля въезда", ValidationErrorLevel.Warning);
 						else
 							AddError(door, "У точки доступа отсутствует датчик контроля двери", ValidationErrorLevel.Warning);
 

@@ -105,7 +105,6 @@ namespace RubezhClient
 		OperationResult<List<TimeTrackDocumentType>> GetTimeTrackDocumentTypes(Guid organisationUID);
 		OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate);
 		Stream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate);
-		Variable GetVariable(Guid variableUid);
 		void GKAddMessage(JournalEventNameType journalEventNameType, string description);
 		OperationResult<GKDevice> GKAutoSearch(GKDevice device);
 		void GKCloseSKDZone(GKSKDZone zone);
@@ -139,6 +138,8 @@ namespace RubezhClient
 		void GKTurnOff(GKBase gkBase);
 		void GKTurnOffInAutomatic(GKBase gkBase);
 		void GKTurnOffNow(GKBase gkBase);
+		void GKTurnOnNowGlobalPimsInAutomatic();
+		void GKTurnOffNowGlobalPimsInAutomatic();
 		void GKTurnOffNowInAutomatic(GKBase gkBase);
 		void GKTurnOn(GKBase gkBase);
 		void GKTurnOnInAutomatic(GKBase gkBase);

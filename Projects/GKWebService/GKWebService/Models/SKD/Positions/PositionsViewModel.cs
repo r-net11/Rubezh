@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using GKWebService.DataProviders.SKD;
 using GKWebService.Models.SKD.Common;
 using RubezhAPI.SKD;
 using RubezhClient;
@@ -12,7 +13,7 @@ namespace GKWebService.Models.SKD.Positions
     {
         protected override IEnumerable<ShortPosition> GetModels(PositionFilter filter)
         {
-            return ClientManager.FiresecService.GetPositionList(filter).Result;
+            return PositionHelper.Get(filter);
         }
     }
 }

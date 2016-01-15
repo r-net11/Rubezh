@@ -18,18 +18,16 @@ namespace FiresecService.Report.Templates
 		{
 			get { return false; }
 		}
-
 		public override string ReportTitle
 		{
 			get { return "Маршрут " + (GetFilter<EmployeeRootReportFilter>().IsEmployee ? "сотрудника" : "посетителя"); }
 		}
-
 		public override void ApplyFilter(SKDReportFilter filter)
 		{
 			base.ApplyFilter(filter);
 			Name = ReportTitle;
+			CreateDynamicElements();
 		}
-
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<EmployeeRootReportFilter>();
@@ -94,7 +92,6 @@ namespace FiresecService.Report.Templates
 			}
 			return ds;
 		}
-
 		public static List<RubezhDAL.DataClasses.PassJournal> NormalizePassJournals(IEnumerable<RubezhDAL.DataClasses.PassJournal> passJournals)
 		{
 			if (passJournals.Count() == 0)
@@ -112,6 +109,21 @@ namespace FiresecService.Report.Templates
 			}
 			return result;
 		}
+		void CreateDynamicElements()
+		{
+			bool isEmployee = GetFilter<EmployeeRootReportFilter>().IsEmployee;
 
+			EmployeeNameLabel.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Name", (isEmployee ? "Сотрудник" : "Посетитель") + ": {0}")});
+
+			if (isEmployee)
+				PositionOrEscortLabel.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+						new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Position", "Должность: {0}")});
+			else
+			{
+				PositionOrEscortLabel.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+						new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Escort", "Сопровождающий: {0}")});
+			}
+		}
 	}
 }
