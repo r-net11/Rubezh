@@ -77,35 +77,231 @@ namespace RubezhAPI.GK
 			}
 			if (Driver.HasMirror)
 			{
-				switch (DriverType)
-				{
-					case GKDriverType.DetectorDevicesMirror:
-						GKReflectionItem.Devices.ForEach(AddDependentElement);
-						break;
-					case GKDriverType.ControlDevicesMirror:
-						GKReflectionItem.Devices.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-						GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-						GKReflectionItem.Delays.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-						GKReflectionItem.MPTs.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-						GKReflectionItem.NSs.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-						break;
-					case GKDriverType.DirectionsMirror:
-						GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-						break;
-					case GKDriverType.FireZonesMirror:
-						GKReflectionItem.Zones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-						break;
-					case GKDriverType.FirefightingZonesMirror:
-						GKReflectionItem.Zones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-						GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-						break;
-					case GKDriverType.GuardZonesMirror:
-						GKReflectionItem.GuardZones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-						break;
-				}
+				//switch (DriverType)
+				//{
+				//	case GKDriverType.DetectorDevicesMirror:
+				//		GKReflectionItem.Devices.ForEach(AddDependentElement);
+				//		break;
+				//	case GKDriverType.ControlDevicesMirror:
+				//		GKReflectionItem.Devices.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+				//		GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+				//		GKReflectionItem.Delays.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+				//		GKReflectionItem.MPTs.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+				//		GKReflectionItem.NSs.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+				//		break;
+				//	case GKDriverType.DirectionsMirror:
+				//		GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+				//		break;
+				//	case GKDriverType.FireZonesMirror:
+				//		GKReflectionItem.Zones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+				//		break;
+				//	case GKDriverType.FirefightingZonesMirror:
+				//		GKReflectionItem.Zones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+				//		GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+				//		break;
+				//	case GKDriverType.GuardZonesMirror:
+				//		GKReflectionItem.GuardZones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
+				//		break;
+				//}
+				InvalidateReflection(deviceConfiguration);
 			}
 		}
+		void InvalidateReflection(GKDeviceConfiguration deviceConfiguration)
+		{
+			switch (DriverType)
+			{
+				case GKDriverType.DetectorDevicesMirror:
+					GKReflectionItem.DeviceUIDs.ForEach(x =>
+					{
+						var device = deviceConfiguration.Devices.FirstOrDefault(y => y.UID == x);
+						if (device != null)
+						{
+							if (!GKReflectionItem.Devices.Contains(device))
+								GKReflectionItem.Devices.Add(device);
+							AddDependentElement(device);
+						}
+						else
+						{
+							GKReflectionItem.Devices.Remove(device);
+							GKReflectionItem.DeviceUIDs.Remove(x);
+						}
+					});
+					break;
+				case GKDriverType.ControlDevicesMirror:
+					GKReflectionItem.DeviceUIDs.ForEach(x =>
+					{
+						var device = deviceConfiguration.Devices.FirstOrDefault(y => y.UID == x);
+						if (device != null)
+						{
+							if (!GKReflectionItem.Devices.Contains(device))
+								GKReflectionItem.Devices.Add(device);
+							AddDependentElement(device);
+							device.AddDependentElement(this);
+						}
+						else
+						{
+							GKReflectionItem.Devices.Remove(device);
+							GKReflectionItem.DeviceUIDs.Remove(x);
+						}
+					});
 
+					GKReflectionItem.DiretionUIDs.ForEach(x =>
+					{
+						var derection = deviceConfiguration.Directions.FirstOrDefault(y => y.UID == x);
+						if (derection != null)
+						{
+							if (!GKReflectionItem.Diretions.Contains(derection))
+								GKReflectionItem.Diretions.Add(derection);
+							AddDependentElement(derection);
+							derection.AddDependentElement(this);
+						}
+						else
+						{
+							GKReflectionItem.Diretions.Remove(derection);
+							GKReflectionItem.DiretionUIDs.Remove(x);
+						}
+					});
+
+					GKReflectionItem.DelayUIDs.ForEach(x =>
+					{
+						var delay = deviceConfiguration.Delays.FirstOrDefault(y => y.UID == x);
+						if (delay != null)
+						{
+							if (!GKReflectionItem.Delays.Contains(delay))
+								GKReflectionItem.Delays.Add(delay);
+							AddDependentElement(delay);
+							delay.AddDependentElement(this);
+						}
+						else
+						{
+							GKReflectionItem.Delays.Remove(delay);
+							GKReflectionItem.DelayUIDs.Remove(x);
+						}
+					});
+					GKReflectionItem.MPTUIDs.ForEach(x =>
+					{
+						var mpt = deviceConfiguration.MPTs.FirstOrDefault(y => y.UID == x);
+						if (mpt != null)
+						{
+							if (!GKReflectionItem.MPTs.Contains(mpt))
+								GKReflectionItem.MPTs.Add(mpt);
+							AddDependentElement(mpt);
+							mpt.AddDependentElement(this);
+						}
+						else
+						{
+							GKReflectionItem.MPTs.Remove(mpt);
+							GKReflectionItem.MPTUIDs.Remove(x);
+						}
+					});
+					GKReflectionItem.NSUIDs.ForEach(x =>
+					{
+						var pump = deviceConfiguration.PumpStations.FirstOrDefault(y => y.UID == x);
+						if (pump != null)
+						{
+							if (!GKReflectionItem.NSs.Contains(pump))
+								GKReflectionItem.NSs.Add(pump);
+							AddDependentElement(pump);
+							pump.AddDependentElement(this);
+						}
+						else
+						{
+							GKReflectionItem.NSs.Remove(pump);
+							GKReflectionItem.NSUIDs.Remove(x);
+						}
+					});
+					break;
+				case GKDriverType.DirectionsMirror:
+					GKReflectionItem.DiretionUIDs.ForEach(x =>
+					{
+						var derection = deviceConfiguration.Directions.FirstOrDefault(y => y.UID == x);
+						if (derection != null)
+						{
+							if (!GKReflectionItem.Diretions.Contains(derection))
+								GKReflectionItem.Diretions.Add(derection);
+							AddDependentElement(derection);
+							derection.AddDependentElement(this);
+						}
+						else
+						{
+							GKReflectionItem.Diretions.Remove(derection);
+							GKReflectionItem.DiretionUIDs.Remove(x);
+						}
+					});
+					break;
+				case GKDriverType.FireZonesMirror:
+					GKReflectionItem.ZoneUIDs.ForEach(x =>
+					{
+						var zone = deviceConfiguration.Zones.FirstOrDefault(y => y.UID == x);
+						if (zone != null)
+						{
+							if (!GKReflectionItem.Zones.Contains(zone))
+								GKReflectionItem.Zones.Add(zone);
+							AddDependentElement(zone);
+							zone.AddDependentElement(this);
+						}
+						else
+						{
+							GKReflectionItem.Zones.Remove(zone);
+							GKReflectionItem.ZoneUIDs.Remove(x);
+						}
+					});
+					break;
+				case GKDriverType.FirefightingZonesMirror:
+					GKReflectionItem.ZoneUIDs.ForEach(x =>
+					{
+						var zone = deviceConfiguration.Zones.FirstOrDefault(y => y.UID == x);
+						if (zone != null)
+						{
+							if (!GKReflectionItem.Zones.Contains(zone))
+								GKReflectionItem.Zones.Add(zone);
+							AddDependentElement(zone);
+							zone.AddDependentElement(this);
+						}
+						else
+						{
+							GKReflectionItem.Zones.Remove(zone);
+							GKReflectionItem.ZoneUIDs.Remove(x);
+						}
+					});
+
+					GKReflectionItem.DiretionUIDs.ForEach(x =>
+						{
+							var derection = deviceConfiguration.Directions.FirstOrDefault(y => y.UID == x);
+							if (derection != null)
+							{
+								if (!GKReflectionItem.Diretions.Contains(derection))
+									GKReflectionItem.Diretions.Add(derection);
+								AddDependentElement(derection);
+								derection.AddDependentElement(this);
+							}
+							else
+							{
+								GKReflectionItem.Diretions.Remove(derection);
+								GKReflectionItem.DiretionUIDs.Remove(x);
+							}
+						});
+					break;
+				case GKDriverType.GuardZonesMirror:
+					GKReflectionItem.GuardZoneUIDs.ForEach(x =>
+					{
+						var zone = deviceConfiguration.GuardZones.FirstOrDefault(y => y.UID == x);
+						if (zone != null)
+						{
+							if (!GKReflectionItem.GuardZones.Contains(zone))
+								GKReflectionItem.GuardZones.Add(zone);
+							AddDependentElement(zone);
+							zone.AddDependentElement(this);
+						}
+						else
+						{
+							GKReflectionItem.GuardZones.Remove(zone);
+							GKReflectionItem.GuardZoneUIDs.Remove(x);
+						}
+					});
+					break;
+			}
+		}
 		public override void UpdateLogic(GKDeviceConfiguration deviceConfiguration)
 		{
 			deviceConfiguration.InvalidateOneLogic(this, Logic);
