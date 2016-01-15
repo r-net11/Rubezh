@@ -7,14 +7,12 @@ namespace AutomationModule.ViewModels
 	public class StepViewModel : TreeNodeViewModel<StepViewModel>
 	{
 		public ProcedureStep Step { get; private set; }
-		public StepsViewModel StepsViewModel { get; private set; }
 		public Procedure Procedure { get; private set; }
 		public string ImageSource { get; private set; }
 
-		public StepViewModel(StepsViewModel stepsViewModel, ProcedureStep step, Procedure procedure)
+		public StepViewModel(ProcedureStep step, Procedure procedure)
 		{
 			Procedure = procedure;
-			StepsViewModel = stepsViewModel;
 			Step = step;
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			if ((step.ProcedureStepType == ProcedureStepType.ControlDirection)
