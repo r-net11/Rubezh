@@ -1,20 +1,23 @@
-﻿using System;
+﻿using RubezhAPI.Automation;
+using RubezhClient;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using RubezhAPI.Automation;
-using RubezhClient;
 
 namespace AutomationModule.ViewModels
 {
 	public class ShowDialogStepViewModel : BaseStepViewModel
 	{
 		public ShowDialogArguments ShowDialogArguments { get; private set; }
+		public ArgumentViewModel WindowUIDArgument { get; private set; }
 
 		public ShowDialogStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
 			ShowDialogArguments = stepViewModel.Step.ShowDialogArguments;
 			IsServerContext = Procedure.ContextType == ContextType.Server;
+			WindowUIDArgument = new ArgumentViewModel(ShowDialogArguments.WindowIDArgument, stepViewModel.Update, UpdateContent);
+			WindowUIDArgument.Update(Procedure, ExplicitType.String);
 		}
 
 		public bool ForAllClients

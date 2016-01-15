@@ -168,7 +168,6 @@ namespace AutomationModule.ViewModels
 		}
 		#endregion
 
-		//ProcedureStep _stepToCopy;
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{

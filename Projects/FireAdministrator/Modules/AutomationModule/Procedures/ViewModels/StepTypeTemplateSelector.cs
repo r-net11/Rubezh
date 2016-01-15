@@ -36,6 +36,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ControlVisualTemplate { get; set; }
 		public DataTemplate ControlPlanTemplate { get; set; }
 		public DataTemplate ShowDialogTemplate { get; set; }
+		public DataTemplate CloseDialogTemplate { get; set; }
 		public DataTemplate ControlDelayTemplate { get; set; }
 		public DataTemplate ShowPropertyTemplate { get; set; }
 		public DataTemplate ExportJournalTemplate { get; set; }
@@ -119,6 +120,8 @@ namespace AutomationModule.ViewModels
 				return ControlPlanTemplate;
 			if (item is ShowDialogStepViewModel)
 				return ShowDialogTemplate;
+			if (item is CloseDialogStepViewModel)
+				return CloseDialogTemplate;
 			if (item is ShowPropertyStepViewModel)
 				return ShowPropertyTemplate;
 			if (item is ExportJournalStepViewModel)

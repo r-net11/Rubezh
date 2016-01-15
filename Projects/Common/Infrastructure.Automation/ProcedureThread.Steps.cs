@@ -67,10 +67,11 @@ namespace Infrastructure.Automation
 
 		void ShowDialog(ProcedureStep procedureStep)
 		{
+			var windowID = GetValue<string>(procedureStep.ShowDialogArguments.WindowIDArgument);
 			var automationCallbackResult = new AutomationCallbackResult()
 			{
-				AutomationCallbackType = AutomationCallbackType.Dialog,
-				Data = new DialogCallbackData()
+				AutomationCallbackType = AutomationCallbackType.ShowDialog,
+				Data = new ShowDialogCallbackData()
 				{
 					IsModalWindow = procedureStep.ShowDialogArguments.IsModalWindow,
 					Layout = procedureStep.ShowDialogArguments.Layout,
@@ -85,10 +86,25 @@ namespace Infrastructure.Automation
 					Width = procedureStep.ShowDialogArguments.Width,
 					CustomPosition = procedureStep.ShowDialogArguments.CustomPosition,
 					Left = procedureStep.ShowDialogArguments.Left,
-					Top = procedureStep.ShowDialogArguments.Top
+					Top = procedureStep.ShowDialogArguments.Top,
+					WindowID = windowID
 				},
 			};
 			SendCallback(procedureStep.ShowDialogArguments, automationCallbackResult);
+		}
+
+		void CloseDialog(ProcedureStep procedureStep)
+		{
+			var windowID = GetValue<string>(procedureStep.CloseDialogArguments.WindowIDArgument);
+			var automationCallbackResult = new AutomationCallbackResult()
+			{
+				AutomationCallbackType = AutomationCallbackType.CloseDialog,
+				Data = new CloseDialogCallbackData()
+				{
+					WindowID = windowID
+				}
+			};
+			SendCallback(procedureStep.CloseDialogArguments, automationCallbackResult);
 		}
 
 		void ShowProperty(ProcedureStep procedureStep)

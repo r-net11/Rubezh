@@ -168,6 +168,10 @@ namespace AutomationModule.ViewModels
 					Content = new ShowDialogStepViewModel(this);
 					break;
 
+				case ProcedureStepType.CloseDialog:
+					Content = new CloseDialogStepViewModel(this);
+					break;
+
 				case ProcedureStepType.ShowProperty:
 					Content = new ShowPropertyStepViewModel(this);
 					break;
