@@ -594,36 +594,37 @@ namespace FiresecAPI.SKD
 			foreach (var document in Documents)
 			{
 				TimeTrackPart timeTrackPart = null;
+				//TODO: Move document parts to separete collections for calculating and presentation
 				if (document.StartDateTime.Date < Date && document.EndDateTime.Date > Date)
 				{
 					timeTrackPart = new TimeTrackPart
 					{
-						EnterDateTime = new DateTime(Date.Year, Date.Month, Date.Day, 0, 0, 0), //TimeSpan.Zero
-						ExitDateTime =  new DateTime(Date.Year, Date.Month, (Date.Day + 1), 0, 0, 0)//new TimeSpan(23, 59, 59)
+						EnterDateTime = new DateTime(Date.Year, Date.Month, Date.Day, 0, 0, 0),
+						ExitDateTime = new DateTime(Date.Year, Date.Month, (Date.Day + 1), 0, 0, 0) - TimeSpan.FromTicks(1) //TODO: Could cause errors in balance. Move it to presentation collection
 					};
 				}
 				if (document.StartDateTime.Date == Date && document.EndDateTime.Date > Date)
 				{
 					timeTrackPart = new TimeTrackPart
 					{
-						EnterDateTime = document.StartDateTime, //document.StartDateTime.TimeOfDay,
-						ExitDateTime = new DateTime(document.StartDateTime.Year, document.StartDateTime.Month, (document.StartDateTime.Day + 1), 0, 0, 0)  //new TimeSpan(23, 59, 59)
+						EnterDateTime = document.StartDateTime,
+						ExitDateTime = new DateTime(document.StartDateTime.Year, document.StartDateTime.Month, (document.StartDateTime.Day + 1), 0, 0, 0) - TimeSpan.FromTicks(1) //TODO: Could cause errors in balance. Move it to presentation collection
 					};
 				}
 				if (document.StartDateTime.Date == Date && document.EndDateTime.Date == Date)
 				{
 					timeTrackPart = new TimeTrackPart
 					{
-						EnterDateTime = document.StartDateTime, //document.StartDateTime.TimeOfDay,
-						ExitDateTime = document.EndDateTime//document.EndDateTime.TimeOfDay
+						EnterDateTime = document.StartDateTime,
+						ExitDateTime = document.EndDateTime
 					};
 				}
 				if (document.StartDateTime.Date < Date && document.EndDateTime.Date == Date)
 				{
 					timeTrackPart = new TimeTrackPart
 					{
-						EnterDateTime = new DateTime(Date.Year, Date.Month, Date.Day, 0, 0, 0), //TimeSpan.Zero,
-						ExitDateTime = document.EndDateTime//document.EndDateTime.TimeOfDay
+						EnterDateTime = new DateTime(Date.Year, Date.Month, Date.Day, 0, 0, 0),
+						ExitDateTime = document.EndDateTime
 					};
 				}
 				if (timeTrackPart != null)

@@ -45,7 +45,7 @@ namespace ReportsModule.ViewModels
 				ServiceClientFactory = factory,
 				IsParametersPanelVisible = false,
 				AutoShowParametersPanel = false,
-				IsDocumentMapVisible = false,
+				IsDocumentMapVisible = false
 			};
 			Model.PropertyChanged += (s, e) =>
 			{

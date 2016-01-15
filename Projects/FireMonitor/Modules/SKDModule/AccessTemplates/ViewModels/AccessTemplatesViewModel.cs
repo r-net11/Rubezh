@@ -36,6 +36,12 @@ namespace SKDModule.ViewModels
 		{
 			return AccessTemplateHelper.MarkDeleted(model);
 		}
+
+		protected override void AfterRemove(AccessTemplate model)
+		{
+			SelectedItem.CardDoorsViewModel.UpdateDoors(new List<Guid>());
+		}
+
 		protected override bool Restore(AccessTemplate model)
 		{
 			return AccessTemplateHelper.Restore(model);
