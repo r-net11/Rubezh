@@ -63,7 +63,7 @@ namespace RubezhAPI.Models
 		[DescriptionAttribute("Управление охранными зонами")]
 		Oper_GuardZone_Control,
 
-		[DescriptionAttribute("Управление  задержкой")]
+		[DescriptionAttribute("Управление задержкой")]
 		Oper_Delay_Control,
 
 		[DescriptionAttribute("Управление ПИМ")]
@@ -201,7 +201,7 @@ namespace RubezhAPI.Models
 		[DescriptionAttribute("Редактирование организации")]
 		Oper_SKD_Organisations_Edit,
 
-		[DescriptionAttribute("Добавление, архивирование, удаление и востановление организации")]
+		[DescriptionAttribute("Добавление, архивирование и восстановление организации")]
 		Oper_SKD_Organisations_AddRemove,
 
 		[DescriptionAttribute("Просмотр дневных графиков")]

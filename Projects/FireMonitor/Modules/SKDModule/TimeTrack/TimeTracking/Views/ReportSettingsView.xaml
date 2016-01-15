@@ -33,7 +33,6 @@
 			<StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" >
 				<TextBlock VerticalAlignment="Center">
 					<Hyperlink Command="{Binding FillViewModel.SelectCommand}" Style="{StaticResource HyperlinkStyle2}">
-						<TextBlock Text="{Binding FillViewModel.SelectedEmployee.Name}" TextDecorations="Underline" />
 						<TextBlock>
 							<TextBlock.Style>
 								<Style>
@@ -41,7 +40,11 @@
 										<DataTrigger Binding="{Binding FillViewModel.HasSelected}" Value="false">
 											<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
 										</DataTrigger>
-									</Style.Triggers>
+                                        <DataTrigger Binding="{Binding FillViewModel.HasSelected}" Value="true">
+                                            <Setter Property="TextBlock.Text" Value="{Binding FillViewModel.SelectedEmployee.Name}" />
+											<Setter Property="TextBlock.TextDecorations" Value="Underline" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
 								</Style>
 							</TextBlock.Style>
 						</TextBlock>
@@ -57,7 +60,6 @@
 			<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" >
 				<TextBlock VerticalAlignment="Center">
 					<Hyperlink Command="{Binding LeadViewModel.SelectCommand}" Style="{StaticResource HyperlinkStyle2}">
-						<TextBlock Text="{Binding LeadViewModel.SelectedEmployee.Name}" TextDecorations="Underline" />
 						<TextBlock>
 							<TextBlock.Style>
 								<Style>
@@ -65,7 +67,11 @@
 										<DataTrigger Binding="{Binding LeadViewModel.HasSelected}" Value="false">
 											<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
 										</DataTrigger>
-									</Style.Triggers>
+                                        <DataTrigger Binding="{Binding LeadViewModel.HasSelected}" Value="true">
+                                            <Setter Property="TextBlock.Text" Value="{Binding LeadViewModel.SelectedEmployee.Name}" />
+                                            <Setter Property="TextBlock.TextDecorations" Value="Underline" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
 								</Style>
 							</TextBlock.Style>
 						</TextBlock>
@@ -81,7 +87,6 @@
 			<StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" >
 				<TextBlock VerticalAlignment="Center">
 					<Hyperlink Command="{Binding HRViewModel.SelectCommand}" Style="{StaticResource HyperlinkStyle2}">
-						<TextBlock Text="{Binding HRViewModel.SelectedEmployee.Name}" TextDecorations="Underline" />
 						<TextBlock>
 							<TextBlock.Style>
 								<Style>
@@ -89,7 +94,11 @@
 										<DataTrigger Binding="{Binding HRViewModel.HasSelected}" Value="false">
 											<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
 										</DataTrigger>
-									</Style.Triggers>
+                                        <DataTrigger Binding="{Binding HRViewModel.HasSelected}" Value="true">
+                                            <Setter Property="TextBlock.Text" Value="{Binding HRViewModel.SelectedEmployee.Name}" />
+                                            <Setter Property="TextBlock.TextDecorations" Value="Underline" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
 								</Style>
 							</TextBlock.Style>
 						</TextBlock>
@@ -101,7 +110,7 @@
 			<TextBlock Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left"
 					   Text="{Binding HRViewModel.SelectedEmployee.PositionName, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding HRViewModel.HasSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
 			
-			<TextBlock Grid.Row="6" Grid.Column="0" Text="Дата формирования" VerticalAlignment="Top" />
+			<TextBlock Grid.Row="6" Grid.Column="0" Text="Дата формирования" VerticalAlignment="Center" />
 			<DatePicker SelectedDate="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}"
 						DisplayDate="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}"
 						Grid.Row="6" Grid.Column="1"

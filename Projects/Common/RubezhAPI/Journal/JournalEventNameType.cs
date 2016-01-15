@@ -139,7 +139,7 @@ namespace RubezhAPI.Journal
 		[EventName(JournalSubsystemType.GK, "Произведена настройка сети", XStateClass.Info)]
 		Произведена_настройка_сети = 46,
 
-		[EventName(JournalSubsystemType.GK, "Неизвестный код события контроллекра", XStateClass.Unknown)]
+		[EventName(JournalSubsystemType.GK, "Неизвестный код события контроллера", XStateClass.Unknown)]
 		Неизвестный_код_события_контроллекра = 47,
 
 		[EventName(JournalSubsystemType.GK, "Неизвестный тип", XStateClass.Unknown)]
