@@ -8,7 +8,7 @@
                 for (var i in data.devicesList) {
                     var item = data.devicesList[i];
                     var image1 = "<img src= data:image/gif;base64," + item.StateImageSource.Item1 + "> ";
-                    var image2 = "<img src= data:image/gif;base64," + item.ImageBloom.Item1 + " height=" + item.ImageBloom.Item2.Height / 2 + "width =" + item.ImageBloom.Item2.Width / 2 + "> ";
+                    var image2 = "<img src= data:image/gif;base64," + item.ImageBloom.Item1 + " height=16 width =16>";
 
                     $scope.data.push({
                         device: i > 0 ? image1 + image2 + item.ShortName : image2 + item.ShortName,
