@@ -65,10 +65,9 @@ namespace GKWebService.Controllers
             foreach (var deviceItem in zone.Devices)
             {
                 var device = deviceItem;
-
                 do
                 {
-                    data.devicesList.Add(new Device(device.Address, device.ImageSource, device.ShortName));
+                    data.devicesList.Add(new Device(device.Address, device.ImageSource, device.ShortName, device.State.StateClass));
                     device = device.Parent;
                 } while (device != null);
             }
