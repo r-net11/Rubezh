@@ -91,12 +91,21 @@ namespace ChinaSKDDriver
 			return controllerNetworkSettings;
 		}
 
+		/// <summary>
+		/// Устанавливает сетевые настройки на контроллере
+		/// </summary>
+		/// <param name="controllerNetworkSettings">Сетевые настройки</param>
+		/// <returns>true - операция завершилась успешно, false - операция завершилась с ошибкой</returns>
 		public bool SetDeviceNetInfo(SKDControllerNetworkSettings controllerNetworkSettings)
 		{
 			var result = NativeWrapper.WRAP_Set_NetInfo(LoginID, controllerNetworkSettings.Address, controllerNetworkSettings.Mask, controllerNetworkSettings.DefaultGateway, 1500);
 			return result;
 		}
 
+		/// <summary>
+		/// Получаем MAC-адрес контроллера
+		/// </summary>
+		/// <returns>MAC-адрес контроллера</returns>
 		public string GetDeviceMacAddress()
 		{
 			NativeWrapper.WRAP_DevConfig_MAC_Result outResult;
@@ -153,18 +162,32 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
+		/// <summary>
+		/// Сбрасывает конфигурацию контроллера
+		/// </summary>
+		/// <returns>true - операция завершилась успешно,
+		/// false - операция завершилась с ошибкой</returns>
 		public bool Reset()
 		{
 			var result = NativeWrapper.WRAP_DeleteCfgFile(LoginID);
 			return result;
 		}
 
+		/// <summary>
+		/// Перезагружает контроллер
+		/// </summary>
+		/// <returns>true - операция завершилась успешно,
+		/// false- операция завершилась с ошибкой</returns>
 		public bool Reboot()
 		{
 			var result = NativeWrapper.WRAP_ReBoot(LoginID);
 			return result;
 		}
 
+		/// <summary>
+		/// Получает тип точки доступа
+		/// </summary>
+		/// <returns>Тип точки доступа</returns>
 		public DoorType GetControllerDoorType()
 		{
 			NativeWrapper.WRAP_ControllerDirectionType outResult;
@@ -180,6 +203,12 @@ namespace ChinaSKDDriver
 			return DoorType.TwoWay;
 		}
 
+		/// <summary>
+		/// Устанавливает тип точки доступа
+		/// </summary>
+		/// <param name="doorType">Тип точки доступа</param>
+		/// <returns>true - операция завершилась успешно,
+		/// false - операция завершилась с ошибкой</returns>
 		public bool SetControllerDoorType(DoorType doorType)
 		{
 			NativeWrapper.CFG_ACCESS_PROPERTY_TYPE nativeControllerDirectionType = NativeWrapper.CFG_ACCESS_PROPERTY_TYPE.CFG_ACCESS_PROPERTY_UNIDIRECT;
@@ -191,12 +220,24 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
+		/// <summary>
+		/// Устанавливает пароль для учетной записи
+		/// </summary>
+		/// <param name="name">Учетная запись</param>
+		/// <param name="oldPassword">Старый пароль</param>
+		/// <param name="password">Новый пароль</param>
+		/// <returns>true - операция завершилась успешно,
+		/// false - операция завершилась с ошибкой</returns>
 		public bool SetControllerPassword(string name, string oldPassword, string password)
 		{
 			var result = NativeWrapper.WRAP_SetControllerPassword(LoginID, name, oldPassword, password);
 			return result;
 		}
 
+		/// <summary>
+		/// Получает временные настройки контроллера
+		/// </summary>
+		/// <returns>Объект SKDControllerTimeSettings с временными настройками</returns>
 		public SKDControllerTimeSettings GetControllerTimeSettings()
 		{
 			NativeWrapper.CFG_NTP_INFO outResult;
@@ -214,6 +255,12 @@ namespace ChinaSKDDriver
 			return controllerTimeSettings;
 		}
 
+		/// <summary>
+		/// Устанавливает временные настройки контроллера
+		/// </summary>
+		/// <param name="controllerTimeSettings">Временные настройки</param>
+		/// <returns>true - операция завершилась успешно,
+		/// false - операция завершилась с ошибкой</returns>
 		public bool SetControllerTimeSettings(SKDControllerTimeSettings controllerTimeSettings)
 		{
 			var cfg_NTP_INFO = new ChinaSKDDriverNativeApi.NativeWrapper.CFG_NTP_INFO();
@@ -448,6 +495,12 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
+		/// <summary>
+		/// Обновляет прошивку на контроллере
+		/// </summary>
+		/// <param name="fileName">Путь к файлу прошивки</param>
+		/// <returns>true - операция завершилась успешно,
+		/// false - операция завершилась с ошибкой</returns>
 		public bool UpdateFirmware(string fileName)
 		{
 			var result = NativeWrapper.WRAP_Upgrade(LoginID, fileName);

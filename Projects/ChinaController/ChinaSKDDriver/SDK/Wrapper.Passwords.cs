@@ -9,6 +9,11 @@ namespace ChinaSKDDriver
 {
 	public partial class Wrapper
 	{
+		/// <summary>
+		/// Добавляет пароль замка на контроллер
+		/// </summary>
+		/// <param name="password">Пароль замка</param>
+		/// <returns></returns>
 		public int AddPassword(Password password)
 		{
 			var nativePassword = PasswordToNativePassword(password);

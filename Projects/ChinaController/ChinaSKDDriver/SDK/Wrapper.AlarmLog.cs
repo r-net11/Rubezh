@@ -13,6 +13,10 @@ namespace ChinaSKDDriver
 {
 	public partial class Wrapper
 	{
+		/// <summary>
+		/// Получает количество тревожных событий в оффлайн журнале
+		/// </summary>
+		/// <returns>Количество тревожных событий в оффлайн журнале</returns>
 		public int GetAlarmLogItemsCount()
 		{
 			var logParam = new NativeWrapper.QUERY_DEVICE_LOG_PARAM();
@@ -20,6 +24,10 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
+		/// <summary>
+		/// Получает все тревожные события из оффлайн журнала
+		/// </summary>
+		/// <returns>Список тревожных событий</returns>
 		public List<AlarmLogItem> GetAllAlarmLogItems()
 		{
 			var logs = new List<AlarmLogItem>();
@@ -50,6 +58,11 @@ namespace ChinaSKDDriver
 			return logs;
 		}
 
+		/// <summary>
+		/// Получает все тревожные события из оффлайн журнала, возраст которых старше указанной даты
+		/// </summary>
+		/// <param name="dateTime">Дата</param>
+		/// <returns>Список тревожных событий</returns>
 		public List<AlarmLogItem> GetAlarmLogItemsOlderThan(DateTime dateTime)
 		{
 			var resultAlarms = new List<AlarmLogItem>();

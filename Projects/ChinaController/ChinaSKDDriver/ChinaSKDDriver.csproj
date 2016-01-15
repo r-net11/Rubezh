@@ -74,7 +74,7 @@
     <Compile Include="SDK\Wrapper.AntiPassBack.cs" />
     <Compile Include="SDK\Wrapper.AccessLog.cs" />
     <Compile Include="SDK\Wrapper.Cards.cs" />
-    <Compile Include="SDK\Wrapper.Holidys.cs" />
+    <Compile Include="SDK\Wrapper.Holidays.cs" />
     <Compile Include="SDK\Wrapper.Passwords.cs" />
     <Compile Include="SDK\NativeWrapper.cs" />
     <Compile Include="SDK\Wrapper.Common.cs" />

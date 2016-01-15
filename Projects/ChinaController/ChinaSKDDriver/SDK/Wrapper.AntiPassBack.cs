@@ -5,6 +5,10 @@ namespace ChinaSKDDriver
 {
 	public partial class Wrapper
 	{
+		/// <summary>
+		/// Получает настройку AntiPassBack для контроллера
+		/// </summary>
+		/// <returns>Настройка AntiPassBack</returns>
 		public AntiPassBackConfiguration GetAntiPassBackConfiguration()
 		{
 			NativeWrapper.WRAP_AntiPassBackCfg nativeCfg;
@@ -13,6 +17,12 @@ namespace ChinaSKDDriver
 			return NativeAntiPassBackCfgToAntiPassBackConfiguration(nativeCfg);
 		}
 
+		/// <summary>
+		/// Устанавливает настройку AntiPassBack для контроллера
+		/// </summary>
+		/// <param name="cfg">Настройка AntiPassBack</param>
+		/// <returns>true - операция завершилась успешно,
+		/// false - операция завершилась с ошибкой</returns>
 		public bool SetAntiPassBackConfiguration(AntiPassBackConfiguration cfg)
 		{
 			NativeWrapper.WRAP_AntiPassBackCfg nativeCfg = AntiPassBackConfigurationToNativeAntiPathBackCfg(cfg);

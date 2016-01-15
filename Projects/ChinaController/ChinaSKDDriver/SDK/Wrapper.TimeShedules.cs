@@ -7,6 +7,11 @@ namespace ChinaSKDDriver
 {
 	public partial class Wrapper
 	{
+		/// <summary>
+		/// Получение графика доступа из контроллера
+		/// </summary>
+		/// <param name="index">Номер записи (0-128) на контроллере, откуда получаются данные</param>
+		/// <returns>График доступа</returns>
 		public List<TimeShedule> GetTimeShedules(int index)
 		{
 			NativeWrapper.CFG_ACCESS_TIMESCHEDULE_INFO timeSheduleInfo;
@@ -42,6 +47,13 @@ namespace ChinaSKDDriver
 			return timeShedules;
 		}
 
+		/// <summary>
+		/// Записывает график доступа на контроллер
+		/// </summary>
+		/// <param name="index">Номер записи (0-128), куда записываются данные</param>
+		/// <param name="timeShedules">График доступа</param>
+		/// <returns>true - операция завершилась успешно,
+		/// false - операция завершилась с ошибкой</returns>
 		public bool SetTimeShedules(int index, List<TimeShedule> timeShedules)
 		{
 			NativeWrapper.CFG_ACCESS_TIMESCHEDULE_INFO timeSheduleInfos = new NativeWrapper.CFG_ACCESS_TIMESCHEDULE_INFO();

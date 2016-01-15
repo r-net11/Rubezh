@@ -5,6 +5,10 @@ namespace ChinaSKDDriver
 {
 	public partial class Wrapper
 	{
+		/// <summary>
+		/// Получает настройку Interlock на контроллере
+		/// </summary>
+		/// <returns>Настройка Interlock</returns>
 		public InterlockConfiguration GetInterlockConfiguration()
 		{
 			NativeWrapper.WRAP_InterlockCfg nativeCfg;
@@ -13,6 +17,12 @@ namespace ChinaSKDDriver
 			return NativeInterlockCfgToInterlockConfiguration(nativeCfg);
 		}
 
+		/// <summary>
+		/// Устанавливает настройку Interlock на контроллере
+		/// </summary>
+		/// <param name="cfg">Настройка Interlock</param>
+		/// <returns>true - операция завершилась успешно,
+		/// false - операция завершилась с ошибкой</returns>
 		public bool SetInterlockConfiguration(InterlockConfiguration cfg)
 		{
 			NativeWrapper.WRAP_InterlockCfg nativeCfg = InterlockConfigurationToNativeInterlockCfg(cfg);
