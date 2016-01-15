@@ -74,7 +74,7 @@ namespace FireMonitor.ViewModels
 			{
 				ClientManager.FiresecService.GKTurnOffNowGlobalPimsInAutomatic();
 			}
-			if (GlobalPimStatusType == GlobalPimStatusType.Off)
+			else
 			{
 				ClientManager.FiresecService.GKTurnOnNowGlobalPimsInAutomatic();
 			}

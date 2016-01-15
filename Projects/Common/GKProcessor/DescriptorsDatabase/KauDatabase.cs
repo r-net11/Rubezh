@@ -94,7 +94,8 @@ namespace GKProcessor
 				Descriptors.Add(codeDescriptor);
 			}
 
-			Descriptors.Add(GlobalPimDescriptor);
+			if (DatabaseType == DatabaseType.Kau)
+				Descriptors.Add(GlobalPimDescriptor);
 
 			ushort no = 1;
 			foreach (var descriptor in Descriptors)
