@@ -31,7 +31,7 @@
         self.OrganisationsFilter.Init(newValue, self.OrganisationUIDs());
         self.DepartmentsFilter.Init(newValue, self.DepartmentUIDs());
         self.PositionsFilter.Init(self.IsWithDeleted(), self.PositionUIDs());
-        self.EmployeesFilter.Init(self.IsWithDeleted(), self.UIDs(), self.LastName(), self.FirstName(), self.SecondName());
+        self.EmployeesFilter.Init(self.IsWithDeleted(), self.UIDs(), self.LastName(), self.FirstName(), self.SecondName(), self.HRViewModel.SelectedPersonType());
     });
 
     self.IsNotEmpty = ko.computed(function() {

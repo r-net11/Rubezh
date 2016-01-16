@@ -92,6 +92,7 @@ namespace GKWebService.Controllers
                 IsGuestEditAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Guests_Edit),
                 IsDepartmentsEditAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Departments_Etit),
                 IsPositionsEditAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Positions_Etit),
+                IsAccessTemplatesEditAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_AccessTemplates_Etit),
                 IsEmployeesViewAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_View),
                 IsEmployeesEditCardTypeAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_Edit_CardType),
                 IsCardsEditAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Cards_Etit),
