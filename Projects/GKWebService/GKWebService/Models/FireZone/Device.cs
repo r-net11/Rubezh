@@ -11,19 +11,20 @@ namespace GKWebService.Models.FireZone
     {
         public String Address { get; set; }
 
-        public String ImageSource { get; set; }
+        public Tuple<string, System.Drawing.Size> StateImageSource { get; set; }
 
         public Tuple<string, System.Drawing.Size> ImageBloom { get; set; }
 
         [DataMember]
         public String ShortName { get; set; }
 
-        public Device(string address, string imageSource, string shortName)
+        public Device(string address, string imageSource, string shortName, object stateImageSourse)
         {
             Address = address;
-            ImageSource = imageSource;
             ShortName = shortName;
-            ImageBloom = InternalConverter.GetImageResource(ImageSource);
+            
+            ImageBloom = InternalConverter.GetImageResource(imageSource);
+            StateImageSource = InternalConverter.GetImageResource("StateClassIcons/" + Convert.ToString(stateImageSourse) + ".png");
         }
     }
 }

@@ -204,10 +204,14 @@
 		<Views:ControlPlanStepView />
 	</DataTemplate>
 
-	<DataTemplate x:Key="showDialogStepView">
+	<DataTemplate x:Key="showDialogTemplate">
 		<Views:ShowDialogStepView />
 	</DataTemplate>
-	
+
+	<DataTemplate x:Key="closeDialogTemplate">
+		<Views:CloseDialogStepView />
+	</DataTemplate>
+
 	<DataTemplate x:Key="showPropertyTemplate">
 		<Views:ShowPropertyStepView />
 	</DataTemplate>
@@ -273,7 +277,8 @@
 										 RunProgramTemplate="{StaticResource RunProgramTemplate}"
 										 SendEmailTemplate="{StaticResource sendEmailTemplate}"
 										 SetValueTemplate="{StaticResource setValueTemplate}"
-										 ShowDialogTemplate="{StaticResource showDialogStepView}"
+										 ShowDialogTemplate="{StaticResource showDialogTemplate}"
+										 CloseDialogTemplate="{StaticResource closeDialogTemplate}"
 										 ShowMessageTemplate="{StaticResource sendMessageTemplate}"
 										 SoundsTemplate="{StaticResource soundsTemplate}"
 										 ControlDelayTemplate="{StaticResource controlDelayTemplate}"

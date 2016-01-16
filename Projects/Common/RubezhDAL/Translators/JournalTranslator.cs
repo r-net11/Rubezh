@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Common;
+﻿using Common;
 using RubezhAPI;
 using RubezhAPI.Journal;
-using System.Diagnostics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace RubezhDAL.DataClasses
@@ -87,9 +86,9 @@ namespace RubezhDAL.DataClasses
 				if (apiItems.Count == 0)
 					return new OperationResult();
 				var query = new StringBuilder();
-                foreach (var item in apiItems)
-                {
-                    query.Append("INSERT INTO dbo.\"Journals\" (\"UID\", \"EmployeeUID\", \"SystemDate\", \"DeviceDate\", \"Subsystem\", \"Name\", \"Description\", \"DescriptionText\", \"ObjectType\", \"ObjectUID\", \"Detalisation\", \"UserName\", \"VideoUID\", \"CameraUID\", \"ObjectName\", \"CardNo\") VALUES");
+				foreach (var item in apiItems)
+				{
+					query.Append("INSERT INTO dbo.\"Journals\" (\"UID\", \"EmployeeUID\", \"SystemDate\", \"DeviceDate\", \"Subsystem\", \"Name\", \"Description\", \"DescriptionText\", \"ObjectType\", \"ObjectUID\", \"Detalisation\", \"UserName\", \"VideoUID\", \"CameraUID\", \"ObjectName\", \"CardNo\") VALUES");
 					query.Append(string.Format("('{0}', {1}, '{2}', {3}, '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}', '{15}'); ",
 							item.UID,
 							item.EmployeeUID.EmptyToNullSqlStr(),
@@ -261,6 +260,10 @@ namespace RubezhDAL.DataClasses
 		IQueryable<Journal> BuildJournalQuery(JournalFilter filter)
 		{
 			IQueryable<Journal> result = Context.Journals;
+
+			if (filter.ItemUID.HasValue)
+				result = result.Where(x => x.UID == filter.ItemUID.Value);
+
 			if (filter.JournalEventNameTypes.Count > 0)
 			{
 				var names = filter.JournalEventNameTypes.Select(x => (int)x).ToList();
@@ -340,7 +343,7 @@ namespace RubezhDAL.DataClasses
 				if (filter.UseDeviceDateTime)
 					result = result.OrderByDescending(x => x.DeviceDate);
 				else
-					result = result.OrderByDescending(x => x.SystemDate);	
+					result = result.OrderByDescending(x => x.SystemDate);
 			}
 			return result;
 		}

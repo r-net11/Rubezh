@@ -13,6 +13,7 @@ namespace RubezhAPI.Automation
 			MinWidth = 300;
 			MinHeight = 300;
 			AllowClose = true;
+			WindowIDArgument = new Argument();
 		}
 
 		[DataMember]
@@ -43,5 +44,7 @@ namespace RubezhAPI.Automation
 		public double Left { get; set; }
 		[DataMember]
 		public double Top { get; set; }
+		[DataMember]
+		public Argument WindowIDArgument { get; set; }
 	}
 }

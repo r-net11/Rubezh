@@ -145,8 +145,9 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="AutomationCallback\CloseDialogCallbackData.cs" />
     <Compile Include="AutomationCallback\UIAutomationCallbackData.cs" />
-    <Compile Include="AutomationCallback\DialogCallbackData.cs" />
+    <Compile Include="AutomationCallback\ShowDialogCallbackData.cs" />
     <Compile Include="AutomationCallback\PlanCallbackData.cs" />
     <Compile Include="AutomationCallback\ProcedureProperties.cs" />
     <Compile Include="AutomationCallback\GlobalVariableCallBackData.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="CallbackOperationResult.cs" />
     <Compile Include="IBindable.cs" />
     <Compile Include="Models\Automation\StepArguments\HttpRequestArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\CloseDialogArguments.cs" />
     <Compile Include="Models\Plans\ElementTextBox.cs" />
     <Compile Include="PollResult.cs" />
     <Compile Include="GKManager\GKManager.Delays.cs" />

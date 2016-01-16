@@ -9,7 +9,7 @@ namespace RubezhAPI.AutomationCallback
 	[KnownType(typeof(SoundCallbackData))]
 	[KnownType(typeof(VisualPropertyCallbackData))]
 	[KnownType(typeof(PlanCallbackData))]
-	[KnownType(typeof(DialogCallbackData))]
+	[KnownType(typeof(ShowDialogCallbackData))]
 	[KnownType(typeof(PropertyCallBackData))]
 	[KnownType(typeof(GlobalVariableCallBackData))]
 	public class UIAutomationCallbackData : AutomationCallbackData

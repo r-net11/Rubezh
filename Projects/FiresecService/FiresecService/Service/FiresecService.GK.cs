@@ -384,7 +384,7 @@ namespace FiresecService.Service
 
 		public void GKTurnOnNowGlobalPimsInAutomatic(Guid clientUID)
 		{
-			GKProcessorManager.GKTurnOffNowGlobalPimsInAutomatic(GetUserName(clientUID));
+			GKProcessorManager.GKTurnOnNowGlobalPimsInAutomatic(GetUserName(clientUID));
 		}
 
 		public void GKTurnOffNowGlobalPimsInAutomatic(Guid clientUID)

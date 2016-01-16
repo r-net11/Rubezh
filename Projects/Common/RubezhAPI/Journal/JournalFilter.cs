@@ -20,7 +20,7 @@ namespace RubezhAPI.Journal
 			JournalObjectTypes = new List<JournalObjectType>();
 			ObjectUIDs = new List<Guid>();
 			EmployeeUIDs = new List<Guid>();
-            Users = new List<string>();
+			Users = new List<string>();
 			LastItemsCount = DefaultLastItemsCount;
 		}
 
@@ -32,7 +32,10 @@ namespace RubezhAPI.Journal
 
 		[DataMember]
 		public string Description { get; set; }
-		
+
+		[DataMember]
+		public Guid? ItemUID { get; set; }
+
 		[DataMember]
 		public DateTime StartDate { get; set; }
 
@@ -60,8 +63,8 @@ namespace RubezhAPI.Journal
 		[DataMember]
 		public List<Guid> EmployeeUIDs { get; set; }
 
-        [DataMember]
-        public List<string> Users { get; set; }
+		[DataMember]
+		public List<string> Users { get; set; }
 
 		[DataMember]
 		public int PageSize { get; set; }

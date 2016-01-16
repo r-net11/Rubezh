@@ -198,6 +198,7 @@ namespace GKWebService.Utils
         }
     }
 
+
 	public enum PathKind {
 		Line,
 		ClosedLine,
