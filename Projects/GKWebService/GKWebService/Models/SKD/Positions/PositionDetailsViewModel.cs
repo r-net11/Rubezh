@@ -14,7 +14,7 @@ namespace GKWebService.Models.SKD.Positions
     {
         public Position Position { get; set; }
         public string PhotoData { get; set; }
-        public void Initialize(Guid orgnaisationUID, Guid? positionUID = null)
+        public void Initialize(Guid organisationUID, Guid? positionUID = null)
         {
             var isNew = positionUID == null;
             if (isNew)
@@ -22,7 +22,7 @@ namespace GKWebService.Models.SKD.Positions
                 Position = new Position()
                 {
                     Name = "Новая должность",
-                    OrganisationUID = orgnaisationUID
+                    OrganisationUID = organisationUID
                 };
             }
             else

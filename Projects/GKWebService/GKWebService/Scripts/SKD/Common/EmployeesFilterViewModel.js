@@ -23,7 +23,7 @@
             { label: 'ParentUID', name: 'ParentUID', hidden: true, sortable: false },
             { label: 'OrganisationUID', name: 'OrganisationUID', hidden: true, sortable: false },
             { label: 'IsOrganisation', name: 'IsOrganisation', hidden: true, sortable: false },
-            { label: 'ФИО', name: 'FIO', width: 100, hidden: false, sortable: false, formatter: imageFormat },
+            { label: 'ФИО', name: 'Name', width: 100, hidden: false, sortable: false, formatter: imageFormat },
             { label: 'IsDeleted', name: 'IsDeleted', hidden: true, sortable: false }
         ],
         width: 620,
@@ -32,7 +32,7 @@
         viewrecords: true,
 
         treeGrid: true,
-        ExpandColumn: "FIO",
+        ExpandColumn: "Name",
         treedatatype: "local",
         treeGridModel: "adjacency",
         loadonce: false,

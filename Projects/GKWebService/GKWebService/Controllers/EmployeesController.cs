@@ -194,9 +194,10 @@ namespace GKWebService.Controllers
 			cardModel.AvailableAccessTemplates = new List<AccessTemplate> { new AccessTemplate { UID = Guid.Empty, Name = "<нет>" } }
 				.Concat(AccessTemplateHelper.Get(accessTemplateFilter))
 				.ToList();
-			cardModel.SelectedAccessTemplate = cardModel.AvailableAccessTemplates.FirstOrDefault(x => x.UID == cardModel.Card.AccessTemplateUID);
+            var selectedAccessTemplate = cardModel.AvailableAccessTemplates.FirstOrDefault(x => x.UID == cardModel.Card.AccessTemplateUID);
+            cardModel.SelectedAccessTemplateId = (selectedAccessTemplate == null ? (Guid?) null : selectedAccessTemplate.UID);
 
-			return new JsonNetResult { Data = cardModel };
+            return new JsonNetResult { Data = cardModel };
 		}
 
 		[HttpPost]

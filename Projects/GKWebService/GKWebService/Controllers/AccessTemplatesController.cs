@@ -44,7 +44,7 @@ namespace GKWebService.Controllers
         [ErrorHandler]
         public JsonNetResult GetDoors(Guid id)
         {
-            var accessTemplate = AccessTemplateHelper.Get(new AccessTemplateFilter {UIDs = new List<Guid> {id} }).Single();
+            var accessTemplate = AccessTemplateHelper.Get(new AccessTemplateFilter {UIDs = new List<Guid> {id}, LogicalDeletationType = LogicalDeletationType.All}).Single();
             var doors = ReadOnlyAccessDoorModel.InitializeDoors(accessTemplate.CardDoors);
             return new JsonNetResult { Data = doors };
         }
@@ -77,6 +77,45 @@ namespace GKWebService.Controllers
             var result = accessTemplate.Save(isNew);
 
             return new JsonNetResult { Data = result };
+        }
+
+        [ErrorHandler]
+        public JsonNetResult GetLinkedCards(Guid organisationId, Guid? id)
+        {
+            var cards = CardHelper.GetOrganisationCards(organisationId);
+            var linkedCards = cards.Where(x => x.AccessTemplateUID == id);
+            var numbers = linkedCards.Select(x => x.Number).OrderBy(x => x);
+            var numbersSting = string.Join(",", numbers);
+            return new JsonNetResult { Data = numbersSting };
+        }
+
+        [HttpPost]
+        [ErrorHandler]
+        public JsonNetResult MarkDeleted(Guid uid, string name)
+        {
+            var accessTemplate = AccessTemplateHelper.Get(new AccessTemplateFilter { UIDs = new List<Guid> { uid }, LogicalDeletationType = LogicalDeletationType.All }).Single();
+
+            var operationResult = AccessTemplateHelper.MarkDeleted(accessTemplate);
+            return new JsonNetResult { Data = operationResult };
+        }
+
+        [HttpPost]
+        [ErrorHandler]
+        public JsonNetResult Restore(Guid uid, string name)
+        {
+            var accessTemplate = AccessTemplateHelper.Get(new AccessTemplateFilter { UIDs = new List<Guid> { uid }, LogicalDeletationType = LogicalDeletationType.All }).Single();
+
+            var operationResult = AccessTemplateHelper.Restore(accessTemplate);
+            return new JsonNetResult { Data = operationResult };
+        }
+
+        [HttpPost]
+        [ErrorHandler]
+        public JsonNetResult AccessTemplatePaste(AccessTemplateDetailsViewModel accessTemplate)
+        {
+            var error = accessTemplate.Paste();
+
+            return new JsonNetResult { Data = error };
         }
     }
 }
