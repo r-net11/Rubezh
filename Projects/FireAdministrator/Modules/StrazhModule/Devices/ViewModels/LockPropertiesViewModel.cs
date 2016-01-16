@@ -51,6 +51,7 @@ namespace StrazhModule.ViewModels
 			if (doorConfiguration.WeeklyIntervalID >= 0)
 				WeeklyInterval = CanSetTimeIntervals ? AvailableWeeklyIntervals.FirstOrDefault(x => x.ID == doorConfiguration.WeeklyIntervalID) : null;
 			IsCloseCheckSensorEnable = doorConfiguration.IsCloseCheckSensor;
+			IsRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable;
 		}
 
 		public ObservableCollection<SKDDoorConfiguration_DoorOpenMethod> DoorOpenMethods { get; private set; }
@@ -404,7 +405,8 @@ namespace StrazhModule.ViewModels
 				
 				WeeklyIntervalID = this.CanSetTimeIntervals ? this.WeeklyInterval.ID : -1,
 				DoorDayIntervalsCollection = GetDayIntervalsCollectionFromConfig(),
-				IsCloseCheckSensor = this.IsCloseCheckSensorEnable
+				IsCloseCheckSensor = this.IsCloseCheckSensorEnable,
+				IsRepeatEnterAlarmEnable = this.IsRepeatEnterAlarmEnable
 			};
 		}
 

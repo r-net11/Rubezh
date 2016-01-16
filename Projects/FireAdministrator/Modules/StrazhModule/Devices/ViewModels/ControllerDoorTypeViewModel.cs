@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using FiresecAPI;
 using FiresecAPI.SKD;
@@ -567,6 +568,7 @@ namespace StrazhModule.ViewModels
 			{
 				DeviceViewModel.Device.DoorType = SelectedDoorType;
 				DeviceViewModel.Device.AntiPassBackConfiguration = new SKDAntiPassBackConfiguration { IsActivated = IsAntiPassBackActivated, CurrentAntiPassBackMode = SelectedAntiPassBackMode };
+				UpdateLocksConfiguration();
 				DeviceViewModel.Device.InterlockConfiguration = new SKDInterlockConfiguration { IsActivated = IsInterlockActivated, CurrentInterlockMode = SelectedInterlockMode };
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
@@ -575,6 +577,18 @@ namespace StrazhModule.ViewModels
 				return false;
 			}
 			return base.Save();
+		}
+
+		/// <summary>
+		/// Активирует/деактивирует свойство IsRepeatEnterAlarmEnable для замков контроллера согласно текущим настройкам AntiPassBack
+		/// </summary>
+		private void UpdateLocksConfiguration()
+		{
+			var locks = DeviceViewModel.Device.Children.Where(c => c.DriverType == SKDDriverType.Lock && c.IsEnabled);
+			foreach (var lockDevice in locks)
+			{
+				lockDevice.SKDDoorConfiguration.IsRepeatEnterAlarmEnable = IsAntiPassBackActivated;
+			}
 		}
 	}
 }
