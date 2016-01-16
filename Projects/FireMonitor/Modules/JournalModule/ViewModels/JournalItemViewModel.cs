@@ -1,5 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.ServiceModel;
+using Common;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
@@ -232,8 +235,32 @@ namespace JournalModule.ViewModels
 		public RelayCommand ShowVideoCommand { get; private set; }
 		void OnShowVideo()
 		{
-			var videoViewModel = new VideoViewModel(JournalItem.VideoUID, JournalItem.CameraUID);
-			DialogService.ShowModalWindow(videoViewModel);
+			var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(c => c.UID == JournalItem.CameraUID);
+			if (camera == null)
+			{
+				MessageBoxService.ShowWarning("Отсутствует видеоустройство, связанное с событием");
+				return;
+			}
+
+			var videoPath = AppDataFolderHelper.GetTempFileName() + ".mkv";
+			try
+			{
+				RviClient.RviClientHelper.GetVideoFile(FiresecManager.SystemConfiguration, JournalItem.VideoUID, JournalItem.CameraUID, videoPath);
+				DialogService.ShowModalWindow(new VideoViewModel(videoPath));
+			}
+			catch (CommunicationObjectFaultedException e)
+			{
+				Logger.Error(e, "Исключение при вызове VideoViewModel(Guid eventUID, Guid cameraUID)");
+				MessageBoxService.ShowError("Проверьте запущено ли приложение RVi Оператор и настройки соединения с ним");
+			}
+			catch (FileNotFoundException)
+			{
+				MessageBoxService.ShowError("Не найден файл видеозаписи в архиве");
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при вызове VideoViewModel(Guid eventUID, Guid cameraUID)");
+			}
 		}
 		bool CanShowVideo()
 		{

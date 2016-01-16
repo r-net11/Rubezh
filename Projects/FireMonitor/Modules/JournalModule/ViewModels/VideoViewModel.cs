@@ -1,12 +1,5 @@
 ﻿using System;
-using System.ServiceModel;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using Common;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient;
 using System.IO;
 
 namespace JournalModule.ViewModels
@@ -30,23 +23,10 @@ namespace JournalModule.ViewModels
 			Stop(this, EventArgs.Empty);
 		}
 
-		public VideoViewModel(Guid eventUID, Guid cameraUID)
+		public VideoViewModel(string videoPath)
 		{
-			VideoPath = AppDataFolderHelper.GetTempFileName() + ".mkv";
+			VideoPath = videoPath;
 			Title = "Видеофрагмент, связанный с событием";
-			try
-			{
-				RviClient.RviClientHelper.GetVideoFile(FiresecManager.SystemConfiguration, eventUID, cameraUID, VideoPath);
-			}
-			catch (CommunicationObjectFaultedException e)
-			{
-				Logger.Error(e, "Исключение при вызове VideoViewModel(Guid eventUID, Guid cameraUID)");
-				MessageBoxService.ShowError("Проверьте запущено ли приложение RVi Оператор и настройки соединения с ним");
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове VideoViewModel(Guid eventUID, Guid cameraUID)");
-			}
 		}
 
 		public override bool OnClosing(bool isCanceled)

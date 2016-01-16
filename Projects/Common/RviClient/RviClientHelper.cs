@@ -282,6 +282,8 @@ namespace RviClient
 
 		public static void GetVideoFile(SystemConfiguration systemConfiguration, Guid eventUID, Guid cameraUid, string videoPath)
 		{
+			const int ERROR_FILE_NOT_FOUND = 1000;
+
 			var camera = systemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
 			if (camera == null)
 				return;
@@ -299,12 +301,13 @@ namespace RviClient
 				sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;
 				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
 
+				int result;
 				using (IntegrationVideoStreamingClient streaminClient = CreateIntegrationVideoStreamingClient(systemConfiguration))
 				{
 					string errorInformation;
 					System.IO.Stream stream = null;
 					var requestUID = new Guid();
-					var result = streaminClient.GetVideoFile(camera.RviChannelNo, camera.RviDeviceUID, eventUID, ref requestUID, ref sessionUID, out errorInformation, out stream);
+					result = streaminClient.GetVideoFile(camera.RviChannelNo, camera.RviDeviceUID, eventUID, ref requestUID, ref sessionUID, out errorInformation, out stream);
 					var videoFileStream = File.Create(videoPath);
 					CopyStream(stream, videoFileStream);
 				}
@@ -316,6 +319,9 @@ namespace RviClient
 					Session = sessionUID
 				};
 				var sessionCloseOut = client.SessionClose(sessionCloseIn);
+
+				if (result == ERROR_FILE_NOT_FOUND)
+					throw new FileNotFoundException();
 			}
 		}
 
