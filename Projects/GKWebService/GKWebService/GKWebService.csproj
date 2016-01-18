@@ -244,6 +244,7 @@
     <Resource Include="Content\Image\Icon\Hr\Position.png" />
     <Resource Include="Content\Image\Icon\Hr\SKDUser.png" />
     <Resource Include="Content\Image\Icon\Hr\load.png" />
+    <Resource Include="Content\Image\Icon\Hr\Lock.png" />
     <Content Include="Content\Image\Icon\Menu\archive.png" />
     <Content Include="Content\Image\Icon\Menu\Bug.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Add.png" />
@@ -443,6 +444,7 @@
     <Content Include="Scripts\report.js" />
     <Content Include="Scripts\SKD\AccessTemplates\AccessTemplatesViewModel.js" />
     <Content Include="Scripts\SKD\AccessTemplates\AccessTemplateDetailsViewModel.js" />
+    <Content Include="Scripts\SKD\Cards\CardsViewModel.js" />
     <Content Include="Scripts\SKD\Common\PhotoSelectionViewModel.js" />
     <Content Include="Scripts\SKD\Common\EmployeesFilterViewModel.js" />
     <Content Include="Scripts\SKD\Common\PositionsFilterViewModel.js" />
@@ -475,6 +477,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\AccessTemplatesController.cs" />
     <Compile Include="Controllers\ArchiveController.cs" />
+    <Compile Include="Controllers\CardsController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HrController.cs" />
@@ -497,6 +500,8 @@
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateDetailsViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplatesViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateViewModel.cs" />
+    <Compile Include="Models\SKD\Cards\CardsViewModel.cs" />
+    <Compile Include="Models\SKD\Cards\CardViewModel.cs" />
     <Compile Include="Models\SKD\Common\CopyHelper.cs" />
     <Compile Include="Models\SKD\Common\DetailsValidateHelper.cs" />
     <Compile Include="Models\FireZone\Device.cs" />
@@ -591,6 +596,7 @@
     <Content Include="Views\Employees\ScheduleSelection.cshtml" />
     <Content Include="Views\AccessTemplates\Index.cshtml" />
     <Content Include="Views\AccessTemplates\AccessTemplateDetails.cshtml" />
+    <Content Include="Views\Cards\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
