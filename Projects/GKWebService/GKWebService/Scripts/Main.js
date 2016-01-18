@@ -10,7 +10,8 @@ function MenuViewModel() {
         HR: ko.observable(false),
         Archive: ko.observable(false),
         Plan: ko.observable(false),
-        FireZones: ko.observable(false)
+        FireZones: ko.observable(false),
+        Directions: ko.observable(false)
     };
 
     self.StatePageOpened = ko.observable(false);
@@ -107,6 +108,7 @@ var app = new function AppViewModel() {
 
     self.Menu.Report = ReportViewModel();
     self.Menu.Archive = ArchiveViewModel();
+    self.Menu.Directions = DirectionsViewModel();
     self.Menu.HR = HRViewModel(self.Menu);
 
     return self;

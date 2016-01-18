@@ -326,6 +326,7 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.js" />
     <Content Include="Scripts\app\controllers\firezonesCtrl.js" />
+    <Content Include="Scripts\app\controllers\DirectionsViewModel.js" />
     <Content Include="Scripts\app\controllers\signalrCtrl.js" />
     <Content Include="Scripts\app\controllers\planCtrl.js" />
     <Content Include="Scripts\app\directives\d3Plan.js" />
@@ -591,6 +592,7 @@
     <Content Include="Views\Employees\ScheduleSelection.cshtml" />
     <Content Include="Views\AccessTemplates\Index.cshtml" />
     <Content Include="Views\AccessTemplates\AccessTemplateDetails.cshtml" />
+    <Content Include="Views\Home\Directions.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
