@@ -122,7 +122,7 @@ namespace RubezhAPI.GK
 						}
 						else
 						{
-							GKReflectionItem.Devices.Remove(device);
+							GKReflectionItem.Devices.RemoveAll(z => z.UID == x);
 							GKReflectionItem.DeviceUIDs.Remove(x);
 						}
 					});
@@ -140,7 +140,7 @@ namespace RubezhAPI.GK
 						}
 						else
 						{
-							GKReflectionItem.Devices.Remove(device);
+							GKReflectionItem.Devices.RemoveAll(z => z.UID == x);
 							GKReflectionItem.DeviceUIDs.Remove(x);
 						}
 					});
@@ -157,7 +157,7 @@ namespace RubezhAPI.GK
 						}
 						else
 						{
-							GKReflectionItem.Diretions.Remove(derection);
+							GKReflectionItem.Diretions.RemoveAll(z => z.UID == x);
 							GKReflectionItem.DiretionUIDs.Remove(x);
 						}
 					});
@@ -174,7 +174,7 @@ namespace RubezhAPI.GK
 						}
 						else
 						{
-							GKReflectionItem.Delays.Remove(delay);
+							GKReflectionItem.Delays.RemoveAll(z => z.UID == x);
 							GKReflectionItem.DelayUIDs.Remove(x);
 						}
 					});
@@ -190,7 +190,7 @@ namespace RubezhAPI.GK
 						}
 						else
 						{
-							GKReflectionItem.MPTs.Remove(mpt);
+							GKReflectionItem.MPTs.RemoveAll(z => z.UID == x);
 							GKReflectionItem.MPTUIDs.Remove(x);
 						}
 					});
@@ -206,7 +206,7 @@ namespace RubezhAPI.GK
 						}
 						else
 						{
-							GKReflectionItem.NSs.Remove(pump);
+							GKReflectionItem.NSs.RemoveAll(z => z.UID == x);
 							GKReflectionItem.NSUIDs.Remove(x);
 						}
 					});
@@ -224,7 +224,7 @@ namespace RubezhAPI.GK
 						}
 						else
 						{
-							GKReflectionItem.Diretions.Remove(derection);
+							GKReflectionItem.Diretions.RemoveAll(z => z.UID == x);
 							GKReflectionItem.DiretionUIDs.Remove(x);
 						}
 					});
@@ -242,7 +242,7 @@ namespace RubezhAPI.GK
 						}
 						else
 						{
-							GKReflectionItem.Zones.Remove(zone);
+							GKReflectionItem.Zones.RemoveAll(z => z.UID == x);
 							GKReflectionItem.ZoneUIDs.Remove(x);
 						}
 					});
@@ -260,7 +260,7 @@ namespace RubezhAPI.GK
 						}
 						else
 						{
-							GKReflectionItem.Zones.Remove(zone);
+							GKReflectionItem.Zones.RemoveAll(z => z.UID == x);
 							GKReflectionItem.ZoneUIDs.Remove(x);
 						}
 					});
@@ -277,7 +277,7 @@ namespace RubezhAPI.GK
 							}
 							else
 							{
-								GKReflectionItem.Diretions.Remove(derection);
+								GKReflectionItem.Diretions.RemoveAll(z => z.UID == x);
 								GKReflectionItem.DiretionUIDs.Remove(x);
 							}
 						});
@@ -295,7 +295,7 @@ namespace RubezhAPI.GK
 						}
 						else
 						{
-							GKReflectionItem.GuardZones.Remove(zone);
+							GKReflectionItem.GuardZones.RemoveAll(z=> z.UID == x);
 							GKReflectionItem.GuardZoneUIDs.Remove(x);
 						}
 					});
