@@ -9,6 +9,7 @@
 	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
 	xmlns:local="clr-namespace:SKDModule.Views"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
 	xmlns:models="clr-namespace:SKDModule.Model"
 	xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 	d:DesignHeight="400"
@@ -20,9 +21,11 @@
 				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/VerticalSeparatorStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 			<Converters2:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+			<Converters2:InversedBoolToVisibilityConverter x:Key="InversedBoolToVisibilityConverter" />
+			<Converters2:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 			<Converters:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter" />
 			<Converters:TimeSpanToColorConverter x:Key="TimeSpanToColorConverter" />
-			<CollectionViewSource x:Key="cvsTimeTracks" Source="{Binding SearchResults}">
+			<CollectionViewSource x:Key="cvsTimeTracks" Source="{Binding SearchResults, IsAsync=True}">
 				<CollectionViewSource.SortDescriptions>
 					<scm:SortDescription Direction="Ascending" PropertyName="ShortEmployee.LastName" />
 					<scm:SortDescription Direction="Ascending" PropertyName="ShortEmployee.FirstName" />
@@ -31,7 +34,6 @@
 			</CollectionViewSource>
 		</ResourceDictionary>
 	</UserControl.Resources>
-
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -136,7 +138,11 @@
 						ContextMenu="{x:Null}"
 						FontSize="20"
 						VerticalAlignment="Center"
-						Text="{Binding PageNumber, Mode=TwoWay, FallbackValue=0, UpdateSourceTrigger=PropertyChanged}" />
+						Text="{Binding PageNumber, Mode=TwoWay, FallbackValue=0, UpdateSourceTrigger=PropertyChanged}">
+						<i:Interaction.Behaviors>
+							<behaviours:NumericValidator />
+						</i:Interaction.Behaviors>
+						</TextBox>
 					<TextBlock
 						VerticalAlignment="Center"
 						FontSize="20"
@@ -145,7 +151,7 @@
 						Text="/" />
 					<TextBlock
 						VerticalAlignment="Center"
-						Text="{Binding TotalPageNumber}"
+						Text="{Binding TotalPageNumber, UpdateSourceTrigger=PropertyChanged}"
 						Foreground="White"
 						Margin="5 0"
 						FontSize="20" />
@@ -169,19 +175,8 @@
 			FrozenColumnCount="3"
 			ItemsSource="{Binding Source={StaticResource cvsTimeTracks}}"
 			RowHeight="{Binding RowHeight}"
-			SelectedItem="{Binding SelectedTimeTrack}">
-			<!--
-				Visibility="{Binding IsBisy,
-				Mode=TwoWay,
-				FallbackValue=True,
-				UpdateSourceTrigger=PropertyChanged,
-				Converter={StaticResource InversedBoolToVisibilityConverter}}"
-			-->
-			<!--<i:Interaction.Triggers>
-				<i:EventTrigger EventName="Loaded">
-					<cal:ActionMessage MethodName="LoadingFinished" />
-				</i:EventTrigger>
-			</i:Interaction.Triggers>-->
+			SelectedItem="{Binding SelectedTimeTrack}"
+			IsEnabled="{Binding IsBisy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Header="ФИО">
 					<DataGridTemplateColumn.CellTemplate>
@@ -304,6 +299,13 @@
 				</ItemsPanelTemplate>
 			</DataGrid.ItemsPanel>
 		</DataGrid>
+		<local:BisyIndicator
+			Grid.Row="1"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Center"
+			Width="50"
+			Height="50"
+			Visibility="{Binding ElementName=grid, Path=IsEnabled, Mode=TwoWay, FallbackValue=Visible, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
 		<StackPanel
 			Grid.Row="2"
 			Margin="2"
