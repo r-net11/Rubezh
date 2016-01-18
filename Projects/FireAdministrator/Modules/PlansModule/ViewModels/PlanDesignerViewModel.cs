@@ -20,8 +20,6 @@ namespace PlansModule.ViewModels
 
 		public PlanDesignerViewModel(PlansViewModel plansViewModel)
 		{
-			ServiceFactory.Events.GetEvent<CheckOnlyOneValue>().Subscribe(OnCheck);
-
 			PlansViewModel = plansViewModel;
 			DesignerCanvas = new DesignerCanvas(this);
 			DesignerCanvas.Toolbox.IsRightPanel = true;
@@ -62,11 +60,6 @@ namespace PlansModule.ViewModels
 				}
 			}
 			ResetHistory();
-		}
-
-		void OnCheck(Guid uid)
-		{
-			//Flag = !ClientManager.PlansConfiguration.AllPlans.Any(x => x.ElementGKDevices.Any(y => y.DeviceUID == uid));
 		}
 
 		public override void RegisterDesignerItem(DesignerItem designerItem)
