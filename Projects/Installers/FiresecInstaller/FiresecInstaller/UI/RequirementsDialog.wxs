@@ -4,7 +4,7 @@
 	<?include UI_Variables.wxi?>
 	<Fragment>
 		<UI>
-			<Dialog Id="LicenseAgreementDialog" X="50" Y="50" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" Hidden="yes" NoMinimize="yes">
+			<Dialog Id="RequirementsDialog" X="50" Y="50" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" Hidden="yes" NoMinimize="yes">
 				<Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="374" Height="44" TabSkip="no" Text="TitleRect.bmp" />
 				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="25" Text="{&amp;MSSansBold8}Информация" TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgDesc" Type="Text" X="30" Y="22" Width="292" Height="25" Text="Пожалуйста, прочитайте следующую важную информацию перед тем, как продолжить." TabSkip="yes" Transparent="yes" />
@@ -12,18 +12,10 @@
 				<Control Id="Branding1" Type="Text" X="16" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}$(var.BrandName)" TabSkip="yes" />
 				<Control Id="Branding2" Type="Text" X="15" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
 				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
-				<Control Id="LicenseText" Type="ScrollableText" X="8" Y="54" Width="358" Height="140" Sunken="yes" TabSkip="yes">
-					<Text SourceFile="Data\License.rtf" />
+				<Control Id="LicenseText" Type="ScrollableText" X="8" Y="54" Width="358" Height="170" Sunken="yes" TabSkip="yes">
+					<Text SourceFile="Data\Requirements.rtf" />
 				</Control>
-				<Control Id="LicenseAcceptedCheckBox" Type="CheckBox" X="20" Y="200" Width="330" Height="18" CheckBoxValue="1" Property="LicenseAccepted" Text="Согласен с условиями Лицензионного соглашения" />
-
-				<Control Id="Print" Type="PushButton" X="94" Y="243" Width="66" Height="17" Text="Печать">
-					<Publish Event="DoAction" Value="WixUIPrintEula">1</Publish>
-				</Control>
-				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="$(var.btnNext)" TabSkip="no" Default="yes">
-					<Condition Action="disable"><![CDATA[LicenseAccepted <> "1"]]></Condition>
-					<Condition Action="enable">LicenseAccepted = "1"</Condition>
-				</Control>
+				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="$(var.btnNext)" TabSkip="no" Default="yes" />
 				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="$(var.btnBack)" TabSkip="no" />
 				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="$(var.btnCancel)" TabSkip="no" Cancel="yes" />
 			</Dialog>
