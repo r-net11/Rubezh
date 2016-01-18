@@ -77,25 +77,22 @@ function AccessTemplatesViewModel() {
     self.Clipboard = ko.observable();
 
     self.CanAdd = ko.computed(function () {
-        return self.IsRowSelected() && !self.IsDeleted() && app.Menu.HR.IsPositionsEditAllowed();
+        return self.IsRowSelected() && !self.IsDeleted() && app.Menu.HR.IsAccessTemplatesEditAllowed();
     }, self);
     self.CanRemove = ko.computed(function () {
-        return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation() && app.Menu.HR.IsPositionsEditAllowed();
+        return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation() && app.Menu.HR.IsAccessTemplatesEditAllowed();
     }, self);
     self.CanEdit = ko.computed(function () {
-        return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation() && app.Menu.HR.IsPositionsEditAllowed();
+        return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation() && app.Menu.HR.IsAccessTemplatesEditAllowed();
     }, self);
     self.CanCopy = ko.computed(function () {
-        return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation() && app.Menu.HR.IsPositionsEditAllowed();
+        return self.IsRowSelected() && !self.IsDeleted() && !self.IsOrganisation() && app.Menu.HR.IsAccessTemplatesEditAllowed();
     }, self);
     self.CanPaste = ko.computed(function () {
-        return self.IsRowSelected() && !self.IsDeleted() && self.Clipboard() && app.Menu.HR.IsPositionsEditAllowed();
+        return self.Clipboard() && self.OrganisationUID() === self.Clipboard().AccessTemplate.OrganisationUID && self.IsRowSelected() && !self.IsDeleted() && self.Clipboard() && app.Menu.HR.IsAccessTemplatesEditAllowed();
     }, self);
     self.CanRestore = ko.computed(function () {
-        return self.IsRowSelected() && self.IsDeleted() && !self.IsOrganisation() && app.Menu.HR.IsPositionsEditAllowed();
-    }, self);
-    self.IsShowEmployeeList = ko.computed(function () {
-        return !self.IsOrganisation() && app.Menu.HR.IsEmployeesViewAllowed();
+        return self.IsRowSelected() && self.IsDeleted() && !self.IsOrganisation() && app.Menu.HR.IsAccessTemplatesEditAllowed();
     }, self);
 
     self.Init = function (filter) {
@@ -176,18 +173,20 @@ function AccessTemplatesViewModel() {
     };
 
     self.Add = function (data, e) {
-        self.PositionDetails.Init(self.OrganisationUID(), '', self.ReloadTree);
+        self.AccessTemplateDetails.Init(self.OrganisationUID(), '', self.ReloadTree);
     };
 
     self.Remove = function (data, e) {
-        app.Header.QuestionBox.InitQuestionBox("Вы уверены, что хотите архивировать должность?", function () {
-            $.getJSON("/Positions/GetChildEmployeeUIDs/", { positionId: self.UID() }, function (employeeUIDs) {
-                if (employeeUIDs.length > 0) {
-                    app.Header.QuestionBox.InitQuestionBox("Существуют привязанные к должности сотрудники. Продолжить?", function() {
-                        self.RemovePosition();
+        app.Header.QuestionBox.InitQuestionBox("Вы уверены, что хотите архивировать шаблон доступа?", function () {
+            $.getJSON("AccessTemplates/GetLinkedCards",
+                { organisationId: self.OrganisationUID(), id: self.UID() },
+                function (numbersSting) {
+                    if (numbersSting) {
+                        app.Header.QuestionBox.InitQuestionBox("Шаблон привязан к пропускам номер " + numbersSting + ". При удалении шаблона указанные в нём точки доступа будут убраны из привязаных пропусков. Вы уверены, что хотите удалить шаблон?", function() {
+                            self.RemoveAccessTemplate();
                     });
                 } else {
-                    self.RemovePosition();
+                    self.RemoveAccessTemplate();
                 }
             })
             .fail(function (jqxhr, textStatus, error) {
@@ -196,9 +195,9 @@ function AccessTemplatesViewModel() {
         });
     };
 
-    self.RemovePosition = function() {
+    self.RemoveAccessTemplate = function () {
             $.ajax({
-                url: "Positions/MarkDeleted",
+                url: "AccessTemplates/MarkDeleted",
                 type: "post",
                 contentType: "application/json",
                 data: JSON.stringify({ "uid": self.UID(), "name": self.Name() }),
@@ -216,16 +215,23 @@ function AccessTemplatesViewModel() {
     };
 
     self.Copy = function (data, e) {
-        self.Clipboard({ "Position": { "Name": self.NameData(), "Description": self.Description()}});
+        $.getJSON("/AccessTemplates/GetAccessTemplateDetails/",
+            { organisationId: self.OrganisationUID(), id: self.UID() },
+            function (data) {
+                self.Clipboard(data);
+            })
+        .fail(function (jqxhr, textStatus, error) {
+            ShowError(jqxhr.responseText);
+        });
     };
 
     self.Paste = function (data, e) {
-        self.Clipboard().Position.OrganisationUID = self.OrganisationUID();
+        self.Clipboard().AccessTemplate.OrganisationUID = self.OrganisationUID();
         $.ajax({
-            url: "Positions/PositionPaste",
+            url: "AccessTemplates/AccessTemplatePaste",
             type: "post",
             contentType: "application/json",
-            data: JSON.stringify({ "position": self.Clipboard() }),
+            data: JSON.stringify({ "accessTemplate": self.Clipboard() }),
             success: function (error) {
                     self.ReloadTree();
             },
@@ -236,10 +242,10 @@ function AccessTemplatesViewModel() {
     };
 
     self.Restore = function (data, e) {
-        app.Header.QuestionBox.InitQuestionBox("Вы уверены, что хотите восстановить должность?", function () {
-            var ids = $("#jqGridPositions").getDataIDs();
+        app.Header.QuestionBox.InitQuestionBox("Вы уверены, что хотите восстановить шаблон доступа?", function () {
+            var ids = $("#jqGridAccessTemplates").getDataIDs();
             for (var i = 0; i < ids.length; i++) {
-                var rowData = $("#jqGridPositions").getRowData(ids[i]);
+                var rowData = $("#jqGridAccessTemplates").getRowData(ids[i]);
                 if (rowData.IsDeleted !== "true" &&
                     rowData.Name === self.Name() &&
                     rowData.OrganisationUID === self.OrganisationUID() &&
@@ -250,7 +256,7 @@ function AccessTemplatesViewModel() {
             }
 
             $.ajax({
-                url: "Positions/Restore",
+                url: "AccessTemplates/Restore",
                 type: "post",
                 contentType: "application/json",
                 data: JSON.stringify({ "uid": self.UID(), "name": self.Name() }),
