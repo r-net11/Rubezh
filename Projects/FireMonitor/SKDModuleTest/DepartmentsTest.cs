@@ -102,7 +102,7 @@ namespace SKDModuleTest
 					department.IsDeleted = false;
 				if (shortDeaprtment.UID == childDepartment.UID)
 					childDepartment.IsDeleted = false;
-				return new OperationResult();
+				return new OperationResult<bool>(true);
 			});
 			mock.Setup(x => x.GetParentEmployeeUIDs(It.IsAny<Guid>())).Returns<Guid>(uid =>
 			{

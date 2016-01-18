@@ -22,9 +22,9 @@ namespace RubezhDAL.DataClasses
 			Synchroniser = new PassJounalSynchroniser(dbService);
 		}
 		
-		public OperationResult AddPassJournal(Guid employeeUID, Guid zoneUID)
+		public OperationResult<bool> AddPassJournal(Guid employeeUID, Guid zoneUID)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var exitPassJournal = Context.PassJournals.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.ExitTime == null);
 				if (exitPassJournal != null)
@@ -42,17 +42,13 @@ namespace RubezhDAL.DataClasses
 					Context.PassJournals.Add(enterPassJournal);
 				}
 				Context.SaveChanges();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
-		public OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime enterTime, DateTime exitTime)
+		public OperationResult<bool> AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime enterTime, DateTime exitTime)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var passJournalItem = new PassJournal();
 				passJournalItem.UID = uid;
@@ -61,22 +57,16 @@ namespace RubezhDAL.DataClasses
 				passJournalItem.EnterTime = enterTime.CheckDate();
 				passJournalItem.ExitTime = exitTime.CheckDate();
 				if (IsIntersection(passJournalItem))
-				{
-					return new OperationResult("Невозможно добавить пересекающийся интервал");
-				}
+					throw new Exception("Невозможно добавить пересекающийся интервал");
 				Context.PassJournals.Add(passJournalItem);
 				Context.SaveChanges();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
-		public OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime enterTime, DateTime exitTime)
+		public OperationResult<bool> EditPassJournal(Guid uid, Guid zoneUID, DateTime enterTime, DateTime exitTime)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var passJournalItem = Context.PassJournals.FirstOrDefault(x => x.UID == uid);
 				if (passJournalItem != null)
@@ -86,21 +76,15 @@ namespace RubezhDAL.DataClasses
 					passJournalItem.ExitTime = exitTime.CheckDate();
 				}
 				if (IsIntersection(passJournalItem))
-				{
-					return new OperationResult("Невозможно добавить пересекающийся интервал");
-				}
+					throw new Exception("Невозможно добавить пересекающийся интервал");
 				Context.SaveChanges();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
-		public OperationResult DeletePassJournal(Guid uid)
+		public OperationResult<bool> DeletePassJournal(Guid uid)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var passJournalItem = Context.PassJournals.FirstOrDefault(x => x.UID == uid);
 				if (passJournalItem != null)
@@ -108,17 +92,13 @@ namespace RubezhDAL.DataClasses
 					Context.PassJournals.Remove(passJournalItem);
 					Context.SaveChanges();
 				}
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
-		public OperationResult DeleteAllPassJournalItems(Guid uid, DateTime enterTime, DateTime exitTime)
+		public OperationResult<bool> DeleteAllPassJournalItems(Guid uid, DateTime enterTime, DateTime exitTime)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var passJournalItem = Context.PassJournals.FirstOrDefault(x => x.UID == uid);
 				if (passJournalItem != null)
@@ -132,12 +112,8 @@ namespace RubezhDAL.DataClasses
 					Context.PassJournals.RemoveRange(items);
 					Context.SaveChanges();
 				}
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
 		public void InsertPassJournalTestData()
@@ -246,9 +222,9 @@ namespace RubezhDAL.DataClasses
 			return dayTimeTrack;
 		}
 
-		public OperationResult SaveEmployeeDays(List<RubezhAPI.SKD.EmployeeDay> employeeDays)
+		public OperationResult<bool> SaveEmployeeDays(List<RubezhAPI.SKD.EmployeeDay> employeeDays)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				foreach (var employeeDay in employeeDays)
 				{
@@ -266,12 +242,8 @@ namespace RubezhDAL.DataClasses
 					Context.EmployeeDays.Add(tableEmployeeDay);
 				}
 				Context.SaveChanges();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
 		public PassJournal GetEmployeeLastPassJournal(Guid employeeUID)
@@ -382,17 +354,12 @@ namespace RubezhDAL.DataClasses
 
 		public OperationResult<DateTime> GetMinDate()
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				if (Context.PassJournals.IsEmpty())
-					return new OperationResult<DateTime>(new DateTime());
-				var result = Context.PassJournals.Min(x => x.EnterTime);
-				return new OperationResult<DateTime>(result);
-			}
-			catch (Exception e)
-			{
-				return OperationResult<DateTime>.FromError(e.Message);
-			}
+					return new DateTime();
+				return Context.PassJournals.Min(x => x.EnterTime);
+			});
 		}
 
 		public List<PassJournal> GetAllPassJournals()
@@ -420,12 +387,12 @@ namespace RubezhDAL.DataClasses
 			_context = dbService.Context;
 		}
 
-		public OperationResult Export(JournalExportFilter filter)
+		public OperationResult<bool> Export(JournalExportFilter filter)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				if (!Directory.Exists(filter.Path))
-					return new OperationResult("Папка не существует");
+					throw new Exception("Папка не существует");
 				var minDate = filter.MinDate.CheckDate();
 				var maxDate = filter.MaxDate.CheckDate();
 				var tableItems = _context.PassJournals.Where(x => x.EnterTime >= minDate && x.EnterTime <= maxDate).ToList();
@@ -444,12 +411,8 @@ namespace RubezhDAL.DataClasses
 						File.Delete(newPath);
 					File.Move(NameXml, newPath);
 				}
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
 		ExportPassJournalItem Translate(PassJournal tableItem, List<Employee> employees)

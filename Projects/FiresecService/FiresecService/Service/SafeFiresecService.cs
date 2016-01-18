@@ -126,7 +126,7 @@ namespace FiresecService.Service
 			return SafeOperationCall(clientUID, () => { return FiresecService.Ping(clientUID); }, "Ping");
 		}
 
-		public OperationResult ResetDB(Guid clientUID)
+		public OperationResult<bool> ResetDB(Guid clientUID)
 		{
 			return SafeOperationCall(clientUID, () => { return FiresecService.ResetDB(clientUID); }, "ResetDB");
 		}

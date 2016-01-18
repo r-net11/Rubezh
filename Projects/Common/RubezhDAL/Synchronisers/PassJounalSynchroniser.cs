@@ -22,12 +22,12 @@ namespace RubezhDAL
 			_Table = table;
 		}
 
-		public OperationResult Export(JournalExportFilter filter)
+		public OperationResult<bool> Export(JournalExportFilter filter)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				if (!Directory.Exists(filter.Path))
-					return new OperationResult("Папка не существует");
+					throw new Exception("Папка не существует");
                 var tableItems = _Table.Where(x => x.EnterTime >= filter.MinDate.CheckDate() & x.EnterTime <= filter.MaxDate.CheckDate());
 				var items = tableItems.Select(x => Translate(x)).ToList();
 				var serializer = new XmlSerializer(typeof(List<ExportPassJournalItem>));
@@ -42,12 +42,8 @@ namespace RubezhDAL
 						File.Delete(newPath);
 					File.Move(NameXml, newPath);
 				}
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
 		ExportPassJournalItem Translate(PassJournal tableItem)

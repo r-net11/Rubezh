@@ -145,7 +145,7 @@ namespace RubezhClient
 			}, "Ping");
 		}
 
-		public OperationResult ResetDB()
+		public OperationResult<bool> ResetDB()
 		{
 			return SafeOperationCall(() =>
 			{

@@ -15,11 +15,11 @@ namespace RubezhAPI
 		public OperationResult()
 		{
 			Errors = new List<string>();
+			Warnings = new List<string>();
 		}
 
-		public OperationResult(T result)
+		public OperationResult(T result) : this()
 		{
-			Errors = new List<string>();
 			Result = result;
 		}
 
@@ -48,6 +48,11 @@ namespace RubezhAPI
 		[DataMember]
 		public List<string> Errors { get; set; }
 
+		[DataMember]
+		public List<string> Warnings { get; set; }
+
+		public bool HasWarnings { get { return Warnings.Count > 0; } }
+
 		public static OperationResult<T> FromError(string error, T result = default(T))
 		{
 			var operationResult = new OperationResult<T>();
@@ -75,22 +80,22 @@ namespace RubezhAPI
 
 	[DataContract]
 	[Serializable]
-	public class OperationResult
+	public class OperationResult12
 	{
-		public OperationResult()
+		public OperationResult12()
 		{
 			HasError = false;
 			Warnings = new List<string>();
 		}
 
-		public OperationResult(string error) 
+		public OperationResult12(string error) 
 			: this()
 		{
 			HasError = true;
 			Error = error;
 		}
 
-		public OperationResult(List<string> errors)
+		public OperationResult12(List<string> errors)
 			: this()
 		{
 			if (errors != null && errors.Count > 0)

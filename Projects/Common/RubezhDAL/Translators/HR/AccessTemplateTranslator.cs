@@ -22,10 +22,10 @@ namespace RubezhDAL.DataClasses
 			return base.GetTableItems().Include(x => x.CardDoors);
 		}
 
-		protected override OperationResult CanDelete(Guid uid)
+		protected override OperationResult<bool> CanDelete(Guid uid)
 		{
 			if (Context.Cards.Any(x => x.AccessTemplateUID == uid))
-				return new OperationResult("Невозможно удалить шаблон доступа, пока он указан у действующих карт");
+				return OperationResult<bool>.FromError("Невозможно удалить шаблон доступа, пока он указан у действующих карт");
 			return base.CanDelete(uid);
 		}
 

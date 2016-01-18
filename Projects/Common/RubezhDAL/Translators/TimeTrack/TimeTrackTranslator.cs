@@ -24,12 +24,11 @@ namespace RubezhDAL.DataClasses
 
 		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var operationResult = DbService.EmployeeTranslator.ShortTranslator.Get(filter);
 				if (operationResult.HasError)
-					return OperationResult<TimeTrackResult>.FromError(operationResult.Errors);
-
+					throw new Exception(operationResult.Error);
 				var employees = DbService.EmployeeTranslator.GetFilteredTableItems(filter, GetEmployeeTableItems());
 				var employeeUIDs = employees.Select(x => x.UID).ToList();
 				var passJournals = Context.PassJournals.Where(x => x.EmployeeUID != null && employeeUIDs.Contains(x.EmployeeUID.Value)).ToList();
@@ -85,12 +84,8 @@ namespace RubezhDAL.DataClasses
 
 					timeTrackResult.TimeTrackEmployeeResults.Add(timeTrackEmployeeResult);
 				}
-				return new OperationResult<TimeTrackResult>(timeTrackResult);
-			}
-			catch (Exception e)
-			{
-				return OperationResult<TimeTrackResult>.FromError(e.Message);
-			}
+				return timeTrackResult;
+			});
 		}
 
 		public Stream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)
