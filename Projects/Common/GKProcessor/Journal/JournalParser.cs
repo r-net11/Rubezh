@@ -23,6 +23,7 @@ namespace GKProcessor
 		public GKGuardZone GuardZone { get; private set; }
 		public GKDoor Door { get; private set; }
 		public int GKJournalRecordNo { get; private set; }
+		public int KauJournalRecordNo { get; private set; }
 		public ushort GKObjectNo { get; private set; }
 		public int ObjectState { get; private set; }
 		public JournalSourceType JournalSourceType { get; private set; }
@@ -44,6 +45,7 @@ namespace GKProcessor
 				var kauDevice = gkControllerDevice.AllChildren.FirstOrDefault(x => (x.Driver.IsKau || x.DriverType == GKDriverType.GKMirror) && x.IntAddress == ControllerAddress);
 				if (kauDevice != null)
 					JournalItem.ObjectUID = kauDevice.UID;
+				KauJournalRecordNo = BytesHelper.SubstructInt(bytes, 0x20);
 			}
 			InitializeFromObjectUID(gkControllerDevice);
 			var kauObjectNo = BytesHelper.SubstructShort(bytes, 54);

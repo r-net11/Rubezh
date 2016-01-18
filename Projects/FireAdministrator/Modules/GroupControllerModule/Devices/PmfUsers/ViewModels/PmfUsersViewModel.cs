@@ -60,6 +60,7 @@ namespace GKModule.ViewModels
 			if(DialogService.ShowModalWindow(pmfUserDetailsViewModel))
 			{
 				var user = pmfUserDetailsViewModel.User;
+				user.IsActive = false;
 				Users.Add(new PmfUserViewModel(user));
 			}
 		}

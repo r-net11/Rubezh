@@ -57,7 +57,7 @@ namespace RubezhAPI
 		string Ping(Guid clientUID);
 
 		[OperationContract]
-		OperationResult ResetDB(Guid clientUID);
+		OperationResult<bool> ResetDB(Guid clientUID);
 
 		/// <summary>
 		/// Запрос данных лицензии

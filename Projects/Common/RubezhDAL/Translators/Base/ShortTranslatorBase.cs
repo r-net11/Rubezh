@@ -28,16 +28,11 @@ namespace RubezhDAL.DataClasses
 
 		public virtual OperationResult<List<TShort>> Get(TFilter filter)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItems = GetFilteredTableItems(filter);
-				var result = GetAPIItems(tableItems).ToList();
-				return new OperationResult<List<TShort>>(result);
-			}
-			catch (System.Exception e)
-			{
-				return OperationResult<List<TShort>>.FromError(e.Message);
-			}
+				return GetAPIItems(tableItems).ToList();
+			});
 		}
 
 		protected abstract IEnumerable<TShort> GetAPIItems(IQueryable<TTableItem> tableItems);

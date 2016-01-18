@@ -19,15 +19,10 @@ namespace RubezhDAL.DataClasses
 
 		public OperationResult<List<RubezhAPI.GK.GKDaySchedule>> Get()
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
-				var result = GetTableItems().ToList().Select(x => Translate(x)).ToList();
-				return new OperationResult<List<RubezhAPI.GK.GKDaySchedule>>(result);
-			}
-			catch (Exception e)
-			{
-				return OperationResult<List<RubezhAPI.GK.GKDaySchedule>>.FromError(e.Message);
-			}
+				return GetTableItems().ToList().Select(x => Translate(x)).ToList();
+			});
 		}
 
 		public RubezhAPI.GK.GKDaySchedule Translate(GKDaySchedule tableItem)
@@ -44,9 +39,9 @@ namespace RubezhDAL.DataClasses
 			return result;
 		}
 
-		public OperationResult Save(RubezhAPI.GK.GKDaySchedule item)
+		public OperationResult<bool> Save(RubezhAPI.GK.GKDaySchedule item)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() => 
 			{
 				bool isNew = false;
 				var tableItem = Context.GKDaySchedules.Include(x => x.GKDayScheduleParts).FirstOrDefault(x => x.UID == item.UID);
@@ -69,18 +64,13 @@ namespace RubezhDAL.DataClasses
 				if (isNew)
 					Context.GKDaySchedules.Add(tableItem);
 				Context.SaveChanges();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
-		public OperationResult Delete(RubezhAPI.GK.GKDaySchedule item)
+		public OperationResult<bool> Delete(RubezhAPI.GK.GKDaySchedule item)
 		{
-
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItem = GetTableItems().FirstOrDefault(x => x.UID == item.UID);
 				if (tableItem != null)
@@ -88,12 +78,8 @@ namespace RubezhDAL.DataClasses
 					Context.GKDaySchedules.Remove(tableItem);
 				}
 				Context.SaveChanges();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
 		IQueryable<GKDaySchedule> GetTableItems()

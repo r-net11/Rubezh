@@ -226,7 +226,7 @@ namespace GKProcessor
 		/// </summary>
 		/// <param name="schedule"></param>
 		/// <returns></returns>
-		public static OperationResult SetSchedule(GKSchedule schedule)
+		public static OperationResult<bool> SetSchedule(GKSchedule schedule)
 		{
 			try
 			{
@@ -234,13 +234,13 @@ namespace GKProcessor
 				{
 					var result = GKSetSchedule(device, schedule);
 					if (result.HasError)
-						return new OperationResult(result.Error);
+						return OperationResult<bool>.FromError(result.Error);
 				}
-				return new OperationResult();
+				return new OperationResult<bool>(true);
 			}
 			catch (Exception e)
 			{
-				return new OperationResult(e.Message);
+				return OperationResult<bool>.FromError(e.Message);
 			}
 		}
 
@@ -279,7 +279,7 @@ namespace GKProcessor
 		/// </summary>
 		/// <param name="schedule"></param>
 		/// <returns></returns>
-		public static OperationResult RemoveSchedule(int scheduleNo)
+		public static OperationResult<bool> RemoveSchedule(int scheduleNo)
 		{
 			var schedule = new GKSchedule();
 			schedule.No = scheduleNo;

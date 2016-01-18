@@ -122,7 +122,7 @@ namespace FiresecService.Service
 			return null;
 		}
 
-		public OperationResult ResetDB(Guid clientUID)
+		public OperationResult<bool> ResetDB(Guid clientUID)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{

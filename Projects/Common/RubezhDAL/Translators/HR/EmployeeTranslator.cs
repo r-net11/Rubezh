@@ -160,38 +160,30 @@ namespace RubezhDAL.DataClasses
 				Context.Photos.Remove(tableItem.Photo);
 		}
 
-		public OperationResult SaveDepartment(Guid uid, Guid? departmentUID)
+		public OperationResult<bool> SaveDepartment(Guid uid, Guid? departmentUID)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
 				if (tableItem == null)
-					return new OperationResult("Запись не найдена");
+					throw new Exception("Запись не найдена");
 				tableItem.DepartmentUID = departmentUID != null ? departmentUID.Value.EmptyToNull() : null;
 				Context.SaveChanges();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-			return new OperationResult();
+				return true;
+			});
 		}
 
-		public OperationResult SavePosition(Guid uid, Guid? positionUID)
+		public OperationResult<bool> SavePosition(Guid uid, Guid? positionUID)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
 				if (tableItem == null)
-					return new OperationResult("Запись не найдена");
+					throw new Exception("Запись не найдена");
 				tableItem.PositionUID = positionUID != null ? positionUID.Value.EmptyToNull() : null;
 				Context.SaveChanges();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-			return new OperationResult();
+				return true;
+			});
 		}
 
 		protected override OperationResult<bool> CanSave(API.Employee item)

@@ -1,6 +1,7 @@
 ﻿using GKWebService.DataProviders.FireZones;
 using GKWebService.Models;
 using GKWebService.Models.FireZone;
+using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhClient;
 using System;
@@ -51,6 +52,35 @@ namespace GKWebService.Controllers
         {
             return View();
         }
+
+		public ActionResult Directions()
+		{
+			return View();
+		}
+
+		public JsonResult GetDirections()
+		{
+			var directions = new List<GKDirection>();
+			foreach(var direction in GKManager.Directions)
+			{
+				var copyDirection = new GKDirection()
+				{
+					No = direction.No,
+					Name = direction.Name
+				};
+				directions.Add(copyDirection);
+			}
+
+			dynamic result = new
+			{
+				page = 1,
+				total = 100,
+				records = 100,
+				rows = directions
+			};
+
+			return Json(result, JsonRequestBehavior.AllowGet);
+		}
 
         public JsonResult GetFireZonesData()
         {

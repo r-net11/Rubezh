@@ -23,7 +23,7 @@ namespace RubezhDAL.DataClasses
 
 		public OperationResult<List<API.TimeTrackDocument>> Get(Guid employeeUID, DateTime startDateTime, DateTime endDateTime, IEnumerable<TimeTrackDocument> tableItems)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableTimeTrackDocuments = tableItems.Where(x => x.EmployeeUID == employeeUID &&
 					((x.StartDateTime.Date >= startDateTime && x.StartDateTime.Date <= endDateTime) ||
@@ -49,19 +49,15 @@ namespace RubezhDAL.DataClasses
 						};
 						timeTrackDocuments.Add(timeTrackDocument);
 					}
-					return new OperationResult<List<API.TimeTrackDocument>>(timeTrackDocuments);
+					return timeTrackDocuments;
 				}
-				return new OperationResult<List<API.TimeTrackDocument>>(new List<API.TimeTrackDocument>());
-			}
-			catch (Exception e)
-			{
-				return OperationResult<List<API.TimeTrackDocument>>.FromError(e.Message);
-			}
+				return new List<API.TimeTrackDocument>();
+			});
 		}
 
-		public OperationResult AddTimeTrackDocument(API.TimeTrackDocument timeTrackDocument)
+		public OperationResult<bool> AddTimeTrackDocument(API.TimeTrackDocument timeTrackDocument)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItem = new TimeTrackDocument();
 				tableItem.UID = timeTrackDocument.UID;
@@ -75,16 +71,12 @@ namespace RubezhDAL.DataClasses
 				Context.TimeTrackDocuments.Add(tableItem);
 				tableItem.FileName = timeTrackDocument.FileName;
 				Context.SaveChanges();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
-		public OperationResult EditTimeTrackDocument(API.TimeTrackDocument timeTrackDocument)
+		public OperationResult<bool> EditTimeTrackDocument(API.TimeTrackDocument timeTrackDocument)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItem = (from x in Context.TimeTrackDocuments where x.UID.Equals(timeTrackDocument.UID) select x).FirstOrDefault();
 				if (tableItem != null)
@@ -99,26 +91,18 @@ namespace RubezhDAL.DataClasses
 					tableItem.FileName = timeTrackDocument.FileName;
 					Context.SaveChanges();
 				}
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
-		public OperationResult RemoveTimeTrackDocument(Guid uid)
+		public OperationResult<bool> RemoveTimeTrackDocument(Guid uid)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItem = Context.TimeTrackDocuments.Where(x => x.UID.Equals(uid)).Single();
 				Context.TimeTrackDocuments.Remove(tableItem);
 				Context.SaveChanges();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-			return new OperationResult();
+				return true;
+			});
 		}
 	}
 }

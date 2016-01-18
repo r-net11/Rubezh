@@ -22,41 +22,31 @@ namespace RubezhDAL.DataClasses
 
 		public OperationResult<List<TApiItem>> Get(TFilter filter)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItems = GetFilteredTableItems(filter, GetTableItems());
-				var result = GetAPIItems(tableItems).ToList();
-				return new OperationResult<List<TApiItem>>(result);
-			}
-			catch (System.Exception e)
-			{
-				return OperationResult<List<TApiItem>>.FromError(e.Message);
-			}
+				return GetAPIItems(tableItems).ToList();
+			});
 		}
 
 		public OperationResult<TApiItem> GetSingle(Guid? uid)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				if (uid == null)
-					return new OperationResult<TApiItem>(null);
+					return null;
 				var tableItems = GetTableItems().Where(x => x.UID == uid.Value);
-				var result = GetAPIItems(tableItems).FirstOrDefault();
-				return new OperationResult<TApiItem>(result);
-			}
-			catch (System.Exception e)
-			{
-				return OperationResult<TApiItem>.FromError(e.Message);
-			}
+				return GetAPIItems(tableItems).FirstOrDefault();
+			});
 		}
 
 		public virtual OperationResult<bool> Save(TApiItem item)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var canSaveResult = CanSave(item);
 				if (canSaveResult.HasError)
-					return canSaveResult;
+					throw new Exception(canSaveResult.Error);
 				var tableItem = GetTableItems().FirstOrDefault(x => x.UID == item.UID);
 				if (tableItem == null)
 				{
@@ -70,21 +60,17 @@ namespace RubezhDAL.DataClasses
 					TranslateBack(item, tableItem);
 				}
 				Context.SaveChanges();
-				return new OperationResult<bool>(true);
-			}
-			catch (System.Exception e)
-			{
-				return OperationResult<bool>.FromError(e.Message);
-			}
+				return true;
+			});
 		}
 
-		public OperationResult MarkDeleted(Guid uid)
+		public OperationResult<bool> MarkDeleted(Guid uid)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var canDeleteResult = CanDelete(uid);
 				if (canDeleteResult.HasError)
-					return canDeleteResult;
+					throw new Exception(canDeleteResult.Error);
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
 				if (tableItem != null)
 				{
@@ -93,19 +79,15 @@ namespace RubezhDAL.DataClasses
 					AfterDelete(tableItem);
 					Context.SaveChanges();
 				}
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
 		protected virtual void AfterDelete(TTableItem tableItem) { }
 
-		public OperationResult Restore(Guid uid)
+		public OperationResult<bool> Restore(Guid uid)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
 				if (tableItem != null)
@@ -115,12 +97,8 @@ namespace RubezhDAL.DataClasses
 					tableItem.RemovalDate = null;
 					Context.SaveChanges();
 				}
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
 		protected virtual void BeforeRestore(TTableItem tableItem) { }
@@ -141,9 +119,9 @@ namespace RubezhDAL.DataClasses
 				return new OperationResult<bool>(true);
 		}
 
-		protected virtual OperationResult CanDelete(Guid uid)
+		protected virtual OperationResult<bool> CanDelete(Guid uid)
 		{
-			return new OperationResult();
+			return new OperationResult<bool>(true);
 		}
 
 		protected abstract IEnumerable<TApiItem> GetAPIItems(IQueryable<TTableItem> tableItems);
