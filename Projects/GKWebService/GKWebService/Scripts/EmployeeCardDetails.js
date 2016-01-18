@@ -64,9 +64,9 @@
                     }
                 }
 
-                if (self.SelectedAccessTemplate()) {
+                if (self.SelectedAccessTemplateId()) {
                     var selectItem = ko.utils.arrayFirst($('ul#EmployeeCardDetailsTemplates li'), function(element) {
-                        return ko.dataFor(element).UID() === self.SelectedAccessTemplate().UID();
+                        return ko.dataFor(element).UID() === self.SelectedAccessTemplateId();
                     });
                     $(selectItem).addClass("selected");
                 } else {
@@ -203,7 +203,7 @@
     self.AvailableAccessTemplateClick = function(data, e, template) {
         $('ul#EmployeeCardDetailsTemplates li').removeClass("selected");
         $(e.currentTarget).parent().addClass("selected");
-        self.SelectedAccessTemplate(template);
+        self.SelectedAccessTemplateId(template.UID());
     };
 
     return self;

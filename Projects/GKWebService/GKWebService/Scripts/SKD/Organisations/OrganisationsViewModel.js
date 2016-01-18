@@ -121,7 +121,7 @@
                 data: "{'organisationId': '" + self.SelectedOrganisation().UID() + "','door': " + ko.mapping.toJSON(door) + "}",
                 success: function (isDoorLinked) {
                     if (isDoorLinked) {
-                        app.Header.QuestionBox.InitQuestionBox("Существуют карты, шаблоны доступа или графики, привязанные к данной точке доступа.<br/>Вы уверены, что хотите снять права с точки доступа?", function() {
+                        app.Header.QuestionBox.InitQuestionBox("Существуют карты, шаблоны доступа или графики, привязанные к данной точке доступа. Вы уверены, что хотите снять права с точки доступа?", function() {
                             self.SetDoorChecked(door);
                         });
                     } else {
