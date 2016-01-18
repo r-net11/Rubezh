@@ -46,7 +46,7 @@ namespace SKDModule.ViewModels
 			Name = OrganisationDetails.Name;
 			Description = OrganisationDetails.Description;
 			Phone = OrganisationDetails.Phone;
-			MaxGKLevel = Organisation.MaxGKLevel;
+			MaxGKLevel = (byte)Organisation.MaxGKLevel;
 			if (OrganisationDetails.Photo != null)
 				PhotoData = OrganisationDetails.Photo.Data;
 		}
@@ -70,8 +70,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		int _maxGKLevel;
-		public int MaxGKLevel
+		byte _maxGKLevel;
+		public byte MaxGKLevel
 		{
 			get { return _maxGKLevel; }
 			set
