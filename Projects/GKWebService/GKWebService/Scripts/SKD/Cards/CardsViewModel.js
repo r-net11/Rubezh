@@ -104,7 +104,7 @@ function CardsViewModel() {
     $('#jqGridCards').on('jqGridSelectRow', function (event, id, selected) {
 
         if (selected) {
-            var myGrid = $('#jqGridPositions');
+            var myGrid = $('#jqGridCards');
 
             self.UID(id);
             self.OrganisationUID(myGrid.jqGrid('getCell', id, 'OrganisationUID'));
