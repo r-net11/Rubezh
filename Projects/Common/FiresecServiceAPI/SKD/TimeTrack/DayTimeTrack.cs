@@ -110,6 +110,9 @@ namespace FiresecAPI.SKD
 
 		public List<TimeTrackPart> RealTimeTrackPartsForCalculates { get; set; }
 
+		private TimeSpan _nightTimeForToday;
+		public TimeSpan NightTimeForToday { get { return _nightTimeForToday; } }
+
 		#endregion
 
 		/// <summary>
@@ -554,7 +557,7 @@ namespace FiresecAPI.SKD
 			resultTotalCollection.Add(
 				new TimeTrackTotal(TimeTrackType.Night)
 				{
-					TimeSpan = GetNightTime(NightSettings)
+					TimeSpan = GetNightTime(NightSettings, ref _nightTimeForToday)
 				});
 
 			resultTotalCollection.Add(
@@ -670,14 +673,17 @@ namespace FiresecAPI.SKD
 			return balanceTimeSpan;
 		}
 
-		private TimeSpan GetNightTime(NightSettings nightSettings)
+		private TimeSpan GetNightTime(NightSettings nightSettings, ref TimeSpan nightTimeForToday)
 		{
 			if (nightSettings == null || nightSettings.NightEndTime == nightSettings.NightStartTime) return default(TimeSpan);
 
 			if (nightSettings.NightEndTime > nightSettings.NightStartTime)
 			{
+				nightTimeForToday = nightSettings.NightEndTime - nightSettings.NightStartTime;
 				return CalculateEveningTime(nightSettings.NightStartTime, nightSettings.NightEndTime, RealTimeTrackParts);
 			}
+
+			nightTimeForToday = new TimeSpan(23, 59, 59) - nightSettings.NightStartTime;
 
 			return CalculateEveningTime(nightSettings.NightStartTime, new TimeSpan(23, 59, 59), RealTimeTrackParts) +
 				   CalculateEveningTime(new TimeSpan(0, 0, 0), nightSettings.NightEndTime, RealTimeTrackParts);
