@@ -53,7 +53,7 @@
 			<TextBox Grid.Row="3" Grid.Column="1" Margin="2" 
 					 Text="{Binding DbName, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsCreateConnectionString}" />
 
-			<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Аунтефикация SQL" VerticalAlignment="Center" />
+            <TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Аутентификация SQL" VerticalAlignment="Center" />
 			<CheckBox Grid.Row="4" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding IsSQLAuthentication}" IsEnabled="{Binding IsCreateConnectionString}" />
 			
 			<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Логин" VerticalAlignment="Center" />
@@ -93,7 +93,7 @@
 			<TextBox Grid.Row="3" Grid.Column="1" Margin="2" 
 					 Text="{Binding DbName, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsCreateConnectionString}" />
 
-			<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Аунтефикация SQL" VerticalAlignment="Center" />
+            <TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Аутентификация SQL" VerticalAlignment="Center" />
 			<CheckBox Grid.Row="4" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding IsSQLAuthentication}" IsEnabled="{Binding IsCreateConnectionString}" />
 
 			<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Логин" VerticalAlignment="Center" />

@@ -28,17 +28,18 @@
 			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" MinWidth="40" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" MinWidth="40" />
+				<ColumnDefinition Width="Auto" MinWidth="30" />
+				<ColumnDefinition Width="Auto" MinWidth="140" />
+				<ColumnDefinition Width="Auto" MinWidth="30" />
 				<ColumnDefinition Width="Auto" MaxWidth="80" />
 				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" MinWidth="90" />
+				<ColumnDefinition Width="Auto" MinWidth="110" />
 			</Grid.ColumnDefinitions>
 			<!--Zemskov_question-->
 
 			<TextBlock Grid.Row="0" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Макет окна" />
-			<TextBlock Grid.Row="1" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Заголовок" />
+			<TextBlock Grid.Row="0" Grid.Column="4" Style="{DynamicResource ShowDialogStepView}" Text="Заголовок" />
+			<TextBlock Grid.Row="1" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Идентификатор" />
 			<TextBlock Grid.Row="2" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Модальное окно" />
 			<TextBlock Grid.Row="2" Grid.Column="2" Style="{DynamicResource ShowDialogStepView}" Text="Можно закрывать" />
 			<TextBlock Grid.Row="3" Grid.Column="2" Style="{DynamicResource ShowDialogStepView}" Text="Можно разворачивать" />
@@ -53,14 +54,15 @@
 			<TextBlock Grid.Row="5" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Отступ слева" />
 			<TextBlock Grid.Row="5" Grid.Column="4" Style="{DynamicResource ShowDialogStepView}" Text="Отступ сверху" />
 
-			<ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="6" VerticalAlignment="Center" ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}" Width="Auto" Height="22" >
+			<ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}" Width="Auto" Height="22" >
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding Name}" />
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
-			<TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="6" Margin="2" VerticalAlignment="Center" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Width="Auto" />
+			<TextBox Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="2" Margin="2" VerticalAlignment="Center" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" />
+			<Views:ArgumentView Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="6" DataContext="{Binding WindowUIDArgument}" />
 			<CheckBox Grid.Row="2" Grid.Column="1" Margin="2,2,0,2" VerticalAlignment="Center" IsChecked="{Binding IsModalWindow}" Height="13" />
 			<CheckBox Grid.Row="3" Grid.Column="6" Margin="2,2,0,2" VerticalAlignment="Center" IsChecked="{Binding ForAllClients}" Height="13" Visibility="{Binding IsServerContext, Converter={StaticResource BoolToVisibilityConverter}}" />
 			<CheckBox Grid.Row="2" Grid.Column="3" Margin="2,2,0,2" VerticalAlignment="Center" IsChecked="{Binding AllowClose}" Height="13" />

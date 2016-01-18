@@ -10,11 +10,21 @@ namespace GKProcessor
 	public partial class Watcher
 	{
 		int LastId = -1;
+		string IpAddress = "";
 
 		void PingJournal()
 		{
 			using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Проверка журнала"))
 			{
+				if (IpAddress != GkDatabase.RootDevice.GetGKIpAddress())
+				{
+					if (!String.IsNullOrEmpty(IpAddress))
+					{
+						var lastKauJournal = GetLastKauJournal();
+						LastId = lastKauJournal.GKJournalRecordNo;
+					}
+					IpAddress = GkDatabase.RootDevice.GetGKIpAddress();
+				}
 				var newLastId = GetLastId();
 				if (newLastId == -1)
 					return;
@@ -52,6 +62,18 @@ namespace GKProcessor
 			ConnectionChanged(true);
 			var journalParser = new JournalParser(GkDatabase.RootDevice, sendResult.Bytes);
 			return journalParser.GKJournalRecordNo;
+		}
+
+		JournalParser GetLastKauJournal()
+		{
+			var lastGkId = GetLastId(); // Находим номер последней записи
+			for (int index = lastGkId; index > 0; index--) // Ищем последнюю запись на КАУ
+			{
+				var journalParser = ReadJournal(index);
+				if (journalParser.KauJournalRecordNo != 0)
+					return journalParser;
+			}
+			return null;
 		}
 
 		JournalParser ReadJournal(int index)

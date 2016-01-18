@@ -138,6 +138,8 @@ namespace RubezhClient
 		void GKTurnOff(GKBase gkBase);
 		void GKTurnOffInAutomatic(GKBase gkBase);
 		void GKTurnOffNow(GKBase gkBase);
+		void GKTurnOnNowGlobalPimsInAutomatic();
+		void GKTurnOffNowGlobalPimsInAutomatic();
 		void GKTurnOffNowInAutomatic(GKBase gkBase);
 		void GKTurnOn(GKBase gkBase);
 		void GKTurnOnInAutomatic(GKBase gkBase);

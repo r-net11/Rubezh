@@ -9,6 +9,8 @@ namespace GKProcessor
 		public DatabaseType DatabaseType { get; protected set; }
 		public GKDevice RootDevice { get; protected set; }
 		public List<BaseDescriptor> Descriptors { get; set; }
+		public GKPim GlobalPim { get; set; }
+		public PimDescriptor GlobalPimDescriptor { get; set; }
 
 		public CommonDatabase()
 		{

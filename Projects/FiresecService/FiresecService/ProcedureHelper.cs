@@ -139,7 +139,7 @@ namespace FiresecService
 			if (journalItemUid.HasValue)
 				using (var dbService = new DbService())
 				{
-					var operationResult = dbService.JournalTranslator.GetFilteredJournalItems(new JournalFilter() { UID = journalItemUid.Value });
+					var operationResult = dbService.JournalTranslator.GetFilteredJournalItems(new JournalFilter() { ItemUID = journalItemUid.Value });
 					if (!operationResult.HasError)
 					{
 						var journalItem = operationResult.Result.FirstOrDefault();

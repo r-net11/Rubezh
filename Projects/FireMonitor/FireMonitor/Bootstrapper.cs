@@ -143,12 +143,20 @@ namespace FireMonitor
 
 		void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)
 		{
-			if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.Dialog)
+			if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.ShowDialog)
 			{
-				var data = automationCallbackResult.Data as DialogCallbackData;
+				var data = automationCallbackResult.Data as ShowDialogCallbackData;
 				var layoutUID = GetLayoutUID();
 				if (layoutUID.HasValue && data != null && data.LayoutFilter != null && data.LayoutFilter.Contains(layoutUID.Value))
 					LayoutDialogViewModel.Show(data);
+				return;
+			}
+			if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.CloseDialog)
+			{
+				var data = automationCallbackResult.Data as CloseDialogCallbackData;
+				var layoutUID = GetLayoutUID();
+				if (layoutUID.HasValue && data != null && data.LayoutFilter != null && data.LayoutFilter.Contains(layoutUID.Value))
+					LayoutDialogViewModel.Close(data);
 				return;
 			}
 			if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.GlobalVariable)
@@ -208,9 +216,10 @@ namespace FireMonitor
 			var result = true;
 			ShellViewModel = CreateShell();
 			((LayoutService)ServiceFactory.Layout).SetToolbarViewModel((ToolbarViewModel)ShellViewModel.Toolbar);
-			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new SoundViewModel());
 			if (!RunShell(ShellViewModel))
 				result = false;
+			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new GlobalPimActivationViewModel());
+			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new SoundViewModel());
 			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new UserViewModel(this));
 			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new AutoActivationViewModel());
 			return result;

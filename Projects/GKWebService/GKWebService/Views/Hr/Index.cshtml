@@ -27,8 +27,8 @@
         <div class="icon redo" title="Восстановить" data-bind="visible:Filter.IsWithDeleted, click: Departments.CanRestore() ? function(data,event) { Departments.Restore(data, event); } : null, css: {disabled: !Departments.CanRestore()}"></div>
     </div>
     <div class="HrToolbar" data-bind="visible:hrPages.Positions">
-        <div class="icon add" data-bind="click: Positions.CanAdd() ? function(data,event) { Positions.Add(data, event); } : null, css: {disabled: !Positions.CanAdd()}"></div>
-        <div class="icon delete" data-bind="click: Positions.CanRemove() ? function(data,event) { Positions.Remove(data, event); } : null, css: {disabled: !Positions.CanRemove()}"></div>
+        <div class="icon add" title="Добавить" data-bind="click: Positions.CanAdd() ? function(data,event) { Positions.Add(data, event); } : null, css: {disabled: !Positions.CanAdd()}"></div>
+        <div class="icon delete" title="Удалить" data-bind="click: Positions.CanRemove() ? function(data,event) { Positions.Remove(data, event); } : null, css: {disabled: !Positions.CanRemove()}"></div>
         <div class="icon edit" title="Редактировать" data-bind="click: Positions.CanEdit() ? function(data,event) { Positions.Edit(data, event); } : null, css: {disabled: !Positions.CanEdit()}"></div>
         <div class="icon copy" title="Копировать" data-bind="click: Positions.CanCopy() ? function(data,event) { Positions.Copy(data, event); } : null, css: {disabled: !Positions.CanCopy()}"></div>
         <div class="icon paste" title="Вставить" data-bind="click: Positions.CanPaste() ? function(data,event) { Positions.Paste(data, event); } : null, css: {disabled: !Positions.CanPaste()}"></div>
@@ -46,12 +46,12 @@
         <div class="icon delete"></div>
     </div>
     <div class="HrToolbar" data-bind="visible:hrPages.AccessTemplates">
-        <div class="icon add"></div>
-        <div class="icon delete"></div>
-        <div class="icon edit"></div>
-        <div class="icon copy"></div>
-        <div class="icon paste"></div>
-        <div class="icon redo"></div>
+        <div class="icon add" title="Добавить" data-bind="click: AccessTemplates.CanAdd() ? function(data,event) { AccessTemplates.Add(data, event); } : null, css: {disabled: !AccessTemplates.CanAdd()}"></div>
+        <div class="icon delete" title="Удалить" data-bind="click: AccessTemplates.CanRemove() ? function(data,event) { AccessTemplates.Remove(data, event); } : null, css: {disabled: !AccessTemplates.CanRemove()}"></div>
+        <div class="icon edit" title="Редактировать" data-bind="click: AccessTemplates.CanEdit() ? function(data,event) { AccessTemplates.Edit(data, event); } : null, css: {disabled: !AccessTemplates.CanEdit()}"></div>
+        <div class="icon copy" title="Копировать" data-bind="click: AccessTemplates.CanCopy() ? function(data,event) { AccessTemplates.Copy(data, event); } : null, css: {disabled: !AccessTemplates.CanCopy()}"></div>
+        <div class="icon paste" title="Вставить" data-bind="click: AccessTemplates.CanPaste() ? function(data,event) { AccessTemplates.Paste(data, event); } : null, css: {disabled: !AccessTemplates.CanPaste()}"></div>
+        <div class="icon redo" title="Восстановить" data-bind="visible:Filter.IsWithDeleted, click: AccessTemplates.CanRestore() ? function(data,event) { AccessTemplates.Restore(data, event); } : null, css: {disabled: !AccessTemplates.CanRestore()}"></div>
     </div>
     <div class="HrToolbar" data-bind="visible:hrPages.PassCardTemplates">
         <div class="icon add"></div>
@@ -84,10 +84,8 @@
             <li id="HrPageEmployees" class="active"><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'Employees'); }, visible: CanSelectEmployees"><span data-bind="text: EmployeesHeader"></span></a></li>
             <li id="HrPageDepartments"><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'Departments'); }, visible: CanSelectDepartments"><span>Подразделения</span></a></li>
             <li id="HrPagePositions"><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'Positions'); }, visible: CanSelectPositions"><span>Должности</span></a></li>
-            <li id="HrPageAdditionalColumnTypes"><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'AdditionalColumnTypes'); }, visible: CanSelectAdditionalColumns"><span>Дополнительные колонки</span></a></li>
             <li id="HrPageCards"><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'Cards'); }, visible: CanSelectCards"><span>Пропуска</span></a></li>
             <li id="HrPageAccessTemplates"><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'AccessTemplates'); }, visible: CanSelectAccessTemplates"><span>Шаблоны доступа</span></a></li>
-            <li id="HrPagePassCardTemplates"><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'PassCardTemplates'); }, visible: CanSelectPassCardTemplates"><span>Шаблоны пропусков</span></a></li>
             <li id="HrPageOrganisations"><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'Organisations'); }, visible: CanSelectOrganisations"><span>Организации</span></a></li>
         </ul>
     </div>
@@ -95,10 +93,8 @@
 <div data-bind="visible:HR.hrPages.Employees">@Html.Action("Index", "Employees")</div>
 <div data-bind="visible:HR.hrPages.Departments">@Html.Action("Index", "Departments")</div>
 <div data-bind="visible:HR.hrPages.Positions">@Html.Action("Index", "Positions")</div>
-<div data-bind="visible:HR.hrPages.AdditionalColumnTypes">@Html.Action("AdditionalColumnTypes")</div>
 <div data-bind="visible:HR.hrPages.Cards">@Html.Action("Cards")</div>
 <div data-bind="visible:HR.hrPages.AccessTemplates">@Html.Action("Index", "AccessTemplates")</div>
-<div data-bind="visible:HR.hrPages.PassCardTemplates">@Html.Action("PassCardTemplates")</div>
 <div data-bind="visible:HR.hrPages.Organisations">@Html.Action("Index", "Organisations")</div>
     
 @Html.Action("HrFilter")

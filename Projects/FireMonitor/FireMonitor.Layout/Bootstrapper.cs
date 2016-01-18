@@ -78,9 +78,11 @@ namespace FireMonitor.Layout
 		{
 			_layout = null;
 			var ip = ConnectionSettingsManager.IsRemote ? ClientManager.GetIP() : null;
+			var localHostName = System.Net.Dns.GetHostName();
 			var layouts = ClientManager.LayoutsConfiguration.Layouts.Where(layout =>
 				layout.Users.Contains(ClientManager.CurrentUser.UID) &&
-				(ip == null || layout.HostNameOrAddressList.Count == 0 || layout.HostNameOrAddressList.Contains(ip))).ToList();
+				(ip == null || layout.HostNameOrAddressList.Count == 0 || layout.HostNameOrAddressList.Contains(ip)) ||
+					layout.HostNameOrAddressList.Any(allowedHostName => string.Compare(allowedHostName, localHostName, true) == 0)).ToList();
 			if (layouts.Count > 0)
 			{
 				if (_layoutID.HasValue)

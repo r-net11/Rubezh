@@ -359,6 +359,20 @@ namespace RubezhClient
 			}, "GKTurnOffNowInAutomatic");
 		}
 
+		public void GKTurnOnNowGlobalPimsInAutomatic()
+		{
+			var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(1));
+			using (firesecService as IDisposable)
+				SafeOperationCall(() => firesecService.GKTurnOnNowGlobalPimsInAutomatic(FiresecServiceFactory.UID), "GKTurnOnNowGlobalPimsInAutomatic");
+		}
+
+		public void GKTurnOffNowGlobalPimsInAutomatic()
+		{
+			var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(1));
+			using (firesecService as IDisposable)
+				SafeOperationCall(() => firesecService.GKTurnOffNowGlobalPimsInAutomatic(FiresecServiceFactory.UID), "GKTurnOffNowGlobalPimsInAutomatic");
+		}
+
 		public void GKStop(GKBase gkBase)
 		{
 			SafeOperationCall(() =>

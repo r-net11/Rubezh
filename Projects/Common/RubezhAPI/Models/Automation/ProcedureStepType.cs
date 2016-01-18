@@ -127,6 +127,9 @@ namespace RubezhAPI.Automation
 		[DescriptionAttribute("Показать диалоговую форму")]
 		ShowDialog,
 
+		[DescriptionAttribute("Закрыть диалоговую форму")]
+		CloseDialog,
+
 		[DescriptionAttribute("Показать свойства объекта")]
 		ShowProperty,
 
