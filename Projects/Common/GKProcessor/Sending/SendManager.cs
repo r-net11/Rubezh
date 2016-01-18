@@ -9,7 +9,7 @@ using RubezhAPI;
 
 namespace GKProcessor
 {
-	[DebuggerStepThrough]
+	[System.Diagnostics.DebuggerStepThrough]
 	public static class SendManager
 	{
 		static List<SendClient> SendClients = new List<SendClient>();
