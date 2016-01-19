@@ -19,11 +19,13 @@
 
                 scope.$watch('data', function (newValue, oldValue) {
                     var i;
-                    for (i = oldValue.length - 1; i >= 0; i--) {
-                        $(table).jqGrid('delRowData', i);
-                    }
-                    for (i = 0; i < newValue.length; i++) {
-                        $(table).jqGrid('addRowData', i, newValue[i]);
+                    //for (i = oldValue.length - 1; i >= 0; i--) {
+                    //    $(table).jqGrid('delRowData', i);
+                    //}
+                    if (newValue) {
+                        for (i = 0; i < newValue.length; i++) {
+                            $(table).jqGrid('addRowData', i, newValue[i]);
+                        }
                     }
                 });
             }
