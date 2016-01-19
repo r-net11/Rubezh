@@ -8,7 +8,7 @@ namespace GKWebService.DataProviders.SKD
 {
     static class Common
     {
-        public static T ThrowErrorIfExists<T>(OperationResult<T> operationResult)
+		public static T ThrowErrorIfExists<T>(OperationResult<T> operationResult)
         {
             if (operationResult == null)
             {

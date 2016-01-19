@@ -158,7 +158,7 @@ namespace FiresecService
 			if (opcDaTag == null)
 				return null;
 
-			var tagsValues = FiresecServiceManager.SafeFiresecService.ReadOpcDaServerTags(opcDaServer);
+			var tagsValues = FiresecServiceManager.SafeFiresecService.ReadOpcDaServerTags(clientUID ,opcDaServer);
 			if (tagsValues.HasError)
 				return null;
 
@@ -178,7 +178,7 @@ namespace FiresecService
 			if (opcDaTag == null)
 				return false;
 
-			var result = FiresecServiceManager.SafeFiresecService.WriteOpcDaServerTags(opcDaServer,
+			var result = FiresecServiceManager.SafeFiresecService.WriteOpcDaServerTags(clientUID, opcDaServer,
 				new TsCDaItemValue[] 
 				{ 
 					new TsCDaItemValue 
