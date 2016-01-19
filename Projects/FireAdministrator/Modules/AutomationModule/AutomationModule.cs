@@ -97,7 +97,6 @@ namespace AutomationModule
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "GlobalVariables/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Layout/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml");
-			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcDaServers/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcTechnosoftware/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcDaClient/DataTemplates/Dictionary.xaml");
 		}
