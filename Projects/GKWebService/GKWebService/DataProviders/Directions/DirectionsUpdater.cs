@@ -86,7 +86,9 @@ namespace GKWebService.DataProviders
 
 		private bool TryUpdateDirection(Direction direction)
 		{
-			direction.State = ((XStateClass)randomState.Next(19)).ToDescription();
+			var stateClass = (XStateClass)randomState.Next(19);
+			direction.State = stateClass.ToDescription();
+			direction.StateIcon = stateClass.ToString();
 			return true;
 		}
 
